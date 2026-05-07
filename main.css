@@ -1,0 +1,152 @@
+:root {
+  --bg: #f6f8fc;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --primary: #0f766e;
+  --line: #dbe4f0;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: Inter, Segoe UI, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 10% 0%, #d7f8ef 0, transparent 35%),
+    radial-gradient(circle at 90% 0%, #e4e9ff 0, transparent 30%),
+    var(--bg);
+  line-height: 1.5;
+}
+
+.container { width: min(1100px, 92vw); margin: 0 auto; }
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: rgba(246, 248, 252, 0.8);
+  border-bottom: 1px solid var(--line);
+}
+.nav { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+.logo { text-decoration: none; color: var(--text); font-weight: 800; font-size: 1.1rem; }
+nav { display: flex; gap: 14px; align-items: center; }
+nav a { text-decoration: none; color: #1e293b; font-weight: 600; }
+.cta-link { color: var(--primary); }
+
+.hero {
+  padding: 56px 0 24px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 22px;
+  align-items: stretch;
+}
+.kicker { color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: .05em; font-size: .75rem; }
+h1 { font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1.1; margin: 8px 0 14px; }
+.sub { color: var(--muted); max-width: 62ch; }
+
+.hero-card, .card, .step, .faq, .contact {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, .05);
+}
+.hero-card { padding: 20px; }
+.hero-card h3 { margin-top: 0; }
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  border-radius: 10px;
+  border: 0;
+  text-decoration: none;
+  font-weight: 700;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--primary); color: #fff; box-shadow: 0 8px 18px rgba(15,118,110,.3); }
+.btn-ghost { background: #eef2ff; color: #1f2937; border: 1px solid #cfd6ff; }
+
+.section { padding: 22px 0; }
+.section h2 { margin-bottom: 14px; }
+
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.card { padding: 16px; }
+.card h3 { margin-top: 4px; }
+.card a { font-weight: 700; color: var(--primary); text-decoration: none; }
+.category-tag {
+  margin: 0 0 6px;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: #0b5d57;
+}
+.mini-list {
+  margin: 8px 0 10px 18px;
+  padding: 0;
+  color: var(--muted);
+}
+
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.pipeline > div {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px;
+}
+.pipeline h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+.pipeline p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.steps { display: grid; gap: 10px; }
+.step { padding: 12px 14px; display: flex; gap: 10px; align-items: center; }
+.step span {
+  width: 26px; height: 26px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #dff7f3; color: #0b5d57; font-weight: 800;
+}
+
+.faq { padding: 12px 14px; margin-bottom: 10px; }
+.faq summary { cursor: pointer; font-weight: 700; }
+.faq p { color: var(--muted); }
+
+.contact { padding: 18px; }
+.contact-form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.contact-form input,
+.contact-form select {
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px 11px;
+}
+.ok { color: #0f766e; font-weight: 700; margin-top: 10px; }
+
+.footer { border-top: 1px solid var(--line); margin-top: 26px; padding: 16px 0; color: #64748b; }
+
+.reveal { opacity: 0; transform: translateY(16px); transition: all .5s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .grid3 { grid-template-columns: 1fr; }
+  .pipeline { grid-template-columns: 1fr; }
+  .contact-form { grid-template-columns: 1fr; }
+  nav a:not(.cta-link) { display: none; }
+}

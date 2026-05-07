@@ -1,0 +1,50 @@
+Type,Campaign,Ad Group,Keyword,Criterion Type,Match Type,Headline 1,Headline 2,Headline 3,Description 1,Description 2,Final URL,Path 1,Path 2,Status
+Campaign,FR_Search_VTC_HotIntent,,,,,,,,,,,,Enabled
+Campaign,FR_Search_Sante_HotIntent,,,,,,,,,,,,Paused
+Campaign,FR_Search_CreditImmo_HotIntent,,,,,,,,,,,,Paused
+Ad Group,FR_Search_VTC_HotIntent,devis_assurance_vtc,,,,,,,,,,,Enabled
+Ad Group,FR_Search_VTC_HotIntent,assurance_vtc_tarif,,,,,,,,,,,Enabled
+Ad Group,FR_Search_VTC_HotIntent,assurance_vtc_rapide,,,,,,,,,,,Enabled
+Ad Group,FR_Search_Sante_HotIntent,devis_sante,,,,,,,,,,,Paused
+Ad Group,FR_Search_Sante_HotIntent,comparatif_sante,,,,,,,,,,,Paused
+Ad Group,FR_Search_Sante_HotIntent,mutuelle_budget,,,,,,,,,,,Paused
+Ad Group,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,,,,,,,,,,,Paused
+Ad Group,FR_Search_CreditImmo_HotIntent,courtier_credit_immo,,,,,,,,,,,Paused
+Ad Group,FR_Search_CreditImmo_HotIntent,rachat_credit,,,,,,,,,,,Paused
+Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,"devis assurance vtc",Keyword,Phrase,,,,,,,http://localhost:3005/landings/vtc.html,devis,vtc,Enabled
+Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,[devis assurance vtc],Keyword,Exact,,,,,,,http://localhost:3005/landings/vtc.html,devis,vtc,Enabled
+Keyword,FR_Search_VTC_HotIntent,assurance_vtc_tarif,"assurance vtc tarif",Keyword,Phrase,,,,,,,http://localhost:3005/landings/vtc.html,assurance,vtc,Enabled
+Keyword,FR_Search_VTC_HotIntent,assurance_vtc_rapide,"assurance vtc rapide",Keyword,Phrase,,,,,,,http://localhost:3005/landings/vtc.html,rapide,vtc,Enabled
+Keyword,FR_Search_Sante_HotIntent,devis_sante,"devis assurance sante",Keyword,Phrase,,,,,,,http://localhost:3005/landings/sante.html,devis,sante,Paused
+Keyword,FR_Search_Sante_HotIntent,comparatif_sante,[comparatif mutuelle sante],Keyword,Exact,,,,,,,http://localhost:3005/landings/sante.html,comparatif,sante,Paused
+Keyword,FR_Search_Sante_HotIntent,mutuelle_budget,"mutuelle sante pas cher",Keyword,Phrase,,,,,,,http://localhost:3005/landings/sante.html,mutuelle,sante,Paused
+Keyword,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,"simulation credit immo",Keyword,Phrase,,,,,,,http://localhost:3005/landings/credit-immo.html,simulation,immo,Paused
+Keyword,FR_Search_CreditImmo_HotIntent,courtier_credit_immo,[courtier pret immobilier],Keyword,Exact,,,,,,,http://localhost:3005/landings/credit-immo.html,courtier,immo,Paused
+Keyword,FR_Search_CreditImmo_HotIntent,rachat_credit,"rachat credit immo",Keyword,Phrase,,,,,,,http://localhost:3005/landings/credit-immo.html,rachat,credit,Paused
+Negative Keyword,FR_Search_VTC_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_HotIntent,,emploi,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_HotIntent,,stage,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_HotIntent,,formation,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_HotIntent,,definition,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_HotIntent,,forum,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_Sante_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_Sante_HotIntent,,emploi,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_Sante_HotIntent,,stage,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_Sante_HotIntent,,formation,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_Sante_HotIntent,,definition,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_Sante_HotIntent,,forum,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_CreditImmo_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_CreditImmo_HotIntent,,emploi,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_CreditImmo_HotIntent,,stage,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_CreditImmo_HotIntent,,formation,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_CreditImmo_HotIntent,,definition,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_CreditImmo_HotIntent,,forum,Keyword,Phrase,,,,,,,,,Enabled
+Responsive Search Ad,FR_Search_VTC_HotIntent,devis_assurance_vtc,,,,Devis Assurance VTC en 2 Min,Tarifs Clairs Sans Engagement,Rappel Rapide 15 Min,Comparez rapidement les offres adaptees a votre profil chauffeur.,Demande simple et reponse rapide d un conseiller dedie.,http://localhost:3005/landings/vtc.html,devis,vtc,Enabled
+Responsive Search Ad,FR_Search_VTC_HotIntent,assurance_vtc_tarif,,,,Assurance VTC Tarif Competitif,Devis VTC Rapide,Offres Claires Et Fiables,Trouvez une solution VTC claire avec garanties explicites.,Obtenez votre devis sans engagement des maintenant.,http://localhost:3005/landings/vtc.html,assurance,vtc,Enabled
+Responsive Search Ad,FR_Search_VTC_HotIntent,assurance_vtc_rapide,,,,Assurance VTC Immediate,Obtenez Votre Devis VTC,Conseiller VTC Dedie,Reponse rapide et accompagnement pour chauffeurs VTC.,Comparez les tarifs et choisissez une offre adaptee.,http://localhost:3005/landings/vtc.html,rapide,vtc,Enabled
+Responsive Search Ad,FR_Search_Sante_HotIntent,devis_sante,,,,Devis Assurance Sante Rapide,Garanties Utiles Au Bon Prix,Sans Engagement,Recevez une proposition claire selon vos besoins sante.,Comparez facilement les offres et economisez.,http://localhost:3005/landings/sante.html,devis,sante,Paused
+Responsive Search Ad,FR_Search_Sante_HotIntent,comparatif_sante,,,,Comparatif Mutuelle Sante,Couverture Claire Et Adaptee,Conseiller Sante Disponible,Visualisez rapidement les niveaux de couverture utiles.,Demande simple avec rappel prioritaire.,http://localhost:3005/landings/sante.html,comparatif,sante,Paused
+Responsive Search Ad,FR_Search_Sante_HotIntent,mutuelle_budget,,,,Mutuelle Sante Petit Budget,Comparez Et Choisissez,Demande En 2 Minutes,Trouvez une mutuelle adaptee a votre budget et profil.,Accompagnement clair sans jargon administratif.,http://localhost:3005/landings/sante.html,mutuelle,sante,Paused
+Responsive Search Ad,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,,,,Simulation Credit Immo Rapide,Faisabilite En Quelques Minutes,Accompagnement Dedie,Lancez votre simulation et obtenez un premier avis clair.,Un conseiller vous guide jusqu au montage du dossier.,http://localhost:3005/landings/credit-immo.html,simulation,immo,Paused
+Responsive Search Ad,FR_Search_CreditImmo_HotIntent,courtier_credit_immo,,,,Courtier Credit Immobilier,Projet Immo Mieux Cadre,Reponse Rapide,Optimisez votre financement avec un expert dedie.,Demande rapide pour demarrer votre projet sereinement.,http://localhost:3005/landings/credit-immo.html,courtier,immo,Paused
+Responsive Search Ad,FR_Search_CreditImmo_HotIntent,rachat_credit,,,,Rachat Credit Immo Simple,Diminuez Vos Mensualites,Conseiller A Vos Cotes,Etudiez une solution claire de rachat credit immobilier.,Recevez un accompagnement complet et rapide.,http://localhost:3005/landings/credit-immo.html,rachat,credit,Paused
