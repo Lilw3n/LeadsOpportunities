@@ -1,0 +1,9 @@
+{
+  "name": "leads-opportunities",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Leads Opportunities website with Stripe serverless integration",
+  "dependencies": {
+    "stripe": "^16.12.0"
+  }
+}

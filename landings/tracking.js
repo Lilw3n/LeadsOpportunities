@@ -1,4 +1,47 @@
 (function () {
+  function canUseGtag() {
+    return typeof window.gtag === "function" && window.GOOGLE_TRACKING;
+  }
+
+  function sendGoogleEvent(name, payload) {
+    if (!canUseGtag()) return;
+    var cfg = window.GOOGLE_TRACKING || {};
+    var vertical = (payload && payload.vertical) || getVerticalFromPath();
+
+    window.gtag("event", name, {
+      send_to: cfg.ga4MeasurementId,
+      event_category: "lead_generation",
+      event_label: vertical,
+      value: 1,
+      vertical: vertical,
+      variant: (payload && payload.variant) || "",
+    });
+
+    if (name === "form_submit" && cfg.adsLeadConversionId) {
+      window.gtag("event", "conversion", {
+        send_to: cfg.adsLeadConversionId,
+        value: 1,
+        currency: "EUR",
+      });
+    }
+
+    if (name === "phone_click" && cfg.adsPhoneConversionId) {
+      window.gtag("event", "conversion", {
+        send_to: cfg.adsPhoneConversionId,
+        value: 1,
+        currency: "EUR",
+      });
+    }
+
+    if (name === "whatsapp_click" && cfg.adsWhatsappConversionId) {
+      window.gtag("event", "conversion", {
+        send_to: cfg.adsWhatsappConversionId,
+        value: 1,
+        currency: "EUR",
+      });
+    }
+  }
+
   function getVerticalFromPath() {
     var path = window.location.pathname;
     if (path.indexOf("vtc") !== -1) return "vtc";
@@ -34,6 +77,7 @@
 
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(data);
+    sendGoogleEvent(name, data.payload);
     console.log("[tracking]", data);
   }
 

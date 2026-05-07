@@ -1,6 +1,7 @@
 (function () {
   var USERS_KEY = "assuranceleads_users_v1";
   var SESSION_KEY = "assuranceleads_session_v1";
+  var RESET_KEY = "assuranceleads_reset_v1";
 
   function readUsers() {
     try {
@@ -30,6 +31,18 @@
     return String(email || "").trim().toLowerCase();
   }
 
+  function readResets() {
+    try {
+      return JSON.parse(localStorage.getItem(RESET_KEY) || "{}");
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function writeResets(resets) {
+    localStorage.setItem(RESET_KEY, JSON.stringify(resets));
+  }
+
   function ensureAdminSeed() {
     var users = readUsers();
     var adminEmail = "courtier972@gmail.com";
@@ -57,6 +70,14 @@
 
   function saveMessage(text, ok) {
     var el = document.getElementById("authMessage");
+    if (!el) return;
+    el.hidden = false;
+    el.textContent = text;
+    el.style.color = ok ? "#0f766e" : "#b91c1c";
+  }
+
+  function saveResetHint(text, ok) {
+    var el = document.getElementById("resetHint");
     if (!el) return;
     el.hidden = false;
     el.textContent = text;
@@ -153,6 +174,77 @@
     });
   }
 
+  function bindForgotPasswordRequest() {
+    var btn = document.getElementById("forgotBtn");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var email = normalizeEmail(prompt("Email du compte a reinitialiser:"));
+      if (!email || email.indexOf("@") === -1) {
+        saveMessage("Email invalide.", false);
+        return;
+      }
+      var user = findUserByEmail(email);
+      if (!user) {
+        saveMessage("Aucun compte trouve pour cet email.", false);
+        return;
+      }
+      if (user.provider === "google") {
+        saveMessage("Compte Google: reinitialisation via Google.", false);
+        return;
+      }
+      var code = String(Math.floor(100000 + Math.random() * 900000));
+      var resets = readResets();
+      resets[email] = { code: code, createdAt: Date.now() };
+      writeResets(resets);
+      saveResetHint("Code de reinitialisation (demo): " + code, true);
+      saveMessage("Code genere. Saisis-le dans le formulaire de reinitialisation.", true);
+    });
+  }
+
+  function bindResetPassword() {
+    var form = document.getElementById("resetForm");
+    if (!form) return;
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = normalizeEmail(document.getElementById("resetEmail").value);
+      var code = String(document.getElementById("resetCode").value || "").trim();
+      var newPassword = document.getElementById("resetNewPassword").value;
+      if (newPassword.length < 8) {
+        saveMessage("Nouveau mot de passe trop court (min 8 caracteres).", false);
+        return;
+      }
+      var user = findUserByEmail(email);
+      if (!user) {
+        saveMessage("Compte introuvable.", false);
+        return;
+      }
+      if (user.provider === "google") {
+        saveMessage("Compte Google: reinitialisation via Google.", false);
+        return;
+      }
+      var resets = readResets();
+      if (!resets[email] || resets[email].code !== code) {
+        saveMessage("Code de reinitialisation invalide.", false);
+        return;
+      }
+      var users = readUsers();
+      var idx = users.findIndex(function (u) {
+        return normalizeEmail(u.email) === email;
+      });
+      if (idx < 0) {
+        saveMessage("Compte introuvable.", false);
+        return;
+      }
+      users[idx].password = newPassword;
+      writeUsers(users);
+      delete resets[email];
+      writeResets(resets);
+      saveResetHint("Reinitialisation effectuee. Tu peux te connecter.", true);
+      saveMessage("Mot de passe reinitialise avec succes.", true);
+      form.reset();
+    });
+  }
+
   function bindPasswordChange() {
     var form = document.getElementById("passwordForm");
     if (!form) return;
@@ -218,6 +310,8 @@
     bindSignup();
     bindLogin();
     bindGoogleLogin();
+    bindForgotPasswordRequest();
+    bindResetPassword();
     bindPasswordChange();
     bindLogout();
     updateSessionState();

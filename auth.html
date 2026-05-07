@@ -20,7 +20,7 @@
 
   <main class="container section">
     <h1>Mon compte</h1>
-    <p class="sub">Inscris-toi, connecte-toi, change ton mot de passe ou utilise Google.</p>
+    <p class="sub">Inscris-toi, connecte-toi, change ton mot de passe, reinitialise-le en cas d'oubli ou utilise Google.</p>
 
     <div class="grid3">
       <section class="card">
@@ -39,6 +39,9 @@
           <p><input type="password" id="loginPassword" placeholder="Mot de passe" required /></p>
           <button class="btn btn-primary" type="submit">Se connecter</button>
         </form>
+        <p style="margin-top:8px;">
+          <button class="btn btn-ghost" id="forgotBtn" type="button">Mot de passe oublie</button>
+        </p>
         <p style="margin-top:10px;">
           <button class="btn btn-ghost" id="googleBtn" type="button">Continuer avec Google</button>
         </p>
@@ -53,6 +56,18 @@
         </form>
       </section>
     </div>
+
+    <section class="contact" style="margin-top:16px;">
+      <h3>Reinitialiser le mot de passe</h3>
+      <form id="resetForm" class="contact-form">
+        <input type="email" id="resetEmail" placeholder="Email du compte" required />
+        <input type="text" id="resetCode" placeholder="Code de reinitialisation" required />
+        <input type="password" id="resetNewPassword" placeholder="Nouveau mot de passe" required />
+        <button class="btn btn-primary" type="submit">Valider la reinitialisation</button>
+      </form>
+      <p class="sub">Mode demo local: le code est affiche sur cette page apres demande.</p>
+      <p id="resetHint" class="ok" hidden></p>
+    </section>
 
     <section class="contact" style="margin-top:16px;">
       <h3>Session</h3>
