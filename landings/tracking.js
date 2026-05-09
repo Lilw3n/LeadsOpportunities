@@ -6,6 +6,30 @@
   function sendGoogleEvent(name, payload) {
     if (!canUseGtag()) return;
     var cfg = window.GOOGLE_TRACKING || {};
+
+    if (name === "wizard_step") {
+      if (!cfg.ga4MeasurementId || cfg.ga4MeasurementId.indexOf("XXXX") !== -1) return;
+      window.gtag("event", "wizard_step", {
+        send_to: cfg.ga4MeasurementId,
+        step_number: payload.step_number,
+        step_total: payload.step_total,
+        vertical: (payload.vertical || "").toString(),
+      });
+      return;
+    }
+
+    if (name === "qualified_lead") {
+      if (cfg.ga4MeasurementId && cfg.ga4MeasurementId.indexOf("XXXX") === -1) {
+        window.gtag("event", "qualified_lead", {
+          send_to: cfg.ga4MeasurementId,
+          value: payload.lead_score != null ? Number(payload.lead_score) : 1,
+          currency: "EUR",
+          vertical: (payload.vertical || "").toString(),
+        });
+      }
+      return;
+    }
+
     var vertical = (payload && payload.vertical) || getVerticalFromPath();
 
     window.gtag("event", name, {
@@ -61,6 +85,13 @@
     };
   }
 
+  function getAttributionMerge() {
+    if (typeof window.getAttributionPayload === "function") {
+      return window.getAttributionPayload();
+    }
+    return {};
+  }
+
   function collectFormData(form) {
     var fd = new FormData(form);
     var o = {};
@@ -75,7 +106,15 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    }).catch(function () {});
+    })
+      .then(function (r) {
+        return r.json().catch(function () {
+          return null;
+        });
+      })
+      .catch(function () {
+        return null;
+      });
   }
 
   function trackEvent(name, payload) {
@@ -88,6 +127,7 @@
           vertical: getVerticalFromPath(),
         },
         getUtmPayload(),
+        getAttributionMerge(),
         payload || {}
       ),
     };
@@ -131,6 +171,11 @@
     var whatsappLinks = document.querySelectorAll("[data-track='whatsapp_click']");
     var form = document.querySelector("form[data-track-form]");
 
+    document.addEventListener("lo:wizard_step", function (ev) {
+      var d = ev.detail || {};
+      trackEvent("wizard_step", d);
+    });
+
     ctas.forEach(function (btn) {
       btn.addEventListener("click", function () {
         trackEvent("cta_click", { variant: variant, label: btn.textContent.trim() });
@@ -170,12 +215,25 @@
             variant: variant,
           },
           getUtmPayload(),
+          getAttributionMerge(),
           data
         );
         if (typeof window.saveLeadRequest === "function") {
           window.saveLeadRequest(leadPayload);
         }
-        postLeadApi(leadPayload);
+        postLeadApi(leadPayload).then(function (result) {
+          if (result && result.leadScore != null) {
+            sendGoogleEvent("qualified_lead", {
+              vertical: getVerticalFromPath(),
+              lead_score: result.leadScore,
+            });
+          }
+          window.dispatchEvent(
+            new CustomEvent("lo:lead-sent", {
+              detail: { payload: leadPayload, result: result || {} },
+            })
+          );
+        });
         var msg = document.querySelector("[data-form-success]");
         if (msg) msg.hidden = false;
       });

@@ -10,6 +10,13 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
+  function getAttr() {
+    if (typeof window.getAttributionPayload === "function") {
+      return window.getAttributionPayload();
+    }
+    return {};
+  }
+
   var revealEls = document.querySelectorAll(".reveal");
   var observer = new IntersectionObserver(
     function (entries) {
@@ -60,12 +67,34 @@ document.addEventListener("DOMContentLoaded", function () {
     return o;
   }
 
+  function sendQualifiedLeadGtag(result, vertical) {
+    if (typeof window.gtag !== "function" || !window.GOOGLE_TRACKING) return;
+    var cfg = window.GOOGLE_TRACKING;
+    if (!cfg.ga4MeasurementId || cfg.ga4MeasurementId.indexOf("XXXX") !== -1) return;
+    if (result && result.leadScore != null) {
+      window.gtag("event", "qualified_lead", {
+        send_to: cfg.ga4MeasurementId,
+        value: Number(result.leadScore),
+        currency: "EUR",
+        vertical: vertical || "",
+      });
+    }
+  }
+
   function postLeadApi(body) {
     return fetch("/api/lead", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    }).catch(function () {});
+    })
+      .then(function (r) {
+        return r.json().catch(function () {
+          return null;
+        });
+      })
+      .catch(function () {
+        return null;
+      });
   }
 
   var form = document.getElementById("contactForm");
@@ -102,13 +131,21 @@ document.addEventListener("DOMContentLoaded", function () {
           page: window.location.pathname,
         },
         getUtmParams(),
+        getAttr(),
         fields
       );
       delete leadPayload.rgpd;
       if (typeof window.saveLeadRequest === "function") {
         window.saveLeadRequest(leadPayload);
       }
-      postLeadApi(leadPayload);
+      postLeadApi(leadPayload).then(function (result) {
+        sendQualifiedLeadGtag(result, fields.need || "");
+        window.dispatchEvent(
+          new CustomEvent("lo:lead-sent", {
+            detail: { payload: leadPayload, result: result || {} },
+          })
+        );
+      });
 
       if (msg) msg.hidden = false;
       form.reset();

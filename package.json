@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Leads Opportunities website with Stripe serverless integration",
   "dependencies": {
+    "@neondatabase/serverless": "^0.10.4",
     "stripe": "^16.12.0"
   }
 }

@@ -267,3 +267,121 @@ h1 { font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1.1; margin: 8px 0 14px
   }
   .footer { padding-bottom: 82px; }
 }
+
+/* Panneau post-lead (scores + offres simulees) */
+.lead-insights {
+  margin-top: 18px;
+  padding: 0;
+}
+.lead-insights-inner {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+.lead-insights-head h3 {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+}
+.lead-insights-sub {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.lead-score-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0;
+}
+.lead-score-badge {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+}
+.lead-score-badge.is-hot {
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+}
+.lead-score-badge.is-warm {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border: 1px solid #93c5fd;
+  color: #1e40af;
+}
+.lead-score-badge.is-cold {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+}
+.lead-score-num {
+  font-size: 1.6rem;
+}
+.lead-score-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+.lead-id {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.lead-offers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 900px) {
+  .lead-offers {
+    grid-template-columns: 1fr;
+  }
+}
+.lead-offer {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+}
+.lead-offer.is-best {
+  border-color: #2dd4bf;
+  box-shadow: 0 8px 20px rgba(45, 212, 191, 0.2);
+}
+.lead-offer-top {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.lead-offer-top strong {
+  font-size: 0.95rem;
+}
+.lead-offer-top span {
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+.lead-offer-price {
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.lead-offer-price small {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.lead-offer ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.lead-insights-foot {
+  margin: 14px 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}

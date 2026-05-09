@@ -110,6 +110,28 @@
 
     bindCompanyToggle(form);
 
+    function verticalFromPath() {
+      var path = window.location.pathname;
+      if (path.indexOf("vtc") !== -1) return "vtc";
+      if (path.indexOf("sante") !== -1) return "sante";
+      if (path.indexOf("credit-immo") !== -1) return "credit_immo";
+      return "unknown";
+    }
+
+    function emitStepEvent() {
+      try {
+        window.dispatchEvent(
+          new CustomEvent("lo:wizard_step", {
+            detail: {
+              step_number: idx + 1,
+              step_total: steps.length,
+              vertical: verticalFromPath(),
+            },
+          })
+        );
+      } catch (e) {}
+    }
+
     function showStep(i) {
       idx = Math.max(0, Math.min(i, steps.length - 1));
       steps.forEach(function (s, j) {
@@ -132,6 +154,8 @@
           }
         });
       });
+
+      emitStepEvent();
     }
 
     showStep(0);

@@ -34,8 +34,40 @@
     </section>
 
     <p class="sub" style="margin-top:16px;"><a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a></p>
+
+    <section id="adminLeadsSection" class="card" style="margin-top:16px; display:none;">
+      <h2>Derniers leads</h2>
+      <p class="sub">
+        Connexion base optionnelle (<code>DATABASE_URL</code> Neon). Token Vercel <code>LEADS_ADMIN_TOKEN</code> :
+      </p>
+      <p>
+        <input
+          type="password"
+          id="adminLeadToken"
+          placeholder="Coller LEADS_ADMIN_TOKEN"
+          style="max-width:min(420px,92vw);padding:10px 11px;border-radius:10px;border:1px solid #cbd5e1;"
+        />
+        <button type="button" class="btn btn-primary" id="adminLeadLoad" style="margin-left:8px;">Charger</button>
+      </p>
+      <p id="adminLeadMsg" class="sub"></p>
+      <div style="overflow:auto;">
+        <table style="width:100%;font-size:0.88rem;border-collapse:collapse;">
+          <thead>
+            <tr style="text-align:left;border-bottom:1px solid #e2e8f0;">
+              <th style="padding:8px;">Date</th>
+              <th style="padding:8px;">Score</th>
+              <th style="padding:8px;">Vertical</th>
+              <th style="padding:8px;">Email</th>
+              <th style="padding:8px;">UTM source</th>
+            </tr>
+          </thead>
+          <tbody id="adminLeadRows"></tbody>
+        </table>
+      </div>
+    </section>
   </main>
 
   <script src="./auth.js"></script>
+  <script src="./admin-leads.js"></script>
 </body>
 </html>
