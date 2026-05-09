@@ -1,5 +1,9 @@
 (function () {
-  // Remplace ces valeurs par tes IDs Google Ads / GA4.
+  function isPlaceholder(id) {
+    return !id || String(id).indexOf("XXXX") !== -1;
+  }
+
+  // Remplace ces valeurs par tes IDs Google Ads / GA4 (sans laisser XXXX).
   window.GOOGLE_TRACKING = {
     ga4MeasurementId: "G-XXXXXXXXXX",
     adsConversionId: "AW-XXXXXXXXXX",
@@ -9,7 +13,9 @@
   };
 
   var cfg = window.GOOGLE_TRACKING;
-  if (!cfg.ga4MeasurementId && !cfg.adsConversionId) return;
+  var primaryGa = !isPlaceholder(cfg.ga4MeasurementId) ? cfg.ga4MeasurementId : null;
+  var primaryAds = !isPlaceholder(cfg.adsConversionId) ? cfg.adsConversionId : null;
+  if (!primaryGa && !primaryAds) return;
 
   window.dataLayer = window.dataLayer || [];
   function gtag() {
@@ -18,15 +24,16 @@
   window.gtag = window.gtag || gtag;
   window.gtag("js", new Date());
 
-  if (cfg.ga4MeasurementId) {
+  if (primaryGa) {
     window.gtag("config", cfg.ga4MeasurementId);
   }
-  if (cfg.adsConversionId) {
+  if (primaryAds) {
     window.gtag("config", cfg.adsConversionId);
   }
 
   var script = document.createElement("script");
   script.async = true;
-  script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(cfg.ga4MeasurementId || cfg.adsConversionId);
+  script.src =
+    "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(primaryGa || primaryAds);
   document.head.appendChild(script);
 })();
