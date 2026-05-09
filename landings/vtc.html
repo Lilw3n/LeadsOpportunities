@@ -19,77 +19,211 @@
     <div class="container">
       <span class="badge">Assurance VTC</span>
       <section class="card">
-        <div class="hero">
-      <h1
-        data-hero-title
-        data-speed-title="Recevez votre devis assurance VTC rapidement"
-        data-price-title="Comparez les tarifs assurance VTC en quelques minutes"
-      ></h1>
-      <p
-        class="sub"
-        data-hero-subtitle
-        data-speed-subtitle="Un conseiller vous rappelle en moins de 15 minutes pour cadrer votre besoin."
-        data-price-subtitle="Obtenez une estimation claire avec garanties et franchises explicites."
-      ></p>
-      <ul class="points">
-        <li>Reponse rapide et sans engagement</li>
-        <li>Garanties et franchises expliquees clairement</li>
-        <li>Accompagnement dedie pour chauffeurs VTC</li>
-      </ul>
+        <div class="hero-surface">
+          <div class="hero">
+            <h1
+              data-hero-title
+              data-speed-title="Recevez votre devis assurance VTC rapidement"
+              data-price-title="Comparez les tarifs assurance VTC en quelques minutes"
+            ></h1>
+            <p
+              class="sub"
+              data-hero-subtitle
+              data-speed-subtitle="Un conseiller vous rappelle en moins de 15 minutes pour cadrer votre besoin."
+              data-price-subtitle="Obtenez une estimation claire avec garanties et franchises explicites."
+            ></p>
+            <ul class="points">
+              <li>Parcours detaille : activite, vehicule, coordonnees completes</li>
+              <li>Reponse rapide et sans engagement</li>
+              <li>Accompagnement dedie pour chauffeurs VTC</li>
+            </ul>
 
-      <div class="actions">
-        <a class="btn btn-soft" href="tel:+33100000000" data-track="phone_click">Appeler</a>
-        <a class="btn btn-soft" href="https://wa.me/33100000000" data-track="whatsapp_click">WhatsApp</a>
-      </div>
-      </div>
-
-      <div class="form-wrap">
-      <form data-track-form novalidate>
-        <div class="grid">
-          <div class="field">
-            <label for="name">Nom complet</label>
-            <input id="name" name="name" autocomplete="name" required />
-          </div>
-          <div class="field">
-            <label for="phone">Telephone</label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" required />
-          </div>
-          <div class="field">
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" required />
-          </div>
-          <div class="field">
-            <label for="postalCode">Code postal</label>
-            <input id="postalCode" name="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="5" required />
-          </div>
-          <div class="field">
-            <label for="city">Ville d'activite</label>
-            <input id="city" name="city" autocomplete="address-level2" required />
-          </div>
-          <div class="field">
-            <label for="status">Statut</label>
-            <select id="status" name="status">
-              <option>Chauffeur actif</option>
-              <option>Creation d'activite</option>
-            </select>
-          </div>
-          <div class="full">
-            <button class="btn btn-primary" type="submit" data-track="cta_click">Obtenir un devis VTC</button>
-            <p class="small">Traitement rapide de votre demande pendant les heures ouvrables.</p>
+            <div class="actions">
+              <a class="btn btn-soft" href="tel:+33100000000" data-track="phone_click">Appeler</a>
+              <a class="btn btn-soft" href="https://wa.me/33100000000" data-track="whatsapp_click">WhatsApp</a>
+            </div>
           </div>
         </div>
-      </form>
-      <p class="success" data-form-success hidden>Merci, votre demande a bien ete envoyee.</p>
-      </div>
 
-      <div class="form-wrap">
-        <h2>FAQ assurance VTC</h2>
-        <ul class="points">
-          <li>Le devis est sans engagement et rapide.</li>
-          <li>Les garanties et franchises sont detaillees avant validation.</li>
-          <li>Un conseiller vous aide a choisir une offre adaptee.</li>
-        </ul>
-      </div>
+        <div class="form-wrap">
+          <h2 class="form-title">Demande de devis detaillee</h2>
+          <p class="form-lead">
+            Quelques minutes pour un dossier utile : nous calons mieux votre besoin qu avec un simple formulaire court.
+          </p>
+
+          <form data-track-form data-quote-wizard novalidate>
+            <div class="wizard-head">
+              <div class="wizard-progress-track">
+                <div class="wizard-progress-fill"></div>
+              </div>
+              <div class="wizard-meta">
+                <span>Parcours guide</span>
+                <span class="wizard-step-counter">Etape 1 / 4</span>
+              </div>
+            </div>
+
+            <section class="wizard-step" data-wizard-step="1">
+              <h3>Votre activite et le vehicule</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="vehicleCategory">Type de vehicule</label>
+                  <select id="vehicleCategory" name="vehicleCategory" required>
+                    <option value="">Selectionnez</option>
+                    <option>Berline / berline hybride</option>
+                    <option>Break / SUV</option>
+                    <option>Monospace</option>
+                    <option>Utilitaire leger</option>
+                    <option>Autre</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="vehicleYear">Annee du vehicule</label>
+                  <select id="vehicleYear" name="vehicleYear" required>
+                    <option value="">Selectionnez</option>
+                    <option>2026 ou neuf</option>
+                    <option>2024 - 2025</option>
+                    <option>2020 - 2023</option>
+                    <option>2015 - 2019</option>
+                    <option>Avant 2015</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="annualKm">Km approximatifs / an</label>
+                  <select id="annualKm" name="annualKm" required>
+                    <option value="">Selectionnez</option>
+                    <option>Moins de 15 000 km</option>
+                    <option>15 000 - 30 000 km</option>
+                    <option>30 000 - 50 000 km</option>
+                    <option>Plus de 50 000 km</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="status">Statut VTC</label>
+                  <select id="status" name="status" required>
+                    <option value="">Selectionnez</option>
+                    <option>Chauffeur actif</option>
+                    <option>Creation d activite / carte en cours</option>
+                    <option>Activite saisonniere</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="city">Zone principale d activite (ville ou secteur)</label>
+                  <input id="city" name="city" autocomplete="address-level2" required placeholder="Ex. Lyon, RP Nanterre..." />
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="2" hidden>
+              <h3>Vos coordonnees</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="firstName">Prenom</label>
+                  <input id="firstName" name="firstName" autocomplete="given-name" required />
+                </div>
+                <div class="field">
+                  <label for="lastName">Nom</label>
+                  <input id="lastName" name="lastName" autocomplete="family-name" required />
+                </div>
+                <div class="field">
+                  <label for="email">E-mail</label>
+                  <input id="email" name="email" type="email" autocomplete="email" required />
+                </div>
+                <div class="field">
+                  <label for="phone">Telephone</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+                </div>
+                <div class="field full">
+                  <label for="street">Adresse (rue et numero)</label>
+                  <input id="street" name="street" autocomplete="street-address" required placeholder="12 rue..." />
+                </div>
+                <div class="field">
+                  <label for="postalCode">Code postal</label>
+                  <input id="postalCode" name="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="5" required />
+                </div>
+                <div class="field">
+                  <label for="cityFull">Ville</label>
+                  <input id="cityFull" name="cityFull" autocomplete="address-level2" required />
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="3" hidden>
+              <h3>Structure professionnelle (facultatif)</h3>
+              <p class="small">Cochez si vous etes en societe ou micro : utile pour tarifer une RC pro / flotte.</p>
+              <div class="field-check full" style="margin-bottom:14px;">
+                <input type="checkbox" id="hasCompany" name="hasCompany" value="1" />
+                <label for="hasCompany">Je sollicite une couverture au titre d une entreprise (SARL, SAS, micro...)</label>
+              </div>
+              <div class="grid" data-company-fields hidden>
+                <div class="field full">
+                  <label for="companyName">Raison sociale</label>
+                  <input id="companyName" name="companyName" data-optional autocomplete="organization" disabled />
+                </div>
+                <div class="field full">
+                  <label for="companySiret">SIRET (14 chiffres, facultatif)</label>
+                  <input id="companySiret" name="companySiret" inputmode="numeric" maxlength="14" data-optional disabled placeholder="14 chiffres sans espace" />
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="4" hidden>
+              <h3>Delais et message</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="urgency">Urgence du devis</label>
+                  <select id="urgency" name="urgency" required>
+                    <option value="">Selectionnez</option>
+                    <option>Sous 24h</option>
+                    <option>Cette semaine</option>
+                    <option>Sous 30 jours</option>
+                    <option>Pas presse</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budgetHint">Budget mensuel envisage</label>
+                  <select id="budgetHint" name="budgetHint" required>
+                    <option value="">Selectionnez</option>
+                    <option>Moins de 150 EUR</option>
+                    <option>150 - 250 EUR</option>
+                    <option>250 - 400 EUR</option>
+                    <option>Plus de 400 EUR</option>
+                    <option>A definir avec le conseiller</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="details">Precisions (sinistres recents, bonus-malus, vehicule secondaire...)</label>
+                  <textarea id="details" name="details" rows="4" data-optional placeholder="Informations utiles pour affiner le devis..."></textarea>
+                </div>
+                <label class="field-check full">
+                  <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
+                  <span>J accepte d etre contacte pour mon devis et j ai pris connaissance de la <a href="../politique-confidentialite.html">politique de confidentialite</a>.</span>
+                </label>
+              </div>
+            </section>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn-soft wizard-prev" hidden>Retour</button>
+              <button type="button" class="btn btn-primary wizard-next">Continuer</button>
+              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer ma demande VTC</button>
+            </div>
+            <div class="form-trust-row">
+              <div class="form-trust-item">Sans engagement</div>
+              <div class="form-trust-item">Donnees traitees en UE</div>
+              <div class="form-trust-item">Courtier ORIAS</div>
+            </div>
+            <p class="small">Traitement pendant les heures ouvrables.</p>
+          </form>
+          <p class="success" data-form-success hidden>Merci, votre demande a bien ete envoyee.</p>
+        </div>
+
+        <div class="form-wrap">
+          <h2>FAQ assurance VTC</h2>
+          <ul class="points">
+            <li>Le devis est sans engagement et rapide.</li>
+            <li>Les garanties et franchises sont detaillees avant validation.</li>
+            <li>Un conseiller vous aide a choisir une offre adaptee.</li>
+          </ul>
+        </div>
       </section>
       <p class="small" style="text-align:center;margin-top:12px;">
         <a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a>
@@ -121,6 +255,7 @@
     }
   </script>
   <script src="../js/leads-storage.js"></script>
+  <script src="./quote-wizard.js"></script>
   <script src="./tracking.js"></script>
 </body>
 </html>

@@ -19,81 +19,202 @@
     <div class="container">
       <span class="badge">Assurance Sante</span>
       <section class="card">
-        <div class="hero">
-      <h1
-        data-hero-title
-        data-speed-title="Trouvez une couverture sante claire sans perdre de temps"
-        data-price-title="Comparez les offres sante selon votre budget"
-      ></h1>
-      <p
-        class="sub"
-        data-hero-subtitle
-        data-speed-subtitle="Un conseiller vous aide a choisir des garanties utiles, sans jargon."
-        data-price-subtitle="Visualisez rapidement le niveau de couverture pour chaque poste de depense."
-      ></p>
-      <ul class="points">
-        <li>Comparatif simple des garanties essentielles</li>
-        <li>Accompagnement sans jargon administratif</li>
-        <li>Choix optimise selon votre budget</li>
-      </ul>
+        <div class="hero-surface">
+          <div class="hero">
+            <h1
+              data-hero-title
+              data-speed-title="Trouvez une couverture sante claire sans perdre de temps"
+              data-price-title="Comparez les offres sante selon votre budget"
+            ></h1>
+            <p
+              class="sub"
+              data-hero-subtitle
+              data-speed-subtitle="Un conseiller vous aide a choisir des garanties utiles, sans jargon."
+              data-price-subtitle="Visualisez rapidement le niveau de couverture pour chaque poste de depense."
+            ></p>
+            <ul class="points">
+              <li>Profil foyer, besoins hospitaliers et dentaire / optique dans un parcours structure</li>
+              <li>Comparatif simple des garanties essentielles</li>
+              <li>Choix optimise selon votre budget</li>
+            </ul>
 
-      <div class="actions">
-        <a class="btn btn-soft" href="tel:+33100000000" data-track="phone_click">Appeler</a>
-        <a class="btn btn-soft" href="https://wa.me/33100000000" data-track="whatsapp_click">WhatsApp</a>
-      </div>
-      </div>
-
-      <div class="form-wrap">
-      <form data-track-form novalidate>
-        <div class="grid">
-          <div class="field">
-            <label for="name">Nom complet</label>
-            <input id="name" name="name" autocomplete="name" required />
-          </div>
-          <div class="field">
-            <label for="phone">Telephone</label>
-            <input id="phone" name="phone" type="tel" autocomplete="tel" required />
-          </div>
-          <div class="field">
-            <label for="email">E-mail</label>
-            <input id="email" name="email" type="email" autocomplete="email" required />
-          </div>
-          <div class="field">
-            <label for="postalCode">Code postal</label>
-            <input id="postalCode" name="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="5" required />
-          </div>
-          <div class="field">
-            <label for="profile">Profil</label>
-            <select id="profile" name="profile">
-              <option>Solo</option>
-              <option>Couple</option>
-              <option>Famille</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="priority">Priorite</label>
-            <select id="priority" name="priority">
-              <option>Prix</option>
-              <option>Remboursements</option>
-              <option>Equilibre</option>
-            </select>
-          </div>
-          <div class="full">
-            <button class="btn btn-primary" type="submit" data-track="cta_click">Comparer les offres sante</button>
-            <p class="small">Demande rapide et sans engagement.</p>
+            <div class="actions">
+              <a class="btn btn-soft" href="tel:+33100000000" data-track="phone_click">Appeler</a>
+              <a class="btn btn-soft" href="https://wa.me/33100000000" data-track="whatsapp_click">WhatsApp</a>
+            </div>
           </div>
         </div>
-      </form>
-      <p class="success" data-form-success hidden>Merci, votre demande a bien ete envoyee.</p>
-      </div>
-      <div class="form-wrap">
-        <h2>FAQ assurance sante</h2>
-        <ul class="points">
-          <li>Comparatif rapide selon votre budget et profil.</li>
-          <li>Lecture simple des garanties utiles.</li>
-          <li>Accompagnement pour choisir sans surpayer.</li>
-        </ul>
-      </div>
+
+        <div class="form-wrap">
+          <h2 class="form-title">Demande de comparatif detaillee</h2>
+          <p class="form-lead">
+            Plusieurs etapes pour comprendre votre foyer et vos priorites avant rappel : dossier plus precis, conseil plus simple.
+          </p>
+
+          <form data-track-form data-quote-wizard novalidate>
+            <div class="wizard-head">
+              <div class="wizard-progress-track">
+                <div class="wizard-progress-fill"></div>
+              </div>
+              <div class="wizard-meta">
+                <span>Parcours guide</span>
+                <span class="wizard-step-counter">Etape 1 / 4</span>
+              </div>
+            </div>
+
+            <section class="wizard-step" data-wizard-step="1">
+              <h3>Votre foyer et vos priorites</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="profile">Composition du foyer</label>
+                  <select id="profile" name="profile" required>
+                    <option value="">Selectionnez</option>
+                    <option>Solo</option>
+                    <option>Couple</option>
+                    <option>Famille avec enfants</option>
+                    <option>Famille nombreuse</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="dependentsDetail">Enfants a charge (facultatif)</label>
+                  <input id="dependentsDetail" name="dependentsDetail" data-optional placeholder="Ex. 2 enfants 8 et 12 ans" />
+                </div>
+                <div class="field">
+                  <label for="priority">Priorite budget</label>
+                  <select id="priority" name="priority" required>
+                    <option value="">Selectionnez</option>
+                    <option>Prix le plus bas possible</option>
+                    <option>Equilibre prix / remboursements</option>
+                    <option>Remboursements maximum</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="currentCover">Situation actuelle</label>
+                  <select id="currentCover" name="currentCover" required>
+                    <option value="">Selectionnez</option>
+                    <option>Securite sociale uniquement</option>
+                    <option>Deja une mutuelle</option>
+                    <option>Perdu recemment ma couverture</option>
+                    <option>Premiere adhesion</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="2" hidden>
+              <h3>Vos coordonnees</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="firstName">Prenom</label>
+                  <input id="firstName" name="firstName" autocomplete="given-name" required />
+                </div>
+                <div class="field">
+                  <label for="lastName">Nom</label>
+                  <input id="lastName" name="lastName" autocomplete="family-name" required />
+                </div>
+                <div class="field">
+                  <label for="email">E-mail</label>
+                  <input id="email" name="email" type="email" autocomplete="email" required />
+                </div>
+                <div class="field">
+                  <label for="phone">Telephone</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+                </div>
+                <div class="field full">
+                  <label for="street">Adresse</label>
+                  <input id="street" name="street" autocomplete="street-address" required />
+                </div>
+                <div class="field">
+                  <label for="postalCode">Code postal</label>
+                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" required />
+                </div>
+                <div class="field">
+                  <label for="cityFull">Ville</label>
+                  <input id="cityFull" name="cityFull" autocomplete="address-level2" required />
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="3" hidden>
+              <h3>Vos besoins sante</h3>
+              <div class="grid">
+                <div class="field">
+                  <label for="hospitalWish">Hospitalisation / medecine courante</label>
+                  <select id="hospitalWish" name="hospitalWish" required>
+                    <option value="">Selectionnez</option>
+                    <option>Economique (100 % BRSS si possible)</option>
+                    <option>Confort (chambre particuliere selon budget)</option>
+                    <option>Premium</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="dentalOptical">Dentaire &amp; optique</label>
+                  <select id="dentalOptical" name="dentalOptical" required>
+                    <option value="">Selectionnez</option>
+                    <option>Basique</option>
+                    <option>Renforce</option>
+                    <option>Tres exigeant</option>
+                    <option>Pas prioritaire</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="budgetMonthly">Budget cotisation mensuelle</label>
+                  <select id="budgetMonthly" name="budgetMonthly" required>
+                    <option value="">Selectionnez</option>
+                    <option>Moins de 40 EUR</option>
+                    <option>40 - 80 EUR</option>
+                    <option>80 - 130 EUR</option>
+                    <option>Plus de 130 EUR</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="urgency">Quand souhaitez-vous etre couvert ?</label>
+                  <select id="urgency" name="urgency" required>
+                    <option value="">Selectionnez</option>
+                    <option>Des que possible</option>
+                    <option>Sous 30 jours</option>
+                    <option>Je compare pour plus tard</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="4" hidden>
+              <h3>Precision et validation</h3>
+              <div class="grid">
+                <div class="field full">
+                  <label for="details">Pathologies en cours, medecins / hopital habitude, commentaires</label>
+                  <textarea id="details" name="details" rows="4" data-optional placeholder="Facultatif mais utile pour affiner..."></textarea>
+                </div>
+                <label class="field-check full">
+                  <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
+                  <span>J accepte d etre contacte pour mon comparatif et j ai lu la <a href="../politique-confidentialite.html">politique de confidentialite</a>.</span>
+                </label>
+              </div>
+            </section>
+
+            <div class="wizard-actions">
+              <button type="button" class="btn btn-soft wizard-prev" hidden>Retour</button>
+              <button type="button" class="btn btn-primary wizard-next">Continuer</button>
+              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer ma demande sante</button>
+            </div>
+            <div class="form-trust-row">
+              <div class="form-trust-item">Sans engagement</div>
+              <div class="form-trust-item">RGPD</div>
+              <div class="form-trust-item">Conseiller dedie</div>
+            </div>
+          </form>
+          <p class="success" data-form-success hidden>Merci, votre demande a bien ete envoyee.</p>
+        </div>
+
+        <div class="form-wrap">
+          <h2>FAQ assurance sante</h2>
+          <ul class="points">
+            <li>Comparatif rapide selon votre budget et profil.</li>
+            <li>Lecture simple des garanties utiles.</li>
+            <li>Accompagnement pour choisir sans surpayer.</li>
+          </ul>
+        </div>
       </section>
       <p class="small" style="text-align:center;margin-top:12px;">
         <a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a>
@@ -125,6 +246,7 @@
     }
   </script>
   <script src="../js/leads-storage.js"></script>
+  <script src="./quote-wizard.js"></script>
   <script src="./tracking.js"></script>
 </body>
 </html>
