@@ -27,11 +27,53 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(el);
   });
 
+  function appendTrackingParamsToLinks() {
+    var params = new URLSearchParams(window.location.search);
+    if (!params.toString()) return;
+
+    var tracked = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "gclid"];
+    var links = document.querySelectorAll("a[href]");
+    links.forEach(function (link) {
+      var href = link.getAttribute("href");
+      if (!href || href.startsWith("#") || href.startsWith("tel:") || href.startsWith("https://wa.me")) return;
+      if (href.startsWith("http") && href.indexOf(window.location.origin) !== 0) return;
+      if (href.indexOf("mailto:") === 0) return;
+
+      var url = new URL(href, window.location.origin);
+      tracked.forEach(function (key) {
+        if (params.get(key) && !url.searchParams.get(key)) {
+          url.searchParams.set(key, params.get(key));
+        }
+      });
+      link.setAttribute("href", url.pathname + url.search + url.hash);
+    });
+  }
+
+  appendTrackingParamsToLinks();
+
+  function collectFormFields(form) {
+    var fd = new FormData(form);
+    var o = {};
+    fd.forEach(function (v, k) {
+      o[k] = v;
+    });
+    return o;
+  }
+
+  function postLeadApi(body) {
+    return fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).catch(function () {});
+  }
+
   var form = document.getElementById("contactForm");
   var msg = document.getElementById("formMessage");
   if (form) {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      var fields = collectFormFields(form);
       var payload = Object.assign(
         {
           event_category: "lead_generation",
@@ -52,6 +94,21 @@ document.addEventListener("DOMContentLoaded", function () {
           });
         }
       }
+
+      var leadPayload = Object.assign(
+        {
+          source: "homepage_contact",
+          vertical: fields.need || "",
+          page: window.location.pathname,
+        },
+        getUtmParams(),
+        fields
+      );
+      delete leadPayload.rgpd;
+      if (typeof window.saveLeadRequest === "function") {
+        window.saveLeadRequest(leadPayload);
+      }
+      postLeadApi(leadPayload);
 
       if (msg) msg.hidden = false;
       form.reset();

@@ -61,6 +61,23 @@
     };
   }
 
+  function collectFormData(form) {
+    var fd = new FormData(form);
+    var o = {};
+    fd.forEach(function (v, k) {
+      o[k] = v;
+    });
+    return o;
+  }
+
+  function postLeadApi(body) {
+    return fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).catch(function () {});
+  }
+
   function trackEvent(name, payload) {
     var data = {
       event: name,
@@ -144,6 +161,21 @@
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         trackEvent("form_submit", { variant: variant });
+        var data = collectFormData(form);
+        var leadPayload = Object.assign(
+          {
+            source: "landing_form",
+            vertical: getVerticalFromPath(),
+            page: window.location.pathname,
+            variant: variant,
+          },
+          getUtmPayload(),
+          data
+        );
+        if (typeof window.saveLeadRequest === "function") {
+          window.saveLeadRequest(leadPayload);
+        }
+        postLeadApi(leadPayload);
         var msg = document.querySelector("[data-form-success]");
         if (msg) msg.hidden = false;
       });

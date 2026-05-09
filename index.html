@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leads Opportunities | Devis assurance et credit immobilier</title>
   <meta name="description" content="Demandez votre devis assurance VTC, assurance sante ou credit immobilier et consultez nos guides pratiques." />
+  <link rel="canonical" href="https://leads-opportunities.vercel.app/" />
+  <meta property="og:title" content="Leads Opportunities | Devis assurance et credit immobilier" />
+  <meta property="og:description" content="Devis assurance VTC, sante et credit immobilier avec reponse rapide." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://leads-opportunities.vercel.app/" />
   <script src="./google-config.js"></script>
   <link rel="stylesheet" href="./main.css" />
 </head>
@@ -44,6 +49,13 @@
           <li>Conseils pratiques via notre blog</li>
         </ul>
       </div>
+    </section>
+
+    <section class="container trust-strip">
+      <div class="trust-item">Sans engagement</div>
+      <div class="trust-item">Reponse rapide</div>
+      <div class="trust-item">Parcours mobile optimise</div>
+      <div class="trust-item">Accompagnement humain</div>
     </section>
 
     <section id="categories" class="container section">
@@ -146,16 +158,22 @@
     <section id="contact" class="container section contact">
       <h2>Demarrer maintenant</h2>
       <form class="contact-form" id="contactForm">
-        <input type="text" placeholder="Nom" required />
-        <input type="tel" placeholder="Telephone" required />
-        <select required>
+        <input type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
+        <input type="tel" name="phone" autocomplete="tel" placeholder="Telephone" required />
+        <input type="email" name="email" autocomplete="email" placeholder="E-mail" required />
+        <select name="need" required>
           <option value="">Besoin principal</option>
-          <option>Mobilite Pro - VTC / Flotte</option>
-          <option>Sante / Prevoyance</option>
-          <option>Habitat / Finance</option>
-          <option>Autre demande</option>
+          <option value="vtc">Mobilite Pro - VTC / Flotte</option>
+          <option value="sante">Sante / Prevoyance</option>
+          <option value="immo">Habitat / Finance</option>
+          <option value="autre">Autre demande</option>
         </select>
-        <button class="btn btn-primary" type="submit">Etre rappele</button>
+        <textarea class="full-row" name="message" rows="3" placeholder="Precision utile (facultatif)"></textarea>
+        <label class="full-row field-check">
+          <input type="checkbox" name="rgpd" value="1" required />
+          <span>J accepte que mes informations soient utilisees pour repondre a ma demande, conformement a la <a href="./politique-confidentialite.html">politique de confidentialite</a>.</span>
+        </label>
+        <button class="btn btn-primary full-row" type="submit">Etre rappele</button>
       </form>
       <p style="margin-top:10px;"><a href="./paiement.html">Payer un acompte securise</a></p>
       <p id="formMessage" class="ok" hidden>Merci, demande envoyee. Un conseiller vous contacte rapidement.</p>
@@ -165,10 +183,37 @@
   <footer class="footer">
     <div class="container">
       <small>Leads Opportunities - Devis et conseils en assurance et financement</small>
+      <small style="display:block; margin-top:8px;">
+        <a href="./espace-client.html">Mon espace</a>
+        &middot; <a href="./mentions-legales.html">Mentions legales</a>
+        &middot; <a href="./politique-confidentialite.html">Confidentialite</a>
+        &middot; <a href="./cgu.html">CGU</a>
+      </small>
       <small style="display:block; margin-top:6px;"><a href="./auth.html">Espace entreprise</a></small>
     </div>
   </footer>
 
+  <div class="mobile-cta">
+    <a href="#devis">Demander un devis</a>
+    <a href="tel:+33100000000">Appeler</a>
+  </div>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Leads Opportunities",
+      "url": "https://leads-opportunities.vercel.app/",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+33-1-00-00-00-00",
+        "contactType": "customer service",
+        "areaServed": "FR"
+      }
+    }
+  </script>
+  <script src="./js/leads-storage.js"></script>
+  <script src="./js/cookie-banner.js"></script>
   <script src="./main.js"></script>
 </body>
 </html>

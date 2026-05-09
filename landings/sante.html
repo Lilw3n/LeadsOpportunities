@@ -6,11 +6,11 @@
   <title>Assurance Sante | Comparatif et devis</title>
   <meta name="description" content="Comparez des offres assurance sante selon vos besoins et votre budget." />
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://example.com/assurance-sante/comparatif/" />
+  <link rel="canonical" href="https://leads-opportunities.vercel.app/landings/sante.html" />
   <meta property="og:title" content="Assurance Sante | Comparatif et devis" />
   <meta property="og:description" content="Comparez les offres sante selon votre profil et votre budget." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://example.com/assurance-sante/comparatif/" />
+  <meta property="og:url" content="https://leads-opportunities.vercel.app/landings/sante.html" />
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
 </head>
@@ -53,6 +53,14 @@
           <div class="field">
             <label for="phone">Telephone</label>
             <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+          </div>
+          <div class="field">
+            <label for="email">E-mail</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="postalCode">Code postal</label>
+            <input id="postalCode" name="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="5" required />
           </div>
           <div class="field">
             <label for="profile">Profil</label>
@@ -113,6 +121,7 @@
       ]
     }
   </script>
+  <script src="../js/leads-storage.js"></script>
   <script src="./tracking.js"></script>
 </body>
 </html>
