@@ -5,6 +5,7 @@
   "description": "Leads Opportunities website with Stripe serverless integration",
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
+    "jsonwebtoken": "^9.0.3",
     "stripe": "^16.12.0"
   }
 }
