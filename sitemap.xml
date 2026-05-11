@@ -21,6 +21,11 @@
     <priority>0.85</priority>
   </url>
   <url>
+    <loc>https://leads-opportunities.vercel.app/blog/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://leads-opportunities.vercel.app/blog/assurance-vtc-moins-cher-2026.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
