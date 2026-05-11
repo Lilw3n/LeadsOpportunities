@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", function () {
   var mobileMenu = document.getElementById("mobileMenu");
   if (hamburger && mobileMenu) {
     hamburger.addEventListener("click", function () {
-      mobileMenu.hidden = !mobileMenu.hidden;
+      mobileMenu.classList.toggle("open");
     });
     mobileMenu.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () { mobileMenu.hidden = true; });
+      a.addEventListener("click", function () { mobileMenu.classList.remove("open"); });
     });
   }
 

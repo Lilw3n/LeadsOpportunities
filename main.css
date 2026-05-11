@@ -108,11 +108,14 @@ nav a:hover { color: var(--text); background: #f1f5f9; }
   color: var(--text);
 }
 .mobile-menu {
-  display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 8px 16px 16px;
   border-top: 1px solid var(--line);
+  display: none;
+}
+.mobile-menu.open {
+  display: flex;
 }
 .mobile-menu a {
   text-decoration: none;
