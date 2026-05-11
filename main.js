@@ -1,4 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Mobile menu
+  var hamburger = document.getElementById("hamburgerBtn");
+  var mobileMenu = document.getElementById("mobileMenu");
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener("click", function () {
+      mobileMenu.hidden = !mobileMenu.hidden;
+    });
+    mobileMenu.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { mobileMenu.hidden = true; });
+    });
+  }
+
+  // Topbar scroll shadow
+  var topbar = document.querySelector(".topbar");
+  if (topbar) {
+    window.addEventListener("scroll", function () {
+      topbar.classList.toggle("scrolled", window.scrollY > 10);
+    }, { passive: true });
+  }
+
   function getUtmParams() {
     var params = new URLSearchParams(window.location.search);
     return {

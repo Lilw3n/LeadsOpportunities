@@ -4,203 +4,550 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leads Opportunities | Devis assurance et credit immobilier</title>
-  <meta name="description" content="Demandez votre devis assurance VTC, assurance sante ou credit immobilier et consultez nos guides pratiques." />
+  <meta name="description" content="Comparez les meilleures offres assurance VTC, sante et credit immobilier. Devis gratuit, sans engagement, reponse rapide par un courtier inscrit ORIAS." />
   <link rel="canonical" href="https://leads-opportunities.vercel.app/" />
-  <meta property="og:title" content="Leads Opportunities | Devis assurance et credit immobilier" />
-  <meta property="og:description" content="Devis assurance VTC, sante et credit immobilier avec reponse rapide." />
+  <meta property="og:title" content="Leads Opportunities | Courtier en assurance et financement" />
+  <meta property="og:description" content="Devis gratuit assurance VTC, sante et credit immobilier. Courtier inscrit ORIAS." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://leads-opportunities.vercel.app/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="./google-config.js"></script>
   <link rel="stylesheet" href="./main.css" />
 </head>
 <body>
+
   <header class="topbar">
     <div class="container nav">
-      <a class="logo" href="#top">Leads Opportunities</a>
+      <a class="logo" href="#top">
+        <span class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Leads Opportunities
+      </a>
       <nav>
-        <a href="#categories">Categories</a>
-        <a href="#devis">Devis</a>
-        <a href="#blog">Blog</a>
+        <a href="#services">Nos services</a>
+        <a href="#comment-ca-marche">Comment ca marche</a>
         <a href="#faq">FAQ</a>
-        <a class="cta-link" href="#contact">Demarrer</a>
+        <a class="btn btn-nav" href="#contact">Devis gratuit</a>
       </nav>
+      <button class="hamburger" aria-label="Menu" id="hamburgerBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu" hidden>
+      <a href="#services">Nos services</a>
+      <a href="#comment-ca-marche">Comment ca marche</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-primary btn-sm" href="#contact">Devis gratuit</a>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero container">
-      <div class="hero-text">
-        <p class="kicker">Assurance et financement</p>
-        <h1>Obtenez un devis clair et rapide selon votre besoin.</h1>
-        <p class="sub">
-          Nous accompagnons particuliers et professionnels sur trois domaines: mobilite pro, sante/prevoyance et habitat/finance.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#devis">Demander un devis</a>
-          <a class="btn btn-ghost" href="#blog">Lire nos conseils</a>
+
+    <section class="hero-section">
+      <div class="container hero">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Courtier inscrit ORIAS n&deg; 15005935
+          </div>
+          <h1>Trouvez la <span class="text-gradient">meilleure offre</span> pour votre assurance ou votre credit.</h1>
+          <p class="hero-sub">
+            Un courtier humain analyse votre dossier, compare les offres et vous rappelle avec une solution claire. Devis 100% gratuit, sans engagement.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="#contact">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              Etre rappele gratuitement
+            </a>
+            <a class="btn btn-outline btn-lg" href="#services">
+              Decouvrir nos services
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>2 min</strong>
+              <span>pour remplir le formulaire</span>
+            </div>
+            <div class="hero-stat-sep"></div>
+            <div class="hero-stat">
+              <strong>100%</strong>
+              <span>gratuit et sans engagement</span>
+            </div>
+            <div class="hero-stat-sep"></div>
+            <div class="hero-stat">
+              <strong>15 min</strong>
+              <span>delai moyen de rappel</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-card-stack">
+            <div class="hero-floating-card hfc-1">
+              <div class="hfc-icon hfc-icon-teal">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 012 2v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-2"/></svg>
+              </div>
+              <div>
+                <strong>Assurance VTC</strong>
+                <span>A partir de 145 EUR/mois</span>
+              </div>
+            </div>
+            <div class="hero-floating-card hfc-2">
+              <div class="hfc-icon hfc-icon-blue">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              </div>
+              <div>
+                <strong>Mutuelle Sante</strong>
+                <span>Des 19 EUR/mois</span>
+              </div>
+            </div>
+            <div class="hero-floating-card hfc-3">
+              <div class="hfc-icon hfc-icon-indigo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div>
+                <strong>Credit Immobilier</strong>
+                <span>Simulation gratuite</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="hero-card">
-        <h3>Pourquoi nous choisir</h3>
-        <ul>
-          <li>Demande simple et sans engagement</li>
-          <li>Reponse rapide avec accompagnement</li>
-          <li>Parcours mobile fluide</li>
-          <li>Conseils pratiques via notre blog</li>
-        </ul>
+    </section>
+
+    <section class="trust-section">
+      <div class="container">
+        <div class="trust-strip">
+          <div class="trust-item reveal">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <span>Sans engagement</span>
+          </div>
+          <div class="trust-item reveal">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span>Reponse rapide</span>
+          </div>
+          <div class="trust-item reveal">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span>Courtier ORIAS</span>
+          </div>
+          <div class="trust-item reveal">
+            <div class="trust-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <span>Accompagnement humain</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="container trust-strip">
-      <div class="trust-item">Sans engagement</div>
-      <div class="trust-item">Reponse rapide</div>
-      <div class="trust-item">Parcours mobile optimise</div>
-      <div class="trust-item">Accompagnement humain</div>
-    </section>
-
-    <section id="categories" class="container section">
-      <h2>Nos categories</h2>
-      <div class="grid3 category-grid">
-        <article class="card reveal">
-          <p class="category-tag">Mobilite Pro</p>
-          <h3>Transport & Flottes</h3>
-          <p>Solutions pour chauffeurs et activites de transport.</p>
-          <ul class="mini-list">
-            <li>Assurance VTC</li>
-            <li>Assurance auto pro</li>
-            <li>Assurance flotte</li>
-          </ul>
-          <a href="./landings/vtc.html">Voir la landing VTC</a>
-        </article>
-        <article class="card reveal">
-          <p class="category-tag">Sante & Prevoyance</p>
-          <h3>Protection Personne</h3>
-          <p>Couvertures adaptees a votre profil et votre budget.</p>
-          <ul class="mini-list">
-            <li>Assurance sante</li>
-            <li>Mutuelle famille</li>
-            <li>Prevoyance TNS</li>
-          </ul>
-          <a href="./landings/sante.html">Voir la landing Sante</a>
-        </article>
-        <article class="card reveal">
-          <p class="category-tag">Habitat & Finance</p>
-          <h3>Financement Immo</h3>
-          <p>Simulation et accompagnement pour votre projet immobilier.</p>
-          <ul class="mini-list">
-            <li>Credit immobilier</li>
-            <li>Rachat de credit</li>
-            <li>Assurance emprunteur</li>
-          </ul>
-          <a href="./landings/credit-immo.html">Voir la landing Immo</a>
-        </article>
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Nos services</span>
+          <h2>Une solution pour chaque besoin</h2>
+          <p class="section-sub">Nous comparons les meilleures offres du marche pour vous proposer la couverture ideale, au juste prix.</p>
+        </div>
+        <div class="services-grid">
+          <a href="./landings/vtc.html" class="service-card reveal">
+            <div class="service-icon service-icon-teal">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h2a2 2 0 012 2v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-2"/><circle cx="7.5" cy="18.5" r="1.5"/><circle cx="17.5" cy="18.5" r="1.5"/></svg>
+            </div>
+            <div class="service-content">
+              <span class="service-tag">Mobilite Pro</span>
+              <h3>Assurance VTC</h3>
+              <p>RC pro, tous risques, flotte. Des offres adaptees aux chauffeurs et independants du transport.</p>
+              <ul class="service-features">
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  RC pro et tous risques
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Tarifs negocies chauffeurs
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Gestion flotte multi-vehicules
+                </li>
+              </ul>
+              <span class="service-cta">
+                Obtenir mon devis VTC
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </div>
+          </a>
+          <a href="./landings/sante.html" class="service-card reveal">
+            <div class="service-icon service-icon-blue">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="service-content">
+              <span class="service-tag">Sante &amp; Prevoyance</span>
+              <h3>Mutuelle Sante</h3>
+              <p>Comparez les garanties utiles sans surpayer. Solo, couple ou famille, on trouve la bonne couverture.</p>
+              <ul class="service-features">
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Comparatif clair des garanties
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Dentaire, optique, hospi
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Prevoyance TNS incluse
+                </li>
+              </ul>
+              <span class="service-cta">
+                Comparer les mutuelles
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </div>
+          </a>
+          <a href="./landings/credit-immo.html" class="service-card reveal">
+            <div class="service-icon service-icon-indigo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="service-content">
+              <span class="service-tag">Habitat &amp; Finance</span>
+              <h3>Credit Immobilier</h3>
+              <p>Simulation gratuite et accompagnement complet. On cadre votre budget et vos etapes de financement.</p>
+              <ul class="service-features">
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Simulation capacite d'emprunt
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Negociation taux bancaire
+                </li>
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Suivi jusqu'a la signature
+                </li>
+              </ul>
+              <span class="service-cta">
+                Simuler mon credit
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </div>
+          </a>
+        </div>
       </div>
     </section>
 
-    <section id="devis" class="container section">
-      <h2>Demandes de devis</h2>
-      <div class="grid3">
-        <article class="card reveal">
-          <h3>Devis assurance VTC</h3>
-          <p>Recevez une proposition selon votre statut et votre zone d'activite.</p>
-          <a href="./landings/vtc.html">Acceder au formulaire</a>
-        </article>
-        <article class="card reveal">
-          <h3>Comparatif assurance sante</h3>
-          <p>Choisissez une couverture utile sans payer des garanties inutiles.</p>
-          <a href="./landings/sante.html">Acceder au formulaire</a>
-        </article>
-        <article class="card reveal">
-          <h3>Simulation credit immobilier</h3>
-          <p>Evaluez votre projet et obtenez un premier avis de faisabilite.</p>
-          <a href="./landings/credit-immo.html">Acceder au formulaire</a>
-        </article>
+    <section id="comment-ca-marche" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Simple et rapide</span>
+          <h2>Comment ca marche ?</h2>
+          <p class="section-sub">3 etapes pour obtenir votre devis personnalise. Rien de complique.</p>
+        </div>
+        <div class="steps-grid">
+          <div class="step-card reveal">
+            <div class="step-number">1</div>
+            <div class="step-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <h3>Decrivez votre besoin</h3>
+            <p>Remplissez le formulaire en 2 minutes. On vous pose les bonnes questions pour comprendre votre situation.</p>
+          </div>
+          <div class="step-connector">
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h36" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/><polyline points="32 6 38 12 32 18" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">2</div>
+            <div class="step-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            </div>
+            <h3>Un conseiller vous rappelle</h3>
+            <p>Sous 15 minutes en heures ouvrables. Il analyse votre profil et cherche les meilleures offres.</p>
+          </div>
+          <div class="step-connector">
+            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h36" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4 4"/><polyline points="32 6 38 12 32 18" fill="none" stroke="#0d9488" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="step-card reveal">
+            <div class="step-number">3</div>
+            <div class="step-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>Recevez votre offre</h3>
+            <p>Proposition detaillee avec garanties et tarif. Vous decidez librement, sans aucune pression.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="blog" class="container section">
-      <h2>Blog & conseils</h2>
-      <div class="grid3">
-        <article class="card reveal">
-          <h3>Comment payer moins cher son assurance VTC en 2026</h3>
-          <p>Les points a verifier avant de signer et les erreurs frequentes.</p>
-          <a href="./blog/assurance-vtc-moins-cher-2026.html">Lire l'article</a>
-        </article>
-        <article class="card reveal">
-          <h3>Mutuelle sante: 5 criteres pour bien choisir</h3>
-          <p>Un guide simple pour comparer les garanties utiles.</p>
-          <a href="./blog/mutuelle-sante-5-criteres.html">Lire l'article</a>
-        </article>
-        <article class="card reveal">
-          <h3>Pret immobilier: les erreurs a eviter avant votre dossier</h3>
-          <p>Les points qui ralentissent l'accord et comment les anticiper.</p>
-          <a href="./blog/pret-immo-erreurs-a-eviter.html">Lire l'article</a>
-        </article>
+    <section class="section testimonials-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Ils nous font confiance</span>
+          <h2>Ce que disent nos clients</h2>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card reveal">
+            <div class="testimonial-stars">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <blockquote>&laquo; Je payais 380 EUR/mois. Grace a Leads Opportunities, je suis passe a 245 EUR avec les memes garanties. 135 EUR d economie chaque mois. &raquo;</blockquote>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">M</div>
+              <div>
+                <strong>Mehdi T.</strong>
+                <span>Chauffeur VTC, Lyon</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="testimonial-stars">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <blockquote>&laquo; Ma mutuelle me coutait 47 EUR pour des garanties inutiles. Le conseiller a identifie mes vrais besoins : 28 EUR de moins par mois. &raquo;</blockquote>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">S</div>
+              <div>
+                <strong>Sophie L.</strong>
+                <span>Independante, Paris</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="testimonial-stars">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <blockquote>&laquo; Premier achat immo, j etais perdu. Mon conseiller a cadre mon budget, negocie le taux et m a suivi jusqu a la signature chez le notaire. &raquo;</blockquote>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">K</div>
+              <div>
+                <strong>Karim B.</strong>
+                <span>Primo-accedant, Bordeaux</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="faq" class="container section">
-      <h2>FAQ</h2>
-      <details class="faq reveal">
-        <summary>Pourquoi je voyais une page "directory listing" ?</summary>
-        <p>Parce qu’il n’y avait pas encore de fichier <code>index.html</code> a la racine.</p>
-      </details>
-      <details class="faq reveal">
-        <summary>Le site est-il responsive mobile ?</summary>
-        <p>Oui, la mise en page est optimisee pour desktop, tablette et smartphone.</p>
-      </details>
-      <details class="faq reveal">
-        <summary>Comment demander un devis ?</summary>
-        <p>Selectionnez votre categorie puis accedez au formulaire de devis correspondant.</p>
-      </details>
+    <section id="blog" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Conseils pratiques</span>
+          <h2>Notre blog</h2>
+          <p class="section-sub">Des articles concrets pour prendre les bonnes decisions.</p>
+        </div>
+        <div class="blog-grid">
+          <article class="blog-card reveal">
+            <div class="blog-tag">VTC</div>
+            <h3>Comment payer moins cher son assurance VTC en 2026</h3>
+            <p>Les points a verifier avant de signer et les erreurs frequentes des chauffeurs.</p>
+            <a href="./blog/assurance-vtc-moins-cher-2026.html" class="blog-link">
+              Lire l'article
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </article>
+          <article class="blog-card reveal">
+            <div class="blog-tag blog-tag-blue">Sante</div>
+            <h3>Mutuelle sante : 5 criteres pour bien choisir</h3>
+            <p>Un guide simple pour comparer les garanties utiles et eviter de surpayer.</p>
+            <a href="./blog/mutuelle-sante-5-criteres.html" class="blog-link">
+              Lire l'article
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </article>
+          <article class="blog-card reveal">
+            <div class="blog-tag blog-tag-indigo">Immobilier</div>
+            <h3>Pret immobilier : les erreurs a eviter</h3>
+            <p>Les points qui ralentissent l'accord bancaire et comment les anticiper.</p>
+            <a href="./blog/pret-immo-erreurs-a-eviter.html" class="blog-link">
+              Lire l'article
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="container section contact">
-      <h2>Demarrer maintenant</h2>
-      <form class="contact-form" id="contactForm">
-        <input type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
-        <input type="tel" name="phone" autocomplete="tel" placeholder="Telephone" required />
-        <input type="email" name="email" autocomplete="email" placeholder="E-mail" required />
-        <select name="need" required>
-          <option value="">Besoin principal</option>
-          <option value="vtc">Mobilite Pro - VTC / Flotte</option>
-          <option value="sante">Sante / Prevoyance</option>
-          <option value="immo">Habitat / Finance</option>
-          <option value="autre">Autre demande</option>
-        </select>
-        <textarea class="full-row" name="message" rows="3" placeholder="Precision utile (facultatif)"></textarea>
-        <label class="full-row field-check">
-          <input type="checkbox" name="rgpd" value="1" required />
-          <span>J accepte que mes informations soient utilisees pour repondre a ma demande, conformement a la <a href="./politique-confidentialite.html">politique de confidentialite</a>.</span>
-        </label>
-        <button class="btn btn-primary full-row" type="submit">Etre rappele</button>
-      </form>
-      <p style="margin-top:10px;"><a href="./paiement.html">Payer un acompte securise</a></p>
-      <p style="margin-top:8px;"><a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a></p>
-      <p id="formMessage" class="ok" hidden>Merci, demande envoyee. Un conseiller vous contacte rapidement.</p>
-      <div data-lead-insights hidden></div>
+    <section id="faq" class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-badge">Questions frequentes</span>
+          <h2>Tout ce que vous devez savoir</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item reveal">
+            <summary>
+              <span>Le devis est-il vraiment gratuit ?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p>Oui, 100% gratuit et sans engagement. Nous sommes remuneres par l assureur uniquement si vous souscrivez. Vous ne payez jamais de frais supplementaires.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>
+              <span>En combien de temps suis-je rappele ?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p>En moyenne sous 15 minutes pendant les heures ouvrables (9h-18h du lundi au vendredi). En dehors de ces horaires, vous serez rappele le jour ouvrable suivant.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>
+              <span>Quelle est la difference entre un courtier et un comparateur ?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p>Un comparateur vous donne une liste : a vous de comprendre. Un courtier analyse votre cas, negocie pour vous et vous explique chaque garantie en langage clair. Et il vous suit apres la signature.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>
+              <span>Puis-je refuser l offre proposee ?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p>Absolument. Il n y a aucune obligation de souscrire. Si l offre ne vous convient pas, vous ne signez pas. C est aussi simple que ca.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>
+              <span>Quels types d assurance proposez-vous ?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p>Nous intervenons sur trois verticales : assurance VTC et mobilite professionnelle, mutuelle sante et prevoyance, et credit immobilier avec assurance emprunteur.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-contact">
+      <div class="container">
+        <div class="contact-wrapper">
+          <div class="contact-info">
+            <h2>Pret a trouver votre meilleure offre ?</h2>
+            <p>Remplissez le formulaire ci-contre. Un conseiller dedie analyse votre dossier et vous rappelle rapidement avec une proposition personnalisee.</p>
+            <div class="contact-benefits">
+              <div class="contact-benefit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Reponse sous 15 minutes</span>
+              </div>
+              <div class="contact-benefit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Aucun frais, aucun engagement</span>
+              </div>
+              <div class="contact-benefit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Courtier inscrit ORIAS</span>
+              </div>
+              <div class="contact-benefit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>Donnees protegees (RGPD)</span>
+              </div>
+            </div>
+            <div class="contact-direct">
+              <p>Ou contactez-nous directement :</p>
+              <a href="mailto:courtier972@gmail.com" class="contact-email">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                courtier972@gmail.com
+              </a>
+            </div>
+          </div>
+          <div class="contact-form-card">
+            <h3>Demandez votre devis gratuit</h3>
+            <form class="contact-form" id="contactForm">
+              <div class="form-row">
+                <input type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
+                <input type="tel" name="phone" autocomplete="tel" placeholder="Telephone" required />
+              </div>
+              <input type="email" name="email" autocomplete="email" placeholder="Adresse e-mail" required />
+              <select name="need" required>
+                <option value="">Quel est votre besoin ?</option>
+                <option value="vtc">Assurance VTC / Mobilite Pro</option>
+                <option value="sante">Mutuelle Sante / Prevoyance</option>
+                <option value="immo">Credit Immobilier</option>
+                <option value="autre">Autre demande</option>
+              </select>
+              <textarea name="message" rows="3" placeholder="Precision utile (facultatif)"></textarea>
+              <label class="field-check">
+                <input type="checkbox" name="rgpd" value="1" required />
+                <span>J accepte que mes informations soient utilisees pour repondre a ma demande, conformement a la <a href="./politique-confidentialite.html">politique de confidentialite</a>.</span>
+              </label>
+              <button class="btn btn-primary btn-lg btn-full" type="submit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Envoyer ma demande
+              </button>
+            </form>
+            <p id="formMessage" class="form-success" hidden>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Merci ! Votre demande a ete envoyee. Un conseiller vous contacte rapidement.
+            </p>
+            <div data-lead-insights hidden></div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <small>Leads Opportunities - Devis et conseils en assurance et financement</small>
-      <small style="display:block; margin-top:8px;">
-        <a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a>
-      </small>
-      <small style="display:block; margin-top:8px;">
-        <a href="./espace-client.html">Mon espace</a>
-        &middot; <a href="./mentions-legales.html">Mentions legales</a>
-        &middot; <a href="./politique-confidentialite.html">Confidentialite</a>
-        &middot; <a href="./cgu.html">CGU</a>
-      </small>
-      <small style="display:block; margin-top:6px;"><a href="./auth.html">Espace entreprise</a></small>
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a class="footer-logo" href="#top">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Leads Opportunities
+          </a>
+          <p>Courtier en assurance et financement. Devis gratuit, accompagnement humain, sans engagement.</p>
+          <small>ORIAS n&deg; 15005935 &middot; SIREN 810571513</small>
+        </div>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="./landings/vtc.html">Assurance VTC</a>
+          <a href="./landings/sante.html">Mutuelle Sante</a>
+          <a href="./landings/credit-immo.html">Credit Immobilier</a>
+        </div>
+        <div class="footer-col">
+          <h4>Ressources</h4>
+          <a href="#blog">Blog &amp; conseils</a>
+          <a href="#faq">FAQ</a>
+          <a href="./espace-client.html">Mon espace</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="./mentions-legales.html">Mentions legales</a>
+          <a href="./politique-confidentialite.html">Confidentialite</a>
+          <a href="./cgu.html">CGU</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <small>&copy; 2026 Leads Opportunities. Tous droits reserves.</small>
+        <small><a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a></small>
+      </div>
     </div>
   </footer>
 
   <div class="mobile-cta">
-    <a href="#devis">Demander un devis</a>
-    <a href="tel:+33100000000">Appeler</a>
+    <a href="#contact" class="mobile-cta-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Devis gratuit
+    </a>
+    <a href="tel:+33100000000" class="mobile-cta-secondary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Appeler
+    </a>
   </div>
 
   <script type="application/ld+json">
