@@ -1,7 +1,10 @@
 ## Connexion acquisition Google (checklist)
 
 ## 1) Renseigner les IDs Google
-Dans `google-config.js`, remplace:
+
+**Recommandé (Vercel)** : variables d'environnement (voir `CONNECT.md` section 4) — `GA4_MEASUREMENT_ID`, `GOOGLE_ADS_ID`, `GOOGLE_ADS_CONVERSION_*`. Elles sont injectées par `/api/google-config-env` avant `google-config.js`.
+
+**Alternative (local / fichier)** : dans `google-config.js`, remplace:
 - `G-XXXXXXXXXX` par ton ID GA4
 - `AW-XXXXXXXXXX` par ton ID Google Ads
 - les IDs conversion:

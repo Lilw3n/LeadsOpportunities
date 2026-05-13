@@ -51,14 +51,53 @@ En test, Resend autorise souvent `onboarding@resend.dev` comme expéditeur.
 
 ---
 
-## 4. Google Analytics 4 & Google Ads
+## 4. Google Analytics 4, Google Ads et Search Console (leads & campagnes)
 
-- GA4 : [https://analytics.google.com](https://analytics.google.com) — ID de mesure type `G-XXXXXXXX` dans **Admin** → **Flux de donnees** → ton flux Web.
-- Google Ads : [https://ads.google.com](https://ads.google.com) — conversions et balises `AW-…` ; lier GA4 et Ads si besoin.
+### Ce que le site envoie deja
 
-Les IDs sont a renseigner dans `google-config.js` (racine du site). Evenements utiles deja envoyes : `generate_lead`, `wizard_step`, `qualified_lead`, conversions Ads sur formulaire / tel / WhatsApp.
+- **GA4** : `generate_lead` (formulaire accueil), `qualified_lead` (score serveur), `wizard_step` (landings multi-etapes), `begin_checkout` (paiement).
+- **Google Ads** : evenements `conversion` avec les libelles que tu configures (formulaire lead, clic tel, WhatsApp).
 
-Doc Ads conversions : [https://support.google.com/google-ads/answer/6331314](https://support.google.com/google-ads/answer/6331314)
+Les pages chargent d’abord `/api/google-config-env` puis `google-config.js` : les **variables d’environnement Vercel** remplacent les placeholders du fichier si elles sont renseignées.
+
+| Variable Vercel | Exemple | Role |
+|-----------------|---------|------|
+| `GA4_MEASUREMENT_ID` | `G-ABC1DEFGHI` | Propriete GA4 → **Admin** → **Flux de donnees** → flux **Web** → **ID de mesure** |
+| `GOOGLE_ADS_ID` | `AW-123456789` | Compte Google Ads → **Outils** → **Balises Google** / setup global (prefixe AW-) |
+| `GOOGLE_ADS_CONVERSION_LEAD` | `AW-123456789/xyzABC` | Conversion **Soumission de formulaire** (ou import depuis GA4) |
+| `GOOGLE_ADS_CONVERSION_PHONE` | `AW-123456789/abcDEF` | Conversion **Clic sur numero** (optionnel) |
+| `GOOGLE_ADS_CONVERSION_WHATSAPP` | `AW-123456789/ghiJKL` | Conversion **WhatsApp** (optionnel) |
+
+Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’URL `/api/google-config-env` n’existe pas : le site garde les valeurs par defaut de `google-config.js` (tu peux y mettre tes IDs pour les tests).
+
+### Etapes GA4 (premiere fois)
+
+1. Ouvre [Google Analytics](https://analytics.google.com) → **Admin** (roue dentee) → **Creer une propriete** (ou choisis la propriete existante).
+2. **Flux de donnees** → **Ajouter un flux** → **Web** → URL du site : `https://leads-opportunities.vercel.app` (ou ton domaine perso).
+3. Copie l’**ID de mesure** `G-…` → colle-le dans Vercel comme `GA4_MEASUREMENT_ID`.
+4. Dans GA4 : **Admin** → **Flux de donnees** → ton flux → active **Signalisation Google** (parametres du flux) si tu veux les donnees demographiques.
+5. Pour verifier en direct : **Admin** → **DebugView** (avec l’extension Chrome « Google Analytics Debugger » ou un appareil de test).
+
+### Etapes Google Ads (conversions pour optimiser les encheres)
+
+1. [Google Ads](https://ads.google.com) → **Objectifs** → **Conversions** → **Nouvelle action de conversion** → **Site Web**.
+2. Categorie recommandee pour un lead : **Soumettre un formulaire de contact** ou **Demande de devis**.
+3. Choisis **Installer la balise vous-meme** : tu obtiens un libelle du type `AW-123456789/LabelAutoGenere` → mets-le dans `GOOGLE_ADS_CONVERSION_LEAD`.
+4. Pour le tag global `AW-…` seul : souvent le meme prefixe que la conversion ; place-le dans `GOOGLE_ADS_ID`.
+5. **Lier GA4 et Google Ads** : Google Ads → **Outils** → **Liaisons** → **Google Analytics (GA4)** — cela permet d’importer les conversions GA4 et les audiences.
+
+### Search Console (SEO, pas les leads directs)
+
+1. [Search Console](https://search.google.com/search-console) → **Ajouter une propriete** → URL prefix `https://leads-opportunities.vercel.app/`.
+2. Verifie la propriete (balise HTML ou fichier DNS selon ce que Google propose).
+3. Soumets le sitemap : `https://leads-opportunities.vercel.app/sitemap.xml`.
+
+### Documentation Google
+
+- Conversions Ads : [Creer des conversions sur un site Web](https://support.google.com/google-ads/answer/6331314)
+- Lier GA4 et Ads : [Lier Google Analytics 4 a Google Ads](https://support.google.com/google-ads/answer/7519530)
+
+Voir aussi `ads/google-acquisition-setup.md` pour les UTM et les campagnes.
 
 ---
 
