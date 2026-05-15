@@ -3,8 +3,6 @@
     return !id || String(id).indexOf("XXXX") !== -1;
   }
 
-  // Valeurs par défaut (local / démo). En production, préfère les variables Vercel
-  // + script /api/google-config-env.js chargé avant ce fichier.
   var defaults = {
     ga4MeasurementId: "G-JX8E35693F",
     adsConversionId: "AW-XXXXXXXXXX",
@@ -33,6 +31,18 @@
   var cfg = window.GOOGLE_TRACKING;
   var primaryGa = !isPlaceholder(cfg.ga4MeasurementId) ? cfg.ga4MeasurementId : null;
   var primaryAds = !isPlaceholder(cfg.adsConversionId) ? cfg.adsConversionId : null;
+
+  var staticTagPresent = !!document.querySelector(
+    'script[src*="googletagmanager.com/gtag/js"]'
+  );
+
+  if (staticTagPresent) {
+    if (primaryAds && typeof window.gtag === "function") {
+      window.gtag("config", cfg.adsConversionId);
+    }
+    return;
+  }
+
   if (!primaryGa && !primaryAds) return;
 
   window.dataLayer = window.dataLayer || [];
@@ -52,6 +62,7 @@
   var script = document.createElement("script");
   script.async = true;
   script.src =
-    "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(primaryGa || primaryAds);
+    "https://www.googletagmanager.com/gtag/js?id=" +
+    encodeURIComponent(primaryGa || primaryAds);
   document.head.appendChild(script);
 })();
