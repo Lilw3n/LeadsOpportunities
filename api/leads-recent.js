@@ -1,13 +1,12 @@
 /**
- * GET /api/leads-recent — Liste des derniers leads (Neon). Protege par LEADS_ADMIN_TOKEN.
+ * GET /api/leads-recent — Liste des derniers leads (Neon). Protege par LEADS_ADMIN_TOKEN (Bearer uniquement).
  */
+const { applyApiGuards, safeEqual } = require("./_lib/security");
+
 module.exports = async (req, res) => {
-  if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-    return res.status(204).end();
-  }
+  applyApiGuards(req, res);
+
+  if (req.method === "OPTIONS") return res.status(204).end();
 
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
@@ -15,14 +14,13 @@ module.exports = async (req, res) => {
   }
 
   var secret = process.env.LEADS_ADMIN_TOKEN;
-  if (!secret) {
+  if (!secret || secret.length < 16) {
     return res.status(503).json({ ok: false, error: "LEADS_ADMIN_TOKEN non configure" });
   }
 
   var auth = req.headers.authorization || "";
-  var token = auth.indexOf("Bearer ") === 0 ? auth.slice(7) : "";
-  if (!token && req.query.token) token = String(req.query.token);
-  if (token !== secret) {
+  var token = auth.indexOf("Bearer ") === 0 ? auth.slice(7).trim() : "";
+  if (!token || !safeEqual(token, secret)) {
     return res.status(401).json({ ok: false, error: "Unauthorized" });
   }
 
@@ -31,8 +29,7 @@ module.exports = async (req, res) => {
     return res.json({
       ok: true,
       leads: [],
-      message:
-        "DATABASE_URL absent : les leads sont notifies par email / webhook et visibles dans GA4 — ajoute Neon pour l historique ici.",
+      message: "DATABASE_URL absent.",
     });
   }
 

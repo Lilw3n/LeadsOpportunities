@@ -1,7 +1,16 @@
 const Stripe = require("stripe");
 const { getStripeClient } = require("../_lib/stripe");
+const { applyApiGuards, readRawBody } = require("../_lib/security");
+
+module.exports.config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 module.exports = async (req, res) => {
+  applyApiGuards(req, res);
+
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
@@ -22,13 +31,8 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "Signature Stripe manquante." });
     }
 
-    // Sur Vercel Node serverless, req.body est deja parse.
-    // On reconstruit un event a partir du JSON parse si constructEvent raw n'est pas possible.
-    // Pour une verif stricte, basculer vers un framework qui expose le raw body.
-    const event = req.body && req.body.type ? req.body : null;
-    if (!event) {
-      return res.status(400).json({ error: "Payload webhook invalide." });
-    }
+    const rawBody = await readRawBody(req);
+    const event = stripe.webhooks.constructEvent(rawBody, signature, webhookSecret);
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
@@ -37,7 +41,6 @@ module.exports = async (req, res) => {
         customerEmail: session.customer_details?.email || null,
         metadata: session.metadata || {},
       });
-      // TODO: brancher ici ton stockage (CRM/DB) pour marquer la demande comme payee.
     }
 
     return res.status(200).json({ received: true });

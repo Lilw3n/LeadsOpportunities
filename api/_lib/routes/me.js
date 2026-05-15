@@ -1,7 +1,8 @@
-const { getAuthUser, setCors } = require("../auth");
+const { getAuthUser } = require("../auth");
+const { applyApiGuards } = require("../security");
 
 module.exports = async (req, res) => {
-  setCors(res);
+  applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
 
   const decoded = await getAuthUser(req);

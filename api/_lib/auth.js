@@ -1,8 +1,9 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const { requireJwtSecret, safeEqual } = require("./security");
 
-const JWT_SECRET = process.env.JWT_SECRET || "lo-default-secret-change-me";
 const JWT_EXPIRY = "7d";
+const JWT_ISSUER = "leads-opportunities";
 
 function hashPassword(password, salt) {
   if (!salt) salt = crypto.randomBytes(32).toString("hex");
@@ -13,17 +14,32 @@ function hashPassword(password, salt) {
 }
 
 function verifyPassword(password, storedHash, salt) {
-  const { hash } = hashPassword(password, salt);
-  return crypto.timingSafeEqual(Buffer.from(hash), Buffer.from(storedHash));
+  if (!password || !storedHash || !salt) return false;
+  try {
+    const { hash } = hashPassword(password, salt);
+    const a = Buffer.from(hash);
+    const b = Buffer.from(storedHash);
+    if (a.length !== b.length) return false;
+    return crypto.timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
 }
 
 function signToken(payload) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRY });
+  return jwt.sign(payload, requireJwtSecret(), {
+    expiresIn: JWT_EXPIRY,
+    algorithm: "HS256",
+    issuer: JWT_ISSUER,
+  });
 }
 
 function verifyToken(token) {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, requireJwtSecret(), {
+      algorithms: ["HS256"],
+      issuer: JWT_ISSUER,
+    });
   } catch {
     return null;
   }
@@ -31,10 +47,8 @@ function verifyToken(token) {
 
 function extractToken(req) {
   const auth = req.headers.authorization || "";
-  if (auth.startsWith("Bearer ")) return auth.slice(7);
-  const cookie = req.headers.cookie || "";
-  const match = cookie.match(/lo_token=([^;]+)/);
-  return match ? match[1] : null;
+  if (auth.startsWith("Bearer ")) return auth.slice(7).trim();
+  return null;
 }
 
 async function getAuthUser(req) {
@@ -45,14 +59,13 @@ async function getAuthUser(req) {
   return decoded;
 }
 
-function setCors(res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+function setCors(req, res) {
+  const { setCors: cors } = require("./security");
+  cors(req, res);
 }
 
 function generateResetCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
+  return String(crypto.randomInt(100000, 1000000));
 }
 
 module.exports = {
@@ -64,4 +77,5 @@ module.exports = {
   getAuthUser,
   setCors,
   generateResetCode,
+  safeEqual,
 };

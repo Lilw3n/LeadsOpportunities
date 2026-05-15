@@ -1,14 +1,19 @@
-const { verifyPassword, signToken, setCors } = require("../auth");
+const { verifyPassword, signToken } = require("../auth");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 
 module.exports = async (req, res) => {
-  setCors(res);
+  applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  let body = req.body;
-  if (typeof body === "string") {
-    try { body = JSON.parse(body); } catch { return res.status(400).json({ error: "JSON invalide" }); }
+  const rl = rateLimit("auth-login:" + getClientIp(req), 10, 15 * 60 * 1000);
+  if (!rl.allowed) {
+    return res.status(429).json({ error: "Trop de tentatives, réessayez plus tard" });
   }
+
+  const parsed = parseJsonBody(req);
+  if (parsed.error) return res.status(400).json({ error: parsed.error });
+  const body = parsed.body;
   if (!body || !body.email || !body.password) {
     return res.status(400).json({ error: "Email et mot de passe requis" });
   }

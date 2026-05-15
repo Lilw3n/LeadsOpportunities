@@ -2,7 +2,10 @@
  * GET /api/google-config-env — JavaScript qui injecte les IDs Google depuis les variables Vercel.
  * Inclure AVANT google-config.js : <script src="/api/google-config-env"></script>
  */
+const { applyApiGuards } = require("./_lib/security");
+
 module.exports = function googleConfigEnv(req, res) {
+  applyApiGuards(req, res);
   res.setHeader("Content-Type", "application/javascript; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=120");
 

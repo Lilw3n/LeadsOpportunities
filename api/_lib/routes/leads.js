@@ -1,7 +1,12 @@
-const { getAuthUser, setCors } = require("../auth");
+const { getAuthUser } = require("../auth");
+const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
+
+const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
+const VALID_VERTICAL = ["vtc", "sante", "credit-immo"];
+const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
 
 module.exports = async (req, res) => {
-  setCors(res);
+  applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
 
   const user = await getAuthUser(req);
@@ -16,60 +21,55 @@ module.exports = async (req, res) => {
   const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
   const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") || "20", 10)));
   const offset = (page - 1) * limit;
-  const status = url.searchParams.get("status") || null;
-  const vertical = url.searchParams.get("vertical") || null;
-  const search = url.searchParams.get("search") || null;
-  const sort = url.searchParams.get("sort") || "created_at";
-  const order = (url.searchParams.get("order") || "desc").toUpperCase() === "ASC" ? "ASC" : "DESC";
+
+  const statusVal = url.searchParams.get("status")
+    ? sanitizeEnum(url.searchParams.get("status"), VALID_STATUS, null)
+    : null;
+  const verticalVal = url.searchParams.get("vertical")
+    ? sanitizeEnum(url.searchParams.get("vertical"), VALID_VERTICAL, null)
+    : null;
+  const searchVal = url.searchParams.get("search")
+    ? sanitizeSearch(url.searchParams.get("search"))
+    : null;
+  const searchPattern = searchVal ? "%" + searchVal + "%" : null;
+  const sortCol = sanitizeEnum(url.searchParams.get("sort") || "created_at", VALID_SORT, "created_at");
+  const orderAsc = String(url.searchParams.get("order") || "desc").toUpperCase() === "ASC";
 
   try {
     const { neon } = require("@neondatabase/serverless");
     const sql = neon(dbUrl);
 
-    let conditions = [];
-    let params = {};
-    let whereClause = "";
-
-    if (status) {
-      conditions.push(`COALESCE(status, 'new') = '${status.replace(/'/g, "")}'`);
-    }
-    if (vertical) {
-      conditions.push(`vertical = '${vertical.replace(/'/g, "")}'`);
-    }
-    if (search) {
-      const s = search.replace(/'/g, "").toLowerCase();
-      conditions.push(`(LOWER(email) LIKE '%${s}%' OR LOWER(phone) LIKE '%${s}%' OR LOWER(vertical) LIKE '%${s}%')`);
-    }
-
-    if (conditions.length > 0) {
-      whereClause = "WHERE " + conditions.join(" AND ");
-    }
-
-    const validSorts = ["created_at", "lead_score", "vertical", "email", "status"];
-    const sortCol = validSorts.includes(sort) ? sort : "created_at";
-
-    const countQuery = `SELECT COUNT(*)::int AS total FROM site_leads ${whereClause}`;
-    const dataQuery = `
-      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
-             COALESCE(status, 'new') AS status, notes, created_at, updated_at
-      FROM site_leads ${whereClause}
-      ORDER BY ${sortCol} ${order}
-      LIMIT ${limit} OFFSET ${offset}
+    const [countRows] = await sql`
+      SELECT COUNT(*)::int AS total FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
     `;
 
-    const [countRows, leads] = await Promise.all([
-      sql(countQuery),
-      sql(dataQuery),
-    ]);
+    const leads = await queryLeads(
+      sql,
+      statusVal,
+      verticalVal,
+      searchPattern,
+      sortCol,
+      orderAsc,
+      limit,
+      offset
+    );
 
+    const total = countRows.total;
     return res.status(200).json({
       ok: true,
       leads,
       pagination: {
         page,
         limit,
-        total: countRows[0].total,
-        totalPages: Math.ceil(countRows[0].total / limit),
+        total,
+        totalPages: Math.ceil(total / limit) || 1,
       },
     });
   } catch (e) {
@@ -77,3 +77,173 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: "Erreur serveur" });
   }
 };
+
+async function queryLeads(
+  sql,
+  statusVal,
+  verticalVal,
+  searchPattern,
+  sortCol,
+  orderAsc,
+  limit,
+  offset
+) {
+  if (sortCol === "lead_score" && orderAsc) {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY lead_score ASC NULLS LAST
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (sortCol === "lead_score") {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY lead_score DESC NULLS LAST
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (sortCol === "vertical" && orderAsc) {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY vertical ASC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (sortCol === "vertical") {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY vertical DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (sortCol === "email" && orderAsc) {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY email ASC NULLS LAST
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (sortCol === "email") {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY email DESC NULLS LAST
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (sortCol === "status" && orderAsc) {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY status ASC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (sortCol === "status") {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY status DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  if (orderAsc) {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY created_at ASC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
+  return sql`
+    SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+           COALESCE(status, 'new') AS status, notes, created_at, updated_at
+    FROM site_leads
+    WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+      AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+      AND (${searchPattern}::text IS NULL OR (
+        LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+      ))
+    ORDER BY created_at DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `;
+}

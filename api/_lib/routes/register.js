@@ -1,15 +1,20 @@
 const { randomUUID } = require("crypto");
-const { hashPassword, signToken, setCors } = require("../auth");
+const { hashPassword, signToken } = require("../auth");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 
 module.exports = async (req, res) => {
-  setCors(res);
+  applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
-  let body = req.body;
-  if (typeof body === "string") {
-    try { body = JSON.parse(body); } catch { return res.status(400).json({ error: "JSON invalide" }); }
+  const rl = rateLimit("auth-register:" + getClientIp(req), 5, 60 * 60 * 1000);
+  if (!rl.allowed) {
+    return res.status(429).json({ error: "Trop de tentatives, réessayez plus tard" });
   }
+
+  const parsed = parseJsonBody(req);
+  if (parsed.error) return res.status(400).json({ error: parsed.error });
+  const body = parsed.body;
   if (!body || !body.email || !body.password) {
     return res.status(400).json({ error: "Email et mot de passe requis" });
   }
@@ -40,7 +45,13 @@ module.exports = async (req, res) => {
 
     const { hash, salt } = hashPassword(password);
     const userId = randomUUID();
-    const role = email === "courtier972@gmail.com" ? "admin" : "user";
+    const adminEmails = (process.env.ADMIN_EMAILS || "courtier972@gmail.com")
+      .split(",")
+      .map(function (e) {
+        return e.trim().toLowerCase();
+      })
+      .filter(Boolean);
+    const role = adminEmails.indexOf(email) !== -1 ? "admin" : "user";
 
     await sql`
       INSERT INTO users (id, email, password_hash, salt, role, full_name, phone)

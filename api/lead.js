@@ -1,8 +1,15 @@
 /**
- * POST /api/lead — Reception demandes, scoring, stockage optionnel (Neon), email (Resend), webhook.
+ * POST /api/lead — Reception demandes, scoring, stockage (Neon), email (Resend), webhook.
  */
 const { randomUUID } = require("crypto");
 const { computeLeadScore } = require("./_lib/leadScore.js");
+const {
+  applyApiGuards,
+  parseJsonBody,
+  isHoneypotFilled,
+  rateLimit,
+  getClientIp,
+} = require("./_lib/security");
 
 async function sendResendEmail(payload, score, leadId) {
   var key = process.env.RESEND_API_KEY;
@@ -11,7 +18,13 @@ async function sendResendEmail(payload, score, leadId) {
 
   if (!key) return;
 
-  var sub = "[Lead " + (payload.vertical || "?") + "] score " + score + " — " + (payload.email || payload.phone || leadId);
+  var sub =
+    "[Lead " +
+    (payload.vertical || "?") +
+    "] score " +
+    score +
+    " — " +
+    (payload.email || payload.phone || leadId);
   var html =
     "<h2>Nouvelle demande Leads Opportunities</h2>" +
     "<p><strong>ID</strong> " +
@@ -58,28 +71,28 @@ function escapeHtml(s) {
 }
 
 module.exports = async (req, res) => {
-  if (req.method === "OPTIONS") {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    return res.status(204).end();
-  }
+  applyApiGuards(req, res);
+
+  if (req.method === "OPTIONS") return res.status(204).end();
 
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  let body = req.body;
-  if (typeof body === "string") {
-    try {
-      body = JSON.parse(body);
-    } catch {
-      return res.status(400).json({ error: "Invalid JSON body" });
-    }
+  const ip = getClientIp(req);
+  const rl = rateLimit("lead:" + ip, 15, 60 * 1000);
+  if (!rl.allowed) {
+    res.setHeader("Retry-After", String(Math.ceil(rl.retryAfterMs / 1000)));
+    return res.status(429).json({ error: "Trop de requêtes, réessayez plus tard" });
   }
-  if (!body || typeof body !== "object") {
-    return res.status(400).json({ error: "Invalid JSON body" });
+
+  const parsed = parseJsonBody(req, 49152);
+  if (parsed.error) return res.status(400).json({ error: parsed.error });
+  const body = parsed.body;
+
+  if (isHoneypotFilled(body)) {
+    return res.status(200).json({ ok: true, leadId: randomUUID(), leadScore: 0 });
   }
 
   var leadId = body.leadId || randomUUID();
@@ -90,9 +103,14 @@ module.exports = async (req, res) => {
     leadScore: score,
     serverReceivedAt: new Date().toISOString(),
   });
+  delete enriched._hp;
+  delete enriched.website;
+  delete enriched.company_url;
 
-  var utmSource = enriched.attr_last_utm_source || enriched.utm_source || enriched.attr_first_utm_source || null;
-  var utmMedium = enriched.attr_last_utm_medium || enriched.utm_medium || enriched.attr_first_utm_medium || null;
+  var utmSource =
+    enriched.attr_last_utm_source || enriched.utm_source || enriched.attr_first_utm_source || null;
+  var utmMedium =
+    enriched.attr_last_utm_medium || enriched.utm_medium || enriched.attr_first_utm_medium || null;
   var utmCampaign = enriched.utm_campaign || enriched.attr_first_utm_campaign || null;
   var gclidVal = enriched.attr_last_gclid || enriched.gclid || enriched.attr_first_gclid || null;
 
@@ -109,16 +127,16 @@ module.exports = async (req, res) => {
           utm_source, utm_medium, utm_campaign, gclid, visitor_id, payload
         ) VALUES (
           ${leadId},
-          ${String(enriched.source || "unknown")},
-          ${String(enriched.vertical || "")},
+          ${String(enriched.source || "unknown").slice(0, 120)},
+          ${String(enriched.vertical || "").slice(0, 80)},
           ${score},
           ${enriched.email ? String(enriched.email).slice(0, 320) : null},
           ${enriched.phone ? String(enriched.phone).slice(0, 40) : null},
-          ${utmSource},
-          ${utmMedium},
-          ${utmCampaign},
-          ${gclidVal},
-          ${enriched.visitor_id ? String(enriched.visitor_id) : null},
+          ${utmSource ? String(utmSource).slice(0, 200) : null},
+          ${utmMedium ? String(utmMedium).slice(0, 200) : null},
+          ${utmCampaign ? String(utmCampaign).slice(0, 200) : null},
+          ${gclidVal ? String(gclidVal).slice(0, 200) : null},
+          ${enriched.visitor_id ? String(enriched.visitor_id).slice(0, 120) : null},
           ${JSON.stringify(enriched)}
         )
       `;

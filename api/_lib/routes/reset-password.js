@@ -1,9 +1,15 @@
-const { hashPassword, signToken, setCors } = require("../auth");
+const { hashPassword, signToken } = require("../auth");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 
 module.exports = async (req, res) => {
-  setCors(res);
+  applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
+  const rl = rateLimit("auth-reset:" + getClientIp(req), 8, 60 * 60 * 1000);
+  if (!rl.allowed) {
+    return res.status(429).json({ error: "Trop de tentatives, réessayez plus tard" });
+  }
 
   let body = req.body;
   if (typeof body === "string") {
