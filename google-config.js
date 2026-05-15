@@ -6,7 +6,7 @@
   // Valeurs par défaut (local / démo). En production, préfère les variables Vercel
   // + script /api/google-config-env.js chargé avant ce fichier.
   var defaults = {
-    ga4MeasurementId: "G-XXXXXXXXXX",
+    ga4MeasurementId: "G-JX8E35693F",
     adsConversionId: "AW-XXXXXXXXXX",
     adsLeadConversionId: "AW-XXXXXXXXXX/lead_form_submit",
     adsPhoneConversionId: "AW-XXXXXXXXXX/phone_click",
