@@ -1,4 +1,4 @@
-const { getAuthUser, verifyPassword, hashPassword, setCors } = require("../_lib/auth");
+const { getAuthUser, verifyPassword, hashPassword, setCors } = require("../auth");
 
 module.exports = async (req, res) => {
   setCors(res);

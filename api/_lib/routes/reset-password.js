@@ -1,4 +1,4 @@
-const { hashPassword, signToken, setCors } = require("../_lib/auth");
+const { hashPassword, signToken, setCors } = require("../auth");
 
 module.exports = async (req, res) => {
   setCors(res);
