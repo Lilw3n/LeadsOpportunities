@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "defaults": {
+    "minLeadScore": 35,
+    "dispatchTimeoutMs": 8000
+  },
+  "partners": [
+    {
+      "id": "netvox",
+      "name": "Netvox Assurances",
+      "portalUrl": "https://www.netvox-assurances.fr",
+      "status": "active",
+      "priority": 10,
+      "verticals": ["vtc", "sante", "credit-immo", "immo"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_NETVOX_WEBHOOK_URL" },
+      "notes": "Configurer webhook ou API courtier si disponible chez Netvox."
+    },
+    {
+      "id": "zephir-alize",
+      "name": "Zéphir Alizé",
+      "portalUrl": "https://www.zephiralize.fr/",
+      "status": "active",
+      "priority": 20,
+      "verticals": ["vtc", "sante"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_ZEPHIR_ALIZE_WEBHOOK_URL" }
+    },
+    {
+      "id": "zeole",
+      "name": "Zeole (Zéphir)",
+      "portalUrl": "https://zeole.zephir.fr/",
+      "status": "active",
+      "priority": 21,
+      "verticals": ["vtc", "sante"],
+      "integration": { "type": "extranet", "credentialEnv": "PARTNER_ZEOLE_API_URL" },
+      "notes": "Extranet courtier — automatisation via API si contrat éditeur."
+    },
+    {
+      "id": "april",
+      "name": "April On",
+      "portalUrl": "https://www.april-on.fr/home",
+      "status": "active",
+      "priority": 30,
+      "verticals": ["sante", "credit-immo", "immo"],
+      "integration": { "type": "api", "credentialEnv": "PARTNER_APRIL_API_KEY", "baseUrlEnv": "PARTNER_APRIL_API_BASE" }
+    },
+    {
+      "id": "solly-azar",
+      "name": "Solly Azar Pro",
+      "portalUrl": "http://www.sollyazarpro.com/",
+      "status": "active",
+      "priority": 40,
+      "verticals": ["vtc"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_SOLLY_AZAR_WEBHOOK_URL" }
+    },
+    {
+      "id": "addvalue",
+      "name": "Addvalue Assurance",
+      "portalUrl": "https://courtier.addvalue-assurance.fr",
+      "status": "active",
+      "priority": 50,
+      "verticals": ["vtc", "sante", "credit-immo", "immo"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_ADDVALUE_WEBHOOK_URL" }
+    },
+    {
+      "id": "xenassur",
+      "name": "Xenassur",
+      "portalUrl": "https://www.xenassur.fr/",
+      "status": "active",
+      "priority": 60,
+      "verticals": ["vtc", "sante"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_XENASSUR_WEBHOOK_URL" }
+    },
+    {
+      "id": "entoria",
+      "name": "Entoria",
+      "portalUrl": "https://www.entoria.fr/",
+      "status": "pending",
+      "priority": 70,
+      "verticals": ["sante", "credit-immo", "immo"],
+      "integration": { "type": "api", "credentialEnv": "PARTNER_ENTORIA_API_KEY", "baseUrlEnv": "PARTNER_ENTORIA_API_BASE" }
+    },
+    {
+      "id": "matrisk",
+      "name": "Matrisk Assurance",
+      "portalUrl": "https://www.matriskassurance.com/",
+      "status": "pending",
+      "priority": 80,
+      "verticals": ["vtc", "sante"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_MATRISK_WEBHOOK_URL" }
+    },
+    {
+      "id": "novelia",
+      "name": "Novélia",
+      "portalUrl": "https://www.novelia.fr/",
+      "status": "pending",
+      "priority": 90,
+      "verticals": ["sante", "credit-immo", "immo"],
+      "integration": { "type": "api", "credentialEnv": "PARTNER_NOVELIA_API_KEY", "baseUrlEnv": "PARTNER_NOVELIA_API_BASE" }
+    },
+    {
+      "id": "tetris",
+      "name": "Tetris Assurance",
+      "portalUrl": "https://courtier.tetris-assurance.com/",
+      "status": "active",
+      "priority": 100,
+      "verticals": ["vtc", "credit-immo", "immo"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_TETRIS_WEBHOOK_URL" }
+    },
+    {
+      "id": "ami3f",
+      "name": "AMI 3F",
+      "portalUrl": "https://extranet.ami3f.com/app/web/dashboard/",
+      "status": "active",
+      "priority": 110,
+      "verticals": ["sante", "vtc"],
+      "integration": { "type": "extranet", "credentialEnv": "PARTNER_AMI3F_WEBHOOK_URL" },
+      "notes": "Extranet — passerelle Zapier/Make ou API si fournie."
+    },
+    {
+      "id": "welfaire",
+      "name": "Welfaire",
+      "portalUrl": "https://courtier.welfaire.com/activity",
+      "status": "active",
+      "priority": 120,
+      "verticals": ["sante"],
+      "integration": { "type": "webhook", "credentialEnv": "PARTNER_WELFAIRE_WEBHOOK_URL" }
+    }
+  ]
+}

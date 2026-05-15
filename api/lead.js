@@ -151,6 +151,15 @@ module.exports = async (req, res) => {
     console.error("[lead] email failed", e);
   }
 
+  try {
+    const { dispatchLeadToPartners } = require("./_lib/partners/dispatch");
+    dispatchLeadToPartners(enriched, score, leadId).catch(function (e) {
+      console.error("[partners/dispatch]", e);
+    });
+  } catch (e) {
+    console.error("[partners]", e);
+  }
+
   var webhookUrl = process.env.LEAD_WEBHOOK_URL;
   if (webhookUrl) {
     try {

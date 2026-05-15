@@ -546,6 +546,49 @@
     .toast.show { transform: translateY(0); }
     .toast.success { background: var(--green); }
     .toast.error { background: var(--red); }
+
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 14px;
+    }
+    .partner-card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      background: #fafbfc;
+    }
+    .partner-card h4 { margin: 0 0 6px; font-size: 0.95rem; }
+    .partner-card .meta { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
+    .partner-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .partner-card .tag {
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--line);
+      font-weight: 600;
+    }
+    .partner-card .tag.active { background: var(--green-light); color: #15803d; }
+    .partner-card .tag.inactive { background: var(--red-light); color: #b91c1c; }
+    .partner-card .tag.pending { background: var(--orange-light); color: #b45309; }
+    .partner-card .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .partner-card .actions button, .partner-card .actions a {
+      font-size: 0.78rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--text);
+      font-family: inherit;
+    }
+    .partner-card .actions a:hover, .partner-card .actions button:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .cred-ok { color: var(--green); font-weight: 600; font-size: 0.78rem; }
+    .cred-no { color: var(--muted); font-size: 0.78rem; }
   </style>
 </head>
 <body>
@@ -572,6 +615,11 @@
         <a href="#" class="nav-link" data-section="leads">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Gestion des Leads
+        </a>
+
+        <a href="#" class="nav-link" data-section="partners">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Partenaires
         </a>
 
         <div class="sidebar-section">Outils</div>
@@ -758,6 +806,38 @@
         </div>
       </div>
 
+      <div class="dash-section" id="sec-partners">
+        <div class="dash-topbar">
+          <div>
+            <h1>Partenaires assurance</h1>
+            <p class="subtitle">Activez, désactivez et suivez les envois automatiques vers vos plateformes</p>
+          </div>
+          <div class="topbar-actions">
+            <button type="button" class="btn-refresh" id="syncPartners">Synchroniser config</button>
+            <button type="button" class="btn-refresh" id="refreshPartners">Actualiser</button>
+          </div>
+        </div>
+        <div class="dash-panel">
+          <div class="panel-header"><h2>Réseau partenaires</h2></div>
+          <div class="panel-body" style="padding:16px 22px;">
+            <div id="partnersGrid" class="partners-grid"></div>
+          </div>
+        </div>
+        <div class="dash-panel" style="margin-top:20px;">
+          <div class="panel-header"><h2>Derniers envois partenaires</h2></div>
+          <div class="panel-body" style="overflow:auto;padding:0;">
+            <table class="leads-table">
+              <thead>
+                <tr>
+                  <th>Date</th><th>Lead</th><th>Partenaire</th><th>Statut</th><th>HTTP</th>
+                </tr>
+              </thead>
+              <tbody id="partnerLogRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -860,6 +940,7 @@
         document.querySelectorAll(".dash-section").forEach(function(s) { s.classList.remove("active"); });
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
         if (a.dataset.section === "leads") loadLeads();
+        if (a.dataset.section === "partners") loadPartners();
       });
     });
 
@@ -1107,6 +1188,118 @@
     // REFRESH
     document.getElementById("refreshStats").addEventListener("click", loadStats);
     document.getElementById("refreshLeads").addEventListener("click", loadLeads);
+
+    function statusLabel(s) {
+      var map = { active: "Actif", inactive: "Inactif", pending: "En attente", archived: "Archivé" };
+      return map[s] || s;
+    }
+
+    async function loadPartners() {
+      var grid = document.getElementById("partnersGrid");
+      var logBody = document.getElementById("partnerLogRows");
+      if (!grid) return;
+      grid.innerHTML = '<div class="loading-state"><div class="spinner"></div>Chargement...</div>';
+      try {
+        var res = await fetch("/api/dashboard/partners", { headers: authHeaders() });
+        var data = await res.json();
+        if (!data.ok) {
+          grid.innerHTML = '<p>' + esc(data.error || "Erreur") + '</p>';
+          return;
+        }
+        grid.innerHTML = "";
+        (data.partners || []).forEach(function (p) {
+          var card = document.createElement("div");
+          card.className = "partner-card";
+          var verts = (p.verticals || []).join(", ");
+          card.innerHTML =
+            '<h4>' + esc(p.name) + '</h4>' +
+            '<p class="meta">' + esc(p.integrationType || "") + ' · Priorité ' + (p.priority || "") + '</p>' +
+            '<div class="tags">' +
+            '<span class="tag ' + esc(p.status) + '">' + statusLabel(p.status) + '</span>' +
+            (p.verticals || []).map(function (v) {
+              return '<span class="tag">' + esc(v) + '</span>';
+            }).join("") +
+            '</div>' +
+            '<p class="' + (p.credentialConfigured ? "cred-ok" : "cred-no") + '">' +
+            (p.credentialConfigured ? "API / webhook configuré" : "Credentials manquants (Vercel)") +
+            '</p>' +
+            '<div class="actions">' +
+            '<a href="' + esc(p.portalUrl || "#") + '" target="_blank" rel="noopener">Portail</a>' +
+            '<button type="button" data-toggle="' + esc(p.id) + '" data-status="' +
+            (p.status === "active" ? "inactive" : "active") + '">' +
+            (p.status === "active" ? "Désactiver" : "Activer") +
+            '</button>' +
+            '<button type="button" data-test="' + esc(p.id) + '">Test envoi</button>' +
+            '</div>';
+          grid.appendChild(card);
+        });
+        grid.querySelectorAll("[data-toggle]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            fetch("/api/dashboard/partners", {
+              method: "POST",
+              headers: authHeaders(),
+              body: JSON.stringify({
+                action: "toggle",
+                partnerId: btn.getAttribute("data-toggle"),
+                status: btn.getAttribute("data-status"),
+              }),
+            })
+              .then(function (r) { return r.json(); })
+              .then(function (d) {
+                if (d.ok) { toast("Partenaire mis à jour"); loadPartners(); }
+                else toast(d.error || "Erreur", "error");
+              });
+          });
+        });
+        grid.querySelectorAll("[data-test]").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            fetch("/api/dashboard/partners", {
+              method: "POST",
+              headers: authHeaders(),
+              body: JSON.stringify({ action: "test", partnerId: btn.getAttribute("data-test") }),
+            })
+              .then(function (r) { return r.json(); })
+              .then(function (d) {
+                if (d.ok) toast("Test : " + (d.result && d.result.status) || "ok");
+                else toast(d.error || "Erreur", "error");
+              });
+          });
+        });
+        if (logBody) {
+          logBody.innerHTML = "";
+          (data.recentDispatches || []).forEach(function (row) {
+            var tr = document.createElement("tr");
+            tr.innerHTML =
+              "<td>" + fmtDate(row.created_at) + "</td>" +
+              "<td>" + esc(row.lead_id) + "</td>" +
+              "<td>" + esc(row.partner_name) + "</td>" +
+              "<td>" + esc(row.status) + "</td>" +
+              "<td>" + (row.http_status != null ? row.http_status : "") + "</td>";
+            logBody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        grid.innerHTML = '<p style="color:var(--red)">Erreur réseau</p>';
+      }
+    }
+
+    var syncBtn = document.getElementById("syncPartners");
+    var refreshPartnersBtn = document.getElementById("refreshPartners");
+    if (syncBtn) {
+      syncBtn.addEventListener("click", function () {
+        fetch("/api/dashboard/partners", {
+          method: "POST",
+          headers: authHeaders(),
+          body: JSON.stringify({ action: "sync" }),
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (d.ok) { toast(d.message || "Synchronisé"); loadPartners(); }
+            else toast(d.error || "Erreur", "error");
+          });
+      });
+    }
+    if (refreshPartnersBtn) refreshPartnersBtn.addEventListener("click", loadPartners);
 
     // INITIAL LOAD
     loadStats();
