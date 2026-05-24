@@ -103,7 +103,24 @@ module.exports = async (req, res) => {
 
   var leadId = body.leadId || randomUUID();
   var score = computeLeadScore(body);
-  var rel = computeLeadRelevance(Object.assign({}, body, { leadScore: score }));
+
+  var tariffAnalysis = { ok: false };
+  try {
+    const { computeTariffQuote } = require("./_lib/tariff-engine");
+    tariffAnalysis = computeTariffQuote(body);
+  } catch (tariffErr) {
+    console.warn("[lead] tariff analysis", tariffErr.message);
+  }
+
+  var rel = computeLeadRelevance(
+    Object.assign({}, body, {
+      leadScore: score,
+      ourOfferMonthly:
+        tariffAnalysis.quote && tariffAnalysis.quote.totalMonthly
+          ? tariffAnalysis.quote.totalMonthly
+          : undefined,
+    })
+  );
 
   var enriched = Object.assign({}, body, {
     leadId: leadId,
@@ -111,7 +128,10 @@ module.exports = async (req, res) => {
     relevance: rel.relevance,
     relevanceReasons: rel.relevanceReasons,
     competitorMonthly: rel.competitorMonthly,
-    ourOfferMonthly: rel.ourOfferMonthly,
+    ourOfferMonthly: rel.ourOfferMonthly || (tariffAnalysis.quote && tariffAnalysis.quote.totalMonthly) || rel.ourOfferMonthly,
+    eligibility: tariffAnalysis.eligibility || null,
+    tariffQuote: tariffAnalysis.quote || null,
+    journey: body.journey || body.formJourney || "full",
     openedAt: null,
     serverReceivedAt: new Date().toISOString(),
   });

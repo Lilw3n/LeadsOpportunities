@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devis VTC express | 30 secondes</title>
+  <meta name="description" content="Demande de rappel express assurance VTC : nom, telephone, besoin. Questionnaire complet disponible ensuite." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://leads-opportunities.vercel.app/landings/devis-rapide.html" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./quote-intelligence.css" />
+  <script>
+    try { localStorage.setItem('lo_form_journey', 'quick'); } catch (e) {}
+  </script>
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../index.html">Retour accueil</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container">
+      <span class="badge">Devis express VTC</span>
+      <section class="card">
+        <h1>Être rappelé en priorité</h1>
+        <p class="sub">3 informations suffisent. Vous pourrez compléter le questionnaire détaillé avec votre conseiller ou en ligne.</p>
+        <div class="journey-toggle">
+          <a href="./devis-rapide.html" class="is-active">Express</a>
+          <a href="./vtc.html">Questionnaire complet (6 étapes)</a>
+        </div>
+        <div data-eligibility-panel hidden></div>
+        <form class="form-wrap" data-track-form data-quick-devis novalidate>
+          <input type="hidden" name="need" value="vtc" />
+          <input type="hidden" name="journey" value="quick" />
+          <div class="hp-field" aria-hidden="true">
+            <label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <label>Prénom et nom<input name="fullName" required autocomplete="name" /></label>
+          <label>Téléphone<input name="phone" type="tel" required autocomplete="tel" /></label>
+          <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+          <label>Votre besoin (optionnel)<textarea name="message" rows="2" placeholder="Ex : renouvellement, nouveau VTC, sinistre récent…"></textarea></label>
+          <label class="checkbox-row">
+            <input type="checkbox" name="consent" required />
+            J'accepte d'être contacté conformément à la <a href="../politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.
+          </label>
+          <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px">Demander mon rappel</button>
+          <p class="form-lead" data-form-success hidden>Merci ! Un conseiller vous contacte rapidement.</p>
+          <p class="form-lead" data-form-error hidden style="color:#b91c1c">Envoi impossible. Réessayez.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script src="../js/attribution.js"></script>
+  <script src="../js/leads-storage.js"></script>
+  <script src="../js/quote-intelligence.js"></script>
+  <script src="./tracking.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var form = document.querySelector('[data-quick-devis]');
+      if (!form || !window.QuoteIntelligence) return;
+      window.QuoteIntelligence.setJourney('quick');
+      window.QuoteIntelligence.bindAbandon(form);
+      form.addEventListener('focusin', function once() {
+        window.QuoteIntelligence.saveProgress(form, 1, 'express_contact', 'form_start');
+        form.removeEventListener('focusin', once);
+      });
+    });
+  </script>
+</body>
+</html>

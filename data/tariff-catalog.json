@@ -1,0 +1,78 @@
+{
+  "version": "2026-05",
+  "currency": "EUR",
+  "products": {
+    "vtc": {
+      "label": "Assurance VTC / Taxi",
+      "productCode": "vtc-taxi",
+      "baseAnnualPremium": 1180,
+      "baseMonthlyPremium": 98,
+      "guarantees": [
+        { "code": "RC", "label": "Responsabilité civile professionnelle", "share": 0.42 },
+        { "code": "DR", "label": "Défense et recours", "share": 0.08 },
+        { "code": "BDG", "label": "Bris de glace", "share": 0.06 },
+        { "code": "VOL", "label": "Vol et incendie", "share": 0.18 },
+        { "code": "DTA", "label": "Dommages tous accidents", "share": 0.2 },
+        { "code": "ASS", "label": "Assistance 0 km", "share": 0.06 }
+      ],
+      "modifiers": [
+        { "field": "bonusMalus", "type": "multiplier", "default": 1, "ranges": [
+          { "max": 0.85, "factor": 0.92 },
+          { "max": 1, "factor": 1 },
+          { "max": 1.25, "factor": 1.12 },
+          { "max": 1.5, "factor": 1.28 },
+          { "max": 99, "factor": 1.45 }
+        ]},
+        { "field": "claimsCount36", "type": "surcharge", "perUnit": 85, "threshold": 0 },
+        { "field": "vehicleValue", "type": "factor", "per10k": 0.018, "cap": 1.35 },
+        { "field": "licenseYears", "type": "factor", "under3": 1.15, "under5": 1.06 }
+      ],
+      "rules": [
+        { "id": "age_hard_block", "field": "age", "op": "gt", "value": 75, "severity": "block", "code": "AGE_75_PLUS", "message": "Au-delà de 75 ans : marché standard VTC très restreint (dossier à étudier manuellement ou refus probable)." },
+        { "id": "age_senior", "field": "age", "op": "gt", "value": 70, "severity": "warning", "code": "AGE_70_75", "message": "Entre 70 et 75 ans : souscription difficile, surprime et choix partenaires limités." },
+        { "id": "age_young", "field": "age", "op": "lt", "value": 23, "severity": "warning", "code": "AGE_UNDER_23", "message": "Moins de 23 ans : peu de compagnies VTC, ancienneté permis exigée." },
+        { "id": "license_short", "field": "licenseYears", "op": "lt", "value": 3, "severity": "warning", "code": "LICENSE_UNDER_3", "message": "Permis de moins de 3 ans : éligibilité réduite sur le segment VTC." },
+        { "id": "claims_high", "field": "claimsCount36", "op": "gt", "value": 3, "severity": "block", "code": "CLAIMS_4_PLUS", "message": "Plus de 3 sinistres sur 36 mois : refus fréquent sans dérogation." },
+        { "id": "bonus_high", "field": "bonusMalus", "op": "gt", "value": 1.5, "severity": "warning", "code": "BM_HIGH", "message": "Bonus-malus élevé : surprime importante ou refus selon partenaire." }
+      ]
+    },
+    "sante": {
+      "label": "Mutuelle santé",
+      "productCode": "sante",
+      "baseAnnualPremium": 480,
+      "baseMonthlyPremium": 40,
+      "guarantees": [
+        { "code": "HOSP", "label": "Hospitalisation", "share": 0.35 },
+        { "code": "OPT", "label": "Optique", "share": 0.15 },
+        { "code": "DENT", "label": "Dentaire", "share": 0.2 },
+        { "code": "AUDIO", "label": "Audio", "share": 0.08 },
+        { "code": "MED", "label": "Médecine courante", "share": 0.22 }
+      ],
+      "modifiers": [
+        { "field": "household", "type": "multiplier", "map": { "solo": 1, "couple": 1.75, "family": 2.35 } },
+        { "field": "level", "type": "multiplier", "map": { "essential": 0.85, "balanced": 1, "premium": 1.35 } }
+      ],
+      "rules": [
+        { "id": "sante_age_block", "field": "age", "op": "gt", "value": 85, "severity": "block", "code": "AGE_85_PLUS", "message": "Au-delà de 85 ans : très peu d'offres individuelles standard." },
+        { "id": "sante_age_senior", "field": "age", "op": "gt", "value": 75, "severity": "warning", "code": "AGE_75_PLUS_SANTE", "message": "Après 75 ans : cotisations élevées et garanties parfois plafonnées." }
+      ]
+    },
+    "credit-immo": {
+      "label": "Crédit immobilier",
+      "productCode": "credit-immo",
+      "baseAnnualPremium": 0,
+      "baseMonthlyPremium": 0,
+      "rateIndicators": {
+        "excellent": { "minRate": 3.15, "maxRate": 3.45 },
+        "good": { "minRate": 3.45, "maxRate": 3.85 },
+        "standard": { "minRate": 3.85, "maxRate": 4.35 },
+        "difficult": { "minRate": 4.35, "maxRate": 5.2 }
+      },
+      "rules": [
+        { "id": "ltv_high", "field": "ltv", "op": "gt", "value": 110, "severity": "block", "code": "LTV_OVER_110", "message": "Apport insuffisant : financement improbable sans restructuration." },
+        { "id": "dti_high", "field": "debtRatio", "op": "gt", "value": 35, "severity": "warning", "code": "DTI_HIGH", "message": "Taux d'endettement > 35 % : dossier à renforcer (revenus, apport, durée)." },
+        { "id": "income_low", "field": "monthlyIncome", "op": "lt", "value": 1800, "severity": "warning", "code": "INCOME_LOW", "message": "Revenus modestes : capacité d'emprunt limitée." }
+      ]
+    }
+  }
+}

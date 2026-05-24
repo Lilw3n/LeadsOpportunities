@@ -1442,6 +1442,69 @@
         if (!data.ok) { body.innerHTML = '<p style="color:var(--red)">' + esc(data.error) + '</p>'; return; }
         var l = data.lead;
         var payload = l.payload || {};
+        var funnel = payload.funnel || {};
+        var elig = payload.eligibility || {};
+        var tq = payload.tariffQuote || {};
+        var funnelHtml = "";
+        if (funnel.lastStepName || (funnel.events && funnel.events.length)) {
+          funnelHtml =
+            '<div class="detail-item detail-full"><div class="dlabel">Parcours questionnaire</div><div class="dvalue">' +
+            '<p style="margin:0 0 6px">Parcours : <strong>' + esc(funnel.journey || payload.journey || "—") + "</strong>" +
+            (funnel.lastStepName ? " · Dernière étape : <strong>" + esc(funnel.lastStepName) + "</strong>" : "") +
+            (funnel.abandonedAt ? ' · <span style="color:var(--red)">Abandon</span>' : "") +
+            "</p>";
+          if (funnel.blockages && funnel.blockages.length) {
+            funnelHtml += "<ul style='margin:6px 0;padding-left:1.2rem'>";
+            funnel.blockages.forEach(function (b) {
+              funnelHtml += "<li>" + esc(b.message || b.code || "") + "</li>";
+            });
+            funnelHtml += "</ul>";
+          }
+          if (funnel.events && funnel.events.length) {
+            funnelHtml +=
+              "<small style='color:var(--muted)'>" +
+              funnel.events
+                .slice(-5)
+                .map(function (e) {
+                  return esc((e.step_name || e.step) + " (" + (e.event || "") + ")");
+                })
+                .join(" → ") +
+              "</small>";
+          }
+          funnelHtml += "</div></div>";
+        }
+        var eligHtml = "";
+        if (elig.blockers && elig.blockers.length) {
+          eligHtml +=
+            '<div class="detail-item detail-full"><div class="dlabel">Blocages éligibilité</div><div class="dvalue" style="color:var(--red)"><ul style="margin:0;padding-left:1.2rem">' +
+            elig.blockers
+              .map(function (b) {
+                return "<li>" + esc(b.message) + "</li>";
+              })
+              .join("") +
+            "</ul></div></div>";
+        }
+        if (elig.warnings && elig.warnings.length) {
+          eligHtml +=
+            '<div class="detail-item detail-full"><div class="dlabel">Alertes</div><div class="dvalue" style="color:#b45309"><ul style="margin:0;padding-left:1.2rem">' +
+            elig.warnings
+              .map(function (w) {
+                return "<li>" + esc(w.message) + "</li>";
+              })
+              .join("") +
+            "</ul></div></div>";
+        }
+        var quoteHtml = "";
+        if (tq.totalMonthly != null) {
+          quoteHtml =
+            '<div class="detail-item detail-full"><div class="dlabel">Devis indicatif interne</div><div class="dvalue"><strong>' +
+            esc(String(tq.totalMonthly)) +
+            " €/mois</strong> (" +
+            esc(String(tq.totalAnnual)) +
+            " €/an)<br><small>" +
+            esc(tq.note || "") +
+            "</small></div></div>";
+        }
 
         body.innerHTML =
           '<div class="detail-grid">' +
@@ -1457,6 +1520,9 @@
             '<div class="detail-item"><div class="dlabel">UTM Medium</div><div class="dvalue">' + esc(l.utm_medium) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">UTM Campaign</div><div class="dvalue">' + esc(l.utm_campaign) + '</div></div>' +
             (l.gclid ? '<div class="detail-item"><div class="dlabel">GCLID</div><div class="dvalue">' + esc(l.gclid) + '</div></div>' : '') +
+            funnelHtml +
+            eligHtml +
+            quoteHtml +
             '<div class="detail-item detail-full"><div class="dlabel">Données complètes</div><div class="dvalue"><pre style="white-space:pre-wrap;font-size:0.8rem;max-height:200px;overflow:auto;background:var(--bg);padding:12px;border-radius:8px;margin-top:6px">' + esc(JSON.stringify(payload, null, 2)) + '</pre></div></div>' +
           '</div>' +
           '<div class="detail-actions" style="flex-direction:column">' +

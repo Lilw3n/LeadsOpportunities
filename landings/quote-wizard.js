@@ -111,6 +111,9 @@
     bindCompanyToggle(form);
 
     function verticalFromPath() {
+      var hidden = form.querySelector('[name="need"]');
+      if (hidden && hidden.value) return hidden.value;
+      if (form.dataset.vertical) return form.dataset.vertical;
       var path = window.location.pathname;
       if (path.indexOf("vtc") !== -1) return "vtc";
       if (path.indexOf("sante") !== -1) return "sante";
@@ -118,18 +121,57 @@
       return "unknown";
     }
 
+    function stepNameAt(i) {
+      var s = steps[i];
+      return (s && (s.getAttribute("data-step-name") || s.getAttribute("data-wizard-step"))) || String(i + 1);
+    }
+
     function emitStepEvent() {
+      var stepNum = idx + 1;
+      form.dataset.currentStep = String(stepNum);
+      form.dataset.currentStepName = stepNameAt(idx);
       try {
         window.dispatchEvent(
           new CustomEvent("lo:wizard_step", {
             detail: {
-              step_number: idx + 1,
+              step_number: stepNum,
               step_total: steps.length,
+              step_name: stepNameAt(idx),
               vertical: verticalFromPath(),
             },
           })
         );
       } catch (e) {}
+      if (window.QuoteIntelligence) {
+        window.QuoteIntelligence.saveProgress(form, stepNum, stepNameAt(idx), "wizard_step");
+      }
+    }
+
+    function runEligibilityGate() {
+      if (!window.QuoteIntelligence) return Promise.resolve(true);
+      return window.QuoteIntelligence.checkEligibility(form).then(function (res) {
+        if (!res.ok || !res.eligibility) return true;
+        window.QuoteIntelligence.showEligibilityPanel(form, res.eligibility);
+        var panel = form.querySelector("[data-eligibility-panel]");
+        if (panel && panel.innerHTML) panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        if (res.eligibility.blockers && res.eligibility.blockers.length) {
+          res.eligibility.blockers.forEach(function (b) {
+            window.QuoteIntelligence.saveProgress(form, idx + 1, stepNameAt(idx), "eligibility_block", {
+              blockage: b,
+            });
+          });
+        }
+        if (window.QuoteIntelligence.isInternalPreview()) {
+          return window.QuoteIntelligence.fetchInternalQuote(form).then(function (q) {
+            if (q.ok && q.quote) {
+              var qp = form.querySelector("[data-internal-quote]");
+              window.QuoteIntelligence.showInternalQuote(qp, q.quote);
+            }
+            return true;
+          });
+        }
+        return true;
+      });
     }
 
     function showStep(i) {
@@ -159,11 +201,21 @@
     }
 
     showStep(0);
+    if (window.QuoteIntelligence) window.QuoteIntelligence.bindAbandon(form);
 
     if (btnNext) {
       btnNext.addEventListener("click", function () {
         if (!validateStep(steps[idx])) return;
-        showStep(idx + 1);
+        var nextIdx = idx + 1;
+        var gate =
+          stepNameAt(idx) === "conducteur" || stepNameAt(idx) === "3" || steps[idx].querySelector('[name="driverDob"]');
+        if (gate) {
+          runEligibilityGate().then(function () {
+            showStep(nextIdx);
+          });
+          return;
+        }
+        showStep(nextIdx);
       });
     }
     if (btnPrev) {

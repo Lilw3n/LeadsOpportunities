@@ -66,11 +66,33 @@
     }
   }
 
+  function getVerticalFromForm() {
+    var form = document.querySelector("form[data-track-form]");
+    if (!form) return "";
+    var hidden = form.querySelector('[name="need"]');
+    if (hidden && hidden.value) return String(hidden.value);
+    if (form.dataset.vertical) return form.dataset.vertical;
+    return "";
+  }
+
   function getVerticalFromPath() {
+    var fromForm = getVerticalFromForm();
+    if (fromForm) return fromForm;
+
+    var params = new URLSearchParams(window.location.search);
+    var need = params.get("need");
+    if (need && window.SERVICE_CATALOG && window.SERVICE_CATALOG.getService) {
+      var svc = window.SERVICE_CATALOG.getService(need);
+      if (svc && svc.vertical) return svc.vertical;
+      if (svc && svc.need) return svc.need;
+    }
+    if (need) return need;
+
     var path = window.location.pathname;
     if (path.indexOf("vtc") !== -1) return "vtc";
     if (path.indexOf("sante") !== -1) return "sante";
     if (path.indexOf("credit-immo") !== -1) return "credit_immo";
+    if (path.indexOf("devis") !== -1) return need || "devis";
     return "unknown";
   }
 
@@ -109,11 +131,16 @@
     })
       .then(function (r) {
         return r.json().catch(function () {
-          return null;
+          return { ok: false, error: "invalid_json" };
+        }).then(function (data) {
+          if (!r.ok) {
+            return Object.assign({ ok: false, httpStatus: r.status }, data || {});
+          }
+          return data;
         });
       })
       .catch(function () {
-        return null;
+        return { ok: false, error: "network" };
       });
   }
 
@@ -207,22 +234,37 @@
         e.preventDefault();
         trackEvent("form_submit", { variant: variant });
         var data = collectFormData(form);
+        var needVal = (data.need || getVerticalFromForm() || getVerticalFromPath() || "").toString();
         var leadPayload = Object.assign(
           {
-            source: "landing_form",
-            vertical: getVerticalFromPath(),
+            source: data.source || (window.QuoteIntelligence && window.QuoteIntelligence.getJourney() === "quick" ? "landing_quick" : "landing_form"),
+            vertical: needVal,
+            serviceNeed: needVal,
+            serviceLabel: data.serviceLabel || "",
+            serviceCategory: data.serviceCategory || "",
             page: window.location.pathname,
             variant: variant,
+            journey: window.QuoteIntelligence ? window.QuoteIntelligence.getJourney() : "full",
+            questionnaire_step: data.questionnaire_step || (form.querySelectorAll(".wizard-step").length || 1),
+            questionnaire_total: data.questionnaire_total || (form.querySelectorAll(".wizard-step").length || 1),
           },
           getUtmPayload(),
           getAttributionMerge(),
           data
         );
+        if (window.QuoteIntelligence) {
+          window.QuoteIntelligence.attachLeadIdToPayload(leadPayload);
+        }
         if (typeof window.saveLeadRequest === "function") {
           window.saveLeadRequest(leadPayload);
         }
+        var msgOk = document.querySelector("[data-form-success]");
+        var msgErr = document.querySelector("[data-form-error]");
+        if (msgOk) msgOk.hidden = true;
+        if (msgErr) msgErr.hidden = true;
+
         postLeadApi(leadPayload).then(function (result) {
-          if (result && result.leadScore != null) {
+          if (result && result.ok && result.leadScore != null) {
             sendGoogleEvent("qualified_lead", {
               vertical: getVerticalFromPath(),
               lead_score: result.leadScore,
@@ -233,9 +275,24 @@
               detail: { payload: leadPayload, result: result || {} },
             })
           );
+
+          if (result && result.ok) {
+            if (msgOk) {
+              if (result.emailSent === false && result.stored === false) {
+                msgOk.textContent =
+                  "Merci, votre demande est enregistree. Un conseiller vous contacte rapidement. (Notification e-mail en cours de configuration cote serveur.)";
+              }
+              msgOk.hidden = false;
+            }
+            form.reset();
+          } else if (msgErr) {
+            msgErr.hidden = false;
+          } else if (msgOk) {
+            msgOk.textContent =
+              "Envoi impossible pour le moment. Reessayez ou renvoyez le formulaire.";
+            msgOk.hidden = false;
+          }
         });
-        var msg = document.querySelector("[data-form-success]");
-        if (msg) msg.hidden = false;
       });
     }
   }
