@@ -45,29 +45,20 @@ module.exports = async (req, res) => {
       ? Math.round(((thisWeek.count - lastWeek.count) / lastWeek.count) * 100)
       : thisWeek.count > 0 ? 100 : 0;
 
-    var leadMgmt = { newUnopened: 0, unopened: 0, relevant: 0 };
-    try {
-      const [nu] = await sql`
-        SELECT COUNT(*)::int AS count FROM site_leads
-        WHERE COALESCE(status, 'new') = 'new' AND opened_at IS NULL
-      `;
-      const [uo] = await sql`SELECT COUNT(*)::int AS count FROM site_leads WHERE opened_at IS NULL`;
-      const [rel] = await sql`SELECT COUNT(*)::int AS count FROM site_leads WHERE relevance = 'high'`;
-      leadMgmt = { newUnopened: nu.count, unopened: uo.count, relevant: rel.count };
-    } catch (mgmtErr) {
-      const [nu2] = await sql`
-        SELECT COUNT(*)::int AS count FROM site_leads
-        WHERE COALESCE(status, 'new') = 'new' AND COALESCE(payload->>'openedAt', '') = ''
-      `;
-      const [uo2] = await sql`
-        SELECT COUNT(*)::int AS count FROM site_leads
-        WHERE COALESCE(payload->>'openedAt', '') = ''
-      `;
-      const [rel2] = await sql`
-        SELECT COUNT(*)::int AS count FROM site_leads WHERE payload->>'relevance' = 'high'
-      `;
-      leadMgmt = { newUnopened: nu2.count, unopened: uo2.count, relevant: rel2.count };
-    }
+    const [nu] = await sql`
+      SELECT COUNT(*)::int AS count FROM site_leads
+      WHERE COALESCE(status, 'new') = 'new'
+        AND COALESCE(payload->>'openedAt', '') = ''
+    `;
+    const [uo] = await sql`
+      SELECT COUNT(*)::int AS count FROM site_leads
+      WHERE COALESCE(payload->>'openedAt', '') = ''
+    `;
+    const [rel] = await sql`
+      SELECT COUNT(*)::int AS count FROM site_leads
+      WHERE COALESCE(payload->>'relevance', '') = 'high'
+    `;
+    var leadMgmt = { newUnopened: nu.count, unopened: uo.count, relevant: rel.count };
 
     return res.status(200).json({
       ok: true,

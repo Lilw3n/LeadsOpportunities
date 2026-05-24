@@ -603,9 +603,86 @@
     }
     .cred-ok { color: var(--green); font-weight: 600; font-size: 0.78rem; }
     .cred-no { color: var(--muted); font-size: 0.78rem; }
+
+    .api-banner {
+      margin: 0 32px 0;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .api-banner--error { background: var(--red-light); color: #991b1b; border: 1px solid #fecaca; }
+    .api-banner--warn { background: var(--orange-light); color: #92400e; border: 1px solid #fde68a; }
+    .api-banner--ok { background: var(--green-light); color: #166534; border: 1px solid #bbf7d0; }
+    .sync-status { font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+
+    .lead-alerts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .lead-alert {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      transition: border-color .15s, box-shadow .15s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .lead-alert:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+    .lead-alert strong { display: block; font-size: 1.5rem; margin-bottom: 4px; }
+    .lead-alert span { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+    .lead-alert--new strong { color: #b45309; }
+    .lead-alert--unopened strong { color: var(--blue); }
+    .lead-alert--relevant strong { color: var(--green); }
+
+    .nav-badge {
+      margin-left: auto;
+      background: #ef4444;
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .leads-table tr.lead-row-new td { background: linear-gradient(90deg, #fffbeb 0, #fff 50%); }
+    .leads-table tr.lead-row-new td:first-child { box-shadow: inset 3px 0 0 #f59e0b; }
+    .leads-table tr.lead-row-unopened td:first-child { box-shadow: inset 3px 0 0 var(--blue); }
+    .lead-pills-inline { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .lead-pill-xs {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: var(--orange-light);
+      color: #92400e;
+    }
+    .lead-pill-xs.blue { background: var(--blue-light); color: #1e40af; }
+    .lead-pill-xs.green { background: var(--green-light); color: #166534; }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+    .empty-state a { color: var(--primary); font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .lead-alerts { grid-template-columns: 1fr; }
+      .api-banner { margin: 0 16px; }
+    }
   </style>
 </head>
 <body>
+  <div id="apiBanner" class="api-banner api-banner--error" hidden></div>
   <button class="mobile-toggle" id="mobileToggle">☰</button>
 
   <div class="dash-layout">
@@ -633,6 +710,7 @@
         <a href="#" class="nav-link" data-section="leads">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Gestion des Leads
+          <span class="nav-badge" id="navLeadBadge" hidden>0</span>
         </a>
 
         <a href="#" class="nav-link" data-section="partners">
@@ -691,11 +769,27 @@
             <p class="subtitle" id="greetingText">Bienvenue sur votre tableau de bord</p>
           </div>
           <div class="topbar-actions">
+            <span class="sync-status" id="syncStatus">—</span>
             <button class="btn-refresh" id="refreshStats">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
               Actualiser
             </button>
           </div>
+        </div>
+
+        <div class="lead-alerts">
+          <a href="#" class="lead-alert lead-alert--new" id="alertNew" data-goto="leads" data-filter="new">
+            <strong id="alertNewVal">—</strong>
+            <span>Nouveaux (non ouverts)</span>
+          </a>
+          <a href="#" class="lead-alert lead-alert--unopened" id="alertUnopened" data-goto="leads" data-filter="unopened">
+            <strong id="alertUnopenedVal">—</strong>
+            <span>Jamais ouverts</span>
+          </a>
+          <a href="#" class="lead-alert lead-alert--relevant" id="alertRelevant" data-goto="leads" data-filter="relevant">
+            <strong id="alertRelevantVal">—</strong>
+            <span>Pertinents</span>
+          </a>
         </div>
 
         <div class="stats-grid" id="statsGrid">
@@ -760,6 +854,25 @@
             <h2>Par statut</h2>
           </div>
           <div class="vertical-pills" id="statusPills"></div>
+        </div>
+
+        <div class="dash-panel" style="margin-top:20px">
+          <div class="panel-header" style="display:flex;justify-content:space-between;align-items:center">
+            <h2>Derniers leads</h2>
+            <a href="#" data-section-link="leads" style="font-weight:700;color:var(--primary);font-size:0.88rem">Voir tout →</a>
+          </div>
+          <div class="panel-body" style="overflow-x:auto;padding:0">
+            <table class="leads-table">
+              <thead>
+                <tr>
+                  <th>Date</th><th>Score</th><th>Contact</th><th>Vertical</th><th>Statut</th>
+                </tr>
+              </thead>
+              <tbody id="recentLeadsBody">
+                <tr><td colspan="5" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -901,38 +1014,36 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
+  <script src="./js/dashboard.js"></script>
   <script>
   (function() {
-    var TOKEN_KEY = "lo_token";
-    var USER_KEY = "lo_user";
+    var D = window.Dashboard;
+    var TOKEN_KEY = D.TOKEN_KEY;
+    var USER_KEY = D.USER_KEY;
     var currentPage = 1;
     var currentSort = "created_at";
     var currentOrder = "desc";
     var lastNotifyAt = new Date().toISOString();
     var soundEnabled = true;
 
-    function getToken() { return localStorage.getItem(TOKEN_KEY); }
-    function getUser() {
-      try { return JSON.parse(localStorage.getItem(USER_KEY)); } catch { return null; }
-    }
-    function clearAuth() {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(USER_KEY);
-    }
+    function getToken() { return D.getToken(); }
+    function getUser() { return D.getUser(); }
+    function clearAuth() { D.clearAuth(); }
+    function authHeaders() { return D.authHeaders(); }
 
     function requireAdmin() {
       var token = getToken();
       var user = getUser();
       if (!token || !user || user.role !== "admin") {
-        window.location.href = "./auth.html";
+        window.location.href = "./auth.html?next=" + encodeURIComponent("./dashboard.html");
         return false;
       }
       return true;
     }
 
-    function authHeaders() {
-      return { Authorization: "Bearer " + getToken(), "Content-Type": "application/json" };
-    }
+    function relevanceLabel(r) { return D.relevanceLabel(r); }
+    function isUnopenedLead(l) { return D.isUnopened(l); }
+    function isNewHighlight(l) { return D.isNewHighlight(l); }
 
     function toast(msg, type) {
       var el = document.getElementById("toast");
@@ -967,9 +1078,20 @@
       return labels[status] || status || "Nouveau";
     }
 
-    function relevanceLabel(r) {
-      var map = { high: "Pertinent", medium: "A qualifier", low: "Faible", not_relevant: "Non pertinent" };
-      return map[r] || r || "—";
+    function goToLeads(filterView) {
+      document.querySelectorAll(".nav-link").forEach(function (n) {
+        n.classList.toggle("active", n.dataset.section === "leads");
+      });
+      document.querySelectorAll(".dash-section").forEach(function (s) {
+        s.classList.remove("active");
+      });
+      document.getElementById("sec-leads").classList.add("active");
+      if (filterView && document.getElementById("filterView")) {
+        document.getElementById("filterView").value = filterView;
+      }
+      currentPage = 1;
+      loadLeads();
+      pollNewLeads();
     }
 
     function playNewLeadSound() {
@@ -991,14 +1113,6 @@
         tone(880, 0, 0.12);
         tone(1174, 0.14, 0.16);
       } catch (e) { console.warn("son lead", e); }
-    }
-
-    function isUnopenedLead(l) {
-      return !l.opened_at && !(l.payload && l.payload.openedAt);
-    }
-
-    function isNewHighlight(l) {
-      return (l.status || "new") === "new" && isUnopenedLead(l);
     }
 
     // INIT
@@ -1035,18 +1149,83 @@
       window.location.href = "./auth.html";
     });
 
+    async function loadRecentLeads() {
+      var tbody = document.getElementById("recentLeadsBody");
+      if (!tbody) return;
+      var data = await D.api("/api/dashboard/leads?limit=8&sort=created_at&order=desc");
+      if (!data.ok) {
+        tbody.innerHTML = '<tr><td colspan="5">' + esc(data.error) + "</td></tr>";
+        return;
+      }
+      if (!data.leads || !data.leads.length) {
+        tbody.innerHTML =
+          '<tr><td colspan="5" class="empty-state">Aucun lead. <a href="./landings/vtc.html">Tester une landing</a></td></tr>';
+        return;
+      }
+      tbody.innerHTML = "";
+      data.leads.forEach(function (l) {
+        var tr = document.createElement("tr");
+        if (isNewHighlight(l)) tr.className = "lead-row-new";
+        else if (isUnopenedLead(l)) tr.className = "lead-row-unopened";
+        tr.style.cursor = "pointer";
+        tr.innerHTML =
+          "<td>" +
+          fmtDate(l.created_at) +
+          "</td><td>" +
+          (l.lead_score != null ? l.lead_score : "—") +
+          '</td><td>' +
+          esc(l.email || l.phone || "—") +
+          "</td><td>" +
+          esc(l.vertical) +
+          "</td><td>" +
+          esc(l.status) +
+          "</td>";
+        tr.addEventListener("click", function () {
+          goToLeads("");
+          setTimeout(function () {
+            openLeadDetail(l.id);
+          }, 300);
+        });
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateLeadAlerts(s) {
+      var n = s.newUnopened != null ? s.newUnopened : 0;
+      document.getElementById("alertNewVal").textContent = n;
+      document.getElementById("alertUnopenedVal").textContent = s.unopened != null ? s.unopened : "—";
+      document.getElementById("alertRelevantVal").textContent = s.relevant != null ? s.relevant : "—";
+      var badge = document.getElementById("navLeadBadge");
+      if (badge) {
+        if (n > 0) {
+          badge.hidden = false;
+          badge.textContent = n > 99 ? "99+" : String(n);
+        } else {
+          badge.hidden = true;
+        }
+      }
+    }
+
     // LOAD STATS
     async function loadStats() {
+      D.setSyncStatus("Synchronisation...");
+      var data = await D.api("/api/dashboard/stats");
+      if (!data.ok) {
+        D.showBanner(data.error || "Impossible de charger les statistiques.", "error");
+        D.setSyncStatus("Erreur");
+        toast(data.error || "Erreur", "error");
+        return;
+      }
+      D.hideBanner();
+      D.setSyncStatus("Mis a jour " + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }));
       try {
-        var res = await fetch("/api/dashboard/stats", { headers: authHeaders() });
-        var data = await res.json();
-        if (!data.ok) { toast(data.error || "Erreur", "error"); return; }
         var s = data.stats;
 
         document.getElementById("statTotal").textContent = s.total;
         document.getElementById("statToday").textContent = s.today;
         document.getElementById("statAvg").textContent = s.avgScore + "/100";
         document.getElementById("statWeek").textContent = s.thisWeek;
+        updateLeadAlerts(s);
         if (document.getElementById("leadStatNew")) document.getElementById("leadStatNew").textContent = s.newUnopened != null ? s.newUnopened : "—";
         if (document.getElementById("leadStatUnopened")) document.getElementById("leadStatUnopened").textContent = s.unopened != null ? s.unopened : "—";
         if (document.getElementById("leadStatRelevant")) document.getElementById("leadStatRelevant").textContent = s.relevant != null ? s.relevant : "—";
@@ -1104,11 +1283,25 @@
           pill.innerHTML = '<span class="count">' + st.count + '</span> ' + badgeLabel(st.status);
           sp.appendChild(pill);
         });
-      } catch(e) {
+        loadRecentLeads();
+      } catch (e) {
         console.error(e);
-        toast("Erreur de chargement des stats", "error");
+        toast("Erreur affichage stats", "error");
       }
     }
+
+    document.querySelectorAll(".lead-alert").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        goToLeads(el.getAttribute("data-filter") || "");
+      });
+    });
+    document.querySelectorAll("[data-section-link]").forEach(function (el) {
+      el.addEventListener("click", function (e) {
+        e.preventDefault();
+        goToLeads("");
+      });
+    });
 
     // LOAD LEADS
     async function loadLeads() {
@@ -1128,14 +1321,20 @@
       if (platform) params += "&platform=" + encodeURIComponent(platform);
       if (search) params += "&search=" + encodeURIComponent(search);
 
-      try {
-        var res = await fetch("/api/dashboard/leads" + params, { headers: authHeaders() });
-        var data = await res.json();
-        if (!data.ok) { tbody.innerHTML = '<tr><td colspan="9">' + esc(data.error) + '</td></tr>'; return; }
+      var data = await D.api("/api/dashboard/leads" + params);
+      if (!data.ok) {
+        tbody.innerHTML =
+          '<tr><td colspan="9"><div class="empty-state">' +
+          esc(data.error) +
+          '<br><a href="./auth.html">Reconnectez-vous</a></div></td></tr>';
+        return;
+      }
 
+      try {
         tbody.innerHTML = "";
         if (!data.leads || data.leads.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">Aucun lead trouvé</td></tr>';
+          tbody.innerHTML =
+            '<tr><td colspan="9"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
           data.leads.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
@@ -1178,8 +1377,10 @@
 
     async function pollNewLeads() {
       try {
-        var res = await fetch("/api/dashboard/leads-notify?since=" + encodeURIComponent(lastNotifyAt), { headers: authHeaders() });
-        var data = await res.json();
+        var data = await D.api(
+          "/api/dashboard/leads-notify?since=" + encodeURIComponent(lastNotifyAt),
+          { noRedirect: true }
+        );
         if (!data.ok) return;
         if (data.newSince > 0) {
           playNewLeadSound();
@@ -1311,8 +1512,18 @@
     });
 
     // REFRESH
-    document.getElementById("refreshStats").addEventListener("click", loadStats);
+    document.getElementById("refreshStats").addEventListener("click", function () {
+      loadStats();
+      if (document.getElementById("sec-leads").classList.contains("active")) loadLeads();
+    });
     document.getElementById("refreshLeads").addEventListener("click", loadLeads);
+
+    var params = new URLSearchParams(window.location.search);
+    if (params.get("section") === "leads") {
+      setTimeout(function () {
+        goToLeads(params.get("view") || "");
+      }, 100);
+    }
 
     function statusLabel(s) {
       var map = { active: "Actif", inactive: "Inactif", pending: "En attente", archived: "Archivé" };
@@ -1426,9 +1637,18 @@
     }
     if (refreshPartnersBtn) refreshPartnersBtn.addEventListener("click", loadPartners);
 
-    // INITIAL LOAD
-    loadStats();
-    setInterval(pollNewLeads, 4000);
+    async function bootstrap() {
+      var me = await D.api("/api/auth/me", { noRedirect: true });
+      if (!me.ok && me.status === 401) {
+        clearAuth();
+        window.location.href = "./auth.html?next=" + encodeURIComponent("./dashboard.html");
+        return;
+      }
+      await loadStats();
+      setInterval(pollNewLeads, 5000);
+    }
+
+    bootstrap();
   })();
   </script>
 </body>

@@ -112,6 +112,7 @@ module.exports = async (req, res) => {
     relevanceReasons: rel.relevanceReasons,
     competitorMonthly: rel.competitorMonthly,
     ourOfferMonthly: rel.ourOfferMonthly,
+    openedAt: null,
     serverReceivedAt: new Date().toISOString(),
   });
   delete enriched._hp;

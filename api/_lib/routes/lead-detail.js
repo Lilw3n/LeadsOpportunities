@@ -49,18 +49,21 @@ module.exports = async (req, res) => {
       try { lead.payload = JSON.parse(lead.payload); } catch {}
     }
 
+    var openedIso = new Date().toISOString();
+    var patch = Object.assign({}, lead.payload || {}, { openedAt: openedIso });
     try {
       await sql`
-        UPDATE site_leads SET opened_at = COALESCE(opened_at, NOW()), updated_at = NOW()
+        UPDATE site_leads SET opened_at = COALESCE(opened_at, NOW()), payload = ${JSON.stringify(patch)}::jsonb, updated_at = NOW()
         WHERE id = ${leadId}
       `;
-      lead.opened_at = lead.opened_at || new Date().toISOString();
+      lead.opened_at = lead.opened_at || openedIso;
+      lead.payload = patch;
     } catch (openErr) {
-      var patch = Object.assign({}, lead.payload || {}, { openedAt: new Date().toISOString() });
       await sql`
         UPDATE site_leads SET payload = ${JSON.stringify(patch)}::jsonb, updated_at = NOW()
         WHERE id = ${leadId}
       `;
+      lead.opened_at = openedIso;
       lead.payload = patch;
     }
 
