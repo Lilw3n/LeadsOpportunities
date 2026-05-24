@@ -1,6 +1,5 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards } = require("../security");
-const { payloadJsonIsEmpty, payloadJsonEquals } = require("../payload-sql");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -77,15 +76,36 @@ module.exports = async (req, res) => {
       const [nu] = await sql`
         SELECT COUNT(*)::int AS count FROM site_leads
         WHERE COALESCE(status, 'new') = 'new'
-          AND ${payloadJsonIsEmpty(sql, "openedAt")}
+          AND COALESCE(
+            CASE
+              WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+              WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+              ELSE NULL
+            END,
+            ''
+          ) = ''
       `;
       const [uo] = await sql`
         SELECT COUNT(*)::int AS count FROM site_leads
-        WHERE ${payloadJsonIsEmpty(sql, "openedAt")}
+        WHERE COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+            ELSE NULL
+          END,
+          ''
+        ) = ''
       `;
       const [rel] = await sql`
         SELECT COUNT(*)::int AS count FROM site_leads
-        WHERE ${payloadJsonEquals(sql, "relevance", "high")}
+        WHERE COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
+            ELSE NULL
+          END,
+          ''
+        ) = 'high'
       `;
       leadMgmt = { newUnopened: nu.count, unopened: uo.count, relevant: rel.count };
     } catch (mgmtErr) {

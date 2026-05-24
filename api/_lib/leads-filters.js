@@ -1,77 +1,36 @@
-/** Filtres liste leads — compatible Neon sans colonnes optionnelles. */
-
-function parseLeadListFilters(url) {
-  return {
-    view: url.searchParams.get("view") || "",
-    platform: url.searchParams.get("platform") || "",
-  };
-}
-
-const { payloadJsonEquals, payloadJsonIsEmpty } = require("./payload-sql");
-
-/** Filtres via payload JSON (TEXT ou JSONB). */
-function applyViewFilterPayload(sql, view) {
-  if (!view) return sql``;
-  if (view === "relevant") {
-    return sql`AND ${payloadJsonEquals(sql, "relevance", "high")}`;
-  }
-  if (view === "unopened") {
-    return sql`AND ${payloadJsonIsEmpty(sql, "openedAt")}`;
-  }
-  if (view === "new") {
-    return sql`AND COALESCE(status, 'new') = 'new' AND ${payloadJsonIsEmpty(sql, "openedAt")}`;
-  }
-  return sql``;
-}
-
-/** Filtre plateforme (alias Google / Meta). */
-function applyPlatformFilter(sql, platform) {
-  if (!platform) return sql``;
-  if (platform === "google") {
-    return sql`AND (
-      COALESCE(platform, '') IN ('google', 'google_ads')
-      OR LOWER(COALESCE(utm_source, '')) LIKE '%google%'
-      OR COALESCE(gclid, '') <> ''
-    )`;
-  }
-  if (platform === "facebook" || platform === "meta") {
-    return sql`AND (
-      COALESCE(platform, '') IN ('facebook', 'meta', 'instagram')
-      OR LOWER(COALESCE(utm_source, '')) LIKE '%facebook%'
-      OR LOWER(COALESCE(utm_source, '')) LIKE '%meta%'
-      OR LOWER(COALESCE(utm_source, '')) LIKE '%instagram%'
-    )`;
-  }
-  return sql`AND (
-    COALESCE(platform, source, '') = ${platform}
-    OR LOWER(COALESCE(utm_source, '')) = LOWER(${platform})
-  )`;
-}
-
-function enrichLeadRow(row) {
-  if (!row) return row;
-  var p = row.payload;
-  if (typeof p === "string") {
-    try {
-      p = JSON.parse(p);
-    } catch (e) {
-      p = {};
-    }
-  }
-  if (!row.relevance && p && p.relevance) row.relevance = p.relevance;
-  if (!row.opened_at && p && p.openedAt) row.opened_at = p.openedAt;
-  if (row.competitor_monthly == null && p && p.competitorMonthly != null) {
-    row.competitor_monthly = p.competitorMonthly;
-  }
-  if (row.our_offer_monthly == null && p && p.ourOfferMonthly != null) {
-    row.our_offer_monthly = p.ourOfferMonthly;
-  }
-  return row;
-}
-
-module.exports = {
-  parseLeadListFilters,
-  applyViewFilterPayload,
-  applyPlatformFilter,
-  enrichLeadRow,
-};
+/** Filtres liste leads — enrichissement côté application. */
+
+function parseLeadListFilters(url) {
+  return {
+    view: url.searchParams.get("view") || "",
+    platform: url.searchParams.get("platform") || "",
+  };
+}
+
+function enrichLeadRow(row) {
+  if (!row) return row;
+  var p = row.payload;
+  if (typeof p === "string") {
+    try {
+      p = JSON.parse(p);
+    } catch (e) {
+      p = {};
+    }
+  }
+  if (!row.relevance && p && p.relevance) row.relevance = p.relevance;
+  if (!row.opened_at && p && p.openedAt) row.opened_at = p.openedAt;
+  if (row.competitor_monthly == null && p && p.competitorMonthly != null) {
+    row.competitor_monthly = p.competitorMonthly;
+  }
+  if (row.our_offer_monthly == null && p && p.ourOfferMonthly != null) {
+    row.our_offer_monthly = p.ourOfferMonthly;
+  }
+  if (!row.platform && p && p.platform) row.platform = p.platform;
+  return row;
+}
+
+module.exports = {
+  parseLeadListFilters,
+  enrichLeadRow,
+};
+

@@ -1,176 +1,191 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
-const {
-  parseLeadListFilters,
-  applyViewFilterPayload,
-  applyPlatformFilter,
-  enrichLeadRow,
-} = require("../leads-filters");
+const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
 const VALID_VERTICAL = ["vtc", "sante", "credit-immo"];
 const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
 
-function orderClause(sql, sortCol, orderAsc) {
-  if (sortCol === "lead_score") {
-    return orderAsc
-      ? sql`ORDER BY lead_score ASC NULLS LAST`
-      : sql`ORDER BY lead_score DESC NULLS LAST`;
-  }
-  if (sortCol === "vertical") {
-    return orderAsc ? sql`ORDER BY vertical ASC` : sql`ORDER BY vertical DESC`;
-  }
-  if (sortCol === "email") {
-    return orderAsc
-      ? sql`ORDER BY email ASC NULLS LAST`
-      : sql`ORDER BY email DESC NULLS LAST`;
-  }
-  if (sortCol === "status") {
-    return orderAsc
-      ? sql`ORDER BY status ASC NULLS LAST`
-      : sql`ORDER BY status DESC NULLS LAST`;
-  }
-  return orderAsc ? sql`ORDER BY created_at ASC` : sql`ORDER BY created_at DESC`;
-}
+const ORDER_BY_CASE = `
+    ORDER BY
+      CASE WHEN \${sortCol} = 'lead_score' AND \${orderAsc} = true THEN lead_score END ASC NULLS LAST,
+      CASE WHEN \${sortCol} = 'lead_score' AND \${orderAsc} = false THEN lead_score END DESC NULLS LAST,
+      CASE WHEN \${sortCol} = 'vertical' AND \${orderAsc} = true THEN vertical END ASC,
+      CASE WHEN \${sortCol} = 'vertical' AND \${orderAsc} = false THEN vertical END DESC,
+      CASE WHEN \${sortCol} = 'email' AND \${orderAsc} = true THEN email END ASC NULLS LAST,
+      CASE WHEN \${sortCol} = 'email' AND \${orderAsc} = false THEN email END DESC NULLS LAST,
+      CASE WHEN \${sortCol} = 'status' AND \${orderAsc} = true THEN status END ASC NULLS LAST,
+      CASE WHEN \${sortCol} = 'status' AND \${orderAsc} = false THEN status END DESC NULLS LAST,
+      CASE WHEN \${sortCol} = 'created_at' AND \${orderAsc} = true THEN created_at END ASC,
+      CASE WHEN \${sortCol} = 'created_at' AND \${orderAsc} = false THEN created_at END DESC,
+      created_at DESC`;
 
-function buildWhereMinimal(sql, verticalVal, searchPattern) {
+async function fetchLeadsStandard(sql, opts) {
+  const view = opts.viewVal || "";
+  const plat = opts.platformVal || "";
+  const sortCol = opts.sortCol;
+  const orderAsc = opts.orderAsc;
   return sql`
-    WHERE (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
-      AND (${searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(source, '')) LIKE LOWER(${searchPattern})
+    SELECT
+      id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+      COALESCE(status, 'new') AS status, notes, created_at, updated_at, payload
+    FROM site_leads
+    WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
+      AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+      AND (${opts.searchPattern}::text IS NULL OR (
+        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${view} = '' OR ${view} != 'relevant' OR COALESCE(
+        CASE
+          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
+          ELSE NULL
+        END, '') = 'high')
+      AND (${view} = '' OR ${view} != 'unopened' OR COALESCE(
+        CASE
+          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+          ELSE NULL
+        END, '') = '')
+      AND (${view} = '' OR ${view} != 'new' OR (
+        COALESCE(status, 'new') = 'new'
+        AND COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+            ELSE NULL
+          END, '') = ''))
+      AND (${plat} = '' OR ${plat} != 'google' OR (
+        LOWER(COALESCE(utm_source, '')) LIKE '%google%'
+        OR COALESCE(gclid, '') <> ''))
+      AND (${plat} = '' OR ${plat} NOT IN ('facebook', 'meta') OR (
+        LOWER(COALESCE(utm_source, '')) LIKE '%facebook%'
+        OR LOWER(COALESCE(utm_source, '')) LIKE '%meta%'
+        OR LOWER(COALESCE(utm_source, '')) LIKE '%instagram%'))
+      AND (${plat} = '' OR ${plat} IN ('google', 'facebook', 'meta') OR (
+        COALESCE(source, '') = ${plat}
+        OR LOWER(COALESCE(utm_source, '')) = LOWER(${plat})))
+    ORDER BY
+      CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = true THEN lead_score END ASC NULLS LAST,
+      CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = false THEN lead_score END DESC NULLS LAST,
+      CASE WHEN ${sortCol} = 'vertical' AND ${orderAsc} = true THEN vertical END ASC,
+      CASE WHEN ${sortCol} = 'vertical' AND ${orderAsc} = false THEN vertical END DESC,
+      CASE WHEN ${sortCol} = 'email' AND ${orderAsc} = true THEN email END ASC NULLS LAST,
+      CASE WHEN ${sortCol} = 'email' AND ${orderAsc} = false THEN email END DESC NULLS LAST,
+      CASE WHEN ${sortCol} = 'status' AND ${orderAsc} = true THEN status END ASC NULLS LAST,
+      CASE WHEN ${sortCol} = 'status' AND ${orderAsc} = false THEN status END DESC NULLS LAST,
+      CASE WHEN ${sortCol} = 'created_at' AND ${orderAsc} = true THEN created_at END ASC,
+      CASE WHEN ${sortCol} = 'created_at' AND ${orderAsc} = false THEN created_at END DESC,
+      created_at DESC
+    LIMIT ${opts.limit} OFFSET ${opts.offset}
   `;
 }
 
-function buildWhereWithStatus(sql, statusVal, verticalVal, searchPattern) {
-  return sql`
-    WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
-      AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
-      AND (${searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(source, '')) LIKE LOWER(${searchPattern})
+async function countLeadsStandard(sql, opts) {
+  const view = opts.viewVal || "";
+  const plat = opts.platformVal || "";
+  const rows = await sql`
+    SELECT COUNT(*)::int AS total FROM site_leads
+    WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
+      AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+      AND (${opts.searchPattern}::text IS NULL OR (
+        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${view} = '' OR ${view} != 'relevant' OR COALESCE(
+        CASE
+          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
+          ELSE NULL
+        END, '') = 'high')
+      AND (${view} = '' OR ${view} != 'unopened' OR COALESCE(
+        CASE
+          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+          ELSE NULL
+        END, '') = '')
+      AND (${view} = '' OR ${view} != 'new' OR (
+        COALESCE(status, 'new') = 'new'
+        AND COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+            ELSE NULL
+          END, '') = ''))
+      AND (${plat} = '' OR ${plat} != 'google' OR (
+        LOWER(COALESCE(utm_source, '')) LIKE '%google%'
+        OR COALESCE(gclid, '') <> ''))
+      AND (${plat} = '' OR ${plat} NOT IN ('facebook', 'meta') OR (
+        LOWER(COALESCE(utm_source, '')) LIKE '%facebook%'
+        OR LOWER(COALESCE(utm_source, '')) LIKE '%meta%'
+        OR LOWER(COALESCE(utm_source, '')) LIKE '%instagram%'))
+      AND (${plat} = '' OR ${plat} IN ('google', 'facebook', 'meta') OR (
+        COALESCE(source, '') = ${plat}
+        OR LOWER(COALESCE(utm_source, '')) = LOWER(${plat})))
   `;
+  return rows[0].total;
 }
 
-function buildWhereFull(sql, statusVal, verticalVal, searchPattern, viewVal, platformVal) {
-  return sql`
-    WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
-      AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
-      AND (${searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(source, '')) LIKE LOWER(${searchPattern})
-      ))
-      ${applyViewFilterPayload(sql, viewVal)}
-      ${applyPlatformFilter(sql, platformVal)}
-  `;
-}
-
-async function fetchLeads(sql, opts, tier) {
-  const orderSql = orderClause(sql, opts.sortCol, opts.orderAsc);
-  var where;
-  if (tier === "full") {
-    where = buildWhereFull(
-      sql,
-      opts.statusVal,
-      opts.verticalVal,
-      opts.searchPattern,
-      opts.viewVal,
-      opts.platformVal
-    );
-  } else if (tier === "status") {
-    where = buildWhereWithStatus(sql, opts.statusVal, opts.verticalVal, opts.searchPattern);
-  } else {
-    where = buildWhereMinimal(sql, opts.verticalVal, opts.searchPattern);
-  }
-
-  if (tier === "extended") {
-    return sql`
-      SELECT
-        id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
-        COALESCE(status, 'new') AS status, notes, created_at, updated_at,
-        platform, payload, opened_at, relevance, competitor_monthly, our_offer_monthly
-      FROM site_leads
-      ${where}
-      ${orderSql}
-      LIMIT ${opts.limit} OFFSET ${opts.offset}
-    `;
-  }
-
-  if (tier === "full" || tier === "status") {
-    return sql`
-      SELECT
-        id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
-        COALESCE(status, 'new') AS status, notes, created_at, updated_at,
-        platform, payload
-      FROM site_leads
-      ${where}
-      ${orderSql}
-      LIMIT ${opts.limit} OFFSET ${opts.offset}
-    `;
-  }
-
+async function fetchLeadsMinimal(sql, opts) {
+  const sortCol = opts.sortCol;
+  const orderAsc = opts.orderAsc;
   return sql`
     SELECT
       id, source, vertical, lead_score, email, phone,
       created_at, updated_at, payload
     FROM site_leads
-    ${where}
-    ${orderSql}
+    WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+      AND (${opts.searchPattern}::text IS NULL OR (
+        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+      ))
+    ORDER BY
+      CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = true THEN lead_score END ASC NULLS LAST,
+      CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = false THEN lead_score END DESC NULLS LAST,
+      CASE WHEN ${sortCol} = 'created_at' AND ${orderAsc} = true THEN created_at END ASC,
+      CASE WHEN ${sortCol} = 'created_at' AND ${orderAsc} = false THEN created_at END DESC,
+      created_at DESC
     LIMIT ${opts.limit} OFFSET ${opts.offset}
   `;
 }
 
-async function countLeads(sql, opts, tier) {
-  var where;
-  if (tier === "full") {
-    where = buildWhereFull(
-      sql,
-      opts.statusVal,
-      opts.verticalVal,
-      opts.searchPattern,
-      opts.viewVal,
-      opts.platformVal
-    );
-  } else if (tier === "status") {
-    where = buildWhereWithStatus(sql, opts.statusVal, opts.verticalVal, opts.searchPattern);
-  } else {
-    where = buildWhereMinimal(sql, opts.verticalVal, opts.searchPattern);
-  }
-  const [countRows] = await sql`
+async function countLeadsMinimal(sql, opts) {
+  const rows = await sql`
     SELECT COUNT(*)::int AS total FROM site_leads
-    ${where}
+    WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+      AND (${opts.searchPattern}::text IS NULL OR (
+        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+      ))
   `;
-  return countRows.total;
+  return rows[0].total;
 }
 
 async function loadLeadsList(sql, opts) {
-  const attempts = [
-    { fetch: "extended", count: "full" },
-    { fetch: "full", count: "full" },
-    { fetch: "status", count: "status" },
-    { fetch: "minimal", count: "minimal" },
-  ];
-  var lastErr;
-  for (var i = 0; i < attempts.length; i++) {
-    var t = attempts[i];
-    try {
-      const rows = await fetchLeads(sql, opts, t.fetch);
-      const total = await countLeads(sql, opts, t.count);
-      return { rows, total, tier: t.fetch };
-    } catch (e) {
-      lastErr = e;
-      console.warn("[dashboard/leads] attempt " + t.fetch + " failed:", e.message);
-    }
+  try {
+    const rows = await fetchLeadsStandard(sql, opts);
+    const total = await countLeadsStandard(sql, opts);
+    return { rows, total, tier: "standard" };
+  } catch (e) {
+    console.warn("[dashboard/leads] standard failed:", e.message);
   }
-  throw lastErr || new Error("Impossible de charger les leads");
+  try {
+    const rows = await fetchLeadsMinimal(sql, opts);
+    const total = await countLeadsMinimal(sql, opts);
+    return { rows, total, tier: "minimal" };
+  } catch (e) {
+    console.warn("[dashboard/leads] minimal failed:", e.message);
+    throw e;
+  }
 }
 
 module.exports = async (req, res) => {
