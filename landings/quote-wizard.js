@@ -215,6 +215,15 @@
           });
           return;
         }
+        if (stepNameAt(idx) === "portefeuille" && window.QuoteIntelligence) {
+          window.QuoteIntelligence.fetchCrossSell(form).then(function (res) {
+            if (res.ok && res.crossSell) {
+              window.QuoteIntelligence.showCrossSellPanel(form, res.crossSell);
+            }
+            showStep(nextIdx);
+          });
+          return;
+        }
         showStep(nextIdx);
       });
     }

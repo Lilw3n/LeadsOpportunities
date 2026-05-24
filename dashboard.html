@@ -1526,6 +1526,29 @@
               .join("") +
             "</ul></div></div>";
         }
+        var cross = payload.crossSell || {};
+        var crossHtml = "";
+        if (cross.opportunities && cross.opportunities.length) {
+          crossHtml =
+            '<div class="detail-item detail-full"><div class="dlabel">Multi-contrats — opportunités</div><div class="dvalue">' +
+            "<p><strong>" +
+            esc(cross.summary || "") +
+            "</strong></p><ul style='margin:8px 0;padding-left:1.2rem'>";
+          cross.opportunities.slice(0, 6).forEach(function (o) {
+            crossHtml +=
+              "<li><strong>" +
+              esc(o.label) +
+              "</strong> (" +
+              esc(o.priority) +
+              ") — " +
+              esc(o.reason) +
+              (o.competitorMonthly != null ? " · paie " + esc(String(o.competitorMonthly)) + " €/mois" : "") +
+              (o.brokerQuestion ? "<br><em>Q : " + esc(o.brokerQuestion) + "</em>" : "") +
+              "</li>";
+          });
+          crossHtml += "</ul></div></div>";
+        }
+
         var quoteHtml = "";
         if (tq.totalMonthly != null) {
           quoteHtml =
@@ -1554,6 +1577,7 @@
             (l.gclid ? '<div class="detail-item"><div class="dlabel">GCLID</div><div class="dvalue">' + esc(l.gclid) + '</div></div>' : '') +
             funnelHtml +
             eligHtml +
+            crossHtml +
             quoteHtml +
             '<div class="detail-item detail-full"><div class="dlabel">Données complètes</div><div class="dvalue"><pre style="white-space:pre-wrap;font-size:0.8rem;max-height:200px;overflow:auto;background:var(--bg);padding:12px;border-radius:8px;margin-top:6px">' + esc(JSON.stringify(payload, null, 2)) + '</pre></div></div>' +
           '</div>' +

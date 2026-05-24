@@ -1,0 +1,103 @@
+{
+  "version": "2026-05",
+  "products": {
+    "auto": { "label": "Assurance auto", "vertical": "auto", "landing": "./landings/devis.html?need=auto", "avgMonthlyCommission": 45 },
+    "vtc": { "label": "Assurance VTC", "vertical": "vtc", "landing": "./landings/vtc.html", "avgMonthlyCommission": 65 },
+    "sante": { "label": "Mutuelle santé", "vertical": "sante", "landing": "./landings/sante.html", "avgMonthlyCommission": 35 },
+    "credit-auto": { "label": "Crédit auto", "vertical": "credit-immo", "landing": "./landings/credit-immo.html", "avgMonthlyCommission": 120 },
+    "credit-immo": { "label": "Crédit immobilier", "vertical": "credit-immo", "landing": "./landings/credit-immo.html", "avgMonthlyCommission": 200 },
+    "habitation": { "label": "Assurance habitation", "vertical": "habitation", "landing": "./landings/devis.html?need=habitation", "avgMonthlyCommission": 30 },
+    "prevoyance": { "label": "Prévoyance / TNS", "vertical": "sante", "landing": "./landings/sante.html", "avgMonthlyCommission": 50 },
+    "rc-pro": { "label": "RC professionnelle", "vertical": "rc-pro", "landing": "./landings/devis.html?need=rc-pro", "avgMonthlyCommission": 40 }
+  },
+  "affinities": [
+    {
+      "from": "auto",
+      "to": "sante",
+      "priority": "high",
+      "reason": "Client auto — la mutuelle est le 1er rattachement sur profil senior ou famille.",
+      "triggers": ["age_gte_55", "no_contract_sante", "unknown_sante_price"],
+      "brokerQuestion": "Combien payez-vous par mois pour votre mutuelle actuelle ? Qui est l'assureur ?"
+    },
+    {
+      "from": "auto",
+      "to": "sante",
+      "priority": "high",
+      "reason": "Mutuelle déjà en place mais cotisation élevée — fort potentiel de réduction.",
+      "triggers": ["age_gte_55", "high_sante_price"],
+      "brokerQuestion": "À combien monte votre mutuelle aujourd'hui ? Souhaitez-vous comparer les garanties équivalentes ?"
+    },
+    {
+      "from": "auto",
+      "to": "habitation",
+      "priority": "medium",
+      "reason": "Pack protection du patrimoine : auto + habitation souvent négociables ensemble.",
+      "triggers": ["no_contract_habitation", "homeowner_signal"],
+      "brokerQuestion": "Êtes-vous propriétaire ou locataire ? Avez-vous une assurance habitation ?"
+    },
+    {
+      "from": "vtc",
+      "to": "sante",
+      "priority": "high",
+      "reason": "Chauffeur VTC / indépendant : mutuelle et prévoyance TNS quasi systématiques.",
+      "triggers": ["no_contract_sante", "self_employed_signal"],
+      "brokerQuestion": "Avez-vous une mutuelle adaptée aux indépendants ? Montant mensuel actuel ?"
+    },
+    {
+      "from": "vtc",
+      "to": "credit-auto",
+      "priority": "high",
+      "reason": "Renouvellement ou financement véhicule d'activité fréquent chez les VTC.",
+      "triggers": ["no_contract_credit_auto", "vehicle_financing_signal"],
+      "brokerQuestion": "Le véhicule est-il acheté comptant, LOA/LLD ou crédit en cours ?"
+    },
+    {
+      "from": "vtc",
+      "to": "prevoyance",
+      "priority": "high",
+      "reason": "Revenu d'activité à protéger (arrêt de travail, invalidité).",
+      "triggers": ["no_contract_prevoyance", "self_employed_signal"],
+      "brokerQuestion": "Avez-vous une prévoyance qui couvre votre revenu VTC ?"
+    },
+    {
+      "from": "vtc",
+      "to": "rc-pro",
+      "priority": "medium",
+      "reason": "Société VTC ou micro-entreprise : RC pro et flotte.",
+      "triggers": ["has_company", "no_contract_rc_pro"],
+      "brokerQuestion": "Exercez-vous via une société ? RC professionnelle à jour ?"
+    },
+    {
+      "from": "sante",
+      "to": "prevoyance",
+      "priority": "medium",
+      "reason": "Complément mutuelle + prévoyance pour indépendants.",
+      "triggers": ["self_employed_signal", "no_contract_prevoyance"],
+      "brokerQuestion": "En complément de la mutuelle, une prévoyance couvre-t-elle vos revenus ?"
+    },
+    {
+      "from": "credit-immo",
+      "to": "sante",
+      "priority": "medium",
+      "reason": "Projet immo = profil famille souvent sous-assuré en complémentaire.",
+      "triggers": ["no_contract_sante"],
+      "brokerQuestion": "Pendant le montage du prêt, avez-vous comparé votre mutuelle récemment ?"
+    },
+    {
+      "from": "credit-immo",
+      "to": "habitation",
+      "priority": "high",
+      "reason": "Assurance emprunteur + MRH : cohérence du dossier immo.",
+      "triggers": ["no_contract_habitation", "homeowner_signal"],
+      "brokerQuestion": "Assurance habitation du bien financé : déjà en place ?"
+    },
+    {
+      "from": "auto",
+      "to": "credit-auto",
+      "priority": "medium",
+      "reason": "Changement de véhicule ou solde de crédit à reprendre.",
+      "triggers": ["no_contract_credit_auto", "vehicle_financing_signal"],
+      "brokerQuestion": "Un crédit auto est-il encore en cours sur le véhicule assuré ?"
+    }
+  ]
+}

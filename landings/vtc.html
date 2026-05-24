@@ -82,6 +82,7 @@
           </div>
           <div data-eligibility-panel hidden></div>
           <div data-internal-quote hidden></div>
+          <div data-cross-sell-panel hidden></div>
 
           <form data-track-form data-quote-wizard novalidate>
             <input type="hidden" name="need" value="vtc" />
@@ -360,8 +361,69 @@
               </div>
             </section>
 
-            <!-- ETAPE 5 : Coordonnees completes -->
-            <section class="wizard-step" data-wizard-step="5" data-step-name="couverture" hidden>
+            <!-- ETAPE 5 : Portefeuille multi-contrats (optionnel, aide le conseiller) -->
+            <section class="wizard-step" data-wizard-step="5" data-step-name="portefeuille" hidden>
+              <h3>Vos autres contrats (optionnel)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">
+                Ces informations restent confidentielles et permettent à votre conseiller de vous proposer un accompagnement global (mutuelle, crédit, habitation…) si vous le souhaitez.
+              </p>
+              <div class="grid">
+                <div class="field">
+                  <label for="hasMutuelle">Avez-vous une mutuelle santé ?</label>
+                  <select id="hasMutuelle" name="hasMutuelle" data-optional>
+                    <option value="">Je préfère ne pas répondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="mutuelleMonthly">Montant mutuelle (€/mois)</label>
+                  <input id="mutuelleMonthly" name="mutuelleMonthly" type="number" min="0" step="1" data-optional placeholder="Ex. 65" />
+                </div>
+                <div class="field">
+                  <label for="hasCreditAuto">Crédit ou LOA sur le véhicule ?</label>
+                  <select id="hasCreditAuto" name="hasCreditAuto" data-optional>
+                    <option value="">Je préfère ne pas répondre</option>
+                    <option value="oui">Oui (crédit / LOA / LLD)</option>
+                    <option value="non">Non, véhicule comptant ou payé</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="creditAutoMonthly">Mensualité crédit auto (€/mois)</label>
+                  <input id="creditAutoMonthly" name="creditAutoMonthly" type="number" min="0" step="1" data-optional placeholder="Ex. 320" />
+                </div>
+                <div class="field">
+                  <label for="hasHabitation">Assurance habitation ?</label>
+                  <select id="hasHabitation" name="hasHabitation" data-optional>
+                    <option value="">Je préfère ne pas répondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="hasCompany">Exercez-vous via une société (SASU, EURL…) ?</label>
+                  <select id="hasCompany" name="hasCompany" data-optional>
+                    <option value="">Je préfère ne pas répondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non, micro-entreprise / indépendant</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="interestedProducts">Souhaitez-vous aussi un devis pour :</label>
+                  <select id="interestedProducts" name="interestedProducts" data-optional multiple size="4" style="min-height:88px">
+                    <option value="sante">Mutuelle santé</option>
+                    <option value="credit-auto">Crédit / financement véhicule</option>
+                    <option value="prevoyance">Prévoyance revenus</option>
+                    <option value="habitation">Assurance habitation</option>
+                    <option value="rc-pro">RC professionnelle</option>
+                  </select>
+                  <span class="small">Maintenez Ctrl pour plusieurs choix (facultatif).</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 6 : Coordonnees completes -->
+            <section class="wizard-step" data-wizard-step="6" data-step-name="coordonnees" hidden>
               <h3>Vos coordonnees</h3>
               <div class="grid">
                 <div class="field">
@@ -403,8 +465,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 6 : Couverture souhaitee et finalisation -->
-            <section class="wizard-step" data-wizard-step="6" data-step-name="contact" hidden>
+            <!-- ETAPE 7 : Couverture souhaitee et finalisation -->
+            <section class="wizard-step" data-wizard-step="7" data-step-name="contact" hidden>
               <h3>Couverture souhaitee et finalisation</h3>
               <div class="grid">
                 <div class="field">

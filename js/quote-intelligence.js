@@ -110,6 +110,50 @@
     return postJson("/api/tariff-quote", data);
   }
 
+  function fetchCrossSell(form) {
+    var data = collectFormPartial(form);
+    data.vertical = verticalFromForm(form);
+    data.primaryProduct = data.vertical;
+    data.journey = getJourney();
+    return postJson("/api/cross-sell", data);
+  }
+
+  function showCrossSellPanel(form, crossSell) {
+    var panel = form.querySelector("[data-cross-sell-panel]");
+    if (!panel || !crossSell) return;
+    if (!isInternalPreview()) {
+      panel.hidden = true;
+      return;
+    }
+    var html =
+      '<div class="qi-quote-internal qi-cross-sell"><p class="qi-quote-tag">Opportunités multi-contrats (interne)</p>';
+    html += "<p><strong>" + (crossSell.summary || "") + "</strong></p>";
+    if (crossSell.topQuestions && crossSell.topQuestions.length) {
+      html += "<p><strong>Questions à poser :</strong></p><ul>";
+      crossSell.topQuestions.forEach(function (q) {
+        html += "<li>" + q + "</li>";
+      });
+      html += "</ul>";
+    }
+    if (crossSell.opportunities && crossSell.opportunities.length) {
+      html += '<table class="qi-cross-table"><thead><tr><th>Produit</th><th>Priorité</th><th>Info</th></tr></thead><tbody>';
+      crossSell.opportunities.slice(0, 5).forEach(function (o) {
+        html +=
+          "<tr><td>" +
+          o.label +
+          "</td><td>" +
+          o.priority +
+          "</td><td>" +
+          (o.savingsHint || o.reason) +
+          "</td></tr>";
+      });
+      html += "</tbody></table>";
+    }
+    html += "</div>";
+    panel.innerHTML = html;
+    panel.hidden = false;
+  }
+
   function showEligibilityPanel(form, eligibility) {
     var panel = form.querySelector("[data-eligibility-panel]");
     if (!panel || !eligibility) return;
@@ -220,8 +264,10 @@
     saveProgress: saveProgress,
     checkEligibility: checkEligibility,
     fetchInternalQuote: fetchInternalQuote,
+    fetchCrossSell: fetchCrossSell,
     showEligibilityPanel: showEligibilityPanel,
     showInternalQuote: showInternalQuote,
+    showCrossSellPanel: showCrossSellPanel,
     bindAbandon: bindAbandon,
     isInternalPreview: isInternalPreview,
     attachLeadIdToPayload: function (payload) {

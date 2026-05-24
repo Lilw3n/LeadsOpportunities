@@ -112,6 +112,14 @@ module.exports = async (req, res) => {
     console.warn("[lead] tariff analysis", tariffErr.message);
   }
 
+  var crossSellAnalysis = null;
+  try {
+    const { computeCrossSell } = require("./_lib/cross-sell-engine");
+    crossSellAnalysis = computeCrossSell(body);
+  } catch (crossErr) {
+    console.warn("[lead] cross-sell", crossErr.message);
+  }
+
   var rel = computeLeadRelevance(
     Object.assign({}, body, {
       leadScore: score,
@@ -131,6 +139,8 @@ module.exports = async (req, res) => {
     ourOfferMonthly: rel.ourOfferMonthly || (tariffAnalysis.quote && tariffAnalysis.quote.totalMonthly) || rel.ourOfferMonthly,
     eligibility: tariffAnalysis.eligibility || null,
     tariffQuote: tariffAnalysis.quote || null,
+    crossSell: crossSellAnalysis,
+    portfolio: crossSellAnalysis ? crossSellAnalysis.portfolio : null,
     journey: body.journey || body.formJourney || "full",
     openedAt: null,
     serverReceivedAt: new Date().toISOString(),
