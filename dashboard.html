@@ -1523,6 +1523,17 @@
       setTimeout(function () {
         goToLeads(params.get("view") || "");
       }, 100);
+    } else if (params.get("section") === "partners") {
+      setTimeout(function () {
+        document.querySelectorAll(".nav-link").forEach(function (n) {
+          n.classList.toggle("active", n.dataset.section === "partners");
+        });
+        document.querySelectorAll(".dash-section").forEach(function (s) {
+          s.classList.remove("active");
+        });
+        document.getElementById("sec-partners").classList.add("active");
+        loadPartners();
+      }, 100);
     }
 
     function statusLabel(s) {
