@@ -106,6 +106,32 @@
     .sidebar-nav a:hover, .sidebar-nav button:hover { color: #fff; background: rgba(255,255,255,.06); }
     .sidebar-nav a.active { color: #fff; background: rgba(13,148,136,.25); }
     .sidebar-nav svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .sidebar-nav .admin-nav-sidebar {
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .sidebar-nav .admin-nav-sidebar a {
+      display: flex !important;
+      color: #e2e8f0 !important;
+      font-weight: 600;
+    }
+    .sidebar-nav .admin-nav-sidebar a.is-active {
+      color: #fff !important;
+      background: rgba(13,148,136,.25);
+    }
+    .sidebar-nav .admin-nav-sidebar-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #64748b;
+      padding: 4px 14px 8px;
+    }
+    .sidebar-nav .admin-nav-user {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      padding: 0 14px 8px;
+    }
     .sidebar-section {
       font-size: 0.72rem;
       text-transform: uppercase;
@@ -1213,9 +1239,12 @@
       D.setSyncStatus("Synchronisation...");
       var data = await D.api("/api/dashboard/stats");
       if (!data.ok) {
-        D.showBanner(data.error || "Impossible de charger les statistiques.", "error");
+        var errMsg = data.error || "Impossible de charger les statistiques.";
+        if (data.status === 403) errMsg = "Session expiree — reconnectez-vous via Mon compte.";
+        if (data.status === 500) errMsg = (data.error || "Erreur serveur") + (data.detail ? " (" + data.detail + ")" : "");
+        D.showBanner(errMsg, "error");
         D.setSyncStatus("Erreur");
-        toast(data.error || "Erreur", "error");
+        toast(errMsg, "error");
         return;
       }
       D.hideBanner();

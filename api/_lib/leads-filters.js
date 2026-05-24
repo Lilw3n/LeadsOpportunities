@@ -7,17 +7,19 @@ function parseLeadListFilters(url) {
   };
 }
 
-/** Filtres via payload JSON (toujours disponible). */
+const { payloadJsonEquals, payloadJsonIsEmpty } = require("./payload-sql");
+
+/** Filtres via payload JSON (TEXT ou JSONB). */
 function applyViewFilterPayload(sql, view) {
   if (!view) return sql``;
   if (view === "relevant") {
-    return sql`AND COALESCE(payload->>'relevance', '') = 'high'`;
+    return sql`AND ${payloadJsonEquals(sql, "relevance", "high")}`;
   }
   if (view === "unopened") {
-    return sql`AND COALESCE(payload->>'openedAt', '') = ''`;
+    return sql`AND ${payloadJsonIsEmpty(sql, "openedAt")}`;
   }
   if (view === "new") {
-    return sql`AND COALESCE(status, 'new') = 'new' AND COALESCE(payload->>'openedAt', '') = ''`;
+    return sql`AND COALESCE(status, 'new') = 'new' AND ${payloadJsonIsEmpty(sql, "openedAt")}`;
   }
   return sql``;
 }
