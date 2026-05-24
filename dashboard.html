@@ -1354,10 +1354,13 @@
 
       var data = await D.api("/api/dashboard/leads" + params);
       if (!data.ok) {
+        var leadErr = esc(data.error || "Erreur");
+        if (data.status === 403) leadErr = "Session expiree";
+        if (data.detail) leadErr += " — " + esc(data.detail);
         tbody.innerHTML =
           '<tr><td colspan="9"><div class="empty-state">' +
-          esc(data.error) +
-          '<br><a href="./auth.html">Reconnectez-vous</a></div></td></tr>';
+          leadErr +
+          '<br><a href="./auth.html">Reconnectez-vous</a> · <button type="button" class="btn btn-ghost btn-sm" onclick="loadLeads()">Reessayer</button></div></td></tr>';
         return;
       }
 
