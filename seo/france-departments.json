@@ -1,0 +1,572 @@
+[
+  {
+    "slug": "aisne",
+    "name": "Aisne",
+    "region": "Hauts-de-France",
+    "regionSlug": "hauts-de-france"
+  },
+  {
+    "slug": "allier",
+    "name": "Allier",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "alpes-de-haute-provence",
+    "name": "Alpes-De-Haute-Provence",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur"
+  },
+  {
+    "slug": "alpes-maritimes",
+    "name": "Alpes-Maritimes",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur"
+  },
+  {
+    "slug": "ardeche",
+    "name": "Ardeche",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "ardennes",
+    "name": "Ardennes",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "ariege",
+    "name": "Ariege",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "aube",
+    "name": "Aube",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "aude",
+    "name": "Aude",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "aveyron",
+    "name": "Aveyron",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "bas-rhin",
+    "name": "Bas-Rhin",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "bouches-du-rhone",
+    "name": "Bouches-Du-Rhone",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur"
+  },
+  {
+    "slug": "calvados",
+    "name": "Calvados",
+    "region": "Normandie",
+    "regionSlug": "normandie"
+  },
+  {
+    "slug": "cantal",
+    "name": "Cantal",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "charente",
+    "name": "Charente",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "charente-maritime",
+    "name": "Charente-Maritime",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "cher",
+    "name": "Cher",
+    "region": "Centre-Val de Loire",
+    "regionSlug": "centre-val-de-loire"
+  },
+  {
+    "slug": "correze",
+    "name": "Correze",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "corse-du-sud",
+    "name": "Corse-Du-Sud",
+    "region": "Corse",
+    "regionSlug": "corse"
+  },
+  {
+    "slug": "cote-d-or",
+    "name": "Cote-D-Or",
+    "region": "Bourgogne-Franche-Comte",
+    "regionSlug": "bourgogne-franche-comte"
+  },
+  {
+    "slug": "cotes-d-armor",
+    "name": "Cotes-D-Armor",
+    "region": "Bretagne",
+    "regionSlug": "bretagne"
+  },
+  {
+    "slug": "creuse",
+    "name": "Creuse",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "deux-sevres",
+    "name": "Deux-Sevres",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "dordogne",
+    "name": "Dordogne",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "doubs",
+    "name": "Doubs",
+    "region": "Bourgogne-Franche-Comte",
+    "regionSlug": "bourgogne-franche-comte"
+  },
+  {
+    "slug": "drome",
+    "name": "Drome",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "essonne",
+    "name": "Essonne",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  },
+  {
+    "slug": "eure",
+    "name": "Eure",
+    "region": "Normandie",
+    "regionSlug": "normandie"
+  },
+  {
+    "slug": "eure-et-loir",
+    "name": "Eure-Et-Loir",
+    "region": "Centre-Val de Loire",
+    "regionSlug": "centre-val-de-loire"
+  },
+  {
+    "slug": "finistere",
+    "name": "Finistere",
+    "region": "Bretagne",
+    "regionSlug": "bretagne"
+  },
+  {
+    "slug": "gard",
+    "name": "Gard",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "gers",
+    "name": "Gers",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "gironde",
+    "name": "Gironde",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "guadeloupe",
+    "name": "Guadeloupe",
+    "region": "Guadeloupe",
+    "regionSlug": "guadeloupe"
+  },
+  {
+    "slug": "guyane",
+    "name": "Guyane",
+    "region": "Guyane",
+    "regionSlug": "guyane"
+  },
+  {
+    "slug": "haut-rhin",
+    "name": "Haut-Rhin",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "haute-corse",
+    "name": "Haute-Corse",
+    "region": "Corse",
+    "regionSlug": "corse"
+  },
+  {
+    "slug": "haute-garonne",
+    "name": "Haute-Garonne",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "haute-savoie",
+    "name": "Haute-Savoie",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "haute-vienne",
+    "name": "Haute-Vienne",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "hautes-alpes",
+    "name": "Hautes-Alpes",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur"
+  },
+  {
+    "slug": "hautes-pyrenees",
+    "name": "Hautes-Pyrenees",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "hauts-de-seine",
+    "name": "Hauts-De-Seine",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  },
+  {
+    "slug": "herault",
+    "name": "Herault",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "ille-et-vilaine",
+    "name": "Ille-Et-Vilaine",
+    "region": "Bretagne",
+    "regionSlug": "bretagne"
+  },
+  {
+    "slug": "indre",
+    "name": "Indre",
+    "region": "Centre-Val de Loire",
+    "regionSlug": "centre-val-de-loire"
+  },
+  {
+    "slug": "indre-et-loire",
+    "name": "Indre-Et-Loire",
+    "region": "Centre-Val de Loire",
+    "regionSlug": "centre-val-de-loire"
+  },
+  {
+    "slug": "isere",
+    "name": "Isere",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "la-reunion",
+    "name": "La-Reunion",
+    "region": "La Reunion",
+    "regionSlug": "la-reunion"
+  },
+  {
+    "slug": "landes",
+    "name": "Landes",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "loir-et-cher",
+    "name": "Loir-Et-Cher",
+    "region": "Centre-Val de Loire",
+    "regionSlug": "centre-val-de-loire"
+  },
+  {
+    "slug": "loire",
+    "name": "Loire",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "loire-atlantique",
+    "name": "Loire-Atlantique",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire"
+  },
+  {
+    "slug": "loiret",
+    "name": "Loiret",
+    "region": "Centre-Val de Loire",
+    "regionSlug": "centre-val-de-loire"
+  },
+  {
+    "slug": "lot",
+    "name": "Lot",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "lot-et-garonne",
+    "name": "Lot-Et-Garonne",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "lozere",
+    "name": "Lozere",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "maine-et-loire",
+    "name": "Maine-Et-Loire",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire"
+  },
+  {
+    "slug": "manche",
+    "name": "Manche",
+    "region": "Normandie",
+    "regionSlug": "normandie"
+  },
+  {
+    "slug": "marne",
+    "name": "Marne",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "martinique",
+    "name": "Martinique",
+    "region": "Martinique",
+    "regionSlug": "martinique"
+  },
+  {
+    "slug": "mayenne",
+    "name": "Mayenne",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire"
+  },
+  {
+    "slug": "mayotte",
+    "name": "Mayotte",
+    "region": "Mayotte",
+    "regionSlug": "mayotte"
+  },
+  {
+    "slug": "meurthe-et-moselle",
+    "name": "Meurthe-Et-Moselle",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "morbihan",
+    "name": "Morbihan",
+    "region": "Bretagne",
+    "regionSlug": "bretagne"
+  },
+  {
+    "slug": "moselle",
+    "name": "Moselle",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "nievre",
+    "name": "Nievre",
+    "region": "Bourgogne-Franche-Comte",
+    "regionSlug": "bourgogne-franche-comte"
+  },
+  {
+    "slug": "nord",
+    "name": "Nord",
+    "region": "Hauts-de-France",
+    "regionSlug": "hauts-de-france"
+  },
+  {
+    "slug": "oise",
+    "name": "Oise",
+    "region": "Hauts-de-France",
+    "regionSlug": "hauts-de-france"
+  },
+  {
+    "slug": "orne",
+    "name": "Orne",
+    "region": "Normandie",
+    "regionSlug": "normandie"
+  },
+  {
+    "slug": "paris",
+    "name": "Paris",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  },
+  {
+    "slug": "pas-de-calais",
+    "name": "Pas-De-Calais",
+    "region": "Hauts-de-France",
+    "regionSlug": "hauts-de-france"
+  },
+  {
+    "slug": "puy-de-dome",
+    "name": "Puy-De-Dome",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "pyrenees-atlantiques",
+    "name": "Pyrenees-Atlantiques",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "pyrenees-orientales",
+    "name": "Pyrenees-Orientales",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "rhone",
+    "name": "Rhone",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "saone-et-loire",
+    "name": "Saone-Et-Loire",
+    "region": "Bourgogne-Franche-Comte",
+    "regionSlug": "bourgogne-franche-comte"
+  },
+  {
+    "slug": "sarthe",
+    "name": "Sarthe",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire"
+  },
+  {
+    "slug": "savoie",
+    "name": "Savoie",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "seine-et-marne",
+    "name": "Seine-Et-Marne",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  },
+  {
+    "slug": "seine-maritime",
+    "name": "Seine-Maritime",
+    "region": "Normandie",
+    "regionSlug": "normandie"
+  },
+  {
+    "slug": "seine-saint-denis",
+    "name": "Seine-Saint-Denis",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  },
+  {
+    "slug": "somme",
+    "name": "Somme",
+    "region": "Hauts-de-France",
+    "regionSlug": "hauts-de-france"
+  },
+  {
+    "slug": "tarn",
+    "name": "Tarn",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "tarn-et-garonne",
+    "name": "Tarn-Et-Garonne",
+    "region": "Occitanie",
+    "regionSlug": "occitanie"
+  },
+  {
+    "slug": "territoire-de-belfort",
+    "name": "Territoire-De-Belfort",
+    "region": "Bourgogne-Franche-Comte",
+    "regionSlug": "bourgogne-franche-comte"
+  },
+  {
+    "slug": "val-d-oise",
+    "name": "Val-D-Oise",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  },
+  {
+    "slug": "val-de-marne",
+    "name": "Val-De-Marne",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  },
+  {
+    "slug": "var",
+    "name": "Var",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur"
+  },
+  {
+    "slug": "vaucluse",
+    "name": "Vaucluse",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur"
+  },
+  {
+    "slug": "vendee",
+    "name": "Vendee",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire"
+  },
+  {
+    "slug": "vienne",
+    "name": "Vienne",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine"
+  },
+  {
+    "slug": "vosges",
+    "name": "Vosges",
+    "region": "Grand Est",
+    "regionSlug": "grand-est"
+  },
+  {
+    "slug": "yonne",
+    "name": "Yonne",
+    "region": "Bourgogne-Franche-Comte",
+    "regionSlug": "bourgogne-franche-comte"
+  },
+  {
+    "slug": "yvelines",
+    "name": "Yvelines",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france"
+  }
+]

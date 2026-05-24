@@ -12,6 +12,7 @@ const GEO_PRODUCTS = [
     siloLabel: "Assurance VTC",
     siloUrl: "/assurance-vtc/",
     hubUrl: "/assurance-vtc/villes/",
+    hubDeptUrl: "/assurance-vtc/departements/",
     landing: "/landings/vtc.html",
     ctaLabel: function (city) {
       return "Devis VTC " + city.name;
@@ -79,6 +80,7 @@ const GEO_PRODUCTS = [
     siloLabel: "Mutuelle sante",
     siloUrl: "/assurance-sante/",
     hubUrl: "/assurance-sante/villes/",
+    hubDeptUrl: "/assurance-sante/departements/",
     landing: "/landings/sante.html",
     ctaLabel: function (city) {
       return "Devis mutuelle " + city.name;
@@ -130,6 +132,7 @@ const GEO_PRODUCTS = [
     siloLabel: "Credit immobilier",
     siloUrl: "/credit-immo/",
     hubUrl: "/credit-immo/villes/",
+    hubDeptUrl: "/credit-immo/departements/",
     landing: "/landings/credit-immo.html",
     ctaLabel: function (city) {
       return "Simulation credit " + city.name;
@@ -175,6 +178,159 @@ const GEO_PRODUCTS = [
       ];
     },
   },
+  {
+    key: "auto",
+    theme: "auto",
+    dir: "assurance-auto",
+    siloLabel: "Assurance auto",
+    siloUrl: "/assurance-auto/",
+    hubUrl: "/assurance-auto/villes/",
+    hubDeptUrl: "/assurance-auto/departements/",
+    landing: "/landings/devis.html?need=auto",
+    ctaLabel: function (city) {
+      return "Devis auto " + city.name;
+    },
+    title: function (city) {
+      return "Assurance auto " + city.name + " | Devis " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance auto a " +
+        city.name +
+        " : tous risques, au tiers, jeune conducteur. Comparatif et devis gratuit, courtier ORIAS."
+      );
+    },
+    h1: function (city) {
+      return "Assurance auto a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Conducteur base a " +
+        city.name +
+        " ? Nous comparons les formules auto (tiers, intermediaire, tous risques) et optimisons votre bonus-malus."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Assurer sa voiture a " + city.name,
+          paragraphs: [
+            "Stationnement, trajets domicile-travail, sinistralite locale : votre profil influence le tarif. Nous comparons a garanties equivalentes.",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Puis-je assurer un jeune conducteur a " + city.name + " ?",
+          a: "Oui, nous identifions les assureurs les plus competitifs sur les profils juniors et permis probatoire.",
+        },
+      ];
+    },
+  },
+  {
+    key: "habitation",
+    theme: "habitation",
+    dir: "assurance-habitation",
+    siloLabel: "Assurance habitation",
+    siloUrl: "/assurance-habitation/",
+    hubUrl: "/assurance-habitation/villes/",
+    hubDeptUrl: "/assurance-habitation/departements/",
+    landing: "/landings/devis.html?need=habitation",
+    ctaLabel: function (city) {
+      return "Devis habitation " + city.name;
+    },
+    title: function (city) {
+      return "Assurance habitation " + city.name + " | Devis locataire & proprietaire";
+    },
+    description: function (city) {
+      return (
+        "Assurance habitation a " +
+        city.name +
+        " : locataire, proprietaire, MRH. Devis gratuit, garanties vol, degats des eaux, RC vie privee."
+      );
+    },
+    h1: function (city) {
+      return "Assurance habitation a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Locataire ou proprietaire a " +
+        city.name +
+        " ? Nous calibrons votre multirisque habitation selon le type de bien et votre situation."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Proteger son logement a " + city.name,
+          paragraphs: [
+            "Degats des eaux, vol, responsabilite civile : les garanties essentielles varient selon que vous etes locataire ou proprietaire occupant.",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Assurance habitation obligatoire a " + city.name + " ?",
+          a: "Oui pour les locataires (risques locatifs). Proprietaires : fortement recommande, parfois exige par la copropriete ou la banque.",
+        },
+      ];
+    },
+  },
+  {
+    key: "prevoyance",
+    theme: "prevoyance",
+    dir: "assurance-prevoyance",
+    siloLabel: "Assurance prevoyance",
+    siloUrl: "/assurance-prevoyance/",
+    hubUrl: "/assurance-prevoyance/villes/",
+    hubDeptUrl: "/assurance-prevoyance/departements/",
+    landing: "/landings/devis.html?need=prevoyance",
+    ctaLabel: function (city) {
+      return "Devis prevoyance " + city.name;
+    },
+    title: function (city) {
+      return "Assurance prevoyance " + city.name + " | Devis " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Prevoyance et protection du revenu a " +
+        city.name +
+        " : deces, invalidite, arret de travail. Courtier ORIAS, devis gratuit."
+      );
+    },
+    h1: function (city) {
+      return "Assurance prevoyance a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Salaries, independants et dirigeants a " +
+        city.name +
+        " : securisez vos revenus et votre famille avec une prevoyance adaptee."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Prevoyance a " + city.name,
+          paragraphs: [
+            "Arret de travail, invalidite, deces : les prestations varient selon votre statut. Nous clarifions les garanties avant souscription.",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Prevoyance pour independants a " + city.name + " ?",
+          a: "Oui, TNS et dirigeants : nous montons des solutions deces, ITT/IPT et perte de revenus.",
+        },
+      ];
+    },
+  },
 ];
 
 function buildGeoPageConfigs(cities, pageFn) {
@@ -216,7 +372,292 @@ function buildGeoPageConfigs(cities, pageFn) {
   return out;
 }
 
-function buildHubPageConfigs(cities, pageFn) {
+function buildDeptPageConfigs(departments, cities, pageFn) {
+  const out = [];
+  GEO_PRODUCTS.forEach(function (product) {
+    departments.forEach(function (dept) {
+      const deptCities = cities.filter(function (c) {
+        return c.dept === dept.slug;
+      });
+      const cityLinks = deptCities.map(function (c) {
+        return {
+          href: "/" + product.dir + "/" + c.slug + "/",
+          label: c.name,
+        };
+      });
+      out.push(
+        pageFn({
+          file: product.dir + "/departement/" + dept.slug + "/index.html",
+          theme: product.theme,
+          badge: dept.name,
+          title: product.siloLabel + " " + dept.name + " (" + dept.region + ")",
+          description:
+            product.siloLabel +
+            " dans le " +
+            dept.name +
+            " : " +
+            deptCities.length +
+            " villes couvertes. Devis gratuit, courtier ORIAS.",
+          h1: product.siloLabel + " dans le " + dept.name,
+          intro:
+            "Retrouvez nos pages locales pour le departement " +
+            dept.name +
+            " (" +
+            dept.region +
+            "). Devis en ligne et accompagnement par telephone.",
+          cta: { href: product.landing, label: "Demander un devis" },
+          crumbs: [
+            { name: "Accueil", url: "/" },
+            { name: product.siloLabel, url: product.siloUrl },
+            { name: dept.name, url: "/" + product.dir + "/departement/" + dept.slug + "/" },
+          ],
+          related: [
+            { href: product.hubUrl, label: "Toutes les villes" },
+            { href: product.hubDeptUrl || product.siloUrl + "departements/", label: "Tous les departements" },
+            { href: "/france/region/" + dept.regionSlug + "/", label: dept.region },
+          ],
+          hubCityGrid: cityLinks,
+          faq: [
+            {
+              q: "Couvrez-vous tout le " + dept.name + " ?",
+              a: "Oui, communes principales et agglomerations du departement. Contactez-nous pour une commune non listee.",
+            },
+          ],
+        })
+      );
+    });
+  });
+  return out;
+}
+
+function buildDeptHubPageConfigs(departments, pageFn) {
+  const out = [];
+  GEO_PRODUCTS.forEach(function (product) {
+    const deptLinks = departments.map(function (d) {
+      return {
+        href: "/" + product.dir + "/departement/" + d.slug + "/",
+        label: d.name,
+      };
+    });
+    out.push(
+      pageFn({
+        file: product.dir + "/departements/index.html",
+        theme: product.theme,
+        badge: "Departements",
+        title: product.siloLabel + " par departement | France",
+        description: product.siloLabel + " dans " + departments.length + " departements. Annuaire local, devis gratuit.",
+        h1: product.siloLabel + " : departements couverts",
+        intro: "Accedez a une page dediee par departement avec les villes principales et un parcours devis rapide.",
+        cta: { href: product.landing, label: "Demander un devis" },
+        crumbs: [
+          { name: "Accueil", url: "/" },
+          { name: product.siloLabel, url: product.siloUrl },
+          { name: "Departements", url: "/" + product.dir + "/departements/" },
+        ],
+        hubCityGrid: deptLinks,
+        related: [
+          { href: product.hubUrl, label: "Par ville" },
+          { href: product.siloUrl, label: "Guide national" },
+        ],
+        faq: [],
+      })
+    );
+  });
+  return out;
+}
+
+function buildRegionPageConfigs(regions, departments, cities, pageFn) {
+  const out = [];
+  regions.forEach(function (region) {
+    const regionDepts = departments.filter(function (d) {
+      return d.regionSlug === region.slug;
+    });
+    const regionCities = cities.filter(function (c) {
+      return c.regionSlug === region.slug;
+    });
+    const deptLinks = regionDepts.map(function (d) {
+      return { href: "/france/departement/" + d.slug + "/", label: d.name };
+    });
+    const citySample = regionCities.slice(0, 36).map(function (c) {
+      return { href: "/assurance-vtc/" + c.slug + "/", label: c.name };
+    });
+    out.push(
+      pageFn({
+        file: "france/region/" + region.slug + "/index.html",
+        theme: "vtc",
+        badge: region.name,
+        title: "Assurance & credit en " + region.name + " | Devis local",
+        description:
+          "Courtier assurance et credit en " +
+          region.name +
+          " : VTC, mutuelle, auto, habitation, credit immo. " +
+          regionCities.length +
+          " villes, devis gratuit.",
+        h1: "Nos services en " + region.name,
+        intro:
+          "Pages locales pour " +
+          regionDepts.length +
+          " departements et " +
+          regionCities.length +
+          " villes en " +
+          region.name +
+          ".",
+        cta: { href: "/nos-services.html", label: "Tous nos services" },
+        crumbs: [
+          { name: "Accueil", url: "/" },
+          { name: "France", url: "/france/" },
+          { name: region.name, url: "/france/region/" + region.slug + "/" },
+        ],
+        hubCityGrid: citySample,
+        hubDeptGrid: deptLinks,
+        related: GEO_PRODUCTS.map(function (p) {
+          return { href: p.hubUrl, label: p.siloLabel + " (villes)" };
+        }),
+        faq: [],
+      })
+    );
+  });
+  return out;
+}
+
+function buildFranceDeptHub(departments, pageFn) {
+  const links = departments.map(function (d) {
+    return { href: "/france/departement/" + d.slug + "/", label: d.name + " (" + d.region + ")" };
+  });
+  return [
+    pageFn({
+      file: "france/departements/index.html",
+      theme: "vtc",
+      badge: "France",
+      title: "Departements couverts | Assurance & credit France",
+      description: "Annuaire par departement : assurance VTC, mutuelle, auto, habitation, prevoyance, credit immo.",
+      h1: "Tous les departements",
+      intro: "Selectionnez votre departement pour acceder aux villes et formulaires de devis.",
+      cta: { href: "/france/", label: "Couverture France" },
+      crumbs: [
+        { name: "Accueil", url: "/" },
+        { name: "France", url: "/france/" },
+        { name: "Departements", url: "/france/departements/" },
+      ],
+      hubCityGrid: links,
+      related: [{ href: "/france/regions/", label: "Par region" }],
+      faq: [],
+    }),
+  ];
+}
+
+function buildFranceDeptPages(departments, cities, pageFn) {
+  return departments.map(function (dept) {
+    const deptCities = cities.filter(function (c) {
+      return c.dept === dept.slug;
+    });
+    const productLinks = GEO_PRODUCTS.map(function (p) {
+      return {
+        href: "/" + p.dir + "/departement/" + dept.slug + "/",
+        label: p.siloLabel,
+      };
+    });
+    const cityLinks = deptCities.map(function (c) {
+      return { href: "/assurance-vtc/" + c.slug + "/", label: c.name };
+    });
+    return pageFn({
+      file: "france/departement/" + dept.slug + "/index.html",
+      theme: "vtc",
+      badge: dept.region,
+      title: "Courtier assurance " + dept.name + " | " + dept.region,
+      description:
+        "Devis assurance et credit dans le " +
+        dept.name +
+        " : VTC, sante, auto, habitation, credit immo. " +
+        deptCities.length +
+        " villes.",
+      h1: "Assurance & financement dans le " + dept.name,
+      intro: "Acces direct aux devis par produit et par ville pour le departement " + dept.name + ".",
+      cta: { href: "/landings/devis.html", label: "Devis gratuit" },
+      crumbs: [
+        { name: "Accueil", url: "/" },
+        { name: "France", url: "/france/" },
+        { name: dept.name, url: "/france/departement/" + dept.slug + "/" },
+      ],
+      hubCityGrid: cityLinks,
+      hubDeptGrid: productLinks,
+      related: [{ href: "/france/region/" + dept.regionSlug + "/", label: dept.region }],
+      faq: [],
+    });
+  });
+}
+
+function buildPillarPageConfigs(pageFn) {
+  const pillars = [
+    {
+      file: "assurance-auto/index.html",
+      theme: "auto",
+      siloLabel: "Assurance auto",
+      siloUrl: "/assurance-auto/",
+      landing: "/landings/devis.html?need=auto",
+      title: "Assurance auto | Devis et comparatif France",
+      description: "Assurance auto en France : tous risques, au tiers, jeune conducteur. Devis gratuit, courtier ORIAS.",
+      h1: "Assurance auto : comparez les offres",
+      intro: "Particuliers et familles : nous comparons les assureurs pour trouver le meilleur rapport garanties / prix.",
+    },
+    {
+      file: "assurance-habitation/index.html",
+      theme: "habitation",
+      siloLabel: "Assurance habitation",
+      siloUrl: "/assurance-habitation/",
+      landing: "/landings/devis.html?need=habitation",
+      title: "Assurance habitation | Devis locataire & proprietaire",
+      description: "Assurance habitation en France : locataire, proprietaire, degats des eaux, vol. Devis gratuit.",
+      h1: "Assurance habitation : proteger votre logement",
+      intro: "Locataire ou proprietaire : multirisque habitation, responsabilite civile et options sur mesure.",
+    },
+    {
+      file: "assurance-prevoyance/index.html",
+      theme: "prevoyance",
+      siloLabel: "Assurance prevoyance",
+      siloUrl: "/assurance-prevoyance/",
+      landing: "/landings/devis.html?need=prevoyance",
+      title: "Assurance prevoyance | Protection revenus & famille",
+      description: "Prevoyance en France : deces, invalidite, arret de travail. Courtier ORIAS, devis gratuit.",
+      h1: "Assurance prevoyance : securiser l avenir",
+      intro: "Salaries et independants : garanties deces, ITT, IPT et maintien de revenus.",
+    },
+  ];
+  return pillars.map(function (p) {
+    return pageFn({
+      file: p.file,
+      theme: p.theme,
+      badge: "France entiere",
+      title: p.title,
+      description: p.description,
+      h1: p.h1,
+      intro: p.intro,
+      cta: { href: p.landing, label: "Demander un devis" },
+      crumbs: [
+        { name: "Accueil", url: "/" },
+        { name: p.siloLabel, url: p.siloUrl },
+      ],
+      benefits: [
+        { title: "Comparatif", text: "Plusieurs compagnies analysees." },
+        { title: "Conseil humain", text: "Un courtier dedie." },
+        { title: "France entiere", text: "Pages par ville et departement." },
+      ],
+      related: [
+        { href: p.siloUrl.replace(/\/$/, "") + "/villes/", label: "Par ville" },
+        { href: p.siloUrl.replace(/\/$/, "") + "/departements/", label: "Par departement" },
+        { href: "/france/", label: "Couverture France" },
+      ],
+      faq: [
+        {
+          q: "Le devis est-il gratuit ?",
+          a: "Oui, sans engagement.",
+        },
+      ],
+    });
+  });
+}
+
+function buildHubPageConfigs(cities, regions, departments, pageFn) {
   const out = [];
   GEO_PRODUCTS.forEach(function (product) {
     const cityLinks = cities
@@ -271,7 +712,7 @@ function buildHubPageConfigs(cities, pageFn) {
     cities.forEach(function (c) {
       allCityLinks.push({
         href: "/" + product.dir + "/" + c.slug + "/",
-        label: product.key === "vtc" ? "VTC" : product.key === "sante" ? "Sante" : "Credit",
+        label: product.key === "vtc" ? "VTC" : product.key === "sante" ? "Sante" : product.key === "credit" ? "Credit" : product.key === "auto" ? "Auto" : product.key === "habitation" ? "Habitation" : "Prevoyance",
         city: c.name,
       });
     });
@@ -284,10 +725,20 @@ function buildHubPageConfigs(cities, pageFn) {
       badge: "SEO France",
       title: "Courtier assurance et credit partout en France | Leads Opportunities",
       description:
-        "Devis assurance VTC, mutuelle sante et credit immobilier dans toute la France : metropole et DOM. Plus de 50 villes, courtier ORIAS.",
+        "Devis assurance et credit dans " +
+        cities.length +
+        " villes et " +
+        departments.length +
+        " departements : VTC, mutuelle, auto, habitation, prevoyance, credit immo. Metropole et DOM.",
       h1: "Present partout en France",
       intro:
-        "Notre objectif : vous permettre de trouver Leads Opportunities sur votre ville, votre region et votre besoin (VTC, sante, credit immo). Chaque page locale est optimisee pour un devis rapide et un conseil humain.",
+        "Plus de " +
+        cities.length +
+        " villes, " +
+        departments.length +
+        " departements et " +
+        regions.length +
+        " regions couverts : trouvez une page locale pour votre devis (VTC, sante, auto, habitation, prevoyance, credit immo).",
       cta: { href: "/nos-services.html", label: "Voir tous nos services" },
       crumbs: [
         { name: "Accueil", url: "/" },
@@ -295,17 +746,24 @@ function buildHubPageConfigs(cities, pageFn) {
       ],
       sections: [
         {
-          h2: "Nos 3 expertises nationales",
+          h2: "Nos expertises nationales",
           list: [
             "Assurance VTC — chauffeurs et creation d activite",
             "Mutuelle sante — particuliers, familles, independants",
             "Credit immobilier — primo-accedants et investisseurs",
+            "Assurance auto — tous profils conducteurs",
+            "Assurance habitation — locataires et proprietaires",
+            "Prevoyance — protection revenus et famille",
           ],
         },
       ],
       related: [
+        { href: "/france/regions/", label: "Par region" },
+        { href: "/france/departements/", label: "Par departement" },
         { href: "/assurance-vtc/villes/", label: "Villes VTC" },
         { href: "/assurance-sante/villes/", label: "Villes mutuelle" },
+        { href: "/assurance-auto/villes/", label: "Villes auto" },
+        { href: "/assurance-habitation/villes/", label: "Villes habitation" },
         { href: "/credit-immo/villes/", label: "Villes credit immo" },
       ],
       faq: [
@@ -320,10 +778,33 @@ function buildHubPageConfigs(cities, pageFn) {
     })
   );
 
+  out.push(
+    pageFn({
+      file: "france/regions/index.html",
+      theme: "vtc",
+      badge: "Regions",
+      title: "Regions de France | Assurance & credit local",
+      description: "Pages SEO par region : " + regions.length + " regions, devis assurance et credit.",
+      h1: "Toutes les regions",
+      intro: "Selectionnez votre region pour acceder aux departements et villes couvertes.",
+      cta: { href: "/france/", label: "Accueil France" },
+      crumbs: [
+        { name: "Accueil", url: "/" },
+        { name: "France", url: "/france/" },
+        { name: "Regions", url: "/france/regions/" },
+      ],
+      hubCityGrid: regions.map(function (r) {
+        return { href: "/france/region/" + r.slug + "/", label: r.name };
+      }),
+      related: [{ href: "/france/departements/", label: "Par departement" }],
+      faq: [],
+    })
+  );
+
   return out;
 }
 
-function collectSitemapUrls(cities, base) {
+function collectSitemapUrls(cities, departments, regions, base) {
   const today = new Date().toISOString().slice(0, 10);
   const urls = [
     { loc: base + "/", priority: "1.0", changefreq: "weekly" },
@@ -345,6 +826,20 @@ function collectSitemapUrls(cities, base) {
     { loc: base + "/credit-immo/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/credit-immo/simulation/", priority: "0.87", changefreq: "weekly" },
     { loc: base + "/credit-immo/villes/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-auto/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-auto/villes/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-auto/departements/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-habitation/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-habitation/villes/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-habitation/departements/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-prevoyance/", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/assurance-prevoyance/villes/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-prevoyance/departements/", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/departements/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-sante/departements/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/credit-immo/departements/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/france/regions/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/france/departements/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/blog/", priority: "0.8", changefreq: "weekly" },
     { loc: base + "/blog/assurance-vtc-moins-cher-2026.html", priority: "0.75", changefreq: "monthly" },
     { loc: base + "/blog/mutuelle-sante-5-criteres.html", priority: "0.75", changefreq: "monthly" },
@@ -355,13 +850,31 @@ function collectSitemapUrls(cities, base) {
   ];
 
   GEO_PRODUCTS.forEach(function (product) {
+    urls.push({ loc: base + product.siloUrl, priority: "0.88", changefreq: "weekly" });
+    if (product.hubUrl) urls.push({ loc: base + product.hubUrl, priority: "0.9", changefreq: "weekly" });
+    if (product.hubDeptUrl) urls.push({ loc: base + product.hubDeptUrl, priority: "0.88", changefreq: "weekly" });
     cities.forEach(function (city) {
       urls.push({
         loc: base + "/" + product.dir + "/" + city.slug + "/",
-        priority: city.slug === "paris" ? "0.8" : "0.72",
+        priority: city.slug === "paris" ? "0.78" : "0.68",
         changefreq: "monthly",
       });
     });
+    departments.forEach(function (dept) {
+      urls.push({
+        loc: base + "/" + product.dir + "/departement/" + dept.slug + "/",
+        priority: "0.7",
+        changefreq: "monthly",
+      });
+    });
+  });
+
+  regions.forEach(function (r) {
+    urls.push({ loc: base + "/france/region/" + r.slug + "/", priority: "0.82", changefreq: "monthly" });
+  });
+
+  departments.forEach(function (d) {
+    urls.push({ loc: base + "/france/departement/" + d.slug + "/", priority: "0.75", changefreq: "monthly" });
   });
 
   return urls.map(function (u) {
@@ -393,10 +906,31 @@ function writeSitemap(urls, outFile) {
   fs.writeFileSync(outFile, xml, "utf8");
 }
 
+function writeSitemapIndex(sitemaps, outFile, base) {
+  const today = new Date().toISOString().slice(0, 10);
+  const body = sitemaps
+    .map(function (name) {
+      return "  <sitemap>\n    <loc>" + base + "/" + name + "</loc>\n    <lastmod>" + today + "</lastmod>\n  </sitemap>";
+    })
+    .join("\n");
+  const xml =
+    '<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+    body +
+    "\n</sitemapindex>\n";
+  fs.writeFileSync(outFile, xml, "utf8");
+}
+
 module.exports = {
   GEO_PRODUCTS,
   buildGeoPageConfigs,
+  buildDeptPageConfigs,
+  buildDeptHubPageConfigs,
+  buildRegionPageConfigs,
+  buildFranceDeptHub,
+  buildFranceDeptPages,
+  buildPillarPageConfigs,
   buildHubPageConfigs,
   collectSitemapUrls,
   writeSitemap,
+  writeSitemapIndex,
 };

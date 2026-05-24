@@ -1,0 +1,20 @@
+[
+  { "slug": "auvergne-rhone-alpes", "name": "Auvergne-Rhone-Alpes" },
+  { "slug": "bourgogne-franche-comte", "name": "Bourgogne-Franche-Comte" },
+  { "slug": "bretagne", "name": "Bretagne" },
+  { "slug": "centre-val-de-loire", "name": "Centre-Val de Loire" },
+  { "slug": "corse", "name": "Corse" },
+  { "slug": "grand-est", "name": "Grand Est" },
+  { "slug": "hauts-de-france", "name": "Hauts-de-France" },
+  { "slug": "ile-de-france", "name": "Ile-de-France" },
+  { "slug": "normandie", "name": "Normandie" },
+  { "slug": "nouvelle-aquitaine", "name": "Nouvelle-Aquitaine" },
+  { "slug": "occitanie", "name": "Occitanie" },
+  { "slug": "pays-de-la-loire", "name": "Pays de la Loire" },
+  { "slug": "provence-alpes-cote-d-azur", "name": "Provence-Alpes-Cote d Azur" },
+  { "slug": "guadeloupe", "name": "Guadeloupe" },
+  { "slug": "martinique", "name": "Martinique" },
+  { "slug": "guyane", "name": "Guyane" },
+  { "slug": "la-reunion", "name": "La Reunion" },
+  { "slug": "mayotte", "name": "Mayotte" }
+]

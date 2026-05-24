@@ -3,6 +3,9 @@
   "private": true,
   "version": "1.0.0",
   "description": "Leads Opportunities website with Stripe serverless integration",
+  "scripts": {
+    "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-seo-pages.cjs"
+  },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
     "jsonwebtoken": "^9.0.3",

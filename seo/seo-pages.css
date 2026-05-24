@@ -10,6 +10,9 @@
 .seo-page--vtc { --seo-accent: #0d9488; --seo-accent-dark: #0f766e; --seo-soft: #ccfbf1; }
 .seo-page--sante { --seo-accent: #2563eb; --seo-accent-dark: #1d4ed8; --seo-soft: #dbeafe; }
 .seo-page--credit { --seo-accent: #6366f1; --seo-accent-dark: #4f46e5; --seo-soft: #e0e7ff; }
+.seo-page--auto { --seo-accent: #dc2626; --seo-accent-dark: #b91c1c; --seo-soft: #fee2e2; }
+.seo-page--habitation { --seo-accent: #0284c7; --seo-accent-dark: #0369a1; --seo-soft: #e0f2fe; }
+.seo-page--prevoyance { --seo-accent: #7c3aed; --seo-accent-dark: #6d28d9; --seo-soft: #ede9fe; }
 
 .seo-container {
   width: min(1040px, 92vw);

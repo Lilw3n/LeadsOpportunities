@@ -5,15 +5,25 @@
 const fs = require("fs");
 const path = require("path");
 const {
+  GEO_PRODUCTS,
   buildGeoPageConfigs,
+  buildDeptPageConfigs,
+  buildDeptHubPageConfigs,
+  buildRegionPageConfigs,
+  buildFranceDeptHub,
+  buildFranceDeptPages,
+  buildPillarPageConfigs,
   buildHubPageConfigs,
   collectSitemapUrls,
   writeSitemap,
+  writeSitemapIndex,
 } = require("./seo-geo-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const BASE = "https://leads-opportunities.vercel.app";
 const CITIES = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-cities.json"), "utf8"));
+const DEPARTMENTS = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-departments.json"), "utf8"));
+const REGIONS = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-regions.json"), "utf8"));
 
 const TRUST = [
   "Courtier ORIAS",
@@ -696,15 +706,34 @@ function renderPage(p) {
 
   const cityGridHtml =
     p.hubCityGrid && p.hubCityGrid.length
-      ? '<section class="seo-card"><h2>Villes couvertes en France</h2><div class="seo-city-grid">' +
+      ? '<section class="seo-card"><h2>' +
+        (p.hubDeptGrid ? "Villes principales" : "Villes couvertes en France") +
+        '</h2><div class="seo-city-grid">' +
         p.hubCityGrid
           .map(function (l) {
-            var cityName = l.label.replace(/^[^\s]+\s/, "");
+            var cityName = l.label;
             return (
               '<a class="seo-city-link" href="' +
               esc(hrefPath(prefix, l.href)) +
               '">' +
               esc(cityName) +
+              "</a>"
+            );
+          })
+          .join("") +
+        "</div></section>"
+      : "";
+
+  const deptGridHtml =
+    p.hubDeptGrid && p.hubDeptGrid.length
+      ? '<section class="seo-card"><h2>Par produit ou departement</h2><div class="seo-city-grid">' +
+        p.hubDeptGrid
+          .map(function (l) {
+            return (
+              '<a class="seo-city-link" href="' +
+              esc(hrefPath(prefix, l.href)) +
+              '">' +
+              esc(l.label) +
               "</a>"
             );
           })
@@ -781,6 +810,7 @@ function renderPage(p) {
         ${renderSteps(p.steps)}
         ${renderSections(p.sections)}
         ${cityGridHtml}
+        ${deptGridHtml}
         ${hubProductsHtml}
         ${faqHtml ? '<section class="seo-card seo-faq-block"><h2>Questions frequentes</h2>' + faqHtml + "</section>" : ""}
       </div>
@@ -818,49 +848,75 @@ function renderPage(p) {
 </html>`;
 }
 
-const ALL_PAGES = PAGES.concat(buildGeoPageConfigs(CITIES, page)).concat(buildHubPageConfigs(CITIES, page));
+const ALL_PAGES = PAGES.concat(
+  buildPillarPageConfigs(page),
+  buildGeoPageConfigs(CITIES, page),
+  buildDeptPageConfigs(DEPARTMENTS, CITIES, page),
+  buildDeptHubPageConfigs(DEPARTMENTS, page),
+  buildRegionPageConfigs(REGIONS, DEPARTMENTS, CITIES, page),
+  buildFranceDeptHub(DEPARTMENTS, page),
+  buildFranceDeptPages(DEPARTMENTS, CITIES, page),
+  buildHubPageConfigs(CITIES, REGIONS, DEPARTMENTS, page)
+);
 
 ALL_PAGES.forEach(function (p) {
   const out = path.join(ROOT, p.file);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, renderPage(p), "utf8");
-  console.log("OK", p.file);
 });
 
-const sitemapUrls = collectSitemapUrls(CITIES, BASE);
-writeSitemap(sitemapUrls, path.join(ROOT, "sitemap.xml"));
+const allUrls = collectSitemapUrls(CITIES, DEPARTMENTS, REGIONS, BASE);
+const geoUrls = allUrls.filter(function (u) {
+  return (
+    u.loc.indexOf("/assurance-") > -1 ||
+    u.loc.indexOf("/credit-immo/") > -1
+  );
+});
+const franceUrls = allUrls.filter(function (u) {
+  return u.loc.indexOf("/france/") > -1;
+});
+const mainUrls = allUrls.filter(function (u) {
+  return geoUrls.indexOf(u) < 0 && franceUrls.indexOf(u) < 0;
+});
 
-const fragment = sitemapUrls
-  .filter(function (u) {
-    return (
-      u.loc.indexOf("/assurance-vtc/") > -1 ||
-      u.loc.indexOf("/assurance-sante/") > -1 ||
-      u.loc.indexOf("/credit-immo/") > -1 ||
-      u.loc.indexOf("/france/") > -1
-    );
-  })
-  .map(function (u) {
-    return (
-      "  <url>\n    <loc>" +
-      u.loc +
-      "</loc>\n    <lastmod>" +
-      u.lastmod +
-      "</lastmod>\n    <changefreq>" +
-      u.changefreq +
-      "</changefreq>\n    <priority>" +
-      u.priority +
-      "</priority>\n  </url>"
-    );
-  })
-  .join("\n");
-fs.writeFileSync(path.join(ROOT, "seo/generated-sitemap-fragment.xml"), fragment + "\n", "utf8");
+writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
+writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));
+writeSitemap(franceUrls, path.join(ROOT, "sitemap-france.xml"));
+writeSitemapIndex(["sitemap-main.xml", "sitemap-geo.xml", "sitemap-france.xml"], path.join(ROOT, "sitemap.xml"), BASE);
+
+fs.writeFileSync(
+  path.join(ROOT, "seo/generated-sitemap-fragment.xml"),
+  geoUrls
+    .slice(0, 500)
+    .map(function (u) {
+      return (
+        "  <url>\n    <loc>" +
+        u.loc +
+        "</loc>\n    <lastmod>" +
+        u.lastmod +
+        "</lastmod>\n    <changefreq>" +
+        u.changefreq +
+        "</changefreq>\n    <priority>" +
+        u.priority +
+        "</priority>\n  </url>"
+      );
+    })
+    .join("\n") + "\n",
+  "utf8"
+);
 
 console.log(
   "Done:",
   ALL_PAGES.length,
   "pages |",
-  sitemapUrls.length,
-  "URLs sitemap |",
+  allUrls.length,
+  "URLs |",
   CITIES.length,
-  "villes x 3 produits"
+  "villes |",
+  DEPARTMENTS.length,
+  "depts |",
+  REGIONS.length,
+  "regions |",
+  GEO_PRODUCTS.length,
+  "produits"
 );
