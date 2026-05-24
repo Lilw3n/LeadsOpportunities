@@ -14,7 +14,14 @@
 node scripts/generate-seo-pages.cjs
 ```
 
-Puis mettre a jour `sitemap.xml` (fragment dans `seo/generated-sitemap-fragment.xml`).
+Genere automatiquement :
+- pages piliers + intent (devis, tarif, comparatif…)
+- **~54 villes × 3 produits** (VTC, sante, credit immo) = 162 pages locales
+- hubs `/assurance-vtc/villes/`, `/assurance-sante/villes/`, `/credit-immo/villes/`
+- hub national `/france/`
+- `sitemap.xml` complet (toutes les URLs)
+
+Liste des villes : `seo/france-cities.json` (ajouter une ligne = regen).
 
 ## Docs
 

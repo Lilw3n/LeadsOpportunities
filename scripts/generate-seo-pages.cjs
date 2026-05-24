@@ -4,9 +4,16 @@
  */
 const fs = require("fs");
 const path = require("path");
+const {
+  buildGeoPageConfigs,
+  buildHubPageConfigs,
+  collectSitemapUrls,
+  writeSitemap,
+} = require("./seo-geo-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const BASE = "https://leads-opportunities.vercel.app";
+const CITIES = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-cities.json"), "utf8"));
 
 const TRUST = [
   "Courtier ORIAS",
@@ -75,6 +82,7 @@ const PAGES = [
     related: [
       { href: "/assurance-vtc/devis-rapide/", label: "Devis assurance VTC rapide" },
       { href: "/assurance-vtc/tarif/", label: "Comprendre le tarif VTC" },
+      { href: "/assurance-vtc/villes/", label: "Assurance VTC par ville" },
       { href: "/assurance-vtc/paris/", label: "Assurance VTC Paris" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Article : payer moins cher" },
     ],
@@ -273,6 +281,7 @@ const PAGES = [
     related: [
       { href: "/assurance-sante/comparatif/", label: "Comparatif mutuelle" },
       { href: "/assurance-sante/remboursement-optique/", label: "Remboursement optique" },
+      { href: "/assurance-sante/villes/", label: "Mutuelle par ville" },
       { href: "/assurance-sante/paris/", label: "Mutuelle Paris" },
       { href: "/blog/mutuelle-sante-5-criteres.html", label: "5 criteres de choix" },
     ],
@@ -432,6 +441,7 @@ const PAGES = [
     ],
     related: [
       { href: "/credit-immo/simulation/", label: "Simulation" },
+      { href: "/credit-immo/villes/", label: "Credit immo par ville" },
       { href: "/credit-immo/paris/", label: "Credit immo Paris" },
       { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
     ],
@@ -616,7 +626,13 @@ function renderPage(p) {
       name: "Leads Opportunities",
       url: BASE + "/",
     },
-    areaServed: "FR",
+    areaServed: p.city
+      ? {
+          "@type": "City",
+          name: p.city.name,
+          containedInPlace: { "@type": "AdministrativeArea", name: p.city.region },
+        }
+      : { "@type": "Country", name: "France" },
     url: canonical,
   };
 
@@ -672,6 +688,41 @@ function renderPage(p) {
   const navSante = hrefPath(prefix, "/assurance-sante/");
   const navCredit = hrefPath(prefix, "/credit-immo/");
 
+  const geoMeta = p.city
+    ? '<meta name="geo.region" content="FR" />\n  <meta name="geo.placename" content="' +
+      esc(p.city.name) +
+      '" />\n  <meta name="language" content="fr-FR" />'
+    : '<meta name="geo.region" content="FR" />\n  <meta name="language" content="fr-FR" />';
+
+  const cityGridHtml =
+    p.hubCityGrid && p.hubCityGrid.length
+      ? '<section class="seo-card"><h2>Villes couvertes en France</h2><div class="seo-city-grid">' +
+        p.hubCityGrid
+          .map(function (l) {
+            var cityName = l.label.replace(/^[^\s]+\s/, "");
+            return (
+              '<a class="seo-city-link" href="' +
+              esc(hrefPath(prefix, l.href)) +
+              '">' +
+              esc(cityName) +
+              "</a>"
+            );
+          })
+          .join("") +
+        "</div></section>"
+      : "";
+
+  const hubProductsHtml =
+    p.hubProducts && p.hubProducts.length
+      ? '<section class="seo-card"><h2>Annuaires par metier</h2><ul class="seo-list">' +
+        p.hubProducts
+          .map(function (l) {
+            return '<li><a href="' + esc(hrefPath(prefix, l.href)) + '">' + esc(l.label) + "</a></li>";
+          })
+          .join("") +
+        "</ul></section>"
+      : "";
+
   return `<!doctype html>
 <html lang="fr">
 <head>
@@ -680,7 +731,9 @@ function renderPage(p) {
   <title>${esc(p.title)}</title>
   <meta name="description" content="${esc(p.description)}" />
   <meta name="robots" content="index,follow" />
+  ${geoMeta}
   <link rel="canonical" href="${esc(canonical)}" />
+  <link rel="alternate" hreflang="fr-FR" href="${esc(canonical)}" />
   <meta property="og:title" content="${esc(p.title)}" />
   <meta property="og:description" content="${esc(p.description)}" />
   <meta property="og:type" content="website" />
@@ -727,6 +780,8 @@ function renderPage(p) {
         ${renderBenefits(p.benefits)}
         ${renderSteps(p.steps)}
         ${renderSections(p.sections)}
+        ${cityGridHtml}
+        ${hubProductsHtml}
         ${faqHtml ? '<section class="seo-card seo-faq-block"><h2>Questions frequentes</h2>' + faqHtml + "</section>" : ""}
       </div>
       <aside class="seo-aside">
@@ -763,11 +818,49 @@ function renderPage(p) {
 </html>`;
 }
 
-PAGES.forEach(function (p) {
+const ALL_PAGES = PAGES.concat(buildGeoPageConfigs(CITIES, page)).concat(buildHubPageConfigs(CITIES, page));
+
+ALL_PAGES.forEach(function (p) {
   const out = path.join(ROOT, p.file);
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, renderPage(p), "utf8");
   console.log("OK", p.file);
 });
 
-console.log("Done:", PAGES.length, "pages");
+const sitemapUrls = collectSitemapUrls(CITIES, BASE);
+writeSitemap(sitemapUrls, path.join(ROOT, "sitemap.xml"));
+
+const fragment = sitemapUrls
+  .filter(function (u) {
+    return (
+      u.loc.indexOf("/assurance-vtc/") > -1 ||
+      u.loc.indexOf("/assurance-sante/") > -1 ||
+      u.loc.indexOf("/credit-immo/") > -1 ||
+      u.loc.indexOf("/france/") > -1
+    );
+  })
+  .map(function (u) {
+    return (
+      "  <url>\n    <loc>" +
+      u.loc +
+      "</loc>\n    <lastmod>" +
+      u.lastmod +
+      "</lastmod>\n    <changefreq>" +
+      u.changefreq +
+      "</changefreq>\n    <priority>" +
+      u.priority +
+      "</priority>\n  </url>"
+    );
+  })
+  .join("\n");
+fs.writeFileSync(path.join(ROOT, "seo/generated-sitemap-fragment.xml"), fragment + "\n", "utf8");
+
+console.log(
+  "Done:",
+  ALL_PAGES.length,
+  "pages |",
+  sitemapUrls.length,
+  "URLs sitemap |",
+  CITIES.length,
+  "villes x 3 produits"
+);
