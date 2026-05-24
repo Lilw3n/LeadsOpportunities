@@ -7,10 +7,13 @@ const ROUTES = {
   "change-password": () => require("../_lib/routes/change-password"),
   "forgot-password": () => require("../_lib/routes/forgot-password"),
   "reset-password": () => require("../_lib/routes/reset-password"),
+  google: () => require("../_lib/routes/google-start"),
+  "google-callback": () => require("../_lib/routes/google-callback"),
+  "google-config-env": () => require("../_lib/routes/google-config-env"),
 };
 
 module.exports = async (req, res) => {
-  setCors(res);
+  setCors(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
 
   const action = req.query.action;

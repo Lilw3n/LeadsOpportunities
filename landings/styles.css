@@ -34,7 +34,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -386,6 +386,11 @@ textarea:focus-visible {
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
+.grid > label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
 .field {
   display: flex;
@@ -456,6 +461,20 @@ input::placeholder { color: #94a3b8; }
   align-items: center;
   gap: 10px;
 }
+.form-error {
+  margin: 14px 0 0;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+  font-weight: 600;
+  font-size: .94rem;
+}
+.form-error a { color: #b91c1c; font-weight: 700; }
+.wizard-actions:has(.wizard-submit:not([hidden])) .wizard-next {
+  display: none !important;
+}
 
 /* ===== FAQ on landing ===== */
 .form-wrap h2 {
@@ -486,6 +505,13 @@ input::placeholder { color: #94a3b8; }
   transition: color .2s;
 }
 .landing-footer a:hover { color: var(--primary); }
+.landing-footer-legal {
+  width: 100%;
+  text-align: center;
+  font-size: .72rem;
+  color: var(--muted);
+  opacity: .8;
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {

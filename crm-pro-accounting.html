@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comptabilite pro | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body data-admin-nav-page>
+  <h1>Comptabilite pro</h1>
+  <p style="color:var(--muted)">Charges, revenus Stripe, export CSV — voir <a href="./docs/COMPTA-REGLES.md">regles compta</a></p>
+  <div id="summary" class="panel"></div>
+  <form id="expForm" class="panel" style="margin-top:16px">
+    <h3>Ajouter une depense</h3>
+    <select name="category" required>
+      <option value="logiciel">Logiciel</option>
+      <option value="ads">Publicite</option>
+      <option value="leads_achat">Leads achetes</option>
+      <option value="deplacement">Deplacement</option>
+      <option value="frais_maison">Frais maison</option>
+      <option value="salaire">Salaire / collaborateur</option>
+      <option value="autre">Autre</option>
+    </select>
+    <input name="amountEur" type="number" step="0.01" placeholder="Montant EUR" required />
+    <input name="vendor" placeholder="Fournisseur" />
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+  </form>
+  <p><a href="./crm.html">Retour CRM</a></p>
+  <script src="./js/admin-nav.js"></script>
+  <script>
+    (function () {
+      var token = localStorage.getItem("lo_token");
+      if (!token) location.href = "./crm.html";
+      function headers() {
+        return { Authorization: "Bearer " + token, "Content-Type": "application/json" };
+      }
+      fetch("/api/crm/pro-accounting?action=summary", { headers: headers() })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (res) {
+          if (!res.ok) return;
+          document.getElementById("summary").innerHTML =
+            "<p><strong>Revenus :</strong> " +
+            (res.revenueTotal || 0).toFixed(2) +
+            " EUR</p><p><strong>Charges :</strong> " +
+            (res.expenseTotal || 0).toFixed(2) +
+            " EUR</p><p><strong>Marge :</strong> " +
+            (res.margin || 0).toFixed(2) +
+            " EUR</p>";
+        });
+      document.getElementById("expForm").onsubmit = function (e) {
+        e.preventDefault();
+        var fd = new FormData(e.target);
+        fetch("/api/crm/pro-accounting", {
+          method: "POST",
+          headers: headers(),
+          body: JSON.stringify({
+            type: "expense",
+            category: fd.get("category"),
+            amountEur: fd.get("amountEur"),
+            vendor: fd.get("vendor"),
+          }),
+        }).then(function () {
+          location.reload();
+        });
+      };
+    })();
+  </script>
+</body>
+</html>

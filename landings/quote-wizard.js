@@ -123,7 +123,13 @@
 
     function stepNameAt(i) {
       var s = steps[i];
-      return (s && (s.getAttribute("data-step-name") || s.getAttribute("data-wizard-step"))) || String(i + 1);
+      return (
+        (s &&
+          (s.getAttribute("data-step-name") ||
+            s.getAttribute("data-step") ||
+            s.getAttribute("data-wizard-step"))) ||
+        String(i + 1)
+      );
     }
 
     function emitStepEvent() {

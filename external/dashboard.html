@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon espace | Leads Opportunities</title>
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <style>
+    .dash { max-width: 800px; margin: 0 auto; padding: 24px; }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .dash-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+    .dash-list { list-style: none; padding: 0; margin: 0; }
+    .dash-list li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+    .dash-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .dash-actions a { padding: 12px 20px; background: #6366f1; color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600; }
+    .dash-actions a.secondary { background: #f1f5f9; color: #334155; }
+    .dash-quick-meta { margin: 0 0 10px; font-size: 0.85rem; color: #64748b; }
+    .dash-quick-meta a { color: #4f46e5; font-weight: 600; }
+    .dash-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .dash-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .dash-pill:hover { border-color: #6366f1; background: #eef2ff; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="dash">
+    <div class="dash-header">
+      <div>
+        <a href="index.html" style="font-size: 0.9rem">← Portail client</a>
+        <h1 id="dashTitle">Mon espace</h1>
+      </div>
+      <button type="button" id="btnLogout" style="padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; cursor: pointer">Déconnexion</button>
+    </div>
+    <div id="dashLoading">Chargement…</div>
+    <div id="dashContent" class="hidden"></div>
+  </div>
+  <script src="../js/cookie-banner.js"></script>
+  <script src="../js/external-portal-nav.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

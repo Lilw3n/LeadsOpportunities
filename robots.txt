@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /dashboard.html
+Disallow: /admin.html
+Disallow: /auth.html
+Disallow: /espace-client.html
+Disallow: /paiement.html
+Disallow: /paiement-success.html
+Disallow: /api/
 
 Sitemap: https://leads-opportunities.vercel.app/sitemap.xml

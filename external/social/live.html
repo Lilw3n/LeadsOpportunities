@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live VTC | Social</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .live-badge { display:inline-block; background:#ef4444; color:#fff; padding:4px 10px; border-radius:999px; font-size:.8rem; animation:pulse 1.5s infinite; }
+    @keyframes pulse { 50% { opacity:.7; } }
+    .live-card { max-width:640px; margin:24px auto; padding:24px; background:#fff; border:1px solid #e2e8f0; border-radius:16px; }
+  </style>
+</head>
+<body class="landing-page">
+  <header class="landing-header">
+    <a href="hub.html">← Social Hub</a>
+    <h1><span class="live-badge">LIVE</span> Session VTC &amp; assurance</h1>
+    <p>Inspire external/social/hub/live multisite</p>
+  </header>
+  <div class="live-card">
+    <h2>Q&amp;A bonus-malus VTC</h2>
+    <p style="color:#64748b">Replay disponible — prochain live : jeudi 18h</p>
+    <ul>
+      <li>Comment anticiper une surprime VTC ?</li>
+      <li>Comparatif franchises Zéphir / Solly Azar</li>
+      <li>Documents à préparer pour un devis flotte</li>
+    </ul>
+    <p style="margin-top:16px"><a href="../devis-wizard.html?type=vtc-taxi">Demander un devis pendant le live →</a></p>
+    <hr style="margin:28px 0;border:none;border-top:1px solid #e2e8f0" />
+    <h2>Studio local (aperçu caméra)</h2>
+    <p style="color:#64748b;font-size:.9rem">Inspire <code>LiveStreamingSystem</code> / <code>streamingService</code> multisite — prévisualisation WebRTC locale sans serveur.</p>
+    <video id="livePreview" autoplay playsinline muted style="width:100%;max-height:360px;background:#0f172a;border-radius:12px"></video>
+    <p style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+      <button type="button" id="btnCamStart" class="btn" style="padding:10px 18px;background:#6366f1;color:#fff;border:none;border-radius:10px;cursor:pointer">Démarrer la caméra</button>
+      <button type="button" id="btnCamStop" class="btn" style="padding:10px 18px;border:1px solid #e2e8f0;border-radius:10px;background:#fff;cursor:pointer">Arrêter</button>
+    </p>
+    <p id="liveCamMsg" style="font-size:.85rem;color:#64748b"></p>
+    <div style="margin-top:24px;padding:16px;background:#f8fafc;border-radius:12px">
+      <p style="margin:0 0 8px"><strong id="liveViewers">👁 127 spectateurs</strong> · <span class="live-badge">EN DIRECT</span></p>
+      <div id="liveChat" style="max-height:160px;overflow-y:auto;font-size:.88rem;margin-bottom:10px"></div>
+      <form id="liveChatForm" style="display:flex;gap:8px">
+        <input name="msg" placeholder="Poser une question…" style="flex:1;padding:8px;border:1px solid #e2e8f0;border-radius:8px" />
+        <button type="submit" style="padding:8px 14px;background:#6366f1;color:#fff;border:none;border-radius:8px;cursor:pointer">Envoyer</button>
+      </form>
+    </div>
+  </div>
+  <script src="live-studio.js"></script>
+  <script src="live-chat.js"></script>
+</html>

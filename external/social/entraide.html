@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entraide communautaire | Social</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .ent-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
+    .ent-hero { background: linear-gradient(135deg, #0d9488, #6366f1); color: #fff; border-radius: 16px; padding: 28px 24px; margin-bottom: 24px; }
+    .ent-section { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="ent-wrap">
+    <p><a href="hub.html">← Social Hub</a></p>
+    <div class="ent-hero">
+      <h1 style="margin:0 0 8px">Entraide &amp; solidarité pro</h1>
+      <p style="margin:0;opacity:.92">Cagnottes, prêts entre membres et service mobile — inspire la communauté VTC multisite.</p>
+    </div>
+    <div class="ent-section" id="mutualMount"></div>
+    <div class="ent-section" id="lendingMount"></div>
+    <p style="text-align:center;font-size:.88rem;color:#64748b">
+      <a href="../assurance/devis-intelligent.html">Devis intelligent IA →</a> ·
+      <a href="../claim-declare.html">Déclarer un sinistre →</a>
+    </p>
+  </div>
+  <script src="../../js/mutual-aid-service.js"></script>
+  <script src="../../js/lending-service.js"></script>
+  <script>
+    window.MutualAidService.render(document.getElementById("mutualMount"), { showCreate: true });
+    window.LendingService.render(document.getElementById("lendingMount"), { showPropose: true });
+    var camp = new URLSearchParams(location.search).get("camp");
+    if (camp) {
+      setTimeout(function () {
+        var el = document.querySelector('[data-id="' + camp + '"]');
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
+    }
+  </script>
+</body>
+</html>

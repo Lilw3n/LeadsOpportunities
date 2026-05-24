@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assurance | Leads Opportunities</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .product-hero { color: #fff; padding: 48px 24px; text-align: center; }
+    .product-back { color: rgba(255,255,255,.9); display: block; margin-bottom: 16px; }
+    .product-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+    .product-cta { display: inline-block; margin-top: 20px; padding: 14px 28px; background: #fff; color: #111; border-radius: 12px; font-weight: 700; text-decoration: none; }
+    .product-main { max-width: 720px; margin: 0 auto; padding: 32px 24px; }
+    .product-features { list-style: none; padding: 0; }
+    .product-features li { padding: 10px 0; border-bottom: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body class="landing-page">
+  <div id="productRoot"></div>
+  <script src="../../js/external-product-page.js"></script>
+  <script>
+    var slug = new URLSearchParams(location.search).get("p") || "sante";
+    document.addEventListener("DOMContentLoaded", function () {
+      window.ExternalProductPage.render(slug);
+    });
+  </script>
+</body>
+</html>

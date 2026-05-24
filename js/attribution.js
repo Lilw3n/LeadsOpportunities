@@ -63,6 +63,39 @@
     } catch (e) {}
   }
 
+  function parseSeoCityFromPath(path) {
+    var p = String(path || "");
+    var m = p.match(/\/villes\/([^/]+)/) || p.match(/\/france\/villes\/([^/]+)/);
+    if (m) {
+      try {
+        return decodeURIComponent(m[1]).replace(/-/g, " ");
+      } catch (e) {
+        return m[1];
+      }
+    }
+    return "";
+  }
+
+  function sendTouchpoint() {
+    try {
+      var payload = window.getAttributionPayload();
+      fetch("/api/lead-touchpoint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          visitor_id: payload.visitor_id,
+          page_path: window.location.pathname,
+          page_title: document.title,
+          seo_city: parseSeoCityFromPath(window.location.pathname),
+          utm_source: payload.attr_last_utm_source,
+          utm_medium: payload.attr_last_utm_medium,
+          utm_campaign: payload.attr_last_utm_campaign,
+          referrer: document.referrer || "",
+        }),
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
   window.getAttributionPayload = function () {
     ensureVisitorId();
     captureAttribution();
@@ -71,9 +104,11 @@
       var ft = bag.first_touch || {};
       var lt = bag.last_touch || {};
       var cur = new URLSearchParams(window.location.search);
+      var path = bag.landing_path || window.location.pathname || "";
       return {
         visitor_id: localStorage.getItem(KEY_VISITOR) || "",
-        landing_path: bag.landing_path || "",
+        landing_path: path,
+        seo_city: parseSeoCityFromPath(path) || parseSeoCityFromPath(window.location.pathname),
         landing_at: bag.landing_at || "",
         referrer_first: bag.referrer_first || "",
         attr_first_utm_source: ft.utm_source || "",
@@ -95,4 +130,9 @@
   };
 
   captureAttribution();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", sendTouchpoint);
+  } else {
+    sendTouchpoint();
+  }
 })();

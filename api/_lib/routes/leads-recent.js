@@ -1,7 +1,7 @@
 /**
  * GET /api/leads-recent — Liste des derniers leads (Neon). Protege par LEADS_ADMIN_TOKEN (Bearer uniquement).
  */
-const { applyApiGuards, safeEqual } = require("./_lib/security");
+const { applyApiGuards, safeEqual } = require("../security");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

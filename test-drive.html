@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Drive | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .tabs { display:flex; gap:8px; margin:16px 0; }
+    .tabs button { padding:10px 16px; border:1px solid var(--line); border-radius:8px; background:#fff; cursor:pointer; }
+    .tabs button.active { background:#6366f1; color:#fff; }
+    pre { background:#f8fafc; padding:12px; border-radius:8px; overflow:auto; max-height:300px; font-size:.85rem; }
+  </style>
+</head>
+<body style="max-width:900px;margin:0 auto;padding:24px">
+  <a href="./crm-documents.html" class="btn btn-ghost">← Documents</a>
+  <h1>Drive — cloud &amp; local</h1>
+  <p style="color:var(--muted)">Inspire test-drive + DriveFileReader multisite</p>
+  <div class="tabs">
+    <button type="button" class="active" data-tab="cloud">Cloud Drive</button>
+    <button type="button" data-tab="local">Drive local</button>
+  </div>
+  <div id="panelCloud" class="panel"><div id="cloudList">Chargement…</div></div>
+  <div id="panelLocal" class="panel hidden"><div id="localList">Chargement…</div></div>
+  <section class="panel" style="margin-top:16px">
+    <h3>Contenu fichier</h3>
+    <pre id="fileContent">Sélectionnez un fichier…</pre>
+    <button type="button" class="btn btn-primary" id="btnAnalyze" style="margin-top:12px">Analyser avec IA</button>
+    <div id="aiOut" style="margin-top:12px"></div>
+  </section>
+  <script src="./test-drive.js"></script>
+</body>
+</html>

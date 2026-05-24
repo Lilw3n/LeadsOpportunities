@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assurance | Leads Opportunities</title>
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <style>
+    .hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+    .hub-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; display: block; }
+    .hub-card:hover { border-color: #0d9488; }
+    .hub-card h3 { margin: 0 0 8px; }
+    .hub-card p { margin: 0; color: #64748b; font-size: .9rem; }
+    .hub-cat { margin-top: 28px; font-size: 1.15rem; }
+  </style>
+</head>
+<body class="landing-page">
+  <header class="landing-header">
+    <a href="index.html">← Espace client</a>
+    <a href="login.html" style="float:right">Connexion</a>
+    <h1>Espace assurance</h1>
+    <p>Choisissez votre produit — hub inspire multisite external/Assurance</p>
+    <p style="margin-top:8px"><a href="profile.html">Mon profil client</a></p>
+  </header>
+  <main style="max-width:1000px;margin:0 auto;padding:24px">
+    <p style="margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap">
+      <a class="hub-card" href="./devis-wizard.html" style="display:inline-block;background:linear-gradient(135deg,#0d9488,#6366f1);color:#fff;border:none">
+        <h3 style="color:#fff">Devis intelligent</h3>
+        <p style="color:rgba(255,255,255,.9)">Wizard comparatif multisite</p>
+      </a>
+      <a class="hub-card" href="./assurance/devis-intelligent.html" style="display:inline-block;background:linear-gradient(135deg,#1e3a8a,#7c3aed);color:#fff;border:none">
+        <h3 style="color:#fff">Analyse IA éligibilité</h3>
+        <p style="color:rgba(255,255,255,.9)">Qualification lead temps réel</p>
+      </a>
+    </p>
+    <div id="hubMount"></div>
+  </main>
+  <script src="../js/service-catalog.js"></script>
+  <script>
+    (function () {
+      var catalog = window.SERVICE_CATALOG;
+      var productPages = {
+        "vtc-taxi": "./assurance/vtc.html",
+        auto: "./assurance/auto.html",
+        habitation: "./assurance/habitation.html",
+        sante: "./assurance/sante.html",
+        zephir: "./assurance/partners/zephir.html",
+        "solly-azar": "./assurance/partners/solly-azar.html",
+        prevoyance: "./assurance/landing.html?p=prevoyance",
+        "rc-pro": "./assurance/rc-pro.html",
+        decennale: "./assurance/landing.html?p=decennale",
+        flotte: "./assurance/landing.html?p=flotte",
+        moto: "./assurance/landing.html?p=moto",
+        pno: "./assurance/landing.html?p=pno",
+        "sante-collective": "./assurance/landing.html?p=sante-collective",
+        "prevoyance-collective": "./assurance/landing.html?p=prevoyance-collective",
+        "gestion-locative": "./assurance/landing.html?p=gestion-locative",
+        cyber: "./assurance/landing.html?p=cyber",
+        vie: "./assurance/landing.html?p=vie",
+      };
+      if (!catalog) return;
+      var order = ["mobilite", "sante", "habitat", "finance", "pro", "patrimoine"];
+      var html = "";
+      order.forEach(function (catId) {
+        var cat = catalog.CATEGORIES[catId];
+        if (!cat) return;
+        html += '<h2 class="hub-cat">' + cat.label + '</h2><div class="hub-grid">';
+        Object.keys(catalog.SERVICES).forEach(function (key) {
+          var svc = catalog.SERVICES[key];
+          if (svc.category !== catId) return;
+          var href = productPages[key] || productPages[svc.need];
+          if (!href) {
+            href = svc.landing
+              ? svc.landing.replace(/^\.\/landings\//, "../landings/")
+              : "../landings/devis.html?need=" + encodeURIComponent(svc.need);
+          }
+          html += '<a class="hub-card" href="' + href + '"><h3>' + svc.label + '</h3><p>Demander un devis</p></a>';
+        });
+        html += "</div>";
+      });
+      document.getElementById("hubMount").innerHTML = html;
+    })();
+  </script>
+</body>
+</html>

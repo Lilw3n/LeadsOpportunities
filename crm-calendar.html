@@ -11,6 +11,9 @@
     .cal-day.has-ev { background:#eef2ff; border-color:#6366f1; }
     .cal-ev { display:block; margin-top:4px; padding:2px 4px; background:#6366f1; color:#fff; border-radius:4px; font-size:.7rem; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     .cal-head { text-align:center; font-weight:600; padding:8px; color:var(--muted); }
+    .cal-banner { padding:10px 14px; border-radius:8px; margin:12px 0; font-size:.9rem; }
+    .cal-banner-ok { background:#ecfdf5; color:#065f46; border:1px solid #6ee7b7; }
+    .cal-banner-warn { background:#fffbeb; color:#92400e; border:1px solid #fcd34d; }
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
@@ -18,7 +21,10 @@
   <a href="./crm-events.html" class="btn btn-ghost">← Événements</a>
   <a href="./crm-event-create.html" class="btn btn-primary" style="float:right">+ Événement</a>
   <h1>Calendrier</h1>
-  <p style="color:var(--muted)">Inspire dashboard/calendar multisite</p>
+  <p style="color:var(--muted)">Synchronise avec l'agenda Google du courtier (courtier972@gmail.com)</p>
+  <div id="calBanner" class="cal-banner cal-banner-warn">Chargement du statut agenda…</div>
+  <button type="button" class="btn btn-ghost" id="btnConnectCal">Connecter agenda Google</button>
+  <button type="button" class="btn btn-ghost" id="btnPullCal">Synchroniser depuis Google</button>
   <div style="display:flex;gap:12px;align-items:center;margin:16px 0">
     <button type="button" class="btn btn-ghost" id="btnPrev">←</button>
     <strong id="monthLabel"></strong>

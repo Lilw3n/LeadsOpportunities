@@ -30,7 +30,9 @@ Dans Stripe, utilise:
 Ainsi, tes paiements restent distincts des autres apps de la meme entreprise.
 
 ## 4) Endpoint Stripe a configurer
-- Checkout API: `/api/stripe/create-checkout-session`
+- Checkout public (montant verifie si devis): `/api/stripe/create-checkout-session`
+- Checkout CRM (devis uniquement, JWT): `/api/stripe/create-checkout-for-quote`
+- Statut session: `/api/stripe/session-status?session_id=...`
 - Webhook API: `/api/stripe/webhook`
 
 Evenement minimum a ecouter:

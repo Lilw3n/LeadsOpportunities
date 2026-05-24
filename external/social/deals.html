@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bons plans | Leads Opportunities</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .dl-wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 80px; }
+    .dl-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .dl-toolbar input, .dl-toolbar select { padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.9rem; }
+    .dl-toolbar input { flex: 1; min-width: 180px; }
+    .dl-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; margin-bottom: 12px; transition: border-color 0.15s; }
+    .dl-card:hover { border-color: #6366f1; }
+    .dl-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .dl-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; background: #ecfdf5; color: #059669; }
+    .dl-tag-hot { background: #fef3c7; color: #b45309; }
+    .dl-card h3 { margin: 0 0 6px; }
+    .dl-card p { margin: 0; color: #64748b; font-size: 0.9rem; line-height: 1.45; }
+    .dl-foot { margin-top: 12px; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    .dl-foot a { color: #4338ca; font-weight: 600; text-decoration: none; }
+    .dl-empty { text-align: center; color: #64748b; padding: 32px; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="dl-wrap">
+    <p><a href="hub.html" style="font-size: 0.9rem">← Social Hub</a></p>
+    <h1 style="margin: 8px 0 4px">Bons plans DiddyHome-style</h1>
+    <p style="color: #64748b; margin: 0 0 16px">Trouvez et partagez les meilleurs deals — inspire <code>/external/social/hub/deals</code> multisite.</p>
+    <div class="dl-toolbar">
+      <input type="search" id="dlSearch" placeholder="Rechercher un bon plan…" autocomplete="off" />
+      <select id="dlCat"><option value="">Toutes catégories</option></select>
+      <select id="dlSort"><option value="trend">🔥 Tendance</option><option value="save">Économies ↓</option><option value="date">Plus récents</option></select>
+    </div>
+    <div class="panel" style="margin-bottom:16px;padding:16px">
+      <strong>Partager un bon plan</strong>
+      <form id="dlShare" style="margin-top:10px;display:grid;gap:8px">
+        <input name="title" required placeholder="Titre du deal" style="padding:10px;border:1px solid #e2e8f0;border-radius:8px" />
+        <input name="desc" placeholder="Description courte" style="padding:10px;border:1px solid #e2e8f0;border-radius:8px" />
+        <select name="cat" style="padding:10px;border:1px solid #e2e8f0;border-radius:8px"><option>Santé</option><option>Assurance</option><option>Formation</option><option>Services</option></select>
+        <button type="submit" style="padding:10px;background:#4338ca;color:#fff;border:none;border-radius:8px;font-weight:600;cursor:pointer">Publier (local)</button>
+      </form>
+    </div>
+    <div id="dlList"></div>
+    <p id="dlEmpty" class="dl-empty hidden">Aucun bon plan. Essayez de modifier vos critères de recherche.</p>
+  </div>
+  <script src="../../js/cookie-banner.js"></script>
+  <script src="../../js/external-portal-nav.js"></script>
+  <script src="deals.js"></script>
+</body>
+</html>

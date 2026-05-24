@@ -1,0 +1,53 @@
+const { setCors } = require("../_lib/auth");
+
+const ROUTES = {
+  overview: () => require("../_lib/routes/crm-overview"),
+  contacts: () => require("../_lib/routes/crm-contacts"),
+  contact: () => require("../_lib/routes/crm-contact"),
+  users: () => require("../_lib/routes/crm-users"),
+  "convert-lead": () => require("../_lib/routes/crm-convert-lead"),
+  modules: () => require("../_lib/routes/crm-modules"),
+  events: () => require("../_lib/routes/crm-events"),
+  transfer: () => require("../_lib/routes/crm-transfer"),
+  "duplicate-event": () => require("../_lib/routes/crm-duplicate-event"),
+  "bulk-events": () => require("../_lib/routes/crm-bulk-events"),
+  "set-parent": () => require("../_lib/routes/crm-set-parent"),
+  "bulk-duplicate-events": () => require("../_lib/routes/crm-bulk-duplicate-events"),
+  alerts: () => require("../_lib/routes/crm-alerts"),
+  "create-complete": () => require("../_lib/routes/crm-create-complete"),
+  quotes: () => require("../_lib/routes/crm-quotes"),
+  "devis-prefill": () => require("../_lib/routes/devis-prefill"),
+  statistics: () => require("../_lib/routes/crm-statistics"),
+  "module-link": () => require("../_lib/routes/crm-module-link"),
+  "insurance-hub": () => require("../_lib/routes/crm-insurance-hub"),
+  "modules-global": () => require("../_lib/routes/crm-modules-global"),
+  "bank-details": () => require("../_lib/routes/crm-bank-details"),
+  periods: () => require("../_lib/routes/crm-periods"),
+  "financial-overview": () => require("../_lib/routes/crm-financial-overview"),
+  "pending-documents": () => require("../_lib/routes/crm-pending-documents"),
+  "universal-search": () => require("../_lib/routes/crm-universal-search"),
+  "insurance-requests": () => require("../_lib/routes/crm-insurance-requests"),
+  "intelligent-alerts": () => require("../_lib/routes/crm-intelligent-alerts"),
+  "document-approve": () => require("../_lib/routes/crm-document-approve"),
+  "document-download": () => require("../_lib/routes/crm-document-download"),
+  "financial-entries": () => require("../_lib/routes/crm-financial-entries"),
+  export: () => require("../_lib/routes/crm-export"),
+  "driver-import": () => require("../_lib/routes/crm-driver-import"),
+  "leads-acquisition": () => require("../_lib/routes/crm-leads-acquisition"),
+  "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
+  "tariff-rates": () => require("../_lib/routes/crm-tariff-rates"),
+  "calendar-sync": () => require("../_lib/routes/crm-calendar-sync"),
+  "pro-accounting": () => require("../_lib/routes/crm-pro-accounting"),
+};
+
+module.exports = async (req, res) => {
+  setCors(req, res);
+  if (req.method === "OPTIONS") return res.status(204).end();
+
+  const action = req.query.action;
+  const load = ROUTES[action];
+  if (!load) {
+    return res.status(404).json({ error: "Route CRM inconnue" });
+  }
+  return load()(req, res);
+};

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devis intelligent | Leads Opportunities</title>
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <link rel="stylesheet" href="../crm.css" />
+  <style>
+    .wizard-panel { max-width: 640px; margin: 24px auto; }
+    .wizard-progress { height: 8px; background: #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 12px; }
+    .wizard-progress-bar { height: 100%; background: linear-gradient(90deg, #0d9488, #6366f1); transition: width .3s; }
+    .wizard-step-label { color: #64748b; font-size: .9rem; margin: 0 0 16px; }
+    .type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .type-card { padding: 16px; border: 2px solid #e2e8f0; border-radius: 12px; background: #fff; cursor: pointer; text-align: center; }
+    .type-card.selected { border-color: #0d9488; background: #f0fdfa; }
+    .type-icon { font-size: 1.8rem; display: block; margin-bottom: 8px; }
+    .offers-grid { display: grid; gap: 12px; }
+    .offer-card { padding: 16px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; }
+    .offer-card.recommended { border-color: #0d9488; background: #ecfdf5; }
+    .wizard-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+    .success-box { text-align: center; padding: 32px; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body class="landing-page">
+  <header class="landing-header">
+    <a href="assurance.html">← Assurance</a>
+    <h1>Devis intelligent</h1>
+    <p>Wizard inspire multisite EnhancedQuoteWizard</p>
+  </header>
+  <div id="wizardMount"></div>
+  <script src="../js/intelligent-quote-wizard.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var type = new URLSearchParams(location.search).get("type") || "";
+      window.IntelligentQuoteWizard.render(document.getElementById("wizardMount"), {
+        insuranceType: type,
+      });
+    });
+  </script>
+</body>
+</html>

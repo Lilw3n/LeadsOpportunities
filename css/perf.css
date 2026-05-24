@@ -1,0 +1,22 @@
+/* Performance — chargement differe images, contenu above-the-fold */
+img[loading="lazy"],
+iframe[loading="lazy"] {
+  content-visibility: auto;
+}
+
+.hero-section img,
+.logo-icon svg {
+  loading: eager;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

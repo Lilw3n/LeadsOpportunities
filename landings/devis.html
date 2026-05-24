@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demande de devis | Leads Opportunities</title>
+  <meta name="description" content="Questionnaire devis personnalise selon votre besoin assurance ou financement." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://leads-opportunities.vercel.app/landings/devis.html" />
+  <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../nos-services.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Tous nos services
+      </a>
+      <a class="landing-logo" href="../index.html">
+        <span class="landing-logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Leads Opportunities
+      </a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container">
+      <span class="badge" id="devisBadge">Devis personnalise</span>
+      <section class="card">
+        <div class="hero-surface">
+          <div class="hero">
+            <h1 id="devisTitle">Demande de devis</h1>
+            <p class="sub" id="devisSubtitle">Questionnaire adapte a votre besoin. Un conseiller analyse votre dossier et vous rappelle.</p>
+          </div>
+        </div>
+
+        <div class="form-wrap" id="demande">
+          <h2 class="form-title" id="formTitle">Votre demande</h2>
+          <p class="form-lead" id="formLead">Comptez 3 a 4 minutes. Toutes les informations servent a preparer une proposition sur mesure.</p>
+
+          <form data-track-form data-quote-wizard novalidate id="devisForm">
+            <input type="hidden" name="need" id="needField" value="" />
+            <input type="hidden" name="serviceLabel" id="serviceLabelField" value="" />
+            <input type="hidden" name="serviceCategory" id="serviceCategoryField" value="" />
+            <div class="hp-field" aria-hidden="true">
+              <label for="hp_devis">Ne pas remplir</label>
+              <input type="text" id="hp_devis" name="_hp" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="wizard-head">
+              <div class="wizard-progress-track">
+                <div class="wizard-progress-fill"></div>
+              </div>
+              <div class="wizard-meta">
+                <span id="wizardCategoryLabel">Parcours guide</span>
+                <span class="wizard-step-counter">Etape 1 / 5</span>
+              </div>
+            </div>
+            <div data-cross-sell-panel hidden></div>
+            <div id="wizardStepsMount"></div>
+            <div class="wizard-actions">
+              <button type="button" class="btn btn-soft wizard-prev" hidden>Retour</button>
+              <button type="button" class="btn btn-primary wizard-next">Continuer</button>
+              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer ma demande</button>
+            </div>
+            <div class="form-trust-row">
+              <div class="form-trust-item">100% gratuit</div>
+              <div class="form-trust-item">RGPD</div>
+              <div class="form-trust-item">Conseiller dedie</div>
+            </div>
+          </form>
+          <p class="success" data-form-success hidden>Merci, votre demande a bien ete envoyee. Un conseiller prepare votre devis personnalise.</p>
+          <p class="form-error" data-form-error hidden>Envoi impossible. Reessayez dans quelques instants.</p>
+          <div data-lead-insights hidden></div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="landing-footer">
+    <a href="../index.html#contact">Nous contacter</a>
+    <a href="../mentions-legales.html">Mentions legales</a>
+    <a href="../politique-confidentialite.html">Confidentialite</a>
+    <span>&copy; 2026 Leads Opportunities</span>
+    <span class="landing-footer-legal">ORIAS n&deg; 15005935</span>
+  </footer>
+  <script src="../js/service-catalog.js"></script>
+  <script src="./devis-steps.js"></script>
+  <script src="./devis-init.js"></script>
+  <script src="../js/attribution.js"></script>
+  <script src="../js/leads-storage.js"></script>
+  <script src="../js/quote-intelligence.js"></script>
+  <script src="../js/cookie-banner.js"></script>
+  <script src="../js/lead-insights.js"></script>
+  <script src="./tracking.js"></script>
+  <script src="./quote-wizard.js"></script>
+</body>
+</html>

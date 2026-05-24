@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+  <title>Live mobile | Social</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    body { margin:0; background:#111; color:#fff; min-height:100dvh; font-family:system-ui,sans-serif; }
+    .live-top { padding:12px 14px; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:rgba(17,17,17,.9); z-index:10; }
+    .live-video { aspect-ratio:9/16; max-height:58vh; background:linear-gradient(180deg,#312e81 0%,#111 70%); display:flex; align-items:center; justify-content:center; position:relative; }
+    .live-video .cta-devis { position:absolute; bottom:16px; left:12px; right:12px; }
+    .live-video .cta-devis a { display:block; text-align:center; padding:12px; background:#fbbf24; color:#111; border-radius:12px; font-weight:800; text-decoration:none; font-size:.9rem; }
+    .live-badge { background:#ef4444; padding:4px 10px; border-radius:999px; font-size:.75rem; animation:pulse 1.5s infinite; }
+    @keyframes pulse { 50% { opacity:.7; } }
+    .live-chat { padding:8px 12px; max-height:22vh; overflow-y:auto; }
+    .chat-msg { padding:8px 0; border-bottom:1px solid #333; font-size:.88rem; }
+    .reactions { display:flex; gap:8px; padding:8px 12px; overflow-x:auto; }
+    .reactions button { flex-shrink:0; padding:8px 14px; border:none; border-radius:999px; background:#333; color:#fff; font-size:1rem; cursor:pointer; }
+    .chat-bar { padding:10px 12px 16px; display:flex; gap:8px; background:#0f0f0f; }
+    .chat-bar input { flex:1; padding:12px 16px; border-radius:24px; border:none; background:#222; color:#fff; }
+    .chat-bar button { padding:12px 18px; border:none; border-radius:24px; background:#6366f1; color:#fff; font-weight:700; }
+  </style>
+</head>
+<body>
+  <div class="live-top">
+    <a href="hub.html" style="color:#fff;text-decoration:none">← Hub</a>
+    <span class="live-badge">LIVE</span>
+    <span id="liveViewers" style="font-size:.85rem">👁 124</span>
+  </div>
+  <div class="live-video">
+    <div style="text-align:center;padding:20px">
+      <p style="font-size:3rem;margin:0">📹</p>
+      <p style="margin:8px 0 0">Session VTC — bonus-malus &amp; franchises</p>
+      <p style="font-size:.8rem;color:#94a3b8;margin-top:8px">#FormationVTC · #ServiceMobile</p>
+    </div>
+    <div class="cta-devis">
+      <a href="../assurance/devis-intelligent.html">Devis instantané — analyse IA gratuite</a>
+    </div>
+  </div>
+  <div class="reactions" id="reactions">
+    <button type="button" data-emoji="👍">👍</button>
+    <button type="button" data-emoji="❤️">❤️</button>
+    <button type="button" data-emoji="🔥">🔥</button>
+    <button type="button" data-emoji="🎉">🎉</button>
+    <button type="button" data-emoji="❓">❓</button>
+  </div>
+  <div class="live-chat" id="chat"></div>
+  <form class="chat-bar" id="chatForm">
+    <input name="msg" type="text" placeholder="Commenter…" autocomplete="off" />
+    <button type="submit">→</button>
+  </form>
+  <script src="live-mobile.js"></script>
+</body>
+</html>

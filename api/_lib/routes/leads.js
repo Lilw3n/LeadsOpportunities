@@ -28,7 +28,8 @@ async function fetchLeadsStandard(sql, opts) {
   return sql`
     SELECT
       id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
-      COALESCE(status, 'new') AS status, notes, created_at, updated_at, payload
+      COALESCE(status, 'new') AS status, notes, created_at, updated_at, payload,
+      landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id
     FROM site_leads
     WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
       AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})

@@ -7,6 +7,7 @@
   <meta name="description" content="Comparez des offres mutuelle sante selon vos besoins reels et votre budget. Courtier inscrit ORIAS." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://leads-opportunities.vercel.app/landings/sante.html" />
+  <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
   <meta property="og:title" content="Mutuelle Sante | Comparatif personnalise" />
   <meta property="og:description" content="Comparez les offres sante selon votre profil, votre foyer et votre budget. Courtier ORIAS." />
   <meta property="og:type" content="website" />
@@ -42,7 +43,7 @@
     <div class="container">
       <span class="badge">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-        Mutuelle Sante &middot; Courtier ORIAS
+        Mutuelle Sante
       </span>
       <section class="card">
         <div class="hero-surface">
@@ -61,28 +62,22 @@
             <ul class="points">
               <li>Questionnaire complet : foyer, besoins par poste, regime social, budget</li>
               <li>Comparatif clair des garanties utiles — pas de jargon</li>
-              <li>Courtier inscrit ORIAS n&deg; 15005935 — conseil humain personnalise</li>
+              <li>Conseil humain personnalise selon votre profil</li>
             </ul>
             <div class="actions">
-              <a class="btn btn-soft" href="tel:+33695820866" data-track="phone_click">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                Appeler
-              </a>
-              <a class="btn btn-soft" href="https://wa.me/33695820866" data-track="whatsapp_click">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-                WhatsApp
-              </a>
+              <a class="btn btn-primary" href="#demande">Commencer le comparatif</a>
             </div>
           </div>
         </div>
 
-        <div class="form-wrap">
+        <div class="form-wrap" id="demande">
           <h2 class="form-title">Demande de comparatif detaille</h2>
           <p class="form-lead">
             Ce questionnaire complet permet d'analyser precisement vos besoins sante. Un conseiller prepare votre comparatif personnalise. Comptez 3 a 5 minutes.
           </p>
 
           <form data-track-form data-quote-wizard novalidate>
+            <div data-cross-sell-panel hidden></div>
             <div class="hp-field" aria-hidden="true">
               <label for="hp_sante">Ne pas remplir</label>
               <input type="text" id="hp_sante" name="_hp" tabindex="-1" autocomplete="off" />
@@ -93,7 +88,7 @@
               </div>
               <div class="wizard-meta">
                 <span>Parcours guide</span>
-                <span class="wizard-step-counter">Etape 1 / 6</span>
+                <span class="wizard-step-counter">Etape 1 / 7</span>
               </div>
             </div>
 
@@ -352,8 +347,50 @@
               </div>
             </section>
 
-            <!-- ETAPE 5 : Coordonnees -->
-            <section class="wizard-step" data-wizard-step="5" hidden>
+            <!-- ETAPE 5 : Portefeuille multi-contrats -->
+            <section class="wizard-step" data-wizard-step="5" data-step-name="portefeuille" hidden>
+              <h3>Vos autres contrats (optionnel)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">Confidentiel — aide votre conseiller a proposer un accompagnement global si vous le souhaitez.</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="hasAutoInsurance">Assurance auto ?</label>
+                  <select id="hasAutoInsurance" name="hasAutoInsurance" data-optional>
+                    <option value="">Je prefere ne pas repondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="hasHabitation">Assurance habitation ?</label>
+                  <select id="hasHabitation" name="hasHabitation" data-optional>
+                    <option value="">Je prefere ne pas repondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="hasCreditImmo">Credit immobilier en cours ?</label>
+                  <select id="hasCreditImmo" name="hasCreditImmo" data-optional>
+                    <option value="">Je prefere ne pas repondre</option>
+                    <option value="oui">Oui</option>
+                    <option value="non">Non</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="interestedProducts">Souhaitez-vous aussi un devis pour :</label>
+                  <select id="interestedProducts" name="interestedProducts" data-optional multiple size="4" style="min-height:88px">
+                    <option value="vtc-taxi">Assurance VTC / taxi</option>
+                    <option value="assurance-auto">Assurance auto</option>
+                    <option value="credit-immo">Credit immobilier</option>
+                    <option value="prevoyance">Prevoyance</option>
+                    <option value="assurance-habitation">Assurance habitation</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- ETAPE 6 : Coordonnees -->
+            <section class="wizard-step" data-wizard-step="6" hidden>
               <h3>Vos coordonnees</h3>
               <div class="grid">
                 <div class="field">
@@ -383,8 +420,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 6 : Budget et finalisation -->
-            <section class="wizard-step" data-wizard-step="6" hidden>
+            <!-- ETAPE 7 : Budget et finalisation -->
+            <section class="wizard-step" data-wizard-step="7" hidden>
               <h3>Budget et finalisation</h3>
               <div class="grid">
                 <div class="field">
@@ -452,6 +489,7 @@
             </div>
           </form>
           <p class="success" data-form-success hidden>Merci, votre demande a bien ete envoyee. Un conseiller prepare votre comparatif personnalise.</p>
+          <p class="form-error" data-form-error hidden>Envoi impossible. Reessayez dans quelques instants.</p>
           <div data-lead-insights hidden></div>
         </div>
 
@@ -468,11 +506,12 @@
     </div>
   </main>
   <footer class="landing-footer">
-    <a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a>
+    <a href="../index.html#contact">Nous contacter</a>
     <a href="../mentions-legales.html">Mentions legales</a>
     <a href="../politique-confidentialite.html">Confidentialite</a>
     <a href="../cgu.html">CGU</a>
     <span>&copy; 2026 Leads Opportunities</span>
+    <span class="landing-footer-legal">ORIAS n&deg; 15005935</span>
   </footer>
   <script type="application/ld+json">
     {
@@ -500,6 +539,7 @@
   </script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
+  <script src="../js/quote-intelligence.js"></script>
   <script src="./quote-wizard.js"></script>
   <script src="../js/lead-insights.js"></script>
   <script src="./tracking.js"></script>

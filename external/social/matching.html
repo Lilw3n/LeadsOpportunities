@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matching pro | Leads Opportunities</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .mt-wrap { max-width: 420px; margin: 0 auto; padding: 20px 16px 80px; }
+    .mt-toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .mt-toolbar select { flex: 1; min-width: 120px; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 0.85rem; }
+    .mt-card {
+      background: linear-gradient(160deg, #312e81, #6366f1);
+      color: #fff;
+      border-radius: 20px;
+      padding: 28px 24px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 16px 40px rgba(49, 46, 129, 0.35);
+      position: relative;
+    }
+    .mt-score { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,.2); padding: 6px 12px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+    .mt-premium { position: absolute; top: 16px; left: 16px; background: #fbbf24; color: #78350f; padding: 4px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 800; }
+    .mt-card h2 { margin: 0 0 6px; font-size: 1.5rem; }
+    .mt-card p { margin: 0; opacity: 0.92; line-height: 1.45; font-size: 0.95rem; }
+    .mt-tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .mt-tag { background: rgba(255,255,255,.15); padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; }
+    .mt-actions { display: flex; justify-content: center; gap: 16px; margin-top: 24px; }
+    .mt-actions button {
+      width: 56px; height: 56px; border-radius: 999px; border: none; font-size: 1.4rem; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0,0,0,.12); transition: transform 0.15s;
+    }
+    .mt-actions button:hover { transform: scale(1.08); }
+    .mt-pass { background: #fff; color: #64748b; border: 2px solid #e2e8f0 !important; }
+    .mt-like { background: #6366f1; color: #fff; }
+    .mt-super { background: #fbbf24; color: #78350f; width: 64px !important; height: 64px !important; }
+    .mt-empty { text-align: center; color: #64748b; padding: 40px 20px; }
+    .mt-match-popup {
+      display: none; position: fixed; inset: 0; background: rgba(15,23,42,.6); z-index: 10000;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .mt-match-popup.open { display: flex; }
+    .mt-match-box { background: #fff; border-radius: 20px; padding: 32px; text-align: center; max-width: 360px; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="mt-wrap">
+    <p><a href="hub.html" style="font-size: 0.9rem">← Social Hub</a></p>
+    <h1 style="margin: 8px 0 4px">Découvrir &amp; Matcher</h1>
+    <p style="color: #64748b; margin: 0 0 16px; font-size: 0.92rem">Recherche de profils compatibles — UI calquée sur le hub social multisite (Passer · Liker · Super Like).</p>
+    <div class="mt-toolbar">
+      <select id="mtSpec"><option value="">Toutes spécialités</option><option value="VTC">VTC</option><option value="Courtier">Courtier</option><option value="RC Pro">RC Pro</option><option value="Santé">Santé</option></select>
+      <select id="mtSort"><option value="score">Pertinence</option><option value="rating">Mieux notés</option><option value="recent">Plus récents</option></select>
+      <button type="button" id="mtReload" style="padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; cursor: pointer; font-size: 0.85rem">Recharger</button>
+    </div>
+    <div id="mtDeck"></div>
+    <aside style="margin-top:20px;padding:14px;background:#f8fafc;border-radius:12px">
+      <strong style="font-size:.9rem">Mes likes</strong>
+      <div id="mtLikes" style="margin-top:8px"></div>
+      <p style="font-size:.75rem;color:#64748b;margin:8px 0 0">Raccourcis : ← Passer · → Liker · ↑ Super Like</p>
+    </aside>
+    <div class="mt-actions" id="mtActions">
+      <button type="button" class="mt-pass" id="btnPass" title="Passer">✕</button>
+      <button type="button" class="mt-super" id="btnSuper" title="Super Like">⭐</button>
+      <button type="button" class="mt-like" id="btnLike" title="Liker">♥</button>
+    </div>
+    <p id="mtHint" style="text-align: center; font-size: 0.8rem; color: #94a3b8; margin-top: 12px">← Passer · ⭐ Super Like · Liker →</p>
+  </div>
+  <div class="mt-match-popup" id="matchPopup">
+    <div class="mt-match-box">
+      <div style="font-size: 2.5rem">🎉</div>
+      <h2 style="margin: 12px 0 8px; color: #4338ca">C'est un match !</h2>
+      <p id="matchText" style="color: #64748b; margin: 0 0 16px"></p>
+      <a id="matchContact" href="profile.html" style="display: inline-block; padding: 12px 20px; background: #6366f1; color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600">Contacter</a>
+      <button type="button" id="matchClose" style="display: block; margin: 12px auto 0; border: none; background: none; color: #64748b; cursor: pointer">Continuer</button>
+    </div>
+  </div>
+  <script src="../../js/cookie-banner.js"></script>
+  <script src="../../js/external-portal-nav.js"></script>
+  <script src="matching.js"></script>
+</body>
+</html>

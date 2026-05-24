@@ -52,14 +52,19 @@ module.exports = async (req, res) => {
       })
       .filter(Boolean);
     const role = adminEmails.indexOf(email) !== -1 ? "admin" : "user";
+    const crmRole = role === "admin" ? "admin" : null;
 
     await sql`
-      INSERT INTO users (id, email, password_hash, salt, role, full_name, phone)
-      VALUES (${userId}, ${email}, ${hash}, ${salt}, ${role}, ${fullName}, ${phone})
+      INSERT INTO users (id, email, password_hash, salt, role, crm_role, full_name, phone, status)
+      VALUES (${userId}, ${email}, ${hash}, ${salt}, ${role}, ${crmRole}, ${fullName}, ${phone}, 'active')
     `;
 
-    const token = signToken({ userId, email, role });
-    return res.status(201).json({ ok: true, token, user: { id: userId, email, role, fullName } });
+    const token = signToken({ userId, email, role, crmRole });
+    return res.status(201).json({
+      ok: true,
+      token,
+      user: { id: userId, email, role, crmRole, fullName },
+    });
   } catch (e) {
     console.error("[auth/register]", e);
     return res.status(500).json({ error: "Erreur serveur" });

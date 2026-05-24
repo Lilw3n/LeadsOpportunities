@@ -144,10 +144,23 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
+      var leadSource = "homepage_contact";
+      if (window.location.pathname.indexOf("nos-services") !== -1) {
+        leadSource = "services_catalog";
+      }
+
+      var svc =
+        window.SERVICE_CATALOG && window.SERVICE_CATALOG.getService
+          ? window.SERVICE_CATALOG.getService(fields.need || "")
+          : null;
+
       var leadPayload = Object.assign(
         {
-          source: "homepage_contact",
-          vertical: fields.need || "",
+          source: leadSource,
+          vertical: (svc && svc.vertical) || fields.need || "",
+          serviceNeed: (svc && svc.need) || fields.need || "",
+          serviceLabel: (svc && svc.label) || "",
+          serviceCategory: (svc && svc.category) || "",
           page: window.location.pathname,
         },
         getUtmParams(),
@@ -158,6 +171,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (typeof window.saveLeadRequest === "function") {
         window.saveLeadRequest(leadPayload);
       }
+      if (msg) msg.hidden = true;
+      var errMsg = document.querySelector("[data-form-error]");
+
       postLeadApi(leadPayload).then(function (result) {
         sendQualifiedLeadGtag(result, fields.need || "");
         window.dispatchEvent(
@@ -165,10 +181,23 @@ document.addEventListener("DOMContentLoaded", function () {
             detail: { payload: leadPayload, result: result || {} },
           })
         );
+        if (result && result.ok) {
+          if (msg) {
+            if (result.emailSent === false && result.stored === false) {
+              msg.textContent =
+                "Merci ! Votre demande est prise en compte. Un conseiller vous contacte rapidement. (E-mail de notification serveur en cours de configuration.)";
+            }
+            msg.hidden = false;
+          }
+          form.reset();
+        } else if (errMsg) {
+          errMsg.hidden = false;
+        } else if (msg) {
+          msg.textContent =
+            "Envoi impossible pour le moment. Reessayez ou renvoyez le formulaire.";
+          msg.hidden = false;
+        }
       });
-
-      if (msg) msg.hidden = false;
-      form.reset();
     });
   }
 });

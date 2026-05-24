@@ -176,6 +176,29 @@ module.exports = async (req, res) => {
   }
 
   var platform = detectPlatform();
+
+  const {
+    parseSeoFromPath,
+    extractAddressFields,
+    geocodeBan,
+    findDuplicateLead,
+    normalizeEmail,
+    normalizePhone,
+  } = require("./_lib/lead-enrichment");
+
+  var landingPath =
+    enriched.landing_path || enriched.landing_slug || enriched.page_path || enriched.attr_landing_path || "";
+  var seoMeta = parseSeoFromPath(landingPath);
+  enriched.landing_slug = enriched.landing_slug || seoMeta.landing_slug;
+  enriched.seo_city = enriched.seo_city || seoMeta.seo_city || enriched.city || null;
+  enriched.seo_department = enriched.seo_department || seoMeta.seo_department || null;
+  enriched.seo_product = enriched.seo_product || seoMeta.seo_product || enriched.vertical || null;
+
+  var addr = extractAddressFields(enriched);
+  enriched.address_line = addr.address_line;
+  enriched.postal_code = addr.postal_code || enriched.postal_code;
+  enriched.city = addr.city || enriched.city;
+
   var qStep = Number(enriched.questionnaire_step || enriched.formStep || enriched.step || 0);
   var qTotal = Number(enriched.questionnaire_total || enriched.formTotalSteps || enriched.totalSteps || 10) || 10;
   var pipelineStage = "new";
@@ -190,13 +213,38 @@ module.exports = async (req, res) => {
     try {
       const { neon } = require("@neondatabase/serverless");
       const sql = neon(dbUrl);
+
+      var normEmail = normalizeEmail(enriched.email);
+      var normPhone = normalizePhone(enriched.phone);
+      if (normEmail) enriched.email = normEmail;
+      if (normPhone) enriched.phone = normPhone;
+
+      var dup = await findDuplicateLead(sql, enriched.email, enriched.phone);
+      var parentLeadId = dup ? dup.id : null;
+      var isDuplicate = !!dup;
+      if (dup) {
+        enriched.parent_lead_id = dup.id;
+        enriched.duplicate_of = dup.id;
+        leadId = randomUUID();
+      }
+
+      var geo = await geocodeBan(enriched.postal_code, enriched.city, enriched.address_line);
+      if (geo) {
+        enriched.geo_lat = geo.lat;
+        enriched.geo_lng = geo.lng;
+        enriched.geo_confidence = geo.confidence;
+      }
+
       await sql`
         INSERT INTO site_leads (
           id, source, vertical, lead_score, email, phone,
           utm_source, utm_medium, utm_campaign, gclid, visitor_id, payload,
           platform, pipeline_stage, status, questionnaire_step, questionnaire_total,
           form_id, fbclid, ttclid, msclkid, priority, last_activity_at,
-          competitor_monthly, our_offer_monthly, relevance
+          competitor_monthly, our_offer_monthly, relevance,
+          landing_slug, seo_city, seo_department, seo_product,
+          address_line, postal_code, city, geo_lat, geo_lng, geo_confidence,
+          parent_lead_id, is_duplicate
         ) VALUES (
           ${leadId},
           ${String(enriched.source || "unknown").slice(0, 120)},
@@ -223,10 +271,39 @@ module.exports = async (req, res) => {
           NOW(),
           ${rel.competitorMonthly},
           ${rel.ourOfferMonthly},
-          ${rel.relevance}
+          ${rel.relevance},
+          ${enriched.landing_slug ? String(enriched.landing_slug).slice(0, 500) : null},
+          ${enriched.seo_city ? String(enriched.seo_city).slice(0, 120) : null},
+          ${enriched.seo_department ? String(enriched.seo_department).slice(0, 20) : null},
+          ${enriched.seo_product ? String(enriched.seo_product).slice(0, 80) : null},
+          ${enriched.address_line ? String(enriched.address_line).slice(0, 300) : null},
+          ${enriched.postal_code ? String(enriched.postal_code).slice(0, 12) : null},
+          ${enriched.city ? String(enriched.city).slice(0, 120) : null},
+          ${enriched.geo_lat != null ? enriched.geo_lat : null},
+          ${enriched.geo_lng != null ? enriched.geo_lng : null},
+          ${enriched.geo_confidence ? String(enriched.geo_confidence).slice(0, 20) : null},
+          ${parentLeadId},
+          ${isDuplicate}
         )
       `;
       stored = true;
+
+      try {
+        const { recordTouchpoint } = require("./_lib/lead-enrichment");
+        await recordTouchpoint(sql, {
+          visitor_id: enriched.visitor_id,
+          lead_id: leadId,
+          event_type: "lead_converted",
+          page_path: landingPath,
+          seo_city: enriched.seo_city,
+          seo_product: enriched.seo_product,
+          utm_source: utmSource,
+          utm_medium: utmMedium,
+          utm_campaign: utmCampaign,
+        });
+      } catch (tpErr) {
+        console.warn("[lead] touchpoint", tpErr.message);
+      }
       if (enriched.email) {
         try {
           const { ingestLeadToCrm } = require("./_lib/crm-ingest-from-lead");
@@ -304,5 +381,8 @@ module.exports = async (req, res) => {
     leadScore: score,
     stored: stored,
     emailSent: emailSent,
+    duplicate: !!enriched.parent_lead_id,
+    parentLeadId: enriched.parent_lead_id || null,
+    seoCity: enriched.seo_city || null,
   });
 };

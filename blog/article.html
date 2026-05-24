@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article | Leads Opportunities</title>
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <style>
+    .article-wrap { max-width:680px; margin:0 auto; padding:24px; line-height:1.65; }
+    .article-body p { margin:1rem 0; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="article-wrap" id="articleMount"></div>
+  <script src="../js/blog-service.js"></script>
+  <script src="../js/seo-optimizer.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var slug = new URLSearchParams(location.search).get("slug");
+      if (!slug) {
+        document.getElementById("articleMount").innerHTML = "<p>Paramètre slug manquant.</p>";
+        return;
+      }
+      window.BlogService.renderArticle(document.getElementById("articleMount"), slug);
+    });
+  </script>
+</body>
+</html>

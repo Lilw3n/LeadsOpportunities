@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Hub | Leads Opportunities</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .hub-hero {
+      background: linear-gradient(135deg, #1e1b4b, #4338ca, #6366f1);
+      color: #fff;
+      text-align: center;
+      padding: 40px 20px 36px;
+    }
+    .hub-hero h1 { margin: 0 0 10px; font-size: clamp(1.5rem, 4vw, 2rem); }
+    .hub-hero p { max-width: 640px; margin: 0 auto 20px; opacity: 0.92; line-height: 1.55; font-size: 0.98rem; }
+    .hub-cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 16px; }
+    .hub-cta a {
+      padding: 10px 18px; border-radius: 10px; font-weight: 600; text-decoration: none; font-size: 0.9rem;
+    }
+    .hub-cta .primary { background: #fff; color: #312e81; }
+    .hub-cta .ghost { border: 2px solid rgba(255,255,255,.85); color: #fff; }
+    .hub-stats { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; font-size: 0.85rem; opacity: 0.9; }
+    .hub-stats span strong { display: block; font-size: 1.1rem; }
+    .hub-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 16px; }
+    .hub-badge { font-size: 0.75rem; padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); }
+    .hub-quick { max-width: 720px; margin: 20px auto 0; padding: 0 16px; }
+    .hub-quick h2 { font-size: 0.95rem; margin: 0 0 10px; color: #334155; text-align: center; }
+    .hub-quick-pills { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .hub-quick-pills a {
+      padding: 8px 14px; border-radius: 999px; background: #fff; border: 1px solid #e2e8f0;
+      text-decoration: none; color: #334155; font-size: 0.82rem; font-weight: 500;
+    }
+    .hub-quick-pills a:hover { border-color: #6366f1; color: #4338ca; }
+    .hub-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 24px 0 16px; padding: 0 12px; }
+    .hub-tabs button { padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 20px; background: #fff; cursor: pointer; font-size: 0.85rem; }
+    .hub-tabs button.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+    .hub-panel { max-width: 720px; margin: 0 auto 40px; padding: 24px; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; }
+    .feed-item { padding: 14px 0; border-bottom: 1px solid #f1f5f9; }
+  </style>
+</head>
+<body class="landing-page">
+  <section class="hub-hero">
+    <p style="margin: 0 0 8px; font-size: 0.85rem; opacity: 0.85"><a href="../index.html" style="color: #fff">← Portail client</a></p>
+    <h1>Hub Social Leads Opportunities</h1>
+    <p>
+      L'écosystème social pour professionnels : feed communautaire, marketplace, matching, live streaming et économie des créateurs — calqué sur <code>/external/social/hub</code> multisite.
+    </p>
+    <div class="hub-cta" id="hubCta">
+      <a class="primary" href="../register.html">Créer mon compte gratuit</a>
+      <a class="ghost" href="../login.html">J'ai déjà un compte</a>
+      <a class="ghost" href="#hubTabs">Continuer en invité</a>
+    </div>
+    <div class="hub-stats">
+      <span><strong>124+</strong>Profils VTC</span>
+      <span><strong>38</strong>Courtiers</span>
+      <span><strong>96%</strong>Taux de réponse</span>
+      <span><strong>🔥 LIVE</strong>En direct</span>
+    </div>
+    <div class="hub-badges">
+      <span class="hub-badge">Feed communauté</span>
+      <span class="hub-badge">Marketplace Pro</span>
+      <span class="hub-badge">Matching</span>
+      <span class="hub-badge">Bons plans</span>
+      <span class="hub-badge">Formation VTC</span>
+      <span class="hub-badge">Entraide</span>
+      <span class="hub-badge">Service Mobile</span>
+    </div>
+  </section>
+
+  <div class="hub-quick">
+    <h2>Actions rapides</h2>
+    <div class="hub-quick-pills">
+      <a href="marketplace.html">Marketplace Pro</a>
+      <a href="matching.html">Découvrir &amp; Matcher</a>
+      <a href="live.html">Live Streaming</a>
+      <a href="creators.html">Économie créateurs</a>
+      <a href="deals.html">Bons plans DiddyHome</a>
+      <a href="../formation/vtc-professionnel.html">Formation VTC</a>
+      <a href="../assurance.html">Assurance</a>
+      <a href="communities.html">Communautés</a>
+      <a href="entraide.html">Entraide &amp; prêts</a>
+      <a href="../assurance/devis-intelligent.html">Devis IA</a>
+    </div>
+  </div>
+
+  <div class="hub-tabs" id="hubTabs">
+    <button type="button" class="active" data-tab="feed">Feed communauté</button>
+    <button type="button" data-tab="marketplace">Marketplace</button>
+    <button type="button" data-tab="deals">Bons plans</button>
+    <button type="button" data-tab="matching">Matching</button>
+    <button type="button" data-tab="live">Live</button>
+    <button type="button" data-tab="creators">Créateurs</button>
+    <button type="button" data-tab="agency">Agence</button>
+    <button type="button" data-tab="mutual">Entraide</button>
+    <button type="button" data-tab="groups">Groupes</button>
+  </div>
+
+  <div class="hub-panel" id="panel"></div>
+  <p style="text-align:center;margin:0 16px 24px;font-size:.85rem;color:#64748b" id="hubGuestHint"></p>
+  <script src="../../js/cookie-banner.js"></script>
+  <script src="../../js/mutual-aid-service.js"></script>
+  <script src="../../js/lending-service.js"></script>
+  <script src="hub.js"></script>
+</body>
+</html>

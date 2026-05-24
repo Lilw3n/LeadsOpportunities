@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assurance | Leads Opportunities</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .prod-hero { color:#fff; padding:48px 24px; text-align:center; }
+    .prod-back { color:rgba(255,255,255,.9); display:block; margin-bottom:16px; }
+    .prod-icon { font-size:3rem; display:block; margin-bottom:12px; }
+    .prod-cta { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+    .btn-wizard { padding:14px 28px; background:#fff; color:#111; border:none; border-radius:12px; font-weight:700; cursor:pointer; }
+    .btn-outline { padding:14px 28px; border:2px solid #fff; color:#fff; border-radius:12px; font-weight:600; text-decoration:none; }
+    .prod-main { max-width:720px; margin:32px auto; padding:0 24px; }
+    .prod-features { list-style:none; padding:0; }
+    .prod-features li { padding:12px 0; border-bottom:1px solid #e2e8f0; }
+    .prod-features li:before { content:"✓ "; color:#0d9488; font-weight:700; }
+    .wizard-modal { position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:1000; display:flex; align-items:center; justify-content:center; padding:16px; }
+    .wizard-modal.hidden { display:none; }
+    .wizard-modal-inner { background:#fff; border-radius:16px; max-width:680px; width:100%; max-height:90vh; overflow:auto; padding:24px; position:relative; }
+    .wizard-close { position:absolute; top:12px; right:16px; border:none; background:none; font-size:1.5rem; cursor:pointer; }
+  </style>
+</head>
+<body class="landing-page">
+  <div id="landingRoot"></div>
+  <script src="../../js/intelligent-quote-wizard.js"></script>
+  <script src="../../js/external-product-landing.js"></script>
+  <script>
+    var slug = new URLSearchParams(location.search).get("p") || "auto";
+    document.addEventListener("DOMContentLoaded", function () {
+      window.ExternalProductLanding.render(slug);
+    });
+  </script>
+</body>
+</html>

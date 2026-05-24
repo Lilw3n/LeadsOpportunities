@@ -1,0 +1,29 @@
+.qrm-header { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.qrm-ref { font-size: .8rem; color: var(--muted); margin: 0; }
+.qrm-sub { color: var(--muted); margin: 8px 0 0; }
+.qrm-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.qrm-tag { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 20px; font-size: .75rem; font-weight: 600; }
+.qrm-steps { display: flex; gap: 8px; list-style: none; padding: 0; margin: 0 0 24px; flex-wrap: wrap; }
+.qrm-step { padding: 8px 14px; border-radius: 8px; background: #f1f5f9; font-size: .85rem; display: flex; align-items: center; gap: 8px; }
+.qrm-step.done { background: #dcfce7; color: #166534; }
+.qrm-step.current { background: #dbeafe; color: #1e40af; font-weight: 600; }
+.qrm-step-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: .5; }
+.qrm-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+.qrm-fields { display: grid; gap: 8px; margin-bottom: 12px; }
+.qrm-field { display: flex; justify-content: space-between; gap: 12px; font-size: .9rem; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.qrm-field.accent strong { color: var(--brand, #0d9488); }
+.qrm-plans { display: grid; gap: 12px; }
+.qrm-plan { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: #f8fafc; }
+.qrm-plan.featured { border-color: #0d9488; background: #f0fdfa; }
+.qrm-price { font-size: 1.2rem; font-weight: 700; margin: 8px 0; }
+.qrm-elig { padding: 10px; border-radius: 8px; margin-bottom: 8px; font-size: .9rem; }
+.qrm-elig.ok { background: #dcfce7; }
+.qrm-elig.warn { background: #fef9c3; }
+.qrm-elig.err { background: #fee2e2; }
+.qrm-docs { list-style: none; padding: 0; margin: 0; }
+.qrm-docs li { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .9rem; }
+.qrm-docs .ok { color: #166534; font-weight: 600; }
+.qrm-docs .miss { color: #b45309; font-weight: 600; }
+@media print {
+  .quote-actions, .btn { display: none !important; }
+}

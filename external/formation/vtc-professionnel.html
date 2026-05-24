@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formation VTC Professionnel | Leads Opportunities</title>
+  <link rel="stylesheet" href="../../landings/styles.css" />
+  <style>
+    .form-hero { background:linear-gradient(135deg,#0d9488,#6366f1); color:#fff; padding:48px 24px; text-align:center; }
+    .form-main { max-width:960px; margin:0 auto; padding:32px 24px; }
+    .stats-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:24px 0; }
+    .stat-box { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:16px; text-align:center; }
+    .stat-box strong { display:block; font-size:1.6rem; color:#0d9488; }
+    .stat-box span { font-size:.85rem; color:#64748b; }
+    .modules-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px; margin:20px 0 32px; }
+    .module-card { border:1px solid #e2e8f0; border-radius:14px; padding:18px; background:#fff; }
+    .module-card h3 { margin:0 0 6px; font-size:1rem; }
+    .module-card p { margin:0; font-size:.85rem; color:#64748b; line-height:1.45; }
+    .module-card .badge { display:inline-block; margin-top:10px; font-size:.75rem; padding:4px 10px; border-radius:999px; background:#ecfdf5; color:#0d9488; font-weight:600; }
+    .form-panel { max-width:640px; border:1px solid #e2e8f0; border-radius:16px; padding:24px; background:#fff; }
+    .form-main label { display:block; margin-bottom:12px; }
+    .form-main input, .form-main select, .form-main textarea { width:100%; padding:12px; border:1px solid #e2e8f0; border-radius:10px; margin-top:4px; box-sizing:border-box; }
+  </style>
+</head>
+<body class="landing-page">
+  <header class="form-hero">
+    <a href="../index.html" style="color:rgba(255,255,255,.9)">← Espace client</a>
+    <h1>Formation VTC Professionnel</h1>
+    <p>Parcours certifiant — calqué sur <code>/external/Formation/VTC-Taxi/Professionnel</code> multisite</p>
+  </header>
+  <main class="form-main">
+    <div class="stats-row">
+      <div class="stat-box"><strong>12</strong><span>modules</span></div>
+      <div class="stat-box"><strong>28 h</strong><span>de formation</span></div>
+      <div class="stat-box"><strong>94 %</strong><span>taux de réussite</span></div>
+      <div class="stat-box"><strong>48 h</strong><span>réponse conseiller</span></div>
+    </div>
+
+    <h2>Programme — modules inclus</h2>
+    <p style="color:#64748b;margin-bottom:8px">Formation complète pour chauffeurs VTC / Taxi : réglementation, relation client, sécurité routière et gestion d'activité.</p>
+    <p id="progBar" style="background:#e2e8f0;border-radius:999px;height:10px;margin:12px 0 20px;overflow:hidden"><span id="progFill" style="display:block;height:100%;background:#0d9488;width:0%"></span></p>
+    <p id="progLabel" style="font-size:.88rem;color:#64748b;margin:-12px 0 16px">Progression : 0 / 8 modules</p>
+    <div class="modules-grid" id="modulesGrid">
+      <article class="module-card" data-mod="m1"><h3>1. Cadre légal VTC &amp; Taxi</h3><p>Carte pro, assurance obligatoire, zones de prise en charge, différences VTC / Taxi.</p><span class="badge">2 h · Obligatoire</span></article>
+      <article class="module-card" data-mod="m2"><h3>2. Sécurité routière</h3><p>Conduite préventive, fatigue, usage du téléphone, checklist véhicule.</p><span class="badge">3 h</span></article>
+      <article class="module-card" data-mod="m3"><h3>3. Relation client premium</h3><p>Accueil, gestion des litiges, avis clients, standards hôtellerie.</p><span class="badge">2 h 30</span></article>
+      <article class="module-card" data-mod="m4"><h3>4. Applications &amp; dispatch</h3><p>Uber, Bolt, Heetch — bonnes pratiques, optimisation des courses.</p><span class="badge">2 h</span></article>
+      <article class="module-card" data-mod="m5"><h3>5. Gestion financière</h3><p>Charges, TVA, micro-entreprise vs société, trésorerie mensuelle.</p><span class="badge">3 h</span></article>
+      <article class="module-card" data-mod="m6"><h3>6. Assurance &amp; sinistres</h3><p>RC Pro, garanties VTC, déclaration sinistre, relevé d'information.</p><span class="badge">2 h · Partenaire LO</span></article>
+      <article class="module-card" data-mod="m7"><h3>7. Véhicule &amp; entretien</h3><p>Contrôle technique, leasing vs achat, véhicules électriques / hybrides.</p><span class="badge">2 h</span></article>
+      <article class="module-card" data-mod="m8"><h3>8. Examen blanc &amp; certification</h3><p>QCM final, attestation Leads Opportunities, accompagnement carte VTC.</p><span class="badge">4 h · Certifiant</span></article>
+    </div>
+
+    <h2>Demander le programme détaillé</h2>
+    <div class="form-panel">
+      <form id="formationForm">
+        <label>Prénom<input name="firstName" required /></label>
+        <label>Nom<input name="lastName" required /></label>
+        <label>Email<input type="email" name="email" required /></label>
+        <label>Téléphone<input name="phone" required /></label>
+        <label>Formule<select name="formula">
+          <option value="initiation">Initiation — 299 € (4 modules)</option>
+          <option value="complete">Complète — 890 € (12 modules + examen)</option>
+          <option value="premium">Premium + accompagnement carte VTC — 1290 €</option>
+        </select></label>
+        <label>Message<textarea name="message" rows="3" placeholder="Votre situation (débutant, reconversion, renouvellement carte…)"></textarea></label>
+        <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off" />
+        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px;padding:14px;border:none;border-radius:10px;background:#0d9488;color:#fff;font-weight:700;cursor:pointer">Demander le programme</button>
+      </form>
+      <p id="formMsg" style="margin-top:12px"></p>
+    </div>
+  </main>
+  <script src="vtc-professionnel.js"></script>
+</body>
+</html>

@@ -20,8 +20,15 @@ function computeLeadScore(body) {
 
   if (body.hasCompany === "1" || body.hasCompany === true) s += 6;
   if (body.gclid || body.attr_first_gclid || body.attr_last_gclid) s += 8;
+  if (body.fbclid || body.ttclid || body.msclkid) s += 7;
   if (body.utm_source || body.attr_first_utm_source) s += 6;
   if (body.source === "landing_form") s += 4;
+
+  var step = Number(body.questionnaire_step || body.formStep || body.step || 0);
+  var total = Number(body.questionnaire_total || body.formTotalSteps || body.totalSteps || 0);
+  if (total > 0) s += Math.min(20, Math.round((step / total) * 20));
+
+  if (/facebook|instagram|google|tiktok/i.test(String(body.platform || body.utm_source || ""))) s += 5;
 
   return Math.min(100, Math.round(s));
 }

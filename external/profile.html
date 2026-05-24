@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fiche personnelle | Leads Opportunities</title>
+  <meta name="description" content="Profil client — équivalent dashboard/external/profile multisite." />
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <style>
+    .prof { max-width: 820px; margin: 0 auto; padding: 24px; }
+    .prof-head { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    .prof-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+    .prof-card h2 { margin: 0 0 12px; font-size: 1.05rem; }
+    .prof-stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+    .prof-stat { text-align: center; padding: 14px 10px; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; }
+    .prof-stat strong { display: block; font-size: 1.4rem; color: #312e81; }
+    .prof-stat span { font-size: 0.78rem; color: #64748b; }
+    .prof-list { list-style: none; padding: 0; margin: 0; }
+    .prof-list li { padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+    .prof-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .prof-pill {
+      display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px;
+      border-radius: 999px; background: #f8fafc; border: 1px solid #e2e8f0;
+      color: #0f172a; text-decoration: none; font-size: 0.88rem; font-weight: 500;
+    }
+    .prof-pill:hover { border-color: #6366f1; background: #eef2ff; }
+    .prof-meta { color: #64748b; font-size: 0.88rem; margin: 0 0 8px; }
+    .prof-grid2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+    .prof-loading { color: #64748b; padding: 40px 0; text-align: center; }
+    .prof-error { color: #b91c1c; padding: 20px; background: #fef2f2; border-radius: 12px; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="prof">
+    <div class="prof-head">
+      <div>
+        <a href="dashboard.html" style="font-size: 0.9rem">← Mon espace</a>
+        <h1 id="profTitle" style="margin: 8px 0 4px">Fiche personnelle</h1>
+        <p class="prof-meta">Inspiré <code>dashboard/external/profile</code> multisite</p>
+      </div>
+      <button type="button" id="btnLogout" style="padding: 8px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; cursor: pointer">Déconnexion</button>
+    </div>
+    <div id="profLoading" class="prof-loading">Chargement de votre profil…</div>
+    <div id="profError" class="prof-error hidden"></div>
+    <div id="profContent" class="hidden"></div>
+  </div>
+  <script src="../js/cookie-banner.js"></script>
+  <script src="profile.js"></script>
+</body>
+</html>

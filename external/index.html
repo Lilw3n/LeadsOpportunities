@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espace client | Leads Opportunities</title>
+  <meta name="description" content="Portail client : assurance, mobilité, communauté pro, formation et outils — inspiré du hub /external de la plateforme multisite." />
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <style>
+    .ext-hero {
+      background: linear-gradient(135deg, #0f172a, #3730a3, #6366f1);
+      color: #fff;
+      padding: 48px 24px 56px;
+      text-align: center;
+    }
+    .ext-hero h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); margin: 0 0 12px; font-weight: 800; letter-spacing: -0.02em; }
+    .ext-hero-lead { max-width: 640px; margin: 0 auto 20px; font-size: 1.05rem; line-height: 1.55; opacity: 0.95; }
+    .ext-cta-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 16px; }
+    .ext-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .ext-btn:hover { transform: translateY(-1px); }
+    .ext-btn-white { background: #fff; color: #312e81; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); }
+    .ext-btn-outline { border: 2px solid rgba(255, 255, 255, 0.85); color: #fff; }
+    .ext-trust { font-size: 0.85rem; opacity: 0.88; margin: 0 0 20px; }
+    .ext-nav { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+    .ext-nav a { color: #fff; opacity: 0.92; text-decoration: underline; text-underline-offset: 3px; }
+    .ext-section { max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+    .ext-section-title { font-size: 1.5rem; margin: 0 0 8px; text-align: center; }
+    .ext-section-desc { text-align: center; color: #64748b; max-width: 720px; margin: 0 auto 28px; font-size: 0.98rem; line-height: 1.5; }
+    .ext-sectors {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .ext-sector {
+      border-radius: 16px;
+      padding: 22px;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid #e2e8f0;
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .ext-sector:hover { border-color: #6366f1; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.12); }
+    .ext-sector .se-icon { font-size: 2rem; margin-bottom: 10px; }
+    .ext-sector h3 { margin: 0 0 6px; font-size: 1.1rem; }
+    .ext-sector p { margin: 0; color: #64748b; font-size: 0.88rem; line-height: 1.45; }
+    .ext-sector .se-tag { display: inline-block; margin-top: 10px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #6366f1; }
+    .ext-muted-bg { background: #f8fafc; border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0; }
+    .ext-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .ext-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; text-decoration: none; color: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+    .ext-card:hover { border-color: #6366f1; box-shadow: 0 8px 28px rgba(99, 102, 241, 0.1); }
+    .ext-card .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .ext-card h3 { margin: 0 0 8px; }
+    .ext-card p { margin: 0; color: #64748b; font-size: 0.9rem; }
+    .ext-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .ext-feat { padding: 20px; border-radius: 14px; background: #fff; border: 1px solid #e2e8f0; }
+    .ext-feat h3 { margin: 0 0 8px; font-size: 1rem; }
+    .ext-feat p { margin: 0; color: #64748b; font-size: 0.88rem; line-height: 1.5; }
+    .ext-feat a { color: #4f46e5; font-weight: 600; font-size: 0.88rem; }
+    .ext-final-cta {
+      text-align: center;
+      padding: 48px 24px;
+      background: linear-gradient(135deg, #1e1b4b, #4338ca);
+      color: #fff;
+    }
+    .ext-final-cta h2 { margin: 0 0 12px; font-size: 1.45rem; }
+    .ext-final-cta p { margin: 0 0 20px; opacity: 0.9; max-width: 520px; margin-left: auto; margin-right: auto; }
+    .ext-final-cta .ext-btn-white { color: #1e1b4b; }
+    .ext-footer { text-align: center; padding: 28px 20px; color: #64748b; font-size: 0.85rem; line-height: 1.7; }
+    .ext-footer a { color: #475569; }
+  </style>
+</head>
+<body class="landing-page">
+  <section class="ext-hero">
+    <h1 id="cmsHeroTitle">Leads Opportunities</h1>
+    <p id="cmsHeroSubtitle" class="ext-hero-lead">
+      Assurance, communauté, formation et outils métier : un portail structuré comme le hub <strong>/external</strong> de la plateforme multisite — un parcours clair pour vos devis, votre dossier et votre réseau pro.
+    </p>
+    <div class="ext-cta-row">
+      <a class="ext-btn ext-btn-white" href="register.html">Créer mon compte</a>
+      <a class="ext-btn ext-btn-outline" href="login.html">J'ai déjà un compte</a>
+    </div>
+    <p class="ext-trust">✅ Gratuit · ✅ Sans engagement · ✅ Accès à votre dossier et à vos demandes</p>
+    <div class="ext-nav">
+      <a href="login.html">Connexion</a>
+      <a href="register.html">Inscription</a>
+      <a href="../index.html">Site principal</a>
+      <a href="mailto:courtier972@gmail.com">Contact</a>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <h2 class="ext-section-title">Explorez nos secteurs</h2>
+    <p class="ext-section-desc">
+      Chaque vertical regroupe des contenus et parcours adaptés — même logique de <strong>spécialisation sectorielle</strong> que sur le multisite DiddyHome, adaptée à l'offre Leads Opportunities.
+    </p>
+    <div class="ext-sectors">
+      <a class="ext-sector" href="assurance/vtc.html">
+        <div class="se-icon">🚗</div>
+        <h3>Transport &amp; mobilité</h3>
+        <p>VTC, taxi, livraison : devis, éligibilité partenaires et guides.</p>
+        <span class="se-tag">Actif</span>
+      </a>
+      <a class="ext-sector" href="assurance/produit.html?p=sante">
+        <div class="se-icon">🏥</div>
+        <h3>Santé</h3>
+        <p>Mutuelle, complémentaire santé, professions médicales.</p>
+        <span class="se-tag">Actif</span>
+      </a>
+      <a class="ext-sector" href="assurance/habitation.html">
+        <div class="se-icon">🏠</div>
+        <h3>Immobilier &amp; patrimoine</h3>
+        <p>Habitation, PNO, GLI — contenus et devis orientés pros de l'immobilier.</p>
+        <span class="se-tag">Actif</span>
+      </a>
+      <a class="ext-sector" href="social/groups/restauration.html">
+        <div class="se-icon">🍽️</div>
+        <h3>Restauration &amp; CHR</h3>
+        <p>Groupe communautaire, multi-risques pro et ressources sectorielles.</p>
+        <span class="se-tag">Communauté</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="ext-section ext-muted-bg">
+    <h2 class="ext-section-title">Services &amp; parcours</h2>
+    <p class="ext-section-desc">Accès rapides aux mêmes familles de modules que le portail externe du multisite (assurance, espace connecté, social, blog).</p>
+    <div class="ext-grid">
+      <a class="ext-card" href="assurance.html">
+        <div class="icon">🛡️</div>
+        <h3>Assurance</h3>
+        <p>Hub produits : auto, santé, habitation, RC pro, wizard intelligent.</p>
+      </a>
+      <a class="ext-card" href="devis-wizard.html">
+        <div class="icon">✨</div>
+        <h3>Devis intelligent</h3>
+        <p>Comparatif et analyse — équivalent EnhancedQuoteWizard multisite.</p>
+      </a>
+      <a class="ext-card" href="dashboard.html">
+        <div class="icon">👤</div>
+        <h3>Mon espace</h3>
+        <p>Demandes, devis, contrats et sinistres — vue type dashboard/external.</p>
+      </a>
+      <a class="ext-card" href="search.html">
+        <div class="icon">🔎</div>
+        <h3>Recherche dossier</h3>
+        <p>Recherche unifiée sur les données de votre profil connecté.</p>
+      </a>
+      <a class="ext-card" href="assurance/devis-intelligent.html" style="border-color:#6366f1;background:linear-gradient(135deg,#eff6ff,#f5f3ff)">
+        <div class="icon">🤖</div>
+        <h3>Devis intelligent IA</h3>
+        <p>Analyse gratuite, éligibilité partenaires, devis transparent — multisite.</p>
+      </a>
+      <a class="ext-card" href="social/entraide.html">
+        <div class="icon">🤝</div>
+        <h3>Entraide &amp; prêts</h3>
+        <p>Cagnottes solidaires, service mobile, prêts entre membres.</p>
+      </a>
+      <a class="ext-card" href="social/hub.html">
+        <div class="icon">📱</div>
+        <h3>Social hub</h3>
+        <p>Fil, entraide, lives — navigation unifiée façon <code>/external/social/hub</code>.</p>
+      </a>
+      <a class="ext-card" href="social/live.html">
+        <div class="icon">📹</div>
+        <h3>Lives &amp; studio</h3>
+        <p>Webinaire / prévisualisation locale — parallèle Lives &amp; Webinars multisite.</p>
+      </a>
+      <a class="ext-card" href="social/marketplace.html">
+        <div class="icon">🛒</div>
+        <h3>Marketplace</h3>
+        <p>Offres et bons plans entre pros — même intention que Marketplace multisite.</p>
+      </a>
+      <a class="ext-card" href="formation/vtc-professionnel.html">
+        <div class="icon">🎓</div>
+        <h3>Formation VTC</h3>
+        <p>Parcours certifiant — aligné sur Formation Pro / VTC-Taxi multisite.</p>
+      </a>
+      <a class="ext-card" href="claim-declare.html">
+        <div class="icon">📋</div>
+        <h3>Déclarer un sinistre</h3>
+        <p>Formulaire relié au CRM, inspiré ClaimForm multisite.</p>
+      </a>
+      <a class="ext-card" href="../blog/index.html">
+        <div class="icon">📰</div>
+        <h3>Blog conseils</h3>
+        <p>Articles dynamiques — équivalent blogService / MobileBlog.</p>
+      </a>
+      <a class="ext-card" href="../portfolio.html">
+        <div class="icon">⭐</div>
+        <h3>Portfolio courtier</h3>
+        <p>Vitrine Wendy BUCHET — comme Portfolio Diddy sur le multisite.</p>
+      </a>
+      <a class="ext-card" href="assurance/produit.html?p=rc-pro">
+        <div class="icon">💼</div>
+        <h3>RC Pro &amp; décennale</h3>
+        <p>Assurance professionnelle et BTP.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="ext-section">
+    <h2 class="ext-section-title">Une plateforme, plusieurs univers connectés</h2>
+    <p class="ext-section-desc">Les mêmes piliers que sur le multisite : interconnexion des parcours, communauté, formation et reconnaissance progressive.</p>
+    <div class="ext-features">
+      <div class="ext-feat">
+        <h3>🔁 Interconnexion</h3>
+        <p>Un compte portail pour suivre devis, contrats et documents. Données reliées au CRM courtier.</p>
+        <p style="margin-top:10px"><a href="upload-document.html">Déposer un document →</a></p>
+      </div>
+      <div class="ext-feat">
+        <h3>👥 Communauté</h3>
+        <p>Groupes thématiques, hub social et entraide — retours d'expérience entre professionnels.</p>
+        <p style="margin-top:10px"><a href="social/communities.html">Découvrir les communautés →</a></p>
+      </div>
+      <div class="ext-feat">
+        <h3>🎓 Formation &amp; contenus</h3>
+        <p>Parcours VTC, blog pédagogique et guides produits pour monter en compétence.</p>
+        <p style="margin-top:10px"><a href="../collaborators/portfolio.html">Réseau collaborateurs →</a></p>
+      </div>
+      <div class="ext-feat">
+        <h3>✅ Transparence</h3>
+        <p>Cookies paramétrables, RGPD et mentions à jour — même exigence légale que le multisite.</p>
+        <p style="margin-top:10px"><a href="../legal/cookies.html">Paramètres cookies →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ext-final-cta">
+    <h2>Prêt à lancer un devis ou à retrouver votre dossier ?</h2>
+    <p>Rejoignez le parcours client : estimation en ligne puis accompagnement humain par votre courtier.</p>
+    <a class="ext-btn ext-btn-white" href="devis-wizard.html">🚀 Lancer un devis intelligent</a>
+  </section>
+
+  <footer class="ext-footer">
+    <div>
+      <a href="../legal/rgpd.html">RGPD</a> ·
+      <a href="../legal/cookies.html">Cookies</a> ·
+      <a href="../politique-confidentialite.html">Confidentialité</a> ·
+      <a href="../mentions-legales.html">Mentions légales</a>
+    </div>
+    <p style="margin:12px 0 0">
+      <a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a> ·
+      <a href="../index.html#contact">Contact site principal</a>
+    </p>
+  </footer>
+
+  <script src="../js/cookie-banner.js"></script>
+  <script src="../js/external-portal-nav.js"></script>
+  <script>
+    (function () {
+      try {
+        var cms = JSON.parse(localStorage.getItem("lo_external_cms") || "{}");
+        if (cms.heroTitle) document.getElementById("cmsHeroTitle").textContent = cms.heroTitle;
+        if (cms.heroSubtitle) document.getElementById("cmsHeroSubtitle").textContent = cms.heroSubtitle;
+      } catch (e) {}
+    })();
+  </script>
+</body>
+</html>

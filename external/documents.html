@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mes documents | Leads Opportunities</title>
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <style>
+    .doc-wrap { max-width: 640px; margin: 0 auto; padding: 24px; }
+    .doc-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 12px; }
+    .doc-list { list-style: none; padding: 0; margin: 16px 0 0; }
+    .doc-list li { padding: 12px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+    .doc-actions { margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .doc-actions a { padding: 12px 18px; background: #6366f1; color: #fff; border-radius: 10px; text-decoration: none; font-weight: 600; }
+    .doc-actions a.secondary { background: #f1f5f9; color: #334155; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="doc-wrap">
+    <a href="dashboard.html" style="font-size: 0.9rem">← Mon espace</a>
+    <h1>Mes documents</h1>
+    <p style="color: #64748b">Consultez l'historique de vos dépôts — inspire « Voir les documents » du dashboard externe multisite.</p>
+    <div class="doc-card">
+      <h2 style="margin: 0 0 8px; font-size: 1rem">Documents transmis</h2>
+      <ul id="docList" class="doc-list"><li>Chargement…</li></ul>
+    </div>
+    <div class="doc-actions">
+      <a href="upload-document.html">Déposer un document</a>
+      <a href="profile.html" class="secondary">Fiche personnelle</a>
+    </div>
+  </div>
+  <script src="../js/cookie-banner.js"></script>
+  <script src="documents.js"></script>
+</body>
+</html>

@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
     const sql = neon(dbUrl);
 
     const rows = await sql`
-      SELECT id, email, role, full_name, phone, created_at, last_login_at
+      SELECT id, email, role, crm_role, full_name, phone, status, created_at, last_login_at
       FROM users WHERE id = ${decoded.userId}
     `;
     if (rows.length === 0) {
@@ -32,7 +32,9 @@ module.exports = async (req, res) => {
         id: u.id,
         email: u.email,
         role: u.role,
+        crmRole: u.role === "admin" ? u.crm_role || "admin" : u.crm_role,
         fullName: u.full_name,
+        status: u.status,
         phone: u.phone,
         createdAt: u.created_at,
         lastLoginAt: u.last_login_at,

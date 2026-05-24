@@ -71,13 +71,22 @@ module.exports = async (req, res) => {
   if (dbUrl) {
     try {
       const { neon } = require("@neondatabase/serverless");
+      const { findDuplicateLead, normalizeEmail, normalizePhone } = require("../_lib/lead-enrichment");
       const sql = neon(dbUrl);
+      if (enriched.email) enriched.email = normalizeEmail(enriched.email);
+      if (enriched.phone) enriched.phone = normalizePhone(enriched.phone);
+      var dup = await findDuplicateLead(sql, enriched.email, enriched.phone);
+      if (dup) {
+        enriched.parent_lead_id = dup.id;
+        leadId = randomUUID();
+      }
       await sql`
         INSERT INTO site_leads (
           id, source, vertical, lead_score, email, phone,
           utm_source, utm_medium, utm_campaign, payload,
           platform, pipeline_stage, status, priority, last_activity_at,
-          competitor_monthly, our_offer_monthly, relevance
+          competitor_monthly, our_offer_monthly, relevance,
+          parent_lead_id, is_duplicate
         ) VALUES (
           ${leadId},
           ${"withallo"},
@@ -96,7 +105,9 @@ module.exports = async (req, res) => {
           NOW(),
           ${rel.competitorMonthly},
           ${rel.ourOfferMonthly},
-          ${rel.relevance}
+          ${rel.relevance},
+          ${dup ? dup.id : null},
+          ${!!dup}
         )
       `;
       stored = true;
