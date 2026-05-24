@@ -1,0 +1,129 @@
+.seo-page {
+  margin: 0;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #0f172a;
+  background: #f6f8fc;
+  line-height: 1.6;
+}
+
+.seo-container {
+  width: min(920px, 92vw);
+  margin: 0 auto;
+}
+
+.seo-topbar {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.seo-topbar .seo-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+}
+
+.seo-logo {
+  font-weight: 800;
+  color: #0f172a;
+  text-decoration: none;
+}
+
+.seo-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.seo-nav a {
+  color: #334155;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.seo-nav a:hover {
+  color: #0d9488;
+}
+
+.seo-cta {
+  background: #0d9488;
+  color: #fff !important;
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+.seo-breadcrumb {
+  padding: 18px 0 8px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.seo-breadcrumb a {
+  color: #0d9488;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.seo-article {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
+}
+
+.seo-article h1 {
+  margin: 0 0 12px;
+  line-height: 1.15;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.seo-intro {
+  color: #475569;
+  font-size: 1.05rem;
+}
+
+.seo-faq-block {
+  margin-top: 24px;
+}
+
+.seo-faq {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+}
+
+.seo-faq summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.seo-related {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.seo-related a {
+  color: #0d9488;
+  font-weight: 600;
+}
+
+.seo-footer {
+  padding: 20px 0 40px;
+  color: #64748b;
+}
+
+@media (max-width: 700px) {
+  .seo-nav a:not(.seo-cta) {
+    display: none;
+  }
+}

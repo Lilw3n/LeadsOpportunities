@@ -14,6 +14,10 @@
   - projet < 30 jours: +20
   - projet 30-90 jours: +10
 
+## Pertinence tarifaire (CRM)
+- **Pertinent** : tarif assureur actuel > notre offre + besoins couverts
+- **Non pertinent** : concurrent moins cher et besoins hors perimetre
+
 ## Classes
 - `Chaud`: 70-100
 - `Tiede`: 40-69
