@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calendrier CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-top:16px; }
+    .cal-day { min-height:72px; padding:6px; border:1px solid var(--line); border-radius:8px; font-size:.75rem; background:#fff; }
+    .cal-day.has-ev { background:#eef2ff; border-color:#6366f1; }
+    .cal-ev { display:block; margin-top:4px; padding:2px 4px; background:#6366f1; color:#fff; border-radius:4px; font-size:.7rem; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .cal-head { text-align:center; font-weight:600; padding:8px; color:var(--muted); }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-events.html" class="btn btn-ghost">← Événements</a>
+  <a href="./crm-event-create.html" class="btn btn-primary" style="float:right">+ Événement</a>
+  <h1>Calendrier</h1>
+  <p style="color:var(--muted)">Inspire dashboard/calendar multisite</p>
+  <div style="display:flex;gap:12px;align-items:center;margin:16px 0">
+    <button type="button" class="btn btn-ghost" id="btnPrev">←</button>
+    <strong id="monthLabel"></strong>
+    <button type="button" class="btn btn-ghost" id="btnNext">→</button>
+  </div>
+  <div class="cal-grid" id="calHead"></div>
+  <div class="cal-grid" id="calMount"></div>
+  <script src="./crm-calendar.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

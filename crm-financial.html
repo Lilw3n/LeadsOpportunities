@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financier | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Gestion financière et comptabilité — inspire <code>/dashboard/financial</code> multisite.</p>
+  <div id="finStats" class="crm-kpis" style="margin:24px 0"></div>
+  <div class="hub-links" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px">
+    <a class="panel" href="./crm-financial-receivables.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>📊 Créances</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Gestion des créances clients · Créances en attente</p>
+    </a>
+    <a class="panel" href="./crm-financial-payments.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>💳 Paiements</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Suivi des paiements · Historique des transactions</p>
+    </a>
+    <a class="panel" href="./crm-financial-debits.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>📉 Débits</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Gestion des débits · Dépenses totales</p>
+    </a>
+    <a class="panel" href="./crm-contracts.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>📄 Contrats</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Primes &amp; revenus récurrents</p>
+    </a>
+    <a class="panel" href="./crm-quotes.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>📋 Devis</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Pipeline commercial</p>
+    </a>
+    <a class="panel" href="./crm-bank-details.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>🏦 Coordonnées bancaires</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">IBAN clients consolidés</p>
+    </a>
+    <a class="panel" href="./crm-pending-documents.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>📎 Documents en attente</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Validation devis &amp; demandes</p>
+    </a>
+    <a class="panel" href="./crm-statistics.html" style="padding:20px;text-decoration:none;color:inherit">
+      <strong>📊 Statistiques</strong>
+      <p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Vue consolidée portefeuille</p>
+    </a>
+  </div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-financial.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

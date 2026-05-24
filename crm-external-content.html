@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contenu externe | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-settings.html" class="btn btn-ghost">← Paramètres</a>
+  <h1>CMS Contenu externe</h1>
+  <p style="color:var(--muted)">Inspire dashboard/settings/external-content multisite</p>
+  <form id="cmsForm" class="panel" style="margin-top:20px">
+    <label>Titre hero portail<input name="heroTitle" /></label>
+    <label style="margin-top:12px;display:block">Sous-titre hero<textarea name="heroSubtitle" rows="2" style="width:100%"></textarea></label>
+    <label style="margin-top:12px;display:block">CTA principal<input name="ctaLabel" placeholder="Demander un devis" /></label>
+    <label style="margin-top:12px;display:block">URL CTA<input name="ctaUrl" placeholder="./external/devis-wizard.html" /></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer</button>
+  </form>
+  <p style="margin-top:12px"><a href="./external/index.html" target="_blank">Prévisualiser le portail →</a></p>
+  <script src="./crm-external-content.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

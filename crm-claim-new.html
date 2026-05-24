@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveau sinistre | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .cl-grid label { display: block; margin-bottom: 12px; font-size: 0.9rem; }
+    .cl-grid input, .cl-grid select, .cl-grid textarea {
+      width: 100%; padding: 10px; margin-top: 4px; border: 1px solid var(--line); border-radius: 8px; box-sizing: border-box;
+    }
+    .cl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 560px) { .cl-grid { grid-template-columns: 1fr; } }
+    .cl-full { grid-column: 1 / -1; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-claims.html" class="btn btn-ghost">← Sinistres</a>
+  <h1>Nouveau sinistre</h1>
+  <p style="color:var(--muted)">Inspire <code>/dashboard/insurance/claims</code> multisite — déclaration CRM.</p>
+
+  <form id="claimForm" class="panel">
+    <div class="cl-grid">
+      <label class="cl-full">ID contact CRM *<input name="contactId" required placeholder="ct_…" /></label>
+      <label>Type de sinistre *<select name="claimType" required>
+        <option value="Accident">Accident</option>
+        <option value="Bris de glace">Bris de glace</option>
+        <option value="Vol">Vol</option>
+        <option value="Incendie">Incendie</option>
+        <option value="Dégâts des eaux">Dégâts des eaux</option>
+        <option value="Autre">Autre</option>
+      </select></label>
+      <label>Date *<input type="date" name="claimDate" required /></label>
+      <label>Montant estimé (€)<input type="number" name="amount" min="0" step="0.01" /></label>
+      <label>Assureur<input name="insurer" placeholder="Zéphir, Solly Azar…" /></label>
+      <label>Statut<select name="status"><option value="En attente">En attente</option><option value="En cours">En cours</option><option value="Clôturé">Clôturé</option></select></label>
+      <label>ID véhicule (optionnel)<input name="vehicleId" placeholder="veh_…" /></label>
+      <label>ID conducteur (optionnel)<input name="driverId" placeholder="drv_…" /></label>
+      <label>Responsable ?<select name="responsible"><option value="false">Non</option><option value="true">Oui</option></select></label>
+      <label>% responsabilité<input type="number" name="percentage" min="0" max="100" value="0" /></label>
+      <label class="cl-full">Description *<textarea name="description" rows="4" required placeholder="Circonstances, lieu, tiers…"></textarea></label>
+    </div>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Créer le sinistre</button>
+    <p id="clMsg" style="margin-top:12px;color:#b91c1c"></p>
+  </form>
+    <script src="./js/crm-prefill-contact-id.js"></script>
+<script src="./crm-claim-new.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

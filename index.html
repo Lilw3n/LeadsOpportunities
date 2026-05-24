@@ -27,8 +27,9 @@
   <script src="/api/google-config-env"></script>
   <script src="./google-config.js"></script>
   <link rel="stylesheet" href="./main.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-<body>
+<body data-admin-nav-page>
 
   <header class="topbar">
     <div class="container nav">
@@ -42,13 +43,6 @@
         <a href="./nos-services.html" class="nav-all-services">Tous nos services</a>
         <a href="#comment-ca-marche">Comment ca marche</a>
         <a href="#faq">FAQ</a>
-        <div class="admin-nav" data-admin-nav hidden>
-          <span class="admin-nav-label" id="adminNavUser">Admin</span>
-          <a href="./dashboard.html" class="admin-nav-link">Dashboard</a>
-          <a href="./dashboard.html?section=leads" class="admin-nav-link">Leads</a>
-          <a href="./dashboard.html?section=partners" class="admin-nav-link">Partenaires</a>
-          <a href="./auth.html" class="admin-nav-link">Compte</a>
-        </div>
         <a class="btn btn-nav" href="#contact">Devis gratuit</a>
       </nav>
       <button class="hamburger" aria-label="Menu" id="hamburgerBtn">
@@ -59,16 +53,6 @@
       <a href="./nos-services.html" class="nav-all-services">Tous nos services</a>
       <a href="#comment-ca-marche">Comment ca marche</a>
       <a href="#faq">FAQ</a>
-      <div class="mobile-admin-nav" data-admin-nav hidden>
-        <p class="mobile-admin-nav-title">Administration</p>
-        <a href="./dashboard.html">Dashboard</a>
-        <a href="./dashboard.html?section=leads">Gestion des leads</a>
-        <a href="./dashboard.html?section=partners">Partenaires</a>
-        <a href="./auth.html">Mon compte</a>
-        <a href="./landings/vtc.html" target="_blank" rel="noopener">Landing VTC</a>
-        <a href="./landings/sante.html" target="_blank" rel="noopener">Landing Sante</a>
-        <a href="./landings/credit-immo.html" target="_blank" rel="noopener">Landing Credit</a>
-      </div>
       <a class="btn btn-primary btn-sm" href="#contact">Devis gratuit</a>
     </div>
   </header>
@@ -630,13 +614,6 @@
           <a href="./blog/">Blog &amp; conseils</a>
           <a href="#faq">FAQ</a>
           <a href="./auth.html">Mon espace</a>
-        </div>
-        <div class="footer-col footer-col-admin" data-admin-nav hidden>
-          <h4>Administration</h4>
-          <a href="./dashboard.html">Dashboard</a>
-          <a href="./dashboard.html?section=leads">Gestion des leads</a>
-          <a href="./dashboard.html?section=partners">Partenaires</a>
-          <a href="./auth.html">Connexion / compte</a>
         </div>
         <div class="footer-col">
           <h4>Legal</h4>

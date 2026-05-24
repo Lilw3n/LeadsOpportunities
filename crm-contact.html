@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Fiche contact | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-contact.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <div id="contactLoading" class="contact-loading">Chargement de la fiche...</div>
+  <div id="contactError" class="contact-error hidden"></div>
+  <div id="contactApp" class="hidden">
+    <header class="contact-header">
+      <div class="contact-header-left">
+        <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+        <a href="./crm-events.html" class="btn btn-ghost">Événements</a>
+        <div>
+          <h1 id="contactName">Contact</h1>
+          <p id="contactMeta"></p>
+        </div>
+      </div>
+      <div class="contact-header-actions">
+        <button type="button" class="btn btn-primary btn-sm" id="btnNewQuote">+ Devis wizard</button>
+        <a href="#" id="btnModulesTree" class="btn btn-ghost">Vue modules</a>
+        <button type="button" class="btn btn-ghost" id="btnExportContact">Exporter CSV</button>
+        <button type="button" class="btn btn-ghost" id="btnPrintContact">Imprimer</button>
+        <button type="button" class="btn btn-ghost" id="btnEditProfile">Modifier profil</button>
+        <button type="button" class="btn btn-ghost contact-danger" id="btnDeleteContact">Supprimer</button>
+      </div>
+    </header>
+    <div id="contactProfileBar" class="contact-profile-bar panel"></div>
+    <div id="contactActionsMount"></div>
+    <div id="contactKpis" class="contact-kpis"></div>
+    <section class="panel eligibility-panel" data-crm-section="eligibility">
+      <h2>Éligibilité partenaires &amp; produits</h2>
+      <div id="eligibilityBox"></div>
+    </section>
+    <div class="contact-grid">
+      <aside class="contact-events panel">
+        <div class="panel-head">
+          <h2>Événements</h2>
+          <button type="button" class="btn btn-primary btn-sm" id="btnAddEvent">+ Ajouter</button>
+        </div>
+        <div class="event-filters">
+          <input type="search" id="eventSearch" placeholder="Rechercher..." />
+          <select id="eventTypeFilter">
+            <option value="">Tous types</option>
+            <option value="call">Appel</option>
+            <option value="email">Email</option>
+            <option value="meeting">Rendez-vous</option>
+            <option value="task">Tâche</option>
+            <option value="note">Note</option>
+            <option value="document">Document</option>
+          </select>
+          <select id="eventStatusFilter">
+            <option value="">Tous statuts</option>
+            <option value="pending">En attente</option>
+            <option value="completed">Terminé</option>
+            <option value="cancelled">Annulé</option>
+          </select>
+          <select id="eventPriorityFilter">
+            <option value="">Toutes priorités</option>
+            <option value="low">Faible</option>
+            <option value="medium">Moyenne</option>
+            <option value="high">Haute</option>
+            <option value="urgent">Urgente</option>
+          </select>
+          <select id="eventSort">
+            <option value="date-desc">Date ↓</option>
+            <option value="date-asc">Date ↑</option>
+            <option value="created-desc">Création ↓</option>
+          </select>
+          <label class="ai-search-toggle"><input type="checkbox" id="eventAiSearch" /> Recherche etendue (synonymes)</label>
+        </div>
+        <section class="panel smart-timeline-panel">
+          <h3 class="sub-title">Timeline intelligente</h3>
+          <div id="smartTimelineBox"></div>
+        </section>
+        <div id="eventsList" class="events-list"></div>
+        <h3 class="sub-title">Activités système</h3>
+        <div id="activitiesList" class="activities-list"></div>
+      </aside>
+      <main class="contact-modules">
+        <section class="panel section-company" data-crm-section="company">
+          <div class="panel-head section-head-company"><h2>Entreprise</h2><button type="button" class="btn btn-primary btn-sm" id="btnEditCompany">Modifier</button></div>
+          <div id="companyBox" class="entity-box"></div>
+        </section>
+        <section class="panel section-family" data-crm-section="family">
+          <div class="panel-head section-head-family"><h2>Famille</h2><button type="button" class="btn btn-primary btn-sm" id="btnEditFamily">Modifier</button></div>
+          <div id="familyBox" class="entity-box"></div>
+        </section>
+        <section class="panel module-section section-claims" data-crm-section="claims">
+          <div class="panel-head section-head-claims"><h2>Sinistres</h2><button type="button" class="btn btn-primary btn-sm btn-add-module" data-resource="claims">+ Ajouter</button></div>
+          <div id="claimsCards" class="module-cards"></div>
+        </section>
+        <section class="panel module-section" data-crm-section="vehicles">
+          <div class="panel-head"><h2>Véhicules</h2><button type="button" class="btn btn-primary btn-sm btn-add-module" data-resource="vehicles">+ Ajouter</button></div>
+          <div id="vehiclesCards" class="module-cards"></div>
+        </section>
+        <section class="panel module-section" data-crm-section="drivers">
+          <div class="panel-head"><h2>Conducteurs</h2><button type="button" class="btn btn-primary btn-sm btn-add-module" data-resource="drivers">+ Ajouter</button></div>
+          <div id="driversCards" class="module-cards"></div>
+        </section>
+        <section class="panel module-section" data-crm-section="quoteDetails">
+          <div class="panel-head"><h2>Informations devis</h2></div>
+          <div id="quoteDetailsBox" class="entity-box"></div>
+        </section>
+        <section class="panel module-section" data-crm-section="contracts">
+          <div class="panel-head"><h2>Contrats</h2><button type="button" class="btn btn-primary btn-sm btn-add-module" data-resource="contracts">+ Ajouter</button></div>
+          <div id="contractsCards" class="module-cards"></div>
+        </section>
+        <section class="panel module-section" data-crm-section="quotes">
+          <div class="panel-head"><h2>Devis CRM</h2><a href="#" id="btnAllQuotes" class="btn btn-ghost btn-sm">Tous les devis</a></div>
+          <div id="quotesList" class="entity-box"></div>
+        </section>
+        <section class="panel module-section" data-crm-section="moduleLinks">
+          <div class="panel-head"><h2>Liens inter-contacts</h2></div>
+          <div id="moduleLinksBox" class="entity-box"></div>
+        </section>
+        <section class="panel module-section" data-crm-section="requests">
+          <div class="panel-head"><h2>Demandes d assurance</h2><button type="button" class="btn btn-primary btn-sm btn-add-module" data-resource="insurance-requests">+ Ajouter</button></div>
+          <div id="requestsCards" class="module-cards"></div>
+        </section>
+        <section class="panel" data-crm-section="leads"><h2>Leads web liés</h2><div id="leadsList"></div></section>
+      </main>
+    </div>
+  </div>
+  <div id="modalOverlay" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-head"><h2 id="modalTitle">Formulaire</h2><button type="button" class="modal-close" id="modalClose">×</button></div>
+      <form id="modalForm" class="form-grid"></form>
+      <div class="modal-foot"><button type="button" class="btn btn-ghost" id="modalCancel">Annuler</button><button type="submit" form="modalForm" class="btn btn-primary">Enregistrer</button></div>
+    </div>
+  </div>
+  <div id="transferOverlay" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-head"><h2>Transférer vers un autre contact</h2><button type="button" class="modal-close" id="transferClose">×</button></div>
+      <label class="full">Rechercher un contact<input type="search" id="transferSearch" placeholder="Nom, email..." autocomplete="off" /></label>
+      <div id="transferResults" class="transfer-results"></div>
+      <input type="hidden" id="transferTargetId" />
+      <div class="modal-foot"><button type="button" class="btn btn-ghost" id="transferCancel">Annuler</button><button type="button" class="btn btn-primary" id="transferConfirm">Transférer</button></div>
+    </div>
+  </div>
+  <script src="./js/service-catalog.js"></script>
+  <script src="./js/partner-eligibility.js"></script>
+  <script src="./js/crm-contact-profiles.js"></script>
+  <script src="./js/crm-constants.js"></script>
+  <script src="./js/crm-validation.js"></script>
+  <script src="./js/crm-export.js"></script>
+  <script src="./js/crm-eligibility.js"></script>
+  <script src="./js/crm-form-helpers.js"></script>
+  <script src="./js/crm-date-utils.js"></script>
+  <script src="./js/crm-event-form.js"></script>
+  <script src="./js/crm-event-search.js"></script>
+  <script src="./js/crm-smart-timeline.js"></script>
+  <script src="./js/smart-events-service.js"></script>
+  <script src="./js/secure-contact.js"></script>
+  <script src="./js/crm-module-event-bus.js"></script>
+  <script src="./js/crm-contact-actions.js"></script>
+  <script src="./crm-contact.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

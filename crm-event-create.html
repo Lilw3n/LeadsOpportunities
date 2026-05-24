@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouvel événement | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-calendar.html" class="btn btn-ghost">← Calendrier</a>
+  <h1>Créer un événement</h1>
+  <form id="evForm" class="panel" style="margin-top:20px">
+    <label>Contact ID<input name="contactId" required placeholder="ct_…" /></label>
+    <label style="margin-top:10px;display:block">Titre<input name="title" required /></label>
+    <label style="margin-top:10px;display:block">Date<input type="date" name="eventDate" required /></label>
+    <label style="margin-top:10px;display:block">Priorité<select name="priority"><option value="medium">Moyenne</option><option value="high">Haute</option><option value="urgent">Urgente</option></select></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Créer</button>
+  </form>
+  <p id="evMsg"></p>
+    <script src="./js/crm-prefill-contact-id.js"></script>
+<script src="./crm-event-create.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

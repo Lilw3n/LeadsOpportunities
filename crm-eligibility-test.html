@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test éligibilité | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-contact.css" />
+  <style>
+    .intro { background:#eff6ff; border:1px solid #bfdbfe; border-radius:12px; padding:20px; margin:20px 0; }
+    .intro h2 { margin:0 0 8px; color:#1e40af; }
+    .contact-pick { margin:16px 0; padding:16px; background:#f8fafc; border-radius:10px; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-partners.html" class="btn btn-ghost">← Partenaires</a>
+  <h1>Test d'éligibilité rapide</h1>
+  <div class="intro">
+    <h2>⚡ Éligibilité multi-partenaires</h2>
+    <p style="margin:0;color:#1d4ed8">Saisissez les critères une fois — inspire PartnerEligibilityChecker multisite</p>
+  </div>
+  <div class="contact-pick panel">
+    <label>Préremplir depuis un contact (optionnel)
+      <input type="search" id="contactPick" placeholder="Rechercher email, nom..." style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" />
+    </label>
+    <div id="contactPickResults"></div>
+  </div>
+  <div class="panel" id="eligFormBox"></div>
+  <div id="eligResultsBox" class="panel" style="margin-top:16px"></div>
+  <script src="./js/partner-eligibility.js"></script>
+  <script src="./crm-eligibility-test.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

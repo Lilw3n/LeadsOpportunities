@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modes test & simulation | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .tm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+    .tm-card { border: 1px solid var(--line, #e2e8f0); border-radius: 14px; padding: 20px; background: var(--card, #fff); cursor: pointer; transition: border-color 0.15s, box-shadow 0.15s; }
+    .tm-card:hover, .tm-card.active { border-color: #6366f1; box-shadow: 0 8px 24px rgba(99,102,241,.12); }
+    .tm-card h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .tm-card p { margin: 0; color: var(--muted, #64748b); font-size: 0.88rem; line-height: 1.45; }
+    .tm-emergency { margin-top: 24px; padding: 16px; border: 2px solid #fecaca; border-radius: 12px; background: #fef2f2; }
+    .tm-emergency button { margin-top: 10px; padding: 10px 16px; border: none; border-radius: 10px; background: #dc2626; color: #fff; font-weight: 700; cursor: pointer; }
+    .tm-links { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .tm-links a { padding: 10px 14px; border-radius: 10px; background: #f1f5f9; text-decoration: none; color: #334155; font-size: 0.88rem; font-weight: 600; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Configuration des modes</h1>
+  <p style="color:var(--muted)">Inspire <code>/dashboard/test</code> multisite — basculez entre vues Admin, Interne, Externe et Test.</p>
+  <p id="tmCurrent" style="font-size:0.9rem;color:#4338ca;font-weight:600"></p>
+
+  <div class="tm-grid" id="tmModes">
+    <div class="tm-card" data-mode="admin">
+      <h3>👑 Administrateur</h3>
+      <p>Accès complet à tous les modules. Vue complète avec menu latéral.</p>
+    </div>
+    <div class="tm-card" data-mode="internal">
+      <h3>👨‍💼 Interne</h3>
+      <p>Vue courtier standard — CRM, contacts, pipeline.</p>
+    </div>
+    <div class="tm-card" data-mode="external">
+      <h3>🌐 Externe</h3>
+      <p>Accès uniquement aux fiches personnelles portail client. Vue simplifiée sans menu latéral CRM.</p>
+    </div>
+    <div class="tm-card" data-mode="test">
+      <h3>🎭 Mode test</h3>
+      <p>Simulation utilisateur externe — bannière test sur le dashboard client.</p>
+    </div>
+  </div>
+
+  <div class="tm-links">
+    <a href="./external/dashboard.html" target="_blank" rel="noopener">🏠 Accueil externe (dashboard)</a>
+    <a href="./external/index.html" target="_blank" rel="noopener">Portail /external</a>
+    <a href="./external/search.html" target="_blank" rel="noopener">🔍 Recherche avancée</a>
+    <a href="./crm-drivers.html">Liste des conducteurs</a>
+    <a href="./crm-simulate.html">Simulation client</a>
+  </div>
+
+  <div class="tm-emergency">
+    <strong>🚨 Bouton d'urgence</strong>
+    <p style="margin:8px 0 0;font-size:0.9rem;color:#7f1d1d">Si vous êtes coincé dans un mode test ou externe, revenez au mode administrateur normal.</p>
+    <button type="button" id="tmEmergency">🚨 Retour Admin</button>
+  </div>
+
+  <script src="./js/mode-manager.js"></script>
+  <script src="./js/crm-test-modes.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

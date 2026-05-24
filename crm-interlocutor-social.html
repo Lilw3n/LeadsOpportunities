@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social interlocuteur | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-interlocutors.html" class="btn btn-ghost">← Interlocuteurs</a>
+  <h1>Réseaux sociaux — interlocuteur</h1>
+  <p style="color:var(--muted)">Inspire interlocutors/[id]/social multisite</p>
+  <form id="socialForm" class="panel" style="margin-top:20px">
+    <label>Contact ID<input name="contactId" id="contactId" required placeholder="ct_…" /></label>
+    <label style="margin-top:12px;display:block">LinkedIn<input name="linkedin" placeholder="https://linkedin.com/in/…" /></label>
+    <label style="margin-top:12px;display:block">Facebook<input name="facebook" /></label>
+    <label style="margin-top:12px;display:block">Instagram<input name="instagram" /></label>
+    <label style="margin-top:12px;display:block">Site web<input name="website" /></label>
+    <label style="margin-top:12px;display:block">Bio<textarea name="bio" rows="3" style="width:100%"></textarea></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:12px">Enregistrer</button>
+  </form>
+  <p id="socialMsg"></p>
+  <script src="./crm-interlocutor-social.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

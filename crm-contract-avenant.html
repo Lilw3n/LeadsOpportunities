@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avenant contrat | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-contract-detail.html" id="backLink" class="btn btn-ghost">← Contrat</a>
+  <h1>Débuter un avenant</h1>
+  <p style="color:var(--muted)">Inspire <code>/dashboard/contracts</code> multisite — modification contrat existant.</p>
+  <form id="avenantForm" class="panel">
+    <input type="hidden" name="contractId" id="contractId" />
+    <input type="hidden" name="contactId" id="contactId" />
+    <label>Type d'avenant<select name="avenantType" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px">
+      <option value="Modification prime">Modification prime</option>
+      <option value="Changement véhicule">Changement véhicule</option>
+      <option value="Extension garanties">Extension garanties</option>
+      <option value="Renouvellement">Renouvellement</option>
+      <option value="Résiliation">Résiliation</option>
+    </select></label>
+    <label style="display:block;margin-top:12px">Nouvelle prime (€/mois)<input type="number" name="premium" min="0" step="1" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px" /></label>
+    <label style="display:block;margin-top:12px">Nouvelle date fin<input type="date" name="endDate" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px" /></label>
+    <label style="display:block;margin-top:12px">Statut<select name="status" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px">
+      <option value="Actif">Actif</option>
+      <option value="En attente">En attente</option>
+      <option value="Résilié">Résilié</option>
+    </select></label>
+    <label style="display:block;margin-top:12px">Motif / description avenant<textarea name="notes" rows="5" required placeholder="Détail de l'avenant, documents joints…" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"></textarea></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer l'avenant</button>
+    <p id="avMsg" style="margin-top:12px;color:#b91c1c"></p>
+  </form>
+    <script src="./js/crm-prefill-contact-id.js"></script>
+<script src="./crm-contract-avenant.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

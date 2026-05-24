@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sites | Paramètres CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Configuration multi-sites — inspire <code>/dashboard/settings/sites</code> multisite.</p>
+  <form id="sitesForm" class="panel" style="margin-top:16px;max-width:560px">
+    <label>Site principal<input name="primarySite" value="leads-opportunities.vercel.app" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+    <label style="display:block;margin-top:12px">Portail externe<input name="externalUrl" value="./external/index.html" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+    <label style="display:block;margin-top:12px">Référence multisite<input name="multisiteRef" value="https://multisite-platform-8bs1.vercel.app/" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer (local)</button>
+    <p id="sitesMsg" style="margin-top:10px;font-size:.9rem;color:var(--muted)"></p>
+  </form>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    var KEY = "lo_crm_sites";
+    try {
+      var s = JSON.parse(localStorage.getItem(KEY) || "{}");
+      if (s.primarySite) document.querySelector('[name="primarySite"]').value = s.primarySite;
+      if (s.externalUrl) document.querySelector('[name="externalUrl"]').value = s.externalUrl;
+      if (s.multisiteRef) document.querySelector('[name="multisiteRef"]').value = s.multisiteRef;
+    } catch (e) {}
+    document.getElementById("sitesForm").onsubmit = function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      localStorage.setItem(KEY, JSON.stringify({
+        primarySite: fd.get("primarySite"),
+        externalUrl: fd.get("externalUrl"),
+        multisiteRef: fd.get("multisiteRef"),
+      }));
+      document.getElementById("sitesMsg").textContent = "Paramètres enregistrés localement.";
+    };
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

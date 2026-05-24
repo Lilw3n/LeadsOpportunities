@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouvelle demande | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-insurance-requests.html" class="btn btn-ghost">← Demandes</a>
+  <h1>Nouvelle demande d'assurance</h1>
+  <p style="color:var(--muted)">Inspire les demandes globales multisite — devis, souscription, résiliation.</p>
+  <form id="reqForm" class="panel">
+    <label>ID contact CRM *<input name="contactId" required placeholder="ct_…" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Type *<select name="requestType" required style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px">
+      <option value="devis">Demande de devis</option>
+      <option value="souscription">Souscription</option>
+      <option value="resiliation">Résiliation</option>
+      <option value="avenant">Avenant</option>
+    </select></label>
+    <label style="display:block;margin-top:12px">Produit<select name="productType" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px">
+      <option value="vtc-taxi">VTC / Taxi</option>
+      <option value="auto">Auto</option>
+      <option value="rc-pro">RC Pro</option>
+      <option value="sante">Santé</option>
+      <option value="habitation">Habitation</option>
+    </select></label>
+    <label style="display:block;margin-top:12px">Priorité<select name="priority" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px">
+      <option value="Moyenne">Moyenne</option>
+      <option value="Haute">Haute</option>
+      <option value="Urgente">Urgente</option>
+    </select></label>
+    <label style="display:block;margin-top:12px">Montant estimé (€)<input type="number" name="amount" min="0" step="1" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Description<textarea name="description" rows="4" placeholder="Contexte client, documents disponibles…" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"></textarea></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Créer la demande</button>
+    <p id="reqMsg" style="margin-top:12px;color:#b91c1c"></p>
+  </form>
+    <script src="./js/crm-prefill-contact-id.js"></script>
+<script src="./crm-insurance-request-new.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

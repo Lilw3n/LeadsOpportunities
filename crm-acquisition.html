@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Acquisition leads | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <div class="crm-toolbar acq-toolbar">
+    <input type="search" id="acqSearch" class="acq-search crm-input" placeholder="Rechercher email, téléphone, nom…" />
+    <select id="acqTime" class="crm-input" style="max-width:160px">
+      <option value="">Tous délais</option>
+      <option value="24h">&lt; 24 h</option>
+      <option value="3d">24 h – 3 j</option>
+      <option value="old">&gt; 3 jours</option>
+    </select>
+    <button type="button" class="btn btn-ghost" id="btnDormant">Leads dormants</button>
+    <a href="./crm-tariff-grid.html" class="btn btn-primary">+ Bordereau tarifaire</a>
+  </div>
+
+  <div class="acq-chips" id="platformChips"></div>
+  <div class="acq-stats" id="acqStats"></div>
+  <div class="acq-pipeline" id="acqPipeline"></div>
+
+  <section class="panel acq-api-doc">
+    <h2>Connecter vos campagnes publicitaires</h2>
+    <p style="color:var(--muted);font-size:.9rem;line-height:1.6;margin:0 0 14px">
+      Un seul endpoint <code>POST /api/lead</code> pour Facebook, Instagram, Google, TikTok et votre site.
+      Transmettez la progression du questionnaire pour classer automatiquement les prospects.
+    </p>
+    <pre>{
+  "email": "client@exemple.fr",
+  "phone": "0612345678",
+  "vertical": "vtc",
+  "utm_source": "facebook",
+  "fbclid": "...",
+  "questionnaire_step": 4,
+  "questionnaire_total": 10
+}</pre>
+  </section>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-acquisition.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

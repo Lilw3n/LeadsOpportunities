@@ -1,0 +1,86 @@
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Recherche universelle | CRM</title>
+
+  <link rel="stylesheet" href="./crm.css" />
+
+  <style>
+
+    .search-bar { display:grid; grid-template-columns:1fr auto auto; gap:12px; margin:20px 0; }
+
+    @media (max-width:640px) { .search-bar { grid-template-columns:1fr; } }
+
+    .search-bar input, .search-bar select { padding:12px; border:1px solid var(--line); border-radius:10px; }
+
+    .result-section { margin-top:24px; }
+
+    .result-section h3 { font-size:1rem; color:var(--muted); margin-bottom:8px; }
+
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); gap:12px; flex-wrap:wrap; }
+
+    .result-row a { font-weight:600; }
+
+    .result-meta { font-size:.85rem; color:var(--muted); }
+
+    .entity-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+
+    .entity-tabs button { padding:8px 14px; border:1px solid var(--line); border-radius:8px; background:#fff; cursor:pointer; font-size:.85rem; }
+
+    .entity-tabs button.active { background:var(--accent,#6366f1); color:#fff; border-color:var(--accent,#6366f1); }
+
+  </style>
+
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+
+
+  <p style="color:var(--muted)">Contacts, véhicules, contrats, sinistres, conducteurs — inspire UniversalSearchBar + personalDataSearchService multisite.</p>
+  <p id="searchHint" style="font-size:.85rem;color:var(--muted);margin-top:8px"></p>
+
+  <div class="search-bar panel">
+
+    <input type="search" id="searchQ" placeholder="Immat., nom, n° contrat, permis…" autofocus />
+
+    <select id="searchEntity">
+
+      <option value="all">Toutes entités</option>
+
+      <option value="contacts">Contacts</option>
+
+      <option value="vehicles">Véhicules</option>
+
+      <option value="contracts">Contrats</option>
+
+      <option value="claims">Sinistres</option>
+
+      <option value="drivers">Conducteurs</option>
+
+    </select>
+
+    <button type="button" class="btn btn-primary" id="btnSearch">Rechercher</button>
+
+  </div>
+
+  <div id="searchRecent"></div>
+  <div id="searchResults"></div>
+
+  <script src="./js/crm-personal-data-search.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-search.js"></script>
+
+  <script src="./js/admin-nav.js"></script>
+</body>
+
+</html>
+
+

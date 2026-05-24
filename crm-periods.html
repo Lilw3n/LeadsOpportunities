@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Périodes assurance | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-insurance.html" class="btn btn-ghost">← Assurance</a>
+  <h1>📅 Gestion des périodes d'assurance</h1>
+  <p style="color:var(--muted)">Alertes d'échéances et renouvellements — inspire <code>/dashboard/insurance/periods</code> multisite.</p>
+  <div id="periodKpis" class="crm-kpis" style="margin:20px 0"></div>
+  <p style="margin-bottom:12px;display:flex;flex-wrap:wrap;gap:8px">
+    <a href="./crm-period-new.html" class="btn btn-primary btn-sm">+ Nouvelle période</a>
+    <button type="button" class="btn btn-ghost btn-sm" id="btnPeriodNotify">Configurer liaison périodes-notifications</button>
+  </p>
+  <div id="periodNotifyBox" class="panel hidden" style="margin-bottom:16px;padding:14px"></div>
+  <div id="periodAlert" class="panel" style="margin-bottom:16px;display:none;background:#fef3c7;border-color:#fcd34d"></div>
+  <div class="hub-links" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+    <a class="btn btn-ghost btn-sm" href="./crm-contracts.html">Contrats</a>
+    <a class="btn btn-ghost btn-sm" href="./crm-financial.html">Financier</a>
+    <a class="btn btn-ghost btn-sm" href="./crm-claims.html">Sinistres</a>
+    <a class="btn btn-ghost btn-sm" href="./crm-intelligent-alerts.html">Alertes</a>
+  </div>
+  <h2>Liste des périodes</h2>
+  <div id="periodsMount" class="panel" style="margin-top:8px"></div>
+  <h2 style="margin-top:24px">Contrats à renouveler (90 jours)</h2>
+  <div id="expiringMount" class="panel"></div>
+  <h2 style="margin-top:24px">Activité récente</h2>
+  <div id="activityMount" class="panel" style="font-size:.9rem;color:var(--muted)"></div>
+  <script src="./crm-periods.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

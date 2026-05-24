@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grossistes | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .wh-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-top:20px; }
+    .wh-card { border:1px solid var(--line); border-radius:12px; padding:18px; background:#fff; }
+    .wh-card.verified { border-color:#10b981; }
+    .wh-card.doubtful { border-color:#f59e0b; opacity:.85; }
+    .wh-badge { font-size:.75rem; padding:3px 8px; border-radius:999px; background:#e2e8f0; }
+    .wh-badge.ok { background:#d1fae5; color:#065f46; }
+    .wh-badge.warn { background:#fef3c7; color:#92400e; }
+    .wh-filters { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0; }
+    .wh-filters button { padding:8px 14px; border:1px solid var(--line); border-radius:8px; background:#fff; cursor:pointer; }
+    .wh-filters button.active { background:var(--accent,#6366f1); color:#fff; border-color:var(--accent,#6366f1); }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-partners.html" class="btn btn-ghost">← Partenaires</a>
+  <h1>Registre grossistes</h1>
+  <p style="color:var(--muted)">Inspire dashboard/insurance/wholesalers multisite</p>
+  <input type="search" id="whSearch" placeholder="Rechercher un grossiste…" style="width:100%;max-width:360px;padding:10px;margin:12px 0;border:1px solid var(--line);border-radius:8px" />
+  <div class="wh-filters" id="filters">
+    <button type="button" class="active" data-f="all">Tous</button>
+    <button type="button" data-f="verified">Vérifiés</button>
+    <button type="button" data-f="vtc">VTC</button>
+    <button type="button" data-f="sante">Santé</button>
+  </div>
+  <div class="wh-grid" id="whMount"></div>
+  <p style="margin-top:20px"><a href="./crm-eligibility-test.html">Test d'éligibilité partenaire →</a></p>
+  <script src="./js/crm-wholesalers-data.js"></script>
+  <script src="./crm-wholesalers.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

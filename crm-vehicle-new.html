@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter véhicule | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-vehicles.html" class="btn btn-ghost">← Véhicules</a>
+  <h1>Ajouter un véhicule</h1>
+  <p style="color:var(--muted)">Inspire <code>/dashboard/insurance/vehicles</code> multisite.</p>
+  <form id="vehForm" class="panel">
+    <label>ID contact *<input name="contactId" required placeholder="ct_…" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Immatriculation *<input name="registration" required style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Marque<input name="brand" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Modèle<input name="model" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Année<input type="number" name="year" min="1990" max="2030" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Type<select name="vehicleType" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"><option>Voiture particuliere</option><option>VTC</option><option>Taxi</option><option>Utilitaire</option></select></label>
+    <label style="display:block;margin-top:12px">Statut<select name="status" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"><option value="En attente">En attente</option><option value="Actif">Actif</option></select></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer</button>
+    <p id="vehMsg" style="margin-top:12px;color:#b91c1c"></p>
+  </form>
+    <script src="./js/crm-prefill-contact-id.js"></script>
+<script src="./crm-vehicle-new.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

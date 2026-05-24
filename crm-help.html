@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aide &amp; ressources | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .help-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 20px; }
+    .help-card { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: var(--card, #fff); text-decoration: none; color: inherit; display: block; transition: border-color 0.15s; }
+    .help-card:hover { border-color: #6366f1; }
+    .help-card h3 { margin: 0 0 6px; font-size: 1rem; }
+    .help-card p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.45; }
+    .help-faq { margin-top: 28px; }
+    .help-faq details { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; background: var(--card); }
+    .help-faq summary { cursor: pointer; font-weight: 600; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Centre d'aide</h1>
+  <p style="color:var(--muted)">Documentation, raccourcis et support — inspire <code>/dashboard/help</code> et la navigation multisite.</p>
+
+  <div class="help-grid">
+    <a class="help-card" href="./crm-test-modes.html"><h3>⚙️ Modes &amp; simulation</h3><p>Admin, interne, externe, test — bouton d'urgence retour admin.</p></a>
+    <a class="help-card" href="./crm-eligibility-test.html"><h3>🛡️ Test éligibilité</h3><p>VTC, santé, RC Pro — critères partenaires grossistes.</p></a>
+    <a class="help-card" href="./crm-ai-suggestions.html"><h3>🤖 IA &amp; documents</h3><p>Analyse Gemini, suggestions, approbation documents.</p></a>
+    <a class="help-card" href="./crm-events.html"><h3>📅 Événements</h3><p>Vue globale, calendrier, export CSV, recherche IA.</p></a>
+    <a class="help-card" href="./crm-financial.html"><h3>💰 Financier</h3><p>Créances, paiements, débits, revenus et bénéfice net.</p></a>
+    <a class="help-card" href="./crm-periods.html"><h3>📆 Périodes</h3><p>Échéances, renouvellements J-90, alertes automatiques.</p></a>
+    <a class="help-card" href="./crm-contract-new.html"><h3>📄 Nouveau contrat</h3><p>Wizard produit → client — calqué sur <code>/dashboard/contracts</code>.</p></a>
+    <a class="help-card" href="./crm-contract-avenant.html"><h3>📝 Avenant contrat</h3><p>Débuter un avenant — prime, dates, motif (depuis fiche contrat).</p></a>
+    <a class="help-card" href="./crm-kanban.html"><h3>📊 Pipeline Kanban</h3><p>Leads par statut — glisser-déposer et recherche.</p></a>
+    <a class="help-card" href="./crm-financial-payment-new.html"><h3>💳 Nouveau paiement</h3><p>Encaissement manuel fusionné dans la liste paiements.</p></a>
+    <a class="help-card" href="./crm-financial-debit-new.html"><h3>📉 Nouveau débit</h3><p>Débit fournisseur manuel — liste débits.</p></a>
+    <a class="help-card" href="./crm-bank-details.html"><h3>🏦 IBAN clients</h3><p>Vue consolidée coordonnées bancaires.</p></a>
+    <a class="help-card" href="./crm-pending-documents.html"><h3>📎 Documents en attente</h3><p>Devis, demandes et pièces à valider.</p></a>
+    <a class="help-card" href="./crm-quote-contract-wizard.html"><h3>🔄 Wizard devis→contrat</h3><p>5 étapes : contact, véhicule, conducteur, banque, produit.</p></a>
+    <a class="help-card" href="./crm-wholesalers.html"><h3>🏢 Grossistes</h3><p>Registre partenaires, comparer, test éligibilité.</p></a>
+    <a class="help-card" href="./external/social/matching.html" target="_blank" rel="noopener"><h3>🤝 Matching pro</h3><p>Passer, liker, super like — portail social.</p></a>
+    <a class="help-card" href="./external/social/marketplace.html" target="_blank" rel="noopener"><h3>🛒 Marketplace</h3><p>Panier, liste de souhaits, code promo COMMUNAUTE.</p></a>
+    <a class="help-card" href="./external/social/creators.html" target="_blank" rel="noopener"><h3>⭐ Créateurs</h3><p>Programme affiliation &amp; simulateur revenus.</p></a>
+    <a class="help-card" href="./external/formation/vtc-professionnel.html" target="_blank" rel="noopener"><h3>🎓 Formation VTC</h3><p>8 modules, progression &amp; certificat.</p></a>
+    <a class="help-card" href="./external/social/entraide.html" target="_blank" rel="noopener"><h3>🤝 Entraide</h3><p>Cagnottes, prêts membres, service mobile.</p></a>
+    <a class="help-card" href="./external/assurance/devis-intelligent.html" target="_blank" rel="noopener"><h3>🤖 Devis intelligent</h3><p>Analyse IA, faisabilité partenaires, OCR.</p></a>
+    <a class="help-card" href="./crm-leads-analysis.html"><h3>📊 Leads IA</h3><p>Sessions devis intelligent — filtres hot/warm.</p></a>
+    <a class="help-card" href="./crm-claim-new.html"><h3>⚠️ Nouveau sinistre</h3><p>Déclaration CRM — calquée sur <code>/dashboard/insurance/claims</code>.</p></a>
+    <a class="help-card" href="./crm-insurance-request-new.html"><h3>📋 Nouvelle demande</h3><p>Devis, souscription, résiliation — workflow assurance.</p></a>
+    <a class="help-card" href="./crm-period-new.html"><h3>📆 Nouvelle période</h3><p>Planification trimestrielle — <code>/dashboard/insurance/periods</code>.</p></a>
+    <a class="help-card" href="./crm-roles.html"><h3>👥 Rôles</h3><p>Hiérarchie 0–4 et permissions granulaires.</p></a>
+    <a class="help-card" href="./external/index.html" target="_blank" rel="noopener"><h3>🌐 Portail client</h3><p>Espace externe /external — profil, devis, sinistres.</p></a>
+    <a class="help-card" href="mailto:courtier972@gmail.com"><h3>💬 Support courtier</h3><p>courtier972@gmail.com — assistance technique &amp; métier.</p></a>
+    <a class="help-card" href="../legal/privacy.html" target="_blank" rel="noopener"><h3>🔐 Confidentialité</h3><p>RGPD, cookies, mentions légales portail.</p></a>
+  </div>
+
+  <section class="help-faq">
+    <h2>FAQ rapide</h2>
+    <details><summary>Comment simuler un client externe ?</summary><p>Ouvrez <a href="./crm-test-modes.html">Modes test</a>, choisissez <strong>Test</strong> ou <strong>Externe</strong> — le dashboard client s'ouvre avec bannière simulation.</p></details>
+    <details><summary>Où créer un devis complet (produit → client → véhicule) ?</summary><p>Utilisez le <a href="./crm-quote-new.html">wizard nouveau devis</a>, calqué sur <code>/dashboard/quotes/new</code> multisite.</p></details>
+    <details><summary>Comment analyser un RIB ou une carte grise ?</summary><p>Page <a href="./crm-ai-suggestions.html">IA &amp; suggestions</a> — collez le texte OCR ou URL Drive.</p></details>
+    <details><summary>Comment créer un contrat d'assurance ?</summary><p>Utilisez le <a href="./crm-contract-new.html">wizard nouveau contrat</a> (produit → client / interlocuteur), calqué sur le multisite.</p></details>
+  </section>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

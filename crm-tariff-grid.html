@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bordereau tarifaire | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <style>
+    .tariff-toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:end; margin:16px 0; }
+    .tariff-toolbar label { font-size:.85rem; }
+    .tariff-toolbar select, .tariff-toolbar input { padding:10px; border:1px solid var(--line); border-radius:8px; margin-top:4px; }
+    #tariffTable { width:100%; border-collapse:collapse; font-size:.9rem; }
+    #tariffTable th, #tariffTable td { padding:10px; border-bottom:1px solid var(--line); text-align:left; }
+    #tariffTable input { width:100%; padding:6px 8px; border:1px solid var(--line); border-radius:6px; box-sizing:border-box; }
+    .tariff-total { font-size:1.1rem; font-weight:700; margin-top:12px; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">
+    Éditez un <strong>bordereau tarifaire</strong> à partir des grilles assureur — API <strong>FMA</strong> si
+    <code>FMA_API_URL</code> + <code>FMA_API_KEY</code> sont configurés sur Vercel, sinon grille indicative.
+  </p>
+  <div class="tariff-toolbar panel" style="padding:14px">
+    <label>Assureur<br /><select id="insurer"><option value="fma">FMA</option><option value="zephir">Zéphir</option><option value="sollyazar">Solly Azar</option><option value="2m2a">2M2A</option></select></label>
+    <label>Produit<br /><select id="product"><option value="vtc">VTC / Taxi</option><option value="sante">Santé</option><option value="rc_pro">RC Pro</option></select></label>
+    <label>Lead (optionnel)<br /><input type="text" id="leadId" placeholder="ID lead" style="min-width:200px" /></label>
+    <button type="button" class="btn btn-primary" id="btnLoad">Charger tarifs</button>
+    <button type="button" class="btn btn-ghost" id="btnSave">Enregistrer sur le lead</button>
+    <button type="button" class="btn btn-ghost" id="btnExport">Export CSV</button>
+  </div>
+  <p id="tariffNote" style="font-size:.85rem;color:var(--muted)"></p>
+  <div class="panel" style="overflow:auto">
+    <table id="tariffTable"><thead><tr><th>Garantie</th><th>Code</th><th>Franchise €</th><th>Prime annuelle €</th><th>Commission %</th></tr></thead><tbody></tbody></table>
+  </div>
+  <p class="tariff-total" id="tariffTotal"></p>
+  <p style="margin-top:12px"><a href="./crm-quote-new.html" id="linkQuote" class="btn btn-primary">Créer un devis depuis ce bordereau</a></p>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-tariff-grid.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

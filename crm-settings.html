@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paramètres CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .set-grid { display: grid; gap: 16px; margin-top: 20px; }
+    .set-panel { border: 1px solid var(--line, #e2e8f0); border-radius: 14px; padding: 20px; background: var(--card, #fff); }
+    .set-panel h2 { margin: 0 0 12px; font-size: 1.05rem; }
+    .set-panel label { display: block; margin-bottom: 12px; font-size: 0.9rem; }
+    .set-panel input, .set-panel select { width: 100%; max-width: 400px; padding: 8px 10px; margin-top: 4px; border: 1px solid #e2e8f0; border-radius: 8px; }
+    .set-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9rem; }
+    .set-badge { font-size: 0.75rem; font-weight: 700; color: #059669; background: #ecfdf5; padding: 4px 8px; border-radius: 6px; }
+    .set-saved { display: none; margin-top: 12px; padding: 10px 14px; background: #ecfdf5; border-radius: 10px; color: #065f46; font-size: 0.9rem; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>⚙️ Paramètres du système</h1>
+  <p style="color:var(--muted)">Configuration et administration — inspire <code>/dashboard/settings</code> multisite.</p>
+
+  <form id="settingsForm" class="set-grid">
+    <div class="set-panel">
+      <h2>🔧 Paramètres généraux</h2>
+      <label>Nom de l'entreprise<input name="companyName" value="Leads Opportunities" /></label>
+      <label>Email de contact<input type="email" name="contactEmail" value="courtier972@gmail.com" /></label>
+      <label>Devise par défaut<select name="currency"><option value="EUR">Euro (€)</option><option value="USD">Dollar ($)</option><option value="GBP">Livre Sterling (£)</option></select></label>
+      <label>Période timeline par défaut<select name="timelinePeriod"><option value="all">Tout</option><option value="week">7 jours</option><option value="month">30 jours</option></select></label>
+      <label><input type="checkbox" name="compactKpis" /> KPIs compacts sur fiche contact</label>
+    </div>
+
+    <div class="set-panel">
+      <h2>🔒 Sécurité</h2>
+      <div class="set-row"><span>Authentification à deux facteurs</span><span class="set-badge">Bientôt</span></div>
+      <label><input type="checkbox" name="autoLogout" /> Déconnexion automatique après inactivité (30 min)</label>
+      <label><input type="checkbox" name="emailNotifs" /> Notifications email</label>
+    </div>
+
+    <div class="set-panel">
+      <h2>💾 Sauvegarde &amp; maintenance</h2>
+      <div class="set-row"><span>Sauvegarde automatique</span><span class="set-badge">✅ Activée</span></div>
+      <p style="margin:0;font-size:0.85rem;color:var(--muted)">Sauvegarde quotidienne à 2h00 (Neon — géré côté hébergeur).</p>
+      <button type="button" id="btnExportSettings" class="btn btn-ghost" style="margin-top:12px">💾 Télécharger les paramètres (JSON)</button>
+    </div>
+
+    <div class="set-panel">
+      <h2>🚀 Plateforme Multisite</h2>
+      <p style="margin:0 0 12px;font-size:.9rem;color:var(--muted)">Parité fonctionnelle avec multisite-platform — portail externe, CRM assurance, social hub.</p>
+      <div class="set-row"><span>Version plateforme</span><span>1.0.0</span></div>
+      <button type="button" id="btnMaintenance" class="btn btn-ghost" style="margin-top:8px">🔧 Maintenance du système</button>
+    </div>
+
+    <div class="set-panel">
+      <h2>📊 Informations système</h2>
+      <div class="set-row"><span>Plateforme</span><span>Leads Opportunities CRM</span></div>
+      <div class="set-row"><span>Version</span><span>2026.05</span></div>
+      <div class="set-row"><span>Statut</span><span class="set-badge">✅ Opérationnel</span></div>
+      <div class="set-row"><span>Utilisateurs actifs</span><span id="setActiveUsers">30</span></div>
+      <div class="set-row"><span>Dernière mise à jour</span><span id="setUpdated">—</span></div>
+      <div class="set-row"><span>Dernière sauvegarde</span><span>15 Jan 2024 — 02:00</span></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">💾 Sauvegarder les paramètres</button>
+    <p id="setSaved" class="set-saved">Paramètres enregistrés.</p>
+  </form>
+
+  <div class="set-panel" style="margin-top:16px">
+    <h2>Raccourcis</h2>
+    <p><a href="./crm-test-modes.html">⚙️ Modes test &amp; simulation</a></p>
+    <p><a href="./crm-documents.html">Documents en attente</a></p>
+    <p><a href="./external/index.html">Portail client</a></p>
+    <p><a href="./crm-external-content.html">CMS contenu externe</a></p>
+    <p><a href="./crm-financial.html">Financier</a></p>
+  </div>
+
+  <script src="./crm-settings.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

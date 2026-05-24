@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exports statistiques | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Exports CSV — inspire <code>/dashboard/statistics/export</code> multisite.</p>
+  <div class="panel" style="margin-top:16px;display:grid;gap:12px;max-width:480px">
+    <button type="button" class="btn btn-primary" id="btnExportStats">Résumé statistiques</button>
+    <button type="button" class="btn btn-ghost" id="btnExportContacts">Contacts (liste)</button>
+    <button type="button" class="btn btn-ghost" id="btnExportQuotes">Devis</button>
+    <p id="exportMsg" style="font-size:.9rem;color:var(--muted)"></p>
+  </div>
+  <script src="./js/crm-export.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-statistics-export.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

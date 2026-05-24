@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migration projets | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-projects.html" class="btn btn-ghost">← Projets</a>
+  <h1>Migration projets</h1>
+  <p style="color:var(--muted)">Inspire projects/migrate multisite — import JSON</p>
+  <form id="migForm" class="panel" style="margin-top:20px">
+    <label>JSON projets<textarea name="json" rows="10" style="width:100%;font-family:monospace;font-size:.85rem" placeholder='[{"name":"Projet X","type":"insurance"}]'></textarea></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:12px">Importer</button>
+  </form>
+  <div id="migResult"></div>
+  <script src="./js/crm-projects.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    document.getElementById("migForm").onsubmit = function (e) {
+      e.preventDefault();
+      try {
+        var incoming = JSON.parse(e.target.json.value);
+        if (!Array.isArray(incoming)) throw new Error("Tableau JSON requis");
+        var list = window.CrmProjects.load();
+        incoming.forEach(function (p, i) {
+          list.push({
+            id: p.id || "proj-mig-" + Date.now() + "-" + i,
+            name: p.name || "Projet importé",
+            type: p.type || "insurance",
+            status: p.status || "active",
+            priority: p.priority || "medium",
+            updatedAt: new Date().toISOString(),
+          });
+        });
+        window.CrmProjects.save(list);
+        document.getElementById("migResult").innerHTML = "<p class='panel'>" + incoming.length + " projet(s) importé(s)</p>";
+      } catch (err) {
+        document.getElementById("migResult").innerHTML = "<p style='color:#b91c1c'>" + err.message + "</p>";
+      }
+    };
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

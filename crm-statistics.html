@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statistiques CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Tableau de bord — inspire <code>/dashboard/statistics</code> multisite. <a href="./crm-statistics-reports.html">Rapports</a> · <a href="./crm-statistics-export.html">Exports</a></p>
+  <p style="margin-top:12px"><button type="button" class="btn btn-ghost btn-sm" id="btnStatsExport">Exporter résumé CSV</button></p>
+  <div id="statsGrid" class="crm-kpis" style="margin-top:24px"></div>
+  <h2 style="margin-top:28px;font-size:1rem">Accès modules</h2>
+  <div id="statsLinks" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px"></div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-statistics.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

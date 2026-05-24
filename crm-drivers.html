@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conducteurs | CRM Assurance</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-insurance.html" class="btn btn-ghost">← Assurance</a>
+  <p style="color:var(--muted)">Inspire <code>/dashboard/insurance/drivers</code> + import Gemini multisite</p>
+  <p style="margin-top:12px"><button type="button" class="btn btn-primary btn-sm" id="btnDriverImport">📄 Import conducteur (IA)</button></p>
+  <div id="listMount" class="panel" style="margin-top:16px;overflow:auto"></div>
+  <script src="./js/crm-driver-import-modal.js"></script>
+  <link rel="stylesheet" href="./crm-social-navigation.css" />
+  <script src="./js/crm-modules-global.js"></script>
+  <script src="./js/crm-module-list-page.js"></script>
+  <script>
+    CrmModuleListPage.init("drivers");
+    document.getElementById("btnDriverImport").onclick = function () {
+      window.CrmDriverImportModal.open({});
+    };
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

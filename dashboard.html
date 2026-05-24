@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
   <style>
     :root {
       --bg: #f1f5f9;
@@ -681,7 +682,7 @@
     }
   </style>
 </head>
-<body>
+<body data-admin-nav-page>
   <div id="apiBanner" class="api-banner api-banner--error" hidden></div>
   <button class="mobile-toggle" id="mobileToggle">☰</button>
 
@@ -1015,6 +1016,7 @@
   <div class="toast" id="toast"></div>
 
   <script src="./js/dashboard.js"></script>
+  <script src="./js/admin-nav.js"></script>
   <script>
   (function() {
     var D = window.Dashboard;

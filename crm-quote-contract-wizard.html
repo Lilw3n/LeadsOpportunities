@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wizard devis / contrat | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-quotes.html" class="btn btn-ghost">← Devis</a>
+  <h1>Wizard devis → contrat</h1>
+  <p style="color:var(--muted)">Inspire QuoteContractWizard multisite (5 étapes)</p>
+  <p><button type="button" class="btn btn-ghost" id="modeQuote">Mode devis</button>
+     <button type="button" class="btn btn-ghost" id="modeContract">Mode contrat</button></p>
+  <div id="wizardMount"></div>
+  <script src="./js/crm-quote-contract-wizard.js"></script>
+  <script>
+    var token = localStorage.getItem("lo_token");
+    if (!token) location.href = "./crm.html";
+    var type = new URLSearchParams(location.search).get("type") || "quote";
+    var contactId = new URLSearchParams(location.search).get("contactId") || "";
+    function start(t) {
+      window.CrmQuoteContractWizard.render(document.getElementById("wizardMount"), { type: t, token: token });
+      if (contactId) setTimeout(function () {
+        var el = document.getElementById("wContactId");
+        if (el) el.value = contactId;
+      }, 50);
+    }
+    document.getElementById("modeQuote").onclick = function () { type = "quote"; start(type); };
+    document.getElementById("modeContract").onclick = function () { type = "contract"; start(type); };
+    start(type);
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

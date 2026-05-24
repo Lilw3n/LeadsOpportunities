@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projets | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Projets client</h1>
+  <p style="color:var(--muted)">Organisez devis, contrats et documents — inspire <code>/dashboard/projects</code> multisite.</p>
+  <p style="display:flex;flex-wrap:wrap;gap:10px;margin-top:12px">
+    <a href="./crm-projects-new.html" class="btn btn-primary">Nouveau projet</a>
+    <a href="./crm-projects-migrate.html" class="btn btn-ghost">Migration</a>
+  </p>
+  <div class="panel" style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+    <input type="search" id="projSearch" placeholder="Rechercher dans les projets…" style="flex:1;min-width:180px;padding:8px 10px;border:1px solid var(--line);border-radius:8px" />
+    <select id="projStatus"><option value="">Statut</option><option value="active">Actif</option><option value="draft">Brouillon</option><option value="paused">En pause</option><option value="done">Terminé</option><option value="cancelled">Annulé</option></select>
+    <select id="projType"><option value="">Type</option><option value="Assurance">Assurance</option><option value="Commercial">Commercial</option><option value="Finance">Finance</option><option value="Juridique">Juridique</option><option value="Technique">Technique</option></select>
+    <select id="projView"><option value="grid">Grille</option><option value="list">Liste</option><option value="tree">Arbre</option></select>
+    <select id="projSort"><option value="updated-desc">Dernière modification ↓</option><option value="name-asc">Nom A-Z</option><option value="name-desc">Nom Z-A</option><option value="priority">Priorité ↓</option></select>
+    <button type="button" id="projReset" class="btn btn-ghost btn-sm">Réinitialiser</button>
+  </div>
+  <div id="projMount" style="margin-top:16px"></div>
+  <div id="projTreeMount" class="hidden" style="margin-top:16px"></div>
+  <script src="./js/crm-projects.js"></script>
+  <script src="./js/crm-project-explorer.js"></script>
+  <link rel="stylesheet" href="./crm-social-navigation.css" />
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    else {
+      function refresh() {
+        var view = document.getElementById("projView").value;
+        var listEl = document.getElementById("projMount");
+        var treeEl = document.getElementById("projTreeMount");
+        if (view === "tree") {
+          listEl.classList.add("hidden");
+          treeEl.classList.remove("hidden");
+          window.CrmProjectExplorer.render(treeEl);
+          return;
+        }
+        treeEl.classList.add("hidden");
+        listEl.classList.remove("hidden");
+        window.CrmProjects.renderList(listEl, {
+          query: document.getElementById("projSearch").value,
+          status: document.getElementById("projStatus").value,
+          type: document.getElementById("projType").value,
+          view: view,
+          sort: document.getElementById("projSort").value,
+        });
+      }
+      document.getElementById("projSearch").oninput = refresh;
+      document.getElementById("projStatus").onchange = refresh;
+      document.getElementById("projType").onchange = refresh;
+      document.getElementById("projView").onchange = refresh;
+      document.getElementById("projSort").onchange = refresh;
+      document.getElementById("projReset").onclick = function () {
+        document.getElementById("projSearch").value = "";
+        document.getElementById("projStatus").value = "";
+        document.getElementById("projType").value = "";
+        document.getElementById("projView").value = "grid";
+        document.getElementById("projSort").value = "updated-desc";
+        refresh();
+      };
+      refresh();
+    }
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

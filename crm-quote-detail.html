@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html lang="fr">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Détail devis | CRM</title>
+
+  <link rel="stylesheet" href="./crm.css" />
+
+  <link rel="stylesheet" href="./crm-quote-reading.css" />
+
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+
+
+  <div style="max-width:1100px;margin:0 auto;padding:24px">
+
+    <a href="./crm-quotes.html" class="btn btn-ghost">← Devis CRM</a>
+
+    <div id="quoteLoading">Chargement...</div>
+
+    <div id="quoteApp" class="hidden">
+
+      <div class="quote-actions" style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0">
+
+        <a href="#" id="linkContact" class="btn btn-primary">Fiche contact</a>
+
+        <button type="button" class="btn btn-ghost" id="btnPrint">Imprimer</button>
+        <a href="#" id="btnSendQuote" class="btn btn-ghost">Envoyer</a>
+        <a href="#" id="btnCreateContract" class="btn btn-primary">Créer le contrat</a>
+        <a href="./crm-ai-suggestions.html" class="btn btn-ghost">Assistant IA</a>
+
+        <select id="statusSelect">
+
+          <option value="brouillon">Brouillon</option>
+
+          <option value="envoye">Envoyé</option>
+
+          <option value="accepte">Accepté</option>
+
+          <option value="refuse">Refusé</option>
+
+          <option value="signe">Signé</option>
+
+        </select>
+
+        <button type="button" class="btn btn-ghost" id="btnSaveStatus">Mettre à jour</button>
+
+      </div>
+
+      <div id="readingMount"></div>
+
+    </div>
+
+  </div>
+
+  <script src="./js/crm-quote-reading-mode.js"></script>
+
+  <script src="./crm-quote-detail.js"></script>
+
+  <script src="./js/admin-nav.js"></script>
+</body>
+
+</html>
+

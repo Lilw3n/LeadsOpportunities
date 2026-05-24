@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modules sandbox | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-modules-beta.html" class="btn btn-ghost">← Modules beta</a>
+  <h1>Modules — Sandbox</h1>
+  <p style="color:var(--muted)">Inspire modules-sandbox multisite</p>
+  <div id="sandboxMount" style="margin-top:20px"></div>
+  <script src="./js/crm-modules-sandbox.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    else window.CrmModulesSandbox.render(document.getElementById("sandboxMount"));
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

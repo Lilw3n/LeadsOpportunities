@@ -9,6 +9,7 @@
   <link rel="canonical" href="https://leads-opportunities.vercel.app/espace-client.html" />
   <link rel="stylesheet" href="./main.css" />
   <link rel="stylesheet" href="./legal.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
   <style>
     .req-list { list-style: none; padding: 0; margin: 0; }
     .req-item {
@@ -24,7 +25,7 @@
     .empty-hint { color: var(--muted); }
   </style>
 </head>
-<body class="legal-page">
+<body class="legal-page" data-admin-nav-page>
   <header class="topbar">
     <div class="container nav">
       <a class="logo" href="./index.html">Leads Opportunities</a>
@@ -55,7 +56,7 @@
         <a href="./politique-confidentialite.html">Confidentialite</a> &middot;
         <a href="./cgu.html">CGU</a>
       </small>
-      <small style="display:block;margin-top:8px;"><a href="mailto:courtier972@gmail.com">courtier972@gmail.com</a></small>
+      <small style="display:block;margin-top:8px;"><a href="./index.html#contact">Nous contacter</a></small>
     </div>
   </footer>
   <script src="./js/leads-storage.js"></script>
@@ -101,5 +102,6 @@
       });
     });
   </script>
+  <script src="./js/admin-nav.js"></script>
 </body>
 </html>

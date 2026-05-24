@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiements | Financier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-financial.html" class="btn btn-ghost">← Financier</a>
+  <h1>Paiements</h1>
+  <p style="color:var(--muted);margin-bottom:12px">Suivi des encaissements — inspire <code>/dashboard/financial/payments</code> multisite.</p>
+  <div id="listMount" class="panel" style="margin-top:16px">Chargement…</div>
+  <script src="./crm-financial-list.js"></script>
+  <script>window.CrmFinancialList.init("payments");</script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assurance CRM | Hub</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Inspire dashboard/insurance multisite — vue portefeuille</p>
+  <div id="insStats" class="crm-kpis" style="margin:24px 0"></div>
+  <div class="hub-links" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px">
+    <a class="panel" href="./crm-vehicles.html" style="padding:20px;text-decoration:none;color:inherit"><strong>🚗 Véhicules</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Flotte &amp; parc assuré</p></a>
+    <a class="panel" href="./crm-drivers.html" style="padding:20px;text-decoration:none;color:inherit"><strong>👨‍💼 Conducteurs</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Permis &amp; statuts</p></a>
+    <a class="panel" href="./crm-claims.html" style="padding:20px;text-decoration:none;color:inherit"><strong>⚠️ Sinistres</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Suivi sinistres</p></a>
+    <a class="panel" href="./crm-contracts.html" style="padding:20px;text-decoration:none;color:inherit"><strong>📄 Contrats</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Polices actives · <a href="./crm-contract-new.html" style="font-size:.8rem">+ Nouveau</a></p></a>
+    <a class="panel" href="./crm-insurance-requests.html" style="padding:20px;text-decoration:none;color:inherit"><strong>📋 Demandes</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Demandes · <a href="./crm-insurance-request-new.html" style="font-size:.8rem">+ Nouvelle</a></p></a>
+    <a class="panel" href="./crm-wholesalers.html" style="padding:20px;text-decoration:none;color:inherit"><strong>🏢 Grossistes</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Registre partenaires</p></a>
+    <a class="panel" href="./crm-partners.html" style="padding:20px;text-decoration:none;color:inherit"><strong>🤝 Partenaires</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Grossistes VTC</p></a>
+    <a class="panel" href="./crm-periods.html" style="padding:20px;text-decoration:none;color:inherit"><strong>📅 Périodes</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Échéances &amp; trimestres</p></a>
+    <a class="panel" href="./crm-bank-details.html" style="padding:20px;text-decoration:none;color:inherit"><strong>🏦 Coordonnées bancaires</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">IBAN / RIB clients</p></a>
+    <a class="panel" href="./crm-financial.html" style="padding:20px;text-decoration:none;color:inherit"><strong>💰 Financier</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">Créances &amp; primes</p></a>
+  </div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-insurance.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

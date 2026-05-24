@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter conducteur | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-drivers.html" class="btn btn-ghost">← Conducteurs</a>
+  <h1>Ajouter un conducteur</h1>
+  <p style="color:var(--muted)">Inspire <code>/dashboard/insurance/drivers</code> multisite.</p>
+  <form id="drvForm" class="panel">
+    <label>ID contact *<input name="contactId" required placeholder="ct_…" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Prénom *<input name="firstName" required style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Nom *<input name="lastName" required style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">N° permis<input name="licenseNumber" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+    <label style="display:block;margin-top:12px">Type permis<select name="licenseType" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"><option>B</option><option>B+E</option><option>VTC</option></select></label>
+    <label style="display:block;margin-top:12px">Statut<select name="status" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"><option value="Actif">Actif</option><option value="Inactif">Inactif</option></select></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer</button>
+    <p id="drvMsg" style="margin-top:12px;color:#b91c1c"></p>
+  </form>
+    <script src="./js/crm-prefill-contact-id.js"></script>
+<script src="./crm-driver-new.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

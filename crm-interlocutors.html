@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interlocuteurs | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Interlocuteurs</h1>
+  <p style="color:var(--muted)">Inspire <code>/dashboard/interlocutors</code> — contacts CRM enrichis</p>
+  <div id="intKpis" class="crm-kpis" style="margin:16px 0"></div>
+  <div class="panel" style="margin-bottom:16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+    <input type="search" id="intSearch" placeholder="Rechercher nom, email, entreprise…" style="flex:1;min-width:180px;padding:8px 10px;border:1px solid var(--line);border-radius:8px" />
+    <select id="intFilterType"><option value="">Tous types</option><option value="client">Client</option><option value="prospect">Prospect</option><option value="apporteur">Apporteur</option></select>
+  </div>
+  <p style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+    <a href="./crm-create-complete.html" class="btn btn-primary">Créer dossier complet</a>
+    <a href="./crm-interlocutors-migrate.html" class="btn btn-ghost">Migration</a>
+  </p>
+  <div id="intMount" class="panel" style="margin-top:16px">Chargement…</div>
+  <script src="./crm-interlocutors.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

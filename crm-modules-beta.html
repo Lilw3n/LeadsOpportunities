@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modules beta | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .hm-node { border-bottom: 1px solid var(--line); padding: 6px 0; }
+    .hm-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.9rem; }
+    .hm-toggle, .hm-spacer { width: 24px; border: none; background: none; cursor: pointer; }
+    .hm-status { color: var(--muted); font-size: 0.82rem; }
+    .hm-dragging { opacity: 0.5; background: #f0fdfa; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Arbre hiérarchique + glisser-déposer — inspire <code>/dashboard/modules/beta</code> multisite.</p>
+  <label>Contact ID <input id="contactIdInput" style="padding:10px;width:100%;max-width:400px;margin-top:8px" placeholder="ct_…" /></label>
+  <button type="button" class="btn btn-primary" id="btnLoad" style="margin-top:12px">Charger arbre</button>
+  <div id="treeMount" class="panel" style="margin-top:20px"></div>
+  <script src="./js/crm-module-event-bus.js"></script>
+  <script src="./js/crm-module-relationship-validator.js"></script>
+  <link rel="stylesheet" href="./crm-social-navigation.css" />
+  <script src="./js/crm-hierarchical-modules.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    var params = new URLSearchParams(location.search);
+    if (params.get("contactId")) document.getElementById("contactIdInput").value = params.get("contactId");
+    function loadTree() {
+      var id = document.getElementById("contactIdInput").value.trim();
+      if (!id) return;
+      fetch("/api/crm/contact?id=" + encodeURIComponent(id), {
+        headers: { Authorization: "Bearer " + localStorage.getItem("lo_token") },
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (!res.ok) { document.getElementById("treeMount").innerHTML = "<p>Erreur</p>"; return; }
+          var tree = window.CrmHierarchicalModules.buildTreeFromContact(res);
+          window.CrmHierarchicalModules.render(document.getElementById("treeMount"), tree, { draggable: true });
+        });
+    }
+    document.getElementById("btnLoad").onclick = loadTree;
+    if (params.get("contactId")) loadTree();
+    if (window.CrmModuleEventBus) {
+      window.CrmModuleEventBus.on("reorder", function () {
+        document.getElementById("treeMount").insertAdjacentHTML("afterbegin", "<p style='color:#166534;font-size:.85rem'>Ordre mis à jour (aperçu local)</p>");
+      });
+    }
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

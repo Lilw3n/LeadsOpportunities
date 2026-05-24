@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partenaires grossistes | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .partners-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-top:20px; }
+    .partner-card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px; }
+    .partner-card.verified { border-color:#86efac; }
+    .partner-card h3 { margin:0 0 8px; display:flex; align-items:center; gap:8px; }
+    .badge-ok { background:#dcfce7; color:#166534; font-size:.75rem; padding:2px 8px; border-radius:12px; }
+    .req-list { font-size:.85rem; color:var(--muted); margin:12px 0 0; padding-left:18px; }
+    .filter-bar { display:flex; gap:8px; flex-wrap:wrap; margin-top:16px; }
+    .filter-bar button.active { background:var(--brand,#2563eb); color:#fff; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Partenaires grossistes</h1>
+  <p style="color:var(--muted)">Inspire dashboard/insurance/partners + wholesalers multisite</p>
+  <div class="filter-bar">
+    <button type="button" class="btn btn-ghost active" data-filter="all">Tous</button>
+    <button type="button" class="btn btn-ghost" data-filter="vtc">VTC / Taxi</button>
+    <button type="button" class="btn btn-ghost" data-filter="sante">Santé</button>
+    <a href="./crm-eligibility-test.html" class="btn btn-primary">Test éligibilité rapide</a>
+  </div>
+  <div id="partnersGrid" class="partners-grid"></div>
+
+  <section class="panel" style="margin-top:28px">
+    <h2>📧 Templates de mails</h2>
+    <p style="color:var(--muted);font-size:.9rem">Modèles type multisite — demande de devis, contrat Kelips, relances.</p>
+    <div style="display:grid;gap:12px;margin-top:12px">
+      <details class="panel" style="padding:12px"><summary><strong>Mail type — Demande de devis VTC</strong></summary>
+        <pre style="white-space:pre-wrap;font-size:.85rem;margin:12px 0 0;background:#f8fafc;padding:12px;border-radius:8px">Bonjour,
+
+Merci de nous transmettre pour étude de devis VTC :
+- Relevé d'information 36 mois
+- Permis + carte VTC
+- Carte grise du véhicule
+- RIB
+
+Cordialement,
+Wendy BUCHET — Leads Opportunities</pre>
+        <button type="button" class="btn btn-ghost btn-sm btn-copy-template">Copier</button>
+      </details>
+      <details class="panel" style="padding:12px"><summary><strong>Mail type — Contrat Kelips (renouvellement)</strong></summary>
+        <pre style="white-space:pre-wrap;font-size:.85rem;margin:12px 0 0;background:#f8fafc;padding:12px;border-radius:8px">Bonjour,
+
+Votre contrat Kelips arrive à échéance. Souhaitez-vous que nous comparions les offres renouvellement ?
+Merci de confirmer vos km annuels et sinistres des 36 derniers mois.
+
+Cordialement,</pre>
+        <button type="button" class="btn btn-ghost btn-sm btn-copy-template">Copier</button>
+      </details>
+    </div>
+  </section>
+  <script src="./js/partner-eligibility.js"></script>
+  <script src="./crm-partners.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

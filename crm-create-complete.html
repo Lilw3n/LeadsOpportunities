@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Créer dossier complet | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-contact.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <header style="margin-bottom:20px">
+    <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+    <h1>Créer un dossier complet</h1>
+    <p style="color:var(--muted)">Inspire multisite <strong>create-complete</strong> / UnifiedDataForm</p>
+  </header>
+  <form id="createForm" class="panel">
+    <h2>1. Profil contact</h2>
+    <div class="form-grid">
+      <label>Type fiche<select name="profileKey" id="profileKey" required>
+        <option value="mobilite-vtc">Taxi / VTC</option>
+        <option value="mobilite">Mobilite</option>
+        <option value="sante">Sante</option>
+        <option value="habitat">Habitation</option>
+        <option value="finance">Financement</option>
+        <option value="pro">Professionnel</option>
+        <option value="generic">Autre</option>
+      </select></label>
+      <label>Type contact<select name="contactType"><option value="prospect">Prospect</option><option value="client">Client</option></select></label>
+      <label>Prenom<input name="firstName" required /></label>
+      <label>Nom<input name="lastName" required /></label>
+      <label>Email<input type="email" name="email" /></label>
+      <label>Telephone<input name="phone" /></label>
+      <label class="full">Societe<input name="company" /></label>
+    </div>
+    <div id="mobiliteBlocks">
+      <h2>2. Conducteur principal</h2>
+      <div class="form-grid">
+        <label>Prenom<input name="driver_first_name" /></label>
+        <label>Nom<input name="driver_last_name" /></label>
+        <label>N° permis<input name="driver_license_number" /></label>
+      </div>
+      <h2>3. Vehicule</h2>
+      <div class="form-grid">
+        <label>Immatriculation<input name="vehicle_registration" /></label>
+        <label>Marque<input name="vehicle_brand" /></label>
+        <label>Modele<input name="vehicle_model" /></label>
+        <label>Type<select name="vehicle_type"><option>VTC / Taxi</option><option>Voiture particuliere</option></select></label>
+      </div>
+      <h2>4. Coordonnées bancaires</h2>
+      <div class="form-grid">
+        <label>Titulaire compte<input name="accountHolder" /></label>
+        <label>IBAN<input name="iban" placeholder="FR76…" /></label>
+        <label>BIC<input name="bic" /></label>
+      </div>
+    </div>
+    <div class="full" style="margin-top:20px">
+      <button type="submit" class="btn btn-primary">Créer le dossier</button>
+    </div>
+  </form>
+  <p id="createMsg" style="margin-top:12px"></p>
+  <script src="./js/crm-contact-profiles.js"></script>
+  <script src="./crm-create-complete.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

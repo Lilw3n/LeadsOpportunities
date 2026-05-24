@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Débits | Financier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-financial.html" class="btn btn-ghost">← Financier</a>
+  <h1>Débits</h1>
+  <p style="color:var(--muted);margin-bottom:12px">Dettes fournisseurs — inspire <code>/dashboard/financial/debits</code> multisite.</p>
+  <div id="listMount" class="panel" style="margin-top:16px">Chargement…</div>
+  <script src="./crm-financial-list.js"></script>
+  <script>window.CrmFinancialList.init("debits");</script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveau devis | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .qw-steps { display: flex; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
+    .qw-step { padding: 8px 14px; border-radius: 999px; font-size: 0.85rem; background: #f1f5f9; color: #64748b; }
+    .qw-step.active { background: #6366f1; color: #fff; font-weight: 600; }
+    .qw-step.done { background: #dcfce7; color: #166534; }
+    .qw-panel { display: none; }
+    .qw-panel.active { display: block; }
+    .qw-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+    .qw-prod { border: 2px solid var(--line); border-radius: 12px; padding: 16px; cursor: pointer; text-align: center; }
+    .qw-prod.selected { border-color: #6366f1; background: #eef2ff; }
+    .qw-actions { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-quotes.html" class="btn btn-ghost">← Devis CRM</a>
+  <h1>Nouveau devis</h1>
+  <p style="color:var(--muted)">Wizard 3 étapes — inspire <code>/dashboard/quotes/new</code> multisite (produit → client → véhicule).</p>
+
+  <div class="qw-steps">
+    <span class="qw-step active" data-step="1">1. Produit</span>
+    <span class="qw-step" data-step="2">2. Client</span>
+    <span class="qw-step" data-step="3">3. Véhicule</span>
+  </div>
+
+  <form id="quoteWizard" class="panel">
+    <div class="qw-panel active" data-panel="1">
+      <h2>Sélection du produit</h2>
+      <p style="color:var(--muted);font-size:.9rem">Choisissez le produit d'assurance adapté.</p>
+      <div class="qw-products" id="productPick">
+        <div class="qw-prod" data-product="vtc-taxi"><strong>Assurance Auto VTC</strong></div>
+        <div class="qw-prod" data-product="auto"><strong>Auto particulier</strong></div>
+        <div class="qw-prod" data-product="rc-pro"><strong>Assurance RC Pro</strong></div>
+        <div class="qw-prod" data-product="flotte"><strong>Flotte utilitaire</strong></div>
+        <div class="qw-prod" data-product="sante"><strong>Santé</strong></div>
+        <div class="qw-prod" data-product="habitation"><strong>Habitation</strong></div>
+      </div>
+      <input type="hidden" name="productType" id="productType" required />
+    </div>
+
+    <div class="qw-panel" data-panel="2">
+      <h2>Sélection du client</h2>
+      <label>ID contact CRM *<input name="contactId" required placeholder="ct_… ou recherchez dans Contacts" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+      <p style="font-size:.85rem;color:var(--muted);margin-top:8px"><a href="./crm.html">Ouvrir Contacts</a> · <a href="./crm-create-complete.html">Création complète</a></p>
+      <label style="margin-top:12px;display:block">Titre du devis<input name="title" value="Devis assurance" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+      <label style="margin-top:12px;display:block">Notes<textarea name="notes" rows="3" placeholder="Description du devis…" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px"></textarea></label>
+    </div>
+
+    <div class="qw-panel" data-panel="3">
+      <h2>Véhicule à assurer</h2>
+      <p style="color:var(--muted);font-size:.9rem">Recherchez par plaque ou saisissez les informations (étape optionnelle selon produit).</p>
+      <label>Immatriculation<input name="registration" placeholder="AB-123-CD" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+      <label style="margin-top:12px;display:block">Marque<input name="brand" placeholder="Renault" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+      <label style="margin-top:12px;display:block">Modèle<input name="model" placeholder="Trafic" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+      <label style="margin-top:12px;display:block">Énergie<select name="energy" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px"><option value="diesel">Diesel</option><option value="essence">Essence</option><option value="hybride">Hybride</option><option value="electrique">Électrique</option></select></label>
+      <label style="margin-top:12px;display:block">Prime estimée (€/an)<input type="number" name="premiumEstimate" min="0" step="1" placeholder="3500" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+    </div>
+
+    <div class="qw-actions">
+      <button type="button" class="btn btn-ghost" id="btnPrev" disabled>← Précédent</button>
+      <button type="button" class="btn btn-primary" id="btnNext">Suivant →</button>
+      <button type="submit" class="btn btn-primary hidden" id="btnSubmit">Créer le devis</button>
+    </div>
+    <p id="qwMsg" style="margin-top:12px;color:#b91c1c"></p>
+  </form>
+
+    <script src="./js/crm-prefill-contact-id.js"></script>
+<script src="./crm-quote-new.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

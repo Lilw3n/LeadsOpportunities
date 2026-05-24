@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alertes intelligentes | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .alert-filters { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0; }
+    .alert-filters button { padding:8px 14px; border:1px solid var(--line); border-radius:8px; background:#fff; cursor:pointer; }
+    .alert-filters button.active { background:#6366f1; color:#fff; border-color:#6366f1; }
+    .alert-card { padding:14px; border-left:4px solid #94a3b8; margin-bottom:10px; background:#fff; border-radius:0 8px 8px 0; }
+    .alert-card.critical { border-color:#dc2626; }
+    .alert-card.high { border-color:#f59e0b; }
+    .alert-card.medium { border-color:#6366f1; }
+    .alert-cat { font-size:.75rem; color:var(--muted); text-transform:uppercase; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Alertes intelligentes</h1>
+  <p style="color:var(--muted)">Éligibilité, vieillissement sinistres, rappels — inspire IntelligentAlertsPanel multisite</p>
+  <div class="alert-filters" id="filters">
+    <button type="button" class="active" data-f="all">Toutes</button>
+    <button type="button" data-f="eligibility">Éligibilité</button>
+    <button type="button" data-f="claim_aging">Sinistres</button>
+    <button type="button" data-f="reminder">Rappels</button>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
+    <button type="button" class="btn btn-ghost btn-sm" id="btnMarkAll">Tout marquer lu</button>
+    <a href="./crm-settings.html" class="btn btn-ghost btn-sm">Configurer règles</a>
+    <a href="./crm-eligibility-test.html" class="btn btn-ghost btn-sm">Test éligibilité</a>
+  </div>
+  <div id="counts" class="crm-kpis" style="margin-bottom:16px"></div>
+  <div id="alertMount">Chargement…</div>
+  <script src="./crm-intelligent-alerts.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

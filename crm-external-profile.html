@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profil externe | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Recherche interlocuteur par e-mail — inspire <code>/dashboard/external/profile</code> multisite (vue agent).</p>
+  <div class="panel" style="margin-top:16px;max-width:520px">
+    <label>Email client<input type="email" id="extEmail" placeholder="client@exemple.fr" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>
+    <button type="button" class="btn btn-primary" id="btnLookup" style="margin-top:12px">Rechercher</button>
+  </div>
+  <div id="extProfile" class="panel" style="margin-top:16px"></div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-external-profile.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

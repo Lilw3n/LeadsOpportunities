@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solly Azar VTC | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .tabs { display:flex; gap:8px; margin:16px 0; }
+    .tabs button.active { background:var(--accent,#0d9488); color:#fff; }
+    .req-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin-top:12px; }
+    .req-item { background:#f8fafc; padding:12px; border-radius:8px; font-size:.88rem; }
+    .req-item strong { display:block; color:var(--muted); font-size:.75rem; margin-bottom:4px; }
+    pre.email-tpl { white-space:pre-wrap; font-size:.82rem; background:#f1f5f9; padding:14px; border-radius:10px; max-height:360px; overflow:auto; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Fiche partenaire CRM — calquée sur <code>/dashboard/insurance/partners/solly-azar</code> multisite.</p>
+  <div class="tabs">
+    <button type="button" class="btn btn-ghost active" data-tab="vtc">VTC</button>
+    <button type="button" class="btn btn-ghost" data-tab="taxi">Taxi</button>
+  </div>
+  <div id="tabVtc" class="panel">
+    <h2 style="margin-top:0">Critères VTC</h2>
+    <div class="req-grid" id="reqVtc"></div>
+  </div>
+  <div id="tabTaxi" class="panel hidden">
+    <h2 style="margin-top:0">Critères Taxi</h2>
+    <p>Mêmes critères avec focus taxi — contactez le grossiste pour dérogation.</p>
+    <div class="req-grid" id="reqTaxi"></div>
+  </div>
+  <section class="panel" style="margin-top:16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+      <h2 style="margin:0">📧 Template email devis</h2>
+      <button type="button" class="btn btn-primary btn-sm" id="btnCopyEmail">Copier</button>
+    </div>
+    <pre class="email-tpl" id="emailTpl"></pre>
+  </section>
+  <p style="margin-top:12px"><a href="./crm-eligibility-test.html?partner=solly-azar" class="btn btn-ghost">Test éligibilité Solly Azar</a></p>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-partner-solly-azar.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

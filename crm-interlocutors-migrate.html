@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migration interlocuteurs | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-interlocutors.html" class="btn btn-ghost">← Interlocuteurs</a>
+  <h1>Migration interlocuteurs</h1>
+  <p style="color:var(--muted)">Inspire dashboard/interlocutors/migrate multisite</p>
+  <form id="migrateForm" class="panel" style="margin-top:20px">
+    <label>Source<select name="source"><option value="csv">Export CSV</option><option value="legacy">Ancien CRM</option><option value="leads">Leads web</option></select></label>
+    <label style="margin-top:12px;display:block">Emails ou IDs (un par ligne)<textarea name="rows" rows="8" style="width:100%;margin-top:6px;padding:10px" placeholder="courtier972@gmail.com&#10;ct_abc123"></textarea></label>
+    <label style="margin-top:12px;display:block"><input type="checkbox" name="dryRun" checked /> Simulation (dry-run)</label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Lancer migration</button>
+  </form>
+  <div id="migrateResult" class="panel" style="margin-top:16px;display:none"></div>
+  <script src="./crm-interlocutors-migrate.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utilisateurs internes | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Utilisateurs internes</h1>
+  <p style="color:var(--muted)">Inspire dashboard/users/internal multisite</p>
+  <section class="panel" style="margin-top:20px">
+    <h2>Créer un compte</h2>
+    <form id="userForm">
+      <label>Email<input type="email" name="email" required /></label>
+      <label style="margin-top:10px;display:block">Mot de passe<input type="password" name="password" minlength="8" required /></label>
+      <label style="margin-top:10px;display:block">Nom<input name="fullName" /></label>
+      <label style="margin-top:10px;display:block">Rôle CRM<select name="crmRole"><option value="commercial">Commercial</option><option value="manager">Manager</option><option value="admin">Admin</option><option value="viewer">Lecture seule</option></select></label>
+      <button type="submit" class="btn btn-primary" style="margin-top:12px">Créer</button>
+    </form>
+    <p id="userMsg" style="margin-top:8px"></p>
+  </section>
+  <section class="panel" style="margin-top:16px"><h2>Équipe</h2><div id="usersMount">Chargement…</div></section>
+  <p style="margin-top:12px"><a href="./crm-permissions.html">Matrice permissions →</a></p>
+  <script src="./crm-users-internal.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

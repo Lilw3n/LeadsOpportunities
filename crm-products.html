@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produits assurance | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .prod-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-top:16px; }
+    .prod-card { padding:18px; border:1px solid var(--line); border-radius:12px; background:#fff; }
+    .prod-card h3 { margin:0 0 8px; font-size:1rem; }
+    .prod-meta { font-size:.82rem; color:var(--muted); }
+    .prod-badge { display:inline-block; font-size:.72rem; padding:2px 8px; border-radius:8px; background:#e0f2fe; color:#0369a1; margin-right:6px; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Catalogue commercial — inspire <code>ProductManager.tsx</code> multisite.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+    <input type="search" id="prodSearch" placeholder="Rechercher un produit…" style="flex:1;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:8px" />
+    <select id="prodFilter"><option value="">Toutes catégories</option><option value="assurance-auto">Auto</option><option value="assurance-entreprise">Entreprise</option><option value="assurance-sante">Santé</option><option value="assurance-pro">RC Pro</option></select>
+  </div>
+  <div id="prodGrid" class="prod-grid"></div>
+  <script src="./js/crm-product-service.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-products.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

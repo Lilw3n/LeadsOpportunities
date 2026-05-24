@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Règles éligibilité | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-eligibility-test.html" class="btn btn-ghost">← Test éligibilité</a>
+  <h1>Règles d'éligibilité</h1>
+  <p style="color:var(--muted)">Inspire intelligentAlertsService + eligibilityService multisite</p>
+  <div id="rulesMount" class="panel" style="margin-top:20px"></div>
+  <p style="margin-top:12px"><a href="./crm-intelligent-alerts.html">Alertes actives →</a></p>
+  <script src="./js/crm-eligibility-rules.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    else window.CrmEligibilityRules.render(document.getElementById("rulesMount"));
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

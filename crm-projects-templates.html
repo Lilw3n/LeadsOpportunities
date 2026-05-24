@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modèles de projets | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <p style="color:var(--muted)">Modèles réutilisables — inspire <code>/dashboard/projects/templates</code> multisite.</p>
+  <div id="tplGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:16px"></div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    var templates = [
+      { name: "Onboarding client VTC", desc: "KYC, véhicule, devis, signature", href: "./crm-create-complete.html" },
+      { name: "Renouvellement annuel", desc: "Période, contrats, relances", href: "./crm-periods.html" },
+      { name: "Gestion sinistre", desc: "Déclaration, suivi, clôture", href: "./crm-claims.html" },
+      { name: "Campagne leads web", desc: "Qualification et conversion", href: "./crm.html#leads" },
+    ];
+    document.getElementById("tplGrid").innerHTML = templates.map(function (t) {
+      return '<a class="panel" href="' + t.href + '" style="padding:18px;text-decoration:none;color:inherit"><strong>' + t.name + '</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">' + t.desc + '</p></a>';
+    }).join("");
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

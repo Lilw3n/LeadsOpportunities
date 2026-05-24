@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rôles | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-permissions.html" class="btn btn-ghost">← Permissions</a>
+  <h1>Rôles CRM</h1>
+  <div id="rolesMount" style="margin-top:20px"></div>
+  <script src="./js/crm-roles.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    else window.CrmRoles.render(document.getElementById("rolesMount"));
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

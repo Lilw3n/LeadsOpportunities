@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projet | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-projects.html" class="btn btn-ghost">← Projets</a>
+  <div id="projDetail" style="margin-top:16px"></div>
+  <script src="./js/crm-projects.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    else {
+      var id = new URLSearchParams(location.search).get("id");
+      var p = window.CrmProjects.load().find(function (x) { return x.id === id; });
+      var el = document.getElementById("projDetail");
+      if (!p) {
+        el.innerHTML = "<p>Projet introuvable.</p>";
+      } else {
+        el.innerHTML =
+          '<div class="panel"><h1 style="margin:0 0 12px">' +
+          window.CrmProjects.esc(p.name) +
+          "</h1><p><strong>Type :</strong> " +
+          window.CrmProjects.esc(p.type) +
+          "<br><strong>Statut :</strong> " +
+          window.CrmProjects.esc(p.status) +
+          "<br><strong>Priorité :</strong> " +
+          window.CrmProjects.esc(p.priority) +
+          (p.items ? "<br><strong>Items :</strong> " + p.items : "") +
+          "<br><strong>Dernière MAJ :</strong> " +
+          new Date(p.updatedAt).toLocaleString("fr-FR") +
+          '</p><p style="margin-top:16px"><a href="./crm-quotes.html">Devis liés</a> · <a href="./crm-contracts.html">Contrats</a> · <a href="./crm-documents.html">Documents</a></p></div>';
+      }
+    }
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

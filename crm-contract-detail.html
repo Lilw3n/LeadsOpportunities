@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contrat | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-quote-reading.css" />
+  <style>
+    .crm-reading-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }
+    .crm-ref { font-size:.8rem; color:var(--muted); margin:0; }
+    .crm-sub { color:var(--muted); }
+    .crm-reading-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+    .req-dl { display:grid; grid-template-columns:100px 1fr; gap:6px 12px; font-size:.9rem; }
+    .req-dl dt { color:var(--muted); font-weight:600; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-contracts.html" class="btn btn-ghost">← Contrats</a>
+  <div id="contractLoading">Chargement…</div>
+  <div id="contractMount"></div>
+  <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap">
+    <button type="button" class="btn btn-ghost" id="btnPrint">Imprimer</button>
+    <a href="#" id="linkAvenant" class="btn btn-primary hidden">Débuter un avenant</a>
+    <a href="#" id="linkContact" class="btn btn-ghost">Fiche contact</a>
+  </div>
+  <script src="./js/crm-contract-reading.js"></script>
+  <script src="./crm-contract-detail.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

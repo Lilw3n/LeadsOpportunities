@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipeline leads | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <style>
+    .kanban { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; overflow-x:auto; min-height:400px; }
+    @media (max-width:900px) { .kanban { grid-template-columns:1fr; } }
+    .kan-col { background:#f8fafc; border-radius:12px; padding:12px; min-width:160px; }
+    .kan-col h3 { font-size:.85rem; margin:0 0 12px; color:var(--muted); }
+    .kan-card { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:8px; font-size:.85rem; }
+    .kan-card:hover { border-color:#6366f1; }
+    .kan-actions { display:flex; gap:4px; flex-wrap:wrap; margin-top:8px; }
+    .kan-actions button { font-size:.7rem; padding:4px 8px; }
+    .kan-col.drag-over { outline:2px dashed #6366f1; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
+  <h1>Pipeline leads (Kanban legacy)</h1>
+  <p style="color:var(--muted)">Vue simplifiée — utilisez <a href="./crm-acquisition.html"><strong>Acquisition leads</strong></a> pour Facebook, Google, TikTok, questionnaire et bordereaux tarifaires.</p>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;margin:16px 0;align-items:center">
+    <input type="search" id="kanSearch" placeholder="Rechercher email, téléphone…" style="flex:1;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:8px" />
+    <span id="kanTotal" style="color:var(--muted);font-size:.9rem"></span>
+  </div>
+  <div id="kanKpis" class="crm-kpis" style="margin-bottom:16px"></div>
+  <div class="kanban" id="kanban"></div>
+  <script src="./crm-kanban.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

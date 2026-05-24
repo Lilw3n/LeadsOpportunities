@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Modules hiérarchiques | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-contact.css" />
+  <style>
+    .tree { list-style: none; padding-left: 0; }
+    .tree ul { padding-left: 20px; border-left: 2px solid var(--line); margin: 8px 0 8px 8px; }
+    .tree li { margin: 6px 0; padding: 8px 12px; background: #f8fafc; border-radius: 8px; font-size: .88rem; }
+    .tree li.drag-over { outline: 2px dashed var(--brand, #2563eb); background: #eff6ff; }
+    .tree .type { font-size: .7rem; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+    .tree .parent-link { display: block; margin-top: 6px; font-size: .8rem; }
+    .tree .parent-link select { margin-left: 6px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <div id="modLoading" class="contact-loading">Chargement...</div>
+  <div id="modApp" class="hidden" style="max-width:900px;margin:0 auto;padding:24px">
+    <header class="contact-header">
+      <a href="#" id="backContact" class="btn btn-ghost">← Fiche contact</a>
+      <div><h1 id="modTitle">Modules</h1><p id="modSubtitle">Vue hierarchique</p></div>
+    </header>
+    <div class="panel">
+      <p style="color:var(--muted);font-size:.9rem">Inspire de <strong>multisite-platform</strong> /interlocutors/[id]/modules — contrats, vehicules, sinistres et demandes en arbre.</p>
+      <ul id="moduleTree" class="tree"></ul>
+    </div>
+  </div>
+  <script src="./js/service-catalog.js"></script>
+  <script src="./js/crm-contact-profiles.js"></script>
+  <script src="./js/crm-form-helpers.js"></script>
+  <script src="./crm-contact-modules.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

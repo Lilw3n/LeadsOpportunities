@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dérogations | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-eligibility-test.html" class="btn btn-ghost">← Éligibilité</a>
+  <h1>Assistant dérogations</h1>
+  <p style="color:var(--muted)">Inspire DerogationWizard multisite — stratégies par scénario</p>
+  <div id="derogMount"></div>
+  <script src="./js/crm-derogations.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    else window.CrmDerogations.renderWizard(document.getElementById("derogMount"));
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

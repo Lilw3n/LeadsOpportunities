@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveau projet | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-projects.html" class="btn btn-ghost">← Projets</a>
+  <h1>Nouveau projet</h1>
+  <form id="projForm" class="panel" style="margin-top:20px">
+    <label>Nom<input name="name" required /></label>
+    <label style="margin-top:12px;display:block">Type<select name="type"><option value="insurance">Assurance</option><option value="fleet">Flotte</option><option value="health">Santé</option></select></label>
+    <label style="margin-top:12px;display:block">Priorité<select name="priority"><option value="high">Haute</option><option value="medium">Moyenne</option><option value="low">Basse</option></select></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Créer</button>
+  </form>
+  <script src="./js/crm-projects.js"></script>
+  <script>
+    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
+    document.getElementById("projForm").onsubmit = function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      var list = window.CrmProjects.load();
+      list.unshift({
+        id: "proj-" + Date.now(),
+        name: fd.get("name"),
+        type: fd.get("type"),
+        status: "active",
+        priority: fd.get("priority"),
+        updatedAt: new Date().toISOString(),
+      });
+      window.CrmProjects.save(list);
+      location.href = "./crm-projects.html";
+    };
+  </script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

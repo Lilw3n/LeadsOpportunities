@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Créances | Financier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-financial.html" class="btn btn-ghost">← Financier</a>
+  <h1>Créances</h1>
+  <p style="color:var(--muted);margin-bottom:12px">Suivi et recouvrement — inspire <code>/dashboard/financial/receivables</code> multisite.</p>
+  <div id="listMount" class="panel" style="margin-top:16px">Chargement…</div>
+  <script src="./crm-financial-list.js"></script>
+  <script>window.CrmFinancialList.init("receivables");</script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

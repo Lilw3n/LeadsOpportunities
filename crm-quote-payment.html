@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiement devis | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+
+  <a href="./crm-quotes.html" class="btn btn-ghost">← Devis</a>
+  <h1>Acompte devis (Stripe)</h1>
+  <p style="color:var(--muted)">Inspire paiement multisite — lien devis → checkout</p>
+  <form id="payForm" class="panel" style="margin-top:20px">
+    <label>Montant acompte (€)<input type="number" name="amount" min="1" step="0.01" value="150" required /></label>
+    <label style="margin-top:12px;display:block">Email client<input type="email" name="email" required /></label>
+    <label style="margin-top:12px;display:block">Référence devis<input name="reference" placeholder="qte_…" /></label>
+    <button type="submit" class="btn btn-primary" style="margin-top:16px">Payer avec Stripe</button>
+  </form>
+  <p id="payMsg"></p>
+  <script src="./crm-quote-payment.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
