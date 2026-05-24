@@ -1,5 +1,6 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
+const { parseLeadListFilters, applyViewFilter, applyPlatformFilter } = require("../leads-filters");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
 const VALID_VERTICAL = ["vtc", "sante", "credit-immo"];
@@ -34,21 +35,40 @@ module.exports = async (req, res) => {
   const searchPattern = searchVal ? "%" + searchVal + "%" : null;
   const sortCol = sanitizeEnum(url.searchParams.get("sort") || "created_at", VALID_SORT, "created_at");
   const orderAsc = String(url.searchParams.get("order") || "desc").toUpperCase() === "ASC";
+  const listFilters = parseLeadListFilters(url);
+  const viewVal = listFilters.view;
+  const platformVal = listFilters.platform ? String(listFilters.platform).slice(0, 40) : null;
 
   try {
     const { neon } = require("@neondatabase/serverless");
     const sql = neon(dbUrl);
 
-    const [countRows] = await sql`
-      SELECT COUNT(*)::int AS total FROM site_leads
-      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
-        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
-        AND (${searchPattern}::text IS NULL OR (
-          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
-          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
-          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
-        ))
-    `;
+    let countRows;
+    try {
+      [countRows] = await sql`
+        SELECT COUNT(*)::int AS total FROM site_leads
+        WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+          AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+          AND (${searchPattern}::text IS NULL OR (
+            LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+            OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+            OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+          ))
+          ${applyViewFilter(sql, viewVal)}
+          ${applyPlatformFilter(sql, platformVal)}
+      `;
+    } catch (filterErr) {
+      [countRows] = await sql`
+        SELECT COUNT(*)::int AS total FROM site_leads
+        WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+          AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+          AND (${searchPattern}::text IS NULL OR (
+            LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+            OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+            OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+          ))
+      `;
+    }
 
     const leads = await queryLeads(
       sql,
@@ -58,7 +78,9 @@ module.exports = async (req, res) => {
       sortCol,
       orderAsc,
       limit,
-      offset
+      offset,
+      viewVal,
+      platformVal
     );
 
     const total = countRows.total;
@@ -86,7 +108,9 @@ async function queryLeads(
   sortCol,
   orderAsc,
   limit,
-  offset
+  offset,
+  viewVal,
+  platformVal
 ) {
   if (sortCol === "lead_score" && orderAsc) {
     return sql`
@@ -232,18 +256,38 @@ async function queryLeads(
       LIMIT ${limit} OFFSET ${offset}
     `;
   }
-  return sql`
-    SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
-           COALESCE(status, 'new') AS status, notes, created_at, updated_at
-    FROM site_leads
-    WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
-      AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
-      AND (${searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
-      ))
-    ORDER BY created_at DESC
-    LIMIT ${limit} OFFSET ${offset}
-  `;
+  try {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at,
+             platform, opened_at, relevance, competitor_monthly, our_offer_monthly
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+        ${applyViewFilter(sql, viewVal)}
+        ${applyPlatformFilter(sql, platformVal)}
+      ORDER BY created_at DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  } catch (e) {
+    return sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+             COALESCE(status, 'new') AS status, notes, created_at, updated_at, platform
+      FROM site_leads
+      WHERE (${statusVal}::text IS NULL OR COALESCE(status, 'new') = ${statusVal})
+        AND (${verticalVal}::text IS NULL OR vertical = ${verticalVal})
+        AND (${searchPattern}::text IS NULL OR (
+          LOWER(COALESCE(email, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(phone, '')) LIKE LOWER(${searchPattern})
+          OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${searchPattern})
+        ))
+      ORDER BY created_at DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `;
+  }
 }

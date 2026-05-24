@@ -3,6 +3,7 @@
  */
 const { randomUUID } = require("crypto");
 const { computeLeadScore } = require("./_lib/leadScore.js");
+const { computeLeadRelevance } = require("./_lib/leadRelevance.js");
 const {
   applyApiGuards,
   parseJsonBody,
@@ -16,7 +17,10 @@ async function sendResendEmail(payload, score, leadId) {
   var to = process.env.LEAD_NOTIFICATION_EMAIL || "courtier972@gmail.com";
   var from = process.env.LEAD_FROM_EMAIL || "Leads Opportunities <onboarding@resend.dev>";
 
-  if (!key) return;
+  if (!key) {
+    console.warn("[lead] RESEND_API_KEY manquant — aucun e-mail envoye");
+    return false;
+  }
 
   var sub =
     "[Lead " +
@@ -60,7 +64,9 @@ async function sendResendEmail(payload, score, leadId) {
   if (!r.ok) {
     var t = await r.text();
     console.warn("[lead] resend", r.status, t);
+    return false;
   }
+  return true;
 }
 
 function escapeHtml(s) {
@@ -97,10 +103,15 @@ module.exports = async (req, res) => {
 
   var leadId = body.leadId || randomUUID();
   var score = computeLeadScore(body);
+  var rel = computeLeadRelevance(Object.assign({}, body, { leadScore: score }));
 
   var enriched = Object.assign({}, body, {
     leadId: leadId,
     leadScore: score,
+    relevance: rel.relevance,
+    relevanceReasons: rel.relevanceReasons,
+    competitorMonthly: rel.competitorMonthly,
+    ourOfferMonthly: rel.ourOfferMonthly,
     serverReceivedAt: new Date().toISOString(),
   });
   delete enriched._hp;
@@ -113,9 +124,36 @@ module.exports = async (req, res) => {
     enriched.attr_last_utm_medium || enriched.utm_medium || enriched.attr_first_utm_medium || null;
   var utmCampaign = enriched.utm_campaign || enriched.attr_first_utm_campaign || null;
   var gclidVal = enriched.attr_last_gclid || enriched.gclid || enriched.attr_first_gclid || null;
+  var fbclid = enriched.fbclid || enriched.attr_fbclid || null;
+  var ttclid = enriched.ttclid || null;
+  var msclkid = enriched.msclkid || null;
 
-  console.log("[lead]", leadId, score, enriched.vertical, enriched.email || enriched.phone || "");
+  function detectPlatform() {
+    if (enriched.platform) return String(enriched.platform).slice(0, 40);
+    var utm = String(utmSource || "").toLowerCase();
+    var src = String(enriched.source || "").toLowerCase();
+    if (fbclid || /facebook|meta|fbads/.test(utm + src)) return /instagram|ig\b/.test(utm) ? "instagram" : "facebook";
+    if (ttclid || /tiktok/.test(utm + src)) return "tiktok";
+    if (gclidVal || msclkid || /google|gclid/.test(utm + src)) return "google";
+    if (/linkedin/.test(utm)) return "linkedin";
+    if (/youtube/.test(utm)) return "youtube";
+    if (/snapchat/.test(utm)) return "snapchat";
+    if (/bing|microsoft/.test(utm)) return "bing";
+    if (/withallo|allo/.test(utm + src)) return "withallo";
+    if (/landing|site|web/.test(src)) return "site_web";
+    return "autre";
+  }
 
+  var platform = detectPlatform();
+  var qStep = Number(enriched.questionnaire_step || enriched.formStep || enriched.step || 0);
+  var qTotal = Number(enriched.questionnaire_total || enriched.formTotalSteps || enriched.totalSteps || 10) || 10;
+  var pipelineStage = "new";
+  if (qStep > 0 && qStep < qTotal) pipelineStage = "questionnaire";
+  if (qStep >= qTotal && qTotal > 0) pipelineStage = "quote_sent";
+
+  console.log("[lead]", leadId, score, enriched.vertical, platform, enriched.email || enriched.phone || "");
+
+  var stored = false;
   var dbUrl = process.env.DATABASE_URL;
   if (dbUrl) {
     try {
@@ -124,7 +162,10 @@ module.exports = async (req, res) => {
       await sql`
         INSERT INTO site_leads (
           id, source, vertical, lead_score, email, phone,
-          utm_source, utm_medium, utm_campaign, gclid, visitor_id, payload
+          utm_source, utm_medium, utm_campaign, gclid, visitor_id, payload,
+          platform, pipeline_stage, status, questionnaire_step, questionnaire_total,
+          form_id, fbclid, ttclid, msclkid, priority, last_activity_at,
+          competitor_monthly, our_offer_monthly, relevance
         ) VALUES (
           ${leadId},
           ${String(enriched.source || "unknown").slice(0, 120)},
@@ -137,16 +178,68 @@ module.exports = async (req, res) => {
           ${utmCampaign ? String(utmCampaign).slice(0, 200) : null},
           ${gclidVal ? String(gclidVal).slice(0, 200) : null},
           ${enriched.visitor_id ? String(enriched.visitor_id).slice(0, 120) : null},
-          ${JSON.stringify(enriched)}
+          ${JSON.stringify(enriched)},
+          ${platform},
+          ${pipelineStage},
+          ${pipelineStage},
+          ${qStep},
+          ${qTotal},
+          ${enriched.form_id || enriched.formId ? String(enriched.form_id || enriched.formId).slice(0, 120) : null},
+          ${fbclid ? String(fbclid).slice(0, 200) : null},
+          ${ttclid ? String(ttclid).slice(0, 200) : null},
+          ${msclkid ? String(msclkid).slice(0, 200) : null},
+          ${score >= 70 ? "high" : score >= 50 ? "medium" : "low"},
+          NOW(),
+          ${rel.competitorMonthly},
+          ${rel.ourOfferMonthly},
+          ${rel.relevance}
         )
       `;
+      stored = true;
+      if (enriched.email) {
+        try {
+          const { ingestLeadToCrm } = require("./_lib/crm-ingest-from-lead");
+          await ingestLeadToCrm(sql, enriched, leadId);
+        } catch (crmErr) {
+          console.error("[lead] crm ingest", crmErr);
+        }
+      }
     } catch (e) {
-      console.error("[lead] db insert failed", e);
+      console.error("[lead] db insert extended failed, fallback", e.message);
+      try {
+        const { neon } = require("@neondatabase/serverless");
+        const sql = neon(dbUrl);
+        await sql`
+          INSERT INTO site_leads (
+            id, source, vertical, lead_score, email, phone,
+            utm_source, utm_medium, utm_campaign, gclid, visitor_id, payload
+          ) VALUES (
+            ${leadId},
+            ${String(enriched.source || "unknown").slice(0, 120)},
+            ${String(enriched.vertical || "").slice(0, 80)},
+            ${score},
+            ${enriched.email ? String(enriched.email).slice(0, 320) : null},
+            ${enriched.phone ? String(enriched.phone).slice(0, 40) : null},
+            ${utmSource ? String(utmSource).slice(0, 200) : null},
+            ${utmMedium ? String(utmMedium).slice(0, 200) : null},
+            ${utmCampaign ? String(utmCampaign).slice(0, 200) : null},
+            ${gclidVal ? String(gclidVal).slice(0, 200) : null},
+            ${enriched.visitor_id ? String(enriched.visitor_id).slice(0, 120) : null},
+            ${JSON.stringify(enriched)}
+          )
+        `;
+        stored = true;
+      } catch (e2) {
+        console.error("[lead] db insert fallback failed", e2);
+      }
     }
+  } else {
+    console.warn("[lead] DATABASE_URL manquant — lead non enregistre en base");
   }
 
+  var emailSent = false;
   try {
-    await sendResendEmail(enriched, score, leadId);
+    emailSent = !!(await sendResendEmail(enriched, score, leadId));
   } catch (e) {
     console.error("[lead] email failed", e);
   }
@@ -174,5 +267,11 @@ module.exports = async (req, res) => {
     }
   }
 
-  return res.status(200).json({ ok: true, leadId: leadId, leadScore: score });
+  return res.status(200).json({
+    ok: true,
+    leadId: leadId,
+    leadScore: score,
+    stored: stored,
+    emailSent: emailSent,
+  });
 };

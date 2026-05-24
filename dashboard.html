@@ -3,6 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Espace courtier Leads Opportunities : gestion des leads et statistiques." />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
+  <link rel="canonical" href="https://leads-opportunities.vercel.app/dashboard.html" />
   <title>Dashboard | Leads Opportunities</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -297,6 +301,16 @@
     .badge-qualified { background: var(--accent-light); color: var(--accent); }
     .badge-converted { background: var(--green-light); color: #16a34a; }
     .badge-lost { background: var(--red-light); color: var(--red); }
+    .lead-row-new td { background: linear-gradient(90deg, #fffbeb 0, #fff 40%); border-left: 3px solid var(--orange); }
+    .lead-row-unopened td { border-left: 3px solid var(--blue); }
+    .lead-pill { display: inline-block; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; margin-right: 4px; }
+    .lead-pill-new { background: var(--orange-light); color: #92400e; }
+    .lead-pill-unopened { background: var(--blue-light); color: #1e40af; }
+    .lead-pill-high { background: var(--green-light); color: #166534; }
+    .lead-pill-not_relevant { background: var(--red-light); color: #991b1b; }
+    .lead-mgmt-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .lead-mgmt-stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+    .lead-mgmt-stat strong { font-size: 1.4rem; display: block; }
 
     /* SCORE BAR */
     .score-bar {
@@ -608,6 +622,10 @@
 
       <nav class="sidebar-nav">
         <div class="sidebar-section">Principal</div>
+        <a href="./crm.html" class="nav-link" style="background:rgba(99,102,241,.22);color:#fff;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          CRM complet
+        </a>
         <a href="#" class="nav-link active" data-section="overview">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
           Vue d'ensemble
@@ -760,8 +778,20 @@
           </div>
         </div>
 
+        <div class="lead-mgmt-stats">
+          <div class="lead-mgmt-stat"><span class="muted">Nouveaux (non ouverts)</span><strong id="leadStatNew">—</strong></div>
+          <div class="lead-mgmt-stat"><span class="muted">Jamais ouverts</span><strong id="leadStatUnopened">—</strong></div>
+          <div class="lead-mgmt-stat"><span class="muted">Pertinents</span><strong id="leadStatRelevant">—</strong></div>
+        </div>
+
         <div class="dash-panel">
           <div class="filters-bar">
+            <select class="filter-select" id="filterView">
+              <option value="">Tous (chrono)</option>
+              <option value="new">Nouveaux uniquement</option>
+              <option value="unopened">Jamais ouverts</option>
+              <option value="relevant">Pertinents</option>
+            </select>
             <select class="filter-select" id="filterStatus">
               <option value="">Tous les statuts</option>
               <option value="new">Nouveau</option>
@@ -776,7 +806,20 @@
               <option value="sante">Santé</option>
               <option value="credit-immo">Crédit Immo</option>
             </select>
+            <select class="filter-select" id="filterPlatform">
+              <option value="">Tous réseaux</option>
+              <option value="google">Google</option>
+              <option value="facebook">Meta</option>
+              <option value="instagram">Instagram</option>
+              <option value="tiktok">TikTok</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="withallo">WithAllo</option>
+              <option value="site_web">Site web</option>
+            </select>
             <input type="text" class="filter-input" id="filterSearch" placeholder="Rechercher email, téléphone..." />
+            <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
+              <input type="checkbox" id="soundNewLead" checked /> Son nouveau lead
+            </label>
           </div>
           <div class="panel-body" style="overflow-x:auto;">
             <table class="leads-table">
@@ -788,11 +831,12 @@
                   <th data-sort="email">Email</th>
                   <th>Téléphone</th>
                   <th data-sort="status">Statut</th>
-                  <th>Source</th>
+                  <th>Réseau</th>
+                  <th>Pertinence</th>
                 </tr>
               </thead>
               <tbody id="leadsTableBody">
-                <tr><td colspan="7" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
+                <tr><td colspan="9" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
               </tbody>
             </table>
           </div>
@@ -864,6 +908,8 @@
     var currentPage = 1;
     var currentSort = "created_at";
     var currentOrder = "desc";
+    var lastNotifyAt = new Date().toISOString();
+    var soundEnabled = true;
 
     function getToken() { return localStorage.getItem(TOKEN_KEY); }
     function getUser() {
@@ -921,6 +967,40 @@
       return labels[status] || status || "Nouveau";
     }
 
+    function relevanceLabel(r) {
+      var map = { high: "Pertinent", medium: "A qualifier", low: "Faible", not_relevant: "Non pertinent" };
+      return map[r] || r || "—";
+    }
+
+    function playNewLeadSound() {
+      if (!soundEnabled) return;
+      try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        function tone(freq, start, dur) {
+          var osc = ctx.createOscillator();
+          var gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.0001, ctx.currentTime + start);
+          gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
+          osc.start(ctx.currentTime + start);
+          osc.stop(ctx.currentTime + start + dur);
+        }
+        tone(880, 0, 0.12);
+        tone(1174, 0.14, 0.16);
+      } catch (e) { console.warn("son lead", e); }
+    }
+
+    function isUnopenedLead(l) {
+      return !l.opened_at && !(l.payload && l.payload.openedAt);
+    }
+
+    function isNewHighlight(l) {
+      return (l.status || "new") === "new" && isUnopenedLead(l);
+    }
+
     // INIT
     if (!requireAdmin()) return;
     var user = getUser();
@@ -939,7 +1019,7 @@
         a.classList.add("active");
         document.querySelectorAll(".dash-section").forEach(function(s) { s.classList.remove("active"); });
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
-        if (a.dataset.section === "leads") loadLeads();
+        if (a.dataset.section === "leads") { loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
       });
     });
@@ -967,6 +1047,9 @@
         document.getElementById("statToday").textContent = s.today;
         document.getElementById("statAvg").textContent = s.avgScore + "/100";
         document.getElementById("statWeek").textContent = s.thisWeek;
+        if (document.getElementById("leadStatNew")) document.getElementById("leadStatNew").textContent = s.newUnopened != null ? s.newUnopened : "—";
+        if (document.getElementById("leadStatUnopened")) document.getElementById("leadStatUnopened").textContent = s.unopened != null ? s.unopened : "—";
+        if (document.getElementById("leadStatRelevant")) document.getElementById("leadStatRelevant").textContent = s.relevant != null ? s.relevant : "—";
 
         var growthEl = document.getElementById("statGrowth");
         if (s.weekGrowth > 0) {
@@ -1030,38 +1113,50 @@
     // LOAD LEADS
     async function loadLeads() {
       var tbody = document.getElementById("leadsTableBody");
-      tbody.innerHTML = '<tr><td colspan="7" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="9" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
 
       var status = document.getElementById("filterStatus").value;
       var vertical = document.getElementById("filterVertical").value;
       var search = document.getElementById("filterSearch").value;
+      var view = document.getElementById("filterView").value;
+      var platform = document.getElementById("filterPlatform").value;
 
       var params = "?page=" + currentPage + "&limit=20&sort=" + currentSort + "&order=" + currentOrder;
       if (status) params += "&status=" + encodeURIComponent(status);
       if (vertical) params += "&vertical=" + encodeURIComponent(vertical);
+      if (view) params += "&view=" + encodeURIComponent(view);
+      if (platform) params += "&platform=" + encodeURIComponent(platform);
       if (search) params += "&search=" + encodeURIComponent(search);
 
       try {
         var res = await fetch("/api/dashboard/leads" + params, { headers: authHeaders() });
         var data = await res.json();
-        if (!data.ok) { tbody.innerHTML = '<tr><td colspan="7">' + esc(data.error) + '</td></tr>'; return; }
+        if (!data.ok) { tbody.innerHTML = '<tr><td colspan="9">' + esc(data.error) + '</td></tr>'; return; }
 
         tbody.innerHTML = "";
         if (!data.leads || data.leads.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">Aucun lead trouvé</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--muted)">Aucun lead trouvé</td></tr>';
         } else {
           data.leads.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
             var tr = document.createElement("tr");
             tr.dataset.leadId = l.id;
+            if (isNewHighlight(l)) tr.className = "lead-row-new";
+            else if (isUnopenedLead(l)) tr.className = "lead-row-unopened";
+            var pills = "";
+            if (isNewHighlight(l)) pills += '<span class="lead-pill lead-pill-new">Nouveau</span>';
+            else if (isUnopenedLead(l)) pills += '<span class="lead-pill lead-pill-unopened">Jamais ouvert</span>';
+            var rel = l.relevance || (l.payload && l.payload.relevance);
+            if (rel) pills += '<span class="lead-pill lead-pill-' + rel + '">' + relevanceLabel(rel) + '</span>';
             tr.innerHTML =
-              '<td>' + fmtDate(l.created_at) + '</td>' +
+              '<td>' + fmtDate(l.created_at) + (pills ? '<div style="margin-top:4px">' + pills + '</div>' : '') + '</td>' +
               '<td><div class="score-bar"><div class="score-fill"><span style="width:' + (score||0) + '%;background:' + scoreColor(score) + '"></span></div><span class="score-val">' + score + '</span></div></td>' +
               '<td>' + esc(l.vertical) + '</td>' +
               '<td>' + esc(l.email) + '</td>' +
               '<td>' + esc(l.phone) + '</td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
-              '<td>' + esc(l.utm_source) + '</td>';
+              '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
+              '<td>' + relevanceLabel(rel) + '</td>';
             tr.addEventListener("click", function() { openLeadDetail(l.id); });
             tbody.appendChild(tr);
           });
@@ -1077,13 +1172,36 @@
         document.getElementById("nextPage").disabled = pg.page >= pg.totalPages;
       } catch(e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="7" style="color:var(--red)">Erreur réseau</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" style="color:var(--red)">Erreur réseau</td></tr>';
       }
     }
 
+    async function pollNewLeads() {
+      try {
+        var res = await fetch("/api/dashboard/leads-notify?since=" + encodeURIComponent(lastNotifyAt), { headers: authHeaders() });
+        var data = await res.json();
+        if (!data.ok) return;
+        if (data.newSince > 0) {
+          playNewLeadSound();
+          toast("Nouveau lead reçu (" + data.newSince + ")");
+          loadLeads();
+          loadStats();
+        }
+        if (data.unopenedCount != null && document.getElementById("leadStatUnopened")) {
+          document.getElementById("leadStatUnopened").textContent = data.unopenedCount;
+        }
+        lastNotifyAt = data.serverTime || new Date().toISOString();
+      } catch (e) { console.warn("poll leads", e); }
+    }
+
     // FILTERS
+    document.getElementById("filterView").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterStatus").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterVertical").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    document.getElementById("filterPlatform").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    document.getElementById("soundNewLead").addEventListener("change", function() {
+      soundEnabled = document.getElementById("soundNewLead").checked;
+    });
 
     var searchTimeout;
     document.getElementById("filterSearch").addEventListener("input", function() {
@@ -1129,6 +1247,9 @@
             '<div class="detail-item"><div class="dlabel">Vertical</div><div class="dvalue">' + esc(l.vertical) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Score</div><div class="dvalue">' + (l.lead_score != null ? l.lead_score + '/100' : '—') + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Date</div><div class="dvalue">' + fmtDate(l.created_at) + '</div></div>' +
+            '<div class="detail-item"><div class="dlabel">Réseau</div><div class="dvalue">' + esc(l.platform || l.utm_source || l.source) + '</div></div>' +
+            '<div class="detail-item"><div class="dlabel">Pertinence</div><div class="dvalue">' + relevanceLabel(l.relevance || (payload.relevance)) + '</div></div>' +
+            (l.opened_at || payload.openedAt ? '<div class="detail-item"><div class="dlabel">Ouvert le</div><div class="dvalue">' + fmtDate(l.opened_at || payload.openedAt) + '</div></div>' : '<div class="detail-item"><div class="dlabel">Ouverture</div><div class="dvalue">Jamais ouvert</div></div>') +
             '<div class="detail-item"><div class="dlabel">Source</div><div class="dvalue">' + esc(l.utm_source || l.source) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">UTM Medium</div><div class="dvalue">' + esc(l.utm_medium) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">UTM Campaign</div><div class="dvalue">' + esc(l.utm_campaign) + '</div></div>' +
@@ -1146,6 +1267,8 @@
                 '<option value="lost"' + (l.status==="lost"?" selected":"") + '>Perdu</option>' +
               '</select>' +
             '</div>' +
+            '<label style="font-weight:600;font-size:0.85rem">Tarif assureur actuel (EUR/mois)<input type="number" id="modalCompetitor" class="filter-input" style="width:100%;margin-top:4px" value="' + esc(l.competitor_monthly != null ? l.competitor_monthly : (payload.competitorMonthly || "")) + '" /></label>' +
+            '<label style="font-weight:600;font-size:0.85rem;margin-top:8px;display:block">Notre offre (EUR/mois)<input type="number" id="modalOurOffer" class="filter-input" style="width:100%;margin-top:4px" value="' + esc(l.our_offer_monthly != null ? l.our_offer_monthly : (payload.ourOfferMonthly || "")) + '" /></label>' +
             '<textarea id="modalNotes" placeholder="Notes internes sur ce lead...">' + esc(l.notes || "") + '</textarea>' +
             '<button class="btn-save" id="saveLeadBtn" data-id="' + esc(l.id) + '">Enregistrer</button>' +
           '</div>';
@@ -1160,7 +1283,9 @@
               body: JSON.stringify({
                 leadId: btn.dataset.id,
                 status: document.getElementById("modalStatus").value,
-                notes: document.getElementById("modalNotes").value
+                notes: document.getElementById("modalNotes").value,
+                competitorMonthly: document.getElementById("modalCompetitor").value || null,
+                ourOfferMonthly: document.getElementById("modalOurOffer").value || null
               })
             });
             var d = await r.json();
@@ -1303,6 +1428,7 @@
 
     // INITIAL LOAD
     loadStats();
+    setInterval(pollNewLeads, 4000);
   })();
   </script>
 </body>

@@ -21,13 +21,25 @@ module.exports = async (req, res) => {
     const { neon } = require("@neondatabase/serverless");
     const sql = neon(dbUrl);
 
-    const rows = await sql`
-      SELECT id, source, vertical, lead_score, email, phone,
-             utm_source, utm_medium, utm_campaign, gclid, visitor_id,
-             COALESCE(status, 'new') AS status, notes, assigned_to,
-             payload, created_at, updated_at
-      FROM site_leads WHERE id = ${leadId}
-    `;
+    let rows;
+    try {
+      rows = await sql`
+        SELECT id, source, vertical, lead_score, email, phone,
+               utm_source, utm_medium, utm_campaign, gclid, visitor_id,
+               COALESCE(status, 'new') AS status, notes, assigned_to,
+               payload, created_at, updated_at, opened_at, platform,
+               competitor_monthly, our_offer_monthly, relevance
+        FROM site_leads WHERE id = ${leadId}
+      `;
+    } catch (colErr) {
+      rows = await sql`
+        SELECT id, source, vertical, lead_score, email, phone,
+               utm_source, utm_medium, utm_campaign, gclid, visitor_id,
+               COALESCE(status, 'new') AS status, notes, assigned_to,
+               payload, created_at, updated_at, platform
+        FROM site_leads WHERE id = ${leadId}
+      `;
+    }
     if (rows.length === 0) {
       return res.status(404).json({ error: "Lead introuvable" });
     }
@@ -35,6 +47,21 @@ module.exports = async (req, res) => {
     const lead = rows[0];
     if (lead.payload && typeof lead.payload === "string") {
       try { lead.payload = JSON.parse(lead.payload); } catch {}
+    }
+
+    try {
+      await sql`
+        UPDATE site_leads SET opened_at = COALESCE(opened_at, NOW()), updated_at = NOW()
+        WHERE id = ${leadId}
+      `;
+      lead.opened_at = lead.opened_at || new Date().toISOString();
+    } catch (openErr) {
+      var patch = Object.assign({}, lead.payload || {}, { openedAt: new Date().toISOString() });
+      await sql`
+        UPDATE site_leads SET payload = ${JSON.stringify(patch)}::jsonb, updated_at = NOW()
+        WHERE id = ${leadId}
+      `;
+      lead.payload = patch;
     }
 
     return res.status(200).json({ ok: true, lead });
