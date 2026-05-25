@@ -66,6 +66,32 @@
     }
   }
 
+  function sendSocialEvent(name, payload) {
+    var cfg = window.SOCIAL_TRACKING || {};
+    var vertical = (payload && payload.vertical) || getVerticalFromPath();
+    var value = payload && payload.lead_score != null ? Number(payload.lead_score) : 1;
+
+    if (cfg.metaPixelId && typeof window.fbq === "function") {
+      if (name === "form_submit" || name === "qualified_lead") {
+        window.fbq("track", "Lead", { content_name: vertical, value: value, currency: "EUR" });
+      } else if (name === "phone_click" || name === "whatsapp_click") {
+        window.fbq("trackCustom", name, { content_name: vertical });
+      }
+    }
+
+    if (cfg.tiktokPixelId && window.ttq && typeof window.ttq.track === "function") {
+      if (name === "form_submit" || name === "qualified_lead") {
+        window.ttq.track("SubmitForm", { content_name: vertical, value: value, currency: "EUR" });
+      }
+    }
+
+    if (cfg.pinterestTagId && window.pintrk && typeof window.pintrk === "function") {
+      if (name === "form_submit" || name === "qualified_lead") {
+        window.pintrk("track", "lead", { lead_type: vertical, value: value });
+      }
+    }
+  }
+
   function getVerticalFromForm() {
     var form = document.querySelector("form[data-track-form]");
     if (!form) return "";
@@ -162,6 +188,7 @@
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push(data);
     sendGoogleEvent(name, data.payload);
+    sendSocialEvent(name, data.payload);
     console.log("[tracking]", data);
   }
 

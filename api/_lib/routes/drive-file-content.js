@@ -13,7 +13,9 @@ module.exports = async (req, res) => {
   const fileId = url.searchParams.get("fileId");
   if (!fileId) return res.status(400).json({ error: "fileId requis" });
 
-  var token = process.env.GOOGLE_DRIVE_ACCESS_TOKEN;
+  const { getDriveAccessToken } = require("../google-drive-auth");
+  const auth = await getDriveAccessToken();
+  var token = auth ? auth.accessToken : null;
   if (!token) {
     return res.status(200).json({
       ok: true,

@@ -2,7 +2,9 @@
  * Upload texte vers Google Drive (partagé document-approve + route drive/upload)
  */
 async function uploadTextFile({ fileName, content, mimeType, folderId, contactId }) {
-  var token = process.env.GOOGLE_DRIVE_ACCESS_TOKEN;
+  const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
+  const auth = await getDriveAccessToken();
+  var token = auth ? auth.accessToken : null;
   var targetFolder = folderId;
 
   if (!targetFolder && contactId) {
@@ -10,14 +12,14 @@ async function uploadTextFile({ fileName, content, mimeType, folderId, contactId
     targetFolder = await resolveContactUploadFolderId(contactId);
   }
   if (!targetFolder) {
-    targetFolder = process.env.GOOGLE_DRIVE_FOLDER_ID;
+    targetFolder = getRootFolderId();
   }
 
   if (!token || !targetFolder) {
     return {
       ok: true,
       simulated: true,
-      message: "Upload simulé — configurez GOOGLE_DRIVE_ACCESS_TOKEN et GOOGLE_DRIVE_FOLDER_ID",
+      message: "Upload simule — configurez GOOGLE_SERVICE_ACCOUNT_JSON + GOOGLE_DRIVE_FOLDER_ID (voir docs/DRIVE-SETUP.md)",
       fileId: "sim_" + Date.now(),
       fileName: fileName,
     };

@@ -4,10 +4,13 @@
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
 
+const { getDriveAccessToken, getRootFolderId, isDriveConfigured } = require("../google-drive-auth");
+
 async function listDriveFiles() {
-  var token = process.env.GOOGLE_DRIVE_ACCESS_TOKEN;
-  var folderId = process.env.GOOGLE_DRIVE_FOLDER_ID;
-  if (!token) return { configured: false, files: [] };
+  const auth = await getDriveAccessToken();
+  var token = auth ? auth.accessToken : null;
+  var folderId = getRootFolderId();
+  if (!token || !isDriveConfigured()) return { configured: false, files: [] };
 
   var q = folderId ? "mimeType!='application/vnd.google-apps.folder' and '" + folderId + "' in parents" : "mimeType!='application/vnd.google-apps.folder'";
   var url =
@@ -37,7 +40,7 @@ module.exports = async (req, res) => {
       return res.status(200).json({
         ok: true,
         configured: false,
-        message: "Configurez GOOGLE_DRIVE_ACCESS_TOKEN et GOOGLE_DRIVE_FOLDER_ID sur Vercel",
+        message: "Configurez Drive — voir docs/DRIVE-SETUP.md",
         demoFiles: [
           { id: "demo-rib", name: "RIB_client_dupont.pdf", mimeType: "application/pdf" },
           { id: "demo-cg", name: "Carte_grise_AB123CD.pdf", mimeType: "application/pdf" },

@@ -11,6 +11,11 @@
   <a href="./crm-quotes.html" class="btn btn-ghost">← Devis</a>
   <h1>Acompte devis (Stripe)</h1>
   <p style="color:var(--muted)">Inspire paiement multisite — lien devis → checkout</p>
+  <section class="panel" style="margin-top:16px">
+    <h3>Test configuration Stripe</h3>
+    <button type="button" class="btn btn-ghost" id="btnStripeReadiness">Verifier Stripe</button>
+    <pre id="stripeReadinessOut" style="white-space:pre-wrap;margin-top:12px"></pre>
+  </section>
   <form id="payForm" class="panel" style="margin-top:20px">
     <label>Montant acompte (€)<input type="number" name="amount" min="1" step="0.01" value="150" required /></label>
     <label style="margin-top:12px;display:block">Email client<input type="email" name="email" required /></label>

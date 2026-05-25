@@ -13,6 +13,80 @@
     return d.innerHTML;
   }
 
+  document.getElementById("btnTestDrive").onclick = function () {
+    var out = document.getElementById("driveConfigOut");
+    out.textContent = "Test en cours…";
+    fetch("/api/drive/status", { headers: { Authorization: "Bearer " + token } })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        out.textContent = JSON.stringify(res, null, 2);
+      })
+      .catch(function (e) {
+        out.textContent = String(e);
+      });
+  };
+
+  document.getElementById("btnCreateTestLead").onclick = function () {
+    var out = document.getElementById("driveConfigOut");
+    out.textContent = "Creation du dossier test lead…";
+    fetch("/api/drive/test-lead", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        out.textContent = JSON.stringify(res, null, 2);
+        loadCloud();
+      })
+      .catch(function (e) {
+        out.textContent = String(e);
+      });
+  };
+
+  document.getElementById("btnCreateCrmTestLead").onclick = function () {
+    var out = document.getElementById("driveConfigOut");
+    out.textContent = "Creation contact CRM Test Lead…";
+    fetch("/api/crm/contacts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+      body: JSON.stringify({
+        contactType: "prospect",
+        firstName: "Test",
+        lastName: "Lead",
+        email: "testlead@example.com",
+        phone: "0600000000",
+        source: "drive_test",
+        notes: "Contact cree automatiquement depuis test-drive.html pour verifier Drive.",
+      }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (created) {
+        if (!created.ok || !created.id) {
+          out.textContent = JSON.stringify(created, null, 2);
+          return;
+        }
+        return fetch("/api/drive/status?contactId=" + encodeURIComponent(created.id), {
+          headers: { Authorization: "Bearer " + token },
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (drive) {
+            out.textContent = JSON.stringify({ contact: created, drive: drive }, null, 2);
+            loadCloud();
+          });
+      })
+      .catch(function (e) {
+        out.textContent = String(e);
+      });
+  };
+
   function loadCloud() {
     fetch("/api/drive/files", { headers: { Authorization: "Bearer " + token } })
       .then(function (r) {

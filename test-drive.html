@@ -15,7 +15,14 @@
 <body style="max-width:900px;margin:0 auto;padding:24px">
   <a href="./crm-documents.html" class="btn btn-ghost">← Documents</a>
   <h1>Drive — cloud &amp; local</h1>
-  <p style="color:var(--muted)">Inspire test-drive + DriveFileReader multisite</p>
+  <p style="color:var(--muted)">Configuration : <a href="./docs/DRIVE-SETUP.md" target="_blank">docs/DRIVE-SETUP.md</a></p>
+  <section class="panel" id="driveConfigPanel">
+    <h3>Test configuration Drive</h3>
+    <button type="button" class="btn btn-primary" id="btnTestDrive">Verifier la connexion</button>
+    <button type="button" class="btn btn-ghost" id="btnCreateTestLead">Créer dossier test lead</button>
+    <button type="button" class="btn btn-ghost" id="btnCreateCrmTestLead">Créer contact CRM Test Lead</button>
+    <pre id="driveConfigOut" style="margin-top:12px">Cliquez pour tester…</pre>
+  </section>
   <div class="tabs">
     <button type="button" class="active" data-tab="cloud">Cloud Drive</button>
     <button type="button" data-tab="local">Drive local</button>

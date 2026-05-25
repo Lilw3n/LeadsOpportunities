@@ -1,56 +1,56 @@
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paiement confirme | Leads Opportunities</title>
-  <link rel="stylesheet" href="./main.css" />
-</head>
-<body>
-  <main class="container section">
-    <section class="card">
-      <h1 id="payTitle">Verification du paiement…</h1>
-      <p id="payDetail">Merci de patienter.</p>
-      <p><a href="./index.html#contact">Nous contacter</a></p>
-      <p><a class="btn btn-primary" href="./index.html">Retour a l'accueil</a></p>
-    </section>
-  </main>
-  <script>
-    (function () {
-      var sid = new URLSearchParams(location.search).get("session_id");
-      var title = document.getElementById("payTitle");
-      var detail = document.getElementById("payDetail");
-      if (!sid) {
-        title.textContent = "Paiement confirme";
-        detail.textContent = "Merci. Notre equipe revient vers vous rapidement.";
-        return;
-      }
-      fetch("/api/stripe/session-status?session_id=" + encodeURIComponent(sid))
-        .then(function (r) {
-          return r.json();
-        })
-        .then(function (res) {
-          if (res.paid) {
-            title.textContent = "Paiement confirme";
-            var euros = res.amountTotal != null ? (res.amountTotal / 100).toFixed(2) : "";
-            detail.textContent =
-              "Votre acompte" +
-              (euros ? " de " + euros + " EUR" : "") +
-              " a bien ete enregistre." +
-              (res.referenceId && res.referenceId !== "none"
-                ? " Reference devis : " + res.referenceId
-                : "");
-          } else {
-            title.textContent = "Paiement en cours de traitement";
-            detail.textContent =
-              "Si le montant a ete debite, vous recevrez une confirmation sous peu.";
-          }
-        })
-        .catch(function () {
-          title.textContent = "Paiement confirme";
-          detail.textContent = "Merci. Notre equipe revient vers vous rapidement.";
-        });
-    })();
-  </script>
-</body>
-</html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiement confirme | Leads Opportunities</title>
+  <link rel="stylesheet" href="./main.css" />
+</head>
+<body>
+  <main class="container section">
+    <section class="card">
+      <h1 id="payTitle">Verification du paiement…</h1>
+      <p id="payDetail">Merci de patienter.</p>
+      <p><a href="./index.html#contact">Nous contacter</a></p>
+      <p><a class="btn btn-primary" href="./index.html">Retour a l'accueil</a></p>
+    </section>
+  </main>
+  <script>
+    (function () {
+      var sid = new URLSearchParams(location.search).get("session_id");
+      var title = document.getElementById("payTitle");
+      var detail = document.getElementById("payDetail");
+      if (!sid) {
+        title.textContent = "Paiement confirme";
+        detail.textContent = "Merci. Notre equipe revient vers vous rapidement.";
+        return;
+      }
+      fetch("/api/stripe/session-status?session_id=" + encodeURIComponent(sid))
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (res) {
+          if (res.paid) {
+            title.textContent = "Paiement confirme";
+            var euros = res.amountTotal != null ? (res.amountTotal / 100).toFixed(2) : "";
+            detail.textContent =
+              "Votre acompte" +
+              (euros ? " de " + euros + " EUR" : "") +
+              " a bien ete enregistre." +
+              (res.referenceId && res.referenceId !== "none"
+                ? " Reference devis : " + res.referenceId
+                : "");
+          } else {
+            title.textContent = "Paiement en cours de traitement";
+            detail.textContent =
+              "Si le montant a ete debite, vous recevrez une confirmation sous peu.";
+          }
+        })
+        .catch(function () {
+          title.textContent = "Paiement confirme";
+          detail.textContent = "Merci. Notre equipe revient vers vous rapidement.";
+        });
+    })();
+  </script>
+</body>
+</html>

@@ -8,12 +8,11 @@ const CLIENT_SUBFOLDERS = [
   "05_devis_signes",
 ];
 
-function getDriveToken() {
-  return (process.env.GOOGLE_DRIVE_ACCESS_TOKEN || "").trim() || null;
-}
+const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
 
-function getRootFolderId() {
-  return (process.env.GOOGLE_DRIVE_FOLDER_ID || "").trim() || null;
+async function getDriveToken() {
+  const auth = await getDriveAccessToken();
+  return auth ? auth.accessToken : null;
 }
 
 async function driveCreateFolder(token, name, parentId) {
@@ -41,7 +40,7 @@ function safeFolderLabel(contactId, firstName, lastName) {
 }
 
 async function ensureClientDriveFolders(contactId) {
-  const token = getDriveToken();
+  const token = await getDriveToken();
   const rootId = getRootFolderId();
   const sql = getSql();
 

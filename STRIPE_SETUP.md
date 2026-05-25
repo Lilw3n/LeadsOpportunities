@@ -33,6 +33,7 @@ Ainsi, tes paiements restent distincts des autres apps de la meme entreprise.
 - Checkout public (montant verifie si devis): `/api/stripe/create-checkout-session`
 - Checkout CRM (devis uniquement, JWT): `/api/stripe/create-checkout-for-quote`
 - Statut session: `/api/stripe/session-status?session_id=...`
+- Readiness admin: `/api/stripe/readiness`
 - Webhook API: `/api/stripe/webhook`
 
 Evenement minimum a ecouter:
@@ -43,6 +44,13 @@ Evenement minimum a ecouter:
 2. Aller sur `/paiement.html`
 3. Remplir formulaire et payer en mode test Stripe
 4. Verifier redirection vers `/paiement-success.html`
+
+## 5 bis) Test production CRM
+1. Connectez-vous au CRM en admin.
+2. Ouvrez `/api/stripe/readiness` avec le header `Authorization: Bearer {lo_token}`.
+3. Verifiez `ok: true`, `hasWebhookSecret: true`, et `requiredEvent=checkout.session.completed`.
+4. Creez un devis CRM, puis ouvrez `/crm-quote-payment.html?quoteId=qte_...`.
+5. Payez en mode test Stripe et verifiez : devis `acompte_paye`, activite CRM, ligne `pro_revenue`.
 
 ## 6) Evolution recommandee
 - brancher webhook -> CRM / base client

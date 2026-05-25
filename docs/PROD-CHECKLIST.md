@@ -67,7 +67,11 @@ npm run blog:feed
 - [ ] Sync pull agenda (`crm-calendar.html` → Synchroniser depuis Google)
 - [ ] Acompte devis Stripe (mode test puis live)
 - [ ] Upload document → dossier client Drive
+- [ ] Dossier manuel Drive `test lead` cree depuis `test-drive.html`
+- [ ] Contact CRM `Test Lead` cree depuis `test-drive.html`
 - [ ] Touchpoint page (`/api/lead-touchpoint` via attribution.js)
 - [ ] Dedup lead (meme email 2x)
 - [ ] Compta `/crm-pro-accounting.html`
 - [ ] Make/n8n : `docs/automation-make-n8n.md`
+- [ ] SEA/UTM : `docs/SEA-TRACKING.md`
+- [ ] Stripe readiness : `/api/stripe/readiness`

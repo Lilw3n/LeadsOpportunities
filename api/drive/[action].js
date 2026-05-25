@@ -6,6 +6,8 @@ const ROUTES = {
   "local-files": () => require("../_lib/routes/local-drive-files"),
   "local-read": () => require("../_lib/routes/local-drive-read"),
   upload: () => require("../_lib/routes/drive-upload"),
+  status: () => require("../_lib/routes/drive-status"),
+  "test-lead": () => require("../_lib/routes/drive-test-lead"),
 };
 
 module.exports = async (req, res) => {
