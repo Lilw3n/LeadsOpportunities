@@ -1,7 +1,7 @@
 /**
  * GET /api/stripe/readiness — verifie la configuration Stripe cote CRM.
  */
-const { getStripeClient, getStripeSecretKey, getStripeWebhookSecret } = require("../stripe");
+const { getStripeAppUrl, getStripeClient, getStripeSecretKey, getStripeWebhookSecret } = require("../stripe");
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
 
@@ -21,7 +21,7 @@ module.exports = async (req, res) => {
   const webhookSecret = getStripeWebhookSecret();
   const hasSecret = !!secretKey;
   const hasWebhookSecret = !!webhookSecret;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "";
+  const appUrl = getStripeAppUrl();
 
   if (!stripe) {
     return res.status(200).json({

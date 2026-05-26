@@ -14,6 +14,28 @@ function getStripeWebhookSecret() {
   return cleanStripeSecret(process.env.STRIPE_WEBHOOK_SECRET);
 }
 
+function getStripeAppUrl() {
+  const raw = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "https://leads-opportunities.vercel.app";
+  let appUrl = cleanStripeSecret(raw)
+    .replace(/[\r\n\t]/g, "")
+    .replace(/\/$/, "");
+
+  if (appUrl && appUrl.indexOf("http://") !== 0 && appUrl.indexOf("https://") !== 0) {
+    appUrl = "https://" + appUrl;
+  }
+
+  try {
+    const parsed = new URL(appUrl);
+    if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+      return parsed.origin;
+    }
+  } catch {
+    // Fall through to the production URL when an env var was pasted incorrectly.
+  }
+
+  return "https://leads-opportunities.vercel.app";
+}
+
 function getStripeClient() {
   const secretKey = getStripeSecretKey();
   if (!secretKey) return null;
@@ -36,6 +58,7 @@ module.exports = {
   cleanStripeSecret,
   getStripeSecretKey,
   getStripeWebhookSecret,
+  getStripeAppUrl,
   getStripeClient,
   toStripeAmount,
   fromStripeAmount,

@@ -1,4 +1,4 @@
-const { getStripeClient, toStripeAmount } = require("../stripe");
+const { getStripeAppUrl, getStripeClient, toStripeAmount } = require("../stripe");
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { getSql } = require("../db");
 const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "Montant invalide." });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "http://localhost:3009";
+    const appUrl = getStripeAppUrl();
     const companyCode = process.env.COMPANY_CODE || "LEADSOPP";
     const amountCents = toStripeAmount(amountEur);
 

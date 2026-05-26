@@ -1,4 +1,4 @@
-const { getStripeClient, toStripeAmount } = require("../stripe");
+const { getStripeAppUrl, getStripeClient, toStripeAmount } = require("../stripe");
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
@@ -57,7 +57,7 @@ module.exports = async (req, res) => {
     const check = validateDepositAmountEur(amountEur, quote);
     if (!check.ok) return res.status(400).json({ error: check.error });
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "http://localhost:3009";
+    const appUrl = getStripeAppUrl();
     const companyCode = process.env.COMPANY_CODE || "LEADSOPP";
     const contactName = ((quote.first_name || "") + " " + (quote.last_name || "")).trim();
     const label = quote.title ? "Acompte — " + quote.title : "Acompte devis assurance";
