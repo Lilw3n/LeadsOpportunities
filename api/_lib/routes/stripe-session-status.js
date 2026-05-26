@@ -1,5 +1,5 @@
-const { getStripeClient } = require("../_lib/stripe");
-const { applyApiGuards } = require("../_lib/security");
+const { getStripeClient } = require("../stripe");
+const { applyApiGuards } = require("../security");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

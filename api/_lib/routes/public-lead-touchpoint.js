@@ -2,9 +2,9 @@
  * POST /api/lead-touchpoint — enregistre une visite / interaction avant conversion
  */
 const { randomUUID } = require("crypto");
-const { applyApiGuards, parseJsonBody, rateLimit, getClientIp, isHoneypotFilled } = require("./_lib/security");
-const { getSql } = require("./_lib/db");
-const { parseSeoFromPath, recordTouchpoint } = require("./_lib/lead-enrichment");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp, isHoneypotFilled } = require("../security");
+const { getSql } = require("../db");
+const { parseSeoFromPath, recordTouchpoint } = require("../lead-enrichment");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

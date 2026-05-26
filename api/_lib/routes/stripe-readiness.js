@@ -1,9 +1,9 @@
 /**
  * GET /api/stripe/readiness — verifie la configuration Stripe cote CRM.
  */
-const { getStripeClient } = require("../_lib/stripe");
-const { applyApiGuards } = require("../_lib/security");
-const { requireCrm } = require("../_lib/rbac");
+const { getStripeClient } = require("../stripe");
+const { applyApiGuards } = require("../security");
+const { requireCrm } = require("../rbac");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

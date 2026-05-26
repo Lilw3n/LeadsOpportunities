@@ -1,8 +1,8 @@
 /**
  * POST /api/eligibility-check — règles + partenaires (blocages / alertes)
  */
-const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("./_lib/security");
-const { computeEligibility } = require("./_lib/eligibility-engine");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
+const { computeEligibility } = require("../eligibility-engine");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

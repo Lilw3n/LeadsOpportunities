@@ -1,8 +1,8 @@
 /**
  * POST /api/cross-sell — opportunités multi-contrats (usage courtier / interne)
  */
-const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("./_lib/security");
-const { computeCrossSell } = require("./_lib/cross-sell-engine");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
+const { computeCrossSell } = require("../cross-sell-engine");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

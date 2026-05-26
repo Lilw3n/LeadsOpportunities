@@ -1,7 +1,7 @@
-const { getStripeClient, toStripeAmount } = require("../_lib/stripe");
-const { applyApiGuards, parseJsonBody } = require("../_lib/security");
-const { getSql } = require("../_lib/db");
-const { resolveDepositAmountEur, validateDepositAmountEur } = require("../_lib/quote-deposit");
+const { getStripeClient, toStripeAmount } = require("../stripe");
+const { applyApiGuards, parseJsonBody } = require("../security");
+const { getSql } = require("../db");
+const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

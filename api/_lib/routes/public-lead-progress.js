@@ -1,8 +1,8 @@
 /**
  * POST /api/lead-progress — sauvegarde étape questionnaire / abandon
  */
-const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("./_lib/security");
-const { recordFunnelEvent } = require("./_lib/funnel-tracker");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
+const { recordFunnelEvent } = require("../funnel-tracker");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

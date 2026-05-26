@@ -1,8 +1,8 @@
 /**
  * POST /api/tariff-quote — devis indicatif interne (courtier)
  */
-const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("./_lib/security");
-const { computeTariffQuote } = require("./_lib/tariff-engine");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
+const { computeTariffQuote } = require("../tariff-engine");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);

@@ -2,15 +2,15 @@
  * POST /api/lead — Reception demandes, scoring, stockage (Neon), email (Resend), webhook.
  */
 const { randomUUID } = require("crypto");
-const { computeLeadScore } = require("./_lib/leadScore.js");
-const { computeLeadRelevance } = require("./_lib/leadRelevance.js");
+const { computeLeadScore } = require("../leadScore.js");
+const { computeLeadRelevance } = require("../leadRelevance.js");
 const {
   applyApiGuards,
   parseJsonBody,
   isHoneypotFilled,
   rateLimit,
   getClientIp,
-} = require("./_lib/security");
+} = require("../security");
 
 async function sendResendEmail(payload, score, leadId) {
   var key = process.env.RESEND_API_KEY;
@@ -106,7 +106,7 @@ module.exports = async (req, res) => {
 
   var tariffAnalysis = { ok: false };
   try {
-    const { computeTariffQuote } = require("./_lib/tariff-engine");
+    const { computeTariffQuote } = require("../tariff-engine");
     tariffAnalysis = computeTariffQuote(body);
   } catch (tariffErr) {
     console.warn("[lead] tariff analysis", tariffErr.message);
@@ -114,7 +114,7 @@ module.exports = async (req, res) => {
 
   var crossSellAnalysis = null;
   try {
-    const { computeCrossSell } = require("./_lib/cross-sell-engine");
+    const { computeCrossSell } = require("../cross-sell-engine");
     crossSellAnalysis = computeCrossSell(body);
   } catch (crossErr) {
     console.warn("[lead] cross-sell", crossErr.message);
@@ -184,7 +184,7 @@ module.exports = async (req, res) => {
     findDuplicateLead,
     normalizeEmail,
     normalizePhone,
-  } = require("./_lib/lead-enrichment");
+  } = require("../lead-enrichment");
 
   var landingPath =
     enriched.landing_path || enriched.landing_slug || enriched.page_path || enriched.attr_landing_path || "";
@@ -289,7 +289,7 @@ module.exports = async (req, res) => {
       stored = true;
 
       try {
-        const { recordTouchpoint } = require("./_lib/lead-enrichment");
+        const { recordTouchpoint } = require("../lead-enrichment");
         await recordTouchpoint(sql, {
           visitor_id: enriched.visitor_id,
           lead_id: leadId,
@@ -306,7 +306,7 @@ module.exports = async (req, res) => {
       }
       if (enriched.email) {
         try {
-          const { ingestLeadToCrm } = require("./_lib/crm-ingest-from-lead");
+          const { ingestLeadToCrm } = require("../crm-ingest-from-lead");
           await ingestLeadToCrm(sql, enriched, leadId);
         } catch (crmErr) {
           console.error("[lead] crm ingest", crmErr);
@@ -353,7 +353,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { dispatchLeadToPartners } = require("./_lib/partners/dispatch");
+    const { dispatchLeadToPartners } = require("../partners/dispatch");
     dispatchLeadToPartners(enriched, score, leadId).catch(function (e) {
       console.error("[partners/dispatch]", e);
     });
