@@ -3,59 +3,173 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Devis intelligent IA | Leads Opportunities</title>
+  <title>Pré-analyse assurance | Leads Opportunities</title>
+  <meta name="description" content="Pré-analyse assurance sans engagement : décrivez votre besoin, préparez vos documents et recevez une étude à confirmer par un conseiller." />
   <link rel="stylesheet" href="../../landings/styles.css" />
   <link rel="stylesheet" href="landing-shared.css" />
   <style>
-    .di-intro { min-height:80vh; background:linear-gradient(135deg,#1e3a8a,#6366f1,#7c3aed); color:#fff; padding:48px 24px; text-align:center; }
-    .di-intro h1 { font-size:clamp(1.8rem,4vw,3rem); margin:16px 0; }
-    .di-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; max-width:900px; margin:32px auto 0; }
-    .di-card { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:16px; padding:24px; text-align:left; }
-    .di-btn { margin-top:32px; padding:16px 32px; background:linear-gradient(135deg,#fbbf24,#f97316); color:#111; border:none; border-radius:999px; font-weight:800; font-size:1.1rem; cursor:pointer; }
-    .di-results { max-width:900px; margin:0 auto; padding:24px; }
-    .di-score { display:inline-flex; align-items:center; gap:12px; padding:12px 24px; border-radius:999px; font-size:1.5rem; font-weight:800; border:2px solid; }
+    body.landing-page { background:#f8fafc; color:#0f172a; }
+    .di-shell { min-height:100vh; background:radial-gradient(circle at top left, rgba(20,184,166,.18), transparent 32rem), linear-gradient(180deg,#f8fafc 0,#eef2ff 100%); }
+    .di-intro { color:#fff; padding:24px; background:linear-gradient(135deg,#0f172a,#1e3a8a 48%,#5b21b6); }
+    .di-topbar { max-width:1120px; margin:0 auto 36px; display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; }
+    .di-back { color:rgba(255,255,255,.88); text-decoration:none; font-weight:700; }
+    .di-toplinks { display:flex; gap:10px; flex-wrap:wrap; }
+    .di-toplinks a { color:#dbeafe; text-decoration:none; font-size:.9rem; font-weight:700; }
+    .di-hero { max-width:1120px; margin:0 auto; display:grid; grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr); gap:32px; align-items:center; padding:22px 0 56px; }
+    .di-kicker { display:inline-flex; align-items:center; gap:8px; margin:0 0 14px; padding:7px 12px; border-radius:999px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.18); color:#bfdbfe; font-size:.78rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
+    .di-intro h1 { font-size:clamp(2.05rem,5vw,4.35rem); line-height:.96; margin:0 0 18px; letter-spacing:-.055em; }
+    .di-lead { max-width:680px; margin:0; color:#dbeafe; font-size:1.08rem; line-height:1.7; }
+    .di-hero-actions { display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:28px; }
+    .di-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:14px 24px; background:linear-gradient(135deg,#fbbf24,#f97316); color:#111827; border:none; border-radius:999px; font-weight:900; font-size:1rem; cursor:pointer; text-decoration:none; box-shadow:0 16px 34px rgba(249,115,22,.25); }
+    .di-btn:hover { transform:translateY(-1px); }
+    .di-btn-secondary { background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.22); box-shadow:none; }
+    .di-trust { margin:16px 0 0; color:#cbd5e1; font-size:.9rem; }
+    .di-hero-card { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); border-radius:28px; padding:22px; box-shadow:0 24px 80px rgba(15,23,42,.28); backdrop-filter:blur(12px); }
+    .di-hero-card h2 { margin:0 0 12px; font-size:1.1rem; }
+    .di-flow { display:grid; gap:10px; }
+    .di-flow-step { display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start; padding:14px; border-radius:18px; background:rgba(255,255,255,.1); }
+    .di-flow-step span { width:30px; height:30px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:#fbbf24; color:#111827; font-weight:900; }
+    .di-flow-step strong { display:block; margin-bottom:2px; }
+    .di-flow-step p { margin:0; color:#dbeafe; font-size:.88rem; line-height:1.45; }
+    .di-main { max-width:1120px; margin:0 auto; padding:34px 24px 56px; }
+    .di-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px; margin:0 0 24px; }
+    .di-card { background:#fff; border:1px solid #e2e8f0; border-radius:20px; padding:22px; text-align:left; box-shadow:0 10px 30px rgba(15,23,42,.06); }
+    .di-card strong { display:block; font-size:1rem; margin-bottom:8px; color:#0f172a; }
+    .di-card p { margin:0; color:#64748b; font-size:.92rem; line-height:1.55; }
+    .di-doc-box { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.8fr); gap:18px; align-items:start; margin-top:24px; }
+    .di-panel { background:#fff; border:1px solid #e2e8f0; border-radius:22px; padding:22px; box-shadow:0 10px 30px rgba(15,23,42,.06); }
+    .di-panel h2, .di-panel h3 { margin:0 0 10px; }
+    .di-panel p, .di-panel li { color:#64748b; line-height:1.6; }
+    .di-panel ul { margin:12px 0 0; padding-left:18px; }
+    .di-ocr { margin:0; text-align:left; }
+    .di-ocr summary { cursor:pointer; font-weight:800; color:#0f172a; }
+    .di-ocr textarea { width:100%; margin-top:10px; padding:12px; border-radius:14px; border:1px solid #cbd5e1; box-sizing:border-box; font:inherit; }
+    .di-wizard-wrap { max-width:840px; margin:0 auto; padding:24px; }
+    .wizard-panel { margin:18px auto 0; padding:24px; border:1px solid #e2e8f0; border-radius:24px; background:#fff; box-shadow:0 18px 48px rgba(15,23,42,.08); }
+    .wizard-progress { height:9px; background:#e2e8f0; border-radius:999px; overflow:hidden; margin-bottom:12px; }
+    .wizard-progress-bar { height:100%; background:linear-gradient(90deg,#0d9488,#6366f1); transition:width .3s; }
+    .wizard-step-label { color:#475569; font-size:.9rem; font-weight:800; }
+    .wizard-help { margin:0 0 16px; color:#64748b; line-height:1.55; }
+    .type-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; }
+    .type-card { padding:16px; border:1px solid #e2e8f0; border-radius:18px; background:#fff; cursor:pointer; text-align:left; display:grid; gap:6px; }
+    .type-card:hover, .type-card.selected { border-color:#0d9488; background:#f0fdfa; box-shadow:0 8px 22px rgba(13,148,136,.1); }
+    .type-icon { font-size:1.55rem; }
+    .type-card small { color:#64748b; line-height:1.35; }
+    .wizard-actions { display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap; margin-top:18px; }
+    .offers-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px; margin-top:14px; }
+    .offer-card { padding:16px; border:1px solid #e2e8f0; border-radius:18px; background:#f8fafc; }
+    .offer-card h3 { margin:0 0 8px; }
+    .offer-card p { margin:0; color:#64748b; line-height:1.5; }
+    .summary-list { margin:0; padding:0; list-style:none; display:grid; gap:8px; }
+    .summary-list li { padding:10px 12px; border:1px solid #e2e8f0; border-radius:12px; background:#f8fafc; }
+    .di-results { max-width:980px; margin:0 auto; padding:24px; }
+    .di-results-hero { margin:0 0 22px; padding:24px; border-radius:24px; background:linear-gradient(135deg,#0f172a,#312e81); color:#fff; }
+    .di-results-hero h1 { margin:10px 0 10px; font-size:clamp(1.7rem,4vw,2.55rem); }
+    .di-results-hero p { color:#dbeafe; line-height:1.65; max-width:760px; }
+    .di-result-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:18px 0 24px; }
+    .di-result-card { background:#fff; border:1px solid #e2e8f0; border-radius:18px; padding:18px; box-shadow:0 8px 24px rgba(15,23,42,.05); }
+    .di-result-card h2, .di-result-card h3 { margin:0 0 8px; }
+    .di-result-card p, .di-result-card li { color:#64748b; line-height:1.55; }
+    .di-result-card ul { margin:8px 0 0; padding-left:18px; }
+    .di-status-pill { display:inline-flex; padding:5px 10px; border-radius:999px; background:#eef2ff; color:#3730a3; font-weight:800; font-size:.76rem; }
+    .di-next-panel { margin-top:22px; padding:22px; background:linear-gradient(135deg,#0d9488,#2563eb); color:#fff; border-radius:22px; }
+    .di-next-panel p { color:#e0f2fe; }
+    .di-result-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    .di-score { display:inline-flex; align-items:center; gap:12px; padding:12px 20px; border-radius:999px; font-size:1.15rem; font-weight:900; border:2px solid; }
     .di-score.ok { background:#ecfdf5; border-color:#10b981; color:#047857; }
     .di-score.mid { background:#fffbeb; border-color:#f59e0b; color:#b45309; }
     .di-score.low { background:#fef2f2; border-color:#ef4444; color:#b91c1c; }
-    .insurer-card { border:2px solid #e2e8f0; border-radius:12px; padding:20px; margin-bottom:16px; }
+    .insurer-card { border:1px solid #e2e8f0; border-radius:18px; padding:18px; margin-bottom:14px; box-shadow:0 8px 24px rgba(15,23,42,.05); }
     .insurer-card.accepted { border-color:#86efac; background:#f0fdf4; }
     .insurer-card.conditional { border-color:#fde68a; background:#fffbeb; }
     .insurer-card.rejected { border-color:#fecaca; background:#fef2f2; }
-    .di-analyzing { min-height:60vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+    .di-analyzing { min-height:70vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px; }
     .di-spinner { width:64px; height:64px; border:4px solid #e2e8f0; border-top-color:#6366f1; border-radius:50%; animation:spin 1s linear infinite; }
+    .di-analyzing-card { max-width:520px; border:1px solid #e2e8f0; border-radius:24px; padding:30px; background:#fff; box-shadow:0 18px 48px rgba(15,23,42,.08); }
     @keyframes spin { to { transform:rotate(360deg); } }
     .hidden { display:none !important; }
+    @media (max-width:860px) {
+      .di-hero, .di-doc-box { grid-template-columns:1fr; }
+      .di-intro { padding:18px; }
+      .di-main, .di-wizard-wrap, .di-results { padding:18px; }
+    }
   </style>
 </head>
 <body class="landing-page">
-  <div id="stepIntro" class="di-intro">
-    <a href="../assurance.html" style="color:rgba(255,255,255,.85)">← Assurance</a>
-    <p style="margin-top:24px;font-size:1.1rem">Assistant IA</p>
-    <h1>Votre analyse <span style="color:#fbbf24">intelligente</span></h1>
-    <p style="max-width:560px;margin:0 auto;opacity:.9">Notre IA analyse votre profil en temps réel pour déterminer votre éligibilité auprès de nos assureurs partenaires.</p>
-    <div class="di-cards">
-      <div class="di-card"><strong>🎯 Analyse personnalisée</strong><p style="opacity:.85;margin:8px 0 0;font-size:.9rem">Questionnaire adaptatif selon vos réponses</p></div>
-      <div class="di-card"><strong>🛡️ Pré-analyse d'éligibilité</strong><p style="opacity:.85;margin:8px 0 0;font-size:.9rem">Vérification indicative des conditions de souscription</p></div>
-      <div class="di-card"><strong>🏆 Pistes adaptées</strong><p style="opacity:.85;margin:8px 0 0;font-size:.9rem">Recommandations à confirmer après étude</p></div>
-    </div>
-    <button type="button" class="di-btn" id="btnStart">Démarrer mon analyse gratuite</button>
-    <p style="margin-top:16px;font-size:.85rem;opacity:.75">Sans engagement · Pré-analyse indicative · Confirmation après étude</p>
-    <details style="max-width:520px;margin:24px auto 0;text-align:left;background:rgba(0,0,0,.2);border-radius:12px;padding:14px">
-      <summary style="cursor:pointer;font-weight:600">Coller un extrait document (OCR / relevé)</summary>
-      <textarea id="ocrPaste" rows="4" placeholder="Collez ici texte carte grise, relevé d'info, KBIS…" style="width:100%;margin-top:10px;padding:10px;border-radius:8px;border:none;box-sizing:border-box"></textarea>
-      <p style="font-size:.8rem;opacity:.8;margin:8px 0 0">Préremplira le questionnaire — inspire analyse Gemini multisite.</p>
-    </details>
+  <div class="di-shell">
+  <div id="stepIntro">
+    <section class="di-intro">
+      <div class="di-topbar">
+        <a href="../assurance.html" class="di-back">← Espace assurance</a>
+        <div class="di-toplinks">
+          <a href="../index.html">Portail client</a>
+          <a href="../login.html">Connexion</a>
+          <a href="mailto:courtier972@gmail.com">Contact</a>
+        </div>
+      </div>
+      <div class="di-hero">
+        <div>
+          <p class="di-kicker">Pré-analyse assurance</p>
+          <h1>Un premier avis clair avant le vrai devis.</h1>
+          <p class="di-lead">Décrivez votre situation, ajoutez si besoin un extrait de document, puis recevez une pré-analyse structurée. Les garanties, tarifs et conditions restent vérifiés ensuite par un conseiller.</p>
+          <div class="di-hero-actions">
+            <button type="button" class="di-btn" id="btnStart">Commencer la pré-analyse</button>
+            <a class="di-btn di-btn-secondary" href="../devis-wizard.html">Questionnaire classique</a>
+          </div>
+          <p class="di-trust">Sans engagement · Données envoyées au CRM · Confirmation humaine avant proposition</p>
+        </div>
+        <aside class="di-hero-card">
+          <h2>Comment ça se passe ?</h2>
+          <div class="di-flow">
+            <div class="di-flow-step"><span>1</span><div><strong>Vous expliquez le besoin</strong><p>Type d'assurance, coordonnées, situation pro ou personnelle.</p></div></div>
+            <div class="di-flow-step"><span>2</span><div><strong>Le dossier est pré-qualifié</strong><p>La page repère les points à vérifier, sans promettre d'acceptation.</p></div></div>
+            <div class="di-flow-step"><span>3</span><div><strong>Un conseiller confirme</strong><p>Les garanties et tarifs réels sont validés après étude des pièces.</p></div></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <main class="di-main">
+      <div class="di-cards">
+        <div class="di-card"><strong>Parcours guidé</strong><p>Les questions s'adaptent au type d'assurance demandé pour éviter les informations inutiles.</p></div>
+        <div class="di-card"><strong>Pré-analyse prudente</strong><p>Le résultat aide à préparer l'échange, mais ne remplace pas l'étude du dossier.</p></div>
+        <div class="di-card"><strong>Suivi conseiller</strong><p>Votre demande est transmise au CRM afin de reprendre le dossier sans tout répéter.</p></div>
+      </div>
+      <div class="di-doc-box">
+        <section class="di-panel">
+          <h2>Documents utiles selon le dossier</h2>
+          <p>Vous pouvez commencer sans document, mais ces éléments accélèrent l'étude lorsqu'ils existent.</p>
+          <ul>
+            <li>Auto, VTC, taxi : permis, carte grise, relevé d'information, activité déclarée.</li>
+            <li>Professionnel : KBIS, activité, chiffre d'affaires, sinistres connus.</li>
+            <li>Habitation ou PNO : adresse, surface, statut occupant/bailleur, sinistres récents.</li>
+            <li>Santé ou prévoyance : besoin principal, contrat actuel si reprise, situation familiale.</li>
+          </ul>
+        </section>
+        <section class="di-panel">
+          <details class="di-ocr">
+            <summary>Coller un extrait document (facultatif)</summary>
+            <textarea id="ocrPaste" rows="5" placeholder="Extrait carte grise, relevé d'information, KBIS, contrat actuel..."></textarea>
+            <p>Le texte sert seulement à préremplir certains champs. Vous pourrez corriger avant l'envoi.</p>
+          </details>
+          <h3 style="margin-top:18px">Cadre de confiance</h3>
+          <p>Pas de tarif inventé, pas de validation automatique : uniquement une préparation de dossier avant étude humaine.</p>
+        </section>
+      </div>
+    </main>
   </div>
-  <div id="stepWizard" class="hidden" style="max-width:720px;margin:0 auto;padding:24px">
-    <button type="button" class="btn btn-ghost" id="btnBackIntro">← Retour</button>
+  <div id="stepWizard" class="di-wizard-wrap hidden">
+    <button type="button" class="btn btn-ghost" id="btnBackIntro">← Retour à la présentation</button>
     <div id="wizardMount"></div>
   </div>
   <div id="stepAnalyzing" class="di-analyzing hidden">
-    <div class="di-spinner"></div>
-    <h2 style="margin-top:24px">Analyse IA en cours…</h2>
-    <p style="color:#64748b">Vérification des conditions de souscription</p>
+    <div class="di-analyzing-card">
+      <div class="di-spinner"></div>
+      <h2 style="margin-top:24px">Pré-analyse en cours…</h2>
+      <p style="color:#64748b">Nous préparons les points à vérifier avec un conseiller. Aucun tarif ni accord définitif n'est généré automatiquement.</p>
+    </div>
   </div>
   <div id="stepResults" class="di-results hidden"></div>
+  </div>
   <script src="../../js/intelligent-quote-wizard.js"></script>
   <script src="../../js/lead-analysis-service.js"></script>
   <script src="../../js/devis-intelligent.js"></script>

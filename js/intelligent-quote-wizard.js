@@ -3,12 +3,12 @@
  */
 window.IntelligentQuoteWizard = {
   INSURANCE_TYPES: [
-    { id: "auto", label: "Automobile", icon: "🚗" },
-    { id: "vtc-taxi", label: "VTC / Taxi", icon: "🚡" },
-    { id: "habitation", label: "Habitation", icon: "🏠" },
-    { id: "sante", label: "Santé / Mutuelle", icon: "❤️" },
-    { id: "rc-pro", label: "RC Professionnelle", icon: "💼" },
-    { id: "decennale", label: "Décennale", icon: "🏗️" },
+    { id: "auto", label: "Automobile", icon: "🚗", desc: "Véhicule personnel ou professionnel" },
+    { id: "vtc-taxi", label: "VTC / Taxi", icon: "🚡", desc: "Activité chauffeur, transport ou mobilité" },
+    { id: "habitation", label: "Habitation", icon: "🏠", desc: "Logement, PNO, bailleur ou occupant" },
+    { id: "sante", label: "Santé / Mutuelle", icon: "❤️", desc: "Complémentaire, famille ou collectif" },
+    { id: "rc-pro", label: "RC Professionnelle", icon: "💼", desc: "Activité indépendante ou entreprise" },
+    { id: "decennale", label: "Décennale", icon: "🏗️", desc: "Métiers du bâtiment à vérifier" },
   ],
 
   mockOffers: function (type, budget) {
@@ -141,7 +141,9 @@ window.IntelligentQuoteWizard = {
             t.icon +
             "</span><strong>" +
             t.label +
-            "</strong></button>"
+            "</strong><small>" +
+            self.esc(t.desc || "Étude selon dossier") +
+            "</small></button>"
           );
         }).join("") +
         "</div>"
@@ -150,6 +152,7 @@ window.IntelligentQuoteWizard = {
 
     function stepPersonal() {
       return (
+        '<p class="wizard-help">Ces informations servent au rappel et à l’ouverture du dossier. Elles pourront être corrigées avec le conseiller.</p>' +
         '<div class="form-grid">' +
         '<label>Prénom<input name="firstName" value="' +
         self.esc(data.firstName) +
@@ -202,24 +205,25 @@ window.IntelligentQuoteWizard = {
       var extra = "";
       if (t === "auto" || t === "vtc-taxi") {
         extra =
-          '<label>Type véhicule<select name="vehicleType"><option value="">—</option><option>VTC</option><option>Berline</option><option>Utilitaire</option></select></label>' +
-          '<label>Activité<select name="activityType"><option value="">—</option><option>VTC</option><option>Taxi</option><option>Personnel</option></select></label>';
+        '<label>Type véhicule<select name="vehicleType"><option value="">À préciser</option><option>VTC</option><option>Berline</option><option>Utilitaire</option><option>Deux-roues</option><option>Autre</option></select></label>' +
+          '<label>Usage principal<select name="activityType"><option value="">À préciser</option><option>VTC</option><option>Taxi</option><option>Personnel</option><option>Professionnel</option></select></label>';
       } else if (t === "habitation") {
         extra =
-          '<label>Type logement<select name="propertyType"><option>Appartement</option><option>Maison</option></select></label>' +
+        '<label>Type logement<select name="propertyType"><option>Appartement</option><option>Maison</option><option>Local professionnel</option><option>Autre</option></select></label>' +
           '<label>Surface m²<input name="propertySurface" type="number" /></label>';
       } else if (t === "rc-pro" || t === "decennale") {
         extra =
           '<label class="full">Activité professionnelle<input name="professionalActivity" /></label>';
       }
       return (
+        '<p class="wizard-help">Indiquez ce que vous savez déjà. Le budget est facultatif : aucun tarif ne sera inventé.</p>' +
         '<div class="form-grid">' +
         extra +
-        '<label>Budget annuel visé (€)<input type="number" name="budget" value="' +
+        '<label>Budget annuel indicatif, si connu (€)<input type="number" name="budget" value="' +
         self.esc(data.budget) +
         '" /></label>' +
-        '<label>Urgence<select name="urgency"><option value="immediate">Immédiat</option><option value="within_month" selected>Sous 1 mois</option><option value="flexible">Flexible</option></select></label>' +
-        '<label>Couverture<select name="coverage"><option value="basic">Essentielle</option><option value="comprehensive" selected>Complète</option><option value="premium">Premium</option></select></label>' +
+        '<label>Délai souhaité<select name="urgency"><option value="immediate">Très rapide</option><option value="within_month" selected>Sous 1 mois</option><option value="flexible">Flexible</option></select></label>' +
+        '<label>Niveau souhaité<select name="coverage"><option value="basic">Essentiel</option><option value="comprehensive" selected>Équilibré</option><option value="premium">Renforcé, selon éligibilité</option></select></label>' +
         "</div>"
       );
     }
@@ -227,7 +231,7 @@ window.IntelligentQuoteWizard = {
     function stepComparison() {
       if (!offers.length) offers = self.mockOffers(data.insuranceType, data.budget);
       return (
-        '<p>Pré-analyse indicative : les garanties, tarifs et partenaires seront confirmés après étude du dossier.</p>' +
+        '<p class="wizard-help">Pré-analyse indicative : ces pistes servent à préparer le dossier. Les garanties, tarifs, exclusions et partenaires seront confirmés après étude.</p>' +
         '<div class="offers-grid">' +
         offers
           .map(function (o) {
@@ -236,7 +240,7 @@ window.IntelligentQuoteWizard = {
               "" +
               '"><h3>' +
               self.esc(o.insurer) +
-              "</h3><p>À confirmer selon éligibilité, pièces transmises et disponibilité partenaire.</p></div>"
+              "</h3><p>À confirmer selon éligibilité, pièces transmises, zone, activité et disponibilité partenaire.</p></div>"
             );
           })
           .join("") +
@@ -254,7 +258,7 @@ window.IntelligentQuoteWizard = {
         self.esc(data.email) +
         "</li><li><strong>Tél :</strong> " +
         self.esc(data.phone) +
-        "</li></ul><p>En validant, votre demande est enregistrée dans notre CRM.</p>"
+        "</li></ul><p>En validant, votre demande est transmise au CRM pour une étude humaine. Aucun tarif définitif n'est généré automatiquement.</p>"
       );
     }
 

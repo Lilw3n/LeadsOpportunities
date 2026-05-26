@@ -24,21 +24,35 @@
     return "low";
   }
 
+  function categoryLabel(category) {
+    if (category === "hot") return "Dossier prioritaire";
+    if (category === "warm") return "Dossier à préparer";
+    return "Dossier à qualifier";
+  }
+
   function renderResults(session, feasibility, qualification) {
     var html =
-      '<a href="../assurance.html" class="btn btn-ghost">← Assurance</a>' +
-      '<header style="margin:24px 0"><h1>Résultats de votre analyse IA</h1>' +
+      '<a href="../assurance.html" class="btn btn-ghost">← Espace assurance</a>' +
+      '<header class="di-results-hero"><span class="di-status-pill">Pré-analyse indicative</span><h1>Votre dossier est prêt pour une étude conseiller</h1>' +
+      "<p>Ce résultat aide à préparer l'échange. Il ne confirme ni tarif, ni acceptation, ni garantie : les pièces et conditions seront vérifiées avant toute proposition.</p>" +
       '<div class="di-score ' +
       scoreClass(feasibility.overallFeasibility) +
       '">' +
       feasibility.overallFeasibility +
-      "% faisabilité</div></header>" +
-      "<h2>Pré-analyse par partenaires</h2>";
+      "% préparation</div></header>" +
+      '<section class="di-result-grid">' +
+      '<article class="di-result-card"><h2>' +
+      categoryLabel(qualification.leadCategory) +
+      "</h2><p>Priorité interne pour organiser le rappel et les documents à demander.</p></article>" +
+      '<article class="di-result-card"><h2>À confirmer</h2><p>Garanties, tarifs, franchises et partenaires restent soumis à l’étude du dossier.</p></article>' +
+      '<article class="di-result-card"><h2>Prochaine action</h2><p>Un conseiller reprend votre demande avec les informations transmises.</p></article>' +
+      "</section>" +
+      "<h2>Points de compatibilité à vérifier</h2>";
 
     feasibility.insurerAnalysis.forEach(function (a) {
       var label =
         a.acceptanceLevel === "accepted"
-          ? "À confirmer"
+          ? "Compatible à confirmer"
           : a.acceptanceLevel === "conditional"
             ? "Sous réserve"
             : a.acceptanceLevel === "needs_review"
@@ -58,48 +72,49 @@
         label +
         " · " +
         a.feasibilityScore +
-        "%</span></div>";
+        "% préparation</span></div>";
       if (a.obstacles.length) {
         html += "<ul style='margin:8px 0 0;font-size:.9rem'>";
         a.obstacles.forEach(function (o) {
           html += "<li>" + esc(o.description) + "</li>";
         });
         html += "</ul>";
+      } else {
+        html += '<p style="margin:10px 0 0;color:#64748b;font-size:.9rem">Aucun blocage automatique détecté, sous réserve de vérification des pièces.</p>';
       }
       html += "</div>";
     });
 
     if (feasibility.recommendations.length) {
-      html += "<h2>Recommandations</h2><ul>";
+      html += '<section class="di-result-card"><h2>Recommandations de préparation</h2><ul>';
       feasibility.recommendations.forEach(function (r) {
         html += "<li><strong>" + esc(r.description) + "</strong> — " + esc(r.actionRequired) + "</li>";
       });
-      html += "</ul>";
+      html += "</ul></section>";
     }
 
     html +=
-      '<div class="panel" style="margin-top:24px;padding:20px;background:linear-gradient(135deg,#2563eb,#6366f1);color:#fff;border-radius:16px">' +
-      "<h2 style='color:#fff'>Prochaines étapes</h2>" +
-      "<p>Catégorie : <strong>" +
-      (qualification.leadCategory === "hot"
-        ? "🔥 Prioritaire"
-        : qualification.leadCategory === "warm"
-          ? "⭐ Qualifié"
-          : "📋 Standard") +
-      "</strong> · Pré-analyse indicative, à confirmer par un conseiller</p>" +
-      "<p>Un conseiller vérifiera les garanties, tarifs et conditions réelles avant toute proposition.</p>" +
-      '<p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">' +
-      '<button type="button" class="di-btn" id="btnRestart" style="margin-top:0">Nouvelle analyse</button> ' +
-      '<button type="button" class="di-btn" id="btnCopyResults" style="margin-top:0;background:#fff;color:#312e81">Copier résumé</button> ' +
-      '<a href="../devis-wizard.html" class="di-btn" style="margin-top:0;display:inline-block;text-decoration:none;background:#10b981;color:#fff">Devis transparent →</a></p></div>';
+      '<div class="di-next-panel">' +
+      "<h2>Prochaines étapes</h2>" +
+      "<p><strong>" +
+      categoryLabel(qualification.leadCategory) +
+      "</strong> · Pré-analyse enregistrée. Préparez vos documents utiles pour accélérer l'étude.</p>" +
+      "<p>Un conseiller vérifiera les garanties, tarifs, exclusions, franchises et conditions réelles avant toute proposition.</p>" +
+      '<div class="di-result-actions">' +
+      '<button type="button" class="di-btn" id="btnRestart" style="margin-top:0">Nouvelle pré-analyse</button> ' +
+      '<button type="button" class="di-btn" id="btnCopyResults" style="margin-top:0;background:#fff;color:#312e81">Copier le résumé</button> ' +
+      '<a href="../devis-wizard.html" class="di-btn di-btn-secondary" style="margin-top:0">Questionnaire classique</a></div></div>';
 
     results.innerHTML = html;
 
     document.getElementById("btnCopyResults").onclick = function () {
       var txt =
-        "Analyse IA Leads Opportunities\nFaisabilité: " +
+        "Pré-analyse Leads Opportunities\nScore de préparation: " +
         feasibility.overallFeasibility +
         "%\n" +
+        "Catégorie: " +
+        categoryLabel(qualification.leadCategory) +
+        "\n" +
         feasibility.insurerAnalysis
           .map(function (a) {
             return a.insurerName + ": " + a.acceptanceLevel + " " + a.feasibilityScore + "%";

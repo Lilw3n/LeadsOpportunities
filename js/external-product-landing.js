@@ -232,18 +232,18 @@ window.ExternalProductLanding = {
       p.tagline +
       '</p><div class="prod-cta"><button type="button" class="btn-wizard" data-wizard-type="' +
       p.type +
-      '">Demander une étude</button><a class="btn-outline" href="../devis-wizard.html?type=' +
+      '">Pré-analyse rapide</button><a class="btn-outline" href="devis-intelligent.html?type=' +
       encodeURIComponent(p.type) +
-      '">Questionnaire complet</a></div></header>' +
-      '<main class="prod-main"><h2>Points étudiés</h2><ul class="prod-features">' +
+      '">Parcours guidé</a></div></header>' +
+      '<main class="prod-main"><section class="prod-panel"><h2>Points étudiés</h2><p class="prod-note">Ces éléments servent à préparer le dossier. Les conditions définitives restent vérifiées par un conseiller.</p><ul class="prod-features">' +
       p.features
         .map(function (f) {
           return "<li>" + f + "</li>";
         })
         .join("") +
-      '</ul><h2>Documents utiles</h2><p>' +
+      '</ul></section><aside class="prod-panel"><h2>Documents utiles</h2><p class="prod-note">' +
       p.docs +
-      '</p></main><div id="wizardModal" class="wizard-modal hidden"><div class="wizard-modal-inner"><button type="button" id="closeWizard" class="wizard-close">×</button><div id="wizardEmbed"></div></div></div>';
+      '</p><h2>Suite du parcours</h2><ul class="prod-doc-list"><li>Pré-analyse sans promesse de tarif.</li><li>Transmission au CRM si vous envoyez la demande.</li><li>Confirmation par conseiller après étude.</li></ul></aside></main><div id="wizardModal" class="wizard-modal hidden"><div class="wizard-modal-inner"><button type="button" id="closeWizard" class="wizard-close">×</button><div id="wizardEmbed"></div></div></div>';
 
     document.querySelector(".btn-wizard").onclick = function () {
       var modal = document.getElementById("wizardModal");
