@@ -140,6 +140,9 @@
 
   function mount() {
     var userLabel = "Admin";
+    if (document.body.classList.contains("crm-body") || document.body.classList.contains("crm-subpage-body")) {
+      return;
+    }
 
     var topNav = document.querySelector(".topbar nav");
     if (topNav && !topNav.querySelector(".admin-nav")) {

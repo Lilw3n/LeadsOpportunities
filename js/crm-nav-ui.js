@@ -16,8 +16,8 @@ window.CrmNavUi = {
       var q = input.value.toLowerCase().trim();
       navRoot.querySelectorAll(".crm-nav-group").forEach(function (g) {
         var visible = 0;
-        g.querySelectorAll(".crm-nav-link, .crm-nav-btn").forEach(function (el) {
-          var text = (el.textContent || "").toLowerCase();
+        g.querySelectorAll(".crm-nav-link, .crm-nav-btn, .crm-nav-favorite").forEach(function (el) {
+          var text = ((el.textContent || "") + " " + (el.getAttribute("data-keywords") || "")).toLowerCase();
           var show = !q || text.indexOf(q) >= 0;
           el.classList.toggle("crm-nav-hidden", !show);
           if (show) visible++;
@@ -36,11 +36,15 @@ window.CrmNavUi = {
     } catch (e) {}
     navRoot.querySelectorAll(".crm-nav-group").forEach(function (g) {
       var id = g.getAttribute("data-group");
-      if (saved[id]) g.classList.add("crm-nav-group-collapsed");
+      var hasActive = !!g.querySelector(".crm-nav-link.active");
+      if (saved[id] && !hasActive) g.classList.add("crm-nav-group-collapsed");
+      if (hasActive) g.classList.remove("crm-nav-group-collapsed");
       var btn = g.querySelector(".crm-nav-group-toggle");
+      if (btn) btn.setAttribute("aria-expanded", g.classList.contains("crm-nav-group-collapsed") ? "false" : "true");
       if (btn) {
         btn.addEventListener("click", function () {
           g.classList.toggle("crm-nav-group-collapsed");
+          btn.setAttribute("aria-expanded", g.classList.contains("crm-nav-group-collapsed") ? "false" : "true");
           saved[id] = g.classList.contains("crm-nav-group-collapsed");
           localStorage.setItem(key, JSON.stringify(saved));
         });

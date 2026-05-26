@@ -17,86 +17,164 @@ window.CrmSidebar = {
     tools: "⚡",
     admin: "⚙️",
     social: "🌐",
+    contract: "✒",
+    document: "▣",
+    partner: "◇",
+    alert: "!",
+    mobile: "▣",
+    search: "⌕",
+    automation: "↻",
     default: "›",
   },
 
+  FAVORITES: [
+    { href: "./crm-acquisition.html", label: "Nouveaux leads", icon: "acquisition", badge: "live" },
+    { href: "./crm-search.html", label: "Recherche", icon: "search" },
+    { href: "./crm-quote-new.html", label: "Nouveau devis", icon: "contract" },
+    { href: "./crm-products.html", label: "Catalogue fiable", icon: "insurance" },
+  ],
+
   GROUPS: [
     {
-      id: "main",
-      label: "Principal",
+      id: "pilotage",
+      label: "Pilotage",
       defaultOpen: true,
       items: [
-        { type: "section", id: "overview", label: "Dashboard", icon: "overview" },
-        { type: "link", href: "./crm-acquisition.html", label: "Acquisition leads", icon: "acquisition", highlight: true },
-        { type: "link", href: "./crm-ai-suggestions.html", label: "Suggestions IA", icon: "ai" },
-        { type: "section", id: "contacts", label: "Contacts", icon: "contacts" },
-        { type: "section", id: "leads", label: "Leads web", icon: "leads" },
-        { type: "section", id: "team", label: "Équipe", icon: "team" },
+        { type: "section", id: "overview", label: "Tableau de bord", icon: "overview", desc: "Vue d'ensemble CRM", keywords: "dashboard accueil cockpit" },
+        { type: "link", href: "./crm-search.html", label: "Recherche universelle", icon: "search", desc: "Contacts, dossiers, événements", keywords: "global search transverse" },
+        { type: "link", href: "./crm-statistics.html", label: "Statistiques", icon: "stats", desc: "Performance commerciale" },
+        { type: "link", href: "./crm-statistics-reports.html", label: "Rapports", icon: "stats", desc: "Analyses détaillées" },
+        { type: "link", href: "./crm-statistics-export.html", label: "Exports statistiques", icon: "stats" },
       ],
     },
     {
-      id: "sales",
-      label: "Commercial",
+      id: "leads",
+      label: "Leads & acquisition",
       defaultOpen: true,
       items: [
+        { type: "link", href: "./crm-acquisition.html", label: "Pipeline acquisition", icon: "acquisition", highlight: true, badge: "priorité", desc: "Google, Meta, TikTok, Allo" },
+        { type: "section", id: "leads", label: "Leads web", icon: "leads", desc: "Demandes site public" },
+        { type: "link", href: "./crm-private-offer-matching.html", label: "Matching VSP privé", icon: "ai", badge: "privé", desc: "Orientation partenaires" },
+        { type: "link", href: "./crm-leads-analysis.html", label: "Analyse leads IA", icon: "ai" },
+        { type: "link", href: "./crm-kanban.html", label: "Kanban leads", icon: "acquisition" },
+        { type: "link", href: "./crm-lead-detail.html", label: "Fiche lead", icon: "leads", muted: true },
+      ],
+    },
+    {
+      id: "clients",
+      label: "Clients & dossiers",
+      defaultOpen: true,
+      items: [
+        { type: "section", id: "contacts", label: "Contacts", icon: "contacts", desc: "Prospects, clients, apporteurs" },
+        { type: "link", href: "./crm-contact.html", label: "Fiche contact", icon: "contacts", muted: true },
+        { type: "link", href: "./crm-contact-modules.html", label: "Modules contact", icon: "tools" },
+        { type: "link", href: "./crm-interlocutors.html", label: "Interlocuteurs", icon: "contacts" },
+        { type: "link", href: "./crm-interlocutors-modules.html", label: "Modules interlocuteurs", icon: "tools" },
+        { type: "link", href: "./crm-interlocutor-social.html", label: "Social interlocuteur", icon: "social" },
+        { type: "link", href: "./crm-projects.html", label: "Projets", icon: "tools" },
+        { type: "link", href: "./crm-projects-new.html", label: "Nouveau projet", icon: "tools" },
+        { type: "link", href: "./crm-projects-detail.html", label: "Détail projet", icon: "tools", muted: true },
+        { type: "link", href: "./crm-documents.html", label: "Documents", icon: "document" },
+        { type: "link", href: "./crm-pending-documents.html", label: "Documents en attente", icon: "document", badge: "à traiter" },
+        { type: "link", href: "./crm-bank-details.html", label: "Coordonnées bancaires", icon: "financial" },
+      ],
+    },
+    {
+      id: "commercial",
+      label: "Devis & contrats",
+      defaultOpen: true,
+      items: [
+        { type: "link", href: "./crm-quotes.html", label: "Devis", icon: "contract", desc: "Liste et suivi" },
+        { type: "link", href: "./crm-quote-new.html", label: "Nouveau devis", icon: "contract", highlight: true },
+        { type: "link", href: "./crm-quote-wizard.html", label: "Wizard devis", icon: "contract" },
+        { type: "link", href: "./crm-quote-contract-wizard.html", label: "Devis vers contrat", icon: "contract" },
+        { type: "link", href: "./crm-quote-detail.html", label: "Détail devis", icon: "contract", muted: true },
+        { type: "link", href: "./crm-quote-payment.html", label: "Paiement devis", icon: "financial" },
+        { type: "link", href: "./crm-contracts.html", label: "Contrats", icon: "contract" },
+        { type: "link", href: "./crm-contract-new.html", label: "Nouveau contrat", icon: "contract" },
+        { type: "link", href: "./crm-contract-detail.html", label: "Détail contrat", icon: "contract", muted: true },
+        { type: "link", href: "./crm-contract-avenant.html", label: "Avenant contrat", icon: "contract" },
+      ],
+    },
+    {
+      id: "assurance",
+      label: "Assurance métier",
+      defaultOpen: true,
+      items: [
+        { type: "link", href: "./crm-insurance.html", label: "Hub assurance", icon: "insurance", desc: "Portefeuille et modules" },
+        { type: "link", href: "./crm-products.html", label: "Catalogue produits", icon: "insurance", badge: "vérifié" },
+        { type: "link", href: "./crm-insurance-requests.html", label: "Demandes assurance", icon: "insurance" },
+        { type: "link", href: "./crm-insurance-request-new.html", label: "Nouvelle demande", icon: "insurance" },
         { type: "link", href: "./crm-tariff-grid.html", label: "Bordereau tarifaire", icon: "tariff" },
-        { type: "link", href: "./crm-quotes.html", label: "Devis" },
-        { type: "link", href: "./crm-contracts.html", label: "Contrats" },
-        { type: "link", href: "./crm-kanban.html", label: "Kanban legacy" },
-        { type: "link", href: "./crm-leads-analysis.html", label: "Leads IA" },
-      ],
-    },
-    {
-      id: "insurance",
-      label: "Assurance",
-      defaultOpen: true,
-      items: [
-        { type: "link", href: "./crm-insurance.html", label: "Hub assurance", icon: "insurance" },
-        { type: "link", href: "./crm-products.html", label: "Catalogue produits" },
-        { type: "link", href: "./crm-claims.html", label: "Sinistres" },
-        { type: "link", href: "./crm-vehicles.html", label: "Véhicules" },
-        { type: "link", href: "./crm-drivers.html", label: "Conducteurs" },
-        { type: "link", href: "./crm-partners.html", label: "Partenaires" },
-        { type: "link", href: "./crm-wholesalers.html", label: "Grossistes" },
+        { type: "link", href: "./crm-eligibility-rules.html", label: "Règles d'éligibilité", icon: "tariff" },
+        { type: "link", href: "./crm-eligibility-test.html", label: "Test éligibilité", icon: "tariff" },
+        { type: "link", href: "./crm-derogations.html", label: "Dérogations", icon: "alert" },
+        { type: "link", href: "./crm-simulate.html", label: "Simulation", icon: "tariff" },
+        { type: "link", href: "./crm-claims.html", label: "Sinistres", icon: "alert" },
+        { type: "link", href: "./crm-claim-new.html", label: "Nouveau sinistre", icon: "alert" },
+        { type: "link", href: "./crm-vehicles.html", label: "Véhicules", icon: "insurance" },
+        { type: "link", href: "./crm-vehicle-new.html", label: "Nouveau véhicule", icon: "insurance" },
+        { type: "link", href: "./crm-drivers.html", label: "Conducteurs", icon: "contacts" },
+        { type: "link", href: "./crm-driver-new.html", label: "Nouveau conducteur", icon: "contacts" },
+        { type: "link", href: "./crm-partners.html", label: "Partenaires", icon: "partner" },
+        { type: "link", href: "./crm-wholesalers.html", label: "Grossistes", icon: "partner" },
+        { type: "link", href: "./crm-partner-detail.html", label: "Détail partenaire", icon: "partner", muted: true },
       ],
     },
     {
       id: "financial",
-      label: "Financier",
+      label: "Finance & compta",
       items: [
         { type: "link", href: "./crm-financial.html", label: "Vue d'ensemble", icon: "financial" },
         { type: "link", href: "./crm-financial-payments.html", label: "Paiements" },
+        { type: "link", href: "./crm-financial-payment-new.html", label: "Nouveau paiement" },
         { type: "link", href: "./crm-financial-receivables.html", label: "Créances" },
         { type: "link", href: "./crm-financial-debits.html", label: "Débits" },
+        { type: "link", href: "./crm-financial-debit-new.html", label: "Nouveau débit" },
+        { type: "link", href: "./crm-financial-detail.html", label: "Détail financier", muted: true },
+        { type: "link", href: "./crm-periods.html", label: "Périodes comptables" },
+        { type: "link", href: "./crm-period-new.html", label: "Nouvelle période" },
         { type: "link", href: "./crm-pro-accounting.html", label: "Comptabilité pro", icon: "financial" },
       ],
     },
     {
       id: "agenda",
-      label: "Agenda & stats",
+      label: "Agenda & activité",
       items: [
         { type: "link", href: "./crm-calendar.html", label: "Calendrier", icon: "calendar" },
         { type: "link", href: "./crm-events.html", label: "Événements" },
-        { type: "link", href: "./crm-statistics.html", label: "Statistiques", icon: "stats" },
-        { type: "link", href: "./crm-intelligent-alerts.html", label: "Alertes" },
+        { type: "link", href: "./crm-event-create.html", label: "Créer événement" },
+        { type: "link", href: "./crm-create-complete.html", label: "Création complète" },
+        { type: "link", href: "./crm-intelligent-alerts.html", label: "Alertes intelligentes", icon: "alert" },
       ],
     },
     {
-      id: "tools",
-      label: "Outils",
+      id: "automations",
+      label: "Automations & IA",
       items: [
-        { type: "link", href: "./crm-search.html", label: "Recherche universelle", icon: "tools" },
-        { type: "link", href: "./crm-interlocutors.html", label: "Interlocuteurs" },
-        { type: "link", href: "./crm-projects.html", label: "Projets" },
-        { type: "link", href: "./crm-external-hub.html", label: "Portail externe" },
+        { type: "link", href: "./crm-ai-suggestions.html", label: "Suggestions IA", icon: "ai" },
+        { type: "link", href: "./crm-external-hub.html", label: "Portail externe", icon: "tools" },
+        { type: "link", href: "./crm-external-content.html", label: "Contenus externes", icon: "tools" },
+        { type: "link", href: "./crm-external-profile.html", label: "Profil externe", icon: "tools" },
+        { type: "link", href: "./crm-modules-beta.html", label: "Modules beta", icon: "automation" },
+        { type: "link", href: "./crm-modules-sandbox.html", label: "Sandbox modules", icon: "automation" },
+        { type: "link", href: "./crm-test-modes.html", label: "Modes test", icon: "tools" },
+        { type: "link", href: "./crm-export.html", label: "Exports CRM", icon: "tools" },
       ],
     },
     {
-      id: "admin",
-      label: "Administration",
+      id: "team",
+      label: "Équipe & admin",
       items: [
-        { type: "link", href: "./crm-settings.html", label: "Paramètres", icon: "admin" },
-        { type: "link", href: "./crm-users-internal.html", label: "Utilisateurs" },
+        { type: "section", id: "team", label: "Équipe CRM", icon: "team" },
+        { type: "link", href: "./crm-users-internal.html", label: "Utilisateurs internes", icon: "team" },
+        { type: "link", href: "./crm-roles.html", label: "Rôles", icon: "admin" },
+        { type: "link", href: "./crm-permissions.html", label: "Permissions", icon: "admin" },
+        { type: "link", href: "./crm-settings.html", label: "Paramètres CRM", icon: "admin" },
+        { type: "link", href: "./crm-settings-sites.html", label: "Paramètres sites", icon: "admin" },
+        { type: "link", href: "./crm-projects-templates.html", label: "Templates projets", icon: "tools" },
+        { type: "link", href: "./crm-projects-migrate.html", label: "Migration projets", icon: "tools" },
+        { type: "link", href: "./crm-interlocutors-migrate.html", label: "Migration interlocuteurs", icon: "tools" },
         { type: "link", href: "./crm-help.html", label: "Aide" },
       ],
     },
@@ -106,10 +184,17 @@ window.CrmSidebar = {
       items: [
         { type: "link", href: "./external/social/hub.html", label: "Social hub", external: true, icon: "social" },
         { type: "link", href: "./external/index.html", label: "Portail client", external: true },
-        { type: "link", href: "./crm-mobile.html", label: "App mobile" },
+        { type: "link", href: "./crm-mobile.html", label: "App mobile", icon: "mobile" },
       ],
     },
   ],
+
+  esc: function (s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/"/g, "&quot;");
+  },
 
   mount: function (container, options) {
     if (!container) return;
@@ -121,37 +206,71 @@ window.CrmSidebar = {
     var html =
       '<div class="crm-nav-search-wrap">' +
       '<input type="search" id="crmNavSearch" class="crm-nav-search" placeholder="Rechercher dans le menu…" autocomplete="off" />' +
-      "</div>";
+      "</div>" +
+      '<div class="crm-nav-favorites" aria-label="Accès rapides">';
+
+    this.FAVORITES.forEach(function (item) {
+      var icon = self.ICONS[item.icon] || self.ICONS.default;
+      var active = activePath === item.href.replace(/^\.\//, "") ? " active" : "";
+      html +=
+        '<a href="' +
+        self.esc(item.href) +
+        '" class="crm-nav-favorite' +
+        active +
+        '"><span>' +
+        icon +
+        "</span><strong>" +
+        self.esc(item.label) +
+        "</strong>" +
+        (item.badge ? '<em>' + self.esc(item.badge) + "</em>" : "") +
+        "</a>";
+    });
+    html += "</div>";
 
     this.GROUPS.forEach(function (g) {
-      var collapsed = g.defaultOpen ? "" : " crm-nav-group-collapsed";
+      var hasActive = g.items.some(function (item) {
+        if (item.type === "section") return activeSection === item.id;
+        return activePath === item.href.replace(/^\.\//, "");
+      });
+      var collapsed = g.defaultOpen || hasActive ? "" : " crm-nav-group-collapsed";
       html +=
         '<div class="crm-nav-group' +
         collapsed +
         '" data-group="' +
-        g.id +
+        self.esc(g.id) +
         '">' +
         '<button type="button" class="crm-nav-group-toggle" aria-expanded="' +
-        (g.defaultOpen ? "true" : "false") +
+        (collapsed ? "false" : "true") +
         '">' +
         '<span class="crm-nav-group-title">' +
-        g.label +
+        self.esc(g.label) +
         "</span>" +
         '<span class="crm-nav-chevron">▼</span></button>' +
         '<div class="crm-nav-group-items">';
       g.items.forEach(function (item) {
         var icon = self.ICONS[item.icon] || self.ICONS.default;
+        var desc = item.desc ? '<small class="crm-nav-desc">' + self.esc(item.desc) + "</small>" : "";
+        var badge = item.badge ? '<em class="crm-nav-badge">' + self.esc(item.badge) + "</em>" : "";
+        var muted = item.muted ? " crm-nav-muted" : "";
+        var keywords = self.esc([item.label, item.desc, item.keywords].filter(Boolean).join(" "));
         if (item.type === "section") {
           var on = activeSection === item.id ? " active" : "";
           html +=
             '<a href="./crm.html#' +
-            item.id +
+            self.esc(item.id) +
             '" class="crm-nav-link crm-nav-section' +
             on +
+            muted +
+            '" data-keywords="' +
+            keywords +
             '"><span class="crm-nav-icon">' +
             icon +
-            "</span><span>" +
-            item.label +
+            '</span><span class="crm-nav-main"><span class="crm-nav-row"><span class="crm-nav-text">' +
+            self.esc(item.label) +
+            "</span>" +
+            badge +
+            "</span>" +
+            desc +
             "</span></a>";
         } else {
           var hrefFile = item.href.replace(/^\.\//, "");
@@ -160,17 +279,24 @@ window.CrmSidebar = {
           var hi = item.highlight ? " crm-nav-highlight" : "";
           html +=
             '<a href="' +
-            item.href +
+            self.esc(item.href) +
             '" class="crm-nav-link' +
             on +
             hi +
+            muted +
             '"' +
             ext +
-            '><span class="crm-nav-icon">' +
+            ' data-keywords="' +
+            keywords +
+            '"><span class="crm-nav-icon">' +
             icon +
-            '</span><span class="crm-nav-text">' +
-            item.label +
+            '</span><span class="crm-nav-main"><span class="crm-nav-row"><span class="crm-nav-text">' +
+            self.esc(item.label) +
             (item.external ? ' <span class="crm-nav-ext">↗</span>' : "") +
+            "</span>" +
+            badge +
+            "</span>" +
+            desc +
             "</span></a>";
         }
       });
@@ -179,7 +305,7 @@ window.CrmSidebar = {
 
     html +=
       '<div class="crm-nav-footer-hint">' +
-      '<span class="crm-nav-dot"></span> Actions dossier depuis la <a href="./crm.html#contacts">fiche contact</a>.' +
+      '<span class="crm-nav-dot"></span> Menu centralisé : tous les modules CRM sont regroupés par métier.' +
       "</div>";
 
     container.innerHTML = html;

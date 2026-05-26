@@ -87,10 +87,10 @@
       p.classList.toggle("hidden", p.dataset.crmPanel !== section);
     });
     var titles = {
-      overview: ["Vue CRM", "Prospects, clients, apporteurs et leads"],
-      contacts: ["Contacts", "Gestion du portefeuille"],
-      leads: ["Leads web", "Demandes issues du site"],
-      team: ["Equipe", "Staff, commerciaux et apporteurs"],
+      overview: ["Tableau de bord CRM", "Pilotage, priorités et modules métier"],
+      contacts: ["Contacts", "Prospects, clients, apporteurs et dossiers liés"],
+      leads: ["Leads web", "Demandes issues du site et passerelle vers l'acquisition"],
+      team: ["Équipe", "Staff, commerciaux, apporteurs et accès CRM"],
     };
     var t = titles[section] || titles.overview;
     document.getElementById("crmTitle").textContent = t[0];

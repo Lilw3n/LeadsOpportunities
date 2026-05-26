@@ -37,7 +37,8 @@
           <span class="crm-logo-text">Leads <em>CRM</em></span>
         </a>
         <div class="crm-links">
-          <a href="./crm-acquisition.html">Acquisition</a>
+          <a href="./crm-acquisition.html">Leads</a>
+          <a href="./crm-search.html">Recherche</a>
           <a href="./index.html">Site</a>
         </div>
       </div>
@@ -64,23 +65,91 @@
       <section data-crm-panel="overview">
         <div id="crmStats" class="stats"></div>
         <div id="crmQuickNav" class="hidden">
-          <h2 style="font-size:1rem;margin:16px 0 8px;color:var(--muted)">Accès rapides (multisite)</h2>
-          <div class="crm-quick-grid">
-            <a class="crm-quick-card" href="./crm-interlocutors.html">Interlocuteurs</a>
-            <a class="crm-quick-card" href="./crm-quotes.html">Devis</a>
-            <a class="crm-quick-card" href="./crm-contracts.html">Contrats</a>
-            <a class="crm-quick-card" href="./crm-financial.html">Financier</a>
-            <a class="crm-quick-card" href="./crm-products.html">Produits</a>
-            <a class="crm-quick-card" href="./crm-insurance.html">Assurance</a>
-            <a class="crm-quick-card" href="./crm-statistics.html">Statistiques</a>
-            <a class="crm-quick-card" href="./crm-events.html">Événements</a>
-            <a class="crm-quick-card" href="./crm-external-hub.html">Externe</a>
-            <a class="crm-quick-card" href="./crm-acquisition.html">Acquisition leads</a>
-            <a class="crm-quick-card" href="./crm-private-offer-matching.html">Matching VSP privé</a>
-            <a class="crm-quick-card" href="./crm-tariff-grid.html">Bordereau tarifs</a>
-            <a class="crm-quick-card" href="./crm-ai-suggestions.html">IA</a>
-            <a class="crm-quick-card" href="./crm-modules-beta.html">Modules beta</a>
-            <a class="crm-quick-card" href="./external/social/hub.html" target="_blank" rel="noopener">Social hub</a>
+          <div class="crm-command-center">
+            <div>
+              <p class="crm-eyebrow">Centre de pilotage</p>
+              <h2>Priorités du jour</h2>
+              <p>Tout ce qui sert à traiter un lead, préparer un devis fiable, suivre les paiements et coordonner l'équipe.</p>
+            </div>
+            <div class="crm-command-actions">
+              <a class="btn btn-primary" href="./crm-acquisition.html">Traiter les leads</a>
+              <a class="btn btn-ghost" href="./crm-search.html">Recherche universelle</a>
+              <a class="btn btn-ghost" href="./crm-quote-new.html">Créer un devis</a>
+            </div>
+          </div>
+
+          <div class="crm-dashboard-grid">
+            <article class="crm-workflow-card crm-workflow-hot">
+              <span class="crm-card-kicker">Acquisition</span>
+              <h3>Nouveaux leads entrants</h3>
+              <p>Pipeline multi-plateformes, leads non ouverts, archivage et matching privé.</p>
+              <div class="crm-card-actions">
+                <a href="./crm-acquisition.html">Pipeline</a>
+                <a href="./crm-private-offer-matching.html">Matching VSP</a>
+                <a href="./crm-leads-analysis.html">Analyse IA</a>
+              </div>
+            </article>
+            <article class="crm-workflow-card">
+              <span class="crm-card-kicker">Production</span>
+              <h3>Devis et contrats</h3>
+              <p>Créer, transformer, suivre et encaisser les dossiers clients.</p>
+              <div class="crm-card-actions">
+                <a href="./crm-quotes.html">Devis</a>
+                <a href="./crm-quote-contract-wizard.html">Devis → contrat</a>
+                <a href="./crm-contracts.html">Contrats</a>
+              </div>
+            </article>
+            <article class="crm-workflow-card">
+              <span class="crm-card-kicker">Assurance fiable</span>
+              <h3>Produits, partenaires, éligibilité</h3>
+              <p>Catalogue vérifié, bordereaux, règles, sinistres, véhicules et conducteurs.</p>
+              <div class="crm-card-actions">
+                <a href="./crm-products.html">Catalogue</a>
+                <a href="./crm-tariff-grid.html">Tarifs</a>
+                <a href="./crm-eligibility-test.html">Test éligibilité</a>
+              </div>
+            </article>
+            <article class="crm-workflow-card">
+              <span class="crm-card-kicker">Finance</span>
+              <h3>Encaissements et comptabilité</h3>
+              <p>Paiements, créances, débits, périodes et dépenses professionnelles.</p>
+              <div class="crm-card-actions">
+                <a href="./crm-financial.html">Vue finance</a>
+                <a href="./crm-financial-payments.html">Paiements</a>
+                <a href="./crm-pro-accounting.html">Compta pro</a>
+              </div>
+            </article>
+          </div>
+
+          <div class="crm-quick-sections">
+            <section class="crm-quick-section">
+              <h3>Dossiers clients</h3>
+              <a href="./crm.html#contacts">Contacts</a>
+              <a href="./crm-interlocutors.html">Interlocuteurs</a>
+              <a href="./crm-documents.html">Documents</a>
+              <a href="./crm-pending-documents.html">Pièces en attente</a>
+            </section>
+            <section class="crm-quick-section">
+              <h3>Activité</h3>
+              <a href="./crm-calendar.html">Calendrier</a>
+              <a href="./crm-events.html">Événements</a>
+              <a href="./crm-intelligent-alerts.html">Alertes</a>
+              <a href="./crm-statistics.html">Statistiques</a>
+            </section>
+            <section class="crm-quick-section">
+              <h3>Automations</h3>
+              <a href="./crm-ai-suggestions.html">Suggestions IA</a>
+              <a href="./crm-external-hub.html">Portail externe</a>
+              <a href="./crm-modules-beta.html">Modules beta</a>
+              <a href="./crm-test-modes.html">Modes test</a>
+            </section>
+            <section class="crm-quick-section">
+              <h3>Équipe</h3>
+              <a href="./crm.html#team">Équipe CRM</a>
+              <a href="./crm-users-internal.html">Utilisateurs</a>
+              <a href="./crm-roles.html">Rôles</a>
+              <a href="./crm-permissions.html">Permissions</a>
+            </section>
           </div>
         </div>
         <section class="panel alerts-panel">

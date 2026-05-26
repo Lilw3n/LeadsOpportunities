@@ -17,19 +17,55 @@
     var title = document.title.replace(/\s*\|.*$/i, "").trim();
 
     var PAGE_META = {
-      "crm-acquisition.html": {
-        subtitle: "Prospects Facebook, Google, TikTok, Instagram — questionnaire & relances",
-      },
-      "crm-tariff-grid.html": { subtitle: "Grilles FMA, Zéphir, Solly Azar — édition et export" },
-      "crm-lead-detail.html": { subtitle: "Questionnaire, pipeline et bordereau" },
-      "crm-financial.html": { subtitle: "Paiements, créances et débits" },
-      "crm-insurance.html": { subtitle: "Portefeuille assurance" },
-      "crm-statistics.html": { subtitle: "Indicateurs et performance" },
-      "crm-search.html": { subtitle: "Recherche transversale dossiers" },
-      "crm-products.html": { subtitle: "Catalogue produits commercial" },
-      "crm-external-hub.html": { subtitle: "Espace client et portail" },
-      "crm-partner-solly-azar.html": { subtitle: "Critères et templates partenaire" },
-      "crm-modules-beta.html": { subtitle: "Arbre hiérarchique des modules" },
+      "crm-acquisition.html": { subtitle: "Leads Google, Meta, TikTok, Instagram, Allo — tri, assignation, archivage" },
+      "crm-private-offer-matching.html": { subtitle: "Matching privé VSP selon profil, source et critères partenaires" },
+      "crm-leads-analysis.html": { subtitle: "Pré-analyse IA et qualification des demandes entrantes" },
+      "crm-kanban.html": { subtitle: "Vue pipeline pour organiser les opportunités" },
+      "crm-search.html": { subtitle: "Recherche transversale contacts, dossiers et événements" },
+      "crm-contact.html": { subtitle: "Fiche contact, contrats, événements et documents" },
+      "crm-interlocutors.html": { subtitle: "Interlocuteurs, relations et points de contact" },
+      "crm-projects.html": { subtitle: "Projets clients et suivi opérationnel" },
+      "crm-documents.html": { subtitle: "Documents clients et pièces de dossiers" },
+      "crm-pending-documents.html": { subtitle: "Pièces manquantes à réclamer ou valider" },
+      "crm-quotes.html": { subtitle: "Devis en cours, acceptés et à relancer" },
+      "crm-quote-new.html": { subtitle: "Création de devis à partir de données vérifiées" },
+      "crm-quote-contract-wizard.html": { subtitle: "Transformation guidée du devis en contrat" },
+      "crm-contracts.html": { subtitle: "Contrats, avenants et suivi de production" },
+      "crm-contract-new.html": { subtitle: "Création de contrat et rattachement dossier" },
+      "crm-insurance.html": { subtitle: "Hub assurance : produits, demandes, sinistres et partenaires" },
+      "crm-products.html": { subtitle: "Catalogue interne à compléter uniquement avec des données vérifiées" },
+      "crm-insurance-requests.html": { subtitle: "Demandes assurance et suivi de traitement" },
+      "crm-tariff-grid.html": { subtitle: "Bordereaux et grilles tarifaires internes" },
+      "crm-eligibility-rules.html": { subtitle: "Règles d'éligibilité et critères de souscription" },
+      "crm-eligibility-test.html": { subtitle: "Test de compatibilité avant proposition" },
+      "crm-derogations.html": { subtitle: "Dérogations et cas à valider" },
+      "crm-claims.html": { subtitle: "Sinistres, déclarations et suivi dossier" },
+      "crm-vehicles.html": { subtitle: "Véhicules assurés, documents et historiques" },
+      "crm-drivers.html": { subtitle: "Conducteurs et informations de risque" },
+      "crm-partners.html": { subtitle: "Partenaires assureurs, grossistes et apporteurs" },
+      "crm-wholesalers.html": { subtitle: "Grossistes, critères et contacts utiles" },
+      "crm-financial.html": { subtitle: "Paiements, créances, débits et vision comptable" },
+      "crm-financial-payments.html": { subtitle: "Encaissements et paiements clients" },
+      "crm-financial-receivables.html": { subtitle: "Créances à suivre et relances" },
+      "crm-financial-debits.html": { subtitle: "Débits, dépenses et sorties" },
+      "crm-pro-accounting.html": { subtitle: "Comptabilité professionnelle et dépenses structurées" },
+      "crm-periods.html": { subtitle: "Périodes comptables et clôtures" },
+      "crm-calendar.html": { subtitle: "Agenda commercial, rappels et rendez-vous" },
+      "crm-events.html": { subtitle: "Événements CRM et historique d'activité" },
+      "crm-intelligent-alerts.html": { subtitle: "Alertes utiles pour agir au bon moment" },
+      "crm-statistics.html": { subtitle: "Indicateurs et performance commerciale" },
+      "crm-statistics-reports.html": { subtitle: "Rapports détaillés et analyses" },
+      "crm-ai-suggestions.html": { subtitle: "Suggestions IA pour prioriser les actions" },
+      "crm-external-hub.html": { subtitle: "Portail externe et expérience client" },
+      "crm-modules-beta.html": { subtitle: "Arbre hiérarchique des modules CRM" },
+      "crm-modules-sandbox.html": { subtitle: "Espace de test des modules" },
+      "crm-users-internal.html": { subtitle: "Utilisateurs internes et accès CRM" },
+      "crm-roles.html": { subtitle: "Rôles et responsabilités" },
+      "crm-permissions.html": { subtitle: "Permissions et droits d'accès" },
+      "crm-settings.html": { subtitle: "Paramètres généraux CRM" },
+      "crm-settings-sites.html": { subtitle: "Paramètres des sites et espaces liés" },
+      "crm-mobile.html": { subtitle: "Vue mobile et accès terrain" },
+      "crm-help.html": { subtitle: "Aide et repères d'utilisation" },
     };
     var meta = PAGE_META[page] || { subtitle: "Espace de travail CRM" };
 
@@ -44,7 +80,7 @@
       '<aside class="crm-sidebar" id="crmSidebar">' +
       '<div class="crm-sidebar-header">' +
       '<a href="./crm.html" class="crm-logo"><span class="crm-logo-mark">LO</span><span class="crm-logo-text">Leads <em>CRM</em></span></a>' +
-      '<div class="crm-links"><a href="./crm-acquisition.html">Acquisition</a><a href="./index.html">Site</a></div>' +
+      '<div class="crm-links"><a href="./crm-acquisition.html">Leads</a><a href="./crm-search.html">Recherche</a><a href="./index.html">Site</a></div>' +
       "</div>" +
       '<nav class="crm-nav" id="crmNavMount"></nav>' +
       '<div class="crm-sidebar-footer">' +
@@ -88,7 +124,6 @@
 
     if (window.CrmSidebar) {
       window.CrmSidebar.mount(document.getElementById("crmNavMount"), { activePath: page });
-      if (window.CrmNavUi) window.CrmNavUi.init(document.getElementById("crmNavMount"));
     }
 
     if (!document.querySelector('link[href*="crm-social-navigation"]')) {
