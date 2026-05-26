@@ -119,20 +119,20 @@ window.ExternalProductPage = {
       p.title +
       "</h1><p>" +
       p.intro +
-      '</p><a class="product-cta" href="devis-intelligent.html?type=' +
+      '</p><a class="product-cta" href="../devis-wizard.html?type=' +
       encodeURIComponent(p.type) +
-      '">Démarrer une pré-analyse</a></header>' +
-      '<main class="product-main"><section class="product-panel"><h2>Points étudiés</h2><p>Ces informations préparent l’échange avec un conseiller. Elles ne valent pas acceptation ou proposition définitive.</p><ul class="product-features">' +
+      '">Demander une étude</a></header>' +
+      '<main class="product-main"><h2>Points étudiés</h2><ul class="product-features">' +
       p.features
         .map(function (f) {
           return "<li>" + f + "</li>";
         })
         .join("") +
-      '</ul><p><a href="devis-intelligent.html?type=' +
+      '</ul><p><a href="../devis-wizard.html?type=' +
       encodeURIComponent(p.type) +
-      '" class="product-cta-inline" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6366f1;color:#fff;border-radius:999px;text-decoration:none;font-weight:800">Pré-analyse guidée</a></p></section>' +
-      '<aside class="product-panel"><h2>À retenir</h2><p>Les garanties, tarifs, franchises et exclusions seront vérifiés après étude du dossier et des pièces.</p><p><a href="devis-intelligent.html?type=' +
+      '" class="product-cta-inline" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6366f1;color:#fff;border-radius:10px;text-decoration:none;font-weight:600">Demander une étude</a></p>' +
+      '<p><a href="../devis-wizard.html?type=' +
       encodeURIComponent(p.type) +
-      '">Compléter le questionnaire →</a></p></aside></main>';
+      '">Compléter le questionnaire →</a></p></main>';
   },
 };
