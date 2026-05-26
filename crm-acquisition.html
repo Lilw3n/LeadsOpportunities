@@ -11,6 +11,19 @@
   <link rel="stylesheet" href="./crm-acquisition.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Acquisition</p>
+      <h2>Pipeline leads multi-sources</h2>
+      <p>Priorisez les prospects entrants, repérez les leads non ouverts, archivez ce qui pollue la vue et orientez les dossiers vers le bon partenaire.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-private-offer-matching.html" class="btn btn-primary">Matching VSP privé</a>
+      <a href="./crm-tariff-grid.html" class="btn btn-ghost">Bordereau tarifaire</a>
+      <a href="./crm-search.html" class="btn btn-ghost">Recherche CRM</a>
+    </div>
+  </section>
 
   <div class="crm-toolbar acq-toolbar">
     <input type="search" id="acqSearch" class="acq-search crm-input" placeholder="Rechercher email, téléphone, nom…" />
@@ -29,8 +42,6 @@
     </select>
     <button type="button" class="btn btn-ghost" id="btnDormant">Leads dormants</button>
     <button type="button" class="btn btn-ghost" id="btnSound">Son off</button>
-    <a href="./crm-private-offer-matching.html" class="btn btn-ghost">Matching VSP privé</a>
-    <a href="./crm-tariff-grid.html" class="btn btn-primary">+ Bordereau tarifaire</a>
   </div>
 
   <div class="acq-chips" id="platformChips"></div>
@@ -38,10 +49,16 @@
   <div class="acq-pipeline" id="acqPipeline"></div>
 
   <section class="panel acq-api-doc">
-    <h2>Connecter vos campagnes publicitaires</h2>
-    <p style="color:var(--muted);font-size:.9rem;line-height:1.6;margin:0 0 14px">
-      Un seul endpoint <code>POST /api/lead</code> pour Facebook, Instagram, Google, TikTok et votre site.
-      Transmettez la progression du questionnaire pour classer automatiquement les prospects.
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Tracking campagnes</p>
+        <h2>Connecter vos publicités et formulaires</h2>
+      </div>
+      <a href="./docs/SEA-TRACKING.md" class="btn btn-ghost btn-sm">Guide SEA</a>
+    </div>
+    <p>
+      Un seul endpoint <code>POST /api/lead</code> pour Facebook, Instagram, Google, TikTok, Allo et votre site.
+      Plus vous transmettez d'étapes de questionnaire, mieux le CRM classe, priorise et relance.
     </p>
     <pre>{
   "email": "client@exemple.fr",

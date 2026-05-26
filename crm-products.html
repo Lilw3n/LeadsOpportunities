@@ -5,27 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Produits assurance | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <style>
     .prod-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-top:16px; }
-    .prod-card { padding:18px; border:1px solid var(--line); border-radius:12px; background:#fff; }
+    .prod-card { padding:18px; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:var(--shadow-sm); }
     .prod-card h3 { margin:0 0 8px; font-size:1rem; }
     .prod-meta { font-size:.82rem; color:var(--muted); }
     .prod-badge { display:inline-block; font-size:.72rem; padding:2px 8px; border-radius:8px; background:#e0f2fe; color:#0369a1; margin-right:6px; }
-    .prod-empty { padding:22px; border:1px dashed var(--line); border-radius:12px; background:#fff; color:var(--muted); margin-top:16px; }
-    .prod-form { margin-top:16px; padding:16px; border:1px solid var(--line); border-radius:12px; background:#fff; display:none; }
+    .prod-empty { padding:24px; border:1px dashed #99f6e4; border-radius:16px; background:linear-gradient(135deg,#f0fdfa,#fff); color:var(--muted); margin-top:16px; }
+    .prod-form { margin-top:16px; padding:18px; border:1px solid var(--line); border-radius:16px; background:#fff; display:none; box-shadow:var(--shadow-sm); }
     .prod-form.show { display:block; }
     .prod-form label { display:block; font-size:.82rem; color:var(--muted); margin-bottom:8px; }
     .prod-form input, .prod-form select, .prod-form textarea { width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; margin-top:4px; }
+    .prod-toolbar { display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center; }
+    .prod-toolbar input { flex:1;min-width:220px; }
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-<body>
-  <p style="color:var(--muted)">Catalogue interne — à compléter uniquement avec des données vérifiées. Prix et commissions sont facultatifs.</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-    <input type="search" id="prodSearch" placeholder="Rechercher un produit…" style="flex:1;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:8px" />
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Catalogue fiable</p>
+      <h2>Produits assurance vérifiés</h2>
+      <p>Ce catalogue démarre vide volontairement. Ajoutez uniquement les offres validées avec vos partenaires : aucune promesse, prix ou commission inventée.</p>
+    </div>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-primary" id="btnProductNew">Ajouter un produit vérifié</button>
+      <a class="btn btn-ghost" href="./crm-tariff-grid.html">Bordereaux</a>
+      <a class="btn btn-ghost" href="./crm-quote-new.html">Nouveau devis</a>
+    </div>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Gestion interne</p>
+        <h2>Rechercher et maintenir le catalogue</h2>
+      </div>
+      <span class="crm-soft-badge">Prix et commissions facultatifs</span>
+    </div>
+    <div class="prod-toolbar">
+      <input type="search" id="prodSearch" placeholder="Rechercher un produit, une catégorie, une description…" />
     <select id="prodFilter"><option value="">Toutes catégories</option><option value="assurance-auto">Auto</option><option value="assurance-entreprise">Entreprise</option><option value="assurance-sante">Santé</option><option value="assurance-pro">RC Pro</option></select>
-    <button type="button" class="btn btn-primary" id="btnProductNew">Ajouter un produit vérifié</button>
-  </div>
+    </div>
+  </section>
+
   <form id="productForm" class="prod-form">
     <input type="hidden" id="productId" />
     <div class="grid">

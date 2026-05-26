@@ -6,6 +6,11 @@
 
 .acq-toolbar {
   margin-bottom: 20px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
 }
 
 .acq-search {
@@ -49,7 +54,7 @@
 .acq-stat {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 12px 18px;
   font-size: 0.88rem;
   box-shadow: var(--shadow-sm);
@@ -76,6 +81,15 @@
   padding: 14px;
   min-height: 200px;
   box-shadow: var(--shadow-sm);
+}
+.acq-empty-col {
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 14px;
+  color: var(--muted);
+  background: rgba(248, 250, 252, 0.75);
+  font-size: 0.82rem;
+  line-height: 1.45;
 }
 .acq-col h3 {
   font-size: 0.8rem;
@@ -230,6 +244,12 @@
   font-size: 1.05rem;
   margin: 0 0 10px;
 }
+.acq-api-doc p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
 .acq-api-doc pre {
   font-size: 0.8rem;
   background: #0f172a;
@@ -248,6 +268,13 @@
 }
 
 @media (max-width: 640px) {
+  .acq-toolbar {
+    align-items: stretch;
+  }
+  .acq-toolbar > * {
+    width: 100%;
+    max-width: none !important;
+  }
   .acq-pipeline {
     grid-template-columns: 1fr;
   }

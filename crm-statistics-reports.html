@@ -5,11 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rapports statistiques | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <p style="color:var(--muted)">Rapports détaillés — inspire <code>/dashboard/statistics/reports</code> multisite.</p>
-  <div id="reportsList" class="panel" style="margin-top:16px"></div>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Rapports</p>
+      <h2>Lecture détaillée des performances</h2>
+      <p>Des vues courtes pour comprendre le portefeuille, l'activité commerciale et les priorités à traiter.</p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-ghost" href="./crm-statistics.html">Vue synthèse</a>
+      <a class="btn btn-primary" href="./crm-statistics-export.html">Exports</a>
+    </div>
+  </section>
+  <div id="reportsList" class="panel"></div>
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-statistics-reports.js"></script>

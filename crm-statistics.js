@@ -5,16 +5,26 @@
     return localStorage.getItem(TOKEN_KEY);
   }
 
+  function esc(s) {
+    var d = document.createElement("div");
+    d.textContent = s == null ? "" : s;
+    return d.innerHTML;
+  }
+
   function card(label, value, sub) {
     return (
-      '<div class="kpi-card panel"><div class="kpi-label">' +
-      label +
+      '<div class="kpi-card"><div class="kpi-label">' +
+      esc(label) +
       '</div><div class="kpi-value">' +
-      value +
+      (value == null ? "—" : esc(value)) +
       "</div>" +
-      (sub ? '<div class="kpi-sub">' + sub + "</div>" : "") +
+      (sub ? '<div class="kpi-sub">' + esc(sub) + "</div>" : "") +
       "</div>"
     );
+  }
+
+  function moduleCard(title, desc, href) {
+    return '<a class="crm-module-card" href="' + href + '"><strong>' + esc(title) + "</strong><span>" + esc(desc) + "</span></a>";
   }
 
   if (!token()) {
@@ -31,7 +41,10 @@
     .then(function (res) {
       var el = document.getElementById("statsGrid");
       if (!res.ok) {
-        el.innerHTML = "<p>" + (res.error || "Erreur") + "</p>";
+        el.innerHTML =
+          '<div class="crm-empty-state"><h3>Statistiques indisponibles</h3><p>' +
+          esc(res.error || "Vérifiez la configuration CRM et les migrations statistiques.") +
+          "</p></div>";
         return;
       }
       var c = res.contacts || {};
@@ -68,10 +81,16 @@
       var links = document.getElementById("statsLinks");
       if (links) {
         links.innerHTML =
-          '<a class="panel" href="./crm-contracts.html" style="padding:14px;text-decoration:none;color:inherit"><strong>📄 Contrats</strong></a>' +
-          '<a class="panel" href="./crm-claims.html" style="padding:14px;text-decoration:none;color:inherit"><strong>⚠️ Sinistres</strong></a>' +
-          '<a class="panel" href="./crm-financial.html" style="padding:14px;text-decoration:none;color:inherit"><strong>💰 Financier</strong></a>' +
-          '<a class="panel" href="./crm-periods.html" style="padding:14px;text-decoration:none;color:inherit"><strong>📅 Périodes</strong></a>';
+          moduleCard("Contrats", "Suivre les signatures, avenants et échéances.", "./crm-contracts.html") +
+          moduleCard("Devis", "Relancer les offres en attente et transformer.", "./crm-quotes.html") +
+          moduleCard("Sinistres", "Prioriser les dossiers ouverts.", "./crm-claims.html") +
+          moduleCard("Finance", "Paiements, créances et débits.", "./crm-financial.html") +
+          moduleCard("Documents", "Pièces manquantes et dossiers incomplets.", "./crm-pending-documents.html") +
+          moduleCard("Acquisition", "Voir les leads entrants à traiter.", "./crm-acquisition.html");
       }
+    })
+    .catch(function () {
+      document.getElementById("statsGrid").innerHTML =
+        '<div class="crm-empty-state"><h3>Connexion impossible</h3><p>Le service statistiques ne répond pas pour le moment.</p></div>';
     });
 })();

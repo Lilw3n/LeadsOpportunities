@@ -60,7 +60,12 @@
     });
     if (!list.length) {
       document.getElementById("prodGrid").innerHTML =
-        '<div class="prod-empty">Aucun produit vérifié enregistré. Ajoutez uniquement des informations confirmées par vos partenaires ou contrats.</div>';
+        '<div class="prod-empty"><h3 style="margin:0 0 8px;color:var(--text)">Aucun produit vérifié enregistré</h3>' +
+        "<p>Ajoutez votre premier produit seulement quand les garanties, conditions, documents et éventuels tarifs sont confirmés par un partenaire.</p>" +
+        '<p style="margin:14px 0 0"><button type="button" class="btn btn-primary" id="btnEmptyProductNew">Ajouter un produit vérifié</button> ' +
+        '<a class="btn btn-ghost" href="./crm-tariff-grid.html">Voir les bordereaux</a></p></div>';
+      var emptyBtn = document.getElementById("btnEmptyProductNew");
+      if (emptyBtn) emptyBtn.onclick = function () { showForm(); };
       return;
     }
     document.getElementById("prodGrid").innerHTML = list

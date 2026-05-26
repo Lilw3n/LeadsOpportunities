@@ -57,8 +57,8 @@
     var entity = document.getElementById("searchEntity").value;
 
     if (q.length < 2) {
-
-      document.getElementById("searchResults").innerHTML = "<p class='panel'>Saisissez au moins 2 caractères</p>";
+      document.getElementById("searchResults").innerHTML =
+        '<div class="crm-empty-state"><h3>Commencez par deux caractères</h3><p>Exemples : nom client, téléphone, e-mail, immatriculation, numéro de contrat ou permis.</p></div>';
 
       return;
 
@@ -71,7 +71,7 @@
       if (typeof paintRecent === "function") paintRecent();
     } catch (e) {}
 
-    document.getElementById("searchResults").innerHTML = "<p>Recherche…</p>";
+    document.getElementById("searchResults").innerHTML = '<div class="panel">Recherche en cours…</div>';
 
     fetch(
 
@@ -91,7 +91,8 @@
 
         if (!res.ok) {
 
-          document.getElementById("searchResults").innerHTML = "<p>" + esc(res.error || "Erreur") + "</p>";
+          document.getElementById("searchResults").innerHTML =
+            '<div class="crm-empty-state"><h3>Recherche indisponible</h3><p>' + esc(res.error || "Erreur") + "</p></div>";
 
           return;
 
@@ -99,7 +100,11 @@
 
         if (!res.total) {
 
-          document.getElementById("searchResults").innerHTML = "<p class='panel'>Aucun résultat pour « " + esc(q) + " »</p>";
+          document.getElementById("searchResults").innerHTML =
+            '<div class="crm-empty-state"><h3>Aucun résultat pour « ' +
+            esc(q) +
+            ' »</h3><p>Essayez un téléphone sans espaces, une partie du nom, une plaque ou une adresse e-mail.</p>' +
+            '<p style="margin:14px 0 0"><a class="btn btn-primary" href="./crm.html#contacts">Créer un contact</a> <a class="btn btn-ghost" href="./crm-acquisition.html">Voir les leads</a></p></div>';
 
           return;
 
@@ -357,6 +362,15 @@
 
   var RECENT_KEY = "lo_search_recent";
 
+  function saveRecent(q) {
+    try {
+      var list = JSON.parse(localStorage.getItem(RECENT_KEY) || "[]");
+      list = [q].concat(list.filter(function (x) { return x !== q; })).slice(0, 8);
+      localStorage.setItem(RECENT_KEY, JSON.stringify(list));
+      paintRecent();
+    } catch (e) {}
+  }
+
   function paintRecent() {
     var box = document.getElementById("searchRecent");
     if (!box) return;
@@ -415,6 +429,13 @@
     if (document.getElementById("searchQ").value.trim().length >= 2) search();
 
   };
+
+  document.querySelectorAll("[data-sample]").forEach(function (btn) {
+    btn.onclick = function () {
+      document.getElementById("searchQ").value = btn.getAttribute("data-sample");
+      document.getElementById("searchQ").focus();
+    };
+  });
 
 })();
 

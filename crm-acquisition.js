@@ -24,6 +24,14 @@
     { id: "follow_up", label: "À relancer" },
   ];
 
+  var EMPTY_STAGE = {
+    new: "Aucun nouveau lead dans cette vue.",
+    questionnaire: "Aucun questionnaire en cours.",
+    tariff_editing: "Aucun dossier en préparation tarifaire.",
+    quote_sent: "Aucun devis envoyé à suivre.",
+    follow_up: "Aucune relance prioritaire.",
+  };
+
   function esc(s) {
     var d = document.createElement("div");
     d.textContent = s == null ? "" : s;
@@ -268,7 +276,7 @@
         ')</h3><p class="acq-col-hint">' +
         esc(stage ? stage.hint : "") +
         "</p>" +
-        items.map(cardHtml).join("") +
+        (items.length ? items.map(cardHtml).join("") : '<div class="acq-empty-col">' + esc(EMPTY_STAGE[col.id]) + "</div>") +
         "</div>"
       );
     }).join("");
@@ -358,7 +366,9 @@
       .then(function (res) {
         if (!res.ok) {
           document.getElementById("acqPipeline").innerHTML =
-            "<p>" + esc(res.error || "Erreur") + " — exécutez database/site_leads-acquisition.sql sur Neon.</p>";
+            '<div class="crm-empty-state"><h3>Pipeline indisponible</h3><p>' +
+            esc(res.error || "Erreur") +
+            " — exécutez database/site_leads-acquisition.sql sur Neon.</p></div>";
           return;
         }
         allLeads = res.leads || [];

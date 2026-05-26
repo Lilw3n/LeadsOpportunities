@@ -5,11 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exports statistiques | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <p style="color:var(--muted)">Exports CSV — inspire <code>/dashboard/statistics/export</code> multisite.</p>
-  <div class="panel" style="margin-top:16px;display:grid;gap:12px;max-width:480px">
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Exports</p>
+      <h2>Sortir les données utiles en CSV</h2>
+      <p>Exports simples pour vérifier, partager ou retraiter les indicateurs CRM sans inventer de chiffres.</p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-ghost" href="./crm-statistics.html">Statistiques</a>
+      <a class="btn btn-ghost" href="./crm-statistics-reports.html">Rapports</a>
+    </div>
+  </section>
+  <div class="panel" style="display:grid;gap:12px;max-width:560px">
     <button type="button" class="btn btn-primary" id="btnExportStats">Résumé statistiques</button>
     <button type="button" class="btn btn-ghost" id="btnExportContacts">Contacts (liste)</button>
     <button type="button" class="btn btn-ghost" id="btnExportQuotes">Devis</button>
