@@ -8,7 +8,7 @@ const { getSql } = require("../db");
 const STAGES = ["new", "questionnaire", "tariff_editing", "quote_sent", "follow_up", "won", "lost"];
 const PLATFORMS = [
   "facebook", "instagram", "google", "tiktok", "linkedin", "youtube",
-  "snapchat", "bing", "site_web", "email", "referral", "autre",
+  "snapchat", "bing", "pinterest", "withallo", "site_web", "email", "referral", "autre",
 ];
 
 function detectPlatform(row) {
@@ -18,6 +18,8 @@ function detectPlatform(row) {
   } catch (e) {}
   if (row.platform) return row.platform;
   var utm = String(row.utm_source || payload.utm_source || "").toLowerCase();
+  var src = String(row.source || payload.source || "").toLowerCase();
+  if (/withallo|allo/.test(src + " " + utm)) return "withallo";
   if (row.fbclid || payload.fbclid || /facebook|meta|fb/.test(utm)) return /instagram|ig/.test(utm) ? "instagram" : "facebook";
   if (row.ttclid || payload.ttclid || /tiktok/.test(utm)) return "tiktok";
   if (row.gclid || row.msclkid || /google/.test(utm)) return "google";
@@ -60,6 +62,18 @@ function enrich(row) {
     contact_id: row.contact_id,
     notes: row.notes,
     tariff_insurer: row.tariff_insurer,
+    opened_at: row.opened_at,
+    opened_by: row.opened_by,
+    is_opened: !!row.opened_at,
+    archived_at: row.archived_at,
+    archived_by: row.archived_by,
+    archive_reason: row.archive_reason,
+    is_archived: !!row.archived_at,
+    assigned_to: row.assigned_to,
+    shared_with: row.shared_with,
+    last_event_at: row.last_event_at,
+    last_event_type: row.last_event_type,
+    is_interesting: (row.priority === "high" || Number(row.lead_score || 0) >= 70 || row.tariff_insurer),
     created_at: row.created_at,
     updated_at: row.updated_at,
     full_name: payload.firstName || payload.first_name
@@ -87,25 +101,50 @@ module.exports = async (req, res) => {
     ? sanitizeEnum(url.searchParams.get("stage"), STAGES, null)
     : null;
   const dormantOnly = url.searchParams.get("dormant") === "1";
+  const view = url.searchParams.get("view") || "active";
   const q = url.searchParams.get("q") ? sanitizeSearch(url.searchParams.get("q")) : null;
   const pattern = q ? "%" + q + "%" : null;
   const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") || "120", 10)));
 
   try {
-    const rows = await sql`
-      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
-             gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
-             contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
-             fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer
-      FROM site_leads
-      ORDER BY created_at DESC
-      LIMIT ${limit * 3}
-    `;
+    let rows;
+    try {
+      rows = await sql`
+        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+               gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
+               contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
+               fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
+               opened_at, opened_by, archived_at, archived_by, archive_reason, assigned_to, shared_with,
+               last_event_at, last_event_type
+        FROM site_leads
+        ORDER BY created_at DESC
+        LIMIT ${limit * 3}
+      `;
+    } catch (selectErr) {
+      console.warn("[crm/leads-acquisition] private workflow columns missing", selectErr.message);
+      rows = await sql`
+        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+               gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
+               contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
+               fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
+               NULL::timestamptz AS opened_at, NULL::text AS opened_by,
+               NULL::timestamptz AS archived_at, NULL::text AS archived_by, NULL::text AS archive_reason,
+               NULL::text AS assigned_to, '[]'::text AS shared_with,
+               NULL::timestamptz AS last_event_at, NULL::text AS last_event_type
+        FROM site_leads
+        ORDER BY created_at DESC
+        LIMIT ${limit * 3}
+      `;
+    }
 
     var leads = rows.map(enrich);
     if (platform) leads = leads.filter(function (l) { return l.platform === platform; });
     if (stage) leads = leads.filter(function (l) { return l.pipeline_stage === stage; });
     if (dormantOnly) leads = leads.filter(function (l) { return l.is_dormant; });
+    if (view === "active" || view === "unarchived") leads = leads.filter(function (l) { return !l.is_archived; });
+    if (view === "archived") leads = leads.filter(function (l) { return l.is_archived; });
+    if (view === "unopened") leads = leads.filter(function (l) { return !l.is_opened && !l.is_archived; });
+    if (view === "interesting") leads = leads.filter(function (l) { return l.is_interesting && !l.is_archived; });
     if (pattern) {
       leads = leads.filter(function (l) {
         return (
@@ -134,6 +173,9 @@ module.exports = async (req, res) => {
         dormant: rows.map(enrich).filter(function (l) { return l.is_dormant; }).length,
         byPlatform: byPlatform,
         byStage: byStage,
+        unopened: rows.map(enrich).filter(function (l) { return !l.is_opened && !l.is_archived; }).length,
+        archived: rows.map(enrich).filter(function (l) { return l.is_archived; }).length,
+        interesting: rows.map(enrich).filter(function (l) { return l.is_interesting && !l.is_archived; }).length,
       },
     });
   } catch (e) {

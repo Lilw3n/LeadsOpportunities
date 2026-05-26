@@ -10,7 +10,11 @@
   var filterPlatform = "";
   var filterDormant = false;
   var filterTime = "";
+  var filterView = localStorage.getItem("lo_acq_view") || "active";
   var searchQ = "";
+  var soundOn = localStorage.getItem("lo_acq_sound") === "1";
+  var seenLeadIds = [];
+  var serverStats = {};
 
   var PIPELINE_COLS = [
     { id: "new", label: "Nouveau lead" },
@@ -43,6 +47,40 @@
         if (res.ok) load();
         else alert(res.error || "Erreur");
       });
+  }
+
+  function patchLead(id, payload, done) {
+    fetch("/api/crm/lead-acquisition?id=" + encodeURIComponent(id), {
+      method: "PATCH",
+      headers: authHeaders(),
+      body: JSON.stringify(payload),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.ok) {
+          if (done) done(res);
+          load();
+        } else alert(res.error || "Erreur");
+      });
+  }
+
+  function playLeadSound() {
+    if (!soundOn) return;
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      var ctx = new Ctx();
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.value = 880;
+      gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.24);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.26);
+    } catch (e) {}
   }
 
   function timeFilter(lead) {
@@ -121,6 +159,14 @@
           )
         : "—") +
       "</strong></span>";
+    document.getElementById("acqStats").innerHTML +=
+      '<span class="acq-stat">Non ouverts : <strong>' +
+      ((stats && stats.unopened) || 0) +
+      '</strong></span><span class="acq-stat">Archivés : <strong>' +
+      ((stats && stats.archived) || 0) +
+      '</strong></span><span class="acq-stat">Intéressants ++ : <strong>' +
+      ((stats && stats.interesting) || 0) +
+      "</strong></span>";
   }
 
   function cardHtml(l) {
@@ -136,9 +182,17 @@
     return (
       '<div class="acq-card' +
       (l.is_dormant ? " dormant" : "") +
+      (!l.is_opened ? " unopened" : "") +
+      (l.is_archived ? " archived" : "") +
       '" draggable="true" data-id="' +
       esc(l.id) +
       '">' +
+      '<div class="acq-badges">' +
+      (!l.is_opened ? '<span class="acq-badge hot">Non ouvert</span>' : "") +
+      (l.is_interesting ? '<span class="acq-badge plus">Intéressant ++</span>' : "") +
+      (l.is_archived ? '<span class="acq-badge muted">Archivé</span>' : "") +
+      (l.assigned_to ? '<span class="acq-badge muted">Assigné</span>' : "") +
+      "</div>" +
       '<div class="acq-card-head">' +
       '<div><span class="acq-platform" title="' +
       esc(pm.label) +
@@ -167,10 +221,14 @@
       '<div class="acq-next">📞 ' +
       esc(next) +
       "</div>" +
+      (l.tariff_insurer ? '<div class="acq-match">Acteur pressenti : ' + esc(l.tariff_insurer) + "</div>" : "") +
       '<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap">' +
       '<a href="./crm-lead-detail.html?id=' +
       encodeURIComponent(l.id) +
       '" class="btn btn-ghost btn-sm">Fiche</a>' +
+      '<a href="./crm-private-offer-matching.html?leadId=' +
+      encodeURIComponent(l.id) +
+      '" class="btn btn-ghost btn-sm">Matching</a>' +
       '<a href="./crm-tariff-grid.html?leadId=' +
       encodeURIComponent(l.id) +
       '" class="btn btn-ghost btn-sm">Tarifs</a>' +
@@ -181,13 +239,19 @@
         : '<button type="button" class="btn btn-primary btn-sm btn-convert" data-id="' +
           esc(l.id) +
           '">→ Contact</button>') +
+      '<button type="button" class="btn btn-ghost btn-sm btn-assign" data-id="' +
+      esc(l.id) +
+      '">Assigner</button>' +
+      (l.is_archived
+        ? '<button type="button" class="btn btn-ghost btn-sm btn-unarchive" data-id="' + esc(l.id) + '">Désarchiver</button>'
+        : '<button type="button" class="btn btn-ghost btn-sm btn-archive" data-id="' + esc(l.id) + '">Archiver</button>') +
       "</div></div>"
     );
   }
 
   function render() {
     var leads = filtered();
-    renderStats({ dormant: leads.filter(function (l) { return l.is_dormant; }).length });
+    renderStats(Object.assign({}, serverStats, { dormant: leads.filter(function (l) { return l.is_dormant; }).length }));
 
     document.getElementById("acqPipeline").innerHTML = PIPELINE_COLS.map(function (col) {
       var stage = window.CrmLeadPlatform.STAGES.find(function (s) { return s.id === col.id; });
@@ -249,10 +313,43 @@
           });
       };
     });
+    document.querySelectorAll(".btn-archive").forEach(function (btn) {
+      btn.onclick = function (e) {
+        e.stopPropagation();
+        var reason = prompt("Raison d'archivage ?", "Pollution visuelle / a revoir plus tard") || "Archive manuel";
+        patchLead(btn.getAttribute("data-id"), { action: "archive", archive_reason: reason });
+      };
+    });
+    document.querySelectorAll(".btn-unarchive").forEach(function (btn) {
+      btn.onclick = function (e) {
+        e.stopPropagation();
+        patchLead(btn.getAttribute("data-id"), { action: "unarchive" });
+      };
+    });
+    document.querySelectorAll(".btn-assign").forEach(function (btn) {
+      btn.onclick = function (e) {
+        e.stopPropagation();
+        var assigned = prompt("Email ou identifiant collaborateur principal ?", "") || "";
+        var shared = prompt("Partager aussi avec (emails séparés par virgules) ?", "") || "";
+        patchLead(btn.getAttribute("data-id"), {
+          action: "assign",
+          assigned_to: assigned,
+          shared_with: shared
+            .split(",")
+            .map(function (s) { return s.trim(); })
+            .filter(Boolean),
+        });
+      };
+    });
+    document.querySelectorAll(".acq-card").forEach(function (card) {
+      card.onclick = function () {
+        patchLead(card.getAttribute("data-id"), { action: "open" }, function () {});
+      };
+    });
   }
 
   function load() {
-    var url = "/api/crm/leads-acquisition?limit=150";
+    var url = "/api/crm/leads-acquisition?limit=150&view=" + encodeURIComponent(filterView);
     if (filterDormant) url += "&dormant=1";
     fetch(url, { headers: authHeaders() })
       .then(function (r) {
@@ -265,7 +362,15 @@
           return;
         }
         allLeads = res.leads || [];
-        renderChips(res.stats || {});
+        var currentInteresting = allLeads
+          .filter(function (l) { return l.is_interesting && !l.is_opened && !l.is_archived; })
+          .map(function (l) { return l.id; });
+        if (seenLeadIds.length && currentInteresting.some(function (id) { return seenLeadIds.indexOf(id) < 0; })) {
+          playLeadSound();
+        }
+        seenLeadIds = allLeads.map(function (l) { return l.id; });
+        serverStats = res.stats || {};
+        renderChips(serverStats);
         render();
       });
   }
@@ -277,6 +382,19 @@
   document.getElementById("acqTime").onchange = function () {
     filterTime = this.value;
     render();
+  };
+  document.getElementById("acqView").value = filterView;
+  document.getElementById("acqView").onchange = function () {
+    filterView = this.value;
+    localStorage.setItem("lo_acq_view", filterView);
+    load();
+  };
+  document.getElementById("btnSound").textContent = soundOn ? "Son on" : "Son off";
+  document.getElementById("btnSound").onclick = function () {
+    soundOn = !soundOn;
+    localStorage.setItem("lo_acq_sound", soundOn ? "1" : "0");
+    this.textContent = soundOn ? "Son on" : "Son off";
+    if (soundOn) playLeadSound();
   };
   document.getElementById("btnDormant").onclick = function () {
     filterDormant = !filterDormant;

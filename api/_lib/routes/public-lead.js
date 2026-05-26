@@ -290,6 +290,7 @@ module.exports = async (req, res) => {
 
       try {
         const { recordTouchpoint } = require("../lead-enrichment");
+        const { recordLeadEvent } = require("../lead-workflow");
         await recordTouchpoint(sql, {
           visitor_id: enriched.visitor_id,
           lead_id: leadId,
@@ -300,6 +301,13 @@ module.exports = async (req, res) => {
           utm_source: utmSource,
           utm_medium: utmMedium,
           utm_campaign: utmCampaign,
+        });
+        await recordLeadEvent(sql, {
+          leadId,
+          eventType: "lead_converted",
+          source: "site",
+          title: "Nouveau lead entrant",
+          payload: enriched,
         });
       } catch (tpErr) {
         console.warn("[lead] touchpoint", tpErr.message);

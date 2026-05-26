@@ -5,6 +5,7 @@ const { randomUUID } = require("crypto");
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp, isHoneypotFilled } = require("../security");
 const { getSql } = require("../db");
 const { parseSeoFromPath, recordTouchpoint } = require("../lead-enrichment");
+const { recordLeadEvent } = require("../lead-workflow");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -44,6 +45,30 @@ module.exports = async (req, res) => {
       referrer: body.referrer,
       extra: body,
     });
+    if (body.visitor_id || body.lead_id) {
+      try {
+        const rows = body.lead_id
+          ? await sql`SELECT id FROM site_leads WHERE id = ${body.lead_id} LIMIT 1`
+          : await sql`
+              SELECT id FROM site_leads
+              WHERE visitor_id = ${body.visitor_id}
+              ORDER BY created_at DESC
+              LIMIT 1
+            `;
+        if (rows.length) {
+          await recordLeadEvent(sql, {
+            leadId: rows[0].id,
+            eventType: body.event_type || "page_view",
+            source: "site",
+            title: "Nouvelle interaction lead",
+            payload: body,
+            important: body.event_type && body.event_type !== "page_view",
+          });
+        }
+      } catch (wfErr) {
+        console.warn("[lead-touchpoint] workflow skipped", wfErr.message);
+      }
+    }
     return res.status(200).json({ ok: true, stored: true });
   } catch (e) {
     console.error("[lead-touchpoint]", e);

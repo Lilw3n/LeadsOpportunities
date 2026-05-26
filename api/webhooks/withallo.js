@@ -11,6 +11,74 @@ const {
   getClientIp,
   safeEqual,
 } = require("../_lib/security");
+const { recordLeadEvent } = require("../_lib/lead-workflow");
+
+function normalizeAlloEventType(p) {
+  const raw = String(p.event_type || p.eventType || p.event || p.type || "").toLowerCase();
+  if (/summary/.test(raw)) return "summary_ready";
+  if (/transcript/.test(raw)) return "transcript_ready";
+  if (/callback|to_call_back|rappel/.test(raw)) return "callback_scheduled";
+  if (/not.?interested/.test(raw)) return "lead_not_interested";
+  if (/meeting|booked|rdv/.test(raw)) return "meeting_booked";
+  if (/interested/.test(raw)) return "lead_interested";
+  if (/missed|no_answer/.test(raw)) return "call_missed";
+  if (/voicemail/.test(raw)) return "voicemail_sent";
+  if (/tag/.test(raw)) return "tag_added";
+  if (/call|appel/.test(raw)) return "call_completed";
+  return raw || "";
+}
+
+function pickSummary(p) {
+  return p.summary || p.resume || p.call_summary || p.transcription_summary || p.notes || "";
+}
+
+async function findExistingLead(sql, p, normalizedEmail, normalizedPhone) {
+  if (p.leadId || p.lead_id || p.id) {
+    const rows = await sql`
+      SELECT id, contact_id FROM site_leads
+      WHERE id = ${p.leadId || p.lead_id || p.id}
+      LIMIT 1
+    `;
+    if (rows.length) return rows[0];
+  }
+  if (normalizedPhone || normalizedEmail) {
+    const rows = await sql`
+      SELECT id, contact_id FROM site_leads
+      WHERE (${normalizedEmail}::text IS NOT NULL AND LOWER(email) = ${normalizedEmail})
+         OR (${normalizedPhone}::text IS NOT NULL AND phone = ${normalizedPhone})
+      ORDER BY created_at DESC
+      LIMIT 1
+    `;
+    if (rows.length) return rows[0];
+  }
+  return null;
+}
+
+async function createCrmEventFromAllo(sql, lead, eventType, p) {
+  if (!lead || !lead.contact_id) return;
+  try {
+    const crypto = require("crypto");
+    await sql`
+      INSERT INTO crm_events (
+        id, contact_id, event_type, title, description, event_date, event_time,
+        status, priority, extra_data
+      ) VALUES (
+        ${"evt_" + crypto.randomUUID()},
+        ${lead.contact_id},
+        ${eventType.indexOf("callback") >= 0 ? "appel" : "note"},
+        ${p.title || "Evenement Allo - " + eventType},
+        ${pickSummary(p) || JSON.stringify(p).slice(0, 2000)},
+        ${new Date().toISOString().slice(0, 10)},
+        ${p.callback_time || p.event_time || null},
+        ${eventType === "callback_scheduled" ? "pending" : "done"},
+        ${eventType === "lead_interested" ? "high" : "medium"},
+        ${JSON.stringify({ source: "withallo", eventType: eventType, payload: p }).slice(0, 4000)}
+      )
+    `;
+  } catch (e) {
+    console.warn("[withallo] crm event skipped", e.message);
+  }
+}
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -75,6 +143,29 @@ module.exports = async (req, res) => {
       const sql = neon(dbUrl);
       if (enriched.email) enriched.email = normalizeEmail(enriched.email);
       if (enriched.phone) enriched.phone = normalizePhone(enriched.phone);
+      const eventType = normalizeAlloEventType(p);
+      if (eventType) {
+        const existingLead = await findExistingLead(sql, p, enriched.email, enriched.phone);
+        if (existingLead) {
+          await recordLeadEvent(sql, {
+            leadId: existingLead.id,
+            contactId: existingLead.contact_id,
+            eventType,
+            source: "withallo",
+            title: p.title || "Evenement Allo",
+            body: pickSummary(p),
+            payload: enriched,
+          });
+          await createCrmEventFromAllo(sql, existingLead, eventType, p);
+          return res.status(200).json({
+            ok: true,
+            leadId: existingLead.id,
+            eventType,
+            stored: true,
+            mode: "event",
+          });
+        }
+      }
       var dup = await findDuplicateLead(sql, enriched.email, enriched.phone);
       if (dup) {
         enriched.parent_lead_id = dup.id;
@@ -110,6 +201,14 @@ module.exports = async (req, res) => {
           ${!!dup}
         )
       `;
+      await recordLeadEvent(sql, {
+        leadId,
+        eventType: eventType || "withallo_lead",
+        source: "withallo",
+        title: p.title || "Lead Allo entrant",
+        body: pickSummary(p),
+        payload: enriched,
+      });
       stored = true;
     } catch (e) {
       console.error("[withallo] insert extended failed", e.message);

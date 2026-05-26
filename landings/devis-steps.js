@@ -71,6 +71,7 @@
       fieldRow(
         select("vehicleType", "Type de vehicule", [
           { v: "auto", t: "Voiture" },
+          { v: "vsp", t: "Voiture sans permis" },
           { v: "moto", t: "Moto / scooter" },
           { v: "utilitaire", t: "Utilitaire" },
           { v: "autre", t: "Autre" },
@@ -97,6 +98,37 @@
           { v: "1.00", t: "1,00 et plus" },
         ], false)
       ) +
+      '<p class="small">Si votre demande concerne une voiture sans permis, ces informations accelerent le rappel.</p>' +
+      fieldRow(
+        input("driverAge", "Age du conducteur", "number", "Ex. 32", false) +
+          input("garageDepartment", "Departement de garage", "text", "Ex. 75", false) +
+          input("vehicleValue", "Valeur du vehicule (EUR)", "number", "Ex. 12000", false)
+      ) +
+      fieldRow(
+        select("hasBsrOrAm", "BSR / permis AM ?", [
+          { v: "", t: "Je ne sais pas / non concerne" },
+          { v: "oui", t: "Oui" },
+          { v: "non", t: "Non" },
+        ], false) +
+          select("hasPermitB", "Permis B ou ancien permis B ?", [
+            { v: "", t: "Non precise" },
+            { v: "oui", t: "Oui" },
+            { v: "non", t: "Non" },
+          ], false)
+      ) +
+      fieldRow(
+        select("licenseIssue", "Situation permis / assurance", [
+          { v: "none", t: "Aucune situation particuliere" },
+          { v: "non_payment", t: "Resiliation non-paiement" },
+          { v: "suspension", t: "Suspension de permis" },
+          { v: "cancellation", t: "Annulation de permis" },
+          { v: "any_termination", t: "Autre resiliation" },
+          { v: "alcohol", t: "Alcoolemie" },
+          { v: "drugs", t: "Stupefiants" },
+        ], false) +
+          input("claims24Months", "Sinistres sur 24 mois", "number", "Ex. 0", false)
+      ) +
+      '<label class="field-check"><input type="checkbox" name="isFleet" value="oui" /> <span>Plusieurs vehicules a assurer</span></label>' +
       "</section>"
     );
   }

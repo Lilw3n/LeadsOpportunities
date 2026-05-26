@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "product": "vsp",
+  "label": "Voiture sans permis",
+  "private": true,
+  "sourceNote": "Configuration interne issue des fiches partenaires VSP. Ne pas publier sur les pages publiques.",
+  "commonSignals": {
+    "highIntentSources": ["google", "facebook", "instagram", "meta", "withallo"],
+    "priorityTerms": ["sans permis", "vsp", "voiture sans permis", "assurance sans permis", "devis vsp"],
+    "requiredLeadFields": [
+      "driverAge",
+      "garageDepartment",
+      "usage",
+      "vehicleAgeYears",
+      "vehicleValue",
+      "registrationHolder",
+      "hasBsrOrAm",
+      "hasPermitB",
+      "licenseIssue",
+      "terminationReason",
+      "claims24Months"
+    ],
+    "commonDocuments": [
+      "Carte grise",
+      "Releve d'information de moins de 2 mois",
+      "Mandat SEPA signe",
+      "Justificatif permis/BSR/AM si requis",
+      "Justificatif suspension ou annulation si applicable"
+    ]
+  },
+  "partners": [
+    {
+      "id": "ami3f_vsp",
+      "name": "AMI 3F",
+      "displayName": "AMI 3F VSP",
+      "priority": 30,
+      "commissionHint": "Extranet AMI 3F",
+      "target": {
+        "ageMin": 16,
+        "ageMax": 74,
+        "territory": "France metropolitaine hors Corse, DOM-TOM, Monaco",
+        "vehicleAgeMaxYears": 15,
+        "vehicleValueMaxEur": 50000,
+        "allowedUsages": ["private", "private_commute", "professional"]
+      },
+      "strengths": [
+        "Tous profils conducteur",
+        "Antecedents sans restriction indiquee",
+        "Tutelle et curatelle possibles",
+        "Usage professionnel possible"
+      ],
+      "exclusions": [
+        { "field": "garageArea", "values": ["corse", "dom-tom", "monaco"], "reason": "Zone exclue" },
+        { "field": "garageDepartment", "values": ["13"], "reason": "Departement 13 exclu en RCVI et DTA" },
+        { "field": "hasFixedAddress", "equals": false, "reason": "Adresse personnelle fixe requise" },
+        { "field": "isLegalEntity", "equals": true, "reason": "Personne morale exclue hors cas dirigeant/souscripteur prevu" },
+        { "field": "vehicleCategory", "values": ["heavy_quadricycle"], "reason": "Quadricycles lourds exclus" },
+        { "field": "vehicleModified", "equals": true, "reason": "Vehicule modifie ou transforme exclu" },
+        { "field": "paidTransport", "equals": true, "reason": "Transport onereux de personnes ou marchandises exclu" },
+        { "field": "isFleet", "equals": true, "reason": "Flotte d'au moins 2 vehicules exclue" },
+        { "field": "vehicleUse", "values": ["rental", "collection", "taxi", "ambulance", "vsl", "hearse", "driving_school"], "reason": "Usage specifique exclu" }
+      ],
+      "formulas": [
+        { "id": "tiers", "label": "Tiers", "guarantees": ["RC", "Defense recours", "Garantie conducteur 76200", "Protection juridique"] },
+        { "id": "tiers_confort", "label": "Tiers confort", "guarantees": ["Bris de glace", "Vol", "Incendie", "Evenements naturels"] },
+        { "id": "tous_risques", "label": "Tous risques", "guarantees": ["Dommages tous accidents", "Vandalisme"] }
+      ],
+      "franchises": {
+        "glass": 75,
+        "theftFire": 500,
+        "damage": 750,
+        "naturalDisaster": 381,
+        "unlistedDriver": 900
+      },
+      "documents": ["Carte grise", "Releve d'information si disponible", "Coordonnees conducteur", "Justificatif usage professionnel si pro"],
+      "commercialNotes": "Bon acteur a tester lorsque le profil est large, hors zones exclues, avec besoin rapide de tarif."
+    },
+    {
+      "id": "fma_wakam_vsp",
+      "name": "FMA / Wakam",
+      "displayName": "FMA VSP",
+      "priority": 20,
+      "target": {
+        "ageMin": 16,
+        "ageMax": 75,
+        "vehicleAgeMaxYears": 15,
+        "allowedUsages": ["private", "professional_liberal"],
+        "requiresBsrOrPermitWhenBornAfter": "1987-12-31"
+      },
+      "strengths": [
+        "Accessible des 16 ans",
+        "Suspensions ou annulations acceptees",
+        "Resilies non-paiement, sinistralite ou fausse declaration acceptes",
+        "Assistance 0 km incluse",
+        "Protection conducteur 100000"
+      ],
+      "exclusions": [
+        { "field": "paidTransport", "equals": true, "reason": "Transport public, marchandises ou matieres dangereuses exclu" },
+        { "field": "belongsToPublicOrAutoPro", "equals": true, "reason": "Collectivites et professionnels auto exclus" },
+        { "field": "isFleet", "equals": true, "reason": "Flottes exclues" },
+        { "field": "vehicleAgeYears", "gt": 15, "reason": "Vehicule de plus de 15 ans exclu" }
+      ],
+      "formulas": [
+        { "id": "f1", "label": "Formule 1", "positioning": "Budget / responsabilite civile" },
+        { "id": "f2", "label": "Formule 2", "positioning": "Garanties intermediaires" },
+        { "id": "f3", "label": "Formule 3", "positioning": "Couverture complete" }
+      ],
+      "documents": ["Carte grise", "BSR/AM ou permis A/B si requis", "Informations contrat actuel", "Motif de resiliation si applicable"],
+      "commercialNotes": "Tres bon acteur pour leads Facebook/Meta VSP avec suspension, annulation ou resiliation."
+    },
+    {
+      "id": "solly_azar_vsp",
+      "name": "Solly Azar",
+      "displayName": "Solly Azar VSP",
+      "priority": 10,
+      "target": {
+        "ageMin": 16,
+        "ageMax": 74,
+        "aggravatedAgeMin": 25,
+        "aggravatedAgeMax": 70,
+        "vehicleAgeMaxYears": 15,
+        "territory": "France metropolitaine",
+        "allowedUsages": ["private", "private_commute", "business"]
+      },
+      "strengths": [
+        "Profils novice, bon conducteur, suspendu et aggrave",
+        "Effet differe possible jusqu'a 3 mois",
+        "Paiement CB ou prelevement",
+        "Carte verte temporaire apres souscription",
+        "Frais de courtage possibles"
+      ],
+      "specialRules": [
+        { "condition": "garageDepartment=13", "effect": "formule F1 uniquement" },
+        { "condition": "profile=aggravated", "effect": "assure doit etre ou avoir ete titulaire du permis B" },
+        { "condition": "tooManyClaims", "effect": "seule la RC peut rester proposable" }
+      ],
+      "profiles": {
+        "novice": {
+          "ageMin": 16,
+          "ageMax": 74,
+          "experienceMonthsMax": 12,
+          "maxAggravation": ["non_payment"],
+          "maxTotalClaims": 6
+        },
+        "good_driver": {
+          "ageMin": 18,
+          "ageMax": 74,
+          "experienceMonthsMin": 12,
+          "maxAggravation": ["non_payment"],
+          "maxTotalClaims": 4
+        },
+        "suspended": {
+          "ageMin": 25,
+          "ageMax": 70,
+          "maxAggravation": ["non_payment", "suspension"],
+          "maxTotalClaims": 8
+        },
+        "aggravated": {
+          "ageMin": 25,
+          "ageMax": 70,
+          "maxAggravation": ["any_termination", "cancellation", "multiple_suspensions", "hit_and_run", "alcohol", "drugs"],
+          "maxTotalClaims": 8,
+          "requiresPermitBHistory": true
+        }
+      },
+      "exclusions": [
+        { "field": "responsibleBodilyClaim", "gt": 1, "reason": "Sinistralite corporelle responsable trop elevee" },
+        { "field": "vehicleAgeYears", "gt": 15, "reason": "Vehicule de plus de 15 ans exclu" },
+        { "field": "isFleet", "equals": true, "reason": "Flotte exclue" }
+      ],
+      "franchises": {
+        "glass": 75,
+        "theftFireWeather": 500,
+        "damageOptions": [750, 1000, 1250],
+        "unlistedDriver": 900,
+        "noviceDriver": 1500,
+        "naturalDisaster": 380
+      },
+      "documents": [
+        "Dispositions particulieres signees",
+        "Releve d'information de moins de 2 mois",
+        "Permis Europeen ou justificatif experience permis B si applicable",
+        "Carte grise",
+        "Justificatif suspension/annulation/tribunal si applicable",
+        "Mandat SEPA signe"
+      ],
+      "commercialNotes": "Acteur prioritaire pour profils suspendus/aggraves ou dossiers a forte valeur de conseil."
+    }
+  ]
+}

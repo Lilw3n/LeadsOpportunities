@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Matching VSP privé | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-body" data-admin-nav-page>
+  <main class="container section">
+    <p><a href="./crm-acquisition.html" class="btn btn-ghost">Retour acquisition</a></p>
+    <section class="panel">
+      <h1>Matching VSP privé</h1>
+      <p style="color:var(--muted)">Outil interne : compare un lead entrant avec les acteurs VSP sans exposer les règles au public.</p>
+      <div class="crm-toolbar" style="margin:16px 0">
+        <input id="matchLeadId" class="crm-input" placeholder="ID lead optionnel" />
+        <button type="button" class="btn btn-primary" id="btnMatchLead">Analyser le lead</button>
+        <button type="button" class="btn btn-ghost" id="btnLoadHot">Voir leads intéressants</button>
+      </div>
+      <div id="matchResult"></div>
+    </section>
+
+    <section class="panel" style="margin-top:18px">
+      <h2>Test rapide payload</h2>
+      <p style="color:var(--muted)">Permet de tester les règles sans créer de lead public.</p>
+      <div class="grid">
+        <label>Age conducteur<input id="testAge" class="crm-input" type="number" value="30" /></label>
+        <label>Département garage<input id="testDept" class="crm-input" value="75" /></label>
+        <label>Age véhicule<input id="testVehicleAge" class="crm-input" type="number" value="2" /></label>
+      </div>
+      <div class="grid">
+        <label>Situation
+          <select id="testIssue" class="crm-input">
+            <option value="none">Aucune</option>
+            <option value="non_payment">Résiliation non-paiement</option>
+            <option value="suspension">Suspension</option>
+            <option value="cancellation">Annulation</option>
+            <option value="alcohol">Alcoolémie</option>
+            <option value="drugs">Stupéfiants</option>
+          </select>
+        </label>
+        <label>Sinistres 24 mois<input id="testClaims" class="crm-input" type="number" value="1" /></label>
+        <label>Source
+          <select id="testSource" class="crm-input">
+            <option value="google">Google Ads</option>
+            <option value="facebook">Facebook / Meta</option>
+            <option value="withallo">Allo</option>
+            <option value="seo">SEO</option>
+          </select>
+        </label>
+      </div>
+      <button type="button" class="btn btn-primary" id="btnTestPayload">Tester</button>
+    </section>
+  </main>
+  <script src="./crm-private-offer-matching.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@
 const { applyApiGuards, parseJsonBody, sanitizeEnum } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
+const { archiveLead, assignLead, markLeadOpened, recordLeadEvent } = require("../lead-workflow");
 
 const STAGES = ["new", "questionnaire", "tariff_editing", "quote_sent", "follow_up", "won", "lost"];
 const PRIORITIES = ["low", "medium", "high"];
@@ -28,6 +29,7 @@ module.exports = async (req, res) => {
         SELECT * FROM site_leads WHERE id = ${leadId} LIMIT 1
       `;
       if (!rows.length) return res.status(404).json({ error: "Lead introuvable" });
+      await markLeadOpened(sql, leadId, user.id);
       var row = rows[0];
       var payload = {};
       try {
@@ -53,6 +55,42 @@ module.exports = async (req, res) => {
     try {
       const existing = await sql`SELECT id FROM site_leads WHERE id = ${leadId}`;
       if (!existing.length) return res.status(404).json({ error: "Lead introuvable" });
+
+        if (body.action === "open") {
+          await markLeadOpened(sql, leadId, user.id);
+          await recordLeadEvent(sql, {
+            leadId,
+            actorId: user.id,
+            eventType: "lead_opened",
+            source: "crm",
+            title: "Lead ouvert",
+            important: false,
+          });
+        }
+
+        if (body.action === "archive") {
+          await archiveLead(sql, leadId, user.id, body.archive_reason || body.reason || "Archive manuel");
+        }
+
+        if (body.action === "unarchive") {
+          await sql`
+            UPDATE site_leads
+            SET archived_at = NULL, archived_by = NULL, archive_reason = NULL, updated_at = NOW()
+            WHERE id = ${leadId}
+          `;
+          await recordLeadEvent(sql, {
+            leadId,
+            actorId: user.id,
+            eventType: "lead_unarchived",
+            source: "crm",
+            title: "Lead desarchive",
+            important: false,
+          });
+        }
+
+        if (body.action === "assign" || body.assigned_to !== undefined || body.shared_with !== undefined) {
+          await assignLead(sql, leadId, user.id, body.assigned_to || body.assignedTo || null, body.shared_with || body.sharedWith || []);
+        }
 
       if (body.pipeline_stage) {
         var st = sanitizeEnum(body.pipeline_stage, STAGES, null);

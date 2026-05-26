@@ -35,6 +35,7 @@ const ROUTES = {
   "driver-import": () => require("../_lib/routes/crm-driver-import"),
   "leads-acquisition": () => require("../_lib/routes/crm-leads-acquisition"),
   "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
+  "private-offer-match": () => require("../_lib/routes/crm-private-offer-match"),
   "tariff-rates": () => require("../_lib/routes/crm-tariff-rates"),
   "calendar-sync": () => require("../_lib/routes/crm-calendar-sync"),
   "pro-accounting": () => require("../_lib/routes/crm-pro-accounting"),
