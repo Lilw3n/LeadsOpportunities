@@ -22,7 +22,18 @@ module.exports = async (req, res) => {
 
   const url = new URL(req.url, "http://localhost");
   const returnTo = url.searchParams.get("returnTo") || "";
-  const state = signOAuthState(returnTo);
-  res.writeHead(302, { Location: buildGoogleAuthUrl(state) });
-  res.end();
+  try {
+    const state = signOAuthState(returnTo);
+    res.writeHead(302, { Location: buildGoogleAuthUrl(state) });
+    res.end();
+  } catch (e) {
+    console.error("[auth/google-start]", e);
+    const msg = encodeURIComponent(
+      e && e.message && e.message.indexOf("JWT_SECRET") !== -1
+        ? "JWT_SECRET manquant ou trop court sur Vercel (minimum 32 caracteres)."
+        : "Connexion Google indisponible, verifiez la configuration Vercel."
+    );
+    res.writeHead(302, { Location: getAppUrl() + "/auth.html?oauth_error=" + msg });
+    res.end();
+  }
 };
