@@ -6,9 +6,13 @@ Cette implementation est inspiree de:
 
 avec une separation explicite pour ne pas confondre les paiements.
 
-## 1) Fichiers ajoutes
+## 1) Fichiers principaux
 - `api/_lib/stripe.js`
-- `api/stripe/create-checkout-session.js`
+- `api/stripe/[action].js`
+- `api/_lib/routes/stripe-create-checkout-session.js`
+- `api/_lib/routes/stripe-create-checkout-for-quote.js`
+- `api/_lib/routes/stripe-session-status.js`
+- `api/_lib/routes/stripe-readiness.js`
 - `api/stripe/webhook.js`
 - `paiement.html`
 - `paiement.js`
@@ -19,7 +23,10 @@ avec une separation explicite pour ne pas confondre les paiements.
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
 - `NEXT_PUBLIC_APP_URL=https://leads-opportunities.vercel.app`
+- ou `APP_URL=https://leads-opportunities.vercel.app`
 - `COMPANY_CODE=LEADSOPP`
+
+Le projet peut utiliser le meme compte Stripe que `location-vehicules-reunion`, mais il faut creer un webhook dedie a ce domaine car le `STRIPE_WEBHOOK_SECRET` est propre a chaque endpoint.
 
 ## 3) Separation des flux (important)
 Dans Stripe, utilise:
@@ -39,6 +46,10 @@ Ainsi, tes paiements restent distincts des autres apps de la meme entreprise.
 Evenement minimum a ecouter:
 - `checkout.session.completed`
 
+Evenements optionnels comme dans le projet location:
+- `payment_intent.succeeded`
+- `payment_intent.payment_failed`
+
 ## 5) Test local
 1. Lancer le site
 2. Aller sur `/paiement.html`
@@ -51,6 +62,12 @@ Evenement minimum a ecouter:
 3. Verifiez `ok: true`, `hasWebhookSecret: true`, et `requiredEvent=checkout.session.completed`.
 4. Creez un devis CRM, puis ouvrez `/crm-quote-payment.html?quoteId=qte_...`.
 5. Payez en mode test Stripe et verifiez : devis `acompte_paye`, activite CRM, ligne `pro_revenue`.
+
+## 5 ter) Etat Vercel actuel a verifier
+Dans Vercel > Settings > Environment Variables, ajouter en Production:
+- `STRIPE_SECRET_KEY` : cle secrete du compte Stripe (`sk_test_...` pour test, `sk_live_...` pour prod).
+- `STRIPE_WEBHOOK_SECRET` : secret du webhook cree pour `https://leads-opportunities.vercel.app/api/stripe/webhook`.
+- `NEXT_PUBLIC_APP_URL` ou `APP_URL` : `https://leads-opportunities.vercel.app`.
 
 ## 6) Evolution recommandee
 - brancher webhook -> CRM / base client

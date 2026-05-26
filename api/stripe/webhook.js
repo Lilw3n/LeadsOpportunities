@@ -1,6 +1,6 @@
 const Stripe = require("stripe");
 
-const { getStripeClient } = require("../_lib/stripe");
+const { getStripeClient, getStripeWebhookSecret } = require("../_lib/stripe");
 
 const { applyApiGuards, readRawBody } = require("../_lib/security");
 
@@ -99,7 +99,7 @@ module.exports = async (req, res) => {
   }
 
   const stripe = getStripeClient();
-  const webhookSecret = (process.env.STRIPE_WEBHOOK_SECRET || "").trim();
+  const webhookSecret = getStripeWebhookSecret();
 
   if (!stripe || !webhookSecret) {
     return res.status(500).json({

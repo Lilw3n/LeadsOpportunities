@@ -1,7 +1,7 @@
 /**
  * GET /api/stripe/readiness — verifie la configuration Stripe cote CRM.
  */
-const { getStripeClient } = require("../stripe");
+const { getStripeClient, getStripeSecretKey, getStripeWebhookSecret } = require("../stripe");
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
 
@@ -17,8 +17,10 @@ module.exports = async (req, res) => {
   }
 
   const stripe = getStripeClient();
-  const hasSecret = !!(process.env.STRIPE_SECRET_KEY || "").trim();
-  const hasWebhookSecret = !!(process.env.STRIPE_WEBHOOK_SECRET || "").trim();
+  const secretKey = getStripeSecretKey();
+  const webhookSecret = getStripeWebhookSecret();
+  const hasSecret = !!secretKey;
+  const hasWebhookSecret = !!webhookSecret;
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "";
 
   if (!stripe) {
@@ -28,6 +30,7 @@ module.exports = async (req, res) => {
       hasWebhookSecret,
       appUrl,
       error: "STRIPE_SECRET_KEY manquant",
+      expectedSecretPrefix: "sk_test_ ou sk_live_",
     });
   }
 
@@ -39,6 +42,7 @@ module.exports = async (req, res) => {
       hasWebhookSecret,
       appUrl,
       accountId: account.id,
+      mode: secretKey.indexOf("sk_live_") === 0 ? "live" : "test",
       chargesEnabled: account.charges_enabled,
       payoutsEnabled: account.payouts_enabled,
       webhookUrl: (appUrl || "https://leads-opportunities.vercel.app") + "/api/stripe/webhook",

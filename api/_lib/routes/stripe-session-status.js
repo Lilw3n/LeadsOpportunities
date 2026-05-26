@@ -9,14 +9,14 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const stripe = getStripeClient();
-  if (!stripe) {
-    return res.status(500).json({ error: "Stripe non configure." });
-  }
-
   const url = new URL(req.url, "http://localhost");
   const sessionId = url.searchParams.get("session_id");
   if (!sessionId) return res.status(400).json({ error: "session_id requis" });
+
+  const stripe = getStripeClient();
+  if (!stripe) {
+    return res.status(503).json({ error: "Stripe non configure. STRIPE_SECRET_KEY requis." });
+  }
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId);
