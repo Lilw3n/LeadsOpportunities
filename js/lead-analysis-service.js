@@ -5,36 +5,36 @@ window.LeadAnalysisService = {
   SUBSCRIPTION_CONDITIONS: [
     {
       insurerId: "ASSUREUR_A",
-      insurerDisplayName: "Partenaire Premium",
+      insurerDisplayName: "Partenaire à étudier A",
       conditions: {
         age: { min: 25, max: 70 },
         geography: { acceptedZones: ["75", "92", "93", "94", "95", "77", "78", "91"], excludedZones: ["971"] },
-        budget: { minPremium: 800, maxPremium: 5000 },
+        budget: { minPremium: 0, maxPremium: null },
         history: { maxClaims: 2 },
       },
-      mandate: { commissionRate: 15 },
+      mandate: { commissionRate: null },
     },
     {
       insurerId: "ASSUREUR_B",
-      insurerDisplayName: "Solution Économique",
+      insurerDisplayName: "Partenaire à étudier B",
       conditions: {
         age: { min: 21, max: 75 },
         geography: { acceptedZones: ["all_france"], excludedZones: [] },
-        budget: { minPremium: 400, maxPremium: 3000 },
+        budget: { minPremium: 0, maxPremium: null },
         history: { maxClaims: 3 },
       },
-      mandate: { commissionRate: 12 },
+      mandate: { commissionRate: null },
     },
     {
       insurerId: "ASSUREUR_C",
-      insurerDisplayName: "Spécialiste Professionnel",
+      insurerDisplayName: "Partenaire à étudier C",
       conditions: {
         age: { min: 23, max: 65 },
         geography: { acceptedZones: ["75", "92", "93", "94", "69", "13", "31", "33", "59"], excludedZones: [] },
-        budget: { minPremium: 1200, maxPremium: 8000 },
+        budget: { minPremium: 0, maxPremium: null },
         history: { maxClaims: 1 },
       },
-      mandate: { commissionRate: 18 },
+      mandate: { commissionRate: null },
     },
   ],
 
@@ -42,7 +42,7 @@ window.LeadAnalysisService = {
     var age = data.dateOfBirth
       ? new Date().getFullYear() - new Date(data.dateOfBirth).getFullYear()
       : undefined;
-    var budget = parseFloat(data.budget) || 1200;
+    var budget = parseFloat(data.budget) || 0;
     return {
       id: "lead_" + Date.now(),
       sessionData: {
@@ -114,23 +114,11 @@ window.LeadAnalysisService = {
       metConditions.push({ condition: "Zone géographique OK" });
     }
     var budget = constraints.budget.max;
-    if (budget < insurer.conditions.budget.minPremium) {
-      obstacles.push({ type: "budget", description: "Budget min " + insurer.conditions.budget.minPremium + " €" });
-      score -= 20;
-    } else {
+    if (budget > 0) {
       metConditions.push({ condition: "Budget compatible" });
     }
     var level =
       score >= 80 ? "accepted" : score >= 60 ? "conditional" : score >= 40 ? "needs_review" : "rejected";
-    var base = insurer.conditions.budget.minPremium;
-    var priceEstimate =
-      score >= 55
-        ? {
-            min: Math.round(base * 0.9),
-            max: Math.round(base * 1.35),
-            confidence: Math.min(score, 85),
-          }
-        : null;
     return {
       insurerId: insurer.insurerId,
       insurerName: insurer.insurerDisplayName,
@@ -139,7 +127,7 @@ window.LeadAnalysisService = {
       metConditions: metConditions,
       obstacles: obstacles,
       adaptations: [],
-      priceEstimate: priceEstimate,
+      priceEstimate: null,
     };
   },
 
@@ -152,23 +140,11 @@ window.LeadAnalysisService = {
     var accepted = feasibility.insurerAnalysis.filter(function (a) {
       return a.acceptanceLevel === "accepted" || a.acceptanceLevel === "conditional";
     });
-    var commission =
-      accepted.length > 0
-        ? Math.round(
-            accepted.reduce(function (s, a) {
-              var ins = window.LeadAnalysisService.SUBSCRIPTION_CONDITIONS.find(function (i) {
-                return i.insurerId === a.insurerId;
-              });
-              var prem = a.priceEstimate ? (a.priceEstimate.min + a.priceEstimate.max) / 2 : 1000;
-              return s + prem * ((ins && ins.mandate.commissionRate) || 10) / 100;
-            }, 0) / accepted.length
-          )
-        : 0;
     return {
       qualificationScore: score,
       leadCategory: category,
-      conversionProbability: Math.min(95, score + 10),
-      revenueEstimate: { commission: commission, confidence: Math.min(85, score) },
+      conversionProbability: null,
+      revenueEstimate: { commission: null, confidence: null },
       recommendedActions: this.buildActions(category),
     };
   },

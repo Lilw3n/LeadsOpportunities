@@ -19,11 +19,11 @@
     marketplace: function () {
       return (
         "<h2>Marketplace Pro</h2>" +
-        '<p style="font-size:.88rem;color:#64748b">Formation certifiante, services pro, assurance — panier &amp; code COMMUNAUTE (-10 %).</p>' +
+        '<p style="font-size:.88rem;color:#64748b">Formation, services pro, assurance — offres à confirmer selon disponibilité.</p>' +
         '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:12px 0">' +
-        '<a href="marketplace.html" class="feed-item" style="text-decoration:none;color:inherit"><strong>Formation VTC</strong><p style="margin:4px 0 0;color:#64748b">299 € · Bestseller</p></a>' +
-        '<a href="marketplace.html" class="feed-item" style="text-decoration:none;color:inherit"><strong>Expertise sinistre</strong><p style="margin:4px 0 0;color:#64748b">150 €</p></a>' +
-        '<a href="marketplace.html" class="feed-item" style="text-decoration:none;color:inherit"><strong>Assurance VTC Premium</strong><p style="margin:4px 0 0;color:#64748b">Devis · Sponsorisé</p></a>' +
+        '<a href="marketplace.html" class="feed-item" style="text-decoration:none;color:inherit"><strong>Formation VTC</strong><p style="margin:4px 0 0;color:#64748b">Sur devis</p></a>' +
+        '<a href="marketplace.html" class="feed-item" style="text-decoration:none;color:inherit"><strong>Étude sinistre</strong><p style="margin:4px 0 0;color:#64748b">Sur devis</p></a>' +
+        '<a href="marketplace.html" class="feed-item" style="text-decoration:none;color:inherit"><strong>Étude assurance VTC</strong><p style="margin:4px 0 0;color:#64748b">Selon éligibilité</p></a>' +
         "</div>" +
         '<p><a href="marketplace.html">Marketplace complète →</a> · <a href="deals.html">#Deal bons plans</a></p>'
       );
@@ -31,7 +31,7 @@
     deals: function () {
       return (
         "<h2>Bons plans assurance</h2>" +
-        "<ul><li>-10 % parrainage mutuelle santé</li><li>1 mois offert RC Pro (conditions)</li></ul>" +
+        "<ul><li>Conditions partenaires à vérifier</li><li>Offres affichées uniquement après validation</li></ul>" +
         '<p><a href="deals.html">Tous les bons plans →</a></p>'
       );
     },

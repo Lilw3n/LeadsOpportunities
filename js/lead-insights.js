@@ -44,7 +44,7 @@
             ]
           : [
               ["RoutePro", "Pro Zen Auto", ["RC", "Vol", "Bris de glace"]],
-              ["Atlas", "VTC Plus", ["Defense recours", "Assistance 0 km"]],
+              ["Atlas", "VTC Plus", ["Defense recours", "Options selon partenaire"]],
               ["CityCover", "Business Line", ["Garantie conducteur", "Materiel"]],
             ];
     return labels.map(function (row, i) {

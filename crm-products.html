@@ -11,15 +11,41 @@
     .prod-card h3 { margin:0 0 8px; font-size:1rem; }
     .prod-meta { font-size:.82rem; color:var(--muted); }
     .prod-badge { display:inline-block; font-size:.72rem; padding:2px 8px; border-radius:8px; background:#e0f2fe; color:#0369a1; margin-right:6px; }
+    .prod-empty { padding:22px; border:1px dashed var(--line); border-radius:12px; background:#fff; color:var(--muted); margin-top:16px; }
+    .prod-form { margin-top:16px; padding:16px; border:1px solid var(--line); border-radius:12px; background:#fff; display:none; }
+    .prod-form.show { display:block; }
+    .prod-form label { display:block; font-size:.82rem; color:var(--muted); margin-bottom:8px; }
+    .prod-form input, .prod-form select, .prod-form textarea { width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; margin-top:4px; }
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <p style="color:var(--muted)">Catalogue commercial — inspire <code>ProductManager.tsx</code> multisite.</p>
+<body>
+  <p style="color:var(--muted)">Catalogue interne — à compléter uniquement avec des données vérifiées. Prix et commissions sont facultatifs.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
     <input type="search" id="prodSearch" placeholder="Rechercher un produit…" style="flex:1;min-width:200px;padding:10px;border:1px solid var(--line);border-radius:8px" />
     <select id="prodFilter"><option value="">Toutes catégories</option><option value="assurance-auto">Auto</option><option value="assurance-entreprise">Entreprise</option><option value="assurance-sante">Santé</option><option value="assurance-pro">RC Pro</option></select>
+    <button type="button" class="btn btn-primary" id="btnProductNew">Ajouter un produit vérifié</button>
   </div>
+  <form id="productForm" class="prod-form">
+    <input type="hidden" id="productId" />
+    <div class="grid">
+      <label>Nom du produit<input id="productName" required placeholder="Nom exact vérifié" /></label>
+      <label>Catégorie<select id="productCategory"><option value="">Non classé</option><option value="assurance-auto">Auto</option><option value="assurance-entreprise">Entreprise</option><option value="assurance-sante">Santé</option><option value="assurance-pro">RC Pro</option></select></label>
+      <label>Statut<select id="productStatus"><option value="draft">Brouillon</option><option value="verified">Vérifié</option><option value="disabled">Désactivé</option></select></label>
+    </div>
+    <div class="grid">
+      <label>Type / gamme<input id="productType" placeholder="Facultatif" /></label>
+      <label>Prix indicatif EUR<input id="productPrice" type="number" min="0" step="0.01" placeholder="Facultatif" /></label>
+      <label>Commission %<input id="productCommission" type="number" min="0" step="0.01" placeholder="Facultatif" /></label>
+    </div>
+    <label>Description vérifiée<textarea id="productDescription" rows="3" placeholder="Ne renseigner que les informations confirmées"></textarea></label>
+    <label>Cibles<textarea id="productAudience" rows="2" placeholder="Séparées par virgules, facultatif"></textarea></label>
+    <label>Notes internes<textarea id="productNotes" rows="3" placeholder="Notes non publiques"></textarea></label>
+    <p style="display:flex;gap:8px;flex-wrap:wrap">
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <button type="button" class="btn btn-ghost" id="btnProductCancel">Annuler</button>
+    </p>
+  </form>
   <div id="prodGrid" class="prod-grid"></div>
   <script src="./js/crm-product-service.js"></script>
   <script src="./js/crm-sidebar.js"></script>

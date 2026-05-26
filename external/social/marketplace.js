@@ -3,14 +3,14 @@
   var WISH_KEY = "lo_marketplace_wish_v1";
 
   var products = [
-    { id: "p1", title: "Formation VTC certifiante", cat: "Formation", price: 299, priceLabel: "299 €", rating: 4.9, sales: 842, tags: ["bestseller"], desc: "Parcours complet examen + business.", href: "../formation/vtc-professionnel.html" },
-    { id: "p2", title: "Expertise sinistre express", cat: "Services", price: 150, priceLabel: "150 €", rating: 4.7, sales: 312, tags: ["sale"], desc: "Analyse dossier sous 48h.", href: "../claim-declare.html" },
-    { id: "p3", title: "Comptabilité VTC annuelle", cat: "Services", price: 0, priceLabel: "Sur devis", rating: 4.8, sales: 156, tags: [], desc: "Tenue + liasse fiscale VTC.", href: "../devis-wizard.html?type=rc-pro" },
-    { id: "p4", title: "Audit contrat flotte", cat: "Assurance", price: 199, priceLabel: "199 €", rating: 4.6, sales: 98, tags: ["new"], desc: "Revue multi-contrats entreprise.", href: "../assurance/produit.html?p=flotte" },
-    { id: "p5", title: "Coaching bonus-malus", cat: "Formation", price: 89, priceLabel: "89 €", rating: 4.5, sales: 421, tags: [], desc: "Session live 1h avec expert.", href: "live.html" },
-    { id: "p6", title: "Assurance VTC Premium", cat: "Assurance", price: 0, priceLabel: "Devis", rating: 4.9, sales: 1200, tags: ["bestseller", "sponsored"], desc: "Économisez jusqu'à 40% — comparatif courtiers.", href: "../assurance/vtc.html" },
-    { id: "p7", title: "Entretien véhicule VTC à domicile", cat: "Services", price: 79, priceLabel: "79 €", rating: 4.4, sales: 67, tags: ["new"], desc: "Livraison gratuite zone urbaine.", href: "../devis-wizard.html" },
-    { id: "p8", title: "Pack RC Pro + décennale", cat: "Assurance", price: 0, priceLabel: "Devis", rating: 4.7, sales: 203, tags: [], desc: "Bundle artisans BTP.", href: "../assurance/rc-pro.html" },
+    { id: "p1", title: "Formation VTC", cat: "Formation", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Parcours à confirmer selon disponibilité.", href: "../formation/vtc-professionnel.html" },
+    { id: "p2", title: "Étude sinistre", cat: "Services", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Analyse possible après réception des pièces.", href: "../claim-declare.html" },
+    { id: "p3", title: "Accompagnement comptable VTC", cat: "Services", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Mise en relation ou étude selon besoin.", href: "../devis-wizard.html?type=rc-pro" },
+    { id: "p4", title: "Étude contrat flotte", cat: "Assurance", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Revue multi-contrats après transmission des éléments.", href: "../assurance/produit.html?p=flotte" },
+    { id: "p5", title: "Conseil bonus-malus", cat: "Formation", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Session à organiser selon disponibilité.", href: "live.html" },
+    { id: "p6", title: "Étude assurance VTC", cat: "Assurance", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Comparaison selon éligibilité et partenaires disponibles.", href: "../assurance/vtc.html" },
+    { id: "p7", title: "Service véhicule VTC", cat: "Services", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Prestation à confirmer selon zone et partenaire.", href: "../devis-wizard.html" },
+    { id: "p8", title: "Étude RC Pro / décennale", cat: "Assurance", price: 0, priceLabel: "Sur devis", rating: null, sales: null, tags: [], desc: "Étude selon activité déclarée et pièces transmises.", href: "../assurance/rc-pro.html" },
   ];
 
   function esc(s) {
@@ -42,10 +42,10 @@
   function tagHtml(tags) {
     return (tags || [])
       .map(function (t) {
-        if (t === "bestseller") return '<span class="mp-tag mp-tag-hot">Bestseller</span>';
+        if (t === "bestseller") return '<span class="mp-tag mp-tag-hot">Mis en avant</span>';
         if (t === "new") return '<span class="mp-tag mp-tag-new">Nouveau</span>';
         if (t === "sale") return '<span class="mp-tag mp-tag-sale">Vente Flash</span>';
-        if (t === "sponsored") return '<span class="mp-tag mp-tag-hot">Sponsorisé</span>';
+        if (t === "sponsored") return '<span class="mp-tag mp-tag-hot">Partenaire</span>';
         return "";
       })
       .join("");
@@ -125,7 +125,7 @@
           '</p><div class="mp-price">' +
           esc(p.priceLabel) +
           (p.rating ? ' · ⭐ ' + p.rating : "") +
-          (p.sales ? " · " + p.sales + " ventes" : "") +
+          "" +
           '</div><button type="button" class="btn-add" data-id="' +
           esc(p.id) +
           '">Ajouter au panier</button><button type="button" class="btn-wish secondary" data-id="' +

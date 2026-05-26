@@ -12,22 +12,13 @@ window.IntelligentQuoteWizard = {
   ],
 
   mockOffers: function (type, budget) {
-    var b = parseFloat(budget) || 1200;
-    var names =
-      type === "vtc-taxi"
-        ? ["Solly Azar Pro", "Zéphir VTC", "2M2A Taxi"]
-        : type === "habitation"
-          ? ["April", "MAIF", "Groupama"]
-          : type === "sante"
-            ? ["April Santé", "Harmonie", "Malakoff"]
-            : ["Allianz", "AXA", "MAIF"];
-    return names.map(function (name, i) {
-      var premium = Math.round(b * (0.85 + i * 0.12 + Math.random() * 0.1));
+    var labels = ["Partenaire à vérifier A", "Partenaire à vérifier B", "Partenaire à vérifier C"];
+    return labels.map(function (name) {
       return {
         insurer: name,
-        premium: premium,
-        score: Math.max(60, 95 - i * 8 - Math.floor(Math.random() * 5)),
-        recommended: i === 1,
+        premium: null,
+        score: null,
+        recommended: false,
       };
     });
   },
@@ -236,21 +227,16 @@ window.IntelligentQuoteWizard = {
     function stepComparison() {
       if (!offers.length) offers = self.mockOffers(data.insuranceType, data.budget);
       return (
-        '<p>Analyse en temps réel — offres indicatives (multisite EnhancedQuoteWizard).</p>' +
+        '<p>Pré-analyse indicative : les garanties, tarifs et partenaires seront confirmés après étude du dossier.</p>' +
         '<div class="offers-grid">' +
         offers
           .map(function (o) {
             return (
               '<div class="offer-card' +
-              (o.recommended ? " recommended" : "") +
+              "" +
               '"><h3>' +
               self.esc(o.insurer) +
-              (o.recommended ? " ★ Recommandé" : "") +
-              "</h3><p><strong>" +
-              o.premium +
-              " €</strong> / an</p><p>Score " +
-              o.score +
-              "%</p></div>"
+              "</h3><p>À confirmer selon éligibilité, pièces transmises et disponibilité partenaire.</p></div>"
             );
           })
           .join("") +
@@ -370,7 +356,6 @@ window.IntelligentQuoteWizard = {
       if (options.crmContactId) {
         var headers = { "Content-Type": "application/json" };
         if (options.token) headers.Authorization = "Bearer " + options.token;
-        var premium = offers.length ? offers.find(function (o) { return o.recommended; }) || offers[0] : null;
         fetch("/api/crm/quotes", {
           method: "POST",
           headers: headers,
@@ -378,7 +363,7 @@ window.IntelligentQuoteWizard = {
             contactId: options.crmContactId,
             productType: data.insuranceType,
             title: "Devis " + (data.insuranceType || "assurance"),
-            premiumEstimate: premium ? premium.premium : null,
+            premiumEstimate: null,
             data: payload,
           }),
         })

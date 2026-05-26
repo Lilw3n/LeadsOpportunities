@@ -1,11 +1,11 @@
 (function () {
   var deals = [
-    { title: "-10 % parrainage mutuelle", desc: "Pour chaque salarié parrainé dans votre entreprise.", until: "31/12/2026", cat: "Santé", save: 10, trend: true, link: "../assurance/produit.html?p=sante-collective" },
-    { title: "1 mois RC Pro offert", desc: "Nouveaux clients TPE — sans engagement 12 mois.", until: "30/06/2026", cat: "Assurance", save: 15, trend: true, link: "../assurance/produit.html?p=rc-pro" },
-    { title: "Franchise réduite VTC", desc: "Partenaire Zéphir — conditions d'éligibilité.", until: "Permanent", cat: "Assurance", save: 8, trend: false, link: "../devis-wizard.html?type=vtc-taxi" },
-    { title: "Formation VTC -20 %", desc: "Pack examen + business avec code COMMUNAUTE.", until: "15/09/2026", cat: "Formation", save: 20, trend: false, link: "../formation/vtc-professionnel.html" },
-    { title: "Audit flotte gratuit", desc: "Revue multi-contrats pour 5+ véhicules.", until: "31/08/2026", cat: "Services", save: 25, trend: true, link: "../assurance/produit.html?p=flotte" },
-    { title: "Cyber RC Pro bundle", desc: "RC Pro + extension cyber à tarif préférentiel.", until: "31/12/2026", cat: "Assurance", save: 12, trend: false, link: "../assurance/rc-pro.html" },
+    { title: "Étude parrainage mutuelle", desc: "Conditions à vérifier selon partenaire.", until: "Selon disponibilité", cat: "Santé", save: null, trend: true, link: "../assurance/produit.html?p=sante-collective" },
+    { title: "Étude RC Pro", desc: "Proposition éventuelle après étude du dossier.", until: "Selon disponibilité", cat: "Assurance", save: null, trend: true, link: "../assurance/produit.html?p=rc-pro" },
+    { title: "Étude franchise VTC", desc: "Conditions d'éligibilité à vérifier auprès du partenaire.", until: "Selon disponibilité", cat: "Assurance", save: null, trend: false, link: "../devis-wizard.html?type=vtc-taxi" },
+    { title: "Formation VTC", desc: "Programme et conditions à confirmer.", until: "Selon disponibilité", cat: "Formation", save: null, trend: false, link: "../formation/vtc-professionnel.html" },
+    { title: "Étude flotte", desc: "Revue multi-contrats après transmission des éléments.", until: "Selon disponibilité", cat: "Services", save: null, trend: true, link: "../assurance/produit.html?p=flotte" },
+    { title: "Étude Cyber / RC Pro", desc: "Options possibles selon activité et partenaire.", until: "Selon disponibilité", cat: "Assurance", save: null, trend: false, link: "../assurance/rc-pro.html" },
   ];
 
   function esc(s) {
@@ -37,7 +37,7 @@
         return (d.title + " " + d.desc + " " + d.cat).toLowerCase().indexOf(q) >= 0;
       });
     }
-    if (sort === "save") list.sort(function (a, b) { return b.save - a.save; });
+    if (sort === "save") list.sort(function (a, b) { return Number(b.save || 0) - Number(a.save || 0); });
     else if (sort === "trend") list.sort(function (a, b) { return (b.trend ? 1 : 0) - (a.trend ? 1 : 0); });
     var el = document.getElementById("dlList");
     var empty = document.getElementById("dlEmpty");
@@ -55,9 +55,8 @@
           esc(d.cat) +
           "</span>" +
           (d.trend ? '<span class="dl-tag dl-tag-hot">🔥 Tendance</span>' : "") +
-          '<span class="dl-tag">Économisez ~' +
-          d.save +
-          '%</span></div><h3>' +
+          (d.save ? '<span class="dl-tag">Économie estimée ~' + d.save + "%</span>" : '<span class="dl-tag">Selon éligibilité</span>') +
+          '</div><h3>' +
           esc(d.title) +
           "</h3><p>" +
           esc(d.desc) +

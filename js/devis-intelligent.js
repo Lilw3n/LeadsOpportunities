@@ -33,17 +33,17 @@
       '">' +
       feasibility.overallFeasibility +
       "% faisabilité</div></header>" +
-      "<h2>Analyse par partenaires</h2>";
+      "<h2>Pré-analyse par partenaires</h2>";
 
     feasibility.insurerAnalysis.forEach(function (a) {
       var label =
         a.acceptanceLevel === "accepted"
-          ? "✅ Accepté"
+          ? "À confirmer"
           : a.acceptanceLevel === "conditional"
-            ? "⚠️ Conditionnel"
+            ? "Sous réserve"
             : a.acceptanceLevel === "needs_review"
-              ? "🔍 À étudier"
-              : "❌ Non éligible";
+              ? "À étudier"
+              : "Non compatible à ce stade";
       html +=
         '<div class="insurer-card ' +
         (a.acceptanceLevel === "accepted"
@@ -59,14 +59,6 @@
         " · " +
         a.feasibilityScore +
         "%</span></div>";
-      if (a.priceEstimate) {
-        html +=
-          '<p style="margin:12px 0 0"><strong>Estimation :</strong> ' +
-          a.priceEstimate.min +
-          " € – " +
-          a.priceEstimate.max +
-          " € / an</p>";
-      }
       if (a.obstacles.length) {
         html += "<ul style='margin:8px 0 0;font-size:.9rem'>";
         a.obstacles.forEach(function (o) {
@@ -94,14 +86,8 @@
         : qualification.leadCategory === "warm"
           ? "⭐ Qualifié"
           : "📋 Standard") +
-      "</strong> · Conversion estimée " +
-      qualification.conversionProbability +
-      "% · Commission ~" +
-      qualification.revenueEstimate.commission +
-      " €</p>" +
-      "<p>Un conseiller vous recontacte sous " +
-      (qualification.leadCategory === "hot" ? "2 heures" : "24 heures") +
-      ".</p>" +
+      "</strong> · Pré-analyse indicative, à confirmer par un conseiller</p>" +
+      "<p>Un conseiller vérifiera les garanties, tarifs et conditions réelles avant toute proposition.</p>" +
       '<p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">' +
       '<button type="button" class="di-btn" id="btnRestart" style="margin-top:0">Nouvelle analyse</button> ' +
       '<button type="button" class="di-btn" id="btnCopyResults" style="margin-top:0;background:#fff;color:#312e81">Copier résumé</button> ' +
@@ -147,7 +133,7 @@
             leadAnalysis: {
               feasibilityScore: feasibility.overallFeasibility,
               leadCategory: qualification.leadCategory,
-              commissionEstimate: qualification.revenueEstimate.commission,
+              commissionEstimate: null,
             },
           })
         ),

@@ -27,6 +27,7 @@ const ROUTES = {
   "pending-documents": () => require("../_lib/routes/crm-pending-documents"),
   "universal-search": () => require("../_lib/routes/crm-universal-search"),
   "insurance-requests": () => require("../_lib/routes/crm-insurance-requests"),
+  products: () => require("../_lib/routes/crm-products"),
   "intelligent-alerts": () => require("../_lib/routes/crm-intelligent-alerts"),
   "document-approve": () => require("../_lib/routes/crm-document-approve"),
   "document-download": () => require("../_lib/routes/crm-document-download"),

@@ -16,5 +16,6 @@ Executer chaque fichier SQL dans la console Neon (SQL Editor), dans cet ordre :
 12. `lead-enrichment.sql`
 13. `pro-accounting.sql`
 14. `lead-private-workflow.sql`
+15. `crm-products.sql`
 
 Puis verifier avec `node scripts/verify-prod-readiness.cjs` (variables d env requises).
