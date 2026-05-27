@@ -3,6 +3,7 @@
  */
 (function () {
   var LS_SYNC = "mbx_last_imap_sync";
+  var LS_SYNC_ERR = "mbx_last_imap_error";
   var LS_SETUP_HIDE = "mbx_setup_hidden";
   var SYNC_INTERVAL_MS = 10 * 60 * 1000;
 
@@ -183,15 +184,31 @@
 
     var hint = document.getElementById("mailboxSyncHint");
     if (!hint) return;
+    var err = localStorage.getItem(LS_SYNC_ERR);
     if (!state.imapConfigured) {
-      hint.textContent = "IMAP inactif";
+      hint.innerHTML =
+        '<span style="color:#b45309">IMAP inactif — ajoutez MAIL_IMAP_USER et MAIL_IMAP_PASS sur Vercel, puis « Synchroniser IMAP ».</span>';
+      return;
+    }
+    if (err) {
+      hint.innerHTML =
+        '<span style="color:#b91c1c">Erreur IMAP : ' +
+        esc(err) +
+        " — verifiez mot de passe, hote (leadsopportunities.fr ou mail.leadsopportunities.fr) et MAIL_IMAP_TLS_INSECURE=true si certificat.</span>";
       return;
     }
     var last = localStorage.getItem(LS_SYNC);
+    var imapN = (state.stats && state.stats.imapMessages) || 0;
     if (last) {
-      hint.textContent = "Derniere sync IMAP : " + fmtDate(last);
+      hint.textContent =
+        "Derniere sync : " +
+        fmtDate(last) +
+        " — " +
+        imapN +
+        " e-mail(s) boite en base. Les formulaires site s'affichent sans sync.";
     } else {
-      hint.textContent = "Sync IMAP : jamais";
+      hint.textContent =
+        "IMAP configure — cliquez « Synchroniser IMAP » pour importer la boite contact@ (les mails site sont deja la).";
     }
   }
 
@@ -615,16 +632,21 @@
       btn.textContent = "Synchroniser IMAP";
     }
     if (!data.ok) {
+      localStorage.setItem(LS_SYNC_ERR, data.error || "Erreur sync");
       if (!silent) toast(data.error || "Erreur sync", "error");
+      updateStatusBar();
       return;
     }
     if (data.sync && data.sync.ok) {
       localStorage.setItem(LS_SYNC, new Date().toISOString());
-      if (!silent) toast("Sync OK — " + (data.sync.imported || 0) + " e-mail(s)");
-    } else if (data.sync && data.sync.skipped && !silent) {
-      toast(data.sync.error || "IMAP non configure", "error");
-    } else if (data.sync && data.sync.error && !silent) {
-      toast(data.sync.error, "error");
+      localStorage.removeItem(LS_SYNC_ERR);
+      if (!silent) toast("Sync OK — " + (data.sync.imported || 0) + " e-mail(s) importe(s)");
+    } else if (data.sync && data.sync.skipped) {
+      localStorage.setItem(LS_SYNC_ERR, data.sync.error || "IMAP non configure");
+      if (!silent) toast(data.sync.error || "IMAP non configure", "error");
+    } else if (data.sync && data.sync.error) {
+      localStorage.setItem(LS_SYNC_ERR, data.sync.error);
+      if (!silent) toast(data.sync.error, "error");
     }
     if (data.messages) ingestMessages(data, { skipAutoSelect: true });
     else if (!silent) loadMailbox({ skipAutoSelect: true });
