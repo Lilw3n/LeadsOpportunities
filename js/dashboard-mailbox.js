@@ -607,7 +607,12 @@
       : "Re: " + (m.subject || "");
     document.getElementById("mailboxReplyToId").value = m.id;
     document.getElementById("mailboxReplySummary").textContent = "Repondre a " + replyTo;
-    document.getElementById("mailboxReplyPanel").open = true;
+    var panel = document.getElementById("mailboxReplyPanel");
+    if (panel) {
+      setTimeout(function () {
+        panel.scrollIntoView({ block: "end", behavior: "smooth" });
+      }, 80);
+    }
   }
 
   function selectThread(key, opts) {
@@ -855,7 +860,6 @@
       document.getElementById("mailboxReplyTo").value = "";
       document.getElementById("mailboxReplySubject").value = "";
       document.getElementById("mailboxReplyBody").value = "";
-      document.getElementById("mailboxReplyPanel").open = true;
     });
 
     document.getElementById("mailboxBackBtn").addEventListener("click", function () {
