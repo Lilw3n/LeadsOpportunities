@@ -153,15 +153,29 @@
   }
 
   function load() {
+    document.getElementById("kanban").innerHTML = '<p class="panel">Chargement…</p>';
     fetch("/api/dashboard/leads?limit=100", {
       headers: { Authorization: "Bearer " + token },
     })
       .then(function (r) {
-        return r.json();
+        return r.json().then(function (body) {
+          return { ok: r.ok, body: body };
+        });
       })
       .then(function (res) {
-        allLeads = res.leads || [];
+        if (!res.ok) {
+          document.getElementById("kanban").innerHTML =
+            '<div class="crm-empty-state"><h3>Accès refusé</h3><p>' +
+            esc((res.body && res.body.error) || "Impossible de charger les leads.") +
+            "</p></div>";
+          return;
+        }
+        allLeads = res.body.leads || [];
         render();
+      })
+      .catch(function () {
+        document.getElementById("kanban").innerHTML =
+          '<div class="crm-empty-state"><h3>Erreur réseau</h3><p>Réessayez dans quelques instants.</p></div>';
       });
   }
 

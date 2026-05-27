@@ -1,6 +1,6 @@
 const { getStripeAppUrl, getStripeClient, toStripeAmount } = require("../stripe");
 const { applyApiGuards, parseJsonBody } = require("../security");
-const { requireCrm } = require("../rbac");
+const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
 
@@ -29,12 +29,15 @@ module.exports = async (req, res) => {
   const quoteId = body.quoteId || body.quote_id;
   if (!quoteId) return res.status(400).json({ error: "quoteId requis" });
 
+  const scope = contactScopeFilter(user);
+
   try {
     const rows = await sql`
       SELECT q.*, c.email AS contact_email, c.first_name, c.last_name
       FROM crm_quotes q
       INNER JOIN crm_contacts c ON c.id = q.contact_id
       WHERE q.id = ${quoteId}
+        AND (${scope}::text IS NULL OR c.assigned_to = ${scope})
       LIMIT 1
     `;
     if (!rows.length) return res.status(404).json({ error: "Devis introuvable" });

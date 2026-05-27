@@ -682,6 +682,28 @@
   min-width: 180px;
 }
 
+.crm-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text, #0f172a);
+}
+.crm-label .crm-input,
+.crm-label input,
+.crm-label select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  box-sizing: border-box;
+}
+.crm-input {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
 /* KPI */
 .crm-kpis {
   display: grid;

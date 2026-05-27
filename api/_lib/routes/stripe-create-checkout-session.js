@@ -1,5 +1,6 @@
 const { getStripeAppUrl, getStripeClient, toStripeAmount } = require("../stripe");
 const { applyApiGuards, parseJsonBody } = require("../security");
+const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
 
@@ -10,6 +11,9 @@ module.exports = async (req, res) => {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
   }
+
+  const user = await requireCrm(req, res);
+  if (!user) return;
 
   const stripe = getStripeClient();
   if (!stripe) {
@@ -32,22 +36,28 @@ module.exports = async (req, res) => {
 
     if (referenceId && referenceId !== "none" && String(referenceId).indexOf("qte_") === 0) {
       const sql = getSql();
+      const scope = contactScopeFilter(user);
       if (sql) {
         const rows = await sql`
-          SELECT * FROM crm_quotes WHERE id = ${referenceId} LIMIT 1
+          SELECT q.* FROM crm_quotes q
+          INNER JOIN crm_contacts c ON c.id = q.contact_id
+          WHERE q.id = ${referenceId}
+            AND (${scope}::text IS NULL OR c.assigned_to = ${scope})
+          LIMIT 1
         `;
-        if (rows.length) {
-          const quote = rows[0];
-          if (quote.status === "acompte_paye") {
-            return res.status(400).json({ error: "Acompte deja paye pour ce devis." });
-          }
-          const serverAmount = resolveDepositAmountEur(quote);
-          if (serverAmount) {
-            amountEur = serverAmount;
-          }
-          const check = validateDepositAmountEur(amountEur, quote);
-          if (!check.ok) return res.status(400).json({ error: check.error });
+        if (!rows.length) {
+          return res.status(404).json({ error: "Devis introuvable ou hors perimetre." });
         }
+        const quote = rows[0];
+        if (quote.status === "acompte_paye") {
+          return res.status(400).json({ error: "Acompte deja paye pour ce devis." });
+        }
+        const serverAmount = resolveDepositAmountEur(quote);
+        if (serverAmount) {
+          amountEur = serverAmount;
+        }
+        const check = validateDepositAmountEur(amountEur, quote);
+        if (!check.ok) return res.status(400).json({ error: check.error });
       }
     }
 
@@ -90,14 +100,18 @@ module.exports = async (req, res) => {
 
     if (referenceId && referenceId !== "none" && String(referenceId).indexOf("qte_") === 0) {
       const sql = getSql();
+      const scope = contactScopeFilter(user);
       if (sql) {
         await sql`
-          UPDATE crm_quotes SET
+          UPDATE crm_quotes q SET
             deposit_amount = ${amountEur},
             stripe_session_id = ${session.id},
             stripe_payment_status = 'pending',
             updated_at = NOW()
-          WHERE id = ${referenceId}
+          FROM crm_contacts c
+          WHERE q.id = ${referenceId}
+            AND c.id = q.contact_id
+            AND (${scope}::text IS NULL OR c.assigned_to = ${scope})
         `;
       }
     }

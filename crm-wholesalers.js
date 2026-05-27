@@ -82,10 +82,10 @@
     });
   }
 
-  document.querySelectorAll("#filters button").forEach(function (btn) {
+  document.querySelectorAll("#filters .crm-filter-chip").forEach(function (btn) {
     btn.onclick = function () {
       filter = btn.getAttribute("data-f");
-      document.querySelectorAll("#filters button").forEach(function (b) {
+      document.querySelectorAll("#filters .crm-filter-chip").forEach(function (b) {
         b.classList.toggle("active", b === btn);
       });
       render();
