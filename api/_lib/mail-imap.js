@@ -1,10 +1,23 @@
 const { getSql } = require("./db");
 
+function o2switchServerHosts() {
+  const fromEnv = process.env.MAIL_IMAP_HOST_O2SWITCH;
+  if (fromEnv) {
+    return fromEnv
+      .split(/[,;]/)
+      .map(function (s) {
+        return s.trim();
+      })
+      .filter(Boolean);
+  }
+  return ["mail.sodium.o2switch.net", "sodium.o2switch.net"];
+}
+
 function imapHosts(host) {
   const base = String(host || "leadsopportunities.fr")
     .replace(/^mail\./, "")
     .replace(/^imap\./, "");
-  const list = [host, base, "mail." + base, "imap." + base].filter(Boolean);
+  const list = o2switchServerHosts().concat([host, base, "mail." + base, "imap." + base]).filter(Boolean);
   const seen = new Set();
   return list.filter(function (h) {
     const k = h.toLowerCase();
@@ -14,17 +27,23 @@ function imapHosts(host) {
   });
 }
 
-function tlsOptions(host) {
+/** Certificat o2switch = *.sodium.o2switch.net, pas mail.leadsopportunities.fr */
+function tlsOptions(connectHost) {
   if (process.env.MAIL_IMAP_TLS_STRICT === "true") {
-    return { rejectUnauthorized: true };
+    return { rejectUnauthorized: true, servername: connectHost };
   }
-  if (process.env.MAIL_IMAP_TLS_INSECURE === "true") {
-    return { rejectUnauthorized: false };
-  }
-  if (/leadsopportunities|o2switch/i.test(host)) {
-    return { rejectUnauthorized: false };
-  }
-  return { rejectUnauthorized: true };
+
+  const servername =
+    process.env.MAIL_IMAP_TLS_SERVERNAME || "mail.sodium.o2switch.net";
+
+  return {
+    rejectUnauthorized: false,
+    servername: servername,
+    minVersion: "TLSv1.2",
+    checkServerIdentity: function () {
+      return undefined;
+    },
+  };
 }
 
 function imapConfig() {

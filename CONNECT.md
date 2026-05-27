@@ -63,7 +63,8 @@ Pour **repondre depuis le dashboard** (`/dashboard.html` → Messagerie), verifi
 
 | Variable | Exemple |
 |----------|---------|
-| `MAIL_IMAP_HOST` | `leadsopportunities.fr` (pas `mail.` si certificat refuse) |
+| `MAIL_IMAP_HOST` | **`mail.sodium.o2switch.net`** (certificat o2switch ; login = `contact@leadsopportunities.fr`) |
+| `MAIL_IMAP_TLS_SERVERNAME` | `mail.sodium.o2switch.net` (defaut auto si non renseigne) |
 | `MAIL_IMAP_PORT` | `993` |
 | `MAIL_IMAP_USER` | `contact@leadsopportunities.fr` |
 | `MAIL_IMAP_PASS` | mot de passe boite o2switch |
