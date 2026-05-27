@@ -953,6 +953,65 @@
     @media (max-width: 960px) {
       .mbx-back-mobile { display: inline-flex; align-items: center; gap: 6px; }
     }
+    .mbx-statusbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .mbx-statusbar strong { color: var(--text); }
+    .mbx-stat { cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+    .mbx-stat:hover { border-color: var(--primary); box-shadow: 0 2px 10px rgba(37, 99, 235, 0.08); }
+    .mbx-stat.is-active-stat { border-color: var(--primary); background: var(--primary-light); }
+    .mbx-toolbar-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .mbx-sort-btn {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--muted);
+    }
+    .mbx-templates {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    .mbx-templates select {
+      font-family: inherit;
+      font-size: 0.85rem;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
+    .mbx-thread {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--line);
+    }
+    .mbx-thread h4 { margin: 0 0 10px; font-size: 0.85rem; color: var(--muted); }
+    .mbx-thread-item {
+      font-size: 0.82rem;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #f8fafc;
+      margin-bottom: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .mbx-thread-item:hover { border-color: var(--line); }
     .nav-badge {
       margin-left: auto;
       background: #ef4444;
@@ -1033,6 +1092,7 @@
         <a href="#" class="nav-link" data-section="mailbox">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 4l8 8 8-8"/></svg>
           Messagerie
+          <span class="nav-badge" id="mailboxNavBadge" hidden>0</span>
         </a>
 
         <div class="sidebar-section">Outils</div>
@@ -1325,11 +1385,16 @@
           </div>
         </div>
 
+        <div class="mbx-statusbar" id="mailboxStatusBar">
+          <span id="mailboxLastUpdate">—</span>
+          <span id="mailboxSyncHint"></span>
+        </div>
+
         <div class="mbx-stats" id="mailboxStats">
-          <div class="mbx-stat"><strong id="mbxStatTotal">—</strong><span>Total</span></div>
-          <div class="mbx-stat"><strong id="mbxStatSite">—</strong><span>Demandes site</span></div>
-          <div class="mbx-stat"><strong id="mbxStatImap">—</strong><span>E-mails boite</span></div>
-          <div class="mbx-stat"><strong id="mbxStatOut">—</strong><span>Envoyes</span></div>
+          <button type="button" class="mbx-stat" data-stat-filter="all" title="Afficher tout"><strong id="mbxStatTotal">—</strong><span>Total</span></button>
+          <button type="button" class="mbx-stat" data-stat-filter="site" title="Demandes formulaire"><strong id="mbxStatSite">—</strong><span>Demandes site <em id="mbxStatSite7d" style="font-style:normal;font-weight:400"></em></span></button>
+          <button type="button" class="mbx-stat" data-stat-filter="imap" title="E-mails IMAP"><strong id="mbxStatImap">—</strong><span>E-mails boite</span></button>
+          <button type="button" class="mbx-stat" data-stat-filter="outbound" title="Messages envoyes"><strong id="mbxStatOut">—</strong><span>Envoyes</span></button>
         </div>
 
         <div class="mbx-setup" id="mailboxSetup" hidden></div>
@@ -1338,12 +1403,15 @@
           <div class="mbx-pane-list" id="mailboxPaneList">
             <div class="mbx-toolbar">
               <input type="search" class="mbx-search" id="mailboxSearch" placeholder="Rechercher (objet, e-mail, texte)…" autocomplete="off" />
-              <div class="mbx-filters" id="mailboxFilters">
-                <button type="button" class="mbx-filter is-active" data-filter="all">Tout</button>
-                <button type="button" class="mbx-filter" data-filter="site">Site</button>
-                <button type="button" class="mbx-filter" data-filter="imap">Boite mail</button>
-                <button type="button" class="mbx-filter" data-filter="inbound">Recus</button>
-                <button type="button" class="mbx-filter" data-filter="outbound">Envoyes</button>
+              <div class="mbx-toolbar-row">
+                <div class="mbx-filters" id="mailboxFilters">
+                  <button type="button" class="mbx-filter is-active" data-filter="all">Tout</button>
+                  <button type="button" class="mbx-filter" data-filter="site">Site</button>
+                  <button type="button" class="mbx-filter" data-filter="imap">Boite mail</button>
+                  <button type="button" class="mbx-filter" data-filter="inbound">Recus</button>
+                  <button type="button" class="mbx-filter" data-filter="outbound">Envoyes</button>
+                </div>
+                <button type="button" class="mbx-sort-btn" id="mailboxSortBtn" title="Raccourci : touche S">Plus recent</button>
               </div>
             </div>
             <div class="mbx-list" id="mailboxList"></div>
@@ -1362,6 +1430,16 @@
                 <summary id="mailboxReplySummary">Repondre</summary>
                 <form class="mbx-reply-form" id="mailboxReplyForm">
                   <input type="hidden" id="mailboxReplyToId" />
+                  <div class="mbx-templates">
+                    <label style="font-size:0.78rem;font-weight:700;color:var(--muted)">Modele rapide
+                      <select id="mailboxTemplate">
+                        <option value="">— Choisir un modele —</option>
+                        <option value="merci">Accuse de reception</option>
+                        <option value="rdv">Proposition de rappel</option>
+                        <option value="devis">Suite devis en cours</option>
+                      </select>
+                    </label>
+                  </div>
                   <label>Destinataire<input type="email" id="mailboxReplyTo" required autocomplete="email" /></label>
                   <label>Objet<input type="text" id="mailboxReplySubject" required /></label>
                   <label>Message<textarea id="mailboxReplyBody" required placeholder="Bonjour,&#10;&#10;Merci pour votre message…"></textarea></label>
@@ -1518,7 +1596,7 @@
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
         if (a.dataset.section === "leads") { loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
-        if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox();
+        if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox({ autoSync: true });
       });
     });
 
@@ -2002,6 +2080,8 @@
     if (params.get("section") === "leads") {
       setTimeout(function () {
         goToLeads(params.get("view") || "");
+        var leadId = params.get("lead");
+        if (leadId) setTimeout(function () { openLeadDetail(leadId); }, 400);
       }, 100);
     } else if (params.get("section") === "partners") {
       setTimeout(function () {
@@ -2023,7 +2103,10 @@
           s.classList.remove("active");
         });
         document.getElementById("sec-mailbox").classList.add("active");
-        if (window.loadMailbox) loadMailbox();
+        if (window.loadMailbox) {
+          var msgId = params.get("msg") || params.get("id");
+          window.loadMailbox({ openId: msgId || null, autoSync: true });
+        }
       }, 100);
     }
 

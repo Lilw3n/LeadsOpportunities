@@ -47,7 +47,11 @@ async function importLeadMessages(sql) {
     FROM site_leads
     WHERE (email IS NOT NULL AND TRIM(email) != '')
        OR (phone IS NOT NULL AND TRIM(phone) != '')
-    ON CONFLICT (id) DO NOTHING
+    ON CONFLICT (id) DO UPDATE SET
+      from_addr = EXCLUDED.from_addr,
+      subject = EXCLUDED.subject,
+      body_text = EXCLUDED.body_text,
+      thread_key = EXCLUDED.thread_key
   `;
 }
 
@@ -74,7 +78,10 @@ async function listMessages(limit, offset) {
       COUNT(*) FILTER (WHERE direction = 'inbound')::int AS inbound,
       COUNT(*) FILTER (WHERE direction = 'outbound')::int AS outbound,
       COUNT(*) FILTER (WHERE id LIKE 'lead_%')::int AS site_leads,
-      COUNT(*) FILTER (WHERE external_uid IS NOT NULL)::int AS imap_messages
+      COUNT(*) FILTER (WHERE external_uid IS NOT NULL)::int AS imap_messages,
+      COUNT(*) FILTER (
+        WHERE id LIKE 'lead_%' AND created_at > NOW() - INTERVAL '7 days'
+      )::int AS site_last_7d
     FROM mailbox_messages
   `;
   const s = statsRows[0] || {};
@@ -87,6 +94,7 @@ async function listMessages(limit, offset) {
       outbound: s.outbound || 0,
       siteLeads: s.site_leads || 0,
       imapMessages: s.imap_messages || 0,
+      siteLast7d: s.site_last_7d || 0,
     },
   };
 }
