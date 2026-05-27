@@ -12,13 +12,54 @@ const {
   getClientIp,
 } = require("../security");
 
+function normalizeEmailAddress(addr) {
+  var s = String(addr || "").trim();
+  var m = s.match(/<([^>]+)>/);
+  return (m && m[1] ? m[1] : s).trim().toLowerCase();
+}
+
+/** Gmail + contact@ : liste separee par virgule, ou MAILBOX_ADDRESS si LEAD_NOTIFY_INCLUDE_MAILBOX=true (defaut). */
+function getLeadNotificationRecipients() {
+  var raw = process.env.LEAD_NOTIFICATION_EMAIL || "courtier972@gmail.com";
+  var list = raw
+    .split(/[,;]/)
+    .map(function (s) {
+      return s.trim();
+    })
+    .filter(function (s) {
+      return s && s.indexOf("@") > 0;
+    });
+
+  var includeMailbox = process.env.LEAD_NOTIFY_INCLUDE_MAILBOX !== "false";
+  var mailbox = (process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr").trim();
+  if (includeMailbox && mailbox && mailbox.indexOf("@") > 0) {
+    var mailboxKey = normalizeEmailAddress(mailbox);
+    var hasMailbox = list.some(function (e) {
+      return normalizeEmailAddress(e) === mailboxKey;
+    });
+    if (!hasMailbox) list.push(mailbox);
+  }
+
+  var seen = new Set();
+  return list.filter(function (e) {
+    var key = normalizeEmailAddress(e);
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 async function sendResendEmail(payload, score, leadId) {
   var key = process.env.RESEND_API_KEY;
-  var to = process.env.LEAD_NOTIFICATION_EMAIL || "courtier972@gmail.com";
+  var toList = getLeadNotificationRecipients();
   var from = process.env.LEAD_FROM_EMAIL || "Leads Opportunities <onboarding@resend.dev>";
 
   if (!key) {
     console.warn("[lead] RESEND_API_KEY manquant — aucun e-mail envoye");
+    return false;
+  }
+  if (!toList.length) {
+    console.warn("[lead] aucun destinataire notification");
     return false;
   }
 
@@ -55,7 +96,7 @@ async function sendResendEmail(payload, score, leadId) {
     },
     body: JSON.stringify({
       from: from,
-      to: [to],
+      to: toList,
       subject: sub,
       html: html,
     }),

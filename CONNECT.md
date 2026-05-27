@@ -18,7 +18,8 @@ Ajouter / verifier (voir aussi `.env.example`) :
 |----------|------|
 | `DATABASE_URL` | URI Postgres Neon (onglet **Connection details** du projet Neon) |
 | `RESEND_API_KEY` | Cle API [Resend](https://resend.com/api-keys) |
-| `LEAD_NOTIFICATION_EMAIL` | Ex. `courtier972@gmail.com` |
+| `LEAD_NOTIFICATION_EMAIL` | Un ou plusieurs e-mails, separes par une virgule (ex. `courtier972@gmail.com,contact@leadsopportunities.fr`) |
+| `LEAD_NOTIFY_INCLUDE_MAILBOX` | `true` (defaut) : ajoute aussi `MAILBOX_ADDRESS` aux alertes formulaire |
 | `LEAD_FROM_EMAIL` | Expéditeur verifie chez Resend |
 | `LEADS_ADMIN_TOKEN` | Secret au choix pour charger les leads dans `/admin.html` |
 | `LEAD_WEBHOOK_URL` | Optionnel (Zapier, Make, n8n) |
@@ -48,6 +49,32 @@ Projet dedie **LeadsOpportunities** : [https://console.neon.tech/app/projects/br
 - Domaines (expéditeur prod) : [https://resend.com/domains](https://resend.com/domains)
 
 En test, Resend autorise souvent `onboarding@resend.dev` comme expéditeur.
+
+Pour **repondre depuis le dashboard** (`/dashboard.html` → Messagerie), verifie le domaine `leadsopportunities.fr` chez Resend et utilise :
+
+- `LEAD_FROM_EMAIL` / `MAILBOX_FROM` = `Leads Opportunities <contact@leadsopportunities.fr>`
+
+---
+
+## 3b. Messagerie dashboard (lire + repondre)
+
+1. **Neon** : executer `database/mailbox.sql` dans le SQL Editor (une fois).
+2. **Vercel** — variables supplementaires :
+
+| Variable | Exemple |
+|----------|---------|
+| `MAIL_IMAP_HOST` | `leadsopportunities.fr` (pas `mail.` si certificat refuse) |
+| `MAIL_IMAP_PORT` | `993` |
+| `MAIL_IMAP_USER` | `contact@leadsopportunities.fr` |
+| `MAIL_IMAP_PASS` | mot de passe boite o2switch |
+| `MAILBOX_ADDRESS` | `contact@leadsopportunities.fr` |
+| `MAILBOX_FROM` | `Leads Opportunities <contact@leadsopportunities.fr>` |
+| `MAIL_IMAP_TLS_INSECURE` | `true` seulement si erreur certificat TLS |
+
+3. **Dashboard** : connexion compte **admin** → menu **Messagerie** → **Synchroniser la boite** (import IMAP) ou lire les demandes formulaire deja importees depuis `site_leads`.
+4. **Reponse** : envoi via **Resend** (pas SMTP o2switch depuis Vercel).
+
+Lien direct : `https://www.leadsopportunities.fr/dashboard.html?section=mailbox`
 
 ---
 

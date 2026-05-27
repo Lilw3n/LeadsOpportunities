@@ -667,6 +667,80 @@
     .lead-alert--unopened strong { color: var(--blue); }
     .lead-alert--relevant strong { color: var(--green); }
 
+    .mailbox-layout {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) 1fr;
+      gap: 16px;
+      min-height: 520px;
+    }
+    @media (max-width: 900px) {
+      .mailbox-layout { grid-template-columns: 1fr; }
+    }
+    .mailbox-list {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      max-height: 640px;
+      overflow: auto;
+      padding: 8px;
+    }
+    .mailbox-item {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: transparent;
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .mailbox-item:hover { background: #f8fafc; }
+    .mailbox-item--active { background: var(--primary-light); }
+    .mailbox-item__dir { font-size: 1.1rem; flex-shrink: 0; }
+    .mailbox-item__main { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .mailbox-item__main strong { font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mailbox-item__meta, .mailbox-item__preview { font-size: 0.75rem; color: var(--muted); }
+    .mailbox-detail {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--card);
+      padding: 16px;
+      min-height: 280px;
+    }
+    .mailbox-detail__body {
+      white-space: pre-wrap;
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 12px;
+      max-height: 320px;
+      overflow: auto;
+    }
+    .mailbox-reply {
+      margin-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+    .mailbox-reply input, .mailbox-reply textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: inherit;
+    }
+    .mailbox-empty { color: var(--muted); padding: 16px; }
+    .mailbox-hint {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin: 0 0 12px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+    }
     .nav-badge {
       margin-left: auto;
       background: #ef4444;
@@ -743,6 +817,10 @@
         <a href="#" class="nav-link" data-section="partners">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Partenaires
+        </a>
+        <a href="#" class="nav-link" data-section="mailbox">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 4l8 8 8-8"/></svg>
+          Messagerie
         </a>
 
         <div class="sidebar-section">Outils</div>
@@ -1022,6 +1100,38 @@
         </div>
       </div>
 
+      <div class="dash-section" id="sec-mailbox">
+        <div class="dash-topbar">
+          <div>
+            <h1>Messagerie</h1>
+            <p class="subtitle">Lire contact@leadsopportunities.fr et repondre depuis le dashboard</p>
+          </div>
+          <div class="topbar-actions">
+            <button type="button" class="btn-refresh" id="mailboxSyncBtn">Synchroniser la boite</button>
+            <button type="button" class="btn-refresh" id="mailboxRefreshBtn">Actualiser</button>
+          </div>
+        </div>
+        <p class="mailbox-hint" id="mailboxImapHint">Chargement…</p>
+        <div class="mailbox-layout">
+          <div>
+            <p id="mailboxStatus" style="font-size:0.8rem;color:var(--muted);margin:0 0 8px"></p>
+            <div class="mailbox-list" id="mailboxList"></div>
+          </div>
+          <div>
+            <div class="mailbox-detail" id="mailboxDetail">
+              <p class="mailbox-empty">Selectionnez un message.</p>
+            </div>
+            <form class="mailbox-reply" id="mailboxReplyForm" hidden>
+              <input type="hidden" id="mailboxReplyToId" />
+              <label>Destinataire<input type="email" id="mailboxReplyTo" required /></label>
+              <label>Objet<input type="text" id="mailboxReplySubject" required /></label>
+              <label>Message<textarea id="mailboxReplyBody" rows="6" required placeholder="Votre reponse…"></textarea></label>
+              <button type="submit" class="btn btn-primary" id="mailboxSendBtn">Envoyer la reponse</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -1042,6 +1152,7 @@
   <div class="toast" id="toast"></div>
 
   <script src="./js/dashboard.js"></script>
+  <script src="./js/dashboard-mailbox.js"></script>
   <script src="./js/admin-nav.js"></script>
   <script>
   (function() {
@@ -1163,6 +1274,7 @@
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
         if (a.dataset.section === "leads") { loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
+        if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox();
       });
     });
 
@@ -1657,6 +1769,17 @@
         });
         document.getElementById("sec-partners").classList.add("active");
         loadPartners();
+      }, 100);
+    } else if (params.get("section") === "mailbox") {
+      setTimeout(function () {
+        document.querySelectorAll(".nav-link").forEach(function (n) {
+          n.classList.toggle("active", n.dataset.section === "mailbox");
+        });
+        document.querySelectorAll(".dash-section").forEach(function (s) {
+          s.classList.remove("active");
+        });
+        document.getElementById("sec-mailbox").classList.add("active");
+        if (window.loadMailbox) loadMailbox();
       }, 100);
     }
 

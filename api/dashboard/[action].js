@@ -8,6 +8,9 @@ const ROUTES = {
   partners: () => require("../_lib/routes/partners-admin"),
   "leads-recent": () => require("../_lib/routes/leads-recent"),
   "leads-notify": () => require("../_lib/routes/leads-notify"),
+  "mailbox-list": () => require("../_lib/routes/mailbox-list"),
+  "mailbox-sync": () => require("../_lib/routes/mailbox-sync"),
+  "mailbox-send": () => require("../_lib/routes/mailbox-send"),
 };
 
 module.exports = async (req, res) => {

@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",
+    "imapflow": "^1.0.164",
     "jsonwebtoken": "^9.0.3",
+    "mailparser": "^3.7.2",
     "stripe": "^22.1.1"
   }
 }
