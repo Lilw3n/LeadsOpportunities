@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paramètres CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <style>
     .set-grid { display: grid; gap: 16px; margin-top: 20px; }
     .set-panel { border: 1px solid var(--line, #e2e8f0); border-radius: 14px; padding: 20px; background: var(--card, #fff); }
@@ -17,10 +18,18 @@
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-  <h1>⚙️ Paramètres du système</h1>
-  <p style="color:var(--muted)">Configuration et administration — inspire <code>/dashboard/settings</code> multisite.</p>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Administration</p>
+      <h2>Paramètres du système</h2>
+      <p>Configuration générale, sécurité et raccourcis — préférences enregistrées localement sur cet appareil.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-settings-sites.html" class="btn btn-ghost">Sites</a>
+      <a href="./crm-eligibility-rules.html" class="btn btn-ghost">Règles éligibilité</a>
+    </div>
+  </section>
 
   <form id="settingsForm" class="set-grid">
     <div class="set-panel">
@@ -76,6 +85,8 @@
     <p><a href="./crm-financial.html">Financier</a></p>
   </div>
 
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-settings.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

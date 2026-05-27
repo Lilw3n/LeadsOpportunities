@@ -1,44 +1,34 @@
 <!doctype html>
-
 <html lang="fr">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Demandes assurance | CRM</title>
-
   <link rel="stylesheet" href="./crm.css" />
-
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-
-
-  <a href="./crm-insurance.html" class="btn btn-ghost">← Hub assurance</a>
-
-  <h1>Demandes d'assurance</h1>
-
-  <p style="color:var(--muted)">Vue globale — inspire <code>/dashboard/insurance/requests</code> multisite</p>
-
-  <div class="panel" style="margin:16px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center">
-
-    <input type="search" id="reqSearch" placeholder="Rechercher contact, type…" style="flex:1;min-width:160px;padding:8px 10px;border:1px solid var(--line);border-radius:8px" />
-
-    <select id="reqFilterType"><option value="">Type</option><option value="devis">Devis</option><option value="souscription">Souscription</option><option value="resiliation">Résiliation</option></select>
-
-    <select id="reqFilterStatus"><option value="">Statut</option><option value="attente">En attente</option><option value="trait">Traité</option></select>
-
-  </div>
-
-  <div id="reqMount" class="panel" style="margin-top:8px">Chargement…</div>
-
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Assurance métier</p>
+      <h2>Demandes d'assurance</h2>
+      <p>Devis, souscriptions et demandes entrantes — filtrez par type et statut pour traiter les dossiers.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-pending-documents.html" class="btn btn-ghost">Pièces en attente</a>
+      <a href="./crm-insurance.html" class="btn btn-ghost">Hub assurance</a>
+    </div>
+  </section>
+  <section class="crm-page-panel crm-toolbar">
+    <input type="search" id="reqSearch" placeholder="Rechercher contact, type…" class="crm-input" />
+    <select id="reqFilterType" class="crm-input"><option value="">Type</option><option value="devis">Devis</option><option value="souscription">Souscription</option><option value="resiliation">Résiliation</option></select>
+    <select id="reqFilterStatus" class="crm-input"><option value="">Statut</option><option value="attente">En attente</option><option value="trait">Traité</option></select>
+  </section>
+  <div id="reqMount" class="panel">Chargement…</div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-insurance-requests.js"></script>
-
   <script src="./js/admin-nav.js"></script>
 </body>
-
 </html>
-

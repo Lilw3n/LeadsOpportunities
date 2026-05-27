@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Modules beta | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <style>
     .hm-node { border-bottom: 1px solid var(--line); padding: 6px 0; }
     .hm-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.9rem; }
@@ -14,9 +15,18 @@
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <p style="color:var(--muted)">Arbre hiérarchique + glisser-déposer — inspire <code>/dashboard/modules/beta</code> multisite.</p>
-  <label>Contact ID <input id="contactIdInput" style="padding:10px;width:100%;max-width:400px;margin-top:8px" placeholder="ct_…" /></label>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Modules</p>
+      <h2>Gestionnaire hiérarchique</h2>
+      <p>Arbre des modules par contact — glisser-déposer et validation des relations parent/enfant.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-interlocutors-modules.html" class="btn btn-ghost">Vue globale</a>
+    </div>
+  </section>
+  <label>Contact ID <input id="contactIdInput" class="crm-input" style="max-width:400px;margin-top:8px" placeholder="ct_…" /></label>
   <button type="button" class="btn btn-primary" id="btnLoad" style="margin-top:12px">Charger arbre</button>
   <div id="treeMount" class="panel" style="margin-top:20px"></div>
   <script src="./js/crm-module-event-bus.js"></script>

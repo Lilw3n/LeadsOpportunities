@@ -5,14 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paiements | Financier</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm-financial.html" class="btn btn-ghost">← Financier</a>
-  <h1>Paiements</h1>
-  <p style="color:var(--muted);margin-bottom:12px">Suivi des encaissements — inspire <code>/dashboard/financial/payments</code> multisite.</p>
-  <div id="listMount" class="panel" style="margin-top:16px">Chargement…</div>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance</p>
+      <h2>Paiements</h2>
+      <p>Suivi des encaissements clients et historique des transactions.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-financial.html" class="btn btn-ghost">Hub financier</a>
+    </div>
+  </section>
+  <div id="listMount" class="panel">Chargement…</div>
   <script src="./crm-financial-list.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script>window.CrmFinancialList.init("payments");</script>
   <script src="./js/admin-nav.js"></script>
 </body>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nouveau contrat | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <style>
     .cw-steps { display: flex; gap: 8px; margin: 20px 0; flex-wrap: wrap; }
     .cw-step { padding: 8px 14px; border-radius: 999px; font-size: 0.85rem; background: #f1f5f9; color: #64748b; }
@@ -23,10 +24,18 @@
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm-contracts.html" class="btn btn-ghost">← Contrats</a>
-  <h1>Nouveau contrat</h1>
-  <p style="color:var(--muted)">Wizard 2 étapes — inspire <code>/dashboard/contracts</code> multisite (produit → client &amp; contrat).</p>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Portefeuille</p>
+      <h2>Nouveau contrat</h2>
+      <p>Produit vérifié, puis client et informations de police. Utilisez le catalogue interne pour les offres confirmées.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-products.html" class="btn btn-ghost">Catalogue produits</a>
+      <a href="./crm-contracts.html" class="btn btn-ghost">Liste contrats</a>
+    </div>
+  </section>
 
   <div class="cw-steps">
     <span class="cw-step active" data-step="1">1. Produit</span>
@@ -36,16 +45,8 @@
   <form id="contractWizard" class="panel">
     <div class="cw-panel active" data-panel="1">
       <h2>Sélection du produit</h2>
-      <p style="color:var(--muted);font-size:.9rem">Gérez les contrats d'assurance de vos clients.</p>
-      <div class="cw-products" id="productPick">
-        <div class="cw-prod" data-product="Assurance Auto VTC"><strong>Assurance Auto VTC</strong></div>
-        <div class="cw-prod" data-product="Assurance Flotte Utilitaire"><strong>Flotte utilitaire</strong></div>
-        <div class="cw-prod" data-product="Assurance RC Pro"><strong>Assurance RC Pro</strong></div>
-        <div class="cw-prod" data-product="Assurance Auto"><strong>Auto particulier</strong></div>
-        <div class="cw-prod" data-product="Assurance Santé"><strong>Santé</strong></div>
-        <div class="cw-prod" data-product="Assurance Habitation"><strong>Habitation</strong></div>
-      </div>
-      <input type="hidden" name="contractType" id="contractType" required />
+      <p style="color:var(--muted);font-size:.9rem">Renseignez un produit issu du <a href="./crm-products.html">catalogue vérifié</a> (aucune liste fictive).</p>
+      <label style="display:block;margin-top:12px">Produit / gamme<input type="text" name="contractType" id="contractType" required placeholder="Nom exact du produit vérifié" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
     </div>
 
     <div class="cw-panel" data-panel="2">
@@ -75,8 +76,10 @@
     <p id="cwMsg" style="margin-top:12px;color:#b91c1c"></p>
   </form>
 
-    <script src="./js/crm-prefill-contact-id.js"></script>
-<script src="./crm-contract-new.js"></script>
+  <script src="./js/crm-prefill-contact-id.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-contract-new.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
 </html>

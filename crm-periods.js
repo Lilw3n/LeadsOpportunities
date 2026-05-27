@@ -210,7 +210,7 @@
         cfg = JSON.parse(localStorage.getItem("lo_period_notify_cfg") || "{}");
       } catch (e) {}
       boxPn.innerHTML =
-        '<p style="margin:0 0 10px;font-size:.9rem"><strong>Liaison périodes ↔ notifications</strong> (inspire multisite)</p>' +
+        '<p style="margin:0 0 10px;font-size:.9rem"><strong>Rappels de renouvellement</strong> — préférences locales (complète les alertes CRM)</p>' +
         '<label style="display:block;margin:8px 0"><input type="checkbox" id="pnJ90" ' +
         (cfg.j90 !== false ? "checked" : "") +
         ' /> Alerte renouvellement J-90</label>' +

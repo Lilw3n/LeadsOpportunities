@@ -5,15 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simulation client | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-  <h1>Mode simulation</h1>
-  <p style="color:var(--muted)">Voir la fiche comme le client — inspire <code>/dashboard/external/profile</code> multisite. Ouvrez le portail externe en un clic.</p>
-  <div id="simKpis" class="crm-kpis" style="margin:16px 0"></div>
-  <input type="search" id="simSearch" placeholder="Rechercher un contact (nom, email)…" style="width:100%;padding:12px;margin-bottom:12px;border:1px solid var(--line);border-radius:10px" />
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Portail externe</p>
+      <h2>Mode simulation</h2>
+      <p>Visualisez l'expérience client et ouvrez le portail externe en un clic.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./external/index.html" class="btn btn-primary" target="_blank" rel="noopener">Portail client</a>
+    </div>
+  </section>
+  <div id="simKpis" class="crm-kpis" style="margin-bottom:16px"></div>
+  <input type="search" id="simSearch" placeholder="Rechercher un contact (nom, email)…" class="crm-input" style="margin-bottom:12px" />
   <div id="simList" class="panel"></div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-simulate.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

@@ -5,14 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Coordonnées bancaires | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm-financial.html" class="btn btn-ghost">← Financier</a>
-  <h1>Coordonnées bancaires clients</h1>
-  <p style="color:var(--muted)">Vue consolidée IBAN — inspire contrats / paiements multisite.</p>
-  <input type="search" id="bankSearch" placeholder="Rechercher client, IBAN…" style="width:100%;max-width:400px;padding:10px;margin:16px 0;border:1px solid var(--line);border-radius:8px" />
-  <div id="bankMount">Chargement…</div>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance</p>
+      <h2>Coordonnées bancaires</h2>
+      <p>Vue consolidée des IBAN liés aux contrats et paiements clients.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-financial-payments.html" class="btn btn-ghost">Paiements</a>
+      <a href="./crm-financial.html" class="btn btn-primary">Hub financier</a>
+    </div>
+  </section>
+  <section class="crm-page-panel">
+    <input type="search" id="bankSearch" placeholder="Rechercher client, IBAN…" class="crm-input" style="max-width:480px" />
+    <div id="bankMount" style="margin-top:16px">Chargement…</div>
+  </section>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-bank-details.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

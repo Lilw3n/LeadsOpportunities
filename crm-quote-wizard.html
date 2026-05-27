@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Devis CRM | Wizard</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./landings/styles.css" />
   <style>
     .wizard-panel { max-width: 640px; margin: 24px auto; }
@@ -13,13 +14,23 @@
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="#" id="backContact" class="btn btn-ghost">← Fiche contact</a>
-  <h1>Wizard devis CRM</h1>
-  <p style="color:var(--muted)">Prérempli depuis la fiche — inspire EnhancedQuoteWizard + devis/prefill</p>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Commercial</p>
+      <h2>Wizard devis</h2>
+      <p>Prérempli depuis la fiche contact — questionnaire guidé sans engagement tarifaire automatique.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="#" id="backContact" class="btn btn-ghost">Fiche contact</a>
+      <a href="./crm-quotes.html" class="btn btn-ghost">Devis CRM</a>
+    </div>
+  </section>
   <div id="prefillBox" class="prefill-box hidden"></div>
   <div id="wizardMount"></div>
   <script src="./js/intelligent-quote-wizard.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-quote-wizard.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

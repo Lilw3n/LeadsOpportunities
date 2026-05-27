@@ -559,6 +559,110 @@
   margin: 0 0 8px;
   color: var(--text);
 }
+
+/* Alertes */
+.crm-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.crm-filter-chip {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: var(--shadow-sm);
+}
+.crm-filter-chip:hover {
+  border-color: #cbd5e1;
+}
+.crm-filter-chip.active {
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
+  color: #fff;
+  border-color: transparent;
+}
+.crm-alert-list {
+  display: grid;
+  gap: 12px;
+}
+.crm-alert-list-compact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.crm-alert-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px 18px;
+  border-left: 4px solid #94a3b8;
+  box-shadow: var(--shadow-sm);
+}
+.crm-alert-critical { border-left-color: #dc2626; }
+.crm-alert-urgent { border-left-color: #ea580c; }
+.crm-alert-high { border-left-color: #f59e0b; }
+.crm-alert-medium { border-left-color: #6366f1; }
+.crm-alert-low { border-left-color: #22c55e; }
+.crm-alert-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.crm-alert-cat {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-right: 8px;
+}
+.crm-alert-rule {
+  font-size: 0.68rem;
+  color: #94a3b8;
+}
+.crm-alert-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 6px;
+}
+.crm-alert-title:hover {
+  color: var(--primary-dark);
+}
+.crm-alert-message {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+.crm-alert-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.crm-priority-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px #fff;
+}
+.crm-priority-critical { background: #ef4444; }
+.crm-priority-urgent { background: #ea580c; }
+.crm-priority-high { background: #f59e0b; }
+.crm-priority-medium { background: #6366f1; }
+.crm-priority-low { background: #22c55e; }
+
 .crm-toolbar {
   display: flex;
   flex-wrap: wrap;

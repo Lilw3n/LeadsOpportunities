@@ -3,30 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comptabilite pro | CRM</title>
+  <title>Comptabilité pro | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-<body data-admin-nav-page>
-  <h1>Comptabilite pro</h1>
-  <p style="color:var(--muted)">Charges, revenus Stripe, export CSV — voir <a href="./docs/COMPTA-REGLES.md">regles compta</a></p>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance</p>
+      <h2>Comptabilité professionnelle</h2>
+      <p>Charges, revenus Stripe et export — structurez ads, logiciels, leads, déplacements et frais maison.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./docs/COMPTA-REGLES.md" class="btn btn-ghost" target="_blank" rel="noopener">Règles compta</a>
+      <a href="./crm-financial.html" class="btn btn-primary">Hub financier</a>
+    </div>
+  </section>
   <div id="summary" class="panel"></div>
   <form id="expForm" class="panel" style="margin-top:16px">
-    <h3>Ajouter une depense</h3>
-    <select name="category" required>
+    <h3>Ajouter une dépense</h3>
+    <select name="category" required style="width:100%;padding:10px;margin-bottom:8px">
       <option value="logiciel">Logiciel</option>
-      <option value="ads">Publicite</option>
-      <option value="leads_achat">Leads achetes</option>
-      <option value="deplacement">Deplacement</option>
+      <option value="ads">Publicité</option>
+      <option value="leads_achat">Leads achetés</option>
+      <option value="deplacement">Déplacement</option>
       <option value="frais_maison">Frais maison</option>
       <option value="salaire">Salaire / collaborateur</option>
       <option value="autre">Autre</option>
     </select>
-    <input name="amountEur" type="number" step="0.01" placeholder="Montant EUR" required />
-    <input name="vendor" placeholder="Fournisseur" />
+    <input name="amountEur" type="number" step="0.01" placeholder="Montant EUR" required style="width:100%;padding:10px;margin-bottom:8px" />
+    <input name="vendor" placeholder="Fournisseur" style="width:100%;padding:10px;margin-bottom:8px" />
     <button type="submit" class="btn btn-primary">Enregistrer</button>
   </form>
-  <p><a href="./crm.html">Retour CRM</a></p>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
   <script>
     (function () {
@@ -40,15 +51,23 @@
           return r.json();
         })
         .then(function (res) {
-          if (!res.ok) return;
+          if (!res.ok) {
+            document.getElementById("summary").innerHTML =
+              '<div class="crm-empty-state"><p>' + (res.error || "Résumé indisponible") + "</p></div>";
+            return;
+          }
           document.getElementById("summary").innerHTML =
-            "<p><strong>Revenus :</strong> " +
+            '<div class="crm-kpis"><div class="kpi-card"><div class="kpi-label">Revenus</div><div class="kpi-value">' +
             (res.revenueTotal || 0).toFixed(2) +
-            " EUR</p><p><strong>Charges :</strong> " +
+            ' EUR</div></div><div class="kpi-card"><div class="kpi-label">Charges</div><div class="kpi-value">' +
             (res.expenseTotal || 0).toFixed(2) +
-            " EUR</p><p><strong>Marge :</strong> " +
+            ' EUR</div></div><div class="kpi-card"><div class="kpi-label">Marge</div><div class="kpi-value">' +
             (res.margin || 0).toFixed(2) +
-            " EUR</p>";
+            " EUR</div></div></div>";
+        })
+        .catch(function () {
+          document.getElementById("summary").innerHTML =
+            '<div class="crm-empty-state"><p>Impossible de charger le résumé comptable.</p></div>';
         });
       document.getElementById("expForm").onsubmit = function (e) {
         e.preventDefault();

@@ -1,48 +1,33 @@
 <!doctype html>
-
 <html lang="fr">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Export CRM</title>
-
   <link rel="stylesheet" href="./crm.css" />
-
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-
-
-  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-
-  <h1>Export données</h1>
-
-  <p style="color:var(--muted)">Export JSON — inspire <code>/dashboard/export</code> multisite</p>
-
-  <div style="display:flex;flex-wrap:wrap;gap:10px;margin:16px 0">
-
-    <button type="button" class="btn btn-primary" data-entity="contacts">Contacts</button>
-
-    <button type="button" class="btn btn-ghost" data-entity="quotes">Devis</button>
-
-    <button type="button" class="btn btn-ghost" data-entity="contracts">Contrats</button>
-
-    <button type="button" class="btn btn-ghost" data-entity="claims">Sinistres</button>
-
-    <button type="button" class="btn btn-ghost" data-entity="events">Événements</button>
-
-  </div>
-
-  <pre id="exportOut" class="panel" style="margin-top:16px;max-height:400px;overflow:auto;font-size:.8rem">Choisissez une entité…</pre>
-
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Administration</p>
+      <h2>Export des données</h2>
+      <p>Téléchargez des extraits JSON pour sauvegarde ou retraitement externe.</p>
+    </div>
+  </section>
+  <section class="crm-page-panel">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+      <button type="button" class="btn btn-primary" data-entity="contacts">Contacts</button>
+      <button type="button" class="btn btn-ghost" data-entity="quotes">Devis</button>
+      <button type="button" class="btn btn-ghost" data-entity="contracts">Contrats</button>
+      <button type="button" class="btn btn-ghost" data-entity="claims">Sinistres</button>
+    </div>
+    <pre id="exportOut" class="panel" style="max-height:400px;overflow:auto;font-size:.8rem">Sélectionnez une entité.</pre>
+  </section>
   <script src="./crm-export.js"></script>
-
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
-
 </html>
-

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aide &amp; ressources | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <style>
     .help-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 20px; }
     .help-card { border: 1px solid var(--line); border-radius: 14px; padding: 18px; background: var(--card, #fff); text-decoration: none; color: inherit; display: block; transition: border-color 0.15s; }
@@ -17,10 +18,14 @@
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-  <h1>Centre d'aide</h1>
-  <p style="color:var(--muted)">Documentation, raccourcis et support — inspire <code>/dashboard/help</code> et la navigation multisite.</p>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Support</p>
+      <h2>Centre d'aide</h2>
+      <p>Documentation, raccourcis et modules utiles pour utiliser le CRM au quotidien.</p>
+    </div>
+  </section>
 
   <div class="help-grid">
     <a class="help-card" href="./crm-test-modes.html"><h3>⚙️ Modes &amp; simulation</h3><p>Admin, interne, externe, test — bouton d'urgence retour admin.</p></a>
@@ -61,6 +66,8 @@
     <details><summary>Comment analyser un RIB ou une carte grise ?</summary><p>Page <a href="./crm-ai-suggestions.html">IA &amp; suggestions</a> — collez le texte OCR ou URL Drive.</p></details>
     <details><summary>Comment créer un contrat d'assurance ?</summary><p>Utilisez le <a href="./crm-contract-new.html">wizard nouveau contrat</a> (produit → client / interlocuteur), calqué sur le multisite.</p></details>
   </section>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
 </html>

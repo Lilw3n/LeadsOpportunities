@@ -5,14 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leads qualifiés IA | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-  <h1>Analyses leads (Devis intelligent)</h1>
-  <p style="color:var(--muted)">Sessions issues du portail — inspire devis-intelligent multisite</p>
-  <div id="leadsMount" class="panel" style="margin-top:20px"></div>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Leads</p>
+      <h2>Analyse leads (devis intelligent)</h2>
+      <p>Sessions issues du portail public — qualification et scoring avant passage en pipeline acquisition.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-acquisition.html" class="btn btn-primary">Pipeline acquisition</a>
+      <a href="./crm-private-offer-matching.html" class="btn btn-ghost">Matching VSP</a>
+    </div>
+  </section>
+  <div id="leadsMount" class="panel"></div>
   <script src="./js/lead-analysis-service.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-leads-analysis.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

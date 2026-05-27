@@ -5,11 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestion modules | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <p style="color:var(--muted)">Vue globale des modules — inspire <code>/dashboard/interlocutors/modules</code> multisite.</p>
-  <input type="search" id="modSearch" placeholder="Rechercher contact, plaque, contrat…" style="width:100%;max-width:480px;padding:12px;margin:16px 0;border:1px solid var(--line);border-radius:10px" />
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Modules</p>
+      <h2>Modules par interlocuteur</h2>
+      <p>Vue globale des modules liés aux contacts — recherche par plaque, contrat ou nom.</p>
+    </div>
+  </section>
+  <input type="search" id="modSearch" placeholder="Rechercher contact, plaque, contrat…" class="crm-input" style="max-width:480px;margin-bottom:16px" />
   <div id="modList" class="panel"></div>
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>

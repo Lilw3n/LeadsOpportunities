@@ -5,11 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Modèles de projets | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <p style="color:var(--muted)">Modèles réutilisables — inspire <code>/dashboard/projects/templates</code> multisite.</p>
-  <div id="tplGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:16px"></div>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Dossiers</p>
+      <h2>Modèles de projets</h2>
+      <p>Démarrez plus vite avec des structures de dossier réutilisables.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-projects.html" class="btn btn-ghost">Tous les projets</a>
+    </div>
+  </section>
+  <div id="tplGrid" class="crm-module-grid"></div>
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script>
@@ -18,11 +28,12 @@
       { name: "Onboarding client VTC", desc: "KYC, véhicule, devis, signature", href: "./crm-create-complete.html" },
       { name: "Renouvellement annuel", desc: "Période, contrats, relances", href: "./crm-periods.html" },
       { name: "Gestion sinistre", desc: "Déclaration, suivi, clôture", href: "./crm-claims.html" },
-      { name: "Campagne leads web", desc: "Qualification et conversion", href: "./crm.html#leads" },
     ];
-    document.getElementById("tplGrid").innerHTML = templates.map(function (t) {
-      return '<a class="panel" href="' + t.href + '" style="padding:18px;text-decoration:none;color:inherit"><strong>' + t.name + '</strong><p style="margin:8px 0 0;color:var(--muted);font-size:.85rem">' + t.desc + '</p></a>';
-    }).join("");
+    document.getElementById("tplGrid").innerHTML = templates
+      .map(function (t) {
+        return '<a class="crm-module-card" href="' + t.href + '"><strong>' + t.name + "</strong><span>" + t.desc + "</span></a>";
+      })
+      .join("");
   </script>
   <script src="./js/admin-nav.js"></script>
 </body>

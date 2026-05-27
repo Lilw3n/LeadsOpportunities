@@ -177,7 +177,7 @@
       });
     }
     if (window.CrmAlertsPanel) {
-      box.innerHTML = window.CrmAlertsPanel.render(list, esc);
+      box.innerHTML = window.CrmAlertsPanel.render(list, esc, { variant: "compact" });
     } else {
       box.innerHTML = "<p>" + list.length + " alerte(s)</p>";
     }

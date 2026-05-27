@@ -5,15 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contrats | CRM Assurance</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm-insurance.html" class="btn btn-ghost">← Assurance</a>
-  <h1>Contrats</h1>
-  <p style="color:var(--muted)">Gérez les contrats d'assurance — inspire <code>/dashboard/contracts</code> multisite.</p>
-  <div id="listMount" class="panel" style="margin-top:16px;overflow:auto"></div>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Portefeuille</p>
+      <h2>Contrats d'assurance</h2>
+      <p>Consultez les contrats actifs, en cours de production et les échéances à suivre.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-contract-new.html" class="btn btn-primary">+ Nouveau contrat</a>
+      <a href="./crm-periods.html" class="btn btn-ghost">Périodes</a>
+      <a href="./crm-insurance.html" class="btn btn-ghost">Hub assurance</a>
+    </div>
+  </section>
+  <div id="listMount" class="panel" style="overflow:auto"></div>
   <script src="./js/crm-modules-global.js"></script>
   <script src="./js/crm-module-list-page.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script>CrmModuleListPage.init("contracts");</script>
   <script src="./js/admin-nav.js"></script>
 </body>

@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   const scope = contactScopeFilter(user);
 
   try {
-    const [byType] = await sql`
+    const byType = await sql`
       SELECT contact_type, COUNT(*)::int AS c
       FROM crm_contacts
       WHERE (${scope}::text IS NULL OR assigned_to = ${scope})

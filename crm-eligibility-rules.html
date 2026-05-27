@@ -5,15 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Règles éligibilité | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm-eligibility-test.html" class="btn btn-ghost">← Test éligibilité</a>
-  <h1>Règles d'éligibilité</h1>
-  <p style="color:var(--muted)">Inspire intelligentAlertsService + eligibilityService multisite</p>
-  <div id="rulesMount" class="panel" style="margin-top:20px"></div>
-  <p style="margin-top:12px"><a href="./crm-intelligent-alerts.html">Alertes actives →</a></p>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Assurance métier</p>
+      <h2>Règles d'éligibilité</h2>
+      <p>Activez ou désactivez les règles utilisées pour les tests partenaires. Les alertes serveur (contrats, sinistres, devis) restent calculées côté CRM.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-intelligent-alerts.html" class="btn btn-primary">Alertes actives</a>
+      <a href="./crm-eligibility-test.html" class="btn btn-ghost">Lancer un test</a>
+    </div>
+  </section>
+  <section class="crm-page-panel">
+    <div id="rulesMount"></div>
+  </section>
   <script src="./js/crm-eligibility-rules.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script>
     if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
     else window.CrmEligibilityRules.render(document.getElementById("rulesMount"));
