@@ -68,7 +68,7 @@
 
   function initials(addr) {
     var e = extractEmail(addr) || "?";
-    var parts = e.replace(/@.*/, "")..split(/[._-]/);
+    var parts = e.replace(/@.*/, "").split(/[._-]/);
     if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
     return e.slice(0, 2).toUpperCase();
   }
