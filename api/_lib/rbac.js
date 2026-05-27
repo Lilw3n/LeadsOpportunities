@@ -37,6 +37,26 @@ function canManageAllContacts(user) {
   return user?.role === "admin" || CRM_STAFF_ROLES.indexOf(r) !== -1;
 }
 
+function toCrmUser(user) {
+  return {
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    crmRole: effectiveCrmRole(user),
+    fullName: user.full_name,
+    phone: user.phone,
+    linkedContactId: null,
+  };
+}
+
+async function optionalCrm(req) {
+  const decoded = await getAuthUser(req);
+  if (!decoded) return null;
+  const user = await loadUser(decoded);
+  if (!user || !canAccessCrm(user)) return null;
+  return toCrmUser(user);
+}
+
 async function requireCrm(req, res) {
   const decoded = await getAuthUser(req);
   if (!decoded) {
@@ -52,15 +72,7 @@ async function requireCrm(req, res) {
     res.status(403).json({ error: "Acces CRM refuse" });
     return null;
   }
-  return {
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    crmRole: effectiveCrmRole(user),
-    fullName: user.full_name,
-    phone: user.phone,
-    linkedContactId: null,
-  };
+  return toCrmUser(user);
 }
 
 function contactScopeFilter(user) {
@@ -77,6 +89,7 @@ module.exports = {
   canManageUsers,
   canManageAllContacts,
   requireCrm,
+  optionalCrm,
   contactScopeFilter,
   effectiveCrmRole,
 };

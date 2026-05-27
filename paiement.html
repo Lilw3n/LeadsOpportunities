@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paiement securise | Leads Opportunities</title>
   <meta name="description" content="Reglez votre acompte de demande en paiement securise via Stripe." />
+  <meta name="robots" content="noindex, nofollow" />
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
   <script>
@@ -16,6 +17,50 @@
   <script src="/api/google-config-env"></script>
   <script src="./google-config.js"></script>
   <link rel="stylesheet" href="./main.css" />
+  <style>
+    .pay-trust {
+      margin: 1rem 0 1.25rem;
+      padding: 1rem 1.1rem;
+      border: 1px solid #dbeafe;
+      border-radius: 10px;
+      background: #f8fafc;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .pay-trust h2 { margin: 0 0 0.5rem; font-size: 1rem; }
+    .pay-trust ul { margin: 0.35rem 0 0; padding-left: 1.2rem; }
+    .pay-auth {
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+    .pay-auth--guest {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+    .pay-auth--user {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+    }
+    .pay-auth a { font-weight: 600; }
+    .pay-note { font-size: 0.85rem; color: #64748b; margin-top: 0.75rem; }
+    .pay-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .pay-badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      background: #e2e8f0;
+      color: #334155;
+    }
+  </style>
 </head>
 <body>
   <main class="container section">
@@ -25,6 +70,30 @@
       <p class="sub">Reglez un acompte pour lancer le traitement prioritaire de votre dossier.</p>
       <p class="sub">Contact : <a href="./index.html#contact">Nous contacter</a></p>
 
+      <div id="authStatus" class="pay-auth pay-auth--guest" role="status" aria-live="polite">
+        Verification de votre session…
+      </div>
+
+      <aside class="pay-trust" aria-label="Securite du paiement">
+        <h2>Paiement protege par Stripe</h2>
+        <ul>
+          <li><strong>Connexion chiffree</strong> (HTTPS) sur tout le parcours.</li>
+          <li><strong>Carte bancaire</strong> saisie uniquement sur la page securisee Stripe — nous ne stockons pas votre numero de carte.</li>
+          <li><strong>3D Secure</strong> lorsque votre banque l'exige (verification supplementaire).</li>
+          <li><strong>Recu par e-mail</strong> envoye par Stripe apres paiement accepte.</li>
+        </ul>
+        <div class="pay-badges">
+          <span class="pay-badge">Stripe Checkout</span>
+          <span class="pay-badge">PCI-DSS (Stripe)</span>
+          <span class="pay-badge">Paiement invite accepte</span>
+        </div>
+        <p class="pay-note">
+          Vous pouvez payer <strong>sans compte</strong> : renseignez votre e-mail et le montant.
+          Si vous avez un devis (<code>qte_…</code>), indiquez la reference pour verifier le montant cote serveur.
+          <a href="./auth.html">Se connecter</a> est optionnel (suivi CRM pour les equipes).
+        </p>
+      </aside>
+
       <form id="paymentForm" class="contact-form">
         <select id="category" required>
           <option value="">Categorie</option>
@@ -32,9 +101,9 @@
           <option value="sante_prevoyance">Sante / Prevoyance</option>
           <option value="habitat_finance">Habitat / Finance</option>
         </select>
-        <input id="email" type="email" placeholder="Email client" required />
-        <input id="referenceId" type="text" placeholder="Reference dossier (optionnel)" />
-        <input id="amountEur" type="number" step="0.01" min="1" placeholder="Montant EUR (ex: 49)" required />
+        <input id="email" type="email" placeholder="Email client" required autocomplete="email" />
+        <input id="referenceId" type="text" placeholder="Reference dossier (optionnel, ex. qte_…)" />
+        <input id="amountEur" type="number" step="0.01" min="1" max="5000" placeholder="Montant EUR (ex: 49)" required />
         <button class="btn btn-primary" type="submit">Payer avec Stripe</button>
       </form>
 
