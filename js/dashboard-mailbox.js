@@ -1,26 +1,27 @@
 /**
- * Messagerie dashboard — inbox, filtres, sync IMAP, modeles, raccourcis
+ * Messagerie — e-mails recus en avant + fil Q&R par conversation
  */
 (function () {
   var LS_SYNC = "mbx_last_imap_sync";
   var LS_SYNC_ERR = "mbx_last_imap_error";
   var LS_SETUP_HIDE = "mbx_setup_hidden";
-  var SYNC_INTERVAL_MS = 10 * 60 * 1000;
 
   var TEMPLATES = {
     merci:
-      "Bonjour,\n\nMerci pour votre message et votre confiance. Nous avons bien recu votre demande et un conseiller vous recontactera tres prochainement.\n\nBien cordialement,\nLeads Opportunities",
+      "Bonjour,\n\nMerci pour votre message. Nous revenons vers vous tres rapidement.\n\nBien cordialement,\nLeads Opportunities",
     rdv:
-      "Bonjour,\n\nSuite a votre demande, je suis disponible pour un echange telephonique. Indiquez-nous vos disponibilites (matin / apres-midi) et nous vous rappellerons.\n\nBien cordialement,\nLeads Opportunities",
+      "Bonjour,\n\nJe suis disponible pour un echange telephonique. Quelles sont vos disponibilites ?\n\nBien cordialement,\nLeads Opportunities",
     devis:
-      "Bonjour,\n\nVotre demande de devis est en cours d'analyse par nos equipes. Nous reviendrons vers vous sous 24 a 48 h ouvrées avec une proposition adaptee.\n\nBien cordialement,\nLeads Opportunities",
+      "Bonjour,\n\nVotre demande est en cours d'analyse. Nous vous repondrons sous 24 a 48 h ouvrees.\n\nBien cordialement,\nLeads Opportunities",
   };
 
   var state = {
     all: [],
     filtered: [],
+    threads: [],
+    view: "received",
     selectedId: null,
-    filter: "all",
+    selectedThreadKey: null,
     search: "",
     sortDesc: true,
     imapConfigured: false,
@@ -61,16 +62,13 @@
     return "inbound";
   }
 
-  function kindLabel(kind) {
-    if (kind === "site") return "Site";
-    if (kind === "imap") return "E-mail";
-    if (kind === "outbound") return "Envoye";
-    return "Recu";
+  function isReceivedMail(m) {
+    return messageKind(m) === "imap" || (m.direction === "inbound" && messageKind(m) !== "site");
   }
 
   function initials(addr) {
     var e = extractEmail(addr) || "?";
-    var parts = e.replace(/@.*/, "").split(/[._-]/);
+    var parts = e.replace(/@.*/, "")..split(/[._-]/);
     if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
     return e.slice(0, 2).toUpperCase();
   }
@@ -80,11 +78,11 @@
     try {
       var d = new Date(iso);
       var now = new Date();
-      var sameDay =
+      if (
         d.getDate() === now.getDate() &&
         d.getMonth() === now.getMonth() &&
-        d.getFullYear() === now.getFullYear();
-      if (sameDay) {
+        d.getFullYear() === now.getFullYear()
+      ) {
         return d.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" });
       }
       return d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short" });
@@ -100,7 +98,6 @@
         weekday: "short",
         day: "2-digit",
         month: "long",
-        year: "numeric",
         hour: "2-digit",
         minute: "2-digit",
       });
@@ -124,22 +121,87 @@
     return String(m.id).slice(5);
   }
 
-  function sortMessages(list) {
-    return list.slice().sort(function (a, b) {
-      var ta = new Date(a.created_at).getTime() || 0;
-      var tb = new Date(b.created_at).getTime() || 0;
-      return state.sortDesc ? tb - ta : ta - tb;
+  function messagePreview(m) {
+    var t = (m.body_text || "").replace(/\s+/g, " ").trim();
+    if (t.charAt(0) === "{") {
+      var p = parseLeadPayload(m.body_text);
+      if (p) {
+        return (
+          [p.vertical, p.city, p.phone, p.message || p.comment].filter(Boolean).join(" · ") ||
+          "Demande formulaire"
+        );
+      }
+      return "Demande formulaire";
+    }
+    if (!t && m.body_html) {
+      t = String(m.body_html)
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+    return t.slice(0, 140);
+  }
+
+  function threadKeyForMessage(m) {
+    var p = parseLeadPayload(m.body_text);
+    var email = (p && p.email) || extractEmail(m.direction === "inbound" ? m.from_addr : m.to_addr);
+    if (email && email.indexOf("@") > 0) return email.toLowerCase();
+    if (m.thread_key) return String(m.thread_key).toLowerCase();
+    return m.id;
+  }
+
+  function buildThreads(messages) {
+    var map = {};
+    messages.forEach(function (m) {
+      var key = threadKeyForMessage(m);
+      if (!map[key]) {
+        map[key] = {
+          key: key,
+          contact: extractEmail(m.from_addr) || extractEmail(m.to_addr) || key,
+          messages: [],
+        };
+      }
+      map[key].messages.push(m);
     });
+
+    var threads = Object.keys(map).map(function (k) {
+      var t = map[k];
+      t.messages.sort(function (a, b) {
+        return new Date(a.created_at) - new Date(b.created_at);
+      });
+      var last = t.messages[t.messages.length - 1];
+      t.last = last;
+      t.lastAt = last.created_at;
+      t.needsReply = last.direction === "inbound";
+      t.hasImap = t.messages.some(function (m) {
+        return messageKind(m) === "imap";
+      });
+      t.hasSite = t.messages.some(function (m) {
+        return messageKind(m) === "site";
+      });
+      var subjIn = t.messages
+        .slice()
+        .reverse()
+        .find(function (m) {
+          return m.subject && m.direction === "inbound";
+        });
+      t.subject = (subjIn && subjIn.subject) || last.subject || "(sans objet)";
+      t.preview = messagePreview(last);
+      t.priority =
+        (t.needsReply && t.hasImap ? 0 : t.needsReply ? 1 : t.hasImap ? 2 : t.hasSite ? 3 : 4);
+      return t;
+    });
+
+    threads.sort(function (a, b) {
+      if (a.priority !== b.priority) return a.priority - b.priority;
+      return new Date(b.lastAt) - new Date(a.lastAt);
+    });
+    return threads;
   }
 
   function applyFilters() {
     var q = state.search.toLowerCase().trim();
-    var list = state.all.filter(function (m) {
-      var kind = messageKind(m);
-      if (state.filter === "site" && kind !== "site") return false;
-      if (state.filter === "imap" && kind !== "imap") return false;
-      if (state.filter === "inbound" && m.direction !== "inbound") return false;
-      if (state.filter === "outbound" && m.direction !== "outbound") return false;
+    var pool = state.all.filter(function (m) {
       if (!q) return true;
       var hay =
         (m.subject || "") +
@@ -151,25 +213,69 @@
         (m.body_text || "");
       return hay.toLowerCase().indexOf(q) >= 0;
     });
-    state.filtered = sortMessages(list);
+
+    if (state.view === "received") {
+      pool = pool.filter(isReceivedMail);
+    } else if (state.view === "site") {
+      pool = pool.filter(function (m) {
+        return messageKind(m) === "site";
+      });
+    } else if (state.view === "sent") {
+      pool = pool.filter(function (m) {
+        return m.direction === "outbound";
+      });
+    }
+
+    pool.sort(function (a, b) {
+      var ta = new Date(a.created_at).getTime() || 0;
+      var tb = new Date(b.created_at).getTime() || 0;
+      return state.sortDesc ? tb - ta : ta - tb;
+    });
+
+    state.filtered = pool;
+    state.threads = buildThreads(
+      state.view === "feed"
+        ? pool
+        : state.all.filter(function (m) {
+            if (!q) return true;
+            var hay = (m.subject || "") + (m.from_addr || "") + (m.body_text || "");
+            return hay.toLowerCase().indexOf(q) >= 0;
+          })
+    );
   }
 
-  function setFilter(f) {
-    state.filter = f || "all";
-    document.querySelectorAll(".mbx-filter").forEach(function (b) {
-      b.classList.toggle("is-active", b.getAttribute("data-filter") === state.filter);
+  function setView(view) {
+    state.view = view || "received";
+    document.querySelectorAll(".mbx-view-tab").forEach(function (b) {
+      b.classList.toggle("is-active", b.getAttribute("data-view") === state.view);
     });
-    document.querySelectorAll(".mbx-stat[data-stat-filter]").forEach(function (b) {
-      b.classList.toggle("is-active-stat", b.getAttribute("data-stat-filter") === state.filter);
+    document.querySelectorAll(".mbx-stat[data-view]").forEach(function (b) {
+      b.classList.toggle("is-active-stat", b.getAttribute("data-view") === state.view);
     });
+    var hint = document.getElementById("mailboxListHint");
+    if (hint) {
+      var hints = {
+        received: "E-mails recus sur contact@",
+        feed: "Conversations question → reponse",
+        site: "Leads formulaire uniquement",
+        sent: "Vos reponses envoyees",
+      };
+      hint.textContent = hints[state.view] || "";
+    }
     applyFilters();
     renderList();
+  }
+
+  function countNeedsReply() {
+    return buildThreads(state.all).filter(function (t) {
+      return t.needsReply && t.hasImap;
+    }).length;
   }
 
   function updateNavBadge() {
     var badge = document.getElementById("mailboxNavBadge");
     if (!badge) return;
-    var n = (state.stats && state.stats.siteLast7d) || 0;
+    var n = countNeedsReply();
     if (n > 0) {
       badge.hidden = false;
       badge.textContent = n > 99 ? "99+" : String(n);
@@ -178,53 +284,42 @@
     }
   }
 
-  function updateStatusBar() {
-    var el = document.getElementById("mailboxLastUpdate");
-    if (el) el.innerHTML = "<strong>Messagerie</strong> — maj. " + fmtDateLong(new Date().toISOString());
-
-    var hint = document.getElementById("mailboxSyncHint");
-    if (!hint) return;
-    var err = localStorage.getItem(LS_SYNC_ERR);
-    if (!state.imapConfigured) {
-      hint.innerHTML =
-        '<span style="color:#b45309">IMAP inactif — ajoutez MAIL_IMAP_USER et MAIL_IMAP_PASS sur Vercel, puis « Synchroniser IMAP ».</span>';
-      return;
-    }
-    if (err) {
-      hint.innerHTML =
-        '<span style="color:#b91c1c">Erreur IMAP : ' +
-        esc(err) +
-        " — verifiez mot de passe, hote (leadsopportunities.fr ou mail.leadsopportunities.fr) et MAIL_IMAP_TLS_INSECURE=true si certificat.</span>";
-      return;
-    }
-    var last = localStorage.getItem(LS_SYNC);
-    var imapN = (state.stats && state.stats.imapMessages) || 0;
-    if (last) {
-      hint.textContent =
-        "Derniere sync : " +
-        fmtDate(last) +
-        " — " +
-        imapN +
-        " e-mail(s) boite en base. Les formulaires site s'affichent sans sync.";
-    } else {
-      hint.textContent =
-        "IMAP configure — cliquez « Synchroniser IMAP » pour importer la boite contact@ (les mails site sont deja la).";
-    }
-  }
-
   function renderStats() {
     var s = state.stats || {};
+    var received = state.all.filter(isReceivedMail).length;
+    var threads = buildThreads(state.all).length;
     var el = function (id, v) {
       var n = document.getElementById(id);
       if (n) n.textContent = v != null ? String(v) : "0";
     };
-    el("mbxStatTotal", s.total != null ? s.total : state.all.length);
+    el("mbxStatReceived", received || s.imapMessages || 0);
+    el("mbxStatThreads", threads);
     el("mbxStatSite", s.siteLeads);
-    el("mbxStatImap", s.imapMessages);
     el("mbxStatOut", s.outbound);
-    var w = document.getElementById("mbxStatSite7d");
-    if (w) w.textContent = s.siteLast7d ? "(" + s.siteLast7d + " / 7 j)" : "";
     updateNavBadge();
+  }
+
+  function updateStatusBar() {
+    var el = document.getElementById("mailboxLastUpdate");
+    if (el) el.innerHTML = "<strong>Messagerie</strong> — " + fmtDateLong(new Date().toISOString());
+    var hint = document.getElementById("mailboxSyncHint");
+    if (!hint) return;
+    var err = localStorage.getItem(LS_SYNC_ERR);
+    if (!state.imapConfigured) {
+      hint.innerHTML = '<span style="color:#b45309">Configurez IMAP pour voir les e-mails contact@</span>';
+      return;
+    }
+    if (err) {
+      hint.innerHTML = '<span style="color:#b91c1c">IMAP : ' + esc(err) + "</span>";
+      return;
+    }
+    var n = countNeedsReply();
+    hint.textContent =
+      state.all.filter(isReceivedMail).length +
+      " e-mail(s) recu(s)" +
+      (n ? " · " + n + " a repondre" : "") +
+      " · sync " +
+      (localStorage.getItem(LS_SYNC) ? fmtDate(localStorage.getItem(LS_SYNC)) : "—");
   }
 
   function renderSetup(meta) {
@@ -235,20 +330,16 @@
       return;
     }
     box.hidden = false;
-
     if (state.tableMissing) {
       box.className = "mbx-setup mbx-setup--err";
-      box.innerHTML =
-        "<strong>Table messagerie</strong> — sera creee automatiquement au chargement. Si l'erreur persiste, verifiez <code>DATABASE_URL</code> sur Vercel.";
+      box.innerHTML = "<strong>Base messagerie</strong> — verifiez DATABASE_URL.";
       return;
     }
-
-    var imapOk = meta && meta.imapConfigured;
-    box.className = "mbx-setup " + (imapOk ? "mbx-setup--ok" : "");
+    box.className = "mbx-setup " + (meta && meta.imapConfigured ? "mbx-setup--ok" : "");
     box.innerHTML =
-      (imapOk
-        ? "<strong>IMAP OK</strong> — sync auto toutes les 10 min."
-        : "<strong>IMAP</strong> — ajoutez MAIL_IMAP_USER + MAIL_IMAP_PASS sur Vercel.") +
+      (meta && meta.imapConfigured
+        ? "<strong>Boite contact@ synchronisee</strong> — les e-mails recus apparaissent en premier."
+        : "<strong>IMAP</strong> — requis pour les e-mails recus.") +
       ' <button type="button" class="btn-ghost" id="mailboxHideSetup" style="margin-left:8px;font-size:0.75rem">Masquer</button>';
     var hide = document.getElementById("mailboxHideSetup");
     if (hide) {
@@ -259,43 +350,118 @@
     }
   }
 
-  function renderList() {
+  function renderThreadCard(t, active) {
+    var cls = "mbx-thread-card";
+    if (active) cls += " is-active";
+    if (t.needsReply && t.hasImap) cls += " mbx-thread-card--reply";
+    else if (t.hasImap) cls += " mbx-thread-card--mail";
+    var tags =
+      (t.needsReply && t.hasImap ? '<span class="mbx-pill mbx-pill--reply">A repondre</span>' : "") +
+      (t.hasImap ? '<span class="mbx-pill mbx-pill--mail">E-mail</span>' : "") +
+      (t.hasSite ? '<span class="mbx-pill mbx-pill--site">Site</span>' : "") +
+      '<span class="mbx-pill" style="background:#f1f5f9;color:#64748b">' +
+      t.messages.length +
+      " msg</span>";
+    return (
+      '<button type="button" class="' +
+      cls +
+      '" data-thread="' +
+      esc(t.key) +
+      '">' +
+      '<div class="mbx-thread-card__top"><span class="mbx-thread-card__who">' +
+      esc(t.contact) +
+      '</span><span class="mbx-thread-card__time">' +
+      fmtDate(t.lastAt) +
+      "</span></div>" +
+      '<div class="mbx-thread-card__sub">' +
+      esc(t.subject) +
+      "</div>" +
+      '<div class="mbx-thread-card__prev">' +
+      esc(t.preview) +
+      "</div>" +
+      '<div class="mbx-thread-card__tags">' +
+      tags +
+      "</div></button>"
+    );
+  }
+
+  function renderThreadList() {
     var list = document.getElementById("mailboxList");
     if (!list) return;
 
-    if (state.tableMissing) {
-      list.innerHTML = '<div class="mbx-empty" style="padding:24px"><p>Erreur base de donnees.</p></div>';
+    var threads = state.threads;
+    if (state.view === "feed") {
+      threads = state.threads;
+    } else {
+      threads = buildThreads(state.filtered);
+    }
+
+    if (!threads.length) {
+      list.innerHTML = '<div class="mbx-empty" style="padding:32px 16px"><p>Aucune conversation.</p></div>';
       return;
     }
 
-    if (!state.filtered.length) {
-      list.innerHTML =
-        '<div class="mbx-empty" style="padding:32px 16px"><p>Aucun message.</p></div>';
+    var html = "";
+    var urgent = threads.filter(function (t) {
+      return t.needsReply && t.hasImap;
+    });
+    var mail = threads.filter(function (t) {
+      return t.hasImap && !(t.needsReply && t.hasImap);
+    });
+    var siteOnly = threads.filter(function (t) {
+      return !t.hasImap && t.hasSite;
+    });
+
+    function block(label, items) {
+      if (!items.length) return "";
+      var h = '<div class="mbx-list-section">' + esc(label) + "</div>";
+      items.forEach(function (t) {
+        h += renderThreadCard(t, state.selectedThreadKey === t.key);
+      });
+      return h;
+    }
+
+    if (state.view === "feed") {
+      html += block("A repondre — e-mail recu", urgent);
+      html += block("Conversations e-mail", mail);
+      html += block("Demandes site", siteOnly);
+    } else {
+      threads.forEach(function (t) {
+        html += renderThreadCard(t, state.selectedThreadKey === t.key);
+      });
+    }
+
+    list.innerHTML = html;
+    list.querySelectorAll("[data-thread]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        selectThread(btn.getAttribute("data-thread"));
+      });
+    });
+  }
+
+  function renderMessageList() {
+    var list = document.getElementById("mailboxList");
+    if (!list || !state.filtered.length) {
+      if (list) {
+        list.innerHTML =
+          '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail recu. Synchronisez IMAP.</p></div>';
+      }
       return;
     }
 
     list.innerHTML = state.filtered
-      .map(function (m, idx) {
-        var kind = messageKind(m);
+      .map(function (m) {
         var active = m.id === state.selectedId ? " is-active" : "";
-        var preview = (m.body_text || "").replace(/\s+/g, " ").trim().slice(0, 100);
-        if (preview.charAt(0) === "{") preview = "Demande formulaire";
-        var from =
-          m.direction === "outbound"
-            ? "Vers " + extractEmail(m.to_addr)
-            : extractEmail(m.from_addr);
+        var received = isReceivedMail(m) ? " mbx-item--received" : "";
         return (
           '<button type="button" class="mbx-item' +
           active +
+          received +
           '" data-id="' +
           esc(m.id) +
-          '" data-idx="' +
-          idx +
           '">' +
-          '<span class="mbx-item__avatar mbx-item__avatar--' +
-          (kind === "site" ? "site" : kind === "outbound" ? "out" : "imap") +
-          '">' +
-          esc(initials(m.direction === "outbound" ? m.to_addr : m.from_addr)) +
+          '<span class="mbx-item__avatar mbx-item__avatar--imap">' +
+          esc(initials(m.from_addr)) +
           "</span>" +
           '<span class="mbx-item__main">' +
           '<span class="mbx-item__row"><span class="mbx-item__subject">' +
@@ -304,16 +470,12 @@
           fmtDate(m.created_at) +
           "</span></span>" +
           '<span class="mbx-item__from">' +
-          esc(from) +
+          esc(extractEmail(m.from_addr)) +
           "</span>" +
           '<span class="mbx-item__preview">' +
-          esc(preview) +
+          esc(messagePreview(m)) +
           "</span></span>" +
-          '<span class="mbx-badge mbx-badge--' +
-          (kind === "site" ? "site" : kind === "outbound" ? "out" : "imap") +
-          '">' +
-          kindLabel(kind) +
-          "</span></button>"
+          '<span class="mbx-badge mbx-badge--imap">Recu</span></button>'
         );
       })
       .join("");
@@ -325,219 +487,247 @@
     });
   }
 
-  function threadMessages(m) {
-    if (!m || !m.thread_key) return [];
-    var key = String(m.thread_key).toLowerCase();
-    return state.all
-      .filter(function (x) {
-        return x.id !== m.id && String(x.thread_key || "").toLowerCase() === key;
-      })
-      .slice(0, 8);
+  function renderList() {
+    if (state.tableMissing) {
+      document.getElementById("mailboxList").innerHTML =
+        '<div class="mbx-empty" style="padding:24px"><p>Erreur base.</p></div>';
+      return;
+    }
+    if (state.view === "feed") renderThreadList();
+    else if (state.view === "received") renderMessageList();
+    else if (state.view === "site" || state.view === "sent") {
+      if (state.view === "site" || state.view === "sent") {
+        var list = document.getElementById("mailboxList");
+        if (!state.filtered.length) {
+          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>Rien ici.</p></div>';
+          return;
+        }
+        list.innerHTML = state.filtered
+          .map(function (m) {
+            var kind = messageKind(m);
+            var active = m.id === state.selectedId ? " is-active" : "";
+            return (
+              '<button type="button" class="mbx-item' +
+              active +
+              '" data-id="' +
+              esc(m.id) +
+              '"><span class="mbx-item__main"><strong>' +
+              esc(m.subject || "(sans objet)") +
+              "</strong><br><span style='font-size:0.8rem;color:var(--muted)'>" +
+              esc(extractEmail(m.from_addr)) +
+              " · " +
+              fmtDate(m.created_at) +
+              "</span></span></button>"
+            );
+          })
+          .join("");
+        list.querySelectorAll(".mbx-item").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            selectMessage(btn.getAttribute("data-id"));
+          });
+        });
+      }
+    }
   }
 
-  function renderLeadBody(m, payload) {
-    var fields = [
-      ["Nom", payload.fullName || payload.name || payload.firstName],
-      ["Email", payload.email || extractEmail(m.from_addr)],
-      ["Telephone", payload.phone],
+  function renderLeadBubble(m, payload) {
+    var rows = [
+      ["Nom", payload.fullName || payload.name],
+      ["Tel", payload.phone],
       ["Vertical", payload.vertical],
-      ["Source", payload.source],
       ["Score", payload.leadScore != null ? payload.leadScore + "/100" : null],
-      ["Pertinence", payload.relevance],
       ["Ville", payload.city || payload.seo_city],
-      ["Departement", payload.seo_department],
-      ["Code postal", payload.postal_code],
-      ["Besoin", payload.need || payload.product || payload.seo_product],
-      ["UTM", payload.utm_source || payload.attr_last_utm_source],
-      ["Page", payload.landing_slug || payload.landing_path],
-    ];
-    var rows = fields
-      .filter(function (f) {
-        return f[1];
+    ]
+      .filter(function (r) {
+        return r[1];
       })
-      .map(function (f) {
-        return "<dt>" + esc(f[0]) + "</dt><dd>" + esc(String(f[1])) + "</dd>";
+      .map(function (r) {
+        return "<strong>" + esc(r[0]) + " :</strong> " + esc(String(r[1]));
       })
-      .join("");
-    var extra = "";
-    if (payload.message || payload.comment || payload.notes) {
-      extra =
-        '<p style="margin:12px 0 0"><strong>Message :</strong><br>' +
-        esc(payload.message || payload.comment || payload.notes) +
-        "</p>";
-    }
+      .join("<br>");
+    var msg = payload.message || payload.comment;
     return (
-      '<div class="mbx-lead-card"><p style="margin:0 0 8px;font-weight:700">Demande via le site</p><dl>' +
+      '<div class="mbx-qa-bubble mbx-qa-bubble--site">' +
+      '<div class="mbx-qa-bubble__label">Demande site</div>' +
+      '<div class="mbx-qa-bubble__body">' +
       rows +
-      "</dl>" +
-      extra +
-      "</div>"
+      (msg ? "<br><br>" + esc(msg) : "") +
+      "</div>" +
+      '<div class="mbx-qa-bubble__meta">' +
+      fmtDateLong(m.created_at) +
+      "</div></div>"
     );
   }
 
-  function renderThreadBlock(m) {
-    var related = threadMessages(m);
-    if (!related.length) return "";
-    var html =
-      '<div class="mbx-thread"><h4>Meme fil (' +
-      related.length +
-      ")</h4>";
-    related.forEach(function (t) {
+  function renderQaFeed(messages) {
+    var html = '<div class="mbx-qa-feed">';
+    messages.forEach(function (m) {
+      var payload = parseLeadPayload(m.body_text);
+      if (messageKind(m) === "site" && payload) {
+        html += renderLeadBubble(m, payload);
+        return;
+      }
+      var isOut = m.direction === "outbound";
+      var label = isOut ? "Votre reponse" : "Message recu";
+      var text = messagePreview(m);
       html +=
-        '<div class="mbx-thread-item" data-id="' +
-        esc(t.id) +
-        '"><strong>' +
-        esc(t.subject || "(sans objet)") +
-        "</strong> — " +
-        fmtDate(t.created_at) +
-        "</div>";
+        '<div class="mbx-qa-bubble ' +
+        (isOut ? "mbx-qa-bubble--out" : "mbx-qa-bubble--in") +
+        '">' +
+        '<div class="mbx-qa-bubble__label">' +
+        label +
+        (messageKind(m) === "imap" ? " · e-mail" : "") +
+        "</div>" +
+        '<div class="mbx-qa-bubble__body">' +
+        (m.subject ? "<strong>" + esc(m.subject) + "</strong><br><br>" : "") +
+        esc(text) +
+        "</div>" +
+        '<div class="mbx-qa-bubble__meta">' +
+        fmtDateLong(m.created_at) +
+        "</div></div>";
     });
     return html + "</div>";
   }
 
-  function renderDetailBody(m) {
-    var payload = parseLeadPayload(m.body_text);
-    if (payload && messageKind(m) === "site") {
-      return renderLeadBody(m, payload) + renderThreadBlock(m);
-    }
-    var text = m.body_text || "";
-    if (!text.trim() && m.body_html) {
-      text = String(m.body_html)
-        .replace(/<style[\s\S]*?<\/style>/gi, " ")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-    }
-    return '<pre class="mbx-body-text">' + esc(text || "(message vide)") + "</pre>" + renderThreadBlock(m);
-  }
-
-  function selectMessage(id, opts) {
-    opts = opts || {};
-    state.selectedId = id;
-    var m = state.all.find(function (x) {
-      return x.id === id;
-    });
-
-    var empty = document.getElementById("mailboxEmptyState");
-    var view = document.getElementById("mailboxDetailView");
-    if (!m) {
-      if (empty) empty.hidden = false;
-      if (view) view.hidden = true;
-      renderList();
-      return;
-    }
-
-    if (empty) empty.hidden = true;
-    if (view) view.hidden = false;
-
-    if (window.innerWidth <= 960) {
+  function showDetailPane(show) {
+    document.getElementById("mailboxEmptyState").hidden = show;
+    document.getElementById("mailboxDetailView").hidden = !show;
+    if (show && window.innerWidth <= 960) {
       document.getElementById("mailboxPaneList").classList.add("mbx-pane--hidden-mobile");
       document.getElementById("mailboxPaneDetail").classList.remove("mbx-pane--hidden-mobile");
     }
+  }
 
-    var leadId = leadIdFromMessage(m);
-    var kind = messageKind(m);
-    var head = document.getElementById("mailboxDetailHead");
-
-    if (head) {
-      head.innerHTML =
-        "<h2>" +
-        esc(m.subject || "(sans objet)") +
-        "</h2>" +
-        '<dl class="mbx-meta-grid">' +
-        "<dt>De</dt><dd>" +
-        esc(m.from_addr || "—") +
-        "</dd><dt>A</dt><dd>" +
-        esc(m.to_addr || "—") +
-        "</dd><dt>Date</dt><dd>" +
-        fmtDateLong(m.created_at) +
-        "</dd><dt>Type</dt><dd>" +
-        kindLabel(kind) +
-        "</dd></dl>" +
-        '<div class="mbx-detail-actions">' +
-        (leadId
-          ? '<a class="btn-ghost" href="./dashboard.html?section=leads&lead=' +
-            encodeURIComponent(leadId) +
-            '">Fiche lead</a>'
-          : "") +
-        '<button type="button" class="btn-ghost" data-copy="' +
-        esc(extractEmail(m.direction === "inbound" ? m.from_addr : m.to_addr)) +
-        '">Copier e-mail</button>' +
-        '<button type="button" class="btn-ghost" data-action="tel">' +
-        (parseLeadPayload(m.body_text) && parseLeadPayload(m.body_text).phone
-          ? "Tel. " + esc(parseLeadPayload(m.body_text).phone)
-          : "Telephone") +
-        "</button></div>";
-
-      head.querySelector("[data-copy]").addEventListener("click", function () {
-        var v = head.querySelector("[data-copy]").getAttribute("data-copy");
-        if (navigator.clipboard && v) navigator.clipboard.writeText(v).then(function () { toast("Copie"); });
-      });
-      var telBtn = head.querySelector("[data-action=tel]");
-      if (telBtn) {
-        var pl = parseLeadPayload(m.body_text);
-        if (pl && pl.phone) {
-          telBtn.addEventListener("click", function () {
-            window.location.href = "tel:" + String(pl.phone).replace(/\s/g, "");
-          });
-        } else {
-          telBtn.disabled = true;
-          telBtn.style.opacity = "0.5";
-        }
-      }
-    }
-
-    var body = document.getElementById("mailboxDetailBody");
-    if (body) {
-      body.innerHTML = renderDetailBody(m);
-      body.querySelectorAll(".mbx-thread-item").forEach(function (el) {
-        el.addEventListener("click", function () {
-          selectMessage(el.getAttribute("data-id"));
-        });
-      });
-    }
-
+  function setupReplyForMessage(m) {
+    if (!m) return;
     var replyTo = m.direction === "inbound" ? extractEmail(m.from_addr) : extractEmail(m.to_addr);
     document.getElementById("mailboxReplyTo").value = replyTo;
     document.getElementById("mailboxReplySubject").value = /^re:/i.test(m.subject || "")
       ? m.subject
       : "Re: " + (m.subject || "");
     document.getElementById("mailboxReplyToId").value = m.id;
-    if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
-
-    var summary = document.getElementById("mailboxReplySummary");
-    if (summary) summary.textContent = "Repondre a " + replyTo;
-
+    document.getElementById("mailboxReplySummary").textContent = "Repondre a " + replyTo;
     document.getElementById("mailboxReplyPanel").open = true;
-    renderList();
   }
 
-  function showListMobile() {
-    document.getElementById("mailboxPaneList").classList.remove("mbx-pane--hidden-mobile");
-    document.getElementById("mailboxPaneDetail").classList.add("mbx-pane--hidden-mobile");
-  }
-
-  function openCompose() {
-    state.selectedId = "__compose__";
-    document.getElementById("mailboxEmptyState").hidden = true;
-    document.getElementById("mailboxDetailView").hidden = false;
-    if (window.innerWidth <= 960) {
-      document.getElementById("mailboxPaneList").classList.add("mbx-pane--hidden-mobile");
-      document.getElementById("mailboxPaneDetail").classList.remove("mbx-pane--hidden-mobile");
+  function selectThread(key, opts) {
+    opts = opts || {};
+    state.selectedThreadKey = key;
+    state.selectedId = null;
+    var t = state.threads.find(function (x) {
+      return x.key === key;
+    });
+    if (!t) {
+      showDetailPane(false);
+      renderList();
+      return;
     }
+    showDetailPane(true);
+    var lastIn =
+      t.messages
+        .slice()
+        .reverse()
+        .find(function (m) {
+          return m.direction === "inbound";
+        }) || t.last;
+
     document.getElementById("mailboxDetailHead").innerHTML =
-      "<h2>Nouveau message</h2><p style='margin:0;color:var(--muted);font-size:0.88rem'>Envoi via " +
-      esc(state.mailboxAddress) +
-      "</p>";
-    document.getElementById("mailboxDetailBody").innerHTML =
-      '<p class="mbx-body-text" style="color:var(--muted)">Composer un e-mail sortant.</p>';
-    document.getElementById("mailboxReplyToId").value = "";
-    document.getElementById("mailboxReplyTo").value = "";
-    document.getElementById("mailboxReplySubject").value = "";
-    document.getElementById("mailboxReplyBody").value = "";
-    document.getElementById("mailboxReplyPanel").open = true;
-    document.getElementById("mailboxReplyBody").focus();
+      "<h2>" +
+      esc(t.contact) +
+      "</h2>" +
+      '<p style="margin:0;color:var(--muted);font-size:0.88rem">' +
+      esc(t.subject) +
+      (t.needsReply ? ' · <strong style="color:#b45309">En attente de reponse</strong>' : "") +
+      "</p>" +
+      '<div class="mbx-detail-actions" style="margin-top:12px">' +
+      (t.hasSite
+        ? '<a class="btn-ghost" href="./dashboard.html?section=leads">Voir leads</a>'
+        : "") +
+      '<button type="button" class="btn-ghost" data-copy="' +
+      esc(t.contact) +
+      '">Copier e-mail</button></div>';
+
+    document.getElementById("mailboxDetailHead").querySelector("[data-copy]").addEventListener("click", function () {
+      navigator.clipboard.writeText(t.contact).then(function () {
+        toast("Copie");
+      });
+    });
+
+    document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed(t.messages);
+    if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
+    setupReplyForMessage(lastIn);
     renderList();
+  }
+
+  function selectMessage(id, opts) {
+    opts = opts || {};
+    state.selectedId = id;
+    state.selectedThreadKey = null;
+    var m = state.all.find(function (x) {
+      return x.id === id;
+    });
+    if (!m) {
+      showDetailPane(false);
+      renderList();
+      return;
+    }
+    showDetailPane(true);
+    var kind = messageKind(m);
+    var leadId = leadIdFromMessage(m);
+
+    document.getElementById("mailboxDetailHead").innerHTML =
+      "<h2>" +
+      esc(m.subject || "(sans objet)") +
+      "</h2>" +
+      '<p style="margin:0;font-size:0.85rem;color:var(--muted)">' +
+      esc(extractEmail(m.from_addr)) +
+      " · " +
+      fmtDateLong(m.created_at) +
+      (isReceivedMail(m) ? ' · <span style="color:#1d4ed8;font-weight:700">E-mail recu</span>' : "") +
+      "</p>" +
+      '<div class="mbx-detail-actions" style="margin-top:10px">' +
+      (leadId
+        ? '<a class="btn-ghost" href="./dashboard.html?section=leads&lead=' +
+          encodeURIComponent(leadId) +
+          '">Fiche lead</a>'
+        : "") +
+      "</div>";
+
+    if (state.view === "feed" || state.view === "received") {
+      var tk = threadKeyForMessage(m);
+      var th = state.threads.find(function (x) {
+        return x.key === tk;
+      });
+      if (th && th.messages.length > 1) {
+        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed(th.messages);
+      } else {
+        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
+      }
+    } else {
+      var payload = parseLeadPayload(m.body_text);
+      if (payload && kind === "site") {
+        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
+      } else {
+        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
+      }
+    }
+
+    if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
+    setupReplyForMessage(m);
+    renderList();
+  }
+
+  function pickDefaultSelection() {
+    if (state.view === "feed") {
+      var urgent = state.threads.find(function (t) {
+        return t.needsReply && t.hasImap;
+      });
+      if (urgent) return selectThread(urgent.key);
+      if (state.threads[0]) return selectThread(state.threads[0].key);
+    }
+    if (state.view === "received" && state.filtered[0]) return selectMessage(state.filtered[0].id);
+    if (state.filtered[0]) return selectMessage(state.filtered[0].id);
+    showDetailPane(false);
   }
 
   function ingestMessages(data, opts) {
@@ -550,75 +740,44 @@
     applyFilters();
     renderStats();
     renderSetup(data);
-    renderList();
     updateStatusBar();
 
     var sub = document.getElementById("mailboxSubtitle");
     if (sub) {
       sub.textContent =
-        (state.stats && state.stats.total) +
-        " messages · " +
-        (state.imapConfigured ? "IMAP actif" : "IMAP off") +
-        " · " +
-        state.mailboxAddress;
+        state.all.filter(isReceivedMail).length +
+        " recus · " +
+        countNeedsReply() +
+        " a repondre · fil Q&R";
     }
 
-    var openId = opts.openId || state.pendingOpenId;
-    if (openId && state.all.some(function (m) { return m.id === openId; })) {
-      selectMessage(openId);
-      state.pendingOpenId = null;
-    } else if (state.selectedId && state.selectedId !== "__compose__") {
-      if (state.all.some(function (m) { return m.id === state.selectedId; })) {
-        selectMessage(state.selectedId, { keepDraft: true });
-      } else {
-        state.selectedId = null;
-        if (state.filtered.length) selectMessage(state.filtered[0].id);
-      }
-    } else if (!state.selectedId && state.filtered.length && !opts.skipAutoSelect) {
-      selectMessage(state.filtered[0].id);
+    if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
+      selectMessage(opts.openId);
+      return;
     }
+    if (!opts.skipAutoSelect) pickDefaultSelection();
+    else renderList();
   }
 
   async function loadMailbox(opts) {
     opts = opts || {};
     if (opts.openId) state.pendingOpenId = opts.openId;
-
     var list = document.getElementById("mailboxList");
     if (list) {
       list.innerHTML =
         '<div class="loading-state" style="padding:40px"><div class="spinner"></div>Chargement…</div>';
     }
-
     var data = await window.Dashboard.api("/api/dashboard/mailbox-list?limit=100");
-
-    if (data.code === "MAILBOX_TABLE_MISSING" || (data.status === 503 && !data.ok)) {
-      state.tableMissing = true;
-      state.all = [];
-      state.filtered = [];
-      renderSetup({});
-      renderStats();
-      renderList();
-      return;
-    }
-
     if (!data.ok) {
-      if (list) list.innerHTML = '<div class="mbx-empty"><p>' + esc(data.error) + "</p></div>";
-      toast(data.error || "Erreur", "error");
+      if (list) list.innerHTML = "<p>" + esc(data.error) + "</p>";
       return;
     }
-
     if (data.sync && data.sync.ok) {
       localStorage.setItem(LS_SYNC, new Date().toISOString());
       localStorage.removeItem(LS_SYNC_ERR);
-      if (!opts.silent && data.sync.imported > 0) {
-        toast(data.sync.imported + " e-mail(s) contact@ importe(s)");
-      }
-    } else if (data.sync && data.sync.error && !data.sync.skipped) {
-      localStorage.setItem(LS_SYNC_ERR, data.sync.error);
-    } else if (data.sync && data.sync.skipped && data.sync.error) {
+    } else if (data.sync && data.sync.error) {
       localStorage.setItem(LS_SYNC_ERR, data.sync.error);
     }
-
     ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
   }
 
@@ -634,35 +793,19 @@
       btn.textContent = "Synchroniser IMAP";
     }
     if (!data.ok) {
-      localStorage.setItem(LS_SYNC_ERR, data.error || "Erreur sync");
-      if (!silent) toast(data.error || "Erreur sync", "error");
-      updateStatusBar();
+      toast(data.error || "Erreur", "error");
       return;
     }
     if (data.sync && data.sync.ok) {
-      localStorage.setItem(LS_SYNC, new Date().toISOString());
       localStorage.removeItem(LS_SYNC_ERR);
-      if (!silent) toast("Sync OK — " + (data.sync.imported || 0) + " e-mail(s) importe(s)");
-    } else if (data.sync && data.sync.skipped) {
-      localStorage.setItem(LS_SYNC_ERR, data.sync.error || "IMAP non configure");
-      if (!silent) toast(data.sync.error || "IMAP non configure", "error");
+      localStorage.setItem(LS_SYNC, new Date().toISOString());
+      toast("Sync OK — " + (data.sync.imported || 0) + " e-mail(s)");
     } else if (data.sync && data.sync.error) {
       localStorage.setItem(LS_SYNC_ERR, data.sync.error);
-      if (!silent) toast(data.sync.error, "error");
+      toast(data.sync.error, "error");
     }
-    if (data.messages) ingestMessages(data, { skipAutoSelect: true });
-    else if (!silent) loadMailbox({ skipAutoSelect: true });
-    updateStatusBar();
-  }
-
-  function navigateList(delta) {
-    if (!state.filtered.length) return;
-    var idx = state.filtered.findIndex(function (m) {
-      return m.id === state.selectedId;
-    });
-    if (idx < 0) idx = 0;
-    idx = Math.max(0, Math.min(state.filtered.length - 1, idx + delta));
-    selectMessage(state.filtered[idx].id);
+    if (data.messages) ingestMessages(data);
+    else loadMailbox({});
   }
 
   function bindUi() {
@@ -672,15 +815,17 @@
       renderList();
     });
 
-    document.querySelectorAll(".mbx-filter").forEach(function (btn) {
+    document.querySelectorAll(".mbx-view-tab").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        setFilter(btn.getAttribute("data-filter"));
+        setView(btn.getAttribute("data-view"));
+        pickDefaultSelection();
       });
     });
 
-    document.querySelectorAll(".mbx-stat[data-stat-filter]").forEach(function (btn) {
+    document.querySelectorAll(".mbx-stat[data-view]").forEach(function (btn) {
       btn.addEventListener("click", function () {
-        setFilter(btn.getAttribute("data-stat-filter"));
+        setView(btn.getAttribute("data-view"));
+        pickDefaultSelection();
       });
     });
 
@@ -696,40 +841,48 @@
       if (!key || !TEMPLATES[key]) return;
       var ta = document.getElementById("mailboxReplyBody");
       if (!ta.value.trim()) ta.value = TEMPLATES[key];
-      else if (confirm("Remplacer le texte actuel par le modele ?")) ta.value = TEMPLATES[key];
+      else if (confirm("Remplacer le brouillon ?")) ta.value = TEMPLATES[key];
       e.target.value = "";
     });
 
-    document.getElementById("mailboxComposeBtn").addEventListener("click", openCompose);
-    document.getElementById("mailboxBackBtn").addEventListener("click", showListMobile);
-    document.getElementById("mailboxDiscardBtn").addEventListener("click", function () {
+    document.getElementById("mailboxComposeBtn").addEventListener("click", function () {
+      state.selectedThreadKey = null;
+      state.selectedId = "__compose__";
+      showDetailPane(true);
+      document.getElementById("mailboxDetailHead").innerHTML = "<h2>Nouveau message</h2>";
+      document.getElementById("mailboxDetailBody").innerHTML = "";
+      document.getElementById("mailboxReplyToId").value = "";
+      document.getElementById("mailboxReplyTo").value = "";
+      document.getElementById("mailboxReplySubject").value = "";
       document.getElementById("mailboxReplyBody").value = "";
-      toast("Brouillon efface");
+      document.getElementById("mailboxReplyPanel").open = true;
+    });
+
+    document.getElementById("mailboxBackBtn").addEventListener("click", function () {
+      document.getElementById("mailboxPaneList").classList.remove("mbx-pane--hidden-mobile");
+      document.getElementById("mailboxPaneDetail").classList.add("mbx-pane--hidden-mobile");
     });
 
     document.getElementById("mailboxReplyForm").addEventListener("submit", async function (e) {
       e.preventDefault();
       var btn = document.getElementById("mailboxSendBtn");
       btn.disabled = true;
-      btn.textContent = "Envoi…";
-      var replyId = document.getElementById("mailboxReplyToId").value;
       var payload = {
         to: document.getElementById("mailboxReplyTo").value,
         subject: document.getElementById("mailboxReplySubject").value,
         body: document.getElementById("mailboxReplyBody").value,
+        replyToId: document.getElementById("mailboxReplyToId").value || undefined,
       };
-      if (replyId) payload.replyToId = replyId;
       var data = await window.Dashboard.api("/api/dashboard/mailbox-send", {
         method: "POST",
         body: JSON.stringify(payload),
       });
       btn.disabled = false;
-      btn.textContent = "Envoyer";
       if (!data.ok) {
-        toast(data.error || "Echec envoi", "error");
+        toast(data.error || "Echec", "error");
         return;
       }
-      toast("E-mail envoye");
+      toast("Envoye");
       loadMailbox({});
     });
 
@@ -740,38 +893,9 @@
       loadMailbox({});
     });
 
-    document.addEventListener("keydown", function (e) {
-      var sec = document.getElementById("sec-mailbox");
-      if (!sec || !sec.classList.contains("active")) return;
-      var tag = (e.target && e.target.tagName) || "";
-      if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
-        if (e.key === "Escape") e.target.blur();
-        return;
-      }
-      if (e.key === "j" || e.key === "ArrowDown") {
-        e.preventDefault();
-        navigateList(1);
-      }
-      if (e.key === "k" || e.key === "ArrowUp") {
-        e.preventDefault();
-        navigateList(-1);
-      }
-      if (e.key === "r" || e.key === "R") {
-        e.preventDefault();
-        document.getElementById("mailboxReplyBody").focus();
-      }
-      if (e.key === "n" || e.key === "N") {
-        e.preventDefault();
-        openCompose();
-      }
-      if (e.key === "s" || e.key === "S") {
-        e.preventDefault();
-        document.getElementById("mailboxSortBtn").click();
-      }
-    });
+    setView("received");
   }
 
   window.loadMailbox = loadMailbox;
-
   document.addEventListener("DOMContentLoaded", bindUi);
 })();
