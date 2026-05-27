@@ -40,9 +40,9 @@ npx vercel --prod --yes
 
 Write-Host "`n=== Vérif prod ===" -ForegroundColor Cyan
 $urls = @(
-  "https://leads-opportunities.vercel.app/crm-intelligent-alerts.html",
-  "https://leads-opportunities.vercel.app/crm-export.html",
-  "https://leads-opportunities.vercel.app/crm-projects.html"
+  "https://www.leadsopportunities.fr/crm-intelligent-alerts.html",
+  "https://www.leadsopportunities.fr/crm-export.html",
+  "https://www.leadsopportunities.fr/crm-projects.html"
 )
 foreach ($u in $urls) {
   $r = Invoke-WebRequest -Uri $u -UseBasicParsing -Method Head

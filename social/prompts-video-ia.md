@@ -20,7 +20,7 @@ On est courtier inscrit a l'ORIAS. C'est notre metier.
 
 Lien dans la bio. Devis gratuit en 2 minutes."
 
-Afficher en bas de l'ecran tout au long : "leads-opportunities.vercel.app"
+Afficher en bas de l'ecran tout au long : "www.leadsopportunities.fr"
 Afficher a la fin un bouton anime : "Devis gratuit"
 Sous-titres dynamiques mot par mot en blanc sur fond sombre.
 Musique de fond : beat moderne discret.
@@ -47,7 +47,7 @@ C'est un courtier assurance, pas un comparateur automatique. Il regarde ton cas.
 
 Fais ton comparatif gratuit. Lien dans la bio."
 
-Afficher : "leads-opportunities.vercel.app" en bas.
+Afficher : "www.leadsopportunities.fr" en bas.
 Sous-titres dynamiques colores (mots-cles en teal).
 Musique douce et professionnelle.
 ```
@@ -75,7 +75,7 @@ Lien dans la bio. Remplis le formulaire, un conseiller te rappelle."
 
 Chaque erreur apparait en grand a l'ecran avec un numero anime.
 Fond : degrade bleu sombre vers teal.
-Texte en bas : "leads-opportunities.vercel.app"
+Texte en bas : "www.leadsopportunities.fr"
 Sous-titres mot par mot.
 ```
 
@@ -94,7 +94,7 @@ Sequence :
 [5s] "Un formulaire detaille." (slide de gauche)
 [5s] "Un conseiller dedie." (slide de droite)
 [3s] "Devis gratuit." (zoom avant)
-[3s] Logo "Leads Opportunities" + "leads-opportunities.vercel.app"
+[3s] Logo "Leads Opportunities" + "www.leadsopportunities.fr"
 
 Musique : beat energique, montee progressive.
 Transitions : zoom, slide, bounce.
@@ -118,7 +118,7 @@ Et si l'offre ne te convient pas, tu ne signes pas. Point.
 Lien dans la bio."
 
 Fond neutre. Sous-titres dynamiques.
-Texte en bas : "leads-opportunities.vercel.app"
+Texte en bas : "www.leadsopportunities.fr"
 ```
 
 ---
@@ -141,7 +141,7 @@ Sur un an, ca fait plus de 1600 euros. J'aurais du le faire avant.
 Si t'es chauffeur, teste. C'est gratuit. Lien dans la bio."
 
 Sous-titres dynamiques. Chiffres en gros a l'ecran quand ils sont mentionnes.
-Texte permanent en bas : "leads-opportunities.vercel.app"
+Texte permanent en bas : "www.leadsopportunities.fr"
 ```
 
 ---
@@ -163,7 +163,7 @@ Devis gratuit. Lien dans la bio."
 
 Animations : icone comparateur (ecran avec liste) vs icone courtier (personne avec bouclier).
 Fond degrade teal clair.
-Texte en bas : "leads-opportunities.vercel.app"
+Texte en bas : "www.leadsopportunities.fr"
 ```
 
 ---

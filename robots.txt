@@ -8,4 +8,4 @@ Disallow: /paiement.html
 Disallow: /paiement-success.html
 Disallow: /api/
 
-Sitemap: https://leads-opportunities.vercel.app/sitemap.xml
+Sitemap: https://www.leadsopportunities.fr/sitemap.xml

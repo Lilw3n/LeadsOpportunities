@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const blogDir = path.join(__dirname, "..", "blog");
-const base = "https://leads-opportunities.vercel.app";
+const { SITE_ORIGIN: base } = require("./site-url.cjs");
 
 const articles = [
   { file: "assurance-vtc-moins-cher-2026.html", title: "Assurance VTC moins cher en 2026" },

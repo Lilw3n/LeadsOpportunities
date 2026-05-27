@@ -1,4 +1,18 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "leads-opportunities.vercel.app" }],
+      "destination": "https://www.leadsopportunities.fr/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "leadsopportunities.fr" }],
+      "destination": "https://www.leadsopportunities.fr/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/api/google-config-env", "destination": "/api/auth/google-config-env" },
     { "source": "/api/leads-recent", "destination": "/api/dashboard/leads-recent" }

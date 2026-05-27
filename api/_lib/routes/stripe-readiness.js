@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
       mode: secretKey.indexOf("sk_live_") === 0 ? "live" : "test",
       chargesEnabled: account.charges_enabled,
       payoutsEnabled: account.payouts_enabled,
-      webhookUrl: (appUrl || "https://leads-opportunities.vercel.app") + "/api/stripe/webhook",
+      webhookUrl: (appUrl || "https://www.leadsopportunities.fr") + "/api/stripe/webhook",
       requiredEvent: "checkout.session.completed",
     });
   } catch (e) {

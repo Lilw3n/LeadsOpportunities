@@ -20,7 +20,7 @@ const {
 } = require("./seo-geo-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
-const BASE = "https://leads-opportunities.vercel.app";
+const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
 const CITIES = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-cities.json"), "utf8"));
 const DEPARTMENTS = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-departments.json"), "utf8"));
 const REGIONS = JSON.parse(fs.readFileSync(path.join(ROOT, "seo/france-regions.json"), "utf8"));

@@ -31,12 +31,12 @@ npm run blog:feed
 - `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`
 - `ADMIN_EMAILS=courtier972@gmail.com`
 - `STRIPE_SECRET_KEY` + `STRIPE_WEBHOOK_SECRET`
-- `NEXT_PUBLIC_APP_URL=https://leads-opportunities.vercel.app`
+- `NEXT_PUBLIC_APP_URL=https://www.leadsopportunities.fr`
 
 ## Google Cloud
 
 1. Activer **Google Calendar API** et **Google Drive API**
-2. OAuth : redirect `https://leads-opportunities.vercel.app/api/auth/google-callback`
+2. OAuth : redirect `https://www.leadsopportunities.fr/api/auth/google-callback`
 3. Scopes consentement : `calendar.events` pour l'agenda
 
 ## Agenda Google (courtier972@gmail.com)
@@ -48,7 +48,7 @@ npm run blog:feed
 
 ## Stripe
 
-1. Webhook : `https://leads-opportunities.vercel.app/api/stripe/webhook`
+1. Webhook : `https://www.leadsopportunities.fr/api/stripe/webhook`
 2. Evenement : `checkout.session.completed`
 3. Paiement devis : CRM connecte → `/crm-quote-payment.html?quoteId=qte_...`
 

@@ -27,7 +27,7 @@ Format : Reels / TikTok / Shorts (30-60s)
 >
 > **[30-35s] CTA**
 > "Lien dans la bio. Devis gratuit en 2 minutes."
-> *Texte a l'ecran : leads-opportunities.vercel.app*
+> *Texte a l'ecran : www.leadsopportunities.fr*
 
 **Musique :** beat energique, tendance TikTok
 **Sous-titres :** obligatoires (80% des vues sont sans son)
@@ -58,7 +58,7 @@ Format : Reels / TikTok / Shorts (30-60s)
 >
 > **[38-45s] CTA**
 > "Fais ton comparatif gratuit — lien dans la bio."
-> *Texte a l'ecran : leads-opportunities.vercel.app/landings/sante.html*
+> *Texte a l'ecran : www.leadsopportunities.fr/landings/sante.html*
 
 ---
 
@@ -88,7 +88,7 @@ Format : Reels / TikTok / Shorts (30-60s)
 >
 > **[45-50s] CTA**
 > "Lien dans la bio — remplis le formulaire, un conseiller te rappelle."
-> *Texte a l'ecran : leads-opportunities.vercel.app/landings/credit-immo.html*
+> *Texte a l'ecran : www.leadsopportunities.fr/landings/credit-immo.html*
 
 ---
 

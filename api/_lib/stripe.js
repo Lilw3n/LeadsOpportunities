@@ -15,7 +15,7 @@ function getStripeWebhookSecret() {
 }
 
 function getStripeAppUrl() {
-  const raw = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "https://leads-opportunities.vercel.app";
+  const raw = process.env.NEXT_PUBLIC_APP_URL || process.env.APP_URL || "https://www.leadsopportunities.fr";
   let appUrl = cleanStripeSecret(raw)
     .replace(/[\r\n\t]/g, "")
     .replace(/\/$/, "");
@@ -33,7 +33,7 @@ function getStripeAppUrl() {
     // Fall through to the production URL when an env var was pasted incorrectly.
   }
 
-  return "https://leads-opportunities.vercel.app";
+  return "https://www.leadsopportunities.fr";
 }
 
 function getStripeClient() {

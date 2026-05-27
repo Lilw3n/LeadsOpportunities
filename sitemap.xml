@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
-    <loc>https://leads-opportunities.vercel.app/sitemap-main.xml</loc>
+    <loc>https://www.leadsopportunities.fr/sitemap-main.xml</loc>
     <lastmod>2026-05-26</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://leads-opportunities.vercel.app/sitemap-geo.xml</loc>
+    <loc>https://www.leadsopportunities.fr/sitemap-geo.xml</loc>
     <lastmod>2026-05-26</lastmod>
   </sitemap>
   <sitemap>
-    <loc>https://leads-opportunities.vercel.app/sitemap-france.xml</loc>
+    <loc>https://www.leadsopportunities.fr/sitemap-france.xml</loc>
     <lastmod>2026-05-26</lastmod>
   </sitemap>
 </sitemapindex>

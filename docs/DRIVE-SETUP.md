@@ -54,7 +54,7 @@ Ne commitez **jamais** le JSON dans Git.
 ### 5. Redeployer puis tester
 
 1. Vercel → redeploy du projet.
-2. CRM connecte en admin → [test-drive.html](https://leads-opportunities.vercel.app/test-drive.html).
+2. CRM connecte en admin → [test-drive.html](https://www.leadsopportunities.fr/test-drive.html).
 3. Ou API : `GET /api/drive/status` avec header `Authorization: Bearer {token CRM}`.
 
 Reponse attendue : `"ok": true`, nom du dossier racine, liste d’enfants.

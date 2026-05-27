@@ -20,7 +20,7 @@ Configurer `LEAD_WEBHOOK_URL` sur Vercel vers votre scenario Make ou n8n.
 
 **Declencheur** : Cron quotidien 9h
 
-**Action Make** : HTTP GET `https://leads-opportunities.vercel.app/api/dashboard/leads?status=new&olderThan=24h` (avec token admin)
+**Action Make** : HTTP GET `https://www.leadsopportunities.fr/api/dashboard/leads?status=new&olderThan=24h` (avec token admin)
 
 **Actions** :
 
@@ -39,7 +39,7 @@ Configurer `LEAD_WEBHOOK_URL` sur Vercel vers votre scenario Make ou n8n.
 
 ## WithAllo
 
-URL : `POST https://leads-opportunities.vercel.app/api/webhooks/withallo`  
+URL : `POST https://www.leadsopportunities.fr/api/webhooks/withallo`  
 Header : `Authorization: Bearer {WITHALLO_WEBHOOK_SECRET}`
 
 Leads WithAllo passent par la meme deduplication email/telephone que le site.

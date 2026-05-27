@@ -22,8 +22,8 @@ avec une separation explicite pour ne pas confondre les paiements.
 ## 2) Variables d'environnement (Vercel)
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
-- `NEXT_PUBLIC_APP_URL=https://leads-opportunities.vercel.app`
-- ou `APP_URL=https://leads-opportunities.vercel.app`
+- `NEXT_PUBLIC_APP_URL=https://www.leadsopportunities.fr`
+- ou `APP_URL=https://www.leadsopportunities.fr`
 - `COMPANY_CODE=LEADSOPP`
 
 Le projet peut utiliser le meme compte Stripe que `location-vehicules-reunion`, mais il faut creer un webhook dedie a ce domaine car le `STRIPE_WEBHOOK_SECRET` est propre a chaque endpoint.
@@ -66,8 +66,8 @@ Evenements optionnels comme dans le projet location:
 ## 5 ter) Etat Vercel actuel a verifier
 Dans Vercel > Settings > Environment Variables, ajouter en Production:
 - `STRIPE_SECRET_KEY` : cle secrete du compte Stripe (`sk_test_...` pour test, `sk_live_...` pour prod).
-- `STRIPE_WEBHOOK_SECRET` : secret du webhook cree pour `https://leads-opportunities.vercel.app/api/stripe/webhook`.
-- `NEXT_PUBLIC_APP_URL` ou `APP_URL` : `https://leads-opportunities.vercel.app`.
+- `STRIPE_WEBHOOK_SECRET` : secret du webhook cree pour `https://www.leadsopportunities.fr/api/stripe/webhook`.
+- `NEXT_PUBLIC_APP_URL` ou `APP_URL` : `https://www.leadsopportunities.fr`.
 
 ## 6) Evolution recommandee
 - brancher webhook -> CRM / base client

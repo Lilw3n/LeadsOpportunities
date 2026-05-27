@@ -82,7 +82,7 @@ utm_content=infographie-1
 Ouvrir une landing avec UTM, par exemple :
 
 ```text
-https://leads-opportunities.vercel.app/landings/sante.html?utm_source=meta&utm_medium=paid_social&utm_campaign=test-leads&utm_content=test-1
+https://www.leadsopportunities.fr/landings/sante.html?utm_source=meta&utm_medium=paid_social&utm_campaign=test-leads&utm_content=test-1
 ```
 
 Puis remplir un formulaire test et vérifier dans le dashboard :

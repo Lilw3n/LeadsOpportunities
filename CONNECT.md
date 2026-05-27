@@ -1,6 +1,6 @@
 # Connexions — Leads Opportunities
 
-Site en ligne : [https://leads-opportunities.vercel.app](https://leads-opportunities.vercel.app)
+Site en ligne : [https://www.leadsopportunities.fr](https://www.leadsopportunities.fr)
 
 Depot GitHub : [https://github.com/Lilw3n/LeadsOpportunities](https://github.com/Lilw3n/LeadsOpportunities)
 
@@ -73,7 +73,7 @@ Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’UR
 ### Etapes GA4 (premiere fois)
 
 1. Ouvre [Google Analytics](https://analytics.google.com) → **Admin** (roue dentee) → **Creer une propriete** (ou choisis la propriete existante).
-2. **Flux de donnees** → **Ajouter un flux** → **Web** → URL du site : `https://leads-opportunities.vercel.app` (ou ton domaine perso).
+2. **Flux de donnees** → **Ajouter un flux** → **Web** → URL du site : `https://www.leadsopportunities.fr` (ou ton domaine perso).
 3. Copie l’**ID de mesure** `G-…` → colle-le dans Vercel comme `GA4_MEASUREMENT_ID`.
 4. Dans GA4 : **Admin** → **Flux de donnees** → ton flux → active **Signalisation Google** (parametres du flux) si tu veux les donnees demographiques.
 5. Pour verifier en direct : **Admin** → **DebugView** (avec l’extension Chrome « Google Analytics Debugger » ou un appareil de test).
@@ -88,9 +88,9 @@ Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’UR
 
 ### Search Console (SEO, pas les leads directs)
 
-1. [Search Console](https://search.google.com/search-console) → **Ajouter une propriete** → URL prefix `https://leads-opportunities.vercel.app/`.
+1. [Search Console](https://search.google.com/search-console) → **Ajouter une propriete** → URL prefix `https://www.leadsopportunities.fr/`.
 2. Verifie la propriete (balise HTML ou fichier DNS selon ce que Google propose).
-3. Soumets le sitemap : `https://leads-opportunities.vercel.app/sitemap.xml`.
+3. Soumets le sitemap : `https://www.leadsopportunities.fr/sitemap.xml`.
 
 ### Documentation Google
 
@@ -103,9 +103,9 @@ Voir aussi `ads/google-acquisition-setup.md` pour les UTM et les campagnes.
 
 ## 5. Suivi des prospects dans l’interface
 
-- **Admin (table des leads)** : [https://leads-opportunities.vercel.app/admin.html](https://leads-opportunities.vercel.app/admin.html)  
+- **Admin (table des leads)** : [https://www.leadsopportunities.fr/admin.html](https://www.leadsopportunities.fr/admin.html)  
   Connexion compte admin, puis coller **`LEADS_ADMIN_TOKEN`** (identique a celui sur Vercel).
-- **Espace client (historique local navigateur)** : [https://leads-opportunities.vercel.app/espace-client.html](https://leads-opportunities.vercel.app/espace-client.html)
+- **Espace client (historique local navigateur)** : [https://www.leadsopportunities.fr/espace-client.html](https://www.leadsopportunities.fr/espace-client.html)
 
 ---
 
