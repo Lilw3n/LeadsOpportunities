@@ -5,29 +5,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nouvelle période | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm-periods.html" class="btn btn-ghost">← Périodes</a>
-  <h1>Nouvelle période</h1>
-  <p style="color:var(--muted)">Inspire <code>/dashboard/insurance/periods</code> — planification trimestrielle.</p>
-  <form id="periodForm" class="panel">
-    <label>Libellé *<input name="name" required placeholder="Période 2026 Q2" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
-    <label style="display:block;margin-top:12px">Trimestre<select name="quarter" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px">
-      <option value="2026 Q1">2026 Q1</option>
-      <option value="2026 Q2" selected>2026 Q2</option>
-      <option value="2026 Q3">2026 Q3</option>
-      <option value="2026 Q4">2026 Q4</option>
-    </select></label>
-    <label style="display:block;margin-top:12px">Statut<select name="status" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px">
-      <option value="Active">Active</option>
-      <option value="En attente">En attente</option>
-      <option value="En préparation">En préparation</option>
-    </select></label>
-    <label style="display:block;margin-top:12px">Description<textarea name="description" rows="3" placeholder="Contrats, sinistres, objectifs renouvellement…" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"></textarea></label>
-    <button type="submit" class="btn btn-primary" style="margin-top:16px">Créer la période</button>
-    <p id="periodMsg" style="margin-top:12px;color:#b91c1c"></p>
-  </form>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance</p>
+      <h2>Nouvelle période</h2>
+      <p>Planification trimestrielle — renouvellements, sinistres et objectifs de production.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-periods.html" class="btn btn-primary">Périodes</a>
+      <a href="./crm-intelligent-alerts.html" class="btn btn-ghost">Alertes</a>
+    </div>
+  </section>
+  <section class="crm-page-panel">
+    <form id="periodForm" class="panel">
+      <label class="crm-label">Libellé *<input name="name" class="crm-input" required placeholder="Période 2026 Q2" /></label>
+      <label class="crm-label" style="margin-top:12px;display:block">Trimestre
+        <select name="quarter" class="crm-input"><option value="2026 Q1">2026 Q1</option><option value="2026 Q2" selected>2026 Q2</option><option value="2026 Q3">2026 Q3</option><option value="2026 Q4">2026 Q4</option></select>
+      </label>
+      <label class="crm-label" style="margin-top:12px;display:block">Statut
+        <select name="status" class="crm-input"><option value="Active">Active</option><option value="En attente">En attente</option><option value="En préparation">En préparation</option></select>
+      </label>
+      <label class="crm-label" style="margin-top:12px;display:block">Description<textarea name="description" class="crm-input" rows="3" placeholder="Contrats, sinistres, objectifs…"></textarea></label>
+      <button type="submit" class="btn btn-primary" style="margin-top:16px">Créer la période</button>
+      <p id="periodMsg" style="margin-top:12px;color:#b91c1c"></p>
+    </form>
+  </section>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-period-new.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

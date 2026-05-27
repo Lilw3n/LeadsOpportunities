@@ -5,15 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Suggestions IA | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Automations</p>
+      <h2>Suggestions & analyse IA</h2>
+      <p>Priorisez les actions sur vos dossiers — relances, documents manquants et opportunités détectées.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-leads-analysis.html" class="btn btn-ghost">Analyse leads</a>
+      <a href="./crm-intelligent-alerts.html" class="btn btn-primary">Alertes</a>
+    </div>
+  </section>
 
-  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-  <h1>Suggestions &amp; analyse IA</h1>
-  <p style="color:var(--muted)">Inspire <code>/dashboard/ai-suggestions</code> + DocumentAnalyzer multisite.</p>
-  <div id="aiStats" class="crm-kpis" style="margin:20px 0"></div>
-  <section class="panel" style="margin-top:20px"><h2>Actions recommandées</h2><div id="suggestionsMount">Chargement…</div></section>
-  <div id="analyzerMount" style="margin-top:20px"></div>
+  <div id="aiStats" class="crm-kpis crm-page-panel" style="padding-top:0"></div>
+  <section class="crm-page-panel">
+    <div class="crm-section-head"><h2>Actions recommandées</h2></div>
+    <div id="suggestionsMount">Chargement…</div>
+  </section>
+  <section class="crm-page-panel" id="analyzerMount"></section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/crm-ai-suggestions.js"></script>
   <script src="./js/crm-document-analyzer.js"></script>
   <script src="./crm-ai-suggestions-page.js"></script>

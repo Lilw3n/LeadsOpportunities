@@ -1,5 +1,5 @@
 /**
- * Sandbox modules drag-drop — inspire modules-sandbox multisite
+ * Sandbox modules — réordonnancement local pour tests.
  */
 window.CrmModulesSandbox = {
   MODULES: [
@@ -17,7 +17,7 @@ window.CrmModulesSandbox = {
 
     function paint() {
       mount.innerHTML =
-        '<p style="color:var(--muted);margin-bottom:12px">Glissez pour réordonner — inspire <code>ModuleTree</code> / sandbox multisite.</p>' +
+        '<p class="crm-muted-inline" style="margin-bottom:12px">Glissez pour réordonner les modules de démonstration (stockage local).</p>' +
         '<label style="display:block;margin-bottom:12px;font-size:.9rem">Type de lien (démo locale)<select id="sandboxLinkType">' +
         '<option value="association"' +
         (linkType === "association" ? " selected" : "") +

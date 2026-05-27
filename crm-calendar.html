@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calendrier CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <style>
     .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-top:16px; }
     .cal-day { min-height:72px; padding:6px; border:1px solid var(--line); border-radius:8px; font-size:.75rem; background:#fff; }
@@ -17,21 +18,36 @@
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Agenda</p>
+      <h2>Calendrier</h2>
+      <p>Vue mensuelle des RDV et rappels — synchronisation Google Agenda du courtier.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-event-create.html" class="btn btn-primary">Nouvel événement</a>
+      <a href="./crm-events.html" class="btn btn-ghost">Liste événements</a>
+    </div>
+  </section>
 
-  <a href="./crm-events.html" class="btn btn-ghost">← Événements</a>
-  <a href="./crm-event-create.html" class="btn btn-primary" style="float:right">+ Événement</a>
-  <h1>Calendrier</h1>
-  <p style="color:var(--muted)">Synchronise avec l'agenda Google du courtier (courtier972@gmail.com)</p>
-  <div id="calBanner" class="cal-banner cal-banner-warn">Chargement du statut agenda…</div>
-  <button type="button" class="btn btn-ghost" id="btnConnectCal">Connecter agenda Google</button>
-  <button type="button" class="btn btn-ghost" id="btnPullCal">Synchroniser depuis Google</button>
-  <div style="display:flex;gap:12px;align-items:center;margin:16px 0">
-    <button type="button" class="btn btn-ghost" id="btnPrev">←</button>
-    <strong id="monthLabel"></strong>
-    <button type="button" class="btn btn-ghost" id="btnNext">→</button>
-  </div>
-  <div class="cal-grid" id="calHead"></div>
-  <div class="cal-grid" id="calMount"></div>
+  <section class="crm-page-panel">
+    <div id="calBanner" class="cal-banner cal-banner-warn">Chargement du statut agenda…</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+      <button type="button" class="btn btn-ghost" id="btnConnectCal">Connecter Google</button>
+      <button type="button" class="btn btn-ghost" id="btnPullCal">Synchroniser</button>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;margin:16px 0">
+      <button type="button" class="btn btn-ghost" id="btnPrev">←</button>
+      <strong id="monthLabel"></strong>
+      <button type="button" class="btn btn-ghost" id="btnNext">→</button>
+    </div>
+    <div class="cal-grid" id="calHead"></div>
+    <div class="cal-grid" id="calMount"></div>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-calendar.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

@@ -2,39 +2,37 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>CRM Mobile</title>
   <link rel="stylesheet" href="./crm.css" />
   <style>
-    body { margin: 0; padding: 0 0 72px; background: #f1f5f9; font-family: Inter, system-ui, sans-serif; }
-    .mob-header { background: linear-gradient(135deg, #0f172a, #134e4a); color: #fff; padding: 20px 16px; }
-    .mob-kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
-    .mob-kpi { background: #fff; border-radius: 12px; padding: 14px; border: 1px solid #e2e8f0; }
-    .mob-kpi strong { font-size: 1.4rem; display: block; }
-    .mob-nav { position: fixed; bottom: 0; left: 0; right: 0; display: flex; background: #fff; border-top: 1px solid #e2e8f0; z-index: 50; }
-    .mob-nav a { flex: 1; text-align: center; padding: 10px 4px; font-size: .7rem; text-decoration: none; color: #64748b; }
-    .mob-nav a.active { color: #0d9488; font-weight: 700; }
-    .mob-list { padding: 0 12px 12px; }
-    .mob-card { background: #fff; border-radius: 12px; padding: 14px; margin-bottom: 10px; border: 1px solid #e2e8f0; text-decoration: none; color: inherit; display: block; }
+    body { margin:0; padding:0 0 72px; background:#f1f5f9; font-family:Inter,system-ui,sans-serif; }
+    .mob-header { background:linear-gradient(135deg,#0f172a,#134e4a); color:#fff; padding:20px 16px; }
+    .mob-kpis { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px; }
+    .mob-kpi { background:#fff; border-radius:12px; padding:14px; border:1px solid #e2e8f0; }
+    .mob-kpi strong { font-size:1.4rem; display:block; }
+    .mob-nav { position:fixed; bottom:0; left:0; right:0; display:flex; background:#fff; border-top:1px solid #e2e8f0; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+    .mob-nav a { flex:1; text-align:center; padding:10px 4px; font-size:.7rem; text-decoration:none; color:#64748b; }
+    .mob-nav a.active { color:#0d9488; font-weight:700; }
+    .mob-list { padding:0 12px 12px; }
+    .mob-card { background:#fff; border-radius:12px; padding:14px; margin-bottom:10px; border:1px solid #e2e8f0; text-decoration:none; color:inherit; display:block; }
   </style>
-  <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
+<body>
   <header class="mob-header">
-    <a href="./crm.html" style="color:#94a3b8;font-size:.85rem">← Desktop</a>
+    <a href="./crm.html" style="color:#94a3b8;font-size:.85rem">← Version bureau</a>
     <h1 style="margin:8px 0 0;font-size:1.2rem">CRM Mobile</h1>
-    <p style="margin:4px 0 0;opacity:.85;font-size:.85rem">Inspire MobileDashboard.tsx multisite</p>
+    <p style="margin:4px 0 0;opacity:.85;font-size:.85rem">Vue terrain — contacts, agenda et social</p>
   </header>
   <div id="mobKpis" class="mob-kpis"></div>
   <div class="mob-list" id="mobContacts"></div>
   <nav class="mob-nav">
     <a href="./crm-mobile.html" class="active">Accueil</a>
-    <a href="./crm.html#contacts">Contacts</a>
-    <a href="./crm-events.html">Agenda</a>
     <a href="./crm-search.html">Recherche</a>
+    <a href="./crm-events.html">Agenda</a>
+    <a href="./crm-acquisition.html">Leads</a>
     <a href="./external/social/hub.html">Social</a>
   </nav>
   <script src="./crm-mobile.js"></script>
-  <script src="./js/admin-nav.js"></script>
 </body>
 </html>

@@ -19,7 +19,7 @@
         title: fd.get("title"),
         eventDate: fd.get("eventDate"),
         priority: fd.get("priority"),
-        eventType: "rdv",
+        eventType: fd.get("eventType") || "meeting",
         status: "pending",
       }),
     })
@@ -27,10 +27,20 @@
         return r.json();
       })
       .then(function (res) {
-        document.getElementById("evMsg").textContent = res.ok ? "Événement créé" : res.error || "Erreur";
-        if (res.ok) setTimeout(function () {
-          location.href = "./crm-calendar.html";
-        }, 800);
+        var msg = document.getElementById("evMsg");
+        if (res.ok) {
+          msg.style.color = "#065f46";
+          msg.textContent = "Événement créé";
+          setTimeout(function () {
+            location.href = "./crm-events.html";
+          }, 800);
+        } else {
+          msg.style.color = "#b91c1c";
+          msg.textContent = res.error || "Erreur";
+        }
+      })
+      .catch(function () {
+        document.getElementById("evMsg").textContent = "Impossible de contacter le serveur.";
       });
   };
 })();

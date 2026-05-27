@@ -5,6 +5,9 @@
     location.href = "./crm.html";
     return;
   }
+  var isAdmin = window.CrmAdminGuard && window.CrmAdminGuard.isAdmin();
+  var createPanel = document.getElementById("adminOnlyCreate");
+  if (createPanel) createPanel.hidden = !isAdmin;
 
   function esc(s) {
     var d = document.createElement("div");
@@ -43,7 +46,8 @@
       });
   }
 
-  document.getElementById("userForm").onsubmit = function (e) {
+  var userForm = document.getElementById("userForm");
+  if (userForm) userForm.onsubmit = function (e) {
     e.preventDefault();
     var fd = new FormData(e.target);
     document.getElementById("userMsg").textContent = "Création…";
@@ -66,6 +70,9 @@
           e.target.reset();
           loadUsers();
         }
+      })
+      .catch(function () {
+        document.getElementById("userMsg").textContent = "Erreur réseau.";
       });
   };
 

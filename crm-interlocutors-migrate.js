@@ -4,6 +4,7 @@
     location.href = "./crm.html";
     return;
   }
+  if (window.CrmAdminGuard && !window.CrmAdminGuard.ensureAdmin()) return;
 
   document.getElementById("migrateForm").onsubmit = function (e) {
     e.preventDefault();

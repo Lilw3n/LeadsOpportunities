@@ -5,20 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contenu externe | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Automations</p>
+      <h2>Contenu portail client</h2>
+      <p>Textes du hero et CTA affichés sur le portail externe — prévisualisation avant publication.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-external-hub.html" class="btn btn-ghost">Hub externe</a>
+      <a href="./external/index.html" class="btn btn-primary" target="_blank" rel="noopener">Prévisualiser ↗</a>
+    </div>
+  </section>
 
-  <a href="./crm-settings.html" class="btn btn-ghost">← Paramètres</a>
-  <h1>CMS Contenu externe</h1>
-  <p style="color:var(--muted)">Inspire dashboard/settings/external-content multisite</p>
-  <form id="cmsForm" class="panel" style="margin-top:20px">
-    <label>Titre hero portail<input name="heroTitle" /></label>
-    <label style="margin-top:12px;display:block">Sous-titre hero<textarea name="heroSubtitle" rows="2" style="width:100%"></textarea></label>
-    <label style="margin-top:12px;display:block">CTA principal<input name="ctaLabel" placeholder="Demander un devis" /></label>
-    <label style="margin-top:12px;display:block">URL CTA<input name="ctaUrl" placeholder="./external/devis-wizard.html" /></label>
-    <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer</button>
-  </form>
-  <p style="margin-top:12px"><a href="./external/index.html" target="_blank">Prévisualiser le portail →</a></p>
+  <section class="crm-page-panel" id="cmsPanel">
+    <form id="cmsForm" class="panel">
+      <label class="crm-label">Titre hero portail<input name="heroTitle" class="crm-input" /></label>
+      <label class="crm-label" style="margin-top:12px;display:block">Sous-titre<textarea name="heroSubtitle" class="crm-input" rows="2"></textarea></label>
+      <label class="crm-label" style="margin-top:12px;display:block">CTA principal<input name="ctaLabel" class="crm-input" placeholder="Demander un devis" /></label>
+      <label class="crm-label" style="margin-top:12px;display:block">URL CTA<input name="ctaUrl" class="crm-input" placeholder="./external/devis-wizard.html" /></label>
+      <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer</button>
+    </form>
+    <p id="cmsMsg" class="crm-muted-inline" style="margin-top:12px"></p>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-admin-guard.js"></script>
   <script src="./crm-external-content.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

@@ -5,19 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Migration interlocuteurs | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
-
-  <a href="./crm-interlocutors.html" class="btn btn-ghost">← Interlocuteurs</a>
-  <h1>Migration interlocuteurs</h1>
-  <p style="color:var(--muted)">Inspire dashboard/interlocutors/migrate multisite</p>
-  <form id="migrateForm" class="panel" style="margin-top:20px">
-    <label>Source<select name="source"><option value="csv">Export CSV</option><option value="legacy">Ancien CRM</option><option value="leads">Leads web</option></select></label>
-    <label style="margin-top:12px;display:block">Emails ou IDs (un par ligne)<textarea name="rows" rows="8" style="width:100%;margin-top:6px;padding:10px" placeholder="courtier972@gmail.com&#10;ct_abc123"></textarea></label>
-    <label style="margin-top:12px;display:block"><input type="checkbox" name="dryRun" checked /> Simulation (dry-run)</label>
-    <button type="submit" class="btn btn-primary" style="margin-top:16px">Lancer migration</button>
-  </form>
-  <div id="migrateResult" class="panel" style="margin-top:16px;display:none"></div>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Équipe</p>
+      <h2>Migration interlocuteurs</h2>
+      <p>Import depuis CSV, ancien CRM ou leads web — mode simulation avant import définitif.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-interlocutors.html" class="btn btn-primary">Interlocuteurs</a>
+    </div>
+  </section>
+  <section class="crm-page-panel">
+    <form id="migrateForm" class="panel">
+      <label class="crm-label">Source
+        <select name="source" class="crm-input"><option value="csv">Export CSV</option><option value="legacy">Ancien CRM</option><option value="leads">Leads web</option></select>
+      </label>
+      <label class="crm-label" style="margin-top:12px;display:block">Emails ou IDs (un par ligne)
+        <textarea name="rows" class="crm-input" rows="8" placeholder="email@exemple.fr&#10;ct_abc123"></textarea>
+      </label>
+      <label style="margin-top:12px;display:flex;align-items:center;gap:8px"><input type="checkbox" name="dryRun" checked /> Simulation (dry-run)</label>
+      <button type="submit" class="btn btn-primary" style="margin-top:16px">Lancer migration</button>
+    </form>
+    <div id="migrateResult" class="panel" style="margin-top:16px;display:none"></div>
+  </section>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-admin-guard.js"></script>
   <script src="./crm-interlocutors-migrate.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

@@ -8,17 +8,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./crm-events.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Agenda</p>
+      <h2>Événements & activité</h2>
+      <p>Appels, RDV, tâches et notes sur l'ensemble du portefeuille — filtres, export et vue calendrier.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-event-create.html" class="btn btn-primary">Nouvel événement</a>
+      <a href="./crm-calendar.html" class="btn btn-ghost">Calendrier</a>
+    </div>
+  </section>
 
-  <div id="eventsApp" class="events-page">
+  <div id="eventsApp" class="events-page crm-page-panel">
     <header class="events-header">
-      <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-      <div>
-        <h1>Événements</h1>
-        <p>Tous les contacts — style multisite-platform</p>
-      </div>
       <div class="events-view-toggle">
         <button type="button" class="btn btn-ghost btn-sm" id="btnExportEvents">Exporter CSV</button>
         <button type="button" class="btn btn-ghost active" data-view="list">Liste</button>
@@ -55,6 +63,8 @@
   <script src="./js/crm-event-search.js"></script>
   <script src="./js/crm-smart-timeline.js"></script>
   <script src="./js/smart-events-service.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-events.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

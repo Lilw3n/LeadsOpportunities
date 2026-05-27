@@ -40,19 +40,16 @@
     if (e.manual) history.unshift({ date: new Date().toLocaleString("fr-FR"), action: "Saisie manuelle", user: "Agent" });
 
     document.getElementById("detailMount").innerHTML =
+      '<section class="crm-page-panel crm-gradient-panel"><div><p class="crm-eyebrow">Finance</p><h2>' +
+      esc(e.label) +
+      '</h2><p class="crm-muted-inline">Réf. ' +
+      esc(id) +
+      "</p></div></section>" +
       '<nav style="font-size:.85rem;color:var(--muted);margin-bottom:12px"><a href="./crm-financial.html">Financier</a> → <a href="./crm-financial-' +
       (type === "payments" ? "payments" : type === "debits" ? "debits" : "receivables") +
       '.html">' +
       esc(typeLabels[type] + "s") +
       "</a></nav>" +
-      "<h1>" +
-      esc(e.label) +
-      "</h1>" +
-      '<p style="color:var(--muted)">Réf. ' +
-      esc(id) +
-      " — inspire fiche détail multisite <code>/dashboard/financial/" +
-      type +
-      "/[id]</code></p>" +
       '<div class="crm-kpis" style="margin:20px 0">' +
       '<div class="kpi-card panel"><div class="kpi-label">Montant</div><div class="kpi-value">' +
       Number(e.amount).toLocaleString("fr-FR") +

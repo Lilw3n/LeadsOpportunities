@@ -43,7 +43,7 @@
   driveRow.style.marginTop = "16px";
   driveRow.innerHTML =
     "<h3>🤖 Analyser un document Google Drive</h3>" +
-    '<p style="color:var(--muted);font-size:.9rem">Collez l\'URL Drive — inspire le champ URL du multisite.</p>' +
+    '<p class="crm-muted-inline" style="font-size:.9rem">Collez l\'URL d\'un document Google Drive à analyser.</p>' +
     '<label>URL du document<input type="url" id="aiDriveUrl" placeholder="https://drive.google.com/file/d/…" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px" /></label>' +
     '<button type="button" class="btn btn-primary" id="btnDriveFetch" style="margin-top:10px">+ Analyser un document</button>' +
     '<p id="driveMsg" style="margin-top:8px;font-size:.9rem;color:var(--muted)"></p>';

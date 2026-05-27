@@ -5,17 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Permissions | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Équipe</p>
+      <h2>Permissions & rôles</h2>
+      <p>Vue matricielle des droits par module — contacts, finance, assurance et administration.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-roles.html" class="btn btn-ghost">Rôles</a>
+      <a href="./crm-users-internal.html" class="btn btn-ghost">Utilisateurs</a>
+    </div>
+  </section>
+  <section class="crm-page-panel"><div id="permMount"></div></section>
 
-  <a href="./crm.html" class="btn btn-ghost">← CRM</a>
-  <h1>Permissions &amp; rôles</h1>
-  <p style="color:var(--muted)">Inspire dashboard/users/permissions multisite</p>
-  <div id="permMount"></div>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-admin-guard.js"></script>
   <script src="./js/crm-permissions.js"></script>
   <script>
-    if (!localStorage.getItem("lo_token")) location.href = "./crm.html";
-    else window.CrmPermissions.render(document.getElementById("permMount"));
+    if (window.CrmAdminGuard && window.CrmAdminGuard.ensureAdmin("permMount") && window.CrmPermissions) {
+      window.CrmPermissions.render(document.getElementById("permMount"));
+    }
   </script>
   <script src="./js/admin-nav.js"></script>
 </body>

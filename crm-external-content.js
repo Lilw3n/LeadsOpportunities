@@ -4,6 +4,8 @@
     location.href = "./crm.html";
     return;
   }
+  if (window.CrmAdminGuard && !window.CrmAdminGuard.ensureAdmin("cmsPanel")) return;
+
   var data = {};
   try {
     data = JSON.parse(localStorage.getItem(KEY) || "{}");
@@ -26,6 +28,7 @@
         ctaUrl: fd.get("ctaUrl"),
       })
     );
-    alert("Contenu enregistré — rechargez external/index.html pour voir les changements");
+    var msg = document.getElementById("cmsMsg");
+    if (msg) msg.textContent = "Contenu enregistré — rechargez le portail externe pour prévisualiser.";
   };
 })();
