@@ -41,6 +41,9 @@ async function syncImapInbox() {
   const sql = getSql();
   if (!sql) return { ok: false, error: "DATABASE_URL manquant" };
 
+  const { ensureMailboxSchema } = require("./mail-store");
+  await ensureMailboxSchema(sql);
+
   const client = new ImapFlow(cfg);
   let imported = 0;
 

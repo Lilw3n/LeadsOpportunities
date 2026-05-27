@@ -1,4 +1,4 @@
--- Boite mail dashboard (Neon) — executer apres site_leads.sql
+-- Boite mail dashboard (Neon) — optionnel si API deployee (auto-create au 1er chargement messagerie)
 -- Safe a relancer : CREATE TABLE IF NOT EXISTS + index IF NOT EXISTS
 CREATE TABLE IF NOT EXISTS mailbox_messages (
   id TEXT PRIMARY KEY,

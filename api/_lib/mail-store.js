@@ -1,6 +1,34 @@
 const { randomUUID } = require("crypto");
 const { getSql } = require("./db");
 
+async function ensureMailboxSchema(sql) {
+  if (!sql) return false;
+  await sql`
+    CREATE TABLE IF NOT EXISTS mailbox_messages (
+      id TEXT PRIMARY KEY,
+      direction TEXT NOT NULL CHECK (direction IN ('inbound', 'outbound')),
+      from_addr TEXT,
+      to_addr TEXT,
+      subject TEXT,
+      body_text TEXT,
+      body_html TEXT,
+      thread_key TEXT,
+      external_uid TEXT UNIQUE,
+      message_id TEXT,
+      in_reply_to TEXT,
+      lead_id TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `;
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_mailbox_created ON mailbox_messages (created_at DESC)
+  `;
+  await sql`
+    CREATE INDEX IF NOT EXISTS idx_mailbox_thread ON mailbox_messages (thread_key)
+  `;
+  return true;
+}
+
 async function importLeadMessages(sql) {
   const mailbox = process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr";
   await sql`
@@ -27,6 +55,7 @@ async function listMessages(limit, offset) {
   const sql = getSql();
   if (!sql) return { messages: [], total: 0 };
 
+  await ensureMailboxSchema(sql);
   await importLeadMessages(sql);
 
   const lim = Math.min(Math.max(Number(limit) || 40, 1), 100);
@@ -66,6 +95,8 @@ async function saveOutbound({ to, subject, bodyText, inReplyTo, threadKey }) {
   const sql = getSql();
   if (!sql) throw new Error("Base de donnees non configuree");
 
+  await ensureMailboxSchema(sql);
+
   const from =
     process.env.MAILBOX_FROM ||
     process.env.LEAD_FROM_EMAIL ||
@@ -94,6 +125,7 @@ async function getMessageById(id) {
 }
 
 module.exports = {
+  ensureMailboxSchema,
   importLeadMessages,
   listMessages,
   saveOutbound,
