@@ -26,6 +26,16 @@ async function ensureMailboxSchema(sql) {
   await sql`
     CREATE INDEX IF NOT EXISTS idx_mailbox_thread ON mailbox_messages (thread_key)
   `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS mailbox_sync_meta (
+      id TEXT PRIMARY KEY,
+      last_sync_at TIMESTAMPTZ,
+      last_imap_uid BIGINT DEFAULT 0,
+      last_error TEXT,
+      last_host TEXT,
+      imported_last INT DEFAULT 0
+    )
+  `;
   return true;
 }
 

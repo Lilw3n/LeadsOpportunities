@@ -1,6 +1,6 @@
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { requireDashboardAdmin } = require("../dashboard-admin");
-const { syncImapInbox } = require("../mail-imap");
+const { forceSyncNow } = require("../mailbox-sync-service");
 const { listMessages } = require("../mail-store");
 
 module.exports = async (req, res) => {
@@ -19,8 +19,8 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const sync = await syncImapInbox();
-    const data = await listMessages(50, 0);
+    const sync = await forceSyncNow();
+    const data = await listMessages(100, 0);
     return res.status(200).json({
       ok: true,
       sync,

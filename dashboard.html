@@ -1596,7 +1596,7 @@
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
         if (a.dataset.section === "leads") { loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
-        if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox({ autoSync: true });
+        if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox({});
       });
     });
 
@@ -2105,7 +2105,7 @@
         document.getElementById("sec-mailbox").classList.add("active");
         if (window.loadMailbox) {
           var msgId = params.get("msg") || params.get("id");
-          window.loadMailbox({ openId: msgId || null, autoSync: true });
+          window.loadMailbox({ openId: msgId || null });
         }
       }, 100);
     }

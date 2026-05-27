@@ -579,12 +579,6 @@
     }
   }
 
-  function shouldAutoSync() {
-    if (!state.imapConfigured) return false;
-    var last = Number(localStorage.getItem(LS_SYNC) || 0);
-    return !last || Date.now() - last > SYNC_INTERVAL_MS;
-  }
-
   async function loadMailbox(opts) {
     opts = opts || {};
     if (opts.openId) state.pendingOpenId = opts.openId;
@@ -613,11 +607,19 @@
       return;
     }
 
-    ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
-
-    if (opts.autoSync && shouldAutoSync()) {
-      await syncMailbox(true);
+    if (data.sync && data.sync.ok) {
+      localStorage.setItem(LS_SYNC, new Date().toISOString());
+      localStorage.removeItem(LS_SYNC_ERR);
+      if (!opts.silent && data.sync.imported > 0) {
+        toast(data.sync.imported + " e-mail(s) contact@ importe(s)");
+      }
+    } else if (data.sync && data.sync.error && !data.sync.skipped) {
+      localStorage.setItem(LS_SYNC_ERR, data.sync.error);
+    } else if (data.sync && data.sync.skipped && data.sync.error) {
+      localStorage.setItem(LS_SYNC_ERR, data.sync.error);
     }
+
+    ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
   }
 
   async function syncMailbox(silent) {
@@ -728,14 +730,14 @@
         return;
       }
       toast("E-mail envoye");
-      loadMailbox({ autoSync: false });
+      loadMailbox({});
     });
 
     document.getElementById("mailboxSyncBtn").addEventListener("click", function () {
       syncMailbox(false);
     });
     document.getElementById("mailboxRefreshBtn").addEventListener("click", function () {
-      loadMailbox({ autoSync: false });
+      loadMailbox({});
     });
 
     document.addEventListener("keydown", function (e) {

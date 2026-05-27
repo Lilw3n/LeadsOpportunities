@@ -71,8 +71,9 @@ Pour **repondre depuis le dashboard** (`/dashboard.html` → Messagerie), verifi
 | `MAILBOX_FROM` | `Leads Opportunities <contact@leadsopportunities.fr>` |
 | `MAIL_IMAP_TLS_INSECURE` | `true` seulement si erreur certificat TLS |
 
-3. **Dashboard** : connexion compte **admin** → menu **Messagerie** → **Synchroniser la boite** (import IMAP) ou lire les demandes formulaire deja importees depuis `site_leads`.
-4. **Reponse** : envoi via **Resend** (pas SMTP o2switch depuis Vercel).
+3. **Dashboard** : connexion compte **admin** → **Messagerie** — les e-mails `contact@` sont importes automatiquement (ouverture de la page, toutes les 8 min) et via cron Vercel toutes les **15 min** si `CRON_SECRET` est defini.
+4. **Variables sync** : `MAILBOX_AUTO_SYNC=true`, `MAILBOX_AUTO_SYNC_MINUTES=8`, `CRON_SECRET` (aleatoire, pour `/api/cron/mailbox-sync`).
+5. **Reponse** : envoi via **Resend** (pas SMTP o2switch depuis Vercel).
 
 Lien direct : `https://www.leadsopportunities.fr/dashboard.html?section=mailbox`
 

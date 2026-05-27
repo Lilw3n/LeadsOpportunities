@@ -18,3 +18,12 @@ CREATE TABLE IF NOT EXISTS mailbox_messages (
 
 CREATE INDEX IF NOT EXISTS idx_mailbox_created ON mailbox_messages (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_mailbox_thread ON mailbox_messages (thread_key);
+
+CREATE TABLE IF NOT EXISTS mailbox_sync_meta (
+  id TEXT PRIMARY KEY,
+  last_sync_at TIMESTAMPTZ,
+  last_imap_uid BIGINT DEFAULT 0,
+  last_error TEXT,
+  last_host TEXT,
+  imported_last INT DEFAULT 0
+);
