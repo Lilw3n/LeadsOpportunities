@@ -21,11 +21,20 @@ module.exports = async (req, res) => {
       ok: true,
       messages: data.messages,
       total: data.total,
+      stats: data.stats,
       imapConfigured: !!imapConfig(),
       mailboxAddress: process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr",
     });
   } catch (e) {
     console.error("[mailbox-list]", e);
-    return res.status(500).json({ ok: false, error: e.message || "Erreur liste mail" });
+    const msg = e.message || "";
+    if (/mailbox_messages/i.test(msg) && /does not exist|n'existe pas|relation/i.test(msg)) {
+      return res.status(503).json({
+        ok: false,
+        code: "MAILBOX_TABLE_MISSING",
+        error: "Table mailbox_messages absente. Executez database/mailbox.sql sur Neon.",
+      });
+    }
+    return res.status(500).json({ ok: false, error: msg || "Erreur liste mail" });
   }
 };

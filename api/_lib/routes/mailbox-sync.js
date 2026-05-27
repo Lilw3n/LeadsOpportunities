@@ -26,6 +26,9 @@ module.exports = async (req, res) => {
       sync,
       messages: data.messages,
       total: data.total,
+      stats: data.stats,
+      imapConfigured: true,
+      mailboxAddress: process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr",
     });
   } catch (e) {
     console.error("[mailbox-sync]", e);

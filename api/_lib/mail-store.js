@@ -34,13 +34,32 @@ async function listMessages(limit, offset) {
 
   const rows = await sql`
     SELECT id, direction, from_addr, to_addr, subject, body_text, body_html,
-           thread_key, message_id, in_reply_to, lead_id, created_at
+           thread_key, message_id, in_reply_to, lead_id, external_uid, created_at
     FROM mailbox_messages
     ORDER BY created_at DESC
     LIMIT ${lim} OFFSET ${off}
   `;
-  const countRows = await sql`SELECT COUNT(*)::int AS c FROM mailbox_messages`;
-  return { messages: rows, total: countRows[0]?.c || 0 };
+  const statsRows = await sql`
+    SELECT
+      COUNT(*)::int AS total,
+      COUNT(*) FILTER (WHERE direction = 'inbound')::int AS inbound,
+      COUNT(*) FILTER (WHERE direction = 'outbound')::int AS outbound,
+      COUNT(*) FILTER (WHERE id LIKE 'lead_%')::int AS site_leads,
+      COUNT(*) FILTER (WHERE external_uid IS NOT NULL)::int AS imap_messages
+    FROM mailbox_messages
+  `;
+  const s = statsRows[0] || {};
+  return {
+    messages: rows,
+    total: s.total || 0,
+    stats: {
+      total: s.total || 0,
+      inbound: s.inbound || 0,
+      outbound: s.outbound || 0,
+      siteLeads: s.site_leads || 0,
+      imapMessages: s.imap_messages || 0,
+    },
+  };
 }
 
 async function saveOutbound({ to, subject, bodyText, inReplyTo, threadKey }) {

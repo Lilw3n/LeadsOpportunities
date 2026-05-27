@@ -1,4 +1,5 @@
 -- Boite mail dashboard (Neon) — executer apres site_leads.sql
+-- Safe a relancer : CREATE TABLE IF NOT EXISTS + index IF NOT EXISTS
 CREATE TABLE IF NOT EXISTS mailbox_messages (
   id TEXT PRIMARY KEY,
   direction TEXT NOT NULL CHECK (direction IN ('inbound', 'outbound')),
