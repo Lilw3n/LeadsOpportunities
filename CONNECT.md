@@ -48,11 +48,18 @@ Projet dedie **LeadsOpportunities** : [https://console.neon.tech/app/projects/br
 - Cles API : [https://resend.com/api-keys](https://resend.com/api-keys)
 - Domaines (expéditeur prod) : [https://resend.com/domains](https://resend.com/domains)
 
-En test, Resend autorise souvent `onboarding@resend.dev` comme expéditeur.
+En test, Resend autorise `onboarding@resend.dev` comme expéditeur (sans verifier le domaine).
 
-Pour **repondre depuis le dashboard** (`/dashboard.html` → Messagerie), verifie le domaine `leadsopportunities.fr` chez Resend et utilise :
+**Erreur 403 « domain is not verified »** : Resend refuse `contact@leadsopportunities.fr` tant que le domaine n’est pas verifie.
 
-- `LEAD_FROM_EMAIL` / `MAILBOX_FROM` = `Leads Opportunities <contact@leadsopportunities.fr>`
+- **Solution rapide (quelques minutes)** — sur Vercel, temporairement :
+  - `MAILBOX_FROM` = `Leads Opportunities <onboarding@resend.dev>`
+  - `LEAD_FROM_EMAIL` = `Leads Opportunities <onboarding@resend.dev>`
+  - Puis **Redeploy**. Les e-mails partent ; l’expéditeur affiche `onboarding@resend.dev`.
+- **Solution prod** — [resend.com/domains](https://resend.com/domains) → **Add domain** → `leadsopportunities.fr` → copier les enregistrements **SPF** et **DKIM** dans la zone DNS o2switch (cPanel) → attendre **Verified** → remettre :
+  - `MAILBOX_FROM` = `Leads Opportunities <contact@leadsopportunities.fr>`
+
+Pour **repondre depuis le dashboard** (`/dashboard.html` → Messagerie), le domaine doit etre **Verified** chez Resend (ou utiliser l’expéditeur test ci-dessus).
 
 ---
 

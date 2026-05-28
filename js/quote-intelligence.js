@@ -187,28 +187,14 @@
 
   function showInternalQuote(panel, quote) {
     if (!panel || !quote) return;
-    var html = '<div class="qi-quote-internal"><p class="qi-quote-tag">Estimation interne courtier</p>';
-    if (quote.totalMonthly != null) {
-      html += "<p><strong>" + quote.totalMonthly + " €/mois</strong> · " + quote.totalAnnual + " €/an</p>";
+    var html =
+      '<div class="qi-quote-internal"><p class="qi-quote-tag">Analyse en cours</p>' +
+      "<p><strong>Devis / simulation gratuite</strong></p>" +
+      "<p>Un conseiller vous recontacte avec une proposition personnalisee — sans engagement.</p>";
+    if (quote.note) {
+      html += "<small>" + quote.note + "</small>";
     }
-    if (quote.indicativeMonthly != null) {
-      html +=
-        "<p>Mensualité indicative : <strong>" +
-        quote.indicativeMonthly +
-        " €</strong> (taux " +
-        quote.indicativeRateMin +
-        "–" +
-        quote.indicativeRateMax +
-        " %)</p>";
-    }
-    if (quote.rows && quote.rows.length) {
-      html += "<ul>";
-      quote.rows.slice(0, 4).forEach(function (r) {
-        html += "<li>" + r.label + " : " + r.annualPremium + " €/an</li>";
-      });
-      html += "</ul>";
-    }
-    html += "<small>" + (quote.note || "") + "</small></div>";
+    html += "</div>";
     panel.innerHTML = html;
     panel.hidden = false;
   }

@@ -134,6 +134,29 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 
+  function renderDocumentsCta(container, leadPayload) {
+    if (!container) return;
+    var email = (leadPayload && leadPayload.email ? String(leadPayload.email) : "").trim();
+    var href = "/external/upload-document.html?public=1";
+    if (email) href += "&email=" + encodeURIComponent(email);
+    var cta = document.getElementById("docsCtaInline");
+    if (!cta) {
+      cta = document.createElement("p");
+      cta.id = "docsCtaInline";
+      cta.style.marginTop = "10px";
+      cta.innerHTML =
+        'Etape suivante : <a href="' +
+        href +
+        '" style="font-weight:700;text-decoration:underline">envoyer vos pieces justificatives</a>.';
+      container.insertAdjacentElement("afterend", cta);
+    } else {
+      cta.innerHTML =
+        'Etape suivante : <a href="' +
+        href +
+        '" style="font-weight:700;text-decoration:underline">envoyer vos pieces justificatives</a>.';
+    }
+  }
+
   var form = document.getElementById("contactForm");
   var msg = document.getElementById("formMessage");
   if (form) {
@@ -206,6 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Merci ! Votre demande est prise en compte. Un conseiller vous contacte rapidement. (E-mail de notification serveur en cours de configuration.)";
             }
             msg.hidden = false;
+            renderDocumentsCta(msg, leadPayload);
           }
           form.reset();
         } else if (errMsg) {

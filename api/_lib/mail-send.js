@@ -30,7 +30,22 @@ async function sendViaResend({ to, subject, html, text, replyTo, headers }) {
 
   const body = await r.text();
   if (!r.ok) {
-    return { ok: false, error: body.slice(0, 500) || "Erreur Resend " + r.status };
+    var friendly = body.slice(0, 500) || "Erreur Resend " + r.status;
+    try {
+      var errJson = JSON.parse(body);
+      if (errJson && errJson.message) {
+        friendly = String(errJson.message);
+        if (/domain is not verified/i.test(friendly)) {
+          friendly =
+            "Domaine leadsopportunities.fr non verifie chez Resend. " +
+            "Ajoutez le domaine sur https://resend.com/domains (DNS SPF/DKIM), " +
+            "ou temporairement sur Vercel : MAILBOX_FROM=Leads Opportunities <onboarding@resend.dev>";
+        }
+      }
+    } catch (parseErr) {
+      /* keep raw */
+    }
+    return { ok: false, error: friendly };
   }
   let data = {};
   try {

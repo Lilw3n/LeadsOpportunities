@@ -8,6 +8,21 @@ async function touchContact(sql, contactId) {
   await sql`UPDATE crm_contacts SET updated_at = NOW() WHERE id = ${contactId}`;
 }
 
+function normalizeEventDateInput(input) {
+  var raw = String(input || "").trim();
+  if (!raw) return "";
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  var m = raw.match(/^(\d{1,2})[\/\-\.](\d{1,2})[\/\-\.](\d{4})$/);
+  if (!m) return "";
+  var d = Number(m[1]);
+  var mo = Number(m[2]);
+  var y = Number(m[3]);
+  if (!d || !mo || !y || mo < 1 || mo > 12 || d < 1 || d > 31) return "";
+  var dt = new Date(y, mo - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return "";
+  return y + "-" + String(mo).padStart(2, "0") + "-" + String(d).padStart(2, "0");
+}
+
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
@@ -75,7 +90,8 @@ module.exports = async (req, res) => {
     const body = parsed.body || {};
     const contactId = body.contactId;
     const title = body.title;
-    const eventDate = body.eventDate || new Date().toISOString().slice(0, 10);
+    const eventDate =
+      normalizeEventDateInput(body.eventDate) || new Date().toISOString().slice(0, 10);
 
     if (!contactId || !title) {
       return res.status(400).json({ error: "contactId et title requis" });

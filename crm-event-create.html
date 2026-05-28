@@ -41,6 +41,19 @@
       <label class="crm-label" style="margin-top:12px;display:block">Date *
         <input type="date" name="eventDate" class="crm-input" required />
       </label>
+      <label class="crm-label" style="margin-top:8px;display:block">Ou saisie manuelle (JJ/MM/AAAA)
+        <input
+          type="text"
+          name="eventDateText"
+          class="crm-input"
+          inputmode="numeric"
+          placeholder="ex. 28/05/2026"
+          autocomplete="off"
+        />
+      </label>
+      <p style="margin:6px 0 0;color:var(--muted);font-size:.85rem">
+        Astuce: tu peux ecrire directement la date, sans ouvrir le calendrier.
+      </p>
       <label class="crm-label" style="margin-top:12px;display:block">Priorité
         <select name="priority" class="crm-input">
           <option value="medium">Moyenne</option>

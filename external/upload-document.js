@@ -2,14 +2,23 @@
   var TOKEN_KEY = "lo_ext_token";
   var EMAIL_KEY = "lo_client_email";
   var DOCS_KEY = "lo_ext_documents_v1";
-  if (!localStorage.getItem(TOKEN_KEY)) {
+  var params = new URLSearchParams(location.search);
+  var isPublicFlow = params.get("public") === "1";
+  var email =
+    (params.get("email") || "").trim().toLowerCase() ||
+    (localStorage.getItem(EMAIL_KEY) || "").trim().toLowerCase();
+  if (!isPublicFlow && !localStorage.getItem(TOKEN_KEY)) {
     location.href = "./login.html";
     return;
   }
-  var email = localStorage.getItem(EMAIL_KEY);
   if (!email) {
-    location.href = "./login.html";
-    return;
+    var manual = prompt("Votre e-mail (utilise pour rattacher le document a votre dossier) :");
+    email = String(manual || "").trim().toLowerCase();
+    if (!email || email.indexOf("@") < 0) {
+      alert("E-mail requis pour envoyer vos pieces.");
+      if (!isPublicFlow) location.href = "./login.html";
+      return;
+    }
   }
 
   var drop = document.getElementById("dropZone");
@@ -78,7 +87,9 @@
           document.getElementById("uploadMsg").innerHTML =
             "✅ Document transmis. " +
             (res.drive && res.drive.simulated ? "(Archivage simulé — Drive non configuré)" : "") +
-            ' <a href="documents.html">Voir mes documents</a> · <a href="dashboard.html">Retour</a>';
+            (isPublicFlow
+              ? ' <a href="/">Retour au site</a>'
+              : ' <a href="documents.html">Voir mes documents</a> · <a href="dashboard.html">Retour</a>');
           e.target.reset();
         } else {
           document.getElementById("uploadMsg").textContent = res.error || "Erreur";
