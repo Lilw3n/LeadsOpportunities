@@ -31,7 +31,8 @@ window.CrmSidebar = {
     { href: "./crm-acquisition.html", label: "Nouveaux leads", icon: "acquisition", badge: "live" },
     { href: "./crm-search.html", label: "Recherche", icon: "search" },
     { href: "./crm-quote-new.html", label: "Nouveau devis", icon: "contract" },
-    { href: "./crm-products.html", label: "Catalogue fiable", icon: "insurance" },
+    { href: "./crm-catalog.html", label: "Tous nos produits", icon: "insurance" },
+    { href: "./crm-products.html", label: "Catalogue vérifié", icon: "insurance" },
   ],
 
   GROUPS: [
@@ -102,7 +103,8 @@ window.CrmSidebar = {
       defaultOpen: true,
       items: [
         { type: "link", href: "./crm-insurance.html", label: "Hub assurance", icon: "insurance", desc: "Portefeuille et modules" },
-        { type: "link", href: "./crm-products.html", label: "Catalogue produits", icon: "insurance", badge: "vérifié" },
+        { type: "link", href: "./crm-catalog.html", label: "Tous nos produits", icon: "insurance", badge: "devis" },
+        { type: "link", href: "./crm-products.html", label: "Catalogue vérifié", icon: "insurance" },
         { type: "link", href: "./crm-insurance-requests.html", label: "Demandes assurance", icon: "insurance" },
         { type: "link", href: "./crm-insurance-request-new.html", label: "Nouvelle demande", icon: "insurance" },
         { type: "link", href: "./crm-tariff-grid.html", label: "Bordereau tarifaire", icon: "tariff" },

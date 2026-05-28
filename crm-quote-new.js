@@ -8,6 +8,24 @@
     return;
   }
 
+  (function prefillFromCatalog() {
+    var params = new URLSearchParams(window.location.search);
+    var name = params.get("name") || params.get("productName");
+    var need = params.get("need");
+    if (name) {
+      document.getElementById("productType").value = name;
+      var title = document.querySelector('[name="title"]');
+      if (title) title.value = "Devis — " + name;
+    }
+    var vehicleNeeds = ["vtc", "auto", "moto", "flotte", "temporaire", "taxi"];
+    var chk = document.getElementById("needVehicleStep");
+    if (chk && need) chk.checked = vehicleNeeds.indexOf(need) >= 0;
+    var price = params.get("priceFrom");
+    if (price && document.querySelector('[name="premiumEstimate"]')) {
+      document.querySelector('[name="premiumEstimate"]').value = Math.round(Number(price) * 12);
+    }
+  })();
+
   function api(path, body) {
     return fetch(path, {
       method: "POST",

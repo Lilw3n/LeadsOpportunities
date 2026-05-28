@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tous nos produits | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/crm-catalog.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage catalog-broker-page">
+  <section class="crm-page-panel">
+    <a href="./crm-quote-new.html" class="catalog-toplink" id="catalogToplink">Démarrer un nouveau devis</a>
+    <h1 class="catalog-title" id="catalogTitle">Tous nos produits</h1>
+
+    <div class="catalog-actions-top">
+      <a href="./crm-quote-new.html" class="btn btn-primary">Faire un devis</a>
+      <button type="button" class="btn btn-ghost" id="btnEditCatalog">Modifier le catalogue (JSON)</button>
+      <button type="button" class="btn btn-ghost" id="btnEditTariffs">Tarifs animaux (doc)</button>
+      <button type="button" class="btn btn-ghost" id="btnAdminProducts">Produits vérifiés CRM</button>
+    </div>
+
+    <div class="catalog-filter-bar">
+      <input type="search" id="catalogSearch" placeholder="Filtrer : écrivez pour rechercher un produit" autocomplete="off" />
+      <select id="catalogCategory" aria-label="Catégorie"></select>
+    </div>
+
+    <div id="catalogList" class="catalog-list" aria-live="polite"></div>
+    <p style="margin-top:14px;font-size:.8rem;color:var(--muted)">
+      Tarifs « À partir de » modifiables dans <code>data/crm-catalog-broker.json</code> et <code>data/niche-tariffs-animaux.json</code> (parcours animaux).
+      Cliquez une ligne pour ouvrir le devis CRM.
+    </p>
+  </section>
+  <script src="./js/crm-product-service.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-catalog.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
