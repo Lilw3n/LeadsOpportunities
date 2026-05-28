@@ -20,7 +20,7 @@
   ],
   "crons": [
     {
-      "path": "/api/cron/mailbox-sync",
+      "path": "/api/mailbox/cron-sync",
       "schedule": "0 8 * * *"
     }
   ],
@@ -29,9 +29,6 @@
       "maxDuration": 60
     },
     "api/dashboard/[action].js": {
-      "maxDuration": 60
-    },
-    "api/cron/mailbox-sync.js": {
       "maxDuration": 60
     }
   },

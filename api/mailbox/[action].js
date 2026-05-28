@@ -4,6 +4,7 @@ const ROUTES = {
   list: () => require("../_lib/routes/mailbox-list"),
   sync: () => require("../_lib/routes/mailbox-sync"),
   send: () => require("../_lib/routes/mailbox-send"),
+  "cron-sync": () => require("../_lib/routes/mailbox-cron-sync"),
 };
 
 module.exports = async (req, res) => {
