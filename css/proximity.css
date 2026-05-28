@@ -140,19 +140,31 @@
   font-weight: 700;
 }
 
-.proximity-phone {
+.proximity-callback {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  font-size: 1.35rem;
+  font-size: 1.05rem;
   font-weight: 800;
-  color: #fff;
+  color: #0f766e;
   text-decoration: none;
   margin-bottom: 8px;
+  padding: 12px 14px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 
-.proximity-phone:hover {
+.proximity-callback:hover {
+  background: #f0fdfa;
+}
+
+.proximity-callback-note {
+  margin: 0 0 12px;
+  font-size: 0.82rem;
   opacity: 0.92;
+  line-height: 1.35;
 }
 
 .proximity-email {
@@ -257,8 +269,9 @@
   padding: 18px 16px;
 }
 
-.proximity-inner--compact .proximity-phone {
-  font-size: 1.15rem;
+.proximity-inner--compact .proximity-callback {
+  font-size: 0.95rem;
+  padding: 10px 12px;
 }
 
 .landing-proximity-slot .proximity-section {
