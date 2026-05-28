@@ -17,7 +17,27 @@
       "priority": 1,
       "status": "live",
       "partners": ["Santévet", "Bulle Bleue", "Kozoo", "April", "AXA"],
-      "keywords": ["assurance animaux", "assurance chien", "assurance chat", "mutuelle animaux"]
+      "keywords": [
+        "assurance animaux",
+        "assurance chien",
+        "assurance chat",
+        "mutuelle animaux",
+        "assurance chien pas cher",
+        "assurance chat pas cher",
+        "assurance chiot",
+        "assurance chaton",
+        "assurance animaux paris"
+      ],
+      "seoPaths": [
+        "/assurance-animaux/",
+        "/assurance-animaux/chien/",
+        "/assurance-animaux/chat/",
+        "/assurance-animaux/villes/",
+        "/assurance-animaux/comparatif/",
+        "/assurance-animaux/tarif/",
+        "/assurance-animaux/chien/pas-cher/",
+        "/assurance-animaux/chat/pas-cher/"
+      ]
     },
     {
       "id": "chasse",

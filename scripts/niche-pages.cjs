@@ -1,6 +1,8 @@
 /**
  * Pages SEO silos « niches » — export pour generate-seo-pages.cjs
  */
+const { buildAnimauxLongtailPages } = require("./niche-animaux-pages.cjs");
+
 function page(data) {
   return Object.assign(
     {
@@ -67,7 +69,11 @@ const ANIMAUX_PAGES = [
     related: [
       { href: "/assurance-animaux/chien/", label: "Assurance chien" },
       { href: "/assurance-animaux/chat/", label: "Assurance chat" },
+      { href: "/assurance-animaux/villes/", label: "Assurance animaux par ville" },
       { href: "/assurance-animaux/comparatif/", label: "Comparatif assurance animaux" },
+      { href: "/assurance-animaux/tarif/", label: "Tarif assurance animaux" },
+      { href: "/assurance-animaux/chien/pas-cher/", label: "Assurance chien pas cher" },
+      { href: "/assurance-animaux/chat/pas-cher/", label: "Assurance chat pas cher" },
       { href: "/assurance-animaux/remboursement-veterinaire/", label: "Remboursement veterinaire" },
       { href: LANDING_EXPRESS, label: "Devis express 30 sec" },
     ],
@@ -120,8 +126,11 @@ const ANIMAUX_PAGES = [
     ],
     related: [
       { href: ANIMAUX_BASE, label: "Guide assurance animaux" },
+      { href: "/assurance-animaux/chien/pas-cher/", label: "Chien pas cher" },
+      { href: "/assurance-animaux/chien/chiot/", label: "Assurance chiot" },
+      { href: "/assurance-animaux/chien/senior/", label: "Chien senior" },
       { href: "/assurance-animaux/chat/", label: "Assurance chat" },
-      { href: "/assurance-animaux/comparatif/", label: "Comparatif" },
+      { href: "/assurance-animaux/villes/", label: "Par ville" },
     ],
     faq: [
       {
@@ -154,6 +163,9 @@ const ANIMAUX_PAGES = [
     related: [
       { href: ANIMAUX_BASE, label: "Assurance animaux" },
       { href: "/assurance-animaux/chien/", label: "Assurance chien" },
+      { href: "/assurance-animaux/chat/pas-cher/", label: "Chat pas cher" },
+      { href: "/assurance-animaux/chat/chaton/", label: "Assurance chaton" },
+      { href: "/assurance-animaux/villes/", label: "Par ville" },
       { href: LANDING_EXPRESS, label: "Rappel express" },
     ],
     faq: [
@@ -240,29 +252,28 @@ const ANIMAUX_PAGES = [
   }),
 ];
 
+const ANIMAUX_LONGTAIL_PAGES = buildAnimauxLongtailPages(page, ANIMAUX_BASE);
+const ALL_ANIMAUX_PAGES = ANIMAUX_PAGES.concat(ANIMAUX_LONGTAIL_PAGES);
+
 function getNicheSitemapEntries(base) {
   const today = new Date().toISOString().slice(0, 10);
-  const paths = [
-    "/niches/",
-    "/assurance-animaux/",
-    "/assurance-animaux/chien/",
-    "/assurance-animaux/chat/",
-    "/assurance-animaux/comparatif/",
-    "/assurance-animaux/remboursement-veterinaire/",
-    "/landings/animaux.html",
-    "/landings/animaux-express.html",
-  ];
-  return paths.map(function (p) {
-    return {
-      loc: base + p,
-      lastmod: today,
-      changefreq: "weekly",
-      priority: p.indexOf("landings") >= 0 ? "0.88" : p === "/niches/" ? "0.85" : "0.9",
-    };
+  const staticPaths = ["/niches/", "/landings/animaux.html", "/landings/animaux-express.html"];
+  const pagePaths = ALL_ANIMAUX_PAGES.map(function (p) {
+    return "/" + p.file.replace(/index\.html$/, "");
   });
+  return staticPaths
+    .concat(pagePaths)
+    .map(function (p) {
+      return {
+        loc: base + p,
+        lastmod: today,
+        changefreq: "weekly",
+        priority: p.indexOf("landings") >= 0 ? "0.9" : p === "/niches/" ? "0.85" : p.indexOf("/chien/") > -1 || p.indexOf("/chat/") > -1 ? "0.88" : "0.9",
+      };
+    });
 }
 
 module.exports = {
-  NICHE_PAGES: ANIMAUX_PAGES,
+  NICHE_PAGES: ALL_ANIMAUX_PAGES,
   getNicheSitemapEntries: getNicheSitemapEntries,
 };

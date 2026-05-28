@@ -697,6 +697,7 @@ function renderPage(p) {
 
   const navVtc = hrefPath(prefix, "/assurance-vtc/");
   const navSante = hrefPath(prefix, "/assurance-sante/");
+  const navAnimaux = hrefPath(prefix, "/assurance-animaux/");
   const navCredit = hrefPath(prefix, "/credit-immo/");
 
   const geoMeta = p.city
@@ -788,6 +789,7 @@ function renderPage(p) {
       <nav class="seo-nav" aria-label="Navigation principale">
         <a href="${navVtc}">VTC</a>
         <a href="${navSante}">Sante</a>
+        <a href="${navAnimaux}">Animaux</a>
         <a href="${navCredit}">Credit immo</a>
         <a class="seo-cta" href="${esc(ctaHref)}">${esc(p.cta.label)}</a>
       </nav>

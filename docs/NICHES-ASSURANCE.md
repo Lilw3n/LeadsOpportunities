@@ -27,10 +27,12 @@ npm run seo:build
 Cela cree notamment :
 
 - `/assurance-animaux/` (pilier)
-- `/assurance-animaux/chien/`
-- `/assurance-animaux/chat/`
-- `/assurance-animaux/comparatif/`
-- `/assurance-animaux/remboursement-veterinaire/`
+- `/assurance-animaux/chien/` + longue traine (`pas-cher`, `chiot`, `senior`, `prix`, `mutuelle`)
+- `/assurance-animaux/chat/` + longue traine (`pas-cher`, `chaton`, `senior`, `prix`)
+- `/assurance-animaux/comparatif/`, `/tarif/`, `/mutuelle/`, `/chiot/`, `/senior/`, `/nac/`
+- `/assurance-animaux/santevet/`, `/bulle-bleue/`, `/devis-rapide/`, `/pas-cher/`
+- `/assurance-animaux/villes/` + **189 pages ville** (`/assurance-animaux/paris/`, etc.)
+- `/assurance-animaux/departements/` + pages departement
 
 ## Niches prevues (ordre de priorite)
 

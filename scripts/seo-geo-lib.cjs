@@ -331,6 +331,70 @@ const GEO_PRODUCTS = [
       ];
     },
   },
+  {
+    key: "animaux",
+    theme: "animaux",
+    dir: "assurance-animaux",
+    siloLabel: "Assurance animaux",
+    siloUrl: "/assurance-animaux/",
+    hubUrl: "/assurance-animaux/villes/",
+    hubDeptUrl: "/assurance-animaux/departements/",
+    landing: "/landings/animaux.html",
+    ctaLabel: function (city) {
+      return "Devis animaux " + city.name;
+    },
+    title: function (city) {
+      return "Assurance animaux " + city.name + " | Chien & chat — " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance animaux a " +
+        city.name +
+        " : chien, chat, frais veterinaires. Comparatif Santévet, Bulle Bleue, Kozoo. Courtier ORIAS, devis gratuit."
+      );
+    },
+    h1: function (city) {
+      return "Assurance animaux a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Proprietaire de chien ou chat a " +
+        city.name +
+        " ? Nous comparons les formules (prevention, chirurgie, plafonds) avec un conseiller dedie, partout en " +
+        city.region +
+        "."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Assurer son animal a " + city.name,
+          paragraphs: [
+            "Cliniques veterinaires, urgences, specialistes : les tarifs varient peu selon la ville, mais votre budget de soins depend de votre animal (race, age, mode de vie).",
+            "Nous partons de votre profil pour proposer un comparatif clair — pas une liste de contrats incompréhensibles.",
+          ],
+        },
+        {
+          h2: "Demande de rappel",
+          paragraphs: [
+            "Formulaire en ligne sur leadsopportunities.fr : un conseiller vous rappelle en journee ouvrable pour affiner le devis.",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Proposez-vous une assurance chien et chat a " + city.name + " ?",
+          a: "Oui, chien, chat et certaines NAC selon assureurs. Le comparatif est national avec accompagnement pour les residents de " + city.name + ".",
+        },
+        {
+          q: "Quel delai pour un devis ?",
+          a: "Questionnaire 3 minutes en ligne ou rappel express 30 secondes, puis contact conseiller sous 15 min en moyenne (heures ouvrables).",
+        },
+      ];
+    },
+  },
 ];
 
 function buildGeoPageConfigs(cities, pageFn) {
@@ -815,6 +879,16 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/credit-immo.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/devis.html", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/landings/devis-rapide.html", priority: "0.85", changefreq: "weekly" },
+    { loc: base + "/landings/animaux.html", priority: "0.92", changefreq: "weekly" },
+    { loc: base + "/landings/animaux-express.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/niches/", priority: "0.85", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/", priority: "0.92", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/villes/", priority: "0.91", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/chien/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/chat/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/comparatif/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/tarif/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/departements/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/devis-rapide/", priority: "0.87", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/tarif/", priority: "0.82", changefreq: "weekly" },
