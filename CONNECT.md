@@ -135,6 +135,12 @@ Voir aussi `ads/google-acquisition-setup.md` pour les UTM et les campagnes.
 - Tous les parcours envoient des evenements vers `POST /api/journey-event` (page vue, debut formulaire, abandon, lead envoye).
 - Rapport admin dispo via `GET /api/dashboard/journey-dropoffs?days=14`.
 - Table Neon creee automatiquement : `journey_events` (script manuel si besoin : `database/journey-events.sql`).
+- Creation rapide de parcours (mode hybride, sans backoffice) via console navigateur :
+  - `window.Parcours.create({ id: "meta_retargeting_7j", label: "Meta Retargeting 7j", type: "source", sourceMatchers: ["facebook","instagram","retargeting"], crmWorkflow: ["new","questionnaire","quote_sent","follow_up"] })`
+  - `window.Parcours.setActive("meta_retargeting_7j")`
+  - `window.Parcours.list()` pour verifier les parcours actifs/custom.
+  - `window.Parcours.remove("meta_retargeting_7j")` pour supprimer.
+- Les formulaires site et landings envoient maintenant `parcours_id`, `parcours_label` et `parcours_workflow` dans chaque lead.
 
 ---
 

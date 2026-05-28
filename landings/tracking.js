@@ -140,6 +140,23 @@
     return {};
   }
 
+  function getParcoursPayload() {
+    try {
+      if (window.Parcours && typeof window.Parcours.getActive === "function") {
+        var p = window.Parcours.getActive();
+        if (p && p.id) {
+          return {
+            parcours_id: p.id,
+            parcours_label: p.label || p.id,
+            parcours_type: p.type || "public",
+            parcours_workflow: p.crmWorkflow || [],
+          };
+        }
+      }
+    } catch (e) {}
+    return {};
+  }
+
   function collectFormData(form) {
     var fd = new FormData(form);
     var o = {};
@@ -276,6 +293,7 @@
             questionnaire_total: data.questionnaire_total || (form.querySelectorAll(".wizard-step").length || 1),
           },
           getUtmPayload(),
+          getParcoursPayload(),
           getAttributionMerge(),
           data
         );

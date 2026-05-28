@@ -187,6 +187,15 @@
         : l.is_dormant
           ? "Lead dormant — relancer"
           : "Aucune relance planifiée";
+    var nextParcoursStage = "";
+    if (Array.isArray(l.parcours_workflow) && l.parcours_workflow.length) {
+      var idx = l.parcours_workflow.indexOf(l.pipeline_stage);
+      if (idx >= 0 && idx < l.parcours_workflow.length - 1) {
+        nextParcoursStage = l.parcours_workflow[idx + 1];
+      } else if (idx < 0) {
+        nextParcoursStage = l.parcours_workflow[0];
+      }
+    }
     return (
       '<div class="acq-card' +
       (l.is_dormant ? " dormant" : "") +
@@ -226,6 +235,7 @@
       "/" +
       (l.questionnaire_total || 10) +
       "</div>" +
+      (l.parcours_label ? '<div class="acq-meta">Parcours : ' + esc(l.parcours_label) + "</div>" : "") +
       '<div class="acq-next">📞 ' +
       esc(next) +
       "</div>" +
@@ -250,6 +260,15 @@
       '<button type="button" class="btn btn-ghost btn-sm btn-assign" data-id="' +
       esc(l.id) +
       '">Assigner</button>' +
+      (nextParcoursStage
+        ? '<button type="button" class="btn btn-ghost btn-sm btn-parcours-next" data-id="' +
+          esc(l.id) +
+          '" data-stage="' +
+          esc(nextParcoursStage) +
+          '">Parcours → ' +
+          esc(nextParcoursStage) +
+          "</button>"
+        : "") +
       (l.is_archived
         ? '<button type="button" class="btn btn-ghost btn-sm btn-unarchive" data-id="' + esc(l.id) + '">Désarchiver</button>'
         : '<button type="button" class="btn btn-ghost btn-sm btn-archive" data-id="' + esc(l.id) + '">Archiver</button>') +
@@ -347,6 +366,14 @@
             .map(function (s) { return s.trim(); })
             .filter(Boolean),
         });
+      };
+    });
+    document.querySelectorAll(".btn-parcours-next").forEach(function (btn) {
+      btn.onclick = function (e) {
+        e.stopPropagation();
+        var stage = btn.getAttribute("data-stage");
+        if (!stage) return;
+        patchLead(btn.getAttribute("data-id"), { pipeline_stage: stage });
       };
     });
     document.querySelectorAll(".acq-card").forEach(function (card) {

@@ -2,6 +2,21 @@ const { getAuthUser } = require("../auth");
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { computeLeadRelevance } = require("../leadRelevance");
 
+function mapStatusToPipeline(status) {
+  var s = String(status || "").toLowerCase();
+  if (s === "new") return "new";
+  if (s === "contacted") return "follow_up";
+  if (s === "qualified") return "tariff_editing";
+  if (s === "converted") return "won";
+  if (s === "lost") return "lost";
+  if (s === "questionnaire") return "questionnaire";
+  if (s === "tariff_editing") return "tariff_editing";
+  if (s === "quote_sent") return "quote_sent";
+  if (s === "follow_up") return "follow_up";
+  if (s === "won") return "won";
+  return null;
+}
+
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
@@ -42,7 +57,7 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: "Statut invalide" });
       }
       updates.status = body.status;
-      updates.pipeline_stage = body.status;
+      updates.pipeline_stage = mapStatusToPipeline(body.status);
     }
     if (body.notes !== undefined) {
       updates.notes = String(body.notes).slice(0, 5000);
@@ -64,17 +79,32 @@ module.exports = async (req, res) => {
     }
 
     if (body.status && body.notes !== undefined) {
-      await sql`
-        UPDATE site_leads SET status = ${updates.status}, pipeline_stage = ${updates.pipeline_stage || updates.status},
-          notes = ${updates.notes}, updated_at = now(), last_activity_at = now()
-        WHERE id = ${body.leadId}
-      `;
+      try {
+        await sql`
+          UPDATE site_leads SET status = ${updates.status}, pipeline_stage = ${updates.pipeline_stage || "new"},
+            notes = ${updates.notes}, updated_at = now(), last_activity_at = now()
+          WHERE id = ${body.leadId}
+        `;
+      } catch (stageErr) {
+        await sql`
+          UPDATE site_leads SET status = ${updates.status},
+            notes = ${updates.notes}, updated_at = now()
+          WHERE id = ${body.leadId}
+        `;
+      }
     } else if (body.status) {
-      await sql`
-        UPDATE site_leads SET status = ${updates.status}, pipeline_stage = ${updates.pipeline_stage || updates.status},
-          updated_at = now(), last_activity_at = now()
-        WHERE id = ${body.leadId}
-      `;
+      try {
+        await sql`
+          UPDATE site_leads SET status = ${updates.status}, pipeline_stage = ${updates.pipeline_stage || "new"},
+            updated_at = now(), last_activity_at = now()
+          WHERE id = ${body.leadId}
+        `;
+      } catch (stageErr) {
+        await sql`
+          UPDATE site_leads SET status = ${updates.status}, updated_at = now()
+          WHERE id = ${body.leadId}
+        `;
+      }
     } else if (body.notes !== undefined) {
       await sql`UPDATE site_leads SET notes = ${updates.notes}, updated_at = now() WHERE id = ${body.leadId}`;
     }

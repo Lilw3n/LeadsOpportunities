@@ -37,6 +37,23 @@ document.addEventListener("DOMContentLoaded", function () {
     return {};
   }
 
+  function getParcoursPayload() {
+    try {
+      if (window.Parcours && typeof window.Parcours.getActive === "function") {
+        var p = window.Parcours.getActive();
+        if (p && p.id) {
+          return {
+            parcours_id: p.id,
+            parcours_label: p.label || p.id,
+            parcours_type: p.type || "public",
+            parcours_workflow: p.crmWorkflow || [],
+          };
+        }
+      }
+    } catch (e) {}
+    return {};
+  }
+
   var revealEls = document.querySelectorAll(".reveal");
   var observer = new IntersectionObserver(
     function (entries) {
@@ -58,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var params = new URLSearchParams(window.location.search);
     if (!params.toString()) return;
 
-    var tracked = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "gclid"];
+    var tracked = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "gclid", "parcours"];
     var links = document.querySelectorAll("a[href]");
     links.forEach(function (link) {
       var href = link.getAttribute("href");
@@ -164,6 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
           page: window.location.pathname,
         },
         getUtmParams(),
+        getParcoursPayload(),
         getAttr(),
         fields
       );

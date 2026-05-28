@@ -79,6 +79,9 @@ function enrich(row) {
     full_name: payload.firstName || payload.first_name
       ? String(payload.firstName || payload.first_name) + " " + String(payload.lastName || payload.last_name || "")
       : null,
+    parcours_id: payload.parcours_id || payload.parcours || null,
+    parcours_label: payload.parcours_label || null,
+    parcours_workflow: Array.isArray(payload.parcours_workflow) ? payload.parcours_workflow : [],
   };
 }
 

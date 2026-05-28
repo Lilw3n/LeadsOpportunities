@@ -1,10 +1,151 @@
 (function () {
   var KEY_ATTR = "lo_attr_v1";
   var KEY_VISITOR = "lo_vid_v1";
+  var KEY_PARCOURS_ACTIVE = "lo_parcours_active_v1";
+  var KEY_PARCOURS_CUSTOM = "lo_parcours_custom_v1";
+  var KEY_PARCOURS_ENTERED = "lo_parcours_entered_sid_v1";
+  var DEFAULT_PARCOURS = [
+    {
+      id: "meta_lead_rapide",
+      label: "Meta Lead Rapide",
+      type: "source",
+      sourceMatchers: ["facebook", "instagram", "meta", "fbads"],
+      crmWorkflow: ["new", "questionnaire", "quote_sent", "follow_up"],
+    },
+    {
+      id: "google_intention_chaude",
+      label: "Google Intention Chaude",
+      type: "source",
+      sourceMatchers: ["google", "gclid", "bing", "msclkid"],
+      crmWorkflow: ["new", "tariff_editing", "quote_sent", "follow_up"],
+    },
+    {
+      id: "organique_confiance",
+      label: "Organique Confiance",
+      type: "public",
+      sourceMatchers: ["seo", "organic", "direct"],
+      crmWorkflow: ["new", "questionnaire", "follow_up"],
+    },
+  ];
 
   function uuid() {
     if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
     return "v_" + Date.now() + "_" + Math.random().toString(36).slice(2, 10);
+  }
+
+  function parseJsonSafe(raw, fallback) {
+    try {
+      return JSON.parse(raw || "");
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function sanitizeParcours(def) {
+    if (!def || !def.id) return null;
+    return {
+      id: String(def.id).slice(0, 80),
+      label: String(def.label || def.id).slice(0, 160),
+      type: String(def.type || "public").slice(0, 30),
+      sourceMatchers: Array.isArray(def.sourceMatchers)
+        ? def.sourceMatchers
+            .map(function (s) {
+              return String(s || "").trim().toLowerCase();
+            })
+            .filter(Boolean)
+            .slice(0, 20)
+        : [],
+      crmWorkflow: Array.isArray(def.crmWorkflow)
+        ? def.crmWorkflow
+            .map(function (s) {
+              return String(s || "").trim();
+            })
+            .filter(Boolean)
+            .slice(0, 12)
+        : [],
+    };
+  }
+
+  function getCustomParcours() {
+    try {
+      var list = parseJsonSafe(localStorage.getItem(KEY_PARCOURS_CUSTOM), []);
+      if (!Array.isArray(list)) return [];
+      return list.map(sanitizeParcours).filter(Boolean);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setCustomParcours(list) {
+    try {
+      localStorage.setItem(KEY_PARCOURS_CUSTOM, JSON.stringify(list || []));
+    } catch (e) {}
+  }
+
+  function allParcours() {
+    return DEFAULT_PARCOURS.concat(getCustomParcours());
+  }
+
+  function trafficFingerprint() {
+    var p = new URLSearchParams(window.location.search);
+    var attr = window.getAttributionPayload ? window.getAttributionPayload() : {};
+    var sourceBag = [
+      p.get("utm_source"),
+      p.get("utm_medium"),
+      p.get("gclid"),
+      p.get("fbclid"),
+      p.get("msclkid"),
+      attr.attr_last_utm_source,
+      attr.attr_first_utm_source,
+      attr.attr_last_gclid,
+      attr.attr_last_fbclid,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    if (sourceBag.indexOf("fbclid") >= 0) sourceBag += " facebook";
+    if (sourceBag.indexOf("gclid") >= 0) sourceBag += " google";
+    if (sourceBag.indexOf("msclkid") >= 0) sourceBag += " bing";
+    return sourceBag;
+  }
+
+  function pickParcoursBySource() {
+    var byQuery = new URLSearchParams(window.location.search).get("parcours");
+    var list = allParcours();
+    if (byQuery) {
+      var picked = list.find(function (p) {
+        return p.id === byQuery;
+      });
+      if (picked) return picked;
+    }
+    var source = trafficFingerprint();
+    var matched = list.find(function (p) {
+      return (p.sourceMatchers || []).some(function (k) {
+        return source.indexOf(String(k || "").toLowerCase()) >= 0;
+      });
+    });
+    return matched || list[0] || null;
+  }
+
+  function getActiveParcours() {
+    var stored = parseJsonSafe(localStorage.getItem(KEY_PARCOURS_ACTIVE), null);
+    if (stored && stored.id) return stored;
+    var selected = pickParcoursBySource();
+    if (selected) setActiveParcours(selected, "auto_source_match");
+    return selected;
+  }
+
+  function setActiveParcours(p, reason) {
+    var cleaned = sanitizeParcours(p);
+    if (!cleaned) return null;
+    var saved = Object.assign({}, cleaned, {
+      activatedAt: new Date().toISOString(),
+      activationReason: reason || "manual",
+    });
+    try {
+      localStorage.setItem(KEY_PARCOURS_ACTIVE, JSON.stringify(saved));
+    } catch (e) {}
+    return saved;
   }
 
   function ensureVisitorId() {
@@ -146,6 +287,7 @@
   function sendJourneyEvent(eventType, payload) {
     payload = payload || {};
     var attr = window.getAttributionPayload();
+    var parcours = getActiveParcours();
     var body = {
       event_type: eventType,
       visitor_id: attr.visitor_id,
@@ -155,7 +297,16 @@
       step_name: payload.step_name || null,
       vertical: payload.vertical || verticalFromPath() || null,
       source: payload.source || "site",
-      meta: Object.assign({}, attr, payload.meta || {}),
+      meta: Object.assign(
+        {},
+        attr,
+        {
+          parcours_id: parcours && parcours.id ? parcours.id : null,
+          parcours_label: parcours && parcours.label ? parcours.label : null,
+          parcours_workflow: parcours && parcours.crmWorkflow ? parcours.crmWorkflow : [],
+        },
+        payload.meta || {}
+      ),
     };
     fetch("/api/journey-event", {
       method: "POST",
@@ -166,6 +317,22 @@
   }
 
   function bindJourneyTracking() {
+    var activeParcours = getActiveParcours();
+    var sid = sessionId();
+    if (activeParcours && sid) {
+      var enteredKey = KEY_PARCOURS_ENTERED + ":" + sid + ":" + activeParcours.id;
+      if (!sessionStorage.getItem(enteredKey)) {
+        sendJourneyEvent("parcours_enter", {
+          source: "parcours",
+          meta: {
+            parcours_id: activeParcours.id,
+            parcours_label: activeParcours.label,
+          },
+        });
+        sessionStorage.setItem(enteredKey, "1");
+      }
+    }
+
     sendJourneyEvent("page_view", { source: "page" });
 
     var started = false;
@@ -265,6 +432,38 @@
     } catch (e) {
       return { visitor_id: ensureVisitorId() };
     }
+  };
+
+  window.Parcours = {
+    list: function () {
+      return allParcours();
+    },
+    getActive: function () {
+      return getActiveParcours();
+    },
+    setActive: function (parcoursId) {
+      var target = allParcours().find(function (p) {
+        return p.id === parcoursId;
+      });
+      if (!target) return null;
+      return setActiveParcours(target, "manual_set");
+    },
+    create: function (definition) {
+      var clean = sanitizeParcours(definition);
+      if (!clean) return null;
+      var list = getCustomParcours().filter(function (p) {
+        return p.id !== clean.id;
+      });
+      list.push(clean);
+      setCustomParcours(list);
+      return clean;
+    },
+    remove: function (parcoursId) {
+      var list = getCustomParcours().filter(function (p) {
+        return p.id !== parcoursId;
+      });
+      setCustomParcours(list);
+    },
   };
 
   captureAttribution();
