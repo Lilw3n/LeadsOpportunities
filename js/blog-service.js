@@ -59,14 +59,24 @@ window.BlogService = {
 
   getCategories: function () {
     return [
+      { id: "animaux", label: "Animaux", icon: "🐾" },
       { id: "assurance", label: "Assurance", icon: "🛡️" },
       { id: "sante", label: "Santé", icon: "❤️" },
       { id: "vtc", label: "VTC", icon: "🚡" },
     ];
   },
 
+  /** Liens vers articles HTML statiques (SEO) */
+  staticArticles: function () {
+    return [
+      { slug: "animaux-choisir", title: "Assurance animaux : comment choisir", excerpt: "Plafond, franchise, carence.", category: "animaux", icon: "🐾", date: "2026-05-20", url: "assurance-animaux-comment-choisir.html" },
+      { slug: "chien-frais", title: "Frais veterinaires chien", excerpt: "Combien coutent les soins ?", category: "animaux", icon: "🐕", date: "2026-05-22", url: "assurance-chien-frais-veterinaires.html" },
+      { slug: "chat-guide", title: "Assurance chat : guide complet", excerpt: "Chaton, senior, interieur.", category: "animaux", icon: "🐈", date: "2026-05-24", url: "assurance-chat-guide-complet.html" },
+    ];
+  },
+
   filter: function (category) {
-    var posts = this.load();
+    var posts = this.load().concat(this.staticArticles());
     if (!category) return posts;
     return posts.filter(function (p) {
       return p.category === category;
@@ -141,13 +151,14 @@ window.BlogService = {
     });
     html += "</div>";
     posts.forEach(function (p) {
+      var href = p.url ? p.url : "article.html?slug=" + encodeURIComponent(p.slug);
       html +=
         '<article style="border:1px solid #e2e8f0;border-radius:12px;padding:20px;margin-bottom:16px">' +
         "<span style='font-size:1.5rem'>" +
         p.icon +
         "</span> " +
-        "<h2 style='margin:8px 0'><a href='article.html?slug=" +
-        encodeURIComponent(p.slug) +
+        "<h2 style='margin:8px 0'><a href='" +
+        href +
         "' style='color:inherit;text-decoration:none'>" +
         p.title +
         "</a></h2>" +

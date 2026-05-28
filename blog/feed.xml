@@ -2,10 +2,66 @@
 <rss version="2.0"><channel>
 <title>Leads Opportunities Blog</title>
 <link>https://www.leadsopportunities.fr/blog/</link>
-<description>Conseils assurance et credit immobilier</description>
-  <item><title>Assurance VTC moins cher en 2026</title><link>https://www.leadsopportunities.fr/blog/assurance-vtc-moins-cher-2026.html</link><guid>https://www.leadsopportunities.fr/blog/assurance-vtc-moins-cher-2026.html</guid></item>
-  <item><title>Mutuelle sante : 5 criteres</title><link>https://www.leadsopportunities.fr/blog/mutuelle-sante-5-criteres.html</link><guid>https://www.leadsopportunities.fr/blog/mutuelle-sante-5-criteres.html</guid></item>
-  <item><title>Pret immo : erreurs a eviter</title><link>https://www.leadsopportunities.fr/blog/pret-immo-erreurs-a-eviter.html</link><guid>https://www.leadsopportunities.fr/blog/pret-immo-erreurs-a-eviter.html</guid></item>
-  <item><title>Assurance auto et bonus-malus</title><link>https://www.leadsopportunities.fr/blog/assurance-auto-bonus-malus.html</link><guid>https://www.leadsopportunities.fr/blog/assurance-auto-bonus-malus.html</guid></item>
-  <item><title>Prevoyance pour independants</title><link>https://www.leadsopportunities.fr/blog/prevoyance-independants-guide.html</link><guid>https://www.leadsopportunities.fr/blog/prevoyance-independants-guide.html</guid></item>
+<description>Conseils assurance animaux, VTC, sante et credit</description>
+<language>fr-FR</language>
+  <item>
+    <title>Assurance animaux : comment choisir</title>
+    <link>https://www.leadsopportunities.fr/blog/assurance-animaux-comment-choisir.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/assurance-animaux-comment-choisir.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Assurance chien : frais veterinaires</title>
+    <link>https://www.leadsopportunities.fr/blog/assurance-chien-frais-veterinaires.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/assurance-chien-frais-veterinaires.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Assurance chat : guide complet</title>
+    <link>https://www.leadsopportunities.fr/blog/assurance-chat-guide-complet.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/assurance-chat-guide-complet.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Chiot et chaton : quand assurer ?</title>
+    <link>https://www.leadsopportunities.fr/blog/assurance-chiot-chaton-quand-assurer.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/assurance-chiot-chaton-quand-assurer.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Comparatif Santévet, Bulle Bleue, Kozoo</title>
+    <link>https://www.leadsopportunities.fr/blog/comparatif-santevet-bulle-bleue-kozoo.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/comparatif-santevet-bulle-bleue-kozoo.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Assurance VTC moins cher en 2026</title>
+    <link>https://www.leadsopportunities.fr/blog/assurance-vtc-moins-cher-2026.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/assurance-vtc-moins-cher-2026.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Mutuelle sante : 5 criteres</title>
+    <link>https://www.leadsopportunities.fr/blog/mutuelle-sante-5-criteres.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/mutuelle-sante-5-criteres.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Pret immo : erreurs a eviter</title>
+    <link>https://www.leadsopportunities.fr/blog/pret-immo-erreurs-a-eviter.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/pret-immo-erreurs-a-eviter.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Assurance auto et bonus-malus</title>
+    <link>https://www.leadsopportunities.fr/blog/assurance-auto-bonus-malus.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/assurance-auto-bonus-malus.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
+  <item>
+    <title>Prevoyance pour independants</title>
+    <link>https://www.leadsopportunities.fr/blog/prevoyance-independants-guide.html</link>
+    <guid isPermaLink="true">https://www.leadsopportunities.fr/blog/prevoyance-independants-guide.html</guid>
+    <pubDate>2026-05-28</pubDate>
+  </item>
 </channel></rss>

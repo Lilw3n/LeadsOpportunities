@@ -135,6 +135,26 @@ a { color: var(--primary); }
 .tag-vtc { background: var(--primary-light); color: var(--primary-dark); }
 .tag-sante { background: var(--blue-light); color: #1d4ed8; }
 .tag-immo { background: var(--accent-light); color: #4338ca; }
+.tag-animaux { background: #ffedd5; color: #c2410c; }
+
+.article-links {
+  margin-top: 28px;
+  padding: 20px 22px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: var(--radius-sm);
+}
+.article-links h2 {
+  font-size: 1.1rem;
+  margin: 0 0 12px;
+}
+.article-links ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+.article-links a {
+  font-weight: 600;
+}
 .blog-card h2 {
   font-size: 1.2rem;
   font-weight: 800;
