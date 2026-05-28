@@ -47,8 +47,10 @@
       "label": "Assurance chasse",
       "tagline": "RC chasseur, blessures, chiens courants",
       "landing": "/landings/devis.html?need=chasse",
+      "landingExpress": null,
       "priority": 2,
-      "status": "planned"
+      "status": "live",
+      "seoPaths": ["/assurance-chasse/", "/assurance-chasse/villes/", "/assurance-chasse/rc-chasseur/"]
     },
     {
       "id": "equitation",
@@ -59,7 +61,8 @@
       "tagline": "Cheval, RC équestre, matériel",
       "landing": "/landings/devis.html?need=equitation",
       "priority": 3,
-      "status": "planned"
+      "status": "live",
+      "seoPaths": ["/assurance-equitation/", "/assurance-equitation/villes/", "/assurance-equitation/rc-equestre/"]
     },
     {
       "id": "instrument",

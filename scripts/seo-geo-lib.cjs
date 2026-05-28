@@ -3,6 +3,13 @@
  */
 const fs = require("fs");
 const path = require("path");
+const contentLib = require("./seo-content-lib.cjs");
+
+const DEFAULT_GEO_STEPS = [
+  { title: "Demande en ligne", text: "Formulaire ou demande de rappel sur le site." },
+  { title: "Analyse du profil", text: "Un conseiller qualifie votre besoin (ville, usage, budget)." },
+  { title: "Comparatif explique", text: "Offres a garanties equivalentes, en langage clair." },
+];
 
 const GEO_PRODUCTS = [
   {
@@ -365,42 +372,243 @@ const GEO_PRODUCTS = [
         "."
       );
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Assurer son animal a " + city.name,
-          paragraphs: [
-            "Cliniques veterinaires, urgences, specialistes : les tarifs varient peu selon la ville, mais votre budget de soins depend de votre animal (race, age, mode de vie).",
-            "Nous partons de votre profil pour proposer un comparatif clair — pas une liste de contrats incompréhensibles.",
-          ],
-        },
-        {
-          h2: "Demande de rappel",
-          paragraphs: [
-            "Formulaire en ligne sur leadsopportunities.fr : un conseiller vous rappelle en journee ouvrable pour affiner le devis.",
-          ],
-        },
-      ];
+    sections: contentLib.animauxCitySections,
+    faq: contentLib.animauxCityFaq,
+    geoSteps: DEFAULT_GEO_STEPS,
+    extraRelated: [
+      { href: "/assurance-animaux/chien/", label: "Assurance chien (national)" },
+      { href: "/assurance-animaux/chat/", label: "Assurance chat (national)" },
+      { href: "/assurance-chien/villes/", label: "Assurance chien par ville" },
+      { href: "/assurance-chat/villes/", label: "Assurance chat par ville" },
+      { href: "/assurance-animaux/comparatif/", label: "Comparatif animaux" },
+      { href: "/assurance-animaux/tarif/", label: "Tarifs animaux" },
+      { href: "/landings/animaux-express.html", label: "Rappel express" },
+    ],
+  },
+  {
+    key: "chien",
+    theme: "animaux",
+    dir: "assurance-chien",
+    siloLabel: "Assurance chien",
+    siloUrl: "/assurance-animaux/chien/",
+    hubUrl: "/assurance-chien/villes/",
+    hubDeptUrl: "/assurance-chien/departements/",
+    landing: "/landings/animaux.html",
+    ctaLabel: function (city) {
+      return "Devis assurance chien " + city.name;
     },
+    title: function (city) {
+      return "Assurance chien " + city.name + " | Devis " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance chien a " +
+        city.name +
+        " : chiot, adulte, senior. Comparatif frais veterinaires. Courtier ORIAS, demande de rappel en ligne."
+      );
+    },
+    h1: function (city) {
+      return "Assurance chien a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Vous cherchez une assurance chien a " +
+        city.name +
+        " ? Meme reseau d assureurs qu en grande ville : devis en ligne, puis rappel conseiller pour comparer plafonds et franchises."
+      );
+    },
+    sections: contentLib.chienCitySections,
     faq: function (city) {
-      return [
+      return contentLib.defaultCityFaq(city, "Assurance chien").concat([
         {
-          q: "Proposez-vous une assurance chien et chat a " + city.name + " ?",
-          a: "Oui, chien, chat et certaines NAC selon assureurs. Le comparatif est national avec accompagnement pour les residents de " + city.name + ".",
+          q: "Assurance chiot a " + city.name + " ?",
+          a: "Oui, adhesion des 2-3 mois selon assureurs. Voir aussi notre guide assurance chiot.",
         },
-        {
-          q: "Quel delai pour un devis ?",
-          a: "Questionnaire 3 minutes en ligne ou rappel express 30 secondes, puis contact conseiller sous 15 min en moyenne (heures ouvrables).",
-        },
-      ];
+      ]);
     },
+    geoSteps: DEFAULT_GEO_STEPS,
+    extraRelated: [
+      { href: "/assurance-animaux/chien/", label: "Guide assurance chien" },
+      { href: "/assurance-animaux/chien/pas-cher/", label: "Chien pas cher" },
+      { href: "/assurance-animaux/chien/chiot/", label: "Assurance chiot" },
+      { href: "/assurance-animaux/", label: "Assurance animaux" },
+    ],
+  },
+  {
+    key: "chat",
+    theme: "animaux",
+    dir: "assurance-chat",
+    siloLabel: "Assurance chat",
+    siloUrl: "/assurance-animaux/chat/",
+    hubUrl: "/assurance-chat/villes/",
+    hubDeptUrl: "/assurance-chat/departements/",
+    landing: "/landings/animaux.html",
+    ctaLabel: function (city) {
+      return "Devis assurance chat " + city.name;
+    },
+    title: function (city) {
+      return "Assurance chat " + city.name + " | Mutuelle " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance chat a " +
+        city.name +
+        " : chaton, chat senior, prevention. Comparatif et devis gratuit, courtier ORIAS."
+      );
+    },
+    h1: function (city) {
+      return "Assurance chat a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Assurance chat pour les habitants de " +
+        city.name +
+        " : formules prevention, urgence et chirurgie. Questionnaire 3 minutes ou demande de rappel."
+      );
+    },
+    sections: contentLib.chatCitySections,
+    faq: function (city) {
+      return contentLib.defaultCityFaq(city, "Assurance chat");
+    },
+    geoSteps: DEFAULT_GEO_STEPS,
+    extraRelated: [
+      { href: "/assurance-animaux/chat/", label: "Guide assurance chat" },
+      { href: "/assurance-animaux/chat/pas-cher/", label: "Chat pas cher" },
+      { href: "/assurance-animaux/chat/chaton/", label: "Assurance chaton" },
+      { href: "/assurance-animaux/", label: "Assurance animaux" },
+    ],
+  },
+  {
+    key: "chasse",
+    theme: "niche",
+    dir: "assurance-chasse",
+    siloLabel: "Assurance chasse",
+    siloUrl: "/assurance-chasse/",
+    hubUrl: "/assurance-chasse/villes/",
+    hubDeptUrl: "/assurance-chasse/departements/",
+    landing: "/landings/devis.html?need=chasse",
+    ctaLabel: function (city) {
+      return "Devis chasse " + city.name;
+    },
+    title: function (city) {
+      return "Assurance chasse " + city.name + " | RC chasseur " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance chasse a " +
+        city.name +
+        " : RC chasseur, blessures, chien courant. Courtier ORIAS, devis gratuit."
+      );
+    },
+    h1: function (city) {
+      return "Assurance chasse a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Chasseurs de " +
+        city.name +
+        " et du departement : nous montons votre dossier RC et options chiens courants avec un conseiller."
+      );
+    },
+    sections: contentLib.chasseCitySections,
+    faq: function (city) {
+      return contentLib.defaultCityFaq(city, "Assurance chasse");
+    },
+    geoSteps: DEFAULT_GEO_STEPS,
+    extraRelated: [
+      { href: "/assurance-chasse/rc-chasseur/", label: "RC chasseur" },
+      { href: "/assurance-chasse/chien-chasse/", label: "Chien de chasse" },
+      { href: "/niches/", label: "Niches assurance" },
+    ],
+  },
+  {
+    key: "equitation",
+    theme: "niche",
+    dir: "assurance-equitation",
+    siloLabel: "Assurance equitation",
+    siloUrl: "/assurance-equitation/",
+    hubUrl: "/assurance-equitation/villes/",
+    hubDeptUrl: "/assurance-equitation/departements/",
+    landing: "/landings/devis.html?need=equitation",
+    ctaLabel: function (city) {
+      return "Devis equitation " + city.name;
+    },
+    title: function (city) {
+      return "Assurance equitation " + city.name + " | Cheval & RC " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance equitation a " +
+        city.name +
+        " : RC equestre, cheval, materiel. Courtier ORIAS, France entiere."
+      );
+    },
+    h1: function (city) {
+      return "Assurance equitation a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Cavaliers et proprietaires a " +
+        city.name +
+        " : RC equestre et garanties cheval selon produits disponibles. Devis en ligne puis rappel."
+      );
+    },
+    sections: contentLib.equitationCitySections,
+    faq: function (city) {
+      return contentLib.defaultCityFaq(city, "Assurance equitation");
+    },
+    geoSteps: DEFAULT_GEO_STEPS,
+    extraRelated: [
+      { href: "/assurance-equitation/rc-equestre/", label: "RC equestre" },
+      { href: "/assurance-equitation/cheval/", label: "Assurance cheval" },
+      { href: "/niches/", label: "Niches assurance" },
+    ],
   },
 ];
+
+function crossLinksForCity(product, city) {
+  var links = [];
+  if (product.key === "animaux" || product.key === "chien" || product.key === "chat") {
+    if (product.key !== "chien") {
+      links.push({
+        href: "/assurance-chien/" + city.slug + "/",
+        label: "Assurance chien " + city.name,
+      });
+    }
+    if (product.key !== "chat") {
+      links.push({
+        href: "/assurance-chat/" + city.slug + "/",
+        label: "Assurance chat " + city.name,
+      });
+    }
+    if (product.key !== "animaux") {
+      links.push({
+        href: "/assurance-animaux/" + city.slug + "/",
+        label: "Assurance animaux " + city.name,
+      });
+    }
+  }
+  return links;
+}
 
 function buildGeoPageConfigs(cities, pageFn) {
   const out = [];
   GEO_PRODUCTS.forEach(function (product) {
     cities.forEach(function (city) {
+      var sections =
+        typeof product.sections === "function" ? product.sections(city) : product.sections || [];
+      var faq = typeof product.faq === "function" ? product.faq(city) : contentLib.defaultCityFaq(city, product.siloLabel);
+      var related = [
+        { href: product.hubUrl, label: "Toutes les villes — " + product.siloLabel },
+        { href: product.siloUrl, label: "Guide national" },
+        { href: "/france/departement/" + city.dept + "/", label: "Departement " + city.dept.replace(/-/g, " ") },
+      ];
+      if (product.extraRelated) {
+        related = related.concat(product.extraRelated);
+      }
+      related = related.concat(crossLinksForCity(product, city));
+      related = related.concat(contentLib.nearbyLinks(city, cities, product.dir, 8));
+
       out.push(
         pageFn({
           file: product.dir + "/" + city.slug + "/index.html",
@@ -422,13 +630,11 @@ function buildGeoPageConfigs(cities, pageFn) {
             { title: "Reponse rapide", text: "Rappel sous 15 min en heures ouvrables." },
             { title: "ORIAS", text: "Courtier enregistre, devis sans engagement." },
           ],
-          sections: product.sections(city),
-          related: [
-            { href: product.hubUrl, label: "Toutes les villes" },
-            { href: product.siloUrl, label: "Guide national" },
-            { href: "/france/", label: "Couverture France" },
-          ],
-          faq: product.faq(city),
+          steps: product.geoSteps || DEFAULT_GEO_STEPS,
+          sections: sections,
+          related: related,
+          nearbyCities: contentLib.nearbyLinks(city, cities, product.dir, 12),
+          faq: faq,
         })
       );
     });
@@ -686,8 +892,36 @@ function buildPillarPageConfigs(pageFn) {
       h1: "Assurance prevoyance : securiser l avenir",
       intro: "Salaries et independants : garanties deces, ITT, IPT et maintien de revenus.",
     },
+    {
+      file: "assurance-chien/index.html",
+      theme: "animaux",
+      siloLabel: "Assurance chien",
+      siloUrl: "/assurance-animaux/chien/",
+      hubVillesUrl: "/assurance-chien/villes/",
+      hubDeptUrl: "/assurance-chien/departements/",
+      landing: "/landings/animaux.html",
+      title: "Assurance chien par ville | France entiere",
+      description: "Assurance chien dans toute la France : pages par ville, devis en ligne, courtier ORIAS.",
+      h1: "Assurance chien : devis par ville",
+      intro: "Selectionnez votre ville ou lancez le questionnaire chien : comparatif national, rappel conseiller.",
+    },
+    {
+      file: "assurance-chat/index.html",
+      theme: "animaux",
+      siloLabel: "Assurance chat",
+      siloUrl: "/assurance-animaux/chat/",
+      hubVillesUrl: "/assurance-chat/villes/",
+      hubDeptUrl: "/assurance-chat/departements/",
+      landing: "/landings/animaux.html",
+      title: "Assurance chat par ville | France entiere",
+      description: "Assurance chat : pages locales par ville, chaton et senior. Devis gratuit.",
+      h1: "Assurance chat : devis par ville",
+      intro: "Mutuelle chat et assurance chaton : une page dediee par grande ville de France.",
+    },
   ];
   return pillars.map(function (p) {
+    var villesHub = p.hubVillesUrl || p.siloUrl.replace(/\/$/, "") + "/villes/";
+    var deptHub = p.hubDeptUrl || p.siloUrl.replace(/\/$/, "") + "/departements/";
     return pageFn({
       file: p.file,
       theme: p.theme,
@@ -707,8 +941,8 @@ function buildPillarPageConfigs(pageFn) {
         { title: "France entiere", text: "Pages par ville et departement." },
       ],
       related: [
-        { href: p.siloUrl.replace(/\/$/, "") + "/villes/", label: "Par ville" },
-        { href: p.siloUrl.replace(/\/$/, "") + "/departements/", label: "Par departement" },
+        { href: villesHub, label: "Par ville" },
+        { href: deptHub, label: "Par departement" },
         { href: "/france/", label: "Couverture France" },
       ],
       faq: [
@@ -889,6 +1123,12 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurance-animaux/comparatif/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/tarif/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/departements/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-chien/villes/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-chat/villes/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-chasse/", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/assurance-chasse/villes/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-equitation/", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/assurance-equitation/villes/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/devis-rapide/", priority: "0.87", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/tarif/", priority: "0.82", changefreq: "weekly" },

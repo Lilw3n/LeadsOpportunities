@@ -706,6 +706,23 @@ function renderPage(p) {
       '" />\n  <meta name="language" content="fr-FR" />'
     : '<meta name="geo.region" content="FR" />\n  <meta name="language" content="fr-FR" />';
 
+  const nearbyGridHtml =
+    p.nearbyCities && p.nearbyCities.length
+      ? '<section class="seo-card"><h2>Villes proches et meme departement</h2><p style="color:#64748b;font-size:.9rem;margin:0 0 12px">Pages locales avec le meme accompagnement : devis en ligne et demande de rappel.</p><div class="seo-city-grid">' +
+        p.nearbyCities
+          .map(function (l) {
+            return (
+              '<a class="seo-city-link" href="' +
+              esc(hrefPath(prefix, l.href)) +
+              '">' +
+              esc(l.label) +
+              "</a>"
+            );
+          })
+          .join("") +
+        "</div></section>"
+      : "";
+
   const cityGridHtml =
     p.hubCityGrid && p.hubCityGrid.length
       ? '<section class="seo-card"><h2>' +
@@ -812,6 +829,7 @@ function renderPage(p) {
         ${renderBenefits(p.benefits)}
         ${renderSteps(p.steps)}
         ${renderSections(p.sections)}
+        ${nearbyGridHtml}
         ${cityGridHtml}
         ${deptGridHtml}
         ${hubProductsHtml}

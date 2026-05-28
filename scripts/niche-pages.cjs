@@ -2,6 +2,7 @@
  * Pages SEO silos « niches » — export pour generate-seo-pages.cjs
  */
 const { buildAnimauxLongtailPages } = require("./niche-animaux-pages.cjs");
+const { buildChassePages, buildEquitationPages } = require("./niche-chasse-equitation-pages.cjs");
 
 function page(data) {
   return Object.assign(
@@ -253,27 +254,43 @@ const ANIMAUX_PAGES = [
 ];
 
 const ANIMAUX_LONGTAIL_PAGES = buildAnimauxLongtailPages(page, ANIMAUX_BASE);
-const ALL_ANIMAUX_PAGES = ANIMAUX_PAGES.concat(ANIMAUX_LONGTAIL_PAGES);
+const CHASSE_PAGES = buildChassePages(page);
+const EQUITATION_PAGES = buildEquitationPages(page);
+const ALL_NICHE_PAGES = ANIMAUX_PAGES.concat(ANIMAUX_LONGTAIL_PAGES, CHASSE_PAGES, EQUITATION_PAGES);
 
 function getNicheSitemapEntries(base) {
   const today = new Date().toISOString().slice(0, 10);
-  const staticPaths = ["/niches/", "/landings/animaux.html", "/landings/animaux-express.html"];
-  const pagePaths = ALL_ANIMAUX_PAGES.map(function (p) {
+  const staticPaths = [
+    "/niches/",
+    "/landings/animaux.html",
+    "/landings/animaux-express.html",
+    "/assurance-chasse/",
+    "/assurance-chasse/rc-chasseur/",
+    "/assurance-chasse/chien-chasse/",
+    "/assurance-equitation/",
+    "/assurance-equitation/rc-equestre/",
+    "/assurance-equitation/cheval/",
+  ];
+  const pagePaths = ALL_NICHE_PAGES.map(function (p) {
     return "/" + p.file.replace(/index\.html$/, "");
   });
   return staticPaths
     .concat(pagePaths)
     .map(function (p) {
+      var pr = "0.88";
+      if (p.indexOf("landings") >= 0) pr = "0.9";
+      else if (p === "/niches/") pr = "0.85";
+      else if (p === "/assurance-animaux/" || p.indexOf("/assurance-chasse/") === 0 && p.split("/").length <= 4) pr = "0.9";
       return {
         loc: base + p,
         lastmod: today,
         changefreq: "weekly",
-        priority: p.indexOf("landings") >= 0 ? "0.9" : p === "/niches/" ? "0.85" : p.indexOf("/chien/") > -1 || p.indexOf("/chat/") > -1 ? "0.88" : "0.9",
+        priority: pr,
       };
     });
 }
 
 module.exports = {
-  NICHE_PAGES: ALL_ANIMAUX_PAGES,
+  NICHE_PAGES: ALL_NICHE_PAGES,
   getNicheSitemapEntries: getNicheSitemapEntries,
 };
