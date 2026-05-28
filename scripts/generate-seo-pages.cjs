@@ -18,6 +18,7 @@ const {
   writeSitemap,
   writeSitemapIndex,
 } = require("./seo-geo-lib.cjs");
+const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
@@ -849,6 +850,7 @@ function renderPage(p) {
 }
 
 const ALL_PAGES = PAGES.concat(
+  NICHE_PAGES,
   buildPillarPageConfigs(page),
   buildGeoPageConfigs(CITIES, page),
   buildDeptPageConfigs(DEPARTMENTS, CITIES, page),
@@ -875,9 +877,11 @@ const geoUrls = allUrls.filter(function (u) {
 const franceUrls = allUrls.filter(function (u) {
   return u.loc.indexOf("/france/") > -1;
 });
-const mainUrls = allUrls.filter(function (u) {
-  return geoUrls.indexOf(u) < 0 && franceUrls.indexOf(u) < 0;
-});
+const mainUrls = allUrls
+  .filter(function (u) {
+    return geoUrls.indexOf(u) < 0 && franceUrls.indexOf(u) < 0;
+  })
+  .concat(getNicheSitemapEntries(BASE));
 
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));

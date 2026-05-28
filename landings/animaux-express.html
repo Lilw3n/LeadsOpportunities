@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devis assurance animaux express | 30 secondes</title>
+  <meta name="description" content="Rappel prioritaire assurance animaux chien ou chat : devis express, conseiller dedie, comparatif Santévet et assureurs du marche." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/landings/animaux-express.html" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./quote-intelligence.css" />
+  <script>try { localStorage.setItem('lo_form_journey', 'quick'); } catch (e) {}</script>
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../assurance-animaux/">Guide assurance animaux</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container">
+      <span class="badge">🐾 Devis express animaux</span>
+      <section class="card">
+        <h1>Rappel prioritaire — assurance chien ou chat</h1>
+        <p class="sub">30 secondes pour etre rappele. Comparatif Santévet, Bulle Bleue, Kozoo et notre reseau courtage.</p>
+        <div class="landing-proximity-slot">
+          <section data-proximity-block data-proximity-context="animaux" data-proximity-layout="compact"></section>
+        </div>
+        <div class="journey-toggle">
+          <a href="./animaux-express.html" class="is-active">Express</a>
+          <a href="./animaux.html">Questionnaire complet</a>
+        </div>
+        <form class="form-wrap" data-track-form data-quick-devis data-vertical="assurance_animaux" novalidate>
+          <input type="hidden" name="need" value="animaux" />
+          <input type="hidden" name="journey" value="quick" />
+          <div class="hp-field" aria-hidden="true">
+            <label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
+          </div>
+          <label>Prénom et nom<input name="fullName" required autocomplete="name" /></label>
+          <label>Téléphone<input name="phone" type="tel" required autocomplete="tel" /></label>
+          <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+          <label>Type d animal
+            <select name="petType" required>
+              <option value="">Selectionnez</option>
+              <option>Chien</option>
+              <option>Chat</option>
+              <option>Autre / NAC</option>
+            </select>
+          </label>
+          <label class="checkbox-row">
+            <input type="checkbox" name="consent" required />
+            J'accepte d'être contacté conformément à la <a href="../politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.
+          </label>
+          <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px">Demander mon rappel</button>
+          <p class="form-lead" data-form-success hidden>Merci ! Un conseiller animaux vous contacte rapidement.</p>
+          <p class="form-lead" data-form-error hidden style="color:#b91c1c">Envoi impossible. Réessayez.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+  <script src="../js/public-proximity.js"></script>
+  <script src="../js/attribution.js"></script>
+  <script src="../js/leads-storage.js"></script>
+  <script src="../js/quote-intelligence.js"></script>
+  <script src="./tracking.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var form = document.querySelector('[data-quick-devis]');
+      if (!form || !window.QuoteIntelligence) return;
+      window.QuoteIntelligence.setJourney('quick');
+      window.QuoteIntelligence.bindAbandon(form);
+    });
+  </script>
+</body>
+</html>

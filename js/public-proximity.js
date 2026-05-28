@@ -65,6 +65,13 @@
       lead:
         "Simulation en ligne, puis suivi humain jusqu’au notaire. Même conseiller, mêmes coordonnées — pas de plateforme impersonnelle.",
     },
+    animaux: {
+      badge: "Conseiller animaux",
+      title: "Votre animal mérite un humain au téléphone",
+      lead:
+        "Chien ou chat : on ne vous envoie pas un PDF incompréhensible. Un conseiller vous rappelle, compare Santévet / Bulle Bleue / Kozoo et vous aide à choisir.",
+      speed: "Questionnaire 3 min · rappel rapide",
+    },
     express: {
       badge: "Rappel prioritaire",
       title: "30 secondes en ligne, un humain au téléphone",

@@ -1,0 +1,100 @@
+{
+  "updated": "2026-05-28",
+  "hub": {
+    "title": "Assurances de niche",
+    "intro": "Verticales peu concurrentielles sur Google : pages dédiées, landings et devis express."
+  },
+  "niches": [
+    {
+      "id": "animaux",
+      "slug": "assurance-animaux",
+      "theme": "animaux",
+      "emoji": "🐾",
+      "label": "Assurance animaux",
+      "tagline": "Chien, chat, NAC — frais véto et prévention",
+      "landing": "/landings/animaux.html",
+      "landingExpress": "/landings/animaux-express.html",
+      "priority": 1,
+      "status": "live",
+      "partners": ["Santévet", "Bulle Bleue", "Kozoo", "April", "AXA"],
+      "keywords": ["assurance animaux", "assurance chien", "assurance chat", "mutuelle animaux"]
+    },
+    {
+      "id": "chasse",
+      "slug": "assurance-chasse",
+      "theme": "niche",
+      "emoji": "🎯",
+      "label": "Assurance chasse",
+      "tagline": "RC chasseur, blessures, chiens courants",
+      "landing": "/landings/devis.html?need=chasse",
+      "priority": 2,
+      "status": "planned"
+    },
+    {
+      "id": "equitation",
+      "slug": "assurance-equitation",
+      "theme": "niche",
+      "emoji": "🐴",
+      "label": "Assurance équitation",
+      "tagline": "Cheval, RC équestre, matériel",
+      "landing": "/landings/devis.html?need=equitation",
+      "priority": 3,
+      "status": "planned"
+    },
+    {
+      "id": "instrument",
+      "slug": "assurance-instrument-musique",
+      "theme": "niche",
+      "emoji": "🎸",
+      "label": "Assurance instrument de musique",
+      "tagline": "Vol, casse, transport pro",
+      "landing": "/landings/devis.html?need=instrument",
+      "priority": 4,
+      "status": "planned"
+    },
+    {
+      "id": "materiel-photo",
+      "slug": "assurance-materiel-photo",
+      "theme": "niche",
+      "emoji": "📷",
+      "label": "Assurance matériel photo / vidéo",
+      "tagline": "Reflex, drone, studio",
+      "landing": "/landings/devis.html?need=materiel-photo",
+      "priority": 5,
+      "status": "planned"
+    },
+    {
+      "id": "bateau",
+      "slug": "assurance-bateau-plaisance",
+      "theme": "niche",
+      "emoji": "⛵",
+      "label": "Assurance bateau plaisance",
+      "tagline": "Voilier, semi-rigide, multirisque",
+      "landing": "/landings/devis.html?need=bateau",
+      "priority": 6,
+      "status": "planned"
+    },
+    {
+      "id": "caravane",
+      "slug": "assurance-caravane-camping-car",
+      "theme": "niche",
+      "emoji": "🚐",
+      "label": "Caravane & camping-car",
+      "tagline": "Contenu, responsabilité, assistance",
+      "landing": "/landings/devis.html?need=caravane",
+      "priority": 7,
+      "status": "planned"
+    },
+    {
+      "id": "scolaire",
+      "slug": "assurance-scolaire",
+      "theme": "niche",
+      "emoji": "🎒",
+      "label": "Assurance scolaire & extra-scolaire",
+      "tagline": "Sorties, sport, responsabilité",
+      "landing": "/landings/devis.html?need=famille",
+      "priority": 8,
+      "status": "planned"
+    }
+  ]
+}

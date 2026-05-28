@@ -2,7 +2,7 @@
  * Remplit les listes « besoin » depuis SERVICE_CATALOG et affiche le lien questionnaire.
  */
 (function () {
-  var CATEGORY_ORDER = ["mobilite", "sante", "habitat", "finance", "pro", "patrimoine"];
+  var CATEGORY_ORDER = ["mobilite", "sante", "habitat", "finance", "pro", "patrimoine", "animaux", "niches"];
 
   function populateContactSelect(selectEl) {
     var catalog = window.SERVICE_CATALOG;

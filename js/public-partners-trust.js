@@ -73,6 +73,39 @@
       products: "Auto · Habitation · Décennale · RC Pro",
     },
     {
+      id: "santevet",
+      name: "Santévet",
+      logo: "🐾",
+      tier: "principal",
+      active: true,
+      tags: ["animaux", "sante"],
+      category: "animaux",
+      tagline: "Référence assurance animaux en France",
+      products: "Chien · Chat · NAC",
+    },
+    {
+      id: "bullebleue",
+      name: "Bulle Bleue",
+      logo: "💙",
+      tier: "principal",
+      active: true,
+      tags: ["animaux"],
+      category: "animaux",
+      tagline: "Mutuelle animaux reconnue",
+      products: "Chien · Chat",
+    },
+    {
+      id: "kozoo",
+      name: "Kozoo",
+      logo: "🦴",
+      tier: "principal",
+      active: true,
+      tags: ["animaux"],
+      category: "animaux",
+      tagline: "Formules digitales animaux",
+      products: "Chien · Chat",
+    },
+    {
       id: "swisslife",
       name: "Swiss Life",
       logo: "🔴",
@@ -87,6 +120,7 @@
 
   var CATEGORIES = [
     { id: "vtc", label: "VTC & mobilité pro", icon: "🚕" },
+    { id: "animaux", label: "Assurance animaux", icon: "🐾" },
     { id: "sante", label: "Santé & prévoyance", icon: "💊" },
     { id: "general", label: "Particuliers & professionnels", icon: "🏢" },
   ];
@@ -126,6 +160,15 @@
       speed: "Simulation gratuite · réponse sous 24–48 h",
       filter: [],
       categories: [],
+    },
+    animaux: {
+      badge: "Assurance animaux",
+      title: "Santévet, Bulle Bleue, Kozoo… acteurs connus",
+      lead:
+        "Assurance chien et chat : nous comparons les specialistes que les propriétaires connaissent déjà, avec un conseiller qui explique plafonds et franchises.",
+      speed: "Express 30 sec · ou questionnaire 3 min · rappel rapide",
+      partnerCategories: ["animaux", "sante", "general"],
+      categories: ["animaux"],
     },
     express: {
       badge: "Rappel prioritaire",

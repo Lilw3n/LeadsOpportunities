@@ -13,6 +13,8 @@
 .seo-page--auto { --seo-accent: #dc2626; --seo-accent-dark: #b91c1c; --seo-soft: #fee2e2; }
 .seo-page--habitation { --seo-accent: #0284c7; --seo-accent-dark: #0369a1; --seo-soft: #e0f2fe; }
 .seo-page--prevoyance { --seo-accent: #7c3aed; --seo-accent-dark: #6d28d9; --seo-soft: #ede9fe; }
+.seo-page--animaux { --seo-accent: #ea580c; --seo-accent-dark: #c2410c; --seo-soft: #ffedd5; }
+.seo-page--niche { --seo-accent: #64748b; --seo-accent-dark: #475569; --seo-soft: #f1f5f9; }
 
 .seo-container {
   width: min(1040px, 92vw);

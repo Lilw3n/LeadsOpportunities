@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assurances de niche | Leads Opportunities</title>
+  <meta name="description" content="Assurances de niche peu concurrentielles : animaux, chasse, equitation, bateau… Devis en ligne et conseiller dedie partout en France." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/niches/" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../seo/seo-pages.css" />
+  <style>
+    .niches-hero { padding: 48px 0 24px; text-align: center; max-width: 720px; margin: 0 auto; }
+    .niches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; padding: 24px 0 56px; }
+    .niche-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .niche-card--live { border-color: #fed7aa; background: linear-gradient(145deg, #fff, #fff7ed); }
+    .niche-card h2 { font-size: 1.1rem; margin: 0; }
+    .niche-emoji { font-size: 1.8rem; }
+    .niche-status { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #64748b; }
+    .niche-status--live { color: #c2410c; }
+    .niche-actions { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  </style>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JX8E35693F');</script>
+</head>
+<body class="seo-page seo-page--niche">
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="../index.html">Leads Opportunities</a>
+      <nav>
+        <a href="../nos-services.html">Services</a>
+        <a href="../assurance-animaux/">Animaux</a>
+        <a class="btn btn-nav" href="../landings/animaux.html">Devis animaux</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <div class="niches-hero">
+      <span class="section-badge">Strategie SEO niche</span>
+      <h1>Assurances de niche</h1>
+      <p class="section-sub" id="nichesIntro">Verticales ciblees pour percer sur Google : pages dediees, landings et devis express.</p>
+    </div>
+    <div class="niches-grid" id="nichesGrid" aria-live="polite"></div>
+  </main>
+  <footer class="footer" style="margin-top:0">
+    <div class="container footer-bottom">
+      <small>&copy; 2026 Leads Opportunities · <a href="../mentions-legales.html">Mentions legales</a></small>
+    </div>
+  </footer>
+  <script>
+    fetch("../seo/niches.json")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data.hub && data.hub.intro) {
+          document.getElementById("nichesIntro").textContent = data.hub.intro;
+        }
+        var grid = document.getElementById("nichesGrid");
+        (data.niches || []).sort(function (a, b) { return (a.priority || 99) - (b.priority || 99); })
+          .forEach(function (n) {
+            var card = document.createElement("article");
+            card.className = "niche-card" + (n.status === "live" ? " niche-card--live" : "");
+            var live = n.status === "live";
+            card.innerHTML =
+              '<span class="niche-emoji" aria-hidden="true">' + (n.emoji || "📋") + "</span>" +
+              '<span class="niche-status' + (live ? " niche-status--live" : "") + '">' + (live ? "En ligne" : "Bientot") + "</span>" +
+              "<h2>" + n.label + "</h2>" +
+              "<p style='margin:0;color:#64748b;font-size:.9rem'>" + (n.tagline || "") + "</p>" +
+              '<div class="niche-actions">' +
+              (live && n.slug ? '<a class="btn btn-primary btn-sm" href="../' + n.slug + '/">Guide SEO</a>' : "") +
+              (live && n.landing ? '<a class="btn btn-outline btn-sm" href="..' + n.landing + '">Devis</a>' : "") +
+              (!live ? '<span class="btn btn-soft btn-sm" style="opacity:.7">En preparation</span>' : "") +
+              "</div>";
+            grid.appendChild(card);
+          });
+      })
+      .catch(function () {
+        document.getElementById("nichesGrid").innerHTML = "<p>Chargement impossible. Consultez <a href=\"../assurance-animaux/\">assurance animaux</a>.</p>";
+      });
+  </script>
+</body>
+</html>

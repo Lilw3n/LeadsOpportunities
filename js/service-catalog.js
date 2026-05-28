@@ -9,6 +9,8 @@
     finance: { id: "finance", label: "Financement" },
     pro: { id: "pro", label: "Professionnel" },
     patrimoine: { id: "patrimoine", label: "Patrimoine" },
+    animaux: { id: "animaux", label: "Animaux de compagnie" },
+    niches: { id: "niches", label: "Assurances de niche" },
   };
 
   var SERVICES = {
@@ -99,6 +101,24 @@
     gav: { need: "gav", label: "Garantie accidents de la vie", category: "patrimoine", vertical: "gav" },
     pj: { need: "pj", label: "Protection juridique", category: "patrimoine", vertical: "pj" },
     famille: { need: "famille", label: "Scolaire et famille", category: "patrimoine", vertical: "famille" },
+    animaux: {
+      need: "animaux",
+      label: "Assurance animaux",
+      category: "animaux",
+      vertical: "assurance_animaux",
+      landing: "./landings/animaux.html",
+    },
+    chasse: { need: "chasse", label: "Assurance chasse", category: "niches", vertical: "assurance_chasse" },
+    equitation: { need: "equitation", label: "Assurance equitation", category: "niches", vertical: "assurance_equitation" },
+    instrument: { need: "instrument", label: "Assurance instrument musique", category: "niches", vertical: "assurance_instrument" },
+    "materiel-photo": {
+      need: "materiel-photo",
+      label: "Assurance materiel photo",
+      category: "niches",
+      vertical: "assurance_materiel_photo",
+    },
+    bateau: { need: "bateau", label: "Assurance bateau plaisance", category: "niches", vertical: "assurance_bateau" },
+    caravane: { need: "caravane", label: "Caravane / camping-car", category: "niches", vertical: "assurance_caravane" },
     autre: { need: "autre", label: "Autre demande", category: "patrimoine", vertical: "autre" },
   };
 
