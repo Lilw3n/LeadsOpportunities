@@ -424,6 +424,28 @@ module.exports = async (req, res) => {
     }
   }
 
+  try {
+    const { sendMetaEvent } = require("../meta-capi");
+    await sendMetaEvent({
+      eventName: "Lead",
+      eventId: leadId,
+      pageUrl: (process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "") + (enriched.page || ""),
+      email: enriched.email,
+      phone: enriched.phone,
+      fbclid: enriched.fbclid || enriched.attr_last_fbclid || null,
+      clientIp: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
+      clientUa: req.headers["user-agent"] || "",
+      customData: {
+        currency: "EUR",
+        value: score || 1,
+        content_name: enriched.vertical || "lead",
+        source: enriched.source || "site",
+      },
+    });
+  } catch (metaErr) {
+    console.warn("[lead] meta capi", metaErr.message);
+  }
+
   return res.status(200).json({
     ok: true,
     leadId: leadId,

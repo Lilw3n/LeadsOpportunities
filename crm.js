@@ -134,6 +134,7 @@
       if (quick) quick.classList.remove("hidden");
       loadAlerts();
       loadAiSuggestions();
+      renderPriorityLeads();
     });
   }
 
@@ -249,6 +250,146 @@
     window.location.href = "./crm-contact.html?id=" + encodeURIComponent(id);
   }
 
+  function patchAcqLead(id, payload) {
+    return fetch("/api/crm/lead-acquisition?id=" + encodeURIComponent(id), {
+      method: "PATCH",
+      headers: Object.assign(
+        { "Content-Type": "application/json" },
+        token() ? { Authorization: "Bearer " + token() } : {}
+      ),
+      body: JSON.stringify(payload || {}),
+    }).then(function (r) {
+      return r.json().catch(function () {
+        return { ok: false, error: "Reponse invalide" };
+      });
+    });
+  }
+
+  function leadTitle(l) {
+    var p = {};
+    try {
+      p = l.payload ? JSON.parse(l.payload) : {};
+    } catch (e) {}
+    var name = ((p.firstName || p.first_name || "") + " " + (p.lastName || p.last_name || "")).trim();
+    return name || l.email || l.phone || l.id;
+  }
+
+  function renderPriorityLeads() {
+    var box = document.getElementById("crmPriorityLeadsBox");
+    if (!box) return;
+    box.innerHTML = '<p class="alerts-empty">Chargement...</p>';
+    fetch("/api/crm/leads-acquisition?limit=8&view=unopened", {
+      headers: Object.assign({ "Content-Type": "application/json" }, token() ? { Authorization: "Bearer " + token() } : {}),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (!data.ok) {
+          box.innerHTML = '<p class="alerts-empty">' + esc(data.error || "Erreur leads") + "</p>";
+          return;
+        }
+        var leads = (data.leads || []).slice(0, 8);
+        if (!leads.length) {
+          box.innerHTML = "<p class='alerts-empty'>Aucun nouveau lead non ouvert.</p>";
+          return;
+        }
+        box.innerHTML = leads
+          .map(function (l) {
+            return (
+              '<div class="alert-item" style="display:flex;justify-content:space-between;gap:10px;align-items:center">' +
+              "<div><strong>" +
+              esc(leadTitle(l)) +
+              "</strong><br><span style='color:#64748b;font-size:.82rem'>" +
+              esc(l.vertical || "—") +
+              " · score " +
+              (l.lead_score != null ? l.lead_score : "—") +
+              " · " +
+              new Date(l.created_at).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }) +
+              "</span></div>" +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
+              '<a class="btn btn-ghost btn-sm" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Ouvrir</a>' +
+              '<button type="button" class="btn btn-ghost btn-sm btn-prio-archive" data-id="' + esc(l.id) + '">Archiver</button>' +
+              "</div></div>"
+            );
+          })
+          .join("");
+
+        box.querySelectorAll(".btn-prio-archive").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var id = btn.getAttribute("data-id");
+            patchAcqLead(id, { action: "archive", archive_reason: "Archive depuis overview CRM" }).then(function (res) {
+              if (!res.ok) return alert(res.error || "Erreur archivage");
+              renderPriorityLeads();
+            });
+          });
+        });
+      });
+  }
+
+  function renderDuplicates() {
+    var box = document.getElementById("crmDuplicatesBox");
+    if (!box) return;
+    box.innerHTML = "<p class='alerts-empty'>Chargement...</p>";
+    api("/api/crm/contact-duplicates").then(function (data) {
+      if (!data.ok) {
+        box.innerHTML = "<p>" + esc(data.error || "Erreur doublons") + "</p>";
+        return;
+      }
+      var groups = (data.groups || []).slice(0, 30);
+      if (!groups.length) {
+        box.innerHTML = "<p class='alerts-empty'>Aucun doublon probable.</p>";
+        return;
+      }
+      box.innerHTML = groups
+        .map(function (g) {
+          var keep = g.contacts[0];
+          return (
+            '<div class="alert-item" style="margin-bottom:10px">' +
+            "<strong>" + esc(g.reason) + " : " + esc(g.key) + " (" + g.size + ")</strong>" +
+            "<div style='margin-top:6px;display:grid;gap:6px'>" +
+            g.contacts
+              .map(function (c, idx) {
+                return (
+                  '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;border:1px solid #e2e8f0;border-radius:8px;padding:8px">' +
+                  "<div>" +
+                  esc(((c.first_name || "") + " " + (c.last_name || "")).trim() || c.email || c.phone || c.id) +
+                  "<br><span style='color:#64748b;font-size:.78rem'>" +
+                  esc(c.email || "—") +
+                  " · " +
+                  esc(c.phone || "—") +
+                  "</span></div>" +
+                  '<div style="display:flex;gap:6px">' +
+                  '<a class="btn btn-ghost btn-sm" href="./crm-contact.html?id=' + encodeURIComponent(c.id) + '">Fiche</a>' +
+                  (idx === 0
+                    ? '<span class="btn btn-ghost btn-sm" style="opacity:.6">Conserver</span>'
+                    : '<button type="button" class="btn btn-primary btn-sm btn-merge-contact" data-keep="' +
+                      esc(keep.id) +
+                      '" data-merge="' +
+                      esc(c.id) +
+                      '">Fusionner</button>') +
+                  "</div></div>"
+                );
+              })
+              .join("") +
+            "</div></div>"
+          );
+        })
+        .join("");
+
+      box.querySelectorAll(".btn-merge-contact").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var keepId = btn.getAttribute("data-keep");
+          var mergeId = btn.getAttribute("data-merge");
+          if (!confirm("Fusionner ce contact dans la fiche principale ?")) return;
+          api("/api/crm/merge-contacts", { method: "POST", body: { keepId: keepId, mergeId: mergeId } }).then(function (res) {
+            if (!res.ok) return alert(res.error || "Erreur fusion");
+            renderDuplicates();
+            if (state.section === "contacts") loadContacts();
+          });
+        });
+      });
+    });
+  }
+
   function loadLeads() {
     api("/api/dashboard/leads?limit=30").then(function (data) {
       var tbody = document.getElementById("leadsTable");
@@ -307,6 +448,7 @@
           });
         });
       });
+      renderDuplicates();
     });
   }
 
@@ -459,6 +601,8 @@
         } else alert(res.error);
       });
     });
+    var dupRefresh = document.getElementById("btnRefreshDuplicates");
+    if (dupRefresh) dupRefresh.addEventListener("click", renderDuplicates);
   }
 
   function handleOAuthReturn() {

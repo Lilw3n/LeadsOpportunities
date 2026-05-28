@@ -1389,6 +1389,25 @@
 
         <div class="dash-panel" style="margin-top:20px">
           <div class="panel-header" style="display:flex;justify-content:space-between;align-items:center">
+            <h2>Arrets de parcours (14 jours)</h2>
+            <span id="journeyKpiText" style="font-size:0.8rem;color:var(--muted)">—</span>
+          </div>
+          <div class="panel-body" style="overflow-x:auto;padding:0">
+            <table class="leads-table">
+              <thead>
+                <tr>
+                  <th>Point d'arret</th><th>Page</th><th>Type</th><th>Sessions</th>
+                </tr>
+              </thead>
+              <tbody id="journeyDropoffBody">
+                <tr><td colspan="4" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="dash-panel" style="margin-top:20px">
+          <div class="panel-header" style="display:flex;justify-content:space-between;align-items:center">
             <h2>Derniers leads</h2>
             <a href="#" data-section-link="leads" style="font-weight:700;color:var(--primary);font-size:0.88rem">Voir tout →</a>
           </div>
@@ -1822,6 +1841,49 @@
       }
     }
 
+    async function loadJourneyDropoffs() {
+      var tbody = document.getElementById("journeyDropoffBody");
+      var kpi = document.getElementById("journeyKpiText");
+      if (!tbody) return;
+      tbody.innerHTML = '<tr><td colspan="4" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
+      var data = await D.api("/api/dashboard/journey-dropoffs?days=14");
+      if (!data.ok) {
+        tbody.innerHTML = '<tr><td colspan="4">Erreur chargement parcours</td></tr>';
+        if (kpi) kpi.textContent = "—";
+        return;
+      }
+      var rows = data.rows || [];
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="4">Aucune donnee de parcours</td></tr>';
+      } else {
+        tbody.innerHTML = rows
+          .slice(0, 12)
+          .map(function (r) {
+            return (
+              "<tr>" +
+              "<td>" + esc(r.stop_point || "—") + "</td>" +
+              "<td>" + esc(r.page_path || "—") + "</td>" +
+              "<td>" + esc(r.event_type || "—") + "</td>" +
+              "<td><strong>" + Number(r.sessions || 0) + "</strong></td>" +
+              "</tr>"
+            );
+          })
+          .join("");
+      }
+      if (kpi) {
+        var kk = data.kpis || {};
+        kpi.textContent =
+          "visiteurs " +
+          Number(kk.visitors || 0) +
+          " · starts " +
+          Number(kk.form_starts || 0) +
+          " · leads " +
+          Number(kk.leads_submitted || 0) +
+          " · abandons " +
+          Number(kk.wizard_abandons || 0);
+      }
+    }
+
     // LOAD STATS
     async function loadStats() {
       D.setSyncStatus("Synchronisation...");
@@ -1903,6 +1965,7 @@
           sp.appendChild(pill);
         });
         loadRecentLeads();
+        loadJourneyDropoffs();
       } catch (e) {
         console.error(e);
         toast("Erreur affichage stats", "error");

@@ -11,6 +11,7 @@ const ROUTES = {
   "mailbox-list": () => require("../_lib/routes/mailbox-list"),
   "mailbox-sync": () => require("../_lib/routes/mailbox-sync"),
   "mailbox-send": () => require("../_lib/routes/mailbox-send"),
+  "journey-dropoffs": () => require("../_lib/routes/journey-dropoffs"),
 };
 
 module.exports = async (req, res) => {

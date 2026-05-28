@@ -27,6 +27,7 @@ Le tracking est lu par `js/attribution.js`, puis envoyé avec le lead via `api/l
 ### Social ads
 
 - `META_PIXEL_ID`
+- `META_CAPI_TOKEN`
 - `TIKTOK_PIXEL_ID`
 - `PINTEREST_TAG_ID`
 
@@ -91,3 +92,20 @@ Puis remplir un formulaire test et vérifier dans le dashboard :
 - `visitor_id`
 - `seo_city` si page SEO ville
 - `lead_touchpoints`
+
+## Parcours Meta Ads optimise
+
+Le site envoie maintenant :
+
+- **Pixel (client)** :
+  - `JourneyFormStart` (demarrage formulaire)
+  - `JourneyStep` (etapes wizard)
+  - `Lead` (soumission reussie)
+- **Meta CAPI (serveur)** :
+  - `Lead` dans `POST /api/lead` (avec hash email/phone si presents)
+
+Pour optimiser Meta Ads :
+
+1. Evenement principal d'optimisation : **Lead**.
+2. Evenement secondaire pour retargeting : **JourneyFormStart**.
+3. Segment abandon : visiteurs avec `JourneyFormStart` sans `Lead` (fenetre 7-14 jours).

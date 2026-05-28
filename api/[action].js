@@ -7,6 +7,7 @@ const ROUTES = {
   "eligibility-check": () => require("./_lib/routes/public-eligibility-check"),
   "tariff-quote": () => require("./_lib/routes/public-tariff-quote"),
   "lead-progress": () => require("./_lib/routes/public-lead-progress"),
+  "journey-event": () => require("./_lib/routes/public-journey-event"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

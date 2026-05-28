@@ -18,6 +18,7 @@
   } catch (e) {}
 
   var filter = "";
+  var liveLeads = [];
 
   function render() {
     var el = document.getElementById("leadsMount");
@@ -87,6 +88,135 @@
     bind();
   }
 
+  function authHeaders() {
+    return {
+      Authorization: "Bearer " + (localStorage.getItem(TOKEN_KEY) || ""),
+      "Content-Type": "application/json",
+    };
+  }
+
+  function loadLiveLeads() {
+    var mount = document.getElementById("liveLeadsMount");
+    if (!mount) return;
+    mount.innerHTML = "<p>Chargement des leads CRM…</p>";
+    fetch("/api/crm/leads-acquisition?limit=40&view=unopened", { headers: authHeaders() })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) {
+          mount.innerHTML = "<p>" + esc(res.error || "Erreur chargement leads") + "</p>";
+          return;
+        }
+        liveLeads = res.leads || [];
+        if (!liveLeads.length) {
+          mount.innerHTML = "<h3>Nouveaux leads CRM</h3><p>Aucun lead non ouvert.</p>";
+          return;
+        }
+        mount.innerHTML =
+          "<h3>Nouveaux leads CRM (prioritaires)</h3>" +
+          "<table><thead><tr><th>Date</th><th>Contact</th><th>Vertical</th><th>Score</th><th></th></tr></thead><tbody>" +
+          liveLeads
+            .map(function (l) {
+              return (
+                "<tr><td>" +
+                new Date(l.created_at).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }) +
+                "</td><td>" +
+                esc(l.full_name || l.email || l.phone || "—") +
+                "</td><td>" +
+                esc(l.vertical || "—") +
+                "</td><td>" +
+                (l.lead_score != null ? l.lead_score : "—") +
+                "</td><td>" +
+                '<button type="button" class="btn btn-ghost btn-sm btn-arc" data-id="' +
+                esc(l.id) +
+                '">Archiver</button> ' +
+                '<a class="btn btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
+                encodeURIComponent(l.id) +
+                '">Ouvrir</a></td></tr>'
+              );
+            })
+            .join("") +
+          "</tbody></table>";
+        mount.querySelectorAll(".btn-arc").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            fetch("/api/crm/lead-acquisition?id=" + encodeURIComponent(btn.getAttribute("data-id")), {
+              method: "PATCH",
+              headers: authHeaders(),
+              body: JSON.stringify({ action: "archive", archive_reason: "Archive depuis analyse leads" }),
+            })
+              .then(function (r) { return r.json(); })
+              .then(function (out) {
+                if (!out.ok) return alert(out.error || "Erreur");
+                loadLiveLeads();
+              });
+          });
+        });
+      });
+  }
+
+  function loadDuplicates() {
+    var mount = document.getElementById("duplicatesMount");
+    if (!mount) return;
+    mount.innerHTML = "<p>Chargement doublons…</p>";
+    fetch("/api/crm/contact-duplicates", { headers: authHeaders() })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res.ok) {
+          mount.innerHTML = "<p>" + esc(res.error || "Erreur doublons") + "</p>";
+          return;
+        }
+        var groups = (res.groups || []).slice(0, 20);
+        if (!groups.length) {
+          mount.innerHTML = "<h3>Doublons contacts</h3><p>Aucun doublon detecte.</p>";
+          return;
+        }
+        mount.innerHTML =
+          "<h3>Doublons contacts (fusion)</h3>" +
+          groups
+            .map(function (g) {
+              var keep = g.contacts[0];
+              return (
+                '<div class="activity" style="margin-bottom:8px">' +
+                "<strong>" + esc(g.reason) + " : " + esc(g.key) + "</strong><br>" +
+                g.contacts
+                  .map(function (c, idx) {
+                    return (
+                      esc(((c.first_name || "") + " " + (c.last_name || "")).trim() || c.email || c.phone || c.id) +
+                      (idx === 0
+                        ? " (conserve)"
+                        : ' <button type="button" class="btn btn-primary btn-sm btn-merge" data-keep="' +
+                          esc(keep.id) +
+                          '" data-merge="' +
+                          esc(c.id) +
+                          '">Fusionner ici</button>') +
+                      "<br>"
+                    );
+                  })
+                  .join("") +
+                "</div>"
+              );
+            })
+            .join("");
+        mount.querySelectorAll(".btn-merge").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            if (!confirm("Confirmer la fusion ?")) return;
+            fetch("/api/crm/merge-contacts", {
+              method: "POST",
+              headers: authHeaders(),
+              body: JSON.stringify({
+                keepId: btn.getAttribute("data-keep"),
+                mergeId: btn.getAttribute("data-merge"),
+              }),
+            })
+              .then(function (r) { return r.json(); })
+              .then(function (out) {
+                if (!out.ok) return alert(out.error || "Erreur fusion");
+                loadDuplicates();
+              });
+          });
+        });
+      });
+  }
+
   function bind() {
     document.querySelectorAll(".filt-btn").forEach(function (btn) {
       btn.onclick = function () {
@@ -133,4 +263,6 @@
   }
 
   render();
+  loadLiveLeads();
+  loadDuplicates();
 })();

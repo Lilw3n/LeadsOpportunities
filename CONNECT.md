@@ -96,6 +96,8 @@ Les pages chargent d’abord `/api/google-config-env` puis `google-config.js` : 
 | `GOOGLE_ADS_CONVERSION_LEAD` | `AW-123456789/xyzABC` | Conversion **Soumission de formulaire** (ou import depuis GA4) |
 | `GOOGLE_ADS_CONVERSION_PHONE` | `AW-123456789/abcDEF` | Conversion **Clic sur numero** (optionnel) |
 | `GOOGLE_ADS_CONVERSION_WHATSAPP` | `AW-123456789/ghiJKL` | Conversion **WhatsApp** (optionnel) |
+| `META_PIXEL_ID` | `123456789012345` | Pixel Meta (client) |
+| `META_CAPI_TOKEN` | token CAPI Events Manager | Conversions API Meta (serveur) |
 
 Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’URL `/api/google-config-env` n’existe pas : le site garde les valeurs par defaut de `google-config.js` (tu peux y mettre tes IDs pour les tests).
 
@@ -127,6 +129,12 @@ Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’UR
 - Lier GA4 et Ads : [Lier Google Analytics 4 a Google Ads](https://support.google.com/google-ads/answer/7519530)
 
 Voir aussi `ads/google-acquisition-setup.md` pour les UTM et les campagnes.
+
+### Parcours prospects (abandons / stop points)
+
+- Tous les parcours envoient des evenements vers `POST /api/journey-event` (page vue, debut formulaire, abandon, lead envoye).
+- Rapport admin dispo via `GET /api/dashboard/journey-dropoffs?days=14`.
+- Table Neon creee automatiquement : `journey_events` (script manuel si besoin : `database/journey-events.sql`).
 
 ---
 

@@ -96,6 +96,144 @@
     } catch (e) {}
   }
 
+  function sessionId() {
+    var key = "lo_sid_v1";
+    try {
+      var sid = sessionStorage.getItem(key);
+      if (!sid) {
+        sid = uuid();
+        sessionStorage.setItem(key, sid);
+      }
+      return sid;
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function verticalFromPath() {
+    var p = String(window.location.pathname || "");
+    if (p.indexOf("vtc") >= 0) return "vtc";
+    if (p.indexOf("sante") >= 0) return "sante";
+    if (p.indexOf("credit") >= 0) return "credit_immo";
+    if (p.indexOf("devis") >= 0) return "devis";
+    return "";
+  }
+
+  function trackMetaClient(eventType, payload) {
+    if (typeof window.fbq !== "function") return;
+    var vertical = payload.vertical || verticalFromPath() || "lead";
+    if (eventType === "form_start") {
+      window.fbq("trackCustom", "JourneyFormStart", { content_name: vertical });
+      return;
+    }
+    if (eventType === "wizard_step") {
+      window.fbq("trackCustom", "JourneyStep", {
+        content_name: vertical,
+        step_name: payload.step_name || "",
+        step: payload.step || 0,
+      });
+      return;
+    }
+    if (eventType === "lead_submit_success") {
+      window.fbq("track", "Lead", {
+        content_name: vertical,
+        value: Number(payload.lead_score || 1),
+        currency: "EUR",
+      });
+    }
+  }
+
+  function sendJourneyEvent(eventType, payload) {
+    payload = payload || {};
+    var attr = window.getAttributionPayload();
+    var body = {
+      event_type: eventType,
+      visitor_id: attr.visitor_id,
+      session_id: sessionId(),
+      lead_id: payload.lead_id || payload.leadId || null,
+      page_path: window.location.pathname,
+      step_name: payload.step_name || null,
+      vertical: payload.vertical || verticalFromPath() || null,
+      source: payload.source || "site",
+      meta: Object.assign({}, attr, payload.meta || {}),
+    };
+    fetch("/api/journey-event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).catch(function () {});
+    trackMetaClient(eventType, body);
+  }
+
+  function bindJourneyTracking() {
+    sendJourneyEvent("page_view", { source: "page" });
+
+    var started = false;
+    var submitted = false;
+    var forms = document.querySelectorAll("form");
+    forms.forEach(function (form) {
+      var vertical = form.getAttribute("data-vertical") || verticalFromPath();
+      var onStart = function () {
+        if (started) return;
+        started = true;
+        sendJourneyEvent("form_start", {
+          vertical: vertical,
+          source: "form",
+          meta: { form_id: form.id || form.getAttribute("name") || "form" },
+        });
+      };
+      form.addEventListener("focusin", onStart, { once: true });
+      form.addEventListener("submit", function () {
+        onStart();
+        sendJourneyEvent("form_submit_click", {
+          vertical: vertical,
+          source: "form",
+          meta: { form_id: form.id || form.getAttribute("name") || "form" },
+        });
+      });
+    });
+
+    window.addEventListener("lo:lead-sent", function (ev) {
+      submitted = true;
+      var d = (ev && ev.detail) || {};
+      var payload = d.payload || {};
+      var result = d.result || {};
+      sendJourneyEvent("lead_submit_success", {
+        leadId: result.leadId || payload.leadId || null,
+        vertical: payload.vertical || verticalFromPath(),
+        source: payload.source || "site",
+        meta: {
+          lead_score: result.leadScore || null,
+          page: window.location.pathname,
+        },
+      });
+    });
+
+    window.addEventListener("lo:wizard_step", function (ev) {
+      var d = (ev && ev.detail) || {};
+      sendJourneyEvent("wizard_step", {
+        vertical: d.vertical || verticalFromPath(),
+        step_name: d.step_name || "wizard_step",
+        source: "wizard",
+        meta: d,
+      });
+    });
+
+    function onLeave() {
+      if (!started || submitted) return;
+      sendJourneyEvent("form_abandon", {
+        vertical: verticalFromPath(),
+        source: "form",
+        meta: { page: window.location.pathname },
+      });
+      started = false;
+    }
+    window.addEventListener("pagehide", onLeave);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") onLeave();
+    });
+  }
+
   window.getAttributionPayload = function () {
     ensureVisitorId();
     captureAttribution();
@@ -131,8 +269,12 @@
 
   captureAttribution();
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", sendTouchpoint);
+    document.addEventListener("DOMContentLoaded", function () {
+      sendTouchpoint();
+      bindJourneyTracking();
+    });
   } else {
     sendTouchpoint();
+    bindJourneyTracking();
   }
 })();

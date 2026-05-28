@@ -164,6 +164,13 @@
           <h2>Suggestions IA</h2>
           <div id="crmAiBox"><p class="alerts-empty">Chargement...</p></div>
         </section>
+        <section class="panel alerts-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <h2 style="margin:0">Nouveaux leads prioritaires</h2>
+            <a href="./crm-acquisition.html" class="btn btn-ghost btn-sm">Pipeline complet</a>
+          </div>
+          <div id="crmPriorityLeadsBox"><p class="alerts-empty">Chargement...</p></div>
+        </section>
         <div class="panel">
           <p>Fiches contact completes : evenements, sinistres, vehicules, conducteurs, contrats et demandes d'assurance.</p>
           <p style="color:var(--muted);font-size:.9rem">Cliquez un contact pour ouvrir sa fiche. Convertissez un lead web depuis <strong>Leads web</strong>.</p>
@@ -220,6 +227,13 @@
             </thead>
             <tbody id="leadsTable"></tbody>
           </table>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+            <h2 style="margin:0">Doublons contacts (nom, email, téléphone)</h2>
+            <button type="button" class="btn btn-ghost btn-sm" id="btnRefreshDuplicates">Actualiser</button>
+          </div>
+          <div id="crmDuplicatesBox"><p class="alerts-empty">Chargement...</p></div>
         </div>
       </section>
 
