@@ -1,0 +1,114 @@
+/* Réseau partenaires — social proof (marques connues + rapidité) */
+.partners-trust-section {
+  padding: 48px 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+  border-top: 1px solid var(--border, #e2e8f0);
+  border-bottom: 1px solid var(--border, #e2e8f0);
+}
+
+.partners-trust-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.partners-trust-head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 28px;
+}
+
+.partners-trust-head h2 {
+  font-size: clamp(1.35rem, 3vw, 1.75rem);
+  margin: 12px 0 10px;
+  line-height: 1.25;
+}
+
+.partners-trust-lead {
+  color: var(--text-muted, #64748b);
+  font-size: 1.02rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.partners-trust-speed {
+  margin: 14px 0 0;
+  font-size: 0.95rem;
+  color: var(--primary, #0d9488);
+}
+
+.partners-trust-speed strong {
+  font-weight: 700;
+}
+
+.partners-marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  margin-bottom: 16px;
+}
+
+.partners-marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: partners-marquee 42s linear infinite;
+}
+
+.partners-marquee:hover .partners-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes partners-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.partner-chip {
+  flex-shrink: 0;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  white-space: nowrap;
+}
+
+.partners-trust-legal {
+  text-align: center;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: #94a3b8;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Variante landing (fond carte) */
+.landing-partners-slot .partners-trust-section {
+  padding: 28px 0 8px;
+  background: transparent;
+  border: none;
+}
+
+.landing-partners-slot .partners-trust-inner {
+  padding: 0;
+}
+
+.landing-partners-slot .partner-chip {
+  font-size: 0.85rem;
+  padding: 8px 14px;
+}
+
+@media (max-width: 640px) {
+  .partners-trust-section {
+    padding: 36px 0;
+  }
+}

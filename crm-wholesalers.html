@@ -3,47 +3,180 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grossistes | CRM</title>
+  <title>Memo grossistes | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <style>
-    .wh-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-top:16px; }
+    .wh-toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:16px; }
+    .wh-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-top:16px; }
     .wh-card { border:1px solid var(--line); border-radius:12px; padding:18px; background:#fff; }
     .wh-card.verified { border-color:#10b981; }
-    .wh-card.doubtful { border-color:#f59e0b; opacity:.9; }
-    .wh-badge { font-size:.75rem; padding:3px 8px; border-radius:999px; background:#e2e8f0; }
-    .wh-badge.ok { background:#d1fae5; color:#065f46; }
+    .wh-card.doubtful { border-color:#f59e0b; opacity:.95; }
+    .wh-badge { font-size:.72rem; padding:3px 8px; border-radius:999px; background:#e2e8f0; font-weight:600; }
+    .wh-badge.ok, .st-ok { background:#d1fae5; color:#065f46; }
     .wh-badge.warn { background:#fef3c7; color:#92400e; }
+    .st-todo { background:#e2e8f0; color:#334155; }
+    .st-progress { background:#dbeafe; color:#1e40af; }
+    .st-pause { background:#fee2e2; color:#991b1b; }
+    .wh-memo-intro { background:linear-gradient(135deg,#eef2ff,#f8fafc); border:1px solid #c7d2fe; border-radius:12px; padding:16px 18px; margin-bottom:16px; }
+    .wh-memo-intro h3 { margin:0 0 8px; font-size:1rem; }
+    .wh-memo-intro p { margin:0; color:var(--muted); font-size:.9rem; }
+    .wh-table-wrap { overflow:auto; border:1px solid var(--line); border-radius:12px; background:#fff; }
+    .wh-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    .wh-table th, .wh-table td { padding:10px 12px; border-bottom:1px solid #f1f5f9; text-align:left; vertical-align:top; }
+    .wh-table th { background:#f8fafc; font-size:.78rem; text-transform:uppercase; letter-spacing:.03em; color:#64748b; }
+    .wh-table tr:hover td { background:#fafbff; }
+    .wh-form-panel { border:1px solid var(--line); border-radius:12px; padding:18px; background:#fff; margin-top:16px; }
+    .wh-form-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; }
+    .wh-form-grid label { display:block; font-size:.82rem; font-weight:600; margin-bottom:4px; }
+    .wh-form-grid input, .wh-form-grid select, .wh-form-grid textarea { width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; }
+    .wh-products { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .wh-products label { font-weight:500; font-size:.8rem; display:flex; align-items:center; gap:4px; }
+    .wh-hidden { display:none !important; }
+    .wh-pill-products { display:inline-block; font-size:.72rem; background:#f1f5f9; padding:2px 6px; border-radius:6px; margin:2px 2px 0 0; }
+    .wh-stat-row { display:flex; flex-wrap:wrap; gap:10px; margin:12px 0; }
+    .wh-stat { background:#fff; border:1px solid var(--line); border-radius:10px; padding:10px 14px; min-width:120px; }
+    .wh-stat strong { display:block; font-size:1.2rem; }
+    .wh-stat span { font-size:.78rem; color:var(--muted); }
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
 <body class="crm-subpage">
   <section class="crm-page-panel crm-gradient-panel">
     <div>
-      <p class="crm-eyebrow">Partenaires</p>
-      <h2>Registre grossistes</h2>
-      <p>Comparez les offreurs VTC, santé et flotte — accès extranet et test d'éligibilité avant proposition client.</p>
+      <p class="crm-eyebrow">Espace courtier</p>
+      <h2>Memo partenariat grossistes</h2>
+      <p>Avec qui travailler, ce qu'ils assurent, statut convention, commissions et prochaines actions — meme sans partenariat signe pour l'instant.</p>
     </div>
     <div class="crm-action-row">
       <a href="./crm-partners.html" class="btn btn-ghost">Partenaires</a>
-      <a href="./crm-eligibility-test.html" class="btn btn-primary">Test éligibilité</a>
+      <a href="./crm-eligibility-test.html" class="btn btn-primary">Test eligibilite</a>
     </div>
   </section>
 
   <section class="crm-page-panel">
-    <input type="search" id="whSearch" class="crm-input" placeholder="Rechercher un grossiste…" style="max-width:400px" />
-    <div class="crm-filter-chips" id="filters" style="margin-top:12px">
-      <button type="button" class="crm-filter-chip active" data-f="all">Tous</button>
-      <button type="button" class="crm-filter-chip" data-f="verified">Vérifiés</button>
-      <button type="button" class="crm-filter-chip" data-f="vtc">VTC</button>
-      <button type="button" class="crm-filter-chip" data-f="sante">Santé</button>
+    <div class="wh-memo-intro">
+      <h3>Comment utiliser ce memo</h3>
+      <p>
+        Ajoutez les grossistes que vous ciblez (ex. Assurmax negociants auto, Solly Azar, Zephir…), notez les produits assures,
+        le statut de partenariat et la prochaine relance. Les donnees sont sauvegardees dans votre navigateur.
+      </p>
     </div>
-    <div class="wh-grid" id="whMount"></div>
+
+    <div class="wh-stat-row" id="whStats"></div>
+
+    <div class="wh-toolbar">
+      <input type="search" id="whSearch" class="crm-input" placeholder="Rechercher grossiste, produit, contact…" style="max-width:360px" />
+      <div class="crm-filter-chips" id="filters">
+        <button type="button" class="crm-filter-chip active" data-f="all">Tous</button>
+        <button type="button" class="crm-filter-chip" data-f="to_contact">A contacter</button>
+        <button type="button" class="crm-filter-chip" data-f="active_partner">Actifs</button>
+        <button type="button" class="crm-filter-chip" data-f="vtc">VTC</button>
+        <button type="button" class="crm-filter-chip" data-f="rc-pro">RC Pro</button>
+        <button type="button" class="crm-filter-chip" data-f="negociant">Negociant auto</button>
+      </div>
+      <span style="flex:1"></span>
+      <button type="button" class="btn btn-ghost" id="btnViewCards">Cartes</button>
+      <button type="button" class="btn btn-ghost active" id="btnViewTable">Tableau memo</button>
+      <button type="button" class="btn btn-ghost" id="btnExportCsv">Exporter CSV</button>
+      <button type="button" class="btn btn-primary" id="btnAddWh">+ Ajouter grossiste</button>
+    </div>
+
+    <div id="whTableWrap" class="wh-table-wrap">
+      <table class="wh-table">
+        <thead>
+          <tr>
+            <th>Grossiste</th>
+            <th>Ce qu'il assure</th>
+            <th>Contact</th>
+            <th>Partenariat</th>
+            <th>Commission</th>
+            <th>Priorite</th>
+            <th>Prochaine action</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="whTableBody"></tbody>
+      </table>
+    </div>
+
+    <div id="whCardWrap" class="wh-grid wh-hidden"></div>
+
+    <div id="whFormPanel" class="wh-form-panel wh-hidden">
+      <h3 id="whFormTitle" style="margin:0 0 12px">Ajouter un grossiste</h3>
+      <form id="whForm">
+        <input type="hidden" name="id" />
+        <input type="hidden" name="isCustom" value="1" />
+        <div class="wh-form-grid">
+          <div>
+            <label>Nom grossiste *</label>
+            <input name="displayName" required placeholder="Ex. Assurmax" />
+          </div>
+          <div>
+            <label>Logo (emoji)</label>
+            <input name="logo" placeholder="🏢" maxlength="4" />
+          </div>
+          <div>
+            <label>Site / extranet</label>
+            <input name="website" placeholder="https://..." />
+          </div>
+          <div>
+            <label>Contact</label>
+            <input name="contactName" placeholder="Prenom Nom" />
+          </div>
+          <div>
+            <label>Email</label>
+            <input name="contactEmail" type="email" placeholder="contact@grossiste.fr" />
+          </div>
+          <div>
+            <label>Telephone</label>
+            <input name="contactPhone" placeholder="06..." />
+          </div>
+          <div>
+            <label>Statut partenariat</label>
+            <select name="partnershipStatus" id="whStatusSelect"></select>
+          </div>
+          <div>
+            <label>Commission</label>
+            <input name="commission" placeholder="Ex. 12% ou grille variable" />
+          </div>
+          <div>
+            <label>Delai onboarding (jours)</label>
+            <input name="onboardingDays" placeholder="Ex. 7" />
+          </div>
+          <div>
+            <label>Priorite</label>
+            <select name="priority" id="whPrioritySelect"></select>
+          </div>
+          <div style="grid-column:1/-1">
+            <label>Specialites / niche</label>
+            <input name="specialties" placeholder="Ex. Negociants auto, RC Pro, risques aggravés" />
+          </div>
+          <div style="grid-column:1/-1">
+            <label>Produits assures</label>
+            <div class="wh-products" id="whProductsBox"></div>
+          </div>
+          <div style="grid-column:1/-1">
+            <label>Prochaine action</label>
+            <input name="nextAction" placeholder="Ex. Relance mardi — envoyer ORIAS" />
+          </div>
+          <div style="grid-column:1/-1">
+            <label>Notes internes</label>
+            <textarea name="notes" rows="3" placeholder="Conditions, exclusions, retours d'experience…"></textarea>
+          </div>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-ghost" id="btnCancelForm">Annuler</button>
+        </div>
+      </form>
+    </div>
   </section>
 
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/crm-wholesalers-data.js"></script>
+  <script src="./js/crm-wholesalers-memo.js"></script>
   <script src="./crm-wholesalers.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

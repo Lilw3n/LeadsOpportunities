@@ -6,6 +6,8 @@ Disallow: /auth.html
 Disallow: /espace-client.html
 Disallow: /paiement.html
 Disallow: /paiement-success.html
+Disallow: /crm
+Disallow: /external/
 Disallow: /api/
 
 Sitemap: https://www.leadsopportunities.fr/sitemap.xml
