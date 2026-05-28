@@ -11,6 +11,7 @@
     .qw-step { padding: 8px 14px; border-radius: 999px; font-size: 0.85rem; background: #f1f5f9; color: #64748b; }
     .qw-step.active { background: #6366f1; color: #fff; font-weight: 600; }
     .qw-step.done { background: #dcfce7; color: #166534; }
+    .qw-step.disabled { opacity: .45; }
     .qw-panel { display: none; }
     .qw-panel.active { display: block; }
     .qw-products { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
@@ -44,6 +45,11 @@
       <h2>Sélection du produit</h2>
       <p style="color:var(--muted);font-size:.9rem">Produit issu du <a href="./crm-products.html">catalogue vérifié</a>.</p>
       <label style="display:block;margin-top:12px">Type produit<input type="text" name="productType" id="productType" required placeholder="Référence catalogue" style="width:100%;padding:10px;margin-top:6px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box" /></label>
+      <label style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:.9rem">
+        <input type="checkbox" id="needVehicleStep" />
+        Ce devis nécessite un véhicule (auto / VTC)
+      </label>
+      <p style="margin-top:6px;color:var(--muted);font-size:.82rem">Décochez pour les produits sans véhicule (santé, prévoyance, habitation, etc.).</p>
     </div>
 
     <div class="qw-panel" data-panel="2">

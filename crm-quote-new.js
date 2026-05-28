@@ -1,7 +1,7 @@
 (function () {
   var TOKEN_KEY = "lo_token";
   var step = 1;
-  var maxStep = 3;
+  var maxStep = 2;
 
   if (!localStorage.getItem(TOKEN_KEY)) {
     location.href = "./crm.html";
@@ -17,13 +17,18 @@
   }
 
   function paintSteps() {
+    var vehicleStepEnabled = !!document.getElementById("needVehicleStep")?.checked;
+    maxStep = vehicleStepEnabled ? 3 : 2;
+
     document.querySelectorAll(".qw-step").forEach(function (el) {
       var n = Number(el.getAttribute("data-step"));
       el.classList.toggle("active", n === step);
       el.classList.toggle("done", n < step);
+      if (n === 3) el.classList.toggle("disabled", !vehicleStepEnabled);
     });
     document.querySelectorAll(".qw-panel").forEach(function (p) {
-      p.classList.toggle("active", Number(p.getAttribute("data-panel")) === step);
+      var pNum = Number(p.getAttribute("data-panel"));
+      p.classList.toggle("active", pNum === step && (pNum !== 3 || vehicleStepEnabled));
     });
     document.getElementById("btnPrev").disabled = step === 1;
     document.getElementById("btnNext").classList.toggle("hidden", step === maxStep);
@@ -38,12 +43,21 @@
     };
   });
 
-  document.getElementById("btnNext").onclick = function () {
+  function currentStepValidation() {
     if (step === 1 && !document.getElementById("productType").value) {
       document.getElementById("qwMsg").textContent = "Choisissez un produit.";
-      return;
+      return false;
+    }
+    if (step === 2 && !document.querySelector('input[name="contactId"]').value) {
+      document.getElementById("qwMsg").textContent = "Renseignez un contact CRM.";
+      return false;
     }
     document.getElementById("qwMsg").textContent = "";
+    return true;
+  }
+
+  document.getElementById("btnNext").onclick = function () {
+    if (!currentStepValidation()) return;
     if (step < maxStep) { step += 1; paintSteps(); }
   };
 
@@ -53,6 +67,7 @@
 
   document.getElementById("quoteWizard").onsubmit = function (e) {
     e.preventDefault();
+    if (!currentStepValidation()) return;
     var fd = new FormData(e.target);
     var notes = fd.get("notes") || "";
     if (fd.get("registration")) notes += "\nVéhicule: " + fd.get("registration") + " " + (fd.get("brand") || "") + " " + (fd.get("model") || "");
@@ -72,5 +87,42 @@
     });
   };
 
-  paintSteps();
+  function initFromQuery() {
+    var q = new URLSearchParams(location.search);
+    var leadId = q.get("leadId");
+    var premium = q.get("premium");
+    var contactId = q.get("contactId");
+    if (contactId) {
+      var cInput = document.querySelector('input[name="contactId"]');
+      if (cInput && !cInput.value) cInput.value = contactId;
+    }
+    if (premium) {
+      var pInput = document.querySelector('input[name="premiumEstimate"]');
+      if (pInput && !pInput.value) pInput.value = premium;
+    }
+    if (leadId && !document.querySelector('textarea[name="notes"]').value) {
+      document.querySelector('textarea[name="notes"]').value = "Lead source: " + leadId;
+    }
+  }
+
+  function resetWizardStart() {
+    step = 1;
+    document.getElementById("qwMsg").textContent = "";
+    paintSteps();
+  }
+
+  var needVehicleStep = document.getElementById("needVehicleStep");
+  if (needVehicleStep) {
+    needVehicleStep.addEventListener("change", function () {
+      if (!needVehicleStep.checked && step > 2) step = 2;
+      paintSteps();
+    });
+  }
+
+  window.addEventListener("pageshow", function (ev) {
+    if (ev.persisted) resetWizardStart();
+  });
+
+  initFromQuery();
+  resetWizardStart();
 })();
