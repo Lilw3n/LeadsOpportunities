@@ -12,6 +12,12 @@ Objectif : **percer sur des requetes peu concurrentielles** avec des silos dedie
 | `landings/animaux.html` | Questionnaire complet |
 | `landings/animaux-express.html` | Rappel 30 sec |
 
+## Parcours devis (type comparateur)
+
+- Landing : `/landings/animaux.html`
+- **3 etapes** : Vos animaux → Votre tarif (tableau formules) → Coordonnees
+- **Tarifs modifiables** : `data/niche-tariffs-animaux.json` (voir `docs/NICHES-TARIFS.md`)
+
 ## Generer les pages SEO
 
 ```bash

@@ -118,6 +118,7 @@
     if (path.indexOf("vtc") !== -1) return "vtc";
     if (path.indexOf("sante") !== -1) return "sante";
     if (path.indexOf("credit-immo") !== -1) return "credit_immo";
+    if (path.indexOf("animaux") !== -1) return "animaux";
     if (path.indexOf("devis") !== -1) return need || "devis";
     return "unknown";
   }

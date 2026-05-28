@@ -1,0 +1,115 @@
+{
+  "_comment": "Modifier les champs minMonthlyChien / minMonthlyChat pour ajuster les tarifs plancher. teaser.overrideFrom force l affichage carte vitrine.",
+  "version": 1,
+  "vertical": "animaux",
+  "multiPetDiscountPercent": 20,
+  "promoLabel": "2 mois offerts sur formules Zen (hors Accident)",
+  "formulas": [
+    {
+      "id": "accident",
+      "name": "Formule Accident",
+      "minMonthlyChien": 3.9,
+      "minMonthlyChat": 3.5,
+      "medicalPct": "—",
+      "surgeryPct": "80 %",
+      "plafond": "1 000 €",
+      "assistance": "Crémation 750 €",
+      "boarding": "INCLUSE"
+    },
+    {
+      "id": "hospi",
+      "name": "Formule Hospi",
+      "minMonthlyChien": 13.35,
+      "minMonthlyChat": 12.2,
+      "medicalPct": "—",
+      "surgeryPct": "100 %",
+      "plafond": "1 500 €",
+      "assistance": "Crémation 750 €",
+      "boarding": "INCLUSE"
+    },
+    {
+      "id": "zen50",
+      "name": "Formule Zen 50",
+      "minMonthlyChien": 17.53,
+      "minMonthlyChat": 16.4,
+      "medicalPct": "50 %",
+      "surgeryPct": "100 %",
+      "plafond": "1 800 €",
+      "assistance": "Crémation 1 000 €",
+      "boarding": "INCLUSE"
+    },
+    {
+      "id": "zen70",
+      "name": "Formule Zen 70",
+      "minMonthlyChien": 24.63,
+      "minMonthlyChat": 22.9,
+      "medicalPct": "70 %",
+      "surgeryPct": "100 %",
+      "plafond": "2 000 €",
+      "assistance": "Crémation 1 000 €",
+      "boarding": "INCLUSE"
+    },
+    {
+      "id": "zen80",
+      "name": "Formule Zen 80",
+      "minMonthlyChien": 29.94,
+      "minMonthlyChat": 27.5,
+      "medicalPct": "80 %",
+      "surgeryPct": "100 %",
+      "plafond": "2 200 €",
+      "assistance": "Crémation 1 200 €",
+      "boarding": "INCLUSE",
+      "recommended": true
+    },
+    {
+      "id": "zen100",
+      "name": "Formule Zen 100",
+      "minMonthlyChien": 50.08,
+      "minMonthlyChat": 46.0,
+      "medicalPct": "100 %",
+      "surgeryPct": "100 %",
+      "plafond": "2 200 €",
+      "assistance": "Crémation 1 500 €",
+      "boarding": "INCLUSE"
+    }
+  ],
+  "modifiers": {
+    "franchise20": { "label": "20 €", "monthlyAdd": 0 },
+    "franchiseNone": { "label": "Sans franchise", "monthlyAdd": 5.5 },
+    "prevention": {
+      "0": { "label": "Non", "monthlyAdd": 0 },
+      "30": { "label": "30 € / an", "monthlyAdd": 2.5 },
+      "50": { "label": "50 € / an", "monthlyAdd": 4.2 },
+      "100": { "label": "100 € / an", "monthlyAdd": 8.3 }
+    },
+    "fraction": {
+      "mensuelle": { "label": "Mensuelle", "factor": 1 },
+      "trimestrielle": { "label": "Trimestrielle", "factor": 0.98 },
+      "semestrielle": { "label": "Semestrielle", "factor": 0.96 },
+      "annuelle": { "label": "Annuelle", "factor": 0.93 }
+    }
+  },
+  "ageFactors": {
+    "moins-1": 1.05,
+    "1-3": 1,
+    "4-7": 1.08,
+    "8-10": 1.18,
+    "plus-10": 1.35
+  },
+  "teasers": [
+    {
+      "petType": "chien",
+      "title": "Assurance Chien",
+      "subtitle": "Pour un labrador de 5 ans",
+      "formulaId": "zen70",
+      "overrideFrom": 19.35
+    },
+    {
+      "petType": "chat",
+      "title": "Assurance Chat",
+      "subtitle": "Pour un chat d appartement de 3 ans",
+      "formulaId": "zen50",
+      "overrideFrom": 16.9
+    }
+  ]
+}

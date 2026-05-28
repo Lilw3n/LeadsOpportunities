@@ -1,0 +1,304 @@
+/* Parcours animaux — style comparateur (tarifs modifiables via JSON) */
+.pet-journey-wrap {
+  --pet-accent: #f59e0b;
+  --pet-accent-dark: #d97706;
+  --pet-soft: #fffbeb;
+  --pet-border: #fde68a;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.pet-teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin: 20px 0 28px;
+}
+
+.pet-teaser-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 18px 16px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+}
+
+.pet-teaser-card h3 {
+  margin: 0 0 4px;
+  font-size: 1.05rem;
+  border-bottom: 3px solid var(--pet-accent);
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+.pet-teaser-card .pet-teaser-sub {
+  color: #64748b;
+  font-size: 0.85rem;
+  margin: 8px 0 14px;
+}
+
+.pet-teaser-price {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0 0 14px;
+}
+
+.pet-teaser-card .btn {
+  width: 100%;
+  background: var(--pet-accent);
+  color: #1c1917;
+  border: none;
+  font-weight: 700;
+}
+
+.pet-progress {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.pet-progress-step {
+  flex: 1;
+  min-width: 100px;
+  text-align: center;
+  padding: 10px 8px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.pet-progress-step.is-active {
+  background: var(--pet-soft);
+  border: 1px solid var(--pet-border);
+  color: #92400e;
+}
+
+.pet-progress-step.is-done {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.pet-panel {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.pet-panel h3 {
+  margin: 0 0 14px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #475569;
+}
+
+.pet-type-picker {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pet-type-btn {
+  flex: 1;
+  min-width: 120px;
+  padding: 16px 12px;
+  border: 2px solid var(--pet-border);
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 700;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.pet-type-btn.is-selected {
+  border-color: var(--pet-accent);
+  background: var(--pet-soft);
+}
+
+.pet-type-btn span {
+  display: block;
+  font-size: 1.6rem;
+  margin-bottom: 6px;
+}
+
+.pet-animal-block {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: #f8fafc;
+}
+
+.pet-animal-block summary {
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.pet-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.pet-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+}
+
+.pet-grid input,
+.pet-grid select {
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.pet-hint {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 10px 0;
+}
+
+.pet-formulas-scroll {
+  overflow-x: auto;
+  margin: 0 -8px;
+  padding: 4px 8px 12px;
+}
+
+.pet-formulas-table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.pet-formulas-table th,
+.pet-formulas-table td {
+  border: 1px solid #e2e8f0;
+  padding: 8px 6px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.pet-formulas-table th {
+  background: #f8fafc;
+  font-weight: 700;
+}
+
+.pet-formulas-table th.is-selected {
+  background: #1e293b;
+  color: #fff;
+}
+
+.pet-formulas-table td.is-selected {
+  background: var(--pet-soft);
+}
+
+.pet-formula-price {
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.pet-formula-pick {
+  cursor: pointer;
+}
+
+.pet-options-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.pet-option-group label.group-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.pet-toggle-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pet-toggle {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.pet-toggle.is-on {
+  border-color: var(--pet-accent);
+  background: var(--pet-accent);
+  color: #1c1917;
+}
+
+.pet-summary-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.pet-summary-total {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 16px;
+  background: var(--pet-soft);
+  border-radius: 12px;
+  border: 1px solid var(--pet-border);
+}
+
+.pet-summary-total strong {
+  font-size: 1.75rem;
+  color: #1c1917;
+  display: block;
+}
+
+.pet-journey-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.pet-journey-actions .btn-primary {
+  background: var(--pet-accent);
+  color: #1c1917;
+  border: none;
+  font-weight: 700;
+}
+
+.pet-disclaimer {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 12px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .pet-grid,
+  .pet-summary-box {
+    grid-template-columns: 1fr;
+  }
+}
