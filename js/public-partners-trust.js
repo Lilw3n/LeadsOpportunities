@@ -1,59 +1,140 @@
 /**
- * Bloc public : rapidite + assureurs / partenaires connus (social proof)
- * Usage : <section data-partners-trust data-partners-context="vtc"></section>
+ * Bloc public : acteurs assurance / partenaires avec qui nous travaillons
+ * Usage : <section data-partners-trust data-partners-context="default" data-partners-layout="showcase"></section>
+ * Layouts : showcase (accueil) | featured (landings) | compact (bandeau seul)
  */
 (function (global) {
-  var BRANDS = [
-    { name: "Allianz", tags: ["auto", "habitation", "pro"] },
-    { name: "AXA", tags: ["auto", "habitation", "sante", "pro"] },
-    { name: "Generali", tags: ["auto", "habitation", "pro"] },
-    { name: "April", tags: ["sante", "prevoyance", "pro"] },
-    { name: "Solly Azar Pro", tags: ["vtc", "auto", "habitation"] },
-    { name: "Zéphir", tags: ["vtc", "auto", "flotte"] },
-    { name: "Swiss Life", tags: ["sante", "prevoyance"] },
-    { name: "Mila", tags: ["auto", "habitation"] },
-    { name: "Assurmax", tags: ["pro", "auto"] },
+  /** Partenaires actifs — aligne sur js/crm-wholesalers-data.js (status active + isVerified) */
+  var PARTNERS = [
+    {
+      id: "sollyazar",
+      name: "Solly Azar Pro",
+      logo: "☀️",
+      tier: "principal",
+      active: true,
+      tags: ["vtc", "auto", "habitation", "moto"],
+      category: "vtc",
+      tagline: "Référence VTC, taxi et risques aggravés",
+      products: "VTC · Auto · Habitation · Santé",
+    },
+    {
+      id: "zephir",
+      name: "Zéphir",
+      logo: "🌊",
+      tier: "principal",
+      active: true,
+      tags: ["vtc", "auto", "flotte"],
+      category: "vtc",
+      tagline: "Spécialiste VTC, flotte et auto professionnel",
+      products: "VTC · Flotte · Auto pro",
+    },
+    {
+      id: "april",
+      name: "April",
+      logo: "🌿",
+      tier: "principal",
+      active: true,
+      tags: ["sante", "prevoyance", "pro", "auto"],
+      category: "sante",
+      tagline: "Santé, prévoyance et protection des pros",
+      products: "Mutuelle · Prévoyance · RC Pro",
+    },
+    {
+      id: "allianz",
+      name: "Allianz",
+      logo: "🔵",
+      tier: "principal",
+      active: true,
+      tags: ["auto", "habitation", "pro", "flotte"],
+      category: "general",
+      tagline: "Grand compte — auto, habitation, entreprises",
+      products: "Auto · Habitation · Flotte · RC Pro",
+    },
+    {
+      id: "axa",
+      name: "AXA",
+      logo: "🔷",
+      tier: "principal",
+      active: true,
+      tags: ["auto", "habitation", "sante", "pro"],
+      category: "general",
+      tagline: "Particuliers, professionnels et santé",
+      products: "Auto · Habitation · Santé · RC Pro",
+    },
+    {
+      id: "generali",
+      name: "Generali",
+      logo: "🦁",
+      tier: "principal",
+      active: true,
+      tags: ["auto", "habitation", "pro"],
+      category: "general",
+      tagline: "Auto, habitation, décennale et BTP",
+      products: "Auto · Habitation · Décennale · RC Pro",
+    },
+    {
+      id: "swisslife",
+      name: "Swiss Life",
+      logo: "🔴",
+      tier: "reseau",
+      active: true,
+      tags: ["sante", "prevoyance"],
+      category: "sante",
+      tagline: "Prévoyance et épargne",
+      products: "Prévoyance · Santé · Vie",
+    },
+  ];
+
+  var CATEGORIES = [
+    { id: "vtc", label: "VTC & mobilité pro", icon: "🚕" },
+    { id: "sante", label: "Santé & prévoyance", icon: "💊" },
+    { id: "general", label: "Particuliers & professionnels", icon: "🏢" },
   ];
 
   var COPY = {
     default: {
-      badge: "Réseau partenaires",
-      title: "Des assureurs que vous connaissez déjà",
+      badge: "Nos partenaires assurance",
+      title: "Les acteurs importants avec qui nous travaillons",
       lead:
-        "Les gens choisissent ce qui est rapide et reconnu. Nous comparons les offres via notre réseau de partenaires et compagnies du marché — pas un assureur inconnu au hasard.",
-      speed: "Formulaire en 2 min · Rappel sous 15 min en journée",
+        "Solly Azar, Zéphir, April, Allianz, AXA, Generali… : des noms que vos clients connaissent. Nous comparons leurs offres via notre réseau de courtage — pas un assureur obscur.",
+      speed: "Devis en 2 min · Rappel sous 15 min · Courtier ORIAS",
+      filter: null,
     },
     vtc: {
-      badge: "VTC — partenaires connus",
-      title: "Allianz, Zéphir, Solly Azar… des noms rassurants",
+      badge: "Partenaires VTC",
+      title: "Solly Azar Pro & Zéphir — nos références chauffeurs",
       lead:
-        "Spécialistes VTC et auto pro : nous passons par des partenaires reconnus des chauffeurs. Devis express ou questionnaire complet — vous choisissez la rapidité.",
-      speed: "Express 30 sec · ou questionnaire détaillé · rappel rapide",
-      filter: ["vtc", "auto", "flotte", "pro"],
+        "Pour l’assurance VTC, nous passons en priorité par les grossistes reconnus du secteur, complétés par Allianz, AXA et Generali selon votre profil.",
+      speed: "Express 30 sec ou questionnaire complet · rappel rapide",
+      partnerCategories: ["vtc", "general"],
+      categories: ["vtc", "general"],
     },
     sante: {
-      badge: "Santé — réseau connu",
-      title: "April, AXA, Swiss Life… mutuelles du marché",
+      badge: "Partenaires santé",
+      title: "April, AXA, Swiss Life — mutuelles du marché",
       lead:
-        "Pas de petite marque inconnue : comparaison parmi des acteurs que vos proches connaissent déjà. Un conseiller vous explique clairement les garanties.",
+        "Comparatif parmi des acteurs santé et prévoyance que tout le monde connaît. Un conseiller vous explique les garanties sans jargon.",
       speed: "2 min pour démarrer · accompagnement humain",
-      filter: ["sante", "prevoyance"],
+      partnerCategories: ["sante", "general"],
+      categories: ["sante", "general"],
     },
     credit: {
-      badge: "Crédit — réseau bancaire",
-      title: "Banques et courtiers reconnus",
+      badge: "Financement",
+      title: "Banques et courtiers immo partenaires",
       lead:
-        "Simulation rapide, puis orientation vers des partenaires financement habituels du marché immobilier. Simple, connu, sans jargon inutile.",
+        "Pour le crédit immobilier, orientation vers des établissements et courtiers habituels du marché français.",
       speed: "Simulation gratuite · réponse sous 24–48 h",
       filter: [],
+      categories: [],
     },
     express: {
-      badge: "Le plus rapide",
-      title: "Rappel prioritaire — sans attendre",
+      badge: "Rappel prioritaire",
+      title: "Comparaison via notre réseau d’assureurs",
       lead:
-        "Nom + téléphone : un conseiller vous rappelle et compare les offres via Allianz, AXA, Zéphir, Solly Azar et le reste du réseau.",
+        "En 30 secondes, vous êtes rappelé : nous comparons Solly Azar, Zéphir, Allianz, AXA et le reste du réseau selon votre besoin.",
       speed: "30 secondes pour être rappelé",
-      filter: ["vtc", "auto"],
+      partnerCategories: ["vtc", "general"],
+      categories: ["vtc", "general"],
     },
   };
 
@@ -65,36 +146,159 @@
       .replace(/"/g, "&quot;");
   }
 
-  function brandsForContext(ctxKey) {
-    var ctx = COPY[ctxKey] || COPY.default;
-    var tags = ctx.filter;
-    if (!tags || !tags.length) return BRANDS;
-    return BRANDS.filter(function (b) {
-      return b.tags.some(function (t) {
-        return tags.indexOf(t) >= 0;
-      });
+  function partnerMatchesContext(p, ctx) {
+    var cats = ctx.partnerCategories;
+    if (!cats || !cats.length) return true;
+    if (cats.indexOf(p.category) >= 0) return true;
+    return p.tags.some(function (t) {
+      return cats.indexOf(t) >= 0;
     });
   }
 
-  function renderMarkup(ctxKey) {
+  function partnersForContext(ctxKey) {
     var ctx = COPY[ctxKey] || COPY.default;
-    var brands = brandsForContext(ctxKey);
-    if (!brands.length) brands = BRANDS;
+    var list = PARTNERS.filter(function (p) {
+      return partnerMatchesContext(p, ctx);
+    });
+    if (!list.length) return PARTNERS.filter(function (p) { return p.tier === "principal"; });
+    return list;
+  }
 
-    var chips = brands
+  function renderPartnerCard(p, compact) {
+    var tierLabel =
+      p.tier === "principal"
+        ? '<span class="partner-card-badge partner-card-badge--active">Partenaire actif</span>'
+        : '<span class="partner-card-badge">Réseau</span>';
+    if (compact) {
+      return (
+        '<article class="partner-card partner-card--compact">' +
+        '<span class="partner-card-logo" aria-hidden="true">' +
+        esc(p.logo) +
+        "</span>" +
+        '<strong class="partner-card-name">' +
+        esc(p.name) +
+        "</strong>" +
+        "</article>"
+      );
+    }
+    return (
+      '<article class="partner-card partner-card--' +
+      esc(p.tier) +
+      '">' +
+      tierLabel +
+      '<span class="partner-card-logo" aria-hidden="true">' +
+      esc(p.logo) +
+      "</span>" +
+      '<h3 class="partner-card-name">' +
+      esc(p.name) +
+      "</h3>" +
+      '<p class="partner-card-tagline">' +
+      esc(p.tagline) +
+      "</p>" +
+      '<p class="partner-card-products">' +
+      esc(p.products) +
+      "</p>" +
+      "</article>"
+    );
+  }
+
+  function renderCategoryBlock(cat, partners, compact) {
+    var inCat = partners.filter(function (p) {
+      return p.category === cat.id;
+    });
+    if (!inCat.length) return "";
+    var cards = inCat
+      .map(function (p) {
+        return renderPartnerCard(p, compact);
+      })
+      .join("");
+    return (
+      '<div class="partners-category-block">' +
+      '<h3 class="partners-category-title"><span aria-hidden="true">' +
+      esc(cat.icon) +
+      "</span> " +
+      esc(cat.label) +
+      "</h3>" +
+      '<div class="partners-featured-grid">' +
+      cards +
+      "</div></div>"
+    );
+  }
+
+  function renderMarquee(partners) {
+    var principals = partners.filter(function (p) {
+      return p.tier === "principal";
+    });
+    var list = principals.length ? principals : partners;
+    var chips = list
       .map(function (b) {
         return '<span class="partner-chip">' + esc(b.name) + "</span>";
       })
       .join("");
-
-    var chipsDup = brands
+    var chipsDup = list
       .map(function (b) {
         return '<span class="partner-chip" aria-hidden="true">' + esc(b.name) + "</span>";
       })
       .join("");
+    return (
+      '<div class="partners-marquee" aria-label="Assureurs et partenaires">' +
+      '<div class="partners-marquee-track">' +
+      chips +
+      chipsDup +
+      "</div></div>"
+    );
+  }
+
+  function renderFeaturedGrid(ctxKey, layout) {
+    var ctx = COPY[ctxKey] || COPY.default;
+    var partners = partnersForContext(ctxKey);
+    var compact = layout === "featured" || layout === "compact";
+    var cats = ctx.categories;
+    var html = "";
+
+    if (layout === "showcase" || layout === "featured") {
+      var catIds = cats && cats.length ? cats : CATEGORIES.map(function (c) { return c.id; });
+      catIds.forEach(function (cid) {
+        var cat = CATEGORIES.find(function (c) {
+          return c.id === cid;
+        });
+        if (cat) html += renderCategoryBlock(cat, partners, compact);
+      });
+      if (!html && partners.length) {
+        html =
+          '<div class="partners-featured-grid partners-featured-grid--flat">' +
+          partners
+            .map(function (p) {
+              return renderPartnerCard(p, compact);
+            })
+            .join("") +
+          "</div>";
+      }
+    }
+
+    if (layout === "compact") {
+      html =
+        '<div class="partners-featured-grid partners-featured-grid--flat partners-featured-grid--compact">' +
+        partners
+          .filter(function (p) { return p.tier === "principal"; })
+          .map(function (p) {
+            return renderPartnerCard(p, true);
+          })
+          .join("") +
+        "</div>";
+    }
+
+    return html + (layout !== "compact" ? renderMarquee(partners) : "");
+  }
+
+  function renderMarkup(ctxKey, layout) {
+    var ctx = COPY[ctxKey] || COPY.default;
+    layout = layout || "showcase";
 
     return (
-      '<div class="partners-trust-inner">' +
+      '<div class="partners-trust-inner partners-trust-inner--' +
+      esc(layout) +
+      '">' +
       '<div class="partners-trust-head">' +
       '<span class="section-badge">' +
       esc(ctx.badge) +
@@ -109,13 +313,8 @@
       esc(ctx.speed) +
       "</strong></p>" +
       "</div>" +
-      '<div class="partners-marquee" aria-label="Assureurs et partenaires du réseau">' +
-      '<div class="partners-marquee-track">' +
-      chips +
-      chipsDup +
-      "</div>" +
-      "</div>" +
-      '<p class="partners-trust-legal">Marques citées à titre indicatif. Courtier inscrit ORIAS — nous orientons vers les solutions adaptées via notre réseau de partenaires et grossistes (sans exclusivité).</p>' +
+      renderFeaturedGrid(ctxKey, layout) +
+      '<p class="partners-trust-legal">Marques citées à titre indicatif selon notre réseau de courtage et grossistes. Courtier inscrit ORIAS — pas de lien capitalistique exclusif avec les compagnies nommées.</p>' +
       "</div>"
     );
   }
@@ -124,13 +323,18 @@
     var nodes = document.querySelectorAll("[data-partners-trust]");
     nodes.forEach(function (el) {
       var ctx = el.getAttribute("data-partners-context") || "default";
+      var layout = el.getAttribute("data-partners-layout") || "showcase";
+      if (layout === "auto") {
+        layout = ctx === "default" ? "showcase" : "featured";
+      }
       el.classList.add("partners-trust-section");
-      el.innerHTML = renderMarkup(ctx);
+      el.innerHTML = renderMarkup(ctx, layout);
     });
   }
 
   global.PublicPartnersTrust = {
-    BRANDS: BRANDS,
+    PARTNERS: PARTNERS,
+    CATEGORIES: CATEGORIES,
     COPY: COPY,
     renderMarkup: renderMarkup,
     mountAll: mountAll,
