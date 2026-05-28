@@ -1,18 +1,13 @@
 /**
  * Proximité humaine — assurance en ligne avec vrai conseiller
  * <section data-proximity-block data-proximity-context="default"></section>
- * <div data-proximity-bar></div>
  */
 (function (global) {
   var SITE = {
     brand: "Leads Opportunities",
-    founder: "Wendy Buchet",
-    founderRole: "Fondateur · Courtier ORIAS",
     email: "contact@leadsopportunities.fr",
     city: "Varangeville",
-    department: "Meurthe-et-Moselle",
     region: "Grand Est",
-    country: "France",
     hours: "Lun–Ven, 9h–18h",
     response: "Rappel moyen : 15 min (journée ouvrée)",
     callbackLabel: "Demande de rappel",
@@ -21,9 +16,9 @@
 
   var TEAM = [
     {
-      initials: "WB",
-      name: "Wendy Buchet",
-      role: "Votre interlocuteur principal",
+      initials: "LO",
+      name: "Conseiller dédié",
+      role: "Équipe Leads Opportunities · ORIAS",
       tone: "founder",
     },
     {
@@ -57,7 +52,7 @@
       badge: "Accompagnement santé",
       title: "On vous explique, on ne vous noie pas",
       lead:
-        "Mutuelle et prévoyance en langage clair. Un conseiller prend le temps au téléphone — optique, dentaire, hospitalisation : on détaille ensemble.",
+        "Mutuelle et prévoyance en langage clair. Un conseiller prend le temps pour détailler optique, dentaire et hospitalisation.",
     },
     credit: {
       badge: "Courtier crédit immo",
@@ -67,18 +62,21 @@
     },
     animaux: {
       badge: "Conseiller animaux",
-      title: "Votre animal mérite un humain au téléphone",
+      title: "Votre animal mérite un conseiller humain",
       lead:
         "Chien ou chat : on ne vous envoie pas un PDF incompréhensible. Un conseiller vous rappelle, compare Santévet / Bulle Bleue / Kozoo et vous aide à choisir.",
-      speed: "Questionnaire 3 min · rappel rapide",
     },
     express: {
       badge: "Rappel prioritaire",
-      title: "30 secondes en ligne, un humain au téléphone",
+      title: "30 secondes en ligne, rappel par un conseiller",
       lead:
         "Vous laissez vos coordonnées : un conseiller vous rappelle rapidement pour faire le point, où que vous soyez en France.",
     },
   };
+
+  var CALLBACK_ICON =
+    '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">' +
+    '<path d="M4 4h16v16H4z"/><path d="M8 2v4M16 2v4M4 10h16"/><path d="M12 14v4M10 16h4"/></svg>';
 
   function esc(s) {
     return String(s)
@@ -106,19 +104,16 @@
     return up + "index.html#contact";
   }
 
-  function renderCallbackLink(className, label, compact) {
+  function renderCallbackLink(className, label, withIcon) {
     className = className || "proximity-callback";
     label = label || SITE.callbackCta;
-    var icon = compact
-      ? ""
-      : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>';
     return (
       '<a class="' +
       esc(className) +
       '" href="' +
       esc(getCallbackHref()) +
       '">' +
-      icon +
+      (withIcon ? CALLBACK_ICON : "") +
       esc(label) +
       "</a>"
     );
@@ -159,9 +154,12 @@
     franceHref = franceHref || "./france/";
     return (
       '<div class="proximity-contact-card">' +
-      '<p class="proximity-contact-label">Joindre un conseiller</p>' +
-      renderCallbackLink("proximity-callback", SITE.callbackCta, false) +
-      '<p class="proximity-callback-note">Laissez votre numéro — on vous rappelle</p>' +
+      '<p class="proximity-contact-label">Être rappelé par un conseiller</p>' +
+      renderCallbackLink("proximity-callback", SITE.callbackCta, true) +
+      '<p class="proximity-callback-note">Laissez votre numéro dans le formulaire — rappel ' +
+      esc(SITE.hours.toLowerCase()) +
+      "</p>" +
+      renderCallbackLink("proximity-callback proximity-callback--secondary", SITE.callbackLabel, false) +
       '<a class="proximity-email" href="mailto:' +
       esc(SITE.email) +
       '">' +
@@ -190,7 +188,7 @@
   function renderPillars() {
     var items = [
       { icon: "👤", title: "Un seul interlocuteur", text: "Même conseiller du devis au suivi — pas 5 numéros différents." },
-      { icon: "📞", title: "On vous rappelle", text: "Vous remplissez en ligne, on prend le relais au téléphone." },
+      { icon: "🔔", title: "On vous rappelle", text: "Vous remplissez en ligne, on vous rappelle sur le créneau choisi." },
       { icon: "🇫🇷", title: "Partout en France", text: "180+ villes : pages locales + équipe à distance, proche de vous." },
       { icon: "🤝", title: "Sans pression", text: "Devis gratuit, vous décidez. On conseille, on ne force pas." },
     ];
@@ -251,7 +249,7 @@
       '<a href="' +
       esc(getCallbackHref()) +
       '" class="proximity-bar-call" aria-label="Demander un rappel">' +
-      "📞 " +
+      "🔔 " +
       esc(SITE.callbackLabel) +
       "</a>"
     );
