@@ -33,6 +33,7 @@
   <link rel="alternate" type="application/rss+xml" title="Blog Leads Opportunities" href="/blog/feed.xml" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <link rel="stylesheet" href="./css/partners-trust.css" />
+  <link rel="stylesheet" href="./css/proximity.css" />
 </head>
 <body data-admin-nav-page>
 
@@ -69,7 +70,7 @@
         <div class="hero-content">
           <h1>Devis <span class="text-gradient">rapide</span> avec des assureurs que vous connaissez deja.</h1>
           <p class="hero-sub">
-            Solly Azar Pro, Zéphir, April, Allianz, AXA, Generali : les acteurs avec qui nous travaillons au quotidien. Devis en quelques minutes, rappel rapide, offre claire.
+            Assurance en ligne, mais pas seul derrière un écran : un conseiller dédié vous rappelle, vous explique et vous suit. Devis en 2 min, réseau Allianz, AXA, Zéphir, Solly Azar…
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary btn-lg" href="./nos-services.html">
@@ -363,6 +364,8 @@
       </div>
     </section>
 
+    <section data-proximity-block data-proximity-context="default" data-proximity-layout="showcase"></section>
+
     <section class="section testimonials-section">
       <div class="container">
         <div class="section-header">
@@ -522,6 +525,13 @@
           </details>
           <details class="faq-item reveal">
             <summary>
+              <span>Est-ce que je parle a un robot ou a un conseiller ?</span>
+              <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </summary>
+            <p>Un conseiller humain, inscrit ORIAS. Vous remplissez le formulaire en ligne pour gagner du temps ; nous vous rappelons au telephone pour expliquer les garanties et repondre a vos questions. Meme interlocuteur possible du devis au suivi.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>
               <span>En combien de temps suis-je rappele ?</span>
               <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </summary>
@@ -557,7 +567,8 @@
         <div class="contact-wrapper">
           <div class="contact-info">
             <h2>Pret a trouver votre meilleure offre ?</h2>
-            <p>Remplissez le formulaire ci-contre. Un conseiller dedie analyse votre dossier et vous rappelle rapidement avec une proposition personnalisee.</p>
+            <p>Remplissez le formulaire ci-contre — ou appelez-nous directement. Un conseiller dedie (pas un robot) analyse votre dossier et vous rappelle rapidement.</p>
+            <div data-proximity-contact-hint></div>
             <div class="contact-benefits">
               <div class="contact-benefit">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0d9488" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -655,6 +666,13 @@
           <a href="./auth.html">Mon espace</a>
         </div>
         <div class="footer-col">
+          <h4>Contact humain</h4>
+          <a href="tel:+33695820866">06 95 82 08 66</a>
+          <a href="mailto:contact@leadsopportunities.fr">contact@leadsopportunities.fr</a>
+          <a href="./france/">Pres de chez vous</a>
+          <span style="display:block;font-size:.8rem;color:var(--muted);margin-top:8px">Lun–Ven 9h–18h</span>
+        </div>
+        <div class="footer-col">
           <h4>Legal</h4>
           <a href="./mentions-legales.html">Mentions legales</a>
           <a href="./politique-confidentialite.html">Confidentialite</a>
@@ -668,7 +686,7 @@
     </div>
   </footer>
 
-  <div class="mobile-cta mobile-cta-single">
+  <div class="mobile-cta mobile-cta-single" data-proximity-enhance>
     <a href="#contact" class="mobile-cta-primary">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       Devis gratuit
@@ -684,7 +702,10 @@
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "customer service",
+        "telephone": "+33-6-95-82-08-66",
         "areaServed": "FR",
+        "availableLanguage": "French",
+        "hoursAvailable": "Mo-Fr 09:00-18:00",
         "url": "https://www.leadsopportunities.fr/#contact"
       }
     }
@@ -710,6 +731,7 @@
   <script src="./js/lead-insights.js"></script>
   <script src="./js/admin-nav.js"></script>
   <script src="./js/public-partners-trust.js"></script>
+  <script src="./js/public-proximity.js"></script>
   <script src="./main.js"></script>
 </body>
 </html>
