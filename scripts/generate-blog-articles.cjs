@@ -1,6 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 const manifest = require("./blog-articles-manifest.cjs");
+const { enrichArticle } = require("./blog-seo-enrich.cjs");
+const { getOverride } = require("./blog-content-deep.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
@@ -16,29 +18,90 @@ function esc(s) {
 
 function renderBlock(b) {
   if (b.type === "h2") return "      <h2>" + b.text + "</h2>\n";
+  if (b.type === "h3") return "      <h3>" + b.text + "</h3>\n";
   if (b.type === "p") return "      <p>" + b.text + "</p>\n";
   if (b.type === "ul") {
     return (
       "      <ul>\n" +
-      b.items.map(function (i) {
-        return "        <li>" + i + "</li>\n";
-      }).join("") +
+      b.items
+        .map(function (i) {
+          return "        <li>" + i + "</li>\n";
+        })
+        .join("") +
       "      </ul>\n"
     );
   }
   return "";
 }
 
+function renderFaq(faq) {
+  if (!faq || !faq.length) return "";
+  return (
+    '      <section class="article-faq" aria-labelledby="faq-title">\n' +
+    '        <h2 id="faq-title">Questions frequentes</h2>\n' +
+    faq
+      .map(function (item) {
+        return (
+          '        <details class="article-faq-item">\n' +
+          "          <summary>" +
+          item.q +
+          "</summary>\n" +
+          "          <p>" +
+          item.a +
+          "</p>\n" +
+          "        </details>\n"
+        );
+      })
+      .join("") +
+    "      </section>\n"
+  );
+}
+
+function renderJsonLd(a, canonical) {
+  var faq = a.faq || [];
+  var graph = [
+    {
+      "@type": "Article",
+      headline: a.title,
+      description: a.description,
+      author: { "@type": "Organization", name: "Leads Opportunities" },
+      publisher: { "@type": "Organization", name: "Leads Opportunities" },
+      mainEntityOfPage: canonical,
+      datePublished: "2026-05-01",
+      dateModified: "2026-05-28",
+    },
+  ];
+  if (faq.length) {
+    graph.push({
+      "@type": "FAQPage",
+      mainEntity: faq.map(function (item) {
+        return {
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        };
+      }),
+    });
+  }
+  return (
+    '  <script type="application/ld+json">\n' +
+    JSON.stringify({ "@context": "https://schema.org", "@graph": graph }, null, 2) +
+    "\n  </script>\n"
+  );
+}
+
 function renderArticle(a) {
   var canonical = base + "/blog/" + a.file;
   var body = (a.blocks || []).map(renderBlock).join("\n");
+  var keywordsMeta = (a.keywords || []).join(", ");
   var cta = a.cta
-    ? '      <div class="article-cta">\n        <p>Devis gratuit et accompagnement courtier ORIAS</p>\n        <a class="btn btn-primary" href="' +
+    ? '      <div class="article-cta">\n        <p>Devis gratuit et accompagnement courtier ORIAS — comparatif sans engagement.</p>\n        <a class="btn btn-primary" href="' +
       a.cta.href +
       '">' +
       esc(a.cta.label) +
       "</a>\n      </div>\n"
     : "";
+  var faqHtml = renderFaq(a.faq);
   var links =
     a.related && a.related.length
       ? '      <div class="article-links">\n        <h2>Nos pages utiles</h2>\n        <ul>\n' +
@@ -55,6 +118,8 @@ function renderArticle(a) {
     esc(a.title) +
     " | Leads Opportunities</title>\n  <meta name=\"description\" content=\"" +
     esc(a.description) +
+    '" />\n  <meta name="keywords" content="' +
+    esc(keywordsMeta) +
     '" />\n  <link rel="canonical" href="' +
     canonical +
     '" />\n  <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />\n  <meta property="og:title" content="' +
@@ -76,31 +141,36 @@ function renderArticle(a) {
     " &middot; Par l'equipe Leads Opportunities</p>\n    </div>\n    <div class=\"article-body\">\n" +
     body +
     cta +
+    faqHtml +
     links +
-    '    </div>\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Toutes nos assurances</a>\n    <a href="../index.html#contact">Demande de rappel</a>\n  </footer>\n</body>\n</html>\n'
+    '    </div>\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Toutes nos assurances</a>\n    <a href="../index.html#contact">Demande de rappel</a>\n  </footer>\n' +
+    renderJsonLd(a, canonical) +
+    "</body>\n</html>\n"
   );
 }
 
 var created = 0;
 var skipped = 0;
 
-manifest.articles.forEach(function (a) {
-  if (a.skipGenerate) {
+manifest.articles.forEach(function (raw) {
+  if (raw.skipGenerate) {
     skipped++;
     return;
   }
-  var out = path.join(blogDir, a.file);
+  var out = path.join(blogDir, raw.file);
   if (fs.existsSync(out) && !force) {
     skipped++;
     return;
   }
+  var override = getOverride(raw.file);
+  var a = enrichArticle(raw, override);
   if (!a.blocks || !a.blocks.length) {
-    console.warn("skip (no blocks):", a.file);
+    console.warn("skip (no blocks):", raw.file);
     return;
   }
   fs.writeFileSync(out, renderArticle(a));
   created++;
-  console.log("written:", a.file);
+  console.log("written:", raw.file, "—", a.blocks.length, "blocs,", (a.faq || []).length, "FAQ");
 });
 
 console.log("Done — created:", created, "skipped:", skipped);

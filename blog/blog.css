@@ -143,6 +143,36 @@ a { color: var(--primary); }
 .tag-patrimoine { background: #fef3c7; color: #92400e; }
 .tag-actu { background: #fee2e2; color: #b91c1c; }
 
+.article-body h3 {
+  font-size: 1.05rem;
+  margin: 24px 0 10px;
+  color: #334155;
+}
+.article-faq {
+  margin: 36px 0 24px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.article-faq-item {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+  background: #fff;
+  padding: 0 14px;
+}
+.article-faq-item summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 14px 0;
+  list-style: none;
+}
+.article-faq-item summary::-webkit-details-marker { display: none; }
+.article-faq-item p {
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 .article-links {
   margin-top: 28px;
   padding: 20px 22px;
