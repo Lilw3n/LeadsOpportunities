@@ -607,10 +607,10 @@
       : "Re: " + (m.subject || "");
     document.getElementById("mailboxReplyToId").value = m.id;
     document.getElementById("mailboxReplySummary").textContent = "Repondre a " + replyTo;
-    var panel = document.getElementById("mailboxReplyPanel");
-    if (panel) {
+    var body = document.getElementById("mailboxDetailBody");
+    if (body) {
       setTimeout(function () {
-        panel.scrollIntoView({ block: "end", behavior: "smooth" });
+        body.scrollTop = body.scrollHeight;
       }, 80);
     }
   }
