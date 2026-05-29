@@ -137,6 +137,37 @@ function chasseCitySections(city) {
   ];
 }
 
+function vtcCitySections(city) {
+  return [
+    {
+      h2: "Assurance VTC a " + city.name,
+      paragraphs: [
+        "Chauffeurs Uber, Bolt, Heetch ou independants : la zone " +
+          city.name +
+          " (" +
+          city.region +
+          ") influence le risque percu par les assureurs (trafic, stationnement, sinistralite).",
+        pickVariant(city.slug, [
+          "Comparez RC Pro, dommages vehicule et franchises a garanties equivalentes — pas seulement la prime affichee.",
+          "Un bon CRM (bonus-malus) peut faire baisser la cotisation de plusieurs centaines d'euros par an.",
+        ]),
+      ],
+      list: [
+        "RC professionnelle et garanties conducteur",
+        "Vehicule de remplacement si activite a temps plein",
+        "Creation d'activite ou renouvellement",
+        "Demande de rappel via formulaire en ligne",
+      ],
+    },
+    {
+      h2: "Guides et blog VTC",
+      paragraphs: [
+        "Consultez nos articles : payer moins cher, RC Pro, plateformes, resiliation. Pages locales comme celle-ci + hub national.",
+      ],
+    },
+  ];
+}
+
 function equitationCitySections(city) {
   return [
     {
@@ -187,6 +218,7 @@ module.exports = {
   animauxCitySections: animauxCitySections,
   chienCitySections: chienCitySections,
   chatCitySections: chatCitySections,
+  vtcCitySections: vtcCitySections,
   chasseCitySections: chasseCitySections,
   equitationCitySections: equitationCitySections,
   defaultCityFaq: defaultCityFaq,

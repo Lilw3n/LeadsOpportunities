@@ -72,6 +72,8 @@ window.BlogService = {
       { slug: "animaux-choisir", title: "Assurance animaux : comment choisir", excerpt: "Plafond, franchise, carence.", category: "animaux", icon: "🐾", date: "2026-05-20", url: "assurance-animaux-comment-choisir.html" },
       { slug: "chien-frais", title: "Frais veterinaires chien", excerpt: "Combien coutent les soins ?", category: "animaux", icon: "🐕", date: "2026-05-22", url: "assurance-chien-frais-veterinaires.html" },
       { slug: "chat-guide", title: "Assurance chat : guide complet", excerpt: "Chaton, senior, interieur.", category: "animaux", icon: "🐈", date: "2026-05-24", url: "assurance-chat-guide-complet.html" },
+      { slug: "vtc-rc", title: "RC Pro VTC : garanties", excerpt: "Le minimum legal et utile.", category: "vtc", icon: "🚗", date: "2026-05-25", url: "assurance-vtc-rc-pro-garanties.html" },
+      { slug: "vtc-moins-cher", title: "VTC moins cher 2026", excerpt: "7 leviers concrets.", category: "vtc", icon: "🚡", date: "2026-05-10", url: "assurance-vtc-moins-cher-2026.html" },
     ];
   },
 

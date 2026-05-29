@@ -1,0 +1,97 @@
+{
+  "featured": ["vtc", "sante", "immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
+  "blogActuExamples": [
+    "elections-presidentielles-prevoyance-patrimoine.html",
+    "ligue-champions-assurance-voyage-deplacement.html",
+    "coupe-monde-2026-assurance-voyage-sante.html",
+    "gta-6-sortie-assurance-gaming-materiel.html",
+    "canicule-degats-eaux-assurance-habitation.html"
+  ],
+  "services": {
+    "vtc": {
+      "icon": "🚗",
+      "teaser": "Chauffeurs Uber, Bolt, Heetch — RC pro et garanties plateformes.",
+      "seoUrl": "/assurance-vtc/",
+      "blogUrl": "/blog/assurance-vtc-moins-cher-2026.html",
+      "keywords": ["assurance vtc", "rc pro chauffeur", "uber bolt"]
+    },
+    "sante": {
+      "icon": "🏥",
+      "teaser": "Mutuelle optique, dentaire, hospitalisation — particuliers et TNS.",
+      "seoUrl": "/assurance-sante/",
+      "blogUrl": "/blog/mutuelle-sante-5-criteres.html",
+      "keywords": ["mutuelle sante", "comparatif mutuelle", "remboursement"]
+    },
+    "immo": {
+      "icon": "🏠",
+      "teaser": "Credit immobilier, rachat, renegociation — avec assurance emprunteur.",
+      "seoUrl": "/credit-immo/",
+      "blogUrl": "/blog/pret-immo-erreurs-a-eviter.html",
+      "keywords": ["credit immobilier", "pret immo", "taux 2026"]
+    },
+    "auto": {
+      "icon": "🚙",
+      "teaser": "Tiers, tous risques, jeune conducteur, bonus-malus.",
+      "seoUrl": "/assurance-auto/",
+      "blogUrl": "/blog/assurance-auto-bonus-malus.html",
+      "keywords": ["assurance auto", "bonus malus", "jeune conducteur"]
+    },
+    "habitation": {
+      "icon": "🔑",
+      "teaser": "Locataire, proprietaire, degats des eaux, vol, MRH.",
+      "seoUrl": "/assurance-habitation/",
+      "blogUrl": "/blog/assurance-habitation-locataire-proprietaire-2026.html",
+      "keywords": ["assurance habitation", "multirisque habitation", "locataire"]
+    },
+    "emprunteur": {
+      "icon": "📋",
+      "teaser": "Loi Lemoine, changement d assureur, economie sur le pret.",
+      "seoUrl": "/assurance-emprunteur/",
+      "blogUrl": "/blog/assurance-emprunteur-loi-lemoine-2026.html",
+      "keywords": ["assurance emprunteur", "loi lemoine", "delegation assurance"]
+    },
+    "prevoyance": {
+      "icon": "🛡️",
+      "teaser": "Deces, invalidite, arret de travail — salaries et independants.",
+      "seoUrl": "/assurance-prevoyance/",
+      "blogUrl": "/blog/prevoyance-independants-guide.html",
+      "keywords": ["prevoyance", "arret de travail", "perte de revenus"]
+    },
+    "animaux": {
+      "icon": "🐾",
+      "teaser": "Chien, chat, remboursement veterinaire, comparatif assureurs.",
+      "seoUrl": "/assurance-animaux/",
+      "blogUrl": "/blog/assurance-animaux-comment-choisir.html",
+      "keywords": ["assurance animaux", "assurance chien", "assurance chat"]
+    },
+    "moto": { "icon": "🏍️", "teaser": "Deux-roues, scooter, cyclomoteur.", "keywords": ["assurance moto", "scooter"] },
+    "flotte": { "icon": "🚛", "teaser": "Parc auto professionnel, flotte entreprise.", "keywords": ["assurance flotte", "parc auto pro"] },
+    "temporaire": { "icon": "⏱️", "teaser": "Couverture courte duree.", "keywords": ["assurance temporaire"] },
+    "tns": { "icon": "💼", "teaser": "Travailleurs non salaries, professions liberales.", "blogUrl": "/blog/prevoyance-independants-guide.html", "keywords": ["mutuelle tns", "prevoyance independant"] },
+    "deces": { "icon": "🕊️", "teaser": "Capital deces, obseques, transmission.", "blogUrl": "/blog/assurance-deces-obseques-prevoyance.html", "keywords": ["assurance deces", "obseques"] },
+    "collective": { "icon": "🏢", "teaser": "Mutuelle entreprise, collective salarie.", "keywords": ["mutuelle collective", "entreprise"] },
+    "pno": { "icon": "🏘️", "teaser": "Proprietaire non occupant, location meublee.", "blogUrl": "/blog/pno-bailleur-proprietaire-non-occupant.html", "keywords": ["pno", "bailleur", "location"] },
+    "mrh": { "icon": "🏡", "teaser": "Multirisque habitation complete.", "seoUrl": "/assurance-habitation/", "keywords": ["mrh", "multirisque habitation"] },
+    "rachat": { "icon": "🔄", "teaser": "Regroupement de credits.", "keywords": ["rachat de credit"] },
+    "conso": { "icon": "💳", "teaser": "Credit consommation, projet personnel.", "keywords": ["credit consommation"] },
+    "credit-pro": { "icon": "📈", "teaser": "Financement activite professionnelle.", "keywords": ["credit professionnel"] },
+    "renegociation": { "icon": "📉", "teaser": "Renegocier son pret immobilier.", "keywords": ["renegociation pret"] },
+    "rc-pro": { "icon": "⚖️", "teaser": "Responsabilite civile professionnelle.", "blogUrl": "/blog/rc-pro-freelance-artisan-guide.html", "keywords": ["rc pro", "responsabilite civile pro"] },
+    "mrp": { "icon": "🏭", "teaser": "Locaux, stock, perte d exploitation.", "keywords": ["multirisque professionnelle"] },
+    "decennale": { "icon": "🔨", "teaser": "Batiment, artisans, constructeurs.", "keywords": ["assurance decennale"] },
+    "pj-pro": { "icon": "📜", "teaser": "Litiges clients, fournisseurs, URSSAF.", "keywords": ["protection juridique pro"] },
+    "dirigeant": { "icon": "👔", "teaser": "Homme cle, dirigeant TNS.", "keywords": ["assurance dirigeant"] },
+    "assurance-vie": { "icon": "💰", "teaser": "Epargne, transmission, contrats.", "blogUrl": "/blog/assurance-vie-epargne-retraite-patrimoine.html", "keywords": ["assurance vie", "epargne"] },
+    "retraite": { "icon": "🌅", "teaser": "Retraite supplementaire, PER.", "keywords": ["retraite supplementaire", "per"] },
+    "gav": { "icon": "🩹", "teaser": "Accidents de la vie quotidienne.", "keywords": ["garantie accidents de la vie", "gav"] },
+    "pj": { "icon": "⚖️", "teaser": "Litiges habitat, consommation, travail.", "keywords": ["protection juridique"] },
+    "famille": { "icon": "🎒", "teaser": "Scolaire, extra-scolaire, famille.", "keywords": ["assurance scolaire"] },
+    "chasse": { "icon": "🎯", "teaser": "RC chasse, journee, saison.", "seoUrl": "/assurance-chasse/", "keywords": ["assurance chasse"] },
+    "equitation": { "icon": "🐴", "teaser": "Cheval, ecurie, RC equitation.", "seoUrl": "/assurance-equitation/", "keywords": ["assurance equitation"] },
+    "instrument": { "icon": "🎸", "teaser": "Instruments, scene, transport.", "keywords": ["assurance instrument musique"] },
+    "materiel-photo": { "icon": "📷", "teaser": "Materiel pro photo et video.", "keywords": ["assurance materiel photo"] },
+    "bateau": { "icon": "⛵", "teaser": "Bateau plaisance, port, navigation.", "keywords": ["assurance bateau"] },
+    "caravane": { "icon": "🚐", "teaser": "Caravane, camping-car.", "keywords": ["assurance camping car"] },
+    "autre": { "icon": "📩", "teaser": "Besoin specifique — on vous rappelle.", "keywords": ["devis assurance sur mesure"] }
+  }
+}

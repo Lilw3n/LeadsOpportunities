@@ -136,6 +136,12 @@ a { color: var(--primary); }
 .tag-sante { background: var(--blue-light); color: #1d4ed8; }
 .tag-immo { background: var(--accent-light); color: #4338ca; }
 .tag-animaux { background: #ffedd5; color: #c2410c; }
+.tag-habitation { background: #ecfccb; color: #3f6212; }
+.tag-auto { background: #e0e7ff; color: #3730a3; }
+.tag-prevoyance { background: #fce7f3; color: #9d174d; }
+.tag-pro { background: #f3e8ff; color: #6b21a8; }
+.tag-patrimoine { background: #fef3c7; color: #92400e; }
+.tag-actu { background: #fee2e2; color: #b91c1c; }
 
 .article-links {
   margin-top: 28px;

@@ -19,6 +19,7 @@ const {
   writeSitemapIndex,
 } = require("./seo-geo-lib.cjs");
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
+const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
@@ -94,6 +95,9 @@ const PAGES = [
       { href: "/assurance-vtc/devis-rapide/", label: "Devis assurance VTC rapide" },
       { href: "/assurance-vtc/tarif/", label: "Comprendre le tarif VTC" },
       { href: "/assurance-vtc/villes/", label: "Assurance VTC par ville" },
+      { href: "/assurance-vtc/rc-pro/", label: "RC Pro VTC" },
+      { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
+      { href: "/assurance-vtc/creation-activite/", label: "Creation d activite" },
       { href: "/assurance-vtc/paris/", label: "Assurance VTC Paris" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Article : payer moins cher" },
     ],
@@ -869,8 +873,11 @@ function renderPage(p) {
 </html>`;
 }
 
+const VTC_LONGTAIL_PAGES = buildVtcLongtailPages(page);
+
 const ALL_PAGES = PAGES.concat(
   NICHE_PAGES,
+  VTC_LONGTAIL_PAGES,
   buildPillarPageConfigs(page),
   buildGeoPageConfigs(CITIES, page),
   buildDeptPageConfigs(DEPARTMENTS, CITIES, page),
@@ -901,7 +908,8 @@ const mainUrls = allUrls
   .filter(function (u) {
     return geoUrls.indexOf(u) < 0 && franceUrls.indexOf(u) < 0;
   })
-  .concat(getNicheSitemapEntries(BASE));
+  .concat(getNicheSitemapEntries(BASE))
+  .concat(getVtcLongtailSitemapEntries(BASE));
 
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));

@@ -48,37 +48,23 @@ const GEO_PRODUCTS = [
         ") et vous accompagnons jusqu a la souscription, sans engagement."
       );
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Pourquoi une assurance dediee a " + city.name + " ?",
-          paragraphs: [
-            "Les assureurs integrent la zone d exercice dans le tarif. Un profil base a " +
-              city.name +
-              " ne se compare pas a un exercice dans une autre region.",
-            "Nous verifions RC pro, franchises et options (vehicule de remplacement, protection juridique) avant toute recommandation.",
-          ],
-        },
-        {
-          h2: "Accompagnement partout en France",
-          paragraphs: [
-            "Notre equipe couvre la metropole et les DOM. Vous beneficiez du meme niveau de conseil, que vous soyez en creation d activite ou chauffeur confirme.",
-          ],
-        },
-      ];
-    },
+    sections: contentLib.vtcCitySections,
     faq: function (city) {
-      return [
+      return contentLib.defaultCityFaq(city, "Assurance VTC").concat([
         {
-          q: "Intervenez-vous bien a " + city.name + " ?",
-          a: "Oui, nous accompagnons les chauffeurs VTC a " + city.name + " et dans toute la region " + city.region + ".",
+          q: "Assurance Uber/Bolt a " + city.name + " ?",
+          a: "Oui, nous calibrons un contrat VTC compatible plateformes pour les chauffeurs bases a " + city.name + ".",
         },
-        {
-          q: "Combien de temps pour un devis ?",
-          a: "En moyenne sous 15 minutes en heures ouvrables apres votre demande en ligne.",
-        },
-      ];
+      ]);
     },
+    geoSteps: DEFAULT_GEO_STEPS,
+    extraRelated: [
+      { href: "/assurance-vtc/rc-pro/", label: "RC Pro VTC" },
+      { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
+      { href: "/assurance-vtc/tarif/", label: "Tarif VTC" },
+      { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Blog : payer moins cher" },
+      { href: "/landings/devis-rapide.html", label: "Devis express" },
+    ],
   },
   {
     key: "sante",
@@ -286,6 +272,66 @@ const GEO_PRODUCTS = [
         },
       ];
     },
+  },
+  {
+    key: "emprunteur",
+    theme: "habitation",
+    dir: "assurance-emprunteur",
+    siloLabel: "Assurance emprunteur",
+    siloUrl: "/assurance-emprunteur/",
+    hubUrl: "/assurance-emprunteur/villes/",
+    hubDeptUrl: "/assurance-emprunteur/departements/",
+    landing: "/landings/devis.html?need=emprunteur",
+    ctaLabel: function (city) {
+      return "Devis emprunteur " + city.name;
+    },
+    title: function (city) {
+      return "Assurance emprunteur " + city.name + " | Loi Lemoine " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance emprunteur a " +
+        city.name +
+        " : changer d'assureur, loi Lemoine, economie sur pret immo. Courtier ORIAS, devis gratuit."
+      );
+    },
+    h1: function (city) {
+      return "Assurance emprunteur a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Emprunteur a " +
+        city.name +
+        " ? Comparez les contrats emprunteur (delegation, resiliation) et reduisez le cout de votre assurance de pret."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Assurance de pret a " + city.name,
+          paragraphs: [
+            "La loi Lemoine permet souvent de changer d'assureur sans attendre l'echeance. Nous verifions l'equivalence de garanties exigee par votre banque.",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Puis-je changer d'assurance emprunteur a " + city.name + " ?",
+          a: "Oui, sous conditions d'equivalence de garanties. Un courtier prepare le dossier pour votre banque.",
+        },
+        {
+          q: "Assurance emprunteur et credit immo",
+          a: "Nous pouvons aussi etudier votre financement immobilier via notre pole credit immo.",
+        },
+      ];
+    },
+    extraRelated: [
+      { href: "/credit-immo/", label: "Credit immobilier" },
+      { href: "/blog/assurance-emprunteur-loi-lemoine-2026.html", label: "Blog : loi Lemoine" },
+      { href: "/landings/devis.html?need=emprunteur", label: "Devis emprunteur" },
+    ],
   },
   {
     key: "prevoyance",
@@ -882,6 +928,17 @@ function buildPillarPageConfigs(pageFn) {
       intro: "Locataire ou proprietaire : multirisque habitation, responsabilite civile et options sur mesure.",
     },
     {
+      file: "assurance-emprunteur/index.html",
+      theme: "habitation",
+      siloLabel: "Assurance emprunteur",
+      siloUrl: "/assurance-emprunteur/",
+      landing: "/landings/devis.html?need=emprunteur",
+      title: "Assurance emprunteur | Loi Lemoine & delegation",
+      description: "Assurance emprunteur en France : changer d'assureur, economiser sur le pret, equivalence de garanties. Devis gratuit.",
+      h1: "Assurance emprunteur : reduire le cout de votre pret",
+      intro: "Emprunteurs : comparez les contrats et profitez de la loi Lemoine pour resiliation et delegation.",
+    },
+    {
       file: "assurance-prevoyance/index.html",
       theme: "prevoyance",
       siloLabel: "Assurance prevoyance",
@@ -1104,9 +1161,11 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
 
 function collectSitemapUrls(cities, departments, regions, base) {
   const today = new Date().toISOString().slice(0, 10);
+  const blogManifest = require("./blog-articles-manifest.cjs");
   const urls = [
     { loc: base + "/", priority: "1.0", changefreq: "weekly" },
     { loc: base + "/france/", priority: "0.95", changefreq: "weekly" },
+    { loc: base + "/assurances/", priority: "0.96", changefreq: "weekly" },
     { loc: base + "/nos-services.html", priority: "0.95", changefreq: "weekly" },
     { loc: base + "/landings/vtc.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
@@ -1132,6 +1191,12 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurance-vtc/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/devis-rapide/", priority: "0.87", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/tarif/", priority: "0.82", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/rc-pro/", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/uber-bolt/", priority: "0.85", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/creation-activite/", priority: "0.85", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/resiliation/", priority: "0.84", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/comparatif-assureurs/", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/pas-cher/", priority: "0.84", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/villes/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-sante/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-sante/comparatif/", priority: "0.87", changefreq: "weekly" },
@@ -1165,11 +1230,23 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/blog/assurance-chat-guide-complet.html", priority: "0.78", changefreq: "monthly" },
     { loc: base + "/blog/assurance-chiot-chaton-quand-assurer.html", priority: "0.78", changefreq: "monthly" },
     { loc: base + "/blog/comparatif-santevet-bulle-bleue-kozoo.html", priority: "0.78", changefreq: "monthly" },
+    { loc: base + "/blog/assurance-vtc-rc-pro-garanties.html", priority: "0.8", changefreq: "monthly" },
+    { loc: base + "/blog/assurance-vtc-creation-chauffeur.html", priority: "0.78", changefreq: "monthly" },
+    { loc: base + "/blog/assurance-vtc-uber-bolt-heetch.html", priority: "0.78", changefreq: "monthly" },
+    { loc: base + "/blog/assurance-vtc-renouvellement-resiliation.html", priority: "0.78", changefreq: "monthly" },
+    { loc: base + "/blog/comparatif-vtc-zephir-solly-azar.html", priority: "0.78", changefreq: "monthly" },
     { loc: base + "/blog/feed.xml", priority: "0.5", changefreq: "weekly" },
+  ];
+
+  blogManifest.articles.forEach(function (a) {
+    urls.push({ loc: base + "/blog/" + a.file, priority: "0.74", changefreq: "monthly" });
+  });
+
+  urls.push(
     { loc: base + "/mentions-legales.html", priority: "0.3", changefreq: "yearly" },
     { loc: base + "/politique-confidentialite.html", priority: "0.35", changefreq: "yearly" },
-    { loc: base + "/cgu.html", priority: "0.3", changefreq: "yearly" },
-  ];
+    { loc: base + "/cgu.html", priority: "0.3", changefreq: "yearly" }
+  );
 
   GEO_PRODUCTS.forEach(function (product) {
     urls.push({ loc: base + product.siloUrl, priority: "0.88", changefreq: "weekly" });
