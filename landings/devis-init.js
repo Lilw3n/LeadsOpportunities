@@ -12,7 +12,14 @@
     var need = params.get("need") || "autre";
     var service = catalog.getService(need) || catalog.getService("autre");
 
-    if (service.landing && service.landing.indexOf("devis.html") === -1) {
+    var forceStandard =
+      params.get("journey") === "standard" || params.get("wizard") === "1";
+    if (
+      !forceStandard &&
+      service.landing &&
+      service.landing.indexOf("devis.html") === -1 &&
+      service.landing.indexOf("questionnaire.html") === -1
+    ) {
       var dest = service.landing.replace(/^\.\/landings\//, "./");
       window.location.replace(dest + (window.location.search || ""));
       return;
@@ -66,6 +73,10 @@
     var mount = document.getElementById("wizardStepsMount");
     if (mount) {
       mount.innerHTML = stepsBuilder.buildWizardHtml(service);
+    }
+
+    if (window.LANDING_SEO && window.LANDING_SEO.applyForService) {
+      window.LANDING_SEO.applyForService(service);
     }
   });
 })();

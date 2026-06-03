@@ -107,6 +107,9 @@
           '<a class="btn btn-primary btn-sm" href="' +
           item.devisUrl.replace(/^\.\//, "../") +
           '">Devis</a>' +
+          (item.need === "animaux"
+            ? '<a class="btn btn-soft btn-sm" href="../landings/questionnaire.html?need=animaux&journey=standard">Questionnaire</a>'
+            : "") +
           (item.seoUrl
             ? '<a class="btn btn-outline btn-sm" href="' + item.seoUrl + '">Guide</a>'
             : "") +

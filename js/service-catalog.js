@@ -132,7 +132,7 @@
     opts = opts || {};
     var svc = getService(need);
     if (!svc) {
-      return "./landings/devis.html?need=" + encodeURIComponent(need || "autre");
+      return "./landings/questionnaire.html?need=" + encodeURIComponent(need || "autre");
     }
     if (svc.landing) {
       if (opts.fromLandingsFolder) {
@@ -140,7 +140,7 @@
       }
       return svc.landing;
     }
-    return "./landings/devis.html?need=" + encodeURIComponent(svc.need);
+    return "./landings/questionnaire.html?need=" + encodeURIComponent(svc.need);
   }
 
   function resolveFromQuery(search) {

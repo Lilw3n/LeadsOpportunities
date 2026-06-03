@@ -553,3 +553,45 @@ input::placeholder { color: #94a3b8; }
 .lead-offer-price small { font-weight: 600; color: var(--muted); font-size: 0.75rem; }
 .lead-offer ul { margin: 0; padding-left: 1.1rem; font-size: 0.85rem; color: var(--muted); }
 .lead-insights-foot { margin: 14px 0 0; font-size: 0.88rem; color: var(--muted); }
+
+/* ===== SEO content & hub landings ===== */
+.landing-seo-content h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 18px 0 8px;
+}
+.landing-seo-content p { color: var(--muted); margin: 0 0 12px; }
+.landing-seo-links a { color: var(--primary); font-weight: 600; }
+.landing-seo-pillar { margin-top: 12px; }
+.landing-seo-faq { margin: 0; }
+.landing-seo-faq dt { font-weight: 700; margin-top: 12px; }
+.landing-seo-faq dd { margin: 4px 0 0; color: var(--muted); }
+.landings-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+.landings-hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  background: #fff;
+  transition: border-color .2s, box-shadow .2s;
+}
+.landings-hub-card:hover {
+  border-color: var(--ring);
+  box-shadow: var(--shadow-sm);
+}
+.landings-hub-card strong { font-size: 1rem; }
+.landings-hub-card span { font-size: 0.88rem; color: var(--muted); }
+.landings-hub-card em {
+  font-size: 0.75rem;
+  font-style: normal;
+  color: var(--primary);
+  font-weight: 600;
+}

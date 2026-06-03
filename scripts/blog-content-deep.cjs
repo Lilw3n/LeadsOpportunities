@@ -318,6 +318,154 @@ var DEEP = {
       ]),
     ],
   },
+  "mutuelle-remboursement-optique-dentaire-2026.html": {
+    keywords: [
+      "remboursement mutuelle optique",
+      "remboursement dentaire mutuelle",
+      "tableau garanties",
+      "BRSS optique",
+      "prothese dentaire",
+      "mutuelle sante",
+      "comparatif mutuelle",
+      "devis mutuelle sante",
+      "100 pourcent sante",
+      "forfait lunettes",
+      "orthodontie enfant",
+      "courtier ORIAS",
+    ],
+    extraBlocks: [
+      h2("Exemple chiffré : lunettes hors panier 100 % sante"),
+      p(
+        "Une monture a 200 EUR et des verres complexes a 400 EUR peuvent laisser 150 a 300 EUR a charge selon le niveau de <strong>remboursement mutuelle optique</strong>. Demandez le detail Secu + mutuelle avant achat."
+      ),
+      h2("Implant dentaire : lire le % sur prothese"),
+      p(
+        "Un devis dentaire detaille chaque acte (CCAM). Comparez le remboursement sur <strong>prothese</strong> et <strong>implant</strong> — c'est la ligne qui fait basculer le comparatif entre deux mutuelles au meme prix."
+      ),
+    ],
+    faq: [
+      {
+        q: "Quelle difference entre BRSS 100 % et forfait optique ?",
+        a: "La BRSS est une base Securite sociale ; la mutuelle ajoute un % ou un forfait. Un forfait eleve peut etre plus avantageux qu'un faible % sur une base basse.",
+      },
+      {
+        q: "Puis-je changer de mutuelle pour l'optique en cours d'annee ?",
+        a: "Oui selon votre contrat (echeance, portabilite, resiliation). Verifiez les delais de carence sur le dentaire avant de basculer.",
+      },
+    ],
+  },
+  "mutuelle-sante-famille-petit-budget-2026.html": {
+    keywords: [
+      "mutuelle sante famille",
+      "assurance sante famille",
+      "mutuelle pas cher",
+      "meilleure mutuelle famille",
+      "mutuelle famille tarif",
+      "complementaire sante enfants",
+      "hospitalisation famille",
+      "devis mutuelle",
+      "comparatif assurance sante",
+      "courtier ORIAS",
+      "surcomplementaire sante",
+      "CMU-C CSS",
+    ],
+    extraBlocks: [
+      h2("Profil famille : adapter les postes par age"),
+      ul([
+        "Enfants : pediatrie, orthodontie, vaccins",
+        "Parents actifs : hospitalisation, optique moderee",
+        "Seniors au foyer : optique, dentaire, medecine de ville",
+      ]),
+      h2("Mutuelle pas cher : pieges a eviter"),
+      p(
+        "Un contrat a 25 EUR/mois avec plafond hospitalisation bas peut couter plus cher qu'une formule a 45 EUR apres une seule operation. Calculez le <strong>reste a charge maximal</strong> sur un scenario reel."
+      ),
+    ],
+  },
+  "assurance-vtc-franchise-garanties-2026.html": {
+    keywords: [
+      "franchise assurance vtc",
+      "garanties assurance vtc",
+      "assurance vtc tarif",
+      "rc pro vtc",
+      "assurance chauffeur vtc",
+      "devis assurance vtc",
+      "comparatif assurance vtc",
+      "tous risques vtc",
+      "assurance uber bolt",
+      "sinistre vtc",
+      "courtier ORIAS",
+      "assurance vtc rapide",
+    ],
+    extraBlocks: [
+      h2("Sinistre VTC : qui paie quoi ?"),
+      p(
+        "Collision responsable : franchise materielle + impact bonus. Dommages passager : <strong>RC pro</strong>. Vol ou incendie : selon garanties souscrites. Gardez les photos, constat et declaration sous 48 h."
+      ),
+      h2("Lien avec les pages SEO VTC"),
+      p(
+        "Consultez nos guides <a href=\"../assurance-vtc/garanties-obligatoires/\">garanties obligatoires VTC</a> et la page <a href=\"../assurance-vtc/devis-rapide/\">devis rapide</a> pour un comparatif aligne a votre plateforme."
+      ),
+    ],
+  },
+  "taux-credit-immobilier-2026-frais-dossier.html": {
+    keywords: [
+      "taux credit immobilier 2026",
+      "frais dossier credit",
+      "assurance emprunteur",
+      "simulation credit immo",
+      "courtier pret immobilier",
+      "TAEG pret immobilier",
+      "loi Lemoine",
+      "delegation assurance emprunteur",
+      "frais notaire",
+      "pret immobilier",
+      "devis credit immobilier",
+      "courtier ORIAS",
+    ],
+    extraBlocks: [
+      h2("Simulation : integrer tous les couts"),
+      ul([
+        "Capital emprunte + interets",
+        "Assurance emprunteur sur toute la duree",
+        "Frais dossier + garantie + courtage",
+        "Notaire et eventuels travaux",
+      ]),
+      h2("Taux 2026 : fixe ou revisable ?"),
+      p(
+        "En periode de taux variables, certains emprunteurs choisissent le fixe pour securiser la mensualite. Un <strong>courtier pret immobilier</strong> compare banques et courtiers sur un meme dossier (revenus, apport, duree)."
+      ),
+    ],
+  },
+  "rachat-credit-immobilier-guide-2026.html": {
+    keywords: [
+      "rachat credit immobilier",
+      "regroupement de credits",
+      "baisse mensualites",
+      "rachat credit immo",
+      "simulation credit immo",
+      "courtier credit immobilier",
+      "taux endettement",
+      "IRA remboursement anticipe",
+      "assurance emprunteur rachat",
+      "pret immobilier",
+      "devis credit immobilier",
+      "courtier ORIAS",
+    ],
+    extraBlocks: [
+      h2("Rachat pur immo vs rachat de credits mixtes"),
+      p(
+        "Le <strong>rachat de credit immobilier</strong> seul renegocie le taux du pret immo. Le regroupement inclut consommation et revolving : mensualite plus basse, duree souvent allongee."
+      ),
+      h2("Checklist avant de signer un rachat"),
+      ul([
+        "Comparer cout total avant / apres (pas seulement la mensualite)",
+        "Verifier IRA et frais de dossier",
+        "Revoir l'assurance emprunteur du nouveau pret",
+        "Confirmer le taux d'endettement apres operation",
+      ]),
+    ],
+  },
 };
 
 function getOverride(file) {

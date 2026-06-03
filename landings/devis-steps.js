@@ -1,51 +1,28 @@
 /**
- * Genere les etapes du questionnaire devis selon la categorie de service.
+ * Genere les etapes du questionnaire devis selon la categorie et le produit (need).
  */
 (function (global) {
+  var QC = global.QUESTIONNAIRE_CONFIG;
+
   function fieldRow(html) {
-    return '<div class="grid">' + html + "</div>";
+    return QC ? QC.fieldRow(html) : '<div class="grid">' + html + "</div>";
   }
 
   function select(name, label, options, required) {
-    var req = required !== false ? " required" : "";
-    var opts = options
-      .map(function (o) {
-        return '<option value="' + o.v + '">' + o.t + "</option>";
-      })
-      .join("");
-    return (
-      "<label>" +
-      label +
-      '<select name="' +
-      name +
-      '"' +
-      req +
-      "><option value=\"\">Choisir...</option>" +
-      opts +
-      "</select></label>"
-    );
+    return QC
+      ? QC.select(name, label, options, required)
+      : "<label>" + label + '<select name="' + name + '"></select></label>';
   }
 
   function input(name, label, type, placeholder, required) {
-    var req = required !== false ? " required" : "";
-    return (
-      "<label>" +
-      label +
-      '<input name="' +
-      name +
-      '" type="' +
-      (type || "text") +
-      '" placeholder="' +
-      (placeholder || "") +
-      '"' +
-      req +
-      " /></label>"
-    );
+    return QC
+      ? QC.input(name, label, type, placeholder, required)
+      : "<label>" + label + '<input name="' + name + '" /></label>';
   }
 
   function stepIdentity() {
     return (
-      '<section class="wizard-step" data-step="identity">' +
+      '<section class="wizard-step" data-step="identity" data-step-name="identity">' +
       "<h3>Vos coordonnees</h3>" +
       fieldRow(
         select("civility", "Civilite", [
@@ -64,216 +41,60 @@
     );
   }
 
-  function stepContextMobilite() {
-    return (
-      '<section class="wizard-step" hidden data-step="context">' +
-      "<h3>Votre vehicule</h3>" +
-      fieldRow(
-        select("vehicleType", "Type de vehicule", [
-          { v: "auto", t: "Voiture" },
-          { v: "vsp", t: "Voiture sans permis" },
-          { v: "moto", t: "Moto / scooter" },
-          { v: "utilitaire", t: "Utilitaire" },
-          { v: "autre", t: "Autre" },
-        ]) +
-          input("vehicleYear", "Annee du vehicule", "text", "Ex. 2019", true)
-      ) +
-      fieldRow(
-        select("vehicleUsage", "Usage principal", [
-          { v: "prive", t: "Prive" },
-          { v: "pro", t: "Professionnel" },
-          { v: "mixte", t: "Mixte" },
-        ]) +
-          select("currentInsurerMob", "Assureur actuel", [
-            { v: "aucun", t: "Pas encore assure" },
-            { v: "en_cours", t: "Contrat en cours" },
-            { v: "resilie", t: "Resilie recemment" },
-          ])
-      ) +
-      fieldRow(
-        select("bonusMalus", "Bonus-malus (si connu)", [
-          { v: "", t: "Je ne sais pas" },
-          { v: "50", t: "50" },
-          { v: "0.50", t: "0,50" },
-          { v: "1.00", t: "1,00 et plus" },
-        ], false)
-      ) +
-      '<p class="small">Si votre demande concerne une voiture sans permis, ces informations accelerent le rappel.</p>' +
-      fieldRow(
-        input("driverAge", "Age du conducteur", "number", "Ex. 32", false) +
-          input("garageDepartment", "Departement de garage", "text", "Ex. 75", false) +
-          input("vehicleValue", "Valeur du vehicule (EUR)", "number", "Ex. 12000", false)
-      ) +
-      fieldRow(
-        select("hasBsrOrAm", "BSR / permis AM ?", [
-          { v: "", t: "Je ne sais pas / non concerne" },
-          { v: "oui", t: "Oui" },
-          { v: "non", t: "Non" },
-        ], false) +
-          select("hasPermitB", "Permis B ou ancien permis B ?", [
-            { v: "", t: "Non precise" },
-            { v: "oui", t: "Oui" },
-            { v: "non", t: "Non" },
-          ], false)
-      ) +
-      fieldRow(
-        select("licenseIssue", "Situation permis / assurance", [
-          { v: "none", t: "Aucune situation particuliere" },
-          { v: "non_payment", t: "Resiliation non-paiement" },
-          { v: "suspension", t: "Suspension de permis" },
-          { v: "cancellation", t: "Annulation de permis" },
-          { v: "any_termination", t: "Autre resiliation" },
-          { v: "alcohol", t: "Alcoolemie" },
-          { v: "drugs", t: "Stupefiants" },
-        ], false) +
-          input("claims24Months", "Sinistres sur 24 mois", "number", "Ex. 0", false)
-      ) +
-      '<label class="field-check"><input type="checkbox" name="isFleet" value="oui" /> <span>Plusieurs vehicules a assurer</span></label>' +
-      "</section>"
-    );
-  }
+  function stepServicePicker(catalog) {
+    var categories = catalog.CATEGORIES;
+    var services = catalog.SERVICES;
+    var catButtons = Object.keys(categories)
+      .map(function (k) {
+        return (
+          '<button type="button" class="picker-cat" data-picker-cat="' +
+          k +
+          '">' +
+          categories[k].label +
+          "</button>"
+        );
+      })
+      .join("");
 
-  function stepContextSante() {
-    return (
-      '<section class="wizard-step" hidden data-step="context">' +
-      "<h3>Votre profil sante</h3>" +
-      fieldRow(
-        select("householdType", "Qui souhaitez-vous couvrir ?", [
-          { v: "solo", t: "Moi seul(e)" },
-          { v: "couple", t: "Couple" },
-          { v: "famille", t: "Famille avec enfants" },
-        ]) +
-          input("householdCount", "Nombre de personnes", "text", "Ex. 3", true)
-      ) +
-      fieldRow(
-        select("currentHealthCover", "Couverture actuelle", [
-          { v: "secu", t: "Securite sociale seule" },
-          { v: "mutuelle", t: "Mutuelle en cours" },
-          { v: "employeur", t: "Mutuelle employeur" },
-        ]) +
-          select("healthPriority", "Priorite principale", [
-          { v: "hospitalisation", t: "Hospitalisation" },
-          { v: "dentaire", t: "Dentaire / optique" },
-          { v: "equilibre", t: "Equilibre global" },
-          { v: "budget", t: "Petit budget" },
-        ])
-      ) +
-      "</section>"
-    );
-  }
+    var options = Object.keys(services)
+      .map(function (need) {
+        var s = services[need];
+        return (
+          '<option value="' +
+          need +
+          '" data-cat="' +
+          s.category +
+          '">' +
+          s.label +
+          "</option>"
+        );
+      })
+      .join("");
 
-  function stepContextHabitat() {
     return (
-      '<section class="wizard-step" hidden data-step="context">' +
-      "<h3>Votre logement</h3>" +
-      fieldRow(
-        select("propertyType", "Type de bien", [
-          { v: "appart", t: "Appartement" },
-          { v: "maison", t: "Maison" },
-          { v: "local", t: "Local / dependance" },
-        ]) +
-          select("occupancyStatus", "Vous etes", [
-          { v: "locataire", t: "Locataire" },
-          { v: "proprio", t: "Proprietaire occupant" },
-          { v: "pno", t: "Proprietaire non occupant" },
-        ])
-      ) +
-      fieldRow(
-        input("propertySurface", "Surface approximative (m2)", "text", "Ex. 65", true) +
-          select("habitationUse", "Usage", [
-            { v: "principal", t: "Residence principale" },
-            { v: "secondaire", t: "Residence secondaire" },
-            { v: "location", t: "Location" },
-          ])
-      ) +
-      "</section>"
-    );
-  }
-
-  function stepContextFinance() {
-    return (
-      '<section class="wizard-step" hidden data-step="context">' +
-      "<h3>Votre projet de financement</h3>" +
-      fieldRow(
-        select("financeProject", "Nature du projet", [
-          { v: "achat", t: "Achat immobilier" },
-          { v: "rachat", t: "Rachat de credits" },
-          { v: "conso", t: "Credit consommation" },
-          { v: "pro", t: "Investissement pro" },
-          { v: "renegociation", t: "Renegociation" },
-        ]) +
-          input("financeAmount", "Montant souhaite (EUR)", "text", "Ex. 180000", true)
-      ) +
-      fieldRow(
-        select("employmentStatus", "Situation professionnelle", [
-          { v: "cdi", t: "CDI" },
-          { v: "cdd", t: "CDD / interim" },
-          { v: "indep", t: "Independant / TNS" },
-          { v: "retraite", t: "Retraite" },
-          { v: "autre", t: "Autre" },
-        ]) +
-          input("monthlyIncome", "Revenus mensuels nets foyer (EUR)", "text", "Ex. 3500", true)
-      ) +
-      "</section>"
-    );
-  }
-
-  function stepContextPro() {
-    return (
-      '<section class="wizard-step" hidden data-step="context">' +
-      "<h3>Votre activite professionnelle</h3>" +
-      fieldRow(
-        input("businessActivity", "Activite / metier", "text", "Ex. consultant IT", true) +
-          select("legalForm", "Forme juridique", [
-            { v: "ei", t: "Entreprise individuelle" },
-            { v: "sarl", t: "SARL / EURL" },
-            { v: "sas", t: "SAS / SASU" },
-            { v: "autre", t: "Autre" },
-          ])
-      ) +
-      fieldRow(
-        input("employeeCount", "Nombre de salaries", "text", "0 si seul", true) +
-          input("annualRevenue", "Chiffre d affaires annuel (EUR)", "text", "Facultatif", false)
-      ) +
-      '<label class="field-check"><input type="checkbox" name="hasCompany" value="1" /> <span>J ai une structure immatriculee (SIRET)</span></label>' +
-      '<div data-company-fields hidden>' +
-      fieldRow(
-        input("companyName", "Raison sociale", "text", "", false) +
-          input("companySiret", "SIRET", "text", "14 chiffres", false)
-      ) +
+      '<section class="wizard-step" data-step="picker" data-step-name="picker">' +
+      "<h3>Quel produit recherchez-vous ?</h3>" +
+      '<p class="small">Parcourez toutes nos assurances et financements — plus de 30 prestations.</p>' +
+      '<div class="picker-cats" role="tablist">' +
+      '<button type="button" class="picker-cat is-active" data-picker-cat="all">Tout</button>' +
+      catButtons +
       "</div>" +
+      fieldRow(
+        '<label class="picker-select-label">Prestation<select name="needPicker" id="needPicker" required>' +
+          '<option value="">Choisir une prestation...</option>' +
+          options +
+          "</select></label>"
+      ) +
+      '<p class="small picker-hint" id="pickerHint">Selectionnez une categorie pour filtrer la liste.</p>' +
       "</section>"
     );
   }
 
-  function stepContextPatrimoine() {
-    return (
-      '<section class="wizard-step" hidden data-step="context">' +
-      "<h3>Vos objectifs patrimoniaux</h3>" +
-      fieldRow(
-        select("patrimonyGoal", "Objectif principal", [
-          { v: "epargne", t: "Epargner / placer" },
-          { v: "retraite", t: "Preparer la retraite" },
-          { v: "transmission", t: "Transmission" },
-          { v: "protection", t: "Proteger la famille" },
-          { v: "gav", t: "Accidents de la vie" },
-        ]) +
-          select("investHorizon", "Horizon", [
-            { v: "court", t: "Moins de 5 ans" },
-            { v: "moyen", t: "5 a 10 ans" },
-            { v: "long", t: "Plus de 10 ans" },
-          ])
-      ) +
-      fieldRow(
-        input("initialAmount", "Montant a placer (EUR)", "text", "Facultatif", false) +
-          select("riskProfile", "Profil", [
-            { v: "prudent", t: "Prudent" },
-            { v: "equilibre", t: "Equilibre" },
-            { v: "dynamique", t: "Dynamique" },
-          ])
-      ) +
-      "</section>"
-    );
+  function stepContextForService(service) {
+    if (QC && QC.contextForService) {
+      return QC.contextForService(service);
+    }
+    return "";
   }
 
   function stepPortefeuille() {
@@ -305,13 +126,25 @@
             { v: "non", t: "Non" },
           ], false)
       ) +
+      fieldRow(
+        select("hasAnimaux", "Assurance animaux ?", [
+          { v: "", t: "Ne pas repondre" },
+          { v: "oui", t: "Oui" },
+          { v: "non", t: "Non" },
+        ], false) +
+          select("hasRcPro", "RC professionnelle ?", [
+            { v: "", t: "Ne pas repondre" },
+            { v: "oui", t: "Oui" },
+            { v: "non", t: "Non" },
+          ], false)
+      ) +
       "</section>"
     );
   }
 
   function stepBudget() {
     return (
-      '<section class="wizard-step" hidden data-step="budget">' +
+      '<section class="wizard-step" hidden data-step="budget" data-step-name="budget">' +
       "<h3>Budget et delai</h3>" +
       fieldRow(
         select("monthlyBudget", "Budget mensuel cible", [
@@ -335,7 +168,7 @@
 
   function stepFinalize() {
     return (
-      '<section class="wizard-step" hidden data-step="finalize">' +
+      '<section class="wizard-step" hidden data-step="finalize" data-step-name="finalize">' +
       "<h3>Validation</h3>" +
       '<p class="small">Un conseiller vous rappelle pour finaliser votre devis personnalise.</p>' +
       '<label class="field-check">' +
@@ -346,27 +179,25 @@
     );
   }
 
-  function contextStepForCategory(categoryId) {
-    if (categoryId === "mobilite") return stepContextMobilite();
-    if (categoryId === "sante") return stepContextSante();
-    if (categoryId === "habitat") return stepContextHabitat();
-    if (categoryId === "finance") return stepContextFinance();
-    if (categoryId === "pro") return stepContextPro();
-    return stepContextPatrimoine();
-  }
+  function buildWizardHtml(service, options) {
+    options = options || {};
+    var parts = [];
 
-  function buildWizardHtml(service) {
-    var cat = service.category || "patrimoine";
-    return (
-      stepIdentity() +
-      contextStepForCategory(cat) +
-      stepPortefeuille() +
-      stepBudget() +
-      stepFinalize()
-    );
+    if (options.includePicker) {
+      parts.push(stepServicePicker(options.catalog || { CATEGORIES: {}, SERVICES: {} }));
+    }
+
+    parts.push(stepIdentity());
+    parts.push(stepContextForService(service));
+    parts.push(stepPortefeuille());
+    parts.push(stepBudget());
+    parts.push(stepFinalize());
+
+    return parts.join("");
   }
 
   global.DEVIS_STEPS = {
     buildWizardHtml: buildWizardHtml,
+    stepServicePicker: stepServicePicker,
   };
 })(typeof window !== "undefined" ? window : global);

@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/landings",
+      "destination": "/landings/index.html",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "leads-opportunities.vercel.app" }],
       "destination": "https://www.leadsopportunities.fr/:path*",
