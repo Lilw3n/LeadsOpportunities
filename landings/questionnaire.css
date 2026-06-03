@@ -1,0 +1,28 @@
+.questionnaire-hub {
+  padding-bottom: 24px;
+}
+
+.questionnaire-hub .hero {
+  padding: 20px 24px 8px;
+}
+
+.questionnaire-hub-foot {
+  padding: 0 24px 20px;
+  color: var(--muted, #475569);
+}
+
+.questionnaire-hub-foot code {
+  font-size: 0.85em;
+  background: #f1f5f9;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+#questionnaireWizard .form-wrap {
+  padding: 0 24px 24px;
+}
+
+#changeProductLink {
+  font-weight: 700;
+  color: var(--primary, #0f766e);
+}
