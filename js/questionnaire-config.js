@@ -438,6 +438,519 @@
       );
     },
 
+    auto: function () {
+      return wizardSection(
+        "auto",
+        "Assurance automobile",
+        fieldRow(
+          input("autoMakeModel", "Marque et modele", "text", "Ex. Renault Clio", true) +
+            input("autoYear", "Annee de mise en circulation", "text", "Ex. 2020", true)
+        ) +
+          fieldRow(
+            select("autoFormula", "Formule souhaitee", [
+              { v: "tiers", t: "Au tiers" },
+              { v: "tiers_etendu", t: "Tiers etendu" },
+              { v: "tous_risques", t: "Tous risques" },
+            ]) +
+              select("autoParking", "Stationnement habituel", [
+                { v: "garage", t: "Garage / box" },
+                { v: "parking", t: "Parking prive" },
+                { v: "voie", t: "Voie publique" },
+              ])
+          ) +
+          fieldRow(
+            select("autoDriverProfile", "Profil conducteur principal", [
+              { v: "standard", t: "Conducteur experimente" },
+              { v: "jeune", t: "Jeune conducteur (- 3 ans permis)" },
+              { v: "second", t: "Second conducteur a declarer" },
+            ]) +
+              select("autoCurrentContract", "Contrat actuel", [
+                { v: "aucun", t: "Pas encore assure" },
+                { v: "en_cours", t: "Assurance en cours" },
+                { v: "resiliation", t: "Resiliation / sans interruption" },
+              ])
+          ) +
+          fieldRow(
+            input("autoPlate", "Immatriculation (facultatif)", "text", "AA-123-BB", false) +
+              input("autoAnnualKm", "Km annuels estimes", "text", "Ex. 12000", false)
+          )
+      );
+    },
+
+    sante: function () {
+      return wizardSection(
+        "sante",
+        "Mutuelle sante",
+        fieldRow(
+          select("healthStatus", "Votre statut", [
+            { v: "salarie", t: "Salarie" },
+            { v: "tns", t: "Independant / TNS" },
+            { v: "retraite", t: "Retraite" },
+            { v: "etudiant", t: "Etudiant" },
+            { v: "autre", t: "Autre" },
+          ]) +
+            input("healthAge", "Age de l assure principal", "number", "Ex. 38", true)
+        ) +
+          fieldRow(
+            select("healthHousehold", "Qui assurer ?", [
+              { v: "solo", t: "Moi seul(e)" },
+              { v: "couple", t: "Couple" },
+              { v: "famille", t: "Famille (enfants)" },
+            ]) +
+              select("healthCurrent", "Mutuelle actuelle", [
+                { v: "aucune", t: "Aucune / securite sociale seule" },
+                { v: "employeur", t: "Mutuelle employeur" },
+                { v: "individuelle", t: "Contrat individuel" },
+                { v: "changement", t: "Changement / mise en concurrence" },
+              ])
+          ) +
+          fieldRow(
+            select("healthNeeds", "Postes prioritaires", [
+              { v: "hospitalisation", t: "Hospitalisation" },
+              { v: "dentaire", t: "Dentaire" },
+              { v: "optique", t: "Optique" },
+              { v: "equilibre", t: "Equilibre global" },
+            ]) +
+              select("healthRenewal", "Echeance du contrat", [
+                { v: "immediat", t: "Des que possible" },
+                { v: "1-3m", t: "Dans 1 a 3 mois" },
+                { v: "plus3m", t: "Plus de 3 mois" },
+                { v: "ns", t: "Pas de contrat en cours" },
+              ], false)
+          )
+      );
+    },
+
+    habitation: function () {
+      return wizardSection(
+        "habitation",
+        "Assurance habitation",
+        fieldRow(
+          select("homeType", "Type de logement", [
+            { v: "appart", t: "Appartement" },
+            { v: "maison", t: "Maison" },
+            { v: "studio", t: "Studio / T1" },
+          ]) +
+            select("homeStatus", "Vous etes", [
+              { v: "locataire", t: "Locataire" },
+              { v: "proprio", t: "Proprietaire occupant" },
+              { v: "coloc", t: "Colocation" },
+            ])
+        ) +
+          fieldRow(
+            input("homeSurface", "Surface (m2)", "text", "Ex. 65", true) +
+              input("homeCity", "Ville du logement", "text", "Ex. Nantes", true)
+          ) +
+          fieldRow(
+            select("homeOccupancy", "Occupation", [
+              { v: "rp", t: "Residence principale" },
+              { v: "secondaire", t: "Residence secondaire" },
+              { v: "location", t: "Location meublee (bailleur)" },
+            ]) +
+              select("homeValuables", "Valeur du mobilier estimee", [
+                { v: "moins15", t: "Moins de 15 000 EUR" },
+                { v: "15-30", t: "15 000 a 30 000 EUR" },
+                { v: "plus30", t: "Plus de 30 000 EUR" },
+              ], false)
+          ) +
+          fieldRow(
+            select("homeClaims", "Sinistres habitation 3 ans", [
+              { v: "aucun", t: "Aucun" },
+              { v: "1", t: "1 sinistre" },
+              { v: "2plus", t: "2 et plus" },
+            ], false) +
+              select("homeCurrent", "Contrat actuel", [
+                { v: "aucun", t: "Pas encore assure" },
+                { v: "en_cours", t: "Contrat en cours" },
+                { v: "echeance", t: "Echeance proche" },
+              ], false)
+          )
+      );
+    },
+
+    mrh: function () {
+      return wizardSection(
+        "mrh",
+        "Multirisque habitation",
+        fieldRow(
+          select("mrhProperty", "Bien assure", [
+            { v: "appart", t: "Appartement" },
+            { v: "maison", t: "Maison individuelle" },
+            { v: "dependance", t: "Maison + dependances" },
+          ]) +
+            select("mrhStatus", "Statut", [
+              { v: "locataire", t: "Locataire" },
+              { v: "proprio", t: "Proprietaire occupant" },
+              { v: "pno", t: "Proprietaire bailleur" },
+            ])
+        ) +
+          fieldRow(
+            input("mrhSurface", "Surface habitable (m2)", "text", "Ex. 95", true) +
+              input("mrhRebuildValue", "Valeur de reconstruction (EUR)", "text", "Ex. 180000", false)
+          ) +
+          fieldRow(
+            select("mrhOptions", "Garanties recherchees", [
+              { v: "standard", t: "Pack standard (incendie, degats eaux, vol)" },
+              { v: "etendu", t: "Etendu (objets valeur, piscine…)" },
+              { v: "premium", t: "Premium / tous risques habitation" },
+            ]) +
+              select("mrhAlarm", "Securite du logement", [
+                { v: "aucune", t: "Sans alarme" },
+                { v: "alarme", t: "Alarme / detecteurs" },
+                { v: "videosurveillance", t: "Videosurveillance" },
+              ], false)
+          )
+      );
+    },
+
+    rachat: function () {
+      return wizardSection(
+        "rachat",
+        "Rachat de credits",
+        fieldRow(
+          select("restructureGoal", "Objectif", [
+            { v: "mensualites", t: "Baisser les mensualites" },
+            { v: "tresorerie", t: "Degager de la tresorerie" },
+            { v: "les_deux", t: "Les deux" },
+          ]) +
+            input("restructureMonthly", "Mensualites actuelles totales (EUR)", "text", "Ex. 1200", true)
+        ) +
+          fieldRow(
+            input("restructureDebt", "Encours total estime (EUR)", "text", "Ex. 85000", true) +
+              select("restructureCredits", "Types de credits", [
+                { v: "conso", t: "Credits consommation" },
+                { v: "immo", t: "Pret immobilier inclus" },
+                { v: "mix", t: "Mixte" },
+              ])
+          ) +
+          fieldRow(
+            select("restructureSituation", "Situation", [
+              { v: "stable", t: "Revenus stables" },
+              { v: "baisse", t: "Revenus en baisse" },
+              { v: "incident", t: "Incident bancaire / fichage" },
+            ], false) +
+              input("restructureProperty", "Bien immobilier en garantie ?", "text", "Oui / Non / A preciser", false)
+          )
+      );
+    },
+
+    conso: function () {
+      return wizardSection(
+        "conso",
+        "Credit consommation",
+        fieldRow(
+          select("consoProject", "Projet", [
+            { v: "vehicule", t: "Vehicule" },
+            { v: "travaux", t: "Travaux" },
+            { v: "personnel", t: "Projet personnel" },
+            { v: "autre", t: "Autre" },
+          ]) +
+            input("consoAmount", "Montant souhaite (EUR)", "text", "Ex. 15000", true)
+        ) +
+          fieldRow(
+            select("consoDuration", "Duree souhaitee", [
+              { v: "12-36", t: "12 a 36 mois" },
+              { v: "37-60", t: "37 a 60 mois" },
+              { v: "60plus", t: "Plus de 60 mois" },
+            ]) +
+              select("consoEmployment", "Situation pro", [
+                { v: "cdi", t: "CDI" },
+                { v: "cdd", t: "CDD / interim" },
+                { v: "indep", t: "Independant" },
+                { v: "retraite", t: "Retraite" },
+              ])
+          ) +
+          fieldRow(
+            select("consoExisting", "Credits en cours", [
+              { v: "non", t: "Non" },
+              { v: "oui_leger", t: "Oui, charge legere" },
+              { v: "oui_important", t: "Oui, charge importante" },
+            ], false) +
+              input("consoDownPayment", "Apport (EUR)", "text", "Facultatif", false)
+          )
+      );
+    },
+
+    "credit-pro": function () {
+      return wizardSection(
+        "credit-pro",
+        "Credit professionnel",
+        fieldRow(
+          input("proCreditActivity", "Activite financee", "text", "Ex. achat materiel BTP", true) +
+            input("proCreditAmount", "Montant (EUR)", "text", "Ex. 50000", true)
+        ) +
+          fieldRow(
+            select("proCreditHorizon", "Horizon de remboursement", [
+              { v: "court", t: "Moins de 3 ans" },
+              { v: "moyen", t: "3 a 7 ans" },
+              { v: "long", t: "Plus de 7 ans" },
+            ]) +
+              input("proCreditCompanyAge", "Anciennete de l entreprise (ans)", "text", "Ex. 4", true)
+          ) +
+          fieldRow(
+            select("proCreditGuarantee", "Garanties disponibles", [
+              { v: "ca", t: "CA / bilans" },
+              { v: "hypo", t: "Hypotheque personnelle" },
+              { v: "caution", t: "Caution / garantie BPI" },
+              { v: "a_definir", t: "A definir avec le conseiller" },
+            ], false) +
+              textarea("proCreditDetails", "Precision", "Equipement, tresorerie, BFR…", false)
+          )
+      );
+    },
+
+    renegociation: function () {
+      return wizardSection(
+        "renegociation",
+        "Renegociation de pret",
+        fieldRow(
+          input("renoInitial", "Capital restant du (EUR)", "text", "Ex. 185000", true) +
+            input("renoRate", "Taux actuel (%)", "text", "Ex. 3,45", true)
+        ) +
+          fieldRow(
+            input("renoMonthly", "Mensualite actuelle (EUR)", "text", "Ex. 980", true) +
+              select("renoBank", "Banque actuelle", [
+                { v: "grand_reseau", t: "Grand reseau" },
+                { v: "mutuelle", t: "Banque mutualiste" },
+                { v: "en_ligne", t: "Banque en ligne" },
+                { v: "autre", t: "Autre" },
+              ], false)
+          ) +
+          fieldRow(
+            select("renoGoal", "Objectif", [
+              { v: "taux", t: "Baisser le taux" },
+              { v: "duree", t: "Ajuster la duree" },
+              { v: "assurance", t: "Pret + assurance emprunteur" },
+            ]) +
+              select("renoTiming", "Souhaitez-vous", [
+                { v: "urgent", t: "Etude rapide" },
+                { v: "echeance", t: "A l echeance du pret" },
+                { v: "info", t: "Simple simulation" },
+              ], false)
+          )
+      );
+    },
+
+    mrp: function () {
+      return wizardSection(
+        "mrp",
+        "Multirisque professionnelle",
+        fieldRow(
+          input("mrpActivity", "Activite / secteur", "text", "Ex. restauration", true) +
+            select("mrpPremises", "Locaux", [
+              { v: "locataire", t: "Locataire" },
+              { v: "proprio", t: "Proprietaire" },
+              { v: "domicile", t: "Activite au domicile" },
+            ])
+        ) +
+          fieldRow(
+            input("mrpSurface", "Surface locaux (m2)", "text", "Ex. 120", false) +
+              input("mrpStockValue", "Valeur stock / materiel (EUR)", "text", "Ex. 40000", false)
+          ) +
+          fieldRow(
+            select("mrpTurnover", "CA annuel", [
+              { v: "moins100", t: "Moins de 100 kEUR" },
+              { v: "100-500", t: "100 a 500 kEUR" },
+              { v: "plus500", t: "Plus de 500 kEUR" },
+            ]) +
+              select("mrpPerteExploit", "Perte d exploitation", [
+                { v: "oui", t: "Souhaitee" },
+                { v: "non", t: "Non necessaire" },
+                { v: "ns", t: "A definir" },
+              ], false)
+          )
+      );
+    },
+
+    "pj-pro": function () {
+      return wizardSection(
+        "pj-pro",
+        "Protection juridique professionnelle",
+        fieldRow(
+          input("pjProActivity", "Activite", "text", "Ex. e-commerce", true) +
+            select("pjProSize", "Taille", [
+              { v: "solo", t: "Auto-entrepreneur / solo" },
+              { v: "tpe", t: "TPE (1-9 salaries)" },
+              { v: "pme", t: "PME (10+ salaries)" },
+            ])
+        ) +
+          fieldRow(
+            select("pjProRisks", "Risques principaux", [
+              { v: "clients", t: "Litiges clients" },
+              { v: "fournisseurs", t: "Fournisseurs / sous-traitance" },
+              { v: "social", t: "Social / URSSAF" },
+              { v: "mix", t: "Plusieurs" },
+            ]) +
+              select("pjProDispute", "Litige en cours", [
+                { v: "non", t: "Non" },
+                { v: "oui", t: "Oui" },
+              ], false)
+          ) +
+          textarea("pjProDetails", "Contexte", "Contrats, pays, volume…", false)
+      );
+    },
+
+    dirigeant: function () {
+      return wizardSection(
+        "dirigeant",
+        "Assurance dirigeant / homme cle",
+        fieldRow(
+          select("keyPersonRole", "Fonction", [
+            { v: "gerant", t: "Gerant / president" },
+            { v: "associe", t: "Associe majoritaire" },
+            { v: "expert", t: "Expert / homme cle" },
+          ]) +
+            input("keyPersonAge", "Age du dirigeant", "number", "Ex. 45", true)
+        ) +
+          fieldRow(
+            input("keyPersonIncome", "Revenu ou remuneration annuelle (EUR)", "text", "Ex. 72000", true) +
+              select("keyPersonCover", "Couverture recherchee", [
+                { v: "deces", t: "Deces" },
+                { v: "invalidite", t: "Invalidite" },
+                { v: "itt", t: "Arret de travail" },
+                { v: "pack", t: "Pack complet" },
+              ])
+          ) +
+          fieldRow(
+            select("keyPersonCompany", "Structure", [
+              { v: "sasu", t: "SASU / SAS" },
+              { v: "sarl", t: "SARL / EURL" },
+              { v: "ei", t: "EI / micro" },
+              { v: "autre", t: "Autre" },
+            ], false) +
+              input("keyPersonCapital", "Capital a garantir (EUR)", "text", "Facultatif", false)
+          )
+      );
+    },
+
+    retraite: function () {
+      return wizardSection(
+        "retraite",
+        "Retraite supplementaire",
+        fieldRow(
+          select("retireGoal", "Objectif", [
+            { v: "complement", t: "Completer les revenus" },
+            { v: "optimiser", t: "Optimiser la fiscalite" },
+            { v: "transmission", t: "Preparer la transmission" },
+          ]) +
+            input("retireAge", "Age actuel", "number", "Ex. 42", true)
+        ) +
+          fieldRow(
+            select("retireHorizon", "Horizon avant retraite", [
+              { v: "moins10", t: "Moins de 10 ans" },
+              { v: "10-20", t: "10 a 20 ans" },
+              { v: "plus20", t: "Plus de 20 ans" },
+            ]) +
+              input("retireMonthly", "Versement mensuel envisage (EUR)", "text", "Ex. 200", false)
+          ) +
+          fieldRow(
+            select("retireVehicle", "Support connu", [
+              { v: "per", t: "PER" },
+              { v: "assurance_vie", t: "Assurance vie" },
+              { v: "article83", t: "Article 83 / 39" },
+              { v: "ns", t: "A definir avec le conseiller" },
+            ], false) +
+              select("retireStatus", "Statut", [
+                { v: "salarie", t: "Salarie" },
+                { v: "tns", t: "TNS" },
+                { v: "deja_retraite", t: "Deja retraite" },
+              ])
+          )
+      );
+    },
+
+    gav: function () {
+      return wizardSection(
+        "gav",
+        "Garantie accidents de la vie",
+        fieldRow(
+          select("gavHousehold", "Personnes a couvrir", [
+            { v: "solo", t: "Moi seul(e)" },
+            { v: "couple", t: "Couple" },
+            { v: "famille", t: "Famille" },
+          ]) +
+            select("gavPriority", "Priorite", [
+              { v: "invalidite", t: "Invalidite / dependance" },
+              { v: "deces", t: "Capital deces accident" },
+              { v: "itt", t: "Incapacite temporaire" },
+              { v: "pack", t: "Pack complet" },
+            ])
+        ) +
+          fieldRow(
+            select("gavSports", "Sports / loisirs a risque", [
+              { v: "non", t: "Non" },
+              { v: "oui", t: "Oui (ski, VTT, escalade…)" },
+            ], false) +
+              select("gavExisting", "Contrat GAV existant", [
+                { v: "non", t: "Non" },
+                { v: "oui", t: "Oui, a comparer" },
+              ], false)
+          )
+      );
+    },
+
+    pj: function () {
+      return wizardSection(
+        "pj",
+        "Protection juridique particulier",
+        fieldRow(
+          select("pjScope", "Domaines concernes", [
+            { v: "habitat", t: "Logement / voisinage" },
+            { v: "conso", t: "Consommation" },
+            { v: "travail", t: "Travail" },
+            { v: "famille", t: "Famille / succession" },
+            { v: "multi", t: "Plusieurs domaines" },
+          ]) +
+            select("pjDispute", "Litige en cours", [
+              { v: "non", t: "Non, prevention" },
+              { v: "oui", t: "Oui, besoin immediat" },
+            ])
+        ) +
+          fieldRow(
+            select("pjHousing", "Statut logement", [
+              { v: "locataire", t: "Locataire" },
+              { v: "proprio", t: "Proprietaire" },
+              { v: "autre", t: "Autre" },
+            ], false) +
+              textarea("pjDetails", "Precision", "Type de litige, echeance…", false)
+          )
+      );
+    },
+
+    famille: function () {
+      return wizardSection(
+        "famille",
+        "Assurance scolaire et famille",
+        fieldRow(
+          select("schoolCover", "Besoin", [
+            { v: "scolaire", t: "Assurance scolaire" },
+            { v: "extra", t: "Extra-scolaire (sport, colonie)" },
+            { v: "famille", t: "Pack famille" },
+          ]) +
+            input("schoolChildren", "Nombre d enfants", "number", "Ex. 2", true)
+        ) +
+          fieldRow(
+            input("schoolLevel", "Niveau scolaire", "text", "Ex. college, lycee", true) +
+              select("schoolActivities", "Activites", [
+                { v: "standard", t: "Scolarite classique" },
+                { v: "sport", t: "Sport intensif" },
+                { v: "internat", t: "Internat / etudes a l etranger" },
+              ], false)
+          ) +
+          fieldRow(
+            select("schoolStart", "Date de reprise", [
+              { v: "rentree", t: "Rentrée scolaire" },
+              { v: "immediat", t: "Des maintenant" },
+              { v: "info", t: "Information" },
+            ], false) +
+              select("schoolExisting", "Contrat en cours", [
+                { v: "non", t: "Non" },
+                { v: "oui", t: "Oui" },
+              ], false)
+          )
+      );
+    },
+
     tns: function () {
       return wizardSection(
         "tns",

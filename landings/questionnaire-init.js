@@ -179,8 +179,12 @@
 
     var service = catalog.getService(need) || catalog.getService("autre");
 
+    var onUniversalQuestionnaire = /questionnaire\.html$/i.test(
+      (window.location.pathname || "").split("/").pop() || ""
+    );
     if (
       !forceStandard &&
+      !onUniversalQuestionnaire &&
       service.landing &&
       service.landing.indexOf("devis.html") === -1 &&
       service.landing.indexOf("questionnaire.html") === -1
