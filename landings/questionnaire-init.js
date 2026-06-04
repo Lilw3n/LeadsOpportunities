@@ -68,7 +68,8 @@
 
       gridEl.innerHTML = filtered
         .map(function (item) {
-          var href = "./questionnaire.html?need=" + encodeURIComponent(item.need);
+          var rapide = catalog.getRapideUrl(item.need, { fromLandingsFolder: true });
+          var complet = catalog.getCompletUrl(item.need, { fromLandingsFolder: true });
           return (
             '<article class="assurance-card">' +
             '<span class="assurance-card-icon" aria-hidden="true">' +
@@ -81,10 +82,14 @@
             item.teaser +
             "</p>" +
             '<div class="assurance-card-actions">' +
+            '<div class="assurance-card-actions-primary">' +
             '<a class="btn btn-primary btn-sm" href="' +
-            href +
-            '">Demarrer le questionnaire</a>' +
-            "</div></article>"
+            rapide +
+            '">Rapide</a>' +
+            '<a class="btn btn-outline btn-sm" href="' +
+            complet +
+            '">Complet</a>' +
+            "</div></div></article>"
           );
         })
         .join("");

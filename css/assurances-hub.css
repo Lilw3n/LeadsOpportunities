@@ -73,9 +73,46 @@
 .assurance-card-actions {
   margin-top: auto;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 12px;
+}
+.assurance-card-actions-primary {
+  display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding-top: 8px;
+  align-items: center;
+}
+.assurance-card-actions-primary .btn {
+  flex: 1 1 calc(50% - 4px);
+  min-width: 7.5rem;
+  text-align: center;
+  justify-content: center;
+}
+.assurance-card-actions-secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  font-size: 0.82rem;
+}
+.assurance-card-link {
+  color: #0f766e;
+  font-weight: 600;
+  text-decoration: none;
+}
+.assurance-card-link:hover {
+  text-decoration: underline;
+}
+/* Boutons utilises sur /assurances/ (main.css ne definit pas btn-soft) */
+.assurances-grid .btn-soft {
+  color: #334155;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+.assurances-grid .btn-soft:hover {
+  border-color: #0d9488;
+  color: #0f766e;
 }
 .assurances-banner {
   background: linear-gradient(135deg, #0f766e, #4338ca);

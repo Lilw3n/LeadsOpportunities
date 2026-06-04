@@ -128,19 +128,69 @@
     return SERVICES[key] || null;
   }
 
-  function getDevisUrl(need, opts) {
+  /** Parcours rapide dedie (sinon devis-express generique). */
+  var RAPIDE_LANDINGS = {
+    animaux: "./landings/animaux-express.html",
+    vtc: "./landings/devis-rapide.html",
+  };
+
+  /** Parcours complet dedie (sinon questionnaire universel). */
+  var COMPLET_LANDINGS = {
+    animaux: "./landings/animaux.html",
+    vtc: "./landings/vtc.html",
+    sante: "./landings/sante.html",
+    immo: "./landings/credit-immo.html",
+  };
+
+  function normalizeLandingPath(path, opts) {
+    if (!path) return path;
     opts = opts || {};
-    var svc = getService(need);
-    if (!svc) {
-      return "./landings/questionnaire.html?need=" + encodeURIComponent(need || "autre");
+    if (opts.fromAssurancesFolder) {
+      return path.replace(/^\.\/landings\//, "../landings/");
     }
-    if (svc.landing) {
-      if (opts.fromLandingsFolder) {
-        return svc.landing.replace(/^\.\/landings\//, "./");
-      }
-      return svc.landing;
+    if (opts.fromLandingsFolder) {
+      return path.replace(/^\.\/landings\//, "./");
     }
-    return "./landings/questionnaire.html?need=" + encodeURIComponent(svc.need);
+    return path;
+  }
+
+  function getRapideUrl(need, opts) {
+    opts = opts || {};
+    var key = String(need || "").trim().toLowerCase();
+    if (RAPIDE_LANDINGS[key]) {
+      return normalizeLandingPath(RAPIDE_LANDINGS[key], opts);
+    }
+    var base = "./landings/devis-express.html?need=" + encodeURIComponent(key || "autre");
+    if (opts.fromAssurancesFolder) {
+      return base.replace(/^\.\/landings\//, "../landings/");
+    }
+    if (opts.fromLandingsFolder) {
+      return base.replace(/^\.\/landings\//, "./");
+    }
+    return base;
+  }
+
+  function getCompletUrl(need, opts) {
+    opts = opts || {};
+    var key = String(need || "").trim().toLowerCase();
+    if (COMPLET_LANDINGS[key]) {
+      return normalizeLandingPath(COMPLET_LANDINGS[key], opts);
+    }
+    var q =
+      "./landings/questionnaire.html?need=" +
+      encodeURIComponent(key || "autre") +
+      "&journey=standard";
+    if (opts.fromAssurancesFolder) {
+      return q.replace(/^\.\/landings\//, "../landings/");
+    }
+    if (opts.fromLandingsFolder) {
+      return q.replace(/^\.\/landings\//, "./");
+    }
+    return q;
+  }
+
+  function getDevisUrl(need, opts) {
+    return getCompletUrl(need, opts);
   }
 
   function resolveFromQuery(search) {
@@ -151,8 +201,12 @@
   global.SERVICE_CATALOG = {
     CATEGORIES: CATEGORIES,
     SERVICES: SERVICES,
+    RAPIDE_LANDINGS: RAPIDE_LANDINGS,
+    COMPLET_LANDINGS: COMPLET_LANDINGS,
     getService: getService,
     getDevisUrl: getDevisUrl,
+    getRapideUrl: getRapideUrl,
+    getCompletUrl: getCompletUrl,
     resolveFromQuery: resolveFromQuery,
   };
 })(typeof window !== "undefined" ? window : global);
