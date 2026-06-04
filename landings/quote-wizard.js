@@ -97,6 +97,10 @@
     sync();
   }
 
+  function auditSkip(form) {
+    return window.FormAudit && window.FormAudit.skipValidation(form);
+  }
+
   function initForm(form) {
     var steps = getSteps(form);
     if (!steps.length) return;
@@ -210,8 +214,16 @@
     showStep(0);
     if (window.QuoteIntelligence) window.QuoteIntelligence.bindAbandon(form);
 
+    form.addEventListener("lo-audit-goto", function (e) {
+      if (e.detail && typeof e.detail.index === "number") showStep(e.detail.index);
+    });
+
     if (btnNext) {
       btnNext.addEventListener("click", function () {
+        if (auditSkip(form)) {
+          showStep(idx + 1);
+          return;
+        }
         if (!validateStep(steps[idx])) return;
         var nextIdx = idx + 1;
         var gate =
@@ -243,6 +255,25 @@
     form.addEventListener(
       "submit",
       function (e) {
+        if (auditSkip(form)) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          var msg = form.querySelector("[data-audit-submit-hint]");
+          if (!msg) {
+            msg = document.createElement("p");
+            msg.setAttribute("data-audit-submit-hint", "");
+            msg.className = "form-audit-step-panel";
+            msg.style.borderColor = "#fca5a5";
+            msg.style.background = "#fef2f2";
+            msg.style.color = "#991b1b";
+            var actions = form.querySelector(".wizard-actions");
+            if (actions) actions.parentNode.insertBefore(msg, actions);
+          }
+          msg.textContent =
+            "Mode contrôle actif : désactivez-le dans la barre en haut pour envoyer un vrai lead.";
+          msg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          return;
+        }
         if (!validateStep(steps[steps.length - 1])) {
           e.preventDefault();
           e.stopImmediatePropagation();
