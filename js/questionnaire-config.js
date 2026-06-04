@@ -74,6 +74,85 @@
     );
   }
 
+  function animauxWizardSection() {
+    return wizardSection(
+      "animaux",
+      "Votre animal de compagnie",
+      fieldRow(
+        select("petSpecies", "Espece", [
+          { v: "chien", t: "Chien" },
+          { v: "chat", t: "Chat" },
+          { v: "nac", t: "NAC (lapin, furet…)" },
+          { v: "autre", t: "Autre" },
+        ]) +
+          input("petName", "Prenom de l animal (facultatif)", "text", "Ex. Max", false)
+      ) +
+        fieldRow(
+          select("petAge", "Age", [
+            { v: "0-1", t: "Moins de 1 an" },
+            { v: "1-4", t: "1 a 4 ans" },
+            { v: "4-7", t: "4 a 7 ans" },
+            { v: "7plus", t: "Plus de 7 ans" },
+          ]) +
+            input("petBirthDate", "Date de naissance (si connue)", "date", "", false)
+        ) +
+        fieldRow(
+          input("petBreed", "Race (si connue)", "text", "Ex. Labrador", false) +
+            select("petSex", "Sexe", [
+              { v: "male", t: "Male" },
+              { v: "female", t: "Femelle" },
+            ])
+        ) +
+        fieldRow(
+          select("petIdentification", "Identification", [
+            { v: "puce", t: "Puce electronique" },
+            { v: "tatouage", t: "Tatouage" },
+            { v: "en_cours", t: "En cours (chiot/chaton)" },
+            { v: "aucun", t: "Aucune pour l instant" },
+          ]) +
+            input("petChipNumber", "Numero de puce (15 chiffres)", "text", "Facultatif", false)
+        ) +
+        fieldRow(
+          select("petSterilized", "Sterilise / castre", [
+            { v: "oui", t: "Oui" },
+            { v: "non", t: "Non" },
+            { v: "ns", t: "Je ne sais pas" },
+          ]) +
+            select("petVaccinated", "Vaccins a jour", [
+              { v: "oui", t: "Oui" },
+              { v: "non", t: "Non" },
+              { v: "en_cours", t: "Carnet en cours" },
+            ], false)
+        ) +
+        fieldRow(
+          select("petCurrentInsurance", "Assurance actuelle", [
+            { v: "aucune", t: "Aucune" },
+            { v: "en_cours", t: "Contrat en cours" },
+            { v: "resiliation", t: "Resiliation / changement" },
+          ], false) +
+            select("petHealthHistory", "Antecedents sante", [
+              { v: "aucun", t: "Aucun probleme connu" },
+              { v: "chronique", t: "Maladie chronique" },
+              { v: "operation", t: "Operation recente (< 12 mois)" },
+              { v: "ns", t: "Je ne sais pas" },
+            ], false)
+        ) +
+        fieldRow(
+          select("petCoverageGoal", "Priorite couverture", [
+            { v: "accident", t: "Accidents" },
+            { v: "maladie", t: "Maladies" },
+            { v: "prevention", t: "Prevention (vaccins, vermifuge)" },
+            { v: "complet", t: "Formule complete" },
+          ]) +
+            select("petJourneyPreference", "Parcours souhaite", [
+              { v: "complet", t: "Complet avec tarif indicatif" },
+              { v: "rapide", t: "Rappel rapide" },
+            ], false)
+        ) +
+        '<p class="small"><strong>Deux parcours :</strong> <a href="./animaux-express.html">Rapide (~1 min)</a> · <a href="./animaux.html">Complet avec comparatif et tarif</a>.</p>'
+    );
+  }
+
   /* ——— Contexte par categorie ——— */
 
   var CATEGORY_CONTEXT = {
@@ -259,46 +338,7 @@
     },
 
     animaux: function () {
-      return wizardSection(
-        "animaux",
-        "Votre animal de compagnie",
-        fieldRow(
-          select("petSpecies", "Espece", [
-            { v: "chien", t: "Chien" },
-            { v: "chat", t: "Chat" },
-            { v: "nac", t: "NAC (lapin, furet…)" },
-            { v: "autre", t: "Autre" },
-          ]) +
-            select("petAge", "Age", [
-              { v: "0-1", t: "Moins de 1 an" },
-              { v: "1-4", t: "1 a 4 ans" },
-              { v: "4-7", t: "4 a 7 ans" },
-              { v: "7plus", t: "Plus de 7 ans" },
-            ])
-        ) +
-          fieldRow(
-            input("petBreed", "Race (si connue)", "text", "Ex. Labrador", false) +
-              select("petSex", "Sexe", [
-                { v: "male", t: "Male" },
-                { v: "female", t: "Femelle" },
-              ], false)
-          ) +
-          fieldRow(
-            select("petHealthHistory", "Antecedents sante", [
-              { v: "aucun", t: "Aucun probleme connu" },
-              { v: "chronique", t: "Maladie chronique" },
-              { v: "operation", t: "Operation recente" },
-              { v: "ns", t: "Je ne sais pas" },
-            ], false) +
-              select("petCoverageGoal", "Priorite couverture", [
-                { v: "accident", t: "Accidents" },
-                { v: "maladie", t: "Maladies" },
-                { v: "prevention", t: "Prevention (vaccins, vermifuge)" },
-                { v: "complet", t: "Formule complete" },
-              ])
-          ) +
-          '<p class="small">Pour un tarif indicatif detaille, utilisez aussi le <a href="./animaux.html">parcours animaux 3 etapes</a>.</p>'
-      );
+      return animauxWizardSection();
     },
 
     niches: function () {
@@ -1191,7 +1231,7 @@
     },
 
     animaux: function () {
-      return CATEGORY_CONTEXT.animaux();
+      return animauxWizardSection();
     },
 
     chasse: function () {

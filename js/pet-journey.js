@@ -7,7 +7,22 @@
   var state = {
     step: 0,
     config: null,
-    pets: [{ type: "Chien", breed: "", age: "4-7", sex: "Mâle" }],
+    pets: [
+      {
+        type: "Chien",
+        name: "",
+        breed: "",
+        age: "4-7",
+        birthDate: "",
+        sex: "Mâle",
+        identification: "puce",
+        chipNumber: "",
+        sterilized: "non",
+        vaccinated: "oui",
+        priorInsurance: "aucune",
+        healthHistory: "aucun",
+      },
+    ],
     effectDate: "",
     formulaId: "zen80",
     franchise: "franchise20",
@@ -161,11 +176,21 @@
             .join("") +
           "</div>" +
           '<div class="pet-grid">' +
+          '<label>Prenom (facultatif) <input data-pet-field="name" data-pet-idx="' +
+          i +
+          '" value="' +
+          esc(pet.name || "") +
+          '" placeholder="Ex : Max" /></label>' +
           '<label>Race <input data-pet-field="breed" data-pet-idx="' +
           i +
           '" value="' +
           esc(pet.breed) +
           '" placeholder="Ex : Labrador" required /></label>' +
+          '<label>Date de naissance <input type="date" data-pet-field="birthDate" data-pet-idx="' +
+          i +
+          '" value="' +
+          esc(pet.birthDate || "") +
+          '" /></label>' +
           '<label>Age <select data-pet-field="age" data-pet-idx="' +
           i +
           '">' +
@@ -196,6 +221,122 @@
           '>Mâle</option><option' +
           (pet.sex === "Femelle" ? " selected" : "") +
           ">Femelle</option></select></label>" +
+          '<label>Identification <select data-pet-field="identification" data-pet-idx="' +
+          i +
+          '" required>' +
+          [
+            ["puce", "Puce electronique"],
+            ["tatouage", "Tatouage"],
+            ["en_cours", "En cours (chiot/chaton)"],
+            ["aucun", "Aucune pour l instant"],
+          ]
+            .map(function (pair) {
+              return (
+                '<option value="' +
+                pair[0] +
+                '"' +
+                (pet.identification === pair[0] ? " selected" : "") +
+                ">" +
+                esc(pair[1]) +
+                "</option>"
+              );
+            })
+            .join("") +
+          "</select></label>" +
+          '<label data-pet-chip-wrap data-pet-idx="' +
+          i +
+          '"' +
+          (pet.identification === "puce" ? "" : ' hidden') +
+          '>Numero de puce <input data-pet-field="chipNumber" data-pet-idx="' +
+          i +
+          '" value="' +
+          esc(pet.chipNumber || "") +
+          '" inputmode="numeric" maxlength="15" placeholder="15 chiffres" /></label>' +
+          '<label>Sterilise / castre <select data-pet-field="sterilized" data-pet-idx="' +
+          i +
+          '">' +
+          [
+            ["oui", "Oui"],
+            ["non", "Non"],
+            ["ns", "Je ne sais pas"],
+          ]
+            .map(function (pair) {
+              return (
+                '<option value="' +
+                pair[0] +
+                '"' +
+                (pet.sterilized === pair[0] ? " selected" : "") +
+                ">" +
+                esc(pair[1]) +
+                "</option>"
+              );
+            })
+            .join("") +
+          "</select></label>" +
+          '<label>Vaccins a jour <select data-pet-field="vaccinated" data-pet-idx="' +
+          i +
+          '">' +
+          [
+            ["oui", "Oui"],
+            ["non", "Non"],
+            ["en_cours", "Carnet en cours"],
+          ]
+            .map(function (pair) {
+              return (
+                '<option value="' +
+                pair[0] +
+                '"' +
+                (pet.vaccinated === pair[0] ? " selected" : "") +
+                ">" +
+                esc(pair[1]) +
+                "</option>"
+              );
+            })
+            .join("") +
+          "</select></label>" +
+          '<label>Assurance actuelle <select data-pet-field="priorInsurance" data-pet-idx="' +
+          i +
+          '">' +
+          [
+            ["aucune", "Aucune"],
+            ["en_cours", "Contrat en cours"],
+            ["resiliation", "Resiliation / changement"],
+          ]
+            .map(function (pair) {
+              return (
+                '<option value="' +
+                pair[0] +
+                '"' +
+                (pet.priorInsurance === pair[0] ? " selected" : "") +
+                ">" +
+                esc(pair[1]) +
+                "</option>"
+              );
+            })
+            .join("") +
+          "</select></label>" +
+          '<label>Antecedents sante <select data-pet-field="healthHistory" data-pet-idx="' +
+          i +
+          '">' +
+          [
+            ["aucun", "Aucun connu"],
+            ["chronique", "Maladie chronique"],
+            ["operation", "Operation recente"],
+            ["ns", "Je ne sais pas"],
+          ]
+            .map(function (pair) {
+              return (
+                '<option value="' +
+                pair[0] +
+                '"' +
+                (pet.healthHistory === pair[0] ? " selected" : "") +
+                ">" +
+                esc(pair[1]) +
+                "</option>"
+              );
+            })
+            .join("") +
+          "</select></label>" +
           "</div></details>"
         );
       })
@@ -345,7 +486,10 @@
       '<div><strong>Rappel projet</strong><p style="margin:6px 0 0;font-size:.85rem">' +
       state.pets
         .map(function (p, i) {
-          return "Animal " + (i + 1) + " : " + p.type + (p.breed ? " — " + p.breed : "");
+          var line = "Animal " + (i + 1) + " : " + p.type + (p.breed ? " — " + p.breed : "");
+          if (p.identification) line += " | ID : " + p.identification;
+          if (p.sterilized) line += " | Sterilise : " + p.sterilized;
+          return line;
         })
         .join("<br>") +
       "</p></div>" +
@@ -433,6 +577,10 @@
         var i = parseInt(el.getAttribute("data-pet-idx"), 10);
         var field = el.getAttribute("data-pet-field");
         state.pets[i][field] = el.value;
+        if (field === "identification") {
+          var chipWrap = root.querySelector('[data-pet-chip-wrap][data-pet-idx="' + i + '"]');
+          if (chipWrap) chipWrap.hidden = state.pets[i].identification !== "puce";
+        }
         if (state.step === 1) render(root, cfg, form);
       });
       el.addEventListener("input", function () {
@@ -444,7 +592,20 @@
     var addBtn = root.querySelector("[data-add-pet]");
     if (addBtn) {
       addBtn.addEventListener("click", function () {
-        state.pets.push({ type: "Chat", breed: "", age: "1-3", sex: "Femelle" });
+        state.pets.push({
+          type: "Chat",
+          name: "",
+          breed: "",
+          age: "1-3",
+          birthDate: "",
+          sex: "Femelle",
+          identification: "puce",
+          chipNumber: "",
+          sterilized: "non",
+          vaccinated: "oui",
+          priorInsurance: "aucune",
+          healthHistory: "aucun",
+        });
         render(root, cfg, form);
       });
     }
@@ -474,7 +635,13 @@
     if (state.step === 0) {
       if (!state.effectDate) return false;
       for (var i = 0; i < state.pets.length; i++) {
-        if (!(state.pets[i].breed || "").trim()) return false;
+        var p = state.pets[i];
+        if (!(p.breed || "").trim()) return false;
+        if (!p.identification) return false;
+        if (p.identification === "puce" && (p.chipNumber || "").trim()) {
+          var chip = p.chipNumber.replace(/\s/g, "");
+          if (chip.length !== 15 || !/^[0-9]+$/.test(chip)) return false;
+        }
       }
       return true;
     }

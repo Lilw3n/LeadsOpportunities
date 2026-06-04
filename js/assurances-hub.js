@@ -108,7 +108,8 @@
           item.devisUrl.replace(/^\.\//, "../") +
           '">Devis</a>' +
           (item.need === "animaux"
-            ? '<a class="btn btn-soft btn-sm" href="../landings/questionnaire.html?need=animaux&journey=standard">Questionnaire</a>'
+            ? '<a class="btn btn-soft btn-sm" href="../landings/animaux-express.html">Rapide</a>' +
+              '<a class="btn btn-soft btn-sm" href="../landings/animaux.html">Complet</a>'
             : "") +
           (item.seoUrl
             ? '<a class="btn btn-outline btn-sm" href="' + item.seoUrl + '">Guide</a>'

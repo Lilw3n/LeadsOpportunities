@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Devis assurance animaux express | 30 secondes</title>
-  <meta name="description" content="Rappel prioritaire assurance animaux chien ou chat : devis express, conseiller dedie, comparatif Santévet et assureurs du marche." />
+  <title>Devis assurance animaux express | 1 minute</title>
+  <meta name="description" content="Devis assurance animaux rapide chien ou chat : identification, sterilisation, rappel conseiller et comparatif assureurs." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/animaux-express.html" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
@@ -29,39 +29,81 @@
   </header>
   <main class="page">
     <div class="container">
-      <span class="badge">🐾 Devis express animaux</span>
+      <span class="badge">🐾 Parcours rapide — ~1 minute</span>
       <section class="card">
-        <h1>Rappel prioritaire — assurance chien ou chat</h1>
-        <p class="sub">30 secondes pour etre rappele. Comparatif Santévet, Bulle Bleue, Kozoo et notre reseau courtage.</p>
+        <h1>Assurance chien ou chat — rappel prioritaire</h1>
+        <p class="sub">L essentiel pour preparer votre devis : animal, identification, sterilisation. Pour le comparatif avec tarif indicatif, utilisez le <a href="./animaux.html">parcours complet</a>.</p>
         <div class="landing-proximity-slot">
           <section data-proximity-block data-proximity-context="animaux" data-proximity-layout="compact"></section>
         </div>
         <div class="journey-toggle">
-          <a href="./animaux-express.html" class="is-active">Express</a>
-          <a href="./animaux.html">Questionnaire complet</a>
+          <a href="./animaux-express.html" class="is-active">Rapide (~1 min)</a>
+          <a href="./animaux.html">Complet (tarif + formules)</a>
         </div>
         <form class="form-wrap" data-track-form data-quick-devis data-vertical="assurance_animaux" novalidate>
           <input type="hidden" name="need" value="animaux" />
-          <input type="hidden" name="journey" value="quick" />
+          <input type="hidden" name="journey" value="pet_express" />
+          <input type="hidden" name="serviceLabel" value="Assurance animaux" />
+          <input type="hidden" name="serviceCategory" value="animaux" />
           <div class="hp-field" aria-hidden="true">
             <label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
           </div>
-          <label>Prénom et nom<input name="fullName" required autocomplete="name" /></label>
-          <label>Téléphone<input name="phone" type="tel" required autocomplete="tel" /></label>
-          <label>Email<input name="email" type="email" required autocomplete="email" /></label>
-          <label>Type d animal
-            <select name="petType" required>
-              <option value="">Selectionnez</option>
-              <option>Chien</option>
-              <option>Chat</option>
-              <option>Autre / NAC</option>
-            </select>
-          </label>
-          <label class="checkbox-row">
+          <div class="grid">
+            <label>Type d animal
+              <select name="petSpecies" required>
+                <option value="">Choisir...</option>
+                <option value="chien">Chien</option>
+                <option value="chat">Chat</option>
+                <option value="nac">NAC</option>
+              </select>
+            </label>
+            <label>Age
+              <select name="petAge" required>
+                <option value="">Choisir...</option>
+                <option value="0-1">Moins de 1 an</option>
+                <option value="1-4">1 a 4 ans</option>
+                <option value="4-7">4 a 7 ans</option>
+                <option value="7plus">Plus de 7 ans</option>
+              </select>
+            </label>
+            <label>Identification
+              <select name="petIdentification" required>
+                <option value="">Choisir...</option>
+                <option value="puce">Puce electronique</option>
+                <option value="tatouage">Tatouage</option>
+                <option value="en_cours">En cours (chiot/chaton)</option>
+                <option value="aucun">Aucune pour l instant</option>
+              </select>
+            </label>
+            <label>Sterilise / castre
+              <select name="petSterilized" required>
+                <option value="">Choisir...</option>
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+                <option value="ns">Je ne sais pas</option>
+              </select>
+            </label>
+            <label>Race (facultatif)<input name="petBreed" placeholder="Ex. Labrador" /></label>
+            <label>Assurance actuelle
+              <select name="petCurrentInsurance">
+                <option value="aucune">Aucune</option>
+                <option value="en_cours">Contrat en cours</option>
+                <option value="resiliation">Resiliation / changement</option>
+              </select>
+            </label>
+          </div>
+          <div class="grid" style="margin-top:12px">
+            <label>Prenom et nom<input name="fullName" required autocomplete="name" /></label>
+            <label>Telephone<input name="phone" type="tel" required autocomplete="tel" /></label>
+            <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+            <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" required /></label>
+          </div>
+          <label class="checkbox-row" style="margin-top:12px">
             <input type="checkbox" name="consent" required />
             J'accepte d'être contacté conformément à la <a href="../politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.
           </label>
-          <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px">Demander mon rappel</button>
+          <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px" data-track="cta_click">Demander mon rappel</button>
+          <p class="small" style="margin-top:10px">Besoin du detail (numero de puce, formules, tarif) ? <a href="./animaux.html">Parcours complet en 3 etapes</a> · <a href="./questionnaire.html?need=animaux&amp;journey=standard">Questionnaire universel</a></p>
           <p class="form-lead" data-form-success hidden>Merci ! Un conseiller animaux vous contacte rapidement.</p>
           <p class="form-lead" data-form-error hidden style="color:#b91c1c">Envoi impossible. Réessayez.</p>
         </form>
