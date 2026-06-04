@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Admin — Blog vers questionnaires | Leads Opportunities</title>
+  <link rel="stylesheet" href="./main.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .bq-admin { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
+    .bq-admin h1 { font-size: 1.5rem; margin: 0 0 8px; }
+    .bq-admin .muted { color: #64748b; font-size: 0.92rem; margin-bottom: 20px; }
+    .bq-toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+    .bq-toolbar input, .bq-toolbar select {
+      padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.9rem;
+    }
+    .bq-table-wrap { overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; }
+    table.bq-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .bq-table th, .bq-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+    .bq-table th { background: #f8fafc; font-weight: 700; position: sticky; top: 0; }
+    .bq-table tr:hover td { background: #f8fafc; }
+    .bq-hook { max-width: 280px; color: #475569; }
+    .bq-question { max-width: 220px; font-weight: 600; color: #0f766e; }
+    .bq-links a { display: block; margin: 2px 0; font-size: 0.78rem; }
+    .bq-badge { font-size: 0.68rem; font-weight: 800; padding: 2px 8px; border-radius: 6px; background: #ffedd5; color: #c2410c; }
+    .bq-badge--rule { background: #dbeafe; color: #1d4ed8; }
+  </style>
+</head>
+<body data-admin-nav-page>
+  <header class="topbar">
+    <div class="container nav" id="adminNavMount"></div>
+  </header>
+  <main class="bq-admin">
+    <h1>Blog → questionnaires</h1>
+    <p class="muted">Ponts contextuels par article (règles mots-clés + overrides). Vérifiez que chaque article amène vers le bon devis.</p>
+    <div class="bq-toolbar">
+      <input type="search" id="bqSearch" placeholder="Rechercher article, section, chat, VTC…" style="min-width:240px" />
+      <select id="bqSection">
+        <option value="">Toutes sections</option>
+      </select>
+      <a class="btn btn-soft btn-sm" href="./blog/">Voir le blog public</a>
+      <a class="btn btn-primary btn-sm" href="./data/blog-questionnaire-map.json" target="_blank" rel="noopener">JSON mapping</a>
+    </div>
+    <div class="bq-table-wrap">
+      <table class="bq-table">
+        <thead>
+          <tr>
+            <th>Article</th>
+            <th>Section</th>
+            <th>Accroche</th>
+            <th>Question CTA</th>
+            <th>Liens devis</th>
+            <th>Règle</th>
+          </tr>
+        </thead>
+        <tbody id="bqTableBody">
+          <tr><td colspan="6">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <script src="./js/admin-nav.js"></script>
+  <script src="./blog-questionnaires-admin.js"></script>
+</body>
+</html>

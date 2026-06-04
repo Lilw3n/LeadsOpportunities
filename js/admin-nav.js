@@ -11,6 +11,7 @@
     { href: "./dashboard.html?section=leads", label: "Leads", id: "leads" },
     { href: "./dashboard.html?section=partners", label: "Partenaires", id: "partners" },
     { href: "./crm.html", label: "CRM", id: "crm" },
+    { href: "./blog-questionnaires.html", label: "Blog → devis", id: "blog-devis" },
     { href: "./auth.html", label: "Compte", id: "auth" },
   ];
 
@@ -41,6 +42,7 @@
     if (path === "crm.html" || path.indexOf("crm") === 0) return "crm";
     if (path === "espace-client.html") return "home";
     if (path === "admin.html") return "dashboard";
+    if (path === "blog-questionnaires.html") return "blog-devis";
     return path.replace(".html", "");
   }
 

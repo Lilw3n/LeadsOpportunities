@@ -287,6 +287,60 @@ a { color: var(--primary); }
   color: var(--text);
   margin: 0 0 14px;
 }
+
+.article-bridge {
+  margin: 28px 0;
+  padding: 22px 24px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  background: linear-gradient(145deg, #fff7ed 0%, #f0fdfa 100%);
+}
+.article-bridge--mid {
+  border-left: 4px solid #ea580c;
+}
+.article-bridge--footer {
+  text-align: center;
+  border-color: rgba(45, 212, 191, 0.35);
+}
+.article-bridge-kicker {
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #c2410c;
+}
+.article-bridge-hook {
+  margin: 0 0 10px;
+  font-size: 0.98rem;
+  color: #334155;
+  line-height: 1.55;
+}
+.article-bridge-question {
+  margin: 0 0 16px;
+  font-size: 1.12rem;
+  color: var(--text);
+  line-height: 1.4;
+}
+.article-bridge-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.article-bridge--mid .article-bridge-actions {
+  justify-content: flex-start;
+}
+.btn-outline {
+  background: #fff;
+  color: var(--primary-dark);
+  border: 2px solid var(--primary);
+}
+.btn-soft {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
 .btn {
   display: inline-flex;
   align-items: center;

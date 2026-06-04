@@ -448,6 +448,55 @@ module.exports = {
     },
     /* —— Animaux (contenu enrichi auto + manuel) —— */
     {
+      file: "chat-puces-tiques-assurance-remboursement.html",
+      section: "animaux",
+      tag: "Santé chat",
+      tagClass: "tag-animaux",
+      title: "Puces et tiques chez le chat : soins, prévention et assurance",
+      description:
+        "Puces, tiques, vermifuge : coûts véto, traitements et remboursement via assurance chat. Avez-vous pensé à assurer votre chat ?",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Puces sur chat : soins, budget et assurance.",
+      cta: { href: "../landings/animaux.html", label: "Devis assurance chat" },
+      blocks: [
+        {
+          type: "p",
+          text: "Votre <strong>chat se gratte</strong>, vous trouvez des petites taches noires sur le pelage ou au sol : ce sont souvent des <strong>puces</strong>. En été, les <strong>tiques</strong> s'ajoutent au tableau. Sans traitement rapide, l'inconfort dure et les complications (allergie, anémie chez le jeune chat) peuvent coûter cher.",
+        },
+        { type: "h2", text: "Combien coûte un traitement anti-puces chez le chat ?" },
+        {
+          type: "p",
+          text: "Comptez en général <strong>40 à 120 €</strong> pour une consultation + pipettes ou comprimés antiparasitaires. S'il faut traiter toute la maison (spray, aspirateur, répétition), la facture grimpe. Un chat très allergique aux puces peut nécessiter des soins complémentaires (antibiotiques, shampooing médicalisé).",
+        },
+        { type: "h2", text: "Puces vs tiques : ne pas confondre" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Puces</strong> : démangeaisons intenses, grains noirs (crottes de puce), reproduction rapide dans le logement",
+            "<strong>Tiques</strong> : fixées sur la peau, risque de maladie (ehrlichiose, babésiose selon région) — arrachage propre indispensable",
+            "<strong>Vermifuge</strong> : à jour en parallèle ; ne remplace pas l'antipuce externe",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Prévention : le bon réflexe chaque mois" },
+        {
+          type: "p",
+          text: "Pipette, collier ou comprimé : suivez le protocole indiqué par votre vétérinaire (poids du chat, âge, intérieur / extérieur). Un chat qui sort ou vit avec un chien non traité reste exposé en permanence.",
+        },
+        { type: "h2", text: "L'assurance chat rembourse-t-elle les puces ?" },
+        {
+          type: "p",
+          text: "La plupart des contrats couvrent les <strong>consultations et traitements curatifs</strong> prescrits, parfois une part de <strong>prévention</strong> (vaccins, antiparasitaires) selon la formule. Lisez le plafond annuel, la franchise et les délais de carence — surtout si vous adhérez après un premier épisode.",
+        },
+      ],
+      related: [
+        { href: "../assurance-animaux/chat/", label: "Assurance chat" },
+        { href: "../assurance-animaux/chat/pas-cher/", label: "Assurance chat pas cher" },
+        { href: "./assurance-chat-guide-complet.html", label: "Guide assurance chat" },
+        { href: "../landings/animaux-express.html", label: "Devis express animaux" },
+      ],
+    },
+    {
       file: "assurance-animaux-comment-choisir.html",
       section: "animaux",
       tag: "Animaux",

@@ -8,7 +8,8 @@ Objectif : **percer sur des requetes peu concurrentielles** avec des silos dedie
 |---------|------|
 | `seo/niches.json` | Catalogue des niches (priorite, statut, URLs) |
 | `scripts/niche-pages.cjs` | Definitions pages SEO (injectees dans `generate-seo-pages.cjs`) |
-| `niches/index.html` | Hub public listant toutes les niches |
+| `niches/index.html` | Hub public (spotlight, stats, filtres, roadmap) |
+| `js/niches-hub.js` + `css/niches-hub.css` | Rendu dynamique depuis `seo/niches.json` |
 | `landings/animaux.html` | Questionnaire complet |
 | `landings/animaux-express.html` | Rappel 30 sec |
 

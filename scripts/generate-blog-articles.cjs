@@ -4,6 +4,7 @@ const manifest = require("./blog-articles-manifest.cjs");
 const { enrichArticle } = require("./blog-seo-enrich.cjs");
 const { getOverride } = require("./blog-content-deep.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
+const { resolveBridge, renderBridgeHtml } = require("./blog-questionnaire-bridge.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
 const force = process.argv.includes("--force");
@@ -16,7 +17,8 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
-function renderBlock(b) {
+function renderBlock(b, bridge) {
+  if (b.type === "bridge" && bridge) return renderBridgeHtml(bridge, { variant: "mid" });
   if (b.type === "h2") return "      <h2>" + b.text + "</h2>\n";
   if (b.type === "h3") return "      <h3>" + b.text + "</h3>\n";
   if (b.type === "p") return "      <p>" + b.text + "</p>\n";
@@ -92,15 +94,13 @@ function renderJsonLd(a, canonical) {
 
 function renderArticle(a) {
   var canonical = base + "/blog/" + a.file;
-  var body = (a.blocks || []).map(renderBlock).join("\n");
+  var bridge = resolveBridge(a);
+  var body = (a.blocks || []).map(function (b) {
+    return renderBlock(b, bridge);
+  }).join("\n");
   var keywordsMeta = (a.keywords || []).join(", ");
-  var cta = a.cta
-    ? '      <div class="article-cta">\n        <p>Devis gratuit et accompagnement courtier ORIAS — comparatif sans engagement.</p>\n        <a class="btn btn-primary" href="' +
-      a.cta.href +
-      '">' +
-      esc(a.cta.label) +
-      "</a>\n      </div>\n"
-    : "";
+  var bridgeFooter = renderBridgeHtml(bridge, { variant: "footer" });
+  var cta = bridgeFooter;
   var faqHtml = renderFaq(a.faq);
   var links =
     a.related && a.related.length
@@ -143,7 +143,7 @@ function renderArticle(a) {
     cta +
     faqHtml +
     links +
-    '    </div>\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Toutes nos assurances</a>\n    <a href="../index.html#contact">Demande de rappel</a>\n  </footer>\n' +
+    '    </div>\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Toutes nos assurances</a>\n    <a href="../index.html#contact">Demande de rappel</a>\n  </footer>\n  <script src="../js/blog-questionnaire-bridge.js" defer></script>\n' +
     renderJsonLd(a, canonical) +
     "</body>\n</html>\n"
   );
@@ -168,6 +168,7 @@ manifest.articles.forEach(function (raw) {
     console.warn("skip (no blocks):", raw.file);
     return;
   }
+  a._manifestBlocks = raw.blocks || [];
   fs.writeFileSync(out, renderArticle(a));
   created++;
   console.log("written:", raw.file, "—", a.blocks.length, "blocs,", (a.faq || []).length, "FAQ");

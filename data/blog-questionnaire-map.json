@@ -1,0 +1,209 @@
+{
+  "updated": "2026-06-04",
+  "sections": {
+    "animaux": {
+      "need": "animaux",
+      "questionnaire": "/landings/questionnaire.html?need=animaux&journey=standard",
+      "landing": "/landings/animaux.html",
+      "express": "/landings/animaux-express.html",
+      "hook": "Consultation, urgence ou prévention : les frais vétérinaires s'accumulent vite.",
+      "question": "Avez-vous pensé à assurer votre compagnon ?",
+      "primaryLabel": "Comparer assurance animaux",
+      "expressLabel": "Rappel 30 sec"
+    },
+    "vtc": {
+      "need": "vtc",
+      "questionnaire": "/landings/questionnaire.html?need=vtc&journey=standard",
+      "landing": "/landings/vtc.html",
+      "express": "/landings/devis-rapide.html",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "primaryLabel": "Devis assurance VTC",
+      "expressLabel": "Devis rapide VTC"
+    },
+    "sante": {
+      "need": "sante",
+      "questionnaire": "/landings/questionnaire.html?need=sante&journey=standard",
+      "landing": "/landings/sante.html",
+      "express": "/landings/devis-express.html?need=sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "primaryLabel": "Comparer ma mutuelle",
+      "expressLabel": "Rappel mutuelle"
+    },
+    "habitat": {
+      "need": "habitation",
+      "questionnaire": "/landings/questionnaire.html?need=habitation&journey=standard",
+      "landing": "/landings/devis.html?need=habitation",
+      "express": "/landings/devis-express.html?need=habitation",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "primaryLabel": "Devis habitation",
+      "expressLabel": "Rappel habitation"
+    },
+    "auto": {
+      "need": "auto",
+      "questionnaire": "/landings/questionnaire.html?need=auto&journey=standard",
+      "landing": "/landings/devis.html?need=auto",
+      "express": "/landings/devis-express.html?need=auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "primaryLabel": "Devis assurance auto",
+      "expressLabel": "Rappel auto"
+    },
+    "prevoyance": {
+      "need": "prevoyance",
+      "questionnaire": "/landings/questionnaire.html?need=prevoyance&journey=standard",
+      "landing": "/landings/devis.html?need=prevoyance",
+      "express": "/landings/devis-express.html?need=prevoyance",
+      "hook": "Arrêt de travail, invalidité, décès : la prévoyance sécurise le foyer.",
+      "question": "Vos revenus sont-ils protégés en cas d'imprévu ?",
+      "primaryLabel": "Devis prévoyance",
+      "expressLabel": "Rappel prévoyance"
+    },
+    "pro": {
+      "need": "rc-pro",
+      "questionnaire": "/landings/questionnaire.html?need=rc-pro&journey=standard",
+      "landing": "/landings/devis.html?need=rc-pro",
+      "express": "/landings/devis-express.html?need=rc-pro",
+      "hook": "Un litige client ou un dommage causé à un tiers peut menacer votre activité.",
+      "question": "Votre RC Pro couvre-t-elle vraiment votre métier ?",
+      "primaryLabel": "Devis RC Pro",
+      "expressLabel": "Rappel RC Pro"
+    },
+    "patrimoine": {
+      "need": "assurance-vie",
+      "questionnaire": "/landings/questionnaire.html?need=assurance-vie&journey=standard",
+      "landing": "/landings/devis.html?need=assurance-vie",
+      "express": "/landings/devis-express.html?need=assurance-vie",
+      "hook": "Épargne, retraite, transmission : structurer son patrimoine demande un regard expert.",
+      "question": "Un bilan patrimoine et assurance-vie vous intéresse ?",
+      "primaryLabel": "Parler patrimoine",
+      "expressLabel": "Être rappelé"
+    },
+    "finance": {
+      "need": "credit-immo",
+      "questionnaire": "/landings/questionnaire.html?need=credit-immo&journey=standard",
+      "landing": "/landings/credit-immo.html",
+      "express": "/landings/devis-express.html?need=credit-immo",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "primaryLabel": "Étude crédit immo",
+      "expressLabel": "Rappel crédit"
+    },
+    "actu": {
+      "need": "autre",
+      "questionnaire": "/landings/questionnaire.html",
+      "landing": "/landings/questionnaire.html",
+      "express": "/landings/devis-express.html",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance ou financement souhaitez-vous faire vérifier ?",
+      "primaryLabel": "Trouver mon questionnaire",
+      "expressLabel": "Devis express"
+    }
+  },
+  "keywordRules": [
+    {
+      "id": "puces-chat",
+      "match": ["puce", "puces", "antiparasitaire", "antipuce", "tique", "tiques", "vermifuge"],
+      "section": "animaux",
+      "species": "chat",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?"
+    },
+    {
+      "id": "chat",
+      "match": ["chat", "chaton", "félin", "felin"],
+      "section": "animaux",
+      "species": "chat",
+      "hook": "Les soins du chat (digestif, urgence, imagerie) montent vite sans mutuelle animaux.",
+      "question": "Avez-vous pensé à assurer votre chat ?"
+    },
+    {
+      "id": "chien",
+      "match": ["chien", "chiot", "canin"],
+      "section": "animaux",
+      "species": "chien",
+      "hook": "Chirurgie, radio, allergie : le chien est souvent plus coûteux à soigner que prévu.",
+      "question": "Avez-vous pensé à assurer votre chien ?"
+    },
+    {
+      "id": "vtc",
+      "match": ["vtc", "uber", "bolt", "heetch", "chauffeur", "rc pro chauffeur"],
+      "section": "vtc"
+    },
+    {
+      "id": "mutuelle",
+      "match": ["mutuelle", "optique", "dentaire", "hospitalisation", "remboursement santé"],
+      "section": "sante"
+    },
+    {
+      "id": "habitation",
+      "match": ["habitation", "degats des eaux", "dégâts des eaux", "locataire", "pno", "multirisque"],
+      "section": "habitat"
+    },
+    {
+      "id": "emprunteur",
+      "match": ["emprunteur", "lemoine", "pret immobilier", "prêt immobilier", "credit immo", "crédit immo"],
+      "section": "finance"
+    },
+    {
+      "id": "auto",
+      "match": ["assurance auto", "bonus malus", "jeune conducteur", "tous risques"],
+      "section": "auto"
+    }
+  ],
+  "articles": {
+    "chat-puces-tiques-assurance-remboursement.html": {
+      "hook": "Puces, tiques et vermifuge : la facture véto dépasse souvent 100 € — et ce n'est que le début.",
+      "question": "Si une urgence arrive demain, avez-vous pensé à assurer votre chat ?",
+      "species": "chat",
+      "primaryLabel": "Devis assurance chat"
+    },
+    "assurance-chat-guide-complet.html": {
+      "species": "chat",
+      "question": "Votre chat est-il protégé comme il le mérite ?"
+    },
+    "assurance-chien-frais-veterinaires.html": {
+      "species": "chien",
+      "question": "Face aux frais véto, avez-vous pensé à assurer votre chien ?"
+    },
+    "assurance-chiot-chaton-quand-assurer.html": {
+      "hook": "Assurer tôt un chiot ou chaton limite souvent les exclusions — le bon moment, c'est maintenant.",
+      "question": "Avez-vous pensé à souscrire avant le prochain souci de santé ?"
+    },
+    "assurance-animaux-comment-choisir.html": {
+      "question": "Prêt à comparer chien, chat ou NAC en 3 minutes ?"
+    },
+    "comparatif-santevet-bulle-bleue-kozoo.html": {
+      "species": "chat",
+      "question": "Santévet, Bulle Bleue ou Kozoo : lequel pour votre animal ? Faites le point avec un conseiller."
+    },
+    "canicule-degats-eaux-assurance-habitation.html": {
+      "section": "habitat",
+      "hook": "Canicule et orages : cave inondée ou fissures — l'habitation doit suivre.",
+      "question": "Votre assurance habitation couvre-t-elle bien ces risques été ?"
+    },
+    "inflation-mutuelle-hausse-2026.html": {
+      "section": "sante",
+      "hook": "Cotisation en hausse : comparez à garanties équivalentes avant de résilier.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?"
+    },
+    "elections-presidentielles-prevoyance-patrimoine.html": {
+      "section": "prevoyance",
+      "question": "Vos revenus et votre patrimoine sont-ils protégés en période d'incertitude ?"
+    },
+    "coupe-monde-2026-assurance-voyage-sante.html": {
+      "section": "sante",
+      "hook": "Déplacement et étranger : la mutuelle et l'assistance voyage comptent.",
+      "question": "Partez-vous couvert pour les soins à l'étranger ?"
+    },
+    "ligue-champions-assurance-voyage-deplacement.html": {
+      "section": "sante",
+      "question": "Votre déplacement est-il couvert côté santé et voyage ?"
+    },
+    "assurance-vtc-moins-cher-2026.html": {
+      "section": "vtc"
+    }
+  }
+}
