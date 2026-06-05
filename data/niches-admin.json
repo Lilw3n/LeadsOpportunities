@@ -1,0 +1,333 @@
+{
+  "updated": "2026-06-04",
+  "hub": {
+    "title": "Assurances de niche",
+    "intro": "Verticales peu concurrentielles sur Google : silos SEO dédiés (300+ pages par pilier), landings questionnaire, devis express et accompagnement courtier ORIAS partout en France.",
+    "lead": "Nous ciblons les requêtes longue traîne là où les gros comparateurs ne investissent pas : assurance chien pas cher, RC chasseur, équitation par ville, instrument pro…",
+    "stats": {
+      "liveNiches": 3,
+      "plannedNiches": 12,
+      "seoPagesApprox": 950,
+      "cityPagesApprox": 567,
+      "departmentsApprox": 96
+    },
+    "pillars": [
+      {
+        "title": "Silo SEO + local",
+        "text": "Page pilier, longue traîne (pas cher, comparatif, tarif), pages ville et département pour capter la recherche géolocalisée."
+      },
+      {
+        "title": "Landing + devis",
+        "text": "Questionnaire métier ou express 30 s, scoring lead et rappel conseiller — pas un comparateur anonyme."
+      },
+      {
+        "title": "SEA ciblé",
+        "text": "1 campagne = 1 niche = 1 landing. CPC souvent plus bas que l’auto ou la mutuelle généraliste."
+      }
+    ],
+    "faq": [
+      {
+        "q": "Pourquoi miser sur les assurances de niche ?",
+        "a": "Moins de concurrence SEO et SEA, intention d’achat forte, questionnaires plus courts à optimiser. Idéal pour générer des leads qualifiés à coût maîtrisé."
+      },
+      {
+        "q": "Quelles niches sont déjà en ligne ?",
+        "a": "Animaux (chien, chat, NAC), chasse et équitation avec centaines de pages ville. Les autres verticales listées sont en cours d’activation."
+      },
+      {
+        "q": "Comment obtenir un devis ?",
+        "a": "Utilisez le devis express ou le questionnaire complet depuis chaque fiche niche. Un conseiller ORIAS vous rappelle avec un comparatif personnalisé."
+      },
+      {
+        "q": "Proposez-vous des pages par ville ?",
+        "a": "Oui pour les niches live : Paris, Lyon, Marseille et 180+ autres villes françaises, plus les hubs départements pour l’assurance animaux."
+      }
+    ]
+  },
+  "categories": [
+    { "id": "animaux", "label": "Animaux" },
+    { "id": "loisirs", "label": "Loisirs & passion" },
+    { "id": "transport", "label": "Transport & véhicules" },
+    { "id": "pro", "label": "Pro & équipement" },
+    { "id": "famille", "label": "Famille" },
+    { "id": "patrimoine", "label": "Patrimoine & collection" }
+  ],
+  "niches": [
+    {
+      "id": "animaux",
+      "slug": "assurance-animaux",
+      "category": "animaux",
+      "theme": "animaux",
+      "emoji": "🐾",
+      "label": "Assurance animaux",
+      "tagline": "Chien, chat, NAC — frais véto, prévention et chirurgie",
+      "landing": "/landings/animaux.html",
+      "landingExpress": "/landings/animaux-express.html",
+      "questionnaire": "/landings/questionnaire.html?need=animaux&journey=standard",
+      "priority": 1,
+      "status": "live",
+      "featured": true,
+      "pageCount": 320,
+      "cityPages": 189,
+      "departmentPages": 96,
+      "partners": ["Santévet", "Bulle Bleue", "Kozoo", "April", "AXA"],
+      "highlights": [
+        "Pilier chien / chat / NAC",
+        "Longue traîne pas cher, chiot, senior",
+        "Comparatif & tarifs indicatifs",
+        "189 villes + 96 départements"
+      ],
+      "keywords": [
+        "assurance animaux",
+        "assurance chien",
+        "assurance chat",
+        "mutuelle animaux",
+        "assurance chien pas cher",
+        "assurance chat pas cher"
+      ],
+      "quickLinks": [
+        { "label": "Pilier animaux", "href": "/assurance-animaux/" },
+        { "label": "Assurance chien", "href": "/assurance-animaux/chien/" },
+        { "label": "Assurance chat", "href": "/assurance-animaux/chat/" },
+        { "label": "Par ville", "href": "/assurance-animaux/villes/" },
+        { "label": "Comparatif", "href": "/assurance-animaux/comparatif/" },
+        { "label": "Chien pas cher", "href": "/assurance-animaux/chien/pas-cher/" },
+        { "label": "Devis express", "href": "/landings/animaux-express.html" }
+      ],
+      "seoPaths": [
+        "/assurance-animaux/",
+        "/assurance-animaux/chien/",
+        "/assurance-animaux/chat/",
+        "/assurance-animaux/villes/",
+        "/assurance-animaux/comparatif/",
+        "/assurance-animaux/tarif/"
+      ]
+    },
+    {
+      "id": "chasse",
+      "slug": "assurance-chasse",
+      "category": "loisirs",
+      "theme": "niche",
+      "emoji": "🎯",
+      "label": "Assurance chasse",
+      "tagline": "RC chasseur, blessures, chiens courants et défense recours",
+      "landing": "/landings/devis.html?need=chasse",
+      "landingExpress": "/landings/devis-express.html?need=chasse",
+      "questionnaire": "/landings/questionnaire.html?need=chasse&journey=standard",
+      "priority": 2,
+      "status": "live",
+      "featured": true,
+      "pageCount": 195,
+      "cityPages": 189,
+      "partners": ["Réseau courtage", "Spécialistes RC chasse"],
+      "highlights": ["RC chasseur expliquée", "189 pages ville", "FAQ permis & territoires"],
+      "keywords": ["assurance chasse", "rc chasseur", "assurance chasse pas cher", "responsabilité chasseur"],
+      "quickLinks": [
+        { "label": "Pilier chasse", "href": "/assurance-chasse/" },
+        { "label": "RC chasseur", "href": "/assurance-chasse/rc-chasseur/" },
+        { "label": "Par ville", "href": "/assurance-chasse/villes/" }
+      ],
+      "seoPaths": ["/assurance-chasse/", "/assurance-chasse/villes/", "/assurance-chasse/rc-chasseur/"]
+    },
+    {
+      "id": "equitation",
+      "slug": "assurance-equitation",
+      "category": "loisirs",
+      "theme": "niche",
+      "emoji": "🐴",
+      "label": "Assurance équitation",
+      "tagline": "Cheval, RC équestre, matériel et responsabilité cavaliers",
+      "landing": "/landings/devis.html?need=equitation",
+      "landingExpress": "/landings/devis-express.html?need=equitation",
+      "questionnaire": "/landings/questionnaire.html?need=equitation&journey=standard",
+      "priority": 3,
+      "status": "live",
+      "featured": true,
+      "pageCount": 195,
+      "cityPages": 189,
+      "highlights": ["RC équestre", "Centres & propriétaires", "189 villes"],
+      "keywords": ["assurance équitation", "assurance cheval", "rc équestre", "assurance centre équestre"],
+      "quickLinks": [
+        { "label": "Pilier équitation", "href": "/assurance-equitation/" },
+        { "label": "RC équestre", "href": "/assurance-equitation/rc-equestre/" },
+        { "label": "Par ville", "href": "/assurance-equitation/villes/" }
+      ],
+      "seoPaths": ["/assurance-equitation/", "/assurance-equitation/villes/", "/assurance-equitation/rc-equestre/"]
+    },
+    {
+      "id": "instrument",
+      "slug": "assurance-instrument-musique",
+      "category": "pro",
+      "theme": "niche",
+      "emoji": "🎸",
+      "label": "Assurance instrument de musique",
+      "tagline": "Vol, casse, transport pro et scène",
+      "landing": "/landings/devis.html?need=instrument",
+      "questionnaire": "/landings/questionnaire.html?need=instrument&journey=standard",
+      "priority": 4,
+      "status": "planned",
+      "eta": "T3 2026",
+      "highlights": ["Musiciens pro & amateurs", "Orchestres & écoles"],
+      "keywords": ["assurance instrument musique", "assurance guitare", "assurance piano"]
+    },
+    {
+      "id": "materiel-photo",
+      "slug": "assurance-materiel-photo",
+      "category": "pro",
+      "theme": "niche",
+      "emoji": "📷",
+      "label": "Assurance matériel photo / vidéo",
+      "tagline": "Reflex, drone, studio et reportage",
+      "landing": "/landings/devis.html?need=materiel-photo",
+      "questionnaire": "/landings/questionnaire.html?need=materiel-photo&journey=standard",
+      "priority": 5,
+      "status": "planned",
+      "eta": "T3 2026",
+      "keywords": ["assurance matériel photo", "assurance drone", "assurance caméra pro"]
+    },
+    {
+      "id": "bateau",
+      "slug": "assurance-bateau-plaisance",
+      "category": "transport",
+      "theme": "niche",
+      "emoji": "⛵",
+      "label": "Assurance bateau plaisance",
+      "tagline": "Voilier, semi-rigide, multirisque navigation",
+      "landing": "/landings/devis.html?need=bateau",
+      "questionnaire": "/landings/questionnaire.html?need=bateau&journey=standard",
+      "priority": 6,
+      "status": "planned",
+      "eta": "T4 2026",
+      "keywords": ["assurance bateau", "assurance bateau plaisance", "assurance voilier"]
+    },
+    {
+      "id": "caravane",
+      "slug": "assurance-caravane-camping-car",
+      "category": "transport",
+      "theme": "niche",
+      "emoji": "🚐",
+      "label": "Caravane & camping-car",
+      "tagline": "Contenu, responsabilité civile et assistance",
+      "landing": "/landings/devis.html?need=caravane",
+      "questionnaire": "/landings/questionnaire.html?need=caravane&journey=standard",
+      "priority": 7,
+      "status": "planned",
+      "eta": "T4 2026",
+      "keywords": ["assurance camping-car", "assurance caravane"]
+    },
+    {
+      "id": "scolaire",
+      "slug": "assurance-scolaire",
+      "category": "famille",
+      "theme": "niche",
+      "emoji": "🎒",
+      "label": "Assurance scolaire & extra-scolaire",
+      "tagline": "Sorties, sport, responsabilité et individuelle accident",
+      "landing": "/landings/devis.html?need=famille",
+      "questionnaire": "/landings/questionnaire.html?need=famille&journey=standard",
+      "priority": 8,
+      "status": "planned",
+      "eta": "T4 2026",
+      "keywords": ["assurance scolaire", "assurance extra scolaire", "assurance sortie scolaire"]
+    },
+    {
+      "id": "collection",
+      "slug": "assurance-collection",
+      "category": "patrimoine",
+      "theme": "niche",
+      "emoji": "🏺",
+      "label": "Assurance collection & objets d’art",
+      "tagline": "Vins, montres, œuvres, collection privée",
+      "landing": "/landings/devis.html?need=collection",
+      "questionnaire": "/landings/questionnaire.html?need=collection&journey=standard",
+      "priority": 9,
+      "status": "planned",
+      "eta": "2027",
+      "keywords": ["assurance collection", "assurance objets d'art", "assurance cave à vin"]
+    },
+    {
+      "id": "foret",
+      "slug": "assurance-foret",
+      "category": "patrimoine",
+      "theme": "niche",
+      "emoji": "🌲",
+      "label": "Assurance forêt & propriétés rurales",
+      "tagline": "Bois, chasse associée, responsabilité terrain",
+      "landing": "/landings/devis.html?need=foret",
+      "priority": 10,
+      "status": "planned",
+      "eta": "2027",
+      "keywords": ["assurance forêt", "assurance propriété forestière"]
+    },
+    {
+      "id": "apiculture",
+      "slug": "assurance-apiculture",
+      "category": "pro",
+      "theme": "niche",
+      "emoji": "🐝",
+      "label": "Assurance apiculture",
+      "tagline": "Ruches, RC exploitation, perte de colonies",
+      "landing": "/landings/devis.html?need=apiculture",
+      "priority": 11,
+      "status": "planned",
+      "eta": "2027",
+      "keywords": ["assurance apiculteur", "assurance ruche"]
+    },
+    {
+      "id": "moto-collection",
+      "slug": "assurance-moto-collection",
+      "category": "transport",
+      "theme": "niche",
+      "emoji": "🏍️",
+      "label": "Moto & véhicule de collection",
+      "tagline": "Valeur agréée, garage, usage loisir",
+      "landing": "/landings/devis.html?need=moto",
+      "priority": 12,
+      "status": "planned",
+      "eta": "2027",
+      "keywords": ["assurance moto collection", "assurance voiture collection"]
+    },
+    {
+      "id": "drone-pro",
+      "slug": "assurance-drone-pro",
+      "category": "pro",
+      "theme": "niche",
+      "emoji": "🛸",
+      "label": "Assurance drone professionnel",
+      "tagline": "RC exploitation, matériel, vol en zone réglementée",
+      "landing": "/landings/devis.html?need=drone",
+      "priority": 13,
+      "status": "planned",
+      "eta": "2027",
+      "keywords": ["assurance drone pro", "assurance télépilote"]
+    },
+    {
+      "id": "association",
+      "slug": "assurance-association",
+      "category": "pro",
+      "theme": "niche",
+      "emoji": "🤝",
+      "label": "Assurance association & club",
+      "tagline": "RC mandataires, locaux, manifestations",
+      "landing": "/landings/devis.html?need=association",
+      "priority": 14,
+      "status": "planned",
+      "eta": "2027",
+      "keywords": ["assurance association", "assurance club sportif"]
+    },
+    {
+      "id": "piscine",
+      "slug": "assurance-piscine",
+      "category": "patrimoine",
+      "theme": "niche",
+      "emoji": "🏊",
+      "label": "Assurance piscine & spa",
+      "tagline": "Construction, dommages ouvrage, RC propriétaire",
+      "landing": "/landings/devis.html?need=piscine",
+      "priority": 15,
+      "status": "planned",
+      "eta": "2027",
+      "keywords": ["assurance piscine", "assurance spa extérieur"]
+    }
+  ]
+}

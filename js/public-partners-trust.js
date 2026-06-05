@@ -118,6 +118,17 @@
     },
   ];
 
+  var LOGO_FILES = {
+    sollyazar: "solly-azar.svg",
+    zephir: "zephir.svg",
+    april: "april.svg",
+    allianz: "allianz.svg",
+    axa: "axa.svg",
+    generali: "generali.svg",
+    santevet: "santevet.svg",
+    swisslife: "swiss-life.svg",
+  };
+
   var CATEGORIES = [
     { id: "vtc", label: "VTC & mobilité pro", icon: "🚕" },
     { id: "animaux", label: "Assurance animaux", icon: "🐾" },
@@ -225,12 +236,32 @@
     return base + "assurances/";
   }
 
-  function renderPartnerCard(p, compact, href) {
+  function logoBase(el) {
+    var base = getBasePrefix(el);
+    return base + "img/partners/";
+  }
+
+  function renderPartnerLogo(p, el) {
+    var file = LOGO_FILES[p.id];
+    if (file) {
+      return (
+        '<img class="partner-card-logo-img" src="' +
+        esc(logoBase(el) + file) +
+        '" alt="' +
+        esc(p.name) +
+        '" width="120" height="32" loading="lazy" decoding="async">'
+      );
+    }
+    return '<span class="partner-card-logo" aria-hidden="true">' + esc(p.logo) + "</span>";
+  }
+
+  function renderPartnerCard(p, compact, href, el) {
     var tierLabel =
       p.tier === "principal"
         ? '<span class="partner-card-badge partner-card-badge--active">Partenaire actif</span>'
         : '<span class="partner-card-badge">Réseau</span>';
     var actionHint = '<span class="card-action-hint">Voir les offres →</span>';
+    var logoMarkup = renderPartnerLogo(p, el);
     if (compact) {
       return (
         '<a class="partner-card-link" href="' +
@@ -239,9 +270,7 @@
         esc(p.name) +
         '">' +
         '<article class="partner-card partner-card--compact">' +
-        '<span class="partner-card-logo" aria-hidden="true">' +
-        esc(p.logo) +
-        "</span>" +
+        logoMarkup +
         '<strong class="partner-card-name">' +
         esc(p.name) +
         "</strong>" +
@@ -258,9 +287,7 @@
       esc(p.tier) +
       '">' +
       tierLabel +
-      '<span class="partner-card-logo" aria-hidden="true">' +
-      esc(p.logo) +
-      "</span>" +
+      logoMarkup +
       '<h3 class="partner-card-name">' +
       esc(p.name) +
       "</h3>" +
@@ -300,7 +327,7 @@
     if (!inCat.length) return "";
     var cards = inCat
       .map(function (p) {
-        return renderPartnerCard(p, compact, partnerHref(p, el, ctxKey));
+        return renderPartnerCard(p, compact, partnerHref(p, el, ctxKey), el);
       })
       .join("");
     return (
@@ -360,7 +387,7 @@
           '<div class="partners-featured-grid partners-featured-grid--flat">' +
           partners
             .map(function (p) {
-              return renderPartnerCard(p, compact, partnerHref(p, el, ctxKey));
+              return renderPartnerCard(p, compact, partnerHref(p, el, ctxKey), el);
             })
             .join("") +
           "</div>";
@@ -373,7 +400,7 @@
         partners
           .filter(function (p) { return p.tier === "principal"; })
           .map(function (p) {
-            return renderPartnerCard(p, true, partnerHref(p, el, ctxKey));
+            return renderPartnerCard(p, true, partnerHref(p, el, ctxKey), el);
           })
           .join("") +
         "</div>";

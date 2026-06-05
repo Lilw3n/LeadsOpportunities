@@ -35,7 +35,7 @@ const ANIMAUX_PAGES = [
     cta: { href: LANDING, label: "Comparer l assurance animaux" },
     crumbs: [
       { name: "Accueil", url: "/" },
-      { name: "Niches", url: "/niches/" },
+      { name: "Assurances", url: "/assurances/" },
       { name: "Assurance animaux", url: ANIMAUX_BASE },
     ],
     benefits: [
@@ -261,7 +261,6 @@ const ALL_NICHE_PAGES = ANIMAUX_PAGES.concat(ANIMAUX_LONGTAIL_PAGES, CHASSE_PAGE
 function getNicheSitemapEntries(base) {
   const today = new Date().toISOString().slice(0, 10);
   const staticPaths = [
-    "/niches/",
     "/landings/animaux.html",
     "/landings/animaux-express.html",
     "/assurance-chasse/",
@@ -279,7 +278,6 @@ function getNicheSitemapEntries(base) {
     .map(function (p) {
       var pr = "0.88";
       if (p.indexOf("landings") >= 0) pr = "0.9";
-      else if (p === "/niches/") pr = "0.85";
       else if (p === "/assurance-animaux/" || p.indexOf("/assurance-chasse/") === 0 && p.split("/").length <= 4) pr = "0.9";
       return {
         loc: base + p,

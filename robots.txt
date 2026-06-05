@@ -9,5 +9,8 @@ Disallow: /paiement-success.html
 Disallow: /crm
 Disallow: /external/
 Disallow: /api/
+Disallow: /niches/
+Disallow: /seo/niches.json
+Disallow: /data/niches-admin.json
 
 Sitemap: https://www.leadsopportunities.fr/sitemap.xml

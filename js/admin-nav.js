@@ -12,6 +12,7 @@
     { href: "./dashboard.html?section=partners", label: "Partenaires", id: "partners" },
     { href: "./crm.html", label: "CRM", id: "crm" },
     { href: "./blog-questionnaires.html", label: "Blog → devis", id: "blog-devis" },
+    { href: "./niches/", label: "Niches SEO", id: "niches" },
     { href: "./auth.html", label: "Compte", id: "auth" },
   ];
 
@@ -30,7 +31,9 @@
   }
 
   function currentId() {
-    var path = (location.pathname || "").split("/").pop() || "index.html";
+    var pathname = location.pathname || "";
+    if (pathname.indexOf("/niches") >= 0) return "niches";
+    var path = pathname.split("/").pop() || "index.html";
     var q = location.search || "";
     if (path === "dashboard.html") {
       if (q.indexOf("section=leads") >= 0) return "leads";
@@ -43,6 +46,7 @@
     if (path === "espace-client.html") return "home";
     if (path === "admin.html") return "dashboard";
     if (path === "blog-questionnaires.html") return "blog-devis";
+    if (path === "niches" || path.indexOf("niches") === 0) return "niches";
     return path.replace(".html", "");
   }
 

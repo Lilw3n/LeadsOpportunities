@@ -6,10 +6,12 @@ Objectif : **percer sur des requetes peu concurrentielles** avec des silos dedie
 
 | Fichier | Role |
 |---------|------|
-| `seo/niches.json` | Catalogue des niches (priorite, statut, URLs) |
+| `seo/niches.json` | Source catalogue niches (priorite, statut, URLs) — copier vers `data/niches-admin.json` apres edition |
+| `data/niches-admin.json` | Donnees chargees par le hub admin (non indexe) |
 | `scripts/niche-pages.cjs` | Definitions pages SEO (injectees dans `generate-seo-pages.cjs`) |
-| `niches/index.html` | Hub public (spotlight, stats, filtres, roadmap) |
-| `js/niches-hub.js` + `css/niches-hub.css` | Rendu dynamique depuis `seo/niches.json` |
+| `niches/index.html` | **Hub admin** (spotlight, stats, filtres, roadmap) — acces `role=admin` uniquement |
+| `js/niches-admin-guard.js` | Redirige les visiteurs vers `/assurances/` |
+| `js/niches-hub.js` + `css/niches-hub.css` | Rendu dynamique depuis `data/niches-admin.json` |
 | `landings/animaux.html` | Questionnaire complet |
 | `landings/animaux-express.html` | Rappel 30 sec |
 

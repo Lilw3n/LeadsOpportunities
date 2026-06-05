@@ -141,6 +141,22 @@
   margin-bottom: 8px;
 }
 
+.partner-card-logo-img {
+  display: block;
+  max-width: 120px;
+  max-height: 36px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.partner-card--compact .partner-card-logo-img {
+  max-width: 96px;
+  max-height: 30px;
+  margin: 0 auto 6px;
+}
+
 .partner-card-name {
   font-size: 1.1rem;
   font-weight: 800;

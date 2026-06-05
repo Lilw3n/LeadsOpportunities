@@ -564,7 +564,7 @@ const GEO_PRODUCTS = [
     extraRelated: [
       { href: "/assurance-chasse/rc-chasseur/", label: "RC chasseur" },
       { href: "/assurance-chasse/chien-chasse/", label: "Chien de chasse" },
-      { href: "/niches/", label: "Niches assurance" },
+      { href: "/assurances/", label: "Toutes nos assurances" },
     ],
   },
   {
@@ -607,7 +607,7 @@ const GEO_PRODUCTS = [
     extraRelated: [
       { href: "/assurance-equitation/rc-equestre/", label: "RC equestre" },
       { href: "/assurance-equitation/cheval/", label: "Assurance cheval" },
-      { href: "/niches/", label: "Niches assurance" },
+      { href: "/assurances/", label: "Toutes nos assurances" },
     ],
   },
 ];
@@ -1174,7 +1174,6 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/devis-rapide.html", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/landings/animaux.html", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/landings/animaux-express.html", priority: "0.9", changefreq: "weekly" },
-    { loc: base + "/niches/", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/villes/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/chien/", priority: "0.9", changefreq: "weekly" },

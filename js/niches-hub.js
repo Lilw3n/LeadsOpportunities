@@ -1,8 +1,9 @@
 /**
- * Hub public /niches/ — catalogue SEO niches, spotlight live, roadmap.
+ * Hub admin /niches/ — catalogue SEO niches, spotlight live, roadmap.
+ * Accès contrôlé par niches-admin-guard.js (rôle admin).
  */
 (function () {
-  var DATA_URL = "../seo/niches.json";
+  var DATA_URL = "../data/niches-admin.json";
   var state = { filter: "all", query: "", data: null };
 
   function $(id) {
@@ -358,6 +359,7 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     if (!$("nichesGrid")) return;
+    if (!window.LoNichesGuard || !window.LoNichesGuard.ok) return;
     bindSearch();
     fetch(DATA_URL)
       .then(function (r) {

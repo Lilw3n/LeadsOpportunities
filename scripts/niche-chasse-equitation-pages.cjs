@@ -18,7 +18,7 @@ function buildChassePages(page) {
       cta: { href: LANDING, label: "Devis assurance chasse" },
       crumbs: [
         { name: "Accueil", url: "/" },
-        { name: "Niches", url: "/niches/" },
+        { name: "Assurances", url: "/assurances/" },
         { name: "Assurance chasse", url: BASE },
       ],
       benefits: [
@@ -30,7 +30,7 @@ function buildChassePages(page) {
         { href: BASE + "rc-chasseur/", label: "RC chasseur" },
         { href: BASE + "chien-chasse/", label: "Chien de chasse" },
         { href: BASE + "villes/", label: "Par ville" },
-        { href: "/niches/", label: "Toutes les niches" },
+        { href: "/assurances/", label: "Toutes nos assurances" },
       ],
       faq: [
         {
@@ -94,7 +94,7 @@ function buildEquitationPages(page) {
       cta: { href: LANDING, label: "Devis assurance equitation" },
       crumbs: [
         { name: "Accueil", url: "/" },
-        { name: "Niches", url: "/niches/" },
+        { name: "Assurances", url: "/assurances/" },
         { name: "Assurance equitation", url: BASE },
       ],
       benefits: [
