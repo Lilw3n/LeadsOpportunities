@@ -124,7 +124,7 @@
     april: "april.png",
     allianz: "allianz.png",
     axa: "axa.png",
-    generali: "generali.svg",
+    generali: "generali.png",
     santevet: "santevet.png",
     bullebleue: "bulle-bleue.png",
     kozoo: "kozoo.png",
@@ -246,7 +246,7 @@
   function renderPartnerLogo(p, el) {
     var file = LOGO_FILES[p.id];
     if (file) {
-      var tall = p.id === "swisslife" || p.id === "bullebleue";
+      var tall = p.id === "swisslife" || p.id === "bullebleue" || p.id === "generali";
       return (
         '<img class="partner-card-logo-img' +
         (tall ? " partner-card-logo-img--tall" : "") +
