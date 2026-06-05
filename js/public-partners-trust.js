@@ -125,7 +125,7 @@
     allianz: "allianz.png",
     axa: "axa.png",
     generali: "generali.svg",
-    santevet: "santevet.svg",
+    santevet: "santevet.png",
     bullebleue: "bulle-bleue.png",
     kozoo: "kozoo.png",
     swisslife: "swiss-life.png",
