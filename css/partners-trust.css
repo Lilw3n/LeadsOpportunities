@@ -83,10 +83,11 @@
   border-radius: 16px;
   padding: 20px 18px 16px;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-.partner-card:hover {
+.partner-card-link:hover .partner-card,
+.partner-card-link:focus-visible .partner-card {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(13, 148, 136, 0.12);
   border-color: #99f6e4;

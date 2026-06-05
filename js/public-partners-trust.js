@@ -189,6 +189,92 @@
       .replace(/"/g, "&quot;");
   }
 
+  function getBasePrefix(el) {
+    var custom = el && el.getAttribute("data-partners-base");
+    if (custom) return custom;
+    var path = window.location.pathname || "";
+    if (path.indexOf("/landings/") >= 0) return "../";
+    if (path.indexOf("/assurances/") >= 0) return "../";
+    return "./";
+  }
+
+  function partnerHref(p, el, ctxKey) {
+    var base = getBasePrefix(el);
+    var path = window.location.pathname || "";
+    var onLanding = path.indexOf("/landings/") >= 0;
+
+    if (onLanding) {
+      if (p.category === "animaux" || p.tags.indexOf("animaux") >= 0) {
+        return base + "assurance-animaux/";
+      }
+      return "#demande";
+    }
+
+    if (p.category === "animaux" || p.tags.indexOf("animaux") >= 0) {
+      return base + "assurance-animaux/";
+    }
+    if (p.tags.indexOf("vtc") >= 0 || p.category === "vtc") {
+      return base + "landings/vtc.html";
+    }
+    if (p.tags.indexOf("sante") >= 0 || p.category === "sante") {
+      return base + "landings/sante.html";
+    }
+    if (ctxKey === "credit") {
+      return base + "landings/credit-immo.html";
+    }
+    return base + "assurances/";
+  }
+
+  function renderPartnerCard(p, compact, href) {
+    var tierLabel =
+      p.tier === "principal"
+        ? '<span class="partner-card-badge partner-card-badge--active">Partenaire actif</span>'
+        : '<span class="partner-card-badge">Réseau</span>';
+    var actionHint = '<span class="card-action-hint">Voir les offres →</span>';
+    if (compact) {
+      return (
+        '<a class="partner-card-link" href="' +
+        esc(href) +
+        '" aria-label="Offres ' +
+        esc(p.name) +
+        '">' +
+        '<article class="partner-card partner-card--compact">' +
+        '<span class="partner-card-logo" aria-hidden="true">' +
+        esc(p.logo) +
+        "</span>" +
+        '<strong class="partner-card-name">' +
+        esc(p.name) +
+        "</strong>" +
+        "</article></a>"
+      );
+    }
+    return (
+      '<a class="partner-card-link" href="' +
+      esc(href) +
+      '" aria-label="Comparer avec ' +
+      esc(p.name) +
+      '">' +
+      '<article class="partner-card partner-card--' +
+      esc(p.tier) +
+      '">' +
+      tierLabel +
+      '<span class="partner-card-logo" aria-hidden="true">' +
+      esc(p.logo) +
+      "</span>" +
+      '<h3 class="partner-card-name">' +
+      esc(p.name) +
+      "</h3>" +
+      '<p class="partner-card-tagline">' +
+      esc(p.tagline) +
+      "</p>" +
+      '<p class="partner-card-products">' +
+      esc(p.products) +
+      "</p>" +
+      actionHint +
+      "</article></a>"
+    );
+  }
+
   function partnerMatchesContext(p, ctx) {
     var cats = ctx.partnerCategories;
     if (!cats || !cats.length) return true;
@@ -207,52 +293,14 @@
     return list;
   }
 
-  function renderPartnerCard(p, compact) {
-    var tierLabel =
-      p.tier === "principal"
-        ? '<span class="partner-card-badge partner-card-badge--active">Partenaire actif</span>'
-        : '<span class="partner-card-badge">Réseau</span>';
-    if (compact) {
-      return (
-        '<article class="partner-card partner-card--compact">' +
-        '<span class="partner-card-logo" aria-hidden="true">' +
-        esc(p.logo) +
-        "</span>" +
-        '<strong class="partner-card-name">' +
-        esc(p.name) +
-        "</strong>" +
-        "</article>"
-      );
-    }
-    return (
-      '<article class="partner-card partner-card--' +
-      esc(p.tier) +
-      '">' +
-      tierLabel +
-      '<span class="partner-card-logo" aria-hidden="true">' +
-      esc(p.logo) +
-      "</span>" +
-      '<h3 class="partner-card-name">' +
-      esc(p.name) +
-      "</h3>" +
-      '<p class="partner-card-tagline">' +
-      esc(p.tagline) +
-      "</p>" +
-      '<p class="partner-card-products">' +
-      esc(p.products) +
-      "</p>" +
-      "</article>"
-    );
-  }
-
-  function renderCategoryBlock(cat, partners, compact) {
+  function renderCategoryBlock(cat, partners, compact, el, ctxKey) {
     var inCat = partners.filter(function (p) {
       return p.category === cat.id;
     });
     if (!inCat.length) return "";
     var cards = inCat
       .map(function (p) {
-        return renderPartnerCard(p, compact);
+        return renderPartnerCard(p, compact, partnerHref(p, el, ctxKey));
       })
       .join("");
     return (
@@ -292,7 +340,7 @@
     );
   }
 
-  function renderFeaturedGrid(ctxKey, layout) {
+  function renderFeaturedGrid(ctxKey, layout, el) {
     var ctx = COPY[ctxKey] || COPY.default;
     var partners = partnersForContext(ctxKey);
     var compact = layout === "featured" || layout === "compact";
@@ -305,14 +353,14 @@
         var cat = CATEGORIES.find(function (c) {
           return c.id === cid;
         });
-        if (cat) html += renderCategoryBlock(cat, partners, compact);
+        if (cat) html += renderCategoryBlock(cat, partners, compact, el, ctxKey);
       });
       if (!html && partners.length) {
         html =
           '<div class="partners-featured-grid partners-featured-grid--flat">' +
           partners
             .map(function (p) {
-              return renderPartnerCard(p, compact);
+              return renderPartnerCard(p, compact, partnerHref(p, el, ctxKey));
             })
             .join("") +
           "</div>";
@@ -325,7 +373,7 @@
         partners
           .filter(function (p) { return p.tier === "principal"; })
           .map(function (p) {
-            return renderPartnerCard(p, true);
+            return renderPartnerCard(p, true, partnerHref(p, el, ctxKey));
           })
           .join("") +
         "</div>";
@@ -334,7 +382,7 @@
     return html + (layout !== "compact" ? renderMarquee(partners) : "");
   }
 
-  function renderMarkup(ctxKey, layout) {
+  function renderMarkup(ctxKey, layout, el) {
     var ctx = COPY[ctxKey] || COPY.default;
     layout = layout || "showcase";
 
@@ -356,7 +404,7 @@
       esc(ctx.speed) +
       "</strong></p>" +
       "</div>" +
-      renderFeaturedGrid(ctxKey, layout) +
+      renderFeaturedGrid(ctxKey, layout, el) +
       '<p class="partners-trust-legal">Marques citées à titre indicatif selon notre réseau de courtage et grossistes. Courtier inscrit ORIAS — pas de lien capitalistique exclusif avec les compagnies nommées.</p>' +
       "</div>"
     );
@@ -371,7 +419,7 @@
         layout = ctx === "default" ? "showcase" : "featured";
       }
       el.classList.add("partners-trust-section");
-      el.innerHTML = renderMarkup(ctx, layout);
+      el.innerHTML = renderMarkup(ctx, layout, el);
     });
   }
 
