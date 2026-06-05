@@ -185,6 +185,40 @@
       });
     }
 
+    function stepFriendlyTitle(stepEl) {
+      if (!stepEl) return "";
+      return (
+        stepEl.getAttribute("data-step-title") ||
+        (stepEl.querySelector("h3") && stepEl.querySelector("h3").textContent) ||
+        ""
+      ).trim();
+    }
+
+    function updateStepChrome() {
+      var current = steps[idx];
+      var title = stepFriendlyTitle(current);
+      var currentTitle = qs(form, ".wizard-current-title");
+      if (currentTitle) {
+        currentTitle.textContent =
+          "Etape " +
+          (idx + 1) +
+          " sur " +
+          steps.length +
+          (title ? " — " + title : "");
+      }
+      qsa(form, ".wizard-steps-dots [data-wizard-dot]").forEach(function (dot, j) {
+        dot.classList.toggle("is-done", j < idx);
+        dot.classList.toggle("is-active", j === idx);
+        dot.setAttribute("aria-current", j === idx ? "step" : "false");
+        dot.disabled = j > idx;
+      });
+      qsa(form, ".wizard-steps-nav [data-wizard-nav]").forEach(function (item, j) {
+        item.classList.toggle("is-done", j < idx);
+        item.classList.toggle("is-active", j === idx);
+        item.setAttribute("aria-current", j === idx ? "step" : "false");
+      });
+    }
+
     function showStep(i) {
       idx = Math.max(0, Math.min(i, steps.length - 1));
       steps.forEach(function (s, j) {
@@ -193,6 +227,7 @@
       var pct = ((idx + 1) / steps.length) * 100;
       if (bar) bar.style.width = pct + "%";
       if (stepLabel) stepLabel.textContent = "Etape " + (idx + 1) + " / " + steps.length;
+      updateStepChrome();
 
       if (btnPrev) btnPrev.hidden = idx === 0;
       if (btnNext) btnNext.hidden = idx >= steps.length - 1;
@@ -209,7 +244,33 @@
       });
 
       emitStepEvent();
+
+      var head = qs(form, ".wizard-head");
+      if (head) {
+        try {
+          head.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (e) {
+          head.scrollIntoView(true);
+        }
+      }
+      var firstFocus = steps[idx].querySelector(
+        "input:not([type='hidden']):not([disabled]), select:not([disabled]), textarea:not([disabled])"
+      );
+      if (firstFocus && typeof firstFocus.focus === "function") {
+        setTimeout(function () {
+          firstFocus.focus({ preventScroll: true });
+        }, 120);
+      }
     }
+
+    qsa(form, ".wizard-steps-dots [data-wizard-dot]").forEach(function (dot) {
+      dot.addEventListener("click", function () {
+        var target = parseInt(dot.getAttribute("data-wizard-dot"), 10) - 1;
+        if (isNaN(target) || target === idx) return;
+        if (target > idx) return;
+        showStep(target);
+      });
+    });
 
     showStep(0);
     if (window.QuoteIntelligence) window.QuoteIntelligence.bindAbandon(form);
@@ -218,13 +279,25 @@
       if (e.detail && typeof e.detail.index === "number") showStep(e.detail.index);
     });
 
+    var validationHint = qs(form, ".wizard-validation-hint");
+
     if (btnNext) {
       btnNext.addEventListener("click", function () {
         if (auditSkip(form)) {
+          if (validationHint) validationHint.hidden = true;
           showStep(idx + 1);
           return;
         }
-        if (!validateStep(steps[idx])) return;
+        if (!validateStep(steps[idx])) {
+          if (validationHint) {
+            validationHint.hidden = false;
+            validationHint.textContent =
+              "Il manque une information obligatoire. Remplissez les champs marques en rouge, puis cliquez sur « Etape suivante ».";
+            validationHint.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
+          return;
+        }
+        if (validationHint) validationHint.hidden = true;
         var nextIdx = idx + 1;
         var gate =
           stepNameAt(idx) === "conducteur" || stepNameAt(idx) === "3" || steps[idx].querySelector('[name="driverDob"]');

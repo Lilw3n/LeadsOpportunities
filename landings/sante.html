@@ -23,9 +23,10 @@
   <script src="/api/google-config-env"></script>
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./quote-intelligence.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
 </head>
-<body>
+<body class="landing-sante-easy">
   <header class="landing-topbar">
     <div class="landing-topbar-inner">
       <a class="landing-back" href="../index.html">
@@ -51,27 +52,28 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Mutuelle rapide — April, AXA, Swiss Life…"
-              data-price-title="Comparez les mutuelles et payez le juste prix pour vos garanties"
+              data-speed-title="Trouvez une mutuelle claire, sans vous perdre"
+              data-price-title="Comparez les mutuelles selon vos besoins et votre budget"
             ></h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="12+ formules comparees via Marketplace : APRIL, AXA, Swiss Life. Un conseiller vous rappelle vite."
-              data-price-subtitle="Hospitalisation, dentaire, optique : comparez les remboursements poste par poste selon votre budget."
+              data-speed-subtitle="Un conseiller vous rappelle et vous aide a choisir. Formulaire simple, etape par etape."
+              data-price-subtitle="Lunettes, dents, hopital : on compare pour vous les offres utiles, sans jargon."
             ></p>
             <ul class="points">
-              <li>Marketplace sante : 12+ formules (Optimale, Flexi, Vita, Serenite…)</li>
-              <li>Questionnaire complet : foyer, regime, postes prioritaires, budget</li>
-              <li>Conseil humain — pas un comparateur automatique</li>
+              <li>7 etapes guidees — une seule question a la fois</li>
+              <li>Parcours rapide disponible si vous preferez etre rappele</li>
+              <li>100 % gratuit, sans engagement — conseiller humain</li>
             </ul>
             <div class="trust-row">
-              <span class="trust-pill">12+ formules comparees</span>
-              <span class="trust-pill">Promo € gagnants</span>
-              <span class="trust-pill">Espace Assure + Doctolib</span>
+              <span class="trust-pill">Gratuit</span>
+              <span class="trust-pill">Sans engagement</span>
+              <span class="trust-pill">Conseiller dedie</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#demande">Commencer le comparatif</a>
+              <a class="btn btn-primary" href="#demande">Commencer le formulaire</a>
+              <a class="btn btn-soft" href="./devis-express.html?need=sante">Rappel rapide (2 min)</a>
             </div>
           </div>
         </div>
@@ -85,10 +87,26 @@
         </div>
 
         <div class="form-wrap" id="demande">
-          <h2 class="form-title">Demande de comparatif detaille</h2>
+          <h2 class="form-title">Votre demande de comparatif mutuelle</h2>
           <p class="form-lead">
-            Ce questionnaire complet permet d'analyser precisement vos besoins sante. Un conseiller prepare votre comparatif personnalise. Comptez 3 a 5 minutes.
+            Repondez aux questions une par une. A la fin, un conseiller vous rappelle pour vous expliquer les offres en langage simple. Comptez environ 5 minutes.
           </p>
+
+          <div class="help-callout">
+            <div>
+              <strong>Besoin d'aide pour remplir le formulaire ?</strong>
+              <p>Vous pouvez choisir le parcours rapide (nom + telephone) ou nous contacter : un conseiller peut vous guider.</p>
+            </div>
+            <div class="help-callout-actions">
+              <a class="btn btn-soft" href="./devis-express.html?need=sante">Parcours rapide</a>
+              <a class="btn btn-soft" href="../index.html#contact">Nous contacter</a>
+            </div>
+          </div>
+
+          <div class="journey-toggle" role="navigation" aria-label="Type de parcours">
+            <a href="./devis-express.html?need=sante">Rappel rapide (2 min)</a>
+            <a href="./sante.html" class="is-active">Formulaire guide (7 etapes)</a>
+          </div>
 
           <form data-track-form data-quote-wizard novalidate>
             <div data-cross-sell-panel hidden></div>
@@ -97,89 +115,103 @@
               <input type="text" id="hp_sante" name="_hp" tabindex="-1" autocomplete="off" />
             </div>
             <div class="wizard-head">
-              <div class="wizard-progress-track">
+              <div class="wizard-progress-track" aria-hidden="true">
                 <div class="wizard-progress-fill"></div>
               </div>
+              <p class="wizard-current-title" aria-live="polite">Etape 1 sur 7 — Qui etes-vous ?</p>
+              <div class="wizard-steps-dots" aria-label="Progression du formulaire">
+                <button type="button" data-wizard-dot="1" aria-current="step" title="Etape 1">1</button>
+                <button type="button" data-wizard-dot="2" disabled title="Etape 2">2</button>
+                <button type="button" data-wizard-dot="3" disabled title="Etape 3">3</button>
+                <button type="button" data-wizard-dot="4" disabled title="Etape 4">4</button>
+                <button type="button" data-wizard-dot="5" disabled title="Etape 5">5</button>
+                <button type="button" data-wizard-dot="6" disabled title="Etape 6">6</button>
+                <button type="button" data-wizard-dot="7" disabled title="Etape 7">7</button>
+              </div>
               <div class="wizard-meta">
-                <span>Parcours guide</span>
+                <span>Formulaire guide</span>
                 <span class="wizard-step-counter">Etape 1 / 7</span>
               </div>
             </div>
 
+            <p class="wizard-validation-hint" hidden role="alert"></p>
+
             <!-- ETAPE 1 : Votre profil -->
-            <section class="wizard-step" data-wizard-step="1">
-              <h3>Votre profil</h3>
+            <section class="wizard-step" data-wizard-step="1" data-step-title="Qui etes-vous ?">
+              <h3>Qui etes-vous ?</h3>
+              <p class="wizard-step-intro">Commencez par quelques informations sur vous. Chaque liste deroulante : cliquez, puis choisissez une reponse.</p>
               <div class="grid">
                 <div class="field">
-                  <label for="civility">Civilite</label>
+                  <label for="civility">Vous etes</label>
                   <select id="civility" name="civility" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Monsieur</option>
                     <option>Madame</option>
                   </select>
                 </div>
-                <div class="field">
-                  <label for="dob">Date de naissance</label>
+                <div class="field field-date">
+                  <label for="dob">Votre date de naissance</label>
                   <input id="dob" name="dob" type="date" required />
+                  <p class="field-hint">Cliquez sur le champ, puis choisissez le jour, le mois et l'annee.</p>
                 </div>
                 <div class="field">
-                  <label for="socialRegime">Regime social</label>
+                  <label for="socialRegime">Votre regime (Securite sociale)</label>
                   <select id="socialRegime" name="socialRegime" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Regime general (salarie prive)</option>
-                    <option>TNS / Independant / Auto-entrepreneur</option>
+                    <option>Retraite</option>
                     <option>Fonctionnaire</option>
+                    <option>TNS / Independant / Auto-entrepreneur</option>
                     <option>Regime Alsace-Moselle</option>
                     <option>Regime agricole (MSA)</option>
                     <option>Etudiant</option>
-                    <option>Retraite</option>
                     <option>Demandeur d'emploi</option>
-                    <option>Autre / Je ne sais pas</option>
+                    <option>Je ne sais pas</option>
                   </select>
+                  <p class="field-hint">En cas de doute, choisissez « Je ne sais pas » : le conseiller vous aidera.</p>
                 </div>
                 <div class="field">
-                  <label for="currentCover">Situation actuelle</label>
+                  <label for="currentCover">Avez-vous deja une mutuelle ?</label>
                   <select id="currentCover" name="currentCover" required>
-                    <option value="">Selectionnez</option>
-                    <option>Securite sociale uniquement (sans mutuelle)</option>
-                    <option>Mutuelle individuelle en cours</option>
-                    <option>Mutuelle collective employeur</option>
-                    <option>CSS (Complementaire Sante Solidaire)</option>
-                    <option>J'ai perdu ma couverture recemment</option>
-                    <option>Premiere adhesion</option>
+                    <option value="">— Choisissez —</option>
+                    <option>Non, seulement la Securite sociale</option>
+                    <option>Oui, une mutuelle a mon nom</option>
+                    <option>Oui, via mon employeur</option>
+                    <option>Oui, CSS (aide de l'Etat)</option>
+                    <option>J'ai perdu ma mutuelle recemment</option>
+                    <option>C'est ma premiere mutuelle</option>
                   </select>
                 </div>
                 <div class="field">
-                  <label for="employmentStatus">Situation professionnelle</label>
+                  <label for="employmentStatus">Votre situation aujourd'hui</label>
                   <select id="employmentStatus" name="employmentStatus" required>
-                    <option value="">Selectionnez</option>
-                    <option>CDI</option>
-                    <option>CDD / Interim</option>
-                    <option>Independant / Liberal</option>
-                    <option>Auto-entrepreneur</option>
-                    <option>Fonctionnaire</option>
+                    <option value="">— Choisissez —</option>
                     <option>Retraite</option>
-                    <option>Demandeur d'emploi</option>
+                    <option>En activite (CDI, CDD, interim)</option>
+                    <option>Independant / profession liberale</option>
+                    <option>Fonctionnaire</option>
+                    <option>Sans emploi</option>
                     <option>Etudiant</option>
                     <option>Autre</option>
                   </select>
                 </div>
                 <div class="field">
-                  <label for="postalCode">Code postal</label>
-                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" required />
+                  <label for="postalCode">Votre code postal</label>
+                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" required placeholder="Ex. 75001" />
+                  <p class="field-hint">5 chiffres, sans espace.</p>
                 </div>
               </div>
             </section>
 
             <!-- ETAPE 2 : Composition du foyer -->
-            <section class="wizard-step" data-wizard-step="2" hidden>
-              <h3>Composition du foyer</h3>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">Indiquez toutes les personnes a couvrir par la mutuelle.</p>
+            <section class="wizard-step" data-wizard-step="2" data-step-title="Votre famille" hidden>
+              <h3>Votre famille</h3>
+              <p class="wizard-step-intro">Qui doit etre couvert par la mutuelle ? Si vous etes seul(e), choisissez « Moi uniquement » et laissez le reste vide.</p>
               <div class="grid">
                 <div class="field">
-                  <label for="householdType">Personnes a assurer</label>
+                  <label for="householdType">Qui faut-il assurer ?</label>
                   <select id="householdType" name="householdType" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Moi uniquement</option>
                     <option>Moi + conjoint(e)</option>
                     <option>Moi + enfant(s)</option>
@@ -189,11 +221,12 @@
                 <div class="field">
                   <label for="spouseDob">Date de naissance du conjoint (si concerne)</label>
                   <input id="spouseDob" name="spouseDob" type="date" data-optional />
+                  <p class="field-hint">Laissez vide si vous etes seul(e) ou sans conjoint a assurer.</p>
                 </div>
                 <div class="field">
                   <label for="nbChildren">Nombre d'enfants a couvrir</label>
                   <select id="nbChildren" name="nbChildren" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>0 (pas d'enfant)</option>
                     <option>1 enfant</option>
                     <option>2 enfants</option>
@@ -208,7 +241,7 @@
                 <div class="field">
                   <label for="pregnancyPlanned">Grossesse prevue dans les 12 mois ?</label>
                   <select id="pregnancyPlanned" name="pregnancyPlanned" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Non</option>
                     <option>Oui</option>
                     <option>Peut-etre</option>
@@ -230,14 +263,14 @@
             </section>
 
             <!-- ETAPE 3 : Niveaux de garanties souhaites -->
-            <section class="wizard-step" data-wizard-step="3" hidden>
-              <h3>Niveaux de garanties souhaites</h3>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">Indiquez le niveau de remboursement souhaite pour chaque poste de sante.</p>
+            <section class="wizard-step" data-wizard-step="3" data-step-title="Lunettes, dents, hopital" hidden>
+              <h3>Lunettes, dents, hopital…</h3>
+              <p class="wizard-step-intro">Dites-nous ce qui compte le plus pour vous. Pas besoin d'etre expert : choisissez « Moyen » ou « Je ne sais pas » si vous hesitiez.</p>
               <div class="grid">
                 <div class="field">
                   <label for="lvlHospital">Hospitalisation</label>
                   <select id="lvlHospital" name="lvlHospital" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Minimum (100% BRSS)</option>
                     <option>Confort (chambre particuliere)</option>
                     <option>Premium (depassements honoraires)</option>
@@ -247,7 +280,7 @@
                 <div class="field">
                   <label for="lvlConsultations">Soins courants (generaliste, specialistes)</label>
                   <select id="lvlConsultations" name="lvlConsultations" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Minimum (parcours de soins)</option>
                     <option>Moyen</option>
                     <option>Fort (depassements couverts)</option>
@@ -257,7 +290,7 @@
                 <div class="field">
                   <label for="lvlDental">Dentaire</label>
                   <select id="lvlDental" name="lvlDental" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Minimum (soins courants uniquement)</option>
                     <option>Moyen (protheses partiellement couvertes)</option>
                     <option>Fort (protheses, implants, orthodontie)</option>
@@ -268,7 +301,7 @@
                 <div class="field">
                   <label for="lvlOptical">Optique</label>
                   <select id="lvlOptical" name="lvlOptical" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Minimum (1 paire / 2 ans)</option>
                     <option>Moyen (verres progressifs couverts)</option>
                     <option>Fort (montures + verres haut de gamme)</option>
@@ -279,7 +312,7 @@
                 <div class="field">
                   <label for="lvlAltMedicine">Medecines douces (osteo, acupuncture...)</label>
                   <select id="lvlAltMedicine" name="lvlAltMedicine" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Pas necessaire</option>
                     <option>Basique (quelques seances / an)</option>
                     <option>Renforce (10+ seances / an)</option>
@@ -288,7 +321,7 @@
                 <div class="field">
                   <label for="lvlHearing">Auditif</label>
                   <select id="lvlHearing" name="lvlHearing" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Pas prioritaire</option>
                     <option>Basique (100% sante)</option>
                     <option>Renforce (appareils haut de gamme)</option>
@@ -298,13 +331,14 @@
             </section>
 
             <!-- ETAPE 4 : Besoins specifiques -->
-            <section class="wizard-step" data-wizard-step="4" hidden>
-              <h3>Besoins specifiques</h3>
+            <section class="wizard-step" data-wizard-step="4" data-step-title="Votre sante au quotidien" hidden>
+              <h3>Votre sante au quotidien</h3>
+              <p class="wizard-step-intro">Quelques questions simples sur vos habitudes. Cela aide a trouver une mutuelle vraiment utile pour vous.</p>
               <div class="grid">
                 <div class="field">
                   <label for="wearsGlasses">Porteur de lunettes / lentilles ?</label>
                   <select id="wearsGlasses" name="wearsGlasses" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Non</option>
                     <option>Oui, lunettes</option>
                     <option>Oui, lentilles</option>
@@ -314,7 +348,7 @@
                 <div class="field">
                   <label for="dentalPlanned">Soins dentaires prevus ?</label>
                   <select id="dentalPlanned" name="dentalPlanned" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Non, pas de soins prevus</option>
                     <option>Oui, soins courants (detartrage, caries)</option>
                     <option>Oui, protheses / couronnes</option>
@@ -325,7 +359,7 @@
                 <div class="field">
                   <label for="chronicCondition">Pathologie en cours ou traitement regulier ?</label>
                   <select id="chronicCondition" name="chronicCondition" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Non</option>
                     <option>Oui, ALD (Affection Longue Duree)</option>
                     <option>Oui, traitement regulier sans ALD</option>
@@ -335,7 +369,7 @@
                 <div class="field">
                   <label for="gpDoctor">Medecin traitant declare ?</label>
                   <select id="gpDoctor" name="gpDoctor" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Oui</option>
                     <option>Non</option>
                   </select>
@@ -343,7 +377,7 @@
                 <div class="field">
                   <label for="telehealth">Teleconsultation souhaitee ?</label>
                   <select id="telehealth" name="telehealth" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Oui, c'est un plus</option>
                     <option>Non, pas necessaire</option>
                     <option>Indifferent</option>
@@ -352,7 +386,7 @@
                 <div class="field">
                   <label for="tiers">Tiers payant important ?</label>
                   <select id="tiers" name="tiers" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Oui, indispensable</option>
                     <option>Souhaitable mais pas obligatoire</option>
                     <option>Indifferent</option>
@@ -362,9 +396,9 @@
             </section>
 
             <!-- ETAPE 5 : Portefeuille multi-contrats -->
-            <section class="wizard-step" data-wizard-step="5" data-step-name="portefeuille" hidden>
-              <h3>Vos autres contrats (optionnel)</h3>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">Confidentiel — aide votre conseiller a proposer un accompagnement global si vous le souhaitez.</p>
+            <section class="wizard-step" data-wizard-step="5" data-step-name="portefeuille" data-step-title="Autres assurances (facultatif)" hidden>
+              <h3>Autres assurances (facultatif)</h3>
+              <p class="wizard-step-intro is-optional">Cette etape n'est pas obligatoire. Vous pouvez cliquer sur « Etape suivante » sans rien remplir.</p>
               <div class="grid">
                 <div class="field">
                   <label for="hasAutoInsurance">Assurance auto ?</label>
@@ -404,8 +438,9 @@
             </section>
 
             <!-- ETAPE 6 : Coordonnees -->
-            <section class="wizard-step" data-wizard-step="6" hidden>
-              <h3>Vos coordonnees</h3>
+            <section class="wizard-step" data-wizard-step="6" data-step-title="Comment vous joindre" hidden>
+              <h3>Comment vous joindre</h3>
+              <p class="wizard-step-intro">Pour que le conseiller puisse vous rappeler et vous envoyer le comparatif.</p>
               <div class="grid">
                 <div class="field">
                   <label for="firstName">Prenom</label>
@@ -420,8 +455,9 @@
                   <input id="email" name="email" type="email" autocomplete="email" required />
                 </div>
                 <div class="field">
-                  <label for="phone">Telephone mobile</label>
-                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="06 / 07..." />
+                  <label for="phone">Votre numero de telephone</label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="Ex. 06 12 34 56 78" />
+                  <p class="field-hint">Le conseiller vous rappelle sur ce numero.</p>
                 </div>
                 <div class="field full">
                   <label for="street">Adresse complete</label>
@@ -435,8 +471,9 @@
             </section>
 
             <!-- ETAPE 7 : Budget et finalisation -->
-            <section class="wizard-step" data-wizard-step="7" hidden>
-              <h3>Budget et finalisation</h3>
+            <section class="wizard-step" data-wizard-step="7" data-step-title="Budget et envoi" hidden>
+              <h3>Budget et envoi</h3>
+              <p class="wizard-step-intro">Derniere etape : indiquez votre budget et validez. Un conseiller prepare votre comparatif personnalise.</p>
               <div class="grid">
                 <div class="field">
                   <label for="startDate">Date d'effet souhaitee</label>
@@ -445,7 +482,7 @@
                 <div class="field">
                   <label for="budgetMonthly">Budget cotisation mensuelle</label>
                   <select id="budgetMonthly" name="budgetMonthly" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Moins de 30 EUR / mois</option>
                     <option>30 - 50 EUR / mois</option>
                     <option>50 - 80 EUR / mois</option>
@@ -458,7 +495,7 @@
                 <div class="field">
                   <label for="formulaType">Type de formule recherchee</label>
                   <select id="formulaType" name="formulaType" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Eco (essentiel uniquement)</option>
                     <option>Budget (bon rapport qualite/prix)</option>
                     <option>Confort (garanties equilibrees)</option>
@@ -469,7 +506,7 @@
                 <div class="field">
                   <label for="callbackTime">Horaire de rappel prefere</label>
                   <select id="callbackTime" name="callbackTime" required>
-                    <option value="">Selectionnez</option>
+                    <option value="">— Choisissez —</option>
                     <option>Avant 9h</option>
                     <option>9h - 11h</option>
                     <option>11h - 13h</option>
@@ -492,9 +529,9 @@
             </section>
 
             <div class="wizard-actions">
-              <button type="button" class="btn btn-soft wizard-prev" hidden>Retour</button>
-              <button type="button" class="btn btn-primary wizard-next">Continuer</button>
-              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer ma demande sante</button>
+              <button type="button" class="btn btn-soft wizard-prev" hidden>← Etape precedente</button>
+              <button type="button" class="btn btn-primary wizard-next">Etape suivante →</button>
+              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer ma demande</button>
             </div>
             <div class="form-trust-row">
               <div class="form-trust-item">100% gratuit</div>
@@ -508,8 +545,8 @@
         </div>
 
         <div class="form-wrap">
-          <h2>Formules sante comparees</h2>
-          <p class="section-lead">Acces courtier a la Marketplace Sante : les offres ci-dessous sont evaluees selon vos criteres (postes, budget, profil).</p>
+          <h2>Exemples de mutuelles comparees</h2>
+          <p class="section-lead">Votre conseiller selectionne parmi ces formules (et d'autres) selon vos reponses au formulaire.</p>
           <ul class="product-grid">
             <li class="product-item"><strong>APRIL Sante Optimale</strong>Couverture equilibree<span class="tag">€ gagnants</span></li>
             <li class="product-item"><strong>APRIL Simply Sante</strong>Entree de gamme accessible</li>
