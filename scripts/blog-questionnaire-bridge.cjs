@@ -40,6 +40,13 @@ function matchKeywordRule(text, rules) {
   return bestScore > 0 ? best : null;
 }
 
+function blogHref(href) {
+  if (!href) return href;
+  if (href.indexOf("../") === 0 || href.indexOf("./") === 0 || href.indexOf("http") === 0) return href;
+  if (href.indexOf("/") === 0) return ".." + href;
+  return href;
+}
+
 function resolveBridge(article) {
   var map = loadMap();
   var section = map.sections[article.section] || map.sections.actu;
@@ -53,9 +60,21 @@ function resolveBridge(article) {
     fromRule = null;
   }
   var ruleSection = fromRule && fromRule.section ? map.sections[fromRule.section] : null;
-  var base = ruleSection || section;
+  var base = Object.assign({}, ruleSection || section);
+
+  var landing = override.landing || base.landing;
+  var questionnaire = override.questionnaire || base.questionnaire;
+  var questionnaireLabel = override.questionnaireLabel || base.questionnaireLabel || "Questionnaire personnalise";
+  var landingLabel = override.landingLabel || base.landingLabel || base.primaryLabel;
+
   if (article.cta && article.cta.href) {
-    base = Object.assign({}, base, { landing: article.cta.href });
+    if (String(article.cta.href).indexOf("questionnaire") >= 0) {
+      questionnaire = article.cta.href;
+      if (article.cta.label) questionnaireLabel = article.cta.label;
+    } else {
+      landing = article.cta.href;
+      if (article.cta.label) landingLabel = article.cta.label;
+    }
   }
 
   var species = override.species || (fromRule && fromRule.species) || null;
@@ -79,12 +98,14 @@ function resolveBridge(article) {
 
   return {
     need: override.need || base.need,
-    questionnaire: override.questionnaire || base.questionnaire,
-    landing: override.landing || (article.cta && article.cta.href) || base.landing,
-    express: override.express || base.express,
+    questionnaire: blogHref(questionnaire),
+    landing: blogHref(landing),
+    express: blogHref(override.express || base.express),
     hook: hook,
     question: question,
     primaryLabel: primaryLabel,
+    landingLabel: landingLabel,
+    questionnaireLabel: questionnaireLabel,
     expressLabel: override.expressLabel || base.expressLabel,
     species: species,
     section: override.section || article.section,
@@ -126,20 +147,22 @@ function renderBridgeHtml(bridge, opts) {
     "</strong></p>\n" +
     '        <div class="article-bridge-actions">\n' +
     '          <a class="btn btn-primary" href="' +
+    esc(bridge.questionnaire) +
+    '">' +
+    esc(bridge.questionnaireLabel || "Questionnaire personnalisé") +
+    "</a>\n" +
+    '          <a class="btn btn-outline" href="' +
     esc(bridge.landing) +
     '">' +
-    esc(bridge.primaryLabel) +
+    esc(bridge.landingLabel || bridge.primaryLabel) +
     "</a>\n" +
     (bridge.express
-      ? '          <a class="btn btn-outline" href="' +
+      ? '          <a class="btn btn-soft" href="' +
         esc(bridge.express) +
         '">' +
         esc(bridge.expressLabel) +
         "</a>\n"
       : "") +
-    '          <a class="btn btn-soft" href="' +
-    esc(bridge.questionnaire) +
-    '">Questionnaire</a>\n' +
     "        </div>\n" +
     "      </" +
     tag +

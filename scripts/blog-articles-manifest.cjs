@@ -10,15 +10,15 @@ module.exports = {
       intro:
         "Presidentielles, Ligue des champions, Coupe du monde, GTA 6, canicule en France, gaming, people… Chaque sujet du moment, relie a votre assurance.",
     },
-    { id: "sante", title: "Sante & mutuelle", cta: { href: "../landings/sante.html", label: "Comparer ma mutuelle" } },
-    { id: "habitat", title: "Habitation & emprunteur", cta: { href: "../landings/devis.html?need=habitation", label: "Devis habitation" } },
-    { id: "auto", title: "Auto & mobilite", cta: { href: "../landings/devis.html?need=auto", label: "Devis assurance auto" } },
-    { id: "prevoyance", title: "Prevoyance & protection", cta: { href: "../landings/devis.html?need=prevoyance", label: "Devis prevoyance" } },
-    { id: "pro", title: "Professionnel & RC Pro", cta: { href: "../landings/devis.html?need=rc-pro", label: "Devis RC Pro" } },
-    { id: "patrimoine", title: "Patrimoine & epargne", cta: { href: "../landings/devis.html?need=assurance-vie", label: "Parler patrimoine" } },
-    { id: "finance", title: "Credit & immobilier", cta: { href: "../landings/credit-immo.html", label: "Etude credit immo" } },
-    { id: "animaux", title: "Assurance animaux (chien & chat)", cta: { href: "../landings/animaux.html", label: "Comparer assurance animaux" } },
-    { id: "vtc", title: "Assurance VTC & chauffeurs", cta: { href: "../landings/vtc.html", label: "Comparer assurance VTC" } },
+    { id: "sante", title: "Sante & mutuelle", cta: { href: "../landings/questionnaire.html?need=sante&journey=standard", label: "Questionnaire mutuelle" } },
+    { id: "habitat", title: "Habitation & emprunteur", cta: { href: "../landings/questionnaire.html?need=habitation&journey=standard", label: "Questionnaire habitation" } },
+    { id: "auto", title: "Auto & mobilite", cta: { href: "../landings/questionnaire.html?need=auto&journey=standard", label: "Questionnaire auto" } },
+    { id: "prevoyance", title: "Prevoyance & protection", cta: { href: "../landings/questionnaire.html?need=prevoyance&journey=standard", label: "Questionnaire prevoyance" } },
+    { id: "pro", title: "Professionnel & RC Pro", cta: { href: "../landings/questionnaire.html?need=rc-pro&journey=standard", label: "Questionnaire RC Pro" } },
+    { id: "patrimoine", title: "Patrimoine & epargne", cta: { href: "../landings/questionnaire.html?need=assurance-vie&journey=standard", label: "Questionnaire patrimoine" } },
+    { id: "finance", title: "Credit & immobilier", cta: { href: "../landings/questionnaire.html?need=credit-immo&journey=standard", label: "Questionnaire credit immo" } },
+    { id: "animaux", title: "Assurance animaux (chien & chat)", cta: { href: "../landings/questionnaire.html?need=animaux&journey=standard", label: "Questionnaire animaux" } },
+    { id: "vtc", title: "Assurance VTC & chauffeurs", cta: { href: "../landings/questionnaire.html?need=vtc&journey=standard", label: "Questionnaire VTC" } },
   ],
   articles: [
     /* —— Actu & tendances —— */
@@ -798,3 +798,6 @@ module.exports = {
     },
   ],
 };
+
+const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
+applyUpgrades(module.exports.articles);

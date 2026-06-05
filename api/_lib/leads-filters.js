@@ -60,6 +60,9 @@ function enrichLeadRow(row) {
   if (row.is_duplicate == null && (row.parent_lead_id || (p && p.parent_lead_id))) {
     row.is_duplicate = true;
   }
+  if (!row.client_ip && p) {
+    row.client_ip = p.clientIp || p.client_ip || p.ip || null;
+  }
 
   return row;
 

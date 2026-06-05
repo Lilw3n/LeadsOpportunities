@@ -4,6 +4,7 @@ const ROUTES = {
   stats: () => require("../_lib/routes/stats"),
   leads: () => require("../_lib/routes/leads"),
   "lead-update": () => require("../_lib/routes/lead-update"),
+  "lead-delete": () => require("../_lib/routes/lead-delete"),
   "lead-detail": () => require("../_lib/routes/lead-detail"),
   partners: () => require("../_lib/routes/partners-admin"),
   "leads-recent": () => require("../_lib/routes/leads-recent"),

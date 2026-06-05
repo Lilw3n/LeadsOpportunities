@@ -482,6 +482,44 @@
       align-self: flex-end;
     }
     .btn-save:hover { transform: translateY(-1px); }
+    .btn-delete {
+      padding: 8px 14px;
+      border: 1.5px solid #fecaca;
+      border-radius: 10px;
+      background: #fff;
+      color: #b91c1c;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.82rem;
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .btn-delete:hover {
+      background: #fef2f2;
+      border-color: #f87171;
+    }
+    .btn-lead-delete {
+      padding: 6px 10px;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      background: #fff;
+      color: #b91c1c;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .btn-lead-delete:hover { background: #fef2f2; }
+    .lead-actions-cell { width: 1%; white-space: nowrap; text-align: right; }
+    .detail-actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+    }
 
     /* CHART AREA */
     .chart-container {
@@ -1532,13 +1570,15 @@
                   <th data-sort="vertical">Vertical</th>
                   <th data-sort="email">Email</th>
                   <th>Téléphone</th>
+                  <th>IP</th>
                   <th data-sort="status">Statut</th>
                   <th>Réseau</th>
                   <th>Pertinence</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="leadsTableBody">
-                <tr><td colspan="9" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
+                <tr><td colspan="10" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
               </tbody>
             </table>
           </div>
@@ -1736,6 +1776,15 @@
       return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
     }
 
+    function leadClientIp(l) {
+      if (!l) return "—";
+      var ip = l.client_ip;
+      if (!ip && l.payload) {
+        ip = l.payload.clientIp || l.payload.client_ip || l.payload.ip;
+      }
+      return ip || "—";
+    }
+
     function scoreColor(s) {
       if (s >= 70) return "var(--green)";
       if (s >= 40) return "var(--orange)";
@@ -1749,6 +1798,29 @@
     function badgeLabel(status) {
       var labels = { new:"Nouveau", contacted:"Contacté", qualified:"Qualifié", converted:"Converti", lost:"Perdu" };
       return labels[status] || status || "Nouveau";
+    }
+
+    async function deleteLead(id, opts) {
+      opts = opts || {};
+      var hint = opts.label || id;
+      if (!window.confirm("Supprimer ce lead définitivement ?\n\n" + hint + "\n\nCette action est irréversible.")) {
+        return false;
+      }
+      var data = await D.api("/api/dashboard/lead-delete", {
+        method: "POST",
+        body: JSON.stringify({ leadId: id }),
+      });
+      if (!data.ok) {
+        toast(data.error || "Suppression impossible", "error");
+        return false;
+      }
+      toast("Lead supprimé");
+      if (opts.closeModal) {
+        document.getElementById("leadModal").classList.remove("show");
+      }
+      loadLeads();
+      loadStats();
+      return true;
     }
 
     function goToLeads(filterView) {
@@ -2027,7 +2099,7 @@
     // LOAD LEADS
     async function loadLeads() {
       var tbody = document.getElementById("leadsTableBody");
-      tbody.innerHTML = '<tr><td colspan="9" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="10" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
 
       var status = document.getElementById("filterStatus").value;
       var vertical = document.getElementById("filterVertical").value;
@@ -2048,7 +2120,7 @@
         if (data.status === 403) leadErr = "Session expiree";
         if (data.detail) leadErr += " — " + esc(data.detail);
         tbody.innerHTML =
-          '<tr><td colspan="9"><div class="empty-state">' +
+          '<tr><td colspan="10"><div class="empty-state">' +
           leadErr +
           '<br><a href="./auth.html">Reconnectez-vous</a> · <button type="button" class="btn btn-ghost btn-sm" onclick="loadLeads()">Reessayer</button></div></td></tr>';
         return;
@@ -2058,7 +2130,7 @@
         tbody.innerHTML = "";
         if (!data.leads || data.leads.length === 0) {
           tbody.innerHTML =
-            '<tr><td colspan="9"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="10"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
           data.leads.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
@@ -2077,10 +2149,15 @@
               '<td>' + esc(l.vertical) + '</td>' +
               '<td>' + esc(l.email) + '</td>' +
               '<td>' + esc(l.phone) + '</td>' +
+              '<td><code style="font-size:0.78rem">' + esc(leadClientIp(l)) + '</code></td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
-              '<td>' + relevanceLabel(rel) + '</td>';
-            tr.addEventListener("click", function() { openLeadDetail(l.id); });
+              '<td>' + relevanceLabel(rel) + '</td>' +
+              '<td class="lead-actions-cell"><button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button></td>';
+            tr.addEventListener("click", function(e) {
+              if (e.target.closest(".btn-lead-delete")) return;
+              openLeadDetail(l.id);
+            });
             tbody.appendChild(tr);
           });
         }
@@ -2095,7 +2172,7 @@
         document.getElementById("nextPage").disabled = pg.page >= pg.totalPages;
       } catch(e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="9" style="color:var(--red)">Erreur réseau</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" style="color:var(--red)">Erreur réseau</td></tr>';
       }
     }
 
@@ -2118,6 +2195,14 @@
         lastNotifyAt = data.serverTime || new Date().toISOString();
       } catch (e) { console.warn("poll leads", e); }
     }
+
+    document.getElementById("leadsTableBody").addEventListener("click", function(e) {
+      var btn = e.target.closest(".btn-lead-delete");
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      deleteLead(btn.getAttribute("data-lead-id"), { label: btn.getAttribute("data-lead-label") });
+    });
 
     // FILTERS
     document.getElementById("filterView").addEventListener("change", function() { currentPage = 1; loadLeads(); });
@@ -2255,6 +2340,7 @@
           '<div class="detail-grid">' +
             '<div class="detail-item"><div class="dlabel">Email</div><div class="dvalue">' + esc(l.email) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Téléphone</div><div class="dvalue">' + esc(l.phone) + '</div></div>' +
+            '<div class="detail-item"><div class="dlabel">Adresse IP</div><div class="dvalue"><code>' + esc(leadClientIp(l)) + '</code></div></div>' +
             '<div class="detail-item"><div class="dlabel">Vertical</div><div class="dvalue">' + esc(l.vertical) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Score</div><div class="dvalue">' + (l.lead_score != null ? l.lead_score + '/100' : '—') + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Date</div><div class="dvalue">' + fmtDate(l.created_at) + '</div></div>' +
@@ -2285,8 +2371,19 @@
             '<label style="font-weight:600;font-size:0.85rem">Tarif assureur actuel (EUR/mois)<input type="number" id="modalCompetitor" class="filter-input" style="width:100%;margin-top:4px" value="' + esc(l.competitor_monthly != null ? l.competitor_monthly : (payload.competitorMonthly || "")) + '" /></label>' +
             '<label style="font-weight:600;font-size:0.85rem;margin-top:8px;display:block">Notre offre (EUR/mois)<input type="number" id="modalOurOffer" class="filter-input" style="width:100%;margin-top:4px" value="' + esc(l.our_offer_monthly != null ? l.our_offer_monthly : (payload.ourOfferMonthly || "")) + '" /></label>' +
             '<textarea id="modalNotes" placeholder="Notes internes sur ce lead...">' + esc(l.notes || "") + '</textarea>' +
-            '<button class="btn-save" id="saveLeadBtn" data-id="' + esc(l.id) + '">Enregistrer</button>' +
+            '<div class="detail-actions-row">' +
+              '<button type="button" class="btn-delete" id="deleteLeadBtn" data-id="' + esc(l.id) + '" data-label="' + esc(l.email || l.phone || l.id) + '">Supprimer</button>' +
+              '<button class="btn-save" id="saveLeadBtn" data-id="' + esc(l.id) + '">Enregistrer</button>' +
+            '</div>' +
           '</div>';
+
+        document.getElementById("deleteLeadBtn").addEventListener("click", async function() {
+          var btn = this;
+          await deleteLead(btn.dataset.id, {
+            label: btn.dataset.label,
+            closeModal: true,
+          });
+        });
 
         document.getElementById("saveLeadBtn").addEventListener("click", async function() {
           var btn = this;

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-04",
+  "updated": "2026-06-05",
   "sections": {
     "animaux": {
       "need": "animaux",
@@ -9,6 +9,8 @@
       "hook": "Consultation, urgence ou prévention : les frais vétérinaires s'accumulent vite.",
       "question": "Avez-vous pensé à assurer votre compagnon ?",
       "primaryLabel": "Comparer assurance animaux",
+      "questionnaireLabel": "Questionnaire animaux (3 min)",
+      "landingLabel": "Parcours animaux complet",
       "expressLabel": "Rappel 30 sec"
     },
     "vtc": {
@@ -19,6 +21,8 @@
       "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
       "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
       "primaryLabel": "Devis assurance VTC",
+      "questionnaireLabel": "Questionnaire VTC (3 min)",
+      "landingLabel": "Devis VTC détaillé",
       "expressLabel": "Devis rapide VTC"
     },
     "sante": {
@@ -29,6 +33,8 @@
       "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
       "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
       "primaryLabel": "Comparer ma mutuelle",
+      "questionnaireLabel": "Questionnaire mutuelle (3 min)",
+      "landingLabel": "Parcours mutuelle complet",
       "expressLabel": "Rappel mutuelle"
     },
     "habitat": {
@@ -39,6 +45,8 @@
       "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
       "question": "Votre contrat habitation est-il à jour avec votre logement ?",
       "primaryLabel": "Devis habitation",
+      "questionnaireLabel": "Questionnaire habitation",
+      "landingLabel": "Devis habitation détaillé",
       "expressLabel": "Rappel habitation"
     },
     "auto": {
@@ -49,6 +57,8 @@
       "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
       "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
       "primaryLabel": "Devis assurance auto",
+      "questionnaireLabel": "Questionnaire auto",
+      "landingLabel": "Devis auto détaillé",
       "expressLabel": "Rappel auto"
     },
     "prevoyance": {
@@ -59,6 +69,8 @@
       "hook": "Arrêt de travail, invalidité, décès : la prévoyance sécurise le foyer.",
       "question": "Vos revenus sont-ils protégés en cas d'imprévu ?",
       "primaryLabel": "Devis prévoyance",
+      "questionnaireLabel": "Questionnaire prévoyance",
+      "landingLabel": "Devis prévoyance détaillé",
       "expressLabel": "Rappel prévoyance"
     },
     "pro": {
@@ -69,6 +81,8 @@
       "hook": "Un litige client ou un dommage causé à un tiers peut menacer votre activité.",
       "question": "Votre RC Pro couvre-t-elle vraiment votre métier ?",
       "primaryLabel": "Devis RC Pro",
+      "questionnaireLabel": "Questionnaire RC Pro",
+      "landingLabel": "Devis RC Pro détaillé",
       "expressLabel": "Rappel RC Pro"
     },
     "patrimoine": {
@@ -79,6 +93,8 @@
       "hook": "Épargne, retraite, transmission : structurer son patrimoine demande un regard expert.",
       "question": "Un bilan patrimoine et assurance-vie vous intéresse ?",
       "primaryLabel": "Parler patrimoine",
+      "questionnaireLabel": "Questionnaire patrimoine",
+      "landingLabel": "Étude patrimoine",
       "expressLabel": "Être rappelé"
     },
     "finance": {
@@ -89,6 +105,8 @@
       "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
       "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
       "primaryLabel": "Étude crédit immo",
+      "questionnaireLabel": "Questionnaire crédit immo",
+      "landingLabel": "Étude crédit détaillée",
       "expressLabel": "Rappel crédit"
     },
     "actu": {
@@ -97,8 +115,10 @@
       "landing": "/landings/questionnaire.html",
       "express": "/landings/devis-express.html",
       "hook": "Chaque actualité rappelle un risque concret à couvrir.",
-      "question": "Quelle assurance ou financement souhaitez-vous faire vérifier ?",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
       "primaryLabel": "Trouver mon questionnaire",
+      "questionnaireLabel": "Questionnaire assurance",
+      "landingLabel": "Catalogue assurances",
       "expressLabel": "Devis express"
     }
   },
@@ -203,7 +223,40 @@
       "question": "Votre déplacement est-il couvert côté santé et voyage ?"
     },
     "assurance-vtc-moins-cher-2026.html": {
-      "section": "vtc"
+      "section": "vtc",
+      "question": "Prêt à comparer votre VTC à garanties équivalentes en 3 minutes ?"
+    },
+    "mutuelle-sante-5-criteres.html": {
+      "hook": "5 critères lus, il reste à calibrer le bon niveau pour votre foyer.",
+      "question": "Quel profil mutuelle vous correspond vraiment ?"
+    },
+    "questionnaire-mutuelle-quel-niveau-choisir.html": {
+      "hook": "Entrée, confort ou premium : le questionnaire croise profil et budget.",
+      "question": "Prêt à identifier votre niveau de mutuelle en 3 minutes ?"
+    },
+    "assurance-habitation-sous-assurance-sinistre.html": {
+      "hook": "Un sinistre mal indemnisé coûte souvent plus qu'une année de prime.",
+      "question": "Votre capital mobilier est-il correctement déclaré ?"
+    },
+    "assurance-emprunteur-loi-lemoine-2026.html": {
+      "need": "emprunteur",
+      "questionnaire": "/landings/questionnaire.html?need=emprunteur&journey=standard",
+      "hook": "La Lemoine peut faire économiser des milliers d'euros — si les garanties sont équivalentes.",
+      "question": "Combien pourriez-vous économiser sur votre assurance emprunteur ?"
+    },
+    "assurance-emprunteur-combien-economiser-lemoine.html": {
+      "need": "emprunteur",
+      "questionnaire": "/landings/questionnaire.html?need=emprunteur&journey=standard",
+      "question": "Simulez votre économie Lemoine en quelques minutes"
+    },
+    "vtc-premiere-course-checklist-assurance.html": {
+      "section": "vtc",
+      "hook": "Une course sans RC pro valide = risque pénal + sinistre non couvert.",
+      "question": "Votre attestation VTC est-elle prête pour Uber ou Bolt ?"
+    },
+    "pret-immo-erreurs-a-eviter.html": {
+      "section": "finance",
+      "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?"
     }
   }
 }

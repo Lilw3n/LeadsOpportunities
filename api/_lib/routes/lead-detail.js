@@ -1,5 +1,6 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards } = require("../security");
+const { enrichLeadRow } = require("../leads-filters");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -28,7 +29,7 @@ module.exports = async (req, res) => {
                utm_source, utm_medium, utm_campaign, gclid, visitor_id,
                COALESCE(status, 'new') AS status, notes, assigned_to,
                payload, created_at, updated_at, opened_at, platform,
-               competitor_monthly, our_offer_monthly, relevance
+               competitor_monthly, our_offer_monthly, relevance, client_ip
         FROM site_leads WHERE id = ${leadId}
       `;
     } catch (colErr) {
@@ -44,7 +45,7 @@ module.exports = async (req, res) => {
       return res.status(404).json({ error: "Lead introuvable" });
     }
 
-    const lead = rows[0];
+    const lead = enrichLeadRow(rows[0]);
     if (lead.payload && typeof lead.payload === "string") {
       try { lead.payload = JSON.parse(lead.payload); } catch {}
     }

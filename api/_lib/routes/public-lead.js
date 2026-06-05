@@ -10,6 +10,7 @@ const {
   isHoneypotFilled,
   rateLimit,
   getClientIp,
+  normalizeClientIp,
 } = require("../security");
 
 function normalizeEmailAddress(addr) {
@@ -190,6 +191,8 @@ module.exports = async (req, res) => {
   delete enriched.website;
   delete enriched.company_url;
 
+  enriched.clientIp = normalizeClientIp(req);
+
   var utmSource =
     enriched.attr_last_utm_source || enriched.utm_source || enriched.attr_first_utm_source || null;
   var utmMedium =
@@ -285,7 +288,7 @@ module.exports = async (req, res) => {
           competitor_monthly, our_offer_monthly, relevance,
           landing_slug, seo_city, seo_department, seo_product,
           address_line, postal_code, city, geo_lat, geo_lng, geo_confidence,
-          parent_lead_id, is_duplicate
+          parent_lead_id, is_duplicate, client_ip
         ) VALUES (
           ${leadId},
           ${String(enriched.source || "unknown").slice(0, 120)},
@@ -324,7 +327,8 @@ module.exports = async (req, res) => {
           ${enriched.geo_lng != null ? enriched.geo_lng : null},
           ${enriched.geo_confidence ? String(enriched.geo_confidence).slice(0, 20) : null},
           ${parentLeadId},
-          ${isDuplicate}
+          ${isDuplicate},
+          ${enriched.clientIp}
         )
       `;
       stored = true;
@@ -433,7 +437,7 @@ module.exports = async (req, res) => {
       email: enriched.email,
       phone: enriched.phone,
       fbclid: enriched.fbclid || enriched.attr_last_fbclid || null,
-      clientIp: req.headers["x-forwarded-for"] || req.socket.remoteAddress,
+      clientIp: enriched.clientIp || normalizeClientIp(req),
       clientUa: req.headers["user-agent"] || "",
       customData: {
         currency: "EUR",

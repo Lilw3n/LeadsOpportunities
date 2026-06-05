@@ -1,7 +1,7 @@
 /**
  * POST /api/lead-progress — sauvegarde étape questionnaire / abandon
  */
-const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp, normalizeClientIp } = require("../security");
 const { recordFunnelEvent } = require("../funnel-tracker");
 
 module.exports = async (req, res) => {
@@ -35,7 +35,9 @@ module.exports = async (req, res) => {
   try {
     const { neon } = require("@neondatabase/serverless");
     const sql = neon(dbUrl);
-    const result = await recordFunnelEvent(sql, body);
+    const result = await recordFunnelEvent(sql, Object.assign({}, body, {
+      clientIp: normalizeClientIp(req),
+    }));
     return res.status(200).json({
       ok: true,
       leadId: result.leadId,

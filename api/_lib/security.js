@@ -10,6 +10,14 @@ function getClientIp(req) {
   return req.socket?.remoteAddress || "unknown";
 }
 
+function normalizeClientIp(reqOrIp) {
+  var ip = typeof reqOrIp === "string" ? reqOrIp : getClientIp(reqOrIp);
+  if (!ip || ip === "unknown") return null;
+  ip = String(ip).split(",")[0].trim();
+  if (ip.indexOf("::ffff:") === 0) ip = ip.slice(7);
+  return ip.slice(0, 45) || null;
+}
+
 function rateLimit(key, max, windowMs) {
   const now = Date.now();
   let bucket = RATE_BUCKETS.get(key);
@@ -146,6 +154,7 @@ async function readRawBody(req, limit) {
 
 module.exports = {
   getClientIp,
+  normalizeClientIp,
   rateLimit,
   safeEqual,
   setCors,

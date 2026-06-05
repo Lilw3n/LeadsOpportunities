@@ -2,6 +2,7 @@
  * Suivi parcours questionnaire — étapes, blocages, abandons
  */
 const { randomUUID } = require("crypto");
+const { normalizeClientIp } = require("./security");
 
 function mergePayload(existing, patch) {
   var base = {};
@@ -35,6 +36,7 @@ function mergePayload(existing, patch) {
 
   base.funnel = funnel;
   if (patch.partial) base.questionnaireDraft = Object.assign(base.questionnaireDraft || {}, patch.partial);
+  if (patch.clientIp) base.clientIp = patch.clientIp;
   return base;
 }
 
@@ -67,6 +69,8 @@ async function recordFunnelEvent(sql, input) {
   } catch (e) {}
 
   var merged = mergePayload(existingPayload, payloadPatch);
+  var clientIp = normalizeClientIp(input.clientIp || input.client_ip);
+  if (clientIp) merged.clientIp = clientIp;
 
   try {
     await sql`
@@ -103,6 +107,12 @@ async function recordFunnelEvent(sql, input) {
     `;
   } catch (e) {
     throw e;
+  }
+
+  if (clientIp) {
+    try {
+      await sql`UPDATE site_leads SET client_ip = ${clientIp} WHERE id = ${leadId} AND client_ip IS NULL`;
+    } catch (ipErr) {}
   }
 
   try {
