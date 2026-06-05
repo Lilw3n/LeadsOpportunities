@@ -119,14 +119,16 @@
   ];
 
   var LOGO_FILES = {
-    sollyazar: "solly-azar.svg",
-    zephir: "zephir.svg",
-    april: "april.svg",
-    allianz: "allianz.svg",
-    axa: "axa.svg",
+    sollyazar: "solly-azar.png",
+    zephir: "zephir.png",
+    april: "april.png",
+    allianz: "allianz.png",
+    axa: "axa.png",
     generali: "generali.svg",
     santevet: "santevet.svg",
-    swisslife: "swiss-life.svg",
+    bullebleue: "bulle-bleue.png",
+    kozoo: "kozoo.png",
+    swisslife: "swiss-life.png",
   };
 
   var CATEGORIES = [
@@ -244,12 +246,15 @@
   function renderPartnerLogo(p, el) {
     var file = LOGO_FILES[p.id];
     if (file) {
+      var tall = p.id === "swisslife" || p.id === "bullebleue";
       return (
-        '<img class="partner-card-logo-img" src="' +
+        '<img class="partner-card-logo-img' +
+        (tall ? " partner-card-logo-img--tall" : "") +
+        '" src="' +
         esc(logoBase(el) + file) +
         '" alt="' +
         esc(p.name) +
-        '" width="120" height="32" loading="lazy" decoding="async">'
+        '" loading="lazy" decoding="async">'
       );
     }
     return '<span class="partner-card-logo" aria-hidden="true">' + esc(p.logo) + "</span>";
