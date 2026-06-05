@@ -80,3 +80,10 @@ Objectif: transformer le trafic organique en leads qualifies via un funnel `arti
 - Title oriente intention + benefice.
 - Meta description avec promesse + action.
 - FAQ schema sur pages service et pages longues traines.
+
+## 6) Alignement catalogue courtier (APRIL ON)
+- **Sante** : angles Marketplace (12+ formules), postes hospitalisation/dentaire/optique, migration adherent.
+- **VTC** : angle acquisition VTC, produit courtier Auto Pro (usage professionnel).
+- **Credit/Immo** : credit via La Centrale de Financement + 6 formules assurance emprunteur (Reprise incluse).
+- Reference detaillee : `offres/april-on-inventaire.md`
+- Landings production : `/landings/sante.html`, `/landings/vtc.html`, `/landings/credit-immo.html`

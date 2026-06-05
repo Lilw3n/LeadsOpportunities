@@ -57,11 +57,15 @@
     },
     vtc: {
       keywords:
-        "devis assurance vtc, assurance vtc tarif, assurance chauffeur vtc, rc pro vtc, uber bolt assurance, bonus malus vtc, creation activite vtc",
+        "devis assurance vtc, assurance vtc tarif, assurance chauffeur vtc, auto pro vtc, rc pro vtc, uber bolt assurance, bonus malus vtc, creation activite vtc",
       sections: [
         {
-          h2: "Obtenir un devis assurance VTC adapte",
-          text: "Comparez assurance VTC tarif, garanties RC pro, franchises et options perte d exploitation. Parcours intelligent : vehicule, antecedents, plateformes Uber Bolt.",
+          h2: "Devis assurance VTC via Auto Pro",
+          text: "Usage professionnel declare des le devis. Comparez garanties, franchises et tarif VTC. Devis Express ou questionnaire complet : vehicule, antecedents, plateformes Uber Bolt Heetch.",
+        },
+        {
+          h2: "Formules auto pour chauffeurs",
+          text: "Auto Pro pour l activite VTC, Auto Standard pour usage personnel, Auto Aggrave pour profils a risque. Tarificateur unique et suivi sinistre en ligne.",
         },
       ],
       pillar: "/assurance-vtc/",
@@ -79,22 +83,30 @@
     },
     sante: {
       keywords:
-        "devis assurance sante, comparatif mutuelle sante, mutuelle sante prix, mutuelle famille, remboursement optique dentaire, meilleure mutuelle",
+        "devis assurance sante, comparatif mutuelle sante, mutuelle sante prix, april sante optimale, mutuelle famille, remboursement optique dentaire, marketplace sante",
       sections: [
         {
-          h2: "Comparatif mutuelle sante personnalise",
-          text: "Devis mutuelle selon foyer, budget et postes hospitalisation, dentaire, optique. Courtier ORIAS sans engagement.",
+          h2: "Marketplace sante : 12+ formules comparees",
+          text: "APRIL Sante Optimale, Flexi, Vita, Serenite, Malakoff Humanis, Senior GAN et autres. Comparatif par poste : hospitalisation, dentaire, optique, soins courants.",
+        },
+        {
+          h2: "Parcours en 3 etapes",
+          text: "Infos projet, liste des offres, envoi du comparatif. Migration possible si deja adherent. Promo € gagnants et Espace Assure avec Doctolib.",
         },
       ],
       pillar: "/assurance-sante/",
     },
     "credit-immo": {
       keywords:
-        "simulation credit immo, courtier pret immobilier, devis credit immobilier, capacite emprunt, taux credit immobilier, rachat credit immobilier",
+        "simulation credit immo, courtier pret immobilier, assurance emprunteur, april reprise, capacite emprunt, taux credit immobilier, rachat credit immobilier",
       sections: [
         {
-          h2: "Simulation credit immobilier",
-          text: "Premier avis de faisabilite, mensualites, apport et accompagnement dossier pret immobilier.",
+          h2: "Credit immo + assurance emprunteur",
+          text: "Faisabilite via La Centrale de Financement. Comparatif assurance de pret : Equilibre, Essentiel, Integrale, Optimum+, Horizon, APRIL Reprise.",
+        },
+        {
+          h2: "Accompagnement de bout en bout",
+          text: "Simulation gratuite, estimation des economies emprunteur, conseiller unique jusqu a la signature chez le notaire.",
         },
       ],
       pillar: "/credit-immo/",

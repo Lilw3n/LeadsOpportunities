@@ -1,10 +1,10 @@
 verticale,intention,mot_cle_principal,mots_cles_secondaires,type_page,priorite
-vtc,transactionnelle,devis assurance vtc,assurance vtc tarif|assurance chauffeur vtc|assurance vtc rapide,landing,haute
-vtc,transactionnelle,assurance vtc pas cher,comparatif assurance vtc|prix assurance vtc,page service,haute
-vtc,informationnelle,garanties assurance vtc,franchise assurance vtc|rc pro vtc,article,moyenne
-sante,transactionnelle,devis assurance sante,comparatif mutuelle sante|mutuelle sante prix,landing,haute
-sante,transactionnelle,assurance sante famille,meilleure mutuelle famille|mutuelle famille tarif,page service,haute
-sante,informationnelle,remboursement mutuelle optique,remboursement dentaire mutuelle|tableau garanties,article,moyenne
-credit_immo,transactionnelle,simulation credit immo,courtier pret immobilier|devis credit immobilier,landing,haute
-credit_immo,transactionnelle,rachat credit immobilier,regroupement de credits|baisse mensualites,page service,moyenne
-credit_immo,informationnelle,taux credit immobilier 2026,frais dossier credit|assurance emprunteur,article,moyenne
+vtc,transactionnelle,devis assurance vtc,assurance vtc tarif|auto pro vtc|assurance chauffeur vtc|assurance vtc rapide,landing,haute
+vtc,transactionnelle,assurance vtc pas cher,comparatif assurance vtc|prix assurance vtc|devis express vtc,page service,haute
+vtc,informationnelle,garanties assurance vtc,franchise assurance vtc|rc pro vtc|usage professionnel auto,article,moyenne
+sante,transactionnelle,devis assurance sante,comparatif mutuelle sante|marketplace sante|mutuelle sante prix,landing,haute
+sante,transactionnelle,assurance sante famille,april sante optimale|mutuelle famille tarif|april flexi sante,page service,haute
+sante,informationnelle,remboursement mutuelle optique,remboursement dentaire mutuelle|hospitalisation mutuelle|contrat responsable,article,moyenne
+credit_immo,transactionnelle,simulation credit immo,courtier pret immobilier|assurance emprunteur|devis credit immobilier,landing,haute
+credit_immo,transactionnelle,rachat credit immobilier,april reprise|regroupement de credits|baisse mensualites,page service,moyenne
+credit_immo,informationnelle,taux credit immobilier 2026,assurance pret equilibre|frais dossier credit|marketplace emprunteur,article,moyenne
