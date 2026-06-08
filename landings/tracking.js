@@ -19,12 +19,24 @@
     }
 
     if (name === "qualified_lead") {
+      var qScore = payload.lead_score != null ? Number(payload.lead_score) : 1;
       if (cfg.ga4MeasurementId && cfg.ga4MeasurementId.indexOf("XXXX") === -1) {
         window.gtag("event", "qualified_lead", {
           send_to: cfg.ga4MeasurementId,
-          value: payload.lead_score != null ? Number(payload.lead_score) : 1,
+          value: qScore,
           currency: "EUR",
           vertical: (payload.vertical || "").toString(),
+        });
+      }
+      if (
+        cfg.adsQualifiedLeadConversionId &&
+        cfg.adsQualifiedLeadConversionId.indexOf("XXXX") === -1 &&
+        qScore >= 50
+      ) {
+        window.gtag("event", "conversion", {
+          send_to: cfg.adsQualifiedLeadConversionId,
+          value: qScore,
+          currency: "EUR",
         });
       }
       return;
@@ -345,7 +357,17 @@
             })
           );
 
-          if (result && result.ok) {
+          if (result && result.error === "geo_out_of_scope") {
+            if (msgErr) {
+              msgErr.textContent =
+                result.message ||
+                "Ce service est reserve aux residents en France (assurance et credit immo).";
+              msgErr.hidden = false;
+            } else if (msgOk) {
+              msgOk.textContent = result.message || "Service reserve a la France.";
+              msgOk.hidden = false;
+            }
+          } else if (result && result.ok) {
             if (msgOk) {
               if (result.emailSent === false && result.stored === false) {
                 msgOk.textContent =

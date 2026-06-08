@@ -8,6 +8,7 @@ const ROUTES = {
   "tariff-quote": () => require("./_lib/routes/public-tariff-quote"),
   "lead-progress": () => require("./_lib/routes/public-lead-progress"),
   "journey-event": () => require("./_lib/routes/public-journey-event"),
+  "geo-hint": () => require("./_lib/routes/public-geo-hint"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

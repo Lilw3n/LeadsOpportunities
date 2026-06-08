@@ -12,6 +12,12 @@ const {
   getClientIp,
   normalizeClientIp,
 } = require("../security");
+const {
+  getVisitorCountry,
+  isFranceAudience,
+  looksLikeFrenchPhone,
+  looksLikeFrenchPostalCode,
+} = require("../geo-france");
 
 function normalizeEmailAddress(addr) {
   var s = String(addr || "").trim();
@@ -143,6 +149,17 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, leadId: randomUUID(), leadScore: 0 });
   }
 
+  var visitorCountry = getVisitorCountry(req);
+  if (visitorCountry && !isFranceAudience(visitorCountry)) {
+    return res.status(200).json({
+      ok: false,
+      error: "geo_out_of_scope",
+      message:
+        "Nos services (assurance et crédit immobilier ORIAS) sont disponibles en France métropolitaine et DOM-TOM uniquement.",
+      visitorCountry: visitorCountry,
+    });
+  }
+
   var leadId = body.leadId || randomUUID();
   var score = computeLeadScore(body);
 
@@ -192,6 +209,22 @@ module.exports = async (req, res) => {
   delete enriched.company_url;
 
   enriched.clientIp = normalizeClientIp(req);
+  enriched.visitor_country = visitorCountry || body.visitor_country || null;
+
+  if (
+    visitorCountry &&
+    isFranceAudience(visitorCountry) &&
+    body.phone &&
+    !looksLikeFrenchPhone(body.phone)
+  ) {
+    enriched.phone_format_warning = "non_french_format";
+  }
+  if (
+    body.postal_code &&
+    !looksLikeFrenchPostalCode(body.postal_code)
+  ) {
+    enriched.postal_format_warning = "non_french_format";
+  }
 
   var utmSource =
     enriched.attr_last_utm_source || enriched.utm_source || enriched.attr_first_utm_source || null;

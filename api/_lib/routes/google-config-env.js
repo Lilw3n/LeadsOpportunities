@@ -15,6 +15,7 @@ module.exports = function googleConfigEnv(req, res) {
     adsLeadConversionId: String(process.env.GOOGLE_ADS_CONVERSION_LEAD || "").trim(),
     adsPhoneConversionId: String(process.env.GOOGLE_ADS_CONVERSION_PHONE || "").trim(),
     adsWhatsappConversionId: String(process.env.GOOGLE_ADS_CONVERSION_WHATSAPP || "").trim(),
+    adsQualifiedLeadConversionId: String(process.env.GOOGLE_ADS_CONVERSION_QUALIFIED_LEAD || "").trim(),
     metaPixelId: String(process.env.META_PIXEL_ID || "").trim(),
     tiktokPixelId: String(process.env.TIKTOK_PIXEL_ID || "").trim(),
     pinterestTagId: String(process.env.PINTEREST_TAG_ID || "").trim(),

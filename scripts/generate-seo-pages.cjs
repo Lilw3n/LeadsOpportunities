@@ -786,17 +786,22 @@ function renderPage(p) {
   ${geoMeta}
   <link rel="canonical" href="${esc(canonical)}" />
   <link rel="alternate" hreflang="fr-FR" href="${esc(canonical)}" />
+  <link rel="alternate" hreflang="x-default" href="${esc(canonical)}" />
   <meta property="og:title" content="${esc(p.title)}" />
   <meta property="og:description" content="${esc(p.description)}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${esc(canonical)}" />
+  <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="${prefix}seo/seo-pages.css" />
+  <link rel="stylesheet" href="${prefix}css/geo-france-banner.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JX8E35693F');</script>
+  <script src="${prefix}api/google-config-env"></script>
+  <script src="${prefix}google-config.js"></script>
 </head>
 <body class="seo-page seo-page--${theme}">
   <header class="seo-topbar">
@@ -869,6 +874,10 @@ function renderPage(p) {
   <script type="application/ld+json">${JSON.stringify(breadcrumbLd)}</script>
   <script type="application/ld+json">${JSON.stringify(serviceLd)}</script>
   ${faqLd ? '<script type="application/ld+json">' + JSON.stringify(faqLd) + "</script>" : ""}
+  <script src="${prefix}js/france-seo-meta.js"></script>
+  <script src="${prefix}js/attribution.js"></script>
+  <script src="${prefix}js/cookie-banner.js"></script>
+  <script src="${prefix}js/geo-france-guard.js"></script>
 </body>
 </html>`;
 }

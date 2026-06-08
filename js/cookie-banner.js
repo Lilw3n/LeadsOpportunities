@@ -33,6 +33,25 @@
 
     document.body.appendChild(wrap);
 
+    function updateGtagConsent(level) {
+      if (typeof window.gtag !== "function") return;
+      if (level === "all") {
+        window.gtag("consent", "update", {
+          ad_storage: "granted",
+          analytics_storage: "granted",
+          ad_user_data: "granted",
+          ad_personalization: "granted",
+        });
+      } else {
+        window.gtag("consent", "update", {
+          ad_storage: "denied",
+          analytics_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+        });
+      }
+    }
+
     document.getElementById("cookie-accept").addEventListener("click", function () {
       localStorage.setItem(KEY, "all");
       try {
@@ -41,6 +60,7 @@
           JSON.stringify({ necessary: true, analytics: true, marketing: true, functional: true })
         );
       } catch (e) {}
+      updateGtagConsent("all");
       hideBanner(wrap);
       window.dispatchEvent(new CustomEvent("lo:cookie-consent", { detail: { level: "all" } }));
     });
@@ -53,14 +73,25 @@
           JSON.stringify({ necessary: true, analytics: false, marketing: false, functional: false })
         );
       } catch (e) {}
+      updateGtagConsent("essential");
       hideBanner(wrap);
       window.dispatchEvent(new CustomEvent("lo:cookie-consent", { detail: { level: "essential" } }));
     });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    if (!hasConsentRecorded()) {
-      showBanner();
+    if (hasConsentRecorded()) {
+      var level = localStorage.getItem(KEY) === "all" ? "all" : "essential";
+      if (level === "all" && typeof window.gtag === "function") {
+        window.gtag("consent", "update", {
+          ad_storage: "granted",
+          analytics_storage: "granted",
+          ad_user_data: "granted",
+          ad_personalization: "granted",
+        });
+      }
+      return;
     }
+    showBanner();
   });
 })();
