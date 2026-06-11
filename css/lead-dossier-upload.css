@@ -1,0 +1,145 @@
+.lead-dossier-panel {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+.lead-dossier-panel h3 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.lead-dossier-intro {
+  margin: 0 0 16px;
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.lead-dossier-slots {
+  display: grid;
+  gap: 12px;
+}
+
+.lead-dossier-slot {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+}
+
+.lead-dossier-slot.is-uploaded {
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+.lead-dossier-slot.is-rejected {
+  border-color: #fecaca;
+  background: #fef2f2;
+}
+
+.lead-dossier-slot-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.lead-dossier-slot-type {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.lead-dossier-status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.lead-dossier-status.pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.lead-dossier-status.approved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.lead-dossier-status.rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.lead-dossier-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .lead-dossier-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lead-dossier-fields label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.lead-dossier-fields input[type="text"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.lead-dossier-drop {
+  border: 2px dashed #94a3b8;
+  border-radius: 10px;
+  padding: 14px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #64748b;
+  transition: border-color 0.15s;
+}
+
+.lead-dossier-drop:hover,
+.lead-dossier-drop.is-dragover {
+  border-color: #0d9488;
+  color: #0f766e;
+}
+
+.lead-dossier-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.lead-dossier-msg {
+  margin-top: 12px;
+  font-size: 0.9rem;
+}
+
+.lead-dossier-msg.ok {
+  color: #166534;
+}
+
+.lead-dossier-msg.err {
+  color: #991b1b;
+}
