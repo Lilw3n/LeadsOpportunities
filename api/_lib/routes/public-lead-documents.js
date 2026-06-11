@@ -159,7 +159,10 @@ async function handleUpload(req, res) {
     displayName: displayName,
     status: "pending",
     drive: driveResult,
-    message: "Document transmis au courtier pour validation",
+    driveActive: !!(driveResult && driveResult.fileId && !driveResult.simulated),
+    message: driveResult && driveResult.simulated
+      ? "Document enregistre (Drive: mode simule — verifier GOOGLE_SERVICE_ACCOUNT_JSON + GOOGLE_DRIVE_FOLDER_ID sur Vercel)"
+      : "Document transmis et classe dans Google Drive",
   });
 }
 
