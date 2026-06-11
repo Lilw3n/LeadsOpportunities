@@ -13,6 +13,50 @@ const VTC_DOSSIER_SLOTS = [
   { type: "autre", defaultName: "Autre piece", defaultFile: "document", optional: true },
 ];
 
+const SANTE_DOSSIER_SLOTS = [
+  { type: "piece_identite", defaultName: "Piece d'identite", defaultFile: "piece-identite" },
+  { type: "carte_vitale", defaultName: "Carte Vitale ou attestation droits", defaultFile: "carte-vitale" },
+  { type: "justificatif_domicile", defaultName: "Justificatif de domicile", defaultFile: "justificatif-domicile" },
+  { type: "avis_imposition", defaultName: "Dernier avis d'imposition", defaultFile: "avis-imposition", optional: true },
+  { type: "releve_mutuelle", defaultName: "Releve mutuelle actuelle", defaultFile: "releve-mutuelle", optional: true },
+  { type: "rib", defaultName: "RIB", defaultFile: "rib" },
+  { type: "autre", defaultName: "Autre piece", defaultFile: "document", optional: true },
+];
+
+const CREDIT_IMMO_DOSSIER_SLOTS = [
+  { type: "piece_identite", defaultName: "Piece d'identite", defaultFile: "piece-identite" },
+  { type: "bulletins_salaire", defaultName: "3 derniers bulletins de salaire", defaultFile: "bulletins-salaire" },
+  { type: "avis_imposition", defaultName: "2 derniers avis d'imposition", defaultFile: "avis-imposition" },
+  { type: "rib", defaultName: "RIB", defaultFile: "rib" },
+  { type: "compromis_vente", defaultName: "Compromis ou offre d'achat", defaultFile: "compromis-vente", optional: true },
+  { type: "tableau_amortissement", defaultName: "Tableau amortissement (rachat)", defaultFile: "tableau-amortissement", optional: true },
+  { type: "autre", defaultName: "Autre piece", defaultFile: "document", optional: true },
+];
+
+const DOSSIER_LABELS = {
+  vtc: "Completer votre dossier VTC",
+  sante: "Completer votre dossier mutuelle sante",
+  credit_immo: "Completer votre dossier credit immobilier",
+};
+
+function normalizeVertical(vertical) {
+  var s = String(vertical || "vtc").toLowerCase().replace(/-/g, "_");
+  if (s.indexOf("credit") !== -1 || s.indexOf("immo") !== -1) return "credit_immo";
+  if (s.indexOf("sante") !== -1 || s.indexOf("mutuelle") !== -1) return "sante";
+  return "vtc";
+}
+
+function getDossierSlots(vertical) {
+  var v = normalizeVertical(vertical);
+  if (v === "sante") return SANTE_DOSSIER_SLOTS;
+  if (v === "credit_immo") return CREDIT_IMMO_DOSSIER_SLOTS;
+  return VTC_DOSSIER_SLOTS;
+}
+
+function getDossierLabel(vertical) {
+  return DOSSIER_LABELS[normalizeVertical(vertical)] || DOSSIER_LABELS.vtc;
+}
+
 async function ensureLeadDocumentsSchema(sql) {
   if (!sql) return false;
   await sql`
@@ -43,6 +87,9 @@ async function ensureLeadDocumentsSchema(sql) {
   await sql`
     CREATE INDEX IF NOT EXISTS lead_documents_status_idx ON lead_documents (status, created_at DESC)
   `;
+  try {
+    await sql`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS drive_folder_id TEXT`;
+  } catch (e) {}
   return true;
 }
 
@@ -65,16 +112,14 @@ function extensionFromMime(mime, fallbackName) {
 }
 
 function defaultDisplayName(docType, vertical) {
-  var slots = vertical === "vtc" ? VTC_DOSSIER_SLOTS : VTC_DOSSIER_SLOTS;
-  var slot = slots.find(function (s) {
+  var slot = getDossierSlots(vertical).find(function (s) {
     return s.type === docType;
   });
   return slot ? slot.defaultName : "Document";
 }
 
 function defaultFileStem(docType, vertical) {
-  var slots = vertical === "vtc" ? VTC_DOSSIER_SLOTS : VTC_DOSSIER_SLOTS;
-  var slot = slots.find(function (s) {
+  var slot = getDossierSlots(vertical).find(function (s) {
     return s.type === docType;
   });
   return slot ? slot.defaultFile : "document";
@@ -106,7 +151,7 @@ function parseBase64Payload(raw) {
 async function verifyLeadAccess(sql, leadId, email) {
   if (!leadId || !email) return { ok: false, error: "leadId et email requis" };
   var rows = await sql`
-    SELECT id, email, contact_id, vertical
+    SELECT id, email, contact_id, vertical, drive_folder_id
     FROM site_leads
     WHERE id = ${leadId}
     LIMIT 1
@@ -126,6 +171,11 @@ function newDocId() {
 
 module.exports = {
   VTC_DOSSIER_SLOTS,
+  SANTE_DOSSIER_SLOTS,
+  CREDIT_IMMO_DOSSIER_SLOTS,
+  normalizeVertical,
+  getDossierSlots,
+  getDossierLabel,
   MAX_FILE_BYTES,
   ensureLeadDocumentsSchema,
   sanitizeFileName,

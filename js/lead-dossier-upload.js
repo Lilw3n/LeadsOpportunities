@@ -1,18 +1,16 @@
 /**
- * Depot pieces dossier VTC apres envoi du formulaire (#demande).
+ * Depot pieces dossier apres envoi formulaire (VTC, sante, credit immo).
  */
 (function () {
-  var VTC_SLOTS = [
-    { type: "carte_grise", defaultName: "Carte grise", defaultFile: "carte-grise" },
-    { type: "permis", defaultName: "Permis de conduire", defaultFile: "permis-conduire" },
-    { type: "kbis", defaultName: "KBIS ou extrait INPI", defaultFile: "kbis" },
-    { type: "releve_info", defaultName: "Releve d'information assurance", defaultFile: "releve-information" },
-    { type: "attestation_vtc", defaultName: "Carte ou attestation VTC", defaultFile: "attestation-vtc" },
-    { type: "rib", defaultName: "RIB", defaultFile: "rib" },
-    { type: "autre", defaultName: "Autre piece", defaultFile: "document", optional: true },
-  ];
-
-  var state = { leadId: null, email: null, vertical: "vtc", documents: [] };
+  var state = {
+    leadId: null,
+    email: null,
+    vertical: "vtc",
+    dossierLabel: "Completer votre dossier",
+    slots: [],
+    documents: [],
+    driveNote: "",
+  };
 
   function esc(s) {
     var d = document.createElement("div");
@@ -50,7 +48,15 @@
         return r.json();
       })
       .then(function (res) {
-        if (res.ok) state.documents = res.documents || [];
+        if (res.ok) {
+          state.documents = res.documents || [];
+          state.slots = res.slots || [];
+          state.vertical = res.vertical || state.vertical;
+          state.dossierLabel = res.dossierLabel || state.dossierLabel;
+          state.driveNote = res.driveLinked
+            ? "Vos fichiers sont classes automatiquement dans votre dossier Google Drive courtier."
+            : "Les fichiers seront archives dans Google Drive des que la connexion est activee.";
+        }
       })
       .catch(function () {});
   }
@@ -83,17 +89,27 @@
 
   function renderPanel(container) {
     if (!container) return;
+    var slots = state.slots.length ? state.slots : [];
     container.hidden = false;
     container.innerHTML =
       '<div class="lead-dossier-panel">' +
-      "<h3>Completer votre dossier VTC</h3>" +
-      '<p class="lead-dossier-intro">Deposez vos pieces pour accelerer votre devis. Noms par defaut pre-remplis — vous pouvez les modifier avant envoi. Chaque document sera valide par un conseiller.</p>' +
+      "<h3>" +
+      esc(state.dossierLabel) +
+      "</h3>" +
+      '<p class="lead-dossier-intro">Deposez vos pieces pour accelerer votre dossier. Noms par defaut pre-remplis — modifiables avant envoi. Chaque document est valide par un conseiller. ' +
+      esc(state.driveNote) +
+      "</p>" +
       '<div class="lead-dossier-slots" data-dossier-slots></div>' +
       '<p class="lead-dossier-msg" data-dossier-msg hidden></p>' +
       "</div>";
 
     var slotsRoot = container.querySelector("[data-dossier-slots]");
-    VTC_SLOTS.forEach(function (slot) {
+    if (!slots.length) {
+      slotsRoot.innerHTML = "<p>Chargement des emplacements…</p>";
+      return;
+    }
+
+    slots.forEach(function (slot) {
       var existing = docForType(slot.type);
       var st = existing ? statusLabel(existing.status) : statusLabel("");
       var slotEl = document.createElement("div");
@@ -182,7 +198,14 @@
           .then(function (res) {
             if (res.ok) {
               if (msg) {
-                msg.textContent = "Piece « " + displayName + " » transmise. Validation par le courtier sous 24–48 h.";
+                var driveHint =
+                  res.drive && res.drive.simulated
+                    ? " (archivage Drive en attente de configuration)"
+                    : res.drive && res.drive.fileId
+                      ? " — classe dans votre dossier Drive."
+                      : "";
+                msg.textContent =
+                  "Piece « " + displayName + " » transmise. Validation par le courtier sous 24–48 h." + driveHint;
                 msg.className = "lead-dossier-msg ok";
                 msg.hidden = false;
               }
@@ -211,9 +234,7 @@
     state.leadId = leadId;
     state.email = email;
     state.vertical = vertical || "vtc";
-    var host =
-      document.querySelector("[data-lead-dossier]") ||
-      document.getElementById("demande");
+    var host = document.querySelector("[data-lead-dossier]") || document.getElementById("demande");
     if (!host) return;
 
     var panel = host.querySelector("[data-lead-dossier-panel]");
@@ -229,7 +250,7 @@
     });
   }
 
-  window.LeadDossierUpload = { mount: mount, slots: VTC_SLOTS };
+  window.LeadDossierUpload = { mount: mount };
 
   document.addEventListener("lo:lead-sent", function (ev) {
     var detail = (ev && ev.detail) || {};
@@ -238,6 +259,15 @@
     if (!result.ok || !result.leadId) return;
     var email = payload.email || payload.mail;
     if (!email) return;
-    mount(result.leadId, email, payload.vertical || "vtc");
+    var vertical =
+      payload.vertical ||
+      payload.need ||
+      payload.serviceNeed ||
+      (window.location.pathname.indexOf("sante") !== -1
+        ? "sante"
+        : window.location.pathname.indexOf("credit-immo") !== -1
+          ? "credit_immo"
+          : "vtc");
+    mount(result.leadId, email, vertical);
   });
 })();

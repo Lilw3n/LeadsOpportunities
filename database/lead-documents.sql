@@ -23,3 +23,6 @@ CREATE TABLE IF NOT EXISTS lead_documents (
 CREATE INDEX IF NOT EXISTS lead_documents_lead_idx ON lead_documents (lead_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS lead_documents_status_idx ON lead_documents (status, created_at DESC);
 CREATE INDEX IF NOT EXISTS lead_documents_email_idx ON lead_documents (LOWER(email));
+
+-- Dossier Google Drive par lead (cree au premier upload)
+ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS drive_folder_id TEXT;

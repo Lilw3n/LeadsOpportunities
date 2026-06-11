@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, canManageAllContacts } = require("../rbac");
 const { getSql } = require("../db");
 const { buildProfileMetadata } = require("../crm-profile-meta");
+const { ensureClientDriveFolders } = require("../drive-folders");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -83,7 +84,14 @@ module.exports = async (req, res) => {
       )
     `;
 
-    return res.status(201).json({ ok: true, contactId });
+    var driveSetup = null;
+    try {
+      driveSetup = await ensureClientDriveFolders(contactId);
+    } catch (driveErr) {
+      console.warn("[crm/convert-lead] drive", driveErr.message);
+    }
+
+    return res.status(201).json({ ok: true, contactId, drive: driveSetup });
   } catch (e) {
     console.error("[crm/convert-lead]", e);
     return res.status(500).json({ error: "Erreur serveur" });

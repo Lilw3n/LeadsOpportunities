@@ -174,11 +174,11 @@
           return;
         }
         if (!res.documents.length) {
-          mount.innerHTML = "<p>Aucune piece dossier VTC en attente</p>";
+          mount.innerHTML = "<p>Aucune piece dossier landing en attente</p>";
           return;
         }
         mount.innerHTML =
-          "<table><thead><tr><th>Document</th><th>Type</th><th>Dossier / e-mail</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead><tbody>" +
+          "<table><thead><tr><th>Document</th><th>Produit</th><th>Type</th><th>Dossier / e-mail</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead><tbody>" +
           res.documents
             .map(function (d) {
               return (
@@ -187,6 +187,8 @@
                 "<br><small style='color:#64748b'>" +
                 esc(d.fileName) +
                 "</small></td><td>" +
+                esc(d.vertical || "—") +
+                "</td><td>" +
                 esc(d.docType) +
                 "</td><td>" +
                 esc(d.leadId || "—") +

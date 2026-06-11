@@ -14,8 +14,11 @@ const {
   parseBase64Payload,
   verifyLeadAccess,
   newDocId,
-  VTC_DOSSIER_SLOTS,
+  getDossierSlots,
+  getDossierLabel,
+  normalizeVertical,
 } = require("../lead-documents-lib");
+const { ensureLeadDriveFolder } = require("../drive-folders");
 
 async function handleList(req, res) {
   var url = new URL(req.url, "http://localhost");
@@ -35,10 +38,14 @@ async function handleList(req, res) {
     ORDER BY created_at DESC
   `;
 
+  var vertical = normalizeVertical(access.lead.vertical);
   return res.status(200).json({
     ok: true,
     leadId: leadId,
-    slots: VTC_DOSSIER_SLOTS,
+    vertical: vertical,
+    dossierLabel: getDossierLabel(vertical),
+    slots: getDossierSlots(vertical),
+    driveLinked: !!(access.lead.drive_folder_id || access.lead.contact_id),
     documents: rows.map(function (r) {
       return {
         id: r.id,
@@ -89,11 +96,17 @@ async function handleUpload(req, res) {
 
   var driveResult = null;
   try {
+    if (!access.lead.contact_id) {
+      await ensureLeadDriveFolder(leadId, email);
+    }
     driveResult = await uploadTextFile({
       fileName: fileName,
       content: fileParsed.buffer.toString("base64"),
       mimeType: fileParsed.mime,
       contactId: access.lead.contact_id || null,
+      leadId: leadId,
+      email: email,
+      docType: docType,
     });
   } catch (e) {
     console.warn("[lead-documents] drive", e.message);
