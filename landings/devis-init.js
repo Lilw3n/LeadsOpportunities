@@ -75,6 +75,10 @@
       mount.innerHTML = stepsBuilder.buildWizardHtml(service);
     }
 
+    if (form && window.DevisDocumentUpload && window.DevisDocumentUpload.mountInForm) {
+      window.DevisDocumentUpload.mountInForm(form, service.need);
+    }
+
     if (window.LANDING_SEO && window.LANDING_SEO.applyForService) {
       window.LANDING_SEO.applyForService(service);
     }

@@ -7,6 +7,7 @@ const ROUTES = {
   "quote-request": () => require("../_lib/routes/external-quote-request"),
   claim: () => require("../_lib/routes/external-claim"),
   upload: () => require("../_lib/routes/external-upload"),
+  "documents-list": () => require("../_lib/routes/external-documents-list"),
 };
 
 module.exports = async (req, res) => {

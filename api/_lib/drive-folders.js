@@ -6,7 +6,22 @@ const CLIENT_SUBFOLDERS = [
   "03_contrats_existants",
   "04_vehicule_ou_bien",
   "05_devis_signes",
+  "06_entreprise_collective",
 ];
+
+const DOC_TYPE_SUBFOLDER = {
+  kbis: "06_entreprise_collective",
+  convention_collective: "06_entreprise_collective",
+  contrat_mutuelle: "03_contrats_existants",
+  liste_salaries: "06_entreprise_collective",
+  dsn: "06_entreprise_collective",
+  carte_grise: "04_vehicule_ou_bien",
+  permis: "01_identite",
+  releve_info: "03_contrats_existants",
+  rib: "02_justificatifs_revenus",
+  generic: "01_identite",
+  autre: "01_identite",
+};
 
 const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
 
@@ -114,8 +129,43 @@ async function resolveContactUploadFolderId(contactId) {
   return getRootFolderId();
 }
 
+async function findChildFolder(token, parentId, name) {
+  const q =
+    "mimeType='application/vnd.google-apps.folder' and name='" +
+    name.replace(/'/g, "\\'") +
+    "' and '" +
+    parentId +
+    "' in parents and trashed=false";
+  const resp = await fetch(
+    "https://www.googleapis.com/drive/v3/files?q=" + encodeURIComponent(q) + "&fields=files(id,name)&pageSize=1",
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  const data = await resp.json();
+  if (data.files && data.files.length) return data.files[0].id;
+  const created = await driveCreateFolder(token, name, parentId);
+  return created.id;
+}
+
+async function resolveContactSubfolderId(contactId, subfolderName) {
+  if (!contactId || !subfolderName) {
+    return resolveContactUploadFolderId(contactId);
+  }
+  const token = await getDriveToken();
+  if (!token) return resolveContactUploadFolderId(contactId);
+  const clientFolder = await resolveContactUploadFolderId(contactId);
+  if (!clientFolder) return null;
+  return findChildFolder(token, clientFolder, subfolderName);
+}
+
+function subfolderForDocumentType(documentType) {
+  return DOC_TYPE_SUBFOLDER[documentType] || "01_identite";
+}
+
 module.exports = {
   CLIENT_SUBFOLDERS,
+  DOC_TYPE_SUBFOLDER,
   ensureClientDriveFolders,
   resolveContactUploadFolderId,
+  resolveContactSubfolderId,
+  subfolderForDocumentType,
 };

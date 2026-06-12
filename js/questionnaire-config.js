@@ -1020,13 +1020,17 @@
         "collective",
         "Mutuelle collective",
         fieldRow(
-          input("collectiveHeadcount", "Effectif a couvrir", "number", "Ex. 12", true) +
-            select("collectiveStatus", "Statut majoritaire", [
-              { v: "cadres", t: "Cadres" },
-              { v: "non_cadres", t: "Non-cadres" },
-              { v: "ensemble", t: "Ensemble du personnel" },
-            ])
+          input("collectiveCompany", "Raison sociale", "text", "Ex. SARL Dupont", true) +
+            input("collectiveSiret", "SIRET (facultatif)", "text", "14 chiffres", false)
         ) +
+          fieldRow(
+            input("collectiveHeadcount", "Effectif a couvrir", "number", "Ex. 12", true) +
+              select("collectiveStatus", "Statut majoritaire", [
+                { v: "cadres", t: "Cadres" },
+                { v: "non_cadres", t: "Non-cadres" },
+                { v: "ensemble", t: "Ensemble du personnel" },
+              ])
+          ) +
           fieldRow(
             select("collectiveCurrent", "Contrat actuel", [
               { v: "aucun", t: "Pas de mutuelle" },

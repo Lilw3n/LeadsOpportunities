@@ -16,6 +16,9 @@
     if (form) {
       form.dataset.vertical = service.vertical || service.need;
       form.dataset.serviceNeed = service.need;
+      if (window.DevisDocumentUpload && window.DevisDocumentUpload.mountInForm) {
+        window.DevisDocumentUpload.mountInForm(form, service.need);
+      }
     }
   });
 })();

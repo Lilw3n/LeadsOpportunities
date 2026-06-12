@@ -54,19 +54,41 @@ module.exports = async (req, res) => {
       try {
         extra = JSON.parse(e.extra_data || "{}");
       } catch (err) {}
+      var pushed = false;
       (extra.attachments || []).forEach(function (a, i) {
+        pushed = true;
         documents.push({
           id: e.id + "_att_" + i,
           name: a.name || a.label || "Pièce jointe",
-          type: a.type || "Document",
-          status: "En attente",
-          source: "evenement",
+          type: a.type || extra.documentType || "Document",
+          status: e.status || "En attente",
+          source: extra.source || "evenement",
           sourceId: e.id,
           contactId: e.contact_id,
           contactName: ((e.first_name || "") + " " + (e.last_name || "")).trim() || e.contact_email,
           createdAt: e.created_at,
+          driveFileId: a.driveFileId || null,
+          webViewLink: a.webViewLink || null,
+          thumbnailLink: a.thumbnailLink || null,
+          mimeType: a.mimeType || null,
         });
       });
+      if (!pushed && (extra.fileName || extra.drive)) {
+        documents.push({
+          id: e.id + "_att_0",
+          name: extra.fileName || e.title || "Document",
+          type: extra.documentType || "Document",
+          status: e.status || "En attente",
+          source: "portal_upload",
+          sourceId: e.id,
+          contactId: e.contact_id,
+          contactName: ((e.first_name || "") + " " + (e.last_name || "")).trim() || e.contact_email,
+          createdAt: e.created_at,
+          driveFileId: (extra.drive && extra.drive.fileId) || null,
+          webViewLink: (extra.drive && extra.drive.webViewLink) || null,
+          mimeType: extra.mimeType || null,
+        });
+      }
     });
 
     var pendingQuotes = quotes.map(function (q) {

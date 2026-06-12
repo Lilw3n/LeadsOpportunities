@@ -357,14 +357,16 @@ module.exports = async (req, res) => {
       } catch (tpErr) {
         console.warn("[lead] touchpoint", tpErr.message);
       }
+      var crmContactId = null;
       if (enriched.email) {
         try {
           const { ingestLeadToCrm } = require("../crm-ingest-from-lead");
-          await ingestLeadToCrm(sql, enriched, leadId);
+          crmContactId = await ingestLeadToCrm(sql, enriched, leadId);
         } catch (crmErr) {
           console.error("[lead] crm ingest", crmErr);
         }
       }
+      enriched._crmContactId = crmContactId;
     } catch (e) {
       console.error("[lead] db insert extended failed, fallback", e.message);
       try {
@@ -450,9 +452,24 @@ module.exports = async (req, res) => {
     console.warn("[lead] meta capi", metaErr.message);
   }
 
+  var contactIdOut = enriched._crmContactId || null;
+  if (!contactIdOut && stored && enriched.email && dbUrl) {
+    try {
+      const { neon } = require("@neondatabase/serverless");
+      const sqlLookup = neon(dbUrl);
+      const linked = await sqlLookup`
+        SELECT contact_id FROM site_leads WHERE id = ${leadId} LIMIT 1
+      `;
+      if (linked.length && linked[0].contact_id) contactIdOut = linked[0].contact_id;
+    } catch (lookupErr) {
+      console.warn("[lead] contact lookup", lookupErr.message);
+    }
+  }
+
   return res.status(200).json({
     ok: true,
     leadId: leadId,
+    contactId: contactIdOut,
     leadScore: score,
     stored: stored,
     emailSent: emailSent,

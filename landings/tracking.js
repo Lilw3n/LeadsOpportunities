@@ -188,27 +188,92 @@
       });
   }
 
-  function renderDocumentsCta(container, leadPayload) {
+  function getNeedFromPayload(leadPayload) {
+    return (
+      (leadPayload && (leadPayload.need || leadPayload.serviceNeed || leadPayload.vertical)) ||
+      getVerticalFromForm() ||
+      getVerticalFromPath() ||
+      "default"
+    );
+  }
+
+  function renderDocumentsCta(container, leadPayload, result) {
     if (!container) return;
     var email = (leadPayload && leadPayload.email ? String(leadPayload.email) : "").trim();
-    var href = "/external/upload-document.html?public=1";
-    if (email) href += "&email=" + encodeURIComponent(email);
-    var cta = document.getElementById("docsCtaInline");
-    if (!cta) {
-      cta = document.createElement("p");
-      cta.id = "docsCtaInline";
-      cta.style.marginTop = "10px";
-      cta.innerHTML =
-        'Etape suivante : <a href="' +
+    var contactId = (result && result.contactId) || null;
+    var leadId = (result && result.leadId) || null;
+    var need = getNeedFromPayload(leadPayload);
+    var href =
+      "/external/upload-document.html?public=1&need=" +
+      encodeURIComponent(need) +
+      (email ? "&email=" + encodeURIComponent(email) : "") +
+      (contactId ? "&contactId=" + encodeURIComponent(contactId) : "");
+
+    var panel = document.getElementById("docsUploadPanel");
+    if (!panel) {
+      panel = document.createElement("div");
+      panel.id = "docsUploadPanel";
+      panel.className = "devis-docs-panel";
+      panel.innerHTML =
+        "<h3>Vos pièces justificatives</h3>" +
+        '<p class="small">Complétez votre dossier pour accélérer le devis. Les fichiers sont archivés sur Drive courtier.</p>' +
+        '<div data-devis-documents-root data-docs-visual-panel>' +
+        '<div class="devis-docs-drop" data-docs-drop><strong>Ajouter un document</strong><p>PDF, JPG, PNG — max 12 Mo</p>' +
+        '<input type="file" data-docs-input accept=".pdf,.jpg,.jpeg,.png" hidden /></div>' +
+        '<label style="display:block;margin:10px 0 4px;font-weight:600;font-size:.85rem">Type</label>' +
+        '<select data-docs-type data-optional></select>' +
+        '<div data-docs-queue class="devis-docs-queue"></div>' +
+        '<div data-docs-visual-grid class="devis-docs-grid"></div>' +
+        "</div>" +
+        '<p style="margin-top:10px"><a href="' +
         href +
-        '" style="font-weight:700;text-decoration:underline">envoyer vos pieces justificatives</a>.';
-      container.insertAdjacentElement("afterend", cta);
+        '">Page dépôt complète →</a></p>';
+      container.insertAdjacentElement("afterend", panel);
+      panel.hidden = false;
+
+      if (window.DevisDocumentUpload && window.DEVIS_DOCUMENT_CONFIG) {
+        var cfg = window.DEVIS_DOCUMENT_CONFIG.getConfig(need);
+        var sel = panel.querySelector("[data-docs-type]");
+        if (sel && cfg.items) {
+          sel.innerHTML = cfg.items
+            .map(function (it) {
+              return '<option value="' + it.type + '">' + it.label + "</option>";
+            })
+            .join("");
+        }
+        var uploader = new window.DevisDocumentUpload.DevisDocumentUpload(
+          panel.querySelector("[data-devis-documents-root]"),
+          { need: need }
+        );
+        uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
+        panel._uploader = uploader;
+        uploader.fetchRemoteList();
+      }
     } else {
-      cta.innerHTML =
-        'Etape suivante : <a href="' +
-        href +
-        '" style="font-weight:700;text-decoration:underline">envoyer vos pieces justificatives</a>.';
+      if (panel._uploader) {
+        panel._uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
+        panel._uploader.fetchRemoteList();
+      }
     }
+  }
+
+  function uploadWizardDocuments(form, leadPayload, result) {
+    var uploader = form && form._devisDocumentUpload;
+    if (!uploader) return Promise.resolve();
+    var email = (leadPayload && leadPayload.email) || "";
+    uploader.setSession({
+      email: email,
+      contactId: (result && result.contactId) || null,
+      leadId: (result && result.leadId) || null,
+    });
+    return uploader.uploadQueued().then(function (up) {
+      var panel = document.getElementById("docsUploadPanel");
+      if (panel && panel._uploader) {
+        panel._uploader.uploaded = uploader.uploaded;
+        panel._uploader.renderVisualPanel(panel.querySelector("[data-docs-visual-grid]"));
+      }
+      return up;
+    });
   }
 
   function trackEvent(name, payload) {
@@ -346,15 +411,17 @@
           );
 
           if (result && result.ok) {
-            if (msgOk) {
-              if (result.emailSent === false && result.stored === false) {
-                msgOk.textContent =
-                  "Merci, votre demande est enregistree. Un conseiller vous contacte rapidement. (Notification e-mail en cours de configuration cote serveur.)";
+            uploadWizardDocuments(form, leadPayload, result).finally(function () {
+              if (msgOk) {
+                if (result.emailSent === false && result.stored === false) {
+                  msgOk.textContent =
+                    "Merci, votre demande est enregistree. Un conseiller vous contacte rapidement. (Notification e-mail en cours de configuration cote serveur.)";
+                }
+                msgOk.hidden = false;
+                renderDocumentsCta(msgOk, leadPayload, result);
               }
-              msgOk.hidden = false;
-              renderDocumentsCta(msgOk, leadPayload);
-            }
-            form.reset();
+              form.reset();
+            });
           } else if (msgErr) {
             msgErr.hidden = false;
           } else if (msgOk) {

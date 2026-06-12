@@ -153,6 +153,10 @@
     var stepsBuilder = window.DEVIS_STEPS;
     if (!mount || !stepsBuilder) return;
     mount.innerHTML = stepsBuilder.buildWizardHtml(service, { includePicker: false });
+    var form = qs("devisForm");
+    if (form && window.DevisDocumentUpload && window.DevisDocumentUpload.mountInForm) {
+      window.DevisDocumentUpload.mountInForm(form, service.need);
+    }
   }
 
   document.addEventListener("DOMContentLoaded", function () {

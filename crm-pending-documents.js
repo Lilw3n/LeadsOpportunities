@@ -77,21 +77,37 @@
       }
       if (docs.length) {
         html +=
-          "<h2 style='font-size:1rem;margin:20px 0 8px'>Pièces jointes événements</h2><ul>" +
+          "<h2 style='font-size:1rem;margin:20px 0 8px'>Pièces jointes événements</h2>" +
+          '<div class="crm-docs-grid">' +
           docs
             .map(function (d) {
+              var preview =
+                d.thumbnailLink || (d.mimeType && d.mimeType.indexOf("image") !== -1 && d.webViewLink)
+                  ? '<img src="' + esc(d.thumbnailLink) + '" alt="" style="width:100%;height:100%;object-fit:cover" />'
+                  : '<span style="font-size:2rem">' +
+                    (d.mimeType && d.mimeType.indexOf("pdf") !== -1 ? "📕" : "📄") +
+                    "</span>";
+              var drive = d.webViewLink
+                ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Drive</a> · '
+                : "";
               return (
-                "<li>" +
+                '<article class="crm-doc-tile"><div class="crm-doc-tile-preview">' +
+                preview +
+                '</div><div class="crm-doc-tile-body"><strong>' +
                 esc(d.name) +
-                " — " +
+                "</strong><br>" +
                 esc(d.contactName) +
-                " · <button type='button' class='btn btn-ghost btn-sm btn-approve-doc' data-id='" +
+                "<br>" +
+                drive +
+                '<a href="./crm-contact.html?id=' +
+                encodeURIComponent(d.contactId) +
+                '">Fiche</a> · <button type="button" class="btn btn-ghost btn-sm btn-approve-doc" data-id="' +
                 esc(d.id) +
-                "'>Approuver</button></li>"
+                '">Approuver</button></div></article>'
               );
             })
             .join("") +
-          "</ul>";
+          "</div>";
       }
       if (!html) html = "<p class='panel'>Aucun document en attente.</p>";
       mount.innerHTML = html;

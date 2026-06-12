@@ -179,6 +179,20 @@
     );
   }
 
+  function needsDocumentStep(service) {
+    if (!service) return false;
+    var need = service.need || service.vertical || "";
+    return ["collective", "vtc", "sante"].indexOf(need) !== -1;
+  }
+
+  function stepDocuments(service) {
+    if (!needsDocumentStep(service)) return "";
+    if (global.DevisDocumentUpload && global.DevisDocumentUpload.buildStepHtml) {
+      return global.DevisDocumentUpload.buildStepHtml(service.need || service.vertical);
+    }
+    return "";
+  }
+
   function buildWizardHtml(service, options) {
     options = options || {};
     var parts = [];
@@ -191,6 +205,7 @@
     parts.push(stepContextForService(service));
     parts.push(stepPortefeuille());
     parts.push(stepBudget());
+    parts.push(stepDocuments(service));
     parts.push(stepFinalize());
 
     return parts.join("");

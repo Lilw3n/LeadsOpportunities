@@ -1,19 +1,43 @@
 /**
- * Upload texte vers Google Drive (partagé document-approve + route drive/upload)
+ * Upload texte ou binaire (base64) vers Google Drive (partagé document-approve + route drive/upload)
  */
-async function uploadTextFile({ fileName, content, mimeType, folderId, contactId }) {
-  const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
-  const auth = await getDriveAccessToken();
-  var token = auth ? auth.accessToken : null;
-  var targetFolder = folderId;
+function buildMultipartBody(boundary, meta, mimeType, binaryBuffer) {
+  var metaPart =
+    "--" +
+    boundary +
+    "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
+    JSON.stringify(meta) +
+    "\r\n--" +
+    boundary +
+    "\r\nContent-Type: " +
+    (mimeType || "application/octet-stream") +
+    "\r\n\r\n";
+  var endPart = "\r\n--" + boundary + "--";
+  return Buffer.concat([Buffer.from(metaPart, "utf8"), binaryBuffer, Buffer.from(endPart, "utf8")]);
+}
 
+async function resolveTargetFolder(folderId, contactId, subfolder) {
+  var targetFolder = folderId;
   if (!targetFolder && contactId) {
-    const { resolveContactUploadFolderId } = require("./drive-folders");
-    targetFolder = await resolveContactUploadFolderId(contactId);
+    const { resolveContactUploadFolderId, resolveContactSubfolderId } = require("./drive-folders");
+    if (subfolder) {
+      targetFolder = await resolveContactSubfolderId(contactId, subfolder);
+    } else {
+      targetFolder = await resolveContactUploadFolderId(contactId);
+    }
   }
   if (!targetFolder) {
+    const { getRootFolderId } = require("./google-drive-auth");
     targetFolder = getRootFolderId();
   }
+  return targetFolder;
+}
+
+async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, subfolder }) {
+  const { getDriveAccessToken } = require("./google-drive-auth");
+  const auth = await getDriveAccessToken();
+  var token = auth ? auth.accessToken : null;
+  var targetFolder = await resolveTargetFolder(folderId, contactId, subfolder);
 
   if (!token || !targetFolder) {
     return {
@@ -24,37 +48,59 @@ async function uploadTextFile({ fileName, content, mimeType, folderId, contactId
       fileName: fileName,
     };
   }
+
   var meta = {
     name: fileName,
     parents: [targetFolder],
-    mimeType: mimeType || "application/pdf",
   };
   var boundary = "boundary_" + Date.now();
-  var bodyStr =
-    "--" +
-    boundary +
-    "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
-    JSON.stringify(meta) +
-    "\r\n--" +
-    boundary +
-    "\r\nContent-Type: " +
-    (mimeType || "text/plain") +
-    "\r\n\r\n" +
-    content +
-    "\r\n--" +
-    boundary +
-    "--";
-  var resp = await fetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "multipart/related; boundary=" + boundary,
-    },
-    body: bodyStr,
-  });
-  if (!resp.ok) throw new Error("Drive upload " + resp.status);
+  var body = buildMultipartBody(boundary, meta, mimeType || "application/octet-stream", buffer);
+  var resp = await fetch(
+    "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,mimeType,webViewLink,webContentLink,thumbnailLink",
+    {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "multipart/related; boundary=" + boundary,
+      },
+      body: body,
+    }
+  );
+  if (!resp.ok) {
+    var errText = await resp.text();
+    throw new Error("Drive upload " + resp.status + ": " + errText.slice(0, 200));
+  }
   var data = await resp.json();
-  return { ok: true, fileId: data.id, fileName: data.name };
+  return {
+    ok: true,
+    fileId: data.id,
+    fileName: data.name,
+    mimeType: data.mimeType,
+    webViewLink: data.webViewLink || null,
+    webContentLink: data.webContentLink || null,
+    thumbnailLink: data.thumbnailLink || null,
+  };
 }
 
-module.exports = { uploadTextFile };
+async function uploadBase64File({ fileName, base64, mimeType, folderId, contactId, subfolder }) {
+  if (!base64) throw new Error("base64 requis");
+  var raw = String(base64).replace(/^data:[^;]+;base64,/, "");
+  var buffer = Buffer.from(raw, "base64");
+  if (buffer.length > 12 * 1024 * 1024) {
+    throw new Error("Fichier trop volumineux (max 12 Mo)");
+  }
+  return uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, subfolder });
+}
+
+async function uploadTextFile({ fileName, content, mimeType, folderId, contactId, subfolder }) {
+  return uploadBuffer({
+    fileName: fileName,
+    buffer: Buffer.from(String(content || ""), "utf8"),
+    mimeType: mimeType || "text/plain",
+    folderId: folderId,
+    contactId: contactId,
+    subfolder: subfolder,
+  });
+}
+
+module.exports = { uploadTextFile, uploadBase64File, uploadBuffer };

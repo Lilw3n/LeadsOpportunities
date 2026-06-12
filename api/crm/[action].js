@@ -26,6 +26,7 @@ const ROUTES = {
   periods: () => require("../_lib/routes/crm-periods"),
   "financial-overview": () => require("../_lib/routes/crm-financial-overview"),
   "pending-documents": () => require("../_lib/routes/crm-pending-documents"),
+  "contact-documents": () => require("../_lib/routes/crm-contact-documents"),
   "universal-search": () => require("../_lib/routes/crm-universal-search"),
   "insurance-requests": () => require("../_lib/routes/crm-insurance-requests"),
   products: () => require("../_lib/routes/crm-products"),

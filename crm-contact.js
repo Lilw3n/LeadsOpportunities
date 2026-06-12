@@ -696,6 +696,58 @@
     }
   }
 
+  function renderDocuments() {
+    var mount = document.getElementById("contactDocumentsMount");
+    if (!mount || !contactId) return;
+    mount.innerHTML = "<p style='color:var(--muted)'>Chargement…</p>";
+    api("/api/crm/contact-documents?contactId=" + encodeURIComponent(contactId)).then(function (res) {
+      if (!res.ok) {
+        mount.innerHTML = "<p>" + esc(res.error || "Erreur") + "</p>";
+        return;
+      }
+      var docs = res.documents || [];
+      if (!docs.length) {
+        mount.innerHTML =
+          "<p style='color:var(--muted)'>Aucune pièce déposée via le parcours devis ou le portail client.</p>";
+        return;
+      }
+      mount.innerHTML =
+        '<div class="crm-docs-grid">' +
+        docs
+          .map(function (d) {
+            var preview =
+              d.thumbnailLink || (d.mimeType && d.mimeType.indexOf("image") !== -1 && d.webViewLink)
+                ? '<img src="' + esc(d.thumbnailLink || d.webViewLink) + '" alt="" />'
+                : '<span style="font-size:2.2rem">' +
+                  (d.mimeType && d.mimeType.indexOf("pdf") !== -1 ? "📕" : "📄") +
+                  "</span>";
+            var drive =
+              d.webViewLink && d.driveFileId
+                ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
+                : d.driveFileId
+                  ? "<span>ID " + esc(d.driveFileId) + "</span>"
+                  : "<span>Archivé CRM</span>";
+            return (
+              '<article class="crm-doc-tile">' +
+              '<div class="crm-doc-tile-preview">' +
+              preview +
+              "</div>" +
+              '<div class="crm-doc-tile-body"><strong>' +
+              esc(d.name) +
+              "</strong><br><span style='color:var(--muted)'>" +
+              esc(d.type) +
+              " · " +
+              esc(d.status) +
+              "</span><br>" +
+              drive +
+              "</div></article>"
+            );
+          })
+          .join("") +
+        "</div>";
+    });
+  }
+
   function renderQuotes() {
     var box = document.getElementById("quotesList");
     if (!box) return;
@@ -931,6 +983,7 @@
     }
     renderHeader();
     renderKpis();
+    renderDocuments();
     renderEligibility();
     renderQuoteDetails();
     renderCompanyFamily();
