@@ -124,6 +124,26 @@
       "priority": 120,
       "verticals": ["sante"],
       "integration": { "type": "webhook", "credentialEnv": "PARTNER_WELFAIRE_WEBHOOK_URL" }
+    },
+    {
+      "id": "heomi",
+      "name": "Heomi (ECA)",
+      "portalUrl": "https://partenaire.heomi.fr/",
+      "status": "active",
+      "priority": 15,
+      "verticals": ["collective", "sante"],
+      "integration": { "type": "extranet", "credentialEnv": "PARTNER_HEOMI_WEBHOOK_URL" },
+      "notes": "Extranet partenaire ECA — usage interne courtier, ne pas exposer l URL aux clients."
+    },
+    {
+      "id": "ilona",
+      "name": "Ilona",
+      "portalUrl": "https://auth.ilona.fr/",
+      "status": "active",
+      "priority": 16,
+      "verticals": ["collective", "sante"],
+      "integration": { "type": "extranet", "credentialEnv": "PARTNER_ILONA_WEBHOOK_URL" },
+      "notes": "Portail B2B distributeur collectif — usage interne courtier uniquement."
     }
   ]
 }

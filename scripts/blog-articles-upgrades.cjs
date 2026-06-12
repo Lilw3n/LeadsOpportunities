@@ -12,6 +12,7 @@ var Q = {
   emprunteur: "../landings/questionnaire.html?need=emprunteur&journey=standard",
   credit: "../landings/questionnaire.html?need=credit-immo&journey=standard",
   prevoyance: "../landings/questionnaire.html?need=prevoyance&journey=standard",
+  collective: "../landings/sante-collective.html",
 };
 
 var UPGRADES = {
@@ -432,6 +433,426 @@ var UPGRADES = {
 };
 
 var NEW_ARTICLES = [
+  {
+    file: "mutuelle-collective-obligations-employeur-ani.html",
+    section: "collective",
+    tag: "Sante collective",
+    tagClass: "tag-sante",
+    title: "Mutuelle collective obligatoire : ANI, employeur et panier de soins en 2026",
+    description:
+      "Obligations mutuelle collective entreprise : ANI, financement employeur, panier de soins minimum, cadres et non-cadres. Devis mutuelle collective PME et TPE.",
+    meta: "9 min · Juin 2026",
+    cardExcerpt: "Obligations ANI et financement employeur expliques.",
+    cta: { href: Q.collective, label: "Devis mutuelle collective" },
+    blocks: [
+      {
+        type: "p",
+        text: "Depuis l'<strong>Accord National Interprofessionnel (ANI)</strong>, toute entreprise du secteur prive doit proposer une <strong>complementaire sante collective</strong> a ses salaries. Pour un dirigeant de TPE ou PME, la question n'est plus « faut-il une mutuelle ? » mais <strong>quel niveau de garanties</strong>, <strong>quel budget</strong> et <strong>comment rester conforme</strong> sans surpayer.",
+      },
+      { type: "h2", text: "Qui est concerne par la mutuelle collective obligatoire ?" },
+      {
+        type: "p",
+        text: "L'obligation concerne les entreprises du secteur prive qui emploient des salaries, y compris les tres petites structures. Les modalites peuvent varier selon la <strong>convention collective</strong> applicable : cadres, non-cadres, cotisation minimale, ayants droit ou niveau de garanties impose.",
+      },
+      {
+        type: "ul",
+        items: [
+          "<strong>Salaries en CDI ou CDD</strong> : couverture obligatoire des l'embauche, sauf dispense prevue",
+          "<strong>Cadres et non-cadres</strong> : parfois deux contrats distincts selon la convention",
+          "<strong>Dirigeants non salaries</strong> : souvent hors contrat collectif, avec mutuelle TNS a part",
+        ],
+      },
+      { type: "h2", text: "Le panier de soins ANI : le socle minimum" },
+      {
+        type: "p",
+        text: "Le contrat collectif doit couvrir un <strong>panier de soins minimum</strong> : hospitalisation, soins courants, pharmacie, optique, dentaire, avec des niveaux de prise en charge definis par la reglementation. Un contrat trop bas expose l'employeur a un <strong>risque de non-conformite</strong>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Qui paie quoi : employeur vs salarie" },
+      {
+        type: "p",
+        text: "L'employeur doit financer au minimum <strong>50 % de la cotisation</strong> de base, hors options facultatives. Beaucoup d'entreprises financent davantage pour attirer et fideliser, surtout lorsque les postes optique, dentaire et hospitalisation sont sensibles pour les salaries.",
+      },
+      {
+        type: "ul",
+        items: [
+          "<strong>Part employeur</strong> : souvent 50 % a 100 % de la cotisation de base",
+          "<strong>Part salarie</strong> : prelevee sur le bulletin, avec presentation claire",
+          "<strong>Options famille</strong> : conjoint, enfants ou surcomplementaire, souvent a la charge du salarie",
+        ],
+      },
+      { type: "h2", text: "Les 5 erreurs des employeurs" },
+      {
+        type: "ul",
+        items: [
+          "Choisir sur le prix seul sans lire le tableau de garanties",
+          "Oublier la distinction cadres / non-cadres imposee par la convention",
+          "Ne pas informer les salaries : notice, DUE, adhesion, dispenses",
+          "Sous-estimer l'optique et le dentaire, sources de reclamations",
+          "Renouveler par habitude sans mise en concurrence tous les 2 ou 3 ans",
+        ],
+      },
+      { type: "h2", text: "Documents a preparer pour un devis collectif" },
+      {
+        type: "ul",
+        items: [
+          "Effectif a couvrir et repartition cadres / non-cadres",
+          "Convention collective et eventuelle obligation conventionnelle",
+          "Contrat actuel, echeance et dernier bilan de sinistralite si disponible",
+          "Budget cible employeur et niveau de garanties souhaite",
+          "SIRET et raison sociale",
+        ],
+      },
+    ],
+    related: [
+      { href: "./mutuelle-collective-pme-tpe-budget-2026.html", label: "Budget mutuelle collective PME" },
+      { href: "./mutuelle-collective-mise-en-place-due-portabilite.html", label: "DUE et portabilite" },
+      { href: "../landings/sante-collective.html", label: "Demander un devis collectif" },
+    ],
+  },
+  {
+    file: "mutuelle-collective-pme-tpe-budget-2026.html",
+    section: "collective",
+    tag: "PME / TPE",
+    tagClass: "tag-sante",
+    title: "Mutuelle collective PME et TPE : comment budgeter et choisir en 2026",
+    description:
+      "Budget mutuelle collective PME/TPE, part employeur, niveaux de garanties et comparatif pour eviter de surpayer.",
+    meta: "8 min · Juin 2026",
+    cardExcerpt: "Budget par salarie et criteres de comparaison.",
+    cta: { href: Q.collective, label: "Devis mutuelle collective" },
+    blocks: [
+      {
+        type: "p",
+        text: "Pour une <strong>PME de 10 a 50 salaries</strong> ou une <strong>TPE de 2 a 9</strong>, la mutuelle collective est a la fois un <strong>cout RH</strong>, un <strong>levier d'attractivite</strong> et une <strong>obligation legale</strong>. Le bon reflexe : definir un budget global, puis comparer des offres a <strong>garanties equivalentes</strong>.",
+      },
+      { type: "h2", text: "Ordres de grandeur du budget mutuelle collective" },
+      {
+        type: "p",
+        text: "Le cout depend de l'<strong>age moyen</strong> du personnel, de la <strong>localisation</strong>, du <strong>niveau de garanties</strong> et de la <strong>structure de cotisation</strong> : isole, duo, famille. Deux entreprises de 15 salaries peuvent obtenir des tarifs tres differents.",
+      },
+      {
+        type: "ul",
+        items: [
+          "<strong>Socle conforme ANI</strong> : fourchette basse, utile pour budget serre",
+          "<strong>Niveau intermediaire</strong> : meilleur equilibre optique, dentaire, hospitalisation",
+          "<strong>Niveau renforce</strong> : pertinent pour cadres ou metiers en tension",
+        ],
+      },
+      { type: "h2", text: "TPE : specificites a ne pas negliger" },
+      {
+        type: "p",
+        text: "Avec un petit effectif, chaque euro compte. Mais un contrat mal calibre genere des <strong>reclamations salariees</strong> et des renouvellements difficiles. Verifiez l'effet petit groupe, la simplicite administrative et la possibilite de faire evoluer le contrat lorsque l'effectif grandit.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Les 4 criteres de comparaison pour une PME" },
+      {
+        type: "ul",
+        items: [
+          "<strong>Tableau de garanties</strong> : hospitalisation, dentaire, optique, pharmacie",
+          "<strong>Reste a charge</strong> : ce que paie encore le salarie",
+          "<strong>Tiers payant et services</strong> : teleconsultation, reseau de soins",
+          "<strong>Cout total employeur</strong> : cotisation x effectif, pas seulement prix unitaire",
+        ],
+      },
+      { type: "h2", text: "Financement employeur : 50 %, 60 % ou 100 % ?" },
+      {
+        type: "p",
+        text: "Le legal impose 50 % minimum sur la base. Strategiquement, financer 60 % a 80 %, voire la totalite, peut reduire le turnover. Calculez le <strong>cout annuel global</strong> : part employeur x 12 x effectif.",
+      },
+      { type: "h2", text: "Quand lancer une mise en concurrence ?" },
+      {
+        type: "ul",
+        items: [
+          "A l'embauche du premier salarie si aucun contrat n'existe",
+          "Trois mois avant l'echeance du contrat actuel",
+          "Apres une hausse superieure a 5-8 % sans gain de garanties",
+          "Lors d'une croissance d'effectif ou d'un changement de convention collective",
+        ],
+      },
+    ],
+    related: [
+      { href: "./mutuelle-collective-obligations-employeur-ani.html", label: "Obligations ANI employeur" },
+      { href: "./mutuelle-collective-renouvellement-hausse-tarifs-2026.html", label: "Hausse tarifaire au renouvellement" },
+      { href: "../landings/sante-collective.html", label: "Devis mutuelle collective PME" },
+    ],
+  },
+  {
+    file: "mutuelle-collective-mise-en-place-due-portabilite.html",
+    section: "collective",
+    tag: "Mise en place",
+    tagClass: "tag-sante",
+    title: "Mutuelle collective : mise en place, DUE, adhesion salarie et portabilite",
+    description:
+      "Decision unilaterale de l'employeur, adhesion, dispenses et portabilite : les etapes pour mettre en place une mutuelle collective.",
+    meta: "8 min · Juin 2026",
+    cardExcerpt: "Etapes pratiques de la souscription au depart salarie.",
+    cta: { href: Q.collective, label: "Devis mutuelle collective" },
+    blocks: [
+      {
+        type: "p",
+        text: "Avoir choisi une offre de <strong>mutuelle collective</strong>, c'est une etape. La <strong>mise en place</strong> en est une autre : DUE, information des salaries, gestion des dispenses, adhesion et <strong>portabilite</strong> en cas de depart.",
+      },
+      { type: "h2", text: "Les etapes cles de la mise en place" },
+      {
+        type: "ul",
+        items: [
+          "<strong>Choix du contrat</strong> et validation du niveau de garanties",
+          "<strong>Decision unilaterale de l'employeur</strong> ou accord collectif selon la situation",
+          "<strong>Information des salaries</strong> : notice, cotisations, delais eventuels",
+          "<strong>Adhesion</strong> automatique sauf dispense legale",
+          "<strong>Parametrage paie</strong> : retenues salariales et part patronale",
+        ],
+      },
+      { type: "h2", text: "La DUE : document incontournable" },
+      {
+        type: "p",
+        text: "La <strong>Decision Unilaterale de l'Employeur</strong> formalise l'instauration ou la modification de la complementaire sante collective. Elle precise le personnel concerne, les garanties, la repartition employeur / salarie et les conditions de dispense.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Adhesion salarie et dispenses" },
+      {
+        type: "p",
+        text: "L'adhesion est en principe <strong>obligatoire</strong> pour les salaries concernes. Certaines <strong>dispenses</strong> existent : couverture par ailleurs, CDD court, temps partiel sous seuil, beneficiaire CSS. Chaque cas doit etre documente.",
+      },
+      { type: "h2", text: "Portabilite : ce qui se passe au depart d'un salarie" },
+      {
+        type: "p",
+        text: "En cas de rupture du contrat de travail, sauf faute lourde, le salarie peut beneficier de la <strong>portabilite</strong> des garanties sante et prevoyance collective sous conditions de droits au chomage et d'anciennete.",
+      },
+      {
+        type: "ul",
+        items: [
+          "Duree de maintien liee a l'anciennete, dans la limite legale",
+          "Financement mutualise par le contrat collectif",
+          "Information du salarie sur ses droits des la notification de depart",
+        ],
+      },
+      { type: "h2", text: "Changer de mutuelle collective sans perturber l'entreprise" },
+      {
+        type: "p",
+        text: "Anticipez trois mois avant l'echeance, comparez a garanties equivalentes, preparez une nouvelle DUE et verifiez la continuite des remboursements en cours de soins.",
+      },
+    ],
+    related: [
+      { href: "./mutuelle-collective-obligations-employeur-ani.html", label: "Obligations ANI" },
+      { href: "./mutuelle-collective-dispenses-salaries-cdd-temps-partiel.html", label: "Dispenses salaries" },
+      { href: "../landings/sante-collective.html", label: "Devis collectif accompagne" },
+    ],
+  },
+  {
+    file: "mutuelle-collective-renouvellement-hausse-tarifs-2026.html",
+    section: "collective",
+    tag: "Renouvellement",
+    tagClass: "tag-sante",
+    title: "Mutuelle collective : que faire si le tarif augmente au renouvellement ?",
+    description:
+      "Hausse de cotisation mutuelle collective : analyser le renouvellement, comparer les garanties et renegocier sans perdre la conformite.",
+    meta: "7 min · Juin 2026",
+    cardExcerpt: "Hausse de cotisation : renegocier sans downgrade cache.",
+    cta: { href: Q.collective, label: "Comparer mon contrat collectif" },
+    blocks: [
+      {
+        type: "p",
+        text: "Chaque fin d'annee, de nombreuses entreprises recoivent un avis de renouvellement avec une <strong>hausse de cotisation</strong>. Avant de signer ou de resilier dans l'urgence, separez trois sujets : inflation medicale, sinistralite du groupe et niveau reel des garanties.",
+      },
+      { type: "h2", text: "Lire l'avis de renouvellement ligne par ligne" },
+      {
+        type: "ul",
+        items: [
+          "Taux de hausse global et hausse par college : cadres, non-cadres, familles",
+          "Evolution des postes optique, dentaire, hospitalisation",
+          "Modification des exclusions, delais de carence ou reseaux de soins",
+          "Part employeur absorbee ou repercutee sur les salaries",
+        ],
+      },
+      { type: "h2", text: "Renegocier ou changer : le bon seuil d'alerte" },
+      {
+        type: "p",
+        text: "Une hausse faible avec de bonnes garanties peut rester acceptable. Une hausse de <strong>5 a 10 %</strong> sans amelioration merite une mise en concurrence, surtout si votre effectif ou votre convention collective a change.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Comparer sans degrader la couverture" },
+      {
+        type: "p",
+        text: "Le piege classique consiste a baisser le prix en supprimant ce que les salaries utilisent : dentaire, optique, chambre particuliere, teleconsultation. Demandez un tableau comparatif a garanties equivalentes, puis un scenario economique si vous acceptez un ajustement.",
+      },
+      { type: "h2", text: "Plan d'action en 30 jours" },
+      {
+        type: "ul",
+        items: [
+          "Semaine 1 : reunir contrat actuel, effectif, cotisations et avis de renouvellement",
+          "Semaine 2 : demander 3 propositions alternatives a garanties equivalentes",
+          "Semaine 3 : arbitrer part employeur, options et communication salarie",
+          "Semaine 4 : signer, informer et planifier la transition si changement",
+        ],
+      },
+    ],
+    related: [
+      { href: "./mutuelle-collective-pme-tpe-budget-2026.html", label: "Budget PME/TPE" },
+      { href: "./mutuelle-collective-courtier-comparatif-assureurs.html", label: "Comparer avec un courtier" },
+      { href: "../landings/sante-collective.html", label: "Demander une mise en concurrence" },
+    ],
+  },
+  {
+    file: "mutuelle-collective-convention-collective-ccn.html",
+    section: "collective",
+    tag: "Convention collective",
+    tagClass: "tag-sante",
+    title: "Mutuelle collective et convention collective : les points a verifier avant devis",
+    description:
+      "CCN, categories cadres/non-cadres, garanties minimales : verifier la convention collective avant de choisir une mutuelle entreprise.",
+    meta: "7 min · Juin 2026",
+    cardExcerpt: "CCN : les obligations qui changent le devis collectif.",
+    cta: { href: Q.collective, label: "Verifier ma convention collective" },
+    blocks: [
+      {
+        type: "p",
+        text: "La <strong>convention collective nationale</strong> peut imposer des garanties superieures au panier ANI, une repartition employeur specifique ou des regles par categorie de personnel. Sans cette verification, un devis attractif peut etre inutilisable.",
+      },
+      { type: "h2", text: "Pourquoi la CCN change le devis" },
+      {
+        type: "ul",
+        items: [
+          "Niveau minimal en hospitalisation, dentaire ou optique",
+          "Cotisation differente pour cadres et non-cadres",
+          "Obligation de couvrir les ayants droit dans certains cas",
+          "Regles de prevoyance associees a ne pas confondre avec la sante",
+        ],
+      },
+      { type: "h2", text: "Les informations a fournir au courtier" },
+      {
+        type: "p",
+        text: "Indiquez votre <strong>IDCC</strong>, votre activite reelle, votre effectif et les categories presentes. Si vous hesitez entre deux conventions, faites valider le sujet avant de comparer les assureurs.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Cadres, non-cadres : meme contrat ou contrats separes ?" },
+      {
+        type: "p",
+        text: "Un contrat unique simplifie la gestion, mais certaines conventions ou politiques RH justifient deux colleges. L'enjeu est de rester <strong>objectif</strong>, conforme et lisible sur la fiche de paie.",
+      },
+      { type: "h2", text: "Checklist avant de demander un devis" },
+      {
+        type: "ul",
+        items: [
+          "Nom de la convention collective et IDCC",
+          "Nombre de salaries cadres, non-cadres, apprentis, CDD",
+          "Part employeur envisagee",
+          "Contrat actuel et dernier avis d'echeance si renouvellement",
+          "Objectif : budget minimal, attractivite RH ou garanties renforcees",
+        ],
+      },
+    ],
+    related: [
+      { href: "./mutuelle-collective-obligations-employeur-ani.html", label: "Obligations employeur" },
+      { href: "./mutuelle-collective-mise-en-place-due-portabilite.html", label: "Mise en place et DUE" },
+      { href: "../landings/sante-collective.html", label: "Devis selon votre CCN" },
+    ],
+  },
+  {
+    file: "mutuelle-collective-dispenses-salaries-cdd-temps-partiel.html",
+    section: "collective",
+    tag: "Dispenses",
+    tagClass: "tag-sante",
+    title: "Mutuelle collective : dispenses salaries, CDD et temps partiel sans erreur",
+    description:
+      "CDD, apprentis, temps partiel, couverture par ailleurs : comprendre les dispenses mutuelle collective et les justificatifs a conserver.",
+    meta: "6 min · Juin 2026",
+    cardExcerpt: "Dispenses : eviter les oublis qui coutent cher.",
+    cta: { href: Q.collective, label: "Structurer mon contrat collectif" },
+    blocks: [
+      {
+        type: "p",
+        text: "La mutuelle collective est obligatoire, mais certains salaries peuvent demander une <strong>dispense d'adhesion</strong>. Le risque pour l'employeur : accepter oralement une dispense sans justificatif, puis perdre la trace au controle ou lors d'un litige.",
+      },
+      { type: "h2", text: "Les cas frequents de dispense" },
+      {
+        type: "ul",
+        items: [
+          "Salarie deja couvert par une autre mutuelle obligatoire",
+          "CDD court ou contrat de mission selon duree et acte de mise en place",
+          "Temps partiel ou apprenti avec cotisation trop lourde par rapport au salaire",
+          "Beneficiaire de la CSS ou d'une couverture individuelle temporaire",
+        ],
+      },
+      { type: "h2", text: "Le justificatif fait la difference" },
+      {
+        type: "p",
+        text: "Une dispense doit etre demandee par le salarie et documentee. Prevoyez un dossier par personne : formulaire date, motif, justificatif et date de fin de validite. Les renouvellements doivent etre suivis.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "CDD, apprentis, saisonniers : les points sensibles" },
+      {
+        type: "p",
+        text: "Les populations temporaires changent vite. Pour eviter les trous de process, integrez la mutuelle au parcours d'onboarding : notice, bulletin d'adhesion, formulaire de dispense, rappel a l'echeance.",
+      },
+      { type: "h2", text: "Erreur a eviter lors d'un changement de contrat" },
+      {
+        type: "p",
+        text: "Lorsqu'une entreprise change de mutuelle collective, les dispenses existantes ne doivent pas etre supposees valables automatiquement. Revalidez les cas et archivez les nouveaux documents.",
+      },
+    ],
+    related: [
+      { href: "./mutuelle-collective-mise-en-place-due-portabilite.html", label: "DUE et adhesion" },
+      { href: "./mutuelle-collective-convention-collective-ccn.html", label: "Convention collective" },
+      { href: "../landings/sante-collective.html", label: "Accompagnement collectif" },
+    ],
+  },
+  {
+    file: "mutuelle-collective-courtier-comparatif-assureurs.html",
+    section: "collective",
+    tag: "Comparatif",
+    tagClass: "tag-sante",
+    title: "Comparer une mutuelle collective avec un courtier : methode et documents",
+    description:
+      "Courtier mutuelle collective : methode de comparaison, documents a fournir et criteres pour recevoir des propositions lisibles.",
+    meta: "7 min · Juin 2026",
+    cardExcerpt: "Courtier collectif : comparer vite et proprement.",
+    cta: { href: Q.collective, label: "Lancer un comparatif collectif" },
+    blocks: [
+      {
+        type: "p",
+        text: "Comparer une <strong>mutuelle collective</strong> ne consiste pas a empiler des prix mensuels. Un courtier aligne les garanties, verifie la convention collective, isole la part employeur et transforme des tableaux complexes en decision lisible.",
+      },
+      { type: "h2", text: "Ce que le courtier compare vraiment" },
+      {
+        type: "ul",
+        items: [
+          "Conformite ANI et convention collective",
+          "Postes consommes : hospitalisation, optique, dentaire, soins courants",
+          "Services : tiers payant, reseau de soins, teleconsultation, assistance",
+          "Gestion RH : adhesion, dispenses, portabilite, notices salaries",
+          "Budget employeur annuel et reste a charge salarie",
+        ],
+      },
+      { type: "h2", text: "Documents a envoyer pour gagner du temps" },
+      {
+        type: "p",
+        text: "Un dossier complet permet d'obtenir des propositions plus vite : effectif, SIRET, convention collective, contrat actuel, avis de renouvellement, repartition cadres/non-cadres et objectif budget.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Comment lire le comparatif final" },
+      {
+        type: "p",
+        text: "Demandez une vue en trois colonnes : contrat actuel, proposition economique, proposition equilibree. Le meilleur choix n'est pas toujours le moins cher : il doit reduire les irritants salaries sans exploser le cout employeur.",
+      },
+      { type: "h2", text: "Quand demander un comparatif ?" },
+      {
+        type: "ul",
+        items: [
+          "Creation de la premiere embauche",
+          "Renouvellement annuel avec hausse de cotisation",
+          "Fusion, acquisition ou forte croissance d'effectif",
+          "Changement de convention collective ou creation d'un college cadres",
+        ],
+      },
+    ],
+    related: [
+      { href: "./mutuelle-collective-renouvellement-hausse-tarifs-2026.html", label: "Renouvellement et hausse tarifaire" },
+      { href: "./mutuelle-collective-pme-tpe-budget-2026.html", label: "Budget PME/TPE" },
+      { href: "../landings/sante-collective.html", label: "Comparer avec Leads Opportunities" },
+    ],
+  },
   {
     file: "questionnaire-mutuelle-quel-niveau-choisir.html",
     section: "sante",

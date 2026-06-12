@@ -120,9 +120,26 @@
       "questionnaireLabel": "Questionnaire assurance",
       "landingLabel": "Catalogue assurances",
       "expressLabel": "Devis express"
+    },
+    "collective": {
+      "need": "collective",
+      "questionnaire": "/landings/questionnaire.html?need=collective&journey=standard",
+      "landing": "/landings/sante-collective.html",
+      "express": "/landings/devis-express.html?need=collective",
+      "hook": "Effectif, convention collective, budget employeur : une mutuelle entreprise mal calibree coute vite cher.",
+      "question": "Combien couterait une mutuelle collective conforme pour votre entreprise ?",
+      "primaryLabel": "Devis mutuelle collective",
+      "questionnaireLabel": "Questionnaire entreprise",
+      "landingLabel": "Devis mutuelle collective",
+      "expressLabel": "Rappel rapide"
     }
   },
   "keywordRules": [
+    {
+      "id": "collective",
+      "match": ["mutuelle collective", "sante collective", "complementaire sante collective", "complémentaire santé collective", "panier ani", "decision unilaterale", "décision unilatérale", "due mutuelle", "portabilite", "portabilité", "convention collective"],
+      "section": "collective"
+    },
     {
       "id": "puces-chat",
       "match": ["puce", "puces", "antiparasitaire", "antipuce", "tique", "tiques", "vermifuge"],

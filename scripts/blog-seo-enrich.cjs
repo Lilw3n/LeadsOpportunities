@@ -132,6 +132,9 @@ function defaultKeywords(article) {
   if (article.section === "sante") {
     return ["mutuelle sante", "complementaire sante", "remboursement optique dentaire"].concat(base);
   }
+  if (article.section === "collective") {
+    return ["mutuelle collective entreprise", "complementaire sante collective", "devis mutuelle collective", "obligations employeur"].concat(base);
+  }
   if (article.section === "habitat") {
     return ["assurance habitation", "assurance emprunteur", "loi lemoine", "multirisque habitation"].concat(base);
   }

@@ -57,6 +57,7 @@
       label: "Mutuelle collective entreprise",
       category: "sante",
       vertical: "collective",
+      landing: "./landings/sante-collective.html",
     },
     habitation: {
       need: "habitation",
