@@ -15,6 +15,13 @@
       "Bonjour,\n\nVotre demande est en cours d'analyse. Nous vous repondrons sous 24 a 48 h ouvrees.\n\nBien cordialement,\nLeads Opportunities",
   };
 
+  var STRIPE_LABELS = {
+    dossier_fee: "Frais de dossier",
+    subscription: "Abonnement",
+    one_time: "Paiement",
+    acompte: "Acompte",
+  };
+
   var state = {
     all: [],
     filtered: [],
@@ -590,12 +597,84 @@
   }
 
   function showDetailPane(show) {
-    document.getElementById("mailboxEmptyState").hidden = show;
-    document.getElementById("mailboxDetailView").hidden = !show;
+    var empty = document.getElementById("mailboxEmptyState");
+    var detail = document.getElementById("mailboxDetailView");
+    if (empty) empty.hidden = show;
+    if (detail) detail.hidden = !show;
     if (show && window.innerWidth <= 960) {
       document.getElementById("mailboxPaneList").classList.add("mbx-pane--hidden-mobile");
       document.getElementById("mailboxPaneDetail").classList.remove("mbx-pane--hidden-mobile");
     }
+  }
+
+  function syncStripeIntervalVisibility() {
+    var kindEl = document.getElementById("mailboxStripeKind");
+    var wrap = document.getElementById("mailboxStripeIntervalWrap");
+    if (!kindEl || !wrap) return;
+    var isSub = kindEl.value === "subscription";
+    wrap.hidden = !isSub;
+    wrap.style.display = isSub ? "" : "none";
+  }
+
+  function syncStripeLabelFromKind() {
+    var kindEl = document.getElementById("mailboxStripeKind");
+    var labelEl = document.getElementById("mailboxStripeLabel");
+    if (!kindEl || !labelEl) return;
+    var next = STRIPE_LABELS[kindEl.value] || "Paiement";
+    if (!labelEl.value.trim() || STRIPE_LABELS[labelEl.dataset.autoKind || ""]) {
+      labelEl.value = next;
+      labelEl.dataset.autoKind = kindEl.value;
+    }
+  }
+
+  function formatEur(amount) {
+    try {
+      return Number(amount).toLocaleString("fr-FR", {
+        style: "currency",
+        currency: "EUR",
+      });
+    } catch (e) {
+      return amount + " EUR";
+    }
+  }
+
+  var INTERVAL_LABELS = {
+    day: "jour",
+    week: "semaine",
+    month: "mois",
+    year: "an",
+  };
+
+  function buildStripeMailSnippet(data) {
+    var recurring =
+      data.interval && INTERVAL_LABELS[data.interval]
+        ? " / " + INTERVAL_LABELS[data.interval]
+        : data.interval
+          ? " / " + data.interval
+          : "";
+    var lines = [
+      "",
+      "Pour regler en ligne de maniere securisee :",
+      data.url,
+      "Montant : " + formatEur(data.amountEur) + recurring,
+    ];
+    if (data.label) lines.push("Libelle : " + data.label);
+    lines.push("");
+    return lines.join("\n");
+  }
+
+  function insertTextAtCursor(textarea, text) {
+    if (!textarea) return;
+    var start = textarea.selectionStart;
+    var end = textarea.selectionEnd;
+    var value = textarea.value || "";
+    if (typeof start === "number" && typeof end === "number") {
+      textarea.value = value.slice(0, start) + text + value.slice(end);
+      textarea.selectionStart = textarea.selectionEnd = start + text.length;
+    } else {
+      textarea.value = value + (value && !value.endsWith("\n") ? "\n" : "") + text;
+    }
+    textarea.focus();
   }
 
   function setupReplyForMessage(m) {
@@ -897,6 +976,98 @@
       loadMailbox({});
     });
 
+    var stripeKind = document.getElementById("mailboxStripeKind");
+    var stripeLabel = document.getElementById("mailboxStripeLabel");
+    if (stripeKind) {
+      stripeKind.addEventListener("change", function () {
+        syncStripeIntervalVisibility();
+        syncStripeLabelFromKind();
+      });
+    }
+    if (stripeLabel) {
+      stripeLabel.addEventListener("input", function () {
+        stripeLabel.dataset.autoKind = "";
+      });
+    }
+
+    var stripeInsertBtn = document.getElementById("mailboxStripeInsertBtn");
+    if (stripeInsertBtn) {
+      stripeInsertBtn.addEventListener("click", async function () {
+        var status = document.getElementById("mailboxStripeStatus");
+        var email = (document.getElementById("mailboxReplyTo").value || "").trim();
+        var amount = Number(document.getElementById("mailboxStripeAmount").value);
+        var kind = document.getElementById("mailboxStripeKind").value;
+        var label = (document.getElementById("mailboxStripeLabel").value || "").trim();
+        var interval = document.getElementById("mailboxStripeInterval").value;
+
+        if (status) {
+          status.textContent = "";
+          status.className = "mbx-stripe-status";
+        }
+        if (!email || email.indexOf("@") === -1) {
+          if (status) {
+            status.textContent = "Renseignez d'abord le destinataire.";
+            status.className = "mbx-stripe-status is-error";
+          }
+          return;
+        }
+        if (!amount || amount <= 0) {
+          if (status) {
+            status.textContent = "Montant invalide.";
+            status.className = "mbx-stripe-status is-error";
+          }
+          return;
+        }
+
+        stripeInsertBtn.disabled = true;
+        if (status) status.textContent = "Generation du lien Stripe…";
+
+        var data = await window.Dashboard.api("/api/stripe/create-mailbox-payment-link", {
+          method: "POST",
+          body: JSON.stringify({
+            customerEmail: email,
+            amountEur: amount,
+            paymentKind: kind,
+            label: label || STRIPE_LABELS[kind] || "Paiement",
+            interval: interval,
+          }),
+        });
+
+        stripeInsertBtn.disabled = false;
+        if (!data.ok || !data.url) {
+          if (status) {
+            status.textContent = data.error || "Impossible de creer le lien.";
+            status.className = "mbx-stripe-status is-error";
+          }
+          return;
+        }
+
+        insertTextAtCursor(
+          document.getElementById("mailboxReplyBody"),
+          buildStripeMailSnippet(data)
+        );
+        if (status) {
+          status.textContent = "Lien insere dans le message.";
+          status.className = "mbx-stripe-status is-ok";
+        }
+        toast("Lien Stripe insere");
+      });
+    }
+
+    var discardBtn = document.getElementById("mailboxDiscardBtn");
+    if (discardBtn) {
+      discardBtn.addEventListener("click", function () {
+        document.getElementById("mailboxReplyBody").value = "";
+        var st = document.getElementById("mailboxStripeStatus");
+        if (st) {
+          st.textContent = "";
+          st.className = "mbx-stripe-status";
+        }
+      });
+    }
+
+    syncStripeIntervalVisibility();
+    syncStripeLabelFromKind();
     setView("received");
   }
 
