@@ -1,15 +1,20 @@
 /**
  * Upload texte vers Google Drive (partagé document-approve + route drive/upload)
  */
-async function uploadTextFile({ fileName, content, mimeType, folderId, contactId }) {
+async function uploadTextFile({ fileName, content, mimeType, folderId, contactId, leadId, email, docType }) {
   const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
   const auth = await getDriveAccessToken();
   var token = auth ? auth.accessToken : null;
   var targetFolder = folderId;
 
-  if (!targetFolder && contactId) {
-    const { resolveContactUploadFolderId } = require("./drive-folders");
-    targetFolder = await resolveContactUploadFolderId(contactId);
+  if (!targetFolder && (contactId || leadId)) {
+    const { resolveDocumentUploadFolder } = require("./drive-folders");
+    targetFolder = await resolveDocumentUploadFolder({
+      contactId: contactId,
+      leadId: leadId,
+      email: email,
+      docType: docType,
+    });
   }
   if (!targetFolder) {
     targetFolder = getRootFolderId();
