@@ -4,10 +4,14 @@ const manifest = require("./blog-articles-manifest.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
-var today = new Date().toISOString().slice(0, 10);
+var fallbackPubDate = process.env.BLOG_PUBLISH_DATE || "2026-06-11";
 
 function escapeXml(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function articlePubDate(article) {
+  return article.publishedAt || article.publishAt || fallbackPubDate;
 }
 
 var items = manifest.articles
@@ -27,7 +31,7 @@ var items = manifest.articles
       "/blog/" +
       a.file +
       "</guid>\n    <pubDate>" +
-      today +
+      articlePubDate(a) +
       "</pubDate>\n  </item>"
     );
   })

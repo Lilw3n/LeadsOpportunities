@@ -961,5 +961,8 @@ module.exports = {
   ],
 };
 
+const { listDueArticles } = require("./blog-editorial-calendar.cjs");
+module.exports.articles = listDueArticles().concat(module.exports.articles);
+
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
 applyUpgrades(module.exports.articles);
