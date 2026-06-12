@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
+const { savePaymentLink } = require("../stripe-payment-store");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -102,6 +103,18 @@ module.exports = async (req, res) => {
         updated_at = NOW()
       WHERE id = ${quoteId}
     `;
+
+    await savePaymentLink({
+      stripeSessionId: session.id,
+      customerEmail: quote.contact_email,
+      amountEur,
+      paymentKind: "acompte",
+      label,
+      referenceId: quoteId,
+      contactId: quote.contact_id,
+      createdBy: user.id || user.email,
+      appContext: "quote-deposit",
+    });
 
     return res.status(200).json({
       sessionId: session.id,

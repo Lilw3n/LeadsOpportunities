@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody, getClientIp, rateLimit } = require("../se
 const { optionalCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
+const { savePaymentLink } = require("../stripe-payment-store");
 
 const PUBLIC_MAX_AMOUNT_EUR = 5000;
 
@@ -162,6 +163,18 @@ module.exports = async (req, res) => {
         }
       }
     }
+
+    await savePaymentLink({
+      stripeSessionId: session.id,
+      customerEmail,
+      amountEur,
+      paymentKind: category,
+      label,
+      referenceId: referenceId || "none",
+      createdBy: user?.id || user?.email || "public",
+      appContext: "checkout-session",
+      metadata: { requestType, category },
+    });
 
     return res.status(200).json({
       sessionId: session.id,
