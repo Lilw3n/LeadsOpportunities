@@ -1,6 +1,6 @@
 /**
  * Manifeste des articles blog — source pour generate-blog-articles, index et RSS.
- * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu
+ * section: animaux | vtc | collective | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu
  */
 module.exports = {
   sections: [
@@ -9,6 +9,13 @@ module.exports = {
       title: "Actu, culture & tendances",
       intro:
         "Presidentielles 2027, Trump, Melenchon, Darmanin, Formule 1, GTA 6, Zelda Ocarina of Time, Ligue des champions… Chaque sujet du moment, relie a assurance et pret immobilier.",
+    },
+    {
+      id: "collective",
+      title: "Sante collective entreprise",
+      intro:
+        "Mutuelle obligatoire, ANI, budget PME/TPE, DUE et portabilite — chaque article mene vers un devis mutuelle collective.",
+      cta: { href: "../landings/sante-collective.html", label: "Devis mutuelle collective" },
     },
     { id: "sante", title: "Sante & mutuelle", cta: { href: "../landings/questionnaire.html?need=sante&journey=standard", label: "Questionnaire mutuelle" } },
     { id: "habitat", title: "Habitation & emprunteur", cta: { href: "../landings/questionnaire.html?need=habitation&journey=standard", label: "Questionnaire habitation" } },
