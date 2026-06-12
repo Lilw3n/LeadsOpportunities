@@ -161,6 +161,30 @@
     return t.slice(0, 140);
   }
 
+  function messageBodyForDisplay(m) {
+    var t = (m.body_text || "").trim();
+    if (t.charAt(0) === "{") {
+      var p = parseLeadPayload(m.body_text);
+      if (p) {
+        var msg = [p.message, p.comment].filter(Boolean).join("\n");
+        if (msg) return msg;
+      }
+    }
+    if (!t && m.body_html) {
+      t = String(m.body_html)
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<\/p>/gi, "\n")
+        .replace(/<[^>]+>/g, "")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
+    return t || "";
+  }
+
   function threadKeyForMessage(m) {
     var p = parseLeadPayload(m.body_text);
     var email = (p && p.email) || extractEmail(m.direction === "inbound" ? m.from_addr : m.to_addr);
@@ -570,7 +594,7 @@
       '<div class="mbx-qa-bubble__label">Demande site</div>' +
       '<div class="mbx-qa-bubble__body">' +
       rows +
-      (msg ? "<br><br>" + esc(msg) : "") +
+      (msg ? "<br><br>" + linkifyPreviewHtml(msg) : "") +
       "</div>" +
       '<div class="mbx-qa-bubble__meta">' +
       fmtDateLong(m.created_at) +
@@ -588,7 +612,7 @@
       }
       var isOut = m.direction === "outbound";
       var label = isOut ? "Votre reponse" : "Message recu";
-      var text = messagePreview(m);
+      var text = messageBodyForDisplay(m) || messagePreview(m);
       html +=
         '<div class="mbx-qa-bubble ' +
         (isOut ? "mbx-qa-bubble--out" : "mbx-qa-bubble--in") +
@@ -599,7 +623,7 @@
         "</div>" +
         '<div class="mbx-qa-bubble__body">' +
         (m.subject ? "<strong>" + esc(m.subject) + "</strong><br><br>" : "") +
-        esc(text) +
+        linkifyPreviewHtml(text) +
         "</div>" +
         '<div class="mbx-qa-bubble__meta">' +
         fmtDateLong(m.created_at) +
@@ -815,10 +839,12 @@
     var preview = document.getElementById("mailboxReplyPreview");
     var body = document.getElementById("mailboxReplyPreviewBody");
     var verify = document.getElementById("mailboxStripeVerifyLink");
+    var title = document.getElementById("mailboxReplyPreviewTitle");
     if (!ta || !preview || !body) return;
 
     var text = ta.value || "";
-    if (!text.trim()) {
+    var urls = extractUrls(text);
+    if (!text.trim() && !urls.length) {
       preview.hidden = true;
       if (verify) verify.hidden = true;
       return;
@@ -826,8 +852,12 @@
 
     preview.hidden = false;
     body.innerHTML = linkifyPreviewHtml(text);
+    if (title) {
+      title.textContent = urls.length
+        ? "Apercu — liens cliquables (verifiez avant envoi)"
+        : "Apercu du message";
+    }
 
-    var urls = extractUrls(text);
     var stripeUrl =
       urls.find(function (u) {
         return u.indexOf("checkout.stripe.com") !== -1;
@@ -861,6 +891,7 @@
         body.scrollTop = body.scrollHeight;
       }, 80);
     }
+    syncMailboxReplyPreview();
   }
 
   function selectThread(key, opts) {
@@ -1268,6 +1299,13 @@
           status.className = "mbx-stripe-status is-ok";
         }
         syncMailboxReplyPreview();
+        var lastWrap = document.getElementById("mailboxStripeLastLink");
+        var lastA = document.getElementById("mailboxStripeLastLinkUrl");
+        if (lastWrap && lastA && data.url) {
+          lastA.href = data.url;
+          lastA.textContent = data.url;
+          lastWrap.hidden = false;
+        }
         if (window.DashboardPayments && window.DashboardPayments.trackLink) {
           window.DashboardPayments.trackLink({
             sessionId: data.sessionId,
