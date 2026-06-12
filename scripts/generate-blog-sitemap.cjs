@@ -4,26 +4,27 @@ const manifest = require("./blog-articles-manifest.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
-const fallbackLastmod = process.env.BLOG_PUBLISH_DATE || "2026-06-11";
+const buildLastmod = process.env.BLOG_PUBLISH_DATE || "2026-06-11";
+const fallbackArticleLastmod = "2026-06-11";
 
 function escapeXml(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
 function articleDate(article) {
-  return article.updatedAt || article.publishedAt || article.publishAt || fallbackLastmod;
+  return article.updatedAt || article.publishedAt || article.publishAt || fallbackArticleLastmod;
 }
 
 var urls = [
   {
     loc: base + "/blog/",
-    lastmod: fallbackLastmod,
+    lastmod: buildLastmod,
     changefreq: "weekly",
     priority: "0.8",
   },
   {
     loc: base + "/blog/feed.xml",
-    lastmod: fallbackLastmod,
+    lastmod: buildLastmod,
     changefreq: "weekly",
     priority: "0.5",
   },
