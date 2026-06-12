@@ -8,7 +8,7 @@ const { getSql } = require("../_lib/db");
 const {
   markPaymentLinkPaid,
   savePaymentLink,
-  recordPaymentActivity,
+  handlePaymentLinkPaid,
 } = require("../_lib/stripe-payment-store");
 
 module.exports.config = {
@@ -157,7 +157,7 @@ module.exports = async (req, res) => {
       }
 
       if (paymentLink) {
-        await recordPaymentActivity(paymentLink);
+        await handlePaymentLinkPaid(paymentLink);
       }
 
       console.log("Stripe checkout complete:", {

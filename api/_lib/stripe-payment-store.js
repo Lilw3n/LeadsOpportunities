@@ -210,6 +210,19 @@ async function syncPendingSessions(stripe) {
   }
 }
 
+async function handlePaymentLinkPaid(link) {
+  if (!link) return { activity: false, email: null };
+  await recordPaymentActivity(link);
+  try {
+    const { notifyPaymentReceived } = require("./stripe-payment-notify");
+    const emailResult = await notifyPaymentReceived(link);
+    return { activity: true, email: emailResult };
+  } catch (e) {
+    console.warn("[stripe-payment-store] handlePaymentLinkPaid", e.message);
+    return { activity: true, email: { ok: false, error: e.message } };
+  }
+}
+
 async function recordPaymentActivity(link) {
   const sql = getSql();
   if (!sql || !link?.contact_id) return;
@@ -236,4 +249,5 @@ module.exports = {
   updateDossierStatus,
   syncPendingSessions,
   recordPaymentActivity,
+  handlePaymentLinkPaid,
 };

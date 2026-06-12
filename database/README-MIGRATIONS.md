@@ -18,5 +18,6 @@ Executer chaque fichier SQL dans la console Neon (SQL Editor), dans cet ordre :
 14. `lead-private-workflow.sql`
 15. `crm-products.sql`
 16. `stripe-payment-links.sql` (suivi liens Stripe + notifications paiement)
+17. `stripe-payment-links-notify.sql` (e-mail auto apres paiement — si table deja creee)
 
 Puis verifier avec `node scripts/verify-prod-readiness.cjs` (variables d env requises).
