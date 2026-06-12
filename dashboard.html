@@ -908,6 +908,9 @@
       text-align: center;
       color: var(--muted);
     }
+    .mbx-empty[hidden] {
+      display: none !important;
+    }
     .mbx-empty svg { opacity: .35; margin-bottom: 12px; }
     .mbx-empty h3 { margin: 0 0 8px; color: var(--text); font-size: 1.05rem; }
     .mbx-detail-head {
@@ -1044,6 +1047,84 @@
       padding: 12px 20px;
       font-weight: 700;
       flex-shrink: 0;
+    }
+    .mbx-stripe-panel {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fafc;
+      overflow: hidden;
+    }
+    .mbx-stripe-panel summary {
+      cursor: pointer;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .mbx-stripe-panel summary::-webkit-details-marker { display: none; }
+    .mbx-stripe-panel summary::after {
+      content: "▾";
+      color: var(--muted);
+      font-size: 0.75rem;
+    }
+    .mbx-stripe-panel[open] summary::after { transform: rotate(180deg); }
+    .mbx-stripe-form {
+      display: grid;
+      gap: 8px;
+      padding: 0 12px 12px;
+      border-top: 1px solid var(--line);
+    }
+    .mbx-stripe-form label {
+      display: grid;
+      gap: 4px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .mbx-stripe-form input,
+    .mbx-stripe-form select {
+      font: inherit;
+      font-weight: 500;
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px 10px;
+      background: #fff;
+    }
+    .mbx-stripe-form .mbx-stripe-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    @media (max-width: 640px) {
+      .mbx-stripe-form .mbx-stripe-row { grid-template-columns: 1fr; }
+    }
+    .mbx-stripe-status {
+      margin: 0;
+      font-size: 0.76rem;
+      color: var(--muted);
+      min-height: 1.1em;
+    }
+    .mbx-stripe-status.is-error { color: #b91c1c; }
+    .mbx-stripe-status.is-ok { color: #15803d; }
+    .mbx-stripe-check {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+    .mbx-stripe-check input { width: auto; margin: 0; }
+    .mbx-stripe-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .mbx-back-mobile {
       display: none;
@@ -1689,11 +1770,54 @@
                         <option value="merci">Accuse de reception</option>
                         <option value="rdv">Proposition de rappel</option>
                         <option value="devis">Suite devis en cours</option>
+                        <option value="pay_dossier">Paiement — frais de dossier</option>
+                        <option value="pay_abo">Paiement — abonnement</option>
+                        <option value="pay_acompte">Paiement — acompte devis</option>
                       </select>
                     </label>
                   </div>
                   <label>Destinataire<input type="email" id="mailboxReplyTo" required autocomplete="email" /></label>
                   <label>Objet<input type="text" id="mailboxReplySubject" required /></label>
+                  <details class="mbx-stripe-panel" id="mailboxStripePanel">
+                    <summary>Lien de paiement Stripe</summary>
+                    <div class="mbx-stripe-form">
+                      <label>Type de paiement
+                        <select id="mailboxStripeKind">
+                          <option value="dossier_fee">Frais de dossier</option>
+                          <option value="subscription">Abonnement</option>
+                          <option value="one_time">Paiement unique</option>
+                          <option value="acompte">Acompte</option>
+                        </select>
+                      </label>
+                      <div class="mbx-stripe-row">
+                        <label>Montant (EUR)
+                          <input type="number" id="mailboxStripeAmount" min="1" step="0.01" placeholder="150" />
+                        </label>
+                        <label id="mailboxStripeIntervalWrap">Periodicite
+                          <select id="mailboxStripeInterval">
+                            <option value="month">Mensuel</option>
+                            <option value="year">Annuel</option>
+                            <option value="week">Hebdomadaire</option>
+                          </select>
+                        </label>
+                      </div>
+                      <label>Reference devis (optionnel)
+                        <input type="text" id="mailboxStripeQuoteRef" placeholder="qte_…" pattern="qte_[a-zA-Z0-9_-]+" />
+                      </label>
+                      <label>Libelle affiche sur Stripe
+                        <input type="text" id="mailboxStripeLabel" placeholder="Frais de dossier" />
+                      </label>
+                      <label class="mbx-stripe-check">
+                        <input type="checkbox" id="mailboxStripeUseTemplate" checked />
+                        Inclure le modele d'e-mail complet (texte + lien)
+                      </label>
+                      <div class="mbx-stripe-actions">
+                        <button type="button" class="btn-ghost" id="mailboxStripeTemplateBtn">Appliquer le modele seul</button>
+                        <button type="button" class="btn-ghost" id="mailboxStripeInsertBtn">Generer et inserer le lien</button>
+                      </div>
+                      <p class="mbx-stripe-status" id="mailboxStripeStatus"></p>
+                    </div>
+                  </details>
                   <label>Message<textarea id="mailboxReplyBody" required placeholder="Bonjour,&#10;&#10;Merci pour votre message…"></textarea></label>
                   <div class="mbx-reply-actions">
                     <button type="submit" class="btn btn-primary" id="mailboxSendBtn">Envoyer</button>

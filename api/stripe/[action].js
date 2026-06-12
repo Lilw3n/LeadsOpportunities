@@ -3,6 +3,8 @@ const { setCors } = require("../_lib/auth");
 const ROUTES = {
   "create-checkout-session": () => require("../_lib/routes/stripe-create-checkout-session"),
   "create-checkout-for-quote": () => require("../_lib/routes/stripe-create-checkout-for-quote"),
+  "create-mailbox-payment-link": () =>
+    require("../_lib/routes/stripe-create-mailbox-payment-link"),
   "session-status": () => require("../_lib/routes/stripe-session-status"),
   readiness: () => require("../_lib/routes/stripe-readiness"),
 };
