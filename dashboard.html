@@ -1373,6 +1373,23 @@
     .mbx-qa-bubble--out .mbx-qa-bubble__label { color: #bfdbfe; }
     .mbx-qa-bubble__meta { font-size: 0.72rem; opacity: 0.75; margin-top: 8px; }
     .mbx-qa-bubble__body { white-space: pre-wrap; word-break: break-word; }
+    .mbx-qa-bubble__body a {
+      color: #2563eb;
+      font-weight: 700;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    .mbx-qa-bubble--out .mbx-qa-bubble__body a { color: #bfdbfe; }
+    .mbx-stripe-last-link {
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      word-break: break-all;
+    }
+    .mbx-stripe-last-link a { color: #2563eb; font-weight: 700; }
     .mbx-toolbar-row {
       display: flex;
       gap: 8px;
@@ -1922,11 +1939,15 @@
                         <button type="button" class="btn-ghost" id="mailboxStripeInsertBtn">Generer et inserer le lien</button>
                       </div>
                       <p class="mbx-stripe-status" id="mailboxStripeStatus"></p>
+                      <div class="mbx-stripe-last-link" id="mailboxStripeLastLink" hidden>
+                        <strong>Dernier lien genere :</strong>
+                        <a href="#" id="mailboxStripeLastLinkUrl" target="_blank" rel="noopener noreferrer"></a>
+                      </div>
                     </div>
                   </details>
                   <label>Message<textarea id="mailboxReplyBody" required placeholder="Bonjour,&#10;&#10;Merci pour votre message…"></textarea></label>
                   <div class="mbx-reply-preview" id="mailboxReplyPreview" hidden>
-                    <p class="mbx-reply-preview__title">Apercu — verifiez le lien avant envoi</p>
+                    <p class="mbx-reply-preview__title" id="mailboxReplyPreviewTitle">Apercu — liens cliquables</p>
                     <div class="mbx-reply-preview__body" id="mailboxReplyPreviewBody"></div>
                     <a class="mbx-stripe-verify-link" id="mailboxStripeVerifyLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Ouvrir le lien Stripe dans un nouvel onglet</a>
                   </div>
