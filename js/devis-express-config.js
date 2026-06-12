@@ -203,6 +203,30 @@
           input("decennaleCa", "CA travaux (EUR)", "text", "Ex. 200000", true)
       );
     },
+    collective: function () {
+      return (
+        fieldRow(
+          input("collectiveCompany", "Raison sociale", "text", "Ex. SARL Dupont", true) +
+            input("collectiveHeadcount", "Effectif a couvrir", "number", "Ex. 12", true)
+        ) +
+        fieldRow(
+          select("collectiveStatus", "Statut majoritaire", [
+            { v: "cadres", t: "Cadres" },
+            { v: "non_cadres", t: "Non-cadres" },
+            { v: "ensemble", t: "Ensemble du personnel" },
+          ]) +
+            select("collectiveCurrent", "Contrat actuel", [
+              { v: "aucun", t: "Pas de mutuelle" },
+              { v: "en_cours", t: "Mutuelle en cours" },
+              { v: "renouvellement", t: "Renouvellement / mise en concurrence" },
+            ])
+        ) +
+        fieldRow(
+          input("collectiveSiret", "SIRET (facultatif)", "text", "14 chiffres", false) +
+            input("collectiveBudget", "Budget cible par salarie / mois", "text", "Ex. 45 EUR", false)
+        )
+      );
+    },
   };
 
   function fieldsHtmlForService(service) {

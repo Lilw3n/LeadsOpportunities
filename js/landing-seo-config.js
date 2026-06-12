@@ -81,6 +81,21 @@
       ],
       pillar: "/assurance-vtc/devis-rapide/",
     },
+    "sante-collective": {
+      keywords:
+        "mutuelle collective entreprise, devis mutuelle collective, complementaire sante entreprise, ANI mutuelle obligatoire, mutuelle PME TPE, convention collective sante, courtier ORIAS",
+      sections: [
+        {
+          h2: "Mutuelle collective : couvrir tous vos salaries",
+          text: "Etude selon effectif, convention collective et budget employeur. Comparatif des niveaux de garanties (ANI, panier de soins) et accompagnement mise en place (DUE, adhesion salarie).",
+        },
+        {
+          h2: "TPE, PME et ETI",
+          text: "Devis express pour un premier chiffrage ou questionnaire complet pour une mise en concurrence. Partenaires distributeurs collectif via notre reseau courtier.",
+        },
+      ],
+      pillar: "/assurances/",
+    },
     sante: {
       keywords:
         "devis assurance sante, comparatif mutuelle sante, mutuelle sante prix, april sante optimale, mutuelle famille, remboursement optique dentaire, marketplace sante",
