@@ -5,6 +5,11 @@ const { getStripeClient, getStripeWebhookSecret } = require("../_lib/stripe");
 const { applyApiGuards, readRawBody } = require("../_lib/security");
 
 const { getSql } = require("../_lib/db");
+const {
+  markPaymentLinkPaid,
+  savePaymentLink,
+  recordPaymentActivity,
+} = require("../_lib/stripe-payment-store");
 
 module.exports.config = {
   api: {
@@ -131,11 +136,36 @@ module.exports = async (req, res) => {
 
       const updated = await markQuotePaid(referenceId, email, session.amount_total, session.id);
 
+      const amountEur = session.amount_total != null ? session.amount_total / 100 : null;
+      let paymentLink = await markPaymentLinkPaid(session.id, {
+        paidAt: new Date().toISOString(),
+        amountEur,
+      });
+
+      if (!paymentLink) {
+        await savePaymentLink({
+          stripeSessionId: session.id,
+          customerEmail: email,
+          amountEur,
+          paymentKind: meta.paymentKind || meta.requestType,
+          label: meta.label,
+          referenceId: referenceId,
+          appContext: meta.appContext,
+          metadata: meta,
+        });
+        paymentLink = await markPaymentLinkPaid(session.id, { paidAt: new Date().toISOString(), amountEur });
+      }
+
+      if (paymentLink) {
+        await recordPaymentActivity(paymentLink);
+      }
+
       console.log("Stripe checkout complete:", {
         sessionId: session.id,
         customerEmail: email,
         referenceId: referenceId,
         quoteUpdated: !!updated,
+        paymentLinkUpdated: !!paymentLink,
       });
     }
 

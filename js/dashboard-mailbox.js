@@ -1268,7 +1268,14 @@
           status.className = "mbx-stripe-status is-ok";
         }
         syncMailboxReplyPreview();
-        toast("Lien Stripe pret");
+        if (window.DashboardPayments && window.DashboardPayments.trackLink) {
+          window.DashboardPayments.trackLink({
+            sessionId: data.sessionId,
+            paymentLinkId: data.paymentLinkId,
+            url: data.url,
+          });
+        }
+        toast("Lien Stripe pret — suivi paiement actif");
       });
     }
 

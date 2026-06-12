@@ -1195,6 +1195,56 @@
       color: var(--muted);
     }
     .mbx-statusbar strong { color: var(--text); }
+    .mbx-payments {
+      margin: 0 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      padding: 14px 16px;
+    }
+    .mbx-payments-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      margin-bottom: 10px;
+    }
+    .mbx-payments-title { margin: 0; font-size: 0.95rem; }
+    .mbx-payments-sub { margin: 2px 0 0; font-size: 0.76rem; color: var(--muted); }
+    .mbx-payments-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #475569;
+      margin-left: auto;
+    }
+    .mbx-payments-badge--alert { background: #fef3c7; color: #b45309; }
+    .mbx-payments-list { display: grid; gap: 8px; }
+    .mbx-payments-empty { margin: 0; font-size: 0.82rem; color: var(--muted); }
+    .mbx-pay-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #f8fafc;
+    }
+    .mbx-pay-item--new {
+      border-color: #86efac;
+      background: #f0fdf4;
+      box-shadow: 0 0 0 1px #bbf7d0;
+    }
+    .mbx-pay-item__main { display: grid; gap: 2px; min-width: 0; }
+    .mbx-pay-item__main strong { font-size: 0.88rem; }
+    .mbx-pay-item__amount { font-size: 0.95rem; font-weight: 800; color: var(--primary); }
+    .mbx-pay-item__kind, .mbx-pay-item__status { font-size: 0.76rem; color: var(--muted); }
+    .mbx-pay-item__actions { display: flex; flex-wrap: wrap; gap: 6px; }
+    .mbx-pay-btn { font-size: 0.78rem !important; padding: 6px 10px !important; }
     .mbx-stat { cursor: pointer; transition: border-color .15s, box-shadow .15s; }
     .mbx-stat:hover { border-color: var(--primary); box-shadow: 0 2px 10px rgba(37, 99, 235, 0.08); }
     .mbx-stat.is-active-stat { border-color: var(--primary); background: var(--primary-light); }
@@ -1767,6 +1817,18 @@
           <span id="mailboxSyncHint"></span>
         </div>
 
+        <div class="mbx-payments" id="mailboxPaymentsPanel">
+          <div class="mbx-payments-head">
+            <div>
+              <h3 class="mbx-payments-title">Paiements Stripe</h3>
+              <p class="mbx-payments-sub" id="mbxPaymentsHint">Verification automatique des liens payes</p>
+            </div>
+            <span class="mbx-payments-badge" id="mbxPaymentsBadge">—</span>
+            <button type="button" class="btn-ghost" id="mbxPaymentsSync">Verifier les paiements</button>
+          </div>
+          <div class="mbx-payments-list" id="mbxPaymentsList"></div>
+        </div>
+
         <div class="mbx-stats" id="mailboxStats">
           <button type="button" class="mbx-stat mbx-stat--highlight" data-view="received" title="E-mails recus sur contact@"><strong id="mbxStatReceived">—</strong><span>E-mails recus</span></button>
           <button type="button" class="mbx-stat" data-view="feed" title="Fil question / reponse par contact"><strong id="mbxStatThreads">—</strong><span>Fil Q&amp;R</span></button>
@@ -1900,6 +1962,7 @@
 
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
+  <script src="./js/dashboard-payment-alerts.js"></script>
   <script src="./js/admin-nav.js"></script>
   <script>
   (function() {

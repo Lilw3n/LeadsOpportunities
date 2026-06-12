@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
+const { savePaymentLink } = require("../stripe-payment-store");
 
 const PAYMENT_KINDS = ["dossier_fee", "subscription", "one_time", "acompte"];
 const INTERVALS = ["day", "week", "month", "year"];
@@ -184,7 +185,24 @@ module.exports = async (req, res) => {
       }
     }
 
+    const stored = await savePaymentLink({
+      stripeSessionId: session.id,
+      customerEmail,
+      amountEur,
+      paymentKind,
+      label,
+      referenceId: hasQuoteRef ? referenceId : "none",
+      contactId: quote?.contact_id || null,
+      createdBy: user.id || user.email,
+      appContext: "mailbox-payment-link",
+      metadata: {
+        interval: isSubscription ? interval : null,
+        quoteTitle: quote?.title || null,
+      },
+    });
+
     return res.status(200).json({
+      paymentLinkId: stored.ok ? stored.id : null,
       sessionId: session.id,
       url: session.url,
       amountEur,
