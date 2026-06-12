@@ -5,7 +5,7 @@ const {
   listPaymentLinks,
   updateDossierStatus,
   syncPendingSessions,
-  recordPaymentActivity,
+  handlePaymentLinkPaid,
 } = require("../stripe-payment-store");
 
 module.exports = async (req, res) => {
@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
     if (!result.ok) return res.status(500).json(result);
 
     for (const link of result.newlyPaid || []) {
-      await recordPaymentActivity(link);
+      await handlePaymentLinkPaid(link);
     }
 
     return res.status(200).json(result);

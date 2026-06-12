@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS stripe_payment_links (
   payment_status TEXT NOT NULL DEFAULT 'pending',
   dossier_status TEXT NOT NULL DEFAULT 'awaiting_payment',
   paid_at TIMESTAMPTZ,
+  notify_sent_at TIMESTAMPTZ,
   app_context TEXT,
   metadata JSONB,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
