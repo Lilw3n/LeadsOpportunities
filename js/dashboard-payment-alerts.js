@@ -4,7 +4,7 @@
 (function () {
   var LS_LAST_NOTIFY = "lo_payments_last_notify_at";
   var pollTimer = null;
-  var state = { links: [], counts: {}, tableMissing: false };
+  var state = { links: [], counts: {} };
 
   function esc(s) {
     return String(s || "")
@@ -112,13 +112,6 @@
     }
     updateNavBadge(pendingReview);
 
-    if (state.tableMissing) {
-      list.innerHTML =
-        '<p class="mbx-payments-empty">Table stripe_payment_links absente — executez database/stripe-payment-links.sql sur Neon.</p>';
-      if (hint) hint.textContent = "";
-      return;
-    }
-
     var items = (state.links || []).filter(function (l) {
       return (
         l.dossier_status === "paid_pending_review" ||
@@ -217,13 +210,12 @@
   async function loadPayments(opts) {
     opts = opts || {};
     var all = await window.Dashboard.api("/api/dashboard/payment-links?limit=40");
-    if (!all.ok && !all.tableMissing) {
+    if (!all.ok) {
       if (!opts.silent) toast(all.error || "Impossible de charger les paiements", "error");
       return;
     }
     state.links = all.links || [];
     state.counts = all.counts || {};
-    state.tableMissing = !!all.tableMissing;
 
     renderList();
 
