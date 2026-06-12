@@ -37,9 +37,36 @@ module.exports = async (req, res) => {
     if (ref && ref.thread_key) threadKey = ref.thread_key;
   }
 
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function linkifyHtml(text) {
+    const parts = String(text || "").split(/(https?:\/\/[^\s<>"']+)/g);
+    return parts
+      .map((part) => {
+        if (/^https?:\/\//.test(part)) {
+          const safe = escapeHtml(part);
+          return (
+            '<a href="' +
+            safe +
+            '" style="color:#2563eb;font-weight:600" target="_blank" rel="noopener noreferrer">' +
+            safe +
+            "</a>"
+          );
+        }
+        return escapeHtml(part).replace(/\n/g, "<br>");
+      })
+      .join("");
+  }
+
   const html =
     "<div style=\"font-family:Inter,Arial,sans-serif;font-size:15px;line-height:1.5;color:#0f172a\">" +
-    text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>") +
+    linkifyHtml(text) +
     "</div>";
 
   const headers = {};
