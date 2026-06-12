@@ -1,5 +1,62 @@
 const { getSql } = require("./db");
 
+let schemaReady = false;
+
+async function ensureStripePaymentLinksSchema(sql) {
+  if (!sql) return false;
+  if (schemaReady) return true;
+  try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS stripe_payment_links (
+        id TEXT PRIMARY KEY,
+        stripe_session_id TEXT NOT NULL UNIQUE,
+        customer_email TEXT,
+        amount_eur NUMERIC(12,2),
+        payment_kind TEXT,
+        label TEXT,
+        reference_id TEXT,
+        contact_id TEXT,
+        created_by TEXT,
+        payment_status TEXT NOT NULL DEFAULT 'pending',
+        dossier_status TEXT NOT NULL DEFAULT 'awaiting_payment',
+        paid_at TIMESTAMPTZ,
+        notify_sent_at TIMESTAMPTZ,
+        app_context TEXT,
+        metadata JSONB,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_stripe_payment_links_status
+        ON stripe_payment_links(payment_status, dossier_status, updated_at DESC)
+    `;
+    await sql`
+      CREATE INDEX IF NOT EXISTS idx_stripe_payment_links_email
+        ON stripe_payment_links(customer_email)
+    `;
+    try {
+      await sql`
+        ALTER TABLE stripe_payment_links ADD COLUMN IF NOT EXISTS notify_sent_at TIMESTAMPTZ
+      `;
+    } catch (alterErr) {
+      /* colonne deja presente ou CREATE TABLE deja a jour */
+    }
+    schemaReady = true;
+    return true;
+  } catch (e) {
+    console.error("[stripe-payment-store] ensureSchema", e);
+    return false;
+  }
+}
+
+async function sqlWithSchema() {
+  const sql = getSql();
+  if (!sql) return null;
+  await ensureStripePaymentLinksSchema(sql);
+  return sql;
+}
+
 function newLinkId() {
   return "pay_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
 }
@@ -20,7 +77,7 @@ async function findContactIdByEmail(sql, email) {
 }
 
 async function savePaymentLink(input) {
-  const sql = getSql();
+  const sql = await sqlWithSchema();
   if (!sql || !input?.stripeSessionId) return { ok: false, error: "db_unavailable" };
 
   const contactId =
@@ -64,16 +121,13 @@ async function savePaymentLink(input) {
     `;
     return { ok: true, id, contactId };
   } catch (e) {
-    if (String(e.message || e).indexOf("stripe_payment_links") !== -1) {
-      return { ok: false, error: "table_missing", detail: e.message };
-    }
     console.error("[stripe-payment-store] save", e);
-    return { ok: false, error: "save_failed" };
+    return { ok: false, error: "save_failed", detail: e.message };
   }
 }
 
 async function markPaymentLinkPaid(sessionId, opts) {
-  const sql = getSql();
+  const sql = await sqlWithSchema();
   if (!sql || !sessionId) return null;
   opts = opts || {};
 
@@ -99,7 +153,7 @@ async function markPaymentLinkPaid(sessionId, opts) {
 }
 
 async function listPaymentLinks(opts) {
-  const sql = getSql();
+  const sql = await sqlWithSchema();
   if (!sql) return { ok: false, error: "Base de donnees non configuree", links: [] };
 
   opts = opts || {};
@@ -136,16 +190,13 @@ async function listPaymentLinks(opts) {
       counts: counts[0] || { pending_payment: 0, paid_pending_review: 0, in_progress: 0 },
     };
   } catch (e) {
-    if (String(e.message || e).indexOf("stripe_payment_links") !== -1) {
-      return { ok: true, links: [], counts: { pending_payment: 0, paid_pending_review: 0, in_progress: 0 }, tableMissing: true };
-    }
     console.error("[stripe-payment-store] list", e);
     return { ok: false, error: "Erreur liste paiements", links: [] };
   }
 }
 
 async function updateDossierStatus(linkId, dossierStatus) {
-  const sql = getSql();
+  const sql = await sqlWithSchema();
   if (!sql) return { ok: false, error: "Base de donnees non configuree" };
   const allowed = ["awaiting_payment", "paid_pending_review", "in_progress", "dismissed"];
   if (allowed.indexOf(dossierStatus) === -1) {
@@ -169,7 +220,7 @@ async function updateDossierStatus(linkId, dossierStatus) {
 }
 
 async function syncPendingSessions(stripe) {
-  const sql = getSql();
+  const sql = await sqlWithSchema();
   if (!sql || !stripe) return { ok: false, error: "Stripe ou DB indisponible", synced: 0 };
 
   try {
@@ -203,9 +254,7 @@ async function syncPendingSessions(stripe) {
 
     return { ok: true, synced, newlyPaid };
   } catch (e) {
-    if (String(e.message || e).indexOf("stripe_payment_links") !== -1) {
-      return { ok: true, synced: 0, newlyPaid: [], tableMissing: true };
-    }
+    console.error("[stripe-payment-store] sync", e);
     return { ok: false, error: "Erreur synchronisation", synced: 0 };
   }
 }
@@ -243,6 +292,7 @@ async function recordPaymentActivity(link) {
 }
 
 module.exports = {
+  ensureStripePaymentLinksSchema,
   savePaymentLink,
   markPaymentLinkPaid,
   listPaymentLinks,
