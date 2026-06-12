@@ -1,6 +1,8 @@
 const { getStripeAppUrl, getStripeClient, toStripeAmount } = require("../stripe");
 const { applyApiGuards, parseJsonBody } = require("../security");
-const { requireCrm } = require("../rbac");
+const { requireCrm, contactScopeFilter } = require("../rbac");
+const { getSql } = require("../db");
+const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
 
 const PAYMENT_KINDS = ["dossier_fee", "subscription", "one_time", "acompte"];
 const INTERVALS = ["day", "week", "month", "year"];
@@ -18,6 +20,19 @@ function categoryForKind(kind) {
   if (kind === "subscription") return "subscription";
   if (kind === "acompte") return "quote_deposit";
   return "general";
+}
+
+async function fetchQuoteForMailbox(sql, quoteId, user) {
+  const scope = contactScopeFilter(user);
+  const rows = await sql`
+    SELECT q.*, c.email AS contact_email, c.first_name, c.last_name
+    FROM crm_quotes q
+    INNER JOIN crm_contacts c ON c.id = q.contact_id
+    WHERE q.id = ${quoteId}
+      AND (${scope}::text IS NULL OR c.assigned_to = ${scope})
+    LIMIT 1
+  `;
+  return rows[0] || null;
 }
 
 module.exports = async (req, res) => {
@@ -47,9 +62,38 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "Type de paiement invalide." });
   }
 
-  const amountEur = Number(body.amountEur);
+  let amountEur = Number(body.amountEur);
+  const paymentKindIsAcompte = paymentKind === "acompte";
+
+  const referenceId = String(body.referenceId || "none").trim() || "none";
+  const hasQuoteRef = referenceId !== "none" && referenceId.indexOf("qte_") === 0;
+  let quote = null;
+
+  if (hasQuoteRef) {
+    const sql = getSql();
+    if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
+    quote = await fetchQuoteForMailbox(sql, referenceId, user);
+    if (!quote) return res.status(404).json({ error: "Devis introuvable ou hors perimetre." });
+    if (paymentKindIsAcompte) {
+      if (quote.status === "acompte_paye") {
+        return res.status(400).json({ error: "Acompte deja paye pour ce devis." });
+      }
+      const serverAmount = resolveDepositAmountEur(quote);
+      if (!amountEur && serverAmount) amountEur = serverAmount;
+      if (amountEur) {
+        const check = validateDepositAmountEur(amountEur, quote);
+        if (!check.ok) return res.status(400).json({ error: check.error });
+        amountEur = check.amountEur;
+      }
+    }
+  }
+
   if (!amountEur || amountEur <= 0) {
-    return res.status(400).json({ error: "Montant invalide." });
+    return res.status(400).json({
+      error: paymentKindIsAcompte && hasQuoteRef
+        ? "Montant acompte non defini. Renseignez-le ou configurez-le sur le devis."
+        : "Montant invalide.",
+    });
   }
   if (amountEur > CRM_MAX_AMOUNT_EUR) {
     return res.status(400).json({
@@ -57,24 +101,29 @@ module.exports = async (req, res) => {
     });
   }
 
-  const customerEmail = String(body.customerEmail || "").trim();
+  const customerEmail = String(body.customerEmail || quote?.contact_email || "").trim();
   if (!customerEmail || customerEmail.indexOf("@") === -1) {
     return res.status(400).json({ error: "Email client invalide." });
   }
 
-  const label = String(body.label || DEFAULT_LABELS[paymentKind] || "Paiement").trim();
+  let label = String(body.label || DEFAULT_LABELS[paymentKind] || "Paiement").trim();
   if (!label) return res.status(400).json({ error: "Libelle requis." });
+  if (hasQuoteRef && quote?.title && paymentKindIsAcompte) {
+    label = "Acompte — " + quote.title;
+  }
 
   const interval = String(body.interval || "month").toLowerCase();
   if (paymentKind === "subscription" && INTERVALS.indexOf(interval) === -1) {
     return res.status(400).json({ error: "Periodicite invalide." });
   }
 
-  const referenceId = String(body.referenceId || "none").trim() || "none";
   const companyCode = process.env.COMPANY_CODE || "LEADSOPP";
   const appUrl = getStripeAppUrl();
   const amountCents = toStripeAmount(amountEur);
   const isSubscription = paymentKind === "subscription";
+  const contactName = quote
+    ? ((quote.first_name || "") + " " + (quote.last_name || "")).trim()
+    : "";
 
   try {
     const priceData = {
@@ -83,6 +132,7 @@ module.exports = async (req, res) => {
       product_data: {
         name: label,
         description:
+          (hasQuoteRef ? "Devis " + referenceId + (contactName ? " — " + contactName : "") + " · " : "") +
           "Messagerie CRM · " +
           paymentKind +
           (isSubscription ? " · " + interval : ""),
@@ -103,19 +153,36 @@ module.exports = async (req, res) => {
         },
       ],
       success_url: appUrl + "/paiement-success.html?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: appUrl + "/paiement.html?canceled=1",
+      cancel_url:
+        hasQuoteRef && paymentKindIsAcompte
+          ? appUrl + "/crm-quote-payment.html?quoteId=" + encodeURIComponent(referenceId) + "&canceled=1"
+          : appUrl + "/paiement.html?canceled=1",
       customer_email: customerEmail,
       metadata: {
         companyCode,
         appContext: "mailbox-payment-link",
         category: categoryForKind(paymentKind),
         paymentKind,
-        requestType: isSubscription ? "subscription" : "mailbox_one_time",
-        referenceId,
+        requestType: isSubscription ? "subscription" : paymentKindIsAcompte ? "quote_deposit" : "mailbox_one_time",
+        referenceId: hasQuoteRef ? referenceId : "none",
         expectedAmountCents: String(amountCents),
         createdBy: user.id || user.email || "crm",
       },
     });
+
+    if (hasQuoteRef && paymentKindIsAcompte) {
+      const sql = getSql();
+      if (sql) {
+        await sql`
+          UPDATE crm_quotes SET
+            deposit_amount = ${amountEur},
+            stripe_session_id = ${session.id},
+            stripe_payment_status = 'pending',
+            updated_at = NOW()
+          WHERE id = ${referenceId}
+        `;
+      }
+    }
 
     return res.status(200).json({
       sessionId: session.id,
@@ -124,6 +191,8 @@ module.exports = async (req, res) => {
       paymentKind,
       interval: isSubscription ? interval : null,
       label,
+      referenceId: hasQuoteRef ? referenceId : null,
+      quoteTitle: quote?.title || null,
     });
   } catch (error) {
     console.error("create-mailbox-payment-link error:", error);

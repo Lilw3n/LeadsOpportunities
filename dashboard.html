@@ -1112,6 +1112,20 @@
     }
     .mbx-stripe-status.is-error { color: #b91c1c; }
     .mbx-stripe-status.is-ok { color: #15803d; }
+    .mbx-stripe-check {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+    .mbx-stripe-check input { width: auto; margin: 0; }
+    .mbx-stripe-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
     .mbx-back-mobile {
       display: none;
       margin: 0 12px 8px;
@@ -1756,6 +1770,9 @@
                         <option value="merci">Accuse de reception</option>
                         <option value="rdv">Proposition de rappel</option>
                         <option value="devis">Suite devis en cours</option>
+                        <option value="pay_dossier">Paiement — frais de dossier</option>
+                        <option value="pay_abo">Paiement — abonnement</option>
+                        <option value="pay_acompte">Paiement — acompte devis</option>
                       </select>
                     </label>
                   </div>
@@ -1784,10 +1801,20 @@
                           </select>
                         </label>
                       </div>
+                      <label>Reference devis (optionnel)
+                        <input type="text" id="mailboxStripeQuoteRef" placeholder="qte_…" pattern="qte_[a-zA-Z0-9_-]+" />
+                      </label>
                       <label>Libelle affiche sur Stripe
                         <input type="text" id="mailboxStripeLabel" placeholder="Frais de dossier" />
                       </label>
-                      <button type="button" class="btn-ghost" id="mailboxStripeInsertBtn">Generer et inserer le lien dans le message</button>
+                      <label class="mbx-stripe-check">
+                        <input type="checkbox" id="mailboxStripeUseTemplate" checked />
+                        Inclure le modele d'e-mail complet (texte + lien)
+                      </label>
+                      <div class="mbx-stripe-actions">
+                        <button type="button" class="btn-ghost" id="mailboxStripeTemplateBtn">Appliquer le modele seul</button>
+                        <button type="button" class="btn-ghost" id="mailboxStripeInsertBtn">Generer et inserer le lien</button>
+                      </div>
                       <p class="mbx-stripe-status" id="mailboxStripeStatus"></p>
                     </div>
                   </details>

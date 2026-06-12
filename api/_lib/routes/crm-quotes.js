@@ -21,7 +21,8 @@ module.exports = async (req, res) => {
     try {
       if (quoteId) {
         const rows = await sql`
-          SELECT q.* FROM crm_quotes q
+          SELECT q.*, c.email AS contact_email, c.first_name, c.last_name
+          FROM crm_quotes q
           INNER JOIN crm_contacts c ON c.id = q.contact_id
           WHERE q.id = ${quoteId}
             AND (${scope}::text IS NULL OR c.assigned_to = ${scope})

@@ -13,6 +13,18 @@
       "Bonjour,\n\nJe suis disponible pour un echange telephonique. Quelles sont vos disponibilites ?\n\nBien cordialement,\nLeads Opportunities",
     devis:
       "Bonjour,\n\nVotre demande est en cours d'analyse. Nous vous repondrons sous 24 a 48 h ouvrees.\n\nBien cordialement,\nLeads Opportunities",
+    pay_dossier:
+      "Bonjour,\n\nSuite a votre demande, merci de regler les frais de dossier via le lien securise ci-dessous :\n\n{{LINK_BLOCK}}\n\nCe paiement permet le traitement de votre dossier. Nous restons a votre disposition pour toute question.\n\nBien cordialement,\nLeads Opportunities",
+    pay_abo:
+      "Bonjour,\n\nVoici le lien pour activer votre abonnement :\n\n{{LINK_BLOCK}}\n\nLe prelevement sera effectue selon la periodicite indiquee. Pour toute modification, repondez a cet e-mail.\n\nBien cordialement,\nLeads Opportunities",
+    pay_acompte:
+      "Bonjour,\n\nMerci de regler l'acompte relatif a votre devis{{QUOTE_REF}} via le lien securise ci-dessous :\n\n{{LINK_BLOCK}}\n\nDes reception du paiement, nous poursuivrons la mise en place de votre contrat.\n\nBien cordialement,\nLeads Opportunities",
+  };
+
+  var PAYMENT_TEMPLATE_KIND = {
+    pay_dossier: "dossier_fee",
+    pay_abo: "subscription",
+    pay_acompte: "acompte",
   };
 
   var STRIPE_LABELS = {
@@ -645,7 +657,7 @@
     year: "an",
   };
 
-  function buildStripeMailSnippet(data) {
+  function buildStripeLinkBlock(data) {
     var recurring =
       data.interval && INTERVAL_LABELS[data.interval]
         ? " / " + INTERVAL_LABELS[data.interval]
@@ -653,14 +665,111 @@
           ? " / " + data.interval
           : "";
     var lines = [
-      "",
       "Pour regler en ligne de maniere securisee :",
       data.url,
       "Montant : " + formatEur(data.amountEur) + recurring,
     ];
     if (data.label) lines.push("Libelle : " + data.label);
-    lines.push("");
+    if (data.referenceId) lines.push("Reference devis : " + data.referenceId);
     return lines.join("\n");
+  }
+
+  function buildStripeMailSnippet(data) {
+    return "\n" + buildStripeLinkBlock(data) + "\n";
+  }
+
+  function paymentTemplateKeyForKind(kind) {
+    if (kind === "dossier_fee") return "pay_dossier";
+    if (kind === "subscription") return "pay_abo";
+    if (kind === "acompte") return "pay_acompte";
+    return null;
+  }
+
+  function buildPaymentEmailFromTemplate(data) {
+    var key = paymentTemplateKeyForKind(data.paymentKind) || "pay_dossier";
+    var tpl = TEMPLATES[key] || TEMPLATES.pay_dossier;
+    var quoteRef = data.referenceId ? " " + data.referenceId : "";
+    return tpl
+      .replace("{{LINK_BLOCK}}", buildStripeLinkBlock(data))
+      .replace(/\{\{QUOTE_REF\}\}/g, quoteRef);
+  }
+
+  function depositAmountFromQuote(quote) {
+    if (!quote) return null;
+    if (quote.deposit_amount != null && Number(quote.deposit_amount) > 0) {
+      return Number(quote.deposit_amount);
+    }
+    var data = quote.data;
+    if (typeof data === "string") {
+      try {
+        data = JSON.parse(data);
+      } catch (e) {
+        data = null;
+      }
+    }
+    if (data) {
+      if (data.depositAmount != null && Number(data.depositAmount) > 0) return Number(data.depositAmount);
+      if (data.acompte != null && Number(data.acompte) > 0) return Number(data.acompte);
+    }
+    var premium = Number(quote.premium_estimate);
+    if (premium > 0) {
+      return Math.round(Math.max(1, Math.min(premium * 0.2, premium * 0.5, 5000)) * 100) / 100;
+    }
+    return null;
+  }
+
+  async function lookupMailboxQuote() {
+    var refEl = document.getElementById("mailboxStripeQuoteRef");
+    var status = document.getElementById("mailboxStripeStatus");
+    if (!refEl) return;
+    var ref = (refEl.value || "").trim();
+    if (!ref || ref.indexOf("qte_") !== 0) return;
+
+    if (status) {
+      status.textContent = "Chargement du devis…";
+      status.className = "mbx-stripe-status";
+    }
+
+    var data = await window.Dashboard.api("/api/crm/quotes?id=" + encodeURIComponent(ref));
+    if (!data.ok || !data.quote) {
+      if (status) {
+        status.textContent = data.error || "Devis introuvable.";
+        status.className = "mbx-stripe-status is-error";
+      }
+      return;
+    }
+
+    var quote = data.quote;
+    var amountEl = document.getElementById("mailboxStripeAmount");
+    var kindEl = document.getElementById("mailboxStripeKind");
+    var emailEl = document.getElementById("mailboxReplyTo");
+    var deposit = depositAmountFromQuote(quote);
+
+    if (kindEl && !kindEl.dataset.userChanged) kindEl.value = "acompte";
+    syncStripeIntervalVisibility();
+    syncStripeLabelFromKind();
+    if (amountEl && deposit && !amountEl.value) amountEl.value = deposit;
+    if (emailEl && quote.contact_email && !emailEl.value) emailEl.value = quote.contact_email;
+    if (status) {
+      status.textContent = quote.title
+        ? "Devis charge : " + quote.title + (deposit ? " — " + formatEur(deposit) : "")
+        : "Devis charge.";
+      status.className = "mbx-stripe-status is-ok";
+    }
+  }
+
+  function applyPaymentTemplateOnly(includePlaceholder) {
+    var kind = document.getElementById("mailboxStripeKind").value;
+    var key = paymentTemplateKeyForKind(kind) || "pay_dossier";
+    var tpl = TEMPLATES[key];
+    var quoteRef = (document.getElementById("mailboxStripeQuoteRef").value || "").trim();
+    var linkBlock = includePlaceholder
+      ? "[LIEN DE PAIEMENT STRIPE — cliquez sur « Generer et inserer le lien »]"
+      : "{{LINK_BLOCK}}";
+    var body = tpl
+      .replace("{{LINK_BLOCK}}", linkBlock)
+      .replace(/\{\{QUOTE_REF\}\}/g, quoteRef ? " " + quoteRef : "");
+    document.getElementById("mailboxReplyBody").value = body;
   }
 
   function insertTextAtCursor(textarea, text) {
@@ -924,7 +1033,18 @@
       var key = e.target.value;
       if (!key || !TEMPLATES[key]) return;
       var ta = document.getElementById("mailboxReplyBody");
-      if (!ta.value.trim()) ta.value = TEMPLATES[key];
+      if (PAYMENT_TEMPLATE_KIND[key]) {
+        var kindEl = document.getElementById("mailboxStripeKind");
+        if (kindEl) {
+          kindEl.value = PAYMENT_TEMPLATE_KIND[key];
+          kindEl.dataset.userChanged = "";
+          syncStripeIntervalVisibility();
+          syncStripeLabelFromKind();
+        }
+        var panel = document.getElementById("mailboxStripePanel");
+        if (panel) panel.open = true;
+        applyPaymentTemplateOnly(true);
+      } else if (!ta.value.trim()) ta.value = TEMPLATES[key];
       else if (confirm("Remplacer le brouillon ?")) ta.value = TEMPLATES[key];
       e.target.value = "";
     });
@@ -980,8 +1100,23 @@
     var stripeLabel = document.getElementById("mailboxStripeLabel");
     if (stripeKind) {
       stripeKind.addEventListener("change", function () {
+        stripeKind.dataset.userChanged = "1";
         syncStripeIntervalVisibility();
         syncStripeLabelFromKind();
+      });
+    }
+
+    var stripeQuoteRef = document.getElementById("mailboxStripeQuoteRef");
+    if (stripeQuoteRef) {
+      stripeQuoteRef.addEventListener("change", lookupMailboxQuote);
+      stripeQuoteRef.addEventListener("blur", lookupMailboxQuote);
+    }
+
+    var stripeTemplateBtn = document.getElementById("mailboxStripeTemplateBtn");
+    if (stripeTemplateBtn) {
+      stripeTemplateBtn.addEventListener("click", function () {
+        applyPaymentTemplateOnly(true);
+        toast("Modele applique");
       });
     }
     if (stripeLabel) {
@@ -999,6 +1134,9 @@
         var kind = document.getElementById("mailboxStripeKind").value;
         var label = (document.getElementById("mailboxStripeLabel").value || "").trim();
         var interval = document.getElementById("mailboxStripeInterval").value;
+        var quoteRef = (document.getElementById("mailboxStripeQuoteRef").value || "").trim();
+        var useTemplate = document.getElementById("mailboxStripeUseTemplate").checked;
+        var bodyTa = document.getElementById("mailboxReplyBody");
 
         if (status) {
           status.textContent = "";
@@ -1011,7 +1149,14 @@
           }
           return;
         }
-        if (!amount || amount <= 0) {
+        if (quoteRef && quoteRef.indexOf("qte_") !== 0) {
+          if (status) {
+            status.textContent = "Reference devis invalide (format qte_…).";
+            status.className = "mbx-stripe-status is-error";
+          }
+          return;
+        }
+        if ((!amount || amount <= 0) && !(quoteRef && kind === "acompte")) {
           if (status) {
             status.textContent = "Montant invalide.";
             status.className = "mbx-stripe-status is-error";
@@ -1022,15 +1167,18 @@
         stripeInsertBtn.disabled = true;
         if (status) status.textContent = "Generation du lien Stripe…";
 
+        var payload = {
+          customerEmail: email,
+          paymentKind: kind,
+          label: label || STRIPE_LABELS[kind] || "Paiement",
+          interval: interval,
+        };
+        if (amount > 0) payload.amountEur = amount;
+        if (quoteRef) payload.referenceId = quoteRef;
+
         var data = await window.Dashboard.api("/api/stripe/create-mailbox-payment-link", {
           method: "POST",
-          body: JSON.stringify({
-            customerEmail: email,
-            amountEur: amount,
-            paymentKind: kind,
-            label: label || STRIPE_LABELS[kind] || "Paiement",
-            interval: interval,
-          }),
+          body: JSON.stringify(payload),
         });
 
         stripeInsertBtn.disabled = false;
@@ -1042,15 +1190,24 @@
           return;
         }
 
-        insertTextAtCursor(
-          document.getElementById("mailboxReplyBody"),
-          buildStripeMailSnippet(data)
-        );
+        if (useTemplate || !bodyTa.value.trim()) {
+          bodyTa.value = buildPaymentEmailFromTemplate(data);
+        } else if (
+          bodyTa.value.indexOf("[LIEN DE PAIEMENT STRIPE") !== -1 ||
+          bodyTa.value.indexOf("{{LINK_BLOCK}}") !== -1
+        ) {
+          bodyTa.value = bodyTa.value
+            .replace("[LIEN DE PAIEMENT STRIPE — cliquez sur « Generer et inserer le lien »]", buildStripeLinkBlock(data))
+            .replace("{{LINK_BLOCK}}", buildStripeLinkBlock(data))
+            .replace(/\{\{QUOTE_REF\}\}/g, data.referenceId ? " " + data.referenceId : "");
+        } else {
+          insertTextAtCursor(bodyTa, buildStripeMailSnippet(data));
+        }
         if (status) {
-          status.textContent = "Lien insere dans le message.";
+          status.textContent = useTemplate ? "Modele et lien inseres." : "Lien insere dans le message.";
           status.className = "mbx-stripe-status is-ok";
         }
-        toast("Lien Stripe insere");
+        toast("Lien Stripe pret");
       });
     }
 
