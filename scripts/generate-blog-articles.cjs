@@ -59,6 +59,14 @@ function renderFaq(faq) {
   );
 }
 
+function articlePublishedAt(a) {
+  return a.publishedAt || a.publishAt || "2026-05-01";
+}
+
+function articleUpdatedAt(a) {
+  return a.updatedAt || a.publishedAt || a.publishAt || "2026-05-28";
+}
+
 function renderJsonLd(a, canonical) {
   var faq = a.faq || [];
   var graph = [
@@ -69,8 +77,8 @@ function renderJsonLd(a, canonical) {
       author: { "@type": "Organization", name: "Leads Opportunities" },
       publisher: { "@type": "Organization", name: "Leads Opportunities" },
       mainEntityOfPage: canonical,
-      datePublished: "2026-05-01",
-      dateModified: "2026-05-28",
+      datePublished: articlePublishedAt(a),
+      dateModified: articleUpdatedAt(a),
     },
   ];
   if (faq.length) {
@@ -99,6 +107,8 @@ function renderArticle(a) {
     return renderBlock(b, bridge);
   }).join("\n");
   var keywordsMeta = (a.keywords || []).join(", ");
+  var publishedAt = articlePublishedAt(a);
+  var updatedAt = articleUpdatedAt(a);
   var bridgeFooter = renderBridgeHtml(bridge, { variant: "footer" });
   var cta = bridgeFooter;
   var faqHtml = renderFaq(a.faq);
@@ -128,6 +138,10 @@ function renderArticle(a) {
     esc(a.description) +
     '" />\n  <meta property="og:type" content="article" />\n  <meta property="og:url" content="' +
     canonical +
+    '" />\n  <meta property="article:published_time" content="' +
+    publishedAt +
+    '" />\n  <meta property="article:modified_time" content="' +
+    updatedAt +
     '" />\n  <meta property="og:image" content="' +
     base +
     '/og-default.jpg" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body>\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="./index.html">\n        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>\n        Blog\n      </a>\n      <a class="blog-logo" href="../index.html">\n        <span class="blog-logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>\n        Leads Opportunities\n      </a>\n    </div>\n  </header>\n  <main class="blog-container">\n    <div class="article-header">\n      <div class="article-tag ' +

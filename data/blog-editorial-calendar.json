@@ -1,0 +1,266 @@
+{
+  "cadence": "3 articles par semaine (lundi, mercredi, vendredi) pour alimenter les silos VTC, sante et credit immobilier.",
+  "articles": [
+    {
+      "publishAt": "2026-06-12",
+      "status": "scheduled",
+      "file": "assurance-vtc-prix-2026-combien-payer.html",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Assurance VTC prix 2026 : combien payer sans sacrifier les garanties",
+      "description": "Prix assurance VTC 2026 : fourchettes, garanties obligatoires, franchises et leviers pour obtenir un devis rentable.",
+      "meta": "9 min · Juin 2026",
+      "cardExcerpt": "Prix VTC : comparer sans rogner la RC pro.",
+      "cta": { "href": "../landings/vtc.html", "label": "Devis assurance VTC" },
+      "keywords": ["assurance vtc prix 2026", "devis assurance vtc", "rc pro chauffeur", "franchise vtc", "uber bolt heetch", "courtier vtc"],
+      "blocks": [
+        { "type": "p", "text": "Le <strong>prix d'une assurance VTC</strong> varie selon le vehicule, l'usage, la zone, le bonus-malus et l'historique sinistres. Chercher le moins cher sans lire la RC pro, la garantie conducteur et l'assistance peut bloquer l'activite au premier incident." },
+        { "type": "h2", "text": "Les postes qui font monter la prime" },
+        { "type": "ul", "items": ["Vehicule premium ou electrique couteux a reparer", "Usage intensif en zone urbaine", "Sinistre responsable recent", "Franchise basse ou assistance 0 km", "Option perte d'exploitation ou valeur majoree"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Comparer a garanties equivalentes" },
+        { "type": "p", "text": "Deux devis peuvent afficher 40 % d'ecart parce que l'un exclut certains usages plateforme, impose une franchise elevee ou limite l'assistance. Demandez toujours un tableau simple : RC circulation, RC pro exploitation, conducteur, vol/incendie, bris de glace, assistance et franchises." },
+        { "type": "h2", "text": "Le bon reflexe pour un chauffeur rentable" },
+        { "type": "p", "text": "Envoyez carte grise, permis, releve d'information et plateformes visees. Un courtier peut arbitrer entre tarif, delai d'attestation et garanties compatibles Uber, Bolt ou Heetch." }
+      ],
+      "related": [
+        { "href": "../assurance-vtc/", "label": "Assurance VTC" },
+        { "href": "../assurance-vtc/tarif/", "label": "Tarif assurance VTC" },
+        { "href": "./comparatif-vtc-zephir-solly-azar.html", "label": "Comparatif VTC Zephir / Solly Azar" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-15",
+      "status": "scheduled",
+      "file": "mutuelle-senior-2026-garanties-a-verifier.html",
+      "section": "sante",
+      "tag": "Senior",
+      "tagClass": "tag-sante",
+      "title": "Mutuelle senior 2026 : garanties a verifier avant de payer plus cher",
+      "description": "Mutuelle senior : hospitalisation, dentaire, auditif, optique et assistance, les postes a comparer avant de changer.",
+      "meta": "8 min · Juin 2026",
+      "cardExcerpt": "Senior : payer plus uniquement si les garanties suivent.",
+      "cta": { "href": "../landings/sante.html", "label": "Comparer ma mutuelle" },
+      "keywords": ["mutuelle senior 2026", "complementaire sante senior", "hospitalisation senior", "dentaire auditif optique", "devis mutuelle senior"],
+      "blocks": [
+        { "type": "p", "text": "Une <strong>mutuelle senior</strong> devient vite couteuse si les postes importants ne suivent pas : hospitalisation, dentaire, auditif, optique et assistance a domicile. Le bon comparatif ne commence pas par le prix, mais par les soins previsibles." },
+        { "type": "h2", "text": "Les garanties vraiment utiles apres 55 ans" },
+        { "type": "ul", "items": ["Hospitalisation avec depassements chirurgien/anesthesiste", "Dentaire : protheses, implants, parodontologie", "Aides auditives et entretien", "Optique : verres progressifs, renouvellement", "Assistance retour domicile apres hospitalisation"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Attention aux carences" },
+        { "type": "p", "text": "Changer juste avant une operation ou un appareillage peut etre risqué si le nouveau contrat impose un delai de carence. Verifiez la date d'effet et les plafonds annuels avant de resilier l'ancien contrat." },
+        { "type": "h2", "text": "Comparer en 3 documents" },
+        { "type": "p", "text": "Preparer l'avis d'echeance, le tableau de garanties actuel et les devis ou soins prevus. Le courtier aligne ensuite les offres a postes equivalentes pour eviter une baisse de protection." }
+      ],
+      "related": [
+        { "href": "../assurance-sante/", "label": "Mutuelle sante" },
+        { "href": "../assurance-sante/comparatif/", "label": "Comparatif mutuelle" },
+        { "href": "./mutuelle-sante-hospitalisation-2026.html", "label": "Hospitalisation mutuelle" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-17",
+      "status": "scheduled",
+      "file": "pret-immobilier-apport-2026-dossier-banque.html",
+      "section": "finance",
+      "tag": "Credit immo",
+      "tagClass": "tag-immo",
+      "title": "Pret immobilier 2026 : apport, assurance et dossier banque solide",
+      "description": "Pret immobilier 2026 : comment presenter l'apport, limiter les frais et optimiser l'assurance emprunteur.",
+      "meta": "9 min · Juin 2026",
+      "cardExcerpt": "Dossier banque : apport, frais et assurance.",
+      "cta": { "href": "../landings/credit-immo.html", "label": "Simulation credit immo" },
+      "keywords": ["pret immobilier 2026", "apport personnel", "dossier banque", "assurance emprunteur", "simulation credit immobilier", "courtier credit"],
+      "blocks": [
+        { "type": "p", "text": "Un <strong>pret immobilier</strong> ne se joue pas seulement sur le taux. La banque regarde l'apport, la stabilite des revenus, le reste a vivre, la gestion des comptes et l'assurance emprunteur. Un dossier lisible obtient plus vite une reponse exploitable." },
+        { "type": "h2", "text": "Apport : ce qu'il doit couvrir" },
+        { "type": "ul", "items": ["Frais de notaire", "Frais de garantie", "Une partie des frais de dossier", "Eventuels travaux non finances", "Epargne de securite apres achat"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Assurance emprunteur : a traiter des le depart" },
+        { "type": "p", "text": "Comparer l'assurance emprunteur apres accord de principe peut faire gagner du temps, mais il faut respecter l'equivalence des garanties. Le meilleur scenario : chiffrer banque et delegation externe pendant le montage du dossier." },
+        { "type": "h2", "text": "Documents qui accelerent l'etude" },
+        { "type": "p", "text": "Avis d'imposition, bulletins de salaire, releves de compte, justificatif d'apport et compromis. Un courtier credit transforme ces pieces en dossier bancaire coherent." }
+      ],
+      "related": [
+        { "href": "../credit-immo/", "label": "Credit immobilier" },
+        { "href": "../credit-immo/simulation/", "label": "Simulation credit immo" },
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Assurance emprunteur loi Lemoine" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-19",
+      "status": "scheduled",
+      "file": "assurance-auto-electrique-2026-batterie.html",
+      "section": "auto",
+      "tag": "Auto electrique",
+      "tagClass": "tag-auto",
+      "title": "Assurance auto electrique 2026 : batterie, recharge et valeur du vehicule",
+      "description": "Assurance voiture electrique : batterie, cable de recharge, borne a domicile, assistance et garanties a comparer.",
+      "meta": "8 min · Juin 2026",
+      "cardExcerpt": "Electrique : les garanties que le thermique n'a pas.",
+      "cta": { "href": "../landings/devis.html?need=auto", "label": "Devis auto electrique" },
+      "keywords": ["assurance auto electrique", "assurance batterie voiture", "borne recharge assurance", "devis auto electrique", "assistance 0 km"],
+      "blocks": [
+        { "type": "p", "text": "Une <strong>voiture electrique</strong> concentre une valeur forte sur la batterie et les equipements de recharge. Un contrat auto classique peut suffire, mais il faut verifier les exclusions sur cable, borne, panne d'energie et valeur de remplacement." },
+        { "type": "h2", "text": "Points a comparer" },
+        { "type": "ul", "items": ["Batterie louee ou incluse dans le vehicule", "Cable de recharge couvert en vol ou degradation", "Assistance panne de batterie", "Valeur a neuf ou valeur majoree", "Protection de la borne a domicile via habitation"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Franchise et reparateurs agrees" },
+        { "type": "p", "text": "Les pieces electriques et la main-d'oeuvre peuvent augmenter le cout de sinistre. Comparez franchise, reseau de reparateurs et delai de vehicule de remplacement." },
+        { "type": "h2", "text": "Cas de la borne a domicile" },
+        { "type": "p", "text": "La borne releve souvent de l'assurance habitation. Prevenez l'assureur apres installation pour eviter un refus en cas d'incendie ou de surtension." }
+      ],
+      "related": [
+        { "href": "../assurance-auto/", "label": "Assurance auto" },
+        { "href": "./assurance-auto-jeune-conducteur-2026.html", "label": "Assurance jeune conducteur" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-22",
+      "status": "scheduled",
+      "file": "assurance-chat-interieur-veterinaire-2026.html",
+      "section": "animaux",
+      "tag": "Chat",
+      "tagClass": "tag-animaux",
+      "title": "Assurance chat d'interieur : veto, accidents domestiques et budget 2026",
+      "description": "Assurance chat d'interieur : soins veterinaires, accidents domestiques, sterilisation et remboursements a comparer.",
+      "meta": "7 min · Juin 2026",
+      "cardExcerpt": "Chat d'interieur : les frais veto ne disparaissent pas.",
+      "cta": { "href": "../landings/animaux.html", "label": "Devis assurance chat" },
+      "keywords": ["assurance chat interieur", "frais veterinaire chat", "sterilisation chat", "accident domestique chat", "devis assurance chat"],
+      "blocks": [
+        { "type": "p", "text": "Un <strong>chat d'interieur</strong> sort moins, mais il n'est pas sans risque : chute, ingestion, maladie urinaire, sterilisation, vaccins et examens. L'assurance chat sert surtout a lisser les gros frais veterinaires." },
+        { "type": "h2", "text": "Frais frequents a anticiper" },
+        { "type": "ul", "items": ["Consultations et vaccins", "Sterilisation selon formule", "Analyses et imagerie", "Urgence apres chute ou ingestion", "Traitements maladies chroniques selon exclusions"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Plafond annuel et franchise" },
+        { "type": "p", "text": "Une formule peu chere peut plafonner trop bas. Comparez le pourcentage rembourse, la franchise, le plafond annuel et les carences avant de souscrire." },
+        { "type": "h2", "text": "Quand assurer son chat ?" },
+        { "type": "p", "text": "Le plus tot possible : les pathologies declarees avant souscription sont souvent exclues. Un questionnaire court permet de cibler espece, age et niveau de remboursement." }
+      ],
+      "related": [
+        { "href": "../assurance-chat/", "label": "Assurance chat" },
+        { "href": "../assurance-animaux/", "label": "Assurance animaux" },
+        { "href": "./assurance-chat-guide-complet.html", "label": "Guide assurance chat" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-24",
+      "status": "scheduled",
+      "file": "prevoyance-tns-arret-travail-revenus.html",
+      "section": "prevoyance",
+      "tag": "TNS",
+      "tagClass": "tag-prevoyance",
+      "title": "Prevoyance TNS : maintenir ses revenus en cas d'arret de travail",
+      "description": "Prevoyance independant : indemnites journalieres, franchise, invalidite et deces pour proteger le revenu TNS.",
+      "meta": "8 min · Juin 2026",
+      "cardExcerpt": "TNS : combien de jours sans revenu pouvez-vous tenir ?",
+      "cta": { "href": "../landings/devis.html?need=prevoyance", "label": "Devis prevoyance TNS" },
+      "keywords": ["prevoyance TNS", "indemnites journalieres independant", "arret travail freelance", "invalidite TNS", "devis prevoyance"],
+      "blocks": [
+        { "type": "p", "text": "Pour un <strong>TNS</strong>, un arret de travail peut stopper le chiffre d'affaires alors que charges et famille continuent. La prevoyance compense une partie du revenu via indemnites journalieres, invalidite et garanties deces." },
+        { "type": "h2", "text": "Les reglages qui changent tout" },
+        { "type": "ul", "items": ["Franchise 7, 15, 30 ou 60 jours", "Montant d'indemnite journalieres", "Definition de l'invalidite professionnelle", "Exclusions sport, dos, psy", "Fiscalite Madelin selon profil"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Calculer le besoin reel" },
+        { "type": "p", "text": "Additionnez charges pro, charges foyer, credit, mutuelle et niveau de vie minimal. Le contrat doit couvrir ce seuil, pas seulement afficher une cotisation basse." },
+        { "type": "h2", "text": "Pourquoi passer par un courtier" },
+        { "type": "p", "text": "Les definitions d'invalidite et exclusions varient fortement. Un courtier compare les notices et evite un contrat inutilisable au moment du sinistre." }
+      ],
+      "related": [
+        { "href": "../assurance-prevoyance/", "label": "Assurance prevoyance" },
+        { "href": "./prevoyance-independants-guide.html", "label": "Guide prevoyance independants" },
+        { "href": "../landings/devis.html?need=prevoyance", "label": "Demande de devis prevoyance" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-26",
+      "status": "scheduled",
+      "file": "assurance-emprunteur-profil-sante-2026.html",
+      "section": "finance",
+      "tag": "Emprunteur",
+      "tagClass": "tag-immo",
+      "title": "Assurance emprunteur et profil sante : anticiper le dossier 2026",
+      "description": "Assurance emprunteur : questionnaire sante, droit a l'oubli, exclusions et delegation pour obtenir un pret immobilier.",
+      "meta": "9 min · Juin 2026",
+      "cardExcerpt": "Profil sante : preparer l'assurance avant le refus banque.",
+      "cta": { "href": "../landings/credit-immo.html", "label": "Etudier mon assurance emprunteur" },
+      "keywords": ["assurance emprunteur profil sante", "questionnaire sante pret immobilier", "droit a l'oubli", "delegation assurance emprunteur", "loi Lemoine"],
+      "blocks": [
+        { "type": "p", "text": "Un profil sante particulier ne bloque pas toujours un pret, mais il demande de l'anticipation. Entre questionnaire medical, droit a l'oubli, surprime, exclusions et delegation, l'<strong>assurance emprunteur</strong> doit etre traitee tres tot." },
+        { "type": "h2", "text": "Avant de deposer le dossier banque" },
+        { "type": "ul", "items": ["Identifier si un questionnaire sante est requis", "Rassembler comptes rendus et traitements stabilises", "Verifier le droit a l'oubli", "Comparer assurance groupe et delegation", "Controler l'equivalence de garanties"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Surprime ou exclusion : que comparer ?" },
+        { "type": "p", "text": "Une offre avec surprime mais garanties completes peut etre meilleure qu'une offre moins chere excluant le risque principal. Le cout doit etre lu avec la qualite de couverture." },
+        { "type": "h2", "text": "Role du courtier" },
+        { "type": "p", "text": "Le courtier presente le dossier aux assureurs adaptes et evite de multiplier les refus. Il aide aussi a repondre a la banque sur l'equivalence." }
+      ],
+      "related": [
+        { "href": "../assurance-emprunteur/", "label": "Assurance emprunteur" },
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Loi Lemoine 2026" },
+        { "href": "../credit-immo/", "label": "Credit immobilier" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-29",
+      "status": "scheduled",
+      "file": "assurance-habitation-colocation-etudiants.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitat",
+      "title": "Assurance habitation colocation : etudiants, bail et responsabilite",
+      "description": "Colocation : contrat habitation, responsabilite civile, bail unique ou individuel et sinistres entre colocataires.",
+      "meta": "7 min · Juin 2026",
+      "cardExcerpt": "Colocation : qui paie apres un degat des eaux ?",
+      "cta": { "href": "../landings/devis.html?need=habitation", "label": "Devis habitation colocation" },
+      "keywords": ["assurance habitation colocation", "assurance etudiant", "responsabilite civile colocataire", "bail colocation", "degat des eaux colocation"],
+      "blocks": [
+        { "type": "p", "text": "En <strong>colocation</strong>, l'assurance habitation doit coller au bail : contrat unique ou contrats individuels. Le point sensible reste la responsabilite en cas de degat des eaux, incendie ou dommage cause par un colocataire." },
+        { "type": "h2", "text": "Bail unique ou bail individuel" },
+        { "type": "ul", "items": ["Bail unique : une attestation globale peut etre demandee", "Baux individuels : chaque colocataire assure sa partie", "Responsabilite civile vie privee obligatoire en pratique", "Depart d'un colocataire : mettre l'attestation a jour"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Sinistre : eviter le flou" },
+        { "type": "p", "text": "Notez qui est titulaire du contrat, les chambres declarees, la valeur mobilier et les franchises. Sans clarification, le remboursement peut etre ralenti." },
+        { "type": "h2", "text": "Etudiants et petits budgets" },
+        { "type": "p", "text": "Le prix compte, mais un contrat trop minimal peut exclure vol, bris de glace ou dommages electriques. Comparez les garanties essentielles avant de signer." }
+      ],
+      "related": [
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" },
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Locataire ou proprietaire" },
+        { "href": "../landings/devis.html?need=habitation", "label": "Demande habitation" }
+      ]
+    },
+    {
+      "publishAt": "2026-07-01",
+      "status": "scheduled",
+      "file": "rc-pro-freelance-it-conseil-2026.html",
+      "section": "pro",
+      "tag": "RC Pro",
+      "tagClass": "tag-pro",
+      "title": "RC Pro freelance IT et conseil : proteger ses missions en 2026",
+      "description": "RC Pro freelance : dommages immateriels, erreur de conseil, cyber, sous-traitance et attestations demandees par les clients.",
+      "meta": "8 min · Juillet 2026",
+      "cardExcerpt": "Freelance IT : l'attestation RC Pro devient un pre-requis.",
+      "cta": { "href": "../landings/devis.html?need=rc-pro", "label": "Devis RC Pro freelance" },
+      "keywords": ["rc pro freelance IT", "assurance consultant", "dommages immateriels", "cyber freelance", "attestation RC Pro"],
+      "blocks": [
+        { "type": "p", "text": "Un freelance IT ou conseil vend de l'expertise. Une erreur de parametrage, un retard, une recommandation contestee ou une fuite de donnees peut declencher une reclamation. La <strong>RC Pro</strong> rassure le client et protege la tresorerie." },
+        { "type": "h2", "text": "Garanties a verifier" },
+        { "type": "ul", "items": ["Dommages immateriels consecutifs et non consecutifs", "Defense recours", "Sous-traitance", "Perte de donnees et cyber selon option", "Monde entier si clients hors France"] },
+        { "type": "bridge" },
+        { "type": "h2", "text": "Attestation client" },
+        { "type": "p", "text": "Grands comptes, plateformes et cabinets demandent souvent une attestation RC Pro avec montant minimal de garantie. Verifiez les exigences avant de signer la mission." },
+        { "type": "h2", "text": "RC Pro vs cyber" },
+        { "type": "p", "text": "La RC Pro couvre la responsabilite civile. La cyber couvre plutot incident informatique, assistance et notification. Les deux peuvent etre complementaires selon activite." }
+      ],
+      "related": [
+        { "href": "../landings/devis.html?need=rc-pro", "label": "Devis RC Pro" },
+        { "href": "./rc-pro-freelance-artisan-guide.html", "label": "RC Pro freelance" },
+        { "href": "../assurances/", "label": "Catalogue assurances" }
+      ]
+    }
+  ]
+}

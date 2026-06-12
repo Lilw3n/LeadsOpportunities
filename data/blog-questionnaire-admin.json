@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-11",
+  "updated": "2026-06-12",
   "sections": [
     "actu",
     "animaux",
@@ -13,6 +13,19 @@
     "vtc"
   ],
   "rows": [
+    {
+      "file": "assurance-vtc-prix-2026-combien-payer.html",
+      "title": "Assurance VTC prix 2026 : combien payer sans sacrifier les garanties",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
     {
       "file": "elections-presidentielles-prevoyance-patrimoine.html",
       "title": "Elections presidentielles : prevoyance, patrimoine et credit immo",

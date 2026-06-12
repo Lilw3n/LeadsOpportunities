@@ -12,8 +12,17 @@ rows.forEach(function (r) {
 });
 sections.sort();
 
+function articleDate(article) {
+  return article.updatedAt || article.publishedAt || article.publishAt || "2026-06-11";
+}
+
+var updated = manifest.articles.reduce(function (latest, article) {
+  var date = articleDate(article);
+  return date > latest ? date : latest;
+}, "2026-06-11");
+
 var out = {
-  updated: new Date().toISOString().slice(0, 10),
+  updated: updated,
   sections: sections,
   rows: rows,
 };
