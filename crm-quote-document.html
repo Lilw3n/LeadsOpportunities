@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devis client | Leads Opportunities</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/crm-quote-document.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <div style="max-width:900px;margin:0 auto;padding:24px">
+    <div class="loq-viewer-toolbar">
+      <a href="#" id="backLink" class="btn btn-ghost">← Retour au devis</a>
+      <a href="#" id="editLink" class="btn btn-ghost">Modifier le contenu</a>
+      <button type="button" class="btn btn-primary" id="btnPrint">Imprimer / PDF</button>
+      <button type="button" class="btn btn-ghost" id="btnSendMail">Envoyer par e-mail</button>
+    </div>
+    <p id="docStatus" class="crm-muted-inline">Chargement du devis…</p>
+    <div class="loq-viewer-frame" id="docFrameWrap" hidden>
+      <iframe id="docFrame" title="Devis Leads Opportunities"></iframe>
+    </div>
+  </div>
+  <script src="./js/crm-quote-document-page.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

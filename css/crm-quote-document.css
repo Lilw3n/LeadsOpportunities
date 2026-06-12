@@ -1,0 +1,31 @@
+.loq-viewer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+  align-items: center;
+}
+.loq-viewer-frame {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  min-height: 70vh;
+  overflow: auto;
+}
+.loq-viewer-frame iframe {
+  width: 100%;
+  min-height: 75vh;
+  border: 0;
+}
+@media print {
+  .loq-viewer-toolbar,
+  .crm-sidebar,
+  .btn,
+  a.btn {
+    display: none !important;
+  }
+  .loq-viewer-frame {
+    border: none;
+    min-height: auto;
+  }
+}
