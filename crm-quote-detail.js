@@ -36,6 +36,10 @@
     document.getElementById("quoteApp").classList.remove("hidden");
     document.getElementById("linkContact").href =
       "./crm-contact.html?id=" + encodeURIComponent(q.contact_id);
+    document.getElementById("linkEditDoc").href =
+      "./crm-quote-editor.html?id=" + encodeURIComponent(quoteId);
+    document.getElementById("linkViewDoc").href =
+      "./crm-quote-document.html?id=" + encodeURIComponent(quoteId);
     document.getElementById("statusSelect").value = q.status || "brouillon";
 
     function renderReading() {
@@ -60,10 +64,16 @@
     }
     document.getElementById("btnSendQuote").onclick = function (e) {
       e.preventDefault();
-      var subj = encodeURIComponent("Devis " + (q.title || q.product_type || ""));
-      var body = encodeURIComponent("Bonjour,\n\nVeuillez trouver ci-joint votre devis.\n\nCordialement,\nWendy BUCHET — Leads Opportunities");
+      var docUrl =
+        location.origin + "/crm-quote-document.html?id=" + encodeURIComponent(quoteId);
+      var subj = encodeURIComponent("Votre devis Leads Opportunities");
+      var body = encodeURIComponent(
+        "Bonjour,\n\nVeuillez consulter votre devis Leads Opportunities :\n" +
+          docUrl +
+          "\n\nPour valider, repondez a cet e-mail.\n\nBien cordialement,\nLeads Opportunities"
+      );
       var mail = contact && contact.email ? contact.email : "";
-      location.href = "mailto:" + mail + "?subject=" + subj + "&body=" + body;
+      location.href = "mailto:" + encodeURIComponent(mail) + "?subject=" + subj + "&body=" + body;
     };
     document.getElementById("btnSaveStatus").onclick = function () {
       api("/api/crm/quotes?id=" + encodeURIComponent(quoteId), {

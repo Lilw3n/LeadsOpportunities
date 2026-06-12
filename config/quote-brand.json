@@ -1,0 +1,24 @@
+{
+  "id": "leads-opportunities",
+  "companyName": "Leads Opportunities",
+  "tagline": "Courtier en assurance",
+  "addressLine": "France",
+  "email": "contact@leadsopportunities.fr",
+  "phone": "",
+  "orias": "15005935",
+  "dpoEmail": "contact@leadsopportunities.fr",
+  "website": "https://www.leadsopportunities.fr",
+  "accentColor": "#0d9488",
+  "accentDark": "#0f766e",
+  "validityDaysDefault": 30,
+  "footerLegal": "Leads Opportunities — Courtier en assurance — ORIAS 15005935",
+  "subscriptionIntro": "Vous souhaitez valider votre devis ? Avec Leads Opportunities, votre parcours de souscription est simple.",
+  "gdprBullets": [
+    "Vos donnees sont utilisees pour la gestion du contrat et la lutte contre la fraude et le blanchiment.",
+    "Conservation : 5 ans pour une simple demande, 10 ans apres la fin du contrat.",
+    "Droits : acces, rectification et opposition via contact@leadsopportunities.fr ou la CNIL.",
+    "Fichier AGIRA : en cas de resiliation, vos informations pourront etre transmises au fichier professionnel AGIRA.",
+    "Sincerite : toute fausse declaration ou omission peut entrainer la nullite du contrat (Art. L. 113-8) ou la reduction des indemnites."
+  ],
+  "gdprDeclaration": "Par la validation du present document, quelle qu'en soit la forme, je reconnais avoir personnellement repondu aux questions qui m'ont ete posees, je certifie exactes et sinceres toutes les reponses que j'ai pu donner, meme retranscrites par un tiers, et je reconnais etre informe que l'estimation tarifaire a ete effectuee sur la base de ces reponses."
+}

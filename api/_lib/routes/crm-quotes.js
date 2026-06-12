@@ -98,12 +98,23 @@ module.exports = async (req, res) => {
         LIMIT 1
       `;
       if (!exists.length) return res.status(404).json({ error: "Devis introuvable" });
+      const depositAmount =
+        body.depositAmount != null
+          ? Number(body.depositAmount)
+          : body.data &&
+              body.data.document &&
+              body.data.document.pricing &&
+              body.data.document.pricing.brokerageFees != null
+            ? Number(body.data.document.pricing.brokerageFees)
+            : null;
+
       await sql`
         UPDATE crm_quotes SET
           status = COALESCE(${body.status ?? null}, status),
           title = COALESCE(${body.title ?? null}, title),
           data = COALESCE(${dataJson}, data),
           premium_estimate = COALESCE(${body.premiumEstimate != null ? Number(body.premiumEstimate) : null}, premium_estimate),
+          deposit_amount = COALESCE(${depositAmount}, deposit_amount),
           updated_at = NOW()
         WHERE id = ${quoteId}
       `;

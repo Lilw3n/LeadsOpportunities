@@ -16,6 +16,7 @@ const ROUTES = {
   alerts: () => require("../_lib/routes/crm-alerts"),
   "create-complete": () => require("../_lib/routes/crm-create-complete"),
   quotes: () => require("../_lib/routes/crm-quotes"),
+  "quote-document": () => require("../_lib/routes/crm-quote-document"),
   "devis-prefill": () => require("../_lib/routes/devis-prefill"),
   statistics: () => require("../_lib/routes/crm-statistics"),
   "module-link": () => require("../_lib/routes/crm-module-link"),

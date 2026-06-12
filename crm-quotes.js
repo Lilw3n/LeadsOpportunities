@@ -52,11 +52,15 @@
               esc(q.product_type) +
               "</td><td>" +
               esc(q.status) +
-              '</td><td><a href="./crm-quote-detail.html?id=' +
+              '</td><td><a href="./crm-quote-editor.html?id=' +
               encodeURIComponent(q.id) +
-              '">Lire</a> · <a href="./crm-contact.html?id=' +
+              '">Devis LO</a> · <a href="./crm-quote-document.html?id=' +
+              encodeURIComponent(q.id) +
+              '" target="_blank" rel="noopener">PDF</a> · <a href="./crm-quote-detail.html?id=' +
+              encodeURIComponent(q.id) +
+              '">Fiche</a> · <a href="./crm-contact.html?id=' +
               encodeURIComponent(q.contact_id) +
-              '">Fiche</a> · <a href="./crm-quote-payment.html?quoteId=' +
+              '">Contact</a> · <a href="./crm-quote-payment.html?quoteId=' +
               encodeURIComponent(q.id) +
               "&email=" +
               encodeURIComponent(q.email || "") +

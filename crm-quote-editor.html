@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Editeur devis | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .loq-editor { max-width: 960px; margin: 0 auto; padding: 24px; }
+    .loq-editor section { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+    .loq-editor h2 { margin: 0 0 12px; font-size: 1rem; color: var(--primary); }
+    .loq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .loq-editor label { display: grid; gap: 4px; font-size: .78rem; font-weight: 700; color: var(--muted); }
+    .loq-editor input, .loq-editor textarea, .loq-editor select {
+      font: inherit; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px;
+    }
+    .loq-editor textarea { min-height: 88px; resize: vertical; }
+    .loq-internal { border-color: #fecaca; background: #fff7f7; }
+    .loq-internal p { margin: 0 0 10px; font-size: .82rem; color: #b91c1c; }
+    .loq-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+    .loq-hint { font-size: .8rem; color: var(--muted); margin: 0 0 12px; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <div class="loq-editor">
+    <a href="#" id="backLink" class="btn btn-ghost">← Retour</a>
+    <h1 style="margin:16px 0 8px">Devis Leads Opportunities</h1>
+    <p class="loq-hint">Renseignez les informations issues du partenaire : seul le document <strong>Leads Opportunities</strong> sera visible par le client (nom partenaire jamais affiche).</p>
+    <p id="editorStatus"></p>
+
+    <form id="editorForm">
+      <section>
+        <h2>Identification</h2>
+        <div class="loq-grid">
+          <label>Reference affichee<input name="reference" id="fReference" placeholder="Auto si vide" /></label>
+          <label>Formule<input name="formula" id="fFormula" placeholder="Tiers Simple" required /></label>
+          <label>Produit<input name="productLabel" id="fProduct" /></label>
+          <label>Validite (jours)<input type="number" name="validityDays" id="fValidity" min="1" value="30" /></label>
+        </div>
+      </section>
+
+      <section class="loq-internal">
+        <h2>Import partenaire (interne — jamais sur le devis client)</h2>
+        <p>Ces champs restent dans le CRM uniquement. Le client ne voit que Leads Opportunities.</p>
+        <div class="loq-grid">
+          <label>Nom partenaire<input name="partnerName" id="fPartnerName" placeholder="Usage interne" autocomplete="off" /></label>
+          <label>Ref. partenaire<input name="partnerReference" id="fPartnerRef" placeholder="N° devis partenaire" /></label>
+        </div>
+        <label style="margin-top:12px">Notes internes<textarea name="partnerNotes" id="fPartnerNotes" placeholder="Rappels, grille tarifaire…"></textarea></label>
+      </section>
+
+      <section>
+        <h2>Tarification (visible client)</h2>
+        <div class="loq-grid">
+          <label>Cotisation annuelle TTC (€)<input type="number" step="0.01" name="annualPremiumTtc" id="fAnnual" required /></label>
+          <label>Frais de dossier (€)<input type="number" step="0.01" name="brokerageFees" id="fBrokerage" /></label>
+          <label>Prime mensuelle TTC (€)<input type="number" step="0.01" name="monthlyPremiumTtc" id="fMonthly" placeholder="Auto : annuel / 12" /></label>
+          <label>Taxe attentat (€)<input type="number" step="0.01" name="attackTaxEur" id="fAttackTax" value="6.5" /></label>
+        </div>
+        <label style="margin-top:12px">Note prelevement compagnie<textarea name="firstInstallmentsNote" id="fInstallNote" placeholder="La compagnie d'assurance prelevera…"></textarea></label>
+      </section>
+
+      <section>
+        <h2>Vehicule</h2>
+        <div class="loq-grid">
+          <label>Marque<input name="vehicleBrand" id="fVBrand" /></label>
+          <label>Modele<input name="vehicleModel" id="fVModel" /></label>
+          <label>1ere immatriculation<input name="firstRegistration" id="fVFirstReg" type="date" /></label>
+          <label>Date acquisition<input name="acquisitionDate" id="fVAcq" type="date" /></label>
+          <label>Mode acquisition<input name="acquisitionMode" id="fVAcqMode" placeholder="Comptant, Credit…" /></label>
+          <label>Usage<input name="usage" id="fVUsage" placeholder="Trajet domicile-travail" /></label>
+          <label>Code postal<input name="postalCode" id="fVPostal" /></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Conducteur</h2>
+        <div class="loq-grid">
+          <label>Nom<input name="driverName" id="fDName" /></label>
+          <label>Date naissance<input name="birthDate" id="fDBirth" type="date" /></label>
+          <label>Permis<input name="license" id="fDLicense" placeholder="B, Aucun…" /></label>
+          <label>Date permis<input name="licenseDate" id="fDLicenseDate" type="date" /></label>
+          <label>Historique assurance<input name="insuranceHistory" id="fDHistory" /></label>
+          <label>Motif<input name="reason" id="fDReason" placeholder="Resiliation, Aggravation…" /></label>
+          <label>Email<input name="driverEmail" id="fDEmail" type="email" /></label>
+          <label>Telephone<input name="driverPhone" id="fDPhone" /></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Sinistres</h2>
+        <label>Sinistres declares (un par ligne)<textarea name="claims" id="fClaims" placeholder="Laissez vide si aucun"></textarea></label>
+      </section>
+
+      <section>
+        <h2>Garanties</h2>
+        <label>Garanties de base (une par ligne)<textarea name="guaranteesBase" id="fGBase" placeholder="Responsabilite Civile&#10;Defense penale et recours"></textarea></label>
+        <label style="margin-top:12px">Garanties accessoires (une par ligne)<textarea name="guaranteesAccessories" id="fGAcc" placeholder="Assistance : Franchise 0 Km"></textarea></label>
+      </section>
+
+      <section>
+        <h2>Clauses et parcours client</h2>
+        <label>Clauses applicables (une par ligne)<textarea name="clauses" id="fClauses"></textarea></label>
+        <label style="margin-top:12px">Etapes souscription (une par ligne)<textarea name="subscriptionSteps" id="fSteps"></textarea></label>
+        <label style="margin-top:12px">Documents requis (une par ligne)<textarea name="requiredDocuments" id="fDocs"></textarea></label>
+      </section>
+
+      <div class="loq-actions">
+        <button type="submit" class="btn btn-primary">Enregistrer le devis</button>
+        <a href="#" id="previewLink" class="btn btn-ghost" target="_blank" rel="noopener">Apercu document client</a>
+      </div>
+    </form>
+  </div>
+  <script src="./js/crm-quote-editor.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
