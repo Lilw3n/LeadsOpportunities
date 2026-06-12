@@ -770,6 +770,7 @@
       .replace("{{LINK_BLOCK}}", linkBlock)
       .replace(/\{\{QUOTE_REF\}\}/g, quoteRef ? " " + quoteRef : "");
     document.getElementById("mailboxReplyBody").value = body;
+    syncMailboxReplyPreview();
   }
 
   function insertTextAtCursor(textarea, text) {
@@ -784,6 +785,65 @@
       textarea.value = value + (value && !value.endsWith("\n") ? "\n" : "") + text;
     }
     textarea.focus();
+    syncMailboxReplyPreview();
+  }
+
+  function extractUrls(text) {
+    return String(text || "").match(/https?:\/\/[^\s<>"']+/g) || [];
+  }
+
+  function linkifyPreviewHtml(text) {
+    var parts = String(text || "").split(/(https?:\/\/[^\s<>"']+)/g);
+    return parts
+      .map(function (part) {
+        if (/^https?:\/\//.test(part)) {
+          return (
+            '<a href="' +
+            esc(part) +
+            '" target="_blank" rel="noopener noreferrer">' +
+            esc(part) +
+            "</a>"
+          );
+        }
+        return esc(part).replace(/\n/g, "<br>");
+      })
+      .join("");
+  }
+
+  function syncMailboxReplyPreview() {
+    var ta = document.getElementById("mailboxReplyBody");
+    var preview = document.getElementById("mailboxReplyPreview");
+    var body = document.getElementById("mailboxReplyPreviewBody");
+    var verify = document.getElementById("mailboxStripeVerifyLink");
+    if (!ta || !preview || !body) return;
+
+    var text = ta.value || "";
+    if (!text.trim()) {
+      preview.hidden = true;
+      if (verify) verify.hidden = true;
+      return;
+    }
+
+    preview.hidden = false;
+    body.innerHTML = linkifyPreviewHtml(text);
+
+    var urls = extractUrls(text);
+    var stripeUrl =
+      urls.find(function (u) {
+        return u.indexOf("checkout.stripe.com") !== -1;
+      }) || urls[0];
+
+    if (verify) {
+      if (stripeUrl) {
+        verify.href = stripeUrl;
+        verify.hidden = false;
+        verify.textContent = stripeUrl.indexOf("checkout.stripe.com") !== -1
+          ? "Ouvrir le lien Stripe dans un nouvel onglet"
+          : "Ouvrir le lien dans un nouvel onglet";
+      } else {
+        verify.hidden = true;
+      }
+    }
   }
 
   function setupReplyForMessage(m) {
@@ -1207,14 +1267,21 @@
           status.textContent = useTemplate ? "Modele et lien inseres." : "Lien insere dans le message.";
           status.className = "mbx-stripe-status is-ok";
         }
+        syncMailboxReplyPreview();
         toast("Lien Stripe pret");
       });
+    }
+
+    var replyBody = document.getElementById("mailboxReplyBody");
+    if (replyBody) {
+      replyBody.addEventListener("input", syncMailboxReplyPreview);
     }
 
     var discardBtn = document.getElementById("mailboxDiscardBtn");
     if (discardBtn) {
       discardBtn.addEventListener("click", function () {
         document.getElementById("mailboxReplyBody").value = "";
+        syncMailboxReplyPreview();
         var st = document.getElementById("mailboxStripeStatus");
         if (st) {
           st.textContent = "";

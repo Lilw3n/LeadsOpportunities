@@ -1126,6 +1126,50 @@
       flex-wrap: wrap;
       gap: 8px;
     }
+    .mbx-reply-preview {
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      background: #f0f9ff;
+      padding: 10px 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .mbx-reply-preview[hidden] { display: none !important; }
+    .mbx-reply-preview__title {
+      margin: 0;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #1d4ed8;
+    }
+    .mbx-reply-preview__body {
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .mbx-reply-preview__body a {
+      color: #2563eb;
+      font-weight: 700;
+      text-decoration: underline;
+      word-break: break-all;
+    }
+    .mbx-reply-preview__body a:hover { color: #1d4ed8; }
+    .mbx-stripe-verify-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff !important;
+      background: #2563eb;
+      border-radius: 8px;
+      padding: 8px 12px;
+      text-decoration: none !important;
+      width: fit-content;
+    }
+    .mbx-stripe-verify-link:hover { background: #1d4ed8; }
+    .mbx-stripe-verify-link[hidden] { display: none !important; }
     .mbx-back-mobile {
       display: none;
       margin: 0 12px 8px;
@@ -1819,6 +1863,11 @@
                     </div>
                   </details>
                   <label>Message<textarea id="mailboxReplyBody" required placeholder="Bonjour,&#10;&#10;Merci pour votre message…"></textarea></label>
+                  <div class="mbx-reply-preview" id="mailboxReplyPreview" hidden>
+                    <p class="mbx-reply-preview__title">Apercu — verifiez le lien avant envoi</p>
+                    <div class="mbx-reply-preview__body" id="mailboxReplyPreviewBody"></div>
+                    <a class="mbx-stripe-verify-link" id="mailboxStripeVerifyLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Ouvrir le lien Stripe dans un nouvel onglet</a>
+                  </div>
                   <div class="mbx-reply-actions">
                     <button type="submit" class="btn btn-primary" id="mailboxSendBtn">Envoyer</button>
                     <button type="button" class="btn-ghost" id="mailboxDiscardBtn">Effacer le brouillon</button>
