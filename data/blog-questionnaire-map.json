@@ -257,6 +257,21 @@
     "pret-immo-erreurs-a-eviter.html": {
       "section": "finance",
       "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?"
+    },
+    "diversification-alimentaire-bebe-4-mois-mutuelle-famille.html": {
+      "section": "sante",
+      "hook": "4 mois : pediatre, diversification — et une mutuelle famille qui suit le rythme des consultations.",
+      "question": "Votre mutuelle couvre-t-elle bien pediatre et pharmacie pour votre bebe ?"
+    },
+    "allergie-alimentaire-bebe-mutuelle-pediatrie.html": {
+      "section": "sante",
+      "hook": "Reaction alimentaire pendant la diversification : pediatre et allergologue, le reste a charge depend de votre mutuelle.",
+      "question": "Prêt à vérifier vos garanties pédiatrie et analyses ?"
+    },
+    "mutuelle-bebe-calendrier-consultations-2026.html": {
+      "section": "sante",
+      "hook": "De la naissance au 1er anniversaire : chaque visite pediatre a un cout — la mutuelle famille fait la différence.",
+      "question": "Votre bebe est-il bien déclaré et couvert sur le bon contrat ?"
     }
   }
 }
