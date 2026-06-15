@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-05",
+  "updated": "2026-06-15",
   "sections": [
     "actu",
     "animaux",
@@ -10,7 +10,6 @@
     "prevoyance",
     "pro",
     "sante",
-    "collective",
     "vtc"
   ],
   "rows": [
@@ -246,6 +245,45 @@
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "diversification-alimentaire-bebe-4-mois-mutuelle-famille.html",
+      "title": "Diversification alimentaire a 4 mois : pediatre, Parents et mutuelle famille",
+      "section": "sante",
+      "hook": "4 mois : pediatre, diversification — et une mutuelle famille qui suit le rythme des consultations.",
+      "question": "Votre mutuelle couvre-t-elle bien pediatre et pharmacie pour votre bebe ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "allergie-alimentaire-bebe-mutuelle-pediatrie.html",
+      "title": "Allergie alimentaire bebe : diversification, tests et mutuelle",
+      "section": "sante",
+      "hook": "Reaction alimentaire pendant la diversification : pediatre et allergologue, le reste a charge depend de votre mutuelle.",
+      "question": "Prêt à vérifier vos garanties pédiatrie et analyses ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "mutuelle-bebe-calendrier-consultations-2026.html",
+      "title": "Mutuelle et bebe : calendrier des consultations de 0 a 12 mois",
+      "section": "sante",
+      "hook": "De la naissance au 1er anniversaire : chaque visite pediatre a un cout — la mutuelle famille fait la différence.",
+      "question": "Votre bebe est-il bien déclaré et couvert sur le bon contrat ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
       "species": null
     },
     {
@@ -587,6 +625,19 @@
       "species": null
     },
     {
+      "file": "mutuelle-famille-rentree-scolaire-budget.html",
+      "title": "Mutuelle famille avant la rentree : postes a verifier pour generer des economies",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
       "file": "questionnaire-mutuelle-quel-niveau-choisir.html",
       "title": "Quel niveau de mutuelle choisir ? Le questionnaire qui tranche en 3 minutes",
       "section": "sante",
@@ -636,45 +687,6 @@
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard",
       "matchedRule": "emprunteur",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-obligations-employeur-ani.html",
-      "title": "Mutuelle collective obligatoire : ANI, employeur et panier de soins en 2026",
-      "section": "collective",
-      "hook": "Obligations ANI comprises : obtenez un devis chiffre pour votre entreprise.",
-      "question": "Combien couterait une mutuelle collective conforme pour votre entreprise ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-pme-tpe-budget-2026.html",
-      "title": "Mutuelle collective PME et TPE : comment budgétiser et choisir en 2026",
-      "section": "collective",
-      "hook": "Indiquez effectif et budget cible : nous preparons des propositions chiffrees.",
-      "question": "Quel budget mutuelle pour couvrir correctement votre equipe ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-mise-en-place-due-portabilite.html",
-      "title": "Mutuelle collective : mise en place, DUE, adhesion salarie et portabilite",
-      "section": "collective",
-      "hook": "De la DUE a la portabilite : commencez par un devis structure pour votre effectif.",
-      "question": "Besoin d'un devis et d'un plan de mise en place pour votre equipe ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
       "species": null
     }
   ]
