@@ -2,6 +2,7 @@
  * Enrichissements éditoriaux — contenu plus pertinent + pont questionnaire.
  * Fusionné dans blog-articles-manifest.cjs à la génération.
  */
+const { getScheduledLeadArticles } = require("./blog-leadgen-calendar.cjs");
 
 var Q = {
   sante: "../landings/questionnaire.html?need=sante&journey=standard",
@@ -613,7 +614,7 @@ function applyUpgrades(articles) {
     if (patch.title) byFile[file].title = patch.title;
   });
 
-  NEW_ARTICLES.forEach(function (a) {
+  NEW_ARTICLES.concat(getScheduledLeadArticles()).forEach(function (a) {
     if (!byFile[a.file]) {
       articles.push(a);
       byFile[a.file] = a;
@@ -623,4 +624,9 @@ function applyUpgrades(articles) {
   return articles;
 }
 
-module.exports = { applyUpgrades: applyUpgrades, UPGRADES: UPGRADES, NEW_ARTICLES: NEW_ARTICLES };
+module.exports = {
+  applyUpgrades: applyUpgrades,
+  UPGRADES: UPGRADES,
+  NEW_ARTICLES: NEW_ARTICLES,
+  SCHEDULED_LEADGEN_ARTICLES: getScheduledLeadArticles(),
+};

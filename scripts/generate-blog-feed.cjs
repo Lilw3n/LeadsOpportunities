@@ -4,10 +4,13 @@ const manifest = require("./blog-articles-manifest.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
-var today = new Date().toISOString().slice(0, 10);
 
 function escapeXml(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function pubDate(a) {
+  return a.publishDate || a.datePublished || "2026-05-01";
 }
 
 var items = manifest.articles
@@ -27,7 +30,7 @@ var items = manifest.articles
       "/blog/" +
       a.file +
       "</guid>\n    <pubDate>" +
-      today +
+      pubDate(a) +
       "</pubDate>\n  </item>"
     );
   })

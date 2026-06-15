@@ -76,6 +76,16 @@ Objectif: transformer le trafic organique en leads qualifies via un funnel `arti
 - Sante: 3 contenus (1 pilier + 2 longue traine)
 - Credit/Immo: 3 contenus (1 pilier + 2 longue traine)
 
+## 4bis) Cadence lead-gen recurrente
+- Source: `scripts/blog-leadgen-calendar.cjs`
+- Rythme cible: 1 article par semaine, publie par date `publishDate`
+- Verticales alternees: sante, animaux, VTC, habitation, credit, RC Pro, prevoyance
+- Chaque article contient:
+  - 1 intention longue traine orientee probleme concret
+  - 1 bloc `bridge` vers le questionnaire
+  - 2 a 4 liens internes vers page pilier, landing ou article de reassurance
+- Publication: workflow `.github/workflows/blog-leadgen.yml` + commande `npm run blog:publish-scheduled`
+
 ## 5) Meta/Schema de base
 - Title oriente intention + benefice.
 - Meta description avec promesse + action.

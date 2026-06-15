@@ -61,6 +61,8 @@ function renderFaq(faq) {
 
 function renderJsonLd(a, canonical) {
   var faq = a.faq || [];
+  var published = a.publishDate || a.datePublished || "2026-05-01";
+  var modified = a.modifiedDate || a.publishDate || a.dateModified || "2026-06-15";
   var graph = [
     {
       "@type": "Article",
@@ -69,8 +71,8 @@ function renderJsonLd(a, canonical) {
       author: { "@type": "Organization", name: "Leads Opportunities" },
       publisher: { "@type": "Organization", name: "Leads Opportunities" },
       mainEntityOfPage: canonical,
-      datePublished: "2026-05-01",
-      dateModified: "2026-05-28",
+      datePublished: published,
+      dateModified: modified,
     },
   ];
   if (faq.length) {
