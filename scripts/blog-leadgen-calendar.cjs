@@ -379,10 +379,11 @@ function getLeadgenPlan() {
 function getScheduledLeadArticles(options) {
   options = options || {};
   var baseDate = options.now ? utcDate(options.now) : todayUtc();
-  var horizonDays =
+  var parsedHorizon =
     typeof options.horizonDays === "number"
       ? options.horizonDays
       : Number(process.env.BLOG_LEADGEN_HORIZON_DAYS || 0);
+  var horizonDays = Number.isFinite(parsedHorizon) ? parsedHorizon : 0;
   var cutoff = new Date(baseDate.getTime() + Math.max(0, horizonDays) * DAY_MS);
 
   return LEADGEN_ARTICLES.filter(function (article) {
