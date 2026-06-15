@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-05",
+  "updated": "2026-06-15",
   "sections": [
     "actu",
     "animaux",
@@ -10,7 +10,6 @@
     "prevoyance",
     "pro",
     "sante",
-    "collective",
     "vtc"
   ],
   "rows": [
@@ -639,42 +638,16 @@
       "species": null
     },
     {
-      "file": "mutuelle-collective-obligations-employeur-ani.html",
-      "title": "Mutuelle collective obligatoire : ANI, employeur et panier de soins en 2026",
-      "section": "collective",
-      "hook": "Obligations ANI comprises : obtenez un devis chiffre pour votre entreprise.",
-      "question": "Combien couterait une mutuelle collective conforme pour votre entreprise ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-pme-tpe-budget-2026.html",
-      "title": "Mutuelle collective PME et TPE : comment budgétiser et choisir en 2026",
-      "section": "collective",
-      "hook": "Indiquez effectif et budget cible : nous preparons des propositions chiffrees.",
-      "question": "Quel budget mutuelle pour couvrir correctement votre equipe ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-mise-en-place-due-portabilite.html",
-      "title": "Mutuelle collective : mise en place, DUE, adhesion salarie et portabilite",
-      "section": "collective",
-      "hook": "De la DUE a la portabilite : commencez par un devis structure pour votre effectif.",
-      "question": "Besoin d'un devis et d'un plan de mise en place pour votre equipe ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
+      "file": "mutuelle-senior-garanties-avant-65-ans.html",
+      "title": "Mutuelle senior : 6 garanties a verifier avant 65 ans",
+      "section": "sante",
+      "hook": "Retraite, hospitalisation, optique, dentaire : le bon niveau senior se prépare avant la hausse de cotisation.",
+      "question": "Votre mutuelle est-elle prête pour les soins des prochaines années ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
       "species": null
     }
   ]

@@ -1,0 +1,50 @@
+name: Publish scheduled lead-gen articles
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-leadgen-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check scheduled articles
+        id: leadgen
+        run: node scripts/generate-leadgen-articles.cjs --github-output
+
+      - name: Generate due articles and sitemaps
+        if: steps.leadgen.outputs.has_missing == 'true'
+        run: npm run blog:publish-scheduled
+
+      - name: Commit generated content
+        if: steps.leadgen.outputs.has_missing == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog data/blog-questionnaire-admin.json sitemap.xml sitemap-main.xml sitemap-geo.xml sitemap-france.xml seo/generated-sitemap-fragment.xml
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit."
+          else
+            git commit -m "chore(blog): publish scheduled lead-gen articles"
+            git push
+          fi

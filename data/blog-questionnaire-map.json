@@ -257,6 +257,53 @@
     "pret-immo-erreurs-a-eviter.html": {
       "section": "finance",
       "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?"
+    },
+    "mutuelle-senior-garanties-avant-65-ans.html": {
+      "section": "sante",
+      "hook": "Retraite, hospitalisation, optique, dentaire : le bon niveau senior se prépare avant la hausse de cotisation.",
+      "question": "Votre mutuelle est-elle prête pour les soins des prochaines années ?",
+      "questionnaireLabel": "Questionnaire mutuelle senior"
+    },
+    "assurance-chien-pas-chere-urgences.html": {
+      "section": "animaux",
+      "species": "chien",
+      "hook": "Une assurance chien moins chère doit rester solide sur l'urgence vétérinaire.",
+      "question": "Avez-vous pensé à assurer votre chien sans sacrifier les gros soins ?",
+      "primaryLabel": "Devis assurance chien"
+    },
+    "vtc-electrique-hybride-assurance-batterie.html": {
+      "section": "vtc",
+      "hook": "Batterie, recharge, valeur du véhicule : le VTC électrique demande des garanties précises.",
+      "question": "Votre contrat VTC couvre-t-il vraiment votre véhicule électrique ou hybride ?"
+    },
+    "degat-des-eaux-location-qui-paie.html": {
+      "section": "habitat",
+      "hook": "Fuite, voisin, syndic : un dégât des eaux révèle vite les trous de garantie.",
+      "question": "Votre assurance habitation est-elle à jour avec votre logement ?"
+    },
+    "rachat-credit-conso-immo-etude.html": {
+      "section": "finance",
+      "hook": "Mensualité trop lourde ou crédits qui se cumulent : une étude peut clarifier le vrai coût.",
+      "question": "Souhaitez-vous vérifier si un rachat de crédit est pertinent ?",
+      "questionnaireLabel": "Questionnaire rachat crédit"
+    },
+    "rc-pro-consultant-independant-plafonds.html": {
+      "section": "pro",
+      "hook": "Un plafond trop bas ou une exclusion métier peut annuler l'intérêt de votre RC Pro.",
+      "question": "Votre RC Pro correspond-elle vraiment à vos missions client ?"
+    },
+    "prevoyance-tns-maintien-revenus-arret.html": {
+      "section": "prevoyance",
+      "hook": "Indépendant, un arrêt long peut couper vos revenus avant vos charges.",
+      "question": "Combien de temps pouvez-vous tenir sans maintien de revenus ?",
+      "questionnaireLabel": "Questionnaire prévoyance TNS"
+    },
+    "assurance-chat-senior-soins-remboursement.html": {
+      "section": "animaux",
+      "species": "chat",
+      "hook": "Chat senior : reins, dents, bilans et hospitalisation peuvent vite dépasser le budget.",
+      "question": "Avez-vous pensé à assurer votre chat senior avant les gros soins ?",
+      "primaryLabel": "Devis assurance chat"
     }
   }
 }

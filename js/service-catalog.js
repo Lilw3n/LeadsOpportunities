@@ -109,6 +109,20 @@
       vertical: "assurance_animaux",
       landing: "./landings/animaux.html",
     },
+    chien: {
+      need: "animaux",
+      label: "Assurance chien",
+      category: "animaux",
+      vertical: "assurance_animaux",
+      landing: "./landings/animaux.html?species=chien",
+    },
+    chat: {
+      need: "animaux",
+      label: "Assurance chat",
+      category: "animaux",
+      vertical: "assurance_animaux",
+      landing: "./landings/animaux.html?species=chat",
+    },
     chasse: { need: "chasse", label: "Assurance chasse", category: "niches", vertical: "assurance_chasse" },
     equitation: { need: "equitation", label: "Assurance equitation", category: "niches", vertical: "assurance_equitation" },
     instrument: { need: "instrument", label: "Assurance instrument musique", category: "niches", vertical: "assurance_instrument" },
@@ -132,12 +146,16 @@
   /** Parcours rapide dedie (sinon devis-express generique). */
   var RAPIDE_LANDINGS = {
     animaux: "./landings/animaux-express.html",
+    chien: "./landings/animaux-express.html?species=chien",
+    chat: "./landings/animaux-express.html?species=chat",
     vtc: "./landings/devis-rapide.html",
   };
 
   /** Parcours complet dedie (sinon questionnaire universel). */
   var COMPLET_LANDINGS = {
     animaux: "./landings/animaux.html",
+    chien: "./landings/animaux.html?species=chien",
+    chat: "./landings/animaux.html?species=chat",
     vtc: "./landings/vtc.html",
     sante: "./landings/sante.html",
     immo: "./landings/credit-immo.html",
