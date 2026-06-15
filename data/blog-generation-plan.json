@@ -1,0 +1,160 @@
+{
+  "updated": "2026-06-15",
+  "cadence": {
+    "articlesPerRun": 1,
+    "recommendedSchedule": "0 7 * * 1,4",
+    "goal": "Publier regulierement des articles SEO avec pont vers questionnaire, landing et devis express."
+  },
+  "topics": [
+    {
+      "id": "mutuelle-senior-reste-a-charge-2026",
+      "priority": 10,
+      "section": "sante",
+      "tag": "Senior",
+      "tagClass": "tag-sante",
+      "slug": "mutuelle-senior-reste-a-charge-2026",
+      "title": "Mutuelle senior 2026 : reduire le reste a charge sans surpayer",
+      "description": "Mutuelle senior : hospitalisation, optique, dentaire et audiologie. Comment comparer les garanties utiles et demander un devis adapte.",
+      "cardExcerpt": "Senior : les garanties utiles avant de comparer.",
+      "ctaHref": "../landings/questionnaire.html?need=sante&journey=standard",
+      "ctaLabel": "Questionnaire mutuelle senior",
+      "audience": "Retraites, futurs retraites et proches aidants qui veulent proteger le budget sante",
+      "problem": "Les cotisations augmentent avec l'age alors que les postes hospitalisation, optique, dentaire et audiologie creent le plus de reste a charge.",
+      "budget": "Un contrat senior coherent arbitre entre hospitalisation solide, forfaits optique/dentaire realistes et options confort vraiment utilisees.",
+      "keywords": ["mutuelle senior", "reste a charge", "hospitalisation senior", "optique dentaire", "audiologie", "devis mutuelle"],
+      "guarantees": ["Hospitalisation et depassements d'honoraires", "Chambre particuliere et forfait journalier", "Optique, dentaire et audiologie", "Tiers payant et reseau de soins", "Delais de carence et exclusions"],
+      "checklist": ["Lister les depenses sante des 12 derniers mois", "Verifier les forfaits lunettes, protheses et aides auditives", "Comparer le prix annuel hors promotion", "Eviter les options inutilisees", "Faire valider le tableau de garanties avant resiliation"],
+      "mistakes": ["Choisir le contrat le moins cher sans regarder l'hospitalisation", "Multiplier les options confort peu utilisees", "Resilier avant la prise d'effet du nouveau contrat", "Comparer deux offres avec des niveaux BRSS differents"],
+      "related": [
+        { "href": "./mutuelle-sante-5-criteres.html", "label": "5 criteres mutuelle" },
+        { "href": "./mutuelle-sante-hospitalisation-2026.html", "label": "Hospitalisation 2026" },
+        { "href": "../assurance-sante/", "label": "Guide mutuelle sante" }
+      ]
+    },
+    {
+      "id": "assurance-habitation-resiliation-loi-hamon",
+      "priority": 20,
+      "section": "habitat",
+      "tag": "Resiliation",
+      "tagClass": "tag-habitation",
+      "slug": "assurance-habitation-resiliation-loi-hamon",
+      "title": "Resilier son assurance habitation : loi Hamon, echeance et nouveau devis",
+      "description": "Changer d'assurance habitation sans rupture de garantie : loi Hamon, echeance annuelle, documents et comparatif.",
+      "cardExcerpt": "Changer d'habitation sans trou de garantie.",
+      "ctaHref": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "ctaLabel": "Questionnaire habitation",
+      "audience": "Locataires, proprietaires occupants et bailleurs qui veulent changer de contrat",
+      "problem": "Beaucoup de foyers paient un contrat ancien, mal calibre ou trop cher, mais repoussent le changement par peur des demarches.",
+      "budget": "La bonne economie vient d'un comparatif a garanties equivalentes : capital mobilier, franchise, vol, degats des eaux, assistance.",
+      "keywords": ["resiliation assurance habitation", "loi Hamon", "devis habitation", "multirisque habitation", "franchise habitation", "capital mobilier"],
+      "guarantees": ["Capital mobilier declare", "Vol, vandalisme et bris de glace", "Degats des eaux et catastrophe naturelle", "Responsabilite civile vie privee", "Assistance urgence logement"],
+      "checklist": ["Recuperer l'avis d'echeance", "Verifier la date de souscription", "Demander un devis avant resiliation", "Controler l'adresse, la surface et les dependances", "Conserver l'attestation du nouveau contrat"],
+      "mistakes": ["Resilier sans nouveau contrat actif", "Sous-declarer la valeur mobilier", "Oublier cave, garage ou colocation", "Comparer uniquement la cotisation mensuelle"],
+      "related": [
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Guide habitation" },
+        { "href": "./assurance-habitation-sous-assurance-sinistre.html", "label": "Sous-assurance" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" }
+      ]
+    },
+    {
+      "id": "assurance-vtc-sinistre-responsable",
+      "priority": 30,
+      "section": "vtc",
+      "tag": "Sinistre VTC",
+      "tagClass": "tag-vtc",
+      "slug": "assurance-vtc-sinistre-responsable",
+      "title": "Sinistre responsable en VTC : impact sur prime, franchise et activite",
+      "description": "Accident responsable VTC : franchise, bonus-malus, RC pro et solutions pour continuer l'activite avec un contrat adapte.",
+      "cardExcerpt": "Accident VTC : anticiper franchise et reprise.",
+      "ctaHref": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "ctaLabel": "Questionnaire VTC apres sinistre",
+      "audience": "Chauffeurs VTC actifs sur Uber, Bolt, Heetch ou clientele privee",
+      "problem": "Un sinistre responsable peut augmenter la prime, bloquer le renouvellement et immobiliser le vehicule si les garanties sont faibles.",
+      "budget": "Le vrai cout inclut franchise, perte d'exploitation, vehicule de remplacement et surprime au renouvellement.",
+      "keywords": ["sinistre vtc", "assurance vtc", "franchise vtc", "bonus malus", "rc pro vtc", "devis vtc"],
+      "guarantees": ["Dommages tous accidents", "RC pro transport de personnes", "Protection conducteur", "Vehicule de remplacement", "Assistance zero kilometre"],
+      "checklist": ["Declarer le sinistre dans les delais", "Conserver constat, photos et rapport plateforme", "Verifier franchise et immobilisation", "Demander un relevé d'information a jour", "Comparer avant le renouvellement"],
+      "mistakes": ["Continuer les courses sans vehicule conforme", "Oublier la RC pro passagers", "Sous-estimer la perte d'exploitation", "Attendre l'echeance pour chercher une solution"],
+      "related": [
+        { "href": "./assurance-vtc-franchise-garanties-2026.html", "label": "Franchise VTC" },
+        { "href": "./assurance-vtc-uber-bolt-heetch.html", "label": "Contrat plateformes" },
+        { "href": "../assurance-vtc/", "label": "Guide assurance VTC" }
+      ]
+    },
+    {
+      "id": "assurance-emprunteur-fumeur-surprime",
+      "priority": 40,
+      "section": "habitat",
+      "tag": "Emprunteur",
+      "tagClass": "tag-habitation",
+      "slug": "assurance-emprunteur-fumeur-surprime",
+      "title": "Assurance emprunteur fumeur : surprime, questionnaire et economies possibles",
+      "description": "Profil fumeur et pret immobilier : comprendre la surprime, comparer les garanties et utiliser la loi Lemoine quand c'est possible.",
+      "cardExcerpt": "Fumeur : reduire le cout de l'assurance de pret.",
+      "ctaHref": "../landings/questionnaire.html?need=emprunteur&journey=standard",
+      "ctaLabel": "Questionnaire emprunteur",
+      "audience": "Emprunteurs fumeurs, anciens fumeurs ou couples avec quotites differentes",
+      "problem": "Le statut fumeur peut augmenter fortement le cout de l'assurance emprunteur et masquer une economie possible en delegation.",
+      "budget": "Comparer banque et delegation sur la meme quotite permet souvent de reduire la mensualite sans baisser les garanties.",
+      "keywords": ["assurance emprunteur fumeur", "surprime fumeur", "questionnaire medical", "loi Lemoine", "delegation assurance", "pret immobilier"],
+      "guarantees": ["Deces et PTIA", "ITT, IPT et IPP", "Quotite par emprunteur", "Franchise arret de travail", "Equivalence de garanties banque"],
+      "checklist": ["Declarer honnetement le statut tabac", "Verifier la definition ancien fumeur", "Comparer les quotites 50/50, 70/30 ou 100/100", "Controler l'equivalence bancaire", "Revoir le contrat apres arret durable du tabac"],
+      "mistakes": ["Minimiser le tabac dans le questionnaire", "Comparer uniquement le taux bancaire", "Oublier l'impact de la quotite", "Ne pas tester la delegation externe"],
+      "related": [
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Loi Lemoine" },
+        { "href": "./assurance-emprunteur-combien-economiser-lemoine.html", "label": "Economies Lemoine" },
+        { "href": "../credit-immo/", "label": "Credit immobilier" }
+      ]
+    },
+    {
+      "id": "prevoyance-tns-maintien-revenus",
+      "priority": 50,
+      "section": "prevoyance",
+      "tag": "TNS",
+      "tagClass": "tag-prevoyance",
+      "slug": "prevoyance-tns-maintien-revenus",
+      "title": "Prevoyance TNS : maintenir ses revenus en cas d'arret de travail",
+      "description": "Independant, artisan, consultant : comment calibrer indemnites journalieres, invalidite et capital deces.",
+      "cardExcerpt": "TNS : proteger le revenu avant le coup dur.",
+      "ctaHref": "../landings/questionnaire.html?need=prevoyance&journey=standard",
+      "ctaLabel": "Questionnaire prevoyance TNS",
+      "audience": "Independants, dirigeants, artisans et freelances sans maintien de salaire employeur",
+      "problem": "Un arret de travail de plusieurs semaines peut fragiliser la tresorerie personnelle et professionnelle d'un TNS.",
+      "budget": "Une bonne prevoyance cale la franchise, le montant d'indemnite et l'invalidite sur le revenu reel, pas sur une formule standard.",
+      "keywords": ["prevoyance TNS", "maintien revenus", "indemnite journaliere", "invalidite", "capital deces", "independant"],
+      "guarantees": ["Indemnites journalieres", "Invalidite partielle et totale", "Capital deces", "Rente education", "Exoneration de cotisation"],
+      "checklist": ["Calculer charges fixes perso et pro", "Choisir une franchise compatible avec la tresorerie", "Verifier la definition de l'invalidite", "Declarer le revenu de reference", "Comparer avec la couverture obligatoire existante"],
+      "mistakes": ["Souscrire une indemnite trop faible", "Confondre mutuelle et prevoyance", "Oublier les delais de carence", "Ne pas mettre a jour le contrat apres hausse de revenu"],
+      "related": [
+        { "href": "./prevoyance-independants-guide.html", "label": "Guide prevoyance independants" },
+        { "href": "./assurance-deces-obseques-prevoyance.html", "label": "Deces et obseques" },
+        { "href": "../assurance-prevoyance/", "label": "Assurance prevoyance" }
+      ]
+    },
+    {
+      "id": "assurance-chien-senior-budget-veto",
+      "priority": 60,
+      "section": "animaux",
+      "tag": "Chien senior",
+      "tagClass": "tag-animaux",
+      "slug": "assurance-chien-senior-budget-veto",
+      "title": "Assurance chien senior : budget veto, exclusions et bon moment pour comparer",
+      "description": "Chien age : frais veterinaires, plafond annuel, carences et exclusions. Comment comparer une assurance chien senior.",
+      "cardExcerpt": "Chien senior : comparer avant les exclusions.",
+      "ctaHref": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "ctaLabel": "Questionnaire assurance chien",
+      "audience": "Proprietaires de chiens de plus de 7 ans ou avec premiers frais veterinaires recurrents",
+      "problem": "Avec l'age, les consultations, analyses et chirurgies deviennent plus frequentes, mais les assureurs appliquent parfois des limites d'adhesion.",
+      "budget": "L'objectif est de choisir un plafond annuel suffisant sans payer des options prevention qui ne changent pas le risque principal.",
+      "keywords": ["assurance chien senior", "frais veterinaires", "plafond annuel", "delai de carence", "remboursement chien", "devis animaux"],
+      "guarantees": ["Consultations et analyses", "Chirurgie et imagerie", "Hospitalisation veterinaire", "Franchise annuelle", "Exclusions maladies anterieures"],
+      "checklist": ["Verifier l'age limite d'adhesion", "Comparer plafond annuel et taux de remboursement", "Relire les exclusions race/pathologie", "Chiffrer les frais veto des 12 derniers mois", "Demander un devis avant diagnostic lourd"],
+      "mistakes": ["Attendre une maladie declaree pour souscrire", "Choisir un plafond trop bas", "Ignorer les carences", "Confondre prevention et remboursement maladie"],
+      "related": [
+        { "href": "./assurance-chien-frais-veterinaires.html", "label": "Frais veterinaires chien" },
+        { "href": "./assurance-animaux-comment-choisir.html", "label": "Choisir assurance animaux" },
+        { "href": "../assurance-animaux/chien/", "label": "Assurance chien" }
+      ]
+    }
+  ]
+}

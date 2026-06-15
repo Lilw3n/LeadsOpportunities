@@ -1275,9 +1275,16 @@ function collectSitemapUrls(cities, departments, regions, base) {
     urls.push({ loc: base + "/france/departement/" + d.slug + "/", priority: "0.75", changefreq: "monthly" });
   });
 
-  return urls.map(function (u) {
-    return Object.assign({ lastmod: today }, u);
-  });
+  const seen = {};
+  return urls
+    .filter(function (u) {
+      if (seen[u.loc]) return false;
+      seen[u.loc] = true;
+      return true;
+    })
+    .map(function (u) {
+      return Object.assign({ lastmod: today }, u);
+    });
 }
 
 function writeSitemap(urls, outFile) {

@@ -914,7 +914,7 @@ const mainUrls = allUrls
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));
 writeSitemap(franceUrls, path.join(ROOT, "sitemap-france.xml"));
-writeSitemapIndex(["sitemap-main.xml", "sitemap-geo.xml", "sitemap-france.xml"], path.join(ROOT, "sitemap.xml"), BASE);
+writeSitemapIndex(["sitemap-main.xml", "sitemap-geo.xml", "sitemap-france.xml", "sitemap-blog.xml"], path.join(ROOT, "sitemap.xml"), BASE);
 
 fs.writeFileSync(
   path.join(ROOT, "seo/generated-sitemap-fragment.xml"),

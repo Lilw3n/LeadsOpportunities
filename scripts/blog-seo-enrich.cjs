@@ -157,7 +157,7 @@ function enrichArticle(article, override) {
     keywords: keywords,
     blocks: blocks,
     faq: faq,
-    meta: (override && override.meta) || estimateMeta(blocks, faq),
+    meta: (override && override.meta) || (article.generated && article.meta) || estimateMeta(blocks, faq),
     description:
       (override && override.description) ||
       article.description +

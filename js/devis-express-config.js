@@ -203,6 +203,35 @@
           input("decennaleCa", "CA travaux (EUR)", "text", "Ex. 200000", true)
       );
     },
+    deces: function () {
+      return (
+        fieldRow(
+          select("decesGoal", "Objectif", [
+            { v: "capital", t: "Capital deces" },
+            { v: "obseques", t: "Frais d obseques" },
+            { v: "both", t: "Capital + obsèques" },
+            { v: "pret", t: "Couvrir un pret" },
+          ]) +
+            select("decesContractType", "Type de contrat", [
+              { v: "capital", t: "En capital" },
+              { v: "prestations", t: "En prestations funeraires" },
+              { v: "ns", t: "A definir" },
+            ])
+        ) +
+        fieldRow(
+          input("decesCapital", "Capital ou budget (EUR)", "text", "Ex. 8000", true) +
+            input("decesInsuredAge", "Age de l assure", "number", "Ex. 55", true)
+        ) +
+        fieldRow(
+          select("decesCeremony", "Formule funeraire", [
+            { v: "inhumation", t: "Inhumation" },
+            { v: "cremation", t: "Cremation" },
+            { v: "undecided", t: "Pas encore decide" },
+          ], false) +
+            input("decesBeneficiary", "Beneficiaire", "text", "Conjoint, enfants…", false)
+        )
+      );
+    },
     collective: function () {
       return (
         fieldRow(

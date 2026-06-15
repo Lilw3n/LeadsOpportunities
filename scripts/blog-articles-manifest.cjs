@@ -962,4 +962,20 @@ module.exports = {
 };
 
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
+const generatedArticles = require("./blog-generated-articles.cjs");
+
+function addGeneratedArticles(articles) {
+  var byFile = {};
+  articles.forEach(function (article) {
+    byFile[article.file] = true;
+  });
+  generatedArticles.forEach(function (article) {
+    if (!byFile[article.file]) {
+      articles.push(article);
+      byFile[article.file] = true;
+    }
+  });
+}
+
 applyUpgrades(module.exports.articles);
+addGeneratedArticles(module.exports.articles);
