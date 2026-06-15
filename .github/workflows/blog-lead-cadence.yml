@@ -1,0 +1,44 @@
+name: Blog lead cadence
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-scheduled-articles:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build scheduled blog articles
+        run: |
+          export BLOG_BUILD_DATE="$(date -u +%F)"
+          npm run blog:lead-calendar
+          npm run blog:build
+
+      - name: Commit generated blog files
+        run: |
+          if [ -z "$(git status --porcelain blog data/blog-questionnaire-admin.json sitemap-main.xml)" ]; then
+            echo "No scheduled blog changes to publish."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog data/blog-questionnaire-admin.json sitemap-main.xml
+          git commit -m "Publish scheduled lead-generation articles"
+          git push

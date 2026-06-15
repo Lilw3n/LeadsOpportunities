@@ -5,9 +5,11 @@ const { enrichArticle } = require("./blog-seo-enrich.cjs");
 const { getOverride } = require("./blog-content-deep.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const { resolveBridge, renderBridgeHtml } = require("./blog-questionnaire-bridge.cjs");
+const { readBuildDate, getPublishedArticles, getFutureArticles, articleDate } = require("./blog-article-schedule.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
 const force = process.argv.includes("--force");
+const buildDate = readBuildDate();
 
 function esc(s) {
   return String(s)
@@ -69,8 +71,8 @@ function renderJsonLd(a, canonical) {
       author: { "@type": "Organization", name: "Leads Opportunities" },
       publisher: { "@type": "Organization", name: "Leads Opportunities" },
       mainEntityOfPage: canonical,
-      datePublished: "2026-05-01",
-      dateModified: "2026-05-28",
+      datePublished: articleDate(a, "2026-05-01"),
+      dateModified: articleDate(a, "2026-05-28"),
     },
   ];
   if (faq.length) {
@@ -151,8 +153,9 @@ function renderArticle(a) {
 
 var created = 0;
 var skipped = 0;
+var future = getFutureArticles(manifest, buildDate);
 
-manifest.articles.forEach(function (raw) {
+getPublishedArticles(manifest, buildDate).forEach(function (raw) {
   if (raw.skipGenerate) {
     skipped++;
     return;
@@ -174,4 +177,4 @@ manifest.articles.forEach(function (raw) {
   console.log("written:", raw.file, "—", a.blocks.length, "blocs,", (a.faq || []).length, "FAQ");
 });
 
-console.log("Done — created:", created, "skipped:", skipped);
+console.log("Done — created:", created, "skipped:", skipped, "scheduled:", future.length, "buildDate:", buildDate);

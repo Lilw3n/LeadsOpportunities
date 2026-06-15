@@ -2,15 +2,17 @@ const fs = require("fs");
 const path = require("path");
 const manifest = require("./blog-articles-manifest.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
+const { readBuildDate, getPublishedArticles, rssDate } = require("./blog-article-schedule.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
-var today = new Date().toISOString().slice(0, 10);
+var buildDate = readBuildDate();
 
 function escapeXml(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-var items = manifest.articles
+var publishedArticles = getPublishedArticles(manifest, buildDate);
+var items = publishedArticles
   .filter(function (a) {
     return fs.existsSync(path.join(blogDir, a.file));
   })
@@ -27,7 +29,7 @@ var items = manifest.articles
       "/blog/" +
       a.file +
       "</guid>\n    <pubDate>" +
-      today +
+      rssDate(a, "2026-05-29") +
       "</pubDate>\n  </item>"
     );
   })
@@ -46,4 +48,4 @@ var xml =
   "\n</channel></rss>";
 
 fs.writeFileSync(path.join(blogDir, "feed.xml"), xml);
-console.log("blog/feed.xml —", manifest.articles.length, "articles");
+console.log("blog/feed.xml —", publishedArticles.length, "articles", "buildDate:", buildDate);
