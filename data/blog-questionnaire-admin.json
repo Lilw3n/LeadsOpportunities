@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-05",
+  "updated": "2026-06-15",
   "sections": [
     "actu",
     "animaux",
@@ -10,7 +10,6 @@
     "prevoyance",
     "pro",
     "sante",
-    "collective",
     "vtc"
   ],
   "rows": [
@@ -340,6 +339,19 @@
       "species": null
     },
     {
+      "file": "chien-guide-thorus-montpellier-assurance-compagnie.html",
+      "title": "Chien guide Thorus a Montpellier : isolement, mobilite et assurance chien",
+      "section": "animaux",
+      "hook": "Comme Thorus pour Richard Lardé, un chien change la vie — mais les frais véto, eux, ne disparaissent pas.",
+      "question": "Votre chien est-il protégé si une urgence arrive demain ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html?species=chien",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "puces-chat",
+      "species": "chien"
+    },
+    {
       "file": "chat-puces-tiques-assurance-remboursement.html",
       "title": "Puces et tiques chez le chat : soins, prévention et assurance",
       "section": "animaux",
@@ -587,6 +599,97 @@
       "species": null
     },
     {
+      "file": "mutuelle-senior-audition-optique-dentaire-2026.html",
+      "title": "Mutuelle senior 2026 : audition, optique, dentaire et hospitalisation",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "assurance-habitation-orage-grele-ete-2026.html",
+      "title": "Orages, grele et degats des eaux : assurance habitation ete 2026",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-auto-vacances-location-conducteur-secondaire.html",
+      "title": "Vacances en voiture : location, conducteur secondaire et assurance auto",
+      "section": "auto",
+      "hook": "Bonus-malus, tiers ou tous risques : le mauvais choix se paie au sinistre.",
+      "question": "Et si vous compariez votre assurance auto à garanties équivalentes ?",
+      "need": "auto",
+      "landing": "../landings/devis.html?need=auto",
+      "express": "../landings/devis-express.html?need=auto",
+      "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
+      "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "rc-pro-auto-entrepreneur-premier-client.html",
+      "title": "Auto-entrepreneur : RC Pro avant le premier client ?",
+      "section": "pro",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "assurance-emprunteur-changer-apres-signature-credit.html",
+      "title": "Assurance emprunteur : changer apres signature du credit immobilier",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "assurance-chien-ete-canicule-urgence-veterinaire.html",
+      "title": "Chien en ete : canicule, epillets, urgence veto et assurance",
+      "section": "animaux",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "vtc-ete-aeroports-gares-assurance-chauffeur.html",
+      "title": "VTC ete : aeroports, gares, bagages et assurance chauffeur",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
       "file": "questionnaire-mutuelle-quel-niveau-choisir.html",
       "title": "Quel niveau de mutuelle choisir ? Le questionnaire qui tranche en 3 minutes",
       "section": "sante",
@@ -636,45 +739,6 @@
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard",
       "matchedRule": "emprunteur",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-obligations-employeur-ani.html",
-      "title": "Mutuelle collective obligatoire : ANI, employeur et panier de soins en 2026",
-      "section": "collective",
-      "hook": "Obligations ANI comprises : obtenez un devis chiffre pour votre entreprise.",
-      "question": "Combien couterait une mutuelle collective conforme pour votre entreprise ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-pme-tpe-budget-2026.html",
-      "title": "Mutuelle collective PME et TPE : comment budgétiser et choisir en 2026",
-      "section": "collective",
-      "hook": "Indiquez effectif et budget cible : nous preparons des propositions chiffrees.",
-      "question": "Quel budget mutuelle pour couvrir correctement votre equipe ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
-      "species": null
-    },
-    {
-      "file": "mutuelle-collective-mise-en-place-due-portabilite.html",
-      "title": "Mutuelle collective : mise en place, DUE, adhesion salarie et portabilite",
-      "section": "collective",
-      "hook": "De la DUE a la portabilite : commencez par un devis structure pour votre effectif.",
-      "question": "Besoin d'un devis et d'un plan de mise en place pour votre equipe ?",
-      "need": "collective",
-      "landing": "../landings/sante-collective.html",
-      "express": "../landings/devis-express.html?need=collective",
-      "questionnaire": "../landings/questionnaire.html?need=collective&journey=standard",
-      "matchedRule": "collective",
       "species": null
     }
   ]

@@ -610,6 +610,96 @@ module.exports = {
     },
     /* —— Animaux (contenu enrichi auto + manuel) —— */
     {
+      file: "chien-guide-thorus-montpellier-assurance-compagnie.html",
+      section: "animaux",
+      tag: "Actu chien",
+      tagClass: "tag-animaux",
+      title: "Chien guide Thorus a Montpellier : isolement, mobilite et assurance chien",
+      description:
+        "Midi Libre : Richard Lardé et son labrador Thorus (chiens guides ACGGSO). Chien guide vs chien de compagnie : frais veterinaires, RC et mutuelle chien.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Thorus, chien guide : ce que ca change aussi pour les proprietaires.",
+      keywords: [
+        "chien guide",
+        "assurance chien",
+        "labrador assurance",
+        "chiens guides grand sud ouest",
+        "surdicecite chien guide",
+        "assurance animaux Montpellier",
+        "frais veterinaires chien",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/animaux.html?species=chien", label: "Devis assurance chien" },
+      blocks: [
+        {
+          type: "p",
+          text: "Dans <em>Midi Libre</em> (15 juin 2026), <strong>Richard Lardé</strong>, Montpellierain atteint de <strong>surdicecite</strong>, raconte sa vie avant Thorus : « <em>Avant d'avoir un chien guide, je ne sortais pas, j'etais seul, je m'isolais</em> ». Depuis six mois, le <strong>labrador noir Thorus</strong>, forme par l'<strong>Association chiens guides du grand sud-ouest (ACGGSO)</strong>, l'accompagne au quotidien. L'histoire fait le buzz — et rappelle a quel point un chien peut transformer un foyer, y compris quand il s'agit d'un simple chien de compagnie.",
+        },
+        { type: "h2", text: "Chien guide ou chien de compagnie : deux statuts, des besoins communs" },
+        {
+          type: "p",
+          text: "Un <strong>chien guide</strong> est confie par une association agreee : sa formation, son materiel et une partie de ses soins sont pris en charge dans le cadre du duo handicape-chien. Pour un <strong>chien de compagnie</strong> (labrador, berger, croise…), c'est vous qui financez alimentation, veterinaire, education et eventuellement une <strong>assurance animaux</strong>. Dans les deux cas, le chien sort, rencontre du monde, et expose son maitre a des <strong>responsabilites civiles</strong> (accident en laisse, degat cause a un tiers).",
+        },
+        {
+          type: "ul",
+          items: [
+            "<strong>Chien guide</strong> : parcours ACGGSO ou equivalent, reconnaissance handicap, regles d'acces lieux publics",
+            "<strong>Chien de compagnie</strong> : identification obligatoire (puce), vaccins, budget mensuel 80 a 150 EUR hors assurance",
+            "<strong>Point commun</strong> : urgences veterinaires, prevention (puces, tiques), usure du materiel (laisse, harnais)",
+          ],
+        },
+        { type: "h2", text: "L'isolement : pourquoi tant de Francais adoptent un chien" },
+        {
+          type: "p",
+          text: "Le temoignage de Richard Lardé resonne au-dela du handicap : beaucoup de proprietaires disent qu'un chien les pousse a <strong>sortir</strong>, a <strong>socialiser</strong> en promenade, a structurer leur journee. C'est un benefice psychologique reel — mais aussi un engagement financier sur 10 a 15 ans. Un labrador comme Thorus peut vivre 12 ans ; sur la duree, les <strong>frais veterinaires</strong> (sterilisation, arthrose, urgence) se chiffrent souvent en milliers d'euros sans couverture.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Assurer un labrador : ordres de grandeur 2026" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Consultation</strong> : 45 a 70 EUR",
+            "<strong>Radio / echographie</strong> : 90 a 220 EUR",
+            "<strong>Chirurgie (ligaments, torsion)</strong> : 800 a 2 500 EUR+",
+            "<strong>Assurance chien</strong> : souvent 20 a 45 EUR / mois selon age, race et plafond",
+          ],
+        },
+        {
+          type: "p",
+          text: "Les formules <strong>prevention + chirurgie</strong> (Santevet, Bulle Bleue, Kozoo ou reseau courtage) lissent le budget. Pour un jeune chien comme Thorus, souscrire tot limite les exclusions sur pathologies futures. Verifiez le <strong>delai de carence</strong> (souvent 45 jours) et le plafond annuel.",
+        },
+        { type: "h2", text: "Montpellier et Occitanie : comparer son contrat" },
+        {
+          type: "p",
+          text: "Que vous soyez a <strong>Montpellier</strong>, Beziers, Nimes ou en rural heraultais, les tarifs veterinaires et les assureurs sont nationaux : l'enjeu est le <strong>niveau de garanties</strong>, pas seulement le prix. Notre parcours <a href=\"../landings/animaux.html?species=chien\">assurance chien</a> ou le <a href=\"../landings/questionnaire.html?need=animaux&amp;journey=standard\">questionnaire animaux</a> structure votre demande (race, age, puce, budget) pour un rappel conseiller ORIAS.",
+        },
+      ],
+      faq: [
+        {
+          q: "Un chien guide est-il assure par l'association ?",
+          a: "L'ACGGSO et les associations agreees prennent en charge la formation et le suivi du duo. Les soins courants du chien guide sont encadres ; le proprietaire d'un chien de compagnie, lui, doit souscrire sa propre assurance animaux.",
+        },
+        {
+          q: "Un labrador coute-t-il plus cher a assurer ?",
+          a: "Les races de grande taille et les chiens actifs peuvent etre un peu plus chers (risque orthopedique). Comparez plafond et franchise a garanties equivalentes.",
+        },
+        {
+          q: "La RC habitation couvre-t-elle mon chien ?",
+          a: "La responsabilite civile vie privee de l'assurance habitation couvre souvent les dommages causes par l'animal, mais pas les frais veterinaires. Une mutuelle chien reste necessaire pour les soins.",
+        },
+        {
+          q: "Quand souscrire apres l'adoption ?",
+          a: "Idealement dans les premiers mois, avant tout gros sinistre sante. Plus le chien vieillit, plus les exclusions et la prime augmentent.",
+        },
+      ],
+      related: [
+        { href: "../assurance-animaux/chien/", label: "Assurance chien" },
+        { href: "./assurance-chien-frais-veterinaires.html", label: "Frais veterinaires chien" },
+        { href: "./assurance-chiot-chaton-quand-assurer.html", label: "Assurer un chiot" },
+        { href: "../landings/animaux.html?species=chien", label: "Comparatif assurance chien" },
+      ],
+    },
+    {
       file: "chat-puces-tiques-assurance-remboursement.html",
       section: "animaux",
       tag: "Santé chat",
@@ -957,6 +1047,457 @@ module.exports = {
         { type: "p", text: "En <strong>independant</strong> ou <strong>TNS</strong>, la Securite sociale ne suffit pas. La <strong>prevoyance</strong> comble l'ecart en cas d'arret, d'invalidite ou de deces." },
       ],
       related: [{ href: "../assurance-prevoyance/", label: "Assurance prevoyance" }],
+    },
+    /* —— Serie reguliere leads — Juin / Juillet 2026 —— */
+    {
+      file: "mutuelle-senior-audition-optique-dentaire-2026.html",
+      section: "sante",
+      tag: "Senior",
+      tagClass: "tag-sante",
+      title: "Mutuelle senior 2026 : audition, optique, dentaire et hospitalisation",
+      description: "Mutuelle senior : comparer audition, lunettes, implants dentaires et hospitalisation sans se limiter au prix mensuel.",
+      meta: "9 min · Juin 2026",
+      cardExcerpt: "Senior : les 4 postes qui creusent le reste a charge.",
+      keywords: [
+        "mutuelle senior",
+        "remboursement audition",
+        "optique senior",
+        "dentaire implant",
+        "hospitalisation senior",
+        "devis mutuelle senior",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=sante&journey=standard", label: "Questionnaire mutuelle senior" },
+      blocks: [
+        {
+          type: "p",
+          text: "Apres 55 ans, une <strong>mutuelle senior</strong> se juge rarement sur le prix seul. Les ecarts se font sur l'audition, l'optique, le dentaire et l'hospitalisation : quatre postes ou un petit contrat peut laisser plusieurs centaines d'euros de reste a charge.",
+        },
+        { type: "h2", text: "Audition : regarder le forfait reel" },
+        {
+          type: "p",
+          text: "Le 100 % Sante aide, mais tous les appareils et accessoires ne sont pas couverts de la meme facon. Comparez le forfait par oreille, la prise en charge des piles, les renouvellements et les reseaux partenaires.",
+        },
+        { type: "h2", text: "Optique et dentaire : ne pas confondre % BRSS et euros rembourses" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Lunettes</strong> : verres progressifs, amincissement, monture hors panier 100 % Sante",
+            "<strong>Dentaire</strong> : couronne, implant, parodontologie, plafond annuel",
+            "<strong>Delais de carence</strong> : parfois appliques sur les gros soins",
+            "<strong>Renouvellement</strong> : frequence autorisee pour optique et audition",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Hospitalisation : le poste a securiser avant le sinistre" },
+        {
+          type: "p",
+          text: "Chirurgien, anesthesiste, chambre particuliere et forfait journalier peuvent depasser la cotisation annuelle economisee en choisissant trop bas. Demandez un comparatif a garanties equivalentes sur les postes qui comptent vraiment.",
+        },
+      ],
+      faq: [
+        {
+          q: "Quel niveau de mutuelle senior choisir ?",
+          a: "Le bon niveau depend de vos soins prevus, de votre budget et de vos postes sensibles. Un questionnaire detaille permet de comparer hospitalisation, optique, dentaire et audition a garanties equivalentes.",
+        },
+        {
+          q: "Faut-il changer de mutuelle avant une operation ?",
+          a: "Pas sans verifier les delais de carence. Si une intervention est deja programmee, comparez d'abord le reste a charge de votre contrat actuel et les conditions d'un nouveau contrat.",
+        },
+      ],
+      related: [
+        { href: "../assurance-sante/", label: "Mutuelle sante" },
+        { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle" },
+        { href: "./mutuelle-remboursement-optique-dentaire-2026.html", label: "Optique et dentaire" },
+      ],
+    },
+    {
+      file: "assurance-habitation-orage-grele-ete-2026.html",
+      section: "habitat",
+      tag: "Orage & grele",
+      tagClass: "tag-habitation",
+      title: "Orages, grele et degats des eaux : assurance habitation ete 2026",
+      description: "Orage, grele, toiture, cave inondee : verifier son assurance habitation avant les sinistres d'ete.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Ete : les garanties habitation a verifier avant l'orage.",
+      keywords: [
+        "assurance habitation orage",
+        "degats des eaux",
+        "grele toiture",
+        "cave inondee",
+        "catastrophe naturelle",
+        "devis habitation",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=habitation&journey=standard", label: "Questionnaire habitation" },
+      blocks: [
+        {
+          type: "p",
+          text: "Un episode d'orage violent suffit a transformer un contrat habitation « standard » en vrai sujet financier : toiture touchee par la grele, cave inondee, infiltration, mobilier abime. Avant l'ete, le bon reflexe consiste a lire les plafonds et les exclusions.",
+        },
+        { type: "h2", text: "Les garanties a relire avant la saison" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Tempete, grele, neige</strong> : toiture, velux, panneaux, dependances",
+            "<strong>Degats des eaux</strong> : infiltration, recherche de fuite, cave ou garage",
+            "<strong>Catastrophe naturelle</strong> : franchise legale et arrete officiel",
+            "<strong>Mobilier</strong> : plafond par piece, vetuste, objets de valeur",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Locataire, proprietaire occupant, bailleur : les angles changent" },
+        {
+          type: "p",
+          text: "Le locataire doit prouver son assurance risques locatifs. Le proprietaire occupant protege aussi le bati. Le bailleur a interet a verifier la PNO, surtout si le logement est vide entre deux locations ou si le locataire est sous-assure.",
+        },
+        { type: "h2", text: "Declaration : les 5 gestes utiles" },
+        {
+          type: "ul",
+          items: [
+            "Photographier les dommages avant nettoyage",
+            "Proteger sans aggraver : bache, coupure d'eau, electricite si besoin",
+            "Declarer rapidement selon le delai contractuel",
+            "Conserver factures, devis et preuves d'achat",
+            "Demander une relecture si l'indemnisation semble incoherente",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "La grele est-elle couverte par l'assurance habitation ?",
+          a: "Souvent oui via la garantie tempete, grele et neige, mais les dependances, panneaux ou elements exterieurs peuvent avoir des plafonds ou exclusions specifiques.",
+        },
+        {
+          q: "Une cave inondee est-elle toujours indemnisee ?",
+          a: "Non. Tout depend de la cause, du plafond cave/garage et des biens declares. Les exclusions sur biens stockes au sol sont frequentes.",
+        },
+      ],
+      related: [
+        { href: "../assurance-habitation/", label: "Assurance habitation" },
+        { href: "./assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / proprietaire" },
+        { href: "./pno-bailleur-proprietaire-non-occupant.html", label: "PNO bailleur" },
+      ],
+    },
+    {
+      file: "assurance-auto-vacances-location-conducteur-secondaire.html",
+      section: "auto",
+      tag: "Vacances auto",
+      tagClass: "tag-auto",
+      title: "Vacances en voiture : location, conducteur secondaire et assurance auto",
+      description: "Depart en vacances : verifier conducteur secondaire, assistance, franchise location et garanties auto avant la route.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Avant les vacances : auto, assistance et location sans surprise.",
+      keywords: [
+        "assurance auto vacances",
+        "conducteur secondaire",
+        "location voiture franchise",
+        "assistance 0 km",
+        "garantie conducteur",
+        "devis assurance auto",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=auto&journey=standard", label: "Questionnaire auto" },
+      blocks: [
+        {
+          type: "p",
+          text: "Un long trajet d'ete concentre les risques que l'on oublie le reste de l'annee : panne loin du domicile, conducteur secondaire non declare, voiture louee avec franchise elevee, bagages dans le coffre. Quelques lignes du contrat font la difference.",
+        },
+        { type: "h2", text: "Conducteur secondaire : declarer avant le depart" },
+        {
+          type: "p",
+          text: "Si un conjoint, un enfant majeur ou un ami conduit regulierement pendant les vacances, verifiez les conditions. Certains contrats appliquent une franchise majoree si le conducteur n'est pas declare ou si son permis est recent.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Location de voiture : le piege de la franchise" },
+        {
+          type: "ul",
+          items: [
+            "<strong>CDW / LDW</strong> : limitation des dommages ou du vol selon pays",
+            "<strong>Franchise</strong> : parfois 800 a 2 000 EUR bloquees sur carte",
+            "<strong>Rachat de franchise</strong> : utile si votre carte bancaire ne couvre pas",
+            "<strong>Exclusions</strong> : pneus, bas de caisse, cle, erreur de carburant",
+          ],
+        },
+        { type: "h2", text: "Assistance : 0 km, vehicule de remplacement, rapatriement" },
+        {
+          type: "p",
+          text: "L'assistance 0 km evite de payer un remorquage devant chez soi. Pour un depart long, regardez la duree du vehicule de remplacement et la prise en charge des passagers. Ce sont des options peu visibles mais tres utiles.",
+        },
+      ],
+      faq: [
+        {
+          q: "Puis-je preter ma voiture pendant les vacances ?",
+          a: "Oui si le contrat l'autorise, mais une franchise supplementaire peut s'appliquer. Pour un conducteur jeune ou regulier, mieux vaut demander un avenant avant le depart.",
+        },
+        {
+          q: "L'assurance de ma carte bancaire suffit-elle pour une location ?",
+          a: "Elle peut aider, mais les plafonds, pays couverts et exclusions varient beaucoup. Lisez les conditions avant de refuser une option du loueur.",
+        },
+      ],
+      related: [
+        { href: "../assurance-auto/", label: "Assurance auto" },
+        { href: "./assurance-auto-jeune-conducteur-2026.html", label: "Jeune conducteur" },
+        { href: "./assurance-auto-bonus-malus.html", label: "Bonus malus" },
+      ],
+    },
+    {
+      file: "rc-pro-auto-entrepreneur-premier-client.html",
+      section: "pro",
+      tag: "Auto-entrepreneur",
+      tagClass: "tag-pro",
+      title: "Auto-entrepreneur : RC Pro avant le premier client ?",
+      description: "Freelance, consultant, coach, artisan : quand souscrire une RC Pro et quelles garanties demander avant le premier contrat.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Premier client : la RC Pro qui evite les mauvaises surprises.",
+      keywords: [
+        "rc pro auto entrepreneur",
+        "assurance freelance",
+        "responsabilite civile professionnelle",
+        "premier client",
+        "devis rc pro",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=rc-pro&journey=standard", label: "Questionnaire RC Pro" },
+      blocks: [
+        {
+          type: "p",
+          text: "Beaucoup d'auto-entrepreneurs attendent le premier incident pour s'interesser a la <strong>RC Pro</strong>. Pourtant, un client peut exiger une attestation avant de signer : consultant, coach, developpeur, artisan, photographe ou formateur sont tous exposes a leur maniere.",
+        },
+        { type: "h2", text: "Obligatoire ou simplement indispensable ?" },
+        {
+          type: "p",
+          text: "Certaines activites reglementees imposent une assurance. Pour les autres, elle reste souvent contractuelle : mission chez un grand compte, marketplace, local partage, formation en presentiel. Le risque n'est pas seulement juridique, il est commercial.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Les garanties a demander dans un devis RC Pro" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Dommages corporels, materiels et immateriels</strong> causes a un client ou tiers",
+            "<strong>Protection juridique</strong> en cas de litige contractuel",
+            "<strong>Exploitation</strong> : dommage pendant l'activite quotidienne",
+            "<strong>Apres livraison</strong> : erreur detectee apres la prestation",
+            "<strong>Plafond par sinistre</strong> adapte au chiffre d'affaires vise",
+          ],
+        },
+        { type: "h2", text: "Le bon moment pour souscrire" },
+        {
+          type: "p",
+          text: "Idealement avant la premiere mission facturee, ou des la reception d'un contrat client mentionnant une obligation d'assurance. Un questionnaire metier evite de payer pour des options inutiles ou d'oublier une garantie critique.",
+        },
+      ],
+      faq: [
+        {
+          q: "La RC Pro est-elle obligatoire pour un auto-entrepreneur ?",
+          a: "Elle est obligatoire pour certaines professions, et fortement recommandee pour les autres. Un client peut aussi l'exiger contractuellement avant de demarrer la mission.",
+        },
+        {
+          q: "Combien coute une RC Pro freelance ?",
+          a: "Le prix depend du metier, du chiffre d'affaires, des plafonds et des garanties. Un comparatif a profil identique reste la methode la plus fiable.",
+        },
+      ],
+      related: [
+        { href: "../landings/devis.html?need=rc-pro", label: "Devis RC Pro" },
+        { href: "./rc-pro-freelance-artisan-guide.html", label: "Guide RC Pro freelance" },
+        { href: "../assurances/", label: "Toutes nos assurances pro" },
+      ],
+    },
+    {
+      file: "assurance-emprunteur-changer-apres-signature-credit.html",
+      section: "finance",
+      tag: "Emprunteur",
+      tagClass: "tag-immo",
+      title: "Assurance emprunteur : changer apres signature du credit immobilier",
+      description: "Loi Lemoine, equivalence de garanties, economie possible : changer d'assurance emprunteur apres la signature du pret.",
+      meta: "9 min · Juin 2026",
+      cardExcerpt: "Credit deja signe ? L'assurance emprunteur reste negociable.",
+      keywords: [
+        "assurance emprunteur changer",
+        "loi Lemoine",
+        "delegation assurance pret",
+        "equivalence garanties",
+        "credit immobilier",
+        "devis emprunteur",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=emprunteur&journey=standard", label: "Questionnaire emprunteur" },
+      blocks: [
+        {
+          type: "p",
+          text: "Signer le credit immobilier ne fige pas forcement votre assurance emprunteur. Depuis la loi Lemoine, beaucoup d'emprunteurs peuvent changer plus simplement, a condition de respecter l'equivalence de garanties exigee par la banque.",
+        },
+        { type: "h2", text: "Pourquoi regarder son contrat apres coup ?" },
+        {
+          type: "ul",
+          items: [
+            "Le contrat groupe bancaire est parfois plus cher qu'une delegation externe",
+            "Votre situation a evolue : arret du tabac, profession, sport, sante",
+            "La quotite ou les garanties peuvent etre mieux adaptees au foyer",
+            "Le cout assurance pese sur le TAEG et la mensualite globale",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Equivalence de garanties : le point qui bloque souvent" },
+        {
+          type: "p",
+          text: "La banque peut refuser un nouveau contrat si les garanties deces, PTIA, ITT, IPT ou IPP ne sont pas equivalentes. Comparer uniquement le tarif mensuel expose a des allers-retours inutiles. Le dossier doit etre prepare proprement.",
+        },
+        { type: "h2", text: "La methode en 4 etapes" },
+        {
+          type: "ul",
+          items: [
+            "Recuperer la fiche standardisee d'information et le contrat actuel",
+            "Comparer plusieurs offres avec le meme capital, duree et quotite",
+            "Verifier exclusions, franchises ITT et sports/professions",
+            "Envoyer la demande de substitution avec attestation d'equivalence",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Peut-on changer d'assurance emprunteur a tout moment ?",
+          a: "La loi Lemoine permet la resiliation infra-annuelle pour de nombreux credits immobiliers, sous reserve d'equivalence de garanties et du respect de la procedure banque.",
+        },
+        {
+          q: "Combien peut-on economiser ?",
+          a: "L'economie varie selon age, capital, duree, fumeur/non-fumeur et garanties. Sur certains dossiers, elle se chiffre en milliers d'euros sur la duree du pret.",
+        },
+      ],
+      related: [
+        { href: "../assurance-emprunteur/", label: "Assurance emprunteur" },
+        { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine 2026" },
+        { href: "./taux-credit-immobilier-2026-frais-dossier.html", label: "Taux credit 2026" },
+      ],
+    },
+    {
+      file: "assurance-chien-ete-canicule-urgence-veterinaire.html",
+      section: "animaux",
+      tag: "Ete chien",
+      tagClass: "tag-animaux",
+      title: "Chien en ete : canicule, epillets, urgence veto et assurance",
+      description: "Canicule, epillets, coussinets brules, urgence veterinaire : preparer l'assurance chien avant l'ete.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Ete : les sinistres chiens qui coutent vite cher.",
+      keywords: [
+        "assurance chien ete",
+        "urgence veterinaire chien",
+        "canicule chien",
+        "epillet chien",
+        "frais veterinaire chien",
+        "devis assurance chien",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=animaux&journey=standard", label: "Questionnaire assurance chien" },
+      blocks: [
+        {
+          type: "p",
+          text: "L'ete augmente les passages chez le veterinaire : coup de chaleur, epillet dans l'oreille, coussinets brules sur bitume, morsure ou intoxication. Pour un chien non assure, l'urgence peut vite depasser le budget mensuel prevu.",
+        },
+        { type: "h2", text: "Les risques les plus frequents en ete" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Canicule</strong> : haletement, abattement, urgence vitale",
+            "<strong>Epillets</strong> : oreille, nez, patte, parfois chirurgie",
+            "<strong>Coussinets</strong> : brulures sur trottoir ou sable chaud",
+            "<strong>Voyage</strong> : mal des transports, blessure, parasite local",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Assurance chien : ce qui peut etre rembourse" },
+        {
+          type: "p",
+          text: "Selon la formule, une assurance chien peut rembourser consultation, imagerie, chirurgie, medicaments prescrits et parfois prevention. Les actes lies a un probleme deja connu avant souscription sont souvent exclus : d'ou l'interet d'anticiper.",
+        },
+        { type: "h2", text: "Avant de partir : checklist utile" },
+        {
+          type: "ul",
+          items: [
+            "Verifier vaccins, antiparasitaires et identification",
+            "Garder le numero d'urgence veterinaire du lieu de vacances",
+            "Lire plafond annuel, franchise et delai de carence du contrat",
+            "Prevoir eau, pauses et horaires frais pour les promenades",
+          ],
+        },
+      ],
+      faq: [
+        {
+          q: "Une assurance chien rembourse-t-elle les urgences d'ete ?",
+          a: "Oui selon la formule et les conditions du contrat, notamment plafond, franchise et delai de carence. Les accidents soudains sont generalement mieux couverts que les pathologies deja connues.",
+        },
+        {
+          q: "Quand assurer son chien avant les vacances ?",
+          a: "Le plus tot possible, car les delais de carence peuvent repousser la prise d'effet des garanties maladie ou accident.",
+        },
+      ],
+      related: [
+        { href: "../assurance-animaux/chien/", label: "Assurance chien" },
+        { href: "./assurance-chien-frais-veterinaires.html", label: "Frais veterinaires chien" },
+        { href: "./chien-guide-thorus-montpellier-assurance-compagnie.html", label: "Chien guide Thorus" },
+      ],
+    },
+    {
+      file: "vtc-ete-aeroports-gares-assurance-chauffeur.html",
+      section: "vtc",
+      tag: "VTC ete",
+      tagClass: "tag-vtc",
+      title: "VTC ete : aeroports, gares, bagages et assurance chauffeur",
+      description: "Saison estivale VTC : trajets aeroport, bagages, passagers touristes, RC pro et assurance vehicule a verifier.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Ete VTC : plus de courses, plus d'exposition.",
+      keywords: [
+        "assurance vtc ete",
+        "vtc aeroport",
+        "rc pro chauffeur",
+        "bagages passagers",
+        "uber bolt heetch",
+        "devis assurance vtc",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=vtc&journey=standard", label: "Questionnaire VTC" },
+      blocks: [
+        {
+          type: "p",
+          text: "L'ete, les chauffeurs VTC enchainent aeroports, gares, hotels et trajets touristiques. Le chiffre d'affaires peut monter, mais l'exposition aussi : bagage abime, retard, accrochage, passager blesse, panne en pleine journee chargee.",
+        },
+        { type: "h2", text: "Les garanties a relire avant la haute saison" },
+        {
+          type: "ul",
+          items: [
+            "<strong>RC Pro transport de personnes</strong> : passagers et tiers",
+            "<strong>Vehicule</strong> : tous risques, franchise, bris de glace",
+            "<strong>Assistance</strong> : immobilisation, vehicule de remplacement",
+            "<strong>Protection juridique</strong> : litige client ou plateforme",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Bagages et effets personnels : clarifier les limites" },
+        {
+          type: "p",
+          text: "Un bagage raye, oublie ou abime peut creer un litige. La RC Pro ne remplace pas toujours une garantie bagages dediee. Lisez les exclusions et conservez un processus simple : photos, messages plateforme, declaration rapide si necessaire.",
+        },
+        { type: "h2", text: "Comparer sans bloquer son activite" },
+        {
+          type: "p",
+          text: "Avant de changer de contrat, verifiez la compatibilite avec Uber, Bolt ou Heetch, l'attestation demandee et la date d'effet. Une interruption d'assurance peut suspendre l'activite plus cher qu'une prime trop elevee.",
+        },
+      ],
+      faq: [
+        {
+          q: "Un VTC doit-il avoir une RC Pro specifique ?",
+          a: "Oui, l'activite de transport de personnes exige une assurance adaptee, distincte d'une assurance auto personnelle classique.",
+        },
+        {
+          q: "Peut-on changer d'assurance VTC en pleine saison ?",
+          a: "Oui si la nouvelle attestation est valable et compatible avec les plateformes avant resiliation de l'ancien contrat. Evitez toute rupture de garantie.",
+        },
+      ],
+      related: [
+        { href: "../assurance-vtc/", label: "Assurance VTC" },
+        { href: "./assurance-vtc-rc-pro-garanties.html", label: "RC Pro VTC" },
+        { href: "./assurance-vtc-uber-bolt-heetch.html", label: "Uber Bolt Heetch" },
+      ],
     },
   ],
 };
