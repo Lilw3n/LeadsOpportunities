@@ -610,6 +610,96 @@ module.exports = {
     },
     /* —— Animaux (contenu enrichi auto + manuel) —— */
     {
+      file: "chien-guide-thorus-montpellier-assurance-compagnie.html",
+      section: "animaux",
+      tag: "Actu chien",
+      tagClass: "tag-animaux",
+      title: "Chien guide Thorus a Montpellier : isolement, mobilite et assurance chien",
+      description:
+        "Midi Libre : Richard Lardé et son labrador Thorus (chiens guides ACGGSO). Chien guide vs chien de compagnie : frais veterinaires, RC et mutuelle chien.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Thorus, chien guide : ce que ca change aussi pour les proprietaires.",
+      keywords: [
+        "chien guide",
+        "assurance chien",
+        "labrador assurance",
+        "chiens guides grand sud ouest",
+        "surdicecite chien guide",
+        "assurance animaux Montpellier",
+        "frais veterinaires chien",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/animaux.html?species=chien", label: "Devis assurance chien" },
+      blocks: [
+        {
+          type: "p",
+          text: "Dans <em>Midi Libre</em> (15 juin 2026), <strong>Richard Lardé</strong>, Montpellierain atteint de <strong>surdicecite</strong>, raconte sa vie avant Thorus : « <em>Avant d'avoir un chien guide, je ne sortais pas, j'etais seul, je m'isolais</em> ». Depuis six mois, le <strong>labrador noir Thorus</strong>, forme par l'<strong>Association chiens guides du grand sud-ouest (ACGGSO)</strong>, l'accompagne au quotidien. L'histoire fait le buzz — et rappelle a quel point un chien peut transformer un foyer, y compris quand il s'agit d'un simple chien de compagnie.",
+        },
+        { type: "h2", text: "Chien guide ou chien de compagnie : deux statuts, des besoins communs" },
+        {
+          type: "p",
+          text: "Un <strong>chien guide</strong> est confie par une association agreee : sa formation, son materiel et une partie de ses soins sont pris en charge dans le cadre du duo handicape-chien. Pour un <strong>chien de compagnie</strong> (labrador, berger, croise…), c'est vous qui financez alimentation, veterinaire, education et eventuellement une <strong>assurance animaux</strong>. Dans les deux cas, le chien sort, rencontre du monde, et expose son maitre a des <strong>responsabilites civiles</strong> (accident en laisse, degat cause a un tiers).",
+        },
+        {
+          type: "ul",
+          items: [
+            "<strong>Chien guide</strong> : parcours ACGGSO ou equivalent, reconnaissance handicap, regles d'acces lieux publics",
+            "<strong>Chien de compagnie</strong> : identification obligatoire (puce), vaccins, budget mensuel 80 a 150 EUR hors assurance",
+            "<strong>Point commun</strong> : urgences veterinaires, prevention (puces, tiques), usure du materiel (laisse, harnais)",
+          ],
+        },
+        { type: "h2", text: "L'isolement : pourquoi tant de Francais adoptent un chien" },
+        {
+          type: "p",
+          text: "Le temoignage de Richard Lardé resonne au-dela du handicap : beaucoup de proprietaires disent qu'un chien les pousse a <strong>sortir</strong>, a <strong>socialiser</strong> en promenade, a structurer leur journee. C'est un benefice psychologique reel — mais aussi un engagement financier sur 10 a 15 ans. Un labrador comme Thorus peut vivre 12 ans ; sur la duree, les <strong>frais veterinaires</strong> (sterilisation, arthrose, urgence) se chiffrent souvent en milliers d'euros sans couverture.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Assurer un labrador : ordres de grandeur 2026" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Consultation</strong> : 45 a 70 EUR",
+            "<strong>Radio / echographie</strong> : 90 a 220 EUR",
+            "<strong>Chirurgie (ligaments, torsion)</strong> : 800 a 2 500 EUR+",
+            "<strong>Assurance chien</strong> : souvent 20 a 45 EUR / mois selon age, race et plafond",
+          ],
+        },
+        {
+          type: "p",
+          text: "Les formules <strong>prevention + chirurgie</strong> (Santevet, Bulle Bleue, Kozoo ou reseau courtage) lissent le budget. Pour un jeune chien comme Thorus, souscrire tot limite les exclusions sur pathologies futures. Verifiez le <strong>delai de carence</strong> (souvent 45 jours) et le plafond annuel.",
+        },
+        { type: "h2", text: "Montpellier et Occitanie : comparer son contrat" },
+        {
+          type: "p",
+          text: "Que vous soyez a <strong>Montpellier</strong>, Beziers, Nimes ou en rural heraultais, les tarifs veterinaires et les assureurs sont nationaux : l'enjeu est le <strong>niveau de garanties</strong>, pas seulement le prix. Notre parcours <a href=\"../landings/animaux.html?species=chien\">assurance chien</a> ou le <a href=\"../landings/questionnaire.html?need=animaux&amp;journey=standard\">questionnaire animaux</a> structure votre demande (race, age, puce, budget) pour un rappel conseiller ORIAS.",
+        },
+      ],
+      faq: [
+        {
+          q: "Un chien guide est-il assure par l'association ?",
+          a: "L'ACGGSO et les associations agreees prennent en charge la formation et le suivi du duo. Les soins courants du chien guide sont encadres ; le proprietaire d'un chien de compagnie, lui, doit souscrire sa propre assurance animaux.",
+        },
+        {
+          q: "Un labrador coute-t-il plus cher a assurer ?",
+          a: "Les races de grande taille et les chiens actifs peuvent etre un peu plus chers (risque orthopedique). Comparez plafond et franchise a garanties equivalentes.",
+        },
+        {
+          q: "La RC habitation couvre-t-elle mon chien ?",
+          a: "La responsabilite civile vie privee de l'assurance habitation couvre souvent les dommages causes par l'animal, mais pas les frais veterinaires. Une mutuelle chien reste necessaire pour les soins.",
+        },
+        {
+          q: "Quand souscrire apres l'adoption ?",
+          a: "Idealement dans les premiers mois, avant tout gros sinistre sante. Plus le chien vieillit, plus les exclusions et la prime augmentent.",
+        },
+      ],
+      related: [
+        { href: "../assurance-animaux/chien/", label: "Assurance chien" },
+        { href: "./assurance-chien-frais-veterinaires.html", label: "Frais veterinaires chien" },
+        { href: "./assurance-chiot-chaton-quand-assurer.html", label: "Assurer un chiot" },
+        { href: "../landings/animaux.html?species=chien", label: "Comparatif assurance chien" },
+      ],
+    },
+    {
       file: "chat-puces-tiques-assurance-remboursement.html",
       section: "animaux",
       tag: "Santé chat",

@@ -19,6 +19,7 @@ const PRIORITY_URLS = [
   `${SITE}/blog/mutuelle-collective-obligations-employeur-ani.html`,
   `${SITE}/blog/mutuelle-collective-pme-tpe-budget-2026.html`,
   `${SITE}/blog/mutuelle-collective-mise-en-place-due-portabilite.html`,
+  `${SITE}/blog/chien-guide-thorus-montpellier-assurance-compagnie.html`,
   `${SITE}/assurance-sante/`,
   `${SITE}/france/`,
   `${SITE}/france/regions/`,
