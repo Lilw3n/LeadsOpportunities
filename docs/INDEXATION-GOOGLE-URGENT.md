@@ -1,6 +1,6 @@
 # Indexation Google — guide urgent (Leads Opportunities)
 
-**Constat (mai 2026)** : une recherche `site:leadsopportunities.fr` sur Google ne renvoie **aucune page**. Ce n’est pas un bug du site : Google n’a **pas encore indexé** le domaine (site récent ou propriété Search Console non finalisée).
+**Constat (juin 2026)** : une recherche `site:leadsopportunities.fr` sur Google renvoie **aucune page** (vérifié le 15/06/2026). Ce n’est pas un bug du site : Google n’a **pas encore indexé** le domaine (site récent et/ou propriété Search Console non finalisée).
 
 Le site est **techniquement prêt** (robots, sitemaps, balises, redirections www). Ce guide décrit ce que **vous** devez faire aujourd’hui — l’indexation ne peut pas être forcée instantanément par le code seul.
 
@@ -28,10 +28,12 @@ Dans Search Console → **Inspection de l’URL**, testez puis **Demander l’in
 | 2 | `https://www.leadsopportunities.fr/nos-services.html` |
 | 3 | `https://www.leadsopportunities.fr/landings/vtc.html` |
 | 4 | `https://www.leadsopportunities.fr/landings/sante.html` |
-| 5 | `https://www.leadsopportunities.fr/landings/credit-immo.html` |
-| 6 | `https://www.leadsopportunities.fr/landings/devis.html` |
-| 7 | `https://www.leadsopportunities.fr/france/` |
-| 8 | `https://www.leadsopportunities.fr/blog/` |
+| 5 | `https://www.leadsopportunities.fr/landings/sante-collective.html` |
+| 6 | `https://www.leadsopportunities.fr/landings/credit-immo.html` |
+| 7 | `https://www.leadsopportunities.fr/landings/devis.html` |
+| 8 | `https://www.leadsopportunities.fr/blog/mutuelle-collective-obligations-employeur-ani.html` |
+| 9 | `https://www.leadsopportunities.fr/france/` |
+| 10 | `https://www.leadsopportunities.fr/blog/` |
 
 Limite Google : quelques dizaines de demandes par jour — concentrez-vous sur l’accueil et les landings d’abord.
 

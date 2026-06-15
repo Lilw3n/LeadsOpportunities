@@ -6,6 +6,7 @@
 |------|------------|-------------------|
 | VTC | `/assurance-vtc/` | `/landings/vtc.html` |
 | Sante | `/assurance-sante/` | `/landings/sante.html` |
+| Sante collective | `/assurances/` (hub) | `/landings/sante-collective.html` |
 | Credit immo | `/credit-immo/` | `/landings/credit-immo.html` |
 
 ## Regenerer les pages
