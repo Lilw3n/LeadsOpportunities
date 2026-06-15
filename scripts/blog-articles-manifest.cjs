@@ -465,6 +465,207 @@ module.exports = {
     },
     /* —— Sante —— */
     {
+      file: "diversification-alimentaire-bebe-4-mois-mutuelle-famille.html",
+      section: "sante",
+      tag: "Jeunes parents",
+      tagClass: "tag-sante",
+      title: "Diversification alimentaire a 4 mois : pediatre, Parents et mutuelle famille",
+      description:
+        "Parents.fr : feu vert du pediatre a 4 mois, premieres cuilleres, lait principal. Quelle mutuelle famille pour consultations et suivi bebe ?",
+      meta: "8 min · Juillet 2026",
+      cardExcerpt: "4 mois : diversification + mutuelle famille a calibrer.",
+      keywords: [
+        "diversification alimentaire bebe",
+        "bebe 4 mois alimentation",
+        "mutuelle famille",
+        "consultation pediatre remboursement",
+        "mutuelle bebe",
+        "Parents magazine",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/sante.html", label: "Mutuelle famille" },
+      blocks: [
+        {
+          type: "p",
+          text: "L'article <strong>Parents</strong> (juillet 2026, Marion Bellal) fait le point sur une etape cle : a <strong>4 mois</strong>, apres le feu vert du <strong>pediatre</strong>, beaucoup de familles debutent la <strong>diversification alimentaire</strong>. Lait maternel ou infantile reste la base ; on ajoute quelques cuilleres de legumes ou fruits bien cuits et mixes. Cote budget sante, c'est aussi le moment de verifier que votre <strong>mutuelle famille</strong> couvre correctement le suivi du nourrisson.",
+        },
+        { type: "h2", text: "4 mois : le rendez-vous pediatre avant la premiere cuillere" },
+        {
+          type: "p",
+          text: "La visite autour du 4e mois est l'un des rendez-vous structurants de la premiere annee : courbe de croissance, vaccins, maturite digestive. Les professionnels rappellent qu'il faut le <strong>accord du pediatre</strong> avant de commencer — pas de diversification avant 4 mois revolus sans avis medical. La consultation est remboursee par la Securite sociale ; votre <strong>complementaire sante</strong> prend en charge le ticket moderateur et eventuellement les depassements si le praticien pratique des honoraires libres.",
+        },
+        {
+          type: "ul",
+          items: [
+            "<strong>Entre 4 et 6 mois</strong> : fenetre recommandee en France (Sante publique France), selon signes de maturite",
+            "<strong>Premieres textures</strong> : purées lisses — carotte, courgette, haricot vert, pomme ou poire cuite",
+            "<strong>Quantites</strong> : quelques cuilleres, le lait reste l'aliment principal jusqu'a 6 mois",
+            "<strong>Nouvelles reco</strong> : introduire progressivement viande, poisson, oeuf, gluten — pas d'attente systematique sur les allergenes",
+          ],
+        },
+        { type: "h2", text: "Erreurs a eviter (et quand consulter)" },
+        {
+          type: "p",
+          text: "Forcer l'enfant, introduire trop d'aliments d'un coup ou arreter le lait trop tot sont les ecueils classiques. En cas de rougeurs, vomissements ou troubles du transit apres un nouvel aliment, <strong>reconsultez rapidement</strong> : pediatre ou urgences pediatriques. Une mutuelle avec de bons postes <strong>consultation</strong> et <strong>pharmacie</strong> limite le reste a charge sur les traitements prescrits.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Mutuelle famille : les postes utiles avec un bebe de 4 mois" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Consultations pediatre / medecin traitant</strong> : % BRSS et depassements",
+            "<strong>Pharmacie</strong> : cremes, probiotiques ou traitements si prescription",
+            "<strong>Vaccins</strong> : souvent a 100 % Secu, verifier medecine preventive",
+            "<strong>Hospitalisation</strong> : maternite passee mais utile si gastro aigue ou deshydratation",
+            "<strong>Ayants droit</strong> : bebe rattache au contrat des parents sans surcout excessif",
+          ],
+        },
+        {
+          type: "p",
+          text: "Si vous attendez un second enfant ou venez d'elargir le foyer, comparez une <strong>mutuelle famille</strong> a garanties equivalentes plutot que de garder un contrat solo sous-dimensionne. Notre <a href=\"../landings/sante.html\">parcours mutuelle</a> ou le <a href=\"../landings/questionnaire.html?need=sante&amp;journey=standard\">questionnaire sante</a> croise profil (couple, bebe, budget) pour un comparatif ORIAS.",
+        },
+      ],
+      faq: [
+        {
+          q: "La diversification commence-t-elle toujours a 4 mois ?",
+          a: "Non : entre 4 et 6 mois selon avis du pediatre et signes de maturite (tenue de tete, interet pour la nourriture).",
+        },
+        {
+          q: "Le pediatre est-il rembourse par la mutuelle ?",
+          a: "La Secu rembourse une partie ; la mutuelle complete selon votre contrat (ticket moderateur, depassements).",
+        },
+        {
+          q: "Faut-il une mutuelle specifique bebe ?",
+          a: "Le nourrisson est en general couvert comme ayant droit sur le contrat familial. Verifiez l'absence de carence a l'adhesion.",
+        },
+        {
+          q: "Les petits pots du commerce sont-ils rembourses ?",
+          a: "Non : l'alimentation courante n'est pas prise en charge ; seuls les soins medicaux et prescriptions le sont.",
+        },
+      ],
+      related: [
+        { href: "./mutuelle-sante-famille-petit-budget-2026.html", label: "Mutuelle famille petit budget" },
+        { href: "./allergie-alimentaire-bebe-mutuelle-pediatrie.html", label: "Allergie alimentaire bebe" },
+        { href: "../landings/sante.html", label: "Parcours mutuelle" },
+      ],
+    },
+    {
+      file: "allergie-alimentaire-bebe-mutuelle-pediatrie.html",
+      section: "sante",
+      tag: "Pediatrie",
+      tagClass: "tag-sante",
+      title: "Allergie alimentaire bebe : diversification, tests et mutuelle",
+      description:
+        "Oeuf, arachide, gluten des 4-6 mois : que faire en cas de reaction ? Remboursement pediatre, allergologue et pharmacie.",
+      meta: "7 min · Juillet 2026",
+      cardExcerpt: "Allergie bebe : soins et mutuelle.",
+      keywords: [
+        "allergie alimentaire bebe",
+        "diversification allergenes",
+        "allergologue remboursement mutuelle",
+        "pediatre bebe",
+        "mutuelle enfant",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/questionnaire.html?need=sante&journey=standard", label: "Questionnaire mutuelle" },
+      blocks: [
+        {
+          type: "p",
+          text: "Les recommandations ont evolue : on n'attend plus des mois pour introduire <strong>oeuf, arachide, gluten ou poisson</strong> — une exposition progressive entre 4 et 6 mois peut au contraire limiter le risque d'allergie. Mais lors de la <strong>diversification alimentaire</strong>, une reaction (urticaire, vomissements, rougeurs) impose d'arreter l'aliment suspect et de consulter. La question assurance : votre <strong>mutuelle</strong> prend-elle en charge pediatre, allergologue et eventuels examens ?",
+        },
+        { type: "h2", text: "Reconnaitre une reaction pendant la diversification" },
+        {
+          type: "ul",
+          items: [
+            "Rougeurs localisees ou diffuses, gonflement des levres",
+            "Vomissements ou diarrhee apres un nouvel aliment",
+            "Difficultes respiratoires : appeler le 15 / urgences",
+            "Un seul nouvel aliment a la fois pendant 2-3 jours pour identifier le declencheur",
+          ],
+        },
+        { type: "h2", text: "Parcours de soins et remboursements" },
+        {
+          type: "p",
+          text: "Le <strong>pediatre</strong> oriente souvent vers un <strong>allergologue</strong> ou des tests (prick tests, bilan). La Secu rembourse une partie ; votre complementaire intervient sur honoraires et parfois analyses selon le tableau de garanties. Verifiez les <strong>delais de carence</strong> si vous venez de changer de mutuelle en debut de grossesse ou apres la naissance.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Calibrer sa mutuelle quand bebe arrive" },
+        {
+          type: "p",
+          text: "Avec un nourrisson, privilegiez un contrat solide sur <strong>consultations</strong>, <strong>pharmacie</strong> et <strong>hospitalisation</strong> plutot que sur l'optique haut de gamme. Un jeune parent qui compare en ligne peut economiser plusieurs centaines d'euros par an a postes equivalents — budget utile quand la diversification pousse a acheter petits pots, cuilleres et livres de nutrition.",
+        },
+      ],
+      faq: [
+        {
+          q: "L'allergologue est-il rembourse ?",
+          a: "Oui partiellement par la Secu ; la mutuelle complete selon le niveau BRSS choisi et les eventuels depassements.",
+        },
+        { q: "Dois-je attendre 3 ans pour donner l'arachide ?", a: "Non selon les recommandations actuelles : introduction progressive des allergenes majeurs des 4-6 mois sous surveillance parentale." },
+      ],
+      related: [
+        { href: "./diversification-alimentaire-bebe-4-mois-mutuelle-famille.html", label: "Diversification 4 mois" },
+        { href: "./mutuelle-sante-famille-petit-budget-2026.html", label: "Mutuelle famille" },
+        { href: "../assurance-sante/", label: "Guide mutuelle sante" },
+      ],
+    },
+    {
+      file: "mutuelle-bebe-calendrier-consultations-2026.html",
+      section: "sante",
+      tag: "Bebe",
+      tagClass: "tag-sante",
+      title: "Mutuelle et bebe : calendrier des consultations de 0 a 12 mois",
+      description:
+        "Pediatre, PMI, vaccins, 4 mois, 9 mois : quel remboursement mutuelle pour le suivi du nourrisson en 2026 ?",
+      meta: "7 min · Juillet 2026",
+      cardExcerpt: "Calendrier bebe : quel contrat mutuelle ?",
+      keywords: [
+        "mutuelle bebe",
+        "consultation pediatre bebe",
+        "calendrier sante nourrisson",
+        "mutuelle famille 2026",
+        "remboursement pediatrie",
+        "courtier ORIAS",
+      ],
+      cta: { href: "../landings/sante.html", label: "Comparer mutuelle bebe" },
+      blocks: [
+        {
+          type: "p",
+          text: "De la naissance au premier anniversaire, le calendrier medical d'un bebe est dense : examen neonatal, visites mensuelles, <strong>rendez-vous des 4 mois</strong> (souvent celui de la diversification), vaccins, 9 mois. Chaque passage chez le <strong>pediatre</strong> genere des honoraires. Une <strong>mutuelle famille</strong> bien calibree evite d'accumuler le reste a charge quand on jongle deja avec biberons, diversification et manque de sommeil.",
+        },
+        { type: "h2", text: "Les rendez-vous cles de la premiere annee" },
+        {
+          type: "ul",
+          items: [
+            "<strong>0-1 mois</strong> : sortie maternite, premier examen, declaration ayant droit mutuelle",
+            "<strong>2-3 mois</strong> : suivi croissance, vaccins (DTCoq, pneumocoque…)",
+            "<strong>4 mois</strong> : feu vert diversification (Parents / pediatre), nouvelles textures",
+            "<strong>6-9 mois</strong> : diversification avancee, diversification des repas",
+            "<strong>12 mois</strong> : bilan, evolution vers alimentation familiale",
+          ],
+        },
+        { type: "h2", text: "Rattacher bebe au contrat : les delais" },
+        {
+          type: "p",
+          text: "Declarez votre enfant comme <strong>ayant droit</strong> rapidement aupres de votre mutuelle (souvent sous 30 jours). Certaines caisses appliquent une <strong>carence</strong> sur certains postes si l'adhesion est tardive. Si les deux parents ont chacun une mutuelle d'entreprise, comparez le rattachement le plus avantageux pour l'enfant.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "Comparer avant la rentree des depenses" },
+        {
+          type: "p",
+          text: "Entre la diversification, la garde et parfois un conge parental plus court que prevu, le budget foyer se tend. Revoir sa mutuelle en <strong>3 minutes</strong> via notre questionnaire ou le parcours <a href=\"../landings/sante.html\">mutuelle guide</a> permet d'aligner cotisation et garanties pediatrie — sans resilier a l'aveugle.",
+        },
+      ],
+      faq: [
+        { q: "La PMI est-elle payante ?", a: "Les consultations PMI sont gratuites ; elles completent le suivi pediatre mais ne remplacent pas la mutuelle pour les soins prives." },
+        { q: "Les vaccins obligatoires sont-ils rembourses ?", a: "Oui a 100 % par l'Assurance maladie pour le calendrier vaccinal officiel." },
+      ],
+      related: [
+        { href: "./diversification-alimentaire-bebe-4-mois-mutuelle-famille.html", label: "Diversification 4 mois" },
+        { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle" },
+        { href: "../landings/sante.html", label: "Devis mutuelle" },
+      ],
+    },
+    {
       file: "mutuelle-sante-hospitalisation-2026.html",
       section: "sante",
       tag: "Hospitalisation",
