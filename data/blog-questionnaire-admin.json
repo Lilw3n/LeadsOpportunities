@@ -625,6 +625,19 @@
       "species": null
     },
     {
+      "file": "mutuelle-famille-rentree-scolaire-budget.html",
+      "title": "Mutuelle famille avant la rentree : postes a verifier pour generer des economies",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
       "file": "questionnaire-mutuelle-quel-niveau-choisir.html",
       "title": "Quel niveau de mutuelle choisir ? Le questionnaire qui tranche en 3 minutes",
       "section": "sante",

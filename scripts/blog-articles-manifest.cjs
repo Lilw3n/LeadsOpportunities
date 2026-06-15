@@ -1162,5 +1162,8 @@ module.exports = {
   ],
 };
 
+const { getDueLeadArticles } = require("./blog-lead-calendar.cjs");
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
+
+module.exports.articles = module.exports.articles.concat(getDueLeadArticles());
 applyUpgrades(module.exports.articles);
