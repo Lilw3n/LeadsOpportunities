@@ -639,6 +639,45 @@
       "species": null
     },
     {
+      "file": "mutuelle-senior-optique-dentaire-hospitalisation.html",
+      "title": "Mutuelle senior : optique, dentaire et hospitalisation a verifier",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : les postes seniors créent vite un reste à charge.",
+      "question": "Quel niveau de mutuelle senior correspond à vos soins réels ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "assurance-chien-operation-ligaments-frais-veto.html",
+      "title": "Assurance chien : operation des ligaments, radio et frais veto",
+      "section": "animaux",
+      "hook": "Ligaments, radio, chirurgie : une urgence chien peut dépasser plusieurs milliers d'euros.",
+      "question": "Votre chien est-il protégé contre les grosses factures vétérinaires ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "chien",
+      "species": "chien"
+    },
+    {
+      "file": "rc-pro-consultant-freelance-litige-client.html",
+      "title": "RC Pro consultant freelance : litige client, retard et erreur de conseil",
+      "section": "pro",
+      "hook": "Erreur de conseil, retard, litige client : la RC Pro protège le freelance quand la mission dérape.",
+      "question": "Votre activité de consultant est-elle couverte à hauteur de vos contrats ?",
+      "need": "rc-pro",
+      "landing": "../landings/devis.html?need=rc-pro",
+      "express": "../landings/devis-express.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
       "file": "questionnaire-mutuelle-quel-niveau-choisir.html",
       "title": "Quel niveau de mutuelle choisir ? Le questionnaire qui tranche en 3 minutes",
       "section": "sante",
