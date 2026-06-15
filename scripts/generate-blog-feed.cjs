@@ -4,7 +4,7 @@ const manifest = require("./blog-articles-manifest.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 
 const blogDir = path.join(__dirname, "..", "blog");
-var today = new Date().toISOString().slice(0, 10);
+var today = process.env.BLOG_PUBLISH_DATE || new Date().toISOString().slice(0, 10);
 
 function escapeXml(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

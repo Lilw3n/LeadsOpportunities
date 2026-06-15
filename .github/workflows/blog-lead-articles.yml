@@ -1,0 +1,92 @@
+name: Publier les articles leads
+
+on:
+  schedule:
+    - cron: "15 7 * * 1,4"
+  workflow_dispatch:
+    inputs:
+      publish_date:
+        description: "Date de publication a simuler (YYYY-MM-DD)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve publish date
+        id: publish-date
+        run: |
+          if [ -n "${{ inputs.publish_date }}" ]; then
+            echo "date=${{ inputs.publish_date }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "date=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Stop if branch already exists
+        id: branch-check
+        env:
+          BRANCH_NAME: automation/blog-lead-articles-${{ steps.publish-date.outputs.date }}
+        run: |
+          if git ls-remote --exit-code --heads origin "$BRANCH_NAME" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Branch $BRANCH_NAME already exists; skipping duplicate publication."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate due lead articles
+        if: steps.branch-check.outputs.exists == 'false'
+        env:
+          BLOG_PUBLISH_DATE: ${{ steps.publish-date.outputs.date }}
+        run: npm run blog:publish-due
+
+      - name: Check generated changes
+        if: steps.branch-check.outputs.exists == 'false'
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit generated articles
+        if: steps.branch-check.outputs.exists == 'false' && steps.changes.outputs.has_changes == 'true'
+        env:
+          BRANCH_NAME: automation/blog-lead-articles-${{ steps.publish-date.outputs.date }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH_NAME"
+          git add blog data sitemap-main.xml sitemap.xml scripts package.json docs
+          git commit -m "Publier les articles leads du ${{ steps.publish-date.outputs.date }}"
+          git push -u origin "$BRANCH_NAME"
+
+      - name: Open pull request
+        if: steps.branch-check.outputs.exists == 'false' && steps.changes.outputs.has_changes == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH_NAME: automation/blog-lead-articles-${{ steps.publish-date.outputs.date }}
+        run: |
+          gh pr create \
+            --base main \
+            --head "$BRANCH_NAME" \
+            --title "Publier les articles leads du ${{ steps.publish-date.outputs.date }}" \
+            --body "Publication automatique des articles blog dus au ${{ steps.publish-date.outputs.date }} pour generer des leads via les questionnaires existants."

@@ -1272,17 +1272,36 @@
           select("equineRole", "Vous etes", [
             { v: "cavalier", t: "Cavalier particulier" },
             { v: "proprietaire", t: "Proprietaire de cheval" },
-            { v: "ecurie", t: "Ecurie / centre" },
+            { v: "ecurie", t: "Ecurie / centre equestre" },
+            { v: "moniteur", t: "Moniteur / enseignant" },
           ]) +
-            input("equineHorseValue", "Valeur du cheval (EUR)", "text", "Facultatif", false)
+            select("equineCover", "Couverture recherchee", [
+              { v: "rc", t: "RC equestre (dommages aux tiers)" },
+              { v: "mortalite", t: "Mortalite du cheval" },
+              { v: "veto", t: "Frais veterinaires" },
+              { v: "materiel", t: "Materiel equestre (selle, bride…)" },
+              { v: "pack", t: "Pack complet" },
+            ])
         ) +
           fieldRow(
-            select("equineDiscipline", "Discipline", [
+            input("equineHorseCount", "Nombre de chevaux", "number", "Ex. 1", false) +
+              input("equineHorseValue", "Valeur du cheval (EUR)", "text", "Facultatif", false)
+          ) +
+          fieldRow(
+            select("equineDiscipline", "Discipline principale", [
               { v: "loisir", t: "Loisir" },
-              { v: "csO", t: "CSO / dressage" },
-              { v: "course", t: "Courses" },
+              { v: "cso", t: "CSO / dressage" },
+              { v: "course", t: "Courses / galop" },
+              { v: "enseignement", t: "Enseignement / pension" },
             ], false) +
-              textarea("equineDetails", "Precision", "Nombre de chevaux, competition…", false)
+              select("equineFfe", "Licence FFE / competition", [
+                { v: "non", t: "Non / loisir sans licence" },
+                { v: "ffe", t: "Licence FFE" },
+                { v: "competition", t: "Competition (regional, national…)" },
+              ], false)
+          ) +
+          fieldRow(
+            textarea("equineDetails", "Precision", "Ecurie de garde, zone d activite, sinistres…", false)
           )
       );
     },

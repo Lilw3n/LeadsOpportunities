@@ -227,6 +227,88 @@
         )
       );
     },
+    chasse: function () {
+      return fieldRow(
+        select("huntLicense", "Permis de chasser", [
+          { v: "oui", t: "Oui, valide" },
+          { v: "formation", t: "En formation" },
+        ]) +
+          select("huntCover", "Couverture", [
+            { v: "rc", t: "RC chasseur" },
+            { v: "journee", t: "Journee / passage" },
+            { v: "saison", t: "Saison complete" },
+          ])
+      );
+    },
+    equitation: function () {
+      return (
+        fieldRow(
+          select("equineRole", "Vous etes", [
+            { v: "cavalier", t: "Cavalier particulier" },
+            { v: "proprietaire", t: "Proprietaire de cheval" },
+            { v: "ecurie", t: "Ecurie / centre equestre" },
+            { v: "moniteur", t: "Moniteur / enseignant" },
+          ]) +
+            select("equineCover", "Couverture recherchee", [
+              { v: "rc", t: "RC equestre" },
+              { v: "mortalite", t: "Mortalite cheval" },
+              { v: "veto", t: "Frais veterinaires" },
+              { v: "materiel", t: "Materiel equestre" },
+              { v: "pack", t: "Pack complet" },
+            ])
+        ) +
+        fieldRow(
+          select("equineDiscipline", "Discipline", [
+            { v: "loisir", t: "Loisir" },
+            { v: "cso", t: "CSO / dressage" },
+            { v: "course", t: "Courses / galop" },
+          ], false) +
+            input("equineHorseCount", "Nombre de chevaux", "number", "Ex. 1", false)
+        )
+      );
+    },
+    bateau: function () {
+      return fieldRow(
+        select("boatType", "Type de bateau", [
+          { v: "voilier", t: "Voilier" },
+          { v: "moteur", t: "Bateau a moteur" },
+          { v: "jet", t: "Jet-ski" },
+        ]) +
+          select("boatZone", "Zone de navigation", [
+            { v: "cotiere", t: "Cotiere" },
+            { v: "large", t: "Large" },
+            { v: "fluvial", t: "Fluvial" },
+          ])
+      );
+    },
+    caravane: function () {
+      return fieldRow(
+        select("rvType", "Type", [
+          { v: "caravane", t: "Caravane" },
+          { v: "cc", t: "Camping-car" },
+          { v: "fourgon", t: "Fourgon amenage" },
+        ]) +
+          input("rvYear", "Annee", "text", "Ex. 2018", true)
+      );
+    },
+    instrument: function () {
+      return fieldRow(
+        input("musicInstrument", "Instrument", "text", "Ex. violon", true) +
+          select("musicUsage", "Usage", [
+            { v: "perso", t: "Personnel" },
+            { v: "pro", t: "Professionnel / scene" },
+          ])
+      );
+    },
+    "materiel-photo": function () {
+      return fieldRow(
+        select("photoUsage", "Usage", [
+          { v: "amateur", t: "Amateur passionne" },
+          { v: "pro", t: "Professionnel" },
+        ]) +
+          input("photoKitValue", "Valeur du materiel (EUR)", "text", "Ex. 12000", true)
+      );
+    },
   };
 
   function fieldsHtmlForService(service) {
