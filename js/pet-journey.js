@@ -500,7 +500,7 @@
       "</p></div>" +
       '<div class="pet-summary-total"><span style="font-size:.85rem">Total indicatif</span><strong>' +
       esc(fmtEuro(total)) +
-      " / mois</strong><span style="font-size:.85rem;color:#64748b">soit " +
+      " / mois</strong><span style=\"font-size:.85rem;color:#64748b\">soit " +
       esc(fmtEuro(annual)) +
       " / an</span></div></div>" +
       (cfg.promoLabel
@@ -731,11 +731,21 @@
     return d.toISOString().slice(0, 10);
   }
 
+  function applySpeciesFromUrl() {
+    try {
+      var sp = new URLSearchParams(global.location.search).get("species");
+      if (sp === "chien") state.pets[0].type = "Chien";
+      else if (sp === "chat") state.pets[0].type = "Chat";
+    } catch (e) {}
+  }
+
   function init() {
     var journeyRoot = document.querySelector("[data-pet-journey]");
     var teaserRoot = document.querySelector("[data-pet-teaser]");
     var form = document.querySelector("form[data-pet-journey-form]");
     if (!journeyRoot && !teaserRoot) return;
+
+    applySpeciesFromUrl();
 
     fetch(CONFIG_URL)
       .then(function (r) {
