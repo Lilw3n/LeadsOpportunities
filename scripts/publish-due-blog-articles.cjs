@@ -33,4 +33,4 @@ run("generate-blog-articles.cjs");
 run("generate-blog-index.cjs");
 run("generate-blog-feed.cjs");
 run("generate-blog-admin-map.cjs");
-run("generate-seo-pages.cjs");
+run("update-blog-sitemap.cjs");
