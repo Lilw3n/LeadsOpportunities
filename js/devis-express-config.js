@@ -258,6 +258,26 @@
             ])
         ) +
         fieldRow(
+          input("equineName", "Nom de l equide (facultatif)", "text", "Ex. Quenotte", false) +
+            input("equineBirthYear", "Annee de naissance", "number", "Ex. 2016", true)
+        ) +
+        fieldRow(
+          input("equineHorseValue", "Valeur de l equide (EUR)", "text", "Ex. 15000", true) +
+            input("equineSireNumber", "Numero SIRE (facultatif)", "text", "Ex. 2500123456789", false)
+        ) +
+        fieldRow(
+          select("equineIdStatus", "Identification", [
+            { v: "complet", t: "Puce + SIRE + passeport" },
+            { v: "en_cours", t: "Identification en cours" },
+            { v: "poulain", t: "Poulain pas encore identifie" },
+          ]) +
+            select("equineChip", "Puce electronique", [
+              { v: "oui", t: "Oui" },
+              { v: "non", t: "Non" },
+              { v: "en_cours", t: "En cours" },
+            ])
+        ) +
+        fieldRow(
           select("equineCover", "Couverture recherchee", [
             { v: "rc", t: "RC equestre" },
             { v: "mortalite", t: "Mortalite cheval" },

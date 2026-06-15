@@ -1285,8 +1285,36 @@
               { v: "pension", t: "Pension / enseignement" },
             ])
         ) +
+          '<p class="small">Identification de l equide — puce electronique et numero SIRE obligatoires en France (IFCE).</p>' +
           fieldRow(
-            input("equineHorseCount", "Nombre de chevaux", "number", "Ex. 1", false) +
+            input("equineName", "Nom de l equide (facultatif)", "text", "Ex. Quenotte", false) +
+              input("equineBirthYear", "Annee de naissance de l equide", "number", "Ex. 2016", true)
+          ) +
+          fieldRow(
+            input("equineHorseValue", "Valeur de l equide (EUR)", "text", "Ex. 15000", true) +
+              input("equineSireNumber", "Numero SIRE (facultatif)", "text", "Ex. 2500123456789", false)
+          ) +
+          fieldRow(
+            select("equineIdStatus", "Identification de l equide", [
+              { v: "complet", t: "Identifie : puce + SIRE + passeport" },
+              { v: "puce_sire", t: "Puce et SIRE, passeport en cours" },
+              { v: "puce_seule", t: "Puce posee, enregistrement SIRE en cours" },
+              { v: "poulain", t: "Poulain pas encore identifie" },
+              { v: "import", t: "Import / identification en cours" },
+            ]) +
+              select("equineChip", "Puce electronique (encolure)", [
+                { v: "oui", t: "Oui, puce implantee" },
+                { v: "non", t: "Non / pas encore" },
+                { v: "en_cours", t: "Rendez-vous prevu" },
+              ])
+          ) +
+          fieldRow(
+            select("equinePassport", "Document d identification (passeport)", [
+              { v: "ifce", t: "Passeport IFCE en ma possession" },
+              { v: "autre", t: "Autre document (OS, stud-book…)" },
+              { v: "en_cours", t: "En cours d obtention" },
+              { v: "non", t: "Pas encore" },
+            ], false) +
               select("equineHorseSex", "Sexe", [
                 { v: "femelle", t: "Femelle / jument" },
                 { v: "hongre", t: "Hongre" },
@@ -1294,8 +1322,7 @@
               ], false)
           ) +
           fieldRow(
-            input("equineHorseAge", "Age du cheval (ans)", "number", "Ex. 8", false) +
-              input("equineHorseValue", "Valeur declaree (EUR)", "text", "Ex. 15000", false)
+            input("equineHorseCount", "Nombre de chevaux a assurer", "number", "Ex. 1", false)
           ) +
           fieldRow(
             select("equineCover", "Couverture recherchee", [
@@ -1323,11 +1350,11 @@
               { v: "plusieurs", t: "Plusieurs episodes" },
             ], false) +
               select("equineBreedingFocus", "Si elevage : profil", [
-              { v: "na", t: "Non concerne" },
-              { v: "reproducteur", t: "Etalon / jument reproductrice" },
-              { v: "poulains", t: "Production de poulains" },
-              { v: "haras_pro", t: "Haras professionnel" },
-            ], false)
+                { v: "na", t: "Non concerne" },
+                { v: "reproducteur", t: "Etalon / jument reproductrice" },
+                { v: "poulains", t: "Production de poulains" },
+                { v: "haras_pro", t: "Haras professionnel" },
+              ], false)
           ) +
           fieldRow(
             select("equineHousing", "Mode de garde", [
