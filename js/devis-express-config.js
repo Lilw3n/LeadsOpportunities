@@ -246,22 +246,37 @@
           select("equineRole", "Vous etes", [
             { v: "cavalier", t: "Cavalier particulier" },
             { v: "proprietaire", t: "Proprietaire de cheval" },
+            { v: "eleveur", t: "Eleveur / haras" },
             { v: "ecurie", t: "Ecurie / centre equestre" },
-            { v: "moniteur", t: "Moniteur / enseignant" },
           ]) +
-            select("equineCover", "Couverture recherchee", [
-              { v: "rc", t: "RC equestre" },
-              { v: "mortalite", t: "Mortalite cheval" },
-              { v: "veto", t: "Frais veterinaires" },
-              { v: "materiel", t: "Materiel equestre" },
-              { v: "pack", t: "Pack complet" },
+            select("equineActivity", "Activite du cheval", [
+              { v: "loisir", t: "Loisir" },
+              { v: "sport", t: "Sport (CSO, dressage…)" },
+              { v: "elevage", t: "Elevage / reproduction" },
+              { v: "course_trot", t: "Courses au trot" },
+              { v: "course_galop", t: "Courses au galop" },
             ])
         ) +
         fieldRow(
-          select("equineDiscipline", "Discipline", [
-            { v: "loisir", t: "Loisir" },
-            { v: "cso", t: "CSO / dressage" },
-            { v: "course", t: "Courses / galop" },
+          select("equineCover", "Couverture recherchee", [
+            { v: "rc", t: "RC equestre" },
+            { v: "mortalite", t: "Mortalite cheval" },
+            { v: "veto", t: "Frais veterinaires" },
+            { v: "pack", t: "Pack complet" },
+          ]) +
+            select("equineVetCover", "Garantie sante prioritaire", [
+              { v: "colique_chirurgie", t: "Colique operatoire" },
+              { v: "frais_veto", t: "Frais veterinaires" },
+              { v: "pack_sante", t: "Pack sante complet" },
+              { v: "non", t: "Pas de garantie sante" },
+            ], false)
+        ) +
+        fieldRow(
+          select("equineColicHistory", "Antecedents colique", [
+            { v: "jamais", t: "Jamais" },
+            { v: "medical", t: "Traitement medical" },
+            { v: "operee", t: "Colique operee" },
+            { v: "plusieurs", t: "Plusieurs episodes" },
           ], false) +
             input("equineHorseCount", "Nombre de chevaux", "number", "Ex. 1", false)
         )

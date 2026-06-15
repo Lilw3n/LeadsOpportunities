@@ -1267,32 +1267,74 @@
     equitation: function () {
       return wizardSection(
         "equitation",
-        "Assurance equitation",
+        "Assurance equitation et cheval",
         fieldRow(
           select("equineRole", "Vous etes", [
             { v: "cavalier", t: "Cavalier particulier" },
             { v: "proprietaire", t: "Proprietaire de cheval" },
+            { v: "eleveur", t: "Eleveur / haras" },
             { v: "ecurie", t: "Ecurie / centre equestre" },
-            { v: "moniteur", t: "Moniteur / enseignant" },
+            { v: "moniteur", t: "Moniteur / entraineur" },
           ]) +
-            select("equineCover", "Couverture recherchee", [
-              { v: "rc", t: "RC equestre (dommages aux tiers)" },
-              { v: "mortalite", t: "Mortalite du cheval" },
-              { v: "veto", t: "Frais veterinaires" },
-              { v: "materiel", t: "Materiel equestre (selle, bride…)" },
-              { v: "pack", t: "Pack complet" },
+            select("equineActivity", "Activite principale du cheval", [
+              { v: "loisir", t: "Loisir / promenade" },
+              { v: "sport", t: "Sport (CSO, dressage, CCE…)" },
+              { v: "elevage", t: "Elevage / reproduction" },
+              { v: "course_trot", t: "Courses au trot (attele, monte)" },
+              { v: "course_galop", t: "Courses au galop (plat, obstacle)" },
+              { v: "pension", t: "Pension / enseignement" },
             ])
         ) +
           fieldRow(
             input("equineHorseCount", "Nombre de chevaux", "number", "Ex. 1", false) +
-              input("equineHorseValue", "Valeur du cheval (EUR)", "text", "Facultatif", false)
+              select("equineHorseSex", "Sexe", [
+                { v: "femelle", t: "Femelle / jument" },
+                { v: "hongre", t: "Hongre" },
+                { v: "male", t: "Entier / etalon" },
+              ], false)
           ) +
           fieldRow(
-            select("equineDiscipline", "Discipline principale", [
-              { v: "loisir", t: "Loisir" },
-              { v: "cso", t: "CSO / dressage" },
-              { v: "course", t: "Courses / galop" },
-              { v: "enseignement", t: "Enseignement / pension" },
+            input("equineHorseAge", "Age du cheval (ans)", "number", "Ex. 8", false) +
+              input("equineHorseValue", "Valeur declaree (EUR)", "text", "Ex. 15000", false)
+          ) +
+          fieldRow(
+            select("equineCover", "Couverture recherchee", [
+              { v: "rc", t: "RC equestre (dommages aux tiers)" },
+              { v: "mortalite", t: "Mortalite du cheval" },
+              { v: "veto", t: "Frais veterinaires" },
+              { v: "invalidite", t: "Invalidite / perte d usage" },
+              { v: "materiel", t: "Materiel equestre" },
+              { v: "pack", t: "Pack complet" },
+            ]) +
+              select("equineVetCover", "Garanties sante souhaitees", [
+                { v: "colique_chirurgie", t: "Colique operatoire / chirurgie" },
+                { v: "frais_veto", t: "Frais veterinaires courants (plafond)" },
+                { v: "chirurgie_urgence", t: "Chirurgie d urgence vitale" },
+                { v: "hospitalisation", t: "Hospitalisation" },
+                { v: "pack_sante", t: "Pack sante complet" },
+                { v: "non", t: "Pas de garantie sante (RC / mortalite seulement)" },
+              ], false)
+          ) +
+          fieldRow(
+            select("equineColicHistory", "Antecedents colique", [
+              { v: "jamais", t: "Jamais" },
+              { v: "medical", t: "Episode traite medicalement" },
+              { v: "operee", t: "Colique operee" },
+              { v: "plusieurs", t: "Plusieurs episodes" },
+            ], false) +
+              select("equineBreedingFocus", "Si elevage : profil", [
+              { v: "na", t: "Non concerne" },
+              { v: "reproducteur", t: "Etalon / jument reproductrice" },
+              { v: "poulains", t: "Production de poulains" },
+              { v: "haras_pro", t: "Haras professionnel" },
+            ], false)
+          ) +
+          fieldRow(
+            select("equineHousing", "Mode de garde", [
+              { v: "pension", t: "Pension (ecurie)" },
+              { v: "proprietaire", t: "Chez le proprietaire" },
+              { v: "pre", t: "Au pre / paddock" },
+              { v: "haras", t: "Haras / elevage" },
             ], false) +
               select("equineFfe", "Licence FFE / competition", [
                 { v: "non", t: "Non / loisir sans licence" },
@@ -1301,7 +1343,15 @@
               ], false)
           ) +
           fieldRow(
-            textarea("equineDetails", "Precision", "Ecurie de garde, zone d activite, sinistres…", false)
+            textarea(
+              "equineMedicalNotes",
+              "Antecedents medicaux (facultatif)",
+              "Coliques, boiteries, traitements en cours, chirurgies…",
+              false
+            )
+          ) +
+          fieldRow(
+            textarea("equineDetails", "Precision", "Discipline, entrainement, sinistres passes…", false)
           )
       );
     },
