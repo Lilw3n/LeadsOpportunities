@@ -60,6 +60,21 @@
           el.classList.add("input-invalid");
         }
       }
+      if (el.name === "socialSecurityNumber" && el.value) {
+        var nir = el.value.replace(/\s/g, "").toUpperCase();
+        if (!/^[12][0-9]{14}$/.test(nir)) {
+          ok = false;
+          el.classList.add("input-invalid");
+        } else {
+          var nirBody = nir.slice(0, 13);
+          var nirKey = parseInt(nir.slice(13, 15), 10);
+          var nirNum = parseInt(nirBody, 10);
+          if (!isNaN(nirNum) && !isNaN(nirKey) && 97 - (nirNum % 97) !== nirKey) {
+            ok = false;
+            el.classList.add("input-invalid");
+          }
+        }
+      }
     });
 
     var companyBlock = step.querySelector("[data-company-fields]");

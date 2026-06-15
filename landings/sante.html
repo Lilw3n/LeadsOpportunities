@@ -171,6 +171,11 @@
                   </select>
                   <p class="field-hint">En cas de doute, choisissez « Je ne sais pas » : le conseiller vous aidera.</p>
                 </div>
+                <div class="field full">
+                  <label for="socialSecurityNumber">Numero de Securite sociale (NIR)</label>
+                  <input id="socialSecurityNumber" name="socialSecurityNumber" inputmode="numeric" autocomplete="off" required placeholder="Ex. 1 85 03 75 123 456 78" maxlength="21" />
+                  <p class="field-hint">15 chiffres (carte Vitale). Requis pour la souscription mutuelle. Donnees strictement confidentielles (RGPD).</p>
+                </div>
                 <div class="field">
                   <label for="currentCover">Avez-vous deja une mutuelle ?</label>
                   <select id="currentCover" name="currentCover" required>
