@@ -1,0 +1,47 @@
+name: Articles blog lead-gen
+
+on:
+  schedule:
+    - cron: "0 7 * * 1,4"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blog-regular-articles
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate next planned article
+        run: npm run blog:regular -- --count=1
+
+      - name: Rebuild blog assets
+        run: npm run blog:build
+
+      - name: Commit article
+        run: |
+          if git diff --quiet; then
+            echo "No new article to publish."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/blog-generated-articles.cjs blog data/blog-questionnaire-admin.json sitemap.xml sitemap-blog.xml
+          git commit -m "chore: publish scheduled lead article"
+          git push
