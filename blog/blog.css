@@ -142,6 +142,8 @@ a { color: var(--primary); }
 .tag-pro { background: #f3e8ff; color: #6b21a8; }
 .tag-patrimoine { background: #fef3c7; color: #92400e; }
 .tag-actu { background: #fee2e2; color: #b91c1c; }
+.tag-niche { background: #d1fae5; color: #065f46; }
+.tag-collective { background: #dbeafe; color: #1e40af; }
 
 .article-body h3 {
   font-size: 1.05rem;
