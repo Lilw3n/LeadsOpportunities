@@ -257,6 +257,14 @@
     "pret-immo-erreurs-a-eviter.html": {
       "section": "finance",
       "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?"
+    },
+    "chien-guide-thorus-montpellier-assurance-compagnie.html": {
+      "section": "animaux",
+      "species": "chien",
+      "hook": "Comme Thorus pour Richard Lardé, un chien change la vie — mais les frais véto, eux, ne disparaissent pas.",
+      "question": "Votre chien est-il protégé si une urgence arrive demain ?",
+      "primaryLabel": "Devis assurance chien",
+      "landing": "/landings/animaux.html?species=chien"
     }
   }
 }
