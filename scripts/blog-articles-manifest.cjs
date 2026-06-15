@@ -2,6 +2,8 @@
  * Manifeste des articles blog — source pour generate-blog-articles, index et RSS.
  * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu
  */
+const leadArticleCalendar = require("./blog-lead-article-calendar.cjs").articles;
+
 module.exports = {
   sections: [
     {
@@ -1109,6 +1111,7 @@ module.exports = {
         { href: "../assurance-prevoyance/", label: "Prevoyance" },
       ],
     },
+    ...leadArticleCalendar,
     /* —— Collective (fichiers edites a la main, indexes seulement) —— */
     {
       file: "mutuelle-collective-obligations-employeur-ani.html",

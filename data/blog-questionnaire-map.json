@@ -338,6 +338,42 @@
       "hook": "Capital ou prestations funéraires — pas de rapatriement ni assurance voyage.",
       "question": "Capital famille ou contrat obsèques : lequel correspond à votre situation ?"
     },
+    "mutuelle-senior-optique-dentaire-hospitalisation.html": {
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : les postes seniors créent vite un reste à charge.",
+      "question": "Quel niveau de mutuelle senior correspond à vos soins réels ?",
+      "primaryLabel": "Comparer mutuelle senior"
+    },
+    "assurance-chien-operation-ligaments-frais-veto.html": {
+      "section": "animaux",
+      "species": "chien",
+      "hook": "Ligaments, radio, chirurgie : une urgence chien peut dépasser plusieurs milliers d'euros.",
+      "question": "Votre chien est-il protégé contre les grosses factures vétérinaires ?",
+      "primaryLabel": "Devis assurance chien"
+    },
+    "rc-pro-consultant-freelance-litige-client.html": {
+      "section": "pro",
+      "hook": "Erreur de conseil, retard, litige client : la RC Pro protège le freelance quand la mission dérape.",
+      "question": "Votre activité de consultant est-elle couverte à hauteur de vos contrats ?"
+    },
+    "assurance-vtc-vehicule-electrique-uber-bolt.html": {
+      "section": "vtc",
+      "hook": "VTC électrique : batterie, assistance et plateforme doivent être déclarées au bon contrat.",
+      "question": "Votre assurance VTC couvre-t-elle vraiment votre usage Uber/Bolt ?"
+    },
+    "assurance-emprunteur-fumeur-sport-risque-questionnaire.html": {
+      "section": "finance",
+      "need": "emprunteur",
+      "questionnaire": "/landings/questionnaire.html?need=emprunteur&journey=standard",
+      "hook": "Fumeur ou sport à risque : une délégation emprunteur bien préparée limite surprimes et exclusions.",
+      "question": "Votre profil emprunteur mérite-t-il une comparaison spécialisée ?",
+      "primaryLabel": "Comparer assurance emprunteur"
+    },
+    "assurance-habitation-colocation-etudiant-inventaire.html": {
+      "section": "habitat",
+      "hook": "Studio, colocation, matériel informatique : l'attestation doit couvrir le vrai logement étudiant.",
+      "question": "Votre assurance habitation étudiante est-elle prête avant remise des clés ?"
+    },
     "mutuelle-collective-obligations-employeur-ani.html": {
       "section": "collective"
     },

@@ -2,8 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const manifest = require("./blog-articles-manifest.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
+const { readBuildDate, getPublishedArticles } = require("./blog-article-schedule.cjs");
 
 const indexPath = path.join(__dirname, "..", "blog", "index.html");
+const buildDate = readBuildDate();
 
 function card(a) {
   return (
@@ -24,7 +26,8 @@ function card(a) {
 }
 
 var bySection = {};
-manifest.articles.forEach(function (a) {
+var publishedArticles = getPublishedArticles(manifest, buildDate);
+publishedArticles.forEach(function (a) {
   if (!bySection[a.section]) bySection[a.section] = [];
   bySection[a.section].push(a);
 });
@@ -63,4 +66,4 @@ var html =
   '\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Catalogue assurances</a>\n    <a href="../assurance-vtc/">VTC</a>\n    <a href="../assurance-animaux/">Animaux</a>\n    <a href="../index.html#contact">Contact</a>\n  </footer>\n</body>\n</html>\n';
 
 fs.writeFileSync(indexPath, html);
-console.log("blog/index.html —", manifest.articles.length, "articles");
+console.log("blog/index.html —", publishedArticles.length, "articles", "buildDate:", buildDate);

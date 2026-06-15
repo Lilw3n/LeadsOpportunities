@@ -11,6 +11,7 @@
     "blog:index": "node scripts/generate-blog-index.cjs",
     "blog:feed": "node scripts/generate-blog-feed.cjs",
     "blog:admin-map": "node scripts/generate-blog-admin-map.cjs",
+    "blog:lead-calendar": "node scripts/print-blog-lead-calendar.cjs",
     "blog:build": "node scripts/generate-blog-articles.cjs --force && node scripts/generate-blog-index.cjs && node scripts/generate-blog-feed.cjs && node scripts/generate-blog-admin-map.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs"
   },
