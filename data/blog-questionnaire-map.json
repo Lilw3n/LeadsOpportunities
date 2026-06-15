@@ -120,6 +120,30 @@
       "questionnaireLabel": "Questionnaire assurance",
       "landingLabel": "Catalogue assurances",
       "expressLabel": "Devis express"
+    },
+    "niches": {
+      "need": "equitation",
+      "questionnaire": "/landings/questionnaire.html?need=equitation&journey=standard",
+      "landing": "/assurances/",
+      "express": "/landings/devis-express.html?need=equitation",
+      "hook": "Équitation, chasse, bateau : chaque niche a son questionnaire dédié — pas un menu générique.",
+      "question": "Quelle assurance de niche souhaitez-vous comparer ?",
+      "primaryLabel": "Hub assurances de niche",
+      "questionnaireLabel": "Questionnaire équitation",
+      "landingLabel": "Toutes les niches",
+      "expressLabel": "Devis express niche"
+    },
+    "collective": {
+      "need": "collective",
+      "questionnaire": "/landings/questionnaire.html?need=collective&journey=standard",
+      "landing": "/landings/sante-collective.html",
+      "express": "/landings/devis-express.html?need=collective",
+      "hook": "Mutuelle collective obligatoire : ANI, panier de soins et budget salarié à calibrer.",
+      "question": "Votre entreprise a-t-elle la bonne mutuelle collective ?",
+      "primaryLabel": "Devis mutuelle collective",
+      "questionnaireLabel": "Questionnaire collective",
+      "landingLabel": "Parcours mutuelle collective",
+      "expressLabel": "Rappel collective"
     }
   },
   "keywordRules": [
@@ -171,6 +195,39 @@
       "id": "auto",
       "match": ["assurance auto", "bonus malus", "jeune conducteur", "tous risques"],
       "section": "auto"
+    },
+    {
+      "id": "equitation",
+      "match": ["equitation", "équitation", "cheval", "colique", "sire", "rc equestre", "rc équestre", "elevage", "élevage"],
+      "section": "niches",
+      "hook": "RC équestre, mortalité, colique : le cheval mérite un questionnaire métier.",
+      "question": "Prêt à structurer votre devis équitation en 3 minutes ?"
+    },
+    {
+      "id": "deces",
+      "match": ["deces", "décès", "obseques", "obsèques", "capital deces", "capital décès", "funeraire", "funéraire"],
+      "section": "prevoyance",
+      "hook": "Capital décès ou contrat obsèques : protéger la famille sans confondre avec l'assurance voyage.",
+      "question": "Quel objectif : capital famille ou financement des obsèques ?"
+    },
+    {
+      "id": "nir",
+      "match": ["numero securite sociale", "numéro sécurité sociale", "nir", "carte vitale"],
+      "section": "sante",
+      "hook": "Le NIR structure la souscription mutuelle et la télétransmission des remboursements.",
+      "question": "Prêt à compléter votre demande mutuelle avec le bon niveau de garanties ?"
+    },
+    {
+      "id": "collective",
+      "match": ["mutuelle collective", "ani", "employeur", "due", "portabilite", "portabilité", "panier de soins"],
+      "section": "collective"
+    },
+    {
+      "id": "chasse",
+      "match": ["assurance chasse", "chasseur", "permis chasse"],
+      "section": "niches",
+      "hook": "RC chasseur et saison : un questionnaire dédié évite les mauvaises surprises.",
+      "question": "Votre assurance chasse couvre-t-elle votre pratique réelle ?"
     }
   ],
   "articles": {
@@ -257,6 +314,40 @@
     "pret-immo-erreurs-a-eviter.html": {
       "section": "finance",
       "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?"
+    },
+    "assurance-equitation-cheval-colique-elevage-questionnaire.html": {
+      "section": "niches",
+      "need": "equitation",
+      "questionnaire": "/landings/questionnaire.html?need=equitation&journey=standard",
+      "hook": "Élevage, course ou loisir : colique, SIRE et RC équestre changent le devis.",
+      "question": "Votre cheval est-il correctement déclaré pour un comparatif chiffré ?"
+    },
+    "questionnaires-assurances-niche-guide-2026.html": {
+      "section": "niches",
+      "question": "Quelle niche — chasse, équitation, bateau — souhaitez-vous comparer ?"
+    },
+    "mutuelle-numero-securite-sociale-nir-questionnaire.html": {
+      "section": "sante",
+      "landing": "/landings/sante.html",
+      "hook": "Le NIR à l'étape 1 du formulaire mutuelle : normal, sécurisé, utile pour le dossier.",
+      "question": "Prêt à lancer votre comparatif mutuelle avec un dossier complet ?"
+    },
+    "assurance-deces-obseques-capital-prestations-questionnaire.html": {
+      "need": "deces",
+      "questionnaire": "/landings/questionnaire.html?need=deces&journey=standard",
+      "hook": "Capital ou prestations funéraires — pas de rapatriement ni assurance voyage.",
+      "question": "Capital famille ou contrat obsèques : lequel correspond à votre situation ?"
+    },
+    "mutuelle-collective-obligations-employeur-ani.html": {
+      "section": "collective"
+    },
+    "mutuelle-collective-pme-tpe-budget-2026.html": {
+      "section": "collective",
+      "question": "Quel budget mutuelle collective par salarié pour votre PME ou TPE ?"
+    },
+    "mutuelle-collective-mise-en-place-due-portabilite.html": {
+      "section": "collective",
+      "hook": "DUE, adhésion salarié et portabilité ANI : la mise en place collective se prépare."
     }
   }
 }
