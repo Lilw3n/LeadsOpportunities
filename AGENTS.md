@@ -8,6 +8,7 @@
 - `npm run blog:actu:publish` — blog + sitemap SEO
 - `npm run seo:build` — sitemaps
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
+- `npm run verify:clarity` — contrôle installation `@microsoft/clarity` (npm officiel)
 
 ## Blog actu (leads qualifiés)
 
