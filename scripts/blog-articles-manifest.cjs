@@ -963,3 +963,31 @@ module.exports = {
 
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
 applyUpgrades(module.exports.articles);
+
+function prependGeneratedLeadArticles(articles) {
+  var generated;
+  try {
+    generated = require("./blog-lead-articles.generated.cjs");
+  } catch (err) {
+    if (err && err.code === "MODULE_NOT_FOUND") return;
+    throw err;
+  }
+
+  if (!generated || !Array.isArray(generated.articles)) return;
+
+  var existing = {};
+  articles.forEach(function (article) {
+    existing[article.file] = true;
+  });
+
+  generated.articles
+    .slice()
+    .reverse()
+    .forEach(function (article) {
+      if (!article || !article.file || existing[article.file]) return;
+      articles.unshift(article);
+      existing[article.file] = true;
+    });
+}
+
+prependGeneratedLeadArticles(module.exports.articles);

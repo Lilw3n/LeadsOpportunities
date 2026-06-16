@@ -1,0 +1,307 @@
+{
+  "updated": "2026-06-16",
+  "cadence": "weekly",
+  "objective": "Publier regulierement des articles SEO a intention commerciale, chacun relie a un questionnaire ou une landing pour generer des leads qualifies.",
+  "articles": [
+    {
+      "publishAt": "2026-06-16",
+      "file": "mutuelle-sante-seniors-reste-a-charge-2026.html",
+      "section": "sante",
+      "tag": "Seniors",
+      "title": "Mutuelle senior 2026 : reduire le reste a charge sans surpayer",
+      "description": "Mutuelle senior, hospitalisation, optique, dentaire : les postes a comparer pour reduire le reste a charge sans payer des garanties inutiles.",
+      "cardExcerpt": "Senior : comparer les bons postes avant de changer.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard",
+        "label": "Questionnaire mutuelle senior"
+      },
+      "keywords": [
+        "mutuelle senior",
+        "reste a charge senior",
+        "comparatif mutuelle sante",
+        "hospitalisation senior",
+        "optique dentaire senior",
+        "devis mutuelle senior"
+      ],
+      "intro": "Apres 55 ans, une mutuelle sante mal calibree peut couter cher deux fois : cotisation elevee chaque mois et reste a charge important au moment d'une hospitalisation, de lunettes progressives ou de soins dentaires. L'objectif n'est pas de prendre le contrat le plus cher, mais de concentrer le budget sur les postes reellement consommes.",
+      "urgency": "Les hausses de cotisation touchent fortement les profils seniors. Avant l'echeance annuelle, comparez les garanties a besoins constants : niveau hospitalisation, dentaire, optique, aides auditives et delais de carence.",
+      "painPoints": [
+        "Cotisation qui augmente alors que les remboursements restent faibles sur l'hospitalisation",
+        "Forfaits optique ou dentaire insuffisants pour lunettes progressives, couronnes ou implants",
+        "Garanties inutiles qui gonflent le prix sans correspondre aux soins reels",
+        "Carences oubliees au moment de changer de mutuelle",
+        "Tableaux de garanties difficiles a comparer entre assureurs"
+      ],
+      "decisionCriteria": [
+        "Comparer le remboursement hospitalisation avant le prix mensuel",
+        "Verifier les plafonds annuels en optique, dentaire et auditif",
+        "Regarder les delais de carence si un soin est deja prevu",
+        "Demander une simulation de reste a charge sur 2 ou 3 actes concrets",
+        "Choisir un contrat evolutif si les besoins de sante changent vite"
+      ],
+      "documents": [
+        "Tableau de garanties actuel",
+        "Avis d'echeance ou cotisation mensuelle",
+        "Depenses optique, dentaire et hospitalisation des 12 derniers mois",
+        "Devis de soin deja remis par un praticien",
+        "Situation familiale : solo, couple, retraite, ayant droit"
+      ],
+      "conversion": "Le questionnaire mutuelle Leads Opportunities reprend ces informations pour orienter vers le bon niveau de garanties. Un conseiller peut ensuite comparer les offres a garanties equivalentes et eviter une baisse de protection cachee.",
+      "related": [
+        { "href": "./mutuelle-sante-hospitalisation-2026.html", "label": "Mutuelle hospitalisation 2026" },
+        { "href": "./mutuelle-remboursement-optique-dentaire-2026.html", "label": "Optique et dentaire" },
+        { "href": "../landings/sante.html", "label": "Landing mutuelle sante" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-23",
+      "file": "assurance-vtc-vehicule-electrique-hybride.html",
+      "section": "vtc",
+      "tag": "Electrique",
+      "title": "Assurance VTC electrique ou hybride : garanties a verifier",
+      "description": "VTC electrique, hybride, batterie, borne de recharge : comment comparer les garanties avant de rouler sur Uber, Bolt ou Heetch.",
+      "cardExcerpt": "VTC electrique : batterie, assistance et RC pro.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard",
+        "label": "Questionnaire VTC"
+      },
+      "keywords": [
+        "assurance vtc electrique",
+        "vtc hybride assurance",
+        "rc pro chauffeur",
+        "assurance batterie vehicule electrique",
+        "uber bolt heetch",
+        "devis assurance vtc"
+      ],
+      "intro": "De plus en plus de chauffeurs passent a l'electrique ou a l'hybride pour reduire le carburant, acceder aux zones urbaines et ameliorer leur image. Mais l'assurance doit suivre : batterie, assistance remorquage, valeur du vehicule et usage plateforme ne se traitent pas comme une citadine classique.",
+      "urgency": "Avant de signer un leasing ou d'acheter un vehicule electrique, verifiez l'assurabilite en usage VTC. Une prime trop basse peut cacher une exclusion sur la batterie ou une assistance insuffisante.",
+      "painPoints": [
+        "Batterie couteuse et conditions d'indemnisation mal comprises",
+        "Assistance panne ou remorquage limitee pour vehicule electrique",
+        "Usage professionnel VTC non declare clairement",
+        "Franchise elevee sur bris de glace, vol ou dommages tous accidents",
+        "Perte d'exploitation non couverte apres immobilisation"
+      ],
+      "decisionCriteria": [
+        "Confirmer l'usage transport de personnes a titre onereux",
+        "Verifier batterie, cable et borne de recharge",
+        "Comparer l'assistance 0 km et le vehicule de remplacement",
+        "Regarder la valeur indemnisee en leasing ou LOA",
+        "Ajouter RC pro chauffeur si elle n'est pas incluse"
+      ],
+      "documents": [
+        "Carte grise ou bon de commande du vehicule",
+        "Contrat de leasing, LOA ou credit",
+        "Releve d'information auto",
+        "Justificatif d'activite VTC et plateformes utilisees",
+        "Contrat actuel si renouvellement"
+      ],
+      "conversion": "Le questionnaire VTC permet de qualifier le vehicule, l'usage reel et les plateformes. Leads Opportunities peut ensuite orienter vers les partenaires compatibles avec les chauffeurs professionnels.",
+      "related": [
+        { "href": "./assurance-vtc-rc-pro-garanties.html", "label": "RC Pro VTC" },
+        { "href": "./comparatif-vtc-zephir-solly-azar.html", "label": "Comparatif assureurs VTC" },
+        { "href": "../landings/vtc.html", "label": "Landing assurance VTC" }
+      ]
+    },
+    {
+      "publishAt": "2026-06-30",
+      "file": "assurance-habitation-colocation-jeune-actif.html",
+      "section": "habitat",
+      "tag": "Colocation",
+      "title": "Assurance habitation colocation : jeune actif, etudiant, bailleur",
+      "description": "Colocation, bail individuel ou solidaire, responsabilite civile : les points a verifier avant de souscrire une assurance habitation.",
+      "cardExcerpt": "Colocation : qui est couvert en cas de sinistre ?",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard",
+        "label": "Questionnaire habitation"
+      },
+      "keywords": [
+        "assurance habitation colocation",
+        "responsabilite civile colocataire",
+        "devis habitation",
+        "bail solidaire",
+        "degats des eaux colocation",
+        "assurance jeune actif"
+      ],
+      "intro": "La colocation est simple a vivre quand tout va bien, mais un degat des eaux ou un incendie revele vite les zones floues : un seul contrat pour tous, contrats separes, bail solidaire, responsabilite civile et valeur du mobilier.",
+      "urgency": "Un proprietaire peut demander une attestation des l'entree dans les lieux. Mieux vaut clarifier le contrat avant la remise des cles pour eviter un trou de garantie.",
+      "painPoints": [
+        "Un colocataire couvert, les autres non declares",
+        "Responsabilite civile absente pour un occupant",
+        "Capital mobilier trop bas par rapport aux biens reels",
+        "Doute sur le bail : individuel, collectif ou solidaire",
+        "Sinistre cause par un colocataire parti sans mise a jour du contrat"
+      ],
+      "decisionCriteria": [
+        "Identifier le type de bail avant de choisir le contrat",
+        "Declarer tous les occupants permanents",
+        "Verifier responsabilite civile vie privee pour chacun",
+        "Adapter le capital mobilier et les objets sensibles",
+        "Prevoir une mise a jour a chaque arrivee ou depart"
+      ],
+      "documents": [
+        "Bail ou projet de bail",
+        "Adresse, surface et nombre de pieces",
+        "Nombre de colocataires",
+        "Valeur estimee du mobilier",
+        "Attestation demandee par le bailleur"
+      ],
+      "conversion": "Le questionnaire habitation aide a qualifier le logement et le type de bail. Un conseiller peut ensuite proposer une couverture coherente pour le foyer reel.",
+      "related": [
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Locataire ou proprietaire" },
+        { "href": "./assurance-habitation-sous-assurance-sinistre.html", "label": "Sous-assurance habitation" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" }
+      ]
+    },
+    {
+      "publishAt": "2026-07-07",
+      "file": "assurance-emprunteur-metier-risque-refus.html",
+      "section": "finance",
+      "tag": "Emprunteur",
+      "title": "Assurance emprunteur et metier a risque : eviter refus ou surprime",
+      "description": "Metier a risque, exclusion, surprime, delegation assurance emprunteur : comment preparer un dossier solide avant le pret immobilier.",
+      "cardExcerpt": "Metier a risque : preparer son dossier emprunteur.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard",
+        "label": "Questionnaire emprunteur"
+      },
+      "keywords": [
+        "assurance emprunteur metier a risque",
+        "surprime assurance pret",
+        "delegation assurance emprunteur",
+        "refus assurance emprunteur",
+        "loi lemoine",
+        "credit immobilier"
+      ],
+      "intro": "Pompiers, chauffeurs, artisans du batiment, infirmiers de nuit, militaires ou travailleurs en hauteur : certains metiers compliquent l'assurance emprunteur. Le sujet n'est pas seulement le taux, mais l'acceptation, les exclusions et la quotite couverte.",
+      "urgency": "Attendre l'accord de pret pour traiter l'assurance peut bloquer le calendrier. Lancez l'etude emprunteur en amont, surtout si le metier implique des deplacements, du port de charge ou une exposition au danger.",
+      "painPoints": [
+        "Questionnaire professionnel incomplet",
+        "Exclusion ITT liee au metier exerce",
+        "Surprime qui degrade le cout total du credit",
+        "Delais bancaires trop courts pour chercher une delegation",
+        "Confusion entre assurance groupe et contrat externe equivalent"
+      ],
+      "decisionCriteria": [
+        "Decrire precisement les taches a risque et leur frequence",
+        "Comparer exclusion, surprime et franchise ITT",
+        "Verifier l'equivalence de garanties demandee par la banque",
+        "Simuler plusieurs quotites si le pret est en couple",
+        "Conserver les echanges pour justifier la substitution"
+      ],
+      "documents": [
+        "Offre de pret ou simulation bancaire",
+        "Fiche de poste ou description d'activite",
+        "Montant, duree et quotite souhaitee",
+        "Tableau des garanties exigees par la banque",
+        "Contrat groupe propose par la banque"
+      ],
+      "conversion": "Le questionnaire emprunteur qualifie le projet, le metier et les garanties attendues. Leads Opportunities peut ensuite orienter vers une delegation adaptee avant blocage bancaire.",
+      "related": [
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Loi Lemoine 2026" },
+        { "href": "./assurance-emprunteur-combien-economiser-lemoine.html", "label": "Economies emprunteur" },
+        { "href": "../landings/credit-immo.html", "label": "Etude credit immo" }
+      ]
+    },
+    {
+      "publishAt": "2026-07-14",
+      "file": "rc-pro-consultant-freelance-it.html",
+      "section": "pro",
+      "tag": "RC Pro",
+      "title": "RC Pro consultant IT : freelance, ESN, erreur de conseil",
+      "description": "Consultant IT, freelance, developpeur, cybersante : pourquoi comparer une RC Pro avant une mission client.",
+      "cardExcerpt": "Freelance IT : RC Pro avant mission client.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+        "label": "Questionnaire RC Pro"
+      },
+      "keywords": [
+        "rc pro consultant it",
+        "assurance freelance informatique",
+        "responsabilite civile professionnelle",
+        "erreur de conseil",
+        "cyber assurance",
+        "devis rc pro"
+      ],
+      "intro": "Un consultant IT vend du conseil, du code, de l'integration ou de la securite. Une erreur de parametrage, une indisponibilite ou une perte de donnees peut declencher une reclamation client superieure au chiffre d'affaires de la mission.",
+      "urgency": "De nombreuses entreprises exigent une attestation RC Pro avant signature. Anticiper evite de perdre une mission ou de choisir un contrat trop generique dans l'urgence.",
+      "painPoints": [
+        "Attestation RC Pro demandee par le client final",
+        "Exclusion des pertes immaterielles non consecutives",
+        "Sous-traitance ou mission internationale non declaree",
+        "Absence de garantie cyber ou protection juridique",
+        "Plafond trop bas pour un contrat grand compte"
+      ],
+      "decisionCriteria": [
+        "Verifier les dommages immateriels et erreurs de conseil",
+        "Adapter le plafond au contrat client",
+        "Declarer sous-traitance, hebergement ou acces donnees",
+        "Ajouter protection juridique si les litiges sont probables",
+        "Comparer RC Pro et cyber selon le type de mission"
+      ],
+      "documents": [
+        "Extrait Kbis ou numero SIRET",
+        "Description des missions principales",
+        "Contrat client ou exigences assurance",
+        "Chiffre d'affaires previsionnel",
+        "Liste des pays ou clients servis"
+      ],
+      "conversion": "Le questionnaire RC Pro filtre le metier, le chiffre d'affaires et les exigences client. Cela permet de sortir un devis exploitable plutot qu'une offre generique.",
+      "related": [
+        { "href": "./rc-pro-freelance-artisan-guide.html", "label": "RC Pro freelance" },
+        { "href": "../landings/devis.html?need=rc-pro", "label": "Devis RC Pro" },
+        { "href": "../assurances/", "label": "Catalogue assurances pro" }
+      ]
+    },
+    {
+      "publishAt": "2026-07-21",
+      "file": "mutuelle-tns-independant-madelin-2026.html",
+      "section": "sante",
+      "tag": "TNS",
+      "title": "Mutuelle TNS 2026 : independant, Madelin et reste a charge",
+      "description": "Mutuelle TNS, travailleur independant, deduction Madelin : comparer les garanties utiles sans surpayer.",
+      "cardExcerpt": "TNS : mutuelle utile, budget maitrise.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard",
+        "label": "Questionnaire mutuelle TNS"
+      },
+      "keywords": [
+        "mutuelle tns",
+        "mutuelle independant",
+        "loi madelin mutuelle",
+        "complementaire sante tns",
+        "hospitalisation independant",
+        "devis mutuelle"
+      ],
+      "intro": "Un travailleur non salarie ne beneficie pas d'une mutuelle employeur classique. Le bon contrat doit proteger les postes couteux tout en restant compatible avec la tresorerie de l'activite.",
+      "urgency": "Quand l'activite demarre ou change de rythme, les garanties sante sont souvent repoussees. Pourtant une hospitalisation ou des soins dentaires peuvent peser directement sur le revenu disponible.",
+      "painPoints": [
+        "Absence de participation employeur",
+        "Budget mensuel variable selon l'activite",
+        "Garanties faibles sur hospitalisation ou dentaire",
+        "Confusion entre mutuelle sante et prevoyance TNS",
+        "Deductibilite Madelin mal comprise"
+      ],
+      "decisionCriteria": [
+        "Comparer le cout annuel apres avantage fiscal eventuel",
+        "Prioriser hospitalisation, dentaire et soins courants",
+        "Verifier les delais de carence",
+        "Distinguer mutuelle et prevoyance maintien de revenu",
+        "Choisir un niveau ajustable selon l'evolution d'activite"
+      ],
+      "documents": [
+        "Statut : micro, EURL, SASU, profession liberale",
+        "Cotisation actuelle si contrat existant",
+        "Depenses de sante recentes",
+        "Budget mensuel cible",
+        "Besoins du conjoint ou des enfants"
+      ],
+      "conversion": "Le questionnaire sante aide a situer le profil TNS et les postes sensibles. Leads Opportunities peut ensuite comparer des niveaux de garanties coherents avec le budget.",
+      "related": [
+        { "href": "./mutuelle-sante-5-criteres.html", "label": "5 criteres mutuelle" },
+        { "href": "./prevoyance-independants-guide.html", "label": "Prevoyance independants" },
+        { "href": "../landings/sante.html", "label": "Landing sante" }
+      ]
+    }
+  ]
+}
