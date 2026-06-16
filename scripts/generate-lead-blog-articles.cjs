@@ -186,6 +186,12 @@ function main() {
     return;
   }
 
+  if (!selected.length && fs.existsSync(outPath)) {
+    console.log("Lead articles published: 0");
+    console.log("No lead article due for", args.date);
+    return;
+  }
+
   writeGenerated(nextArticles, args.date);
   console.log("Lead articles published:", selected.length);
   selected.forEach(function (item) {
