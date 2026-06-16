@@ -675,6 +675,32 @@
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=cadmium-2026",
       "matchedRule": "mutuelle",
       "species": null
+    },
+    {
+      "file": "g7-evian-prevoyance-patrimoine-credit-2026.html",
+      "title": "Sommet du G7 a Evian : prevoyance, patrimoine et credit immobilier",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=g7-evian-2026",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "coupe-monde-voyage-assurance-sante-etranger-2026.html",
+      "title": "Coupe du monde 2026 : voyager au Canada, USA ou Mexique — assurance sante",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=coupe-monde-voyage-2026",
+      "matchedRule": null,
+      "species": null
     }
   ]
 }
