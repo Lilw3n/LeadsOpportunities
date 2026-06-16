@@ -1,66 +1,145 @@
 {
-  "updated": "2026-06-16",
+  "updated": "2026-06-17",
+  "maxPerFeed": 6,
+  "maxCandidates": 50,
   "feeds": [
     {
+      "id": "source-cafeyn-figaro",
+      "name": "Cafeyn — Le Figaro (RSS public)",
+      "sourceType": "cafeyn",
+      "url": "https://www.lefigaro.fr/rss/figaro_actualites.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-parisien",
+      "name": "Cafeyn — Le Parisien",
+      "sourceType": "cafeyn",
+      "url": "https://feeds.leparisien.fr/leparisien/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-liberation",
+      "name": "Cafeyn — Libération",
+      "sourceType": "cafeyn",
+      "url": "https://www.liberation.fr/arc/outboundfeeds/rss-all/",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-ouest-france",
+      "name": "Cafeyn — Ouest-France",
+      "sourceType": "cafeyn",
+      "url": "https://www.ouest-france.fr/rss-en-continu.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-la-provence",
+      "name": "Cafeyn — La Provence",
+      "sourceType": "cafeyn",
+      "url": "https://www.laprovence.com/rss",
+      "enabled": false
+    },
+    {
+      "id": "source-cafeyn-la-tribune",
+      "name": "Cafeyn — La Tribune",
+      "sourceType": "cafeyn",
+      "url": "https://www.latribune.fr/rss",
+      "enabled": false
+    },
+    {
+      "id": "source-edge-bing-fr",
+      "name": "Edge / Bing — actu France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=France&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-franceinfo",
+      "name": "Firefox — France Info titres",
+      "sourceType": "firefox",
+      "url": "https://www.francetvinfo.fr/titres.rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes",
+      "name": "Firefox — 20 Minutes",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/rss/une.xml",
+      "enabled": false
+    },
+    {
+      "id": "source-firefox-france24",
+      "name": "Firefox — France 24",
+      "sourceType": "firefox",
+      "url": "https://www.france24.com/fr/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-franceinfo-societe",
+      "name": "Firefox — Franceinfo société",
+      "sourceType": "firefox",
+      "url": "https://www.francetvinfo.fr/societe.rss",
+      "enabled": true
+    },
+    {
       "id": "google-news-assurance",
-      "name": "Google News — assurance France",
+      "name": "Google News — assurance",
+      "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=assurance+OR+mutuelle+OR+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-habitation",
-      "name": "Google News — habitation sinistre",
+      "name": "Google News — habitation",
+      "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=assurance+habitation+sinistre+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
-      "id": "google-news-auto",
-      "name": "Google News — auto",
-      "url": "https://news.google.com/rss/search?q=assurance+auto+france&hl=fr&gl=FR&ceid=FR:fr",
+      "id": "google-news-sante",
+      "name": "Google News — santé",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=mutuelle+OR+remboursement+santé+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
-      "id": "franceinfo-societe",
-      "name": "Franceinfo — société",
-      "url": "https://www.francetvinfo.fr/societe.rss",
+      "id": "google-news-immobilier",
+      "name": "Google News — prêt immo",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=prêt+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-coupe-monde",
+      "name": "Google News — sport & voyage",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=coupe+du+monde+OR+voyage+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "lemonde-economie",
       "name": "Le Monde — économie",
+      "sourceType": "cafeyn",
       "url": "https://www.lemonde.fr/economie/rss_full.xml",
       "enabled": true
     },
     {
       "id": "lemonde-societe",
       "name": "Le Monde — société",
+      "sourceType": "cafeyn",
       "url": "https://www.lemonde.fr/societe/rss_full.xml",
       "enabled": true
     },
     {
-      "id": "google-news-sante",
-      "name": "Google News — santé remboursement",
-      "url": "https://news.google.com/rss/search?q=mutuelle+OR+remboursement+santé+france&hl=fr&gl=FR&ceid=FR:fr",
-      "enabled": true
-    },
-    {
-      "id": "google-news-immobilier",
-      "name": "Google News — prêt immobilier",
-      "url": "https://news.google.com/rss/search?q=prêt+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
-      "enabled": true
-    },
-    {
-      "id": "google-news-people",
-      "name": "Google News — people & société",
-      "url": "https://news.google.com/rss/search?q=divorce+OR+séparation+OR+habitation+france&hl=fr&gl=FR&ceid=FR:fr",
-      "enabled": true
-    },
-    {
-      "id": "20minutes",
-      "name": "20 Minutes",
-      "url": "https://www.20minutes.fr/rss/une.xml",
+      "id": "courrier-international",
+      "name": "Courrier international",
+      "sourceType": "firefox",
+      "url": "https://www.courrierinternational.com/rss",
       "enabled": true
     }
   ],
-  "notes": "Flux RSS publics (pas Cafeyn). Pour un article Cafeyn / Edge / MSN : utilisez blog/actu-inbox.html ou data/blog-actu-queue.json."
+  "pocket": {
+    "enabled": true,
+    "note": "Firefox Pocket — variables POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN sur Vercel/GitHub"
+  },
+  "notes": "Cafeyn = RSS des mêmes journaux. Edge = Bing News RSS (MSN n'a pas de flux public). Firefox = France Info + France 24 + Pocket API."
 }
