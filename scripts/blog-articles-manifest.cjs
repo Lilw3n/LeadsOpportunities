@@ -963,3 +963,11 @@ module.exports = {
 
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
 applyUpgrades(module.exports.articles);
+
+const { loadPendingArticles } = require("./blog-actu-pending.cjs");
+var pendingActu = loadPendingArticles();
+var pendingFiles = {};
+pendingActu.forEach(function (a) {
+  pendingFiles[a.file] = true;
+  module.exports.articles.push(a);
+});

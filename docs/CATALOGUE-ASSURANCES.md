@@ -19,6 +19,8 @@ Sections blog : **actu** (présidentielles, Ligue des champions, Coupe du monde,
 
 Pour un nouvel article : ajouter une entrée dans le manifeste (avec `blocks`), puis `npm run blog:build`.
 
+**Actu automatique (Cafeyn, Edge, RSS)** : voir `docs/BLOG-ACTU-AUTOMATION.md` — `npm run blog:actu:fetch`, boîte `blog/actu-inbox.html`, automation Cursor.
+
 ## SEO emprunteur
 
 Produit géo #12 : `assurance-emprunteur/` (189 villes). Pilier : `assurance-emprunteur/index.html`.
