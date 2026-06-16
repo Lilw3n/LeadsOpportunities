@@ -113,9 +113,15 @@ function scoreLeadPotential(candidate) {
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
   if (candidate.pubDate) {
-    var age = Date.now() - new Date(candidate.pubDate).getTime();
-    if (age < 3 * 86400000) score += 12;
-    else if (age < 7 * 86400000) score += 6;
+    var time = new Date(candidate.pubDate).getTime();
+    if (!Number.isNaN(time)) {
+      var age = Date.now() - time;
+      if (age < 3 * 86400000) score += 12;
+      else if (age < 7 * 86400000) score += 6;
+      else if (age > 365 * 86400000) score -= 40;
+      else if (age > 90 * 86400000) score -= 24;
+      else if (age > 30 * 86400000) score -= 12;
+    }
   }
 
   return Math.min(100, Math.max(0, score));
