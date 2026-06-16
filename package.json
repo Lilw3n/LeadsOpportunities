@@ -7,6 +7,8 @@
     "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-seo-pages.cjs",
     "niche:plan": "node -e \"console.log(require('fs').readFileSync('seo/niches.json','utf8'))\"",
     "niche:sync": "node -e \"require('fs').copyFileSync('seo/niches.json','data/niches-admin.json');console.log('niches-admin.json synced')\"",
+    "blog:lead:preview": "node scripts/generate-lead-blog-articles.cjs --dry-run",
+    "blog:lead:publish": "node scripts/generate-lead-blog-articles.cjs",
     "blog:articles": "node scripts/generate-blog-articles.cjs",
     "blog:index": "node scripts/generate-blog-index.cjs",
     "blog:feed": "node scripts/generate-blog-feed.cjs",

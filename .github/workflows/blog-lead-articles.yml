@@ -1,0 +1,48 @@
+name: Blog lead articles
+
+on:
+  schedule:
+    - cron: "0 7 * * 2"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Publish next due lead article
+        run: npm run blog:lead:publish -- --count=1
+
+      - name: Detect new article
+        id: lead_article
+        run: |
+          if git diff --quiet -- scripts/blog-lead-articles.generated.cjs; then
+            echo "No lead article due."
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Rebuild blog assets
+        if: steps.lead_article.outputs.published == 'true'
+        run: npm run blog:build
+
+      - name: Commit generated blog article
+        if: steps.lead_article.outputs.published == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blog data/blog-questionnaire-admin.json scripts/blog-lead-articles.generated.cjs
+          git commit -m "Publier un article blog lead"
+          git push
