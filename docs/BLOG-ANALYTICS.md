@@ -71,12 +71,32 @@ Attendre 24–48 h pour l’historique enrichi.
 
 Pour **lecture et clics dans la page**, utilisez **GA4** (ou un outil heatmap ci-dessous).
 
-## Option heatmaps (cartes de chaleur)
+## Option heatmaps (cartes de chaleur) — Microsoft Clarity
 
-Pour voir visuellement où les gens cliquent :
+Clarity est intégré dans `google-config.js` : dès que l’ID projet est renseigné, **toutes les pages** (blog inclus) envoient les sessions à Clarity.
 
-- [Microsoft Clarity](https://clarity.microsoft.com/) — gratuit, enregistrements + heatmaps  
-- Ajoutez le snippet Clarity dans `google-config.js` ou via variable d’environnement si vous l’activez plus tard
+### Activer en 5 minutes
+
+1. Créez un compte sur [Microsoft Clarity](https://clarity.microsoft.com/)
+2. **Nouveau projet** → URL : `https://www.leadsopportunities.fr`
+3. **Paramètres** → copiez l’**ID du projet** (chaîne alphanumérique, ex. `abc1def2gh`)
+4. **Vercel** → Projet → **Settings** → **Environment Variables** :
+   - Nom : `CLARITY_PROJECT_ID`
+   - Valeur : votre ID Clarity
+5. **Redeploy** le site
+
+En local, vous pouvez aussi mettre l’ID dans `google-config.js` (`clarityProjectId: "votre-id"`) pour tester.
+
+### Ce que vous voyez dans Clarity
+
+| Rapport | Usage blog |
+|---------|------------|
+| **Heatmaps** | Où les visiteurs cliquent sur l’article (CTA milieu vs bas) |
+| **Scroll maps** | Jusqu’où ils descendent visuellement |
+| **Enregistrements** | Replay d’une session réelle sur `assurance-auto-bonus-malus` |
+| **Filtres** | Par URL : `/blog/assurance-auto-bonus-malus.html` |
+
+Complémentaire à GA4 : GA4 = chiffres agrégés ; Clarity = vision qualitative.
 
 ## Regénérer les articles après modification
 
@@ -88,6 +108,7 @@ Puis déployer sur Vercel.
 
 ## Fichiers concernés
 
-- `js/blog-reading-analytics.js` — logique de tracking  
+- `js/blog-reading-analytics.js` — logique de tracking GA4  
+- `google-config.js` — charge Microsoft Clarity si `CLARITY_PROJECT_ID` est défini  
 - `scripts/generate-blog-articles.cjs` — injection script + `data-blog-*` sur `<body>`  
 - `scripts/generate-blog-index.cjs` — tracking sur l’index blog

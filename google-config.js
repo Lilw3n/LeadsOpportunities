@@ -12,6 +12,7 @@
     metaPixelId: "",
     tiktokPixelId: "",
     pinterestTagId: "",
+    clarityProjectId: "",
   };
 
   var env = window.GOOGLE_TRACKING_FROM_ENV || {};
@@ -32,6 +33,7 @@
     metaPixelId: merge("metaPixelId"),
     tiktokPixelId: merge("tiktokPixelId"),
     pinterestTagId: merge("pinterestTagId"),
+    clarityProjectId: merge("clarityProjectId"),
   };
 
   var cfg = window.GOOGLE_TRACKING;
@@ -87,6 +89,25 @@
     tt.src = "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=" + encodeURIComponent(cfg.tiktokPixelId);
     document.head.appendChild(tt);
     window.ttq.page();
+  }
+
+  if (
+    cfg.clarityProjectId &&
+    cfg.clarityProjectId.indexOf("XXXX") === -1 &&
+    !document.querySelector('script[src*="clarity.ms/tag/"]')
+  ) {
+    (function (c, l, a, r, i, t, y) {
+      c[a] =
+        c[a] ||
+        function () {
+          (c[a].q = c[a].q || []).push(arguments);
+        };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", cfg.clarityProjectId);
   }
 
   var primaryGa = !isPlaceholder(cfg.ga4MeasurementId) ? cfg.ga4MeasurementId : null;

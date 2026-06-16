@@ -104,6 +104,7 @@ Les pages chargent d’abord `/api/google-config-env` puis `google-config.js` : 
 | `GOOGLE_ADS_CONVERSION_PHONE` | `AW-123456789/abcDEF` | Conversion **Clic sur numero** (optionnel) |
 | `GOOGLE_ADS_CONVERSION_WHATSAPP` | `AW-123456789/ghiJKL` | Conversion **WhatsApp** (optionnel) |
 | `META_PIXEL_ID` | `123456789012345` | Pixel Meta (client) |
+| `CLARITY_PROJECT_ID` | `abc1def2gh` | [Microsoft Clarity](https://clarity.microsoft.com/) → Projet → **Paramètres** → ID du projet (heatmaps + replays) |
 | `META_CAPI_TOKEN` | token CAPI Events Manager | Conversions API Meta (serveur) |
 
 Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’URL `/api/google-config-env` n’existe pas : le site garde les valeurs par defaut de `google-config.js` (tu peux y mettre tes IDs pour les tests).
