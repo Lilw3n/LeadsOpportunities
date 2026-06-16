@@ -12,7 +12,7 @@
     metaPixelId: "",
     tiktokPixelId: "",
     pinterestTagId: "",
-    clarityProjectId: "",
+    clarityProjectId: "x7yqp46fj9",
   };
 
   var env = window.GOOGLE_TRACKING_FROM_ENV || {};
