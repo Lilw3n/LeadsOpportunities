@@ -1,0 +1,42 @@
+{
+  "updated": "2026-06-16",
+  "feeds": [
+    {
+      "id": "google-news-assurance",
+      "name": "Google News — assurance France",
+      "url": "https://news.google.com/rss/search?q=assurance+OR+mutuelle+OR+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-habitation",
+      "name": "Google News — habitation sinistre",
+      "url": "https://news.google.com/rss/search?q=assurance+habitation+sinistre+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-auto",
+      "name": "Google News — auto",
+      "url": "https://news.google.com/rss/search?q=assurance+auto+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "franceinfo-societe",
+      "name": "Franceinfo — société",
+      "url": "https://www.francetvinfo.fr/societe.rss",
+      "enabled": true
+    },
+    {
+      "id": "lemonde-economie",
+      "name": "Le Monde — économie",
+      "url": "https://www.lemonde.fr/economie/rss_full.xml",
+      "enabled": true
+    },
+    {
+      "id": "lemonde-societe",
+      "name": "Le Monde — société",
+      "url": "https://www.lemonde.fr/societe/rss_full.xml",
+      "enabled": true
+    }
+  ],
+  "notes": "Flux RSS publics (pas Cafeyn). Pour un article Cafeyn / Edge / MSN : utilisez blog/actu-inbox.html ou data/blog-actu-queue.json."
+}

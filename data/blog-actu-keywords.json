@@ -1,0 +1,90 @@
+{
+  "rules": [
+    {
+      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins"],
+      "section": "sante",
+      "need": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante"
+    },
+    {
+      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation"
+    },
+    {
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine"],
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu"
+    },
+    {
+      "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus"],
+      "section": "auto",
+      "need": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto"
+    },
+    {
+      "keywords": ["vtc", "uber", "bolt", "heetch", "chauffeur", "taxi"],
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc"
+    },
+    {
+      "keywords": ["chien", "chat", "animal", "vétérinaire", "veterinaire", "animaux"],
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux"
+    },
+    {
+      "keywords": ["prévoyance", "prevoyance", "décès", "deces", "invalidité", "invalidite", "arrêt de travail"],
+      "section": "prevoyance",
+      "need": "prevoyance",
+      "tag": "Prévoyance",
+      "tagClass": "tag-prevoyance"
+    },
+    {
+      "keywords": ["freelance", "indépendant", "independant", "rc pro", "artisan", "entreprise"],
+      "section": "pro",
+      "need": "rc-pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro"
+    },
+    {
+      "keywords": ["voyage", "vacances", "avion", "déplacement", "coupe du monde", "ligue des champions", "formule 1"],
+      "section": "actu",
+      "need": "sante",
+      "tag": "Actu & voyage",
+      "tagClass": "tag-actu"
+    },
+    {
+      "keywords": ["élection", "election", "président", "president", "politique", "trump", "macron", "budget"],
+      "section": "actu",
+      "need": "prevoyance",
+      "tag": "Actu politique",
+      "tagClass": "tag-actu"
+    }
+  ],
+  "default": {
+    "section": "actu",
+    "need": "habitation",
+    "tag": "Actu",
+    "tagClass": "tag-actu"
+  },
+  "leadCta": {
+    "sante": { "href": "../landings/questionnaire.html?need=sante&journey=standard", "label": "Questionnaire mutuelle (3 min)" },
+    "habitation": { "href": "../landings/questionnaire.html?need=habitation&journey=standard", "label": "Questionnaire habitation (3 min)" },
+    "auto": { "href": "../landings/questionnaire.html?need=auto&journey=standard", "label": "Questionnaire auto (3 min)" },
+    "vtc": { "href": "../landings/questionnaire.html?need=vtc&journey=standard", "label": "Questionnaire VTC (3 min)" },
+    "animaux": { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux (3 min)" },
+    "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur (3 min)" },
+    "prevoyance": { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prévoyance (3 min)" },
+    "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" }
+  }
+}
