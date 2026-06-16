@@ -11,6 +11,7 @@ const {
   scaffoldArticle,
   parseRssItems,
   existingFiles,
+  scoreLeadPotential,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -63,6 +64,7 @@ async function main() {
           need: scaffold.cta.href.match(/need=([^&]+)/)
             ? scaffold.cta.href.match(/need=([^&]+)/)[1]
             : "habitation",
+          leadScore: 0,
           status: "candidate",
         });
       });
@@ -113,6 +115,12 @@ async function main() {
   });
 
   deduped = deduped.slice(0, MAX_CANDIDATES);
+  deduped.forEach(function (c) {
+    c.leadScore = scoreLeadPotential(c);
+  });
+  deduped.sort(function (a, b) {
+    return b.leadScore - a.leadScore;
+  });
 
   writeJson("blog-actu-candidates.json", {
     updated: new Date().toISOString(),

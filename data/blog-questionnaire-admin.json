@@ -636,6 +636,45 @@
       "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard",
       "matchedRule": "emprunteur",
       "species": null
+    },
+    {
+      "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
+      "title": "Investir en France sans y resider : assurance emprunteur et pret immo",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=non-residents-2026",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "mutuelle-obesite-medicaments-rembourses-juin-2026.html",
+      "title": "Obesite : medicaments rembourses — ce que votre mutuelle doit couvrir",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=obesite-juin-2026",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "cadmium-depistage-rembourse-mutuelle-2026.html",
+      "title": "Cadmium : depistage rembourse — prevention et mutuelle complementaire",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=cadmium-2026",
+      "matchedRule": "mutuelle",
+      "species": null
     }
   ]
 }

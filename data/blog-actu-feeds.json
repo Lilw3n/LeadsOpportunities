@@ -36,6 +36,30 @@
       "name": "Le Monde — société",
       "url": "https://www.lemonde.fr/societe/rss_full.xml",
       "enabled": true
+    },
+    {
+      "id": "google-news-sante",
+      "name": "Google News — santé remboursement",
+      "url": "https://news.google.com/rss/search?q=mutuelle+OR+remboursement+santé+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-immobilier",
+      "name": "Google News — prêt immobilier",
+      "url": "https://news.google.com/rss/search?q=prêt+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-people",
+      "name": "Google News — people & société",
+      "url": "https://news.google.com/rss/search?q=divorce+OR+séparation+OR+habitation+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "20minutes",
+      "name": "20 Minutes",
+      "url": "https://www.20minutes.fr/rss/une.xml",
+      "enabled": true
     }
   ],
   "notes": "Flux RSS publics (pas Cafeyn). Pour un article Cafeyn / Edge / MSN : utilisez blog/actu-inbox.html ou data/blog-actu-queue.json."
