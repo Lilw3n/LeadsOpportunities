@@ -94,13 +94,31 @@ var ANGLES = {
     ],
     ctaLine: "Questionnaire RC Pro : activite et chiffre d'affaires.",
   },
+  sport: {
+    hook:
+      "Coupe du monde, deplacements supporters ou sejour a l'etranger : sans bonnes garanties, un accident, une annulation ou un cambriolage pendant l'absence peut couter tres cher.",
+    checklist: [
+      "Mutuelle : hospitalisation et pharmacie USA / Mexique / Canada (CDM 2026)",
+      "Assistance rapatriement et frais medicaux a l'etranger",
+      "Assurance voyage : annulation transport ou hebergement",
+      "Habitation : logement vide pendant le match ou le deplacement",
+      "Auto : stationnement longue duree — vol, bris de glace, assistance",
+      "Prevoyance : arret maladie si blessure ou epuisement (supporters, deplacements pro)",
+    ],
+    ctaLine:
+      "Avant le coup d'envoi : questionnaire mutuelle / sante pour verifier la couverture a l'etranger et le reste a charge.",
+  },
 };
 
 function enrichFromCandidate(candidate) {
   var title = String(candidate.title || "").trim();
   var topic = matchTopic(title + " " + (candidate.summary || ""));
   var need = candidate.need || topic.need || "habitation";
-  var angle = ANGLES[need] || ANGLES.habitation;
+  var angle = isSportActu(title) ? ANGLES.sport : ANGLES[need] || ANGLES.habitation;
+  if (isSportActu(title)) {
+    need = "sante";
+    topic = Object.assign({}, topic, { tag: "Coupe du monde 2026", section: "actu", tagClass: "tag-actu" });
+  }
   var slug = title.slice(0, 40);
   var file = candidate.suggestedFile;
   if (!file) return null;
@@ -150,6 +168,9 @@ function enrichFromCandidate(candidate) {
 
 function buildTitle(raw, need) {
   var short = shortTitle(raw);
+  if (isSportActu(raw)) {
+    return short + " : assurance voyage, mutuelle etranger et habitation — guide supporters";
+  }
   var suffix = {
     sante: "mutuelle et remboursements",
     habitation: "assurance habitation",
@@ -183,4 +204,38 @@ function platformLabel(sourceType) {
   return "l'actualite du jour";
 }
 
-module.exports = { enrichFromCandidate: enrichFromCandidate };
+function isSportActu(text) {
+  var hay = String(text || "").toLowerCase();
+  return [
+    "coupe du monde",
+    "world cup",
+    "mondial",
+    "fifa",
+    "équipe de france",
+    "equipe de france",
+    "mbappe",
+    "mbappé",
+    "deschamps",
+    "griezmann",
+    "supporters",
+    "supporter",
+    "match france",
+    "les bleus",
+    "france -",
+    "france –",
+    "france senegal",
+    "france sénégal",
+    "france argentine",
+    "stade",
+    "fan zone",
+    "joueur iconique",
+    "icone du foot",
+    "légende du foot",
+    "demi-finale",
+    "quart de finale",
+  ].some(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  });
+}
+
+module.exports = { enrichFromCandidate: enrichFromCandidate, isSportActu: isSportActu };

@@ -44,7 +44,7 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 | **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
 | **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
 | **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
-| **Google News** | 20+ requêtes : une France, assurance, mutuelle, auto, habitation, emprunteur, sinistre, VTC, animaux, canicule, people, sport… |
+| **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
 
 **Sélection** :
 - `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run

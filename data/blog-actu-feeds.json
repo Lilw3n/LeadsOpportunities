@@ -5,7 +5,7 @@
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 25
+    "aggregator": 30
   },
   "feeds": [
     {
@@ -413,11 +413,67 @@
       "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=sport+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
+    },
+    {
+      "id": "google-news-cdm-2026",
+      "name": "Google News — Coupe du monde 2026 France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=coupe+du+monde+2026+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-equipe-france",
+      "name": "Google News — équipe de France football",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=equipe+de+france+football&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-bleus-joueurs",
+      "name": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=Mbappe+OR+Deschamps+OR+Griezmann+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-supporters",
+      "name": "Google News — supporters France foot",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=supporters+france+football&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-match-france",
+      "name": "Google News — match France aujourd'hui",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=match+france+football&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-cdm-voyage",
+      "name": "Google News — CDM voyage assurance",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=coupe+du+monde+voyage+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-equipe-france",
+      "name": "Edge — Bing équipe de France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=equipe+de+france+foot&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-cdm",
+      "name": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=coupe+du+monde+2026+france&format=rss",
+      "enabled": true
     }
   ],
   "pocket": {
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "Cafeyn=presse partenaire RSS. Edge=Bing News (MSN). Firefox=France Info/24/RFI/Pocket. Google News=20+ requêtes assurance/leads."
+  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }

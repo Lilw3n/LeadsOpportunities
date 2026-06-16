@@ -5,6 +5,7 @@
  */
 const { generateWithFallback } = require("../api/_lib/ai-provider-router.js");
 const { ctaWithUtm, monthLabel, relatedForSection, matchTopic, slugify, uniqueFile } = require("./blog-actu-lib.cjs");
+const { isSportActu } = require("./blog-actu-enrich.cjs");
 
 function arg(name) {
   var m = process.argv.find(function (a) {
@@ -17,6 +18,15 @@ function buildPrompt(candidate) {
   var topic = matchTopic(candidate.title + " " + (candidate.summary || ""));
   var need = candidate.need || topic.need;
   var platform = candidate.sourceType || candidate.source || "actu";
+  var sportBlock = "";
+  if (isSportActu(candidate.title + " " + (candidate.summary || ""))) {
+    need = "sante";
+    sportBlock =
+      "\nContexte COUPE DU MONDE 2026 : accroche sur matchs actuels, supporters, joueurs iconiques (Mbappe, Deschamps, Bleus…).\n" +
+      "Angle OBLIGATOIRE Leads Opportunities : assurance voyage / mutuelle a l'etranger (USA, Mexique, Canada), " +
+      "habitation vide pendant deplacement, auto garee, annulation voyage. Pas un article sportif pur — toujours lien questionnaire sante.\n" +
+      'Tag JSON: "Coupe du monde 2026"\n';
+  }
   return (
     "Tu es redacteur SEO pour Leads Opportunities, courtier ORIAS assurance en France.\n" +
     "A partir de cette actualite, redige un article ORIGINAL (ne copie pas le journal) qui convertit vers un questionnaire.\n\n" +
@@ -28,7 +38,8 @@ function buildPrompt(candidate) {
     platform +
     " (Cafeyn, Edge ou Firefox)\nNeed questionnaire: " +
     need +
-    "\n\n" +
+    sportBlock +
+    "\n" +
     "Reponds UNIQUEMENT en JSON valide (pas de markdown):\n" +
     "{\n" +
     '  "title": "titre H1 accrocheur max 90 caracteres",\n' +

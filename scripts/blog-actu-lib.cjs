@@ -110,6 +110,23 @@ function scoreLeadPotential(candidate) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
+  [
+    "coupe du monde",
+    "world cup",
+    "mondial",
+    "mbappe",
+    "mbappé",
+    "deschamps",
+    "équipe de france",
+    "equipe de france",
+    "supporters",
+    "match france",
+    "les bleus",
+    "fifa 2026",
+  ].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) score += 14;
+  });
+
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
   if (candidate.pubDate) {
@@ -253,6 +270,9 @@ function relatedForSection(section, need) {
       { href: "../assurance-prevoyance/", label: "Assurance prevoyance" },
     ],
     actu: [
+      { href: "./coupe-monde-2026-assurance-voyage-sante.html", label: "CDM 2026 — voyage & sante" },
+      { href: "./coupe-monde-voyage-assurance-sante-etranger-2026.html", label: "Mutuelle a l'etranger" },
+      { href: "./ligue-champions-assurance-voyage-deplacement.html", label: "Voyage & assurance" },
       { href: "../assurances/", label: "Toutes nos assurances" },
       { href: "./index.html", label: "Blog assurance" },
     ],
