@@ -46,6 +46,11 @@ module.exports = async (req, res) => {
     });
   } catch (e) {
     console.error("[lead-progress]", e);
-    return res.status(500).json({ error: "Erreur enregistrement progression" });
+    return res.status(200).json({
+      ok: true,
+      leadId: body.leadId || null,
+      stored: false,
+      warning: "Progression non persistée (schéma base à migrer)",
+    });
   }
 };

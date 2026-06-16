@@ -106,7 +106,23 @@ async function recordFunnelEvent(sql, input) {
         phone = COALESCE(EXCLUDED.phone, site_leads.phone)
     `;
   } catch (e) {
-    throw e;
+    await sql`
+      INSERT INTO site_leads (id, source, vertical, lead_score, email, phone, payload)
+      VALUES (
+        ${leadId},
+        ${String(input.source || "wizard_progress").slice(0, 120)},
+        ${String(input.vertical || "").slice(0, 80)},
+        ${Number(input.lead_score || 0)},
+        ${input.email ? String(input.email).slice(0, 320) : null},
+        ${input.phone ? String(input.phone).slice(0, 40) : null},
+        ${JSON.stringify(merged)}
+      )
+      ON CONFLICT (id) DO UPDATE SET
+        payload = EXCLUDED.payload,
+        vertical = COALESCE(EXCLUDED.vertical, site_leads.vertical),
+        email = COALESCE(EXCLUDED.email, site_leads.email),
+        phone = COALESCE(EXCLUDED.phone, site_leads.phone)
+    `;
   }
 
   if (clientIp) {
@@ -119,7 +135,7 @@ async function recordFunnelEvent(sql, input) {
     await sql`
       INSERT INTO lead_funnel_events (lead_id, event, step, step_name, journey, meta)
       VALUES (
-        ${leadId},
+        ${leadId}::text,
         ${String(input.event || "wizard_step").slice(0, 80)},
         ${qStep},
         ${input.step_name ? String(input.step_name).slice(0, 120) : null},
@@ -128,7 +144,7 @@ async function recordFunnelEvent(sql, input) {
       )
     `;
   } catch (funnelTableErr) {
-    /* table optionnelle */
+    /* table optionnelle ou lead_id UUID incompatible */
   }
 
   return { leadId: leadId, pipelineStage: pipelineStage, payload: merged };
