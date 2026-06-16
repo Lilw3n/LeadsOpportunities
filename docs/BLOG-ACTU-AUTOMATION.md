@@ -24,7 +24,7 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
 
 ### Cafeyn — sans stocker votre mot de passe
 
-**On ne peut pas** connecter un bot à Cafeyn (CGU, sécurité, pas d’API abonné).
+**Ne donnez jamais email/mot de passe Cafeyn** à un agent, GitHub ou Vercel. Guide complet : **`docs/SETUP-ACTU-CAFEYN.md`**.
 
 **Équivalent automatique** :
 - **RSS** des mêmes journaux (17 flux `sourceType: cafeyn`)
