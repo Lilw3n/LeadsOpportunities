@@ -130,7 +130,13 @@ function renderArticle(a) {
     canonical +
     '" />\n  <meta property="og:image" content="' +
     base +
-    '/og-default.jpg" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body>\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="./index.html">\n        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>\n        Blog\n      </a>\n      <a class="blog-logo" href="../index.html">\n        <span class="blog-logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>\n        Leads Opportunities\n      </a>\n    </div>\n  </header>\n  <main class="blog-container">\n    <div class="article-header">\n      <div class="article-tag ' +
+    '/og-default.jpg" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body data-blog-page="article" data-blog-article="' +
+    esc(a.file) +
+    '" data-blog-section="' +
+    esc(a.section) +
+    '" data-blog-tag="' +
+    esc(a.tag) +
+    '">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="./index.html">\n        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>\n        Blog\n      </a>\n      <a class="blog-logo" href="../index.html">\n        <span class="blog-logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>\n        Leads Opportunities\n      </a>\n    </div>\n  </header>\n  <main class="blog-container">\n    <div class="article-header">\n      <div class="article-tag ' +
     a.tagClass +
     '">' +
     esc(a.tag) +
@@ -143,7 +149,7 @@ function renderArticle(a) {
     cta +
     faqHtml +
     links +
-    '    </div>\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Toutes nos assurances</a>\n    <a href="../index.html#contact">Demande de rappel</a>\n  </footer>\n  <script src="../js/blog-questionnaire-bridge.js" defer></script>\n' +
+    '    </div>\n  </main>\n  <footer class="blog-footer">\n    <a href="../assurances/">Toutes nos assurances</a>\n    <a href="../index.html#contact">Demande de rappel</a>\n  </footer>\n  <script src="../js/attribution.js" defer></script>\n  <script src="../js/blog-reading-analytics.js" defer></script>\n  <script src="../js/blog-questionnaire-bridge.js" defer></script>\n' +
     renderJsonLd(a, canonical) +
     "</body>\n</html>\n"
   );
