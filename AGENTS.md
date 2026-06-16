@@ -14,10 +14,12 @@
 Voir **`docs/BLOG-ACTU-AUTOMATION.md`** pour le pipeline complet (Cafeyn, Edge, automation Cursor).
 
 Résumé agent :
-1. `npm run blog:actu:fetch`
+1. `npm run blog:actu:daily` — sélection intelligente (leadScore)
 2. Enrichir `data/blog-actu-pending.json` (article long, CTA questionnaire)
 3. `npm run blog:actu:publish`
 4. PR + merge
+
+Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 
 ## Cursor Cloud
 

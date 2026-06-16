@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins"],
+      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
       "section": "sante",
       "need": "sante",
       "tag": "Santé & mutuelle",
@@ -15,11 +15,18 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
       "tagClass": "tag-actu"
+    },
+    {
+      "keywords": ["construction", "sinistre", "dégâts des eaux", "degats des eaux", "catastrophe", "récolte", "agricole"],
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation & sinistre",
+      "tagClass": "tag-habitation"
     },
     {
       "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus"],

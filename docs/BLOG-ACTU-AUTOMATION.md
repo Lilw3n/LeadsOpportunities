@@ -114,6 +114,19 @@ Règles éditoriales: accroche actu → risque réel → checklist → CTA quest
 - Citez la source dans l’article (« selon les informations relayées par… ») sans plagiat.
 - RSS publics : titres + résumés pour inspiration uniquement.
 
+## Cafeyn, Edge, Firefox — sans identifiants
+
+**Ne communiquez pas vos login Cafeyn** à un agent ou script : c’est contraire aux CGU, risqué pour votre compte, et techniquement bloqué.
+
+| Source | Méthode |
+|--------|---------|
+| **Cafeyn** (vous payez) | 1 titre/jour → `blog/actu-inbox.html` |
+| **Edge / MSN actu** | Idem — copier le titre qui vous intéresse |
+| **Firefox actu** | Idem |
+| **RSS automatique** | `npm run blog:actu:daily` chaque matin |
+
+Automation planifiée : voir **`docs/CURSOR-DAILY-ACTU.md`** (prompt à coller dans Cursor).
+
 ## Après publication
 
 ```bash

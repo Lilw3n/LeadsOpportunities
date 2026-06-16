@@ -93,6 +93,57 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Score 0–100 : potentiel lead questionnaire */
+function scoreLeadPotential(candidate) {
+  var score = 0;
+  var title = String(candidate.title || "").toLowerCase();
+  var need = candidate.need || "";
+
+  if (candidate.status === "queued") score += 25;
+  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
+  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) score += 8;
+  });
+
+  if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+
+  if (candidate.pubDate) {
+    var age = Date.now() - new Date(candidate.pubDate).getTime();
+    if (age < 3 * 86400000) score += 12;
+    else if (age < 7 * 86400000) score += 6;
+  }
+
+  return Math.min(100, Math.max(0, score));
+}
+
+function rankCandidates(candidates) {
+  return candidates
+    .map(function (c) {
+      return Object.assign({}, c, { leadScore: scoreLeadPotential(c) });
+    })
+    .sort(function (a, b) {
+      return b.leadScore - a.leadScore;
+    });
+}
+
+function ctaWithUtm(need, slug) {
+  var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
+  var base = cfg.leadCta[need] || cfg.leadCta.habitation;
+  var content = slugify(slug || need).slice(0, 40);
+  return {
+    href:
+      base.href +
+      (base.href.indexOf("?") === -1 ? "?" : "&") +
+      "utm_source=blog&utm_medium=actu_daily&utm_campaign=" +
+      encodeURIComponent(need) +
+      "&utm_content=" +
+      encodeURIComponent(content),
+    label: base.label,
+  };
+}
+
 function scaffoldArticle(input) {
   var title = String(input.title || "").trim();
   if (!title) return null;
@@ -261,4 +312,7 @@ module.exports = {
   appendPendingArticle: appendPendingArticle,
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
+  scoreLeadPotential: scoreLeadPotential,
+  rankCandidates: rankCandidates,
+  ctaWithUtm: ctaWithUtm,
 };
