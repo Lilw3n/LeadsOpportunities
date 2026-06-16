@@ -14,6 +14,19 @@
   ],
   "rows": [
     {
+      "file": "mutuelle-sante-seniors-reste-a-charge-2026.html",
+      "title": "Mutuelle senior 2026 : reduire le reste a charge sans surpayer",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
       "file": "elections-presidentielles-prevoyance-patrimoine.html",
       "title": "Elections presidentielles : prevoyance, patrimoine et credit immo",
       "section": "actu",
