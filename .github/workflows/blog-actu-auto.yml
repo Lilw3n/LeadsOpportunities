@@ -1,0 +1,54 @@
+name: Blog actu auto (Cafeyn / Edge / Firefox)
+
+on:
+  schedule:
+    # 5× par jour UTC : 6h, 9h, 12h, 15h, 18h (~7h, 10h, 13h, 16h, 19h Paris été)
+    - cron: "0 6,9,12,15,18 * * *"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Nombre d'articles (1-5)"
+        required: false
+        default: "1"
+
+permissions:
+  contents: write
+
+jobs:
+  publish-actu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Auto publish actu articles
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          POCKET_CONSUMER_KEY: ${{ secrets.POCKET_CONSUMER_KEY }}
+          POCKET_ACCESS_TOKEN: ${{ secrets.POCKET_ACCESS_TOKEN }}
+        run: |
+          COUNT="${{ github.event.inputs.count || '1' }}"
+          npm run blog:actu:auto -- --count="$COUNT"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git status --porcelain | grep -q .; then
+            git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
+            git commit -m "chore(blog): actu auto $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          else
+            echo "Aucun changement à committer."
+          fi

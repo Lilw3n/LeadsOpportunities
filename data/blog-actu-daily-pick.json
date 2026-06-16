@@ -1,0 +1,81 @@
+{
+  "date": "2026-06-16",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-assurance-habitation-pas-chere-comment-payer-moins-sans-sacrifier-les-ga",
+      "title": "Assurance habitation pas chère : comment payer moins sans sacrifier les garanties ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a316d5a98114d179bb1aeb8933c5adf&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fassurance-habitation-pas-chere-comment-payer-moins-sans-sacrifier-les-garanties-15-06-2026-NBT4QSF3YRD7HFSBLV6GU7K5VI.php&c=8352134480490962591&mkt=en-us",
+      "summary": "Les tarifs de l’assurance habitation ont progressé de façon significative ces dernières années, et beaucoup d’assurés cherchent à payer moin ...",
+      "pubDate": "Mon, 15 Jun 2026 06:36:00 GMT",
+      "feedId": "source-edge-bing-assurance",
+      "feedName": "Edge / Bing — assurance France",
+      "sourceType": "edge",
+      "suggestedFile": "assurance-habitation-pas-chere-comment-payer-moins-sans-sacrifier-les-ga.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 60,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-remboursement-de-wegovy-et-mounjaro-des-conditions-strictes-pour-les-ant",
+      "title": "Remboursement de Wegovy et Mounjaro : des conditions strictes pour les anti-obésité en France",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a316d5b90164298b795ba4254976660&url=https%3a%2f%2fwww.corsematin.com%2farticle%2fsante%2f16935795453032%2fremboursement-de-wegovy-et-mounjaro-des-conditions-strictes-pour-les-anti-obesite-en-france&c=10795080123209693629&mkt=en-us",
+      "summary": "AFP / SCOTT OLSON Les anti-obésité Wegovy et Mounjaro ont rapidement conquis leur place à l'échelle mondiale. Leur remboursement débute ce lundi en France, mais les contraintes seront strictes et nomb ...",
+      "pubDate": "Mon, 15 Jun 2026 00:59:00 GMT",
+      "feedId": "source-edge-bing-mutuelle",
+      "feedName": "Edge / Bing — mutuelle santé",
+      "sourceType": "edge",
+      "suggestedFile": "remboursement-de-wegovy-et-mounjaro-des-conditions-strictes-pour-les-ant.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 52,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-mutuelle-sante-pour-senior-que-devez-vous-savoir",
+      "title": "Mutuelle santé pour senior : que devez-vous savoir ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a316d5b90164298b795ba4254976660&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2flifestyle%2ftrucs-et-astuces%2fmutuelle-sant%25C3%25A9-pour-senior-que-devez-vous-savoir%2far-AA25G8Ub&c=6287443695804790270&mkt=en-us",
+      "summary": "Une mutuelle santé pour senior devient indispensable pour couvrir le coût des soins réguliers.",
+      "pubDate": "Mon, 15 Jun 2026 02:20:35 GMT",
+      "feedId": "source-edge-bing-mutuelle",
+      "feedName": "Edge / Bing — mutuelle santé",
+      "sourceType": "edge",
+      "suggestedFile": "mutuelle-sante-pour-senior-que-devez-vous-savoir.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 52,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-quelle-assurance-auto-choisir-la-methode-simple-pour-trouver-la-bonne-of",
+      "title": "Quelle assurance auto choisir ? La méthode simple pour trouver la bonne offre",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a316d5b0c3c45339fd3b66a80582f02&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fquelle-assurance-auto-choisir-la-methode-simple-pour-trouver-la-bonne-offre-16-06-2026-4777DJLMEZAD7A4UDNEBVCBEW4.php&c=9480943933317230884&mkt=en-us",
+      "summary": "Tiers, tiers plus, tous risques : choisir son assurance auto ne se résume pas à prendre la formule la moins chère. Le bon contrat dépend de ...",
+      "pubDate": "Tue, 16 Jun 2026 05:27:00 GMT",
+      "feedId": "source-edge-bing-auto",
+      "feedName": "Edge / Bing — auto France",
+      "sourceType": "edge",
+      "suggestedFile": "quelle-assurance-auto-choisir-la-methode-simple-pour-trouver-la-bonne-of.html",
+      "section": "auto",
+      "need": "auto",
+      "leadScore": 52,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-mon-enfant-est-allergique-au-pollen-comment-rembourse-la-mutuelle",
+      "title": "Mon enfant est allergique au pollen : comment rembourse la mutuelle ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a316d5b90164298b795ba4254976660&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fmon-enfant-est-allergique-au-pollen-comment-rembourse-la-mutuelle-02-06-2026-5CAXMAN4XRBTTB323GEYYQPZG4.php&c=13584771374981250462&mkt=en-us",
+      "summary": "Les allergies au pollen touchent près d’un enfant sur cinq en France et génèrent des dépenses de santé récurrentes chaque printemps. Entre l ...",
+      "pubDate": "Tue, 02 Jun 2026 01:11:00 GMT",
+      "feedId": "source-edge-bing-mutuelle",
+      "feedName": "Edge / Bing — mutuelle santé",
+      "sourceType": "edge",
+      "suggestedFile": "mon-enfant-est-allergique-au-pollen-comment-rembourse-la-mutuelle.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 48,
+      "status": "candidate"
+    }
+  ]
+}
