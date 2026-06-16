@@ -1,0 +1,352 @@
+{
+  "updated": "2026-06-16T15:05:22.431Z",
+  "articles": [
+    {
+      "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
+      "section": "finance",
+      "tag": "Emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Investir en France sans y resider : assurance emprunteur et pret immo",
+      "description": "Utwin, Mutlog et le marche emprunteur pour acquereurs non-residents : garanties, delegation, Lemoine — questionnaire gratuit.",
+      "meta": "8 min · Juin 2026",
+      "cardExcerpt": "Non-resident qui achete en France : l'assurance emprunteur est le vrai sujet.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=non-residents-2026",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "L'actualite <strong>assurance emprunteur pour acquereurs non-residents</strong> (Utwin, Mutlog) confirme une tendance : investir dans l'immobilier francais sans y vivre devient courant, mais <strong>la banque exige une couverture solide</strong> — souvent plus couteuse qu'en resident principal."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi la banque durcit le cahier des charges"
+        },
+        {
+          "type": "p",
+          "text": "Hors resident fiscal francais, le risque d'impaye ou de vacance locative est percus differemment. L'<strong>assurance emprunteur</strong> couvre le remboursement du pret en cas de deces, invalidite ou parfois perte d'emploi. Un dossier non-resident sans garanties claires peut etre <strong>refuse ou surcharge</strong>."
+        },
+        {
+          "type": "h2",
+          "text": "Les 4 points a verifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "<strong>Quotite assuree</strong> : 100 % sur chaque emprunteur ou repartition banque",
+            "<strong>ITT / IPT</strong> : le pret continue-t-il d'etre couvert si vous travaillez a l'etranger ?",
+            "<strong>Delegation vs contrat groupe</strong> : la loi Lemoine permet souvent de resilier et comparer",
+            "<strong>Coordination avec PNO</strong> si le bien est loue : assurance proprietaire non-occupant"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Lemoine : l'arme souvent oubliee des investisseurs"
+        },
+        {
+          "type": "p",
+          "text": "Meme non-resident, si vous empruntez aupres d'une banque francaise, vous pouvez en general <strong>changer d'assurance emprunteur</strong> a equivalence de garanties. L'economie depasse parfois <strong>30 a 40 %</strong> de la prime annuelle — reinvestissable en provision charges ou travaux."
+        },
+        {
+          "type": "p",
+          "text": "Notre <strong>questionnaire emprunteur</strong> (3 minutes) qualifie votre profil : resident ou non, montant du pret, age, fumeur, objectif investissement locatif. Vous recevez une orientation avant echange avec un courtier ORIAS."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine 2026"
+        },
+        {
+          "href": "./pno-bailleur-proprietaire-non-occupant.html",
+          "label": "PNO bailleur"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-obesite-medicaments-rembourses-juin-2026.html",
+      "section": "sante",
+      "tag": "Mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Obesite : medicaments rembourses — ce que votre mutuelle doit couvrir",
+      "description": "Prise en charge de traitements contre l'obesite : Secu, mutuelle, reste a charge. Verifiez optique, suivi et hospitalisation.",
+      "meta": "7 min · Juin 2026",
+      "cardExcerpt": "Nouveau remboursement : votre mutuelle est-elle au bon niveau ?",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=obesite-juin-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "A partir du <strong>15 juin 2026</strong>, deux medicaments contre l'<strong>obesite</strong> entrent en prise en charge. Bonne nouvelle pour les patients — mais attention au <strong>reste a charge</strong> : la Securite sociale ne rembourse qu'une partie, et votre <strong>mutuelle</strong> fait la difference sur le ticket final."
+        },
+        {
+          "type": "h2",
+          "text": "Secu + mutuelle : qui paie quoi ?"
+        },
+        {
+          "type": "p",
+          "text": "Un medicament rembourse passe par la <strong>base Securite sociale</strong>, puis par les <strong>garanties pharmacie</strong> de votre contrat. Si votre mutuelle est minimaliste (forfait pharma bas), vous pouvez payer plusieurs dizaines d'euros par mois de votre poche malgre le remboursement public."
+        },
+        {
+          "type": "h2",
+          "text": "Au-dela du medicament : le parcours complet"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Consultations nutrition / endocrino : depassements d'honoraires",
+            "Analyses et bilans : plafonds labo",
+            "Suivi psychologique si besoin : souvent plafonne",
+            "Eventuelle chirurgie bariatrique : poste hospitalisation lourd"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Quand reevaluer sa mutuelle"
+        },
+        {
+          "type": "p",
+          "text": "Si votre situation de sante evolue (traitement long, IMC, diabete associe), un contrat souscrit il y a 5 ans est probablement <strong>sous-dimensionne</strong>. Comparez a <strong>garanties equivalentes</strong> : hospitalisation, pharma, medecine courante."
+        },
+        {
+          "type": "p",
+          "text": "Le <strong>questionnaire mutuelle</strong> Leads Opportunities identifie votre profil (solo, famille, TNS) et les postes sensibles — reponse en 3 minutes, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "./mutuelle-sante-hospitalisation-2026.html",
+          "label": "Hospitalisation 2026"
+        },
+        {
+          "href": "../landings/sante.html",
+          "label": "Parcours mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "cadmium-depistage-rembourse-mutuelle-2026.html",
+      "section": "sante",
+      "tag": "Prevention",
+      "tagClass": "tag-sante",
+      "title": "Cadmium : depistage rembourse — prevention et mutuelle complementaire",
+      "description": "Nouveau depistage cadmium rembourse : qui est concerne, reste a charge, role de la mutuelle et prevention sante.",
+      "meta": "6 min · Juin 2026",
+      "cardExcerpt": "Depistage rembourse : verifiez vos garanties prevention.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=cadmium-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le <strong>depistage du cadmium</strong> entre dans le dispositif de prevention rembourse. Sujet de sante publique : l'exposition chronique touche certaines professions et regions. Pour les assures, la question pratique est <strong>qui paie les bilans et le suivi</strong> apres le depistage."
+        },
+        {
+          "type": "h2",
+          "text": "Prevention Secu vs mutuelle"
+        },
+        {
+          "type": "p",
+          "text": "Les actes de <strong>prevention</strong> suivent des regles specifiques (100 % Secu dans certains cas). Mais analyses complementaires, specialistes, ou suivi long peuvent generer un <strong>reste a charge</strong> selon votre mutuelle."
+        },
+        {
+          "type": "h2",
+          "text": "Profils a risque : vigilance renforcee"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Exposition professionnelle (industrie, agriculture, batteries)",
+            "Fumeurs et anciens fumeurs (synergies toxiques)",
+            "Habitants de zones industrielles historiques",
+            "Personnes avec pathologies renales ou osseuses"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "p",
+          "text": "Une mutuelle avec bon niveau <strong>medecine courante + analyses + hospitalisation</strong> securise le parcours si le depistage revele une anomalie. Testez votre niveau de couverture via notre questionnaire — 3 minutes, gratuit."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-remboursement-optique-dentaire-2026.html",
+          "label": "Remboursements 2026"
+        },
+        {
+          "href": "./questionnaire-mutuelle-quel-niveau-choisir.html",
+          "label": "Quel niveau choisir"
+        }
+      ]
+    },
+    {
+      "file": "g7-evian-prevoyance-patrimoine-credit-2026.html",
+      "section": "actu",
+      "tag": "G7 & économie",
+      "tagClass": "tag-actu",
+      "title": "Sommet du G7 a Evian : prevoyance, patrimoine et credit immobilier",
+      "description": "G7 2026 a Evian : incertitude economique, taux, immobilier. Comment proteger revenus, pret et epargne — questionnaire gratuit.",
+      "meta": "8 min · Juin 2026",
+      "cardExcerpt": "Sommet du G7 : securiser pret, epargne et revenus des maintenant.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=g7-evian-2026",
+        "label": "Questionnaire prevoyance (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le <strong>sommet du G7 a Evian</strong> replace l'<strong>economie mondiale</strong> sous les projecteurs : commerce, dettes, energie, geopolitique. Pour un foyer francais, la question n'est pas de prevoir le communique final, mais de <strong>proteger ce qui ne depend pas des chefs d'Etat</strong> : revenus, credit immobilier, epargne et contrats d'assurance."
+        },
+        {
+          "type": "h2",
+          "text": "1. Prevoyance : le filet quand l'activite ralentit"
+        },
+        {
+          "type": "p",
+          "text": "Periode d'incertitude = risque de <strong>baisse d'activite</strong> pour les independants et tensions sur l'emploi salarie. La prevoyance individuelle ou TNS comble ce que la Securite sociale ne couvre pas : <strong>franchises, delais de carence, plafonds ITT</strong>. Verifiez votre contrat avant une degradation de conjoncture."
+        },
+        {
+          "type": "h2",
+          "text": "2. Patrimoine et assurance-vie"
+        },
+        {
+          "type": "p",
+          "text": "Les debats internationaux sur la fiscalite et l'inflation relancent l'interet pour l'<strong>assurance-vie</strong> et la diversification. Un contrat deja ouvert, avec fonds repartis, limite l'exposition a un seul scenario politique. Evitez les arbitrages paniques ; preferez un <strong>bilan patrimonial</strong>."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "3. Credit immobilier et assurance emprunteur"
+        },
+        {
+          "type": "p",
+          "text": "Les marches anticipent parfois des mouvements de <strong>taux</strong> apres les grands sommets. Si votre assurance emprunteur date de plus de deux ans, la <strong>loi Lemoine</strong> permet souvent de comparer et reduire le cout sans changer de banque — budget liberé pour renforcer la prevoyance."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist foyer (10 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Prevoyance : plafonds invalidite / deces a jour avec vos charges fixes",
+            "Emprunteur : derniere offre Lemoine comparee a votre banque",
+            "Habitation : capital mobilier et valeur reconstruction alignes",
+            "Mutuelle : poste hospitalisation suffisant si file d'attente allongee",
+            "Epargne de precaution : 3 a 6 mois de charges sur compte disponible"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Notre <strong>questionnaire prevoyance</strong> (3 minutes) qualifie votre profil salarie, TNS ou dirigeant et oriente vers les garanties coherentes — gratuit, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./elections-presidentielles-prevoyance-patrimoine.html",
+          "label": "Elections & patrimoine"
+        },
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-prevoyance/",
+          "label": "Assurance prevoyance"
+        }
+      ]
+    },
+    {
+      "file": "coupe-monde-voyage-assurance-sante-etranger-2026.html",
+      "section": "actu",
+      "tag": "Coupe du monde",
+      "tagClass": "tag-actu",
+      "title": "Coupe du monde 2026 : voyager au Canada, USA ou Mexique — assurance sante",
+      "description": "France au Mondial, deplacements Amérique du Nord : frais medicaux a l'etranger, rapatriement, responsabilite — checklist avant le depart.",
+      "meta": "7 min · Juin 2026",
+      "cardExcerpt": "Supporter en CDM : la mutuelle francaise ne suffit pas toujours a l'etranger.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=coupe-monde-voyage-2026",
+        "label": "Questionnaire mutuelle / voyage (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Entre le match <strong>France–Senegal</strong>, les deplacements de supporters et l'actualite FIFA autour de la <strong>Coupe du monde 2026</strong> en Amerique du Nord, des milliers de Francais prepareront un voyage longue distance. Le vrai sujet assurance : <strong>frais medicaux aux USA/Canada</strong>, ou une consultation peut coutet plusieurs centaines de dollars sans couverture adaptee."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que couvre (ou pas) votre carte bancaire"
+        },
+        {
+          "type": "p",
+          "text": "Certaines cartes premium incluent une <strong>assistance voyage</strong> : rapatriement, avance de frais. Mais les plafonds, exclusions sportives ou franchises sont souvent mal connus. Lisez les <strong>conditions generales</strong> avant d'acheter le billet d'avion."
+        },
+        {
+          "type": "h2",
+          "text": "Mutuelle francaise a l'etranger"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Securite sociale : remboursements limites hors UE selon les pays",
+            "Mutuelle : forfait assistance rapatriement parfois insuffisant pour l'Amerique du Nord",
+            "Responsabilite civile : dommages causes a des tiers (location, accident)",
+            "Annulation / interruption : billet, hotel si blessure ou visa refuse"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Avant de reserver : 4 reflexes"
+        },
+        {
+          "type": "p",
+          "text": "1) Verifier <strong>assistance 24h/24</strong> et numero d'appel international. 2) Souscrire si besoin une <strong>assurance voyage</strong> specifique USA/Canada. 3) Declarer pathologies existantes (sinon exclusion). 4) Garder preuve de couverture pour le visa ou l'immigration."
+        },
+        {
+          "type": "p",
+          "text": "Le <strong>questionnaire mutuelle / sante</strong> Leads Opportunities verifie votre niveau d'assistance et les postes critiques — utile aussi si vous partez en expatriation temporaire pour le Mondial."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "Guide CDM 2026"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & deplacement"
+        },
+        {
+          "href": "../landings/sante.html",
+          "label": "Parcours mutuelle"
+        }
+      ]
+    }
+  ]
+}

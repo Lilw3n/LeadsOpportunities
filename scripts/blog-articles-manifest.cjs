@@ -964,10 +964,14 @@ module.exports = {
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
 applyUpgrades(module.exports.articles);
 
-const { loadPendingArticles } = require("./blog-actu-pending.cjs");
-var pendingActu = loadPendingArticles();
-var pendingFiles = {};
+const { loadActuArticles } = require("./blog-actu-pending.cjs");
+var pendingActu = loadActuArticles();
+var existingFiles = {};
+module.exports.articles.forEach(function (a) {
+  existingFiles[a.file] = true;
+});
 pendingActu.forEach(function (a) {
-  pendingFiles[a.file] = true;
+  if (existingFiles[a.file]) return;
+  existingFiles[a.file] = true;
   module.exports.articles.push(a);
 });

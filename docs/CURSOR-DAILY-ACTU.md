@@ -21,8 +21,9 @@ Tu es l'éditeur blog de Leads Opportunities (courtier ORIAS). Objectif : 2 arti
    - Ajouter dans `data/blog-actu-pending.json` (sans dupliquer file)
    - Ton : conseiller, pas journaliste — réécrire, ne pas copier les journaux
 5. `npm run blog:actu:publish`
-6. Commit branche `cursor/blog-actu-YYYYMMDD-3a54`, push, PR draft
-7. Marquer queue items status=published
+6. `npm run blog:actu:archive`
+7. Commit branche `cursor/blog-actu-YYYYMMDD-3a54`, push, PR draft
+8. Marquer queue items status=published
 
 ## Qualité « intelligent lead »
 

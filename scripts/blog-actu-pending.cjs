@@ -5,6 +5,33 @@ const fs = require("fs");
 const path = require("path");
 
 const DATA = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+const PUBLISHED = path.join(__dirname, "..", "data", "blog-actu-published.json");
+
+function readPublished() {
+  try {
+    return JSON.parse(fs.readFileSync(PUBLISHED, "utf8"));
+  } catch (e) {
+    return { articles: [] };
+  }
+}
+
+function loadActuArticles() {
+  var pub = (readPublished().articles || []).map(stripForManifest);
+  var pending = readPending();
+  var out = pub.slice();
+  var seen = {};
+  pub.forEach(function (a) {
+    seen[a.file] = true;
+  });
+  (pending.articles || []).forEach(function (a) {
+    var clean = stripForManifest(a);
+    if (!seen[clean.file]) {
+      seen[clean.file] = true;
+      out.push(clean);
+    }
+  });
+  return out;
+}
 
 function readPending() {
   try {
@@ -41,6 +68,7 @@ function appendPendingArticle(article) {
 
 module.exports = {
   loadPendingArticles: loadPendingArticles,
+  loadActuArticles: loadActuArticles,
   appendPendingArticle: appendPendingArticle,
   stripForManifest: stripForManifest,
   readPending: readPending,
