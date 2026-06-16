@@ -1,11 +1,11 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-06-16",
   "maxPerFeed": 6,
   "quotas": {
-    "cafeyn": 15,
-    "edge": 8,
-    "firefox": 10,
-    "aggregator": 8
+    "cafeyn": 18,
+    "edge": 12,
+    "firefox": 12,
+    "aggregator": 12
   },
   "feeds": [
     {
@@ -51,6 +51,34 @@
       "enabled": true
     },
     {
+      "id": "source-cafeyn-challenges",
+      "name": "Cafeyn — Challenges (RSS public)",
+      "sourceType": "cafeyn",
+      "url": "https://www.challenges.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-capital",
+      "name": "Cafeyn — Capital (RSS public)",
+      "sourceType": "cafeyn",
+      "url": "https://www.capital.fr/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-obs",
+      "name": "Cafeyn — L'Obs (RSS public)",
+      "sourceType": "cafeyn",
+      "url": "https://www.nouvelobs.com/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-ladepeche",
+      "name": "Cafeyn — La Dépêche (RSS public)",
+      "sourceType": "cafeyn",
+      "url": "https://www.ladepeche.fr/rss.xml",
+      "enabled": true
+    },
+    {
       "id": "source-cafeyn-la-provence",
       "name": "Cafeyn — La Provence",
       "sourceType": "cafeyn",
@@ -86,6 +114,34 @@
       "enabled": true
     },
     {
+      "id": "source-edge-bing-assurance",
+      "name": "Edge / Bing — assurance France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=assurance+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-mutuelle",
+      "name": "Edge / Bing — mutuelle santé",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=mutuelle+remboursement+sante+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-immobilier",
+      "name": "Edge / Bing — immobilier France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=immobilier+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-auto",
+      "name": "Edge / Bing — auto France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=auto+assurance+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
       "id": "source-firefox-franceinfo",
       "name": "Firefox — France Info titres",
       "sourceType": "firefox",
@@ -111,6 +167,27 @@
       "name": "Firefox — Franceinfo société",
       "sourceType": "firefox",
       "url": "https://www.francetvinfo.fr/societe.rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-bfmtv",
+      "name": "Firefox — BFMTV titres",
+      "sourceType": "firefox",
+      "url": "https://www.bfmtv.com/rss/news-24-7/",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-europe1",
+      "name": "Firefox — Europe 1",
+      "sourceType": "firefox",
+      "url": "https://www.europe1.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-publicsenat",
+      "name": "Firefox — Public Sénat",
+      "sourceType": "firefox",
+      "url": "https://www.publicsenat.fr/rss",
       "enabled": true
     },
     {
@@ -175,11 +252,39 @@
       "sourceType": "firefox",
       "url": "https://www.courrierinternational.com/rss",
       "enabled": true
+    },
+    {
+      "id": "google-news-top-fr",
+      "name": "Google News — titres France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-auto",
+      "name": "Google News — auto & sinistres",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=assurance+auto+OR+sinistre+auto+France&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-consommation",
+      "name": "Google News — consommation & pouvoir d'achat",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=consommation+pouvoir+dachat+France&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-fr",
+      "name": "Yahoo Actualités — titres France",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss",
+      "enabled": true
     }
   ],
   "pocket": {
     "enabled": true,
     "note": "Firefox Pocket — variables POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN sur Vercel/GitHub"
   },
-  "notes": "Chaque candidat est tagué cafeyn/edge/firefox. La sélection auto garantit 1 article par plateforme quand --count>=3."
+  "notes": "Collecte RSS publique multi-plateformes : titres équivalents Cafeyn (sans login), Edge/Bing, Firefox/Pocket, Google News et Yahoo. La sélection auto garantit 1 article par plateforme cafeyn/edge/firefox quand --count>=3, avec les agrégateurs en complément."
 }

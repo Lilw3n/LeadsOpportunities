@@ -8,15 +8,16 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 
 | Plateforme | Flux utilisés |
 |------------|---------------|
-| **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Midi Libre, Nice-Matin, Le Monde… |
-| **Edge** | Bing News (équivalent MSN/Edge — pas de RSS MSN public) |
-| **Firefox** | France Info, France 24, Mediapart, Courrier international + Pocket API |
+| **Cafeyn** | RSS publics des titres équivalents au kiosque : Figaro, Parisien, Libé, Ouest-France, Midi Libre, Nice-Matin, Le Monde, Challenges, Capital, L'Obs, La Dépêche… |
+| **Edge** | Bing News RSS (équivalent page d'accueil Edge/MSN — pas de RSS MSN public fiable) |
+| **Firefox** | France Info, France 24, BFMTV, Europe 1, Public Sénat, Mediapart, Courrier international + Pocket API |
+| **Agrégateurs** | Google News général/thématique + Yahoo Actualités RSS |
 
 **Sélection** :
 - `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
 - `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
 
-Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
+Les candidats Google News et Yahoo restent en complément, mais ne remplacent plus les 3 plateformes.
 
 ```bash
 # 1 article (rotation cafeyn/edge/firefox selon l'heure)
@@ -55,14 +56,16 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 
 | Ce que vous lisez | Ce que le bot utilise |
 |-------------------|------------------------|
-| **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
-| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
-| **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Cafeyn** (`https://www.cafeyn.co/fr/newsstand`) | Page dynamique non scrapée ; RSS publics des **mêmes titres** (`sourceType: cafeyn`) |
+| **Edge** / page d'accueil MSN | Bing News RSS avec requêtes France, économie, assurance, mutuelle, immobilier, auto (`sourceType: edge`) |
+| **Firefox** / Pocket | RSS Franceinfo, France 24, BFMTV, Europe 1, Public Sénat, Mediapart, Courrier international + API Pocket |
+| **Google News** | RSS général France + requêtes assurance, habitation, santé, immobilier, auto, consommation |
+| **Yahoo Actualités** | RSS public global `https://fr.news.yahoo.com/rss` |
 | **Pocket** (sauvegardes) | API Pocket si tokens configurés |
 
-**Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
+**Ne communiquez jamais vos login Cafeyn** : ils ne sont pas nécessaires, exposent le compte, peuvent violer les CGU et ne doivent pas être stockés dans le dépôt. Si un accès authentifié devenait indispensable, il faudrait passer par un coffre de secrets (GitHub/Vercel Secrets), jamais par le chat ni par un fichier.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~18 sources).
+Configuration des flux : **`data/blog-actu-feeds.json`** (sources RSS publiques multi-plateformes).
 
 ## Pipeline détaillé
 

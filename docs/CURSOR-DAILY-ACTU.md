@@ -32,10 +32,10 @@ Tu es l'éditeur blog de Leads Opportunities (courtier ORIAS). Objectif : 2 arti
 - related[] vers articles piliers existants
 - Pas de texte copié depuis Cafeyn — inspiration uniquement
 
-## Cafeyn / Edge / Firefox
+## Cafeyn / Edge / Firefox / Google / Yahoo
 
 - NE PAS utiliser de login Cafeyn
-- Si `blog-actu-queue.json` vide : utiliser daily-pick RSS
+- Si `blog-actu-queue.json` vide : utiliser daily-pick RSS (Cafeyn public, Edge/Bing, Firefox/Pocket, Google News, Yahoo)
 - L'utilisateur peut remplir la queue via blog/actu-inbox.html
 ```
 
@@ -56,4 +56,4 @@ Mergez les PR dans la journée pour publication Vercel.
 2. Notez **1 titre** qui touche assurance / santé / immo / auto
 3. `blog/actu-inbox.html` → copier JSON → coller dans Cursor ou `data/blog-actu-queue.json`
 
-**Ne partagez pas vos identifiants Cafeyn** — inutile et risqué (CGU + sécurité).
+**Ne partagez pas vos identifiants Cafeyn** — inutile et risqué (CGU + sécurité). Le pipeline utilise les RSS publics des titres du kiosque ; si un jour un secret est indispensable, il doit rester dans GitHub/Vercel Secrets et jamais dans un fichier du dépôt.
