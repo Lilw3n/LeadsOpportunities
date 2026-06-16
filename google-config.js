@@ -94,20 +94,12 @@
   if (
     cfg.clarityProjectId &&
     cfg.clarityProjectId.indexOf("XXXX") === -1 &&
-    !document.querySelector('script[src*="clarity.ms/tag/"]')
+    !document.querySelector('script[src="/js/clarity-init.js"]')
   ) {
-    (function (c, l, a, r, i, t, y) {
-      c[a] =
-        c[a] ||
-        function () {
-          (c[a].q = c[a].q || []).push(arguments);
-        };
-      t = l.createElement(r);
-      t.async = 1;
-      t.src = "https://www.clarity.ms/tag/" + i;
-      y = l.getElementsByTagName(r)[0];
-      y.parentNode.insertBefore(t, y);
-    })(window, document, "clarity", "script", cfg.clarityProjectId);
+    var clarityBoot = document.createElement("script");
+    clarityBoot.src = "/js/clarity-init.js";
+    clarityBoot.defer = true;
+    document.head.appendChild(clarityBoot);
   }
 
   var primaryGa = !isPlaceholder(cfg.ga4MeasurementId) ? cfg.ga4MeasurementId : null;

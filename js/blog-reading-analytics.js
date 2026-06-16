@@ -46,6 +46,39 @@
       : "G-JX8E35693F";
   }
 
+  function mirrorClarity(eventName, params) {
+    var C = window.loClarity;
+    if (!C) return;
+    params = params || {};
+    try {
+      if (eventName === "blog_scroll_depth") {
+        C.setTag("max_scroll_percent", String(params.percent_scrolled || ""));
+        C.event("blog_scroll_" + params.percent_scrolled);
+        if (params.percent_scrolled >= 75) {
+          C.upgrade("deep_read");
+        }
+      } else if (eventName === "blog_cta_click") {
+        C.event("blog_cta_click");
+        if (params.link_text) C.setTag("last_cta", params.link_text);
+        if (params.link_zone) C.setTag("cta_zone", params.link_zone);
+        C.upgrade("cta_click");
+      } else if (eventName === "blog_read_complete") {
+        C.event("blog_read_complete");
+        C.upgrade("read_complete");
+      } else if (eventName === "blog_faq_open") {
+        C.event("blog_faq_open");
+      } else if (eventName === "blog_section_view" && params.section_name) {
+        C.setTag("section_seen", params.section_name);
+        C.event("blog_section_" + params.section_name);
+      } else if (eventName === "blog_engagement") {
+        C.setTag("time_on_page_sec", String(params.time_on_page_sec || ""));
+        if (params.max_scroll_percent) {
+          C.setTag("session_max_scroll", String(params.max_scroll_percent));
+        }
+      }
+    } catch (e) {}
+  }
+
   function track(eventName, params) {
     if (typeof window.gtag !== "function") return;
     var base = meta();
@@ -60,6 +93,7 @@
       params || {}
     );
     window.gtag("event", eventName, payload);
+    mirrorClarity(eventName, params);
     try {
       window.dispatchEvent(new CustomEvent("lo:blog_analytics", { detail: { event: eventName, payload: payload } }));
     } catch (e) {}

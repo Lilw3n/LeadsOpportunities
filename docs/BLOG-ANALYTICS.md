@@ -73,19 +73,27 @@ Pour **lecture et clics dans la page**, utilisez **GA4** (ou un outil heatmap ci
 
 ## Option heatmaps (cartes de chaleur) — Microsoft Clarity
 
-Clarity est intégré dans `google-config.js` : dès que l’ID projet est renseigné, **toutes les pages** (blog inclus) envoient les sessions à Clarity.
+Clarity est intégré via le package officiel [`@microsoft/clarity`](https://www.npmjs.com/package/@microsoft/clarity), bundlé en `js/clarity-init.js` et chargé par `google-config.js` sur **toutes les pages**.
 
-### Activer en 5 minutes
+Projet actif : **`x7yqp46fj9`** (modifiable via `CLARITY_PROJECT_ID` sur Vercel).
 
-1. Créez un compte sur [Microsoft Clarity](https://clarity.microsoft.com/)
-2. **Nouveau projet** → URL : `https://www.leadsopportunities.fr`
-3. **Paramètres** → copiez l’**ID du projet** (chaîne alphanumérique, ex. `abc1def2gh`)
-4. **Vercel** → Projet → **Settings** → **Environment Variables** :
-   - Nom : `CLARITY_PROJECT_ID`
-   - Valeur : votre ID Clarity
-5. **Redeploy** le site
+### Activer / modifier
 
-En local, vous pouvez aussi mettre l’ID dans `google-config.js` (`clarityProjectId: "votre-id"`) pour tester.
+1. ID par défaut dans `google-config.js` ou variable Vercel `CLARITY_PROJECT_ID`
+2. Après modification de `js/clarity-source.mjs` : `npm run build:clarity`
+3. **Redeploy** sur Vercel
+
+### Tags et événements Clarity (blog)
+
+En plus des heatmaps natives, le blog envoie des **Smart events** et **tags** filtrables dans Clarity :
+
+| Clarity | Déclencheur |
+|---------|-------------|
+| Tag `article_slug` | Ouverture article |
+| Event `blog_scroll_50`, `blog_scroll_75`… | Profondeur de scroll |
+| Event `blog_cta_click` + tag `last_cta` | Clic bouton CTA |
+| Upgrade `cta_click` / `read_complete` | Sessions prioritaires dans les replays |
+| Tag `section_seen` | Bloc FAQ / CTA milieu vu |
 
 ### Ce que vous voyez dans Clarity
 
@@ -109,6 +117,7 @@ Puis déployer sur Vercel.
 ## Fichiers concernés
 
 - `js/blog-reading-analytics.js` — logique de tracking GA4  
-- `google-config.js` — charge Microsoft Clarity si `CLARITY_PROJECT_ID` est défini  
+- `js/clarity-source.mjs` + `js/clarity-init.js` — package `@microsoft/clarity` (rebuild : `npm run build:clarity`)  
+- `google-config.js` — charge Clarity si `CLARITY_PROJECT_ID` est défini  
 - `scripts/generate-blog-articles.cjs` — injection script + `data-blog-*` sur `<body>`  
 - `scripts/generate-blog-index.cjs` — tracking sur l’index blog

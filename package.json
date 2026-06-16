@@ -12,13 +12,18 @@
     "blog:feed": "node scripts/generate-blog-feed.cjs",
     "blog:admin-map": "node scripts/generate-blog-admin-map.cjs",
     "blog:build": "node scripts/generate-blog-articles.cjs --force && node scripts/generate-blog-index.cjs && node scripts/generate-blog-feed.cjs && node scripts/generate-blog-admin-map.cjs",
+    "build:clarity": "node scripts/bundle-clarity.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
     "@neondatabase/serverless": "^0.10.4",
     "imapflow": "^1.0.164",
     "jsonwebtoken": "^9.0.3",
     "mailparser": "^3.7.2",
     "stripe": "^22.1.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
   }
 }
