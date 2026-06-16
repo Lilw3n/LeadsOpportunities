@@ -18,6 +18,7 @@ module.exports = function googleConfigEnv(req, res) {
     metaPixelId: String(process.env.META_PIXEL_ID || "").trim(),
     tiktokPixelId: String(process.env.TIKTOK_PIXEL_ID || "").trim(),
     pinterestTagId: String(process.env.PINTEREST_TAG_ID || "").trim(),
+    clarityProjectId: String(process.env.CLARITY_PROJECT_ID || "").trim(),
   };
 
   res.status(200).send(

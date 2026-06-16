@@ -218,7 +218,7 @@ var UPGRADES = {
     ],
   },
   "assurance-auto-bonus-malus.html": {
-    cta: { href: Q.auto, label: "Analyser mon CRM" },
+    cta: { href: Q.auto, label: "Questionnaire auto (3 min)" },
     blocks: [
       {
         type: "p",

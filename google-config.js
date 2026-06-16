@@ -12,6 +12,7 @@
     metaPixelId: "",
     tiktokPixelId: "",
     pinterestTagId: "",
+    clarityProjectId: "x7yqp46fj9",
   };
 
   var env = window.GOOGLE_TRACKING_FROM_ENV || {};
@@ -32,6 +33,7 @@
     metaPixelId: merge("metaPixelId"),
     tiktokPixelId: merge("tiktokPixelId"),
     pinterestTagId: merge("pinterestTagId"),
+    clarityProjectId: merge("clarityProjectId"),
   };
 
   var cfg = window.GOOGLE_TRACKING;
@@ -87,6 +89,17 @@
     tt.src = "https://analytics.tiktok.com/i18n/pixel/events.js?sdkid=" + encodeURIComponent(cfg.tiktokPixelId);
     document.head.appendChild(tt);
     window.ttq.page();
+  }
+
+  if (
+    cfg.clarityProjectId &&
+    cfg.clarityProjectId.indexOf("XXXX") === -1 &&
+    !document.querySelector('script[src="/js/clarity-init.js"]')
+  ) {
+    var clarityBoot = document.createElement("script");
+    clarityBoot.src = "/js/clarity-init.js";
+    clarityBoot.defer = true;
+    document.head.appendChild(clarityBoot);
   }
 
   var primaryGa = !isPlaceholder(cfg.ga4MeasurementId) ? cfg.ga4MeasurementId : null;
