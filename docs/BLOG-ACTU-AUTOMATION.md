@@ -2,6 +2,39 @@
 
 Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
+## Quel canal utiliser ?
+
+| Canal | Quand | Qualité |
+|-------|-------|---------|
+| **GitHub Actions** (principal) | Auto 5×/jour, push `main` → Vercel | **Identique à Cursor** si `GEMINI_API_KEY` + `--strict-quality` |
+| **Cursor Automations** | Secours si GitHub échoue, ou relecture PR manuelle | Même commande `npm run blog:actu:auto` |
+
+**Ne lancez pas les deux en parallèle** — risque de doublons.
+
+### Activer GitHub (recommandé)
+
+1. GitHub → Settings → Secrets → Actions :
+   - `GEMINI_API_KEY` (obligatoire pour qualité IA)
+   - `DATABASE_URL` (file Cafeyn bookmarklet)
+   - `BLOG_ACTU_INGEST_SECRET` (jeton inbox / favori Cafeyn)
+   - optionnel : `OPENAI_API_KEY`, `POCKET_*`
+2. Vercel → mêmes variables (`BLOG_ACTU_INGEST_SECRET`, `DATABASE_URL`)
+3. Exécuter une fois `database/blog-actu-queue.sql` sur Neon
+4. Le workflow `.github/workflows/blog-actu-auto.yml` tourne seul
+
+### Cafeyn — sans stocker votre mot de passe
+
+**On ne peut pas** connecter un bot à Cafeyn (CGU, sécurité, pas d’API abonné).
+
+**Équivalent automatique** :
+- **RSS** des mêmes journaux (17 flux `sourceType: cafeyn`)
+- **Favori Cafeyn** : sur un article ouvert dans Cafeyn (vous êtes connecté), clic → file serveur **prioritaire**
+
+1. Vercel : `BLOG_ACTU_INGEST_SECRET` = un mot de passe long (ex. `openssl rand -hex 24`)
+2. `blog/actu-inbox.html` → enregistrer le jeton → glisser **« Sauver actu Cafeyn »** dans la barre de favoris
+3. Sur Cafeyn : ouvrir un article → clic favori → **Envoyer à la file serveur**
+4. Prochain run GitHub publie cet article en priorité (`status: queued`)
+
 ## Automatisation 100 % (recommandé)
 
 Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :

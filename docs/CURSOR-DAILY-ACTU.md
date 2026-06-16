@@ -1,8 +1,10 @@
-# Automation Cursor — actu blog 1 à 5×/jour (Cafeyn / Edge / Firefox)
+# Automation Cursor — secours (GitHub = principal)
 
-**Oui, vous pouvez tout faire avec Cursor** (Automations planifiées) — sans GitHub Actions si vous préférez utiliser votre abonnement.
+**Par défaut utilisez GitHub Actions** — même qualité, gratuit, sans consommer votre abo Cursor.
 
-GitHub Actions reste **gratuit** et déjà configuré (`.github/workflows/blog-actu-auto.yml`). Les deux peuvent coexister, mais **n’activez qu’un seul** pour éviter les doublons.
+Cursor Automation = **secours** si le workflow GitHub échoue ou pour relecture manuelle avant merge.
+
+Voir **`docs/BLOG-ACTU-AUTOMATION.md`** section « Quel canal utiliser ».
 
 ---
 

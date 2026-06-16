@@ -38,6 +38,34 @@ function mergeWithQuotas(buckets, quotas) {
   return merged;
 }
 
+function ingestQueueItem(item, buckets, processed) {
+  if (item.status === "published" || item.status === "rejected") return;
+  var key = item.url || item.title;
+  if (key && processed.has(key)) return;
+  var queueType = resolveQueueSourceType(item.source);
+  var scaffold = scaffoldArticle({
+    title: item.title,
+    summary: item.note || "",
+    url: item.url || "",
+    source: item.source || queueType,
+    note: item.note || "",
+  });
+  if (!scaffold) return;
+  if (!buckets[queueType]) buckets[queueType] = [];
+  buckets[queueType].push({
+    id: item.id || "manual-" + scaffold.file.replace(".html", ""),
+    title: item.title,
+    url: item.url || "",
+    summary: item.note || "",
+    source: item.source || "manual",
+    sourceType: queueType,
+    suggestedFile: scaffold.file,
+    section: scaffold.section,
+    status: "queued",
+    fromDatabase: !!item.fromDatabase,
+  });
+}
+
 async function fetchText(url) {
   var res = await fetch(url, {
     headers: {
@@ -113,36 +141,24 @@ async function main() {
   var maxPerFeed = feedsCfg.maxPerFeed || MAX_PER_FEED;
   var state = readJson("blog-actu-state.json", { processedUrls: [], publishedFiles: [] });
   var queue = readJson("blog-actu-queue.json", { items: [] });
+  var dbQueue = [];
+  try {
+    var dbMod = require("./blog-actu-queue-db.cjs");
+    dbQueue = await dbMod.loadQueueFromDatabase();
+    if (dbQueue.length) console.log("DB queue:", dbQueue.length, "item(s) Cafeyn/inbox");
+  } catch (e) {
+    console.warn("DB queue:", e.message);
+  }
   var processed = new Set(state.processedUrls || []);
   var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
 
   await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
   (queue.items || []).forEach(function (item) {
-    if (item.status === "published" || item.status === "rejected") return;
-    var key = item.url || item.title;
-    if (key && processed.has(key)) return;
-    var queueType = resolveQueueSourceType(item.source);
-    var scaffold = scaffoldArticle({
-      title: item.title,
-      summary: item.note || "",
-      url: item.url || "",
-      source: item.source || queueType,
-      note: item.note || "",
-    });
-    if (!scaffold) return;
-    if (!buckets[queueType]) buckets[queueType] = [];
-    buckets[queueType].push({
-      id: item.id || "manual-" + scaffold.file.replace(".html", ""),
-      title: item.title,
-      url: item.url || "",
-      summary: item.note || "",
-      source: item.source || "manual",
-      sourceType: queueType,
-      suggestedFile: scaffold.file,
-      section: scaffold.section,
-      status: "queued",
-    });
+    ingestQueueItem(item, buckets, processed);
+  });
+  dbQueue.forEach(function (item) {
+    ingestQueueItem(item, buckets, processed);
   });
 
   var files = existingFiles();

@@ -273,6 +273,15 @@ async function main() {
   }
 
   if (!skipPublish) {
+    if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
+      console.log("\n=== Contrôle qualité ===");
+      try {
+        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+      } catch (e) {
+        console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
+        process.exit(1);
+      }
+    }
     console.log("\n=== Génération HTML + SEO ===");
     execSync("npm run blog:actu:publish", { stdio: "inherit", cwd: ROOT });
     runNode("scripts/archive-actu-pending.cjs");
@@ -305,6 +314,21 @@ async function main() {
   });
   queue.updated = new Date().toISOString();
   writeJson("blog-actu-queue.json", queue);
+
+  try {
+    var dbIds = picks.filter(function (p) {
+      return p.id && String(p.id).indexOf("ingest-") === 0;
+    }).map(function (p) {
+      return p.id;
+    });
+    if (dbIds.length) {
+      var dbMod = require("./blog-actu-queue-db.cjs");
+      await dbMod.markQueuePublished(dbIds);
+      console.log("DB queue: marqué publié —", dbIds.length);
+    }
+  } catch (e) {
+    console.warn("DB queue mark:", e.message);
+  }
 
   console.log("\n✓ Publié:", published.length, "article(s)");
   published.forEach(function (p) {
