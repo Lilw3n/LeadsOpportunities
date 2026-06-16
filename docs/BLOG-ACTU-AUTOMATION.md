@@ -1,136 +1,127 @@
 # Blog actu automatique — leads ultra qualifiés
 
-Objectif : publier **souvent** des articles liés à l’actualité (Cafeyn, Edge, journaux) qui orientent vers vos **questionnaires** et génèrent des leads qualifiés.
+Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
-## Ce qui est automatique vs manuel
+## Automatisation 100 % (recommandé)
 
-| Étape | Automatique ? | Comment |
-|-------|---------------|---------|
-| Détecter l’actu (RSS) | ✅ `npm run blog:actu:fetch` | Google News, Franceinfo, Le Monde… |
-| Lire Cafeyn / Edge pour vous | ❌ | Pas d’accès login (légal + technique) |
-| Coller une actu Cafeyn | ✅ 2 min | Page `blog/actu-inbox.html` |
-| Rédiger l’article complet | 🤖 Agent Cursor | Enrichit le brouillon |
-| Mettre en ligne | ✅ après merge PR | Vercel déploie |
+Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 
-**Cafeyn / Edge / Mozilla** : vous lisez l’actu comme aujourd’hui → vous copiez **titre + lien** dans la boîte actu → l’agent fait le reste.
+| Plateforme | Flux utilisés |
+|------------|---------------|
+| **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Midi Libre, Nice-Matin, Le Monde… |
+| **Edge** | Bing News (équivalent MSN/Edge — pas de RSS MSN public) |
+| **Firefox** | France Info, France 24, Mediapart, Courrier international + Pocket API |
 
-## Démarrage rapide
+**Sélection** :
+- `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
+- `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+
+Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
 
 ```bash
-# 1. Récupérer candidats (RSS + file manuelle)
-npm run blog:actu:fetch
+# 1 article (rotation cafeyn/edge/firefox selon l'heure)
+npm run blog:actu:auto
 
-# 2. Voir l'état
-npm run blog:actu:status
+# Les 3 plateformes en une fois (recommandé pour test)
+npm run blog:actu:auto -- --count=3
 
-# 3. Créer 2 ébauches d'articles
-npm run blog:actu:draft -- --top=2
+# Test sans écrire
+npm run blog:actu:auto -- --dry-run
 
-# 4. (Agent Cursor) enrichir data/blog-actu-pending.json — contenu long, FAQ, angle lead
-
-# 5. Publier HTML + sitemap
-npm run blog:actu:publish
+# Sans clé IA (texte enrichi par niche)
+npm run blog:actu:auto -- --no-ai
 ```
 
-## Workflow Cafeyn (recommandé)
+### GitHub Actions — 5× par jour
 
-1. Lisez un article sur **Cafeyn** (Midi Libre, Parents, etc.)
-2. Ouvrez **https://www.leadsopportunities.fr/blog/actu-inbox.html** (après déploiement)
-3. Collez titre + URL + note (« lien mutuelle », « chien guide », etc.)
-4. **Copier le JSON** → envoyez à Cursor : *« Ajoute à blog-actu-queue et crée l’article »*
-5. L’agent enrichit, lance `blog:actu:publish`, ouvre une PR → **merge** → article en ligne
+Workflow : **`.github/workflows/blog-actu-auto.yml`**
 
-Alternative : éditez directement `data/blog-actu-queue.json` :
+- Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
+- Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
+- Commit automatique sur `main` si nouveaux articles
 
-```json
-{
-  "items": [
-    {
-      "id": "cafeyn-001",
-      "title": "Votre titre d'actu",
-      "url": "https://...",
-      "source": "cafeyn",
-      "note": "Angle assurance animaux / habitation",
-      "status": "pending",
-      "addedAt": "2026-06-16T12:00:00.000Z"
-    }
-  ]
-}
-```
+**Secrets à configurer** (Settings → Secrets → Actions) :
 
-## Automation Cursor (souvent / quotidien)
+| Secret | Obligatoire | Rôle |
+|--------|-------------|------|
+| `GEMINI_API_KEY` | Recommandé | Rédaction IA (Gemini Flash) |
+| `OPENAI_API_KEY` | Optionnel | Fallback IA |
+| `POCKET_CONSUMER_KEY` | Optionnel | Actu sauvegardées Firefox/Pocket |
+| `POCKET_ACCESS_TOKEN` | Optionnel | Idem |
 
-Dans **Cursor → Automations → New Automation** :
+Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance par niche, CTA `utm_medium=actu_daily`).
 
-| Paramètre | Valeur |
-|-----------|--------|
-| Déclencheur | **Scheduled** (ex. tous les jours 7h) ou **Manuel** |
-| Branche | `main` |
-| Instructions | Copier le prompt ci-dessous |
+## Sources sans identifiants Cafeyn / Edge / Firefox
 
-### Prompt automation (à coller)
+| Ce que vous lisez | Ce que le bot utilise |
+|-------------------|------------------------|
+| **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
+| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
+| **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Pocket** (sauvegardes) | API Pocket si tokens configurés |
+
+**Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
+
+Configuration des flux : **`data/blog-actu-feeds.json`** (~18 sources).
+
+## Pipeline détaillé
 
 ```
-Tu es l'éditeur blog assurance de Leads Opportunities (courtier ORIAS, leads qualifiés).
-
-1. Lance `npm run blog:actu:fetch` puis `npm run blog:actu:status`
-2. Lis data/blog-actu-queue.json et data/blog-actu-candidates.json
-3. Choisis les 2 meilleurs sujets PAS encore publiés (priorité: file manuelle Cafeyn/Edge, puis RSS)
-4. Pour chaque sujet:
-   - Rédige un article COMPLET (8+ blocs, angle assurance concret, CTA questionnaire)
-   - Ajoute dans data/blog-actu-pending.json (section actu/sante/auto/etc. selon sujet)
-   - Lien fort vers questionnaire: ../landings/questionnaire.html?need=XXX&journey=standard&utm_source=blog&utm_medium=actu
-5. Lance `npm run blog:actu:publish`
-6. Commit, push branche cursor/blog-actu-YYYYMMDD-3a54, ouvre PR draft
-7. Ne duplique jamais un slug existant dans blog/
-
-Règles éditoriales: accroche actu → risque réel → checklist → CTA questionnaire. Ton conseiller, pas journaliste pur.
+RSS + queue manuelle + Pocket
+        ↓
+blog-actu-candidates.json (score leadScore)
+        ↓
+auto-actu-publish (rotation cafeyn → edge → firefox → aggregator)
+        ↓
+blog-actu-pending.json → blog:build → blog/*.html
+        ↓
+blog-actu-published.json (archive)
+        ↓
+Vercel (push main)
 ```
+
+## Commandes manuelles (debug / agent)
+
+```bash
+npm run blog:actu:fetch      # candidats seulement
+npm run blog:actu:daily      # top N pour revue humaine
+npm run blog:actu:status     # état pipeline
+npm run blog:actu:publish    # rebuild HTML + SEO
+```
+
+### File manuelle (actu inbox)
+
+1. **`blog/actu-inbox.html`** ou `data/blog-actu-queue.json`
+2. Les items `status: pending` sont prioritaires dans `blog:actu:auto`
 
 ## Fichiers du pipeline
 
 | Fichier | Rôle |
 |---------|------|
-| `data/blog-actu-feeds.json` | Flux RSS publics |
+| `data/blog-actu-feeds.json` | Flux RSS + config Pocket |
 | `data/blog-actu-keywords.json` | Actu → section assurance + CTA |
-| `data/blog-actu-queue.json` | Vos actus Cafeyn / Edge (manuel) |
+| `data/blog-actu-queue.json` | Actus manuelles / Pocket |
 | `data/blog-actu-candidates.json` | Sortie du fetch |
-| `data/blog-actu-pending.json` | Articles prêts à générer en HTML |
-| `data/blog-actu-state.json` | URLs déjà traitées |
-| `blog/actu-inbox.html` | Formulaire copier-coller |
-| `scripts/blog-actu-lib.cjs` | Logique commune |
+| `data/blog-actu-pending.json` | Articles avant HTML |
+| `data/blog-actu-published.json` | Archives manifeste |
+| `data/blog-actu-state.json` | URLs traitées, historique auto |
+| `scripts/auto-actu-publish.cjs` | Orchestrateur principal |
+| `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
+| `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |
 
-## Leads ultra qualifiés — bonnes pratiques
+## Leads ultra qualifiés
 
-1. **CTA questionnaire** en milieu et fin d’article (`{ type: "bridge" }`)
-2. **UTM** : `utm_source=blog&utm_medium=actu&utm_campaign={need}`
-3. **Clarity + GA4** : tags `article_slug`, events `blog_cta_click` (déjà en place)
-4. **Sujets qui convertissent** : sinistre habitation, hausse mutuelle, jeune conducteur, VTC, animaux, Lemoine
-5. **Actu people / sport / gaming** : comme vos articles GTA 6, Ligue des champions — accroche large, conversion assurance
+1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
+2. **Clarity + GA4** — déjà en place sur le blog
+3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
 
 ## Limites légales
 
-- Ne **copiez pas** le texte intégral des journaux (Cafeyn) : réécrivez avec votre angle conseil assurance.
-- Citez la source dans l’article (« selon les informations relayées par… ») sans plagiat.
-- RSS publics : titres + résumés pour inspiration uniquement.
+- Ne **copiez pas** le texte intégral des journaux : réécriture angle conseil assurance.
+- RSS : titres + résumés pour inspiration uniquement.
 
-## Cafeyn, Edge, Firefox — sans identifiants
+## Automation Cursor (alternative)
 
-**Ne communiquez pas vos login Cafeyn** à un agent ou script : c’est contraire aux CGU, risqué pour votre compte, et techniquement bloqué.
+Si vous préférez un agent humain en boucle : **`docs/CURSOR-DAILY-ACTU.md`**.
 
-| Source | Méthode |
-|--------|---------|
-| **Cafeyn** (vous payez) | 1 titre/jour → `blog/actu-inbox.html` |
-| **Edge / MSN actu** | Idem — copier le titre qui vous intéresse |
-| **Firefox actu** | Idem |
-| **RSS automatique** | `npm run blog:actu:daily` chaque matin |
-
-Automation planifiée : voir **`docs/CURSOR-DAILY-ACTU.md`** (prompt à coller dans Cursor).
-
-## Après publication
-
-```bash
-npm run blog:actu:publish   # blog:build + seo:build
-```
-
-Merge PR → Vercel → Google indexe en quelques jours (Search Console).
+Pour la production sans intervention : **GitHub Actions** ci-dessus suffit.

@@ -100,6 +100,9 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
+  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+    score += 12;
+  }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
@@ -292,11 +295,18 @@ function stripHtml(s) {
 
 function decodeEntities(s) {
   return String(s)
+    .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
+      return String.fromCharCode(parseInt(hex, 16));
+    })
+    .replace(/&#(\d+);/g, function (_, num) {
+      return String.fromCharCode(parseInt(num, 10));
+    })
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
 }
 
@@ -305,6 +315,7 @@ module.exports = {
   writeJson: writeJson,
   slugify: slugify,
   existingFiles: existingFiles,
+  uniqueFile: uniqueFile,
   matchTopic: matchTopic,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
@@ -315,4 +326,5 @@ module.exports = {
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
+  relatedForSection: relatedForSection,
 };

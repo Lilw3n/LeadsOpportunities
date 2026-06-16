@@ -8,12 +8,22 @@
 - `npm run blog:actu:publish` — blog + sitemap SEO
 - `npm run seo:build` — sitemaps
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
+- `npm run verify:clarity` — contrôle installation `@microsoft/clarity` (npm officiel)
 
 ## Blog actu (leads qualifiés)
 
-Voir **`docs/BLOG-ACTU-AUTOMATION.md`** pour le pipeline complet (Cafeyn, Edge, automation Cursor).
+Voir **`docs/BLOG-ACTU-AUTOMATION.md`** pour le pipeline complet.
 
-Résumé agent :
+**Automatisation 1–5×/jour (sans login Cafeyn)** :
+```bash
+npm run blog:actu:auto              # 1 article
+npm run blog:actu:auto -- --count=3 # jusqu'à 5
+```
+CI : **`.github/workflows/blog-actu-auto.yml`** (cron 5×/jour + secrets `GEMINI_API_KEY`).
+
+Sources : RSS journaux Cafeyn, MSN Edge, France Info Firefox — voir `data/blog-actu-feeds.json`.
+
+Résumé agent manuel :
 1. `npm run blog:actu:daily` — sélection intelligente (leadScore)
 2. Enrichir `data/blog-actu-pending.json` (article long, CTA questionnaire)
 3. `npm run blog:actu:publish`
@@ -24,4 +34,4 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 ## Cursor Cloud
 
 - Branches : `cursor/<nom>-3a54`
-- Ne pas scraper Cafeyn (login) — utiliser `data/blog-actu-queue.json` ou `blog/actu-inbox.html`
+- Ne pas scraper Cafeyn (login) — RSS équivalents + `blog:actu:auto` + optionnel `blog/actu-inbox.html`
