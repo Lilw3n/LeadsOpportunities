@@ -1,7 +1,12 @@
 {
   "updated": "2026-06-17",
   "maxPerFeed": 6,
-  "maxCandidates": 50,
+  "quotas": {
+    "cafeyn": 15,
+    "edge": 8,
+    "firefox": 10,
+    "aggregator": 8
+  },
   "feeds": [
     {
       "id": "source-cafeyn-figaro",
@@ -32,6 +37,20 @@
       "enabled": true
     },
     {
+      "id": "source-cafeyn-midilibre",
+      "name": "Cafeyn — Midi Libre",
+      "sourceType": "cafeyn",
+      "url": "https://www.midilibre.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-nicematin",
+      "name": "Cafeyn — Nice-Matin",
+      "sourceType": "cafeyn",
+      "url": "https://www.nicematin.com/rss",
+      "enabled": true
+    },
+    {
       "id": "source-cafeyn-la-provence",
       "name": "Cafeyn — La Provence",
       "sourceType": "cafeyn",
@@ -49,7 +68,21 @@
       "id": "source-edge-bing-fr",
       "name": "Edge / Bing — actu France",
       "sourceType": "edge",
-      "url": "https://www.bing.com/news/search?q=France&format=rss",
+      "url": "https://www.bing.com/news/search?q=France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-actualites",
+      "name": "Edge / Bing — titres du jour",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=actualites+France&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-economie",
+      "name": "Edge / Bing — économie France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=economie+France&format=rss",
       "enabled": true
     },
     {
@@ -78,6 +111,13 @@
       "name": "Firefox — Franceinfo société",
       "sourceType": "firefox",
       "url": "https://www.francetvinfo.fr/societe.rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-mediapart",
+      "name": "Firefox — Mediapart",
+      "sourceType": "firefox",
+      "url": "https://www.mediapart.fr/articles/feed",
       "enabled": true
     },
     {
@@ -141,5 +181,5 @@
     "enabled": true,
     "note": "Firefox Pocket — variables POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN sur Vercel/GitHub"
   },
-  "notes": "Cafeyn = RSS des mêmes journaux. Edge = Bing News RSS (MSN n'a pas de flux public). Firefox = France Info + France 24 + Pocket API."
+  "notes": "Chaque candidat est tagué cafeyn/edge/firefox. La sélection auto garantit 1 article par plateforme quand --count>=3."
 }

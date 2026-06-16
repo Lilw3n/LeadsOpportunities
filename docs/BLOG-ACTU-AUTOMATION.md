@@ -4,19 +4,25 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
 
 ## Automatisation 100 % (recommandé)
 
-| Étape | Commande / outil | Fréquence |
-|-------|------------------|-----------|
-| Flux RSS (journaux Cafeyn, MSN Edge, France Info Firefox) | `fetch-actu-candidates.cjs` | intégré |
-| Pocket Firefox (optionnel) | `fetch-pocket.cjs` | intégré |
-| Rédaction (IA ou enrichissement local) | `auto-actu-publish.cjs` | intégré |
-| HTML + sitemap | `blog:actu:publish` | intégré |
-| Déploiement | merge / push → Vercel | auto |
+Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
+
+| Plateforme | Flux utilisés |
+|------------|---------------|
+| **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Midi Libre, Nice-Matin, Le Monde… |
+| **Edge** | Bing News (équivalent MSN/Edge — pas de RSS MSN public) |
+| **Firefox** | France Info, France 24, Mediapart, Courrier international + Pocket API |
+
+**Sélection** :
+- `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
+- `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+
+Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
 
 ```bash
-# Une publication (local ou CI)
+# 1 article (rotation cafeyn/edge/firefox selon l'heure)
 npm run blog:actu:auto
 
-# Jusqu'à 5 articles
+# Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
 
 # Test sans écrire

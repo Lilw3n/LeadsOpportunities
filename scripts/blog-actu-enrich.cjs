@@ -104,6 +104,7 @@ function enrichFromCandidate(candidate) {
   var slug = title.slice(0, 40);
   var file = candidate.suggestedFile;
   if (!file) return null;
+  var platform = platformLabel(candidate.sourceType || candidate.source);
 
   return {
     file: file.endsWith(".html") ? file : file + ".html",
@@ -119,7 +120,9 @@ function enrichFromCandidate(candidate) {
       {
         type: "p",
         text:
-          "Selon l'information relayee ce jour (<strong>" +
+          "Selon l'information relayee ce jour via <strong>" +
+          platform +
+          "</strong> (<strong>" +
           escapeHtml(shortTitle(title)) +
           "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
           angle.hook,
@@ -166,6 +169,18 @@ function shortTitle(t) {
 
 function escapeHtml(s) {
   return String(s).replace(/</g, "").replace(/>/g, "");
+}
+
+function platformLabel(sourceType) {
+  var t = String(sourceType || "").toLowerCase();
+  if (t === "cafeyn" || t.indexOf("cafeyn") !== -1) return "Cafeyn (presse partenaire)";
+  if (t === "edge" || t.indexOf("edge") !== -1 || t.indexOf("msn") !== -1 || t.indexOf("bing") !== -1) {
+    return "Microsoft Edge / Bing actu";
+  }
+  if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
+    return "Mozilla Firefox / Pocket";
+  }
+  return "l'actualite du jour";
 }
 
 module.exports = { enrichFromCandidate: enrichFromCandidate };

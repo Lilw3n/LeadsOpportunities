@@ -16,6 +16,7 @@ function arg(name) {
 function buildPrompt(candidate) {
   var topic = matchTopic(candidate.title + " " + (candidate.summary || ""));
   var need = candidate.need || topic.need;
+  var platform = candidate.sourceType || candidate.source || "actu";
   return (
     "Tu es redacteur SEO pour Leads Opportunities, courtier ORIAS assurance en France.\n" +
     "A partir de cette actualite, redige un article ORIGINAL (ne copie pas le journal) qui convertit vers un questionnaire.\n\n" +
@@ -23,7 +24,9 @@ function buildPrompt(candidate) {
     candidate.title +
     "\nResume: " +
     (candidate.summary || "") +
-    "\nNeed questionnaire: " +
+    "\nPlateforme source: " +
+    platform +
+    " (Cafeyn, Edge ou Firefox)\nNeed questionnaire: " +
     need +
     "\n\n" +
     "Reponds UNIQUEMENT en JSON valide (pas de markdown):\n" +
