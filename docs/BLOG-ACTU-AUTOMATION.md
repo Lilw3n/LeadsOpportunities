@@ -8,9 +8,10 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 
 | Plateforme | Flux utilisés |
 |------------|---------------|
-| **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Midi Libre, Nice-Matin, Le Monde… |
-| **Edge** | Bing News (équivalent MSN/Edge — pas de RSS MSN public) |
-| **Firefox** | France Info, France 24, Mediapart, Courrier international + Pocket API |
+| **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
+| **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
+| **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
+| **Google News** | 20+ requêtes : une France, assurance, mutuelle, auto, habitation, emprunteur, sinistre, VTC, animaux, canicule, people, sport… |
 
 **Sélection** :
 - `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
@@ -62,7 +63,7 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~18 sources).
+Configuration des flux : **`data/blog-actu-feeds.json`** (~55 sources testées).
 
 ## Pipeline détaillé
 

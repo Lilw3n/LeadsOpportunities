@@ -15,7 +15,7 @@ const {
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
-const DEFAULT_QUOTAS = { cafeyn: 15, edge: 8, firefox: 10, aggregator: 10 };
+const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 25 };
 
 function resolveQueueSourceType(source) {
   var s = String(source || "").toLowerCase();
@@ -50,6 +50,63 @@ async function fetchText(url) {
   return res.text();
 }
 
+async function processFeed(feed, buckets, processed, maxPerFeed) {
+  var sourceType = feed.sourceType || "aggregator";
+  if (!buckets[sourceType]) buckets[sourceType] = [];
+  try {
+    var xml = await fetchText(feed.url);
+    var items = parseRssItems(xml).slice(0, maxPerFeed);
+    var added = 0;
+    items.forEach(function (item) {
+      if (item.url && processed.has(item.url)) return;
+      var scaffold = scaffoldArticle({
+        title: item.title,
+        summary: item.summary,
+        url: item.url,
+        source: sourceType,
+        feedName: feed.name,
+      });
+      if (!scaffold) return;
+      buckets[sourceType].push({
+        id: "rss-" + scaffold.file.replace(".html", ""),
+        title: item.title,
+        url: item.url,
+        summary: item.summary,
+        pubDate: item.pubDate,
+        feedId: feed.id,
+        feedName: feed.name,
+        sourceType: sourceType,
+        suggestedFile: scaffold.file,
+        section: scaffold.section,
+        need: scaffold.cta.href.match(/need=([^&]+)/)
+          ? scaffold.cta.href.match(/need=([^&]+)/)[1]
+          : "habitation",
+        leadScore: 0,
+        status: "candidate",
+      });
+      added++;
+    });
+    console.log("OK feed:", feed.id, "(" + sourceType + ") —", added, "items");
+  } catch (e) {
+    console.warn("SKIP feed:", feed.id, "—", e.message);
+  }
+}
+
+async function fetchFeedsParallel(feeds, buckets, processed, maxPerFeed) {
+  var CONCURRENCY = 8;
+  var enabled = feeds.filter(function (f) {
+    return f.enabled;
+  });
+  for (var i = 0; i < enabled.length; i += CONCURRENCY) {
+    var batch = enabled.slice(i, i + CONCURRENCY);
+    await Promise.all(
+      batch.map(function (feed) {
+        return processFeed(feed, buckets, processed, maxPerFeed);
+      })
+    );
+  }
+}
+
 async function main() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [], quotas: DEFAULT_QUOTAS });
   var quotas = Object.assign({}, DEFAULT_QUOTAS, feedsCfg.quotas || {});
@@ -59,46 +116,7 @@ async function main() {
   var processed = new Set(state.processedUrls || []);
   var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
 
-  for (var feed of feedsCfg.feeds || []) {
-    if (!feed.enabled) continue;
-    var sourceType = feed.sourceType || "aggregator";
-    if (!buckets[sourceType]) buckets[sourceType] = [];
-    try {
-      var xml = await fetchText(feed.url);
-      var items = parseRssItems(xml).slice(0, maxPerFeed);
-      items.forEach(function (item) {
-        if (item.url && processed.has(item.url)) return;
-        var scaffold = scaffoldArticle({
-          title: item.title,
-          summary: item.summary,
-          url: item.url,
-          source: sourceType,
-          feedName: feed.name,
-        });
-        if (!scaffold) return;
-        buckets[sourceType].push({
-          id: "rss-" + scaffold.file.replace(".html", ""),
-          title: item.title,
-          url: item.url,
-          summary: item.summary,
-          pubDate: item.pubDate,
-          feedId: feed.id,
-          feedName: feed.name,
-          sourceType: sourceType,
-          suggestedFile: scaffold.file,
-          section: scaffold.section,
-          need: scaffold.cta.href.match(/need=([^&]+)/)
-            ? scaffold.cta.href.match(/need=([^&]+)/)[1]
-            : "habitation",
-          leadScore: 0,
-          status: "candidate",
-        });
-      });
-      console.log("OK feed:", feed.id, "(" + sourceType + ") —", items.length, "items");
-    } catch (e) {
-      console.warn("SKIP feed:", feed.id, "—", e.message);
-    }
-  }
+  await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
   (queue.items || []).forEach(function (item) {
     if (item.status === "published" || item.status === "rejected") return;
