@@ -24,17 +24,6 @@ function analyticsAllowed() {
   return true;
 }
 
-function applyConsent(granted) {
-  if (!window.loClarity) return;
-  try {
-    if (granted) {
-      window.loClarity.consentV2({ ad_Storage: "granted", analytics_Storage: "granted" });
-    } else {
-      window.loClarity.consentV2({ ad_Storage: "denied", analytics_Storage: "denied" });
-    }
-  } catch (e) {}
-}
-
 function utmTags() {
   var params = new URLSearchParams(location.search);
   ["utm_source", "utm_medium", "utm_campaign", "utm_content", "need"].forEach(function (key) {
@@ -78,10 +67,37 @@ function bootClarity() {
   var projectId = getProjectId();
   if (!projectId) return;
 
-  // Charge toujours le tag clarity.ms (comme le snippet Microsoft officiel).
-  Clarity.init(projectId);
+  if (!document.getElementById("clarity-script")) {
+    Clarity.init(projectId);
+  }
   window.loClarity = Clarity;
   booted = true;
+}
+
+function pushConsentV2(granted) {
+  try {
+    window.clarity =
+      window.clarity ||
+      function () {
+        (window.clarity.q = window.clarity.q || []).push(arguments);
+      };
+    window.clarity("consentv2", {
+      ad_Storage: granted ? "granted" : "denied",
+      analytics_Storage: granted ? "granted" : "denied",
+    });
+  } catch (e) {}
+}
+
+function applyConsent(granted) {
+  pushConsentV2(granted);
+  if (!window.loClarity) return;
+  try {
+    if (granted) {
+      window.loClarity.consentV2({ ad_Storage: "granted", analytics_Storage: "granted" });
+    } else {
+      window.loClarity.consentV2({ ad_Storage: "denied", analytics_Storage: "denied" });
+    }
+  } catch (e) {}
 }
 
 function syncConsentAndTags() {

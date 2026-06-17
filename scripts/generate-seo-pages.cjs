@@ -4,6 +4,8 @@
  */
 const fs = require("fs");
 const path = require("path");
+const clarityInlineHtml = require("./clarity-inline-html.cjs");
+const CLARITY_HEAD = clarityInlineHtml();
 const {
   GEO_PRODUCTS,
   buildGeoPageConfigs,
@@ -799,7 +801,7 @@ function renderPage(p) {
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JX8E35693F');</script>
   <script src="/api/google-config-env"></script>
   <script src="${prefix}google-config.js"></script>
-  <script src="/js/clarity-snippet.js"></script>
+  ${CLARITY_HEAD}
   <script src="/js/clarity-init.js" defer></script>
 </head>
 <body class="seo-page seo-page--${theme}">

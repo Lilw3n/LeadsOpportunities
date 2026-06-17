@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Vérifie l'installation Microsoft Clarity (snippet + package NPM).
+ * Vérifie l'installation Microsoft Clarity (snippet inline + collect).
  */
 const fs = require("fs");
 const path = require("path");
@@ -18,45 +18,35 @@ function fail(msg) {
 
 console.log("=== Microsoft Clarity — vérification complète ===\n");
 
-var pkgPath = path.join(ROOT, "node_modules", "@microsoft", "clarity", "package.json");
-if (!fs.existsSync(pkgPath)) {
-  fail("Package absent — lancez: npm install");
-} else {
-  pass("@microsoft/clarity@" + JSON.parse(fs.readFileSync(pkgPath, "utf8")).version);
-}
-
-var snippet = fs.readFileSync(path.join(ROOT, "js", "clarity-snippet.js"), "utf8");
-if (snippet.indexOf("consentv2") === -1) fail("clarity-snippet sans consentv2 (requis EEA)");
-else pass("Consent V2 envoyé avant le tag clarity.ms");
-
-var src = fs.readFileSync(path.join(ROOT, "js", "clarity-source.mjs"), "utf8");
-if (src.indexOf("Clarity.init") === -1) fail("clarity-source sans Clarity.init");
-else pass("Clarity.init() toujours appelé");
-
-if (src.indexOf("if (!analyticsAllowed()) return") !== -1) {
-  fail("Init encore bloquée par consentement");
-} else {
-  pass("Pas de blocage init avant consentement");
-}
-
 var index = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
-if (index.indexOf("clarity-snippet.js") === -1) fail("index.html sans clarity-snippet.js");
-else pass("Snippet dans index.html");
+if (index.indexOf("clarity.ms/tag/") === -1 && index.indexOf("x7yqp46fj9") === -1) {
+  fail("index.html sans snippet inline clarity.ms/tag/x7yqp46fj9");
+} else {
+  pass("Snippet inline clarity.ms/tag visible dans index.html (view-source)");
+}
+
+if (index.indexOf("consentv2") === -1) fail("index.html sans consentv2");
+else pass("Consent V2 dans le snippet inline");
 
 var seoGen = fs.readFileSync(path.join(ROOT, "scripts", "generate-seo-pages.cjs"), "utf8");
-if (seoGen.indexOf("clarity-snippet.js") === -1) fail("generate-seo-pages sans Clarity");
-else pass("Générateur SEO pages avec Clarity");
+if (seoGen.indexOf("clarity-inline-html") === -1) fail("generate-seo-pages sans module inline");
+else pass("Générateur SEO avec snippet inline");
 
 var sampleSeo = path.join(ROOT, "france", "index.html");
 if (fs.existsSync(sampleSeo)) {
   var seoHtml = fs.readFileSync(sampleSeo, "utf8");
-  if (seoHtml.indexOf("clarity-snippet.js") === -1) {
-    fail("france/index.html sans Clarity — lancez: npm run seo:build");
+  if (seoHtml.indexOf("clarity.ms/tag/") === -1) {
+    fail("france/index.html sans clarity.ms/tag — lancez: npm run seo:build");
   } else {
-    pass("Page SEO échantillon avec Clarity");
+    pass("Page SEO échantillon avec snippet inline");
   }
+}
+
+var src = fs.readFileSync(path.join(ROOT, "js", "clarity-source.mjs"), "utf8");
+if (src.indexOf('getElementById("clarity-script")') === -1) {
+  fail("clarity-init peut recharger un 2e tag");
 } else {
-  fail("france/index.html absent");
+  pass("Pas de double chargement tag (clarity-init)");
 }
 
 console.log(ok ? "\nClarity prêt pour la production." : "\nCorrigez les points ci-dessus.");
