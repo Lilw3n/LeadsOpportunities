@@ -293,9 +293,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
-        url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        title: cleanRssText(title),
+        url: cleanRssText(link || ""),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -311,6 +311,10 @@ function extractTag(block, tag) {
 
 function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s));
 }
 
 function decodeEntities(s) {
