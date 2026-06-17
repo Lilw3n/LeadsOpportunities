@@ -74,7 +74,7 @@ module.exports = {
     {
       file: "people-divorce-assurance-habitation-emprunteur.html",
       section: "actu",
-      tag: "Actu people",
+      tag: "People & assurance",
       tagClass: "tag-actu",
       title: "Separation et divorce : habitation, emprunteur et prevoyance a revoir",
       description: "Comme en couverture people, un divorce touche le logement, le credit et les beneficiaires — checklist assurance.",

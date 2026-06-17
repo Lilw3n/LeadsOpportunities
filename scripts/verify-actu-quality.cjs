@@ -16,6 +16,44 @@ function arg(name) {
   return m ? m.split("=").slice(1).join("=") : "";
 }
 
+function hasFlag(name) {
+  return process.argv.indexOf("--" + name) !== -1;
+}
+
+function readStdin() {
+  return new Promise(function (resolve, reject) {
+    var chunks = [];
+    process.stdin.setEncoding("utf8");
+    process.stdin.on("data", function (chunk) {
+      chunks.push(chunk);
+    });
+    process.stdin.on("end", function () {
+      resolve(chunks.join(""));
+    });
+    process.stdin.on("error", reject);
+  });
+}
+
+function blockText(block) {
+  if (!block) return "";
+  if (block.text) return block.text;
+  if (Array.isArray(block.items)) return block.items.join(" ");
+  return "";
+}
+
+function articleText(article) {
+  var parts = [
+    article.title,
+    article.description,
+    article.cardExcerpt,
+    article.cta && article.cta.label,
+  ];
+  (article.blocks || []).forEach(function (block) {
+    parts.push(blockText(block));
+  });
+  return parts.join(" ").toLowerCase();
+}
+
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
@@ -45,21 +83,28 @@ function validateArticle(article) {
   else if (article.cta.href.indexOf("utm_medium=actu_daily") === -1) {
     errors.push("utm_medium=actu_daily absent du CTA");
   }
+  var text = articleText(article);
+  if (text.indexOf("questionnaire") === -1) {
+    errors.push("mention questionnaire manquante");
+  }
+  if (text.indexOf("gratuit") === -1 && text.indexOf("sans engagement") === -1) {
+    errors.push("promesse gratuit/sans engagement manquante");
+  }
   if (!article.description || article.description.length < 80) {
     errors.push("meta description trop courte");
   }
   return errors;
 }
 
-function main() {
+async function main() {
   var file = arg("file");
   var articles = [];
 
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
+  } else if (hasFlag("stdin") || !process.stdin.isTTY) {
+    var stdin = await readStdin();
     var parsed = JSON.parse(stdin);
     articles = Array.isArray(parsed) ? parsed : [parsed];
   } else {
@@ -96,4 +141,7 @@ function main() {
   console.log("\nQualité OK (" + articles.length + " article(s)).");
 }
 
-main();
+main().catch(function (e) {
+  console.error(e);
+  process.exit(1);
+});
