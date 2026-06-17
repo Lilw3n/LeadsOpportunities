@@ -16,6 +16,24 @@ function arg(name) {
   return m ? m.split("=").slice(1).join("=") : "";
 }
 
+function hasFlag(name) {
+  return process.argv.indexOf("--" + name) !== -1;
+}
+
+function readStdin() {
+  return new Promise(function (resolve, reject) {
+    var chunks = [];
+    process.stdin.setEncoding("utf8");
+    process.stdin.on("data", function (chunk) {
+      chunks.push(chunk);
+    });
+    process.stdin.on("end", function () {
+      resolve(chunks.join(""));
+    });
+    process.stdin.on("error", reject);
+  });
+}
+
 function blockText(block) {
   if (!block) return "";
   if (block.text) return block.text;
@@ -78,15 +96,15 @@ function validateArticle(article) {
   return errors;
 }
 
-function main() {
+async function main() {
   var file = arg("file");
   var articles = [];
 
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
+  } else if (hasFlag("stdin") || !process.stdin.isTTY) {
+    var stdin = await readStdin();
     var parsed = JSON.parse(stdin);
     articles = Array.isArray(parsed) ? parsed : [parsed];
   } else {
@@ -123,4 +141,7 @@ function main() {
   console.log("\nQualité OK (" + articles.length + " article(s)).");
 }
 
-main();
+main().catch(function (e) {
+  console.error(e);
+  process.exit(1);
+});
