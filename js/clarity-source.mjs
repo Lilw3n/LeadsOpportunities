@@ -25,8 +25,10 @@ function analyticsAllowed() {
     location.pathname === "/" ||
     location.pathname === "/index.html";
   if (!needsConsent) return true;
-  if (!level) return false;
-  return level === "all";
+  if (level === "essential") return false;
+  if (level === "all") return true;
+  // Avant choix banniere : actif comme le snippet Microsoft par defaut.
+  return true;
 }
 
 function applyConsent(granted) {
@@ -82,21 +84,26 @@ function bootClarity() {
   if (booted) return;
   var projectId = getProjectId();
   if (!projectId) return;
-  if (!analyticsAllowed()) return;
 
+  // Charge toujours le tag clarity.ms (comme le snippet Microsoft officiel).
   Clarity.init(projectId);
   window.loClarity = Clarity;
   booted = true;
-  applyConsent(true);
-  tagPageContext();
+}
+
+function syncConsentAndTags() {
+  if (!booted) return;
+  var granted = analyticsAllowed();
+  applyConsent(granted);
+  if (granted) tagPageContext();
 }
 
 function bindListeners() {
   window.addEventListener("lo:cookie-consent", function (ev) {
     var level = ev && ev.detail ? ev.detail.level : "";
+    bootClarity();
     if (level === "all") {
-      bootClarity();
-      applyConsent(true);
+      syncConsentAndTags();
     } else if (level === "essential") {
       applyConsent(false);
     }
@@ -139,4 +146,5 @@ function bindListeners() {
 }
 
 bootClarity();
+syncConsentAndTags();
 bindListeners();
