@@ -1,6 +1,6 @@
 # Blog actu automatique — leads ultra qualifiés
 
-Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
+Objectif : publier **régulièrement des articles orientés leads** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
 ## Quel canal utiliser ?
 
@@ -53,7 +53,7 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
 
 ```bash
-# 1 article (rotation cafeyn/edge/firefox selon l'heure)
+# 2 articles par run en production par defaut (BLOG_ACTU_AUTO_COUNT=2)
 npm run blog:actu:auto
 
 # Les 3 plateformes en une fois (recommandé pour test)
@@ -70,8 +70,9 @@ npm run blog:actu:auto -- --no-ai
 
 Workflow : **`.github/workflows/blog-actu-auto.yml`**
 
-- Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
+- Cron UTC : `6h, 9h, 12h, 15h, 18h`
 - Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
+- Volume par run : `BLOG_ACTU_AUTO_COUNT` via **Settings → Secrets and variables → Actions → Variables** (défaut `2`, max `5`)
 - Commit automatique sur `main` si nouveaux articles
 
 **Secrets à configurer** (Settings → Secrets → Actions) :

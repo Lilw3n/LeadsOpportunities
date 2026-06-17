@@ -16,6 +16,26 @@ function arg(name) {
   return m ? m.split("=").slice(1).join("=") : "";
 }
 
+function blockText(block) {
+  if (!block) return "";
+  if (block.text) return block.text;
+  if (Array.isArray(block.items)) return block.items.join(" ");
+  return "";
+}
+
+function articleText(article) {
+  var parts = [
+    article.title,
+    article.description,
+    article.cardExcerpt,
+    article.cta && article.cta.label,
+  ];
+  (article.blocks || []).forEach(function (block) {
+    parts.push(blockText(block));
+  });
+  return parts.join(" ").toLowerCase();
+}
+
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
@@ -44,6 +64,13 @@ function validateArticle(article) {
   if (!article.cta || !article.cta.href) errors.push("cta manquant");
   else if (article.cta.href.indexOf("utm_medium=actu_daily") === -1) {
     errors.push("utm_medium=actu_daily absent du CTA");
+  }
+  var text = articleText(article);
+  if (text.indexOf("questionnaire") === -1) {
+    errors.push("mention questionnaire manquante");
+  }
+  if (text.indexOf("gratuit") === -1 && text.indexOf("sans engagement") === -1) {
+    errors.push("promesse gratuit/sans engagement manquante");
   }
   if (!article.description || article.description.length < 80) {
     errors.push("meta description trop courte");

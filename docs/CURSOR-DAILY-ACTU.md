@@ -63,8 +63,8 @@ Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionna
 
 Étapes obligatoires :
 1. npm install
-2. npm run blog:actu:auto -- --count=1
-   (ou --count=3 pour 1 article par plateforme en une fois)
+2. npm run blog:actu:auto
+   (defaut production: 2 articles via BLOG_ACTU_AUTO_COUNT, ou --count=3 pour 1 article par plateforme en une fois)
 3. Si aucun changement, terminer sans commit.
 4. Sinon : git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
 5. Commit message : chore(blog): actu auto Cursor
@@ -80,7 +80,7 @@ Règles :
 **Variante sans clé IA** (texte enrichi local, pas de Gemini) :
 
 ```
-npm run blog:actu:auto -- --no-ai --count=1
+npm run blog:actu:auto -- --no-ai --count=2
 ```
 
 ---
@@ -89,10 +89,11 @@ npm run blog:actu:auto -- --no-ai --count=1
 
 | `--count` | Comportement |
 |-----------|--------------|
-| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox** sur la journée (5 runs = 5 articles) |
+| absent | utilise `BLOG_ACTU_AUTO_COUNT` (défaut production : `2`, max `5`) |
+| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox** sur la journée |
 | `3` | **1 Cafeyn + 1 Edge + 1 Firefox** à chaque run |
 
-Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
+Exemple **5×/jour avec les 3 sources** : variable `BLOG_ACTU_AUTO_COUNT=2` pour un flux régulier, ou `--count=3` ponctuellement pour couvrir les 3 plateformes en une fois.
 
 ---
 

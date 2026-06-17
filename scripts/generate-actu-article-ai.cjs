@@ -29,7 +29,8 @@ function buildPrompt(candidate) {
   }
   return (
     "Tu es redacteur SEO pour Leads Opportunities, courtier ORIAS assurance en France.\n" +
-    "A partir de cette actualite, redige un article ORIGINAL (ne copie pas le journal) qui convertit vers un questionnaire.\n\n" +
+    "A partir de cette actualite, redige un article ORIGINAL (ne copie pas le journal) qui convertit vers un questionnaire gratuit.\n" +
+    "Objectif prioritaire : generer des leads qualifies, donc chaque conseil doit expliquer quel risque verifier et quand remplir le questionnaire.\n\n" +
     "ACTU:\nTitre: " +
     candidate.title +
     "\nResume: " +
@@ -53,7 +54,11 @@ function buildPrompt(candidate) {
     '    {"type":"bridge"}\n' +
     "  ]\n" +
     "}\n\n" +
-    "Regles: 8 a 12 blocs, ton conseiller, angle assurance concret, mentionner questionnaire gratuit, pas de plagiat."
+    "Regles:\n" +
+    "- 8 a 12 blocs, ton conseiller, angle assurance concret, pas de plagiat.\n" +
+    "- Un bloc {\"type\":\"bridge\"} entre le 3e et le 7e bloc.\n" +
+    "- Au moins un paragraphe final doit mentionner explicitement \"questionnaire gratuit\" ou \"sans engagement\".\n" +
+    "- Eviter les articles purement people/sensationnels : transformer le sujet en besoin concret (sante, habitation, auto, emprunteur, prevoyance, pro)."
   );
 }
 

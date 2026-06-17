@@ -13,9 +13,9 @@
 
 Voir **`docs/BLOG-ACTU-AUTOMATION.md`** pour le pipeline complet.
 
-**Automatisation 1–5×/jour (sans login Cafeyn)** :
+**Automatisation régulière (sans login Cafeyn)** :
 ```bash
-npm run blog:actu:auto              # 1 article
+npm run blog:actu:auto              # défaut prod: BLOG_ACTU_AUTO_COUNT=2
 npm run blog:actu:auto -- --count=3 # jusqu'à 5
 ```
 CI : **`.github/workflows/blog-actu-auto.yml`** (cron 5×/jour + secrets `GEMINI_API_KEY`).
