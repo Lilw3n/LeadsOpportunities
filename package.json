@@ -21,6 +21,8 @@
     "blog:actu:auto": "node scripts/auto-actu-publish.cjs",
     "blog:actu:verify-quality": "node scripts/verify-actu-quality.cjs",
     "build:clarity": "node scripts/bundle-clarity.cjs",
+    "verify:clarity": "node scripts/verify-clarity.cjs",
+    "postinstall": "npm run build:clarity",
     "verify:prod": "node scripts/verify-prod-readiness.cjs"
   },
   "dependencies": {
