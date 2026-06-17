@@ -14,6 +14,22 @@
     if (el && el.parentNode) el.parentNode.removeChild(el);
   }
 
+  function pushClarityConsent(level) {
+    var granted = level !== "essential";
+    try {
+      window.clarity =
+        window.clarity ||
+        function () {
+          (window.clarity.q = window.clarity.q || []).push(arguments);
+        };
+      window.clarity("consentv2", {
+        ad_Storage: granted ? "granted" : "denied",
+        analytics_Storage: granted ? "granted" : "denied",
+      });
+    } catch (e) {}
+    window.dispatchEvent(new CustomEvent("lo:cookie-consent", { detail: { level: level } }));
+  }
+
   function showBanner() {
     if (document.getElementById("cookie-banner-lo")) return;
 
@@ -42,7 +58,7 @@
         );
       } catch (e) {}
       hideBanner(wrap);
-      window.dispatchEvent(new CustomEvent("lo:cookie-consent", { detail: { level: "all" } }));
+      pushClarityConsent("all");
     });
 
     document.getElementById("cookie-essential").addEventListener("click", function () {
@@ -54,13 +70,16 @@
         );
       } catch (e) {}
       hideBanner(wrap);
-      window.dispatchEvent(new CustomEvent("lo:cookie-consent", { detail: { level: "essential" } }));
+      pushClarityConsent("essential");
     });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
     if (!hasConsentRecorded()) {
       showBanner();
+      return;
     }
+    var level = localStorage.getItem(KEY) || "all";
+    pushClarityConsent(level === "essential" ? "essential" : "all");
   });
 })();

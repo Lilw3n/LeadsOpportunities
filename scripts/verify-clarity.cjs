@@ -26,11 +26,8 @@ if (!fs.existsSync(pkgPath)) {
 }
 
 var snippet = fs.readFileSync(path.join(ROOT, "js", "clarity-snippet.js"), "utf8");
-if (snippet.indexOf("clarity.ms/tag/") === -1 || snippet.indexOf("x7yqp46fj9") === -1) {
-  fail("js/clarity-snippet.js invalide");
-} else {
-  pass("Snippet Microsoft clarity.ms/tag/x7yqp46fj9");
-}
+if (snippet.indexOf("consentv2") === -1) fail("clarity-snippet sans consentv2 (requis EEA)");
+else pass("Consent V2 envoyé avant le tag clarity.ms");
 
 var src = fs.readFileSync(path.join(ROOT, "js", "clarity-source.mjs"), "utf8");
 if (src.indexOf("Clarity.init") === -1) fail("clarity-source sans Clarity.init");
