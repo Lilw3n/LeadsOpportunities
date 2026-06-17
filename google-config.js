@@ -94,6 +94,17 @@
   if (
     cfg.clarityProjectId &&
     cfg.clarityProjectId.indexOf("XXXX") === -1 &&
+    !document.getElementById("clarity-script") &&
+    !document.querySelector('script[src="/js/clarity-snippet.js"]')
+  ) {
+    var claritySnippet = document.createElement("script");
+    claritySnippet.src = "/js/clarity-snippet.js";
+    document.head.appendChild(claritySnippet);
+  }
+
+  if (
+    cfg.clarityProjectId &&
+    cfg.clarityProjectId.indexOf("XXXX") === -1 &&
     !document.querySelector('script[src="/js/clarity-init.js"]')
   ) {
     var clarityBoot = document.createElement("script");

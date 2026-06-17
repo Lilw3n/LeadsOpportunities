@@ -130,7 +130,7 @@ function renderArticle(a) {
     canonical +
     '" />\n  <meta property="og:image" content="' +
     base +
-    '/og-default.jpg" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body data-blog-page="article" data-blog-article="' +
+    '/og-default.jpg" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  <script src="/js/clarity-snippet.js"></script>\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body data-blog-page="article" data-blog-article="' +
     esc(a.file) +
     '" data-blog-section="' +
     esc(a.section) +

@@ -20,14 +20,7 @@ function consentLevel() {
 
 function analyticsAllowed() {
   var level = consentLevel();
-  var needsConsent =
-    location.pathname.indexOf("/landings/") !== -1 ||
-    location.pathname === "/" ||
-    location.pathname === "/index.html";
-  if (!needsConsent) return true;
   if (level === "essential") return false;
-  if (level === "all") return true;
-  // Avant choix banniere : actif comme le snippet Microsoft par defaut.
   return true;
 }
 

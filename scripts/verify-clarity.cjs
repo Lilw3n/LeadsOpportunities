@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Vérifie l'installation @microsoft/clarity (npm officiel).
+ * Vérifie l'installation Microsoft Clarity (snippet + package NPM).
  */
 const fs = require("fs");
 const path = require("path");
@@ -16,42 +16,51 @@ function fail(msg) {
   ok = false;
 }
 
-console.log("=== Microsoft Clarity — installation NPM ===\n");
+console.log("=== Microsoft Clarity — vérification complète ===\n");
 
 var pkgPath = path.join(ROOT, "node_modules", "@microsoft", "clarity", "package.json");
 if (!fs.existsSync(pkgPath)) {
-  fail("Package absent — lancez: npm install @microsoft/clarity");
+  fail("Package absent — lancez: npm install");
 } else {
   pass("@microsoft/clarity@" + JSON.parse(fs.readFileSync(pkgPath, "utf8")).version);
 }
 
-var src = fs.readFileSync(path.join(ROOT, "js", "clarity-source.mjs"), "utf8");
-if (src.indexOf("@microsoft/clarity") === -1 || src.indexOf("Clarity.init") === -1) {
-  fail("js/clarity-source.mjs invalide");
+var snippet = fs.readFileSync(path.join(ROOT, "js", "clarity-snippet.js"), "utf8");
+if (snippet.indexOf("clarity.ms/tag/") === -1 || snippet.indexOf("x7yqp46fj9") === -1) {
+  fail("js/clarity-snippet.js invalide");
 } else {
-  pass("import npm + Clarity.init(projectId)");
+  pass("Snippet Microsoft clarity.ms/tag/x7yqp46fj9");
 }
+
+var src = fs.readFileSync(path.join(ROOT, "js", "clarity-source.mjs"), "utf8");
+if (src.indexOf("Clarity.init") === -1) fail("clarity-source sans Clarity.init");
+else pass("Clarity.init() toujours appelé");
 
 if (src.indexOf("if (!analyticsAllowed()) return") !== -1) {
-  fail("Clarity bloque encore init avant consentement");
+  fail("Init encore bloquée par consentement");
 } else {
-  pass("Init Clarity sans blocage consentement");
+  pass("Pas de blocage init avant consentement");
 }
 
-var bundle = fs.readFileSync(path.join(ROOT, "js", "clarity-init.js"), "utf8");
-if (bundle.indexOf("ref=npm") === -1) fail("Bundle sans ref=npm");
-else pass("Bundle clarity.ms?ref=npm");
-if (bundle.indexOf("x7yqp46fj9") === -1 && bundle.indexOf("clarityProjectId") === -1) {
-  fail("ID projet x7yqp46fj9 absent");
-} else pass("Projet Clarity x7yqp46fj9");
-
 var index = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
-if (index.indexOf("/js/clarity-init.js") === -1) fail("index.html sans clarity-init.js");
-else pass("Script NPM dans index.html");
+if (index.indexOf("clarity-snippet.js") === -1) fail("index.html sans clarity-snippet.js");
+else pass("Snippet dans index.html");
 
-var blogGen = fs.readFileSync(path.join(ROOT, "scripts", "generate-blog-articles.cjs"), "utf8");
-if (blogGen.indexOf("/js/clarity-init.js") === -1) fail("generate-blog-articles sans clarity-init");
-else pass("Générateur blog articles avec clarity-init");
+var seoGen = fs.readFileSync(path.join(ROOT, "scripts", "generate-seo-pages.cjs"), "utf8");
+if (seoGen.indexOf("clarity-snippet.js") === -1) fail("generate-seo-pages sans Clarity");
+else pass("Générateur SEO pages avec Clarity");
 
-console.log(ok ? "\nInstallation NPM conforme." : "\nCorrigez les points ci-dessus.");
+var sampleSeo = path.join(ROOT, "france", "index.html");
+if (fs.existsSync(sampleSeo)) {
+  var seoHtml = fs.readFileSync(sampleSeo, "utf8");
+  if (seoHtml.indexOf("clarity-snippet.js") === -1) {
+    fail("france/index.html sans Clarity — lancez: npm run seo:build");
+  } else {
+    pass("Page SEO échantillon avec Clarity");
+  }
+} else {
+  fail("france/index.html absent");
+}
+
+console.log(ok ? "\nClarity prêt pour la production." : "\nCorrigez les points ci-dessus.");
 process.exit(ok ? 0 : 1);
