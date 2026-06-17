@@ -1,59 +1,124 @@
-# Automation Cursor — 2 articles actu par jour (leads qualifiés)
+# Automation Cursor — secours (GitHub = principal)
 
-Copiez ce prompt dans **Cursor → Automations → Scheduled → tous les jours 7h00**.
+**Par défaut utilisez GitHub Actions** — même qualité, gratuit, sans consommer votre abo Cursor.
 
----
+Cursor Automation = **secours** si le workflow GitHub échoue ou pour relecture manuelle avant merge.
 
-## Prompt (français)
-
-```
-Tu es l'éditeur blog de Leads Opportunities (courtier ORIAS). Objectif : 2 articles intelligents par jour qui convertissent vers les questionnaires.
-
-## Étapes obligatoires
-
-1. `npm run blog:actu:daily -- --count=5`
-2. Lire `data/blog-actu-daily-pick.json` et `data/blog-actu-queue.json` (priorité file Cafeyn/Edge manuelle)
-3. Choisir 2 sujets avec le meilleur leadScore pas encore publiés (vérifier blog/*.html)
-4. Pour CHAQUE article :
-   - Rédaction COMPLÈTE en français (10+ blocs : accroche actu, 3 angles assurance, checklist, bridge, CTA)
-   - Lien questionnaire : `../landings/questionnaire.html?need=XXX&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=XXX&utm_content=slug`
-   - need = sante | habitation | auto | emprunteur | vtc | animaux | prevoyance | rc-pro
-   - Ajouter dans `data/blog-actu-pending.json` (sans dupliquer file)
-   - Ton : conseiller, pas journaliste — réécrire, ne pas copier les journaux
-5. `npm run blog:actu:publish`
-6. `npm run blog:actu:archive`
-7. Commit branche `cursor/blog-actu-YYYYMMDD-3a54`, push, PR draft
-8. Marquer queue items status=published
-
-## Qualité « intelligent lead »
-
-- Chaque article répond : « Quel risque concret ? » + « Quelle garantie vérifier ? » + « Quel questionnaire ? »
-- CTA milieu (type bridge) + CTA fin
-- related[] vers articles piliers existants
-- Pas de texte copié depuis Cafeyn — inspiration uniquement
-
-## Cafeyn / Edge / Firefox
-
-- NE PAS utiliser de login Cafeyn
-- Si `blog-actu-queue.json` vide : utiliser daily-pick RSS
-- L'utilisateur peut remplir la queue via blog/actu-inbox.html
-```
+Voir **`docs/BLOG-ACTU-AUTOMATION.md`** section « Quel canal utiliser ».
 
 ---
 
-## Fréquence recommandée
+## Cursor vs GitHub Actions
 
-| Fréquence | Articles / semaine |
-|-----------|-------------------|
-| 1×/jour (lun–sam) | 12–14 |
-| 1×/jour (7j/7) | 14 |
+| | **Cursor Automations** | **GitHub Actions** |
+|---|------------------------|-------------------|
+| Coût | Inclus dans l’abo + usage agent (Max Mode) | Gratuit (minutes GitHub) |
+| Rédaction IA | Oui (secrets Cursor) | Oui (secrets GitHub) |
+| Sans clé IA | Oui (`--no-ai`) | Oui (`--no-ai`) |
+| Merge auto | PR draft → vous mergez | Push `main` auto possible |
+| Idéal si | Vous voulez tout piloter depuis Cursor | Publication 100 % sans intervention |
 
-Mergez les PR dans la journée pour publication Vercel.
+---
 
-## Votre routine Cafeyn (2 min / jour)
+## Configuration Cursor (une fois)
 
-1. Ouvrez Cafeyn → une une du jour (Le Figaro, Le Parisien…)
-2. Notez **1 titre** qui touche assurance / santé / immo / auto
-3. `blog/actu-inbox.html` → copier JSON → coller dans Cursor ou `data/blog-actu-queue.json`
+### 1. Secrets (équivalent du tableau GitHub)
 
-**Ne partagez pas vos identifiants Cafeyn** — inutile et risqué (CGU + sécurité).
+**[cursor.com/dashboard](https://cursor.com/dashboard) → Cloud Agents → Secrets** (ou Environment du repo) :
+
+| Secret | Obligatoire | Rôle |
+|--------|-------------|------|
+| `GEMINI_API_KEY` | Recommandé | Rédaction IA (Gemini) |
+| `OPENAI_API_KEY` | Optionnel | Secours si Gemini échoue |
+| `POCKET_CONSUMER_KEY` | Optionnel | Actu Pocket Firefox |
+| `POCKET_ACCESS_TOKEN` | Optionnel | Idem |
+
+Pas besoin de dupliquer sur GitHub si vous n’utilisez **que** Cursor.
+
+### 2. Repo connecté
+
+- GitHub connecté à Cursor, accès **lecture/écriture** sur `LeadsOpportunities`
+- Branche de travail : `main` (ou laisser l’agent créer `cursor/blog-actu-…`)
+
+### 3. Nouvelle automation
+
+**Cursor → Automations → New Automation**
+
+| Paramètre | Valeur |
+|-----------|--------|
+| **Trigger** | Scheduled |
+| **Fréquence** | 5×/jour — crons UTC : `0 6,9,12,15,18 * * *` |
+| **Repo** | `LeadsOpportunities` |
+| **Branche** | `main` |
+| **Créer une PR** | Oui (recommandé) — vous mergez → Vercel déploie |
+
+---
+
+## Prompt à coller dans l’automation
+
+```
+Tu es l'agent blog Leads Opportunities (courtier ORIAS).
+
+Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionnaires.
+
+Étapes obligatoires :
+1. npm install
+2. npm run blog:actu:auto -- --count=1
+   (ou --count=3 pour 1 article par plateforme en une fois)
+3. Si aucun changement, terminer sans commit.
+4. Sinon : git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
+5. Commit message : chore(blog): actu auto Cursor
+6. Push branche cursor/blog-actu-auto-3a54
+7. Ouvrir une PR draft vers main
+
+Règles :
+- Ne jamais demander de login Cafeyn
+- Ne pas dupliquer un slug existant dans blog/
+- Les articles doivent avoir CTA questionnaire utm_medium=actu_daily
+```
+
+**Variante sans clé IA** (texte enrichi local, pas de Gemini) :
+
+```
+npm run blog:actu:auto -- --no-ai --count=1
+```
+
+---
+
+## Fréquence et rotation des 3 plateformes
+
+| `--count` | Comportement |
+|-----------|--------------|
+| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox** sur la journée (5 runs = 5 articles) |
+| `3` | **1 Cafeyn + 1 Edge + 1 Firefox** à chaque run |
+
+Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
+
+---
+
+## Votre routine (optionnel, 2 min)
+
+1. Lisez Cafeyn / Edge / Firefox comme d’habitude
+2. Si un titre vous intéresse : `blog/actu-inbox.html` → JSON → `data/blog-actu-queue.json`
+3. L’automation Cursor le priorise au prochain run
+
+---
+
+## Publier en ligne
+
+1. L’automation ouvre une **PR draft**
+2. Vous **mergez** sur GitHub (2 clics)
+3. **Vercel** déploie automatiquement
+
+---
+
+## Test manuel avant d’activer le cron
+
+Dans Cursor, agent sur le repo :
+
+```bash
+npm run blog:actu:auto -- --dry-run --count=3
+npm run verify:clarity
+```
+
+Voir aussi **`docs/BLOG-ACTU-AUTOMATION.md`** pour le détail technique du pipeline.

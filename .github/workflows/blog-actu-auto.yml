@@ -1,0 +1,71 @@
+name: Blog actu auto (principal — même qualité que Cursor)
+
+on:
+  schedule:
+    # 5×/jour UTC — GitHub = canal auto principal
+    - cron: "0 6,9,12,15,18 * * *"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Nombre d'articles (1-5)"
+        required: false
+        default: "1"
+
+concurrency:
+  group: blog-actu-auto
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish-actu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Vérifier clé IA (qualité = Cursor)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          if [ -z "$GEMINI_API_KEY" ] && [ -z "$OPENAI_API_KEY" ]; then
+            echo "::warning::Pas de clé IA — enrichissement local (qualité moindre). Ajoutez GEMINI_API_KEY."
+          else
+            echo "IA disponible — même pipeline que Cursor."
+          fi
+
+      - name: Auto publish actu (Cafeyn RSS + Edge + Firefox + Google News)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          POCKET_CONSUMER_KEY: ${{ secrets.POCKET_CONSUMER_KEY }}
+          POCKET_ACCESS_TOKEN: ${{ secrets.POCKET_ACCESS_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          STRICT_ACTU_QUALITY: "1"
+        run: |
+          COUNT="${{ github.event.inputs.count || '1' }}"
+          npm run blog:actu:auto -- --count="$COUNT" --strict-quality
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git status --porcelain | grep -q .; then
+            git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
+            git commit -m "chore(blog): actu auto GitHub $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          else
+            echo "Aucun changement à committer."
+          fi
