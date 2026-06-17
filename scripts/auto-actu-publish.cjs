@@ -339,7 +339,14 @@ async function main() {
   });
 }
 
-main().catch(function (e) {
-  console.error(e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().catch(function (e) {
+    console.error(e);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  candidateSourceType: candidateSourceType,
+  pickCandidates: pickCandidates,
+};
