@@ -18,6 +18,8 @@
     "blog:actu:publish": "npm run blog:build && npm run seo:build",
     "blog:actu:daily": "node scripts/daily-actu-run.cjs",
     "blog:actu:archive": "node scripts/archive-actu-pending.cjs",
+    "blog:actu:auto": "node scripts/auto-actu-publish.cjs",
+    "blog:actu:verify-quality": "node scripts/verify-actu-quality.cjs",
     "build:clarity": "node scripts/bundle-clarity.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs"
   },

@@ -60,6 +60,20 @@
     <div id="msg" class="ok" hidden>JSON copié — collez dans Cursor ou dans data/blog-actu-queue.json</div>
     <pre id="out" hidden></pre>
 
+    <h2>Sauvegarder depuis Cafeyn (sans mot de passe)</h2>
+    <p class="hint">
+      <strong>Impossible de stocker votre login Cafeyn</strong> (CGU + sécurité). À la place :
+      glissez ce bouton dans vos favoris, ouvrez un article <strong>déjà connecté</strong> sur Cafeyn, cliquez le favori → l’article part en file prioritaire.
+    </p>
+    <p>
+      <a class="btn btn-primary" id="bookmarklet" href="#">📰 Sauver actu Cafeyn</a>
+    </p>
+    <label for="ingestToken">Jeton serveur (une fois — Vercel <code>BLOG_ACTU_INGEST_SECRET</code>)</label>
+    <input id="ingestToken" type="password" placeholder="Collez le jeton puis Enregistrer" autocomplete="off" />
+    <button type="button" class="btn btn-ghost" id="saveToken">Enregistrer le jeton</button>
+    <button type="button" class="btn btn-primary" id="sendServer">Envoyer à la file serveur (prioritaire)</button>
+    <p id="serverMsg" class="ok" hidden></p>
+
     <h2>File locale (navigateur)</h2>
     <p class="hint">Stockage temporaire dans ce navigateur. Exportez pour ne pas perdre vos entrées.</p>
     <ul id="localList"></ul>
@@ -120,6 +134,52 @@
       navigator.clipboard.writeText(pre.textContent);
       document.getElementById("msg").hidden = false;
     });
+    var TOKEN_KEY = "lo_blog_actu_ingest_token";
+    function loadToken() {
+      try { return sessionStorage.getItem(TOKEN_KEY) || ""; } catch (e) { return ""; }
+    }
+    function saveTokenVal() {
+      sessionStorage.setItem(TOKEN_KEY, document.getElementById("ingestToken").value.trim());
+      alert("Jeton enregistré pour cette session.");
+    }
+    function applyQueryParams() {
+      var p = new URLSearchParams(location.search);
+      if (p.get("title")) document.getElementById("title").value = p.get("title");
+      if (p.get("url")) document.getElementById("url").value = p.get("url");
+      if (p.get("source")) document.getElementById("source").value = p.get("source");
+      if (p.get("note")) document.getElementById("note").value = p.get("note");
+    }
+    var bookmarkletCode =
+      "javascript:(function(){var t=document.title,u=location.href;var s='cafeyn';" +
+      "window.open('https://www.leadsopportunities.fr/blog/actu-inbox.html?source='+encodeURIComponent(s)+'&title='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');})();";
+    document.getElementById("bookmarklet").href = bookmarkletCode;
+    document.getElementById("saveToken").addEventListener("click", saveTokenVal);
+    document.getElementById("sendServer").addEventListener("click", function () {
+      var item = makeItem();
+      if (!item.title) { alert("Titre obligatoire"); return; }
+      var token = loadToken() || document.getElementById("ingestToken").value.trim();
+      if (!token) { alert("Jeton BLOG_ACTU_INGEST_SECRET requis"); return; }
+      fetch("/api?action=blog-actu-ingest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+        body: JSON.stringify(item),
+      })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          var el = document.getElementById("serverMsg");
+          el.hidden = false;
+          if (res.ok) {
+            el.textContent = "✓ " + (res.j.message || "Ajouté — prioritaire au prochain run GitHub/Cursor");
+          } else {
+            el.textContent = "Erreur : " + (res.j.error || "échec");
+          }
+        })
+        .catch(function (e) {
+          document.getElementById("serverMsg").hidden = false;
+          document.getElementById("serverMsg").textContent = "Erreur réseau : " + e.message;
+        });
+    });
+    applyQueryParams();
     renderLocal();
   </script>
 </body>

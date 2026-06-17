@@ -1,5 +1,22 @@
 {
-  "lastFetch": "2026-06-16T14:59:20.858Z",
-  "processedUrls": [],
-  "publishedFiles": []
+  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "processedUrls": [
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+  ],
+  "publishedFiles": [],
+  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "autoRuns": [
+    {
+      "at": "2026-06-16T15:11:49.864Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "lieu-de-r-xe9-sidence-intoxication-chronique-analyse-d-urine-cinq-questi.html",
+          "title": "Lieu de r&#xE9;sidence, intoxication chronique, analyse d'urine... Cinq questions sur l… : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — France Info titres"
+        }
+      ]
+    }
+  ]
 }

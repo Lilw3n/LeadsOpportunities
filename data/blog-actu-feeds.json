@@ -1,66 +1,479 @@
 {
-  "updated": "2026-06-16",
+  "updated": "2026-06-17",
+  "maxPerFeed": 5,
+  "quotas": {
+    "cafeyn": 20,
+    "edge": 12,
+    "firefox": 15,
+    "aggregator": 30
+  },
   "feeds": [
     {
+      "id": "source-cafeyn-figaro",
+      "name": "Cafeyn — Le Figaro actu",
+      "sourceType": "cafeyn",
+      "url": "https://www.lefigaro.fr/rss/figaro_actualites.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-figaro-flash",
+      "name": "Cafeyn — Le Figaro flash",
+      "sourceType": "cafeyn",
+      "url": "https://www.lefigaro.fr/rss/figaro_flash-actu.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-figaro-eco",
+      "name": "Cafeyn — Le Figaro économie",
+      "sourceType": "cafeyn",
+      "url": "https://www.lefigaro.fr/rss/figaro_economie.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-parisien",
+      "name": "Cafeyn — Le Parisien",
+      "sourceType": "cafeyn",
+      "url": "https://feeds.leparisien.fr/leparisien/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-liberation",
+      "name": "Cafeyn — Libération",
+      "sourceType": "cafeyn",
+      "url": "https://www.liberation.fr/arc/outboundfeeds/rss-all/",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-ouest-france",
+      "name": "Cafeyn — Ouest-France",
+      "sourceType": "cafeyn",
+      "url": "https://www.ouest-france.fr/rss-en-continu.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-sud-ouest",
+      "name": "Cafeyn — Sud Ouest",
+      "sourceType": "cafeyn",
+      "url": "https://www.sudouest.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-midilibre",
+      "name": "Cafeyn — Midi Libre",
+      "sourceType": "cafeyn",
+      "url": "https://www.midilibre.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-ladepeche",
+      "name": "Cafeyn — La Dépêche",
+      "sourceType": "cafeyn",
+      "url": "https://www.ladepeche.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-nicematin",
+      "name": "Cafeyn — Nice-Matin",
+      "sourceType": "cafeyn",
+      "url": "https://www.nicematin.com/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-dna",
+      "name": "Cafeyn — DNA Alsace",
+      "sourceType": "cafeyn",
+      "url": "https://www.dna.fr/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-leprogres",
+      "name": "Cafeyn — Le Progrès",
+      "sourceType": "cafeyn",
+      "url": "https://www.leprogres.fr/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-lemonde-continu",
+      "name": "Cafeyn — Le Monde en continu",
+      "sourceType": "cafeyn",
+      "url": "https://www.lemonde.fr/rss/en_continu.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-lemonde-economie",
+      "name": "Cafeyn — Le Monde économie",
+      "sourceType": "cafeyn",
+      "url": "https://www.lemonde.fr/economie/rss_full.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-lemonde-societe",
+      "name": "Cafeyn — Le Monde société",
+      "sourceType": "cafeyn",
+      "url": "https://www.lemonde.fr/societe/rss_full.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-lexpress",
+      "name": "Cafeyn — L'Express",
+      "sourceType": "cafeyn",
+      "url": "https://www.lexpress.fr/rss/alaune.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-cafeyn-capital",
+      "name": "Cafeyn — Capital",
+      "sourceType": "cafeyn",
+      "url": "https://www.capital.fr/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-fr",
+      "name": "Edge — Bing actu France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-actualites",
+      "name": "Edge — Bing titres du jour",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=actualites+France&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-economie",
+      "name": "Edge — Bing économie",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=economie+France&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-assurance",
+      "name": "Edge — Bing assurance",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=assurance+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-mutuelle",
+      "name": "Edge — Bing mutuelle",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=mutuelle+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-immobilier",
+      "name": "Edge — Bing immobilier",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=immobilier+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-sante",
+      "name": "Edge — Bing santé",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=sante+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-franceinfo",
+      "name": "Firefox — France Info titres",
+      "sourceType": "firefox",
+      "url": "https://www.francetvinfo.fr/titres.rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-franceinfo-societe",
+      "name": "Firefox — Franceinfo société",
+      "sourceType": "firefox",
+      "url": "https://www.francetvinfo.fr/societe.rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-franceinfo-sante",
+      "name": "Firefox — Franceinfo santé",
+      "sourceType": "firefox",
+      "url": "https://www.francetvinfo.fr/sante.rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-franceinfo-economie",
+      "name": "Firefox — Franceinfo économie",
+      "sourceType": "firefox",
+      "url": "https://www.francetvinfo.fr/economie.rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-france24",
+      "name": "Firefox — France 24",
+      "sourceType": "firefox",
+      "url": "https://www.france24.com/fr/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-france24-eco",
+      "name": "Firefox — France 24 économie",
+      "sourceType": "firefox",
+      "url": "https://www.france24.com/fr/economie/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-mediapart",
+      "name": "Firefox — Mediapart",
+      "sourceType": "firefox",
+      "url": "https://www.mediapart.fr/articles/feed",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-rfi",
+      "name": "Firefox — RFI",
+      "sourceType": "firefox",
+      "url": "https://www.rfi.fr/fr/rss",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-bfmtv-eco",
+      "name": "Firefox — BFMTV économie",
+      "sourceType": "firefox",
+      "url": "https://www.bfmtv.com/rss/economie/",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-europe1",
+      "name": "Firefox — Europe 1",
+      "sourceType": "firefox",
+      "url": "https://www.europe1.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-huffpost",
+      "name": "Firefox — HuffPost",
+      "sourceType": "firefox",
+      "url": "https://www.huffingtonpost.fr/feeds/index.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-courrier-intl",
+      "name": "Firefox — Courrier international",
+      "sourceType": "firefox",
+      "url": "https://www.courrierinternational.com/rss/all/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "google-news-top-fr",
+      "name": "Google News — une France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
       "id": "google-news-assurance",
-      "name": "Google News — assurance France",
+      "name": "Google News — assurance",
+      "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=assurance+OR+mutuelle+OR+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-assurance-fr",
+      "name": "Google News — assurance France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-mutuelle",
+      "name": "Google News — mutuelle santé",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=mutuelle+sante+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-habitation",
       "name": "Google News — habitation sinistre",
+      "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=assurance+habitation+sinistre+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
+      "id": "google-news-habitation-fr",
+      "name": "Google News — assurance habitation",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=assurance+habitation+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
       "id": "google-news-auto",
-      "name": "Google News — auto",
+      "name": "Google News — assurance auto",
+      "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=assurance+auto+france&hl=fr&gl=FR&ceid=FR:fr",
-      "enabled": true
-    },
-    {
-      "id": "franceinfo-societe",
-      "name": "Franceinfo — société",
-      "url": "https://www.francetvinfo.fr/societe.rss",
-      "enabled": true
-    },
-    {
-      "id": "lemonde-economie",
-      "name": "Le Monde — économie",
-      "url": "https://www.lemonde.fr/economie/rss_full.xml",
-      "enabled": true
-    },
-    {
-      "id": "lemonde-societe",
-      "name": "Le Monde — société",
-      "url": "https://www.lemonde.fr/societe/rss_full.xml",
       "enabled": true
     },
     {
       "id": "google-news-sante",
       "name": "Google News — santé remboursement",
+      "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=mutuelle+OR+remboursement+santé+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-immobilier",
-      "name": "Google News — prêt immobilier",
+      "name": "Google News — prêt immo emprunteur",
+      "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=prêt+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
-      "id": "google-news-people",
-      "name": "Google News — people & société",
-      "url": "https://news.google.com/rss/search?q=divorce+OR+séparation+OR+habitation+france&hl=fr&gl=FR&ceid=FR:fr",
+      "id": "google-news-taux-immo",
+      "name": "Google News — taux immobilier",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=taux+immobilier+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
-      "id": "20minutes",
-      "name": "20 Minutes",
-      "url": "https://www.20minutes.fr/rss/une.xml",
+      "id": "google-news-emprunteur",
+      "name": "Google News — assurance emprunteur",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-prevoyance",
+      "name": "Google News — prévoyance",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=prevoyance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-retraite",
+      "name": "Google News — retraite prévoyance",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=retraite+prevoyance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-sinistre",
+      "name": "Google News — sinistre assurance",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=sinistre+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-cat-nat",
+      "name": "Google News — catastrophe naturelle",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=catastrophe+naturelle+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-canicule",
+      "name": "Google News — canicule dégâts",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=canicule+degats+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-vtc",
+      "name": "Google News — VTC Uber assurance",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=VTC+uber+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-animaux",
+      "name": "Google News — assurance animaux",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=assurance+animaux+chien+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-rc-pro",
+      "name": "Google News — RC Pro",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=RC+pro+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-people",
+      "name": "Google News — people (angle assurance)",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=people+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-sport-voyage",
+      "name": "Google News — sport & voyage",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=coupe+du+monde+OR+voyage+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-sport",
+      "name": "Google News — sport France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=sport+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-cdm-2026",
+      "name": "Google News — Coupe du monde 2026 France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=coupe+du+monde+2026+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-equipe-france",
+      "name": "Google News — équipe de France football",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=equipe+de+france+football&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-bleus-joueurs",
+      "name": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=Mbappe+OR+Deschamps+OR+Griezmann+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-supporters",
+      "name": "Google News — supporters France foot",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=supporters+france+football&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-match-france",
+      "name": "Google News — match France aujourd'hui",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=match+france+football&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-cdm-voyage",
+      "name": "Google News — CDM voyage assurance",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=coupe+du+monde+voyage+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-equipe-france",
+      "name": "Edge — Bing équipe de France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=equipe+de+france+foot&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-cdm",
+      "name": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=coupe+du+monde+2026+france&format=rss",
       "enabled": true
     }
   ],
-  "notes": "Flux RSS publics (pas Cafeyn). Pour un article Cafeyn / Edge / MSN : utilisez blog/actu-inbox.html ou data/blog-actu-queue.json."
+  "pocket": {
+    "enabled": true,
+    "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
+  },
+  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }
