@@ -19,9 +19,10 @@ var ROOT = path.join(__dirname, "..");
 var DEFAULT_MIN_LEAD_SCORE = 35;
 
 function arg(name, def) {
-  var m = process.argv.find(function (a) {
+  var matches = process.argv.filter(function (a) {
     return a.indexOf("--" + name + "=") === 0;
   });
+  var m = matches[matches.length - 1];
   if (!m) return def;
   return m.split("=").slice(1).join("=");
 }
