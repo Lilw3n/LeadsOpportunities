@@ -29,7 +29,8 @@
   <main class="inbox">
     <h1>Boîte à actu → articles blog</h1>
     <p class="hint">
-      Collez ici un titre vu sur <strong>Cafeyn</strong>, <strong>Edge / MSN</strong>, <strong>Midi Libre</strong>, etc.
+      Collez ici un titre vu sur <strong>Cafeyn</strong>, <strong>Edge / MSN / Bing</strong>, <strong>Firefox / Pocket</strong>,
+      <strong>Google News</strong>, <strong>Yahoo</strong>, etc.
       Copiez le JSON généré dans <code>data/blog-actu-queue.json</code> ou envoyez-le à l’agent Cursor.
       <br />Page non indexée (usage interne).
     </p>
@@ -38,7 +39,10 @@
     <select id="source">
       <option value="cafeyn">Cafeyn (journaux payants)</option>
       <option value="edge">Edge / MSN actu</option>
-      <option value="mozilla">Firefox / Pocket actu</option>
+      <option value="bing">Bing News</option>
+      <option value="firefox">Firefox / Pocket actu</option>
+      <option value="google-news">Google News</option>
+      <option value="yahoo-news">Yahoo Actualités</option>
       <option value="journal">Journal (Midi Libre, Le Monde…)</option>
       <option value="manual">Autre</option>
     </select>
@@ -64,6 +68,7 @@
     <p class="hint">
       <strong>Impossible de stocker votre login Cafeyn</strong> (CGU + sécurité). À la place :
       glissez ce bouton dans vos favoris, ouvrez un article <strong>déjà connecté</strong> sur Cafeyn, cliquez le favori → l’article part en file prioritaire.
+      Le seul secret accepté ici est le jeton technique <code>BLOG_ACTU_INGEST_SECRET</code>, jamais votre email ni votre mot de passe Cafeyn.
     </p>
     <p>
       <a class="btn btn-primary" id="bookmarklet" href="#">📰 Sauver actu Cafeyn</a>

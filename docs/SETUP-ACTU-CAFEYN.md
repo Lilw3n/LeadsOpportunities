@@ -14,6 +14,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
+Si un article vient de Google News, Bing, Yahoo, Edge ou Firefox/Pocket, utilisez la même page `blog/actu-inbox.html` avec la source correspondante. Le pipeline classe automatiquement ces entrées en `edge`, `firefox` ou `aggregator`.
+
 ---
 
 ## Étape 1 — Générer le jeton inbox (2 min)

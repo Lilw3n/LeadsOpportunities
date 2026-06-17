@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Firefox + Pocket) → rédaction → publish.
+ * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Firefox + agrégateurs + Pocket) → rédaction → publish.
  *
  * Usage:
  *   npm run blog:actu:auto
@@ -63,14 +63,15 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = ["cafeyn", "edge", "firefox", "aggregator"];
 
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) return c.sourceType;
   var src = String(c.source || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
   if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
-  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src.indexOf("firefox") !== -1 || src.indexOf("mozilla") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src.indexOf("google") !== -1 || src.indexOf("yahoo") !== -1) return "aggregator";
   return feedMap[c.feedId] || "aggregator";
 }
 
@@ -115,7 +116,9 @@ function pickCandidates(candidates, count, state) {
     });
 
   if (count >= 3) {
-    PLATFORM_TYPES.forEach(function (platform) {
+    var rotAll = state.platformRotationIndex || 0;
+    var platformOrder = PLATFORM_TYPES.slice(rotAll).concat(PLATFORM_TYPES.slice(0, rotAll));
+    platformOrder.forEach(function (platform) {
       if (picks.length >= count) return;
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
@@ -123,7 +126,7 @@ function pickCandidates(candidates, count, state) {
         used.add(pick.url || pick.title);
       }
     });
-    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
+    state._nextPlatformRotation = (rotAll + Math.min(count, PLATFORM_TYPES.length)) % PLATFORM_TYPES.length;
   } else {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {

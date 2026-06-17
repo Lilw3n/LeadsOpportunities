@@ -3,9 +3,9 @@
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
-    "edge": 12,
-    "firefox": 15,
-    "aggregator": 30
+    "edge": 16,
+    "firefox": 18,
+    "aggregator": 40
   },
   "feeds": [
     {
@@ -177,6 +177,20 @@
       "enabled": true
     },
     {
+      "id": "source-edge-bing-msn-une",
+      "name": "Edge — MSN une via Bing News",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=site%3Amsn.com%2Ffr-fr%2Factualite&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-msn-france",
+      "name": "Edge — MSN actualité France via Bing News",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=site%3Amsn.com%2Ffr-fr+actualite+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
       "id": "source-firefox-franceinfo",
       "name": "Firefox — France Info titres",
       "sourceType": "firefox",
@@ -240,6 +254,34 @@
       "enabled": true
     },
     {
+      "id": "source-firefox-bfmtv-direct",
+      "name": "Firefox — BFMTV actualités en continu",
+      "sourceType": "firefox",
+      "url": "https://www.bfmtv.com/rss/news-24-7/",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-bfmtv-sante",
+      "name": "Firefox — BFMTV santé",
+      "sourceType": "firefox",
+      "url": "https://www.bfmtv.com/rss/sante/",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes-eco",
+      "name": "Firefox — 20 Minutes économie",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-economie.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes-sante",
+      "name": "Firefox — 20 Minutes santé",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-sante.xml",
+      "enabled": true
+    },
+    {
       "id": "source-firefox-europe1",
       "name": "Firefox — Europe 1",
       "sourceType": "firefox",
@@ -265,6 +307,20 @@
       "name": "Google News — une France",
       "sourceType": "aggregator",
       "url": "https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-fr",
+      "name": "Yahoo Actualités — France",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-finance-fr",
+      "name": "Yahoo Finance — France",
+      "sourceType": "aggregator",
+      "url": "https://fr.finance.yahoo.com/news/rssindex",
       "enabled": true
     },
     {
@@ -475,5 +531,5 @@
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Edge/MSN via Bing News RSS, Firefox via RSS medias + Pocket, Google News et Yahoo en agregateurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }

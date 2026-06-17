@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Récupère l'actu (RSS publics) + file d'attente manuelle (Cafeyn, Edge, etc.)
+ * Récupère l'actu (RSS publics) + file d'attente manuelle (Cafeyn, Edge, Firefox, agrégateurs, etc.)
  * → data/blog-actu-candidates.json
  *
  * Usage: npm run blog:actu:fetch
@@ -15,13 +15,14 @@ const {
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
-const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 30 };
+const DEFAULT_QUOTAS = { cafeyn: 20, edge: 16, firefox: 18, aggregator: 40 };
 
 function resolveQueueSourceType(source) {
   var s = String(source || "").toLowerCase();
   if (s.indexOf("cafeyn") !== -1) return "cafeyn";
   if (s.indexOf("edge") !== -1 || s.indexOf("msn") !== -1 || s.indexOf("bing") !== -1) return "edge";
-  if (s.indexOf("firefox") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
+  if (s.indexOf("firefox") !== -1 || s.indexOf("mozilla") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
+  if (s.indexOf("google") !== -1 || s.indexOf("yahoo") !== -1) return "aggregator";
   return "aggregator";
 }
 

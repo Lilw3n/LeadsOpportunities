@@ -1,6 +1,6 @@
 # Blog actu automatique — leads ultra qualifiés
 
-Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
+Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox, Google News, Bing, Yahoo) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
 ## Quel canal utiliser ?
 
@@ -37,23 +37,25 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
 
 ## Automatisation 100 % (recommandé)
 
-Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
+Chaque exécution collecte **Cafeyn, Edge/Bing/MSN, Firefox/Pocket, Google News et Yahoo** via des flux publics :
 
 | Plateforme | Flux utilisés |
 |------------|---------------|
 | **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
-| **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
-| **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
+| **Edge / Bing / MSN** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé + requêtes ciblées MSN |
+| **Firefox / Pocket** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, 20 Minutes, Europe 1, HuffPost, Courrier international + Pocket |
 | **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
+| **Yahoo** | Yahoo Actualités France + Yahoo Finance France |
 
 **Sélection** :
-- `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
-- `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+- `--count=4` → objectif **1 article par grande famille** : Cafeyn, Edge/Bing, Firefox/Pocket, agrégateurs (Google/Yahoo)
+- `--count=3` → rotation de 3 familles sur 4 à chaque run, pour faire entrer Google/Yahoo régulièrement
+- `--count=1` → rotation automatique (cafeyn → edge → firefox → agrégateurs) sur les 5 crons/jour
 
-Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
+Les candidats Google News/Yahoo ne sont plus seulement en secours : ils entrent dans la rotation automatique comme agrégateurs.
 
 ```bash
-# 1 article (rotation cafeyn/edge/firefox selon l'heure)
+# 1 article (rotation cafeyn/edge/firefox/agregateurs selon l'heure)
 npm run blog:actu:auto
 
 # Les 3 plateformes en une fois (recommandé pour test)
@@ -90,18 +92,19 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 | Ce que vous lisez | Ce que le bot utilise |
 |-------------------|------------------------|
 | **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
-| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
-| **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Edge** (MSN actu) | Bing News RSS + requêtes `site:msn.com/fr-fr` |
+| **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes + Pocket |
+| **Google News / Yahoo** | RSS publics Google News + Yahoo Actualités / Finance |
 | **Pocket** (sauvegardes) | API Pocket si tokens configurés |
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~55 sources testées).
+Configuration des flux : **`data/blog-actu-feeds.json`** (sources publiques testées, quotas par famille).
 
 ## Pipeline détaillé
 
 ```
-RSS + queue manuelle + Pocket
+RSS + queue manuelle + Pocket + Google/Yahoo
         ↓
 blog-actu-candidates.json (score leadScore)
         ↓
