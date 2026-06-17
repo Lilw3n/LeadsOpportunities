@@ -20,6 +20,9 @@ function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
   if (!article.file) errors.push("file manquant");
+  if (article._needsAgentEnrichment) {
+    errors.push("article brouillon: enrichissement agent requis");
+  }
   if (!article.blocks || !article.blocks.length) {
     errors.push("blocks vides");
     return errors;
