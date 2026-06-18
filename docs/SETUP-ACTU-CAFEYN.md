@@ -14,6 +14,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
+Si un article Cafeyn doit absolument être repris, transmettez uniquement son **titre + URL publique + note d'angle** via `blog/actu-inbox.html` ou `data/blog-actu-queue.json`. Les identifiants Cafeyn restent dans votre navigateur ; le dépôt ne doit recevoir qu'un jeton technique `BLOG_ACTU_INGEST_SECRET`, révocable et sans lien avec votre compte Cafeyn.
+
 ---
 
 ## Étape 1 — Générer le jeton inbox (2 min)
@@ -66,6 +68,8 @@ Vous avez déjà `DATABASE_URL` dans Vercel (voir `CONNECT.md`).
 | `GEMINI_API_KEY` | clé [Google AI Studio](https://aistudio.google.com/apikey) | Production, Preview |
 
 **Redeploy** le projet après ajout.
+
+Conseil sécurité : renouvelez ce jeton si vous pensez qu'il a circulé, puis remplacez-le dans Vercel/GitHub. Ne le commitez jamais dans le dépôt.
 
 ---
 

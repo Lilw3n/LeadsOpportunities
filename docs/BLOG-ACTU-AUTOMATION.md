@@ -42,9 +42,10 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 | Plateforme | Flux utilisés |
 |------------|---------------|
 | **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
-| **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
+| **Edge / MSN** | Bing News : France, page d'accueil, actu, économie, assurance, mutuelle, immobilier, santé, sinistres |
 | **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
-| **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
+| **Google News** | Une France + rubriques France/économie/santé + 20+ requêtes assurance + **Coupe du monde 2026** |
+| **Yahoo** | Yahoo Actualités France + Yahoo Finance France |
 
 **Sélection** :
 - `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
@@ -90,13 +91,16 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 | Ce que vous lisez | Ce que le bot utilise |
 |-------------------|------------------------|
 | **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
-| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
+| **Edge** (MSN actu) | Bing News RSS publics (MSN HTML n'est pas scrapé) |
 | **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Google News** | RSS Google News France + rubriques + recherches métiers assurance |
+| **Bing** | RSS Bing News FR par requêtes généralistes et assurance |
+| **Yahoo** | RSS Yahoo Actualités + Yahoo Finance |
 | **Pocket** (sauvegardes) | API Pocket si tokens configurés |
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~55 sources testées).
+Configuration des flux : **`data/blog-actu-feeds.json`** (~60 sources testées).
 
 ## Pipeline détaillé
 

@@ -15,19 +15,21 @@ const {
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
-const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 30 };
+const SOURCE_ORDER = ["cafeyn", "edge", "firefox", "yahoo", "aggregator"];
+const DEFAULT_QUOTAS = { cafeyn: 20, edge: 18, firefox: 15, yahoo: 12, aggregator: 35 };
 
 function resolveQueueSourceType(source) {
   var s = String(source || "").toLowerCase();
   if (s.indexOf("cafeyn") !== -1) return "cafeyn";
   if (s.indexOf("edge") !== -1 || s.indexOf("msn") !== -1 || s.indexOf("bing") !== -1) return "edge";
   if (s.indexOf("firefox") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
+  if (s.indexOf("yahoo") !== -1) return "yahoo";
   return "aggregator";
 }
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypes(buckets, quotas).forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
@@ -36,6 +38,34 @@ function mergeWithQuotas(buckets, quotas) {
     merged = merged.concat(list.slice(0, cap));
   });
   return merged;
+}
+
+function sourceTypes(buckets, quotas) {
+  var seen = {};
+  SOURCE_ORDER.forEach(function (type) {
+    seen[type] = true;
+  });
+  Object.keys(quotas || {}).forEach(function (type) {
+    seen[type] = true;
+  });
+  Object.keys(buckets || {}).forEach(function (type) {
+    seen[type] = true;
+  });
+  return SOURCE_ORDER.concat(Object.keys(seen).filter(function (type) {
+    return SOURCE_ORDER.indexOf(type) === -1;
+  }));
+}
+
+function buildBuckets(feedsCfg, quotas) {
+  var buckets = {};
+  sourceTypes({}, quotas).forEach(function (type) {
+    buckets[type] = [];
+  });
+  (feedsCfg.feeds || []).forEach(function (feed) {
+    var type = feed.sourceType || "aggregator";
+    if (!buckets[type]) buckets[type] = [];
+  });
+  return buckets;
 }
 
 function ingestQueueItem(item, buckets, processed) {
@@ -150,7 +180,7 @@ async function main() {
     console.warn("DB queue:", e.message);
   }
   var processed = new Set(state.processedUrls || []);
-  var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
+  var buckets = buildBuckets(feedsCfg, quotas);
 
   await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
@@ -162,7 +192,7 @@ async function main() {
   });
 
   var files = existingFiles();
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypes(buckets, quotas).forEach(function (type) {
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var f = c.suggestedFile || "";
       if (!f.endsWith(".html")) f += ".html";
@@ -170,7 +200,7 @@ async function main() {
     });
   });
 
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypes(buckets, quotas).forEach(function (type) {
     var seen = new Set();
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var k = (c.url || c.title).toLowerCase();
@@ -188,21 +218,26 @@ async function main() {
   writeJson("blog-actu-candidates.json", {
     updated: new Date().toISOString(),
     quotas: quotas,
-    bySource: {
-      cafeyn: (buckets.cafeyn || []).length,
-      edge: (buckets.edge || []).length,
-      firefox: (buckets.firefox || []).length,
-      aggregator: (buckets.aggregator || []).length,
-    },
+    bySource: sourceTypes(buckets, quotas).reduce(function (acc, type) {
+      acc[type] = (buckets[type] || []).length;
+      return acc;
+    }, {}),
     candidates: deduped,
   });
 
   state.lastFetch = new Date().toISOString();
   writeJson("blog-actu-state.json", state);
 
-  console.log("Candidates:", deduped.length, "— cafeyn/edge/firefox/aggr:",
-    (buckets.cafeyn || []).length + "/" + (buckets.edge || []).length + "/" +
-    (buckets.firefox || []).length + "/" + (buckets.aggregator || []).length);
+  console.log(
+    "Candidates:",
+    deduped.length,
+    "— sources:",
+    sourceTypes(buckets, quotas)
+      .map(function (type) {
+        return type + "=" + (buckets[type] || []).length;
+      })
+      .join(" / ")
+  );
   if (deduped.length) {
     console.log("Top 3:");
     deduped.slice(0, 3).forEach(function (c, i) {
