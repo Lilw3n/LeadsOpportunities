@@ -100,7 +100,12 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (
+    candidate.sourceType === "cafeyn" ||
+    candidate.sourceType === "edge" ||
+    candidate.sourceType === "firefox" ||
+    candidate.sourceType === "yahoo"
+  ) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -136,6 +141,63 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function isLikelyNonFrenchTitle(text) {
+  var hay = " " + String(text || "").toLowerCase().replace(/\s+/g, " ") + " ";
+  if (!hay.trim()) return false;
+
+  var frenchSignals = 0;
+  [
+    " le ",
+    " la ",
+    " les ",
+    " des ",
+    " une ",
+    " un ",
+    " du ",
+    " de ",
+    " pour ",
+    " sur ",
+    " avec ",
+    " dans ",
+    " actualite",
+    " actualité",
+    " coupe du monde",
+    " francais",
+    " français",
+    " francaise",
+    " française",
+  ].forEach(function (signal) {
+    if (hay.indexOf(signal) !== -1) frenchSignals += 1;
+  });
+  if (/[àâçéèêëîïôùûüÿœ]/i.test(hay)) frenchSignals += 2;
+
+  var englishSignals = 0;
+  [
+    " the ",
+    " of ",
+    " to ",
+    " in ",
+    " for ",
+    " and ",
+    " with ",
+    " how ",
+    " from ",
+    " as ",
+    " after ",
+    " against ",
+    " world cup ",
+    " beat ",
+    " win ",
+    " wins ",
+    " opened ",
+    " account ",
+  ].forEach(function (signal) {
+    if (hay.indexOf(signal) !== -1) englishSignals += 1;
+  });
+
+  return englishSignals >= 3 && frenchSignals < 2;
 }
 
 function rankCandidates(candidates) {
@@ -342,6 +404,7 @@ module.exports = {
   loadPendingArticles: loadPendingArticles,
   appendPendingArticle: appendPendingArticle,
   parseRssItems: parseRssItems,
+  isLikelyNonFrenchTitle: isLikelyNonFrenchTitle,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,

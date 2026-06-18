@@ -1,11 +1,12 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-06-18",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
-    "edge": 12,
+    "edge": 18,
     "firefox": 15,
-    "aggregator": 30
+    "yahoo": 12,
+    "aggregator": 35
   },
   "feeds": [
     {
@@ -177,6 +178,34 @@
       "enabled": true
     },
     {
+      "id": "source-edge-bing-home-fr",
+      "name": "Edge/Bing — page d'accueil France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=France+actualites&format=rss&setlang=fr-FR&mkt=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-assurance-emprunteur-exact",
+      "name": "Edge/Bing — assurance emprunteur",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=%22assurance%20emprunteur%22&format=rss&setlang=fr-FR&mkt=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-mutuelle-exact",
+      "name": "Edge/Bing — mutuelle santé",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=%22mutuelle%20sant%C3%A9%22&format=rss&setlang=fr-FR&mkt=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-sinistre",
+      "name": "Edge/Bing — sinistre assurance",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=sinistre+assurance+france&format=rss&setlang=fr-FR&mkt=fr-FR",
+      "enabled": true
+    },
+    {
       "id": "source-firefox-franceinfo",
       "name": "Firefox — France Info titres",
       "sourceType": "firefox",
@@ -261,10 +290,45 @@
       "enabled": true
     },
     {
+      "id": "source-yahoo-actu-fr",
+      "name": "Yahoo — actualités France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance-fr",
+      "name": "Yahoo — finance France",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/news/rssindex",
+      "enabled": true
+    },
+    {
       "id": "google-news-top-fr",
       "name": "Google News — une France",
       "sourceType": "aggregator",
       "url": "https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-section-france",
+      "name": "Google News — rubrique France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/headlines/section/topic/NATION?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-section-business",
+      "name": "Google News — rubrique économie",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-section-health",
+      "name": "Google News — rubrique santé",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
@@ -475,5 +539,5 @@
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Ajouts 2026-06-18 : Bing/Edge page d'accueil, Yahoo Actualites/Finance, Google News rubriques France/economie/sante. MSN HTML n'est pas scrape ; Bing RSS sert d'equivalent fiable Edge/MSN."
 }
