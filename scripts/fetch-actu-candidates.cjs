@@ -12,6 +12,7 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
+  isLikelyNonFrenchTitle,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -116,6 +117,7 @@ async function processFeed(feed, buckets, processed, maxPerFeed) {
     var items = parseRssItems(xml).slice(0, maxPerFeed);
     var added = 0;
     items.forEach(function (item) {
+      if (isLikelyNonFrenchTitle(item.title)) return;
       if (item.url && processed.has(item.url)) return;
       var scaffold = scaffoldArticle({
         title: item.title,
