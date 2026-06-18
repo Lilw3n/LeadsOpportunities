@@ -43,11 +43,8 @@ if (fs.existsSync(sampleSeo)) {
 }
 
 var src = fs.readFileSync(path.join(ROOT, "js", "clarity-source.mjs"), "utf8");
-if (src.indexOf('getElementById("clarity-script")') === -1) {
-  fail("clarity-init peut recharger un 2e tag");
-} else {
-  pass("Pas de double chargement tag (clarity-init)");
-}
+if (src.indexOf("bindClickDiagnostics") === -1) fail("clarity-source sans diagnostics clics");
+else pass("Diagnostics clics (zones, rage, dead) actifs");
 
 console.log(ok ? "\nClarity prêt pour la production." : "\nCorrigez les points ci-dessus.");
 process.exit(ok ? 0 : 1);

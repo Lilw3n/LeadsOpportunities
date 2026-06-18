@@ -1,4 +1,5 @@
 import Clarity from "@microsoft/clarity";
+import { bindClickDiagnostics } from "./clarity-click-diagnostics.mjs";
 
 var CONSENT_KEY = "lo_cookie_consent_v1";
 var booted = false;
@@ -42,6 +43,9 @@ function articleSlug() {
 }
 
 function tagPageContext() {
+  var section = pageSection();
+  Clarity.setTag("page_section", section);
+
   if (location.pathname.indexOf("/blog") !== -1) {
     var slug = articleSlug();
     Clarity.setTag("site_section", "blog");
@@ -58,8 +62,31 @@ function tagPageContext() {
   } else if (location.pathname.indexOf("/landings/") !== -1) {
     Clarity.setTag("site_section", "landing");
     Clarity.setTag("landing_path", location.pathname);
+    var need = new URLSearchParams(location.search).get("need");
+    if (need) Clarity.setTag("landing_need", need);
+  } else if (section === "home") {
+    Clarity.setTag("site_section", "home");
+  } else if (section === "seo") {
+    Clarity.setTag("site_section", "seo");
+    Clarity.setTag("seo_path", location.pathname);
   }
   utmTags();
+}
+
+function pageSection() {
+  var p = location.pathname || "/";
+  if (p.indexOf("/blog") !== -1) return "blog";
+  if (p.indexOf("/landings/") !== -1) return "landing";
+  if (p === "/" || p === "/index.html") return "home";
+  if (
+    p.indexOf("/assurance") !== -1 ||
+    p.indexOf("/credit-immo") !== -1 ||
+    p.indexOf("/france/") !== -1 ||
+    (typeof document !== "undefined" && document.body && document.body.classList.contains("seo-page"))
+  ) {
+    return "seo";
+  }
+  return "other";
 }
 
 function bootClarity() {
@@ -157,3 +184,4 @@ function bindListeners() {
 bootClarity();
 syncConsentAndTags();
 bindListeners();
+bindClickDiagnostics();
