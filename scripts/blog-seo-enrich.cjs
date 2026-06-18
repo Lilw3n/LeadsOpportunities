@@ -19,8 +19,44 @@ function kwList(keywords) {
   return keywords.slice(0, 12).join(", ");
 }
 
+/** Terme assurance pour le corps de texte — jamais un badge type "Actu people". */
+function insuranceTopicLabel(article, keywords) {
+  var title = String(article.title || "").toLowerCase();
+  var need = article.need || "";
+  if (title.indexOf("divorce") !== -1 || title.indexOf("separation") !== -1) {
+    return "assurance habitation et emprunteur";
+  }
+  if (title.indexOf("coupe du monde") !== -1 || title.indexOf("mondial") !== -1) {
+    return "assurance voyage et mutuelle";
+  }
+  if (need === "sante" || title.indexOf("mutuelle") !== -1) return "mutuelle sante";
+  if (need === "habitation") return "assurance habitation";
+  if (need === "auto") return "assurance auto";
+  if (need === "emprunteur") return "assurance emprunteur";
+  if (need === "prevoyance") return "assurance prevoyance";
+  if (need === "vtc") return "assurance VTC";
+  if (need === "animaux") return "assurance animaux";
+  for (var i = 0; i < keywords.length; i++) {
+    var w = keywords[i];
+    if (!w || /^actu\s/i.test(w) || w.toLowerCase() === "actu people") continue;
+    if (w.indexOf("assurance") !== -1 || w.indexOf("mutuelle") !== -1 || w.indexOf("devis") !== -1) {
+      return w;
+    }
+  }
+  return "contrat d'assurance";
+}
+
+function pickPrimaryKeyword(keywords) {
+  for (var i = 0; i < keywords.length; i++) {
+    var w = keywords[i];
+    if (!w || /^actu\s/i.test(w) || w.toLowerCase() === "actu people") continue;
+    return w;
+  }
+  return "assurance";
+}
+
 function buildAutoFaq(article, keywords) {
-  var k = keywords[0] || "assurance";
+  var k = pickPrimaryKeyword(keywords);
   var label = article.title.split(":")[0] || article.title;
   return [
     {
@@ -52,13 +88,14 @@ function buildAutoFaq(article, keywords) {
 
 function buildAutoBlocks(article, keywords) {
   var k = keywords;
-  var primary = k[0] || "assurance";
+  var topic = insuranceTopicLabel(article, k);
+  var primary = pickPrimaryKeyword(k);
   return [
-    h2("Pourquoi ce sujet compte pour votre " + primary),
+    h2("Pourquoi ce sujet compte pour vos garanties"),
     p(
       "Que vous soyez en recherche d'un <strong>devis " +
-        primary +
-        "</strong>, en renouvellement ou en reaction a l'actualite, l'objectif reste le meme : <strong>comprendre vos garanties</strong>, comparer a postes equivalents et eviter les exclusions cachees. Les termes suivants reviennent souvent dans les contrats : " +
+        topic +
+        "</strong>, en renouvellement ou suite a l'actualite, l'objectif reste le meme : <strong>comprendre vos garanties</strong>, comparer a postes equivalents et eviter les exclusions cachees. Mots-cles utiles : " +
         kwList(k) +
         "."
     ),
@@ -88,24 +125,28 @@ function buildAutoBlocks(article, keywords) {
       "Ne pas declarer un sinistre dans les delais contractuels",
       "Ignorer la clause de beneficiaire (prevoyance, assurance-vie, deces)",
     ]),
-    h2("Lexique et mots-cles utiles (" + primary + ")"),
+    h2("Lexique et mots-cles utiles"),
     ul(
-      k.map(function (word, i) {
-        return (
-          "<strong>" +
-          word +
-          "</strong>" +
-          (i === 0
-            ? " : terme central de cet article — a retrouver dans votre contrat ou devis"
-            : " : a comparer entre assureurs a garanties equivalentes")
-        );
-      })
+      k
+        .filter(function (word) {
+          return word && !/^actu\s/i.test(word) && word.toLowerCase() !== "actu people";
+        })
+        .map(function (word, i) {
+          return (
+            "<strong>" +
+            word +
+            "</strong>" +
+            (i === 0
+              ? " : a retrouver dans votre contrat ou devis"
+              : " : a comparer entre assureurs a garanties equivalentes")
+          );
+        })
     ),
     h2("Comment obtenir un accompagnement Leads Opportunities"),
     p(
-      "Notre equipe de courtiers ORIAS vous aide a <strong>comparer</strong>, <strong>resilier</strong> ou <strong>souscrire</strong> avec un langage clair. Formulaire en ligne, demande de rappel ou parcours devis selon votre besoin : " +
-        primary +
-        ", sans engagement."
+      "Notre equipe de courtiers ORIAS vous aide a <strong>comparer</strong>, <strong>resilier</strong> ou <strong>souscrire</strong> avec un langage clair. Formulaire en ligne, demande de rappel ou parcours devis selon votre besoin (" +
+        topic +
+        "), sans engagement."
     ),
     p(
       'Consultez aussi notre <a href="../assurances/">catalogue complet des assurances</a> (sante, auto, habitation, emprunteur, prevoyance, VTC, animaux) et nos pages SEO par ville pour un devis localise.'
@@ -139,7 +180,17 @@ function defaultKeywords(article) {
     return ["assurance auto", "bonus malus", "jeune conducteur", "tous risques"].concat(base);
   }
   if (article.section === "actu") {
-    return [article.tag, "assurance 2026", "actualite assurance", "conseil assurance"].concat(base);
+    var title = (article.title || "").toLowerCase();
+    if (title.indexOf("divorce") !== -1 || title.indexOf("people") !== -1 || title.indexOf("separation") !== -1) {
+      return ["assurance habitation", "assurance emprunteur", "prevoyance", "beneficiaire"].concat(base);
+    }
+    if (title.indexOf("coupe du monde") !== -1 || title.indexOf("mondial") !== -1 || title.indexOf("foot") !== -1) {
+      return ["assurance voyage", "mutuelle etranger", "assurance sante", "deplacement"].concat(base);
+    }
+    if (title.indexOf("gaming") !== -1 || title.indexOf("gta") !== -1) {
+      return ["assurance habitation", "materiel informatique", "assurance emprunteur"].concat(base);
+    }
+    return ["conseil assurance", "actualite assurance", "assurance 2026"].concat(base);
   }
   return base;
 }
