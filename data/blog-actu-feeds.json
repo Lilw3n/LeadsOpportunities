@@ -2,10 +2,10 @@
   "updated": "2026-06-23",
   "maxPerFeed": 6,
   "quotas": {
-    "cafeyn": 20,
-    "edge": 18,
-    "firefox": 18,
-    "aggregator": 45
+    "cafeyn": 24,
+    "edge": 36,
+    "firefox": 24,
+    "aggregator": 60
   },
   "feeds": [
     {
