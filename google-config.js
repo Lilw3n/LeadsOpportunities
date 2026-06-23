@@ -1,4 +1,19 @@
 (function () {
+  window.dataLayer = window.dataLayer || [];
+  function gtagConsent() {
+    window.dataLayer.push(arguments);
+  }
+  if (!window.__loConsentDefaultSet) {
+    window.__loConsentDefaultSet = true;
+    gtagConsent("consent", "default", {
+      ad_storage: "denied",
+      analytics_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+      wait_for_update: 500,
+    });
+  }
+
   function isPlaceholder(id) {
     return !id || String(id).indexOf("XXXX") !== -1;
   }
@@ -9,6 +24,7 @@
     adsLeadConversionId: "AW-XXXXXXXXXX/lead_form_submit",
     adsPhoneConversionId: "AW-XXXXXXXXXX/phone_click",
     adsWhatsappConversionId: "AW-XXXXXXXXXX/whatsapp_click",
+    adsQualifiedLeadConversionId: "AW-XXXXXXXXXX/qualified_lead",
     metaPixelId: "",
     tiktokPixelId: "",
     pinterestTagId: "",
@@ -30,6 +46,7 @@
     adsLeadConversionId: merge("adsLeadConversionId"),
     adsPhoneConversionId: merge("adsPhoneConversionId"),
     adsWhatsappConversionId: merge("adsWhatsappConversionId"),
+    adsQualifiedLeadConversionId: merge("adsQualifiedLeadConversionId"),
     metaPixelId: merge("metaPixelId"),
     tiktokPixelId: merge("tiktokPixelId"),
     pinterestTagId: merge("pinterestTagId"),

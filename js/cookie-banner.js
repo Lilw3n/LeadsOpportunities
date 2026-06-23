@@ -49,6 +49,25 @@
 
     document.body.appendChild(wrap);
 
+    function updateGtagConsent(level) {
+      if (typeof window.gtag !== "function") return;
+      if (level === "all") {
+        window.gtag("consent", "update", {
+          ad_storage: "granted",
+          analytics_storage: "granted",
+          ad_user_data: "granted",
+          ad_personalization: "granted",
+        });
+      } else {
+        window.gtag("consent", "update", {
+          ad_storage: "denied",
+          analytics_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+        });
+      }
+    }
+
     document.getElementById("cookie-accept").addEventListener("click", function () {
       localStorage.setItem(KEY, "all");
       try {
@@ -57,6 +76,7 @@
           JSON.stringify({ necessary: true, analytics: true, marketing: true, functional: true })
         );
       } catch (e) {}
+      updateGtagConsent("all");
       hideBanner(wrap);
       pushClarityConsent("all");
     });
@@ -69,6 +89,7 @@
           JSON.stringify({ necessary: true, analytics: false, marketing: false, functional: false })
         );
       } catch (e) {}
+      updateGtagConsent("essential");
       hideBanner(wrap);
       pushClarityConsent("essential");
     });
@@ -80,6 +101,15 @@
       return;
     }
     var level = localStorage.getItem(KEY) || "all";
-    pushClarityConsent(level === "essential" ? "essential" : "all");
+    var isAll = level === "all";
+    pushClarityConsent(isAll ? "all" : "essential");
+    if (isAll && typeof window.gtag === "function") {
+      window.gtag("consent", "update", {
+        ad_storage: "granted",
+        analytics_storage: "granted",
+        ad_user_data: "granted",
+        ad_personalization: "granted",
+      });
+    }
   });
 })();
