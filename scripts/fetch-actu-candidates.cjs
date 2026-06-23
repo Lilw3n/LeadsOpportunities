@@ -38,7 +38,17 @@ function mergeWithQuotas(buckets, quotas) {
   return merged;
 }
 
+function isQueueTemplate(item) {
+  var title = String((item && item.title) || "").toLowerCase();
+  var status = String((item && item.status) || "").toLowerCase();
+  var id = String((item && item.id) || "").toLowerCase();
+  if (status === "template" || status === "draft") return true;
+  if (id.indexOf("template") !== -1) return true;
+  return title.indexOf("collez ici") !== -1 || title.indexOf("template") !== -1;
+}
+
 function ingestQueueItem(item, buckets, processed) {
+  if (isQueueTemplate(item)) return;
   if (item.status === "published" || item.status === "rejected") return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
