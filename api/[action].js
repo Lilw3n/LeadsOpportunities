@@ -9,6 +9,7 @@ const ROUTES = {
   "lead-progress": () => require("./_lib/routes/public-lead-progress"),
   "journey-event": () => require("./_lib/routes/public-journey-event"),
   "blog-actu-ingest": () => require("./_lib/routes/blog-actu-ingest"),
+  "geo-hint": () => require("./_lib/routes/public-geo-hint"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

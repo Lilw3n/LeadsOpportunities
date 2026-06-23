@@ -30,7 +30,17 @@ function computeLeadScore(body) {
 
   if (/facebook|instagram|google|tiktok/i.test(String(body.platform || body.utm_source || ""))) s += 5;
 
-  return Math.min(100, Math.round(s));
+  var country = String(body.visitor_country || "").toUpperCase();
+  if (country && country !== "FR" && !/^(GP|MQ|GF|RE|YT|PM|WF|PF|NC|BL|MF|TF)$/.test(country)) {
+    s -= 40;
+  } else if (country === "FR" || /^(GP|MQ|GF|RE|YT|PM|WF|PF|NC|BL|MF|TF)$/.test(country)) {
+    s += 4;
+  }
+
+  if (body.phone_format_warning === "non_french_format") s -= 12;
+  if (body.postal_format_warning === "non_french_format") s -= 8;
+
+  return Math.min(100, Math.max(0, Math.round(s)));
 }
 
 module.exports = { computeLeadScore };

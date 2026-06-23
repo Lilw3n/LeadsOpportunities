@@ -109,12 +109,24 @@ document.addEventListener("DOMContentLoaded", function () {
     var cfg = window.GOOGLE_TRACKING;
     if (!cfg.ga4MeasurementId || cfg.ga4MeasurementId.indexOf("XXXX") !== -1) return;
     if (result && result.leadScore != null) {
+      var score = Number(result.leadScore);
       window.gtag("event", "qualified_lead", {
         send_to: cfg.ga4MeasurementId,
-        value: Number(result.leadScore),
+        value: score,
         currency: "EUR",
         vertical: vertical || "",
       });
+      if (
+        cfg.adsQualifiedLeadConversionId &&
+        cfg.adsQualifiedLeadConversionId.indexOf("XXXX") === -1 &&
+        score >= 50
+      ) {
+        window.gtag("event", "conversion", {
+          send_to: cfg.adsQualifiedLeadConversionId,
+          value: score,
+          currency: "EUR",
+        });
+      }
     }
   }
 
@@ -222,7 +234,14 @@ document.addEventListener("DOMContentLoaded", function () {
             detail: { payload: leadPayload, result: result || {} },
           })
         );
-        if (result && result.ok) {
+        if (result && result.error === "geo_out_of_scope") {
+          if (msg) {
+            msg.textContent =
+              result.message ||
+              "Ce service est reserve aux residents en France (assurance et credit immo).";
+            msg.hidden = false;
+          }
+        } else if (result && result.ok) {
           if (msg) {
             if (result.emailSent === false && result.stored === false) {
               msg.textContent =
