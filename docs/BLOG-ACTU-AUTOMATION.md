@@ -49,6 +49,7 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 **Sélection** :
 - `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
 - `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+- `--min-lead-score=35` → publie uniquement les sujets assez qualifiés (les articles mis en file manuelle restent prioritaires)
 
 Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
 
@@ -58,6 +59,9 @@ npm run blog:actu:auto
 
 # Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
+
+# Forcer un seuil plus strict de potentiel lead
+npm run blog:actu:auto -- --min-lead-score=45
 
 # Test sans écrire
 npm run blog:actu:auto -- --dry-run
@@ -73,6 +77,7 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 - Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
 - Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
 - Commit automatique sur `main` si nouveaux articles
+- Seuil par défaut : `MIN_LEAD_SCORE=35` + `STRICT_ACTU_QUALITY=1`
 
 **Secrets à configurer** (Settings → Secrets → Actions) :
 
@@ -84,6 +89,7 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 | `POCKET_ACCESS_TOKEN` | Optionnel | Idem |
 
 Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance par niche, CTA `utm_medium=actu_daily`).
+Le contrôle qualité bloque les articles sans CTA bridge, sans mention claire du questionnaire ou sans promesse gratuit/sans engagement.
 
 ## Sources sans identifiants Cafeyn / Edge / Firefox
 
