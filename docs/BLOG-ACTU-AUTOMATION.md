@@ -133,6 +133,7 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 
 1. **`blog/actu-inbox.html`** ou `data/blog-actu-queue.json`
 2. Les items `status: pending` sont prioritaires dans `blog:actu:auto`
+3. Les items `status: template` servent d'exemple et sont ignores par le pipeline
 
 ## Fichiers du pipeline
 
