@@ -64,12 +64,14 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = ["cafeyn", "edge", "firefox", "google", "yahoo"];
 
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) return c.sourceType;
   var src = String(c.source || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
+  if (src.indexOf("google") !== -1) return "google";
+  if (src.indexOf("yahoo") !== -1) return "yahoo";
   if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
   if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
   return feedMap[c.feedId] || "aggregator";
@@ -105,6 +107,7 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var usedPlatforms = new Set();
 
   available
     .filter(function (c) {
@@ -115,15 +118,18 @@ function pickCandidates(candidates, count, state) {
       if (picks.length >= count) return;
       picks.push(c);
       used.add(c.url || c.title);
+      usedPlatforms.add(candidateSourceType(c, feedMap));
     });
 
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
+      if (usedPlatforms.has(platform)) return;
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
+        usedPlatforms.add(platform);
       }
     });
     state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
@@ -135,6 +141,7 @@ function pickCandidates(candidates, count, state) {
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
+        usedPlatforms.add(platform);
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;

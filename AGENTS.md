@@ -16,11 +16,11 @@ Voir **`docs/BLOG-ACTU-AUTOMATION.md`** pour le pipeline complet.
 **Automatisation 1–5×/jour (sans login Cafeyn)** :
 ```bash
 npm run blog:actu:auto              # 1 article
-npm run blog:actu:auto -- --count=3 # jusqu'à 5
+npm run blog:actu:auto -- --count=5 # Cafeyn + Edge/Bing + Firefox/Pocket + Google + Yahoo
 ```
 CI : **`.github/workflows/blog-actu-auto.yml`** (cron 5×/jour + secrets `GEMINI_API_KEY`).
 
-Sources : RSS journaux Cafeyn, MSN Edge, France Info Firefox — voir `data/blog-actu-feeds.json`.
+Sources : RSS journaux Cafeyn, Bing/Edge, Firefox/Pocket, Google News, Yahoo — voir `data/blog-actu-feeds.json`.
 
 Résumé agent manuel :
 1. `npm run blog:actu:daily` — sélection intelligente (leadScore)
@@ -41,4 +41,4 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 ## Cursor Cloud
 
 - Branches : `cursor/<nom>-3a54`
-- Ne pas scraper Cafeyn (login) — RSS équivalents + `blog:actu:auto` + optionnel `blog/actu-inbox.html`
+- Ne pas scraper Cafeyn/Yahoo/MSN (login ou pages HTML) — RSS publics + `blog:actu:auto` + optionnel `blog/actu-inbox.html`
