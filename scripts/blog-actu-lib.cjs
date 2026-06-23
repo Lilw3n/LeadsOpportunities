@@ -168,9 +168,22 @@ function ctaWithUtm(need, slug) {
   };
 }
 
+function isPlaceholderActuTitle(title) {
+  var hay = String(title || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  return (
+    hay.indexOf("collez ici") !== -1 ||
+    hay.indexOf("titre de la une cafeyn") !== -1 ||
+    hay.indexOf("angle assurance a preciser") !== -1
+  );
+}
+
 function scaffoldArticle(input) {
   var title = String(input.title || "").trim();
   if (!title) return null;
+  if (isPlaceholderActuTitle(title)) return null;
   var topic = matchTopic(title + " " + (input.summary || "") + " " + (input.note || ""));
   var baseSlug = slugify(title);
   if (!baseSlug) baseSlug = "actu-assurance-" + Date.now();
@@ -341,6 +354,7 @@ module.exports = {
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
+  isPlaceholderActuTitle: isPlaceholderActuTitle,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
   loadPendingArticles: loadPendingArticles,

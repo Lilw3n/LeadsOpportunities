@@ -5,24 +5,35 @@
  * Usage:
  *   npm run blog:actu:auto
  *   npm run blog:actu:auto -- --count=2
+ *   npm run blog:actu:auto -- --min-lead-score=35
  *   npm run blog:actu:auto -- --dry-run
  *   npm run blog:actu:auto -- --no-ai
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuTitle } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
 
 var ROOT = path.join(__dirname, "..");
+var DEFAULT_MIN_LEAD_SCORE = 35;
 
 function arg(name, def) {
-  var m = process.argv.find(function (a) {
+  var matches = process.argv.filter(function (a) {
     return a.indexOf("--" + name + "=") === 0;
   });
+  var m = matches[matches.length - 1];
   if (!m) return def;
   return m.split("=").slice(1).join("=");
+}
+
+function numericArg(name, envName, def) {
+  var raw = arg(name, "");
+  if (raw === "" && envName) raw = process.env[envName] || "";
+  if (raw === "") return def;
+  var value = Number(raw);
+  return Number.isFinite(value) ? value : def;
 }
 
 function hasAiKey() {
@@ -87,13 +98,15 @@ function bestFromPlatform(available, platform, feedMap, used) {
   return list[0] || null;
 }
 
-function pickCandidates(candidates, count, state) {
+function pickCandidates(candidates, count, state, options) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
   var titleKeys = loadPublishedTitleKeys();
   var ranked = rankCandidates(candidates);
+  var minLeadScore = Math.max(0, Number(options && options.minLeadScore) || 0);
 
   var available = ranked.filter(function (c) {
+    if (isPlaceholderActuTitle(c.title)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
@@ -101,6 +114,16 @@ function pickCandidates(candidates, count, state) {
     return true;
   });
 
+  if (!available.length) return [];
+  var beforeLeadGate = available.length;
+  available = available.filter(function (c) {
+    return c.status === "queued" || Number(c.leadScore || 0) >= minLeadScore;
+  });
+  state._leadGateStats = {
+    minLeadScore: minLeadScore,
+    available: beforeLeadGate,
+    eligible: available.length,
+  };
   if (!available.length) return [];
 
   var picks = [];
@@ -169,12 +192,22 @@ function runNode(script) {
 
 async function main() {
   var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
+  var minLeadScore = Math.max(0, Math.min(100, numericArg("min-lead-score", "MIN_LEAD_SCORE", DEFAULT_MIN_LEAD_SCORE)));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
 
   console.log("=== Auto actu publish ===");
-  console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  console.log(
+    "count:",
+    count,
+    "| minLeadScore:",
+    minLeadScore,
+    "| IA:",
+    useAi ? "oui" : "non (enrich)",
+    "| dry-run:",
+    dryRun
+  );
   console.log("");
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
@@ -198,10 +231,22 @@ async function main() {
     publishedFiles: [],
     autoRuns: [],
   });
-  var picks = pickCandidates(candidates, count, state);
+  var picks = pickCandidates(candidates, count, state, { minLeadScore: minLeadScore });
 
   if (!picks.length) {
-    console.log("Aucun candidat disponible.");
+    if (state._leadGateStats && state._leadGateStats.available) {
+      console.log(
+        "Aucun candidat au-dessus du seuil lead (" +
+          minLeadScore +
+          "). Eligibles: " +
+          state._leadGateStats.eligible +
+          "/" +
+          state._leadGateStats.available +
+          "."
+      );
+    } else {
+      console.log("Aucun candidat disponible.");
+    }
     process.exit(0);
   }
 
@@ -246,7 +291,7 @@ async function main() {
 
     if (dryRun) {
       console.log("  [dry-run]", article.file);
-      published.push({ file: article.file, title: article.title });
+      published.push({ file: article.file, title: article.title, leadScore: pick.leadScore });
       continue;
     }
 
@@ -262,6 +307,7 @@ async function main() {
       title: article.title,
       source: pick.feedName || pick.source || pick.feedId,
       sourceType: platform,
+      leadScore: pick.leadScore,
     });
   }
 
@@ -296,6 +342,7 @@ async function main() {
     at: state.lastAutoRun,
     count: published.length,
     usedAi: useAi,
+    minLeadScore: minLeadScore,
     articles: published,
   });
   if (state.autoRuns.length > 50) {
@@ -305,6 +352,7 @@ async function main() {
     state.platformRotationIndex = state._nextPlatformRotation;
     delete state._nextPlatformRotation;
   }
+  delete state._leadGateStats;
   writeJson("blog-actu-state.json", state);
 
   var queue = readJson("blog-actu-queue.json", { items: [] });
