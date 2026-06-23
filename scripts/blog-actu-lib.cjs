@@ -101,7 +101,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (["cafeyn", "edge", "firefox", "google", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;

@@ -1,6 +1,6 @@
 # Mise en route — actu auto GitHub + Cafeyn (15 min)
 
-Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à Cursor, GitHub, Vercel ou ce dépôt.
+Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à Cursor, GitHub, Vercel ou ce dépôt, même si un agent vous le demande. Le pipeline utilise des RSS publics et un jeton d'inbox séparé.
 
 ---
 
@@ -13,6 +13,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 | « Comment récupérer mes articles Cafeyn ? » | **1)** RSS automatique (mêmes journaux) **2)** Favori 1 clic (vous êtes déjà connecté) |
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
+
+Pour les autres portails d'actualité (Edge/Bing, Firefox/Pocket, Google News, Yahoo), la collecte reste aussi limitée aux flux publics et API/tokens dédiés. Aucun identifiant personnel de portail presse n'est nécessaire.
 
 ---
 

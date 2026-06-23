@@ -59,12 +59,12 @@ Pas besoin de dupliquer sur GitHub si vous n’utilisez **que** Cursor.
 ```
 Tu es l'agent blog Leads Opportunities (courtier ORIAS).
 
-Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionnaires.
+Objectif : publier des articles actu Cafeyn + Edge/Bing + Firefox/Pocket + Google News + Yahoo vers les questionnaires.
 
 Étapes obligatoires :
 1. npm install
 2. npm run blog:actu:auto -- --count=1
-   (ou --count=3 pour 1 article par plateforme en une fois)
+   (ou --count=5 pour couvrir Cafeyn, Edge/Bing, Firefox/Pocket, Google News et Yahoo en une fois)
 3. Si aucun changement, terminer sans commit.
 4. Sinon : git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
 5. Commit message : chore(blog): actu auto Cursor
@@ -75,6 +75,7 @@ Règles :
 - Ne jamais demander de login Cafeyn
 - Ne pas dupliquer un slug existant dans blog/
 - Les articles doivent avoir CTA questionnaire utm_medium=actu_daily
+- Ne jamais scraper Yahoo/MSN/Cafeyn : utiliser uniquement les RSS publics et l'inbox sécurisée
 ```
 
 **Variante sans clé IA** (texte enrichi local, pas de Gemini) :
@@ -89,16 +90,17 @@ npm run blog:actu:auto -- --no-ai --count=1
 
 | `--count` | Comportement |
 |-----------|--------------|
-| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox** sur la journée (5 runs = 5 articles) |
-| `3` | **1 Cafeyn + 1 Edge + 1 Firefox** à chaque run |
+| `1` | 1 article par run ; rotation **Cafeyn → Edge/Bing → Firefox/Pocket → Google News → Yahoo** sur la journée |
+| `3` | Priorité aux 3 plateformes coeur : **1 Cafeyn + 1 Edge/Bing + 1 Firefox/Pocket** |
+| `5` | Couverture complète : **Cafeyn + Edge/Bing + Firefox/Pocket + Google News + Yahoo** si assez de candidats |
 
-Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
+Exemple **5×/jour avec les 5 sources** : 5 automations à `count=1` (rotation auto) **ou** 1 run à `count=5` pour un test complet.
 
 ---
 
 ## Votre routine (optionnel, 2 min)
 
-1. Lisez Cafeyn / Edge / Firefox comme d’habitude
+1. Lisez Cafeyn / Edge / Firefox / Google News / Yahoo comme d’habitude
 2. Si un titre vous intéresse : `blog/actu-inbox.html` → JSON → `data/blog-actu-queue.json`
 3. L’automation Cursor le priorise au prochain run
 
