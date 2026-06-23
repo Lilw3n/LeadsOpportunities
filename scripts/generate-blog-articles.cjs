@@ -6,6 +6,8 @@ const { getOverride } = require("./blog-content-deep.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const { resolveBridge, renderBridgeHtml } = require("./blog-questionnaire-bridge.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
+const { franceMetaBlock, blogLogoBlock } = require("./france-brand.cjs");
+const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 
 const blogDir = path.join(__dirname, "..", "blog");
@@ -115,8 +117,13 @@ function renderArticle(a) {
         "        </ul>\n      </div>\n"
       : "";
 
+  var robots = robotsMetaForArticle(a);
   return (
-    '<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n  <title>' +
+    '<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n  ' +
+    franceMetaBlock() +
+    '\n  <meta name="robots" content="' +
+    robots +
+    '" />\n  <title>' +
     esc(a.title) +
     " | Leads Opportunities</title>\n  <meta name=\"description\" content=\"" +
     esc(a.description) +
@@ -140,7 +147,9 @@ function renderArticle(a) {
     esc(a.section) +
     '" data-blog-tag="' +
     esc(a.tag) +
-    '">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="./index.html">\n        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>\n        Blog\n      </a>\n      <a class="blog-logo" href="../index.html">\n        <span class="blog-logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>\n        Leads Opportunities\n      </a>\n    </div>\n  </header>\n  <main class="blog-container">\n    <div class="article-header">\n      <div class="article-tag ' +
+    '" data-market-intent="FR">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="./index.html">\n        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>\n        Blog\n      </a>\n      ' +
+    blogLogoBlock() +
+    '\n    </div>\n  </header>\n  <main class="blog-container">\n    <div class="article-header">\n      <div class="article-tag ' +
     a.tagClass +
     '">' +
     esc(a.tag) +

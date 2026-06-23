@@ -30,6 +30,13 @@ Résumé agent manuel :
 
 Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 
+## Ciblage marché France
+
+- Libs : `scripts/france-audience-lib.cjs` (scoring actu, `noindex` international), `scripts/france-brand.cjs` (meta + logo).
+- Doc : **`docs/TRAFIC-FRANCE.md`**
+- Clarity : tag `market_intent=FR` — filtrer le dashboard par pays France.
+- Actu internationale existante : `noindex,follow` ; la pipeline auto ignore les nouveaux sujets US/gaming sans angle FR.
+
 ## Cursor Cloud
 
 - Branches : `cursor/<nom>-3a54`
