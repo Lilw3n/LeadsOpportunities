@@ -46,7 +46,7 @@ jobs:
             echo "IA disponible — même pipeline que Cursor."
           fi
 
-      - name: Auto publish actu (Cafeyn RSS + Edge + Firefox + Google News)
+      - name: Auto publish actu (Cafeyn RSS + Edge/MSN + Firefox + Google/Bing/Yahoo)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

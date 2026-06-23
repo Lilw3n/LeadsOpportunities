@@ -290,21 +290,36 @@ function parseRssItems(xml) {
   var re = /<item[\s>]([\s\S]*?)<\/item>/gi;
   var m;
   while ((m = re.exec(xml))) {
-    var block = m[1];
-    var title = extractTag(block, "title");
-    var link = extractTag(block, "link");
-    var desc = extractTag(block, "description");
-    var pub = extractTag(block, "pubDate");
-    if (title) {
-      items.push({
-        title: decodeEntities(stripHtml(title)),
-        url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
-        pubDate: pub || "",
-      });
-    }
+    var item = parseFeedBlock(m[1], false);
+    if (item) items.push(item);
+  }
+
+  var entryRe = /<entry[\s>]([\s\S]*?)<\/entry>/gi;
+  while ((m = entryRe.exec(xml))) {
+    var entry = parseFeedBlock(m[1], true);
+    if (entry) items.push(entry);
   }
   return items;
+}
+
+function parseFeedBlock(block, isAtom) {
+  var title = cleanFeedText(extractTag(block, "title"));
+  if (!title) return null;
+  var desc =
+    extractTag(block, "description") ||
+    extractTag(block, "content:encoded") ||
+    extractTag(block, "summary") ||
+    extractTag(block, "content");
+  var pub = extractTag(block, "pubDate") || extractTag(block, "published") || extractTag(block, "updated");
+  var link = isAtom ? extractAtomLink(block) : extractTag(block, "link");
+  if (!link) link = extractAtomLink(block);
+
+  return {
+    title: title,
+    url: decodeEntities(link || ""),
+    summary: cleanFeedText(desc || "").slice(0, 400),
+    pubDate: cleanFeedText(pub || ""),
+  };
 }
 
 function extractTag(block, tag) {
@@ -313,12 +328,30 @@ function extractTag(block, tag) {
   return m ? m[1].trim() : "";
 }
 
+function extractAtomLink(block) {
+  var links = String(block || "").match(/<link\b[^>]*>/gi) || [];
+  var fallback = "";
+  for (var i = 0; i < links.length; i++) {
+    var tag = links[i];
+    var href = tag.match(/\bhref=["']([^"']+)["']/i);
+    if (!href) continue;
+    if (!fallback) fallback = href[1];
+    if (!/\brel=["'](self|hub|replies)["']/i.test(tag)) return href[1];
+  }
+  return fallback;
+}
+
 function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function cleanFeedText(s) {
+  return stripHtml(decodeEntities(s));
+}
+
 function decodeEntities(s) {
   return String(s)
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
       return String.fromCharCode(parseInt(hex, 16));
     })
@@ -330,8 +363,7 @@ function decodeEntities(s) {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
+    .replace(/&apos;/g, "'");
 }
 
 module.exports = {

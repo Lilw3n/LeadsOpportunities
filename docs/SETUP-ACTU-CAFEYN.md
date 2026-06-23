@@ -14,6 +14,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
+Si un article n'apparaît pas dans les flux publics, ouvrez-le vous-même dans Cafeyn puis utilisez le favori sécurisé. Le bot ne doit recevoir que le titre, l'URL et une note ; jamais vos identifiants Cafeyn.
+
 ---
 
 ## Étape 1 — Générer le jeton inbox (2 min)
@@ -133,5 +135,6 @@ npm run blog:actu:verify-quality
 | « DATABASE_URL requis » | Variable Vercel + secret GitHub + SQL Neon exécuté |
 | Pas d’article Cafeyn spécifique | Utiliser le favori ; le RSS ne voit que les flux publics |
 | Qualité insuffisante | Ajouter `GEMINI_API_KEY` sur GitHub |
+| Vous pensez devoir transmettre vos identifiants Cafeyn | Ne les transmettez pas : connectez-vous uniquement sur cafeyn.co dans votre navigateur, puis envoyez l'article avec le favori |
 
 Voir aussi `docs/BLOG-ACTU-AUTOMATION.md`.

@@ -1,11 +1,11 @@
 {
-  "updated": "2026-06-17",
-  "maxPerFeed": 5,
+  "updated": "2026-06-23",
+  "maxPerFeed": 6,
   "quotas": {
     "cafeyn": 20,
-    "edge": 12,
-    "firefox": 15,
-    "aggregator": 30
+    "edge": 18,
+    "firefox": 18,
+    "aggregator": 45
   },
   "feeds": [
     {
@@ -128,6 +128,13 @@
       "enabled": true
     },
     {
+      "id": "source-cafeyn-challenges",
+      "name": "Cafeyn — Challenges",
+      "sourceType": "cafeyn",
+      "url": "https://www.challenges.fr/rss.xml",
+      "enabled": true
+    },
+    {
       "id": "source-edge-bing-fr",
       "name": "Edge — Bing actu France",
       "sourceType": "edge",
@@ -174,6 +181,27 @@
       "name": "Edge — Bing santé",
       "sourceType": "edge",
       "url": "https://www.bing.com/news/search?q=sante+france&format=rss",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-fr-recent",
+      "name": "Edge — Bing une France récente",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=actualites+France&qft=sortbydate%3d%221%22+interval%3d%227%22&format=rss&mkt=fr-fr&setlang=fr",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-msn-actualite-fr",
+      "name": "Edge — MSN actualité France via Bing",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=site%3Amsn.com%2Ffr-fr%2Factualite+France&qft=sortbydate%3d%221%22+interval%3d%227%22&format=rss&mkt=fr-fr&setlang=fr",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-msn-finance-fr",
+      "name": "Edge — MSN finance France via Bing",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=site%3Amsn.com%2Ffr-fr%2Ffinance+France+assurance+OR+immobilier+OR+credit&qft=sortbydate%3d%221%22+interval%3d%227%22&format=rss&mkt=fr-fr&setlang=fr",
       "enabled": true
     },
     {
@@ -261,6 +289,13 @@
       "enabled": true
     },
     {
+      "id": "source-firefox-20minutes-une",
+      "name": "Firefox — 20 Minutes une",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-une.xml",
+      "enabled": true
+    },
+    {
       "id": "google-news-top-fr",
       "name": "Google News — une France",
       "sourceType": "aggregator",
@@ -272,6 +307,27 @@
       "name": "Google News — assurance",
       "sourceType": "aggregator",
       "url": "https://news.google.com/rss/search?q=assurance+OR+mutuelle+OR+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-une-fr-recent",
+      "name": "Google News — une France 24h",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=France+when%3A1d&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-yahoo-fr",
+      "name": "Yahoo Actualités — via Google News",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/search?q=site%3Afr.news.yahoo.com+France+when%3A7d&hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "bing-news-yahoo-fr",
+      "name": "Yahoo Actualités — via Bing News",
+      "sourceType": "aggregator",
+      "url": "https://www.bing.com/news/search?q=site%3Afr.news.yahoo.com+France&qft=sortbydate%3d%221%22+interval%3d%227%22&format=rss&mkt=fr-fr&setlang=fr",
       "enabled": true
     },
     {
