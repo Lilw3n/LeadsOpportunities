@@ -7,6 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
+const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -110,22 +111,25 @@ function scoreLeadPotential(candidate) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
-  [
-    "coupe du monde",
-    "world cup",
-    "mondial",
-    "mbappe",
-    "mbappé",
-    "deschamps",
-    "équipe de france",
-    "equipe de france",
-    "supporters",
-    "match france",
-    "les bleus",
-    "fifa 2026",
-  ].forEach(function (kw) {
-    if (title.indexOf(kw) !== -1) score += 14;
-  });
+  var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
+    [
+      "coupe du monde",
+      "mondial",
+      "mbappe",
+      "mbappé",
+      "deschamps",
+      "équipe de france",
+      "equipe de france",
+      "supporters",
+      "match france",
+      "les bleus",
+    ].forEach(function (kw) {
+      if (title.indexOf(kw) !== -1) score += 14;
+    });
+  }
+
+  score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 

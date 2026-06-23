@@ -49,6 +49,7 @@ module.exports = {
     },
     {
       file: "assurance-streamer-gaming-setup-materiel.html",
+      audience: "international",
       section: "actu",
       tag: "Gaming & streaming",
       tagClass: "tag-actu",
@@ -162,6 +163,7 @@ module.exports = {
     },
     {
       file: "ligue-champions-assurance-voyage-deplacement.html",
+      audience: "international",
       section: "actu",
       tag: "Ligue des champions",
       tagClass: "tag-actu",
@@ -187,6 +189,7 @@ module.exports = {
     },
     {
       file: "coupe-monde-2026-assurance-voyage-sante.html",
+      audience: "international",
       section: "actu",
       tag: "Coupe du monde",
       tagClass: "tag-actu",
@@ -212,6 +215,7 @@ module.exports = {
     },
     {
       file: "gta-6-sortie-assurance-gaming-materiel.html",
+      audience: "international",
       section: "actu",
       tag: "GTA 6",
       tagClass: "tag-actu",
@@ -237,6 +241,7 @@ module.exports = {
     },
     {
       file: "gta-6-pret-immobilier-budget-gaming.html",
+      audience: "international",
       section: "finance",
       tag: "GTA 6 & credit",
       tagClass: "tag-actu",
@@ -267,6 +272,7 @@ module.exports = {
     },
     {
       file: "zelda-ocarina-time-collection-assurance-habitation.html",
+      audience: "international",
       section: "actu",
       tag: "Zelda & retro",
       tagClass: "tag-actu",
@@ -292,6 +298,7 @@ module.exports = {
     },
     {
       file: "trump-politique-us-taux-pret-assurance-emprunteur.html",
+      audience: "international",
       section: "finance",
       tag: "Trump & marches",
       tagClass: "tag-actu",
@@ -347,6 +354,7 @@ module.exports = {
     },
     {
       file: "formule-1-grands-prix-assurance-voyage-auto.html",
+      audience: "international",
       section: "actu",
       tag: "Formule 1",
       tagClass: "tag-actu",

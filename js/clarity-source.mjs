@@ -43,6 +43,7 @@ function articleSlug() {
 }
 
 function tagPageContext() {
+  Clarity.setTag("market_intent", "FR");
   var section = pageSection();
   Clarity.setTag("page_section", section);
 

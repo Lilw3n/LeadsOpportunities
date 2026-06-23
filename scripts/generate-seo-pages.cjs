@@ -5,6 +5,7 @@
 const fs = require("fs");
 const path = require("path");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
+const { franceLocaleMeta, seoLogoBlock } = require("./france-brand.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 const {
   GEO_PRODUCTS,
@@ -709,8 +710,9 @@ function renderPage(p) {
   const geoMeta = p.city
     ? '<meta name="geo.region" content="FR" />\n  <meta name="geo.placename" content="' +
       esc(p.city.name) +
-      '" />\n  <meta name="language" content="fr-FR" />'
-    : '<meta name="geo.region" content="FR" />\n  <meta name="language" content="fr-FR" />';
+      '" />\n  <meta name="language" content="fr-FR" />\n  ' +
+      franceLocaleMeta()
+    : '<meta name="geo.region" content="FR" />\n  <meta name="language" content="fr-FR" />\n  ' + franceLocaleMeta();
 
   const nearbyGridHtml =
     p.nearbyCities && p.nearbyCities.length
@@ -804,15 +806,10 @@ function renderPage(p) {
   ${CLARITY_HEAD}
   <script src="/js/clarity-init.js" defer></script>
 </head>
-<body class="seo-page seo-page--${theme}">
+<body class="seo-page seo-page--${theme}" data-market-intent="FR">
   <header class="seo-topbar">
     <div class="seo-container">
-      <a href="${prefix}index.html" class="seo-logo">
-        <span class="seo-logo-icon" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </span>
-        Leads Opportunities
-      </a>
+      ${seoLogoBlock(prefix)}
       <nav class="seo-nav" aria-label="Navigation principale">
         <a href="${navVtc}">VTC</a>
         <a href="${navSante}">Sante</a>

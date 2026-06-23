@@ -59,6 +59,22 @@
   justify-content: center;
 }
 
+.seo-logo .logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  gap: 1px;
+}
+.seo-logo .logo-name { font-weight: 800; font-size: 0.9rem; }
+.seo-logo .logo-tagline {
+  font-weight: 600;
+  font-size: 0.58rem;
+  color: #64748b;
+}
+@media (max-width: 640px) {
+  .seo-logo .logo-tagline { display: none; }
+}
+
 .seo-nav {
   display: flex;
   flex-wrap: wrap;
