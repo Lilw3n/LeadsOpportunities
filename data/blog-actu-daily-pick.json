@@ -1,0 +1,81 @@
+{
+  "date": "2026-06-24",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-coupe-du-monde-2026-meilleurs-troisiemes-favoris-menaces-les-enjeux-de-l",
+      "title": "Coupe du monde 2026. Meilleurs troisièmes, favoris menacés... Les enjeux de la dernière journée de la phase de groupes",
+      "url": "https://www.leprogres.fr/coupe-du-monde-de-football/2026/06/24/meilleurs-troisiemes-favoris-menaces-les-enjeux-de-la-derniere-journee-de-la-phase-de-groupes",
+      "summary": "La deuxième journée de la Coupe du monde vient à peine de se finir, que la troisième débute dans la soirée. Voici les principaux enjeux de ces prochains jours, groupe par groupe.",
+      "pubDate": "Wed, 24 Jun 2026 06:15:00 GMT",
+      "feedId": "source-cafeyn-leprogres",
+      "feedName": "Cafeyn — Le Progrès",
+      "sourceType": "cafeyn",
+      "suggestedFile": "coupe-du-monde-2026-meilleurs-troisiemes-favoris-menaces-les-enjeux-de-l.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 83,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-didier-deschamps-absent-de-france-norvege-a-la-coupe-du-monde-apres-la-m",
+      "title": "Didier Deschamps : absent de France - Norvège à la Coupe du monde après la mort de sa mère, quelle date pour son retour ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a3bc7093959436f8174debbbd423cbd&url=https%3a%2f%2fwww.linternaute.com%2fsport%2ffoot%2f10766274-didier-deschamps-absent-de-france-norvege-a-la-coupe-du-monde-apres-la-mort-de-sa-mere-quelle-date-pour-son-retour%2f&c=11306428144095252820&mkt=en-us",
+      "summary": "Le sélectionneur de l'équipe de France va louper le prochain des Bleus à la Coupe du monde 2026 face à la Norvège après la mort de sa mère ce mardi 23 juin.",
+      "pubDate": "Wed, 24 Jun 2026 03:43:00 GMT",
+      "feedId": "source-edge-bing-fr",
+      "feedName": "Edge — Bing actu France",
+      "sourceType": "edge",
+      "suggestedFile": "didier-deschamps-absent-de-france-norvege-a-la-coupe-du-monde-apres-la-m.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-mondial-2026-endeuille-didier-deschamps-rentre-en-france-quelques-jours",
+      "title": "Mondial 2026 : endeuillé, Didier Deschamps rentre en France quelques jours",
+      "url": "https://www.france24.com/fr/vid%C3%A9o/20260624-mondial-2026-endeuill%C3%A9-didier-deschamps-rentre-en-france-quelques-jours",
+      "summary": "Triste nouvelle pour le sélectionneur de l'équipe de France. Didier Deschamps a appris mardi le décès de sa mère, Ginette. À l’entraînement, les Bleus ont observé une minute de silence en sa mémoire. Le sélectionneur est rentré en France pour assister à ses obsèques et manquera donc le match France-Norvège prévu vendredi 26 juin. Pendant son absence, c’est son adjoint, Guy Stéphan, qui assurera l’",
+      "pubDate": "Wed, 24 Jun 2026 10:25:18 GMT",
+      "feedId": "source-firefox-france24",
+      "feedName": "Firefox — France 24",
+      "sourceType": "firefox",
+      "suggestedFile": "mondial-2026-endeuille-didier-deschamps-rentre-en-france-quelques-jours.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-la-causerie-france-irak-les-bleus-font-le-plein-d-assurance-rmc",
+      "title": "La Causerie - France-Irak : Les Bleus font le plein d'assurance - RMC",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOT1lSUmdhUkVCZlE3cld1WmpYcVJnZVZPTlhBd0ltTWliU1VmT2h6MjkzbjlqSGVla2pldUJ5d1ptWGxfMGZYdFNlN0hIYW1aWkxhdVBIbUJwMGsycTRlTmJwaUtacXR2TlFjMzZOZ25wNlotT0h3ZDlSNk1RRlpTZ1ZoX0ZXektkYy01SnZPSFlpOTA2d0RfUWNmaWNsd1o1TUt0OUhoRGFvZV9Ld05tSXppR2ctcGRKTi04Zk1CRjlXSWhIZjdkdVZWblNfWEszSUhqR2VsbG80c04z?oc=5",
+      "summary": "La Causerie - France-Irak : Les Bleus font le plein d'assurance &nbsp;&nbsp; RMC",
+      "pubDate": "Tue, 23 Jun 2026 05:00:39 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "la-causerie-france-irak-les-bleus-font-le-plein-d-assurance-rmc.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-a-paris-une-video-montre-des-agents-de-proprete-qui-jettent-des-dechets-",
+      "title": "A Paris, une vidéo montre des agents de propreté qui jettent des déchets dans le canal Saint-Martin : ce que l’on sait",
+      "url": "https://fr.news.yahoo.com/paris-vid%C3%A9o-montre-agents-propret%C3%A9-153033871.html",
+      "summary": "",
+      "pubDate": "2026-06-24T07:21:02Z",
+      "feedId": "source-yahoo-france",
+      "feedName": "Yahoo News — France",
+      "sourceType": "yahoo",
+      "suggestedFile": "a-paris-une-video-montre-des-agents-de-proprete-qui-jettent-des-dechets-.html",
+      "section": "actu",
+      "need": "habitation",
+      "leadScore": 77,
+      "status": "candidate"
+    }
+  ]
+}
