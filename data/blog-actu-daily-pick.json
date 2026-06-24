@@ -1,0 +1,81 @@
+{
+  "date": "2026-06-24",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-la-causerie-france-irak-les-bleus-font-le-plein-d-assurance-rmc",
+      "title": "La Causerie - France-Irak : Les Bleus font le plein d'assurance - RMC",
+      "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOT1lSUmdhUkVCZlE3cld1WmpYcVJnZVZPTlhBd0ltTWliU1VmT2h6MjkzbjlqSGVla2pldUJ5d1ptWGxfMGZYdFNlN0hIYW1aWkxhdVBIbUJwMGsycTRlTmJwaUtacXR2TlFjMzZOZ25wNlotT0h3ZDlSNk1RRlpTZ1ZoX0ZXektkYy01SnZPSFlpOTA2d0RfUWNmaWNsd1o1TUt0OUhoRGFvZV9Ld05tSXppR2ctcGRKTi04Zk1CRjlXSWhIZjdkdVZWblNfWEszSUhqR2VsbG80c04z?oc=5",
+      "summary": "La Causerie - France-Irak : Les Bleus font le plein d'assurance &nbsp;&nbsp; RMC",
+      "pubDate": "Tue, 23 Jun 2026 05:00:39 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "la-causerie-france-irak-les-bleus-font-le-plein-d-assurance-rmc.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-les-sinistres-climatiques-dopent-les-prix-et-les-ex",
+      "title": "Assurance habitation : les sinistres climatiques dopent les prix et les exclusions de garanties - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMiiAJBVV95cUxPczU0VXYzYlBab09MM0Z3dk45bDFIZ3FIMXRYMl9PSWFSeWJEeHYyVkNIQzdoV3ZNOXNJeEhETFVFcV9wbEdwbllvVnh4Vk1OcTg1a2JwdDFxMHhoTTZCblQtYzFDUkRvVzVjQmZjdmVQLTJEQ1Nya1BqbU53SmdyUWpvRDkxcFVwdE5kX1BDTTcxRTlEWGJKUnZEMGQxajc1X190dTN4a0dWaTVCUEcxTXdKRGZpcHdvY3lfdjYtYmdIdTdMOXdkMnBRTEtSeGVTY24wMF9aLUdnQ0s5ZHdqYWVyZ0lnc2pSWEJUNGZMYUtLTElxSUE3Nkc0cjVmWV9CazB1bjgwQmM?oc=5",
+      "summary": "Assurance habitation : les sinistres climatiques dopent les prix et les exclusions de garanties &nbsp;&nbsp; Ouest-France",
+      "pubDate": "Tue, 02 Dec 2025 08:00:00 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-les-sinistres-climatiques-dopent-les-prix-et-les-ex.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-5-informations-meconnues-sur-les-sinistres-declares",
+      "title": "Assurance habitation : 5 informations méconnues sur les sinistres déclarés - Boursorama",
+      "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNV3h2WC1UUU1PblZCdjFhM3laaHRxN1pwNUFhOFlLeE4temRiUThINkQ0S2lUUkd6SUJNLXBMLWVHZFYySXBQdmNNWHNVZ3VpSUo4LUhiTEtUOHV2OVFjaEt6bGYzZWFkbC1mT1ZfeU5fYVNtT2dwMG94dHFyS1BNYy1CWjliMHRGcm16VXNabl9mNGJXU2VwZlpxT1lJZ09aN092MjZHWkQyTWo0MmRabDJzZUEtdTR4MVdTRGtlaUE0VExGWTZoaUt2V2t3VV9tNUpWcjdvZTdKN19LeHlEY2tEb3ZVREpyVlHSAe8BQVVfeXFMTmIzU3RSU2hFS0QwT2tkX3VmT2E4X0RfRFlSbDhsTzR5NGpfVTgzYWFtWmdaeUJwdUVGdmJZSHJpX25KUnVFTFJWSFplU3p2cFNVZDluVVEwdG5DLUNicllGUlhkQXhEY3Ntd2FKTXhOYWRPZVJfX0NidG1SMV9lMjA1SkRlR1hURkxrMU5pTkZmMTZrLXR2R0d0MjNPTDRPckN1aWpvQU1NNENpa2FYN0h2MVFJcERIcF9HS29CaE5WamRQbmtCd3FoZDlFdWlTX0tIeS1uakpJYU9SRGROa2xEMTlVOVBwU2JtUWIyZXc?oc=5",
+      "summary": "Assurance habitation : 5 informations méconnues sur les sinistres déclarés &nbsp;&nbsp; Boursorama",
+      "pubDate": "Thu, 28 Aug 2025 07:00:00 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-5-informations-meconnues-sur-les-sinistres-declares.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-didier-deschamps-le-touchant-message-de-kylian-mbappe-s",
+      "title": "Equipe de France: Didier Deschamps, le touchant message de Kylian Mbappé - Sports.fr",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNTjVsbzlHMWl5VFZJQnktOWRHX0tiM0w0R295ak90azlib2tvRThPc0NlWm1WY1RBRm92WEtibFhWZDhFR3NWOFVXRDVrZlNPTTQ1N243QkpPV1djQ3hraHE5VVJZME5DT2xsb1d0dEpuQUxDUVphNXZGZ3pxMXJvVm1FdTRiTG5OZ0owTkd1NU9SdElvU1cwUy1zLXUwaGhVbUl6UVByVWJMQ0UxM3I5cVpUYmE?oc=5",
+      "summary": "Equipe de France: Didier Deschamps, le touchant message de Kylian Mbappé &nbsp;&nbsp; Sports.fr",
+      "pubDate": "Wed, 24 Jun 2026 09:26:33 GMT",
+      "feedId": "google-news-bleus-joueurs",
+      "feedName": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-didier-deschamps-le-touchant-message-de-kylian-mbappe-s.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-2026-haaland-horaire-diffusion-tv-tout-savoir-sur-le-troi",
+      "title": "Coupe du monde 2026 : Haaland, horaire, diffusion TV… tout savoir sur le troisième match de l'équipe de France au Mondial - Touteleurope.eu",
+      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxPNEUzb2tuZ2t3dkNlRVF0R1Y3UjJ1M19hQ05uSTBIdnhYdEhYSUc5YXJQbjd2X0ZEYUpwd2llTXlmNjJ4cERyU3VnWUpWUTcwX0FpaTIyaGxySXJBVGQ4WE9UVG1RUlNDUUpKYlVqbTFITHpvbzdzYkxtblZDYUpJNWlRZEJMYmlDTDBQSl9HWjBPbE5lTkRWdkJzWUZNOGExaGYxeE5zM1h0aWtRZW5OSms2dU9FNG80M0pET0p0RFBRQ2tPZEhJcUNlTmtXNzFpRVFrY0plUE92TG0xQ05xSVEtZUlHZzF1?oc=5",
+      "summary": "Coupe du monde 2026 : Haaland, horaire, diffusion TV… tout savoir sur le troisième match de l'équipe de France au Mondial &nbsp;&nbsp; Touteleurope.eu",
+      "pubDate": "Wed, 24 Jun 2026 08:21:57 GMT",
+      "feedId": "google-news-sport-voyage",
+      "feedName": "Google News — sport & voyage",
+      "sourceType": "google",
+      "suggestedFile": "coupe-du-monde-2026-haaland-horaire-diffusion-tv-tout-savoir-sur-le-troi.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    }
+  ]
+}
