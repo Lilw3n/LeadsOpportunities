@@ -14,6 +14,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
+Si un agent ou une automatisation semble avoir besoin de vos identifiants Cafeyn, arrêtez ce chemin : le bon secret à partager au système est uniquement `BLOG_ACTU_INGEST_SECRET`, un jeton technique révocable. Votre email, mot de passe et session Cafeyn restent dans votre navigateur personnel.
+
 ---
 
 ## Étape 1 — Générer le jeton inbox (2 min)
