@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-23",
+  "updated": "2026-06-24",
   "sections": [
     "actu",
     "animaux",
@@ -140,6 +140,19 @@
       "landing": "../landings/credit-immo.html",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "gta-6-precommande-ps5-pro-credit-conso-france.html",
+      "title": "Precommandes GTA 6 et PS5 Pro : credit conso en France, ce que la loi autorise",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-ps5",
       "matchedRule": "emprunteur",
       "species": null
     },

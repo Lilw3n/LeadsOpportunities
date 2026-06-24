@@ -261,6 +261,7 @@ module.exports = {
         { type: "bridge" },
       ],
       related: [
+        { href: "./gta-6-precommande-ps5-pro-credit-conso-france.html", label: "Credit conso PS5 Pro & GTA 6" },
         { href: "./gta-6-sortie-assurance-gaming-materiel.html", label: "Assurer son materiel GTA 6" },
         { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
         { href: "../landings/credit-immo.html", label: "Credit immobilier" },
@@ -268,6 +269,104 @@ module.exports = {
       faq: [
         { q: "Un pret consommation pour une console impacte-t-il mon pret immo ?", a: "Oui si vous etes en phase de recherche de financement : chaque credit en cours entre dans le taux d'endettement. Attendez la signature si possible." },
         { q: "L'assurance emprunteur peut-elle baisser ma charge mensuelle ?", a: "Souvent oui via delegation ou changement d'assureur (loi Lemoine), ce qui libere du budget loisirs sans nouveau credit." },
+      ],
+    },
+    {
+      file: "gta-6-precommande-ps5-pro-credit-conso-france.html",
+      audience: "france",
+      section: "finance",
+      tag: "GTA 6 & credit conso",
+      tagClass: "tag-actu",
+      title: "Precommandes GTA 6 et PS5 Pro : credit conso en France, ce que la loi autorise",
+      description: "GTA VI, PS5 Pro : pret personnel ou credit magasin — cadre legal (Code de la consommation), TAEG, endettement et alternatives.",
+      meta: "9 min · Juin 2026",
+      cardExcerpt: "PS5 Pro + GTA 6 : le credit conso est-il legal en France ? Oui, sous conditions.",
+      cta: {
+        href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-ps5",
+        label: "Etude credit consommation",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Les <strong>precommandes de GTA 6</strong> et l'achat d'une <strong>PS5 Pro</strong> (console next-gen, manette, jeu day-one, parfois edition collector) representent souvent <strong>800 a 1 200 €</strong> d'un coup. Beaucoup se demandent s'il est possible — et legal — de financer ce budget avec un <strong>credit a la consommation</strong> en France. Reponse courte : <strong>oui, c'est autorise</strong>, a condition de respecter le cadre du <strong>Code de la consommation</strong> et votre capacite de remboursement.",
+        },
+        { type: "h2", text: "1. Ce que dit la loi francaise (Code de la consommation)" },
+        {
+          type: "p",
+          text: "Le <strong>credit a la consommation</strong> (articles L311-1 et suivants) couvre le financement de <strong>biens ou services</strong> a usage non professionnel, ou un <strong>pret de tresorerie</strong> pour des besoins personnels — hors credit immobilier. Une console, un jeu video, un ecran ou un casque entrent dans la categorie des <strong>biens de consommation courante</strong>. Rien n'interdit d'affecter un <strong>pret personnel</strong> (non lie a un magasin) a l'achat d'une PS5 Pro et de GTA 6 : l'organisme preteur verifie surtout votre <strong>capacite de remboursement</strong>, pas la « moralite » de la depense.",
+        },
+        {
+          type: "ul",
+          items: [
+            "<strong>Pret personnel</strong> : fonds verses sur votre compte, libre usage (dont gaming).",
+            "<strong>Credit affecte</strong> : lie a l'achat chez un vendeur (Fnac, Darty, Micromania…) — legal si fiche precontractuelle et TAEG conformes.",
+            "<strong>Interdit ou encadre</strong> : taux d'usure depasse, absence d'information precontractuelle, credit sans etude de solvabilite.",
+          ],
+        },
+        { type: "h2", text: "2. Precommande GTA 6 + PS5 Pro : quel budget prevoir ?" },
+        {
+          type: "p",
+          text: "Avant d'envisager un credit, chiffrez le panier : <strong>PS5 Pro</strong> (souvent autour de 750 €), <strong>GTA 6</strong> (edition standard ou collector), manette supplementaire, abonnement PS Plus si vous jouez en ligne, eventuellement SSD ou ecran. Les precommandes peuvent inclure un <strong>acompte</strong> : le credit ne doit couvrir que le <strong>reste a payer</strong>, pas remplacer une epargne de precaution.",
+        },
+        { type: "h2", text: "3. Credit magasin, « 3x sans frais » ou vrai pret conso ?" },
+        {
+          type: "p",
+          text: "Toutes les solutions affichees en caisse ne sont pas equivalentes. Le <strong>paiement fractionne carte bancaire</strong> (3x ou 4x) peut etre un debit differe sans credit au sens legal. Un <strong>credit affecte</strong> ou un <strong>pret personnel</strong> declenche les obligations du Code de la consommation : <strong>TAEG</strong>, duree, cout total du credit, droit de <strong>retractation de 14 jours</strong> (souvent pour les contrats conclus a distance). Comparez le <strong>cout total</strong>, pas seulement la mensualite.",
+        },
+        { type: "h2", text: "4. Obligations de l'organisme preteur (et de l'emprunteur)" },
+        {
+          type: "ul",
+          items: [
+            "Etude de votre situation (revenus, charges, fichages <strong>FICP/FCC</strong> le cas echeant).",
+            "Respect du <strong>taux d'usure</strong> fixe par la Banque de France.",
+            "Remise de la fiche d'information precontractuelle et du contrat clair.",
+            "De votre cote : ne pas signer sous pression « day one » ; lire le <strong>TAEG</strong> et le montant total du.",
+          ],
+        },
+        { type: "h2", text: "5. Attention si vous avez (ou preparez) un pret immobilier" },
+        {
+          type: "p",
+          text: "Un credit conso en cours entre dans votre <strong>taux d'endettement</strong> bancaire. Si vous achetez un logement dans les 6 a 12 mois, un pret de 1 000 € pour du gaming peut faire basculer un dossier. Voir notre guide <a href=\"./gta-6-pret-immobilier-budget-gaming.html\">GTA 6 et pret immobilier</a>. Parfois, reduire l'<strong>assurance emprunteur</strong> (loi Lemoine) libere le budget loisirs sans nouveau credit.",
+        },
+        { type: "h2", text: "6. Alternatives au credit conso" },
+        {
+          type: "ul",
+          items: [
+            "Epargner l'acompte de precommande et payer le solde a la sortie.",
+            "Achat d'occasion ou bundle console + jeu sans financement.",
+            "Reporter l'achat materiel si votre reste a vivre est serre.",
+            "Mettre a jour l'<strong>assurance habitation</strong> apres achat (vol, degat des eaux) — voir <a href=\"./gta-6-sortie-assurance-gaming-materiel.html\">assurer son setup GTA 6</a>.",
+          ],
+        },
+        { type: "bridge" },
+      ],
+      related: [
+        { href: "./gta-6-pret-immobilier-budget-gaming.html", label: "GTA 6 et pret immo" },
+        { href: "./gta-6-sortie-assurance-gaming-materiel.html", label: "Assurance materiel gaming" },
+        { href: "../landings/questionnaire.html?need=conso&journey=standard", label: "Questionnaire credit conso" },
+        { href: "../nos-services.html", label: "Credit consommation" },
+      ],
+      faq: [
+        {
+          q: "Est-il illegal en France de faire un credit conso pour une PS5 Pro et GTA 6 ?",
+          a: "Non. Console et jeu sont des biens de consommation. Le credit a la consommation peut financer cet achat (pret personnel ou credit affecte), sous reserve du respect du Code de la consommation et de votre solvabilite.",
+        },
+        {
+          q: "Quelle difference entre pret personnel et credit affecte en magasin ?",
+          a: "Le pret personnel verse des fonds libres ; le credit affecte est lie a l'achat chez le vendeur. Les deux sont des credits a la consommation avec TAEG et information precontractuelle obligatoires.",
+        },
+        {
+          q: "Le « 3x sans frais » est-il un credit conso ?",
+          a: "Pas toujours : selon l'operateur, il peut s'agir d'un debit differe carte. Si un TAEG et un contrat de credit sont signes, c'est bien un credit a la consommation reglemente.",
+        },
+        {
+          q: "Puis-je me retracter apres avoir signe un pret conso en ligne ?",
+          a: "En general oui : delai legal de 14 jours calendaires pour les contrats de credit a la consommation conclus a distance (sauf exceptions prevues par la loi).",
+        },
+        {
+          q: "Un credit pour GTA 6 impacte-t-il mon futur pret immobilier ?",
+          a: "Oui : toute mensualite en cours est prise en compte dans le taux d'endettement. Evitez un nouveau credit conso avant une demande de pret immobilier.",
+        },
       ],
     },
     {
