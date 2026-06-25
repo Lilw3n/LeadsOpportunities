@@ -11,6 +11,7 @@
     "blog:index": "node scripts/generate-blog-index.cjs",
     "blog:feed": "node scripts/generate-blog-feed.cjs",
     "blog:admin-map": "node scripts/generate-blog-admin-map.cjs",
+    "blog:images": "node scripts/download-blog-images.cjs",
     "blog:build": "node scripts/generate-blog-articles.cjs --force && node scripts/generate-blog-index.cjs && node scripts/generate-blog-feed.cjs && node scripts/generate-blog-admin-map.cjs",
     "blog:actu:fetch": "node scripts/fetch-actu-candidates.cjs",
     "blog:actu:draft": "node scripts/draft-actu-articles.cjs",

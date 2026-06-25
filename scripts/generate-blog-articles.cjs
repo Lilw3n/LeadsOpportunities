@@ -8,6 +8,7 @@ const { resolveBridge, renderBridgeHtml } = require("./blog-questionnaire-bridge
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
 const { franceMetaBlock, blogLogoBlock } = require("./france-brand.cjs");
 const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
+const { applyArticleImages } = require("./blog-article-images.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 
 const blogDir = path.join(__dirname, "..", "blog");
@@ -259,6 +260,7 @@ manifest.articles.forEach(function (raw) {
   }
   var override = getOverride(raw.file);
   var a = enrichArticle(raw, override);
+  a = applyArticleImages(a);
   if (!a.blocks || !a.blocks.length) {
     console.warn("skip (no blocks):", raw.file);
     return;
