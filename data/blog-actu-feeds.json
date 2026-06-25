@@ -1,11 +1,11 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-06-25",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
-    "edge": 12,
-    "firefox": 15,
-    "aggregator": 30
+    "edge": 18,
+    "firefox": 22,
+    "aggregator": 42
   },
   "feeds": [
     {
@@ -177,6 +177,27 @@
       "enabled": true
     },
     {
+      "id": "source-edge-bing-msn-start",
+      "name": "Edge — MSN Start France via Bing",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=site%3Amsn.com%2Ffr-fr+actualite+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-msn-assurance",
+      "name": "Edge — MSN assurance via Bing",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=site%3Amsn.com%2Ffr-fr+assurance+OR+mutuelle+OR+immobilier&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-edge-bing-vie-pratique",
+      "name": "Edge — Bing vie pratique France",
+      "sourceType": "edge",
+      "url": "https://www.bing.com/news/search?q=vie+pratique+assurance+mutuelle+immobilier+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
       "id": "source-firefox-franceinfo",
       "name": "Firefox — France Info titres",
       "sourceType": "firefox",
@@ -261,10 +282,108 @@
       "enabled": true
     },
     {
+      "id": "source-firefox-20minutes-une",
+      "name": "Firefox — 20 Minutes une",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-une.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes-france",
+      "name": "Firefox — 20 Minutes France",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-france.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-actu-fr",
+      "name": "Firefox — actu.fr",
+      "sourceType": "firefox",
+      "url": "https://actu.fr/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-bfmtv-sante",
+      "name": "Firefox — BFMTV santé",
+      "sourceType": "firefox",
+      "url": "https://www.bfmtv.com/rss/sante/",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-bfmtv-immobilier",
+      "name": "Firefox — BFMTV immobilier",
+      "sourceType": "firefox",
+      "url": "https://www.bfmtv.com/rss/immobilier/",
+      "enabled": true
+    },
+    {
       "id": "google-news-top-fr",
       "name": "Google News — une France",
       "sourceType": "aggregator",
       "url": "https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-france-section",
+      "name": "Google News — rubrique France",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/headlines/section/topic/NATION?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-business-section",
+      "name": "Google News — économie",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-health-section",
+      "name": "Google News — santé",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "google-news-tech-section",
+      "name": "Google News — technologie",
+      "sourceType": "aggregator",
+      "url": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=fr&gl=FR&ceid=FR:fr",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-top-fr",
+      "name": "Yahoo Actualités — une France",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-france",
+      "name": "Yahoo Actualités — France",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/france",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-politique",
+      "name": "Yahoo Actualités — politique",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/politique",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-sante",
+      "name": "Yahoo Actualités — santé",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/sante",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-people",
+      "name": "Yahoo Actualités — people (angle assurance)",
+      "sourceType": "aggregator",
+      "url": "https://fr.news.yahoo.com/rss/people",
       "enabled": true
     },
     {
@@ -475,5 +594,37 @@
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "discoveryPages": [
+    {
+      "name": "Cafeyn kiosque",
+      "url": "https://www.cafeyn.co/fr/newsstand",
+      "mode": "manual-inbox",
+      "note": "Ne pas scraper ni stocker de login ; utiliser le favori actu-inbox depuis une session Cafeyn personnelle."
+    },
+    {
+      "name": "Edge / MSN Start",
+      "url": "https://www.msn.com/fr-fr",
+      "mode": "rss-via-bing",
+      "note": "Les titres publics MSN sont collectés via Bing News RSS."
+    },
+    {
+      "name": "Mozilla Firefox / Pocket",
+      "url": "https://getpocket.com/explore",
+      "mode": "rss-plus-pocket-api",
+      "note": "Les flux Firefox publics sont RSS ; les sauvegardes personnelles passent par POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN."
+    },
+    {
+      "name": "Google News",
+      "url": "https://news.google.com/topstories?hl=fr&gl=FR&ceid=FR:fr",
+      "mode": "rss",
+      "note": "Une France, rubriques et recherches assurance."
+    },
+    {
+      "name": "Yahoo Actualités",
+      "url": "https://fr.news.yahoo.com/",
+      "mode": "rss",
+      "note": "Une, France, politique, santé et people."
+    }
+  ],
+  "notes": "Sources publiques et automatisables : Cafeyn via RSS equivalents + inbox manuelle securisee, Edge/MSN via Bing News RSS, Firefox via RSS + Pocket optionnel, Google News et Yahoo Actualites via RSS. CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }

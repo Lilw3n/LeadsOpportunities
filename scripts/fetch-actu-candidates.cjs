@@ -21,7 +21,7 @@ function resolveQueueSourceType(source) {
   var s = String(source || "").toLowerCase();
   if (s.indexOf("cafeyn") !== -1) return "cafeyn";
   if (s.indexOf("edge") !== -1 || s.indexOf("msn") !== -1 || s.indexOf("bing") !== -1) return "edge";
-  if (s.indexOf("firefox") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
+  if (s.indexOf("firefox") !== -1 || s.indexOf("mozilla") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
   return "aggregator";
 }
 

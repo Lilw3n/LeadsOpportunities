@@ -71,7 +71,7 @@ function candidateSourceType(c, feedMap) {
   var src = String(c.source || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
   if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
-  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src.indexOf("firefox") !== -1 || src.indexOf("mozilla") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
   return feedMap[c.feedId] || "aggregator";
 }
 
