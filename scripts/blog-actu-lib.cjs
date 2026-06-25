@@ -104,10 +104,31 @@ function scoreLeadPotential(candidate) {
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
+  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto" || need === "conso") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  [
+    "assurance",
+    "mutuelle",
+    "emprunteur",
+    "sinistre",
+    "pret",
+    "prêt",
+    "rembours",
+    "garantie",
+    "credit conso",
+    "crédit conso",
+    "credit consommation",
+    "crédit consommation",
+    "pret conso",
+    "prêt conso",
+    "pret personnel",
+    "prêt personnel",
+    "taeg",
+    "mensualite",
+    "mensualité",
+    "endettement",
+  ].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
@@ -244,6 +265,14 @@ function scaffoldArticle(input) {
 }
 
 function relatedForSection(section, need) {
+  if (need === "conso") {
+    return [
+      { href: "../landings/questionnaire.html?need=conso&journey=standard", label: "Questionnaire credit conso" },
+      { href: "./gta-6-ps5-pro-budget-1000-euros-pret-conso.html", label: "Budget 1 000 EUR et mensualites" },
+      { href: "./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html", label: "Comparer pret perso et credit magasin" },
+      { href: "../nos-services.html", label: "Nos services credit" },
+    ];
+  }
   var map = {
     sante: [
       { href: "./mutuelle-sante-5-criteres.html", label: "5 criteres mutuelle" },

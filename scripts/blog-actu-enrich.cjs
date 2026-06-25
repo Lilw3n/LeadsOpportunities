@@ -50,6 +50,18 @@ var ANGLES = {
     ],
     ctaLine: "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible.",
   },
+  conso: {
+    hook: "Un credit consommation mal calibre peut fragiliser le budget mensuel et bloquer un futur projet immobilier.",
+    checklist: [
+      "Montant exact a financer : eviter d'emprunter plus que le besoin reel",
+      "TAEG, frais de dossier et cout total du credit",
+      "Duree courte si le projet est un achat loisir ou equipement ponctuel",
+      "Impact sur le taux d'endettement avant un pret immobilier",
+      "Alternatives : epargne, paiement comptant differe, achat reconditionne",
+    ],
+    ctaLine:
+      "Questionnaire credit conso : montant, duree et situation pro pour verifier si la mensualite reste soutenable.",
+  },
   prevoyance: {
     hook: "Sans prevoyance solide, un arret de travail fait chuter les revenus du foyer.",
     checklist: [
@@ -176,6 +188,7 @@ function buildTitle(raw, need) {
     habitation: "assurance habitation",
     auto: "assurance auto",
     emprunteur: "pret et assurance emprunteur",
+    conso: "credit consommation",
     prevoyance: "prevoyance et revenus",
     vtc: "assurance VTC",
     animaux: "assurance animaux",

@@ -59,6 +59,9 @@ npm run blog:actu:auto
 # Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
 
+# Filtrer les sujets trop faibles en intention lead (la file manuelle reste prioritaire)
+npm run blog:actu:auto -- --min-lead-score=35
+
 # Test sans écrire
 npm run blog:actu:auto -- --dry-run
 
@@ -73,6 +76,7 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 - Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
 - Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
 - Commit automatique sur `main` si nouveaux articles
+- Seuil par défaut : `MIN_LEAD_SCORE=35` pour privilégier les sujets avec intention questionnaire (les éléments Cafeyn/inbox marqués `queued` restent publiables)
 
 **Secrets à configurer** (Settings → Secrets → Actions) :
 
@@ -147,7 +151,7 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 
 1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
 2. **Clarity + GA4** — déjà en place sur le blog
-3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, crédit conso, VTC, animaux
 
 ## Limites légales
 
