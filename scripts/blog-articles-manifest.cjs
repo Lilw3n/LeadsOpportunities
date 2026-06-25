@@ -285,10 +285,32 @@ module.exports = {
         href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-ps5",
         label: "Etude credit consommation",
       },
+      heroImage: {
+        src: "./images/gta6/gta6-vice-city-01.jpg",
+        alt: "Grand Theft Auto VI — panorama Vice City",
+        caption:
+          "GTA VI — Vice City. Capture officielle Rockstar Games (rockstargames.com/VI/media/screenshots).",
+      },
       blocks: [
         {
           type: "p",
           text: "Les <strong>precommandes de GTA 6</strong> et l'achat d'une <strong>PS5 Pro</strong> (console next-gen, manette, jeu day-one, parfois edition collector) representent souvent <strong>800 a 1 200 €</strong> d'un coup. Beaucoup se demandent s'il est possible — et legal — de financer ce budget avec un <strong>credit a la consommation</strong> en France. Reponse courte : <strong>oui, c'est autorise</strong>, a condition de respecter le cadre du <strong>Code de la consommation</strong> et votre capacite de remboursement.",
+        },
+        {
+          type: "gallery",
+          label: "Captures officielles Grand Theft Auto VI",
+          items: [
+            {
+              src: "./images/gta6/gta6-vice-city-02.jpg",
+              alt: "GTA VI — Vice City de nuit, gratte-ciels et ocean",
+              caption: "Vice City de nuit — GTA VI",
+            },
+            {
+              src: "./images/gta6/gta6-lucia-01.jpg",
+              alt: "GTA VI — Lucia Caminos, personnage jouable",
+              caption: "Lucia Caminos — GTA VI",
+            },
+          ],
         },
         { type: "h2", text: "1. Ce que dit la loi francaise (Code de la consommation)" },
         {
@@ -304,6 +326,12 @@ module.exports = {
           ],
         },
         { type: "h2", text: "2. Precommande GTA 6 + PS5 Pro : quel budget prevoir ?" },
+        {
+          type: "figure",
+          src: "./images/gta6/gta6-vice-city-01.jpg",
+          alt: "GTA VI — vue aerienne de Vice City, budget gaming PS5 Pro",
+          caption: "Le day-one GTA VI sur PS5 Pro : un budget souvent proche de 1 000 € (console + jeu + accessoires).",
+        },
         {
           type: "p",
           text: "Avant d'envisager un credit, chiffrez le panier : <strong>PS5 Pro</strong> (souvent autour de 750 €), <strong>GTA 6</strong> (edition standard ou collector), manette supplementaire, abonnement PS Plus si vous jouez en ligne, eventuellement SSD ou ecran. Les precommandes peuvent inclure un <strong>acompte</strong> : le credit ne doit couvrir que le <strong>reste a payer</strong>, pas remplacer une epargne de precaution.",
@@ -386,10 +414,21 @@ module.exports = {
         href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-budget-1000",
         label: "Simuler mon pret conso",
       },
+      heroImage: {
+        src: "./images/gta6/gta6-lucia-01.jpg",
+        alt: "Grand Theft Auto VI — Lucia Caminos en action",
+        caption: "GTA VI — Lucia Caminos. Capture officielle Rockstar Games.",
+      },
       blocks: [
         {
           type: "p",
           text: "Pour jouer a <strong>GTA 6</strong> day one sur <strong>PS5 Pro</strong>, beaucoup de foyers visent un panier autour de <strong>1 000 €</strong> : console, jeu, manette et quelques accessoires. Si l'epargne ne suffit pas, un <strong>pret a la consommation</strong> peut etaler la depense — a condition de connaitre le <strong>cout total</strong> et votre <strong>reste a vivre</strong>. Voici un budget realiste et des simulations de mensualites (ordre de grandeur, TAEG indicatifs).",
+        },
+        {
+          type: "figure",
+          src: "./images/gta6/gta6-vice-city-02.jpg",
+          alt: "GTA VI — Vice City, environnement open world",
+          caption: "GTA VI se deroule a Vice City : le budget materiel (PS5 Pro + jeu) tourne souvent autour de 1 000 €.",
         },
         { type: "h2", text: "1. Decouper un budget gaming a 1 000 €" },
         {
@@ -477,10 +516,21 @@ module.exports = {
         href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-comparatif-conso",
         label: "Etude credit consommation",
       },
+      heroImage: {
+        src: "./images/gta6/gta6-vice-city-02.jpg",
+        alt: "Grand Theft Auto VI — Vice City la nuit",
+        caption: "GTA VI — Vice City. Capture officielle Rockstar Games.",
+      },
       blocks: [
         {
           type: "p",
           text: "Face a un panier <strong>PS5 Pro + GTA 6</strong> d'environ <strong>1 000 €</strong>, les enseignes proposent souvent plusieurs options : <strong>pret personnel</strong> en banque ou en ligne, <strong>credit affecte</strong> au moment du paiement, ou <strong>paiement en plusieurs fois</strong> carte bancaire. Toutes ne sont pas des <strong>credits a la consommation</strong> au sens du Code de la consommation — et le <strong>cout total</strong> peut varier du simple au triple.",
+        },
+        {
+          type: "figure",
+          src: "./images/gta6/gta6-lucia-01.jpg",
+          alt: "GTA VI — gameplay avec Lucia Caminos",
+          caption: "Precommander GTA VI et une PS5 Pro : comparez le cout total du credit, pas seulement la mensualite.",
         },
         { type: "h2", text: "1. Pret personnel : liberte d'achat" },
         {
