@@ -257,6 +257,42 @@
     "pret-immo-erreurs-a-eviter.html": {
       "section": "finance",
       "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?"
+    },
+    "gta-6-precommande-ps5-pro-credit-conso-france.html": {
+      "need": "conso",
+      "hook": "PS5 Pro + GTA 6 : un pret conso de 1 000 €, c'est legal — mais le TAEG et la duree changent tout.",
+      "question": "Vous voulez simuler un credit consommation pour votre setup gaming ?",
+      "questionnaire": "/landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-ps5",
+      "landing": "/landings/questionnaire.html?need=conso&journey=standard",
+      "express": "/landings/devis-express.html?need=conso",
+      "primaryLabel": "Etude credit consommation",
+      "questionnaireLabel": "Questionnaire credit conso",
+      "landingLabel": "Simuler mon pret conso",
+      "expressLabel": "Rappel credit conso"
+    },
+    "gta-6-ps5-pro-budget-1000-euros-pret-conso.html": {
+      "need": "conso",
+      "hook": "1 000 € pour GTA 6 et la PS5 Pro : 31 € ou 87 € par mois selon la duree et le TAEG.",
+      "question": "Combien vous couterait un pret conso de 1 000 € sur 12 ou 24 mois ?",
+      "questionnaire": "/landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-budget-1000",
+      "landing": "/landings/questionnaire.html?need=conso&journey=standard",
+      "express": "/landings/devis-express.html?need=conso",
+      "primaryLabel": "Simuler mon pret conso",
+      "questionnaireLabel": "Questionnaire credit conso",
+      "landingLabel": "Etude credit consommation",
+      "expressLabel": "Rappel credit conso"
+    },
+    "pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html": {
+      "need": "conso",
+      "hook": "Pret personnel, credit magasin ou 3x : le meme panier a 1 000 € ne coute pas le meme prix.",
+      "question": "Quelle forme de credit conso correspond le mieux a votre budget gaming ?",
+      "questionnaire": "/landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-comparatif-conso",
+      "landing": "/landings/questionnaire.html?need=conso&journey=standard",
+      "express": "/landings/devis-express.html?need=conso",
+      "primaryLabel": "Comparer mon pret conso",
+      "questionnaireLabel": "Questionnaire credit conso",
+      "landingLabel": "Etude credit consommation",
+      "expressLabel": "Rappel credit conso"
     }
   }
 }

@@ -342,6 +342,8 @@ module.exports = {
       ],
       related: [
         { href: "./gta-6-pret-immobilier-budget-gaming.html", label: "GTA 6 et pret immo" },
+        { href: "./gta-6-ps5-pro-budget-1000-euros-pret-conso.html", label: "Budget 1 000 € et mensualites" },
+        { href: "./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html", label: "Comparer les offres de credit" },
         { href: "./gta-6-sortie-assurance-gaming-materiel.html", label: "Assurance materiel gaming" },
         { href: "../landings/questionnaire.html?need=conso&journey=standard", label: "Questionnaire credit conso" },
         { href: "../nos-services.html", label: "Credit consommation" },
@@ -366,6 +368,175 @@ module.exports = {
         {
           q: "Un credit pour GTA 6 impacte-t-il mon futur pret immobilier ?",
           a: "Oui : toute mensualite en cours est prise en compte dans le taux d'endettement. Evitez un nouveau credit conso avant une demande de pret immobilier.",
+        },
+      ],
+    },
+    {
+      file: "gta-6-ps5-pro-budget-1000-euros-pret-conso.html",
+      audience: "france",
+      section: "finance",
+      tag: "GTA 6 & credit conso",
+      tagClass: "tag-actu",
+      title: "PS5 Pro + GTA 6 : budget 1 000 € et mensualites d'un pret conso",
+      description:
+        "Panier PS5 Pro, GTA VI, manette : chiffrage a 1 000 €, simulations 12/24/36 mois (TAEG), reste a vivre et alternatives sans credit.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Setup GTA 6 a 1 000 € : combien par mois avec un pret conso ?",
+      cta: {
+        href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-budget-1000",
+        label: "Simuler mon pret conso",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Pour jouer a <strong>GTA 6</strong> day one sur <strong>PS5 Pro</strong>, beaucoup de foyers visent un panier autour de <strong>1 000 €</strong> : console, jeu, manette et quelques accessoires. Si l'epargne ne suffit pas, un <strong>pret a la consommation</strong> peut etaler la depense — a condition de connaitre le <strong>cout total</strong> et votre <strong>reste a vivre</strong>. Voici un budget realiste et des simulations de mensualites (ordre de grandeur, TAEG indicatifs).",
+        },
+        { type: "h2", text: "1. Decouper un budget gaming a 1 000 €" },
+        {
+          type: "ul",
+          items: [
+            "<strong>PS5 Pro</strong> : environ 749 € (prix public conseille, hors promotions).",
+            "<strong>GTA 6</strong> (edition standard) : 70 a 90 € selon distributeur.",
+            "<strong>Manette DualSense</strong> supplementaire : 65 a 80 € (coop ou remplacement).",
+            "<strong>Accessoires</strong> : cable HDMI 2.1, station de charge, coque — 30 a 80 €.",
+            "<strong>Option en ligne</strong> : PS Plus Essential (1 mois) ~9 € si multijoueur.",
+          ],
+        },
+        {
+          type: "p",
+          text: "Total typique : <strong>915 a 1 010 €</strong>. Arrondir a <strong>1 000 €</strong> pour une simulation de pret conso est coherent. Si vous avez deja une PS5, retirez la console : un credit de <strong>150 a 250 €</strong> pour le seul jeu + accessoires change completement la donne (mensualite bien plus basse).",
+        },
+        { type: "h2", text: "2. Simulations : 1 000 € empruntes sur 12, 24 ou 36 mois" },
+        {
+          type: "p",
+          text: "Exemples pour un <strong>pret personnel</strong> de 1 000 € (hors assurance emprunteur facultative). Les montants sont <strong>indicatifs</strong> : seul le <strong>TAEG</strong> figurant sur votre offre fait foi.",
+        },
+        {
+          type: "ul",
+          items: [
+            "<strong>12 mois, TAEG 5 %</strong> : environ <strong>86 €/mois</strong> — cout total du credit ~32 €.",
+            "<strong>12 mois, TAEG 7 %</strong> : environ <strong>87 €/mois</strong> — cout total ~44 €.",
+            "<strong>24 mois, TAEG 7 %</strong> : environ <strong>45 €/mois</strong> — cout total ~77 €.",
+            "<strong>36 mois, TAEG 7 %</strong> : environ <strong>31 €/mois</strong> — cout total ~118 €.",
+            "<strong>36 mois, TAEG 9 %</strong> : environ <strong>32 €/mois</strong> — cout total ~150 €.",
+          ],
+        },
+        {
+          type: "p",
+          text: "Plus la duree est longue, plus la mensualite baisse — mais le <strong>cout total du credit</strong> augmente. Pour 1 000 € de loisir, une duree de <strong>12 a 24 mois</strong> limite souvent les interets tout en gardant une charge acceptable.",
+        },
+        { type: "h2", text: "3. Pret conso ou epargne : trois questions avant de signer" },
+        {
+          type: "ul",
+          items: [
+            "Votre <strong>reste a vivre</strong> apres loyer, credits et charges reste-t-il confortable avec +45 ou +87 €/mois ?",
+            "Avez-vous un <strong>projet immobilier</strong> dans les 12 mois ? Un credit conso en cours alourdit le taux d'endettement.",
+            "Existe-t-il une alternative : <strong>acompte de precommande</strong> + solde a la sortie, achat d'occasion, ou report de la PS5 Pro ?",
+          ],
+        },
+        { type: "h2", text: "4. Apres l'achat : ne pas oublier l'assurance habitation" },
+        {
+          type: "p",
+          text: "1 000 € de materiel dans le salon meritent des <strong>plafonds mobilier</strong> a jour (vol, degat des eaux). Voir <a href=\"./gta-6-sortie-assurance-gaming-materiel.html\">assurer son setup GTA 6</a>. Le cadre legal du credit conso en France est detaille dans notre guide <a href=\"./gta-6-precommande-ps5-pro-credit-conso-france.html\">PS5 Pro, GTA 6 et credit conso</a>.",
+        },
+        { type: "bridge" },
+      ],
+      related: [
+        { href: "./gta-6-precommande-ps5-pro-credit-conso-france.html", label: "Cadre legal credit conso" },
+        { href: "./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html", label: "Comparer pret perso et credit magasin" },
+        { href: "./gta-6-pret-immobilier-budget-gaming.html", label: "GTA 6 et pret immo" },
+        { href: "../landings/questionnaire.html?need=conso&journey=standard", label: "Questionnaire credit conso" },
+      ],
+      faq: [
+        {
+          q: "1 000 € pour une PS5 Pro et GTA 6, c'est un budget realiste ?",
+          a: "Oui pour un pack console + jeu + manette. Une edition collector ou un ecran 4K en plus depasse vite 1 200 a 1 500 €.",
+        },
+        {
+          q: "Quelle mensualite pour 1 000 € sur 24 mois ?",
+          a: "Comptez environ 44 a 46 €/mois pour un TAEG autour de 7 %, soit un cout total du credit proche de 75 a 80 €.",
+        },
+        {
+          q: "Vaut-il mieux 12 ou 36 mois pour financer du gaming ?",
+          a: "En general, une duree courte (12-24 mois) limite les interets. Le 36 mois n'est interessant que si votre budget mensuel est tres serre et que le TAEG reste modere.",
+        },
+      ],
+    },
+    {
+      file: "pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html",
+      audience: "france",
+      section: "finance",
+      tag: "GTA 6 & credit conso",
+      tagClass: "tag-actu",
+      title: "Pret conso gaming : comparer pret personnel, credit magasin et 3x pour GTA 6",
+      description:
+        "PS5 Pro et GTA 6 (~1 000 €) : pret personnel, credit affecte Fnac/Darty, paiement 3x/4x — differences, TAEG, retractation et pieges a eviter.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "GTA 6 / PS5 Pro : quelle forme de credit choisir en magasin ou en ligne ?",
+      cta: {
+        href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-comparatif-conso",
+        label: "Etude credit consommation",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Face a un panier <strong>PS5 Pro + GTA 6</strong> d'environ <strong>1 000 €</strong>, les enseignes proposent souvent plusieurs options : <strong>pret personnel</strong> en banque ou en ligne, <strong>credit affecte</strong> au moment du paiement, ou <strong>paiement en plusieurs fois</strong> carte bancaire. Toutes ne sont pas des <strong>credits a la consommation</strong> au sens du Code de la consommation — et le <strong>cout total</strong> peut varier du simple au triple.",
+        },
+        { type: "h2", text: "1. Pret personnel : liberte d'achat" },
+        {
+          type: "p",
+          text: "L'argent est verse sur votre compte : vous achetez la PS5 Pro et GTA 6 ou vous voulez (Amazon, Micromania, occasion). Avantages : <strong>comparaison des prix</strong>, pas de lien avec un vendeur. Inconvenients : etude de dossier, delai de versement, TAEG parfois plus eleve que le credit magasin promo. Verifiez le <strong>TAEG</strong> et le <strong>montant total du</strong> sur la fiche precontractuelle.",
+        },
+        { type: "h2", text: "2. Credit affecte en magasin (Fnac, Darty, Boulanger…)" },
+        {
+          type: "p",
+          text: "Le credit est lie a l'achat de la console et du jeu. Souvent des <strong>offres promotionnelles</strong> (TAEG reduit sur quelques mois). Attention : le bundle impose parfois des accessoires ou assurances. Comparez le <strong>prix du panier finance</strong> au meme panier paye comptant ailleurs + pret perso.",
+        },
+        { type: "h2", text: "3. « 3x sans frais » ou 4x : credit ou simple debit differe ?" },
+        {
+          type: "p",
+          text: "Selon l'operateur (banque, fintech, partenaire magasin), le <strong>3x/4x</strong> peut etre un debit differe sans interets (pas un credit reglemente) ou un vrai <strong>credit a la consommation</strong> avec TAEG. Si vous signez un contrat de credit avec TAEG affiche, vous beneficiez du <strong>droit de retractation de 14 jours</strong> (contrat a distance). Sans contrat de credit, les regles sont celles du paiement carte.",
+        },
+        { type: "h2", text: "4. Check-list avant de financer 1 000 € de gaming" },
+        {
+          type: "ul",
+          items: [
+            "Comparer le <strong>cout total</strong> (pas seulement la mensualite affichee en gros).",
+            "Lire le <strong>TAEG</strong> et les frais de dossier eventuels.",
+            "Verifier l'impact sur un futur <strong>pret immobilier</strong> (mensualite en cours = endettement).",
+            "Garder une <strong>epargne de precaution</strong> : ne pas financer 100 % du panier si vous n'avez plus de matelas.",
+            "Refuser les assurances « perte d'emploi » couteuses si vous n'en avez pas besoin.",
+          ],
+        },
+        { type: "h2", text: "5. Budget 1 000 € : quelle option selon votre profil ?" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Budget serre, pas de projet immo</strong> : credit magasin promo courte duree ou pret perso 24 mois — voir nos <a href=\"./gta-6-ps5-pro-budget-1000-euros-pret-conso.html\">simulations a 1 000 €</a>.",
+            "<strong>Achat immobilier dans l'annee</strong> : eviter tout nouveau credit ; epargner ou reporter l'achat — voir <a href=\"./gta-6-pret-immobilier-budget-gaming.html\">GTA 6 et pret immo</a>.",
+            "<strong>Deja une PS5</strong> : financer uniquement GTA 6 + accessoires (150-250 €), pas 1 000 €.",
+          ],
+        },
+        { type: "bridge" },
+      ],
+      related: [
+        { href: "./gta-6-ps5-pro-budget-1000-euros-pret-conso.html", label: "Budget 1 000 € et mensualites" },
+        { href: "./gta-6-precommande-ps5-pro-credit-conso-france.html", label: "Legalite credit conso France" },
+        { href: "../nos-services.html", label: "Credit consommation" },
+        { href: "../landings/questionnaire.html?need=conso&journey=standard", label: "Questionnaire conso" },
+      ],
+      faq: [
+        {
+          q: "Le credit magasin est-il moins cher qu'un pret personnel ?",
+          a: "Pas toujours : les promos « 0 % » existent mais sont limitees en duree ou montant. Comparez toujours le TAEG et le cout total du credit.",
+        },
+        {
+          q: "Puis-je financer seulement GTA 6 si j'ai deja la console ?",
+          a: "Oui. Un pret de 150 a 250 € (jeu + manette) a des mensualites bien plus basses qu'un credit de 1 000 € pour tout le pack.",
+        },
+        {
+          q: "Le 3x sans frais est-il sans risque ?",
+          a: "Il peut l'etre si c'est un debit differe sans TAEG. Sinon, c'est un credit reglemente : lisez le contrat et calculez le cout total.",
         },
       ],
     },
