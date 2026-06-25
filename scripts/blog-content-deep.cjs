@@ -161,8 +161,24 @@ var DEEP = {
         "Beaucoup de contrats MRH plafonnent le mobilier global (ex. 15 000 a 30 000 EUR). Listez vos equipements : si la valeur depasse le plafond « objets de valeur » ou « appareils », souscrivez une extension ou une assurance materiel dediee."
       ),
       h2("Createurs de contenu et day one GTA"),
+      {
+        type: "gallery",
+        label: "Plateformes live et contenus courts",
+        items: [
+          {
+            src: "./images/streaming/gaming-live-arena.jpg",
+            alt: "Arene gaming et evenement live esport",
+            caption: "Evenements live et LAN — materiel transporte et expose",
+          },
+          {
+            src: "./images/streaming/twitch-live-stream-setup.png",
+            alt: "Poste de streaming Twitch avec eclairage colore",
+            caption: "Twitch live — RC pro si monétisation",
+          },
+        ],
+      },
       p(
-        "Stream Twitch, YouTube, sponsors : basculez vers une <strong>RC professionnelle</strong> et une MRPro si vous monetisez. Voir notre article <a href=\"./assurance-streamer-gaming-setup-materiel.html\">assurance streamer gaming</a>."
+        "Stream <strong>Twitch</strong>, <strong>YouTube</strong>, <strong>Shorts</strong> ou <strong>TikTok Live</strong> : basculez vers une <strong>RC professionnelle</strong> et une MRPro si vous monetisez. Voir notre article <a href=\"./assurance-streamer-gaming-setup-materiel.html\">assurance streamer gaming</a>."
       ),
       h2("Achat day one : carte bancaire et garantie constructeur"),
       ul([
