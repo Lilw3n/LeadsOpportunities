@@ -36,7 +36,7 @@ function buildPrompt(candidate) {
     (candidate.summary || "") +
     "\nPlateforme source: " +
     platform +
-    " (Cafeyn, Edge ou Firefox)\nNeed questionnaire: " +
+    " (Cafeyn, Edge/Bing, Firefox/Pocket, Google News ou Yahoo)\nNeed questionnaire: " +
     need +
     sportBlock +
     "\n" +
