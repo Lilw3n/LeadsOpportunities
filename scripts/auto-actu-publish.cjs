@@ -6,6 +6,7 @@
  *   npm run blog:actu:auto
  *   npm run blog:actu:auto -- --count=2
  *   npm run blog:actu:auto -- --dry-run
+ *   npm run blog:actu:auto -- --min-lead-score=35
  *   npm run blog:actu:auto -- --no-ai
  */
 const { execSync } = require("child_process");
@@ -87,7 +88,7 @@ function bestFromPlatform(available, platform, feedMap, used) {
   return list[0] || null;
 }
 
-function pickCandidates(candidates, count, state) {
+function pickCandidates(candidates, count, state, minLeadScore) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
   var titleKeys = loadPublishedTitleKeys();
@@ -98,6 +99,7 @@ function pickCandidates(candidates, count, state) {
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    if (minLeadScore && c.status !== "queued" && Number(c.leadScore || 0) < minLeadScore) return false;
     return true;
   });
 
@@ -172,9 +174,11 @@ async function main() {
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
+  var minLeadScore = Math.max(0, Number(arg("min-lead-score", process.env.MIN_LEAD_SCORE || 0)) || 0);
 
   console.log("=== Auto actu publish ===");
   console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  if (minLeadScore) console.log("minLeadScore:", minLeadScore, "(sauf file manuelle)");
   console.log("");
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
@@ -198,7 +202,7 @@ async function main() {
     publishedFiles: [],
     autoRuns: [],
   });
-  var picks = pickCandidates(candidates, count, state);
+  var picks = pickCandidates(candidates, count, state, minLeadScore);
 
   if (!picks.length) {
     console.log("Aucun candidat disponible.");

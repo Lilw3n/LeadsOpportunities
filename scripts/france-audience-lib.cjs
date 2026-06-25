@@ -49,9 +49,16 @@ const FRANCE_MARKET_PATTERNS = [
   /\bdom-tom\b/i,
   /\bmetropole\b/i,
   /\bcr[eé]dit conso/i,
+  /\bcr[eé]dit consommation/i,
+  /\bpr[eê]t conso/i,
   /\bpr[eê]t consommation/i,
   /\bpr[eê]t personnel/i,
   /\bcode de la consommation/i,
+  /\btaeg\b/i,
+  /\btaux d'usure\b/i,
+  /\bpaiement fractionn[eé]\b/i,
+  /\bmensualit[eé]\b/i,
+  /\bendettement\b/i,
   /\béquipe de france\b/i,
   /\bequipe de france\b/i,
   /\bcoupe du monde\b/i,
@@ -125,7 +132,26 @@ function franceLeadScoreAdjust(candidate) {
 
   if (isFranceMarketTopic(hay)) delta += 25;
 
-  ["mutuelle", "assurance", "habitation", "emprunteur", "orias", "sinistre", "crédit immo", "credit immo"].forEach(function (kw) {
+  [
+    "mutuelle",
+    "assurance",
+    "habitation",
+    "emprunteur",
+    "orias",
+    "sinistre",
+    "crédit immo",
+    "credit immo",
+    "crédit conso",
+    "credit conso",
+    "crédit consommation",
+    "credit consommation",
+    "prêt conso",
+    "pret conso",
+    "prêt personnel",
+    "pret personnel",
+    "taeg",
+    "taux d'usure",
+  ].forEach(function (kw) {
     if (hay.indexOf(kw) !== -1) delta += 10;
   });
 

@@ -22,6 +22,13 @@
       "tagClass": "tag-actu"
     },
     {
+      "keywords": ["crédit conso", "credit conso", "crédit consommation", "credit consommation", "prêt conso", "pret conso", "prêt personnel", "pret personnel", "paiement fractionné", "paiement fractionne", "3x sans frais", "4x sans frais", "taeg", "taux d'usure", "mensualité", "mensualite", "endettement", "financement console", "budget gaming"],
+      "section": "finance",
+      "need": "conso",
+      "tag": "Crédit conso",
+      "tagClass": "tag-actu"
+    },
+    {
       "keywords": ["construction", "sinistre", "dégâts des eaux", "degats des eaux", "catastrophe", "récolte", "agricole"],
       "section": "habitat",
       "need": "habitation",
@@ -147,6 +154,7 @@
     "vtc": { "href": "../landings/questionnaire.html?need=vtc&journey=standard", "label": "Questionnaire VTC (3 min)" },
     "animaux": { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux (3 min)" },
     "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur (3 min)" },
+    "conso": { "href": "../landings/questionnaire.html?need=conso&journey=standard", "label": "Questionnaire crédit conso (3 min)" },
     "prevoyance": { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prévoyance (3 min)" },
     "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" }
   }
