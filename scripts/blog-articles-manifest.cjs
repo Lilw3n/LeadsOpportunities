@@ -224,14 +224,71 @@ module.exports = {
       meta: "6 min · Mai 2026",
       cardExcerpt: "Sortie GTA 6 : proteger son materiel gaming.",
       cta: { href: "../landings/devis.html?need=habitation", label: "Revoir mon habitation" },
+      heroImage: {
+        src: "./images/streaming/twitch-live-stream-setup.png",
+        alt: "Setup streaming live Twitch — dual ecran, micro et eclairage pour le day-one GTA 6",
+        caption:
+          "Live Twitch day-one : PC, ecrans, micro et cam representent souvent 3 000 a 8 000 € de materiel a couvrir.",
+      },
       blocks: [
-        { type: "p", text: "La sortie de <strong>GTA 6</strong> relance les achats : console next-gen, PC gamer, ecran 4K, edition collector. Des milliers d'euros dans le salon — rarement couverts correctement par defaut." },
+        {
+          type: "p",
+          text: "La sortie de <strong>GTA 6</strong> relance les achats : console next-gen, PC gamer, ecran 4K, edition collector. Des milliers d'euros dans le salon — rarement couverts correctement par defaut. Et si vous streamez sur <strong>Twitch</strong>, publiez des <strong>YouTube Shorts</strong> ou des lives <strong>TikTok</strong>, la valeur du setup explose encore.",
+        },
+        {
+          type: "gallery",
+          label: "Twitch, YouTube Shorts, TikTok Live — formats du day-one GTA 6",
+          items: [
+            {
+              src: "./images/streaming/twitch-live-stream-setup.png",
+              alt: "Bureau streamer avec eclairage violet, dual monitor et micro — style live Twitch",
+              caption: "Live Twitch — setup pro (ecrans, micro, webcam, LED)",
+            },
+            {
+              src: "./images/streaming/tiktok-youtube-shorts-live.png",
+              alt: "Smartphone en format vertical avec interface live gaming — YouTube Shorts ou TikTok",
+              caption: "YouTube Shorts / TikTok Live — format vertical mobile",
+            },
+            {
+              src: "./images/streaming/mobile-gaming-vertical.jpg",
+              alt: "Joueur mobile en session gaming verticale",
+              caption: "Gaming mobile et contenus courts — autre angle a assurer",
+            },
+          ],
+        },
         { type: "h2", text: "Habitation : vol, incendie, degats des eaux" },
-        { type: "p", text: "Verifiez les <strong>plafonds mobilier</strong> de votre multirisque habitation. Un cambriolage ou un degat des eaux sur un PC peut depasser le plafond « appareils » standard." },
+        {
+          type: "figure",
+          src: "./images/gta6/gta6-vice-city-02.jpg",
+          alt: "Grand Theft Auto VI — Vice City, jeu day-one sur console ou PC",
+          caption: "GTA VI day-one : console, PC ou edition collector — verifiez vos plafonds habitation.",
+        },
+        {
+          type: "p",
+          text: "Verifiez les <strong>plafonds mobilier</strong> de votre multirisque habitation. Un cambriolage ou un degat des eaux sur un PC peut depasser le plafond « appareils » standard.",
+        },
         { type: "h2", text: "Streamer et YouTubeur" },
-        { type: "p", text: "Vous filmez le day one ? Materiel pro, voix, sponsors : voir notre guide <a href=\"./assurance-streamer-gaming-setup-materiel.html\">assurance streamer &amp; gaming</a> et la RC pro si vous etes monétise." },
+        {
+          type: "figure",
+          src: "./images/streaming/streaming-esports.jpg",
+          alt: "Setup esport et streaming — claviers mecaniques et ecrans gaming",
+          caption: "Streamer ou YouTubeur : le materiel pro (capture, voix, eclairage) s'ajoute au cout du jeu.",
+        },
+        {
+          type: "p",
+          text: "Vous filmez le day one en <strong>live Twitch</strong>, montez des <strong>Shorts YouTube</strong> ou enchaînez les lives <strong>TikTok</strong> ? Materiel pro, voix, sponsors : voir notre guide <a href=\"./assurance-streamer-gaming-setup-materiel.html\">assurance streamer &amp; gaming</a> et la RC pro si vous etes monétise.",
+        },
         { type: "h2", text: "Achat en ligne et garanties" },
-        { type: "p", text: "Extension de garantie, assurance carte bancaire : comparez avant de payer. Certaines couvrent le vol a la livraison ou la casse les 90 premiers jours." },
+        {
+          type: "figure",
+          src: "./images/streaming/gaming-keyboard-rgb.jpg",
+          alt: "Clavier mecanique RGB et setup PC gamer haut de gamme",
+          caption: "Peripheriques premium : extension de garantie ou habitation bien calibree.",
+        },
+        {
+          type: "p",
+          text: "Extension de garantie, assurance carte bancaire : comparez avant de payer. Certaines couvrent le vol a la livraison ou la casse les 90 premiers jours.",
+        },
       ],
       related: [
         { href: "./assurance-streamer-gaming-setup-materiel.html", label: "Assurance streamer" },
