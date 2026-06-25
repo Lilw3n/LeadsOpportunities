@@ -14,6 +14,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
+Si quelqu'un vous demande des identifiants Cafeyn pour ce pipeline, refusez : le bot n'en a pas besoin. Le seul secret technique attendu est `BLOG_ACTU_INGEST_SECRET`, généré aléatoirement, stocké dans Vercel/GitHub Secrets et révocable sans toucher à votre compte Cafeyn.
+
 ---
 
 ## Étape 1 — Générer le jeton inbox (2 min)
