@@ -173,6 +173,64 @@ var DEEP = {
       ]),
     ],
   },
+  "gta-6-ps5-pro-budget-1000-euros-pret-conso.html": {
+    keywords: [
+      "GTA 6",
+      "GTA VI",
+      "PS5 Pro",
+      "budget 1000 euros",
+      "pret consommation",
+      "credit conso",
+      "mensualite pret",
+      "TAEG",
+      "simulation credit",
+      "console PlayStation",
+      "financement gaming",
+      "reste a vivre",
+    ],
+    extraBlocks: [
+      h2("Exemple de panier a 1 000 € (juin 2026)"),
+      ul([
+        "PS5 Pro : ~749 €",
+        "GTA 6 edition standard : ~80 €",
+        "Manette DualSense : ~75 €",
+        "Cable HDMI / accessoires : ~50 €",
+        "Marge promotions ou livraison : ~46 €",
+      ]),
+      h2("Regle simple : cout total avant mensualite"),
+      p(
+        "Une mensualite de <strong>31 €</strong> sur 36 mois peut sembler legere, mais le <strong>cout total du credit</strong> depasse souvent <strong>110 €</strong> pour 1 000 € empruntes. Inversement, <strong>87 €/mois</strong> sur 12 mois limite les interets. Demandez toujours le <strong>montant total du</strong> sur la fiche precontractuelle."
+      ),
+    ],
+  },
+  "pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html": {
+    keywords: [
+      "pret personnel",
+      "credit affecte",
+      "3x sans frais",
+      "GTA 6",
+      "PS5 Pro",
+      "credit magasin",
+      "Fnac",
+      "Darty",
+      "comparatif pret conso",
+      "Code consommation",
+      "retractation 14 jours",
+      "financement console",
+    ],
+    extraBlocks: [
+      h2("Tableau mental : trois options pour 1 000 €"),
+      ul([
+        "<strong>Pret personnel</strong> : liberte d'achat, TAEG variable, versement sous quelques jours.",
+        "<strong>Credit affecte magasin</strong> : souvent lie au panier, promos courtes, attention aux bundles.",
+        "<strong>3x/4x carte</strong> : parfois sans TAEG (debit differe), parfois credit reglemente — lire le contrat.",
+      ]),
+      h2("Projet immobilier en parallele"),
+      p(
+        "Si vous achetez un logement dans l'annee, un credit conso gaming de 1 000 € peut faire basculer votre <strong>taux d'endettement</strong>. Reportez l'achat ou financez uniquement le jeu si vous avez deja la console."
+      ),
+    ],
+  },
   "canicule-degats-eaux-assurance-habitation.html": {
     keywords: [
       "canicule France 2026",

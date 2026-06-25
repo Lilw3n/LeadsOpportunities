@@ -21,11 +21,83 @@ function esc(s) {
     .replace(/"/g, "&quot;");
 }
 
+function resolveOgImage(a) {
+  if (a.ogImage) {
+    return String(a.ogImage).indexOf("http") === 0 ? a.ogImage : base + a.ogImage;
+  }
+  if (a.heroImage && a.heroImage.src) {
+    var src = String(a.heroImage.src).replace(/^\.\//, "/blog/");
+    if (src.indexOf("/") !== 0) src = "/blog/" + src;
+    return base + src;
+  }
+  return base + "/og-default.jpg";
+}
+
+function renderHero(hero) {
+  if (!hero || !hero.src) return "";
+  return (
+    '    <figure class="article-hero">\n' +
+    '      <img src="' +
+    esc(hero.src) +
+    '" alt="' +
+    esc(hero.alt || "") +
+    '" width="' +
+    esc(hero.width || "1280") +
+    '" height="' +
+    esc(hero.height || "720") +
+    '" fetchpriority="high" decoding="async" />\n' +
+    (hero.caption ? "      <figcaption>" + hero.caption + "</figcaption>\n" : "") +
+    "    </figure>\n"
+  );
+}
+
 function renderBlock(b, bridge) {
   if (b.type === "bridge" && bridge) return renderBridgeHtml(bridge, { variant: "mid" });
   if (b.type === "h2") return "      <h2>" + b.text + "</h2>\n";
   if (b.type === "h3") return "      <h3>" + b.text + "</h3>\n";
   if (b.type === "p") return "      <p>" + b.text + "</p>\n";
+  if (b.type === "figure") {
+    return (
+      '      <figure class="article-figure">\n' +
+      '        <img src="' +
+      esc(b.src) +
+      '" alt="' +
+      esc(b.alt || "") +
+      '" loading="lazy" decoding="async" width="' +
+      esc(b.width || "1280") +
+      '" height="' +
+      esc(b.height || "720") +
+      '" />\n' +
+      (b.caption ? "        <figcaption>" + b.caption + "</figcaption>\n" : "") +
+      "      </figure>\n"
+    );
+  }
+  if (b.type === "gallery" && b.items && b.items.length) {
+    return (
+      '      <div class="article-gallery" role="group" aria-label="' +
+      esc(b.label || "Galerie") +
+      '">\n' +
+      b.items
+        .map(function (item) {
+          return (
+            '        <figure class="article-gallery-item">\n' +
+            '          <img src="' +
+            esc(item.src) +
+            '" alt="' +
+            esc(item.alt || "") +
+            '" loading="lazy" decoding="async" width="' +
+            esc(item.width || "1280") +
+            '" height="' +
+            esc(item.height || "720") +
+            '" />\n' +
+            (item.caption ? "          <figcaption>" + item.caption + "</figcaption>\n" : "") +
+            "        </figure>\n"
+          );
+        })
+        .join("") +
+      "      </div>\n"
+    );
+  }
   if (b.type === "ul") {
     return (
       "      <ul>\n" +
@@ -118,6 +190,8 @@ function renderArticle(a) {
       : "";
 
   var robots = robotsMetaForArticle(a);
+  var ogImage = resolveOgImage(a);
+  var heroHtml = renderHero(a.heroImage);
   return (
     '<!doctype html>\n<html lang="fr">\n<head>\n  <meta charset="UTF-8" />\n  <meta name="viewport" content="width=device-width, initial-scale=1.0" />\n  ' +
     franceMetaBlock() +
@@ -138,8 +212,8 @@ function renderArticle(a) {
     '" />\n  <meta property="og:type" content="article" />\n  <meta property="og:url" content="' +
     canonical +
     '" />\n  <meta property="og:image" content="' +
-    base +
-    '/og-default.jpg" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  ' +
+    esc(ogImage) +
+    '" />\n  <meta property="og:image:width" content="1280" />\n  <meta property="og:image:height" content="720" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  ' +
     CLARITY_HEAD +
     '\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body data-blog-page="article" data-blog-article="' +
     esc(a.file) +
@@ -157,7 +231,9 @@ function renderArticle(a) {
     a.title +
     '</h1>\n      <p class="article-meta">' +
     a.meta +
-    " &middot; Par l'equipe Leads Opportunities</p>\n    </div>\n    <div class=\"article-body\">\n" +
+    " &middot; Par l'equipe Leads Opportunities</p>\n    </div>\n" +
+    heroHtml +
+    '    <div class="article-body">\n' +
     body +
     cta +
     faqHtml +
