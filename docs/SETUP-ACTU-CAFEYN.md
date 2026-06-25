@@ -14,6 +14,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
+Si un agent ou un script demande vos identifiants Cafeyn, arrêtez l'exécution : le pipeline doit fonctionner avec les flux RSS publics, Yahoo/Google/Bing/Firefox, Pocket optionnel, ou le favori sécurisé par `BLOG_ACTU_INGEST_SECRET`.
+
 ---
 
 ## Étape 1 — Générer le jeton inbox (2 min)

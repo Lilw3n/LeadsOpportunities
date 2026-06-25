@@ -37,7 +37,7 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    map[f.id] = detectSourceType([f.sourceType, f.id, f.name, f.url].join(" "));
   });
   return map;
 }
@@ -64,14 +64,27 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = ["cafeyn", "edge", "firefox", "google", "yahoo"];
 
-function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
-  var src = String(c.source || "").toLowerCase();
+function detectSourceType(value) {
+  var src = String(value || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
   if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
-  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1 || src.indexOf("mozilla") !== -1) return "firefox";
+  if (src.indexOf("google") !== -1 || src.indexOf("news.google.com") !== -1) return "google";
+  if (src.indexOf("yahoo") !== -1) return "yahoo";
+  return "";
+}
+
+function candidateSourceType(c, feedMap) {
+  var detected = detectSourceType([
+    c.sourceType,
+    c.source,
+    c.feedId,
+    c.feedName,
+    c.url,
+  ].join(" "));
+  if (detected) return detected;
   return feedMap[c.feedId] || "aggregator";
 }
 
@@ -117,18 +130,19 @@ function pickCandidates(candidates, count, state) {
       used.add(c.url || c.title);
     });
 
+  var rot = state.platformRotationIndex || 0;
   if (count >= 3) {
-    PLATFORM_TYPES.forEach(function (platform) {
-      if (picks.length >= count) return;
+    for (var p = 0; p < PLATFORM_TYPES.length; p++) {
+      if (picks.length >= count) break;
+      var platform = PLATFORM_TYPES[(rot + p) % PLATFORM_TYPES.length];
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
       }
-    });
-    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
+    }
+    state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   } else {
-    var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
       var rotated = bestFromPlatform(available, platform, feedMap, used);
