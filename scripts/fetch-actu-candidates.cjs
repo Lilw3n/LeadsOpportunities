@@ -15,19 +15,51 @@ const {
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
-const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 30 };
+const DEFAULT_QUOTAS = {
+  cafeyn: 20,
+  edge: 12,
+  firefox: 15,
+  google: 24,
+  yahoo: 12,
+  aggregator: 10,
+};
+const DEFAULT_SOURCE_TYPES = ["cafeyn", "edge", "firefox", "google", "yahoo", "aggregator"];
+
+function sourceTypesFor(quotas) {
+  var seen = {};
+  return DEFAULT_SOURCE_TYPES.concat(Object.keys(quotas || {})).filter(function (type) {
+    if (seen[type]) return false;
+    seen[type] = true;
+    return true;
+  });
+}
+
+function normalizeSourceType(source, feed) {
+  var s = String(source || "").toLowerCase();
+  var hay = [
+    s,
+    feed && feed.id,
+    feed && feed.name,
+    feed && feed.url,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  if (hay.indexOf("cafeyn") !== -1) return "cafeyn";
+  if (hay.indexOf("edge") !== -1 || hay.indexOf("msn") !== -1 || hay.indexOf("bing") !== -1) return "edge";
+  if (hay.indexOf("firefox") !== -1 || hay.indexOf("pocket") !== -1) return "firefox";
+  if (hay.indexOf("google") !== -1 || hay.indexOf("news.google.com") !== -1) return "google";
+  if (hay.indexOf("yahoo") !== -1) return "yahoo";
+  return s || "aggregator";
+}
 
 function resolveQueueSourceType(source) {
-  var s = String(source || "").toLowerCase();
-  if (s.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (s.indexOf("edge") !== -1 || s.indexOf("msn") !== -1 || s.indexOf("bing") !== -1) return "edge";
-  if (s.indexOf("firefox") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
-  return "aggregator";
+  return normalizeSourceType(source, null);
 }
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypesFor(quotas).forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
@@ -79,7 +111,7 @@ async function fetchText(url) {
 }
 
 async function processFeed(feed, buckets, processed, maxPerFeed) {
-  var sourceType = feed.sourceType || "aggregator";
+  var sourceType = normalizeSourceType(feed.sourceType || "aggregator", feed);
   if (!buckets[sourceType]) buckets[sourceType] = [];
   try {
     var xml = await fetchText(feed.url);
@@ -150,7 +182,10 @@ async function main() {
     console.warn("DB queue:", e.message);
   }
   var processed = new Set(state.processedUrls || []);
-  var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
+  var buckets = {};
+  sourceTypesFor(quotas).forEach(function (type) {
+    buckets[type] = [];
+  });
 
   await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
@@ -162,7 +197,7 @@ async function main() {
   });
 
   var files = existingFiles();
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypesFor(quotas).forEach(function (type) {
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var f = c.suggestedFile || "";
       if (!f.endsWith(".html")) f += ".html";
@@ -170,7 +205,7 @@ async function main() {
     });
   });
 
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypesFor(quotas).forEach(function (type) {
     var seen = new Set();
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var k = (c.url || c.title).toLowerCase();
@@ -188,21 +223,26 @@ async function main() {
   writeJson("blog-actu-candidates.json", {
     updated: new Date().toISOString(),
     quotas: quotas,
-    bySource: {
-      cafeyn: (buckets.cafeyn || []).length,
-      edge: (buckets.edge || []).length,
-      firefox: (buckets.firefox || []).length,
-      aggregator: (buckets.aggregator || []).length,
-    },
+    bySource: sourceTypesFor(quotas).reduce(function (acc, type) {
+      acc[type] = (buckets[type] || []).length;
+      return acc;
+    }, {}),
     candidates: deduped,
   });
 
   state.lastFetch = new Date().toISOString();
   writeJson("blog-actu-state.json", state);
 
-  console.log("Candidates:", deduped.length, "— cafeyn/edge/firefox/aggr:",
-    (buckets.cafeyn || []).length + "/" + (buckets.edge || []).length + "/" +
-    (buckets.firefox || []).length + "/" + (buckets.aggregator || []).length);
+  console.log(
+    "Candidates:",
+    deduped.length,
+    "—",
+    sourceTypesFor(quotas)
+      .map(function (type) {
+        return type + ":" + (buckets[type] || []).length;
+      })
+      .join(" / ")
+  );
   if (deduped.length) {
     console.log("Top 3:");
     deduped.slice(0, 3).forEach(function (c, i) {

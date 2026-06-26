@@ -37,7 +37,7 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
 
 ## Automatisation 100 % (recommandé)
 
-Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
+Chaque exécution peut **reprendre explicitement Cafeyn, Edge/Bing, Firefox/Pocket, Google News et Yahoo** :
 
 | Plateforme | Flux utilisés |
 |------------|---------------|
@@ -45,19 +45,24 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 | **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
 | **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
 | **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
+| **Yahoo** | Yahoo Actualités France + Yahoo Finance RSS (économie, budget, pouvoir d'achat) |
 
 **Sélection** :
-- `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
-- `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+- `--count=3` → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
+- `--count=5` → **1 article par canal** : Cafeyn + Edge/Bing + Firefox/Pocket + Google News + Yahoo
+- `--count=1` → rotation automatique (cafeyn → edge → firefox → google → yahoo) sur les 5 crons/jour
 
-Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
+Les candidats Google News et Yahoo restent séparés des agrégateurs génériques, avec quotas dédiés.
 
 ```bash
-# 1 article (rotation cafeyn/edge/firefox selon l'heure)
+# 1 article (rotation cafeyn/edge/firefox/google/yahoo)
 npm run blog:actu:auto
 
-# Les 3 plateformes en une fois (recommandé pour test)
+# Les 3 plateformes prioritaires en une fois
 npm run blog:actu:auto -- --count=3
+
+# Couverture large : Cafeyn + Edge/Bing + Firefox/Pocket + Google News + Yahoo
+npm run blog:actu:auto -- --count=5
 
 # Test sans écrire
 npm run blog:actu:auto -- --dry-run
@@ -90,8 +95,10 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 | Ce que vous lisez | Ce que le bot utilise |
 |-------------------|------------------------|
 | **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
-| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
+| **Edge** (MSN actu) | Bing News RSS (`https://www.bing.com/news/search?...&format=rss`) |
 | **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Google News** | RSS Google News France + requêtes assurance |
+| **Yahoo** | RSS publics Yahoo Actualités France + Yahoo Finance |
 | **Pocket** (sauvegardes) | API Pocket si tokens configurés |
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.

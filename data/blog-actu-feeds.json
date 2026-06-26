@@ -1,11 +1,13 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-06-26",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 30
+    "google": 24,
+    "yahoo": 12,
+    "aggregator": 10
   },
   "feeds": [
     {
@@ -457,6 +459,34 @@
       "enabled": true
     },
     {
+      "id": "yahoo-news-top-fr",
+      "name": "Yahoo — actualités France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-news-france",
+      "name": "Yahoo — France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/france/",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-finance-top-fr",
+      "name": "Yahoo Finance — top stories",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/topstories",
+      "enabled": true
+    },
+    {
+      "id": "yahoo-finance-fr",
+      "name": "Yahoo Finance — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
       "id": "source-edge-bing-equipe-france",
       "name": "Edge — Bing équipe de France",
       "sourceType": "edge",
@@ -475,5 +505,5 @@
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Google News et Yahoo sont detectes comme canaux dedies. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }
