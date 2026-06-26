@@ -6,7 +6,7 @@ const { getOverride } = require("./blog-content-deep.cjs");
 const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const { resolveBridge, renderBridgeHtml } = require("./blog-questionnaire-bridge.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
-const { franceMetaBlock, blogLogoBlock } = require("./france-brand.cjs");
+const { franceMetaBlock, blogLogoBlock, googleSiteVerificationMeta } = require("./france-brand.cjs");
 const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
 const { applyArticleImages } = require("./blog-article-images.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
@@ -206,7 +206,9 @@ function renderArticle(a) {
     esc(keywordsMeta) +
     '" />\n  <link rel="canonical" href="' +
     canonical +
-    '" />\n  <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />\n  <meta property="og:title" content="' +
+    '" />\n  ' +
+    googleSiteVerificationMeta() +
+    '\n  <meta property="og:title" content="' +
     esc(a.title) +
     '" />\n  <meta property="og:description" content="' +
     esc(a.description) +

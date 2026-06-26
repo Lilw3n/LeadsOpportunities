@@ -132,7 +132,7 @@ Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’UR
 **Urgent si le site n’apparait pas sur Google** : guide pas-a-pas → [`docs/INDEXATION-GOOGLE-URGENT.md`](docs/INDEXATION-GOOGLE-URGENT.md).
 
 1. [Search Console](https://search.google.com/search-console) → **Ajouter une propriete** → URL prefix `https://www.leadsopportunities.fr/`.
-2. Verifie la propriete (balise HTML deja sur l’accueil : `ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64`).
+2. Verifie la propriete (balise HTML deja sur l’accueil : `I3CAH3KoD216Gpr7VbJ6-p3IM4vGizTzxW0HsqG-HKU`).
 3. Soumets le sitemap : `https://www.leadsopportunities.fr/sitemap.xml`.
 4. **Inspection d’URL** → demande d’indexation pour l’accueil, `nos-services.html`, landings VTC/sante/credit, `france/`.
 5. Cron Vercel (`/api/mailbox/cron-sync`) envoie aussi un ping sitemap + IndexNow (Bing) chaque matin si `CRON_SECRET` est defini.

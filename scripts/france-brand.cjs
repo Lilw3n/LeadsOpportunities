@@ -1,6 +1,8 @@
 /**
  * Marque et balises SEO orientées marché France.
  */
+const { GOOGLE_SITE_VERIFICATION } = require("./site-url.cjs");
+
 const SHIELD_SVG =
   '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';
 
@@ -59,6 +61,10 @@ function blogLogoBlock() {
   );
 }
 
+function googleSiteVerificationMeta() {
+  return '<meta name="google-site-verification" content="' + GOOGLE_SITE_VERIFICATION + '" />';
+}
+
 const HOME_TITLE = "Devis assurance France | Mutuelle, auto, VTC, credit immo | Leads Opportunities";
 const HOME_DESCRIPTION =
   "Courtier assurance ORIAS en France : mutuelle, auto, habitation, emprunteur, VTC, prevoyance. Devis gratuit, 180+ villes, reponse sous 15 min.";
@@ -66,6 +72,7 @@ const HOME_DESCRIPTION =
 module.exports = {
   franceMetaBlock: franceMetaBlock,
   franceLocaleMeta: franceLocaleMeta,
+  googleSiteVerificationMeta: googleSiteVerificationMeta,
   logoBlock: logoBlock,
   seoLogoBlock: seoLogoBlock,
   blogLogoBlock: blogLogoBlock,

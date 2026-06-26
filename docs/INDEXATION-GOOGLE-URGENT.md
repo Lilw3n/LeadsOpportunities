@@ -11,7 +11,7 @@ Le site est **techniquement prêt** (robots, sitemaps, balises, redirections www
 1. Ouvrez [Google Search Console](https://search.google.com/search-console).
 2. **Ajouter une propriété** → type **Préfixe d’URL** : `https://www.leadsopportunities.fr/`
 3. **Vérification** : la balise est déjà sur l’accueil :
-   - `google-site-verification` = `ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64`
+   - `google-site-verification` = `I3CAH3KoD216Gpr7VbJ6-p3IM4vGizTzxW0HsqG-HKU`
    - Cliquez sur **Vérifier** dans Search Console.
 4. Menu **Sitemaps** → ajoutez : `https://www.leadsopportunities.fr/sitemap.xml`
 5. Attendez le statut **Réussi** (parfois quelques heures).
