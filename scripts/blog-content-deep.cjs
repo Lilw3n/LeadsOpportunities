@@ -375,6 +375,116 @@ var DEEP = {
       ]),
     ],
   },
+  "canicule-seniors-astuces-moins-chaud-mutuelle.html": {
+    keywords: [
+      "astuces canicule seniors",
+      "avoir moins chaud",
+      "personnes agees chaleur",
+      "mutuelle senior canicule",
+      "teleconsultation mutuelle",
+      "coup de chaleur prevention",
+      "hydratation senior",
+      "canicule France 2026",
+      "devis mutuelle senior",
+      "logement frais senior",
+      "hospitalisation mutuelle",
+    ],
+    extraBlocks: [
+      h2("Pourquoi les seniors souffrent plus de la chaleur"),
+      p(
+        "La sensation de soif diminue avec l'age, la sudation est moins efficace et certains medicaments aggravent la deshydratation. Les <strong>astuces gratuites</strong> (ventilation, hydratation) restent la base ; la <strong>mutuelle</strong> intervient quand un malaise necessite des soins."
+      ),
+      h2("Devis mutuelle : postes a comparer avant l'ete"),
+      ul([
+        "Hospitalisation et forfait journalier",
+        "Teleconsultation et visites infirmieres",
+        "Depassements d'honoraires medecin generaliste",
+        "Delais de carence en cas de changement recent",
+      ]),
+    ],
+  },
+  "canicule-futur-climatique-seniors-assurance-mutuelle.html": {
+    keywords: [
+      "futur climatique France",
+      "canicule seniors 2050",
+      "mutuelle changement climatique",
+      "assurance habitation secheresse",
+      "vagues chaleur frequentes",
+      "devis mutuelle senior",
+      "devis assurance habitation",
+      "personnes agees climat",
+      "canicule France 2026",
+      "adaptation logement chaleur",
+      "hospitalisation canicule",
+    ],
+    extraBlocks: [
+      h2("Projections : plus de jours a risque pour les +65 ans"),
+      p(
+        "Les rapports climatiques estiment une hausse du nombre de jours au-dessus de seuils sanitaires critiques. Pour un senior, cela signifie <strong>plus d'episodes</strong> ou la mutuelle (urgences, hospitalisation) et l'habitation (secheresse, orages) seront sollicitees."
+      ),
+      h2("Double devis recommande : sante + habitation"),
+      p(
+        "Un <a href=\"../landings/devis.html?need=sante\">devis mutuelle</a> securise les soins ; un <a href=\"../landings/devis.html?need=habitation\">devis habitation</a> couvre le patrimoine face a secheresse et degats des eaux. Les comparer en amont evite les mauvaises surprises en alerte rouge."
+      ),
+    ],
+  },
+  "canicule-plan-gouvernement-seniors-mutuelle.html": {
+    keywords: [
+      "plan national canicule",
+      "dispositif gouvernement canicule",
+      "centre accueil fraicheur",
+      "seniors canicule France",
+      "mutuelle complementaire",
+      "alerte meteo orange rouge",
+      "EHPAD canicule",
+      "devis mutuelle senior",
+      "politique publique chaleur",
+      "canicule France 2026",
+      "prefecture canicule",
+    ],
+    extraBlocks: [
+      h2("Ce que le Plan National Canicule ne finance pas"),
+      p(
+        "Sensibilisation, coordination, parfois accueil : le dispositif public ne rembourse pas vos <strong>soins hospitaliers</strong> ni vos <strong>depassements</strong>. La <strong>mutuelle senior</strong> reste le levier financier complementaire — d'ou l'interet d'un <a href=\"../landings/devis.html?need=sante\">devis mutuelle</a> avant l'ete."
+      ),
+      h2("Checklist senior : public + prive"),
+      ul([
+        "Alertes Meteo-France et mairie",
+        "Centre fraicheur le plus proche",
+        "Attestation mutuelle accessible (appli)",
+        "Numeros 15 / 112 visibles",
+        "Comparatif mutuelle hospitalisation a jour",
+      ]),
+    ],
+  },
+  "canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html": {
+    keywords: [
+      "lacunes plan canicule",
+      "indispositions gouvernement chaleur",
+      "desert medical senior",
+      "mutuelle senior canicule",
+      "reste a charge hospitalisation",
+      "Cat Nat lenteur",
+      "devis mutuelle",
+      "devis habitation",
+      "canicule France 2026",
+      "passoire thermique senior",
+      "urgences saturees",
+    ],
+    extraBlocks: [
+      h2("Quand le public ne suffit pas : exemples concrets"),
+      ul([
+        "Peu de centres fraicheur en zone rurale",
+        "Urgences saturees les jours de pic",
+        "Arretes Cat Nat secheresse publies avec retard",
+        "Logements collectifs anciens mal ventiles",
+      ]),
+      h2("Mutuelle et habitation : agir sans attendre les reformes"),
+      p(
+        "Plutot que compter sur des evolutions lentes du parc immobilier ou des effectifs hospitaliers, un <strong>devis mutuelle senior</strong> et un <strong>devis habitation</strong> permettent de securiser votre foyer des cette saison. Un courtier compare les garanties a postes equivalents."
+      ),
+    ],
+  },
   "assurance-emprunteur-loi-lemoine-2026.html": {
     keywords: [
       "assurance emprunteur",

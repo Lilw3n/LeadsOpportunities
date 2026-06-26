@@ -123,6 +123,31 @@ var I = {
     "Maison a entretenir avant l'ete — toiture et evacuations",
     "Prevention : gouttieres, toiture et declaration sinistre."
   ),
+  caniculeSeniorsCouple: img(
+    "./images/canicule/seniors-couple-ete.jpg",
+    "Couple de seniors en periode estivale — prevention canicule",
+    "Seniors : rester au frais et bien couverts cote mutuelle."
+  ),
+  caniculeLogementFrais: img(
+    "./images/canicule/logement-frais-senior.jpg",
+    "Interieur de logement ventile — senior a l'abri de la chaleur",
+    "Astuces logement : stores, ventilation, pieces fraiches."
+  ),
+  caniculeClimat: img(
+    "./images/canicule/climat-chaleur-extreme.jpg",
+    "Chaleur extreme et ciel estival — futur climatique en France",
+    "Canicules plus frequentes : anticiper mutuelle et habitation."
+  ),
+  caniculePolitique: img(
+    "./images/canicule/politique-canicule-france.jpg",
+    "Politique publique et canicule en France",
+    "Plans gouvernementaux et complement mutuelle seniors."
+  ),
+  caniculeHydratation: img(
+    "./images/canicule/hydratation-prevention.jpg",
+    "Hydratation et prevention coup de chaleur",
+    "Boire regulierement : reflexe numero un des seniors."
+  ),
   voiture: img(
     "./images/auto/voiture-route.jpg",
     "Voiture sur route — assurance auto",
@@ -286,6 +311,22 @@ var MAP = {
   "canicule-orage-inondation-cave-assurance-locataire.html": {
     hero: "caniculeInondation",
     figure: "sinistre",
+  },
+  "canicule-seniors-astuces-moins-chaud-mutuelle.html": {
+    hero: "caniculeLogementFrais",
+    figure: "caniculeHydratation",
+  },
+  "canicule-futur-climatique-seniors-assurance-mutuelle.html": {
+    hero: "caniculeClimat",
+    figure: "caniculeSeniorsCouple",
+  },
+  "canicule-plan-gouvernement-seniors-mutuelle.html": {
+    hero: "caniculePolitique",
+    figure: "caniculeSenior",
+  },
+  "canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html": {
+    hero: "caniculeUrgences",
+    figure: "mutuelleDocs",
   },
   "people-divorce-assurance-habitation-emprunteur.html": { hero: "divorce", figure: "appartLoc" },
   "darmanin-securite-habitation-assurance-emprunteur.html": { hero: "maisonFamille", figure: "creditCles" },
