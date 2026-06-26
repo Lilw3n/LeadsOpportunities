@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-25",
+  "updated": "2026-06-26",
   "sections": [
     "actu",
     "animaux",
@@ -76,6 +76,45 @@
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "canicule-mutuelle-coup-chaleur-seniors-2026.html",
+      "title": "Canicule 2026 : mutuelle, coup de chaleur et seniors — ce qui est rembourse",
+      "section": "sante",
+      "hook": "Canicule : seniors et coup de chaleur — hospitalisation et téléconsultation à vérifier.",
+      "question": "Votre mutuelle couvre-t-elle bien les urgences liées à la chaleur ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
+      "title": "Secheresse et fissures maison : assurance habitation et catastrophe naturelle",
+      "section": "habitat",
+      "hook": "Fissures après sécheresse : l'arrêté Cat Nat change tout pour l'indemnisation.",
+      "question": "Votre habitation est-elle bien couverte pour sécheresse et fissures ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "canicule-orage-inondation-cave-assurance-locataire.html",
+      "title": "Orage apres canicule : inondation de cave et assurance locataire",
+      "section": "habitat",
+      "hook": "Cave inondée après orage : locataire ou bailleur — qui déclare le sinistre ?",
+      "question": "Votre assurance locataire couvre-t-elle cave et dépendances ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
       "species": null
     },
     {
@@ -751,6 +790,71 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "coupe-du-monde-on-a-l-impression-que-nous-rentrons-a-la-maison-pochettin.html",
+      "title": "Coupe du monde. « On a l’impression que nous rentrons à la maison » : Pochettino agacé … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=coupe-du-monde-on-a-l-impression-que",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "en-direct-coupe-du-monde-2026-la-norvege-et-ses-rameurs-disputent-la-pre.html",
+      "title": "En direct. Coupe du monde 2026 : la Norvège et ses rameurs disputent la première place … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=en-direct-coupe-du-monde-2026-la-norv",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-habitation-les-sinistres-climatiques-dopent-les-prix-et-les-ex.html",
+      "title": "Assurance habitation : les sinistres climatiques dopent les prix et les exclusions de g… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-les-sinistres-cli",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "le-pape-leon-xiv-voit-les-choses-en-grand-pour-sa-visite-en-france-avec-.html",
+      "title": "Le pape Léon XIV voit les choses en grand pour sa visite en France avec cette messe géa… : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=le-pape-leon-xiv-voit-les-choses-en-gran",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "mutuelle-previfrance-une-gamme-specialement-concue-pour-les-ainees.html",
+      "title": "Mutuelle Prévifrance une gamme spécialement conçue pour les aînées. : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelle-previfrance-une-gamme-specialem",
       "matchedRule": "mutuelle",
       "species": null
     }

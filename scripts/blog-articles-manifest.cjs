@@ -126,22 +126,307 @@ module.exports = {
       tagClass: "tag-actu",
       title: "Canicule en France 2026 : habitation, sante et assurance",
       description: "Vagues de chaleur en France : degats des eaux, secheresse, coup de chaleur — habitation et mutuelle a verifier avant l'ete.",
-      meta: "7 min · Mai 2026",
+      meta: "8 min · Juin 2026",
       cardExcerpt: "Canicule en France : logement, cave, personnes fragiles.",
       cta: { href: "../landings/devis.html?need=habitation", label: "Devis habitation" },
+      heroImage: {
+        src: "./images/habitat/canicule-maison.jpg",
+        alt: "Maison sous forte chaleur estivale — canicule en France",
+        caption: "Canicule 2026 : secheresse des sols et orages violents multiplient les sinistres habitation.",
+      },
       blocks: [
-        { type: "p", text: "Chaque ete, la <strong>canicule en France</strong> fait la une : records de temperature, alertes rouges, caves inondees apres les orages. Pour votre foyer, deux dossiers a croiser : <strong>assurance habitation</strong> (batiment, degats des eaux) et <strong>mutuelle sante</strong> (soins, prevention)." },
+        {
+          type: "p",
+          text: "Chaque ete, la <strong>canicule en France</strong> fait la une : records de temperature, alertes rouges, caves inondees apres les orages. Pour votre foyer, deux dossiers a croiser : <strong>assurance habitation</strong> (batiment, degats des eaux) et <strong>mutuelle sante</strong> (soins, prevention).",
+        },
+        {
+          type: "gallery",
+          label: "Canicule : les trois risques a couvrir (logement, eau, sante)",
+          items: [
+            {
+              src: "./images/habitat/canicule-maison.jpg",
+              alt: "Maison exposee a la chaleur estivale",
+              caption: "Chaleur extreme — batiment et fondations sous tension",
+            },
+            {
+              src: "./images/canicule/inondation-degats-eaux.jpg",
+              alt: "Degats des eaux apres orage post-canicule",
+              caption: "Orages violents — caves inondees et degats des eaux",
+            },
+            {
+              src: "./images/canicule/senior-hydratation.jpg",
+              alt: "Personne agee — vigilance coup de chaleur",
+              caption: "Personnes fragiles — mutuelle et urgences",
+            },
+          ],
+        },
         { type: "h2", text: "Habitation : secheresse, fissures, inondation de cave" },
-        { type: "p", text: "Les etes extremes multiplient les sinistres : <strong>degats des eaux</strong> apres les pluies violentes, fissures liees a la secheresse des sols. Verifiez les exclusions « catastrophe naturelle » et le plafond cave." },
+        {
+          type: "figure",
+          src: "./images/canicule/secheresse-fissures.jpg",
+          alt: "Sol sec et fissures liees a la secheresse des fondations",
+          caption: "Secheresse : fissures et mouvement de terrain — role de la catastrophe naturelle.",
+        },
+        {
+          type: "p",
+          text: "Les etes extremes multiplient les sinistres : <strong>degats des eaux</strong> apres les pluies violentes, fissures liees a la secheresse des sols. Verifiez les exclusions « catastrophe naturelle » et le plafond cave. Voir aussi <a href=\"./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html\">secheresse et fissures</a> ou <a href=\"./canicule-orage-inondation-cave-assurance-locataire.html\">inondation de cave locataire</a>.",
+        },
         { type: "h2", text: "Sante : chaleur et reste a charge" },
-        { type: "p", text: "Consultations, urgences, personnes agees : une mutuelle avec de bons postes <strong>hospitalisation</strong> et soins courants limite le reste a charge en periode de forte chaleur." },
+        {
+          type: "figure",
+          src: "./images/canicule/urgences-chaleur.jpg",
+          alt: "Consultation medicale — coup de chaleur et deshydratation",
+          caption: "Urgences chaleur : teleconsultation, hospitalisation et mutuelle.",
+        },
+        {
+          type: "p",
+          text: "Consultations, urgences, personnes agees : une mutuelle avec de bons postes <strong>hospitalisation</strong> et soins courants limite le reste a charge en periode de forte chaleur. Guide detaille : <a href=\"./canicule-mutuelle-coup-chaleur-seniors-2026.html\">mutuelle et coup de chaleur seniors</a>.",
+        },
         { type: "h2", text: "Reflexes sinistre habitation" },
-        { type: "p", text: "Photos, coupure d'eau, declaration sous 5 jours ouvrables : la rapidite facilite l'indemnisation." },
+        {
+          type: "figure",
+          src: "./images/habitat/sinistre-degats.jpg",
+          alt: "Intervention apres sinistre dans un logement",
+          caption: "Declaration sous 5 jours ouvrables : photos et coupure d'eau.",
+        },
+        {
+          type: "p",
+          text: "Photos, coupure d'eau, declaration sous 5 jours ouvrables : la rapidite facilite l'indemnisation.",
+        },
       ],
       related: [
+        { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur seniors" },
+        { href: "./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html", label: "Secheresse et Cat Nat" },
         { href: "../assurance-habitation/", label: "Assurance habitation" },
         { href: "../landings/sante.html", label: "Mutuelle sante" },
-        { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle" },
+      ],
+    },
+    {
+      file: "canicule-mutuelle-coup-chaleur-seniors-2026.html",
+      section: "sante",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Canicule 2026 : mutuelle, coup de chaleur et seniors — ce qui est rembourse",
+      description: "Vague de chaleur en France : deshydratation, urgences, hospitalisation — postes mutuelle a verifier pour les personnes agees et fragiles.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Chaleur extreme : mutuelle, urgences et prevention seniors.",
+      cta: { href: "../landings/sante.html", label: "Comparer ma mutuelle" },
+      heroImage: {
+        src: "./images/canicule/senior-hydratation.jpg",
+        alt: "Personne agee en periode de forte chaleur — prevention et mutuelle",
+        caption: "Seniors et canicule : hydratation, teleconsultation et hospitalisation a anticiper.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Chaque <strong>canicule en France</strong>, les services d'urgence enregistrent une hausse des <strong>coups de chaleur</strong>, deshydratations et malaises chez les <strong>personnes agees</strong>. Votre <strong>mutuelle sante</strong> intervient sur les consultations, la teleconsultation, l'hospitalisation et parfois la prevention — a condition de connaitre vos garanties.",
+        },
+        {
+          type: "gallery",
+          label: "Sante et chaleur : trois postes mutuelle a controler",
+          items: [
+            {
+              src: "./images/canicule/senior-hydratation.jpg",
+              alt: "Senior — prevention coup de chaleur et hydratation",
+              caption: "Prevention — personnes fragiles et proches aidants",
+            },
+            {
+              src: "./images/canicule/urgences-chaleur.jpg",
+              alt: "Consultation medicale urgences chaleur",
+              caption: "Urgences — medecin traitant et SAMU",
+            },
+            {
+              src: "./images/sante/hospitalisation-chambre.jpg",
+              alt: "Chambre d'hospitalisation — prise en charge mutuelle",
+              caption: "Hospitalisation — chambre particuliere et forfait journalier",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Consultations et teleconsultation" },
+        {
+          type: "p",
+          text: "En periode de canicule, beaucoup de generalistes proposent la <strong>teleconsultation</strong> pour eviter les deplacements. Verifiez le remboursement mutuelle (souvent 100 % du ticket moderateur + depassement selon contrat). Les visites a domicile restent remboursees par l'Assurance maladie ; la mutuelle complete le reste a charge.",
+        },
+        { type: "h2", text: "2. Urgences et hospitalisation" },
+        {
+          type: "figure",
+          src: "./images/sante/hospital-care.jpg",
+          alt: "Prise en charge hospitaliere — mutuelle et Securite sociale",
+          caption: "Passage aux urgences puis hospitalisation : postes mutuelle hospitalisation decisifs.",
+        },
+        {
+          type: "p",
+          text: "Un <strong>coup de chaleur severe</strong> peut necessiter une perfusion et une surveillance en service d'urgences ou en medecine interne. Comparez vos plafonds <strong>hospitalisation</strong> (chambre particuliere, forfait journalier, honoraires depassement). Les contrats « entree de gamme » laissent parfois plusieurs centaines d'euros de reste a charge.",
+        },
+        { type: "h2", text: "3. Prevention : ce que la mutuelle peut financer" },
+        {
+          type: "p",
+          text: "Certaines mutuelles proposent des forfaits <strong>prevention</strong> (bilan sante, ostheopathie legere, materiel de mesure). En ete, l'essentiel reste gratuit : hydratation, pieces fraiches, appels reguliers aux proches. Pour les EHPAD et structures medicales, la couverture depend du contrat collectif ou individuel.",
+        },
+        { type: "h2", text: "Reflexes canicule pour les seniors" },
+        {
+          type: "p",
+          text: "Boire sans attendre la soif, eviter les sorties aux heures chaudes, garder les numeros d'urgence visibles. En cas de malaise : appeler le 15, rafraichir, ne pas laisser seul. Cote assurance, gardez votre attestation mutuelle accessible (appli ou papier) pour l'hopital.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule habitation & sante" },
+        { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle 2026" },
+        { href: "../assurance-sante/", label: "Mutuelle sante" },
+      ],
+    },
+    {
+      file: "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
+      section: "habitat",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Secheresse et fissures maison : assurance habitation et catastrophe naturelle",
+      description: "Canicule et secheresse des sols : fissures, fondations, declaration sinistre — role de l'etat Cat Nat et de la multirisque habitation.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Fissures apres secheresse : Cat Nat, MRH et indemnisation.",
+      cta: { href: "../landings/devis.html?need=habitation", label: "Devis habitation" },
+      heroImage: {
+        src: "./images/canicule/secheresse-fissures.jpg",
+        alt: "Sol sec et fissures sur facade — secheresse des fondations",
+        caption: "Secheresse des sols : fissures structurelles souvent liees a un arrete catastrophe naturelle.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Apres plusieurs mois de <strong>canicule</strong>, les sols argileux se retractent : <strong>fissures</strong> en facade, portes qui coincent, fissures en diagonal. L'<strong>assurance habitation</strong> standard couvre rarement la secheresse seule — l'indemnisation passe souvent par un <strong>arrete catastrophe naturelle (Cat Nat)</strong> secheresse.",
+        },
+        {
+          type: "gallery",
+          label: "Secheresse : du constat a l'indemnisation",
+          items: [
+            {
+              src: "./images/canicule/secheresse-fissures.jpg",
+              alt: "Fissures et sol desseche autour d'une maison",
+              caption: "Constat — photographier avant/apres chaque ete",
+            },
+            {
+              src: "./images/canicule/prevention-toiture.jpg",
+              alt: "Maison a entretenir — prevention avant l'ete",
+              caption: "Prevention — vegetation, gouttieres, joints",
+            },
+            {
+              src: "./images/habitat/sinistre-degats.jpg",
+              alt: "Expertise apres sinistre habitation",
+              caption: "Expertise — assureur et eventuel Cat Nat",
+            },
+          ],
+        },
+        { type: "h2", text: "Multirisque habitation vs catastrophe naturelle" },
+        {
+          type: "p",
+          text: "La <strong>multirisque habitation (MRH)</strong> couvre incendie, degats des eaux, tempete, parfois seisme. Les <strong>desordres de secheresse</strong> sont en general exclus sauf si un arrete Cat Nat est publie pour votre commune. Consultez le site gouvernemental des catastrophes naturelles pour verifier les arretes en cours.",
+        },
+        { type: "h2", text: "Comment declarer un sinistre secheresse" },
+        {
+          type: "figure",
+          src: "./images/habitat/maison-famille.jpg",
+          alt: "Maison individuelle — proprietaire et assurance habitation",
+          caption: "Proprietaire ou locataire : delai de declaration 10 jours apres parution de l'arrete Cat Nat.",
+        },
+        {
+          type: "p",
+          text: "Des l'apparition des fissures, <strong>photographiez</strong> et prevenez votre assureur. Si un arrete Cat Nat secheresse est publie, vous disposez en general de <strong>10 jours</strong> pour declarer le sinistre (delai allonge par rapport au sinistre classique). Un expert evaluera le lien de causalite entre secheresse et desordres.",
+        },
+        { type: "h2", text: "Locataire ou proprietaire : qui declare ?" },
+        {
+          type: "p",
+          text: "Le <strong>proprietaire</strong> declare les desordres structurels (murs porteurs, fondations). Le <strong>locataire</strong> declare les degats sur ses biens mobilier via son assurance locataire. En copropriete, le syndic centralise souvent la declaration pour les parties communes.",
+        },
+        { type: "h2", text: "Prevention avant la prochaine canicule" },
+        {
+          type: "p",
+          text: "Arrosage regulier des fondations (sans gaspillage), arbres a distance des murs, joints de facade entretenus. Mettez a jour la valeur du batiment dans votre contrat pour eviter une <strong>sous-assurance</strong> si des travaux de reparation sont necessaires.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Guide canicule habitation" },
+        { href: "./assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / proprietaire" },
+        { href: "../assurance-habitation/", label: "Assurance habitation" },
+      ],
+    },
+    {
+      file: "canicule-orage-inondation-cave-assurance-locataire.html",
+      section: "habitat",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Orage apres canicule : inondation de cave et assurance locataire",
+      description: "Pluies violentes apres vague de chaleur — cave inondee, degats des eaux : garanties MRH locataire, proprietaire et declaration sinistre.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Cave inondee apres orage : locataire, bailleur, MRH.",
+      cta: { href: "../landings/devis.html?need=habitation", label: "Assurance locataire" },
+      heroImage: {
+        src: "./images/canicule/inondation-degats-eaux.jpg",
+        alt: "Degats des eaux apres orage violent — cave ou sous-sol inonde",
+        caption: "Orage post-canicule : eaux pluviales et refoulement d'egout — reactiver vite l'assurance.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "La <strong>canicule</strong> precede souvent des <strong>orages violents</strong> : sols durcis, eaux pluviales qui s'accumulent, <strong>caves inondees</strong>, lave-linge et chaudiere endommages. En <strong>location</strong>, locataire et proprietaire ont chacun un contrat — savoir qui declare quoi evite les delais.",
+        },
+        {
+          type: "gallery",
+          label: "Inondation de cave : les etapes assurance",
+          items: [
+            {
+              src: "./images/canicule/inondation-degats-eaux.jpg",
+              alt: "Piece humide apres inondation — degats des eaux",
+              caption: "Constat — couper l'eau et electricite si danger",
+            },
+            {
+              src: "./images/habitat/appartement-locataire.jpg",
+              alt: "Appartement locataire — multirisque habitation obligatoire",
+              caption: "Locataire — MRH obligatoire et RC vie privee",
+            },
+            {
+              src: "./images/habitat/sinistre-degats.jpg",
+              alt: "Intervention apres degat des eaux",
+              caption: "Secours — pompage, deshumidification, expertise",
+            },
+          ],
+        },
+        { type: "h2", text: "Locataire : degats des eaux et mobilier" },
+        {
+          type: "p",
+          text: "L'<strong>assurance locataire</strong> (MRH) couvre vos biens mobilier, le contenu de cave (cartons, velo, electromenager) et votre <strong>responsabilite civile</strong> si vous avez laisse une fenetre ouverte causant un degat au voisin. Verifiez le plafond « cave » ou « dependances » — souvent limite a quelques milliers d'euros.",
+        },
+        { type: "h2", text: "Proprietaire bailleur : batiment et PNO" },
+        {
+          type: "figure",
+          src: "./images/habitat/bailleur-cles.jpg",
+          alt: "Clefs et logement en location — proprietaire bailleur",
+          caption: "Bailleur : assurance PNO pour le batiment, locataire pour le contenu.",
+        },
+        {
+          type: "p",
+          text: "Le <strong>proprietaire</strong> assure murs, toiture, canalisations communes via sa MRH ou sa <strong>PNO</strong>. Si l'inondation vient d'une fuite de canalisation collective, le syndic ou le bailleur ouvre le sinistre batiment. Le locataire ouvre un sinistre contenu en parallele.",
+        },
+        { type: "h2", text: "Delai et reflexes (5 jours ouvrables)" },
+        {
+          type: "p",
+          text: "Declaration sous <strong>5 jours ouvrables</strong> en general (10 jours si Cat Nat). Photos horodatees, liste des biens endommages, factures si possible. Ne jetez rien avant passage de l'expert sauf si moisissure ou securite.",
+        },
+        { type: "h2", text: "Prevention avant l'ete" },
+        {
+          type: "figure",
+          src: "./images/canicule/prevention-toiture.jpg",
+          alt: "Entretien maison avant l'ete — gouttieres et evacuations",
+          caption: "Nettoyer gouttieres et regardes — limiter les refoulements.",
+        },
+        {
+          type: "p",
+          text: "Sur elever les cartons en cave, installer des barres anti-refoulement, verifier l'etancheite des fenetres de sous-sol. Ces gestes reduisent le risque et facilitent l'indemnisation (pas de negligence).",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule habitation" },
+        { href: "./assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire vs proprietaire" },
+        { href: "./pno-bailleur-proprietaire-non-occupant.html", label: "Assurance PNO bailleur" },
       ],
     },
     {
