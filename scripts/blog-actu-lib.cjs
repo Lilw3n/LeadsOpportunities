@@ -117,6 +117,8 @@ function scoreLeadPotential(candidate) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
 
+  if (isLikelyEnglishTitle(title)) score -= 40;
+
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
@@ -143,9 +145,18 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 180 * 86400000) score -= 45;
+    else if (age > 30 * 86400000) score -= 30;
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function isLikelyEnglishTitle(title) {
+  var hay = String(title || "").toLowerCase();
+  if (/[éèêëàâùûçîïôœ]/i.test(hay)) return false;
+  var matches = hay.match(/\b(the|and|of|into|regarding|potential|sale|will|what|why|how|with|for|from|projected|lineup)\b/g);
+  return (matches || []).length >= 2;
 }
 
 function rankCandidates(candidates) {

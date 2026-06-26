@@ -1,10 +1,15 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-06-26T14:34:41.561Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/sport/coupe-du-monde/coupe-du-monde-on-a-limpression-que-nous-rentrons-a-la-maison-pochettino-agace-apres-la-defaite-des-etats-unis-d39b2302-7166-11f1-82f2-8f02834cc235?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "https://www.courrierinternational.com/live/en-direct-coupe-du-monde-2026-la-norvege-et-ses-rameurs-disputent-la-premiere-place-aux-bleus_244129_17",
+    "https://news.google.com/rss/articles/CBMiiAJBVV95cUxPczU0VXYzYlBab09MM0Z3dk45bDFIZ3FIMXRYMl9PSWFSeWJEeHYyVkNIQzdoV3ZNOXNJeEhETFVFcV9wbEdwbllvVnh4Vk1OcTg1a2JwdDFxMHhoTTZCblQtYzFDUkRvVzVjQmZjdmVQLTJEQ1Nya1BqbU53SmdyUWpvRDkxcFVwdE5kX1BDTTcxRTlEWGJKUnZEMGQxajc1X190dTN4a0dWaTVCUEcxTXdKRGZpcHdvY3lfdjYtYmdIdTdMOXdkMnBRTEtSeGVTY24wMF9aLUdnQ0s5ZHdqYWVyZ0lnc2pSWEJUNGZMYUtLTElxSUE3Nkc0cjVmWV9CazB1bjgwQmM?oc=5",
+    "https://fr.news.yahoo.com/sport/pape-l%C3%A9on-xiv-voit-choses-141610836.html",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a3e8df97eba4c9896b20de616ce555d&url=https%3a%2f%2fwww.ladepeche.fr%2f2026%2f06%2f25%2fmutuelle-previfrance-une-gamme-specialement-concue-pour-les-ainees-13427925.php&c=673355617764739874&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-06-26T14:34:42.416Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +22,51 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-06-26T14:32:18.647Z",
+      "count": 4,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "coupe-du-monde-on-a-l-impression-que-nous-rentrons-a-la-maison-pochettin.html",
+          "title": "Coupe du monde. « On a l’impression que nous rentrons à la maison » : Pochettino agacé … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "en-direct-coupe-du-monde-2026-la-norvege-et-ses-rameurs-disputent-la-pre.html",
+          "title": "En direct. Coupe du monde 2026 : la Norvège et ses rameurs disputent la première place … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Firefox — Courrier international",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "assurance-habitation-les-sinistres-climatiques-dopent-les-prix-et-les-ex.html",
+          "title": "Assurance habitation : les sinistres climatiques dopent les prix et les exclusions de g… : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "google"
+        },
+        {
+          "file": "le-pape-leon-xiv-voit-les-choses-en-grand-pour-sa-visite-en-france-avec-.html",
+          "title": "Le pape Léon XIV voit les choses en grand pour sa visite en France avec cette messe géa… : assurance habitation — que faire ?",
+          "source": "Yahoo — actualités France",
+          "sourceType": "yahoo"
+        }
+      ]
+    },
+    {
+      "at": "2026-06-26T14:34:42.416Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "mutuelle-previfrance-une-gamme-specialement-concue-pour-les-ainees.html",
+          "title": "Mutuelle Prévifrance une gamme spécialement conçue pour les aînées. : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 2
 }
