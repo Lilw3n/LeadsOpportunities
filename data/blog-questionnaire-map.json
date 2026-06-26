@@ -204,6 +204,21 @@
       "hook": "Canicule et orages : cave inondée ou fissures — l'habitation doit suivre.",
       "question": "Votre assurance habitation couvre-t-elle bien ces risques été ?"
     },
+    "canicule-mutuelle-coup-chaleur-seniors-2026.html": {
+      "section": "sante",
+      "hook": "Canicule : seniors et coup de chaleur — hospitalisation et téléconsultation à vérifier.",
+      "question": "Votre mutuelle couvre-t-elle bien les urgences liées à la chaleur ?"
+    },
+    "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html": {
+      "section": "habitat",
+      "hook": "Fissures après sécheresse : l'arrêté Cat Nat change tout pour l'indemnisation.",
+      "question": "Votre habitation est-elle bien couverte pour sécheresse et fissures ?"
+    },
+    "canicule-orage-inondation-cave-assurance-locataire.html": {
+      "section": "habitat",
+      "hook": "Cave inondée après orage : locataire ou bailleur — qui déclare le sinistre ?",
+      "question": "Votre assurance locataire couvre-t-elle cave et dépendances ?"
+    },
     "inflation-mutuelle-hausse-2026.html": {
       "section": "sante",
       "hook": "Cotisation en hausse : comparez à garanties équivalentes avant de résilier.",

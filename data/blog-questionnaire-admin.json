@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-25",
+  "updated": "2026-06-26",
   "sections": [
     "actu",
     "animaux",
@@ -76,6 +76,45 @@
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "canicule-mutuelle-coup-chaleur-seniors-2026.html",
+      "title": "Canicule 2026 : mutuelle, coup de chaleur et seniors — ce qui est rembourse",
+      "section": "sante",
+      "hook": "Canicule : seniors et coup de chaleur — hospitalisation et téléconsultation à vérifier.",
+      "question": "Votre mutuelle couvre-t-elle bien les urgences liées à la chaleur ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
+      "title": "Secheresse et fissures maison : assurance habitation et catastrophe naturelle",
+      "section": "habitat",
+      "hook": "Fissures après sécheresse : l'arrêté Cat Nat change tout pour l'indemnisation.",
+      "question": "Votre habitation est-elle bien couverte pour sécheresse et fissures ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "canicule-orage-inondation-cave-assurance-locataire.html",
+      "title": "Orage apres canicule : inondation de cave et assurance locataire",
+      "section": "habitat",
+      "hook": "Cave inondée après orage : locataire ou bailleur — qui déclare le sinistre ?",
+      "question": "Votre assurance locataire couvre-t-elle cave et dépendances ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
       "species": null
     },
     {

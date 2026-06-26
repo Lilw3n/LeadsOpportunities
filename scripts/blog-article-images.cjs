@@ -93,6 +93,36 @@ var I = {
     "Maison sous forte chaleur estivale",
     "Canicule : degats des eaux et secheresse des sols."
   ),
+  caniculeSoleil: img(
+    "./images/canicule/chaleur-soleil-maison.jpg",
+    "Fort soleil estival sur un logement — canicule en France",
+    "Vague de chaleur : anticiper habitation et sante."
+  ),
+  caniculeSecheresse: img(
+    "./images/canicule/secheresse-fissures.jpg",
+    "Sol sec et fissures — secheresse des fondations",
+    "Secheresse : fissures et mouvement de terrain a declarer."
+  ),
+  caniculeInondation: img(
+    "./images/canicule/inondation-degats-eaux.jpg",
+    "Degats des eaux apres orage violent — cave ou piece humide",
+    "Orage post-canicule : inondation de cave et degats des eaux."
+  ),
+  caniculeSenior: img(
+    "./images/canicule/senior-hydratation.jpg",
+    "Personne agee en periode de forte chaleur — prevention coup de chaleur",
+    "Seniors : hydratation, mutuelle et soins d'urgence."
+  ),
+  caniculeUrgences: img(
+    "./images/canicule/urgences-chaleur.jpg",
+    "Consultation medicale — urgences liees a la chaleur",
+    "Coup de chaleur : teleconsultation et hospitalisation mutuelle."
+  ),
+  caniculeToiture: img(
+    "./images/canicule/prevention-toiture.jpg",
+    "Maison a entretenir avant l'ete — toiture et evacuations",
+    "Prevention : gouttieres, toiture et declaration sinistre."
+  ),
   voiture: img(
     "./images/auto/voiture-route.jpg",
     "Voiture sur route — assurance auto",
@@ -248,6 +278,15 @@ var MAP = {
   "assurance-habitation-sous-assurance-sinistre.html": { hero: "sinistre", figure: "appartLoc" },
   "assurance-emprunteur-combien-economiser-lemoine.html": { hero: "signaturePret", figure: "creditCles" },
   "canicule-degats-eaux-assurance-habitation.html": { hero: "canicule", figure: "sinistre" },
+  "canicule-mutuelle-coup-chaleur-seniors-2026.html": { hero: "caniculeSenior", figure: "caniculeUrgences" },
+  "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html": {
+    hero: "caniculeSecheresse",
+    figure: "caniculeToiture",
+  },
+  "canicule-orage-inondation-cave-assurance-locataire.html": {
+    hero: "caniculeInondation",
+    figure: "sinistre",
+  },
   "people-divorce-assurance-habitation-emprunteur.html": { hero: "divorce", figure: "appartLoc" },
   "darmanin-securite-habitation-assurance-emprunteur.html": { hero: "maisonFamille", figure: "creditCles" },
   "presidentielle-2027-melenchon-saint-denis-habitation-pret.html": { hero: "politique", figure: "creditCles" },

@@ -279,6 +279,102 @@ var DEEP = {
       ]),
     ],
   },
+  "canicule-mutuelle-coup-chaleur-seniors-2026.html": {
+    keywords: [
+      "mutuelle canicule",
+      "coup de chaleur",
+      "seniors chaleur",
+      "deshydratation",
+      "teleconsultation mutuelle",
+      "hospitalisation mutuelle",
+      "urgences canicule",
+      "personnes agees",
+      "canicule France 2026",
+      "reste a charge mutuelle",
+      "prevention chaleur",
+    ],
+    extraBlocks: [
+      h2("Coups de chaleur : combien ca coute sans bonne mutuelle ?"),
+      p(
+        "Passage aux urgences, perfusion, parfois plusieurs jours d'hospitalisation : la Securite sociale rembourse une partie ; le <strong>reste a charge</strong> depend de votre <strong>mutuelle</strong> (forfait journalier, chambre particuliere, depassements d'honoraires)."
+      ),
+      h2("Teleconsultation en periode de canicule"),
+      p(
+        "Eviter les deplacements sous 40 °C : la <strong>teleconsultation</strong> est remboursee comme une consultation classique. Verifiez si votre mutuelle applique un forfait ou un plafond annuel."
+      ),
+      h2("Comparer sans perdre en hospitalisation"),
+      ul([
+        "Garder le meme niveau hospitalisation en changeant de mutuelle",
+        "Verifier delais de carence en cas de changement recent",
+        "Lire les exclusions (affections chroniques, cures thermales)",
+        "Demander une simulation avec vos postes de soins habituels",
+      ]),
+    ],
+  },
+  "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html": {
+    keywords: [
+      "secheresse fissures maison",
+      "catastrophe naturelle secheresse",
+      "assurance habitation fissures",
+      "Cat Nat secheresse",
+      "canicule fondations",
+      "retrait gonflement argile",
+      "declaration sinistre secheresse",
+      "expertise assurance habitation",
+      "multirisque habitation",
+      "proprietaire fissures",
+      "canicule France 2026",
+    ],
+    extraBlocks: [
+      h2("Retrait-gonflement des argiles : le risque silencieux"),
+      p(
+        "Sur sols argileux, la <strong>secheresse</strong> provoque un retrait puis un gonflement au retour des pluies. Les <strong>fissures</strong> peuvent evoluer sur plusieurs saisons — d'ou l'importance de photos regulieres et d'une declaration des l'apparition."
+      ),
+      h2("Arrete Cat Nat : comment verifier"),
+      p(
+        "Rendez-vous sur le site officiel des catastrophes naturelles : recherche par commune et date. Sans arrete publie au Journal officiel, l'indemnisation secheresse reste limitee aux garanties contractuelles (souvent faibles)."
+      ),
+      h2("Franchise et plafond Cat Nat secheresse"),
+      ul([
+        "Franchise legale reduite pour les particuliers (montant fixe par sinistre)",
+        "Plafond selon nature des desordres (structure vs esthetique)",
+        "Expertise obligatoire pour distinguer usure et secheresse",
+        "Delai de declaration allonge a 10 jours apres parution de l'arrete",
+      ]),
+    ],
+  },
+  "canicule-orage-inondation-cave-assurance-locataire.html": {
+    keywords: [
+      "inondation cave",
+      "degats des eaux locataire",
+      "assurance locataire cave",
+      "orage canicule France",
+      "refoulement egout",
+      "multirisque habitation locataire",
+      "declaration sinistre 5 jours",
+      "assurance PNO bailleur",
+      "cave inondee assurance",
+      "plafond mobilier cave",
+      "canicule France 2026",
+    ],
+    extraBlocks: [
+      h2("Refoulement d'egout vs infiltration toiture"),
+      p(
+        "L'assureur distingue la cause : <strong>refoulement d'egout</strong> (souvent garanti avec franchise), infiltration par facade, rupture de canalisation. La cause determine la garantie mobilier ou batiment et parfois la responsabilite du locataire."
+      ),
+      h2("Plafonds cave : le piege des contrats basiques"),
+      p(
+        "Beaucoup de contrats locataires plafonnent la <strong>cave</strong> a 1 000–3 000 €. Un lave-linge, un freezer et des cartons de archives peuvent depasser ce montant. Augmentez l'option « dependances » si vous stockez du materiel de valeur."
+      ),
+      h2("Checklist declaration rapide"),
+      ul([
+        "Couper l'eau et l'electricite en cave si risque",
+        "Photographier niveau d'eau et biens endommages",
+        "Contacter assureur sous 5 jours ouvrables (10 si Cat Nat)",
+        "Conserver factures d'achat pour prouver la valeur du mobilier",
+      ]),
+    ],
+  },
   "assurance-emprunteur-loi-lemoine-2026.html": {
     keywords: [
       "assurance emprunteur",
