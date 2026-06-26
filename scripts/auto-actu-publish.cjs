@@ -125,6 +125,7 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var usedPlatforms = new Set();
 
   available
     .filter(function (c) {
@@ -135,15 +136,18 @@ function pickCandidates(candidates, count, state) {
       if (picks.length >= count) return;
       picks.push(c);
       used.add(c.url || c.title);
+      usedPlatforms.add(candidateSourceType(c, feedMap));
     });
 
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
+      if (usedPlatforms.has(platform)) return;
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
+        usedPlatforms.add(platform);
       }
     });
     state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
@@ -155,6 +159,7 @@ function pickCandidates(candidates, count, state) {
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
+        usedPlatforms.add(platform);
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
