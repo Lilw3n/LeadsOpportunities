@@ -73,6 +73,38 @@
     return (m && m[1]) || String(addr || "").trim();
   }
 
+  function isOwnMailboxEmail(addr) {
+    var e = extractEmail(addr).toLowerCase();
+    var box = String(state.mailboxAddress || "").toLowerCase();
+    return !!(e && box && e === box);
+  }
+
+  /** E-mail client depuis payload lead ou from_addr (exclut contact@). */
+  function leadContactFromMessage(m, payload) {
+    payload = payload || parseLeadPayload(m && m.body_text);
+    if (payload && payload.email && String(payload.email).indexOf("@") > 0) {
+      var pe = String(payload.email).trim().toLowerCase();
+      if (!isOwnMailboxEmail(pe)) return pe;
+    }
+    if (m && m.from_addr && String(m.from_addr).indexOf("@") > 0) {
+      var fe = extractEmail(m.from_addr).toLowerCase();
+      if (fe.indexOf("@") > 0 && !isOwnMailboxEmail(fe)) return fe;
+    }
+    if (payload && payload.phone) return String(payload.phone).trim();
+    if (m && m.from_addr) return String(m.from_addr).trim();
+    return "";
+  }
+
+  function leadDisplayName(payload) {
+    if (!payload) return "";
+    return (
+      payload.fullName ||
+      payload.name ||
+      [payload.firstName, payload.lastName].filter(Boolean).join(" ") ||
+      ""
+    ).trim();
+  }
+
   function messageKind(m) {
     if (!m) return "other";
     if (m.direction === "outbound") return "outbound";
@@ -146,7 +178,7 @@
       var p = parseLeadPayload(m.body_text);
       if (p) {
         return (
-          [p.vertical, p.city, p.phone, p.message || p.comment].filter(Boolean).join(" · ") ||
+          [p.email, p.vertical, p.city, p.phone, p.message || p.comment].filter(Boolean).join(" · ") ||
           "Demande formulaire"
         );
       }
@@ -188,7 +220,7 @@
   function threadKeyForMessage(m) {
     var p = parseLeadPayload(m.body_text);
     var email = (p && p.email) || extractEmail(m.direction === "inbound" ? m.from_addr : m.to_addr);
-    if (email && email.indexOf("@") > 0) return email.toLowerCase();
+    if (email && email.indexOf("@") > 0 && !isOwnMailboxEmail(email)) return email.toLowerCase();
     if (m.thread_key) return String(m.thread_key).toLowerCase();
     return m.id;
   }
@@ -200,7 +232,7 @@
       if (!map[key]) {
         map[key] = {
           key: key,
-          contact: extractEmail(m.from_addr) || extractEmail(m.to_addr) || key,
+          contact: leadContactFromMessage(m) || key,
           messages: [],
         };
       }
@@ -212,6 +244,13 @@
       t.messages.sort(function (a, b) {
         return new Date(a.created_at) - new Date(b.created_at);
       });
+      var siteIn = t.messages.find(function (m) {
+        return messageKind(m) === "site" && m.direction === "inbound";
+      });
+      if (siteIn) {
+        var siteContact = leadContactFromMessage(siteIn);
+        if (siteContact) t.contact = siteContact;
+      }
       var last = t.messages[t.messages.length - 1];
       t.last = last;
       t.lastAt = last.created_at;
@@ -513,7 +552,7 @@
           fmtDate(m.created_at) +
           "</span></span>" +
           '<span class="mbx-item__from">' +
-          esc(extractEmail(m.from_addr)) +
+          esc(leadContactFromMessage(m) || extractEmail(m.from_addr)) +
           "</span>" +
           '<span class="mbx-item__preview">' +
           esc(messagePreview(m)) +
@@ -574,8 +613,17 @@
   }
 
   function renderLeadBubble(m, payload) {
+    var email = leadContactFromMessage(m, payload);
+    var emailRow =
+      email && email.indexOf("@") > 0
+        ? '<strong>E-mail :</strong> <a href="mailto:' +
+          esc(email) +
+          '">' +
+          esc(email) +
+          "</a>"
+        : "";
     var rows = [
-      ["Nom", payload.fullName || payload.name],
+      ["Nom", leadDisplayName(payload)],
       ["Tel", payload.phone],
       ["Vertical", payload.vertical],
       ["Score", payload.leadScore != null ? payload.leadScore + "/100" : null],
@@ -593,6 +641,7 @@
       '<div class="mbx-qa-bubble mbx-qa-bubble--site">' +
       '<div class="mbx-qa-bubble__label">Demande site</div>' +
       '<div class="mbx-qa-bubble__body">' +
+      (emailRow ? emailRow + "<br>" : "") +
       rows +
       (msg ? "<br><br>" + linkifyPreviewHtml(msg) : "") +
       "</div>" +
@@ -878,7 +927,16 @@
 
   function setupReplyForMessage(m) {
     if (!m) return;
-    var replyTo = m.direction === "inbound" ? extractEmail(m.from_addr) : extractEmail(m.to_addr);
+    var payload = parseLeadPayload(m.body_text);
+    var replyTo =
+      messageKind(m) === "site" && payload
+        ? leadContactFromMessage(m, payload)
+        : m.direction === "inbound"
+          ? extractEmail(m.from_addr)
+          : extractEmail(m.to_addr);
+    if (!replyTo || replyTo.indexOf("@") === -1) {
+      replyTo = m.direction === "inbound" ? extractEmail(m.from_addr) : extractEmail(m.to_addr);
+    }
     document.getElementById("mailboxReplyTo").value = replyTo;
     document.getElementById("mailboxReplySubject").value = /^re:/i.test(m.subject || "")
       ? m.subject
@@ -919,6 +977,16 @@
       "<h2>" +
       esc(t.contact) +
       "</h2>" +
+      (function () {
+        var siteMsg = t.messages.find(function (m) {
+          return messageKind(m) === "site" && m.direction === "inbound";
+        });
+        var p = siteMsg ? parseLeadPayload(siteMsg.body_text) : null;
+        var nm = leadDisplayName(p);
+        return nm && nm !== t.contact
+          ? '<p style="margin:4px 0 0;font-size:0.95rem;font-weight:600">' + esc(nm) + "</p>"
+          : "";
+      })() +
       '<p style="margin:0;color:var(--muted);font-size:0.88rem">' +
       esc(t.subject) +
       (t.needsReply ? ' · <strong style="color:#b45309">En attente de reponse</strong>' : "") +
