@@ -59,12 +59,12 @@ Pas besoin de dupliquer sur GitHub si vous n’utilisez **que** Cursor.
 ```
 Tu es l'agent blog Leads Opportunities (courtier ORIAS).
 
-Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionnaires.
+Objectif : publier des articles actu Cafeyn + Edge/Bing + Firefox/Pocket + Google News + Yahoo vers les questionnaires.
 
 Étapes obligatoires :
 1. npm install
 2. npm run blog:actu:auto -- --count=1
-   (ou --count=3 pour 1 article par plateforme en une fois)
+   (ou --count=5 pour tester tous les canaux publics en une fois)
 3. Si aucun changement, terminer sans commit.
 4. Sinon : git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
 5. Commit message : chore(blog): actu auto Cursor
@@ -85,20 +85,21 @@ npm run blog:actu:auto -- --no-ai --count=1
 
 ---
 
-## Fréquence et rotation des 3 plateformes
+## Fréquence et rotation des canaux publics
 
 | `--count` | Comportement |
 |-----------|--------------|
-| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox** sur la journée (5 runs = 5 articles) |
-| `3` | **1 Cafeyn + 1 Edge + 1 Firefox** à chaque run |
+| `1` | 1 article par run ; rotation **Cafeyn → Edge/Bing → Firefox/Pocket → Google News → Yahoo** sur la journée |
+| `3` | Socle historique : **1 Cafeyn + 1 Edge/Bing + 1 Firefox/Pocket** à chaque run |
+| `5` | Test complet : **1 article par canal public** si des candidats qualifiés existent |
 
-Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
+Exemple **5×/jour avec toutes les sources** : 5 automations à `count=1` (rotation auto) ou un test ponctuel à `count=5`.
 
 ---
 
 ## Votre routine (optionnel, 2 min)
 
-1. Lisez Cafeyn / Edge / Firefox comme d’habitude
+1. Lisez Cafeyn / Edge / Firefox / Google News / Yahoo comme d’habitude
 2. Si un titre vous intéresse : `blog/actu-inbox.html` → JSON → `data/blog-actu-queue.json`
 3. L’automation Cursor le priorise au prochain run
 
@@ -117,7 +118,7 @@ Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation a
 Dans Cursor, agent sur le repo :
 
 ```bash
-npm run blog:actu:auto -- --dry-run --count=3
+npm run blog:actu:auto -- --dry-run --count=5
 npm run verify:clarity
 ```
 

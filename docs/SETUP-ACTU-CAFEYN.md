@@ -103,12 +103,12 @@ Mergez la PR **#32** (workflow `.github/workflows/blog-actu-auto.yml`) sur `main
 
 ## Étape 6 — Vérifier que ça tourne
 
-**GitHub** → **Actions** → *Blog actu auto* → **Run workflow** (count = 1)
+**GitHub** → **Actions** → *Blog actu auto* → **Run workflow** (count = 1, ou count = 5 pour tester Cafeyn + Edge/Bing + Firefox/Pocket + Google News + Yahoo)
 
 Ou en local :
 
 ```bash
-npm run blog:actu:auto -- --dry-run --count=3
+npm run blog:actu:auto -- --dry-run --count=5
 npm run blog:actu:verify-quality
 ```
 
