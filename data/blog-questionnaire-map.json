@@ -204,6 +204,56 @@
       "hook": "Canicule et orages : cave inondée ou fissures — l'habitation doit suivre.",
       "question": "Votre assurance habitation couvre-t-elle bien ces risques été ?"
     },
+    "canicule-mutuelle-coup-chaleur-seniors-2026.html": {
+      "section": "sante",
+      "hook": "Canicule : seniors et coup de chaleur — hospitalisation et téléconsultation à vérifier.",
+      "question": "Votre mutuelle couvre-t-elle bien les urgences liées à la chaleur ?"
+    },
+    "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html": {
+      "section": "habitat",
+      "hook": "Fissures après sécheresse : l'arrêté Cat Nat change tout pour l'indemnisation.",
+      "question": "Votre habitation est-elle bien couverte pour sécheresse et fissures ?"
+    },
+    "canicule-orage-inondation-cave-assurance-locataire.html": {
+      "section": "habitat",
+      "hook": "Cave inondée après orage : locataire ou bailleur — qui déclare le sinistre ?",
+      "question": "Votre assurance locataire couvre-t-elle cave et dépendances ?"
+    },
+    "canicule-seniors-astuces-moins-chaud-mutuelle.html": {
+      "section": "sante",
+      "hook": "Seniors et canicule : astuces pour rester au frais — mutuelle à jour pour les urgences.",
+      "question": "Votre mutuelle couvre-t-elle téléconsultation et hospitalisation canicule ?"
+    },
+    "canicule-futur-climatique-seniors-assurance-mutuelle.html": {
+      "section": "sante",
+      "hook": "Climat futur : plus de canicules — mutuelle et habitation à anticiper.",
+      "question": "Vos contrats santé et habitation sont-ils adaptés aux étés à venir ?"
+    },
+    "canicule-plan-gouvernement-seniors-mutuelle.html": {
+      "section": "sante",
+      "hook": "Plan canicule de l'État : ce qui existe — et ce que la mutuelle complète.",
+      "question": "Votre mutuelle complète-t-elle bien les soins non couverts par le public ?"
+    },
+    "canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html": {
+      "section": "sante",
+      "hook": "Lacunes publiques face à la chaleur : mutuelle senior pour limiter le reste à charge.",
+      "question": "Prêt à comparer une mutuelle senior avant la prochaine canicule ?"
+    },
+    "canicule-animaux-eau-chien-chat-oiseaux-assurance.html": {
+      "section": "animaux",
+      "hook": "Canicule : chien, chat et oiseaux ont besoin d'eau — une urgence véto coûte cher sans assurance animaux.",
+      "question": "Avez-vous pensé à assurer votre chien ou votre chat avant l'été ?"
+    },
+    "insolation-canicule-que-faire-mutuelle-devis.html": {
+      "section": "sante",
+      "hook": "Insolation ou coup de chaleur : l'hospitalisation peut coûter cher sans mutuelle adaptée.",
+      "question": "Votre mutuelle couvre-t-elle bien les urgences et l'hospitalisation en période de canicule ?"
+    },
+    "canicule-panneaux-solaires-pret-aides-financer.html": {
+      "section": "habitat",
+      "hook": "Canicule : panneaux solaires, aides publiques et prêt pour financer l'autoconsommation.",
+      "question": "Souhaitez-vous une étude financement travaux énergie (eco-PTZ, crédit conso) ?"
+    },
     "inflation-mutuelle-hausse-2026.html": {
       "section": "sante",
       "hook": "Cotisation en hausse : comparez à garanties équivalentes avant de résilier.",

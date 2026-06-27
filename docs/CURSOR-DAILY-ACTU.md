@@ -60,6 +60,7 @@ Pas besoin de dupliquer sur GitHub si vous n’utilisez **que** Cursor.
 Tu es l'agent blog Leads Opportunities (courtier ORIAS).
 
 Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionnaires.
+Si aucune actu qualifiee n'est disponible, laisser le secours evergreen generer au plus 1 guide lead/jour.
 
 Étapes obligatoires :
 1. npm install
@@ -75,6 +76,7 @@ Règles :
 - Ne jamais demander de login Cafeyn
 - Ne pas dupliquer un slug existant dans blog/
 - Les articles doivent avoir CTA questionnaire utm_medium=actu_daily
+- Ne desactiver le secours evergreen (`--no-evergreen`) que pour un test strictement actu
 ```
 
 **Variante sans clé IA** (texte enrichi local, pas de Gemini) :
@@ -93,6 +95,8 @@ npm run blog:actu:auto -- --no-ai --count=1
 | `3` | **1 Cafeyn + 1 Edge + 1 Firefox** à chaque run |
 
 Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
+
+Si les flux RSS / Pocket ne remontent rien d'exploitable, `blog:actu:auto` complete avec le planning `data/blog-evergreen-lead-topics.json` : mutuelle, habitation, emprunteur, auto, prevoyance, VTC, animaux et RC Pro.
 
 ---
 

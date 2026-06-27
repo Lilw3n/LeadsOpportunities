@@ -1,0 +1,268 @@
+{
+  "topics": [
+    {
+      "id": "mutuelle-senior-hospitalisation",
+      "need": "sante",
+      "section": "sante",
+      "tag": "Sante & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Mutuelle senior : hospitalisation, optique et dentaire a verifier",
+      "description": "Guide mutuelle senior : garanties hospitalisation, optique, dentaire et reste a charge a comparer avant de demander un devis.",
+      "summary": "Un profil senior convertit mieux quand l'article aide a identifier les postes chers : chambre particuliere, depassements d'honoraires, optique, dentaire et aides auditives.",
+      "checklist": [
+        "Comparer les plafonds hospitalisation et honoraires chirurgicaux",
+        "Verifier optique, dentaire et auditif sur les besoins reels",
+        "Controler les delais de carence avant une intervention prevue",
+        "Mesurer le reste a charge en cas de chambre particuliere",
+        "Demander un devis a garanties equivalentes, pas seulement au prix"
+      ],
+      "advisorQuestions": [
+        "Age, regime social et commune de residence",
+        "Soins prevus dans les 12 prochains mois",
+        "Budget mensuel maximum et niveau de confort souhaite"
+      ]
+    },
+    {
+      "id": "famille-mutuelle-enfants-orthodontie",
+      "need": "sante",
+      "section": "sante",
+      "tag": "Sante & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Mutuelle famille : orthodontie, lunettes et pediatrie",
+      "description": "Mutuelle famille : comment comparer orthodontie, lunettes, pediatrie et hospitalisation enfant avant de lancer un questionnaire devis.",
+      "summary": "Les familles cherchent une reponse simple : couvrir les enfants sans payer des options inutiles pour les parents.",
+      "checklist": [
+        "Lister les enfants rattaches et les soins previsibles",
+        "Comparer orthodontie, optique et consultations specialistes",
+        "Verifier la prise en charge hospitalisation enfant",
+        "Regarder tiers payant et reseaux de soins",
+        "Comparer cotisation couple, famille et renforts optionnels"
+      ],
+      "advisorQuestions": [
+        "Nombre d'adultes et d'enfants a assurer",
+        "Orthodontie ou lunettes deja identifiees",
+        "Contrat collectif employeur disponible ou non"
+      ]
+    },
+    {
+      "id": "habitation-locataire-degats-eaux",
+      "need": "habitation",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Assurance habitation locataire : degats des eaux et responsabilite civile",
+      "description": "Assurance habitation locataire : garanties degats des eaux, incendie, responsabilite civile et capital mobilier a verifier avant devis.",
+      "summary": "Un locataire a souvent besoin d'un contrat rapide, mais les franchises et le capital mobilier changent fortement le niveau de protection.",
+      "checklist": [
+        "Declarer la surface, le nombre de pieces et l'usage exact",
+        "Estimer le capital mobilier a neuf ou valeur d'usage",
+        "Verifier degats des eaux, vol, incendie et bris de glace",
+        "Controler franchise et assistance relogement",
+        "Ajouter les dependances, cave ou parking si necessaire"
+      ],
+      "advisorQuestions": [
+        "Adresse, surface et statut locataire",
+        "Valeur du mobilier et objets sensibles",
+        "Sinistres habitation declares recemment"
+      ]
+    },
+    {
+      "id": "pno-proprietaire-bailleur",
+      "need": "habitation",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "PNO proprietaire bailleur : quand l'assurance devient indispensable",
+      "description": "Assurance PNO proprietaire non occupant : garanties utiles, sinistres locatifs et devis pour bailleur.",
+      "summary": "Le proprietaire bailleur convertit quand il comprend le trou de garantie entre son locataire, la copropriete et son patrimoine.",
+      "checklist": [
+        "Identifier logement vide, loue nu, meuble ou saisonnier",
+        "Verifier recours des voisins, copropriete et locataire",
+        "Comparer degats des eaux, incendie et perte de loyers",
+        "Ajouter protection juridique si litige locatif",
+        "Conserver bail, etat des lieux et attestations"
+      ],
+      "advisorQuestions": [
+        "Type de location et adresse du bien",
+        "Montant du loyer et statut copropriete",
+        "Contrat habitation du locataire disponible"
+      ]
+    },
+    {
+      "id": "assurance-emprunteur-loi-lemoine",
+      "need": "emprunteur",
+      "section": "finance",
+      "tag": "Credit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Assurance emprunteur : changer avec la loi Lemoine",
+      "description": "Assurance emprunteur et loi Lemoine : quand changer, quelles garanties comparer et comment estimer l'economie possible.",
+      "summary": "Un emprunteur deja finance peut generer un lead qualifie si l'article chiffre le gain potentiel et rassure sur l'equivalence des garanties.",
+      "checklist": [
+        "Retrouver capital restant du, mensualite et duree restante",
+        "Comparer deces, PTIA, ITT, IPT et exclusions",
+        "Verifier quotite par emprunteur",
+        "Controler conditions fumeur, sport ou profession a risque",
+        "Demander une simulation avant de resilier"
+      ],
+      "advisorQuestions": [
+        "Montant initial, capital restant du et banque",
+        "Age, profession et statut fumeur",
+        "Garanties exigees dans l'offre de pret"
+      ]
+    },
+    {
+      "id": "credit-immo-primo-accedant-assurance",
+      "need": "emprunteur",
+      "section": "finance",
+      "tag": "Credit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Premier achat immobilier : credit, assurance emprunteur et budget",
+      "description": "Premier achat immobilier : points a verifier sur credit, assurance emprunteur, quotite et budget avant un devis.",
+      "summary": "Le primo-accedant a besoin d'une check-list claire avant banque : mensualite, assurance, apport, travaux et garanties.",
+      "checklist": [
+        "Calculer mensualite avec assurance incluse",
+        "Comparer assurance banque et delegation externe",
+        "Choisir la quotite selon revenus du foyer",
+        "Prevoir travaux, taxe fonciere et charges",
+        "Verifier delais de validation medicale si necessaire"
+      ],
+      "advisorQuestions": [
+        "Prix du bien, apport et duree souhaitee",
+        "Revenus, co-emprunteur et situation professionnelle",
+        "Besoin de delegation assurance ou courtage credit"
+      ]
+    },
+    {
+      "id": "assurance-auto-jeune-conducteur",
+      "need": "auto",
+      "section": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "Assurance auto jeune conducteur : tiers, tous risques ou formule intermediaire",
+      "description": "Assurance auto jeune conducteur : comparer tiers, tous risques, franchise, assistance et bonus-malus avant devis.",
+      "summary": "Le jeune conducteur compare souvent au prix, alors que franchise, assistance et valeur du vehicule changent fortement le risque.",
+      "checklist": [
+        "Identifier valeur, age et financement du vehicule",
+        "Comparer tiers, tiers etendu et tous risques",
+        "Verifier franchise conducteur novice",
+        "Declarer conducteur principal et secondaires",
+        "Controler assistance 0 km et vehicule de remplacement"
+      ],
+      "advisorQuestions": [
+        "Date de permis et antecedents d'assurance",
+        "Vehicule, usage et stationnement",
+        "Budget mensuel et niveau de garantie souhaite"
+      ]
+    },
+    {
+      "id": "assurance-auto-malus-resilie",
+      "need": "auto",
+      "section": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "Conducteur malusse ou resilie : retrouver une assurance auto",
+      "description": "Assurance auto malus ou resiliation : documents, garanties minimales et devis pour reprendre la route legalement.",
+      "summary": "Un profil malusse ou resilie est tres qualifie : il cherche une solution rapide, conforme et adaptee au budget.",
+      "checklist": [
+        "Recuperer releve d'information complet",
+        "Lister motifs de resiliation et sinistres",
+        "Choisir une garantie realiste pour redemarrer",
+        "Comparer franchise et paiement mensuel",
+        "Eviter toute fausse declaration"
+      ],
+      "advisorQuestions": [
+        "CRM bonus-malus et date de resiliation",
+        "Nombre et nature des sinistres",
+        "Vehicule actuel et besoin d'effet immediat"
+      ]
+    },
+    {
+      "id": "prevoyance-independant-arret-travail",
+      "need": "prevoyance",
+      "section": "prevoyance",
+      "tag": "Prevoyance",
+      "tagClass": "tag-prevoyance",
+      "title": "Prevoyance independant : proteger ses revenus en arret de travail",
+      "description": "Prevoyance independant : indemnites journalieres, franchise, invalidite et capital deces a comparer avant devis.",
+      "summary": "Un independant convertit lorsqu'il visualise son revenu disponible apres quelques semaines d'arret.",
+      "checklist": [
+        "Calculer charges fixes personnelles et professionnelles",
+        "Choisir franchise 7, 15, 30 ou 90 jours",
+        "Comparer invalidite, rente et capital deces",
+        "Verifier exclusions dos, psy et sports",
+        "Coordonner prevoyance, mutuelle et tresorerie"
+      ],
+      "advisorQuestions": [
+        "Statut, revenu annuel et charges fixes",
+        "Franchise acceptable en cas d'arret",
+        "Contrats prevoyance deja en place"
+      ]
+    },
+    {
+      "id": "assurance-vtc-uber-bolt",
+      "need": "vtc",
+      "section": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Assurance VTC Uber et Bolt : RC pro, auto et attestation",
+      "description": "Assurance VTC : RC pro, auto professionnelle, assistance et attestation pour travailler avec Uber, Bolt ou Heetch.",
+      "summary": "Un chauffeur VTC a besoin d'une attestation fiable et d'un contrat coherent avec son activite reelle.",
+      "checklist": [
+        "Declarer usage transport de personnes a titre onereux",
+        "Verifier RC pro et responsabilite circulation",
+        "Comparer assistance, panne et vehicule de remplacement",
+        "Controler franchise et perte d'exploitation",
+        "Obtenir l'attestation demandee par les plateformes"
+      ],
+      "advisorQuestions": [
+        "Plateformes utilisees et chiffre d'affaires estime",
+        "Vehicule, financement et stationnement",
+        "Date de debut d'activite et antecedents"
+      ]
+    },
+    {
+      "id": "assurance-chien-chat-frais-veterinaires",
+      "need": "animaux",
+      "section": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "Assurance chien et chat : frais veterinaires, plafond et franchise",
+      "description": "Assurance chien chat : comparer frais veterinaires, plafond annuel, franchise, prevention et delai de carence.",
+      "summary": "Les proprietaires d'animaux convertissent quand le contenu relie urgence veterinaire, budget annuel et exclusions.",
+      "checklist": [
+        "Comparer plafond annuel et taux de remboursement",
+        "Verifier accident, maladie, chirurgie et prevention",
+        "Controler delais de carence et exclusions de race",
+        "Declarer age, identification et antecedents",
+        "Comparer franchise fixe et franchise annuelle"
+      ],
+      "advisorQuestions": [
+        "Espece, race, age et identification",
+        "Antecedents veterinaires connus",
+        "Budget mensuel souhaite"
+      ]
+    },
+    {
+      "id": "rc-pro-freelance-consultant",
+      "need": "rc-pro",
+      "section": "pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro",
+      "title": "RC Pro freelance : consultant, informatique et prestation de service",
+      "description": "RC Pro freelance : garanties responsabilite civile, protection juridique, cyber et devis pour consultant ou prestataire.",
+      "summary": "Le freelance cherche une attestation rapide, mais le bon contrat depend surtout de ses missions et de ses clients.",
+      "checklist": [
+        "Declarer l'activite exacte et les missions sensibles",
+        "Comparer plafonds RC exploitation et professionnelle",
+        "Ajouter protection juridique si contrats clients",
+        "Verifier cyber, donnees et sous-traitance",
+        "Conserver devis, CGV et attestations"
+      ],
+      "advisorQuestions": [
+        "Activite, chiffre d'affaires et statut",
+        "Clients grands comptes ou particuliers",
+        "Besoin d'attestation immediate ou contrat cadre"
+      ]
+    }
+  ]
+}

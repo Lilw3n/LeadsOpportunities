@@ -14,6 +14,10 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const {
+  createEvergreenLeadArticle,
+  pickEvergreenLeadTopics,
+} = require("./blog-evergreen-leads.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -171,10 +175,20 @@ async function main() {
   var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
+  var noEvergreen = process.argv.indexOf("--no-evergreen") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
 
   console.log("=== Auto actu publish ===");
-  console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  console.log(
+    "count:",
+    count,
+    "| IA:",
+    useAi ? "oui" : "non (enrich)",
+    "| evergreen:",
+    noEvergreen ? "non" : "secours quotidien",
+    "| dry-run:",
+    dryRun
+  );
   console.log("");
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
@@ -201,8 +215,7 @@ async function main() {
   var picks = pickCandidates(candidates, count, state);
 
   if (!picks.length) {
-    console.log("Aucun candidat disponible.");
-    process.exit(0);
+    console.log("Aucun candidat actu disponible.");
   }
 
   console.log("Sélection:", picks.length, "candidat(s)");
@@ -263,6 +276,57 @@ async function main() {
       source: pick.feedName || pick.source || pick.feedId,
       sourceType: platform,
     });
+  }
+
+  if (!noEvergreen && published.length < count) {
+    var missing = count - published.length;
+    var evergreenPick = pickEvergreenLeadTopics({
+      count: missing,
+      state: state,
+      dailyCap: true,
+    });
+
+    if (evergreenPick.topics.length) {
+      console.log("\n=== Secours evergreen leads ===");
+      var evergreenPublished = [];
+      evergreenPick.topics.forEach(function (topic) {
+        var article = createEvergreenLeadArticle(topic);
+        if (!article || !article.blocks || !article.blocks.length) {
+          console.warn("  Article evergreen invalide — ignoré:", topic.id);
+          return;
+        }
+
+        if (dryRun) {
+          console.log("  [dry-run]", article.file, "—", article.title);
+        } else {
+          appendPendingArticle(article);
+        }
+
+        published.push({
+          file: article.file,
+          title: article.title,
+          source: "Planning editorial Leads Opportunities",
+          sourceType: "evergreen",
+          evergreenTopicId: topic.id,
+        });
+        evergreenPublished.push(topic.id);
+      });
+
+      if (!dryRun && evergreenPublished.length) {
+        state.lastEvergreenDate = evergreenPick.today;
+        state.evergreenTopicIndex = evergreenPick.nextIndex;
+        state.evergreenPublishedTopicIds = state.evergreenPublishedTopicIds || [];
+        evergreenPublished.forEach(function (id) {
+          if (state.evergreenPublishedTopicIds.indexOf(id) === -1) {
+            state.evergreenPublishedTopicIds.push(id);
+          }
+        });
+      }
+    } else if (evergreenPick.capped) {
+      console.log("Secours evergreen deja utilise aujourd'hui — aucun article generique ajoute.");
+    } else {
+      console.log("Aucun sujet evergreen disponible.");
+    }
   }
 
   if (!published.length) {
