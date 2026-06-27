@@ -1,0 +1,101 @@
+{
+  "description": "Sujets evergreen utilises en fallback quand l'actualite ne fournit pas assez d'articles orientables vers un questionnaire lead.",
+  "topics": [
+    {
+      "id": "mutuelle-seniors-reste-a-charge",
+      "need": "sante",
+      "title": "Mutuelle seniors : comment reduire le reste a charge sans perdre les bonnes garanties",
+      "summary": "Guide pratique pour comparer hospitalisation, optique, dentaire et assistance avant de lancer un questionnaire mutuelle."
+    },
+    {
+      "id": "mutuelle-tns-independants",
+      "need": "sante",
+      "title": "Mutuelle TNS : les garanties a verifier quand on est independant",
+      "summary": "Angle lead qualifie pour artisans, freelances et dirigeants qui paient leur couverture sante sans part employeur."
+    },
+    {
+      "id": "habitation-degats-eaux-franchise",
+      "need": "habitation",
+      "title": "Degat des eaux : franchise, relogement, indemnisation, que verifier dans l'assurance habitation",
+      "summary": "Checklist habitation pour transformer une recherche sinistre en questionnaire devis assurance habitation."
+    },
+    {
+      "id": "habitation-pno-bailleur",
+      "need": "habitation",
+      "title": "PNO bailleur : pourquoi comparer l'assurance proprietaire non occupant avant un sinistre",
+      "summary": "Sujet dedie proprietaires bailleurs, vacance locative, copropriete et garanties complementaires."
+    },
+    {
+      "id": "assurance-auto-jeune-conducteur",
+      "need": "auto",
+      "title": "Assurance auto jeune conducteur : comment limiter la surprime sans etre mal couvert",
+      "summary": "Article conversion auto pour bonus-malus, conduite accompagnee, franchise et niveau de garantie."
+    },
+    {
+      "id": "assurance-auto-kilometres-reels",
+      "need": "auto",
+      "title": "Assurance auto au kilometre : pour qui est-ce rentable et quelles exclusions regarder",
+      "summary": "Guide pour conducteurs occasionnels, second vehicule et profils qui hesitent entre tiers et tous risques."
+    },
+    {
+      "id": "assurance-emprunteur-loi-lemoine",
+      "need": "emprunteur",
+      "title": "Loi Lemoine : changer d'assurance emprunteur peut-il vraiment faire baisser la mensualite",
+      "summary": "Sujet credit immobilier oriente simulation, quotite, garanties banque et questionnaire emprunteur."
+    },
+    {
+      "id": "assurance-emprunteur-probleme-sante",
+      "need": "emprunteur",
+      "title": "Assurance emprunteur avec probleme de sante : garanties, exclusions et alternatives",
+      "summary": "Article pour prospects a fort besoin d'accompagnement courtier, sans promettre d'acceptation."
+    },
+    {
+      "id": "prevoyance-independant-arret-travail",
+      "need": "prevoyance",
+      "title": "Arret de travail independant : comment dimensionner une prevoyance utile",
+      "summary": "Lead prevoyance pour TNS : franchise, rente, maintien de revenus et charges fixes."
+    },
+    {
+      "id": "prevoyance-famille-credit",
+      "need": "prevoyance",
+      "title": "Prevoyance famille : proteger revenus, credit immobilier et enfants en cas d'accident",
+      "summary": "Sujet pedagogique vers questionnaire prevoyance pour foyers avec credit et dependants."
+    },
+    {
+      "id": "assurance-vtc-attestation",
+      "need": "vtc",
+      "title": "Assurance VTC : quelles attestations verifier avant de rouler sur Uber ou Bolt",
+      "summary": "Article VTC a intention forte : RC Pro, usage professionnel, assistance et perte d'exploitation."
+    },
+    {
+      "id": "rc-pro-freelance-mission-client",
+      "need": "rc-pro",
+      "title": "RC Pro freelance : quand un client peut vous demander une attestation avant mission",
+      "summary": "Sujet pro pour freelances, consultants, artisans et prestataires qui cherchent une attestation rapide."
+    },
+    {
+      "id": "assurance-animaux-chat-chien",
+      "need": "animaux",
+      "title": "Assurance chien chat : plafond, franchise et delai de carence a comparer avant de signer",
+      "summary": "Guide animaux pour proprietaires confrontes aux frais veterinaires et aux exclusions."
+    },
+    {
+      "id": "assurance-habitation-etudiant",
+      "need": "habitation",
+      "title": "Assurance habitation etudiant : colocation, studio, responsabilite civile, que choisir",
+      "summary": "Sujet saisonnier et evergreen pour jeunes locataires, parents et colocations."
+    },
+    {
+      "id": "mutuelle-famille-orthodontie",
+      "need": "sante",
+      "title": "Mutuelle famille : orthodontie, lunettes, hospitalisation, les postes a comparer",
+      "summary": "Article sante famille pour attirer des demandes qualifiees sur niveaux de garanties."
+    },
+    {
+      "id": "assurance-auto-malus-resiliation",
+      "need": "auto",
+      "title": "Assurance auto malus ou resiliation : comment retrouver une couverture adaptee",
+      "summary": "Sujet auto a forte intention, avec approche conseil et questionnaire avant devis."
+    }
+  ]
+}

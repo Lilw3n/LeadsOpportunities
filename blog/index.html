@@ -11,7 +11,7 @@
   <meta name="target" content="France — courtier assurance ORIAS" />
   <meta name="robots" content="index,follow" />
   <title>Blog assurance France | Mutuelle, habitation, emprunteur | Leads Opportunities</title>
-  <meta name="description" content="Guides assurance en France : mutuelle, auto, habitation, emprunteur, prevoyance, VTC. Conseils courtier ORIAS, devis gratuit." />
+  <meta name="description" content="Guides assurance en France : mutuelle, auto, habitation, emprunteur, prevoyance, VTC. Filtrez par thème et trouvez l'article qui vous concerne." />
   <link rel="canonical" href="https://www.leadsopportunities.fr/blog/" />
   <link rel="alternate" type="application/rss+xml" title="Blog Leads Opportunities" href="/blog/feed.xml" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
@@ -34,7 +34,7 @@
 })();
 </script>
   <script src="/js/clarity-init.js" defer></script>
-  <link rel="stylesheet" href="./blog.css" />
+  <link rel="stylesheet" href="/blog/blog.css" />
 </head>
 <body data-blog-page="index" data-market-intent="FR">
   <header class="blog-topbar">
@@ -49,432 +49,692 @@
       </a>
     </div>
   </header>
-  <main class="blog-container">
+  <main class="blog-container blog-container--index">
     <div class="blog-hero">
       <h1>Blog &amp; conseils assurance</h1>
-      <p>Guides mutuelle, habitation, emprunteur et credit en <strong>France</strong> — plus une selection d'articles actu relies a votre protection (elections, inflation, vie quotidienne).</p>
-      <p style="margin-top:12px"><a href="../assurances/">Voir toutes nos assurances</a></p>
+      <p>Guides mutuelle, habitation, emprunteur et credit en <strong>France</strong> — filtrez par <strong>produit</strong> ou par <strong>sujet</strong> (canicule, seniors, voyage…).</p>
+      <p class="blog-hero-link"><a href="../assurances/">Voir toutes nos assurances</a></p>
     </div>
 
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Actu, culture & tendances</h2>
-<p style="color:#64748b;margin:-8px 0 16px">Presidentielles 2027, Trump, Melenchon, Darmanin, Formule 1, GTA 6, Zelda Ocarina of Time, Ligue des champions… Chaque sujet du moment, relie a assurance et pret immobilier.</p>
-    <div class="blog-grid">
-      <a class="blog-card" href="./elections-presidentielles-prevoyance-patrimoine.html">
-        <span class="blog-card-tag tag-actu">Presidentielles</span>
-        <h2>Elections presidentielles : prevoyance, patrimoine et credit immo</h2>
-        <p>Presidentielles : ce que votre assurance doit couvrir des maintenant.</p>
-        <span class="blog-card-meta">8 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-streamer-gaming-setup-materiel.html">
-        <span class="blog-card-tag tag-actu">Gaming & streaming</span>
-        <h2>Streamer, gaming : assurer son setup, sa RC pro et ses revenus</h2>
-        <p>Materiel, cyber, RC pro : le pack reflexe des streamers.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./people-divorce-assurance-habitation-emprunteur.html">
-        <span class="blog-card-tag tag-actu">Actu people</span>
-        <h2>Separation et divorce : habitation, emprunteur et prevoyance a revoir</h2>
-        <p>Separation : les contrats oublies qui coutent cher.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./inflation-mutuelle-hausse-2026.html">
-        <span class="blog-card-tag tag-actu">Inflation</span>
-        <h2>Inflation 2026 : pourquoi votre mutuelle augmente et comment reagir</h2>
-        <p>Mutuelle qui augmente ? Ce qu'il faut comparer.</p>
-        <span class="blog-card-meta">6 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./canicule-degats-eaux-assurance-habitation.html">
-        <span class="blog-card-tag tag-actu">Canicule France</span>
+    <section class="blog-filters" aria-label="Filtrer par thème">
+      <div class="blog-filters-header">
+        <h2>Explorer par thème</h2>
+        <p id="blog-filter-count">67 articles</p>
+      </div>
+      <div class="blog-filter-group">
+        <span class="blog-filter-label">Produits</span>
+        <div class="blog-filter-chips" id="blog-theme-filters">
+<button type="button" class="blog-filter-chip tag-all" data-theme="all" aria-pressed="false">Tous <span class="blog-filter-count">67</span></button>
+<button type="button" class="blog-filter-chip tag-actu" data-theme="actu" aria-pressed="false">Actu & tendances <span class="blog-filter-count">17</span></button>
+<button type="button" class="blog-filter-chip tag-sante" data-theme="sante" aria-pressed="false">Santé & mutuelle <span class="blog-filter-count">13</span></button>
+<button type="button" class="blog-filter-chip tag-habitation" data-theme="habitat" aria-pressed="false">Habitation <span class="blog-filter-count">7</span></button>
+<button type="button" class="blog-filter-chip tag-auto" data-theme="auto" aria-pressed="false">Auto & mobilité <span class="blog-filter-count">2</span></button>
+<button type="button" class="blog-filter-chip tag-animaux" data-theme="animaux" aria-pressed="false">Animaux <span class="blog-filter-count">8</span></button>
+<button type="button" class="blog-filter-chip tag-vtc" data-theme="vtc" aria-pressed="false">VTC & chauffeurs <span class="blog-filter-count">8</span></button>
+<button type="button" class="blog-filter-chip tag-prevoyance" data-theme="prevoyance" aria-pressed="false">Prévoyance <span class="blog-filter-count">3</span></button>
+<button type="button" class="blog-filter-chip tag-pro" data-theme="pro" aria-pressed="false">Pro & RC <span class="blog-filter-count">2</span></button>
+<button type="button" class="blog-filter-chip tag-patrimoine" data-theme="patrimoine" aria-pressed="false">Patrimoine <span class="blog-filter-count">1</span></button>
+<button type="button" class="blog-filter-chip tag-immo" data-theme="finance" aria-pressed="false">Crédit & immo <span class="blog-filter-count">10</span></button>
+        </div>
+      </div>
+      <div class="blog-filter-group">
+        <span class="blog-filter-label">Sujets</span>
+        <div class="blog-filter-chips blog-filter-chips--topics">
+<button type="button" class="blog-filter-chip tag-canicule" data-theme="canicule" aria-pressed="false">Canicule <span class="blog-filter-count">11</span></button>
+<button type="button" class="blog-filter-chip tag-seniors" data-theme="seniors" aria-pressed="false">Seniors <span class="blog-filter-count">4</span></button>
+<button type="button" class="blog-filter-chip tag-voyage" data-theme="voyage" aria-pressed="false">Voyage & déplacements <span class="blog-filter-count">4</span></button>
+<button type="button" class="blog-filter-chip tag-gaming" data-theme="gaming" aria-pressed="false">Gaming & culture <span class="blog-filter-count">7</span></button>
+<button type="button" class="blog-filter-chip tag-emprunteur" data-theme="emprunteur" aria-pressed="false">Emprunteur <span class="blog-filter-count">10</span></button>
+<button type="button" class="blog-filter-chip tag-politique" data-theme="politique" aria-pressed="false">Politique & élections <span class="blog-filter-count">5</span></button>
+<button type="button" class="blog-filter-chip tag-economie" data-theme="economie" aria-pressed="false">Économie & inflation <span class="blog-filter-count">5</span></button>
+        </div>
+      </div>
+      <p class="blog-filter-hint">Plusieurs thèmes possibles par article — combinez les filtres ou cliquez sur un badge dans une carte.</p>
+    </section>
+
+    <div class="blog-grid blog-grid--filtered" id="blog-grid">
+      <a class="blog-card" href="./canicule-degats-eaux-assurance-habitation.html" data-themes="actu,canicule">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule France</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span></div>
+        </div>
         <h2>Canicule en France 2026 : habitation, sante et assurance</h2>
         <p>Canicule en France : logement, cave, personnes fragiles.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./ia-metiers-assurance-tarification-2026.html">
-        <span class="blog-card-tag tag-actu">Tech & IA</span>
-        <h2>Intelligence artificielle et assurance : ce qui change pour les particuliers en 2026</h2>
-        <p>IA et assurance : mythes et realites.</p>
-        <span class="blog-card-meta">5 min · Mai 2026</span>
+      <a class="blog-card" href="./canicule-mutuelle-coup-chaleur-seniors-2026.html" data-themes="sante,canicule">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule France</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span></div>
+        </div>
+        <h2>Canicule 2026 : mutuelle, coup de chaleur et seniors — ce qui est rembourse</h2>
+        <p>Chaleur extreme : mutuelle, urgences et prevention seniors.</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./ligue-champions-assurance-voyage-deplacement.html">
-        <span class="blog-card-tag tag-actu">Ligue des champions</span>
-        <h2>Ligue des champions : assurance voyage, sante et deplacements</h2>
-        <p>Vous partez voir la C1 ? Assurances utiles.</p>
-        <span class="blog-card-meta">6 min · Mai 2026</span>
+      <a class="blog-card" href="./insolation-canicule-que-faire-mutuelle-devis.html" data-themes="sante,canicule">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule France</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span></div>
+        </div>
+        <h2>Insolation et coup de chaleur : que faire tout de suite (et role de la mutuelle)</h2>
+        <p>Insolation : gestes d'urgence, 15/SAMU et mutuelle.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./coupe-monde-2026-assurance-voyage-sante.html">
-        <span class="blog-card-tag tag-actu">Coupe du monde</span>
-        <h2>Coupe du monde 2026 : mutuelle, voyage et assurance a l'etranger</h2>
-        <p>Mondial 2026 : le pack assurance supporter.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
+      <a class="blog-card" href="./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html" data-themes="habitat,canicule">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule France</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-habitation" data-theme="habitat">Habitation</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span></div>
+        </div>
+        <h2>Secheresse et fissures maison : assurance habitation et catastrophe naturelle</h2>
+        <p>Fissures apres secheresse : Cat Nat, MRH et indemnisation.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./gta-6-sortie-assurance-gaming-materiel.html">
-        <span class="blog-card-tag tag-actu">GTA 6</span>
-        <h2>GTA 6 : assurer sa console, son PC et ses achats gaming</h2>
-        <p>Sortie GTA 6 : proteger son materiel gaming.</p>
-        <span class="blog-card-meta">6 min · Mai 2026</span>
+      <a class="blog-card" href="./canicule-orage-inondation-cave-assurance-locataire.html" data-themes="habitat,canicule">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule France</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-habitation" data-theme="habitat">Habitation</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span></div>
+        </div>
+        <h2>Orage apres canicule : inondation de cave et assurance locataire</h2>
+        <p>Cave inondee apres orage : locataire, bailleur, MRH.</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./zelda-ocarina-time-collection-assurance-habitation.html">
-        <span class="blog-card-tag tag-actu">Zelda & retro</span>
+      <a class="blog-card" href="./canicule-seniors-astuces-moins-chaud-mutuelle.html" data-themes="sante,canicule,seniors">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule seniors</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span><span class="blog-theme-chip tag-seniors" data-theme="seniors">Seniors</span></div>
+        </div>
+        <h2>Canicule et seniors : 12 astuces pour avoir moins chaud chez soi</h2>
+        <p>Seniors : rester au frais sans sortir — reflexes + mutuelle.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./canicule-futur-climatique-seniors-assurance-mutuelle.html" data-themes="actu,canicule,seniors">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule seniors</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span><span class="blog-theme-chip tag-seniors" data-theme="seniors">Seniors</span></div>
+        </div>
+        <h2>Futur climatique et seniors : pourquoi revoir mutuelle et habitation des maintenant</h2>
+        <p>Climat futur : seniors, mutuelle et logement a repenser.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./canicule-plan-gouvernement-seniors-mutuelle.html" data-themes="actu,canicule,seniors">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule seniors</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span><span class="blog-theme-chip tag-seniors" data-theme="seniors">Seniors</span></div>
+        </div>
+        <h2>Plan canicule du gouvernement : ce qui existe pour les seniors (et le role de la mutuelle)</h2>
+        <p>Plan canicule Etat : dispositifs + mutuelle complementaire.</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html" data-themes="sante,canicule,seniors">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule seniors</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span><span class="blog-theme-chip tag-seniors" data-theme="seniors">Seniors</span></div>
+        </div>
+        <h2>Canicule : les lacunes du gouvernement et pourquoi la mutuelle senior compte</h2>
+        <p>Public insuffisant ? Mutuelle et habitation pour les seniors.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./canicule-panneaux-solaires-pret-aides-financer.html" data-themes="finance,canicule">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Canicule France</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span></div>
+        </div>
+        <h2>Canicule et panneaux solaires : aides de l'Etat, collectivites et pret pour financer</h2>
+        <p>Canicule : panneaux solaires, aides publiques et pret pour financer.</p>
+        <span class="blog-card-meta">9 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./gta-6-pret-immobilier-budget-gaming.html" data-themes="finance,emprunteur,gaming">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">GTA 6 & credit</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span><span class="blog-theme-chip tag-gaming" data-theme="gaming">Gaming & culture</span></div>
+        </div>
+        <h2>GTA 6 et pret immobilier : financer son setup sans fragiliser son credit</h2>
+        <p>GTA 6 : le bon budget sans mettre le pret en danger.</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./gta-6-precommande-ps5-pro-credit-conso-france.html" data-themes="finance,emprunteur,gaming">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">GTA 6 & credit conso</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span><span class="blog-theme-chip tag-gaming" data-theme="gaming">Gaming & culture</span></div>
+        </div>
+        <h2>Precommandes GTA 6 et PS5 Pro : credit conso en France, ce que la loi autorise</h2>
+        <p>PS5 Pro + GTA 6 : le credit conso est-il legal en France ? Oui, sous conditions.</p>
+        <span class="blog-card-meta">9 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./gta-6-ps5-pro-budget-1000-euros-pret-conso.html" data-themes="finance,emprunteur,gaming">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">GTA 6 & credit conso</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span><span class="blog-theme-chip tag-gaming" data-theme="gaming">Gaming & culture</span></div>
+        </div>
+        <h2>PS5 Pro + GTA 6 : budget 1 000 € et mensualites d'un pret conso</h2>
+        <p>Setup GTA 6 a 1 000 € : combien par mois avec un pret conso ?</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html" data-themes="finance,emprunteur,gaming">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">GTA 6 & credit conso</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span><span class="blog-theme-chip tag-gaming" data-theme="gaming">Gaming & culture</span></div>
+        </div>
+        <h2>Pret conso gaming : comparer pret personnel, credit magasin et 3x pour GTA 6</h2>
+        <p>GTA 6 / PS5 Pro : quelle forme de credit choisir en magasin ou en ligne ?</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./zelda-ocarina-time-collection-assurance-habitation.html" data-themes="actu,gaming">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Zelda & retro</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-gaming" data-theme="gaming">Gaming & culture</span></div>
+        </div>
         <h2>Zelda Ocarina of Time : collections retro, valeur et assurance habitation</h2>
         <p>Collection Zelda : estimez et assurez vos pieces.</p>
         <span class="blog-card-meta">6 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./presidentielle-2027-melenchon-saint-denis-habitation-pret.html">
-        <span class="blog-card-tag tag-actu">Presidentielle 2027</span>
+      <a class="blog-card" href="./trump-politique-us-taux-pret-assurance-emprunteur.html" data-themes="finance,politique,economie">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Trump & marches</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-politique" data-theme="politique">Politique & élections</span><span class="blog-theme-chip tag-economie" data-theme="economie">Économie & inflation</span></div>
+        </div>
+        <h2>Trump, marches financiers et pret immobilier en France</h2>
+        <p>Trump et les taux : ce que ca change pour votre pret.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./presidentielle-2027-melenchon-saint-denis-habitation-pret.html" data-themes="actu,politique,economie">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Presidentielle 2027</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-politique" data-theme="politique">Politique & élections</span><span class="blog-theme-chip tag-economie" data-theme="economie">Économie & inflation</span></div>
+        </div>
         <h2>Presidentielle 2027, Melenchon et Saint-Denis : habitation et pret immo</h2>
         <p>2027 et Saint-Denis : assurance habitation & pret.</p>
         <span class="blog-card-meta">8 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./formule-1-grands-prix-assurance-voyage-auto.html">
-        <span class="blog-card-tag tag-actu">Formule 1</span>
+      <a class="blog-card" href="./formule-1-grands-prix-assurance-voyage-auto.html" data-themes="actu,voyage">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Formule 1</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-voyage" data-theme="voyage">Voyage & déplacements</span></div>
+        </div>
         <h2>Formule 1 : assurance voyage, auto et deplacements pour les Grands Prix</h2>
         <p>Grands Prix F1 : le pack assurance fan.</p>
         <span class="blog-card-meta">7 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./darmanin-securite-habitation-assurance-emprunteur.html">
-        <span class="blog-card-tag tag-actu">Securite & assurance</span>
+      <a class="blog-card" href="./darmanin-securite-habitation-assurance-emprunteur.html" data-themes="actu">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Securite & assurance</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span></div>
+        </div>
         <h2>Securite, politique publique et assurance habitation : ce qui compte en 2027</h2>
         <p>Securite du quartier et assurance du logement.</p>
         <span class="blog-card-meta">7 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./g7-evian-prevoyance-patrimoine-credit-2026.html">
-        <span class="blog-card-tag tag-actu">G7 & économie</span>
-        <h2>Sommet du G7 a Evian : prevoyance, patrimoine et credit immobilier</h2>
-        <p>Sommet du G7 : securiser pret, epargne et revenus des maintenant.</p>
-        <span class="blog-card-meta">8 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./coupe-monde-voyage-assurance-sante-etranger-2026.html">
-        <span class="blog-card-tag tag-actu">Coupe du monde</span>
-        <h2>Coupe du monde 2026 : voyager au Canada, USA ou Mexique — assurance sante</h2>
-        <p>Supporter en CDM : la mutuelle francaise ne suffit pas toujours a l'etranger.</p>
-        <span class="blog-card-meta">7 min · Juin 2026</span>
-      </a>
-    </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Sante & mutuelle</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./mutuelle-sante-hospitalisation-2026.html">
-        <span class="blog-card-tag tag-sante">Hospitalisation</span>
-        <h2>Mutuelle hospitalisation 2026 : chambre particuliere, forfait jour</h2>
-        <p>Hospitalisation : les postes qui comptent.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./mutuelle-remboursement-optique-dentaire-2026.html">
-        <span class="blog-card-tag tag-sante">Optique & dentaire</span>
+      <a class="blog-card" href="./mutuelle-remboursement-optique-dentaire-2026.html" data-themes="sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Optique & dentaire</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
         <h2>Remboursement mutuelle optique et dentaire en 2026 : lire le tableau</h2>
         <p>Optique et dentaire : decoder les % BRSS.</p>
         <span class="blog-card-meta">8 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./mutuelle-sante-famille-petit-budget-2026.html">
-        <span class="blog-card-tag tag-sante">Famille</span>
+      <a class="blog-card" href="./mutuelle-sante-famille-petit-budget-2026.html" data-themes="sante,prevoyance">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Famille</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span><span class="blog-theme-chip tag-prevoyance" data-theme="prevoyance">Prévoyance</span></div>
+        </div>
         <h2>Mutuelle sante famille petit budget 2026 : couvrir toute la famille</h2>
         <p>Famille : le bon niveau sans surpayer.</p>
         <span class="blog-card-meta">7 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./mutuelle-sante-5-criteres.html">
-        <span class="blog-card-tag tag-sante">Sante</span>
-        <h2>Mutuelle sante : 5 criteres pour bien choisir en 2026</h2>
-        <p>5 critères concrets + questionnaire pour cibler le bon niveau.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
+      <a class="blog-card" href="./canicule-animaux-eau-chien-chat-oiseaux-assurance.html" data-themes="animaux,canicule">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-animaux">Canicule & animaux</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span><span class="blog-theme-chip tag-canicule" data-theme="canicule">Canicule</span></div>
+        </div>
+        <h2>Canicule : chien, chat, oiseaux — comment les hydrater et les assurer</h2>
+        <p>Canicule et animaux : eau, urgence vet et assurance.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./questionnaire-mutuelle-quel-niveau-choisir.html">
-        <span class="blog-card-tag tag-sante">Guide pratique</span>
+      <a class="blog-card" href="./chat-puces-tiques-assurance-remboursement.html" data-themes="animaux,sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-animaux">Santé chat</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
+        <h2>Puces et tiques chez le chat : soins, prévention et assurance</h2>
+        <p>Puces sur chat : soins, budget et assurance.</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-vtc-franchise-garanties-2026.html" data-themes="vtc">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">Franchise</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span></div>
+        </div>
+        <h2>Franchise assurance VTC : comment ca marche en 2026</h2>
+        <p>Franchise VTC : le vrai cout apres sinistre.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./taux-credit-immobilier-2026-frais-dossier.html" data-themes="finance,emprunteur">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-immo">Taux & frais</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span></div>
+        </div>
+        <h2>Taux credit immobilier 2026 : frais de dossier et assurance emprunteur</h2>
+        <p>Taux 2026 + frais caches du pret.</p>
+        <span class="blog-card-meta">9 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./rachat-credit-immobilier-guide-2026.html" data-themes="finance,emprunteur,animaux">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-immo">Rachat</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span></div>
+        </div>
+        <h2>Rachat credit immobilier 2026 : quand ca vaut le coup</h2>
+        <p>Rachat credit : baisser la mensualite.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./questionnaire-mutuelle-quel-niveau-choisir.html" data-themes="sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Guide pratique</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
         <h2>Quel niveau de mutuelle choisir ? Le questionnaire qui tranche en 3 minutes</h2>
         <p>Entrée, confort ou premium : le bon niveau en 3 min.</p>
         <span class="blog-card-meta">6 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./mutuelle-obesite-medicaments-rembourses-juin-2026.html">
-        <span class="blog-card-tag tag-sante">Mutuelle</span>
-        <h2>Obesite : medicaments rembourses — ce que votre mutuelle doit couvrir</h2>
-        <p>Nouveau remboursement : votre mutuelle est-elle au bon niveau ?</p>
-        <span class="blog-card-meta">7 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./cadmium-depistage-rembourse-mutuelle-2026.html">
-        <span class="blog-card-tag tag-sante">Prevention</span>
-        <h2>Cadmium : depistage rembourse — prevention et mutuelle complementaire</h2>
-        <p>Depistage rembourse : verifiez vos garanties prevention.</p>
-        <span class="blog-card-meta">6 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./lieu-de-r-xe9-sidence-intoxication-chronique-analyse-d-urine-cinq-questi.html">
-        <span class="blog-card-tag tag-sante">Santé & mutuelle</span>
-        <h2>Lieu de r&#xE9;sidence, intoxication chronique, analyse d'urine... Cinq questions sur l… : mutuelle et remboursements — que faire ?</h2>
-        <p>Lieu de r&#xE9;sidence, intoxication chronique, analyse d'urine... Cinq questions sur les tests de d&#xE9;pist — impact sur votre assurance.</p>
-        <span class="blog-card-meta">7 min · Juin 2026</span>
-      </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
-      <a class="btn btn-primary" href="../landings/questionnaire.html?need=sante&journey=standard">Questionnaire mutuelle</a>
-    </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Habitation & emprunteur</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./assurance-habitation-locataire-proprietaire-2026.html">
-        <span class="blog-card-tag tag-habitation">Habitation</span>
-        <h2>Assurance habitation 2026 : locataire, proprietaire, colocation</h2>
-        <p>Locataire ou proprio : les garanties obligatoires.</p>
-        <span class="blog-card-meta">8 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-emprunteur-loi-lemoine-2026.html">
-        <span class="blog-card-tag tag-habitation">Emprunteur</span>
-        <h2>Assurance emprunteur 2026 : loi Lemoine, changer et economiser</h2>
-        <p>Loi Lemoine : reduire le cout de votre pret.</p>
-        <span class="blog-card-meta">9 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./pno-bailleur-proprietaire-non-occupant.html">
-        <span class="blog-card-tag tag-habitation">PNO</span>
-        <h2>PNO : assurance proprietaire non occupant pour bailleurs</h2>
-        <p>Bailleur : la PNO en questions.</p>
-        <span class="blog-card-meta">6 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-habitation-sous-assurance-sinistre.html">
-        <span class="blog-card-tag tag-habitation">Habitation</span>
+      <a class="blog-card" href="./assurance-habitation-sous-assurance-sinistre.html" data-themes="habitat">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-habitation">Habitation</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-habitation" data-theme="habitat">Habitation</span></div>
+        </div>
         <h2>Sous-assurance habitation : le piège qui ruine un sinistre</h2>
         <p>Sinistre refusé ou mal indemnisé : causes fréquentes.</p>
         <span class="blog-card-meta">7 min · Juin 2026</span>
       </a>
-      <a class="blog-card" href="./assurance-emprunteur-combien-economiser-lemoine.html">
-        <span class="blog-card-tag tag-habitation">Économies</span>
+      <a class="blog-card" href="./vtc-premiere-course-checklist-assurance.html" data-themes="vtc">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">Checklist VTC</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span></div>
+        </div>
+        <h2>Avant votre première course VTC : checklist assurance (Uber, Bolt, Heetch)</h2>
+        <p>Checklist assurance avant la 1re course.</p>
+        <span class="blog-card-meta">5 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-emprunteur-combien-economiser-lemoine.html" data-themes="habitat">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-habitation">Économies</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-habitation" data-theme="habitat">Habitation</span></div>
+        </div>
         <h2>Assurance emprunteur : combien pouvez-vous économiser avec la Lemoine ?</h2>
         <p>Lemoine : combien sur 20 ans de prêt ?</p>
         <span class="blog-card-meta">7 min · Juin 2026</span>
       </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
-      <a class="btn btn-primary" href="../landings/questionnaire.html?need=habitation&journey=standard">Questionnaire habitation</a>
-    </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Auto & mobilite</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./assurance-auto-jeune-conducteur-2026.html">
-        <span class="blog-card-tag tag-auto">Jeune conducteur</span>
+      <a class="blog-card" href="./emprunteur-non-residents-investissement-immobilier-2026.html" data-themes="finance,emprunteur">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Emprunteur</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span></div>
+        </div>
+        <h2>Investir en France sans y resider : assurance emprunteur et pret immo</h2>
+        <p>Non-resident qui achete en France : l'assurance emprunteur est le vrai sujet.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./mutuelle-obesite-medicaments-rembourses-juin-2026.html" data-themes="sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Mutuelle</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
+        <h2>Obesite : medicaments rembourses — ce que votre mutuelle doit couvrir</h2>
+        <p>Nouveau remboursement : votre mutuelle est-elle au bon niveau ?</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./cadmium-depistage-rembourse-mutuelle-2026.html" data-themes="sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Prevention</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
+        <h2>Cadmium : depistage rembourse — prevention et mutuelle complementaire</h2>
+        <p>Depistage rembourse : verifiez vos garanties prevention.</p>
+        <span class="blog-card-meta">6 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./g7-evian-prevoyance-patrimoine-credit-2026.html" data-themes="actu,politique,economie">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">G7 & économie</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-politique" data-theme="politique">Politique & élections</span><span class="blog-theme-chip tag-economie" data-theme="economie">Économie & inflation</span></div>
+        </div>
+        <h2>Sommet du G7 a Evian : prevoyance, patrimoine et credit immobilier</h2>
+        <p>Sommet du G7 : securiser pret, epargne et revenus des maintenant.</p>
+        <span class="blog-card-meta">8 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./coupe-monde-voyage-assurance-sante-etranger-2026.html" data-themes="actu,voyage">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Coupe du monde</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-voyage" data-theme="voyage">Voyage & déplacements</span></div>
+        </div>
+        <h2>Coupe du monde 2026 : voyager au Canada, USA ou Mexique — assurance sante</h2>
+        <p>Supporter en CDM : la mutuelle francaise ne suffit pas toujours a l'etranger.</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./lieu-de-r-xe9-sidence-intoxication-chronique-analyse-d-urine-cinq-questi.html" data-themes="sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Santé & mutuelle</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
+        <h2>Lieu de r&#xE9;sidence, intoxication chronique, analyse d'urine... Cinq questions sur l… : mutuelle et remboursements — que faire ?</h2>
+        <p>Lieu de r&#xE9;sidence, intoxication chronique, analyse d'urine... Cinq questions sur les tests de d&#xE9;pist — impact sur votre assurance.</p>
+        <span class="blog-card-meta">7 min · Juin 2026</span>
+      </a>
+      <a class="blog-card" href="./elections-presidentielles-prevoyance-patrimoine.html" data-themes="actu,politique,economie">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Presidentielles</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-politique" data-theme="politique">Politique & élections</span><span class="blog-theme-chip tag-economie" data-theme="economie">Économie & inflation</span></div>
+        </div>
+        <h2>Elections presidentielles : prevoyance, patrimoine et credit immo</h2>
+        <p>Presidentielles : ce que votre assurance doit couvrir des maintenant.</p>
+        <span class="blog-card-meta">8 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-streamer-gaming-setup-materiel.html" data-themes="actu,gaming">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Gaming & streaming</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-gaming" data-theme="gaming">Gaming & culture</span></div>
+        </div>
+        <h2>Streamer, gaming : assurer son setup, sa RC pro et ses revenus</h2>
+        <p>Materiel, cyber, RC pro : le pack reflexe des streamers.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./people-divorce-assurance-habitation-emprunteur.html" data-themes="actu">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Actu people</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span></div>
+        </div>
+        <h2>Separation et divorce : habitation, emprunteur et prevoyance a revoir</h2>
+        <p>Separation : les contrats oublies qui coutent cher.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./inflation-mutuelle-hausse-2026.html" data-themes="actu,politique,economie">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Inflation</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-politique" data-theme="politique">Politique & élections</span><span class="blog-theme-chip tag-economie" data-theme="economie">Économie & inflation</span></div>
+        </div>
+        <h2>Inflation 2026 : pourquoi votre mutuelle augmente et comment reagir</h2>
+        <p>Mutuelle qui augmente ? Ce qu'il faut comparer.</p>
+        <span class="blog-card-meta">6 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./ia-metiers-assurance-tarification-2026.html" data-themes="actu">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Tech & IA</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span></div>
+        </div>
+        <h2>Intelligence artificielle et assurance : ce qui change pour les particuliers en 2026</h2>
+        <p>IA et assurance : mythes et realites.</p>
+        <span class="blog-card-meta">5 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./ligue-champions-assurance-voyage-deplacement.html" data-themes="actu,voyage">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Ligue des champions</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-voyage" data-theme="voyage">Voyage & déplacements</span></div>
+        </div>
+        <h2>Ligue des champions : assurance voyage, sante et deplacements</h2>
+        <p>Vous partez voir la C1 ? Assurances utiles.</p>
+        <span class="blog-card-meta">6 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./coupe-monde-2026-assurance-voyage-sante.html" data-themes="actu,voyage">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">Coupe du monde</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-voyage" data-theme="voyage">Voyage & déplacements</span></div>
+        </div>
+        <h2>Coupe du monde 2026 : mutuelle, voyage et assurance a l'etranger</h2>
+        <p>Mondial 2026 : le pack assurance supporter.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./gta-6-sortie-assurance-gaming-materiel.html" data-themes="actu,emprunteur,gaming">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-actu">GTA 6</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-actu" data-theme="actu">Actu & tendances</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span><span class="blog-theme-chip tag-gaming" data-theme="gaming">Gaming & culture</span></div>
+        </div>
+        <h2>GTA 6 : assurer sa console, son PC et ses achats gaming</h2>
+        <p>Sortie GTA 6 : proteger son materiel gaming.</p>
+        <span class="blog-card-meta">6 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-habitation-locataire-proprietaire-2026.html" data-themes="habitat">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-habitation">Habitation</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-habitation" data-theme="habitat">Habitation</span></div>
+        </div>
+        <h2>Assurance habitation 2026 : locataire, proprietaire, colocation</h2>
+        <p>Locataire ou proprio : les garanties obligatoires.</p>
+        <span class="blog-card-meta">8 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-emprunteur-loi-lemoine-2026.html" data-themes="habitat,emprunteur">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-habitation">Emprunteur</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-habitation" data-theme="habitat">Habitation</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span></div>
+        </div>
+        <h2>Assurance emprunteur 2026 : loi Lemoine, changer et economiser</h2>
+        <p>Loi Lemoine : reduire le cout de votre pret.</p>
+        <span class="blog-card-meta">9 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./pno-bailleur-proprietaire-non-occupant.html" data-themes="habitat">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-habitation">PNO</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-habitation" data-theme="habitat">Habitation</span></div>
+        </div>
+        <h2>PNO : assurance proprietaire non occupant pour bailleurs</h2>
+        <p>Bailleur : la PNO en questions.</p>
+        <span class="blog-card-meta">6 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./mutuelle-sante-hospitalisation-2026.html" data-themes="sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Hospitalisation</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
+        <h2>Mutuelle hospitalisation 2026 : chambre particuliere, forfait jour</h2>
+        <p>Hospitalisation : les postes qui comptent.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-auto-jeune-conducteur-2026.html" data-themes="auto">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-auto">Jeune conducteur</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-auto" data-theme="auto">Auto & mobilité</span></div>
+        </div>
         <h2>Assurance auto jeune conducteur 2026 : permis, bonus, astuces</h2>
         <p>Premier vehicule : eviter la prime excessive.</p>
         <span class="blog-card-meta">7 min · Mai 2026</span>
       </a>
-      <a class="blog-card" href="./assurance-auto-bonus-malus.html">
-        <span class="blog-card-tag tag-auto">Auto</span>
-        <h2>Assurance auto : bonus, malus et coefficient 2026</h2>
-        <p>Bonus-malus explique.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
-      <a class="btn btn-primary" href="../landings/questionnaire.html?need=auto&journey=standard">Questionnaire auto</a>
-    </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Prevoyance & protection</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./assurance-deces-obseques-prevoyance.html">
-        <span class="blog-card-tag tag-prevoyance">Deces</span>
+      <a class="blog-card" href="./assurance-deces-obseques-prevoyance.html" data-themes="prevoyance">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-prevoyance">Deces</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-prevoyance" data-theme="prevoyance">Prévoyance</span></div>
+        </div>
         <h2>Assurance deces et obseques : capital, prevoyance, transmission</h2>
         <p>Capital deces : combien souscrire ?</p>
         <span class="blog-card-meta">6 min · Mai 2026</span>
       </a>
-      <a class="blog-card" href="./prevoyance-independants-guide.html">
-        <span class="blog-card-tag tag-prevoyance">Prevoyance</span>
+      <a class="blog-card" href="./rc-pro-freelance-artisan-guide.html" data-themes="pro">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-pro">RC Pro</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-pro" data-theme="pro">Pro & RC</span></div>
+        </div>
+        <h2>RC Pro freelance et artisan : obligations et comparatif 2026</h2>
+        <p>Freelance : RC Pro obligatoire ou pas ?</p>
+        <span class="blog-card-meta">8 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-vie-epargne-retraite-patrimoine.html" data-themes="patrimoine">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-patrimoine">Assurance-vie</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-patrimoine" data-theme="patrimoine">Patrimoine</span></div>
+        </div>
+        <h2>Assurance-vie, epargne et retraite : construire son patrimoine en 2026</h2>
+        <p>Epargne long terme : par ou commencer ?</p>
+        <span class="blog-card-meta">8 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-animaux-comment-choisir.html" data-themes="animaux">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-animaux">Animaux</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span></div>
+        </div>
+        <h2>Assurance animaux : comment choisir en 2026</h2>
+        <p>Plafond, franchise, carence : la methode.</p>
+        <span class="blog-card-meta">9 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-chien-frais-veterinaires.html" data-themes="animaux">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-animaux">Chien</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span></div>
+        </div>
+        <h2>Assurance chien : frais veterinaires et remboursements 2026</h2>
+        <p>Frais vet chien : ordres de grandeur.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-chat-guide-complet.html" data-themes="animaux">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-animaux">Chat</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span></div>
+        </div>
+        <h2>Assurance chat : guide complet 2026</h2>
+        <p>Guide assurance chat complet.</p>
+        <span class="blog-card-meta">8 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-chiot-chaton-quand-assurer.html" data-themes="animaux">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-animaux">Chiot</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span></div>
+        </div>
+        <h2>Chiot et chaton : quand souscrire une assurance animaux ?</h2>
+        <p>Chiot / chaton : le bon moment.</p>
+        <span class="blog-card-meta">6 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./comparatif-santevet-bulle-bleue-kozoo.html" data-themes="animaux">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-animaux">Comparatif</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-animaux" data-theme="animaux">Animaux</span></div>
+        </div>
+        <h2>Comparatif Santévet, Bulle Bleue, Kozoo : assurance animaux</h2>
+        <p>Santévet, Bulle Bleue, Kozoo : comparer.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-vtc-moins-cher-2026.html" data-themes="vtc">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">VTC</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span></div>
+        </div>
+        <h2>Assurance VTC moins cher en 2026 : 7 leviers</h2>
+        <p>7 leviers pour payer moins cher.</p>
+        <span class="blog-card-meta">8 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-vtc-rc-pro-garanties.html" data-themes="vtc,pro">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">RC Pro</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span><span class="blog-theme-chip tag-pro" data-theme="pro">Pro & RC</span></div>
+        </div>
+        <h2>RC Pro VTC : garanties essentielles avant de signer</h2>
+        <p>RC Pro VTC : le minimum.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-vtc-creation-chauffeur.html" data-themes="vtc">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">Creation</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span></div>
+        </div>
+        <h2>Nouveau chauffeur VTC : assurer son activite des le depart</h2>
+        <p>Nouveau chauffeur : par ou commencer.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-vtc-uber-bolt-heetch.html" data-themes="vtc">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">Plateformes</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span></div>
+        </div>
+        <h2>VTC Uber, Bolt, Heetch : contrat compatible plateformes</h2>
+        <p>Uber Bolt Heetch : contrat adapte.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-vtc-renouvellement-resiliation.html" data-themes="vtc">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">Resiliation</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span></div>
+        </div>
+        <h2>Assurance VTC : renouvellement, resiliation et loi Hamon</h2>
+        <p>Renouveler ou changer de VTC.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./comparatif-vtc-zephir-solly-azar.html" data-themes="vtc">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-vtc">Comparatif</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-vtc" data-theme="vtc">VTC & chauffeurs</span></div>
+        </div>
+        <h2>Comparatif VTC Zéphir, Solly Azar, Allianz : que regarder ?</h2>
+        <p>Zéphir, Solly Azar, Allianz VTC.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./mutuelle-sante-5-criteres.html" data-themes="sante">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-sante">Sante</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-sante" data-theme="sante">Santé & mutuelle</span></div>
+        </div>
+        <h2>Mutuelle sante : 5 criteres pour bien choisir en 2026</h2>
+        <p>5 critères concrets + questionnaire pour cibler le bon niveau.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./pret-immo-erreurs-a-eviter.html" data-themes="finance,emprunteur">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-immo">Immo</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-immo" data-theme="finance">Crédit & immo</span><span class="blog-theme-chip tag-emprunteur" data-theme="emprunteur">Emprunteur</span></div>
+        </div>
+        <h2>Pret immobilier : 7 erreurs a eviter en 2026</h2>
+        <p>Pret immo : erreurs courantes.</p>
+        <span class="blog-card-meta">8 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./assurance-auto-bonus-malus.html" data-themes="auto">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-auto">Auto</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-auto" data-theme="auto">Auto & mobilité</span></div>
+        </div>
+        <h2>Assurance auto : bonus, malus et coefficient 2026</h2>
+        <p>Bonus-malus explique.</p>
+        <span class="blog-card-meta">7 min · Mai 2026</span>
+      </a>
+      <a class="blog-card" href="./prevoyance-independants-guide.html" data-themes="prevoyance">
+        <div class="blog-card-head">
+          <span class="blog-card-tag tag-prevoyance">Prevoyance</span>
+          <div class="blog-card-themes" aria-label="Thèmes"><span class="blog-theme-chip tag-prevoyance" data-theme="prevoyance">Prévoyance</span></div>
+        </div>
         <h2>Prevoyance independants et TNS : guide complet 2026</h2>
         <p>Prevoyance TNS : l'essentiel.</p>
         <span class="blog-card-meta">8 min · Mai 2026</span>
       </a>
     </div>
+    <p class="blog-filter-empty" id="blog-filter-empty" hidden>Aucun article pour cette sélection. <button type="button" class="blog-filter-reset" data-theme="all">Voir tous les articles</button></p>
 
-    <div class="article-cta" style="margin:24px 0">
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Sante & mutuelle</span>
+      <a class="btn btn-primary" href="../landings/questionnaire.html?need=sante&journey=standard">Questionnaire mutuelle</a>
+    </div>
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Habitation & emprunteur</span>
+      <a class="btn btn-primary" href="../landings/questionnaire.html?need=habitation&journey=standard">Questionnaire habitation</a>
+    </div>
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Auto & mobilite</span>
+      <a class="btn btn-primary" href="../landings/questionnaire.html?need=auto&journey=standard">Questionnaire auto</a>
+    </div>
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Prevoyance & protection</span>
       <a class="btn btn-primary" href="../landings/questionnaire.html?need=prevoyance&journey=standard">Questionnaire prevoyance</a>
     </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Professionnel & RC Pro</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./rc-pro-freelance-artisan-guide.html">
-        <span class="blog-card-tag tag-pro">RC Pro</span>
-        <h2>RC Pro freelance et artisan : obligations et comparatif 2026</h2>
-        <p>Freelance : RC Pro obligatoire ou pas ?</p>
-        <span class="blog-card-meta">8 min · Mai 2026</span>
-      </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Professionnel & RC Pro</span>
       <a class="btn btn-primary" href="../landings/questionnaire.html?need=rc-pro&journey=standard">Questionnaire RC Pro</a>
     </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Patrimoine & epargne</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./assurance-vie-epargne-retraite-patrimoine.html">
-        <span class="blog-card-tag tag-patrimoine">Assurance-vie</span>
-        <h2>Assurance-vie, epargne et retraite : construire son patrimoine en 2026</h2>
-        <p>Epargne long terme : par ou commencer ?</p>
-        <span class="blog-card-meta">8 min · Mai 2026</span>
-      </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Patrimoine & epargne</span>
       <a class="btn btn-primary" href="../landings/questionnaire.html?need=assurance-vie&journey=standard">Questionnaire patrimoine</a>
     </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Credit & immobilier</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./gta-6-pret-immobilier-budget-gaming.html">
-        <span class="blog-card-tag tag-actu">GTA 6 & credit</span>
-        <h2>GTA 6 et pret immobilier : financer son setup sans fragiliser son credit</h2>
-        <p>GTA 6 : le bon budget sans mettre le pret en danger.</p>
-        <span class="blog-card-meta">7 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./gta-6-precommande-ps5-pro-credit-conso-france.html">
-        <span class="blog-card-tag tag-actu">GTA 6 & credit conso</span>
-        <h2>Precommandes GTA 6 et PS5 Pro : credit conso en France, ce que la loi autorise</h2>
-        <p>PS5 Pro + GTA 6 : le credit conso est-il legal en France ? Oui, sous conditions.</p>
-        <span class="blog-card-meta">9 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./gta-6-ps5-pro-budget-1000-euros-pret-conso.html">
-        <span class="blog-card-tag tag-actu">GTA 6 & credit conso</span>
-        <h2>PS5 Pro + GTA 6 : budget 1 000 € et mensualites d'un pret conso</h2>
-        <p>Setup GTA 6 a 1 000 € : combien par mois avec un pret conso ?</p>
-        <span class="blog-card-meta">8 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html">
-        <span class="blog-card-tag tag-actu">GTA 6 & credit conso</span>
-        <h2>Pret conso gaming : comparer pret personnel, credit magasin et 3x pour GTA 6</h2>
-        <p>GTA 6 / PS5 Pro : quelle forme de credit choisir en magasin ou en ligne ?</p>
-        <span class="blog-card-meta">7 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./trump-politique-us-taux-pret-assurance-emprunteur.html">
-        <span class="blog-card-tag tag-actu">Trump & marches</span>
-        <h2>Trump, marches financiers et pret immobilier en France</h2>
-        <p>Trump et les taux : ce que ca change pour votre pret.</p>
-        <span class="blog-card-meta">8 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./pret-immo-erreurs-a-eviter.html">
-        <span class="blog-card-tag tag-immo">Immo</span>
-        <h2>Pret immobilier : 7 erreurs a eviter en 2026</h2>
-        <p>Pret immo : erreurs courantes.</p>
-        <span class="blog-card-meta">8 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./taux-credit-immobilier-2026-frais-dossier.html">
-        <span class="blog-card-tag tag-immo">Taux & frais</span>
-        <h2>Taux credit immobilier 2026 : frais de dossier et assurance emprunteur</h2>
-        <p>Taux 2026 + frais caches du pret.</p>
-        <span class="blog-card-meta">9 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./rachat-credit-immobilier-guide-2026.html">
-        <span class="blog-card-tag tag-immo">Rachat</span>
-        <h2>Rachat credit immobilier 2026 : quand ca vaut le coup</h2>
-        <p>Rachat credit : baisser la mensualite.</p>
-        <span class="blog-card-meta">8 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./emprunteur-non-residents-investissement-immobilier-2026.html">
-        <span class="blog-card-tag tag-actu">Emprunteur</span>
-        <h2>Investir en France sans y resider : assurance emprunteur et pret immo</h2>
-        <p>Non-resident qui achete en France : l'assurance emprunteur est le vrai sujet.</p>
-        <span class="blog-card-meta">8 min · Juin 2026</span>
-      </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Credit & immobilier</span>
       <a class="btn btn-primary" href="../landings/questionnaire.html?need=credit-immo&journey=standard">Questionnaire credit immo</a>
     </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Assurance animaux (chien & chat)</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./chat-puces-tiques-assurance-remboursement.html">
-        <span class="blog-card-tag tag-animaux">Santé chat</span>
-        <h2>Puces et tiques chez le chat : soins, prévention et assurance</h2>
-        <p>Puces sur chat : soins, budget et assurance.</p>
-        <span class="blog-card-meta">7 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-animaux-comment-choisir.html">
-        <span class="blog-card-tag tag-animaux">Animaux</span>
-        <h2>Assurance animaux : comment choisir en 2026</h2>
-        <p>Plafond, franchise, carence : la methode.</p>
-        <span class="blog-card-meta">9 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-chien-frais-veterinaires.html">
-        <span class="blog-card-tag tag-animaux">Chien</span>
-        <h2>Assurance chien : frais veterinaires et remboursements 2026</h2>
-        <p>Frais vet chien : ordres de grandeur.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-chat-guide-complet.html">
-        <span class="blog-card-tag tag-animaux">Chat</span>
-        <h2>Assurance chat : guide complet 2026</h2>
-        <p>Guide assurance chat complet.</p>
-        <span class="blog-card-meta">8 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-chiot-chaton-quand-assurer.html">
-        <span class="blog-card-tag tag-animaux">Chiot</span>
-        <h2>Chiot et chaton : quand souscrire une assurance animaux ?</h2>
-        <p>Chiot / chaton : le bon moment.</p>
-        <span class="blog-card-meta">6 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./comparatif-santevet-bulle-bleue-kozoo.html">
-        <span class="blog-card-tag tag-animaux">Comparatif</span>
-        <h2>Comparatif Santévet, Bulle Bleue, Kozoo : assurance animaux</h2>
-        <p>Santévet, Bulle Bleue, Kozoo : comparer.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Assurance animaux (chien & chat)</span>
       <a class="btn btn-primary" href="../landings/questionnaire.html?need=animaux&journey=standard">Questionnaire animaux</a>
     </div>
-
-    <h2 style="font-size:1.15rem;margin:32px 0 16px">Assurance VTC & chauffeurs</h2>
-    <div class="blog-grid">
-      <a class="blog-card" href="./assurance-vtc-moins-cher-2026.html">
-        <span class="blog-card-tag tag-vtc">VTC</span>
-        <h2>Assurance VTC moins cher en 2026 : 7 leviers</h2>
-        <p>7 leviers pour payer moins cher.</p>
-        <span class="blog-card-meta">8 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-vtc-rc-pro-garanties.html">
-        <span class="blog-card-tag tag-vtc">RC Pro</span>
-        <h2>RC Pro VTC : garanties essentielles avant de signer</h2>
-        <p>RC Pro VTC : le minimum.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-vtc-creation-chauffeur.html">
-        <span class="blog-card-tag tag-vtc">Creation</span>
-        <h2>Nouveau chauffeur VTC : assurer son activite des le depart</h2>
-        <p>Nouveau chauffeur : par ou commencer.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-vtc-uber-bolt-heetch.html">
-        <span class="blog-card-tag tag-vtc">Plateformes</span>
-        <h2>VTC Uber, Bolt, Heetch : contrat compatible plateformes</h2>
-        <p>Uber Bolt Heetch : contrat adapte.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-vtc-renouvellement-resiliation.html">
-        <span class="blog-card-tag tag-vtc">Resiliation</span>
-        <h2>Assurance VTC : renouvellement, resiliation et loi Hamon</h2>
-        <p>Renouveler ou changer de VTC.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./comparatif-vtc-zephir-solly-azar.html">
-        <span class="blog-card-tag tag-vtc">Comparatif</span>
-        <h2>Comparatif VTC Zéphir, Solly Azar, Allianz : que regarder ?</h2>
-        <p>Zéphir, Solly Azar, Allianz VTC.</p>
-        <span class="blog-card-meta">7 min · Mai 2026</span>
-      </a>
-      <a class="blog-card" href="./assurance-vtc-franchise-garanties-2026.html">
-        <span class="blog-card-tag tag-vtc">Franchise</span>
-        <h2>Franchise assurance VTC : comment ca marche en 2026</h2>
-        <p>Franchise VTC : le vrai cout apres sinistre.</p>
-        <span class="blog-card-meta">8 min · Juin 2026</span>
-      </a>
-      <a class="blog-card" href="./vtc-premiere-course-checklist-assurance.html">
-        <span class="blog-card-tag tag-vtc">Checklist VTC</span>
-        <h2>Avant votre première course VTC : checklist assurance (Uber, Bolt, Heetch)</h2>
-        <p>Checklist assurance avant la 1re course.</p>
-        <span class="blog-card-meta">5 min · Juin 2026</span>
-      </a>
-    </div>
-
-    <div class="article-cta" style="margin:24px 0">
+    <div class="blog-section-cta">
+      <span class="blog-section-cta-label">Assurance VTC & chauffeurs</span>
       <a class="btn btn-primary" href="../landings/questionnaire.html?need=vtc&journey=standard">Questionnaire VTC</a>
     </div>
-
   </main>
   <footer class="blog-footer">
     <a href="../assurances/">Catalogue assurances</a>
@@ -484,5 +744,6 @@
   </footer>
   <script src="../js/attribution.js" defer></script>
   <script src="../js/blog-reading-analytics.js" defer></script>
+  <script src="../js/blog-index-filters.js" defer></script>
 </body>
 </html>

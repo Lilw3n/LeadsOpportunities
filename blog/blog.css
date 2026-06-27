@@ -100,6 +100,9 @@ a { color: var(--primary); }
   margin: 0 auto;
   padding: 32px 16px 56px;
 }
+.blog-container--index {
+  max-width: 960px;
+}
 
 /* Index page */
 .blog-hero {
@@ -117,6 +120,186 @@ a { color: var(--primary); }
   font-size: 1.05rem;
   margin: 0;
 }
+.blog-hero-link {
+  margin-top: 12px;
+}
+
+/* Theme filters */
+.blog-filters {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 20px 18px;
+  margin-bottom: 28px;
+  box-shadow: var(--shadow-sm);
+}
+.blog-filters-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 16px;
+}
+.blog-filters-header h2 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0;
+}
+#blog-filter-count {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0;
+}
+.blog-filter-group {
+  margin-bottom: 14px;
+}
+.blog-filter-group:last-of-type {
+  margin-bottom: 8px;
+}
+.blog-filter-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.blog-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.blog-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+.blog-filter-chip:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.blog-filter-chip.is-active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25);
+}
+.blog-filter-chip .blog-filter-count {
+  font-size: 0.72rem;
+  font-weight: 800;
+  opacity: 0.75;
+  min-width: 1.2em;
+  text-align: center;
+}
+.blog-filter-chip.is-active .blog-filter-count {
+  opacity: 0.9;
+}
+.blog-filter-hint {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin: 4px 0 0;
+  line-height: 1.45;
+}
+.blog-filter-empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.blog-filter-reset {
+  display: inline;
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.blog-grid--filtered {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+@media (max-width: 640px) {
+  .blog-grid--filtered {
+    grid-template-columns: 1fr;
+  }
+}
+
+.blog-card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.blog-card-themes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.blog-theme-chip {
+  display: inline-flex;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.blog-theme-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+}
+.blog-card.is-filtered-out {
+  display: none;
+}
+.blog-card[hidden] {
+  display: none !important;
+}
+
+.blog-section-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 36px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, #f0fdfa 0%, #eef2ff 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.blog-section-cta-label {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.tag-all { background: #f1f5f9; color: #475569; }
+.tag-canicule { background: #fef3c7; color: #b45309; }
+.tag-seniors { background: #ede9fe; color: #6d28d9; }
+.tag-voyage { background: #dbeafe; color: #1d4ed8; }
+.tag-gaming { background: #fce7f3; color: #be185d; }
+.tag-emprunteur { background: #e0e7ff; color: #4338ca; }
+.tag-politique { background: #fee2e2; color: #b91c1c; }
+.tag-economie { background: #ffedd5; color: #c2410c; }
+
 .blog-grid {
   display: grid;
   gap: 20px;

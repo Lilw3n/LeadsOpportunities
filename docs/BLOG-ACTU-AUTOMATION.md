@@ -2,6 +2,8 @@
 
 Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
+Quand les flux RSS ou la file manuelle ne fournissent pas assez de sujets exploitables, le pipeline complète avec une réserve de **sujets evergreen orientés leads** (`data/blog-lead-topics.json`) : mutuelle, habitation, auto, emprunteur, prévoyance, VTC, RC Pro, animaux. Ces articles utilisent les mêmes CTA questionnaire et les mêmes contrôles qualité.
+
 ## Quel canal utiliser ?
 
 | Canal | Quand | Qualité |
@@ -64,6 +66,9 @@ npm run blog:actu:auto -- --dry-run
 
 # Sans clé IA (texte enrichi par niche)
 npm run blog:actu:auto -- --no-ai
+
+# Debug : tester uniquement les sujets evergreen de secours, sans fetch ni publication
+npm run blog:actu:auto -- --lead-fallback-only --dry-run
 ```
 
 ### GitHub Actions — 5× par jour
@@ -73,6 +78,7 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 - Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
 - Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
 - Commit automatique sur `main` si nouveaux articles
+- Si l’actu ne suffit pas, complément automatique par sujets lead evergreen non encore utilisés
 
 **Secrets à configurer** (Settings → Secrets → Actions) :
 
@@ -139,6 +145,7 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 | `data/blog-actu-pending.json` | Articles avant HTML |
 | `data/blog-actu-published.json` | Archives manifeste |
 | `data/blog-actu-state.json` | URLs traitées, historique auto |
+| `data/blog-lead-topics.json` | Réserve de sujets evergreen utilisés quand l’actu manque |
 | `scripts/auto-actu-publish.cjs` | Orchestrateur principal |
 | `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
 | `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |

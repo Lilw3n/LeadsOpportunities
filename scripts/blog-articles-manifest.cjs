@@ -1,6 +1,7 @@
 /**
  * Manifeste des articles blog — source pour generate-blog-articles, index et RSS.
  * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu
+ * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
 module.exports = {
   sections: [
@@ -126,22 +127,821 @@ module.exports = {
       tagClass: "tag-actu",
       title: "Canicule en France 2026 : habitation, sante et assurance",
       description: "Vagues de chaleur en France : degats des eaux, secheresse, coup de chaleur — habitation et mutuelle a verifier avant l'ete.",
-      meta: "7 min · Mai 2026",
+      meta: "8 min · Juin 2026",
       cardExcerpt: "Canicule en France : logement, cave, personnes fragiles.",
       cta: { href: "../landings/devis.html?need=habitation", label: "Devis habitation" },
+      heroImage: {
+        src: "./images/habitat/canicule-maison.jpg",
+        alt: "Maison sous forte chaleur estivale — canicule en France",
+        caption: "Canicule 2026 : secheresse des sols et orages violents multiplient les sinistres habitation.",
+      },
       blocks: [
-        { type: "p", text: "Chaque ete, la <strong>canicule en France</strong> fait la une : records de temperature, alertes rouges, caves inondees apres les orages. Pour votre foyer, deux dossiers a croiser : <strong>assurance habitation</strong> (batiment, degats des eaux) et <strong>mutuelle sante</strong> (soins, prevention)." },
+        {
+          type: "p",
+          text: "Chaque ete, la <strong>canicule en France</strong> fait la une : records de temperature, alertes rouges, caves inondees apres les orages. Pour votre foyer, deux dossiers a croiser : <strong>assurance habitation</strong> (batiment, degats des eaux) et <strong>mutuelle sante</strong> (soins, prevention).",
+        },
+        {
+          type: "gallery",
+          label: "Canicule : les trois risques a couvrir (logement, eau, sante)",
+          items: [
+            {
+              src: "./images/habitat/canicule-maison.jpg",
+              alt: "Maison exposee a la chaleur estivale",
+              caption: "Chaleur extreme — batiment et fondations sous tension",
+            },
+            {
+              src: "./images/canicule/inondation-degats-eaux.jpg",
+              alt: "Degats des eaux apres orage post-canicule",
+              caption: "Orages violents — caves inondees et degats des eaux",
+            },
+            {
+              src: "./images/canicule/senior-hydratation.jpg",
+              alt: "Personne agee — vigilance coup de chaleur",
+              caption: "Personnes fragiles — mutuelle et urgences",
+            },
+          ],
+        },
         { type: "h2", text: "Habitation : secheresse, fissures, inondation de cave" },
-        { type: "p", text: "Les etes extremes multiplient les sinistres : <strong>degats des eaux</strong> apres les pluies violentes, fissures liees a la secheresse des sols. Verifiez les exclusions « catastrophe naturelle » et le plafond cave." },
+        {
+          type: "figure",
+          src: "./images/canicule/secheresse-fissures.jpg",
+          alt: "Sol sec et fissures liees a la secheresse des fondations",
+          caption: "Secheresse : fissures et mouvement de terrain — role de la catastrophe naturelle.",
+        },
+        {
+          type: "p",
+          text: "Les etes extremes multiplient les sinistres : <strong>degats des eaux</strong> apres les pluies violentes, fissures liees a la secheresse des sols. Verifiez les exclusions « catastrophe naturelle » et le plafond cave. Voir aussi <a href=\"./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html\">secheresse et fissures</a> ou <a href=\"./canicule-orage-inondation-cave-assurance-locataire.html\">inondation de cave locataire</a>.",
+        },
         { type: "h2", text: "Sante : chaleur et reste a charge" },
-        { type: "p", text: "Consultations, urgences, personnes agees : une mutuelle avec de bons postes <strong>hospitalisation</strong> et soins courants limite le reste a charge en periode de forte chaleur." },
+        {
+          type: "figure",
+          src: "./images/canicule/urgences-chaleur.jpg",
+          alt: "Consultation medicale — coup de chaleur et deshydratation",
+          caption: "Urgences chaleur : teleconsultation, hospitalisation et mutuelle.",
+        },
+        {
+          type: "p",
+          text: "Consultations, urgences, personnes agees : une mutuelle avec de bons postes <strong>hospitalisation</strong> et soins courants limite le reste a charge en periode de forte chaleur. Guide detaille : <a href=\"./canicule-mutuelle-coup-chaleur-seniors-2026.html\">mutuelle et coup de chaleur seniors</a>.",
+        },
         { type: "h2", text: "Reflexes sinistre habitation" },
-        { type: "p", text: "Photos, coupure d'eau, declaration sous 5 jours ouvrables : la rapidite facilite l'indemnisation." },
+        {
+          type: "figure",
+          src: "./images/habitat/sinistre-degats.jpg",
+          alt: "Intervention apres sinistre dans un logement",
+          caption: "Declaration sous 5 jours ouvrables : photos et coupure d'eau.",
+        },
+        {
+          type: "p",
+          text: "Photos, coupure d'eau, declaration sous 5 jours ouvrables : la rapidite facilite l'indemnisation.",
+        },
       ],
       related: [
+        { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur seniors" },
+        { href: "./canicule-panneaux-solaires-pret-aides-financer.html", label: "Panneaux solaires et pret" },
+        { href: "./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html", label: "Secheresse et Cat Nat" },
         { href: "../assurance-habitation/", label: "Assurance habitation" },
         { href: "../landings/sante.html", label: "Mutuelle sante" },
+      ],
+    },
+    {
+      file: "canicule-mutuelle-coup-chaleur-seniors-2026.html",
+      section: "sante",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Canicule 2026 : mutuelle, coup de chaleur et seniors — ce qui est rembourse",
+      description: "Vague de chaleur en France : deshydratation, urgences, hospitalisation — postes mutuelle a verifier pour les personnes agees et fragiles.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Chaleur extreme : mutuelle, urgences et prevention seniors.",
+      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle senior" },
+      heroImage: {
+        src: "./images/canicule/senior-hydratation.jpg",
+        alt: "Personne agee en periode de forte chaleur — prevention et mutuelle",
+        caption: "Seniors et canicule : hydratation, teleconsultation et hospitalisation a anticiper.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Chaque <strong>canicule en France</strong>, les services d'urgence enregistrent une hausse des <strong>coups de chaleur</strong>, deshydratations et malaises chez les <strong>personnes agees</strong>. Votre <strong>mutuelle sante</strong> intervient sur les consultations, la teleconsultation, l'hospitalisation et parfois la prevention — a condition de connaitre vos garanties.",
+        },
+        {
+          type: "gallery",
+          label: "Sante et chaleur : trois postes mutuelle a controler",
+          items: [
+            {
+              src: "./images/canicule/senior-hydratation.jpg",
+              alt: "Senior — prevention coup de chaleur et hydratation",
+              caption: "Prevention — personnes fragiles et proches aidants",
+            },
+            {
+              src: "./images/canicule/urgences-chaleur.jpg",
+              alt: "Consultation medicale urgences chaleur",
+              caption: "Urgences — medecin traitant et SAMU",
+            },
+            {
+              src: "./images/sante/hospitalisation-chambre.jpg",
+              alt: "Chambre d'hospitalisation — prise en charge mutuelle",
+              caption: "Hospitalisation — chambre particuliere et forfait journalier",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Consultations et teleconsultation" },
+        {
+          type: "p",
+          text: "En periode de canicule, beaucoup de generalistes proposent la <strong>teleconsultation</strong> pour eviter les deplacements. Verifiez le remboursement mutuelle (souvent 100 % du ticket moderateur + depassement selon contrat). Les visites a domicile restent remboursees par l'Assurance maladie ; la mutuelle complete le reste a charge.",
+        },
+        { type: "h2", text: "2. Urgences et hospitalisation" },
+        {
+          type: "figure",
+          src: "./images/sante/hospital-care.jpg",
+          alt: "Prise en charge hospitaliere — mutuelle et Securite sociale",
+          caption: "Passage aux urgences puis hospitalisation : postes mutuelle hospitalisation decisifs.",
+        },
+        {
+          type: "p",
+          text: "Un <strong>coup de chaleur severe</strong> peut necessiter une perfusion et une surveillance en service d'urgences ou en medecine interne. Comparez vos plafonds <strong>hospitalisation</strong> (chambre particuliere, forfait journalier, honoraires depassement). Les contrats « entree de gamme » laissent parfois plusieurs centaines d'euros de reste a charge.",
+        },
+        { type: "h2", text: "3. Prevention : ce que la mutuelle peut financer" },
+        {
+          type: "p",
+          text: "Certaines mutuelles proposent des forfaits <strong>prevention</strong> (bilan sante, ostheopathie legere, materiel de mesure). En ete, l'essentiel reste gratuit : hydratation, pieces fraiches, appels reguliers aux proches. Pour les EHPAD et structures medicales, la couverture depend du contrat collectif ou individuel.",
+        },
+        { type: "h2", text: "Reflexes canicule pour les seniors" },
+        {
+          type: "p",
+          text: "Boire sans attendre la soif, eviter les sorties aux heures chaudes, garder les numeros d'urgence visibles. En cas de malaise : appeler le 15, rafraichir, ne pas laisser seul. Cote assurance, gardez votre attestation mutuelle accessible (appli ou papier) pour l'hopital.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule habitation & sante" },
+        { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle 2026" },
+        { href: "../assurance-sante/", label: "Mutuelle sante" },
+      ],
+    },
+    {
+      file: "insolation-canicule-que-faire-mutuelle-devis.html",
+      section: "sante",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      themes: ["canicule"],
+      title: "Insolation et coup de chaleur : que faire tout de suite (et role de la mutuelle)",
+      description: "Signes d'insolation, gestes d'urgence, numero 15, hospitalisation — et comment une mutuelle limite le reste a charge. Devis sante gratuit.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Insolation : gestes d'urgence, 15/SAMU et mutuelle.",
+      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle sante" },
+      heroImage: {
+        src: "./images/canicule/urgences-chaleur.jpg",
+        alt: "Urgence medicale canicule — insolation et coup de chaleur",
+        caption: "Insolation : agir en quelques minutes peut eviter l'hospitalisation.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "L'<strong>insolation</strong> (ou <strong>coup de chaleur</strong> lie au soleil) survient quand le corps ne parvient plus a se refroidir : temperature interne qui monte, deshydratation, parfois perte de connaissance. En <strong>canicule</strong>, les enfants, les sportifs, les travailleurs dehors et les <strong>personnes agees</strong> sont les plus exposes. Voici <strong>que faire tout de suite</strong>, quand appeler le <strong>15</strong>, et pourquoi verifier sa <strong>mutuelle sante</strong> avant l'ete. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle</strong></a> · <a href=\"../landings/sante.html\">comparatif sante</a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire mutuelle</a>.",
+        },
+        {
+          type: "gallery",
+          label: "Insolation : reconnaitre, agir, se faire rembourser",
+          items: [
+            {
+              src: "./images/canicule/chaleur-soleil-maison.jpg",
+              alt: "Fortes chaleurs et soleil — risque d'insolation",
+              caption: "Exposition prolongee au soleil sans protection",
+            },
+            {
+              src: "./images/canicule/urgences-chaleur.jpg",
+              alt: "Consultation medicale urgence chaleur",
+              caption: "Urgence — ne pas attendre que ca passe",
+            },
+            {
+              src: "./images/canicule/hydratation-prevention.jpg",
+              alt: "Hydratation et prevention canicule",
+              caption: "Prevention — eau, ombre, vetements legers",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Reconnaitre une insolation (signes d'alerte)" },
+        {
+          type: "p",
+          text: "Symptomes frequents : <strong>mal de tete intense</strong>, nausees ou vomissements, peau rouge et chaude (parfois seche), pouls rapide, confusion, vertiges, crampes, fatigue brutale. Chez l'enfant : somnolence, irritabilite, peu ou pas de larmes. Chez la personne agee : agitation ou au contraire apathie. Toute <strong>perte de connaissance</strong> ou difficulte a parler = urgence vitale.",
+        },
+        { type: "h2", text: "2. Que faire tout de suite (gestes qui sauvent)" },
+        {
+          type: "figure",
+          src: "./images/canicule/hydratation-prevention.jpg",
+          alt: "Boire de l'eau fraiche — premier reflexe insolation",
+          caption: "Premier reflexe : ombre, air, eau fraiche (pas glacee).",
+        },
+        {
+          type: "p",
+          text: "<strong>Mettre a l'ombre</strong> ou dans un endroit frais, deshabiller si possible, <strong>ventiler</strong> (ventilateur, courant d'air). Proposer de <strong>petites gorgees d'eau</strong> si la personne est consciente et peut avaler. Appliquer de l'<strong>eau tiede</strong> sur la peau (front, nuque, aisselles) — evitez l'eau glacee qui peut choquer. Surveillez jusqu'a amelioration ou arrivee des secours. Ne jamais laisser seul.",
+        },
+        { type: "h2", text: "3. Quand appeler le 15, le 18 ou le 112" },
+        {
+          type: "p",
+          text: "Appelez le <strong>15 (SAMU)</strong> si : temperature elevee (> 39 °C), vomissements repetés, confusion, convulsions, malaise avec perte de connaissance, douleur thoracique, ou si la personne ne s'ameliore pas apres 30 minutes de refroidissement. Le <strong>112</strong> fonctionne partout en Europe. En cas d'arret respiratoire : <strong>112</strong> ou <strong>18</strong> (pompiers) + massage cardiaque si vous etes forme.",
+        },
+        { type: "h2", text: "4. A l'hopital : perfusion, surveillance, mutuelle" },
+        {
+          type: "figure",
+          src: "./images/sante/hospital-care.jpg",
+          alt: "Hospitalisation urgence — prise en charge mutuelle",
+          caption: "Passage aux urgences : Securite sociale + mutuelle selon votre contrat.",
+        },
+        {
+          type: "p",
+          text: "Une insolation severe peut necessiter <strong>perfusion</strong>, analyses sanguines et <strong>hospitalisation</strong> de quelques heures a plusieurs jours. L'Assurance maladie rembourse une partie ; le <strong>reste a charge</strong> depend de votre <strong>mutuelle</strong> (hospitalisation, depassements d'honoraires, forfait journalier). Sans bonne couverture, la facture peut depasser <strong>500 a 1 500 €</strong>. Anticiper avec un <a href=\"../landings/devis.html?need=sante\">devis mutuelle sante</a> ou un <a href=\"../landings/sante-express.html\">devis express</a> evite les mauvaises surprises.",
+        },
+        { type: "h2", text: "5. Prevention : eviter l'insolation cet ete" },
+        {
+          type: "p",
+          text: "Boire regulierement (meme sans soif), porter chapeau et vetements legers, eviter l'alcool et les efforts entre 11 h et 18 h, ne jamais rester en voiture au soleil. Enfants et seniors : vigilance renforcee. Travailleurs dehors : pauses a l'ombre, eau a portee de main. Consultez aussi <a href=\"./canicule-seniors-astuces-moins-chaud-mutuelle.html\">astuces canicule seniors</a> et <a href=\"./canicule-mutuelle-coup-chaleur-seniors-2026.html\">mutuelle coup de chaleur</a>.",
+        },
+        { type: "h2", text: "6. Verifier sa mutuelle avant la canicule" },
+        {
+          type: "p",
+          text: "Postes a comparer : <strong>urgences</strong>, <strong>hospitalisation</strong> (chambre particuliere, forfait journalier), <strong>teleconsultation</strong>, medecine de ville. Un contrat adapte limite le stress financier quand il faut agir vite. <a href=\"../landings/devis.html?need=sante\"><strong>Obtenir un devis mutuelle gratuit</strong></a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire en 2 min</a> · <a href=\"../assurance-sante/\">mutuelle sante France</a>.",
+        },
+      ],
+      related: [
+        { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur seniors" },
         { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle" },
+        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+      ],
+    },
+    {
+      file: "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
+      section: "habitat",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Secheresse et fissures maison : assurance habitation et catastrophe naturelle",
+      description: "Canicule et secheresse des sols : fissures, fondations, declaration sinistre — role de l'etat Cat Nat et de la multirisque habitation.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Fissures apres secheresse : Cat Nat, MRH et indemnisation.",
+      cta: { href: "../landings/devis.html?need=habitation", label: "Devis habitation" },
+      heroImage: {
+        src: "./images/canicule/secheresse-fissures.jpg",
+        alt: "Sol sec et fissures sur facade — secheresse des fondations",
+        caption: "Secheresse des sols : fissures structurelles souvent liees a un arrete catastrophe naturelle.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Apres plusieurs mois de <strong>canicule</strong>, les sols argileux se retractent : <strong>fissures</strong> en facade, portes qui coincent, fissures en diagonal. L'<strong>assurance habitation</strong> standard couvre rarement la secheresse seule — l'indemnisation passe souvent par un <strong>arrete catastrophe naturelle (Cat Nat)</strong> secheresse.",
+        },
+        {
+          type: "gallery",
+          label: "Secheresse : du constat a l'indemnisation",
+          items: [
+            {
+              src: "./images/canicule/secheresse-fissures.jpg",
+              alt: "Fissures et sol desseche autour d'une maison",
+              caption: "Constat — photographier avant/apres chaque ete",
+            },
+            {
+              src: "./images/canicule/prevention-toiture.jpg",
+              alt: "Maison a entretenir — prevention avant l'ete",
+              caption: "Prevention — vegetation, gouttieres, joints",
+            },
+            {
+              src: "./images/habitat/sinistre-degats.jpg",
+              alt: "Expertise apres sinistre habitation",
+              caption: "Expertise — assureur et eventuel Cat Nat",
+            },
+          ],
+        },
+        { type: "h2", text: "Multirisque habitation vs catastrophe naturelle" },
+        {
+          type: "p",
+          text: "La <strong>multirisque habitation (MRH)</strong> couvre incendie, degats des eaux, tempete, parfois seisme. Les <strong>desordres de secheresse</strong> sont en general exclus sauf si un arrete Cat Nat est publie pour votre commune. Consultez le site gouvernemental des catastrophes naturelles pour verifier les arretes en cours.",
+        },
+        { type: "h2", text: "Comment declarer un sinistre secheresse" },
+        {
+          type: "figure",
+          src: "./images/habitat/maison-famille.jpg",
+          alt: "Maison individuelle — proprietaire et assurance habitation",
+          caption: "Proprietaire ou locataire : delai de declaration 10 jours apres parution de l'arrete Cat Nat.",
+        },
+        {
+          type: "p",
+          text: "Des l'apparition des fissures, <strong>photographiez</strong> et prevenez votre assureur. Si un arrete Cat Nat secheresse est publie, vous disposez en general de <strong>10 jours</strong> pour declarer le sinistre (delai allonge par rapport au sinistre classique). Un expert evaluera le lien de causalite entre secheresse et desordres.",
+        },
+        { type: "h2", text: "Locataire ou proprietaire : qui declare ?" },
+        {
+          type: "p",
+          text: "Le <strong>proprietaire</strong> declare les desordres structurels (murs porteurs, fondations). Le <strong>locataire</strong> declare les degats sur ses biens mobilier via son assurance locataire. En copropriete, le syndic centralise souvent la declaration pour les parties communes.",
+        },
+        { type: "h2", text: "Prevention avant la prochaine canicule" },
+        {
+          type: "p",
+          text: "Arrosage regulier des fondations (sans gaspillage), arbres a distance des murs, joints de facade entretenus. Mettez a jour la valeur du batiment dans votre contrat pour eviter une <strong>sous-assurance</strong> si des travaux de reparation sont necessaires.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Guide canicule habitation" },
+        { href: "./assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / proprietaire" },
+        { href: "../assurance-habitation/", label: "Assurance habitation" },
+      ],
+    },
+    {
+      file: "canicule-orage-inondation-cave-assurance-locataire.html",
+      section: "habitat",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Orage apres canicule : inondation de cave et assurance locataire",
+      description: "Pluies violentes apres vague de chaleur — cave inondee, degats des eaux : garanties MRH locataire, proprietaire et declaration sinistre.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Cave inondee apres orage : locataire, bailleur, MRH.",
+      cta: { href: "../landings/devis.html?need=habitation", label: "Assurance locataire" },
+      heroImage: {
+        src: "./images/canicule/inondation-degats-eaux.jpg",
+        alt: "Degats des eaux apres orage violent — cave ou sous-sol inonde",
+        caption: "Orage post-canicule : eaux pluviales et refoulement d'egout — reactiver vite l'assurance.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "La <strong>canicule</strong> precede souvent des <strong>orages violents</strong> : sols durcis, eaux pluviales qui s'accumulent, <strong>caves inondees</strong>, lave-linge et chaudiere endommages. En <strong>location</strong>, locataire et proprietaire ont chacun un contrat — savoir qui declare quoi evite les delais.",
+        },
+        {
+          type: "gallery",
+          label: "Inondation de cave : les etapes assurance",
+          items: [
+            {
+              src: "./images/canicule/inondation-degats-eaux.jpg",
+              alt: "Piece humide apres inondation — degats des eaux",
+              caption: "Constat — couper l'eau et electricite si danger",
+            },
+            {
+              src: "./images/habitat/appartement-locataire.jpg",
+              alt: "Appartement locataire — multirisque habitation obligatoire",
+              caption: "Locataire — MRH obligatoire et RC vie privee",
+            },
+            {
+              src: "./images/habitat/sinistre-degats.jpg",
+              alt: "Intervention apres degat des eaux",
+              caption: "Secours — pompage, deshumidification, expertise",
+            },
+          ],
+        },
+        { type: "h2", text: "Locataire : degats des eaux et mobilier" },
+        {
+          type: "p",
+          text: "L'<strong>assurance locataire</strong> (MRH) couvre vos biens mobilier, le contenu de cave (cartons, velo, electromenager) et votre <strong>responsabilite civile</strong> si vous avez laisse une fenetre ouverte causant un degat au voisin. Verifiez le plafond « cave » ou « dependances » — souvent limite a quelques milliers d'euros.",
+        },
+        { type: "h2", text: "Proprietaire bailleur : batiment et PNO" },
+        {
+          type: "figure",
+          src: "./images/habitat/bailleur-cles.jpg",
+          alt: "Clefs et logement en location — proprietaire bailleur",
+          caption: "Bailleur : assurance PNO pour le batiment, locataire pour le contenu.",
+        },
+        {
+          type: "p",
+          text: "Le <strong>proprietaire</strong> assure murs, toiture, canalisations communes via sa MRH ou sa <strong>PNO</strong>. Si l'inondation vient d'une fuite de canalisation collective, le syndic ou le bailleur ouvre le sinistre batiment. Le locataire ouvre un sinistre contenu en parallele.",
+        },
+        { type: "h2", text: "Delai et reflexes (5 jours ouvrables)" },
+        {
+          type: "p",
+          text: "Declaration sous <strong>5 jours ouvrables</strong> en general (10 jours si Cat Nat). Photos horodatees, liste des biens endommages, factures si possible. Ne jetez rien avant passage de l'expert sauf si moisissure ou securite.",
+        },
+        { type: "h2", text: "Prevention avant l'ete" },
+        {
+          type: "figure",
+          src: "./images/canicule/prevention-toiture.jpg",
+          alt: "Entretien maison avant l'ete — gouttieres et evacuations",
+          caption: "Nettoyer gouttieres et regardes — limiter les refoulements.",
+        },
+        {
+          type: "p",
+          text: "Sur elever les cartons en cave, installer des barres anti-refoulement, verifier l'etancheite des fenetres de sous-sol. Ces gestes reduisent le risque et facilitent l'indemnisation (pas de negligence).",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule habitation" },
+        { href: "./assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire vs proprietaire" },
+        { href: "./pno-bailleur-proprietaire-non-occupant.html", label: "Assurance PNO bailleur" },
+      ],
+    },
+    {
+      file: "canicule-seniors-astuces-moins-chaud-mutuelle.html",
+      section: "sante",
+      tag: "Canicule seniors",
+      tagClass: "tag-actu",
+      title: "Canicule et seniors : 12 astuces pour avoir moins chaud chez soi",
+      description: "Personnes agees et forte chaleur : hydratation, ventilation, pieces fraiches — et mutuelle a jour pour teleconsultation et urgences.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Seniors : rester au frais sans sortir — reflexes + mutuelle.",
+      cta: { href: "../landings/devis.html?need=sante", label: "Demander un devis mutuelle" },
+      heroImage: {
+        src: "./images/canicule/logement-frais-senior.jpg",
+        alt: "Logement ventile — senior protege de la chaleur estivale",
+        caption: "Rester au frais chez soi : astuces gratuites avant de penser climatisation.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Pour un <strong>senior</strong>, la <strong>canicule</strong> est le moment de privilegier le logement plutot que les deplacements. Ces <strong>astuces pour avoir moins chaud</strong> limitent le risque de <strong>coup de chaleur</strong>. Et si un malaise survient malgre tout, une <strong>mutuelle sante</strong> bien calibree (teleconsultation, hospitalisation) evite une facture lourde — <a href=\"../landings/devis.html?need=sante\">demandez un devis mutuelle</a> pour comparer.",
+        },
+        {
+          type: "gallery",
+          label: "Seniors et chaleur : prevention au quotidien",
+          items: [
+            {
+              src: "./images/canicule/logement-frais-senior.jpg",
+              alt: "Piece fraiche et ventilee pour senior",
+              caption: "Piece la plus fraiche — y passer la journee",
+            },
+            {
+              src: "./images/canicule/hydratation-prevention.jpg",
+              alt: "Hydratation reguliere en periode de canicule",
+              caption: "Boire avant la soif — eau, tisanes fraiches",
+            },
+            {
+              src: "./images/canicule/senior-hydratation.jpg",
+              alt: "Personne agee vigilante en periode de chaleur",
+              caption: "Proches aidants — appels reguliers",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Aerer sans surchauffer" },
+        {
+          type: "p",
+          text: "Ouvrir fenêtres et volets <strong>tôt le matin</strong> et <strong>tard le soir</strong> ; les fermer et occulter en journée. Un brumisateur ou des serviettes humides devant un ventilateur suffisent souvent — moins couteux qu'une clim (et moins de risque de <strong>degats des eaux</strong> cote assurance habitation si mal installee — voir <a href=\"../landings/devis.html?need=habitation\">devis habitation</a>).",
+        },
+        { type: "h2", text: "2. S'habiller et s'hydrater" },
+        {
+          type: "figure",
+          src: "./images/canicule/hydratation-prevention.jpg",
+          alt: "Hydratation — reflexe essentiel des seniors en canicule",
+          caption: "Eviter alcool et cafeine en exces ; privilegier l'eau.",
+        },
+        {
+          type: "p",
+          text: "Vetements legeres, couleurs claires, chapeau si sortie breve. Garder une bouteille d'eau a portee de main. En cas de nausees ou confusion : teleconsultation (remboursee selon mutuelle) ou appel au 15.",
+        },
+        { type: "h2", text: "3. Identifier la piece la plus fraiche" },
+        {
+          type: "p",
+          text: "Souvent le rez-de-chaussée au nord. Y deplacer matelas ou fauteuil si la chambre sous les toits devient invivable. Les <strong>EHPAD</strong> appliquent des protocoles ; a domicile, c'est a la famille de reorganiser le logement.",
+        },
+        { type: "h2", text: "4. Mutuelle : teleconsultation et soins sans se deplacer" },
+        {
+          type: "figure",
+          src: "./images/sante/medecin-consultation.jpg",
+          alt: "Teleconsultation medicale — mutuelle senior canicule",
+          caption: "Eviter la chaleur dehors : la teleconsultation limite les deplacements.",
+        },
+        {
+          type: "p",
+          text: "Beaucoup de mutuelles remboursent la <strong>teleconsultation</strong> comme une visite classique. Verifiez aussi les postes <strong>soins infirmiers a domicile</strong> si des perfusions sont necessaires. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle senior</strong></a> pour comparer hospitalisation et depassements.",
+        },
+        { type: "h2", text: "5. Quand appeler les secours" },
+        {
+          type: "p",
+          text: "Temperature corporelle elevee, peau seche, confusion, malaise : <strong>15</strong> ou <strong>112</strong>. Votre mutuelle interviendra ensuite sur le reste a charge hospitalier — d'ou l'interet d'un contrat avec bon niveau <strong>hospitalisation</strong>.",
+        },
+      ],
+      related: [
+        { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur" },
+        { href: "./canicule-plan-gouvernement-seniors-mutuelle.html", label: "Plan canicule gouvernement" },
+        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+      ],
+    },
+    {
+      file: "canicule-futur-climatique-seniors-assurance-mutuelle.html",
+      section: "actu",
+      tag: "Canicule seniors",
+      tagClass: "tag-actu",
+      title: "Futur climatique et seniors : pourquoi revoir mutuelle et habitation des maintenant",
+      description: "Canicules plus longues et plus frequentes en France : impact sur personnes agees, assurance habitation et niveau de mutuelle a anticiper.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Climat futur : seniors, mutuelle et logement a repenser.",
+      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle adaptee canicule" },
+      heroImage: {
+        src: "./images/canicule/climat-chaleur-extreme.jpg",
+        alt: "Chaleur extreme estivale — futur climatique et canicules en France",
+        caption: "D'ici 2050, les canicules pourraient se multiplier — les seniors sont la premiere population exposee.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Les modeles climatiques convergent : <strong>vagues de chaleur plus longues, plus precoces et plus intenses</strong> en France metropolitaine. Pour les <strong>seniors</strong>, ce n'est pas qu'une question de confort — c'est un enjeu de <strong>sante</strong> (coups de chaleur, deshydratation) et de <strong>patrimoine</strong> (habitation, fissures, orages). Anticiper, c'est aussi <strong>comparer mutuelle et habitation</strong> avant la prochaine alerte rouge.",
+        },
+        {
+          type: "gallery",
+          label: "Climat futur : trois impacts concrets pour les seniors",
+          items: [
+            {
+              src: "./images/canicule/climat-chaleur-extreme.jpg",
+              alt: "Ciel estival et chaleur extreme",
+              caption: "Canicules plus frequentes — etes plus longs",
+            },
+            {
+              src: "./images/canicule/secheresse-fissures.jpg",
+              alt: "Secheresse et fissures maison",
+              caption: "Logement — secheresse et sinistres habitation",
+            },
+            {
+              src: "./images/canicule/seniors-couple-ete.jpg",
+              alt: "Couple de seniors — sante et chaleur",
+              caption: "Sante — hospitalisations en hausse chez les +65 ans",
+            },
+          ],
+        },
+        { type: "h2", text: "Mutuelle : un filet qui va prendre plus de valeur" },
+        {
+          type: "p",
+          text: "Plus de jours au-dessus de 35 °C signifie plus de consultations, d'urgences et parfois d'hospitalisations chez les <strong>personnes agees</strong>. Une mutuelle avec de bons postes <strong>hospitalisation</strong>, teleconsultation et soins infirmiers limite le reste a charge quand le systeme public est sature. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle</strong></a> permet de comparer sans attendre la prochaine canicule.",
+        },
+        { type: "h2", text: "Habitation : secheresse, orages, climatisation" },
+        {
+          type: "figure",
+          src: "./images/canicule/secheresse-fissures.jpg",
+          alt: "Fissures maison apres secheresse — assurance habitation",
+          caption: "Secheresse et orages post-canicule : verifier MRH et Cat Nat.",
+        },
+        {
+          type: "p",
+          text: "Le <strong>futur climatique</strong> accentue les desordres de secheresse et les <strong>degats des eaux</strong> apres orages. Installer une clim ou renforcer l'isolation modifie aussi le profil de risque habitation. Un <a href=\"../landings/devis.html?need=habitation\">devis assurance habitation</a> verifie plafonds et exclusions avant les travaux.",
+        },
+        { type: "h2", text: "Prevoyance : rester chez soi plus longtemps" },
+        {
+          type: "figure",
+          src: "./images/sante/seniors-couple.jpg",
+          alt: "Seniors a domicile — autonomie et chaleur",
+          caption: "Vieillir chez soi en climat plus chaud : mutuelle + amenagements.",
+        },
+        {
+          type: "p",
+          text: "Beaucoup de seniors souhaitent rester a domicile. Cela implique un logement adapte (stores, ventilation) et une <strong>mutuelle reactive</strong> en cas de malaise. La prevoyance dependance peut aussi entrer en jeu si la chaleur aggrave une fragilite existante.",
+        },
+        { type: "h2", text: "Agir maintenant plutot qu'en alerte rouge" },
+        {
+          type: "p",
+          text: "Les assureurs n'augmentent pas les garanties pendant un episode de canicule. Comparez <strong>mutuelle</strong> et <strong>habitation</strong> en periode calme : delais de carence, plafonds, teleconsultation. Un courtier vous oriente vers un contrat aligne avec un climat plus chaud.",
+        },
+      ],
+      related: [
+        { href: "./canicule-seniors-astuces-moins-chaud-mutuelle.html", label: "Astuces moins chaud seniors" },
+        { href: "./canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html", label: "Lacunes pouvoirs publics" },
+        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+      ],
+    },
+    {
+      file: "canicule-plan-gouvernement-seniors-mutuelle.html",
+      section: "actu",
+      tag: "Canicule seniors",
+      tagClass: "tag-actu",
+      title: "Plan canicule du gouvernement : ce qui existe pour les seniors (et le role de la mutuelle)",
+      description: "Dispositifs publics canicule en France : Plan National, centres d'accueil, appels a la vigilance — complement mutuelle pour les soins.",
+      meta: "7 min · Juin 2026",
+      cardExcerpt: "Plan canicule Etat : dispositifs + mutuelle complementaire.",
+      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle senior" },
+      heroImage: {
+        src: "./images/canicule/politique-canicule-france.jpg",
+        alt: "Politique publique et canicule en France — dispositifs seniors",
+        caption: "Plan National Canicule : prevention publique, soins assures en partie par la mutuelle.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Chaque ete, l'Etat active le <strong>Plan National Canicule</strong> : niveaux d'alerte, consignes prefectorales, parfois ouverture de <strong>centres d'accueil fraicheur</strong>. Pour les <strong>seniors</strong>, ces dispositifs publics sont essentiels — mais ils ne remplacent ni le suivi medical ni le <strong>reste a charge</strong> en cas d'hospitalisation. D'ou le role d'une <strong>mutuelle sante</strong> bien choisie.",
+        },
+        {
+          type: "gallery",
+          label: "Dispositifs publics canicule : ce que les seniors peuvent utiliser",
+          items: [
+            {
+              src: "./images/canicule/politique-canicule-france.jpg",
+              alt: "Institutions et politique publique canicule France",
+              caption: "Plan National Canicule — alertes meteo et prefectures",
+            },
+            {
+              src: "./images/canicule/seniors-couple-ete.jpg",
+              alt: "Seniors beneficiaires des dispositifs canicule",
+              caption: "Centres fraicheur — accueil gratuity souvent",
+            },
+            {
+              src: "./images/canicule/urgences-chaleur.jpg",
+              alt: "Soins medicaux urgences chaleur",
+              caption: "Urgences — Securite sociale + mutuelle",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Alertes meteo et consignes officielles" },
+        {
+          type: "p",
+          text: "Meteo-France publie des vigilances <strong>orange</strong> et <strong>rouge</strong>. Les prefectures peuvent activer des cellules de crise et communiquer sur les lieux de rafraichissement. Inscrivez-vous aux alertes SMS de votre commune si disponible — surtout pour un senior isole.",
+        },
+        { type: "h2", text: "2. Centres d'accueil et solidarite locale" },
+        {
+          type: "figure",
+          src: "./images/canicule/logement-frais-senior.jpg",
+          alt: "Espace frais — centre accueil ou domicile senior",
+          caption: "Centres fraicheur ou mairie : verifier horaires en alerte rouge.",
+        },
+        {
+          type: "p",
+          text: "Mairies, gymnases, bibliotheques climatisees : les <strong>centres d'accueil canicule</strong> varient selon les territoires. Utiles pour sortir de fournaise, ils ne couvrent pas les medicaments ni l'hospitalisation — domaine <strong>Assurance maladie + mutuelle</strong>.",
+        },
+        { type: "h2", text: "3. EHPAD et medecine de ville" },
+        {
+          type: "p",
+          text: "Les etablissements medico-sociaux suivent des protocoles renforces (hydratation, surveillance). En ville, les <strong>visites a domicile</strong> et la teleconsultation se developpent. Verifiez que votre mutuelle rembourse ces actes sans plafond trop bas.",
+        },
+        { type: "h2", text: "4. Ou la mutuelle complete le public" },
+        {
+          type: "figure",
+          src: "./images/sante/mutuelle-documents.jpg",
+          alt: "Contrat mutuelle — complement des dispositifs publics canicule",
+          caption: "Hospitalisation, depassements, teleconsultation : le private compte.",
+        },
+        {
+          type: "p",
+          text: "Le gouvernement sensibilise et ouvre des lieux ; la <strong>mutuelle</strong> prend le relais sur le financier medical : forfait journalier, chambre particuliere, optique pour lunettes solaires medicalisees si besoin. <a href=\"../landings/devis.html?need=sante\"><strong>Demandez un devis mutuelle senior</strong></a> pour un niveau hospitalisation confortable.",
+        },
+      ],
+      related: [
+        { href: "./canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html", label: "Limites des dispositifs publics" },
+        { href: "./canicule-seniors-astuces-moins-chaud-mutuelle.html", label: "Astuces moins chaud" },
+        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+      ],
+    },
+    {
+      file: "canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html",
+      section: "sante",
+      tag: "Canicule seniors",
+      tagClass: "tag-actu",
+      title: "Canicule : les lacunes du gouvernement et pourquoi la mutuelle senior compte",
+      description: "Delais Cat Nat, deserts medicaux, logements mal isoles : limites des pouvoirs publics face a la chaleur — anticiper avec mutuelle et habitation.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Public insuffisant ? Mutuelle et habitation pour les seniors.",
+      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle — comparer maintenant" },
+      heroImage: {
+        src: "./images/canicule/urgences-chaleur.jpg",
+        alt: "Urgences medicales canicule — lacunes systeme public et mutuelle",
+        caption: "Quand le public atteint ses limites, une bonne mutuelle limite le reste a charge.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Les plans canicule existent, mais les <strong>indispositions</strong> ou <strong>retards</strong> des pouvoirs publics restent visibles : logements surchauffes, <strong>deserts medicaux</strong>, files aux urgences, arretes <strong>catastrophe naturelle</strong> tardifs. Pour un <strong>senior</strong>, compter uniquement sur l'Etat expose a des soins non optimaux et des factures elevees. Une <strong>mutuelle</strong> et une <strong>habitation</strong> bien calibrees comblent une partie du vide.",
+        },
+        {
+          type: "gallery",
+          label: "Lacunes publiques vs leviers prives (mutuelle, habitation)",
+          items: [
+            {
+              src: "./images/canicule/urgences-chaleur.jpg",
+              alt: "Urgences saturees en canicule",
+              caption: "Urgences saturees — mutuelle hospitalisation",
+            },
+            {
+              src: "./images/canicule/secheresse-fissures.jpg",
+              alt: "Fissures maison — lenteur arretes Cat Nat",
+              caption: "Cat Nat secheresse — delais d'indemnisation",
+            },
+            {
+              src: "./images/sante/mutuelle-documents.jpg",
+              alt: "Mutuelle senior — comparer les garanties",
+              caption: "Mutuelle — agir avant la prochaine canicule",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Logements mal prepares" },
+        {
+          type: "p",
+          text: "Parc prive ancien, passoires thermiques, peu de centres fraicheur en zone rurale : l'offre publique ne rafraichit pas votre salon. Travaux d'isolation ou climatisation : pensez <a href=\"../landings/devis.html?need=habitation\">devis habitation</a> pour couvrir le materiel et les sinistres lies aux installations.",
+        },
+        { type: "h2", text: "2. Soins : lenteur et reste a charge" },
+        {
+          type: "figure",
+          src: "./images/sante/hospital-care.jpg",
+          alt: "Hospitalisation senior — reste a charge mutuelle",
+          caption: "Files d'attente + reste a charge : double peine sans mutuelle solide.",
+        },
+        {
+          type: "p",
+          text: "En canicule, les SAMU et urgences sont debordees. La teleconsultation aide, mais un <strong>coup de chaleur grave</strong> finit en hospitalisation. Les bas de gamme mutuelle laissent un reste a charge significatif (forfait journalier, depassements). <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle senior</strong></a> avant l'ete.",
+        },
+        { type: "h2", text: "3. Cat Nat et sinistres : lenteur administrative" },
+        {
+          type: "figure",
+          src: "./images/canicule/inondation-degats-eaux.jpg",
+          alt: "Degats des eaux — lenteur reconnaissance catastrophe naturelle",
+          caption: "Orages post-canicule : indemnisation parfois longue sans arrete.",
+        },
+        {
+          type: "p",
+          text: "Secheresse et inondations post-orages dependent d'<strong>arretes interministeriels</strong> parfois publies des mois plus tard. En attendant, votre <strong>assurance habitation</strong> joue seule — d'ou l'interet de garanties degats des eaux bien plafonnees.",
+        },
+        { type: "h2", text: "4. Ce que vous pouvez faire sans attendre l'Etat" },
+        {
+          type: "p",
+          text: "Comparez mutuelle (hospitalisation, teleconsultation), habitation (cave, clim), prevoyance si fragilite. Un courtier ORIAS vous aide a <strong>faire les choses bien</strong> cote contrats pendant que les debats publics avancent lentement. <a href=\"../landings/devis.html?need=sante\">Devis mutuelle</a> · <a href=\"../landings/devis.html?need=habitation\">Devis habitation</a>.",
+        },
+      ],
+      related: [
+        { href: "./canicule-plan-gouvernement-seniors-mutuelle.html", label: "Dispositifs gouvernement" },
+        { href: "./canicule-futur-climatique-seniors-assurance-mutuelle.html", label: "Futur climatique" },
+        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+      ],
+    },
+    {
+      file: "canicule-panneaux-solaires-pret-aides-financer.html",
+      section: "finance",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Canicule et panneaux solaires : aides de l'Etat, collectivites et pret pour financer",
+      description: "Vague de chaleur en France : photovoltaique, autoconsommation, prime, eco-PTZ et credit conso — comment financer ses panneaux solaires avec les aides publiques.",
+      meta: "9 min · Juin 2026",
+      cardExcerpt: "Canicule : panneaux solaires, aides publiques et pret pour financer.",
+      cta: { href: "../landings/credit-immo.html", label: "Etudier un financement travaux" },
+      heroImage: {
+        src: "./images/canicule/panneaux-solaires-toiture.jpg",
+        alt: "Panneaux solaires sur toiture — canicule et production d'electricite",
+        caption: "Canicule : l'autoconsommation solaire limite la facture et soutient la clim en journee.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Chaque <strong>canicule en France</strong> relance la meme question : comment <strong>rafraichir le logement</strong> sans exploser la facture d'electricite ? Les <strong>panneaux solaires photovoltaiques</strong> ne remplacent pas l'isolation, mais l'<strong>autoconsommation</strong> alimente ventilateurs, clim (si installee) et pompe a chaleur en plein soleil — precisement quand le reseau est tendu. Reste a combiner <strong>aides publiques</strong>, <strong>aides des collectivites</strong> et un <strong>pret adapte</strong> pour financer l'installation.",
+        },
+        {
+          type: "gallery",
+          label: "Canicule, soleil et toiture : trois leviers concrets",
+          items: [
+            {
+              src: "./images/canicule/panneaux-solaires-toiture.jpg",
+              alt: "Installation photovoltaique sur toiture",
+              caption: "Photovoltaique — production en heures de pointe chaleur",
+            },
+            {
+              src: "./images/canicule/chaleur-soleil-maison.jpg",
+              alt: "Maison sous forte chaleur estivale",
+              caption: "Canicule — consommation electrique en hausse",
+            },
+            {
+              src: "./images/canicule/maison-panneaux-solaires.jpg",
+              alt: "Maison avec equipement solaire",
+              caption: "Projet global : toiture, assurance, financement",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Pourquoi le solaire parle en periode de canicule" },
+        {
+          type: "p",
+          text: "En ete, la production <strong>PV</strong> est maximale en journée — quand la clim et la ventilation tournent. L'<strong>autoconsommation</strong> (consommer sur place ce que vous produisez) reduit la part achetee au fournisseur. Le surplus peut etre <strong>revendu</strong> (tarif reglemente de vente du surplus) selon contrat et puissance installee. Ce n'est pas une clim gratuite, mais un levier de <strong>pouvoir d'achat energie</strong> complementaire a l'isolation et aux stores.",
+        },
+        { type: "h2", text: "2. Aides de l'Etat (primes, fiscalite, TVA)" },
+        {
+          type: "figure",
+          src: "./images/canicule/maison-panneaux-solaires.jpg",
+          alt: "Maison avec panneaux solaires — aides publiques photovoltaique",
+          caption: "Primes et fiscalite : barèmes mis a jour regulierement — verifiez l'eligibilite avant devis.",
+        },
+        {
+          type: "p",
+          text: "Les dispositifs evoluent ; a date, les foyers peuvent cumuler selon profil : <strong>prime a l'autoconsommation photovoltaique</strong> (forfait par kWc installe, conditions de raccordement et d'installateur RGE), <strong>vente du surplus</strong> d'electricite, parfois <strong>TVA reduite</strong> sur l'installation en habitation principale sous conditions. Cote impots : revenus de vente de surplus souvent exoneres dans certaines limites pour les particuliers. Demandez un chiffrage avec mention explicite des <strong>aides deduites</strong> — <a href=\"../landings/credit-immo.html\">etude financement travaux</a>.",
+        },
+        { type: "h2", text: "3. Collectivites, region, CEE et programmes locaux" },
+        {
+          type: "p",
+          text: "Au-dela de l'Etat, certaines <strong>metropoles, departements ou EPCI</strong> proposent des subventions « energie solaire », des operations groupees ou des conseils via l'ADIL / maisons de l'habitat. Les <strong>Certificats d'economies d'energie (CEE)</strong> peuvent financer une part de travaux de performance energetique (souvent couple isolation + equipements). Consultez le site de votre mairie ou region : les montants varient et les budgets s'epuisent vite en debut d'annee.",
+        },
+        { type: "h2", text: "4. Quel pret pour financer les panneaux solaires ?" },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Signature de pret — financement panneaux solaires et travaux energie",
+          caption: "Eco-PTZ, credit travaux ou conso : comparer le cout total (TAEG, duree, assurance).",
+        },
+        {
+          type: "p",
+          text: "Plusieurs options selon votre situation : <strong>eco-PTZ</strong> (pret a taux zero) si le projet entre dans un bouquet de travaux d'economie d'energie eligibles et que vous respectez les plafonds de ressources ; <strong>credit travaux / credit consommation</strong> pour financer le reste a charge ; <strong>renegociation ou rachat de credit</strong> si vous voulez lisser la mensualite sans toucher a l'epargne de precaution. Si vous avez deja un <strong>pret immobilier</strong>, verifiez l'impact sur votre taux d'endettement avant d'emprunter. <a href=\"../landings/devis.html?need=conso\"><strong>Demander un devis credit conso</strong></a> · <a href=\"../landings/credit-immo.html\">credit immobilier / travaux</a>.",
+        },
+        { type: "h2", text: "5. Assurance habitation : declarer l'installation" },
+        {
+          type: "figure",
+          src: "./images/habitat/maison-famille.jpg",
+          alt: "Maison familiale — assurance habitation apres pose de panneaux solaires",
+          caption: "PV en toiture : mettre a jour la multirisque habitation (valeur du batiment).",
+        },
+        {
+          type: "p",
+          text: "Des <strong>panneaux solaires</strong> modifies la toiture et la valeur du bien. Prevenez votre assureur : garantie dommages (tempete, grele), responsabilite vis-a-vis du voisinage (chute d'objet, surchauffe), parfois extension « equipements exterieurs ». En cas de sinistre lie a la canicule (orage, grele), une installation non declaree peut compliquer l'indemnisation. <a href=\"../landings/devis.html?need=habitation\">Devis assurance habitation</a>.",
+        },
+        { type: "h2", text: "6. Checklist avant de signer un devis solaire" },
+        {
+          type: "p",
+          text: "Installateur <strong>RGE</strong>, etude de consommation, part d'autoconsommation estimee, devis avec primes deduites, mode de financement, delai de raccordement Enedis, mise a jour assurance habitation. En periode de canicule, les delais d'installation peuvent s'allonger — anticipez plutot qu'en alerte rouge.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule et habitation" },
+        { href: "./canicule-futur-climatique-seniors-assurance-mutuelle.html", label: "Climat futur et logement" },
+        { href: "../landings/credit-immo.html", label: "Credit immobilier & travaux" },
+        { href: "../landings/devis.html?need=habitation", label: "Devis habitation" },
       ],
     },
     {
@@ -994,6 +1794,109 @@ module.exports = {
       related: [{ href: "../landings/devis.html?need=retraite", label: "Retraite supplementaire" }],
     },
     /* —— Animaux (contenu enrichi auto + manuel) —— */
+    {
+      file: "canicule-animaux-eau-chien-chat-oiseaux-assurance.html",
+      section: "animaux",
+      tag: "Canicule & animaux",
+      tagClass: "tag-animaux",
+      title: "Canicule : chien, chat, oiseaux — comment les hydrater et les assurer",
+      description: "Fortes chaleurs en France : eau, ombre, promenade, oiseaux du jardin — reflexes canicule pour animaux et role de l'assurance chien et chat.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Canicule et animaux : eau, urgence vet et assurance.",
+      cta: { href: "../landings/animaux.html", label: "Devis assurance animaux" },
+      heroImage: {
+        src: "./images/animaux/canicule-chien-eau.jpg",
+        alt: "Chien qui boit en periode de canicule — hydratation indispensable",
+        caption: "Chaleur extreme : l'eau fraiche doit etre accessible en permanence pour chiens et chats.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "La <strong>canicule en France</strong> touche aussi nos <strong>animaux</strong> : chiens, chats, <strong>oiseaux</strong> du jardin, parfois NAC (lapins, rongeurs). Contrairement aux humains, ils ne transpirent pas tous de la meme facon et supportent mal la chaleur. <strong>Hydrater, ombrer, adapter les sorties</strong> limite les urgences veterinaires — couteuses sans <strong>assurance animaux</strong>. <a href=\"../landings/animaux.html\">Demandez un devis assurance animaux</a> · <a href=\"../landings/devis.html?need=animaux\">devis en ligne</a>.",
+        },
+        {
+          type: "gallery",
+          label: "Canicule : chiens, chats et oiseaux — trois profils a surveiller",
+          items: [
+            {
+              src: "./images/animaux/canicule-chien-eau.jpg",
+              alt: "Chien qui boit de l'eau fraiche",
+              caption: "Chien — gamelle propre, renouvelee souvent",
+            },
+            {
+              src: "./images/animaux/chat-soin.jpg",
+              alt: "Chat a l'ombre en periode de chaleur",
+              caption: "Chat — pieces fraiches, litiere au frais",
+            },
+            {
+              src: "./images/animaux/canicule-oiseau-eau.jpg",
+              alt: "Oiseau pres d'un point d'eau",
+              caption: "Oiseaux — baignoire peu profonde au jardin",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Chien : eau, sol brulant, promenade" },
+        {
+          type: "figure",
+          src: "./images/animaux/chien-promenade.jpg",
+          alt: "Promenade chien — horaires adaptes en canicule",
+          caption: "Sortir tot le matin ou tard le soir ; tester le sol avec la main.",
+        },
+        {
+          type: "p",
+          text: "Plusieurs gamelles d'<strong>eau fraiche</strong> (interieur + exterieur), jamais vide. Evitez les promenades entre 11 h et 19 h : le <strong>sol brule</strong> les coussinets. Signes d'alerte : halètement excessif, langue bleutee, vomissements, effondrement → veterinaire d'urgence. Une <strong>assurance chien</strong> avec bon plafond urgences limite la facture (perfusion, hospitalisation). <a href=\"../assurance-animaux/chien/\"><strong>Assurance chien</strong></a> · <a href=\"./assurance-chien-frais-veterinaires.html\">frais veterinaires</a>.",
+        },
+        { type: "h2", text: "2. Chat : hydratation et pieces fraiches" },
+        {
+          type: "figure",
+          src: "./images/animaux/chat-soin.jpg",
+          alt: "Chat — soins et vigilance canicule",
+          caption: "Fontaine a eau, pieces au nord, pas de balcon sans ombre.",
+        },
+        {
+          type: "p",
+          text: "Le <strong>chat</strong> boit peu par nature : proposez une <strong>fontaine</strong>, nourriture humide, plusieurs points d'eau. Fermez les fenetres en plein soleil, laissez acces aux sols carreles. Un chat age ou a poil long deshydrate vite. L'<strong>assurance chat</strong> rembourse consultation et soins si coup de chaleur ou deshydratation. <a href=\"../assurance-animaux/chat/\"><strong>Assurance chat</strong></a> · <a href=\"./assurance-chat-guide-complet.html\">guide complet</a>.",
+        },
+        { type: "h2", text: "3. Oiseaux : jardin, baignoire, pas de cage au soleil" },
+        {
+          type: "figure",
+          src: "./images/animaux/canicule-oiseau-eau.jpg",
+          alt: "Oiseau et point d'eau en ete",
+          caption: "Oiseaux sauvages : eau peu profonde, renouvelee chaque jour.",
+        },
+        {
+          type: "p",
+          text: "Pour les <strong>oiseaux</strong> (sauvages ou de compagnie) : <strong>baignoire peu profonde</strong> ou coupelle a l'ombre, eau changee quotidiennement. Cage ou voliere : jamais en plein soleil, brumisation legere possible. Les oiseaux domestiques peuvent parfois etre couverts par une assurance NAC selon assureur — renseignez-vous via <a href=\"../landings/animaux.html\">devis animaux</a>.",
+        },
+        { type: "h2", text: "4. Lapins, NAC et animaux de ferme (rappels)" },
+        {
+          type: "p",
+          text: "Lapins et rongeurs : bouteille ou bol toujours plein, cage a l'ombre, pas de courants d'air chaud. En canicule, la <strong>mortalite</strong> monte vite sans eau. Verifiez les garanties de votre contrat animaux (plafond, franchise, delai de carence).",
+        },
+        { type: "h2", text: "5. Quand consulter le veterinaire (et assurer avant l'ete)" },
+        {
+          type: "figure",
+          src: "./images/animaux/chien-veterinaire.jpg",
+          alt: "Consultation veterinaire — urgence canicule animaux",
+          caption: "Urgence chaleur : agir vite, facture souvent elevee sans assurance.",
+        },
+        {
+          type: "p",
+          text: "Refus de boire, prostration, convulsions, gencives pales : appelez le vet sans attendre. Un passage aux urgences + perfusion peut depasser <strong>300 a 800 €</strong>. Souscrire une <strong>assurance animaux</strong> avant l'ete (chien, chat, parfois NAC) evite de hesiter en cas d'urgence. Comparez plafonds et prevention : <a href=\"../landings/animaux.html\"><strong>Devis assurance animaux</strong></a> · <a href=\"../landings/animaux-express.html\">devis express 30 s</a> · <a href=\"./assurance-animaux-comment-choisir.html\">comment choisir</a>.",
+        },
+        { type: "h2", text: "6. Checklist canicule proprietaire d'animaux" },
+        {
+          type: "p",
+          text: "Eau renouvelee · ombre garantie · promenades aux heures fraiches · sol teste · jamais animal en voiture · numero vet affiche · contrat animaux a jour · antiparasitaires (puces/tiques) car l'ete cumule risques.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule habitation" },
+        { href: "../assurance-animaux/chien/", label: "Assurance chien" },
+        { href: "../assurance-animaux/chat/", label: "Assurance chat" },
+        { href: "../landings/animaux.html", label: "Devis animaux" },
+      ],
+    },
     {
       file: "chat-puces-tiques-assurance-remboursement.html",
       section: "animaux",
