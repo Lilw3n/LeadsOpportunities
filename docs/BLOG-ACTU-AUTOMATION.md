@@ -2,11 +2,14 @@
 
 Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
+Complement evergreen : le workflow **`.github/workflows/blog-lead-auto.yml`** publie aussi des guides assurance a forte intention commerciale (mutuelle senior, degat des eaux, loi Lemoine, RC Pro, VTC...) pour generer des leads meme quand l'actualite est moins exploitable.
+
 ## Quel canal utiliser ?
 
 | Canal | Quand | Qualité |
 |-------|-------|---------|
 | **GitHub Actions** (principal) | Auto 5×/jour, push `main` → Vercel | **Identique à Cursor** si `GEMINI_API_KEY` + `--strict-quality` |
+| **GitHub Actions evergreen** | Auto 2×/semaine, sujets `data/blog-lead-topics.json` | Guides conversion sans dependance aux flux RSS |
 | **Cursor Automations** | Secours si GitHub échoue, ou relecture PR manuelle | Même commande `npm run blog:actu:auto` |
 
 **Ne lancez pas les deux en parallèle** — risque de doublons.
@@ -148,6 +151,27 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
 2. **Clarity + GA4** — déjà en place sur le blog
 3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+
+## Articles evergreen pour leads recurrents
+
+Workflow : **`.github/workflows/blog-lead-auto.yml`**
+
+- Cron UTC : mardi et vendredi a 7h30 (hors crons actu).
+- Source : **`data/blog-lead-topics.json`** (file de sujets evergreen tries par priorite).
+- Etat : **`data/blog-lead-state.json`** (sujets deja publies, fichiers generes).
+- Commande manuelle :
+
+```bash
+npm run blog:lead:auto
+npm run blog:lead:auto -- --count=2
+npm run blog:lead:auto -- --dry-run
+```
+
+Chaque article contient :
+- un angle SEO a intention commerciale ;
+- un bloc `{ type: "bridge" }` vers le questionnaire ;
+- un CTA avec UTM blog ;
+- des liens internes vers les pages assurance correspondantes.
 
 ## Limites légales
 

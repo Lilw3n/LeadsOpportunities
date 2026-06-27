@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-06-27T04:34:48.497Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,107 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-senior-reste-a-charge-2026.html",
+      "section": "sante",
+      "tag": "Mutuelle senior",
+      "tagClass": "tag-sante",
+      "title": "Mutuelle senior 2026 : reduire le reste a charge sans surpayer",
+      "description": "Hospitalisation, dentaire, optique, appareils auditifs : comment choisir une mutuelle senior utile et demander un comparatif gratuit.",
+      "meta": "8 min · Juin 2026",
+      "cardExcerpt": "Mutuelle senior : les garanties qui comptent vraiment apres 55 ans.",
+      "keywords": [
+        "mutuelle senior",
+        "reste a charge",
+        "hospitalisation",
+        "optique dentaire",
+        "devis mutuelle"
+      ],
+      "themes": [],
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelle-senior-reste-a-charge-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "<strong>Mutuelle senior 2026 : reduire le reste a charge sans surpayer</strong> repond a une intention simple : Comparer une mutuelle senior avec un bon niveau hospitalisation, optique et dentaire. Ce guide transforme le sujet en checklist actionnable avant de demander un devis."
+        },
+        {
+          "type": "h2",
+          "text": "Pour qui ce guide est utile"
+        },
+        {
+          "type": "p",
+          "text": "Profil vise : <strong>Retraites, futurs retraites, aidants familiaux</strong>. Le bon contrat depend rarement d'un seul prix : il faut verifier les garanties, les exclusions, les franchises et le moment ou le besoin devient urgent."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties a verifier en priorite"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation : chambre particuliere, depassements et forfait journalier",
+            "Optique, dentaire, auditif : plafonds annuels et delais",
+            "Soins courants : medecins, specialistes, teleconsultation",
+            "Reste a charge estime selon votre consommation medicale",
+            "Possibilite de changer sans trou de couverture"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Les signaux qui doivent declencher un comparatif"
+        },
+        {
+          "type": "p",
+          "text": "Hausse de cotisation, changement de situation, nouveau bien, sinistre recent, creation d'activite ou demande d'attestation : chaque evenement peut rendre l'ancien contrat trop cher ou mal calibre. Un comparatif a garanties equivalentes evite de regarder uniquement la mensualite."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Preparer son dossier avant de demander un devis"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Retrouver le dernier avis d'echeance ou tableau de garanties",
+            "Lister les besoins non couverts aujourd'hui",
+            "Noter les franchises et plafonds qui posent probleme",
+            "Comparer au moins deux offres sur les memes garanties",
+            "Verifier les dates de resiliation possibles avant signature"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Ce que le questionnaire Leads Opportunities qualifie"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire gratuit demande uniquement les informations utiles : age, ayants droit, postes de soins prioritaires, budget mensuel et delais souhaites. Il permet d'orienter le dossier vers le bon parcours avant l'echange avec un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Objectif : gagner du temps, eviter les doublons de garanties et recevoir une proposition coherente avec votre profil. Le service est sans engagement et pense pour generer un lead qualifie, pas un simple clic."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "./mutuelle-sante-hospitalisation-2026.html",
+          "label": "Hospitalisation 2026"
+        },
+        {
+          "href": "../assurance-sante/",
+          "label": "Assurance sante"
         }
       ]
     }

@@ -1,0 +1,18 @@
+{
+  "publishedTopicIds": [
+    "mutuelle-senior-reste-a-charge-2026"
+  ],
+  "generatedFiles": [
+    "mutuelle-senior-reste-a-charge-2026.html"
+  ],
+  "runs": [
+    {
+      "at": "2026-06-27T04:34:48.502Z",
+      "count": 1,
+      "files": [
+        "mutuelle-senior-reste-a-charge-2026.html"
+      ]
+    }
+  ],
+  "lastRun": "2026-06-27T04:34:48.502Z"
+}
