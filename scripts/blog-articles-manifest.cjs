@@ -1,6 +1,7 @@
 /**
  * Manifeste des articles blog — source pour generate-blog-articles, index et RSS.
  * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu
+ * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
 module.exports = {
   sections: [
