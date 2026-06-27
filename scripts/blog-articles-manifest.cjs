@@ -1703,6 +1703,109 @@ module.exports = {
     },
     /* —— Animaux (contenu enrichi auto + manuel) —— */
     {
+      file: "canicule-animaux-eau-chien-chat-oiseaux-assurance.html",
+      section: "animaux",
+      tag: "Canicule & animaux",
+      tagClass: "tag-animaux",
+      title: "Canicule : chien, chat, oiseaux — comment les hydrater et les assurer",
+      description: "Fortes chaleurs en France : eau, ombre, promenade, oiseaux du jardin — reflexes canicule pour animaux et role de l'assurance chien et chat.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Canicule et animaux : eau, urgence vet et assurance.",
+      cta: { href: "../landings/animaux.html", label: "Devis assurance animaux" },
+      heroImage: {
+        src: "./images/animaux/canicule-chien-eau.jpg",
+        alt: "Chien qui boit en periode de canicule — hydratation indispensable",
+        caption: "Chaleur extreme : l'eau fraiche doit etre accessible en permanence pour chiens et chats.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "La <strong>canicule en France</strong> touche aussi nos <strong>animaux</strong> : chiens, chats, <strong>oiseaux</strong> du jardin, parfois NAC (lapins, rongeurs). Contrairement aux humains, ils ne transpirent pas tous de la meme facon et supportent mal la chaleur. <strong>Hydrater, ombrer, adapter les sorties</strong> limite les urgences veterinaires — couteuses sans <strong>assurance animaux</strong>. <a href=\"../landings/animaux.html\">Demandez un devis assurance animaux</a> · <a href=\"../landings/devis.html?need=animaux\">devis en ligne</a>.",
+        },
+        {
+          type: "gallery",
+          label: "Canicule : chiens, chats et oiseaux — trois profils a surveiller",
+          items: [
+            {
+              src: "./images/animaux/canicule-chien-eau.jpg",
+              alt: "Chien qui boit de l'eau fraiche",
+              caption: "Chien — gamelle propre, renouvelee souvent",
+            },
+            {
+              src: "./images/animaux/chat-soin.jpg",
+              alt: "Chat a l'ombre en periode de chaleur",
+              caption: "Chat — pieces fraiches, litiere au frais",
+            },
+            {
+              src: "./images/animaux/canicule-oiseau-eau.jpg",
+              alt: "Oiseau pres d'un point d'eau",
+              caption: "Oiseaux — baignoire peu profonde au jardin",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Chien : eau, sol brulant, promenade" },
+        {
+          type: "figure",
+          src: "./images/animaux/chien-promenade.jpg",
+          alt: "Promenade chien — horaires adaptes en canicule",
+          caption: "Sortir tot le matin ou tard le soir ; tester le sol avec la main.",
+        },
+        {
+          type: "p",
+          text: "Plusieurs gamelles d'<strong>eau fraiche</strong> (interieur + exterieur), jamais vide. Evitez les promenades entre 11 h et 19 h : le <strong>sol brule</strong> les coussinets. Signes d'alerte : halètement excessif, langue bleutee, vomissements, effondrement → veterinaire d'urgence. Une <strong>assurance chien</strong> avec bon plafond urgences limite la facture (perfusion, hospitalisation). <a href=\"../assurance-animaux/chien/\"><strong>Assurance chien</strong></a> · <a href=\"./assurance-chien-frais-veterinaires.html\">frais veterinaires</a>.",
+        },
+        { type: "h2", text: "2. Chat : hydratation et pieces fraiches" },
+        {
+          type: "figure",
+          src: "./images/animaux/chat-soin.jpg",
+          alt: "Chat — soins et vigilance canicule",
+          caption: "Fontaine a eau, pieces au nord, pas de balcon sans ombre.",
+        },
+        {
+          type: "p",
+          text: "Le <strong>chat</strong> boit peu par nature : proposez une <strong>fontaine</strong>, nourriture humide, plusieurs points d'eau. Fermez les fenetres en plein soleil, laissez acces aux sols carreles. Un chat age ou a poil long deshydrate vite. L'<strong>assurance chat</strong> rembourse consultation et soins si coup de chaleur ou deshydratation. <a href=\"../assurance-animaux/chat/\"><strong>Assurance chat</strong></a> · <a href=\"./assurance-chat-guide-complet.html\">guide complet</a>.",
+        },
+        { type: "h2", text: "3. Oiseaux : jardin, baignoire, pas de cage au soleil" },
+        {
+          type: "figure",
+          src: "./images/animaux/canicule-oiseau-eau.jpg",
+          alt: "Oiseau et point d'eau en ete",
+          caption: "Oiseaux sauvages : eau peu profonde, renouvelee chaque jour.",
+        },
+        {
+          type: "p",
+          text: "Pour les <strong>oiseaux</strong> (sauvages ou de compagnie) : <strong>baignoire peu profonde</strong> ou coupelle a l'ombre, eau changee quotidiennement. Cage ou voliere : jamais en plein soleil, brumisation legere possible. Les oiseaux domestiques peuvent parfois etre couverts par une assurance NAC selon assureur — renseignez-vous via <a href=\"../landings/animaux.html\">devis animaux</a>.",
+        },
+        { type: "h2", text: "4. Lapins, NAC et animaux de ferme (rappels)" },
+        {
+          type: "p",
+          text: "Lapins et rongeurs : bouteille ou bol toujours plein, cage a l'ombre, pas de courants d'air chaud. En canicule, la <strong>mortalite</strong> monte vite sans eau. Verifiez les garanties de votre contrat animaux (plafond, franchise, delai de carence).",
+        },
+        { type: "h2", text: "5. Quand consulter le veterinaire (et assurer avant l'ete)" },
+        {
+          type: "figure",
+          src: "./images/animaux/chien-veterinaire.jpg",
+          alt: "Consultation veterinaire — urgence canicule animaux",
+          caption: "Urgence chaleur : agir vite, facture souvent elevee sans assurance.",
+        },
+        {
+          type: "p",
+          text: "Refus de boire, prostration, convulsions, gencives pales : appelez le vet sans attendre. Un passage aux urgences + perfusion peut depasser <strong>300 a 800 €</strong>. Souscrire une <strong>assurance animaux</strong> avant l'ete (chien, chat, parfois NAC) evite de hesiter en cas d'urgence. Comparez plafonds et prevention : <a href=\"../landings/animaux.html\"><strong>Devis assurance animaux</strong></a> · <a href=\"../landings/animaux-express.html\">devis express 30 s</a> · <a href=\"./assurance-animaux-comment-choisir.html\">comment choisir</a>.",
+        },
+        { type: "h2", text: "6. Checklist canicule proprietaire d'animaux" },
+        {
+          type: "p",
+          text: "Eau renouvelee · ombre garantie · promenades aux heures fraiches · sol teste · jamais animal en voiture · numero vet affiche · contrat animaux a jour · antiparasitaires (puces/tiques) car l'ete cumule risques.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule habitation" },
+        { href: "../assurance-animaux/chien/", label: "Assurance chien" },
+        { href: "../assurance-animaux/chat/", label: "Assurance chat" },
+        { href: "../landings/animaux.html", label: "Devis animaux" },
+      ],
+    },
+    {
       file: "chat-puces-tiques-assurance-remboursement.html",
       section: "animaux",
       tag: "Santé chat",

@@ -48,6 +48,8 @@ const ASSETS = {
   "animaux/chat-soin.jpg": "photo-1518791841217-8f162f1e1131",
   "animaux/chiot-chaton.jpg": "photo-1601758228041-f3b2795255f1",
   "animaux/chien-promenade.jpg": "photo-1587300003388-59208cc962cb",
+  "animaux/canicule-chien-eau.jpg": "photo-1548767797-d8c844163c4c",
+  "animaux/canicule-oiseau-eau.jpg": "photo-1444464666168-49d633b86797",
   "vtc/chauffeur-vtc.jpg": "photo-1449824913935-59a10b8d2000",
   "vtc/taxi-ville.jpg": "photo-1502877338535-766e1452684a",
   "vtc/vtc-smartphone.jpg": "photo-1551836022-d5d88e9218df",

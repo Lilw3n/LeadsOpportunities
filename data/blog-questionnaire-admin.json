@@ -482,6 +482,19 @@
       "species": null
     },
     {
+      "file": "canicule-animaux-eau-chien-chat-oiseaux-assurance.html",
+      "title": "Canicule : chien, chat, oiseaux — comment les hydrater et les assurer",
+      "section": "animaux",
+      "hook": "Canicule : chien, chat et oiseaux ont besoin d'eau — une urgence véto coûte cher sans assurance animaux.",
+      "question": "Avez-vous pensé à assurer votre chien ou votre chat avant l'été ?",
+      "need": "animaux",
+      "landing": "../landings/animaux.html",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
       "file": "chat-puces-tiques-assurance-remboursement.html",
       "title": "Puces et tiques chez le chat : soins, prévention et assurance",
       "section": "animaux",

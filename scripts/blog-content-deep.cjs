@@ -485,6 +485,35 @@ var DEEP = {
       ),
     ],
   },
+  "canicule-animaux-eau-chien-chat-oiseaux-assurance.html": {
+    keywords: [
+      "canicule chien eau",
+      "chat chaleur hydratation",
+      "oiseaux abreuvoir canicule",
+      "assurance animaux chien chat",
+      "coup de chaleur chien assurance",
+      "mutuelle animaux canicule",
+      "NAC lapin eau chaleur",
+      "assurance chien chat devis",
+    ],
+    extraBlocks: [
+      h2("Pourquoi l'eau est vitale pour chien, chat et oiseaux en canicule"),
+      p(
+        "La deshydratation precede souvent le coup de chaleur : langue pendante, lethargie, vomissements, convulsions. Les animaux ne transpirent pas comme l'humain ; le chien se rafraichit surtout par la respiration et les coussinets. Un <strong>assurance chien</strong> ou <strong>assurance chat</strong> avec bon plafond rembourse l'urgence veterinaire si la situation degenerer."
+      ),
+      h2("Assurance animaux : ce que la mutuelle rembourse en periode chaude"),
+      p(
+        "Consultation d'urgence, perfusion, hospitalisation, analyses — selon votre contrat (formule accident seule vs maladie incluse). Comparez les franchises et plafonds annuels avant l'ete : un seul passage aux urgences peut couter plusieurs centaines d'euros."
+      ),
+      h2("Agir vite : signes d'alerte et reflexes"),
+      ul([
+        "Refus de boire, gencives pales, temperature > 39,5 °C",
+        "Eau fraiche (pas glacee), ombre, ventilateur, lingettes humides",
+        "Ne jamais laisser un animal en voiture, meme cinq minutes",
+        "Oiseaux : baignoire peu profonde renouvelee chaque jour",
+      ]),
+    ],
+  },
   "canicule-panneaux-solaires-pret-aides-financer.html": {
     keywords: [
       "panneaux solaires canicule",

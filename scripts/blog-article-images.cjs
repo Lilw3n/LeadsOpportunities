@@ -198,6 +198,16 @@ var I = {
     "Proprietaire promenant son chien",
     "Assurance chien : prevention et frais veterinaires au quotidien."
   ),
+  chienEauCanicule: img(
+    "./images/animaux/canicule-chien-eau.jpg",
+    "Chien qui boit de l'eau en periode de forte chaleur",
+    "Canicule : hydrater son chien plusieurs fois par jour."
+  ),
+  oiseauEauCanicule: img(
+    "./images/animaux/canicule-oiseau-eau.jpg",
+    "Oiseau pres de l'eau — canicule et oiseaux de jardin",
+    "Oiseaux : baignoire peu profonde et point d'eau frais."
+  ),
   vtcChauffeur: img(
     "./images/vtc/chauffeur-vtc.jpg",
     "Chauffeur VTC devant son vehicule",
@@ -341,6 +351,10 @@ var MAP = {
   "canicule-panneaux-solaires-pret-aides-financer.html": {
     hero: "caniculeSolaire",
     figure: "caniculeMaisonSolaire",
+  },
+  "canicule-animaux-eau-chien-chat-oiseaux-assurance.html": {
+    hero: "chienEauCanicule",
+    figure: "chatSoin",
   },
   "people-divorce-assurance-habitation-emprunteur.html": { hero: "divorce", figure: "appartLoc" },
   "darmanin-securite-habitation-assurance-emprunteur.html": { hero: "maisonFamille", figure: "creditCles" },
