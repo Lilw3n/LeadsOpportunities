@@ -5,6 +5,7 @@
  * Usage:
  *   npm run blog:actu:auto
  *   npm run blog:actu:auto -- --count=2
+ *   BLOG_ACTU_AUTO_COUNT=3 npm run blog:actu:auto
  *   npm run blog:actu:auto -- --dry-run
  *   npm run blog:actu:auto -- --no-ai
  */
@@ -23,6 +24,10 @@ function arg(name, def) {
   });
   if (!m) return def;
   return m.split("=").slice(1).join("=");
+}
+
+function countDefault() {
+  return process.env.BLOG_ACTU_AUTO_COUNT || 1;
 }
 
 function hasAiKey() {
@@ -168,7 +173,7 @@ function runNode(script) {
 }
 
 async function main() {
-  var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
+  var count = Math.min(5, Math.max(1, Number(arg("count", countDefault())) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
