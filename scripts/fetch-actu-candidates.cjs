@@ -73,6 +73,7 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (isPlaceholderQueueItem(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -97,6 +98,13 @@ function ingestQueueItem(item, buckets, processed) {
     status: "queued",
     fromDatabase: !!item.fromDatabase,
   });
+}
+
+function isPlaceholderQueueItem(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "");
+  if (id === "cafeyn-pending-template") return true;
+  return /collez ici/i.test(title);
 }
 
 async function fetchText(url) {
