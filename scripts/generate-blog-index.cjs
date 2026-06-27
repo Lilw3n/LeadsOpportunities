@@ -14,6 +14,7 @@ const { SITE_ORIGIN: base } = require("./site-url.cjs");
 const clarityInlineHtml = require("./clarity-inline-html.cjs");
 const { franceMetaBlock, blogLogoBlock } = require("./france-brand.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
+const BLOG_CSS = "/blog/blog.css";
 
 const indexPath = path.join(__dirname, "..", "blog", "index.html");
 
@@ -150,7 +151,9 @@ var html =
   base +
   '/blog/" />\n  <link rel="alternate" type="application/rss+xml" title="Blog Leads Opportunities" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  ' +
   CLARITY_HEAD +
-  '\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body data-blog-page="index" data-market-intent="FR">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="../index.html">Accueil</a>\n      ' +
+  '\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="' +
+  BLOG_CSS +
+  '" />\n</head>\n<body data-blog-page="index" data-market-intent="FR">\n  <header class="blog-topbar">\n    <div class="blog-topbar-inner">\n      <a class="blog-back" href="../index.html">Accueil</a>\n      ' +
   blogLogoBlock() +
   '\n    </div>\n  </header>\n  <main class="blog-container blog-container--index">\n    <div class="blog-hero">\n      <h1>Blog &amp; conseils assurance</h1>\n      <p>Guides mutuelle, habitation, emprunteur et credit en <strong>France</strong> — filtrez par <strong>produit</strong> ou par <strong>sujet</strong> (canicule, seniors, voyage…).</p>\n      <p class="blog-hero-link"><a href="../assurances/">Voir toutes nos assurances</a></p>\n    </div>\n\n' +
   filtersHtml +

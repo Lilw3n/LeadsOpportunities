@@ -10,6 +10,7 @@ const { franceMetaBlock, blogLogoBlock, googleSiteVerificationMeta } = require("
 const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
 const { applyArticleImages } = require("./blog-article-images.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
+const BLOG_CSS = "/blog/blog.css";
 
 const blogDir = path.join(__dirname, "..", "blog");
 const force = process.argv.includes("--force");
@@ -218,7 +219,9 @@ function renderArticle(a) {
     esc(ogImage) +
     '" />\n  <meta property="og:image:width" content="1280" />\n  <meta property="og:image:height" content="720" />\n  <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/feed.xml" />\n  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>\n  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-JX8E35693F\');</script>\n  <script src="/api/google-config-env"></script>\n  <script src="../google-config.js"></script>\n  ' +
     CLARITY_HEAD +
-    '\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="./blog.css" />\n</head>\n<body data-blog-page="article" data-blog-article="' +
+    '\n  <script src="/js/clarity-init.js" defer></script>\n  <link rel="stylesheet" href="' +
+    BLOG_CSS +
+    '" />\n</head>\n<body data-blog-page="article" data-blog-article="' +
     esc(a.file) +
     '" data-blog-section="' +
     esc(a.section) +
