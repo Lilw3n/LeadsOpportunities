@@ -1,6 +1,6 @@
 # Blog actu automatique — leads ultra qualifiés
 
-Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
+Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**. Si les flux ne donnent aucun sujet qualifie, le pipeline publie au maximum **1 article evergreen/jour** depuis le planning editorial leads.
 
 ## Quel canal utiliser ?
 
@@ -106,6 +106,8 @@ RSS + queue manuelle + Pocket
 blog-actu-candidates.json (score leadScore)
         ↓
 auto-actu-publish (rotation cafeyn → edge → firefox → aggregator)
+        ↓ si aucun sujet qualifie
+planning evergreen leads (max 1/jour)
         ↓
 blog-actu-pending.json → blog:build → blog/*.html
         ↓
@@ -139,7 +141,9 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 | `data/blog-actu-pending.json` | Articles avant HTML |
 | `data/blog-actu-published.json` | Archives manifeste |
 | `data/blog-actu-state.json` | URLs traitées, historique auto |
+| `data/blog-evergreen-lead-topics.json` | Planning editorial evergreen utilise en secours (mutuelle, habitation, emprunteur, auto, VTC...) |
 | `scripts/auto-actu-publish.cjs` | Orchestrateur principal |
+| `scripts/blog-evergreen-leads.cjs` | Genere un article lead evergreen si les flux actu sont insuffisants |
 | `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
 | `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |
 
@@ -148,6 +152,7 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
 2. **Clarity + GA4** — déjà en place sur le blog
 3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+4. **Regularite** — si aucune actu exploitable n'est disponible, un guide evergreen prend le relais une fois par jour maximum.
 
 ## Limites légales
 
