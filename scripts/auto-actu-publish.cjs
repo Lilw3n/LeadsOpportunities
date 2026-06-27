@@ -16,6 +16,7 @@ const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
 
 var ROOT = path.join(__dirname, "..");
+var SOURCE_ROTATION_TYPES = ["cafeyn", "edge", "firefox", "google", "yahoo"];
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -37,9 +38,32 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    map[f.id] = normalizeSourceType(f.sourceType, f);
   });
   return map;
+}
+
+function normalizeSourceType(value, feed) {
+  var s = String(value || "").toLowerCase();
+  var hay = [
+    s,
+    feed && feed.id,
+    feed && feed.name,
+    feed && feed.url,
+    feed && feed.source,
+    feed && feed.feedId,
+    feed && feed.feedName,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  if (hay.indexOf("cafeyn") !== -1) return "cafeyn";
+  if (hay.indexOf("edge") !== -1 || hay.indexOf("msn") !== -1 || hay.indexOf("bing.com/news") !== -1) return "edge";
+  if (hay.indexOf("firefox") !== -1 || hay.indexOf("pocket") !== -1) return "firefox";
+  if (hay.indexOf("google-news") !== -1 || hay.indexOf("news.google.com") !== -1) return "google";
+  if (hay.indexOf("yahoo") !== -1 || hay.indexOf("fr.finance.yahoo.com") !== -1) return "yahoo";
+  return "aggregator";
 }
 
 function normalizeTitle(t) {
@@ -64,15 +88,13 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
-
 function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
+  if (c.sourceType) return normalizeSourceType(c.sourceType, c);
   var src = String(c.source || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
   if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
   if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
-  return feedMap[c.feedId] || "aggregator";
+  return feedMap[c.feedId] || normalizeSourceType(src, c);
 }
 
 function bestFromPlatform(available, platform, feedMap, used) {
@@ -118,7 +140,7 @@ function pickCandidates(candidates, count, state) {
     });
 
   if (count >= 3) {
-    PLATFORM_TYPES.forEach(function (platform) {
+    SOURCE_ROTATION_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
@@ -126,23 +148,23 @@ function pickCandidates(candidates, count, state) {
         used.add(pick.url || pick.title);
       }
     });
-    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
+    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + SOURCE_ROTATION_TYPES.length) % SOURCE_ROTATION_TYPES.length;
   } else {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
-      var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
+      var platform = SOURCE_ROTATION_TYPES[(rot + i) % SOURCE_ROTATION_TYPES.length];
       var rotated = bestFromPlatform(available, platform, feedMap, used);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
       }
     }
-    state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
+    state._nextPlatformRotation = (rot + count) % SOURCE_ROTATION_TYPES.length;
   }
 
   available
     .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+      return SOURCE_ROTATION_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
     })
     .forEach(function (c) {
       if (picks.length >= count) return;

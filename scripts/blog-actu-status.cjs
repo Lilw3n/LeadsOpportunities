@@ -5,6 +5,13 @@
 const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
 
+function isPlaceholderQueueItem(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "");
+  if (id === "cafeyn-pending-template") return true;
+  return /collez ici/i.test(title);
+}
+
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] });
@@ -14,9 +21,14 @@ function main() {
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    return i.status !== "published" && !isPlaceholderQueueItem(i);
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
+  if (candidates.bySource) {
+    console.log("Sources:", Object.keys(candidates.bySource).map(function (type) {
+      return type + "=" + candidates.bySource[type];
+    }).join(" | "));
+  }
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
