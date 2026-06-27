@@ -239,6 +239,11 @@
       "hook": "Lacunes publiques face à la chaleur : mutuelle senior pour limiter le reste à charge.",
       "question": "Prêt à comparer une mutuelle senior avant la prochaine canicule ?"
     },
+    "canicule-panneaux-solaires-pret-aides-financer.html": {
+      "section": "habitat",
+      "hook": "Canicule : panneaux solaires, aides publiques et prêt pour financer l'autoconsommation.",
+      "question": "Souhaitez-vous une étude financement travaux énergie (eco-PTZ, crédit conso) ?"
+    },
     "inflation-mutuelle-hausse-2026.html": {
       "section": "sante",
       "hook": "Cotisation en hausse : comparez à garanties équivalentes avant de résilier.",

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-26",
+  "updated": "2026-06-27",
   "sections": [
     "actu",
     "animaux",
@@ -167,6 +167,19 @@
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "canicule-panneaux-solaires-pret-aides-financer.html",
+      "title": "Canicule et panneaux solaires : aides de l'Etat, collectivites et pret pour financer",
+      "section": "finance",
+      "hook": "Canicule : panneaux solaires, aides publiques et prêt pour financer l'autoconsommation.",
+      "question": "Souhaitez-vous une étude financement travaux énergie (eco-PTZ, crédit conso) ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
       "species": null
     },
     {

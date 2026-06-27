@@ -485,6 +485,34 @@ var DEEP = {
       ),
     ],
   },
+  "canicule-panneaux-solaires-pret-aides-financer.html": {
+    keywords: [
+      "panneaux solaires canicule",
+      "photovoltaique autoconsommation",
+      "prime autoconsommation",
+      "eco-PTZ panneaux solaires",
+      "credit conso travaux energie",
+      "aides collectivites solaire",
+      "CEE photovoltaique",
+      "financer panneaux solaires",
+      "canicule France 2026",
+      "assurance habitation photovoltaique",
+      "pret travaux energie",
+    ],
+    extraBlocks: [
+      h2("Ordre de priorite energie en canicule"),
+      ul([
+        "Isoler combles et murs (confort + facture)",
+        "Stores / occultation (effet immediat chaleur)",
+        "Photovoltaique autoconsommation (production journee)",
+        "Clim ou PAC si budget et copropriete le permettent",
+      ]),
+      h2("Simuler financement + aides avant signature"),
+      p(
+        "Un installateur serieux detaille le <strong>reste a charge apres primes</strong>. Un courtier compare ensuite <strong>eco-PTZ</strong>, <strong>credit conso</strong> ou reprise de pret existant pour que la mensualite reste compatible avec votre <strong>assurance emprunteur</strong> et votre reste a vivre. <a href=\"../landings/credit-immo.html\">Etude financement</a> · <a href=\"../landings/devis.html?need=conso\">Devis credit conso</a>."
+      ),
+    ],
+  },
   "assurance-emprunteur-loi-lemoine-2026.html": {
     keywords: [
       "assurance emprunteur",

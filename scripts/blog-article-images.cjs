@@ -148,6 +148,16 @@ var I = {
     "Hydratation et prevention coup de chaleur",
     "Boire regulierement : reflexe numero un des seniors."
   ),
+  caniculeSolaire: img(
+    "./images/canicule/panneaux-solaires-toiture.jpg",
+    "Panneaux solaires photovoltaiques sur toiture — canicule et autoconsommation",
+    "Canicule : produire sa propre electricite limite la dependance au reseau."
+  ),
+  caniculeMaisonSolaire: img(
+    "./images/canicule/maison-panneaux-solaires.jpg",
+    "Maison equipee de panneaux solaires",
+    "Photovoltaique : financement, aides publiques et assurance habitation."
+  ),
   voiture: img(
     "./images/auto/voiture-route.jpg",
     "Voiture sur route — assurance auto",
@@ -327,6 +337,10 @@ var MAP = {
   "canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html": {
     hero: "caniculeUrgences",
     figure: "mutuelleDocs",
+  },
+  "canicule-panneaux-solaires-pret-aides-financer.html": {
+    hero: "caniculeSolaire",
+    figure: "caniculeMaisonSolaire",
   },
   "people-divorce-assurance-habitation-emprunteur.html": { hero: "divorce", figure: "appartLoc" },
   "darmanin-securite-habitation-assurance-emprunteur.html": { hero: "maisonFamille", figure: "creditCles" },

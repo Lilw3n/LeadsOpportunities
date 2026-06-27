@@ -196,6 +196,7 @@ module.exports = {
       ],
       related: [
         { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur seniors" },
+        { href: "./canicule-panneaux-solaires-pret-aides-financer.html", label: "Panneaux solaires et pret" },
         { href: "./canicule-secheresse-fissures-catastrophe-naturelle-assurance.html", label: "Secheresse et Cat Nat" },
         { href: "../assurance-habitation/", label: "Assurance habitation" },
         { href: "../landings/sante.html", label: "Mutuelle sante" },
@@ -752,6 +753,103 @@ module.exports = {
         { href: "./canicule-plan-gouvernement-seniors-mutuelle.html", label: "Dispositifs gouvernement" },
         { href: "./canicule-futur-climatique-seniors-assurance-mutuelle.html", label: "Futur climatique" },
         { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+      ],
+    },
+    {
+      file: "canicule-panneaux-solaires-pret-aides-financer.html",
+      section: "finance",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      title: "Canicule et panneaux solaires : aides de l'Etat, collectivites et pret pour financer",
+      description: "Vague de chaleur en France : photovoltaique, autoconsommation, prime, eco-PTZ et credit conso — comment financer ses panneaux solaires avec les aides publiques.",
+      meta: "9 min · Juin 2026",
+      cardExcerpt: "Canicule : panneaux solaires, aides publiques et pret pour financer.",
+      cta: { href: "../landings/credit-immo.html", label: "Etudier un financement travaux" },
+      heroImage: {
+        src: "./images/canicule/panneaux-solaires-toiture.jpg",
+        alt: "Panneaux solaires sur toiture — canicule et production d'electricite",
+        caption: "Canicule : l'autoconsommation solaire limite la facture et soutient la clim en journee.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Chaque <strong>canicule en France</strong> relance la meme question : comment <strong>rafraichir le logement</strong> sans exploser la facture d'electricite ? Les <strong>panneaux solaires photovoltaiques</strong> ne remplacent pas l'isolation, mais l'<strong>autoconsommation</strong> alimente ventilateurs, clim (si installee) et pompe a chaleur en plein soleil — precisement quand le reseau est tendu. Reste a combiner <strong>aides publiques</strong>, <strong>aides des collectivites</strong> et un <strong>pret adapte</strong> pour financer l'installation.",
+        },
+        {
+          type: "gallery",
+          label: "Canicule, soleil et toiture : trois leviers concrets",
+          items: [
+            {
+              src: "./images/canicule/panneaux-solaires-toiture.jpg",
+              alt: "Installation photovoltaique sur toiture",
+              caption: "Photovoltaique — production en heures de pointe chaleur",
+            },
+            {
+              src: "./images/canicule/chaleur-soleil-maison.jpg",
+              alt: "Maison sous forte chaleur estivale",
+              caption: "Canicule — consommation electrique en hausse",
+            },
+            {
+              src: "./images/canicule/maison-panneaux-solaires.jpg",
+              alt: "Maison avec equipement solaire",
+              caption: "Projet global : toiture, assurance, financement",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Pourquoi le solaire parle en periode de canicule" },
+        {
+          type: "p",
+          text: "En ete, la production <strong>PV</strong> est maximale en journée — quand la clim et la ventilation tournent. L'<strong>autoconsommation</strong> (consommer sur place ce que vous produisez) reduit la part achetee au fournisseur. Le surplus peut etre <strong>revendu</strong> (tarif reglemente de vente du surplus) selon contrat et puissance installee. Ce n'est pas une clim gratuite, mais un levier de <strong>pouvoir d'achat energie</strong> complementaire a l'isolation et aux stores.",
+        },
+        { type: "h2", text: "2. Aides de l'Etat (primes, fiscalite, TVA)" },
+        {
+          type: "figure",
+          src: "./images/canicule/maison-panneaux-solaires.jpg",
+          alt: "Maison avec panneaux solaires — aides publiques photovoltaique",
+          caption: "Primes et fiscalite : barèmes mis a jour regulierement — verifiez l'eligibilite avant devis.",
+        },
+        {
+          type: "p",
+          text: "Les dispositifs evoluent ; a date, les foyers peuvent cumuler selon profil : <strong>prime a l'autoconsommation photovoltaique</strong> (forfait par kWc installe, conditions de raccordement et d'installateur RGE), <strong>vente du surplus</strong> d'electricite, parfois <strong>TVA reduite</strong> sur l'installation en habitation principale sous conditions. Cote impots : revenus de vente de surplus souvent exoneres dans certaines limites pour les particuliers. Demandez un chiffrage avec mention explicite des <strong>aides deduites</strong> — <a href=\"../landings/credit-immo.html\">etude financement travaux</a>.",
+        },
+        { type: "h2", text: "3. Collectivites, region, CEE et programmes locaux" },
+        {
+          type: "p",
+          text: "Au-dela de l'Etat, certaines <strong>metropoles, departements ou EPCI</strong> proposent des subventions « energie solaire », des operations groupees ou des conseils via l'ADIL / maisons de l'habitat. Les <strong>Certificats d'economies d'energie (CEE)</strong> peuvent financer une part de travaux de performance energetique (souvent couple isolation + equipements). Consultez le site de votre mairie ou region : les montants varient et les budgets s'epuisent vite en debut d'annee.",
+        },
+        { type: "h2", text: "4. Quel pret pour financer les panneaux solaires ?" },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Signature de pret — financement panneaux solaires et travaux energie",
+          caption: "Eco-PTZ, credit travaux ou conso : comparer le cout total (TAEG, duree, assurance).",
+        },
+        {
+          type: "p",
+          text: "Plusieurs options selon votre situation : <strong>eco-PTZ</strong> (pret a taux zero) si le projet entre dans un bouquet de travaux d'economie d'energie eligibles et que vous respectez les plafonds de ressources ; <strong>credit travaux / credit consommation</strong> pour financer le reste a charge ; <strong>renegociation ou rachat de credit</strong> si vous voulez lisser la mensualite sans toucher a l'epargne de precaution. Si vous avez deja un <strong>pret immobilier</strong>, verifiez l'impact sur votre taux d'endettement avant d'emprunter. <a href=\"../landings/devis.html?need=conso\"><strong>Demander un devis credit conso</strong></a> · <a href=\"../landings/credit-immo.html\">credit immobilier / travaux</a>.",
+        },
+        { type: "h2", text: "5. Assurance habitation : declarer l'installation" },
+        {
+          type: "figure",
+          src: "./images/habitat/maison-famille.jpg",
+          alt: "Maison familiale — assurance habitation apres pose de panneaux solaires",
+          caption: "PV en toiture : mettre a jour la multirisque habitation (valeur du batiment).",
+        },
+        {
+          type: "p",
+          text: "Des <strong>panneaux solaires</strong> modifies la toiture et la valeur du bien. Prevenez votre assureur : garantie dommages (tempete, grele), responsabilite vis-a-vis du voisinage (chute d'objet, surchauffe), parfois extension « equipements exterieurs ». En cas de sinistre lie a la canicule (orage, grele), une installation non declaree peut compliquer l'indemnisation. <a href=\"../landings/devis.html?need=habitation\">Devis assurance habitation</a>.",
+        },
+        { type: "h2", text: "6. Checklist avant de signer un devis solaire" },
+        {
+          type: "p",
+          text: "Installateur <strong>RGE</strong>, etude de consommation, part d'autoconsommation estimee, devis avec primes deduites, mode de financement, delai de raccordement Enedis, mise a jour assurance habitation. En periode de canicule, les delais d'installation peuvent s'allonger — anticipez plutot qu'en alerte rouge.",
+        },
+      ],
+      related: [
+        { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule et habitation" },
+        { href: "./canicule-futur-climatique-seniors-assurance-mutuelle.html", label: "Climat futur et logement" },
+        { href: "../landings/credit-immo.html", label: "Credit immobilier & travaux" },
+        { href: "../landings/devis.html?need=habitation", label: "Devis habitation" },
       ],
     },
     {
