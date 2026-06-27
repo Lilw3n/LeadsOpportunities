@@ -142,6 +142,24 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+function normalizeForValidation(text) {
+  return String(text || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isUsableActuCandidate(candidate) {
+  var title = String((candidate && candidate.title) || "").trim();
+  if (title.length < 8) return false;
+  var normalized = normalizeForValidation(title);
+  if (normalized.indexOf("collez ici") !== -1) return false;
+  if (normalized.indexOf("titre de la une") !== -1) return false;
+  return true;
+}
+
 function rankCandidates(candidates) {
   return candidates
     .map(function (c) {
@@ -348,6 +366,7 @@ module.exports = {
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
+  isUsableActuCandidate: isUsableActuCandidate,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
