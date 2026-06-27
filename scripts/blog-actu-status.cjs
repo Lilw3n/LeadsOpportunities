@@ -17,6 +17,11 @@ function main() {
     return i.status !== "published";
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
+  if (candidates.bySource) {
+    console.log("Sources:", Object.keys(candidates.bySource).map(function (type) {
+      return type + "=" + candidates.bySource[type];
+    }).join(" | "));
+  }
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
