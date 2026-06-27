@@ -5,12 +5,19 @@
  * Usage:
  *   npm run blog:actu:auto
  *   npm run blog:actu:auto -- --count=2
+ *   BLOG_ACTU_AUTO_COUNT=3 npm run blog:actu:auto
  *   npm run blog:actu:auto -- --dry-run
  *   npm run blog:actu:auto -- --no-ai
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isUsableActuCandidate,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -23,6 +30,10 @@ function arg(name, def) {
   });
   if (!m) return def;
   return m.split("=").slice(1).join("=");
+}
+
+function countDefault() {
+  return process.env.BLOG_ACTU_AUTO_COUNT || 1;
 }
 
 function hasAiKey() {
@@ -94,6 +105,7 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
+    if (!isUsableActuCandidate(c)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
@@ -168,7 +180,7 @@ function runNode(script) {
 }
 
 async function main() {
-  var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
+  var count = Math.min(5, Math.max(1, Number(arg("count", countDefault())) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;

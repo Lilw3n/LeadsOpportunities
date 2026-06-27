@@ -18,9 +18,12 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
    - `DATABASE_URL` (file Cafeyn bookmarklet)
    - `BLOG_ACTU_INGEST_SECRET` (jeton inbox / favori Cafeyn)
    - optionnel : `OPENAI_API_KEY`, `POCKET_*`
-2. Vercel → mêmes variables (`BLOG_ACTU_INGEST_SECRET`, `DATABASE_URL`)
-3. Exécuter une fois `database/blog-actu-queue.sql` sur Neon
-4. Le workflow `.github/workflows/blog-actu-auto.yml` tourne seul
+2. GitHub → Settings → Secrets and variables → Actions → Variables :
+   - `BLOG_ACTU_AUTO_COUNT=1` pour 5 articles/jour (cadence sûre)
+   - `BLOG_ACTU_AUTO_COUNT=3` pour publier 1 article Cafeyn + 1 Edge + 1 Firefox à chaque run
+3. Vercel → mêmes variables (`BLOG_ACTU_INGEST_SECRET`, `DATABASE_URL`)
+4. Exécuter une fois `database/blog-actu-queue.sql` sur Neon
+5. Le workflow `.github/workflows/blog-actu-auto.yml` tourne seul
 
 ### Cafeyn — sans stocker votre mot de passe
 
@@ -72,6 +75,7 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 
 - Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
 - Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
+- Volume planifié : variable GitHub Actions `BLOG_ACTU_AUTO_COUNT` (`1` par défaut, `3` pour couvrir Cafeyn + Edge + Firefox à chaque run)
 - Commit automatique sur `main` si nouveaux articles
 
 **Secrets à configurer** (Settings → Secrets → Actions) :
@@ -82,6 +86,12 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 | `OPENAI_API_KEY` | Optionnel | Fallback IA |
 | `POCKET_CONSUMER_KEY` | Optionnel | Actu sauvegardées Firefox/Pocket |
 | `POCKET_ACCESS_TOKEN` | Optionnel | Idem |
+
+**Variable GitHub Actions** :
+
+| Variable | Défaut | Rôle |
+|----------|--------|------|
+| `BLOG_ACTU_AUTO_COUNT` | `1` | Nombre d'articles à générer à chaque cron, plafonné à `5` par le script |
 
 Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance par niche, CTA `utm_medium=actu_daily`).
 

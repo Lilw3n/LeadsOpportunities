@@ -22,6 +22,11 @@ jobs:
   publish-actu:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Articles par run planifié. Mettre BLOG_ACTU_AUTO_COUNT=3 dans
+      # Settings > Secrets and variables > Actions > Variables pour publier
+      # 1 Cafeyn + 1 Edge + 1 Firefox à chaque passage.
+      BLOG_ACTU_AUTO_COUNT: ${{ vars.BLOG_ACTU_AUTO_COUNT || '1' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +60,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           STRICT_ACTU_QUALITY: "1"
         run: |
-          COUNT="${{ github.event.inputs.count || '1' }}"
+          COUNT="${{ github.event.inputs.count || env.BLOG_ACTU_AUTO_COUNT }}"
           npm run blog:actu:auto -- --count="$COUNT" --strict-quality
 
       - name: Commit and push if changed

@@ -94,6 +94,14 @@ npm run blog:actu:auto -- --no-ai --count=1
 
 Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
 
+Pour une automation planifiée sans modifier la commande, définissez aussi :
+
+```bash
+BLOG_ACTU_AUTO_COUNT=3 npm run blog:actu:auto -- --strict-quality
+```
+
+La variable est plafonnée à `5` par le script et peut être remplacée ponctuellement par `--count=...`.
+
 ---
 
 ## Votre routine (optionnel, 2 min)
