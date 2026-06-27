@@ -8,6 +8,7 @@
  *   npm run blog:actu:auto -- --dry-run
  *   npm run blog:actu:auto -- --no-ai
  *   npm run blog:actu:auto -- --lead-fallback-only --dry-run
+ *   npm run blog:actu:auto -- --skip-fetch --dry-run
  */
 const { execSync } = require("child_process");
 const path = require("path");
@@ -246,24 +247,30 @@ async function main() {
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
+  var leadFallbackOnly = process.argv.indexOf("--lead-fallback-only") !== -1;
+  var skipFetch = leadFallbackOnly || process.argv.indexOf("--skip-fetch") !== -1;
 
   console.log("=== Auto actu publish ===");
-  console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun, "| skip-fetch:", skipFetch);
   console.log("");
 
-  var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
-  if (feedsCfg.pocket && feedsCfg.pocket.enabled !== false) {
-    try {
-      runNode("scripts/fetch-pocket.cjs");
-    } catch (e) {
-      console.warn("Pocket skip:", e.message || e);
+  if (!skipFetch) {
+    var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
+    if (feedsCfg.pocket && feedsCfg.pocket.enabled !== false) {
+      try {
+        runNode("scripts/fetch-pocket.cjs");
+      } catch (e) {
+        console.warn("Pocket skip:", e.message || e);
+      }
     }
-  }
 
-  try {
-    runNode("scripts/fetch-actu-candidates.cjs");
-  } catch (e) {
-    console.warn("Fetch RSS partiel — on continue.");
+    try {
+      runNode("scripts/fetch-actu-candidates.cjs");
+    } catch (e) {
+      console.warn("Fetch RSS partiel — on continue.");
+    }
+  } else {
+    console.log("Fetch RSS/Pocket ignore pour ce run.");
   }
 
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] }).candidates || [];
@@ -272,7 +279,7 @@ async function main() {
     publishedFiles: [],
     autoRuns: [],
   });
-  if (process.argv.indexOf("--lead-fallback-only") !== -1) {
+  if (leadFallbackOnly) {
     candidates = [];
   }
   var picks = pickCandidates(candidates, count, state);

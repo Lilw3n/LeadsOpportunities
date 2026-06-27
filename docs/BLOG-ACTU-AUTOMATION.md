@@ -67,7 +67,7 @@ npm run blog:actu:auto -- --dry-run
 # Sans clé IA (texte enrichi par niche)
 npm run blog:actu:auto -- --no-ai
 
-# Debug : tester uniquement les sujets evergreen de secours, sans publier
+# Debug : tester uniquement les sujets evergreen de secours, sans fetch ni publication
 npm run blog:actu:auto -- --lead-fallback-only --dry-run
 ```
 
