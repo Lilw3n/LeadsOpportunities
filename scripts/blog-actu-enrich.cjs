@@ -123,6 +123,7 @@ function enrichFromCandidate(candidate) {
   var file = candidate.suggestedFile;
   if (!file) return null;
   var platform = platformLabel(candidate.sourceType || candidate.source);
+  var intro = buildIntro(candidate, title, platform, angle);
 
   return {
     file: file.endsWith(".html") ? file : file + ".html",
@@ -137,13 +138,7 @@ function enrichFromCandidate(candidate) {
     blocks: [
       {
         type: "p",
-        text:
-          "Selon l'information relayee ce jour via <strong>" +
-          platform +
-          "</strong> (<strong>" +
-          escapeHtml(shortTitle(title)) +
-          "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
-          angle.hook,
+        text: intro,
       },
       { type: "h2", text: "Lien avec votre contrat d'assurance" },
       {
@@ -164,6 +159,25 @@ function enrichFromCandidate(candidate) {
     ],
     related: relatedForSection(topic.section, need),
   };
+}
+
+function buildIntro(candidate, title, platform, angle) {
+  if (candidate.sourceType === "lead_evergreen") {
+    return (
+      "Le sujet <strong>" +
+      escapeHtml(shortTitle(title)) +
+      "</strong> revient souvent au moment de comparer ou de renouveler un contrat. " +
+      angle.hook
+    );
+  }
+  return (
+    "Selon l'information relayee ce jour via <strong>" +
+    platform +
+    "</strong> (<strong>" +
+    escapeHtml(shortTitle(title)) +
+    "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
+    angle.hook
+  );
 }
 
 function buildTitle(raw, need) {
@@ -201,6 +215,7 @@ function platformLabel(sourceType) {
   if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
     return "Mozilla Firefox / Pocket";
   }
+  if (t === "lead_evergreen") return "le calendrier editorial Leads Opportunities";
   return "l'actualite du jour";
 }
 

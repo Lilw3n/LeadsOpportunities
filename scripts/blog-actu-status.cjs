@@ -8,8 +8,13 @@ const MANIFEST = require("./blog-articles-manifest.cjs");
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] });
+  var leadTopics = readJson("blog-lead-topics.json", { topics: [] });
   var pending = loadPendingArticles();
   var state = readJson("blog-actu-state.json", {});
+  var usedLeadTopics = new Set(state.processedLeadTopicIds || []);
+  var remainingLeadTopics = (leadTopics.topics || []).filter(function (topic) {
+    return topic.id && !usedLeadTopics.has(topic.id);
+  }).length;
 
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
@@ -17,6 +22,7 @@ function main() {
     return i.status !== "published";
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
+  console.log("Sujets lead fallback:", remainingLeadTopics + "/" + (leadTopics.topics || []).length);
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);

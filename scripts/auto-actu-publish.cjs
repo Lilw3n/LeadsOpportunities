@@ -7,10 +7,18 @@
  *   npm run blog:actu:auto -- --count=2
  *   npm run blog:actu:auto -- --dry-run
  *   npm run blog:actu:auto -- --no-ai
+ *   npm run blog:actu:auto -- --lead-fallback-only --dry-run
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  scaffoldArticle,
+  scoreLeadPotential,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -65,6 +73,7 @@ function loadPublishedTitleKeys() {
 }
 
 var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var LEAD_FALLBACK_SOURCE = "lead_evergreen";
 
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) return c.sourceType;
@@ -163,6 +172,71 @@ function pickCandidates(candidates, count, state) {
   return picks;
 }
 
+function renderLeadTopicCandidate(topic) {
+  var scaffold = scaffoldArticle({
+    title: topic.title,
+    summary: topic.summary || "",
+    source: "Editorial Leads Opportunities",
+    note: topic.need || "",
+  });
+  if (!scaffold) return null;
+  var ctaNeedMatch = scaffold.cta.href.match(/need=([^&]+)/);
+  var need = topic.need || (ctaNeedMatch ? ctaNeedMatch[1] : "habitation");
+  var candidate = {
+    id: "lead-topic-" + topic.id,
+    title: topic.title,
+    url: "lead-topic:" + topic.id,
+    summary: topic.summary || "",
+    source: "Editorial Leads Opportunities",
+    sourceType: LEAD_FALLBACK_SOURCE,
+    suggestedFile: scaffold.file,
+    section: scaffold.section,
+    need: need,
+    status: "lead_fallback",
+    pubDate: new Date().toISOString(),
+  };
+  candidate.leadScore = Math.min(100, scoreLeadPotential(candidate) + 30);
+  return candidate;
+}
+
+function fillWithLeadTopics(picks, count, state) {
+  if (picks.length >= count || process.argv.indexOf("--no-lead-fallback") !== -1) return picks;
+
+  var cfg = readJson("blog-lead-topics.json", { topics: [] });
+  var topics = cfg.topics || [];
+  if (!topics.length) return picks;
+
+  var usedKeys = new Set(
+    picks.map(function (p) {
+      return p.url || p.title;
+    })
+  );
+  var processedUrls = new Set(state.processedUrls || []);
+  var processedTopicIds = new Set(state.processedLeadTopicIds || []);
+
+  var available = topics.filter(function (topic) {
+    return topic.id && !processedTopicIds.has(topic.id) && !processedUrls.has("lead-topic:" + topic.id);
+  });
+
+  if (!available.length && process.argv.indexOf("--recycle-lead-topics") !== -1) {
+    processedTopicIds = new Set();
+    available = topics.slice();
+  }
+
+  available.some(function (topic) {
+    if (picks.length >= count) return true;
+    var candidate = renderLeadTopicCandidate(topic);
+    if (!candidate) return false;
+    var key = candidate.url || candidate.title;
+    if (usedKeys.has(key)) return false;
+    picks.push(candidate);
+    usedKeys.add(key);
+    return false;
+  });
+
+  return picks;
+}
+
 function runNode(script) {
   execSync("node " + script, { stdio: "inherit", cwd: ROOT });
 }
@@ -198,7 +272,11 @@ async function main() {
     publishedFiles: [],
     autoRuns: [],
   });
+  if (process.argv.indexOf("--lead-fallback-only") !== -1) {
+    candidates = [];
+  }
   var picks = pickCandidates(candidates, count, state);
+  fillWithLeadTopics(picks, count, state);
 
   if (!picks.length) {
     console.log("Aucun candidat disponible.");
@@ -257,6 +335,13 @@ async function main() {
         state.processedUrls.push(pick.url);
       }
     }
+    if (pick.sourceType === LEAD_FALLBACK_SOURCE && pick.id) {
+      state.processedLeadTopicIds = state.processedLeadTopicIds || [];
+      var topicId = pick.id.replace(/^lead-topic-/, "");
+      if (state.processedLeadTopicIds.indexOf(topicId) === -1) {
+        state.processedLeadTopicIds.push(topicId);
+      }
+    }
     published.push({
       file: article.file,
       title: article.title,
@@ -296,6 +381,9 @@ async function main() {
     at: state.lastAutoRun,
     count: published.length,
     usedAi: useAi,
+    usedLeadFallback: published.some(function (p) {
+      return p.sourceType === LEAD_FALLBACK_SOURCE;
+    }),
     articles: published,
   });
   if (state.autoRuns.length > 50) {
