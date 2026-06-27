@@ -244,6 +244,11 @@
       "hook": "Canicule : chien, chat et oiseaux ont besoin d'eau — une urgence véto coûte cher sans assurance animaux.",
       "question": "Avez-vous pensé à assurer votre chien ou votre chat avant l'été ?"
     },
+    "insolation-canicule-que-faire-mutuelle-devis.html": {
+      "section": "sante",
+      "hook": "Insolation ou coup de chaleur : l'hospitalisation peut coûter cher sans mutuelle adaptée.",
+      "question": "Votre mutuelle couvre-t-elle bien les urgences et l'hospitalisation en période de canicule ?"
+    },
     "canicule-panneaux-solaires-pret-aides-financer.html": {
       "section": "habitat",
       "hook": "Canicule : panneaux solaires, aides publiques et prêt pour financer l'autoconsommation.",

@@ -324,6 +324,11 @@ var MAP = {
   "assurance-emprunteur-combien-economiser-lemoine.html": { hero: "signaturePret", figure: "creditCles" },
   "canicule-degats-eaux-assurance-habitation.html": { hero: "canicule", figure: "sinistre" },
   "canicule-mutuelle-coup-chaleur-seniors-2026.html": { hero: "caniculeSenior", figure: "caniculeUrgences" },
+  "insolation-canicule-que-faire-mutuelle-devis.html": {
+    hero: "caniculeUrgences",
+    figure: "hospitalCare",
+    gallery: ["caniculeSoleil", "caniculeUrgences", "caniculeHydratation"],
+  },
   "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html": {
     hero: "caniculeSecheresse",
     figure: "caniculeToiture",

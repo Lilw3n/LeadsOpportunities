@@ -92,6 +92,19 @@
       "species": null
     },
     {
+      "file": "insolation-canicule-que-faire-mutuelle-devis.html",
+      "title": "Insolation et coup de chaleur : que faire tout de suite (et role de la mutuelle)",
+      "section": "sante",
+      "hook": "Insolation ou coup de chaleur : l'hospitalisation peut coûter cher sans mutuelle adaptée.",
+      "question": "Votre mutuelle couvre-t-elle bien les urgences et l'hospitalisation en période de canicule ?",
+      "need": "sante",
+      "landing": "../landings/devis.html?need=sante",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
       "file": "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
       "title": "Secheresse et fissures maison : assurance habitation et catastrophe naturelle",
       "section": "habitat",

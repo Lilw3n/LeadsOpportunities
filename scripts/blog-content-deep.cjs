@@ -485,6 +485,35 @@ var DEEP = {
       ),
     ],
   },
+  "insolation-canicule-que-faire-mutuelle-devis.html": {
+    keywords: [
+      "insolation que faire",
+      "coup de chaleur symptomes",
+      "gestes urgence insolation",
+      "appeler 15 SAMU chaleur",
+      "mutuelle hospitalisation urgence",
+      "canicule insolation France",
+      "devis mutuelle sante",
+      "remboursement urgence canicule",
+    ],
+    extraBlocks: [
+      h2("Insolation vs coup de chaleur : quelle difference ?"),
+      p(
+        "On parle souvent d'<strong>insolation</strong> pour une surchauffe liee au soleil ou a l'exposition prolongee ; le <strong>coup de chaleur</strong> designe la meme urgence medicale avec temperature corporelle elevee. Les gestes sont identiques : refroidir, hydrater si possible, alerter les secours si aggravation."
+      ),
+      h2("Combien coute une hospitalisation pour insolation ?"),
+      ul([
+        "Passage aux urgences : ticket moderateur + depassements selon medecin",
+        "Perfusions et analyses : reste a charge variable",
+        "Hospitalisation 24-48 h : forfait journalier + chambre selon contrat",
+        "Mutuelle solide : plusieurs centaines d'euros economises",
+      ]),
+      h2("Comparez votre mutuelle avant l'ete"),
+      p(
+        "Un <a href=\"../landings/devis.html?need=sante\">devis mutuelle gratuit</a> permet de verifier hospitalisation, teleconsultation et soins courants — postes decisifs en periode de canicule. <a href=\"../landings/sante.html\">Voir nos offres sante</a>."
+      ),
+    ],
+  },
   "canicule-animaux-eau-chien-chat-oiseaux-assurance.html": {
     keywords: [
       "canicule chien eau",

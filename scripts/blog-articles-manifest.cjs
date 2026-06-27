@@ -278,6 +278,97 @@ module.exports = {
       ],
     },
     {
+      file: "insolation-canicule-que-faire-mutuelle-devis.html",
+      section: "sante",
+      tag: "Canicule France",
+      tagClass: "tag-actu",
+      themes: ["canicule"],
+      title: "Insolation et coup de chaleur : que faire tout de suite (et role de la mutuelle)",
+      description: "Signes d'insolation, gestes d'urgence, numero 15, hospitalisation — et comment une mutuelle limite le reste a charge. Devis sante gratuit.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Insolation : gestes d'urgence, 15/SAMU et mutuelle.",
+      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle sante" },
+      heroImage: {
+        src: "./images/canicule/urgences-chaleur.jpg",
+        alt: "Urgence medicale canicule — insolation et coup de chaleur",
+        caption: "Insolation : agir en quelques minutes peut eviter l'hospitalisation.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "L'<strong>insolation</strong> (ou <strong>coup de chaleur</strong> lie au soleil) survient quand le corps ne parvient plus a se refroidir : temperature interne qui monte, deshydratation, parfois perte de connaissance. En <strong>canicule</strong>, les enfants, les sportifs, les travailleurs dehors et les <strong>personnes agees</strong> sont les plus exposes. Voici <strong>que faire tout de suite</strong>, quand appeler le <strong>15</strong>, et pourquoi verifier sa <strong>mutuelle sante</strong> avant l'ete. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle</strong></a> · <a href=\"../landings/sante.html\">comparatif sante</a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire mutuelle</a>.",
+        },
+        {
+          type: "gallery",
+          label: "Insolation : reconnaitre, agir, se faire rembourser",
+          items: [
+            {
+              src: "./images/canicule/chaleur-soleil-maison.jpg",
+              alt: "Fortes chaleurs et soleil — risque d'insolation",
+              caption: "Exposition prolongee au soleil sans protection",
+            },
+            {
+              src: "./images/canicule/urgences-chaleur.jpg",
+              alt: "Consultation medicale urgence chaleur",
+              caption: "Urgence — ne pas attendre que ca passe",
+            },
+            {
+              src: "./images/canicule/hydratation-prevention.jpg",
+              alt: "Hydratation et prevention canicule",
+              caption: "Prevention — eau, ombre, vetements legers",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Reconnaitre une insolation (signes d'alerte)" },
+        {
+          type: "p",
+          text: "Symptomes frequents : <strong>mal de tete intense</strong>, nausees ou vomissements, peau rouge et chaude (parfois seche), pouls rapide, confusion, vertiges, crampes, fatigue brutale. Chez l'enfant : somnolence, irritabilite, peu ou pas de larmes. Chez la personne agee : agitation ou au contraire apathie. Toute <strong>perte de connaissance</strong> ou difficulte a parler = urgence vitale.",
+        },
+        { type: "h2", text: "2. Que faire tout de suite (gestes qui sauvent)" },
+        {
+          type: "figure",
+          src: "./images/canicule/hydratation-prevention.jpg",
+          alt: "Boire de l'eau fraiche — premier reflexe insolation",
+          caption: "Premier reflexe : ombre, air, eau fraiche (pas glacee).",
+        },
+        {
+          type: "p",
+          text: "<strong>Mettre a l'ombre</strong> ou dans un endroit frais, deshabiller si possible, <strong>ventiler</strong> (ventilateur, courant d'air). Proposer de <strong>petites gorgees d'eau</strong> si la personne est consciente et peut avaler. Appliquer de l'<strong>eau tiede</strong> sur la peau (front, nuque, aisselles) — evitez l'eau glacee qui peut choquer. Surveillez jusqu'a amelioration ou arrivee des secours. Ne jamais laisser seul.",
+        },
+        { type: "h2", text: "3. Quand appeler le 15, le 18 ou le 112" },
+        {
+          type: "p",
+          text: "Appelez le <strong>15 (SAMU)</strong> si : temperature elevee (> 39 °C), vomissements repetés, confusion, convulsions, malaise avec perte de connaissance, douleur thoracique, ou si la personne ne s'ameliore pas apres 30 minutes de refroidissement. Le <strong>112</strong> fonctionne partout en Europe. En cas d'arret respiratoire : <strong>112</strong> ou <strong>18</strong> (pompiers) + massage cardiaque si vous etes forme.",
+        },
+        { type: "h2", text: "4. A l'hopital : perfusion, surveillance, mutuelle" },
+        {
+          type: "figure",
+          src: "./images/sante/hospital-care.jpg",
+          alt: "Hospitalisation urgence — prise en charge mutuelle",
+          caption: "Passage aux urgences : Securite sociale + mutuelle selon votre contrat.",
+        },
+        {
+          type: "p",
+          text: "Une insolation severe peut necessiter <strong>perfusion</strong>, analyses sanguines et <strong>hospitalisation</strong> de quelques heures a plusieurs jours. L'Assurance maladie rembourse une partie ; le <strong>reste a charge</strong> depend de votre <strong>mutuelle</strong> (hospitalisation, depassements d'honoraires, forfait journalier). Sans bonne couverture, la facture peut depasser <strong>500 a 1 500 €</strong>. Anticiper avec un <a href=\"../landings/devis.html?need=sante\">devis mutuelle sante</a> ou un <a href=\"../landings/sante-express.html\">devis express</a> evite les mauvaises surprises.",
+        },
+        { type: "h2", text: "5. Prevention : eviter l'insolation cet ete" },
+        {
+          type: "p",
+          text: "Boire regulierement (meme sans soif), porter chapeau et vetements legers, eviter l'alcool et les efforts entre 11 h et 18 h, ne jamais rester en voiture au soleil. Enfants et seniors : vigilance renforcee. Travailleurs dehors : pauses a l'ombre, eau a portee de main. Consultez aussi <a href=\"./canicule-seniors-astuces-moins-chaud-mutuelle.html\">astuces canicule seniors</a> et <a href=\"./canicule-mutuelle-coup-chaleur-seniors-2026.html\">mutuelle coup de chaleur</a>.",
+        },
+        { type: "h2", text: "6. Verifier sa mutuelle avant la canicule" },
+        {
+          type: "p",
+          text: "Postes a comparer : <strong>urgences</strong>, <strong>hospitalisation</strong> (chambre particuliere, forfait journalier), <strong>teleconsultation</strong>, medecine de ville. Un contrat adapte limite le stress financier quand il faut agir vite. <a href=\"../landings/devis.html?need=sante\"><strong>Obtenir un devis mutuelle gratuit</strong></a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire en 2 min</a> · <a href=\"../assurance-sante/\">mutuelle sante France</a>.",
+        },
+      ],
+      related: [
+        { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur seniors" },
+        { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle" },
+        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+      ],
+    },
+    {
       file: "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html",
       section: "habitat",
       tag: "Canicule France",
