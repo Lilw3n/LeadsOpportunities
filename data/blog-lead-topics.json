@@ -1,0 +1,148 @@
+{
+  "topics": [
+    {
+      "id": "mutuelle-senior-reste-a-charge-2026",
+      "section": "sante",
+      "need": "sante",
+      "tag": "Mutuelle senior",
+      "tagClass": "tag-sante",
+      "title": "Mutuelle senior 2026 : reduire le reste a charge sans surpayer",
+      "description": "Hospitalisation, dentaire, optique, appareils auditifs : comment choisir une mutuelle senior utile et demander un comparatif gratuit.",
+      "cardExcerpt": "Mutuelle senior : les garanties qui comptent vraiment apres 55 ans.",
+      "intent": "Comparer une mutuelle senior avec un bon niveau hospitalisation, optique et dentaire.",
+      "audience": "Retraites, futurs retraites, aidants familiaux",
+      "keywords": ["mutuelle senior", "reste a charge", "hospitalisation", "optique dentaire", "devis mutuelle"],
+      "related": [
+        { "href": "./mutuelle-sante-5-criteres.html", "label": "5 criteres mutuelle" },
+        { "href": "./mutuelle-sante-hospitalisation-2026.html", "label": "Hospitalisation 2026" },
+        { "href": "../assurance-sante/", "label": "Assurance sante" }
+      ]
+    },
+    {
+      "id": "degat-des-eaux-locataire-declaration",
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Degat des eaux locataire : declaration, franchise et indemnisation",
+      "description": "Fuite, voisin, plafond, franchise : les reflexes pour declarer un degat des eaux et verifier son assurance habitation.",
+      "cardExcerpt": "Degat des eaux : les 5 actions a faire avant l'expert.",
+      "intent": "Verifier ou changer une assurance habitation apres un sinistre ou avant renouvellement.",
+      "audience": "Locataires, colocataires, proprietaires occupants",
+      "keywords": ["degat des eaux", "assurance habitation", "locataire", "franchise", "sinistre"],
+      "related": [
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Habitation locataire / proprietaire" },
+        { "href": "./assurance-habitation-sous-assurance-sinistre.html", "label": "Sous-assurance habitation" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" }
+      ]
+    },
+    {
+      "id": "loi-lemoine-economiser-assurance-emprunteur",
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Loi Lemoine : economiser sur son assurance emprunteur en 2026",
+      "description": "Changer d'assurance emprunteur a tout moment : garanties equivalentes, banque, questionnaire et estimation d'economie.",
+      "cardExcerpt": "Assurance emprunteur : la methode simple pour comparer hors banque.",
+      "intent": "Changer d'assurance emprunteur pour reduire le cout du credit immobilier.",
+      "audience": "Emprunteurs immobiliers, investisseurs, couples avec credit",
+      "keywords": ["loi Lemoine", "assurance emprunteur", "delegation assurance", "credit immobilier"],
+      "related": [
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Guide loi Lemoine" },
+        { "href": "./assurance-emprunteur-combien-economiser-lemoine.html", "label": "Combien economiser" },
+        { "href": "../assurance-emprunteur/", "label": "Assurance emprunteur" }
+      ]
+    },
+    {
+      "id": "rc-pro-auto-entrepreneur-premier-client",
+      "section": "pro",
+      "need": "rc-pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro",
+      "title": "RC Pro auto-entrepreneur : que verifier avant le premier client",
+      "description": "Activite declaree, plafond, protection juridique, cyber : checklist RC Pro pour freelances et artisans avant signature.",
+      "cardExcerpt": "RC Pro : eviter le contrat trop vague quand l'activite demarre.",
+      "intent": "Obtenir une RC Pro adaptee avant devis, mission ou contrat client.",
+      "audience": "Freelances, artisans, consultants, createurs d'entreprise",
+      "keywords": ["rc pro", "auto entrepreneur", "freelance", "assurance professionnelle", "devis rc pro"],
+      "related": [
+        { "href": "./rc-pro-freelance-artisan-guide.html", "label": "Guide RC Pro" },
+        { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro" },
+        { "href": "../assurances/", "label": "Toutes nos assurances" }
+      ]
+    },
+    {
+      "id": "assurance-vtc-attestation-uber-bolt",
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Assurance VTC : attestation Uber, Bolt et garanties indispensables",
+      "description": "RC circulation, RC Pro, assistance, perte d'exploitation : le pack assurance VTC pour rouler sans blocage plateforme.",
+      "cardExcerpt": "VTC : les garanties qui evitent un refus d'attestation.",
+      "intent": "Comparer une assurance VTC conforme aux plateformes et au vehicule.",
+      "audience": "Chauffeurs VTC, capacitaires, nouveaux inscrits plateformes",
+      "keywords": ["assurance VTC", "Uber", "Bolt", "attestation VTC", "RC Pro VTC"],
+      "related": [
+        { "href": "./assurance-vtc-rc-pro-garanties.html", "label": "RC Pro VTC" },
+        { "href": "./assurance-vtc-uber-bolt-heetch.html", "label": "Uber, Bolt, Heetch" },
+        { "href": "../assurance-vtc/", "label": "Assurance VTC" }
+      ]
+    },
+    {
+      "id": "assurance-animaux-operation-chien-chat",
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "Assurance animaux : operation chien ou chat, combien reste a payer ?",
+      "description": "Plafond annuel, franchise, delai de carence : comparer une assurance animaux avant une urgence veterinaire couteuse.",
+      "cardExcerpt": "Chien ou chat : anticiper les frais veterinaires lourds.",
+      "intent": "Souscrire ou comparer une assurance animaux avant chirurgie ou maladie.",
+      "audience": "Proprietaires de chiens, chats, chiots et chatons",
+      "keywords": ["assurance animaux", "chien", "chat", "operation veterinaire", "frais veterinaires"],
+      "related": [
+        { "href": "./assurance-animaux-comment-choisir.html", "label": "Choisir assurance animaux" },
+        { "href": "./assurance-chien-frais-veterinaires.html", "label": "Frais veterinaires chien" },
+        { "href": "../assurance-animaux/", "label": "Assurance animaux" }
+      ]
+    },
+    {
+      "id": "assurance-auto-jeune-conducteur-malus",
+      "section": "auto",
+      "need": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "Jeune conducteur : baisser le prix de son assurance auto en 2026",
+      "description": "Tiers, tous risques, conducteur secondaire, bonus-malus : comment obtenir une assurance auto jeune conducteur moins chere.",
+      "cardExcerpt": "Jeune conducteur : les leviers concrets pour payer moins.",
+      "intent": "Demander un devis auto jeune conducteur ou malusse.",
+      "audience": "Jeunes conducteurs, parents, conducteurs avec malus",
+      "keywords": ["assurance auto jeune conducteur", "bonus malus", "devis auto", "tiers tous risques"],
+      "related": [
+        { "href": "./assurance-auto-jeune-conducteur-2026.html", "label": "Jeune conducteur 2026" },
+        { "href": "./assurance-auto-bonus-malus.html", "label": "Bonus-malus" },
+        { "href": "../assurance-auto/", "label": "Assurance auto" }
+      ]
+    },
+    {
+      "id": "prevoyance-tns-arret-maladie-revenus",
+      "section": "prevoyance",
+      "need": "prevoyance",
+      "tag": "Prevoyance",
+      "tagClass": "tag-prevoyance",
+      "title": "Prevoyance TNS : proteger ses revenus en cas d'arret maladie",
+      "description": "Franchise, indemnites journalieres, invalidite, deces : checklist prevoyance pour independants et dirigeants.",
+      "cardExcerpt": "TNS : calculer le trou de revenus avant un arret de travail.",
+      "intent": "Mettre en place une prevoyance independant adaptee au revenu reel.",
+      "audience": "Independants, professions liberales, gerants, artisans",
+      "keywords": ["prevoyance TNS", "arret maladie", "indemnites journalieres", "invalidite", "deces"],
+      "related": [
+        { "href": "./prevoyance-independants-guide.html", "label": "Guide prevoyance independants" },
+        { "href": "./assurance-deces-obseques-prevoyance.html", "label": "Deces et obseques" },
+        { "href": "../assurance-prevoyance/", "label": "Assurance prevoyance" }
+      ]
+    }
+  ]
+}
