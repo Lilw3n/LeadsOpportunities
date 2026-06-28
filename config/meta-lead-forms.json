@@ -326,9 +326,52 @@
             "Crédit / emprunteur",
             "Habitation",
             "Auto",
+            "Voiture sans permis",
             "Autre assurance"
           ],
           "maps_to": "serviceNeed"
+        }
+      ]
+    },
+    "vsp_express": {
+      "vertical": "vsp",
+      "name": "Citadine légère — Devis express (Meta)",
+      "campaign": "meta_auto_citadine_convert",
+      "landing": "/landings/devis.html?need=vsp",
+      "priority": 6,
+      "blog_slugs": [],
+      "intro": "Assurance véhicule léger urbain — 3 questions pour préparer votre dossier (conduite dès 14 ans avec BSR/AM).",
+      "questions": [
+        {
+          "label": "Quel est votre âge ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": [
+            "14-15 ans",
+            "16-17 ans",
+            "18-25 ans",
+            "26-40 ans",
+            "Plus de 40 ans"
+          ],
+          "maps_to": "vspDriverAgeBand"
+        },
+        {
+          "label": "Votre année de naissance ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": [
+            "Avant 1988 (BSR/AM suffit)",
+            "1988 ou après (ASSR + BSR/AM)"
+          ],
+          "maps_to": "vspBirthEra"
+        },
+        {
+          "label": "Avez-vous le BSR (permis AM) ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": [
+            "Oui, obtenu",
+            "En cours",
+            "Non"
+          ],
+          "maps_to": "hasBsrOrAm"
         }
       ]
     }
@@ -391,7 +434,10 @@
     "autoDriverProfile": "Profil conducteur",
     "autoFormula": "Formule auto",
     "bonusMalus": "Bonus-malus",
-    "serviceNeed": "Produit demandé"
+    "serviceNeed": "Produit demandé",
+    "vspDriverAgeBand": "Tranche d'âge conducteur",
+    "vspBirthEra": "Année de naissance (ASSR)",
+    "hasBsrOrAm": "BSR / permis AM"
   },
   "field_map": {
     "sur_quelle_plateforme_roulez_vous": "vtcPlatform",
@@ -418,7 +464,10 @@
     "votre_profil_conducteur": "autoDriverProfile",
     "formule_souhaitee": "autoFormula",
     "bonus_malus_actuel": "bonusMalus",
-    "quel_produit_vous_interesse": "serviceNeed"
+    "quel_produit_vous_interesse": "serviceNeed",
+    "quel_est_votre_age": "vspDriverAgeBand",
+    "votre_annee_de_naissance": "vspBirthEra",
+    "avez_vous_le_bsr_perm_am": "hasBsrOrAm"
   },
   "vertical_keywords": {
     "vtc": [
@@ -472,6 +521,16 @@
       "chien",
       "chat",
       "assurance animaux"
+    ],
+    "vsp": [
+      "vsp",
+      "sans permis",
+      "voiture sans permis",
+      "bsr",
+      "permis am",
+      "assr",
+      "quadricycle",
+      "citadine legere"
     ]
   },
   "service_need_map": {
@@ -482,6 +541,9 @@
     "crédit immo": "credit_immo",
     "emprunteur": "credit_immo",
     "habitation": "habitation",
-    "auto": "auto"
+    "auto": "auto",
+    "voiture sans permis": "vsp",
+    "assurance sans permis": "vsp",
+    "citadine legere": "vsp"
   }
 }

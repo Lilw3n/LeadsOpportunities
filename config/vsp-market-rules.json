@@ -1,0 +1,38 @@
+{
+  "product": "vsp",
+  "label": "Voiture sans permis / quadricycle léger",
+  "private": true,
+  "legalNotes": {
+    "driveAgeMin": 14,
+    "driveAgeMinDetail": "Permis AM (BSR) : conduite d'un quadricycle léger possible dès 14 ans (depuis la réforme permis).",
+    "insurancePartnerAgeMin": 16,
+    "insurancePartnerAgeMinDetail": "Fiches AMI 3F, FMA/Wakam et Solly Azar : souscription assurance souvent dès 16 ans — à 14-15 ans, lead à rappeler à l'approche des 16 ans ou vérifier acteur.",
+    "licensing": {
+      "note": "Seuil légal officiel : 1er janvier 1988 (les personnes nées en 1987 n'ont pas besoin d'ASSR).",
+      "bornBefore1988": {
+        "cutoff": "1988-01-01",
+        "label": "Né(e) avant le 1er janvier 1988",
+        "requiresAssr": false,
+        "requiresBsrOrAm": true,
+        "summary": "BSR (permis AM) suffit — pas d'ASSR obligatoire."
+      },
+      "bornFrom1988": {
+        "cutoff": "1988-01-01",
+        "label": "Né(e) en 1988 ou après",
+        "requiresAssr": true,
+        "requiresBsrOrAm": true,
+        "summary": "ASSR scolaire + BSR (permis AM) obligatoires pour conduire sans permis B."
+      }
+    }
+  },
+  "metaTargeting": {
+    "discrete": true,
+    "age_min": 14,
+    "age_max": 45,
+    "avoidInAdCopy": ["VSP", "sans permis", "BSR", "Aixam", "Ligier", "ASSR"],
+    "internalCampaign": "meta_auto_citadine_convert",
+    "formTemplate": "vsp_express",
+    "adHeadline": "Petite citadine : bien assurée ?",
+    "adPrimary": "Véhicule léger urbain — comparez en 3 min. BSR/AM : on vérifie votre dossier au rappel."
+  }
+}

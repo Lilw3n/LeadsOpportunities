@@ -42,8 +42,11 @@ function validateArticle(article) {
   });
   if (!hasH2) errors.push("sous-titres h2 manquants");
   if (!article.cta || !article.cta.href) errors.push("cta manquant");
-  else if (article.cta.href.indexOf("utm_medium=actu_daily") === -1) {
-    errors.push("utm_medium=actu_daily absent du CTA");
+  else if (
+    article.cta.href.indexOf("utm_medium=actu_daily") === -1 &&
+    article.cta.href.indexOf("utm_medium=lead_evergreen") === -1
+  ) {
+    errors.push("utm_medium actu_daily ou lead_evergreen absent du CTA");
   }
   if (!article.description || article.description.length < 80) {
     errors.push("meta description trop courte");
@@ -59,10 +62,18 @@ function main() {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
   } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
-  } else {
+    try {
+      var stdin = fs.readFileSync(0, "utf8").trim();
+      if (stdin) {
+        var parsed = JSON.parse(stdin);
+        articles = Array.isArray(parsed) ? parsed : [parsed];
+      }
+    } catch (e) {
+      if (e.code !== "EAGAIN") throw e;
+    }
+  }
+
+  if (!articles.length) {
     var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
     try {
       var data = JSON.parse(fs.readFileSync(pending, "utf8"));
