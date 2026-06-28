@@ -28,11 +28,27 @@
       <h2>Test rapide payload</h2>
       <p style="color:var(--muted)">Permet de tester les règles sans créer de lead public.</p>
       <div class="grid">
-        <label>Age conducteur<input id="testAge" class="crm-input" type="number" value="30" /></label>
+        <label>Âge conducteur<input id="testAge" class="crm-input" type="number" value="30" /></label>
+        <label>Année de naissance<input id="testBirthYear" class="crm-input" type="number" value="1985" placeholder="ex. 1985 ou 1995" /></label>
         <label>Département garage<input id="testDept" class="crm-input" value="75" /></label>
-        <label>Age véhicule<input id="testVehicleAge" class="crm-input" type="number" value="2" /></label>
+        <label>Âge véhicule<input id="testVehicleAge" class="crm-input" type="number" value="2" /></label>
       </div>
       <div class="grid">
+        <label>BSR / permis AM
+          <select id="testBsr" class="crm-input">
+            <option value="yes">Oui, obtenu</option>
+            <option value="pending">En cours</option>
+            <option value="no">Non</option>
+          </select>
+        </label>
+        <label>ASSR scolaire
+          <select id="testAssr" class="crm-input">
+            <option value="">Non renseigné</option>
+            <option value="yes">Oui</option>
+            <option value="no">Non</option>
+            <option value="na">Pas concerné (né avant 1988)</option>
+          </select>
+        </label>
         <label>Situation
           <select id="testIssue" class="crm-input">
             <option value="none">Aucune</option>

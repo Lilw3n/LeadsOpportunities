@@ -23,6 +23,8 @@ Ajouter / verifier (voir aussi `.env.example`) :
 | `LEAD_FROM_EMAIL` | Expéditeur verifie chez Resend |
 | `LEADS_ADMIN_TOKEN` | Secret au choix pour charger les leads dans `/admin.html` |
 | `LEAD_WEBHOOK_URL` | Optionnel (Zapier, Make, n8n) |
+| `SLACK_WEBHOOK_URL` | Optionnel — alertes leads Slack (Incoming Webhook, plan gratuit) · **`docs/SLACK-WITHALLO-NOTIFS.md`** |
+| `WITHALLO_WEBHOOK_SECRET` | Optionnel — quand WithAllo actif · webhook entrant `/api/webhooks/withallo` |
 | `STRIPE_*` | Deja pour les paiements |
 
 Apres modification : **Redeploy** le dernier deploiement ou push sur `main`.

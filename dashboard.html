@@ -1632,6 +1632,14 @@
           </div>
         </div>
 
+        <div class="dash-panel" id="metaRotationPanel" style="margin-bottom:20px">
+          <div class="panel-header">
+            <h2>Meta — rotation intelligente (1 €/jour)</h2>
+            <button type="button" class="btn-refresh" id="refreshMetaRotation">Actualiser</button>
+          </div>
+          <div id="metaRotationSummary" style="font-size:.92rem;color:var(--muted)">Chargement…</div>
+        </div>
+
         <div style="display:grid; grid-template-columns:2fr 1fr; gap:20px;">
           <div class="dash-panel">
             <div class="panel-header">
@@ -2210,6 +2218,44 @@
       }
     }
 
+    async function loadMetaRotation() {
+      var el = document.getElementById("metaRotationSummary");
+      if (!el) return;
+      el.textContent = "Chargement…";
+      var data = await D.api("/api/dashboard/meta-rotation");
+      if (!data.ok || !data.rotation) {
+        el.textContent = "Rotation Meta indisponible";
+        return;
+      }
+      var r = data.rotation;
+      var slot = r.active_slot || {};
+      var ad = slot.ad_copy || {};
+      var st = r.current_stats || {};
+      el.innerHTML =
+        "<p><strong>Semaine S" +
+        esc(slot.week || r.calendar_week) +
+        " · " +
+        esc(slot.id) +
+        "</strong> (" +
+        esc(slot.vertical) +
+        (slot.discrete ? ", discret" : "") +
+        ") — form " +
+        esc(slot.form_id || "—") +
+        "</p>" +
+        "<p><strong>Pub :</strong> " +
+        esc(ad.headline || "—") +
+        "</p>" +
+        "<p>Leads Meta cette semaine : <strong>" +
+        Number(st.leads || 0) +
+        "</strong> · CPL est. : <strong>" +
+        (st.cpl_eur != null ? st.cpl_eur + " €" : "—") +
+        "</strong></p>" +
+        "<p>" +
+        esc((r.recommendation && r.recommendation.reason) || "") +
+        "</p>" +
+        "<p><a href=\"./crm-acquisition.html\">CRM acquisition</a> · docs/META-ROTATION-4-SEMAINES.md</p>";
+    }
+
     async function loadJourneyDropoffs() {
       var tbody = document.getElementById("journeyDropoffBody");
       var kpi = document.getElementById("journeyKpiText");
@@ -2335,6 +2381,7 @@
         });
         loadRecentLeads();
         loadJourneyDropoffs();
+        loadMetaRotation();
       } catch (e) {
         console.error(e);
         toast("Erreur affichage stats", "error");
@@ -2689,8 +2736,11 @@
     // REFRESH
     document.getElementById("refreshStats").addEventListener("click", function () {
       loadStats();
+      loadMetaRotation();
       if (document.getElementById("sec-leads").classList.contains("active")) loadLeads();
     });
+    var refreshRot = document.getElementById("refreshMetaRotation");
+    if (refreshRot) refreshRot.addEventListener("click", loadMetaRotation);
     document.getElementById("refreshLeads").addEventListener("click", loadLeads);
 
     var params = new URLSearchParams(window.location.search);

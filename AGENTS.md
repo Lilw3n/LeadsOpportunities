@@ -3,6 +3,8 @@
 ## Scripts utiles
 
 - `npm run blog:build` — régénère tous les articles blog
+- `npm run meta:rotation:status` — semaine Meta active + CPL (1 €/jour)
+- `npm run meta:rotation:build` — JSON rotation pour le site
 - `npm run blog:actu:fetch` — récupère candidats actu (RSS + queue)
 - `npm run blog:actu:draft -- --top=2` — ébauches dans `data/blog-actu-pending.json`
 - `npm run blog:actu:publish` — blog + sitemap SEO

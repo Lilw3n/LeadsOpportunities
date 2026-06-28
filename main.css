@@ -317,6 +317,46 @@ h1 {
 .hfc-1 { animation-delay: .1s; margin-bottom: 12px; }
 .hfc-2 { animation-delay: .3s; margin-bottom: 12px; margin-left: 30px; }
 .hfc-3 { animation-delay: .5s; margin-left: 10px; }
+.hero-floating-card--focus {
+  border-color: var(--accent, #0d9488);
+  box-shadow: 0 8px 28px rgba(13, 148, 136, 0.18);
+  transform: translateY(-2px);
+}
+.acq-focus-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f766e;
+  background: rgba(13, 148, 136, 0.12);
+  border-radius: 999px;
+  padding: 3px 8px;
+  margin-bottom: 6px;
+}
+.acq-focus-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  margin: 0 0 18px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(13, 148, 136, 0.25);
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(59, 130, 246, 0.06));
+}
+.acq-focus-banner strong {
+  font-size: 0.92rem;
+}
+.acq-focus-banner a {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #0f766e;
+  text-decoration: none;
+}
+.acq-focus-banner a:hover {
+  text-decoration: underline;
+}
 .hfc-icon {
   width: 48px;
   height: 48px;

@@ -10,6 +10,10 @@ on:
         description: "Nombre d'articles (1-5)"
         required: false
         default: "1"
+      evergreen_fallback:
+        description: "Publier un article evergreen si l'actu ne suffit pas"
+        required: false
+        default: "1"
 
 concurrency:
   group: blog-actu-auto
@@ -54,6 +58,7 @@ jobs:
           POCKET_ACCESS_TOKEN: ${{ secrets.POCKET_ACCESS_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           STRICT_ACTU_QUALITY: "1"
+          BLOG_ACTU_EVERGREEN_FALLBACK: ${{ github.event.inputs.evergreen_fallback || '1' }}
         run: |
           COUNT="${{ github.event.inputs.count || '1' }}"
           npm run blog:actu:auto -- --count="$COUNT" --strict-quality
@@ -63,7 +68,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git status --porcelain | grep -q .; then
-            git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
+            git add data/blog-actu-*.json data/blog-evergreen-*.json blog/*.html sitemap*.xml seo/
             git commit -m "chore(blog): actu auto GitHub $(date -u +%Y-%m-%dT%H:%MZ)"
             git push
           else

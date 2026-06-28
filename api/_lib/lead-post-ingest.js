@@ -105,12 +105,55 @@ async function sendResendEmail(payload, score, leadId) {
   return true;
 }
 
+async function notifySlack(payload, score, leadId) {
+  var url = (process.env.SLACK_WEBHOOK_URL || "").trim();
+  if (!url) return false;
+
+  var appUrl = (
+    process.env.APP_URL ||
+    process.env.NEXT_PUBLIC_APP_URL ||
+    "https://www.leadsopportunities.fr"
+  ).replace(/\/$/, "");
+  var src = String(payload.source || "site");
+  var vertical = String(payload.vertical || "devis");
+  var crmPath =
+    src === "meta_lead_ads" ? "/crm-meta-inbox.html" : "/crm-acquisition.html";
+  var lines = [
+    "*Nouveau lead* — " + vertical + " · score " + score + "/100",
+    "Source: " + src,
+    payload.phone ? "Tel: " + payload.phone : "",
+    payload.email ? "Email: " + payload.email : "",
+    payload.utm_campaign ? "Campagne: " + payload.utm_campaign : "",
+    "ID: " + leadId,
+    "<" + appUrl + crmPath + "|Ouvrir le CRM>",
+  ].filter(Boolean);
+
+  try {
+    var r = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: lines.join("\n") }),
+    });
+    if (!r.ok) console.warn("[lead] slack", r.status, await r.text().catch(function () { return ""; }));
+    return r.ok;
+  } catch (e) {
+    console.error("[lead] slack error", e.message);
+    return false;
+  }
+}
+
 async function finalizeLeadIngest(enriched, leadId, score, req) {
   var emailSent = false;
   try {
     emailSent = !!(await sendResendEmail(enriched, score, leadId));
   } catch (e) {
     console.error("[lead] email failed", e);
+  }
+
+  try {
+    await notifySlack(enriched, score, leadId);
+  } catch (e) {
+    console.error("[lead] slack failed", e);
   }
 
   try {

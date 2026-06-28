@@ -59,11 +59,20 @@ npm run blog:actu:auto
 # Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
 
+# Si les flux actu ne suffisent pas, un sujet evergreen lead est publie en secours
+npm run blog:actu:auto -- --count=2
+
+# Generer uniquement un article evergreen lead (hors RSS)
+npm run blog:evergreen
+
 # Test sans écrire
 npm run blog:actu:auto -- --dry-run
 
 # Sans clé IA (texte enrichi par niche)
 npm run blog:actu:auto -- --no-ai
+
+# Desactiver le secours evergreen
+npm run blog:actu:auto -- --no-evergreen
 ```
 
 ### GitHub Actions — 5× par jour
@@ -106,6 +115,8 @@ RSS + queue manuelle + Pocket
 blog-actu-candidates.json (score leadScore)
         ↓
 auto-actu-publish (rotation cafeyn → edge → firefox → aggregator)
+        ↓ si l'actu ne suffit pas
+calendrier evergreen leads (mutuelle, habitation, auto, emprunteur...)
         ↓
 blog-actu-pending.json → blog:build → blog/*.html
         ↓
@@ -139,8 +150,11 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 | `data/blog-actu-pending.json` | Articles avant HTML |
 | `data/blog-actu-published.json` | Archives manifeste |
 | `data/blog-actu-state.json` | URLs traitées, historique auto |
+| `data/blog-evergreen-topics.json` | Calendrier de sujets evergreen a forte intention lead |
+| `data/blog-evergreen-state.json` | Rotation et anti-doublon evergreen |
 | `scripts/auto-actu-publish.cjs` | Orchestrateur principal |
 | `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
+| `scripts/generate-evergreen-lead-articles.cjs` | Secours articles recurrents orientes questionnaire |
 | `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |
 
 ## Leads ultra qualifiés
