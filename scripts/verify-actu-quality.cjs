@@ -42,8 +42,11 @@ function validateArticle(article) {
   });
   if (!hasH2) errors.push("sous-titres h2 manquants");
   if (!article.cta || !article.cta.href) errors.push("cta manquant");
-  else if (article.cta.href.indexOf("utm_medium=actu_daily") === -1) {
-    errors.push("utm_medium=actu_daily absent du CTA");
+  else if (
+    article.cta.href.indexOf("utm_medium=actu_daily") === -1 &&
+    article.cta.href.indexOf("utm_medium=lead_evergreen") === -1
+  ) {
+    errors.push("utm_medium actu_daily ou lead_evergreen absent du CTA");
   }
   if (!article.description || article.description.length < 80) {
     errors.push("meta description trop courte");
