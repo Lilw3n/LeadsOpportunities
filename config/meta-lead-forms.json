@@ -70,6 +70,16 @@
       "form_id": "1324830915906760",
       "top_blog_slug": null,
       "top_blog_score": null
+    },
+    "1023485613566134": {
+      "template": "vsp_express",
+      "vertical": "vsp",
+      "campaign": "meta_auto_citadine_convert",
+      "landing": "/landings/devis.html?need=vsp",
+      "name": "Citadine légère — Devis express (Meta)",
+      "form_id": "1023485613566134",
+      "top_blog_slug": null,
+      "top_blog_score": null
     }
   },
   "form_templates": {
