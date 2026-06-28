@@ -6,6 +6,7 @@
 - `npm run blog:actu:fetch` — récupère candidats actu (RSS + queue)
 - `npm run blog:actu:draft -- --top=2` — ébauches dans `data/blog-actu-pending.json`
 - `npm run blog:actu:publish` — blog + sitemap SEO
+- `npm run blog:leads:auto` — publie un article evergreen orienté questionnaire lead
 - `npm run seo:build` — sitemaps
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
 
@@ -30,12 +31,25 @@ Résumé agent manuel :
 
 Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 
+## Blog leads evergreen
+
+Voir **`docs/BLOG-LEADS-AUTOMATION.md`**.
+
+```bash
+npm run blog:leads:auto              # 1 article de conversion
+npm run blog:leads:auto -- --count=3 # jusqu'à 3
+```
+
+CI : **`.github/workflows/blog-leads-auto.yml`** (lundi/mercredi/vendredi).
+Plan : `data/blog-lead-article-plan.json` ; tracking `utm_medium=lead_evergreen`.
+
 ## Ciblage marché France
 
 - Libs : `scripts/france-audience-lib.cjs` (scoring actu, `noindex` international), `scripts/france-brand.cjs` (meta + logo).
 - Doc : **`docs/TRAFIC-FRANCE.md`**
 - SEO/SEA (geo API, garde formulaires, `qualified_lead`) : **`docs/SEO-SEA-FRANCE-CIBLAGE.md`**
 - Acquisition blog → conversion (0 € test, pub intelligente) : **`docs/ACQUISITION-BLOG-CONVERSION.md`** + `ads/meta-blog-conversions.csv`
+- **Meta pub : 1 €/jour max, 1 seule annonce** — `config/meta-lead-forms.json` → `ads_policy` ; ne pas multiplier les campagnes
 - Corrélation analytics (GA4, Clarity, GSC, Meta, CRM) : **`docs/TRACKING-CORRELATION.md`**
 - Clarity : tag `market_intent=FR` — filtrer le dashboard par pays France.
 - Actu internationale existante : `noindex,follow` ; la pipeline auto ignore les nouveaux sujets US/gaming sans angle FR.

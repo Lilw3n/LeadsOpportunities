@@ -4,6 +4,13 @@ Guide pour créer dans **Meta Ads Manager** les formulaires instantanés aligné
 
 Référence technique : `config/meta-lead-forms.json` · Webhook : `/api/webhooks/meta-lead` · Doc générale : [META-ADS-AUTOMATION.md](./META-ADS-AUTOMATION.md)
 
+## Budget pub — 1 €/jour max
+
+- **Plafond global : 1 €/jour** pour tout le compte Meta (`997768686183548`)
+- **Une seule campagne / annonce active** — ne pas lancer une pub par vertical ou par article
+- Les 6 formulaires servent à **préparer** les assets ; la pub payante reste **unique** jusqu’à validation CPL
+- Voir `ads_policy` dans `config/meta-lead-forms.json`
+
 ---
 
 ## Principe : court, pertinent, prérempli
@@ -227,14 +234,16 @@ node scripts/meta-create-lead-forms.cjs --create --template=vtc_express
 
 ## Lier annonces blog → formulaire Meta
 
-Pour chaque article à fort trafic, créez une **annonce Lead Ads** avec :
+**Phase actuelle : une seule annonce, 1 €/jour max.** Ne pas créer d’annonce par article.
+
+Quand vous lancez la **première** pub (vertical prioritaire #1 = VTC) :
 
 - **Creative** : visuel article + accroche issue du H1
-- **Formulaire** : template vertical correspondant (tableau priorité ci-dessus)
-- **URL de destination** (optionnelle) : landing du template pour trafic site parallèle
+- **Formulaire** : template `vtc_express` (ou vertical choisi — un seul)
+- **Budget** : 1 €/jour dans Ads Manager
 - **UTM** : `utm_source=meta&utm_medium=paid_social&utm_campaign=<campaign du template>`
 
-Exemple CSV campagnes organiques/paid : `ads/meta-blog-conversions.csv`
+Les autres templates / articles restent en réserve — pas de campagnes parallèles.
 
 ---
 
@@ -246,7 +255,8 @@ Exemple CSV campagnes organiques/paid : `ads/meta-blog-conversions.csv`
 - [ ] 6 formulaires créés + `form_id` dans `config/meta-lead-forms.json`
 - [ ] Test : soumettre un lead test → vérifier `crm-meta-inbox.html`
 - [ ] Events Manager : événement `Lead` (CAPI) reçu
-- [ ] **Pas de budget test** tant que CPL organique / corrélation GA4 non validée (voir `docs/ACQUISITION-BLOG-CONVERSION.md`)
+- [ ] **Budget pub : 1 €/jour max**, **1 seule annonce** active (pas de multiplication)
+- [ ] CPL organique validé avant scale (voir `docs/ACQUISITION-BLOG-CONVERSION.md`)
 
 ---
 

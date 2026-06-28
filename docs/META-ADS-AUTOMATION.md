@@ -2,6 +2,19 @@
 
 Guide pour connecter **Leads Opportunities** à Meta Ads (compte `997768686183548`, page `1183829618147455`) : pixel, CAPI, formulaires Lead Ads et publicités automatisées.
 
+## Politique budget (obligatoire)
+
+| Règle | Valeur |
+|-------|--------|
+| **Budget quotidien max** | **1 €/jour** (plafond global compte pub) |
+| **Campagnes actives** | **1 seule** |
+| **Annonces actives** | **1 seule** — ne pas multiplier par vertical, article ou formulaire |
+| **Automated Ads multi-annonces** | **Interdit** pour l’instant |
+
+Source de vérité : `config/meta-lead-forms.json` → `ads_policy`.
+
+Les scripts du repo créent des **formulaires Lead Ads**, pas des campagnes payantes. Toute mise en ligne pub reste manuelle et doit respecter ce plafond.
+
 ## Vue d’ensemble
 
 ```mermaid
@@ -135,8 +148,9 @@ URL de création :
    - Téléphone
    - Case consentement RGPD (« J’accepte d’être contacté par Leads Opportunities »)
 4. Ciblage : **France**, langue **Français**
-5. Budget quotidien (ex. 10–20 € pour tester)
-6. Une fois le formulaire créé → noter le `form_id` → l’ajouter dans `config/meta-lead-forms.json`
+5. **Budget quotidien : 1 € max** (plafond compte — une seule campagne)
+6. **Une seule annonce** — ne pas lancer de campagnes parallèles par vertical
+7. Une fois le formulaire créé → noter le `form_id` → l’ajouter dans `config/meta-lead-forms.json`
 
 Les leads arrivent automatiquement dans le CRM sans action manuelle.
 
@@ -161,12 +175,9 @@ Landings par produit :
 2. Événement d’optimisation : **Lead** (pas PageView)
 3. Le pixel + CAPI du site gèrent le suivi
 
-### Option C — Mix (Automated Ads avancé)
+### Option C — Mix multi-annonces
 
-- Annonce 1 : formulaire instantané (Lead Ads webhook)
-- Annonce 2 : lien vers landing rappel (pixel site)
-
-Les deux remontent en **Lead** dans Events Manager et alimentent le même CRM.
+**Non recommandé pour l’instant** — le plafond est **1 €/jour total**. Privilégier **une seule** annonce (Lead Ads **ou** trafic site, pas les deux en parallèle).
 
 ---
 
@@ -203,8 +214,8 @@ Doc Make/n8n : `docs/automation-make-n8n.md`.
 - [ ] `META_APP_SECRET`, `META_VERIFY_TOKEN`, `META_PAGE_ACCESS_TOKEN` sur Vercel
 - [ ] Test Lead Ads → lead visible dans CRM (`source: meta_lead_ads`)
 - [ ] `form_id` ajouté dans `config/meta-lead-forms.json`
-- [ ] Campagne Automated Ads : France, français, optimisation Lead
-- [ ] Budget test lancé
+- [ ] **Une seule** campagne : France, français, optimisation Lead
+- [ ] Budget **1 €/jour max** (plafond compte) — pas de multiplication d’annonces
 
 ---
 
