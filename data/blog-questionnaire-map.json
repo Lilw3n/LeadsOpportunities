@@ -305,20 +305,27 @@
     },
     "assurance-emprunteur-loi-lemoine-2026.html": {
       "need": "emprunteur",
+      "section": "finance",
       "landing": "/landings/credit-immo.html",
       "express": "/landings/devis-express.html?need=credit-immo",
       "questionnaire": "/landings/questionnaire.html?need=emprunteur&journey=standard",
       "hook": "La Lemoine peut faire économiser des milliers d'euros — si les garanties sont équivalentes.",
       "question": "Combien pourriez-vous économiser sur votre assurance emprunteur ?",
-      "primaryLabel": "Étude assurance emprunteur"
+      "primaryLabel": "Étude assurance emprunteur",
+      "landingLabel": "Étude crédit / emprunteur",
+      "expressLabel": "Rappel emprunteur"
     },
     "assurance-emprunteur-combien-economiser-lemoine.html": {
       "need": "emprunteur",
+      "section": "finance",
       "landing": "/landings/credit-immo.html",
       "express": "/landings/devis-express.html?need=credit-immo",
       "questionnaire": "/landings/questionnaire.html?need=emprunteur&journey=standard",
+      "hook": "La Lemoine peut faire économiser des milliers d'euros — si les garanties sont équivalentes.",
       "question": "Simulez votre économie Lemoine en quelques minutes",
-      "primaryLabel": "Simuler mon économie Lemoine"
+      "primaryLabel": "Simuler mon économie Lemoine",
+      "landingLabel": "Étude crédit / emprunteur",
+      "expressLabel": "Rappel emprunteur"
     },
     "vtc-premiere-course-checklist-assurance.html": {
       "section": "vtc",
