@@ -42,7 +42,8 @@ GOOGLE_ADS_CONVERSION_PHONE=AW-.../...
 1. **Emplacements** : France uniquement.
 2. **Langue** : Français.
 3. Renseigner `META_PIXEL_ID` + `META_CAPI_TOKEN` sur Vercel.
-4. Exclure audiences Lookalike hors France.
+4. Lead Ads natifs : webhook `POST /api/webhooks/meta-lead` — voir **`docs/META-ADS-AUTOMATION.md`**.
+5. Exclure audiences Lookalike hors France.
 
 ## Search Console / SEO
 

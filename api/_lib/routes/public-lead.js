@@ -19,110 +19,7 @@ const {
   looksLikeFrenchPostalCode,
 } = require("../geo-france");
 
-function normalizeEmailAddress(addr) {
-  var s = String(addr || "").trim();
-  var m = s.match(/<([^>]+)>/);
-  return (m && m[1] ? m[1] : s).trim().toLowerCase();
-}
-
-/** Gmail + contact@ : liste separee par virgule, ou MAILBOX_ADDRESS si LEAD_NOTIFY_INCLUDE_MAILBOX=true (defaut). */
-function getLeadNotificationRecipients() {
-  var raw = process.env.LEAD_NOTIFICATION_EMAIL || "courtier972@gmail.com";
-  var list = raw
-    .split(/[,;]/)
-    .map(function (s) {
-      return s.trim();
-    })
-    .filter(function (s) {
-      return s && s.indexOf("@") > 0;
-    });
-
-  var includeMailbox = process.env.LEAD_NOTIFY_INCLUDE_MAILBOX !== "false";
-  var mailbox = (process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr").trim();
-  if (includeMailbox && mailbox && mailbox.indexOf("@") > 0) {
-    var mailboxKey = normalizeEmailAddress(mailbox);
-    var hasMailbox = list.some(function (e) {
-      return normalizeEmailAddress(e) === mailboxKey;
-    });
-    if (!hasMailbox) list.push(mailbox);
-  }
-
-  var seen = new Set();
-  return list.filter(function (e) {
-    var key = normalizeEmailAddress(e);
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-}
-
-async function sendResendEmail(payload, score, leadId) {
-  var key = process.env.RESEND_API_KEY;
-  var toList = getLeadNotificationRecipients();
-  var from = process.env.LEAD_FROM_EMAIL || "Leads Opportunities <onboarding@resend.dev>";
-
-  if (!key) {
-    console.warn("[lead] RESEND_API_KEY manquant — aucun e-mail envoye");
-    return false;
-  }
-  if (!toList.length) {
-    console.warn("[lead] aucun destinataire notification");
-    return false;
-  }
-
-  var sub =
-    "[Lead " +
-    (payload.vertical || "?") +
-    "] score " +
-    score +
-    " — " +
-    (payload.email || payload.phone || leadId);
-  var html =
-    "<h2>Nouvelle demande Leads Opportunities</h2>" +
-    "<p><strong>ID</strong> " +
-    leadId +
-    "</p>" +
-    "<p><strong>Score</strong> " +
-    score +
-    "/100</p>" +
-    "<p><strong>Source</strong> " +
-    escapeHtml(String(payload.source || "")) +
-    "</p>" +
-    "<p><strong>Vertical</strong> " +
-    escapeHtml(String(payload.vertical || "")) +
-    "</p>" +
-    "<pre style=\"background:#f1f5f9;padding:12px;border-radius:8px;overflow:auto\">" +
-    escapeHtml(JSON.stringify(payload, null, 2).slice(0, 12000)) +
-    "</pre>";
-
-  var r = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + key,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: from,
-      to: toList,
-      subject: sub,
-      html: html,
-    }),
-  });
-
-  if (!r.ok) {
-    var t = await r.text();
-    console.warn("[lead] resend", r.status, t);
-    return false;
-  }
-  return true;
-}
-
-function escapeHtml(s) {
-  return String(s)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+const { finalizeLeadIngest } = require("../lead-post-ingest");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -433,57 +330,13 @@ module.exports = async (req, res) => {
     console.warn("[lead] DATABASE_URL manquant — lead non enregistre en base");
   }
 
-  var emailSent = false;
+  var postIngest = { emailSent: false };
   try {
-    emailSent = !!(await sendResendEmail(enriched, score, leadId));
+    postIngest = await finalizeLeadIngest(enriched, leadId, score, req);
   } catch (e) {
-    console.error("[lead] email failed", e);
+    console.error("[lead] post ingest failed", e);
   }
-
-  try {
-    const { dispatchLeadToPartners } = require("../partners/dispatch");
-    dispatchLeadToPartners(enriched, score, leadId).catch(function (e) {
-      console.error("[partners/dispatch]", e);
-    });
-  } catch (e) {
-    console.error("[partners]", e);
-  }
-
-  var webhookUrl = process.env.LEAD_WEBHOOK_URL;
-  if (webhookUrl) {
-    try {
-      var r = await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(enriched),
-      });
-      if (!r.ok) console.warn("[lead] webhook status", r.status);
-    } catch (e) {
-      console.error("[lead] webhook error", e);
-    }
-  }
-
-  try {
-    const { sendMetaEvent } = require("../meta-capi");
-    await sendMetaEvent({
-      eventName: "Lead",
-      eventId: leadId,
-      pageUrl: (process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "") + (enriched.page || ""),
-      email: enriched.email,
-      phone: enriched.phone,
-      fbclid: enriched.fbclid || enriched.attr_last_fbclid || null,
-      clientIp: enriched.clientIp || normalizeClientIp(req),
-      clientUa: req.headers["user-agent"] || "",
-      customData: {
-        currency: "EUR",
-        value: score || 1,
-        content_name: enriched.vertical || "lead",
-        source: enriched.source || "site",
-      },
-    });
-  } catch (metaErr) {
-    console.warn("[lead] meta capi", metaErr.message);
-  }
+  var emailSent = !!postIngest.emailSent;
 
   var contactIdOut = enriched._crmContactId || null;
   if (!contactIdOut && stored && enriched.email && dbUrl) {

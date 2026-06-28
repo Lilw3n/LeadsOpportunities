@@ -104,10 +104,16 @@ Les pages chargent d’abord `/api/google-config-env` puis `google-config.js` : 
 | `GOOGLE_ADS_CONVERSION_PHONE` | `AW-123456789/abcDEF` | Conversion **Clic sur numero** (optionnel) |
 | `GOOGLE_ADS_CONVERSION_WHATSAPP` | `AW-123456789/ghiJKL` | Conversion **WhatsApp** (optionnel) |
 | `META_PIXEL_ID` | `123456789012345` | Pixel Meta (client) |
+| `META_CAPI_TOKEN` | token CAPI Events Manager | Conversions API Meta (serveur) |
+| `META_APP_SECRET` | secret app Facebook | Signature webhook Lead Ads |
+| `META_VERIFY_TOKEN` | chaîne aléatoire | Vérification webhook GET |
+| `META_PAGE_ACCESS_TOKEN` | token page longue durée | Récupération leads Graph API |
+| `META_PAGE_ID` | `1183829618147455` | Page Facebook liée aux Lead Ads |
 | `CLARITY_PROJECT_ID` | `abc1def2gh` | [Microsoft Clarity](https://clarity.microsoft.com/) → Projet → **Paramètres** → ID du projet (heatmaps + replays) |
 | `GEMINI_API_KEY` | clé Google AI | GitHub Actions / Cursor — rédaction articles actu (`blog:actu:auto`) |
 | `BLOG_ACTU_INGEST_SECRET` | jeton long aléatoire | Favori Cafeyn → `blog/actu-inbox.html` → file prioritaire (avec `DATABASE_URL`) |
-| `META_CAPI_TOKEN` | token CAPI Events Manager | Conversions API Meta (serveur) |
+
+Guide Meta Ads complet : **`docs/META-ADS-AUTOMATION.md`**
 
 Apres modification sur Vercel : **Redeploy**. En local sans `vercel dev`, l’URL `/api/google-config-env` n’existe pas : le site garde les valeurs par defaut de `google-config.js` (tu peux y mettre tes IDs pour les tests).
 

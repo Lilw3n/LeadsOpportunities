@@ -401,6 +401,11 @@
     });
   }
 
+  function readCookie(name) {
+    var match = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "=([^;]*)"));
+    return match ? decodeURIComponent(match[1]) : "";
+  }
+
   window.getAttributionPayload = function () {
     ensureVisitorId();
     captureAttribution();
@@ -428,6 +433,8 @@
         attr_last_utm_campaign: lt.utm_campaign || cur.get("utm_campaign") || "",
         attr_last_gclid: lt.gclid || cur.get("gclid") || "",
         attr_last_fbclid: lt.fbclid || cur.get("fbclid") || "",
+        fbp: readCookie("_fbp") || "",
+        attr_fbp: readCookie("_fbp") || "",
       };
     } catch (e) {
       return { visitor_id: ensureVisitorId() };

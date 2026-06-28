@@ -109,3 +109,5 @@ Pour optimiser Meta Ads :
 1. Evenement principal d'optimisation : **Lead**.
 2. Evenement secondaire pour retargeting : **JourneyFormStart**.
 3. Segment abandon : visiteurs avec `JourneyFormStart` sans `Lead` (fenetre 7-14 jours).
+
+Guide complet (pixel, CAPI, Lead Ads webhook, Automated Ads) : **`docs/META-ADS-AUTOMATION.md`**.
