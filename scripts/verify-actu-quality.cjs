@@ -62,10 +62,18 @@ function main() {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
   } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
-  } else {
+    try {
+      var stdin = fs.readFileSync(0, "utf8").trim();
+      if (stdin) {
+        var parsed = JSON.parse(stdin);
+        articles = Array.isArray(parsed) ? parsed : [parsed];
+      }
+    } catch (e) {
+      if (e.code !== "EAGAIN") throw e;
+    }
+  }
+
+  if (!articles.length) {
     var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
     try {
       var data = JSON.parse(fs.readFileSync(pending, "utf8"));
