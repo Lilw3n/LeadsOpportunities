@@ -54,6 +54,7 @@ jobs:
           POCKET_ACCESS_TOKEN: ${{ secrets.POCKET_ACCESS_TOKEN }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           STRICT_ACTU_QUALITY: "1"
+          LEAD_FALLBACK: "1"
         run: |
           COUNT="${{ github.event.inputs.count || '1' }}"
           npm run blog:actu:auto -- --count="$COUNT" --strict-quality

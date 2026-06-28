@@ -99,11 +99,23 @@ function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
+  var leadNeedBoost = {
+    emprunteur: 24,
+    sante: 22,
+    habitation: 21,
+    auto: 18,
+    vtc: 18,
+    prevoyance: 17,
+    animaux: 15,
+    "rc-pro": 15,
+  };
 
   if (candidate.status === "queued") score += 25;
+  if (candidate.status === "lead_topic" || candidate.sourceType === "lead_topic") score += 30;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
+  if (leadNeedBoost[need]) score += leadNeedBoost[need];
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
@@ -112,6 +124,25 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  [
+    "devis",
+    "comparer",
+    "comparatif",
+    "changer",
+    "resilier",
+    "resiliation",
+    "cotisation",
+    "tarif",
+    "prix",
+    "franchise",
+    "reste a charge",
+    "remboursement",
+    "garantie",
+    "obligatoire",
+    "loi lemoine",
+  ].forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) score += 6;
+  });
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",

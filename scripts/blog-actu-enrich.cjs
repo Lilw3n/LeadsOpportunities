@@ -123,13 +123,24 @@ function enrichFromCandidate(candidate) {
   var file = candidate.suggestedFile;
   if (!file) return null;
   var platform = platformLabel(candidate.sourceType || candidate.source);
+  var isLeadTopic = candidate.sourceType === "lead_topic";
+  var introText = isLeadTopic
+    ? "Ce guide Leads Opportunities repond a une intention directe de devis : <strong>" +
+      escapeHtml(shortTitle(title)) +
+      "</strong>. L'objectif est simple : identifier les garanties utiles, eviter les doublons et declencher le bon questionnaire avant de comparer."
+    : "Selon l'information relayee ce jour via <strong>" +
+      platform +
+      "</strong> (<strong>" +
+      escapeHtml(shortTitle(title)) +
+      "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
+      angle.hook;
 
   return {
     file: file.endsWith(".html") ? file : file + ".html",
     section: topic.section,
     tag: topic.tag,
     tagClass: topic.tagClass,
-    title: buildTitle(title, need),
+    title: buildTitle(title, need, candidate.sourceType),
     description: title.slice(0, 155) + " — conseils assurance et questionnaire gratuit Leads Opportunities.",
     meta: "7 min · " + monthLabel(),
     cardExcerpt: title.slice(0, 110) + " — impact sur votre assurance.",
@@ -137,13 +148,7 @@ function enrichFromCandidate(candidate) {
     blocks: [
       {
         type: "p",
-        text:
-          "Selon l'information relayee ce jour via <strong>" +
-          platform +
-          "</strong> (<strong>" +
-          escapeHtml(shortTitle(title)) +
-          "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
-          angle.hook,
+        text: introText,
       },
       { type: "h2", text: "Lien avec votre contrat d'assurance" },
       {
@@ -166,8 +171,11 @@ function enrichFromCandidate(candidate) {
   };
 }
 
-function buildTitle(raw, need) {
+function buildTitle(raw, need, sourceType) {
   var short = shortTitle(raw);
+  if (sourceType === "lead_topic") {
+    return short;
+  }
   if (isSportActu(raw)) {
     return short + " : assurance voyage, mutuelle etranger et habitation — guide supporters";
   }

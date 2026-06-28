@@ -56,6 +56,9 @@ Les candidats Google News restent en secours, mais ne remplacent plus les 3 plat
 # 1 article (rotation cafeyn/edge/firefox selon l'heure)
 npm run blog:actu:auto
 
+# Alias explicite pour la cadence articles -> leads
+npm run blog:leads:auto
+
 # Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
 
@@ -64,6 +67,25 @@ npm run blog:actu:auto -- --dry-run
 
 # Sans clé IA (texte enrichi par niche)
 npm run blog:actu:auto -- --no-ai
+
+# Couper le fallback evergreen si vous voulez uniquement l'actu RSS
+npm run blog:actu:auto -- --no-lead-fallback
+```
+
+### Cadence régulière et fallback leads
+
+Le run automatique cherche d'abord des actualités qualifiées (Cafeyn / Edge / Firefox / Google News). Si le nombre de candidats exploitables est insuffisant, il complète avec des sujets evergreen issus de **`data/blog-lead-topics.json`** :
+
+- mutuelle santé ;
+- assurance emprunteur ;
+- habitation / sinistres ;
+- VTC / RC Pro ;
+- auto, prévoyance, animaux.
+
+Chaque sujet fallback est marqué `lead-topic:AAAA-MM:<id>` dans `data/blog-actu-state.json`, ce qui évite de republier le même thème plusieurs fois dans le mois. Le statut se vérifie avec :
+
+```bash
+npm run blog:actu:status
 ```
 
 ### GitHub Actions — 5× par jour
@@ -139,6 +161,7 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 | `data/blog-actu-pending.json` | Articles avant HTML |
 | `data/blog-actu-published.json` | Archives manifeste |
 | `data/blog-actu-state.json` | URLs traitées, historique auto |
+| `data/blog-lead-topics.json` | Réserve mensuelle de sujets evergreen orientés leads |
 | `scripts/auto-actu-publish.cjs` | Orchestrateur principal |
 | `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
 | `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |
