@@ -14,6 +14,7 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const { generateEvergreenArticles } = require("./generate-evergreen-lead-articles.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -172,9 +173,20 @@ async function main() {
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
+  var evergreenFallback =
+    process.argv.indexOf("--no-evergreen") === -1 && process.env.BLOG_ACTU_EVERGREEN_FALLBACK !== "0";
 
   console.log("=== Auto actu publish ===");
-  console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  console.log(
+    "count:",
+    count,
+    "| IA:",
+    useAi ? "oui" : "non (enrich)",
+    "| evergreen:",
+    evergreenFallback ? "oui" : "non",
+    "| dry-run:",
+    dryRun
+  );
   console.log("");
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
@@ -199,11 +211,6 @@ async function main() {
     autoRuns: [],
   });
   var picks = pickCandidates(candidates, count, state);
-
-  if (!picks.length) {
-    console.log("Aucun candidat disponible.");
-    process.exit(0);
-  }
 
   console.log("Sélection:", picks.length, "candidat(s)");
   var published = [];
@@ -262,6 +269,27 @@ async function main() {
       title: article.title,
       source: pick.feedName || pick.source || pick.feedId,
       sourceType: platform,
+    });
+  }
+
+  var evergreenNeeded = count - published.length;
+  if (evergreenNeeded > 0 && evergreenFallback) {
+    console.log("\n=== Fallback evergreen leads ===");
+    var evergreenArticles = generateEvergreenArticles(evergreenNeeded, {
+      dryRun: dryRun,
+      reason: published.length ? "actu-top-up" : "no-actu-candidate",
+    });
+    if (!evergreenArticles.length) {
+      console.log("  Aucun theme evergreen disponible.");
+    }
+    evergreenArticles.forEach(function (article) {
+      console.log("  Evergreen:", article.file);
+      published.push({
+        file: article.file,
+        title: article.title,
+        source: "Calendrier evergreen leads",
+        sourceType: "evergreen",
+      });
     });
   }
 
