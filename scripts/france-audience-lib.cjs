@@ -146,6 +146,7 @@ function isProbablyEnglishText(input) {
   [
     " the ",
     " and ",
+    " of ",
     " into ",
     " with ",
     " from ",
@@ -154,6 +155,10 @@ function isProbablyEnglishText(input) {
     " about ",
     " says ",
     " according ",
+    " regarding ",
+    " potential ",
+    " sale ",
+    " signed ",
     " announces ",
     " agreement ",
   ].forEach(function (kw) {
@@ -164,17 +169,18 @@ function isProbablyEnglishText(input) {
     " le ",
     " la ",
     " les ",
+    " de ",
+    " du ",
     " des ",
     " une ",
+    " un ",
+    " est ",
     " pour ",
     " avec ",
     " apres ",
     " après ",
     " assurance",
     " mutuelle",
-    " france",
-    " français",
-    " francais",
   ].forEach(function (kw) {
     if (hay.indexOf(kw) !== -1) frenchHits += 1;
   });

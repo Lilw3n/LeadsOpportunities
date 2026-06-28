@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
-const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { franceLeadScoreAdjust, isFranceMarketTopic, isProbablyEnglishText } = require("./france-audience-lib.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -112,6 +112,11 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (isProbablyEnglishText(title)) score -= 45;
+  if (/memorandum of understanding|business wire|regulatory news|enters into|announces|appoints|plc\b|ltd\b|inc\./i.test(title)) {
+    score -= 45;
+  }
+
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -137,6 +142,8 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 90 * 86400000) score -= 40;
+    else if (age > 30 * 86400000) score -= 20;
   }
 
   return Math.min(100, Math.max(0, score));
