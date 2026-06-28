@@ -28,7 +28,8 @@ window.CrmSidebar = {
   },
 
   FAVORITES: [
-    { href: "./crm-acquisition.html", label: "Nouveaux leads", icon: "acquisition", badge: "live" },
+    { href: "./crm-pubs.html", label: "Gestion pubs", icon: "social", badge: "1€/j" },
+    { href: "./crm-sources.html", label: "Origine leads", icon: "stats" },
     { href: "./crm-search.html", label: "Recherche", icon: "search" },
     { href: "./crm-quote-new.html", label: "Nouveau devis", icon: "contract" },
     { href: "./crm-catalog.html", label: "Tous nos produits", icon: "insurance" },
@@ -53,6 +54,8 @@ window.CrmSidebar = {
       label: "Leads & acquisition",
       defaultOpen: true,
       items: [
+        { type: "link", href: "./crm-pubs.html", label: "Gestion pubs", icon: "social", badge: "Meta·Google·TikTok", highlight: true, desc: "Ads Manager, formulaires, textes campagne" },
+        { type: "link", href: "./crm-sources.html", label: "Origine des leads", icon: "stats", badge: "UTM", desc: "Plateforme, campagne, gclid, ttclid" },
         { type: "link", href: "./crm-acquisition.html", label: "Pipeline acquisition", icon: "acquisition", highlight: true, badge: "priorité", desc: "Google, Meta, TikTok, Allo" },
         { type: "link", href: "./crm-meta-inbox.html", label: "Leads Meta (Facebook)", icon: "social", badge: "Lead Ads", desc: "Formulaires instantanés Meta" },
         { type: "section", id: "leads", label: "Leads web", icon: "leads", desc: "Demandes site public" },

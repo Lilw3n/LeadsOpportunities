@@ -1,0 +1,94 @@
+{
+  "page_id": "1183829618147455",
+  "ad_account_id": "997768686183548",
+  "product": "vsp",
+  "scope": "vsp_only",
+  "ads_policy": {
+    "max_daily_budget_eur": 1,
+    "max_active_campaigns": 1,
+    "max_active_ad_sets": 1,
+    "max_active_ads": 1,
+    "note": "Une seule pub VSP discrète active. Ne pas lancer mutuelle/VTC/auto en parallèle."
+  },
+  "discrete_rules": {
+    "public_ad_must_not_contain": [
+      "VSP",
+      "sans permis",
+      "BSR",
+      "ASSR",
+      "permis AM",
+      "Aixam",
+      "Ligier",
+      "Microcar",
+      "Chatenet",
+      "quadricycle"
+    ],
+    "qualification_happens_in": "formulaire Meta vsp_express + CRM matching privé",
+    "crm_tool": "/crm-private-offer-matching.html"
+  },
+  "campaign": {
+    "id": "vsp_citadine_discret",
+    "status": "ready",
+    "active": false,
+    "vertical": "vsp",
+    "discrete": true,
+    "priority": 1,
+    "form_id": "1023485613566134",
+    "form_template": "vsp_express",
+    "form_name": "Citadine légère — Devis express (Meta)",
+    "budget_eur_day": 1,
+    "objective": "OUTCOME_LEADS",
+    "optimization": "Leads (formulaire instantané)",
+    "utm_campaign": "meta_citadine_urbaine",
+    "utm_source": "meta",
+    "utm_medium": "paid_social",
+    "landing_follow_up": "https://www.leadsopportunities.fr/landings/devis.html?need=vsp&utm_source=meta&utm_medium=paid_social&utm_campaign=meta_citadine_urbaine",
+    "targeting": {
+      "geo": "France",
+      "language": "fr",
+      "age_min": 14,
+      "age_max": 45,
+      "age_note": "Si Meta Ads Manager refuse 14 ans, cibler 16–45 : le formulaire propose quand même 14–15 ans.",
+      "genders": "all",
+      "placements": ["Facebook Feed", "Instagram Feed", "Stories optionnel"],
+      "interests_meta": [
+        "Automobile",
+        "Ville",
+        "Mobilité urbaine",
+        "Petites voitures"
+      ],
+      "avoid_interests": [
+        "Permis de conduire",
+        "Voiture sans permis",
+        "VSP"
+      ],
+      "exclude_custom_audiences": []
+    },
+    "ad_copy": {
+      "headline": "Petite citadine : bien assurée ?",
+      "primary": "Véhicule léger en ville — comparez les garanties sans engagement. Devis express en 3 minutes, coordonnées préremplies si connecté.",
+      "description": "France · devis gratuit · courtier ORIAS",
+      "cta": "Comparer"
+    },
+    "creative_notes": {
+      "image": "Photo générique citadine urbaine (pas de marque VSP visible)",
+      "video_optional": "Circulation ville, véhicule compact non identifiable",
+      "forbidden_on_creative": ["logo Aixam/Ligier", "mention sans permis", "BSR"]
+    },
+    "internal_crm": {
+      "vertical": "vsp",
+      "campaign_tag": "meta_auto_citadine_convert",
+      "matcher": "matchVspPrivateOffers",
+      "partners": ["AMI 3F", "FMA/Wakam", "Solly Azar"]
+    }
+  },
+  "activation_checklist": [
+    "Pause toute autre campagne Meta active sur le compte 997768686183548",
+    "Créer 1 campagne Prospects · budget 1 €/jour",
+    "1 ensemble · 1 annonce · formulaire 1023485613566134",
+    "Copier headline + primary depuis ad_copy (sans mots interdits)",
+    "Ciblage France 16–45 ans (ou 14–45 si autorisé) + intérêts ci-dessus",
+    "Webhook leadgen déjà sur /api/webhooks/meta-lead",
+    "Qualifier en CRM : crm-private-offer-matching.html"
+  ]
+}

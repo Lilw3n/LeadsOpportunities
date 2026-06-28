@@ -3,6 +3,9 @@
 ## Scripts utiles
 
 - `npm run blog:build` — régénère tous les articles blog
+- `npm run meta:rotation:status` — semaine Meta active + CPL (1 €/jour)
+- CRM **Gestion pubs** : `/crm-pubs.html` — liens Meta/Google/TikTok Ads Manager
+- CRM **Origine leads** : `/crm-sources.html` — UTM, gclid, fbclid, ttclid
 - `npm run blog:actu:fetch` — récupère candidats actu (RSS + queue)
 - `npm run blog:actu:draft -- --top=2` — ébauches dans `data/blog-actu-pending.json`
 - `npm run blog:actu:publish` — blog + sitemap SEO

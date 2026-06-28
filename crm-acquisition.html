@@ -19,7 +19,9 @@
       <p>Priorisez les prospects entrants, repérez les leads non ouverts, archivez ce qui pollue la vue et orientez les dossiers vers le bon partenaire.</p>
     </div>
     <div class="crm-action-row">
-      <a href="./crm-meta-inbox.html" class="btn btn-primary">Leads Meta (Facebook)</a>
+      <a href="./crm-pubs.html" class="btn btn-primary">Gestion pubs</a>
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine des leads</a>
+      <a href="./crm-meta-inbox.html" class="btn btn-ghost">Leads Meta (Facebook)</a>
       <a href="./crm-private-offer-matching.html" class="btn btn-ghost">Matching VSP privé</a>
       <a href="./crm-tariff-grid.html" class="btn btn-ghost">Bordereau tarifaire</a>
       <a href="./crm-search.html" class="btn btn-ghost">Recherche CRM</a>
@@ -46,6 +48,16 @@
   </div>
 
   <div class="acq-chips" id="platformChips"></div>
+  <section class="panel acq-rotation-panel" id="metaRotationPanel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Meta intelligent</p>
+        <h2>Rotation 4 semaines · 1 €/jour</h2>
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnRefreshRotation">Actualiser CPL</button>
+    </div>
+    <div id="metaRotationBody"><p style="color:var(--muted)">Chargement du plan acquisition…</p></div>
+  </section>
   <div class="acq-stats" id="acqStats"></div>
   <div class="acq-pipeline" id="acqPipeline"></div>
 

@@ -446,5 +446,93 @@
     load();
   };
 
+  function renderMetaRotation(rotation) {
+    var el = document.getElementById("metaRotationBody");
+    if (!el || !rotation) return;
+    var slot = rotation.active_slot || {};
+    var ad = slot.ad_copy || {};
+    var stats = rotation.current_stats || {};
+    var rec = rotation.recommendation || {};
+    var schedule = rotation.schedule || [];
+    el.innerHTML =
+      '<div class="acq-stats">' +
+      '<span class="acq-stat">Semaine <strong>S' +
+      esc(slot.week || rotation.calendar_week) +
+      "</strong> · " +
+      esc(slot.id) +
+      "</span>" +
+      '<span class="acq-stat">Vertical <strong>' +
+      esc(slot.vertical) +
+      "</strong>" +
+      (slot.discrete ? " (discret)" : "") +
+      "</span>" +
+      '<span class="acq-stat">Form <strong>" +
+      esc(slot.form_id || "—") +
+      "</strong></span>" +
+      '<span class="acq-stat">Leads Meta <strong>" +
+      esc(stats.leads != null ? stats.leads : "0") +
+      "</strong></span>" +
+      '<span class="acq-stat">CPL est. <strong>" +
+      esc(stats.cpl_eur != null ? stats.cpl_eur + " €" : "—") +
+      "</strong></span>" +
+      "</div>" +
+      '<p class="acq-match"><strong>Pub :</strong> ' +
+      esc(ad.headline || "—") +
+      " — " +
+      esc(ad.primary || "") +
+      "</p>" +
+      '<p class="acq-match"><strong>Reco :</strong> ' +
+      esc(rec.reason || "—") +
+      "</p>" +
+      "<table><thead><tr><th>Sem.</th><th>Campagne</th><th>Vertical</th><th>Form</th></tr></thead><tbody>" +
+      schedule
+        .map(function (s) {
+          return (
+            "<tr" +
+            (s.is_current ? ' style="background:rgba(13,148,136,.08)"' : "") +
+            "><td>S" +
+            esc(s.week) +
+            (s.is_current ? " ▶" : "") +
+            "</td><td>" +
+            esc(s.id) +
+            "</td><td>" +
+            esc(s.vertical) +
+            (s.discrete ? " · discret" : "") +
+            "</td><td>" +
+            esc(s.form_id || "—") +
+            "</td></tr>"
+          );
+        })
+        .join("") +
+      "</tbody></table>" +
+      '<p style="color:var(--muted);font-size:.85rem;margin-top:10px">Doc : docs/META-ROTATION-4-SEMAINES.md · <a href="./crm-pubs.html">Gestion pubs</a> · <a href="./crm-sources.html">Origine leads</a></p>";
+  }
+
+  function loadMetaRotation(refresh) {
+    var url = "/api/crm/meta-rotation" + (refresh ? "?refresh=1" : "");
+    fetch(url, { headers: authHeaders() })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (!res.ok) {
+          document.getElementById("metaRotationBody").innerHTML =
+            '<p style="color:#b91c1c">' + esc(res.error || "Rotation indisponible") + "</p>";
+          return;
+        }
+        renderMetaRotation(res.rotation);
+      })
+      .catch(function (e) {
+        document.getElementById("metaRotationBody").innerHTML =
+          '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
+      });
+  }
+
+  var btnRot = document.getElementById("btnRefreshRotation");
+  if (btnRot) btnRot.onclick = function () {
+    loadMetaRotation(true);
+  };
+
+  loadMetaRotation(false);
   load();
 })();

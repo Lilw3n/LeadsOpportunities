@@ -7,7 +7,8 @@ Ce document sert de guide interne. Le CRM reste le cerveau metier : scoring, mat
 - **n8n** : scenarios durables, webhooks, retries, enrichissement de leads, synchronisation Allo, Drive, Calendar, Stripe.
 - **Make** : prototypes rapides, notifications, Google Sheets, Gmail, alertes marketing.
 - **Zapier** : seulement si une connexion SaaS precise est plus rapide qu'avec n8n ou Make.
-- **Allo** : source complementaire d'evenements d'appel, transcriptions, resumes et tags.
+- **Allo** : source complementaire d'evenements d'appel, transcriptions, resumes et tags (activer plus tard — **`docs/SLACK-WITHALLO-NOTIFS.md`**).
+- **Slack** : notifications leads via `SLACK_WEBHOOK_URL` (Incoming Webhook, version gratuite suffisante).
 - **Google Apps Script** : petites automatisations autour de Drive, Sheets ou Calendar.
 
 ## Regles de separation

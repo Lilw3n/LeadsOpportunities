@@ -18,6 +18,8 @@
 
     var PAGE_META = {
       "crm-acquisition.html": { subtitle: "Leads Google, Meta, TikTok, Instagram, Allo — tri, assignation, archivage" },
+      "crm-sources.html": { subtitle: "Attribution UTM — plateforme, campagne, gclid, fbclid, ttclid" },
+      "crm-pubs.html": { subtitle: "Liens Ads Manager Meta, Google, TikTok — campagne active et formulaires" },
       "crm-meta-inbox.html": { subtitle: "Formulaires instantanés Facebook / Instagram — réponses devis" },
       "crm-private-offer-matching.html": { subtitle: "Matching privé VSP selon profil, source et critères partenaires" },
       "crm-leads-analysis.html": { subtitle: "Pré-analyse IA et qualification des demandes entrantes" },
