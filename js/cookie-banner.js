@@ -30,6 +30,13 @@
     window.dispatchEvent(new CustomEvent("lo:cookie-consent", { detail: { level: level } }));
   }
 
+  function updateMetaConsent(level) {
+    if (typeof window.fbq !== "function") return;
+    try {
+      window.fbq("consent", level === "all" ? "grant" : "revoke");
+    } catch (e) {}
+  }
+
   function showBanner() {
     if (document.getElementById("cookie-banner-lo")) return;
 
@@ -77,6 +84,7 @@
         );
       } catch (e) {}
       updateGtagConsent("all");
+      updateMetaConsent("all");
       hideBanner(wrap);
       pushClarityConsent("all");
     });
@@ -90,6 +98,7 @@
         );
       } catch (e) {}
       updateGtagConsent("essential");
+      updateMetaConsent("essential");
       hideBanner(wrap);
       pushClarityConsent("essential");
     });
@@ -111,5 +120,6 @@
         ad_personalization: "granted",
       });
     }
+    updateMetaConsent(isAll ? "all" : "essential");
   });
 })();

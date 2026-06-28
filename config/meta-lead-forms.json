@@ -1,0 +1,25 @@
+{
+  "page_id": "1183829618147455",
+  "ad_account_id": "997768686183548",
+  "default_vertical": "devis",
+  "default_landing": "/landings/rappel.html",
+  "forms": {},
+  "field_aliases": {
+    "email": ["email", "e-mail", "adresse_e-mail", "adresse_email", "mail"],
+    "phone": ["phone_number", "phone", "telephone", "numero_de_telephone", "mobile"],
+    "first_name": ["first_name", "prenom", "prénom"],
+    "last_name": ["last_name", "nom", "nom_de_famille"],
+    "full_name": ["full_name", "nom_complet", "name"],
+    "city": ["city", "ville"],
+    "postal_code": ["post_code", "postal_code", "code_postal"]
+  },
+  "vertical_keywords": {
+    "vtc": ["vtc", "taxi", "chauffeur", "uber"],
+    "sante": ["mutuelle", "sante", "santé", "complementaire"],
+    "credit_immo": ["credit", "crédit", "immo", "immobilier", "pret"],
+    "auto": ["auto", "voiture", "automobile"],
+    "habitation": ["habitation", "logement", "maison", "appartement"],
+    "prevoyance": ["prevoyance", "prévoyance", "deces", "décès"],
+    "animaux": ["animaux", "chien", "chat", "assurance animaux"]
+  }
+}
