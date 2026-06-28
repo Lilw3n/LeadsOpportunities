@@ -4,6 +4,7 @@ const { readJson, buildRotationState } = require("./meta-campaign-rotation");
 
 const HUB_PATH = path.join(process.cwd(), "config/ad-platform-hub.json");
 const FORMS_PATH = path.join(process.cwd(), "config/meta-lead-forms.json");
+const VSP_DISCRET_PATH = path.join(process.cwd(), "config/meta-campaign-vsp-discret.json");
 
 function loadHubConfig() {
   return readJson(HUB_PATH) || { platforms: [], accounts: {} };
@@ -42,10 +43,20 @@ async function buildPubsHub(options) {
 
   var active = rotation && rotation.active_slot ? rotation.active_slot : null;
   var actu = rotation && rotation.intelligence && rotation.intelligence.actu_override;
+  var vspCfg = readJson(VSP_DISCRET_PATH);
+  var vspCampaign = vspCfg && vspCfg.campaign ? vspCfg.campaign : null;
+  var slackConfigured = !!(process.env.SLACK_WEBHOOK_URL || "").trim();
 
   return {
     ok: true,
     accounts: hub.accounts,
+    notifications: {
+      slack: {
+        configured: slackConfigured,
+        env_var: "SLACK_WEBHOOK_URL",
+        doc: "./docs/SLACK-WITHALLO-NOTIFS.md",
+      },
+    },
     platforms: (hub.platforms || []).map(function (p) {
       return Object.assign({}, p, {
         links: (p.links || []).map(function (l) {
@@ -84,10 +95,38 @@ async function buildPubsHub(options) {
         url: t.path.indexOf("http") === 0 ? t.path : origin + t.path,
       };
     }),
+    preset_campaigns: (hub.preset_campaigns || []).map(function (p) {
+      var isActive = active && active.id === p.id;
+      var isVsp = p.id === "vsp_citadine_discret" && vspCampaign;
+      return Object.assign({}, p, {
+        active: isActive,
+        ad_copy: isVsp ? vspCampaign.ad_copy : isActive && active ? active.ad_copy : null,
+        targeting: isVsp ? vspCampaign.targeting : isActive && active ? active.targeting : null,
+        landing_url: isVsp
+          ? vspCampaign.landing_follow_up
+          : isActive && active
+            ? active.landing_url || origin + (active.landing_path || "")
+            : null,
+      });
+    }),
+    vsp_discrete: vspCampaign
+      ? {
+          id: vspCampaign.id,
+          form_id: vspCampaign.form_id,
+          form_name: vspCampaign.form_name,
+          utm_campaign: vspCampaign.utm_campaign,
+          ad_copy: vspCampaign.ad_copy,
+          targeting: vspCampaign.targeting,
+          landing_url: vspCampaign.landing_follow_up,
+          discrete_rules: vspCfg.discrete_rules,
+          activation_checklist: vspCfg.activation_checklist,
+        }
+      : null,
     docs: [
       { label: "Rotation 4 semaines", href: "./docs/META-ROTATION-4-SEMAINES.md" },
       { label: "Canicule maintenant", href: "./ads/meta-canicule-maintenant.csv" },
       { label: "VSP discret", href: "./docs/META-VSP-PUB-DISCRETE.md" },
+      { label: "Slack + WithAllo", href: "./docs/SLACK-WITHALLO-NOTIFS.md" },
       { label: "Tracking SEA", href: "./docs/SEA-TRACKING.md" },
     ],
   };

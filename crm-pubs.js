@@ -34,6 +34,93 @@
     );
   }
 
+  function renderSlackStatus(notif) {
+    var el = document.getElementById("slackStatus");
+    if (!notif || !notif.slack) {
+      el.innerHTML = "";
+      return;
+    }
+    var s = notif.slack;
+    var ok = s.configured;
+    el.innerHTML =
+      '<div class="crm-section-head"><div><p class="crm-eyebrow">Notifications</p><h2 style="margin:0">Slack — alertes leads</h2></div>' +
+      '<span class="acq-badge ' +
+      (ok ? "meta" : "muted") +
+      '">' +
+      (ok ? "Configuré ✓" : "SLACK_WEBHOOK_URL manquant") +
+      "</span></div>" +
+      "<p style=\"color:var(--muted)\">Chaque lead (site + Meta Lead Ads) envoie une alerte Slack si la variable Vercel est définie.</p>" +
+      '<div class="pub-link-row">' +
+      '<a href="https://api.slack.com/apps" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Créer webhook Slack ↗</a>' +
+      '<a href="https://vercel.com/dashboard" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Vercel env ↗</a>' +
+      '<a href="./docs/SLACK-WITHALLO-NOTIFS.md" class="btn btn-ghost btn-sm">Doc Slack + WithAllo</a>' +
+      "</div>";
+  }
+
+  function renderPresetCampaigns(list, activeId) {
+    var el = document.getElementById("presetCampaigns");
+    if (!list || !list.length) {
+      el.innerHTML = "<p>Aucune campagne prête.</p>";
+      return;
+    }
+    el.innerHTML = list
+      .map(function (c) {
+        var ad = c.ad_copy || {};
+        var isActive = c.active || c.id === activeId;
+        return (
+          '<div class="pub-platform-card" style="margin-bottom:12px;border-left:4px solid ' +
+          (isActive ? "#16a34a" : "#64748b") +
+          '">' +
+          "<h3>" +
+          (isActive ? "▶ " : "") +
+          esc(c.label) +
+          (isActive ? ' <span class="acq-badge meta">Active</span>' : "") +
+          "</h3>" +
+          '<div class="acq-stats">' +
+          '<span class="acq-stat">Form <strong>' +
+          esc(c.form_id) +
+          "</strong></span>" +
+          '<span class="acq-stat">UTM <strong>' +
+          esc(c.utm_campaign) +
+          "</strong></span>" +
+          "</div>" +
+          (ad.headline
+            ? '<p class="pub-copy-text"><strong>Titre :</strong> ' +
+              esc(ad.headline) +
+              ' <button type="button" class="btn btn-ghost btn-sm js-copy" data-copy="' +
+              esc(ad.headline) +
+              '">Copier</button></p>'
+            : "") +
+          (ad.primary
+            ? '<p class="pub-copy-text"><strong>Texte :</strong> ' +
+              esc(ad.primary) +
+              ' <button type="button" class="btn btn-ghost btn-sm js-copy" data-copy="' +
+              esc(ad.primary) +
+              '">Copier</button></p>'
+            : "") +
+          '<div class="pub-link-row" style="margin-top:8px">' +
+          '<a href="' +
+          esc(c.ads_manager) +
+          '" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Ads Manager ↗</a>' +
+          (c.csv ? '<a href="' + esc(c.csv) + '" class="btn btn-ghost btn-sm">CSV textes</a>' : "") +
+          (c.config ? '<a href="' + esc(c.config) + '" class="btn btn-ghost btn-sm">Config JSON</a>' : "") +
+          (c.crm_matcher ? '<a href="' + esc(c.crm_matcher) + '" class="btn btn-ghost btn-sm">Matching VSP</a>' : "") +
+          (c.landing_url
+            ? '<a href="' +
+              esc(c.landing_url) +
+              '" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Landing test ↗</a>'
+            : "") +
+          "</div></div>"
+        );
+      })
+      .join("");
+    el.querySelectorAll(".js-copy").forEach(function (btn) {
+      btn.onclick = function () {
+        copyText(btn.getAttribute("data-copy"), btn);
+      };
+    });
+  }
+
   function renderPlatforms(platforms) {
     var el = document.getElementById("pubPlatforms");
     el.innerHTML = (platforms || [])
@@ -227,7 +314,9 @@
           (res.rotation && res.rotation.recommendation
             ? '<span class="acq-stat">' + esc(res.rotation.recommendation.reason) + "</span>"
             : "");
+        renderSlackStatus(res.notifications);
         renderActive(res.active_campaign);
+        renderPresetCampaigns(res.preset_campaigns, res.active_campaign && res.active_campaign.id);
         renderPlatforms(res.platforms);
         renderForms(res.meta_forms);
         renderTestLandings(res.test_landings);
