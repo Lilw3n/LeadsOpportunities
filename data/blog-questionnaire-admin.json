@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-27",
+  "updated": "2026-06-28",
   "sections": [
     "actu",
     "animaux",
@@ -300,6 +300,19 @@
       "species": null
     },
     {
+      "file": "robot-cuiseur-pret-conso-credit-cuisine.html",
+      "title": "Robot cuiseur Thermomix ou Ninja : payer comptant ou pret conso en 2026 ?",
+      "section": "finance",
+      "hook": "Robot cuiseur à 1 400 € : le prêt conso peut coûter 100 € de plus que le comptant.",
+      "question": "Souhaitez-vous une simulation crédit conso pour équiper votre cuisine ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=robot-cuiseur",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
       "file": "zelda-ocarina-time-collection-assurance-habitation.html",
       "title": "Zelda Ocarina of Time : collections retro, valeur et assurance habitation",
       "section": "actu",
@@ -398,6 +411,32 @@
       "question": "Votre contrat habitation est-il à jour avec votre logement ?",
       "need": "habitation",
       "landing": "../landings/devis.html?need=pno",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "feu-friteuse-cuisine-assurance-habitation.html",
+      "title": "Frites maison sans drama : recette, feu de cuisine et assurance habitation",
+      "section": "habitat",
+      "hook": "Un feu de friteuse peut coûter des milliers d'euros — votre MRH est-elle bien calibrée ?",
+      "question": "Vos plafonds incendie et mobilier couvrent-ils votre cuisine et votre électroménager ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "renovation-cuisine-pret-travaux-assurance.html",
+      "title": "Renovation cuisine 2026 : budget, pret travaux et assurance habitation",
+      "section": "habitat",
+      "hook": "Rénovation cuisine : financement + assurance habitation à revoir après les travaux.",
+      "question": "Voulez-vous une étude prêt travaux et une vérification de votre assurance habitation ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": "habitation",

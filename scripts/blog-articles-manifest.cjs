@@ -1448,6 +1448,115 @@ module.exports = {
       ],
     },
     {
+      file: "robot-cuiseur-pret-conso-credit-cuisine.html",
+      section: "finance",
+      tag: "Cuisine & credit conso",
+      tagClass: "tag-immo",
+      themes: ["emprunteur"],
+      title: "Robot cuiseur Thermomix ou Ninja : payer comptant ou pret conso en 2026 ?",
+      description: "Robot cuiseur a 1 200–1 600 € : comparatif pret personnel, 3x sans frais, mensualites — sans fragiliser votre pret immo.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Robot cuiseur : pret conso ou epargne — le calcul.",
+      cta: {
+        href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=robot-cuiseur",
+        label: "Etude credit conso cuisine",
+      },
+      heroImage: {
+        src: "./images/cuisine/robot-cuiseur-cuisine.jpg",
+        alt: "Cuisine equipee d'un robot cuiseur et plan de travail",
+        caption: "Robot cuiseur premium : comparer le cout total du financement.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Un <strong>robot cuiseur</strong> (Thermomix, Ninja Foodi, Moulinex Cookeo Connect, Kenwood…) coute souvent <strong>1 200 a 1 600 €</strong> neuf. Faut-il payer comptant, passer au <strong>3x sans frais</strong> ou souscrire un <strong>pret consommation</strong> ? Voici le calcul, le cadre legal en France, et le lien avec votre <strong>assurance habitation</strong> une fois l'appareil livre. <a href=\"../landings/questionnaire.html?need=conso&journey=standard\"><strong>Questionnaire credit conso</strong></a> · <a href=\"../landings/devis.html?need=habitation\">devis habitation</a>.",
+        },
+        {
+          type: "gallery",
+          label: "Robot cuiseur : recettes, budget, assurance",
+          items: [
+            {
+              src: "./images/cuisine/robot-cuiseur-cuisine.jpg",
+              alt: "Robot cuiseur sur plan de travail cuisine moderne",
+              caption: "Appareil premium — capital mobilier a declarer en MRH",
+            },
+            {
+              src: "./images/cuisine/friteuse-cuisine.jpg",
+              alt: "Cuisine active — cuisson et prevention",
+              caption: "Recettes maison — risque surchauffe si appareil defectueux",
+            },
+            {
+              src: "./images/finance/budget-famille.jpg",
+              alt: "Budget famille et credit consommation",
+              caption: "Mensualite vs epargne de precaution",
+            },
+          ],
+        },
+        { type: "h2", text: "Recette express robot : veloute de courgettes (4 personnes)" },
+        {
+          type: "p",
+          text: "600 g courgettes, 1 pomme de terre, 1 oignon, 50 cl bouillon, sel, poivre, 1 filet de creme (option). Mode <strong>soupe 15 min</strong> ou 100 °C / vitesse 1, puis mixer 1 min. Cout ingredients ~4 € — l'interet du robot est le <strong>gain de temps</strong>, pas l'economie sur la recette elle-meme.",
+        },
+        { type: "h2", text: "Budget robot cuiseur : ce qui fait monter la facture" },
+        {
+          type: "ul",
+          items: [
+            "Modele haut de gamme neuf : 1 200–1 600 €",
+            "Accessoires (panier vapeur, couteaux, bol supplementaire) : +80–200 €",
+            "Reconditionne / occasion : 700–1 000 € (verifier garantie)",
+            "Extension garantie magasin : +100–150 € (utile ? comparez MRH)",
+          ],
+        },
+        { type: "h2", text: "Pret conso vs comptant : tableau mensualites (1 400 €)" },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Signature contrat pret consommation",
+          caption: "Lisez le TAEG et le montant total du avant de signer.",
+        },
+        {
+          type: "ul",
+          items: [
+            "<strong>Comptant</strong> : 0 € d'interets — gardez au moins 3 mois de charges en epargne apres achat",
+            "<strong>12 mois</strong> a ~5,5 % TAEG : ~120 €/mois (total ~1 440 €)",
+            "<strong>24 mois</strong> a ~6 % TAEG : ~62 €/mois (total ~1 490 €)",
+            "<strong>3x sans frais</strong> (si vrai debit differe) : ~467 €/mois — sans interets si conforme",
+          ],
+        },
+        { type: "h2", text: "Cadre legal : credit conso autorise pour l'electromenager" },
+        {
+          type: "p",
+          text: "Comme pour une console ou un smartphone, un <strong>robot cuiseur</strong> est un bien de consommation courante finançable par <strong>pret personnel</strong> ou <strong>credit affecte</strong> (Code de la consommation). L'organisme doit respecter le taux d'usure, remettre une fiche precontractuelle et evaluer votre solvabilite. Retractation 14 jours pour les contrats a distance.",
+        },
+        { type: "h2", text: "Pret immo en cours : attention endettement" },
+        {
+          type: "p",
+          text: "Un credit de 1 400 € sur 24 mois (~62 €/mois) entre dans votre <strong>taux d'endettement</strong> si vous montez un dossier immobilier. Alternative : epargner 3–4 mois, acheter reconditionne, ou liberer du budget via une <strong>delegation assurance emprunteur</strong> (loi Lemoine). Voir <a href=\"./assurance-emprunteur-loi-lemoine-2026.html\">guide Lemoine</a>.",
+        },
+        { type: "h2", text: "Assurance habitation : couvrir le robot apres achat" },
+        {
+          type: "p",
+          text: "Vol, incendie (surchauffe rare), degats des eaux voisin : votre <strong>MRH</strong> indemnise le contenu selon plafonds « appareils electromenagers ». Mettez a jour le capital mobilier et conservez la facture. En cas de dommage electrique, la garantie legalite de conformite (2 ans) s'applique cote vendeur — pas l'assurance habitation.",
+        },
+        { type: "bridge" },
+      ],
+      related: [
+        { href: "./renovation-cuisine-pret-travaux-assurance.html", label: "Renovation cuisine complete" },
+        { href: "./gta-6-precommande-ps5-pro-credit-conso-france.html", label: "Credit conso : cadre legal" },
+        { href: "../landings/questionnaire.html?need=conso&journey=standard", label: "Questionnaire conso" },
+      ],
+      faq: [
+        {
+          q: "Le 3x sans frais est-il toujours sans interets ?",
+          a: "Pas forcement : verifiez s'il s'agit d'un debit differe ou d'un credit avec TAEG. Le cout total doit etre egal au prix comptant.",
+        },
+        {
+          q: "Assurance habitation ou extension garantie magasin ?",
+          a: "L'extension couvre souvent la panne hors incendie/vol. La MRH couvre le vol et le sinistre. Comparez avant de payer une double assurance.",
+        },
+      ],
+    },
+    {
       file: "zelda-ocarina-time-collection-assurance-habitation.html",
       audience: "international",
       section: "actu",
@@ -1647,6 +1756,181 @@ module.exports = {
         { type: "ul", items: ["Degats des eaux et incendie cote structure", "RC proprietaire", "Option loyers impayes (GLI)"] },
       ],
       related: [{ href: "../assurance-habitation/", label: "Habitation & PNO" }],
+    },
+    {
+      file: "feu-friteuse-cuisine-assurance-habitation.html",
+      section: "habitat",
+      tag: "Cuisine & habitation",
+      tagClass: "tag-habitation",
+      themes: ["habitat"],
+      title: "Frites maison sans drama : recette, feu de cuisine et assurance habitation",
+      description: "Recette frites au four ou friteuse, prevention feu de graisse, declaration sinistre MRH — devis habitation gratuit.",
+      meta: "8 min · Juin 2026",
+      cardExcerpt: "Friteuse et feu de cuisine : recette + assurance habitation.",
+      cta: { href: "../landings/devis.html?need=habitation", label: "Devis assurance habitation" },
+      heroImage: {
+        src: "./images/cuisine/friteuse-cuisine.jpg",
+        alt: "Cuisine — preparation frites et prevention incendie",
+        caption: "Feu de graisse : reflexes immediats + multirisque habitation a jour.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Les <strong>frites maison</strong> (four, air fryer ou friteuse) restent un classique — mais un <strong>feu de cuisine</strong> part vite quand l'huile surchauffe. Voici une <strong>recette simple</strong>, les reflexes anti-incendie, et ce que couvre votre <strong>assurance habitation</strong> en cas de degats. <a href=\"../landings/devis.html?need=habitation\"><strong>Devis habitation</strong></a> · <a href=\"../landings/questionnaire.html?need=habitation&journey=standard\">questionnaire MRH</a>.",
+        },
+        {
+          type: "gallery",
+          label: "Cuisine : cuire, prevenir, assurer",
+          items: [
+            {
+              src: "./images/cuisine/friteuse-cuisine.jpg",
+              alt: "Preparation en cuisine — friture et vigilance",
+              caption: "Friteuse ou poele : ne jamais quitter la cuisine",
+            },
+            {
+              src: "./images/habitat/sinistre-degats.jpg",
+              alt: "Degats apres sinistre cuisine incendie",
+              caption: "Sinistre — hotte, meubles, peinture : indemnisation MRH",
+            },
+            {
+              src: "./images/habitat/maison-famille.jpg",
+              alt: "Foyer et assurance habitation famille",
+              caption: "Locataire ou proprietaire : verifier plafonds mobilier",
+            },
+          ],
+        },
+        { type: "h2", text: "Recette : frites croustillantes au four (plus safe que la friteuse)" },
+        {
+          type: "p",
+          text: "Pour 4 personnes : 1 kg de pommes de terre (Agata ou Bintje), 2 c. a soupe d'huile, sel. Eplucher, couper en batons, rincer, secher. Melanger avec l'huile. Four <strong>220 °C</strong> (chaleur tournante), 25–30 min en retournant a mi-cuisson. Variante air fryer : 180 °C, 15–18 min. <strong>Moins de graisse = moins de risque de feu</strong> qu'une friteuse remplie d'huile bouillante.",
+        },
+        { type: "h2", text: "Friteuse classique : 5 regles anti-feux" },
+        {
+          type: "ul",
+          items: [
+            "Huile propre, sans eau (pommes de terre bien seches)",
+            "Ne jamais remplir au-dela du maxi indique",
+            "Eteindre et debrancher si vous quittez la piece",
+            "Extincteur ou couvercle anti-feux a portee — pas d'eau sur un feu de graisse",
+            "Hotte et filtres entretenus (depot de graisse = risque incendie)",
+          ],
+        },
+        { type: "h2", text: "Feu de cuisine : que faire en 30 secondes" },
+        {
+          type: "figure",
+          src: "./images/habitat/sinistre-degats.jpg",
+          alt: "Intervention apres sinistre incendie ou degat des eaux cuisine",
+          caption: "Apres extinction : photos, declaration sinistre, expertise MRH.",
+        },
+        {
+          type: "p",
+          text: "Couper le gaz ou le courant, couvrir avec un <strong>couvercle metallique</strong> ou eteindre avec un <strong>extincteur poudre/CO2</strong> (pas d'eau). Evacuer si le feu se propage, appeler les <strong>pompiers (18 / 112)</strong>. Une fois maitrise : ventiler, ne pas jeter l'huile brulante a l'evier (fuite + degats des eaux).",
+        },
+        { type: "h2", text: "Assurance habitation : incendie, fumee, RC voisin" },
+        {
+          type: "p",
+          text: "La <strong>multirisque habitation</strong> couvre en general : degats au logement (murs, hotte, meubles), <strong>contenu</strong> (electromenager), frais de relogement temporaire selon contrat, et la <strong>responsabilite civile</strong> si le feu touche un voisin (immeuble). Verifiez les <strong>plafonds mobilier</strong> et la franchise incendie. Locataire : vous etes responsable envers le proprietaire pour les <strong>risques locatifs</strong>. <a href=\"./assurance-habitation-locataire-proprietaire-2026.html\">Guide locataire / proprietaire</a>.",
+        },
+        { type: "h2", text: "Declarer un sinistre cuisine (checklist)" },
+        {
+          type: "p",
+          text: "Photos avant nettoyage · conserver factures friteuse/four · appeler l'assureur sous 5 jours ouvrés (delai contractuel) · ne pas jeter l'appareil avant expertise si demande · garder numero de contrat accessible. Sous-assurance = indemnisation plafonnee : voir <a href=\"./assurance-habitation-sous-assurance-sinistre.html\">sous-assurance sinistre</a>.",
+        },
+      ],
+      related: [
+        { href: "./assurance-habitation-locataire-proprietaire-2026.html", label: "Habitation locataire" },
+        { href: "./assurance-habitation-sous-assurance-sinistre.html", label: "Sous-assurance" },
+        { href: "../landings/devis.html?need=habitation", label: "Devis MRH" },
+      ],
+    },
+    {
+      file: "renovation-cuisine-pret-travaux-assurance.html",
+      section: "habitat",
+      tag: "Cuisine & travaux",
+      tagClass: "tag-habitation",
+      themes: ["habitat", "emprunteur"],
+      title: "Renovation cuisine 2026 : budget, pret travaux et assurance habitation",
+      description: "Cuisine neuve de 8 000 a 25 000 € : pret conso, eco-PTZ, MRH pendant le chantier — devis travaux et habitation.",
+      meta: "9 min · Juin 2026",
+      cardExcerpt: "Renover sa cuisine : financement + assurance chantier.",
+      cta: { href: "../landings/devis.html?need=habitation", label: "Devis habitation + travaux" },
+      heroImage: {
+        src: "./images/cuisine/renovation-cuisine-moderne.jpg",
+        alt: "Cuisine renovee moderne — electromenager et plan de travail neufs",
+        caption: "Chantier cuisine : proteger le logement et financer l'equipement.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Remplacer plan de travail, credence, four, lave-vaisselle et rangements : une <strong>renovation cuisine</strong> coute souvent <strong>8 000 a 25 000 €</strong> en France. Entre <strong>pret travaux</strong>, <strong>credit conso</strong> et mise a jour de l'<strong>assurance habitation</strong>, voici le plan complet. <a href=\"../landings/credit-immo.html\">Etude financement</a> · <a href=\"../landings/devis.html?need=habitation\">devis habitation</a> · <a href=\"../landings/questionnaire.html?need=conso&journey=standard\">questionnaire credit conso</a>.",
+        },
+        {
+          type: "gallery",
+          label: "Renovation cuisine : budget et protection",
+          items: [
+            {
+              src: "./images/cuisine/renovation-cuisine-moderne.jpg",
+              alt: "Cuisine renovee avec ilot central",
+              caption: "Cuisine complete — budget moyen 12 000–18 000 €",
+            },
+            {
+              src: "./images/finance/credit-immo-cles.jpg",
+              alt: "Clefs et documents pret travaux",
+              caption: "Financement — comparer TAEG et duree",
+            },
+            {
+              src: "./images/habitat/maison-famille.jpg",
+              alt: "Maison familiale — assurance habitation renforcee",
+              caption: "Apres travaux : reviser plafonds mobilier MRH",
+            },
+          ],
+        },
+        { type: "h2", text: "Budget type renovation cuisine (2026)" },
+        {
+          type: "ul",
+          items: [
+            "Refresh (plan de travail + credence + peinture) : 3 000–6 000 €",
+            "Cuisine equipee milieu de gamme : 8 000–15 000 €",
+            "Cuisine sur mesure + electromenager premium : 15 000–25 000 €",
+            "Plomberie / electricite : +15 à 25 % du budget total",
+          ],
+        },
+        { type: "h2", text: "Financer : pret conso, pret travaux ou eco-PTZ ?" },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Signature pret travaux ou credit consommation",
+          caption: "Comparez le cout total du credit, pas seulement la mensualite.",
+        },
+        {
+          type: "p",
+          text: "<strong>Pret personnel / conso</strong> (12–84 mois) : flexible, sans justificatif de devis parfois — TAEG a comparer. <strong>Pret travaux</strong> banque : souvent lie au devis artisan. <strong>Eco-PTZ</strong> : si travaux eligibles (isolation, chauffage) parfois cumulables avec une cuisine plus efficiente (induction, hotte performante) dans un bouquet travaux energie. Si vous avez un <strong>pret immobilier</strong>, verifiez l'impact sur le taux d'endettement avant un nouveau credit.",
+        },
+        { type: "h2", text: "Exemple mensualites (indicatif 12 000 €)" },
+        {
+          type: "ul",
+          items: [
+            "48 mois a ~6 % TAEG : environ 280 €/mois (cout total ~13 400 €)",
+            "60 mois a ~6 % TAEG : environ 230 €/mois",
+            "Epargne comptant : 0 € d'interets — ideal si vous gardez une reserve urgence",
+          ],
+        },
+        { type: "h2", text: "Assurance habitation pendant et apres le chantier" },
+        {
+          type: "p",
+          text: "Pendant les travaux : risque <strong>degats des eaux</strong> (plomberie), <strong>incendie</strong> (soudure, electrique), vol de materiel. Informez votre assureur si le logement est inhabitable ou si des artisans interviennent. Apres livraison : <strong>mettre a jour le capital mobilier</strong> (four, lave-vaisselle, plan de travail neufs) — sinon sous-assurance en cas de sinistre. Proprietaire bailleur : verifier PNO et clause travaux.",
+        },
+        { type: "h2", text: "Recette bonus : meal prep dans une cuisine neuve" },
+        {
+          type: "p",
+          text: "Pour tester vos nouveaux fourneaux : batch cooking de <strong>legumes rotis</strong> (courgettes, poivrons, 200 °C, 25 min) + <strong>bols quinoa</strong> pour la semaine. Moins de friture = moins de risques incendie — et une cuisine qui reste propre plus longtemps.",
+        },
+      ],
+      related: [
+        { href: "./feu-friteuse-cuisine-assurance-habitation.html", label: "Feu de cuisine & MRH" },
+        { href: "./robot-cuiseur-pret-conso-credit-cuisine.html", label: "Robot cuiseur & pret conso" },
+        { href: "../landings/credit-immo.html", label: "Credit travaux" },
+      ],
     },
     /* —— Sante —— */
     {

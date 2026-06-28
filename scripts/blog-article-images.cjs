@@ -203,6 +203,21 @@ var I = {
     "Chien qui boit de l'eau en periode de forte chaleur",
     "Canicule : hydrater son chien plusieurs fois par jour."
   ),
+  cuisineFriteuse: img(
+    "./images/cuisine/friteuse-cuisine.jpg",
+    "Cuisine — friture et prevention feu de graisse",
+    "Frites maison : surveiller l'huile et avoir un extincteur a portee."
+  ),
+  cuisineRobot: img(
+    "./images/cuisine/robot-cuiseur-cuisine.jpg",
+    "Cuisine moderne avec robot cuiseur et plan de travail",
+    "Robot cuiseur premium : comparer pret conso et paiement comptant."
+  ),
+  cuisineRenovation: img(
+    "./images/cuisine/renovation-cuisine-moderne.jpg",
+    "Cuisine renovee — plan de travail et electromenager neuf",
+    "Renovation cuisine : pret travaux, assurance habitation et sinistres chantier."
+  ),
   oiseauEauCanicule: img(
     "./images/animaux/canicule-oiseau-eau.jpg",
     "Oiseau pres de l'eau — canicule et oiseaux de jardin",
@@ -328,6 +343,21 @@ var MAP = {
     hero: "caniculeUrgences",
     figure: "hospitalCare",
     gallery: ["caniculeSoleil", "caniculeUrgences", "caniculeHydratation"],
+  },
+  "feu-friteuse-cuisine-assurance-habitation.html": {
+    hero: "cuisineFriteuse",
+    figure: "sinistre",
+    gallery: ["cuisineFriteuse", "sinistre", "maisonFamille"],
+  },
+  "robot-cuiseur-pret-conso-credit-cuisine.html": {
+    hero: "cuisineRobot",
+    figure: "budgetFam",
+    gallery: ["cuisineRobot", "cuisineFriteuse", "budgetFam"],
+  },
+  "renovation-cuisine-pret-travaux-assurance.html": {
+    hero: "cuisineRenovation",
+    figure: "creditCles",
+    gallery: ["cuisineRenovation", "creditCles", "maisonFamille"],
   },
   "canicule-secheresse-fissures-catastrophe-naturelle-assurance.html": {
     hero: "caniculeSecheresse",

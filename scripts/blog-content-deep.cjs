@@ -485,6 +485,72 @@ var DEEP = {
       ),
     ],
   },
+  "feu-friteuse-cuisine-assurance-habitation.html": {
+    keywords: [
+      "feu de cuisine friteuse",
+      "feu graisse assurance habitation",
+      "recette frites maison",
+      "sinistre incendie cuisine",
+      "multirisque habitation MRH",
+      "devis assurance habitation",
+      "locataire risques locatifs",
+    ],
+    extraBlocks: [
+      h2("Friteuse vs air fryer : impact assurance"),
+      p(
+        "L'<strong>air fryer</strong> reduit la quantite d'huile bouillante — donc le risque de feu de graisse. Votre prime MRH ne change pas pour autant, mais le profil de sinistre est plus faible. Verifiez que l'appareil est bien declare dans le capital mobilier en cas de vol ou incendie."
+      ),
+      h2("RC habitation : voisin de palier"),
+      p(
+        "En appartement, un feu de cuisine peut endommager le logement du voisin (fumee, eau des pompiers). La <strong>responsabilite civile</strong> de votre contrat habitation intervient — sous reserve de plafonds. <a href=\"../landings/devis.html?need=habitation\">Comparez votre MRH</a>."
+      ),
+    ],
+  },
+  "robot-cuiseur-pret-conso-credit-cuisine.html": {
+    keywords: [
+      "robot cuiseur pret conso",
+      "Thermomix credit conso",
+      "financer electromenager",
+      "pret personnel cuisine",
+      "3x sans frais robot cuiseur",
+      "TAEG credit conso",
+      "assurance habitation electromenager",
+    ],
+    extraBlocks: [
+      h2("Occasion ou reconditionne : bon plan budget"),
+      p(
+        "Un robot cuiseur <strong>reconditionne</strong> a 700–900 € limite le recours au credit. Verifiez la garantie vendeur (6 mois minimum legal sur occasion pro) et mettez a jour votre <strong>assurance habitation</strong> avec la facture d'achat."
+      ),
+      h2("Simuler avant le Black Friday cuisine"),
+      ul([
+        "Prix comptant vs cout total du credit (TAEG)",
+        "Impact sur pret immo en cours",
+        "Epargne de precaution apres achat",
+        "Plafond mobilier MRH pour l'appareil neuf",
+      ]),
+    ],
+  },
+  "renovation-cuisine-pret-travaux-assurance.html": {
+    keywords: [
+      "renovation cuisine pret travaux",
+      "budget cuisine 2026",
+      "pret conso travaux cuisine",
+      "eco-PTZ cuisine energie",
+      "assurance habitation chantier",
+      "degats des eaux plomberie cuisine",
+      "devis habitation travaux",
+    ],
+    extraBlocks: [
+      h2("Assurance decennale artisan : indispensable"),
+      p(
+        "Plomberie, electricite, carrelage : exigez l'<strong>attestation decennale</strong> de l'artisan. En cas de malfaçon, c'est le garant decennal qui intervient — pas votre MRH. Votre assurance habitation couvre les sinistres apres livraison (fuite, incendie)."
+      ),
+      h2("Apres travaux : reviser le capital mobilier"),
+      p(
+        "Four encastrable, lave-vaisselle, plan de travail neufs augmentent la valeur du contenu. Sans mise a jour, vous etes en <strong>sous-assurance</strong>. <a href=\"../landings/devis.html?need=habitation\">Devis habitation</a> · <a href=\"../landings/credit-immo.html\">financement travaux</a>."
+      ),
+    ],
+  },
   "insolation-canicule-que-faire-mutuelle-devis.html": {
     keywords: [
       "insolation que faire",

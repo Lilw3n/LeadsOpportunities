@@ -299,6 +299,7 @@ a { color: var(--primary); }
 .tag-emprunteur { background: #e0e7ff; color: #4338ca; }
 .tag-politique { background: #fee2e2; color: #b91c1c; }
 .tag-economie { background: #ffedd5; color: #c2410c; }
+.tag-cuisine { background: #fef9c3; color: #a16207; }
 
 .blog-grid {
   display: grid;

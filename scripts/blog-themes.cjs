@@ -24,6 +24,7 @@ var TOPIC_THEMES = {
   emprunteur: { label: "Emprunteur", tagClass: "tag-emprunteur", group: "sujet" },
   politique: { label: "Politique & élections", tagClass: "tag-politique", group: "sujet" },
   economie: { label: "Économie & inflation", tagClass: "tag-economie", group: "sujet" },
+  cuisine: { label: "Cuisine & foyer", tagClass: "tag-cuisine", group: "sujet" },
 };
 
 var ALL_THEMES = Object.assign({}, PRODUCT_THEMES, TOPIC_THEMES);
@@ -40,6 +41,7 @@ var TAG_KEYWORDS = [
   { re: /hospitalisation|mutuelle|optique|dentaire|sant[eé]/i, themes: ["sante"] },
   { re: /habitation|pno|sinistre|locataire|bailleur/i, themes: ["habitat"] },
   { re: /chien|chat|chiot|animaux|v[eé]t[oé]/i, themes: ["animaux"] },
+  { re: /cuisine|friteuse|robot cuiseur|renovation cuisine|meal prep/i, themes: ["cuisine"] },
   { re: /vtc|chauffeur|plateforme|uber/i, themes: ["vtc"] },
   { re: /prevoyance|d[eé]c[eè]s|famille/i, themes: ["prevoyance"] },
   { re: /rc pro|freelance|artisan|pro/i, themes: ["pro"] },

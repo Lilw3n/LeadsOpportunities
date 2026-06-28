@@ -249,6 +249,21 @@
       "hook": "Insolation ou coup de chaleur : l'hospitalisation peut coûter cher sans mutuelle adaptée.",
       "question": "Votre mutuelle couvre-t-elle bien les urgences et l'hospitalisation en période de canicule ?"
     },
+    "feu-friteuse-cuisine-assurance-habitation.html": {
+      "section": "habitat",
+      "hook": "Un feu de friteuse peut coûter des milliers d'euros — votre MRH est-elle bien calibrée ?",
+      "question": "Vos plafonds incendie et mobilier couvrent-ils votre cuisine et votre électroménager ?"
+    },
+    "robot-cuiseur-pret-conso-credit-cuisine.html": {
+      "section": "finance",
+      "hook": "Robot cuiseur à 1 400 € : le prêt conso peut coûter 100 € de plus que le comptant.",
+      "question": "Souhaitez-vous une simulation crédit conso pour équiper votre cuisine ?"
+    },
+    "renovation-cuisine-pret-travaux-assurance.html": {
+      "section": "habitat",
+      "hook": "Rénovation cuisine : financement + assurance habitation à revoir après les travaux.",
+      "question": "Voulez-vous une étude prêt travaux et une vérification de votre assurance habitation ?"
+    },
     "canicule-panneaux-solaires-pret-aides-financer.html": {
       "section": "habitat",
       "hook": "Canicule : panneaux solaires, aides publiques et prêt pour financer l'autoconsommation.",
