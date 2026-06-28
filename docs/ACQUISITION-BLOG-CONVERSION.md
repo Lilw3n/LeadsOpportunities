@@ -21,7 +21,7 @@ flowchart TD
 | Phase | Budget pub | Objectif |
 |-------|------------|----------|
 | **0** | **0 €** | Pixel actif, mesurer quels articles mènent au formulaire |
-| **1** | **Uniquement si ROI probable** | 1 campagne, 1 vertical, article déjà performant |
+| **1** | **1 €/jour max** | **1 campagne, 1 annonce**, vertical déjà performant |
 | **2** | Scale progressif | Dupliquer ce qui a généré des **Lead** qualifiés |
 
 **Règle d’or :** pas de campagne « test ». Chaque euro doit viser une **conversion Lead**, pas de la notoriété.
@@ -80,13 +80,13 @@ Le blog **ne remplace pas** la landing pour l’intent chaud. Il **réduit le CP
 
 **Ne pas utiliser Automated Ads** pour l’instant (trop automatique, peu contrôlable à petit budget).
 
-### Campagne 1 (quand prêt) — 1 seul vertical
+### Campagne 1 (quand prêt) — 1 seul vertical, 1 seule annonce
 
 - **Objectif :** Conversions → **Lead**
-- **Budget :** plafond strict (ex. 5 €/jour max, pas 1 € « test »)
+- **Budget :** **1 €/jour max** (plafond global compte — ne pas multiplier les pubs)
 - **Ciblage :** France, Français, **intérêts assurance / immobilier / VTC** selon vertical
 - **Créatif :** accroche article + « Devis gratuit en 3 min »
-- **URL :** article blog avec UTM (voir CSV)
+- **URL :** article blog avec UTM (voir CSV) **ou** formulaire Lead Ads — pas les deux en parallèle
 
 Exemple mutuelle :
 
@@ -96,12 +96,12 @@ https://www.leadsopportunities.fr/blog/mutuelle-sante-5-criteres.html?utm_source
 
 Le lecteur clique le bouton bridge → landing mutuelle **en gardant** `utm_source=meta` (pas écrasé).
 
-### Retargeting (meilleur ROI petit budget)
+### Retargeting (plus tard)
 
 Audience : visiteurs 7 jours avec `JourneyFormStart` **sans** `Lead`  
 → Pub vers `/landings/devis-express.html?need=…` (rappel 30 sec)
 
-Coût souvent **2–3× moins cher** qu’une campagne froide.
+**Ne pas activer tant que la campagne principale (1 €/jour) n’est pas validée** — pas de budget supplémentaire ni de deuxième annonce.
 
 ---
 
@@ -135,10 +135,12 @@ Détails complets : `ads/meta-blog-conversions.csv`
 ## Règles budget minimal
 
 1. **0 €** tant que le pixel n’a pas 50+ PageView organiques
-2. **1 campagne active** maximum au début
-3. **Couper** si CPL > 25 € après 5 clics sans Lead
-4. **Scale** uniquement sur `qualified_lead` (score ≥ 50)
-5. Articles **actu international / gaming** → jamais en pub (noindex ou hors FR)
+2. **1 campagne active** maximum — **1 annonce active** maximum
+3. **1 €/jour max** pour toute la pub Meta (plafond compte)
+4. **Couper** si CPL > 25 € après 5 clics sans Lead
+5. **Scale** uniquement sur `qualified_lead` (score ≥ 50) — et seulement après validation CPL à 1 €/jour
+6. Articles **actu international / gaming** → jamais en pub (noindex ou hors FR)
+7. **Ne pas multiplier** les pubs par vertical, article ou formulaire pour l’instant
 
 ---
 
@@ -149,8 +151,8 @@ Détails complets : `ads/meta-blog-conversions.csv`
 - [ ] Article choisi avec le plus de clics bridge (Clarity)
 - [ ] UTM copiés depuis `meta-blog-conversions.csv`
 - [ ] Objectif campagne = **Lead**, pas Trafic
-- [ ] Plafond budget défini (ex. 5 €/jour, durée 7 jours max)
-- [ ] Retargeting abandon configuré (optionnel, même petit budget)
+- [ ] Plafond budget **1 €/jour max** (une seule annonce, pas de campagnes parallèles)
+- [ ] Retargeting abandon : **reporté** tant que la campagne unique n’est pas validée
 
 ---
 

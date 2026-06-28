@@ -1,6 +1,14 @@
 {
   "page_id": "1183829618147455",
   "ad_account_id": "997768686183548",
+  "ads_policy": {
+    "max_daily_budget_eur": 1,
+    "max_active_campaigns": 1,
+    "max_active_ad_sets": 1,
+    "max_active_ads": 1,
+    "multiply_campaigns": false,
+    "note": "Plafond global 1 €/jour pour toute la pub Meta. Une seule campagne / annonce active — ne pas dupliquer par vertical ou article tant que le CPL n'est pas validé."
+  },
   "default_vertical": "devis",
   "default_landing": "/landings/rappel.html",
   "prefilled_fields": ["full_name", "first_name", "last_name", "email", "phone_number", "city", "post_code"],

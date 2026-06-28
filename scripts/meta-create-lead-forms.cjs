@@ -222,6 +222,22 @@ async function main() {
   );
   console.log("Log:", LOG_PATH);
 
+  var policyPath = path.join(ROOT, "config/meta-lead-forms.json");
+  try {
+    var policy = JSON.parse(fs.readFileSync(policyPath, "utf8")).ads_policy;
+    if (policy) {
+      console.log(
+        "\nPolitique pub Meta : max " +
+          policy.max_daily_budget_eur +
+          " €/jour, " +
+          policy.max_active_campaigns +
+          " campagne, " +
+          policy.max_active_ads +
+          " annonce — ne pas multiplier les pubs."
+      );
+    }
+  } catch (_) {}
+
   if (dryRun) {
     console.log("\nPour créer sur Meta : META_PAGE_ACCESS_TOKEN=... node scripts/meta-create-lead-forms.cjs --create");
   }
