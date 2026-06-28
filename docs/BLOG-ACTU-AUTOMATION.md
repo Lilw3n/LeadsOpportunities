@@ -2,6 +2,8 @@
 
 Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
+Pour les articles non perissables publies regulierement afin de capter des recherches a intention devis, voir **`docs/BLOG-LEAD-ARTICLES.md`** (`npm run blog:lead:auto`, cron lundi + jeudi).
+
 ## Quel canal utiliser ?
 
 | Canal | Quand | Qualité |

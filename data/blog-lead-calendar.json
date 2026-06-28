@@ -1,0 +1,217 @@
+{
+  "updated": "2026-06-28",
+  "cadence": "2 articles evergreen par semaine, en complement du flux actu",
+  "defaultCount": 1,
+  "topics": [
+    {
+      "id": "mutuelle-hospitalisation-senior",
+      "priority": 100,
+      "section": "sante",
+      "need": "sante",
+      "tag": "Mutuelle senior",
+      "tagClass": "tag-sante",
+      "file": "mutuelle-senior-hospitalisation-reste-a-charge.html",
+      "title": "Mutuelle senior : eviter le reste a charge en hospitalisation",
+      "description": "Hospitalisation, chambre particuliere, depassements : comment choisir une mutuelle senior qui limite le reste a charge.",
+      "cardExcerpt": "Senior : les postes hospitalisation qui evitent les mauvaises surprises.",
+      "keywords": ["mutuelle senior", "hospitalisation", "reste a charge", "chambre particuliere", "devis mutuelle"],
+      "angle": "Transformer une inquietude sante concrete en demande de devis mutuelle qualifiee.",
+      "painPoints": ["Hospitalisation non anticipee", "Chambre particuliere mal remboursee", "Depassements d'honoraires"],
+      "checklist": ["Comparer forfait journalier et chambre particuliere", "Verifier les depassements d'honoraires", "Lister traitements et specialistes suivis", "Regarder les delais de carence"],
+      "related": [
+        { "href": "../landings/sante.html", "label": "Comparer une mutuelle" },
+        { "href": "./mutuelle-sante-hospitalisation-2026.html", "label": "Guide hospitalisation" },
+        { "href": "./mutuelle-sante-5-criteres.html", "label": "5 criteres mutuelle" }
+      ]
+    },
+    {
+      "id": "vtc-premier-mois",
+      "priority": 98,
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "file": "vtc-premier-mois-assurance-erreurs.html",
+      "title": "VTC : 7 erreurs d'assurance pendant le premier mois d'activite",
+      "description": "Nouveau chauffeur VTC : RC pro, vehicule, plateformes et justificatifs a verifier avant les premieres courses.",
+      "cardExcerpt": "Premier mois VTC : eviter les erreurs qui bloquent Uber, Bolt ou Heetch.",
+      "keywords": ["assurance vtc", "nouveau chauffeur vtc", "rc pro vtc", "uber bolt heetch", "devis vtc"],
+      "angle": "Capter les chauffeurs en creation au moment ou l'intention de souscription est forte.",
+      "painPoints": ["Attestation refusee par une plateforme", "RC pro incomplete", "Franchise trop elevee sur vehicule finance"],
+      "checklist": ["Obtenir attestation RC pro transport de personnes", "Verifier usage professionnel du vehicule", "Conserver carte VTC et justificatifs", "Comparer franchise tous risques avant signature"],
+      "related": [
+        { "href": "../landings/vtc.html", "label": "Devis VTC" },
+        { "href": "./assurance-vtc-creation-chauffeur.html", "label": "Creation chauffeur VTC" },
+        { "href": "./assurance-vtc-rc-pro-garanties.html", "label": "RC Pro VTC" }
+      ]
+    },
+    {
+      "id": "emprunteur-economie-lemoine",
+      "priority": 96,
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Emprunteur",
+      "tagClass": "tag-immo",
+      "file": "assurance-emprunteur-economie-loi-lemoine-calcul.html",
+      "title": "Assurance emprunteur : calculer son economie avec la loi Lemoine",
+      "description": "Changer d'assurance emprunteur peut reduire le cout du credit : methode simple pour estimer l'economie avant devis.",
+      "cardExcerpt": "Loi Lemoine : transformer une mensualite en economie mesurable.",
+      "keywords": ["assurance emprunteur", "loi lemoine", "changer assurance pret", "economie emprunteur", "credit immobilier"],
+      "angle": "Faire passer le lecteur d'une curiosite economie a une demande d'etude emprunteur.",
+      "painPoints": ["Contrat groupe trop cher", "Garanties equivalentes mal comprises", "Banque qui ralentit la substitution"],
+      "checklist": ["Recuperer capital restant du", "Comparer cout mensuel assurance actuelle", "Verifier quotite et garanties ITT IPT", "Demander une delegation equivalente"],
+      "related": [
+        { "href": "../landings/credit-immo.html", "label": "Etude credit immo" },
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Loi Lemoine 2026" },
+        { "href": "./taux-credit-immobilier-2026-frais-dossier.html", "label": "Taux et frais" }
+      ]
+    },
+    {
+      "id": "habitation-capital-mobilier",
+      "priority": 94,
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "file": "assurance-habitation-capital-mobilier-sous-assurance.html",
+      "title": "Assurance habitation : calculer son capital mobilier pour eviter la sous-assurance",
+      "description": "Meubles, high-tech, cuisine, cave : methode pour declarer un capital mobilier coherent et eviter une indemnisation reduite.",
+      "cardExcerpt": "Capital mobilier trop bas : le piege classique apres sinistre habitation.",
+      "keywords": ["assurance habitation", "capital mobilier", "sous-assurance", "degats des eaux", "devis habitation"],
+      "angle": "Utiliser un risque frequent pour declencher un devis habitation ou une mise a jour contrat.",
+      "painPoints": ["Capital mobilier sous-estime", "Factures absentes", "Cave ou dependances mal couvertes"],
+      "checklist": ["Lister pieces et equipements de valeur", "Photographier cuisine et high-tech", "Verifier plafond cave et dependances", "Comparer franchise et valeur a neuf"],
+      "related": [
+        { "href": "../landings/devis.html?need=habitation", "label": "Devis habitation" },
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Guide habitation" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" }
+      ]
+    },
+    {
+      "id": "auto-jeune-conducteur-parents",
+      "priority": 90,
+      "section": "auto",
+      "need": "auto",
+      "tag": "Jeune conducteur",
+      "tagClass": "tag-auto",
+      "file": "assurance-auto-jeune-conducteur-parents-devis.html",
+      "title": "Jeune conducteur : comment les parents peuvent reduire le cout d'assurance auto",
+      "description": "Conduite accompagnee, vehicule, franchise et garanties : leviers pour obtenir un devis auto jeune conducteur raisonnable.",
+      "cardExcerpt": "Jeune conducteur : les choix qui font baisser la prime sans perdre les garanties utiles.",
+      "keywords": ["assurance jeune conducteur", "assurance auto", "conduite accompagnee", "bonus malus", "devis auto"],
+      "angle": "Capter les familles qui cherchent un devis auto avant l'achat du premier vehicule.",
+      "painPoints": ["Prime trop elevee", "Vehicule mal choisi", "Franchise invisible au devis"],
+      "checklist": ["Comparer tiers plus et tous risques", "Evaluer conduite accompagnee", "Verifier conducteur secondaire", "Choisir un vehicule assurable"],
+      "related": [
+        { "href": "../landings/devis.html?need=auto", "label": "Devis auto" },
+        { "href": "./assurance-auto-bonus-malus.html", "label": "Bonus malus" },
+        { "href": "../assurance-auto/", "label": "Assurance auto" }
+      ]
+    },
+    {
+      "id": "chien-chat-urgence-veto",
+      "priority": 88,
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "file": "assurance-chien-chat-urgence-veterinaire-budget.html",
+      "title": "Chien ou chat : combien prevoir pour une urgence veterinaire ?",
+      "description": "Consultation, radio, chirurgie : exemples de frais veterinaires et criteres pour comparer une assurance chien chat.",
+      "cardExcerpt": "Urgence veto : un seul incident peut justifier une assurance animaux.",
+      "keywords": ["assurance chien", "assurance chat", "urgence veterinaire", "frais veto", "mutuelle animaux"],
+      "angle": "Relier un cout veto concret a un questionnaire assurance animaux.",
+      "painPoints": ["Facture veto imprevue", "Plafond annuel trop faible", "Franchise et delai de carence"],
+      "checklist": ["Comparer plafond annuel", "Verifier accident et maladie", "Regarder franchise par acte", "Souscrire avant symptomes connus"],
+      "related": [
+        { "href": "../landings/animaux.html", "label": "Assurance animaux" },
+        { "href": "./assurance-animaux-comment-choisir.html", "label": "Choisir assurance animaux" },
+        { "href": "./assurance-chien-frais-veterinaires.html", "label": "Frais veterinaires chien" }
+      ]
+    },
+    {
+      "id": "prevoyance-tns-arret-travail",
+      "priority": 86,
+      "section": "prevoyance",
+      "need": "prevoyance",
+      "tag": "TNS",
+      "tagClass": "tag-prevoyance",
+      "file": "prevoyance-tns-arret-travail-revenus.html",
+      "title": "Prevoyance TNS : proteger ses revenus en cas d'arret de travail",
+      "description": "Independants et dirigeants : franchise, indemnite journaliere, invalidite et maintien de revenu a comparer avant souscription.",
+      "cardExcerpt": "TNS : le vrai risque n'est pas l'arret, c'est le revenu qui s'arrete.",
+      "keywords": ["prevoyance tns", "arret de travail independant", "indemnite journaliere", "invalidite", "devis prevoyance"],
+      "angle": "Faire emerger le besoin prevoyance chez les independants solvables.",
+      "painPoints": ["Revenu non maintenu", "Franchise trop longue", "Invalidite mal definie"],
+      "checklist": ["Calculer charges fixes mensuelles", "Choisir franchise compatible tresorerie", "Verifier definition invalidite", "Coordonner Madelin et regime obligatoire"],
+      "related": [
+        { "href": "../landings/devis.html?need=prevoyance", "label": "Devis prevoyance" },
+        { "href": "./prevoyance-independants-guide.html", "label": "Guide prevoyance independants" },
+        { "href": "../assurance-prevoyance/", "label": "Assurance prevoyance" }
+      ]
+    },
+    {
+      "id": "rc-pro-freelance-client",
+      "priority": 84,
+      "section": "pro",
+      "need": "rc-pro",
+      "tag": "RC Pro",
+      "tagClass": "tag-pro",
+      "file": "rc-pro-freelance-client-dommage-devis.html",
+      "title": "RC Pro freelance : quels dommages client sont vraiment couverts ?",
+      "description": "Erreur de conseil, retard, perte de donnees : comprendre la RC Pro freelance avant de signer une mission.",
+      "cardExcerpt": "Freelance : un client mecontent peut couter plus qu'une annee de cotisation RC Pro.",
+      "keywords": ["rc pro freelance", "assurance professionnelle", "erreur de conseil", "perte de donnees", "devis rc pro"],
+      "angle": "Capter freelances et independants au moment de signer une mission.",
+      "painPoints": ["Contrat client exige une attestation", "Exclusion prestation intellectuelle", "Plafond RC trop bas"],
+      "checklist": ["Lire exclusions metier", "Verifier plafond par sinistre", "Ajouter cyber si donnees sensibles", "Conserver contrats et cahiers des charges"],
+      "related": [
+        { "href": "../landings/devis.html?need=rc-pro", "label": "Devis RC Pro" },
+        { "href": "./rc-pro-freelance-artisan-guide.html", "label": "Guide RC Pro" },
+        { "href": "../assurances/", "label": "Catalogue assurances" }
+      ]
+    },
+    {
+      "id": "rachat-credit-endettement",
+      "priority": 82,
+      "section": "finance",
+      "need": "credit-immo",
+      "tag": "Rachat",
+      "tagClass": "tag-immo",
+      "file": "rachat-credit-baisser-mensualite-endettement.html",
+      "title": "Rachat de credit : baisser sa mensualite sans aggraver son budget",
+      "description": "Regroupement de credits, cout total, assurance emprunteur : les points a verifier avant une demande de rachat.",
+      "cardExcerpt": "Baisser la mensualite oui, mais avec une lecture claire du cout total.",
+      "keywords": ["rachat credit", "regroupement de credits", "baisser mensualite", "taux endettement", "courtier credit"],
+      "angle": "Qualifier les demandes credit avant contact courtier.",
+      "painPoints": ["Mensualites trop lourdes", "Cout total mal compris", "Assurance emprunteur oubliee"],
+      "checklist": ["Lister tous les credits", "Comparer mensualite et cout total", "Integrer IRA et frais dossier", "Verifier assurance du nouveau pret"],
+      "related": [
+        { "href": "../landings/credit-immo.html", "label": "Etude credit" },
+        { "href": "./rachat-credit-immobilier-guide-2026.html", "label": "Guide rachat credit" },
+        { "href": "./pret-immo-erreurs-a-eviter.html", "label": "Erreurs pret immo" }
+      ]
+    },
+    {
+      "id": "assurance-vie-beneficiaire",
+      "priority": 80,
+      "section": "patrimoine",
+      "need": "assurance-vie",
+      "tag": "Patrimoine",
+      "tagClass": "tag-patrimoine",
+      "file": "assurance-vie-clause-beneficiaire-erreurs.html",
+      "title": "Assurance-vie : 5 erreurs frequentes dans la clause beneficiaire",
+      "description": "Beneficiaires, divorce, enfants, fiscalite : pourquoi relire sa clause assurance-vie avec un conseiller.",
+      "cardExcerpt": "Clause beneficiaire : quelques mots peuvent changer toute la transmission.",
+      "keywords": ["assurance-vie", "clause beneficiaire", "transmission patrimoine", "epargne", "bilan patrimonial"],
+      "angle": "Generer des demandes de bilan patrimoine a partir d'un sujet simple et concret.",
+      "painPoints": ["Beneficiaire non mis a jour", "Clause trop vague", "Situation familiale changee"],
+      "checklist": ["Relire clause apres mariage ou divorce", "Identifier beneficiaires par qualite", "Verifier representation des enfants", "Coordonner avec testament et prevoyance"],
+      "related": [
+        { "href": "../landings/devis.html?need=assurance-vie", "label": "Bilan patrimoine" },
+        { "href": "../assurances/", "label": "Catalogue assurances" },
+        { "href": "./elections-presidentielles-prevoyance-patrimoine.html", "label": "Prevoyance et patrimoine" }
+      ]
+    }
+  ]
+}

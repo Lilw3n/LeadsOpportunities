@@ -6,6 +6,8 @@
 - `npm run blog:actu:fetch` — récupère candidats actu (RSS + queue)
 - `npm run blog:actu:draft -- --top=2` — ébauches dans `data/blog-actu-pending.json`
 - `npm run blog:actu:publish` — blog + sitemap SEO
+- `npm run blog:lead:auto` — publie un article evergreen oriente leads
+- `npm run blog:lead:dry-run` — previsualise le prochain article lead
 - `npm run seo:build` — sitemaps
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
 
@@ -29,6 +31,19 @@ Résumé agent manuel :
 4. PR + merge
 
 Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
+
+## Blog evergreen (generation de leads)
+
+Voir **`docs/BLOG-LEAD-ARTICLES.md`** pour le calendrier editorial hors actualite.
+
+**Automatisation 2x/semaine** :
+```bash
+npm run blog:lead:auto              # 1 article evergreen
+npm run blog:lead:auto -- --count=3 # jusqu'a 5
+```
+CI : **`.github/workflows/blog-lead-articles.yml`** (cron lundi + jeudi).
+
+Backlog : `data/blog-lead-calendar.json` ; anti-doublons : `data/blog-lead-state.json`.
 
 ## Ciblage marché France
 
