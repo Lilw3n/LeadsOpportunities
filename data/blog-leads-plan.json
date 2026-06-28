@@ -1,0 +1,45 @@
+{
+  "updated": "2026-06-28",
+  "goal": "Publier regulierement des articles d'actualite transformes en conseils assurance pour generer des leads qualifies.",
+  "cadence": {
+    "workflow": ".github/workflows/blog-actu-auto.yml",
+    "runsPerDay": 5,
+    "cronUtc": ["06:00", "09:00", "12:00", "15:00", "18:00"],
+    "defaultArticlesPerRun": 1,
+    "maxArticlesPerRun": 5,
+    "dailyArticleTarget": 5,
+    "staleAfterHours": 8
+  },
+  "leadQuality": {
+    "minimumLeadScore": 35,
+    "strictQuality": true,
+    "requiredCtaMedium": "actu_daily",
+    "requiredBlock": "bridge"
+  },
+  "sourceMix": [
+    {
+      "sourceType": "cafeyn",
+      "role": "Presse francaise premium via RSS publics, priorisee pour les angles assurance"
+    },
+    {
+      "sourceType": "edge",
+      "role": "Tendances Bing/MSN France sur economie, sante, immobilier et assurance"
+    },
+    {
+      "sourceType": "firefox",
+      "role": "Sources grand public Franceinfo, 20 Minutes, Pocket et medias associes"
+    }
+  ],
+  "conversion": {
+    "primaryCta": "questionnaire",
+    "utmSource": "blog",
+    "utmMedium": "actu_daily",
+    "leadEvent": "qualified_lead"
+  },
+  "operatingRules": [
+    "Un seul canal actif a la fois: GitHub Actions ou Cursor Automation, jamais les deux.",
+    "Publier uniquement les candidats au-dessus du seuil leadScore, sauf file manuelle prioritaire.",
+    "Chaque article doit contenir un bloc bridge et un CTA questionnaire avec utm_medium=actu_daily.",
+    "Si le statut devient stale, verifier les secrets IA, les flux RSS et la qualite stricte."
+  ]
+}

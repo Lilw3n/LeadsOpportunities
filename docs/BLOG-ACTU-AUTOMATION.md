@@ -52,6 +52,32 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 
 Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
 
+### Plan de cadence orienté leads
+
+La cadence et les garde-fous de génération de leads sont centralisés dans
+**`data/blog-leads-plan.json`** :
+
+- **5 runs par jour** (`06:00`, `09:00`, `12:00`, `15:00`, `18:00` UTC)
+- **1 article par run** par défaut, jusqu'à **5 articles** en manuel
+- **objectif quotidien : 5 articles** orientés questionnaires
+- **seuil `leadScore` minimum : 35** pour éviter les sujets peu qualifiés
+- **qualité stricte activée** : bloc `bridge` + CTA questionnaire avec `utm_medium=actu_daily`
+
+Commandes utiles :
+
+```bash
+npm run blog:actu:plan    # cadence, seuil leadScore, CTA attendus
+npm run blog:actu:status  # fraicheur du dernier run + candidats publiables
+```
+
+Variables optionnelles :
+
+| Variable | Rôle |
+|----------|------|
+| `BLOG_ACTU_COUNT` | Remplace le nombre d'articles si `--count` n'est pas fourni |
+| `BLOG_ACTU_MIN_LEAD_SCORE` | Remplace le seuil `leadScore` du plan |
+| `STRICT_ACTU_QUALITY=0` | Désactive le contrôle strict pour debug local uniquement |
+
 ```bash
 # 1 article (rotation cafeyn/edge/firefox selon l'heure)
 npm run blog:actu:auto
@@ -139,7 +165,9 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 | `data/blog-actu-pending.json` | Articles avant HTML |
 | `data/blog-actu-published.json` | Archives manifeste |
 | `data/blog-actu-state.json` | URLs traitées, historique auto |
+| `data/blog-leads-plan.json` | Cadence, seuils leadScore et exigences CTA |
 | `scripts/auto-actu-publish.cjs` | Orchestrateur principal |
+| `scripts/blog-leads-plan.cjs` | Lecture/affichage du plan de cadence leads |
 | `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
 | `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |
 

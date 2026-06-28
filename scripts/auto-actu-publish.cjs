@@ -14,6 +14,13 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const {
+  loadLeadPlan,
+  resolveCount,
+  minLeadScore,
+  shouldUseStrictQuality,
+  describeLeadPlan,
+} = require("./blog-leads-plan.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -87,7 +94,7 @@ function bestFromPlatform(available, platform, feedMap, used) {
   return list[0] || null;
 }
 
-function pickCandidates(candidates, count, state) {
+function pickCandidates(candidates, count, state, minimumLeadScore) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
   var titleKeys = loadPublishedTitleKeys();
@@ -98,6 +105,7 @@ function pickCandidates(candidates, count, state) {
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    if (c.status !== "queued" && Number(c.leadScore || 0) < minimumLeadScore) return false;
     return true;
   });
 
@@ -168,13 +176,20 @@ function runNode(script) {
 }
 
 async function main() {
-  var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
+  var plan = loadLeadPlan();
+  var count = resolveCount(plan, arg("count"));
+  var minimumLeadScore = minLeadScore(plan);
+  var strictQuality = process.argv.indexOf("--strict-quality") !== -1 || shouldUseStrictQuality(plan);
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
 
   console.log("=== Auto actu publish ===");
   console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  console.log("leadScore min:", minimumLeadScore, "| qualite stricte:", strictQuality ? "oui" : "non");
+  describeLeadPlan(plan).forEach(function (line) {
+    console.log("plan:", line);
+  });
   console.log("");
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
@@ -198,10 +213,10 @@ async function main() {
     publishedFiles: [],
     autoRuns: [],
   });
-  var picks = pickCandidates(candidates, count, state);
+  var picks = pickCandidates(candidates, count, state, minimumLeadScore);
 
   if (!picks.length) {
-    console.log("Aucun candidat disponible.");
+    console.log("Aucun candidat disponible au-dessus du seuil leadScore " + minimumLeadScore + ".");
     process.exit(0);
   }
 
@@ -276,7 +291,7 @@ async function main() {
   }
 
   if (!skipPublish) {
-    if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
+    if (strictQuality) {
       console.log("\n=== Contrôle qualité ===");
       try {
         execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
@@ -296,6 +311,9 @@ async function main() {
     at: state.lastAutoRun,
     count: published.length,
     usedAi: useAi,
+    requestedCount: count,
+    minLeadScore: minimumLeadScore,
+    strictQuality: strictQuality,
     articles: published,
   });
   if (state.autoRuns.length > 50) {
