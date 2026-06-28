@@ -87,10 +87,17 @@
   }
 
   function testPayload() {
+    var bsrRaw = document.getElementById("testBsr").value;
+    var assrRaw = document.getElementById("testAssr").value;
+    var birthYear = Number(document.getElementById("testBirthYear").value || 0);
     var payload = {
       vertical: "vsp",
       vehicleType: "vsp",
       driverAge: Number(document.getElementById("testAge").value || 0),
+      birthYear: birthYear > 1900 ? birthYear : null,
+      vspBirthEra: birthYear >= 1988 ? "1988 ou après" : birthYear > 0 ? "Avant 1988" : null,
+      hasBsrOrAm: bsrRaw === "yes" ? "Oui, obtenu" : bsrRaw === "pending" ? "En cours" : "Non",
+      hasAssr: assrRaw === "yes" ? "Oui" : assrRaw === "no" ? "Non" : assrRaw === "na" ? "Pas concerné" : null,
       garageDepartment: document.getElementById("testDept").value,
       vehicleAgeYears: Number(document.getElementById("testVehicleAge").value || 0),
       licenseIssue: document.getElementById("testIssue").value,

@@ -102,13 +102,84 @@ function inferPlatform(payload) {
   return payload.platform || payload.source || "unknown";
 }
 
+function parseBirthYear(value) {
+  const n = toNumber(value);
+  if (n != null && n >= 1900 && n <= 2100) return Math.round(n);
+  return null;
+}
+
+function parseBirthEra(payload) {
+  const raw = normalizeText(
+    pick(payload, ["vspBirthEra", "birthEra", "birth_era", "anneeNaissance", "birthYearCategory"])
+  );
+  if (/avant.?1988|1987|bsr.*suffit/.test(raw)) return { bornBefore1988: true, requiresAssr: false };
+  if (/1988|apres|après|assr/.test(raw)) return { bornBefore1988: false, requiresAssr: true };
+  const year = parseBirthYear(pick(payload, ["birthYear", "birth_year", "annee_naissance", "yearOfBirth"]));
+  if (year != null) {
+    return {
+      birthYear: year,
+      bornBefore1988: year < 1988,
+      requiresAssr: year >= 1988,
+    };
+  }
+  return { bornBefore1988: null, requiresAssr: null, birthYear: year };
+}
+
+function parseDriverAgeBand(payload, explicitAge) {
+  if (explicitAge != null) return explicitAge;
+  const raw = normalizeText(pick(payload, ["vspDriverAgeBand", "driverAgeBand", "age_band", "trancheAge"]));
+  if (/14.?15|14-15/.test(raw)) return 15;
+  if (/16.?17|16-17/.test(raw)) return 16;
+  if (/18.?25|18-25/.test(raw)) return 21;
+  if (/26.?40|26-40/.test(raw)) return 33;
+  if (/plus.*40|40\+|41/.test(raw)) return 45;
+  return null;
+}
+
+function parseBsrStatus(payload) {
+  const raw = normalizeText(pick(payload, ["hasBsrOrAm", "has_bsr_am", "bsr", "permisAM", "permis_am"]));
+  if (!raw) return null;
+  if (/en cours|demande|formation/.test(raw)) return "pending";
+  if (/^(oui|yes|1|true|obtenu)/.test(raw) || (/oui|obtenu/.test(raw) && !/non/.test(raw))) return true;
+  if (/^(non|no|0|false)/.test(raw) || /^non/.test(raw)) return false;
+  return toBool(raw);
+}
+
+function parseAssrStatus(payload) {
+  const raw = normalizeText(pick(payload, ["hasAssr", "has_assr", "assr"]));
+  if (!raw) return null;
+  if (/pas concern|non concern|nc|n\/a/.test(raw)) return null;
+  if (/^(oui|yes|1|true|obtenu)/.test(raw)) return true;
+  if (/^(non|no|0|false)/.test(raw)) return false;
+  return toBool(raw);
+}
+
+function licensingCutoffDate(rules) {
+  const cutoff = (rules.commonSignals && rules.commonSignals.licensingCutoff) || "1988-01-01";
+  return new Date(cutoff + "T00:00:00Z");
+}
+
+function bornAfterCutoff(lead, cutoffDate) {
+  if (lead.bornBefore1988 === true) return false;
+  if (lead.bornBefore1988 === false) return true;
+  if (lead.birthYear != null) return lead.birthYear >= cutoffDate.getUTCFullYear();
+  return null;
+}
+
 function normalizeLead(rowOrPayload) {
   const payload = parsePayload(rowOrPayload);
   const claims24 = toNumber(pick(payload, ["claims24Months", "sinistres24", "claims_24_months", "claims"]));
-  const age = toNumber(pick(payload, ["driverAge", "age", "ageConducteur", "conducteur_age"]));
+  const birth = parseBirthEra(payload);
+  const explicitAge = toNumber(pick(payload, ["driverAge", "age", "ageConducteur", "conducteur_age"]));
+  const age = parseDriverAgeBand(payload, explicitAge);
   const department = String(pick(payload, ["garageDepartment", "department", "departement", "postal_department"]) || "")
     .slice(0, 3)
     .replace(/\D/g, "");
+  const bsrStatus = parseBsrStatus(payload);
+  const assrStatus = parseAssrStatus(payload);
+  const rules = loadVspRules();
+  const driveLegalMin = (rules.commonSignals && rules.commonSignals.driveLegalAgeMin) || 14;
+  const insuranceMin = (rules.commonSignals && rules.commonSignals.insuranceAgeMinDefault) || 16;
 
   return {
     id: payload.id || payload.leadId || payload.lead_id || null,
@@ -118,13 +189,21 @@ function normalizeLead(rowOrPayload) {
     email: payload.email || payload.contact_email || null,
     phone: payload.phone || payload.contact_phone || null,
     driverAge: age,
+    birthYear: birth.birthYear != null ? birth.birthYear : parseBirthYear(pick(payload, ["birthYear", "birth_year"])),
+    bornBefore1988: birth.bornBefore1988,
+    requiresAssr: birth.requiresAssr,
+    hasAssr: assrStatus,
+    driveLegalAgeMin: driveLegalMin,
+    insuranceAgeMin: insuranceMin,
+    underInsuranceAge: age != null && age >= driveLegalMin && age < insuranceMin,
     garageDepartment: department,
     garageArea: normalizeText(pick(payload, ["garageArea", "region", "zone"])),
     usage: normalizeUsage(payload),
     vehicleAgeYears: toNumber(pick(payload, ["vehicleAgeYears", "vehicle_age_years", "ageVehicule"])),
     vehicleValue: toNumber(pick(payload, ["vehicleValue", "vehicle_value", "valeurVehicule"])),
     registrationHolder: normalizeText(pick(payload, ["registrationHolder", "carteGrise", "carte_grise_holder"])),
-    hasBsrOrAm: toBool(pick(payload, ["hasBsrOrAm", "has_bsr_am", "bsr", "permisAM"])),
+    hasBsrOrAm: bsrStatus === "pending" ? null : bsrStatus,
+    bsrStatus: bsrStatus === "pending" ? "pending" : bsrStatus === true ? "yes" : bsrStatus === false ? "no" : null,
     hasPermitB: toBool(pick(payload, ["hasPermitB", "permisB", "permitB"])),
     hasPermitBHistory: toBool(pick(payload, ["hasPermitBHistory", "permitBHistory", "experiencePermisB"])),
     licenseIssue: normalizeIssue(payload),
@@ -159,21 +238,64 @@ function inferSollyProfile(lead) {
   return "good_driver";
 }
 
-function evaluatePartner(partner, lead) {
+function evaluatePartner(partner, lead, rules) {
   const reasons = [];
   const warnings = [];
   const rejects = [];
   let score = 50;
+  const cutoffDate = licensingCutoffDate(rules || loadVspRules());
+  const bornAfter1987 = bornAfterCutoff(lead, cutoffDate);
 
   const target = partner.target || {};
   if (lead.driverAge == null) {
     warnings.push("Age conducteur manquant");
     score -= 8;
-  } else if (lead.driverAge < target.ageMin || lead.driverAge > target.ageMax) {
+  } else if (lead.driverAge < (lead.driveLegalAgeMin || 14)) {
+    rejects.push("Age inferieur au minimum legal de conduite (" + (lead.driveLegalAgeMin || 14) + " ans)");
+  } else if (lead.driverAge < target.ageMin) {
+    if (lead.underInsuranceAge) {
+      warnings.push(
+        "Conduite legale des " +
+          (lead.driveLegalAgeMin || 14) +
+          " ans — assurance partenaire souvent des " +
+          (lead.insuranceAgeMin || target.ageMin) +
+          " ans : rappeler a l'approche des 16 ans"
+      );
+      score -= 6;
+    } else {
+      rejects.push("Age conducteur hors cible " + target.ageMin + "-" + target.ageMax + " ans");
+    }
+  } else if (lead.driverAge > target.ageMax) {
     rejects.push("Age conducteur hors cible " + target.ageMin + "-" + target.ageMax + " ans");
   } else {
     reasons.push("Age compatible");
     score += 10;
+  }
+
+  if (lead.requiresAssr === true && lead.hasAssr === false) {
+    warnings.push("ASSR scolaire requise (ne en 1988 ou apres) — a confirmer avant devis");
+    score -= 10;
+  } else if (lead.requiresAssr === true && lead.hasAssr === true) {
+    reasons.push("ASSR + BSR conformes au profil post-1988");
+    score += 4;
+  } else if (lead.bornBefore1988 === true) {
+    reasons.push("Ne avant 1988 : BSR/AM suffit (pas d'ASSR obligatoire)");
+    score += 3;
+  }
+
+  if (target.requiresBsrOrPermitWhenBornAfter && bornAfter1987 === true) {
+    if (lead.hasBsrOrAm === false && !lead.hasPermitB) {
+      rejects.push("BSR/AM ou permis requis pour les nes en 1988 ou apres (FMA)");
+    } else if (lead.bsrStatus === "pending") {
+      warnings.push("BSR/AM en cours — verifier avant emission");
+      score -= 4;
+    } else if (lead.hasBsrOrAm === true || lead.hasPermitB) {
+      reasons.push("Titre de conduite compatible FMA");
+      score += 6;
+    }
+  } else if (lead.hasBsrOrAm === false && !lead.hasPermitB && lead.driverAge != null && lead.driverAge >= 16) {
+    warnings.push("BSR/AM ou permis B a confirmer");
+    score -= 5;
   }
 
   if (target.vehicleAgeMaxYears && lead.vehicleAgeYears != null) {
@@ -274,6 +396,9 @@ function buildLeadInsights(lead, matches) {
   if (lead.leadScore >= 70) tags.push("lead_chaud");
   if (best && best.status !== "rejected" && best.score >= 70) tags.push("nouveau_interessant_pp");
   if (lead.licenseIssue && lead.licenseIssue !== "none") tags.push("profil_aggrave");
+  if (lead.underInsuranceAge) tags.push("conduite_14_15_rappel_16");
+  if (lead.bornBefore1988 === true) tags.push("bsr_seul_pre_1988");
+  if (lead.requiresAssr === true) tags.push("assr_requis_post_1988");
 
   return {
     priority:
@@ -294,7 +419,7 @@ function matchVspPrivateOffers(rowOrPayload) {
   const lead = normalizeLead(rowOrPayload);
   const matches = (rules.partners || [])
     .map(function (partner) {
-      return evaluatePartner(partner, lead);
+      return evaluatePartner(partner, lead, rules);
     })
     .sort(function (a, b) {
       if (a.status === "rejected" && b.status !== "rejected") return 1;
