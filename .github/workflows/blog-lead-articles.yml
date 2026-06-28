@@ -1,0 +1,53 @@
+name: Blog lead evergreen
+
+on:
+  schedule:
+    # 2x/semaine UTC — articles non perissables dedies conversion leads
+    - cron: "15 7 * * 1,4"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Nombre d'articles (1-5)"
+        required: false
+        default: "1"
+
+concurrency:
+  group: blog-lead-evergreen
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish-lead-articles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate evergreen lead articles
+        run: |
+          COUNT="${{ github.event.inputs.count || '1' }}"
+          npm run blog:lead:auto -- --count="$COUNT"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git status --porcelain | grep -q .; then
+            git add data/blog-lead-*.json data/blog-actu-*.json blog/*.html sitemap*.xml seo/
+            git commit -m "chore(blog): evergreen lead article $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          else
+            echo "Aucun changement a committer."
+          fi
