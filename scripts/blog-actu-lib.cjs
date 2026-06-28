@@ -101,7 +101,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (["cafeyn", "edge", "firefox", "google", "bing", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -295,11 +295,12 @@ function parseRssItems(xml) {
     var link = extractTag(block, "link");
     var desc = extractTag(block, "description");
     var pub = extractTag(block, "pubDate");
-    if (title) {
+    var cleanTitle = cleanRssText(title);
+    if (cleanTitle) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
-        url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        title: cleanTitle,
+        url: decodeEntities(unwrapCdata(link || "")).trim(),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -317,8 +318,17 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function unwrapCdata(s) {
+  return String(s).replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
+}
+
+function cleanRssText(s) {
+  return decodeEntities(stripHtml(decodeEntities(unwrapCdata(s)))).trim();
+}
+
 function decodeEntities(s) {
   return String(s)
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
       return String.fromCharCode(parseInt(hex, 16));
     })
@@ -330,8 +340,7 @@ function decodeEntities(s) {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
+    .replace(/&apos;/g, "'");
 }
 
 module.exports = {

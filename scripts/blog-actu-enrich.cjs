@@ -201,6 +201,9 @@ function platformLabel(sourceType) {
   if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
     return "Mozilla Firefox / Pocket";
   }
+  if (t === "google" || t.indexOf("google") !== -1) return "Google News";
+  if (t === "bing" || t.indexOf("bing") !== -1) return "Bing Actualités";
+  if (t === "yahoo" || t.indexOf("yahoo") !== -1) return "Yahoo Actualités";
   return "l'actualite du jour";
 }
 
