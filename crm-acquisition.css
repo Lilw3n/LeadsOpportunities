@@ -29,6 +29,101 @@
   background: linear-gradient(180deg, rgba(13, 148, 136, 0.04), #fff);
 }
 
+.pub-hub-section {
+  margin-bottom: 18px;
+}
+
+.pub-platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.pub-platform-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px 18px;
+}
+
+.pub-platform-card h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.pub-platform-card--large {
+  padding: 18px 20px;
+}
+
+.pub-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.pub-note,
+.pub-internal {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 8px 0 0;
+}
+
+.pub-more-links {
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+.pub-more-links ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.pub-active-campaign {
+  border: 1px solid rgba(234, 88, 12, 0.25);
+  background: linear-gradient(135deg, rgba(234, 88, 12, 0.06), rgba(13, 148, 136, 0.04));
+}
+
+.pub-copy-block {
+  margin-top: 14px;
+}
+
+.pub-copy-text {
+  background: var(--surface, #f8fafc);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.pub-doc-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.src-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.crm-attribution-panel {
+  margin-top: 16px;
+}
+
+.crm-attrib-highlight {
+  font-weight: 600;
+  color: #0f766e;
+}
+
+.crm-attrib-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
 .acq-chip {
   padding: 8px 16px;
   border-radius: 999px;

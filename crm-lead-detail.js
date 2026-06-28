@@ -36,6 +36,10 @@
       window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderMetaPanel
         ? window.CrmLeadPayloadView.renderMetaPanel(Object.assign({}, l, { payload_obj: payload }), esc)
         : "";
+    var attrPanel =
+      window.CrmAttributionPanel && window.CrmAttributionPanel.render
+        ? window.CrmAttributionPanel.render(Object.assign({}, l, { payload_obj: payload }))
+        : "";
 
     document.getElementById("leadMount").innerHTML =
       '<p><a href="./crm-acquisition.html" class="btn btn-ghost">← Pipeline acquisition</a> ' +
@@ -95,6 +99,7 @@
       esc(l.notes || "") +
       "</textarea></label>" +
       '<button type="button" class="btn btn-primary" id="btnSave">Enregistrer</button></div>' +
+      attrPanel +
       metaPanel +
       '<p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">' +
       '<a href="./crm-tariff-grid.html?leadId=' +

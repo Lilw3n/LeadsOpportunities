@@ -505,7 +505,7 @@
         })
         .join("") +
       "</tbody></table>" +
-      '<p style="color:var(--muted);font-size:.85rem;margin-top:10px">Doc : docs/META-ROTATION-4-SEMAINES.md · npm run meta:rotation:status</p>";
+      '<p style="color:var(--muted);font-size:.85rem;margin-top:10px">Doc : docs/META-ROTATION-4-SEMAINES.md · <a href="./crm-pubs.html">Gestion pubs</a> · <a href="./crm-sources.html">Origine leads</a></p>";
   }
 
   function loadMetaRotation(refresh) {

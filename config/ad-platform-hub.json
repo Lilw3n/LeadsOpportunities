@@ -1,0 +1,167 @@
+{
+  "version": 1,
+  "site_origin": "https://www.leadsopportunities.fr",
+  "accounts": {
+    "meta_page_id": "1183829618147455",
+    "meta_ad_account_id": "997768686183548",
+    "meta_pixel_id": "4470774303164658",
+    "meta_app_id": "1550137800492837"
+  },
+  "platforms": [
+    {
+      "id": "meta",
+      "label": "Meta — Facebook / Instagram",
+      "icon": "📘",
+      "color": "#1877f2",
+      "crm_platforms": ["facebook", "instagram"],
+      "links": [
+        {
+          "id": "ads_manager",
+          "label": "Ads Manager — campagnes",
+          "url": "https://www.facebook.com/adsmanager/manage/campaigns?act=997768686183548",
+          "primary": true
+        },
+        {
+          "id": "lead_forms",
+          "label": "Bibliothèque formulaires Lead",
+          "url": "https://www.facebook.com/adsmanager/manage/forms?act=997768686183548",
+          "primary": true
+        },
+        {
+          "id": "events_manager",
+          "label": "Events Manager — Pixel + CAPI",
+          "url": "https://business.facebook.com/events_manager2/list/pixel/4470774303164658",
+          "primary": true
+        },
+        {
+          "id": "ad_center",
+          "label": "Espace Pubs (simple)",
+          "url": "https://www.facebook.com/ad_center/?ad_account_id=997768686183548&page_id=1183829618147455"
+        },
+        {
+          "id": "page",
+          "label": "Page Facebook Leads Opportunities",
+          "url": "https://www.facebook.com/1183829618147455"
+        },
+        {
+          "id": "business_settings",
+          "label": "Paramètres business",
+          "url": "https://business.facebook.com/settings"
+        }
+      ],
+      "internal": [
+        { "label": "Leads Meta (CRM)", "href": "./crm-meta-inbox.html" },
+        { "label": "Gestion pubs (CRM)", "href": "./crm-pubs.html" },
+        { "label": "Guide Meta", "href": "./docs/META-ADS-AUTOMATION.md" }
+      ]
+    },
+    {
+      "id": "google",
+      "label": "Google Ads + Analytics",
+      "icon": "🔍",
+      "color": "#4285f4",
+      "crm_platforms": ["google", "bing"],
+      "links": [
+        {
+          "id": "google_ads",
+          "label": "Google Ads — campagnes",
+          "url": "https://ads.google.com/aw/campaigns",
+          "primary": true
+        },
+        {
+          "id": "conversions",
+          "label": "Conversions (leads)",
+          "url": "https://ads.google.com/aw/conversions",
+          "primary": true
+        },
+        {
+          "id": "ga4",
+          "label": "Google Analytics 4",
+          "url": "https://analytics.google.com/",
+          "primary": true
+        },
+        {
+          "id": "search_console",
+          "label": "Search Console (SEO)",
+          "url": "https://search.google.com/search-console"
+        },
+        {
+          "id": "tag_assistant",
+          "label": "Tag Assistant / Debug",
+          "url": "https://tagassistant.google.com/"
+        }
+      ],
+      "internal": [
+        { "label": "Tracking SEA", "href": "./docs/SEA-TRACKING.md" },
+        { "label": "Corrélation GA4/CRM", "href": "./docs/TRACKING-CORRELATION.md" }
+      ]
+    },
+    {
+      "id": "tiktok",
+      "label": "TikTok Ads",
+      "icon": "🎵",
+      "color": "#010101",
+      "crm_platforms": ["tiktok"],
+      "links": [
+        {
+          "id": "tiktok_ads",
+          "label": "TikTok Ads Manager",
+          "url": "https://ads.tiktok.com/",
+          "primary": true
+        },
+        {
+          "id": "tiktok_events",
+          "label": "Events Manager (Pixel)",
+          "url": "https://ads.tiktok.com/i18n/events_manager",
+          "primary": true
+        },
+        {
+          "id": "tiktok_business",
+          "label": "TikTok Business Center",
+          "url": "https://business.tiktok.com/"
+        }
+      ],
+      "internal": [
+        { "label": "Variable Vercel : TIKTOK_PIXEL_ID", "href": "./CONNECT.md" },
+        { "label": "Format UTM TikTok", "href": "./docs/SEA-TRACKING.md" }
+      ],
+      "setup_note": "Ajoutez TIKTOK_PIXEL_ID sur Vercel — le site charge déjà ttq via google-config.js."
+    },
+    {
+      "id": "clarity",
+      "label": "Microsoft Clarity",
+      "icon": "📊",
+      "color": "#0078d4",
+      "crm_platforms": ["site_web"],
+      "links": [
+        {
+          "id": "clarity_dashboard",
+          "label": "Dashboard Clarity",
+          "url": "https://clarity.microsoft.com/",
+          "primary": true
+        }
+      ],
+      "internal": [
+        { "label": "Filtre France : market_intent=FR", "href": "./docs/TRAFIC-FRANCE.md" }
+      ]
+    }
+  ],
+  "site_landings_test": [
+    {
+      "label": "Mutuelle (canicule)",
+      "path": "/landings/sante.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule"
+    },
+    {
+      "label": "VTC express",
+      "path": "/landings/devis-rapide.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search"
+    },
+    {
+      "label": "VSP / citadine",
+      "path": "/landings/devis.html?need=vsp&utm_source=meta&utm_medium=paid_social&utm_campaign=meta_citadine_urbaine"
+    },
+    {
+      "label": "Rappel universel",
+      "path": "/landings/rappel.html?utm_source=tiktok&utm_medium=paid_social&utm_campaign=retarget_rappel"
+    }
+  ]
+}
