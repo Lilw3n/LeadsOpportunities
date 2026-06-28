@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leads Meta | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Meta Lead Ads</p>
+      <h2>Boîte de réception Facebook / Instagram</h2>
+      <p>Leads issus des formulaires instantanés Meta — réponses devis courtes, coordonnées préremplies, prêts pour le montage de dossier.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-acquisition.html" class="btn btn-ghost">Pipeline complet</a>
+      <a href="./docs/META-LEAD-FORMS-SETUP.md" class="btn btn-ghost" target="_blank" rel="noopener">Guide formulaires</a>
+      <a href="./crm-tariff-grid.html" class="btn btn-primary">Bordereau tarifaire</a>
+    </div>
+  </section>
+
+  <div class="crm-toolbar acq-toolbar">
+    <input type="search" id="metaSearch" class="acq-search crm-input" placeholder="Rechercher email, téléphone, résumé devis…" />
+    <select id="metaVertical" class="crm-input" style="max-width:180px">
+      <option value="">Tous produits</option>
+      <option value="vtc">VTC</option>
+      <option value="sante">Mutuelle</option>
+      <option value="credit_immo">Crédit / emprunteur</option>
+      <option value="habitation">Habitation</option>
+      <option value="auto">Auto</option>
+      <option value="devis">Rappel universel</option>
+    </select>
+    <select id="metaView" class="crm-input" style="max-width:190px">
+      <option value="active">Non archivés</option>
+      <option value="unopened">Non ouverts</option>
+      <option value="interesting">Intéressants ++</option>
+      <option value="archived">Archivés</option>
+    </select>
+    <button type="button" class="btn btn-ghost" id="btnMetaRefresh">Actualiser</button>
+  </div>
+
+  <div class="acq-stats" id="metaStats"></div>
+  <div class="meta-inbox-list" id="metaInboxList"></div>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-lead-payload-view.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-meta-inbox.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

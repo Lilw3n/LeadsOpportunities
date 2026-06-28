@@ -11,6 +11,8 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
 
 **Ne lancez pas les deux en parallèle** — risque de doublons.
 
+Pour les articles evergreen non lies a l'actualite (mutuelle, VTC, habitation, emprunteur...) voir **`docs/ARTICLE-LEADS-REGULIERS.md`** et la commande `npm run blog:leads:evergreen`.
+
 ### Activer GitHub (recommandé)
 
 1. GitHub → Settings → Secrets → Actions :

@@ -1,0 +1,390 @@
+{
+  "updated": "2026-06-28",
+  "cadence": "2 evergreen lead articles per week after merge",
+  "topics": [
+    {
+      "id": "mutuelle-senior-restes-a-charge",
+      "priority": 100,
+      "file": "mutuelle-senior-restes-a-charge-2026.html",
+      "section": "sante",
+      "need": "sante",
+      "tag": "Sante & mutuelle",
+      "tagClass": "tag-sante",
+      "themes": ["sante", "seniors", "economie"],
+      "title": "Mutuelle senior 2026 : reduire les restes a charge sans perdre en garanties",
+      "description": "Mutuelle senior 2026 : hospitalisation, dentaire, optique, auditif et reste a charge. Checklist pour comparer sans se tromper et demander un questionnaire gratuit.",
+      "cardExcerpt": "Senior : les postes a comparer avant de changer de mutuelle.",
+      "leadIntent": "Les seniors cherchent a baisser la cotisation sans perdre les postes hospitalisation, dentaire, optique et auditif.",
+      "hook": "Le bon arbitrage n'est pas toujours le contrat le moins cher : c'est celui qui couvre les soins probables sans multiplier les options inutiles.",
+      "checklist": [
+        "Verifier le plafond hospitalisation et la chambre particuliere",
+        "Comparer dentaire, optique et auditif en euros, pas seulement en pourcentage",
+        "Controler les delais de carence avant une operation prevue",
+        "Regarder le tiers payant et la teleconsultation",
+        "Comparer deux offres a garanties equivalentes avant resiliation"
+      ],
+      "mistakes": [
+        "Supprimer l'hospitalisation pour economiser quelques euros",
+        "Comparer un tarif mensuel sans regarder les plafonds annuels",
+        "Oublier les besoins du conjoint sur le meme contrat"
+      ],
+      "related": [
+        { "href": "./mutuelle-sante-5-criteres.html", "label": "5 criteres mutuelle" },
+        { "href": "./inflation-mutuelle-hausse-2026.html", "label": "Mutuelle qui augmente" },
+        { "href": "../assurance-sante/", "label": "Assurance sante" }
+      ]
+    },
+    {
+      "id": "vtc-attestation-plateforme",
+      "priority": 95,
+      "file": "assurance-vtc-attestation-plateforme-2026.html",
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "themes": ["vtc", "auto", "pro"],
+      "title": "Assurance VTC : attestation plateforme, RC Pro et auto pro a verifier",
+      "description": "Assurance VTC 2026 : attestation Uber, Bolt ou Heetch, RC Pro, usage professionnel du vehicule et garanties utiles avant la prochaine course.",
+      "cardExcerpt": "Chauffeur VTC : les garanties qui evitent le blocage plateforme.",
+      "leadIntent": "Un chauffeur VTC veut une attestation exploitable rapidement et un contrat compatible avec son usage reel.",
+      "hook": "Un contrat auto classique peut etre insuffisant si le vehicule transporte des clients via plateforme.",
+      "checklist": [
+        "Confirmer que l'usage transport de personnes est declare",
+        "Demander une attestation lisible pour Uber, Bolt ou Heetch",
+        "Verifier RC Pro, protection juridique et assistance",
+        "Comparer franchise, valeur du vehicule et perte d'exploitation",
+        "Garder l'attestation a jour avant tout renouvellement plateforme"
+      ],
+      "mistakes": [
+        "Utiliser une assurance auto personnelle pour une activite VTC",
+        "Souscrire sans demander l'attestation plateforme",
+        "Oublier le delai d'emission de l'attestation"
+      ],
+      "related": [
+        { "href": "./assurance-vtc-moins-cher-2026.html", "label": "VTC moins cher" },
+        { "href": "./vtc-premiere-course-checklist-assurance.html", "label": "Checklist premiere course" },
+        { "href": "../assurance-vtc/", "label": "Assurance VTC" }
+      ]
+    },
+    {
+      "id": "habitation-locataire-degats-eaux",
+      "priority": 90,
+      "file": "assurance-habitation-degat-des-eaux-locataire-2026.html",
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "themes": ["habitat"],
+      "title": "Degat des eaux locataire : que couvre l'assurance habitation en 2026 ?",
+      "description": "Degat des eaux locataire : declaration, franchise, responsabilite, voisin, bailleur et garanties habitation a verifier avant un sinistre.",
+      "cardExcerpt": "Locataire : les reflexes pour etre indemnise apres un degat des eaux.",
+      "leadIntent": "Un locataire cherche quoi declarer, qui paie et si son contrat habitation est suffisant.",
+      "hook": "Le degat des eaux est frequent, mais l'indemnisation depend souvent des declarations et des exclusions du contrat.",
+      "checklist": [
+        "Couper l'eau et limiter les dommages sans attendre",
+        "Photographier les degats et conserver les factures",
+        "Prevenir assureur, voisin et bailleur rapidement",
+        "Verifier franchise, recherche de fuite et dommages aux biens",
+        "Controler que la responsabilite civile vie privee est incluse"
+      ],
+      "mistakes": [
+        "Jeter les biens abimes avant expertise",
+        "Attendre plusieurs jours avant de declarer le sinistre",
+        "Confondre assurance locataire et assurance du bailleur"
+      ],
+      "related": [
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Locataire ou proprietaire" },
+        { "href": "./canicule-orage-inondation-cave-assurance-locataire.html", "label": "Inondation de cave" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" }
+      ]
+    },
+    {
+      "id": "emprunteur-loi-lemoine-economies",
+      "priority": 88,
+      "file": "assurance-emprunteur-loi-lemoine-economies-2026.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Credit & emprunteur",
+      "tagClass": "tag-actu",
+      "themes": ["finance", "emprunteur"],
+      "title": "Loi Lemoine : combien economiser sur son assurance emprunteur en 2026 ?",
+      "description": "Loi Lemoine et assurance emprunteur : quand changer, quelles garanties equivalentes comparer et comment estimer les economies sur un pret immobilier.",
+      "cardExcerpt": "Pret immobilier : les points a verifier avant de changer d'assurance.",
+      "leadIntent": "Un emprunteur veut savoir si le changement d'assurance peut reduire sa mensualite sans fragiliser le pret.",
+      "hook": "Le gain vient souvent de l'assurance, pas du taux du credit : la delegation peut reduire le cout total si les garanties restent equivalentes.",
+      "checklist": [
+        "Recuperer capital restant du et duree restante",
+        "Comparer deces, PTIA, ITT, IPT et exclusions",
+        "Verifier quotite par emprunteur",
+        "Conserver l'equivalence de garanties exigee par la banque",
+        "Demander une estimation avant d'envoyer la substitution"
+      ],
+      "mistakes": [
+        "Comparer uniquement le taux annuel sans regarder les garanties",
+        "Resilier avant accord de substitution",
+        "Oublier le profil fumeur, metier ou sport a risque"
+      ],
+      "related": [
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Guide loi Lemoine" },
+        { "href": "./emprunteur-non-residents-investissement-immobilier-2026.html", "label": "Non-residents" },
+        { "href": "../assurance-emprunteur/", "label": "Assurance emprunteur" }
+      ]
+    },
+    {
+      "id": "auto-jeune-conducteur-franchise",
+      "priority": 84,
+      "file": "assurance-auto-jeune-conducteur-franchise-2026.html",
+      "section": "auto",
+      "need": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "themes": ["auto"],
+      "title": "Jeune conducteur : franchise, bonus-malus et garanties auto a comparer",
+      "description": "Assurance auto jeune conducteur : franchise, bonus-malus, tiers et tous risques. Les questions a se poser avant de demander un devis.",
+      "cardExcerpt": "Jeune conducteur : eviter le contrat trop cher ou mal couvert.",
+      "leadIntent": "Un jeune conducteur cherche un tarif mais doit comprendre les consequences d'une franchise ou d'une garantie trop basse.",
+      "hook": "Le prix attire l'attention, mais la franchise et l'assistance font la difference au premier accrochage.",
+      "checklist": [
+        "Comparer tiers, tiers etendu et tous risques selon la valeur du vehicule",
+        "Verifier franchise bris de glace et accident responsable",
+        "Declarer le bon conducteur principal",
+        "Regarder assistance 0 km et vehicule de remplacement",
+        "Anticiper l'effet bonus-malus sur les prochaines annees"
+      ],
+      "mistakes": [
+        "Declarer un parent comme conducteur principal si ce n'est pas vrai",
+        "Choisir tous risques sur un vehicule de faible valeur sans calcul",
+        "Oublier l'assistance pour les trajets domicile-travail"
+      ],
+      "related": [
+        { "href": "./assurance-auto-jeune-conducteur-2026.html", "label": "Jeune conducteur 2026" },
+        { "href": "./assurance-auto-bonus-malus.html", "label": "Bonus-malus" },
+        { "href": "../assurance-auto/", "label": "Assurance auto" }
+      ]
+    },
+    {
+      "id": "prevoyance-independant-arret-travail",
+      "priority": 82,
+      "file": "prevoyance-independant-arret-travail-revenus-2026.html",
+      "section": "prevoyance",
+      "need": "prevoyance",
+      "tag": "Prevoyance",
+      "tagClass": "tag-prevoyance",
+      "themes": ["prevoyance", "pro"],
+      "title": "Prevoyance independant : proteger ses revenus en cas d'arret de travail",
+      "description": "Prevoyance independant 2026 : indemnites journalieres, franchise, invalidite, deces et maintien de revenus. Checklist avant devis.",
+      "cardExcerpt": "Independant : les garanties qui securisent les revenus.",
+      "leadIntent": "Un independant veut savoir combien il toucherait en cas d'arret et comment eviter une chute de revenus.",
+      "hook": "Sans prevoyance adaptee, quelques semaines d'arret peuvent suffire a fragiliser tresorerie personnelle et charges professionnelles.",
+      "checklist": [
+        "Calculer charges fixes personnelles et professionnelles",
+        "Choisir une franchise compatible avec la tresorerie",
+        "Verifier indemnites journalieres et rente invalidite",
+        "Declarer correctement chiffre d'affaires et statut",
+        "Coordonner prevoyance, mutuelle et contrat emprunteur"
+      ],
+      "mistakes": [
+        "Choisir une franchise trop longue pour baisser la cotisation",
+        "Confondre mutuelle et maintien de revenus",
+        "Ne pas mettre a jour le contrat apres hausse d'activite"
+      ],
+      "related": [
+        { "href": "./prevoyance-independants-guide.html", "label": "Guide independants" },
+        { "href": "../assurance-prevoyance/", "label": "Assurance prevoyance" },
+        { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prevoyance" }
+      ]
+    },
+    {
+      "id": "animaux-chat-veterinaire",
+      "priority": 78,
+      "file": "assurance-chat-frais-veterinaire-2026.html",
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "themes": ["animaux"],
+      "title": "Assurance chat : frais veterinaires, plafond et delai de carence a comparer",
+      "description": "Assurance chat 2026 : accident, maladie, prevention, plafond annuel, franchise et delai de carence. Les criteres avant de souscrire.",
+      "cardExcerpt": "Chat : les criteres qui changent vraiment le remboursement veto.",
+      "leadIntent": "Un proprietaire de chat veut anticiper les frais veterinaires sans payer une formule inutile.",
+      "hook": "Une consultation urgente, une radio ou une operation peut depasser rapidement le budget prevu.",
+      "checklist": [
+        "Comparer plafond annuel et taux de remboursement",
+        "Verifier accident, maladie et prevention",
+        "Lire les exclusions selon age et antecedents",
+        "Controler franchise et delai de carence",
+        "Adapter la formule au mode de vie du chat"
+      ],
+      "mistakes": [
+        "Souscrire apres les premiers symptomes",
+        "Regarder uniquement le prix mensuel",
+        "Oublier les exclusions liees a l'age"
+      ],
+      "related": [
+        { "href": "./assurance-animaux-chien-chat-2026.html", "label": "Chien et chat" },
+        { "href": "../assurance-animaux/", "label": "Assurance animaux" },
+        { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux" }
+      ]
+    },
+    {
+      "id": "rc-pro-freelance-client",
+      "priority": 76,
+      "file": "rc-pro-freelance-litige-client-2026.html",
+      "section": "pro",
+      "need": "rc-pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro",
+      "themes": ["pro"],
+      "title": "RC Pro freelance : que couvre un litige client en 2026 ?",
+      "description": "RC Pro freelance : erreur, retard, conseil, dommage client, protection juridique et exclusions. Checklist avant de demander un devis.",
+      "cardExcerpt": "Freelance : securiser ses missions avant le premier litige.",
+      "leadIntent": "Un freelance veut rassurer ses clients et proteger son patrimoine personnel en cas de litige.",
+      "hook": "Un retard, une erreur de conseil ou un fichier perdu peuvent declencher une reclamation superieure au montant de la mission.",
+      "checklist": [
+        "Declarer exactement les activites facturees",
+        "Verifier plafond par sinistre et par annee",
+        "Ajouter protection juridique si contrats clients complexes",
+        "Controler cyber, donnees et sous-traitance selon metier",
+        "Conserver devis, cahier des charges et validations client"
+      ],
+      "mistakes": [
+        "Choisir une RC Pro trop generale pour son activite reelle",
+        "Oublier les prestations de conseil",
+        "Signer un gros client sans verifier le plafond"
+      ],
+      "related": [
+        { "href": "./rc-pro-freelance-artisan-guide.html", "label": "RC Pro freelance" },
+        { "href": "../assurance-rc-pro/", "label": "Assurance RC Pro" },
+        { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro" }
+      ]
+    },
+    {
+      "id": "pno-proprietaire-bailleur",
+      "priority": 74,
+      "file": "assurance-pno-proprietaire-bailleur-2026.html",
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "themes": ["habitat", "finance"],
+      "title": "Assurance PNO : proprietaire bailleur, quand est-elle indispensable ?",
+      "description": "Assurance PNO 2026 : logement loue, vacance locative, degat des eaux, responsabilite et garanties a comparer pour proprietaire bailleur.",
+      "cardExcerpt": "Proprietaire bailleur : les cas ou la PNO evite une mauvaise surprise.",
+      "leadIntent": "Un bailleur veut savoir si l'assurance du locataire suffit et quelles garanties PNO choisir.",
+      "hook": "Entre deux locataires ou en cas de sinistre d'origine inconnue, l'assurance du locataire ne suffit pas toujours.",
+      "checklist": [
+        "Verifier vacance locative et logement inoccupe",
+        "Comparer degat des eaux, incendie et responsabilite",
+        "Controler protection juridique bailleur",
+        "Coordonner PNO, copropriete et assurance locataire",
+        "Actualiser surface, dependances et valeur du bien"
+      ],
+      "mistakes": [
+        "Penser que l'assurance copropriete couvre tout",
+        "Oublier la periode entre deux locataires",
+        "Ne pas demander l'attestation assurance du locataire"
+      ],
+      "related": [
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Locataire/proprietaire" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" },
+        { "href": "../landings/questionnaire.html?need=habitation&journey=standard", "label": "Questionnaire habitation" }
+      ]
+    },
+    {
+      "id": "voyage-frais-medicaux-etranger",
+      "priority": 70,
+      "file": "assurance-voyage-frais-medicaux-etranger-2026.html",
+      "section": "sante",
+      "need": "sante",
+      "tag": "Actu & voyage",
+      "tagClass": "tag-actu",
+      "themes": ["sante", "voyage"],
+      "title": "Voyage a l'etranger : mutuelle, assistance et frais medicaux a verifier",
+      "description": "Voyage a l'etranger : frais medicaux, rapatriement, carte bancaire, mutuelle et assurance voyage. Checklist avant de partir.",
+      "cardExcerpt": "Depart a l'etranger : verifier sante et assistance avant le billet.",
+      "leadIntent": "Un voyageur veut eviter un reste a charge eleve en cas d'accident ou d'hospitalisation hors de France.",
+      "hook": "Hors de France, une hospitalisation peut couter beaucoup plus cher que le budget du voyage.",
+      "checklist": [
+        "Verifier frais medicaux a l'etranger et plafond rapatriement",
+        "Lire les garanties de la carte bancaire",
+        "Controler exclusions sport, travail ou long sejour",
+        "Prevoir attestations pour visa ou universite",
+        "Garder numeros d'assistance accessibles hors ligne"
+      ],
+      "mistakes": [
+        "Confondre mutuelle France et assurance voyage",
+        "Partir sans plafond suffisant hors Europe",
+        "Oublier les exclusions activites sportives"
+      ],
+      "related": [
+        { "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html", "label": "Voyage et sante" },
+        { "href": "../assurance-sante/", "label": "Mutuelle sante" },
+        { "href": "../landings/questionnaire.html?need=sante&journey=standard", "label": "Questionnaire mutuelle" }
+      ]
+    },
+    {
+      "id": "credit-immo-refus-assurance",
+      "priority": 68,
+      "file": "credit-immobilier-refus-assurance-emprunteur-2026.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Credit & emprunteur",
+      "tagClass": "tag-actu",
+      "themes": ["finance", "emprunteur"],
+      "title": "Credit immobilier : que faire si l'assurance emprunteur est refusee ?",
+      "description": "Refus assurance emprunteur : questionnaire medical, surprime, exclusion, delegation et solutions pour avancer sur un credit immobilier.",
+      "cardExcerpt": "Refus ou surprime : les options avant d'abandonner le projet immo.",
+      "leadIntent": "Un emprunteur bloque par une assurance veut comprendre les alternatives sans perdre son accord de pret.",
+      "hook": "Un refus n'est pas toujours la fin du projet : plusieurs assureurs peuvent evaluer le risque differemment.",
+      "checklist": [
+        "Demander le motif du refus ou de la surprime",
+        "Comparer delegation externe et contrat banque",
+        "Verifier exclusions plutot qu'un refus global",
+        "Preparer les justificatifs medicaux utiles",
+        "Respecter les delais de l'offre de pret"
+      ],
+      "mistakes": [
+        "Accepter une exclusion majeure sans comparer",
+        "Attendre la derniere semaine avant de chercher une delegation",
+        "Omettre une information medicale demandee"
+      ],
+      "related": [
+        { "href": "./assurance-emprunteur-loi-lemoine-2026.html", "label": "Loi Lemoine" },
+        { "href": "../assurance-emprunteur/", "label": "Assurance emprunteur" },
+        { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur" }
+      ]
+    },
+    {
+      "id": "habitation-etudiant-premier-logement",
+      "priority": 66,
+      "file": "assurance-habitation-etudiant-premier-logement-2026.html",
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "themes": ["habitat"],
+      "title": "Premier logement etudiant : assurance habitation, RC et garanties utiles",
+      "description": "Assurance habitation etudiant 2026 : attestation locative, responsabilite civile, vol, degat des eaux et garanties a choisir pour un premier logement.",
+      "cardExcerpt": "Etudiant : obtenir la bonne attestation sans payer des options inutiles.",
+      "leadIntent": "Un etudiant ou parent veut une attestation rapide et un contrat simple pour signer le bail.",
+      "hook": "L'attestation est souvent demandee avant l'entree dans les lieux, mais elle doit couvrir les vrais risques du logement.",
+      "checklist": [
+        "Verifier surface, adresse et type de logement",
+        "Inclure responsabilite civile vie privee",
+        "Comparer vol, bris de glace et degat des eaux",
+        "Controler colocation et nom des occupants",
+        "Conserver l'attestation pour le bailleur"
+      ],
+      "mistakes": [
+        "Prendre une attestation au mauvais nom",
+        "Oublier la colocation",
+        "Ne pas assurer ordinateur ou velo si valeur importante"
+      ],
+      "related": [
+        { "href": "./assurance-habitation-locataire-proprietaire-2026.html", "label": "Guide habitation" },
+        { "href": "../assurance-habitation/", "label": "Assurance habitation" },
+        { "href": "../landings/questionnaire.html?need=habitation&journey=standard", "label": "Questionnaire habitation" }
+      ]
+    }
+  ]
+}

@@ -30,14 +30,21 @@ function detectPlatform(row) {
 function enrich(row) {
   var step = Number(row.questionnaire_step || 0);
   var total = Number(row.questionnaire_total || 10) || 10;
-  var pct = Math.min(100, Math.round((step / total) * 100));
-  var stage = row.pipeline_stage || row.status || "new";
-  var last = row.last_activity_at || row.updated_at || row.created_at;
-  var dormant = last ? Date.now() - new Date(last).getTime() > 72 * 3600000 : false;
   var payload = {};
   try {
     payload = row.payload ? JSON.parse(row.payload) : {};
   } catch (e) {}
+  var pct =
+    payload.questionnaire_pct != null
+      ? Math.min(100, Number(payload.questionnaire_pct) || 0)
+      : Math.min(100, Math.round((step / total) * 100));
+  var stage = row.pipeline_stage || row.status || "new";
+  var last = row.last_activity_at || row.updated_at || row.created_at;
+  var dormant = last ? Date.now() - new Date(last).getTime() > 72 * 3600000 : false;
+  var isMeta =
+    row.source === "meta_lead_ads" ||
+    payload.source === "meta_lead_ads" ||
+    !!payload.meta_leadgen_id;
   return {
     id: row.id,
     email: row.email,
@@ -82,6 +89,13 @@ function enrich(row) {
     parcours_id: payload.parcours_id || payload.parcours || null,
     parcours_label: payload.parcours_label || null,
     parcours_workflow: Array.isArray(payload.parcours_workflow) ? payload.parcours_workflow : [],
+    devis_summary: payload.devis_summary || null,
+    devis_preview: Array.isArray(payload.devis_preview) ? payload.devis_preview : [],
+    meta_form_name: payload.meta_form_name || payload.meta_form_template || null,
+    meta_leadgen_id: payload.meta_leadgen_id || null,
+    is_meta_lead: isMeta,
+    city: row.city || payload.city || null,
+    postal_code: row.postal_code || payload.postal_code || payload.postalCode || null,
   };
 }
 
@@ -104,6 +118,9 @@ module.exports = async (req, res) => {
     ? sanitizeEnum(url.searchParams.get("stage"), STAGES, null)
     : null;
   const dormantOnly = url.searchParams.get("dormant") === "1";
+  const sourceFilter = url.searchParams.get("source")
+    ? String(url.searchParams.get("source")).trim().slice(0, 80)
+    : null;
   const view = url.searchParams.get("view") || "active";
   const q = url.searchParams.get("q") ? sanitizeSearch(url.searchParams.get("q")) : null;
   const pattern = q ? "%" + q + "%" : null;
@@ -142,6 +159,11 @@ module.exports = async (req, res) => {
 
     var leads = rows.map(enrich);
     if (platform) leads = leads.filter(function (l) { return l.platform === platform; });
+    if (sourceFilter === "meta_lead_ads") {
+      leads = leads.filter(function (l) { return l.is_meta_lead; });
+    } else if (sourceFilter) {
+      leads = leads.filter(function (l) { return l.source === sourceFilter; });
+    }
     if (stage) leads = leads.filter(function (l) { return l.pipeline_stage === stage; });
     if (dormantOnly) leads = leads.filter(function (l) { return l.is_dormant; });
     if (view === "active" || view === "unarchived") leads = leads.filter(function (l) { return !l.is_archived; });
