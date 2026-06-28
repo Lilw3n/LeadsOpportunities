@@ -25,6 +25,17 @@ function resolveQueueSourceType(source) {
   return "aggregator";
 }
 
+function isPlaceholderQueueItem(item) {
+  var title = String((item && item.title) || "").toLowerCase();
+  var note = String((item && item.note) || "").toLowerCase();
+  return (
+    title.indexOf("collez ici") !== -1 ||
+    title.indexOf("titre de la une") !== -1 ||
+    note.indexOf("a preciser") !== -1 ||
+    note.indexOf("à préciser") !== -1
+  );
+}
+
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
@@ -40,6 +51,10 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (isPlaceholderQueueItem(item)) {
+    console.warn("SKIP queue placeholder:", item.id || item.title || "?");
+    return;
+  }
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
