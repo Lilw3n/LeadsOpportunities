@@ -40,6 +40,9 @@
     },
     "api/dashboard/[action].js": {
       "maxDuration": 60
+    },
+    "api/webhooks/[action].js": {
+      "maxDuration": 60
     }
   },
   "headers": [

@@ -2,16 +2,17 @@
  * POST /api/webhooks/withallo — ingestion leads WithAllo (https://web.withallo.com/)
  */
 const { randomUUID } = require("crypto");
-const { computeLeadScore } = require("../_lib/leadScore.js");
-const { computeLeadRelevance } = require("../_lib/leadRelevance.js");
+const { computeLeadScore } = require("../leadScore.js");
+const { computeLeadRelevance } = require("../leadRelevance.js");
 const {
   applyApiGuards,
   parseJsonBody,
   rateLimit,
   getClientIp,
   safeEqual,
-} = require("../_lib/security");
-const { recordLeadEvent } = require("../_lib/lead-workflow");
+  readRawBody,
+} = require("../security");
+const { recordLeadEvent } = require("../lead-workflow");
 
 function normalizeAlloEventType(p) {
   const raw = String(p.event_type || p.eventType || p.event || p.type || "").toLowerCase();
@@ -30,6 +31,17 @@ function normalizeAlloEventType(p) {
 
 function pickSummary(p) {
   return p.summary || p.resume || p.call_summary || p.transcription_summary || p.notes || "";
+}
+
+async function parseWithalloBody(req) {
+  var parsed = parseJsonBody(req, 65536);
+  if (!parsed.error) return parsed.body || {};
+  try {
+    var raw = await readRawBody(req, 65536);
+    return JSON.parse(raw.toString("utf8"));
+  } catch (e) {
+    return null;
+  }
 }
 
 async function findExistingLead(sql, p, normalizedEmail, normalizedPhone) {
@@ -103,9 +115,9 @@ module.exports = async (req, res) => {
     return res.status(429).json({ error: "Trop de requetes" });
   }
 
-  const parsed = parseJsonBody(req, 65536);
-  if (parsed.error) return res.status(400).json({ error: parsed.error });
-  const p = parsed.body || {};
+  const parsed = await parseWithalloBody(req);
+  if (!parsed || typeof parsed !== "object") return res.status(400).json({ error: "JSON invalide" });
+  const p = parsed;
 
   var leadId = p.id || p.lead_id || randomUUID();
   var body = {
@@ -139,7 +151,7 @@ module.exports = async (req, res) => {
   if (dbUrl) {
     try {
       const { neon } = require("@neondatabase/serverless");
-      const { findDuplicateLead, normalizeEmail, normalizePhone } = require("../_lib/lead-enrichment");
+      const { findDuplicateLead, normalizeEmail, normalizePhone } = require("../lead-enrichment");
       const sql = neon(dbUrl);
       if (enriched.email) enriched.email = normalizeEmail(enriched.email);
       if (enriched.phone) enriched.phone = normalizePhone(enriched.phone);

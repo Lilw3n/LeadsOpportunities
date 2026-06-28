@@ -3,33 +3,27 @@
  * Webhook Meta Lead Ads (formulaires instantanes Facebook/Instagram).
  */
 const { randomUUID } = require("crypto");
-const { computeLeadScore } = require("../_lib/leadScore.js");
-const { computeLeadRelevance } = require("../_lib/leadRelevance.js");
+const { computeLeadScore } = require("../leadScore.js");
+const { computeLeadRelevance } = require("../leadRelevance.js");
 const {
   applyApiGuards,
   rateLimit,
   getClientIp,
   safeEqual,
   readRawBody,
-} = require("../_lib/security");
-const { recordLeadEvent } = require("../_lib/lead-workflow");
-const { findDuplicateLead, normalizeEmail, normalizePhone } = require("../_lib/lead-enrichment");
-const { ingestLeadToCrm } = require("../_lib/crm-ingest-from-lead");
-const { finalizeLeadIngest } = require("../_lib/lead-post-ingest");
+} = require("../security");
+const { recordLeadEvent } = require("../lead-workflow");
+const { findDuplicateLead, normalizeEmail, normalizePhone } = require("../lead-enrichment");
+const { ingestLeadToCrm } = require("../crm-ingest-from-lead");
+const { finalizeLeadIngest } = require("../lead-post-ingest");
 const {
   verifyWebhookSignature,
   fetchLeadFromGraph,
   mapLeadFields,
   extractLeadgenEvents,
   loadFormConfig,
-} = require("../_lib/meta-lead-ads");
-const { flattenMetaLead, enrichForLeadScore } = require("../_lib/meta-lead-normalize");
-
-module.exports.config = {
-  api: {
-    bodyParser: false,
-  },
-};
+} = require("../meta-lead-ads");
+const { flattenMetaLead, enrichForLeadScore } = require("../meta-lead-normalize");
 
 async function findExistingMetaLead(sql, leadgenId) {
   if (!leadgenId) return null;

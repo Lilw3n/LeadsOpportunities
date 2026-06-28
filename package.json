@@ -25,6 +25,7 @@
     "verify:clarity": "node scripts/verify-clarity.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs",
     "test:meta": "bash scripts/test-meta-pixel.sh",
+    "meta:verify": "node scripts/verify-meta-lead-setup.cjs",
     "postinstall": "npm run build:clarity"
   },
   "dependencies": {
