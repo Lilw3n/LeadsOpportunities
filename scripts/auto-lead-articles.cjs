@@ -152,9 +152,9 @@ function buildBlocks(topic) {
     {
       type: "p",
       text:
-        "Vous vous posez une question concrete sur <strong>" +
+        "Vous cherchez a faire le point sur <strong>" +
         cleanText(topic.title) +
-        "</strong> ? Le bon contrat ne se choisit pas uniquement au prix : il doit correspondre a votre situation, a vos risques et au niveau de remboursement attendu.",
+        "</strong>. Le bon contrat ne se choisit pas uniquement au prix : il doit correspondre a votre situation, a vos risques et au niveau de remboursement attendu.",
     },
     {
       type: "p",
