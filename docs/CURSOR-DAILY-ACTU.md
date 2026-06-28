@@ -96,6 +96,22 @@ Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation a
 
 ---
 
+## Variante evergreen leads
+
+Pour publier régulièrement des articles moins dépendants de l'actualité (guides mutuelle, habitation, emprunteur, VTC, animaux, RC Pro...), utilisez le pipeline dédié :
+
+```bash
+npm run blog:leads:auto
+npm run blog:leads:auto -- --count=3
+npm run blog:leads:auto -- --dry-run
+```
+
+- Sujets : `data/blog-lead-topics.json`
+- Cron GitHub : `.github/workflows/blog-leads-auto.yml` (1 article par jour ouvrable)
+- Tracking CTA : `utm_medium=lead_evergreen`
+
+---
+
 ## Votre routine (optionnel, 2 min)
 
 1. Lisez Cafeyn / Edge / Firefox comme d’habitude

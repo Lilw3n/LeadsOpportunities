@@ -6,6 +6,7 @@
 - `npm run blog:actu:fetch` — récupère candidats actu (RSS + queue)
 - `npm run blog:actu:draft -- --top=2` — ébauches dans `data/blog-actu-pending.json`
 - `npm run blog:actu:publish` — blog + sitemap SEO
+- `npm run blog:leads:auto` — publie le prochain article evergreen orienté leads
 - `npm run seo:build` — sitemaps
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
 

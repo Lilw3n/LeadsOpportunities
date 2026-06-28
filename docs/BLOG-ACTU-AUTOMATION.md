@@ -66,6 +66,38 @@ npm run blog:actu:auto -- --dry-run
 npm run blog:actu:auto -- --no-ai
 ```
 
+## Articles evergreen réguliers pour leads
+
+En complément de l'actualité, le site publie des guides evergreen à fort potentiel de conversion :
+
+- **Script** : `npm run blog:leads:auto`
+- **Workflow** : `.github/workflows/blog-leads-auto.yml`
+- **Calendrier éditorial** : `data/blog-lead-topics.json`
+- **Etat anti-doublon** : `data/blog-lead-state.json` (créé au premier run)
+
+Le workflow tourne **1 fois par jour ouvrable** (`7h30 UTC`) et publie le prochain sujet non généré : mutuelle senior, dégât des eaux, emprunteur Lemoine, VTC, animaux, prévoyance, RC Pro, auto, etc.
+
+```bash
+# 1 article evergreen lead
+npm run blog:leads:auto
+
+# Jusqu'à 5 articles d'un coup
+npm run blog:leads:auto -- --count=3
+
+# Publier un sujet précis
+npm run blog:leads:auto -- --topic=assurance-vtc-uber-bolt-attestation
+
+# Tester sans écrire
+npm run blog:leads:auto -- --dry-run
+```
+
+Chaque article inclut :
+
+1. un angle de recherche evergreen (moins dépendant de l'actualité) ;
+2. un bloc `{ type: "bridge" }` vers le questionnaire ;
+3. un CTA traqué avec `utm_medium=lead_evergreen` ;
+4. FAQ, liens internes, génération HTML, RSS et sitemaps via `blog:actu:publish`.
+
 ### GitHub Actions — 5× par jour
 
 Workflow : **`.github/workflows/blog-actu-auto.yml`**
