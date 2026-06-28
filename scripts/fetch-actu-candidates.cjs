@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Récupère l'actu (RSS publics) + file d'attente manuelle (Cafeyn, Edge, etc.)
+ * Récupère l'actu (RSS publics) + file d'attente manuelle
+ * (Cafeyn, Edge/Bing, Firefox, Google News, Yahoo, etc.)
  * → data/blog-actu-candidates.json
  *
  * Usage: npm run blog:actu:fetch
@@ -15,19 +16,43 @@ const {
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
-const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 30 };
+const SOURCE_TYPES = ["cafeyn", "edge", "firefox", "google", "yahoo", "aggregator"];
+const DEFAULT_QUOTAS = {
+  cafeyn: 20,
+  edge: 12,
+  firefox: 15,
+  google: 18,
+  yahoo: 12,
+  aggregator: 10,
+};
+
+function emptyBuckets() {
+  return SOURCE_TYPES.reduce(function (acc, type) {
+    acc[type] = [];
+    return acc;
+  }, {});
+}
 
 function resolveQueueSourceType(source) {
   var s = String(source || "").toLowerCase();
   if (s.indexOf("cafeyn") !== -1) return "cafeyn";
   if (s.indexOf("edge") !== -1 || s.indexOf("msn") !== -1 || s.indexOf("bing") !== -1) return "edge";
   if (s.indexOf("firefox") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
+  if (s.indexOf("google") !== -1) return "google";
+  if (s.indexOf("yahoo") !== -1) return "yahoo";
   return "aggregator";
+}
+
+function normalizeFeedSourceType(feed) {
+  var id = String(feed.id || "").toLowerCase();
+  if (id.indexOf("google-news-") === 0) return "google";
+  if (id.indexOf("yahoo-") === 0 || id.indexOf("source-yahoo-") === 0) return "yahoo";
+  return feed.sourceType || "aggregator";
 }
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  SOURCE_TYPES.forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
@@ -40,6 +65,8 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (item.id === "cafeyn-pending-template") return;
+  if (/collez ici/i.test(item.title || "")) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -79,7 +106,7 @@ async function fetchText(url) {
 }
 
 async function processFeed(feed, buckets, processed, maxPerFeed) {
-  var sourceType = feed.sourceType || "aggregator";
+  var sourceType = normalizeFeedSourceType(feed);
   if (!buckets[sourceType]) buckets[sourceType] = [];
   try {
     var xml = await fetchText(feed.url);
@@ -150,7 +177,7 @@ async function main() {
     console.warn("DB queue:", e.message);
   }
   var processed = new Set(state.processedUrls || []);
-  var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
+  var buckets = emptyBuckets();
 
   await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
@@ -162,7 +189,7 @@ async function main() {
   });
 
   var files = existingFiles();
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  SOURCE_TYPES.forEach(function (type) {
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var f = c.suggestedFile || "";
       if (!f.endsWith(".html")) f += ".html";
@@ -170,7 +197,7 @@ async function main() {
     });
   });
 
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  SOURCE_TYPES.forEach(function (type) {
     var seen = new Set();
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var k = (c.url || c.title).toLowerCase();
@@ -188,21 +215,24 @@ async function main() {
   writeJson("blog-actu-candidates.json", {
     updated: new Date().toISOString(),
     quotas: quotas,
-    bySource: {
-      cafeyn: (buckets.cafeyn || []).length,
-      edge: (buckets.edge || []).length,
-      firefox: (buckets.firefox || []).length,
-      aggregator: (buckets.aggregator || []).length,
-    },
+    bySource: SOURCE_TYPES.reduce(function (acc, type) {
+      acc[type] = (buckets[type] || []).length;
+      return acc;
+    }, {}),
     candidates: deduped,
   });
 
   state.lastFetch = new Date().toISOString();
   writeJson("blog-actu-state.json", state);
 
-  console.log("Candidates:", deduped.length, "— cafeyn/edge/firefox/aggr:",
-    (buckets.cafeyn || []).length + "/" + (buckets.edge || []).length + "/" +
-    (buckets.firefox || []).length + "/" + (buckets.aggregator || []).length);
+  console.log(
+    "Candidates:",
+    deduped.length,
+    "—",
+    SOURCE_TYPES.map(function (type) {
+      return type + ":" + (buckets[type] || []).length;
+    }).join(" / ")
+  );
   if (deduped.length) {
     console.log("Top 3:");
     deduped.slice(0, 3).forEach(function (c, i) {

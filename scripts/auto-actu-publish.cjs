@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Firefox + Pocket) → rédaction → publish.
+ * Pipeline 100 % auto : fetch (RSS Cafeyn/Edge/Bing/Firefox/Google/Yahoo + Pocket)
+ * → rédaction → publish.
  *
  * Usage:
  *   npm run blog:actu:auto
@@ -37,7 +38,14 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    var id = String(f.id || "").toLowerCase();
+    if (id.indexOf("google-news-") === 0) {
+      map[f.id] = "google";
+    } else if (id.indexOf("yahoo-") === 0 || id.indexOf("source-yahoo-") === 0) {
+      map[f.id] = "yahoo";
+    } else {
+      map[f.id] = f.sourceType || "aggregator";
+    }
   });
   return map;
 }
@@ -64,7 +72,7 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = ["cafeyn", "edge", "firefox", "google", "yahoo"];
 
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) return c.sourceType;
@@ -72,6 +80,8 @@ function candidateSourceType(c, feedMap) {
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
   if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
   if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src.indexOf("google") !== -1) return "google";
+  if (src.indexOf("yahoo") !== -1) return "yahoo";
   return feedMap[c.feedId] || "aggregator";
 }
 

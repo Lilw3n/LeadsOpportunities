@@ -14,9 +14,14 @@ function main() {
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    return i.status !== "published" && i.id !== "cafeyn-pending-template" && !/collez ici/i.test(i.title || "");
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
+  if (candidates.bySource) {
+    console.log("Candidats par source:", Object.keys(candidates.bySource).map(function (k) {
+      return k + "=" + candidates.bySource[k];
+    }).join(" / "));
+  }
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);

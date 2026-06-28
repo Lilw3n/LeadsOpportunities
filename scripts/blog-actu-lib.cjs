@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
-const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { franceLeadScoreAdjust, isFranceMarketTopic, isProbablyEnglishText } = require("./france-audience-lib.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -101,7 +101,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (["cafeyn", "edge", "firefox", "google", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -112,6 +112,11 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (isProbablyEnglishText(title)) score -= 45;
+  if (/memorandum of understanding|business wire|regulatory news|enters into|announces|appoints|plc\b|ltd\b|inc\./i.test(title)) {
+    score -= 45;
+  }
+
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -137,6 +142,8 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 90 * 86400000) score -= 40;
+    else if (age > 30 * 86400000) score -= 20;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -291,15 +298,16 @@ function parseRssItems(xml) {
   var m;
   while ((m = re.exec(xml))) {
     var block = m[1];
-    var title = extractTag(block, "title");
+    var rawTitle = extractTag(block, "title");
     var link = extractTag(block, "link");
     var desc = extractTag(block, "description");
     var pub = extractTag(block, "pubDate");
+    var title = cleanRssText(rawTitle);
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: title,
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -317,8 +325,13 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s || ""));
+}
+
 function decodeEntities(s) {
   return String(s)
+    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
       return String.fromCharCode(parseInt(hex, 16));
     })
@@ -330,8 +343,7 @@ function decodeEntities(s) {
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&apos;/g, "'")
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
+    .replace(/&apos;/g, "'");
 }
 
 module.exports = {

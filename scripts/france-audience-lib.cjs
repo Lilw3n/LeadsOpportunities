@@ -125,11 +125,66 @@ function franceLeadScoreAdjust(candidate) {
 
   if (isFranceMarketTopic(hay)) delta += 25;
 
+  if (isProbablyEnglishText(hay) && !isFranceMarketTopic(hay)) {
+    delta -= 55;
+  }
+
+  if (/memorandum of understanding|enters into|announces|appoints|plc\b|ltd\b|inc\./i.test(hay) && !isFranceMarketTopic(hay)) {
+    delta -= 35;
+  }
+
   ["mutuelle", "assurance", "habitation", "emprunteur", "orias", "sinistre", "crédit immo", "credit immo"].forEach(function (kw) {
     if (hay.indexOf(kw) !== -1) delta += 10;
   });
 
   return delta;
+}
+
+function isProbablyEnglishText(input) {
+  var hay = textBlob(input).toLowerCase();
+  var englishHits = 0;
+  [
+    " the ",
+    " and ",
+    " of ",
+    " into ",
+    " with ",
+    " from ",
+    " after ",
+    " before ",
+    " about ",
+    " says ",
+    " according ",
+    " regarding ",
+    " potential ",
+    " sale ",
+    " signed ",
+    " announces ",
+    " agreement ",
+  ].forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) englishHits += 1;
+  });
+  var frenchHits = 0;
+  [
+    " le ",
+    " la ",
+    " les ",
+    " de ",
+    " du ",
+    " des ",
+    " une ",
+    " un ",
+    " est ",
+    " pour ",
+    " avec ",
+    " apres ",
+    " après ",
+    " assurance",
+    " mutuelle",
+  ].forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) frenchHits += 1;
+  });
+  return englishHits >= 2 && frenchHits === 0;
 }
 
 module.exports = {
@@ -139,4 +194,5 @@ module.exports = {
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
+  isProbablyEnglishText: isProbablyEnglishText,
 };
