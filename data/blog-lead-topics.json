@@ -1,0 +1,305 @@
+{
+  "updated": "2026-06-28",
+  "description": "Calendrier de sujets evergreen orientes generation de leads. Le script blog:leads:auto publie le prochain sujet non genere.",
+  "topics": [
+    {
+      "slug": "mutuelle-senior-hospitalisation-reste-a-charge",
+      "priority": 100,
+      "section": "sante",
+      "need": "sante",
+      "tag": "Sante & mutuelle",
+      "tagClass": "tag-sante",
+      "themes": ["seniors"],
+      "title": "Mutuelle senior : hospitalisation, optique et dentaire sans surpayer",
+      "description": "Guide pour comparer une mutuelle senior en France : hospitalisation, optique, dentaire, delais de carence et questionnaire gratuit.",
+      "cardExcerpt": "Les postes a verifier avant de changer de mutuelle senior.",
+      "persona": "Retraite, futur retraite ou proche aidant qui veut limiter le reste a charge.",
+      "trigger": "La cotisation augmente, les besoins de soins changent ou une hospitalisation est prevue.",
+      "mainRisk": "Un contrat trop bas couvre mal la chambre particuliere, les depassements d'honoraires, l'optique ou le dentaire.",
+      "checks": [
+        "Comparer hospitalisation, optique et dentaire a garanties equivalentes",
+        "Verifier delai de carence, tiers payant et reseau de soins",
+        "Lister les traitements et consultations regulieres avant devis",
+        "Separer besoins essentiels et options de confort",
+        "Demander une simulation du reste a charge annuel"
+      ],
+      "mistakes": [
+        "Choisir uniquement le prix mensuel sans regarder les plafonds",
+        "Oublier les depassements d'honoraires en clinique",
+        "Resilier avant d'avoir la nouvelle date d'effet",
+        "Ne pas declarer un besoin dentaire ou auditif deja identifie"
+      ],
+      "faq": [
+        {
+          "q": "Quand comparer une mutuelle senior ?",
+          "a": "A chaque hausse importante, avant une hospitalisation programmee ou quand les besoins optique, dentaire ou auditif changent."
+        },
+        {
+          "q": "Le questionnaire engage-t-il a souscrire ?",
+          "a": "Non. Il sert a qualifier le besoin pour orienter vers un niveau de garanties coherent."
+        }
+      ]
+    },
+    {
+      "slug": "assurance-habitation-degats-eaux-locataire",
+      "priority": 98,
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "themes": ["habitat"],
+      "title": "Degat des eaux locataire : assurance habitation, declaration et indemnisation",
+      "description": "Que faire apres un degat des eaux en location : contrat habitation, responsabilites, franchise et devis courtier.",
+      "cardExcerpt": "Locataire : les reflexes assurance apres fuite, plafond ou voisin touche.",
+      "persona": "Locataire en appartement ou maison, avec voisinage ou copropriete.",
+      "trigger": "Une fuite, une infiltration ou un plafond abime impose une declaration rapide.",
+      "mainRisk": "Une declaration incomplete ou un contrat mal calibre peut laisser franchise, mobilier ou embellissements a charge.",
+      "checks": [
+        "Couper l'eau et prendre des photos avant nettoyage",
+        "Declarer le sinistre dans les 5 jours ouvrables",
+        "Identifier origine de la fuite, voisin concerne et syndic si besoin",
+        "Relire franchise, plafond mobilier et garanties dependances",
+        "Comparer le contrat avant la prochaine echeance si les plafonds sont faibles"
+      ],
+      "mistakes": [
+        "Attendre que le voisin declare a votre place",
+        "Jeter les biens abimes sans preuve photo",
+        "Sous-estimer la valeur du mobilier declare",
+        "Confondre assurance locataire, PNO et copropriete"
+      ],
+      "faq": [
+        {
+          "q": "Le locataire doit-il toujours declarer ?",
+          "a": "Oui, des qu'un dommage touche son logement, ses biens ou un voisin. L'assureur coordonne ensuite avec les autres parties."
+        },
+        {
+          "q": "Faut-il changer d'assurance apres un sinistre ?",
+          "a": "Pas dans l'urgence. Apres indemnisation, comparer les plafonds et franchises permet d'eviter une mauvaise surprise au prochain sinistre."
+        }
+      ]
+    },
+    {
+      "slug": "assurance-emprunteur-loi-lemoine-economies",
+      "priority": 96,
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Credit & emprunteur",
+      "tagClass": "tag-actu",
+      "themes": ["emprunteur"],
+      "title": "Assurance emprunteur : loi Lemoine, garanties et economies possibles",
+      "description": "Changer d'assurance emprunteur avec la loi Lemoine : quotite, garanties equivalentes, questionnaire et accompagnement courtier.",
+      "cardExcerpt": "Pret immobilier : verifier si l'assurance emprunteur peut couter moins cher.",
+      "persona": "Emprunteur immobilier deja finance ou en projet de credit.",
+      "trigger": "Le taux du pret est signe, mais le cout de l'assurance reste eleve sur la duree.",
+      "mainRisk": "Rester sur le contrat groupe de la banque peut couter plusieurs milliers d'euros si le profil permet une delegation.",
+      "checks": [
+        "Retrouver capital restant du, duree restante et quotite",
+        "Comparer deces, PTIA, IPT, ITT et exclusions sport ou dos",
+        "Respecter l'equivalence de garanties exigee par la banque",
+        "Calculer le cout total, pas seulement le taux affiche",
+        "Verifier la date d'effet pour eviter une rupture de couverture"
+      ],
+      "mistakes": [
+        "Comparer un contrat moins cher mais moins couvrant",
+        "Oublier la quotite du co-emprunteur",
+        "Ne pas tenir compte du metier ou des deplacements",
+        "Abandonner apres une premiere reponse bancaire lente"
+      ],
+      "faq": [
+        {
+          "q": "Peut-on changer a tout moment ?",
+          "a": "La loi Lemoine permet de resilier et remplacer l'assurance emprunteur a tout moment, sous reserve d'equivalence de garanties."
+        },
+        {
+          "q": "Le questionnaire suffit-il pour une estimation ?",
+          "a": "Il permet de preparer les informations utiles. Un conseiller affine ensuite selon age, capital, garanties et profil medical."
+        }
+      ]
+    },
+    {
+      "slug": "assurance-vtc-uber-bolt-attestation",
+      "priority": 94,
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "VTC",
+      "tagClass": "tag-vtc",
+      "title": "Assurance VTC : Uber, Bolt, attestation et garanties indispensables",
+      "description": "Guide VTC pour verifier RC pro, usage transport de personnes, assistance, franchise et attestation plateforme.",
+      "cardExcerpt": "Chauffeur VTC : eviter le contrat qui bloque la plateforme ou le sinistre.",
+      "persona": "Chauffeur VTC actif ou en creation d'activite.",
+      "trigger": "Une plateforme demande une attestation, ou le contrat actuel arrive a echeance.",
+      "mainRisk": "Un contrat auto classique ne couvre pas l'usage VTC et peut bloquer indemnisation ou inscription plateforme.",
+      "checks": [
+        "Verifier usage transport de personnes a titre onereux",
+        "Obtenir RC pro et attestation compatible plateforme",
+        "Comparer franchise, assistance et vehicule de remplacement",
+        "Declarer chiffre d'affaires, zones et conducteurs reels",
+        "Controler protection juridique et perte d'exploitation"
+      ],
+      "mistakes": [
+        "Rouler avec une assurance particulier",
+        "Envoyer une attestation expiree a Uber ou Bolt",
+        "Choisir la franchise la plus haute sans tresorerie",
+        "Oublier un conducteur secondaire"
+      ],
+      "faq": [
+        {
+          "q": "Une assurance auto classique suffit-elle ?",
+          "a": "Non. L'activite VTC impose un usage professionnel adapte et souvent une RC pro dediee."
+        },
+        {
+          "q": "Pourquoi passer par un courtier ?",
+          "a": "Le courtier compare les offres compatibles avec votre vehicule, votre plateforme et vos antecedents."
+        }
+      ]
+    },
+    {
+      "slug": "assurance-chien-chat-frais-veterinaires",
+      "priority": 92,
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "title": "Assurance chien et chat : frais veterinaires, plafond et delai de carence",
+      "description": "Comparer une assurance animaux : accident, maladie, chirurgie, prevention, plafond annuel et questionnaire chien chat.",
+      "cardExcerpt": "Chien ou chat : les frais veto a anticiper avant l'urgence.",
+      "persona": "Proprietaire de chien, chat, chiot ou chaton.",
+      "trigger": "Une consultation, une sterilisation ou une urgence veto rappelle que les factures montent vite.",
+      "mainRisk": "Sans plafond adapte, chirurgie, imagerie ou hospitalisation restent largement a charge.",
+      "checks": [
+        "Comparer plafond annuel, franchise et taux de remboursement",
+        "Verifier accident, maladie, chirurgie et prevention",
+        "Regarder age limite, exclusions et maladies hereditaires",
+        "Souscrire avant symptome connu pour limiter les exclusions",
+        "Adapter le niveau au budget veto possible"
+      ],
+      "mistakes": [
+        "Attendre que l'animal soit deja malade",
+        "Confondre forfait prevention et vraie garantie maladie",
+        "Ne pas verifier le delai de carence chirurgie",
+        "Choisir un plafond trop bas pour une race fragile"
+      ],
+      "faq": [
+        {
+          "q": "Quel est le meilleur moment pour assurer un animal ?",
+          "a": "Le plus tot possible, avant accident ou maladie declaree, afin de limiter les exclusions."
+        },
+        {
+          "q": "Le questionnaire couvre chien et chat ?",
+          "a": "Oui. Il qualifie espece, age, race et besoin pour orienter vers le niveau de garanties."
+        }
+      ]
+    },
+    {
+      "slug": "prevoyance-independant-arret-travail-revenus",
+      "priority": 90,
+      "section": "prevoyance",
+      "need": "prevoyance",
+      "tag": "Prevoyance",
+      "tagClass": "tag-prevoyance",
+      "title": "Prevoyance independant : arret de travail, invalidite et revenus du foyer",
+      "description": "Independant ou TNS : comment choisir une prevoyance pour maintenir les revenus en cas d'arret, invalidite ou deces.",
+      "cardExcerpt": "TNS : securiser les revenus avant le premier arret de travail.",
+      "persona": "Independant, freelance, artisan, commercant ou dirigeant TNS.",
+      "trigger": "Une charge fixe elevee ou une famille depend des revenus de l'activite.",
+      "mainRisk": "La protection obligatoire ne suffit souvent pas a payer credit, loyer, charges pro et revenus du foyer.",
+      "checks": [
+        "Calculer charges fixes personnelles et professionnelles",
+        "Comparer franchise courte, rente invalidite et capital deces",
+        "Verifier exclusions metier, sport et pathologies connues",
+        "Coordonner prevoyance, mutuelle et assurance emprunteur",
+        "Choisir une indemnite coherente avec le revenu declare"
+      ],
+      "mistakes": [
+        "Souscrire une indemnite trop basse pour reduire la prime",
+        "Oublier le delai de franchise",
+        "Ne pas proteger le conjoint ou les enfants",
+        "Comparer sans regarder la definition de l'invalidite"
+      ],
+      "faq": [
+        {
+          "q": "La prevoyance est-elle utile avec une mutuelle ?",
+          "a": "Oui. La mutuelle rembourse des soins ; la prevoyance maintient un revenu en cas d'arret, invalidite ou deces."
+        },
+        {
+          "q": "Quel montant assurer ?",
+          "a": "Il faut partir des charges fixes, du revenu souhaite et des prestations obligatoires deja acquises."
+        }
+      ]
+    },
+    {
+      "slug": "rc-pro-artisan-freelance-litige-client",
+      "priority": 88,
+      "section": "pro",
+      "need": "rc-pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro",
+      "title": "RC Pro artisan et freelance : litige client, dommage et protection juridique",
+      "description": "Assurance RC Pro pour artisan, consultant et freelance : garanties, plafonds, exclusions et questionnaire courtier.",
+      "cardExcerpt": "Un client conteste une prestation : la RC Pro doit repondre.",
+      "persona": "Freelance, consultant, artisan ou petite entreprise.",
+      "trigger": "Un contrat client, une mission sensible ou une obligation donneur d'ordre impose une attestation.",
+      "mainRisk": "Un dommage materiel, corporel ou financier peut engager le patrimoine de l'activite.",
+      "checks": [
+        "Declarer precisement toutes les activites exercees",
+        "Verifier plafonds RC, defense recours et protection juridique",
+        "Ajouter cyber ou materiel pro si l'activite le demande",
+        "Controler sous-traitance et travail chez le client",
+        "Fournir une attestation a jour au donneur d'ordre"
+      ],
+      "mistakes": [
+        "Utiliser un contrat qui ne mentionne pas l'activite reelle",
+        "Ignorer les exclusions de conseil ou de livraison",
+        "Oublier les stagiaires ou sous-traitants",
+        "Comparer uniquement le prix annuel"
+      ],
+      "faq": [
+        {
+          "q": "La RC Pro est-elle obligatoire ?",
+          "a": "Elle depend du metier, mais elle est souvent exigee par les clients et fortement recommandee pour proteger l'activite."
+        },
+        {
+          "q": "Un auto-entrepreneur est-il concerne ?",
+          "a": "Oui. Le statut simplifie ne supprime pas le risque de litige ou de dommage cause a un tiers."
+        }
+      ]
+    },
+    {
+      "slug": "assurance-auto-jeune-conducteur-malus",
+      "priority": 86,
+      "section": "auto",
+      "need": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "Assurance auto jeune conducteur : prix, malus et garanties a choisir",
+      "description": "Jeune conducteur : comment choisir entre tiers, tiers etendu et tous risques, gerer le bonus-malus et comparer un devis.",
+      "cardExcerpt": "Premier contrat auto : eviter les garanties trop faibles ou trop cheres.",
+      "persona": "Jeune conducteur, parent payeur ou conducteur avec peu d'antecedents.",
+      "trigger": "Achat du premier vehicule, conduite accompagnee ou changement apres sinistre.",
+      "mainRisk": "Une garantie au tiers peut etre insuffisante si le vehicule est finance ou indispensable au travail.",
+      "checks": [
+        "Comparer tiers, tiers etendu et tous risques selon valeur du vehicule",
+        "Verifier franchise, assistance et conducteur secondaire",
+        "Declarer conduite accompagnee et kilometres reels",
+        "Regarder impact bonus-malus apres sinistre responsable",
+        "Adapter garanties au financement du vehicule"
+      ],
+      "mistakes": [
+        "Declarer un parent conducteur principal a tort",
+        "Choisir tous risques sur un vehicule de faible valeur sans calcul",
+        "Oublier l'assistance 0 km",
+        "Ne pas anticiper la franchise en cas de sinistre"
+      ],
+      "faq": [
+        {
+          "q": "Comment payer moins cher en jeune conducteur ?",
+          "a": "Conduite accompagnee, vehicule moins puissant, franchise coherente et comparaison a garanties equivalentes aident souvent."
+        },
+        {
+          "q": "Le questionnaire demande-t-il le bonus-malus ?",
+          "a": "Oui, il qualifie antecedents, vehicule et usage pour orienter vers un devis coherent."
+        }
+      ]
+    }
+  ]
+}

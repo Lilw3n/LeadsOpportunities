@@ -21,6 +21,7 @@
     "blog:actu:archive": "node scripts/archive-actu-pending.cjs",
     "blog:actu:auto": "node scripts/auto-actu-publish.cjs",
     "blog:actu:verify-quality": "node scripts/verify-actu-quality.cjs",
+    "blog:leads:auto": "node scripts/generate-lead-articles.cjs",
     "build:clarity": "node scripts/bundle-clarity.cjs",
     "verify:clarity": "node scripts/verify-clarity.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs",

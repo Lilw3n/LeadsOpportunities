@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-06-28T06:39:36.674Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,115 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-senior-hospitalisation-reste-a-charge.html",
+      "section": "sante",
+      "tag": "Sante & mutuelle",
+      "tagClass": "tag-sante",
+      "themes": [
+        "seniors"
+      ],
+      "title": "Mutuelle senior : hospitalisation, optique et dentaire sans surpayer",
+      "description": "Guide pour comparer une mutuelle senior en France : hospitalisation, optique, dentaire, delais de carence et questionnaire gratuit.",
+      "meta": "8 min · Juin 2026",
+      "cardExcerpt": "Les postes a verifier avant de changer de mutuelle senior.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=sante&utm_content=mutuelle-senior-hospitalisation-reste-a-charge",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide s'adresse a <strong>Retraite, futur retraite ou proche aidant qui veut limiter le reste a charge</strong>. L'objectif est simple : transformer une recherche d'information en decision utile, avec un niveau de garanties coherent et un <strong>questionnaire gratuit</strong> pour qualifier le besoin."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi regarder ce sujet maintenant ?"
+        },
+        {
+          "type": "p",
+          "text": "<strong>Declencheur :</strong> La cotisation augmente, les besoins de soins changent ou une hospitalisation est prevue. Dans ce contexte, comparer trop vite sur le prix peut faire manquer une exclusion, un plafond ou un delai de carence."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Le risque principal a eviter"
+        },
+        {
+          "type": "p",
+          "text": "Un contrat trop bas couvre mal la chambre particuliere, les depassements d'honoraires, l'optique ou le dentaire. Un courtier ORIAS aide a lire le contrat avec un angle concret : que se passe-t-il le jour du sinistre, de l'hospitalisation, du litige ou de la demande bancaire ?"
+        },
+        {
+          "type": "h2",
+          "text": "Checklist avant de demander un devis"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Comparer hospitalisation, optique et dentaire a garanties equivalentes",
+            "Verifier delai de carence, tiers payant et reseau de soins",
+            "Lister les traitements et consultations regulieres avant devis",
+            "Separer besoins essentiels et options de confort",
+            "Demander une simulation du reste a charge annuel"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Erreurs frequentes qui coutent cher"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Choisir uniquement le prix mensuel sans regarder les plafonds",
+            "Oublier les depassements d'honoraires en clinique",
+            "Resilier avant d'avoir la nouvelle date d'effet",
+            "Ne pas declarer un besoin dentaire ou auditif deja identifie"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Comment Leads Opportunities qualifie le lead"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire commence par les informations qui changent vraiment le tarif et les garanties : profil, situation, usage, budget, urgence et niveau de protection souhaite. Le conseiller peut ensuite comparer April, AXA, Allianz, Generali, Zephir ou d'autres partenaires selon le cas."
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape"
+        },
+        {
+          "type": "p",
+          "text": "Remplissez le <a href=\"../landings/questionnaire.html?need=sante&amp;journey=standard&amp;utm_source=blog&amp;utm_medium=lead_evergreen&amp;utm_campaign=sante&amp;utm_content=mutuelle-senior-hospitalisation-reste-a-charge\">Questionnaire mutuelle (3 min)</a> : c'est gratuit, sans engagement, et cela evite de recevoir une proposition hors sujet."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Quand comparer une mutuelle senior ?",
+          "a": "A chaque hausse importante, avant une hospitalisation programmee ou quand les besoins optique, dentaire ou auditif changent."
+        },
+        {
+          "q": "Le questionnaire engage-t-il a souscrire ?",
+          "a": "Non. Il sert a qualifier le besoin pour orienter vers un niveau de garanties coherent."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres pour choisir sa mutuelle"
+        },
+        {
+          "href": "./mutuelle-sante-hospitalisation-2026.html",
+          "label": "Hospitalisation et mutuelle"
+        },
+        {
+          "href": "../landings/sante.html",
+          "label": "Parcours mutuelle"
         }
       ]
     }
