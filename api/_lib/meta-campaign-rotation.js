@@ -78,6 +78,28 @@ function buildUtmUrl(basePath, slot, source) {
   return url.pathname + url.search;
 }
 
+function findSlotById(config, slotId) {
+  return (config.rotation || []).find(function (s) {
+    return s.id === slotId;
+  });
+}
+
+function isActuOverrideActive(config, at) {
+  var ov = config.actu_override;
+  if (!ov || !ov.active || !ov.slot_id) return null;
+  var now = at || new Date();
+  if (ov.valid_from && now < parseDateOnly(ov.valid_from)) return null;
+  if (ov.valid_until && now > parseDateOnly(ov.valid_until)) return null;
+  var slot = findSlotById(config, ov.slot_id);
+  if (!slot) return null;
+  return Object.assign({}, slot, {
+    ad_copy: Object.assign({}, slot.ad_copy, ov.ad_copy_patch || {}),
+    site_focus: Object.assign({}, slot.site_focus, ov.site_focus_patch || {}),
+    actu_override: true,
+    actu_reason: ov.reason || "Priorité actualité",
+  });
+}
+
 function getWeekIndex(config, at) {
   var epoch = parseDateOnly(config.epoch_start);
   var now = at || new Date();
@@ -190,8 +212,8 @@ function evaluateSlotPerformance(stats, rules, budgetPerDay) {
   return { spend_estimate_eur: spend, cpl_eur: cpl, verdict: verdict, message: message };
 }
 
-function buildScheduleOverview(config, metaForms, ranking, at) {
-  var idx = getWeekIndex(config, at);
+function buildScheduleOverview(config, metaForms, ranking, at, activeIndex) {
+  var idx = activeIndex != null ? activeIndex : getWeekIndex(config, at);
   return (config.rotation || []).map(function (slot, i) {
     var enriched = enrichSlot(slot, config, metaForms, ranking);
     return {
@@ -199,7 +221,7 @@ function buildScheduleOverview(config, metaForms, ranking, at) {
       id: slot.id,
       vertical: slot.vertical,
       discrete: !!slot.discrete,
-      is_current: i === idx,
+      is_current: i === idx || (config.actu_override && config.actu_override.active && slot.id === config.actu_override.slot_id && isActuOverrideActive(config, at)),
       form_id: enriched.form_id,
       headline: slot.ad_copy && slot.ad_copy.headline,
       site_label: enriched.site_focus && enriched.site_focus.label,
@@ -217,9 +239,22 @@ async function buildRotationState(options) {
   var ranking = readJson(RANKING_PATH);
   var rules = config.cpl_rules || {};
   var budget = (config.ads_policy && config.ads_policy.max_daily_budget_eur) || 1;
-  var weekIndex = getWeekIndex(config, at);
+  var actuSlot = isActuOverrideActive(config, at);
+  var weekIndex = actuSlot ? (config.rotation || []).findIndex(function (s) { return s.id === actuSlot.id; }) : getWeekIndex(config, at);
+  if (weekIndex < 0) weekIndex = getWeekIndex(config, at);
   var bounds = getWeekBounds(config, weekIndex, at);
-  var slot = enrichSlot(config.rotation[weekIndex], config, metaForms, ranking);
+  if (actuSlot && config.actu_override.valid_from) {
+    bounds.startsAt = parseDateOnly(config.actu_override.valid_from).toISOString();
+    if (config.actu_override.valid_until) {
+      bounds.endsAt = parseDateOnly(config.actu_override.valid_until).toISOString();
+    }
+    bounds.actu_override = true;
+  }
+  var slot = enrichSlot(actuSlot || config.rotation[weekIndex], config, metaForms, ranking);
+  if (actuSlot) {
+    slot.actu_override = true;
+    slot.actu_reason = actuSlot.actu_reason;
+  }
   var sql = options.sql || null;
 
   var prevIndex = (weekIndex - 1 + config.rotation.length) % config.rotation.length;
@@ -240,8 +275,8 @@ async function buildRotationState(options) {
   );
 
   var recommendation = {
-    action: "activate",
-    reason: slot.why || "Rotation planifiée semaine " + slot.week,
+    action: actuSlot ? "activate_actu" : "activate",
+    reason: actuSlot ? actuSlot.actu_reason : slot.why || "Rotation planifiée semaine " + slot.week,
   };
 
   if (prevEval.verdict === "cut") {
@@ -276,8 +311,16 @@ async function buildRotationState(options) {
       cheapest_historical_vertical: cheapest,
       retargeting_note: config.intelligence && config.intelligence.notes,
       fallback: config.fallback,
+      actu_override: actuSlot
+        ? {
+            active: true,
+            slot_id: config.actu_override.slot_id,
+            reason: config.actu_override.reason,
+            valid_until: config.actu_override.valid_until,
+          }
+        : { active: false },
     },
-    schedule: buildScheduleOverview(config, metaForms, ranking, at),
+    schedule: buildScheduleOverview(config, metaForms, ranking, at, weekIndex),
     rotation_length_weeks: (config.rotation || []).length,
   };
 }
@@ -300,7 +343,11 @@ function toPublicFocus(state) {
     landing_url: focus.landing_url || slot.landing_url,
     blog_url: slot.blog && slot.blog.url,
     blog_title: slot.blog && slot.blog.title,
-    badge: "Focus semaine " + (slot.week || state.calendar_week),
+    badge:
+      (slot.site_focus && slot.site_focus.badge) ||
+      (slot.actu_override ? "Canicule — maintenant" : "Focus semaine " + (slot.week || state.calendar_week)),
+    actu_now: !!slot.actu_override,
+    actu_reason: slot.actu_reason || null,
     meta_headline: slot.ad_copy && slot.ad_copy.headline,
     utm_campaign: slot.utm_campaign,
     schedule: (state.schedule || []).map(function (s) {

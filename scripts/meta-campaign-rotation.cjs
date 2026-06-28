@@ -50,6 +50,11 @@ function printSummary(state) {
   var slot = state.active_slot || {};
   var focus = slot.site_focus || {};
   console.log("\n=== Meta rotation intelligente (1 €/jour) ===\n");
+  if (state.intelligence && state.intelligence.actu_override && state.intelligence.actu_override.active) {
+    console.log("🔥 ACTU PRIORITAIRE:", state.intelligence.actu_override.reason);
+    console.log("   Jusqu'au:", state.intelligence.actu_override.valid_until || "—");
+    console.log("");
+  }
   console.log("Semaine calendrier:", state.calendar_week, "| slot:", slot.id, "| vertical:", slot.vertical);
   console.log("Du", state.week_bounds.startsAt.slice(0, 10), "au", state.week_bounds.endsAt.slice(0, 10));
   console.log("");

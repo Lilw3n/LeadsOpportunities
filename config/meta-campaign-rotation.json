@@ -23,6 +23,24 @@
     "retargeting_landing": "/landings/rappel.html",
     "notes": "VTC = meilleur CPL historique. Retargeting abandon = 2–3× moins cher que froid."
   },
+  "actu_override": {
+    "active": true,
+    "slot_id": "sante_senior_canicule",
+    "reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)",
+    "valid_from": "2026-06-25",
+    "valid_until": "2026-07-14",
+    "ad_copy_patch": {
+      "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
+      "primary": "Canicule en cours — seniors : vérifiez hospitalisation, téléconsultation et forfait chaleur. Devis mutuelle express en 3 min, sans engagement.",
+      "cta": "Comparer ma mutuelle"
+    },
+    "site_focus_patch": {
+      "heroTitle": "Canicule : vérifiez votre mutuelle maintenant",
+      "heroSubtitle": "Seniors — hospitalisation et téléconsultation : comparez avant les pics de chaleur.",
+      "cta": "Comparer ma mutuelle",
+      "badge": "Canicule — maintenant"
+    }
+  },
   "rotation": [
     {
       "week": 1,
@@ -60,19 +78,19 @@
       "targeting": { "age_min": 58, "age_max": 75, "geo": "France" },
       "ad_copy": {
         "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
-        "primary": "Seniors — vérifiez hospitalisation et téléconsultation avant la prochaine vague de chaleur. Devis express 3 min.",
-        "cta": "En savoir plus"
+        "primary": "Canicule en cours — seniors : hospitalisation et téléconsultation. Devis mutuelle express 3 min.",
+        "cta": "Comparer ma mutuelle"
       },
       "site_focus": {
         "label": "Mutuelle santé",
         "shortLabel": "Mutuelle",
         "landing": "/landings/sante.html",
-        "heroTitle": "Mutuelle : comparez avant la canicule",
-        "heroSubtitle": "Seniors et familles — devis express sans questionnaire long.",
+        "heroTitle": "Canicule : vérifiez votre mutuelle maintenant",
+        "heroSubtitle": "Seniors — comparez hospitalisation et téléconsultation sans questionnaire long.",
         "cta": "Comparer ma mutuelle",
         "pillClass": "hfc-2"
       },
-      "why": "Audience large, angle actuel — bon volume à 1 €/jour."
+      "why": "Canicule maintenant — audience large seniors, actu forte."
     },
     {
       "week": 3,

@@ -13,12 +13,17 @@ npm run meta:rotation:build    # régénère data/meta-campaign-rotation-active.
 
 | Sem. | ID | Vertical | Pub | Form template |
 |------|-----|----------|-----|---------------|
-| **S1** | `vtc_discret` | VTC | Charges pro (discret) | `vtc_express` |
-| **S2** | `sante_senior_canicule` | Mutuelle | Canicule seniors | `sante_express` |
-| **S3** | `vsp_citadine_discret` | VSP | Citadine légère (discret) | `vsp_express` |
-| **S4** | `credit_lemoine` | Emprunteur | Loi Lemoine | `credit_immo_express` |
+| **ACTU** | `sante_senior_canicule` | **Mutuelle canicule** | **Canicule EN COURS** | `sante_express` |
+| S1 | `vtc_discret` | VTC | Charges pro (discret) | `vtc_express` |
+| S2 | `sante_senior_canicule` | Mutuelle | Canicule seniors | `sante_express` |
+| S3 | `vsp_citadine_discret` | VSP | Citadine légère (discret) | `vsp_express` |
+| S4 | `credit_lemoine` | Emprunteur | Loi Lemoine | `credit_immo_express` |
 
-Puis le cycle recommence (S1…).
+**Override actu** (`actu_override` dans le JSON) : tant que la canicule est d’actualité, le site et le CRM poussent **mutuelle seniors** avant la rotation S1 VTC.
+
+Puis le cycle reprend (S1 VTC → …).
+
+**Override actif jusqu’au** : 14 juillet 2026 (modifiable dans `config/meta-campaign-rotation.json`).
 
 **Début cycle** : `epoch_start` dans `config/meta-campaign-rotation.json` (30 juin 2026).
 

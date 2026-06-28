@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-28T10:11:34.768Z",
+  "generatedAt": "2026-06-28T10:13:20.288Z",
   "policy": {
     "max_daily_budget_eur": 1,
     "max_active_campaigns": 1,
@@ -9,54 +9,56 @@
     "multiply_campaigns": false
   },
   "calendar_week": 1,
-  "cycle_index": 0,
+  "cycle_index": 1,
   "week_bounds": {
-    "weekIndex": 0,
+    "weekIndex": 1,
     "calendarWeek": 1,
-    "slotWeek": 1,
-    "startsAt": "2026-06-30T12:00:00.000Z",
-    "endsAt": "2026-07-07T11:59:59.999Z"
+    "slotWeek": 2,
+    "startsAt": "2026-06-25T12:00:00.000Z",
+    "endsAt": "2026-07-14T12:00:00.000Z",
+    "actu_override": true
   },
   "active_slot": {
-    "week": 1,
-    "id": "vtc_discret",
-    "vertical": "vtc",
-    "discrete": true,
-    "form_template": "vtc_express",
-    "utm_campaign": "meta_pro_mobilite_convert",
-    "blog_slug": "assurance-vtc-moins-cher-2026",
+    "week": 2,
+    "id": "sante_senior_canicule",
+    "vertical": "sante",
+    "discrete": false,
+    "form_template": "sante_express",
+    "utm_campaign": "meta_sante_senior_canicule",
+    "blog_slug": "canicule-mutuelle-coup-chaleur-seniors-2026",
     "targeting": {
-      "age_min": 25,
-      "age_max": 58,
+      "age_min": 58,
+      "age_max": 75,
       "geo": "France"
     },
     "ad_copy": {
-      "headline": "Charges pro trop élevées ?",
-      "primary": "Activité avec véhicule : comparez votre assurance pro en 30 secondes. Devis confidentiel, sans engagement.",
-      "cta": "Obtenir un devis"
+      "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
+      "primary": "Canicule en cours — seniors : vérifiez hospitalisation, téléconsultation et forfait chaleur. Devis mutuelle express en 3 min, sans engagement.",
+      "cta": "Comparer ma mutuelle"
     },
     "site_focus": {
-      "label": "Assurance pro véhicule",
-      "shortLabel": "VTC / pro",
-      "landing": "/landings/devis-rapide.html",
-      "heroTitle": "Charges pro : comparez votre assurance",
-      "heroSubtitle": "Devis express en 30 secondes — focus semaine acquisition.",
-      "cta": "Devis pro véhicule",
-      "pillClass": "hfc-1",
-      "landing_url": "/landings/devis-rapide.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert&utm_content=focus-semaine-1"
+      "label": "Mutuelle santé",
+      "shortLabel": "Mutuelle",
+      "landing": "/landings/sante.html",
+      "heroTitle": "Canicule : vérifiez votre mutuelle maintenant",
+      "heroSubtitle": "Seniors — hospitalisation et téléconsultation : comparez avant les pics de chaleur.",
+      "cta": "Comparer ma mutuelle",
+      "pillClass": "hfc-2",
+      "badge": "Canicule — maintenant",
+      "landing_url": "/landings/sante.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule&utm_content=focus-semaine-2"
     },
-    "why": "Meilleur CPL historique — intent chaud chauffeur / auto-entrepreneur.",
-    "form_id": "4578422069056454",
-    "form_name": "VTC — Devis express (Meta)",
-    "campaign_internal": "meta_vtc_convert",
-    "landing_path": "/landings/devis-rapide.html",
-    "landing_url": "/landings/devis-rapide.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert&utm_content=focus-semaine-1",
-    "meta_landing_url": "/landings/devis-rapide.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert&utm_content=focus-semaine-1",
+    "why": "Canicule maintenant — audience large seniors, actu forte.",
+    "actu_override": true,
+    "actu_reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)",
+    "form_id": "1503493211458105",
+    "form_name": "Mutuelle — Comparatif express (Meta)",
+    "campaign_internal": "meta_sante_convert",
+    "landing_path": "/landings/sante.html",
+    "landing_url": "/landings/sante.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule&utm_content=focus-semaine-2",
+    "meta_landing_url": "/landings/sante.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule&utm_content=focus-semaine-2",
     "blog": {
-      "slug": "assurance-vtc-moins-cher-2026",
-      "title": "Assurance VTC moins cher en 2026 : 7 leviers",
-      "score": 105,
-      "url": "/blog/assurance-vtc-moins-cher-2026.html"
+      "slug": "canicule-mutuelle-coup-chaleur-seniors-2026",
+      "url": "/blog/canicule-mutuelle-coup-chaleur-seniors-2026.html"
     }
   },
   "current_stats": {
@@ -68,33 +70,33 @@
   },
   "previous_week": {
     "slot": {
-      "week": 4,
-      "id": "credit_lemoine",
-      "vertical": "credit_immo",
-      "discrete": false,
-      "form_template": "credit_immo_express",
-      "utm_campaign": "meta_credit_pret_convert",
-      "blog_slug": "assurance-emprunteur-loi-lemoine-2026",
+      "week": 1,
+      "id": "vtc_discret",
+      "vertical": "vtc",
+      "discrete": true,
+      "form_template": "vtc_express",
+      "utm_campaign": "meta_pro_mobilite_convert",
+      "blog_slug": "assurance-vtc-moins-cher-2026",
       "targeting": {
-        "age_min": 28,
+        "age_min": 25,
         "age_max": 58,
         "geo": "France"
       },
       "ad_copy": {
-        "headline": "Prêt en cours ? Économisez sur l'assurance",
-        "primary": "Loi Lemoine — comparez assurance emprunteur sans changer de banque. Étude gratuite.",
-        "cta": "Étude gratuite"
+        "headline": "Charges pro trop élevées ?",
+        "primary": "Activité avec véhicule : comparez votre assurance pro en 30 secondes. Devis confidentiel, sans engagement.",
+        "cta": "Obtenir un devis"
       },
       "site_focus": {
-        "label": "Crédit / emprunteur",
-        "shortLabel": "Emprunteur",
-        "landing": "/landings/credit-immo.html",
-        "heroTitle": "Assurance emprunteur : économisez",
-        "heroSubtitle": "Loi Lemoine — étude gratuite, sans engagement.",
-        "cta": "Étude emprunteur",
-        "pillClass": "hfc-3"
+        "label": "Assurance pro véhicule",
+        "shortLabel": "VTC / pro",
+        "landing": "/landings/devis-rapide.html",
+        "heroTitle": "Charges pro : comparez votre assurance",
+        "heroSubtitle": "Devis express en 30 secondes — focus semaine acquisition.",
+        "cta": "Devis pro véhicule",
+        "pillClass": "hfc-1"
       },
-      "why": "Intent économies — cycle plus long, mesure CPL semaine 4."
+      "why": "Meilleur CPL historique — intent chaud chauffeur / auto-entrepreneur."
     },
     "stats": {
       "leads": 0,
@@ -105,8 +107,8 @@
     }
   },
   "recommendation": {
-    "action": "activate",
-    "reason": "Meilleur CPL historique — intent chaud chauffeur / auto-entrepreneur."
+    "action": "activate_actu",
+    "reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)"
   },
   "intelligence": {
     "cheapest_historical_vertical": "vtc",
@@ -124,6 +126,12 @@
         "cta": "Demander un rappel"
       },
       "why": "Retargeting abandon — CPL souvent 2–3× inférieur au froid."
+    },
+    "actu_override": {
+      "active": true,
+      "slot_id": "sante_senior_canicule",
+      "reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)",
+      "valid_until": "2026-07-14"
     }
   },
   "schedule": [
@@ -132,7 +140,7 @@
       "id": "vtc_discret",
       "vertical": "vtc",
       "discrete": true,
-      "is_current": true,
+      "is_current": false,
       "form_id": "4578422069056454",
       "headline": "Charges pro trop élevées ?",
       "site_label": "Assurance pro véhicule"
@@ -142,7 +150,7 @@
       "id": "sante_senior_canicule",
       "vertical": "sante",
       "discrete": false,
-      "is_current": false,
+      "is_current": true,
       "form_id": "1503493211458105",
       "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
       "site_label": "Mutuelle santé"
