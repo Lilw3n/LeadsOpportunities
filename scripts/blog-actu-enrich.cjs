@@ -133,7 +133,7 @@ function enrichFromCandidate(candidate) {
     description: title.slice(0, 155) + " — conseils assurance et questionnaire gratuit Leads Opportunities.",
     meta: "7 min · " + monthLabel(),
     cardExcerpt: title.slice(0, 110) + " — impact sur votre assurance.",
-    cta: ctaWithUtm(need, slug),
+    cta: ctaWithUtm(need, slug, candidate.sourceType || candidate.source),
     blocks: [
       {
         type: "p",

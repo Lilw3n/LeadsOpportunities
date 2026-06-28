@@ -19,7 +19,31 @@ function main() {
   console.log("Candidats RSS:", (candidates.candidates || []).length);
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
+  console.log("Dernier run auto:", state.lastAutoRun || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
+
+  if ((state.autoRuns || []).length) {
+    var lastRun = state.autoRuns[state.autoRuns.length - 1];
+    console.log(
+      "Dernier résultat:",
+      (lastRun.count || 0) + " article(s)",
+      "| IA:",
+      lastRun.usedAi ? "oui" : "non"
+    );
+    if ((lastRun.skipped || []).length) {
+      console.log("Ignorés qualité:", lastRun.skipped.length);
+    }
+  }
+
+  if (candidates.bySource) {
+    console.log(
+      "Candidats par source:",
+      "cafeyn=" + (candidates.bySource.cafeyn || 0),
+      "edge=" + (candidates.bySource.edge || 0),
+      "firefox=" + (candidates.bySource.firefox || 0),
+      "aggregator=" + (candidates.bySource.aggregator || 0)
+    );
+  }
 
   if ((candidates.candidates || []).length) {
     console.log("\n--- Top candidats ---");

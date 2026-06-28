@@ -8,6 +8,7 @@ const path = require("path");
 
 var MIN_BLOCKS = 6;
 var MIN_PARAGRAPHS = 3;
+var ACTU_MEDIUM_RE = /[?&]utm_medium=(actu_daily|actu_(cafeyn|edge|firefox|manual|aggregator))(&|$)/;
 
 function arg(name) {
   var m = process.argv.find(function (a) {
@@ -42,8 +43,8 @@ function validateArticle(article) {
   });
   if (!hasH2) errors.push("sous-titres h2 manquants");
   if (!article.cta || !article.cta.href) errors.push("cta manquant");
-  else if (article.cta.href.indexOf("utm_medium=actu_daily") === -1) {
-    errors.push("utm_medium=actu_daily absent du CTA");
+  else if (!ACTU_MEDIUM_RE.test(article.cta.href)) {
+    errors.push("utm_medium actu absent du CTA");
   }
   if (!article.description || article.description.length < 80) {
     errors.push("meta description trop courte");
@@ -96,4 +97,10 @@ function main() {
   console.log("\nQualité OK (" + articles.length + " article(s)).");
 }
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = {
+  validateArticle: validateArticle,
+};

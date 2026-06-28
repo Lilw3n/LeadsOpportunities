@@ -58,11 +58,26 @@ jobs:
           COUNT="${{ github.event.inputs.count || '1' }}"
           npm run blog:actu:auto -- --count="$COUNT" --strict-quality
 
+      - name: Résumé pipeline leads
+        if: always()
+        run: |
+          {
+            echo "## Blog actu → leads"
+            echo ""
+            echo "- Déclenchement : ${{ github.event_name }}"
+            echo "- Articles demandés : ${{ github.event.inputs.count || '1' }}"
+            echo "- Statut job : ${{ job.status }}"
+            echo ""
+            echo '```'
+            npm run blog:actu:status
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if git status --porcelain | grep -q .; then
+          if [ -n "$(git status --porcelain)" ]; then
             git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
             git commit -m "chore(blog): actu auto GitHub $(date -u +%Y-%m-%dT%H:%MZ)"
             git push

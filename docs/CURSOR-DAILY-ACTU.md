@@ -74,7 +74,7 @@ Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionna
 Règles :
 - Ne jamais demander de login Cafeyn
 - Ne pas dupliquer un slug existant dans blog/
-- Les articles doivent avoir CTA questionnaire utm_medium=actu_daily
+- Les articles doivent avoir un CTA questionnaire avec `utm_source=blog` et un `utm_medium` actu (`actu_cafeyn`, `actu_edge`, `actu_firefox`, `actu_manual`, `actu_aggregator` ou historique `actu_daily`)
 ```
 
 **Variante sans clé IA** (texte enrichi local, pas de Gemini) :
