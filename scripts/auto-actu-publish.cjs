@@ -64,14 +64,19 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var CORE_PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var DISCOVERY_PLATFORM_TYPES = ["google", "bing", "yahoo"];
+var PLATFORM_TYPES = CORE_PLATFORM_TYPES.concat(DISCOVERY_PLATFORM_TYPES);
 
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) return c.sourceType;
   var src = String(c.source || "").toLowerCase();
   if (src.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
+  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1) return "edge";
   if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
+  if (src.indexOf("google") !== -1) return "google";
+  if (src.indexOf("yahoo") !== -1) return "yahoo";
+  if (src.indexOf("bing") !== -1) return "bing";
   return feedMap[c.feedId] || "aggregator";
 }
 
@@ -85,6 +90,15 @@ function bestFromPlatform(available, platform, feedMap, used) {
       return b.leadScore - a.leadScore;
     });
   return list[0] || null;
+}
+
+function addBestFromPlatform(picks, available, platform, feedMap, used, count) {
+  if (picks.length >= count) return false;
+  var pick = bestFromPlatform(available, platform, feedMap, used);
+  if (!pick) return false;
+  picks.push(pick);
+  used.add(pick.url || pick.title);
+  return true;
 }
 
 function pickCandidates(candidates, count, state) {
@@ -118,24 +132,21 @@ function pickCandidates(candidates, count, state) {
     });
 
   if (count >= 3) {
-    PLATFORM_TYPES.forEach(function (platform) {
-      if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
-      if (pick) {
-        picks.push(pick);
-        used.add(pick.url || pick.title);
-      }
+    CORE_PLATFORM_TYPES.forEach(function (platform) {
+      addBestFromPlatform(picks, available, platform, feedMap, used, count);
     });
-    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
+    var discoveryRot = state.discoveryRotationIndex || 0;
+    for (var d = 0; d < DISCOVERY_PLATFORM_TYPES.length && picks.length < count; d++) {
+      var discoveryPlatform = DISCOVERY_PLATFORM_TYPES[(discoveryRot + d) % DISCOVERY_PLATFORM_TYPES.length];
+      addBestFromPlatform(picks, available, discoveryPlatform, feedMap, used, count);
+    }
+    state._nextDiscoveryRotation =
+      (discoveryRot + Math.max(0, count - CORE_PLATFORM_TYPES.length)) % DISCOVERY_PLATFORM_TYPES.length;
   } else {
     var rot = state.platformRotationIndex || 0;
-    for (var i = 0; i < count && picks.length < count; i++) {
+    for (var i = 0; i < PLATFORM_TYPES.length && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
-      if (rotated) {
-        picks.push(rotated);
-        used.add(rotated.url || rotated.title);
-      }
+      addBestFromPlatform(picks, available, platform, feedMap, used, count);
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
@@ -304,6 +315,10 @@ async function main() {
   if (state._nextPlatformRotation !== undefined) {
     state.platformRotationIndex = state._nextPlatformRotation;
     delete state._nextPlatformRotation;
+  }
+  if (state._nextDiscoveryRotation !== undefined) {
+    state.discoveryRotationIndex = state._nextDiscoveryRotation;
+    delete state._nextDiscoveryRotation;
   }
   writeJson("blog-actu-state.json", state);
 
