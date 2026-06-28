@@ -83,7 +83,7 @@ function buildLeadFormPayload(template, cfg, opts) {
   });
 
   var payload = {
-    name: String(template.name || template.vertical || "Lead form").slice(0, 120),
+    name: String((template.name || template.vertical || "Lead form") + (opts.nameSuffix || "")).slice(0, 120),
     locale: "fr_FR",
     follow_up_action_url: resolveFollowUpUrl(template, cfg),
     privacy_policy: {

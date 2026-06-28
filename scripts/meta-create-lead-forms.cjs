@@ -62,6 +62,50 @@ async function graphGet(pathSuffix, token) {
   return JSON.parse(text);
 }
 
+async function resolvePageToken(userOrPageToken, pageId) {
+  var me = await graphGet("/me?fields=id,name", userOrPageToken);
+  if (String(me.id) === String(pageId)) {
+    return userOrPageToken;
+  }
+  var accounts = await graphGet("/me/accounts?fields=id,access_token&limit=50", userOrPageToken);
+  var hit = (accounts.data || []).find(function (p) {
+    return String(p.id) === String(pageId);
+  });
+  if (hit && hit.access_token) return hit.access_token;
+  throw new Error(
+    "Token utilisateur sans accès page " +
+      pageId +
+      " — regénérez un token Page dans Graph API Explorer."
+  );
+}
+
+async function graphArchiveForm(formId, token) {
+  var url = "https://graph.facebook.com/" + getVersion() + "/" + formId;
+  var body = new URLSearchParams();
+  body.set("access_token", token);
+  body.set("status", "ARCHIVED");
+  var r = await fetch(url, { method: "POST", body: body });
+  var text = await r.text();
+  if (!r.ok) throw new Error("Graph archive " + formId + " " + r.status + ": " + text.slice(0, 400));
+  return JSON.parse(text);
+}
+
+async function archiveActiveForms(pageId, token) {
+  var listed = await graphGet(
+    "/" + pageId + "/leadgen_forms?fields=id,name,status&limit=50",
+    token
+  );
+  var active = (listed.data || []).filter(function (f) {
+    return f.status === "ACTIVE";
+  });
+  for (var i = 0; i < active.length; i++) {
+    var f = active[i];
+    await graphArchiveForm(f.id, token);
+    console.log("  Archivé:", f.id, "—", f.name);
+  }
+  return active.length;
+}
+
 async function graphPostForm(pageId, token, payload) {
   var url = "https://graph.facebook.com/" + getVersion() + "/" + pageId + "/leadgen_forms";
   var body = new URLSearchParams();
@@ -97,19 +141,45 @@ function saveConfig(cfg) {
 async function main() {
   var dryRun = hasFlag("dry-run") || !hasFlag("create");
   var onlyTemplate = getArg("template");
-  var token = getToken();
+  var replaceAll = hasFlag("replace");
+  var archiveOnly = hasFlag("archive-active");
+  var rawToken = getToken();
   var cfg = JSON.parse(fs.readFileSync(CONFIG_PATH, "utf8"));
   var pageId = process.env.META_PAGE_ID || cfg.page_id;
   var ranking = loadRanking();
+  var token = rawToken;
 
   if (!pageId) {
     console.error("META_PAGE_ID ou config.page_id manquant");
     process.exit(1);
   }
 
+  if (rawToken && !dryRun) {
+    try {
+      token = await resolvePageToken(rawToken, pageId);
+      console.log("Token Page résolu pour", pageId);
+    } catch (e) {
+      console.warn("resolvePageToken:", e.message);
+    }
+  }
+
   console.log("Page Meta:", pageId);
   console.log("Mode:", dryRun ? "DRY-RUN (ajoutez --create pour publier)" : "CREATE");
+  if (replaceAll) console.log("Option: --replace (archive actifs + recréer)");
   console.log("Privacy:", DEFAULT_PRIVACY_URL);
+
+  if ((replaceAll || archiveOnly) && !dryRun && token) {
+    var n = await archiveActiveForms(pageId, token);
+    console.log("Formulaires ACTIVE archivés:", n);
+    if (replaceAll) {
+      cfg.forms = {};
+      saveConfig(cfg);
+      console.log("Config forms{} vidé");
+    }
+    if (archiveOnly) {
+      process.exit(0);
+    }
+  }
 
   var existingForms = [];
   if (!dryRun && token) {
@@ -118,8 +188,10 @@ async function main() {
         "/" + pageId + "/leadgen_forms?fields=id,name,status,leads_count&limit=50",
         token
       );
-      existingForms = listed.data || [];
-      console.log("Formulaires existants sur la page:", existingForms.length);
+      existingForms = (listed.data || []).filter(function (f) {
+        return f.status === "ACTIVE";
+      });
+      console.log("Formulaires ACTIVE sur la page:", existingForms.length);
     } catch (e) {
       console.warn("Liste formulaires:", e.message);
     }
@@ -141,10 +213,12 @@ async function main() {
   for (var i = 0; i < keys.length; i++) {
     var key = keys[i];
     var template = templates[key];
-    var payload = buildLeadFormPayload(template, cfg);
+    var payload = buildLeadFormPayload(template, cfg, {
+      nameSuffix: replaceAll || hasFlag("fresh-names") ? " · LO 2026" : "",
+    });
 
     var existingByName = existingForms.find(function (f) {
-      return f.name === payload.name;
+      return f.name === payload.name && f.status === "ACTIVE";
     });
     if (existingByName) {
       console.log("\n✓ Déjà existant:", key, "→", existingByName.id, existingByName.name);
