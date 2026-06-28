@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="./quote-intelligence.css" />
+  <link rel="stylesheet" href="../css/callback-form.css" />
   <script>try { localStorage.setItem('lo_form_journey', 'quick'); } catch (e) {}</script>
 </head>
 <body>
@@ -58,6 +59,7 @@
           <a href="#" id="expressRapideLink" class="is-active">Rapide</a>
           <a href="#" id="expressCompletLink">Complet</a>
         </div>
+        <div data-callback-strip></div>
         <form class="form-wrap" data-track-form data-quick-devis novalidate id="expressForm">
           <input type="hidden" name="need" id="expressNeed" value="" />
           <input type="hidden" name="journey" value="express" />
@@ -99,5 +101,6 @@
   <script src="../js/cookie-banner.js"></script>
   <script src="../js/geo-france-guard.js"></script>
   <script src="./tracking.js"></script>
+  <script src="../js/callback-form.js"></script>
 </body>
 </html>

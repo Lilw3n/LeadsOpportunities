@@ -59,6 +59,7 @@
   <link rel="stylesheet" href="./css/geo-france-banner.css" />
   <link rel="stylesheet" href="./css/clickable-affordance.css" />
   <link rel="stylesheet" href="./css/proximity.css" />
+  <link rel="stylesheet" href="./css/callback-form.css" />
 </head>
 <body data-admin-nav-page data-market-intent="FR">
 
@@ -617,7 +618,7 @@
         <div class="contact-wrapper">
           <div class="contact-info">
             <h2>Pret a trouver votre meilleure offre ?</h2>
-            <p>Remplissez le formulaire ci-contre : un conseiller dedie (pas un robot) analyse votre dossier et vous rappelle rapidement.</p>
+            <p>Remplissez le formulaire ci-contre — ou laissez juste votre e-mail et telephone : <strong>on vous rappelle</strong> et on remplit avec vous si besoin.</p>
             <div data-proximity-contact-hint></div>
             <div class="contact-benefits">
               <div class="contact-benefit">
@@ -639,6 +640,13 @@
             </div>
           </div>
           <div class="contact-form-card">
+            <div
+              data-callback-form
+              data-callback-source="homepage_callback"
+              data-callback-show-need="true"
+              data-callback-privacy="./politique-confidentialite.html"
+            ></div>
+            <p class="callback-or-divider">Ou formulaire détaillé</p>
             <h3>Demandez votre devis gratuit</h3>
             <form class="contact-form" id="contactForm">
               <div class="hp-field" aria-hidden="true">
@@ -722,7 +730,7 @@
         </div>
         <div class="footer-col">
           <h4>Contact humain</h4>
-          <a href="#contact">Demande de rappel</a>
+          <a href="./landings/rappel.html">Demande de rappel</a>
           <a href="mailto:contact@leadsopportunities.fr">contact@leadsopportunities.fr</a>
           <a href="./france/">Pres de chez vous</a>
           <span style="display:block;font-size:.8rem;color:var(--muted);margin-top:8px">Lun–Ven 9h–18h</span>
@@ -787,6 +795,7 @@
   <script src="./js/lead-insights.js"></script>
   <script src="./js/admin-nav.js"></script>
   <script src="./js/public-partners-trust.js"></script>
+  <script src="./js/callback-form.js"></script>
   <script src="./js/public-proximity.js?v=20260528"></script>
   <script src="./main.js"></script>
 </body>

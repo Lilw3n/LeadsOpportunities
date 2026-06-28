@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demande de rappel | E-mail + téléphone | Leads Opportunities</title>
+  <meta name="description" content="Pas envie de remplir un long formulaire ? Laissez votre e-mail et téléphone : un conseiller vous rappelle sous 15 minutes. Gratuit, sans engagement." />
+  <meta name="robots" content="index,follow" />
+  <meta name="geo.region" content="FR" />
+  <meta name="language" content="fr-FR" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/landings/rappel.html" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <script type="text/javascript">
+(function(){
+  var K="lo_cookie_consent_v1";
+  function ok(){try{return localStorage.getItem(K)!=="essential";}catch(e){return true;}}
+  window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments);};
+  var g=ok();
+  window.clarity("consentv2",{ad_Storage:g?"granted":"denied",analytics_Storage:g?"granted":"denied"});
+  if(document.getElementById("clarity-script"))return;
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments);};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;t.id="clarity-script";
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window,document,"clarity","script","x7yqp46fj9");
+})();
+  </script>
+  <script src="/js/clarity-init.js" defer></script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../css/geo-france-banner.css" />
+  <link rel="stylesheet" href="../css/callback-form.css" />
+  <link rel="stylesheet" href="../css/proximity.css" />
+</head>
+<body data-market-intent="FR">
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../index.html">Retour accueil</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container" style="max-width:560px">
+      <span class="badge">Rappel gratuit</span>
+      <section class="card">
+        <h1>On vous rappelle — sans long formulaire</h1>
+        <p class="sub">Vous n'aimez pas remplir des questionnaires en ligne ? Normal. Indiquez simplement votre <strong>e-mail</strong> et votre <strong>numéro</strong> : un conseiller humain (pas un robot) vous rappelle pour faire le point sur mutuelle, habitation, auto, crédit, etc.</p>
+
+        <div data-callback-form data-callback-source="rappel_page" data-callback-show-need="true" data-callback-title="Vos coordonnées pour être rappelé(e)" data-callback-lead="Réponse moyenne sous 15 minutes, lun–ven 9h–18h. Aucun engagement : on vous explique, vous décidez."></div>
+
+        <p class="small" style="margin-top:20px;text-align:center;color:#64748b">
+          Vous préférez le questionnaire détaillé ?
+          <a href="./devis.html" id="rappelDevisLink">Devis personnalisé en ligne</a>
+          · <a href="../assurances/">Toutes nos assurances</a>
+        </p>
+      </section>
+    </div>
+  </main>
+  <footer class="landing-footer">
+    <a href="../politique-confidentialite.html">Confidentialité</a>
+    <span>&copy; 2026 Leads Opportunities · ORIAS n° 15005935</span>
+  </footer>
+  <script src="../js/service-catalog.js"></script>
+  <script src="../js/attribution.js"></script>
+  <script src="../js/leads-storage.js"></script>
+  <script src="../js/cookie-banner.js"></script>
+  <script src="../js/geo-france-guard.js"></script>
+  <script src="../js/callback-form.js"></script>
+  <script>
+    (function () {
+      var need = new URLSearchParams(window.location.search).get("need");
+      var link = document.getElementById("rappelDevisLink");
+      if (need && link) {
+        link.href = "./devis.html?need=" + encodeURIComponent(need);
+      }
+    })();
+  </script>
+</body>
+</html>

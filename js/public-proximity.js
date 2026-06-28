@@ -196,7 +196,7 @@
 
     var path = (window.location.pathname || "").toLowerCase();
 
-    if (/\/landings\//.test(path)) return "./devis-rapide.html";
+    if (/\/landings\//.test(path)) return "./rappel.html";
 
 
 
@@ -302,9 +302,13 @@
 
 
 
-  function renderContactCard(franceHref) {
+  function renderContactCard(franceHref, compact) {
 
     franceHref = franceHref || "./france/";
+
+    var privacyHref = compact ? "../politique-confidentialite.html" : "./politique-confidentialite.html";
+
+    var rappelHref = compact ? "./rappel.html" : "./landings/rappel.html";
 
     return (
 
@@ -312,15 +316,17 @@
 
       '<p class="proximity-contact-label">Être rappelé par un conseiller</p>' +
 
-      renderCallbackLink("proximity-callback", SITE.callbackCta, true) +
+      '<div data-callback-form data-callback-compact data-callback-source="proximity_card" data-callback-show-need="false" data-callback-privacy="' +
 
-      '<p class="proximity-callback-note">Laissez votre numéro dans le formulaire — rappel ' +
+      esc(privacyHref) +
 
-      esc(SITE.hours.toLowerCase()) +
+      '" data-callback-title="2 champs suffisent" data-callback-lead="E-mail + téléphone : on vous rappelle sous 15 min. Pas besoin de remplir tout le questionnaire."></div>' +
 
-      "</p>" +
+      '<a class="proximity-callback proximity-callback--secondary" href="' +
 
-      renderCallbackLink("proximity-callback proximity-callback--secondary", SITE.callbackLabel, false) +
+      esc(rappelHref) +
+
+      '">Page rappel dédiée</a>' +
 
       '<a class="proximity-email" href="mailto:' +
 
@@ -480,7 +486,7 @@
 
       '<div class="proximity-aside">' +
 
-      renderContactCard(franceHref) +
+      renderContactCard(franceHref, compact) +
 
       "</div></div></div>"
 
@@ -572,7 +578,9 @@
 
         '<div class="proximity-contact-hint">' +
 
-        "<strong>Préférez être rappelé ?</strong> " +
+        "<strong>Formulaire trop long ?</strong> " +
+
+        "Laissez e-mail + téléphone : " +
 
         '<a href="' +
 
@@ -583,6 +591,12 @@
         esc(SITE.callbackLabel) +
 
         "</a> · " +
+
+        '<a href="' +
+
+        esc(window.location.pathname.indexOf("/landings/") !== -1 ? "./rappel.html" : "./landings/rappel.html") +
+
+        '">Rappel en 2 champs</a> · ' +
 
         esc(SITE.hours) +
 
@@ -601,6 +615,12 @@
     mountBars();
 
     enhanceContactSections();
+
+    if (global.CallbackForm && typeof global.CallbackForm.mountAll === "function") {
+
+      global.CallbackForm.mountAll();
+
+    }
 
   }
 
