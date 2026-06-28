@@ -39,6 +39,14 @@ Dans **Vercel → Settings → Environment Variables** :
 
 Puis **Redeploy**.
 
+### Contournement si l’UI Vercel ne sauvegarde pas
+
+1. **Import .env** — copier `config/meta-vercel.env.example`, remplir les valeurs, puis Vercel → **Environment Variables** → **Import** → coller le fichier (sans lignes `#`).
+2. **GitHub Actions** — ajouter le secret `META_PAGE_ACCESS_TOKEN` dans GitHub → **Settings → Secrets → Actions**, puis lancer le workflow **Meta Lead Ads — créer formulaires** (bouton *Run workflow*).
+3. **CLI** (si token Vercel) : `npx vercel env add META_VERIFY_TOKEN production` puis coller `lo-meta-webhook-2026`.
+
+`META_VERIFY_TOKEN` = chaîne inventée (ex. `lo-meta-webhook-2026`) — **pas** une clé Stripe `sk_live_...`.
+
 Référence locale : `.env.example` et `CONNECT.md`.
 
 ---
