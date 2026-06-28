@@ -1,0 +1,78 @@
+{
+  "updated": "2026-06-28",
+  "purpose": "Sujets evergreen utilises en fallback mensuel par blog:actu:auto pour maintenir une cadence d'articles generateurs de leads quand les flux RSS ne suffisent pas.",
+  "topics": [
+    {
+      "id": "mutuelle-restes-a-charge",
+      "title": "Mutuelle sante {month} : comment reduire vos restes a charge sans surpayer",
+      "summary": "Guide decisionnel pour comparer hospitalisation, dentaire, optique, delais de carence et niveaux de remboursement avant de demander un devis mutuelle.",
+      "section": "sante",
+      "need": "sante",
+      "priority": 100,
+      "leadScore": 96
+    },
+    {
+      "id": "assurance-emprunteur-loi-lemoine",
+      "title": "Assurance emprunteur {month} : utiliser la loi Lemoine pour comparer son pret",
+      "summary": "Article a forte intention pour proprietaires et acquereurs : quotite, garanties ITT/IPT, questionnaire medical, economie potentielle et parcours courtier.",
+      "section": "finance",
+      "need": "emprunteur",
+      "priority": 98,
+      "leadScore": 95
+    },
+    {
+      "id": "habitation-sinistres-franchises",
+      "title": "Assurance habitation {month} : franchises, degats des eaux et garanties a verifier",
+      "summary": "Guide conversion pour locataires, proprietaires et bailleurs qui veulent verifier plafonds, exclusions, valeur mobilier et garanties sinistre.",
+      "section": "habitat",
+      "need": "habitation",
+      "priority": 94,
+      "leadScore": 93
+    },
+    {
+      "id": "vtc-attestation-rc-pro",
+      "title": "Assurance VTC {month} : attestation, RC Pro et garanties indispensables",
+      "summary": "Sujet a intention devis pour chauffeurs Uber, Bolt et independants : usage professionnel, RC circulation, RC Pro, assistance et perte d'exploitation.",
+      "section": "vtc",
+      "need": "vtc",
+      "priority": 92,
+      "leadScore": 92
+    },
+    {
+      "id": "auto-bonus-malus-devis",
+      "title": "Assurance auto {month} : bonus-malus, franchises et devis a garanties equivalentes",
+      "summary": "Guide pour conducteurs qui comparent tiers, tiers etendu, tous risques, conducteur secondaire, assistance et protection juridique.",
+      "section": "auto",
+      "need": "auto",
+      "priority": 88,
+      "leadScore": 89
+    },
+    {
+      "id": "prevoyance-independants-revenus",
+      "title": "Prevoyance {month} : proteger ses revenus en cas d'arret de travail",
+      "summary": "Article pour salaries, TNS et independants : maintien de revenu, franchise ITT, invalidite, deces et coordination avec la mutuelle.",
+      "section": "prevoyance",
+      "need": "prevoyance",
+      "priority": 86,
+      "leadScore": 88
+    },
+    {
+      "id": "animaux-frais-veterinaires",
+      "title": "Assurance animaux {month} : frais veterinaires, plafond annuel et exclusions",
+      "summary": "Guide conversion pour proprietaires de chien ou chat : age de souscription, delai de carence, prevention, chirurgie et plafond annuel.",
+      "section": "animaux",
+      "need": "animaux",
+      "priority": 82,
+      "leadScore": 86
+    },
+    {
+      "id": "rc-pro-freelance-artisan",
+      "title": "RC Pro {month} : freelance, artisan, consultant, quelles garanties choisir",
+      "summary": "Sujet B2B lead-gen : activite declaree, plafond RC, protection juridique, cyber, materiel professionnel et obligations client.",
+      "section": "pro",
+      "need": "rc-pro",
+      "priority": 80,
+      "leadScore": 85
+    }
+  ]
+}

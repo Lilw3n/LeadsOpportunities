@@ -18,6 +18,7 @@ function buildPrompt(candidate) {
   var topic = matchTopic(candidate.title + " " + (candidate.summary || ""));
   var need = candidate.need || topic.need;
   var platform = candidate.sourceType || candidate.source || "actu";
+  var isLeadTopic = candidate.sourceType === "lead_topic";
   var sportBlock = "";
   if (isSportActu(candidate.title + " " + (candidate.summary || ""))) {
     need = "sante";
@@ -26,6 +27,33 @@ function buildPrompt(candidate) {
       "Angle OBLIGATOIRE Leads Opportunities : assurance voyage / mutuelle a l'etranger (USA, Mexique, Canada), " +
       "habitation vide pendant deplacement, auto garee, annulation voyage. Pas un article sportif pur — toujours lien questionnaire sante.\n" +
       'Tag JSON: "Coupe du monde 2026"\n';
+  }
+  if (isLeadTopic) {
+    return (
+      "Tu es redacteur SEO pour Leads Opportunities, courtier ORIAS assurance en France.\n" +
+      "Redige un guide evergreen ORIGINAL concu pour convertir vers un questionnaire gratuit.\n\n" +
+      "SUJET EDITORIAL RECURRENT:\nTitre: " +
+      candidate.title +
+      "\nBrief: " +
+      (candidate.summary || "") +
+      "\nNeed questionnaire: " +
+      need +
+      "\n\n" +
+      "Reponds UNIQUEMENT en JSON valide (pas de markdown):\n" +
+      "{\n" +
+      '  "title": "titre H1 accrocheur max 90 caracteres",\n' +
+      '  "description": "meta description 150 caracteres",\n' +
+      '  "cardExcerpt": "1 phrase carte blog",\n' +
+      '  "tag": "badge court",\n' +
+      '  "blocks": [\n' +
+      '    {"type":"p","text":"..."},\n' +
+      '    {"type":"h2","text":"..."},\n' +
+      '    {"type":"ul","items":["...","..."]},\n' +
+      '    {"type":"bridge"}\n' +
+      "  ]\n" +
+      "}\n\n" +
+      "Regles: 8 a 12 blocs, pas d'actualite inventee, angle decision/devis, criteres concrets, questionnaire gratuit, ton conseiller."
+    );
   }
   return (
     "Tu es redacteur SEO pour Leads Opportunities, courtier ORIAS assurance en France.\n" +
@@ -73,6 +101,12 @@ async function generateActuArticleAi(candidate) {
   var parsed = parseJsonFromText(res.text);
   var topic = matchTopic(candidate.title);
   var need = candidate.need || topic.need;
+  if (candidate.sourceType === "lead_topic") {
+    topic = Object.assign({}, topic, {
+      section: candidate.section || topic.section,
+      tag: parsed.tag || topic.tag,
+    });
+  }
   var baseSlug = slugify(candidate.title) || "actu-" + Date.now();
   var file = candidate.suggestedFile || uniqueFile(baseSlug);
   if (!file.endsWith(".html")) file += ".html";

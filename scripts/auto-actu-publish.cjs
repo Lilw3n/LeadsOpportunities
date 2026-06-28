@@ -7,10 +7,19 @@
  *   npm run blog:actu:auto -- --count=2
  *   npm run blog:actu:auto -- --dry-run
  *   npm run blog:actu:auto -- --no-ai
+ *   npm run blog:actu:auto -- --no-lead-fallback
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  slugify,
+  uniqueFile,
+  monthLabel,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -49,6 +58,13 @@ function normalizeTitle(t) {
     .trim();
 }
 
+function candidateKey(candidate) {
+  if (!candidate) return "";
+  if (candidate.url) return candidate.url;
+  if (candidate.id) return candidate.id;
+  return candidate.title || "";
+}
+
 function loadPublishedTitleKeys() {
   var keys = new Set();
   var pub = readJson("blog-actu-published.json", { articles: [] });
@@ -78,7 +94,7 @@ function candidateSourceType(c, feedMap) {
 function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
-      var k = c.url || c.title;
+      var k = candidateKey(c);
       return candidateSourceType(c, feedMap) === platform && !used.has(k);
     })
     .sort(function (a, b) {
@@ -94,7 +110,8 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
-    if (c.url && processed.has(c.url)) return false;
+    var key = candidateKey(c);
+    if (key && processed.has(key)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
@@ -114,7 +131,7 @@ function pickCandidates(candidates, count, state) {
     .forEach(function (c) {
       if (picks.length >= count) return;
       picks.push(c);
-      used.add(c.url || c.title);
+      used.add(candidateKey(c));
     });
 
   if (count >= 3) {
@@ -123,7 +140,7 @@ function pickCandidates(candidates, count, state) {
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
-        used.add(pick.url || pick.title);
+        used.add(candidateKey(pick));
       }
     });
     state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
@@ -134,7 +151,7 @@ function pickCandidates(candidates, count, state) {
       var rotated = bestFromPlatform(available, platform, feedMap, used);
       if (rotated) {
         picks.push(rotated);
-        used.add(rotated.url || rotated.title);
+        used.add(candidateKey(rotated));
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
@@ -146,7 +163,7 @@ function pickCandidates(candidates, count, state) {
     })
     .forEach(function (c) {
       if (picks.length >= count) return;
-      var k = c.url || c.title;
+      var k = candidateKey(c);
       if (used.has(k)) return;
       picks.push(c);
       used.add(k);
@@ -154,13 +171,57 @@ function pickCandidates(candidates, count, state) {
 
   available.forEach(function (c) {
     if (picks.length >= count) return;
-    var k = c.url || c.title;
+    var k = candidateKey(c);
     if (used.has(k)) return;
     picks.push(c);
     used.add(k);
   });
 
   return picks;
+}
+
+function leadTopicPeriod() {
+  return new Date().toISOString().slice(0, 7);
+}
+
+function leadTopicCandidates(state, needed, alreadyPicked) {
+  if (needed <= 0) return [];
+  var cfg = readJson("blog-lead-topics.json", { topics: [] });
+  var period = leadTopicPeriod();
+  var processed = new Set(state.processedUrls || []);
+  var used = new Set((alreadyPicked || []).map(candidateKey));
+  var topics = (cfg.topics || [])
+    .filter(function (topic) {
+      return topic && topic.id && topic.title && topic.need;
+    })
+    .sort(function (a, b) {
+      return (b.priority || 0) - (a.priority || 0);
+    });
+
+  var out = [];
+  topics.forEach(function (topic) {
+    if (out.length >= needed) return;
+    var key = "lead-topic:" + period + ":" + topic.id;
+    if (processed.has(key) || used.has(key)) return;
+    var title = String(topic.title).replace(/\{month\}/g, monthLabel()).replace(/\{period\}/g, period);
+    var baseSlug = slugify(title + " " + period);
+    out.push({
+      id: key,
+      title: title,
+      url: "",
+      summary: topic.summary || "",
+      source: "plan editorial leads",
+      sourceType: "lead_topic",
+      feedName: "Plan editorial leads recurrent",
+      suggestedFile: uniqueFile(baseSlug || "guide-assurance-leads-" + Date.now()),
+      section: topic.section || "actu",
+      need: topic.need,
+      status: "lead_topic",
+      leadScore: topic.leadScore || 90,
+    });
+    used.add(key);
+  });
+  return out;
 }
 
 function runNode(script) {
@@ -171,10 +232,20 @@ async function main() {
   var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
+  var useLeadFallback = process.argv.indexOf("--no-lead-fallback") === -1 && process.env.LEAD_FALLBACK !== "0";
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
 
   console.log("=== Auto actu publish ===");
-  console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  console.log(
+    "count:",
+    count,
+    "| IA:",
+    useAi ? "oui" : "non (enrich)",
+    "| lead fallback:",
+    useLeadFallback ? "oui" : "non",
+    "| dry-run:",
+    dryRun
+  );
   console.log("");
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
@@ -199,6 +270,17 @@ async function main() {
     autoRuns: [],
   });
   var picks = pickCandidates(candidates, count, state);
+  if (useLeadFallback && picks.length < count) {
+    var fallbackPicks = leadTopicCandidates(state, count - picks.length, picks);
+    if (fallbackPicks.length) {
+      console.log(
+        "Fallback leads:",
+        fallbackPicks.length,
+        "sujet(s) evergreen ajoute(s) pour tenir la cadence"
+      );
+      picks = picks.concat(fallbackPicks);
+    }
+  }
 
   if (!picks.length) {
     console.log("Aucun candidat disponible.");
@@ -251,10 +333,11 @@ async function main() {
     }
 
     appendPendingArticle(article);
-    if (pick.url) {
+    var key = candidateKey(pick);
+    if (key) {
       state.processedUrls = state.processedUrls || [];
-      if (state.processedUrls.indexOf(pick.url) === -1) {
-        state.processedUrls.push(pick.url);
+      if (state.processedUrls.indexOf(key) === -1) {
+        state.processedUrls.push(key);
       }
     }
     published.push({
@@ -262,6 +345,12 @@ async function main() {
       title: article.title,
       source: pick.feedName || pick.source || pick.feedId,
       sourceType: platform,
+      need:
+        pick.need ||
+        (article.cta && article.cta.href && article.cta.href.match(/need=([^&]+)/)
+          ? article.cta.href.match(/need=([^&]+)/)[1]
+          : ""),
+      leadScore: pick.leadScore || 0,
     });
   }
 
