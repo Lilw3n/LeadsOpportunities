@@ -1,0 +1,62 @@
+name: Blog leads evergreen
+
+on:
+  schedule:
+    # 2 articles evergreen par semaine, en complement de l'actu quotidienne.
+    - cron: "30 7 * * 2,5"
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "Nombre d'articles evergreen (1-5)"
+        required: false
+        default: "1"
+      topic:
+        description: "ID de sujet precis dans data/blog-lead-calendar.json"
+        required: false
+        default: ""
+
+concurrency:
+  group: blog-leads-evergreen
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish-evergreen-leads:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate evergreen lead articles
+        run: |
+          COUNT="${{ github.event.inputs.count || '1' }}"
+          TOPIC="${{ github.event.inputs.topic || '' }}"
+          if [ -n "$TOPIC" ]; then
+            npm run blog:leads:evergreen -- --count="$COUNT" --topic="$TOPIC"
+          else
+            npm run blog:leads:evergreen -- --count="$COUNT"
+          fi
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git status --porcelain | grep -q .; then
+            git add data/blog-lead-*.json data/blog-actu-*.json blog/*.html sitemap*.xml seo/
+            git commit -m "chore(blog): evergreen lead article $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          else
+            echo "Aucun changement a committer."
+          fi
