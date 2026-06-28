@@ -41,6 +41,7 @@ const ROUTES = {
   "contact-duplicates": () => require("../_lib/routes/crm-contact-duplicates"),
   "merge-contacts": () => require("../_lib/routes/crm-merge-contacts"),
   "private-offer-match": () => require("../_lib/routes/crm-private-offer-match"),
+  "meta-rotation": () => require("../_lib/routes/crm-meta-rotation"),
   "tariff-rates": () => require("../_lib/routes/crm-tariff-rates"),
   "calendar-sync": () => require("../_lib/routes/crm-calendar-sync"),
   "pro-accounting": () => require("../_lib/routes/crm-pro-accounting"),

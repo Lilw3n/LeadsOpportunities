@@ -31,6 +31,8 @@
     "meta:forms:replace": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --create --replace --fresh-names",
     "meta:forms:plan": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --dry-run",
     "meta:vsp:discret": "node scripts/meta-vsp-discret-status.cjs",
+    "meta:rotation:status": "node scripts/meta-campaign-rotation.cjs",
+    "meta:rotation:build": "node scripts/meta-campaign-rotation.cjs --write",
     "postinstall": "npm run build:clarity"
   },
   "dependencies": {

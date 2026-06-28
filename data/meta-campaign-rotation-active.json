@@ -1,0 +1,172 @@
+{
+  "ok": true,
+  "generatedAt": "2026-06-28T10:11:34.768Z",
+  "policy": {
+    "max_daily_budget_eur": 1,
+    "max_active_campaigns": 1,
+    "max_active_ad_sets": 1,
+    "max_active_ads": 1,
+    "multiply_campaigns": false
+  },
+  "calendar_week": 1,
+  "cycle_index": 0,
+  "week_bounds": {
+    "weekIndex": 0,
+    "calendarWeek": 1,
+    "slotWeek": 1,
+    "startsAt": "2026-06-30T12:00:00.000Z",
+    "endsAt": "2026-07-07T11:59:59.999Z"
+  },
+  "active_slot": {
+    "week": 1,
+    "id": "vtc_discret",
+    "vertical": "vtc",
+    "discrete": true,
+    "form_template": "vtc_express",
+    "utm_campaign": "meta_pro_mobilite_convert",
+    "blog_slug": "assurance-vtc-moins-cher-2026",
+    "targeting": {
+      "age_min": 25,
+      "age_max": 58,
+      "geo": "France"
+    },
+    "ad_copy": {
+      "headline": "Charges pro trop élevées ?",
+      "primary": "Activité avec véhicule : comparez votre assurance pro en 30 secondes. Devis confidentiel, sans engagement.",
+      "cta": "Obtenir un devis"
+    },
+    "site_focus": {
+      "label": "Assurance pro véhicule",
+      "shortLabel": "VTC / pro",
+      "landing": "/landings/devis-rapide.html",
+      "heroTitle": "Charges pro : comparez votre assurance",
+      "heroSubtitle": "Devis express en 30 secondes — focus semaine acquisition.",
+      "cta": "Devis pro véhicule",
+      "pillClass": "hfc-1",
+      "landing_url": "/landings/devis-rapide.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert&utm_content=focus-semaine-1"
+    },
+    "why": "Meilleur CPL historique — intent chaud chauffeur / auto-entrepreneur.",
+    "form_id": "4578422069056454",
+    "form_name": "VTC — Devis express (Meta)",
+    "campaign_internal": "meta_vtc_convert",
+    "landing_path": "/landings/devis-rapide.html",
+    "landing_url": "/landings/devis-rapide.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert&utm_content=focus-semaine-1",
+    "meta_landing_url": "/landings/devis-rapide.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert&utm_content=focus-semaine-1",
+    "blog": {
+      "slug": "assurance-vtc-moins-cher-2026",
+      "title": "Assurance VTC moins cher en 2026 : 7 leviers",
+      "score": 105,
+      "url": "/blog/assurance-vtc-moins-cher-2026.html"
+    }
+  },
+  "current_stats": {
+    "leads": 0,
+    "spend_estimate_eur": 7,
+    "cpl_eur": null,
+    "verdict": "pending",
+    "message": "Semaine en cours — pas assez de données."
+  },
+  "previous_week": {
+    "slot": {
+      "week": 4,
+      "id": "credit_lemoine",
+      "vertical": "credit_immo",
+      "discrete": false,
+      "form_template": "credit_immo_express",
+      "utm_campaign": "meta_credit_pret_convert",
+      "blog_slug": "assurance-emprunteur-loi-lemoine-2026",
+      "targeting": {
+        "age_min": 28,
+        "age_max": 58,
+        "geo": "France"
+      },
+      "ad_copy": {
+        "headline": "Prêt en cours ? Économisez sur l'assurance",
+        "primary": "Loi Lemoine — comparez assurance emprunteur sans changer de banque. Étude gratuite.",
+        "cta": "Étude gratuite"
+      },
+      "site_focus": {
+        "label": "Crédit / emprunteur",
+        "shortLabel": "Emprunteur",
+        "landing": "/landings/credit-immo.html",
+        "heroTitle": "Assurance emprunteur : économisez",
+        "heroSubtitle": "Loi Lemoine — étude gratuite, sans engagement.",
+        "cta": "Étude emprunteur",
+        "pillClass": "hfc-3"
+      },
+      "why": "Intent économies — cycle plus long, mesure CPL semaine 4."
+    },
+    "stats": {
+      "leads": 0,
+      "spend_estimate_eur": 7,
+      "cpl_eur": null,
+      "verdict": "pending",
+      "message": "Semaine en cours — pas assez de données."
+    }
+  },
+  "recommendation": {
+    "action": "activate",
+    "reason": "Meilleur CPL historique — intent chaud chauffeur / auto-entrepreneur."
+  },
+  "intelligence": {
+    "cheapest_historical_vertical": "vtc",
+    "retargeting_note": "VTC = meilleur CPL historique. Retargeting abandon = 2–3× moins cher que froid.",
+    "fallback": {
+      "id": "retarget_rappel",
+      "vertical": "devis",
+      "form_template": "rappel_universal",
+      "utm_campaign": "retarget_rappel",
+      "site_focus": {
+        "label": "Rappel express",
+        "landing": "/landings/rappel.html",
+        "heroTitle": "Un conseiller vous rappelle",
+        "heroSubtitle": "Abandon formulaire ? Reprenez en 30 secondes.",
+        "cta": "Demander un rappel"
+      },
+      "why": "Retargeting abandon — CPL souvent 2–3× inférieur au froid."
+    }
+  },
+  "schedule": [
+    {
+      "week": 1,
+      "id": "vtc_discret",
+      "vertical": "vtc",
+      "discrete": true,
+      "is_current": true,
+      "form_id": "4578422069056454",
+      "headline": "Charges pro trop élevées ?",
+      "site_label": "Assurance pro véhicule"
+    },
+    {
+      "week": 2,
+      "id": "sante_senior_canicule",
+      "vertical": "sante",
+      "discrete": false,
+      "is_current": false,
+      "form_id": "1503493211458105",
+      "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
+      "site_label": "Mutuelle santé"
+    },
+    {
+      "week": 3,
+      "id": "vsp_citadine_discret",
+      "vertical": "vsp",
+      "discrete": true,
+      "is_current": false,
+      "form_id": "1023485613566134",
+      "headline": "Petite citadine : bien assurée ?",
+      "site_label": "Citadine légère"
+    },
+    {
+      "week": 4,
+      "id": "credit_lemoine",
+      "vertical": "credit_immo",
+      "discrete": false,
+      "is_current": false,
+      "form_id": "1784137922966688",
+      "headline": "Prêt en cours ? Économisez sur l'assurance",
+      "site_label": "Crédit / emprunteur"
+    }
+  ],
+  "rotation_length_weeks": 4
+}
