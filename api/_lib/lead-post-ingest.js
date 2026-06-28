@@ -140,7 +140,7 @@ async function finalizeLeadIngest(enriched, leadId, score, req) {
     var actionSource = enriched.source === "meta_lead_ads" ? "system_generated" : "website";
     await sendMetaEvent({
       eventName: "Lead",
-      eventId: enriched.meta_leadgen_id || leadId,
+      eventId: enriched.client_event_id || enriched.event_id || enriched.meta_leadgen_id || leadId,
       pageUrl:
         (process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://www.leadsopportunities.fr") +
         (enriched.landing_path || enriched.page || ""),

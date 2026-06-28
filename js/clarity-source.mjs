@@ -74,6 +74,21 @@ function tagPageContext() {
   utmTags();
 }
 
+function syncAttributionTags(detail) {
+  if (!detail || !window.loClarity) return;
+  try {
+    if (detail.visitor_id) {
+      window.loClarity.identify(detail.visitor_id, null, null, "visitor");
+      window.loClarity.setTag("visitor_id", detail.visitor_id);
+    }
+    if (detail.parcours_id) window.loClarity.setTag("parcours_id", detail.parcours_id);
+    if (detail.gclid) window.loClarity.setTag("gclid", detail.gclid);
+    if (detail.fbclid) window.loClarity.setTag("fbclid", detail.fbclid);
+    if (detail.seo_city) window.loClarity.setTag("seo_city", detail.seo_city);
+    if (detail.landing_path) window.loClarity.setTag("landing_path", detail.landing_path);
+  } catch (e) {}
+}
+
 function pageSection() {
   var p = location.pathname || "/";
   if (p.indexOf("/blog") !== -1) return "blog";
@@ -170,6 +185,23 @@ function bindListeners() {
       } else if (name === "blog_scroll_depth" && p.percent_scrolled >= 75) {
         window.loClarity.event("blog_scroll_" + p.percent_scrolled);
       }
+    } catch (e) {}
+  });
+
+  window.addEventListener("lo:tracking-sync", function (ev) {
+    syncAttributionTags(ev && ev.detail ? ev.detail : null);
+  });
+
+  window.addEventListener("lo:lead-converted", function (ev) {
+    if (!window.loClarity || !ev || !ev.detail) return;
+    var d = ev.detail;
+    try {
+      if (d.leadId) window.loClarity.setTag("lead_id", d.leadId);
+      if (d.leadScore != null) window.loClarity.setTag("lead_score", String(d.leadScore));
+      if (d.params && d.params.vertical) window.loClarity.setTag("vertical", d.params.vertical);
+      if (d.params && d.params.utm_campaign) window.loClarity.setTag("utm_campaign", d.params.utm_campaign);
+      window.loClarity.event("lead_converted");
+      window.loClarity.upgrade("lead_converted");
     } catch (e) {}
   });
 

@@ -18,6 +18,10 @@
       return;
     }
 
+    if (name === "form_submit" || name === "generate_lead") {
+      return;
+    }
+
     if (name === "qualified_lead") {
       var qScore = payload.lead_score != null ? Number(payload.lead_score) : 1;
       if (cfg.ga4MeasurementId && cfg.ga4MeasurementId.indexOf("XXXX") === -1) {
@@ -53,14 +57,6 @@
       variant: (payload && payload.variant) || "",
     });
 
-    if (name === "form_submit" && cfg.adsLeadConversionId) {
-      window.gtag("event", "conversion", {
-        send_to: cfg.adsLeadConversionId,
-        value: 1,
-        currency: "EUR",
-      });
-    }
-
     if (name === "phone_click" && cfg.adsPhoneConversionId) {
       window.gtag("event", "conversion", {
         send_to: cfg.adsPhoneConversionId,
@@ -84,8 +80,8 @@
     var value = payload && payload.lead_score != null ? Number(payload.lead_score) : 1;
 
     if (cfg.metaPixelId && typeof window.fbq === "function") {
-      if (name === "form_submit" || name === "qualified_lead") {
-        window.fbq("track", "Lead", { content_name: vertical, value: value, currency: "EUR" });
+      if (name === "qualified_lead") {
+        return;
       } else if (name === "phone_click" || name === "whatsapp_click") {
         window.fbq("trackCustom", name, { content_name: vertical });
       }
@@ -401,6 +397,7 @@
         if (window.QuoteIntelligence) {
           window.QuoteIntelligence.attachLeadIdToPayload(leadPayload);
         }
+        leadPayload.client_event_id = leadPayload.leadId || null;
         if (typeof window.saveLeadRequest === "function") {
           window.saveLeadRequest(leadPayload);
         }
@@ -410,11 +407,8 @@
         if (msgErr) msgErr.hidden = true;
 
         postLeadApi(leadPayload).then(function (result) {
-          if (result && result.ok && result.leadScore != null) {
-            sendGoogleEvent("qualified_lead", {
-              vertical: getVerticalFromPath(),
-              lead_score: result.leadScore,
-            });
+          if (result && result.ok && window.loTrackingCorrelation && window.loTrackingCorrelation.fireConversion) {
+            window.loTrackingCorrelation.fireConversion(result, leadPayload);
           }
           window.dispatchEvent(
             new CustomEvent("lo:lead-sent", {

@@ -130,6 +130,13 @@
     document.head.appendChild(clarityBoot);
   }
 
+  if (!document.querySelector('script[src="/js/tracking-correlation.js"]')) {
+    var corr = document.createElement("script");
+    corr.src = "/js/tracking-correlation.js";
+    corr.defer = true;
+    document.head.appendChild(corr);
+  }
+
   var primaryGa = !isPlaceholder(cfg.ga4MeasurementId) ? cfg.ga4MeasurementId : null;
   var primaryAds = !isPlaceholder(cfg.adsConversionId) ? cfg.adsConversionId : null;
 

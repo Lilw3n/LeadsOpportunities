@@ -111,3 +111,5 @@ Pour optimiser Meta Ads :
 3. Segment abandon : visiteurs avec `JourneyFormStart` sans `Lead` (fenetre 7-14 jours).
 
 Guide complet (pixel, CAPI, Lead Ads webhook, Automated Ads) : **`docs/META-ADS-AUTOMATION.md`**.
+
+Corrélation GA4 + Clarity + Search Console + CRM : **`docs/TRACKING-CORRELATION.md`**.

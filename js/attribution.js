@@ -276,11 +276,7 @@
       return;
     }
     if (eventType === "lead_submit_success") {
-      window.fbq("track", "Lead", {
-        content_name: vertical,
-        value: Number(payload.lead_score || 1),
-        currency: "EUR",
-      });
+      return;
     }
   }
 
@@ -314,6 +310,14 @@
       body: JSON.stringify(body),
     }).catch(function () {});
     trackMetaClient(eventType, body);
+    if (window.loTrackingCorrelation && window.loTrackingCorrelation.mirrorJourney) {
+      window.loTrackingCorrelation.mirrorJourney(eventType, {
+        vertical: body.vertical,
+        step_name: body.step_name,
+        lead_id: body.lead_id,
+        lead_score: payload.meta && payload.meta.lead_score,
+      });
+    }
   }
 
   function bindJourneyTracking() {
@@ -474,6 +478,12 @@
   };
 
   captureAttribution();
+  if (window.loTrackingCorrelation && window.loTrackingCorrelation.syncIdentity) {
+    window.loTrackingCorrelation.syncIdentity();
+  }
+  try {
+    window.dispatchEvent(new CustomEvent("lo:attribution-ready"));
+  } catch (e) {}
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
       sendTouchpoint();

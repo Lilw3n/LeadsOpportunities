@@ -275,7 +275,11 @@
       }
 
       postLeadApi(leadPayload).then(function (result) {
-        sendGtagEvents(fields, result);
+        if (global.loTrackingCorrelation && global.loTrackingCorrelation.fireConversion) {
+          global.loTrackingCorrelation.fireConversion(result, leadPayload);
+        } else {
+          sendGtagEvents(fields, result);
+        }
         global.dispatchEvent(
           new CustomEvent("lo:lead-sent", {
             detail: { payload: leadPayload, result: result || {} },
