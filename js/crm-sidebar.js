@@ -54,6 +54,7 @@ window.CrmSidebar = {
       defaultOpen: true,
       items: [
         { type: "link", href: "./crm-acquisition.html", label: "Pipeline acquisition", icon: "acquisition", highlight: true, badge: "priorité", desc: "Google, Meta, TikTok, Allo" },
+        { type: "link", href: "./crm-meta-inbox.html", label: "Leads Meta (Facebook)", icon: "social", badge: "Lead Ads", desc: "Formulaires instantanés Meta" },
         { type: "section", id: "leads", label: "Leads web", icon: "leads", desc: "Demandes site public" },
         { type: "link", href: "./crm-private-offer-matching.html", label: "Matching VSP privé", icon: "ai", badge: "privé", desc: "Orientation partenaires" },
         { type: "link", href: "./crm-leads-analysis.html", label: "Analyse leads IA", icon: "ai" },

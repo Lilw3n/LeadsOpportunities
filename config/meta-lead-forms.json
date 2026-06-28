@@ -3,23 +3,260 @@
   "ad_account_id": "997768686183548",
   "default_vertical": "devis",
   "default_landing": "/landings/rappel.html",
+  "prefilled_fields": ["full_name", "first_name", "last_name", "email", "phone_number", "city", "post_code"],
   "forms": {},
+  "form_templates": {
+    "vtc_express": {
+      "vertical": "vtc",
+      "name": "VTC — Devis express (Meta)",
+      "campaign": "meta_vtc_convert",
+      "landing": "/landings/devis-rapide.html",
+      "priority": 1,
+      "blog_slugs": [
+        "vtc-premiere-course-checklist-assurance",
+        "assurance-vtc-moins-cher-2026",
+        "assurance-vtc-uber-bolt-heetch",
+        "assurance-vtc-creation-chauffeur"
+      ],
+      "intro": "Devis assurance VTC en 30 secondes — 3 questions + vos coordonnées (préremplies Facebook si connecté).",
+      "questions": [
+        {
+          "label": "Sur quelle plateforme roulez-vous ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Uber", "Bolt", "Heetch", "Plusieurs plateformes", "Pas encore inscrit"],
+          "maps_to": "vtcPlatform"
+        },
+        {
+          "label": "Votre statut VTC ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Carte VTC en cours", "Carte VTC obtenue", "Société / SARL", "Auto-entrepreneur"],
+          "maps_to": "vtcStatus"
+        },
+        {
+          "label": "Code postal d'activité",
+          "type": "SHORT_ANSWER",
+          "maps_to": "postalCode"
+        }
+      ]
+    },
+    "sante_express": {
+      "vertical": "sante",
+      "name": "Mutuelle — Comparatif express (Meta)",
+      "campaign": "meta_sante_convert",
+      "landing": "/landings/sante.html",
+      "priority": 2,
+      "blog_slugs": [
+        "mutuelle-sante-5-criteres",
+        "questionnaire-mutuelle-quel-niveau-choisir",
+        "inflation-mutuelle-hausse-2026",
+        "mutuelle-remboursement-optique-dentaire-2026"
+      ],
+      "intro": "Comparez votre mutuelle — 3 questions ciblées, sans questionnaire long.",
+      "questions": [
+        {
+          "label": "Pour qui cherchez-vous une mutuelle ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Moi seul", "Couple", "Famille avec enfant(s)", "Senior"],
+          "maps_to": "householdType"
+        },
+        {
+          "label": "Votre priorité santé ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Optique & dentaire", "Hospitalisation", "Consultations / médecines douces", "Budget le plus bas"],
+          "maps_to": "healthPriority"
+        },
+        {
+          "label": "Avez-vous déjà une mutuelle ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Oui — je veux comparer", "Non — première mutuelle", "Oui — trop cher"],
+          "maps_to": "healthStatus"
+        }
+      ]
+    },
+    "credit_immo_express": {
+      "vertical": "credit_immo",
+      "name": "Crédit / emprunteur — Étude express (Meta)",
+      "campaign": "meta_credit_convert",
+      "landing": "/landings/credit-immo.html",
+      "priority": 3,
+      "blog_slugs": [
+        "assurance-emprunteur-loi-lemoine-2026",
+        "assurance-emprunteur-combien-economiser-lemoine",
+        "taux-credit-immobilier-2026-frais-dossier",
+        "pret-immo-erreurs-a-eviter"
+      ],
+      "intro": "Étude crédit ou assurance emprunteur — 3 questions pour préparer votre dossier.",
+      "questions": [
+        {
+          "label": "Votre projet ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Achat résidence principale", "Investissement locatif", "Rachat de crédit", "Assurance emprunteur (Loi Lemoine)"],
+          "maps_to": "immoProjectStage"
+        },
+        {
+          "label": "Où en êtes-vous ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Je cherche encore", "Bien identifié", "Offre acceptée / compromis", "Déjà emprunteur — renégocier"],
+          "maps_to": "financeProject"
+        },
+        {
+          "label": "Budget ou montant approximatif ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Moins de 150 000 €", "150 000 – 300 000 €", "Plus de 300 000 €", "Je ne sais pas encore"],
+          "maps_to": "immoPropertyPrice"
+        }
+      ]
+    },
+    "habitation_express": {
+      "vertical": "habitation",
+      "name": "Habitation — Devis express (Meta)",
+      "campaign": "meta_habitation_convert",
+      "landing": "/landings/devis.html?need=habitation",
+      "priority": 4,
+      "blog_slugs": [
+        "assurance-habitation-locataire-proprietaire-2026",
+        "assurance-habitation-sous-assurance-sinistre"
+      ],
+      "intro": "Assurance habitation — locataire ou propriétaire en 3 questions.",
+      "questions": [
+        {
+          "label": "Vous êtes ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Locataire", "Propriétaire occupant", "Propriétaire bailleur (PNO)", "Colocation"],
+          "maps_to": "homeStatus"
+        },
+        {
+          "label": "Type de logement ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Appartement", "Maison", "Studio", "Autre"],
+          "maps_to": "homeType"
+        },
+        {
+          "label": "Surface approximative ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Moins de 40 m²", "40 – 80 m²", "80 – 120 m²", "Plus de 120 m²"],
+          "maps_to": "homeSurface"
+        }
+      ]
+    },
+    "auto_express": {
+      "vertical": "auto",
+      "name": "Auto — Devis express (Meta)",
+      "campaign": "meta_auto_convert",
+      "landing": "/landings/devis.html?need=auto",
+      "priority": 5,
+      "blog_slugs": ["assurance-auto-jeune-conducteur-2026", "assurance-auto-bonus-malus"],
+      "intro": "Assurance auto — 3 questions pour un devis ciblé.",
+      "questions": [
+        {
+          "label": "Votre profil conducteur ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Jeune conducteur (< 3 ans)", "Conducteur expérimenté", "Second véhicule", "Flotte pro"],
+          "maps_to": "autoDriverProfile"
+        },
+        {
+          "label": "Formule souhaitée ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Tiers simple", "Tiers étendu", "Tous risques", "Je ne sais pas"],
+          "maps_to": "autoFormula"
+        },
+        {
+          "label": "Bonus-malus actuel ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["50 ou moins", "51 – 80", "81 – 100", "Plus de 100 / malus"],
+          "maps_to": "bonusMalus"
+        }
+      ]
+    },
+    "rappel_universal": {
+      "vertical": "devis",
+      "name": "Rappel express — Tous produits (Meta)",
+      "campaign": "meta_rappel_convert",
+      "landing": "/landings/rappel.html",
+      "priority": 99,
+      "blog_slugs": [],
+      "intro": "Un conseiller vous rappelle — indiquez votre besoin en 1 question.",
+      "questions": [
+        {
+          "label": "Quel produit vous intéresse ?",
+          "type": "MULTIPLE_CHOICE",
+          "options": ["Mutuelle santé", "Assurance VTC", "Crédit / emprunteur", "Habitation", "Auto", "Autre assurance"],
+          "maps_to": "serviceNeed"
+        }
+      ]
+    }
+  },
   "field_aliases": {
     "email": ["email", "e-mail", "adresse_e-mail", "adresse_email", "mail"],
-    "phone": ["phone_number", "phone", "telephone", "numero_de_telephone", "mobile"],
+    "phone": ["phone_number", "phone", "telephone", "numero_de_telephone", "mobile", "numero_de_telephone_mobile"],
     "first_name": ["first_name", "prenom", "prénom"],
     "last_name": ["last_name", "nom", "nom_de_famille"],
     "full_name": ["full_name", "nom_complet", "name"],
     "city": ["city", "ville"],
-    "postal_code": ["post_code", "postal_code", "code_postal"]
+    "postal_code": ["post_code", "postal_code", "code_postal", "zip"]
+  },
+  "field_labels": {
+    "vtcPlatform": "Plateforme VTC",
+    "vtcStatus": "Statut VTC",
+    "postalCode": "Code postal",
+    "householdType": "Profil foyer",
+    "healthPriority": "Priorité santé",
+    "healthStatus": "Mutuelle actuelle",
+    "immoProjectStage": "Projet immo",
+    "financeProject": "Avancement projet",
+    "immoPropertyPrice": "Budget / montant",
+    "homeStatus": "Statut occupant",
+    "homeType": "Type logement",
+    "homeSurface": "Surface",
+    "autoDriverProfile": "Profil conducteur",
+    "autoFormula": "Formule auto",
+    "bonusMalus": "Bonus-malus",
+    "serviceNeed": "Produit demandé"
+  },
+  "field_map": {
+    "sur_quelle_plateforme_roulez_vous": "vtcPlatform",
+    "plateforme_vtc": "vtcPlatform",
+    "votre_statut_vtc": "vtcStatus",
+    "statut_vtc": "vtcStatus",
+    "code_postal_d_activite": "postalCode",
+    "code_postal": "postalCode",
+    "pour_qui_cherchez_vous_une_mutuelle": "householdType",
+    "profil_foyer": "householdType",
+    "votre_priorite_sante": "healthPriority",
+    "priorite_sante": "healthPriority",
+    "avez_vous_deja_une_mutuelle": "healthStatus",
+    "votre_projet": "immoProjectStage",
+    "projet": "immoProjectStage",
+    "ou_en_etes_vous": "financeProject",
+    "budget_ou_montant_approximatif": "immoPropertyPrice",
+    "montant_projet": "immoPropertyPrice",
+    "vous_etes": "homeStatus",
+    "statut_occupant": "homeStatus",
+    "type_de_logement": "homeType",
+    "type_logement": "homeType",
+    "surface_approximative": "homeSurface",
+    "votre_profil_conducteur": "autoDriverProfile",
+    "formule_souhaitee": "autoFormula",
+    "bonus_malus_actuel": "bonusMalus",
+    "quel_produit_vous_interesse": "serviceNeed"
   },
   "vertical_keywords": {
-    "vtc": ["vtc", "taxi", "chauffeur", "uber"],
-    "sante": ["mutuelle", "sante", "santé", "complementaire"],
-    "credit_immo": ["credit", "crédit", "immo", "immobilier", "pret"],
-    "auto": ["auto", "voiture", "automobile"],
-    "habitation": ["habitation", "logement", "maison", "appartement"],
+    "vtc": ["vtc", "taxi", "chauffeur", "uber", "bolt", "heetch"],
+    "sante": ["mutuelle", "sante", "santé", "complementaire", "optique", "dentaire"],
+    "credit_immo": ["credit", "crédit", "immo", "immobilier", "pret", "emprunteur", "lemoine"],
+    "auto": ["auto", "voiture", "automobile", "bonus", "malus"],
+    "habitation": ["habitation", "logement", "maison", "appartement", "locataire", "pno"],
     "prevoyance": ["prevoyance", "prévoyance", "deces", "décès"],
     "animaux": ["animaux", "chien", "chat", "assurance animaux"]
+  },
+  "service_need_map": {
+    "mutuelle sante": "sante",
+    "mutuelle santé": "sante",
+    "assurance vtc": "vtc",
+    "credit immo": "credit_immo",
+    "crédit immo": "credit_immo",
+    "emprunteur": "credit_immo",
+    "habitation": "habitation",
+    "auto": "auto"
   }
 }

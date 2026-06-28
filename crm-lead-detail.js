@@ -24,12 +24,25 @@
 
   function render(lead) {
     var l = lead;
+    var payload = l.payload_obj || {};
+    try {
+      if (!l.payload_obj && l.payload) payload = JSON.parse(l.payload);
+    } catch (e) {}
     var pm = window.CrmLeadPlatform.meta(window.CrmLeadPlatform.detect(l));
     var pct = window.CrmLeadPlatform.questionnairePct(l);
     document.title = (l.email || l.phone || "Lead") + " | Acquisition";
 
+    var metaPanel =
+      window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderMetaPanel
+        ? window.CrmLeadPayloadView.renderMetaPanel(Object.assign({}, l, { payload_obj: payload }), esc)
+        : "";
+
     document.getElementById("leadMount").innerHTML =
-      '<p><a href="./crm-acquisition.html" class="btn btn-ghost">← Pipeline acquisition</a></p>' +
+      '<p><a href="./crm-acquisition.html" class="btn btn-ghost">← Pipeline acquisition</a> ' +
+      (window.CrmLeadPayloadView && window.CrmLeadPayloadView.isMetaLead(l)
+        ? '<a href="./crm-meta-inbox.html" class="btn btn-ghost">Leads Meta</a>'
+        : "") +
+      "</p>" +
       "<h1>" +
       pm.icon +
       " " +
@@ -82,6 +95,7 @@
       esc(l.notes || "") +
       "</textarea></label>" +
       '<button type="button" class="btn btn-primary" id="btnSave">Enregistrer</button></div>' +
+      metaPanel +
       '<p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">' +
       '<a href="./crm-tariff-grid.html?leadId=' +
       encodeURIComponent(leadId) +

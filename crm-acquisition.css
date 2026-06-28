@@ -228,6 +228,122 @@
   font-weight: 700;
 }
 
+.acq-devis {
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  border-left: 3px solid #3b82f6;
+}
+
+.acq-badge.meta {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.crm-meta-panel {
+  margin-top: 20px;
+  max-width: 640px;
+}
+
+.crm-devis-summary {
+  margin: 12px 0;
+  padding: 10px 12px;
+  background: #eff6ff;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: #1e3a8a;
+}
+
+.crm-devis-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  margin: 10px 0;
+}
+.crm-devis-table th {
+  text-align: left;
+  padding: 8px 10px;
+  width: 42%;
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+.crm-devis-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+}
+
+.crm-meta-dl {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 6px 12px;
+  margin: 12px 0 0;
+  font-size: 0.82rem;
+}
+.crm-meta-dl dt {
+  color: var(--muted);
+  font-weight: 600;
+}
+.crm-meta-dl dd {
+  margin: 0;
+}
+
+.crm-meta-raw {
+  margin-top: 12px;
+  font-size: 0.78rem;
+}
+.crm-meta-raw pre {
+  margin-top: 8px;
+  padding: 10px;
+  background: #0f172a;
+  color: #e2e8f0;
+  border-radius: 8px;
+  overflow: auto;
+  max-height: 180px;
+}
+
+.meta-inbox-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.meta-inbox-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.meta-inbox-card.unopened {
+  border-left: 4px solid #1877f2;
+  box-shadow: 0 0 0 2px rgba(24, 119, 242, 0.1), var(--shadow-sm);
+}
+.meta-inbox-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.meta-inbox-meta {
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-top: 10px;
+}
+.meta-inbox-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
 .acq-card .btn {
   margin-top: 4px;
 }
