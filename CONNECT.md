@@ -103,7 +103,7 @@ Les pages chargent d’abord `/api/google-config-env` puis `google-config.js` : 
 | `GOOGLE_ADS_CONVERSION_LEAD` | `AW-123456789/xyzABC` | Conversion **Soumission de formulaire** (ou import depuis GA4) |
 | `GOOGLE_ADS_CONVERSION_PHONE` | `AW-123456789/abcDEF` | Conversion **Clic sur numero** (optionnel) |
 | `GOOGLE_ADS_CONVERSION_WHATSAPP` | `AW-123456789/ghiJKL` | Conversion **WhatsApp** (optionnel) |
-| `META_PIXEL_ID` | `123456789012345` | Pixel Meta (client) |
+| `META_PIXEL_ID` | `4470774303164658` | Pixel Meta Leads Opportunities (client) |
 | `META_CAPI_TOKEN` | token CAPI Events Manager | Conversions API Meta (serveur) |
 | `META_APP_SECRET` | secret app Facebook | Signature webhook Lead Ads |
 | `META_VERIFY_TOKEN` | chaîne aléatoire | Vérification webhook GET |

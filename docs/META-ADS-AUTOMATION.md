@@ -29,7 +29,7 @@ Dans **Vercel → Settings → Environment Variables** :
 
 | Variable | Exemple | Rôle |
 |----------|---------|------|
-| `META_PIXEL_ID` | `123456789012345` | Pixel navigateur |
+| `META_PIXEL_ID` | `4470774303164658` | Pixel Leads Opportunities (navigateur) |
 | `META_CAPI_TOKEN` | token Events Manager | Conversions API (serveur) |
 | `META_APP_SECRET` | secret app Facebook | Signature webhook Lead Ads |
 | `META_VERIFY_TOKEN` | chaîne aléatoire longue | Vérification webhook GET |
