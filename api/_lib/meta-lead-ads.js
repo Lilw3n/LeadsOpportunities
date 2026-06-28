@@ -38,6 +38,10 @@ function loadFormConfig() {
       field_aliases: Object.assign({}, DEFAULT_FORM_CONFIG.field_aliases, parsed.field_aliases || {}),
       vertical_keywords: Object.assign({}, DEFAULT_FORM_CONFIG.vertical_keywords, parsed.vertical_keywords || {}),
       forms: Object.assign({}, DEFAULT_FORM_CONFIG.forms, parsed.forms || {}),
+      form_templates: Object.assign({}, parsed.form_templates || {}),
+      field_map: Object.assign({}, parsed.field_map || {}),
+      field_labels: Object.assign({}, parsed.field_labels || {}),
+      service_need_map: Object.assign({}, parsed.service_need_map || {}),
     });
   } catch (e) {
     console.warn("[meta-lead] config load", e.message);

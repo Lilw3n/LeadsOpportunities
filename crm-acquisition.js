@@ -111,7 +111,8 @@
         return (
           String(l.email || "").toLowerCase().indexOf(q) >= 0 ||
           String(l.phone || "").indexOf(q) >= 0 ||
-          String(l.full_name || "").toLowerCase().indexOf(q) >= 0
+          String(l.full_name || "").toLowerCase().indexOf(q) >= 0 ||
+          String(l.devis_summary || "").toLowerCase().indexOf(q) >= 0
         );
       }
       return l.pipeline_stage !== "won" && l.pipeline_stage !== "lost";
@@ -236,6 +237,8 @@
       (l.questionnaire_total || 10) +
       "</div>" +
       (l.parcours_label ? '<div class="acq-meta">Parcours : ' + esc(l.parcours_label) + "</div>" : "") +
+      (l.is_meta_lead ? '<span class="acq-badge meta">Meta Lead</span> ' : "") +
+      (l.devis_summary ? '<div class="acq-devis">' + esc(l.devis_summary) + "</div>" : "") +
       '<div class="acq-next">📞 ' +
       esc(next) +
       "</div>" +

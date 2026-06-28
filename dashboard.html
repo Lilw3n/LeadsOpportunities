@@ -1981,6 +1981,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
+  <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
   <script src="./js/dashboard-payment-alerts.js"></script>
@@ -2581,6 +2582,11 @@
           crossHtml += "</ul></div></div>";
         }
 
+        var metaHtml = "";
+        if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderDashboardBlock) {
+          metaHtml = window.CrmLeadPayloadView.renderDashboardBlock(Object.assign({}, l, { payload: payload }), esc);
+        }
+
         var quoteHtml = "";
         if (tq.totalMonthly != null) {
           quoteHtml =
@@ -2608,6 +2614,7 @@
             '<div class="detail-item"><div class="dlabel">UTM Medium</div><div class="dvalue">' + esc(l.utm_medium) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">UTM Campaign</div><div class="dvalue">' + esc(l.utm_campaign) + '</div></div>' +
             (l.gclid ? '<div class="detail-item"><div class="dlabel">GCLID</div><div class="dvalue">' + esc(l.gclid) + '</div></div>' : '') +
+            metaHtml +
             funnelHtml +
             eligHtml +
             crossHtml +

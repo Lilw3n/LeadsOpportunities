@@ -23,6 +23,7 @@ const {
   extractLeadgenEvents,
   loadFormConfig,
 } = require("../_lib/meta-lead-ads");
+const { flattenMetaLead, enrichForLeadScore } = require("../_lib/meta-lead-normalize");
 
 module.exports.config = {
   api: {
@@ -48,6 +49,7 @@ async function ingestMetaLeadEvent(webhookValue) {
 
   var graphLead = await fetchLeadFromGraph(leadgenId);
   var mapped = mapLeadFields(graphLead, webhookValue);
+  mapped = flattenMetaLead(mapped);
   if (!mapped.email && !mapped.phone) {
     return { ok: false, error: "missing_contact_fields", leadgenId: leadgenId };
   }
@@ -71,8 +73,12 @@ async function ingestMetaLeadEvent(webhookValue) {
   }
 
   var leadId = randomUUID();
-  var score = computeLeadScore(mapped);
-  var rel = computeLeadRelevance(Object.assign({}, mapped, { leadScore: score }));
+  var scoreBody = enrichForLeadScore(mapped);
+  var score = computeLeadScore(scoreBody);
+  var rel = computeLeadRelevance(Object.assign({}, scoreBody, { leadScore: score }));
+  var qStep = Number(mapped.questionnaire_step || 0);
+  var qTotal = Number(mapped.questionnaire_total || 10) || 10;
+  var pipelineStage = qStep >= qTotal * 0.6 ? "quote_sent" : qStep > 0 ? "questionnaire" : "new";
   var enriched = Object.assign({}, mapped, {
     leadId: leadId,
     leadScore: score,
@@ -81,8 +87,10 @@ async function ingestMetaLeadEvent(webhookValue) {
     competitorMonthly: rel.competitorMonthly,
     ourOfferMonthly: rel.ourOfferMonthly,
     serverReceivedAt: new Date().toISOString(),
-    pipeline_stage: "new",
-    status: "new",
+    pipeline_stage: pipelineStage,
+    status: pipelineStage,
+    parcours_id: "meta_lead_rapide",
+    parcours_label: "Meta Lead Rapide",
   });
 
   if (enriched.email) enriched.email = normalizeEmail(enriched.email);
@@ -102,7 +110,8 @@ async function ingestMetaLeadEvent(webhookValue) {
       utm_source, utm_medium, utm_campaign, visitor_id, payload,
       platform, pipeline_stage, status, form_id, priority, last_activity_at,
       competitor_monthly, our_offer_monthly, relevance,
-      landing_slug, parent_lead_id, is_duplicate
+      landing_slug, parent_lead_id, is_duplicate,
+      questionnaire_step, questionnaire_total, city, postal_code, fbclid
     ) VALUES (
       ${leadId},
       ${"meta_lead_ads"},
@@ -116,8 +125,8 @@ async function ingestMetaLeadEvent(webhookValue) {
       ${"meta_" + mapped.meta_leadgen_id},
       ${JSON.stringify(enriched)},
       ${enriched.platform || "facebook"},
-      ${"new"},
-      ${"new"},
+      ${pipelineStage},
+      ${pipelineStage},
       ${enriched.form_id ? String(enriched.form_id).slice(0, 120) : null},
       ${score >= 70 ? "high" : score >= 50 ? "medium" : "low"},
       NOW(),
@@ -126,7 +135,12 @@ async function ingestMetaLeadEvent(webhookValue) {
       ${rel.relevance},
       ${enriched.landing_path ? String(enriched.landing_path).slice(0, 500) : null},
       ${dup ? dup.id : null},
-      ${!!dup}
+      ${!!dup},
+      ${qStep},
+      ${qTotal},
+      ${enriched.city ? String(enriched.city).slice(0, 120) : null},
+      ${(enriched.postal_code || enriched.postalCode) ? String(enriched.postal_code || enriched.postalCode).slice(0, 12) : null},
+      ${webhookValue.ad_id ? String(webhookValue.ad_id).slice(0, 200) : null}
     )
   `;
 

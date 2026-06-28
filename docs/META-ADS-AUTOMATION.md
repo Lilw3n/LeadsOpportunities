@@ -99,6 +99,8 @@ https://www.leadsopportunities.fr/api/webhooks/meta-lead
 
 ### Mapping des formulaires
 
+**Guide détaillé (questions copy-paste par vertical) :** [META-LEAD-FORMS-SETUP.md](./META-LEAD-FORMS-SETUP.md)
+
 Fichier `config/meta-lead-forms.json` :
 
 ```json

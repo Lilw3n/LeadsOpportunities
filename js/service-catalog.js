@@ -126,6 +126,12 @@
   function getService(need) {
     if (!need) return null;
     var key = String(need).trim().toLowerCase();
+    var ALIASES = {
+      "credit-immo": "immo",
+      credit_immo: "immo",
+      emprunteur: "immo",
+    };
+    if (ALIASES[key]) key = ALIASES[key];
     return SERVICES[key] || null;
   }
 
