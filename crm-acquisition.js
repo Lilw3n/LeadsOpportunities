@@ -398,7 +398,11 @@
           document.getElementById("acqPipeline").innerHTML =
             '<div class="crm-empty-state"><h3>Pipeline indisponible</h3><p>' +
             esc(res.error || "Erreur") +
-            " — exécutez database/site_leads-acquisition.sql sur Neon.</p></div>";
+            (res.detail ? "<br><small>" + esc(res.detail) + "</small>" : "") +
+            "</p><p style='margin-top:12px'><a href='https://console.neon.tech' target='_blank' rel='noopener' class='btn btn-ghost btn-sm'>Ouvrir Neon</a> " +
+            "<button type='button' class='btn btn-primary btn-sm' id='btnAcqRetry'>Réessayer</button></p></div>";
+          var retry = document.getElementById("btnAcqRetry");
+          if (retry) retry.onclick = load;
           return;
         }
         allLeads = res.leads || [];

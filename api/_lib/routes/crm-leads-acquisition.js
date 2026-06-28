@@ -36,46 +36,64 @@ function parsePayloadSafe(raw) {
 
 async function fetchAcquisitionRows(sql, limit) {
   var cap = limit * 3;
-  try {
-    return await sql`
-      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
-             gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
-             contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
-             fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
-             opened_at, opened_by, archived_at, archived_by, archive_reason, assigned_to, shared_with,
-             last_event_at, last_event_type, city, postal_code
-      FROM site_leads
-      ORDER BY created_at DESC
-      LIMIT ${cap}
-    `;
-  } catch (e1) {
-    console.warn("[crm/leads-acquisition] extended select failed", e1.message);
+  var lastErr = null;
+
+  var tiers = [
+    function () {
+      return sql`
+        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+               gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
+               contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
+               fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
+               opened_at, opened_by, archived_at, archived_by, archive_reason, assigned_to, shared_with,
+               last_event_at, last_event_type, city, postal_code
+        FROM site_leads
+        ORDER BY created_at DESC
+        LIMIT ${cap}
+      `;
+    },
+    function () {
+      return sql`
+        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+               gclid, visitor_id, payload, created_at,
+               platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
+               fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
+               NULL::timestamptz AS opened_at, NULL::text AS opened_by,
+               NULL::timestamptz AS archived_at, NULL::text AS archived_by, NULL::text AS archive_reason,
+               NULL::text AS assigned_to, '[]'::text AS shared_with,
+               NULL::timestamptz AS last_event_at, NULL::text AS last_event_type,
+               NULL::text AS city, NULL::text AS postal_code,
+               NULL::text AS status, NULL::text AS notes, NULL::timestamptz AS updated_at, NULL::text AS contact_id
+        FROM site_leads
+        ORDER BY created_at DESC
+        LIMIT ${cap}
+      `;
+    },
+    function () {
+      return sql`
+        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+               gclid, visitor_id, payload, created_at
+        FROM site_leads
+        ORDER BY created_at DESC
+        LIMIT ${cap}
+      `;
+    },
+  ];
+
+  for (var i = 0; i < tiers.length; i++) {
+    try {
+      return await tiers[i]();
+    } catch (e) {
+      lastErr = e;
+      console.warn("[crm/leads-acquisition] tier " + (i + 1) + " failed:", e.message);
+    }
   }
-  try {
-    return await sql`
-      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
-             gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
-             contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
-             fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
-             NULL::timestamptz AS opened_at, NULL::text AS opened_by,
-             NULL::timestamptz AS archived_at, NULL::text AS archived_by, NULL::text AS archive_reason,
-             NULL::text AS assigned_to, '[]'::text AS shared_with,
-             NULL::timestamptz AS last_event_at, NULL::text AS last_event_type,
-             NULL::text AS city, NULL::text AS postal_code
-      FROM site_leads
-      ORDER BY created_at DESC
-      LIMIT ${cap}
-    `;
-  } catch (e2) {
-    console.warn("[crm/leads-acquisition] workflow select failed", e2.message);
+
+  var msg = (lastErr && lastErr.message) || "site_leads illisible";
+  if (/relation.*site_leads|does not exist/i.test(msg)) {
+    throw new Error("Table site_leads absente — exécutez database/site_leads.sql sur Neon");
   }
-  return sql`
-    SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
-           gclid, visitor_id, payload, created_at, updated_at
-    FROM site_leads
-    ORDER BY created_at DESC
-    LIMIT ${cap}
-  `;
+  throw new Error(msg + " — exécutez database/crm-acquisition-bootstrap.sql sur Neon");
 }
 
 function safeEnrich(row) {
@@ -180,29 +198,35 @@ module.exports = async (req, res) => {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
-  const user = await requireCrm(req, res);
-  if (!user) return;
-
-  const sql = getSql();
-  if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
-
-  const url = new URL(req.url, "http://localhost");
-  const platform = url.searchParams.get("platform")
-    ? sanitizeEnum(url.searchParams.get("platform"), PLATFORMS, null)
-    : null;
-  const stage = url.searchParams.get("stage")
-    ? sanitizeEnum(url.searchParams.get("stage"), STAGES, null)
-    : null;
-  const dormantOnly = url.searchParams.get("dormant") === "1";
-  const sourceFilter = url.searchParams.get("source")
-    ? String(url.searchParams.get("source")).trim().slice(0, 80)
-    : null;
-  const view = url.searchParams.get("view") || "active";
-  const q = url.searchParams.get("q") ? sanitizeSearch(url.searchParams.get("q")) : null;
-  const pattern = q ? "%" + q + "%" : null;
-  const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") || "120", 10)));
-
   try {
+    const user = await requireCrm(req, res);
+    if (!user) return;
+
+    const sql = getSql();
+    if (!sql) {
+      return res.status(500).json({
+        ok: false,
+        error: "Base de donnees non configuree",
+        detail: "DATABASE_URL manquant sur Vercel",
+      });
+    }
+
+    const url = new URL(req.url, "http://localhost");
+    const platform = url.searchParams.get("platform")
+      ? sanitizeEnum(url.searchParams.get("platform"), PLATFORMS, null)
+      : null;
+    const stage = url.searchParams.get("stage")
+      ? sanitizeEnum(url.searchParams.get("stage"), STAGES, null)
+      : null;
+    const dormantOnly = url.searchParams.get("dormant") === "1";
+    const sourceFilter = url.searchParams.get("source")
+      ? String(url.searchParams.get("source")).trim().slice(0, 80)
+      : null;
+    const view = url.searchParams.get("view") || "active";
+    const q = url.searchParams.get("q") ? sanitizeSearch(url.searchParams.get("q")) : null;
+    const pattern = q ? "%" + q + "%" : null;
+    const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") || "120", 10)));
+
     var rows = await fetchAcquisitionRows(sql, limit);
 
     var leads = rows.map(safeEnrich);
