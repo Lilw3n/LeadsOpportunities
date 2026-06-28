@@ -152,9 +152,9 @@ function buildBlocks(topic) {
     {
       type: "p",
       text:
-        "Un article evergreen vise une intention simple : aider un visiteur a transformer une question assurance en <strong>demande qualifiee</strong>. Ici, le sujet est <strong>" +
+        "Vous vous posez une question concrete sur <strong>" +
         cleanText(topic.title) +
-        "</strong>.",
+        "</strong> ? Le bon contrat ne se choisit pas uniquement au prix : il doit correspondre a votre situation, a vos risques et au niveau de remboursement attendu.",
     },
     {
       type: "p",
@@ -166,13 +166,13 @@ function buildBlocks(topic) {
     },
     {
       type: "h2",
-      text: "Pourquoi ce sujet genere des leads qualifies",
+      text: "Pourquoi comparer maintenant",
     },
     {
       type: "p",
       text:
-        sentence(topic.promise, "Le lecteur obtient une methode claire pour comparer.") +
-        " La personne qui lit ce guide est souvent proche d'une action : demander un devis, changer de contrat, preparer un achat ou securiser un risque deja identifie.",
+        sentence(topic.promise, "Vous obtenez une methode claire pour comparer.") +
+        " Dans la pratique, c'est souvent au moment d'un devis, d'un renouvellement, d'un achat ou d'un changement de situation que les ecarts entre contrats deviennent visibles.",
     },
     { type: "bridge" },
     {
@@ -206,16 +206,16 @@ function buildBlocks(topic) {
     {
       type: "p",
       text:
-        "Deux contrats au meme tarif peuvent etre tres differents : franchise, plafond, exclusion, assistance, delai de carence ou condition de declaration. Pour un lead qualifie, le bon reflexe consiste a comparer <strong>a garanties equivalentes</strong>, puis a choisir le niveau de confort adapte au budget.",
+        "Deux contrats au meme tarif peuvent etre tres differents : franchise, plafond, exclusion, assistance, delai de carence ou condition de declaration. Le bon reflexe consiste a comparer <strong>a garanties equivalentes</strong>, puis a choisir le niveau de confort adapte au budget.",
     },
     {
       type: "h2",
-      text: "Comment Leads Opportunities qualifie la demande",
+      text: "Comment obtenir un accompagnement Leads Opportunities",
     },
     {
       type: "p",
       text:
-        "Le questionnaire recueille le besoin, la situation, l'urgence et le type de contrat recherche. Ces informations evitent les demandes vagues et permettent a un conseiller ORIAS de proposer le bon parcours : devis detaille, rappel express ou page produit specialisee.",
+        "Le questionnaire recueille le besoin, la situation, l'urgence et le type de contrat recherche. Ces informations permettent a un conseiller ORIAS de proposer le bon parcours : devis detaille, rappel express ou page produit specialisee, sans engagement.",
     },
   ];
 }
