@@ -22,6 +22,10 @@ jobs:
   publish-actu:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # 5 crons x 1 article = jusqu'a 5 articles/jour, sans modifier le script.
+      BLOG_ACTU_SCHEDULED_COUNT: "1"
+      BLOG_ACTU_MIN_LEAD_SCORE: "35"
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,8 +59,13 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           STRICT_ACTU_QUALITY: "1"
         run: |
-          COUNT="${{ github.event.inputs.count || '1' }}"
-          npm run blog:actu:auto -- --count="$COUNT" --strict-quality
+          INPUT_COUNT="${{ github.event.inputs.count || '' }}"
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            COUNT="${BLOG_ACTU_SCHEDULED_COUNT:-1}"
+          else
+            COUNT="${INPUT_COUNT:-1}"
+          fi
+          npm run blog:actu:auto -- --count="$COUNT" --min-lead-score="$BLOG_ACTU_MIN_LEAD_SCORE" --strict-quality
 
       - name: Commit and push if changed
         run: |

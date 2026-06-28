@@ -20,6 +20,7 @@
     "blog:actu:daily": "node scripts/daily-actu-run.cjs",
     "blog:actu:archive": "node scripts/archive-actu-pending.cjs",
     "blog:actu:auto": "node scripts/auto-actu-publish.cjs",
+    "blog:actu:lead": "node scripts/auto-actu-publish.cjs --min-lead-score=35 --strict-quality",
     "blog:actu:verify-quality": "node scripts/verify-actu-quality.cjs",
     "build:clarity": "node scripts/bundle-clarity.cjs",
     "verify:clarity": "node scripts/verify-clarity.cjs",

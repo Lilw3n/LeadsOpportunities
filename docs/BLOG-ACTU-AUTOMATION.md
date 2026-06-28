@@ -1,6 +1,6 @@
 # Blog actu automatique — leads ultra qualifiés
 
-Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
+Objectif : publier régulièrement **jusqu'à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
 ## Quel canal utiliser ?
 
@@ -56,8 +56,14 @@ Les candidats Google News restent en secours, mais ne remplacent plus les 3 plat
 # 1 article (rotation cafeyn/edge/firefox selon l'heure)
 npm run blog:actu:auto
 
+# Mode lead : publie seulement les sujets avec score lead >= 35
+npm run blog:actu:lead
+
 # Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
+
+# Augmenter temporairement le volume sans baisser la qualite lead
+npm run blog:actu:auto -- --count=3 --min-lead-score=35 --strict-quality
 
 # Test sans écrire
 npm run blog:actu:auto -- --dry-run
@@ -66,13 +72,17 @@ npm run blog:actu:auto -- --dry-run
 npm run blog:actu:auto -- --no-ai
 ```
 
-### GitHub Actions — 5× par jour
+### GitHub Actions — generation reguliere lead
 
 Workflow : **`.github/workflows/blog-actu-auto.yml`**
 
-- Cron UTC : `6h, 9h, 12h, 15h, 18h` (≈ 5 publications/jour)
+- Cron UTC : `6h, 9h, 12h, 15h, 18h`
+- Cadence par defaut : `BLOG_ACTU_SCHEDULED_COUNT=1`, soit jusqu'a **5 articles/jour**
+- Filtre lead : `BLOG_ACTU_MIN_LEAD_SCORE=35` (les articles ajoutes manuellement dans la file restent prioritaires)
 - Déclenchement manuel : onglet **Actions** → *Blog actu auto* → *Run workflow*
 - Commit automatique sur `main` si nouveaux articles
+
+Pour publier plus vite pendant une phase d'acquisition, augmentez uniquement `BLOG_ACTU_SCHEDULED_COUNT` dans le workflow (maximum 5 par run). Gardez `--strict-quality` et un `BLOG_ACTU_MIN_LEAD_SCORE` actif pour eviter les articles qui attirent du trafic sans intention de devis.
 
 **Secrets à configurer** (Settings → Secrets → Actions) :
 
@@ -143,11 +153,12 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 | `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
 | `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |
 
-## Leads ultra qualifiés
+## Leads ultra qualifies
 
 1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
 2. **Clarity + GA4** — déjà en place sur le blog
-3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+3. **Score lead minimum** — `--min-lead-score=35` sur le workflow GitHub
+4. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
 
 ## Limites légales
 
