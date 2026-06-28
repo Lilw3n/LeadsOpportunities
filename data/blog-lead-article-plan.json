@@ -1,0 +1,215 @@
+{
+  "updated": "2026-06-28",
+  "cadence": {
+    "recommendedCron": "30 7 * * 1,3,5",
+    "defaultCount": 1,
+    "maxCount": 3,
+    "goal": "Publier regulierement des articles evergreen orientes questionnaire pour generer des leads qualifiables."
+  },
+  "topics": [
+    {
+      "id": "vtc-attestation-plateformes-2026",
+      "priority": 100,
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "Assurance VTC",
+      "tagClass": "tag-vtc",
+      "themes": ["vtc", "pro"],
+      "slug": "assurance-vtc-attestation-plateformes-2026",
+      "title": "Assurance VTC : attestation plateforme, RC Pro et garanties a verifier en 2026",
+      "description": "Checklist assurance VTC 2026 : attestation Uber, Bolt ou Heetch, RC Pro, usage professionnel, franchise et devis gratuit.",
+      "cardExcerpt": "VTC : l'attestation qui evite le blocage plateforme et le mauvais contrat.",
+      "intent": "chauffeur VTC qui doit fournir une attestation ou comparer avant renouvellement",
+      "pain": "Un chauffeur peut etre bloque par sa plateforme si l'attestation n'indique pas clairement l'usage VTC, ou rester mal couvert si le vehicule est assure comme usage prive.",
+      "trigger": "renouvellement annuel, changement de vehicule, inscription Uber/Bolt/Heetch, hausse de prime ou premier sinistre",
+      "leadPromise": "obtenir une orientation rapide vers le niveau de garanties compatible plateforme et budget",
+      "checklist": [
+        "RC circulation et RC professionnelle adaptees au transport de personnes",
+        "Usage professionnel du vehicule declare sans ambiguite",
+        "Attestation acceptee par Uber, Bolt, Heetch ou plateforme locale",
+        "Franchise, assistance 0 km et vehicule de remplacement",
+        "Protection juridique et perte d'exploitation selon activite"
+      ],
+      "faq": [
+        {
+          "q": "Une assurance auto classique suffit-elle pour faire du VTC ?",
+          "a": "Non. L'usage transport de personnes doit etre declare et l'attestation doit correspondre aux exigences de la plateforme."
+        },
+        {
+          "q": "Quand comparer son assurance VTC ?",
+          "a": "Avant le renouvellement, avant un changement de vehicule ou des qu'une plateforme demande une attestation mise a jour."
+        }
+      ]
+    },
+    {
+      "id": "mutuelle-famille-budget-2026",
+      "priority": 95,
+      "section": "sante",
+      "need": "sante",
+      "tag": "Sante & mutuelle",
+      "tagClass": "tag-sante",
+      "themes": ["sante", "seniors"],
+      "slug": "mutuelle-famille-budget-remboursements-2026",
+      "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation a comparer",
+      "description": "Guide mutuelle famille : postes a comparer, budget mensuel, garanties inutiles et questionnaire gratuit pour calibrer le bon niveau.",
+      "cardExcerpt": "Famille : comparer sans baisser les postes qui coutent vraiment cher.",
+      "intent": "foyer qui veut reduire sa cotisation mutuelle sans perdre les garanties essentielles",
+      "pain": "Une baisse de cotisation peut devenir couteuse si elle sacrifie l'hospitalisation, le dentaire ou l'optique des enfants.",
+      "trigger": "hausse annuelle, naissance, orthodontie, lunettes, changement d'employeur ou passage independant",
+      "leadPromise": "identifier le niveau entree, confort ou renforce avant devis",
+      "checklist": [
+        "Hospitalisation : chambre particuliere, honoraires et forfait journalier",
+        "Dentaire : orthodontie, implants et plafonds annuels",
+        "Optique : monture, verres complexes et reseau partenaire",
+        "Medecins : depassements d'honoraires et teleconsultation",
+        "Delais de carence et exclusions avant changement"
+      ],
+      "faq": [
+        {
+          "q": "Faut-il toujours prendre le niveau le plus cher ?",
+          "a": "Non. Le bon contrat depend des soins previsibles, du budget et du reste a charge acceptable."
+        },
+        {
+          "q": "Le questionnaire remplace-t-il un devis ?",
+          "a": "Il prepare le devis en qualifiant les besoins ; un conseiller peut ensuite comparer les offres pertinentes."
+        }
+      ]
+    },
+    {
+      "id": "emprunteur-lemoine-economies-2026",
+      "priority": 92,
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Credit & emprunteur",
+      "tagClass": "tag-actu",
+      "themes": ["finance", "emprunteur"],
+      "slug": "assurance-emprunteur-loi-lemoine-economies-2026",
+      "title": "Assurance emprunteur : combien economiser avec la loi Lemoine en 2026 ?",
+      "description": "Changer d'assurance emprunteur avec la loi Lemoine : garanties equivalentes, quotite, economie potentielle et questionnaire gratuit.",
+      "cardExcerpt": "Pret immobilier : verifier si l'assurance banque coute trop cher.",
+      "intent": "emprunteur immobilier qui cherche a reduire le cout total de son credit",
+      "pain": "L'assurance groupe de la banque peut rester plus chere qu'une delegation, mais le changement doit respecter l'equivalence de garanties.",
+      "trigger": "pret signe depuis plus de 12 mois, hausse de budget, rachat de credit, divorce ou changement de situation",
+      "leadPromise": "estimer rapidement si une delegation peut reduire la mensualite",
+      "checklist": [
+        "Capital restant du, duree restante et taux d'assurance actuel",
+        "Quotite par emprunteur et garanties deces/PTIA/IPT/ITT",
+        "Exclusions sport, dos, psy ou metier a risque",
+        "Equivalence de garanties exigee par la banque",
+        "Date de signature et pieces a transmettre"
+      ],
+      "faq": [
+        {
+          "q": "Peut-on changer d'assurance emprunteur a tout moment ?",
+          "a": "Oui, la loi Lemoine permet de changer a tout moment pour un pret immobilier, sous reserve d'equivalence de garanties."
+        },
+        {
+          "q": "La banque peut-elle refuser ?",
+          "a": "Elle peut refuser si les garanties ne sont pas equivalentes, d'ou l'interet d'un comparatif cadre."
+        }
+      ]
+    },
+    {
+      "id": "habitation-degats-eaux-locataire-2026",
+      "priority": 88,
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "themes": ["habitat"],
+      "slug": "assurance-habitation-degats-eaux-locataire-2026",
+      "title": "Degats des eaux locataire : quelle assurance habitation rembourse en 2026 ?",
+      "description": "Degat des eaux : declaration, franchise, voisin, bailleur, mobilier et questionnaire habitation gratuit.",
+      "cardExcerpt": "Locataire : savoir quoi declarer avant que le sinistre coute cher.",
+      "intent": "locataire ou proprietaire qui veut verifier sa multirisque habitation",
+      "pain": "Un plafond mobilier trop faible ou une dependance non declaree peut laisser une partie du sinistre a charge.",
+      "trigger": "emmagement, cave, colocation, logement meuble, fuite, voisin au-dessus ou franchise elevee",
+      "leadPromise": "calibrer surface, capital mobilier et garanties utiles avant devis",
+      "checklist": [
+        "Capital mobilier coherent avec la valeur reelle des biens",
+        "Degats des eaux, recherche de fuite et franchise",
+        "Responsabilite civile vie privee et recours voisin",
+        "Dependances : cave, garage, balcon, local velo",
+        "Logement meuble, colocation ou teletravail declare"
+      ],
+      "faq": [
+        {
+          "q": "Qui declare un degat des eaux en location ?",
+          "a": "Le locataire declare a son assureur et previent le bailleur ; les assureurs organisent ensuite le recours selon les conventions."
+        },
+        {
+          "q": "La cave est-elle toujours couverte ?",
+          "a": "Pas toujours. Elle doit souvent etre declaree comme dependance avec un plafond specifique."
+        }
+      ]
+    },
+    {
+      "id": "chien-chat-frais-veterinaires-2026",
+      "priority": 84,
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "themes": ["animaux"],
+      "slug": "assurance-chien-chat-frais-veterinaires-2026",
+      "title": "Assurance chien chat : frais veterinaires, plafond et franchise a comparer en 2026",
+      "description": "Guide assurance animaux : chien, chat, urgence veto, prevention, delai de carence et questionnaire gratuit.",
+      "cardExcerpt": "Animaux : eviter la mauvaise surprise sur une urgence veto.",
+      "intent": "proprietaire de chien ou chat qui compare apres une facture veto",
+      "pain": "Une operation ou une hospitalisation veterinaire peut depasser 1 000 EUR, avec des exclusions si le contrat est souscrit trop tard.",
+      "trigger": "adoption, chiot, chaton, race fragile, premiere grosse facture, vieillissement ou maladie chronique",
+      "leadPromise": "choisir un niveau de remboursement adapte a l'age et au risque",
+      "checklist": [
+        "Plafond annuel et taux de remboursement",
+        "Franchise par acte ou annuelle",
+        "Delai de carence accident, maladie et chirurgie",
+        "Exclusions race, antecedents et maladies hereditaires",
+        "Prevention : vaccins, antiparasitaires, sterilisation"
+      ],
+      "faq": [
+        {
+          "q": "Quand assurer un chien ou un chat ?",
+          "a": "Le plus tot possible, idealement avant les premiers antecedents medicaux qui peuvent creer des exclusions."
+        },
+        {
+          "q": "Faut-il couvrir la prevention ?",
+          "a": "Cela depend du budget. La priorite reste souvent l'accident, la maladie et la chirurgie."
+        }
+      ]
+    },
+    {
+      "id": "rc-pro-freelance-litige-client-2026",
+      "priority": 80,
+      "section": "pro",
+      "need": "rc-pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro",
+      "themes": ["pro"],
+      "slug": "rc-pro-freelance-litige-client-2026",
+      "title": "RC Pro freelance : litige client, erreur et protection juridique en 2026",
+      "description": "Freelance et RC Pro : garanties utiles, exclusions, protection juridique, cyber et questionnaire gratuit pour comparer.",
+      "cardExcerpt": "Freelance : proteger son activite avant le premier litige client.",
+      "intent": "independant qui lance son activite ou signe un nouveau client",
+      "pain": "Une erreur de conseil, un retard ou une donnee client perdue peut engager la responsabilite personnelle du freelance.",
+      "trigger": "creation micro-entreprise, nouveau contrat, plateforme, mission grand compte ou demande d'attestation",
+      "leadPromise": "identifier les garanties RC Pro utiles selon le metier",
+      "checklist": [
+        "Activite declaree identique aux missions reelles",
+        "Plafond RC exploitation et RC professionnelle",
+        "Protection juridique et frais de defense",
+        "Cyber, donnees client et materiel professionnel",
+        "Sous-traitance, locaux et deplacements"
+      ],
+      "faq": [
+        {
+          "q": "La RC Pro est-elle obligatoire pour tous les freelances ?",
+          "a": "Elle depend du metier, mais elle est souvent exigee par les clients et fortement recommandee pour proteger le patrimoine personnel."
+        },
+        {
+          "q": "Une assurance habitation couvre-t-elle le materiel pro ?",
+          "a": "Rarement de facon complete. Il faut verifier l'usage professionnel et les plafonds."
+        }
+      ]
+    }
+  ]
+}

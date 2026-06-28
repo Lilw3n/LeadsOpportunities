@@ -46,6 +46,16 @@ Articles prioritaires à partager organiquement :
 | `/blog/assurance-emprunteur-loi-lemoine-2026.html` | Fort intent économies |
 | `/blog/inflation-mutuelle-hausse-2026.html` | Actu FR, angle comparatif |
 
+Pour alimenter regulierement de nouveaux articles orientes leads sans attendre
+une actualite forte, le workflow **Blog leads auto** publie 3x/semaine depuis
+`data/blog-lead-article-plan.json` :
+
+```bash
+npm run blog:leads:auto -- --dry-run
+```
+
+Tracking dedie : `utm_medium=lead_evergreen`.
+
 ### Mesurer (GA4 / Clarity)
 
 Filtrer les sessions avec :
