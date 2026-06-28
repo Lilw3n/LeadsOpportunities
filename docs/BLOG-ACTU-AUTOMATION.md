@@ -83,7 +83,7 @@ Workflow : **`.github/workflows/blog-actu-auto.yml`**
 | `POCKET_CONSUMER_KEY` | Optionnel | Actu sauvegardées Firefox/Pocket |
 | `POCKET_ACCESS_TOKEN` | Optionnel | Idem |
 
-Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance par niche, CTA `utm_medium=actu_daily`).
+Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance par niche, CTA questionnaire avec UTM actu).
 
 ## Sources sans identifiants Cafeyn / Edge / Firefox
 
@@ -145,9 +145,20 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 
 ## Leads ultra qualifiés
 
-1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
+1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_cafeyn|actu_edge|actu_firefox|actu_manual|actu_aggregator` (`actu_daily` reste accepté pour l'historique)
 2. **Clarity + GA4** — déjà en place sur le blog
 3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+
+### Suivi conversion par source
+
+Dans GA4 / CRM, filtrez les formulaires issus du blog avec :
+
+- `utm_source=blog`
+- `utm_medium` commence par `actu_`
+- `utm_campaign` = besoin questionnaire (`sante`, `habitation`, `emprunteur`, etc.)
+- `utm_content` = slug court de l'article
+
+Cela permet de comparer les leads générés par Cafeyn, Edge, Firefox, la file manuelle et les agrégateurs.
 
 ## Limites légales
 

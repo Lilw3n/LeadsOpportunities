@@ -52,6 +52,17 @@ Vous voyez combien de sessions atteignent 25 %, 50 %, 75 %, 100 % par article.
 
 Comparez par exemple **Questionnaire auto** vs **Rappel auto** sur `assurance-auto-bonus-malus`.
 
+### 3 bis. Rapport « Articles actu → leads »
+
+Les articles générés automatiquement envoient les visiteurs vers les questionnaires avec :
+
+- `utm_source=blog`
+- `utm_medium=actu_cafeyn`, `actu_edge`, `actu_firefox`, `actu_manual` ou `actu_aggregator`
+- `utm_campaign` = besoin assurance (`sante`, `habitation`, `emprunteur`, etc.)
+- `utm_content` = slug court de l'article
+
+Dans GA4 ou le CRM, filtrez `utm_medium` qui commence par `actu_` pour comparer les sources qui produisent le plus de `qualified_lead`.
+
 ### 4. Enregistrer des dimensions personnalisées (recommandé)
 
 **Admin** → **Affichage des données** → **Définitions personnalisées** → **Créer une dimension personnalisée** :

@@ -89,7 +89,7 @@ async function generateActuArticleAi(candidate) {
       description: parsed.description,
       meta: "8 min · " + monthLabel(),
       cardExcerpt: parsed.cardExcerpt || parsed.description,
-      cta: ctaWithUtm(need, baseSlug),
+      cta: ctaWithUtm(need, baseSlug, candidate.sourceType || candidate.source),
       blocks: parsed.blocks || [],
       related: relatedForSection(topic.section, need),
     },

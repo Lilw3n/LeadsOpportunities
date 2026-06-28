@@ -152,15 +152,28 @@ function rankCandidates(candidates) {
     });
 }
 
-function ctaWithUtm(need, slug) {
+function sourceTypeToUtmMedium(sourceType) {
+  var t = String(sourceType || "").toLowerCase();
+  if (!t) return "actu_daily";
+  if (t.indexOf("cafeyn") !== -1) return "actu_cafeyn";
+  if (t.indexOf("edge") !== -1 || t.indexOf("msn") !== -1 || t.indexOf("bing") !== -1) return "actu_edge";
+  if (t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) return "actu_firefox";
+  if (t.indexOf("manual") !== -1 || t.indexOf("queue") !== -1 || t.indexOf("ingest") !== -1) return "actu_manual";
+  return "actu_aggregator";
+}
+
+function ctaWithUtm(need, slug, sourceType) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
   var content = slugify(slug || need).slice(0, 40);
+  var medium = sourceTypeToUtmMedium(sourceType);
   return {
     href:
       base.href +
       (base.href.indexOf("?") === -1 ? "?" : "&") +
-      "utm_source=blog&utm_medium=actu_daily&utm_campaign=" +
+      "utm_source=blog&utm_medium=" +
+      encodeURIComponent(medium) +
+      "&utm_campaign=" +
       encodeURIComponent(need) +
       "&utm_content=" +
       encodeURIComponent(content),
@@ -350,5 +363,6 @@ module.exports = {
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
+  sourceTypeToUtmMedium: sourceTypeToUtmMedium,
   relatedForSection: relatedForSection,
 };

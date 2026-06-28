@@ -14,6 +14,7 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const { validateArticle } = require("./verify-actu-quality.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -167,6 +168,24 @@ function runNode(script) {
   execSync("node " + script, { stdio: "inherit", cwd: ROOT });
 }
 
+function articleQualityErrors(article) {
+  if (!article || !article.blocks || !article.blocks.length) return ["article invalide"];
+  return validateArticle(article);
+}
+
+function rememberAutoRun(state, entry) {
+  state.lastAutoRun = new Date().toISOString();
+  state.autoRuns = state.autoRuns || [];
+  state.autoRuns.push(Object.assign({ at: state.lastAutoRun }, entry));
+  if (state.autoRuns.length > 50) {
+    state.autoRuns = state.autoRuns.slice(-50);
+  }
+  if (state._nextPlatformRotation !== undefined) {
+    state.platformRotationIndex = state._nextPlatformRotation;
+    delete state._nextPlatformRotation;
+  }
+}
+
 async function main() {
   var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
@@ -207,6 +226,7 @@ async function main() {
 
   console.log("Sélection:", picks.length, "candidat(s)");
   var published = [];
+  var skipped = [];
   var feedMap = loadFeedSourceMap();
 
   for (var i = 0; i < picks.length; i++) {
@@ -226,27 +246,43 @@ async function main() {
     );
 
     var article = null;
+    var usedProvider = useAi ? "ai" : "local";
     if (useAi) {
       var aiRes = await generateActuArticleAi(pick);
       if (aiRes.ok) {
         article = aiRes.article;
+        usedProvider = aiRes.provider || "ai";
         console.log("  Rédaction IA:", aiRes.provider);
       } else {
         console.warn("  IA:", aiRes.error, "→ enrichissement local");
         article = enrichFromCandidate(pick);
+        usedProvider = "local-fallback";
       }
     } else {
       article = enrichFromCandidate(pick);
     }
 
-    if (!article || !article.blocks || !article.blocks.length) {
-      console.warn("  Article invalide — ignoré");
+    var qualityErrors = articleQualityErrors(article);
+    if (qualityErrors.length && useAi && usedProvider !== "local-fallback") {
+      console.warn("  Qualité IA insuffisante:", qualityErrors.join("; "), "→ enrichissement local");
+      article = enrichFromCandidate(pick);
+      usedProvider = "local-fallback";
+      qualityErrors = articleQualityErrors(article);
+    }
+
+    if (qualityErrors.length) {
+      console.warn("  Article ignoré:", qualityErrors.join("; "));
+      skipped.push({
+        title: pick.title,
+        sourceType: platform,
+        errors: qualityErrors,
+      });
       continue;
     }
 
     if (dryRun) {
       console.log("  [dry-run]", article.file);
-      published.push({ file: article.file, title: article.title });
+      published.push({ file: article.file, title: article.title, sourceType: platform, provider: usedProvider });
       continue;
     }
 
@@ -262,11 +298,23 @@ async function main() {
       title: article.title,
       source: pick.feedName || pick.source || pick.feedId,
       sourceType: platform,
+      provider: usedProvider,
+      sourceUrl: pick.url || "",
+      sourceTitle: pick.title,
+      dbId: pick.id || "",
     });
   }
 
   if (!published.length) {
     console.log("Rien généré.");
+    if (!dryRun) {
+      rememberAutoRun(state, {
+        count: 0,
+        usedAi: useAi,
+        skipped: skipped,
+      });
+      writeJson("blog-actu-state.json", state);
+    }
     process.exit(0);
   }
 
@@ -290,27 +338,18 @@ async function main() {
     runNode("scripts/archive-actu-pending.cjs");
   }
 
-  state.lastAutoRun = new Date().toISOString();
-  state.autoRuns = state.autoRuns || [];
-  state.autoRuns.push({
-    at: state.lastAutoRun,
+  rememberAutoRun(state, {
     count: published.length,
     usedAi: useAi,
     articles: published,
+    skipped: skipped,
   });
-  if (state.autoRuns.length > 50) {
-    state.autoRuns = state.autoRuns.slice(-50);
-  }
-  if (state._nextPlatformRotation !== undefined) {
-    state.platformRotationIndex = state._nextPlatformRotation;
-    delete state._nextPlatformRotation;
-  }
   writeJson("blog-actu-state.json", state);
 
   var queue = readJson("blog-actu-queue.json", { items: [] });
-  picks.forEach(function (p) {
+  published.forEach(function (p) {
     (queue.items || []).forEach(function (item) {
-      if (item.title === p.title || (p.url && item.url === p.url)) {
+      if (item.title === p.sourceTitle || (p.sourceUrl && item.url === p.sourceUrl)) {
         item.status = "published";
       }
     });
@@ -319,10 +358,10 @@ async function main() {
   writeJson("blog-actu-queue.json", queue);
 
   try {
-    var dbIds = picks.filter(function (p) {
-      return p.id && String(p.id).indexOf("ingest-") === 0;
+    var dbIds = published.filter(function (p) {
+      return p.dbId && String(p.dbId).indexOf("ingest-") === 0;
     }).map(function (p) {
-      return p.id;
+      return p.dbId;
     });
     if (dbIds.length) {
       var dbMod = require("./blog-actu-queue-db.cjs");
