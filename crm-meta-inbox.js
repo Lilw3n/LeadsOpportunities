@@ -133,6 +133,17 @@
     list.innerHTML = leads.map(cardHtml).join("");
   }
 
+  function showError(msg, detail) {
+    document.getElementById("metaInboxList").innerHTML =
+      '<div class="crm-empty-state"><h3>Indisponible</h3><p>' +
+      esc(msg || "Erreur") +
+      (detail ? '<br><small style="color:var(--muted)">' + esc(detail) + "</small>" : "") +
+      '</p><p style="margin-top:12px"><a href="./crm-acquisition.html" class="btn btn-ghost btn-sm">Pipeline acquisition</a> ' +
+      '<button type="button" class="btn btn-primary btn-sm" id="btnMetaRetry">Réessayer</button></p></div>';
+    var retry = document.getElementById("btnMetaRetry");
+    if (retry) retry.onclick = load;
+  }
+
   function load() {
     var url =
       "/api/crm/leads-acquisition?limit=150&view=" +
@@ -140,18 +151,23 @@
       "&source=meta_lead_ads";
     fetch(url, { headers: authHeaders() })
       .then(function (r) {
+        if (r.status === 401) {
+          location.href = "./crm.html";
+          return null;
+        }
         return r.json();
       })
       .then(function (res) {
+        if (!res) return;
         if (!res.ok) {
-          document.getElementById("metaInboxList").innerHTML =
-            '<div class="crm-empty-state"><h3>Indisponible</h3><p>' +
-            esc(res.error || "Erreur") +
-            "</p></div>";
+          showError(res.error || "Erreur serveur", res.detail);
           return;
         }
         allLeads = res.leads || [];
         render();
+      })
+      .catch(function () {
+        showError("Erreur réseau", "Vérifiez votre connexion puis réessayez.");
       });
   }
 

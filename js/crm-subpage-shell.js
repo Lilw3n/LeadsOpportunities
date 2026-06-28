@@ -18,6 +18,7 @@
 
     var PAGE_META = {
       "crm-acquisition.html": { subtitle: "Leads Google, Meta, TikTok, Instagram, Allo — tri, assignation, archivage" },
+      "crm-meta-inbox.html": { subtitle: "Formulaires instantanés Facebook / Instagram — réponses devis" },
       "crm-private-offer-matching.html": { subtitle: "Matching privé VSP selon profil, source et critères partenaires" },
       "crm-leads-analysis.html": { subtitle: "Pré-analyse IA et qualification des demandes entrantes" },
       "crm-kanban.html": { subtitle: "Vue pipeline pour organiser les opportunités" },

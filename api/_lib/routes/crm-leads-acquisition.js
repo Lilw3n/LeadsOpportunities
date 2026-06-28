@@ -12,28 +12,104 @@ const PLATFORMS = [
 ];
 
 function detectPlatform(row) {
-  var payload = {};
-  try {
-    payload = row.payload ? JSON.parse(row.payload) : {};
-  } catch (e) {}
+  var payload = parsePayloadSafe(row.payload);
   if (row.platform) return row.platform;
   var utm = String(row.utm_source || payload.utm_source || "").toLowerCase();
   var src = String(row.source || payload.source || "").toLowerCase();
   if (/withallo|allo/.test(src + " " + utm)) return "withallo";
   if (row.fbclid || payload.fbclid || /facebook|meta|fb/.test(utm)) return /instagram|ig/.test(utm) ? "instagram" : "facebook";
   if (row.ttclid || payload.ttclid || /tiktok/.test(utm)) return "tiktok";
-  if (row.gclid || row.msclkid || /google/.test(utm)) return "google";
+  if (row.gclid || row.msclkid || payload.gclid || /google/.test(utm)) return "google";
   if (/linkedin/.test(utm)) return "linkedin";
   return row.source === "landing_form" ? "site_web" : "autre";
 }
 
-function enrich(row) {
-  var step = Number(row.questionnaire_step || 0);
-  var total = Number(row.questionnaire_total || 10) || 10;
-  var payload = {};
+function parsePayloadSafe(raw) {
+  if (!raw) return {};
+  if (typeof raw === "object") return raw;
   try {
-    payload = row.payload ? JSON.parse(row.payload) : {};
-  } catch (e) {}
+    return JSON.parse(raw);
+  } catch (e) {
+    return {};
+  }
+}
+
+async function fetchAcquisitionRows(sql, limit) {
+  var cap = limit * 3;
+  try {
+    return await sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+             gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
+             contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
+             fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
+             opened_at, opened_by, archived_at, archived_by, archive_reason, assigned_to, shared_with,
+             last_event_at, last_event_type, city, postal_code
+      FROM site_leads
+      ORDER BY created_at DESC
+      LIMIT ${cap}
+    `;
+  } catch (e1) {
+    console.warn("[crm/leads-acquisition] extended select failed", e1.message);
+  }
+  try {
+    return await sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+             gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
+             contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
+             fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
+             NULL::timestamptz AS opened_at, NULL::text AS opened_by,
+             NULL::timestamptz AS archived_at, NULL::text AS archived_by, NULL::text AS archive_reason,
+             NULL::text AS assigned_to, '[]'::text AS shared_with,
+             NULL::timestamptz AS last_event_at, NULL::text AS last_event_type,
+             NULL::text AS city, NULL::text AS postal_code
+      FROM site_leads
+      ORDER BY created_at DESC
+      LIMIT ${cap}
+    `;
+  } catch (e2) {
+    console.warn("[crm/leads-acquisition] workflow select failed", e2.message);
+  }
+  return sql`
+    SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+           gclid, visitor_id, payload, created_at, updated_at
+    FROM site_leads
+    ORDER BY created_at DESC
+    LIMIT ${cap}
+  `;
+}
+
+function safeEnrich(row) {
+  try {
+    return enrich(row);
+  } catch (e) {
+    console.warn("[crm/leads-acquisition] enrich row", row && row.id, e.message);
+    return {
+      id: row.id,
+      email: row.email,
+      phone: row.phone,
+      vertical: row.vertical,
+      lead_score: row.lead_score,
+      source: row.source,
+      platform: "autre",
+      pipeline_stage: "new",
+      status: "new",
+      questionnaire_step: 0,
+      questionnaire_total: 10,
+      questionnaire_pct: 0,
+      is_meta_lead: row.source === "meta_lead_ads",
+      created_at: row.created_at,
+      is_opened: false,
+      is_archived: false,
+      is_dormant: false,
+      is_interesting: false,
+    };
+  }
+}
+
+function enrich(row) {
+  var payload = parsePayloadSafe(row.payload);
+  var step = Number(row.questionnaire_step || payload.questionnaire_step || 0);
+  var total = Number(row.questionnaire_total || payload.questionnaire_total || 10) || 10;
   var pct =
     payload.questionnaire_pct != null
       ? Math.min(100, Number(payload.questionnaire_pct) || 0)
@@ -127,37 +203,9 @@ module.exports = async (req, res) => {
   const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") || "120", 10)));
 
   try {
-    let rows;
-    try {
-      rows = await sql`
-        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
-               gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
-               contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
-               fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
-               opened_at, opened_by, archived_at, archived_by, archive_reason, assigned_to, shared_with,
-               last_event_at, last_event_type
-        FROM site_leads
-        ORDER BY created_at DESC
-        LIMIT ${limit * 3}
-      `;
-    } catch (selectErr) {
-      console.warn("[crm/leads-acquisition] private workflow columns missing", selectErr.message);
-      rows = await sql`
-        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
-               gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
-               contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
-               fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
-               NULL::timestamptz AS opened_at, NULL::text AS opened_by,
-               NULL::timestamptz AS archived_at, NULL::text AS archived_by, NULL::text AS archive_reason,
-               NULL::text AS assigned_to, '[]'::text AS shared_with,
-               NULL::timestamptz AS last_event_at, NULL::text AS last_event_type
-        FROM site_leads
-        ORDER BY created_at DESC
-        LIMIT ${limit * 3}
-      `;
-    }
+    var rows = await fetchAcquisitionRows(sql, limit);
 
-    var leads = rows.map(enrich);
+    var leads = rows.map(safeEnrich);
     if (platform) leads = leads.filter(function (l) { return l.platform === platform; });
     if (sourceFilter === "meta_lead_ads") {
       leads = leads.filter(function (l) { return l.is_meta_lead; });
@@ -185,7 +233,7 @@ module.exports = async (req, res) => {
     var byStage = {};
     PLATFORMS.forEach(function (p) { byPlatform[p] = 0; });
     STAGES.forEach(function (s) { byStage[s] = 0; });
-    rows.map(enrich).forEach(function (l) {
+    rows.map(safeEnrich).forEach(function (l) {
       byPlatform[l.platform] = (byPlatform[l.platform] || 0) + 1;
       byStage[l.pipeline_stage] = (byStage[l.pipeline_stage] || 0) + 1;
     });
@@ -195,16 +243,16 @@ module.exports = async (req, res) => {
       leads: leads,
       stats: {
         total: rows.length,
-        dormant: rows.map(enrich).filter(function (l) { return l.is_dormant; }).length,
+        dormant: rows.map(safeEnrich).filter(function (l) { return l.is_dormant; }).length,
         byPlatform: byPlatform,
         byStage: byStage,
-        unopened: rows.map(enrich).filter(function (l) { return !l.is_opened && !l.is_archived; }).length,
-        archived: rows.map(enrich).filter(function (l) { return l.is_archived; }).length,
-        interesting: rows.map(enrich).filter(function (l) { return l.is_interesting && !l.is_archived; }).length,
+        unopened: rows.map(safeEnrich).filter(function (l) { return !l.is_opened && !l.is_archived; }).length,
+        archived: rows.map(safeEnrich).filter(function (l) { return l.is_archived; }).length,
+        interesting: rows.map(safeEnrich).filter(function (l) { return l.is_interesting && !l.is_archived; }).length,
       },
     });
   } catch (e) {
     console.error("[crm/leads-acquisition]", e);
-    return res.status(500).json({ error: "Erreur serveur", detail: e.message });
+    return res.status(500).json({ ok: false, error: "Erreur serveur", detail: e.message });
   }
 };
