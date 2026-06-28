@@ -1,0 +1,234 @@
+{
+  "page_id": "1183829618147455",
+  "ad_account_id": "997768686183548",
+  "ads_policy": {
+    "max_daily_budget_eur": 1,
+    "max_active_campaigns": 1,
+    "max_active_ad_sets": 1,
+    "max_active_ads": 1,
+    "multiply_campaigns": false,
+    "note": "Une seule ligne active=true à la fois. Budget 1 €/jour max sur le compte."
+  },
+  "activation_rules": {
+    "how_to_activate": "Meta Ads Manager → 1 campagne Lead → formulaire + ciblage ci-dessous → budget 1 €/jour → France",
+    "when_to_rotate": "Après 7 jours ou 5 clics : garder si Lead reçu, sinon passer à la campagne suivante (priority)",
+    "discrete_campaigns": "Copie pub générique (sans VTC/VSP explicite) — détail capté dans le formulaire / CRM",
+    "competitor_note": "Concurrent surveille VTC/VSP : ne pas utiliser leurs marques ni ciblage lookalike concurrent en public"
+  },
+  "campaigns": [
+    {
+      "id": "senior_mutuelle_canicule",
+      "priority": 1,
+      "status": "ready",
+      "active": false,
+      "vertical": "sante",
+      "form_id": "1503493211458105",
+      "form_template": "sante_express",
+      "budget_eur_day": 1,
+      "objective": "OUTCOME_LEADS",
+      "utm_campaign": "meta_sante_senior_canicule",
+      "article_url": "https://www.leadsopportunities.fr/blog/canicule-mutuelle-coup-chaleur-seniors-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule&utm_content=canicule-seniors",
+      "landing_optional": "https://www.leadsopportunities.fr/landings/sante.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule",
+      "targeting": {
+        "geo": "France",
+        "language": "fr",
+        "age_min": 58,
+        "age_max": 75,
+        "genders": "all",
+        "interests_meta": [
+          "Retraite",
+          "Santé et bien-être",
+          "Mutuelle santé"
+        ],
+        "behaviors_optional": "Engagement pages santé / seniors",
+        "exclude": ["Étudiants", "Moins de 55 ans si budget très serré"]
+      },
+      "ad_copy": {
+        "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
+        "primary": "Seniors — vérifiez hospitalisation et téléconsultation avant la prochaine vague de chaleur. Devis express 3 min, sans engagement.",
+        "description": "Courtier ORIAS · France",
+        "cta": "En savoir plus"
+      },
+      "why_now": "Actualité canicule — articles blog prêts (8 slugs canicule/seniors)",
+      "blog_alternatives": [
+        "canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html",
+        "canicule-seniors-astuces-moins-chaud-mutuelle.html",
+        "insolation-canicule-que-faire-mutuelle-devis.html"
+      ]
+    },
+    {
+      "id": "vtc_couts_discret",
+      "priority": 2,
+      "status": "ready",
+      "active": false,
+      "vertical": "vtc",
+      "discrete": true,
+      "form_id": "4578422069056454",
+      "form_template": "vtc_express",
+      "budget_eur_day": 1,
+      "objective": "OUTCOME_LEADS",
+      "utm_campaign": "meta_pro_mobilite_convert",
+      "article_url": "https://www.leadsopportunities.fr/blog/assurance-vtc-moins-cher-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert&utm_content=charges-pro",
+      "landing_optional": "https://www.leadsopportunities.fr/landings/devis-rapide.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_pro_mobilite_convert",
+      "targeting": {
+        "geo": "France",
+        "language": "fr",
+        "age_min": 25,
+        "age_max": 58,
+        "genders": "all",
+        "interests_meta": [
+          "Entrepreneuriat",
+          "Auto-entrepreneur",
+          "Transport"
+        ],
+        "avoid_in_ad_copy": ["VTC", "Uber", "Bolt", "Heetch", "nom concurrent"],
+        "avoid_interests": ["Nom de concurrent visible"],
+        "note": "Ciblage transport pro sans afficher VTC dans la pub (Ad Library)"
+      },
+      "ad_copy": {
+        "headline": "Charges pro trop élevées ?",
+        "primary": "Activité avec véhicule : comparez votre assurance pro en 30 secondes. Frais cachés souvent évitables — devis confidentiel.",
+        "description": "Courtier ORIAS",
+        "cta": "Obtenir un devis"
+      },
+      "why_now": "CPL historique VTC fort — formulaire LO 2026 prêt"
+    },
+    {
+      "id": "vsp_citadine_discret",
+      "priority": 3,
+      "status": "ready",
+      "active": false,
+      "vertical": "auto",
+      "discrete": true,
+      "form_id": "977442188452412",
+      "form_template": "auto_express",
+      "budget_eur_day": 1,
+      "objective": "OUTCOME_LEADS",
+      "utm_campaign": "meta_auto_citadine_convert",
+      "article_url": "https://www.leadsopportunities.fr/blog/assurance-auto-jeune-conducteur-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_auto_citadine_convert&utm_content=citadine-urbaine",
+      "landing_optional": "https://www.leadsopportunities.fr/landings/devis.html?need=auto&utm_source=meta&utm_medium=paid_social&utm_campaign=meta_auto_citadine_convert",
+      "targeting": {
+        "geo": "France",
+        "language": "fr",
+        "age_min": 18,
+        "age_max": 45,
+        "genders": "all",
+        "interests_meta": [
+          "Automobile",
+          "Ville",
+          "Permis de conduire"
+        ],
+        "avoid_in_ad_copy": ["VSP", "sans permis", "BSR", "Aixam", "Ligier"],
+        "crm_note": "Qualifier VSP en CRM via questionnaire / matching privé (crm-private-offer-matching)"
+      },
+      "ad_copy": {
+        "headline": "Petite citadine : bien assurée ?",
+        "primary": "Véhicule léger urbain — comparez les garanties sans engagement. Devis en 3 minutes, prérempli si connecté Facebook.",
+        "description": "France · devis gratuit",
+        "cta": "Comparer"
+      },
+      "why_now": "Segment VSP en matching interne — pub volontairement générique"
+    },
+    {
+      "id": "mutuelle_collective_entreprise",
+      "priority": 4,
+      "status": "ready",
+      "active": false,
+      "vertical": "sante",
+      "form_id": "1324830915906760",
+      "form_template": "rappel_universal",
+      "budget_eur_day": 1,
+      "objective": "OUTCOME_LEADS",
+      "utm_campaign": "meta_sante_collective_tpe",
+      "article_url": "https://www.leadsopportunities.fr/blog/mutuelle-sante-famille-petit-budget-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_collective_tpe&utm_content=collective-famille",
+      "landing_optional": "https://www.leadsopportunities.fr/landings/rappel.html?need=sante&utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_collective_tpe",
+      "targeting": {
+        "geo": "France",
+        "language": "fr",
+        "age_min": 30,
+        "age_max": 60,
+        "genders": "all",
+        "interests_meta": [
+          "Petites entreprises",
+          "Gestion d'entreprise",
+          "Ressources humaines"
+        ],
+        "job_titles_optional": ["Gérant", "Dirigeant", "RH"]
+      },
+      "ad_copy": {
+        "headline": "Mutuelle collective pour votre équipe ?",
+        "primary": "TPE / PME — étude mutuelle santé collective et surcomplémentaire. Rappel conseiller sous 15 min.",
+        "description": "Courtier ORIAS · devis entreprise",
+        "cta": "Demander un rappel"
+      },
+      "why_now": "Formulaire rappel multi-produits — qualifier « entreprise + nb salariés » au téléphone"
+    },
+    {
+      "id": "pret_assurance_emprunteur",
+      "priority": 5,
+      "status": "ready",
+      "active": false,
+      "vertical": "credit_immo",
+      "form_id": "1784137922966688",
+      "form_template": "credit_immo_express",
+      "budget_eur_day": 1,
+      "objective": "OUTCOME_LEADS",
+      "utm_campaign": "meta_credit_pret_convert",
+      "article_url": "https://www.leadsopportunities.fr/blog/assurance-emprunteur-loi-lemoine-2026.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_credit_pret_convert&utm_content=lemoine-2026",
+      "landing_optional": "https://www.leadsopportunities.fr/landings/credit-immo.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_credit_pret_convert",
+      "targeting": {
+        "geo": "France",
+        "language": "fr",
+        "age_min": 28,
+        "age_max": 58,
+        "genders": "all",
+        "interests_meta": [
+          "Prêt immobilier",
+          "Immobilier",
+          "Crédit immobilier",
+          "Investissement immobilier"
+        ]
+      },
+      "ad_copy": {
+        "headline": "Prêt en cours ? Économisez sur l'assurance",
+        "primary": "Loi Lemoine — comparez assurance emprunteur et frais de dossier. Étude gratuite, sans changer de banque.",
+        "description": "Économies possibles sur la durée du prêt",
+        "cta": "Étude gratuite"
+      },
+      "why_now": "Intent emprunteur + articles Lemoine / taux 2026"
+    },
+    {
+      "id": "mutuelle_famille_reserve",
+      "priority": 6,
+      "status": "reserve",
+      "active": false,
+      "vertical": "sante",
+      "form_id": "1503493211458105",
+      "form_template": "sante_express",
+      "budget_eur_day": 1,
+      "objective": "OUTCOME_LEADS",
+      "utm_campaign": "meta_sante_famille_convert",
+      "article_url": "https://www.leadsopportunities.fr/blog/mutuelle-sante-5-criteres.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_famille_convert",
+      "targeting": {
+        "geo": "France",
+        "age_min": 30,
+        "age_max": 55,
+        "interests_meta": ["Famille", "Mutuelle santé"]
+      },
+      "ad_copy": {
+        "headline": "5 critères pour bien choisir sa mutuelle",
+        "primary": "Famille — comparez sans questionnaire long. Devis express 3 min.",
+        "cta": "Comparer"
+      },
+      "why_now": "Réserve — activer si senior canicule saturé ou hors saison chaleur"
+    }
+  ],
+  "recommended_first_activation": "senior_mutuelle_canicule",
+  "rotation_order": [
+    "senior_mutuelle_canicule",
+    "vtc_couts_discret",
+    "vsp_citadine_discret",
+    "mutuelle_collective_entreprise",
+    "pret_assurance_emprunteur"
+  ]
+}
