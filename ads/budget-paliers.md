@@ -1,4 +1,14 @@
-## Budget par palier (mensuel)
+## Palier 0 EUR (recommande avant toute pub)
+- 100% organique : blog SEO + partage reseaux + Google naturel.
+- Objectif : PageView + JourneyFormStart sans depenser.
+- Mesure : GA4 + Clarity — identifier 1-2 articles qui declenchent le bridge.
+- Voir **`docs/ACQUISITION-BLOG-CONVERSION.md`** et **`ads/meta-blog-conversions.csv`**.
+
+## Palier micro (5 EUR/jour max — conversion uniquement)
+- 1 campagne Meta OU 1 ad group Google actif.
+- URL : article blog performant organiquement OU landing directe retargeting.
+- Couper si 0 Lead apres ~5 EUR depenses.
+- Jamais Automated Ads en mode "decouverte".
 
 ## Palier 500 EUR
 - 80% Search (`VTC`).
