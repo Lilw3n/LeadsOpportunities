@@ -61,6 +61,9 @@ function ingestQueueItem(item, buckets, processed) {
     sourceType: queueType,
     suggestedFile: scaffold.file,
     section: scaffold.section,
+    need: scaffold.cta.href.match(/need=([^&]+)/)
+      ? scaffold.cta.href.match(/need=([^&]+)/)[1]
+      : "habitation",
     status: "queued",
     fromDatabase: !!item.fromDatabase,
   });
