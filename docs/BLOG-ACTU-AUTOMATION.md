@@ -147,7 +147,22 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 
 1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
 2. **Clarity + GA4** — déjà en place sur le blog
-3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+3. **Sujets qui convertissent** : sinistre habitation, mutuelle senior, emprunteur, VTC/VSP, RC Pro, mutuelle collective
+4. **Scoring lead** — `scoreLeadPotential()` priorise les intentions assurance directes et plafonne les sujets surtout "trafic" (sport, politique, faits divers) s'ils n'ont pas d'angle assurance explicite.
+
+### Garde de régularité
+
+Le workflow lance après publication :
+
+```bash
+npm run blog:actu:guard -- --max-age-hours=30 --min-runs-24h=1
+```
+
+Ce garde fait échouer le cron si aucun article actu n'a été publié récemment, afin d'éviter une automation verte mais silencieuse. Pour vérifier le tri des sujets convertisseurs en local :
+
+```bash
+npm run blog:actu:test-scoring
+```
 
 ## Limites légales
 

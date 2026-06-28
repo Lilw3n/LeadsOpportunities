@@ -58,6 +58,9 @@ jobs:
           COUNT="${{ github.event.inputs.count || '1' }}"
           npm run blog:actu:auto -- --count="$COUNT" --strict-quality
 
+      - name: Vérifier cadence articles leads
+        run: npm run blog:actu:guard -- --max-age-hours=30 --min-runs-24h=1
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"

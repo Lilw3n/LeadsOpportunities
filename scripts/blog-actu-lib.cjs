@@ -31,6 +31,19 @@ function slugify(text) {
     .slice(0, 72);
 }
 
+function escapeRegExp(text) {
+  return String(text || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function containsKeyword(hay, keyword) {
+  var needle = String(keyword || "").toLowerCase();
+  if (!needle) return false;
+  if (/^[a-z0-9]+$/.test(needle)) {
+    return new RegExp("(^|[^a-z0-9])" + escapeRegExp(needle) + "([^a-z0-9]|$)", "i").test(hay);
+  }
+  return hay.indexOf(needle) !== -1;
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -59,7 +72,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (containsKeyword(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -95,23 +108,115 @@ function monthLabel() {
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
+var LEAD_NEED_WEIGHTS = {
+  emprunteur: 28,
+  habitation: 24,
+  vtc: 24,
+  "rc-pro": 22,
+  sante: 22,
+  prevoyance: 18,
+  auto: 14,
+  animaux: 10,
+};
+
+var HIGH_INTENT_TERMS = [
+  ["assurance emprunteur", 18],
+  ["pret immobilier", 18],
+  ["prêt immobilier", 18],
+  ["credit immobilier", 16],
+  ["crédit immobilier", 16],
+  ["loi lemoine", 16],
+  ["delegation assurance", 14],
+  ["délégation assurance", 14],
+  ["mutuelle senior", 18],
+  ["mutuelle seniors", 18],
+  ["complémentaire santé", 16],
+  ["complementaire sante", 16],
+  ["reste a charge", 14],
+  ["reste à charge", 14],
+  ["remboursement", 12],
+  ["sinistre", 16],
+  ["degat des eaux", 14],
+  ["dégât des eaux", 14],
+  ["catastrophe naturelle", 14],
+  ["assurance habitation", 16],
+  ["voiture sans permis", 16],
+  ["vsp", 14],
+  ["chauffeur vtc", 16],
+  ["assurance vtc", 16],
+  ["rc pro", 16],
+  ["responsabilite civile professionnelle", 16],
+  ["responsabilité civile professionnelle", 16],
+  ["mutuelle collective", 16],
+];
+
+var MEDIUM_INTENT_TERMS = [
+  ["assurance", 9],
+  ["mutuelle", 9],
+  ["garantie", 8],
+  ["franchise", 8],
+  ["indemnisation", 8],
+  ["prevoyance", 8],
+  ["prévoyance", 8],
+  ["seniors", 7],
+  ["senior", 7],
+  ["retraite", 7],
+  ["emprunteur", 10],
+  ["habitation", 8],
+  ["auto", 6],
+  ["vtc", 10],
+  ["artisan", 7],
+  ["independant", 7],
+  ["indépendant", 7],
+];
+
+function addTermScore(hay, terms) {
+  var result = { score: 0, matched: false };
+  terms.forEach(function (entry) {
+    if (containsKeyword(hay, entry[0])) {
+      result.score += entry[1];
+      result.matched = true;
+    }
+  });
+  return result;
+}
+
+function capIfGenericTraffic(score, hay, hasDirectLeadIntent) {
+  if (hasDirectLeadIntent) return score;
+  if (/(meurtre|homicide|violences sexuelles|autopsie|faits divers)/i.test(hay)) {
+    return Math.min(score - 15, 35);
+  }
+  if (/(coupe du monde|football|mondial|ligue des champions|formule 1|grand prix)/i.test(hay)) {
+    return Math.min(score, 52);
+  }
+  if (/(politique|election|élection|trump|zelensky|g7|ukraine)/i.test(hay)) {
+    return Math.min(score, 45);
+  }
+  return score;
+}
+
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
+  var summary = String(candidate.summary || "").toLowerCase();
+  var hay = title + " " + summary;
   var need = candidate.need || "";
+  var directIntent = false;
 
-  if (candidate.status === "queued") score += 25;
+  if (candidate.status === "queued") score += 30;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  score += LEAD_NEED_WEIGHTS[need] || 0;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
-    if (title.indexOf(kw) !== -1) score += 8;
-  });
+  var highIntent = addTermScore(hay, HIGH_INTENT_TERMS);
+  score += highIntent.score;
+  directIntent = directIntent || highIntent.matched;
 
-  var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  var mediumIntent = addTermScore(hay, MEDIUM_INTENT_TERMS);
+  score += mediumIntent.score;
+  directIntent = directIntent || mediumIntent.matched;
+
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -125,7 +230,7 @@ function scoreLeadPotential(candidate) {
       "match france",
       "les bleus",
     ].forEach(function (kw) {
-      if (title.indexOf(kw) !== -1) score += 14;
+      if (title.indexOf(kw) !== -1) score += 4;
     });
   }
 
@@ -138,6 +243,8 @@ function scoreLeadPotential(candidate) {
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
   }
+
+  score = capIfGenericTraffic(score, hay, directIntent);
 
   return Math.min(100, Math.max(0, score));
 }

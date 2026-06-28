@@ -1,21 +1,21 @@
 {
   "rules": [
     {
-      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
+      "keywords": ["mutuelle", "mutuelle senior", "mutuelle seniors", "complémentaire santé", "complementaire sante", "mutuelle collective", "santé", "sante", "senior", "seniors", "retraite", "ehpad", "audition", "prothèse", "prothese", "reste à charge", "reste a charge", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "remboursement", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
       "section": "sante",
       "need": "sante",
       "tag": "Santé & mutuelle",
       "tagClass": "tag-sante"
     },
     {
-      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "keywords": ["habitation", "assurance habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "dégât des eaux", "degat des eaux", "dégâts des eaux", "degats des eaux", "sinistre", "catastrophe naturelle", "incendie", "canicule", "séisme", "seisme", "locataire", "bailleur"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation",
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "assurance emprunteur", "prêt immobilier", "pret immobilier", "crédit immobilier", "credit immobilier", "crédit immo", "credit immo", "taux immobilier", "banque", "lemoine", "loi lemoine", "délégation assurance", "delegation assurance", "acquéreur", "acquereur", "non-résident", "non resident", "investissement immobilier", "assurance-vie", "assurance vie"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
@@ -29,14 +29,14 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus"],
+      "keywords": ["auto", "voiture", "automobile", "voiture sans permis", "vsp", "mini voiture", "mobilité senior", "mobilite senior", "accident", "permis", "conducteur", "bonus", "malus"],
       "section": "auto",
       "need": "auto",
       "tag": "Auto",
       "tagClass": "tag-auto"
     },
     {
-      "keywords": ["vtc", "uber", "bolt", "heetch", "chauffeur", "taxi"],
+      "keywords": ["vtc", "assurance vtc", "chauffeur vtc", "uber", "bolt", "heetch", "chauffeur", "taxi"],
       "section": "vtc",
       "need": "vtc",
       "tag": "VTC",
@@ -57,7 +57,7 @@
       "tagClass": "tag-prevoyance"
     },
     {
-      "keywords": ["freelance", "indépendant", "independant", "rc pro", "artisan", "entreprise"],
+      "keywords": ["freelance", "indépendant", "independant", "rc pro", "responsabilité civile professionnelle", "responsabilite civile professionnelle", "artisan", "entreprise", "tpe", "pme", "collective"],
       "section": "pro",
       "need": "rc-pro",
       "tag": "Pro & RC",

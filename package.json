@@ -21,6 +21,8 @@
     "blog:actu:archive": "node scripts/archive-actu-pending.cjs",
     "blog:actu:auto": "node scripts/auto-actu-publish.cjs",
     "blog:actu:verify-quality": "node scripts/verify-actu-quality.cjs",
+    "blog:actu:guard": "node scripts/blog-actu-regularity-guard.cjs",
+    "blog:actu:test-scoring": "node scripts/test-blog-actu-scoring.cjs",
     "build:clarity": "node scripts/bundle-clarity.cjs",
     "verify:clarity": "node scripts/verify-clarity.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs",
@@ -29,6 +31,7 @@
     "meta:forms:rank": "node scripts/meta-blog-form-ranking.cjs",
     "meta:forms:create": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --create",
     "meta:forms:replace": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --create --replace --fresh-names",
+    "meta:campaigns:status": "node scripts/meta-campaigns-status.cjs",
     "meta:forms:plan": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --dry-run",
     "postinstall": "npm run build:clarity"
   },
