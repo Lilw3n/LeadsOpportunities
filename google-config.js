@@ -25,7 +25,7 @@
     adsPhoneConversionId: "AW-XXXXXXXXXX/phone_click",
     adsWhatsappConversionId: "AW-XXXXXXXXXX/whatsapp_click",
     adsQualifiedLeadConversionId: "AW-XXXXXXXXXX/qualified_lead",
-    metaPixelId: "4470774303164658",
+    metaPixelId: "4470774303164658", // Pixel Leads Opportunities — Events Manager
     tiktokPixelId: "",
     pinterestTagId: "",
     clarityProjectId: "x7yqp46fj9",
