@@ -1,0 +1,295 @@
+{
+  "updatedAt": "2026-06-28T08:55:34.749Z",
+  "note": "Scores = priorité CSV ads + leads CRM (referrer/landing blog). GA4/Clarity : voir dashboards externes.",
+  "leadCountsFromDb": false,
+  "byTemplate": [
+    {
+      "templateKey": "vtc_express",
+      "templateName": "VTC — Devis express (Meta)",
+      "vertical": "vtc",
+      "campaign": "meta_vtc_convert",
+      "articles": [
+        {
+          "slug": "vtc-premiere-course-checklist-assurance",
+          "title": "Avant votre première course VTC : checklist assurance (Uber, Bolt, Heetch)",
+          "section": "vtc",
+          "csvPriority": 1,
+          "leadCount": 0,
+          "score": 115,
+          "campaign": "vtc_blog_convert",
+          "headline": "Checklist assurance VTC — devis en 30 sec"
+        },
+        {
+          "slug": "assurance-vtc-moins-cher-2026",
+          "title": "Assurance VTC moins cher en 2026 : 7 leviers",
+          "section": "vtc",
+          "csvPriority": 2,
+          "leadCount": 0,
+          "score": 105,
+          "campaign": "vtc_blog_convert",
+          "headline": "Tarifs VTC 2026 — devis gratuit"
+        },
+        {
+          "slug": "assurance-vtc-uber-bolt-heetch",
+          "title": "VTC Uber, Bolt, Heetch : contrat compatible plateformes",
+          "section": "vtc",
+          "csvPriority": 3,
+          "leadCount": 0,
+          "score": 95,
+          "campaign": "vtc_blog_convert",
+          "headline": "Devis VTC plateformes — ORIAS"
+        },
+        {
+          "slug": "assurance-vtc-creation-chauffeur",
+          "title": "Nouveau chauffeur VTC : assurer son activite des le depart",
+          "section": "vtc",
+          "csvPriority": 11,
+          "leadCount": 0,
+          "score": 15,
+          "campaign": "https://www.leadsopportunities.fr/landings/vtc.html?utm_source=meta&utm_medium=paid_social&utm_campaign=vtc_direct_convert&utm_content=creation-chauffeur",
+          "headline": "Nouveau chauffeur VTC ? Devis assurance pro."
+        }
+      ]
+    },
+    {
+      "templateKey": "sante_express",
+      "templateName": "Mutuelle — Comparatif express (Meta)",
+      "vertical": "sante",
+      "campaign": "meta_sante_convert",
+      "articles": [
+        {
+          "slug": "mutuelle-sante-5-criteres",
+          "title": "Mutuelle sante : 5 criteres pour bien choisir en 2026",
+          "section": "sante",
+          "csvPriority": 4,
+          "leadCount": 0,
+          "score": 85,
+          "campaign": "sante_blog_convert",
+          "headline": "Comparatif mutuelle — devis gratuit"
+        },
+        {
+          "slug": "questionnaire-mutuelle-quel-niveau-choisir",
+          "title": "Quel niveau de mutuelle choisir ? Le questionnaire qui tranche en 3 minutes",
+          "section": "sante",
+          "csvPriority": 5,
+          "leadCount": 0,
+          "score": 75,
+          "campaign": "sante_blog_convert",
+          "headline": "Questionnaire mutuelle gratuit"
+        },
+        {
+          "slug": "inflation-mutuelle-hausse-2026",
+          "title": "Inflation 2026 : pourquoi votre mutuelle augmente et comment reagir",
+          "section": "actu",
+          "csvPriority": 6,
+          "leadCount": 0,
+          "score": 65,
+          "campaign": "sante_blog_convert",
+          "headline": "Hausse mutuelle 2026 — économisez"
+        },
+        {
+          "slug": "mutuelle-remboursement-optique-dentaire-2026",
+          "title": "Remboursement mutuelle optique et dentaire en 2026 : lire le tableau",
+          "section": "sante",
+          "csvPriority": 10,
+          "leadCount": 0,
+          "score": 25,
+          "campaign": "sante_blog_convert",
+          "headline": "Mutuelle optique dentaire — devis"
+        }
+      ]
+    },
+    {
+      "templateKey": "credit_immo_express",
+      "templateName": "Crédit / emprunteur — Étude express (Meta)",
+      "vertical": "credit_immo",
+      "campaign": "meta_credit_convert",
+      "articles": [
+        {
+          "slug": "assurance-emprunteur-loi-lemoine-2026",
+          "title": "Assurance emprunteur 2026 : loi Lemoine, changer et economiser",
+          "section": "habitat",
+          "csvPriority": 7,
+          "leadCount": 0,
+          "score": 55,
+          "campaign": "credit_blog_convert",
+          "headline": "Étude emprunteur gratuite"
+        },
+        {
+          "slug": "assurance-emprunteur-combien-economiser-lemoine",
+          "title": "Assurance emprunteur : combien pouvez-vous économiser avec la Lemoine ?",
+          "section": "habitat",
+          "csvPriority": null,
+          "leadCount": 0,
+          "score": 5,
+          "campaign": "meta_credit_convert"
+        },
+        {
+          "slug": "taux-credit-immobilier-2026-frais-dossier",
+          "title": "Taux credit immobilier 2026 : frais de dossier et assurance emprunteur",
+          "section": "finance",
+          "csvPriority": null,
+          "leadCount": 0,
+          "score": 5,
+          "campaign": "meta_credit_convert"
+        },
+        {
+          "slug": "pret-immo-erreurs-a-eviter",
+          "title": "Pret immobilier : 7 erreurs a eviter en 2026",
+          "section": "finance",
+          "csvPriority": null,
+          "leadCount": 0,
+          "score": 5,
+          "campaign": "meta_credit_convert"
+        }
+      ]
+    },
+    {
+      "templateKey": "habitation_express",
+      "templateName": "Habitation — Devis express (Meta)",
+      "vertical": "habitation",
+      "campaign": "meta_habitation_convert",
+      "articles": [
+        {
+          "slug": "assurance-habitation-locataire-proprietaire-2026",
+          "title": "Assurance habitation 2026 : locataire, proprietaire, colocation",
+          "section": "habitat",
+          "csvPriority": 8,
+          "leadCount": 0,
+          "score": 45,
+          "campaign": "habitation_blog_convert",
+          "headline": "Devis habitation — 3 minutes"
+        },
+        {
+          "slug": "assurance-habitation-sous-assurance-sinistre",
+          "title": "Sous-assurance habitation : le piège qui ruine un sinistre",
+          "section": "habitat",
+          "csvPriority": null,
+          "leadCount": 0,
+          "score": 5,
+          "campaign": "meta_habitation_convert"
+        }
+      ]
+    },
+    {
+      "templateKey": "auto_express",
+      "templateName": "Auto — Devis express (Meta)",
+      "vertical": "auto",
+      "campaign": "meta_auto_convert",
+      "articles": [
+        {
+          "slug": "assurance-auto-jeune-conducteur-2026",
+          "title": "Assurance auto jeune conducteur 2026 : permis, bonus, astuces",
+          "section": "auto",
+          "csvPriority": 9,
+          "leadCount": 0,
+          "score": 35,
+          "campaign": "auto_blog_convert",
+          "headline": "Devis auto jeune conducteur"
+        },
+        {
+          "slug": "assurance-auto-bonus-malus",
+          "title": "Assurance auto : bonus, malus et coefficient 2026",
+          "section": "auto",
+          "csvPriority": null,
+          "leadCount": 0,
+          "score": 5,
+          "campaign": "meta_auto_convert"
+        }
+      ]
+    },
+    {
+      "templateKey": "rappel_universal",
+      "templateName": "Rappel express — Tous produits (Meta)",
+      "vertical": "devis",
+      "campaign": "meta_rappel_convert",
+      "articles": []
+    }
+  ],
+  "topArticles": [
+    {
+      "slug": "vtc-premiere-course-checklist-assurance",
+      "vertical": "vtc",
+      "csvPriority": 1,
+      "leadCount": 0,
+      "score": 115
+    },
+    {
+      "slug": "assurance-vtc-moins-cher-2026",
+      "vertical": "vtc",
+      "csvPriority": 2,
+      "leadCount": 0,
+      "score": 105
+    },
+    {
+      "slug": "assurance-vtc-uber-bolt-heetch",
+      "vertical": "vtc",
+      "csvPriority": 3,
+      "leadCount": 0,
+      "score": 95
+    },
+    {
+      "slug": "mutuelle-sante-5-criteres",
+      "vertical": "sante",
+      "csvPriority": 4,
+      "leadCount": 0,
+      "score": 85
+    },
+    {
+      "slug": "questionnaire-mutuelle-quel-niveau-choisir",
+      "vertical": "sante",
+      "csvPriority": 5,
+      "leadCount": 0,
+      "score": 75
+    },
+    {
+      "slug": "inflation-mutuelle-hausse-2026",
+      "vertical": "sante",
+      "csvPriority": 6,
+      "leadCount": 0,
+      "score": 65
+    },
+    {
+      "slug": "assurance-emprunteur-loi-lemoine-2026",
+      "vertical": "finance",
+      "csvPriority": 7,
+      "leadCount": 0,
+      "score": 55
+    },
+    {
+      "slug": "assurance-habitation-locataire-proprietaire-2026",
+      "vertical": "habitat",
+      "csvPriority": 8,
+      "leadCount": 0,
+      "score": 45
+    },
+    {
+      "slug": "assurance-auto-jeune-conducteur-2026",
+      "vertical": "auto",
+      "csvPriority": 9,
+      "leadCount": 0,
+      "score": 35
+    },
+    {
+      "slug": "mutuelle-remboursement-optique-dentaire-2026",
+      "vertical": "sante",
+      "csvPriority": 10,
+      "leadCount": 0,
+      "score": 25
+    },
+    {
+      "slug": "assurance-vtc-creation-chauffeur",
+      "vertical": "vtc",
+      "csvPriority": 11,
+      "leadCount": 0,
+      "score": 15
+    },
+    {
+      "slug": "rappel-express",
+      "vertical": "sante",
+      "csvPriority": 12,
+      "leadCount": 0,
+      "score": 0
+    }
+  ]
+}

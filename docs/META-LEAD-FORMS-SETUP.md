@@ -41,6 +41,54 @@ Ordre recommandé pour vos campagnes (articles les plus consultés / meilleurs l
 
 ---
 
+## Création automatique (API Graph — recommandé)
+
+Les formulaires peuvent être **créés directement sur votre page Facebook** sans copier-coller manuel dans Ads Manager.
+
+### Étape 1 — Classement blog + leads CRM
+
+```bash
+npm run meta:forms:rank
+```
+
+Produit `data/meta-blog-form-ranking.json` :
+- priorité depuis `ads/meta-blog-conversions.csv`
+- leads CRM comptés si `DATABASE_URL` est défini (referrer / landing blog)
+- GA4 / Clarity : consultez les dashboards (événements `blog_cta_click`, `blog_read_complete` par slug)
+
+### Étape 2 — Simulation (sans publier)
+
+```bash
+npm run meta:forms:plan
+```
+
+### Étape 3 — Création sur Meta (page `1183829618147455`)
+
+Sur Vercel, vérifiez **`META_PAGE_ACCESS_TOKEN`** (permissions `pages_manage_ads`, `leads_retrieval`).
+
+En local ou CI :
+
+```bash
+export META_PAGE_ACCESS_TOKEN="votre_token_page"
+export META_PAGE_ID="1183829618147455"
+npm run meta:forms:create
+```
+
+Le script :
+1. Crée les 6 formulaires (`vtc_express`, `sante_express`, etc.)
+2. Enregistre les **`form_id`** dans `config/meta-lead-forms.json`
+3. Log dans `data/meta-lead-forms-created.json`
+
+Un seul template :
+
+```bash
+node scripts/meta-create-lead-forms.cjs --create --template=vtc_express
+```
+
+**Limites :** sans token Meta valide, l’agent ne peut pas cliquer à votre place dans Business Manager — le script fait le travail dès que le token est configuré.
+
+---
+
 ## Création dans Meta Ads Manager
 
 1. **Page** : `1183829618147455`
