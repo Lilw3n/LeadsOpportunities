@@ -101,6 +101,10 @@ function text(s) {
   return esc(s).replace(/"/g, "&quot;");
 }
 
+function sentencePart(s) {
+  return text(s).replace(/[.!?]+$/, "");
+}
+
 function leadCta(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var key = need === "credit-immo" ? "emprunteur" : need;
@@ -169,7 +173,7 @@ function pickTopics(topics, state, count, topicSlug) {
 function buildArticle(topic) {
   var cta = leadCta(topic.need, topic.slug);
   var title = text(topic.title);
-  var persona = text(topic.persona || "Foyer francais qui veut comparer avant de signer.");
+  var persona = sentencePart(topic.persona || "Foyer francais qui veut comparer avant de signer.");
   var trigger = text(topic.trigger || "Un changement de situation impose de relire les garanties.");
   var mainRisk = text(topic.mainRisk || "Un contrat mal calibre peut laisser une franchise ou un reste a charge important.");
   var checks = (topic.checks || []).map(text);
