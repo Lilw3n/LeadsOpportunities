@@ -111,3 +111,16 @@ flowchart LR
 3. Cliquer le lien **Ouvrir le CRM** dans le message
 
 Pas de Slack reçu → vérifier `SLACK_WEBHOOK_URL` + redeploy.
+
+### Alerte baisse de trafic (automatique)
+
+Cron Vercel **9h** → `GET /api/cron/traffic-alert` (avec `CRON_SECRET`).
+
+| Variable | Défaut | Rôle |
+|----------|--------|------|
+| `TRAFFIC_ALERT_THRESHOLD_PCT` | `-20` | Alerte si visiteurs 7j ↓ de plus de 20 % vs semaine préc. |
+| `TRAFFIC_ALERT_MIN_VISITORS` | `5` | Ignore si semaine préc. &lt; 5 visiteurs (bruit) |
+| `TRAFFIC_ALERT_COOLDOWN_HOURS` | `24` | Max 1 alerte / 24 h |
+| `TRAFFIC_ALERT_ENABLED` | `true` | `false` pour désactiver |
+
+Test manuel : **crm-trafic.html** → « Vérifier maintenant » ou « Forcer alerte Slack ».

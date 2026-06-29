@@ -80,6 +80,22 @@
 
   <div class="acq-stats" id="trafSummary"></div>
 
+  <section class="panel pub-hub-section" id="trafAlertPanel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Slack</p>
+        <h2 style="margin:0">Alerte baisse de trafic</h2>
+      </div>
+      <span class="acq-badge muted" id="trafAlertBadge">—</span>
+    </div>
+    <p style="color:var(--muted);margin-top:0" id="trafAlertDesc">Vérification quotidienne à 9h — alerte Slack si les visiteurs chutent au-delà du seuil.</p>
+    <div class="pub-link-row">
+      <button type="button" class="btn btn-primary btn-sm" id="btnTrafAlertTest">Vérifier maintenant</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnTrafAlertForce">Forcer alerte Slack</button>
+      <span id="trafAlertResult" style="margin-left:8px;color:var(--muted);font-size:0.85rem"></span>
+    </div>
+  </section>
+
   <section class="panel pub-hub-section">
     <h2>Comparaison semaine vs semaine précédente</h2>
     <div class="traf-compare-grid" id="trafCompare"></div>

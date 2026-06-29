@@ -5,6 +5,7 @@ const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
 const { buildTrafficStats } = require("../traffic-stats");
 const { loadHubConfig } = require("../ad-platform-hub");
+const { getAlertConfig } = require("../traffic-alert");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -44,6 +45,7 @@ module.exports = async (req, res) => {
     return res.status(200).json(
       Object.assign({}, stats, {
         analytics_links: analyticsLinks,
+        alert_config: getAlertConfig(),
       })
     );
   } catch (e) {

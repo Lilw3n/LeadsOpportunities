@@ -143,10 +143,7 @@ async function notifySlack(payload, score, leadId) {
 }
 
 async function sendSlackTestMessage() {
-  var url = (process.env.SLACK_WEBHOOK_URL || "").trim();
-  if (!url) {
-    return { ok: false, error: "SLACK_WEBHOOK_URL non défini sur Vercel" };
-  }
+  const { sendSlackText } = require("./slack-notify");
   var appUrl = (
     process.env.APP_URL ||
     process.env.NEXT_PUBLIC_APP_URL ||
@@ -159,20 +156,7 @@ async function sendSlackTestMessage() {
     "<" + appUrl + "/crm-pubs.html|Gestion pubs>",
     "<" + appUrl + "/crm-acquisition.html|Pipeline CRM>",
   ].join("\n");
-  try {
-    var r = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: text }),
-    });
-    if (!r.ok) {
-      var body = await r.text().catch(function () { return ""; });
-      return { ok: false, error: "Slack HTTP " + r.status + (body ? ": " + body.slice(0, 120) : "") };
-    }
-    return { ok: true };
-  } catch (e) {
-    return { ok: false, error: e.message };
-  }
+  return sendSlackText(text);
 }
 
 async function finalizeLeadIngest(enriched, leadId, score, req) {

@@ -145,6 +145,66 @@
       "</tbody></table>";
   }
 
+  function renderAlertConfig(cfg) {
+    var badge = document.getElementById("trafAlertBadge");
+    var desc = document.getElementById("trafAlertDesc");
+    if (!cfg) return;
+    if (cfg.enabled) {
+      badge.textContent = "Actif ✓";
+      badge.className = "acq-badge meta";
+    } else if (cfg.slack_configured) {
+      badge.textContent = "Désactivé";
+      badge.className = "acq-badge muted";
+    } else {
+      badge.textContent = "Slack manquant";
+      badge.className = "acq-badge muted";
+    }
+    desc.textContent =
+      "Seuil : " +
+      cfg.threshold_pct +
+      " % · min. " +
+      cfg.min_visitors_last_week +
+      " visiteurs semaine préc. · cooldown " +
+      cfg.cooldown_hours +
+      " h · cron 9h (Paris). Variables : TRAFFIC_ALERT_THRESHOLD_PCT, SLACK_WEBHOOK_URL.";
+  }
+
+  function runAlertCheck(force) {
+    var out = document.getElementById("trafAlertResult");
+    out.textContent = "Vérification…";
+    fetch("/api/crm/traffic-alert-test" + (force ? "?force=1" : ""), {
+      method: "POST",
+      headers: authHeaders(),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (!res.ok && res.error) {
+          out.textContent = res.error;
+          out.style.color = "#b91c1c";
+          return;
+        }
+        if (res.alerted) {
+          out.textContent = "✓ Alerte envoyée sur Slack";
+          out.style.color = "#16a34a";
+        } else if (res.on_cooldown) {
+          out.textContent = "Cooldown actif — pas de nouvel envoi";
+          out.style.color = "var(--muted)";
+        } else if (!res.should_alert) {
+          out.textContent = res.reason || "Pas d'alerte (trafic OK ou volume faible)";
+          out.style.color = "#16a34a";
+        } else {
+          out.textContent = res.slack_error || res.reason || "Pas envoyé";
+          out.style.color = "#b91c1c";
+        }
+      })
+      .catch(function (e) {
+        out.textContent = String(e);
+        out.style.color = "#b91c1c";
+      });
+  }
+
   function renderExternal(links) {
     var el = document.getElementById("trafExternal");
     el.innerHTML = (links || [])
@@ -175,6 +235,7 @@
         renderChart(res.trend);
         renderTopPages(res.top_pages);
         renderExternal(res.analytics_links);
+        renderAlertConfig(res.alert_config);
         document.getElementById("trafNote").textContent = res.note || "";
       })
       .catch(function (e) {
@@ -185,5 +246,11 @@
 
   document.getElementById("btnTrafRefresh").onclick = load;
   document.getElementById("trafTrendDays").onchange = load;
+  document.getElementById("btnTrafAlertTest").onclick = function () {
+    runAlertCheck(false);
+  };
+  document.getElementById("btnTrafAlertForce").onclick = function () {
+    runAlertCheck(true);
+  };
   load();
 })();
