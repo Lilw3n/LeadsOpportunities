@@ -36,10 +36,6 @@
     {
       "path": "/api/cron/traffic-alert",
       "schedule": "0 9 * * *"
-    },
-    {
-      "path": "/api/cron/markets-presence-alert",
-      "schedule": "0 7 * * *"
     }
   ],
   "functions": {

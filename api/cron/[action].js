@@ -2,7 +2,6 @@ const { setCors } = require("../_lib/auth");
 
 const ROUTES = {
   "traffic-alert": () => require("../_lib/routes/cron-traffic-alert"),
-  "markets-presence-alert": () => require("../_lib/routes/cron-markets-presence-alert"),
 };
 
 module.exports = async (req, res) => {
