@@ -4,11 +4,13 @@
 - Mesure : GA4 + Clarity — identifier 1-2 articles qui declenchent le bridge.
 - Voir **`docs/ACQUISITION-BLOG-CONVERSION.md`** et **`ads/meta-blog-conversions.csv`**.
 
-## Palier micro (5 EUR/jour max — conversion uniquement)
-- 1 campagne Meta OU 1 ad group Google actif.
-- URL : article blog performant organiquement OU landing directe retargeting.
-- Couper si 0 Lead apres ~5 EUR depenses.
-- Jamais Automated Ads en mode "decouverte".
+## Palier micro (1 EUR/jour max — 1 campagne active)
+- Voir **`config/meta-campaigns-queue.json`** et **`docs/META-CAMPAGNES-ACTIVATION.md`**
+- 1 campagne Meta Lead Ads · 1 annonce · 1 €/jour (compte entier)
+- Rotation manuelle après 7 jours selon leads CRM
+- `npm run meta:campaigns:status` — file d'attente
+
+## Palier 5 EUR/jour (scale ultérieur — après validation CPL à 1 €)
 
 ## Palier 500 EUR
 - 80% Search (`VTC`).

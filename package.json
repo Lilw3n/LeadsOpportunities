@@ -30,6 +30,7 @@
     "meta:forms:rank": "node scripts/meta-blog-form-ranking.cjs",
     "meta:forms:create": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --create",
     "meta:forms:replace": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --create --replace --fresh-names",
+    "meta:campaigns:status": "node scripts/meta-campaigns-status.cjs",
     "meta:forms:plan": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --dry-run",
     "meta:vsp:discret": "node scripts/meta-vsp-discret-status.cjs",
     "meta:rotation:status": "node scripts/meta-campaign-rotation.cjs",
