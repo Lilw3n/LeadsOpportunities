@@ -1,0 +1,7 @@
+{
+  "webmail_label": "Boîte mail o2switch (Roundcube)",
+  "webmail_url": "https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&_mbox=INBOX",
+  "webmail_login_url": "https://sodium.o2switch.net:2096/",
+  "mailbox_address": "contact@leadsopportunities.fr",
+  "note": "URL sans cpsess — connexion Roundcube requise. Surcharge possible via MAILBOX_WEBMAIL_URL sur Vercel."
+}

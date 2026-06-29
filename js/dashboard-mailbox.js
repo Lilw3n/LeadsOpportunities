@@ -1063,6 +1063,19 @@
       localStorage.setItem(LS_SYNC_ERR, data.sync.error);
     }
     ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
+    updateWebmailLink(data);
+  }
+
+  function updateWebmailLink(data) {
+    var btn = document.getElementById("mailboxWebmailBtn");
+    var empty = document.getElementById("mailboxWebmailEmptyLink");
+    if (!data) return;
+    if (btn) {
+      if (data.webmailUrl) btn.href = data.webmailUrl;
+      if (data.webmailLabel) btn.textContent = data.webmailLabel + " ↗";
+      if (data.mailboxAddress) btn.title = "Roundcube o2switch — " + data.mailboxAddress;
+    }
+    if (empty && data.webmailUrl) empty.href = data.webmailUrl;
   }
 
   async function syncMailbox(silent) {

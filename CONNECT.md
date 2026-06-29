@@ -77,6 +77,7 @@ Pour **repondre depuis le dashboard** (`/dashboard.html` → Messagerie), le dom
 | `MAIL_IMAP_PORT` | `993` |
 | `MAIL_IMAP_USER` | `contact@leadsopportunities.fr` |
 | `MAIL_IMAP_PASS` | mot de passe boite o2switch |
+| `MAILBOX_WEBMAIL_URL` | URL Roundcube o2switch (defaut : `config/mailbox-external.json`) — bouton **Boite mail o2switch** dans `/dashboard.html?section=mailbox` |
 | `MAILBOX_ADDRESS` | `contact@leadsopportunities.fr` |
 | `MAILBOX_FROM` | `Leads Opportunities <contact@leadsopportunities.fr>` |
 | `MAIL_IMAP_TLS_INSECURE` | `true` seulement si erreur certificat TLS |
