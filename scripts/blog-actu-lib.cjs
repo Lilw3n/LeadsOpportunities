@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
 const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { isEditorialSourceType } = require("./blog-actu-sources.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -101,7 +102,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (isEditorialSourceType(candidate.sourceType)) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -112,6 +113,15 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (/suspension mutuelle|attaques? mutuelles?|frappes? mutuelles?|menaces? mutuelles?/i.test(hay)) {
+    score -= 45;
+  }
+  if (
+    (candidate.sourceType === "bing" || candidate.sourceType === "edge") &&
+    /\b(businesswire|business wire|globenewswire|pr newswire|memorandum of understanding|mou)\b/i.test(hay)
+  ) {
+    score -= 35;
+  }
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -297,9 +307,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: stripHtml(decodeEntities(title)),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: stripHtml(decodeEntities(desc || "")).slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -328,6 +338,7 @@ function decodeEntities(s) {
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
