@@ -298,9 +298,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: stripHtml(decodeEntities(title)),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: stripHtml(decodeEntities(desc || "")).slice(0, 400),
         pubDate: pub || "",
       });
     }
