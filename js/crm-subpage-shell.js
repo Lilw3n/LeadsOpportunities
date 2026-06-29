@@ -57,6 +57,7 @@
       "crm-pro-accounting.html": { subtitle: "Comptabilité professionnelle et dépenses structurées" },
       "crm-periods.html": { subtitle: "Périodes comptables et clôtures" },
       "crm-calendar.html": { subtitle: "Agenda commercial, rappels et rendez-vous" },
+      "crm-marches.html": { subtitle: "Marchés, permanences — présence équipe modifiable par tous" },
       "crm-events.html": { subtitle: "Événements CRM et historique d'activité" },
       "crm-event-create.html": { subtitle: "Planifier un appel, RDV ou tâche" },
       "crm-create-complete.html": { subtitle: "Onboarding contact, conducteur et véhicule" },

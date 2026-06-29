@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Marché de Varangeville",
+    "city": "Varangeville",
+    "postal_code": "54110",
+    "address": "Place du marché",
+    "day_of_week": 3,
+    "default_start_time": "08:00",
+    "default_end_time": "12:30",
+    "recurrence": "weekly",
+    "notes": "Mercredi matin — stand assurance"
+  },
+  {
+    "name": "Marché de Nancy (Charles III)",
+    "city": "Nancy",
+    "postal_code": "54000",
+    "address": "Place Charles III",
+    "day_of_week": 5,
+    "default_start_time": "07:00",
+    "default_end_time": "13:00",
+    "recurrence": "weekly",
+    "notes": "Vendredi matin"
+  },
+  {
+    "name": "Permanence bureau — Varangeville",
+    "city": "Varangeville",
+    "postal_code": "54110",
+    "address": "Bureau Leads Opportunities",
+    "day_of_week": 1,
+    "default_start_time": "09:00",
+    "default_end_time": "18:00",
+    "recurrence": "weekly",
+    "notes": "Lundi — accueil téléphone + RDV"
+  },
+  {
+    "name": "Permanence bureau — Varangeville",
+    "city": "Varangeville",
+    "postal_code": "54110",
+    "address": "Bureau Leads Opportunities",
+    "day_of_week": 2,
+    "default_start_time": "09:00",
+    "default_end_time": "18:00",
+    "recurrence": "weekly",
+    "notes": "Mardi"
+  },
+  {
+    "name": "Permanence bureau — Varangeville",
+    "city": "Varangeville",
+    "postal_code": "54110",
+    "address": "Bureau Leads Opportunities",
+    "day_of_week": 4,
+    "default_start_time": "09:00",
+    "default_end_time": "18:00",
+    "recurrence": "weekly",
+    "notes": "Jeudi"
+  },
+  {
+    "name": "Permanence bureau — Varangeville",
+    "city": "Varangeville",
+    "postal_code": "54110",
+    "address": "Bureau Leads Opportunities",
+    "day_of_week": 5,
+    "default_start_time": "09:00",
+    "default_end_time": "18:00",
+    "recurrence": "weekly",
+    "notes": "Vendredi"
+  }
+]
