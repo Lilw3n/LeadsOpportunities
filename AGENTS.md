@@ -39,6 +39,7 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 - Doc : **`docs/TRAFIC-FRANCE.md`**
 - SEO/SEA (geo API, garde formulaires, `qualified_lead`) : **`docs/SEO-SEA-FRANCE-CIBLAGE.md`**
 - Acquisition blog → conversion (0 € test, pub intelligente) : **`docs/ACQUISITION-BLOG-CONVERSION.md`** + `ads/meta-blog-conversions.csv`
+- **Meta pub : 1 €/jour max, 1 seule annonce** — `config/meta-lead-forms.json` → `ads_policy` ; ne pas multiplier les campagnes
 - Corrélation analytics (GA4, Clarity, GSC, Meta, CRM) : **`docs/TRACKING-CORRELATION.md`**
 - Clarity : tag `market_intent=FR` — filtrer le dashboard par pays France.
 - Actu internationale existante : `noindex,follow` ; la pipeline auto ignore les nouveaux sujets US/gaming sans angle FR.
