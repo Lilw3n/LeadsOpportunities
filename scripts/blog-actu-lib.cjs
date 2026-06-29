@@ -113,6 +113,15 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (/suspension mutuelle|attaques? mutuelles?|frappes? mutuelles?|menaces? mutuelles?/i.test(hay)) {
+    score -= 45;
+  }
+  if (
+    (candidate.sourceType === "bing" || candidate.sourceType === "edge") &&
+    /\b(businesswire|business wire|globenewswire|pr newswire|memorandum of understanding|mou)\b/i.test(hay)
+  ) {
+    score -= 35;
+  }
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
