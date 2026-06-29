@@ -735,6 +735,23 @@
     .mbx-setup--err { border-color: #fecaca; background: #fef2f2; }
     .mbx-setup ul { margin: 8px 0 0; padding-left: 1.2rem; }
     .mbx-setup li { margin: 4px 0; }
+    .mbx-webmail-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+    }
+    .mbx-webmail-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
     #sec-mailbox {
       max-width: 100%;
       overflow-x: clip;
@@ -1831,6 +1848,7 @@
             <p class="subtitle" id="mailboxSubtitle">Formulaires site, e-mails contact@ et reponses depuis un seul endroit</p>
           </div>
           <div class="topbar-actions">
+            <a href="https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&amp;_mbox=INBOX" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailBtn" title="Roundcube o2switch — contact@leadsopportunities.fr">Boîte mail o2switch ↗</a>
             <button type="button" class="btn btn-primary" id="mailboxComposeBtn" style="padding:10px 16px;font-size:0.85rem">Nouveau message</button>
             <button type="button" class="btn-refresh" id="mailboxSyncBtn" title="Importer les e-mails IMAP o2switch">Synchroniser IMAP</button>
             <button type="button" class="btn-refresh" id="mailboxRefreshBtn">Actualiser</button>
@@ -1886,6 +1904,7 @@
               <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/><path d="M4 4l8 8 8-8"/></svg>
               <h3>Selectionnez une conversation</h3>
               <p>E-mails recus a gauche — fil question / reponse a droite.</p>
+              <p style="margin-top:12px"><a href="https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&amp;_mbox=INBOX" target="_blank" rel="noopener" class="mbx-webmail-btn" id="mailboxWebmailEmptyLink">Ouvrir la boite mail Roundcube (o2switch) ↗</a></p>
             </div>
             <div id="mailboxDetailView" class="mbx-detail-view" hidden>
               <div class="mbx-detail-head" id="mailboxDetailHead"></div>

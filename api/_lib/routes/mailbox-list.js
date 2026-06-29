@@ -2,6 +2,7 @@ const { applyApiGuards } = require("../security");
 const { requireDashboardAdmin } = require("../dashboard-admin");
 const { imapConfig } = require("../mail-imap");
 const { listWithAutoSync } = require("../mailbox-sync-service");
+const { getMailboxExternalLinks } = require("../mailbox-external");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -17,6 +18,7 @@ module.exports = async (req, res) => {
     const limit = req.query.limit;
     const offset = req.query.offset;
     const data = await listWithAutoSync(limit, offset);
+    const external = getMailboxExternalLinks();
     return res.status(200).json({
       ok: true,
       messages: data.messages,
@@ -25,7 +27,10 @@ module.exports = async (req, res) => {
       sync: data.sync,
       syncMeta: data.syncMeta,
       imapConfigured: !!imapConfig(),
-      mailboxAddress: process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr",
+      mailboxAddress: external.mailbox_address,
+      webmailUrl: external.webmail_url,
+      webmailLabel: external.webmail_label,
+      webmailLoginUrl: external.webmail_login_url,
     });
   } catch (e) {
     console.error("[mailbox-list]", e);
