@@ -32,6 +32,10 @@
     {
       "path": "/api/mailbox/cron-sync",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/traffic-alert",
+      "schedule": "0 9 * * *"
     }
   ],
   "functions": {
@@ -42,6 +46,9 @@
       "maxDuration": 60
     },
     "api/webhooks/[action].js": {
+      "maxDuration": 60
+    },
+    "api/cron/[action].js": {
       "maxDuration": 60
     }
   },
