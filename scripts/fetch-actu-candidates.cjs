@@ -31,29 +31,15 @@ function resolveQueueSourceType(source) {
   return normalizeSourceType(candidateSourceType({ source: source }, null));
 }
 
-function candidateDedupeKey(candidate) {
-  var url = String(candidate.url || "").toLowerCase().trim();
-  if (url) return "url:" + url.replace(/[?#].*$/, "");
-  return "title:" + String(candidate.title || "").toLowerCase().replace(/\s+/g, " ").trim();
-}
-
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
-  var seen = new Set();
   SOURCE_TYPES.forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
-    list.forEach(function (candidate) {
-      if (cap <= 0) return;
-      var key = candidateDedupeKey(candidate);
-      if (seen.has(key)) return;
-      seen.add(key);
-      merged.push(candidate);
-      cap--;
-    });
+    merged = merged.concat(list.slice(0, cap));
   });
   return merged;
 }
