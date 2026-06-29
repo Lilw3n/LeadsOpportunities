@@ -5,9 +5,17 @@ const INTL_TOPIC_PATTERNS = [
   /\bworld cup\b/i,
   /\bworld\s+cup\b/i,
   /\busa\b/i,
+  /\blos angeles\b/i,
+  /\bnew york\b/i,
+  /\bwashington\b/i,
+  /\bcalifornie\b/i,
+  /\bcalifornia\b/i,
   /\bétats-unis\b/i,
   /\betats-unis\b/i,
   /\bunited states\b/i,
+  /\bmoyen-orient\b/i,
+  /\biran\b/i,
+  /\bisra[eë]l\b/i,
   /\btrump\b/i,
   /\bgta\s*6\b/i,
   /\bgta\b/i,
@@ -83,6 +91,14 @@ function textBlob(articleOrText) {
     .join(" ");
 }
 
+function stripFalsePositiveInsuranceTerms(text) {
+  return String(text || "")
+    .replace(/\bsuspensions?\s+mutuelles?\b/gi, "suspensions reciproques")
+    .replace(/\battaques?\s+mutuelles?\b/gi, "attaques reciproques")
+    .replace(/\baccusations?\s+mutuelles?\b/gi, "accusations reciproques")
+    .replace(/\bmenaces?\s+mutuelles?\b/gi, "menaces reciproques");
+}
+
 function isInternationalAudienceTopic(input) {
   var hay = textBlob(input);
   return INTL_TOPIC_PATTERNS.some(function (re) {
@@ -91,7 +107,7 @@ function isInternationalAudienceTopic(input) {
 }
 
 function isFranceMarketTopic(input) {
-  var hay = textBlob(input);
+  var hay = stripFalsePositiveInsuranceTerms(textBlob(input));
   return FRANCE_MARKET_PATTERNS.some(function (re) {
     return re.test(hay);
   });
@@ -116,7 +132,7 @@ function robotsMetaForArticle(article) {
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
-  var hay = title + " " + summary;
+  var hay = stripFalsePositiveInsuranceTerms(title + " " + summary);
   var delta = 0;
 
   if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {

@@ -85,20 +85,21 @@ npm run blog:actu:auto -- --no-ai --count=1
 
 ---
 
-## Fréquence et rotation des 3 plateformes
+## Fréquence et rotation multi-sources
 
 | `--count` | Comportement |
 |-----------|--------------|
-| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox** sur la journée (5 runs = 5 articles) |
-| `3` | **1 Cafeyn + 1 Edge + 1 Firefox** à chaque run |
+| `1` | 1 article par run ; rotation **Cafeyn → Edge → Firefox → Google → Bing → Yahoo** |
+| `3` | Jusqu'à 3 familles différentes selon la rotation active |
+| `5` | Jusqu'à 5 familles différentes dans le même run |
 
-Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=3`.
+Exemple **5×/jour multi-sources** : 5 automations à `count=1` (rotation auto) **ou** 1–2 runs/jour à `count=5`.
 
 ---
 
 ## Votre routine (optionnel, 2 min)
 
-1. Lisez Cafeyn / Edge / Firefox comme d’habitude
+1. Lisez Cafeyn / Edge / Firefox / Google News / Bing / Yahoo comme d’habitude
 2. Si un titre vous intéresse : `blog/actu-inbox.html` → JSON → `data/blog-actu-queue.json`
 3. L’automation Cursor le priorise au prochain run
 
@@ -117,7 +118,7 @@ Exemple **5×/jour avec les 3 sources** : 5 automations à `count=1` (rotation a
 Dans Cursor, agent sur le repo :
 
 ```bash
-npm run blog:actu:auto -- --dry-run --count=3
+npm run blog:actu:auto -- --dry-run --count=5
 npm run verify:clarity
 ```
 

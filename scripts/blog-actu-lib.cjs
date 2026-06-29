@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
 const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { PRIORITY_SOURCE_TYPES, resolveSourceType } = require("./blog-actu-sources.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -88,6 +89,24 @@ function uniqueFile(baseSlug) {
   return slug + ".html";
 }
 
+function looksLikeCorporateNewswire(candidate) {
+  var sourceType = resolveSourceType(candidate.sourceType || candidate.source);
+  if (["edge", "bing", "google", "yahoo", "aggregator"].indexOf(sourceType) === -1) return false;
+  var hay = [candidate.title, candidate.summary, candidate.feedName].filter(Boolean).join(" ");
+  return /\b(business\s*wire|globenewswire|pr\s*newswire|nasdaq|nyse|euronext|plc|ltd\.?|corp\.?|inc\.?)\b/i.test(hay) ||
+    /\b(enters?\s+into|memorandum\s+of\s+understanding|announces?\s+(the\s+)?(completion|pricing|launch)|shareholders?|ordinary\s+shares|class\s+action)\b/i.test(hay);
+}
+
+function looksMostlyEnglish(candidate) {
+  var title = String(candidate.title || "");
+  if (!title || /[àâçéèêëîïôùûüÿœæ]/i.test(title)) return false;
+  if (/\b(le|la|les|des|une|un|pour|avec|dans|france|francais|français|assurance|mutuelle|credit|crédit|pret|prêt)\b/i.test(title)) {
+    return false;
+  }
+  var englishHits = title.match(/\b(the|and|of|to|for|into|with|from|will|after|before|about|against|over|under)\b/gi);
+  return (englishHits || []).length >= 3;
+}
+
 function monthLabel() {
   var months = ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
   var d = new Date();
@@ -101,7 +120,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (PRIORITY_SOURCE_TYPES.indexOf(resolveSourceType(candidate.sourceType || candidate.source)) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -132,6 +151,8 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (looksLikeCorporateNewswire(candidate)) score -= 70;
+  else if (looksMostlyEnglish(candidate)) score -= 35;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
