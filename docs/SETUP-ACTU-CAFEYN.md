@@ -14,6 +14,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
+Google News, Bing, Yahoo, Edge/Firefox et les journaux équivalents Cafeyn sont collectés via **RSS publics** déclarés dans `data/blog-actu-feeds.json`. Ils ne nécessitent ni compte personnel ni cookie de navigation.
+
 ---
 
 ## Étape 1 — Générer le jeton inbox (2 min)
