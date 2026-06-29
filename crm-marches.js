@@ -37,13 +37,44 @@
     return Math.round((d - t) / 86400000);
   }
 
+  function formatBreaks(breaks) {
+    if (!breaks || !breaks.length) return "";
+    return breaks
+      .map(function (b) {
+        return (b.label || "Pause") + " " + (b.start || "?") + "–" + (b.end || "?");
+      })
+      .join(" · ");
+  }
+
+  function scheduleSummaryHtml(item) {
+    var lines = [];
+    if (item.market_start_time && item.market_end_time) {
+      lines.push(
+        '<span class="mkt-tag mkt-tag--market">Marché ' +
+          esc(item.market_start_time) +
+          "–" +
+          esc(item.market_end_time) +
+          "</span>"
+      );
+    }
+    var work =
+      (item.work_prep_start ? "Prépa " + esc(item.work_prep_start) + " → " : "") +
+      "Travail " +
+      esc(item.work_start || item.presence_start || "?") +
+      "–" +
+      esc(item.work_end || item.presence_end || "?");
+    lines.push('<span class="mkt-tag mkt-tag--work">' + work + "</span>");
+    var br = formatBreaks(item.breaks);
+    if (br) lines.push('<span class="mkt-tag mkt-tag--break">' + esc(br) + "</span>");
+    return lines.join(" ");
+  }
+
   function renderUpcoming(list) {
     var el = document.getElementById("mktUpcoming");
     if (!list || !list.length) {
       el.innerHTML = '<p style="color:var(--muted)">Aucun créneau sur la période. Ajoutez un marché ou un créneau.</p>';
       return;
     }
-    var today = new Date().toISOString().slice(0, 10);
     el.innerHTML = list
       .map(function (item) {
         var du = daysUntil(item.date);
@@ -55,6 +86,10 @@
         else if (unassigned) cls += " mkt-unassigned";
         var when =
           du === 0 ? "Aujourd'hui" : du === 1 ? "Demain" : du > 0 ? "Dans " + du + " j" : "Passé";
+        var presence =
+          esc(item.presence_start || item.work_prep_start || item.work_start || "?") +
+          "–" +
+          esc(item.presence_end || item.work_end || "?");
         return (
           '<div class="' +
           cls +
@@ -69,18 +104,18 @@
           esc(formatFrDate(item.date)) +
           "<small>" +
           esc(when) +
-          " · " +
-          esc(item.start_time || "?") +
-          "–" +
-          esc(item.end_time || "?") +
+          " · présence " +
+          presence +
           "</small></div>" +
           "<div><strong>" +
           esc(item.market_name) +
           "</strong>" +
+          '<div class="mkt-schedule">' +
+          scheduleSummaryHtml(item) +
+          "</div>" +
           '<div class="mkt-meta">' +
           esc([item.city, item.address].filter(Boolean).join(" — ")) +
           (item.assigned_name ? " · <strong>" + esc(item.assigned_name) + "</strong>" : " · <em>Non assigné</em>") +
-          (item.status && item.status !== "planned" ? " · " + esc(item.status) : "") +
           "</div></div>" +
           '<div class="mkt-actions">' +
           '<button type="button" class="btn btn-primary btn-sm js-edit-presence">Modifier présence</button>' +
@@ -104,9 +139,18 @@
       return;
     }
     el.innerHTML =
-      "<table><thead><tr><th>Lieu</th><th>Jour</th><th>Horaires</th><th></th></tr></thead><tbody>" +
+      "<table><thead><tr><th>Lieu</th><th>Jour</th><th>Marché</th><th>Travail équipe</th><th></th></tr></thead><tbody>" +
       markets
         .map(function (m) {
+          var marketH =
+            m.market_start_time && m.market_end_time
+              ? m.market_start_time + "–" + m.market_end_time
+              : "—";
+          var workH =
+            (m.work_prep_start ? m.work_prep_start + "→" : "") +
+            (m.work_start || "?") +
+            "–" +
+            (m.work_end || "?");
           return (
             "<tr" +
             (m.active ? "" : ' style="opacity:.5"') +
@@ -117,9 +161,10 @@
             "</small></td><td>" +
             esc(m.day_label || "—") +
             "</td><td>" +
-            esc(m.default_start_time) +
-            "–" +
-            esc(m.default_end_time) +
+            esc(marketH) +
+            "</td><td>" +
+            esc(workH) +
+            (m.breaks && m.breaks.length ? "<br><small>" + esc(formatBreaks(m.breaks)) + "</small>" : "") +
             '</td><td><button type="button" class="btn btn-ghost btn-sm js-edit-market" data-id="' +
             esc(m.id) +
             '">Modifier</button></td></tr>'
@@ -152,50 +197,145 @@
     return html;
   }
 
+  function breaksEditorHtml(breaks) {
+    var rows = (breaks && breaks.length ? breaks : [{ start: "", end: "", label: "Pause" }])
+      .map(function (b, i) {
+        return (
+          '<div class="mkt-break-row" data-idx="' +
+          i +
+          '">' +
+          '<input type="time" class="mkt-break-start" value="' +
+          esc(b.start || "") +
+          '" />' +
+          '<input type="time" class="mkt-break-end" value="' +
+          esc(b.end || "") +
+          '" />' +
+          '<input type="text" class="mkt-break-label" placeholder="Libellé" value="' +
+          esc(b.label || "") +
+          '" />' +
+          '<button type="button" class="btn btn-ghost btn-sm mkt-break-del">×</button></div>'
+        );
+      })
+      .join("");
+    return (
+      '<div class="mkt-form-section"><h3>Pauses</h3>' +
+      '<div id="mktBreaksList">' +
+      rows +
+      "</div>" +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnAddBreak">+ Pause</button></div>'
+    );
+  }
+
+  function bindBreaksEditor() {
+    var add = document.getElementById("btnAddBreak");
+    if (add) {
+      add.onclick = function () {
+        var list = document.getElementById("mktBreaksList");
+        var row = document.createElement("div");
+        row.className = "mkt-break-row";
+        row.innerHTML =
+          '<input type="time" class="mkt-break-start" />' +
+          '<input type="time" class="mkt-break-end" />' +
+          '<input type="text" class="mkt-break-label" placeholder="Libellé" value="Pause" />' +
+          '<button type="button" class="btn btn-ghost btn-sm mkt-break-del">×</button>';
+        list.appendChild(row);
+        bindBreakDel(row.querySelector(".mkt-break-del"));
+      };
+    }
+    document.querySelectorAll(".mkt-break-del").forEach(bindBreakDel);
+  }
+
+  function bindBreakDel(btn) {
+    if (!btn) return;
+    btn.onclick = function () {
+      var list = document.getElementById("mktBreaksList");
+      if (list.children.length > 1) btn.parentElement.remove();
+    };
+  }
+
+  function collectBreaks() {
+    var out = [];
+    document.querySelectorAll("#mktBreaksList .mkt-break-row").forEach(function (row) {
+      var start = row.querySelector(".mkt-break-start").value;
+      var end = row.querySelector(".mkt-break-end").value;
+      var label = row.querySelector(".mkt-break-label").value;
+      if (start || end) out.push({ start: start, end: end, label: label || "Pause" });
+    });
+    return out;
+  }
+
+  function scheduleFormHtml(data, isMarket) {
+    data = data || {};
+    var days = (state.data && state.data.day_labels) || [];
+    var dayField = isMarket
+      ? '<label>Jour récurrent<select name="day_of_week"><option value="">—</option>' +
+        days
+          .map(function (label, i) {
+            return (
+              '<option value="' +
+              i +
+              '"' +
+              (Number(data.day_of_week) === i ? " selected" : "") +
+              ">" +
+              esc(label) +
+              "</option>"
+            );
+          })
+          .join("") +
+        "</select></label>"
+      : "";
+    return (
+      (isMarket
+        ? '<div class="mkt-form-section"><h3>Lieu</h3><div class="mkt-form-grid">' +
+          '<label>Nom<input type="text" name="name" required value="' +
+          esc(data.name || "") +
+          '" /></label>' +
+          '<label>Ville<input type="text" name="city" value="' +
+          esc(data.city || "") +
+          '" /></label>' +
+          '<label>Code postal<input type="text" name="postal_code" value="' +
+          esc(data.postal_code || "") +
+          '" /></label>' +
+          '<label>Adresse<input type="text" name="address" value="' +
+          esc(data.address || "") +
+          '" /></label>' +
+          dayField +
+          '<label>Actif<select name="active"><option value="true"' +
+          (data.active !== false ? " selected" : "") +
+          '>Oui</option><option value="false"' +
+          (data.active === false ? " selected" : "") +
+          ">Non</option></select></label></div></div>"
+        : "") +
+      '<div class="mkt-form-section"><h3>Horaires du marché (ouverture du lieu)</h3>' +
+      '<p class="mkt-form-hint">Heures officielles du marché — pas votre temps de travail.</p>' +
+      '<div class="mkt-form-grid">' +
+      '<label>Ouverture marché<input type="time" name="market_start_time" value="' +
+      esc(data.market_start_time || data.default_start_time || "") +
+      '" /></label>' +
+      '<label>Fermeture marché<input type="time" name="market_end_time" value="' +
+      esc(data.market_end_time || data.default_end_time || "") +
+      '" /></label></div></div>' +
+      '<div class="mkt-form-section"><h3>Horaires travail équipe</h3>' +
+      '<p class="mkt-form-hint">Arrivée pour préparer le stand, activité, rangement. Peut commencer avant l\'ouverture du marché.</p>' +
+      '<div class="mkt-form-grid">' +
+      '<label>Arrivée / préparation<input type="time" name="work_prep_start" value="' +
+      esc(data.work_prep_start || "") +
+      '" /></label>' +
+      '<label>Début activité<input type="time" name="work_start" value="' +
+      esc(data.work_start || data.start_time || "") +
+      '" /></label>' +
+      '<label>Fin travail (rangement)<input type="time" name="work_end" value="' +
+      esc(data.work_end || data.end_time || "") +
+      '" /></label></div></div>' +
+      breaksEditorHtml(data.breaks)
+    );
+  }
+
   function buildMarketForm(m) {
     m = m || {};
-    var days = (state.data && state.data.day_labels) || [];
     return (
-      '<label>Nom<input type="text" name="name" required value="' +
-      esc(m.name || "") +
-      '" /></label>' +
-      '<label>Ville<input type="text" name="city" value="' +
-      esc(m.city || "") +
-      '" /></label>' +
-      '<label>Code postal<input type="text" name="postal_code" value="' +
-      esc(m.postal_code || "") +
-      '" /></label>' +
-      '<label>Adresse<input type="text" name="address" value="' +
-      esc(m.address || "") +
-      '" /></label>' +
-      '<label>Jour récurrent<select name="day_of_week">' +
-      '<option value="">—</option>' +
-      days
-        .map(function (label, i) {
-          return (
-            '<option value="' +
-            i +
-            '"' +
-            (Number(m.day_of_week) === i ? " selected" : "") +
-            ">" +
-            esc(label) +
-            "</option>"
-          );
-        })
-        .join("") +
-      "</select></label>" +
-      '<label>Début<input type="time" name="default_start_time" value="' +
-      esc(m.default_start_time || "09:00") +
-      '" /></label>' +
-      '<label>Fin<input type="time" name="default_end_time" value="' +
-      esc(m.default_end_time || "18:00") +
-      '" /></label>' +
-      '<label>Actif<select name="active"><option value="true"' +
-      (m.active !== false ? " selected" : "") +
-      '>Oui</option><option value="false"' +
-      (m.active === false ? " selected" : "") +
-      ">Non</option></select></label>" +
-      '<label style="grid-column:1/-1">Notes<textarea name="notes" rows="2">' +
+      scheduleFormHtml(m, true) +
+      '<label style="grid-column:1/-1;margin-top:8px">Notes<textarea name="notes" rows="2">' +
       esc(m.notes || "") +
       "</textarea></label>"
     );
@@ -205,32 +345,25 @@
     s = s || {};
     var markets = (state.data && state.data.markets) || [];
     var mk =
+      '<div class="mkt-form-section"><h3>Créneau</h3><div class="mkt-form-grid">' +
       '<label>Marché / lieu<select name="market_id">' +
-      '<option value="">— Hors marché —</option>' +
+      '<option value="">— Bureau / hors marché —</option>' +
       markets
         .map(function (m) {
           var sel = (s.market_id || marketId) === m.id ? " selected" : "";
           return '<option value="' + esc(m.id) + '"' + sel + ">" + esc(m.name) + " (" + esc(m.city) + ")</option>";
         })
         .join("") +
-      "</select></label>";
-    return (
-      mk +
+      "</select></label>" +
       '<label>Date<input type="date" name="slot_date" required value="' +
       esc(s.slot_date ? String(s.slot_date).slice(0, 10) : date || "") +
-      '" /></label>' +
-      '<label>Début<input type="time" name="start_time" value="' +
-      esc(s.start_time || "09:00") +
-      '" /></label>' +
-      '<label>Fin<input type="time" name="end_time" value="' +
-      esc(s.end_time || "18:00") +
       '" /></label>' +
       '<label>Équipier<select name="assigned_user_id" id="mktAssignedUser">' +
       teamOptions(state.data && state.data.team, s.assigned_user_id) +
       "</select></label>" +
-      '<label>Nom affiché (libre)<input type="text" name="assigned_name" value="' +
+      '<label>Nom affiché<input type="text" name="assigned_name" value="' +
       esc(s.assigned_name || "") +
-      '" placeholder="Si pas dans la liste" /></label>' +
+      '" /></label>' +
       '<label>Statut<select name="status">' +
       ["planned", "confirmed", "cancelled"]
         .map(function (st) {
@@ -245,11 +378,8 @@
           );
         })
         .join("") +
-      "</select></label>" +
-      '<label style="grid-column:1/-1">Notes<textarea name="notes" rows="2">' +
-      esc(s.notes || "") +
-      "</textarea></label>"
-    );
+      "</select></div></div>";
+    return mk + scheduleFormHtml(s, false) + '<label style="margin-top:8px">Notes<textarea name="notes" rows="2">' + esc(s.notes || "") + "</textarea></label>";
   }
 
   function openMarketEditor(id) {
@@ -257,11 +387,12 @@
       return x.id === id;
     });
     state.editing = { entity: "market", id: id };
-    document.getElementById("mktFormTitle").textContent = m ? "Modifier le marché" : "Nouveau marché";
+    document.getElementById("mktFormTitle").textContent = m ? "Modifier le marché / lieu" : "Nouveau marché / lieu";
     document.getElementById("mktEntity").value = "market";
     document.getElementById("mktId").value = id || "";
     document.getElementById("mktFormFields").innerHTML = buildMarketForm(m);
     document.getElementById("btnMktDelete").hidden = !id;
+    bindBreaksEditor();
   }
 
   function openPresenceEditor(marketId, date, slotId) {
@@ -277,16 +408,20 @@
       });
       if (occ) {
         slot = {
+          id: occ.slot_id,
           market_id: marketId,
           slot_date: date,
-          start_time: occ.start_time,
-          end_time: occ.end_time,
+          market_start_time: occ.market_start_time,
+          market_end_time: occ.market_end_time,
+          work_prep_start: occ.work_prep_start,
+          work_start: occ.work_start,
+          work_end: occ.work_end,
+          breaks: occ.breaks,
           assigned_name: occ.assigned_name,
           assigned_user_id: occ.assigned_user_id,
           status: occ.status || "planned",
           notes: occ.slot_notes,
         };
-        if (occ.slot_id) slot.id = occ.slot_id;
       }
     }
     state.editing = { entity: "slot", id: slot && slot.id };
@@ -295,14 +430,13 @@
     document.getElementById("mktId").value = (slot && slot.id) || "";
     document.getElementById("mktFormFields").innerHTML = buildSlotForm(slot, marketId, date);
     document.getElementById("btnMktDelete").hidden = !(slot && slot.id);
+    bindBreaksEditor();
     var userSel = document.getElementById("mktAssignedUser");
     if (userSel) {
       userSel.onchange = function () {
         var opt = userSel.options[userSel.selectedIndex];
         var nameInput = document.querySelector('#mktForm [name="assigned_name"]');
-        if (nameInput && opt && opt.getAttribute("data-name")) {
-          nameInput.value = opt.getAttribute("data-name");
-        }
+        if (nameInput && opt && opt.getAttribute("data-name")) nameInput.value = opt.getAttribute("data-name");
       };
     }
   }
@@ -310,7 +444,7 @@
   function readForm() {
     var entity = document.getElementById("mktEntity").value;
     var id = document.getElementById("mktId").value;
-    var body = { entity: entity };
+    var body = { entity: entity, breaks: collectBreaks() };
     if (id) body.id = id;
     document.querySelectorAll("#mktFormFields [name]").forEach(function (el) {
       var v = el.value;
@@ -333,8 +467,7 @@
         renderMarkets(res.markets);
       })
       .catch(function (e) {
-        document.getElementById("mktUpcoming").innerHTML =
-          '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
+        document.getElementById("mktUpcoming").innerHTML = '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
       });
   }
 

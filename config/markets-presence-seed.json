@@ -5,10 +5,14 @@
     "postal_code": "54110",
     "address": "Place du marché",
     "day_of_week": 3,
-    "default_start_time": "08:00",
-    "default_end_time": "12:30",
+    "market_start_time": "08:00",
+    "market_end_time": "12:30",
+    "work_prep_start": "07:00",
+    "work_start": "07:30",
+    "work_end": "13:00",
+    "breaks": [{ "start": "10:30", "end": "10:45", "label": "Pause" }],
     "recurrence": "weekly",
-    "notes": "Mercredi matin — stand assurance"
+    "notes": "Arriver 1h avant pour installer le stand"
   },
   {
     "name": "Marché de Nancy (Charles III)",
@@ -16,10 +20,14 @@
     "postal_code": "54000",
     "address": "Place Charles III",
     "day_of_week": 5,
-    "default_start_time": "07:00",
-    "default_end_time": "13:00",
+    "market_start_time": "07:00",
+    "market_end_time": "13:00",
+    "work_prep_start": "06:00",
+    "work_start": "06:30",
+    "work_end": "13:30",
+    "breaks": [{ "start": "10:00", "end": "10:20", "label": "Pause" }],
     "recurrence": "weekly",
-    "notes": "Vendredi matin"
+    "notes": "Vendredi — préparation tôt"
   },
   {
     "name": "Permanence bureau — Varangeville",
@@ -27,8 +35,9 @@
     "postal_code": "54110",
     "address": "Bureau Leads Opportunities",
     "day_of_week": 1,
-    "default_start_time": "09:00",
-    "default_end_time": "18:00",
+    "work_start": "09:00",
+    "work_end": "18:00",
+    "breaks": [{ "start": "12:00", "end": "13:00", "label": "Pause déjeuner" }],
     "recurrence": "weekly",
     "notes": "Lundi — accueil téléphone + RDV"
   },
@@ -38,8 +47,9 @@
     "postal_code": "54110",
     "address": "Bureau Leads Opportunities",
     "day_of_week": 2,
-    "default_start_time": "09:00",
-    "default_end_time": "18:00",
+    "work_start": "09:00",
+    "work_end": "18:00",
+    "breaks": [{ "start": "12:00", "end": "13:00", "label": "Pause déjeuner" }],
     "recurrence": "weekly",
     "notes": "Mardi"
   },
@@ -49,8 +59,9 @@
     "postal_code": "54110",
     "address": "Bureau Leads Opportunities",
     "day_of_week": 4,
-    "default_start_time": "09:00",
-    "default_end_time": "18:00",
+    "work_start": "09:00",
+    "work_end": "18:00",
+    "breaks": [{ "start": "12:00", "end": "13:00", "label": "Pause déjeuner" }],
     "recurrence": "weekly",
     "notes": "Jeudi"
   },
@@ -60,8 +71,9 @@
     "postal_code": "54110",
     "address": "Bureau Leads Opportunities",
     "day_of_week": 5,
-    "default_start_time": "09:00",
-    "default_end_time": "18:00",
+    "work_start": "09:00",
+    "work_end": "18:00",
+    "breaks": [{ "start": "12:00", "end": "13:00", "label": "Pause déjeuner" }],
     "recurrence": "weekly",
     "notes": "Vendredi"
   }
