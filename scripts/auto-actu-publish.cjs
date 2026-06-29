@@ -54,6 +54,22 @@ function normalizeTitle(t) {
     .trim();
 }
 
+function candidateUsedKeys(c) {
+  return [String(c.url || "").trim().toLowerCase(), normalizeTitle(c.title)].filter(Boolean);
+}
+
+function isCandidateUsed(c, used) {
+  return candidateUsedKeys(c).some(function (key) {
+    return used.has(key);
+  });
+}
+
+function markCandidateUsed(c, used) {
+  candidateUsedKeys(c).forEach(function (key) {
+    used.add(key);
+  });
+}
+
 function loadPublishedTitleKeys() {
   var keys = new Set();
   var pub = readJson("blog-actu-published.json", { articles: [] });
@@ -85,8 +101,7 @@ function candidateSourceType(c, feedMap) {
 function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
-      var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      return candidateSourceType(c, feedMap) === platform && !isCandidateUsed(c, used);
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -121,7 +136,7 @@ function pickCandidates(candidates, count, state) {
     .forEach(function (c) {
       if (picks.length >= count) return;
       picks.push(c);
-      used.add(c.url || c.title);
+      markCandidateUsed(c, used);
     });
 
   if (count >= 3) {
@@ -136,7 +151,7 @@ function pickCandidates(candidates, count, state) {
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
-        used.add(pick.url || pick.title);
+        markCandidateUsed(pick, used);
       }
     });
     state._nextSecondaryPlatformRotation =
@@ -148,7 +163,7 @@ function pickCandidates(candidates, count, state) {
       var rotated = bestFromPlatform(available, platform, feedMap, used);
       if (rotated) {
         picks.push(rotated);
-        used.add(rotated.url || rotated.title);
+        markCandidateUsed(rotated, used);
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
@@ -160,18 +175,16 @@ function pickCandidates(candidates, count, state) {
     })
     .forEach(function (c) {
       if (picks.length >= count) return;
-      var k = c.url || c.title;
-      if (used.has(k)) return;
+      if (isCandidateUsed(c, used)) return;
       picks.push(c);
-      used.add(k);
+      markCandidateUsed(c, used);
     });
 
   available.forEach(function (c) {
     if (picks.length >= count) return;
-    var k = c.url || c.title;
-    if (used.has(k)) return;
+    if (isCandidateUsed(c, used)) return;
     picks.push(c);
-    used.add(k);
+    markCandidateUsed(c, used);
   });
 
   return picks;
