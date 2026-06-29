@@ -145,8 +145,12 @@ function scoreLeadPotential(candidate) {
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
-    if (age < 3 * 86400000) score += 12;
-    else if (age < 7 * 86400000) score += 6;
+    var ageDays = age / 86400000;
+    if (ageDays < 3) score += 12;
+    else if (ageDays < 7) score += 6;
+    else if (ageDays > 90) score -= 70;
+    else if (ageDays > 30) score -= 45;
+    else if (ageDays > 14) score -= 20;
   }
 
   return Math.min(100, Math.max(0, score));
