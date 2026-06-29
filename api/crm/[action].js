@@ -39,6 +39,7 @@ const ROUTES = {
   "leads-acquisition": () => require("../_lib/routes/crm-leads-acquisition"),
   "leads-sources": () => require("../_lib/routes/crm-leads-sources"),
   "pubs-hub": () => require("../_lib/routes/crm-pubs-hub"),
+  "test-slack": () => require("../_lib/routes/crm-test-slack"),
   "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
   "contact-duplicates": () => require("../_lib/routes/crm-contact-duplicates"),
   "merge-contacts": () => require("../_lib/routes/crm-merge-contacts"),
