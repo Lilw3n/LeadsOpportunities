@@ -37,7 +37,17 @@ function main() {
 
   console.log("\n--- Top " + count + " pour leads (score) ---");
   picks.forEach(function (p, i) {
-    console.log((i + 1) + ". [" + p.leadScore + "/100] [" + (p.need || "?") + "] " + p.title.slice(0, 72));
+    console.log(
+      (i + 1) +
+        ". [" +
+        p.leadScore +
+        "/100] [" +
+        (p.sourceType || "?") +
+        "/" +
+        (p.need || "?") +
+        "] " +
+        p.title.slice(0, 72)
+    );
   });
   console.log("\nDétail: data/blog-actu-daily-pick.json");
   console.log("Étape agent: enrichir pending → npm run blog:actu:publish → PR");
