@@ -24,6 +24,7 @@
     "build:clarity": "node scripts/bundle-clarity.cjs",
     "verify:clarity": "node scripts/verify-clarity.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs",
+    "prod:check": "node scripts/check-prod-deploy.cjs",
     "test:meta": "bash scripts/test-meta-pixel.sh",
     "meta:verify": "node scripts/verify-meta-lead-setup.cjs",
     "meta:forms:rank": "node scripts/meta-blog-form-ranking.cjs",

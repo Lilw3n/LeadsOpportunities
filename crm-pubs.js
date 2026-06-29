@@ -50,11 +50,46 @@
       (ok ? "Configuré ✓" : "SLACK_WEBHOOK_URL manquant") +
       "</span></div>" +
       "<p style=\"color:var(--muted)\">Chaque lead (site + Meta Lead Ads) envoie une alerte Slack si la variable Vercel est définie.</p>" +
+      (ok
+        ? '<p><button type="button" class="btn btn-primary btn-sm" id="btnTestSlack">Envoyer un test Slack</button> <span id="slackTestResult" style="margin-left:8px;color:var(--muted)"></span></p>'
+        : '<ol style="color:var(--muted);margin:8px 0 0 18px;line-height:1.6"><li><a href="https://api.slack.com/apps" target="_blank" rel="noopener">Créer une app Slack</a> → Incoming Webhooks → canal #leads</li><li>Copier l’URL <code>https://hooks.slack.com/services/…</code></li><li>Vercel → projet → Settings → Environment Variables → <strong>SLACK_WEBHOOK_URL</strong></li><li>Redeploy puis revenir ici et cliquer « Tester Slack »</li></ol>') +
       '<div class="pub-link-row">' +
       '<a href="https://api.slack.com/apps" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Créer webhook Slack ↗</a>' +
       '<a href="https://vercel.com/dashboard" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Vercel env ↗</a>' +
       '<a href="./docs/SLACK-WITHALLO-NOTIFS.md" class="btn btn-ghost btn-sm">Doc Slack + WithAllo</a>' +
+      (!ok ? '<button type="button" class="btn btn-ghost btn-sm" id="btnTestSlack">Tester quand même</button>' : "") +
       "</div>";
+    var testBtn = document.getElementById("btnTestSlack");
+    if (testBtn) {
+      testBtn.onclick = function () {
+        var out = document.getElementById("slackTestResult");
+        if (out) out.textContent = "Envoi…";
+        testBtn.disabled = true;
+        fetch("/api/crm/test-slack", { method: "POST", headers: authHeaders() })
+          .then(function (r) {
+            return r.json().then(function (j) {
+              return { status: r.status, body: j };
+            });
+          })
+          .then(function (res) {
+            if (out) {
+              out.textContent = res.body.ok
+                ? "✓ Message reçu sur Slack"
+                : res.body.error || "Erreur " + res.status;
+              out.style.color = res.body.ok ? "#16a34a" : "#b91c1c";
+            }
+          })
+          .catch(function (e) {
+            if (out) {
+              out.textContent = String(e);
+              out.style.color = "#b91c1c";
+            }
+          })
+          .finally(function () {
+            testBtn.disabled = false;
+          });
+      };
+    }
   }
 
   function renderPresetCampaigns(list, activeId) {
