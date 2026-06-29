@@ -4,6 +4,7 @@
  */
 const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
+const { SOURCE_TYPES } = require("./blog-actu-sources.cjs");
 
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
@@ -20,6 +21,14 @@ function main() {
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
+  if (candidates.bySource) {
+    console.log(
+      "Répartition sources:",
+      SOURCE_TYPES.map(function (type) {
+        return type + ":" + (candidates.bySource[type] || 0);
+      }).join(" ")
+    );
+  }
 
   if ((candidates.candidates || []).length) {
     console.log("\n--- Top candidats ---");

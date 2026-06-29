@@ -1,11 +1,14 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-06-29",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 30
+    "google": 30,
+    "bing": 12,
+    "yahoo": 12,
+    "aggregator": 20
   },
   "feeds": [
     {
@@ -205,6 +208,20 @@
       "enabled": true
     },
     {
+      "id": "source-firefox-20minutes-une",
+      "name": "Firefox — 20 Minutes une",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-une.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes-france",
+      "name": "Firefox — 20 Minutes France",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-france.xml",
+      "enabled": true
+    },
+    {
       "id": "source-firefox-france24",
       "name": "Firefox — France 24",
       "sourceType": "firefox",
@@ -258,6 +275,55 @@
       "name": "Firefox — Courrier international",
       "sourceType": "firefox",
       "url": "https://www.courrierinternational.com/rss/all/rss.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-home-fr",
+      "name": "Bing — page accueil France",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=France+actualites&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-top-news-fr",
+      "name": "Bing — actualités du jour",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=actualites+du+jour+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-finance-assurance",
+      "name": "Bing — finance assurance",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=finance+assurance+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-news-fr",
+      "name": "Yahoo — actualités France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-news-france",
+      "name": "Yahoo — France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/france/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance-fr",
+      "name": "Yahoo — finance France",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance-topstories",
+      "name": "Yahoo — finance top stories",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/topstories",
       "enabled": true
     },
     {
@@ -475,5 +541,5 @@
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "Veille actu publique : Cafeyn via RSS des titres equivalents (pas de login), Edge/MSN via Bing, Firefox/Pocket, Google News, Bing News et Yahoo. CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }
