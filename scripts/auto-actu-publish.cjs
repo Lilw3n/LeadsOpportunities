@@ -14,6 +14,11 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const {
+  PRIORITY_SOURCE_TYPES,
+  feedSourceType,
+  candidateSourceType: resolveCandidateSourceType,
+} = require("./blog-actu-sources.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -37,7 +42,7 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    map[f.id] = feedSourceType(f);
   });
   return map;
 }
@@ -64,15 +69,10 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = PRIORITY_SOURCE_TYPES;
 
 function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
-  var src = String(c.source || "").toLowerCase();
-  if (src.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
-  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
-  return feedMap[c.feedId] || "aggregator";
+  return resolveCandidateSourceType(c, feedMap);
 }
 
 function bestFromPlatform(available, platform, feedMap, used) {
