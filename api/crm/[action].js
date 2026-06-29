@@ -38,6 +38,7 @@ const ROUTES = {
   "driver-import": () => require("../_lib/routes/crm-driver-import"),
   "leads-acquisition": () => require("../_lib/routes/crm-leads-acquisition"),
   "leads-sources": () => require("../_lib/routes/crm-leads-sources"),
+  "traffic-stats": () => require("../_lib/routes/crm-traffic-stats"),
   "pubs-hub": () => require("../_lib/routes/crm-pubs-hub"),
   "test-slack": () => require("../_lib/routes/crm-test-slack"),
   "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
