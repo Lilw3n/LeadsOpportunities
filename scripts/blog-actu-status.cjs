@@ -4,7 +4,7 @@
  */
 const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
-const { SOURCE_TYPES } = require("./blog-actu-sources.cjs");
+const { SOURCE_TYPES, isPlaceholderQueueItem } = require("./blog-actu-sources.cjs");
 
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
@@ -15,7 +15,7 @@ function main() {
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    return i.status !== "published" && !isPlaceholderQueueItem(i);
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
   if (candidates.bySource) {

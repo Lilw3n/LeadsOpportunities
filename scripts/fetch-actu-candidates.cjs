@@ -19,6 +19,7 @@ const {
   resolveSourceType,
   resolveFeedSourceType,
   emptySourceBuckets,
+  isPlaceholderQueueItem,
 } = require("./blog-actu-sources.cjs");
 
 const MAX_PER_FEED = 8;
@@ -39,12 +40,6 @@ function mergeWithQuotas(buckets, quotas) {
     merged = merged.concat(list.slice(0, cap));
   });
   return merged;
-}
-
-function isPlaceholderQueueItem(item) {
-  var id = String(item.id || "").toLowerCase();
-  var title = String(item.title || "").toLowerCase();
-  return id === "cafeyn-pending-template" || title.indexOf("collez ici") !== -1;
 }
 
 function ingestQueueItem(item, buckets, processed) {

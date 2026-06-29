@@ -59,6 +59,12 @@ function sourceLabel(type) {
   }[normalized];
 }
 
+function isPlaceholderQueueItem(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "").toLowerCase();
+  return id === "cafeyn-pending-template" || title.indexOf("collez ici") !== -1;
+}
+
 module.exports = {
   SOURCE_TYPES: SOURCE_TYPES,
   PRIORITY_SOURCE_TYPES: PRIORITY_SOURCE_TYPES,
@@ -67,4 +73,5 @@ module.exports = {
   resolveFeedSourceType: resolveFeedSourceType,
   emptySourceBuckets: emptySourceBuckets,
   sourceLabel: sourceLabel,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
 };
