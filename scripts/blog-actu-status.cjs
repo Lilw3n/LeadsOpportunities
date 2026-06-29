@@ -4,6 +4,7 @@
  */
 const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
+const { SOURCE_TYPES } = require("./blog-actu-sources.cjs");
 
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
@@ -17,6 +18,14 @@ function main() {
     return i.status !== "published";
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
+  if (candidates.bySource) {
+    console.log(
+      "Par source:",
+      SOURCE_TYPES.map(function (type) {
+        return type + "=" + (candidates.bySource[type] || 0);
+      }).join(" / ")
+    );
+  }
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
@@ -37,6 +46,7 @@ function main() {
 
   console.log("\nCommandes:");
   console.log("  npm run blog:actu:fetch   # récupérer actu RSS + queue");
+  console.log("  npm run blog:actu:auto -- --dry-run --count=5 --no-ai # tester la rotation multi-sources");
   console.log("  npm run blog:actu:draft   # créer ébauches (--top=3)");
   console.log("  npm run blog:actu:publish # générer HTML + sitemap");
 }
