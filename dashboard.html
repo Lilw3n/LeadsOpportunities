@@ -1661,6 +1661,17 @@
           <div id="metaRotationSummary" style="font-size:.92rem;color:var(--muted)">Chargement…</div>
         </div>
 
+        <div class="dash-panel" id="marketsPresencePanel" style="margin-bottom:20px">
+          <div class="panel-header" style="display:flex;justify-content:space-between;align-items:center">
+            <h2>Marchés & présence — prochains créneaux</h2>
+            <div style="display:flex;gap:8px;align-items:center">
+              <a href="./crm-marches.html" style="font-weight:700;color:var(--primary);font-size:0.88rem">Gérer →</a>
+              <button type="button" class="btn-refresh" id="refreshMarketsPresence">Actualiser</button>
+            </div>
+          </div>
+          <div id="marketsPresenceSummary" style="font-size:.92rem;color:var(--muted)">Chargement…</div>
+        </div>
+
         <div style="display:grid; grid-template-columns:2fr 1fr; gap:20px;">
           <div class="dash-panel">
             <div class="panel-header">
@@ -2279,6 +2290,75 @@
         "<p><a href=\"./crm-acquisition.html\">CRM acquisition</a> · <a href=\"./crm-pubs.html\">Gestion pubs</a> · <a href=\"./crm-sources.html\">Origine leads</a> · docs/META-ROTATION-4-SEMAINES.md</p>";
     }
 
+    function formatMarketsDate(iso) {
+      try {
+        return new Date(iso + "T12:00:00").toLocaleDateString("fr-FR", {
+          weekday: "short",
+          day: "numeric",
+          month: "short",
+        });
+      } catch (e) {
+        return iso;
+      }
+    }
+
+    function marketsDaysUntil(iso) {
+      var d = new Date(iso + "T12:00:00");
+      var t = new Date();
+      t.setHours(12, 0, 0, 0);
+      return Math.round((d - t) / 86400000);
+    }
+
+    async function loadMarketsPresence() {
+      var el = document.getElementById("marketsPresenceSummary");
+      if (!el) return;
+      el.textContent = "Chargement…";
+      var data = await D.api("/api/dashboard/markets-presence?days=14");
+      if (!data.ok) {
+        el.textContent = "Planning terrain indisponible";
+        return;
+      }
+      var upcoming = data.upcoming || [];
+      if (!upcoming.length) {
+        el.innerHTML =
+          '<p>Aucun créneau sur les 14 prochains jours. <a href="./crm-marches.html">Ajouter un marché</a></p>';
+        return;
+      }
+      var unassigned = data.unassigned != null ? data.unassigned : 0;
+      var header =
+        "<p><strong>" +
+        upcoming.length +
+        " créneau(x)</strong> à venir" +
+        (unassigned
+          ? ' · <span style="color:#b45309;font-weight:700">' + unassigned + " sans équipier</span>"
+          : " · tous assignés ✓") +
+        "</p>";
+      var rows = upcoming.slice(0, 6).map(function (item) {
+        var du = marketsDaysUntil(item.date);
+        var when = du === 0 ? "Aujourd'hui" : du === 1 ? "Demain" : formatMarketsDate(item.date);
+        var who = item.assigned_name
+          ? esc(item.assigned_name)
+          : '<em style="color:#b45309">Non assigné</em>';
+        var times =
+          esc(item.work_start || item.presence_start || "?") +
+          "–" +
+          esc(item.work_end || item.presence_end || "?");
+        return (
+          "<p style=\"margin:6px 0\">" +
+          "<strong>" +
+          esc(when) +
+          "</strong> — " +
+          esc(item.market_name) +
+          " (" +
+          times +
+          ") · " +
+          who +
+          "</p>"
+        );
+      });
+      el.innerHTML = header + rows.join("") + '<p style="margin-top:8px"><a href="./crm-marches.html">Marchés & présence</a></p>';
+    }
+
     async function loadJourneyDropoffs() {
       var tbody = document.getElementById("journeyDropoffBody");
       var kpi = document.getElementById("journeyKpiText");
@@ -2405,6 +2485,7 @@
         loadRecentLeads();
         loadJourneyDropoffs();
         loadMetaRotation();
+        loadMarketsPresence();
       } catch (e) {
         console.error(e);
         toast("Erreur affichage stats", "error");
@@ -2760,10 +2841,13 @@
     document.getElementById("refreshStats").addEventListener("click", function () {
       loadStats();
       loadMetaRotation();
+      loadMarketsPresence();
       if (document.getElementById("sec-leads").classList.contains("active")) loadLeads();
     });
     var refreshRot = document.getElementById("refreshMetaRotation");
     if (refreshRot) refreshRot.addEventListener("click", loadMetaRotation);
+    var refreshMkt = document.getElementById("refreshMarketsPresence");
+    if (refreshMkt) refreshMkt.addEventListener("click", loadMarketsPresence);
     document.getElementById("refreshLeads").addEventListener("click", loadLeads);
 
     var params = new URLSearchParams(window.location.search);
