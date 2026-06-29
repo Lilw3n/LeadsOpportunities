@@ -27,6 +27,16 @@ function resolveQueueSourceType(source) {
   return resolveSourceType(source);
 }
 
+function isPlaceholderQueueItem(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "").toLowerCase();
+  return (
+    id === "cafeyn-pending-template" ||
+    title.indexOf("collez ici") !== -1 ||
+    title.indexOf("titre de la une cafeyn") !== -1
+  );
+}
+
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
   SOURCE_TYPES.forEach(function (type) {
@@ -41,6 +51,7 @@ function mergeWithQuotas(buckets, quotas) {
 }
 
 function ingestQueueItem(item, buckets, processed) {
+  if (isPlaceholderQueueItem(item)) return;
   if (item.status === "published" || item.status === "rejected") return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
