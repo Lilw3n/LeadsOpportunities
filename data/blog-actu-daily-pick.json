@@ -1,0 +1,81 @@
+{
+  "date": "2026-06-29",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-coupe-du-monde-2026-vers-un-france-argentine-un-fiasco-en-coree-du-sud-l",
+      "title": "Coupe du monde 2026. Vers un France - Argentine, un fiasco en Corée du Sud, les Bleus profitent... Suivez la 19e journée du Mondial",
+      "url": "https://www.dna.fr/sport/2026/06/29/une-fusillade-dans-une-fan-zone-le-bresil-face-au-japon-suivez-la-19-sup-e-sup-journee-du-mondial",
+      "summary": "Les seizièmes de finale se poursuivent après la victoire du Canada face à l'Afrique du Sud hier (1-0). Le Brésil affrontera le Japon à 19h, suivi de la rencontre Allemagne - Paraguay à 22h. Le vainqueur de ce match sera le potentiel adversaire des Bleus en huitième de finale. Cette 19e journée du Mondial se terminera par le choc entre les Pays-Bas et le Maroc à 3h.",
+      "pubDate": "Mon, 29 Jun 2026 10:12:00 GMT",
+      "feedId": "source-cafeyn-dna",
+      "feedName": "Cafeyn — DNA Alsace",
+      "sourceType": "cafeyn",
+      "suggestedFile": "coupe-du-monde-2026-vers-un-france-argentine-un-fiasco-en-coree-du-sud-l.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-mbappe-la-france-les-nombreux-eloges-de-la-legende-bresil",
+      "title": "Coupe du monde. Mbappé, la France… Les nombreux éloges de la légende brésilienne Romario pour les Bleus - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMilAJBVV95cUxPdVhsT3p5SXNyZUhEWGY2SjM1TkFpOHRCQnJhWHNfZkNLRlhhMlNIM3FNbXdXcHpkcGUzUHNreHdHbVVYd2lMWEhlcjJYYy1Yc29Gd3paWUVEVE5wVER4T3BFUjAxS01aajhvOFFIZ0w5WGQzNEJSMkJpbG5DaXBLalI5eElNVTh0Z3BGY29ldWtFeERyeDJxUlM2Qy1LUGlzX0k5UWwwb3VLZU54Wm5iT21UTl8zOUlvM3NNRVlfRlYtQUcyOGdKd0JkcmVGV3VBSjNhUWdtbThMT1I4VlgyZGJ1aUd1NDd2R1h3TXZxOG4yS0YzQ180WUYwcmdyVVVUUF9mNEhDRlFZQ2ZpemoxQkZWRGM?oc=5",
+      "summary": "Coupe du monde. Mbappé, la France… Les nombreux éloges de la légende brésilienne Romario pour les Bleus Ouest-France",
+      "pubDate": "Mon, 29 Jun 2026 06:58:39 GMT",
+      "feedId": "google-news-bleus-joueurs",
+      "feedName": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "google",
+      "suggestedFile": "coupe-du-monde-mbappe-la-france-les-nombreux-eloges-de-la-legende-bresil.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-florence-bouchet-agent-general-d-assurance-a-la-mutuelle-de-poitiers-un-",
+      "title": "Florence Bouchet, agent général d’assurance à la Mutuelle de Poitiers : « un sinistre ne débouche pas forcément sur une indemnisation »",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a4246e6cc5e47c3850ed82fdd804798&url=https%3a%2f%2fwww.lefigaro.fr%2feconomie%2fflorence-bouchet-agent-general-d-assurance-a-la-mutuelle-de-poitiers-un-sinistre-ne-debouche-pas-forcement-sur-une-indemnisation-20260618&c=13705261181994227815&mkt=en-us",
+      "summary": "Fine connaisseuse de la compagnie d’assurance, qu’elle a rejoint en 1994, Florence Bouchet explique sa particularité et sa force. Et les défis auxquels est aujourd’hui confronté le secteur.",
+      "pubDate": "Wed, 17 Jun 2026 23:39:00 GMT",
+      "feedId": "source-bing-news-sinistre",
+      "feedName": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "suggestedFile": "florence-bouchet-agent-general-d-assurance-a-la-mutuelle-de-poitiers-un-.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr",
+      "title": "Assurance emprunteur avec problème de santé : comment Cardif Libertés Emprunteur facilite votre accès au crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a4246e662254e2aaea5029d99722362&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-emprunteur-facilite-votre-acces-au-credit-immobilier-1527762&c=1646374346497082993&mkt=en-us",
+      "summary": "Bien que la majorité des dossiers soit acceptée aux conditions normales, certains antécédents médicaux peuvent entraîner des majorations de tarifs ou des exclusions de garanties. Cette réalité freine ...",
+      "pubDate": "Sun, 21 Jun 2026 23:00:00 GMT",
+      "feedId": "source-bing-news-emprunteur",
+      "feedName": "Bing News — assurance emprunteur",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-emmanuel-maillet-april-l-assurance-emprunteur-devient-un-levier-de-crois",
+      "title": "Emmanuel Maillet (April) : «L’assurance emprunteur devient un levier de croissance pour les CGP»",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a4246e662254e2aaea5029d99722362&url=https%3a%2f%2fwww.agefi.fr%2fpatrimoine%2fles-metiers%2femmanuel-maillet-april-lassurance-emprunteur-devient-un-levier-de-croissance-pour-les-cgp&c=17231679607562154608&mkt=en-us",
+      "summary": "La résiliation à tout moment a profondément transformé le marché de l’assurance emprunteur. Porté par l’essor de la substitution et l’arrivée de nouveaux réseaux de distribution, le secteur connaît un ...",
+      "pubDate": "Fri, 26 Jun 2026 02:46:00 GMT",
+      "feedId": "source-bing-news-emprunteur",
+      "feedName": "Bing News — assurance emprunteur",
+      "sourceType": "bing",
+      "suggestedFile": "emmanuel-maillet-april-l-assurance-emprunteur-devient-un-levier-de-crois.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 99,
+      "status": "candidate"
+    }
+  ]
+}
