@@ -40,6 +40,17 @@
     .mkt-soon { border-left: 4px solid #16a34a; }
     .mkt-unassigned { border-left: 4px solid #f59e0b; }
     .mkt-cancelled { opacity: 0.55; text-decoration: line-through; }
+    .mkt-schedule { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+    .mkt-tag { font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+    .mkt-tag--market { background: #e0f2fe; color: #0369a1; }
+    .mkt-tag--work { background: #dcfce7; color: #166534; }
+    .mkt-tag--break { background: #fef3c7; color: #92400e; }
+    .mkt-form-section { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .mkt-form-section h3 { margin: 0 0 6px; font-size: 0.9rem; }
+    .mkt-form-hint { margin: 0 0 8px; font-size: 0.78rem; color: var(--muted); }
+    .mkt-break-row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
+    .mkt-break-row input[type="time"] { width: 110px; }
+    .mkt-break-row .mkt-break-label { flex: 1; min-width: 100px; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -47,7 +58,7 @@
     <div>
       <p class="crm-eyebrow">Équipe · terrain</p>
       <h2>Marchés & horaires de présence</h2>
-      <p>Où être présent prochainement — marchés, permanences bureau. <strong>Toute l’équipe CRM</strong> peut modifier les horaires et les assignations.</p>
+      <p>Où être présent prochainement. <strong>Horaires marché</strong> (ouverture du lieu) ≠ <strong>horaires travail</strong> (préparation avant, pauses, rangement). Modifiable par toute l’équipe CRM.</p>
     </div>
     <div class="crm-action-row">
       <a href="./crm-calendar.html" class="btn btn-ghost">Calendrier</a>
@@ -70,7 +81,7 @@
 
   <section class="panel pub-hub-section">
     <h2>À venir — où être présent</h2>
-    <p style="color:var(--muted);margin-top:0">Prochains marchés et permanences. Cliquez <strong>Modifier présence</strong> pour assigner quelqu’un ou changer les horaires.</p>
+    <p style="color:var(--muted);margin-top:0">Présence = horaires <strong>travail équipe</strong> (prépa + fin). Les badges bleus = horaires officiels du marché.</p>
     <div class="mkt-upcoming" id="mktUpcoming"></div>
   </section>
 
