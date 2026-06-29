@@ -83,6 +83,14 @@ function textBlob(articleOrText) {
     .join(" ");
 }
 
+function stripFalsePositiveInsuranceTerms(text) {
+  return String(text || "")
+    .replace(/\bsuspensions?\s+mutuelles?\b/gi, "suspensions reciproques")
+    .replace(/\battaques?\s+mutuelles?\b/gi, "attaques reciproques")
+    .replace(/\baccusations?\s+mutuelles?\b/gi, "accusations reciproques")
+    .replace(/\bmenaces?\s+mutuelles?\b/gi, "menaces reciproques");
+}
+
 function isInternationalAudienceTopic(input) {
   var hay = textBlob(input);
   return INTL_TOPIC_PATTERNS.some(function (re) {
@@ -91,7 +99,7 @@ function isInternationalAudienceTopic(input) {
 }
 
 function isFranceMarketTopic(input) {
-  var hay = textBlob(input);
+  var hay = stripFalsePositiveInsuranceTerms(textBlob(input));
   return FRANCE_MARKET_PATTERNS.some(function (re) {
     return re.test(hay);
   });
@@ -116,7 +124,7 @@ function robotsMetaForArticle(article) {
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
-  var hay = title + " " + summary;
+  var hay = stripFalsePositiveInsuranceTerms(title + " " + summary);
   var delta = 0;
 
   if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {
