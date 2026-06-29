@@ -52,6 +52,12 @@ function resolveFeedSourceType(feed) {
   );
 }
 
+function isPlaceholderQueueItem(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "").toLowerCase();
+  return id === "cafeyn-pending-template" || title.indexOf("collez ici") !== -1;
+}
+
 function emptyBuckets() {
   return SOURCE_TYPES.reduce(function (acc, type) {
     acc[type] = [];
@@ -66,6 +72,7 @@ module.exports = {
   SOURCE_LABELS: SOURCE_LABELS,
   resolveSourceType: resolveSourceType,
   resolveFeedSourceType: resolveFeedSourceType,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
   sourceLabel: sourceLabel,
   emptyBuckets: emptyBuckets,
 };
