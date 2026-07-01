@@ -73,13 +73,40 @@
             </div>
             <div class="crm-command-actions">
               <a class="btn btn-primary" href="./crm-acquisition.html">Traiter les leads</a>
+              <a class="btn btn-ghost" href="./crm-trafic.html">Trafic & visites</a>
+              <a class="btn btn-ghost" href="./crm-pubs.html">Gestion pubs</a>
               <a class="btn btn-ghost" href="./crm-search.html">Recherche universelle</a>
               <a class="btn btn-ghost" href="./crm-quote-new.html">Créer un devis</a>
             </div>
           </div>
 
+          <div class="crm-onboard-strip" id="crmOnboardStrip" hidden>
+            <div>
+              <p class="crm-eyebrow" style="margin:0 0 4px">Nouveau sur le CRM</p>
+              <strong>Parcours recommandé pour contribuer au site</strong>
+              <p style="margin:6px 0 0;color:var(--muted);font-size:.9rem">
+                1. <a href="./crm-acquisition.html">Pipeline leads</a> ·
+                2. <a href="./crm-pubs.html">Gestion pubs</a> ·
+                3. <a href="./crm-trafic.html">Trafic & parcours</a> ·
+                4. <a href="./crm-marches.html">Marchés & présence</a>
+              </p>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" id="crmOnboardStart">Commencer</button>
+            <button type="button" class="btn btn-ghost btn-sm" id="crmOnboardDismiss" aria-label="Masquer">Masquer</button>
+          </div>
+
           <div class="crm-dashboard-grid">
             <article class="crm-workflow-card crm-workflow-hot">
+              <span class="crm-card-kicker">Site & équipe</span>
+              <h3>Piloter le site</h3>
+              <p>Trafic visiteurs, campagnes pub, présence terrain, attribution des leads.</p>
+              <div class="crm-card-actions">
+                <a href="./crm-trafic.html">Trafic</a>
+                <a href="./crm-pubs.html">Gestion pubs</a>
+                <a href="./crm-marches.html">Marchés</a>
+                <a href="./crm-sources.html">Origine leads</a>
+              </div>
+            </article>
               <span class="crm-card-kicker">Acquisition</span>
               <h3>Nouveaux leads entrants</h3>
               <p>Pipeline multi-plateformes, leads non ouverts, archivage et matching privé.</p>
@@ -266,6 +293,7 @@
     </main>
   </div>
 
+  <script src="./js/crm-team-tracking.js" defer></script>
   <script src="./js/crm-nav-ui.js"></script>
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-export.js"></script>
