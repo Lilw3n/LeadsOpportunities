@@ -64,6 +64,33 @@
       (state.user.crmRole || state.user.role || "").toUpperCase();
     var av = document.getElementById("crmUserAvatar");
     if (av) av.textContent = (name.charAt(0) || "U").toUpperCase();
+    initOnboardingStrip();
+  }
+
+  function initOnboardingStrip() {
+    var strip = document.getElementById("crmOnboardStrip");
+    if (!strip) return;
+    try {
+      if (localStorage.getItem("lo_crm_onboard_v1") === "done") return;
+      strip.hidden = false;
+    } catch (e) {
+      strip.hidden = false;
+    }
+    var dismiss = document.getElementById("crmOnboardDismiss");
+    var start = document.getElementById("crmOnboardStart");
+    if (dismiss) {
+      dismiss.onclick = function () {
+        try {
+          localStorage.setItem("lo_crm_onboard_v1", "done");
+        } catch (e) {}
+        strip.hidden = true;
+      };
+    }
+    if (start) {
+      start.onclick = function () {
+        location.href = "./crm-acquisition.html";
+      };
+    }
   }
 
   function mountSidebar() {
