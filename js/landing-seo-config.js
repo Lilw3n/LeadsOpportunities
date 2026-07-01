@@ -10,7 +10,7 @@
       description:
         "Tous les parcours devis Leads Opportunities : assurance VTC, mutuelle sante, credit immobilier, animaux et 30+ questionnaires. Devis gratuit, courtier ORIAS.",
       keywords:
-        "parcours devis, devis assurance en ligne, devis mutuelle, simulation credit immo, questionnaire assurance, courtier ORIAS",
+        "devis assurance gratuit, comparatif mutuelle, devis assurance en ligne, courtier assurance ORIAS, simulation credit immo, devis mutuelle sante, devis assurance vtc, devis assurance auto",
       badge: "Parcours devis",
       h1: "Parcours de devis en ligne : assurance et financement",
       intro:

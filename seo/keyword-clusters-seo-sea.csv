@@ -1,10 +1,38 @@
 verticale,intention,mot_cle_principal,mots_cles_secondaires,type_page,priorite
+transversal,transactionnelle,devis assurance gratuit,comparatif assurance|courtier assurance ORIAS|devis assurance en ligne|assurance pas cher France,home,haute
+transversal,transactionnelle,courtier assurance France,devis mutuelle|devis assurance auto|devis assurance habitation|comparateur assurance,home,haute
+transversal,transactionnelle,comparateur assurance en ligne,meilleure assurance 2026|changer assurance|resiliation assurance|devis rapide assurance,home,haute
 vtc,transactionnelle,devis assurance vtc,assurance vtc tarif|auto pro vtc|assurance chauffeur vtc|assurance vtc rapide,landing,haute
-vtc,transactionnelle,assurance vtc pas cher,comparatif assurance vtc|prix assurance vtc|devis express vtc,page service,haute
-vtc,informationnelle,garanties assurance vtc,franchise assurance vtc|rc pro vtc|usage professionnel auto,article,moyenne
-sante,transactionnelle,devis assurance sante,comparatif mutuelle sante|marketplace sante|mutuelle sante prix,landing,haute
-sante,transactionnelle,assurance sante famille,april sante optimale|mutuelle famille tarif|april flexi sante,page service,haute
-sante,informationnelle,remboursement mutuelle optique,remboursement dentaire mutuelle|hospitalisation mutuelle|contrat responsable,article,moyenne
-credit_immo,transactionnelle,simulation credit immo,courtier pret immobilier|assurance emprunteur|devis credit immobilier,landing,haute
-credit_immo,transactionnelle,rachat credit immobilier,april reprise|regroupement de credits|baisse mensualites,page service,moyenne
-credit_immo,informationnelle,taux credit immobilier 2026,assurance pret equilibre|frais dossier credit|marketplace emprunteur,article,moyenne
+vtc,transactionnelle,assurance vtc pas cher,comparatif assurance vtc|prix assurance vtc|devis express vtc|assurance uber bolt,page service,haute
+vtc,transactionnelle,assurance uber france,assurance bolt|assurance heetch|rc pro chauffeur|assurance vtcile de france,page service,haute
+vtc,informationnelle,garanties assurance vtc,franchise assurance vtc|rc pro vtc|usage professionnel auto|assurance vtc obligatoire,article,moyenne
+vtc,transactionnelle,assurance auto pro vtc,creation activite vtc|immatriculation vtc assurance|devis vtc 15 minutes,landing,haute
+sante,transactionnelle,devis mutuelle sante,comparatif mutuelle sante|mutuelle sante pas cher|devis complementaire sante|marketplace sante,landing,haute
+sante,transactionnelle,comparatif mutuelle 2026,meilleure mutuelle sante|mutuelle famille|mutuelle senior|mutuelle independant,page service,haute
+sante,transactionnelle,devis assurance sante,comparatif mutuelle sante|marketplace sante|mutuelle sante prix|april sante optimale,landing,haute
+sante,transactionnelle,assurance sante famille,april sante optimale|mutuelle famille tarif|april flexi sante|mutuelle couple,page service,haute
+sante,transactionnelle,mutuelle sante pas cher,complementaire sante budget|mutuelle etudiant|mutuelle sans carence|devis mutuelle rapide,page service,haute
+sante,informationnelle,remboursement mutuelle optique,remboursement dentaire mutuelle|hospitalisation mutuelle|contrat responsable|forfait optique mutuelle,article,moyenne
+sante,transactionnelle,mutuelle collective entreprise,complementaire sante entreprise|mutuelle obligatoire salarie|devis mutuelle collective|ANI mutuelle,landing,haute
+emprunteur,transactionnelle,assurance emprunteur,loi lemoine|delegation assurance pret|changer assurance emprunteur|devis assurance pret,page service,haute
+emprunteur,transactionnelle,loi lemoine assurance emprunteur,changement assureur pret|sans questionnaire medical|economiser assurance emprunteur|resiliation assurance pret,article,haute
+emprunteur,transactionnelle,devis assurance emprunteur,comparatif assurance pret immobilier|assurance pret pas cher|taux assurance emprunteur,landing,haute
+emprunteur,informationnelle,assurance pret immobilier obligatoire,garantie deces invalidite|quotient familial assurance|assurance groupe bancaire,article,moyenne
+credit_immo,transactionnelle,simulation credit immo,courtier pret immobilier|assurance emprunteur|devis credit immobilier|capacite emprunt,landing,haute
+credit_immo,transactionnelle,courtier credit immobilier,pret immobilier taux|simulation pret immo gratuite|dossier pret immobilier|financement achat maison,page service,haute
+credit_immo,transactionnelle,rachat credit immobilier,april reprise|regroupement de credits|baisse mensualites|renegociation pret,page service,haute
+credit_immo,informationnelle,taux credit immobilier 2026,assurance pret equilibre|frais dossier credit|marketplace emprunteur|apport personnel pret,article,moyenne
+auto,transactionnelle,devis assurance auto,assurance auto pas cher|comparatif assurance auto|assurance tous risques|assurance au tiers,landing,haute
+auto,transactionnelle,assurance auto jeune conducteur,bonus malus|assurance auto permis probatoire|prix assurance auto|devis auto en ligne,page service,haute
+auto,transactionnelle,assurance auto bonus malus,resilie auto|assurance auto malus|releve information assurance|comparateur auto,article,haute
+habitation,transactionnelle,devis assurance habitation,assurance habitation pas cher|multirisque habitation|assurance locataire|assurance proprietaire,landing,haute
+habitation,transactionnelle,assurance habitation locataire,mrh locataire|degats des eaux assurance|vol assurance habitation|responsabilite civile locataire,page service,haute
+habitation,transactionnelle,assurance proprietaire non occupant,pno assurance|bailleur assurance|location meublee assurance|gli assurance,page service,haute
+animaux,transactionnelle,assurance chien pas cher,assurance chat|mutuelle animaux|assurance animaux comparatif|remboursement veterinaire,landing,haute
+animaux,transactionnelle,assurance animaux,assurance chien|assurance chat|formule animaux|devis assurance animaux,page service,haute
+prevoyance,transactionnelle,prevoyance independant,assurance arret travail|prevoyance deces|perte revenus independant|devis prevoyance,page service,haute
+prevoyance,transactionnelle,assurance deces prevoyance,capital deces|garantie invalidite|prevoyance salarie|complementaire prevoyance,page service,moyenne
+chasse,transactionnelle,assurance chasse,rc chasseur|assurance chasse pas cher|licence chasse assurance|devis assurance chasse,page service,haute
+equitation,transactionnelle,assurance equitation,rc cavalier|assurance cheval|devis assurance equitation,page service,moyenne
+geo,transactionnelle,devis assurance paris,mutuelle paris|assurance auto paris|courtier assurance paris|devis assurance lyon,geo,haute
+geo,transactionnelle,assurance marseille devis,mutuelle marseille|assurance vtc marseille|credit immo marseille|courtier marseille,geo,haute

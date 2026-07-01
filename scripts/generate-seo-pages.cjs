@@ -23,6 +23,7 @@ const {
 } = require("./seo-geo-lib.cjs");
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
+const kwLib = require("./keyword-clusters-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
@@ -55,9 +56,9 @@ const PAGES = [
     file: "assurance-vtc/index.html",
     theme: "vtc",
     badge: "Mobilite pro",
-    title: "Assurance VTC | Devis et comparatif chauffeur 2026",
+    title: "Devis assurance VTC pas cher | Comparatif chauffeur Uber Bolt 2026",
     description:
-      "Assurance VTC pour chauffeurs actifs et creation d activite : RC pro, garanties, franchises. Devis rapide avec courtier ORIAS, sans engagement.",
+      "Devis assurance VTC gratuit : RC pro, auto pro, Uber Bolt Heetch. Comparatif tarif chauffeur VTC, courtier ORIAS, réponse sous 15 min.",
     h1: "Assurance VTC : la bonne couverture pour rouler sereinement",
     intro:
       "Que vous soyez chauffeur VTC confirme ou en cours d immatriculation, nous comparons les offres du marche a garanties equivalentes. Un conseiller specialise vous explique chaque poste avant de signer.",
@@ -266,9 +267,9 @@ const PAGES = [
     file: "assurance-sante/index.html",
     theme: "sante",
     badge: "Sante & prevoyance",
-    title: "Mutuelle sante | Comparatif et devis gratuit",
+    title: "Devis mutuelle santé | Comparatif complémentaire santé gratuit",
     description:
-      "Mutuelle sante solo, couple ou famille : comparatif des garanties optique, dentaire, hospitalisation. Courtier ORIAS, devis gratuit.",
+      "Comparatif mutuelle santé 2026 : optique, dentaire, hospitalisation. Devis complémentaire santé gratuit, famille et TNS, courtier ORIAS.",
     h1: "Mutuelle sante : bien couvrir sans surpayer",
     intro:
       "Optique, dentaire, hospitalisation : les ecarts entre contrats sont enormes. Nous identifions les postes qui comptent pour votre foyer et comparons a niveau de garanties equivalent.",
@@ -428,9 +429,9 @@ const PAGES = [
     file: "credit-immo/index.html",
     theme: "credit",
     badge: "Credit immobilier",
-    title: "Credit immobilier | Simulation et courtier",
+    title: "Simulation crédit immobilier gratuite | Courtier prêt immo + assurance emprunteur",
     description:
-      "Credit immobilier : simulation, capacite d emprunt, negociation du taux. Courtier ORIAS, accompagnement dossier, sans engagement.",
+      "Simulation crédit immo gratuite, courtier prêt immobilier et assurance emprunteur (loi Lemoine). Devis rapide, capacité d emprunt et taux 2026.",
     h1: "Credit immobilier : securiser votre financement",
     intro:
       "Primo-accedant ou investisseur : nous analysons votre capacite d emprunt, comparons les banques et securisons les assurances associees pour un plan de financement solide.",
@@ -612,6 +613,26 @@ function renderSteps(steps) {
   return '<section class="seo-card"><h2>Comment ca marche</h2><div class="seo-steps">' + items + "</div></section>";
 }
 
+function resolvePageKeywords(p) {
+  if (p.keywords && p.keywords.length) return p.keywords;
+  var theme = p.theme || "vtc";
+  var file = p.file || "";
+  if (file.indexOf("assurance-emprunteur") >= 0) theme = "emprunteur";
+  else if (file.indexOf("assurance-animaux") >= 0 || file.indexOf("assurance-chien") >= 0 || file.indexOf("assurance-chat") >= 0)
+    theme = "animaux";
+  else if (file.indexOf("assurance-auto") >= 0) theme = "auto";
+  else if (file.indexOf("assurance-habitation") >= 0) theme = "habitation";
+  else if (file.indexOf("assurance-prevoyance") >= 0) theme = "prevoyance";
+  else if (file.indexOf("credit-immo") >= 0) theme = "credit";
+  var kws = kwLib.keywordsForTheme(theme);
+  if (p.city && p.city.name) {
+    var cityKw =
+      (kws[0] || "devis assurance") + " " + p.city.name.toLowerCase();
+    kws = [cityKw].concat(kws);
+  }
+  return kwLib.dedupe(kws);
+}
+
 function renderPage(p) {
   const prefix = depthPrefix(p.file);
   const canonical = BASE + "/" + p.file.replace(/index\.html$/, "");
@@ -779,13 +800,17 @@ function renderPage(p) {
         "</ul></section>"
       : "";
 
+  const pageKeywords = kwLib.metaKeywordsString(resolvePageKeywords(p), 14);
+  const descEnriched = kwLib.enrichDescription(p.description, resolvePageKeywords(p));
+
   return `<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(p.title)}</title>
-  <meta name="description" content="${esc(p.description)}" />
+  <meta name="description" content="${esc(descEnriched)}" />
+  <meta name="keywords" content="${esc(pageKeywords)}" />
   <meta name="robots" content="index,follow" />
   ${geoMeta}
   <link rel="canonical" href="${esc(canonical)}" />
