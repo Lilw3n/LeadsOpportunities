@@ -127,7 +127,7 @@
       "id": "source-cafeyn-capital",
       "name": "Cafeyn — Capital",
       "sourceType": "cafeyn",
-      "url": "https://www.capital.fr/rss",
+      "url": "https://feed.prismamediadigital.com/v1/cap/rss?limit=20",
       "enabled": true
     },
     {
