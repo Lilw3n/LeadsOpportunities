@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-28",
+  "updated": "2026-07-01",
   "sections": [
     "actu",
     "animaux",
@@ -836,7 +836,7 @@
       "file": "assurance-emprunteur-combien-economiser-lemoine.html",
       "title": "Assurance emprunteur : combien pouvez-vous économiser avec la Lemoine ?",
       "section": "habitat",
-      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "hook": "La Lemoine peut faire économiser des milliers d'euros — si les garanties sont équivalentes.",
       "question": "Simulez votre économie Lemoine en quelques minutes",
       "need": "emprunteur",
       "landing": "../landings/credit-immo.html",
