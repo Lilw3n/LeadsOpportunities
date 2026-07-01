@@ -852,6 +852,18 @@ tbody td {
   transform: translateY(-2px);
   color: var(--primary-dark);
 }
+.crm-onboard-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin: 0 0 18px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid #bae6fd;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ecfeff 100%);
+}
+.crm-onboard-strip p a { font-weight: 700; }
 .crm-command-center {
   display: flex;
   align-items: flex-end;

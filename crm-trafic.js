@@ -219,7 +219,84 @@
       })
       .join("");
     el.innerHTML +=
+      '<a href="https://clarity.microsoft.com/projects/view/x7yqp46fj9" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Clarity (filtre team_session) ↗</a>' +
+      '<a href="https://analytics.google.com/" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">GA4 ↗</a>' +
       '<a href="https://search.google.com/search-console" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Search Console ↗</a>';
+  }
+
+  function renderTeamJourney(data) {
+    var k = data.kpis || {};
+    var kpiEl = document.getElementById("trafTeamKpis");
+    if (kpiEl) {
+      kpiEl.innerHTML =
+        '<span class="acq-stat">Sessions équipe <strong>' +
+        (k.team_sessions || 0) +
+        "</strong></span>" +
+        '<span class="acq-stat">Pages vues CRM <strong>' +
+        (k.team_page_views || 0) +
+        "</strong></span>" +
+        '<span class="acq-stat">Clics nav <strong>' +
+        (k.team_nav_clicks || 0) +
+        "</strong></span>";
+    }
+    var pagesEl = document.getElementById("trafTeamPages");
+    if (pagesEl) {
+      var pages = data.top_team_pages || [];
+      if (!pages.length) {
+        pagesEl.innerHTML =
+          '<p style="color:var(--muted)">Pas encore de données équipe — le tracking CRM est actif depuis ce déploiement.</p>';
+      } else {
+        pagesEl.innerHTML =
+          "<table><thead><tr><th>Page</th><th>Vues</th></tr></thead><tbody>" +
+          pages
+            .map(function (p) {
+              return (
+                "<tr><td><code>" +
+                esc(p.path) +
+                "</code></td><td><strong>" +
+                p.views +
+                "</strong></td></tr>"
+              );
+            })
+            .join("") +
+          "</tbody></table>";
+      }
+    }
+    var navEl = document.getElementById("trafTeamNav");
+    if (navEl) {
+      var nav = data.top_nav_clicks || [];
+      if (!nav.length) {
+        navEl.innerHTML = '<p style="color:var(--muted)">Aucun clic navigation enregistré.</p>';
+      } else {
+        navEl.innerHTML =
+          "<table><thead><tr><th>Destination</th><th>Clics</th></tr></thead><tbody>" +
+          nav
+            .map(function (n) {
+              return (
+                "<tr><td>" +
+                esc(n.target) +
+                "</td><td><strong>" +
+                n.clicks +
+                "</strong></td></tr>"
+              );
+            })
+            .join("") +
+          "</tbody></table>";
+      }
+    }
+    var noteEl = document.getElementById("trafTeamNote");
+    if (noteEl) noteEl.textContent = data.note || "";
+  }
+
+  function loadTeamJourney() {
+    fetch("/api/crm/team-journey?days=14", { headers: authHeaders() })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (res.ok) renderTeamJourney(res);
+      })
+      .catch(function () {});
   }
 
   function load() {
@@ -242,6 +319,7 @@
         document.getElementById("trafCompare").innerHTML =
           '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
       });
+    loadTeamJourney();
   }
 
   document.getElementById("btnTrafRefresh").onclick = load;

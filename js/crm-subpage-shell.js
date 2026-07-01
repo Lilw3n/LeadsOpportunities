@@ -195,4 +195,11 @@
     }
     next();
   }
+
+  if (!document.querySelector('script[src*="crm-team-tracking"]')) {
+    var trk = document.createElement("script");
+    trk.src = "./js/crm-team-tracking.js";
+    trk.defer = true;
+    document.head.appendChild(trk);
+  }
 })();

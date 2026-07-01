@@ -23,6 +23,8 @@ function pageSection() {
   if (p.indexOf("/blog") !== -1) return "blog";
   if (p.indexOf("/landings/") !== -1) return "landing";
   if (p === "/" || p === "/index.html") return "home";
+  if (/dashboard\.html/.test(p)) return "dashboard";
+  if (/crm/.test(p)) return "crm";
   if (
     p.indexOf("/assurance") !== -1 ||
     p.indexOf("/credit-immo") !== -1 ||
