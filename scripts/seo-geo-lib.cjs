@@ -79,13 +79,13 @@ const GEO_PRODUCTS = [
       return "Devis mutuelle " + city.name;
     },
     title: function (city) {
-      return "Mutuelle sante " + city.name + " | Comparatif " + city.region;
+      return "Devis mutuelle " + city.name + " | Comparatif santé " + city.region;
     },
     description: function (city) {
       return (
-        "Mutuelle sante a " +
+        "Devis mutuelle santé à " +
         city.name +
-        " : comparatif optique, dentaire, hospitalisation. Courtier ORIAS, devis gratuit pour particuliers et independants."
+        " : comparatif complémentaire santé, optique, dentaire, hospitalisation. Courtier ORIAS, devis gratuit."
       );
     },
     h1: function (city) {
@@ -286,13 +286,13 @@ const GEO_PRODUCTS = [
       return "Devis emprunteur " + city.name;
     },
     title: function (city) {
-      return "Assurance emprunteur " + city.name + " | Loi Lemoine " + city.region;
+      return "Devis assurance emprunteur " + city.name + " | Loi Lemoine " + city.region;
     },
     description: function (city) {
       return (
-        "Assurance emprunteur a " +
+        "Devis assurance emprunteur à " +
         city.name +
-        " : changer d'assureur, loi Lemoine, economie sur pret immo. Courtier ORIAS, devis gratuit."
+        " : loi Lemoine, changement assureur, économie prêt immo. Comparatif gratuit, courtier ORIAS."
       );
     },
     h1: function (city) {

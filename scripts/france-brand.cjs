@@ -65,9 +65,10 @@ function googleSiteVerificationMeta() {
   return '<meta name="google-site-verification" content="' + GOOGLE_SITE_VERIFICATION + '" />';
 }
 
-const HOME_TITLE = "Devis assurance France | Mutuelle, auto, VTC, credit immo | Leads Opportunities";
+const HOME_TITLE =
+  "Devis assurance gratuit France | Mutuelle, auto, VTC, emprunteur | Leads Opportunities";
 const HOME_DESCRIPTION =
-  "Courtier assurance ORIAS en France : mutuelle, auto, habitation, emprunteur, VTC, prevoyance. Devis gratuit, 180+ villes, reponse sous 15 min.";
+  "Comparateur et courtier assurance ORIAS : devis mutuelle santé, assurance auto, habitation, emprunteur, VTC. Devis gratuit en ligne, 180+ villes, réponse sous 15 min.";
 
 module.exports = {
   franceMetaBlock: franceMetaBlock,

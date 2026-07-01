@@ -1,6 +1,21 @@
 /**
  * Enrichissement SEO automatique des articles blog (contenu long + FAQ + lexique).
  */
+const fs = require("fs");
+const path = require("path");
+
+var PRIORITY_KW_PATH = path.join(__dirname, "..", "data", "blog-keywords-priority.json");
+var _priorityKw = null;
+
+function loadPriorityKeywords() {
+  if (_priorityKw) return _priorityKw;
+  try {
+    _priorityKw = JSON.parse(fs.readFileSync(PRIORITY_KW_PATH, "utf8"));
+  } catch (e) {
+    _priorityKw = {};
+  }
+  return _priorityKw;
+}
 
 function p(text) {
   return { type: "p", text: text };
@@ -121,6 +136,10 @@ function estimateMeta(blocks, faq) {
 }
 
 function defaultKeywords(article) {
+  var priority = loadPriorityKeywords();
+  if (article.file && priority[article.file]) {
+    return priority[article.file].concat(["devis assurance", "courtier ORIAS", "Leads Opportunities"]);
+  }
   var base = ["devis assurance", "comparatif assurance", "courtier ORIAS", "Leads Opportunities"];
   var tag = (article.tag || "").toLowerCase();
   if (tag.indexOf("vtc") >= 0 || article.section === "vtc") {
@@ -137,6 +156,9 @@ function defaultKeywords(article) {
   }
   if (article.section === "auto") {
     return ["assurance auto", "bonus malus", "jeune conducteur", "tous risques"].concat(base);
+  }
+  if (article.section === "finance" || article.section === "credit") {
+    return ["credit immobilier", "simulation pret immo", "assurance emprunteur", "loi lemoine"].concat(base);
   }
   if (article.section === "actu") {
     return [article.tag, "assurance 2026", "actualite assurance", "conseil assurance"].concat(base);

@@ -1,11 +1,14 @@
 {
-  "updated": "2026-06-17",
+  "updated": "2026-06-29",
   "maxPerFeed": 5,
   "quotas": {
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 30
+    "google": 25,
+    "bing": 15,
+    "yahoo": 12,
+    "aggregator": 8
   },
   "feeds": [
     {
@@ -124,7 +127,7 @@
       "id": "source-cafeyn-capital",
       "name": "Cafeyn — Capital",
       "sourceType": "cafeyn",
-      "url": "https://www.capital.fr/rss",
+      "url": "https://feed.prismamediadigital.com/v1/cap/rss?limit=20",
       "enabled": true
     },
     {
@@ -205,6 +208,20 @@
       "enabled": true
     },
     {
+      "id": "source-firefox-20minutes-une",
+      "name": "Firefox — 20 Minutes une",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-une.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes-france",
+      "name": "Firefox — 20 Minutes France",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-france.xml",
+      "enabled": true
+    },
+    {
       "id": "source-firefox-france24",
       "name": "Firefox — France 24",
       "sourceType": "firefox",
@@ -263,196 +280,196 @@
     {
       "id": "google-news-top-fr",
       "name": "Google News — une France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-assurance",
       "name": "Google News — assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+OR+mutuelle+OR+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-assurance-fr",
       "name": "Google News — assurance France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-mutuelle",
       "name": "Google News — mutuelle santé",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=mutuelle+sante+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-habitation",
       "name": "Google News — habitation sinistre",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+habitation+sinistre+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-habitation-fr",
       "name": "Google News — assurance habitation",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+habitation+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-auto",
       "name": "Google News — assurance auto",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+auto+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sante",
       "name": "Google News — santé remboursement",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=mutuelle+OR+remboursement+santé+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-immobilier",
       "name": "Google News — prêt immo emprunteur",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=prêt+immobilier+OR+assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-taux-immo",
       "name": "Google News — taux immobilier",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=taux+immobilier+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-emprunteur",
       "name": "Google News — assurance emprunteur",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+emprunteur+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-prevoyance",
       "name": "Google News — prévoyance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=prevoyance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-retraite",
       "name": "Google News — retraite prévoyance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=retraite+prevoyance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sinistre",
       "name": "Google News — sinistre assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=sinistre+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-cat-nat",
       "name": "Google News — catastrophe naturelle",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=catastrophe+naturelle+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-canicule",
       "name": "Google News — canicule dégâts",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=canicule+degats+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-vtc",
       "name": "Google News — VTC Uber assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=VTC+uber+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-animaux",
       "name": "Google News — assurance animaux",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=assurance+animaux+chien+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-rc-pro",
       "name": "Google News — RC Pro",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=RC+pro+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-people",
       "name": "Google News — people (angle assurance)",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=people+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sport-voyage",
       "name": "Google News — sport & voyage",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=coupe+du+monde+OR+voyage+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-sport",
       "name": "Google News — sport France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=sport+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-cdm-2026",
       "name": "Google News — Coupe du monde 2026 France",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=coupe+du+monde+2026+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-equipe-france",
       "name": "Google News — équipe de France football",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=equipe+de+france+football&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-bleus-joueurs",
       "name": "Google News — Mbappé Deschamps Bleus",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=Mbappe+OR+Deschamps+OR+Griezmann+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-supporters",
       "name": "Google News — supporters France foot",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=supporters+france+football&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-match-france",
       "name": "Google News — match France aujourd'hui",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=match+france+football&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
     {
       "id": "google-news-cdm-voyage",
       "name": "Google News — CDM voyage assurance",
-      "sourceType": "aggregator",
+      "sourceType": "google",
       "url": "https://news.google.com/rss/search?q=coupe+du+monde+voyage+assurance+france&hl=fr&gl=FR&ceid=FR:fr",
       "enabled": true
     },
@@ -469,11 +486,81 @@
       "sourceType": "edge",
       "url": "https://www.bing.com/news/search?q=coupe+du+monde+2026+france&format=rss",
       "enabled": true
+    },
+    {
+      "id": "source-bing-news-france",
+      "name": "Bing News — France",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-actualites",
+      "name": "Bing News — actualités France",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=actualites+France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-assurance",
+      "name": "Bing News — assurance",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=assurance+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-mutuelle",
+      "name": "Bing News — mutuelle",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=mutuelle+sante+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-emprunteur",
+      "name": "Bing News — assurance emprunteur",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=assurance+emprunteur+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-sinistre",
+      "name": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=sinistre+assurance+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-news-france",
+      "name": "Yahoo Actualités — France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/france/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-news-top",
+      "name": "Yahoo Actualités — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance-top",
+      "name": "Yahoo Finance — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/topstories",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance",
+      "name": "Yahoo Finance — marchés",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/",
+      "enabled": true
     }
   ],
   "pocket": {
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "Collecte actu multi-sources sans identifiants : Cafeyn via RSS publics equivalents + inbox securisee, Edge/Firefox via flux publics, Google/Bing/Yahoo via RSS. CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }
