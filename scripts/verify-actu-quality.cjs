@@ -16,6 +16,10 @@ function arg(name) {
   return m ? m.split("=").slice(1).join("=") : "";
 }
 
+function hasFlag(name) {
+  return process.argv.indexOf("--" + name) !== -1;
+}
+
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
@@ -58,7 +62,7 @@ function main() {
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
+  } else if (hasFlag("stdin")) {
     var stdin = fs.readFileSync(0, "utf8");
     var parsed = JSON.parse(stdin);
     articles = Array.isArray(parsed) ? parsed : [parsed];
