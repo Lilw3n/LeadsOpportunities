@@ -18,6 +18,7 @@ function buildPrompt(candidate) {
   var topic = matchTopic(candidate.title + " " + (candidate.summary || ""));
   var need = candidate.need || topic.need;
   var platform = candidate.sourceType || candidate.source || "actu";
+  var isEvergreen = platform === "evergreen" || candidate._leadFallback;
   var sportBlock = "";
   if (isSportActu(candidate.title + " " + (candidate.summary || ""))) {
     need = "sante";
@@ -29,14 +30,15 @@ function buildPrompt(candidate) {
   }
   return (
     "Tu es redacteur SEO pour Leads Opportunities, courtier ORIAS assurance en France.\n" +
-    "A partir de cette actualite, redige un article ORIGINAL (ne copie pas le journal) qui convertit vers un questionnaire.\n\n" +
-    "ACTU:\nTitre: " +
+    (isEvergreen
+      ? "A partir de ce sujet evergreen, redige un guide ORIGINAL qui convertit vers un questionnaire. Ne le presente pas comme une actualite.\n\nSUJET LEAD:\nTitre: "
+      : "A partir de cette actualite, redige un article ORIGINAL (ne copie pas le journal) qui convertit vers un questionnaire.\n\nACTU:\nTitre: ") +
     candidate.title +
     "\nResume: " +
     (candidate.summary || "") +
-    "\nPlateforme source: " +
-    platform +
-    " (Cafeyn, Edge ou Firefox)\nNeed questionnaire: " +
+    "\nSource: " +
+    (isEvergreen ? "planning editorial Leads Opportunities" : platform + " (Cafeyn, Edge ou Firefox)") +
+    "\nNeed questionnaire: " +
     need +
     sportBlock +
     "\n" +

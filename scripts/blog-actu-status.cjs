@@ -5,21 +5,33 @@
 const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
 
+function isActiveQueueItem(item) {
+  return item.status !== "published" && item.status !== "rejected" && item.status !== "template";
+}
+
 function main() {
   var queue = readJson("blog-actu-queue.json", { items: [] });
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] });
   var pending = loadPendingArticles();
   var state = readJson("blog-actu-state.json", {});
+  var leadTopics = readJson("blog-lead-topics.json", { topics: [] });
+  var usedLeadTopics = new Set((state.leadTopicHistory || []).map(function (entry) {
+    return entry.id;
+  }));
+  var availableLeadTopics = (leadTopics.topics || []).filter(function (topic) {
+    return topic.enabled !== false && topic.id && !usedLeadTopics.has(topic.id);
+  }).length;
 
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    return isActiveQueueItem(i);
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
+  console.log("Sujets leads evergreen disponibles:", availableLeadTopics + "/" + (leadTopics.topics || []).length);
 
   if ((candidates.candidates || []).length) {
     console.log("\n--- Top candidats ---");

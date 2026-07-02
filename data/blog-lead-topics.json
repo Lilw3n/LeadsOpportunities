@@ -1,0 +1,166 @@
+{
+  "updated": "2026-07-02",
+  "description": "Sujets evergreen utilises uniquement en fallback par blog:actu:auto quand les sources RSS/queue ne suffisent pas a produire la cadence d'articles leads.",
+  "topics": [
+    {
+      "id": "mutuelle-hospitalisation-restes-a-charge",
+      "enabled": true,
+      "title": "Mutuelle sante 2026 : comment reduire les restes a charge en hospitalisation",
+      "slug": "mutuelle-sante-restes-a-charge-hospitalisation-2026",
+      "need": "sante",
+      "section": "sante",
+      "summary": "Guide pratique pour qualifier le niveau de mutuelle selon hospitalisation, depassements d'honoraires et reste a charge.",
+      "leadScore": 94
+    },
+    {
+      "id": "mutuelle-dentaire-optique-comparer",
+      "enabled": true,
+      "title": "Mutuelle dentaire et optique : les garanties a comparer avant de changer",
+      "slug": "mutuelle-dentaire-optique-garanties-comparer",
+      "need": "sante",
+      "section": "sante",
+      "summary": "Article conversion pour foyers qui veulent comparer les remboursements dentaire, optique et audiologie.",
+      "leadScore": 92
+    },
+    {
+      "id": "habitation-degats-des-eaux-locataire",
+      "enabled": true,
+      "title": "Degat des eaux locataire : quelles garanties verifier dans l'assurance habitation",
+      "slug": "degat-des-eaux-locataire-assurance-habitation",
+      "need": "habitation",
+      "section": "habitat",
+      "summary": "Checklist sinistre habitation, responsabilites locataire/proprietaire et questionnaire habitation.",
+      "leadScore": 93
+    },
+    {
+      "id": "habitation-proprietaire-bailleur-pno",
+      "enabled": true,
+      "title": "Proprietaire bailleur : assurance PNO, loyers et sinistres a ne pas oublier",
+      "slug": "proprietaire-bailleur-assurance-pno-sinistres",
+      "need": "habitation",
+      "section": "habitat",
+      "summary": "Sujet immobilier pour capter bailleurs et comparer PNO, multirisque et garanties utiles.",
+      "leadScore": 90
+    },
+    {
+      "id": "emprunteur-loi-lemoine-economies",
+      "enabled": true,
+      "title": "Assurance emprunteur : utiliser la loi Lemoine pour baisser le cout du credit",
+      "slug": "assurance-emprunteur-loi-lemoine-baisser-cout-credit",
+      "need": "emprunteur",
+      "section": "finance",
+      "summary": "Guide courtier pour transformer les recherches loi Lemoine en demandes de comparaison emprunteur.",
+      "leadScore": 96
+    },
+    {
+      "id": "emprunteur-quotite-garanties-couple",
+      "enabled": true,
+      "title": "Quotite assurance emprunteur : bien proteger un couple sans surpayer",
+      "slug": "quotite-assurance-emprunteur-couple",
+      "need": "emprunteur",
+      "section": "finance",
+      "summary": "Article didactique sur quotite, deces, invalidite et ITT pour generer des leads credit immobilier.",
+      "leadScore": 91
+    },
+    {
+      "id": "auto-jeune-conducteur-bonus-malus",
+      "enabled": true,
+      "title": "Jeune conducteur : assurance auto, bonus-malus et franchises a comparer",
+      "slug": "jeune-conducteur-assurance-auto-bonus-malus-franchise",
+      "need": "auto",
+      "section": "auto",
+      "summary": "Sujet auto oriente conversion pour conducteurs cherchant un premier contrat ou une baisse de prime.",
+      "leadScore": 88
+    },
+    {
+      "id": "auto-tous-risques-ou-tiers",
+      "enabled": true,
+      "title": "Assurance auto : tiers, tiers etendu ou tous risques selon la valeur du vehicule",
+      "slug": "assurance-auto-tiers-tous-risques-valeur-vehicule",
+      "need": "auto",
+      "section": "auto",
+      "summary": "Comparatif simple qui renvoie vers le questionnaire auto selon usage, valeur et franchise.",
+      "leadScore": 86
+    },
+    {
+      "id": "vtc-attestation-rc-pro-vehicule",
+      "enabled": true,
+      "title": "Chauffeur VTC : RC Pro, vehicule et attestation pour rouler sans blocage",
+      "slug": "chauffeur-vtc-rc-pro-vehicule-attestation",
+      "need": "vtc",
+      "section": "vtc",
+      "summary": "Article niche VTC pour capter chauffeurs Uber, Bolt et Heetch avant devis.",
+      "leadScore": 89
+    },
+    {
+      "id": "vtc-perte-exploitation-assistance",
+      "enabled": true,
+      "title": "Assurance VTC : assistance et perte d'exploitation en cas d'immobilisation",
+      "slug": "assurance-vtc-assistance-perte-exploitation",
+      "need": "vtc",
+      "section": "vtc",
+      "summary": "Sujet pro a forte intention pour conducteurs dont le revenu depend du vehicule.",
+      "leadScore": 87
+    },
+    {
+      "id": "animaux-chien-chat-plafond-franchise",
+      "enabled": true,
+      "title": "Assurance chien chat : plafond annuel, franchise et delai de carence",
+      "slug": "assurance-chien-chat-plafond-franchise-carence",
+      "need": "animaux",
+      "section": "animaux",
+      "summary": "Guide assurance animaux pour transformer les recherches veto en questionnaire qualifie.",
+      "leadScore": 86
+    },
+    {
+      "id": "animaux-urgence-veterinaire",
+      "enabled": true,
+      "title": "Urgence veterinaire : comment eviter une facture trop lourde avec une assurance animaux",
+      "slug": "urgence-veterinaire-assurance-animaux",
+      "need": "animaux",
+      "section": "animaux",
+      "summary": "Angle emotionnel et concret pour proprietaires de chien ou chat.",
+      "leadScore": 85
+    },
+    {
+      "id": "prevoyance-independant-arret-travail",
+      "enabled": true,
+      "title": "Prevoyance independant : proteger ses revenus en cas d'arret de travail",
+      "slug": "prevoyance-independant-arret-travail-revenus",
+      "need": "prevoyance",
+      "section": "prevoyance",
+      "summary": "Article TNS/freelance pour qualifier revenus, franchise ITT, invalidite et deces.",
+      "leadScore": 92
+    },
+    {
+      "id": "prevoyance-famille-credit-charges",
+      "enabled": true,
+      "title": "Prevoyance famille : securiser credit, loyer et charges fixes",
+      "slug": "prevoyance-famille-credit-loyer-charges",
+      "need": "prevoyance",
+      "section": "prevoyance",
+      "summary": "Sujet foyer pour orienter vers un questionnaire prevoyance simple.",
+      "leadScore": 88
+    },
+    {
+      "id": "rc-pro-freelance-litige-client",
+      "enabled": true,
+      "title": "RC Pro freelance : que couvre le contrat en cas de litige client",
+      "slug": "rc-pro-freelance-litige-client",
+      "need": "rc-pro",
+      "section": "pro",
+      "summary": "Article B2B pour capter independants, consultants et prestataires avant devis RC Pro.",
+      "leadScore": 90
+    },
+    {
+      "id": "rc-pro-artisan-dommages-chantier",
+      "enabled": true,
+      "title": "Artisan : RC Pro et dommages pendant un chantier, les garanties utiles",
+      "slug": "artisan-rc-pro-dommages-chantier",
+      "need": "rc-pro",
+      "section": "pro",
+      "summary": "Sujet pro terrain pour generer des leads artisans avec besoin de couverture rapide.",
+      "leadScore": 88
+    }
+  ]
+}

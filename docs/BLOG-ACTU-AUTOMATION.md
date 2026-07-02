@@ -1,6 +1,6 @@
 # Blog actu automatique — leads ultra qualifiés
 
-Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
+Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**. Si l'actu exploitable manque, le pipeline peut completer avec des sujets evergreen du fichier `data/blog-lead-topics.json`.
 
 ## Quel canal utiliser ?
 
@@ -58,6 +58,12 @@ npm run blog:actu:auto
 
 # Les 3 plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
+
+# Cadence garantie : complete avec des sujets SEO leads si RSS/queue insuffisants
+npm run blog:actu:auto -- --count=3 --lead-fallback
+
+# Desactiver le fallback evergreen
+npm run blog:actu:auto -- --no-lead-fallback
 
 # Test sans écrire
 npm run blog:actu:auto -- --dry-run
@@ -139,6 +145,7 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 | `data/blog-actu-pending.json` | Articles avant HTML |
 | `data/blog-actu-published.json` | Archives manifeste |
 | `data/blog-actu-state.json` | URLs traitées, historique auto |
+| `data/blog-lead-topics.json` | Sujets evergreen de secours pour maintenir la cadence leads |
 | `scripts/auto-actu-publish.cjs` | Orchestrateur principal |
 | `scripts/blog-actu-enrich.cjs` | Rédaction sans IA |
 | `scripts/generate-actu-article-ai.cjs` | Rédaction Gemini/OpenAI |
@@ -148,6 +155,7 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 1. **CTA questionnaire** — bloc `{ type: "bridge" }` + `ctaWithUtm` → `utm_medium=actu_daily`
 2. **Clarity + GA4** — déjà en place sur le blog
 3. **Sujets qui convertissent** : sinistre habitation, mutuelle, emprunteur, VTC, animaux
+4. **Fallback evergreen** — si les flux ne fournissent pas assez de candidats, `blog:actu:auto` pioche dans `data/blog-lead-topics.json`, sans repeter un sujet deja utilise (`leadTopicHistory` dans `blog-actu-state.json`).
 
 ## Limites légales
 

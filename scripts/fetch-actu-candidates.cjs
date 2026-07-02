@@ -25,6 +25,15 @@ function resolveQueueSourceType(source) {
   return "aggregator";
 }
 
+function isQueueTemplate(item) {
+  var title = String(item.title || "").toLowerCase();
+  return (
+    item.status === "template" ||
+    title.indexOf("collez ici") !== -1 ||
+    title.indexOf("titre de la une cafeyn") !== -1
+  );
+}
+
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
@@ -39,6 +48,7 @@ function mergeWithQuotas(buckets, quotas) {
 }
 
 function ingestQueueItem(item, buckets, processed) {
+  if (isQueueTemplate(item)) return;
   if (item.status === "published" || item.status === "rejected") return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
