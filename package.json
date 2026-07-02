@@ -25,6 +25,7 @@
     "verify:clarity": "node scripts/verify-clarity.cjs",
     "verify:gsc": "node scripts/verify-gsc-readiness.cjs",
     "gsc:urls": "node scripts/print-gsc-urls.cjs",
+    "deploy:trigger": "node scripts/trigger-vercel-deploy.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs",
     "prod:check": "node scripts/check-prod-deploy.cjs",
     "test:meta": "bash scripts/test-meta-pixel.sh",
