@@ -1,0 +1,81 @@
+{
+  "date": "2026-07-02",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-la-classe-de-mbappe-le-genie-olise-et-une-france-grande-favorite-la-pres",
+      "title": "«La classe» de Mbappé, «le génie» Olise et une France «grande favorite»… La presse mondiale en feu pour les Bleus - Libération",
+      "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxOZDE2SUtsMnMyOWJGbDhWY1htV0JMQXhIQlItM3NiemdhaHRTOUtIWU01cEhUUGprcm9QaUxjeDY2OEZCUUpBY1VFaGRiU3pNNmZQVklrSnI4UzcteVVYQjVOaTExSFFESG1hbmhMaDBaTmw5SkhSMTIyR1RUNkJ4YTFHQmJMbnhiYVVGM05yZ254T1lXQlY4eENzZDA3R2ltRjBTejh2dE1CVkZYYWpfSEVPbVE4RkstMmFVQ3JWTkRFOFNtaVlCdWRicEswYVJJbHd4cS1aajk2TkNyb2dLWE41OUF5ZEVqWG5qY3N1dE0zQ0w1SU8ySW5MOGR4NVUzbkpDUnRURklCT1B6cTJKMi13?oc=5",
+      "summary": "«La classe» de Mbappé, «le génie» Olise et une France «grande favorite»… La presse mondiale en feu pour les Bleus Libération",
+      "pubDate": "Wed, 01 Jul 2026 08:30:15 GMT",
+      "feedId": "google-news-bleus-joueurs",
+      "feedName": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "google",
+      "suggestedFile": "la-classe-de-mbappe-le-genie-olise-et-une-france-grande-favorite-la-pres.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-didier-deschamps-a-ete-tres-touche-par-mbappe-foot-merc",
+      "title": "Equipe de France : Didier Deschamps a été très touché par Mbappé - Foot Mercato",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOdkRiUXdWc00wdWFTdnQ0QXU5dzNaWnlHVjJtWVZ4RXUweFNGQnh4RllYNWtuZGxUeVJLQ2NZd2dRWHo3SEwyVUJCaFFfRFhRMFJKZ2E5clNNYUEzRUY1aWItNk95X0p3RGo1aFo0NU52TWFVV3RJOTl1MWNEVGlmcmZaYnlqYVY2d1V0aURRaXQxbjFpT09YZ1ViRnEweTNxNjM4ZF90X1NPQ2FsdklyVQ?oc=5",
+      "summary": "Equipe de France : Didier Deschamps a été très touché par Mbappé Foot Mercato",
+      "pubDate": "Wed, 01 Jul 2026 08:01:09 GMT",
+      "feedId": "google-news-bleus-joueurs",
+      "feedName": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-didier-deschamps-a-ete-tres-touche-par-mbappe-foot-merc.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr",
+      "title": "Assurance emprunteur avec problème de santé : comment Cardif Libertés Emprunteur facilite votre accès au crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a45e38fecc64721aca0ad84927da25b&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-emprunteur-facilite-votre-acces-au-credit-immobilier-1527762&c=1646374346497082993&mkt=en-us",
+      "summary": "Bien que la majorité des dossiers soit acceptée aux conditions normales, certains antécédents médicaux peuvent entraîner des majorations de tarifs ou des exclusions de garanties. Cette réalité freine ...",
+      "pubDate": "Mon, 22 Jun 2026 01:01:00 GMT",
+      "feedId": "source-bing-news-emprunteur",
+      "feedName": "Bing News — assurance emprunteur",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-des-difficultes-dans-l-application-de-la-loi-lemoin",
+      "title": "Assurance emprunteur : des difficultés dans l’application de la loi Lemoine, mais les assureurs s’engagent à faire des efforts",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a45e38fecc64721aca0ad84927da25b&url=https%3a%2f%2fwww.lemonde.fr%2fargent%2farticle%2f2026%2f06%2f25%2fassurance-emprunteur-des-difficultes-dans-l-application-de-la-loi-lemoine-mais-les-assureurs-s-engagent-a-faire-des-efforts_6715406_1657007.html&c=7468692589206969195&mkt=en-us",
+      "summary": "Le Comité consultatif du secteur financier a remis son avis sur l’application de cette loi de 2022 qui vise notamment à permettre à des personnes atteintes de certaines pathologies d’avoir plus facile ...",
+      "pubDate": "Thu, 25 Jun 2026 05:15:00 GMT",
+      "feedId": "source-bing-news-emprunteur",
+      "feedName": "Bing News — assurance emprunteur",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-des-difficultes-dans-l-application-de-la-loi-lemoin.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 99,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-emmanuel-maillet-april-l-assurance-emprunteur-devient-un-levier-de-crois",
+      "title": "Emmanuel Maillet (April) : «L’assurance emprunteur devient un levier de croissance pour les CGP»",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a45e38fecc64721aca0ad84927da25b&url=https%3a%2f%2fwww.agefi.fr%2fpatrimoine%2fles-metiers%2femmanuel-maillet-april-lassurance-emprunteur-devient-un-levier-de-croissance-pour-les-cgp&c=17231679607562154608&mkt=en-us",
+      "summary": "La résiliation à tout moment a profondément transformé le marché de l’assurance emprunteur. Porté par l’essor de la substitution et l’arrivée de nouveaux réseaux de distribution, le secteur connaît un ...",
+      "pubDate": "Fri, 26 Jun 2026 04:40:00 GMT",
+      "feedId": "source-bing-news-emprunteur",
+      "feedName": "Bing News — assurance emprunteur",
+      "sourceType": "bing",
+      "suggestedFile": "emmanuel-maillet-april-l-assurance-emprunteur-devient-un-levier-de-crois.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 99,
+      "status": "candidate"
+    }
+  ]
+}
