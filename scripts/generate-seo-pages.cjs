@@ -24,6 +24,7 @@ const {
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
+const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
@@ -613,9 +614,28 @@ function renderSteps(steps) {
   return '<section class="seo-card"><h2>Comment ca marche</h2><div class="seo-steps">' + items + "</div></section>";
 }
 
+function pageCanonicalPath(file) {
+  return "/" + String(file || "").replace(/index\.html$/, "");
+}
+
+function withSeoMeta(p) {
+  var pathKey = pageCanonicalPath(p.file);
+  var meta = resolvePageMeta(pathKey, {
+    title: p.title,
+    description: p.description,
+    h1: p.h1,
+  });
+  return Object.assign({}, p, {
+    title: meta.title || p.title,
+    description: meta.description || p.description,
+    h1: meta.h1 || p.h1,
+    keywords: meta.keywords || "",
+  });
+}
+
 function renderPage(p) {
   const prefix = depthPrefix(p.file);
-  const canonical = BASE + "/" + p.file.replace(/index\.html$/, "");
+  const canonical = BASE + pageCanonicalPath(p.file);
   const theme = p.theme || "vtc";
   const crumbs = p.crumbs || [];
   const related = p.related || [];
@@ -783,6 +803,7 @@ function renderPage(p) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${esc(p.title)}</title>
   <meta name="description" content="${esc(p.description)}" />
+  ${p.keywords ? '<meta name="keywords" content="' + esc(p.keywords) + '" />' : ""}
   <meta name="robots" content="index,follow" />
   ${geoMeta}
   <link rel="canonical" href="${esc(canonical)}" />
@@ -792,8 +813,12 @@ function renderPage(p) {
   <meta property="og:description" content="${esc(p.description)}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${esc(canonical)}" />
+  <meta property="og:image" content="${BASE}/og-default.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="${BASE}/og-default.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
@@ -898,7 +923,7 @@ const ALL_PAGES = PAGES.concat(
 ALL_PAGES.forEach(function (p) {
   const out = path.join(ROOT, p.file);
   fs.mkdirSync(path.dirname(out), { recursive: true });
-  fs.writeFileSync(out, renderPage(p), "utf8");
+  fs.writeFileSync(out, renderPage(withSeoMeta(p)), "utf8");
 });
 
 const allUrls = collectSitemapUrls(CITIES, DEPARTMENTS, REGIONS, BASE);

@@ -9,6 +9,7 @@ const clarityInlineHtml = require("./clarity-inline-html.cjs");
 const { franceMetaBlock, blogLogoBlock, googleSiteVerificationMeta } = require("./france-brand.cjs");
 const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
 const { applyArticleImages } = require("./blog-article-images.cjs");
+const { clusterForBlogArticle, moneyLinksHtml } = require("./seo-keywords-lib.cjs");
 const CLARITY_HEAD = clarityInlineHtml();
 const BLOG_CSS = "/blog/blog.css";
 
@@ -32,7 +33,7 @@ function resolveOgImage(a) {
     if (src.indexOf("/") !== 0) src = "/blog/" + src;
     return base + src;
   }
-  return base + "/og-default.jpg";
+  return base + "/og-default.svg";
 }
 
 function renderHero(hero) {
@@ -176,10 +177,15 @@ function renderArticle(a) {
   var body = (a.blocks || []).map(function (b) {
     return renderBlock(b, bridge);
   }).join("\n");
+  var cluster = clusterForBlogArticle(a);
   var keywordsMeta = (a.keywords || []).join(", ");
+  if (!keywordsMeta && cluster) {
+    keywordsMeta = [cluster.primary].concat(cluster.longTail || []).slice(0, 8).join(", ");
+  }
   var bridgeFooter = renderBridgeHtml(bridge, { variant: "footer" });
   var cta = bridgeFooter;
   var faqHtml = renderFaq(a.faq);
+  var moneyLinks = moneyLinksHtml(cluster);
   var links =
     a.related && a.related.length
       ? '      <div class="article-links">\n        <h2>Nos pages utiles</h2>\n        <ul>\n' +
@@ -190,6 +196,7 @@ function renderArticle(a) {
           .join("") +
         "        </ul>\n      </div>\n"
       : "";
+  links = links + moneyLinks;
 
   var robots = robotsMetaForArticle(a);
   var ogImage = resolveOgImage(a);

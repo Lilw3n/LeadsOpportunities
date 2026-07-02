@@ -59,6 +59,12 @@ else bad("robots.txt sans Sitemap");
 if (fs.existsSync(path.join(ROOT, "sitemap.xml"))) pass("sitemap.xml présent");
 else bad("sitemap.xml absent — lancer npm run seo:build");
 
+if (fs.existsSync(path.join(ROOT, "methode.html"))) pass("Page E-E-A-T methode.html présente");
+else bad("methode.html absente — page confiance pour Google");
+
+if (fs.existsSync(path.join(ROOT, "data", "seo-page-meta.json"))) pass("Meta mots-clés centralisées (seo-page-meta.json)");
+else warning("data/seo-page-meta.json absent");
+
 var manifest = require("./blog-articles-manifest.cjs");
 var noindexInSitemap = 0;
 manifest.articles.forEach(function (a) {
