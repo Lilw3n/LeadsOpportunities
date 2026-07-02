@@ -1168,6 +1168,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/france/", priority: "0.95", changefreq: "weekly" },
     { loc: base + "/assurances/", priority: "0.96", changefreq: "weekly" },
     { loc: base + "/nos-services.html", priority: "0.95", changefreq: "weekly" },
+    { loc: base + "/methode.html", priority: "0.88", changefreq: "monthly" },
     { loc: base + "/landings/vtc.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/credit-immo.html", priority: "0.9", changefreq: "weekly" },

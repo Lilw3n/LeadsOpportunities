@@ -1,0 +1,121 @@
+{
+  "pages": [
+    {
+      "path": "/",
+      "title": "Devis assurance France 2026 | Mutuelle, VTC, crédit immo | Leads Opportunities",
+      "description": "Courtier ORIAS en France : devis assurance VTC, mutuelle santé, crédit immobilier et habitation. 180+ villes, rappel conseiller sous 15 min, sans engagement.",
+      "keywords": "devis assurance France, mutuelle santé, assurance VTC, crédit immobilier, courtier ORIAS"
+    },
+    {
+      "path": "/assurance-vtc",
+      "title": "Assurance VTC 2026 | Devis, RC pro, Uber Bolt Heetch | France",
+      "description": "Assurance VTC : devis chauffeur, RC pro, garanties Uber Bolt Heetch. Courtier ORIAS, comparatif France, rappel sous 15 min.",
+      "keywords": "assurance VTC, devis assurance VTC, RC pro chauffeur, assurance Uber Bolt, assurance VTC pas cher",
+      "h1": "Assurance VTC : devis, RC pro et garanties chauffeur"
+    },
+    {
+      "path": "/assurance-vtc/paris",
+      "title": "Assurance VTC Paris | Devis chauffeur Île-de-France 2026",
+      "description": "Assurance VTC à Paris et Île-de-France : devis rapide, RC pro, plateformes Uber Bolt Heetch. Courtier ORIAS.",
+      "keywords": "assurance VTC Paris, devis VTC Paris, chauffeur VTC Île-de-France"
+    },
+    {
+      "path": "/assurance-vtc/lyon",
+      "title": "Assurance VTC Lyon | Devis chauffeur Auvergne-Rhône-Alpes",
+      "description": "Assurance VTC à Lyon : comparatif garanties, RC pro, création d'activité. Courtier ORIAS France.",
+      "keywords": "assurance VTC Lyon, devis VTC Lyon"
+    },
+    {
+      "path": "/assurance-vtc/marseille",
+      "title": "Assurance VTC Marseille | Devis chauffeur PACA",
+      "description": "Assurance VTC Marseille et PACA : devis en ligne, RC pro, Uber Bolt. Courtier ORIAS.",
+      "keywords": "assurance VTC Marseille, devis VTC Marseille"
+    },
+    {
+      "path": "/assurance-sante",
+      "title": "Mutuelle santé 2026 | Comparatif et devis gratuit | France",
+      "description": "Mutuelle santé : comparatif optique, dentaire, hospitalisation. Devis gratuit, courtier ORIAS, solo, couple, famille.",
+      "keywords": "mutuelle santé, comparatif mutuelle, devis mutuelle, mutuelle remboursement dentaire",
+      "h1": "Mutuelle santé : comparatif et devis sans surpayer"
+    },
+    {
+      "path": "/assurance-sante/paris",
+      "title": "Mutuelle santé Paris | Comparatif et devis Île-de-France",
+      "description": "Mutuelle à Paris : comparatif garanties, optique, dentaire. Courtier ORIAS, devis gratuit.",
+      "keywords": "mutuelle Paris, mutuelle santé Paris, comparatif mutuelle Paris"
+    },
+    {
+      "path": "/credit-immo",
+      "title": "Crédit immobilier 2026 | Simulation, taux, assurance emprunteur",
+      "description": "Crédit immobilier : simulation, capacité d'emprunt, assurance emprunteur, loi Lemoine. Courtier ORIAS France.",
+      "keywords": "crédit immobilier, simulation crédit immobilier, assurance emprunteur, loi Lemoine",
+      "h1": "Crédit immobilier : simulation et accompagnement dossier"
+    },
+    {
+      "path": "/credit-immo/paris",
+      "title": "Crédit immobilier Paris | Simulation prêt Île-de-France",
+      "description": "Crédit immo Paris : simulation, taux, assurance emprunteur. Courtier ORIAS, faisabilité rapide.",
+      "keywords": "crédit immobilier Paris, simulation prêt Paris, assurance emprunteur Paris"
+    },
+    {
+      "path": "/credit-immo/simulation",
+      "title": "Simulation crédit immobilier | Capacité d'emprunt 2026",
+      "description": "Simulez votre crédit immobilier : mensualité, durée, apport, assurance emprunteur. Courtier ORIAS, sans engagement.",
+      "keywords": "simulation crédit immobilier, capacité emprunt, simulateur prêt immo"
+    },
+    {
+      "path": "/assurance-animaux",
+      "title": "Assurance animaux | Chien, chat — devis France 2026",
+      "description": "Assurance chien et chat : comparatif frais vétérinaires, mutuelle animaux. Courtier ORIAS, devis gratuit.",
+      "keywords": "assurance animaux, assurance chien, assurance chat, mutuelle animaux"
+    },
+    {
+      "path": "/assurance-habitation",
+      "title": "Assurance habitation 2026 | Locataire et propriétaire — devis",
+      "description": "Assurance habitation locataire ou propriétaire : multirisque, vol, dégâts des eaux. Devis gratuit, courtier ORIAS.",
+      "keywords": "assurance habitation, assurance habitation locataire, multirisque habitation, devis habitation"
+    },
+    {
+      "path": "/landings/vtc.html",
+      "title": "Devis assurance VTC | RC pro Uber Bolt — rappel 15 min",
+      "description": "Demandez votre devis assurance VTC : RC pro, garanties chauffeur, Uber Bolt Heetch. Courtier ORIAS, gratuit.",
+      "keywords": "devis assurance VTC, RC pro VTC, assurance Uber"
+    },
+    {
+      "path": "/landings/sante.html",
+      "title": "Devis mutuelle santé | Comparatif optique dentaire 2026",
+      "description": "Comparez les mutuelles santé : optique, dentaire, hospitalisation. Courtier ORIAS, devis personnalisé gratuit.",
+      "keywords": "devis mutuelle, comparatif mutuelle, mutuelle santé pas cher"
+    },
+    {
+      "path": "/landings/credit-immo.html",
+      "title": "Simulation crédit immobilier | Assurance emprunteur 2026",
+      "description": "Simulation crédit immo + assurance emprunteur. Faisabilité, taux, loi Lemoine. Courtier ORIAS France.",
+      "keywords": "simulation crédit immobilier, assurance emprunteur, crédit immo devis"
+    },
+    {
+      "path": "/landings/animaux.html",
+      "title": "Devis assurance chien et chat | Mutuelle animaux France",
+      "description": "Assurance chien, chat : frais vétérinaires, comparatif mutuelle animaux. Courtier ORIAS, devis en ligne.",
+      "keywords": "assurance chien, assurance chat, devis assurance animaux"
+    },
+    {
+      "path": "/nos-services.html",
+      "title": "Tous nos services assurance et crédit | Courtier ORIAS France",
+      "description": "Catalogue Leads Opportunities : VTC, mutuelle, crédit immo, habitation, animaux, prévoyance. Devis gratuit France.",
+      "keywords": "courtier assurance France, devis assurance, ORIAS, mutuelle VTC crédit"
+    },
+    {
+      "path": "/blog",
+      "title": "Blog assurance France | Guides VTC, mutuelle, crédit immo",
+      "description": "Conseils assurance et financement en France : mutuelle, VTC, crédit immobilier, habitation. Guides courtier ORIAS.",
+      "keywords": "blog assurance, guide mutuelle, conseil crédit immobilier, assurance VTC France"
+    },
+    {
+      "path": "/methode.html",
+      "title": "Notre méthode | Courtier assurance ORIAS — Leads Opportunities",
+      "description": "Comment nous comparons les garanties, expliquons les devis et accompagnons les clients en France. Transparence ORIAS.",
+      "keywords": "courtier assurance méthode, ORIAS, comparatif garanties, Leads Opportunities"
+    }
+  ]
+}

@@ -63,7 +63,7 @@ Objectif : publier des articles actu Cafeyn + Edge + Firefox vers les questionna
 
 Étapes obligatoires :
 1. npm install
-2. npm run blog:actu:auto -- --count=1
+2. npm run blog:actu:auto -- --count=1 --lead-fallback
    (ou --count=3 pour 1 article par plateforme en une fois)
 3. Si aucun changement, terminer sans commit.
 4. Sinon : git add data/blog-actu-*.json blog/*.html sitemap*.xml seo/
@@ -75,6 +75,7 @@ Règles :
 - Ne jamais demander de login Cafeyn
 - Ne pas dupliquer un slug existant dans blog/
 - Les articles doivent avoir CTA questionnaire utm_medium=actu_daily
+- Si RSS/queue ne suffit pas, completer avec `data/blog-lead-topics.json` (sujets evergreen leads)
 ```
 
 **Variante sans clé IA** (texte enrichi local, pas de Gemini) :

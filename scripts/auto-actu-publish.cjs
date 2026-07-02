@@ -7,10 +7,18 @@
  *   npm run blog:actu:auto -- --count=2
  *   npm run blog:actu:auto -- --dry-run
  *   npm run blog:actu:auto -- --no-ai
+ *   npm run blog:actu:auto -- --no-lead-fallback
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  slugify,
+  uniqueFile,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -23,6 +31,10 @@ function arg(name, def) {
   });
   if (!m) return def;
   return m.split("=").slice(1).join("=");
+}
+
+function hasFlag(name) {
+  return process.argv.indexOf("--" + name) !== -1;
 }
 
 function hasAiKey() {
@@ -47,6 +59,51 @@ function normalizeTitle(t) {
     .toLowerCase()
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function buildLeadFallbackCandidates(needed, state) {
+  if (needed <= 0) return [];
+  var cfg = readJson("blog-lead-topics.json", { topics: [] });
+  var topics = (cfg.topics || []).filter(function (topic) {
+    return topic && topic.enabled !== false && topic.id && topic.title;
+  });
+  if (!topics.length) return [];
+
+  var usedTopicIds = new Set(
+    (state.leadTopicHistory || []).map(function (entry) {
+      return entry.id;
+    })
+  );
+  var start = Math.max(0, Number(state.leadTopicIndex || 0) || 0) % topics.length;
+  var picks = [];
+  var visited = 0;
+
+  while (picks.length < needed && visited < topics.length) {
+    var idx = (start + visited) % topics.length;
+    var topic = topics[idx];
+    visited += 1;
+    if (usedTopicIds.has(topic.id)) continue;
+
+    var baseSlug = slugify(topic.slug || topic.title);
+    picks.push({
+      id: "lead-topic-" + topic.id,
+      title: topic.title,
+      url: "",
+      summary: topic.summary || topic.angle || "",
+      source: "planning editorial leads",
+      sourceType: "evergreen",
+      suggestedFile: uniqueFile(baseSlug || "guide-assurance-leads"),
+      section: topic.section || "actu",
+      need: topic.need || "habitation",
+      leadScore: topic.leadScore || 88,
+      status: "candidate",
+      _leadFallback: true,
+      _leadTopicId: topic.id,
+    });
+  }
+
+  state._nextLeadTopicIndex = (start + visited) % topics.length;
+  return picks;
 }
 
 function loadPublishedTitleKeys() {
@@ -87,7 +144,8 @@ function bestFromPlatform(available, platform, feedMap, used) {
   return list[0] || null;
 }
 
-function pickCandidates(candidates, count, state) {
+function pickCandidates(candidates, count, state, options) {
+  options = options || {};
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
   var titleKeys = loadPublishedTitleKeys();
@@ -160,6 +218,14 @@ function pickCandidates(candidates, count, state) {
     used.add(k);
   });
 
+  if (options.leadFallback && picks.length < count) {
+    var fallback = buildLeadFallbackCandidates(count - picks.length, state);
+    fallback.forEach(function (c) {
+      if (picks.length >= count) return;
+      picks.push(c);
+    });
+  }
+
   return picks;
 }
 
@@ -171,10 +237,20 @@ async function main() {
   var count = Math.min(5, Math.max(1, Number(arg("count", 1)) || 1));
   var dryRun = process.argv.indexOf("--dry-run") !== -1;
   var skipPublish = process.argv.indexOf("--skip-publish") !== -1;
+  var leadFallback = !hasFlag("no-lead-fallback");
   var useAi = hasAiKey() && process.argv.indexOf("--no-ai") === -1;
 
   console.log("=== Auto actu publish ===");
-  console.log("count:", count, "| IA:", useAi ? "oui" : "non (enrich)", "| dry-run:", dryRun);
+  console.log(
+    "count:",
+    count,
+    "| IA:",
+    useAi ? "oui" : "non (enrich)",
+    "| fallback leads:",
+    leadFallback ? "oui" : "non",
+    "| dry-run:",
+    dryRun
+  );
   console.log("");
 
   var feedsCfg = readJson("blog-actu-feeds.json", { pocket: {} });
@@ -198,7 +274,7 @@ async function main() {
     publishedFiles: [],
     autoRuns: [],
   });
-  var picks = pickCandidates(candidates, count, state);
+  var picks = pickCandidates(candidates, count, state, { leadFallback: leadFallback });
 
   if (!picks.length) {
     console.log("Aucun candidat disponible.");
@@ -262,6 +338,7 @@ async function main() {
       title: article.title,
       source: pick.feedName || pick.source || pick.feedId,
       sourceType: platform,
+      leadTopicId: pick._leadTopicId || "",
     });
   }
 
@@ -304,6 +381,33 @@ async function main() {
   if (state._nextPlatformRotation !== undefined) {
     state.platformRotationIndex = state._nextPlatformRotation;
     delete state._nextPlatformRotation;
+  }
+  if (state._nextLeadTopicIndex !== undefined) {
+    state.leadTopicIndex = state._nextLeadTopicIndex;
+    delete state._nextLeadTopicIndex;
+  }
+  picks.forEach(function (pick) {
+    if (!pick._leadTopicId) return;
+    var pub = published.find(function (article) {
+      return article.leadTopicId === pick._leadTopicId;
+    });
+    if (!pub) return;
+    state.leadTopicHistory = state.leadTopicHistory || [];
+    if (
+      !state.leadTopicHistory.some(function (entry) {
+        return entry.id === pick._leadTopicId;
+      })
+    ) {
+      state.leadTopicHistory.push({
+        id: pick._leadTopicId,
+        at: state.lastAutoRun,
+        file: pub.file,
+        title: pub.title,
+      });
+    }
+  });
+  if ((state.leadTopicHistory || []).length > 200) {
+    state.leadTopicHistory = state.leadTopicHistory.slice(-200);
   }
   writeJson("blog-actu-state.json", state);
 

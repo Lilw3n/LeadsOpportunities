@@ -56,7 +56,7 @@ jobs:
           STRICT_ACTU_QUALITY: "1"
         run: |
           COUNT="${{ github.event.inputs.count || '1' }}"
-          npm run blog:actu:auto -- --count="$COUNT" --strict-quality
+          npm run blog:actu:auto -- --count="$COUNT" --strict-quality --lead-fallback
 
       - name: Commit and push if changed
         run: |

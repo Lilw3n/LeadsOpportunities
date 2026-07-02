@@ -17,7 +17,7 @@ var ANGLES = {
       "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS.",
   },
   habitation: {
-    hook: "Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge.",
+    hook: "Un sinistre habitation mal couvert peut couter des dizaines de milliers d'euros a votre charge.",
     checklist: [
       "Capital mobilier vs valeur reelle du contenu",
       "Degats des eaux, tempete, catastrophes naturelles",
@@ -123,6 +123,17 @@ function enrichFromCandidate(candidate) {
   var file = candidate.suggestedFile;
   if (!file) return null;
   var platform = platformLabel(candidate.sourceType || candidate.source);
+  var intro = candidate._leadFallback
+    ? "Ce guide pratique <strong>" +
+      escapeHtml(shortTitle(title)) +
+      "</strong> fait partie de notre calendrier editorial dedie aux demandes d'assurance les plus frequentes. " +
+      angle.hook
+    : "Selon l'information relayee ce jour via <strong>" +
+      platform +
+      "</strong> (<strong>" +
+      escapeHtml(shortTitle(title)) +
+      "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
+      angle.hook;
 
   return {
     file: file.endsWith(".html") ? file : file + ".html",
@@ -137,19 +148,13 @@ function enrichFromCandidate(candidate) {
     blocks: [
       {
         type: "p",
-        text:
-          "Selon l'information relayee ce jour via <strong>" +
-          platform +
-          "</strong> (<strong>" +
-          escapeHtml(shortTitle(title)) +
-          "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
-          angle.hook,
+        text: intro,
       },
       { type: "h2", text: "Lien avec votre contrat d'assurance" },
       {
         type: "p",
         text:
-          "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure.",
+          "Avant de reagir sous le coup de l'emotion mediatique ou d'une urgence, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure.",
       },
       { type: "h2", text: "Checklist pratique (5 minutes)" },
       { type: "ul", items: angle.checklist },
@@ -200,6 +205,9 @@ function platformLabel(sourceType) {
   }
   if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
     return "Mozilla Firefox / Pocket";
+  }
+  if (t === "evergreen" || t.indexOf("planning editorial") !== -1) {
+    return "planning editorial Leads Opportunities";
   }
   return "l'actualite du jour";
 }
