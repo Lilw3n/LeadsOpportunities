@@ -214,7 +214,57 @@
         return m[1];
       }
     }
+    var silo = p.match(
+      /^\/(assurance-vtc|assurance-sante|credit-immo|assurance-auto|assurance-habitation|assurance-emprunteur|assurance-prevoyance|assurance-animaux|assurance-chien|assurance-chat|assurance-chasse|assurance-equitation)\/([^/?#]+)/
+    );
+    if (silo) {
+      var slug = silo[2];
+      var skip = [
+        "villes",
+        "departements",
+        "departement",
+        "devis-rapide",
+        "tarif",
+        "simulation",
+        "comparatif",
+        "rc-pro",
+        "uber-bolt",
+        "creation-activite",
+        "resiliation",
+        "comparatif-assureurs",
+        "pas-cher",
+        "remboursement-optique",
+      ];
+      if (skip.indexOf(slug) === -1) {
+        try {
+          return decodeURIComponent(slug).replace(/-/g, " ");
+        } catch (e) {
+          return slug.replace(/-/g, " ");
+        }
+      }
+    }
     return "";
+  }
+
+  function parseSeoProductFromPath(path) {
+    var p = String(path || "");
+    var m = p.match(
+      /^\/(assurance-vtc|assurance-sante|credit-immo|assurance-auto|assurance-habitation|assurance-emprunteur|assurance-prevoyance|assurance-animaux|assurance-chien|assurance-chat)/
+    );
+    if (!m) return "";
+    var map = {
+      "assurance-vtc": "vtc",
+      "assurance-sante": "sante",
+      "credit-immo": "credit-immo",
+      "assurance-auto": "auto",
+      "assurance-habitation": "habitation",
+      "assurance-emprunteur": "emprunteur",
+      "assurance-prevoyance": "prevoyance",
+      "assurance-animaux": "animaux",
+      "assurance-chien": "chien",
+      "assurance-chat": "chat",
+    };
+    return map[m[1]] || "";
   }
 
   function sendTouchpoint() {
@@ -228,6 +278,7 @@
           page_path: window.location.pathname,
           page_title: document.title,
           seo_city: parseSeoCityFromPath(window.location.pathname),
+          seo_product: parseSeoProductFromPath(window.location.pathname),
           utm_source: payload.attr_last_utm_source,
           utm_medium: payload.attr_last_utm_medium,
           utm_campaign: payload.attr_last_utm_campaign,
@@ -423,6 +474,7 @@
         visitor_id: localStorage.getItem(KEY_VISITOR) || "",
         landing_path: path,
         seo_city: parseSeoCityFromPath(path) || parseSeoCityFromPath(window.location.pathname),
+        seo_product: parseSeoProductFromPath(path) || parseSeoProductFromPath(window.location.pathname),
         landing_at: bag.landing_at || "",
         referrer_first: bag.referrer_first || "",
         attr_first_utm_source: ft.utm_source || "",

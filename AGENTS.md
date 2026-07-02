@@ -36,7 +36,8 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 ## Ciblage marché France
 
 - Libs : `scripts/france-audience-lib.cjs` (scoring actu, `noindex` international), `scripts/france-brand.cjs` (meta + logo).
-- Doc : **`docs/TRAFIC-FRANCE.md`**
+- Doc : **`docs/TRAFIC-FRANCE.md`**, **`docs/GSC-SOLO-GUIDE.md`**
+- Search Console : `npm run verify:gsc` · URLs prioritaires : `npm run gsc:urls`
 - SEO/SEA (geo API, garde formulaires, `qualified_lead`) : **`docs/SEO-SEA-FRANCE-CIBLAGE.md`**
 - Acquisition blog → conversion (0 € test, pub intelligente) : **`docs/ACQUISITION-BLOG-CONVERSION.md`** + `ads/meta-blog-conversions.csv`
 - Corrélation analytics (GA4, Clarity, GSC, Meta, CRM) : **`docs/TRACKING-CORRELATION.md`**

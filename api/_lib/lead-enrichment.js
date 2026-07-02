@@ -1,4 +1,5 @@
 const { randomUUID } = require("crypto");
+const { parseSeoFromPath: parseSeoPathShared } = require("../../scripts/seo-path-parse.cjs");
 
 function normalizeEmail(email) {
   if (!email) return null;
@@ -14,21 +15,7 @@ function normalizePhone(phone) {
 }
 
 function parseSeoFromPath(path) {
-  var p = String(path || "").replace(/\/index\.html$/, "/").replace(/\/$/, "");
-  var parts = p.split("/").filter(Boolean);
-  var out = { seo_product: null, seo_city: null, seo_department: null, landing_slug: p || "/" };
-  if (!parts.length) return out;
-
-  var products = ["vtc-taxi", "assurance-sante", "credit-immo", "assurance-auto", "assurance-habitation", "prevoyance"];
-  if (products.indexOf(parts[0]) !== -1 || ["vtc", "sante", "credit-immo"].indexOf(parts[0]) !== -1) {
-    out.seo_product = parts[0];
-    if (parts[1] === "villes" && parts[2]) out.seo_city = decodeURIComponent(parts[2]);
-    if (parts[1] === "departement" && parts[2]) out.seo_department = parts[2];
-  }
-  if (parts[0] === "france" && parts[1] === "villes" && parts[2]) {
-    out.seo_city = decodeURIComponent(parts[2]);
-  }
-  return out;
+  return parseSeoPathShared(path);
 }
 
 function extractAddressFields(body) {

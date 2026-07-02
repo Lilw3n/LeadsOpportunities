@@ -23,6 +23,7 @@ const {
 } = require("./seo-geo-lib.cjs");
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
+const { providerBlock } = require("./seo-org-schema.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
@@ -639,11 +640,7 @@ function renderPage(p) {
     "@type": "Service",
     name: p.h1,
     description: p.description,
-    provider: {
-      "@type": "Organization",
-      name: "Leads Opportunities",
-      url: BASE + "/",
-    },
+    provider: Object.assign({ url: BASE + "/" }, providerBlock()),
     areaServed: p.city
       ? {
           "@type": "City",
