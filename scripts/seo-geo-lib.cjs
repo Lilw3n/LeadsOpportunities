@@ -1162,6 +1162,7 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
 function collectSitemapUrls(cities, departments, regions, base) {
   const today = new Date().toISOString().slice(0, 10);
   const blogManifest = require("./blog-articles-manifest.cjs");
+  const { robotsMetaForArticle } = require("./france-audience-lib.cjs");
   const urls = [
     { loc: base + "/", priority: "1.0", changefreq: "weekly" },
     { loc: base + "/france/", priority: "0.95", changefreq: "weekly" },
@@ -1219,25 +1220,11 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/france/regions/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/france/departements/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/blog/", priority: "0.8", changefreq: "weekly" },
-    { loc: base + "/blog/assurance-vtc-moins-cher-2026.html", priority: "0.75", changefreq: "monthly" },
-    { loc: base + "/blog/mutuelle-sante-5-criteres.html", priority: "0.75", changefreq: "monthly" },
-    { loc: base + "/blog/pret-immo-erreurs-a-eviter.html", priority: "0.75", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-auto-bonus-malus.html", priority: "0.75", changefreq: "monthly" },
-    { loc: base + "/blog/prevoyance-independants-guide.html", priority: "0.75", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-animaux-comment-choisir.html", priority: "0.8", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-chien-frais-veterinaires.html", priority: "0.78", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-chat-guide-complet.html", priority: "0.78", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-chiot-chaton-quand-assurer.html", priority: "0.78", changefreq: "monthly" },
-    { loc: base + "/blog/comparatif-santevet-bulle-bleue-kozoo.html", priority: "0.78", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-vtc-rc-pro-garanties.html", priority: "0.8", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-vtc-creation-chauffeur.html", priority: "0.78", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-vtc-uber-bolt-heetch.html", priority: "0.78", changefreq: "monthly" },
-    { loc: base + "/blog/assurance-vtc-renouvellement-resiliation.html", priority: "0.78", changefreq: "monthly" },
-    { loc: base + "/blog/comparatif-vtc-zephir-solly-azar.html", priority: "0.78", changefreq: "monthly" },
     { loc: base + "/blog/feed.xml", priority: "0.5", changefreq: "weekly" },
   ];
 
   blogManifest.articles.forEach(function (a) {
+    if (robotsMetaForArticle(a).indexOf("noindex") !== -1) return;
     urls.push({ loc: base + "/blog/" + a.file, priority: "0.74", changefreq: "monthly" });
   });
 
@@ -1277,6 +1264,10 @@ function collectSitemapUrls(cities, departments, regions, base) {
 
   return urls.map(function (u) {
     return Object.assign({ lastmod: today }, u);
+  }).filter(function (u, i, arr) {
+    return arr.findIndex(function (x) {
+      return x.loc === u.loc;
+    }) === i;
   });
 }
 

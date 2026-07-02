@@ -1,0 +1,45 @@
+{
+  "note": "Requêtes cibles France — une principale + longue traîne par page. GSC affiche les requêtes réelles après indexation.",
+  "clusters": [
+    {
+      "id": "vtc",
+      "priority": 1,
+      "primary": "assurance VTC",
+      "longTail": ["devis assurance VTC", "RC pro chauffeur VTC", "assurance Uber Bolt Heetch", "assurance VTC pas cher"],
+      "moneyPages": ["/assurance-vtc/", "/landings/vtc.html", "/assurance-vtc/paris/"],
+      "blog": ["/blog/assurance-vtc-moins-cher-2026.html", "/blog/assurance-vtc-rc-pro-garanties.html"]
+    },
+    {
+      "id": "mutuelle",
+      "priority": 2,
+      "primary": "mutuelle santé",
+      "longTail": ["comparatif mutuelle", "mutuelle remboursement dentaire", "mutuelle senior", "devis mutuelle"],
+      "moneyPages": ["/assurance-sante/", "/landings/sante.html", "/assurance-sante/paris/"],
+      "blog": ["/blog/mutuelle-sante-5-criteres.html", "/blog/mutuelle-remboursement-optique-dentaire-2026.html"]
+    },
+    {
+      "id": "credit-immo",
+      "priority": 3,
+      "primary": "crédit immobilier",
+      "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo"],
+      "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/"],
+      "blog": ["/blog/pret-immo-erreurs-a-eviter.html", "/blog/assurance-emprunteur-loi-lemoine-2026.html"]
+    },
+    {
+      "id": "animaux",
+      "priority": 4,
+      "primary": "assurance animaux",
+      "longTail": ["assurance chien", "assurance chat", "mutuelle animaux sans délai de carence"],
+      "moneyPages": ["/assurance-animaux/", "/landings/animaux.html"],
+      "blog": ["/blog/assurance-animaux-comment-choisir.html", "/blog/assurance-chien-frais-veterinaires.html"]
+    },
+    {
+      "id": "habitation",
+      "priority": 5,
+      "primary": "assurance habitation",
+      "longTail": ["assurance habitation locataire", "multirisque habitation", "devis habitation"],
+      "moneyPages": ["/assurance-habitation/", "/landings/devis.html?need=habitation"],
+      "blog": ["/blog/assurance-habitation-locataire-proprietaire-2026.html"]
+    }
+  ]
+}

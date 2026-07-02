@@ -2,28 +2,9 @@
  * Signaux SEO : ping sitemap (Google/Bing) + IndexNow (Bing, Yandex, etc.)
  * Google n'indexe pas via IndexNow — Search Console reste obligatoire.
  */
-const SITE = "https://www.leadsopportunities.fr";
-const INDEXNOW_KEY = "7c4e9f2a1b8d6035leadsop";
-const INDEXNOW_KEY_LOCATION = `${SITE}/${INDEXNOW_KEY}.txt`;
+const { absoluteUrls } = require("../../scripts/seo-gsc-priority-urls.cjs");
 
-const PRIORITY_URLS = [
-  `${SITE}/`,
-  `${SITE}/nos-services.html`,
-  `${SITE}/landings/vtc.html`,
-  `${SITE}/landings/sante.html`,
-  `${SITE}/landings/sante-collective.html`,
-  `${SITE}/landings/credit-immo.html`,
-  `${SITE}/landings/devis.html`,
-  `${SITE}/landings/questionnaire.html?need=collective`,
-  `${SITE}/blog/`,
-  `${SITE}/blog/mutuelle-collective-obligations-employeur-ani.html`,
-  `${SITE}/blog/mutuelle-collective-pme-tpe-budget-2026.html`,
-  `${SITE}/blog/mutuelle-collective-mise-en-place-due-portabilite.html`,
-  `${SITE}/assurance-sante/`,
-  `${SITE}/france/`,
-  `${SITE}/france/regions/`,
-  `${SITE}/france/departements/`,
-];
+const PRIORITY_URLS = absoluteUrls();
 
 async function fetchStatus(url, options) {
   try {
@@ -35,6 +16,7 @@ async function fetchStatus(url, options) {
 }
 
 async function pingSitemapEngines() {
+  const SITE = "https://www.leadsopportunities.fr";
   const sitemap = encodeURIComponent(`${SITE}/sitemap.xml`);
   const targets = [
     `https://www.google.com/ping?sitemap=${sitemap}`,
@@ -47,6 +29,9 @@ async function pingSitemapEngines() {
 }
 
 async function pingIndexNow(urlList) {
+  const SITE = "https://www.leadsopportunities.fr";
+  const INDEXNOW_KEY = "7c4e9f2a1b8d6035leadsop";
+  const INDEXNOW_KEY_LOCATION = `${SITE}/${INDEXNOW_KEY}.txt`;
   const body = {
     host: "www.leadsopportunities.fr",
     key: INDEXNOW_KEY,
@@ -77,6 +62,6 @@ async function runSeoPing() {
 
 module.exports = {
   runSeoPing,
-  INDEXNOW_KEY,
+  INDEXNOW_KEY: "7c4e9f2a1b8d6035leadsop",
   PRIORITY_URLS,
 };
