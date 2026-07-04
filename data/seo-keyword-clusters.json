@@ -40,6 +40,33 @@
       "longTail": ["assurance habitation locataire", "multirisque habitation", "devis habitation"],
       "moneyPages": ["/assurance-habitation/", "/landings/devis.html?need=habitation"],
       "blog": ["/blog/assurance-habitation-locataire-proprietaire-2026.html"]
+    },
+    {
+      "id": "chasse",
+      "priority": 6,
+      "competition": "low",
+      "primary": "assurance chasse",
+      "longTail": ["rc chasseur", "assurance chasse pas cher", "assurance chien de chasse", "responsabilité chasseur"],
+      "moneyPages": ["/assurance-chasse/", "/assurance-chasse/rc-chasseur/", "/assurance-chasse/paris/"],
+      "blog": []
+    },
+    {
+      "id": "equitation",
+      "priority": 7,
+      "competition": "low",
+      "primary": "assurance équitation",
+      "longTail": ["rc équestre", "assurance cheval", "assurance centre équestre", "assurance cheval pas cher"],
+      "moneyPages": ["/assurance-equitation/", "/assurance-equitation/rc-equestre/", "/assurance-equitation/paris/"],
+      "blog": []
+    },
+    {
+      "id": "animaux-longtail",
+      "priority": 8,
+      "competition": "medium",
+      "primary": "assurance chien pas cher",
+      "longTail": ["assurance chat comparatif", "mutuelle animaux", "assurance chiot", "comparatif santévet"],
+      "moneyPages": ["/assurance-animaux/chien/pas-cher/", "/assurance-animaux/comparatif/", "/assurance-animaux/chien/"],
+      "blog": ["/blog/assurance-animaux-comment-choisir.html", "/blog/comparatif-santevet-bulle-bleue-kozoo.html"]
     }
   ]
 }

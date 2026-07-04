@@ -1,0 +1,160 @@
+{
+  "updated": "2026-07-04",
+  "strategy": "Indexer d'abord accueil + niches peu concurrentielles (chasse, équitation, animaux longue traîne) avant de se battre sur mutuelle/VTC générique.",
+  "whyNotOnGoogle": [
+    "Google n'a pas encore indexé le domaine (site récent) — normal si Search Console pas finalisé",
+    "Recherche « Leads Opportunities » ou « mutuelle » = concurrence massive vs LesFurets, Assurland, etc.",
+    "Prod parfois en retard sur GitHub (redeploy Vercel requis)",
+    "Sans backlinks ni fiche Google Business, la découverte est lente"
+  ],
+  "tiers": {
+    "tier1_indexNow": "Pages live à indexer en priorité (semaine 1–2)",
+    "tier2_longTail": "Longue traîne niche + villes (semaine 2–4)",
+    "tier3_planned": "Niches questionnaire prêtes — activer silo SEO ensuite"
+  },
+  "markets": [
+    {
+      "id": "animaux",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Assurance animaux",
+      "primaryKeyword": "assurance chien pas cher",
+      "longTail": ["assurance chat comparatif", "mutuelle animaux", "assurance chiot", "assurance chien senior", "Santévet comparatif"],
+      "pillarUrl": "/assurance-animaux/",
+      "moneyUrls": ["/landings/animaux.html", "/assurance-animaux/chien/pas-cher/", "/assurance-animaux/comparatif/", "/assurance-animaux/paris/"],
+      "landing": "/landings/animaux.html",
+      "pageCount": 320,
+      "whyWin": "Longue traîne géo + comparatif marques (Santévet, Bulle Bleue) — moins saturé que l'auto"
+    },
+    {
+      "id": "chasse",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Assurance chasse",
+      "primaryKeyword": "assurance chasse",
+      "longTail": ["rc chasseur", "assurance chasse pas cher", "assurance chien de chasse", "responsabilité chasseur"],
+      "pillarUrl": "/assurance-chasse/",
+      "moneyUrls": ["/assurance-chasse/rc-chasseur/", "/assurance-chasse/chien-chasse/", "/assurance-chasse/paris/", "/assurance-chasse/villes/"],
+      "landing": "/landings/devis.html?need=chasse",
+      "pageCount": 195,
+      "whyWin": "Très peu de comparateurs SEO — 189 pages ville déjà générées"
+    },
+    {
+      "id": "equitation",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Assurance équitation",
+      "primaryKeyword": "assurance équitation",
+      "longTail": ["rc équestre", "assurance cheval", "assurance centre équestre", "assurance cheval pas cher"],
+      "pillarUrl": "/assurance-equitation/",
+      "moneyUrls": ["/assurance-equitation/rc-equestre/", "/assurance-equitation/cheval/", "/assurance-equitation/lyon/", "/assurance-equitation/villes/"],
+      "landing": "/landings/devis.html?need=equitation",
+      "pageCount": 195,
+      "whyWin": "Intent forte, pages ville rares chez les gros acteurs"
+    },
+    {
+      "id": "instrument",
+      "status": "planned",
+      "tier": "tier3_planned",
+      "competition": "faible",
+      "label": "Instrument de musique",
+      "primaryKeyword": "assurance instrument musique",
+      "longTail": ["assurance guitare", "assurance piano vol", "assurance matériel musicien pro"],
+      "pillarUrl": "/assurance-instrument-musique/",
+      "moneyUrls": [],
+      "landing": "/landings/questionnaire.html?need=instrument&journey=standard",
+      "questionnaireReady": true,
+      "eta": "T3 2026",
+      "whyWin": "Questionnaire déjà codé — silo SEO à générer (copier animaux)"
+    },
+    {
+      "id": "materiel-photo",
+      "status": "planned",
+      "tier": "tier3_planned",
+      "competition": "faible",
+      "label": "Matériel photo / vidéo",
+      "primaryKeyword": "assurance matériel photo",
+      "longTail": ["assurance drone pro", "assurance caméra professionnelle", "assurance reflex vol"],
+      "landing": "/landings/questionnaire.html?need=materiel-photo&journey=standard",
+      "questionnaireReady": true,
+      "eta": "T3 2026"
+    },
+    {
+      "id": "bateau",
+      "status": "planned",
+      "tier": "tier3_planned",
+      "competition": "moyenne",
+      "label": "Bateau plaisance",
+      "primaryKeyword": "assurance bateau plaisance",
+      "longTail": ["assurance voilier", "assurance semi-rigide", "assurance bateau moteur"],
+      "landing": "/landings/questionnaire.html?need=bateau&journey=standard",
+      "questionnaireReady": true,
+      "eta": "T4 2026"
+    },
+    {
+      "id": "caravane",
+      "status": "planned",
+      "tier": "tier3_planned",
+      "competition": "moyenne",
+      "label": "Caravane & camping-car",
+      "primaryKeyword": "assurance camping-car",
+      "longTail": ["assurance caravane", "assurance van aménagé"],
+      "landing": "/landings/questionnaire.html?need=caravane&journey=standard",
+      "questionnaireReady": true,
+      "eta": "T4 2026"
+    },
+    {
+      "id": "scolaire",
+      "status": "planned",
+      "tier": "tier3_planned",
+      "competition": "moyenne",
+      "label": "Assurance scolaire",
+      "primaryKeyword": "assurance scolaire",
+      "longTail": ["assurance extra scolaire", "assurance sortie scolaire", "assurance individuelle accident scolaire"],
+      "landing": "/landings/questionnaire.html?need=famille&journey=standard",
+      "questionnaireReady": true,
+      "eta": "T4 2026"
+    },
+    {
+      "id": "moto-collection",
+      "status": "planned",
+      "tier": "tier3_planned",
+      "competition": "faible",
+      "label": "Moto & collection",
+      "primaryKeyword": "assurance moto collection",
+      "longTail": ["assurance voiture collection", "assurance véhicule ancien"],
+      "landing": "/landings/questionnaire.html?need=moto&journey=standard",
+      "questionnaireReady": true,
+      "eta": "2027"
+    },
+    {
+      "id": "association",
+      "status": "planned",
+      "tier": "tier3_planned",
+      "competition": "faible",
+      "label": "Association & club",
+      "primaryKeyword": "assurance association",
+      "longTail": ["assurance club sportif", "rc association loi 1901"],
+      "landing": "/landings/questionnaire.html?need=association&journey=standard",
+      "questionnaireReady": false,
+      "eta": "2027"
+    }
+  ],
+  "indexationWeek1": [
+    "/",
+    "/assurances-niches.html",
+    "/assurances/",
+    "/assurance-animaux/",
+    "/assurance-animaux/chien/pas-cher/",
+    "/assurance-animaux/comparatif/",
+    "/assurance-chasse/",
+    "/assurance-chasse/rc-chasseur/",
+    "/assurance-equitation/",
+    "/assurance-equitation/rc-equestre/",
+    "/landings/animaux.html",
+    "/methode.html"
+  ]
+}

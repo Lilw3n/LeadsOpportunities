@@ -53,6 +53,9 @@ function keywordsForPath(path) {
       if (p.indexOf("/credit-immo") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/assurance-animaux") === 0 && c.id === "animaux") best = c;
       if (p.indexOf("/assurance-habitation") === 0 && c.id === "habitation") best = c;
+      if (p.indexOf("/assurance-chasse") === 0 && c.id === "chasse") best = c;
+      if (p.indexOf("/assurance-equitation") === 0 && c.id === "equitation") best = c;
+      if (p.indexOf("/assurance-animaux/chien/pas-cher") === 0 && c.id === "animaux-longtail") best = c;
     });
   }
   if (!best) return "devis assurance France, courtier ORIAS, Leads Opportunities";
@@ -67,6 +70,8 @@ function clusterForBlogArticle(article) {
   if (/mutuelle|sant[eé]|optique|dentaire|hospitalisation/i.test(hay)) return clusterById("mutuelle");
   if (/cr[eé]dit|emprunt|immobilier|lemoine|pret|prêt/i.test(hay)) return clusterById("credit-immo");
   if (/chien|chat|animaux|veterinaire/i.test(hay)) return clusterById("animaux");
+  if (/chasse|chasseur|courre|gibier/i.test(hay)) return clusterById("chasse");
+  if (/equitation|cheval|cavalier|equestre/i.test(hay)) return clusterById("equitation");
   if (/habitation|locataire|multirisque|logement/i.test(hay)) return clusterById("habitation");
   if (section === "vtc") return clusterById("vtc");
   if (section === "sante") return clusterById("mutuelle");
