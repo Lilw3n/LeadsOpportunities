@@ -95,6 +95,66 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+function looksMostlyEnglishTitle(text) {
+  var hay = String(text || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  var englishHits = 0;
+  var frenchHits = 0;
+  [
+    "the",
+    "after",
+    "with",
+    "from",
+    "for",
+    "and",
+    "against",
+    "fires",
+    "back",
+    "attack",
+    "victory",
+    "senator",
+    "racist",
+    "says",
+    "will",
+    "over",
+    "under",
+    "team",
+    "coach",
+    "player",
+    "fans",
+    "world cup",
+  ].forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) englishHits += 1;
+  });
+  [
+    " le ",
+    " la ",
+    " les ",
+    " des ",
+    " du ",
+    " de ",
+    " une ",
+    " un ",
+    " dans ",
+    " pour ",
+    " avec ",
+    " apres ",
+    " avant ",
+    " equipe ",
+    " coupe ",
+    " monde ",
+    " assurance ",
+    " mutuelle ",
+    " emprunteur ",
+    " immobilier ",
+  ].forEach(function (kw) {
+    if ((" " + hay + " ").indexOf(kw) !== -1) frenchHits += 1;
+  });
+  return englishHits >= 3 && frenchHits <= 1;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -121,6 +181,9 @@ function scoreLeadPotential(candidate) {
     /\b(businesswire|business wire|globenewswire|pr newswire|memorandum of understanding|mou)\b/i.test(hay)
   ) {
     score -= 35;
+  }
+  if (looksMostlyEnglishTitle(title)) {
+    score -= 60;
   }
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
