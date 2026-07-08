@@ -5,6 +5,7 @@
  */
 const { execSync } = require("child_process");
 const { readJson, writeJson, rankCandidates } = require("./blog-actu-lib.cjs");
+const { canonicalTitleKey } = require("./blog-actu-sources.cjs");
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -15,10 +16,7 @@ function arg(name, def) {
 }
 
 function normalizeTitle(t) {
-  return String(t || "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
+  return canonicalTitleKey(t);
 }
 
 function dedupeRankedCandidates(candidates) {

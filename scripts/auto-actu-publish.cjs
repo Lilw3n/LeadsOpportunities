@@ -18,6 +18,7 @@ const {
   PREFERRED_PLATFORM_TYPES,
   normalizeSourceType,
   resolveSourceType,
+  canonicalTitleKey,
 } = require("./blog-actu-sources.cjs");
 
 var ROOT = path.join(__dirname, "..");
@@ -48,14 +49,13 @@ function loadFeedSourceMap() {
 }
 
 function normalizeTitle(t) {
-  return String(t || "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
+  return canonicalTitleKey(t);
 }
 
 function candidateUsedKeys(c) {
-  return [String(c.url || "").trim().toLowerCase(), normalizeTitle(c.title)].filter(Boolean);
+  var titleKey = normalizeTitle(c.title);
+  var compactTitleKey = titleKey.replace(/\b(le|la|les|de|du|des|d|l|un|une)\b/g, " ").replace(/\s+/g, " ").trim();
+  return [String(c.url || "").trim().toLowerCase(), titleKey, compactTitleKey].filter(Boolean);
 }
 
 function isCandidateUsed(c, used) {

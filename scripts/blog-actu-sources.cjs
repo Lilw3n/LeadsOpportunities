@@ -54,6 +54,18 @@ function sourceLabel(type) {
   }[normalizeSourceType(type)] || "Autres agrégateurs";
 }
 
+function canonicalTitleKey(title) {
+  return String(title || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+[-–—|]\s+[^-–—|]{2,80}$/g, "")
+    .replace(/[\"'’«»“”]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function isEditorialSourceType(type) {
   return PREFERRED_PLATFORM_TYPES.indexOf(normalizeSourceType(type)) !== -1;
 }
@@ -66,5 +78,6 @@ module.exports = {
   resolveSourceType: resolveSourceType,
   emptySourceBuckets: emptySourceBuckets,
   sourceLabel: sourceLabel,
+  canonicalTitleKey: canonicalTitleKey,
   isEditorialSourceType: isEditorialSourceType,
 };
