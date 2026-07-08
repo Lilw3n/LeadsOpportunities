@@ -1,6 +1,6 @@
 # Blog actu automatique — leads ultra qualifiés
 
-Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
+Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équivalent Cafeyn, Edge, Firefox, Google News, Bing, Yahoo) avec CTA **questionnaires** et leads qualifiés — **sans login Cafeyn**.
 
 ## Quel canal utiliser ?
 
@@ -37,26 +37,29 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
 
 ## Automatisation 100 % (recommandé)
 
-Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
+Chaque exécution récupère les grandes familles demandées : Cafeyn/newsstand, pages d'accueil Edge et Firefox, Google News, Bing et Yahoo.
 
 | Plateforme | Flux utilisés |
 |------------|---------------|
 | **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
-| **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
-| **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
-| **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
+| **Edge / MSN** | Bing News RSS : France, titres du jour, économie, assurance, mutuelle, immobilier, santé |
+| **Firefox** | Franceinfo, 20 Minutes, France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
+| **Google News** | Requêtes France + assurance, mutuelle, habitation, auto, emprunteur, sinistres, sport/voyage |
+| **Bing** | Requêtes Bing News dédiées actualités, assurance, mutuelle, immobilier, auto |
+| **Yahoo** | Yahoo Actualités France + Yahoo Finance RSS |
 
 **Sélection** :
-- `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
-- `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+- `--count=1` → rotation automatique sur **cafeyn → edge → firefox → google → bing → yahoo**
+- `--count=3` → prend les 3 prochaines sources de la rotation
+- `--count=5` ou `--count=6` → couvre presque toutes / toutes les familles si le vivier est suffisant
 
-Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
+Les candidats `aggregator` restent en secours si une source principale n'a pas assez de sujets qualifiés.
 
 ```bash
 # 1 article (rotation cafeyn/edge/firefox selon l'heure)
 npm run blog:actu:auto
 
-# Les 3 plateformes en une fois (recommandé pour test)
+# Plusieurs plateformes en une fois (recommandé pour test)
 npm run blog:actu:auto -- --count=3
 
 # Test sans écrire
@@ -90,22 +93,25 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 | Ce que vous lisez | Ce que le bot utilise |
 |-------------------|------------------------|
 | **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
-| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
-| **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Edge** (MSN actu) | Bing News RSS (`bing.com/news/search?...&format=rss`) |
+| **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes + Pocket optionnel |
+| **Google News** | RSS publics Google News France et requêtes verticales |
+| **Bing** | RSS publics Bing News |
+| **Yahoo** | RSS publics Yahoo Actualités / Yahoo Finance |
 | **Pocket** (sauvegardes) | API Pocket si tokens configurés |
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~55 sources testées).
+Configuration des flux : **`data/blog-actu-feeds.json`** (sources publiques testables par `npm run blog:actu:fetch`).
 
 ## Pipeline détaillé
 
 ```
-RSS + queue manuelle + Pocket
+RSS publics + queue manuelle + Pocket
         ↓
 blog-actu-candidates.json (score leadScore)
         ↓
-auto-actu-publish (rotation cafeyn → edge → firefox → aggregator)
+auto-actu-publish (rotation cafeyn → edge → firefox → google → bing → yahoo)
         ↓
 blog-actu-pending.json → blog:build → blog/*.html
         ↓

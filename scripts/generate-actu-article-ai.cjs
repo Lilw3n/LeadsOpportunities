@@ -6,6 +6,7 @@
 const { generateWithFallback } = require("../api/_lib/ai-provider-router.js");
 const { ctaWithUtm, monthLabel, relatedForSection, matchTopic, slugify, uniqueFile } = require("./blog-actu-lib.cjs");
 const { isSportActu } = require("./blog-actu-enrich.cjs");
+const { sourceTypeLabel } = require("./blog-actu-sources.cjs");
 
 function arg(name) {
   var m = process.argv.find(function (a) {
@@ -35,8 +36,10 @@ function buildPrompt(candidate) {
     "\nResume: " +
     (candidate.summary || "") +
     "\nPlateforme source: " +
+    sourceTypeLabel(platform) +
+    " (" +
     platform +
-    " (Cafeyn, Edge ou Firefox)\nNeed questionnaire: " +
+    ")\nNeed questionnaire: " +
     need +
     sportBlock +
     "\n" +
