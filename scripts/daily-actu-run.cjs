@@ -5,6 +5,7 @@
  */
 const { execSync } = require("child_process");
 const { readJson, writeJson, rankCandidates } = require("./blog-actu-lib.cjs");
+const { canonicalTitleKey } = require("./blog-actu-sources.cjs");
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -12,6 +13,21 @@ function arg(name, def) {
   });
   if (!m) return def;
   return m.split("=")[1];
+}
+
+function normalizeTitle(t) {
+  return canonicalTitleKey(t);
+}
+
+function dedupeRankedCandidates(candidates) {
+  var seen = new Set();
+  return candidates.filter(function (c) {
+    var key = normalizeTitle(c.title);
+    if (!key) key = String(c.url || "").trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 
 function main() {
@@ -25,7 +41,7 @@ function main() {
   }
 
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] }).candidates || [];
-  var ranked = rankCandidates(candidates);
+  var ranked = dedupeRankedCandidates(rankCandidates(candidates));
   var picks = ranked.slice(0, count);
 
   writeJson("blog-actu-daily-pick.json", {
