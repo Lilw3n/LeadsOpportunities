@@ -33,11 +33,22 @@ window.CrmAiSuggestions = {
     });
   },
 
-  safeFetch: function (url, headers) {
-    return fetch(url, { headers: headers })
-      .then(window.CrmAiSuggestions.safeJson)
+  safeFetch: function (url, headers, timeoutMs) {
+    var ms = timeoutMs || 10000;
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = controller
+      ? setTimeout(function () {
+          controller.abort();
+        }, ms)
+      : null;
+    return fetch(url, { headers: headers, signal: controller ? controller.signal : undefined })
+      .then(function (r) {
+        if (timer) clearTimeout(timer);
+        return window.CrmAiSuggestions.safeJson(r);
+      })
       .catch(function () {
-        return { ok: false, error: "Réseau" };
+        if (timer) clearTimeout(timer);
+        return { ok: false, error: "Réseau ou délai dépassé" };
       });
   },
 
