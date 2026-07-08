@@ -73,7 +73,22 @@
           </div>
         </div>
 
-        <div data-pet-teaser></div>
+        <div data-pet-teaser>
+          <div class="pet-teaser-grid" aria-label="Choisir chien ou chat">
+            <article class="pet-teaser-card">
+              <h3>Assurance Chien</h3>
+              <p class="pet-teaser-sub">Labrador, berger, chiot ou senior</p>
+              <p class="pet-teaser-price">à partir de 19,35 € <span style="font-size:.85rem;font-weight:600">/ mois</span></p>
+              <a class="btn btn-primary" href="./animaux.html?species=chien">Devis chien</a>
+            </article>
+            <article class="pet-teaser-card">
+              <h3>Assurance Chat</h3>
+              <p class="pet-teaser-sub">Chat d appartement, chaton ou senior</p>
+              <p class="pet-teaser-price">à partir de 16,90 € <span style="font-size:.85rem;font-weight:600">/ mois</span></p>
+              <a class="btn btn-primary" href="./animaux.html?species=chat">Devis chat</a>
+            </article>
+          </div>
+        </div>
 
         <div class="landing-partners-slot">
           <section data-partners-trust data-partners-context="animaux" data-partners-layout="featured"></section>
@@ -85,8 +100,9 @@
         <div class="journey-toggle">
           <a href="./animaux-express.html">Rapide (~1 min)</a>
           <a href="./animaux.html" class="is-active">Complet (tarif + formules)</a>
+          <a href="./questionnaire.html?need=animaux&amp;journey=standard">Questionnaire (3 min)</a>
         </div>
-        <p class="small" style="margin:0 0 12px">Parcours complet : identification (puce/tatouage), sterilisation, vaccins, antecedents, puis comparatif des formules.</p>
+        <p class="small" style="margin:0 0 12px">Parcours complet : choisissez <strong>chien</strong> ou <strong>chat</strong>, puis identification (puce/tatouage), sterilisation, vaccins, antecedents et comparatif des formules. <a href="./questionnaire.html?need=animaux&amp;journey=standard">Questionnaire standard animaux</a> disponible aussi.</p>
 
         <div data-eligibility-panel hidden></div>
 
@@ -97,7 +113,9 @@
             <label for="hp_animaux">Ne pas remplir</label>
             <input type="text" id="hp_animaux" name="_hp" tabindex="-1" autocomplete="off" />
           </div>
-          <div data-pet-journey></div>
+          <div data-pet-journey>
+            <p class="small" style="text-align:center;color:#64748b">Chargement du comparatif chien / chat…</p>
+          </div>
           <p class="success" data-form-success hidden>Merci ! Un conseiller assurance animaux vous rappelle avec votre comparatif.</p>
           <p class="form-lead" data-form-error hidden style="color:#b91c1c">Envoi impossible. Réessayez.</p>
         </form>

@@ -152,9 +152,9 @@
     apply(c.buildForService(service));
   }
 
-  global.LANDING_SEO = { apply: apply, applyForService: applyForService };
+  window.LANDING_SEO = { apply: apply, applyForService: applyForService };
 
   document.addEventListener("DOMContentLoaded", function () {
     apply();
   });
-})(typeof window !== "undefined" ? window : global);
+})();

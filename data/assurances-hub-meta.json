@@ -1,5 +1,5 @@
 {
-  "featured": ["vtc", "sante", "immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
+  "featured": ["vtc", "sante", "immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux", "chien", "chat"],
   "blogActuExamples": [
     "elections-presidentielles-prevoyance-patrimoine.html",
     "ligue-champions-assurance-voyage-deplacement.html",
@@ -68,6 +68,20 @@
       "seoUrl": "/assurance-animaux/",
       "blogUrl": "/blog/assurance-animaux-comment-choisir.html",
       "keywords": ["assurance animaux", "assurance chien", "assurance chat"]
+    },
+    "chien": {
+      "icon": "🐕",
+      "teaser": "Chiot, adulte ou senior : comparatif formules et tarif indicatif chien.",
+      "seoUrl": "/assurance-animaux/chien/",
+      "blogUrl": "/blog/assurance-chien-frais-veterinaires.html",
+      "keywords": ["assurance chien", "mutuelle chien", "frais veterinaires chien"]
+    },
+    "chat": {
+      "icon": "🐈",
+      "teaser": "Chaton ou chat d appartement : prevention, chirurgie, comparatif assureurs.",
+      "seoUrl": "/assurance-animaux/chat/",
+      "blogUrl": "/blog/assurance-chat-guide-complet.html",
+      "keywords": ["assurance chat", "mutuelle chat", "frais veterinaires chat"]
     },
     "moto": { "icon": "🏍️", "teaser": "Deux-roues, scooter, cyclomoteur.", "keywords": ["assurance moto", "scooter"] },
     "flotte": { "icon": "🚛", "teaser": "Parc auto professionnel, flotte entreprise.", "keywords": ["assurance flotte", "parc auto pro"] },

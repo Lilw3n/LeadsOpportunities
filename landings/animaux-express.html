@@ -60,6 +60,7 @@
         <div class="journey-toggle">
           <a href="./animaux-express.html" class="is-active">Rapide (~1 min)</a>
           <a href="./animaux.html">Complet (tarif + formules)</a>
+          <a href="./questionnaire.html?need=animaux&amp;journey=standard">Questionnaire (3 min)</a>
         </div>
         <form class="form-wrap" data-track-form data-quick-devis data-vertical="assurance_animaux" novalidate>
           <input type="hidden" name="need" value="animaux" />
@@ -145,6 +146,13 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var form = document.querySelector('[data-quick-devis]');
+      if (form) {
+        try {
+          var sp = new URLSearchParams(location.search).get('species');
+          var sel = form.querySelector('[name="petSpecies"]');
+          if (sel && (sp === 'chien' || sp === 'chat')) sel.value = sp;
+        } catch (e) {}
+      }
       if (!form || !window.QuoteIntelligence) return;
       window.QuoteIntelligence.setJourney('quick');
       window.QuoteIntelligence.bindAbandon(form);
