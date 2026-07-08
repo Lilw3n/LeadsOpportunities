@@ -62,5 +62,15 @@ module.exports = async (req, res) => {
   if (!load) {
     return res.status(404).json({ error: "Route CRM inconnue" });
   }
-  return load()(req, res);
+  try {
+    return await load()(req, res);
+  } catch (e) {
+    console.error("[crm/" + action + "]", e);
+    return res.status(200).json({
+      ok: false,
+      error: "Erreur serveur",
+      detail: e.message,
+      action: action,
+    });
+  }
 };

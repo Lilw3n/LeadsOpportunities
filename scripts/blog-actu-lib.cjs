@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
 const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { isEditorialSourceType } = require("./blog-actu-sources.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -94,6 +95,66 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+function looksMostlyEnglishTitle(text) {
+  var hay = String(text || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+  var englishHits = 0;
+  var frenchHits = 0;
+  [
+    "the",
+    "after",
+    "with",
+    "from",
+    "for",
+    "and",
+    "against",
+    "fires",
+    "back",
+    "attack",
+    "victory",
+    "senator",
+    "racist",
+    "says",
+    "will",
+    "over",
+    "under",
+    "team",
+    "coach",
+    "player",
+    "fans",
+    "world cup",
+  ].forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) englishHits += 1;
+  });
+  [
+    " le ",
+    " la ",
+    " les ",
+    " des ",
+    " du ",
+    " de ",
+    " une ",
+    " un ",
+    " dans ",
+    " pour ",
+    " avec ",
+    " apres ",
+    " avant ",
+    " equipe ",
+    " coupe ",
+    " monde ",
+    " assurance ",
+    " mutuelle ",
+    " emprunteur ",
+    " immobilier ",
+  ].forEach(function (kw) {
+    if ((" " + hay + " ").indexOf(kw) !== -1) frenchHits += 1;
+  });
+  return englishHits >= 3 && frenchHits <= 1;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -101,7 +162,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (isEditorialSourceType(candidate.sourceType)) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -112,6 +173,18 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (/suspension mutuelle|attaques? mutuelles?|frappes? mutuelles?|menaces? mutuelles?/i.test(hay)) {
+    score -= 45;
+  }
+  if (
+    (candidate.sourceType === "bing" || candidate.sourceType === "edge") &&
+    /\b(businesswire|business wire|globenewswire|pr newswire|memorandum of understanding|mou)\b/i.test(hay)
+  ) {
+    score -= 35;
+  }
+  if (looksMostlyEnglishTitle(title)) {
+    score -= 60;
+  }
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -135,8 +208,12 @@ function scoreLeadPotential(candidate) {
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
-    if (age < 3 * 86400000) score += 12;
-    else if (age < 7 * 86400000) score += 6;
+    var ageDays = age / 86400000;
+    if (ageDays < 3) score += 12;
+    else if (ageDays < 7) score += 6;
+    else if (ageDays > 90) score -= 70;
+    else if (ageDays > 30) score -= 45;
+    else if (ageDays > 14) score -= 20;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -297,9 +374,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: stripHtml(decodeEntities(title)),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: stripHtml(decodeEntities(desc || "")).slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -328,6 +405,7 @@ function decodeEntities(s) {
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")

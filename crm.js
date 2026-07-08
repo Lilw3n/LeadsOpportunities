@@ -15,6 +15,13 @@
 
   function api(path, opts) {
     opts = opts || {};
+    var timeoutMs = opts.timeoutMs || 12000;
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = controller
+      ? setTimeout(function () {
+          controller.abort();
+        }, timeoutMs)
+      : null;
     return fetch(path, {
       method: opts.method || "GET",
       headers: Object.assign(
@@ -22,11 +29,54 @@
         token() ? { Authorization: "Bearer " + token() } : {}
       ),
       body: opts.body ? JSON.stringify(opts.body) : undefined,
-    }).then(function (r) {
-      return r.json().catch(function () {
-        return { error: "Reponse invalide" };
+      signal: controller ? controller.signal : undefined,
+    })
+      .then(function (r) {
+        if (timer) clearTimeout(timer);
+        return r.json().catch(function () {
+          return { ok: false, error: "Reponse invalide" };
+        });
+      })
+      .catch(function (err) {
+        if (timer) clearTimeout(timer);
+        return { ok: false, error: err && err.name === "AbortError" ? "Delai depasse" : "Reseau" };
       });
-    });
+  }
+
+  function showOverviewDiag(data) {
+    var box = document.getElementById("crmOverviewDiag");
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "crmOverviewDiag";
+      box.className = "panel";
+      box.style.marginBottom = "14px";
+      var stats = document.getElementById("crmStats");
+      if (stats && stats.parentNode) stats.parentNode.insertBefore(box, stats);
+    }
+    var diag = data && data.diagnostics;
+    if (data && data.databaseConfigured === false) {
+      box.innerHTML =
+        '<p style="margin:0;color:#b91c1c"><strong>Urgent : base non connectée.</strong> ' +
+        "Les formulaires affichent « Merci » mais ne sont <em>pas sauvegardés</em>. " +
+        "Ajoutez <code>DATABASE_URL</code> sur Vercel, exécutez <code>database/site_leads.sql</code> sur Neon, puis redéployez. " +
+        '<a href="./crm-acquisition.html">Voir pipeline acquisition</a></p>';
+      return;
+    }
+    if (data && data.partial && diag && diag.migration) {
+      box.innerHTML =
+        '<p style="margin:0;color:#b45309"><strong>Migration CRM incomplète.</strong> ' +
+        "Exécutez <code>database/crm.sql</code> sur Neon (après <code>site_leads.sql</code>). " +
+        "Vos leads web restent visibles dans " +
+        '<a href="./crm-acquisition.html">Acquisition leads</a> et ' +
+        '<a href="./dashboard.html?section=leads">Dashboard leads</a>.</p>';
+      return;
+    }
+    if (data && data.partial && diag && diag.hint) {
+      box.innerHTML =
+        '<p style="margin:0;color:#64748b"><strong>Mode dégradé.</strong> ' + esc(diag.hint) + "</p>";
+      return;
+    }
+    box.innerHTML = "";
   }
 
   function labelType(t) {
@@ -110,11 +160,13 @@
     if (!el) return;
     api("/api/crm/overview")
       .then(function (data) {
+        showOverviewDiag(data);
         if (!data.ok) {
           el.innerHTML =
-            '<p class="activity">Migration CRM requise : executez database/crm.sql sur Neon. ' +
-            esc(data.error || "") +
-            "</p>";
+            '<p class="activity">' +
+            esc(data.error || "Statistiques indisponibles") +
+            (data.detail ? " — " + esc(data.detail) : "") +
+            '. <a href="./crm-acquisition.html">Voir les formulaires remplis</a></p>';
           return;
         }
         el.innerHTML =
@@ -141,7 +193,8 @@
       })
       .catch(function () {
         el.innerHTML =
-          '<p class="activity">Statistiques indisponibles. Vérifiez la connexion ou exécutez database/crm.sql sur Neon.</p>';
+          '<p class="activity">Statistiques indisponibles. <a href="./crm-acquisition.html">Voir les formulaires remplis</a> · ' +
+          '<a href="./dashboard.html?section=leads">Dashboard leads</a></p>';
       });
   }
 
@@ -168,14 +221,23 @@
   function loadAlerts() {
     var box = document.getElementById("crmAlertsBox");
     if (!box) return;
-    api("/api/crm/alerts")
+    box.innerHTML = '<p class="alerts-empty">Chargement...</p>';
+    api("/api/crm/alerts", { timeoutMs: 10000 })
       .then(function (data) {
         if (!data.ok) {
           box.innerHTML =
-            '<p class="alerts-empty">' + esc(data.error || "Alertes indisponibles") + "</p>";
+            '<p class="alerts-empty">' +
+            esc(data.error || "Alertes indisponibles") +
+            (data.detail ? " — " + esc(data.detail) : "") +
+            ' · <a href="./crm-acquisition.html">Formulaires remplis</a></p>';
           return;
         }
         lastAlerts = data.alerts || [];
+        if (!lastAlerts.length) {
+          box.innerHTML =
+            '<p class="alerts-empty">Aucune alerte. <a href="./crm-acquisition.html">Voir les formulaires remplis</a></p>';
+          return;
+        }
         paintAlerts();
       })
       .catch(function () {
@@ -299,18 +361,41 @@
     var box = document.getElementById("crmPriorityLeadsBox");
     if (!box) return;
     box.innerHTML = '<p class="alerts-empty">Chargement...</p>';
+    var fetchTimer = setTimeout(function () {
+      box.innerHTML =
+        '<p class="alerts-empty">Chargement lent… <a href="./crm-acquisition.html">Ouvrir Acquisition leads</a></p>';
+    }, 10000);
     fetch("/api/crm/leads-acquisition?limit=8&view=unopened", {
       headers: Object.assign({ "Content-Type": "application/json" }, token() ? { Authorization: "Bearer " + token() } : {}),
+      signal: typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(12000) : undefined,
     })
-      .then(function (r) { return r.json(); })
+      .then(function (r) {
+        return r.json().catch(function () {
+          return { ok: false, error: "Reponse invalide" };
+        });
+      })
       .then(function (data) {
+        clearTimeout(fetchTimer);
         if (!data.ok) {
-          box.innerHTML = '<p class="alerts-empty">' + esc(data.error || "Erreur leads") + "</p>";
+          box.innerHTML =
+            '<p class="alerts-empty">' +
+            esc(data.error || "Erreur leads") +
+            (data.detail ? " — " + esc(data.detail) : "") +
+            ' · <a href="./crm-acquisition.html">Pipeline complet</a></p>';
+          return;
+        }
+        var diag = data.diagnostics;
+        if (diag && diag.databaseConfigured === false) {
+          box.innerHTML =
+            '<p class="alerts-empty" style="color:#b91c1c"><strong>Base non connectée</strong> — formulaires non enregistrés. Configurez DATABASE_URL sur Vercel.</p>';
           return;
         }
         var leads = (data.leads || []).slice(0, 8);
         if (!leads.length) {
-          box.innerHTML = "<p class='alerts-empty'>Aucun nouveau lead non ouvert.</p>";
+          box.innerHTML =
+            "<p class='alerts-empty'>Aucun nouveau lead non ouvert. " +
+            '<a href="./crm-acquisition.html?view=all">Tous les formulaires</a> · ' +
+            '<a href="./dashboard.html?section=leads">Dashboard</a></p>';
           return;
         }
         box.innerHTML = leads
@@ -345,6 +430,7 @@
         });
       })
       .catch(function () {
+        clearTimeout(fetchTimer);
         box.innerHTML =
           '<p class="alerts-empty">Impossible de charger les leads prioritaires. <a href="./crm-acquisition.html">Pipeline acquisition</a></p>';
       });
