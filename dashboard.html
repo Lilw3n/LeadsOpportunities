@@ -511,6 +511,20 @@
       white-space: nowrap;
     }
     .btn-lead-delete:hover { background: #fef2f2; }
+    .btn-lead-open {
+      padding: 6px 10px;
+      border: 1px solid #99f6e4;
+      border-radius: 8px;
+      background: #ecfdf5;
+      color: #0f766e;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      margin-right: 6px;
+    }
+    .btn-lead-open:hover { background: #d1fae5; }
     .lead-actions-cell { width: 1%; white-space: nowrap; text-align: right; }
     .detail-actions-row {
       display: flex;
@@ -2481,9 +2495,14 @@
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
-              '<td class="lead-actions-cell"><button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button></td>';
+              '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> <button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button></td>';
             tr.addEventListener("click", function(e) {
               if (e.target.closest(".btn-lead-delete")) return;
+              if (e.target.closest(".btn-lead-open")) {
+                e.stopPropagation();
+                openLeadDetail(l.id);
+                return;
+              }
               openLeadDetail(l.id);
             });
             tbody.appendChild(tr);
@@ -2574,7 +2593,16 @@
       try {
         var res = await fetch("/api/dashboard/lead-detail?id=" + encodeURIComponent(id), { headers: authHeaders() });
         var data = await res.json();
-        if (!data.ok) { body.innerHTML = '<p style="color:var(--red)">' + esc(data.error) + '</p>'; return; }
+        if (!data.ok) {
+          body.innerHTML =
+            '<p style="color:var(--red)">' +
+            esc(data.error || "Erreur") +
+            (data.detail ? "<br><small>" + esc(data.detail) + "</small>" : "") +
+            '</p><p style="margin-top:12px"><a class="btn btn-ghost" href="./crm-lead-detail.html?id=' +
+            encodeURIComponent(id) +
+            '">Ouvrir la fiche CRM</a></p>';
+          return;
+        }
         var l = data.lead;
         var payload = l.payload || {};
         var funnel = payload.funnel || {};
@@ -2692,6 +2720,7 @@
             '<div class="detail-item detail-full"><div class="dlabel">Données complètes</div><div class="dvalue"><pre style="white-space:pre-wrap;font-size:0.8rem;max-height:200px;overflow:auto;background:var(--bg);padding:12px;border-radius:8px;margin-top:6px">' + esc(JSON.stringify(payload, null, 2)) + '</pre></div></div>' +
           '</div>' +
           '<div class="detail-actions" style="flex-direction:column">' +
+            '<p style="margin:0 0 8px"><a class="btn btn-ghost" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Fiche CRM complète →</a></p>' +
             '<div style="display:flex;gap:10px;align-items:center">' +
               '<label style="font-weight:600;font-size:0.85rem;white-space:nowrap">Statut :</label>' +
               '<select id="modalStatus" class="filter-select">' +
