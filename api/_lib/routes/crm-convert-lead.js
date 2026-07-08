@@ -70,6 +70,17 @@ module.exports = async (req, res) => {
       WHERE id = ${leadId}
     `;
 
+    try {
+      const { ensureMailboxSchema } = require("../ensure-schema");
+      await ensureMailboxSchema(sql);
+      await sql`
+        UPDATE mailbox_messages SET contact_id = ${contactId}
+        WHERE lead_id = ${leadId} OR id = ${"lead_" + leadId}
+      `;
+    } catch (mbErr) {
+      console.warn("[crm/convert-lead] mailbox link:", mbErr.message);
+    }
+
     await sql`
       INSERT INTO crm_activities (id, contact_id, lead_id, user_id, activity_type, title, body)
       VALUES (

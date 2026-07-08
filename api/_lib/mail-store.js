@@ -149,6 +149,7 @@ async function ensureMailboxSchema(sql) {
     )
   `;
   await sql`ALTER TABLE mailbox_messages ADD COLUMN IF NOT EXISTS category TEXT`;
+  await sql`ALTER TABLE mailbox_messages ADD COLUMN IF NOT EXISTS contact_id TEXT`;
   await sql`
     CREATE INDEX IF NOT EXISTS idx_mailbox_created ON mailbox_messages (created_at DESC)
   `;
@@ -231,10 +232,12 @@ async function listMessages(limit, offset) {
   const off = Math.max(Number(offset) || 0, 0);
 
   const rows = await sql`
-    SELECT id, direction, from_addr, to_addr, subject, body_text, body_html,
-           thread_key, message_id, in_reply_to, lead_id, category, external_uid, created_at
-    FROM mailbox_messages
-    ORDER BY created_at DESC
+    SELECT m.id, m.direction, m.from_addr, m.to_addr, m.subject, m.body_text, m.body_html,
+           m.thread_key, m.message_id, m.in_reply_to, m.lead_id, m.category, m.external_uid, m.created_at,
+           COALESCE(m.contact_id, sl.contact_id) AS contact_id
+    FROM mailbox_messages m
+    LEFT JOIN site_leads sl ON sl.id = m.lead_id
+    ORDER BY m.created_at DESC
     LIMIT ${lim} OFFSET ${off}
   `;
   const statsRows = await sql`

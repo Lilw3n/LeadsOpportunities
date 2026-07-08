@@ -142,7 +142,7 @@ async function ensureSiteLeadsSchema(sql) {
 async function ensureMailboxSchema(sql) {
   if (!sql) return false;
   await ensureSiteLeadsSchema(sql);
-  return runStatement(sql, function (s) {
+  await runStatement(sql, function (s) {
     return s`
       CREATE TABLE IF NOT EXISTS mailbox_messages (
         id TEXT PRIMARY KEY,
@@ -162,6 +162,10 @@ async function ensureMailboxSchema(sql) {
       )
     `;
   });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE mailbox_messages ADD COLUMN IF NOT EXISTS contact_id TEXT`;
+  });
+  return true;
 }
 
 module.exports = {

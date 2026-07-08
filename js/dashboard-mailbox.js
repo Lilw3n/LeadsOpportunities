@@ -49,6 +49,7 @@
     tableMissing: false,
     stats: null,
     pendingOpenId: null,
+    crmContext: null,
   };
 
   function esc(s) {
@@ -206,6 +207,460 @@
     return null;
   }
 
+  function contactIdFromMessage(m) {
+    if (!m) return null;
+    return m.contact_id ? String(m.contact_id) : null;
+  }
+
+  function contactHintsFromMessage(m) {
+    if (!m) return { email: "", phone: "" };
+    var payload = parseLeadPayload(m.body_text) || {};
+    var email =
+      payload.email ||
+      extractEmail(m.direction === "inbound" ? m.from_addr : m.to_addr) ||
+      extractEmail(m.from_addr) ||
+      "";
+    var phone = payload.phone || "";
+    if (!phone && m.body_text) {
+      var pm = String(m.body_text).match(/(?:Téléphone|Tel|Phone)\s*:\s*([+\d\s().-]{8,})/i);
+      if (pm) phone = pm[1].trim();
+    }
+    if (!phone && email && email.indexOf("@") < 0 && /[\d]{8,}/.test(email)) {
+      phone = email;
+      email = "";
+    }
+    return { email: String(email || "").trim(), phone: String(phone || "").trim() };
+  }
+
+  function primaryLeadIdFromMessages(messages) {
+    if (!messages || !messages.length) return null;
+    for (var i = messages.length - 1; i >= 0; i--) {
+      var lid = leadIdFromMessage(messages[i]);
+      if (lid) return lid;
+    }
+    return null;
+  }
+
+  function primaryContactIdFromMessages(messages) {
+    if (!messages || !messages.length) return null;
+    for (var i = messages.length - 1; i >= 0; i--) {
+      var cid = contactIdFromMessage(messages[i]);
+      if (cid) return cid;
+    }
+    return null;
+  }
+
+  function crmPanelShell() {
+    return (
+      '<div class="mbx-crm-panel" id="mbxCrmPanel">' +
+      '<div class="mbx-crm-panel__head">' +
+      '<strong>Fiche client &amp; notes</strong>' +
+      '<span class="mbx-badge mbx-badge--linked" id="mbxContactBadge" hidden>Lié</span>' +
+      "</div>" +
+      '<dl class="mbx-meta-grid" id="mbxContactMeta"></dl>' +
+      '<label class="mbx-crm-notes-label">Notes internes' +
+      '<textarea id="mbxLeadNotes" rows="3" placeholder="Notes sur ce contact / cette demande…"></textarea>' +
+      "</label>" +
+      '<div class="mbx-crm-panel__actions" id="mbxCrmActions">' +
+      '<button type="button" class="btn btn-primary btn-sm" id="mbxSaveNotes">Enregistrer les notes</button>' +
+      '<button type="button" class="btn-ghost btn-sm" id="mbxCreateContact">Créer fiche client</button>' +
+      '<button type="button" class="btn-ghost btn-sm" id="mbxLinkContact">Lier à une fiche</button>' +
+      '<a class="btn-ghost btn-sm" id="mbxOpenContact" hidden href="#">Voir la fiche client →</a>' +
+      "</div>" +
+      '<p class="mbx-crm-status" id="mbxCrmStatus"></p>' +
+      "</div>"
+    );
+  }
+
+  function setCrmStatus(msg, isErr) {
+    var el = document.getElementById("mbxCrmStatus");
+    if (!el) return;
+    el.textContent = msg || "";
+    el.className = "mbx-crm-status" + (isErr ? " is-error" : msg ? " is-ok" : "");
+  }
+
+  function renderCrmMeta(ctx) {
+    var meta = document.getElementById("mbxContactMeta");
+    if (!meta) return;
+    var hints = ctx.hints || {};
+    var rows = [];
+    if (hints.email) rows.push(["E-mail", hints.email]);
+    if (hints.phone) rows.push(["Téléphone", hints.phone]);
+    if (ctx.contactName) rows.push(["Fiche", ctx.contactName]);
+    if (!rows.length) {
+      meta.innerHTML = '<dd style="grid-column:1/-1;color:var(--muted);margin:0">Aucun e-mail/téléphone détecté</dd>';
+      return;
+    }
+    meta.innerHTML = rows
+      .map(function (r) {
+        return "<dt>" + esc(r[0]) + "</dt><dd>" + esc(r[1]) + "</dd>";
+      })
+      .join("");
+  }
+
+  function updateCrmPanelUi(ctx) {
+    var badge = document.getElementById("mbxContactBadge");
+    var notes = document.getElementById("mbxLeadNotes");
+    var open = document.getElementById("mbxOpenContact");
+    var createBtn = document.getElementById("mbxCreateContact");
+    var linkBtn = document.getElementById("mbxLinkContact");
+    var saveBtn = document.getElementById("mbxSaveNotes");
+    if (!notes) return;
+
+    renderCrmMeta(ctx);
+    notes.value = ctx.notes || "";
+    notes.disabled = !ctx.leadId;
+    if (saveBtn) saveBtn.disabled = !ctx.leadId;
+
+    var linked = !!ctx.contactId;
+    if (badge) badge.hidden = !linked;
+    if (open) {
+      if (linked) {
+        open.hidden = false;
+        open.href = "./crm-contact.html?id=" + encodeURIComponent(ctx.contactId);
+        open.textContent = ctx.contactName
+          ? "Voir " + ctx.contactName + " →"
+          : "Voir la fiche client →";
+      } else {
+        open.hidden = true;
+      }
+    }
+    if (createBtn) createBtn.hidden = linked;
+    if (linkBtn) linkBtn.hidden = linked;
+    setCrmStatus(linked ? "Lié à une fiche client CRM." : "");
+  }
+
+  async function fetchLeadCrmContext(leadId) {
+    if (!leadId || !window.Dashboard || !window.Dashboard.api) return null;
+    try {
+      var data = await window.Dashboard.api(
+        "/api/dashboard/lead-detail?id=" + encodeURIComponent(leadId)
+      );
+      if (!data.ok || !data.lead) return null;
+      var l = data.lead;
+      var payload = l.payload || {};
+      return {
+        leadId: leadId,
+        contactId: l.contact_id || null,
+        notes: l.notes || "",
+        hints: {
+          email: l.email || payload.email || "",
+          phone: l.phone || payload.phone || "",
+        },
+        contactName: null,
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function fetchContactName(contactId) {
+    if (!contactId || !window.Dashboard || !window.Dashboard.api) return null;
+    try {
+      var data = await window.Dashboard.api(
+        "/api/crm/contact?id=" + encodeURIComponent(contactId)
+      );
+      if (!data.ok || !data.contact) return null;
+      var c = data.contact;
+      return [c.first_name, c.last_name].filter(Boolean).join(" ").trim() || c.email || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function hydrateCrmPanel(ctx) {
+    state.crmContext = ctx;
+    updateCrmPanelUi(ctx);
+    if (ctx.contactId && !ctx.contactName) {
+      var name = await fetchContactName(ctx.contactId);
+      if (name && state.crmContext === ctx) {
+        ctx.contactName = name;
+        updateCrmPanelUi(ctx);
+      }
+    }
+    if (ctx.leadId) {
+      var leadCtx = await fetchLeadCrmContext(ctx.leadId);
+      if (leadCtx && state.crmContext === ctx) {
+        Object.assign(ctx, leadCtx, {
+          messageId: ctx.messageId,
+          hints: Object.assign({}, ctx.hints, leadCtx.hints),
+        });
+        updateCrmPanelUi(ctx);
+        if (ctx.contactId && !ctx.contactName) {
+          var n = await fetchContactName(ctx.contactId);
+          if (n) {
+            ctx.contactName = n;
+            updateCrmPanelUi(ctx);
+          }
+        }
+      }
+    }
+  }
+
+  async function saveMailboxNotes() {
+    var ctx = state.crmContext;
+    if (!ctx || !ctx.leadId) {
+      toast("Notes disponibles pour les demandes site (lead).", "error");
+      return;
+    }
+    var notes = (document.getElementById("mbxLeadNotes") || {}).value || "";
+    setCrmStatus("Enregistrement…");
+    var data = await window.Dashboard.api("/api/dashboard/lead-update", {
+      method: "POST",
+      body: JSON.stringify({ leadId: ctx.leadId, notes: notes }),
+    });
+    if (!data.ok) {
+      setCrmStatus(data.error || "Erreur", true);
+      toast(data.error || "Erreur", "error");
+      return;
+    }
+    ctx.notes = notes;
+    setCrmStatus("Notes enregistrées.");
+    toast("Notes enregistrées");
+  }
+
+  async function convertMailboxToContact() {
+    var ctx = state.crmContext;
+    if (!ctx) return;
+    if (ctx.contactId) {
+      window.location.href = "./crm-contact.html?id=" + encodeURIComponent(ctx.contactId);
+      return;
+    }
+    if (!ctx.leadId) {
+      await createContactFromHints(ctx);
+      return;
+    }
+    setCrmStatus("Création de la fiche…");
+    var data = await window.Dashboard.api("/api/crm/convert-lead", {
+      method: "POST",
+      body: JSON.stringify({ leadId: ctx.leadId, contactType: "prospect" }),
+    });
+    if (!data.ok && !data.contactId) {
+      setCrmStatus(data.error || "Erreur", true);
+      toast(data.error || "Erreur", "error");
+      return;
+    }
+    ctx.contactId = data.contactId;
+    ctx.contactName = null;
+    updateCrmPanelUi(ctx);
+    toast(data.alreadyLinked ? "Déjà lié à une fiche" : "Fiche client créée");
+    setCrmStatus("Fiche client créée et liée.");
+    var name = await fetchContactName(ctx.contactId);
+    if (name) {
+      ctx.contactName = name;
+      updateCrmPanelUi(ctx);
+    }
+    loadMailbox({ skipAutoSelect: true });
+  }
+
+  async function createContactFromHints(ctx) {
+    var hints = ctx.hints || {};
+    if (!hints.email && !hints.phone) {
+      toast("E-mail ou téléphone requis", "error");
+      return;
+    }
+    setCrmStatus("Création de la fiche…");
+    var parts = (hints.email || "").split("@")[0].split(/[._-]/);
+    var data = await window.Dashboard.api("/api/crm/contacts", {
+      method: "POST",
+      body: JSON.stringify({
+        email: hints.email || null,
+        phone: hints.phone || null,
+        firstName: parts[0] || null,
+        lastName: parts[1] || null,
+        source: "mailbox",
+        notes: "Créé depuis la messagerie",
+      }),
+    });
+    if (!data.ok || !(data.contactId || data.id)) {
+      setCrmStatus(data.error || "Erreur", true);
+      toast(data.error || "Erreur", "error");
+      return;
+    }
+    ctx.contactId = data.contactId || data.id;
+    if (ctx.messageId) {
+      await window.Dashboard.api("/api/crm/link-lead", {
+        method: "POST",
+        body: JSON.stringify({
+          messageId: ctx.messageId,
+          contactId: ctx.contactId,
+          email: hints.email,
+          phone: hints.phone,
+        }),
+      });
+    }
+    updateCrmPanelUi(ctx);
+    toast("Fiche client créée");
+    setCrmStatus("Fiche client créée.");
+    var name = await fetchContactName(ctx.contactId);
+    if (name) {
+      ctx.contactName = name;
+      updateCrmPanelUi(ctx);
+    }
+  }
+
+  function ensureLinkModal() {
+    var existing = document.getElementById("mbxLinkModal");
+    if (existing) return existing;
+    var modal = document.createElement("div");
+    modal.id = "mbxLinkModal";
+    modal.className = "mbx-link-modal";
+    modal.hidden = true;
+    modal.innerHTML =
+      '<div class="mbx-link-modal__backdrop" data-close="1"></div>' +
+      '<div class="mbx-link-modal__card" role="dialog" aria-labelledby="mbxLinkModalTitle">' +
+      '<h3 id="mbxLinkModalTitle">Lier à une fiche client</h3>' +
+      '<p class="mbx-link-modal__hint">Recherchez par e-mail, téléphone ou nom.</p>' +
+      '<input type="search" id="mbxLinkSearch" class="mbx-link-search" placeholder="E-mail, téléphone, nom…" autocomplete="off" />' +
+      '<div class="mbx-link-results" id="mbxLinkResults"></div>' +
+      '<div class="mbx-link-modal__foot">' +
+      '<button type="button" class="btn-ghost btn-sm" data-close="1">Annuler</button>' +
+      "</div></div>";
+    document.body.appendChild(modal);
+    modal.querySelectorAll("[data-close]").forEach(function (el) {
+      el.addEventListener("click", function () {
+        modal.hidden = true;
+      });
+    });
+    return modal;
+  }
+
+  function openLinkContactModal() {
+    var ctx = state.crmContext;
+    if (!ctx) return;
+    var modal = ensureLinkModal();
+    var search = document.getElementById("mbxLinkSearch");
+    var results = document.getElementById("mbxLinkResults");
+    modal.hidden = false;
+    var q = (ctx.hints && (ctx.hints.email || ctx.hints.phone)) || "";
+    search.value = q;
+    results.innerHTML = '<p class="mbx-link-empty">Saisissez au moins 2 caractères…</p>';
+
+    var debounce = null;
+    async function runSearch(term) {
+      if (!term || term.length < 2) {
+        results.innerHTML = '<p class="mbx-link-empty">Saisissez au moins 2 caractères…</p>';
+        return;
+      }
+      results.innerHTML = '<p class="mbx-link-empty">Recherche…</p>';
+      var data = await window.Dashboard.api(
+        "/api/crm/contacts?search=" + encodeURIComponent(term) + "&limit=12"
+      );
+      if (!data.ok || !data.contacts || !data.contacts.length) {
+        results.innerHTML = '<p class="mbx-link-empty">Aucune fiche trouvée.</p>';
+        return;
+      }
+      results.innerHTML = data.contacts
+        .map(function (c) {
+          var name = [c.first_name, c.last_name].filter(Boolean).join(" ").trim() || "Sans nom";
+          var sub = [c.email, c.phone].filter(Boolean).join(" · ");
+          return (
+            '<button type="button" class="mbx-link-item" data-id="' +
+            esc(c.id) +
+            '"><strong>' +
+            esc(name) +
+            "</strong><span>" +
+            esc(sub) +
+            "</span></button>"
+          );
+        })
+        .join("");
+      results.querySelectorAll(".mbx-link-item").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          linkToContact(btn.getAttribute("data-id"));
+        });
+      });
+    }
+
+    async function linkToContact(contactId) {
+      setCrmStatus("Liaison en cours…");
+      var payload = {
+        contactId: contactId,
+        email: ctx.hints && ctx.hints.email,
+        phone: ctx.hints && ctx.hints.phone,
+      };
+      if (ctx.leadId) payload.leadId = ctx.leadId;
+      if (ctx.messageId) payload.messageId = ctx.messageId;
+      var data = await window.Dashboard.api("/api/crm/link-lead", {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+      modal.hidden = true;
+      if (!data.ok) {
+        setCrmStatus(data.error || "Erreur", true);
+        toast(data.error || "Erreur", "error");
+        return;
+      }
+      ctx.contactId = data.contactId;
+      ctx.contactName = data.contactName || null;
+      updateCrmPanelUi(ctx);
+      toast("Lié à la fiche client");
+      setCrmStatus("E-mail / téléphone liés à la fiche client.");
+      loadMailbox({ skipAutoSelect: true });
+    }
+
+    search.oninput = function () {
+      clearTimeout(debounce);
+      debounce = setTimeout(function () {
+        runSearch(search.value.trim());
+      }, 280);
+    };
+    if (q.length >= 2) runSearch(q);
+    search.focus();
+  }
+
+  function bindCrmPanelEvents() {
+    var save = document.getElementById("mbxSaveNotes");
+    var create = document.getElementById("mbxCreateContact");
+    var link = document.getElementById("mbxLinkContact");
+    if (save && !save.dataset.bound) {
+      save.dataset.bound = "1";
+      save.addEventListener("click", saveMailboxNotes);
+    }
+    if (create && !create.dataset.bound) {
+      create.dataset.bound = "1";
+      create.addEventListener("click", convertMailboxToContact);
+    }
+    if (link && !link.dataset.bound) {
+      link.dataset.bound = "1";
+      link.addEventListener("click", openLinkContactModal);
+    }
+  }
+
+  function startCrmPanelForMessage(m, leadId) {
+    var hints = contactHintsFromMessage(m);
+    var ctx = {
+      messageId: m.id,
+      leadId: leadId || leadIdFromMessage(m),
+      contactId: contactIdFromMessage(m),
+      notes: "",
+      hints: hints,
+      contactName: null,
+    };
+    bindCrmPanelEvents();
+    hydrateCrmPanel(ctx);
+  }
+
+  function startCrmPanelForThread(t) {
+    var lastIn =
+      t.messages
+        .slice()
+        .reverse()
+        .find(function (m) {
+          return m.direction === "inbound";
+        }) || t.last;
+    var ctx = {
+      messageId: lastIn && lastIn.id,
+      leadId: t.leadId || primaryLeadIdFromMessages(t.messages),
+      contactId: t.contactId || primaryContactIdFromMessages(t.messages),
+      notes: "",
+      hints: contactHintsFromMessage(lastIn || t.last),
+      contactName: null,
+    };
+    bindCrmPanelEvents();
+    hydrateCrmPanel(ctx);
+  }
+
   function messagePreview(m) {
     var t = (m.body_text || "").replace(/\s+/g, " ").trim();
     if (t.indexOf("===") === 0 || t.charAt(0) === "{") {
@@ -324,6 +779,8 @@
         });
       t.subject = (subjIn && subjIn.subject) || last.subject || "(sans objet)";
       t.preview = messagePreview(last);
+      t.leadId = primaryLeadIdFromMessages(t.messages);
+      t.contactId = primaryContactIdFromMessages(t.messages);
       if (t.needsCallback && t.hasExpress) {
         t.priority = 0;
       } else if (t.needsReply && t.hasImap) {
@@ -547,6 +1004,7 @@
         ? '<span class="mbx-pill mbx-pill--express-done">Rappel (traite)</span>'
         : "") +
       (t.hasSite && !t.hasExpress ? '<span class="mbx-pill mbx-pill--site">Site</span>' : "") +
+      (t.contactId ? '<span class="mbx-pill mbx-pill--linked">Fiche client</span>' : "") +
       '<span class="mbx-pill" style="background:#f1f5f9;color:#64748b">' +
       t.messages.length +
       " msg</span>";
@@ -1189,7 +1647,8 @@
         : "") +
       '<button type="button" class="btn-ghost" data-copy="' +
       esc(t.contact) +
-      '">Copier e-mail</button></div>';
+      '">Copier e-mail</button></div>' +
+      crmPanelShell();
 
     document.getElementById("mailboxDetailHead").querySelector("[data-copy]").addEventListener("click", function () {
       navigator.clipboard.writeText(t.contact).then(function () {
@@ -1200,6 +1659,7 @@
     document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed(t.messages);
     if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
     setupReplyForMessage(lastIn);
+    startCrmPanelForThread(t);
     renderList();
   }
 
@@ -1234,12 +1694,13 @@
         ? '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
           '<a class="btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
           encodeURIComponent(leadId) +
-          '">Fiche CRM</a>' +
+          '">Fiche lead</a>' +
           '<a class="btn-ghost btn-sm" href="./dashboard.html?section=leads&lead=' +
           encodeURIComponent(leadId) +
           '">Modal lead</a>'
         : "") +
-      "</div>";
+      "</div>" +
+      crmPanelShell();
 
     var answersBtn = document.getElementById("mbxBtnAllAnswers");
     if (answersBtn) {
@@ -1266,6 +1727,7 @@
 
     if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
     setupReplyForMessage(m);
+    startCrmPanelForMessage(m, leadId);
     renderList();
   }
 
@@ -1388,6 +1850,18 @@
 
     if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
       selectMessage(opts.openId);
+      return;
+    }
+    if (opts.skipAutoSelect) {
+      if (state.selectedId) {
+        selectMessage(state.selectedId, { keepDraft: true });
+        return;
+      }
+      if (state.selectedThreadKey) {
+        selectThread(state.selectedThreadKey, { keepDraft: true });
+        return;
+      }
+      renderList();
       return;
     }
     if (!opts.skipAutoSelect) pickDefaultSelection();
