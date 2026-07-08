@@ -1,0 +1,81 @@
+{
+  "date": "2026-07-08",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con",
+      "title": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les capitaux importants - L'Argus de l'assurance",
+      "url": "https://news.google.com/rss/articles/CBMiuAJBVV95cUxPLVA0aFZHWVhKVjdzRjVYTnk4cjh5YnpLb1pHZHZfT29LRU9YeVN2ejQtcnVBQ1NvSk9iVWVIQ3FMTXFEZzZ0T3laenZTajhTeTEyU2lvVGxUUFNNRXo1a2hvVlU5MXlVck9fM1JyeGJJTXRqM1Z4Y1o3dkZaeXdoZS0yUDZieEpONUcwX2tLU01RVHJCX3pzRzl4a09wTzNRS3lVTFJ6bHVnQUhSUHh4dlI1dF9XcnJGMEpuY29GZ29RdlQ1SmRlNVNGTDJZa3JPTDBfTjBzZmdiN3o5aHRuTGRvXzhBeTVXNzVYVkhnSDk1cjN0cmpyREpwZkEzUjNOV3lrWDlEMUVwazBrM1Z5LWE4LUtVYlE1RmViUnE2QWVGQkFQdXhnN0lScFJBTEgxakNYSUh6Wi0?oc=5",
+      "summary": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les capitaux importants L'Argus de l'assurance",
+      "pubDate": "Tue, 07 Jul 2026 09:50:57 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-comprendre-les-etapes-de-gestion-d-un-sinistre",
+      "title": "Assurance : comprendre les étapes de gestion d’un sinistre",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a4dd0cc619a415aad6fcb088b1d4de1&url=https%3a%2f%2fwww.lefigaro.fr%2fbons-plans%2fassurance-comprendre-les-etapes-de-gestion-d-un-sinistre-20260706&c=13232379495558118391&mkt=en-us",
+      "summary": "C’est le principe même d’un sinistre : il survient toujours à l’improviste, laissant les assurés souvent démunis face aux démarches à réaliser. Quels documents fournir ? Combien de temps avant d’être ...",
+      "pubDate": "Mon, 06 Jul 2026 23:57:00 GMT",
+      "feedId": "source-bing-news-sinistre",
+      "feedName": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-comprendre-les-etapes-de-gestion-d-un-sinistre.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-2026-tout-savoir-sur-la-fan-zone-du-jardin-des-deux-rives",
+      "title": "Coupe du monde 2026. Tout savoir sur la fan-zone du jardin des Deux-Rives pour voir le match France-Maroc jeudi soir à Strasbourg",
+      "url": "https://www.dna.fr/culture-loisirs/2026/07/07/tout-savoir-sur-la-fan-zone-du-jardin-des-deux-rives-pour-voir-le-match-france-maroc-jeudi-soir",
+      "summary": "Comme promis, après la qualification de l’Équipe de France pour les quarts de finale de la Coupe du monde 2026 de football, la Ville de Strasbourg mettra en place une fan-zone au jardin des Deux-Rives et retransmettra en direct les prochains matchs des Bleus. À commencer par celui de jeudi 9 juillet avec une ouverture des portes dès 18 h.",
+      "pubDate": "Tue, 07 Jul 2026 14:51:00 GMT",
+      "feedId": "source-cafeyn-dna",
+      "feedName": "Cafeyn — DNA Alsace",
+      "sourceType": "cafeyn",
+      "suggestedFile": "coupe-du-monde-2026-tout-savoir-sur-la-fan-zone-du-jardin-des-deux-rives.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-un-match-d-anthologie-l-arbitre-de-france-maroc-connu-rev",
+      "title": "Coupe du monde. Un match d’anthologie, l’arbitre de France - Maroc connu… Revivez la 27e journée du Mondial - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMiqgJBVV95cUxNcWpHSWlZLVBpdHlYQ1U4b1RpUmlsaDBKLVJnWHZmSHRwWTE2QjRYQVJQckROMUhMLVV5RlAtRGZxLTVGNVNpdHhNOG9NS2JDTTV1UHhGaG5fNEVQZU5iVC0zaHV0bk4yRzFodmcwaHhBTy1COTJBUi04VGZQUkJraC1zb0c2UU9EWVFYOGFYd0tvMVVLeXBoN2RhTWpSdUlSNXh4T0pzTTd3LUMxZl82NTdncGlTSXljUDhRRlNPR1B3N0hSZTdkVGttUlFWbUYybmVWOHZlWmpfQ3pTc3BFMzJiOXZ3UXM5YXdPY3RaM2NNTUQzeWt2d0NNUWh6dnFsN0RyY3dnSWxtTXdyQzE0NUg3eW5XSUFOSzJ6SW5Kc3RVenRmdUlyN2Vn?oc=5",
+      "summary": "Coupe du monde. Un match d’anthologie, l’arbitre de France - Maroc connu… Revivez la 27e journée du Mondial Ouest-France France-Maroc : les Bleus seront arbitrés par cinq Argentins en quart de finale de Coupe du monde Le Parisien France - Maroc : un horaire encore horrible... Heure et date du match de l'équipe de France en quart de finale de la Coupe du monde 2026 Linternaute.com",
+      "pubDate": "Tue, 07 Jul 2026 05:30:45 GMT",
+      "feedId": "google-news-sport",
+      "feedName": "Google News — sport France",
+      "sourceType": "google",
+      "suggestedFile": "coupe-du-monde-un-match-d-anthologie-l-arbitre-de-france-maroc-connu-rev.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-2026-ne-me-sous-estime-pas-mbappe-apres-ses-propos-racist",
+      "title": "Coupe du monde 2026 : «Ne me sous-estime pas Mbappé», après ses propos racistes, la sénatrice paraguayenne s’en prend encore au capitaine des Bleus - Le Figaro",
+      "url": "https://news.google.com/rss/articles/CBMirgJBVV95cUxONE9vLTdKY2pEWXdQc3dWekh1MkhXR1BOVDJ2R29OMC10YkdzeVhoMmRGN1pUNFUwc29zS180VnkzQ0VkRFRGY0pXTTJyZU8yM29iWWNzMDlCa3A5SGtqMUk3QWV1ek53QUpFdlVDY1dLcktON1VWbVZWVmlXX3dJUGhlamh6RXNTaHk4RF9BQkpMX3NJVThTMFliQkVKZWxJT0xQR0VTMW45NmRlMXVoaDVtYkpJWUcwZko2VktiX1dndURIbTVYck96cGhWcElTR3ZOMTJoWUpWM0RWZVN5S3JSd192dlJGbkE3NE80bHh5YXRzZWctVWYzMWw4cE5rRFNwSnVQd25qRV8tYzk4ZHpfZnJxQ2lNamlVZnhNRnFiX1h6NlJaN0M2UjBfQQ?oc=5",
+      "summary": "Coupe du monde 2026 : «Ne me sous-estime pas Mbappé», après ses propos racistes, la sénatrice paraguayenne s’en prend encore au capitaine des Bleus Le Figaro",
+      "pubDate": "Tue, 07 Jul 2026 16:12:58 GMT",
+      "feedId": "google-news-bleus-joueurs",
+      "feedName": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "google",
+      "suggestedFile": "coupe-du-monde-2026-ne-me-sous-estime-pas-mbappe-apres-ses-propos-racist.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
