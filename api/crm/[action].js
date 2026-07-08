@@ -6,6 +6,7 @@ const ROUTES = {
   contact: () => require("../_lib/routes/crm-contact"),
   users: () => require("../_lib/routes/crm-users"),
   "convert-lead": () => require("../_lib/routes/crm-convert-lead"),
+  "link-lead": () => require("../_lib/routes/crm-link-lead"),
   modules: () => require("../_lib/routes/crm-modules"),
   events: () => require("../_lib/routes/crm-events"),
   transfer: () => require("../_lib/routes/crm-transfer"),

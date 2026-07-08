@@ -31,6 +31,24 @@ function slugify(text) {
     .slice(0, 72);
 }
 
+function isUsableActuTitle(title) {
+  var t = String(title || "").trim();
+  if (t.length < 12) return false;
+
+  var lower = t.toLowerCase();
+  return ![
+    "collez ici",
+    "titre de la une cafeyn",
+    "$content.",
+    "titlenotags",
+    "lorem ipsum",
+    "{{",
+    "}}",
+  ].some(function (token) {
+    return lower.indexOf(token) !== -1;
+  });
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -351,4 +369,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isUsableActuTitle: isUsableActuTitle,
 };

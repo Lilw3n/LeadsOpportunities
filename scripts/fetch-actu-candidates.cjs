@@ -12,6 +12,7 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
+  isUsableActuTitle,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -40,6 +41,7 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (!isUsableActuTitle(item.title)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -86,6 +88,7 @@ async function processFeed(feed, buckets, processed, maxPerFeed) {
     var items = parseRssItems(xml).slice(0, maxPerFeed);
     var added = 0;
     items.forEach(function (item) {
+      if (!isUsableActuTitle(item.title)) return;
       if (item.url && processed.has(item.url)) return;
       var scaffold = scaffoldArticle({
         title: item.title,

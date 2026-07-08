@@ -5,6 +5,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { isUsableActuTitle } = require("./blog-actu-lib.cjs");
 
 var MIN_BLOCKS = 6;
 var MIN_PARAGRAPHS = 3;
@@ -19,6 +20,7 @@ function arg(name) {
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
+  else if (!isUsableActuTitle(article.title)) errors.push("titre non publiable");
   if (!article.file) errors.push("file manquant");
   if (!article.blocks || !article.blocks.length) {
     errors.push("blocks vides");
