@@ -132,6 +132,10 @@ function scoreLeadPotential(candidate) {
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
+  if (looksLikeEnglishCorporateWire(title + " " + String(candidate.summary || "").toLowerCase())) {
+    score -= 45;
+  }
+
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
@@ -139,6 +143,25 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function looksLikeEnglishCorporateWire(text) {
+  var hay = String(text || "").toLowerCase();
+  var englishSignals = [
+    "announces",
+    "enters into",
+    "memorandum of understanding",
+    "regarding the sale",
+    "business wire",
+    "globenewswire",
+    "pr newswire",
+    "forward-looking statements",
+  ];
+  var hits = englishSignals.filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+  if (hits >= 1 && /\b(insurance|assurance|bank|capital|holdings|group)\b/.test(hay)) return true;
+  return hits >= 2;
 }
 
 function rankCandidates(candidates) {
