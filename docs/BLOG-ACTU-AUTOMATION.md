@@ -28,11 +28,11 @@ Objectif : publier **1 à 5 articles par jour** liés à l’actualité (équiva
 
 **Équivalent automatique** :
 - **RSS** des mêmes journaux (17 flux `sourceType: cafeyn`)
-- **Favori Cafeyn** : sur un article ouvert dans Cafeyn (vous êtes connecté), clic → file serveur **prioritaire**
+- **Favori sécurisé** : sur un article ouvert dans Cafeyn (vous êtes connecté), Edge/MSN, Firefox, Google News, Bing ou Yahoo, clic → file serveur **prioritaire**
 
 1. Vercel : `BLOG_ACTU_INGEST_SECRET` = un mot de passe long (ex. `openssl rand -hex 24`)
-2. `blog/actu-inbox.html` → enregistrer le jeton → glisser **« Sauver actu Cafeyn »** dans la barre de favoris
-3. Sur Cafeyn : ouvrir un article → clic favori → **Envoyer à la file serveur**
+2. `blog/actu-inbox.html` → enregistrer le jeton → glisser le favori de la source voulue dans la barre de favoris
+3. Sur Cafeyn, Edge, Firefox, Google News, Bing ou Yahoo : ouvrir une page/article → clic favori → **Envoyer à la file serveur**
 4. Prochain run GitHub publie cet article en priorité (`status: queued`)
 
 ## Automatisation 100 % (recommandé)
@@ -102,7 +102,7 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~55 sources testées).
+Configuration des flux : **`data/blog-actu-feeds.json`** (~70 sources testées).
 
 ## Pipeline détaillé
 
