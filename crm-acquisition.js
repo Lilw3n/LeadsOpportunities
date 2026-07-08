@@ -390,26 +390,68 @@
     });
   }
 
+  function showPipelineError(message, detail) {
+    var box = document.getElementById("acqPipeline");
+    if (!box) return;
+    box.innerHTML =
+      '<div class="crm-empty-state"><h3>Formulaires non visibles</h3><p>' +
+      esc(message) +
+      (detail ? "<br><small>" + esc(detail) + "</small>" : "") +
+      "</p><p style='margin-top:12px'><a href='./dashboard.html?section=leads' class='btn btn-ghost btn-sm'>Dashboard leads</a> " +
+      "<button type='button' class='btn btn-primary btn-sm' id='btnAcqRetry'>Réessayer</button></p></div>";
+    var retry = document.getElementById("btnAcqRetry");
+    if (retry) retry.onclick = load;
+  }
+
+  function showEmptyDiagnostic(res) {
+    var diag = res && res.diagnostics;
+    var box = document.getElementById("acqDiagBanner");
+    if (!box) {
+      box = document.createElement("div");
+      box.id = "acqDiagBanner";
+      box.className = "panel";
+      box.style.marginBottom = "12px";
+      var pipeline = document.getElementById("acqPipeline");
+      if (pipeline && pipeline.parentNode) pipeline.parentNode.insertBefore(box, pipeline);
+    }
+    if (diag && diag.databaseConfigured === false) {
+      box.innerHTML =
+        '<p style="margin:0;color:#b91c1c"><strong>Base de données non connectée.</strong> ' +
+        "Les formulaires du site répondent « Merci » mais ne sont <em>pas enregistrés</em> tant que " +
+        "<code>DATABASE_URL</code> n'est pas configuré sur Vercel. Exécutez aussi " +
+        "<code>database/site_leads.sql</code> et <code>database/crm-acquisition-bootstrap.sql</code> sur Neon.</p>";
+      return;
+    }
+    if (!allLeads.length) {
+      box.innerHTML =
+        '<p style="margin:0;color:#64748b"><strong>Aucun formulaire en base pour le moment.</strong> ' +
+        "Testez un devis sur <a href=\"./landings/devis.html\">landings/devis.html</a>, puis passez le filtre sur " +
+        "<strong>Tous les leads</strong>. Vérifiez aussi <a href=\"./dashboard.html?section=leads\">Dashboard → Leads</a>.</p>";
+    } else {
+      box.innerHTML = "";
+    }
+  }
+
   function load() {
     var url = "/api/crm/leads-acquisition?limit=150&view=" + encodeURIComponent(filterView);
     if (filterDormant) url += "&dormant=1";
+    var pipeline = document.getElementById("acqPipeline");
+    if (pipeline && !pipeline.querySelector(".acq-col")) {
+      pipeline.innerHTML = '<p class="alerts-empty" style="padding:24px;text-align:center">Chargement des formulaires remplis…</p>';
+    }
     fetch(url, { headers: authHeaders() })
       .then(function (r) {
-        return r.json();
+        return r.json().catch(function () {
+          return { ok: false, error: "Réponse serveur invalide" };
+        });
       })
       .then(function (res) {
         if (!res.ok) {
-          document.getElementById("acqPipeline").innerHTML =
-            '<div class="crm-empty-state"><h3>Pipeline indisponible</h3><p>' +
-            esc(res.error || "Erreur") +
-            (res.detail ? "<br><small>" + esc(res.detail) + "</small>" : "") +
-            "</p><p style='margin-top:12px'><a href='https://console.neon.tech' target='_blank' rel='noopener' class='btn btn-ghost btn-sm'>Ouvrir Neon</a> " +
-            "<button type='button' class='btn btn-primary btn-sm' id='btnAcqRetry'>Réessayer</button></p></div>";
-          var retry = document.getElementById("btnAcqRetry");
-          if (retry) retry.onclick = load;
+          showPipelineError(res.error || "Erreur", res.detail || "");
           return;
         }
         allLeads = res.leads || [];
+        showEmptyDiagnostic(res);
         var currentInteresting = allLeads
           .filter(function (l) { return l.is_interesting && !l.is_opened && !l.is_archived; })
           .map(function (l) { return l.id; });
@@ -420,35 +462,11 @@
         serverStats = res.stats || {};
         renderChips(serverStats);
         render();
+      })
+      .catch(function (err) {
+        showPipelineError("Impossible de joindre l'API CRM", String(err && err.message ? err.message : err));
       });
   }
-
-  document.getElementById("acqSearch").oninput = function () {
-    searchQ = this.value.trim();
-    render();
-  };
-  document.getElementById("acqTime").onchange = function () {
-    filterTime = this.value;
-    render();
-  };
-  document.getElementById("acqView").value = filterView;
-  document.getElementById("acqView").onchange = function () {
-    filterView = this.value;
-    localStorage.setItem("lo_acq_view", filterView);
-    load();
-  };
-  document.getElementById("btnSound").textContent = soundOn ? "Son on" : "Son off";
-  document.getElementById("btnSound").onclick = function () {
-    soundOn = !soundOn;
-    localStorage.setItem("lo_acq_sound", soundOn ? "1" : "0");
-    this.textContent = soundOn ? "Son on" : "Son off";
-    if (soundOn) playLeadSound();
-  };
-  document.getElementById("btnDormant").onclick = function () {
-    filterDormant = !filterDormant;
-    this.classList.toggle("btn-primary", filterDormant);
-    load();
-  };
 
   function renderMetaRotation(rotation) {
     var el = document.getElementById("metaRotationBody");
@@ -470,13 +488,13 @@
       "</strong>" +
       (slot.discrete ? " (discret)" : "") +
       "</span>" +
-      '<span class="acq-stat">Form <strong>" +
+      '<span class="acq-stat">Form <strong>' +
       esc(slot.form_id || "—") +
       "</strong></span>" +
-      '<span class="acq-stat">Leads Meta <strong>" +
+      '<span class="acq-stat">Leads Meta <strong>' +
       esc(stats.leads != null ? stats.leads : "0") +
       "</strong></span>" +
-      '<span class="acq-stat">CPL est. <strong>" +
+      '<span class="acq-stat">CPL est. <strong>' +
       esc(stats.cpl_eur != null ? stats.cpl_eur + " €" : "—") +
       "</strong></span>" +
       "</div>" +
@@ -509,34 +527,100 @@
         })
         .join("") +
       "</tbody></table>" +
-      '<p style="color:var(--muted);font-size:.85rem;margin-top:10px">Doc : docs/META-ROTATION-4-SEMAINES.md · <a href="./crm-pubs.html">Gestion pubs</a> · <a href="./crm-sources.html">Origine leads</a></p>";
+      '<p style="color:var(--muted);font-size:.85rem;margin-top:10px">Doc : docs/META-ROTATION-4-SEMAINES.md · <a href="./crm-pubs.html">Gestion pubs</a> · <a href="./crm-sources.html">Origine leads</a></p>';
   }
 
   function loadMetaRotation(refresh) {
     var url = "/api/crm/meta-rotation" + (refresh ? "?refresh=1" : "");
+    var body = document.getElementById("metaRotationBody");
     fetch(url, { headers: authHeaders() })
       .then(function (r) {
-        return r.json();
+        return r.json().catch(function () {
+          return { ok: false, error: "Réponse invalide" };
+        });
       })
       .then(function (res) {
-        if (!res.ok) {
-          document.getElementById("metaRotationBody").innerHTML =
+        if (!body) return;
+        if (!res.ok || !res.rotation) {
+          body.innerHTML =
             '<p style="color:#b91c1c">' + esc(res.error || "Rotation indisponible") + "</p>";
           return;
         }
         renderMetaRotation(res.rotation);
       })
       .catch(function (e) {
-        document.getElementById("metaRotationBody").innerHTML =
-          '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
+        if (body) {
+          body.innerHTML = '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
+        }
       });
   }
 
-  var btnRot = document.getElementById("btnRefreshRotation");
-  if (btnRot) btnRot.onclick = function () {
-    loadMetaRotation(true);
-  };
+  function bindUi() {
+    var search = document.getElementById("acqSearch");
+    if (search) {
+      search.oninput = function () {
+        searchQ = this.value.trim();
+        render();
+      };
+    }
+    var time = document.getElementById("acqTime");
+    if (time) {
+      time.onchange = function () {
+        filterTime = this.value;
+        render();
+      };
+    }
+    var view = document.getElementById("acqView");
+    if (view) {
+      view.value = filterView;
+      view.onchange = function () {
+        filterView = this.value;
+        localStorage.setItem("lo_acq_view", filterView);
+        load();
+      };
+    }
+    var soundBtn = document.getElementById("btnSound");
+    if (soundBtn) {
+      soundBtn.textContent = soundOn ? "Son on" : "Son off";
+      soundBtn.onclick = function () {
+        soundOn = !soundOn;
+        localStorage.setItem("lo_acq_sound", soundOn ? "1" : "0");
+        this.textContent = soundOn ? "Son on" : "Son off";
+        if (soundOn) playLeadSound();
+      };
+    }
+    var dormantBtn = document.getElementById("btnDormant");
+    if (dormantBtn) {
+      dormantBtn.onclick = function () {
+        filterDormant = !filterDormant;
+        this.classList.toggle("btn-primary", filterDormant);
+        load();
+      };
+    }
+    var btnRot = document.getElementById("btnRefreshRotation");
+    if (btnRot) {
+      btnRot.onclick = function () {
+        loadMetaRotation(true);
+      };
+    }
+    loadMetaRotation(false);
+    load();
+  }
 
-  loadMetaRotation(false);
-  load();
+  function bootAcquisition() {
+    if (window.__loAcqBooted) return;
+    window.__loAcqBooted = true;
+    bindUi();
+  }
+
+  window.addEventListener("lo:crm-shell-ready", bootAcquisition, { once: true });
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(bootAcquisition, 0);
+    });
+  } else {
+    setTimeout(bootAcquisition, 0);
+  }
+  setTimeout(bootAcquisition, 3000);
 })();
+
