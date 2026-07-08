@@ -122,6 +122,15 @@ function scoreLeadPotential(candidate) {
   ) {
     score -= 35;
   }
+  if (
+    (candidate.sourceType === "edge" ||
+      candidate.sourceType === "bing" ||
+      candidate.sourceType === "google" ||
+      candidate.sourceType === "yahoo") &&
+    looksMostlyEnglish(hay)
+  ) {
+    score -= 55;
+  }
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -154,6 +163,17 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function looksMostlyEnglish(text) {
+  var hay = String(text || "").toLowerCase();
+  var englishMatches = hay.match(
+    /\b(the|with|after|before|from|over|under|back|fires|victory|attack|against|striker|following|launched|will|what|why|how|as|for|and|of|to|is|are|new)\b/g
+  ) || [];
+  var frenchMatches = hay.match(
+    /\b(le|la|les|des|du|de|une|un|et|pour|avec|dans|sur|aux|au|est|sont|apres|après|ete|été|assurance|mutuelle|emprunteur|sinistre)\b/g
+  ) || [];
+  return englishMatches.length >= 4 && frenchMatches.length <= 1;
 }
 
 function rankCandidates(candidates) {
