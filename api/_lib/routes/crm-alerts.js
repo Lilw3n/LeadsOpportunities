@@ -20,6 +20,6 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, alerts });
   } catch (e) {
     console.error("[crm/alerts]", e);
-    return res.status(500).json({ error: "Erreur serveur" });
+    return res.status(200).json({ ok: true, partial: true, alerts: [] });
   }
 };

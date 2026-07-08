@@ -102,48 +102,65 @@
   }
 
   function loadOverview() {
-    api("/api/crm/overview").then(function (data) {
-      var el = document.getElementById("crmStats");
-      if (!data.ok) {
+    loadAlerts();
+    loadAiSuggestions();
+    renderPriorityLeads();
+
+    var el = document.getElementById("crmStats");
+    if (!el) return;
+    api("/api/crm/overview")
+      .then(function (data) {
+        if (!data.ok) {
+          el.innerHTML =
+            '<p class="activity">Migration CRM requise : executez database/crm.sql sur Neon. ' +
+            esc(data.error || "") +
+            "</p>";
+          return;
+        }
         el.innerHTML =
-          '<p class="activity">Migration CRM requise : executez database/crm.sql sur Neon. ' +
-          esc(data.error || "") +
-          "</p>";
-        return;
-      }
-      el.innerHTML =
-        '<div class="stat"><strong>' +
-        (data.quotesOpen != null ? data.quotesOpen : "—") +
-        '</strong><span>Devis</span></div>' +
-        '<div class="stat"><strong>' +
-        (data.contractsSigned != null ? data.contractsSigned : "—") +
-        '</strong><span>Contrats signés</span></div>' +
-        '<div class="stat"><strong>' +
-        (data.claimsActive != null ? data.claimsActive : "—") +
-        '</strong><span>Sinistres actifs</span></div>' +
-        '<div class="stat"><strong>' +
-        (data.newClients != null ? data.newClients : "—") +
-        '</strong><span>Nouveaux clients</span></div>' +
-        '<div class="stat"><strong>' +
-        data.contactsTotal +
-        '</strong><span>Contacts total</span></div>' +
-        '<div class="stat"><strong>' +
-        data.leadsWeek +
-        '</strong><span>Leads 7 jours</span></div>';
-      var quick = document.getElementById("crmQuickNav");
-      if (quick) quick.classList.remove("hidden");
-      loadAlerts();
-      loadAiSuggestions();
-      renderPriorityLeads();
-    });
+          '<div class="stat"><strong>' +
+          (data.quotesOpen != null ? data.quotesOpen : "—") +
+          '</strong><span>Devis</span></div>' +
+          '<div class="stat"><strong>' +
+          (data.contractsSigned != null ? data.contractsSigned : "—") +
+          '</strong><span>Contrats signés</span></div>' +
+          '<div class="stat"><strong>' +
+          (data.claimsActive != null ? data.claimsActive : "—") +
+          '</strong><span>Sinistres actifs</span></div>' +
+          '<div class="stat"><strong>' +
+          (data.newClients != null ? data.newClients : "—") +
+          '</strong><span>Nouveaux clients</span></div>' +
+          '<div class="stat"><strong>' +
+          data.contactsTotal +
+          '</strong><span>Contacts total</span></div>' +
+          '<div class="stat"><strong>' +
+          data.leadsWeek +
+          '</strong><span>Leads 7 jours</span></div>';
+        var quick = document.getElementById("crmQuickNav");
+        if (quick) quick.classList.remove("hidden");
+      })
+      .catch(function () {
+        el.innerHTML =
+          '<p class="activity">Statistiques indisponibles. Vérifiez la connexion ou exécutez database/crm.sql sur Neon.</p>';
+      });
   }
 
   function loadAiSuggestions() {
     var box = document.getElementById("crmAiBox");
-    if (!box || !window.CrmAiSuggestions) return;
-    window.CrmAiSuggestions.load(token(), esc).then(function (html) {
-      box.innerHTML = html;
-    });
+    if (!box) return;
+    if (!window.CrmAiSuggestions) {
+      box.innerHTML = '<p class="alerts-empty">Module suggestions non chargé.</p>';
+      return;
+    }
+    box.innerHTML = '<p class="alerts-empty">Chargement...</p>';
+    window.CrmAiSuggestions.load(token(), esc)
+      .then(function (html) {
+        box.innerHTML = html;
+      })
+      .catch(function () {
+        box.innerHTML =
+          '<p class="alerts-empty">Suggestions indisponibles. <a href="./crm-ai-suggestions.html">Voir le module IA</a></p>';
+      });
   }
 
   var lastAlerts = [];
@@ -151,15 +168,19 @@
   function loadAlerts() {
     var box = document.getElementById("crmAlertsBox");
     if (!box) return;
-    api("/api/crm/alerts").then(function (data) {
-      if (!data.ok) {
-        box.innerHTML =
-          '<p class="alerts-empty">' + esc(data.error || "Alertes indisponibles") + "</p>";
-        return;
-      }
-      lastAlerts = data.alerts || [];
-      paintAlerts();
-    });
+    api("/api/crm/alerts")
+      .then(function (data) {
+        if (!data.ok) {
+          box.innerHTML =
+            '<p class="alerts-empty">' + esc(data.error || "Alertes indisponibles") + "</p>";
+          return;
+        }
+        lastAlerts = data.alerts || [];
+        paintAlerts();
+      })
+      .catch(function () {
+        box.innerHTML = '<p class="alerts-empty">Alertes indisponibles.</p>';
+      });
   }
 
   function paintAlerts() {
@@ -322,6 +343,10 @@
             });
           });
         });
+      })
+      .catch(function () {
+        box.innerHTML =
+          '<p class="alerts-empty">Impossible de charger les leads prioritaires. <a href="./crm-acquisition.html">Pipeline acquisition</a></p>';
       });
   }
 

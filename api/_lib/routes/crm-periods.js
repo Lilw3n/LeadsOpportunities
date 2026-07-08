@@ -79,6 +79,6 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, periods: periods, expiring: expiring });
   } catch (e) {
     console.error("[crm/periods]", e);
-    return res.status(500).json({ error: "Erreur serveur" });
+    return res.status(200).json({ ok: true, partial: true, periods: [], expiring: [] });
   }
 };

@@ -27,18 +27,27 @@ window.CrmAiSuggestions = {
     );
   },
 
+  safeJson: function (r) {
+    return r.json().catch(function () {
+      return { ok: false, error: "Réponse invalide" };
+    });
+  },
+
+  safeFetch: function (url, headers) {
+    return fetch(url, { headers: headers })
+      .then(window.CrmAiSuggestions.safeJson)
+      .catch(function () {
+        return { ok: false, error: "Réseau" };
+      });
+  },
+
   load: function (token, esc) {
     var headers = token ? { Authorization: "Bearer " + token } : {};
+    var safeFetch = window.CrmAiSuggestions.safeFetch;
     return Promise.all([
-      fetch("/api/crm/alerts", { headers: headers }).then(function (r) {
-        return r.json();
-      }),
-      fetch("/api/crm/insurance-hub", { headers: headers }).then(function (r) {
-        return r.json();
-      }),
-      fetch("/api/crm/periods", { headers: headers }).then(function (r) {
-        return r.json();
-      }),
+      safeFetch("/api/crm/alerts", headers),
+      safeFetch("/api/crm/insurance-hub", headers),
+      safeFetch("/api/crm/periods", headers),
     ]).then(function (results) {
       var alerts = (results[0].ok && results[0].alerts) || [];
       var ins = (results[1].ok && results[1].stats) || {};
