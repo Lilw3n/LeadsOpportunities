@@ -66,6 +66,7 @@ function loadPublishedTitleKeys() {
 }
 
 var PLATFORM_TYPES = ROTATION_SOURCE_TYPES;
+var MIN_PLATFORM_PICK_SCORE = 50;
 
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) return normalizeSourceType(c.sourceType);
@@ -77,7 +78,7 @@ function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      return candidateSourceType(c, feedMap) === platform && !used.has(k) && c.leadScore >= MIN_PLATFORM_PICK_SCORE;
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
