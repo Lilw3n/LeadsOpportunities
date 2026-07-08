@@ -14,6 +14,33 @@ function arg(name, def) {
   return m.split("=")[1];
 }
 
+function normalizeTitle(t) {
+  return String(t || "")
+    .toLowerCase()
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function dedupeRankedCandidates(candidates) {
+  var seen = new Set();
+  return candidates.filter(function (c) {
+    var keys = [
+      normalizeTitle(c.title),
+      String(c.url || "").trim().toLowerCase(),
+      String(c.suggestedFile || "").trim().toLowerCase(),
+    ].filter(Boolean);
+    if (!keys.length) return false;
+    var alreadySeen = keys.some(function (key) {
+      return seen.has(key);
+    });
+    if (alreadySeen) return false;
+    keys.forEach(function (key) {
+      seen.add(key);
+    });
+    return true;
+  });
+}
+
 function main() {
   var count = Number(arg("count", 3)) || 3;
 
@@ -25,7 +52,7 @@ function main() {
   }
 
   var candidates = readJson("blog-actu-candidates.json", { candidates: [] }).candidates || [];
-  var ranked = rankCandidates(candidates);
+  var ranked = dedupeRankedCandidates(rankCandidates(candidates));
   var picks = ranked.slice(0, count);
 
   writeJson("blog-actu-daily-pick.json", {

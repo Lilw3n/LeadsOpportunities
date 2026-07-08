@@ -14,6 +14,11 @@ const { readJson, writeJson, rankCandidates, appendPendingArticle } = require(".
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const {
+  PREFERRED_PLATFORM_TYPES,
+  normalizeSourceType,
+  resolveSourceType,
+} = require("./blog-actu-sources.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -37,7 +42,7 @@ function loadFeedSourceMap() {
   var feedsCfg = readJson("blog-actu-feeds.json", { feeds: [] });
   var map = {};
   (feedsCfg.feeds || []).forEach(function (f) {
-    map[f.id] = f.sourceType || "aggregator";
+    map[f.id] = normalizeSourceType(f.sourceType, resolveSourceType(f.name + " " + f.url));
   });
   return map;
 }
@@ -47,6 +52,26 @@ function normalizeTitle(t) {
     .toLowerCase()
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function candidateUsedKeys(c) {
+  return [
+    String(c.url || "").trim().toLowerCase(),
+    normalizeTitle(c.title),
+    String(c.suggestedFile || "").trim().toLowerCase(),
+  ].filter(Boolean);
+}
+
+function isCandidateUsed(c, used) {
+  return candidateUsedKeys(c).some(function (key) {
+    return used.has(key);
+  });
+}
+
+function markCandidateUsed(c, used) {
+  candidateUsedKeys(c).forEach(function (key) {
+    used.add(key);
+  });
 }
 
 function loadPublishedTitleKeys() {
@@ -64,22 +89,23 @@ function loadPublishedTitleKeys() {
   return keys;
 }
 
-var PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var PLATFORM_TYPES = PREFERRED_PLATFORM_TYPES;
+var PRIMARY_PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
+var SECONDARY_PLATFORM_TYPES = ["google", "bing", "yahoo"];
 
 function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
+  if (c.sourceType) {
+    var explicit = normalizeSourceType(c.sourceType);
+    if (explicit !== "aggregator" || !feedMap[c.feedId]) return explicit;
+  }
   var src = String(c.source || "").toLowerCase();
-  if (src.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (src.indexOf("edge") !== -1 || src.indexOf("msn") !== -1 || src.indexOf("bing") !== -1) return "edge";
-  if (src.indexOf("firefox") !== -1 || src.indexOf("pocket") !== -1) return "firefox";
-  return feedMap[c.feedId] || "aggregator";
+  return feedMap[c.feedId] || resolveSourceType(src);
 }
 
 function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
-      var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      return candidateSourceType(c, feedMap) === platform && !isCandidateUsed(c, used);
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -114,19 +140,26 @@ function pickCandidates(candidates, count, state) {
     .forEach(function (c) {
       if (picks.length >= count) return;
       picks.push(c);
-      used.add(c.url || c.title);
+      markCandidateUsed(c, used);
     });
 
   if (count >= 3) {
-    PLATFORM_TYPES.forEach(function (platform) {
+    var secondaryRot = state.secondaryPlatformRotationIndex || 0;
+    var orderedPlatforms = PRIMARY_PLATFORM_TYPES.concat(
+      SECONDARY_PLATFORM_TYPES.map(function (_, i) {
+        return SECONDARY_PLATFORM_TYPES[(secondaryRot + i) % SECONDARY_PLATFORM_TYPES.length];
+      })
+    );
+    orderedPlatforms.forEach(function (platform) {
       if (picks.length >= count) return;
       var pick = bestFromPlatform(available, platform, feedMap, used);
       if (pick) {
         picks.push(pick);
-        used.add(pick.url || pick.title);
+        markCandidateUsed(pick, used);
       }
     });
-    state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
+    state._nextSecondaryPlatformRotation =
+      (secondaryRot + Math.max(0, count - PRIMARY_PLATFORM_TYPES.length)) % SECONDARY_PLATFORM_TYPES.length;
   } else {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
@@ -134,7 +167,7 @@ function pickCandidates(candidates, count, state) {
       var rotated = bestFromPlatform(available, platform, feedMap, used);
       if (rotated) {
         picks.push(rotated);
-        used.add(rotated.url || rotated.title);
+        markCandidateUsed(rotated, used);
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
@@ -146,18 +179,16 @@ function pickCandidates(candidates, count, state) {
     })
     .forEach(function (c) {
       if (picks.length >= count) return;
-      var k = c.url || c.title;
-      if (used.has(k)) return;
+      if (isCandidateUsed(c, used)) return;
       picks.push(c);
-      used.add(k);
+      markCandidateUsed(c, used);
     });
 
   available.forEach(function (c) {
     if (picks.length >= count) return;
-    var k = c.url || c.title;
-    if (used.has(k)) return;
+    if (isCandidateUsed(c, used)) return;
     picks.push(c);
-    used.add(k);
+    markCandidateUsed(c, used);
   });
 
   return picks;
@@ -304,6 +335,10 @@ async function main() {
   if (state._nextPlatformRotation !== undefined) {
     state.platformRotationIndex = state._nextPlatformRotation;
     delete state._nextPlatformRotation;
+  }
+  if (state._nextSecondaryPlatformRotation !== undefined) {
+    state.secondaryPlatformRotationIndex = state._nextSecondaryPlatformRotation;
+    delete state._nextSecondaryPlatformRotation;
   }
   writeJson("blog-actu-state.json", state);
 

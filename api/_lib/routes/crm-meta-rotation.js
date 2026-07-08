@@ -28,15 +28,36 @@ module.exports = async (req, res) => {
         state = await buildAndPersist({ sql: sql });
       } else {
         state = readJson(ACTIVE_PATH);
-        if (!state) state = await buildRotationState({ sql: sql });
-        else if (sql) {
+        if (!state) {
           state = await buildRotationState({ sql: sql });
+        } else if (sql) {
+          var cached = state;
+          try {
+            state = await Promise.race([
+              buildRotationState({ sql: sql }),
+              new Promise(function (_, reject) {
+                setTimeout(function () {
+                  reject(new Error("timeout"));
+                }, 4000);
+              }),
+            ]);
+          } catch (raceErr) {
+            state = cached;
+            console.warn("[crm/meta-rotation] stats timeout, cache utilisé");
+          }
         }
       }
+      if (!state) state = await buildRotationState({ sql: null });
       return res.status(200).json({ ok: true, rotation: toCrmPayload(state) });
     } catch (e) {
       console.error("[crm/meta-rotation]", e);
-      return res.status(500).json({ ok: false, error: e.message });
+      try {
+        var fallback = readJson(ACTIVE_PATH);
+        if (fallback) {
+          return res.status(200).json({ ok: true, partial: true, rotation: toCrmPayload(fallback) });
+        }
+      } catch (e2) {}
+      return res.status(200).json({ ok: false, error: e.message });
     }
   }
 
