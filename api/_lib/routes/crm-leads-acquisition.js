@@ -204,10 +204,22 @@ module.exports = async (req, res) => {
 
     const sql = getSql();
     if (!sql) {
-      return res.status(500).json({
-        ok: false,
-        error: "Base de donnees non configuree",
-        detail: "DATABASE_URL manquant sur Vercel",
+      return res.status(200).json({
+        ok: true,
+        leads: [],
+        diagnostics: {
+          databaseConfigured: false,
+          hint: "DATABASE_URL manquant sur Vercel — les formulaires ne sont pas enregistrés en base.",
+        },
+        stats: {
+          total: 0,
+          dormant: 0,
+          byPlatform: {},
+          byStage: {},
+          unopened: 0,
+          archived: 0,
+          interesting: 0,
+        },
       });
     }
 
@@ -265,6 +277,11 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       leads: leads,
+      diagnostics: {
+        databaseConfigured: true,
+        rowsFetched: rows.length,
+        view: view,
+      },
       stats: {
         total: rows.length,
         dormant: rows.map(safeEnrich).filter(function (l) { return l.is_dormant; }).length,

@@ -297,6 +297,12 @@ module.exports = async (req, res) => {
         }
       }
       enriched._crmContactId = crmContactId;
+      try {
+        const { syncLeadToMailbox } = require("../mail-store");
+        await syncLeadToMailbox(sql, leadId);
+      } catch (mbErr) {
+        console.warn("[lead] mailbox sync", mbErr.message);
+      }
     } catch (e) {
       console.error("[lead] db insert extended failed, fallback", e.message);
       try {
@@ -322,6 +328,12 @@ module.exports = async (req, res) => {
           )
         `;
         stored = true;
+        try {
+          const { syncLeadToMailbox } = require("../mail-store");
+          await syncLeadToMailbox(sql, leadId);
+        } catch (mbErr) {
+          console.warn("[lead] mailbox sync fallback", mbErr.message);
+        }
       } catch (e2) {
         console.error("[lead] db insert fallback failed", e2);
       }

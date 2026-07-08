@@ -100,6 +100,12 @@
       "</textarea></label>" +
       '<button type="button" class="btn btn-primary" id="btnSave">Enregistrer</button></div>' +
       attrPanel +
+      (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel
+        ? window.CrmLeadPayloadView.renderQuestionnairePanel(
+            Object.assign({}, l, { payload_obj: payload }),
+            esc
+          )
+        : "") +
       metaPanel +
       '<p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">' +
       '<a href="./crm-tariff-grid.html?leadId=' +

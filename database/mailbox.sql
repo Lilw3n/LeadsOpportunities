@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS mailbox_messages (
   message_id TEXT,
   in_reply_to TEXT,
   lead_id TEXT,
+  category TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

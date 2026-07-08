@@ -38,7 +38,7 @@
     all: [],
     filtered: [],
     threads: [],
-    view: "received",
+    view: "feed",
     selectedId: null,
     selectedThreadKey: null,
     search: "",
@@ -79,6 +79,30 @@
     if (String(m.id || "").indexOf("lead_") === 0) return "site";
     if (m.external_uid) return "imap";
     return "inbound";
+  }
+
+  function siteLeadKind(m) {
+    if (!m || messageKind(m) !== "site") return null;
+    if (m.category === "questionnaire" || m.category === "contact_request") return m.category;
+    var sub = String(m.subject || "").toLowerCase();
+    if (sub.indexOf("demande de contact") >= 0 || sub.indexOf("rappel express") >= 0) {
+      return "contact_request";
+    }
+    if (sub.indexOf("questionnaire") >= 0) return "questionnaire";
+    var body = String(m.body_text || "");
+    if (body.indexOf("Type: Rappel express") >= 0 || body.indexOf("Type: Demande de contact") >= 0) {
+      return "contact_request";
+    }
+    if (body.indexOf("Type: Questionnaire") >= 0) return "questionnaire";
+    return "questionnaire";
+  }
+
+  function isSiteQuestionnaire(m) {
+    return messageKind(m) === "site" && siteLeadKind(m) === "questionnaire";
+  }
+
+  function isSiteContactRequest(m) {
+    return messageKind(m) === "site" && siteLeadKind(m) === "contact_request";
   }
 
   function isReceivedMail(m) {
@@ -127,8 +151,17 @@
 
   function parseLeadPayload(text) {
     if (!text) return null;
+    var raw = String(text).trim();
+    var jsonPart = raw;
+    var marker = "--- Données JSON ---";
+    var cut = raw.indexOf(marker);
+    if (cut >= 0) {
+      jsonPart = raw.slice(cut + marker.length).trim();
+    } else if (raw.charAt(0) !== "{") {
+      return null;
+    }
     try {
-      var o = JSON.parse(text);
+      var o = JSON.parse(jsonPart);
       return typeof o === "object" && o ? o : null;
     } catch (e) {
       return null;
@@ -136,13 +169,15 @@
   }
 
   function leadIdFromMessage(m) {
-    if (!m || String(m.id || "").indexOf("lead_") !== 0) return null;
-    return String(m.id).slice(5);
+    if (!m) return null;
+    if (m.lead_id) return String(m.lead_id);
+    if (String(m.id || "").indexOf("lead_") === 0) return String(m.id).slice(5);
+    return null;
   }
 
   function messagePreview(m) {
     var t = (m.body_text || "").replace(/\s+/g, " ").trim();
-    if (t.charAt(0) === "{") {
+    if (t.indexOf("===") === 0 || t.charAt(0) === "{") {
       var p = parseLeadPayload(m.body_text);
       if (p) {
         return (
@@ -150,7 +185,17 @@
           "Demande formulaire"
         );
       }
-      return "Demande formulaire";
+      var stepMatch = t.match(/Étape\s*:\s*(\d+)\s*\/\s*(\d+)/i);
+      if (stepMatch) {
+        return (
+          (m.subject || "Questionnaire").replace(/\s+/g, " ").trim() +
+          " · étape " +
+          stepMatch[1] +
+          "/" +
+          stepMatch[2]
+        );
+      }
+      return (m.subject || "Demande formulaire").replace(/\s+/g, " ").trim();
     }
     if (!t && m.body_html) {
       t = String(m.body_html)
@@ -163,6 +208,16 @@
 
   function messageBodyForDisplay(m) {
     var t = (m.body_text || "").trim();
+    if (t.indexOf("===") === 0) {
+      var cut = t.indexOf("--- Données JSON ---");
+      if (cut > 0) return t.slice(0, cut).trim();
+      return t;
+    }
+    if (t.indexOf("=== Demande formulaire") === 0) {
+      var cut = t.indexOf("--- Données JSON ---");
+      if (cut > 0) return t.slice(0, cut).trim();
+      return t;
+    }
     if (t.charAt(0) === "{") {
       var p = parseLeadPayload(m.body_text);
       if (p) {
@@ -222,6 +277,8 @@
       t.hasSite = t.messages.some(function (m) {
         return messageKind(m) === "site";
       });
+      t.hasQuestionnaire = t.messages.some(isSiteQuestionnaire);
+      t.hasContactRequest = t.messages.some(isSiteContactRequest);
       var subjIn = t.messages
         .slice()
         .reverse()
@@ -259,6 +316,10 @@
 
     if (state.view === "received") {
       pool = pool.filter(isReceivedMail);
+    } else if (state.view === "questionnaires") {
+      pool = pool.filter(isSiteQuestionnaire);
+    } else if (state.view === "contact_requests") {
+      pool = pool.filter(isSiteContactRequest);
     } else if (state.view === "site") {
       pool = pool.filter(function (m) {
         return messageKind(m) === "site";
@@ -288,7 +349,7 @@
   }
 
   function setView(view) {
-    state.view = view || "received";
+    state.view = view || "feed";
     document.querySelectorAll(".mbx-view-tab").forEach(function (b) {
       b.classList.toggle("is-active", b.getAttribute("data-view") === state.view);
     });
@@ -299,8 +360,10 @@
     if (hint) {
       var hints = {
         received: "E-mails recus sur contact@",
-        feed: "Conversations question → reponse",
-        site: "Leads formulaire uniquement",
+        feed: "E-mails + questionnaires + demandes de contact",
+        questionnaires: "Parcours devis / questionnaires multi-etapes",
+        contact_requests: "Formulaire contact accueil, rappel express, message libre",
+        site: "Tous les leads site (legacy)",
         sent: "Vos reponses envoyees",
       };
       hint.textContent = hints[state.view] || "";
@@ -337,6 +400,8 @@
     };
     el("mbxStatReceived", received || s.imapMessages || 0);
     el("mbxStatThreads", threads);
+    el("mbxStatQuestionnaires", s.questionnaires != null ? s.questionnaires : "—");
+    el("mbxStatContactRequests", s.contactRequests != null ? s.contactRequests : "—");
     el("mbxStatSite", s.siteLeads);
     el("mbxStatOut", s.outbound);
     updateNavBadge();
@@ -440,7 +505,13 @@
     }
 
     if (!threads.length) {
-      list.innerHTML = '<div class="mbx-empty" style="padding:32px 16px"><p>Aucune conversation.</p></div>';
+      var siteN = (state.stats && state.stats.siteLeads) || 0;
+      list.innerHTML =
+        '<div class="mbx-empty" style="padding:32px 16px"><p>Aucune conversation.</p>' +
+        (siteN > 0
+          ? "<p>Essayez l'onglet <strong>Site</strong> (" + siteN + " demande(s)).</p>"
+          : "<p>Verifiez DATABASE_URL et <code>site_leads.sql</code> sur Neon.</p>") +
+        "</div>";
       return;
     }
 
@@ -453,6 +524,12 @@
     });
     var siteOnly = threads.filter(function (t) {
       return !t.hasImap && t.hasSite;
+    });
+    var questionnairesOnly = threads.filter(function (t) {
+      return !t.hasImap && t.hasQuestionnaire;
+    });
+    var contactOnly = threads.filter(function (t) {
+      return !t.hasImap && t.hasContactRequest && !t.hasQuestionnaire;
     });
 
     function block(label, items) {
@@ -467,7 +544,8 @@
     if (state.view === "feed") {
       html += block("A repondre — e-mail recu", urgent);
       html += block("Conversations e-mail", mail);
-      html += block("Demandes site", siteOnly);
+      html += block("Questionnaires remplis", questionnairesOnly);
+      html += block("Demandes de contact / rappel", contactOnly);
     } else {
       threads.forEach(function (t) {
         html += renderThreadCard(t, state.selectedThreadKey === t.key);
@@ -486,8 +564,21 @@
     var list = document.getElementById("mailboxList");
     if (!list || !state.filtered.length) {
       if (list) {
+        var siteN = (state.stats && state.stats.siteLeads) || 0;
+        var qN = (state.stats && state.stats.questionnaires) || 0;
+        var cN = (state.stats && state.stats.contactRequests) || 0;
         list.innerHTML =
-          '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail recu. Synchronisez IMAP.</p></div>';
+          '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail IMAP recu.</p>' +
+          (qN > 0 || cN > 0
+            ? "<p><strong>" +
+              qN +
+              " questionnaire(s)</strong> · <strong>" +
+              cN +
+              " demande(s) contact</strong> — onglets dedies ou <em>Fil Q&amp;R</em>.</p>"
+            : siteN > 0
+              ? "<p><strong>" + siteN + " lead(s) site</strong> — voir Fil Q&amp;R.</p>"
+              : "<p>Les formulaires apparaissent apres enregistrement en base (DATABASE_URL).</p>") +
+          "</div>";
       }
       return;
     }
@@ -538,11 +629,27 @@
     }
     if (state.view === "feed") renderThreadList();
     else if (state.view === "received") renderMessageList();
-    else if (state.view === "site" || state.view === "sent") {
-      if (state.view === "site" || state.view === "sent") {
+    else if (
+      state.view === "questionnaires" ||
+      state.view === "contact_requests" ||
+      state.view === "site" ||
+      state.view === "sent"
+    ) {
+      if (
+        state.view === "questionnaires" ||
+        state.view === "contact_requests" ||
+        state.view === "site" ||
+        state.view === "sent"
+      ) {
         var list = document.getElementById("mailboxList");
         if (!state.filtered.length) {
-          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>Rien ici.</p></div>';
+          var emptyMsg =
+            state.view === "questionnaires"
+              ? "Aucun questionnaire enregistre."
+              : state.view === "contact_requests"
+                ? "Aucune demande de contact / rappel express."
+                : "Rien ici.";
+          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>' + emptyMsg + "</p></div>";
           return;
         }
         list.innerHTML = state.filtered
@@ -573,7 +680,25 @@
     }
   }
 
-  function renderLeadBubble(m, payload) {
+  function renderLeadBubble(m, payload, lead) {
+    if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
+      var merged = Object.assign({}, lead || {}, {
+        payload: payload,
+        payload_obj: payload,
+        questionnaire_step: (lead && lead.questionnaire_step) || payload.questionnaire_step,
+        questionnaire_total: (lead && lead.questionnaire_total) || payload.questionnaire_total,
+        email: (lead && lead.email) || payload.email,
+        phone: (lead && lead.phone) || payload.phone,
+        vertical: (lead && lead.vertical) || payload.vertical,
+      });
+      return (
+        '<div class="mbx-qa-bubble mbx-qa-bubble--site mbx-qa-bubble--answers">' +
+        window.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc) +
+        '<div class="mbx-qa-bubble__meta">' +
+        fmtDateLong(m.created_at) +
+        "</div></div>"
+      );
+    }
     var rows = [
       ["Nom", payload.fullName || payload.name],
       ["Tel", payload.phone],
@@ -602,12 +727,46 @@
     );
   }
 
+  function renderMailboxLeadDetail(m, leadData) {
+    var lead = leadData && leadData.lead ? leadData.lead : null;
+    var payload =
+      lead && lead.payload
+        ? lead.payload
+        : parseLeadPayload(m.body_text) || {};
+    var html = '<div class="mbx-lead-answers-wrap">';
+    html += renderLeadBubble(m, payload, lead);
+    html += "</div>";
+    return html;
+  }
+
+  async function hydrateLeadQuestionnaireAnswers(m, leadId) {
+    var body = document.getElementById("mailboxDetailBody");
+    if (!body || !leadId || !window.Dashboard || !window.Dashboard.api) {
+      if (body) body.innerHTML = renderQaFeed([m]);
+      return;
+    }
+    body.innerHTML =
+      '<div class="loading-state" style="padding:28px;text-align:center"><div class="spinner"></div><p>Chargement des réponses questionnaire…</p></div>';
+    try {
+      var data = await window.Dashboard.api(
+        "/api/dashboard/lead-detail?id=" + encodeURIComponent(leadId)
+      );
+      if (!data.ok || !data.lead) {
+        body.innerHTML = renderMailboxLeadDetail(m, null);
+        return;
+      }
+      body.innerHTML = renderMailboxLeadDetail(m, data);
+    } catch (e) {
+      body.innerHTML = renderMailboxLeadDetail(m, null);
+    }
+  }
+
   function renderQaFeed(messages) {
     var html = '<div class="mbx-qa-feed">';
     messages.forEach(function (m) {
       var payload = parseLeadPayload(m.body_text);
       if (messageKind(m) === "site" && payload) {
-        html += renderLeadBubble(m, payload);
+        html += renderLeadBubble(m, payload, null);
         return;
       }
       var isOut = m.direction === "outbound";
@@ -969,15 +1128,28 @@
       fmtDateLong(m.created_at) +
       (isReceivedMail(m) ? ' · <span style="color:#1d4ed8;font-weight:700">E-mail recu</span>' : "") +
       "</p>" +
-      '<div class="mbx-detail-actions" style="margin-top:10px">' +
+      '<div class="mbx-detail-actions" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">' +
       (leadId
-        ? '<a class="btn-ghost" href="./dashboard.html?section=leads&lead=' +
+        ? '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
+          '<a class="btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
           encodeURIComponent(leadId) +
-          '">Fiche lead</a>'
+          '">Fiche CRM</a>' +
+          '<a class="btn-ghost btn-sm" href="./dashboard.html?section=leads&lead=' +
+          encodeURIComponent(leadId) +
+          '">Modal lead</a>'
         : "") +
       "</div>";
 
-    if (state.view === "feed" || state.view === "received") {
+    var answersBtn = document.getElementById("mbxBtnAllAnswers");
+    if (answersBtn) {
+      answersBtn.addEventListener("click", function () {
+        if (typeof window.openLeadDetail === "function") window.openLeadDetail(leadId);
+      });
+    }
+
+    if (leadId && messageKind(m) === "site") {
+      hydrateLeadQuestionnaireAnswers(m, leadId);
+    } else if (state.view === "feed" || state.view === "received") {
       var tk = threadKeyForMessage(m);
       var th = state.threads.find(function (x) {
         return x.key === tk;
@@ -988,12 +1160,7 @@
         document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
       }
     } else {
-      var payload = parseLeadPayload(m.body_text);
-      if (payload && kind === "site") {
-        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
-      } else {
-        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
-      }
+      document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
     }
 
     if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
@@ -1026,13 +1193,25 @@
     renderSetup(data);
     updateStatusBar();
 
+    var siteN = (state.stats && state.stats.siteLeads) || 0;
+    var qN = (state.stats && state.stats.questionnaires) || 0;
+    var cN = (state.stats && state.stats.contactRequests) || 0;
     var sub = document.getElementById("mailboxSubtitle");
     if (sub) {
       sub.textContent =
         state.all.filter(isReceivedMail).length +
-        " recus · " +
+        " e-mails · " +
+        qN +
+        " questionnaire(s) · " +
+        cN +
+        " contact(s) · " +
         countNeedsReply() +
-        " a repondre · fil Q&R";
+        " a repondre";
+    }
+
+    if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
+      sessionStorage.setItem("mbx_site_hint", "1");
+      toast(qN + " questionnaire(s) · " + cN + " demande(s) contact — voir onglets dedies", "success");
     }
 
     if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
@@ -1350,7 +1529,7 @@
 
     syncStripeIntervalVisibility();
     syncStripeLabelFromKind();
-    setView("received");
+    setView("feed");
   }
 
   window.loadMailbox = loadMailbox;

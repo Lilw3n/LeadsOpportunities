@@ -139,6 +139,10 @@
     document.getElementById("crmBreadcrumbCurrent").textContent = title;
     document.getElementById("crmSubSubtitle").textContent = meta.subtitle;
 
+    try {
+      window.dispatchEvent(new CustomEvent("lo:crm-shell-ready"));
+    } catch (e) {}
+
     if (window.CrmSidebar) {
       window.CrmSidebar.mount(document.getElementById("crmNavMount"), { activePath: page });
     }

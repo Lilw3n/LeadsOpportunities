@@ -16,11 +16,30 @@ module.exports = async (req, res) => {
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
 
+  try {
   const user = await requireCrm(req, res);
   if (!user) return;
 
   const sql = getSql();
-  if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
+  if (!sql) {
+    return res.status(200).json({
+      ok: true,
+      partial: true,
+      databaseConfigured: false,
+      diagnostics: {
+        hint: "DATABASE_URL manquant sur Vercel — configurez Neon puis redéployez.",
+      },
+      contacts: { prospect: 0, client: 0, apporteur: 0 },
+      contactsTotal: 0,
+      leadsTotal: 0,
+      leadsWeek: 0,
+      staffCount: 0,
+      quotesOpen: 0,
+      contractsSigned: 0,
+      claimsActive: 0,
+      newClients: 0,
+    });
+  }
 
   const scope = user.crmRole === "apporteur" ? user.id : null;
 
@@ -134,6 +153,7 @@ module.exports = async (req, res) => {
   return res.status(200).json({
     ok: true,
     partial: partial,
+    databaseConfigured: true,
     contacts: byType,
     contactsTotal: byType.prospect + byType.client + byType.apporteur,
     leadsTotal: leads.total,
@@ -144,4 +164,22 @@ module.exports = async (req, res) => {
     claimsActive: claimsActive.c,
     newClients: newClients.c,
   });
+  } catch (e) {
+    console.error("[crm/overview]", e);
+    return res.status(200).json({
+      ok: true,
+      partial: true,
+      databaseConfigured: true,
+      diagnostics: { hint: e.message, migration: "database/crm.sql" },
+      contacts: { prospect: 0, client: 0, apporteur: 0 },
+      contactsTotal: 0,
+      leadsTotal: 0,
+      leadsWeek: 0,
+      staffCount: 0,
+      quotesOpen: 0,
+      contractsSigned: 0,
+      claimsActive: 0,
+      newClients: 0,
+    });
+  }
 };

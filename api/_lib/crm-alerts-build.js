@@ -234,10 +234,58 @@ async function buildOperationalAlerts(sql, scope) {
   return ops;
 }
 
+async function buildInboundLeadAlerts(sql, limit) {
+  const alerts = [];
+  try {
+    const rows = await sql`
+      SELECT id, email, phone, vertical, lead_score, source, created_at, payload
+      FROM site_leads
+      WHERE created_at >= NOW() - INTERVAL '14 days'
+      ORDER BY created_at DESC
+      LIMIT ${Math.min(limit || 12, 20)}
+    `;
+    rows.forEach(function (row) {
+      var payload = {};
+      try {
+        payload = row.payload ? JSON.parse(row.payload) : {};
+      } catch (e) {}
+      var name =
+        ((payload.firstName || payload.first_name || "") + " " + (payload.lastName || payload.last_name || "")).trim();
+      alerts.push({
+        id: "lead-in-" + row.id,
+        category: "reminder",
+        priority: Number(row.lead_score || 0) >= 70 ? "high" : "medium",
+        title: "Formulaire rempli",
+        message:
+          (name || row.email || row.phone || "Lead") +
+          " — " +
+          (row.vertical || row.source || "site") +
+          " — " +
+          new Date(row.created_at).toLocaleDateString("fr-FR"),
+        href: "./crm-lead-detail.html?id=" + encodeURIComponent(row.id),
+      });
+    });
+  } catch (e) {
+    console.warn("[crm-alerts-build] inbound leads:", e.message);
+  }
+  return alerts;
+}
+
 async function buildAllAlerts(sql, scope, limit) {
-  const intel = await buildIntelligentAlerts(sql, scope);
-  const ops = await buildOperationalAlerts(sql, scope);
-  const combined = dedupeById(intel.alerts.concat(intel.reminders).concat(ops));
+  var intel = { alerts: [], reminders: [] };
+  var ops = [];
+  try {
+    intel = await buildIntelligentAlerts(sql, scope);
+  } catch (e) {
+    console.warn("[crm-alerts-build] intelligent:", e.message);
+  }
+  try {
+    ops = await buildOperationalAlerts(sql, scope);
+  } catch (e) {
+    console.warn("[crm-alerts-build] operational:", e.message);
+  }
+  var inbound = await buildInboundLeadAlerts(sql, limit);
+  const combined = dedupeById(intel.alerts.concat(intel.reminders).concat(ops).concat(inbound));
   const sorted = sortAlerts(combined);
   const slice = sorted.slice(0, limit || 40);
 
@@ -255,6 +303,7 @@ async function buildAllAlerts(sql, scope, limit) {
 module.exports = {
   buildIntelligentAlerts,
   buildOperationalAlerts,
+  buildInboundLeadAlerts,
   buildAllAlerts,
   sortAlerts,
   dedupeById,

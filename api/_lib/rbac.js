@@ -5,14 +5,33 @@ const CONTACT_TYPES = ["prospect", "client", "apporteur"];
 const CRM_STAFF_ROLES = ["admin", "staff", "commercial"];
 const ALL_CRM_ROLES = ["admin", "staff", "commercial", "apporteur"];
 
+function userFromJwt(decoded) {
+  if (!decoded || !decoded.userId) return null;
+  var jwtRole = decoded.role === "admin" ? decoded.crmRole || "admin" : decoded.crmRole;
+  if (decoded.role !== "admin" && (!jwtRole || ALL_CRM_ROLES.indexOf(jwtRole) < 0)) return null;
+  return {
+    id: decoded.userId,
+    email: decoded.email || "",
+    role: decoded.role || "user",
+    crm_role: jwtRole,
+    full_name: decoded.fullName || decoded.email || "Utilisateur",
+    phone: null,
+  };
+}
+
 async function loadUser(decoded) {
   const sql = getSql();
   if (!sql || !decoded?.userId) return null;
-  const rows = await sql`
-    SELECT id, email, role, crm_role, full_name, phone, google_id, auth_provider
-    FROM users WHERE id = ${decoded.userId} LIMIT 1
-  `;
-  return rows[0] || null;
+  try {
+    const rows = await sql`
+      SELECT id, email, role, crm_role, full_name, phone, google_id, auth_provider
+      FROM users WHERE id = ${decoded.userId} LIMIT 1
+    `;
+    return rows[0] || null;
+  } catch (e) {
+    console.warn("[rbac] loadUser:", e.message);
+    return userFromJwt(decoded);
+  }
 }
 
 function effectiveCrmRole(user) {
@@ -64,15 +83,23 @@ async function requireCrm(req, res) {
     return null;
   }
   const user = await loadUser(decoded);
-  if (!user) {
-    res.status(401).json({ error: "Compte introuvable" });
-    return null;
+  if (user) {
+    if (!canAccessCrm(user)) {
+      res.status(403).json({ error: "Acces CRM refuse" });
+      return null;
+    }
+    return toCrmUser(user);
   }
-  if (!canAccessCrm(user)) {
-    res.status(403).json({ error: "Acces CRM refuse" });
-    return null;
+  const fallback = userFromJwt(decoded);
+  if (fallback) {
+    console.warn("[rbac] requireCrm: session JWT (base users indisponible)");
+    return toCrmUser(fallback);
   }
-  return toCrmUser(user);
+  res.status(401).json({
+    error: "Compte introuvable",
+    detail: "Table users absente ou base non joignable — exécutez database/users.sql et database/crm.sql sur Neon.",
+  });
+  return null;
 }
 
 function contactScopeFilter(user) {
