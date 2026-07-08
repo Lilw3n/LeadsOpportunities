@@ -28,7 +28,9 @@ function formatLeadBodyText(row, payload, kind) {
   var step = Number(row.questionnaire_step || payload.questionnaire_step || payload.step || 0);
   var total = Number(row.questionnaire_total || payload.questionnaire_total || 10) || 10;
   var typeLabel =
-    kind === "contact_request"
+    kind === "express_callback"
+      ? "Rappel express"
+      : kind === "contact_request"
       ? payload.callbackRequested || String(payload.journey || "") === "callback"
         ? "Rappel express"
         : "Demande de contact"
@@ -245,7 +247,14 @@ async function listMessages(limit, offset) {
         WHERE category = 'questionnaire' OR (category IS NULL AND (id LIKE 'lead_%' OR lead_id IS NOT NULL) AND subject ILIKE '%questionnaire%')
       )::int AS questionnaires,
       COUNT(*) FILTER (
-        WHERE category = 'contact_request' OR (category IS NULL AND subject ILIKE '%demande de contact%' OR subject ILIKE '%rappel express%')
+        WHERE category = 'express_callback'
+          OR subject ILIKE '%rappel express%'
+          OR body_text ILIKE '%Demande de rappel express%'
+          OR body_text ILIKE '%Type: Rappel express%'
+      )::int AS express_callbacks,
+      COUNT(*) FILTER (
+        WHERE category = 'contact_request'
+          OR (category IS NULL AND subject ILIKE '%demande de contact%')
       )::int AS contact_requests,
       COUNT(*) FILTER (WHERE external_uid IS NOT NULL)::int AS imap_messages,
       COUNT(*) FILTER (
@@ -263,6 +272,7 @@ async function listMessages(limit, offset) {
       outbound: s.outbound || 0,
       siteLeads: s.site_leads || 0,
       questionnaires: s.questionnaires || 0,
+      expressCallbacks: s.express_callbacks || 0,
       contactRequests: s.contact_requests || 0,
       imapMessages: s.imap_messages || 0,
       siteLast7d: s.site_last_7d || 0,

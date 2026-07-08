@@ -13,6 +13,27 @@ function parsePayloadSafe(raw) {
   }
 }
 
+function isExpressCallbackPayload(row, payloadIn) {
+  var payload = payloadIn || parsePayloadSafe(row && row.payload);
+  var source = String((row && row.source) || payload.source || "").toLowerCase();
+  var journey = String(payload.journey || "").toLowerCase();
+  var msg = String(payload.message || payload.comment || "").toLowerCase();
+
+  if (
+    payload.callbackRequested === true ||
+    journey === "callback" ||
+    source === "callback_rappel" ||
+    source === "homepage_callback" ||
+    source === "landing_callback_strip" ||
+    source.indexOf("callback") >= 0 ||
+    msg.indexOf("rappel express") >= 0 ||
+    msg.indexOf("demande de rappel express") >= 0
+  ) {
+    return true;
+  }
+  return false;
+}
+
 function classifyLeadInboxKind(row, payloadIn) {
   var payload = payloadIn || parsePayloadSafe(row && row.payload);
   var source = String((row && row.source) || payload.source || "").toLowerCase();
@@ -24,13 +45,13 @@ function classifyLeadInboxKind(row, payloadIn) {
     (row && row.questionnaire_total) || payload.questionnaire_total || payload.step_total || 0
   );
 
+  if (isExpressCallbackPayload(row, payload)) {
+    return "express_callback";
+  }
+
   if (
-    payload.callbackRequested === true ||
-    journey === "callback" ||
     source === "homepage_contact" ||
     source === "services_catalog" ||
-    source === "callback_rappel" ||
-    source.indexOf("callback") >= 0 ||
     source.indexOf("_contact") >= 0 ||
     source.indexOf("contact_") === 0
   ) {
@@ -69,6 +90,9 @@ function subjectForKind(kind, row, payload) {
     .filter(Boolean)
     .join(" ")
     .trim();
+  if (kind === "express_callback") {
+    return "Rappel express — " + vertical + (name ? " — " + name : "");
+  }
   if (kind === "contact_request") {
     if (payload.callbackRequested || String(payload.journey || "") === "callback") {
       return "Rappel express — " + vertical + (name ? " — " + name : "");
@@ -84,17 +108,23 @@ function subjectForKind(kind, row, payload) {
 
 function classifyMailboxMessage(m) {
   if (!m) return null;
-  if (m.category === "questionnaire" || m.category === "contact_request") return m.category;
+  if (
+    m.category === "express_callback" ||
+    m.category === "questionnaire" ||
+    m.category === "contact_request"
+  ) {
+    return m.category;
+  }
   if (String(m.id || "").indexOf("lead_") !== 0 && !m.lead_id) return null;
   var sub = String(m.subject || "").toLowerCase();
-  if (sub.indexOf("demande de contact") >= 0 || sub.indexOf("rappel express") >= 0) {
-    return "contact_request";
-  }
+  if (sub.indexOf("rappel express") >= 0) return "express_callback";
+  if (sub.indexOf("demande de contact") >= 0) return "contact_request";
   if (sub.indexOf("questionnaire") >= 0) return "questionnaire";
   var body = String(m.body_text || "");
-  if (body.indexOf("Type: Demande de contact") >= 0 || body.indexOf("Type: Rappel express") >= 0) {
-    return "contact_request";
+  if (body.indexOf("Type: Rappel express") >= 0 || body.indexOf("Demande de rappel express") >= 0) {
+    return "express_callback";
   }
+  if (body.indexOf("Type: Demande de contact") >= 0) return "contact_request";
   if (body.indexOf("Type: Questionnaire") >= 0) return "questionnaire";
   var p = parsePayloadSafe(body.indexOf("--- Données JSON ---") >= 0 ? body.split("--- Données JSON ---")[1] : body);
   if (p && Object.keys(p).length) {
@@ -105,6 +135,7 @@ function classifyMailboxMessage(m) {
 
 module.exports = {
   parsePayloadSafe,
+  isExpressCallbackPayload,
   classifyLeadInboxKind,
   subjectForKind,
   classifyMailboxMessage,

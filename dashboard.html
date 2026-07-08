@@ -1356,6 +1356,22 @@
     .mbx-pill--reply { background: #fef3c7; color: #b45309; }
     .mbx-pill--mail { background: #dbeafe; color: #1d4ed8; }
     .mbx-pill--site { background: #f1f5f9; color: #475569; }
+    .mbx-pill--express { background: #ffedd5; color: #c2410c; font-weight: 700; }
+    .mbx-pill--express-done { background: #fef3c7; color: #92400e; }
+    .mbx-thread-card--express {
+      border-color: #fb923c;
+      background: linear-gradient(135deg, #fff7ed 0%, #fff 100%);
+      box-shadow: 0 0 0 1px #fed7aa;
+    }
+    .mbx-stat--express.mbx-stat--urgent strong { color: #c2410c; }
+    .mbx-stat--urgent { border-color: #fb923c !important; background: #fff7ed !important; }
+    .mbx-qa-bubble--express { border-left: 4px solid #ea580c; }
+    .mbx-qa-bubble__label--express { color: #c2410c; font-weight: 800; }
+    .nav-badge--urgent { background: #ea580c !important; animation: mbx-pulse 1.5s ease infinite; }
+    @keyframes mbx-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
     .mbx-item--received { border-left: 3px solid #2563eb; }
     .mbx-qa-feed {
       display: flex;
@@ -1893,6 +1909,7 @@
         <div class="mbx-stats" id="mailboxStats">
           <button type="button" class="mbx-stat mbx-stat--highlight" data-view="feed" title="Fil complet : e-mails + questionnaires + contacts"><strong id="mbxStatThreads">—</strong><span>Fil Q&amp;R</span></button>
           <button type="button" class="mbx-stat" data-view="received" title="E-mails recus sur contact@"><strong id="mbxStatReceived">—</strong><span>E-mails recus</span></button>
+          <button type="button" class="mbx-stat mbx-stat--express" data-view="express_callbacks" title="Rappels express — priorite absolue"><strong id="mbxStatExpress">—</strong><span>Rappels express</span></button>
           <button type="button" class="mbx-stat" data-view="questionnaires" title="Questionnaires et devis multi-etapes"><strong id="mbxStatQuestionnaires">—</strong><span>Questionnaires</span></button>
           <button type="button" class="mbx-stat" data-view="contact_requests" title="Contact accueil et rappel express"><strong id="mbxStatContactRequests">—</strong><span>Demandes contact</span></button>
           <button type="button" class="mbx-stat" data-view="sent" title="Messages envoyes"><strong id="mbxStatOut">—</strong><span>Envoyes</span></button>
@@ -1907,6 +1924,7 @@
               <div class="mbx-view-tabs" id="mailboxViewTabs">
                 <button type="button" class="mbx-view-tab mbx-view-tab--mail is-active" data-view="feed">Fil Q&amp;R</button>
                 <button type="button" class="mbx-view-tab mbx-view-tab--mail" data-view="received">Boite recue</button>
+                <button type="button" class="mbx-view-tab mbx-view-tab--express" data-view="express_callbacks">Rappels express</button>
                 <button type="button" class="mbx-view-tab" data-view="questionnaires">Questionnaires</button>
                 <button type="button" class="mbx-view-tab" data-view="contact_requests">Demandes contact</button>
                 <button type="button" class="mbx-view-tab" data-view="sent">Envoyes</button>
@@ -2840,7 +2858,13 @@
         document.getElementById("sec-mailbox").classList.add("active");
         if (window.loadMailbox) {
           var msgId = params.get("msg") || params.get("id");
+          var mbxView = params.get("view") || params.get("mbx");
           window.loadMailbox({ openId: msgId || null });
+          if (mbxView && window.setMailboxView) {
+            setTimeout(function () {
+              window.setMailboxView(mbxView);
+            }, 500);
+          }
         }
       }, 100);
     }

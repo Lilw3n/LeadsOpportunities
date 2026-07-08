@@ -5,6 +5,7 @@
   var LS_SYNC = "mbx_last_imap_sync";
   var LS_SYNC_ERR = "mbx_last_imap_error";
   var LS_SETUP_HIDE = "mbx_setup_hidden";
+  var LS_EXPRESS_SEEN = "mbx_express_seen_ids";
 
   var TEMPLATES = {
     merci:
@@ -81,8 +82,34 @@
     return "inbound";
   }
 
+  function isExpressCallback(m) {
+    if (!m || messageKind(m) !== "site") return false;
+    if (m.category === "express_callback") return true;
+    var sub = String(m.subject || "").toLowerCase();
+    if (sub.indexOf("rappel express") >= 0) return true;
+    var body = String(m.body_text || "");
+    if (
+      body.indexOf("Type: Rappel express") >= 0 ||
+      body.indexOf("Demande de rappel express") >= 0
+    ) {
+      return true;
+    }
+    var p = parseLeadPayload(m.body_text);
+    if (p.callbackRequested === true || String(p.journey || "") === "callback") return true;
+    var src = String(p.source || "").toLowerCase();
+    if (
+      src.indexOf("callback") >= 0 ||
+      src === "homepage_callback" ||
+      src === "landing_callback_strip"
+    ) {
+      return true;
+    }
+    return false;
+  }
+
   function siteLeadKind(m) {
     if (!m || messageKind(m) !== "site") return null;
+    if (isExpressCallback(m)) return "express_callback";
     if (m.category === "questionnaire" || m.category === "contact_request") return m.category;
     var sub = String(m.subject || "").toLowerCase();
     if (sub.indexOf("demande de contact") >= 0 || sub.indexOf("rappel express") >= 0) {
@@ -103,6 +130,10 @@
 
   function isSiteContactRequest(m) {
     return messageKind(m) === "site" && siteLeadKind(m) === "contact_request";
+  }
+
+  function isSiteExpressCallback(m) {
+    return messageKind(m) === "site" && siteLeadKind(m) === "express_callback";
   }
 
   function isReceivedMail(m) {
@@ -279,6 +310,12 @@
       });
       t.hasQuestionnaire = t.messages.some(isSiteQuestionnaire);
       t.hasContactRequest = t.messages.some(isSiteContactRequest);
+      t.hasExpress = t.messages.some(isExpressCallback);
+      t.needsCallback =
+        t.hasExpress &&
+        !t.messages.some(function (m) {
+          return m.direction === "outbound";
+        });
       var subjIn = t.messages
         .slice()
         .reverse()
@@ -287,8 +324,19 @@
         });
       t.subject = (subjIn && subjIn.subject) || last.subject || "(sans objet)";
       t.preview = messagePreview(last);
-      t.priority =
-        (t.needsReply && t.hasImap ? 0 : t.needsReply ? 1 : t.hasImap ? 2 : t.hasSite ? 3 : 4);
+      if (t.needsCallback && t.hasExpress) {
+        t.priority = 0;
+      } else if (t.needsReply && t.hasImap) {
+        t.priority = 1;
+      } else if (t.needsReply) {
+        t.priority = 2;
+      } else if (t.hasImap) {
+        t.priority = 3;
+      } else if (t.hasSite) {
+        t.priority = 4;
+      } else {
+        t.priority = 5;
+      }
       return t;
     });
 
@@ -318,6 +366,8 @@
       pool = pool.filter(isReceivedMail);
     } else if (state.view === "questionnaires") {
       pool = pool.filter(isSiteQuestionnaire);
+    } else if (state.view === "express_callbacks") {
+      pool = pool.filter(isSiteExpressCallback);
     } else if (state.view === "contact_requests") {
       pool = pool.filter(isSiteContactRequest);
     } else if (state.view === "site") {
@@ -360,9 +410,10 @@
     if (hint) {
       var hints = {
         received: "E-mails recus sur contact@",
-        feed: "E-mails + questionnaires + demandes de contact",
+        feed: "E-mails + questionnaires + rappels express + contacts",
+        express_callbacks: "Rappels express — a traiter en priorite (~15 min)",
         questionnaires: "Parcours devis / questionnaires multi-etapes",
-        contact_requests: "Formulaire contact accueil, rappel express, message libre",
+        contact_requests: "Formulaire contact accueil et message libre (hors rappel express)",
         site: "Tous les leads site (legacy)",
         sent: "Vos reponses envoyees",
       };
@@ -370,6 +421,12 @@
     }
     applyFilters();
     renderList();
+  }
+
+  function countPendingExpress() {
+    return buildThreads(state.all).filter(function (t) {
+      return t.needsCallback && t.hasExpress;
+    }).length;
   }
 
   function countNeedsReply() {
@@ -381,12 +438,21 @@
   function updateNavBadge() {
     var badge = document.getElementById("mailboxNavBadge");
     if (!badge) return;
-    var n = countNeedsReply();
+    var expressN = countPendingExpress();
+    var mailN = countNeedsReply();
+    var n = expressN + mailN;
     if (n > 0) {
       badge.hidden = false;
       badge.textContent = n > 99 ? "99+" : String(n);
+      badge.title =
+        (expressN ? expressN + " rappel(s) express" : "") +
+        (expressN && mailN ? " · " : "") +
+        (mailN ? mailN + " e-mail(s) a repondre" : "");
+      if (expressN > 0) badge.classList.add("nav-badge--urgent");
+      else badge.classList.remove("nav-badge--urgent");
     } else {
       badge.hidden = true;
+      badge.classList.remove("nav-badge--urgent");
     }
   }
 
@@ -401,9 +467,14 @@
     el("mbxStatReceived", received || s.imapMessages || 0);
     el("mbxStatThreads", threads);
     el("mbxStatQuestionnaires", s.questionnaires != null ? s.questionnaires : "—");
+    el("mbxStatExpress", countPendingExpress() || s.expressCallbacks || 0);
     el("mbxStatContactRequests", s.contactRequests != null ? s.contactRequests : "—");
     el("mbxStatSite", s.siteLeads);
     el("mbxStatOut", s.outbound);
+    var expressStat = document.querySelector('.mbx-stat[data-view="express_callbacks"]');
+    if (expressStat) {
+      expressStat.classList.toggle("mbx-stat--urgent", countPendingExpress() > 0);
+    }
     updateNavBadge();
   }
 
@@ -422,10 +493,12 @@
       return;
     }
     var n = countNeedsReply();
+    var ex = countPendingExpress();
     hint.textContent =
       state.all.filter(isReceivedMail).length +
       " e-mail(s) recu(s)" +
-      (n ? " · " + n + " a repondre" : "") +
+      (ex ? " · " + ex + " rappel(s) express" : "") +
+      (n ? " · " + n + " e-mail(s) a repondre" : "") +
       " · sync " +
       (localStorage.getItem(LS_SYNC) ? fmtDate(localStorage.getItem(LS_SYNC)) : "—");
   }
@@ -461,12 +534,19 @@
   function renderThreadCard(t, active) {
     var cls = "mbx-thread-card";
     if (active) cls += " is-active";
-    if (t.needsReply && t.hasImap) cls += " mbx-thread-card--reply";
+    if (t.needsCallback && t.hasExpress) cls += " mbx-thread-card--express";
+    else if (t.needsReply && t.hasImap) cls += " mbx-thread-card--reply";
     else if (t.hasImap) cls += " mbx-thread-card--mail";
     var tags =
+      (t.needsCallback && t.hasExpress
+        ? '<span class="mbx-pill mbx-pill--express">Rappel express</span>'
+        : "") +
       (t.needsReply && t.hasImap ? '<span class="mbx-pill mbx-pill--reply">A repondre</span>' : "") +
       (t.hasImap ? '<span class="mbx-pill mbx-pill--mail">E-mail</span>' : "") +
-      (t.hasSite ? '<span class="mbx-pill mbx-pill--site">Site</span>' : "") +
+      (t.hasExpress && !(t.needsCallback && t.hasExpress)
+        ? '<span class="mbx-pill mbx-pill--express-done">Rappel (traite)</span>'
+        : "") +
+      (t.hasSite && !t.hasExpress ? '<span class="mbx-pill mbx-pill--site">Site</span>' : "") +
       '<span class="mbx-pill" style="background:#f1f5f9;color:#64748b">' +
       t.messages.length +
       " msg</span>";
@@ -526,10 +606,13 @@
       return !t.hasImap && t.hasSite;
     });
     var questionnairesOnly = threads.filter(function (t) {
-      return !t.hasImap && t.hasQuestionnaire;
+      return !t.hasImap && t.hasQuestionnaire && !t.hasExpress;
+    });
+    var expressOnly = threads.filter(function (t) {
+      return t.needsCallback && t.hasExpress;
     });
     var contactOnly = threads.filter(function (t) {
-      return !t.hasImap && t.hasContactRequest && !t.hasQuestionnaire;
+      return !t.hasImap && t.hasContactRequest && !t.hasQuestionnaire && !t.hasExpress;
     });
 
     function block(label, items) {
@@ -542,10 +625,11 @@
     }
 
     if (state.view === "feed") {
+      html += block("URGENT — Rappels express a traiter", expressOnly);
       html += block("A repondre — e-mail recu", urgent);
       html += block("Conversations e-mail", mail);
       html += block("Questionnaires remplis", questionnairesOnly);
-      html += block("Demandes de contact / rappel", contactOnly);
+      html += block("Demandes de contact", contactOnly);
     } else {
       threads.forEach(function (t) {
         html += renderThreadCard(t, state.selectedThreadKey === t.key);
@@ -567,17 +651,22 @@
         var siteN = (state.stats && state.stats.siteLeads) || 0;
         var qN = (state.stats && state.stats.questionnaires) || 0;
         var cN = (state.stats && state.stats.contactRequests) || 0;
+        var exN = countPendingExpress();
         list.innerHTML =
           '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail IMAP recu.</p>' +
-          (qN > 0 || cN > 0
-            ? "<p><strong>" +
-              qN +
-              " questionnaire(s)</strong> · <strong>" +
-              cN +
-              " demande(s) contact</strong> — onglets dedies ou <em>Fil Q&amp;R</em>.</p>"
-            : siteN > 0
-              ? "<p><strong>" + siteN + " lead(s) site</strong> — voir Fil Q&amp;R.</p>"
-              : "<p>Les formulaires apparaissent apres enregistrement en base (DATABASE_URL).</p>") +
+          (exN > 0
+            ? "<p><strong style='color:#c2410c'>" +
+              exN +
+              " rappel(s) express</strong> — onglet <em>Rappels express</em> ou <em>Fil Q&amp;R</em>.</p>"
+            : qN > 0 || cN > 0
+              ? "<p><strong>" +
+                qN +
+                " questionnaire(s)</strong> · <strong>" +
+                cN +
+                " demande(s) contact</strong> — onglets dedies.</p>"
+              : siteN > 0
+                ? "<p><strong>" + siteN + " lead(s) site</strong> — voir Fil Q&amp;R.</p>"
+                : "<p>Les formulaires apparaissent apres enregistrement en base (DATABASE_URL).</p>") +
           "</div>";
       }
       return;
@@ -631,12 +720,14 @@
     else if (state.view === "received") renderMessageList();
     else if (
       state.view === "questionnaires" ||
+      state.view === "express_callbacks" ||
       state.view === "contact_requests" ||
       state.view === "site" ||
       state.view === "sent"
     ) {
       if (
         state.view === "questionnaires" ||
+        state.view === "express_callbacks" ||
         state.view === "contact_requests" ||
         state.view === "site" ||
         state.view === "sent"
@@ -644,11 +735,13 @@
         var list = document.getElementById("mailboxList");
         if (!state.filtered.length) {
           var emptyMsg =
-            state.view === "questionnaires"
-              ? "Aucun questionnaire enregistre."
-              : state.view === "contact_requests"
-                ? "Aucune demande de contact / rappel express."
-                : "Rien ici.";
+            state.view === "express_callbacks"
+              ? "Aucun rappel express en attente."
+              : state.view === "questionnaires"
+                ? "Aucun questionnaire enregistre."
+                : state.view === "contact_requests"
+                  ? "Aucune demande de contact."
+                  : "Rien ici.";
           list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>' + emptyMsg + "</p></div>";
           return;
         }
@@ -714,9 +807,17 @@
       })
       .join("<br>");
     var msg = payload.message || payload.comment;
+    var label = isExpressCallback(m) ? "Rappel express" : "Demande site";
+    var labelCls = isExpressCallback(m) ? " mbx-qa-bubble__label--express" : "";
     return (
-      '<div class="mbx-qa-bubble mbx-qa-bubble--site">' +
-      '<div class="mbx-qa-bubble__label">Demande site</div>' +
+      '<div class="mbx-qa-bubble mbx-qa-bubble--site' +
+      (isExpressCallback(m) ? " mbx-qa-bubble--express" : "") +
+      '">' +
+      '<div class="mbx-qa-bubble__label' +
+      labelCls +
+      '">' +
+      esc(label) +
+      "</div>" +
       '<div class="mbx-qa-bubble__body">' +
       rows +
       (msg ? "<br><br>" + linkifyPreviewHtml(msg) : "") +
@@ -1168,8 +1269,72 @@
     renderList();
   }
 
+  function playExpressAlert() {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      var ctx = new Ctx();
+      [880, 1100].forEach(function (freq, i) {
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        var t0 = ctx.currentTime + i * 0.18;
+        gain.gain.setValueAtTime(0.0001, t0);
+        gain.gain.exponentialRampToValueAtTime(0.1, t0 + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(t0);
+        osc.stop(t0 + 0.22);
+      });
+    } catch (e) {}
+  }
+
+  function notifyNewExpressCallbacks() {
+    var pending = state.all.filter(function (m) {
+      return isSiteExpressCallback(m) && m.direction === "inbound";
+    });
+    if (!pending.length) return;
+    var seen = [];
+    try {
+      seen = JSON.parse(localStorage.getItem(LS_EXPRESS_SEEN) || "[]");
+    } catch (e) {
+      seen = [];
+    }
+    var fresh = pending.filter(function (m) {
+      return seen.indexOf(m.id) < 0;
+    });
+    if (!fresh.length) return;
+    var exPending = countPendingExpress();
+    toast(
+      fresh.length +
+        " rappel(s) express — " +
+        (exPending || fresh.length) +
+        " a traiter. Onglet « Rappels express ».",
+      "error"
+    );
+    playExpressAlert();
+    if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+      try {
+        new Notification("Leads Opportunities — Rappel express", {
+          body: fresh.length + " nouvelle(s) demande(s) de rappel a traiter",
+          tag: "lo-express-callback",
+        });
+      } catch (e) {}
+    }
+    var allIds = pending.map(function (m) {
+      return m.id;
+    });
+    localStorage.setItem(LS_EXPRESS_SEEN, JSON.stringify(allIds.slice(0, 200)));
+  }
+
   function pickDefaultSelection() {
-    if (state.view === "feed") {
+    if (state.view === "feed" || state.view === "express_callbacks") {
+      var expressUrgent = state.threads.find(function (t) {
+        return t.needsCallback && t.hasExpress;
+      });
+      if (expressUrgent) return selectThread(expressUrgent.key);
       var urgent = state.threads.find(function (t) {
         return t.needsReply && t.hasImap;
       });
@@ -1195,24 +1360,31 @@
 
     var siteN = (state.stats && state.stats.siteLeads) || 0;
     var qN = (state.stats && state.stats.questionnaires) || 0;
+    var exN = (state.stats && state.stats.expressCallbacks) || countPendingExpress();
     var cN = (state.stats && state.stats.contactRequests) || 0;
     var sub = document.getElementById("mailboxSubtitle");
     if (sub) {
       sub.textContent =
         state.all.filter(isReceivedMail).length +
         " e-mails · " +
+        exN +
+        " rappel(s) express · " +
         qN +
         " questionnaire(s) · " +
-        cN +
-        " contact(s) · " +
         countNeedsReply() +
-        " a repondre";
+        " e-mail(s) a repondre";
     }
 
-    if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
+    if (exN > 0 && state.view === "received" && !sessionStorage.getItem("mbx_express_hint")) {
+      sessionStorage.setItem("mbx_express_hint", "1");
+      toast(exN + " rappel(s) express en attente — onglet dedie", "error");
+    } else if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
       sessionStorage.setItem("mbx_site_hint", "1");
-      toast(qN + " questionnaire(s) · " + cN + " demande(s) contact — voir onglets dedies", "success");
+      toast(qN + " questionnaire(s) · " + cN + " contact(s) — voir onglets dedies", "success");
     }
+
+    notifyNewExpressCallbacks();
+    updateNavBadge();
 
     if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
       selectMessage(opts.openId);
@@ -1529,9 +1701,31 @@
 
     syncStripeIntervalVisibility();
     syncStripeLabelFromKind();
-    setView("feed");
+    var initView = "feed";
+    try {
+      var p = new URLSearchParams(window.location.search);
+      var v = p.get("view") || p.get("mbx");
+      if (
+        v &&
+        [
+          "feed",
+          "received",
+          "express_callbacks",
+          "questionnaires",
+          "contact_requests",
+          "sent",
+        ].indexOf(v) >= 0
+      ) {
+        initView = v;
+      }
+    } catch (e) {}
+    setView(initView);
+    if (typeof Notification !== "undefined" && Notification.permission === "default") {
+      Notification.requestPermission().catch(function () {});
+    }
   }
 
   window.loadMailbox = loadMailbox;
+  window.setMailboxView = setView;
   document.addEventListener("DOMContentLoaded", bindUi);
 })();
