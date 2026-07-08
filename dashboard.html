@@ -2699,7 +2699,17 @@
             "</small></div></div>";
         }
 
+        var answersPanel = "";
+        if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
+          answersPanel =
+            window.CrmLeadPayloadView.renderQuestionnairePanel(
+              Object.assign({}, l, { payload: payload }),
+              esc
+            );
+        }
+
         body.innerHTML =
+          answersPanel +
           '<div class="detail-grid">' +
             '<div class="detail-item"><div class="dlabel">Email</div><div class="dvalue">' + esc(l.email) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Téléphone</div><div class="dvalue">' + esc(l.phone) + '</div></div>' +
@@ -2779,6 +2789,7 @@
         body.innerHTML = '<p style="color:var(--red)">Erreur réseau</p>';
       }
     }
+    window.openLeadDetail = openLeadDetail;
 
     document.getElementById("closeModal").addEventListener("click", function() {
       document.getElementById("leadModal").classList.remove("show");

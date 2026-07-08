@@ -151,8 +151,17 @@
 
   function parseLeadPayload(text) {
     if (!text) return null;
+    var raw = String(text).trim();
+    var jsonPart = raw;
+    var marker = "--- Données JSON ---";
+    var cut = raw.indexOf(marker);
+    if (cut >= 0) {
+      jsonPart = raw.slice(cut + marker.length).trim();
+    } else if (raw.charAt(0) !== "{") {
+      return null;
+    }
     try {
-      var o = JSON.parse(text);
+      var o = JSON.parse(jsonPart);
       return typeof o === "object" && o ? o : null;
     } catch (e) {
       return null;
@@ -671,7 +680,25 @@
     }
   }
 
-  function renderLeadBubble(m, payload) {
+  function renderLeadBubble(m, payload, lead) {
+    if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
+      var merged = Object.assign({}, lead || {}, {
+        payload: payload,
+        payload_obj: payload,
+        questionnaire_step: (lead && lead.questionnaire_step) || payload.questionnaire_step,
+        questionnaire_total: (lead && lead.questionnaire_total) || payload.questionnaire_total,
+        email: (lead && lead.email) || payload.email,
+        phone: (lead && lead.phone) || payload.phone,
+        vertical: (lead && lead.vertical) || payload.vertical,
+      });
+      return (
+        '<div class="mbx-qa-bubble mbx-qa-bubble--site mbx-qa-bubble--answers">' +
+        window.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc) +
+        '<div class="mbx-qa-bubble__meta">' +
+        fmtDateLong(m.created_at) +
+        "</div></div>"
+      );
+    }
     var rows = [
       ["Nom", payload.fullName || payload.name],
       ["Tel", payload.phone],
@@ -700,12 +727,46 @@
     );
   }
 
+  function renderMailboxLeadDetail(m, leadData) {
+    var lead = leadData && leadData.lead ? leadData.lead : null;
+    var payload =
+      lead && lead.payload
+        ? lead.payload
+        : parseLeadPayload(m.body_text) || {};
+    var html = '<div class="mbx-lead-answers-wrap">';
+    html += renderLeadBubble(m, payload, lead);
+    html += "</div>";
+    return html;
+  }
+
+  async function hydrateLeadQuestionnaireAnswers(m, leadId) {
+    var body = document.getElementById("mailboxDetailBody");
+    if (!body || !leadId || !window.Dashboard || !window.Dashboard.api) {
+      if (body) body.innerHTML = renderQaFeed([m]);
+      return;
+    }
+    body.innerHTML =
+      '<div class="loading-state" style="padding:28px;text-align:center"><div class="spinner"></div><p>Chargement des réponses questionnaire…</p></div>';
+    try {
+      var data = await window.Dashboard.api(
+        "/api/dashboard/lead-detail?id=" + encodeURIComponent(leadId)
+      );
+      if (!data.ok || !data.lead) {
+        body.innerHTML = renderMailboxLeadDetail(m, null);
+        return;
+      }
+      body.innerHTML = renderMailboxLeadDetail(m, data);
+    } catch (e) {
+      body.innerHTML = renderMailboxLeadDetail(m, null);
+    }
+  }
+
   function renderQaFeed(messages) {
     var html = '<div class="mbx-qa-feed">';
     messages.forEach(function (m) {
       var payload = parseLeadPayload(m.body_text);
       if (messageKind(m) === "site" && payload) {
-        html += renderLeadBubble(m, payload);
+        html += renderLeadBubble(m, payload, null);
         return;
       }
       var isOut = m.direction === "outbound";
@@ -1067,15 +1128,28 @@
       fmtDateLong(m.created_at) +
       (isReceivedMail(m) ? ' · <span style="color:#1d4ed8;font-weight:700">E-mail recu</span>' : "") +
       "</p>" +
-      '<div class="mbx-detail-actions" style="margin-top:10px">' +
+      '<div class="mbx-detail-actions" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">' +
       (leadId
-        ? '<a class="btn-ghost" href="./dashboard.html?section=leads&lead=' +
+        ? '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
+          '<a class="btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
           encodeURIComponent(leadId) +
-          '">Fiche lead</a>'
+          '">Fiche CRM</a>' +
+          '<a class="btn-ghost btn-sm" href="./dashboard.html?section=leads&lead=' +
+          encodeURIComponent(leadId) +
+          '">Modal lead</a>'
         : "") +
       "</div>";
 
-    if (state.view === "feed" || state.view === "received") {
+    var answersBtn = document.getElementById("mbxBtnAllAnswers");
+    if (answersBtn) {
+      answersBtn.addEventListener("click", function () {
+        if (typeof window.openLeadDetail === "function") window.openLeadDetail(leadId);
+      });
+    }
+
+    if (leadId && messageKind(m) === "site") {
+      hydrateLeadQuestionnaireAnswers(m, leadId);
+    } else if (state.view === "feed" || state.view === "received") {
       var tk = threadKeyForMessage(m);
       var th = state.threads.find(function (x) {
         return x.key === tk;
@@ -1086,12 +1160,7 @@
         document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
       }
     } else {
-      var payload = parseLeadPayload(m.body_text);
-      if (payload && kind === "site") {
-        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
-      } else {
-        document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
-      }
+      document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed([m]);
     }
 
     if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
