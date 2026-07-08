@@ -1,6 +1,138 @@
 const { randomUUID } = require("crypto");
 const { getSql } = require("./db");
 
+function parsePayloadSafe(raw) {
+  if (!raw) return {};
+  if (typeof raw === "object") return raw;
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    return {};
+  }
+}
+
+function leadFromAddr(row, payload) {
+  var email = (row.email || payload.email || "").trim();
+  if (email) return email;
+  var phone = (row.phone || payload.phone || "").trim();
+  if (phone) return phone;
+  var visitor = (payload.visitor_id || payload.visitorId || row.visitor_id || "").trim();
+  if (visitor) return "visiteur:" + visitor.slice(0, 40);
+  return "questionnaire:" + String(row.id || "").slice(0, 12);
+}
+
+function leadThreadKey(row, payload) {
+  var email = (row.email || payload.email || "").trim().toLowerCase();
+  if (email) return email;
+  var phone = (row.phone || payload.phone || "").trim();
+  if (phone) return phone;
+  return String(row.id || randomUUID());
+}
+
+function leadSubject(row, payload) {
+  var vertical = row.vertical || payload.vertical || payload.need || "lead";
+  var step = Number(row.questionnaire_step || payload.questionnaire_step || payload.step || 0);
+  var total = Number(row.questionnaire_total || payload.questionnaire_total || payload.step_total || 10) || 10;
+  var suffix = step > 0 ? " — étape " + step + "/" + total : "";
+  var name = [payload.firstName || payload.first_name, payload.lastName || payload.last_name]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
+  if (name) return "Questionnaire " + vertical + " — " + name + suffix;
+  return "Questionnaire — " + vertical + suffix;
+}
+
+function formatLeadBodyText(row, payload) {
+  var step = Number(row.questionnaire_step || payload.questionnaire_step || payload.step || 0);
+  var total = Number(row.questionnaire_total || payload.questionnaire_total || 10) || 10;
+  var lines = [
+    "=== Demande formulaire / questionnaire ===",
+    "ID lead : " + row.id,
+    "Vertical : " + (row.vertical || payload.vertical || "—"),
+    "Source : " + (row.source || payload.source || "site"),
+    "Email : " + (row.email || payload.email || "—"),
+    "Téléphone : " + (row.phone || payload.phone || "—"),
+    "Étape : " + step + " / " + total,
+    "Score : " + (row.lead_score != null ? row.lead_score : payload.leadScore != null ? payload.leadScore : "—"),
+    "Ville : " + (row.city || payload.city || "—"),
+    "Code postal : " + (row.postal_code || payload.postal_code || payload.postalCode || "—"),
+    "Créé le : " + (row.created_at ? new Date(row.created_at).toISOString() : "—"),
+    "",
+    "Ouvrir : /crm-lead-detail.html?id=" + row.id,
+    "",
+    "--- Données JSON ---",
+    JSON.stringify(payload, null, 2).slice(0, 7500),
+  ];
+  return lines.join("\n");
+}
+
+async function upsertLeadMailboxRow(sql, row) {
+  if (!sql || !row || !row.id) return false;
+  const mailbox = process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr";
+  const payload = parsePayloadSafe(row.payload);
+  const id = "lead_" + row.id;
+  const fromAddr = leadFromAddr(row, payload);
+  const subject = leadSubject(row, payload);
+  const bodyText = formatLeadBodyText(row, payload);
+  const threadKey = leadThreadKey(row, payload);
+  const createdAt = row.created_at || new Date().toISOString();
+
+  await sql`
+    INSERT INTO mailbox_messages (
+      id, direction, from_addr, to_addr, subject, body_text, thread_key, lead_id, created_at
+    ) VALUES (
+      ${id},
+      'inbound',
+      ${fromAddr},
+      ${mailbox},
+      ${subject},
+      ${bodyText},
+      ${threadKey},
+      ${row.id},
+      ${createdAt}
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      from_addr = EXCLUDED.from_addr,
+      subject = EXCLUDED.subject,
+      body_text = EXCLUDED.body_text,
+      thread_key = EXCLUDED.thread_key,
+      lead_id = EXCLUDED.lead_id
+  `;
+  return true;
+}
+
+/** Sync immédiat d'un lead vers la messagerie dashboard */
+async function syncLeadToMailbox(sql, leadId) {
+  if (!sql || !leadId) return false;
+  await ensureMailboxSchema(sql);
+  var rows = null;
+  var tiers = [
+    function () {
+      return sql`
+        SELECT id, email, phone, vertical, lead_score, source, payload, created_at,
+               questionnaire_step, questionnaire_total, city, postal_code, visitor_id
+        FROM site_leads WHERE id = ${leadId} LIMIT 1
+      `;
+    },
+    function () {
+      return sql`
+        SELECT id, email, phone, vertical, lead_score, source, payload, created_at
+        FROM site_leads WHERE id = ${leadId} LIMIT 1
+      `;
+    },
+  ];
+  for (var i = 0; i < tiers.length; i++) {
+    try {
+      rows = await tiers[i]();
+      break;
+    } catch (e) {
+      if (i === tiers.length - 1) throw e;
+    }
+  }
+  if (!rows || !rows.length) return false;
+  return upsertLeadMailboxRow(sql, rows[0]);
+}
+
 async function ensureMailboxSchema(sql) {
   if (!sql) return false;
   await sql`
@@ -41,28 +173,50 @@ async function ensureMailboxSchema(sql) {
 
 async function importLeadMessages(sql) {
   const mailbox = process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr";
-  await sql`
-    INSERT INTO mailbox_messages (
-      id, direction, from_addr, to_addr, subject, body_text, thread_key, created_at
-    )
-    SELECT
-      'lead_' || id,
-      'inbound',
-      COALESCE(email, phone, 'visiteur'),
-      ${mailbox},
-      'Demande site — ' || COALESCE(vertical, 'lead'),
-      LEFT(COALESCE(payload, ''), 8000),
-      COALESCE(NULLIF(LOWER(TRIM(email)), ''), id),
-      created_at
-    FROM site_leads
-    WHERE (email IS NOT NULL AND TRIM(email) != '')
-       OR (phone IS NOT NULL AND TRIM(phone) != '')
-    ON CONFLICT (id) DO UPDATE SET
-      from_addr = EXCLUDED.from_addr,
-      subject = EXCLUDED.subject,
-      body_text = EXCLUDED.body_text,
-      thread_key = EXCLUDED.thread_key
-  `;
+  var imported = 0;
+
+  async function runImport(queryFn) {
+    const rows = await queryFn();
+    for (var i = 0; i < rows.length; i++) {
+      try {
+        await upsertLeadMailboxRow(sql, rows[i]);
+        imported++;
+      } catch (e) {
+        console.warn("[mail-store] lead import row", rows[i] && rows[i].id, e.message);
+      }
+    }
+    return imported;
+  }
+
+  try {
+    return await runImport(function () {
+      return sql`
+        SELECT id, email, phone, vertical, lead_score, source, payload, created_at,
+               questionnaire_step, questionnaire_total, city, postal_code, visitor_id
+        FROM site_leads
+        WHERE created_at >= NOW() - INTERVAL '365 days'
+        ORDER BY created_at DESC
+        LIMIT 500
+      `;
+    });
+  } catch (e) {
+    console.warn("[mail-store] import tier 1:", e.message);
+  }
+
+  try {
+    return await runImport(function () {
+      return sql`
+        SELECT id, email, phone, vertical, lead_score, source, payload, created_at
+        FROM site_leads
+        WHERE created_at >= NOW() - INTERVAL '365 days'
+        ORDER BY created_at DESC
+        LIMIT 500
+      `;
+    });
+  } catch (e2) {
+    console.warn("[mail-store] import tier 2:", e2.message);
+    return 0;
+  }
 }
 
 async function listMessages(limit, offset) {
@@ -70,7 +224,11 @@ async function listMessages(limit, offset) {
   if (!sql) return { messages: [], total: 0 };
 
   await ensureMailboxSchema(sql);
-  await importLeadMessages(sql);
+  try {
+    await importLeadMessages(sql);
+  } catch (e) {
+    console.warn("[mail-store] importLeadMessages:", e.message);
+  }
 
   const lim = Math.min(Math.max(Number(limit) || 40, 1), 100);
   const off = Math.max(Number(offset) || 0, 0);
@@ -87,10 +245,10 @@ async function listMessages(limit, offset) {
       COUNT(*)::int AS total,
       COUNT(*) FILTER (WHERE direction = 'inbound')::int AS inbound,
       COUNT(*) FILTER (WHERE direction = 'outbound')::int AS outbound,
-      COUNT(*) FILTER (WHERE id LIKE 'lead_%')::int AS site_leads,
+      COUNT(*) FILTER (WHERE id LIKE 'lead_%' OR lead_id IS NOT NULL)::int AS site_leads,
       COUNT(*) FILTER (WHERE external_uid IS NOT NULL)::int AS imap_messages,
       COUNT(*) FILTER (
-        WHERE id LIKE 'lead_%' AND created_at > NOW() - INTERVAL '7 days'
+        WHERE (id LIKE 'lead_%' OR lead_id IS NOT NULL) AND created_at > NOW() - INTERVAL '7 days'
       )::int AS site_last_7d
     FROM mailbox_messages
   `;
@@ -145,6 +303,8 @@ async function getMessageById(id) {
 module.exports = {
   ensureMailboxSchema,
   importLeadMessages,
+  syncLeadToMailbox,
+  upsertLeadMailboxRow,
   listMessages,
   saveOutbound,
   getMessageById,

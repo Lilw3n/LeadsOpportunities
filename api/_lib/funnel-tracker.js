@@ -147,6 +147,13 @@ async function recordFunnelEvent(sql, input) {
     /* table optionnelle ou lead_id UUID incompatible */
   }
 
+  try {
+    const { syncLeadToMailbox } = require("./mail-store");
+    await syncLeadToMailbox(sql, leadId);
+  } catch (mbErr) {
+    console.warn("[funnel] mailbox sync", mbErr.message);
+  }
+
   return { leadId: leadId, pipelineStage: pipelineStage, payload: merged };
 }
 

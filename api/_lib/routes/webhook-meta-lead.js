@@ -157,6 +157,13 @@ async function ingestMetaLeadEvent(webhookValue) {
   }
   enriched._crmContactId = crmContactId;
 
+  try {
+    const { syncLeadToMailbox } = require("../mail-store");
+    await syncLeadToMailbox(sql, leadId);
+  } catch (mbErr) {
+    console.warn("[meta-lead] mailbox sync", mbErr.message);
+  }
+
   await finalizeLeadIngest(enriched, leadId, score, null);
 
   return {

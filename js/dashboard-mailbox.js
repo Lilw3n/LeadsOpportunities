@@ -38,7 +38,7 @@
     all: [],
     filtered: [],
     threads: [],
-    view: "received",
+    view: "feed",
     selectedId: null,
     selectedThreadKey: null,
     search: "",
@@ -136,13 +136,15 @@
   }
 
   function leadIdFromMessage(m) {
-    if (!m || String(m.id || "").indexOf("lead_") !== 0) return null;
-    return String(m.id).slice(5);
+    if (!m) return null;
+    if (m.lead_id) return String(m.lead_id);
+    if (String(m.id || "").indexOf("lead_") === 0) return String(m.id).slice(5);
+    return null;
   }
 
   function messagePreview(m) {
     var t = (m.body_text || "").replace(/\s+/g, " ").trim();
-    if (t.charAt(0) === "{") {
+    if (t.indexOf("=== Demande formulaire") === 0 || t.charAt(0) === "{") {
       var p = parseLeadPayload(m.body_text);
       if (p) {
         return (
@@ -150,7 +152,17 @@
           "Demande formulaire"
         );
       }
-      return "Demande formulaire";
+      var stepMatch = t.match(/Étape\s*:\s*(\d+)\s*\/\s*(\d+)/i);
+      if (stepMatch) {
+        return (
+          (m.subject || "Questionnaire").replace(/\s+/g, " ").trim() +
+          " · étape " +
+          stepMatch[1] +
+          "/" +
+          stepMatch[2]
+        );
+      }
+      return (m.subject || "Demande formulaire").replace(/\s+/g, " ").trim();
     }
     if (!t && m.body_html) {
       t = String(m.body_html)
@@ -163,6 +175,11 @@
 
   function messageBodyForDisplay(m) {
     var t = (m.body_text || "").trim();
+    if (t.indexOf("=== Demande formulaire") === 0) {
+      var cut = t.indexOf("--- Données JSON ---");
+      if (cut > 0) return t.slice(0, cut).trim();
+      return t;
+    }
     if (t.charAt(0) === "{") {
       var p = parseLeadPayload(m.body_text);
       if (p) {
@@ -288,7 +305,7 @@
   }
 
   function setView(view) {
-    state.view = view || "received";
+    state.view = view || "feed";
     document.querySelectorAll(".mbx-view-tab").forEach(function (b) {
       b.classList.toggle("is-active", b.getAttribute("data-view") === state.view);
     });
@@ -440,7 +457,13 @@
     }
 
     if (!threads.length) {
-      list.innerHTML = '<div class="mbx-empty" style="padding:32px 16px"><p>Aucune conversation.</p></div>';
+      var siteN = (state.stats && state.stats.siteLeads) || 0;
+      list.innerHTML =
+        '<div class="mbx-empty" style="padding:32px 16px"><p>Aucune conversation.</p>' +
+        (siteN > 0
+          ? "<p>Essayez l'onglet <strong>Site</strong> (" + siteN + " demande(s)).</p>"
+          : "<p>Verifiez DATABASE_URL et <code>site_leads.sql</code> sur Neon.</p>") +
+        "</div>";
       return;
     }
 
@@ -486,8 +509,15 @@
     var list = document.getElementById("mailboxList");
     if (!list || !state.filtered.length) {
       if (list) {
+        var siteN = (state.stats && state.stats.siteLeads) || 0;
         list.innerHTML =
-          '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail recu. Synchronisez IMAP.</p></div>';
+          '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail IMAP recu.</p>' +
+          (siteN > 0
+            ? "<p><strong>" +
+              siteN +
+              ' questionnaire(s) site</strong> — onglet <em>Fil Q&amp;R</em> ou <em>Site</em>.</p>'
+            : "<p>Les formulaires apparaissent dans <em>Fil Q&amp;R</em> des qu'ils sont enregistres en base.</p>") +
+          "</div>";
       }
       return;
     }
@@ -1026,13 +1056,21 @@
     renderSetup(data);
     updateStatusBar();
 
+    var siteN = (state.stats && state.stats.siteLeads) || 0;
     var sub = document.getElementById("mailboxSubtitle");
     if (sub) {
       sub.textContent =
         state.all.filter(isReceivedMail).length +
-        " recus · " +
+        " e-mails recus · " +
+        siteN +
+        " questionnaire(s) site · " +
         countNeedsReply() +
-        " a repondre · fil Q&R";
+        " a repondre";
+    }
+
+    if (siteN > 0 && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
+      sessionStorage.setItem("mbx_site_hint", "1");
+      toast(siteN + " questionnaire(s) dans Fil Q&R ou onglet Site", "success");
     }
 
     if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
@@ -1350,7 +1388,7 @@
 
     syncStripeIntervalVisibility();
     syncStripeLabelFromKind();
-    setView("received");
+    setView("feed");
   }
 
   window.loadMailbox = loadMailbox;

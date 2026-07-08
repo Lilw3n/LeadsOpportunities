@@ -15,7 +15,9 @@
 --   2. database/site_leads.sql
 --   3. database/crm-acquisition-bootstrap.sql
 --   4. database/crm.sql
+--   5. database/mailbox.sql (messagerie dashboard — formulaires visibles dans Fil Q&R)
 
 -- Vérification rapide après migration :
 --   SELECT COUNT(*) FROM site_leads;
 --   SELECT COUNT(*) FROM crm_contacts;
+--   SELECT COUNT(*) FROM mailbox_messages WHERE id LIKE 'lead_%';

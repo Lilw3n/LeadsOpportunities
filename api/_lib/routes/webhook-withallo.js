@@ -252,6 +252,16 @@ module.exports = async (req, res) => {
     }
   }
 
+  if (stored && dbUrl) {
+    try {
+      const { neon } = require("@neondatabase/serverless");
+      const { syncLeadToMailbox } = require("../mail-store");
+      await syncLeadToMailbox(neon(dbUrl), leadId);
+    } catch (mbErr) {
+      console.warn("[withallo] mailbox sync", mbErr.message);
+    }
+  }
+
   return res.status(200).json({
     ok: true,
     leadId: leadId,
