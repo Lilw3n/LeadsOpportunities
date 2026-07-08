@@ -50,6 +50,30 @@ function mergeWithQuotas(buckets, quotas) {
   return merged;
 }
 
+function candidateDedupeKeys(candidate) {
+  return [
+    String(candidate.url || "").trim().toLowerCase(),
+    String(candidate.title || "").toLowerCase().replace(/\s+/g, " ").trim(),
+    String(candidate.suggestedFile || "").trim().toLowerCase(),
+  ].filter(Boolean);
+}
+
+function dedupeAcrossSources(candidates) {
+  var seen = new Set();
+  return candidates.filter(function (candidate) {
+    var keys = candidateDedupeKeys(candidate);
+    if (!keys.length) return false;
+    var alreadySeen = keys.some(function (key) {
+      return seen.has(key);
+    });
+    if (alreadySeen) return false;
+    keys.forEach(function (key) {
+      seen.add(key);
+    });
+    return true;
+  });
+}
+
 function ingestQueueItem(item, buckets, processed) {
   if (isPlaceholderQueueItem(item)) return;
   if (item.status === "published" || item.status === "rejected") return;
@@ -196,7 +220,7 @@ async function main() {
     });
   });
 
-  var deduped = mergeWithQuotas(buckets, quotas);
+  var deduped = dedupeAcrossSources(mergeWithQuotas(buckets, quotas));
 
   writeJson("blog-actu-candidates.json", {
     updated: new Date().toISOString(),

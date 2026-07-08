@@ -24,10 +24,19 @@ function normalizeTitle(t) {
 function dedupeRankedCandidates(candidates) {
   var seen = new Set();
   return candidates.filter(function (c) {
-    var key = normalizeTitle(c.title);
-    if (!key) key = String(c.url || "").trim().toLowerCase();
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
+    var keys = [
+      normalizeTitle(c.title),
+      String(c.url || "").trim().toLowerCase(),
+      String(c.suggestedFile || "").trim().toLowerCase(),
+    ].filter(Boolean);
+    if (!keys.length) return false;
+    var alreadySeen = keys.some(function (key) {
+      return seen.has(key);
+    });
+    if (alreadySeen) return false;
+    keys.forEach(function (key) {
+      seen.add(key);
+    });
     return true;
   });
 }

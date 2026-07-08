@@ -55,7 +55,11 @@ function normalizeTitle(t) {
 }
 
 function candidateUsedKeys(c) {
-  return [String(c.url || "").trim().toLowerCase(), normalizeTitle(c.title)].filter(Boolean);
+  return [
+    String(c.url || "").trim().toLowerCase(),
+    normalizeTitle(c.title),
+    String(c.suggestedFile || "").trim().toLowerCase(),
+  ].filter(Boolean);
 }
 
 function isCandidateUsed(c, used) {
