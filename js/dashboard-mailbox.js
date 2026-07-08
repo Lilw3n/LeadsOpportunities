@@ -81,6 +81,30 @@
     return "inbound";
   }
 
+  function siteLeadKind(m) {
+    if (!m || messageKind(m) !== "site") return null;
+    if (m.category === "questionnaire" || m.category === "contact_request") return m.category;
+    var sub = String(m.subject || "").toLowerCase();
+    if (sub.indexOf("demande de contact") >= 0 || sub.indexOf("rappel express") >= 0) {
+      return "contact_request";
+    }
+    if (sub.indexOf("questionnaire") >= 0) return "questionnaire";
+    var body = String(m.body_text || "");
+    if (body.indexOf("Type: Rappel express") >= 0 || body.indexOf("Type: Demande de contact") >= 0) {
+      return "contact_request";
+    }
+    if (body.indexOf("Type: Questionnaire") >= 0) return "questionnaire";
+    return "questionnaire";
+  }
+
+  function isSiteQuestionnaire(m) {
+    return messageKind(m) === "site" && siteLeadKind(m) === "questionnaire";
+  }
+
+  function isSiteContactRequest(m) {
+    return messageKind(m) === "site" && siteLeadKind(m) === "contact_request";
+  }
+
   function isReceivedMail(m) {
     return messageKind(m) === "imap" || (m.direction === "inbound" && messageKind(m) !== "site");
   }
@@ -144,7 +168,7 @@
 
   function messagePreview(m) {
     var t = (m.body_text || "").replace(/\s+/g, " ").trim();
-    if (t.indexOf("=== Demande formulaire") === 0 || t.charAt(0) === "{") {
+    if (t.indexOf("===") === 0 || t.charAt(0) === "{") {
       var p = parseLeadPayload(m.body_text);
       if (p) {
         return (
@@ -175,6 +199,11 @@
 
   function messageBodyForDisplay(m) {
     var t = (m.body_text || "").trim();
+    if (t.indexOf("===") === 0) {
+      var cut = t.indexOf("--- Données JSON ---");
+      if (cut > 0) return t.slice(0, cut).trim();
+      return t;
+    }
     if (t.indexOf("=== Demande formulaire") === 0) {
       var cut = t.indexOf("--- Données JSON ---");
       if (cut > 0) return t.slice(0, cut).trim();
@@ -239,6 +268,8 @@
       t.hasSite = t.messages.some(function (m) {
         return messageKind(m) === "site";
       });
+      t.hasQuestionnaire = t.messages.some(isSiteQuestionnaire);
+      t.hasContactRequest = t.messages.some(isSiteContactRequest);
       var subjIn = t.messages
         .slice()
         .reverse()
@@ -276,6 +307,10 @@
 
     if (state.view === "received") {
       pool = pool.filter(isReceivedMail);
+    } else if (state.view === "questionnaires") {
+      pool = pool.filter(isSiteQuestionnaire);
+    } else if (state.view === "contact_requests") {
+      pool = pool.filter(isSiteContactRequest);
     } else if (state.view === "site") {
       pool = pool.filter(function (m) {
         return messageKind(m) === "site";
@@ -316,8 +351,10 @@
     if (hint) {
       var hints = {
         received: "E-mails recus sur contact@",
-        feed: "Conversations question → reponse",
-        site: "Leads formulaire uniquement",
+        feed: "E-mails + questionnaires + demandes de contact",
+        questionnaires: "Parcours devis / questionnaires multi-etapes",
+        contact_requests: "Formulaire contact accueil, rappel express, message libre",
+        site: "Tous les leads site (legacy)",
         sent: "Vos reponses envoyees",
       };
       hint.textContent = hints[state.view] || "";
@@ -354,6 +391,8 @@
     };
     el("mbxStatReceived", received || s.imapMessages || 0);
     el("mbxStatThreads", threads);
+    el("mbxStatQuestionnaires", s.questionnaires != null ? s.questionnaires : "—");
+    el("mbxStatContactRequests", s.contactRequests != null ? s.contactRequests : "—");
     el("mbxStatSite", s.siteLeads);
     el("mbxStatOut", s.outbound);
     updateNavBadge();
@@ -477,6 +516,12 @@
     var siteOnly = threads.filter(function (t) {
       return !t.hasImap && t.hasSite;
     });
+    var questionnairesOnly = threads.filter(function (t) {
+      return !t.hasImap && t.hasQuestionnaire;
+    });
+    var contactOnly = threads.filter(function (t) {
+      return !t.hasImap && t.hasContactRequest && !t.hasQuestionnaire;
+    });
 
     function block(label, items) {
       if (!items.length) return "";
@@ -490,7 +535,8 @@
     if (state.view === "feed") {
       html += block("A repondre — e-mail recu", urgent);
       html += block("Conversations e-mail", mail);
-      html += block("Demandes site", siteOnly);
+      html += block("Questionnaires remplis", questionnairesOnly);
+      html += block("Demandes de contact / rappel", contactOnly);
     } else {
       threads.forEach(function (t) {
         html += renderThreadCard(t, state.selectedThreadKey === t.key);
@@ -510,13 +556,19 @@
     if (!list || !state.filtered.length) {
       if (list) {
         var siteN = (state.stats && state.stats.siteLeads) || 0;
+        var qN = (state.stats && state.stats.questionnaires) || 0;
+        var cN = (state.stats && state.stats.contactRequests) || 0;
         list.innerHTML =
           '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail IMAP recu.</p>' +
-          (siteN > 0
+          (qN > 0 || cN > 0
             ? "<p><strong>" +
-              siteN +
-              ' questionnaire(s) site</strong> — onglet <em>Fil Q&amp;R</em> ou <em>Site</em>.</p>'
-            : "<p>Les formulaires apparaissent dans <em>Fil Q&amp;R</em> des qu'ils sont enregistres en base.</p>") +
+              qN +
+              " questionnaire(s)</strong> · <strong>" +
+              cN +
+              " demande(s) contact</strong> — onglets dedies ou <em>Fil Q&amp;R</em>.</p>"
+            : siteN > 0
+              ? "<p><strong>" + siteN + " lead(s) site</strong> — voir Fil Q&amp;R.</p>"
+              : "<p>Les formulaires apparaissent apres enregistrement en base (DATABASE_URL).</p>") +
           "</div>";
       }
       return;
@@ -568,11 +620,27 @@
     }
     if (state.view === "feed") renderThreadList();
     else if (state.view === "received") renderMessageList();
-    else if (state.view === "site" || state.view === "sent") {
-      if (state.view === "site" || state.view === "sent") {
+    else if (
+      state.view === "questionnaires" ||
+      state.view === "contact_requests" ||
+      state.view === "site" ||
+      state.view === "sent"
+    ) {
+      if (
+        state.view === "questionnaires" ||
+        state.view === "contact_requests" ||
+        state.view === "site" ||
+        state.view === "sent"
+      ) {
         var list = document.getElementById("mailboxList");
         if (!state.filtered.length) {
-          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>Rien ici.</p></div>';
+          var emptyMsg =
+            state.view === "questionnaires"
+              ? "Aucun questionnaire enregistre."
+              : state.view === "contact_requests"
+                ? "Aucune demande de contact / rappel express."
+                : "Rien ici.";
+          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>' + emptyMsg + "</p></div>";
           return;
         }
         list.innerHTML = state.filtered
@@ -1057,20 +1125,24 @@
     updateStatusBar();
 
     var siteN = (state.stats && state.stats.siteLeads) || 0;
+    var qN = (state.stats && state.stats.questionnaires) || 0;
+    var cN = (state.stats && state.stats.contactRequests) || 0;
     var sub = document.getElementById("mailboxSubtitle");
     if (sub) {
       sub.textContent =
         state.all.filter(isReceivedMail).length +
-        " e-mails recus · " +
-        siteN +
-        " questionnaire(s) site · " +
+        " e-mails · " +
+        qN +
+        " questionnaire(s) · " +
+        cN +
+        " contact(s) · " +
         countNeedsReply() +
         " a repondre";
     }
 
-    if (siteN > 0 && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
+    if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
       sessionStorage.setItem("mbx_site_hint", "1");
-      toast(siteN + " questionnaire(s) dans Fil Q&R ou onglet Site", "success");
+      toast(qN + " questionnaire(s) · " + cN + " demande(s) contact — voir onglets dedies", "success");
     }
 
     if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {

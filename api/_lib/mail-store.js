@@ -1,15 +1,10 @@
 const { randomUUID } = require("crypto");
 const { getSql } = require("./db");
-
-function parsePayloadSafe(raw) {
-  if (!raw) return {};
-  if (typeof raw === "object") return raw;
-  try {
-    return JSON.parse(raw);
-  } catch (e) {
-    return {};
-  }
-}
+const {
+  parsePayloadSafe,
+  classifyLeadInboxKind,
+  subjectForKind,
+} = require("./lead-inbox-kind");
 
 function leadFromAddr(row, payload) {
   var email = (row.email || payload.email || "").trim();
@@ -29,24 +24,18 @@ function leadThreadKey(row, payload) {
   return String(row.id || randomUUID());
 }
 
-function leadSubject(row, payload) {
-  var vertical = row.vertical || payload.vertical || payload.need || "lead";
-  var step = Number(row.questionnaire_step || payload.questionnaire_step || payload.step || 0);
-  var total = Number(row.questionnaire_total || payload.questionnaire_total || payload.step_total || 10) || 10;
-  var suffix = step > 0 ? " — étape " + step + "/" + total : "";
-  var name = [payload.firstName || payload.first_name, payload.lastName || payload.last_name]
-    .filter(Boolean)
-    .join(" ")
-    .trim();
-  if (name) return "Questionnaire " + vertical + " — " + name + suffix;
-  return "Questionnaire — " + vertical + suffix;
-}
-
-function formatLeadBodyText(row, payload) {
+function formatLeadBodyText(row, payload, kind) {
   var step = Number(row.questionnaire_step || payload.questionnaire_step || payload.step || 0);
   var total = Number(row.questionnaire_total || payload.questionnaire_total || 10) || 10;
+  var typeLabel =
+    kind === "contact_request"
+      ? payload.callbackRequested || String(payload.journey || "") === "callback"
+        ? "Rappel express"
+        : "Demande de contact"
+      : "Questionnaire";
   var lines = [
-    "=== Demande formulaire / questionnaire ===",
+    "=== " + typeLabel + " ===",
+    "Type: " + typeLabel,
     "ID lead : " + row.id,
     "Vertical : " + (row.vertical || payload.vertical || "—"),
     "Source : " + (row.source || payload.source || "site"),
@@ -56,6 +45,7 @@ function formatLeadBodyText(row, payload) {
     "Score : " + (row.lead_score != null ? row.lead_score : payload.leadScore != null ? payload.leadScore : "—"),
     "Ville : " + (row.city || payload.city || "—"),
     "Code postal : " + (row.postal_code || payload.postal_code || payload.postalCode || "—"),
+    "Message : " + (payload.message || payload.comment || "—"),
     "Créé le : " + (row.created_at ? new Date(row.created_at).toISOString() : "—"),
     "",
     "Ouvrir : /crm-lead-detail.html?id=" + row.id,
@@ -70,16 +60,17 @@ async function upsertLeadMailboxRow(sql, row) {
   if (!sql || !row || !row.id) return false;
   const mailbox = process.env.MAILBOX_ADDRESS || "contact@leadsopportunities.fr";
   const payload = parsePayloadSafe(row.payload);
+  const kind = classifyLeadInboxKind(row, payload);
   const id = "lead_" + row.id;
   const fromAddr = leadFromAddr(row, payload);
-  const subject = leadSubject(row, payload);
-  const bodyText = formatLeadBodyText(row, payload);
+  const subject = subjectForKind(kind, row, payload);
+  const bodyText = formatLeadBodyText(row, payload, kind);
   const threadKey = leadThreadKey(row, payload);
   const createdAt = row.created_at || new Date().toISOString();
 
   await sql`
     INSERT INTO mailbox_messages (
-      id, direction, from_addr, to_addr, subject, body_text, thread_key, lead_id, created_at
+      id, direction, from_addr, to_addr, subject, body_text, thread_key, lead_id, category, created_at
     ) VALUES (
       ${id},
       'inbound',
@@ -89,6 +80,7 @@ async function upsertLeadMailboxRow(sql, row) {
       ${bodyText},
       ${threadKey},
       ${row.id},
+      ${kind},
       ${createdAt}
     )
     ON CONFLICT (id) DO UPDATE SET
@@ -96,7 +88,8 @@ async function upsertLeadMailboxRow(sql, row) {
       subject = EXCLUDED.subject,
       body_text = EXCLUDED.body_text,
       thread_key = EXCLUDED.thread_key,
-      lead_id = EXCLUDED.lead_id
+      lead_id = EXCLUDED.lead_id,
+      category = EXCLUDED.category
   `;
   return true;
 }
@@ -149,9 +142,11 @@ async function ensureMailboxSchema(sql) {
       message_id TEXT,
       in_reply_to TEXT,
       lead_id TEXT,
+      category TEXT,
       created_at TIMESTAMPTZ DEFAULT NOW()
     )
   `;
+  await sql`ALTER TABLE mailbox_messages ADD COLUMN IF NOT EXISTS category TEXT`;
   await sql`
     CREATE INDEX IF NOT EXISTS idx_mailbox_created ON mailbox_messages (created_at DESC)
   `;
@@ -235,7 +230,7 @@ async function listMessages(limit, offset) {
 
   const rows = await sql`
     SELECT id, direction, from_addr, to_addr, subject, body_text, body_html,
-           thread_key, message_id, in_reply_to, lead_id, external_uid, created_at
+           thread_key, message_id, in_reply_to, lead_id, category, external_uid, created_at
     FROM mailbox_messages
     ORDER BY created_at DESC
     LIMIT ${lim} OFFSET ${off}
@@ -246,6 +241,12 @@ async function listMessages(limit, offset) {
       COUNT(*) FILTER (WHERE direction = 'inbound')::int AS inbound,
       COUNT(*) FILTER (WHERE direction = 'outbound')::int AS outbound,
       COUNT(*) FILTER (WHERE id LIKE 'lead_%' OR lead_id IS NOT NULL)::int AS site_leads,
+      COUNT(*) FILTER (
+        WHERE category = 'questionnaire' OR (category IS NULL AND (id LIKE 'lead_%' OR lead_id IS NOT NULL) AND subject ILIKE '%questionnaire%')
+      )::int AS questionnaires,
+      COUNT(*) FILTER (
+        WHERE category = 'contact_request' OR (category IS NULL AND subject ILIKE '%demande de contact%' OR subject ILIKE '%rappel express%')
+      )::int AS contact_requests,
       COUNT(*) FILTER (WHERE external_uid IS NOT NULL)::int AS imap_messages,
       COUNT(*) FILTER (
         WHERE (id LIKE 'lead_%' OR lead_id IS NOT NULL) AND created_at > NOW() - INTERVAL '7 days'
@@ -261,6 +262,8 @@ async function listMessages(limit, offset) {
       inbound: s.inbound || 0,
       outbound: s.outbound || 0,
       siteLeads: s.site_leads || 0,
+      questionnaires: s.questionnaires || 0,
+      contactRequests: s.contact_requests || 0,
       imapMessages: s.imap_messages || 0,
       siteLast7d: s.site_last_7d || 0,
     },
