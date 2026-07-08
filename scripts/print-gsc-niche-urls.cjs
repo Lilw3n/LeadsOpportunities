@@ -13,6 +13,8 @@ var urls = markets.indexationWeek1.concat(
   "/assurance-chien/paris/",
   "/assurance-chat/paris/",
   "/landings/animaux-express.html",
+  "/landings/chasse.html",
+  "/landings/equitation.html",
   "/landings/devis.html?need=chasse",
   "/landings/devis.html?need=equitation"
 );

@@ -254,7 +254,7 @@
         esc(logoBase(el) + file) +
         '" alt="' +
         esc(p.name) +
-        '" loading="lazy" decoding="async">'
+        '" width="148" height="40" loading="lazy" decoding="async">'
       );
     }
     return '<span class="partner-card-logo" aria-hidden="true">' + esc(p.logo) + "</span>";
@@ -450,7 +450,7 @@
       if (layout === "auto") {
         layout = ctx === "default" ? "showcase" : "featured";
       }
-      el.classList.add("partners-trust-section");
+      el.classList.add("partners-trust-section", "partners-mounted");
       el.innerHTML = renderMarkup(ctx, layout, el);
     });
   }

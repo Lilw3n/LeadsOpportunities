@@ -1,4 +1,15 @@
 /* Acteurs assurance / partenaires — mise en avant */
+section[data-partners-trust][data-partners-layout="showcase"]:not(.partners-mounted) {
+  min-height: 720px;
+  contain: layout style;
+}
+
+@media (max-width: 768px) {
+  section[data-partners-trust][data-partners-layout="showcase"]:not(.partners-mounted) {
+    min-height: 960px;
+  }
+}
+
 .partners-trust-section {
   padding: 56px 0;
   background: linear-gradient(180deg, #f0fdfa 0%, #f8fafc 40%, #fff 100%);

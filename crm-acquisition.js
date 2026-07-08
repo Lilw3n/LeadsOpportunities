@@ -11,6 +11,10 @@
   var filterDormant = false;
   var filterTime = "";
   var filterView = localStorage.getItem("lo_acq_view") || "active";
+  var urlView = new URLSearchParams(location.search).get("view");
+  if (urlView && ["active", "all", "archived", "unopened", "interesting", "unarchived"].indexOf(urlView) >= 0) {
+    filterView = urlView;
+  }
   var searchQ = "";
   var soundOn = localStorage.getItem("lo_acq_sound") === "1";
   var seenLeadIds = [];

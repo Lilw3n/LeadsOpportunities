@@ -532,7 +532,7 @@ const GEO_PRODUCTS = [
     siloUrl: "/assurance-chasse/",
     hubUrl: "/assurance-chasse/villes/",
     hubDeptUrl: "/assurance-chasse/departements/",
-    landing: "/landings/devis.html?need=chasse",
+    landing: "/landings/chasse.html",
     ctaLabel: function (city) {
       return "Devis chasse " + city.name;
     },
@@ -575,7 +575,7 @@ const GEO_PRODUCTS = [
     siloUrl: "/assurance-equitation/",
     hubUrl: "/assurance-equitation/villes/",
     hubDeptUrl: "/assurance-equitation/departements/",
-    landing: "/landings/devis.html?need=equitation",
+    landing: "/landings/equitation.html",
     ctaLabel: function (city) {
       return "Devis equitation " + city.name;
     },
@@ -1177,6 +1177,8 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/devis-rapide.html", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/landings/animaux.html", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/landings/animaux-express.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/chasse.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/equitation.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/villes/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/chien/", priority: "0.9", changefreq: "weekly" },

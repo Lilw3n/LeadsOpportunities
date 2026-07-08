@@ -113,6 +113,10 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
-    fetchHint();
+    if (typeof window.scheduleIdle === "function") {
+      window.scheduleIdle(fetchHint, 2000);
+    } else {
+      setTimeout(fetchHint, 1200);
+    }
   });
 })();

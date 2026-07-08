@@ -34,7 +34,10 @@ Dans Search Console → **Inspection de l’URL**, testez puis **Demander l’in
 | 7 | `https://www.leadsopportunities.fr/landings/devis.html` |
 | 8 | `https://www.leadsopportunities.fr/blog/mutuelle-collective-obligations-employeur-ani.html` |
 | 9 | `https://www.leadsopportunities.fr/france/` |
-| 10 | `https://www.leadsopportunities.fr/blog/` |
+| 11 | `https://www.leadsopportunities.fr/landings/chasse.html` |
+| 12 | `https://www.leadsopportunities.fr/landings/equitation.html` |
+| 13 | `https://www.leadsopportunities.fr/assurance-chasse/` |
+| 14 | `https://www.leadsopportunities.fr/assurance-equitation/` |
 
 Limite Google : quelques dizaines de demandes par jour — concentrez-vous sur l’accueil et les landings d’abord.
 

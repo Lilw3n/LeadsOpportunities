@@ -7,7 +7,7 @@ const { applyApiGuards } = require("../security");
 module.exports = function googleConfigEnv(req, res) {
   applyApiGuards(req, res);
   res.setHeader("Content-Type", "application/javascript; charset=utf-8");
-  res.setHeader("Cache-Control", "public, max-age=120");
+  res.setHeader("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
 
   var fromEnv = {
     ga4MeasurementId: String(process.env.GA4_MEASUREMENT_ID || "").trim(),

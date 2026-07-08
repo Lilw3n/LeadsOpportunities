@@ -37,7 +37,7 @@
       "longTail": ["rc chasseur", "assurance chasse pas cher", "assurance chien de chasse", "responsabilité chasseur"],
       "pillarUrl": "/assurance-chasse/",
       "moneyUrls": ["/assurance-chasse/rc-chasseur/", "/assurance-chasse/chien-chasse/", "/assurance-chasse/paris/", "/assurance-chasse/villes/"],
-      "landing": "/landings/devis.html?need=chasse",
+      "landing": "/landings/chasse.html",
       "pageCount": 195,
       "whyWin": "Très peu de comparateurs SEO — 189 pages ville déjà générées"
     },
@@ -51,7 +51,7 @@
       "longTail": ["rc équestre", "assurance cheval", "assurance centre équestre", "assurance cheval pas cher"],
       "pillarUrl": "/assurance-equitation/",
       "moneyUrls": ["/assurance-equitation/rc-equestre/", "/assurance-equitation/cheval/", "/assurance-equitation/lyon/", "/assurance-equitation/villes/"],
-      "landing": "/landings/devis.html?need=equitation",
+      "landing": "/landings/equitation.html",
       "pageCount": 195,
       "whyWin": "Intent forte, pages ville rares chez les gros acteurs"
     },

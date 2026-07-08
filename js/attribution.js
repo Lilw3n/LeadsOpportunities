@@ -536,13 +536,20 @@
   try {
     window.dispatchEvent(new CustomEvent("lo:attribution-ready"));
   } catch (e) {}
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-      sendTouchpoint();
-      bindJourneyTracking();
-    });
-  } else {
+  function bootTracking() {
     sendTouchpoint();
     bindJourneyTracking();
+  }
+  function scheduleBoot() {
+    if (typeof window.scheduleIdle === "function") {
+      window.scheduleIdle(bootTracking, 3000);
+    } else {
+      setTimeout(bootTracking, 1500);
+    }
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", scheduleBoot);
+  } else {
+    scheduleBoot();
   }
 })();

@@ -218,6 +218,9 @@
           <a class="services-pill" href="./landings/sante.html">Sante &amp; prevoyance</a>
           <a class="services-pill" href="./landings/credit-immo.html">Credit immo</a>
           <a class="services-pill" href="./assurance-habitation/">Habitation</a>
+          <a class="services-pill" href="./landings/animaux.html">Animaux</a>
+          <a class="services-pill" href="./landings/chasse.html">Chasse</a>
+          <a class="services-pill" href="./landings/equitation.html">Équitation</a>
           <a class="services-pill" href="./assurances/">RC Pro</a>
           <a class="services-pill" href="./assurances/">Patrimoine</a>
         </div>
@@ -664,15 +667,20 @@
                 <input type="text" id="website_hp" name="_hp" tabindex="-1" autocomplete="off" />
               </div>
               <div class="form-row">
-                <input type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
-                <input type="tel" name="phone" autocomplete="tel" placeholder="Telephone" required />
+                <label class="sr-only" for="contactFullName">Nom et prénom</label>
+                <input id="contactFullName" type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
+                <label class="sr-only" for="contactPhone">Téléphone</label>
+                <input id="contactPhone" type="tel" name="phone" autocomplete="tel" placeholder="Telephone" required />
               </div>
-              <input type="email" name="email" autocomplete="email" placeholder="Adresse e-mail" required />
-              <select name="need" required>
+              <label class="sr-only" for="contactEmail">Adresse e-mail</label>
+              <input id="contactEmail" type="email" name="email" autocomplete="email" placeholder="Adresse e-mail" required />
+              <label class="sr-only" for="contactNeed">Votre besoin</label>
+              <select id="contactNeed" name="need" required>
                 <option value="">Quel est votre besoin ?</option>
               </select>
               <p class="form-hint"><a href="./assurances/">Voir toutes nos assurances</a></p>
-              <textarea name="message" rows="3" placeholder="Precision utile (facultatif)"></textarea>
+              <label class="sr-only" for="contactMessage">Précision utile</label>
+              <textarea id="contactMessage" name="message" rows="3" placeholder="Precision utile (facultatif)"></textarea>
               <label class="field-check">
                 <input type="checkbox" name="rgpd" value="1" required />
                 <span>J accepte que mes informations soient utilisees pour repondre a ma demande, conformement a la <a href="./politique-confidentialite.html">politique de confidentialite</a>.</span>
@@ -716,7 +724,6 @@
           <a href="./landings/vtc.html">Assurance VTC</a>
           <a href="./landings/sante.html">Mutuelle Sante</a>
           <a href="./landings/credit-immo.html">Credit Immobilier</a>
-          <a href="./assurance-animaux/">Assurance animaux</a>
           <a href="./assurance-animaux/">Assurance animaux</a>
           <a href="./assurance-chasse/">Assurance chasse</a>
           <a href="./assurance-equitation/">Assurance équitation</a>
@@ -803,6 +810,7 @@
       }
     }
   </script>
+  <script src="./js/schedule-idle.js"></script>
   <script src="./js/service-catalog.js"></script>
   <script src="./js/contact-needs.js"></script>
   <script src="./js/france-seo-meta.js"></script>
@@ -810,9 +818,21 @@
   <script src="./js/leads-storage.js"></script>
   <script src="./js/cookie-banner.js"></script>
   <script src="./js/geo-france-guard.js"></script>
-  <script src="./js/lead-insights.js"></script>
-  <script src="./js/admin-nav.js"></script>
-  <script src="./js/public-partners-trust.js"></script>
+  <script src="./js/lead-insights.js" defer></script>
+  <script>
+    (function () {
+      try {
+        if (!localStorage.getItem("lo_token")) return;
+      } catch (e) {
+        return;
+      }
+      var s = document.createElement("script");
+      s.src = "./js/admin-nav.js";
+      s.defer = true;
+      document.head.appendChild(s);
+    })();
+  </script>
+  <script src="./js/public-partners-trust.js" defer></script>
   <script src="./js/callback-form.js"></script>
   <script src="./js/public-proximity.js?v=20260528"></script>
   <script src="./js/acquisition-focus.js"></script>
