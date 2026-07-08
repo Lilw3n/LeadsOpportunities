@@ -1,0 +1,81 @@
+{
+  "date": "2026-07-08",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con",
+      "title": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les capitaux importants - L'Argus de l'assurance",
+      "url": "https://news.google.com/rss/articles/CBMiuAJBVV95cUxPLVA0aFZHWVhKVjdzRjVYTnk4cjh5YnpLb1pHZHZfT29LRU9YeVN2ejQtcnVBQ1NvSk9iVWVIQ3FMTXFEZzZ0T3laenZTajhTeTEyU2lvVGxUUFNNRXo1a2hvVlU5MXlVck9fM1JyeGJJTXRqM1Z4Y1o3dkZaeXdoZS0yUDZieEpONUcwX2tLU01RVHJCX3pzRzl4a09wTzNRS3lVTFJ6bHVnQUhSUHh4dlI1dF9XcnJGMEpuY29GZ29RdlQ1SmRlNVNGTDJZa3JPTDBfTjBzZmdiN3o5aHRuTGRvXzhBeTVXNzVYVkhnSDk1cjN0cmpyREpwZkEzUjNOV3lrWDlEMUVwazBrM1Z5LWE4LUtVYlE1RmViUnE2QWVGQkFQdXhnN0lScFJBTEgxakNYSUh6Wi0?oc=5",
+      "summary": "Emprunteur : Allianz France et Magnolia créent un contrat spécialement conçu pour les capitaux importants L'Argus de l'assurance",
+      "pubDate": "Tue, 07 Jul 2026 09:50:57 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "emprunteur-allianz-france-et-magnolia-creent-un-contrat-specialement-con.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-pour-sa-quatrieme-coupe-du-monde-a-le-tete-de-l-equipe-de-france-didier-",
+      "title": "Pour sa quatrième Coupe du monde à le tête de l'équipe de France, Didier Deschamps a mis de côté le contrôle et est passé à l'offensive - L'Équipe",
+      "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxOYkxDQUZHeDR0VWxOck0yZ2FBeERjcWo1dUp4UXd1SVZCcWFjQVRiZzl0VzFjeVRxR0o2dDN1Q19qWHNXbFF0d2YtOXJ4N0lXY3ZQd1hpQ3MtN2VHOTNOcmlPZ2lTRURJZ0lzV3ZZZ3puNWhZQlcwZUgxTVFScldaUDBjYlcwaDNMS0F2ZkJaN01NUjNzVmk1cFpRTWV5bnBsTHVBVkFCd0VtVk9rSzFUdkVIcnZOUm5fYnNVc2JsWW9NcVRJaXRFQldXaFF6ZFdXZ2lNYlBrTk1vTGs5SHViRzlDcGg5Nll0bTdJYjZlUE84aTFRQlpqUVdXX3QyeGJRMS1ybFpuRkFpblVybVNR?oc=5",
+      "summary": "Pour sa quatrième Coupe du monde à le tête de l'équipe de France, Didier Deschamps a mis de côté le contrôle et est passé à l'offensive L'Équipe",
+      "pubDate": "Wed, 08 Jul 2026 05:36:00 GMT",
+      "feedId": "google-news-bleus-joueurs",
+      "feedName": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "google",
+      "suggestedFile": "pour-sa-quatrieme-coupe-du-monde-a-le-tete-de-l-equipe-de-france-didier-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-comprendre-les-etapes-de-gestion-d-un-sinistre",
+      "title": "Assurance : comprendre les étapes de gestion d’un sinistre",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a4df202eee1475c99fbb74021922345&url=https%3a%2f%2fwww.lefigaro.fr%2fbons-plans%2fassurance-comprendre-les-etapes-de-gestion-d-un-sinistre-20260706&c=13232379495558118391&mkt=en-us",
+      "summary": "C’est le principe même d’un sinistre : il survient toujours à l’improviste, laissant les assurés souvent démunis face aux démarches à réaliser. Quels documents fournir ? Combien de temps avant d’être ...",
+      "pubDate": "Mon, 06 Jul 2026 23:57:00 GMT",
+      "feedId": "source-bing-news-sinistre",
+      "feedName": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-comprendre-les-etapes-de-gestion-d-un-sinistre.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-le-ludo-ce-jeu-de-societe-dont-l-equipe-de-france-raffole-pendant-les-tr",
+      "title": "Le Ludo, ce jeu de société dont l’équipe de France raffole pendant les trajets de cette Coupe du monde",
+      "url": "https://www.huffingtonpost.fr/sport/video/le-ludo-ce-jeu-de-societe-dont-l-equipe-de-france-raffole-pendant-les-trajets-de-cette-coupe-du-monde_284999.html",
+      "summary": "Dans les vidéos des coulisses des Bleus pendant la Coupe du monde, on a notamment vu Kylian Mbappé se lancer dans des parties endiablées avec ses coéquipiers.",
+      "pubDate": "Wed, 08 Jul 2026 07:24:07 +0200",
+      "feedId": "source-firefox-huffpost",
+      "feedName": "Firefox — HuffPost",
+      "sourceType": "firefox",
+      "suggestedFile": "le-ludo-ce-jeu-de-societe-dont-l-equipe-de-france-raffole-pendant-les-tr.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-la-france-favorite-de-la-coupe-du-monde-reste-en-lice-grace-au-soutien-d",
+      "title": "La France, favorite de la Coupe du monde, reste en lice… grâce au soutien des supporters locaux - TIME France",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOTHJPODRSSTNWQkNpbzBhV2Vub2ZDWWFhcnFVN0tYZURrdHUyMGJ6dEtQZzZhOUhjamoxYVctdnB0cS0xRmZucHh3dWVyeXhBRWgxWXdzbngyNjBQVDdTSmNSN2RwcUc4RUhfcy1DNV9nS3ZpVjN3M1FhVUFPU2xWQUF2LURLQnA0Nmc1VU9WRXFkMHN2dy1WSzYxSDRjUDRNMnR1dHhfUHEwVUU4cmplNXB0QW1nVGZ3TVdxMUFFUURmQ3VO?oc=5",
+      "summary": "La France, favorite de la Coupe du monde, reste en lice… grâce au soutien des supporters locaux TIME France",
+      "pubDate": "Mon, 06 Jul 2026 12:27:50 GMT",
+      "feedId": "google-news-supporters",
+      "feedName": "Google News — supporters France foot",
+      "sourceType": "google",
+      "suggestedFile": "la-france-favorite-de-la-coupe-du-monde-reste-en-lice-grace-au-soutien-d.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    }
+  ]
+}
