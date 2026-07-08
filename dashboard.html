@@ -2600,9 +2600,12 @@
             '<p style="color:var(--red)">' +
             esc(data.error || "Erreur") +
             (data.detail ? "<br><small>" + esc(data.detail) + "</small>" : "") +
-            '</p><p style="margin-top:12px"><a class="btn btn-ghost" href="./crm-lead-detail.html?id=' +
+            (data.hint ? "<br><small>" + esc(data.hint) + "</small>" : "") +
+            '</p><p style="margin-top:12px">' +
+            '<a class="btn btn-primary" href="./dashboard.html?section=mailbox">Réponses questionnaires (Messagerie)</a> ' +
+            '<a class="btn btn-ghost" href="./crm-lead-detail.html?id=' +
             encodeURIComponent(id) +
-            '">Ouvrir la fiche CRM</a></p>';
+            '">Fiche CRM</a></p>';
           return;
         }
         var l = data.lead;

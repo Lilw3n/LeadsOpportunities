@@ -22,30 +22,17 @@ module.exports = async (req, res) => {
   if (req.method === "GET") {
     try {
       var refresh = String(req.query.refresh || "") === "1";
+      var cached = readJson(ACTIVE_PATH);
+      if (!refresh && cached) {
+        return res.status(200).json({ ok: true, rotation: toCrmPayload(cached) });
+      }
+
       var sql = getSql();
       var state;
       if (refresh) {
         state = await buildAndPersist({ sql: sql });
       } else {
-        state = readJson(ACTIVE_PATH);
-        if (!state) {
-          state = await buildRotationState({ sql: sql });
-        } else if (sql) {
-          var cached = state;
-          try {
-            state = await Promise.race([
-              buildRotationState({ sql: sql }),
-              new Promise(function (_, reject) {
-                setTimeout(function () {
-                  reject(new Error("timeout"));
-                }, 4000);
-              }),
-            ]);
-          } catch (raceErr) {
-            state = cached;
-            console.warn("[crm/meta-rotation] stats timeout, cache utilisé");
-          }
-        }
+        state = cached || (await buildRotationState({ sql: sql }));
       }
       if (!state) state = await buildRotationState({ sql: null });
       return res.status(200).json({ ok: true, rotation: toCrmPayload(state) });

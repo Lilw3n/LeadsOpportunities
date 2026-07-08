@@ -533,24 +533,64 @@
   function loadMetaRotation(refresh) {
     var url = "/api/crm/meta-rotation" + (refresh ? "?refresh=1" : "");
     var body = document.getElementById("metaRotationBody");
-    fetch(url, { headers: authHeaders() })
+    if (!body) return;
+
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = controller
+      ? setTimeout(function () {
+          controller.abort();
+        }, 8000)
+      : null;
+
+    fetch(url, { headers: authHeaders(), signal: controller ? controller.signal : undefined })
       .then(function (r) {
+        if (timer) clearTimeout(timer);
         return r.json().catch(function () {
           return { ok: false, error: "Réponse invalide" };
         });
       })
       .then(function (res) {
         if (!body) return;
-        if (!res.ok || !res.rotation) {
-          body.innerHTML =
-            '<p style="color:#b91c1c">' + esc(res.error || "Rotation indisponible") + "</p>";
+        if (res.ok && res.rotation) {
+          renderMetaRotation(res.rotation);
           return;
         }
-        renderMetaRotation(res.rotation);
+        return fetch("/api/acquisition-focus")
+          .then(function (r2) {
+            return r2.json();
+          })
+          .then(function (focus) {
+            if (!focus || !focus.ok) {
+              body.innerHTML =
+                '<p style="color:#b91c1c">' + esc(res.error || "Rotation indisponible") + "</p>";
+              return;
+            }
+            body.innerHTML =
+              '<div class="acq-stats">' +
+              '<span class="acq-stat">Semaine <strong>S' +
+              esc(focus.cycle_week || focus.week || "—") +
+              "</strong></span>" +
+              '<span class="acq-stat">Vertical <strong>' +
+              esc(focus.vertical || "—") +
+              "</strong></span>" +
+              "</div>" +
+              "<p><strong>" +
+              esc(focus.label || focus.hero_title || "Focus acquisition") +
+              "</strong></p>" +
+              '<p style="color:var(--muted);font-size:.85rem">' +
+              esc(focus.hero_subtitle || "") +
+              ' · <a href="' +
+              esc(focus.landing_path || "./crm-pubs.html") +
+              '">Landing</a></p>';
+          });
       })
       .catch(function (e) {
+        if (timer) clearTimeout(timer);
         if (body) {
-          body.innerHTML = '<p style="color:#b91c1c">' + esc(String(e)) + "</p>";
+          body.innerHTML =
+            '<p style="color:#b45309">Plan acquisition (mode dégradé). ' +
+            '<a href="./crm-pubs.html">Gestion pubs</a> · ' +
+            '<a href="./crm-acquisition.html?view=all">Voir tous les leads</a></p>';
         }
       });
   }

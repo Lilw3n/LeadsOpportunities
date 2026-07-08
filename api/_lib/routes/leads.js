@@ -1,6 +1,7 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
 const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
+const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
 const VALID_VERTICAL = ["vtc", "sante", "credit-immo"];
@@ -237,6 +238,8 @@ module.exports = async (req, res) => {
   try {
     const { neon } = require("@neondatabase/serverless");
     const sql = neon(dbUrl);
+
+    await ensureSiteLeadsSchema(sql);
 
     const result = await loadLeadsList(sql, queryOpts);
     const leads = result.rows.map(enrichLeadRow);

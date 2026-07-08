@@ -1,6 +1,7 @@
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
+const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 async function safeQuery(label, fn, fallback) {
   try {
@@ -40,6 +41,8 @@ module.exports = async (req, res) => {
       newClients: 0,
     });
   }
+
+  await ensureSiteLeadsSchema(sql);
 
   const scope = user.crmRole === "apporteur" ? user.id : null;
 

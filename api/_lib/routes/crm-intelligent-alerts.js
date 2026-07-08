@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
   if (!user) return;
 
   const sql = getSql();
-  if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
+  if (!sql) return res.status(200).json({ ok: true, partial: true, alerts: [], counts: { total: 0 } });
   const scope = contactScopeFilter(user);
 
   try {
@@ -23,6 +23,18 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, alerts, counts });
   } catch (e) {
     console.error("[crm/intelligent-alerts]", e);
-    return res.status(500).json({ error: "Erreur serveur" });
+    try {
+      const { buildInboundLeadAlerts } = require("../crm-alerts-build");
+      const fallback = await buildInboundLeadAlerts(sql, 20);
+      return res.status(200).json({
+        ok: true,
+        partial: true,
+        alerts: fallback,
+        counts: { total: fallback.length },
+        diagnostics: { hint: e.message },
+      });
+    } catch (e2) {
+      return res.status(200).json({ ok: true, partial: true, alerts: [], counts: { total: 0 } });
+    }
   }
 };

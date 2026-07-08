@@ -64,11 +64,11 @@
     }
     if (data && data.partial && diag && diag.migration) {
       box.innerHTML =
-        '<p style="margin:0;color:#b45309"><strong>Migration CRM incomplète.</strong> ' +
-        "Exécutez <code>database/crm.sql</code> sur Neon (après <code>site_leads.sql</code>). " +
-        "Vos leads web restent visibles dans " +
-        '<a href="./crm-acquisition.html">Acquisition leads</a> et ' +
-        '<a href="./dashboard.html?section=leads">Dashboard leads</a>.</p>';
+        '<p style="margin:0;color:#b45309"><strong>Module contacts CRM optionnel.</strong> ' +
+        "Les <strong>réponses questionnaires</strong> sont dans " +
+        '<a href="./dashboard.html?section=mailbox">Messagerie → Questionnaires</a> et ' +
+        '<a href="./dashboard.html?section=leads">Dashboard leads</a>. ' +
+        "Pour le portefeuille contacts : exécutez <code>database/crm.sql</code> sur Neon.</p>";
       return;
     }
     if (data && data.partial && diag && diag.hint) {
@@ -381,13 +381,21 @@
             '<p class="alerts-empty">' +
             esc(data.error || "Erreur leads") +
             (data.detail ? " — " + esc(data.detail) : "") +
-            ' · <a href="./crm-acquisition.html">Pipeline complet</a></p>';
+            ' · <a href="./dashboard.html?section=mailbox">Questionnaires (Messagerie)</a> · ' +
+            '<a href="./crm-acquisition.html">Pipeline complet</a></p>';
           return;
         }
         var diag = data.diagnostics;
         if (diag && diag.databaseConfigured === false) {
           box.innerHTML =
             '<p class="alerts-empty" style="color:#b91c1c"><strong>Base non connectée</strong> — formulaires non enregistrés. Configurez DATABASE_URL sur Vercel.</p>';
+          return;
+        }
+        if (diag && diag.hint && !(data.leads && data.leads.length)) {
+          box.innerHTML =
+            '<p class="alerts-empty" style="color:#b45309">' +
+            esc(diag.hint) +
+            ' · <a href="./dashboard.html?section=mailbox">Voir réponses questionnaires</a></p>';
           return;
         }
         var leads = (data.leads || []).slice(0, 8);

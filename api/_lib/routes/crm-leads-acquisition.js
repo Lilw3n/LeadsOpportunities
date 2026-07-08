@@ -4,6 +4,7 @@
 const { applyApiGuards, sanitizeSearch, sanitizeEnum } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
+const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const STAGES = ["new", "questionnaire", "tariff_editing", "quote_sent", "follow_up", "won", "lost"];
 const PLATFORMS = [
@@ -223,6 +224,8 @@ module.exports = async (req, res) => {
       });
     }
 
+    await ensureSiteLeadsSchema(sql);
+
     const url = new URL(req.url, "http://localhost");
     const platform = url.searchParams.get("platform")
       ? sanitizeEnum(url.searchParams.get("platform"), PLATFORMS, null)
@@ -294,6 +297,27 @@ module.exports = async (req, res) => {
     });
   } catch (e) {
     console.error("[crm/leads-acquisition]", e);
-    return res.status(500).json({ ok: false, error: "Erreur serveur", detail: e.message });
+    return res.status(200).json({
+      ok: true,
+      partial: true,
+      leads: [],
+      error: e.message,
+      diagnostics: {
+        databaseConfigured: true,
+        hint: e.message,
+        migration: /site_leads/i.test(e.message)
+          ? "database/site_leads.sql"
+          : "database/crm-acquisition-bootstrap.sql",
+      },
+      stats: {
+        total: 0,
+        dormant: 0,
+        byPlatform: {},
+        byStage: {},
+        unopened: 0,
+        archived: 0,
+        interesting: 0,
+      },
+    });
   }
 };
