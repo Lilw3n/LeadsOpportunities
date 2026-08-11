@@ -1313,22 +1313,118 @@
     equitation: function () {
       return wizardSection(
         "equitation",
-        "Assurance equitation",
+        "Assurance equitation et cheval",
         fieldRow(
           select("equineRole", "Vous etes", [
             { v: "cavalier", t: "Cavalier particulier" },
             { v: "proprietaire", t: "Proprietaire de cheval" },
-            { v: "ecurie", t: "Ecurie / centre" },
+            { v: "eleveur", t: "Eleveur / haras" },
+            { v: "ecurie", t: "Ecurie / centre equestre" },
+            { v: "moniteur", t: "Moniteur / entraineur" },
           ]) +
-            input("equineHorseValue", "Valeur du cheval (EUR)", "text", "Facultatif", false)
+            select("equineActivity", "Activite principale du cheval", [
+              { v: "loisir", t: "Loisir / promenade" },
+              { v: "sport", t: "Sport (CSO, dressage, CCE…)" },
+              { v: "elevage", t: "Elevage / reproduction" },
+              { v: "course_trot", t: "Courses au trot (attele, monte)" },
+              { v: "course_galop", t: "Courses au galop (plat, obstacle)" },
+              { v: "pension", t: "Pension / enseignement" },
+            ])
         ) +
+          '<p class="small">Identification de l equide — puce electronique et numero SIRE obligatoires en France (IFCE).</p>' +
           fieldRow(
-            select("equineDiscipline", "Discipline", [
-              { v: "loisir", t: "Loisir" },
-              { v: "csO", t: "CSO / dressage" },
-              { v: "course", t: "Courses" },
+            input("equineName", "Nom de l equide (facultatif)", "text", "Ex. Quenotte", false) +
+              input("equineBirthYear", "Annee de naissance de l equide", "number", "Ex. 2016", true)
+          ) +
+          fieldRow(
+            input("equineHorseValue", "Valeur de l equide (EUR)", "text", "Ex. 15000", true) +
+              input("equineSireNumber", "Numero SIRE (facultatif)", "text", "Ex. 2500123456789", false)
+          ) +
+          fieldRow(
+            select("equineIdStatus", "Identification de l equide", [
+              { v: "complet", t: "Identifie : puce + SIRE + passeport" },
+              { v: "puce_sire", t: "Puce et SIRE, passeport en cours" },
+              { v: "puce_seule", t: "Puce posee, enregistrement SIRE en cours" },
+              { v: "poulain", t: "Poulain pas encore identifie" },
+              { v: "import", t: "Import / identification en cours" },
+            ]) +
+              select("equineChip", "Puce electronique (encolure)", [
+                { v: "oui", t: "Oui, puce implantee" },
+                { v: "non", t: "Non / pas encore" },
+                { v: "en_cours", t: "Rendez-vous prevu" },
+              ])
+          ) +
+          fieldRow(
+            select("equinePassport", "Document d identification (passeport)", [
+              { v: "ifce", t: "Passeport IFCE en ma possession" },
+              { v: "autre", t: "Autre document (OS, stud-book…)" },
+              { v: "en_cours", t: "En cours d obtention" },
+              { v: "non", t: "Pas encore" },
             ], false) +
-              textarea("equineDetails", "Precision", "Nombre de chevaux, competition…", false)
+              select("equineHorseSex", "Sexe", [
+                { v: "femelle", t: "Femelle / jument" },
+                { v: "hongre", t: "Hongre" },
+                { v: "male", t: "Entier / etalon" },
+              ], false)
+          ) +
+          fieldRow(
+            input("equineHorseCount", "Nombre de chevaux a assurer", "number", "Ex. 1", false)
+          ) +
+          fieldRow(
+            select("equineCover", "Couverture recherchee", [
+              { v: "rc", t: "RC equestre (dommages aux tiers)" },
+              { v: "mortalite", t: "Mortalite du cheval" },
+              { v: "veto", t: "Frais veterinaires" },
+              { v: "invalidite", t: "Invalidite / perte d usage" },
+              { v: "materiel", t: "Materiel equestre" },
+              { v: "pack", t: "Pack complet" },
+            ]) +
+              select("equineVetCover", "Garanties sante souhaitees", [
+                { v: "colique_chirurgie", t: "Colique operatoire / chirurgie" },
+                { v: "frais_veto", t: "Frais veterinaires courants (plafond)" },
+                { v: "chirurgie_urgence", t: "Chirurgie d urgence vitale" },
+                { v: "hospitalisation", t: "Hospitalisation" },
+                { v: "pack_sante", t: "Pack sante complet" },
+                { v: "non", t: "Pas de garantie sante (RC / mortalite seulement)" },
+              ], false)
+          ) +
+          fieldRow(
+            select("equineColicHistory", "Antecedents colique", [
+              { v: "jamais", t: "Jamais" },
+              { v: "medical", t: "Episode traite medicalement" },
+              { v: "operee", t: "Colique operee" },
+              { v: "plusieurs", t: "Plusieurs episodes" },
+            ], false) +
+              select("equineBreedingFocus", "Si elevage : profil", [
+                { v: "na", t: "Non concerne" },
+                { v: "reproducteur", t: "Etalon / jument reproductrice" },
+                { v: "poulains", t: "Production de poulains" },
+                { v: "haras_pro", t: "Haras professionnel" },
+              ], false)
+          ) +
+          fieldRow(
+            select("equineHousing", "Mode de garde", [
+              { v: "pension", t: "Pension (ecurie)" },
+              { v: "proprietaire", t: "Chez le proprietaire" },
+              { v: "pre", t: "Au pre / paddock" },
+              { v: "haras", t: "Haras / elevage" },
+            ], false) +
+              select("equineFfe", "Licence FFE / competition", [
+                { v: "non", t: "Non / loisir sans licence" },
+                { v: "ffe", t: "Licence FFE" },
+                { v: "competition", t: "Competition (regional, national…)" },
+              ], false)
+          ) +
+          fieldRow(
+            textarea(
+              "equineMedicalNotes",
+              "Antecedents medicaux (facultatif)",
+              "Coliques, boiteries, traitements en cours, chirurgies…",
+              false
+            )
+          ) +
+          fieldRow(
+            textarea("equineDetails", "Precision", "Discipline, entrainement, sinistres passes…", false)
           )
       );
     },

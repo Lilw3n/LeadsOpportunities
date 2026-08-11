@@ -227,6 +227,123 @@
         )
       );
     },
+    chasse: function () {
+      return fieldRow(
+        select("huntLicense", "Permis de chasser", [
+          { v: "oui", t: "Oui, valide" },
+          { v: "formation", t: "En formation" },
+        ]) +
+          select("huntCover", "Couverture", [
+            { v: "rc", t: "RC chasseur" },
+            { v: "journee", t: "Journee / passage" },
+            { v: "saison", t: "Saison complete" },
+          ])
+      );
+    },
+    equitation: function () {
+      return (
+        fieldRow(
+          select("equineRole", "Vous etes", [
+            { v: "cavalier", t: "Cavalier particulier" },
+            { v: "proprietaire", t: "Proprietaire de cheval" },
+            { v: "eleveur", t: "Eleveur / haras" },
+            { v: "ecurie", t: "Ecurie / centre equestre" },
+          ]) +
+            select("equineActivity", "Activite du cheval", [
+              { v: "loisir", t: "Loisir" },
+              { v: "sport", t: "Sport (CSO, dressage…)" },
+              { v: "elevage", t: "Elevage / reproduction" },
+              { v: "course_trot", t: "Courses au trot" },
+              { v: "course_galop", t: "Courses au galop" },
+            ])
+        ) +
+        fieldRow(
+          input("equineName", "Nom de l equide (facultatif)", "text", "Ex. Quenotte", false) +
+            input("equineBirthYear", "Annee de naissance", "number", "Ex. 2016", true)
+        ) +
+        fieldRow(
+          input("equineHorseValue", "Valeur de l equide (EUR)", "text", "Ex. 15000", true) +
+            input("equineSireNumber", "Numero SIRE (facultatif)", "text", "Ex. 2500123456789", false)
+        ) +
+        fieldRow(
+          select("equineIdStatus", "Identification", [
+            { v: "complet", t: "Puce + SIRE + passeport" },
+            { v: "en_cours", t: "Identification en cours" },
+            { v: "poulain", t: "Poulain pas encore identifie" },
+          ]) +
+            select("equineChip", "Puce electronique", [
+              { v: "oui", t: "Oui" },
+              { v: "non", t: "Non" },
+              { v: "en_cours", t: "En cours" },
+            ])
+        ) +
+        fieldRow(
+          select("equineCover", "Couverture recherchee", [
+            { v: "rc", t: "RC equestre" },
+            { v: "mortalite", t: "Mortalite cheval" },
+            { v: "veto", t: "Frais veterinaires" },
+            { v: "pack", t: "Pack complet" },
+          ]) +
+            select("equineVetCover", "Garantie sante prioritaire", [
+              { v: "colique_chirurgie", t: "Colique operatoire" },
+              { v: "frais_veto", t: "Frais veterinaires" },
+              { v: "pack_sante", t: "Pack sante complet" },
+              { v: "non", t: "Pas de garantie sante" },
+            ], false)
+        ) +
+        fieldRow(
+          select("equineColicHistory", "Antecedents colique", [
+            { v: "jamais", t: "Jamais" },
+            { v: "medical", t: "Traitement medical" },
+            { v: "operee", t: "Colique operee" },
+            { v: "plusieurs", t: "Plusieurs episodes" },
+          ], false) +
+            input("equineHorseCount", "Nombre de chevaux", "number", "Ex. 1", false)
+        )
+      );
+    },
+    bateau: function () {
+      return fieldRow(
+        select("boatType", "Type de bateau", [
+          { v: "voilier", t: "Voilier" },
+          { v: "moteur", t: "Bateau a moteur" },
+          { v: "jet", t: "Jet-ski" },
+        ]) +
+          select("boatZone", "Zone de navigation", [
+            { v: "cotiere", t: "Cotiere" },
+            { v: "large", t: "Large" },
+            { v: "fluvial", t: "Fluvial" },
+          ])
+      );
+    },
+    caravane: function () {
+      return fieldRow(
+        select("rvType", "Type", [
+          { v: "caravane", t: "Caravane" },
+          { v: "cc", t: "Camping-car" },
+          { v: "fourgon", t: "Fourgon amenage" },
+        ]) +
+          input("rvYear", "Annee", "text", "Ex. 2018", true)
+      );
+    },
+    instrument: function () {
+      return fieldRow(
+        input("musicInstrument", "Instrument", "text", "Ex. violon", true) +
+          select("musicUsage", "Usage", [
+            { v: "perso", t: "Personnel" },
+            { v: "pro", t: "Professionnel / scene" },
+          ])
+      );
+    },
+    "materiel-photo": function () {
+      return fieldRow(
+        select("photoUsage", "Usage", [
+          { v: "amateur", t: "Amateur passionne" },
+          { v: "pro", t: "Professionnel" },
+        ]) +
+          input("photoKitValue", "Valeur du materiel (EUR)", "text", "Ex. 12000", true)
+      );
+    },
   };
 
   function fieldsHtmlForService(service) {
