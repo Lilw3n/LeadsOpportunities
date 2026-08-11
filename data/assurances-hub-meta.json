@@ -1,5 +1,5 @@
 {
-  "featured": ["vtc", "sante", "immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
+  "featured": ["vtc", "sante", "immo", "acheteur-immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
   "blogActuExamples": [
     "elections-presidentielles-prevoyance-patrimoine.html",
     "ligue-champions-assurance-voyage-deplacement.html",
@@ -28,6 +28,13 @@
       "seoUrl": "/credit-immo/",
       "blogUrl": "/blog/pret-immo-erreurs-a-eviter.html",
       "keywords": ["credit immobilier", "pret immo", "taux 2026"]
+    },
+    "acheteur-immo": {
+      "icon": "🏘️",
+      "teaser": "Parcours acquereur : pret, emprunteur, habitation, PNO, locataire — pour negociateurs immobiliers.",
+      "seoUrl": "/negociateur-immobilier/",
+      "blogUrl": "/blog/pret-immo-erreurs-a-eviter.html",
+      "keywords": ["negociateur immobilier", "acquereur", "pret immobilier", "PNO", "assurance emprunteur"]
     },
     "auto": {
       "icon": "🚙",

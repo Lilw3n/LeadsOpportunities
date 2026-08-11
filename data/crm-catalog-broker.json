@@ -11,6 +11,7 @@
     { "id": "pl-temp", "name": "Poids Lourd Temporaire", "category": "mobilite", "pricingMode": "sur_mesure", "icon": "🚛", "landingUrl": "/landings/devis.html?need=flotte", "need": "flotte" },
     { "id": "sante", "name": "Mutuelle santé", "category": "sante", "pricingMode": "sur_mesure", "icon": "💊", "landingUrl": "/landings/sante.html", "need": "sante" },
     { "id": "immo", "name": "Crédit immobilier", "category": "finance", "pricingMode": "sur_mesure", "icon": "🏠", "landingUrl": "/landings/credit-immo.html", "need": "immo" },
+    { "id": "acheteur-immo", "name": "Parcours acquéreur immo", "category": "finance", "pricingMode": "sur_mesure", "icon": "🏘️", "landingUrl": "/landings/acheteur-immo.html", "need": "acheteur-immo" },
     { "id": "habitation", "name": "Multirisque Habitation", "category": "habitat", "pricingMode": "sur_mesure", "icon": "🏡", "landingUrl": "/landings/devis.html?need=habitation", "need": "habitation" },
     { "id": "bureaux", "name": "Multirisque Bureaux", "category": "pro", "priceFrom": 4.57, "pricingMode": "from", "icon": "🏢", "landingUrl": "/landings/devis.html?need=mrp", "need": "mrp" },
     { "id": "rc-it", "name": "RC Pro / MRP Métiers de l'informatique", "category": "pro", "priceFrom": 21.51, "pricingMode": "from", "icon": "💻", "landingUrl": "/landings/devis.html?need=rc-pro", "need": "rc-pro" },

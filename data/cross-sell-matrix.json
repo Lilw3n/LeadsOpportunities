@@ -6,6 +6,7 @@
     "sante": { "label": "Mutuelle santé", "vertical": "sante", "landing": "./landings/sante.html", "avgMonthlyCommission": 35 },
     "credit-auto": { "label": "Crédit auto", "vertical": "credit-immo", "landing": "./landings/credit-immo.html", "avgMonthlyCommission": 120 },
     "credit-immo": { "label": "Crédit immobilier", "vertical": "credit-immo", "landing": "./landings/credit-immo.html", "avgMonthlyCommission": 200 },
+    "acheteur-immo": { "label": "Parcours acquéreur immobilier", "vertical": "acheteur_immo", "landing": "./landings/acheteur-immo.html", "avgMonthlyCommission": 250 },
     "habitation": { "label": "Assurance habitation", "vertical": "habitation", "landing": "./landings/devis.html?need=habitation", "avgMonthlyCommission": 30 },
     "prevoyance": { "label": "Prévoyance / TNS", "vertical": "sante", "landing": "./landings/sante.html", "avgMonthlyCommission": 50 },
     "rc-pro": { "label": "RC professionnelle", "vertical": "rc-pro", "landing": "./landings/devis.html?need=rc-pro", "avgMonthlyCommission": 40 }
@@ -90,6 +91,22 @@
       "reason": "Assurance emprunteur + MRH : cohérence du dossier immo.",
       "triggers": ["no_contract_habitation", "homeowner_signal"],
       "brokerQuestion": "Assurance habitation du bien financé : déjà en place ?"
+    },
+    {
+      "from": "acheteur-immo",
+      "to": "habitation",
+      "priority": "high",
+      "reason": "Acquéreur : habitation future RP souvent à souscrire avant acte.",
+      "triggers": ["no_contract_habitation", "homeowner_signal"],
+      "brokerQuestion": "Assurance habitation du bien acheté : devis souhaité ?"
+    },
+    {
+      "from": "acheteur-immo",
+      "to": "credit-immo",
+      "priority": "high",
+      "reason": "Montage prêt + assurances dans un dossier unique négociateur.",
+      "triggers": ["no_contract_credit_immo"],
+      "brokerQuestion": "Capacité d'emprunt et apport : étude faisabilité faite ?"
     },
     {
       "from": "auto",

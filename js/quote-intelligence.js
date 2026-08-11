@@ -53,6 +53,7 @@
     if (path.indexOf("vtc") !== -1) return "vtc";
     if (path.indexOf("sante") !== -1) return "sante";
     if (path.indexOf("credit-immo") !== -1) return "credit-immo";
+    if (path.indexOf("acheteur-immo") !== -1) return "acheteur-immo";
     if (path.indexOf("devis-rapide") !== -1) return "vtc";
     if (path.indexOf("animaux") !== -1) return "animaux";
     return "unknown";
