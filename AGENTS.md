@@ -50,4 +50,5 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 - Ne pas scraper Cafeyn (login) — RSS équivalents + `blog:actu:auto` + optionnel `blog/actu-inbox.html`
 - **Redeploy Vercel** : après merge CRM/messagerie, vérifier prod : `curl -sSL https://www.leadsopportunities.fr/js/dashboard-mailbox.js | wc -c` doit être **> 50000** (ancienne prod ≈ 46453). Sinon : Vercel Dashboard → **Redeploy** sur `main`, ou `VERCEL_DEPLOY_HOOK=<url> npm run deploy:trigger`.
 - **Réponses questionnaires** : `dashboard.html?section=mailbox` → onglet **Questionnaires** ; aussi `dashboard.html?section=leads` (clic sur une ligne).
+- **Notes + fiche client (messagerie)** : panneau « Fiche client & notes » dans le détail d’un message/thread — enregistrement notes (`lead-update`), **Créer fiche client** (`convert-lead`), **Lier à une fiche** (`link-lead`). Badge « Fiche client » sur les conversations liées.
 - **Neon** : `DATABASE_URL` sur Vercel ; `api/_lib/ensure-schema.js` ajoute les colonnes `site_leads` manquantes au premier appel API.

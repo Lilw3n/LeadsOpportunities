@@ -29,7 +29,7 @@ async function fetchLeadRow(sql, leadId) {
       return sql`
         SELECT id, source, vertical, lead_score, email, phone,
                utm_source, utm_medium, utm_campaign, gclid, visitor_id,
-               COALESCE(status, 'new') AS status, notes, assigned_to,
+               COALESCE(status, 'new') AS status, notes, assigned_to, contact_id,
                payload, created_at, updated_at, opened_at, platform,
                competitor_monthly, our_offer_monthly, relevance, client_ip,
                landing_slug, seo_city, seo_product, pipeline_stage,
