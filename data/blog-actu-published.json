@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-11T12:24:08.643Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,208 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "assurance-vtc-attestation-plateformes-2026.html",
+      "section": "vtc",
+      "tag": "Assurance VTC",
+      "tagClass": "tag-vtc",
+      "themes": [
+        "vtc",
+        "pro"
+      ],
+      "title": "Assurance VTC : attestation plateforme, RC Pro et garanties a verifier en 2026",
+      "description": "Checklist assurance VTC 2026 : attestation Uber, Bolt ou Heetch, RC Pro, usage professionnel, franchise et devis gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "VTC : l'attestation qui evite le blocage plateforme et le mauvais contrat.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=vtc_lead_content&utm_content=vtc-attestation-plateformes-2026",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrete : <strong>chauffeur VTC qui doit fournir une attestation ou comparer avant renouvellement</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore a votre risque, a votre budget et aux exigences du marche."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet genere des demandes qualifiees"
+        },
+        {
+          "type": "p",
+          "text": "Un chauffeur peut etre bloque par sa plateforme si l'attestation n'indique pas clairement l'usage VTC, ou rester mal couvert si le vehicule est assure comme usage prive. C'est exactement le moment ou un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifies avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>renouvellement annuel, changement de vehicule, inscription Uber/Bolt/Heetch, hausse de prime ou premier sinistre</strong>. Si l'un de ces cas vous concerne, comparer maintenant evite de choisir dans l'urgence apres un sinistre, un refus d'attestation ou une facture trop elevee."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties a verifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC circulation et RC professionnelle adaptees au transport de personnes",
+            "Usage professionnel du vehicule declare sans ambiguite",
+            "Attestation acceptee par Uber, Bolt, Heetch ou plateforme locale",
+            "Franchise, assistance 0 km et vehicule de remplacement",
+            "Protection juridique et perte d'exploitation selon activite"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au meme tarif peuvent etre tres differents si les franchises, exclusions, plafonds ou delais de carence ne correspondent pas a votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert a qualifier le besoin en 3 a 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitee. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>obtenir une orientation rapide vers le niveau de garanties compatible plateforme et budget</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos reponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Une assurance auto classique suffit-elle pour faire du VTC ?",
+          "a": "Non. L'usage transport de personnes doit etre declare et l'attestation doit correspondre aux exigences de la plateforme."
+        },
+        {
+          "q": "Quand comparer son assurance VTC ?",
+          "a": "Avant le renouvellement, avant un changement de vehicule ou des qu'une plateforme demande une attestation mise a jour."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-famille-budget-remboursements-2026.html",
+      "section": "sante",
+      "tag": "Sante & mutuelle",
+      "tagClass": "tag-sante",
+      "themes": [
+        "sante",
+        "seniors"
+      ],
+      "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation a comparer",
+      "description": "Guide mutuelle famille : postes a comparer, budget mensuel, garanties inutiles et questionnaire gratuit pour calibrer le bon niveau.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Famille : comparer sans baisser les postes qui coutent vraiment cher.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=sante_lead_content&utm_content=mutuelle-famille-budget-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrete : <strong>foyer qui veut reduire sa cotisation mutuelle sans perdre les garanties essentielles</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore a votre risque, a votre budget et aux exigences du marche."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet genere des demandes qualifiees"
+        },
+        {
+          "type": "p",
+          "text": "Une baisse de cotisation peut devenir couteuse si elle sacrifie l'hospitalisation, le dentaire ou l'optique des enfants. C'est exactement le moment ou un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifies avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>hausse annuelle, naissance, orthodontie, lunettes, changement d'employeur ou passage independant</strong>. Si l'un de ces cas vous concerne, comparer maintenant evite de choisir dans l'urgence apres un sinistre, un refus d'attestation ou une facture trop elevee."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties a verifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation : chambre particuliere, honoraires et forfait journalier",
+            "Dentaire : orthodontie, implants et plafonds annuels",
+            "Optique : monture, verres complexes et reseau partenaire",
+            "Medecins : depassements d'honoraires et teleconsultation",
+            "Delais de carence et exclusions avant changement"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au meme tarif peuvent etre tres differents si les franchises, exclusions, plafonds ou delais de carence ne correspondent pas a votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert a qualifier le besoin en 3 a 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitee. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>identifier le niveau entree, confort ou renforce avant devis</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos reponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Faut-il toujours prendre le niveau le plus cher ?",
+          "a": "Non. Le bon contrat depend des soins previsibles, du budget et du reste a charge acceptable."
+        },
+        {
+          "q": "Le questionnaire remplace-t-il un devis ?",
+          "a": "Il prepare le devis en qualifiant les besoins ; un conseiller peut ensuite comparer les offres pertinentes."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        },
+        {
+          "href": "../assurance-sante/",
+          "label": "Mutuelle sante"
         }
       ]
     }

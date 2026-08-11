@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-08-11",
   "sections": [
     "actu",
     "animaux",
@@ -920,6 +920,32 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "assurance-vtc-attestation-plateformes-2026.html",
+      "title": "Assurance VTC : attestation plateforme, RC Pro et garanties a verifier en 2026",
+      "section": "vtc",
+      "hook": "RC Pro, véhicule et protection du chiffre d'affaires : un mauvais contrat VTC coûte cher.",
+      "question": "Votre assurance VTC est-elle alignée sur Uber, Bolt ou Heetch ?",
+      "need": "vtc",
+      "landing": "../landings/vtc.html",
+      "express": "../landings/devis-rapide.html",
+      "questionnaire": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=vtc_lead_content&utm_content=vtc-attestation-plateformes-2026",
+      "matchedRule": "vtc",
+      "species": null
+    },
+    {
+      "file": "mutuelle-famille-budget-remboursements-2026.html",
+      "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation a comparer",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=sante_lead_content&utm_content=mutuelle-famille-budget-2026",
       "matchedRule": "mutuelle",
       "species": null
     }

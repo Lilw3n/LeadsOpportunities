@@ -1,5 +1,28 @@
 {
-  "updated": null,
-  "publishedTopicIds": [],
-  "runs": []
+  "updated": "2026-08-11T12:24:08.649Z",
+  "publishedTopicIds": [
+    "vtc-attestation-plateformes-2026",
+    "mutuelle-famille-budget-2026"
+  ],
+  "runs": [
+    {
+      "at": "2026-08-11T12:24:08.649Z",
+      "count": 2,
+      "published": true,
+      "articles": [
+        {
+          "topicId": "vtc-attestation-plateformes-2026",
+          "file": "assurance-vtc-attestation-plateformes-2026.html",
+          "title": "Assurance VTC : attestation plateforme, RC Pro et garanties a verifier en 2026",
+          "need": "vtc"
+        },
+        {
+          "topicId": "mutuelle-famille-budget-2026",
+          "file": "mutuelle-famille-budget-remboursements-2026.html",
+          "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation a comparer",
+          "need": "sante"
+        }
+      ]
+    }
+  ]
 }
