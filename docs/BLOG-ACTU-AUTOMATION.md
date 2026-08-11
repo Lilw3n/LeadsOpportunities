@@ -159,3 +159,17 @@ npm run blog:actu:publish    # rebuild HTML + SEO
 Si vous préférez un agent humain en boucle : **`docs/CURSOR-DAILY-ACTU.md`**.
 
 Pour la production sans intervention : **GitHub Actions** ci-dessus suffit.
+
+## Complément evergreen orienté leads
+
+Le pipeline actu capte les sujets chauds. Pour publier aussi des articles durables,
+choisis directement pour leur potentiel de conversion :
+
+```bash
+npm run blog:leads:auto
+```
+
+Voir **`docs/BLOG-LEADS-AUTOMATION.md`** et le workflow
+**`.github/workflows/blog-leads-auto.yml`**. Les CTA utilisent
+`utm_medium=lead_evergreen` pour séparer ces leads des articles actu
+(`utm_medium=actu_daily`).
