@@ -1045,22 +1045,64 @@
     deces: function () {
       return wizardSection(
         "deces",
-        "Assurance deces / obseques",
-        fieldRow(
-          select("decesGoal", "Objectif", [
-            { v: "capital", t: "Capital deces" },
-            { v: "obseques", t: "Frais d obseques" },
-            { v: "both", t: "Les deux" },
-          ]) +
-            input("decesCapital", "Capital souhaite (EUR)", "text", "Ex. 50000", false)
-        ) +
+        "Assurance deces et obseques",
+        '<p class="small">Capital deces ou contrat obsèques — pas d assurance voyage ni rapatriement sanitaire.</p>' +
+          fieldRow(
+            select("decesGoal", "Objectif principal", [
+              { v: "capital", t: "Capital deces (proteger la famille)" },
+              { v: "obseques", t: "Financer les frais d obseques" },
+              { v: "both", t: "Capital + obsèques" },
+              { v: "pret", t: "Couvrir un pret / emprunt en cours" },
+            ]) +
+              select("decesContractType", "Type de contrat souhaite", [
+                { v: "capital", t: "Contrat en capital (versement aux beneficiaires)" },
+                { v: "prestations", t: "Contrat en prestations (organisation funeraire)" },
+                { v: "ns", t: "A definir avec le conseiller" },
+              ])
+          ) +
+          fieldRow(
+            input("decesCapital", "Capital ou budget obsèques (EUR)", "text", "Ex. 8000", true) +
+              select("decesCeremony", "Formule funeraire envisagee", [
+                { v: "inhumation", t: "Inhumation" },
+                { v: "cremation", t: "Cremation" },
+                { v: "nature", t: "Obseques naturelles" },
+                { v: "undecided", t: "Pas encore decide" },
+              ], false)
+          ) +
+          fieldRow(
+            input("decesInsuredAge", "Age de l assure", "number", "Ex. 55", true) +
+              select("decesStatus", "Statut", [
+                { v: "salarie", t: "Salarie" },
+                { v: "retraite", t: "Retraite" },
+                { v: "tns", t: "Independant / TNS" },
+                { v: "sans_emploi", t: "Sans emploi" },
+                { v: "autre", t: "Autre" },
+              ])
+          ) +
           fieldRow(
             select("decesSmoker", "Fumeur", [
               { v: "non", t: "Non" },
               { v: "oui", t: "Oui" },
               { v: "ns", t: "Prefere ne pas repondre" },
             ], false) +
-              input("decesBeneficiary", "Beneficiaire principal", "text", "Conjoint, enfants…", false)
+              select("decesExistingCover", "Couverture deces existante", [
+                { v: "aucune", t: "Aucune" },
+                { v: "emprunteur", t: "Assurance emprunteur" },
+                { v: "employeur", t: "Prevoyance employeur" },
+                { v: "autre", t: "Autre contrat" },
+              ], false)
+          ) +
+          fieldRow(
+            input("decesBeneficiary", "Beneficiaire principal", "text", "Conjoint, enfants, pompe funebre…", false) +
+              input("decesLoanRemaining", "Capital pret a couvrir (EUR)", "text", "Facultatif", false)
+          ) +
+          fieldRow(
+            textarea(
+              "decesWishes",
+              "Volontes funeraires (facultatif)",
+              "Ceremonie, lieu, prestations souhaitees…",
+              false
+            )
           )
       );
     },
