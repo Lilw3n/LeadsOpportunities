@@ -1,0 +1,41 @@
+{
+  "updated": "2026-06-16T15:11:49.864Z",
+  "items": [
+    {
+      "id": "edge-world-cup-iran-2026",
+      "title": "Coupe du monde : fan flag et deplacement USA",
+      "url": "",
+      "source": "edge",
+      "note": "Angle assurance voyage sante etranger",
+      "status": "published",
+      "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "firefox-g7-evian",
+      "title": "G7 d'Evian : a quoi sert le Groupe des sept",
+      "url": "",
+      "source": "firefox",
+      "note": "Courrier international — prevoyance patrimoine credit",
+      "status": "published",
+      "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "firefox-france-senegal",
+      "title": "France vs Senegal Coupe du monde",
+      "url": "",
+      "source": "firefox",
+      "note": "Widget sport — voyage assurance",
+      "status": "published",
+      "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "cafeyn-pending-template",
+      "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
+      "url": "",
+      "source": "cafeyn",
+      "note": "Angle assurance a preciser",
+      "status": "pending",
+      "addedAt": "2026-06-17T08:00:00.000Z"
+    }
+  ]
+}

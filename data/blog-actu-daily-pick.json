@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-11",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-deschamps-prend-une-decision-forte-avec-mbappe-zidane-refuse-de-ceder-a-",
+      "title": "Deschamps prend une décision forte avec Mbappé : Zidane refuse de céder à ce vieux «fantasme» en équipe de France - Le10Sport",
+      "url": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxQckJoc2ZxaEFZcTM5NGdQMUVDZlZ3ZmcwaThvRW1fZnJIVFV3Rnc3eXM3dWFIVGNycmt0Z19rTVBfM2otdllHR0lZYV9HUEtNUTlwTEM2NlB1OHJvS2NDUkRvUi1Oc2xVekdYUzNRdE9sSmg0SkRnYkwzTmpOckNuUFU5QV8yNjlGRV9vMHBNSmhIc0REaXltaU9BSXkzNy16Z2tpWG50dVRDdlJWTmpaM09NM1dQNW5wTEc3S3MxRG9CNmstSGk2T19ISWRuRXpIbFFhQ0pBZHcwNnpUaDNsLXhhSGN3MzVfV0UzblRLXzJQaWZL?oc=5",
+      "summary": "Deschamps prend une décision forte avec Mbappé : Zidane refuse de céder à ce vieux «fantasme» en équipe de France Le10Sport",
+      "pubDate": "Tue, 11 Aug 2026 08:00:56 GMT",
+      "feedId": "google-news-bleus-joueurs",
+      "feedName": "Google News — Mbappé Deschamps Bleus",
+      "sourceType": "google",
+      "suggestedFile": "deschamps-prend-une-decision-forte-avec-mbappe-zidane-refuse-de-ceder-a-.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-les-bleus-en-deuil-sports-fr",
+      "title": "Équipe de France: Les Bleus en deuil - Sports.fr",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQbjhLM1ZVY0lEa1VJZndaWUloR01QR1VOemdZMVBjb0ozeTNMck1nanVzQWk5NXNEVFQwTFB3OGp2Nkp2YlVQdng1VmlFZk9KZF9WZXdqTnR3NDNFMGZXWk9wdk9jNkRlMW92SnFhTjBPQnY1bzRPN2VlUElISVk2WFo5Uzdndw?oc=5",
+      "summary": "Équipe de France: Les Bleus en deuil Sports.fr",
+      "pubDate": "Tue, 11 Aug 2026 11:01:52 GMT",
+      "feedId": "google-news-equipe-france",
+      "feedName": "Google News — équipe de France football",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-les-bleus-en-deuil-sports-fr.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-equipe-de-france-un-ancien-international-francais-est-decede-a-78-ans-on",
+      "title": "Equipe de France : un ancien international français est décédé à 78 ans - onzemondial.com",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQTUc2djJYdFFHaGREME5zdTh4YnVQcWUyeVliLXl0bjhQc0FsejgtNXdaaGl6cE9GLWVvQkFlNlVFQkoxVGNpazczRzJ1cE44R1JuWTJjVDZkcVE0bU5RTUFmSHlsYlJWSEUxcEVIbFZBNFpCZVNzZ2JFYUo2V0x1M0pqbmFycFZlUDhxZGp5ZkdMZmlfNFZlS3drckNGYnpGVkJpSTN0UjlLSFc3YTg3VXgwRjIwU2VRMDlIRU9R?oc=5",
+      "summary": "Equipe de France : un ancien international français est décédé à 78 ans onzemondial.com",
+      "pubDate": "Tue, 11 Aug 2026 09:03:00 GMT",
+      "feedId": "google-news-equipe-france",
+      "feedName": "Google News — équipe de France football",
+      "sourceType": "google",
+      "suggestedFile": "equipe-de-france-un-ancien-international-francais-est-decede-a-78-ans-on.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration",
+      "title": "Incendies dans les Landes et en Gironde : déjà des milliers de déclarations de sinistres en habitation et auto reçues par les assureurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7b253ac64e4e0ba4d5f63b6db5bad6&url=https%3a%2f%2fwww.argusdelassurance.com%2fenvironnement%2frisques-climatiques%2fincendie%2fincendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declarations-de-sinistres-en-habitation-et-auto-recues-par-les-assureurs.XV4324SE6NFYLPYNPX7ZDHOLD4.html&c=10735333884238472473&mkt=en-us",
+      "summary": "Les incendies dans le Sud-Ouest de la France, désormais fixés, ont ravagé plus de 42 000 hectares. Les assurés ont commencé à déclarer des sinistres auprès de leurs assureurs habitation et auto. Les ...",
+      "pubDate": "Tue, 11 Aug 2026 05:47:00 GMT",
+      "feedId": "source-bing-news-sinistre",
+      "feedName": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "suggestedFile": "incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-combien-la-secu-vous-a-t-elle-rembourse-cette-annee-ce-nouveau-releve-am",
+      "title": "Combien la Sécu vous a-t-elle remboursé cette année ? Ce nouveau relevé Ameli vous le dit",
+      "url": "https://www.capital.fr/votre-argent/combien-la-secu-vous-a-t-elle-rembourse-cette-annee-ce-nouveau-releve-ameli-vous-le-dit-1529190",
+      "summary": "Depuis mi-juillet, l’Assurance maladie met à disposition de ses assurés un document les informant de leurs remboursements. Si vous avez effectué des séjours et des soins en hôpital ou en clinique, ce relevé est le seul téléservice pour connaître les coûts.",
+      "pubDate": "Tue, 11 Aug 2026 12:07:41 GMT",
+      "feedId": "source-cafeyn-capital",
+      "feedName": "Cafeyn — Capital",
+      "sourceType": "cafeyn",
+      "suggestedFile": "combien-la-secu-vous-a-t-elle-rembourse-cette-annee-ce-nouveau-releve-am.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 87,
+      "status": "candidate"
+    }
+  ]
+}

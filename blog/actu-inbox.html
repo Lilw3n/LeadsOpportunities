@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boîte actu blog | Leads Opportunities</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <script type="text/javascript">
+(function(){
+  var K="lo_cookie_consent_v1";
+  function ok(){try{return localStorage.getItem(K)!=="essential";}catch(e){return true;}}
+  window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments);};
+  var g=ok();
+  window.clarity("consentv2",{ad_Storage:g?"granted":"denied",analytics_Storage:g?"granted":"denied"});
+  if(document.getElementById("clarity-script"))return;
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments);};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;t.id="clarity-script";
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window,document,"clarity","script","x7yqp46fj9");
+})();
+</script>
+  <script src="/js/clarity-init.js" defer></script>
+  <link rel="stylesheet" href="/blog/blog.css" />
+  <style>
+    .inbox { max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    .inbox label { display: block; font-weight: 600; margin: 1rem 0 0.35rem; }
+    .inbox input, .inbox textarea, .inbox select { width: 100%; padding: 0.65rem; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+    .inbox pre { background: #0f172a; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow: auto; font-size: 0.8rem; }
+    .inbox .actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .inbox .btn { display: inline-block; padding: 0.65rem 1.1rem; border-radius: 8px; border: none; cursor: pointer; font-weight: 600; }
+    .inbox .btn-primary { background: #0d9488; color: #fff; }
+    .inbox .btn-ghost { background: #f1f5f9; color: #334155; }
+    .inbox .hint { color: #64748b; font-size: 0.9rem; line-height: 1.5; }
+    .inbox .ok { color: #065f46; background: #ecfdf5; padding: 0.75rem; border-radius: 8px; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <header class="blog-topbar">
+    <div class="blog-topbar-inner">
+      <a class="blog-back" href="./index.html">Blog</a>
+      <a class="blog-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="inbox">
+    <h1>Boîte à actu → articles blog</h1>
+    <p class="hint">
+      Collez ici un titre vu sur <strong>Cafeyn</strong>, <strong>Edge / MSN</strong>, <strong>Midi Libre</strong>, etc.
+      Copiez le JSON généré dans <code>data/blog-actu-queue.json</code> ou envoyez-le à l’agent Cursor.
+      <br />Page non indexée (usage interne).
+    </p>
+
+    <label for="source">Source</label>
+    <select id="source">
+      <option value="cafeyn">Cafeyn (journaux payants)</option>
+      <option value="edge">Edge / MSN actu</option>
+      <option value="mozilla">Firefox / Pocket actu</option>
+      <option value="journal">Journal (Midi Libre, Le Monde…)</option>
+      <option value="manual">Autre</option>
+    </select>
+
+    <label for="title">Titre de l’actu *</label>
+    <input id="title" type="text" placeholder="Ex. : Canicule record — quelles garanties habitation ?" required />
+
+    <label for="url">Lien article (optionnel)</label>
+    <input id="url" type="url" placeholder="https://..." />
+
+    <label for="note">Angle assurance / note (optionnel)</label>
+    <textarea id="note" rows="3" placeholder="Ex. : lien avec dégâts des eaux, mutuelle canicule, emprunteur…"></textarea>
+
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="gen">Générer JSON pour la file</button>
+      <button type="button" class="btn btn-ghost" id="copy">Copier le JSON</button>
+    </div>
+
+    <div id="msg" class="ok" hidden>JSON copié — collez dans Cursor ou dans data/blog-actu-queue.json</div>
+    <pre id="out" hidden></pre>
+
+    <h2>Sauvegarder depuis Cafeyn (sans mot de passe)</h2>
+    <p class="hint">
+      <strong>Impossible de stocker votre login Cafeyn</strong> (CGU + sécurité). À la place :
+      glissez ce bouton dans vos favoris, ouvrez un article <strong>déjà connecté</strong> sur Cafeyn, cliquez le favori → l’article part en file prioritaire.
+    </p>
+    <p>
+      <a class="btn btn-primary" id="bookmarklet" href="#">📰 Sauver actu Cafeyn</a>
+    </p>
+    <label for="ingestToken">Jeton serveur (une fois — Vercel <code>BLOG_ACTU_INGEST_SECRET</code>)</label>
+    <input id="ingestToken" type="password" placeholder="Collez le jeton puis Enregistrer" autocomplete="off" />
+    <button type="button" class="btn btn-ghost" id="saveToken">Enregistrer le jeton</button>
+    <button type="button" class="btn btn-primary" id="sendServer">Envoyer à la file serveur (prioritaire)</button>
+    <p id="serverMsg" class="ok" hidden></p>
+
+    <h2>File locale (navigateur)</h2>
+    <p class="hint">Stockage temporaire dans ce navigateur. Exportez pour ne pas perdre vos entrées.</p>
+    <ul id="localList"></ul>
+    <button type="button" class="btn btn-ghost" id="exportLocal">Exporter toute la file (JSON)</button>
+  </main>
+  <script>
+    var KEY = "lo_blog_actu_inbox_v1";
+    function loadLocal() {
+      try { return JSON.parse(localStorage.getItem(KEY) || '{"items":[]}'); } catch (e) { return { items: [] }; }
+    }
+    function saveLocal(data) { localStorage.setItem(KEY, JSON.stringify(data)); renderLocal(); }
+    function renderLocal() {
+      var data = loadLocal();
+      var ul = document.getElementById("localList");
+      ul.innerHTML = "";
+      (data.items || []).forEach(function (it, i) {
+        var li = document.createElement("li");
+        li.textContent = "[" + it.source + "] " + it.title;
+        ul.appendChild(li);
+      });
+    }
+    function makeItem() {
+      return {
+        id: "inbox-" + Date.now(),
+        title: document.getElementById("title").value.trim(),
+        url: document.getElementById("url").value.trim(),
+        source: document.getElementById("source").value,
+        note: document.getElementById("note").value.trim(),
+        status: "pending",
+        addedAt: new Date().toISOString()
+      };
+    }
+    document.getElementById("gen").addEventListener("click", function () {
+      var item = makeItem();
+      if (!item.title) { alert("Titre obligatoire"); return; }
+      var queue = { updated: new Date().toISOString(), items: [item] };
+      var pre = document.getElementById("out");
+      pre.textContent = JSON.stringify(queue, null, 2);
+      pre.hidden = false;
+      var data = loadLocal();
+      data.items = data.items || [];
+      data.items.push(item);
+      saveLocal(data);
+    });
+    document.getElementById("copy").addEventListener("click", function () {
+      var pre = document.getElementById("out");
+      if (pre.hidden || !pre.textContent) { document.getElementById("gen").click(); }
+      navigator.clipboard.writeText(pre.textContent).then(function () {
+        document.getElementById("msg").hidden = false;
+      });
+    });
+    document.getElementById("exportLocal").addEventListener("click", function () {
+      var data = loadLocal();
+      data.updated = new Date().toISOString();
+      var pre = document.getElementById("out");
+      pre.textContent = JSON.stringify(data, null, 2);
+      pre.hidden = false;
+      navigator.clipboard.writeText(pre.textContent);
+      document.getElementById("msg").hidden = false;
+    });
+    var TOKEN_KEY = "lo_blog_actu_ingest_token";
+    function loadToken() {
+      try { return sessionStorage.getItem(TOKEN_KEY) || ""; } catch (e) { return ""; }
+    }
+    function saveTokenVal() {
+      sessionStorage.setItem(TOKEN_KEY, document.getElementById("ingestToken").value.trim());
+      alert("Jeton enregistré pour cette session.");
+    }
+    function applyQueryParams() {
+      var p = new URLSearchParams(location.search);
+      if (p.get("title")) document.getElementById("title").value = p.get("title");
+      if (p.get("url")) document.getElementById("url").value = p.get("url");
+      if (p.get("source")) document.getElementById("source").value = p.get("source");
+      if (p.get("note")) document.getElementById("note").value = p.get("note");
+    }
+    var bookmarkletCode =
+      "javascript:(function(){var t=document.title,u=location.href;var s='cafeyn';" +
+      "window.open('https://www.leadsopportunities.fr/blog/actu-inbox.html?source='+encodeURIComponent(s)+'&title='+encodeURIComponent(t)+'&url='+encodeURIComponent(u),'_blank');})();";
+    document.getElementById("bookmarklet").href = bookmarkletCode;
+    document.getElementById("saveToken").addEventListener("click", saveTokenVal);
+    document.getElementById("sendServer").addEventListener("click", function () {
+      var item = makeItem();
+      if (!item.title) { alert("Titre obligatoire"); return; }
+      var token = loadToken() || document.getElementById("ingestToken").value.trim();
+      if (!token) { alert("Jeton BLOG_ACTU_INGEST_SECRET requis"); return; }
+      fetch("/api?action=blog-actu-ingest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+        body: JSON.stringify(item),
+      })
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, j: j }; }); })
+        .then(function (res) {
+          var el = document.getElementById("serverMsg");
+          el.hidden = false;
+          if (res.ok) {
+            el.textContent = "✓ " + (res.j.message || "Ajouté — prioritaire au prochain run GitHub/Cursor");
+          } else {
+            el.textContent = "Erreur : " + (res.j.error || "échec");
+          }
+        })
+        .catch(function (e) {
+          document.getElementById("serverMsg").hidden = false;
+          document.getElementById("serverMsg").textContent = "Erreur réseau : " + e.message;
+        });
+    });
+    applyQueryParams();
+    renderLocal();
+  </script>
+</body>
+</html>

@@ -963,3 +963,17 @@ module.exports = {
 
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
 applyUpgrades(module.exports.articles);
+
+const { loadActuArticles } = require("./blog-actu-pending.cjs");
+var actuArticles = loadActuArticles();
+var manifestFiles = new Set(
+  module.exports.articles.map(function (article) {
+    return article.file;
+  })
+);
+actuArticles.forEach(function (article) {
+  if (!manifestFiles.has(article.file)) {
+    manifestFiles.add(article.file);
+    module.exports.articles.push(article);
+  }
+});
