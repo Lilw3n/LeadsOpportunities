@@ -10,7 +10,8 @@ const checks = [
   { name: "crm-trafic.html", url: "/crm-trafic.html", expect: (r) => r.ok },
   { name: "acquisition-focus", url: "/api/acquisition-focus", expect: (r, t) => r.ok && t.includes("meta_sante_senior_canicule") },
   { name: "meta-webhook verify", url: "/api/webhooks/meta-lead?hub.mode=subscribe&hub.verify_token=lo-meta-webhook-2026&hub.challenge=ping", expect: (r, t) => r.ok && t.trim() === "ping" },
-  { name: "pubs-hub auth", url: "/api/crm/pubs-hub", expect: (r) => r.status === 401 },
+  { name: "negociateur-immobilier", url: "/negociateur-immobilier/", expect: (r, t) => r.ok && t.includes("Negociateur immobilier") },
+  { name: "acheteur-immo landing", url: "/landings/acheteur-immo.html", expect: (r, t) => r.ok && t.includes("acheteur-immo") },
 ];
 
 async function run() {

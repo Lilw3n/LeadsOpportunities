@@ -26,7 +26,9 @@
   "rewrites": [
     { "source": "/api/google-config-env", "destination": "/api/auth/google-config-env" },
     { "source": "/api/leads-recent", "destination": "/api/dashboard/leads-recent" },
-    { "source": "/api/mailbox/:path*", "destination": "/api/mailbox/:path*" }
+    { "source": "/api/mailbox/:path*", "destination": "/api/mailbox/:path*" },
+    { "source": "/negociateur-immobilier", "destination": "/negociateur-immobilier/index.html" },
+    { "source": "/negociateur-immobilier/", "destination": "/negociateur-immobilier/index.html" }
   ],
   "crons": [
     {
