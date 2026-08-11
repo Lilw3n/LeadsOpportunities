@@ -1161,6 +1161,52 @@
       );
     },
 
+    "acheteur-immo": function () {
+      return (
+        wizardSection(
+          "acheteur-immo",
+          "Parcours acquereur immobilier",
+          '<p class="small">Pret, assurance emprunteur, habitation, PNO ou locataire — indiquez vos besoins.</p>' +
+            fieldRow(
+              select("buyerNeedPret", "Pret immobilier a etudier ?", [
+                { v: "oui", t: "Oui" },
+                { v: "non", t: "Non" },
+                { v: "peut_etre", t: "A definir" },
+              ]) +
+                select("buyerNeedEmprunteur", "Assurance emprunteur ?", [
+                  { v: "oui", t: "Oui (delegation)" },
+                  { v: "non", t: "Non" },
+                  { v: "banque", t: "Via la banque" },
+                ])
+            ) +
+            fieldRow(
+              select("currentHousingStatus", "Logement actuel", [
+                { v: "locataire", t: "Locataire" },
+                { v: "proprio", t: "Proprietaire occupant" },
+                { v: "bailleur", t: "Proprietaire bailleur (PNO)" },
+                { v: "autre", t: "Autre" },
+              ]) +
+                select("referredBy", "Accompagne par", [
+                  { v: "negociateur", t: "Negociateur immobilier" },
+                  { v: "agence", t: "Agence / mandataire" },
+                  { v: "seul", t: "Seul(e)" },
+                ])
+            ) +
+            fieldRow(
+              select("buyerNeedHabitation", "Assurance habitation (future RP) ?", [
+                { v: "oui", t: "Oui" },
+                { v: "non", t: "Non" },
+              ]) +
+                select("buyerNeedPno", "PNO (bien loue) ?", [
+                  { v: "oui", t: "Oui" },
+                  { v: "non", t: "Non" },
+                ])
+            )
+        ) +
+        '<p class="small"><a href="../landings/acheteur-immo.html">Questionnaire complet acquereur →</a></p>'
+      );
+    },
+
     decennale: function () {
       return wizardSection(
         "decennale",

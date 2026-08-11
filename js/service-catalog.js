@@ -35,6 +35,20 @@
       vertical: "credit_immo",
       landing: "./landings/credit-immo.html",
     },
+    "credit-immo": {
+      need: "immo",
+      label: "Credit immobilier",
+      category: "finance",
+      vertical: "credit_immo",
+      landing: "./landings/credit-immo.html",
+    },
+    "acheteur-immo": {
+      need: "acheteur-immo",
+      label: "Parcours acquereur immobilier",
+      category: "finance",
+      vertical: "acheteur_immo",
+      landing: "./landings/acheteur-immo.html",
+    },
     auto: { need: "auto", label: "Assurance auto", category: "mobilite", vertical: "auto" },
     moto: { need: "moto", label: "Deux-roues / scooter", category: "mobilite", vertical: "moto" },
     flotte: { need: "flotte", label: "Flotte professionnelle", category: "mobilite", vertical: "flotte" },
@@ -147,6 +161,7 @@
     vtc: "./landings/vtc.html",
     sante: "./landings/sante.html",
     immo: "./landings/credit-immo.html",
+    "acheteur-immo": "./landings/acheteur-immo.html",
   };
 
   function normalizeLandingPath(path, opts) {

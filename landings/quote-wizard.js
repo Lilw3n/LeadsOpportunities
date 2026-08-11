@@ -21,7 +21,20 @@
     });
   }
 
+  function stepSkipped(step) {
+    return step && step.getAttribute("data-wizard-skip") === "1";
+  }
+
+  function adjacentVisibleStep(steps, from, delta) {
+    var i = from + delta;
+    while (i >= 0 && i < steps.length && stepSkipped(steps[i])) {
+      i += delta;
+    }
+    return Math.max(0, Math.min(i, steps.length - 1));
+  }
+
   function validateStep(step) {
+    if (stepSkipped(step)) return true;
     var ok = true;
     var inputs = stepInputs(step);
     inputs.forEach(function (el) {
@@ -122,6 +135,7 @@
       if (path.indexOf("vtc") !== -1) return "vtc";
       if (path.indexOf("sante") !== -1) return "sante";
       if (path.indexOf("credit-immo") !== -1) return "credit_immo";
+      if (path.indexOf("acheteur-immo") !== -1) return "acheteur_immo";
       if (path.indexOf("animaux") !== -1) return "animaux";
       return "unknown";
     }
@@ -285,7 +299,7 @@
       btnNext.addEventListener("click", function () {
         if (auditSkip(form)) {
           if (validationHint) validationHint.hidden = true;
-          showStep(idx + 1);
+          showStep(adjacentVisibleStep(steps, idx, 1));
           return;
         }
         if (!validateStep(steps[idx])) {
@@ -298,7 +312,7 @@
           return;
         }
         if (validationHint) validationHint.hidden = true;
-        var nextIdx = idx + 1;
+        var nextIdx = adjacentVisibleStep(steps, idx, 1);
         var gate =
           stepNameAt(idx) === "conducteur" || stepNameAt(idx) === "3" || steps[idx].querySelector('[name="driverDob"]');
         if (gate) {
@@ -321,7 +335,7 @@
     }
     if (btnPrev) {
       btnPrev.addEventListener("click", function () {
-        showStep(idx - 1);
+        showStep(adjacentVisibleStep(steps, idx, -1));
       });
     }
 
