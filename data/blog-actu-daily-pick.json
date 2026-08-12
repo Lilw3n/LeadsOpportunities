@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-12",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation - MoneyVox",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "summary": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation MoneyVox",
+      "pubDate": "Tue, 11 Aug 2026 13:44:50 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration",
+      "title": "Incendies dans les Landes et en Gironde : déjà des milliers de déclarations de sinistres en habitation et auto reçues par les assureurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cd459b9484133863f5274f8392c4e&url=https%3a%2f%2fwww.argusdelassurance.com%2fenvironnement%2frisques-climatiques%2fincendie%2fincendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declarations-de-sinistres-en-habitation-et-auto-recues-par-les-assureurs.XV4324SE6NFYLPYNPX7ZDHOLD4.html&c=10735333884238472473&mkt=en-us",
+      "summary": "Les incendies dans le Sud-Ouest de la France, désormais fixés, ont ravagé plus de 42 000 hectares. Les assurés ont commencé à déclarer des sinistres auprès de leurs assureurs habitation et auto. Les p ...",
+      "pubDate": "Tue, 11 Aug 2026 05:47:00 GMT",
+      "feedId": "source-bing-news-sinistre",
+      "feedName": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "suggestedFile": "incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-il-faut-changer-de-modele-le-cout-croissant-des-kines-dans-le-viseur-de-",
+      "title": "« Il faut changer de modèle » : le coût croissant des kinés dans le viseur de l'Assurance Maladie - Les Echos",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQQVFlWFJNVmRRV3dKTnZncnl0S1d2Zjd4T2VQTkRMSmtjTjFiYW1EMmsyYlo5WTE3aDBsWnZRdnY1bS1mZDktQzZpdzdKeEJCVUE4SjR1bDFIMWpCQW1zcjFMbk9tYjJLVDFjc2ZCR01BazlqZTRvM1hQSXkyZlRGMDdUUDlvOGJUNERNaGhMUWJyN25DbnBoNHUzbklKUjJ6WmpGNVRlSGJxVDk2eHRnT05VMEY4YnFDSjVsazhXUEMwTjlBQ01ZZXNKTmt2RWs2VTdBVnp0SF9ISVN3Tnc?oc=5",
+      "summary": "« Il faut changer de modèle » : le coût croissant des kinés dans le viseur de l'Assurance Maladie Les Echos",
+      "pubDate": "Tue, 11 Aug 2026 04:00:08 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "il-faut-changer-de-modele-le-cout-croissant-des-kines-dans-le-viseur-de-.html",
+      "section": "actu",
+      "need": "habitation",
+      "leadScore": 87,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sans-permis-sans-assurance-il-donne-un-faux-nom-aux-gendarmes-ouest-fran",
+      "title": "Sans permis, sans assurance, il donne un faux nom aux gendarmes - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPelNNREh3dzYwclk3OHVyVmtuR1BndnBGazh6aXZ4Z3F3YnlEZkNMTS1NMUVGYVdrbmlqN3Fub3RKYmNqRUdycWFCUEdLSFdvdWxmcjJNSFg2U1BSbV9MR2wwLXN4TG5tcUUtazhvdEhfUHl6Ynk4ZnoycDdxa0RBN1ZTVTFGS25RbVYtcHlEbWFiaE50dGVLM1p4enJ6b0s5dDJrendtN29OMTMtMEhzSm95VzI4dGRlMmlDblU0VkNtYWh3YUNHcWNiZkg0T21rNjZlaC1qX2wwVElMRE80eTNFbw?oc=5",
+      "summary": "Sans permis, sans assurance, il donne un faux nom aux gendarmes Ouest-France",
+      "pubDate": "Tue, 11 Aug 2026 17:28:51 GMT",
+      "feedId": "google-news-assurance-fr",
+      "feedName": "Google News — assurance France",
+      "sourceType": "google",
+      "suggestedFile": "sans-permis-sans-assurance-il-donne-un-faux-nom-aux-gendarmes-ouest-fran.html",
+      "section": "auto",
+      "need": "auto",
+      "leadScore": 87,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026",
+      "title": "Meilleure mutuelle santé : comment choisir sa complémentaire en 2026 ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cd458aafb4d92b9197a43303ec8d3&url=https%3a%2f%2fwww.msn.com%2ffr-be%2fsante%2fesprit-et-corps%2fmeilleure-mutuelle-sant%25C3%25A9-comment-choisir-sa-compl%25C3%25A9mentaire-en-2026%2far-AA29W6AM&c=9946818186189925678&mkt=en-us",
+      "summary": "Sommaire L'essentiel à retenirComprendre ce que rembourse vraiment une mutuelle santéCombien coûte une mutuelle santé en 2026 ?Les critères qui font une bonne mutuelle santéQuelle mutuelle pour quel b ...",
+      "pubDate": "Wed, 12 Aug 2026 04:27:53 GMT",
+      "feedId": "source-bing-news-mutuelle",
+      "feedName": "Bing News — mutuelle",
+      "sourceType": "bing",
+      "suggestedFile": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 87,
+      "status": "candidate"
+    }
+  ]
+}
