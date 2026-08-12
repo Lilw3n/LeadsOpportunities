@@ -129,6 +129,13 @@ function franceLeadScoreAdjust(candidate) {
     if (hay.indexOf(kw) !== -1) delta += 10;
   });
 
+  var franceSport = /équipe de france|equipe de france|les bleus|mbapp|deschamps/.test(hay);
+  var foreignSport =
+    /barcelone|pays-bas|netherlands|real madrid|manchester|premier league|bundesliga|xavi hernandez|sélectionneur des pays-bas|selectionneur des pays-bas/.test(
+      hay
+    );
+  if (foreignSport && !franceSport) delta -= 40;
+
   return delta;
 }
 
