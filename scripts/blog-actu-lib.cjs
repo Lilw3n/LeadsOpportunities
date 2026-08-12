@@ -101,7 +101,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (["cafeyn", "edge", "firefox", "google", "bing", "yahoo"].indexOf(candidate.sourceType) !== -1) {
     score += 12;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
@@ -297,9 +297,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -315,6 +315,10 @@ function extractTag(block, tag) {
 
 function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s));
 }
 
 function decodeEntities(s) {
