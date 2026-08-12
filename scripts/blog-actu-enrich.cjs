@@ -39,6 +39,17 @@ var ANGLES = {
     ],
     ctaLine: "Questionnaire auto : profil conducteur et usage en 3 minutes.",
   },
+  "credit-immo": {
+    hook: "Un montage credit mal calibre (SCI, SCPI, viager, hypo ou residence principale) se paie pendant 15 a 25 ans — mensualite, assurance emprunteur et frais de garantie.",
+    checklist: [
+      "Objet du pret : residence, locatif, SCI, SCPI, viager ou hypothecaire",
+      "Apport, frais de notaire et reste a financer reel",
+      "Taux d'endettement et reste a vivre apres assurance",
+      "Assurance emprunteur : quotite, ITT, delegation Lemoine",
+      "Garanties : hypotheque, caution, nantissement de parts",
+    ],
+    ctaLine: "Questionnaire credit immo : projet, apport, duree — orientation vers simulation SCI / SCPI / viager.",
+  },
   emprunteur: {
     hook: "L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret.",
     checklist: [
@@ -176,6 +187,7 @@ function buildTitle(raw, need) {
     habitation: "assurance habitation",
     auto: "assurance auto",
     emprunteur: "pret et assurance emprunteur",
+    "credit-immo": "credit immobilier et simulation",
     prevoyance: "prevoyance et revenus",
     vtc: "assurance VTC",
     animaux: "assurance animaux",

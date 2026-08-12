@@ -51,6 +51,32 @@ function existingFiles() {
   return files;
 }
 
+function keywordMatches(hay, kw) {
+  var k = String(kw || "")
+    .toLowerCase()
+    .trim();
+  if (!k) return false;
+  var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/\s+/g, "\\s+");
+  var re = new RegExp("(^|[^a-z0-9àâäéèêëïîôùûüç])" + escaped + "s?(?![a-z0-9àâäéèêëïîôùûüç])", "i");
+  return re.test(hay);
+}
+
+function isPlaceholderTitle(title) {
+  var t = String(title || "").toLowerCase();
+  return (
+    t.indexOf("collez ici") !== -1 ||
+    t.indexOf("placeholder") !== -1 ||
+    t.indexOf("[titre]") !== -1 ||
+    t.indexOf("lorem ipsum") !== -1 ||
+    /^à?\s*coller\b/.test(t)
+  );
+}
+
+function isPublishableQueueStatus(status) {
+  var s = String(status || "").toLowerCase();
+  return s !== "published" && s !== "rejected" && s !== "template" && s !== "draft";
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +85,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordMatches(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -107,9 +133,12 @@ function scoreLeadPotential(candidate) {
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "canicule", "sci", "scpi", "viager"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
+
+  if (/\b(détenu|detenus|prison|yacht|arnault|federer)\b/i.test(title)) score -= 35;
+  if (/\b(enters into|memorandum of understanding|what you need to know)\b/i.test(title)) score -= 40;
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
@@ -267,6 +296,7 @@ function relatedForSection(section, need) {
     ],
     finance: [
       { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
+      { href: "../landings/credit-immo.html", label: "Simulation crédit immo" },
       { href: "../assurance-emprunteur/", label: "Assurance emprunteur" },
     ],
     prevoyance: [
@@ -341,6 +371,9 @@ module.exports = {
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
+  keywordMatches: keywordMatches,
+  isPlaceholderTitle: isPlaceholderTitle,
+  isPublishableQueueStatus: isPublishableQueueStatus,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
   loadPendingArticles: loadPendingArticles,

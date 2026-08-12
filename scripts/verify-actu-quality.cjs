@@ -42,13 +42,30 @@ function validateArticle(article) {
   });
   if (!hasH2) errors.push("sous-titres h2 manquants");
   if (!article.cta || !article.cta.href) errors.push("cta manquant");
-  else if (article.cta.href.indexOf("utm_medium=actu_daily") === -1) {
-    errors.push("utm_medium=actu_daily absent du CTA");
+  else {
+    var href = article.cta.href;
+    if (href.indexOf("utm_medium=actu_daily") === -1 && href.indexOf("utm_medium=lead_evergreen") === -1) {
+      errors.push("utm_medium actu_daily ou lead_evergreen absent du CTA");
+    }
+  }
+  if (isPlaceholderTitle(article.title)) {
+    errors.push("titre placeholder (COLLEZ ICI / template)");
   }
   if (!article.description || article.description.length < 80) {
     errors.push("meta description trop courte");
   }
   return errors;
+}
+
+function isPlaceholderTitle(title) {
+  var t = String(title || "").toLowerCase();
+  return t.indexOf("collez ici") !== -1 || t.indexOf("[titre]") !== -1 || t.indexOf("placeholder") !== -1;
+}
+
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+  return data.articles || [];
 }
 
 function main() {
@@ -59,14 +76,21 @@ function main() {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
   } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    var stdin = fs.readFileSync(0, "utf8").trim();
+    if (stdin) {
+      var parsed = JSON.parse(stdin);
+      articles = Array.isArray(parsed) ? parsed : parsed.articles || [parsed];
+    } else {
+      try {
+        articles = loadPendingArticles();
+      } catch (e) {
+        console.error("Lecture pending:", e.message);
+        process.exit(1);
+      }
+    }
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
     try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
+      articles = loadPendingArticles();
     } catch (e) {
       console.error("Lecture pending:", e.message);
       process.exit(1);

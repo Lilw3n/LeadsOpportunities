@@ -10,7 +10,13 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isPlaceholderTitle,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -87,6 +93,33 @@ function bestFromPlatform(available, platform, feedMap, used) {
   return list[0] || null;
 }
 
+function isOffTopicSport(c) {
+  var hay = String(c.title || "") + " " + String(c.summary || "");
+  if (
+    !/\b(football|liga|barcelone|premier league|nba|nfl|xavi|fc barcelone|sélectionneur|selectionneur)\b/i.test(
+      hay
+    )
+  ) {
+    return false;
+  }
+  return !/équipe de france|equipe de france|les bleus|mbapp|supporters/i.test(hay);
+}
+
+function isLowValueActu(c) {
+  var hay = String(c.title || "").toLowerCase();
+  if (hay.indexOf("éclipse") === -1 && hay.indexOf("eclipse") === -1) return false;
+  if (
+    hay.indexOf("lunette") !== -1 ||
+    hay.indexOf("électri") !== -1 ||
+    hay.indexOf("electri") !== -1 ||
+    hay.indexOf("canicule") !== -1 ||
+    hay.indexOf("mutuelle") !== -1
+  ) {
+    return false;
+  }
+  return true;
+}
+
 function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
@@ -96,8 +129,11 @@ function pickCandidates(candidates, count, state) {
   var available = ranked.filter(function (c) {
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (isPlaceholderTitle(c.title)) return false;
+    if (c.status === "template" || c.status === "draft") return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    if (isOffTopicSport(c) || isLowValueActu(c)) return false;
     return true;
   });
 
@@ -279,7 +315,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
