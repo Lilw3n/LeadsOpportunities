@@ -42,6 +42,53 @@
     { id: "apporteur", label: "Apporteur" },
   ];
 
+  /** Statuts pipeline métier (réf. CRM immo) — numéro d’affichage + id stocké */
+  var PROPERTY_STATUSES = [
+    { id: "prospection", code: 1, label: "1 - Prospection", matchable: true },
+    { id: "estimation", code: 2, label: "2 - Estimation", matchable: true },
+    { id: "mandat", code: 3, label: "3 - Mandat en cours", matchable: true },
+    { id: "suspendu", code: 4, label: "4 - Suspendu", matchable: false },
+    { id: "sous_offre", code: 5, label: "5 - Sous offre", matchable: true },
+    { id: "reserve_sru", code: 6, label: "6 - Réservé - SRU", matchable: true },
+    { id: "compromis", code: 7, label: "7 - Compromis", matchable: false },
+    { id: "vendu_loue", code: 8, label: "8 - Vendu / Loué", matchable: false },
+    { id: "archive", code: 10, label: "10 - Archivé", matchable: false },
+    { id: "a_supprimer", code: 11, label: "11 - A supprimer", matchable: false },
+  ];
+
+  var LEGACY_STATUS_MAP = {
+    active: "mandat",
+    under_offer: "compromis",
+    sold: "vendu_loue",
+    archived: "archive",
+  };
+
+  function normalizePropertyStatus(status) {
+    var raw = String(status || "").trim();
+    if (!raw) return "estimation";
+    if (LEGACY_STATUS_MAP[raw]) return LEGACY_STATUS_MAP[raw];
+    var found = PROPERTY_STATUSES.find(function (s) {
+      return s.id === raw || String(s.code) === raw;
+    });
+    return found ? found.id : "estimation";
+  }
+
+  function propertyStatusLabel(status) {
+    var id = normalizePropertyStatus(status);
+    var found = PROPERTY_STATUSES.find(function (s) {
+      return s.id === id;
+    });
+    return found ? found.label : id;
+  }
+
+  function isMatchableStatus(status) {
+    var id = normalizePropertyStatus(status);
+    var found = PROPERTY_STATUSES.find(function (s) {
+      return s.id === id;
+    });
+    return !!(found && found.matchable);
+  }
+
   var DOC_TYPES = [
     { id: "mandat_vente", label: "Mandat de vente" },
     { id: "mandat_recherche", label: "Mandat de recherche" },
@@ -94,7 +141,7 @@
       id: p.id,
       title: p.title || "",
       property_type: p.property_type || "appartement",
-      status: p.status || "active",
+      status: normalizePropertyStatus(p.status),
       listing_source: p.listing_source || "manual",
       listing_url: p.listing_url || "",
       address: p.address || "",
@@ -343,7 +390,7 @@
       return scorePropertyAgainstCriteria(p, criteria);
     });
     list = list.filter(function (r) {
-      return r.score >= minScore && (r.property.status || "active") !== "archived";
+      return r.score >= minScore && isMatchableStatus(r.property.status);
     });
     list.sort(function (a, b) {
       return b.score - a.score;
@@ -438,10 +485,14 @@
 
   return {
     PROPERTY_TYPES: PROPERTY_TYPES,
+    PROPERTY_STATUSES: PROPERTY_STATUSES,
     LISTING_SOURCES: LISTING_SOURCES,
     PARTY_ROLES: PARTY_ROLES,
     DOC_TYPES: DOC_TYPES,
     normalizeProperty: normalizeProperty,
+    normalizePropertyStatus: normalizePropertyStatus,
+    propertyStatusLabel: propertyStatusLabel,
+    isMatchableStatus: isMatchableStatus,
     normalizeCriteria: normalizeCriteria,
     scorePropertyAgainstCriteria: scorePropertyAgainstCriteria,
     matchPropertiesToBuyer: matchPropertiesToBuyer,

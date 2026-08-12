@@ -124,7 +124,8 @@ window.CrmImmoStore = (function () {
     if (!item.created_at) item.created_at = now;
     item.updated_at = now;
     if (!item.title) item.title = "Bien sans titre";
-    if (!item.status) item.status = "active";
+    if (!item.status) item.status = "estimation";
+    else item.status = Matcher.normalizePropertyStatus(item.status);
     if (!item.property_type) item.property_type = "appartement";
     if (!item.transaction) item.transaction = "vente";
     if (!item.listing_source) item.listing_source = "manual";
@@ -287,7 +288,7 @@ window.CrmImmoStore = (function () {
     var criteria =
       typeof criteriaIdOrObj === "string" ? getCriteria(criteriaIdOrObj) : criteriaIdOrObj;
     if (!criteria) return { matches: [], count: 0, best: null };
-    return Matcher.matchPropertiesToBuyer(criteria, listProperties({ status: "active" }), opts);
+    return Matcher.matchPropertiesToBuyer(criteria, listProperties({}), opts);
   }
 
   function seedDemoIfEmpty() {
@@ -298,7 +299,7 @@ window.CrmImmoStore = (function () {
         id: uid("prop"),
         title: "T3 centre Strasbourg — exemple",
         property_type: "appartement",
-        status: "active",
+        status: "mandat",
         listing_source: "leboncoin",
         listing_url: "https://www.leboncoin.fr/",
         city: "Strasbourg",
@@ -320,7 +321,7 @@ window.CrmImmoStore = (function () {
         id: uid("prop"),
         title: "Maison 5 pièces Illkirch",
         property_type: "maison",
-        status: "active",
+        status: "mandat",
         listing_source: "seloger",
         listing_url: "https://www.seloger.com/",
         city: "Illkirch-Graffenstaden",
@@ -340,7 +341,7 @@ window.CrmImmoStore = (function () {
         id: uid("prop"),
         title: "Studio Krutenau",
         property_type: "appartement",
-        status: "active",
+        status: "mandat",
         listing_source: "paruvendu",
         city: "Strasbourg",
         postal_code: "67000",
