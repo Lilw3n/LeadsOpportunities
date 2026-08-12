@@ -113,11 +113,32 @@ function robotsMetaForArticle(article) {
   return "index,follow";
 }
 
+/** Titres corporate EN / communiqués non FR — mauvais SEO leads France */
+function looksLikeNonFrenchTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return true;
+  if (/[àâäéèêëïîôùûüçœæ]/i.test(t)) return false;
+  if (
+    /\b(le|la|les|un|une|des|du|de|et|ou|pour|avec|sur|dans|que|qui|cette|ces|aux|assurance|mutuelle|france|français|francais|habitation|emprunteur|prévoyance|prevoyance|éclipse|eclipse|santé|sante)\b/i.test(
+      t
+    )
+  ) {
+    return false;
+  }
+  return /\b(the|into|regarding|potential|sale|enters|memorandum|understanding|with|from|about|after|before|update|stock|shares|announces|agreement|deal)\b/i.test(
+    t
+  );
+}
+
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
   var hay = title + " " + summary;
   var delta = 0;
+
+  if (looksLikeNonFrenchTitle(candidate.title || "")) {
+    delta -= 80;
+  }
 
   if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {
     delta -= 45;
@@ -138,5 +159,6 @@ module.exports = {
   isFranceMarketTopic: isFranceMarketTopic,
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
+  looksLikeNonFrenchTitle: looksLikeNonFrenchTitle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
 };
