@@ -4,8 +4,8 @@
  */
 window.CrmAgencyFees = (function () {
   var STORAGE_KEY = "lo_agency_fee_schedules_v1";
-  /** v3 = barème Portes Clés TG0422 strict (PDF officiel, sans min. pro inventé). */
-  var DATA_VERSION = 3;
+  /** v4 = Portes Clés en tête + forçage 23 forfaits TG0422 PDF. */
+  var DATA_VERSION = 4;
 
   var DEFAULT_CHARGES_PCT = 22;
   var DEFAULT_URSSAF_PCT = 21.2;
@@ -149,32 +149,30 @@ window.CrmAgencyFees = (function () {
   }
 
   function defaultAgencies() {
-    return [
-      {
-        id: "agency_laforet",
-        name: "Laforêt",
-        agentSharePct: 40,
-        notes: "Barème honoraires ventes TTC (réf. juillet 2023) — modifiable.",
-        schedules: [
-          {
-            id: "sched_laforet_vente",
-            name: "Honoraires sur les ventes",
-            kind: "vente_habitation",
-            priceBasis: "prix_vente",
-            brackets: laforetSaleBrackets(),
-          },
-          {
-            id: "sched_laforet_garage",
-            name: "Garage / Parking",
-            kind: "garage",
-            priceBasis: "prix_vente",
-            brackets: [br(0, null, "fixed", 2500)],
-          },
-        ],
-        updatedAt: new Date().toISOString(),
-      },
-      portesClesAgency(),
-    ];
+    // Portes Clés (PDF TG0422) en premier — c'est le barème de référence à afficher.
+    return [portesClesAgency(), {
+      id: "agency_laforet",
+      name: "Laforêt",
+      agentSharePct: 40,
+      notes: "Barème honoraires ventes TTC (réf. juillet 2023) — modifiable.",
+      schedules: [
+        {
+          id: "sched_laforet_vente",
+          name: "Honoraires sur les ventes",
+          kind: "vente_habitation",
+          priceBasis: "prix_vente",
+          brackets: laforetSaleBrackets(),
+        },
+        {
+          id: "sched_laforet_garage",
+          name: "Garage / Parking",
+          kind: "garage",
+          priceBasis: "prix_vente",
+          brackets: [br(0, null, "fixed", 2500)],
+        },
+      ],
+      updatedAt: new Date().toISOString(),
+    }];
   }
 
   function normalizeBracket(b) {
@@ -286,10 +284,20 @@ window.CrmAgencyFees = (function () {
       ver = 2;
     }
     if (ver < 3) {
-      // Alignement strict PDF TG0422 : tranches 0–20k/40k/70k, plus de min. 7 000 € HT pro,
-      // + bail commercial, locations, avis de valeur.
       upsertPortesClesOfficialInBag(bag);
       bag.version = 3;
+      save(bag);
+      ver = 3;
+    }
+    if (ver < 4) {
+      // Forcer le PDF TG0422 complet (23 forfaits) + Portes Clés en tête de liste.
+      upsertPortesClesOfficialInBag(bag);
+      bag.agencies = (bag.agencies || []).slice().sort(function (a, b) {
+        var ap = a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "") ? 0 : 1;
+        var bp = b.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(b.name || "") ? 0 : 1;
+        return ap - bp;
+      });
+      bag.version = 4;
       save(bag);
     }
     return bag;

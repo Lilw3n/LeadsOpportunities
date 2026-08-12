@@ -24,8 +24,12 @@
   };
 
   if (state.agencies.length) {
-    state.agencyId = state.agencies[0].id;
-    state.scheduleId = (state.agencies[0].schedules[0] && state.agencies[0].schedules[0].id) || null;
+    var prefer =
+      state.agencies.find(function (a) {
+        return a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "");
+      }) || state.agencies[0];
+    state.agencyId = prefer.id;
+    state.scheduleId = (prefer.schedules[0] && prefer.schedules[0].id) || null;
   }
 
   var taxPrefs = Lib.loadTaxPrefs();
@@ -230,6 +234,16 @@
     root.innerHTML = state.agencies
       .map(function (a) {
         var active = a.id === state.agencyId ? " active" : "";
+        var isPc = a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "");
+        var hab = (a.schedules || []).find(function (s) {
+          return s.kind === "vente_habitation";
+        });
+        var nBr = hab && hab.brackets ? hab.brackets.length : 0;
+        var extra = isPc
+          ? ' · <span class="af-badge ok">TG0422 · ' + nBr + " forfaits</span>"
+          : nBr
+            ? " · " + nBr + " tranches"
+            : "";
         return (
           '<button type="button" class="af-agency-btn' +
           active +
@@ -241,7 +255,9 @@
           a.agentSharePct +
           " % · " +
           (a.schedules || []).length +
-          " barème(s)</span></button>"
+          " barème(s)" +
+          extra +
+          "</span></button>"
         );
       })
       .join("");
@@ -315,6 +331,7 @@
         special.style.display = "none";
         special.innerHTML = "";
       }
+      updateScheduleHint(ag, null);
       return;
     }
 
@@ -355,6 +372,7 @@
             (sched.notes ? " — " + esc(sched.notes) : "");
         }
       }
+      updateScheduleHint(ag, sched);
       return;
     }
 
@@ -410,6 +428,34 @@
         renderCalc();
       };
     });
+
+    updateScheduleHint(ag, sched);
+  }
+
+  function updateScheduleHint(ag, sched) {
+    var hint = document.getElementById("scheduleHint");
+    if (!hint) return;
+    var isPc = ag && (ag.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(ag.name || ""));
+    if (isPc && sched && sched.kind === "vente_habitation") {
+      var n = (sched.brackets || []).length;
+      hint.innerHTML =
+        "<strong>PDF TG0422 — Vente habitation</strong> : " +
+        n +
+        " lignes (0–20k / 20–40k / 40–70k → 5 000 € … jusqu’à 1 M€ → 57 000 €, puis 6 %). " +
+        "Si tu vois seulement 6 tranches %, tu es sur <em>Laforêt</em> — clique <strong>Les Portes Clés</strong> à gauche, ou « Appliquer barème Portes Clés officiel ».";
+      return;
+    }
+    if (isPc) {
+      hint.textContent =
+        "Portes Clés TG0422 : pro 10 % TTC · bail 30 % HT · loc. hab. €/m² · loc. pro 18 % TTC · avis 360 € TTC.";
+      return;
+    }
+    if (ag && /lafor[eê]t/i.test(ag.name || "")) {
+      hint.textContent =
+        "Exemple Laforêt : 170 001–220 000 € → 9 % · Garage → 2 500 € fixe. Pour le PDF Portes Clés, sélectionne l’agence « Les Portes Clés » à gauche.";
+      return;
+    }
+    hint.textContent = "Tranches % ou forfait — enregistre après modification.";
   }
 
   function collectBracketsFromDom() {
