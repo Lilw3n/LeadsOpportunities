@@ -4,8 +4,8 @@
  */
 window.CrmAgencyFees = (function () {
   var STORAGE_KEY = "lo_agency_fee_schedules_v1";
-  /** v4 = Portes Clés en tête + forçage 23 forfaits TG0422 PDF. */
-  var DATA_VERSION = 4;
+  /** v5 = guérir Portes Clés corrompu (4 lignes %) → 23 forfaits TG0422 à chaque load. */
+  var DATA_VERSION = 5;
   var DEAL_SPLIT_KEY = "lo_agency_fee_deal_split_v1";
 
   /**
@@ -526,6 +526,56 @@ window.CrmAgencyFees = (function () {
     }
   }
 
+  /** True si l'agence Portes Clés a bien les 23 forfaits TG0422 (+ autres barèmes PDF). */
+  function isPortesClesTg0422Complete(agency) {
+    if (!agency) return false;
+    var hab = (agency.schedules || []).find(function (s) {
+      return s.kind === "vente_habitation";
+    });
+    if (!hab || !Array.isArray(hab.brackets) || hab.brackets.length < 23) return false;
+    var fixed = hab.brackets.filter(function (b) {
+      return b.type === "fixed";
+    });
+    if (fixed.length < 22) return false;
+    // Spot-check PDF : 0–20k = 5000, 150001–200000 = 10000, dernière = 6 %
+    var b0 = hab.brackets.slice().sort(function (a, b) {
+      return (a.min || 0) - (b.min || 0);
+    })[0];
+    var mid = hab.brackets.find(function (b) {
+      return Number(b.min) === 150001;
+    });
+    var last = hab.brackets.find(function (b) {
+      return b.max == null;
+    });
+    if (!b0 || Number(b0.value) !== 5000 || b0.type !== "fixed") return false;
+    if (!mid || Number(mid.value) !== 10000 || mid.type !== "fixed") return false;
+    if (!last || last.type !== "percent" || Number(last.value) !== 6) return false;
+    var kinds = {};
+    (agency.schedules || []).forEach(function (s) {
+      kinds[s.kind] = 1;
+    });
+    return !!(kinds.vente_pro && kinds.bail_commercial && kinds.location_habitation);
+  }
+
+  function healPortesClesIfNeeded(bag) {
+    var idx = (bag.agencies || []).findIndex(function (a) {
+      return a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "");
+    });
+    var pc = idx >= 0 ? bag.agencies[idx] : null;
+    if (!isPortesClesTg0422Complete(pc)) {
+      upsertPortesClesOfficialInBag(bag);
+      bag.agencies = (bag.agencies || []).slice().sort(function (a, b) {
+        var ap = a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "") ? 0 : 1;
+        var bp = b.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(b.name || "") ? 0 : 1;
+        return ap - bp;
+      });
+      bag.version = DATA_VERSION;
+      save(bag);
+      return true;
+    }
+    return false;
+  }
+
   function migrate(bag) {
     var ver = Number(bag.version) || 1;
     if (ver < 2) {
@@ -541,7 +591,6 @@ window.CrmAgencyFees = (function () {
       ver = 3;
     }
     if (ver < 4) {
-      // Forcer le PDF TG0422 complet (23 forfaits) + Portes Clés en tête de liste.
       upsertPortesClesOfficialInBag(bag);
       bag.agencies = (bag.agencies || []).slice().sort(function (a, b) {
         var ap = a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "") ? 0 : 1;
@@ -550,7 +599,21 @@ window.CrmAgencyFees = (function () {
       });
       bag.version = 4;
       save(bag);
+      ver = 4;
     }
+    if (ver < 5) {
+      // Guérit les caches avec Portes Clés « exemple » 4 lignes % au lieu du PDF.
+      upsertPortesClesOfficialInBag(bag);
+      bag.agencies = (bag.agencies || []).slice().sort(function (a, b) {
+        var ap = a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "") ? 0 : 1;
+        var bp = b.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(b.name || "") ? 0 : 1;
+        return ap - bp;
+      });
+      bag.version = 5;
+      save(bag);
+    }
+    // Toujours vérifier le contenu (même si version déjà à jour).
+    healPortesClesIfNeeded(bag);
     return bag;
   }
 
@@ -989,6 +1052,8 @@ window.CrmAgencyFees = (function () {
     deleteAgency: deleteAgency,
     resetDefaults: resetDefaults,
     applyPortesClesOfficial: applyPortesClesOfficial,
+    isPortesClesTg0422Complete: isPortesClesTg0422Complete,
+    healPortesClesIfNeeded: healPortesClesIfNeeded,
     calculate: calculate,
     compareAgencies: compareAgencies,
     splitDealRemuneration: splitDealRemuneration,

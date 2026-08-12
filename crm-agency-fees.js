@@ -1166,7 +1166,7 @@
     var share = ag && /portes?\s*cl/i.test(ag.name) ? ag.agentSharePct : 85;
     if (
       !confirm(
-        "Remplacer le barème Portes Clés par le PDF officiel TG0422 (ventes, bail, locations, avis) ?\nTa part agent (" +
+        "Écraser le barème Portes Clés local par le PDF officiel TG0422 ?\n→ 23 forfaits habitation + pro + bail + locations + avis\nTa part agent (" +
           share +
           " %) est conservée."
       )
@@ -1176,8 +1176,16 @@
     var updated = Lib.applyPortesClesOfficial(share);
     refreshAgenciesFromStore();
     state.agencyId = updated.id;
-    state.scheduleId = updated.schedules[0] ? updated.schedules[0].id : null;
+    var hab = (updated.schedules || []).find(function (s) {
+      return s.kind === "vente_habitation";
+    });
+    state.scheduleId = hab ? hab.id : updated.schedules[0] ? updated.schedules[0].id : null;
     renderAll();
+    alert(
+      "Barème TG0422 appliqué : " +
+        (hab && hab.brackets ? hab.brackets.length : 0) +
+        " lignes habitation (forfaits TTC)."
+    );
   };
 
   document.getElementById("btnDeleteAgency").onclick = function () {
