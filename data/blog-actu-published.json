@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-12T21:13:17.450Z",
+  "updated": "2026-08-12T22:00:01.327Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -719,6 +719,317 @@
         {
           "href": "../landings/credit-immo.html",
           "label": "Simulation crédit immobilier"
+        }
+      ]
+    },
+    {
+      "file": "assurance-emprunteur-loi-lemoine-economies-2026.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "themes": [
+        "finance",
+        "emprunteur"
+      ],
+      "title": "Assurance emprunteur : combien économiser avec la loi Lemoine en 2026 ?",
+      "description": "Changer d'assurance emprunteur avec la loi Lemoine : garanties équivalentes, quotité, économie potentielle et questionnaire gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Prêt immobilier : vérifier si l'assurance banque coûte trop cher.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=emprunteur_lead_content&utm_content=emprunteur-lemoine-economies-2026",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrète : <strong>emprunteur immobilier qui cherche à réduire le coût total de son crédit</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore à votre risque, à votre budget et aux exigences du marché."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet génère des demandes qualifiées"
+        },
+        {
+          "type": "p",
+          "text": "L'assurance groupe de la banque peut rester plus chère qu'une délégation, mais le changement doit respecter l'équivalence de garanties. C'est exactement le moment où un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifiés avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>prêt signé depuis plus de 12 mois, hausse de budget, rachat de crédit, divorce ou changement de situation</strong>. Si l'un de ces cas vous concerne, comparer maintenant évite de choisir dans l'urgence après un sinistre, un refus d'attestation ou une facture trop élevée."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties à vérifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital restant dû, durée restante et taux d'assurance actuel",
+            "Quotité par emprunteur et garanties décès/PTIA/IPT/ITT",
+            "Exclusions sport, dos, psy ou métier à risque",
+            "Équivalence de garanties exigée par la banque",
+            "Date de signature et pièces à transmettre"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au même tarif peuvent être très différents si les franchises, exclusions, plafonds ou délais de carence ne correspondent pas à votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert à qualifier le besoin en 3 à 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitée. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>estimer rapidement si une délégation peut réduire la mensualité</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos réponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Peut-on changer d'assurance emprunteur à tout moment ?",
+          "a": "Oui, la loi Lemoine permet de changer à tout moment pour un prêt immobilier, sous réserve d'équivalence de garanties."
+        },
+        {
+          "q": "La banque peut-elle refuser ?",
+          "a": "Elle peut refuser si les garanties ne sont pas équivalentes, d'où l'intérêt d'un comparatif cadré."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        },
+        {
+          "href": "../landings/credit-immo.html",
+          "label": "Simulation crédit immobilier"
+        }
+      ]
+    },
+    {
+      "file": "acquereur-immobilier-pret-assurances-checklist-2026.html",
+      "section": "finance",
+      "tag": "Crédit & immobilier",
+      "tagClass": "tag-actu",
+      "themes": [
+        "finance",
+        "emprunteur",
+        "habitat"
+      ],
+      "title": "Acquéreur immobilier 2026 : prêt, assurance emprunteur et habitation à préparer",
+      "description": "Checklist acquéreur : dossier de prêt, assurance emprunteur, habitation, PNO et questionnaire pour sécuriser le financement avant offre.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Achat immobilier : prêt et assurances à aligner avant la signature.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=credit-immo_lead_content&utm_content=acquereur-immo-pret-assurances-2026",
+        "label": "Questionnaire crédit immo (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrète : <strong>futur acquéreur qui prépare un dossier de financement et les assurances liées</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore à votre risque, à votre budget et aux exigences du marché."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet génère des demandes qualifiées"
+        },
+        {
+          "type": "p",
+          "text": "Un prêt accepté sans anticipation des assurances peut retarder la signature ou faire exploser le coût mensuel total. C'est exactement le moment où un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifiés avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>compromis signé, offre d'achat, simulation banque, passage chez le notaire ou accompagnement négociateur</strong>. Si l'un de ces cas vous concerne, comparer maintenant évite de choisir dans l'urgence après un sinistre, un refus d'attestation ou une facture trop élevée."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties à vérifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Apport, durée, taux et mensualité cible",
+            "Assurance emprunteur : quotité, garanties et coût sur la durée",
+            "Assurance habitation dès la remise des clés",
+            "PNO si investissement locatif",
+            "Pièces du dossier et calendrier notaire / banque"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au même tarif peuvent être très différents si les franchises, exclusions, plafonds ou délais de carence ne correspondent pas à votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert à qualifier le besoin en 3 à 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitée. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>cadrer prêt + emprunteur + habitation avant de figer le budget mensuel</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos réponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Faut-il choisir l'assurance emprunteur de la banque ?",
+          "a": "Non. Une délégation est souvent possible dès le départ, à garanties équivalentes."
+        },
+        {
+          "q": "Quand souscrire l'habitation ?",
+          "a": "Idéalement avant la remise des clés, pour être couvert dès le jour J."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        },
+        {
+          "href": "../landings/credit-immo.html",
+          "label": "Simulation crédit immobilier"
+        }
+      ]
+    },
+    {
+      "file": "assurance-habitation-degats-eaux-locataire-2026.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "themes": [
+        "habitat"
+      ],
+      "title": "Dégâts des eaux locataire : quelle assurance habitation rembourse en 2026 ?",
+      "description": "Dégât des eaux : déclaration, franchise, voisin, bailleur, mobilier et questionnaire habitation gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Locataire : savoir quoi déclarer avant que le sinistre coûte cher.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=habitation_lead_content&utm_content=habitation-degats-eaux-locataire-2026",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrète : <strong>locataire ou propriétaire qui veut vérifier sa multirisque habitation</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore à votre risque, à votre budget et aux exigences du marché."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet génère des demandes qualifiées"
+        },
+        {
+          "type": "p",
+          "text": "Un plafond mobilier trop faible ou une dépendance non déclarée peut laisser une partie du sinistre à charge. C'est exactement le moment où un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifiés avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>emménagement, cave, colocation, logement meublé, fuite, voisin au-dessus ou franchise élevée</strong>. Si l'un de ces cas vous concerne, comparer maintenant évite de choisir dans l'urgence après un sinistre, un refus d'attestation ou une facture trop élevée."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties à vérifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier cohérent avec la valeur réelle des biens",
+            "Dégâts des eaux, recherche de fuite et franchise",
+            "Responsabilité civile vie privée et recours voisin",
+            "Dépendances : cave, garage, balcon, local vélo",
+            "Logement meublé, colocation ou télétravail déclaré"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au même tarif peuvent être très différents si les franchises, exclusions, plafonds ou délais de carence ne correspondent pas à votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert à qualifier le besoin en 3 à 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitée. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>calibrer surface, capital mobilier et garanties utiles avant devis</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos réponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Qui déclare un dégât des eaux en location ?",
+          "a": "Le locataire déclare à son assureur et prévient le bailleur ; les assureurs organisent ensuite le recours selon les conventions."
+        },
+        {
+          "q": "La cave est-elle toujours couverte ?",
+          "a": "Pas toujours. Elle doit souvent être déclarée comme dépendance avec un plafond spécifique."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
         }
       ]
     }
