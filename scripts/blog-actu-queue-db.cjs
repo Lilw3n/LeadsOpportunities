@@ -1,7 +1,7 @@
 /**
  * Charge la file actu depuis Neon (bookmarklet Cafeyn / inbox web).
  */
-const { getSql } = require("../db");
+const { getSql } = require("../api/_lib/db");
 
 async function loadQueueFromDatabase() {
   var sql = getSql();
