@@ -142,6 +142,11 @@ function scoreLeadPotential(candidate) {
     else if (age > 30 * 86400000) score -= 15;
   }
 
+  if (isAggregatorSource(candidate.sourceType)) {
+    if (isLikelyEnglishText(hay)) score -= 45;
+    if (isCorporateNewswireCandidate(candidate)) score -= 35;
+  }
+
   return Math.min(100, Math.max(0, score));
 }
 
@@ -153,6 +158,76 @@ function rankCandidates(candidates) {
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
+}
+
+function isAggregatorSource(sourceType) {
+  return ["edge", "google", "bing", "yahoo", "aggregator"].indexOf(sourceType) !== -1;
+}
+
+function isLikelyEnglishText(text) {
+  var hay = " " + String(text || "").toLowerCase().replace(/\s+/g, " ").trim() + " ";
+  if (/[àâçéèêëîïôùûüÿœ]/i.test(hay)) return false;
+  var frenchHits = [
+    " actualites ",
+    " assurance ",
+    " mutuelle ",
+    " sinistre ",
+    " pret ",
+    " emprunteur ",
+    " sante ",
+    " logement ",
+    " immobilier ",
+    " des ",
+    " les ",
+    " pour ",
+    " avec ",
+    " dans ",
+  ].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+  if (frenchHits >= 2) return false;
+  var englishHits = [
+    " the ",
+    " and ",
+    " with ",
+    " for ",
+    " from ",
+    " about ",
+    " calls ",
+    " bans ",
+    " will ",
+    " can ",
+    " has ",
+    " have ",
+    " its ",
+    " their ",
+    " authorities ",
+  ].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+  return englishHits >= 3;
+}
+
+function isCorporateNewswireCandidate(candidate) {
+  var hay = [
+    candidate.title,
+    candidate.summary,
+    candidate.url,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  return [
+    "businesswire",
+    "globenewswire",
+    "pr newswire",
+    "newswire",
+    "press release",
+    "communique de presse",
+    "mou ",
+  ].some(function (needle) {
+    return hay.indexOf(needle) !== -1;
+  });
 }
 
 function ctaWithUtm(need, slug) {
