@@ -94,6 +94,23 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/**
+ * File inbox : ignore le gabarit « COLLEZ ICI… » et les statuts template.
+ * Sinon le cron GitHub publie le placeholder au lieu d'une vraie actu.
+ */
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template") return true;
+  if (!title) return true;
+  if (id.indexOf("template") !== -1) return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/titre de la une/i.test(title)) return true;
+  if (/^\[.*(titre|title|placeholder).*\]$/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -347,6 +364,7 @@ module.exports = {
   appendPendingArticle: appendPendingArticle,
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
