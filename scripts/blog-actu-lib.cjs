@@ -171,11 +171,8 @@ function isLikelyEnglishHeadline(title) {
 }
 
 function isLikelyEnglishCorporateItem(text) {
-  return (
-    isLikelyEnglishHeadline(String(text || "").slice(0, 180)) &&
-    /memorandum of understanding|enters into|businesswire|business wire|globenewswire|press release|shareholders?|investors?|corporation|continental europe/i.test(
-      text
-    )
+  return /memorandum of understanding|enters into|businesswire|business wire|globenewswire|press release|regulatory news|\bmou\b|shareholders?|investors?/i.test(
+    text
   );
 }
 
