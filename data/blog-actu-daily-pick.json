@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-12",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation - MoneyVox",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "summary": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation &nbsp;&nbsp; MoneyVox",
+      "pubDate": "Tue, 11 Aug 2026 13:44:50 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026",
+      "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce0913b9c493daa3d63496e9ab609&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+      "summary": "La sophrologie est de plus en plus pratiquée en France, mais ses séances ne sont pas remboursées par l’Assurance maladie. Tout dépend de vot ...",
+      "pubDate": "Sat, 08 Aug 2026 03:29:00 GMT",
+      "feedId": "source-edge-bing-mutuelle",
+      "feedName": "Edge — Bing mutuelle",
+      "sourceType": "edge",
+      "suggestedFile": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 99,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-coupe-du-monde-2026-combien-va-toucher-l-equipe-de-france-et-quel-manque",
+      "title": "Coupe du monde 2026: combien va toucher l'équipe de France et quel manque à gagner à cause de l'élimination en demi-finale",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce09380cb4f139f0b9ef77ffdcd98&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsport%2fother%2fcoupe-du-monde-2026-combien-va-toucher-l-%c3%a9quipe-de-france-et-quel-manque-%c3%a0-gagner-%c3%a0-cause-de-l-%c3%a9limination-en-demi-finale%2far-AA27W3w7&c=11716201281435745413&mkt=en-us",
+      "summary": "L'équipe de France ne disputera pas la grande finale de la Coupe du monde 2026. Battus par l'Espagne (2-0) en demi-finale, les Bleus ont encore un match à jouer mais savent déjà combien la Fédération ...",
+      "pubDate": "Tue, 14 Jul 2026 17:19:56 GMT",
+      "feedId": "source-edge-bing-cdm",
+      "feedName": "Edge — Bing Coupe du monde 2026",
+      "sourceType": "edge",
+      "suggestedFile": "coupe-du-monde-2026-combien-va-toucher-l-equipe-de-france-et-quel-manque.html",
+      "section": "actu",
+      "need": "sante",
+      "leadScore": 85,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-il-faut-changer-de-modele-le-cout-croissant-des-kines-dans-le-viseur-de-",
+      "title": "« Il faut changer de modèle » : le coût croissant des kinés dans le viseur de l'Assurance Maladie - Les Echos",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQQVFlWFJNVmRRV3dKTnZncnl0S1d2Zjd4T2VQTkRMSmtjTjFiYW1EMmsyYlo5WTE3aDBsWnZRdnY1bS1mZDktQzZpdzdKeEJCVUE4SjR1bDFIMWpCQW1zcjFMbk9tYjJLVDFjc2ZCR01BazlqZTRvM1hQSXkyZlRGMDdUUDlvOGJUNERNaGhMUWJyN25DbnBoNHUzbklKUjJ6WmpGNVRlSGJxVDk2eHRnT05VMEY4YnFDSjVsazhXUEMwTjlBQ01ZZXNKTmt2RWs2VTdBVnp0SF9ISVN3Tnc?oc=5",
+      "summary": "« Il faut changer de modèle » : le coût croissant des kinés dans le viseur de l'Assurance Maladie &nbsp;&nbsp; Les Echos",
+      "pubDate": "Tue, 11 Aug 2026 04:00:08 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "il-faut-changer-de-modele-le-cout-croissant-des-kines-dans-le-viseur-de-.html",
+      "section": "actu",
+      "need": "habitation",
+      "leadScore": 83,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sans-permis-sans-assurance-il-donne-un-faux-nom-aux-gendarmes-ouest-fran",
+      "title": "Sans permis, sans assurance, il donne un faux nom aux gendarmes - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPelNNREh3dzYwclk3OHVyVmtuR1BndnBGazh6aXZ4Z3F3YnlEZkNMTS1NMUVGYVdrbmlqN3Fub3RKYmNqRUdycWFCUEdLSFdvdWxmcjJNSFg2U1BSbV9MR2wwLXN4TG5tcUUtazhvdEhfUHl6Ynk4ZnoycDdxa0RBN1ZTVTFGS25RbVYtcHlEbWFiaE50dGVLM1p4enJ6b0s5dDJrendtN29OMTMtMEhzSm95VzI4dGRlMmlDblU0VkNtYWh3YUNHcWNiZkg0T21rNjZlaC1qX2wwVElMRE80eTNFbw?oc=5",
+      "summary": "Sans permis, sans assurance, il donne un faux nom aux gendarmes &nbsp;&nbsp; Ouest-France",
+      "pubDate": "Tue, 11 Aug 2026 17:28:51 GMT",
+      "feedId": "google-news-assurance-fr",
+      "feedName": "Google News — assurance France",
+      "sourceType": "google",
+      "suggestedFile": "sans-permis-sans-assurance-il-donne-un-faux-nom-aux-gendarmes-ouest-fran.html",
+      "section": "auto",
+      "need": "auto",
+      "leadScore": 83,
+      "status": "candidate"
+    }
+  ]
+}

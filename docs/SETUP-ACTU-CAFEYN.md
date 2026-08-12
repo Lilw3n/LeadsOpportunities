@@ -1,6 +1,6 @@
 # Mise en route — actu auto GitHub + Cafeyn (15 min)
 
-Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à Cursor, GitHub, Vercel ou ce dépôt.
+Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à Cursor, GitHub, Vercel, GitHub Actions ou ce dépôt.
 
 ---
 
@@ -13,6 +13,8 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 | « Comment récupérer mes articles Cafeyn ? » | **1)** RSS automatique (mêmes journaux) **2)** Favori 1 clic (vous êtes déjà connecté) |
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
+
+Si un accès Cafeyn est nécessaire, il reste uniquement dans votre navigateur/session personnelle sur `cafeyn.co`. Le pipeline ne reçoit que le titre, l'URL et une note via `BLOG_ACTU_INGEST_SECRET`, jamais vos identifiants.
 
 ---
 
@@ -96,7 +98,7 @@ Mergez la PR **#32** (workflow `.github/workflows/blog-actu-auto.yml`) sur `main
 
 1. Article intéressant sur **Cafeyn**
 2. Clic sur le favori **Sauver actu Cafeyn**
-3. Page inbox → **Envoyer à la file serveur**
+3. Page inbox → **Envoyer à la file serveur** (titre + URL + note seulement)
 4. Au prochain run GitHub (max ~3 h), article **prioritaire** publié sur le blog
 
 ---
