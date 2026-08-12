@@ -757,6 +757,8 @@
       ]
     }
   </script>
+  <script src="../js/finance-deep-link.js"></script>
+  <script src="../js/devis-document-config.js"></script>
   <script src="../js/public-partners-trust.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
@@ -767,8 +769,12 @@
   <script src="../js/lead-insights.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
-  <script src="../js/lead-dossier-upload.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="./tracking.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.FinanceDeepLink) window.FinanceDeepLink.applyToForm(document);
+    });
+  </script>
 </body>
 </html>

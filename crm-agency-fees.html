@@ -96,7 +96,9 @@
     </div>
     <div class="crm-action-row">
       <a href="./negociateur-immobilier/" class="btn btn-ghost">Landing négociateur</a>
-      <button type="button" class="btn btn-primary" id="btnNewAgency">+ Agence</button>
+      <a id="afLinkCredit" class="btn btn-primary" href="./landings/credit-immo.html#demande">Demande de prêt</a>
+      <a id="afLinkAcheteur" class="btn btn-ghost" href="./landings/acheteur-immo.html#demande">Parcours acquéreur</a>
+      <button type="button" class="btn btn-ghost" id="btnNewAgency">+ Agence</button>
     </div>
   </section>
 
@@ -330,6 +332,11 @@
     <div class="af-result" id="dealKpis" style="margin-top:14px"></div>
     <ul class="af-steps" id="dealSteps" hidden></ul>
     <p class="af-hint" id="dealHint"></p>
+    <p class="af-hint" style="margin-top:8px">
+      Une fois le FAI / net vendeur et ta part calés,
+      <a id="dealCtaCredit" href="./landings/credit-immo.html#demande" target="_blank" rel="noopener">lance la demande de prêt</a>
+      avec les mêmes montants pour collecter les docs acquéreur.
+    </p>
   </section>
 
   <section class="af-buyer" id="buyerFinancePanel">
@@ -440,6 +447,19 @@
     </div>
 
     <div class="af-result" id="bfCapacityKpis" style="margin-top:14px"></div>
+
+    <div class="af-loan-cta" id="bfLoanCta" style="margin-top:14px;padding:14px;border:1px solid #bfdbfe;background:#eff6ff;border-radius:12px">
+      <strong style="display:block;margin-bottom:6px;color:#1e3a8a">Demande de prêt intelligente</strong>
+      <p style="margin:0 0 10px;font-size:.88rem;color:#1e40af">
+        Envoie les chiffres (FAI / net, apport, durée, revenus) vers le questionnaire prêt pour monter le dossier et collecter les pièces (bulletins, avis d’impôt, RIB…).
+      </p>
+      <div class="af-actions" style="margin:0">
+        <a class="btn btn-primary" id="bfCtaCredit" href="./landings/credit-immo.html#demande" target="_blank" rel="noopener">Ouvrir demande de prêt</a>
+        <a class="btn btn-ghost" id="bfCtaAcheteur" href="./landings/acheteur-immo.html#demande" target="_blank" rel="noopener">Parcours acquéreur (+ assurances)</a>
+        <button type="button" class="btn btn-ghost" id="bfCtaCopy">Copier le lien</button>
+      </div>
+      <p class="af-hint" id="bfCtaHint" style="margin-top:8px"></p>
+    </div>
 
     <div class="af-table-wrap" style="margin-top:14px">
       <table class="af-compare-table" id="buyerFinanceTable">
@@ -575,6 +595,7 @@
 
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-agency-fees-lib.js"></script>
   <script src="./js/crm-buyer-finance-lib.js"></script>
   <script src="./crm-agency-fees.js"></script>

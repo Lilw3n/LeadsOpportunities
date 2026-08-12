@@ -83,6 +83,24 @@
         encodeURIComponent((prop.title || "Bien") + " — RDV") +
         "&type=visite";
     }
+    var fin = document.getElementById("linkFinancement");
+    if (fin && window.FinanceDeepLink) {
+      fin.href = window.FinanceDeepLink.baremesUrl({
+        propertyPrice: prop.price_fai || prop.price_net || "",
+        prixFai: prop.price_fai || "",
+        prixNet: prop.price_net || "",
+        priceMode: prop.price_fai ? "fai" : "net_vendeur",
+        propertyId: prop.id,
+        utmSource: "crm-immo-fiche",
+      });
+    } else if (fin) {
+      var qs = new URLSearchParams();
+      if (prop.price_fai) qs.set("prixFai", Math.round(prop.price_fai));
+      if (prop.price_net) qs.set("prixNet", Math.round(prop.price_net));
+      qs.set("priceMode", prop.price_fai ? "fai" : "net_vendeur");
+      qs.set("propertyId", prop.id);
+      fin.href = "./crm-agency-fees.html?" + qs.toString();
+    }
   }
 
   function fillMeta() {
