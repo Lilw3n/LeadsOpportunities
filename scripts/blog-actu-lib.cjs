@@ -94,6 +94,18 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** File manuelle / inbox : ignorer les gabarits non remplis (ex. « COLLEZ ICI »). */
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  if (!title) return true;
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  if (/^collez ici\b/i.test(title)) return true;
+  if (/\b(à compléter|a completer)\b/i.test(title)) return true;
+  if (/^(lorem ipsum|xxx+|titre|title)$/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -348,6 +360,7 @@ module.exports = {
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
