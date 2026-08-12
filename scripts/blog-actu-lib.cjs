@@ -95,6 +95,52 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+function isProbablyEnglishTitle(title) {
+  var text = String(title || "").toLowerCase();
+  var englishScore = 0;
+  var frenchScore = 0;
+
+  [
+    " the ",
+    " to ",
+    " on ",
+    " of ",
+    " for ",
+    " with ",
+    " from ",
+    " after ",
+    " before ",
+    " over ",
+    " strike",
+    " flight",
+    " says ",
+  ].forEach(function (kw) {
+    if ((" " + text + " ").indexOf(kw) !== -1) englishScore += 1;
+  });
+  [
+    " le ",
+    " la ",
+    " les ",
+    " des ",
+    " du ",
+    " de ",
+    " un ",
+    " une ",
+    " et ",
+    " pour ",
+    " avec ",
+    " sur ",
+    " dans ",
+    " france",
+    " francais",
+    " français",
+  ].forEach(function (kw) {
+    if ((" " + text + " ").indexOf(kw) !== -1) frenchScore += 1;
+  });
+  if (/[àâçéèêëîïôùûüÿœ]/i.test(text)) frenchScore += 2;
+  return englishScore >= 3 && frenchScore <= 1;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -121,6 +167,9 @@ function scoreLeadPotential(candidate) {
     /\b(businesswire|business wire|globenewswire|pr newswire|memorandum of understanding|mou)\b/i.test(hay)
   ) {
     score -= 35;
+  }
+  if (isProbablyEnglishTitle(candidate.title)) {
+    score -= isFranceMarketTopic(hay) ? 28 : 45;
   }
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
