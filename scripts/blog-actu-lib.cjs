@@ -112,6 +112,9 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (isLikelyEnglishCorporateItem(hay)) score -= 130;
+  else if (isLikelyEnglishHeadline(title)) score -= 35;
+
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -140,6 +143,37 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function isLikelyEnglishHeadline(title) {
+  if (!title) return false;
+  var englishHits = 0;
+  [
+    " enters ",
+    " announces ",
+    " shares ",
+    " agreement ",
+    " memorandum ",
+    " understanding ",
+    " shareholder ",
+    " company ",
+    " market ",
+    " financing ",
+    " insurance ",
+    " europe ",
+  ].forEach(function (kw) {
+    if ((" " + title + " ").indexOf(kw) !== -1) englishHits += 1;
+  });
+  var frenchSignal = /[àâçéèêëîïôùûüÿœ]| le | la | les | des | une | pour | avec | dans | france | français | francais /.test(
+    " " + title + " "
+  );
+  return englishHits >= 2 && !frenchSignal;
+}
+
+function isLikelyEnglishCorporateItem(text) {
+  return /memorandum of understanding|enters into|businesswire|business wire|globenewswire|press release|regulatory news|\bmou\b|shareholders?|investors?/i.test(
+    text
+  );
 }
 
 function rankCandidates(candidates) {
@@ -296,10 +330,12 @@ function parseRssItems(xml) {
     var desc = extractTag(block, "description");
     var pub = extractTag(block, "pubDate");
     if (title) {
+      var cleanTitle = stripHtml(decodeEntities(title));
+      var cleanSummary = stripHtml(decodeEntities(desc || "")).slice(0, 400);
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanTitle,
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanSummary,
         pubDate: pub || "",
       });
     }
@@ -331,6 +367,7 @@ function decodeEntities(s) {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, " ")
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
 }
 
