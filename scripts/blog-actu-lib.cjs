@@ -51,6 +51,20 @@ function existingFiles() {
   return files;
 }
 
+function keywordMatches(hay, kw) {
+  var k = String(kw || "").toLowerCase().trim();
+  if (!k) return false;
+  // Évite les faux positifs type "auto" dans "photos"
+  if (k.length <= 4) {
+    try {
+      return new RegExp("(?:^|[^a-z0-9àâäéèêëïîôùûüç])" + k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?:[^a-z0-9àâäéèêëïîôùûüç]|$)", "i").test(hay);
+    } catch (e) {
+      return hay.indexOf(k) !== -1;
+    }
+  }
+  return hay.indexOf(k) !== -1;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +73,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordMatches(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -94,8 +108,30 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Titres / IDs placeholder (file manuelle, inbox) — ne jamais publier */
+function isJunkActuCandidate(candidate) {
+  var title = String((candidate && candidate.title) || "");
+  var id = String((candidate && candidate.id) || "").toLowerCase();
+  var note = String((candidate && candidate.note) || "");
+  var hay = (title + " " + note).toLowerCase();
+  if (!title.trim() || title.trim().length < 12) return true;
+  if (/collez ici|copiez ici|a completer|à compléter|placeholder|lorem ipsum|titre de la une/i.test(hay)) {
+    return true;
+  }
+  if (/pending-template|template-placeholder|inbox-template/.test(id)) return true;
+  if (/^TODO\b/i.test(title.trim())) return true;
+  // Titres anglo-saxons (feeds Edge/Bing) — faible conversion FR
+  var asciiWords = title.replace(/[^A-Za-z\s]/g, " ").trim().split(/\s+/).filter(Boolean);
+  var enHits = asciiWords.filter(function (w) {
+    return /^(the|into|regarding|potential|sale|enters|memorandum|understanding|advantages|getting|what|you|need|know|about|money|talk)$/i.test(w);
+  }).length;
+  if (enHits >= 3 && !/[àâäéèêëïîôùûüçœ]/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
+  if (isJunkActuCandidate(candidate)) return 0;
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
@@ -132,6 +168,19 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+
+  var insuranceHit = /assurance|mutuelle|emprunteur|sinistre|habitation|prevoyance|prévoyance|rembours|garantie|franchise|prime/.test(
+    title + " " + String(candidate.summary || "").toLowerCase()
+  );
+  var topic = matchTopic(title + " " + (candidate.summary || "") + " " + (candidate.note || ""));
+  if (topic && topic.section && topic.section !== "actu") score += 10;
+  if (!insuranceHit && topic && topic.section === "actu") score -= 40;
+  if (
+    !insuranceHit &&
+    /en vid[eé]o|highlight|ouverture du score|missile de|but de|en direct\s*-|replay\b/i.test(title)
+  ) {
+    score -= 35;
+  }
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
@@ -349,6 +398,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isJunkActuCandidate: isJunkActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
