@@ -279,7 +279,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
