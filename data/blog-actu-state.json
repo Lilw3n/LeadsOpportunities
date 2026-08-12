@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T22:08:05.799Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sciences/quand-auront-lieu-les-prochaines-eclipses-solaires-en-france-20260812",
+    "https://www.franceinfo.fr/economie/greve/la-prefecture-de-police-de-paris-ordonne-l-evacuation-du-samu-social-occupe-par-des-salaries-grevistes-et-400-personnes_8144318.html#xtor=RSS-3-%5Bgeneral%5D",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ceec434464de88f92e7ae383a33ac&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fvideo%2factualite%2fcanicules-en-france-un-co%25C3%25BBt-de-l-ordre-de-10-%25C3%25A0-15-milliards-d-euros-selon-le-gouvernement%2fvi-AA29XRZj&c=9136041328042395414&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T22:08:06.792Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T22:08:06.792Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "quand-auront-lieu-les-prochaines-eclipses-solaires-en-france.html",
+          "title": "Quand auront lieu les prochaines éclipses solaires en France ? : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "canicules-en-france-un-cout-de-l-ordre-de-10-a-15-milliards-d-euros-selo.html",
+          "title": "Canicules en France : un coût « de l'ordre de 10 à 15 milliards d'euros », selon le gou… : assurance habitation — que faire ?",
+          "source": "Edge — Bing actu France",
+          "sourceType": "edge"
+        },
+        {
+          "file": "la-prefecture-de-police-de-paris-ordonne-l-evacuation-du-samu-social-occ.html",
+          "title": "La préfecture de police de Paris ordonne l'évacuation du Samu social, occupé par des sa… : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo société",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

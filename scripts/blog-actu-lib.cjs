@@ -142,8 +142,21 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  if (item.status === "template") return true;
+  var title = String(item.title || "");
+  var id = String(item.id || "");
+  if (/collez ici/i.test(title)) return true;
+  if (/pending-template/i.test(id)) return true;
+  return false;
+}
+
 function rankCandidates(candidates) {
   return candidates
+    .filter(function (c) {
+      return !isPlaceholderActuItem(c);
+    })
     .map(function (c) {
       return Object.assign({}, c, { leadScore: scoreLeadPotential(c) });
     })
@@ -349,6 +362,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
