@@ -24,6 +24,7 @@ window.CrmSidebar = {
     mobile: "▣",
     search: "⌕",
     automation: "↻",
+    immo: "⌂",
     default: "›",
   },
 
@@ -102,6 +103,15 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-contract-new.html", label: "Nouveau contrat", icon: "contract" },
         { type: "link", href: "./crm-contract-detail.html", label: "Détail contrat", icon: "contract", muted: true },
         { type: "link", href: "./crm-contract-avenant.html", label: "Avenant contrat", icon: "contract" },
+      ],
+    },
+    {
+      id: "immobilier",
+      label: "Immobilier",
+      defaultOpen: true,
+      items: [
+        { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Agences", icon: "immo", highlight: true, desc: "Honoraires multi-agences, part agent, calculateur", keywords: "immo laforet honoraires commission bareme" },
+        { type: "link", href: "./negociateur-immobilier/", label: "Landing négociateur", icon: "immo", desc: "Parcours acquéreur prêt & assurances" },
       ],
     },
     {

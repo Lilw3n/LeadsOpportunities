@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barèmes immo / Agences | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <style>
+    .af-layout { display:grid; grid-template-columns:minmax(220px,280px) 1fr; gap:16px; align-items:start; }
+    @media (max-width:900px) { .af-layout { grid-template-columns:1fr; } }
+    .af-list { border:1px solid var(--line); border-radius:12px; background:#fff; overflow:hidden; }
+    .af-list-hd { padding:12px 14px; border-bottom:1px solid var(--line); display:flex; gap:8px; align-items:center; justify-content:space-between; background:#f8fafc; }
+    .af-list-hd h3 { margin:0; font-size:.95rem; }
+    .af-agency-btn { display:block; width:100%; text-align:left; border:0; border-bottom:1px solid #f1f5f9; background:#fff; padding:12px 14px; cursor:pointer; }
+    .af-agency-btn:hover { background:#f8fafc; }
+    .af-agency-btn.active { background:#ecfdf5; border-left:3px solid #0d9488; }
+    .af-agency-btn strong { display:block; font-size:.92rem; }
+    .af-agency-btn span { font-size:.78rem; color:var(--muted); }
+    .af-panel { border:1px solid var(--line); border-radius:12px; background:#fff; padding:18px; margin-bottom:16px; }
+    .af-panel h3 { margin:0 0 12px; font-size:1rem; }
+    .af-form-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .af-form-grid label, .af-calc label { display:block; font-size:.82rem; font-weight:600; margin-bottom:4px; }
+    .af-form-grid input, .af-form-grid select, .af-form-grid textarea,
+    .af-calc input, .af-calc select, .af-table input, .af-table select {
+      width:100%; padding:8px 10px; border:1px solid var(--line); border-radius:8px; box-sizing:border-box;
+    }
+    .af-form-grid textarea { min-height:70px; resize:vertical; }
+    .af-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
+    .af-table-wrap { overflow:auto; border:1px solid var(--line); border-radius:10px; }
+    .af-table { width:100%; border-collapse:collapse; font-size:.88rem; }
+    .af-table th, .af-table td { padding:8px 10px; border-bottom:1px solid #f1f5f9; text-align:left; vertical-align:middle; }
+    .af-table th { background:#f8fafc; font-size:.75rem; text-transform:uppercase; letter-spacing:.03em; color:#64748b; }
+    .af-table .af-num { max-width:120px; }
+    .af-sched-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .af-sched-tab { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:.82rem; cursor:pointer; }
+    .af-sched-tab.active { background:#0f172a; color:#fff; border-color:#0f172a; }
+    .af-calc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+    .af-result { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin-top:14px; }
+    .af-kpi { background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+    .af-kpi span { display:block; font-size:.75rem; color:var(--muted); margin-bottom:4px; }
+    .af-kpi strong { font-size:1.15rem; }
+    .af-kpi.highlight { background:#ecfdf5; border-color:#99f6e4; }
+    .af-kpi.muted strong { color:#64748b; font-size:1rem; }
+    .af-hint { font-size:.85rem; color:var(--muted); margin:8px 0 0; }
+    .af-intro { background:linear-gradient(135deg,#ecfdf5,#f8fafc); border:1px solid #99f6e4; border-radius:12px; padding:14px 16px; margin-bottom:16px; }
+    .af-intro p { margin:0; font-size:.9rem; color:var(--muted); }
+    .af-danger { color:#b91c1c; }
+  </style>
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier</p>
+      <h2>Barèmes d'honoraires</h2>
+      <p>Plusieurs agences, barèmes modifiables (% ou montant fixe), et ta part d'honoraires (ex. 40 % Laforêt, 85 % Portes Clés).</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./negociateur-immobilier/" class="btn btn-ghost">Landing négociateur</a>
+      <button type="button" class="btn btn-primary" id="btnNewAgency">+ Agence</button>
+    </div>
+  </section>
+
+  <div class="af-intro">
+    <p>
+      Choisis une agence → ajuste ta <strong>part agent</strong> → édite les tranches du barème (taux % ou forfait €).
+      Le calculateur applique le barème au prix de vente, puis ta part, puis une estimation net auto-entrepreneur.
+    </p>
+  </div>
+
+  <div class="af-layout">
+    <aside class="af-list">
+      <div class="af-list-hd">
+        <h3>Agences</h3>
+        <button type="button" class="btn btn-ghost" id="btnResetDefaults" title="Réinitialiser les exemples">Reset</button>
+      </div>
+      <div id="agencyList"></div>
+    </aside>
+
+    <div>
+      <section class="af-panel" id="agencyEditor">
+        <h3>Agence sélectionnée</h3>
+        <div class="af-form-grid">
+          <div>
+            <label for="agencyName">Nom de l'agence</label>
+            <input id="agencyName" type="text" placeholder="Ex. Laforêt" />
+          </div>
+          <div>
+            <label for="agentSharePct">Ma part des honoraires (%)</label>
+            <input id="agentSharePct" type="number" min="0" max="100" step="0.1" />
+          </div>
+          <div style="grid-column:1/-1">
+            <label for="agencyNotes">Notes</label>
+            <textarea id="agencyNotes" placeholder="Référence barème, conditions…"></textarea>
+          </div>
+        </div>
+        <div class="af-actions">
+          <button type="button" class="btn btn-primary" id="btnSaveAgency">Enregistrer l'agence</button>
+          <button type="button" class="btn btn-ghost af-danger" id="btnDeleteAgency">Supprimer</button>
+        </div>
+      </section>
+
+      <section class="af-panel">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <h3 style="margin:0">Barème d'honoraires</h3>
+          <div class="af-actions" style="margin:0">
+            <button type="button" class="btn btn-ghost" id="btnAddSchedule">+ Barème</button>
+            <button type="button" class="btn btn-ghost" id="btnRenameSchedule">Renommer</button>
+            <button type="button" class="btn btn-ghost af-danger" id="btnDeleteSchedule">Suppr. barème</button>
+          </div>
+        </div>
+        <div class="af-sched-tabs" id="scheduleTabs"></div>
+        <div class="af-table-wrap">
+          <table class="af-table" id="bracketsTable">
+            <thead>
+              <tr>
+                <th>Prix min €</th>
+                <th>Prix max € <span style="font-weight:400;text-transform:none">(vide = ∞)</span></th>
+                <th>Type</th>
+                <th>Valeur (% ou € fixe)</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="af-actions">
+          <button type="button" class="btn btn-ghost" id="btnAddBracket">+ Tranche</button>
+          <button type="button" class="btn btn-primary" id="btnSaveBrackets">Enregistrer le barème</button>
+        </div>
+        <p class="af-hint">Exemple Laforêt : 170 001–220 000 € → 9 % · Garage → 2 500 € fixe.</p>
+      </section>
+
+      <section class="af-panel af-calc">
+        <h3>Calculateur commission</h3>
+        <div class="af-calc-grid">
+          <div>
+            <label for="calcPrice">Prix de vente (€)</label>
+            <input id="calcPrice" type="number" min="0" step="1000" value="200000" />
+          </div>
+          <div>
+            <label for="calcUrssaf">URSSAF auto-entrepreneur (%)</label>
+            <input id="calcUrssaf" type="number" min="0" max="40" step="0.1" />
+          </div>
+          <div>
+            <label for="calcIr">Impôt / versement libératoire (%)</label>
+            <input id="calcIr" type="number" min="0" max="20" step="0.1" />
+          </div>
+        </div>
+        <div class="af-result" id="calcResult"></div>
+        <p class="af-hint" id="calcDetail"></p>
+      </section>
+    </div>
+  </div>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-agency-fees-lib.js"></script>
+  <script src="./crm-agency-fees.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

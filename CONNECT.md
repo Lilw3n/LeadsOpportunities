@@ -24,7 +24,7 @@ Ajouter / verifier (voir aussi `.env.example`) :
 | `LEADS_ADMIN_TOKEN` | Secret au choix pour charger les leads dans `/admin.html` |
 | `LEAD_WEBHOOK_URL` | Optionnel (Zapier, Make, n8n) |
 | `SLACK_WEBHOOK_URL` | Optionnel — alertes leads Slack (Incoming Webhook, plan gratuit) · **`docs/SLACK-WITHALLO-NOTIFS.md`** |
-| `TRAFFIC_ALERT_THRESHOLD_PCT` | Alerte si visiteurs ↓ au-delà de ce % (défaut `-20`) · cron `/api/cron/traffic-alert` |
+| `TRAFFIC_ALERT_THRESHOLD_PCT` | Alerte si visiteurs ↓ au-delà de ce % (défaut `-20`) · via cron `/api/mailbox/cron-sync` |
 | `TRAFFIC_ALERT_MIN_VISITORS` | Volume min. semaine préc. pour alerter (défaut `5`) |
 | `TRAFFIC_ALERT_COOLDOWN_HOURS` | Pas plus d’une alerte trafic par X h (défaut `24`) |
 | `WITHALLO_WEBHOOK_SECRET` | Optionnel — quand WithAllo actif · webhook entrant `/api/webhooks/withallo` |
