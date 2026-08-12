@@ -55,16 +55,13 @@ function escapeKeywordRe(s) {
   return String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-/** Mots courts (« auto ») : frontières de mots, pour ne pas matcher « autour ». */
+/** Frontières de mots + pluriel simple (-s), sans sous-chaînes (auto≠autour). */
 function keywordMatches(hay, kw) {
   var k = String(kw || "").toLowerCase().trim();
   if (!k) return false;
   var h = String(hay || "").toLowerCase();
-  if (k.length <= 4) {
-    var re = new RegExp("(^|[^a-zà-ÿ0-9])" + escapeKeywordRe(k) + "(?![a-zà-ÿ0-9])", "i");
-    return re.test(h);
-  }
-  return h.indexOf(k) !== -1;
+  var re = new RegExp("(^|[^a-zà-ÿ0-9])" + escapeKeywordRe(k) + "s?(?![a-zà-ÿ0-9])", "i");
+  return re.test(h);
 }
 
 function isPlaceholderItem(item) {
@@ -88,16 +85,47 @@ function isEnglishOnlyTitle(title) {
   return /\b(the|and|for|with|from|this|that|will|after|before|how|why|what)\b/i.test(t);
 }
 
+var WEAK_SPORT_KEYWORDS = {
+  football: true,
+  stade: true,
+  bleu: true,
+  kylian: true,
+  barrage: true,
+  "ballon d'or": true,
+  zidane: true,
+  henry: true,
+  platini: true,
+};
+
+function isSportLeadRule(rule) {
+  return rule && (rule.tag === "Coupe du monde 2026" || (rule.keywords || []).indexOf("coupe du monde") !== -1);
+}
+
+function hasFranceSportHook(hay) {
+  return /équipe de france|equipe de france|les bleus|supporters|supporter|mbapp|match france|france\b|paris|français|francais/i.test(
+    hay
+  );
+}
+
 function hasLeadAngle(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [] });
   var hay = String(text || "").toLowerCase();
-  var score = 0;
+  var insuranceScore = 0;
+  var sportScore = 0;
   (cfg.rules || []).forEach(function (rule) {
+    var sport = isSportLeadRule(rule);
     (rule.keywords || []).forEach(function (kw) {
-      if (keywordMatches(hay, kw)) score += 1;
+      if (!keywordMatches(hay, kw)) return;
+      if (sport) {
+        if (!WEAK_SPORT_KEYWORDS[String(kw).toLowerCase()]) sportScore += 1;
+      } else {
+        insuranceScore += 1;
+      }
     });
   });
-  return score > 0;
+  if (insuranceScore > 0) return true;
+  if (sportScore > 0 && hasFranceSportHook(hay)) return true;
+  return false;
 }
 
 function matchTopic(text) {
