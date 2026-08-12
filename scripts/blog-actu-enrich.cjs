@@ -169,7 +169,11 @@ function enrichFromCandidate(candidate) {
 function buildTitle(raw, need) {
   var short = shortTitle(raw);
   if (isSportActu(raw)) {
+    if (/assurance|mutuelle|voyage/.test(short.toLowerCase())) return short;
     return short + " : assurance voyage, mutuelle etranger et habitation — guide supporters";
+  }
+  if (/mutuelle|assurance|rembours|emprunteur|prévoyance|prevoyance/.test(short.toLowerCase())) {
+    return short;
   }
   var suffix = {
     sante: "mutuelle et remboursements",

@@ -21,6 +21,22 @@ function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
 
+/**
+ * File manuelle / inbox : ignore les gabarits (« COLLEZ ICI… ») et les statuts non publiables.
+ * Sans ce filtre, le cron GitHub publie le placeholder Cafeyn (score queued +25).
+ */
+function isPublishableActuItem(item) {
+  if (!item) return false;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "published" || status === "rejected" || status === "template") return false;
+  var title = String(item.title || "").trim();
+  if (title.length < 12) return false;
+  if (/^collez ici\b/i.test(title)) return false;
+  if (/\b(titre|une|article)\s+(ici|a completer|à compléter)\b/i.test(title)) return false;
+  if (item.id === "cafeyn-pending-template") return false;
+  return true;
+}
+
 function slugify(text) {
   return String(text || "")
     .normalize("NFD")
@@ -74,6 +90,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: bestScore > 0,
   };
 }
 
@@ -98,18 +115,26 @@ function monthLabel() {
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
-  var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  var topic = matchTopic(title + " " + String(candidate.summary || ""));
+  if (topic.matched) {
+    if (topic.need === "sante" || topic.need === "emprunteur" || topic.need === "habitation" || topic.need === "auto") {
+      score += 20;
+    }
+    if (topic.need === "vtc" || topic.need === "animaux" || topic.need === "prevoyance") score += 15;
+  }
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "canicule", "sécheresse", "secheresse", "inondation"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
+
+  if (/\béclipse|eclipse solaire|astronomie|ballon captif/i.test(title) && !/assurance|mutuelle|rembours/.test(title)) {
+    score -= 25;
+  }
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
@@ -337,6 +362,7 @@ function decodeEntities(s) {
 module.exports = {
   readJson: readJson,
   writeJson: writeJson,
+  isPublishableActuItem: isPublishableActuItem,
   slugify: slugify,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
