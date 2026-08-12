@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Grille des taux | Prêt Immo</title>
+  <title>Fiches produits | Prêt Immo</title>
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
@@ -72,22 +72,23 @@
     .btn-cyan { background:var(--pi-cyan); color:#fff; border:0; }
   </style>
 </head>
-<body class="crm-subpage" data-kind="grilles" data-catalog="./data/pret-grilles-taux.json">
+<body class="crm-subpage" data-kind="fiches" data-catalog="./data/pret-fiches-produits.json">
   <nav class="pi-nav" aria-label="Prêt Immo">
     <a href="./crm-pret-immo.html">Mes dossiers</a>
     <a href="./crm-pret-immo-sim.html">Effectuer simulation</a>
     <a href="./crm-pret-immo-coord.html">Transmettre coordonnées</a>
-    <a href="./crm-pret-immo-grilles.html" class="active">Grille des taux</a>
-    <a href="./crm-pret-immo-fiches.html">Fiches produits</a>
+    <a href="./crm-pret-immo-grilles.html">Grille des taux</a>
+    <a href="./crm-pret-immo-fiches.html" class="active">Fiches produits</a>
     <a href="./crm-pret-immo-pvh.html">PVH</a>
     <a href="./crm-agency-fees.html">Barèmes</a>
   </nav>
 
-  <h1 class="g-title">Grille des taux &amp; documentation produit</h1>
+  <h1 class="g-title">Fiches produits</h1>
   <p class="g-sub">
-    Catalogue intelligent des grilles partenaires (RAC, IMMO, SCI, SCPI, HYPO, PVH…).
-    Posez une question métier — ex. <em>« personne de plus de 60 ans, éligible à un RAC ? »</em> —
-    le moteur propose les documents et conseils à croiser. Les fichiers se déposent ensuite pour activer les liens.
+    Catalogue intelligent des fiches partenaires (CFCAL, CGI, MMB, SYGMA, DOM-TOM…).
+    Ex. <em>« 60 ans, retraite, éligible RAC ? »</em> ou <em>« locataire sans garantie »</em> —
+    le moteur oriente vers les fiches utiles. Déposez les PDF dans <code>docs/pret-fiches/_inbox/</code> puis
+    <code>npm run pret:fiches:import</code>. Voir aussi <a href="./crm-pret-immo-grilles.html">Grille des taux</a>.
   </p>
 
   <div class="g-warn">
