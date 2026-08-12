@@ -114,7 +114,8 @@ Pas de Slack reçu → vérifier `SLACK_WEBHOOK_URL` + redeploy.
 
 ### Alerte baisse de trafic (automatique)
 
-Cron Vercel **9h** → `GET /api/cron/traffic-alert` (avec `CRON_SECRET`).
+Cron Vercel **8h** (`/api/mailbox/cron-sync`) → sync mailbox + ping SEO + alerte trafic Slack (avec `CRON_SECRET`).
+Endpoint manuel compat : `GET /api/cron/traffic-alert`.
 
 | Variable | Défaut | Rôle |
 |----------|--------|------|
