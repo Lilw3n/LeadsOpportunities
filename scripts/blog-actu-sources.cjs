@@ -62,6 +62,16 @@ function formatSourceCounts(buckets) {
   }).join(" ");
 }
 
+function isPlaceholderQueueItem(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "").toLowerCase();
+  return (
+    id.indexOf("pending-template") !== -1 ||
+    title.indexOf("collez ici") !== -1 ||
+    title.indexOf("titre de la une cafeyn") !== -1
+  );
+}
+
 module.exports = {
   SOURCE_TYPES: SOURCE_TYPES,
   PLATFORM_TYPES: PLATFORM_TYPES,
@@ -71,4 +81,5 @@ module.exports = {
   mergeWithQuotas: mergeWithQuotas,
   bySourceCounts: bySourceCounts,
   formatSourceCounts: formatSourceCounts,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
 };
