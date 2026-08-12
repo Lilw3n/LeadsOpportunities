@@ -11,7 +11,7 @@
 const { execSync } = require("child_process");
 const path = require("path");
 const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuItem } = require("./blog-actu-lib.cjs");
-const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { isInternationalAudienceTopic, isFranceMarketTopic, looksEnglishActuTitle } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
 const { validateArticle } = require("./verify-actu-quality.cjs");
@@ -98,6 +98,7 @@ function pickCandidates(candidates, count, state) {
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     if (isPlaceholderActuItem(c)) return false;
+    if (looksEnglishActuTitle(c.title)) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;

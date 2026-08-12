@@ -113,6 +113,74 @@ function robotsMetaForArticle(article) {
   return "index,follow";
 }
 
+function looksEnglishActuTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return true;
+  var words = t
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .split(/[^a-z]+/)
+    .filter(Boolean);
+  var enStop = {
+    the: 1,
+    and: 1,
+    into: 1,
+    regarding: 1,
+    with: 1,
+    from: 1,
+    this: 1,
+    that: 1,
+    for: 1,
+    of: 1,
+    to: 1,
+    enters: 1,
+    potential: 1,
+    sale: 1,
+    advantages: 1,
+    getting: 1,
+    record: 1,
+    sees: 1,
+    unprecedented: 1,
+    heatwave: 1,
+    excess: 1,
+    deaths: 1,
+    memorandum: 1,
+    understanding: 1,
+    talk: 1,
+  };
+  var frStop = {
+    le: 1,
+    la: 1,
+    les: 1,
+    un: 1,
+    une: 1,
+    des: 1,
+    du: 1,
+    dans: 1,
+    pour: 1,
+    avec: 1,
+    sur: 1,
+    au: 1,
+    aux: 1,
+    que: 1,
+    qui: 1,
+    sont: 1,
+    est: 1,
+    plus: 1,
+    selon: 1,
+    alors: 1,
+    plusieurs: 1,
+  };
+  var enHits = words.filter(function (w) {
+    return enStop[w];
+  }).length;
+  var frHits = words.filter(function (w) {
+    return frStop[w];
+  }).length;
+  return enHits >= 3 && enHits > frHits;
+}
+
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
@@ -139,4 +207,5 @@ module.exports = {
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
+  looksEnglishActuTitle: looksEnglishActuTitle,
 };
