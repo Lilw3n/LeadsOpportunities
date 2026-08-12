@@ -67,7 +67,7 @@ function loadPublishedTitleKeys() {
 }
 
 function candidateSourceType(c, feedMap) {
-  if (c.sourceType) return c.sourceType;
+  if (c.sourceType && c.sourceType !== "aggregator") return c.sourceType;
   return feedMap[c.feedId] || resolveSourceType(c.source, c.feedId);
 }
 
