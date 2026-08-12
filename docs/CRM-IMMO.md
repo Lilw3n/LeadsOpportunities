@@ -53,4 +53,5 @@ Prochaines étapes possibles : templates HTML/PDF (comme devis assurance), Drive
 ## Hors scope volontaire
 
 - Scraping / login portails
-- Crédit immo complet (prévu plus tard, s’appuiera sur `crm-buyer-finance-lib.js`)
+- Demande de prêt depuis barèmes (FAI/net/apport/durée préremplis) + checklist docs — `docs/FINANCEMENT-DEMANDE-PRET.md`
+- Crédit immo CRM natif étendu (évolution possible au-delà des landings)
