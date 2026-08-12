@@ -13,6 +13,7 @@ const {
   existingFiles,
   scoreLeadPotential,
 } = require("./blog-actu-lib.cjs");
+const { isJunkActuCandidate } = require("./france-audience-lib.cjs");
 
 const MAX_PER_FEED = 8;
 const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 30 };
@@ -40,6 +41,14 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (
+    isJunkActuCandidate({
+      title: item.title,
+      summary: item.note || "",
+    })
+  ) {
+    return;
+  }
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);

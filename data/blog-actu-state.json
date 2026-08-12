@@ -1,10 +1,10 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T18:16:50.555Z",
   "processedUrls": [
     "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T18:17:10.903Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +17,29 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T18:17:10.903Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+          "title": "Canicules en France — habitation",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+          "title": "Sophrologie mutuelle 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "a-defaut-de-coupe-du-monde-de-foot-ces-businessmen-s-offrent-un-club-de-.html",
+          "title": "Coupe du monde / basket — angle assurance",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

@@ -113,11 +113,61 @@ function robotsMetaForArticle(article) {
   return "index,follow";
 }
 
+const JUNK_TITLE_PATTERNS = [
+  /\bcollez\s+ici\b/i,
+  /\bcoll(ez|er)\s+ici\b/i,
+  /\btitre\s+de\s+la\s+une\b/i,
+  /\bplaceholder\b/i,
+  /\bTODO\b/,
+  /\bXXX+\b/,
+  /\blorem\s+ipsum\b/i,
+  /^\s*\[.*\]\s*$/,
+  /^\s*test\s*$/i,
+];
+
+/** Titres anglais (communiqués) sans angle FR lisible — à exclure du pipeline leads FR. */
+function looksMostlyEnglishTitle(title) {
+  var t = String(title || "").trim();
+  if (!t || t.length < 24) return false;
+  if (/[àâäéèêëïîôùûüçœæ]/i.test(t)) return false;
+  if (
+    /\b(la|le|les|des|une|du|aux|sur|pour|avec|dans|france|français|francais|mutuelle|assurances?|emprunteur|canicule|sinistre|habitation|banque de france)\b/i.test(
+      t
+    )
+  ) {
+    return false;
+  }
+  var words = t.split(/\s+/).filter(Boolean);
+  if (words.length < 5) return false;
+  var englishHits = 0;
+  var eng = /^(the|a|an|of|to|for|in|on|and|or|with|into|regarding|potential|sale|enters|enters|memorandum|understanding|regarding|advantages|getting|money|talk)$/i;
+  words.forEach(function (w) {
+    if (eng.test(w.replace(/[^a-zA-Z']/g, ""))) englishHits++;
+  });
+  return englishHits >= 3;
+}
+
+function isJunkActuCandidate(candidate) {
+  var title = String((candidate && candidate.title) || "");
+  var summary = String((candidate && candidate.summary) || "");
+  if (!title.trim() || title.trim().length < 18) return true;
+  if (JUNK_TITLE_PATTERNS.some(function (re) {
+    return re.test(title);
+  })) {
+    return true;
+  }
+  // Blog leads FR : pas de communiqués 100 % anglais (même si angle France).
+  if (looksMostlyEnglishTitle(title)) return true;
+  return false;
+}
+
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
   var hay = title + " " + summary;
   var delta = 0;
+
+  if (isJunkActuCandidate(candidate)) delta -= 80;
 
   if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {
     delta -= 45;
@@ -125,9 +175,11 @@ function franceLeadScoreAdjust(candidate) {
 
   if (isFranceMarketTopic(hay)) delta += 25;
 
-  ["mutuelle", "assurance", "habitation", "emprunteur", "orias", "sinistre", "crédit immo", "credit immo"].forEach(function (kw) {
+  ["mutuelle", "assurance", "habitation", "emprunteur", "orias", "sinistre", "crédit immo", "credit immo", "canicule", "prime"].forEach(function (kw) {
     if (hay.indexOf(kw) !== -1) delta += 10;
   });
+
+  if (looksMostlyEnglishTitle(candidate.title || "")) delta -= 35;
 
   return delta;
 }
@@ -139,4 +191,6 @@ module.exports = {
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
+  isJunkActuCandidate: isJunkActuCandidate,
+  looksMostlyEnglishTitle: looksMostlyEnglishTitle,
 };
