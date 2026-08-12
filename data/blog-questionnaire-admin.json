@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-08-12",
   "sections": [
     "actu",
     "animaux",
@@ -921,6 +921,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "championnats-d-europe-d-athletisme-le-francais-muhammad-abdallah-kounta-.html",
+      "title": "Championnats d’Europe d’athlétisme : le Français Muhammad Abdallah Kounta en argent sur… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=championnats-d-europe-d-athletisme-le",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+      "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=sophrologie-quel-remboursement-avec-sa",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "on-se-sent-tout-petits-l-emotion-des-spectateurs-apres-le-passage-de-l-e.html",
+      "title": "\"On se sent tout petits\" : l'émotion des spectateurs après le passage de l'éclipse : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=on-se-sent-tout-petits-l-emotion-des",
+      "matchedRule": null,
       "species": null
     }
   ]

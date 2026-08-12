@@ -77,6 +77,18 @@ function matchTopic(text) {
   };
 }
 
+/** File manuelle / inbox : titres modèle à ne jamais publier. */
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var id = String((c && c.id) || "");
+  var status = String((c && c.status) || "").toLowerCase();
+  if (status === "template") return true;
+  if (!title.trim()) return true;
+  if (/collez ici|placeholder|\bTODO\b|à remplacer|a remplacer/i.test(title)) return true;
+  if (/-template$/i.test(id) || /pending-template/i.test(id)) return true;
+  return false;
+}
+
 function uniqueFile(baseSlug) {
   var files = existingFiles();
   var slug = baseSlug;
@@ -351,4 +363,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
