@@ -8,12 +8,25 @@ Hub unique qui croise **grilles de taux** + **fiches produits**.
 ## Moteur
 [`js/crm-pret-doc-search.js`](../js/crm-pret-doc-search.js)
 
+### Corrélation projets IMMO
+Axes : **Prêt immo · PTZ · Prêt relais · Prêt conso · Travaux** (+ RAC, SCPI, SCI, HYPO, PVH).
+
+| Source | Signal → besoins docs |
+|--------|------------------------|
+| Rubrique dossier | `immo` → immo · `conso` → conso/treso · etc. |
+| Case PTZ / Relais (simulateur) | `projet.ptz` / `projet.relais` |
+| Type « Travaux » ou montant travaux | → `renov` |
+| Statut logement | locataire / propriétaire |
+| Banque saisie | partenaire détecté |
+
+Liens : Mes dossiers **📑** · simulateur **Documentation liée** · URL `?dossierId=&project=ptz&need=…`
+
 ### Ce qui est compris automatiquement
 | Signal | Exemples |
 |--------|----------|
 | Âge / senior | `62 ans`, `plus de 60`, `retraitée` |
 | Profil | locataire, propriétaire, primo, retraite |
-| Besoin | RAC, SCPI, PVH, travaux, trésorerie… |
+| Besoin | RAC, SCPI, PVH, PTZ, relais, travaux, conso… |
 | Intention | éligible, taux, critères, pièces, assurance |
 | Partenaire | CFCAL, Credit Lift, Creatis, MMB, SYGMA… |
 | Région | Réunion, Antilles, DOM-TOM |

@@ -25,6 +25,35 @@ window.CrmPretDocSearch = (function () {
 
   var STOP = "de du des le la les un une et ou a au aux en pour avec sans sur par plus ans est il elle je on qui que quoi comment voir".split(" ");
 
+  /** Axes projet IMMO ↔ besoins documentation */
+  var PROJECT_AXES = [
+    { id: "pret_immo", label: "Prêt immo", need: ["immo"], rubrique: "immo", q: "prêt immobilier acquisition" },
+    { id: "ptz", label: "PTZ", need: ["ptz", "immo"], profile: ["primo"], rubrique: "immo", q: "prêt à taux zéro PTZ primo-accession" },
+    { id: "pret_relais", label: "Prêt relais", need: ["relais", "immo"], rubrique: "immo", q: "prêt relais achat vente" },
+    { id: "pret_conso", label: "Prêt conso", need: ["conso", "treso"], rubrique: "conso", q: "prêt consommation trésorerie" },
+    { id: "travaux", label: "Travaux", need: ["renov"], rubrique: "immo", q: "travaux rénovation crédit" },
+    { id: "rac", label: "RAC", need: ["rac"], rubrique: "rac", q: "regroupement de crédits RAC" },
+    { id: "scpi", label: "SCPI", need: ["scpi"], rubrique: "scpi", q: "financement SCPI" },
+    { id: "sci", label: "SCI", need: ["sci", "immo"], rubrique: "sci", q: "financement SCI" },
+    { id: "hypo", label: "HYPO", need: ["hypo", "treso"], rubrique: "hypo", q: "prêt hypothécaire trésorerie" },
+    { id: "pvh", label: "PVH", need: ["pvh"], rubrique: "pvh", q: "prêt viager hypothécaire" }
+  ];
+
+  /** Alias besoin → catégories / tags catalogue */
+  var NEED_ALIASES = {
+    conso: ["conso", "treso"],
+    treso: ["treso", "conso"],
+    renov: ["renov"],
+    ptz: ["ptz", "immo"],
+    relais: ["relais"],
+    immo: ["immo"],
+    hypo: ["hypo", "hypo_treso"],
+    rac: ["rac"],
+    scpi: ["scpi"],
+    sci: ["sci"],
+    pvh: ["pvh"]
+  };
+
   var PARTNER_ALIASES = [
     ["cfcal", ["cfcal", "credit foncier"]],
     ["credilift", ["credilift", "credit lift", "normalift", "minilift", "hypolift", "consolift", "unilift", "cautiolift", "assurlift", "cacf"]],
@@ -122,11 +151,30 @@ window.CrmPretDocSearch = (function () {
       partner: filters.partner || "",
       region: filters.region || "",
       source: filters.source || "", // grilles | fiches | ""
+      rubrique: filters.rubrique || "",
+      project: filters.project || "",
       need: [],
       intents: [],
       profile: [],
-      kindHint: ""
+      kindHint: "",
+      axes: []
     };
+
+    if (out.project) {
+      var ax = PROJECT_AXES.find(function (a) {
+        return a.id === out.project;
+      });
+      if (ax) {
+        out.axes.push(ax.id);
+        (ax.need || []).forEach(function (n) {
+          if (out.need.indexOf(n) < 0) out.need.push(n);
+        });
+        (ax.profile || []).forEach(function (p) {
+          if (out.profile.indexOf(p) < 0) out.profile.push(p);
+        });
+        if (!out.rubrique && ax.rubrique) out.rubrique = ax.rubrique;
+      }
+    }
 
     var ageMatch =
       n.match(/(?:plus de|au moins|>=|>|age(?:\s+de)?)\s*(\d{2})/) ||
@@ -169,12 +217,13 @@ window.CrmPretDocSearch = (function () {
       ["scpi", ["scpi"]],
       ["sci", ["sci"]],
       ["pvh", ["pvh", "viager"]],
-      ["relais", ["relais"]],
+      ["relais", ["relais", "bridge"]],
       ["renov", ["renov", "renovation", "travaux"]],
-      ["immo", ["immobilier", "immo", "acquisition", "edifys", "aquiz", "investys"]],
+      ["ptz", ["ptz", "pret a taux zero", "taux zero", "eco ptz", "ecoptz"]],
+      ["immo", ["immobilier", "immo", "acquisition", "edifys", "aquiz", "investys", "pret immobilier"]],
       ["treso", ["treso", "tresorerie", "cash", "soulte"]],
       ["hypo", ["hypo", "hypothecaire"]],
-      ["conso", ["conso", "consommation", "personnel", "pret perso"]],
+      ["conso", ["conso", "consommation", "personnel", "pret perso", "pret conso"]],
       ["retraite", ["retraite", "pension"]],
       ["senior", ["senior"]],
       ["assurance", ["assurance", "ade", "assurlift"]],
@@ -218,7 +267,165 @@ window.CrmPretDocSearch = (function () {
         });
     }
 
+    if (out.need.indexOf("ptz") >= 0 && out.profile.indexOf("primo") < 0) out.profile.push("primo");
+    if (out.need.indexOf("ptz") >= 0 && out.axes.indexOf("ptz") < 0) out.axes.push("ptz");
+    if (out.need.indexOf("relais") >= 0 && out.axes.indexOf("pret_relais") < 0) out.axes.push("pret_relais");
+    if (out.need.indexOf("renov") >= 0 && out.axes.indexOf("travaux") < 0) out.axes.push("travaux");
+    if (out.need.indexOf("conso") >= 0 && out.axes.indexOf("pret_conso") < 0) out.axes.push("pret_conso");
+    if (out.need.indexOf("immo") >= 0 && out.axes.indexOf("pret_immo") < 0 && out.need.indexOf("ptz") < 0 && out.need.indexOf("relais") < 0)
+      out.axes.push("pret_immo");
+
+    out.need = unique(out.need);
+    out.profile = unique(out.profile);
+    out.axes = unique(out.axes);
+    out.intents = unique(out.intents);
+
     return out;
+  }
+
+  function ageFromBirthdate(iso) {
+    if (!iso) return null;
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return null;
+    var now = new Date();
+    var age = now.getFullYear() - d.getFullYear();
+    var m = now.getMonth() - d.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < d.getDate())) age--;
+    return age >= 18 && age < 120 ? age : null;
+  }
+
+  function partnerFromText(text) {
+    var n = norm(text);
+    if (!n) return "";
+    for (var i = 0; i < PARTNER_ALIASES.length; i++) {
+      if (PARTNER_ALIASES[i][1].some(function (a) { return n.indexOf(a) >= 0; })) return PARTNER_ALIASES[i][0];
+    }
+    return "";
+  }
+
+  /**
+   * Corrélation dossier Prêt Immo → filtres / besoins documentation
+   */
+  function contextFromDossier(d) {
+    d = d || {};
+    var p = d.projet || {};
+    var need = [];
+    var profile = [];
+    var axes = [];
+    var rubrique = d.rubrique || "";
+    var rubriqueMap = {
+      immo: ["immo"],
+      sci: ["sci", "immo"],
+      scpi: ["scpi"],
+      conso: ["conso", "treso"],
+      hypo: ["hypo", "treso"],
+      rac: ["rac"],
+      viager: ["pvh"],
+      pvh: ["pvh"]
+    };
+    (rubriqueMap[rubrique] || []).forEach(function (n) {
+      if (need.indexOf(n) < 0) need.push(n);
+    });
+
+    if (rubrique === "immo") axes.push("pret_immo");
+    if (rubrique === "conso") axes.push("pret_conso");
+    if (rubrique === "sci") axes.push("sci");
+    if (rubrique === "scpi") axes.push("scpi");
+    if (rubrique === "hypo") axes.push("hypo");
+    if (rubrique === "rac") axes.push("rac");
+    if (rubrique === "viager" || rubrique === "pvh") axes.push("pvh");
+
+    if (p.type === "Travaux" || Number(p.travaux) > 0) {
+      if (need.indexOf("renov") < 0) need.push("renov");
+      if (axes.indexOf("travaux") < 0) axes.push("travaux");
+    }
+    if (p.ptz) {
+      if (need.indexOf("ptz") < 0) need.push("ptz");
+      if (need.indexOf("immo") < 0) need.push("immo");
+      if (profile.indexOf("primo") < 0) profile.push("primo");
+      if (axes.indexOf("ptz") < 0) axes.push("ptz");
+    }
+    if (p.relais) {
+      if (need.indexOf("relais") < 0) need.push("relais");
+      if (need.indexOf("immo") < 0) need.push("immo");
+      if (axes.indexOf("pret_relais") < 0) axes.push("pret_relais");
+    }
+
+    var hs = d.housing_status || "";
+    var hasProperty = null;
+    if (hs === "locataire" || hs === "heberge") {
+      profile.push("locataire");
+      hasProperty = false;
+    } else if (hs === "proprietaire") {
+      profile.push("proprietaire");
+      hasProperty = true;
+    }
+
+    var ageMin = ageFromBirthdate(d.emprunteur && d.emprunteur.birthdate);
+    var partner = partnerFromText([d.banque, d.produit, p.objet].join(" "));
+
+    axes = unique(axes);
+    need = unique(need);
+    profile = unique(profile);
+
+    var qBits = [];
+    axes.forEach(function (id) {
+      var ax = PROJECT_AXES.find(function (a) { return a.id === id; });
+      if (ax) qBits.push(ax.label);
+    });
+    if (p.type && p.type !== "Autre" && p.type !== "Travaux") qBits.push(p.type);
+    if (Number(p.travaux) > 0) qBits.push("travaux " + Math.round(Number(p.travaux)) + " €");
+    if (d.ref) qBits.push(d.ref);
+
+    var projectPriority = ["ptz", "pret_relais", "travaux", "pret_conso", "rac", "scpi", "sci", "hypo", "pvh", "pret_immo"];
+    var project = "";
+    for (var pi = 0; pi < projectPriority.length; pi++) {
+      if (axes.indexOf(projectPriority[pi]) >= 0) {
+        project = projectPriority[pi];
+        break;
+      }
+    }
+
+    return {
+      dossierId: d.id || "",
+      ref: d.ref || "",
+      rubrique: rubrique,
+      axes: axes,
+      need: need,
+      profile: profile,
+      q: qBits.join(" · ") || "documentation projet",
+      filters: {
+        need: need.join(","),
+        rubrique: rubrique,
+        project: project,
+        partner: partner,
+        hasProperty: hasProperty,
+        ageMin: ageMin
+      }
+    };
+  }
+
+  function docsHrefFromDossier(d) {
+    var ctx = contextFromDossier(d);
+    var parts = [];
+    function add(k, v) {
+      if (v == null || v === "") return;
+      parts.push(encodeURIComponent(k) + "=" + encodeURIComponent(String(v)));
+    }
+    add("dossierId", ctx.dossierId);
+    add("q", ctx.q);
+    add("need", ctx.filters.need);
+    add("rubrique", ctx.filters.rubrique);
+    add("project", ctx.filters.project);
+    add("partner", ctx.filters.partner);
+    if (ctx.filters.ageMin != null) add("age", ctx.filters.ageMin);
+    if (ctx.filters.hasProperty === true) add("prop", "1");
+    if (ctx.filters.hasProperty === false) add("prop", "0");
+    return "./crm-pret-immo-docs.html" + (parts.length ? "?" + parts.join("&") : "");
+  }
+
+  function projectAxes() {
+    return PROJECT_AXES.slice();
   }
 
   function numOrNull(v) {
@@ -309,13 +516,35 @@ window.CrmPretDocSearch = (function () {
     return hay.indexOf(w) >= 0;
   }
 
+  function categoryMeta(doc, source) {
+    var c = catalogs[source];
+    if (!c) return null;
+    return (c.categories || []).find(function (x) {
+      return x.id === doc.category;
+    }) || null;
+  }
+
   function needHit(doc, need, hay) {
     if (!need) return false;
-    if (doc.category === need || (doc.alsoCategories || []).indexOf(need) >= 0) return "category";
-    if ((doc.tags || []).indexOf(need) >= 0) return "tag";
+    var keys = NEED_ALIASES[need] || [need];
     var title = norm(doc.title + " " + (doc.filename || "") + " " + (doc.subsection || ""));
-    if (hasWord(title, need)) return "title";
-    if (hasWord(hay, need)) return "soft";
+    var i;
+    for (i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      if (doc.category === k || (doc.alsoCategories || []).indexOf(k) >= 0) return "category";
+    }
+    for (i = 0; i < keys.length; i++) {
+      if ((doc.tags || []).indexOf(keys[i]) >= 0) return "tag";
+    }
+    if (need === "renov" && (doc.tags || []).indexOf("travaux") >= 0) return "tag";
+    if (need === "ptz" && ((doc.tags || []).indexOf("primo") >= 0 || hasWord(title, "ptz") || hasWord(title, "taux zero")))
+      return "tag";
+    for (i = 0; i < keys.length; i++) {
+      if (hasWord(title, keys[i])) return "title";
+    }
+    for (i = 0; i < keys.length; i++) {
+      if (hasWord(hay, keys[i])) return "soft";
+    }
     return "";
   }
 
@@ -338,6 +567,13 @@ window.CrmPretDocSearch = (function () {
     if (query.category && (doc.category === query.category || (doc.alsoCategories || []).indexOf(query.category) >= 0)) {
       score += 45;
       reasons.push("catégorie");
+    }
+    if (query.rubrique) {
+      var meta = categoryMeta(doc, source);
+      if (meta && (meta.rubriques || []).indexOf(query.rubrique) >= 0) {
+        score += 22;
+        reasons.push("rubrique « " + query.rubrique + " »");
+      }
     }
     if (query.partner && doc.partner === query.partner) {
       score += 28;
@@ -494,6 +730,8 @@ window.CrmPretDocSearch = (function () {
       !query.partner &&
       !query.region &&
       !query.need.length &&
+      !query.rubrique &&
+      !query.project &&
       query.ageMin == null &&
       query.hasProperty == null &&
       !query.profile.length;
@@ -597,6 +835,37 @@ window.CrmPretDocSearch = (function () {
         detail: "Croiser listes SCPI éligibles + fiches nantissement/caution + grilles de taux SCPI (CFCAL / Credit Lift)."
       });
     }
+    if (query.need.indexOf("ptz") >= 0 || query.axes.indexOf("ptz") >= 0) {
+      steps.push({
+        title: "PTZ / primo-accession",
+        detail:
+          "Pas encore de grille PTZ dédiée dans le catalogue — croiser fiches IMMO primo (BANK B 1ère acquisition, Edifys/Aquiz) + conditions zone / plafond. Valider éligibilité PTZ hors catalogue."
+      });
+    }
+    if (query.need.indexOf("relais") >= 0 || query.axes.indexOf("pret_relais") >= 0) {
+      steps.push({
+        title: "Prêt relais",
+        detail: "Grilles / fiches relais (CMT, BANK B, Griffon Patrimoine Relais) + pont vente/achat. Vérifier durée et quotité."
+      });
+    }
+    if (query.need.indexOf("renov") >= 0 || query.axes.indexOf("travaux") >= 0) {
+      steps.push({
+        title: "Travaux / rénovation",
+        detail: "CFCAL HYPO RENOV + BANK B travaux (>75 k€) + book revenus. Distinguer fins privées / pro."
+      });
+    }
+    if (query.need.indexOf("conso") >= 0 || query.axes.indexOf("pret_conso") >= 0) {
+      steps.push({
+        title: "Prêt conso / trésorerie",
+        detail: "Orienter vers catégories TRESO / conso patrimoine, Griffon, Credit Lift conso — croiser RAV et garantie éventuelle."
+      });
+    }
+    if (query.need.indexOf("immo") >= 0 && query.axes.indexOf("pret_immo") >= 0) {
+      steps.push({
+        title: "Prêt immobilier",
+        detail: "Fiches acquisition (Ancien / VEFA / CCMI) + grilles IMMO. Si PTZ ou relais coché sur le dossier, combiner les parcours associés."
+      });
+    }
     if (!steps.length && rules[0]) {
       steps.push({ title: rules[0].label, detail: rules[0].advice });
     }
@@ -648,12 +917,18 @@ window.CrmPretDocSearch = (function () {
       { q: "PVH senior trésorerie", label: "PVH" },
       { q: "SCPI nantissement CFCAL", label: "SCPI" },
       { q: "RAC Réunion avec garantie", label: "DOM-TOM Réunion" },
-      { q: "travaux rénovation 80000 BANK B", label: "Travaux BANK B" }
+      { q: "travaux rénovation 80000 BANK B", label: "Travaux BANK B" },
+      { q: "prêt à taux zéro PTZ primo-accession", label: "PTZ", project: "ptz" },
+      { q: "prêt relais achat vente", label: "Prêt relais", project: "pret_relais" },
+      { q: "prêt immobilier acquisition", label: "Prêt immo", project: "pret_immo" },
+      { q: "prêt consommation trésorerie", label: "Prêt conso", project: "pret_conso" }
     ];
   }
 
   function explainQuery(query) {
     var bits = [];
+    if (query.axes && query.axes.length) bits.push("projet : " + query.axes.join(", "));
+    if (query.rubrique) bits.push("rubrique : " + query.rubrique);
     if (query.ageMin != null) bits.push("âge ≥ " + query.ageMin + " ans");
     if (query.profile.length) bits.push("profil : " + query.profile.join(", "));
     if (query.hasProperty === true) bits.push("avec bien");
@@ -675,6 +950,9 @@ window.CrmPretDocSearch = (function () {
     allPartners: allPartners,
     allCategories: allCategories,
     regionLabel: regionLabel,
+    projectAxes: projectAxes,
+    contextFromDossier: contextFromDossier,
+    docsHrefFromDossier: docsHrefFromDossier,
     norm: norm
   };
 })();

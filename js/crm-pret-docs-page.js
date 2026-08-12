@@ -2,6 +2,8 @@
   "use strict";
 
   var Search = window.CrmPretDocSearch;
+  var Store = window.CrmPretImmoStore;
+  var Lib = window.CrmPretImmo;
   if (!Search) return;
   if (!localStorage.getItem("lo_token")) {
     location.href = "./crm.html";
@@ -17,14 +19,19 @@
     region: document.getElementById("gRegion"),
     source: document.getElementById("gSource"),
     group: document.getElementById("gGroup"),
+    dossier: document.getElementById("gDossier"),
+    project: document.getElementById("gProject"),
     btn: document.getElementById("gSearch"),
     chips: document.getElementById("gChips"),
+    axisChips: document.getElementById("gAxisChips"),
     advice: document.getElementById("gAdvice"),
     playbook: document.getElementById("gPlaybook"),
     results: document.getElementById("gResults"),
     meta: document.getElementById("gMeta"),
     parsed: document.getElementById("gParsed")
   };
+
+  var extraNeed = "";
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -41,7 +48,10 @@
       category: els.cat.value,
       partner: els.partner.value,
       region: els.region.value,
-      source: els.source ? els.source.value : ""
+      source: els.source ? els.source.value : "",
+      project: els.project ? els.project.value : "",
+      rubrique: "",
+      need: extraNeed
     };
   }
 
@@ -60,6 +70,73 @@
           return '<option value="' + esc(p.id) + '">' + esc(p.label) + "</option>";
         })
         .join("");
+    if (els.project) {
+      els.project.innerHTML =
+        '<option value="">Tous / auto</option>' +
+        Search.projectAxes()
+          .map(function (a) {
+            return '<option value="' + esc(a.id) + '">' + esc(a.label) + "</option>";
+          })
+          .join("");
+    }
+    if (els.dossier && Store && Lib) {
+      var list = Store.list({}).slice(0, 80);
+      els.dossier.innerHTML =
+        '<option value="">Aucun</option>' +
+        list
+          .map(function (d) {
+            return (
+              '<option value="' +
+              esc(d.id) +
+              '">' +
+              esc((d.ref || d.id) + " — " + Lib.typeLabel(d.rubrique) + " — " + (Lib.displayName(d.emprunteur) || "—")) +
+              "</option>"
+            );
+          })
+          .join("");
+    }
+  }
+
+  function markAxisChips() {
+    if (!els.axisChips) return;
+    var cur = els.project ? els.project.value : "";
+    els.axisChips.querySelectorAll("[data-project]").forEach(function (btn) {
+      if (btn.getAttribute("data-project") === cur) btn.classList.add("on");
+      else btn.classList.remove("on");
+    });
+  }
+
+  function renderAxisChips() {
+    if (!els.axisChips) return;
+    var main = ["pret_immo", "ptz", "pret_relais", "pret_conso", "travaux", "rac", "scpi"];
+    els.axisChips.innerHTML =
+      '<span class="g-axis-label">Projets IMMO</span>' +
+      Search.projectAxes()
+        .filter(function (a) {
+          return main.indexOf(a.id) >= 0;
+        })
+        .map(function (a) {
+          return (
+            '<button type="button" class="g-chip axis" data-project="' +
+            esc(a.id) +
+            '" data-q="' +
+            esc(a.q) +
+            '">' +
+            esc(a.label) +
+            "</button>"
+          );
+        })
+        .join("");
+    els.axisChips.querySelectorAll("[data-project]").forEach(function (btn) {
+      btn.onclick = function () {
+        var id = btn.getAttribute("data-project");
+        if (els.project) els.project.value = id;
+        els.q.value = btn.getAttribute("data-q") || "";
+        extraNeed = "";
+        markAxisChips();
+        run();
+      };
+    });
   }
 
   function renderChips() {
@@ -68,7 +145,9 @@
         return (
           '<button type="button" class="g-chip" data-q="' +
           esc(ex.q) +
-          '">' +
+          '"' +
+          (ex.project ? ' data-project="' + esc(ex.project) + '"' : "") +
+          ">" +
           esc(ex.label) +
           "</button>"
         );
@@ -77,9 +156,27 @@
     els.chips.querySelectorAll("[data-q]").forEach(function (btn) {
       btn.onclick = function () {
         els.q.value = btn.getAttribute("data-q");
+        var proj = btn.getAttribute("data-project");
+        if (proj && els.project) els.project.value = proj;
+        markAxisChips();
         run();
       };
     });
+  }
+
+  function applyDossier(id) {
+    if (!id || !Store || !Search.contextFromDossier) return;
+    var d = Store.get(id);
+    if (!d) return;
+    var ctx = Search.contextFromDossier(d);
+    els.q.value = ctx.q;
+    extraNeed = ctx.filters.need || "";
+    if (els.project && ctx.filters.project) els.project.value = ctx.filters.project;
+    if (ctx.filters.ageMin != null) els.age.value = ctx.filters.ageMin;
+    if (ctx.filters.hasProperty === true) els.prop.value = "1";
+    else if (ctx.filters.hasProperty === false) els.prop.value = "0";
+    if (ctx.filters.partner) els.partner.value = ctx.filters.partner;
+    markAxisChips();
   }
 
   function statusBadge(doc) {
@@ -104,10 +201,25 @@
   }
 
   function run() {
-    var out = Search.search(els.q.value, filters());
+    var f = filters();
+    if (els.dossier && els.dossier.value && Store) {
+      var d = Store.get(els.dossier.value);
+      if (d) {
+        var ctx = Search.contextFromDossier(d);
+        f.need = [f.need, ctx.filters.need].filter(Boolean).join(",");
+        f.rubrique = ctx.rubrique || f.rubrique;
+        if (!f.project && ctx.filters.project) f.project = ctx.filters.project;
+        if (!f.partner && ctx.filters.partner) f.partner = ctx.filters.partner;
+        if ((f.hasProperty === "" || f.hasProperty == null) && ctx.filters.hasProperty != null) {
+          f.hasProperty = ctx.filters.hasProperty ? "1" : "0";
+        }
+        if (!f.ageMin && ctx.filters.ageMin != null) f.ageMin = ctx.filters.ageMin;
+      }
+    }
+
+    var out = Search.search(els.q.value, f);
     els.parsed.innerHTML = "<strong>Compris :</strong> " + esc(Search.explainQuery(out.query));
 
-    /* Playbook */
     if (els.playbook) {
       if (!out.playbook.steps.length) {
         els.playbook.innerHTML = "";
@@ -131,7 +243,7 @@
 
     if (!out.advice.length) {
       els.advice.innerHTML =
-        '<div class="g-advice muted">Affinez la question (âge, locataire/propriétaire, RAC/SCPI, région…) pour activer les conseils d’éligibilité.</div>';
+        '<div class="g-advice muted">Choisissez un axe projet (PTZ, relais, travaux…) ou un dossier pour activer les conseils d’éligibilité.</div>';
     } else {
       els.advice.innerHTML = out.advice
         .map(function (a) {
@@ -171,7 +283,7 @@
 
     if (!out.results.length) {
       els.results.innerHTML =
-        '<p class="g-empty">Aucun document pertinent. Essayez une puce d’exemple ou élargissez les filtres.</p>';
+        '<p class="g-empty">Aucun document pertinent. Essayez un axe projet, une puce d’exemple ou élargissez les filtres.</p>';
       return;
     }
 
@@ -227,11 +339,21 @@
 
   function boot() {
     fillSelects();
+    renderAxisChips();
     renderChips();
     var params = new URLSearchParams(location.search);
     if (params.get("q")) els.q.value = params.get("q");
     if (params.get("age")) els.age.value = params.get("age");
     if (params.get("source") && els.source) els.source.value = params.get("source");
+    if (params.get("partner") && els.partner) els.partner.value = params.get("partner");
+    if (params.get("prop") != null && els.prop) els.prop.value = params.get("prop");
+    if (params.get("project") && els.project) els.project.value = params.get("project");
+    if (params.get("need")) extraNeed = params.get("need");
+    if (params.get("dossierId") && els.dossier) {
+      els.dossier.value = params.get("dossierId");
+      applyDossier(params.get("dossierId"));
+    }
+    markAxisChips();
     run();
   }
 
@@ -242,9 +364,18 @@
       run();
     }
   });
-  [els.age, els.prop, els.cat, els.partner, els.region, els.source, els.group].forEach(function (el) {
-    if (el) el.addEventListener("change", run);
+  [els.age, els.prop, els.cat, els.partner, els.region, els.source, els.group, els.project].forEach(function (el) {
+    if (el) el.addEventListener("change", function () {
+      markAxisChips();
+      run();
+    });
   });
+  if (els.dossier) {
+    els.dossier.addEventListener("change", function () {
+      applyDossier(els.dossier.value);
+      run();
+    });
+  }
 
   Promise.all([
     fetch("./data/pret-grilles-taux.json", { cache: "no-store" }).then(function (r) {

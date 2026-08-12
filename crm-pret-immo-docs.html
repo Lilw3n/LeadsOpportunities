@@ -29,7 +29,10 @@
     .g-filters label { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:#64748b; }
     .g-chips { display:flex; flex-wrap:wrap; gap:8px; }
     .g-chip { border:1px solid #bfdbfe; background:#eff6ff; color:#1e3a8a; border-radius:999px; padding:6px 12px; font-size:.78rem; font-weight:700; cursor:pointer; }
-    .g-chip:hover { background:#dbeafe; }
+    .g-chip:hover, .g-chip.on { background:#dbeafe; }
+    .g-chip.axis { border-color:#c4b5fd; background:#f5f3ff; color:#5b21b6; }
+    .g-chip.axis.on { background:#ddd6fe; }
+    .g-axis-label { font-size:.72rem; font-weight:800; color:#64748b; margin:4px 0 0; width:100%; }
     .g-parsed { font-size:.82rem; color:#475569; margin:4px 0 0; }
     .g-layout { display:grid; grid-template-columns:300px 1fr; gap:14px; align-items:start; }
     @media (max-width:980px){ .g-layout { grid-template-columns:1fr; } }
@@ -79,9 +82,9 @@
 
   <h1 class="g-title">Documentation intelligente</h1>
   <p class="g-sub">
-    Un seul moteur pour <strong>grilles de taux</strong> + <strong>fiches produits</strong>.
-    Posez une question métier en langage naturel — profil, intention, partenaire, région —
-    le système range, score et propose un parcours.
+    Un seul moteur pour <strong>grilles de taux</strong> + <strong>fiches produits</strong>,
+    corrélé aux projets IMMO : prêt immo, PTZ, prêt relais, conso, travaux…
+    Posez une question métier ou sélectionnez un dossier / un axe projet.
   </p>
   <p class="g-links">
     Catalogues séparés :
@@ -141,7 +144,18 @@
           <option value="category">Catégorie</option>
         </select>
       </label>
+      <label>Dossier lié
+        <select id="gDossier">
+          <option value="">Aucun</option>
+        </select>
+      </label>
+      <label>Axe projet
+        <select id="gProject">
+          <option value="">Tous / auto</option>
+        </select>
+      </label>
     </div>
+    <div class="g-chips" id="gAxisChips"></div>
     <div class="g-chips" id="gChips"></div>
     <p class="g-parsed" id="gParsed"></p>
   </div>
@@ -158,6 +172,8 @@
     </main>
   </div>
 
+  <script src="./js/crm-pret-immo-lib.js"></script>
+  <script src="./js/crm-pret-immo-store.js"></script>
   <script src="./js/crm-pret-doc-search.js"></script>
   <script src="./js/crm-pret-docs-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>

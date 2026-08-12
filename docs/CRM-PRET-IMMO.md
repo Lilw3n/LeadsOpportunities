@@ -15,9 +15,11 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - **Mes dossiers** — tableau (date, rubrique, réf., emprunteur, co-emprunteur, dép., apporteur, réseau, utilisateurs, position, DDP, montant, banque, produit, archive)
 - **Effectuer simulation** — RAC (Propriétaire / Locataire / Hébergé), IMMO, SCI, SCPI, CONSO, HYPO, VIAGER, PVH calculette
 - **Transmettre coordonnées** — [`crm-pret-immo-coord.html`](../crm-pret-immo-coord.html) : fiche légère indicateur d’affaires (responsable, emprunteur/co, logement, notes, option délégation)
-- **Documentation** — hub unique (grilles + fiches), parcours conseillé, scoring intention/profil
+- **Documentation** — hub unique (grilles + fiches), corrélé aux projets (PTZ, relais, conso, travaux, prêt immo)
 - **Grille des taux** / **Fiches produits** — catalogues dédiés
 - Liens vers demande publique + barèmes FAI
+
+Sur un dossier IMMO : cases **PTZ** / **Prêt relais**, montant **Travaux** → la doc se filtre automatiquement (icône 📑 liste + bouton *Documentation liée* simulateur).
 
 ## Simulateurs (IMMO / SCI / SCPI / CONSO / HYPO / Viager / RAC)
 Formulaire sections numérotées + **sidebar synthèse** (achat, apport, taux, mensualités H.A./A.C., DTI avant/après, RAV, ratio hypothécaire, solvabilité).

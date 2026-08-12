@@ -273,6 +273,8 @@
     p.scpi_valeur_part = val("scpiValeur", 0);
     p.objet = val("objetPret");
     p.viager_type_bien = val("viagerType") || "rp";
+    p.ptz = !!val("axePtz");
+    p.relais = !!val("axeRelais");
 
     var hypoV = val("hypoValeur", 0);
     var hypoM = val("hypoMontant", 0);
@@ -321,6 +323,8 @@
     setVal("hypoValeur", p.hypo_valeur_bien || p.viager_valeur || "");
     setVal("hypoMontant", p.hypo_montant || p.viager_montant || "");
     setVal("consoMontant", type === "conso" ? p.prix_achat || "" : "");
+    setVal("axePtz", !!p.ptz);
+    setVal("axeRelais", !!p.relais);
   }
 
   function collectInto(d) {
@@ -727,6 +731,18 @@
       saveDossier({ transmit: true });
       setVal("ddp", true);
       msg("Dossier marqué transmis (DDP) — " + dossier.ref, "#5b21b6");
+    };
+  }
+
+  if ($("btnDocsLinked")) {
+    $("btnDocsLinked").onclick = function () {
+      collectInto(dossier);
+      var Search = window.CrmPretDocSearch;
+      var href =
+        Search && Search.docsHrefFromDossier
+          ? Search.docsHrefFromDossier(dossier)
+          : "./crm-pret-immo-docs.html?dossierId=" + encodeURIComponent(dossier.id || "");
+      location.href = href;
     };
   }
 

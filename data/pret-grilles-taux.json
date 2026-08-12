@@ -1374,6 +1374,62 @@
       "advice": "Voir grilles prêt relais + Griffon Patrimoine Relais.",
       "confidence": "draft",
       "todoValidate": []
+    },
+    {
+      "id": "ptz-primo",
+      "label": "PTZ / primo-accession",
+      "priority": 24,
+      "when": {
+        "needAny": [
+          "ptz",
+          "primo",
+          "taux zero"
+        ]
+      },
+      "preferCategories": [
+        "immo"
+      ],
+      "preferTags": [
+        "primo",
+        "immo",
+        "acquisition"
+      ],
+      "preferPartners": [
+        "bank_b",
+        "cgi",
+        "cfcal"
+      ],
+      "advice": "Pas de grille PTZ dédiée pour l’instant : croiser IMMO primo + conditions zone/plafonds hors catalogue. À enrichir dès dépôt des PDF PTZ.",
+      "confidence": "draft",
+      "todoValidate": [
+        "zones A/B/C",
+        "plafonds ressources",
+        "quotité PTZ"
+      ]
+    },
+    {
+      "id": "pret-conso-treso",
+      "label": "Prêt conso / trésorerie",
+      "priority": 26,
+      "when": {
+        "needAny": [
+          "conso",
+          "treso",
+          "personnel"
+        ]
+      },
+      "preferCategories": [
+        "treso",
+        "hypo_treso",
+        "rac"
+      ],
+      "preferTags": [
+        "conso",
+        "treso"
+      ],
+      "advice": "Prioriser TRESO / conso patrimoine ; hypo trésorerie si garantie possible.",
+      "confidence": "draft",
+      "todoValidate": []
     }
   ],
   "manifest": {

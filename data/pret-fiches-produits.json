@@ -4766,6 +4766,82 @@
       "advice": "CFCAL (nom propre / SCI) + listes/book CACF. Croiser grilles SCPI.",
       "confidence": "draft",
       "todoValidate": []
+    },
+    {
+      "id": "ptz-primo-fiches",
+      "label": "PTZ / primo-accession",
+      "priority": 24,
+      "when": {
+        "needAny": [
+          "ptz",
+          "primo",
+          "taux zero"
+        ]
+      },
+      "preferCategories": [
+        "immo",
+        "bank_b",
+        "cgi"
+      ],
+      "preferTags": [
+        "primo",
+        "immo",
+        "acquisition"
+      ],
+      "advice": "Fiches IMMO primo (BANK B 1ère acquisition, CFCAL Edifys/Aquiz). PTZ réglementaire à valider hors fiches partenaires jusqu’à dépôt PDF PTZ.",
+      "confidence": "draft",
+      "todoValidate": [
+        "zones",
+        "plafonds"
+      ]
+    },
+    {
+      "id": "pret-relais-fiches",
+      "label": "Prêt relais",
+      "priority": 25,
+      "when": {
+        "needAny": [
+          "relais",
+          "bridge"
+        ]
+      },
+      "preferCategories": [
+        "relais",
+        "treso",
+        "bank_b",
+        "cmt"
+      ],
+      "preferTags": [
+        "relais"
+      ],
+      "advice": "Griffon Patrimoine Relais / BANK B / CMT — croiser durée et quotité.",
+      "confidence": "draft",
+      "todoValidate": []
+    },
+    {
+      "id": "pret-conso-fiches",
+      "label": "Prêt conso / trésorerie",
+      "priority": 26,
+      "when": {
+        "needAny": [
+          "conso",
+          "treso",
+          "personnel"
+        ]
+      },
+      "preferCategories": [
+        "treso",
+        "credilift",
+        "cmt",
+        "bank_b"
+      ],
+      "preferTags": [
+        "conso",
+        "treso"
+      ],
+      "advice": "Fiches TRESO, Griffon conso, Credit Lift conso — vérifier RAV.",
+      "confidence": "draft",
+      "todoValidate": []
     }
   ],
   "manifest": {
