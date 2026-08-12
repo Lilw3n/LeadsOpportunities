@@ -22,7 +22,41 @@
     scheduleId: null,
     loanType: "pret_amortissable",
     dealRole: "both",
+    priceMode: "net_vendeur",
   };
+
+  var PRICE_MODE_KEY = "lo_agency_fee_price_mode_v1";
+
+  function loadPriceMode() {
+    try {
+      var v = localStorage.getItem(PRICE_MODE_KEY);
+      return v === "fai" ? "fai" : "net_vendeur";
+    } catch (e) {
+      return "net_vendeur";
+    }
+  }
+
+  function savePriceMode(mode) {
+    var m = mode === "fai" ? "fai" : "net_vendeur";
+    state.priceMode = m;
+    try {
+      localStorage.setItem(PRICE_MODE_KEY, m);
+    } catch (e) {}
+  }
+
+  function currentPriceMode() {
+    var el = document.getElementById("cmpPriceMode") || document.getElementById("calcPriceMode");
+    var v = el ? el.value : state.priceMode;
+    return v === "fai" ? "fai" : "net_vendeur";
+  }
+
+  function syncPriceModeSelects(mode) {
+    var m = mode === "fai" ? "fai" : "net_vendeur";
+    var cmp = document.getElementById("cmpPriceMode");
+    var calc = document.getElementById("calcPriceMode");
+    if (cmp) cmp.value = m;
+    if (calc) calc.value = m;
+  }
 
   if (state.agencies.length) {
     var prefer =
@@ -509,7 +543,13 @@
 
   function kindMeta(kind) {
     if (kind === "bail_commercial" || kind === "location_pro") {
-      return { priceLabel: "Loyer annuel (€)", showSurface: false, showZone: false, showParty: false };
+      return {
+        priceLabel: "Loyer annuel (€)",
+        showSurface: false,
+        showZone: false,
+        showParty: false,
+        showPriceMode: false,
+      };
     }
     if (kind === "location_habitation") {
       return {
@@ -517,15 +557,35 @@
         showSurface: true,
         showZone: true,
         showParty: true,
+        showPriceMode: false,
       };
     }
     if (kind === "avis_valeur") {
-      return { priceLabel: "Référence (€, optionnel)", showSurface: false, showZone: false, showParty: false };
+      return {
+        priceLabel: "Référence (€, optionnel)",
+        showSurface: false,
+        showZone: false,
+        showParty: false,
+        showPriceMode: false,
+      };
     }
     if (kind === "vente_pro" || kind === "vente_habitation" || kind === "garage") {
-      return { priceLabel: "Prix net vendeur (€)", showSurface: false, showZone: false, showParty: false };
+      var fai = currentPriceMode() === "fai";
+      return {
+        priceLabel: fai ? "Prix FAI (€)" : "Prix net vendeur (€)",
+        showSurface: false,
+        showZone: false,
+        showParty: false,
+        showPriceMode: true,
+      };
     }
-    return { priceLabel: "Prix / référence (€)", showSurface: false, showZone: false, showParty: false };
+    return {
+      priceLabel: "Prix / référence (€)",
+      showSurface: false,
+      showZone: false,
+      showParty: false,
+      showPriceMode: false,
+    };
   }
 
   function syncKindFields() {
@@ -542,10 +602,17 @@
       ["calcSurfaceWrap", meta.showSurface],
       ["calcZoneWrap", meta.showZone],
       ["calcPartyWrap", meta.showParty],
+      ["cmpPriceModeWrap", meta.showPriceMode],
+      ["calcPriceModeWrap", meta.showPriceMode],
     ].forEach(function (pair) {
       var el = document.getElementById(pair[0]);
       if (el) el.hidden = !pair[1];
     });
+    var derivedCol = document.getElementById("cmpColDerived");
+    if (derivedCol) {
+      derivedCol.textContent =
+        meta.showPriceMode && currentPriceMode() === "fai" ? "Net vendeur" : "Prix FAI";
+    }
   }
 
   function calcExtras() {
@@ -637,11 +704,13 @@
       return;
     }
     var price = Number(document.getElementById("calcPrice").value) || 0;
+    var priceMode = currentPriceMode();
     var extras = calcExtras();
     var res = Lib.calculate({
       agency: ag,
       scheduleId: state.scheduleId,
       price: price,
+      priceMode: priceMode,
       surface: extras.surface,
       zone: extras.zone,
       rentalParty: extras.rentalParty,
@@ -664,13 +733,19 @@
         : res.feeModel === "fixed_fee"
           ? Lib.formatEuro(res.agencyFee)
           : Lib.formatEuro(res.price);
+    var derivedKpi =
+      res.fai == null
+        ? ""
+        : priceMode === "fai"
+          ? kpiCard("Prix FAI saisi", res.inputPrice != null ? res.inputPrice : price, "muted")
+          : kpiCard("Prix FAI", res.fai, "muted");
     box.innerHTML =
       '<div class="af-kpi muted"><span>' +
       refLabel +
       "</span><strong>" +
       refValue +
       "</strong></div>" +
-      (res.fai != null ? kpiCard("Prix FAI", res.fai, "muted") : "") +
+      derivedKpi +
       buildRemunerationKpis(res, ag, readDealOpts());
 
     renderStripePreview(res.agentGross, {
@@ -727,6 +802,8 @@
       brLabel +
       " · " +
       basis +
+      (priceMode === "fai" ? " · saisie FAI" : "") +
+      (res.faiInvert && res.faiInvert.approximate ? " · FAI approximé au palier le plus proche" : "") +
       " · " +
       ag.name +
       (shareBits.length ? " · répartition : " + shareBits.join(" · ") : "");
@@ -737,6 +814,7 @@
     var hint = document.getElementById("cmpHint");
     syncKindFields();
     var price = Number(document.getElementById("cmpPrice").value) || 0;
+    var priceMode = currentPriceMode();
     var kind = document.getElementById("cmpKind").value;
     var extras = {
       surface: Number(document.getElementById("cmpSurface").value) || 0,
@@ -745,6 +823,7 @@
     };
     var rows = Lib.compareAgencies({
       price: price,
+      priceMode: priceMode,
       kind: kind,
       surface: extras.surface,
       zone: extras.zone,
@@ -752,6 +831,7 @@
       chargesPct: currentChargesPct(),
       cfePct: currentCfePct(),
       accountingPct: currentAccountingPct(),
+      deal: readDealOpts(),
     });
     if (!rows.length) {
       tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Aucune agence</td></tr>';
@@ -767,6 +847,12 @@
         var badge = row.hasMatchingKind
           ? ""
           : ' <span class="af-badge warn">barème proche</span>';
+        var derived =
+          r.fai == null
+            ? "—"
+            : priceMode === "fai"
+              ? Lib.formatEuro(r.price)
+              : Lib.formatEuro(r.fai);
         return (
           '<tr class="' +
           best +
@@ -788,7 +874,7 @@
           Lib.formatEuro(r.agencyFee) +
           "</td>" +
           "<td>" +
-          (r.fai != null ? Lib.formatEuro(r.fai) : "—") +
+          derived +
           "</td>" +
           "<td><strong>" +
           Lib.formatEuro(r.agentGross) +
@@ -816,6 +902,7 @@
             ? ag.schedules[0].id
             : null;
         document.getElementById("calcPrice").value = document.getElementById("cmpPrice").value;
+        syncPriceModeSelects(priceMode);
         document.getElementById("calcSurface").value = document.getElementById("cmpSurface").value;
         document.getElementById("calcZone").value = document.getElementById("cmpZone").value;
         document.getElementById("calcParty").value = document.getElementById("cmpParty").value;
@@ -826,7 +913,7 @@
     var refHint =
       kind === "location_habitation"
         ? extras.surface + " m² · " + extras.zone
-        : Lib.formatEuro(price);
+        : (priceMode === "fai" ? "FAI " : "net ") + Lib.formatEuro(price);
     hint.textContent =
       "Réf. " +
       refHint +
@@ -1028,6 +1115,7 @@
       includeProjectInRachat: document.getElementById("bfIncludeProject").value !== "0",
       bridgeAmount: Number(document.getElementById("bfBridge").value) || 0,
       netVendeur: Number(document.getElementById("cmpPrice").value) || 0,
+      priceMode: currentPriceMode(),
     };
   }
 
@@ -1107,9 +1195,11 @@
 
     var opts = readBuyerOpts();
     var price = Number(document.getElementById("cmpPrice").value) || 0;
+    var priceMode = currentPriceMode();
     var kind = document.getElementById("cmpKind").value;
     var agencyRows = Lib.compareAgencies({
       price: price,
+      priceMode: priceMode,
       kind: kind,
       surface: Number(document.getElementById("cmpSurface").value) || 0,
       zone: document.getElementById("cmpZone").value || "hors_zone",
@@ -1117,6 +1207,7 @@
       chargesPct: currentChargesPct(),
       cfePct: currentCfePct(),
       accountingPct: currentAccountingPct(),
+      deal: readDealOpts(),
     });
 
     var rows = Fin.compareWithAgencies(agencyRows, opts);
@@ -1352,11 +1443,16 @@
     renderAll();
   };
 
-  ["calcPrice", "calcSurface", "calcZone", "calcParty"].forEach(function (id) {
+  ["calcPrice", "calcSurface", "calcZone", "calcParty", "calcPriceMode"].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;
     el.addEventListener("input", function () {
       if (id === "calcPrice") document.getElementById("cmpPrice").value = el.value;
+      if (id === "calcPriceMode") {
+        savePriceMode(el.value);
+        syncPriceModeSelects(el.value);
+        syncKindFields();
+      }
       if (id === "calcSurface") document.getElementById("cmpSurface").value = el.value;
       if (id === "calcZone") document.getElementById("cmpZone").value = el.value;
       if (id === "calcParty") document.getElementById("cmpParty").value = el.value;
@@ -1365,17 +1461,27 @@
       renderBuyerFinance();
     });
     el.addEventListener("change", function () {
+      if (id === "calcPriceMode") {
+        savePriceMode(el.value);
+        syncPriceModeSelects(el.value);
+        syncKindFields();
+      }
       renderCalc();
       renderCompare();
       renderBuyerFinance();
     });
   });
 
-  ["cmpPrice", "cmpKind", "cmpSurface", "cmpZone", "cmpParty", "chargesPct", "cfePct", "accountingPct"].forEach(function (id) {
+  ["cmpPrice", "cmpKind", "cmpSurface", "cmpZone", "cmpParty", "cmpPriceMode", "chargesPct", "cfePct", "accountingPct"].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;
     el.addEventListener("input", function () {
       if (id === "cmpPrice") document.getElementById("calcPrice").value = el.value;
+      if (id === "cmpPriceMode") {
+        savePriceMode(el.value);
+        syncPriceModeSelects(el.value);
+        syncKindFields();
+      }
       if (id === "cmpSurface") document.getElementById("calcSurface").value = el.value;
       if (id === "cmpZone") document.getElementById("calcZone").value = el.value;
       if (id === "cmpParty") document.getElementById("calcParty").value = el.value;
@@ -1390,6 +1496,11 @@
     el.addEventListener("change", function () {
       if (id === "chargesPct" || id === "cfePct" || id === "accountingPct") persistTaxFromForm();
       if (id === "cmpKind") syncKindFields();
+      if (id === "cmpPriceMode") {
+        savePriceMode(el.value);
+        syncPriceModeSelects(el.value);
+        syncKindFields();
+      }
       renderCompare();
       renderCalc();
       renderBuyerFinance();
@@ -1522,5 +1633,7 @@
 
   applyDealPrefsToForm();
   applyBuyerPrefsToForm();
+  state.priceMode = loadPriceMode();
+  syncPriceModeSelects(state.priceMode);
   renderAll();
 })();
