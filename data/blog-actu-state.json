@@ -1,10 +1,11 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T17:06:41.059Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sciences/en-direct-eclipse-solaire-du-12-aout-horaires-lunettes-sites-d-observation-tout-savoir-sur-ce-phenomene-astronomique-rare-20260812"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T17:06:41.977Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +18,20 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T17:06:41.977Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "en-direct-eclipse-solaire-du-12-aout-horaires-lunettes-sites-d-observati.html",
+          "title": "EN DIRECT - Éclipse solaire du 12 août : horaires, lunettes, sites d’observation... Sui… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }

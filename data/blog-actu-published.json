@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-12T17:06:41.972Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,85 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "en-direct-eclipse-solaire-du-12-aout-horaires-lunettes-sites-d-observati.html",
+      "section": "actu",
+      "tag": "Actu",
+      "tagClass": "tag-actu",
+      "title": "EN DIRECT - Éclipse solaire du 12 août : horaires, lunettes, sites d’observation... Sui… : assurance habitation — que faire ?",
+      "description": "EN DIRECT - Éclipse solaire du 12 août : horaires, lunettes, sites d’observation... Suivez ce phénomène astronomique rare en temps réel — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "EN DIRECT - Éclipse solaire du 12 août : horaires, lunettes, sites d’observation... Suivez ce phénomène astron — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=en-direct-eclipse-solaire-du-12-aout",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>EN DIRECT - Éclipse solaire du 12 août : horaires, lunettes, sites d’observation... Sui…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
         }
       ]
     }
