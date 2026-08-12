@@ -149,6 +149,19 @@ function scoreLeadPotential(candidate) {
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
+  var insuranceHit = /assurance|mutuelle|emprunteur|sinistre|habitation|prevoyance|prévoyance|rembours|garantie|franchise|prime/.test(
+    title + " " + String(candidate.summary || "").toLowerCase()
+  );
+  var topic = matchTopic(title + " " + (candidate.summary || "") + " " + (candidate.note || ""));
+  if (topic && topic.section && topic.section !== "actu") score += 10;
+  if (!insuranceHit && topic && topic.section === "actu") score -= 40;
+  if (
+    !insuranceHit &&
+    /en vid[eé]o|highlight|ouverture du score|missile de|but de|en direct\s*-|replay\b/i.test(title)
+  ) {
+    score -= 35;
+  }
+
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;

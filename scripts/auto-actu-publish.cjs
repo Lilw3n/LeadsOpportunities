@@ -79,7 +79,10 @@ function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      if (candidateSourceType(c, feedMap) !== platform || used.has(k)) return false;
+      // Priorité leads : éviter actu sportive / flash sans angle assurance
+      if ((c.leadScore || 0) < 45) return false;
+      return true;
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
