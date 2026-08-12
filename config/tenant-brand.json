@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Pack marque white-label (Phase 1 SaaS). Étendre progressivement pour remplacer les hardcodes LO.",
+  "note": "Pack marque white-label (Phase 1 SaaS). Source de vérité progressive pour remplacer les hardcodes LO. Voir docs/SAAS-REVENTE.md.",
   "org": {
     "id": "lo",
     "name": "Leads Opportunities",
@@ -12,14 +12,17 @@
     "appUrlEnv": "APP_URL"
   },
   "contact": {
-    "email": "",
+    "email": "contact@leadsopportunities.fr",
     "phone": "",
-    "orias": ""
+    "orias": "15005935",
+    "dpoEmail": "contact@leadsopportunities.fr"
   },
   "branding": {
     "logoPath": "/assets/logo.png",
+    "tagline": "Courtier en assurance",
     "primaryColor": "#1e3a8a",
-    "accentColor": "#0f766e"
+    "accentColor": "#0d9488",
+    "accentDark": "#0f766e"
   },
   "modules": {
     "prets": true,
