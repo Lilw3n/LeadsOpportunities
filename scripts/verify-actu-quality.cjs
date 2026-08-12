@@ -51,26 +51,41 @@ function validateArticle(article) {
   return errors;
 }
 
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  try {
+    var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+    return data.articles || [];
+  } catch (e) {
+    console.error("Lecture pending:", e.message);
+    process.exit(1);
+  }
+}
+
 function main() {
   var file = arg("file");
+  var useStdin = process.argv.indexOf("--stdin") !== -1;
   var articles = [];
 
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
-  } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  } else if (useStdin || !process.stdin.isTTY) {
+    var stdin = "";
     try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
+      stdin = fs.readFileSync(0, "utf8").trim();
     } catch (e) {
-      console.error("Lecture pending:", e.message);
-      process.exit(1);
+      stdin = "";
     }
+    if (!stdin) {
+      // GitHub Actions : stdin n'est pas un TTY mais est vide → pending
+      articles = loadPendingArticles();
+    } else {
+      var parsed = JSON.parse(stdin);
+      articles = Array.isArray(parsed) ? parsed : parsed.articles || [parsed];
+    }
+  } else {
+    articles = loadPendingArticles();
   }
 
   if (!articles.length) {
