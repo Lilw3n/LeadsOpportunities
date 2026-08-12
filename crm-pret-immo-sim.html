@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
   <style>
     :root { --pi-blue:#1e4f8a; --pi-cyan:#0891b2; --pi-orange:#ea580c; --pi-purple:#7c3aed; --pi-yellow:#fffbeb; }
     .pi-nav { display:flex; flex-wrap:wrap; gap:8px; background:#1e3a8a; padding:10px 14px; border-radius:12px; margin-bottom:14px; }
@@ -73,17 +74,7 @@
   </style>
 </head>
 <body class="crm-subpage">
-  <nav class="pi-nav">
-    <a href="./crm-pret-immo.html">Mes dossiers</a>
-    <a href="./crm-pret-immo-sim.html" class="active" id="navSim">Effectuer simulation</a>
-    <a href="./crm-pret-immo.html?view=transmettre">Transmettre dossier</a>
-    <a href="./crm-pret-immo-coord.html">Transmettre coordonnées</a>
-    <a href="./crm-pret-immo-docs.html">Documentation</a>
-    <a href="./crm-pret-immo-grilles.html">Grille des taux</a>
-    <a href="./crm-pret-immo-fiches.html">Fiches produits</a>
-    <a href="./crm-pret-immo-pvh.html">PVH</a>
-    <a href="./crm-agency-fees.html">Barèmes</a>
-  </nav>
+  <div id="immoFinanceNav" data-vertical="prets" data-active="sim"></div>
 
   <div class="pi-layout">
     <div>
@@ -333,6 +324,7 @@
   <script src="./js/crm-pret-doc-search.js"></script>
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-pret-immo-sim-page.js"></script>
+  <script src="./js/crm-immo-finance-nav.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
