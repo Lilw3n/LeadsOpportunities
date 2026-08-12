@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Patrimoine | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
+  <style>
+    :root { --pat-amber:#b45309; --pat-ink:#78350f; }
+    .pat-title { margin:0 0 8px; color:var(--pat-amber); font-size:1.4rem; }
+    .pat-sub { margin:0 0 16px; color:#64748b; font-size:.92rem; max-width:76ch; }
+    .pat-note {
+      background:#fffbeb; border:1px solid #fcd34d; border-radius:12px;
+      padding:12px 14px; font-size:.84rem; color:#78350f; margin-bottom:16px; line-height:1.45;
+    }
+    .pat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-bottom:14px; }
+    .pat-card {
+      display:block; background:#fff; border:1px solid #e2e8f0; border-radius:14px;
+      padding:18px 16px; text-decoration:none; color:inherit;
+    }
+    .pat-card:hover { border-color:#fcd34d; box-shadow:0 10px 24px rgba(180,83,9,.1); }
+    .pat-card .tag {
+      display:inline-block; margin-bottom:8px; padding:2px 8px; border-radius:999px;
+      background:#fef3c7; color:#92400e; font-size:.68rem; font-weight:800;
+    }
+    .pat-card h3 { margin:0 0 6px; font-size:1rem; color:var(--pat-ink); }
+    .pat-card p { margin:0; font-size:.84rem; color:#64748b; line-height:1.4; }
+    .pat-section { margin:22px 0 8px; }
+    .pat-section h2 { margin:0 0 8px; font-size:1.05rem; color:var(--pat-ink); }
+    .pat-orient {
+      background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:16px; margin-bottom:18px;
+    }
+    .pat-orient .row { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin-bottom:12px; }
+    .pat-orient label { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:#64748b; }
+    .pat-orient input, .pat-orient select { padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; }
+    .pat-tips { display:grid; gap:10px; }
+    .pat-tip { border-left:4px solid #f59e0b; background:#fffbeb; border-radius:0 10px 10px 0; padding:12px 14px; }
+    .pat-tip.p1 { border-left-color:#dc2626; background:#fef2f2; }
+    .pat-tip h4 { margin:0 0 4px; font-size:.92rem; color:#78350f; }
+    .pat-tip p { margin:0; font-size:.84rem; color:#64748b; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <div id="immoFinanceNav" data-vertical="patrimoine" data-active="hub"></div>
+
+  <h1 class="pat-title">Patrimoine &amp; prévoyance</h1>
+  <p class="pat-sub">
+    Quatrième pilier du parcours client : au-delà du <strong>prêt</strong> et de l’<strong>assurance immo</strong>,
+    orientez retraite, mutuelle, invalidité et protection de la famille — posture <em>gestionnaire de patrimoine</em> légère.
+  </p>
+
+  <div class="pat-note">
+    Conseils <strong>indicatifs</strong> (non réglementés ici). Pas un conseil en investissement personnalisé au sens CIF / IAS :
+    orientez puis formalisez hors CRM si besoin.
+  </div>
+
+  <section class="pat-section" id="orientation">
+    <h2>Orientation intelligente</h2>
+    <div class="pat-orient">
+      <div class="row">
+        <label>Âge<input type="number" id="patAge" min="18" max="90" placeholder="ex. 42" /></label>
+        <label>Enfants<input type="number" id="patKids" min="0" max="12" value="0" /></label>
+        <label>Revenus mensuels (€)<input type="number" id="patIncome" min="0" step="100" placeholder="ex. 3500" /></label>
+        <label>Statut
+          <select id="patStatus">
+            <option value="salarie">Salarié</option>
+            <option value="tns">TNS / indépendant</option>
+          </select>
+        </label>
+        <label class="pi-inline" style="margin-top:18px;flex-direction:row;align-items:center;gap:8px">
+          <input type="checkbox" id="patLoan" /> Crédit en cours
+        </label>
+      </div>
+      <button type="button" class="btn btn-primary" id="patRun">Générer les priorités</button>
+      <div class="pat-tips" id="patTips" style="margin-top:14px"></div>
+    </div>
+  </section>
+
+  <section class="pat-section" id="retraite">
+    <h2>Retraite</h2>
+    <div class="pat-grid">
+      <a class="pat-card" href="./crm-banque-epargne.html#placements">
+        <span class="tag">PER</span>
+        <h3>Se constituer une retraite</h3>
+        <p>Versements réguliers, enveloppe PER / long terme — croiser trésorerie commissions.</p>
+      </a>
+      <a class="pat-card" href="./crm-agency-fees.html">
+        <span class="tag">Cash-flow</span>
+        <h3>Net après charges</h3>
+        <p>Utiliser le net estimé barèmes pour dimensionner l’effort d’épargne.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="pat-section" id="mutuelle">
+    <h2>Mutuelle santé</h2>
+    <div class="pat-grid">
+      <a class="pat-card" href="./crm-insurance-request-new.html?scope=immo&amp;product=mutuelle">
+        <span class="tag">Santé</span>
+        <h3>Demande mutuelle</h3>
+        <p>Ouvrir une demande complémentaire santé (famille / TNS).</p>
+      </a>
+      <a class="pat-card" href="./crm-wholesalers.html">
+        <span class="tag">Partenaires</span>
+        <h3>Grossistes / produits</h3>
+        <p>Mémo partenaires pour solutions santé.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="pat-section" id="invalidite">
+    <h2>Invalidité / arrêt de travail</h2>
+    <div class="pat-grid">
+      <a class="pat-card" href="./crm-assurance-immo.html#ade">
+        <span class="tag">Prévoyance</span>
+        <h3>Croiser avec ADE</h3>
+        <p>Si prêt : ADE + prévoyance IJ/invalidité pour éviter les trous de couverture.</p>
+      </a>
+      <a class="pat-card" href="./crm-insurance-request-new.html?scope=immo&amp;product=prevoyance">
+        <span class="tag">IJ</span>
+        <h3>Nouvelle demande prévoyance</h3>
+        <p>Invalidité, arrêt de travail, rente — surtout TNS.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="pat-section" id="famille">
+    <h2>Protection de la famille</h2>
+    <div class="pat-grid">
+      <a class="pat-card" href="./crm-banque-epargne.html#placements">
+        <span class="tag">Décès</span>
+        <h3>Capital / assurance-vie</h3>
+        <p>Bénéficiaires, capital décès, clauses à jour après achat ou naissance.</p>
+      </a>
+      <a class="pat-card" href="./crm-pret-immo.html">
+        <span class="tag">Prêt</span>
+        <h3>Dossiers crédit liés</h3>
+        <p>Aligner protection famille et quotités ADE du financement.</p>
+      </a>
+    </div>
+  </section>
+
+  <script src="./js/crm-patrimoine-lib.js"></script>
+  <script src="./js/crm-immo-finance-nav.js"></script>
+  <script>
+    (function () {
+      var Lib = window.CrmPatrimoine;
+      if (!Lib) return;
+      function esc(s) {
+        return String(s == null ? "" : s)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+      function run() {
+        var out = Lib.explain({
+          age: document.getElementById("patAge").value,
+          children: document.getElementById("patKids").value,
+          incomeMonthly: document.getElementById("patIncome").value,
+          selfEmployed: document.getElementById("patStatus").value === "tns",
+          hasLoan: document.getElementById("patLoan").checked
+        });
+        document.getElementById("patTips").innerHTML = out.tips
+          .map(function (t) {
+            return (
+              '<div class="pat-tip p' +
+              t.priority +
+              '"><h4>' +
+              esc(t.title) +
+              " · " +
+              esc(t.pillar) +
+              "</h4><p>" +
+              esc(t.detail) +
+              "</p></div>"
+            );
+          })
+          .join("");
+        var mount = document.getElementById("immoFinanceNav");
+        if (mount) {
+          mount.setAttribute("data-active", "orient");
+          if (window.CrmImmoFinanceNav) window.CrmImmoFinanceNav.mount(mount);
+        }
+      }
+      document.getElementById("patRun").onclick = run;
+      if (location.hash === "#orientation") run();
+    })();
+  </script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

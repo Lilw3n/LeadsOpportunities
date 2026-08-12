@@ -1,37 +1,69 @@
 /**
- * Menu unifié Immobilier financement :
- * switcher Prêts ↔ Assurance immo + sous-navigation.
+ * Menu unifié Immobilier / patrimoine :
+ * Prêts · Assurance immo · Patrimoine · Banque & épargne
  *
- * Usage HTML :
+ * Usage :
  *   <div id="immoFinanceNav" data-vertical="prets" data-active="dossiers"></div>
- *   <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
- *   <script src="./js/crm-immo-finance-nav.js"></script>
  */
 (function () {
   "use strict";
 
-  var PRETS_LINKS = [
-    { id: "dossiers", href: "./crm-pret-immo.html", label: "Mes dossiers" },
-    { id: "sim", href: "./crm-pret-immo-sim.html", label: "Effectuer simulation", simMenu: true },
-    { id: "transmit", href: "./crm-pret-immo.html?view=transmettre", label: "Transmettre dossier" },
-    { id: "coord", href: "./crm-pret-immo-coord.html", label: "Transmettre coordonnées" },
-    { id: "docs", href: "./crm-pret-immo-docs.html", label: "Documentation" },
-    { id: "grilles", href: "./crm-pret-immo-grilles.html", label: "Grilles des taux" },
-    { id: "fiches", href: "./crm-pret-immo-fiches.html", label: "Fiches produits" },
-    { id: "pvh", href: "./crm-pret-immo-pvh.html", label: "PVH" },
-    { id: "baremes", href: "./crm-agency-fees.html", label: "Barèmes / FAI" }
+  var VERTICALS = [
+    { id: "prets", label: "Prêts", href: "./crm-pret-immo.html", cls: "on-prets" },
+    { id: "assurance", label: "Assurance immo", href: "./crm-assurance-immo.html", cls: "on-assurance" },
+    { id: "patrimoine", label: "Patrimoine", href: "./crm-patrimoine.html", cls: "on-patrimoine" },
+    { id: "banque", label: "Banque & épargne", href: "./crm-banque-epargne.html", cls: "on-banque" }
   ];
 
-  var ASSURANCE_LINKS = [
-    { id: "hub", href: "./crm-assurance-immo.html", label: "Hub assurance immo" },
-    { id: "ade", href: "./crm-assurance-immo.html#ade", label: "Emprunteur (ADE)" },
-    { id: "habitation", href: "./crm-assurance-immo.html#habitation", label: "Habitation / MRH" },
-    { id: "demandes", href: "./crm-insurance-requests.html?scope=immo", label: "Demandes" },
-    { id: "demande-new", href: "./crm-insurance-request-new.html?scope=immo", label: "Nouvelle demande" },
-    { id: "wholesalers", href: "./crm-wholesalers.html?tag=emprunteur", label: "Grossistes" },
-    { id: "docs-ade", href: "./crm-pret-immo-docs.html?q=assurance%20emprunteur%20ADE&project=", label: "Docs ADE" },
-    { id: "hub-metier", href: "./crm-insurance.html", label: "Hub assurance métier" }
-  ];
+  var LINKS = {
+    prets: [
+      { id: "dossiers", href: "./crm-pret-immo.html", label: "Mes dossiers" },
+      { id: "sim", href: "./crm-pret-immo-sim.html", label: "Effectuer simulation", simMenu: true },
+      { id: "transmit", href: "./crm-pret-immo.html?view=transmettre", label: "Transmettre dossier" },
+      { id: "coord", href: "./crm-pret-immo-coord.html", label: "Transmettre coordonnées" },
+      { id: "docs", href: "./crm-pret-immo-docs.html", label: "Documentation" },
+      { id: "grilles", href: "./crm-pret-immo-grilles.html", label: "Grilles des taux" },
+      { id: "fiches", href: "./crm-pret-immo-fiches.html", label: "Fiches produits" },
+      { id: "pvh", href: "./crm-pret-immo-pvh.html", label: "PVH" },
+      { id: "baremes", href: "./crm-agency-fees.html", label: "Barèmes / FAI" }
+    ],
+    assurance: [
+      { id: "hub", href: "./crm-assurance-immo.html", label: "Hub assurance immo" },
+      { id: "ade", href: "./crm-assurance-immo.html#ade", label: "Emprunteur (ADE)" },
+      { id: "habitation", href: "./crm-assurance-immo.html#habitation", label: "Habitation / MRH" },
+      { id: "demandes", href: "./crm-insurance-requests.html?scope=immo", label: "Demandes" },
+      { id: "demande-new", href: "./crm-insurance-request-new.html?scope=immo", label: "Nouvelle demande" },
+      { id: "wholesalers", href: "./crm-wholesalers.html?tag=emprunteur", label: "Grossistes" },
+      { id: "docs-ade", href: "./crm-pret-immo-docs.html?q=assurance%20emprunteur%20ADE", label: "Docs ADE" },
+      { id: "hub-metier", href: "./crm-insurance.html", label: "Hub assurance métier" }
+    ],
+    patrimoine: [
+      { id: "hub", href: "./crm-patrimoine.html", label: "Hub patrimoine" },
+      { id: "retraite", href: "./crm-patrimoine.html#retraite", label: "Retraite" },
+      { id: "mutuelle", href: "./crm-patrimoine.html#mutuelle", label: "Mutuelle" },
+      { id: "invalidite", href: "./crm-patrimoine.html#invalidite", label: "Invalidité" },
+      { id: "famille", href: "./crm-patrimoine.html#famille", label: "Protection famille" },
+      { id: "orient", href: "./crm-patrimoine.html#orientation", label: "Orientation intelligente" },
+      { id: "ade-link", href: "./crm-assurance-immo.html#ade", label: "Croiser ADE" },
+      { id: "prets-link", href: "./crm-pret-immo.html", label: "Dossiers prêt" }
+    ],
+    banque: [
+      { id: "hub", href: "./crm-banque-epargne.html", label: "Hub banque" },
+      { id: "epargne", href: "./crm-banque-epargne.html#epargne", label: "Épargne" },
+      { id: "placements", href: "./crm-banque-epargne.html#placements", label: "Placements" },
+      { id: "pro", href: "./crm-banque-epargne.html#pro", label: "Trésorerie pro" },
+      { id: "iban", href: "./crm-bank-details.html", label: "Coordonnées bancaires" },
+      { id: "financier", href: "./crm-financial.html", label: "Financier CRM" },
+      { id: "baremes", href: "./crm-agency-fees.html", label: "Net commissions" }
+    ]
+  };
+
+  var ARIA = {
+    prets: "Prêts immobiliers",
+    assurance: "Assurance immobilier",
+    patrimoine: "Patrimoine & prévoyance",
+    banque: "Banque & épargne"
+  };
 
   function pageName() {
     return (location.pathname.split("/").pop() || "").split("?")[0];
@@ -39,6 +71,9 @@
 
   function detectVertical() {
     var p = pageName();
+    if (p.indexOf("patrimoine") >= 0) return "patrimoine";
+    if (p.indexOf("banque-epargne") >= 0 || p === "crm-bank-details.html" || p.indexOf("crm-financial") === 0)
+      return "banque";
     if (p.indexOf("assurance-immo") >= 0) return "assurance";
     if (p.indexOf("pret-immo") >= 0 || p === "crm-agency-fees.html") return "prets";
     if (p.indexOf("insurance") >= 0 || p.indexOf("wholesaler") >= 0) {
@@ -53,10 +88,23 @@
   function detectActive(vertical) {
     var p = pageName();
     var params = new URLSearchParams(location.search);
+    var hash = (location.hash || "").replace("#", "");
+
+    if (vertical === "patrimoine") {
+      if (hash && ["retraite", "mutuelle", "invalidite", "famille", "orientation"].indexOf(hash) >= 0) return hash;
+      return "hub";
+    }
+    if (vertical === "banque") {
+      if (p === "crm-bank-details.html") return "iban";
+      if (p.indexOf("crm-financial") === 0) return "financier";
+      if (p === "crm-agency-fees.html") return "baremes";
+      if (hash && ["epargne", "placements", "pro"].indexOf(hash) >= 0) return hash;
+      return "hub";
+    }
     if (vertical === "assurance") {
       if (p === "crm-assurance-immo.html") {
-        if (location.hash === "#habitation") return "habitation";
-        if (location.hash === "#ade") return "ade";
+        if (hash === "habitation") return "habitation";
+        if (hash === "ade") return "ade";
         return "hub";
       }
       if (p === "crm-insurance-request-new.html") return "demande-new";
@@ -87,17 +135,21 @@
 
   function renderSwitch(vertical) {
     return (
-      '<div class="imf-switch" role="tablist" aria-label="Verticale Immobilier">' +
-      '<a href="./crm-pret-immo.html" class="' +
-      (vertical === "prets" ? "on-prets" : "") +
-      '" role="tab" aria-selected="' +
-      (vertical === "prets" ? "true" : "false") +
-      '"><span class="imf-dot" aria-hidden="true"></span>Prêts</a>' +
-      '<a href="./crm-assurance-immo.html" class="' +
-      (vertical === "assurance" ? "on-assurance" : "") +
-      '" role="tab" aria-selected="' +
-      (vertical === "assurance" ? "true" : "false") +
-      '"><span class="imf-dot" aria-hidden="true"></span>Assurance immo</a>' +
+      '<div class="imf-switch" role="tablist" aria-label="Piliers Immobilier & patrimoine">' +
+      VERTICALS.map(function (v) {
+        var on = vertical === v.id;
+        return (
+          '<a href="' +
+          esc(v.href) +
+          '" class="' +
+          (on ? v.cls : "") +
+          '" role="tab" aria-selected="' +
+          (on ? "true" : "false") +
+          '"><span class="imf-dot" aria-hidden="true"></span>' +
+          esc(v.label) +
+          "</a>"
+        );
+      }).join("") +
       "</div>"
     );
   }
@@ -139,10 +191,10 @@
   }
 
   function renderBar(vertical, active) {
-    var links = vertical === "assurance" ? ASSURANCE_LINKS : PRETS_LINKS;
-    var html = '<nav class="imf-bar ' + vertical + '" aria-label="' + (vertical === "assurance" ? "Assurance immobilier" : "Prêts immobiliers") + '">';
-    links.forEach(function (link, idx) {
-      if (idx === 8 || (vertical === "prets" && link.id === "baremes")) {
+    var links = LINKS[vertical] || LINKS.prets;
+    var html = '<nav class="imf-bar ' + vertical + '" aria-label="' + esc(ARIA[vertical] || "") + '">';
+    links.forEach(function (link) {
+      if (vertical === "prets" && link.id === "baremes") {
         html += '<span class="imf-sep" aria-hidden="true"></span>';
       }
       if (link.simMenu && vertical === "prets") {
@@ -202,8 +254,10 @@
     mount: mount,
     detectVertical: detectVertical,
     detectActive: detectActive,
-    PRETS_LINKS: PRETS_LINKS,
-    ASSURANCE_LINKS: ASSURANCE_LINKS
+    VERTICALS: VERTICALS,
+    LINKS: LINKS,
+    PRETS_LINKS: LINKS.prets,
+    ASSURANCE_LINKS: LINKS.assurance
   };
 
   if (document.readyState === "loading") {

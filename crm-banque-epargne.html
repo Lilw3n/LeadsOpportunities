@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Banque &amp; épargne | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
+  <style>
+    :root { --bk-slate:#334155; --bk-ink:#0f172a; }
+    .bk-title { margin:0 0 8px; color:var(--bk-slate); font-size:1.4rem; }
+    .bk-sub { margin:0 0 16px; color:#64748b; font-size:.92rem; max-width:76ch; }
+    .bk-note {
+      background:#f8fafc; border:1px solid #cbd5e1; border-radius:12px;
+      padding:12px 14px; font-size:.84rem; color:#334155; margin-bottom:16px; line-height:1.45;
+    }
+    .bk-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-bottom:14px; }
+    .bk-card {
+      display:block; background:#fff; border:1px solid #e2e8f0; border-radius:14px;
+      padding:18px 16px; text-decoration:none; color:inherit;
+    }
+    .bk-card:hover { border-color:#94a3b8; box-shadow:0 10px 24px rgba(15,23,42,.08); }
+    .bk-card .tag {
+      display:inline-block; margin-bottom:8px; padding:2px 8px; border-radius:999px;
+      background:#e2e8f0; color:#334155; font-size:.68rem; font-weight:800;
+    }
+    .bk-card h3 { margin:0 0 6px; font-size:1rem; color:var(--bk-ink); }
+    .bk-card p { margin:0; font-size:.84rem; color:#64748b; line-height:1.4; }
+    .bk-section { margin:22px 0 8px; }
+    .bk-section h2 { margin:0 0 8px; font-size:1.05rem; color:var(--bk-ink); }
+  </style>
+</head>
+<body class="crm-subpage">
+  <div id="immoFinanceNav" data-vertical="banque" data-active="hub"></div>
+
+  <h1 class="bk-title">Banque &amp; épargne</h1>
+  <p class="bk-sub">
+    Pilier cash &amp; placements : trésorerie pro (commissions), épargne de précaution,
+    enveloppes long terme — en lien avec <strong>Patrimoine</strong>, <strong>Prêts</strong> et le net après charges des barèmes.
+  </p>
+
+  <div class="bk-note">
+    Objectif : séparer clairement <strong>1)</strong> compte pro / commissions,
+    <strong>2)</strong> matelas de sécurité, <strong>3)</strong> long terme (AV, PER, etc.).
+  </div>
+
+  <section class="bk-section" id="pro">
+    <h2>Trésorerie professionnelle</h2>
+    <div class="bk-grid">
+      <a class="bk-card" href="./crm-agency-fees.html">
+        <span class="tag">Commissions</span>
+        <h3>Net estimé après charges</h3>
+        <p>Part agent − cotisations/IR/CFE — base pour décider quoi épargner.</p>
+      </a>
+      <a class="bk-card" href="./crm-financial.html">
+        <span class="tag">CRM</span>
+        <h3>Module financier</h3>
+        <p>Créances, encaissements, vision cash du portefeuille.</p>
+      </a>
+      <a class="bk-card" href="./crm-bank-details.html">
+        <span class="tag">IBAN</span>
+        <h3>Coordonnées bancaires</h3>
+        <p>RIB / IBAN clients et partenaires.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="bk-section" id="epargne">
+    <h2>Épargne de précaution</h2>
+    <div class="bk-grid">
+      <a class="bk-card" href="./crm-patrimoine.html#orientation">
+        <span class="tag">Smart</span>
+        <h3>Orientation patrimoniale</h3>
+        <p>Prioriser matelas vs long terme selon âge, famille, crédit.</p>
+      </a>
+      <div class="bk-card">
+        <span class="tag">Règle</span>
+        <h3>3 à 6 mois de charges</h3>
+        <p>Indicatif : garder un cash dispo avant de pousser PER / AV agressifs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bk-section" id="placements">
+    <h2>Placements &amp; long terme</h2>
+    <div class="bk-grid">
+      <a class="bk-card" href="./crm-patrimoine.html#retraite">
+        <span class="tag">Retraite</span>
+        <h3>PER / enveloppe retraite</h3>
+        <p>Verser une part du net commissions vers le long terme.</p>
+      </a>
+      <a class="bk-card" href="./crm-patrimoine.html#famille">
+        <span class="tag">Famille</span>
+        <h3>Assurance-vie / bénéficiaires</h3>
+        <p>Protéger et transmettre — clauses à jour après projet immo.</p>
+      </a>
+      <a class="bk-card" href="./crm-pret-immo.html">
+        <span class="tag">Prêt</span>
+        <h3>Arbitrage crédit / épargne</h3>
+        <p>Croiser effort de remboursement et capacité d’épargne résiduelle.</p>
+      </a>
+    </div>
+  </section>
+
+  <script src="./js/crm-immo-finance-nav.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

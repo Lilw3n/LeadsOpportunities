@@ -1,9 +1,13 @@
-/* Switcher Prêts ↔ Assurance immo + sous-menus */
+/* Switcher Prêts · Assurance immo · Patrimoine · Banque + sous-menus */
 .imf-nav {
   --imf-blue: #1e3a8a;
   --imf-blue-2: #2563eb;
   --imf-teal: #0f766e;
   --imf-teal-2: #0d9488;
+  --imf-amber: #b45309;
+  --imf-amber-2: #d97706;
+  --imf-slate: #334155;
+  --imf-slate-2: #475569;
   margin: 0 0 16px;
   display: grid;
   gap: 8px;
@@ -51,6 +55,18 @@
   box-shadow: 0 6px 16px rgba(15, 118, 110, 0.25);
 }
 
+.imf-switch a.on-patrimoine {
+  background: var(--imf-amber);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(180, 83, 9, 0.25);
+}
+
+.imf-switch a.on-banque {
+  background: var(--imf-slate);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(51, 65, 85, 0.28);
+}
+
 .imf-switch .imf-dot {
   width: 8px;
   height: 8px;
@@ -80,6 +96,14 @@
 
 .imf-bar.assurance {
   background: var(--imf-teal);
+}
+
+.imf-bar.patrimoine {
+  background: var(--imf-amber);
+}
+
+.imf-bar.banque {
+  background: var(--imf-slate);
 }
 
 .imf-bar a,
@@ -114,6 +138,16 @@
 .imf-bar.assurance a.active,
 .imf-bar.assurance a:hover {
   background: var(--imf-teal-2);
+}
+
+.imf-bar.patrimoine a.active,
+.imf-bar.patrimoine a:hover {
+  background: var(--imf-amber-2);
+}
+
+.imf-bar.banque a.active,
+.imf-bar.banque a:hover {
+  background: var(--imf-slate-2);
 }
 
 .imf-dd {
