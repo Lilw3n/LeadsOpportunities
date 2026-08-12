@@ -46,6 +46,8 @@ Articles prioritaires à partager organiquement :
 | `/blog/assurance-emprunteur-loi-lemoine-2026.html` | Fort intent économies |
 | `/blog/inflation-mutuelle-hausse-2026.html` | Actu FR, angle comparatif |
 
+Cadence evergreen automatique (complément actu) : `npm run blog:leads:auto` — voir **`docs/BLOG-LEADS-AUTOMATION.md`**. Filtrer les conversions avec `utm_medium=lead_evergreen`.
+
 ### Mesurer (GA4 / Clarity)
 
 Filtrer les sessions avec :
