@@ -6,6 +6,257 @@ window.CrmAgencyFees = (function () {
   var STORAGE_KEY = "lo_agency_fee_schedules_v1";
   /** v4 = Portes Clés en tête + forçage 23 forfaits TG0422 PDF. */
   var DATA_VERSION = 4;
+  var DEAL_SPLIT_KEY = "lo_agency_fee_deal_split_v1";
+
+  /**
+   * Rôles mandat (vocabulaire métier FR — pas une règle PDF).
+   * sortant = mandat vendeur ; entrant = amène l'acquéreur ; both = les deux.
+   */
+  var DEAL_ROLES = [
+    {
+      id: "both",
+      label: "Je suis entrant + sortant (solo)",
+      desc: "Mandat vendeur et acquéreur amené par toi → 100 % de la masse négociateurs.",
+    },
+    {
+      id: "sortant",
+      label: "Je suis sortant (mandat vendeur)",
+      desc: "Tu as le mandat ; un autre négociateur amène l'acheteur.",
+    },
+    {
+      id: "entrant",
+      label: "Je suis entrant (acquéreur)",
+      desc: "Un autre a le mandat vendeur ; tu amènes l'acheteur.",
+    },
+  ];
+
+  function defaultDealSplit() {
+    return {
+      myRole: "both",
+      // Répartition de la masse agents — à caler selon mandat / usage réseau (pas figé dans TG0422).
+      sortantPct: 50,
+      entrantPct: 50,
+      otherAgentName: "",
+      apporteurEnabled: false,
+      apporteurName: "",
+      apporteurSide: "vendeur",
+      apporteurPct: 0,
+      apporteurBase: "my_share",
+      apporteurPaidFrom: "my_share",
+    };
+  }
+
+  function loadDealSplit() {
+    try {
+      var raw = localStorage.getItem(DEAL_SPLIT_KEY);
+      var p = raw ? JSON.parse(raw) : {};
+      return Object.assign(defaultDealSplit(), p && typeof p === "object" ? p : {});
+    } catch (e) {
+      return defaultDealSplit();
+    }
+  }
+
+  function saveDealSplit(prefs) {
+    localStorage.setItem(
+      DEAL_SPLIT_KEY,
+      JSON.stringify(Object.assign(defaultDealSplit(), prefs || {}, { savedAt: new Date().toISOString() }))
+    );
+  }
+
+  /**
+   * Cascade rémunération (sans inventer de % réseau) :
+   * honoraires agence → part agence/réseau vs masse négo (agentSharePct)
+   * → partage sortant/entrant sur la masse → éventuel apporteur → charges AE.
+   *
+   * @param {number} agencyFee
+   * @param {number} agentSharePct — déjà paramétré par agence (ex. 85 Portes Clés, 40 Laforêt)
+   * @param {object} deal — loadDealSplit() + overrides
+   * @param {object} taxOpts — chargesPct, cfePct, accountingPct…
+   */
+  function splitDealRemuneration(agencyFee, agentSharePct, deal, taxOpts) {
+    var fee = round2(Number(agencyFee) || 0);
+    var sharePct = Math.max(0, Math.min(100, Number(agentSharePct) || 0));
+    var d = Object.assign(defaultDealSplit(), deal || {});
+    var myRole = d.myRole === "sortant" || d.myRole === "entrant" ? d.myRole : "both";
+
+    var agencyKeep = round2((fee * (100 - sharePct)) / 100);
+    var agentMass = round2((fee * sharePct) / 100);
+
+    var sortantPct = Math.max(0, Math.min(100, Number(d.sortantPct) || 0));
+    var entrantPct = Math.max(0, Math.min(100, Number(d.entrantPct) || 0));
+    // Si partagé et sommes ≠ 100, on normalise pour rester cohérent
+    if (myRole !== "both") {
+      var sum = sortantPct + entrantPct;
+      if (sum > 0 && Math.abs(sum - 100) > 0.05) {
+        sortantPct = round2((sortantPct / sum) * 100);
+        entrantPct = round2(100 - sortantPct);
+      } else if (sum <= 0) {
+        sortantPct = 50;
+        entrantPct = 50;
+      }
+    }
+
+    var sortantGross = myRole === "both" ? agentMass : round2((agentMass * sortantPct) / 100);
+    var entrantGross = myRole === "both" ? 0 : round2((agentMass * entrantPct) / 100);
+    if (myRole === "both") {
+      entrantGross = 0;
+      sortantGross = agentMass;
+    }
+
+    var myGrossBeforeApp =
+      myRole === "both" ? agentMass : myRole === "sortant" ? sortantGross : entrantGross;
+    var otherGross = myRole === "both" ? 0 : myRole === "sortant" ? entrantGross : sortantGross;
+
+    // Apporteur — % saisis par l'utilisateur (0 par défaut). Compta CRM : saisie manuelle.
+    var appFee = 0;
+    var appDetail = null;
+    if (d.apporteurEnabled && Number(d.apporteurPct) > 0) {
+      var appPct = Number(d.apporteurPct) || 0;
+      var baseAmt =
+        d.apporteurBase === "agency_fee"
+          ? fee
+          : d.apporteurBase === "agent_mass"
+            ? agentMass
+            : myGrossBeforeApp;
+      appFee = round2((baseAmt * appPct) / 100);
+      var paidFrom = d.apporteurPaidFrom || "my_share";
+      appDetail = {
+        name: String(d.apporteurName || "Apporteur"),
+        side: d.apporteurSide || "vendeur",
+        pct: appPct,
+        base: d.apporteurBase || "my_share",
+        baseAmount: round2(baseAmt),
+        amount: appFee,
+        paidFrom: paidFrom,
+      };
+    }
+
+    var myGross = myGrossBeforeApp;
+    var agencyKeepAfter = agencyKeep;
+    var otherGrossAfter = otherGross;
+    if (appFee > 0 && appDetail) {
+      if (appDetail.paidFrom === "agency") {
+        agencyKeepAfter = round2(Math.max(0, agencyKeep - appFee));
+      } else if (appDetail.paidFrom === "agent_mass") {
+        // Prorata sur ma part et l'autre
+        if (agentMass > 0) {
+          var myCut = round2(appFee * (myGrossBeforeApp / agentMass));
+          var otherCut = round2(appFee - myCut);
+          myGross = round2(Math.max(0, myGrossBeforeApp - myCut));
+          otherGrossAfter = round2(Math.max(0, otherGross - otherCut));
+        }
+      } else {
+        myGross = round2(Math.max(0, myGrossBeforeApp - appFee));
+      }
+    }
+
+    taxOpts = taxOpts || {};
+    var chargesPct =
+      taxOpts.chargesPct != null && taxOpts.chargesPct !== ""
+        ? Number(taxOpts.chargesPct) || 0
+        : (Number(taxOpts.urssafPct) || 0) + (Number(taxOpts.irPct) || 0);
+    var cfePct = taxOpts.cfePct != null ? Number(taxOpts.cfePct) : 0.5;
+    var accountingPct = taxOpts.accountingPct != null ? Number(taxOpts.accountingPct) : 1;
+    var urssafReserve = round2((myGross * chargesPct) / 100);
+    var cfeReserve = round2((myGross * cfePct) / 100);
+    var accountingReserve = round2((myGross * accountingPct) / 100);
+    var charges = round2(urssafReserve + cfeReserve + accountingReserve);
+    var myNet = round2(Math.max(0, myGross - charges));
+
+    var steps = [
+      {
+        id: "agency_fee",
+        label: "Honoraires agence (barème)",
+        value: fee,
+        detail: "Issu du barème (ex. TG0422) — prix max. négociable au mandat.",
+      },
+      {
+        id: "agency_keep",
+        label: "Part agence / réseau (" + (100 - sharePct) + " %)",
+        value: agencyKeepAfter,
+        detail: "Complément de ta part négociateur paramétrée sur l'agence.",
+      },
+      {
+        id: "agent_mass",
+        label: "Masse négociateurs (" + sharePct + " %)",
+        value: agentMass,
+        detail: "À répartir entre sortant / entrant selon qui a fait quoi.",
+      },
+    ];
+    if (myRole === "both") {
+      steps.push({
+        id: "solo",
+        label: "Toi (entrant + sortant)",
+        value: myGrossBeforeApp,
+        detail: "100 % de la masse — mandat et acquéreur.",
+      });
+    } else {
+      steps.push({
+        id: "sortant",
+        label: "Sortant (mandat vendeur) — " + sortantPct + " %",
+        value: sortantGross,
+        detail: myRole === "sortant" ? "Ta case." : d.otherAgentName || "Autre négociateur",
+      });
+      steps.push({
+        id: "entrant",
+        label: "Entrant (acquéreur) — " + entrantPct + " %",
+        value: entrantGross,
+        detail: myRole === "entrant" ? "Ta case." : d.otherAgentName || "Autre négociateur",
+      });
+    }
+    if (appDetail) {
+      steps.push({
+        id: "apporteur",
+        label: "Apporteur « " + appDetail.name + " » (" + appDetail.pct + " %)",
+        value: appDetail.amount,
+        detail:
+          "Côté " +
+          appDetail.side +
+          " · base " +
+          appDetail.base +
+          " · prélevé sur " +
+          appDetail.paidFrom +
+          " (saisie manuelle type CRM apporteur).",
+      });
+    }
+    steps.push({
+      id: "my_gross",
+      label: "Ta rémunération brute",
+      value: myGross,
+      detail: "Après partage et apporteur éventuel — avant réserves URSSAF/CFE/compta.",
+    });
+    steps.push({
+      id: "my_net",
+      label: "Dans ta poche (estim.)",
+      value: myNet,
+      detail: "Après charges " + chargesPct + " % + CFE + compta.",
+    });
+
+    return {
+      myRole: myRole,
+      agencyFee: fee,
+      agentSharePct: sharePct,
+      agencyKeep: agencyKeepAfter,
+      agentMass: agentMass,
+      sortantPct: sortantPct,
+      entrantPct: entrantPct,
+      sortantGross: round2(sortantGross),
+      entrantGross: round2(entrantGross),
+      myGrossBeforeApporteur: round2(myGrossBeforeApp),
+      otherGross: round2(otherGrossAfter),
+      apporteur: appDetail,
+      myGross: myGross,
+      chargesPct: chargesPct,
+      cfePct: cfePct,
+      accountingPct: accountingPct,
+      urssafReserve: urssafReserve,
+      cfeReserve: cfeReserve,
+      accountingReserve: accountingReserve,
+      charges: charges,
+      myNet: myNet,
+      steps: steps,
+    };
+  }
 
   var DEFAULT_CHARGES_PCT = 22;
   var DEFAULT_URSSAF_PCT = 21.2;
@@ -501,7 +752,21 @@ window.CrmAgencyFees = (function () {
     }
 
     var sharePct = Number(agency.agentSharePct) || 0;
-    var agentGross = (agencyFee * sharePct) / 100;
+    var deal = opts.deal || null;
+    var dealSplit = null;
+    var agentGross;
+    if (deal) {
+      dealSplit = splitDealRemuneration(agencyFee, sharePct, deal, {
+        chargesPct: opts.chargesPct,
+        urssafPct: opts.urssafPct,
+        irPct: opts.irPct,
+        cfePct: opts.cfePct,
+        accountingPct: opts.accountingPct,
+      });
+      agentGross = dealSplit.myGross;
+    } else {
+      agentGross = (agencyFee * sharePct) / 100;
+    }
 
     var chargesPct;
     var urssafPct;
@@ -538,6 +803,7 @@ window.CrmAgencyFees = (function () {
       fai: fai != null ? round2(fai) : null,
       agentSharePct: sharePct,
       agentGross: round2(agentGross),
+      dealSplit: dealSplit,
       chargesPct: chargesPct,
       cfePct: cfePct,
       accountingPct: accountingPct,
@@ -725,6 +991,12 @@ window.CrmAgencyFees = (function () {
     applyPortesClesOfficial: applyPortesClesOfficial,
     calculate: calculate,
     compareAgencies: compareAgencies,
+    splitDealRemuneration: splitDealRemuneration,
+    loadDealSplit: loadDealSplit,
+    saveDealSplit: saveDealSplit,
+    defaultDealSplit: defaultDealSplit,
+    DEAL_ROLES: DEAL_ROLES,
+    DEAL_SPLIT_KEY: DEAL_SPLIT_KEY,
     rentalHabitationFee: rentalHabitationFee,
     dossierRateForZone: dossierRateForZone,
     loadTaxPrefs: loadTaxPrefs,

@@ -21,6 +21,7 @@
     agencyId: null,
     scheduleId: null,
     loanType: "pret_amortissable",
+    dealRole: "both",
   };
 
   if (state.agencies.length) {
@@ -574,10 +575,17 @@
       surface: extras.surface,
       zone: extras.zone,
       rentalParty: extras.rentalParty,
+      deal: readDealOpts(),
       chargesPct: currentChargesPct(),
       cfePct: currentCfePct(),
       accountingPct: currentAccountingPct(),
     });
+    var roleLabel =
+      res.dealSplit && res.dealSplit.myRole === "sortant"
+        ? "Ta part sortant"
+        : res.dealSplit && res.dealSplit.myRole === "entrant"
+          ? "Ta part entrant"
+          : "Ta part (solo)";
     var refLabel =
       res.priceBasis === "loyer_annuel"
         ? "Loyer annuel"
@@ -604,9 +612,11 @@
       (res.fai != null
         ? '<div class="af-kpi muted"><span>Prix FAI</span><strong>' + Lib.formatEuro(res.fai) + "</strong></div>"
         : "") +
-      '<div class="af-kpi"><span>Ta part (' +
+      '<div class="af-kpi"><span>' +
+      roleLabel +
+      " (" +
       res.agentSharePct +
-      '%)</span><strong>' +
+      "% masse)</span><strong>" +
       Lib.formatEuro(res.agentGross) +
       '</strong></div>' +
       '<div class="af-kpi muted"><span>Réserves (URSSAF+CFE+compta)</span><strong>' +
@@ -760,6 +770,152 @@
       " · charges " +
       currentChargesPct() +
       " % · classement par ta part brute · clic sur une ligne pour éditer l'agence";
+  }
+
+  function readDealOpts() {
+    return {
+      myRole: state.dealRole || "both",
+      sortantPct: Number(document.getElementById("dealSortantPct").value) || 0,
+      entrantPct: Number(document.getElementById("dealEntrantPct").value) || 0,
+      otherAgentName: document.getElementById("dealOtherName").value || "",
+      apporteurEnabled: document.getElementById("dealApporteurEnabled").value === "1",
+      apporteurName: document.getElementById("dealApporteurName").value || "",
+      apporteurSide: document.getElementById("dealApporteurSide").value || "vendeur",
+      apporteurPct: Number(document.getElementById("dealApporteurPct").value) || 0,
+      apporteurBase: document.getElementById("dealApporteurBase").value || "my_share",
+      apporteurPaidFrom: document.getElementById("dealApporteurPaidFrom").value || "my_share",
+    };
+  }
+
+  function persistDealPrefs() {
+    Lib.saveDealSplit(readDealOpts());
+  }
+
+  function applyDealPrefsToForm() {
+    var p = Lib.loadDealSplit();
+    state.dealRole = p.myRole || "both";
+    document.getElementById("dealSortantPct").value = p.sortantPct != null ? p.sortantPct : 50;
+    document.getElementById("dealEntrantPct").value = p.entrantPct != null ? p.entrantPct : 50;
+    document.getElementById("dealOtherName").value = p.otherAgentName || "";
+    document.getElementById("dealApporteurEnabled").value = p.apporteurEnabled ? "1" : "0";
+    document.getElementById("dealApporteurName").value = p.apporteurName || "";
+    document.getElementById("dealApporteurSide").value = p.apporteurSide || "vendeur";
+    document.getElementById("dealApporteurPct").value = p.apporteurPct != null ? p.apporteurPct : 0;
+    document.getElementById("dealApporteurBase").value = p.apporteurBase || "my_share";
+    document.getElementById("dealApporteurPaidFrom").value = p.apporteurPaidFrom || "my_share";
+  }
+
+  function syncDealExtraFields() {
+    var shared = state.dealRole === "sortant" || state.dealRole === "entrant";
+    var appOn = document.getElementById("dealApporteurEnabled").value === "1";
+    ["dealShareWrap", "dealEntrantWrap", "dealOtherWrap"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.hidden = !shared;
+    });
+    var app = document.getElementById("dealApporteurFields");
+    if (app) app.hidden = !appOn;
+  }
+
+  function renderDealRoleTabs() {
+    var root = document.getElementById("dealRoleTabs");
+    if (!root) return;
+    root.innerHTML = Lib.DEAL_ROLES.map(function (t) {
+      var active = t.id === state.dealRole ? " active" : "";
+      return (
+        '<button type="button" class="af-mode-tab' +
+        active +
+        '" data-id="' +
+        esc(t.id) +
+        '" title="' +
+        esc(t.desc) +
+        '">' +
+        esc(t.label) +
+        "</button>"
+      );
+    }).join("");
+    root.querySelectorAll(".af-mode-tab").forEach(function (btn) {
+      btn.onclick = function () {
+        state.dealRole = btn.getAttribute("data-id");
+        syncDealExtraFields();
+        persistDealPrefs();
+        renderDealSplit();
+        renderCalc();
+        renderCompare();
+      };
+    });
+  }
+
+  function renderDealSplit() {
+    if (!document.getElementById("dealSplitPanel")) return;
+    renderDealRoleTabs();
+    syncDealExtraFields();
+    var ag = currentAgency();
+    var kpis = document.getElementById("dealKpis");
+    var steps = document.getElementById("dealSteps");
+    var hint = document.getElementById("dealHint");
+    if (!ag) {
+      if (kpis) kpis.innerHTML = "";
+      if (steps) steps.innerHTML = "";
+      if (hint) hint.textContent = "";
+      return;
+    }
+    var price = Number(document.getElementById("calcPrice").value) || Number(document.getElementById("cmpPrice").value) || 0;
+    var extras = calcExtras();
+    var res = Lib.calculate({
+      agency: ag,
+      scheduleId: state.scheduleId,
+      price: price,
+      surface: extras.surface,
+      zone: extras.zone,
+      rentalParty: extras.rentalParty,
+      deal: readDealOpts(),
+      chargesPct: currentChargesPct(),
+      cfePct: currentCfePct(),
+      accountingPct: currentAccountingPct(),
+    });
+    var d = res.dealSplit;
+    if (!d) return;
+    kpis.innerHTML =
+      '<div class="af-kpi muted"><span>Honoraires agence</span><strong>' +
+      Lib.formatEuro(d.agencyFee) +
+      '</strong></div>' +
+      '<div class="af-kpi muted"><span>Masse négociateurs</span><strong>' +
+      Lib.formatEuro(d.agentMass) +
+      '</strong></div>' +
+      '<div class="af-kpi"><span>Ta part brute</span><strong>' +
+      Lib.formatEuro(d.myGross) +
+      '</strong></div>' +
+      '<div class="af-kpi highlight"><span>Dans ta poche</span><strong>' +
+      Lib.formatEuro(d.myNet) +
+      "</strong></div>" +
+      (d.apporteur
+        ? '<div class="af-kpi muted"><span>Apporteur</span><strong>' +
+          Lib.formatEuro(d.apporteur.amount) +
+          "</strong></div>"
+        : "") +
+      (d.otherGross > 0
+        ? '<div class="af-kpi muted"><span>Autre négo</span><strong>' +
+          Lib.formatEuro(d.otherGross) +
+          "</strong></div>"
+        : "");
+    steps.innerHTML = (d.steps || [])
+      .map(function (s) {
+        return (
+          "<li><div><strong>" +
+          esc(s.label) +
+          '</strong><span class="af-step-detail">' +
+          esc(s.detail) +
+          "</span></div><span class='af-step-amt'>" +
+          Lib.formatEuro(s.value) +
+          "</span></li>"
+        );
+      })
+      .join("");
+    hint.textContent =
+      ag.name +
+      " · part négo paramétrée " +
+      ag.agentSharePct +
+      " % · rôles entrant/sortant et % apporteur sont libres (mandat / usage réseau), pas dans le PDF barème.";
   }
 
   function readBuyerOpts() {
@@ -983,6 +1139,7 @@
     renderBrackets();
     renderCalc();
     renderCompare();
+    renderDealSplit();
     renderBuyerFinance();
   }
 
@@ -1108,11 +1265,13 @@
       if (id === "calcParty") document.getElementById("cmpParty").value = el.value;
       renderCalc();
       renderCompare();
+      renderDealSplit();
       renderBuyerFinance();
     });
     el.addEventListener("change", function () {
       renderCalc();
       renderCompare();
+      renderDealSplit();
       renderBuyerFinance();
     });
   });
@@ -1131,6 +1290,7 @@
       }
       renderCompare();
       renderCalc();
+      renderDealSplit();
       renderBuyerFinance();
     });
     el.addEventListener("change", function () {
@@ -1138,6 +1298,7 @@
       if (id === "cmpKind") syncKindFields();
       renderCompare();
       renderCalc();
+      renderDealSplit();
       renderBuyerFinance();
     });
   });
@@ -1188,6 +1349,7 @@
     persistTaxFromForm();
     renderCompare();
     renderCalc();
+    renderDealSplit();
     renderBuyerFinance();
   });
 
@@ -1199,6 +1361,7 @@
     persistTaxFromForm();
     renderCompare();
     renderCalc();
+    renderDealSplit();
     renderBuyerFinance();
   };
 

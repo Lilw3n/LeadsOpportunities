@@ -67,7 +67,14 @@
     .af-rules span { color:var(--muted); }
     .af-mode-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
     .af-mode-tab { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:.82rem; cursor:pointer; }
-    .af-mode-tab.active { background:#0369a1; color:#fff; border-color:#0369a1; }
+    .af-deal { border:1px solid #fde68a; border-radius:12px; background:linear-gradient(180deg,#fffbeb,#fff 42%); padding:18px; margin-bottom:16px; }
+    .af-deal h3 { margin:0 0 4px; }
+    .af-deal .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-steps { margin:12px 0 0; padding:0; list-style:none; display:grid; gap:8px; }
+    .af-steps li { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px; font-size:.85rem; }
+    .af-steps li strong { color:#0f172a; }
+    .af-steps .af-step-amt { font-weight:700; white-space:nowrap; }
+    .af-steps .af-step-detail { display:block; color:var(--muted); font-weight:400; margin-top:2px; }
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
 <body class="crm-subpage">
@@ -203,6 +210,74 @@
         <tbody></tbody>
       </table>
     </div>
+  </section>
+
+  <section class="af-deal" id="dealSplitPanel">
+    <h3>Rémunération — entrant / sortant / apporteur</h3>
+    <p class="af-sub">
+      Cascade métier : honoraires barème → part agence/réseau vs masse négociateurs → qui a fait quoi
+      (mandat vendeur = <strong>sortant</strong>, acquéreur = <strong>entrant</strong>) → apporteur éventuel.
+      Les % sortant/entrant et apporteur sont <strong>à saisir</strong> (aucune règle figée dans le PDF TG0422).
+    </p>
+    <div class="af-mode-tabs" id="dealRoleTabs"></div>
+    <div class="af-calc-grid">
+      <div id="dealShareWrap" hidden>
+        <label for="dealSortantPct">Part sortant (% masse négo)</label>
+        <input id="dealSortantPct" type="number" min="0" max="100" step="1" value="50" />
+      </div>
+      <div id="dealEntrantWrap" hidden>
+        <label for="dealEntrantPct">Part entrant (% masse négo)</label>
+        <input id="dealEntrantPct" type="number" min="0" max="100" step="1" value="50" />
+      </div>
+      <div id="dealOtherWrap" hidden>
+        <label for="dealOtherName">Autre négociateur (nom)</label>
+        <input id="dealOtherName" type="text" placeholder="Ex. collègue / autre agence" />
+      </div>
+      <div>
+        <label for="dealApporteurEnabled">Apporteur d'affaires</label>
+        <select id="dealApporteurEnabled">
+          <option value="0">Non</option>
+          <option value="1">Oui</option>
+        </select>
+      </div>
+    </div>
+    <div class="af-calc-grid" id="dealApporteurFields" hidden style="margin-top:12px">
+      <div>
+        <label for="dealApporteurName">Nom apporteur</label>
+        <input id="dealApporteurName" type="text" placeholder="Contact CRM type apporteur" />
+      </div>
+      <div>
+        <label for="dealApporteurSide">A apporté</label>
+        <select id="dealApporteurSide">
+          <option value="vendeur">Le vendeur / mandat</option>
+          <option value="acheteur">L'acquéreur</option>
+          <option value="autre">Autre</option>
+        </select>
+      </div>
+      <div>
+        <label for="dealApporteurPct">Commission apporteur %</label>
+        <input id="dealApporteurPct" type="number" min="0" max="100" step="0.1" value="0" />
+      </div>
+      <div>
+        <label for="dealApporteurBase">% calculé sur</label>
+        <select id="dealApporteurBase">
+          <option value="my_share">Ma part (après sortant/entrant)</option>
+          <option value="agent_mass">Masse négociateurs</option>
+          <option value="agency_fee">Honoraires agence totaux</option>
+        </select>
+      </div>
+      <div>
+        <label for="dealApporteurPaidFrom">Prélevé sur</label>
+        <select id="dealApporteurPaidFrom">
+          <option value="my_share">Ma rémunération</option>
+          <option value="agent_mass">Masse négo (prorata)</option>
+          <option value="agency">Part agence / réseau</option>
+        </select>
+      </div>
+    </div>
+    <div class="af-result" id="dealKpis" style="margin-top:14px"></div>
+    <ul class="af-steps" id="dealSteps"></ul>
+    <p class="af-hint" id="dealHint"></p>
   </section>
 
   <section class="af-buyer" id="buyerFinancePanel">
