@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-12",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation - MoneyVox",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5\" target=\"_blank\">Hausse des primes, coût des sinistres :",
+      "pubDate": "Tue, 11 Aug 2026 13:44:50 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb",
+      "title": "Sinistres : un bon niveau d'assurance habitation en France ? - Batiweb",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNZVl3OFBqOHhqS2M2ZGl3Nm5Lb3VhZXYtY0pxOHZOVFJvRGt4UXhkMkJ4TkhqYlVwNDZDaTRpclZsTldzS2R5aVRROV9oeHpYcDJvSm80dWcxRG1hNXo0WGRtTkVNZEhEZlRlOEIzcTVyQjRaZzdjSHFqVDY0NE95Y0FZRUIxNllBbElBUjB5RFBVdHNIbzg3RVpKSTlZWmI2YWpTbDAzMA?oc=5",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxNZVl3OFBqOHhqS2M2ZGl3Nm5Lb3VhZXYtY0pxOHZOVFJvRGt4UXhkMkJ4TkhqYlVwNDZDaTRpclZsTldzS2R5aVRROV9oeHpYcDJvSm80dWcxRG1hNXo0WGRtTkVNZEhEZlRlOEIzcTVyQjRaZzdjSHFqVDY0NE95Y0FZRUIxNllBbElBUjB5RFBVdHNIbzg3RVpKSTlZWmI2YWpTbDAzMA?oc=5\" target=\"_blank\">Sinistres : un bon niveau d'assurance habitation en France ?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Bat",
+      "pubDate": "Tue, 16 Jun 2026 07:00:00 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 91,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-il-faut-changer-de-modele-le-cout-croissant-des-kines-dans-le-viseur-de-",
+      "title": "« Il faut changer de modèle » : le coût croissant des kinés dans le viseur de l'Assurance Maladie - Les Echos",
+      "url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQQVFlWFJNVmRRV3dKTnZncnl0S1d2Zjd4T2VQTkRMSmtjTjFiYW1EMmsyYlo5WTE3aDBsWnZRdnY1bS1mZDktQzZpdzdKeEJCVUE4SjR1bDFIMWpCQW1zcjFMbk9tYjJLVDFjc2ZCR01BazlqZTRvM1hQSXkyZlRGMDdUUDlvOGJUNERNaGhMUWJyN25DbnBoNHUzbklKUjJ6WmpGNVRlSGJxVDk2eHRnT05VMEY4YnFDSjVsazhXUEMwTjlBQ01ZZXNKTmt2RWs2VTdBVnp0SF9ISVN3Tnc?oc=5",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMi3gFBVV95cUxQQVFlWFJNVmRRV3dKTnZncnl0S1d2Zjd4T2VQTkRMSmtjTjFiYW1EMmsyYlo5WTE3aDBsWnZRdnY1bS1mZDktQzZpdzdKeEJCVUE4SjR1bDFIMWpCQW1zcjFMbk9tYjJLVDFjc2ZCR01BazlqZTRvM1hQSXkyZlRGMDdUUDlvOGJUNERNaGhMUWJyN25DbnBoNHUzbklKUjJ6WmpGNVRlSGJxVDk2eHRnT05VMEY4YnFDSjVsazhXUEMwTjlBQ01ZZXNKTmt2RWs2VTdBVnp0SF9ISVN3Tnc?oc=5\" target=\"_blank\">« Il faut changer de modèle ",
+      "pubDate": "Tue, 11 Aug 2026 04:00:08 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "il-faut-changer-de-modele-le-cout-croissant-des-kines-dans-le-viseur-de-.html",
+      "section": "actu",
+      "need": "habitation",
+      "leadScore": 75,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sans-permis-sans-assurance-il-donne-un-faux-nom-aux-gendarmes-ouest-fran",
+      "title": "Sans permis, sans assurance, il donne un faux nom aux gendarmes - ouest-france.fr",
+      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPelNNREh3dzYwclk3OHVyVmtuR1BndnBGazh6aXZ4Z3F3YnlEZkNMTS1NMUVGYVdrbmlqN3Fub3RKYmNqRUdycWFCUEdLSFdvdWxmcjJNSFg2U1BSbV9MR2wwLXN4TG5tcUUtazhvdEhfUHl6Ynk4ZnoycDdxa0RBN1ZTVTFGS25RbVYtcHlEbWFiaE50dGVLM1p4enJ6b0s5dDJrendtN29OMTMtMEhzSm95VzI4dGRlMmlDblU0VkNtYWh3YUNHcWNiZkg0T21rNjZlaC1qX2wwVElMRE80eTNFbw?oc=5",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMi4wFBVV95cUxPelNNREh3dzYwclk3OHVyVmtuR1BndnBGazh6aXZ4Z3F3YnlEZkNMTS1NMUVGYVdrbmlqN3Fub3RKYmNqRUdycWFCUEdLSFdvdWxmcjJNSFg2U1BSbV9MR2wwLXN4TG5tcUUtazhvdEhfUHl6Ynk4ZnoycDdxa0RBN1ZTVTFGS25RbVYtcHlEbWFiaE50dGVLM1p4enJ6b0s5dDJrendtN29OMTMtMEhzSm95VzI4dGRlMmlDblU0VkNtYWh3YUNHcWNiZkg0T21rNjZlaC1qX2wwVElMRE80eTNFbw?oc=5\" target=\"_blank\">Sans permis, sans ass",
+      "pubDate": "Tue, 11 Aug 2026 17:28:51 GMT",
+      "feedId": "google-news-assurance-fr",
+      "feedName": "Google News — assurance France",
+      "sourceType": "google",
+      "suggestedFile": "sans-permis-sans-assurance-il-donne-un-faux-nom-aux-gendarmes-ouest-fran.html",
+      "section": "auto",
+      "need": "auto",
+      "leadScore": 75,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-l-assurance-habitation-en-2025-france-assureurs",
+      "title": "L’assurance habitation en 2025 - France Assureurs",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOZVR3bi1sTTFobjl3c2tscThNbmZaN01RSVBsTVlIdTQwVW12eXNMV1o5WGtKNE4tVXVjTlN3V0NqVnRXenBVaFZNYllQbEE3b3Eyc0J5SG5Qa2QydkViMU5MbXhEcmlvX0ZzUW5OcXFXcjVjdkhjY2hnNmdjYXB1WlRzUTNaZEZENklRMURzaUN1dzZPZ2RIb3B3dmltSDRQaFpWN00ydlNyMDRySnRlREh3bDhJUQ?oc=5",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMitgFBVV95cUxOZVR3bi1sTTFobjl3c2tscThNbmZaN01RSVBsTVlIdTQwVW12eXNMV1o5WGtKNE4tVXVjTlN3V0NqVnRXenBVaFZNYllQbEE3b3Eyc0J5SG5Qa2QydkViMU5MbXhEcmlvX0ZzUW5OcXFXcjVjdkhjY2hnNmdjYXB1WlRzUTNaZEZENklRMURzaUN1dzZPZ2RIb3B3dmltSDRQaFpWN00ydlNyMDRySnRlREh3bDhJUQ?oc=5\" target=\"_blank\">L’assurance habitation en 2025</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">France Assure",
+      "pubDate": "Fri, 24 Jul 2026 07:00:00 GMT",
+      "feedId": "google-news-habitation-fr",
+      "feedName": "Google News — assurance habitation",
+      "sourceType": "google",
+      "suggestedFile": "l-assurance-habitation-en-2025-france-assureurs.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 73,
+      "status": "candidate"
+    }
+  ]
+}
