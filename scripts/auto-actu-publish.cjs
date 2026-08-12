@@ -17,7 +17,11 @@ const {
   appendPendingArticle,
   isPlaceholderActuCandidate,
 } = require("./blog-actu-lib.cjs");
-const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const {
+  isInternationalAudienceTopic,
+  isFranceMarketTopic,
+  looksLikeNonFrenchTitle,
+} = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
 
@@ -101,6 +105,7 @@ function pickCandidates(candidates, count, state) {
 
   var available = ranked.filter(function (c) {
     if (isPlaceholderActuCandidate(c)) return false;
+    if (looksLikeNonFrenchTitle(c.title)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
