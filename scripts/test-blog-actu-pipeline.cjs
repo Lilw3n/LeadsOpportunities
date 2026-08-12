@@ -25,6 +25,20 @@ assert.strictEqual(
 );
 assert.strictEqual(isPlaceholderQueueItem({ title: "" }), true, "titre vide");
 
+var { franceLeadScoreAdjust } = require("./france-audience-lib.cjs");
+assert.ok(
+  franceLeadScoreAdjust({
+    title: "Football : Xavi Hernandez, légende du FC Barcelone, nouveau sélectionneur des Pays-Bas après la coupe du monde",
+  }) < 0,
+  "sport étranger pénalisé"
+);
+assert.ok(
+  franceLeadScoreAdjust({
+    title: "Alerte canicule : 80 départements en vigilance orange — assurance habitation",
+  }) > 20,
+  "canicule FR scorée"
+);
+
 var quality = spawnSync(process.execPath, [path.join(__dirname, "verify-actu-quality.cjs")], {
   input: "",
   encoding: "utf8",
