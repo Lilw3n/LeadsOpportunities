@@ -10,11 +10,17 @@
     console.error("CrmAgencyFees missing");
     return;
   }
+  var Fin = window.CrmBuyerFinance;
+  if (!Fin) {
+    console.error("CrmBuyerFinance missing");
+    return;
+  }
 
   var state = {
     agencies: Lib.listAgencies(),
     agencyId: null,
     scheduleId: null,
+    loanType: "pret_amortissable",
   };
 
   if (state.agencies.length) {
@@ -710,6 +716,220 @@
       " % · classement par ta part brute · clic sur une ligne pour éditer l'agence";
   }
 
+  function readBuyerOpts() {
+    return {
+      loanType: state.loanType || "pret_amortissable",
+      monthlyIncome: Number(document.getElementById("bfIncome").value) || 0,
+      coBorrowerIncome: Number(document.getElementById("bfCoIncome").value) || 0,
+      existingLoansMonthly: Number(document.getElementById("bfExisting").value) || 0,
+      downPayment: Number(document.getElementById("bfDown").value) || 0,
+      years: Number(document.getElementById("bfYears").value) || 25,
+      ratePct: document.getElementById("bfRate").value === "" ? "" : Number(document.getElementById("bfRate").value),
+      dtiMax: Number(document.getElementById("bfDti").value) || 35,
+      feePayer: document.getElementById("bfFeePayer").value || "vendeur",
+      notaryPreset: document.getElementById("bfNotary").value || "ancien",
+      notaryPct: Number(document.getElementById("bfNotaryPct").value) || 7.5,
+      financeNotary: document.getElementById("bfFinanceNotary").value !== "0",
+      insurancePctYear: Number(document.getElementById("bfInsur").value) || 0.34,
+      currentLoanBalance: Number(document.getElementById("bfCurBalance").value) || 0,
+      currentLoanMonthly: Number(document.getElementById("bfCurMonthly").value) || 0,
+      cashOut: Number(document.getElementById("bfCashOut").value) || 0,
+      includeProjectInRachat: document.getElementById("bfIncludeProject").value !== "0",
+      bridgeAmount: Number(document.getElementById("bfBridge").value) || 0,
+      netVendeur: Number(document.getElementById("cmpPrice").value) || 0,
+    };
+  }
+
+  function persistBuyerPrefs() {
+    Fin.savePrefs(readBuyerOpts());
+  }
+
+  function applyBuyerPrefsToForm() {
+    var p = Fin.loadPrefs();
+    state.loanType = p.loanType || "pret_amortissable";
+    document.getElementById("bfIncome").value = p.monthlyIncome;
+    document.getElementById("bfCoIncome").value = p.coBorrowerIncome;
+    document.getElementById("bfExisting").value = p.existingLoansMonthly;
+    document.getElementById("bfDown").value = p.downPayment;
+    document.getElementById("bfYears").value = p.years;
+    document.getElementById("bfRate").value = p.ratePct === "" || p.ratePct == null ? "" : p.ratePct;
+    document.getElementById("bfDti").value = p.dtiMax;
+    document.getElementById("bfFeePayer").value = p.feePayer || "vendeur";
+    document.getElementById("bfNotary").value = p.notaryPreset || "ancien";
+    document.getElementById("bfNotaryPct").value = p.notaryPct != null ? p.notaryPct : 7.5;
+    document.getElementById("bfFinanceNotary").value = p.financeNotary === false ? "0" : "1";
+    document.getElementById("bfInsur").value = p.insurancePctYear != null ? p.insurancePctYear : 0.34;
+    document.getElementById("bfCurBalance").value = p.currentLoanBalance || 0;
+    document.getElementById("bfCurMonthly").value = p.currentLoanMonthly || 0;
+    document.getElementById("bfCashOut").value = p.cashOut || 0;
+    document.getElementById("bfIncludeProject").value = p.includeProjectInRachat === false ? "0" : "1";
+    document.getElementById("bfBridge").value = p.bridgeAmount || 0;
+  }
+
+  function syncBuyerExtraFields() {
+    var lt = state.loanType;
+    var rachat = document.getElementById("bfRachatFields");
+    var relais = document.getElementById("bfRelaisFields");
+    var notaryWrap = document.getElementById("bfNotaryPctWrap");
+    if (rachat) rachat.hidden = !(lt === "rachat" || lt === "renegociation");
+    if (relais) relais.hidden = lt !== "relais";
+    if (notaryWrap) notaryWrap.hidden = document.getElementById("bfNotary").value !== "custom";
+  }
+
+  function renderLoanTypeTabs() {
+    var root = document.getElementById("loanTypeTabs");
+    if (!root) return;
+    root.innerHTML = Fin.LOAN_TYPES.map(function (t) {
+      var active = t.id === state.loanType ? " active" : "";
+      return (
+        '<button type="button" class="af-mode-tab' +
+        active +
+        '" data-id="' +
+        esc(t.id) +
+        '" title="' +
+        esc(t.desc) +
+        '">' +
+        esc(t.label) +
+        "</button>"
+      );
+    }).join("");
+    root.querySelectorAll(".af-mode-tab").forEach(function (btn) {
+      btn.onclick = function () {
+        state.loanType = btn.getAttribute("data-id");
+        syncBuyerExtraFields();
+        persistBuyerPrefs();
+        renderBuyerFinance();
+      };
+    });
+  }
+
+  function statusBadge(status) {
+    if (status === "ok") return '<span class="af-badge ok">OK</span>';
+    if (status === "block") return '<span class="af-badge block">Bloqué</span>';
+    return '<span class="af-badge warn">Attention</span>';
+  }
+
+  function renderBuyerFinance() {
+    if (!document.getElementById("buyerFinancePanel")) return;
+    renderLoanTypeTabs();
+    syncBuyerExtraFields();
+
+    var opts = readBuyerOpts();
+    var price = Number(document.getElementById("cmpPrice").value) || 0;
+    var kind = document.getElementById("cmpKind").value;
+    var agencyRows = Lib.compareAgencies({
+      price: price,
+      kind: kind,
+      surface: Number(document.getElementById("cmpSurface").value) || 0,
+      zone: document.getElementById("cmpZone").value || "hors_zone",
+      rentalParty: document.getElementById("cmpParty").value || "total",
+      chargesPct: currentChargesPct(),
+      cfePct: currentCfePct(),
+      accountingPct: currentAccountingPct(),
+    });
+
+    var rows = Fin.compareWithAgencies(agencyRows, opts);
+    var best = rows[0] && rows[0].finance;
+    var kpis = document.getElementById("bfCapacityKpis");
+    if (best && kpis) {
+      var cap = best.capacity;
+      kpis.innerHTML =
+        '<div class="af-kpi muted"><span>Capacité max emprunt</span><strong>' +
+        Fin.formatEuro(cap.maxLoan) +
+        '</strong></div>' +
+        '<div class="af-kpi muted"><span>Mensualité dispo (DTI)</span><strong>' +
+        Fin.formatEuro(cap.roomForNewLoan) +
+        '</strong></div>' +
+        '<div class="af-kpi"><span>Taux retenu</span><strong>' +
+        Fin.formatPct(best.ratePct) +
+        '</strong></div>' +
+        '<div class="af-kpi muted"><span>Profil taux</span><strong>' +
+        esc(best.rateProfile) +
+        '</strong></div>' +
+        (best.savingsMonthly != null
+          ? '<div class="af-kpi highlight"><span>Écart vs mensualité actuelle</span><strong>' +
+            (best.savingsMonthly >= 0 ? "−" : "+") +
+            Fin.formatEuro(Math.abs(best.savingsMonthly)) +
+            "/mois</strong></div>"
+          : '<div class="af-kpi highlight"><span>Marge capacité (meilleure agence)</span><strong>' +
+            Fin.formatEuro(best.headroom) +
+            "</strong></div>");
+    }
+
+    var tbody = document.querySelector("#buyerFinanceTable tbody");
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Aucune agence</td></tr>';
+    } else {
+      tbody.innerHTML = rows
+        .map(function (row, i) {
+          var f = row.finance;
+          var bestCls = i === 0 ? " best" : "";
+          var win = i === 0 ? '<span class="af-win">plus finançable</span>' : "";
+          return (
+            '<tr class="' +
+            bestCls +
+            '">' +
+            "<td><strong>" +
+            esc(row.agency.name) +
+            "</strong>" +
+            win +
+            "<br><span style='font-size:.78rem;color:var(--muted)'>FAI " +
+            Fin.formatEuro(f.project.fai) +
+            " · hon. " +
+            Fin.formatEuro(f.project.agencyFee) +
+            "</span></td>" +
+            "<td>" +
+            Fin.formatEuro(f.project.totalProject) +
+            "<br><span style='font-size:.75rem;color:var(--muted)'>dont notaire " +
+            Fin.formatEuro(f.project.notary.amount) +
+            "</span></td>" +
+            "<td>" +
+            Fin.formatEuro(f.loanAmount) +
+            "<br><span style='font-size:.75rem;color:var(--muted)'>LTV " +
+            Fin.formatPct(f.project.ltv) +
+            "</span></td>" +
+            "<td><strong>" +
+            Fin.formatEuro(f.totalMonthlyHousing) +
+            "</strong><br><span style='font-size:.75rem;color:var(--muted)'>crédit " +
+            Fin.formatEuro(f.monthlyPayment) +
+            " + assur. " +
+            Fin.formatEuro(f.insuranceMonthly) +
+            "</span></td>" +
+            "<td>" +
+            Fin.formatPct(f.debtRatio) +
+            "</td>" +
+            "<td>" +
+            statusBadge(f.status) +
+            "</td>" +
+            "</tr>"
+          );
+        })
+        .join("");
+    }
+
+    var hint = document.getElementById("bfHint");
+    if (hint && best) {
+      hint.textContent = best.messages.join(" · ") + " — indicatif non contractuel.";
+    }
+
+    var rules = document.getElementById("bfRules");
+    if (rules && best) {
+      rules.innerHTML = best.rules
+        .map(function (r) {
+          return (
+            "<li><strong>" +
+            esc(r.label) +
+            " — " +
+            esc(r.value) +
+            "</strong><span>" +
+            esc(r.detail) +
+            "</span></li>"
+          );
+        })
+        .join("");
+    }
+  }
+
   function renderAll() {
     renderAgencyList();
     renderAgencyForm();
@@ -717,6 +937,7 @@
     renderBrackets();
     renderCalc();
     renderCompare();
+    renderBuyerFinance();
   }
 
   function esc(s) {
@@ -841,10 +1062,12 @@
       if (id === "calcParty") document.getElementById("cmpParty").value = el.value;
       renderCalc();
       renderCompare();
+      renderBuyerFinance();
     });
     el.addEventListener("change", function () {
       renderCalc();
       renderCompare();
+      renderBuyerFinance();
     });
   });
 
@@ -862,12 +1085,48 @@
       }
       renderCompare();
       renderCalc();
+      renderBuyerFinance();
     });
     el.addEventListener("change", function () {
       if (id === "chargesPct" || id === "cfePct" || id === "accountingPct") persistTaxFromForm();
       if (id === "cmpKind") syncKindFields();
       renderCompare();
       renderCalc();
+      renderBuyerFinance();
+    });
+  });
+
+
+  [
+    "bfIncome",
+    "bfCoIncome",
+    "bfExisting",
+    "bfDown",
+    "bfYears",
+    "bfRate",
+    "bfDti",
+    "bfFeePayer",
+    "bfNotary",
+    "bfNotaryPct",
+    "bfFinanceNotary",
+    "bfInsur",
+    "bfCurBalance",
+    "bfCurMonthly",
+    "bfCashOut",
+    "bfIncludeProject",
+    "bfBridge",
+  ].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", function () {
+      syncBuyerExtraFields();
+      persistBuyerPrefs();
+      renderBuyerFinance();
+    });
+    el.addEventListener("change", function () {
+      syncBuyerExtraFields();
+      persistBuyerPrefs();
+      renderBuyerFinance();
     });
   });
 
@@ -883,6 +1142,7 @@
     persistTaxFromForm();
     renderCompare();
     renderCalc();
+    renderBuyerFinance();
   });
 
   document.getElementById("btnSyncChargesFromSplit").onclick = function () {
@@ -893,6 +1153,7 @@
     persistTaxFromForm();
     renderCompare();
     renderCalc();
+    renderBuyerFinance();
   };
 
   ["calcUrssaf", "calcIr"].forEach(function (id) {
@@ -908,7 +1169,9 @@
     ag.agentSharePct = Number(document.getElementById("agentSharePct").value) || 0;
     renderCalc();
     renderCompare();
+    renderBuyerFinance();
   });
 
+  applyBuyerPrefsToForm();
   renderAll();
 })();

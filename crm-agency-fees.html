@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Barèmes immo / Agences | CRM</title>
+  <title>Barèmes & financement immo | CRM</title>
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <style>
@@ -56,15 +56,26 @@
     .af-compare-table .af-win { color:#047857; font-weight:700; font-size:.72rem; margin-left:6px; }
     .af-badge { display:inline-block; font-size:.72rem; padding:2px 8px; border-radius:999px; background:#e2e8f0; color:#334155; }
     .af-badge.warn { background:#fef3c7; color:#92400e; }
-  </style>
+    .af-badge.ok { background:#d1fae5; color:#065f46; }
+    .af-badge.block { background:#fee2e2; color:#991b1b; }
+    .af-buyer { border:1px solid #bae6fd; border-radius:12px; background:linear-gradient(180deg,#f0f9ff,#fff 42%); padding:18px; margin-bottom:16px; }
+    .af-buyer h3 { margin:0 0 4px; }
+    .af-buyer .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-rules { margin:14px 0 0; padding:0; list-style:none; display:grid; gap:8px; }
+    .af-rules li { background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px; font-size:.85rem; }
+    .af-rules strong { display:block; margin-bottom:2px; color:#0f172a; }
+    .af-rules span { color:var(--muted); }
+    .af-mode-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+    .af-mode-tab { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:.82rem; cursor:pointer; }
+    .af-mode-tab.active { background:#0369a1; color:#fff; border-color:#0369a1; }
   <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
 <body class="crm-subpage">
   <section class="crm-page-panel crm-gradient-panel">
     <div>
       <p class="crm-eyebrow">Immobilier</p>
-      <h2>Barèmes d'honoraires</h2>
-      <p>Plusieurs agences, barèmes modifiables (% ou montant fixe), et ta part d'honoraires (ex. 40 % Laforêt, 85 % Portes Clés).</p>
+      <h2>Barèmes & financement</h2>
+      <p>Côté vendeur : honoraires multi-agences. Côté acheteur : capacité d'emprunt, prêt, rachat et règles de calcul.</p>
     </div>
     <div class="crm-action-row">
       <a href="./negociateur-immobilier/" class="btn btn-ghost">Landing négociateur</a>
@@ -75,7 +86,8 @@
   <div class="af-intro">
     <p>
       Barème officiel <strong>Portes Clés TG0422</strong> (PDF Immobilier Email) : ventes habitation forfait TTC sur
-      <strong>net vendeur</strong>, pro 10&nbsp;% TTC, bail commercial, locations et avis de valeur.
+      <strong>net vendeur</strong>, pro 10&nbsp;% TTC, bail, locations. En dessous : <strong>vue acheteur</strong>
+      (prêt, rachat, endettement HCSF ~35&nbsp;%).
     </p>
   </div>
 
@@ -193,6 +205,128 @@
     </div>
   </section>
 
+  <section class="af-buyer" id="buyerFinancePanel">
+    <h3>Côté acheteur — financement possible</h3>
+    <p class="af-sub">
+      Capacité d'emprunt, mensualité, LTV et endettement croisés avec le FAI de chaque agence.
+      Types : prêt amortissable, rachat / regroupement, renégociation, prêt relais.
+    </p>
+    <div class="af-mode-tabs" id="loanTypeTabs"></div>
+    <div class="af-calc-grid">
+      <div>
+        <label for="bfIncome">Revenus nets mensuels (€)</label>
+        <input id="bfIncome" type="number" min="0" step="50" value="3200" />
+      </div>
+      <div>
+        <label for="bfCoIncome">Co-emprunteur (€/mois)</label>
+        <input id="bfCoIncome" type="number" min="0" step="50" value="0" />
+      </div>
+      <div>
+        <label for="bfExisting">Crédits en cours (€/mois)</label>
+        <input id="bfExisting" type="number" min="0" step="10" value="0" />
+      </div>
+      <div>
+        <label for="bfDown">Apport (€)</label>
+        <input id="bfDown" type="number" min="0" step="1000" value="30000" />
+      </div>
+      <div>
+        <label for="bfYears">Durée (années)</label>
+        <input id="bfYears" type="number" min="5" max="30" step="1" value="25" />
+      </div>
+      <div>
+        <label for="bfRate">Taux nominal % <span style="font-weight:400">(vide = auto)</span></label>
+        <input id="bfRate" type="number" min="0" max="12" step="0.05" placeholder="auto" />
+      </div>
+      <div>
+        <label for="bfDti">Plafond endettement %</label>
+        <input id="bfDti" type="number" min="20" max="40" step="0.5" value="35" />
+      </div>
+      <div>
+        <label for="bfFeePayer">Honoraires à la charge de</label>
+        <select id="bfFeePayer">
+          <option value="vendeur">Vendeur (prix FAI)</option>
+          <option value="acheteur">Acquéreur</option>
+        </select>
+      </div>
+      <div>
+        <label for="bfNotary">Frais de notaire</label>
+        <select id="bfNotary">
+          <option value="ancien">Ancien (~7,5 %)</option>
+          <option value="neuf">Neuf / VEFA (~2,5 %)</option>
+          <option value="custom">Personnalisé</option>
+        </select>
+      </div>
+      <div id="bfNotaryPctWrap" hidden>
+        <label for="bfNotaryPct">Notaire %</label>
+        <input id="bfNotaryPct" type="number" min="0" max="15" step="0.1" value="7.5" />
+      </div>
+      <div>
+        <label for="bfFinanceNotary">Financer le notaire ?</label>
+        <select id="bfFinanceNotary">
+          <option value="1">Oui (dans l'emprunt)</option>
+          <option value="0">Non (cash / apport)</option>
+        </select>
+      </div>
+      <div>
+        <label for="bfInsur">Assurance emprunteur % / an</label>
+        <input id="bfInsur" type="number" min="0" max="2" step="0.01" value="0.34" />
+      </div>
+    </div>
+
+    <div class="af-calc-grid" id="bfRachatFields" hidden style="margin-top:12px">
+      <div>
+        <label for="bfCurBalance">Capital restant dû regroupé (€)</label>
+        <input id="bfCurBalance" type="number" min="0" step="1000" value="0" />
+      </div>
+      <div>
+        <label for="bfCurMonthly">Mensualité actuelle rachetée (€)</label>
+        <input id="bfCurMonthly" type="number" min="0" step="10" value="0" />
+      </div>
+      <div>
+        <label for="bfCashOut">Trésorerie / cash-out (€)</label>
+        <input id="bfCashOut" type="number" min="0" step="1000" value="0" />
+      </div>
+      <div>
+        <label for="bfIncludeProject">Inclure le projet immo dans le rachat</label>
+        <select id="bfIncludeProject">
+          <option value="1">Oui (soldes + besoin achat)</option>
+          <option value="0">Non (soldes + trésorerie seule)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="af-calc-grid" id="bfRelaisFields" hidden style="margin-top:12px">
+      <div>
+        <label for="bfBridge">Montant prêt relais (€)</label>
+        <input id="bfBridge" type="number" min="0" step="1000" value="0" placeholder="sinon = besoin projet" />
+      </div>
+    </div>
+
+    <div class="af-result" id="bfCapacityKpis" style="margin-top:14px"></div>
+
+    <div class="af-table-wrap" style="margin-top:14px">
+      <table class="af-compare-table" id="buyerFinanceTable">
+        <thead>
+          <tr>
+            <th>Agence (FAI)</th>
+            <th>Projet total</th>
+            <th>À emprunter</th>
+            <th>Mensualité + assur.</th>
+            <th>Endettement</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="af-hint" id="bfHint"></p>
+
+    <details style="margin-top:12px">
+      <summary style="cursor:pointer;font-weight:600;font-size:.9rem">Règles de calcul affichées</summary>
+      <ul class="af-rules" id="bfRules"></ul>
+    </details>
+  </section>
+
   <div class="af-layout">
     <aside class="af-list">
       <div class="af-list-hd">
@@ -298,6 +432,7 @@
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/crm-agency-fees-lib.js"></script>
+  <script src="./js/crm-buyer-finance-lib.js"></script>
   <script src="./crm-agency-fees.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
