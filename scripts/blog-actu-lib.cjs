@@ -112,7 +112,7 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
-  if (isLikelyEnglishCorporateItem(hay)) score -= 55;
+  if (isLikelyEnglishCorporateItem(hay)) score -= 130;
   else if (isLikelyEnglishHeadline(title)) score -= 35;
 
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {

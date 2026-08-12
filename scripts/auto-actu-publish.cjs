@@ -88,6 +88,7 @@ function loadPublishedTitleKeys() {
 var PLATFORM_TYPES = PREFERRED_PLATFORM_TYPES;
 var PRIMARY_PLATFORM_TYPES = ["cafeyn", "edge", "firefox"];
 var SECONDARY_PLATFORM_TYPES = ["google", "bing", "yahoo"];
+var MIN_PLATFORM_LEAD_SCORE = 40;
 
 function candidateSourceType(c, feedMap) {
   if (c.sourceType) {
@@ -101,7 +102,11 @@ function candidateSourceType(c, feedMap) {
 function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
-      return candidateSourceType(c, feedMap) === platform && !isCandidateUsed(c, used);
+      return (
+        candidateSourceType(c, feedMap) === platform &&
+        !isCandidateUsed(c, used) &&
+        Number(c.leadScore || 0) >= MIN_PLATFORM_LEAD_SCORE
+      );
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
