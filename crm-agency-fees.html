@@ -96,14 +96,31 @@
         </select>
       </div>
       <div>
-        <label for="cmpUrssaf">URSSAF AE (%)</label>
-        <input id="cmpUrssaf" type="number" min="0" max="40" step="0.1" />
+        <label for="taxPreset">Régime charges FR</label>
+        <select id="taxPreset"></select>
       </div>
       <div>
-        <label for="cmpIr">Impôt / VL (%)</label>
-        <input id="cmpIr" type="number" min="0" max="20" step="0.1" />
+        <label for="chargesPct">Charges totales % <span style="font-weight:400">(URSSAF + impôts)</span></label>
+        <input id="chargesPct" type="number" min="0" max="50" step="0.1" value="22" />
       </div>
     </div>
+    <details class="af-tax-adv" id="taxAdvanced" style="margin-top:12px">
+      <summary style="cursor:pointer;font-size:.88rem;font-weight:600">Détail avancé URSSAF / impôt (optionnel)</summary>
+      <div class="af-calc-grid" style="margin-top:10px">
+        <div>
+          <label for="calcUrssaf">URSSAF (%)</label>
+          <input id="calcUrssaf" type="number" min="0" max="40" step="0.1" />
+        </div>
+        <div>
+          <label for="calcIr">Impôt / versement libératoire (%)</label>
+          <input id="calcIr" type="number" min="0" max="20" step="0.1" />
+        </div>
+        <div style="display:flex;align-items:end">
+          <button type="button" class="btn btn-ghost" id="btnSyncChargesFromSplit">Utiliser URSSAF + IR comme total</button>
+        </div>
+      </div>
+      <p class="af-hint">Astuce : en micro-entreprise, tu peux mettre directement ton taux réel (ex. 22 %). Les presets sont des ordres de grandeur.</p>
+    </details>
     <div class="af-table-wrap" style="margin-top:14px">
       <table class="af-compare-table" id="compareTable">
         <thead>
@@ -192,14 +209,6 @@
           <div>
             <label for="calcPrice">Prix net vendeur / de référence (€)</label>
             <input id="calcPrice" type="number" min="0" step="1000" value="200000" />
-          </div>
-          <div>
-            <label for="calcUrssaf">URSSAF auto-entrepreneur (%)</label>
-            <input id="calcUrssaf" type="number" min="0" max="40" step="0.1" />
-          </div>
-          <div>
-            <label for="calcIr">Impôt / versement libératoire (%)</label>
-            <input id="calcIr" type="number" min="0" max="20" step="0.1" />
           </div>
         </div>
         <div class="af-result" id="calcResult"></div>

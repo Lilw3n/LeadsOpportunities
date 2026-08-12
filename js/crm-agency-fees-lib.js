@@ -6,9 +6,21 @@ window.CrmAgencyFees = (function () {
   var STORAGE_KEY = "lo_agency_fee_schedules_v1";
   var DATA_VERSION = 2;
 
+  var DEFAULT_CHARGES_PCT = 22;
   var DEFAULT_URSSAF_PCT = 21.2;
   var DEFAULT_IR_PCT = 2.2;
   var VAT_RATE = 0.2;
+  var TAX_PREFS_KEY = "lo_agency_fee_tax_prefs_v1";
+
+  /** Presets micro-entreprise France (ordres de grandeur, ajustables). */
+  var TAX_PRESETS = [
+    { id: "custom_22", label: "Mon taux 22 % (perso)", chargesPct: 22, urssafPct: 22, irPct: 0 },
+    { id: "services_urssaf", label: "Services BIC — URSSAF seul (~21,2 %)", chargesPct: 21.2, urssafPct: 21.2, irPct: 0 },
+    { id: "services_vl", label: "Services BIC + versement libératoire (~23,4 %)", chargesPct: 23.4, urssafPct: 21.2, irPct: 2.2 },
+    { id: "bnc_vl", label: "BNC libéral + VL (~25,2 %)", chargesPct: 25.2, urssafPct: 23.1, irPct: 2.1 },
+    { id: "commerce", label: "Vente de marchandises (~12,3 %)", chargesPct: 12.3, urssafPct: 12.3, irPct: 0 },
+    { id: "custom", label: "Personnalisé (saisie libre)", chargesPct: null, urssafPct: null, irPct: null },
+  ];
 
   function uid(prefix) {
     return (prefix || "id") + "_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 7);
@@ -300,6 +312,7 @@ window.CrmAgencyFees = (function () {
    * @param {string} [opts.scheduleId]
    * @param {string} [opts.kind]
    * @param {number} opts.price — net vendeur ou prix selon le barème
+   * @param {number} [opts.chargesPct] — total URSSAF+impôts (prioritaire si fourni)
    * @param {number} [opts.urssafPct]
    * @param {number} [opts.irPct]
    */
@@ -318,9 +331,21 @@ window.CrmAgencyFees = (function () {
 
     var sharePct = Number(agency.agentSharePct) || 0;
     var agentGross = (agencyFee * sharePct) / 100;
-    var urssafPct = opts.urssafPct != null ? Number(opts.urssafPct) : DEFAULT_URSSAF_PCT;
-    var irPct = opts.irPct != null ? Number(opts.irPct) : DEFAULT_IR_PCT;
-    var charges = (agentGross * (urssafPct + irPct)) / 100;
+
+    var chargesPct;
+    var urssafPct;
+    var irPct;
+    if (opts.chargesPct != null && opts.chargesPct !== "") {
+      chargesPct = Number(opts.chargesPct) || 0;
+      urssafPct = chargesPct;
+      irPct = 0;
+    } else {
+      urssafPct = opts.urssafPct != null ? Number(opts.urssafPct) : DEFAULT_URSSAF_PCT;
+      irPct = opts.irPct != null ? Number(opts.irPct) : DEFAULT_IR_PCT;
+      chargesPct = urssafPct + irPct;
+    }
+
+    var charges = (agentGross * chargesPct) / 100;
     var agentNet = Math.max(0, agentGross - charges);
     var fai = price + agencyFee;
 
@@ -333,6 +358,7 @@ window.CrmAgencyFees = (function () {
       fai: round2(fai),
       agentSharePct: sharePct,
       agentGross: round2(agentGross),
+      chargesPct: chargesPct,
       urssafPct: urssafPct,
       irPct: irPct,
       charges: round2(charges),
@@ -346,6 +372,7 @@ window.CrmAgencyFees = (function () {
   function compareAgencies(opts) {
     var price = Number(opts.price) || 0;
     var kind = opts.kind || "vente_habitation";
+    var chargesPct = opts.chargesPct;
     var urssafPct = opts.urssafPct;
     var irPct = opts.irPct;
     return listAgencies()
@@ -363,6 +390,7 @@ window.CrmAgencyFees = (function () {
           scheduleId: schedule ? schedule.id : null,
           kind: kind,
           price: price,
+          chargesPct: chargesPct,
           urssafPct: urssafPct,
           irPct: irPct,
         });
@@ -378,6 +406,51 @@ window.CrmAgencyFees = (function () {
       .sort(function (a, b) {
         return (b.result.agentGross || 0) - (a.result.agentGross || 0);
       });
+  }
+
+  function loadTaxPrefs() {
+    try {
+      var raw = localStorage.getItem(TAX_PREFS_KEY);
+      var p = raw ? JSON.parse(raw) : {};
+      if (!p || typeof p !== "object") p = {};
+      return {
+        presetId: p.presetId || "custom_22",
+        chargesPct: p.chargesPct != null ? Number(p.chargesPct) : DEFAULT_CHARGES_PCT,
+        urssafPct: p.urssafPct != null ? Number(p.urssafPct) : DEFAULT_URSSAF_PCT,
+        irPct: p.irPct != null ? Number(p.irPct) : 0,
+        advanced: !!p.advanced,
+      };
+    } catch (e) {
+      return {
+        presetId: "custom_22",
+        chargesPct: DEFAULT_CHARGES_PCT,
+        urssafPct: DEFAULT_URSSAF_PCT,
+        irPct: 0,
+        advanced: false,
+      };
+    }
+  }
+
+  function saveTaxPrefs(prefs) {
+    localStorage.setItem(
+      TAX_PREFS_KEY,
+      JSON.stringify({
+        presetId: prefs.presetId || "custom",
+        chargesPct: Number(prefs.chargesPct) || 0,
+        urssafPct: Number(prefs.urssafPct) || 0,
+        irPct: Number(prefs.irPct) || 0,
+        advanced: !!prefs.advanced,
+        savedAt: new Date().toISOString(),
+      })
+    );
+  }
+
+  function getTaxPreset(id) {
+    return (
+      TAX_PRESETS.find(function (p) {
+        return p.id === id;
+      }) || TAX_PRESETS[TAX_PRESETS.length - 1]
+    );
   }
 
   function round2(n) {
@@ -433,9 +506,12 @@ window.CrmAgencyFees = (function () {
 
   return {
     STORAGE_KEY: STORAGE_KEY,
+    TAX_PREFS_KEY: TAX_PREFS_KEY,
     DATA_VERSION: DATA_VERSION,
+    DEFAULT_CHARGES_PCT: DEFAULT_CHARGES_PCT,
     DEFAULT_URSSAF_PCT: DEFAULT_URSSAF_PCT,
     DEFAULT_IR_PCT: DEFAULT_IR_PCT,
+    TAX_PRESETS: TAX_PRESETS,
     VAT_RATE: VAT_RATE,
     load: load,
     save: save,
@@ -447,6 +523,9 @@ window.CrmAgencyFees = (function () {
     applyPortesClesOfficial: applyPortesClesOfficial,
     calculate: calculate,
     compareAgencies: compareAgencies,
+    loadTaxPrefs: loadTaxPrefs,
+    saveTaxPrefs: saveTaxPrefs,
+    getTaxPreset: getTaxPreset,
     findBracket: findBracket,
     formatEuro: formatEuro,
     formatBracketLabel: formatBracketLabel,

@@ -22,10 +22,42 @@
     state.scheduleId = (state.agencies[0].schedules[0] && state.agencies[0].schedules[0].id) || null;
   }
 
-  document.getElementById("calcUrssaf").value = Lib.DEFAULT_URSSAF_PCT;
-  document.getElementById("calcIr").value = Lib.DEFAULT_IR_PCT;
-  document.getElementById("cmpUrssaf").value = Lib.DEFAULT_URSSAF_PCT;
-  document.getElementById("cmpIr").value = Lib.DEFAULT_IR_PCT;
+  var taxPrefs = Lib.loadTaxPrefs();
+
+  function fillTaxPresetSelect() {
+    var sel = document.getElementById("taxPreset");
+    sel.innerHTML = Lib.TAX_PRESETS.map(function (p) {
+      return '<option value="' + p.id + '">' + p.label + "</option>";
+    }).join("");
+    sel.value = taxPrefs.presetId || "custom_22";
+  }
+
+  function applyTaxPrefsToForm() {
+    document.getElementById("chargesPct").value = taxPrefs.chargesPct;
+    document.getElementById("calcUrssaf").value = taxPrefs.urssafPct;
+    document.getElementById("calcIr").value = taxPrefs.irPct;
+    document.getElementById("taxPreset").value = taxPrefs.presetId || "custom";
+    var adv = document.getElementById("taxAdvanced");
+    if (taxPrefs.advanced) adv.open = true;
+  }
+
+  function persistTaxFromForm() {
+    taxPrefs = {
+      presetId: document.getElementById("taxPreset").value,
+      chargesPct: Number(document.getElementById("chargesPct").value) || 0,
+      urssafPct: Number(document.getElementById("calcUrssaf").value) || 0,
+      irPct: Number(document.getElementById("calcIr").value) || 0,
+      advanced: !!document.getElementById("taxAdvanced").open,
+    };
+    Lib.saveTaxPrefs(taxPrefs);
+  }
+
+  function currentChargesPct() {
+    return Number(document.getElementById("chargesPct").value) || 0;
+  }
+
+  fillTaxPresetSelect();
+  applyTaxPrefsToForm();
 
   function currentAgency() {
     return state.agencies.find(function (a) {
@@ -247,8 +279,7 @@
       agency: ag,
       scheduleId: state.scheduleId,
       price: price,
-      urssafPct: Number(document.getElementById("calcUrssaf").value),
-      irPct: Number(document.getElementById("calcIr").value),
+      chargesPct: currentChargesPct(),
     });
     box.innerHTML =
       '<div class="af-kpi muted"><span>Net vendeur</span><strong>' +
@@ -265,7 +296,9 @@
       '%)</span><strong>' +
       Lib.formatEuro(res.agentGross) +
       '</strong></div>' +
-      '<div class="af-kpi muted"><span>Charges (URSSAF+IR)</span><strong>' +
+      '<div class="af-kpi muted"><span>Charges (' +
+      res.chargesPct +
+      '%)</span><strong>' +
       Lib.formatEuro(res.charges) +
       '</strong></div>' +
       '<div class="af-kpi highlight"><span>Net estimé</span><strong>' +
@@ -299,8 +332,7 @@
     var rows = Lib.compareAgencies({
       price: price,
       kind: kind,
-      urssafPct: Number(document.getElementById("cmpUrssaf").value),
-      irPct: Number(document.getElementById("cmpIr").value),
+      chargesPct: currentChargesPct(),
     });
     if (!rows.length) {
       tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Aucune agence</td></tr>';
@@ -372,7 +404,9 @@
     hint.textContent =
       "Net vendeur " +
       Lib.formatEuro(price) +
-      " · classement par ta part brute · clic sur une ligne pour éditer l'agence";
+      " · charges " +
+      currentChargesPct() +
+      " % · classement par ta part brute · clic sur une ligne pour éditer l'agence";
   }
 
   function renderAll() {
@@ -492,29 +526,58 @@
     renderAll();
   };
 
-  ["calcPrice", "calcUrssaf", "calcIr"].forEach(function (id) {
+  ["calcPrice"].forEach(function (id) {
     document.getElementById(id).addEventListener("input", function () {
-      if (id === "calcPrice") document.getElementById("cmpPrice").value = document.getElementById("calcPrice").value;
-      if (id === "calcUrssaf") document.getElementById("cmpUrssaf").value = document.getElementById("calcUrssaf").value;
-      if (id === "calcIr") document.getElementById("cmpIr").value = document.getElementById("calcIr").value;
+      document.getElementById("cmpPrice").value = document.getElementById("calcPrice").value;
       renderCalc();
       renderCompare();
     });
   });
 
-  ["cmpPrice", "cmpKind", "cmpUrssaf", "cmpIr"].forEach(function (id) {
+  ["cmpPrice", "cmpKind", "chargesPct"].forEach(function (id) {
     document.getElementById(id).addEventListener("input", function () {
       if (id === "cmpPrice") document.getElementById("calcPrice").value = document.getElementById("cmpPrice").value;
-      if (id === "cmpUrssaf") document.getElementById("calcUrssaf").value = document.getElementById("cmpUrssaf").value;
-      if (id === "cmpIr") document.getElementById("calcIr").value = document.getElementById("cmpIr").value;
+      if (id === "chargesPct") {
+        document.getElementById("taxPreset").value = "custom";
+        persistTaxFromForm();
+      }
       renderCompare();
       renderCalc();
     });
     document.getElementById(id).addEventListener("change", function () {
+      if (id === "chargesPct") persistTaxFromForm();
       renderCompare();
       renderCalc();
     });
   });
+
+  document.getElementById("taxPreset").addEventListener("change", function () {
+    var preset = Lib.getTaxPreset(document.getElementById("taxPreset").value);
+    if (preset.chargesPct != null) {
+      document.getElementById("chargesPct").value = preset.chargesPct;
+      document.getElementById("calcUrssaf").value = preset.urssafPct;
+      document.getElementById("calcIr").value = preset.irPct;
+    }
+    persistTaxFromForm();
+    renderCompare();
+    renderCalc();
+  });
+
+  document.getElementById("btnSyncChargesFromSplit").onclick = function () {
+    var u = Number(document.getElementById("calcUrssaf").value) || 0;
+    var i = Number(document.getElementById("calcIr").value) || 0;
+    document.getElementById("chargesPct").value = Math.round((u + i) * 10) / 10;
+    document.getElementById("taxPreset").value = "custom";
+    persistTaxFromForm();
+    renderCompare();
+    renderCalc();
+  };
+
+  ["calcUrssaf", "calcIr"].forEach(function (id) {
+    document.getElementById(id).addEventListener("change", persistTaxFromForm);
+  });
+
+  document.getElementById("taxAdvanced").addEventListener("toggle", persistTaxFromForm);
 
   // Live recalc when share % changes (before save)
   document.getElementById("agentSharePct").addEventListener("input", function () {
