@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderQueueItem, hasQualifiedLeadAngle, isEnglishOnlyTitle } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -45,20 +45,32 @@ function loadFeedSourceMap() {
 function normalizeTitle(t) {
   return String(t || "")
     .toLowerCase()
+    .replace(/[«»""]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 }
 
+function titlePrefixKey(t) {
+  return normalizeTitle(t)
+    .split(" : ")[0]
+    .split(" — ")[0]
+    .slice(0, 56);
+}
+
 function loadPublishedTitleKeys() {
   var keys = new Set();
+  function add(title) {
+    keys.add(normalizeTitle(title));
+    keys.add(titlePrefixKey(title));
+  }
   var pub = readJson("blog-actu-published.json", { articles: [] });
   (pub.articles || []).forEach(function (a) {
-    keys.add(normalizeTitle(a.title));
+    add(a.title);
   });
   try {
     var manifest = require("./blog-articles-manifest.cjs");
     (manifest.articles || []).forEach(function (a) {
-      keys.add(normalizeTitle(a.title));
+      add(a.title);
     });
   } catch (e) {}
   return keys;
@@ -94,8 +106,12 @@ function pickCandidates(candidates, count, state) {
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
+    if (isPlaceholderQueueItem(c)) return false;
+    if (isEnglishOnlyTitle(c.title)) return false;
+    if (!hasQualifiedLeadAngle(c)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (titleKeys.has(titlePrefixKey(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
