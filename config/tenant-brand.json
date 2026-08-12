@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "note": "Pack marque white-label (Phase 1 SaaS). Étendre progressivement pour remplacer les hardcodes LO.",
+  "org": {
+    "id": "lo",
+    "name": "Leads Opportunities",
+    "legalName": "Leads Opportunities",
+    "code": "LO"
+  },
+  "domain": {
+    "primary": "www.leadsopportunities.fr",
+    "appUrlEnv": "APP_URL"
+  },
+  "contact": {
+    "email": "",
+    "phone": "",
+    "orias": ""
+  },
+  "branding": {
+    "logoPath": "/assets/logo.png",
+    "primaryColor": "#1e3a8a",
+    "accentColor": "#0f766e"
+  },
+  "modules": {
+    "prets": true,
+    "assurance_immo": true,
+    "patrimoine": true,
+    "banque": true,
+    "baremes": true,
+    "leads": true,
+    "mailbox": true
+  },
+  "quoteBrandFile": "./config/quote-brand.json"
+}
