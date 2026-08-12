@@ -112,6 +112,9 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (isLikelyEnglishCorporateItem(hay)) score -= 55;
+  else if (isLikelyEnglishHeadline(title)) score -= 35;
+
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
     [
       "coupe du monde",
@@ -140,6 +143,40 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function isLikelyEnglishHeadline(title) {
+  if (!title) return false;
+  var englishHits = 0;
+  [
+    " enters ",
+    " announces ",
+    " shares ",
+    " agreement ",
+    " memorandum ",
+    " understanding ",
+    " shareholder ",
+    " company ",
+    " market ",
+    " financing ",
+    " insurance ",
+    " europe ",
+  ].forEach(function (kw) {
+    if ((" " + title + " ").indexOf(kw) !== -1) englishHits += 1;
+  });
+  var frenchSignal = /[àâçéèêëîïôùûüÿœ]| le | la | les | des | une | pour | avec | dans | france | français | francais /.test(
+    " " + title + " "
+  );
+  return englishHits >= 2 && !frenchSignal;
+}
+
+function isLikelyEnglishCorporateItem(text) {
+  return (
+    isLikelyEnglishHeadline(String(text || "").slice(0, 180)) &&
+    /memorandum of understanding|enters into|businesswire|business wire|globenewswire|press release|shareholders?|investors?|corporation|continental europe/i.test(
+      text
+    )
+  );
 }
 
 function rankCandidates(candidates) {
