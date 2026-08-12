@@ -173,12 +173,19 @@ async function main() {
   });
 
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
-    var seen = new Set();
-    buckets[type] = (buckets[type] || []).filter(function (c) {
+    var byKey = {};
+    (buckets[type] || []).forEach(function (c) {
       var k = (c.url || c.title).toLowerCase();
-      if (seen.has(k)) return false;
-      seen.add(k);
-      return true;
+      var prev = byKey[k];
+      if (!prev) {
+        byKey[k] = c;
+        return;
+      }
+      // Préférer la file manuelle (queued) à l'entrée RSS
+      if (c.status === "queued" && prev.status !== "queued") byKey[k] = c;
+    });
+    buckets[type] = Object.keys(byKey).map(function (k) {
+      return byKey[k];
     });
     buckets[type].forEach(function (c) {
       c.leadScore = scoreLeadPotential(c);

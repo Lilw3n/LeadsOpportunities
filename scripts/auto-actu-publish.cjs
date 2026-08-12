@@ -121,6 +121,28 @@ function pickCandidates(candidates, count, state) {
       used.add(c.url || c.title);
     });
 
+  function isStrongLead(c) {
+    var hay = String(c.title || "") + " " + String(c.summary || "");
+    return (
+      (c.leadScore || 0) >= 85 &&
+      /assurance|mutuelle|emprunteur|sinistre|habitation|prime|rembours/i.test(hay)
+    );
+  }
+
+  // Toujours prioriser un sujet assurance à fort score (souvent agrégateur FR)
+  available
+    .filter(isStrongLead)
+    .sort(function (a, b) {
+      return b.leadScore - a.leadScore;
+    })
+    .forEach(function (c) {
+      if (picks.length >= count) return;
+      var k = c.url || c.title;
+      if (used.has(k)) return;
+      picks.push(c);
+      used.add(k);
+    });
+
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
@@ -147,6 +169,22 @@ function pickCandidates(candidates, count, state) {
   available
     .filter(function (c) {
       return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+    })
+    .forEach(function (c) {
+      if (picks.length >= count) return;
+      var k = c.url || c.title;
+      if (used.has(k)) return;
+      picks.push(c);
+      used.add(k);
+    });
+
+  // Compléter avec agrégateurs FR à fort potentiel lead (habitation / mutuelle / emprunteur)
+  available
+    .filter(function (c) {
+      return candidateSourceType(c, feedMap) === "aggregator" && (c.leadScore || 0) >= 80;
+    })
+    .sort(function (a, b) {
+      return b.leadScore - a.leadScore;
     })
     .forEach(function (c) {
       if (picks.length >= count) return;

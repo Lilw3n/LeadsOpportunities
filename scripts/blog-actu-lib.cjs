@@ -51,6 +51,20 @@ function existingFiles() {
   return files;
 }
 
+function keywordMatches(hay, kw) {
+  var k = String(kw || "").toLowerCase().trim();
+  if (!k) return false;
+  // Évite les faux positifs type "auto" dans "photos"
+  if (k.length <= 4) {
+    try {
+      return new RegExp("(?:^|[^a-z0-9àâäéèêëïîôùûüç])" + k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "(?:[^a-z0-9àâäéèêëïîôùûüç]|$)", "i").test(hay);
+    } catch (e) {
+      return hay.indexOf(k) !== -1;
+    }
+  }
+  return hay.indexOf(k) !== -1;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +73,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordMatches(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -106,6 +120,12 @@ function isJunkActuCandidate(candidate) {
   }
   if (/pending-template|template-placeholder|inbox-template/.test(id)) return true;
   if (/^TODO\b/i.test(title.trim())) return true;
+  // Titres anglo-saxons (feeds Edge/Bing) — faible conversion FR
+  var asciiWords = title.replace(/[^A-Za-z\s]/g, " ").trim().split(/\s+/).filter(Boolean);
+  var enHits = asciiWords.filter(function (w) {
+    return /^(the|into|regarding|potential|sale|enters|memorandum|understanding|advantages|getting|what|you|need|know|about|money|talk)$/i.test(w);
+  }).length;
+  if (enHits >= 3 && !/[àâäéèêëïîôùûüçœ]/i.test(title)) return true;
   return false;
 }
 
