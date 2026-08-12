@@ -5,6 +5,7 @@
  */
 const { execSync } = require("child_process");
 const { readJson, writeJson, rankCandidates } = require("./blog-actu-lib.cjs");
+const { sourceTypes } = require("./blog-actu-sources.cjs");
 
 function arg(name, def) {
   var m = process.argv.find(function (a) {
@@ -32,12 +33,28 @@ function main() {
     date: new Date().toISOString().slice(0, 10),
     instruction:
       "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+    bySource: sourceTypes().reduce(function (acc, type) {
+      acc[type] = ranked.filter(function (c) {
+        return c.sourceType === type;
+      }).length;
+      return acc;
+    }, {}),
     picks: picks,
   });
 
   console.log("\n--- Top " + count + " pour leads (score) ---");
   picks.forEach(function (p, i) {
-    console.log((i + 1) + ". [" + p.leadScore + "/100] [" + (p.need || "?") + "] " + p.title.slice(0, 72));
+    console.log(
+      (i + 1) +
+        ". [" +
+        p.leadScore +
+        "/100] [" +
+        (p.sourceType || "?") +
+        "/" +
+        (p.need || "?") +
+        "] " +
+        p.title.slice(0, 72)
+    );
   });
   console.log("\nDétail: data/blog-actu-daily-pick.json");
   console.log("Étape agent: enrichir pending → npm run blog:actu:publish → PR");

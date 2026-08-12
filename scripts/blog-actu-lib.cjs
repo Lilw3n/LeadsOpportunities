@@ -104,6 +104,9 @@ function scoreLeadPotential(candidate) {
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
+  if (candidate.sourceType === "google" || candidate.sourceType === "bing" || candidate.sourceType === "yahoo") {
+    score += 6;
+  }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
@@ -132,14 +135,56 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (probablyEnglishTitle(title)) score -= 20;
+  if (isCorporateNewswire(title + " " + String(candidate.summary || "").toLowerCase())) score -= 18;
 
   if (candidate.pubDate) {
-    var age = Date.now() - new Date(candidate.pubDate).getTime();
-    if (age < 3 * 86400000) score += 12;
-    else if (age < 7 * 86400000) score += 6;
+    var pubTime = new Date(candidate.pubDate).getTime();
+    if (!Number.isNaN(pubTime)) {
+      var age = Date.now() - pubTime;
+      if (age < 3 * 86400000) score += 12;
+      else if (age < 7 * 86400000) score += 6;
+      else if (age > 45 * 86400000) score -= 12;
+    }
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function probablyEnglishTitle(title) {
+  var hay = String(title || "").toLowerCase();
+  var hits = 0;
+  [
+    "breaking",
+    "market",
+    "stock",
+    "stocks",
+    "announces",
+    "launches",
+    "company",
+    "shares",
+    "earnings",
+    "report",
+    "world cup",
+  ].forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) hits += 1;
+  });
+  return hits >= 2;
+}
+
+function isCorporateNewswire(text) {
+  var hay = String(text || "").toLowerCase();
+  return [
+    "business wire",
+    "globenewswire",
+    "pr newswire",
+    "communique de presse",
+    "communiqué de presse",
+    "annonce ses resultats",
+    "annonce ses résultats",
+  ].some(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  });
 }
 
 function rankCandidates(candidates) {
@@ -297,9 +342,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: normalizeRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: normalizeRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
@@ -315,6 +360,10 @@ function extractTag(block, tag) {
 
 function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function normalizeRssText(s) {
+  return stripHtml(decodeEntities(s)).replace(/\s+/g, " ").trim();
 }
 
 function decodeEntities(s) {
