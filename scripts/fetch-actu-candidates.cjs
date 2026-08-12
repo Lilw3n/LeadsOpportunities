@@ -13,7 +13,7 @@ const {
   existingFiles,
   scoreLeadPotential,
 } = require("./blog-actu-lib.cjs");
-const { DEFAULT_QUOTAS, resolveSourceType, sourceTypes } = require("./blog-actu-sources.cjs");
+const { DEFAULT_QUOTAS, isPlaceholderQueueItem, resolveSourceType, sourceTypes } = require("./blog-actu-sources.cjs");
 
 const MAX_PER_FEED = 8;
 
@@ -35,6 +35,7 @@ function mergeWithQuotas(buckets, quotas) {
 }
 
 function ingestQueueItem(item, buckets, processed) {
+  if (isPlaceholderQueueItem(item)) return;
   if (item.status === "published" || item.status === "rejected") return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;

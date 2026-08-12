@@ -48,6 +48,16 @@ function sourceTypes() {
   return SOURCE_TYPES.slice();
 }
 
+function isPlaceholderQueueItem(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "").toLowerCase();
+  return (
+    id.indexOf("pending-template") !== -1 ||
+    id.indexOf("placeholder") !== -1 ||
+    title.indexOf("collez ici") !== -1
+  );
+}
+
 module.exports = {
   SOURCE_TYPES: SOURCE_TYPES,
   PRIMARY_SOURCE_TYPES: PRIMARY_SOURCE_TYPES,
@@ -56,4 +66,5 @@ module.exports = {
   resolveSourceType: resolveSourceType,
   sourceLabel: sourceLabel,
   sourceTypes: sourceTypes,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
 };
