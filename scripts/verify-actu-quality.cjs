@@ -5,6 +5,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const { isJunkActuCandidate, looksMostlyEnglishTitle } = require("./france-audience-lib.cjs");
 
 var MIN_BLOCKS = 6;
 var MIN_PARAGRAPHS = 3;
@@ -20,6 +21,8 @@ function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
   if (!article.file) errors.push("file manquant");
+  if (isJunkActuCandidate(article)) errors.push("titre placeholder / non publiable");
+  if (looksMostlyEnglishTitle(article.title || "")) errors.push("titre majoritairement anglais");
   if (!article.blocks || !article.blocks.length) {
     errors.push("blocks vides");
     return errors;
@@ -58,18 +61,27 @@ function main() {
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
   } else {
     var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
-      process.exit(1);
+    var fromStdin = "";
+    if (!process.stdin.isTTY) {
+      try {
+        fromStdin = fs.readFileSync(0, "utf8").trim();
+      } catch (e) {
+        fromStdin = "";
+      }
+    }
+    if (fromStdin) {
+      var parsed = JSON.parse(fromStdin);
+      articles = Array.isArray(parsed) ? parsed : parsed.articles || [parsed];
+    } else {
+      try {
+        var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+        articles = data.articles || [];
+      } catch (e) {
+        console.error("Lecture pending:", e.message);
+        process.exit(1);
+      }
     }
   }
 
