@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T21:34:13.941Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.leparisien.fr/sports/football/football-xavi-hernandez-legende-du-fc-barcelone-nouveau-selectionneur-des-pays-bas-apres-la-coupe-du-monde-12-08-2026-L3ZR3JJBWJFRDN5INPQS5LKBZE.php",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce65715594b65a5f1662cbb549f20&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+    "https://www.france24.com/fr/vid%C3%A9o/20260812-on-se-sent-tout-petits-%C3%A9motion-spectateurs-apr%C3%A8s-passage-%C3%A9clipse",
+    "https://www.lefigaro.fr/conjoncture/canicules-en-france-la-ministre-de-l-ecologie-evoque-un-cout-de-l-ordre-de-10-a-15-milliards-d-euros-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce6b6a84a4ec0b5658b79194a7cf6&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+    "https://www.franceinfo.fr/sante/psycho-bien-etre/sante-mentale/a-paris-cette-association-lutte-contre-l-isolement-des-seniors_8144663.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T21:34:14.879Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,46 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T21:32:12.488Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+          "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T21:33:47.389Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+          "title": "Canicules en France : la ministre de l’Écologie Monique Barbut évoque un coût «de l’ord… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T21:34:14.879Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "a-paris-cette-association-lutte-contre-l-isolement-des-seniors.html",
+          "title": "A Paris, cette association lutte contre l'isolement des seniors : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
