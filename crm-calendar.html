@@ -3,51 +3,133 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calendrier CRM</title>
+  <title>Agenda CRM | Google Calendar</title>
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
   <style>
-    .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-top:16px; }
-    .cal-day { min-height:72px; padding:6px; border:1px solid var(--line); border-radius:8px; font-size:.75rem; background:#fff; }
-    .cal-day.has-ev { background:#eef2ff; border-color:#6366f1; }
-    .cal-ev { display:block; margin-top:4px; padding:2px 4px; background:#6366f1; color:#fff; border-radius:4px; font-size:.7rem; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    .cal-head { text-align:center; font-weight:600; padding:8px; color:var(--muted); }
-    .cal-banner { padding:10px 14px; border-radius:8px; margin:12px 0; font-size:.9rem; }
+    :root {
+      --ag-blue: #1e4f8a;
+      --ag-line: #e2e8f0;
+    }
+    .ag-layout { display:grid; grid-template-columns:240px 1fr; gap:14px; align-items:start; }
+    @media (max-width:960px){ .ag-layout { grid-template-columns:1fr; } }
+    .ag-side {
+      background:#fff; border:1px solid var(--ag-line); border-radius:12px; padding:14px;
+      position:sticky; top:10px;
+    }
+    .ag-side h3 { margin:0 0 8px; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:#64748b; }
+    .ag-side label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:#64748b; margin-bottom:10px; }
+    .ag-side select, .ag-side input { padding:8px 10px; border-radius:8px; border:1px solid var(--ag-line); font:inherit; }
+    .ag-export { display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+    .ag-main { background:#fff; border:1px solid var(--ag-line); border-radius:12px; padding:14px 16px; min-height:520px; }
+    .ag-toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .ag-views { display:inline-flex; border:1px solid var(--ag-line); border-radius:8px; overflow:hidden; }
+    .ag-views button { border:0; background:#fff; padding:8px 12px; cursor:pointer; font-weight:700; font-size:.78rem; color:#475569; }
+    .ag-views button.active { background:var(--ag-blue); color:#fff; }
+    .ag-nav { display:flex; gap:8px; align-items:center; }
+    .cal-banner { padding:10px 14px; border-radius:8px; margin-bottom:12px; font-size:.9rem; }
     .cal-banner-ok { background:#ecfdf5; color:#065f46; border:1px solid #6ee7b7; }
     .cal-banner-warn { background:#fffbeb; color:#92400e; border:1px solid #fcd34d; }
+    .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+    .cal-head { text-align:center; font-weight:700; padding:8px; color:#64748b; font-size:.75rem; }
+    .cal-day { min-height:84px; padding:6px; border:1px solid var(--ag-line); border-radius:8px; font-size:.75rem; background:#fff; }
+    .cal-day.muted { opacity:.45; }
+    .cal-day.has-ev { background:#eff6ff; border-color:#93c5fd; }
+    .cal-day.today { outline:2px solid var(--ag-blue); }
+    .cal-ev {
+      display:block; margin-top:4px; padding:2px 6px; color:#fff; border-radius:4px;
+      font-size:.68rem; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    }
+    .ag-day-list, .ag-week, .ag-timeline { display:flex; flex-direction:column; gap:8px; }
+    .ag-slot {
+      display:grid; grid-template-columns:72px 1fr; gap:10px; padding:10px; border:1px solid var(--ag-line);
+      border-radius:10px; background:#f8fafc;
+    }
+    .ag-slot time { font-weight:800; color:var(--ag-blue); font-size:.85rem; }
+    .ag-card-title { font-weight:800; margin:0 0 4px; }
+    .ag-meta { color:#64748b; font-size:.8rem; }
+    .ag-badge {
+      display:inline-block; padding:2px 8px; border-radius:999px; font-size:.68rem; font-weight:800;
+      background:#e0e7ff; color:#3730a3; margin-right:6px;
+    }
+    .ag-timeline-row { display:grid; grid-template-columns:120px 1fr; gap:8px; align-items:stretch; min-height:56px; }
+    .ag-timeline-track {
+      position:relative; border:1px solid var(--ag-line); border-radius:8px; background:
+        repeating-linear-gradient(90deg, #f8fafc, #f8fafc calc(100%/14 - 1px), #e2e8f0 calc(100%/14 - 1px), #e2e8f0 calc(100%/14));
+      min-height:48px;
+    }
+    .ag-timeline-ev {
+      position:absolute; top:6px; bottom:6px; border-radius:6px; color:#fff; font-size:.7rem; font-weight:700;
+      padding:4px 6px; overflow:hidden; text-decoration:none; white-space:nowrap;
+    }
+    .ag-hours { display:grid; grid-template-columns:repeat(14,1fr); font-size:.65rem; color:#94a3b8; margin:0 0 4px 120px; }
+    .ag-empty { color:#64748b; padding:24px; text-align:center; }
   </style>
-  <link rel="stylesheet" href="./css/admin-nav.css" />
 </head>
 <body class="crm-subpage">
   <section class="crm-page-panel crm-gradient-panel">
     <div>
-      <p class="crm-eyebrow">Agenda</p>
-      <h2>Calendrier</h2>
-      <p>Vue mensuelle des RDV et rappels — synchronisation Google Agenda du courtier.</p>
+      <p class="crm-eyebrow">Agenda & activité</p>
+      <h2>Agenda</h2>
+      <p>RDV liés aux contacts / biens — synchronisation Google Calendar (Agenda).</p>
     </div>
     <div class="crm-action-row">
-      <a href="./crm-event-create.html" class="btn btn-primary">Nouvel événement</a>
-      <a href="./crm-events.html" class="btn btn-ghost">Liste événements</a>
+      <a href="./crm-event-create.html" class="btn btn-primary">+ Créer</a>
+      <a href="./crm-events.html" class="btn btn-ghost">Liste</a>
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Biens</a>
     </div>
   </section>
 
-  <section class="crm-page-panel">
-    <div id="calBanner" class="cal-banner cal-banner-warn">Chargement du statut agenda…</div>
-    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px">
-      <button type="button" class="btn btn-ghost" id="btnConnectCal">Connecter Google</button>
-      <button type="button" class="btn btn-ghost" id="btnPullCal">Synchroniser</button>
-    </div>
-    <div style="display:flex;gap:12px;align-items:center;margin:16px 0">
-      <button type="button" class="btn btn-ghost" id="btnPrev">←</button>
-      <strong id="monthLabel"></strong>
-      <button type="button" class="btn btn-ghost" id="btnNext">→</button>
-    </div>
-    <div class="cal-grid" id="calHead"></div>
-    <div class="cal-grid" id="calMount"></div>
-  </section>
+  <div class="ag-layout">
+    <aside class="ag-side">
+      <h3>Qui ?</h3>
+      <label>Filtrer (nom contact)
+        <input type="search" id="fAgent" placeholder="ex. Defau" />
+      </label>
+      <h3>Quoi ?</h3>
+      <label>Type d'événement
+        <select id="fType"><option value="">Tous</option></select>
+      </label>
+      <h3>Comment ?</h3>
+      <label>Couleur
+        <select id="fColor">
+          <option value="type">Par type d'événement</option>
+          <option value="status">Par sync Google</option>
+        </select>
+      </label>
+      <h3>Export</h3>
+      <div class="ag-export">
+        <button type="button" class="btn btn-primary btn-sm" id="btnIcal">iCalendar (.ics)</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnConnectCal">Connecter Google</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnPullCal">Synchroniser Google</button>
+      </div>
+      <p style="margin:12px 0 0;font-size:.75rem;color:#64748b">Stripe, WithAllo et compta : branches prévues plus tard (hooks déjà documentés).</p>
+    </aside>
+
+    <section class="ag-main">
+      <div id="calBanner" class="cal-banner cal-banner-warn">Chargement du statut agenda…</div>
+      <div class="ag-toolbar">
+        <div class="ag-nav">
+          <button type="button" class="btn btn-ghost btn-sm" id="btnPrev">‹</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnToday">Aujourd'hui</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnNext">›</button>
+          <strong id="periodLabel"></strong>
+        </div>
+        <div class="ag-views" id="viewTabs">
+          <button type="button" data-view="timeline">Timeline</button>
+          <button type="button" data-view="day">Jour</button>
+          <button type="button" data-view="week">Semaine</button>
+          <button type="button" data-view="month" class="active">Mois</button>
+        </div>
+      </div>
+      <div id="agMount"></div>
+    </section>
+  </div>
 
   <script src="./js/crm-sidebar.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-agenda-types.js"></script>
   <script src="./crm-calendar.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

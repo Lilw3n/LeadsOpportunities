@@ -1,15 +1,34 @@
 (function () {
   var TOKEN_KEY = "lo_token";
+  var Types = window.CrmAgendaTypes;
   var token = localStorage.getItem(TOKEN_KEY);
   if (!token) {
     location.href = "./crm.html";
     return;
   }
   var params = new URLSearchParams(location.search);
-  if (params.get("contactId")) document.querySelector("[name=contactId]").value = params.get("contactId");
   var form = document.getElementById("evForm");
   var datePicker = form.querySelector("[name=eventDate]");
   var dateText = form.querySelector("[name=eventDateText]");
+  var contactIdInput = document.getElementById("contactId");
+  var propertyIdInput = document.getElementById("propertyId");
+  var suggest = document.getElementById("contactSuggest");
+  var searchInput = document.getElementById("contactSearch");
+
+  if (params.get("contactId")) contactIdInput.value = params.get("contactId");
+  if (params.get("propertyId")) propertyIdInput.value = params.get("propertyId");
+  if (params.get("title")) form.querySelector("[name=title]").value = params.get("title");
+  if (params.get("type") && Types) form.querySelector("[name=eventType]").value = params.get("type");
+
+  if (Types) {
+    document.getElementById("eventType").innerHTML = Types.TYPES.map(function (t) {
+      return '<option value="' + t.id + '">' + t.label + "</option>";
+    }).join("");
+    document.getElementById("eventMode").innerHTML = Types.MODES.map(function (m) {
+      return '<option value="' + m.id + '">' + m.label + "</option>";
+    }).join("");
+    if (params.get("type")) document.getElementById("eventType").value = params.get("type");
+  }
 
   function parseHumanDate(raw) {
     var s = String(raw || "").trim();
@@ -32,24 +51,91 @@
     return m[3] + "/" + m[2] + "/" + m[1];
   }
 
-  if (datePicker && dateText) {
-    dateText.value = toHumanDate(datePicker.value);
-    datePicker.addEventListener("change", function () {
-      dateText.value = toHumanDate(datePicker.value);
-    });
-    dateText.addEventListener("blur", function () {
-      var parsed = parseHumanDate(dateText.value);
-      if (!dateText.value.trim()) return;
-      if (!parsed) {
-        document.getElementById("evMsg").style.color = "#b91c1c";
-        document.getElementById("evMsg").textContent = "Date invalide (format attendu: JJ/MM/AAAA)";
-        return;
-      }
-      datePicker.value = parsed;
-      dateText.value = toHumanDate(parsed);
-      document.getElementById("evMsg").textContent = "";
-    });
+  if (!datePicker.value) {
+    var today = new Date();
+    datePicker.value =
+      today.getFullYear() +
+      "-" +
+      String(today.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(today.getDate()).padStart(2, "0");
   }
+  dateText.value = toHumanDate(datePicker.value);
+  datePicker.addEventListener("change", function () {
+    dateText.value = toHumanDate(datePicker.value);
+  });
+  dateText.addEventListener("blur", function () {
+    var parsed = parseHumanDate(dateText.value);
+    if (!dateText.value.trim()) return;
+    if (!parsed) {
+      document.getElementById("evMsg").style.color = "#b91c1c";
+      document.getElementById("evMsg").textContent = "Date invalide (JJ/MM/AAAA)";
+      return;
+    }
+    datePicker.value = parsed;
+    dateText.value = toHumanDate(parsed);
+    document.getElementById("evMsg").textContent = "";
+  });
+
+  form.querySelector("[name=allDay]").onchange = function () {
+    var on = this.checked;
+    form.querySelector("[name=eventTime]").disabled = on;
+    form.querySelector("[name=eventEndTime]").disabled = on;
+  };
+
+  var searchTimer = null;
+  function searchContacts(q) {
+    if (!q || q.length < 2) {
+      suggest.style.display = "none";
+      suggest.innerHTML = "";
+      return;
+    }
+    fetch("/api/crm/contacts?search=" + encodeURIComponent(q) + "&limit=8", {
+      headers: { Authorization: "Bearer " + token },
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        var list = (res.ok && res.contacts) || [];
+        if (!list.length) {
+          suggest.style.display = "none";
+          return;
+        }
+        suggest.style.display = "block";
+        suggest.innerHTML = list
+          .map(function (c) {
+            var name = ((c.first_name || "") + " " + (c.last_name || "")).trim() || c.email || c.id;
+            return (
+              '<button type="button" data-id="' +
+              c.id +
+              '" data-name="' +
+              String(name).replace(/"/g, "&quot;") +
+              '">' +
+              name +
+              (c.email ? " · " + c.email : "") +
+              (c.phone ? " · " + c.phone : "") +
+              "</button>"
+            );
+          })
+          .join("");
+        suggest.querySelectorAll("button").forEach(function (btn) {
+          btn.onclick = function () {
+            contactIdInput.value = btn.getAttribute("data-id");
+            document.getElementById("contactLabel").textContent = "Sélectionné : " + btn.getAttribute("data-name");
+            suggest.style.display = "none";
+            searchInput.value = btn.getAttribute("data-name");
+          };
+        });
+      });
+  }
+
+  searchInput.addEventListener("input", function () {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+      searchContacts(searchInput.value.trim());
+    }, 250);
+  });
 
   form.onsubmit = function (e) {
     e.preventDefault();
@@ -60,19 +146,31 @@
     var finalDate = typedDate || pickedDate;
     if (!finalDate) {
       msg.style.color = "#b91c1c";
-      msg.textContent = "Date requise (calendrier ou saisie JJ/MM/AAAA).";
+      msg.textContent = "Date requise.";
       return;
     }
+    var allDay = !!form.querySelector("[name=allDay]").checked;
+    msg.style.color = "#64748b";
+    msg.textContent = "Enregistrement…";
     fetch("/api/crm/events", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
       body: JSON.stringify({
         contactId: fd.get("contactId"),
+        propertyId: fd.get("propertyId") || "",
         title: fd.get("title"),
+        description: fd.get("description") || "",
         eventDate: finalDate,
+        eventTime: allDay ? "09:00" : fd.get("eventTime") || "09:00",
+        eventEndTime: allDay ? "18:00" : fd.get("eventEndTime") || null,
+        location: fd.get("location") || "",
+        mode: fd.get("mode") || "",
+        reminderMinutes: Number(fd.get("reminderMinutes")),
+        confidential: !!form.querySelector("[name=confidential]").checked,
         priority: fd.get("priority"),
         eventType: fd.get("eventType") || "meeting",
         status: "pending",
+        source: "crm-agenda",
       }),
     })
       .then(function (r) {
@@ -80,18 +178,28 @@
       })
       .then(function (res) {
         if (res.ok) {
+          var sync = res.googleSync || {};
           msg.style.color = "#065f46";
-          msg.textContent = "Événement créé";
+          msg.textContent =
+            "Événement créé" +
+            (sync.ok && !sync.skipped
+              ? " — synchronisé Google Calendar"
+              : sync.skipped
+                ? " — Google non connecté (RDV CRM OK)"
+                : sync.error
+                  ? " — CRM OK, sync Google : " + sync.error
+                  : "");
           setTimeout(function () {
-            location.href = "./crm-events.html";
-          }, 800);
+            location.href = "./crm-calendar.html";
+          }, 900);
         } else {
           msg.style.color = "#b91c1c";
           msg.textContent = res.error || "Erreur";
         }
       })
       .catch(function () {
-        document.getElementById("evMsg").textContent = "Impossible de contacter le serveur.";
+        msg.style.color = "#b91c1c";
+        msg.textContent = "Impossible de contacter le serveur.";
       });
   };
 })();

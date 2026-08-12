@@ -164,7 +164,7 @@ window.CrmSidebar = {
       id: "agenda",
       label: "Agenda & activité",
       items: [
-        { type: "link", href: "./crm-calendar.html", label: "Calendrier", icon: "calendar" },
+        { type: "link", href: "./crm-calendar.html", label: "Agenda (Google)", icon: "calendar", highlight: true, desc: "Timeline / jour / semaine / mois + sync Google Calendar" },
         { type: "link", href: "./crm-marches.html", label: "Marchés & présence", icon: "calendar", badge: "terrain", highlight: true, desc: "Où être présent — horaires modifiables par tous" },
         { type: "link", href: "./crm-events.html", label: "Événements" },
         { type: "link", href: "./crm-event-create.html", label: "Créer événement" },

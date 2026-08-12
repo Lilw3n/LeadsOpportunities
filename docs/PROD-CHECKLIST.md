@@ -41,6 +41,8 @@ npm run blog:feed
 
 ## Agenda Google (courtier972@gmail.com)
 
+Voir aussi **`docs/CRM-AGENDA.md`** (vues timeline / iCal / types métier / Stripe·WithAllo·compta plus tard).
+
 1. Se connecter au CRM
 2. Aller sur `/crm-calendar.html`
 3. Cliquer **Connecter agenda Google** (compte courtier972@gmail.com)

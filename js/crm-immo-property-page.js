@@ -74,6 +74,15 @@
       a.href = prop.listing_url;
       a.hidden = false;
     } else a.hidden = true;
+    var ag = document.getElementById("linkAgenda");
+    if (ag) {
+      ag.href =
+        "./crm-event-create.html?propertyId=" +
+        encodeURIComponent(prop.id) +
+        "&title=" +
+        encodeURIComponent((prop.title || "Bien") + " — RDV") +
+        "&type=visite";
+    }
   }
 
   function fillMeta() {

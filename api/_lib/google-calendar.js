@@ -23,18 +23,35 @@ async function getCalendarAccessToken(userId) {
   };
 }
 
-function buildEventDateTime(eventDate, eventTime) {
-  const dateStr = String(eventDate || new Date().toISOString().slice(0, 10));
-  const timeStr = eventTime && /^\d{1,2}:\d{2}/.test(String(eventTime)) ? String(eventTime).slice(0, 5) : "09:00";
-  return { dateStr, timeStr, start: dateStr + "T" + timeStr + ":00", endTime: addOneHour(timeStr) };
+function pad2(n) {
+  return String(n).padStart(2, "0");
 }
 
-function addOneHour(timeStr) {
-  const parts = timeStr.split(":").map(Number);
-  let h = (parts[0] || 9) + 1;
-  const m = parts[1] || 0;
-  if (h >= 24) h = 23;
-  return String(h).padStart(2, "0") + ":" + String(m).padStart(2, "0") + ":00";
+function normalizeTime(t, fallback) {
+  var raw = String(t || "").trim();
+  if (/^\d{1,2}:\d{2}/.test(raw)) return raw.slice(0, 5);
+  return fallback || "09:00";
+}
+
+function addMinutes(timeStr, mins) {
+  var parts = normalizeTime(timeStr, "09:00").split(":").map(Number);
+  var total = (parts[0] || 0) * 60 + (parts[1] || 0) + (mins || 60);
+  if (total < 0) total = 0;
+  if (total >= 24 * 60) total = 24 * 60 - 1;
+  return pad2(Math.floor(total / 60)) + ":" + pad2(total % 60);
+}
+
+function buildEventDateTime(eventDate, eventTime, eventEndTime) {
+  const dateStr = String(eventDate || new Date().toISOString().slice(0, 10)).slice(0, 10);
+  const timeStr = normalizeTime(eventTime, "09:00");
+  const endStr = eventEndTime ? normalizeTime(eventEndTime, null) : addMinutes(timeStr, 60);
+  return {
+    dateStr: dateStr,
+    timeStr: timeStr,
+    endTimeStr: endStr,
+    start: dateStr + "T" + timeStr + ":00",
+    end: dateStr + "T" + endStr + ":00",
+  };
 }
 
 function getAppUrl() {
@@ -49,12 +66,16 @@ async function createGoogleCalendarEvent(userId, evt) {
   const auth = await getCalendarAccessToken(userId);
   if (!auth) return { ok: false, skipped: true, reason: "calendar_not_connected" };
 
-  const dt = buildEventDateTime(evt.eventDate, evt.eventTime);
+  const dt = buildEventDateTime(evt.eventDate, evt.eventTime, evt.eventEndTime);
   const appUrl = getAppUrl();
   const description = [
     evt.description || "",
     evt.contactName ? "Contact : " + evt.contactName : "",
     evt.contactId ? "Fiche CRM : " + appUrl + "/crm-contact.html?id=" + encodeURIComponent(evt.contactId) : "",
+    evt.propertyId
+      ? "Bien immo : " + appUrl + "/crm-immo-property.html?id=" + encodeURIComponent(evt.propertyId)
+      : "",
+    evt.mode ? "Mode RDV : " + evt.mode : "",
     "Source : LeadsOpportunities CRM",
   ]
     .filter(Boolean)
@@ -63,16 +84,26 @@ async function createGoogleCalendarEvent(userId, evt) {
   const body = {
     summary: evt.title || "RDV client",
     description: description,
+    location: evt.location || undefined,
     start: { dateTime: dt.start, timeZone: TIMEZONE },
-    end: { dateTime: dt.dateStr + "T" + dt.endTime, timeZone: TIMEZONE },
+    end: { dateTime: dt.end, timeZone: TIMEZONE },
     extendedProperties: {
       private: {
         loEventId: evt.id || "",
         loContactId: evt.contactId || "",
+        loPropertyId: evt.propertyId || "",
+        loEventType: evt.eventType || "",
         loSource: "crm",
       },
     },
   };
+
+  if (evt.reminderMinutes != null && Number(evt.reminderMinutes) >= 0) {
+    body.reminders = {
+      useDefault: false,
+      overrides: [{ method: "popup", minutes: Number(evt.reminderMinutes) || 60 }],
+    };
+  }
 
   const calId = encodeURIComponent(auth.calendarId);
   const resp = await fetch("https://www.googleapis.com/calendar/v3/calendars/" + calId + "/events", {
@@ -86,9 +117,19 @@ async function createGoogleCalendarEvent(userId, evt) {
 
   const data = await resp.json();
   if (!resp.ok) {
-    throw new Error(data.error?.message || "Calendar insert failed");
+    throw new Error((data.error && data.error.message) || "Calendar insert failed");
   }
   return { ok: true, googleEventId: data.id, htmlLink: data.htmlLink };
+}
+
+function parseExtra(raw) {
+  if (!raw) return {};
+  if (typeof raw === "object") return raw;
+  try {
+    return JSON.parse(raw) || {};
+  } catch (e) {
+    return {};
+  }
 }
 
 async function syncCrmEventToGoogle(userId, eventId) {
@@ -109,6 +150,8 @@ async function syncCrmEventToGoogle(userId, eventId) {
     return { ok: true, skipped: true, googleEventId: r.google_event_id };
   }
 
+  const extra = parseExtra(r.extra_data);
+
   try {
     const contactName =
       ((r.first_name || "") + " " + (r.last_name || "")).trim() || r.contact_email || "";
@@ -117,7 +160,13 @@ async function syncCrmEventToGoogle(userId, eventId) {
       title: r.title,
       description: r.description,
       eventDate: r.event_date,
-      eventTime: r.event_time,
+      eventTime: r.event_time || extra.eventTime || null,
+      eventEndTime: extra.eventEndTime || null,
+      location: extra.location || "",
+      mode: extra.mode || "",
+      propertyId: extra.propertyId || "",
+      eventType: r.event_type,
+      reminderMinutes: extra.reminderMinutes,
       contactId: r.contact_id,
       contactName: contactName,
     });
@@ -170,4 +219,5 @@ module.exports = {
   syncCrmEventToGoogle,
   getCalendarConnectionStatus,
   getCalendarAccessToken,
+  buildEventDateTime,
 };
