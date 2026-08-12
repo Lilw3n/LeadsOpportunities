@@ -159,6 +159,28 @@ const catalog = {
       advice: "BANK B 1ère acquisition + CFCAL Edifys/Aquiz/Investys selon projet.",
       confidence: "draft",
       todoValidate: []
+    },
+    {
+      id: "credilift-gamme",
+      label: "Gamme Credit Lift (Normalift / Hypolift / Minilift…)",
+      priority: 18,
+      when: { needAny: ["credilift", "lift", "normalift", "minilift", "hypolift", "consolift"] },
+      preferCategories: ["credilift", "antilles", "reunion"],
+      preferTags: ["credilift", "rac"],
+      advice: "Orienter vers Normalift / Hypolift / Minilift / Consolift + récap endettement & RAV. Croiser grilles RAC Credit Lift.",
+      confidence: "draft",
+      todoValidate: ["âge max", "avec/sans garantie"]
+    },
+    {
+      id: "scpi-fiches",
+      label: "Financement SCPI",
+      priority: 22,
+      when: { needAny: ["scpi"] },
+      preferCategories: ["scpi"],
+      preferTags: ["scpi", "nantissement", "caution"],
+      advice: "CFCAL (nom propre / SCI) + listes/book CACF. Croiser grilles SCPI.",
+      confidence: "draft",
+      todoValidate: []
     }
   ],
   manifest: {

@@ -147,6 +147,33 @@
         "sygma"
       ],
       "description": "Fiches produits — SYGMA by BNP"
+    },
+    {
+      "id": "scpi",
+      "label": "SCPI",
+      "short": "SCPI",
+      "rubriques": [
+        "scpi"
+      ],
+      "description": "Fiches produits — SCPI"
+    },
+    {
+      "id": "sci",
+      "label": "SCI",
+      "short": "SCI",
+      "rubriques": [
+        "sci"
+      ],
+      "description": "Fiches produits — SCI"
+    },
+    {
+      "id": "credilift",
+      "label": "Credit Lift",
+      "short": "CREDITLIFT",
+      "rubriques": [
+        "credilift"
+      ],
+      "description": "Fiches produits — Credit Lift"
     }
   ],
   "partners": [
@@ -248,7 +275,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "BANK-B-1ere-Acquisition--Personne-physique.pdf"
+      ]
     },
     {
       "id": "immo-cfcal-produit-2026-01-cfcal-01-2026-fiche-edifys-rp-1",
@@ -394,7 +423,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "BANK-B---Rachat-de-soulte.pdf"
+      ]
     },
     {
       "id": "hypo-treso-bank-b-produit-na-bank-b-travaux-75000-fins-privees-8",
@@ -414,7 +445,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "BANK-B---Travaux---75-000-___-a-des-fins-privees.pdf"
+      ]
     },
     {
       "id": "hypo-treso-bank-b-produit-na-bank-b-travaux-75000-fins-professionnelles-9",
@@ -434,7 +467,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "BANK-B---Travaux---75-000___-a-des-fins-professionnelles.pdf"
+      ]
     },
     {
       "id": "hypo-treso-bank-b-outil-na-bank-b-tableau-patrimoine-10",
@@ -453,7 +488,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "BANK-B--TABLEAU-PATRIMOINE.pdf"
+      ]
     },
     {
       "id": "hypo-treso-bank-b-book-2026-01-bank-b-book-01-2026-11",
@@ -493,7 +530,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "BANK-B-Zone-d-intervention-LTV.pdf"
+      ]
     },
     {
       "id": "hypo-treso-cfcal-outil-na-cfcal-tableau-patrimonial-13",
@@ -614,7 +653,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "MY-MONEY-BANK-11-2025---My-New-treso.pdf"
+      ]
     },
     {
       "id": "pvh-cfcal-produit-2026-05-05-2026-cfcal-pvh-19",
@@ -676,7 +717,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Attestation-residence-secondaire---1-emprunteur.pdf"
+      ]
     },
     {
       "id": "pvh-cfcal-formulaire-na-attestation-residence-secondaire-2-emprunteurs-22",
@@ -697,7 +740,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Attestation-residence-secondaire---2-emprunteurs.pdf"
+      ]
     },
     {
       "id": "pvh-cfcal-outil-na-cfcal-tableau-de-situation-patrimoniale-23",
@@ -757,7 +802,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "0.-Book-revenus-et-charges.pdf"
+      ]
     },
     {
       "id": "treso-cfcal-memento-2026-01-0-memento-01-2026-26",
@@ -776,7 +823,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "0.-Memento-01-2026.pdf"
+      ]
     },
     {
       "id": "treso-cfcal-produit-2026-01-01-2026-hypo-treso-cfcal-27",
@@ -960,7 +1009,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "11-2023---CGI---Fiche-Duo-Projet.pdf"
+      ]
     },
     {
       "id": "treso-cgi-norme-2023-11-11-2023-cgi-revenus-et-criteres-acceptation-36",
@@ -981,7 +1032,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "11-2023---CGI---Revenus-et-criteres-d-acceptation.pdf"
+      ]
     },
     {
       "id": "treso-creatis-produit-na-pret-personnel-creatis-37",
@@ -1021,7 +1074,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "11-2023---Fiches-normes-My-New-Treso.pdf"
+      ]
     },
     {
       "id": "treso-sofinco-produit-2026-2026-normes-pret-personnel-sofinco-39",
@@ -1061,7 +1116,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "3-FICHE-PROJET-26-01-2021SYGMA.pdf"
+      ]
     },
     {
       "id": "treso-sygma-produit-na-fiche-2-treso-complementaire-41",
@@ -1141,7 +1198,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "2.-CFCAL-HYPO-RENOV.pdf"
+      ]
     },
     {
       "id": "bank-b-bank-b-book-2026-book-bank-b-2026-45",
@@ -1182,7 +1241,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "BANK-B-1ere-Acquisition-Personne-morale.pdf"
+      ]
     },
     {
       "id": "bank-b-bank-b-produit-na-premiere-acquisition-personne-physique-47",
@@ -1260,7 +1321,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Travaux-plus-de-75.000-Euros-prive.pdf"
+      ]
     },
     {
       "id": "bank-b-bank-b-produit-na-travaux-plus-de-75000-pro-51",
@@ -1280,7 +1343,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Travaux-plus-de-75.000-Euros-pro.pdf"
+      ]
     },
     {
       "id": "bank-b-bank-b-norme-na-zone-intervention-ltv-52",
@@ -1300,7 +1365,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Zone-d-intervention---LTV.pdf"
+      ]
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-0-book-revenus-et-charges-53",
@@ -1341,7 +1408,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "0.-Memento-07-2026.pdf"
+      ]
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-classique-55",
@@ -1619,7 +1688,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "0.--CFCAL-Book-revenus-et-charges.pdf"
+      ]
     },
     {
       "id": "cfcal-cfcal-rac-sans-garantie-na-0-cfcal-memento-68",
@@ -1639,7 +1710,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "0.-CFCAL-Memento.pdf"
+      ]
     },
     {
       "id": "cfcal-cfcal-rac-sans-garantie-na-cfcal-rac-sans-garantie-locataire-69",
@@ -1724,7 +1797,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "4.-CFCAL-Hypo-Immo-Pro.pdf"
+      ]
     },
     {
       "id": "cfcal-cfcal-rac-pro-na-4-cfcal-hypo-pro-classique-73",
@@ -1745,7 +1820,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "4.-CFCAL-Hypo-Pro-Classique.pdf"
+      ]
     },
     {
       "id": "cfcal-cfcal-rac-pro-na-4-cfcal-hypo-pro-first-74",
@@ -1767,7 +1844,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "4.-CFCAL-Hypo-Pro-First.pdf"
+      ]
     },
     {
       "id": "cfcal-cfcal-assurance-na-book-memento-rac-75",
@@ -2334,7 +2413,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "1-RAC-HYPO-Inforrmations-generales10-2020.pdf"
+      ]
     },
     {
       "id": "creatis-creatis-rac-sans-garantie-2022-05-fiche-produit-minirac-iobsp-05-2022-10",
@@ -2397,7 +2478,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Fiche-Produit-Pret-Fusion-10_2021.pdf"
+      ]
     },
     {
       "id": "creatis-creatis-rac-projet-2021-10-fiche-produit-rac-conso-projets-iobsp-10-2021",
@@ -2437,7 +2520,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "4-Assurance-Fiche--ADE-06-2019.pdf"
+      ]
     },
     {
       "id": "creatis-creatis-interne-na-5-allegement-pieces-proprietaires-et-accedants-108",
@@ -2784,7 +2869,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "02-2025---Criteres-Gamme-Avec-Garantie.pdf"
+      ]
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-criteres-gamme-sans-garantie-125",
@@ -2826,7 +2913,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "02-2025---Fiche-Avec-Garantie.pdf"
+      ]
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-fiche-sans-garantie-locataire-127",
@@ -2848,7 +2937,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "02-2025---Fiche-Sans-Garantie-Locataire.pdf"
+      ]
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-fiche-sans-garantie-proprietaire-128",
@@ -2870,7 +2961,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "02-2025---Fiche-Sans-Garantie-Proprietaire.pdf"
+      ]
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-pret-fusion-129",
@@ -2891,7 +2984,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2025---Creatis---Pret-Fusion.pdf"
+      ]
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-projet-130",
@@ -2912,7 +3007,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2025---Creatis---Projet.pdf"
+      ]
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-rac-hypo-immo-131",
@@ -2934,7 +3031,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2025---Creatis---Rac--Hypo-Immo.pdf"
+      ]
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-rac-avec-garantie-132",
@@ -2956,7 +3055,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2025---Creatis---Rac-Avec-Garantie.pdf"
+      ]
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-rac-sans-garantie-133",
@@ -2978,7 +3079,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2025---Creatis---Rac-Sans-Garantie.pdf"
+      ]
     },
     {
       "id": "reunion-creatis-book-2026-03-03-2026-book-creatis-134",
@@ -3040,7 +3143,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "2025-01-03---Bareme-et-conditions.pdf"
+      ]
     },
     {
       "id": "reunion-credilift-produit-2026-04-normalift-avec-et-sans-garantie-04-2026-137",
@@ -3105,7 +3210,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2024---Fiche-de-normes-My-Simply-One.pdf"
+      ]
     },
     {
       "id": "reunion-mmb-produit-2024-01-01-2024-mmb-fiches-normes-easy-treso-140",
@@ -3127,7 +3234,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2024---MMB---Fiches-normes-Easy-Treso.pdf"
+      ]
     },
     {
       "id": "reunion-mmb-produit-2024-05-05-2024-fiches-easy-treso-141",
@@ -3148,7 +3257,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "05-2024---Fiches-Easy-Treso.pdf"
+      ]
     },
     {
       "id": "reunion-sygma-produit-2025-02-02-2025-criteres-gamme-avec-garantie-142",
@@ -3361,7 +3472,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "3-Attestation-sur-l_honneur-utilisation-des-fonds.pdf"
+      ]
     },
     {
       "id": "mmb-mmb-treso-na-fiche-normes-my-new-treso-152",
@@ -3421,7 +3534,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "4-Assurance-Groupe-RAC-Notice-d_assurance.pdf"
+      ]
     },
     {
       "id": "mmb-mmb-assurance-2020-09-4-assurance-groupe-easytreso-les-fondamentaux-09-2020-",
@@ -3518,7 +3633,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2023---Attestation-Evolution-de-Signature.pdf"
+      ]
     },
     {
       "id": "mmb-mmb-interne-2023-01-01-2023-declaration-usage-des-fonds-160",
@@ -3537,7 +3654,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2023---Declaration-usage-des-fonds.pdf"
+      ]
     },
     {
       "id": "mmb-mmb-interne-2023-01-01-2023-guide-regles-revenus-et-charges-161",
@@ -3557,7 +3676,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "01-2023---Guide-regles-revenus-et-charges.pdf"
+      ]
     },
     {
       "id": "mmb-mmb-interne-2022-07-07-2022-declaration-patrimoine-locatif-162",
@@ -3597,7 +3718,10 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "10-2023---Formulaire---Descriptif-du-bien-immobilier.pdf",
+        "Garantie-descriptif-bien-immobilier.pdf"
+      ]
     },
     {
       "id": "mmb-mmb-interne-2019-05-5-liste-des-pieces-05-2019-164",
@@ -3636,7 +3760,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "6-Guide-d_integrite-MMB-05-2017.pdf"
+      ]
     },
     {
       "id": "sygma-sygma-rac-sans-garantie-2025-02-02-2025-fiche-criteres-sans-garantie-166",
@@ -3657,7 +3783,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "02-2025---Fiche-Criteres---Sans-Garantie.pdf"
+      ]
     },
     {
       "id": "sygma-sygma-rac-sans-garantie-2025-02-02-2025-fiche-sans-garantie-locataire-167",
@@ -3779,7 +3907,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "4-Assurance-Fiche--nouveaute-SG-06-2020.pdf"
+      ]
     },
     {
       "id": "sygma-sygma-assurance-2020-06-4-assurance-memo-cardif-sg-06-2020-173",
@@ -3893,7 +4023,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "4-Assurance-Questionnaire-d_etat-d_emploi.pdf"
+      ]
     },
     {
       "id": "sygma-sygma-assurance-na-4-assurance-demande-adhesion-179",
@@ -3933,6 +4065,466 @@
       "flags": [],
       "notes": "",
       "aliases": []
+    },
+    {
+      "id": "sci-cfcal-norme-2026-01-cfcal-modif-normes-sci-01-2026-181",
+      "category": "sci",
+      "partner": "cfcal",
+      "subsection": "norme",
+      "title": "CFCAL Modif normes SCI",
+      "filename": "CFCAL-Modif-normes-SCI-01-2026.pdf",
+      "kind": "memento",
+      "period": "2026-01",
+      "region": "metropole",
+      "tags": [
+        "sci",
+        "normes",
+        "cfcal"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CFCAL-Modif-normes-SCI-01-2026.pdf"
+      ]
+    },
+    {
+      "id": "immo-cfcal-produit-2026-01-cfcal-01-2026-fiche-investys-patrimonial-182",
+      "category": "immo",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "CFCAL Investys Patrimonial",
+      "filename": "CFCAL-01-2026-Fiche-Investys-Patrimonial.pdf",
+      "kind": "fiche",
+      "period": "2026-01",
+      "region": "metropole",
+      "tags": [
+        "immo",
+        "investys",
+        "patrimoine"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CFCAL-01-2026-Fiche-Investys-Patrimonial.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-interne-na-process-cession-sur-salaire-183",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "interne",
+      "title": "Process cession sur salaire",
+      "filename": "Process-cession-sur-salaire.pdf",
+      "kind": "interne",
+      "period": null,
+      "region": "metropole",
+      "tags": [
+        "interne",
+        "credilift"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Process-cession-sur-salaire.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-formulaire-na-mandat-sepa-184",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "formulaire",
+      "title": "Mandat SEPA",
+      "filename": "Mandat-SEPA.pdf",
+      "kind": "formulaire",
+      "period": null,
+      "region": "metropole",
+      "tags": [
+        "formulaire",
+        "sepa"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Mandat-SEPA.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-formulaire-na-attestation-non-re-endettement-185",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "formulaire",
+      "title": "Attestation non réendettement",
+      "filename": "Attestation-non-re-endettement.pdf",
+      "kind": "formulaire",
+      "period": null,
+      "region": "metropole",
+      "tags": [
+        "formulaire",
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Attestation-non-re-endettement.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-formulaire-na-attestation-de-cloture-des-credits-renouvelabl",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "formulaire",
+      "title": "Attestation clôture crédits renouvelables",
+      "filename": "Attestation-de-cloture-des-credits-renouvelables.pdf",
+      "kind": "formulaire",
+      "period": null,
+      "region": "metropole",
+      "tags": [
+        "formulaire",
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Attestation-de-cloture-des-credits-renouvelables.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-assurance-na-assurance-lettre-renonciation-187",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "assurance",
+      "title": "Assurance — lettre renonciation",
+      "filename": "assurance-lettre-renonciation.pdf",
+      "kind": "assurance",
+      "period": null,
+      "region": "metropole",
+      "tags": [
+        "assurance",
+        "credilift"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "assurance-lettre-renonciation.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-assurance-na-assurance-assurlift-presentation-188",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "assurance",
+      "title": "Assurance Assurlift — présentation",
+      "filename": "assurance-assurlift-presentation.pdf",
+      "kind": "assurance",
+      "period": null,
+      "region": "metropole",
+      "tags": [
+        "assurance",
+        "credilift"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "assurance-assurlift-presentation.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-2026-05-unilift-05-2026-189",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "UNILIFT",
+      "filename": "UNILIFT-05-2026.pdf",
+      "kind": "fiche",
+      "period": "2026-05",
+      "region": "metropole",
+      "tags": [
+        "rac",
+        "credilift",
+        "unilift"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "UNILIFT-05-2026.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-2026-05-minilift-05-2026-190",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "MINILIFT",
+      "filename": "MINILIFT-05-2026.pdf",
+      "kind": "fiche",
+      "period": "2026-05",
+      "region": "metropole",
+      "tags": [
+        "rac",
+        "credilift",
+        "minilift",
+        "sans_garantie"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "MINILIFT-05-2026.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-2026-05-consolift-180-mois-05-2026-191",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "CONSOLIFT 180 mois",
+      "filename": "CONSOLIFT-180-mois--05-2026.pdf",
+      "kind": "fiche",
+      "period": "2026-05",
+      "region": "metropole",
+      "tags": [
+        "rac",
+        "credilift",
+        "consolift"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CONSOLIFT-180-mois--05-2026.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-2026-05-consolift-05-2026-192",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "CONSOLIFT",
+      "filename": "CONSOLIFT-05-2026.pdf",
+      "kind": "fiche",
+      "period": "2026-05",
+      "region": "metropole",
+      "tags": [
+        "rac",
+        "credilift",
+        "consolift"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CONSOLIFT-05-2026.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-2026-05-cautiolift-conso-05-2026-193",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "CAUTIOLIFT conso",
+      "filename": "CAUTIOLIFT-conso-05-2026.pdf",
+      "kind": "fiche",
+      "period": "2026-05",
+      "region": "metropole",
+      "tags": [
+        "rac",
+        "credilift",
+        "caution",
+        "conso"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CAUTIOLIFT-conso-05-2026.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-2026-05-hypolift-conso-2nd-rang-05-2026-194",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "HYPOLIFT conso 2nd rang",
+      "filename": "HYPOLIFT-conso-2nd-rang-05-2026.pdf",
+      "kind": "fiche",
+      "period": "2026-05",
+      "region": "metropole",
+      "tags": [
+        "rac",
+        "credilift",
+        "hypo",
+        "conso",
+        "avec_garantie"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "HYPOLIFT-conso-2nd-rang-05-2026.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-2026-05-hypolift-conso-05-2026-195",
+      "category": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "HYPOLIFT conso",
+      "filename": "HYPOLIFT-conso-05-2026.pdf",
+      "kind": "fiche",
+      "period": "2026-05",
+      "region": "metropole",
+      "tags": [
+        "rac",
+        "credilift",
+        "hypo",
+        "conso",
+        "avec_garantie"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "HYPOLIFT-conso-05-2026.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cfcal-produit-2026-06-06-2026-scpi-nom-propre-nantissement-parts-cfcal-196",
+      "category": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "SCPI nom propre — nantissement parts",
+      "filename": "06-2026-SCPI-nom-propre-nantissement-parts-CFCAL.pdf",
+      "kind": "fiche",
+      "period": "2026-06",
+      "region": "metropole",
+      "tags": [
+        "scpi",
+        "nantissement",
+        "nom_propre"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "06-2026-SCPI-nom-propre-nantissement-parts-CFCAL.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cfcal-produit-2026-06-06-2026-scpi-nom-propre-caution-logement-cfcal-197",
+      "category": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "SCPI nom propre — caution logement",
+      "filename": "06-2026-SCPI-nom-propre-caution-logement-CFCAL.pdf",
+      "kind": "fiche",
+      "period": "2026-06",
+      "region": "metropole",
+      "tags": [
+        "scpi",
+        "caution",
+        "nom_propre"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "06-2026-SCPI-nom-propre-caution-logement-CFCAL.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cfcal-produit-2026-06-06-2026-scpi-financement-via-sci-cfcal-198",
+      "category": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "SCPI financement via SCI",
+      "filename": "06-2026-SCPI-financement-via-SCI-CFCAL.pdf",
+      "kind": "fiche",
+      "period": "2026-06",
+      "region": "metropole",
+      "tags": [
+        "scpi",
+        "sci",
+        "nantissement"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "06-2026-SCPI-financement-via-SCI-CFCAL.pdf"
+      ]
+    },
+    {
+      "id": "scpi-credilift-liste-2026-07-07-2026-liste-scpi-cacf-199",
+      "category": "scpi",
+      "partner": "credilift",
+      "subsection": "liste",
+      "title": "Liste SCPI CACF",
+      "filename": "07-2026-Liste-SCPI-CACF.pdf",
+      "kind": "liste",
+      "period": "2026-07",
+      "region": "metropole",
+      "tags": [
+        "scpi",
+        "liste",
+        "cacf"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-Liste-SCPI-CACF.pdf"
+      ]
+    },
+    {
+      "id": "scpi-credilift-book-2026-07-07-2026-cacf-book-scpi-200",
+      "category": "scpi",
+      "partner": "credilift",
+      "subsection": "book",
+      "title": "CACF Book SCPI",
+      "filename": "07-2026-CACF-BOOK-SCPI.pdf",
+      "kind": "book",
+      "period": "2026-07",
+      "region": "metropole",
+      "tags": [
+        "scpi",
+        "book",
+        "cacf"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CACF-BOOK-SCPI.pdf"
+      ]
     }
   ],
   "eligibilityRules": [
@@ -4123,12 +4715,63 @@
       "advice": "BANK B 1ère acquisition + CFCAL Edifys/Aquiz/Investys selon projet.",
       "confidence": "draft",
       "todoValidate": []
+    },
+    {
+      "id": "credilift-gamme",
+      "label": "Gamme Credit Lift (Normalift / Hypolift / Minilift…)",
+      "priority": 18,
+      "when": {
+        "needAny": [
+          "credilift",
+          "lift",
+          "normalift",
+          "minilift",
+          "hypolift",
+          "consolift"
+        ]
+      },
+      "preferCategories": [
+        "credilift",
+        "antilles",
+        "reunion"
+      ],
+      "preferTags": [
+        "credilift",
+        "rac"
+      ],
+      "advice": "Orienter vers Normalift / Hypolift / Minilift / Consolift + récap endettement & RAV. Croiser grilles RAC Credit Lift.",
+      "confidence": "draft",
+      "todoValidate": [
+        "âge max",
+        "avec/sans garantie"
+      ]
+    },
+    {
+      "id": "scpi-fiches",
+      "label": "Financement SCPI",
+      "priority": 22,
+      "when": {
+        "needAny": [
+          "scpi"
+        ]
+      },
+      "preferCategories": [
+        "scpi"
+      ],
+      "preferTags": [
+        "scpi",
+        "nantissement",
+        "caution"
+      ],
+      "advice": "CFCAL (nom propre / SCI) + listes/book CACF. Croiser grilles SCPI.",
+      "confidence": "draft",
+      "todoValidate": []
     }
   ],
   "manifest": {
     "source": "scripts/pret-fiches-manifest.json",
-    "uniqueFiles": 181,
+    "uniqueFiles": 201,
     "available": 0,
-    "pending": 181
+    "pending": 201
   }
 }
