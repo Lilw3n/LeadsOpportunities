@@ -169,6 +169,7 @@ function enrichFromCandidate(candidate) {
 function buildTitle(raw, need) {
   var short = shortTitle(raw);
   if (isSportActu(raw)) {
+    if (/assurance|mutuelle/i.test(short)) return short;
     return short + " : assurance voyage, mutuelle etranger et habitation — guide supporters";
   }
   var suffix = {
@@ -181,6 +182,7 @@ function buildTitle(raw, need) {
     animaux: "assurance animaux",
     "rc-pro": "RC Pro",
   };
+  if (/mutuelle|assurance|emprunteur|rembours/i.test(short)) return short;
   return short + " : " + (suffix[need] || "assurance") + " — que faire ?";
 }
 
