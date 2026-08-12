@@ -1,6 +1,12 @@
 const { getSql } = require("./db");
+const {
+  computeAgentSplit,
+  prefsFromMetadata,
+  DEFAULT_PREFS,
+} = require("./agent-fee-split");
 
 let schemaReady = false;
+let splitSchemaReady = false;
 
 async function ensureStripePaymentLinksSchema(sql) {
   if (!sql) return false;
@@ -219,6 +225,180 @@ async function updateDossierStatus(linkId, dossierStatus) {
   }
 }
 
+async function ensureAgentSplitSchema(sql) {
+  if (!sql) return false;
+  if (splitSchemaReady) return true;
+  try {
+    await sql`
+      CREATE TABLE IF NOT EXISTS agent_tax_prefs (
+        user_id TEXT PRIMARY KEY,
+        charges_pct NUMERIC(6,2) NOT NULL DEFAULT 22,
+        cfe_pct NUMERIC(6,2) NOT NULL DEFAULT 0.5,
+        accounting_pct NUMERIC(6,2) NOT NULL DEFAULT 1,
+        agent_share_pct NUMERIC(6,2) NOT NULL DEFAULT 100,
+        split_mode TEXT NOT NULL DEFAULT 'agent_gross',
+        preset_id TEXT,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+    await sql`
+      CREATE TABLE IF NOT EXISTS agent_payment_splits (
+        id TEXT PRIMARY KEY,
+        stripe_session_id TEXT UNIQUE,
+        payment_link_id TEXT,
+        amount_eur NUMERIC(12,2) NOT NULL,
+        split_mode TEXT NOT NULL DEFAULT 'agent_gross',
+        agent_share_pct NUMERIC(6,2),
+        agent_gross_eur NUMERIC(12,2) NOT NULL,
+        agency_keep_eur NUMERIC(12,2) DEFAULT 0,
+        charges_pct NUMERIC(6,2),
+        cfe_pct NUMERIC(6,2),
+        accounting_pct NUMERIC(6,2),
+        urssaf_reserve_eur NUMERIC(12,2) NOT NULL DEFAULT 0,
+        cfe_reserve_eur NUMERIC(12,2) NOT NULL DEFAULT 0,
+        accounting_reserve_eur NUMERIC(12,2) NOT NULL DEFAULT 0,
+        total_reserves_eur NUMERIC(12,2) NOT NULL DEFAULT 0,
+        agent_net_eur NUMERIC(12,2) NOT NULL,
+        preset_id TEXT,
+        metadata JSONB,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+    splitSchemaReady = true;
+    return true;
+  } catch (e) {
+    console.error("[stripe-payment-store] ensureSplitSchema", e);
+    return false;
+  }
+}
+
+async function loadDefaultTaxPrefs(sql, userId) {
+  try {
+    await ensureAgentSplitSchema(sql);
+    if (userId) {
+      const rows = await sql`SELECT * FROM agent_tax_prefs WHERE user_id = ${userId} LIMIT 1`;
+      if (rows[0]) {
+        return {
+          chargesPct: Number(rows[0].charges_pct),
+          cfePct: Number(rows[0].cfe_pct),
+          accountingPct: Number(rows[0].accounting_pct),
+          agentSharePct: Number(rows[0].agent_share_pct),
+          splitMode: rows[0].split_mode || "agent_gross",
+          presetId: rows[0].preset_id || "custom_22",
+        };
+      }
+    }
+    const any = await sql`SELECT * FROM agent_tax_prefs ORDER BY updated_at DESC LIMIT 1`;
+    if (any[0]) {
+      return {
+        chargesPct: Number(any[0].charges_pct),
+        cfePct: Number(any[0].cfe_pct),
+        accountingPct: Number(any[0].accounting_pct),
+        agentSharePct: Number(any[0].agent_share_pct),
+        splitMode: any[0].split_mode || "agent_gross",
+        presetId: any[0].preset_id || "custom_22",
+      };
+    }
+  } catch (e) {
+    console.warn("[stripe-payment-store] loadDefaultTaxPrefs", e.message);
+  }
+  return Object.assign({}, DEFAULT_PREFS);
+}
+
+/**
+ * Enregistre la répartition poche / réserves pour un paiement Stripe.
+ */
+async function saveAgentPaymentSplit(opts) {
+  const sql = getSql();
+  if (!sql) return { ok: false, error: "db_unavailable" };
+  opts = opts || {};
+  const amountEur = Number(opts.amountEur);
+  if (!Number.isFinite(amountEur) || amountEur <= 0) {
+    return { ok: false, error: "amount_invalid" };
+  }
+
+  await ensureAgentSplitSchema(sql);
+
+  var meta = opts.metadata || {};
+  if (typeof meta === "string") {
+    try {
+      meta = JSON.parse(meta);
+    } catch (e) {
+      meta = {};
+    }
+  }
+
+  var prefs = Object.assign(
+    {},
+    await loadDefaultTaxPrefs(sql, opts.userId || meta.createdBy),
+    prefsFromMetadata(meta),
+    opts.prefs || {}
+  );
+
+  var split = computeAgentSplit(amountEur, prefs);
+  var id = "spl_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7);
+
+  try {
+    await sql`
+      INSERT INTO agent_payment_splits (
+        id, stripe_session_id, payment_link_id, amount_eur, split_mode, agent_share_pct,
+        agent_gross_eur, agency_keep_eur, charges_pct, cfe_pct, accounting_pct,
+        urssaf_reserve_eur, cfe_reserve_eur, accounting_reserve_eur, total_reserves_eur,
+        agent_net_eur, preset_id, metadata
+      ) VALUES (
+        ${id},
+        ${opts.stripeSessionId || null},
+        ${opts.paymentLinkId || null},
+        ${split.amountEur},
+        ${split.splitMode},
+        ${split.agentSharePct},
+        ${split.agentGross},
+        ${split.agencyKeep},
+        ${split.chargesPct},
+        ${split.cfePct},
+        ${split.accountingPct},
+        ${split.urssafReserve},
+        ${split.cfeReserve},
+        ${split.accountingReserve},
+        ${split.totalReserves},
+        ${split.agentNet},
+        ${split.presetId},
+        ${JSON.stringify(Object.assign({}, meta, { split: split }))}::jsonb
+      )
+      ON CONFLICT (stripe_session_id) DO UPDATE SET
+        amount_eur = EXCLUDED.amount_eur,
+        agent_gross_eur = EXCLUDED.agent_gross_eur,
+        urssaf_reserve_eur = EXCLUDED.urssaf_reserve_eur,
+        cfe_reserve_eur = EXCLUDED.cfe_reserve_eur,
+        accounting_reserve_eur = EXCLUDED.accounting_reserve_eur,
+        total_reserves_eur = EXCLUDED.total_reserves_eur,
+        agent_net_eur = EXCLUDED.agent_net_eur,
+        metadata = EXCLUDED.metadata
+      RETURNING *
+    `;
+    return { ok: true, id: id, split: split };
+  } catch (e) {
+    console.error("[stripe-payment-store] saveAgentPaymentSplit", e);
+    return { ok: false, error: e.message };
+  }
+}
+
+async function listAgentPaymentSplits(limit) {
+  const sql = getSql();
+  if (!sql) return { ok: false, splits: [] };
+  await ensureAgentSplitSchema(sql);
+  try {
+    const rows = await sql`
+      SELECT * FROM agent_payment_splits
+      ORDER BY created_at DESC
+      LIMIT ${Math.min(Number(limit) || 30, 100)}
+    `;
+    return { ok: true, splits: rows };
+  } catch (e) {
+    return { ok: false, splits: [], error: e.message };
+  }
+}
+
 async function syncPendingSessions(stripe) {
   const sql = await sqlWithSchema();
   if (!sql || !stripe) return { ok: false, error: "Stripe ou DB indisponible", synced: 0 };
@@ -246,6 +426,16 @@ async function syncPendingSessions(stripe) {
         if (updated) {
           synced += 1;
           newlyPaid.push(updated);
+          try {
+            await saveAgentPaymentSplit({
+              stripeSessionId: row.stripe_session_id,
+              paymentLinkId: updated.id,
+              amountEur: amountEur,
+              metadata: updated.metadata,
+            });
+          } catch (splitErr) {
+            console.warn("[stripe-payment-store] sync split", splitErr.message);
+          }
         }
       } catch (err) {
         console.warn("[stripe-payment-store] sync session", row.stripe_session_id, err.message);
@@ -262,6 +452,17 @@ async function syncPendingSessions(stripe) {
 async function handlePaymentLinkPaid(link) {
   if (!link) return { activity: false, email: null };
   await recordPaymentActivity(link);
+  try {
+    await saveAgentPaymentSplit({
+      stripeSessionId: link.stripe_session_id,
+      paymentLinkId: link.id,
+      amountEur: link.amount_eur,
+      metadata: link.metadata,
+      userId: link.created_by,
+    });
+  } catch (splitErr) {
+    console.warn("[stripe-payment-store] split on paid", splitErr.message);
+  }
   try {
     const { notifyPaymentReceived } = require("./stripe-payment-notify");
     const emailResult = await notifyPaymentReceived(link);
@@ -293,6 +494,7 @@ async function recordPaymentActivity(link) {
 
 module.exports = {
   ensureStripePaymentLinksSchema,
+  ensureAgentSplitSchema,
   savePaymentLink,
   markPaymentLinkPaid,
   listPaymentLinks,
@@ -300,4 +502,7 @@ module.exports = {
   syncPendingSessions,
   recordPaymentActivity,
   handlePaymentLinkPaid,
+  saveAgentPaymentSplit,
+  listAgentPaymentSplits,
+  loadDefaultTaxPrefs,
 };

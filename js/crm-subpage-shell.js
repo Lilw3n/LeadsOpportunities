@@ -42,7 +42,7 @@
       "crm-products.html": { subtitle: "Catalogue interne à compléter uniquement avec des données vérifiées" },
       "crm-insurance-requests.html": { subtitle: "Demandes assurance et suivi de traitement" },
       "crm-tariff-grid.html": { subtitle: "Bordereaux et grilles tarifaires internes" },
-      "crm-agency-fees.html": { subtitle: "Barèmes multi-agences — honoraires %, forfaits, ta part agent" },
+      "crm-agency-fees.html": { subtitle: "Honoraires vendeur + financement acheteur (prêt / rachat)" },
       "crm-eligibility-rules.html": { subtitle: "Règles d'éligibilité et critères de souscription" },
       "crm-eligibility-test.html": { subtitle: "Test de compatibilité avant proposition" },
       "crm-derogations.html": { subtitle: "Dérogations et cas à valider" },

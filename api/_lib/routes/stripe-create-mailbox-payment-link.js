@@ -3,7 +3,8 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { resolveDepositAmountEur, validateDepositAmountEur } = require("../quote-deposit");
-const { savePaymentLink } = require("../stripe-payment-store");
+const { savePaymentLink, loadDefaultTaxPrefs } = require("../stripe-payment-store");
+const { splitToStripeMetadata, computeAgentSplit } = require("../agent-fee-split");
 
 const PAYMENT_KINDS = ["dossier_fee", "subscription", "one_time", "acompte"];
 const INTERVALS = ["day", "week", "month", "year"];
@@ -126,6 +127,20 @@ module.exports = async (req, res) => {
     ? ((quote.first_name || "") + " " + (quote.last_name || "")).trim()
     : "";
 
+  let taxMeta = {};
+  let splitPreview = null;
+  try {
+    const prefs = await loadDefaultTaxPrefs(getSql(), user.id || user.email);
+    // Montant Stripe = ce que tu encaisses (ta part) sauf si body.splitMode=full_agency_fee
+    if (body.splitMode) prefs.splitMode = body.splitMode;
+    if (body.agentSharePct != null) prefs.agentSharePct = Number(body.agentSharePct);
+    if (body.chargesPct != null) prefs.chargesPct = Number(body.chargesPct);
+    taxMeta = splitToStripeMetadata(prefs);
+    splitPreview = computeAgentSplit(amountEur, prefs);
+  } catch (taxErr) {
+    console.warn("[mailbox-payment] tax prefs", taxErr.message);
+  }
+
   try {
     const priceData = {
       currency: "eur",
@@ -168,6 +183,7 @@ module.exports = async (req, res) => {
         referenceId: hasQuoteRef ? referenceId : "none",
         expectedAmountCents: String(amountCents),
         createdBy: user.id || user.email || "crm",
+        ...taxMeta,
       },
     });
 
@@ -198,6 +214,7 @@ module.exports = async (req, res) => {
       metadata: {
         interval: isSubscription ? interval : null,
         quoteTitle: quote?.title || null,
+        ...taxMeta,
       },
     });
 
@@ -211,6 +228,7 @@ module.exports = async (req, res) => {
       label,
       referenceId: hasQuoteRef ? referenceId : null,
       quoteTitle: quote?.title || null,
+      agentSplit: splitPreview,
     });
   } catch (error) {
     console.error("create-mailbox-payment-link error:", error);

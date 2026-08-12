@@ -110,7 +110,7 @@ window.CrmSidebar = {
       label: "Immobilier",
       defaultOpen: true,
       items: [
-        { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Agences", icon: "immo", highlight: true, desc: "Honoraires multi-agences, part agent, calculateur", keywords: "immo laforet honoraires commission bareme" },
+        { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Financement", icon: "immo", highlight: true, desc: "Honoraires vendeur + capacité emprunt / rachat acheteur", keywords: "immo laforet honoraires commission bareme pret rachat financement acheteur" },
         { type: "link", href: "./negociateur-immobilier/", label: "Landing négociateur", icon: "immo", desc: "Parcours acquéreur prêt & assurances" },
       ],
     },

@@ -28,6 +28,14 @@ avec une separation explicite pour ne pas confondre les paiements.
 
 Le projet peut utiliser le meme compte Stripe que `location-vehicules-reunion`, mais il faut creer un webhook dedie a ce domaine car le `STRIPE_WEBHOOK_SECRET` est propre a chaque endpoint.
 
+## 2bis) Répartition agent (poche vs charges FR)
+Stripe encaisse le **montant brut**. La plateforme enregistre ensuite un ledger :
+- `agent_tax_prefs` — taux URSSAF/impôts, CFE, compta (CRM → Barèmes immo → « Lier à Stripe »)
+- `agent_payment_splits` — à chaque `checkout.session.completed` : brut → réserves → **net poche**
+- Metadata Checkout : `chargesPct`, `cfePct`, `accountingPct`, `splitMode`
+
+Cela ne paie pas l’URSSAF à ta place : c’est une **séparation comptable** pour savoir ce qui reste vraiment à toi.
+
 ## 3) Separation des flux (important)
 Dans Stripe, utilise:
 - un prefix metadata `companyCode=LEADSOPP`
