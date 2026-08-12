@@ -53,6 +53,7 @@ const ROUTES = {
   "pro-accounting": () => require("../_lib/routes/crm-pro-accounting"),
   "agent-tax-prefs": () => require("../_lib/routes/crm-agent-tax-prefs"),
   "agent-payment-splits": () => require("../_lib/routes/crm-agent-payment-splits"),
+  immo: () => require("../_lib/routes/crm-immo"),
 };
 
 module.exports = async (req, res) => {

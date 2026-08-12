@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Fiche bien | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+    .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
+    .immo-grid input, .immo-grid select, .immo-grid textarea { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .immo-kpi { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin:12px 0; }
+    .immo-kpi div { padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--card); }
+    .immo-kpi span { display:block; font-size:.75rem; color:var(--muted); }
+    .immo-kpi strong { font-size:1.05rem; }
+    .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · fiche</p>
+      <h2 id="propTitle">Bien</h2>
+      <p id="propSub" style="color:var(--muted)"></p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire</a>
+      <a href="./crm-immo-matching.html" class="btn btn-ghost">Matching</a>
+      <a id="linkAnnonce" class="btn btn-ghost" target="_blank" rel="noopener" hidden>Annonce</a>
+    </div>
+  </section>
+
+  <div id="kpis" class="immo-kpi"></div>
+  <section class="panel">
+    <h3>Personnes liées</h3>
+    <p style="color:var(--muted);font-size:.85rem">Vendeur, acquéreur, notaire, apporteur… + id contact CRM si connu.</p>
+    <div id="partiesList"></div>
+    <form id="partyForm" class="immo-grid" style="margin-top:12px">
+      <label>Rôle<select id="partyRole"></select></label>
+      <label>Nom<input id="partyName" required /></label>
+      <label>Email<input id="partyEmail" type="email" /></label>
+      <label>Téléphone<input id="partyPhone" /></label>
+      <label>Contact CRM id<input id="partyContact" placeholder="contact_…" /></label>
+      <label style="grid-column:1/-1">Notes<input id="partyNotes" /></label>
+      <button type="submit" class="btn btn-primary">Ajouter la personne</button>
+    </form>
+  </section>
+
+  <section class="panel" style="margin-top:14px">
+    <h3>Documents liés</h3>
+    <div id="docsList"></div>
+    <p style="margin-top:10px"><a class="btn btn-ghost btn-sm" href="./crm-immo-documents.html" id="docsLink">Ouvrir documents immo</a></p>
+  </section>
+
+  <section class="panel" style="margin-top:14px">
+    <h3>Description</h3>
+    <p id="propDesc" style="white-space:pre-wrap"></p>
+  </section>
+
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-property-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
