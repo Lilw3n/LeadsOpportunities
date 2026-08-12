@@ -45,6 +45,58 @@ function isPlaceholderCandidate(item) {
   return false;
 }
 
+var LEAD_INTENT_KEYWORDS = [
+  "assurance",
+  "mutuelle",
+  "emprunteur",
+  "sinistre",
+  "rembours",
+  "habitation",
+  "canicule",
+  "senior",
+  "prêt",
+  "pret immo",
+  "lemoine",
+  "inondation",
+  "sécheresse",
+  "secheresse",
+  "optique",
+  "dentaire",
+  "hospitalisation",
+  "lunette",
+  "prevoyance",
+  "prévoyance",
+];
+
+function leadIntentScore(candidate) {
+  var hay = (String(candidate.title || "") + " " + String(candidate.summary || "")).toLowerCase();
+  var n = 0;
+  LEAD_INTENT_KEYWORDS.forEach(function (kw) {
+    if (hay.indexOf(kw) !== -1) n += 1;
+  });
+  return n;
+}
+
+function isLikelyNonFrenchHeadline(title) {
+  var t = String(title || "");
+  if (/[àâäéèêëïîôùûçœæ]/i.test(t)) return false;
+  var en = (t.match(/\b(the|and|into|regarding|with|from|what|you|need|about|how|this|that|will|for|of|enters|potential|sale|understanding|advantages|getting|know)\b/gi) || []).length;
+  var fr = (t.match(/\b(le|la|les|des|une|un|dans|pour|avec|sur|est|sont|que|qui|france|assurance|mutuelle)\b/gi) || []).length;
+  return en >= 3 && en > fr;
+}
+
+/** Foot international sans angle Bleus / France — mauvais CTA questionnaire. */
+function isWeakLeadCandidate(candidate) {
+  if (isPlaceholderCandidate(candidate)) return true;
+  if (isLikelyNonFrenchHeadline(candidate.title)) return true;
+  var hay = String(candidate.title || "").toLowerCase();
+  if (/\b(équipe de france|equipe de france|les bleus|mbappé|mbappe|deschamps)\b/.test(hay)) return false;
+  if (/\b(barcelone|pays-bas|xavi|real madrid|premier league|manchester|sélectionneur des)\b/.test(hay) && !/\b(france|français|francais)\b/.test(hay)) {
+    return true;
+  }
+  return false;
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -366,4 +418,7 @@ module.exports = {
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
   isPlaceholderCandidate: isPlaceholderCandidate,
+  leadIntentScore: leadIntentScore,
+  isLikelyNonFrenchHeadline: isLikelyNonFrenchHeadline,
+  isWeakLeadCandidate: isWeakLeadCandidate,
 };
