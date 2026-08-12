@@ -334,6 +334,18 @@ function decodeEntities(s) {
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
 }
 
+/** Titres placeholder inbox / queue (ex. « COLLEZ ICI le titre… ») — jamais publier. */
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var t = title.toLowerCase().replace(/\s+/g, " ").trim();
+  var id = String((c && c.id) || "").toLowerCase();
+  if (!t) return true;
+  if (id.indexOf("pending-template") !== -1) return true;
+  if (/^collez ici\b/.test(t) || /\bcollez ici le titre\b/.test(t)) return true;
+  if (/\bTODO\b|\bFIXME\b|\bTBD\b/.test(title)) return true;
+  return false;
+}
+
 module.exports = {
   readJson: readJson,
   writeJson: writeJson,
@@ -351,4 +363,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
