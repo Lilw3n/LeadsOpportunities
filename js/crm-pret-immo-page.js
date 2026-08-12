@@ -83,7 +83,9 @@
         var date = (d.updated_at || d.created_at || "").slice(0, 10);
         return (
           "<tr>" +
-          '<td><a href="./crm-pret-immo-sim.html?id=' +
+          '<td><a href="./' +
+          (d.mode === "coordonnees" ? "crm-pret-immo-coord.html" : "crm-pret-immo-sim.html") +
+          "?id=" +
           encodeURIComponent(d.id) +
           '" title="Ouvrir">🔍</a></td>' +
           "<td>" +
@@ -183,5 +185,17 @@
 
   fillFilters();
   buildSimMenu();
+  if (params.get("view") === "transmettre") {
+    var nav = document.getElementById("navTransmit");
+    if (nav) nav.classList.add("active");
+    var home = document.querySelector('.pi-nav a[href="./crm-pret-immo.html"]');
+    if (home) home.classList.remove("active");
+    var title = document.querySelector(".pi-toolbar h2");
+    if (title) title.textContent = "Transmettre dossier — Mes dossiers";
+    var pos = document.getElementById("fPosition");
+    if (pos && !pos.value) {
+      pos.value = "ddp";
+    }
+  }
   render();
 })();

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Transmission de coordonnées | Prêt Immo</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    :root { --pi-blue:#1e4f8a; --pi-red:#b91c1c; --pi-yellow:#fffbeb; }
+    .pi-nav { display:flex; flex-wrap:wrap; gap:8px; background:#1e3a8a; padding:10px 14px; border-radius:12px; margin-bottom:14px; }
+    .pi-nav a { color:#e2e8f0; text-decoration:none; font-weight:700; font-size:.8rem; padding:8px 12px; border-radius:8px; }
+    .pi-nav a:hover, .pi-nav a.active { background:#2563eb; color:#fff; }
+    .pi-title { margin:0 0 12px; color:var(--pi-blue); font-size:1.35rem; }
+    .pi-info {
+      display:flex; gap:12px; align-items:flex-start; background:#e0f2fe; border:1px solid #7dd3fc;
+      border-radius:12px; padding:14px 16px; margin-bottom:16px; color:#0c4a6e; font-size:.88rem; line-height:1.45;
+    }
+    .pi-info .ico {
+      flex:0 0 28px; width:28px; height:28px; border-radius:50%; background:#0284c7; color:#fff;
+      display:flex; align-items:center; justify-content:center; font-weight:800;
+    }
+    .pi-info strong { display:block; margin-bottom:4px; font-size:.95rem; }
+    .pi-info ul { margin:8px 0 0; padding-left:18px; }
+    .pi-toggle-row {
+      display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;
+      margin-top:12px; padding-top:10px; border-top:1px solid #bae6fd;
+    }
+    .pi-switch { display:inline-flex; align-items:center; gap:10px; font-weight:700; cursor:pointer; }
+    .pi-switch input { width:42px; height:24px; accent-color:#dc2626; }
+    .pi-sec { margin-bottom:14px; }
+    .pi-sec-hd {
+      display:flex; align-items:center; gap:8px; color:var(--pi-red); font-weight:800;
+      text-transform:uppercase; font-size:.9rem; margin:0 0 10px; letter-spacing:.02em;
+    }
+    .pi-sec-hd .check { color:#16a34a; font-size:1.1rem; }
+    .pi-card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; }
+    .pi-2col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .pi-3col { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:12px; }
+    @media (max-width:800px){ .pi-2col, .pi-3col { grid-template-columns:1fr; } }
+    label { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:#64748b; margin-bottom:8px; }
+    input, select, textarea {
+      padding:8px 10px; border:1px solid #fde68a; border-radius:8px; font:inherit; background:var(--pi-yellow);
+    }
+    textarea { min-height:120px; resize:vertical; background:#fff; border-color:#cbd5e1; }
+    .pi-inline { display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+    .pi-inline label { flex-direction:row; align-items:center; gap:6px; margin:0; font-weight:600; color:#334155; }
+    .req { color:#dc2626; }
+    .pi-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; justify-content:center; }
+    #coordMsg { text-align:center; margin-top:10px; font-size:.88rem; color:#64748b; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <nav class="pi-nav" aria-label="Prêt Immo">
+    <a href="./crm-pret-immo.html">Mes dossiers</a>
+    <a href="./crm-pret-immo-sim.html">Effectuer simulation</a>
+    <a href="./crm-pret-immo.html?view=transmettre">Transmettre dossier</a>
+    <a href="./crm-pret-immo-coord.html" class="active">Transmettre coordonnées</a>
+    <a href="./crm-pret-immo-pvh.html">PVH</a>
+    <a href="./crm-agency-fees.html">Barèmes</a>
+  </nav>
+
+  <h1 class="pi-title">Transmission de coordonnées</h1>
+
+  <div class="pi-info">
+    <div class="ico" aria-hidden="true">i</div>
+    <div>
+      <strong>Gestion déléguée du client</strong>
+      <p style="margin:0">
+        Ce formulaire permet de transmettre les coordonnées d’un client en tant qu’<strong>indicateur d’affaires</strong>
+        (parcours courtier). Engagement indicatif : contact du client sous 4&nbsp;h ouvrées, suivi du dossier,
+        et information régulière de l’apporteur.
+      </p>
+      <ul>
+        <li>Rémunération indicatrice d’affaires : à définir avec le partenaire (ex. % sur honoraires).</li>
+        <li>Les données restent dans votre CRM (stockage local) jusqu’à synchronisation serveur.</li>
+      </ul>
+      <div class="pi-toggle-row">
+        <label class="pi-switch">
+          <input type="checkbox" id="delegation" />
+          <span>Je délègue la gestion du dossier au partenaire financement</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <form id="coordForm" class="pi-card">
+    <input type="hidden" id="dossierId" />
+
+    <section class="pi-sec">
+      <h2 class="pi-sec-hd"><span class="check">✓</span> Rubrique</h2>
+      <label style="max-width:320px">Rubrique <span class="req">*</span>
+        <select id="rubrique" required></select>
+      </label>
+    </section>
+
+    <section class="pi-sec">
+      <h2 class="pi-sec-hd"><span class="check">✓</span> Responsable du dossier</h2>
+      <div class="pi-3col">
+        <label>Nom<input id="respNom" autocomplete="name" /></label>
+        <label>E-mail<input type="email" id="respEmail" autocomplete="email" /></label>
+        <label>Tél.<input id="respTel" autocomplete="tel" /></label>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h2 class="pi-sec-hd"><span class="check">✓</span> Emprunteur</h2>
+      <div class="pi-2col">
+        <div>
+          <div class="pi-inline" style="margin-bottom:8px">
+            Civilité <span class="req">*</span>
+            <label><input type="radio" name="e_civ" value="mme" /> Mme</label>
+            <label><input type="radio" name="e_civ" value="m" checked /> M.</label>
+          </div>
+          <label>Nom <span class="req">*</span><input id="eNom" required /></label>
+          <label>Date de naissance <span class="req">*</span><input type="date" id="eBirth" required /></label>
+          <label>Tél. portable <span class="req">*</span><input id="ePhone" required /></label>
+          <label>Profession<input id="eProf" /></label>
+          <label>Ancienneté<input id="eAnciennete" placeholder="ex. 3 ans" /></label>
+          <label>Situation de famille
+            <select id="eSituation"></select>
+          </label>
+        </div>
+        <div>
+          <label style="margin-top:28px">Prénom <span class="req">*</span><input id="ePrenom" required /></label>
+          <label>Lieu de naissance<input id="eBirthplace" /></label>
+          <label>E-mail <span class="req">*</span><input type="email" id="eEmail" required /></label>
+          <label>Situation pro
+            <select id="ePro"></select>
+          </label>
+          <label>Nombre d’enfants<input type="number" id="eEnfants" min="0" max="12" value="0" /></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h2 class="pi-sec-hd">
+        <span class="check">✓</span> Co-emprunteur
+        <label class="pi-switch" style="margin-left:auto;text-transform:none;letter-spacing:0;font-size:.8rem;color:#334155">
+          <input type="checkbox" id="hasCo" />
+          <span>Activer</span>
+        </label>
+      </h2>
+      <div id="coBlock" hidden>
+        <div class="pi-2col">
+          <div>
+            <div class="pi-inline" style="margin-bottom:8px">
+              Civilité
+              <label><input type="radio" name="c_civ" value="mme" /> Mme</label>
+              <label><input type="radio" name="c_civ" value="m" checked /> M.</label>
+            </div>
+            <label>Nom<input id="cNom" /></label>
+            <label>Date de naissance<input type="date" id="cBirth" /></label>
+            <label>Tél.<input id="cPhone" /></label>
+            <label>Profession<input id="cProf" /></label>
+            <label>Ancienneté<input id="cAnciennete" /></label>
+          </div>
+          <div>
+            <label style="margin-top:28px">Prénom<input id="cPrenom" /></label>
+            <label>Lieu de naissance<input id="cBirthplace" /></label>
+            <label>E-mail<input type="email" id="cEmail" /></label>
+            <label>Situation pro
+              <select id="cPro"></select>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h2 class="pi-sec-hd"><span class="check">✓</span> Logement</h2>
+      <div class="pi-3col">
+        <label>Adresse<textarea id="adr" rows="3"></textarea></label>
+        <div>
+          <label>Code postal<input id="cp" /></label>
+          <label>Ville<input id="ville" /></label>
+        </div>
+        <div>
+          <label>Logement
+            <select id="logementType"></select>
+          </label>
+          <label>Depuis<input type="date" id="depuis" /></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h2 class="pi-sec-hd"><span class="check">✓</span> Informations complémentaires</h2>
+      <label>Notes / contexte
+        <textarea id="infos" placeholder="Objet du projet, budget approximatif, urgence, commentaire pour le partenaire…"></textarea>
+      </label>
+    </section>
+
+    <div class="pi-actions">
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <a class="btn btn-ghost" href="./crm-pret-immo.html">Annuler</a>
+    </div>
+    <p id="coordMsg"></p>
+  </form>
+
+  <script src="./js/crm-pret-immo-lib.js"></script>
+  <script src="./js/crm-pret-immo-store.js"></script>
+  <script src="./js/crm-pret-immo-coord-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
