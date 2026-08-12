@@ -334,6 +334,19 @@ function decodeEntities(s) {
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
 }
 
+/** Placeholders inbox / templates — jamais publier automatiquement. */
+function isPlaceholderQueueItem(item) {
+  if (!item) return true;
+  var id = String(item.id || "").toLowerCase();
+  var title = String(item.title || "");
+  var titleLower = title.toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.slice(-9) === "-template") return true;
+  if (/collez\s+ici/i.test(title)) return true;
+  if (/^\[\s*titre/i.test(title) || /placeholder|à remplacer|a remplacer|TODO\b/i.test(title)) return true;
+  if (/exemple de titre|copiez|collez le titre/i.test(titleLower)) return true;
+  return false;
+}
+
 module.exports = {
   readJson: readJson,
   writeJson: writeJson,
@@ -351,4 +364,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
 };
