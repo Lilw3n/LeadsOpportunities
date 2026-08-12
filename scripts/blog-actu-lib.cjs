@@ -96,6 +96,24 @@ function monthLabel() {
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
+function isProbablyEnglishText(input) {
+  var hay = String(input || "").toLowerCase();
+  if (!hay) return false;
+  if (/[àâäçéèêëîïôöùûüÿœæ]/i.test(hay)) return false;
+
+  var frenchHits = (
+    hay.match(/\b(le|la|les|des|du|une|un|avec|pour|dans|sur|sans|plus|moins|france|francais|assurance|mutuelle|sante|pret|immobilier|remboursement)\b/g) ||
+    []
+  ).length;
+  if (frenchHits >= 3) return false;
+
+  var englishHits = (
+    hay.match(/\b(the|with|for|from|after|before|over|under|and|or|new|calls|fines|ban|bans|violating|will|can|could|should|how|what|why|your|you|this|that|has|have|into|about|against|insurance)\b/g) ||
+    []
+  ).length;
+  return englishHits >= 3;
+}
+
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
@@ -113,6 +131,9 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
+  if (isProbablyEnglishText(hay)) {
+    score -= 45;
+  }
   if (/suspension mutuelle|attaques? mutuelles?|frappes? mutuelles?|menaces? mutuelles?/i.test(hay)) {
     score -= 45;
   }
