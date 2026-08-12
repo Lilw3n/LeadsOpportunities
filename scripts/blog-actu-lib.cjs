@@ -31,6 +31,20 @@ function slugify(text) {
     .slice(0, 72);
 }
 
+/** File manuelle / inbox : ignore les titres d'exemple (bloquaient le cron GitHub). */
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "example") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("-template") === id.length - 9) return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/^collez ici\b/i.test(title)) return true;
+  if (/\b(TODO|FIXME|placeholder|lorem ipsum)\b/i.test(title)) return true;
+  return false;
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -351,4 +365,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
