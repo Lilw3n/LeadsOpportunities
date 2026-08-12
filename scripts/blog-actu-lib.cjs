@@ -90,6 +90,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: bestScore > 0,
   };
 }
 
@@ -114,18 +115,26 @@ function monthLabel() {
 function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
-  var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  var topic = matchTopic(title + " " + String(candidate.summary || ""));
+  if (topic.matched) {
+    if (topic.need === "sante" || topic.need === "emprunteur" || topic.need === "habitation" || topic.need === "auto") {
+      score += 20;
+    }
+    if (topic.need === "vtc" || topic.need === "animaux" || topic.need === "prevoyance") score += 15;
+  }
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "canicule", "sécheresse", "secheresse", "inondation"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
+
+  if (/\béclipse|eclipse solaire|astronomie|ballon captif/i.test(title) && !/assurance|mutuelle|rembours/.test(title)) {
+    score -= 25;
+  }
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
