@@ -1,10 +1,15 @@
 {
-  "lastFetch": "2026-08-12T20:01:39.949Z",
+  "lastFetch": "2026-08-12T20:04:50.896Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage",
+    "https://www.lefigaro.fr/conjoncture/canicules-en-france-la-ministre-de-l-ecologie-evoque-un-cout-de-l-ordre-de-10-a-15-milliards-d-euros-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cd186e519498a950348226dbae165&url=https%3a%2f%2fwww.ouest-france.fr%2fmeteo%2fcanicule%2fdirect-canicule-78-departements-sont-en-vigilance-orange-et-45-presentent-un-danger-eleve-pour-les-feux-de-forets-c3cf533f-f1a9-4543-a0c6-3c313b1df8da&c=2366971474385711857&mkt=en-us",
+    "https://www.europe1.fr/societe/canicule-les-nuits-tropicales-sinstallent-jusqua-40-degc-attendus-1010834?at_medium=RSS%20feeds&amp;at_campaign=Flux%20Generique",
+    "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-08-12T20:01:40.918Z",
+  "lastAutoRun": "2026-08-12T20:04:51.992Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,7 +22,65 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T20:02:43.613Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+          "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T20:03:23.078Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+          "title": "Canicules en France : la ministre de l’Écologie Monique Barbut évoque un coût «de l’ord… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "canicule-plusieurs-incendies-en-cours-en-france-alors-que-50-departement.html",
+          "title": "Canicule : plusieurs incendies en cours en France alors que 50 départements sont à risque : assurance habitation — que faire ?",
+          "source": "Edge — Bing actu France",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T20:03:44.887Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicule-les-nuits-tropicales-s-installent-jusqu-a-40-c-attendus.html",
+          "title": "Canicule : les nuits tropicales s'installent, jusqu'à 40 °C attendus : assurance habitation — que faire ?",
+          "source": "Firefox — Europe 1",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T20:04:51.992Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+          "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habit… : assurance habitation — que faire ?",
+          "source": "aggregator",
+          "sourceType": "aggregator"
+        }
+      ]
     }
   ],
-  "platformRotationIndex": 0
+  "platformRotationIndex": 1
 }
