@@ -45,7 +45,7 @@
         });
         html += "</div></div>";
       } else if (t.id === "pvh") {
-        html += '<a href="./crm-pret-immo-sim.html?type=pvh">' + esc(t.label) + " : Calculette montant à rembourser</a>";
+        html += '<a href="./crm-pret-immo-pvh.html">' + esc(t.label) + " : Calculette montant à rembourser</a>";
       } else {
         html +=
           '<a href="./crm-pret-immo-sim.html?type=' +

@@ -17,7 +17,6 @@ Emprunteur & co · Logement · Propriété / Hébergement · Pro · Revenus / Ch
 
 Actions : Simuler · Enregistrer · Ouvrir demande publique (docs) · Transmettre (DDP)
 
-## Pont barèmes
-Depuis `crm-agency-fees.html` → **Créer dossier Prêt Immo** (montants préremplis via `js/finance-deep-link.js`).
-
-Persistance : `localStorage` (`lo_crm_pret_immo_v1`) — sync API possible plus tard.
+## PVH — Calculette montant à rembourser
+Page [`crm-pret-immo-pvh.html`](../crm-pret-immo-pvh.html) : capital dû à 5 / 10 / 15 / 20 ans en **différé total** (intérêts capitalisés mensuellement).  
+Ex. 10 000 € à 6 % → 18 194 € à 10 ans.

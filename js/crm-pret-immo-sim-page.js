@@ -13,6 +13,11 @@
   var type = params.get("type") || "rac";
   var housing = params.get("housing") || "proprietaire";
 
+  if (type === "pvh") {
+    location.href = "./crm-pret-immo-pvh.html";
+    return;
+  }
+
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;")
