@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Suivi | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    :root { --su-blue:#1e3a5f; --su-line:#dbe3ee; }
+    .su-layout { display:grid; grid-template-columns:240px 1fr; gap:14px; align-items:start; }
+    @media (max-width:900px){ .su-layout { grid-template-columns:1fr; } }
+    .su-menu {
+      background:#fff; border:1px solid var(--su-line); border-radius:12px; padding:14px 0 8px;
+      box-shadow:0 8px 24px rgba(15,23,42,.06); position:sticky; top:10px;
+    }
+    .su-menu h1 {
+      margin:0 16px 10px; font-size:1.05rem; color:var(--su-blue); font-weight:800;
+    }
+    .su-menu a {
+      display:block; padding:10px 16px; color:#0f172a; text-decoration:none; font-size:.92rem;
+      border-left:3px solid transparent;
+    }
+    .su-menu a:hover { background:#f8fafc; }
+    .su-menu a.active { background:#eff6ff; border-left-color:var(--su-blue); font-weight:700; color:var(--su-blue); }
+    .su-main { background:#fff; border:1px solid var(--su-line); border-radius:12px; padding:16px; min-height:480px; }
+    .su-kpis { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin:12px 0 16px; }
+    .su-kpi { background:#f8fafc; border:1px solid var(--su-line); border-radius:10px; padding:12px; }
+    .su-kpi strong { display:block; font-size:1.25rem; color:var(--su-blue); }
+    .su-kpi span { font-size:.72rem; color:#64748b; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+    .su-group { margin-bottom:18px; }
+    .su-group h3 {
+      margin:0 0 8px; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase;
+      color:var(--su-blue); border-bottom:2px solid var(--su-blue); padding-bottom:6px;
+    }
+    .su-card {
+      display:grid; grid-template-columns:1fr auto; gap:10px; padding:12px 0;
+      border-bottom:1px solid #eef2f7; align-items:center;
+    }
+    .su-card h4 { margin:0 0 4px; font-size:.95rem; }
+    .su-meta { color:#64748b; font-size:.8rem; }
+    .su-empty { color:#64748b; padding:24px; text-align:center; }
+    .su-hint { color:#64748b; font-size:.85rem; margin:0 0 8px; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier</p>
+      <h2>Suivi</h2>
+      <p>Pipeline ventes / locations / offres et sorties de stock.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Piges</a>
+      <a href="./crm-immo-matching.html" class="btn btn-ghost">Matching</a>
+      <a href="./crm-calendar.html" class="btn btn-ghost">Agenda</a>
+    </div>
+  </section>
+
+  <div class="su-layout">
+    <nav class="su-menu" id="suMenu" aria-label="Suivi">
+      <h1>Suivi</h1>
+    </nav>
+    <section class="su-main">
+      <h2 id="suTitle">Suivi</h2>
+      <p class="su-hint" id="suHint"></p>
+      <div class="su-kpis" id="suKpis"></div>
+      <div id="suMount"></div>
+    </section>
+  </div>
+
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-suivi.js"></script>
+  <script src="./js/crm-immo-suivi-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
