@@ -44,9 +44,6 @@
     },
     "api/webhooks/[action].js": {
       "maxDuration": 60
-    },
-    "api/cron/traffic-alert.js": {
-      "maxDuration": 60
     }
   },
   "headers": [
