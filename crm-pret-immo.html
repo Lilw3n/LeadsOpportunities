@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Prêt Immo — Mes dossiers | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    :root { --pi-blue:#1e3a8a; --pi-cyan:#0d9488; --pi-purple:#6d28d9; }
+    .pi-nav {
+      display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+      background:#1e3a8a; color:#fff; padding:10px 14px; border-radius:12px; margin-bottom:14px;
+    }
+    .pi-nav a, .pi-nav button {
+      border:0; background:transparent; color:#e2e8f0; padding:8px 12px; border-radius:8px;
+      font-weight:700; font-size:.82rem; cursor:pointer; text-decoration:none;
+    }
+    .pi-nav a.active, .pi-nav a:hover, .pi-nav button:hover { background:#2563eb; color:#fff; }
+    .pi-dd { position:relative; }
+    .pi-dd-menu {
+      display:none; position:absolute; top:100%; left:0; min-width:220px; background:#fff; color:#0f172a;
+      border-radius:10px; box-shadow:0 12px 30px rgba(15,23,42,.18); z-index:20; padding:6px 0;
+    }
+    .pi-dd.open .pi-dd-menu { display:block; }
+    .pi-dd-menu a, .pi-dd-menu button {
+      display:flex; justify-content:space-between; width:100%; text-align:left; padding:10px 14px;
+      border:0; background:#fff; color:#0f172a; font-weight:600; font-size:.88rem; cursor:pointer; text-decoration:none;
+    }
+    .pi-dd-menu a:hover, .pi-dd-menu button:hover { background:#eff6ff; }
+    .pi-sub {
+      display:none; position:absolute; left:100%; top:0; min-width:160px; background:#fff;
+      border-radius:10px; box-shadow:0 12px 30px rgba(15,23,42,.18); padding:6px 0;
+    }
+    .pi-dd-menu .has-sub { position:relative; }
+    .pi-dd-menu .has-sub:hover .pi-sub { display:block; }
+    .pi-toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; margin-bottom:12px; }
+    .pi-toolbar h2 { margin:0; font-size:1.2rem; }
+    .pi-actions { display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pi-actions input { padding:8px 10px; border:1px solid var(--line); border-radius:8px; min-width:100px; }
+    .btn-cyan { background:var(--pi-cyan); color:#fff; border:0; }
+    .btn-purple { background:var(--pi-purple); color:#fff; border:0; }
+    .pi-table-wrap { overflow:auto; border:1px solid var(--line); border-radius:12px; background:#fff; }
+    .pi-table { width:100%; border-collapse:collapse; font-size:.8rem; min-width:1100px; }
+    .pi-table th, .pi-table td { padding:8px 10px; border-bottom:1px solid #eef2f7; text-align:left; white-space:nowrap; }
+    .pi-table th { background:#f8fafc; color:#64748b; font-size:.7rem; text-transform:uppercase; letter-spacing:.03em; }
+    .pi-table th.is-sort { color:#b91c1c; border-bottom:2px solid #b91c1c; }
+    .pi-empty { padding:40px; text-align:center; color:#64748b; }
+    .pi-badge { display:inline-block; padding:2px 8px; border-radius:999px; background:#e0e7ff; color:#3730a3; font-size:.72rem; font-weight:800; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <nav class="pi-nav" aria-label="Prêt Immo">
+    <a href="./crm-pret-immo.html" class="active">Mes dossiers</a>
+    <div class="pi-dd" id="simMenu">
+      <button type="button" id="btnSimMenu">Effectuer simulation ▾</button>
+      <div class="pi-dd-menu" id="simMenuPanel"></div>
+    </div>
+    <a href="./crm-pret-immo.html?view=transmettre">Transmettre dossier</a>
+    <a href="./landings/credit-immo.html#demande" target="_blank" rel="noopener">Demande publique</a>
+    <a href="./crm-agency-fees.html">Barèmes / FAI</a>
+    <a href="./crm-calendar.html">Agenda</a>
+  </nav>
+
+  <div class="pi-toolbar">
+    <h2>Mes dossiers</h2>
+    <div class="pi-actions">
+      <a class="btn btn-cyan" id="btnNew" href="./crm-pret-immo-sim.html?type=immo">+ Nouveau</a>
+      <input id="fRef" placeholder="Réf." />
+      <button type="button" class="btn btn-purple" id="btnSearch">Rechercher</button>
+      <select id="fRubrique"><option value="">Toutes rubriques</option></select>
+      <select id="fPosition"><option value="">Toutes positions</option></select>
+    </div>
+  </div>
+
+  <div class="pi-table-wrap">
+    <table class="pi-table" id="piTable">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="is-sort">Date ▾</th>
+          <th>Rubrique</th>
+          <th>Réf.</th>
+          <th>Emprunteur</th>
+          <th>Co-emprunteur</th>
+          <th>Dép.</th>
+          <th>Apporteur</th>
+          <th>Réseau</th>
+          <th>Utilisateur</th>
+          <th>Analyste</th>
+          <th>Gestionnaire</th>
+          <th>Position</th>
+          <th>Ddp</th>
+          <th>Montant</th>
+          <th>Banque</th>
+          <th>Produit</th>
+          <th></th>
+          <th>Archive</th>
+        </tr>
+      </thead>
+      <tbody id="piBody"></tbody>
+    </table>
+    <p class="pi-empty" id="piEmpty" hidden>Aucun dossier trouvé</p>
+  </div>
+
+  <script src="./js/crm-pret-immo-lib.js"></script>
+  <script src="./js/crm-pret-immo-store.js"></script>
+  <script src="./js/finance-deep-link.js"></script>
+  <script src="./js/crm-pret-immo-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

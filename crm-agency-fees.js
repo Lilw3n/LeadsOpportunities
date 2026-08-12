@@ -1246,6 +1246,7 @@
       ["afLinkCredit", credit],
       ["afLinkAcheteur", acheteur],
       ["dealCtaCredit", credit],
+      ["bfCtaDossier", Deep.pretImmoUrl ? Deep.pretImmoUrl(data, { type: "immo" }) : "./crm-pret-immo-sim.html?type=immo"],
     ].forEach(function (pair) {
       var el = document.getElementById(pair[0]);
       if (el) el.href = pair[1];

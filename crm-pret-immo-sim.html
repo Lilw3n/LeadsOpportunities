@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Simulateur Prêt Immo | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    :root { --pi-blue:#1e4f8a; --pi-cyan:#0891b2; --pi-orange:#ea580c; --pi-purple:#7c3aed; }
+    .pi-nav {
+      display:flex; flex-wrap:wrap; gap:8px; background:#1e3a8a; color:#fff; padding:10px 14px;
+      border-radius:12px; margin-bottom:14px;
+    }
+    .pi-nav a { color:#e2e8f0; text-decoration:none; font-weight:700; font-size:.82rem; padding:8px 12px; border-radius:8px; }
+    .pi-nav a:hover, .pi-nav a.active { background:#2563eb; color:#fff; }
+    .pi-title { margin:0 0 14px; color:var(--pi-blue); }
+    .pi-sec { margin-bottom:16px; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
+    .pi-sec h3 { margin:0; padding:10px 14px; background:var(--pi-blue); color:#fff; font-size:.95rem; }
+    .pi-sec-body { padding:14px; }
+    .pi-2col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media (max-width:800px){ .pi-2col { grid-template-columns:1fr; } }
+    .pi-sec label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:#64748b; margin-bottom:8px; }
+    .pi-sec input, .pi-sec select, .pi-sec textarea {
+      padding:8px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#f8fafc;
+    }
+    .pi-inline { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:8px; }
+    .pi-inline label { flex-direction:row; align-items:center; gap:6px; font-weight:600; color:#334155; margin:0; }
+    .req { color:#dc2626; }
+    .pi-credit-grid { display:grid; grid-template-columns:1.4fr repeat(3,1fr); gap:8px; align-items:center; margin-bottom:6px; font-size:.82rem; }
+    .pi-credit-grid strong { font-size:.78rem; color:#64748b; }
+    .pi-syn { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+    .pi-kpi { background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:12px; }
+    .pi-kpi strong { display:block; font-size:1.1rem; color:var(--pi-blue); }
+    .pi-kpi span { font-size:.72rem; color:#64748b; font-weight:700; text-transform:uppercase; }
+    .pi-footer {
+      position:sticky; bottom:0; display:flex; flex-wrap:wrap; gap:8px; padding:12px; background:#fff;
+      border-top:1px solid var(--line); margin-top:16px; z-index:5;
+    }
+    .btn-cyan { background:var(--pi-cyan); color:#fff; border:0; }
+    .btn-orange { background:var(--pi-orange); color:#fff; border:0; }
+    .btn-purple { background:var(--pi-purple); color:#fff; border:0; }
+    .pi-checks { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:10px; }
+    .pi-checks label { flex-direction:row; align-items:center; gap:6px; margin:0; font-weight:600; color:#334155; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <nav class="pi-nav">
+    <a href="./crm-pret-immo.html">Mes dossiers</a>
+    <a href="./crm-pret-immo-sim.html" class="active" id="navSimLabel">Effectuer simulation</a>
+    <a href="./landings/credit-immo.html#demande" target="_blank" rel="noopener">Demande publique + docs</a>
+    <a href="./crm-agency-fees.html">Barèmes</a>
+  </nav>
+
+  <h2 class="pi-title" id="simTitle">Simulateur</h2>
+  <form id="simForm">
+    <input type="hidden" id="dossierId" />
+
+    <section class="pi-sec">
+      <h3>Emprunteur &amp; Co-emprunteur</h3>
+      <div class="pi-sec-body">
+        <label class="pi-inline"><input type="checkbox" id="hasCo" /> Co-emprunteur</label>
+        <div class="pi-2col">
+          <div id="emprunteurFields"></div>
+          <div id="coemprunteurFields"></div>
+        </div>
+        <div class="pi-2col">
+          <label>Nombre d'enfants<input type="number" id="enfantsNb" min="0" max="12" value="0" /></label>
+          <label>Âges (séparés par virgule)<input id="enfantsAges" placeholder="3, 7" /></label>
+        </div>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h3>Logement</h3>
+      <div class="pi-sec-body pi-2col">
+        <label style="grid-column:1/-1">Adresse<input id="adr" /></label>
+        <label>CP<input id="cp" /></label>
+        <label>Ville<input id="ville" /></label>
+        <label>Ancienneté (depuis)<input type="date" id="anciennete" /></label>
+      </div>
+    </section>
+
+    <section class="pi-sec" id="secPropriete" hidden>
+      <h3>Situation de propriété</h3>
+      <div class="pi-sec-body pi-2col">
+        <label>Valeur du bien (€)<input type="number" id="valeurBien" min="0" step="1000" /></label>
+        <label>Depuis quand ?<input type="date" id="proprieteDepuis" /></label>
+      </div>
+    </section>
+
+    <section class="pi-sec" id="secHebergement" hidden>
+      <h3>Situation hébergement</h3>
+      <div class="pi-sec-body">
+        <div class="pi-inline">
+          <label><input type="radio" name="hebType" value="parents" checked /> Chez les parents</label>
+          <label><input type="radio" name="hebType" value="conjoint" /> Chez le conjoint / partenaire</label>
+        </div>
+        <label>Loyer partenaire (€)<input type="number" id="loyerPartenaire" min="0" step="10" /></label>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h3>Situation professionnelle</h3>
+      <div class="pi-sec-body pi-2col">
+        <label>Emprunteur<select id="profE"></select></label>
+        <label>Co-emprunteur<select id="profC"></select></label>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h3>Plan de financement</h3>
+      <div class="pi-sec-body pi-2col">
+        <div>
+          <strong>REVENUS</strong>
+          <label>Salaire emprunteur<input type="number" data-rev="salaire_e" min="0" step="50" /></label>
+          <label>Salaire co-emprunteur<input type="number" data-rev="salaire_c" min="0" step="50" /></label>
+          <label>Pension reçue<input type="number" data-rev="pension_recue" min="0" step="10" /></label>
+          <label>Revenu foncier<input type="number" data-rev="foncier" min="0" step="10" /></label>
+          <label>CAF<input type="number" data-rev="caf" min="0" step="10" /></label>
+          <label>APL<input type="number" data-rev="apl" min="0" step="10" /></label>
+          <label>Autres<input type="number" data-rev="autres" min="0" step="10" /></label>
+          <p>Total revenus : <strong id="totRev">0 €</strong></p>
+        </div>
+        <div>
+          <strong>CHARGES</strong>
+          <label id="loyerLabel">Loyer / loyer fictif<input type="number" data-chg="loyer" min="0" step="10" /></label>
+          <label>Pension versée<input type="number" data-chg="pension_versee" min="0" step="10" /></label>
+          <label>Autres charges<input type="number" data-chg="autres" min="0" step="10" /></label>
+          <p>Total charges : <strong id="totChg">0 €</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pi-sec" id="secCredits">
+      <h3>Crédits à reprendre</h3>
+      <div class="pi-sec-body">
+        <div class="pi-credit-grid"><strong></strong><strong>Nombre</strong><strong>Mensualité</strong><strong>Restant dû</strong></div>
+        <div class="pi-credit-grid"><span>Prêts immo à racheter</span>
+          <input type="number" data-cr="pret_immo_nb" min="0" /><input type="number" data-cr="pret_immo_mens" min="0" step="10" /><input type="number" data-cr="pret_immo_crd" min="0" step="100" />
+        </div>
+        <div class="pi-credit-grid"><span>Prêts conso à racheter</span>
+          <input type="number" data-cr="pret_conso_nb" min="0" /><input type="number" data-cr="pret_conso_mens" min="0" step="10" /><input type="number" data-cr="pret_conso_crd" min="0" step="100" />
+        </div>
+        <div class="pi-credit-grid"><span>Prêts à garder</span>
+          <input type="number" data-cr="pret_garder_nb" min="0" /><input type="number" data-cr="pret_garder_mens" min="0" step="10" /><input type="number" data-cr="pret_garder_crd" min="0" step="100" />
+        </div>
+        <div class="pi-2col" style="margin-top:10px">
+          <label>Découvert<input type="number" data-cr="decouvert" min="0" step="100" /></label>
+          <label>Projet / trésorerie<input type="number" data-cr="projet" min="0" step="100" /></label>
+          <label>Besoin client (forcé)<input type="number" data-cr="besoin_client" min="0" step="100" /></label>
+        </div>
+        <div class="pi-inline">Client déjà eu un RAC ?
+          <label><input type="radio" name="dejaRac" value="0" checked /> Non</label>
+          <label><input type="radio" name="dejaRac" value="1" /> Oui</label>
+        </div>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h3>Retard</h3>
+      <div class="pi-sec-body">
+        <div class="pi-checks">
+          <label><input type="checkbox" data-ret="impot" /> Impôt</label>
+          <label><input type="checkbox" data-ret="huissier" /> Huissier</label>
+          <label><input type="checkbox" data-ret="contentieux" /> Contentieux</label>
+          <label><input type="checkbox" data-ret="loyer" /> Loyer</label>
+          <label><input type="checkbox" data-ret="hypotheque" /> Hypothèque</label>
+          <label><input type="checkbox" data-ret="copro" /> Copropriété</label>
+        </div>
+        <div class="pi-2col">
+          <label>Montant retards (€)<input type="number" data-retn="montant" min="0" step="100" /></label>
+          <label>Mois de loyer en retard<input type="number" data-retn="mois_loyer" min="0" /></label>
+        </div>
+        <div class="pi-checks">
+          <label><input type="checkbox" data-ret="rejet_prelev" /> Rejet de prélèvements</label>
+          <label><input type="checkbox" data-ret="rejet_cheques" /> Rejet de chèques</label>
+        </div>
+        <label>Nombre de rejets<input type="number" data-retn="nb_rejets" min="0" /></label>
+        <div class="pi-inline">Fiché Banque de France ?
+          <label><input type="radio" name="bdf" value="0" checked /> Non</label>
+          <label><input type="radio" name="bdf" value="1" /> Oui</label>
+        </div>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h3>Synthèse de la simulation</h3>
+      <div class="pi-sec-body">
+        <div class="pi-2col" style="margin-bottom:12px">
+          <label>Frais opération / banque-notaire<input type="number" id="fraisOp" min="0" step="100" /></label>
+          <label>IRA<input type="number" id="ira" min="0" step="100" /></label>
+          <label>Honoraires courtage<input type="number" id="honoraires" min="0" step="100" /></label>
+          <label>Position dossier<select id="position"></select></label>
+          <label>Banque<input id="banque" /></label>
+          <label>Produit<input id="produit" /></label>
+        </div>
+        <div class="pi-inline">
+          <label><input type="radio" name="garantie" value="1" checked /> Avec garantie hypothécaire</label>
+          <label><input type="radio" name="garantie" value="0" /> Sans garantie hypothécaire</label>
+        </div>
+        <div class="pi-syn" id="synMount"></div>
+      </div>
+    </section>
+
+    <section class="pi-sec">
+      <h3>Commentaires &amp; suivi</h3>
+      <div class="pi-sec-body">
+        <label>Nouveau commentaire<textarea id="newComment" rows="2"></textarea></label>
+        <div id="commentsList"></div>
+        <div class="pi-2col" style="margin-top:10px">
+          <label>Apporteur<input id="apporteur" /></label>
+          <label>Réseau<input id="reseau" /></label>
+          <label>Utilisateur<input id="utilisateur" /></label>
+          <label>Analyste<input id="analyste" /></label>
+          <label>Gestionnaire<input id="gestionnaire" /></label>
+          <label class="pi-inline" style="margin-top:18px"><input type="checkbox" id="ddp" /> DDP transmise</label>
+        </div>
+      </div>
+    </section>
+
+    <div class="pi-footer">
+      <button type="button" class="btn btn-cyan" id="btnSimuler">Simuler</button>
+      <button type="submit" class="btn btn-primary" id="btnSave">Enregistrer</button>
+      <button type="button" class="btn btn-orange" id="btnProspect">Enregistrer / ouvrir demande publique</button>
+      <button type="button" class="btn btn-purple" id="btnTransmit">Transmettre le dossier</button>
+      <a class="btn btn-ghost" href="./crm-pret-immo.html">Annuler</a>
+      <span id="simMsg" style="align-self:center;font-size:.85rem;color:#64748b"></span>
+    </div>
+  </form>
+
+  <script src="./js/crm-pret-immo-lib.js"></script>
+  <script src="./js/crm-pret-immo-store.js"></script>
+  <script src="./js/finance-deep-link.js"></script>
+  <script src="./js/crm-pret-immo-sim-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
