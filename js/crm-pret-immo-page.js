@@ -30,11 +30,14 @@
 
   function buildSimMenu() {
     var panel = document.getElementById("simMenuPanel");
+    if (!panel) return;
+    // Menu déjà monté par CrmImmoFinanceNav
+    if (panel.children.length) return;
     var html = "";
     Lib.SIM_TYPES.forEach(function (t) {
       if (t.id === "rac") {
         html +=
-          '<div class="has-sub"><button type="button">RAC <span>›</span></button><div class="pi-sub">';
+          '<div class="has-sub"><a href="./crm-pret-immo-sim.html?type=rac">RAC <span>›</span></a><div class="imf-sub">';
         Lib.HOUSING_STATUSES.forEach(function (h) {
           html +=
             '<a href="./crm-pret-immo-sim.html?type=rac&housing=' +
@@ -161,13 +164,18 @@
     });
   }
 
-  document.getElementById("btnSimMenu").onclick = function (e) {
-    e.stopPropagation();
-    document.getElementById("simMenu").classList.toggle("open");
-  };
-  document.addEventListener("click", function () {
-    document.getElementById("simMenu").classList.remove("open");
-  });
+  var btnSim = document.getElementById("btnSimMenu");
+  var simMenu = document.getElementById("simMenu");
+  if (btnSim && simMenu && !btnSim.dataset.bound) {
+    btnSim.dataset.bound = "1";
+    btnSim.onclick = function (e) {
+      e.stopPropagation();
+      simMenu.classList.toggle("open");
+    };
+    document.addEventListener("click", function () {
+      simMenu.classList.remove("open");
+    });
+  }
   document.getElementById("btnSearch").onclick = render;
   document.getElementById("fRubrique").onchange = render;
   document.getElementById("fPosition").onchange = render;
@@ -192,10 +200,11 @@
   fillFilters();
   buildSimMenu();
   if (params.get("view") === "transmettre") {
-    var nav = document.getElementById("navTransmit");
-    if (nav) nav.classList.add("active");
-    var home = document.querySelector('.pi-nav a[href="./crm-pret-immo.html"]');
-    if (home) home.classList.remove("active");
+    var mount = document.getElementById("immoFinanceNav");
+    if (mount) {
+      mount.setAttribute("data-active", "transmit");
+      if (window.CrmImmoFinanceNav) window.CrmImmoFinanceNav.mount(mount);
+    }
     var title = document.querySelector(".pi-toolbar h2");
     if (title) title.textContent = "Transmettre dossier — Mes dossiers";
     var pos = document.getElementById("fPosition");

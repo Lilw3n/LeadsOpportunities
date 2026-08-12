@@ -9,7 +9,12 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - **Documentation intelligente** (hub) : [`crm-pret-immo-docs.html`](../crm-pret-immo-docs.html) — voir [`CRM-PRET-DOC-SEARCH.md`](./CRM-PRET-DOC-SEARCH.md)
 - Grilles des taux : [`crm-pret-immo-grilles.html`](../crm-pret-immo-grilles.html) — voir [`CRM-PRET-GRILLES-TAUX.md`](./CRM-PRET-GRILLES-TAUX.md)
 - Fiches produits : [`crm-pret-immo-fiches.html`](../crm-pret-immo-fiches.html) — voir [`CRM-PRET-FICHES-PRODUITS.md`](./CRM-PRET-FICHES-PRODUITS.md)
-- Sidebar Immobilier → **Prêt Immo (dossiers)**
+- **Assurance immo** (switcher) : [`crm-assurance-immo.html`](../crm-assurance-immo.html) — ADE / MRH
+- Sidebar Immobilier → **Prêts** / **Assurance immo**
+
+## Menu switcher Prêts ↔ Assurance
+Composant partagé [`js/crm-immo-finance-nav.js`](../js/crm-immo-finance-nav.js) + [`css/crm-immo-finance-nav.css`](../css/crm-immo-finance-nav.css) :
+pills **Prêts** / **Assurance immo**, puis sous-menu contextuel (dossiers, docs, ADE, habitation…).
 
 ## Navigation
 - **Mes dossiers** — tableau (date, rubrique, réf., emprunteur, co-emprunteur, dép., apporteur, réseau, utilisateurs, position, DDP, montant, banque, produit, archive)

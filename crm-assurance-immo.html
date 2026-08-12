@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Assurance immobilier | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
+  <style>
+    :root { --ai-teal:#0f766e; --ai-ink:#134e4a; }
+    .ai-title { margin:0 0 8px; color:var(--ai-teal); font-size:1.4rem; }
+    .ai-sub { margin:0 0 18px; color:#64748b; font-size:.92rem; max-width:72ch; }
+    .ai-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-bottom:18px; }
+    .ai-card {
+      display:block; background:#fff; border:1px solid #e2e8f0; border-radius:14px;
+      padding:18px 16px; text-decoration:none; color:inherit; transition:border-color .15s, box-shadow .15s;
+    }
+    .ai-card:hover { border-color:#99f6e4; box-shadow:0 10px 24px rgba(15,118,110,.12); }
+    .ai-card h3 { margin:0 0 6px; font-size:1rem; color:var(--ai-ink); }
+    .ai-card p { margin:0; font-size:.84rem; color:#64748b; line-height:1.4; }
+    .ai-card .tag {
+      display:inline-block; margin-bottom:8px; padding:2px 8px; border-radius:999px;
+      background:#ccfbf1; color:#115e59; font-size:.68rem; font-weight:800;
+    }
+    .ai-section { margin:22px 0 10px; }
+    .ai-section h2 { margin:0 0 8px; font-size:1.05rem; color:var(--ai-ink); }
+    .ai-section p { margin:0 0 12px; color:#64748b; font-size:.88rem; }
+    .ai-note {
+      background:#f0fdfa; border:1px solid #99f6e4; border-radius:12px;
+      padding:12px 14px; font-size:.84rem; color:#134e4a; margin-bottom:16px;
+    }
+  </style>
+</head>
+<body class="crm-subpage">
+  <div id="immoFinanceNav" data-vertical="assurance" data-active="hub"></div>
+
+  <h1 class="ai-title">Assurance immobilier</h1>
+  <p class="ai-sub">
+    Espace dédié aux assurances liées au projet immobilier : <strong>emprunteur (ADE)</strong>,
+    <strong>habitation / MRH</strong>, demandes et partenaires. Basculez vers <strong>Prêts</strong> via le menu ci-dessus.
+  </p>
+
+  <div class="ai-note">
+    Complément naturel du module Prêts : après une simulation IMMO / RAC, orientez le client vers ADE + MRH.
+    Les docs ADE croisent aussi le catalogue prêt (Assurlift, etc.).
+  </div>
+
+  <section class="ai-section" id="ade">
+    <h2>Emprunteur (ADE)</h2>
+    <p>Couverture décès / invalidité liée au crédit — à proposer avec tout dossier prêt.</p>
+    <div class="ai-grid">
+      <a class="ai-card" href="./crm-insurance-request-new.html?scope=immo&amp;product=emprunteur">
+        <span class="tag">ADE</span>
+        <h3>Nouvelle demande ADE</h3>
+        <p>Créer une demande assurance emprunteur rattachée au parcours immo.</p>
+      </a>
+      <a class="ai-card" href="./crm-wholesalers.html?tag=emprunteur">
+        <span class="tag">Partenaires</span>
+        <h3>Grossistes emprunteur</h3>
+        <p>Mémo partenaires filtrés sur le produit emprunteur.</p>
+      </a>
+      <a class="ai-card" href="./crm-pret-immo-docs.html?q=assurance%20emprunteur%20ADE">
+        <span class="tag">Docs</span>
+        <h3>Documentation ADE</h3>
+        <p>Recherche intelligente sur fiches / grilles assurance liées au prêt.</p>
+      </a>
+      <a class="ai-card" href="./crm-pret-immo.html">
+        <span class="tag">Prêts</span>
+        <h3>Dossiers prêt liés</h3>
+        <p>Revenir aux simulations et dossiers pour croiser quotités / taux.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="ai-section" id="habitation">
+    <h2>Habitation / MRH</h2>
+    <p>Assurance du bien acquis ou en garantie — souvent exigée à la mise en force du prêt.</p>
+    <div class="ai-grid">
+      <a class="ai-card" href="./crm-insurance-request-new.html?scope=immo&amp;product=habitation">
+        <span class="tag">MRH</span>
+        <h3>Nouvelle demande habitation</h3>
+        <p>Demande MRH / PNO liée au projet d’acquisition.</p>
+      </a>
+      <a class="ai-card" href="./crm-wholesalers.html?tag=habitation">
+        <span class="tag">Partenaires</span>
+        <h3>Grossistes habitation</h3>
+        <p>Partenaires et produits habitation du mémo grossistes.</p>
+      </a>
+      <a class="ai-card" href="./crm-insurance-requests.html?scope=immo">
+        <span class="tag">Suivi</span>
+        <h3>Demandes assurance</h3>
+        <p>Suivre les demandes déjà ouvertes (filtre scope immo).</p>
+      </a>
+      <a class="ai-card" href="./crm-insurance.html">
+        <span class="tag">Métier</span>
+        <h3>Hub assurance complet</h3>
+        <p>Portefeuille, contrats, sinistres — vue assurance métier globale.</p>
+      </a>
+    </div>
+  </section>
+
+  <script src="./js/crm-immo-finance-nav.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
