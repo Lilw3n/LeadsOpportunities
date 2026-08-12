@@ -12,9 +12,15 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - **Assurance immo** (switcher) : [`crm-assurance-immo.html`](../crm-assurance-immo.html) — ADE / MRH
 - Sidebar Immobilier → **Prêts** / **Assurance immo**
 
-## Menu switcher Prêts ↔ Assurance
-Composant partagé [`js/crm-immo-finance-nav.js`](../js/crm-immo-finance-nav.js) + [`css/crm-immo-finance-nav.css`](../css/crm-immo-finance-nav.css) :
-pills **Prêts** / **Assurance immo**, puis sous-menu contextuel (dossiers, docs, ADE, habitation…).
+## Menu switcher (4 piliers)
+Composant [`js/crm-immo-finance-nav.js`](../js/crm-immo-finance-nav.js) + [`css/crm-immo-finance-nav.css`](../css/crm-immo-finance-nav.css) :
+
+1. **Prêts** — dossiers / sims / docs / barèmes  
+2. **Assurance immo** — ADE / MRH ([`crm-assurance-immo.html`](../crm-assurance-immo.html))  
+3. **Patrimoine** — retraite, mutuelle, invalidité, famille ([`crm-patrimoine.html`](../crm-patrimoine.html))  
+4. **Banque & épargne** — trésorerie / placements ([`crm-banque-epargne.html`](../crm-banque-epargne.html))
+
+Barèmes : charges forfaitaires + **revenu imposable estimé** (abattement micro) — voir [`BAREMES-KPI-REF.md`](./BAREMES-KPI-REF.md).
 
 ## Navigation
 - **Mes dossiers** — tableau (date, rubrique, réf., emprunteur, co-emprunteur, dép., apporteur, réseau, utilisateurs, position, DDP, montant, banque, produit, archive)

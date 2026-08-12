@@ -626,22 +626,27 @@
     };
   }
 
-  function kpiCard(label, amount, cls) {
+  function kpiCard(label, amount, cls, hint) {
     return (
       '<div class="af-kpi' +
       (cls ? " " + cls : "") +
+      '" title="' +
+      esc(hint || "") +
       '"><span>' +
       label +
       "</span><strong>" +
       Lib.formatEuro(amount) +
-      "</strong></div>"
+      "</strong>" +
+      (hint ? '<em class="af-kpi-hint">' + esc(hint) + "</em>" : "") +
+      "</div>"
     );
   }
 
   /** KPI canoniques (réf. métier) :
    * 1. Honoraires agence
    * 2. Ta part (X %)
-   * 3. Charges (URSSAF+IR)
+   * 3. Charges (cotis.+IR+CFE…)
+   * 3bis. Revenu imposable estimé (micro)
    * 4. Net estimé (carte verte)
    * Les extras (part agence, autre négo, apporteur, collab) restent optionnels via cases à cocher.
    */
@@ -694,7 +699,26 @@
     var roleSuffix =
       d && d.myRole === "sortant" ? " sortant" : d && d.myRole === "entrant" ? " entrant" : "";
     html += kpiCard("Ta part (" + sharePct + "%)" + roleSuffix, res.agentGross, "");
-    html += kpiCard("Charges (URSSAF+IR)", res.charges, "muted");
+    html += kpiCard(
+      "Charges (cotis.+IR+CFE…)",
+      res.charges,
+      "muted",
+      "URSSAF/impôts " +
+        (res.chargesPct != null ? res.chargesPct + " %" : "") +
+        " + CFE " +
+        (res.cfePct != null ? res.cfePct + " %" : "") +
+        " + compta " +
+        (res.accountingPct != null ? res.accountingPct + " %" : "") +
+        " sur ta part"
+    );
+    if (res.taxableIncome != null) {
+      html += kpiCard(
+        "Revenu imposable estimé",
+        res.taxableIncome,
+        "muted",
+        "Après abattement micro " + (res.abatementPct != null ? res.abatementPct + " %" : "") + " (indicatif)"
+      );
+    }
     html += kpiCard("Net estimé", res.agentNet, "highlight");
     return html;
   }
@@ -724,6 +748,15 @@
       chargesPct: currentChargesPct(),
       cfePct: currentCfePct(),
       accountingPct: currentAccountingPct(),
+      taxPresetId: document.getElementById("taxPreset")
+        ? document.getElementById("taxPreset").value
+        : "",
+      abatementPct: (function () {
+        var p = Lib.getTaxPreset(
+          document.getElementById("taxPreset") ? document.getElementById("taxPreset").value : ""
+        );
+        return p && p.abatementPct != null ? p.abatementPct : undefined;
+      })(),
     });
     var refLabel =
       res.priceBasis === "loyer_annuel"

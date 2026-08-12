@@ -300,15 +300,40 @@ window.CrmAgencyFees = (function () {
   var VAT_RATE = 0.2;
   var TAX_PREFS_KEY = "lo_agency_fee_tax_prefs_v1";
 
-  /** Presets micro-entreprise France (ordres de grandeur, ajustables). */
+  /**
+   * Presets micro-entreprise France (ordres de grandeur, ajustables).
+   * abatementPct = abattement forfaitaire micro pour estimer le revenu imposable
+   * (BIC services 50 %, BNC 34 %, commerce 71 %) — indicatif, pas un calcul fiscal officiel.
+   */
   var TAX_PRESETS = [
-    { id: "custom_22", label: "Mon taux 22 % (perso)", chargesPct: 22, urssafPct: 22, irPct: 0 },
-    { id: "services_urssaf", label: "Services BIC — URSSAF seul (~21,2 %)", chargesPct: 21.2, urssafPct: 21.2, irPct: 0 },
-    { id: "services_vl", label: "Services BIC + versement libératoire (~23,4 %)", chargesPct: 23.4, urssafPct: 21.2, irPct: 2.2 },
-    { id: "bnc_vl", label: "BNC libéral + VL (~25,2 %)", chargesPct: 25.2, urssafPct: 23.1, irPct: 2.1 },
-    { id: "commerce", label: "Vente de marchandises (~12,3 %)", chargesPct: 12.3, urssafPct: 12.3, irPct: 0 },
-    { id: "custom", label: "Personnalisé (saisie libre)", chargesPct: null, urssafPct: null, irPct: null },
+    { id: "custom_22", label: "Mon taux 22 % (perso)", chargesPct: 22, urssafPct: 22, irPct: 0, abatementPct: 50, regime: "bic_services" },
+    { id: "services_urssaf", label: "Services BIC — URSSAF seul (~21,2 %)", chargesPct: 21.2, urssafPct: 21.2, irPct: 0, abatementPct: 50, regime: "bic_services" },
+    { id: "services_vl", label: "Services BIC + versement libératoire (~23,4 %)", chargesPct: 23.4, urssafPct: 21.2, irPct: 2.2, abatementPct: 50, regime: "bic_services" },
+    { id: "bnc_vl", label: "BNC libéral + VL (~25,2 %)", chargesPct: 25.2, urssafPct: 23.1, irPct: 2.1, abatementPct: 34, regime: "bnc" },
+    { id: "commerce", label: "Vente de marchandises (~12,3 %)", chargesPct: 12.3, urssafPct: 12.3, irPct: 0, abatementPct: 71, regime: "bic_commerce" },
+    { id: "custom", label: "Personnalisé (saisie libre)", chargesPct: null, urssafPct: null, irPct: null, abatementPct: 50, regime: "custom" },
   ];
+
+  function estimateTaxableIncome(agentGross, opts) {
+    opts = opts || {};
+    var abatement =
+      opts.abatementPct != null && opts.abatementPct !== ""
+        ? Number(opts.abatementPct)
+        : 50;
+    if (isNaN(abatement) || abatement < 0) abatement = 0;
+    if (abatement > 90) abatement = 90;
+    var gross = Math.max(0, Number(agentGross) || 0);
+    var taxable = round2(gross * (1 - abatement / 100));
+    return {
+      agentGross: round2(gross),
+      abatementPct: abatement,
+      taxableIncome: taxable,
+      note:
+        "Revenu imposable estimé = part nette de l’abattement micro (" +
+        abatement +
+        " %). Réserve de charges = forfait sur CA (pas un avis d’imposition).",
+    };
+  }
 
   function uid(prefix) {
     return (prefix || "id") + "_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 7);
@@ -1003,6 +1028,9 @@ window.CrmAgencyFees = (function () {
     var accountingReserve = (agentGross * accountingPct) / 100;
     var charges = urssafReserve + cfeReserve + accountingReserve;
     var agentNet = Math.max(0, agentGross - charges);
+    var taxBase = estimateTaxableIncome(agentGross, {
+      abatementPct: opts.abatementPct != null ? opts.abatementPct : guessAbatementPct(opts),
+    });
     var basis = schedule ? schedule.priceBasis : "prix_vente";
     var fai =
       basis === "net_vendeur" || basis === "prix_vente" ? price + agencyFee : null;
@@ -1032,7 +1060,22 @@ window.CrmAgencyFees = (function () {
       accountingReserve: round2(accountingReserve),
       charges: round2(charges),
       agentNet: round2(agentNet),
+      abatementPct: taxBase.abatementPct,
+      taxableIncome: taxBase.taxableIncome,
+      taxNote: taxBase.note,
     };
+  }
+
+  function guessAbatementPct(opts) {
+    opts = opts || {};
+    if (opts.abatementPct != null && opts.abatementPct !== "") return Number(opts.abatementPct);
+    var presetId = opts.taxPresetId || "";
+    var preset = getTaxPreset(presetId);
+    if (preset && preset.abatementPct != null) return preset.abatementPct;
+    // Heuristique : BNC si charges élevées, sinon BIC services
+    var c = Number(opts.chargesPct);
+    if (!isNaN(c) && c >= 24.5) return 34;
+    return 50;
   }
 
   /**
@@ -1227,6 +1270,8 @@ window.CrmAgencyFees = (function () {
     loadTaxPrefs: loadTaxPrefs,
     saveTaxPrefs: saveTaxPrefs,
     getTaxPreset: getTaxPreset,
+    estimateTaxableIncome: estimateTaxableIncome,
+    guessAbatementPct: guessAbatementPct,
     findBracket: findBracket,
     formatEuro: formatEuro,
     formatBracketLabel: formatBracketLabel,

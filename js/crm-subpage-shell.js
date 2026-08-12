@@ -51,6 +51,8 @@
       "crm-pret-immo-fiches.html": { subtitle: "Catalogue fiches produits partenaires" },
       "crm-pret-immo-coord.html": { subtitle: "Transmission de coordonnées / indicateur d’affaires" },
       "crm-assurance-immo.html": { subtitle: "Assurance immobilier — ADE emprunteur & habitation MRH" },
+      "crm-patrimoine.html": { subtitle: "Patrimoine — retraite, mutuelle, invalidité, protection famille" },
+      "crm-banque-epargne.html": { subtitle: "Banque & épargne — trésorerie pro, précaution, placements" },
       "crm-immo-properties.html": { subtitle: "Piges — filtres RECHERCHE / OÙ / QUI / QUOI / QUAND + actions listing" },
       "crm-immo-suivi.html": { subtitle: "Suivi ventes / locations / offres / sorties de stock" },
       "crm-immo-property.html": { subtitle: "Fiche intelligente — composition, sections conditionnelles, diagnostics, pièces" },
