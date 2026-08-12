@@ -4,7 +4,8 @@
  */
 window.CrmAgencyFees = (function () {
   var STORAGE_KEY = "lo_agency_fee_schedules_v1";
-  var DATA_VERSION = 2;
+  /** v3 = barème Portes Clés TG0422 strict (PDF officiel, sans min. pro inventé). */
+  var DATA_VERSION = 3;
 
   var DEFAULT_CHARGES_PCT = 22;
   var DEFAULT_URSSAF_PCT = 21.2;
@@ -41,10 +42,16 @@ window.CrmAgencyFees = (function () {
     ];
   }
 
-  /** Barème TG0422 — Les Portes Clés / Immobilier Email — ventes habitation (forfait TTC sur net vendeur) */
+  /**
+   * Barème TG0422 officiel — Immobilier Email SAS / Les Portes Clés
+   * Source : data/bareme-portecles-TG0422.pdf
+   * Vente habitation : forfait TTC sur prix hors honoraires (net vendeur).
+   */
   function portesClesHabitationBrackets() {
     return [
-      br(0, 70000, "fixed", 5000),
+      br(0, 20000, "fixed", 5000),
+      br(20001, 40000, "fixed", 5000),
+      br(40001, 70000, "fixed", 5000),
       br(70001, 100000, "fixed", 7000),
       br(100001, 150000, "fixed", 9000),
       br(150001, 200000, "fixed", 10000),
@@ -74,12 +81,13 @@ window.CrmAgencyFees = (function () {
       name: "Les Portes Clés de l'Immobilier",
       agentSharePct: 85,
       notes:
-        "Barème TG0422 TTC — Immobilier Email SAS (46 quai Jacoutot, Strasbourg). Honoraires sur prix net vendeur (hors honoraires). Prix maximums, négociables au mandat.",
+        "Barème des honoraires TTC TG0422 — Immobilier Email SAS (46 quai Jacoutot, 67000 Strasbourg). Honoraires = prix maximums sur prix hors honoraires ; négociables au mandat. PDF : data/bareme-portecles-TG0422.pdf",
       schedules: [
         {
           id: "sched_pc_habitation",
           name: "Vente habitation (forfait TTC)",
           kind: "vente_habitation",
+          feeModel: "brackets",
           priceBasis: "net_vendeur",
           brackets: portesClesHabitationBrackets(),
         },
@@ -87,10 +95,53 @@ window.CrmAgencyFees = (function () {
           id: "sched_pc_pro",
           name: "Terrains / bureaux / commerces / immeubles",
           kind: "vente_pro",
+          feeModel: "brackets",
           priceBasis: "net_vendeur",
-          // 10 % TTC, minimum 7 000 € HT (= 8 400 € TTC à 20 %)
-          minFeeHt: 7000,
+          // PDF : « Pour toutes les tranches 10% TTC » — aucun minimum HT
           brackets: [br(0, null, "percent", 10)],
+        },
+        {
+          id: "sched_pc_bail_com",
+          name: "Bail commercial (30 % HT loyer annuel)",
+          kind: "bail_commercial",
+          feeModel: "annual_rent_percent",
+          priceBasis: "loyer_annuel",
+          percentValue: 30,
+          percentTax: "ht",
+          brackets: [],
+        },
+        {
+          id: "sched_pc_loc_hab",
+          name: "Location habitation (€ TTC / m²)",
+          kind: "location_habitation",
+          feeModel: "per_sqm_rental",
+          priceBasis: "surface_habitable",
+          perSqm: {
+            negotiation: 6,
+            edl: 3,
+            dossier: { tres_tendue: 12, tendue: 10, hors_zone: 8 },
+          },
+          brackets: [],
+        },
+        {
+          id: "sched_pc_loc_pro",
+          name: "Location pro / commercial (18 % TTC)",
+          kind: "location_pro",
+          feeModel: "annual_rent_percent",
+          priceBasis: "loyer_annuel",
+          percentValue: 18,
+          percentTax: "ttc",
+          brackets: [],
+        },
+        {
+          id: "sched_pc_avis",
+          name: "Avis de valeur (360 € TTC ou devis)",
+          kind: "avis_valeur",
+          feeModel: "fixed_fee",
+          priceBasis: "forfait",
+          fixedFee: 360,
+          notes: "Maison < 100 m² ou appart < 50 m² : 360 € TTC. Autres biens : sur devis.",
+          brackets: [],
         },
       ],
       updatedAt: new Date().toISOString(),
@@ -140,18 +191,62 @@ window.CrmAgencyFees = (function () {
     };
   }
 
+  function normalizePerSqm(ps) {
+    if (!ps || typeof ps !== "object") {
+      return {
+        negotiation: 6,
+        edl: 3,
+        dossier: { tres_tendue: 12, tendue: 10, hors_zone: 8 },
+      };
+    }
+    var d = ps.dossier || {};
+    return {
+      negotiation: Number(ps.negotiation) || 0,
+      edl: Number(ps.edl) || 0,
+      dossier: {
+        tres_tendue: Number(d.tres_tendue) || 0,
+        tendue: Number(d.tendue) || 0,
+        hors_zone: Number(d.hors_zone) || 0,
+      },
+    };
+  }
+
   function normalizeSchedule(s) {
     var minFeeHt = s.minFeeHt;
     if (minFeeHt === "" || minFeeHt == null) minFeeHt = null;
     else minFeeHt = Number(minFeeHt);
-    return {
+    var feeModel = s.feeModel || "brackets";
+    if (
+      feeModel !== "annual_rent_percent" &&
+      feeModel !== "per_sqm_rental" &&
+      feeModel !== "fixed_fee"
+    ) {
+      feeModel = "brackets";
+    }
+    var basis = s.priceBasis || "prix_vente";
+    var allowedBasis = {
+      net_vendeur: 1,
+      prix_vente: 1,
+      loyer_annuel: 1,
+      surface_habitable: 1,
+      forfait: 1,
+    };
+    if (!allowedBasis[basis]) basis = "prix_vente";
+    var out = {
       id: String(s.id || uid("sched")),
       name: String(s.name || "Barème").trim() || "Barème",
       kind: String(s.kind || "vente_habitation"),
-      priceBasis: s.priceBasis === "net_vendeur" ? "net_vendeur" : "prix_vente",
+      feeModel: feeModel,
+      priceBasis: basis,
       minFeeHt: minFeeHt != null && !isNaN(minFeeHt) ? minFeeHt : null,
+      percentValue: s.percentValue != null ? Number(s.percentValue) : null,
+      percentTax: s.percentTax === "ht" ? "ht" : s.percentTax === "ttc" ? "ttc" : null,
+      fixedFee: s.fixedFee != null ? Number(s.fixedFee) : null,
+      notes: String(s.notes || ""),
       brackets: Array.isArray(s.brackets) ? s.brackets.map(normalizeBracket) : [],
     };
+    if (feeModel === "per_sqm_rental") out.perSqm = normalizePerSqm(s.perSqm);
+    return out;
   }
 
   function normalizeAgency(a) {
@@ -165,24 +260,36 @@ window.CrmAgencyFees = (function () {
     };
   }
 
+  function upsertPortesClesOfficialInBag(bag) {
+    var pc = portesClesAgency();
+    var idx = (bag.agencies || []).findIndex(function (a) {
+      return a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "");
+    });
+    if (idx >= 0) {
+      var keepShare = bag.agencies[idx].agentSharePct;
+      bag.agencies[idx] = normalizeAgency(
+        Object.assign({}, pc, {
+          agentSharePct: keepShare != null ? keepShare : pc.agentSharePct,
+        })
+      );
+    } else {
+      bag.agencies.push(normalizeAgency(pc));
+    }
+  }
+
   function migrate(bag) {
     var ver = Number(bag.version) || 1;
     if (ver < 2) {
-      var pc = portesClesAgency();
-      var idx = (bag.agencies || []).findIndex(function (a) {
-        return a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "");
-      });
-      if (idx >= 0) {
-        var keepShare = bag.agencies[idx].agentSharePct;
-        bag.agencies[idx] = normalizeAgency(
-          Object.assign({}, pc, {
-            agentSharePct: keepShare != null ? keepShare : pc.agentSharePct,
-          })
-        );
-      } else {
-        bag.agencies.push(normalizeAgency(pc));
-      }
+      upsertPortesClesOfficialInBag(bag);
       bag.version = 2;
+      save(bag);
+      ver = 2;
+    }
+    if (ver < 3) {
+      // Alignement strict PDF TG0422 : tranches 0–20k/40k/70k, plus de min. 7 000 € HT pro,
+      // + bail commercial, locations, avis de valeur.
+      upsertPortesClesOfficialInBag(bag);
+      bag.version = 3;
       save(bag);
     }
     return bag;
@@ -306,12 +413,38 @@ window.CrmAgencyFees = (function () {
     return schedules[0] || null;
   }
 
+  function dossierRateForZone(perSqm, zone) {
+    var d = (perSqm && perSqm.dossier) || {};
+    if (zone === "tres_tendue") return Number(d.tres_tendue) || 0;
+    if (zone === "tendue") return Number(d.tendue) || 0;
+    return Number(d.hors_zone) || 0;
+  }
+
+  /**
+   * Honoraires location habitation TG0422 (€ TTC / m² habitable).
+   * @param {"bailleur"|"locataire"|"total"} party
+   */
+  function rentalHabitationFee(perSqm, surface, zone, party) {
+    var m2 = Number(surface) || 0;
+    var neg = Number(perSqm.negotiation) || 0;
+    var edl = Number(perSqm.edl) || 0;
+    var dossier = dossierRateForZone(perSqm, zone || "hors_zone");
+    var p = party || "total";
+    if (p === "bailleur") return (neg + dossier + edl) * m2;
+    if (p === "locataire") return (dossier + edl) * m2;
+    // total agence = négociation (bailleur) + dossier×2 + EDL×2
+    return (neg + dossier * 2 + edl * 2) * m2;
+  }
+
   /**
    * @param {object} opts
    * @param {object} opts.agency
    * @param {string} [opts.scheduleId]
    * @param {string} [opts.kind]
-   * @param {number} opts.price — net vendeur ou prix selon le barème
+   * @param {number} opts.price — net vendeur / prix / loyer annuel selon le barème
+   * @param {number} [opts.surface] — m² habitables (location habitation)
+   * @param {string} [opts.zone] — tres_tendue | tendue | hors_zone
+   * @param {string} [opts.rentalParty] — bailleur | locataire | total
    * @param {number} [opts.chargesPct] — total URSSAF+impôts (prioritaire si fourni)
    * @param {number} [opts.urssafPct]
    * @param {number} [opts.irPct]
@@ -320,13 +453,43 @@ window.CrmAgencyFees = (function () {
     var agency = opts.agency;
     var price = Number(opts.price) || 0;
     var schedule = pickSchedule(agency, opts);
+    var feeModel = schedule ? schedule.feeModel || "brackets" : "brackets";
+    var bracket = null;
+    var agencyFee = 0;
+    var feeDetail = null;
 
-    var bracket = schedule ? findBracket(schedule.brackets, price) : null;
-    var agencyFee = agencyFeeFromBracket(price, bracket);
-
-    if (schedule && schedule.minFeeHt != null) {
-      var minTtc = Number(schedule.minFeeHt) * (1 + VAT_RATE);
-      if (agencyFee < minTtc) agencyFee = minTtc;
+    if (schedule && feeModel === "annual_rent_percent") {
+      var pct = Number(schedule.percentValue) || 0;
+      var feeHtOrTtc = (price * pct) / 100;
+      if (schedule.percentTax === "ht") {
+        agencyFee = feeHtOrTtc * (1 + VAT_RATE);
+        feeDetail = { feeHt: round2(feeHtOrTtc), feeTtc: round2(agencyFee), percent: pct };
+      } else {
+        agencyFee = feeHtOrTtc;
+        feeDetail = { feeTtc: round2(agencyFee), percent: pct };
+      }
+    } else if (schedule && feeModel === "per_sqm_rental") {
+      var surface = opts.surface != null ? Number(opts.surface) : price;
+      var zone = opts.zone || "hors_zone";
+      var party = opts.rentalParty || "total";
+      agencyFee = rentalHabitationFee(schedule.perSqm || normalizePerSqm(null), surface, zone, party);
+      feeDetail = {
+        surface: surface,
+        zone: zone,
+        rentalParty: party,
+        perSqm: schedule.perSqm,
+      };
+    } else if (schedule && feeModel === "fixed_fee") {
+      agencyFee = Number(schedule.fixedFee) || 0;
+      feeDetail = { fixedFee: agencyFee };
+    } else {
+      bracket = schedule ? findBracket(schedule.brackets, price) : null;
+      agencyFee = agencyFeeFromBracket(price, bracket);
+      // minFeeHt conservé pour barèmes custom historiques uniquement (absent du PDF TG0422)
+      if (schedule && schedule.minFeeHt != null) {
+        var minTtc = Number(schedule.minFeeHt) * (1 + VAT_RATE);
+        if (agencyFee < minTtc) agencyFee = minTtc;
+      }
     }
 
     var sharePct = Number(agency.agentSharePct) || 0;
@@ -352,15 +515,19 @@ window.CrmAgencyFees = (function () {
     var accountingReserve = (agentGross * accountingPct) / 100;
     var charges = urssafReserve + cfeReserve + accountingReserve;
     var agentNet = Math.max(0, agentGross - charges);
-    var fai = price + agencyFee;
+    var basis = schedule ? schedule.priceBasis : "prix_vente";
+    var fai =
+      basis === "net_vendeur" || basis === "prix_vente" ? price + agencyFee : null;
 
     return {
       price: price,
-      priceBasis: schedule ? schedule.priceBasis : "prix_vente",
+      priceBasis: basis,
+      feeModel: feeModel,
+      feeDetail: feeDetail,
       schedule: schedule,
       bracket: bracket,
       agencyFee: round2(agencyFee),
-      fai: round2(fai),
+      fai: fai != null ? round2(fai) : null,
       agentSharePct: sharePct,
       agentGross: round2(agentGross),
       chargesPct: chargesPct,
@@ -400,6 +567,9 @@ window.CrmAgencyFees = (function () {
           scheduleId: schedule ? schedule.id : null,
           kind: kind,
           price: price,
+          surface: opts.surface,
+          zone: opts.zone,
+          rentalParty: opts.rentalParty,
           chargesPct: chargesPct,
           cfePct: opts.cfePct,
           accountingPct: opts.accountingPct,
@@ -547,6 +717,8 @@ window.CrmAgencyFees = (function () {
     applyPortesClesOfficial: applyPortesClesOfficial,
     calculate: calculate,
     compareAgencies: compareAgencies,
+    rentalHabitationFee: rentalHabitationFee,
+    dossierRateForZone: dossierRateForZone,
     loadTaxPrefs: loadTaxPrefs,
     saveTaxPrefs: saveTaxPrefs,
     getTaxPreset: getTaxPreset,

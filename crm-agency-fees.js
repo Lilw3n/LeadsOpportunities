@@ -300,10 +300,65 @@
     var ag = currentAgency();
     var sched = currentSchedule(ag);
     var tbody = document.querySelector("#bracketsTable tbody");
+    var special = document.getElementById("scheduleSpecialInfo");
+    var tableWrap = document.querySelector("#bracketsTable").closest(".af-table-wrap");
+    var addBtn = document.getElementById("btnAddBracket");
     if (!sched) {
       tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted)">Ajoutez un barème.</td></tr>';
+      if (special) {
+        special.style.display = "none";
+        special.innerHTML = "";
+      }
       return;
     }
+
+    var model = sched.feeModel || "brackets";
+    if (model !== "brackets") {
+      if (tableWrap) tableWrap.style.display = "none";
+      if (addBtn) addBtn.style.display = "none";
+      if (special) {
+        special.style.display = "block";
+        if (model === "annual_rent_percent") {
+          special.innerHTML =
+            "<strong>Modèle TG0422</strong> : " +
+            (sched.percentValue || 0) +
+            " % " +
+            (sched.percentTax === "ht" ? "HT" : "TTC") +
+            " du loyer annuel" +
+            (sched.percentTax === "ht" ? " (affiché en TTC = × 1,20)" : "") +
+            ".";
+        } else if (model === "per_sqm_rental") {
+          var ps = sched.perSqm || {};
+          var d = ps.dossier || {};
+          special.innerHTML =
+            "<strong>Location habitation TG0422</strong> (€ TTC / m² habitable) — Négociation " +
+            (ps.negotiation || 0) +
+            " €/m² (bailleur) · Dossier " +
+            (d.tres_tendue || 0) +
+            " / " +
+            (d.tendue || 0) +
+            " / " +
+            (d.hors_zone || 0) +
+            " €/m² (très tendue / tendue / hors zone, chaque partie) · EDL " +
+            (ps.edl || 0) +
+            " €/m² (chaque partie).";
+        } else if (model === "fixed_fee") {
+          special.innerHTML =
+            "<strong>Forfait</strong> : " +
+            Lib.formatEuro(sched.fixedFee || 0) +
+            (sched.notes ? " — " + esc(sched.notes) : "");
+        }
+      }
+      return;
+    }
+
+    if (tableWrap) tableWrap.style.display = "";
+    if (addBtn) addBtn.style.display = "";
+    if (special) {
+      special.style.display = "none";
+      special.innerHTML = "";
+    }
+
     var rows = (sched.brackets || []).slice().sort(function (a, b) {
       return (a.min || 0) - (b.min || 0);
     });
@@ -377,9 +432,10 @@
     ag.name = document.getElementById("agencyName").value.trim() || ag.name;
     ag.agentSharePct = Number(document.getElementById("agentSharePct").value) || 0;
     ag.notes = document.getElementById("agencyNotes").value;
-    // keep current brackets from DOM if editing
     var sched = currentSchedule(ag);
-    if (sched) sched.brackets = collectBracketsFromDom();
+    if (sched && (!sched.feeModel || sched.feeModel === "brackets")) {
+      sched.brackets = collectBracketsFromDom();
+    }
     persistAgency(ag);
     renderAll();
   }
@@ -388,36 +444,114 @@
     var ag = currentAgency();
     var sched = currentSchedule(ag);
     if (!ag || !sched) return;
+    if (sched.feeModel && sched.feeModel !== "brackets") {
+      persistAgency(ag);
+      renderAll();
+      return;
+    }
     sched.brackets = collectBracketsFromDom();
     persistAgency(ag);
     renderAll();
+  }
+
+  function kindMeta(kind) {
+    if (kind === "bail_commercial" || kind === "location_pro") {
+      return { priceLabel: "Loyer annuel (€)", showSurface: false, showZone: false, showParty: false };
+    }
+    if (kind === "location_habitation") {
+      return {
+        priceLabel: "Référence (€, optionnel)",
+        showSurface: true,
+        showZone: true,
+        showParty: true,
+      };
+    }
+    if (kind === "avis_valeur") {
+      return { priceLabel: "Référence (€, optionnel)", showSurface: false, showZone: false, showParty: false };
+    }
+    if (kind === "vente_pro" || kind === "vente_habitation" || kind === "garage") {
+      return { priceLabel: "Prix net vendeur (€)", showSurface: false, showZone: false, showParty: false };
+    }
+    return { priceLabel: "Prix / référence (€)", showSurface: false, showZone: false, showParty: false };
+  }
+
+  function syncKindFields() {
+    var kind = document.getElementById("cmpKind").value;
+    var meta = kindMeta(kind);
+    var cmpLabel = document.getElementById("cmpPriceLabel");
+    var calcLabel = document.getElementById("calcPriceLabel");
+    if (cmpLabel) cmpLabel.textContent = meta.priceLabel;
+    if (calcLabel) calcLabel.textContent = meta.priceLabel;
+    [
+      ["cmpSurfaceWrap", meta.showSurface],
+      ["cmpZoneWrap", meta.showZone],
+      ["cmpPartyWrap", meta.showParty],
+      ["calcSurfaceWrap", meta.showSurface],
+      ["calcZoneWrap", meta.showZone],
+      ["calcPartyWrap", meta.showParty],
+    ].forEach(function (pair) {
+      var el = document.getElementById(pair[0]);
+      if (el) el.hidden = !pair[1];
+    });
+  }
+
+  function calcExtras() {
+    return {
+      surface: Number(document.getElementById("calcSurface").value) || Number(document.getElementById("cmpSurface").value) || 0,
+      zone: document.getElementById("calcZone").value || document.getElementById("cmpZone").value || "hors_zone",
+      rentalParty: document.getElementById("calcParty").value || document.getElementById("cmpParty").value || "total",
+    };
   }
 
   function renderCalc() {
     var ag = currentAgency();
     var box = document.getElementById("calcResult");
     var detail = document.getElementById("calcDetail");
+    syncKindFields();
     if (!ag) {
       box.innerHTML = "";
       detail.textContent = "";
       return;
     }
     var price = Number(document.getElementById("calcPrice").value) || 0;
+    var extras = calcExtras();
     var res = Lib.calculate({
       agency: ag,
       scheduleId: state.scheduleId,
       price: price,
+      surface: extras.surface,
+      zone: extras.zone,
+      rentalParty: extras.rentalParty,
       chargesPct: currentChargesPct(),
       cfePct: currentCfePct(),
       accountingPct: currentAccountingPct(),
     });
+    var refLabel =
+      res.priceBasis === "loyer_annuel"
+        ? "Loyer annuel"
+        : res.priceBasis === "surface_habitable"
+          ? "Surface (m²)"
+          : res.priceBasis === "forfait"
+            ? "Forfait"
+            : "Net vendeur";
+    var refValue =
+      res.feeModel === "per_sqm_rental"
+        ? (extras.surface || 0) + " m²"
+        : res.feeModel === "fixed_fee"
+          ? Lib.formatEuro(res.agencyFee)
+          : Lib.formatEuro(res.price);
     box.innerHTML =
-      '<div class="af-kpi muted"><span>Net vendeur</span><strong>' +
-      Lib.formatEuro(res.price) +
+      '<div class="af-kpi muted"><span>' +
+      refLabel +
+      "</span><strong>" +
+      refValue +
       '</strong></div>' +
       '<div class="af-kpi muted"><span>Honoraires agence</span><strong>' +
       Lib.formatEuro(res.agencyFee) +
       '</strong></div>' +
+      (res.fai != null
+        ? '<div class="af-kpi muted"><span>Prix FAI</span><strong>' + Lib.formatEuro(res.fai) + "</strong></div>"
+        : "") +
       '<div class="af-kpi"><span>Ta part (' +
       res.agentSharePct +
       '%)</span><strong>' +
@@ -445,8 +579,25 @@
         (br.max == null ? "∞" : Number(br.max).toLocaleString("fr-FR")) +
         " · " +
         Lib.formatBracketLabel(br)
-      : "Aucune tranche";
-    var basis = res.priceBasis === "net_vendeur" ? "base net vendeur" : "base prix vente";
+      : res.feeModel === "annual_rent_percent"
+        ? (res.feeDetail && res.feeDetail.percent) +
+          "% " +
+          (res.schedule && res.schedule.percentTax === "ht" ? "HT→TTC" : "TTC")
+        : res.feeModel === "per_sqm_rental"
+          ? extras.surface + " m² · " + extras.zone + " · " + extras.rentalParty
+          : res.feeModel === "fixed_fee"
+            ? "Forfait TG0422"
+            : "—";
+    var basis =
+      res.priceBasis === "net_vendeur"
+        ? "base net vendeur"
+        : res.priceBasis === "loyer_annuel"
+          ? "base loyer annuel"
+          : res.priceBasis === "surface_habitable"
+            ? "base m²"
+            : res.priceBasis === "forfait"
+              ? "forfait"
+              : "base prix vente";
     detail.textContent =
       (res.schedule ? res.schedule.name + " — " : "") +
       brLabel +
@@ -459,11 +610,20 @@
   function renderCompare() {
     var tbody = document.querySelector("#compareTable tbody");
     var hint = document.getElementById("cmpHint");
+    syncKindFields();
     var price = Number(document.getElementById("cmpPrice").value) || 0;
     var kind = document.getElementById("cmpKind").value;
+    var extras = {
+      surface: Number(document.getElementById("cmpSurface").value) || 0,
+      zone: document.getElementById("cmpZone").value || "hors_zone",
+      rentalParty: document.getElementById("cmpParty").value || "total",
+    };
     var rows = Lib.compareAgencies({
       price: price,
       kind: kind,
+      surface: extras.surface,
+      zone: extras.zone,
+      rentalParty: extras.rentalParty,
       chargesPct: currentChargesPct(),
       cfePct: currentCfePct(),
       accountingPct: currentAccountingPct(),
@@ -503,7 +663,7 @@
           Lib.formatEuro(r.agencyFee) +
           "</td>" +
           "<td>" +
-          Lib.formatEuro(r.fai) +
+          (r.fai != null ? Lib.formatEuro(r.fai) : "—") +
           "</td>" +
           "<td><strong>" +
           Lib.formatEuro(r.agentGross) +
@@ -521,9 +681,9 @@
       tr.onclick = function () {
         state.agencyId = tr.getAttribute("data-id");
         var ag = currentAgency();
-        var kind = document.getElementById("cmpKind").value;
+        var kindSel = document.getElementById("cmpKind").value;
         var match = ag && (ag.schedules || []).find(function (s) {
-          return s.kind === kind;
+          return s.kind === kindSel;
         });
         state.scheduleId = match
           ? match.id
@@ -531,13 +691,20 @@
             ? ag.schedules[0].id
             : null;
         document.getElementById("calcPrice").value = document.getElementById("cmpPrice").value;
+        document.getElementById("calcSurface").value = document.getElementById("cmpSurface").value;
+        document.getElementById("calcZone").value = document.getElementById("cmpZone").value;
+        document.getElementById("calcParty").value = document.getElementById("cmpParty").value;
         renderAll();
       };
     });
 
+    var refHint =
+      kind === "location_habitation"
+        ? extras.surface + " m² · " + extras.zone
+        : Lib.formatEuro(price);
     hint.textContent =
-      "Net vendeur " +
-      Lib.formatEuro(price) +
+      "Réf. " +
+      refHint +
       " · charges " +
       currentChargesPct() +
       " % · classement par ta part brute · clic sur une ligne pour éditer l'agence";
@@ -575,7 +742,7 @@
     var share = ag && /portes?\s*cl/i.test(ag.name) ? ag.agentSharePct : 85;
     if (
       !confirm(
-        "Remplacer le barème Portes Clés par le barème officiel TG0422 (habitation forfaits + pro 10 %) ?\nTa part agent (" +
+        "Remplacer le barème Portes Clés par le PDF officiel TG0422 (ventes, bail, locations, avis) ?\nTa part agent (" +
           share +
           " %) est conservée."
       )
@@ -602,6 +769,10 @@
     var ag = currentAgency();
     var sched = currentSchedule(ag);
     if (!ag || !sched) return;
+    if (sched.feeModel && sched.feeModel !== "brackets") {
+      alert("Ce barème TG0422 n'utilise pas de tranches prix (modèle spécial).");
+      return;
+    }
     sched.brackets = collectBracketsFromDom();
     sched.brackets.push(Lib.emptyBracket());
     persistAgency(ag);
@@ -660,17 +831,31 @@
     renderAll();
   };
 
-  ["calcPrice"].forEach(function (id) {
-    document.getElementById(id).addEventListener("input", function () {
-      document.getElementById("cmpPrice").value = document.getElementById("calcPrice").value;
+  ["calcPrice", "calcSurface", "calcZone", "calcParty"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", function () {
+      if (id === "calcPrice") document.getElementById("cmpPrice").value = el.value;
+      if (id === "calcSurface") document.getElementById("cmpSurface").value = el.value;
+      if (id === "calcZone") document.getElementById("cmpZone").value = el.value;
+      if (id === "calcParty") document.getElementById("cmpParty").value = el.value;
+      renderCalc();
+      renderCompare();
+    });
+    el.addEventListener("change", function () {
       renderCalc();
       renderCompare();
     });
   });
 
-  ["cmpPrice", "cmpKind", "chargesPct", "cfePct", "accountingPct"].forEach(function (id) {
-    document.getElementById(id).addEventListener("input", function () {
-      if (id === "cmpPrice") document.getElementById("calcPrice").value = document.getElementById("cmpPrice").value;
+  ["cmpPrice", "cmpKind", "cmpSurface", "cmpZone", "cmpParty", "chargesPct", "cfePct", "accountingPct"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", function () {
+      if (id === "cmpPrice") document.getElementById("calcPrice").value = el.value;
+      if (id === "cmpSurface") document.getElementById("calcSurface").value = el.value;
+      if (id === "cmpZone") document.getElementById("calcZone").value = el.value;
+      if (id === "cmpParty") document.getElementById("calcParty").value = el.value;
       if (id === "chargesPct" || id === "cfePct" || id === "accountingPct") {
         document.getElementById("taxPreset").value = "custom";
         persistTaxFromForm();
@@ -678,8 +863,9 @@
       renderCompare();
       renderCalc();
     });
-    document.getElementById(id).addEventListener("change", function () {
+    el.addEventListener("change", function () {
       if (id === "chargesPct" || id === "cfePct" || id === "accountingPct") persistTaxFromForm();
+      if (id === "cmpKind") syncKindFields();
       renderCompare();
       renderCalc();
     });

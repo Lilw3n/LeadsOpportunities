@@ -74,17 +74,17 @@
 
   <div class="af-intro">
     <p>
-      Barème <strong>Portes Clés TG0422</strong> intégré (forfaits TTC sur <strong>net vendeur</strong>).
-      Compare toutes tes agences sur le même prix, puis peaufine chaque barème à la main.
+      Barème officiel <strong>Portes Clés TG0422</strong> (PDF Immobilier Email) : ventes habitation forfait TTC sur
+      <strong>net vendeur</strong>, pro 10&nbsp;% TTC, bail commercial, locations et avis de valeur.
     </p>
   </div>
 
   <section class="af-compare" id="comparePanel">
     <h3>Comparer les agences</h3>
-    <p class="af-sub">Un même prix net vendeur → honoraires agence, prix FAI, ta part et net auto-entrepreneur.</p>
+    <p class="af-sub">Même référence → honoraires agence, prix FAI (ventes), ta part et net auto-entrepreneur.</p>
     <div class="af-calc-grid">
       <div>
-        <label for="cmpPrice">Prix net vendeur (€)</label>
+        <label for="cmpPrice" id="cmpPriceLabel">Prix net vendeur (€)</label>
         <input id="cmpPrice" type="number" min="0" step="1000" value="200000" />
       </div>
       <div>
@@ -92,7 +92,31 @@
         <select id="cmpKind">
           <option value="vente_habitation">Vente habitation</option>
           <option value="vente_pro">Terrains / bureaux / commerces</option>
+          <option value="bail_commercial">Bail commercial</option>
+          <option value="location_habitation">Location habitation</option>
+          <option value="location_pro">Location pro / commercial</option>
+          <option value="avis_valeur">Avis de valeur</option>
           <option value="garage">Garage / Parking</option>
+        </select>
+      </div>
+      <div id="cmpSurfaceWrap" hidden>
+        <label for="cmpSurface">Surface habitable (m²)</label>
+        <input id="cmpSurface" type="number" min="0" step="1" value="60" />
+      </div>
+      <div id="cmpZoneWrap" hidden>
+        <label for="cmpZone">Zone (dossier location)</label>
+        <select id="cmpZone">
+          <option value="hors_zone">Hors zone (8 €/m²)</option>
+          <option value="tendue">Zone tendue (10 €/m²)</option>
+          <option value="tres_tendue">Zone très tendue (12 €/m²)</option>
+        </select>
+      </div>
+      <div id="cmpPartyWrap" hidden>
+        <label for="cmpParty">Partie facturée</label>
+        <select id="cmpParty">
+          <option value="total">Total agence (bailleur + locataire)</option>
+          <option value="bailleur">Charge bailleur</option>
+          <option value="locataire">Charge locataire</option>
         </select>
       </div>
       <div>
@@ -230,15 +254,39 @@
           <button type="button" class="btn btn-ghost" id="btnAddBracket">+ Tranche</button>
           <button type="button" class="btn btn-primary" id="btnSaveBrackets">Enregistrer le barème</button>
         </div>
-        <p class="af-hint">Portes Clés : forfaits TTC par tranche sur net vendeur · &gt; 1 M€ → 6 % · Pro → 10 % TTC (min. 7 000 € HT).</p>
+        <p class="af-hint" id="scheduleHint">
+          Portes Clés TG0422 : forfaits TTC sur net vendeur · &gt; 1 M€ → 6 % · Pro → 10 % TTC (sans minimum) ·
+          Bail com. 30 % HT · Loc. hab. €/m² · Loc. pro 18 % TTC · Avis 360 € TTC.
+        </p>
+        <div id="scheduleSpecialInfo" class="af-hint" style="display:none"></div>
       </section>
 
       <section class="af-panel af-calc">
         <h3>Détail agence sélectionnée</h3>
         <div class="af-calc-grid">
           <div>
-            <label for="calcPrice">Prix net vendeur / de référence (€)</label>
+            <label for="calcPrice" id="calcPriceLabel">Prix net vendeur / de référence (€)</label>
             <input id="calcPrice" type="number" min="0" step="1000" value="200000" />
+          </div>
+          <div id="calcSurfaceWrap" hidden>
+            <label for="calcSurface">Surface habitable (m²)</label>
+            <input id="calcSurface" type="number" min="0" step="1" value="60" />
+          </div>
+          <div id="calcZoneWrap" hidden>
+            <label for="calcZone">Zone</label>
+            <select id="calcZone">
+              <option value="hors_zone">Hors zone</option>
+              <option value="tendue">Zone tendue</option>
+              <option value="tres_tendue">Zone très tendue</option>
+            </select>
+          </div>
+          <div id="calcPartyWrap" hidden>
+            <label for="calcParty">Partie</label>
+            <select id="calcParty">
+              <option value="total">Total agence</option>
+              <option value="bailleur">Bailleur</option>
+              <option value="locataire">Locataire</option>
+            </select>
           </div>
         </div>
         <div class="af-result" id="calcResult"></div>
