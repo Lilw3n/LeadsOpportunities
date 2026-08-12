@@ -142,6 +142,20 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+/** File manuelle / inbox : ignore les gabarits non remplis (ex. « COLLEZ ICI »). */
+function isUnusableActuItem(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "draft" || status === "example") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("-template") === id.length - 9) return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/^collez ici/i.test(title)) return true;
+  if (/\[titre\]|placeholder|à coller|a coller/i.test(title)) return true;
+  return false;
+}
+
 function rankCandidates(candidates) {
   return candidates
     .map(function (c) {
@@ -351,4 +365,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isUnusableActuItem: isUnusableActuItem,
 };
