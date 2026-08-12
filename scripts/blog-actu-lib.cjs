@@ -108,6 +108,86 @@ function isPlaceholderQueueItem(item) {
   return false;
 }
 
+var CORE_LEAD_KEYWORDS = [
+  "assurance",
+  "mutuelle",
+  "emprunteur",
+  "sinistre",
+  "habitation",
+  "prêt immobilier",
+  "pret immobilier",
+  "crédit immo",
+  "credit immo",
+  "canicule",
+  "senior",
+  "sénior",
+  "rembours",
+  "vtc",
+  "animaux",
+  "prévoyance",
+  "prevoyance",
+  "inondation",
+  "sécheresse",
+  "secheresse",
+  "hospitalisation",
+  "reste à charge",
+  "loi lemoine",
+  "catastrophe naturelle",
+  "dégât des eaux",
+  "degat des eaux",
+  "rc pro",
+  "optique",
+  "dentaire",
+  "isolement",
+];
+
+var FR_SPORT_LEAD_KEYWORDS = [
+  "équipe de france",
+  "equipe de france",
+  "les bleus",
+  "mbappé",
+  "mbappe",
+  "supporters",
+  "coupe du monde 2026",
+];
+
+function candidateHaystack(candidate) {
+  return (
+    String((candidate && candidate.title) || "") +
+    " " +
+    String((candidate && candidate.summary) || "") +
+    " " +
+    String((candidate && candidate.note) || "")
+  ).toLowerCase();
+}
+
+/** Titres 100 % anglais (flux Bing US) — hors cible leads FR. */
+function isEnglishOnlyTitle(title) {
+  var t = String(title || "");
+  if (/[àâäéèêëïîôùûüçœ]/i.test(t)) return false;
+  if (/\b(le|la|les|des|une|est|pour|dans|avec|sur|aux|du|en france|mutuelle|assurance)\b/i.test(t)) {
+    return false;
+  }
+  return /\b(the|into|regarding|what you need|how to choose|advantages of|enters into|memorandum)\b/i.test(
+    t
+  );
+}
+
+/** Sujet assez proche d'un questionnaire (mutuelle, habitation, emprunteur…). */
+function hasQualifiedLeadAngle(candidate) {
+  if (!candidate) return false;
+  if (isEnglishOnlyTitle(candidate.title)) return false;
+  var hay = candidateHaystack(candidate);
+  if (CORE_LEAD_KEYWORDS.some(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  })) {
+    return true;
+  }
+  return FR_SPORT_LEAD_KEYWORDS.some(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  });
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -366,4 +446,6 @@ module.exports = {
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
   isPlaceholderQueueItem: isPlaceholderQueueItem,
+  hasQualifiedLeadAngle: hasQualifiedLeadAngle,
+  isEnglishOnlyTitle: isEnglishOnlyTitle,
 };
