@@ -51,6 +51,33 @@ function existingFiles() {
   return files;
 }
 
+function keywordMatches(hay, kw) {
+  var k = String(kw || "").toLowerCase().trim();
+  if (!k) return false;
+  if (k.length <= 5 && k.indexOf(" ") === -1) {
+    try {
+      var re = new RegExp(
+        "(^|[^a-z0-9])" + k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "s?(?=$|[^a-z0-9])",
+        "i"
+      );
+      return re.test(hay);
+    } catch (e) {
+      return hay.indexOf(k) !== -1;
+    }
+  }
+  return hay.indexOf(k) !== -1;
+}
+
+/** Gabarits inbox / titres d'instruction — ne jamais publier. */
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var status = String((c && c.status) || "").toLowerCase();
+  if (status === "template" || status === "rejected") return true;
+  if (/collez\s+ici|\[titre\]|placeholder|titre de la une/i.test(title)) return true;
+  if (/^TODO\b/i.test(title.trim())) return true;
+  return false;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +86,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordMatches(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -349,6 +376,8 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  keywordMatches: keywordMatches,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
