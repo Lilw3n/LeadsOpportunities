@@ -1,0 +1,351 @@
+{
+  "updated": "2026-08-12",
+  "cadence": {
+    "recommendedCron": "30 7 * * 1,3,5",
+    "defaultCount": 1,
+    "maxCount": 3,
+    "goal": "Publier régulièrement des articles evergreen orientés questionnaire pour générer des leads qualifiables."
+  },
+  "topics": [
+    {
+      "id": "vtc-attestation-plateformes-2026",
+      "priority": 100,
+      "section": "vtc",
+      "need": "vtc",
+      "tag": "Assurance VTC",
+      "tagClass": "tag-vtc",
+      "themes": ["vtc", "pro"],
+      "slug": "assurance-vtc-attestation-plateformes-2026",
+      "title": "Assurance VTC : attestation plateforme, RC Pro et garanties à vérifier en 2026",
+      "description": "Checklist assurance VTC 2026 : attestation Uber, Bolt ou Heetch, RC Pro, usage professionnel, franchise et devis gratuit.",
+      "cardExcerpt": "VTC : l'attestation qui évite le blocage plateforme et le mauvais contrat.",
+      "intent": "chauffeur VTC qui doit fournir une attestation ou comparer avant renouvellement",
+      "pain": "Un chauffeur peut être bloqué par sa plateforme si l'attestation n'indique pas clairement l'usage VTC, ou rester mal couvert si le véhicule est assuré comme usage privé.",
+      "trigger": "renouvellement annuel, changement de véhicule, inscription Uber/Bolt/Heetch, hausse de prime ou premier sinistre",
+      "leadPromise": "obtenir une orientation rapide vers le niveau de garanties compatible plateforme et budget",
+      "checklist": [
+        "RC circulation et RC professionnelle adaptées au transport de personnes",
+        "Usage professionnel du véhicule déclaré sans ambiguïté",
+        "Attestation acceptée par Uber, Bolt, Heetch ou plateforme locale",
+        "Franchise, assistance 0 km et véhicule de remplacement",
+        "Protection juridique et perte d'exploitation selon activité"
+      ],
+      "faq": [
+        {
+          "q": "Une assurance auto classique suffit-elle pour faire du VTC ?",
+          "a": "Non. L'usage transport de personnes doit être déclaré et l'attestation doit correspondre aux exigences de la plateforme."
+        },
+        {
+          "q": "Quand comparer son assurance VTC ?",
+          "a": "Avant le renouvellement, avant un changement de véhicule ou dès qu'une plateforme demande une attestation mise à jour."
+        }
+      ]
+    },
+    {
+      "id": "mutuelle-famille-budget-2026",
+      "priority": 95,
+      "section": "sante",
+      "need": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "themes": ["sante", "seniors"],
+      "slug": "mutuelle-famille-budget-remboursements-2026",
+      "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation à comparer",
+      "description": "Guide mutuelle famille : postes à comparer, budget mensuel, garanties inutiles et questionnaire gratuit pour calibrer le bon niveau.",
+      "cardExcerpt": "Famille : comparer sans baisser les postes qui coûtent vraiment cher.",
+      "intent": "foyer qui veut réduire sa cotisation mutuelle sans perdre les garanties essentielles",
+      "pain": "Une baisse de cotisation peut devenir coûteuse si elle sacrifie l'hospitalisation, le dentaire ou l'optique des enfants.",
+      "trigger": "hausse annuelle, naissance, orthodontie, lunettes, changement d'employeur ou passage indépendant",
+      "leadPromise": "identifier le niveau entrée, confort ou renforcé avant devis",
+      "checklist": [
+        "Hospitalisation : chambre particulière, honoraires et forfait journalier",
+        "Dentaire : orthodontie, implants et plafonds annuels",
+        "Optique : monture, verres complexes et réseau partenaire",
+        "Médecins : dépassements d'honoraires et téléconsultation",
+        "Délais de carence et exclusions avant changement"
+      ],
+      "faq": [
+        {
+          "q": "Faut-il toujours prendre le niveau le plus cher ?",
+          "a": "Non. Le bon contrat dépend des soins prévisibles, du budget et du reste à charge acceptable."
+        },
+        {
+          "q": "Le questionnaire remplace-t-il un devis ?",
+          "a": "Il prépare le devis en qualifiant les besoins ; un conseiller peut ensuite comparer les offres pertinentes."
+        }
+      ]
+    },
+    {
+      "id": "rac-regroupement-credits-2026",
+      "priority": 93,
+      "section": "finance",
+      "need": "credit-immo",
+      "tag": "Crédit & RAC",
+      "tagClass": "tag-actu",
+      "themes": ["finance", "emprunteur"],
+      "slug": "rachat-credits-rac-mensualite-2026",
+      "title": "Rachat de crédits (RAC) 2026 : baisser sa mensualité sans allonger le piège",
+      "description": "Regroupement de crédits : quand le RAC baisse vraiment la mensualité, frais, durée, assurance emprunteur et questionnaire gratuit.",
+      "cardExcerpt": "Crédits immo + conso : simuler un RAC avant de signer trop long.",
+      "intent": "emprunteur qui juggle plusieurs crédits et veut une mensualité unique plus soutenable",
+      "pain": "Un RAC mal calibré peut baisser la mensualité en allongeant fortement la durée, donc le coût total, surtout si l'assurance et les frais de dossier sont sous-estimés.",
+      "trigger": "plusieurs crédits en cours, reste à vivre trop juste, projet immobilier, rachat proposé par la banque ou simulation courtier",
+      "leadPromise": "cadrer mensualité cible, durée et assurances avant une simulation RAC",
+      "checklist": [
+        "Liste des crédits : immobilier, conso, auto, revolving et restes à charge",
+        "Mensualité actuelle vs mensualité cible et reste à vivre",
+        "Durée restante, coût total et indemnités de remboursement anticipé",
+        "Assurance emprunteur et garanties après regroupement",
+        "Frais de dossier, garantie (hypothèque / caution) et date d'effet"
+      ],
+      "faq": [
+        {
+          "q": "Un RAC baisse-t-il toujours le coût total du crédit ?",
+          "a": "Non. La mensualité peut baisser alors que le coût total augmente si la durée s'allonge trop. Il faut comparer les deux indicateurs."
+        },
+        {
+          "q": "Peut-on regrouper un prêt immobilier et des crédits conso ?",
+          "a": "Oui, c'est un cas fréquent. Le montage, les garanties et l'assurance dépendent du poids de l'immobilier dans le dossier."
+        }
+      ]
+    },
+    {
+      "id": "emprunteur-lemoine-economies-2026",
+      "priority": 92,
+      "section": "finance",
+      "need": "emprunteur",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "themes": ["finance", "emprunteur"],
+      "slug": "assurance-emprunteur-loi-lemoine-economies-2026",
+      "title": "Assurance emprunteur : combien économiser avec la loi Lemoine en 2026 ?",
+      "description": "Changer d'assurance emprunteur avec la loi Lemoine : garanties équivalentes, quotité, économie potentielle et questionnaire gratuit.",
+      "cardExcerpt": "Prêt immobilier : vérifier si l'assurance banque coûte trop cher.",
+      "intent": "emprunteur immobilier qui cherche à réduire le coût total de son crédit",
+      "pain": "L'assurance groupe de la banque peut rester plus chère qu'une délégation, mais le changement doit respecter l'équivalence de garanties.",
+      "trigger": "prêt signé depuis plus de 12 mois, hausse de budget, rachat de crédit, divorce ou changement de situation",
+      "leadPromise": "estimer rapidement si une délégation peut réduire la mensualité",
+      "checklist": [
+        "Capital restant dû, durée restante et taux d'assurance actuel",
+        "Quotité par emprunteur et garanties décès/PTIA/IPT/ITT",
+        "Exclusions sport, dos, psy ou métier à risque",
+        "Équivalence de garanties exigée par la banque",
+        "Date de signature et pièces à transmettre"
+      ],
+      "faq": [
+        {
+          "q": "Peut-on changer d'assurance emprunteur à tout moment ?",
+          "a": "Oui, la loi Lemoine permet de changer à tout moment pour un prêt immobilier, sous réserve d'équivalence de garanties."
+        },
+        {
+          "q": "La banque peut-elle refuser ?",
+          "a": "Elle peut refuser si les garanties ne sont pas équivalentes, d'où l'intérêt d'un comparatif cadré."
+        }
+      ]
+    },
+    {
+      "id": "acquereur-immo-pret-assurances-2026",
+      "priority": 90,
+      "section": "finance",
+      "need": "credit-immo",
+      "tag": "Crédit & immobilier",
+      "tagClass": "tag-actu",
+      "themes": ["finance", "emprunteur", "habitat"],
+      "slug": "acquereur-immobilier-pret-assurances-checklist-2026",
+      "title": "Acquéreur immobilier 2026 : prêt, assurance emprunteur et habitation à préparer",
+      "description": "Checklist acquéreur : dossier de prêt, assurance emprunteur, habitation, PNO et questionnaire pour sécuriser le financement avant offre.",
+      "cardExcerpt": "Achat immobilier : prêt et assurances à aligner avant la signature.",
+      "intent": "futur acquéreur qui prépare un dossier de financement et les assurances liées",
+      "pain": "Un prêt accepté sans anticipation des assurances peut retarder la signature ou faire exploser le coût mensuel total.",
+      "trigger": "compromis signé, offre d'achat, simulation banque, passage chez le notaire ou accompagnement négociateur",
+      "leadPromise": "cadrer prêt + emprunteur + habitation avant de figer le budget mensuel",
+      "checklist": [
+        "Apport, durée, taux et mensualité cible",
+        "Assurance emprunteur : quotité, garanties et coût sur la durée",
+        "Assurance habitation dès la remise des clés",
+        "PNO si investissement locatif",
+        "Pièces du dossier et calendrier notaire / banque"
+      ],
+      "faq": [
+        {
+          "q": "Faut-il choisir l'assurance emprunteur de la banque ?",
+          "a": "Non. Une délégation est souvent possible dès le départ, à garanties équivalentes."
+        },
+        {
+          "q": "Quand souscrire l'habitation ?",
+          "a": "Idéalement avant la remise des clés, pour être couvert dès le jour J."
+        }
+      ]
+    },
+    {
+      "id": "habitation-degats-eaux-locataire-2026",
+      "priority": 88,
+      "section": "habitat",
+      "need": "habitation",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "themes": ["habitat"],
+      "slug": "assurance-habitation-degats-eaux-locataire-2026",
+      "title": "Dégâts des eaux locataire : quelle assurance habitation rembourse en 2026 ?",
+      "description": "Dégât des eaux : déclaration, franchise, voisin, bailleur, mobilier et questionnaire habitation gratuit.",
+      "cardExcerpt": "Locataire : savoir quoi déclarer avant que le sinistre coûte cher.",
+      "intent": "locataire ou propriétaire qui veut vérifier sa multirisque habitation",
+      "pain": "Un plafond mobilier trop faible ou une dépendance non déclarée peut laisser une partie du sinistre à charge.",
+      "trigger": "emménagement, cave, colocation, logement meublé, fuite, voisin au-dessus ou franchise élevée",
+      "leadPromise": "calibrer surface, capital mobilier et garanties utiles avant devis",
+      "checklist": [
+        "Capital mobilier cohérent avec la valeur réelle des biens",
+        "Dégâts des eaux, recherche de fuite et franchise",
+        "Responsabilité civile vie privée et recours voisin",
+        "Dépendances : cave, garage, balcon, local vélo",
+        "Logement meublé, colocation ou télétravail déclaré"
+      ],
+      "faq": [
+        {
+          "q": "Qui déclare un dégât des eaux en location ?",
+          "a": "Le locataire déclare à son assureur et prévient le bailleur ; les assureurs organisent ensuite le recours selon les conventions."
+        },
+        {
+          "q": "La cave est-elle toujours couverte ?",
+          "a": "Pas toujours. Elle doit souvent être déclarée comme dépendance avec un plafond spécifique."
+        }
+      ]
+    },
+    {
+      "id": "chien-chat-frais-veterinaires-2026",
+      "priority": 84,
+      "section": "animaux",
+      "need": "animaux",
+      "tag": "Animaux",
+      "tagClass": "tag-animaux",
+      "themes": ["animaux"],
+      "slug": "assurance-chien-chat-frais-veterinaires-2026",
+      "title": "Assurance chien chat : frais vétérinaires, plafond et franchise à comparer en 2026",
+      "description": "Guide assurance animaux : chien, chat, urgence véto, prévention, délai de carence et questionnaire gratuit.",
+      "cardExcerpt": "Animaux : éviter la mauvaise surprise sur une urgence véto.",
+      "intent": "propriétaire de chien ou chat qui compare après une facture véto",
+      "pain": "Une opération ou une hospitalisation vétérinaire peut dépasser 1 000 €, avec des exclusions si le contrat est souscrit trop tard.",
+      "trigger": "adoption, chiot, chaton, race fragile, première grosse facture, vieillissement ou maladie chronique",
+      "leadPromise": "choisir un niveau de remboursement adapté à l'âge et au risque",
+      "checklist": [
+        "Plafond annuel et taux de remboursement",
+        "Franchise par acte ou annuelle",
+        "Délai de carence accident, maladie et chirurgie",
+        "Exclusions race, antécédents et maladies héréditaires",
+        "Prévention : vaccins, antiparasitaires, stérilisation"
+      ],
+      "faq": [
+        {
+          "q": "Quand assurer un chien ou un chat ?",
+          "a": "Le plus tôt possible, idéalement avant les premiers antécédents médicaux qui peuvent créer des exclusions."
+        },
+        {
+          "q": "Faut-il couvrir la prévention ?",
+          "a": "Cela dépend du budget. La priorité reste souvent l'accident, la maladie et la chirurgie."
+        }
+      ]
+    },
+    {
+      "id": "rc-pro-freelance-litige-client-2026",
+      "priority": 80,
+      "section": "pro",
+      "need": "rc-pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro",
+      "themes": ["pro"],
+      "slug": "rc-pro-freelance-litige-client-2026",
+      "title": "RC Pro freelance : litige client, erreur et protection juridique en 2026",
+      "description": "Freelance et RC Pro : garanties utiles, exclusions, protection juridique, cyber et questionnaire gratuit pour comparer.",
+      "cardExcerpt": "Freelance : protéger son activité avant le premier litige client.",
+      "intent": "indépendant qui lance son activité ou signe un nouveau client",
+      "pain": "Une erreur de conseil, un retard ou une donnée client perdue peut engager la responsabilité personnelle du freelance.",
+      "trigger": "création micro-entreprise, nouveau contrat, plateforme, mission grand compte ou demande d'attestation",
+      "leadPromise": "identifier les garanties RC Pro utiles selon le métier",
+      "checklist": [
+        "Activité déclarée identique aux missions réelles",
+        "Plafond RC exploitation et RC professionnelle",
+        "Protection juridique et frais de défense",
+        "Cyber, données client et matériel professionnel",
+        "Sous-traitance, locaux et déplacements"
+      ],
+      "faq": [
+        {
+          "q": "La RC Pro est-elle obligatoire pour tous les freelances ?",
+          "a": "Elle dépend du métier, mais elle est souvent exigée par les clients et fortement recommandée pour protéger le patrimoine personnel."
+        },
+        {
+          "q": "Une assurance habitation couvre-t-elle le matériel pro ?",
+          "a": "Rarement de façon complète. Il faut vérifier l'usage professionnel et les plafonds."
+        }
+      ]
+    },
+    {
+      "id": "prevoyance-independant-arret-travail-2026",
+      "priority": 78,
+      "section": "prevoyance",
+      "need": "prevoyance",
+      "tag": "Prévoyance",
+      "tagClass": "tag-prevoyance",
+      "themes": ["prevoyance", "pro"],
+      "slug": "prevoyance-independant-arret-travail-2026",
+      "title": "Prévoyance indépendant 2026 : arrêt de travail, invalidité et maintien de revenus",
+      "description": "Guide prévoyance TNS : franchise, ITT, invalidité, capital décès et questionnaire pour calibrer le bon niveau de protection.",
+      "cardExcerpt": "Indépendants : combien de mois votre trésorerie tient sans revenus ?",
+      "intent": "indépendant ou TNS qui veut protéger ses revenus en cas d'arrêt",
+      "pain": "Sans prévoyance adaptée, un arrêt de plusieurs semaines peut stopper le chiffre d'affaires sans compensation suffisante.",
+      "trigger": "création d'entreprise, crédit en cours, naissance, première année rentable ou problème de santé",
+      "leadPromise": "estimer le niveau de maintien de revenus utile avant devis",
+      "checklist": [
+        "Franchise courte vs longue selon trésorerie",
+        "Indemnités journalières et plafond ITT",
+        "Invalidité partielle et totale",
+        "Capital décès et bénéficiaires",
+        "Exclusions dos, psy et sports à risque"
+      ],
+      "faq": [
+        {
+          "q": "La Sécurité sociale suffit-elle pour un indépendant ?",
+          "a": "Souvent non. Les indemnités de base restent limitées face à des charges fixes."
+        },
+        {
+          "q": "Quand souscrire une prévoyance ?",
+          "a": "Dès que des charges ou un crédit dépendent de vos revenus, idéalement avant tout antécédent médical."
+        }
+      ]
+    },
+    {
+      "id": "auto-jeune-conducteur-budget-2026",
+      "priority": 74,
+      "section": "auto",
+      "need": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "themes": ["auto"],
+      "slug": "assurance-auto-jeune-conducteur-budget-2026",
+      "title": "Assurance auto jeune conducteur 2026 : budget, bonus et garanties utiles",
+      "description": "Jeune permis : comparer franchise, conduite accompagnée, usage et questionnaire auto pour trouver un tarif réaliste.",
+      "cardExcerpt": "Jeune conducteur : réduire le prix sans sous-assurer le véhicule.",
+      "intent": "jeune conducteur ou parent qui finance la première assurance auto",
+      "pain": "Un tarif trop bas peut cacher une franchise élevée, une exclusion de conducteur secondaire ou une assistance trop faible.",
+      "trigger": "obtention du permis, premier véhicule, conduite accompagnée, malus ou changement d'usage",
+      "leadPromise": "cadrer budget, usage et garanties avant de demander un devis",
+      "checklist": [
+        "Bonus-malus et date d'obtention du permis",
+        "Usage trajet travail, km annuels et parking",
+        "Franchise bris de glace et dommages",
+        "Conducteur secondaire et prêt de volant",
+        "Assistance 0 km et véhicule de remplacement"
+      ],
+      "faq": [
+        {
+          "q": "La conduite accompagnée baisse-t-elle vraiment le prix ?",
+          "a": "Souvent oui pendant les premières années, sous réserve de déclaration correcte à l'assureur."
+        },
+        {
+          "q": "Faut-il choisir le tiers simple ?",
+          "a": "Cela dépend de la valeur du véhicule. Sur une voiture récente, tous risques reste souvent plus pertinent."
+        }
+      ]
+    }
+  ]
+}

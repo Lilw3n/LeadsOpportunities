@@ -1,0 +1,35 @@
+{
+  "updated": "2026-08-12T21:13:17.455Z",
+  "publishedTopicIds": [
+    "vtc-attestation-plateformes-2026",
+    "mutuelle-famille-budget-2026",
+    "rac-regroupement-credits-2026"
+  ],
+  "runs": [
+    {
+      "at": "2026-08-12T21:13:17.455Z",
+      "count": 3,
+      "published": true,
+      "articles": [
+        {
+          "topicId": "vtc-attestation-plateformes-2026",
+          "file": "assurance-vtc-attestation-plateformes-2026.html",
+          "title": "Assurance VTC : attestation plateforme, RC Pro et garanties à vérifier en 2026",
+          "need": "vtc"
+        },
+        {
+          "topicId": "mutuelle-famille-budget-2026",
+          "file": "mutuelle-famille-budget-remboursements-2026.html",
+          "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation à comparer",
+          "need": "sante"
+        },
+        {
+          "topicId": "rac-regroupement-credits-2026",
+          "file": "rachat-credits-rac-mensualite-2026.html",
+          "title": "Rachat de crédits (RAC) 2026 : baisser sa mensualité sans allonger le piège",
+          "need": "credit-immo"
+        }
+      ]
+    }
+  ]
+}

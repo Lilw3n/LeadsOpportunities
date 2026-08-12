@@ -313,6 +313,14 @@ function extractTag(block, tag) {
   return m ? m[1].trim() : "";
 }
 
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var id = String((c && c.id) || "");
+  if (id === "cafeyn-pending-template") return true;
+  if (/collez ici|placeholder|\[titre\]|TODO\s*:/i.test(title)) return true;
+  return false;
+}
+
 function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -351,4 +359,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
