@@ -59,7 +59,11 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      var k = String(kw).toLowerCase();
+      if (hay.indexOf(k) !== -1) {
+        score += 1;
+        if (k.length >= 8) score += 2;
+      }
     });
     if (score > bestScore) {
       bestScore = score;
