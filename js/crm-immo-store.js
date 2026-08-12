@@ -126,7 +126,13 @@ window.CrmImmoStore = (function () {
     if (!item.title) item.title = "Bien sans titre";
     if (!item.status) item.status = "active";
     if (!item.property_type) item.property_type = "appartement";
+    if (!item.transaction) item.transaction = "vente";
     if (!item.listing_source) item.listing_source = "manual";
+    if (!item.details || typeof item.details !== "object") item.details = {};
+    if (!Array.isArray(item.units)) item.units = [];
+    if (!item.docs_checklist || typeof item.docs_checklist !== "object") item.docs_checklist = {};
+    if (!Array.isArray(item.images)) item.images = [];
+    if (!Array.isArray(item.history)) item.history = [];
     var idx = db.properties.findIndex(function (p) {
       return p.id === item.id;
     });

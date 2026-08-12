@@ -16,6 +16,7 @@
     { id: "local", label: "Local commercial" },
     { id: "immeuble", label: "Immeuble" },
     { id: "parking", label: "Parking / garage" },
+    { id: "complexe", label: "Complexe (terrain + bâtis)" },
     { id: "autre", label: "Autre" },
   ];
 

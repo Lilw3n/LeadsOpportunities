@@ -4,64 +4,134 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Fiche bien | CRM Immobilier</title>
+  <title>Fiche bien intelligente | CRM Immobilier</title>
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <style>
-    .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
-    .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
-    .immo-grid input, .immo-grid select, .immo-grid textarea { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
-    .immo-kpi { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin:12px 0; }
-    .immo-kpi div { padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--card); }
-    .immo-kpi span { display:block; font-size:.75rem; color:var(--muted); }
-    .immo-kpi strong { font-size:1.05rem; }
+    :root { --immo-blue:#1e4f8a; --immo-side:#2c3340; }
+    .dossier-head { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+    .dossier-tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+    .dossier-tabs button {
+      border:1px solid var(--line); background:#fff; color:#334155; padding:8px 12px; border-radius:8px;
+      font-weight:700; font-size:.78rem; letter-spacing:.02em; text-transform:uppercase; cursor:pointer;
+    }
+    .dossier-tabs button.active { background:var(--immo-blue); color:#fff; border-color:var(--immo-blue); }
+    .dossier-layout { display:grid; grid-template-columns:230px 1fr; gap:14px; align-items:start; }
+    @media (max-width:900px){ .dossier-layout { grid-template-columns:1fr; } }
+    .dossier-side {
+      background:var(--immo-side); color:#fff; border-radius:12px; padding:8px; position:sticky; top:10px;
+      max-height:calc(100vh - 24px); overflow:auto;
+    }
+    .dossier-side button {
+      width:100%; text-align:left; border:0; background:transparent; color:#e2e8f0; padding:10px 12px;
+      border-radius:8px; font-weight:700; font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; cursor:pointer;
+      display:flex; justify-content:space-between; align-items:center;
+    }
+    .dossier-side button:hover { background:#3a4454; }
+    .dossier-side button.active { background:var(--immo-blue); color:#fff; }
+    .dossier-side button .chev { opacity:.5; }
+    .dossier-main { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px 18px; min-height:420px; }
+    .dossier-main h3 { margin:0 0 6px; color:var(--immo-blue); }
+    .dossier-hint { color:var(--muted); font-size:.82rem; margin:0 0 14px; }
+    .field-row {
+      display:grid; grid-template-columns:minmax(160px,280px) 1fr; gap:10px; align-items:start;
+      padding:8px 0; border-bottom:1px solid #eef2f7;
+    }
+    @media (max-width:700px){ .field-row { grid-template-columns:1fr; } }
+    .field-row label {
+      font-size:.82rem; font-weight:700; font-style:italic; color:var(--immo-blue); padding-top:8px;
+    }
+    .field-row label.important { color:#0b3d91; }
+    .field-ctrl { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .field-ctrl input, .field-ctrl select, .field-ctrl textarea {
+      flex:1; min-width:140px; padding:8px 10px; border-radius:8px; border:1px solid var(--line);
+      background:#f8fafc; font:inherit;
+    }
+    .field-ctrl textarea { min-height:72px; width:100%; }
+    .field-unit { color:var(--muted); font-size:.8rem; font-weight:700; }
+    .tri { display:inline-flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+    .tri button { border:0; background:#fff; padding:6px 10px; cursor:pointer; color:#64748b; }
+    .tri button.active-yes { background:#dcfce7; color:#166534; }
+    .tri button.active-no { background:#fee2e2; color:#991b1b; }
+    .tri button.active-any { background:#e2e8f0; color:#0f172a; }
+    .smart-banner {
+      background:#eff6ff; border:1px solid #bfdbfe; color:#1e3a8a; border-radius:10px; padding:10px 12px;
+      font-size:.84rem; margin-bottom:12px;
+    }
+    .unit-card {
+      border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:10px; background:#f8fafc;
+    }
+    .unit-card h4 { margin:0 0 8px; font-size:.95rem; }
+    .unit-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px; }
+    .unit-grid label { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:var(--muted); font-style:normal; }
+    .doc-group { margin-bottom:18px; }
+    .doc-group h4 { margin:0 0 8px; color:#b91c1c; font-size:.9rem; }
+    .doc-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+    .doc-table th, .doc-table td { padding:7px 8px; border-bottom:1px solid #eef2f7; text-align:left; }
+    .doc-table th { color:var(--muted); font-size:.72rem; }
+    .meta-bar { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; margin-bottom:12px; }
+    .meta-bar label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:var(--muted); }
+    .meta-bar input, .meta-bar select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .save-bar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
     .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
   </style>
 </head>
 <body class="crm-subpage">
-  <section class="crm-page-panel crm-gradient-panel">
+  <div class="dossier-head">
     <div>
-      <p class="crm-eyebrow">Immobilier · fiche</p>
+      <p class="crm-eyebrow">Immobilier · fiche intelligente</p>
       <h2 id="propTitle">Bien</h2>
-      <p id="propSub" style="color:var(--muted)"></p>
+      <p id="propSub" style="color:var(--muted);margin:0"></p>
     </div>
     <div class="crm-action-row">
-      <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire</a>
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">← Piges</a>
       <a href="./crm-immo-matching.html" class="btn btn-ghost">Matching</a>
       <a id="linkAnnonce" class="btn btn-ghost" target="_blank" rel="noopener" hidden>Annonce</a>
+      <button type="button" class="btn btn-primary" id="btnSave">Enregistrer</button>
     </div>
-  </section>
+  </div>
 
-  <div id="kpis" class="immo-kpi"></div>
-  <section class="panel">
-    <h3>Personnes liées</h3>
-    <p style="color:var(--muted);font-size:.85rem">Vendeur, acquéreur, notaire, apporteur… + id contact CRM si connu.</p>
-    <div id="partiesList"></div>
-    <form id="partyForm" class="immo-grid" style="margin-top:12px">
-      <label>Rôle<select id="partyRole"></select></label>
-      <label>Nom<input id="partyName" required /></label>
-      <label>Email<input id="partyEmail" type="email" /></label>
-      <label>Téléphone<input id="partyPhone" /></label>
-      <label>Contact CRM id<input id="partyContact" placeholder="contact_…" /></label>
-      <label style="grid-column:1/-1">Notes<input id="partyNotes" /></label>
-      <button type="submit" class="btn btn-primary">Ajouter la personne</button>
-    </form>
-  </section>
+  <div class="dossier-tabs" id="topTabs"></div>
 
-  <section class="panel" style="margin-top:14px">
-    <h3>Documents liés</h3>
-    <div id="docsList"></div>
-    <p style="margin-top:10px"><a class="btn btn-ghost btn-sm" href="./crm-immo-documents.html" id="docsLink">Ouvrir documents immo</a></p>
-  </section>
+  <div class="meta-bar" id="metaBar">
+    <label>Titre<input id="mTitle" /></label>
+    <label>Type<select id="mType"></select></label>
+    <label>Transaction<select id="mTransaction"></select></label>
+    <label>Statut
+      <select id="mStatus">
+        <option value="active">Actif</option>
+        <option value="under_offer">Sous compromis</option>
+        <option value="sold">Vendu / loué</option>
+        <option value="archived">Archivé</option>
+      </select>
+    </label>
+    <label>Origine<select id="mSource"></select></label>
+    <label>URL annonce<input id="mUrl" placeholder="https://…" /></label>
+  </div>
 
-  <section class="panel" style="margin-top:14px">
-    <h3>Description</h3>
-    <p id="propDesc" style="white-space:pre-wrap"></p>
-  </section>
+  <div id="tabDescription">
+    <div class="dossier-layout">
+      <nav class="dossier-side" id="sideNav"></nav>
+      <div class="dossier-main">
+        <div class="smart-banner" id="smartBanner"></div>
+        <h3 id="sectionTitle">Section</h3>
+        <p class="dossier-hint" id="sectionHint"></p>
+        <div id="sectionBody"></div>
+        <div class="save-bar">
+          <button type="button" class="btn btn-primary" id="btnSave2">Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tabOther" hidden>
+    <section class="panel" id="otherPanel"></section>
+  </div>
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-property-schema.js"></script>
   <script src="./js/crm-immo-property-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

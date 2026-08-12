@@ -11,7 +11,7 @@ Le **crédit immobilier** (prêt / courtage) arrivera dans une étape dédiée ;
 | Page | Rôle |
 |------|------|
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
-| `/crm-immo-property.html?id=` | Fiche bien + personnes (vendeur, acquéreur, notaire…) |
+| `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |
 | `/crm-immo-documents.html` | Éditeur mandats / offres / compromis (fondation) |
 | `/crm-agency-fees.html` | Barèmes honoraires + financement acheteur |
