@@ -1265,13 +1265,11 @@
       if (id === "calcParty") document.getElementById("cmpParty").value = el.value;
       renderCalc();
       renderCompare();
-      renderDealSplit();
       renderBuyerFinance();
     });
     el.addEventListener("change", function () {
       renderCalc();
       renderCompare();
-      renderDealSplit();
       renderBuyerFinance();
     });
   });
@@ -1290,7 +1288,6 @@
       }
       renderCompare();
       renderCalc();
-      renderDealSplit();
       renderBuyerFinance();
     });
     el.addEventListener("change", function () {
@@ -1298,7 +1295,6 @@
       if (id === "cmpKind") syncKindFields();
       renderCompare();
       renderCalc();
-      renderDealSplit();
       renderBuyerFinance();
     });
   });
@@ -1349,7 +1345,6 @@
     persistTaxFromForm();
     renderCompare();
     renderCalc();
-    renderDealSplit();
     renderBuyerFinance();
   });
 
@@ -1361,7 +1356,6 @@
     persistTaxFromForm();
     renderCompare();
     renderCalc();
-    renderDealSplit();
     renderBuyerFinance();
   };
 
@@ -1378,9 +1372,38 @@
     ag.agentSharePct = Number(document.getElementById("agentSharePct").value) || 0;
     renderCalc();
     renderCompare();
+    renderDealSplit();
     renderBuyerFinance();
   });
 
+  [
+    "dealSortantPct",
+    "dealEntrantPct",
+    "dealOtherName",
+    "dealApporteurEnabled",
+    "dealApporteurName",
+    "dealApporteurSide",
+    "dealApporteurPct",
+    "dealApporteurBase",
+    "dealApporteurPaidFrom",
+  ].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener("input", function () {
+      syncDealExtraFields();
+      persistDealPrefs();
+      renderDealSplit();
+      renderCalc();
+    });
+    el.addEventListener("change", function () {
+      syncDealExtraFields();
+      persistDealPrefs();
+      renderDealSplit();
+      renderCalc();
+    });
+  });
+
+  applyDealPrefsToForm();
   applyBuyerPrefsToForm();
   renderAll();
 })();
