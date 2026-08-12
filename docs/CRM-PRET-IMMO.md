@@ -12,10 +12,19 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - **Effectuer simulation** — RAC (Propriétaire / Locataire / Hébergé), IMMO, SCI, SCPI, CONSO, HYPO, VIAGER, PVH calculette
 - Liens vers demande publique + barèmes FAI
 
-## Simulateur RAC / IMMO
-Emprunteur & co · Logement · Propriété / Hébergement · Pro · Revenus / Charges · Crédits à reprendre · Retards · Synthèse (besoin total, CRD, reste à vivre, DTI) · Commentaires
+## Simulateurs (IMMO / SCI / SCPI / CONSO / HYPO / Viager / RAC)
+Formulaire sections numérotées + **sidebar synthèse** (achat, apport, taux, mensualités H.A./A.C., DTI avant/après, RAV, ratio hypothécaire, solvabilité).
 
-Actions : Simuler · Enregistrer · Ouvrir demande publique (docs) · Transmettre (DDP)
+Champs projet selon la rubrique :
+- **IMMO / SCI** — prix, travaux, frais (notaire, garantie, mandat…), assurances
+- **SCPI** — parts × valeur + frais
+- **CONSO** — montant projet + modal « Détail prêt conso »
+- **HYPO / Viager** — valeur du bien, montant souhaité, ratio hypothécaire
+- **RAC** — crédits à racheter, découvert, IRA / frais, besoin total
+
+Commun : emprunteur & co · famille / logement · toggles patrimoine · banque · revenus / charges · résultat · commentaires
+
+Actions : Simuler · Enregistrer · Enregistrer / demande publique · Transmettre (DDP)
 
 ## PVH — Calculette montant à rembourser
 Page [`crm-pret-immo-pvh.html`](../crm-pret-immo-pvh.html) : capital dû à 5 / 10 / 15 / 20 ans en **différé total** (intérêts capitalisés mensuellement).  
