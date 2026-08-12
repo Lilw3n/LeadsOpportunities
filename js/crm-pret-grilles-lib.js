@@ -86,7 +86,12 @@ window.CrmPretGrilles = (function () {
       ["immo", ["immobilier", "immo", "acquisition"]],
       ["treso", ["treso", "tresorerie", "cash"]],
       ["hypo", ["hypo", "hypothecaire"]],
-      ["conso", ["conso", "consommation", "personnel"]]
+      ["conso", ["conso", "consommation", "personnel"]],
+      ["retraite", ["retraite", "retraitee", "pension"]],
+      ["senior", ["senior", "seniors"]],
+      ["locataire", ["locataire", "locataires"]],
+      ["proprietaire", ["proprietaire", "proprietaires"]],
+      ["primo", ["primo", "premiere acquisition", "1ere acquisition", "primo accedant"]]
     ];
     needMap.forEach(function (pair) {
       var id = pair[0];
@@ -112,6 +117,8 @@ window.CrmPretGrilles = (function () {
       if (/\bsans\s+(bien|garantie|hypotheque)\b/.test(n) || /\blocataire\b/.test(n)) out.hasProperty = false;
       else if (/\b(avec\s+garantie|proprietaire|hypotheque|bien\s+immo)/.test(n)) out.hasProperty = true;
     }
+    if (/\bretraite/.test(n) && out.need.indexOf("retraite") < 0) out.need.push("retraite");
+    if (/\bsenior/.test(n) && out.need.indexOf("senior") < 0) out.need.push("senior");
 
     return out;
   }

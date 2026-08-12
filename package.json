@@ -40,7 +40,9 @@
     "meta:rotation:build": "node scripts/meta-campaign-rotation.cjs --write",
     "postinstall": "npm run build:clarity",
     "pret:grilles:build": "node scripts/build-pret-grilles-catalog.cjs",
-    "pret:grilles:import": "node scripts/import-pret-grilles.cjs"
+    "pret:grilles:import": "node scripts/import-pret-grilles.cjs",
+    "pret:fiches:build": "node scripts/build-pret-fiches-catalog.cjs",
+    "pret:fiches:import": "node scripts/import-pret-fiches.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

@@ -7,6 +7,7 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - Simulateur : [`crm-pret-immo-sim.html`](../crm-pret-immo-sim.html)
 - Coordonnées : [`crm-pret-immo-coord.html`](../crm-pret-immo-coord.html)
 - Grilles des taux : [`crm-pret-immo-grilles.html`](../crm-pret-immo-grilles.html) — voir [`CRM-PRET-GRILLES-TAUX.md`](./CRM-PRET-GRILLES-TAUX.md)
+- Fiches produits : [`crm-pret-immo-fiches.html`](../crm-pret-immo-fiches.html) — voir [`CRM-PRET-FICHES-PRODUITS.md`](./CRM-PRET-FICHES-PRODUITS.md)
 - Sidebar Immobilier → **Prêt Immo (dossiers)**
 
 ## Navigation
@@ -14,6 +15,7 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - **Effectuer simulation** — RAC (Propriétaire / Locataire / Hébergé), IMMO, SCI, SCPI, CONSO, HYPO, VIAGER, PVH calculette
 - **Transmettre coordonnées** — [`crm-pret-immo-coord.html`](../crm-pret-immo-coord.html) : fiche légère indicateur d’affaires (responsable, emprunteur/co, logement, notes, option délégation)
 - **Grille des taux** — catalogue + recherche intelligente (âge, RAC, SCPI, DOM-TOM…)
+- **Fiches produits** — CFCAL / CGI / MMB / SYGMA / DOM-TOM… + mêmes filtres métier
 - Liens vers demande publique + barèmes FAI
 
 ## Simulateurs (IMMO / SCI / SCPI / CONSO / HYPO / Viager / RAC)

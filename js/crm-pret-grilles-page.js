@@ -8,6 +8,9 @@
     return;
   }
 
+  var CATALOG_URL = document.body.getAttribute("data-catalog") || "./data/pret-grilles-taux.json";
+  var PAGE_KIND = document.body.getAttribute("data-kind") || "grilles";
+
   var els = {
     q: document.getElementById("gQuery"),
     age: document.getElementById("gAge"),
@@ -58,8 +61,22 @@
         .join("");
   }
 
+  function pageExamples() {
+    if (PAGE_KIND === "fiches") {
+      return [
+        { q: "personne de plus de 60 ans retraite RAC", label: "60 ans+ retraite / RAC" },
+        { q: "locataire RAC sans garantie", label: "Locataire sans garantie" },
+        { q: "PVH senior propriétaire", label: "PVH" },
+        { q: "travaux rénovation CFCAL", label: "Rénovation" },
+        { q: "RAC Réunion avec garantie", label: "DOM-TOM Réunion" },
+        { q: "primo acquisition BANK B", label: "Primo BANK B" }
+      ];
+    }
+    return Lib.examples();
+  }
+
   function renderChips() {
-    els.chips.innerHTML = Lib.examples()
+    els.chips.innerHTML = pageExamples()
       .map(function (ex) {
         return (
           '<button type="button" class="g-chip" data-q="' +
@@ -238,7 +255,7 @@
     });
   });
 
-  fetch("./data/pret-grilles-taux.json", { cache: "no-store" })
+  fetch(CATALOG_URL, { cache: "no-store" })
     .then(function (r) {
       if (!r.ok) throw new Error("catalogue introuvable");
       return r.json();
