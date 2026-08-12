@@ -4,23 +4,85 @@
  */
 window.CrmAgencyFees = (function () {
   var STORAGE_KEY = "lo_agency_fee_schedules_v1";
+  var DATA_VERSION = 2;
 
   var DEFAULT_URSSAF_PCT = 21.2;
   var DEFAULT_IR_PCT = 2.2;
+  var VAT_RATE = 0.2;
 
   function uid(prefix) {
     return (prefix || "id") + "_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 7);
   }
 
+  function br(min, max, type, value) {
+    return { id: uid("br"), min: min, max: max, type: type, value: value };
+  }
+
   function laforetSaleBrackets() {
     return [
-      { id: uid("br"), min: 0, max: 50000, type: "fixed", value: 5000 },
-      { id: uid("br"), min: 50001, max: 120000, type: "percent", value: 11 },
-      { id: uid("br"), min: 120001, max: 170000, type: "percent", value: 10 },
-      { id: uid("br"), min: 170001, max: 220000, type: "percent", value: 9 },
-      { id: uid("br"), min: 220001, max: 300000, type: "percent", value: 8 },
-      { id: uid("br"), min: 300001, max: null, type: "percent", value: 7 },
+      br(0, 50000, "fixed", 5000),
+      br(50001, 120000, "percent", 11),
+      br(120001, 170000, "percent", 10),
+      br(170001, 220000, "percent", 9),
+      br(220001, 300000, "percent", 8),
+      br(300001, null, "percent", 7),
     ];
+  }
+
+  /** Barème TG0422 — Les Portes Clés / Immobilier Email — ventes habitation (forfait TTC sur net vendeur) */
+  function portesClesHabitationBrackets() {
+    return [
+      br(0, 70000, "fixed", 5000),
+      br(70001, 100000, "fixed", 7000),
+      br(100001, 150000, "fixed", 9000),
+      br(150001, 200000, "fixed", 10000),
+      br(200001, 250000, "fixed", 12000),
+      br(250001, 300000, "fixed", 15000),
+      br(300001, 350000, "fixed", 18000),
+      br(350001, 400000, "fixed", 21000),
+      br(400001, 450000, "fixed", 24000),
+      br(450001, 500000, "fixed", 27000),
+      br(500001, 550000, "fixed", 30000),
+      br(550001, 600000, "fixed", 33000),
+      br(600001, 650000, "fixed", 36000),
+      br(650001, 700000, "fixed", 39000),
+      br(700001, 750000, "fixed", 42000),
+      br(750001, 800000, "fixed", 45000),
+      br(800001, 850000, "fixed", 48000),
+      br(850001, 900000, "fixed", 51000),
+      br(900001, 950000, "fixed", 54000),
+      br(950001, 1000000, "fixed", 57000),
+      br(1000001, null, "percent", 6),
+    ];
+  }
+
+  function portesClesAgency() {
+    return {
+      id: "agency_portes_cles",
+      name: "Les Portes Clés de l'Immobilier",
+      agentSharePct: 85,
+      notes:
+        "Barème TG0422 TTC — Immobilier Email SAS (46 quai Jacoutot, Strasbourg). Honoraires sur prix net vendeur (hors honoraires). Prix maximums, négociables au mandat.",
+      schedules: [
+        {
+          id: "sched_pc_habitation",
+          name: "Vente habitation (forfait TTC)",
+          kind: "vente_habitation",
+          priceBasis: "net_vendeur",
+          brackets: portesClesHabitationBrackets(),
+        },
+        {
+          id: "sched_pc_pro",
+          name: "Terrains / bureaux / commerces / immeubles",
+          kind: "vente_pro",
+          priceBasis: "net_vendeur",
+          // 10 % TTC, minimum 7 000 € HT (= 8 400 € TTC à 20 %)
+          minFeeHt: 7000,
+          brackets: [br(0, null, "percent", 10)],
+        },
+      ],
+      updatedAt: new Date().toISOString(),
+    };
   }
 
   function defaultAgencies() {
@@ -34,38 +96,21 @@ window.CrmAgencyFees = (function () {
           {
             id: "sched_laforet_vente",
             name: "Honoraires sur les ventes",
-            kind: "vente",
+            kind: "vente_habitation",
+            priceBasis: "prix_vente",
             brackets: laforetSaleBrackets(),
           },
           {
             id: "sched_laforet_garage",
             name: "Garage / Parking",
             kind: "garage",
-            brackets: [{ id: uid("br"), min: 0, max: null, type: "fixed", value: 2500 }],
+            priceBasis: "prix_vente",
+            brackets: [br(0, null, "fixed", 2500)],
           },
         ],
         updatedAt: new Date().toISOString(),
       },
-      {
-        id: "agency_portes_cles",
-        name: "Les Portes Clés de l'Immobilier",
-        agentSharePct: 85,
-        notes: "Exemple à adapter — remplacez les tranches par votre barème réel.",
-        schedules: [
-          {
-            id: "sched_pc_vente",
-            name: "Honoraires sur les ventes",
-            kind: "vente",
-            brackets: [
-              { id: uid("br"), min: 0, max: 100000, type: "percent", value: 8 },
-              { id: uid("br"), min: 100001, max: 200000, type: "percent", value: 6 },
-              { id: uid("br"), min: 200001, max: 350000, type: "percent", value: 5 },
-              { id: uid("br"), min: 350001, max: null, type: "percent", value: 4 },
-            ],
-          },
-        ],
-        updatedAt: new Date().toISOString(),
-      },
+      portesClesAgency(),
     ];
   }
 
@@ -84,10 +129,15 @@ window.CrmAgencyFees = (function () {
   }
 
   function normalizeSchedule(s) {
+    var minFeeHt = s.minFeeHt;
+    if (minFeeHt === "" || minFeeHt == null) minFeeHt = null;
+    else minFeeHt = Number(minFeeHt);
     return {
       id: String(s.id || uid("sched")),
       name: String(s.name || "Barème").trim() || "Barème",
-      kind: String(s.kind || "vente"),
+      kind: String(s.kind || "vente_habitation"),
+      priceBasis: s.priceBasis === "net_vendeur" ? "net_vendeur" : "prix_vente",
+      minFeeHt: minFeeHt != null && !isNaN(minFeeHt) ? minFeeHt : null,
       brackets: Array.isArray(s.brackets) ? s.brackets.map(normalizeBracket) : [],
     };
   }
@@ -103,11 +153,34 @@ window.CrmAgencyFees = (function () {
     };
   }
 
+  function migrate(bag) {
+    var ver = Number(bag.version) || 1;
+    if (ver < 2) {
+      var pc = portesClesAgency();
+      var idx = (bag.agencies || []).findIndex(function (a) {
+        return a.id === "agency_portes_cles" || /portes?\s*cl[eé]s/i.test(a.name || "");
+      });
+      if (idx >= 0) {
+        var keepShare = bag.agencies[idx].agentSharePct;
+        bag.agencies[idx] = normalizeAgency(
+          Object.assign({}, pc, {
+            agentSharePct: keepShare != null ? keepShare : pc.agentSharePct,
+          })
+        );
+      } else {
+        bag.agencies.push(normalizeAgency(pc));
+      }
+      bag.version = 2;
+      save(bag);
+    }
+    return bag;
+  }
+
   function load() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
-        var seed = { agencies: defaultAgencies(), version: 1 };
+        var seed = { agencies: defaultAgencies(), version: DATA_VERSION };
         save(seed);
         return seed;
       }
@@ -115,14 +188,16 @@ window.CrmAgencyFees = (function () {
       if (!bag || typeof bag !== "object") bag = {};
       if (!Array.isArray(bag.agencies) || !bag.agencies.length) {
         bag.agencies = defaultAgencies();
+        bag.version = DATA_VERSION;
         save(bag);
       } else {
         bag.agencies = bag.agencies.map(normalizeAgency);
+        bag = migrate(bag);
       }
-      bag.version = bag.version || 1;
+      bag.version = bag.version || DATA_VERSION;
       return bag;
     } catch (e) {
-      return { agencies: defaultAgencies(), version: 1 };
+      return { agencies: defaultAgencies(), version: DATA_VERSION };
     }
   }
 
@@ -130,7 +205,7 @@ window.CrmAgencyFees = (function () {
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
-        version: bag.version || 1,
+        version: bag.version || DATA_VERSION,
         agencies: (bag.agencies || []).map(normalizeAgency),
         savedAt: new Date().toISOString(),
       })
@@ -142,9 +217,11 @@ window.CrmAgencyFees = (function () {
   }
 
   function getAgency(id) {
-    return listAgencies().find(function (a) {
-      return a.id === id;
-    }) || null;
+    return (
+      listAgencies().find(function (a) {
+        return a.id === id;
+      }) || null
+    );
   }
 
   function upsertAgency(agency) {
@@ -168,9 +245,15 @@ window.CrmAgencyFees = (function () {
   }
 
   function resetDefaults() {
-    var bag = { agencies: defaultAgencies(), version: 1 };
+    var bag = { agencies: defaultAgencies(), version: DATA_VERSION };
     save(bag);
     return bag;
+  }
+
+  function applyPortesClesOfficial(keepSharePct) {
+    var pc = portesClesAgency();
+    if (keepSharePct != null) pc.agentSharePct = Number(keepSharePct) || pc.agentSharePct;
+    return upsertAgency(pc);
   }
 
   function findBracket(brackets, price) {
@@ -194,38 +277,60 @@ window.CrmAgencyFees = (function () {
     return (p * (Number(bracket.value) || 0)) / 100;
   }
 
+  function pickSchedule(agency, opts) {
+    var schedules = agency.schedules || [];
+    if (opts.scheduleId) {
+      var byId = schedules.find(function (s) {
+        return s.id === opts.scheduleId;
+      });
+      if (byId) return byId;
+    }
+    if (opts.kind) {
+      var byKind = schedules.find(function (s) {
+        return s.kind === opts.kind;
+      });
+      if (byKind) return byKind;
+    }
+    return schedules[0] || null;
+  }
+
   /**
    * @param {object} opts
    * @param {object} opts.agency
    * @param {string} [opts.scheduleId]
-   * @param {number} opts.price
+   * @param {string} [opts.kind]
+   * @param {number} opts.price — net vendeur ou prix selon le barème
    * @param {number} [opts.urssafPct]
    * @param {number} [opts.irPct]
    */
   function calculate(opts) {
     var agency = opts.agency;
     var price = Number(opts.price) || 0;
-    var schedule =
-      (agency.schedules || []).find(function (s) {
-        return s.id === opts.scheduleId;
-      }) ||
-      (agency.schedules || [])[0] ||
-      null;
+    var schedule = pickSchedule(agency, opts);
 
     var bracket = schedule ? findBracket(schedule.brackets, price) : null;
     var agencyFee = agencyFeeFromBracket(price, bracket);
+
+    if (schedule && schedule.minFeeHt != null) {
+      var minTtc = Number(schedule.minFeeHt) * (1 + VAT_RATE);
+      if (agencyFee < minTtc) agencyFee = minTtc;
+    }
+
     var sharePct = Number(agency.agentSharePct) || 0;
     var agentGross = (agencyFee * sharePct) / 100;
     var urssafPct = opts.urssafPct != null ? Number(opts.urssafPct) : DEFAULT_URSSAF_PCT;
     var irPct = opts.irPct != null ? Number(opts.irPct) : DEFAULT_IR_PCT;
     var charges = (agentGross * (urssafPct + irPct)) / 100;
     var agentNet = Math.max(0, agentGross - charges);
+    var fai = price + agencyFee;
 
     return {
       price: price,
+      priceBasis: schedule ? schedule.priceBasis : "prix_vente",
       schedule: schedule,
       bracket: bracket,
       agencyFee: round2(agencyFee),
+      fai: round2(fai),
       agentSharePct: sharePct,
       agentGross: round2(agentGross),
       urssafPct: urssafPct,
@@ -235,15 +340,57 @@ window.CrmAgencyFees = (function () {
     };
   }
 
+  /**
+   * Compare toutes les agences sur le même prix (net vendeur).
+   */
+  function compareAgencies(opts) {
+    var price = Number(opts.price) || 0;
+    var kind = opts.kind || "vente_habitation";
+    var urssafPct = opts.urssafPct;
+    var irPct = opts.irPct;
+    return listAgencies()
+      .map(function (agency) {
+        var schedule =
+          (agency.schedules || []).find(function (s) {
+            return s.kind === kind;
+          }) ||
+          (agency.schedules || []).find(function (s) {
+            return String(s.kind || "").indexOf("vente") === 0;
+          }) ||
+          (agency.schedules || [])[0];
+        var res = calculate({
+          agency: agency,
+          scheduleId: schedule ? schedule.id : null,
+          kind: kind,
+          price: price,
+          urssafPct: urssafPct,
+          irPct: irPct,
+        });
+        return {
+          agency: agency,
+          schedule: schedule,
+          result: res,
+          hasMatchingKind: !!(agency.schedules || []).some(function (s) {
+            return s.kind === kind;
+          }),
+        };
+      })
+      .sort(function (a, b) {
+        return (b.result.agentGross || 0) - (a.result.agentGross || 0);
+      });
+  }
+
   function round2(n) {
     return Math.round((Number(n) || 0) * 100) / 100;
   }
 
   function formatEuro(n) {
-    return (Number(n) || 0).toLocaleString("fr-FR", {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 2,
-    }) + " €";
+    return (
+      (Number(n) || 0).toLocaleString("fr-FR", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2,
+      }) + " €"
+    );
   }
 
   function formatBracketLabel(b) {
@@ -262,32 +409,34 @@ window.CrmAgencyFees = (function () {
         {
           id: uid("sched"),
           name: "Honoraires sur les ventes",
-          kind: "vente",
-          brackets: [
-            { id: uid("br"), min: 0, max: null, type: "percent", value: 5 },
-          ],
+          kind: "vente_habitation",
+          priceBasis: "net_vendeur",
+          brackets: [br(0, null, "percent", 5)],
         },
       ],
     });
   }
 
   function emptyBracket() {
-    return normalizeBracket({ id: uid("br"), min: 0, max: null, type: "percent", value: 5 });
+    return normalizeBracket(br(0, null, "percent", 5));
   }
 
   function emptySchedule() {
     return normalizeSchedule({
       id: uid("sched"),
       name: "Nouveau barème",
-      kind: "vente",
+      kind: "vente_habitation",
+      priceBasis: "net_vendeur",
       brackets: [emptyBracket()],
     });
   }
 
   return {
     STORAGE_KEY: STORAGE_KEY,
+    DATA_VERSION: DATA_VERSION,
     DEFAULT_URSSAF_PCT: DEFAULT_URSSAF_PCT,
     DEFAULT_IR_PCT: DEFAULT_IR_PCT,
+    VAT_RATE: VAT_RATE,
     load: load,
     save: save,
     listAgencies: listAgencies,
@@ -295,7 +444,9 @@ window.CrmAgencyFees = (function () {
     upsertAgency: upsertAgency,
     deleteAgency: deleteAgency,
     resetDefaults: resetDefaults,
+    applyPortesClesOfficial: applyPortesClesOfficial,
     calculate: calculate,
+    compareAgencies: compareAgencies,
     findBracket: findBracket,
     formatEuro: formatEuro,
     formatBracketLabel: formatBracketLabel,

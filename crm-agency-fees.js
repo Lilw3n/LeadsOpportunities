@@ -24,6 +24,8 @@
 
   document.getElementById("calcUrssaf").value = Lib.DEFAULT_URSSAF_PCT;
   document.getElementById("calcIr").value = Lib.DEFAULT_IR_PCT;
+  document.getElementById("cmpUrssaf").value = Lib.DEFAULT_URSSAF_PCT;
+  document.getElementById("cmpIr").value = Lib.DEFAULT_IR_PCT;
 
   function currentAgency() {
     return state.agencies.find(function (a) {
@@ -249,8 +251,14 @@
       irPct: Number(document.getElementById("calcIr").value),
     });
     box.innerHTML =
+      '<div class="af-kpi muted"><span>Net vendeur</span><strong>' +
+      Lib.formatEuro(res.price) +
+      '</strong></div>' +
       '<div class="af-kpi muted"><span>Honoraires agence</span><strong>' +
       Lib.formatEuro(res.agencyFee) +
+      '</strong></div>' +
+      '<div class="af-kpi muted"><span>Prix FAI</span><strong>' +
+      Lib.formatEuro(res.fai) +
       '</strong></div>' +
       '<div class="af-kpi"><span>Ta part (' +
       res.agentSharePct +
@@ -273,11 +281,98 @@
         " · " +
         Lib.formatBracketLabel(br)
       : "Aucune tranche";
+    var basis = res.priceBasis === "net_vendeur" ? "base net vendeur" : "base prix vente";
     detail.textContent =
       (res.schedule ? res.schedule.name + " — " : "") +
       brLabel +
-      " · agence " +
+      " · " +
+      basis +
+      " · " +
       ag.name;
+  }
+
+  function renderCompare() {
+    var tbody = document.querySelector("#compareTable tbody");
+    var hint = document.getElementById("cmpHint");
+    var price = Number(document.getElementById("cmpPrice").value) || 0;
+    var kind = document.getElementById("cmpKind").value;
+    var rows = Lib.compareAgencies({
+      price: price,
+      kind: kind,
+      urssafPct: Number(document.getElementById("cmpUrssaf").value),
+      irPct: Number(document.getElementById("cmpIr").value),
+    });
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Aucune agence</td></tr>';
+      hint.textContent = "";
+      return;
+    }
+    tbody.innerHTML = rows
+      .map(function (row, i) {
+        var r = row.result;
+        var best = i === 0 ? " best" : "";
+        var win = i === 0 ? '<span class="af-win">meilleure part</span>' : "";
+        var schedName = row.schedule ? esc(row.schedule.name) : "—";
+        var badge = row.hasMatchingKind
+          ? ""
+          : ' <span class="af-badge warn">barème proche</span>';
+        return (
+          '<tr class="' +
+          best +
+          '" data-id="' +
+          esc(row.agency.id) +
+          '">' +
+          "<td><strong>" +
+          esc(row.agency.name) +
+          "</strong>" +
+          win +
+          "<br><span style='font-size:.78rem;color:var(--muted)'>Part agent " +
+          row.agency.agentSharePct +
+          " %</span></td>" +
+          "<td>" +
+          schedName +
+          badge +
+          "</td>" +
+          "<td>" +
+          Lib.formatEuro(r.agencyFee) +
+          "</td>" +
+          "<td>" +
+          Lib.formatEuro(r.fai) +
+          "</td>" +
+          "<td><strong>" +
+          Lib.formatEuro(r.agentGross) +
+          "</strong></td>" +
+          "<td>" +
+          Lib.formatEuro(r.agentNet) +
+          "</td>" +
+          "</tr>"
+        );
+      })
+      .join("");
+
+    tbody.querySelectorAll("tr[data-id]").forEach(function (tr) {
+      tr.style.cursor = "pointer";
+      tr.onclick = function () {
+        state.agencyId = tr.getAttribute("data-id");
+        var ag = currentAgency();
+        var kind = document.getElementById("cmpKind").value;
+        var match = ag && (ag.schedules || []).find(function (s) {
+          return s.kind === kind;
+        });
+        state.scheduleId = match
+          ? match.id
+          : ag && ag.schedules[0]
+            ? ag.schedules[0].id
+            : null;
+        document.getElementById("calcPrice").value = document.getElementById("cmpPrice").value;
+        renderAll();
+      };
+    });
+
+    hint.textContent =
+      "Net vendeur " +
+      Lib.formatEuro(price) +
+      " · classement par ta part brute · clic sur une ligne pour éditer l'agence";
   }
 
   function renderAll() {
@@ -286,6 +381,7 @@
     renderScheduleTabs();
     renderBrackets();
     renderCalc();
+    renderCompare();
   }
 
   function esc(s) {
@@ -305,6 +401,25 @@
 
   document.getElementById("btnSaveAgency").onclick = saveAgencyMeta;
   document.getElementById("btnSaveBrackets").onclick = saveBrackets;
+
+  document.getElementById("btnApplyPortesCles").onclick = function () {
+    var ag = currentAgency();
+    var share = ag && /portes?\s*cl/i.test(ag.name) ? ag.agentSharePct : 85;
+    if (
+      !confirm(
+        "Remplacer le barème Portes Clés par le barème officiel TG0422 (habitation forfaits + pro 10 %) ?\nTa part agent (" +
+          share +
+          " %) est conservée."
+      )
+    ) {
+      return;
+    }
+    var updated = Lib.applyPortesClesOfficial(share);
+    refreshAgenciesFromStore();
+    state.agencyId = updated.id;
+    state.scheduleId = updated.schedules[0] ? updated.schedules[0].id : null;
+    renderAll();
+  };
 
   document.getElementById("btnDeleteAgency").onclick = function () {
     var ag = currentAgency();
@@ -378,7 +493,27 @@
   };
 
   ["calcPrice", "calcUrssaf", "calcIr"].forEach(function (id) {
-    document.getElementById(id).addEventListener("input", renderCalc);
+    document.getElementById(id).addEventListener("input", function () {
+      if (id === "calcPrice") document.getElementById("cmpPrice").value = document.getElementById("calcPrice").value;
+      if (id === "calcUrssaf") document.getElementById("cmpUrssaf").value = document.getElementById("calcUrssaf").value;
+      if (id === "calcIr") document.getElementById("cmpIr").value = document.getElementById("calcIr").value;
+      renderCalc();
+      renderCompare();
+    });
+  });
+
+  ["cmpPrice", "cmpKind", "cmpUrssaf", "cmpIr"].forEach(function (id) {
+    document.getElementById(id).addEventListener("input", function () {
+      if (id === "cmpPrice") document.getElementById("calcPrice").value = document.getElementById("cmpPrice").value;
+      if (id === "cmpUrssaf") document.getElementById("calcUrssaf").value = document.getElementById("cmpUrssaf").value;
+      if (id === "cmpIr") document.getElementById("calcIr").value = document.getElementById("cmpIr").value;
+      renderCompare();
+      renderCalc();
+    });
+    document.getElementById(id).addEventListener("change", function () {
+      renderCompare();
+      renderCalc();
+    });
   });
 
   // Live recalc when share % changes (before save)
@@ -387,6 +522,7 @@
     if (!ag) return;
     ag.agentSharePct = Number(document.getElementById("agentSharePct").value) || 0;
     renderCalc();
+    renderCompare();
   });
 
   renderAll();
