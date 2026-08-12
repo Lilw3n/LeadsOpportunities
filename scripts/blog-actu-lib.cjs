@@ -21,6 +21,22 @@ function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
 
+/**
+ * File manuelle / inbox : ignore les gabarits (« COLLEZ ICI… ») et les statuts non publiables.
+ * Sans ce filtre, le cron GitHub publie le placeholder Cafeyn (score queued +25).
+ */
+function isPublishableActuItem(item) {
+  if (!item) return false;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "published" || status === "rejected" || status === "template") return false;
+  var title = String(item.title || "").trim();
+  if (title.length < 12) return false;
+  if (/^collez ici\b/i.test(title)) return false;
+  if (/\b(titre|une|article)\s+(ici|a completer|à compléter)\b/i.test(title)) return false;
+  if (item.id === "cafeyn-pending-template") return false;
+  return true;
+}
+
 function slugify(text) {
   return String(text || "")
     .normalize("NFD")
@@ -337,6 +353,7 @@ function decodeEntities(s) {
 module.exports = {
   readJson: readJson,
   writeJson: writeJson,
+  isPublishableActuItem: isPublishableActuItem,
   slugify: slugify,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
