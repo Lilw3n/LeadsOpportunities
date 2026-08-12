@@ -346,6 +346,26 @@ function isPlaceholderCandidate(c) {
   return false;
 }
 
+/** Titres 100 % anglais (Bing US) — hors ciblage leads France. */
+function isEnglishOnlyTitle(title) {
+  var t = String(title || "");
+  if (!t.trim()) return false;
+  var hasFr =
+    /[àâäéèêëïîôùûçœæ]/i.test(t) ||
+    /\b(le|la|les|un|une|des|du|de la|et|en|pour|dans|sur|avec|france|français|francais|assurance|mutuelle|emprunteur|sinistre|habitation|santé|sante|complémentaire|complementaire)\b/i.test(
+      t
+    );
+  var hasEn =
+    /\b(the|into|regarding|potential|enters|advantages|what you need|how to|memorandum of understanding|health insurance)\b/i.test(
+      t
+    );
+  return hasEn && !hasFr;
+}
+
+function shouldSkipActuCandidate(c) {
+  return isPlaceholderCandidate(c) || isEnglishOnlyTitle(c && c.title);
+}
+
 module.exports = {
   readJson: readJson,
   writeJson: writeJson,
@@ -364,4 +384,6 @@ module.exports = {
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
   isPlaceholderCandidate: isPlaceholderCandidate,
+  isEnglishOnlyTitle: isEnglishOnlyTitle,
+  shouldSkipActuCandidate: shouldSkipActuCandidate,
 };
