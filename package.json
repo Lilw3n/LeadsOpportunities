@@ -38,7 +38,9 @@
     "meta:vsp:discret": "node scripts/meta-vsp-discret-status.cjs",
     "meta:rotation:status": "node scripts/meta-campaign-rotation.cjs",
     "meta:rotation:build": "node scripts/meta-campaign-rotation.cjs --write",
-    "postinstall": "npm run build:clarity"
+    "postinstall": "npm run build:clarity",
+    "pret:grilles:build": "node scripts/build-pret-grilles-catalog.cjs",
+    "pret:grilles:import": "node scripts/import-pret-grilles.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

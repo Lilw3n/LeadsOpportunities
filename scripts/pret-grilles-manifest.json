@@ -1,0 +1,63 @@
+{
+  "sourceNote": "Fichiers listés depuis Téléchargements utilisateur — versions (1)/(2)/(3) dédupliquées. Déposer les PDF dans docs/pret-grilles/_inbox/ puis npm run pret:grilles:import",
+  "inbox": "docs/pret-grilles/_inbox",
+  "files": [
+    { "canonical": "Taux-RAC-CML.pdf", "category": "rac", "partner": "cml", "title": "Taux RAC CML", "aliases": ["Taux-RAC-CML.pdf"], "tags": ["rac"], "period": null },
+    { "canonical": "07-2026-La-Banque-Postale.pdf", "category": "rac", "partner": "lbp", "title": "La Banque Postale RAC", "aliases": ["07-2026-LA-BANQUE-POSTALE.pdf", "07-2026-LA-BANQUE-POSTALE (1).pdf", "07-2026-LA-BANQUE-POSTALE (2).pdf", "07-2026-La-Banque-Postale.pdf"], "tags": ["rac"], "period": "2026-07" },
+    { "canonical": "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE.pdf", "category": "rac", "partner": "credilift", "title": "Credit Lift RAC sans garantie", "aliases": ["07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE.pdf", "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE (1).pdf", "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE (2).pdf"], "tags": ["rac", "sans_garantie", "conso"], "period": "2026-07" },
+    { "canonical": "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE.pdf", "category": "rac", "partner": "credilift", "title": "Credit Lift RAC avec garantie", "aliases": ["07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE.pdf", "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE (1).pdf", "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE (2).pdf"], "tags": ["rac", "avec_garantie", "hypo"], "period": "2026-07" },
+    { "canonical": "04-2026-Taux-SYGMA.pdf", "category": "rac", "partner": "sygma", "title": "Taux SYGMA (04/2026)", "aliases": ["04-2026-SYGMA.pdf", "04-2026-Taux-SYGMA.pdf"], "tags": ["rac"], "period": "2026-04" },
+    { "canonical": "01-2026-SYGMA.pdf", "category": "rac", "partner": "sygma", "title": "SYGMA (01/2026)", "aliases": ["01-2026-SYGMA.pdf"], "tags": ["rac", "archive"], "period": "2026-01", "notes": "Version antérieure — garder pour historique, préférer 04-2026." },
+    { "canonical": "07-2026-MMB-RAC-avec-garantie.pdf", "category": "rac", "partner": "mmb", "title": "MMB RAC avec garantie", "aliases": ["07-2026-MMB-RAC-avec-garantie.pdf", "07-2026-MMB-RAC-avec-garantie (1).pdf"], "tags": ["rac", "avec_garantie"], "period": "2026-07" },
+    { "canonical": "07-2026-MMB-RAC-sans-garantie.pdf", "category": "rac", "partner": "mmb", "title": "MMB RAC sans garantie", "aliases": ["07-2026-MMB-RAC-sans-garantie.pdf"], "tags": ["rac", "sans_garantie"], "period": "2026-07" },
+    { "canonical": "07-2026-CREATIS-RAC-HYPO.pdf", "category": "rac", "partner": "creatis", "title": "CREATIS RAC HYPO", "aliases": ["07-2026-CREATIS-RAC-HYPO.pdf", "07-2026-CREATIS-RAC-HYPO (1).pdf"], "tags": ["rac", "hypo", "avec_garantie"], "period": "2026-07" },
+    { "canonical": "07-2026-CREATIS-RAC-CONSO.pdf", "category": "rac", "partner": "creatis", "title": "CREATIS RAC CONSO", "aliases": ["07-2026-CREATIS-RAC-CONSO.pdf", "07-2026-CREATIS-RAC-CONSO (1).pdf"], "tags": ["rac", "conso", "sans_garantie"], "period": "2026-07" },
+    { "canonical": "07-2026-CREATIS-RAC-COMBINE.pdf", "category": "rac", "partner": "creatis", "title": "CREATIS RAC COMBINE", "aliases": ["07-2026-CREATIS-RAC-COMBINE.pdf", "07-2026-CREATIS-RAC-COMBINE (1).pdf", "07-2026-CREATIS-RAC-COMBINE (2).pdf"], "tags": ["rac", "combine"], "period": "2026-07" },
+    { "canonical": "07-2026-CGI.pdf", "category": "rac", "partner": "cgi", "title": "CGI RAC", "aliases": ["07-2026-CGI.pdf"], "tags": ["rac"], "period": "2026-07" },
+    { "canonical": "07-2026-RAC-sans-garantie-CFCAL.pdf", "category": "rac", "partner": "cfcal", "title": "CFCAL RAC sans garantie", "aliases": ["07-2026-RAC-sans-garantie-CFCAL.pdf"], "tags": ["rac", "sans_garantie", "conso"], "period": "2026-07" },
+    { "canonical": "07-2026-RAC-avec-garantie-CFCAL.pdf", "category": "rac", "partner": "cfcal", "title": "CFCAL RAC avec garantie", "aliases": ["07-2026-RAC-avec-garantie-CFCAL.pdf"], "tags": ["rac", "avec_garantie", "hypo"], "period": "2026-07" },
+
+    { "canonical": "07-2026-MMB-MY-NEW-TRESO.pdf", "category": "treso", "partner": "mmb", "title": "MMB My New Treso", "aliases": ["07-2026-MMB-MY-NEW-TRESO.pdf", "07-2026-MMB-MY-NEW-TRESO (1).pdf", "07-2026-MMB-MY-NEW-TRESO (2).pdf"], "tags": ["treso", "mmb"], "period": "2026-07", "alsoCategories": ["hypo_treso"] },
+    { "canonical": "07-2026-CFCAL-HYPO-TRESO.pdf", "category": "hypo_treso", "partner": "cfcal", "title": "CFCAL HYPO TRESO (07/2026)", "aliases": ["07-2026-CFCAL-HYPO-TRESO.pdf"], "tags": ["hypo", "treso", "cfcal", "garantie"], "period": "2026-07", "alsoCategories": ["treso"] },
+    { "canonical": "06-2026-CFCAL-HYPO-TRESO.pdf", "category": "hypo_treso", "partner": "cfcal", "title": "CFCAL HYPO TRESO (06/2026)", "aliases": ["06-2026-CFCAL-HYPO-TRESO.pdf"], "tags": ["hypo", "treso", "cfcal", "archive"], "period": "2026-06", "notes": "Version antérieure — préférer 07-2026." },
+    { "canonical": "07-2026-Griffon-Conso.pdf", "category": "treso", "partner": "griffon", "title": "Griffon Conso", "aliases": ["07-2026-Griffon-Conso.pdf"], "tags": ["conso", "griffon"], "period": "2026-07" },
+    { "canonical": "07-2026-Griffon-Patrimoine-Conso.pdf", "category": "treso", "partner": "griffon", "title": "Griffon Patrimoine Conso", "aliases": ["07-2026-Griffon-Patrimoine-Conso.pdf"], "tags": ["conso", "patrimoine", "griffon"], "period": "2026-07" },
+    { "canonical": "07-2026-Griffon-Patrimoine-Immo.pdf", "category": "treso", "partner": "griffon", "title": "Griffon Patrimoine Immo", "aliases": ["07-2026-Griffon-Patrimoine-Immo.pdf"], "tags": ["immo", "patrimoine", "griffon"], "period": "2026-07" },
+    { "canonical": "07-2026-Griffon-Patrimoine-Relais.pdf", "category": "treso", "partner": "griffon", "title": "Griffon Patrimoine Relais", "aliases": ["07-2026-Griffon-Patrimoine-Relais.pdf"], "tags": ["relais", "patrimoine", "griffon"], "period": "2026-07", "alsoCategories": ["relais"] },
+    { "canonical": "07-2026-CREATIS.pdf", "category": "treso", "partner": "creatis", "title": "Prêt personnel CREATIS", "aliases": ["07-2026-CREATIS.pdf"], "tags": ["pret_personnel", "conso"], "period": "2026-07" },
+    { "canonical": "07-2026-Taux-SOFINCO.pdf", "category": "treso", "partner": "sofinco", "title": "Taux Sofinco", "aliases": ["07-2026-Taux-SOFINCO.pdf"], "tags": ["pret_personnel", "conso"], "period": "2026-07" },
+    { "canonical": "Taux-pret-personne-CML.pdf", "category": "treso", "partner": "cml", "title": "Taux prêt personnel CML", "aliases": ["Taux-pret-personne-CML.pdf", "Taux pret personne CML.pdf"], "tags": ["pret_personnel", "conso"], "period": null },
+    { "canonical": "07-2026-Taux-BANK-B.pdf", "category": "immo", "partner": "bank_b", "title": "Taux BANK B", "aliases": ["07-2026---Taux-BANK-B.pdf", "07-2026---Taux-BANK-B (1).pdf", "07-2026---Taux-BANK-B (2).pdf", "07-2026---Taux-BANK-B (3).pdf", "07-2026-Taux-BANK-B.pdf"], "tags": ["taux", "immo", "treso", "hypo", "relais"], "period": "2026-07", "notes": "Grille multi-usages (immo / tréso / relais / hypo) — une entrée catalogue, tags croisés.", "alsoCategories": ["treso", "hypo_treso", "relais"] },
+
+    { "canonical": "07-2026-HYPO-RENOV-CFCAL.pdf", "category": "renov", "partner": "cfcal", "title": "HYPO RENOV CFCAL", "aliases": ["07-2026-HYPO-RENOV-CFCAL.pdf"], "tags": ["renovation", "hypo", "travaux"], "period": "2026-07" },
+    { "canonical": "07-2026-CMT.pdf", "category": "relais", "partner": "cmt", "title": "CMT prêt relais", "aliases": ["07-2026-CMT.pdf"], "tags": ["relais"], "period": "2026-07" },
+
+    { "canonical": "09-2025-CFCAL-Liste-SCPI.pdf", "category": "scpi", "partner": "cfcal", "title": "Liste SCPI CFCAL", "aliases": ["09-2025-CFCAL-Liste-SCPI.pdf"], "tags": ["scpi", "liste"], "period": "2025-09", "kind": "liste" },
+    { "canonical": "07-2026-CFCAL-financement-SCPI-en-nom-propre-nantissement-de-parts.pdf", "category": "scpi", "partner": "cfcal", "title": "SCPI nom propre — nantissement de parts", "aliases": ["07-2026-CFCAL--financement-SCPI-en-nom-propre-nantissement-de-parts.pdf"], "tags": ["scpi", "nom_propre", "nantissement"], "period": "2026-07" },
+    { "canonical": "07-2026-CFCAL-financement-SCPI-en-nom-propre-caution-logement.pdf", "category": "scpi", "partner": "cfcal", "title": "SCPI nom propre — caution logement", "aliases": ["07-2026-CFCAL--financement-SCPI-en-nom-propre-caution-logement.pdf"], "tags": ["scpi", "nom_propre", "caution"], "period": "2026-07" },
+    { "canonical": "07-2026-CFCAL-financement-SCPI-en-SCI-nantissement-de-parts.pdf", "category": "scpi", "partner": "cfcal", "title": "SCPI en SCI — nantissement de parts", "aliases": ["07-2026-CFCAL--financement-SCPI-en-SCI-nantissement-de-parts.pdf"], "tags": ["scpi", "sci", "nantissement"], "period": "2026-07" },
+    { "canonical": "07-2026-Liste-SCPI-CREDIT-LIFT.pdf", "category": "scpi", "partner": "credilift", "title": "Liste SCPI CREDIT LIFT", "aliases": ["07-2026-Liste-SCPI-CREDIT-LIFT.pdf"], "tags": ["scpi", "liste"], "period": "2026-07", "kind": "liste" },
+    { "canonical": "07-2026-CREDIT-LIFT-taux-sans-commissionnement.pdf", "category": "scpi", "partner": "credilift", "title": "CREDIT LIFT taux sans commissionnement", "aliases": ["07-2026-CREDIT-LIFT-taux-sans-commissionnement.pdf"], "tags": ["scpi", "taux", "sans_commission"], "period": "2026-07" },
+    { "canonical": "07-2026-CREDIT-LIFT-taux-avec-commissionnement.pdf", "category": "scpi", "partner": "credilift", "title": "CREDIT LIFT taux avec commissionnement", "aliases": ["07-2026-CREDIT-LIFT-taux-avec-commissionnement.pdf"], "tags": ["scpi", "taux", "avec_commission"], "period": "2026-07" },
+
+    { "canonical": "07-2026-CFCAL-PVH.pdf", "category": "pvh", "partner": "cfcal", "title": "CFCAL PVH", "aliases": ["07-2026-CFCAL-PVH.pdf"], "tags": ["pvh", "senior", "hypo", "cfcal"], "period": "2026-07" },
+    { "canonical": "Fiche-renseignement-client.pdf", "category": "pvh", "partner": "cfcal", "title": "Fiche renseignement client", "aliases": ["Fiche-renseignement-client.pdf"], "tags": ["pvh", "kyc", "formulaire"], "period": null, "kind": "formulaire" },
+
+    { "canonical": "07-2026-SCI-PAT-CFCAL.pdf", "category": "sci", "partner": "cfcal", "title": "SCI PAT CFCAL", "aliases": ["07-2026-SCI-PAT-CFCAL.pdf"], "tags": ["sci", "taux", "cfcal"], "period": "2026-07" },
+    { "canonical": "07-2026-CFCAL-Credit-Immo-suspendu.pdf", "category": "immo", "partner": "cfcal", "title": "CFCAL Crédit Immo (suspendu)", "aliases": ["07-2026-CFCAL-Credit-Immo-suspendu.pdf"], "tags": ["immo", "suspendu", "cfcal"], "period": "2026-07", "flags": ["suspendu"], "notes": "Produit marqué suspendu — vérifier avant usage." },
+    { "canonical": "TABLEAU-PATRIMOINE-BANK-B.pdf", "category": "hypo_treso", "partner": "bank_b", "title": "Tableau patrimoine BANK B", "aliases": ["TABLEAU-PATRIMOINE-BANK-B.pdf"], "tags": ["patrimoine", "hypo"], "period": null, "kind": "outil" }
+  ],
+  "missingFromDownloadList": [
+    "TABLEAU PATRIMONIAL.xlsx (SCI/IMMO générique)",
+    "TABLEAU PATRIMONIAL CFCAL.xlsx",
+    "CFCAL Tableau de situation patrimoniale.xlsx",
+    "Grilles DOM-TOM Réunion / Antilles (si distinctes des métropole)"
+  ],
+  "duplicateGroupsIgnored": [
+    "LA-BANQUE-POSTALE (1)(2) → garder La-Banque-Postale",
+    "CREDIT-LIFT RAC (1)(2) → 1 fichier par type",
+    "CREATIS RAC (1)(2) → 1 fichier par type",
+    "MMB MY NEW TRESO (1)(2) → 1 fichier",
+    "Taux BANK B (1)(2)(3) → 1 fichier"
+  ]
+}

@@ -33,22 +33,40 @@ Le moteur :
 | `relais` | Prêt relais |
 | `pvh` | Prêt viager hypothécaire |
 
-## Comment ajouter un document (quand vous l’envoyez)
+## Import rapide (vos PDF Téléchargements)
+
+Le manifeste [`scripts/pret-grilles-manifest.json`](../scripts/pret-grilles-manifest.json) contient les **noms exacts** dédupliqués (sans `(1)` / `(2)`).
+
+```bash
+# 1. Copier tous les PDF dans l’inbox
+#    Windows → espace agent / repo :
+#    docs/pret-grilles/_inbox/
+
+# 2. Import + régénération catalogue
+npm run pret:grilles:import
+
+# 3. (optionnel) rebuild seul
+npm run pret:grilles:build
+```
+
+Les fichiers sont rangés dans `docs/pret-grilles/<categorie>/` et le JSON passe en `status: available`.
+
+### Manquants par rapport à votre liste
+- Tableaux patrimoniaux **.xlsx** (SCI / IMMO / CFCAL / PVH)
+- Grilles **DOM-TOM** distinctes (si vous les avez sous d’autres noms)
+
+## Comment ajouter un document manuellement
 
 1. Déposer le fichier dans `docs/pret-grilles/<categorie>/`  
-   Ex. `docs/pret-grilles/rac/07-2026-cfcal-avec-garantie.pdf`
-2. Dans `data/pret-grilles-taux.json`, trouver l’entrée (ou en créer une) et renseigner :
-   ```json
-   "status": "available",
-   "path": "./docs/pret-grilles/rac/07-2026-cfcal-avec-garantie.pdf"
-   ```
-3. Compléter les **critères extraits** dans la règle ou dans `notes` / tags :
+   Ex. `docs/pret-grilles/rac/07-2026-RAC-avec-garantie-CFCAL.pdf`
+2. Lancer `npm run pret:grilles:build` (ou éditer le manifeste puis rebuild)
+3. Compléter les **critères extraits** dans les règles :
    - âge max en fin de prêt
    - LTV / ratio hypo
    - montant min/max
    - avec / sans garantie
    - région
-4. Passer `confidence` de la règle de `draft` → `validated` une fois relu.
+4. Passer `confidence` de `draft` → `validated` une fois relu.
 
 ### Schéma document
 ```json

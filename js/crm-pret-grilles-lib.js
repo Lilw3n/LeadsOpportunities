@@ -127,6 +127,8 @@ window.CrmPretGrilles = (function () {
         doc.category,
         categoryLabel(doc.category),
         (doc.tags || []).join(" "),
+        (doc.aliases || []).join(" "),
+        (doc.alsoCategories || []).join(" "),
         doc.region,
         doc.kind,
         (doc.flags || []).join(" ")
