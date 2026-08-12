@@ -1,0 +1,63 @@
+{
+  "updated": "2026-08-12T22:00:01.334Z",
+  "publishedTopicIds": [
+    "vtc-attestation-plateformes-2026",
+    "mutuelle-famille-budget-2026",
+    "rac-regroupement-credits-2026",
+    "emprunteur-lemoine-economies-2026",
+    "acquereur-immo-pret-assurances-2026",
+    "habitation-degats-eaux-locataire-2026"
+  ],
+  "runs": [
+    {
+      "at": "2026-08-12T21:13:17.455Z",
+      "count": 3,
+      "published": true,
+      "articles": [
+        {
+          "topicId": "vtc-attestation-plateformes-2026",
+          "file": "assurance-vtc-attestation-plateformes-2026.html",
+          "title": "Assurance VTC : attestation plateforme, RC Pro et garanties à vérifier en 2026",
+          "need": "vtc"
+        },
+        {
+          "topicId": "mutuelle-famille-budget-2026",
+          "file": "mutuelle-famille-budget-remboursements-2026.html",
+          "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation à comparer",
+          "need": "sante"
+        },
+        {
+          "topicId": "rac-regroupement-credits-2026",
+          "file": "rachat-credits-rac-mensualite-2026.html",
+          "title": "Rachat de crédits (RAC) 2026 : baisser sa mensualité sans allonger le piège",
+          "need": "credit-immo"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T22:00:01.334Z",
+      "count": 3,
+      "published": true,
+      "articles": [
+        {
+          "topicId": "emprunteur-lemoine-economies-2026",
+          "file": "assurance-emprunteur-loi-lemoine-economies-2026.html",
+          "title": "Assurance emprunteur : combien économiser avec la loi Lemoine en 2026 ?",
+          "need": "emprunteur"
+        },
+        {
+          "topicId": "acquereur-immo-pret-assurances-2026",
+          "file": "acquereur-immobilier-pret-assurances-checklist-2026.html",
+          "title": "Acquéreur immobilier 2026 : prêt, assurance emprunteur et habitation à préparer",
+          "need": "credit-immo"
+        },
+        {
+          "topicId": "habitation-degats-eaux-locataire-2026",
+          "file": "assurance-habitation-degats-eaux-locataire-2026.html",
+          "title": "Dégâts des eaux locataire : quelle assurance habitation rembourse en 2026 ?",
+          "need": "habitation"
+        }
+      ]
+    }
+  ]
+}
