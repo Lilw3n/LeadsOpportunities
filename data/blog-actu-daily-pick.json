@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-12",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation - MoneyVox",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5\" target=\"_blank\">Hausse des primes, coût des sinistres :",
+      "pubDate": "Tue, 11 Aug 2026 13:44:50 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026",
+      "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ccefe48c64b9eb81b4c0d8f83e911&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+      "summary": "La sophrologie est de plus en plus pratiquée en France, mais ses séances ne sont pas remboursées par l’Assurance maladie. Tout dépend de vot ...",
+      "pubDate": "Sat, 08 Aug 2026 03:29:00 GMT",
+      "feedId": "source-edge-bing-mutuelle",
+      "feedName": "Edge — Bing mutuelle",
+      "sourceType": "edge",
+      "suggestedFile": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 99,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-les-sinistres-climatiques-dopent-les-prix-et-les-ex",
+      "title": "Assurance habitation : les sinistres climatiques dopent les prix et les exclusions de garanties",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ccf016c7c4dc7aac9f4271e33094e&url=https%3a%2f%2fwww.ouest-france.fr%2feconomie%2fassurance%2fassurance-habitation-les-sinistres-climatiques-dopent-les-prix-et-les-exclusions-de-garanties-635ee04e-ced0-11f0-9f92-1f1697d8d1ab&c=3274237210743212341&mkt=en-us",
+      "summary": "L’UFC-Que choisir alerte sur les conséquences des événements climatiques sur le montant des primes et la survie du principe de mutualisation des risques en France. En 2024, les événements climatiques ...",
+      "pubDate": "Mon, 01 Dec 2025 20:00:00 GMT",
+      "feedId": "source-bing-news-sinistre",
+      "feedName": "Bing News — sinistre assurance",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-habitation-les-sinistres-climatiques-dopent-les-prix-et-les-ex.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 99,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb",
+      "title": "Sinistres : un bon niveau d'assurance habitation en France ? - Batiweb",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNZVl3OFBqOHhqS2M2ZGl3Nm5Lb3VhZXYtY0pxOHZOVFJvRGt4UXhkMkJ4TkhqYlVwNDZDaTRpclZsTldzS2R5aVRROV9oeHpYcDJvSm80dWcxRG1hNXo0WGRtTkVNZEhEZlRlOEIzcTVyQjRaZzdjSHFqVDY0NE95Y0FZRUIxNllBbElBUjB5RFBVdHNIbzg3RVpKSTlZWmI2YWpTbDAzMA?oc=5",
+      "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxNZVl3OFBqOHhqS2M2ZGl3Nm5Lb3VhZXYtY0pxOHZOVFJvRGt4UXhkMkJ4TkhqYlVwNDZDaTRpclZsTldzS2R5aVRROV9oeHpYcDJvSm80dWcxRG1hNXo0WGRtTkVNZEhEZlRlOEIzcTVyQjRaZzdjSHFqVDY0NE95Y0FZRUIxNllBbElBUjB5RFBVdHNIbzg3RVpKSTlZWmI2YWpTbDAzMA?oc=5\" target=\"_blank\">Sinistres : un bon niveau d'assurance habitation en France ?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Bat",
+      "pubDate": "Tue, 16 Jun 2026 07:00:00 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 91,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-comment-choisir-une-assurance-emprunteur-avec-des-garanties-adaptees",
+      "title": "Comment choisir une assurance emprunteur avec des garanties adaptées ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ccf015e7c46ea9032b6b7ef0aa4d4&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fcomment-choisir-une-assurance-emprunteur-avec-des-garanties-adaptees-1527764&c=4557320766251163351&mkt=en-us",
+      "summary": "Chaque année, des milliers d'emprunteurs français recherchent des solutions pour optimiser le coût de leur assurance de prêt immobilier. Cardif, marque commerciale de BNP Paribas Cardif, filiale du ...",
+      "pubDate": "Mon, 22 Jun 2026 01:30:00 GMT",
+      "feedId": "source-bing-news-emprunteur",
+      "feedName": "Bing News — assurance emprunteur",
+      "sourceType": "bing",
+      "suggestedFile": "comment-choisir-une-assurance-emprunteur-avec-des-garanties-adaptees.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 89,
+      "status": "candidate"
+    }
+  ]
+}
