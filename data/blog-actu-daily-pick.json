@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-12",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation - MoneyVox",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "summary": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation &nbsp;&nbsp; MoneyVox",
+      "pubDate": "Tue, 11 Aug 2026 13:44:50 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb",
+      "title": "Sinistres : un bon niveau d'assurance habitation en France ? - Batiweb",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNZVl3OFBqOHhqS2M2ZGl3Nm5Lb3VhZXYtY0pxOHZOVFJvRGt4UXhkMkJ4TkhqYlVwNDZDaTRpclZsTldzS2R5aVRROV9oeHpYcDJvSm80dWcxRG1hNXo0WGRtTkVNZEhEZlRlOEIzcTVyQjRaZzdjSHFqVDY0NE95Y0FZRUIxNllBbElBUjB5RFBVdHNIbzg3RVpKSTlZWmI2YWpTbDAzMA?oc=5",
+      "summary": "Sinistres : un bon niveau d'assurance habitation en France ? &nbsp;&nbsp; Batiweb",
+      "pubDate": "Tue, 16 Jun 2026 07:00:00 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-pres-de-20-de-parts-de-marche-pour-la-delegation-ma",
+      "title": "Assurance emprunteur : près de 20% de parts de marché pour la délégation - Magnolia.fr",
+      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPOExGUnlNYVZYSmltLTkxeTR3R0NPb1RRQjdRUXVwcW82ZExhQlA0WWtZZnNTeU9vTjZWQmYteVk1SXd1RlJuNHJSVmJpU3NGYUFDdndSajd5MDBaalVqMEtaZllSRWNYTHVCaHF4ZEFUUWxuNkI5bzc2RGdROExEM1lBamVkaG41U0RxakhuOTRDa2hJOUxucmlZUmtBRFNjZnN1T3FJcUFGNkFTNFhHSmNwSQ?oc=5",
+      "summary": "Assurance emprunteur : près de 20% de parts de marché pour la délégation &nbsp;&nbsp; Magnolia.fr",
+      "pubDate": "Fri, 27 Feb 2026 08:00:00 GMT",
+      "feedId": "google-news-emprunteur",
+      "feedName": "Google News — assurance emprunteur",
+      "sourceType": "google",
+      "suggestedFile": "assurance-emprunteur-pres-de-20-de-parts-de-marche-pour-la-delegation-ma.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 90,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-les-services-financiers-de-carrefour-france-et-le-groupe-magnolia-lancen",
+      "title": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en Assurance Emprunteur immobilier pour optimiser le budget assurance des ménages propriétaires - Carrefour Group",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQY2VLaHpSc1J0dk9KV3k4R1JmREJlbThCWWg2V0pmRHRFZExvZ21YTGlWZTdIWjBEaFhZV3BhVXlNUnRHVHN6TzZTdFg2UkNqLUZjM0FkZkF4YVZ1OURUYWtpV0swTlhkVnFiTDhOZUZIbnFvUllpUlB3RmRTZW5mN2JoOTdzcWRWT2pYc000bW1QRTUzRUVrZUZvUTJFMWhWd2VsNGk4TDd5TVQyR1RBZXZPcVJzelFYTEVxbzd6UXpKeDg?oc=5",
+      "summary": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en Assurance Emprunteur immobilier pour optimiser le budget assurance des ménages propriétaires &nbsp;&nbsp; Carrefour Group",
+      "pubDate": "Wed, 25 Mar 2026 07:00:00 GMT",
+      "feedId": "google-news-emprunteur",
+      "feedName": "Google News — assurance emprunteur",
+      "sourceType": "google",
+      "suggestedFile": "les-services-financiers-de-carrefour-france-et-le-groupe-magnolia-lancen.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 90,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-changement-d-assurance-emprunteur-quatre-banques-sanctionnees-pour-entra",
+      "title": "Changement d’assurance emprunteur - Quatre banques sanctionnées pour entrave à la loi - Que Choisir",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQZkRwamxDM2ZkUVAwSU00endHZFNxcE9xUGM2b1FJTVo3RXJoNEtudHZwUlg0VFI4TUZ0MnpuaVgxVkhEVng0eHZnMlJ2ZGlfQXdoX05jSUJVczVHVC1oNFowQUozaC13bk1zMkhTWW93eEdqOUd5cW5TUWNZbXI2aU1mN0wtcUFRZGFzdG5KLWpzWkdhODlsTm9jelV6dnJlcFFIT1Z6MkJLOFJmZGd1TlBjWXl6N0hfeHFZRjNYQ0VWZWk5ek96Sg?oc=5",
+      "summary": "Changement d’assurance emprunteur - Quatre banques sanctionnées pour entrave à la loi &nbsp;&nbsp; Que Choisir",
+      "pubDate": "Sat, 18 Oct 2025 07:00:00 GMT",
+      "feedId": "google-news-emprunteur",
+      "feedName": "Google News — assurance emprunteur",
+      "sourceType": "google",
+      "suggestedFile": "changement-d-assurance-emprunteur-quatre-banques-sanctionnees-pour-entra.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 90,
+      "status": "candidate"
+    }
+  ]
+}

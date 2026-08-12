@@ -131,6 +131,8 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (looksCorporateWire(candidate)) score -= 45;
+  if (looksMostlyEnglish(candidate)) score -= 35;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
@@ -139,6 +141,60 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function looksCorporateWire(candidate) {
+  var hay = (String(candidate.title || "") + " " + String(candidate.summary || "")).toLowerCase();
+  var source = String(candidate.sourceType || candidate.source || candidate.feedName || "").toLowerCase();
+  if (!/edge|bing|google|aggregator/.test(source)) return false;
+  if (/(assurance|mutuelle|emprunteur|habitation|sinistre|france|francais|français)/i.test(hay)) {
+    return false;
+  }
+  return /businesswire|globenewswire|pr newswire|memorandum of understanding|enters into|announces|appoints|plc|corporation|quarterly results|shareholders/i.test(hay);
+}
+
+function looksMostlyEnglish(candidate) {
+  var hay = (" " + String(candidate.title || "") + " " + String(candidate.summary || "") + " ").toLowerCase();
+  var source = String(candidate.sourceType || candidate.source || candidate.feedName || "").toLowerCase();
+  if (!/edge|bing|google|yahoo|aggregator/.test(source)) return false;
+
+  var frenchHits = [
+    " assurance ",
+    " mutuelle ",
+    " emprunteur ",
+    " habitation ",
+    " sinistre ",
+    " france ",
+    " francais ",
+    " français ",
+    " pour ",
+    " avec ",
+    " dans ",
+    " des ",
+    " les ",
+    " une ",
+  ].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+
+  var englishHits = [
+    " the ",
+    " and ",
+    " of ",
+    " into ",
+    " regarding ",
+    " enters ",
+    " announces ",
+    " appoints ",
+    " global ",
+    " market ",
+    " company ",
+    " shareholders ",
+  ].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+
+  return englishHits >= 3 && frenchHits === 0;
 }
 
 function rankCandidates(candidates) {
