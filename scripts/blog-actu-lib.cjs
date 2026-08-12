@@ -111,8 +111,17 @@ function isProbablyEnglishTitle(title) {
     " after ",
     " before ",
     " over ",
+    " bans ",
+    " calls",
+    " fines",
+    " government",
+    " unsolicited",
+    " violates",
+    " violating",
     " strike",
     " flight",
+    " attendants",
+    " august",
     " says ",
   ].forEach(function (kw) {
     if ((" " + text + " ").indexOf(kw) !== -1) englishScore += 1;
