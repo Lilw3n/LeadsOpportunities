@@ -22,6 +22,7 @@ window.CrmPretImmo = (function () {
   var POSITIONS = [
     { id: "brouillon", label: "Brouillon" },
     { id: "simulation", label: "Simulation" },
+    { id: "coordonnees", label: "Coordonnées transmises" },
     { id: "ddp", label: "DDP en cours" },
     { id: "pieces", label: "Pièces en attente" },
     { id: "banque", label: "En banque" },
@@ -104,6 +105,7 @@ window.CrmPretImmo = (function () {
       email: "",
       situation: "Célibataire",
       profession: "",
+      situation_pro: "Salarié CDI",
       employeur: "",
       secteur: "",
       pro_debut: "",
@@ -235,6 +237,13 @@ window.CrmPretImmo = (function () {
       property_id: o.property_id || "",
       contact_id: o.contact_id || "",
       archived: !!o.archived,
+      /** Transmission légère de contacts (indicateur d'affaires) */
+      mode: o.mode || "dossier",
+      delegation: !!o.delegation,
+      responsable: o.responsable || { nom: "", email: "", tel: "" },
+      infos_complementaires: o.infos_complementaires || "",
+      emprunteur_anciennete: o.emprunteur_anciennete || "",
+      coemprunteur_anciennete: o.coemprunteur_anciennete || "",
     };
   }
 
