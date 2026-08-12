@@ -131,13 +131,15 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
-  if (looksCorporateWire(candidate)) score -= 45;
-  if (looksMostlyEnglish(candidate)) score -= 35;
+  if (looksCorporateWire(candidate)) score -= 100;
+  if (looksMostlyEnglish(candidate)) score -= 60;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 365 * 86400000) score -= 60;
+    else if (age > 90 * 86400000) score -= 30;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -147,9 +149,6 @@ function looksCorporateWire(candidate) {
   var hay = (String(candidate.title || "") + " " + String(candidate.summary || "")).toLowerCase();
   var source = String(candidate.sourceType || candidate.source || candidate.feedName || "").toLowerCase();
   if (!/edge|bing|google|aggregator/.test(source)) return false;
-  if (/(assurance|mutuelle|emprunteur|habitation|sinistre|france|francais|français)/i.test(hay)) {
-    return false;
-  }
   return /businesswire|globenewswire|pr newswire|memorandum of understanding|enters into|announces|appoints|plc|corporation|quarterly results|shareholders/i.test(hay);
 }
 
