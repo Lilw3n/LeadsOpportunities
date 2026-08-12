@@ -48,6 +48,9 @@ function validateArticle(article) {
   if (!article.description || article.description.length < 80) {
     errors.push("meta description trop courte");
   }
+  if (/^collez ici/i.test(String(article.title || "").trim())) {
+    errors.push("titre placeholder (file Cafeyn non remplie)");
+  }
   return errors;
 }
 
@@ -58,10 +61,14 @@ function main() {
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
+  } else if (process.argv.indexOf("--stdin") !== -1) {
+    var stdin = fs.readFileSync(0, "utf8").trim();
+    if (!stdin) {
+      console.error("stdin vide — passez un JSON d'articles ou omettez --stdin.");
+      process.exit(1);
+    }
     var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    articles = Array.isArray(parsed) ? parsed : parsed.articles || [parsed];
   } else {
     var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
     try {
