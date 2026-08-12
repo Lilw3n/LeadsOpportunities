@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T21:23:08.298Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.leparisien.fr/sports/football/football-xavi-hernandez-legende-du-fc-barcelone-nouveau-selectionneur-des-pays-bas-apres-la-coupe-du-monde-12-08-2026-L3ZR3JJBWJFRDN5INPQS5LKBZE.php",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce43adccd47bab174627bcb51edca&url=https%3a%2f%2fwww.ouest-france.fr%2feconomie%2fbudget%2fassurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-baisser-6c6a8ef6-a52a-11f0-a483-88b21a3890bd&c=16937014068484670787&mkt=en-us",
+    "https://www.franceinfo.fr/sante/psycho-bien-etre/sante-mentale/a-paris-cette-association-lutte-contre-l-isolement-des-seniors_8144663.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T21:23:09.314Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T21:23:09.314Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "football-xavi-hernandez-legende-du-fc-barcelone-nouveau-selectionneur-de.html",
+          "title": "Football : Xavi Hernandez, légende du FC Barcelone, nouveau sélectionneur des Pays-Bas … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Parisien",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "assurances-pourquoi-le-prix-des-assurances-emprunteurs-est-il-le-seul-a-.html",
+          "title": "Assurances : pourquoi le prix des assurances emprunteurs est-il le seul à baisser ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        },
+        {
+          "file": "a-paris-cette-association-lutte-contre-l-isolement-des-seniors.html",
+          "title": "A Paris, cette association lutte contre l'isolement des seniors : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
