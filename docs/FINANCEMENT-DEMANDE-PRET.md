@@ -13,6 +13,7 @@ Pont intelligent entre **Barèmes / Financement** (`crm-agency-fees.html`) et le
 Helper : `js/finance-deep-link.js`
 
 ## Entrées
-- Barèmes → boutons CTA + copie de lien
+- Barèmes → boutons CTA + copie de lien + **Créer dossier Prêt Immo**
+- Module [`crm-pret-immo.html`](../crm-pret-immo.html) — Mes dossiers / simulations RAC·IMMO (`docs/CRM-PRET-IMMO.md`)
 - Fiche bien → **Financement / prêt** (préremplit barèmes avec prix FAI/net + `propertyId`)
 - Landings : `landings/credit-immo.html`, `landings/acheteur-immo.html`
