@@ -66,7 +66,13 @@ module.exports = async (req, res) => {
           title: r.title,
           description: r.description,
           eventDate: r.event_date,
-          eventTime: r.event_time,
+          eventTime: r.event_time || extra.eventTime || null,
+          eventEndTime: extra.eventEndTime || null,
+          location: extra.location || "",
+          mode: extra.mode || "",
+          propertyId: extra.propertyId || "",
+          reminderMinutes: extra.reminderMinutes != null ? extra.reminderMinutes : null,
+          confidential: !!extra.confidential,
           status: r.status,
           priority: r.priority,
           createdAt: r.created_at,
@@ -107,10 +113,21 @@ module.exports = async (req, res) => {
       if (!contacts.length) return res.status(404).json({ error: "Contact introuvable" });
 
       const evtId = "evt_" + crypto.randomUUID();
+      const eventTime = body.eventTime || null;
       const extra = JSON.stringify({
         participants: body.participants || [],
         attachments: body.attachments || [],
-        source: "crm-event-create",
+        source: body.source || "crm-event-create",
+        eventTime: eventTime,
+        eventEndTime: body.eventEndTime || null,
+        location: body.location || "",
+        mode: body.mode || "",
+        propertyId: body.propertyId || "",
+        reminderMinutes:
+          body.reminderMinutes != null && body.reminderMinutes !== ""
+            ? Number(body.reminderMinutes)
+            : 60,
+        confidential: !!body.confidential,
       });
 
       await sql`
@@ -119,11 +136,11 @@ module.exports = async (req, res) => {
           status, priority, user_id, extra_data
         ) VALUES (
           ${evtId}, ${contactId},
-          ${body.eventType || "rdv"},
+          ${body.eventType || "meeting"},
           ${title},
           ${body.description || null},
           ${eventDate},
-          ${body.eventTime || null},
+          ${eventTime},
           ${body.status || "pending"},
           ${body.priority || "medium"},
           ${user.id},
@@ -132,11 +149,20 @@ module.exports = async (req, res) => {
       `;
       await touchContact(sql, contactId);
 
-      syncCrmEventToGoogle(user.id, evtId).catch(function (err) {
+      var syncResult = null;
+      try {
+        syncResult = await syncCrmEventToGoogle(user.id, evtId);
+      } catch (err) {
         console.error("[crm/events] calendar sync:", err);
-      });
+        syncResult = { ok: false, error: err.message };
+      }
 
-      return res.status(201).json({ ok: true, id: evtId, eventId: evtId });
+      return res.status(201).json({
+        ok: true,
+        id: evtId,
+        eventId: evtId,
+        googleSync: syncResult,
+      });
     } catch (e) {
       console.error("[crm/events POST]", e);
       return res.status(500).json({ error: "Erreur serveur" });
