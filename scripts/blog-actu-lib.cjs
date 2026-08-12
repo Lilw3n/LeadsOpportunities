@@ -137,6 +137,9 @@ function scoreLeadPotential(candidate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 365 * 86400000) score -= 50;
+    else if (age > 180 * 86400000) score -= 35;
+    else if (age > 30 * 86400000) score -= 15;
   }
 
   return Math.min(100, Math.max(0, score));
@@ -330,6 +333,7 @@ function decodeEntities(s) {
       return String.fromCharCode(parseInt(num, 10));
     })
     .replace(/&amp;/g, "&")
+    .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"')
