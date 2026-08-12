@@ -248,6 +248,29 @@ window.CrmPretImmo = (function () {
     return h ? h.label : id || "—";
   }
 
+  /**
+   * PVH — capital dû après différé total (intérêts capitalisés mensuellement).
+   * Ex. 10 000 € à 6 % → 18 194 € à 10 ans.
+   */
+  function pvhCapitalDue(principal, annualRatePct, years) {
+    var P = Math.max(0, Number(principal) || 0);
+    var r = (Number(annualRatePct) || 0) / 100 / 12;
+    var n = Math.max(0, Math.round((Number(years) || 0) * 12));
+    if (P <= 0) return 0;
+    if (r <= 0 || n <= 0) return round2(P);
+    return round2(P * Math.pow(1 + r, n));
+  }
+
+  function pvhTable(principal, annualRatePct, durations) {
+    var yearsList = durations && durations.length ? durations : [5, 10, 15, 20];
+    return yearsList.map(function (y) {
+      return {
+        years: y,
+        amount: pvhCapitalDue(principal, annualRatePct, y),
+      };
+    });
+  }
+
   return {
     SIM_TYPES: SIM_TYPES,
     HOUSING_STATUSES: HOUSING_STATUSES,
@@ -264,6 +287,8 @@ window.CrmPretImmo = (function () {
     typeLabel: typeLabel,
     positionLabel: positionLabel,
     housingLabel: housingLabel,
+    pvhCapitalDue: pvhCapitalDue,
+    pvhTable: pvhTable,
     euro: euro,
     round2: round2,
   };

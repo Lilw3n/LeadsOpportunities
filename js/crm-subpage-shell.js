@@ -45,6 +45,7 @@
       "crm-agency-fees.html": { subtitle: "Honoraires vendeur + financement acheteur (prêt / rachat)" },
       "crm-pret-immo.html": { subtitle: "Mes dossiers prêt — RAC, IMMO, simulations" },
       "crm-pret-immo-sim.html": { subtitle: "Simulateur prêt / RAC (propriétaire, locataire, hébergé)" },
+      "crm-pret-immo-pvh.html": { subtitle: "PVH — calculette montant à rembourser (différé total)" },
       "crm-immo-properties.html": { subtitle: "Piges — filtres RECHERCHE / OÙ / QUI / QUOI / QUAND + actions listing" },
       "crm-immo-suivi.html": { subtitle: "Suivi ventes / locations / offres / sorties de stock" },
       "crm-immo-property.html": { subtitle: "Fiche intelligente — composition, sections conditionnelles, diagnostics, pièces" },
