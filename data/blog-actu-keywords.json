@@ -15,6 +15,13 @@
       "tagClass": "tag-habitation"
     },
     {
+      "keywords": ["sci", "scpi", "viager", "hypothécaire", "hypothecaire", "financement sci", "parts scpi", "bouquet viager", "crédit immobilier", "credit immobilier", "apport personnel", "taux d'endettement", "capacité d'emprunt", "prêt hypo", "crédit conso", "credit conso"],
+      "section": "finance",
+      "need": "credit-immo",
+      "tag": "Crédit immobilier",
+      "tagClass": "tag-actu"
+    },
+    {
       "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
       "section": "finance",
       "need": "emprunteur",
@@ -147,6 +154,7 @@
     "vtc": { "href": "../landings/questionnaire.html?need=vtc&journey=standard", "label": "Questionnaire VTC (3 min)" },
     "animaux": { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux (3 min)" },
     "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur (3 min)" },
+    "credit-immo": { "href": "../landings/questionnaire.html?need=credit-immo&journey=standard", "label": "Questionnaire crédit immo (3 min)" },
     "prevoyance": { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prévoyance (3 min)" },
     "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" }
   }
