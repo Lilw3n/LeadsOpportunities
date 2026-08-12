@@ -350,20 +350,42 @@ function isPlaceholderCandidate(c) {
 function isEnglishOnlyTitle(title) {
   var t = String(title || "");
   if (!t.trim()) return false;
+  var lower = t.toLowerCase();
+  var enHits = (
+    lower.match(
+      /\b(the|into|regarding|potential|enters|advantages|what you need|how to|memorandum of understanding|health insurance|money talk|getting an|sale of|continental europe)\b/g
+    ) || []
+  ).length;
+  var startsFrench = /^(le|la|les|un|une|des|en|pour|comment|quelle?|mutuelle|assurance|coupe|football|éclipse|eclipse|canicule|meilleure)\b/i.test(
+    t.trim()
+  );
+  if (enHits >= 2 && !startsFrench) return true;
   var hasFr =
     /[àâäéèêëïîôùûçœæ]/i.test(t) ||
     /\b(le|la|les|un|une|des|du|de la|et|en|pour|dans|sur|avec|france|français|francais|assurance|mutuelle|emprunteur|sinistre|habitation|santé|sante|complémentaire|complementaire)\b/i.test(
       t
     );
   var hasEn =
-    /\b(the|into|regarding|potential|enters|advantages|what you need|how to|memorandum of understanding|health insurance)\b/i.test(
+    /\b(the|into|regarding|potential|enters|advantages|what you need|how to|memorandum of understanding|health insurance|money talk)\b/i.test(
       t
     );
   return hasEn && !hasFr;
 }
 
+/** Pubs / pages devis concurrentes — pas de l’actu. */
+function isAdOrAffiliateTitle(title) {
+  var t = String(title || "").toLowerCase();
+  if (/mutuelle\.fr/.test(t)) return true;
+  if (/obtenez un devis/.test(t)) return true;
+  return false;
+}
+
 function shouldSkipActuCandidate(c) {
-  return isPlaceholderCandidate(c) || isEnglishOnlyTitle(c && c.title);
+  return (
+    isPlaceholderCandidate(c) ||
+    isEnglishOnlyTitle(c && c.title) ||
+    isAdOrAffiliateTitle(c && c.title)
+  );
 }
 
 module.exports = {
@@ -385,5 +407,6 @@ module.exports = {
   relatedForSection: relatedForSection,
   isPlaceholderCandidate: isPlaceholderCandidate,
   isEnglishOnlyTitle: isEnglishOnlyTitle,
+  isAdOrAffiliateTitle: isAdOrAffiliateTitle,
   shouldSkipActuCandidate: shouldSkipActuCandidate,
 };

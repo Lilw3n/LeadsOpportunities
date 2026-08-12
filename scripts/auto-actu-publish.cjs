@@ -97,6 +97,15 @@ function pickCandidates(candidates, count, state) {
     if (shouldSkipActuCandidate(c)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    var file = String(c.suggestedFile || "");
+    // Slugs déjà dans des PR ouvertes du même pipeline — éviter les doublons au merge.
+    if (
+      file.indexOf("sophrologie-quel-remboursement") === 0 ||
+      file.indexOf("on-se-sent-tout-petits") === 0 ||
+      file.indexOf("championnats-d-europe-d-athletisme") === 0
+    ) {
+      return false;
+    }
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
