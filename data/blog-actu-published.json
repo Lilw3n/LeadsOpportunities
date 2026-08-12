@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-12T21:13:17.450Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,313 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "assurance-vtc-attestation-plateformes-2026.html",
+      "section": "vtc",
+      "tag": "Assurance VTC",
+      "tagClass": "tag-vtc",
+      "themes": [
+        "vtc",
+        "pro"
+      ],
+      "title": "Assurance VTC : attestation plateforme, RC Pro et garanties à vérifier en 2026",
+      "description": "Checklist assurance VTC 2026 : attestation Uber, Bolt ou Heetch, RC Pro, usage professionnel, franchise et devis gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "VTC : l'attestation qui évite le blocage plateforme et le mauvais contrat.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=vtc&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=vtc_lead_content&utm_content=vtc-attestation-plateformes-2026",
+        "label": "Questionnaire VTC (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrète : <strong>chauffeur VTC qui doit fournir une attestation ou comparer avant renouvellement</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore à votre risque, à votre budget et aux exigences du marché."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet génère des demandes qualifiées"
+        },
+        {
+          "type": "p",
+          "text": "Un chauffeur peut être bloqué par sa plateforme si l'attestation n'indique pas clairement l'usage VTC, ou rester mal couvert si le véhicule est assuré comme usage privé. C'est exactement le moment où un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifiés avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>renouvellement annuel, changement de véhicule, inscription Uber/Bolt/Heetch, hausse de prime ou premier sinistre</strong>. Si l'un de ces cas vous concerne, comparer maintenant évite de choisir dans l'urgence après un sinistre, un refus d'attestation ou une facture trop élevée."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties à vérifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "RC circulation et RC professionnelle adaptées au transport de personnes",
+            "Usage professionnel du véhicule déclaré sans ambiguïté",
+            "Attestation acceptée par Uber, Bolt, Heetch ou plateforme locale",
+            "Franchise, assistance 0 km et véhicule de remplacement",
+            "Protection juridique et perte d'exploitation selon activité"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au même tarif peuvent être très différents si les franchises, exclusions, plafonds ou délais de carence ne correspondent pas à votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert à qualifier le besoin en 3 à 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitée. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>obtenir une orientation rapide vers le niveau de garanties compatible plateforme et budget</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos réponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Une assurance auto classique suffit-elle pour faire du VTC ?",
+          "a": "Non. L'usage transport de personnes doit être déclaré et l'attestation doit correspondre aux exigences de la plateforme."
+        },
+        {
+          "q": "Quand comparer son assurance VTC ?",
+          "a": "Avant le renouvellement, avant un changement de véhicule ou dès qu'une plateforme demande une attestation mise à jour."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-vtc-moins-cher-2026.html",
+          "label": "VTC moins cher"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        },
+        {
+          "href": "../assurance-vtc/",
+          "label": "Assurance VTC"
+        }
+      ]
+    },
+    {
+      "file": "mutuelle-famille-budget-remboursements-2026.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "themes": [
+        "sante",
+        "seniors"
+      ],
+      "title": "Mutuelle famille 2026 : budget, dentaire, optique et hospitalisation à comparer",
+      "description": "Guide mutuelle famille : postes à comparer, budget mensuel, garanties inutiles et questionnaire gratuit pour calibrer le bon niveau.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Famille : comparer sans baisser les postes qui coûtent vraiment cher.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=sante_lead_content&utm_content=mutuelle-famille-budget-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrète : <strong>foyer qui veut réduire sa cotisation mutuelle sans perdre les garanties essentielles</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore à votre risque, à votre budget et aux exigences du marché."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet génère des demandes qualifiées"
+        },
+        {
+          "type": "p",
+          "text": "Une baisse de cotisation peut devenir coûteuse si elle sacrifie l'hospitalisation, le dentaire ou l'optique des enfants. C'est exactement le moment où un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifiés avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>hausse annuelle, naissance, orthodontie, lunettes, changement d'employeur ou passage indépendant</strong>. Si l'un de ces cas vous concerne, comparer maintenant évite de choisir dans l'urgence après un sinistre, un refus d'attestation ou une facture trop élevée."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties à vérifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation : chambre particulière, honoraires et forfait journalier",
+            "Dentaire : orthodontie, implants et plafonds annuels",
+            "Optique : monture, verres complexes et réseau partenaire",
+            "Médecins : dépassements d'honoraires et téléconsultation",
+            "Délais de carence et exclusions avant changement"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au même tarif peuvent être très différents si les franchises, exclusions, plafonds ou délais de carence ne correspondent pas à votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert à qualifier le besoin en 3 à 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitée. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>identifier le niveau entrée, confort ou renforcé avant devis</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos réponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Faut-il toujours prendre le niveau le plus cher ?",
+          "a": "Non. Le bon contrat dépend des soins prévisibles, du budget et du reste à charge acceptable."
+        },
+        {
+          "q": "Le questionnaire remplace-t-il un devis ?",
+          "a": "Il prépare le devis en qualifiant les besoins ; un conseiller peut ensuite comparer les offres pertinentes."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        },
+        {
+          "href": "../assurance-sante/",
+          "label": "Mutuelle santé"
+        }
+      ]
+    },
+    {
+      "file": "rachat-credits-rac-mensualite-2026.html",
+      "section": "finance",
+      "tag": "Crédit & RAC",
+      "tagClass": "tag-actu",
+      "themes": [
+        "finance",
+        "emprunteur"
+      ],
+      "title": "Rachat de crédits (RAC) 2026 : baisser sa mensualité sans allonger le piège",
+      "description": "Regroupement de crédits : quand le RAC baisse vraiment la mensualité, frais, durée, assurance emprunteur et questionnaire gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Crédits immo + conso : simuler un RAC avant de signer trop long.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=lead_evergreen&utm_campaign=credit-immo_lead_content&utm_content=rac-regroupement-credits-2026",
+        "label": "Questionnaire crédit immo (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Ce guide vise une situation concrète : <strong>emprunteur qui juggle plusieurs crédits et veut une mensualité unique plus soutenable</strong>. L'objectif n'est pas de lire un comparatif de plus, mais de savoir si votre contrat actuel colle encore à votre risque, à votre budget et aux exigences du marché."
+        },
+        {
+          "type": "h2",
+          "text": "Pourquoi ce sujet génère des demandes qualifiées"
+        },
+        {
+          "type": "p",
+          "text": "Un RAC mal calibré peut baisser la mensualité en allongeant fortement la durée, donc le coût total, surtout si l'assurance et les frais de dossier sont sous-estimés. C'est exactement le moment où un questionnaire court transforme une lecture blog en demande exploitable : besoin, profil, niveau de garantie et urgence sont clarifiés avant l'appel."
+        },
+        {
+          "type": "h2",
+          "text": "Quand comparer ou demander un devis"
+        },
+        {
+          "type": "p",
+          "text": "Les meilleurs signaux sont simples : <strong>plusieurs crédits en cours, reste à vivre trop juste, projet immobilier, rachat proposé par la banque ou simulation courtier</strong>. Si l'un de ces cas vous concerne, comparer maintenant évite de choisir dans l'urgence après un sinistre, un refus d'attestation ou une facture trop élevée."
+        },
+        {
+          "type": "h2",
+          "text": "Les garanties à vérifier avant de signer"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Liste des crédits : immobilier, conso, auto, revolving et restes à charge",
+            "Mensualité actuelle vs mensualité cible et reste à vivre",
+            "Durée restante, coût total et indemnités de remboursement anticipé",
+            "Assurance emprunteur et garanties après regroupement",
+            "Frais de dossier, garantie (hypothèque / caution) et date d'effet"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "Ne comparez pas uniquement le prix. Deux contrats au même tarif peuvent être très différents si les franchises, exclusions, plafonds ou délais de carence ne correspondent pas à votre profil."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Comment passer de l'article au bon parcours"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire Leads Opportunities sert à qualifier le besoin en 3 à 6 minutes : situation, budget, garanties indispensables et date d'effet souhaitée. Il permet ensuite d'orienter vers le bon parcours, sans multiplier les formulaires inutiles."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que vous pouvez obtenir"
+        },
+        {
+          "type": "p",
+          "text": "La promesse est volontairement simple : <strong>cadrer mensualité cible, durée et assurances avant une simulation RAC</strong>. Un conseiller peut ensuite comparer plusieurs assureurs ou courtiers partenaires selon vos réponses."
+        }
+      ],
+      "faq": [
+        {
+          "q": "Un RAC baisse-t-il toujours le coût total du crédit ?",
+          "a": "Non. La mensualité peut baisser alors que le coût total augmente si la durée s'allonge trop. Il faut comparer les deux indicateurs."
+        },
+        {
+          "q": "Peut-on regrouper un prêt immobilier et des crédits conso ?",
+          "a": "Oui, c'est un cas fréquent. Le montage, les garanties et l'assurance dépendent du poids de l'immobilier dans le dossier."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        },
+        {
+          "href": "../landings/credit-immo.html",
+          "label": "Simulation crédit immobilier"
         }
       ]
     }
