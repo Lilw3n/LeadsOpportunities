@@ -44,13 +44,16 @@ Chaque exécution **reprend explicitement Cafeyn, Edge et Firefox** :
 | **Cafeyn** | Figaro, Parisien, Libé, Ouest-France, Sud Ouest, Midi Libre, La Dépêche, Nice-Matin, DNA, Le Progrès, Le Monde, L'Express, Capital… |
 | **Edge** | Bing News : France, actu, économie, assurance, mutuelle, immobilier, santé |
 | **Firefox** | France Info (titres/santé/éco), France 24, Mediapart, RFI, BFMTV, Europe 1, HuffPost, Courrier international + Pocket |
-| **Google News** | 20+ requêtes assurance + **Coupe du monde 2026** (matchs, Bleus, Mbappé, supporters, voyage) |
+| **Google News** | 20+ requêtes France / assurance / immobilier / santé + **Coupe du monde 2026** |
+| **Bing** | Bing News : France, assurance, mutuelle, immobilier, auto |
+| **Yahoo** | Yahoo Actualités + Yahoo Finance France |
 
 **Sélection** :
-- `--count=3` (ou plus) → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
-- `--count=1` → rotation automatique (cafeyn → edge → firefox) sur les 5 crons/jour
+- `--count=3` → **1 article Cafeyn + 1 Edge + 1 Firefox** à chaque run
+- `--count=5` → ajoute Google News + Bing News si des candidats qualifiés existent
+- `--count=1` → rotation automatique (cafeyn → edge → firefox → google → bing → yahoo)
 
-Les candidats Google News restent en secours, mais ne remplacent plus les 3 plateformes.
+Les candidats Yahoo restent en appoint si les autres sources n'ont pas assez de sujets qualifiés.
 
 ```bash
 # 1 article (rotation cafeyn/edge/firefox selon l'heure)
@@ -90,13 +93,15 @@ Sans clé IA, le pipeline utilise **`blog-actu-enrich.cjs`** (angles assurance p
 | Ce que vous lisez | Ce que le bot utilise |
 |-------------------|------------------------|
 | **Cafeyn** (Figaro, Parisien, Libé, Ouest-France…) | RSS publics des **mêmes journaux** (`sourceType: cafeyn`) |
-| **Edge** (MSN actu) | `https://www.msn.com/fr-fr/news/rss` |
+| **Edge** (MSN actu) | Bing News RSS avec requêtes France/économie/assurance |
 | **Firefox** (France Info, 20 Minutes) | RSS Franceinfo + 20 Minutes |
+| **Google News** | RSS publics Google News France + requêtes assurance |
+| **Bing / Yahoo** | RSS publics Bing News, Yahoo Actualités, Yahoo Finance |
 | **Pocket** (sauvegardes) | API Pocket si tokens configurés |
 
 **Ne communiquez jamais vos login Cafeyn** : CGU, risque compte, et blocage technique.
 
-Configuration des flux : **`data/blog-actu-feeds.json`** (~55 sources testées).
+Configuration des flux : **`data/blog-actu-feeds.json`** (sources publiques testées, quotas par plateforme).
 
 ## Pipeline détaillé
 

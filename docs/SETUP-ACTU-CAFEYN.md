@@ -11,8 +11,9 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 | « Il faut email + mot de passe Cafeyn » | Oui **pour vous** dans l’app / le site Cafeyn |
 | « Le bot peut se connecter avec » | **Non** — CGU Cafeyn, risque de bannissement, pas d’API officielle, sessions anti-bot |
 | « Comment récupérer mes articles Cafeyn ? » | **1)** RSS automatique (mêmes journaux) **2)** Favori 1 clic (vous êtes déjà connecté) |
+| « Et Google/Bing/Yahoo/Edge/Firefox ? » | Flux publics : Google News, Bing News, Yahoo Actualités/Finance, Franceinfo, 20 Minutes, Pocket |
 
-Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
+Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké, aucun identifiant transmis à l'agent.**
 
 ---
 

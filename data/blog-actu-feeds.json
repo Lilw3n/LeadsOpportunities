@@ -5,7 +5,10 @@
     "cafeyn": 20,
     "edge": 12,
     "firefox": 15,
-    "aggregator": 30
+    "google": 18,
+    "bing": 12,
+    "yahoo": 10,
+    "aggregator": 8
   },
   "feeds": [
     {
@@ -261,6 +264,20 @@
       "enabled": true
     },
     {
+      "id": "source-firefox-20minutes-une",
+      "name": "Firefox — 20 Minutes une",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-une.xml",
+      "enabled": true
+    },
+    {
+      "id": "source-firefox-20minutes-france",
+      "name": "Firefox — 20 Minutes France",
+      "sourceType": "firefox",
+      "url": "https://www.20minutes.fr/feeds/rss-france.xml",
+      "enabled": true
+    },
+    {
       "id": "google-news-top-fr",
       "name": "Google News — une France",
       "sourceType": "aggregator",
@@ -457,6 +474,69 @@
       "enabled": true
     },
     {
+      "id": "source-bing-news-france",
+      "name": "Bing News — France",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=France&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-assurance",
+      "name": "Bing News — assurance",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=assurance+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-mutuelle",
+      "name": "Bing News — mutuelle",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=mutuelle+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-immobilier",
+      "name": "Bing News — immobilier",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=pret+immobilier+assurance+emprunteur+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-bing-news-auto",
+      "name": "Bing News — auto",
+      "sourceType": "bing",
+      "url": "https://www.bing.com/news/search?q=assurance+auto+france&format=rss&setlang=fr-FR",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-actualites",
+      "name": "Yahoo Actualites — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-france",
+      "name": "Yahoo Actualites — France",
+      "sourceType": "yahoo",
+      "url": "https://fr.news.yahoo.com/rss/france/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance",
+      "name": "Yahoo Finance — une",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/",
+      "enabled": true
+    },
+    {
+      "id": "source-yahoo-finance-topstories",
+      "name": "Yahoo Finance — top stories",
+      "sourceType": "yahoo",
+      "url": "https://fr.finance.yahoo.com/rss/topstories",
+      "enabled": true
+    },
+    {
       "id": "source-edge-bing-equipe-france",
       "name": "Edge — Bing équipe de France",
       "sourceType": "edge",
@@ -475,5 +555,5 @@
     "enabled": true,
     "note": "Firefox Pocket — POCKET_CONSUMER_KEY + POCKET_ACCESS_TOKEN"
   },
-  "notes": "CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
+  "notes": "Collecte multi-sources : Cafeyn via RSS publics des titres du kiosque + inbox securisee, Edge/MSN via Bing News, Firefox via Franceinfo/20 Minutes/Pocket, Google News, Bing News et Yahoo. CDM 2026 : flux dedies matchs, supporters, joueurs. Angle assurance voyage/sante/habitation via blog-actu-keywords + enrich sport."
 }
