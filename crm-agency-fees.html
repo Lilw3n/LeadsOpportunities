@@ -240,6 +240,13 @@
           <option value="1">Oui</option>
         </select>
       </div>
+      <div>
+        <label for="dealOtherCollabEnabled">Autre collaborateur (notaire, partenaire…)</label>
+        <select id="dealOtherCollabEnabled">
+          <option value="0">Non</option>
+          <option value="1">Oui</option>
+        </select>
+      </div>
     </div>
     <div class="af-calc-grid" id="dealApporteurFields" hidden style="margin-top:12px">
       <div>
@@ -269,6 +276,32 @@
       <div>
         <label for="dealApporteurPaidFrom">Prélevé sur</label>
         <select id="dealApporteurPaidFrom">
+          <option value="my_share">Ma rémunération</option>
+          <option value="agent_mass">Masse négo (prorata)</option>
+          <option value="agency">Part agence / réseau</option>
+        </select>
+      </div>
+    </div>
+    <div class="af-calc-grid" id="dealOtherCollabFields" hidden style="margin-top:12px">
+      <div>
+        <label for="dealOtherCollabName">Nom / rôle</label>
+        <input id="dealOtherCollabName" type="text" placeholder="Ex. notaire, partenaire, assistant…" />
+      </div>
+      <div>
+        <label for="dealOtherCollabPct">Commission %</label>
+        <input id="dealOtherCollabPct" type="number" min="0" max="100" step="0.1" value="0" />
+      </div>
+      <div>
+        <label for="dealOtherCollabBase">% calculé sur</label>
+        <select id="dealOtherCollabBase">
+          <option value="my_share">Ma part</option>
+          <option value="agent_mass">Masse négociateurs</option>
+          <option value="agency_fee">Honoraires agence</option>
+        </select>
+      </div>
+      <div>
+        <label for="dealOtherCollabPaidFrom">Prélevé sur</label>
+        <select id="dealOtherCollabPaidFrom">
           <option value="my_share">Ma rémunération</option>
           <option value="agent_mass">Masse négo (prorata)</option>
           <option value="agency">Part agence / réseau</option>

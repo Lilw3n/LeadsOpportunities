@@ -43,6 +43,11 @@ window.CrmAgencyFees = (function () {
       apporteurPct: 0,
       apporteurBase: "my_share",
       apporteurPaidFrom: "my_share",
+      otherCollabEnabled: false,
+      otherCollabName: "",
+      otherCollabPct: 0,
+      otherCollabBase: "my_share",
+      otherCollabPaidFrom: "my_share",
     };
   }
 
@@ -107,48 +112,68 @@ window.CrmAgencyFees = (function () {
       myRole === "both" ? agentMass : myRole === "sortant" ? sortantGross : entrantGross;
     var otherGross = myRole === "both" ? 0 : myRole === "sortant" ? entrantGross : sortantGross;
 
-    // Apporteur — % saisis par l'utilisateur (0 par défaut). Compta CRM : saisie manuelle.
-    var appFee = 0;
-    var appDetail = null;
-    if (d.apporteurEnabled && Number(d.apporteurPct) > 0) {
-      var appPct = Number(d.apporteurPct) || 0;
+    // Apporteur / autre collab — % saisis (0 par défaut). Pas de % inventés.
+    function buildSideFee(enabled, pctRaw, baseKey, paidFromKey, name, side) {
+      if (!enabled || !(Number(pctRaw) > 0)) return null;
+      var pct = Number(pctRaw) || 0;
       var baseAmt =
-        d.apporteurBase === "agency_fee"
-          ? fee
-          : d.apporteurBase === "agent_mass"
-            ? agentMass
-            : myGrossBeforeApp;
-      appFee = round2((baseAmt * appPct) / 100);
-      var paidFrom = d.apporteurPaidFrom || "my_share";
-      appDetail = {
-        name: String(d.apporteurName || "Apporteur"),
-        side: d.apporteurSide || "vendeur",
-        pct: appPct,
-        base: d.apporteurBase || "my_share",
+        baseKey === "agency_fee" ? fee : baseKey === "agent_mass" ? agentMass : myGrossBeforeApp;
+      return {
+        name: String(name || "Collaborateur"),
+        side: side || "",
+        pct: pct,
+        base: baseKey || "my_share",
         baseAmount: round2(baseAmt),
-        amount: appFee,
-        paidFrom: paidFrom,
+        amount: round2((baseAmt * pct) / 100),
+        paidFrom: paidFromKey || "my_share",
       };
     }
 
-    var myGross = myGrossBeforeApp;
-    var agencyKeepAfter = agencyKeep;
-    var otherGrossAfter = otherGross;
-    if (appFee > 0 && appDetail) {
-      if (appDetail.paidFrom === "agency") {
-        agencyKeepAfter = round2(Math.max(0, agencyKeep - appFee));
-      } else if (appDetail.paidFrom === "agent_mass") {
-        // Prorata sur ma part et l'autre
+    function applySideCut(detail, state) {
+      if (!detail || !(detail.amount > 0)) return state;
+      var amt = detail.amount;
+      if (detail.paidFrom === "agency") {
+        state.agencyKeepAfter = round2(Math.max(0, state.agencyKeepAfter - amt));
+      } else if (detail.paidFrom === "agent_mass") {
         if (agentMass > 0) {
-          var myCut = round2(appFee * (myGrossBeforeApp / agentMass));
-          var otherCut = round2(appFee - myCut);
-          myGross = round2(Math.max(0, myGrossBeforeApp - myCut));
-          otherGrossAfter = round2(Math.max(0, otherGross - otherCut));
+          var myCut = round2(amt * (myGrossBeforeApp / agentMass));
+          var otherCut = round2(amt - myCut);
+          state.myGross = round2(Math.max(0, state.myGross - myCut));
+          state.otherGrossAfter = round2(Math.max(0, state.otherGrossAfter - otherCut));
         }
       } else {
-        myGross = round2(Math.max(0, myGrossBeforeApp - appFee));
+        state.myGross = round2(Math.max(0, state.myGross - amt));
       }
+      return state;
     }
+
+    var appDetail = buildSideFee(
+      d.apporteurEnabled,
+      d.apporteurPct,
+      d.apporteurBase,
+      d.apporteurPaidFrom,
+      d.apporteurName || "Apporteur",
+      d.apporteurSide || "vendeur"
+    );
+    var collabDetail = buildSideFee(
+      d.otherCollabEnabled,
+      d.otherCollabPct,
+      d.otherCollabBase,
+      d.otherCollabPaidFrom,
+      d.otherCollabName || "Autre collaborateur",
+      "collab"
+    );
+
+    var cutState = {
+      myGross: myGrossBeforeApp,
+      agencyKeepAfter: agencyKeep,
+      otherGrossAfter: otherGross,
+    };
+    cutState = applySideCut(appDetail, cutState);
+    cutState = applySideCut(collabDetail, cutState);
+    var myGross = cutState.myGross;
+    var agencyKeepAfter = cutState.agencyKeepAfter;
+    var otherGrossAfter = cutState.otherGrossAfter;
 
     taxOpts = taxOpts || {};
     var chargesPct =
@@ -219,11 +244,19 @@ window.CrmAgencyFees = (function () {
           " (saisie manuelle type CRM apporteur).",
       });
     }
+    if (collabDetail) {
+      steps.push({
+        id: "other_collab",
+        label: "Collaborateur « " + collabDetail.name + " » (" + collabDetail.pct + " %)",
+        value: collabDetail.amount,
+        detail: "Notaire / partenaire / autre — % saisi, pas une règle barème.",
+      });
+    }
     steps.push({
       id: "my_gross",
       label: "Ta rémunération brute",
       value: myGross,
-      detail: "Après partage et apporteur éventuel — avant réserves URSSAF/CFE/compta.",
+      detail: "Après partage et collabs éventuels — avant réserves URSSAF/CFE/compta.",
     });
     steps.push({
       id: "my_net",
@@ -245,6 +278,7 @@ window.CrmAgencyFees = (function () {
       myGrossBeforeApporteur: round2(myGrossBeforeApp),
       otherGross: round2(otherGrossAfter),
       apporteur: appDetail,
+      otherCollab: collabDetail,
       myGross: myGross,
       chargesPct: chargesPct,
       cfePct: cfePct,
@@ -815,21 +849,15 @@ window.CrmAgencyFees = (function () {
     }
 
     var sharePct = Number(agency.agentSharePct) || 0;
-    var deal = opts.deal || null;
-    var dealSplit = null;
-    var agentGross;
-    if (deal) {
-      dealSplit = splitDealRemuneration(agencyFee, sharePct, deal, {
-        chargesPct: opts.chargesPct,
-        urssafPct: opts.urssafPct,
-        irPct: opts.irPct,
-        cfePct: opts.cfePct,
-        accountingPct: opts.accountingPct,
-      });
-      agentGross = dealSplit.myGross;
-    } else {
-      agentGross = (agencyFee * sharePct) / 100;
-    }
+    var deal = opts.deal != null ? opts.deal : null;
+    var dealSplit = splitDealRemuneration(agencyFee, sharePct, deal || {}, {
+      chargesPct: opts.chargesPct,
+      urssafPct: opts.urssafPct,
+      irPct: opts.irPct,
+      cfePct: opts.cfePct,
+      accountingPct: opts.accountingPct,
+    });
+    var agentGross = dealSplit.myGross;
 
     var chargesPct;
     var urssafPct;

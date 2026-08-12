@@ -556,6 +556,81 @@
     };
   }
 
+  function kpiCard(label, amount, cls) {
+    return (
+      '<div class="af-kpi' +
+      (cls ? " " + cls : "") +
+      '"><span>' +
+      label +
+      "</span><strong>" +
+      Lib.formatEuro(amount) +
+      "</strong></div>"
+    );
+  }
+
+  /** Répartition honoraires : agence, autre négo, apporteur, toi, charges, net. */
+  function buildRemunerationKpis(res, ag) {
+    var d = res.dealSplit;
+    var html = "";
+    html += kpiCard("Honoraires agence", res.agencyFee, "muted");
+    if (d) {
+      var agencyPct = Math.max(0, 100 - (Number(d.agentSharePct) || 0));
+      html += kpiCard(
+        "Part agence / réseau (" + agencyPct + " %)",
+        d.agencyKeep,
+        "muted"
+      );
+      if (d.otherGross > 0) {
+        var otherRole =
+          d.myRole === "sortant" ? "entrant" : d.myRole === "entrant" ? "sortant" : "collaborateur";
+        var otherName = (readDealOpts().otherAgentName || "").trim();
+        html += kpiCard(
+          "Autre négociateur (" +
+            otherRole +
+            ")" +
+            (otherName ? " — " + esc(otherName) : ""),
+          d.otherGross,
+          "muted"
+        );
+      }
+      if (d.apporteur && d.apporteur.amount > 0) {
+        html += kpiCard(
+          "Apporteur" +
+            (d.apporteur.name ? " — " + esc(d.apporteur.name) : "") +
+            " (" +
+            d.apporteur.pct +
+            " %)",
+          d.apporteur.amount,
+          "muted"
+        );
+      }
+      if (d.otherCollab && d.otherCollab.amount > 0) {
+        html += kpiCard(
+          (d.otherCollab.name ? esc(d.otherCollab.name) : "Autre collaborateur") +
+            " (" +
+            d.otherCollab.pct +
+            " %)",
+          d.otherCollab.amount,
+          "muted"
+        );
+      }
+    }
+    var roleLabel =
+      d && d.myRole === "sortant"
+        ? "Ta part (sortant)"
+        : d && d.myRole === "entrant"
+          ? "Ta part (entrant)"
+          : "Ta part";
+    html += kpiCard(
+      roleLabel + " (" + (res.agentSharePct || 0) + "% masse)",
+      res.agentGross,
+      ""
+    );
+    html += kpiCard("Charges (URSSAF+CFE+compta)", res.charges, "muted");
+    html += kpiCard("Net estimé (ta poche)", res.agentNet, "highlight");
+    return html;
+  }
+
   function renderCalc() {
     var ag = currentAgency();
     var box = document.getElementById("calcResult");
@@ -580,12 +655,6 @@
       cfePct: currentCfePct(),
       accountingPct: currentAccountingPct(),
     });
-    var roleLabel =
-      res.dealSplit && res.dealSplit.myRole === "sortant"
-        ? "Ta part sortant"
-        : res.dealSplit && res.dealSplit.myRole === "entrant"
-          ? "Ta part entrant"
-          : "Ta part (solo)";
     var refLabel =
       res.priceBasis === "loyer_annuel"
         ? "Loyer annuel"
@@ -605,26 +674,10 @@
       refLabel +
       "</span><strong>" +
       refValue +
-      '</strong></div>' +
-      '<div class="af-kpi muted"><span>Honoraires agence</span><strong>' +
-      Lib.formatEuro(res.agencyFee) +
-      '</strong></div>' +
-      (res.fai != null
-        ? '<div class="af-kpi muted"><span>Prix FAI</span><strong>' + Lib.formatEuro(res.fai) + "</strong></div>"
-        : "") +
-      '<div class="af-kpi"><span>' +
-      roleLabel +
-      " (" +
-      res.agentSharePct +
-      "% masse)</span><strong>" +
-      Lib.formatEuro(res.agentGross) +
-      '</strong></div>' +
-      '<div class="af-kpi muted"><span>Réserves (URSSAF+CFE+compta)</span><strong>' +
-      Lib.formatEuro(res.charges) +
-      '</strong></div>' +
-      '<div class="af-kpi highlight"><span>Dans ta poche</span><strong>' +
-      Lib.formatEuro(res.agentNet) +
-      "</strong></div>";
+      "</strong></div>" +
+      (res.fai != null ? kpiCard("Prix FAI", res.fai, "muted") : "") +
+      buildRemunerationKpis(res, ag);
+
     renderStripePreview(res.agentGross, {
       amountEur: res.agentGross,
       agentNet: res.agentNet,
@@ -660,13 +713,23 @@
             : res.priceBasis === "forfait"
               ? "forfait"
               : "base prix vente";
+    var d = res.dealSplit;
+    var shareBits = [];
+    if (d) {
+      shareBits.push("agence " + Lib.formatEuro(d.agencyKeep));
+      if (d.otherGross > 0) shareBits.push("autre négo " + Lib.formatEuro(d.otherGross));
+      if (d.apporteur) shareBits.push("apporteur " + Lib.formatEuro(d.apporteur.amount));
+      if (d.otherCollab) shareBits.push(d.otherCollab.name + " " + Lib.formatEuro(d.otherCollab.amount));
+      shareBits.push("toi " + Lib.formatEuro(d.myGross));
+    }
     detail.textContent =
       (res.schedule ? res.schedule.name + " — " : "") +
       brLabel +
       " · " +
       basis +
       " · " +
-      ag.name;
+      ag.name +
+      (shareBits.length ? " · répartition : " + shareBits.join(" · ") : "");
   }
 
   function renderCompare() {
@@ -784,6 +847,11 @@
       apporteurPct: Number(document.getElementById("dealApporteurPct").value) || 0,
       apporteurBase: document.getElementById("dealApporteurBase").value || "my_share",
       apporteurPaidFrom: document.getElementById("dealApporteurPaidFrom").value || "my_share",
+      otherCollabEnabled: document.getElementById("dealOtherCollabEnabled").value === "1",
+      otherCollabName: document.getElementById("dealOtherCollabName").value || "",
+      otherCollabPct: Number(document.getElementById("dealOtherCollabPct").value) || 0,
+      otherCollabBase: document.getElementById("dealOtherCollabBase").value || "my_share",
+      otherCollabPaidFrom: document.getElementById("dealOtherCollabPaidFrom").value || "my_share",
     };
   }
 
@@ -803,17 +871,25 @@
     document.getElementById("dealApporteurPct").value = p.apporteurPct != null ? p.apporteurPct : 0;
     document.getElementById("dealApporteurBase").value = p.apporteurBase || "my_share";
     document.getElementById("dealApporteurPaidFrom").value = p.apporteurPaidFrom || "my_share";
+    document.getElementById("dealOtherCollabEnabled").value = p.otherCollabEnabled ? "1" : "0";
+    document.getElementById("dealOtherCollabName").value = p.otherCollabName || "";
+    document.getElementById("dealOtherCollabPct").value = p.otherCollabPct != null ? p.otherCollabPct : 0;
+    document.getElementById("dealOtherCollabBase").value = p.otherCollabBase || "my_share";
+    document.getElementById("dealOtherCollabPaidFrom").value = p.otherCollabPaidFrom || "my_share";
   }
 
   function syncDealExtraFields() {
     var shared = state.dealRole === "sortant" || state.dealRole === "entrant";
     var appOn = document.getElementById("dealApporteurEnabled").value === "1";
+    var collabOn = document.getElementById("dealOtherCollabEnabled").value === "1";
     ["dealShareWrap", "dealEntrantWrap", "dealOtherWrap"].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.hidden = !shared;
     });
     var app = document.getElementById("dealApporteurFields");
     if (app) app.hidden = !appOn;
+    var collab = document.getElementById("dealOtherCollabFields");
+    if (collab) collab.hidden = !collabOn;
   }
 
   function renderDealRoleTabs() {
@@ -875,29 +951,7 @@
     });
     var d = res.dealSplit;
     if (!d) return;
-    kpis.innerHTML =
-      '<div class="af-kpi muted"><span>Honoraires agence</span><strong>' +
-      Lib.formatEuro(d.agencyFee) +
-      '</strong></div>' +
-      '<div class="af-kpi muted"><span>Masse négociateurs</span><strong>' +
-      Lib.formatEuro(d.agentMass) +
-      '</strong></div>' +
-      '<div class="af-kpi"><span>Ta part brute</span><strong>' +
-      Lib.formatEuro(d.myGross) +
-      '</strong></div>' +
-      '<div class="af-kpi highlight"><span>Dans ta poche</span><strong>' +
-      Lib.formatEuro(d.myNet) +
-      "</strong></div>" +
-      (d.apporteur
-        ? '<div class="af-kpi muted"><span>Apporteur</span><strong>' +
-          Lib.formatEuro(d.apporteur.amount) +
-          "</strong></div>"
-        : "") +
-      (d.otherGross > 0
-        ? '<div class="af-kpi muted"><span>Autre négo</span><strong>' +
-          Lib.formatEuro(d.otherGross) +
-          "</strong></div>"
-        : "");
+    kpis.innerHTML = buildRemunerationKpis(res, ag);
     steps.innerHTML = (d.steps || [])
       .map(function (s) {
         return (
@@ -913,9 +967,10 @@
       .join("");
     hint.textContent =
       ag.name +
-      " · part négo paramétrée " +
+      " · part négo " +
       ag.agentSharePct +
-      " % · rôles entrant/sortant et % apporteur sont libres (mandat / usage réseau), pas dans le PDF barème.";
+      " % · les cartes montrent agence / autre négo / apporteur / collab seulement s’ils existent. " +
+      "Frais de notaire d’acte = côté acheteur (financement), pas une part d’honoraires sauf saisie collab.";
   }
 
   function readBuyerOpts() {
@@ -1394,6 +1449,11 @@
     "dealApporteurPct",
     "dealApporteurBase",
     "dealApporteurPaidFrom",
+    "dealOtherCollabEnabled",
+    "dealOtherCollabName",
+    "dealOtherCollabPct",
+    "dealOtherCollabBase",
+    "dealOtherCollabPaidFrom",
   ].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;
