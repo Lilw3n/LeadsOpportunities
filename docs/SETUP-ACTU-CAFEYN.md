@@ -12,7 +12,21 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 | « Le bot peut se connecter avec » | **Non** — CGU Cafeyn, risque de bannissement, pas d’API officielle, sessions anti-bot |
 | « Comment récupérer mes articles Cafeyn ? » | **1)** RSS automatique (mêmes journaux) **2)** Favori 1 clic (vous êtes déjà connecté) |
 
-Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
+Le favori = vous lisez Cafeyn **normalement** (avec votre login, uniquement sur Cafeyn) → 1 clic → article en file prioritaire. **Aucun mot de passe Cafeyn n'est demandé, transmis ou stocké par le bot.**
+
+---
+
+## Sources automatiques sans compte
+
+Le pipeline récupère déjà l'actualité via des sources publiques :
+
+- RSS de journaux disponibles dans Cafeyn (Figaro, Le Parisien, Libération, Ouest-France, Le Monde, etc.)
+- équivalents page d'accueil Edge / MSN via Bing News RSS
+- équivalents Mozilla Firefox / Pocket via Franceinfo, 20 Minutes et flux éditeurs
+- Google News RSS France et requêtes assurance / immobilier / santé
+- Bing News RSS et Yahoo Actualités / Yahoo Finance
+
+Ces flux servent uniquement d'inspiration (titres + résumés) pour créer des articles réécrits avec angle assurance et CTA questionnaire.
 
 ---
 
