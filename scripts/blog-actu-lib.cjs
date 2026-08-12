@@ -152,6 +152,21 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File manuelle / inbox : ignore les gabarits « COLLEZ ICI » qui bloquent le cron. */
+function isPlaceholderQueueItem(item) {
+  if (!item) return true;
+  var title = String(item.title || "").trim();
+  var id = String(item.id || "").toLowerCase();
+  var note = String(item.note || "").toLowerCase();
+  if (!title) return true;
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  if (/collez ici|\[titre\]|votre titre ici|placeholder|titre de la une/i.test(title)) return true;
+  if (/angle assurance a preciser|angle assurance à préciser/.test(note) && !String(item.url || "").trim()) {
+    return true;
+  }
+  return false;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +364,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
