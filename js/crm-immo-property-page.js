@@ -63,6 +63,8 @@
       " · " +
       txLabel +
       " · " +
+      Matcher.propertyStatusLabel(prop.status) +
+      " · " +
       (prop.city || "") +
       " " +
       (prop.postal_code || "") +
@@ -78,11 +80,15 @@
     var mType = document.getElementById("mType");
     var mTx = document.getElementById("mTransaction");
     var mSource = document.getElementById("mSource");
+    var mStatus = document.getElementById("mStatus");
     mType.innerHTML = Schema.TYPES.map(function (t) {
       return '<option value="' + t.id + '">' + t.label + "</option>";
     }).join("");
     mTx.innerHTML = Schema.TRANSACTIONS.map(function (t) {
       return '<option value="' + t.id + '">' + t.label + "</option>";
+    }).join("");
+    mStatus.innerHTML = Matcher.PROPERTY_STATUSES.map(function (s) {
+      return '<option value="' + s.id + '">' + s.label + "</option>";
     }).join("");
     mSource.innerHTML = Matcher.LISTING_SOURCES.map(function (t) {
       return '<option value="' + t.id + '">' + t.label + "</option>";
@@ -90,7 +96,8 @@
     document.getElementById("mTitle").value = prop.title || "";
     mType.value = prop.property_type || "appartement";
     mTx.value = prop.transaction || "vente";
-    document.getElementById("mStatus").value = prop.status || "active";
+    prop.status = Matcher.normalizePropertyStatus(prop.status);
+    mStatus.value = prop.status;
     mSource.value = prop.listing_source || "manual";
     document.getElementById("mUrl").value = prop.listing_url || "";
   }

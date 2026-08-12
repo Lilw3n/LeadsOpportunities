@@ -34,6 +34,8 @@
     var srcSel = document.getElementById("fSource");
     var pType = document.getElementById("pType");
     var pSource = document.getElementById("pSource");
+    var fStatus = document.getElementById("fStatus");
+    var pStatus = document.getElementById("pStatus");
     Matcher.PROPERTY_TYPES.forEach(function (t) {
       typeSel.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
       pType.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
@@ -41,6 +43,10 @@
     Matcher.LISTING_SOURCES.forEach(function (t) {
       srcSel.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
       pSource.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
+    });
+    Matcher.PROPERTY_STATUSES.forEach(function (s) {
+      fStatus.innerHTML += '<option value="' + s.id + '">' + s.label + "</option>";
+      pStatus.innerHTML += '<option value="' + s.id + '">' + s.label + "</option>";
     });
   }
 
@@ -107,6 +113,7 @@
         if (p.transaction === "location") tags.push("à louer");
         else tags.push("à vendre");
         if (p.a_contacter) tags.push("à contacter");
+        tags.push(Matcher.propertyStatusLabel(p.status));
         if (p.has_garage) tags.push("garage");
         if (p.has_parking) tags.push("parking");
         if (p.has_cave) tags.push("cave");
@@ -191,7 +198,7 @@
     document.getElementById("pTitle").value = p.title || "";
     document.getElementById("pType").value = p.property_type || "appartement";
     document.getElementById("pTransaction").value = p.transaction || "vente";
-    document.getElementById("pStatus").value = p.status || "active";
+    document.getElementById("pStatus").value = Matcher.normalizePropertyStatus(p.status || "estimation");
     document.getElementById("pEtat").value = p.etat || "non_affectee";
     document.getElementById("pSource").value = p.listing_source || "manual";
     document.getElementById("pUrl").value = p.listing_url || "";

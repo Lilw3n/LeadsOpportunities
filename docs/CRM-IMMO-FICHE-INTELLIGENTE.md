@@ -29,6 +29,13 @@ Description · Pièces · Images · Immo cloud · Vendeur · Historique · Stati
 - Checklist docs adaptée (maison / copro / terrain / financement / loué)
 - Sync champs clés vers la liste Piges (ville, prix, surface, DPE…)
 
+## Statuts pipeline
+1 Prospection · 2 Estimation · 3 Mandat en cours · 4 Suspendu · 5 Sous offre · 6 Réservé - SRU · 7 Compromis · 8 Vendu / Loué · 10 Archivé · 11 A supprimer
+
+Matching acquéreur : uniquement les statuts « matchables » (prospection → réservé SRU, hors suspendu / compromis / clos).
+
+Anciens codes migrés : `active`→mandat, `under_offer`→compromis, `sold`→vendu_loue, `archived`→archive.
+
 ## Images & Immo cloud (Google Drive)
 - **Images** : galerie publique, images confidentielles, liens médias (visite virtuelle, 360°, vidéo…)
 - **Immo cloud** : dossier Drive par bien sous `Immo/YYYY/{id}_{ville}_{titre}/` avec sous-dossiers :
