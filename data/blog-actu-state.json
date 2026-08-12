@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T21:22:31.647Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/canicules-en-france-la-ministre-de-l-ecologie-evoque-un-cout-de-l-ordre-de-10-a-15-milliards-d-euros-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce417bc6e4eb19ab34d854b25e755&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsport%2fother%2fcoupe-du-monde-2026-combien-va-toucher-l-%c3%a9quipe-de-france-et-quel-manque-%c3%a0-gagner-%c3%a0-cause-de-l-%c3%a9limination-en-demi-finale%2far-AA27W3w7&c=11716201281435745413&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T21:22:32.602Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T21:22:32.602Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+          "title": "Canicules en France : la ministre de l’Écologie Monique Barbut évoque un coût «de l’ord… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-combien-va-toucher-l-equipe-de-france-et-quel-manque.html",
+          "title": "Coupe du monde 2026: combien va toucher l'équipe de France et quel manque à gagner à ca… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+          "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

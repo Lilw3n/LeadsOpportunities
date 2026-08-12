@@ -93,6 +93,33 @@ function bestFromPlatform(available, platform, feedMap, used) {
   return list[0] || null;
 }
 
+function isOffTopicSport(c) {
+  var hay = String(c.title || "") + " " + String(c.summary || "");
+  if (
+    !/\b(football|liga|barcelone|premier league|nba|nfl|xavi|fc barcelone|sélectionneur|selectionneur)\b/i.test(
+      hay
+    )
+  ) {
+    return false;
+  }
+  return !/équipe de france|equipe de france|les bleus|mbapp|supporters/i.test(hay);
+}
+
+function isLowValueActu(c) {
+  var hay = String(c.title || "").toLowerCase();
+  if (hay.indexOf("éclipse") === -1 && hay.indexOf("eclipse") === -1) return false;
+  if (
+    hay.indexOf("lunette") !== -1 ||
+    hay.indexOf("électri") !== -1 ||
+    hay.indexOf("electri") !== -1 ||
+    hay.indexOf("canicule") !== -1 ||
+    hay.indexOf("mutuelle") !== -1
+  ) {
+    return false;
+  }
+  return true;
+}
+
 function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
@@ -106,6 +133,7 @@ function pickCandidates(candidates, count, state) {
     if (c.status === "template" || c.status === "draft") return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+    if (isOffTopicSport(c) || isLowValueActu(c)) return false;
     return true;
   });
 

@@ -133,9 +133,12 @@ function scoreLeadPotential(candidate) {
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "canicule", "sci", "scpi", "viager"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
   });
+
+  if (/\b(détenu|detenus|prison|yacht|arnault|federer)\b/i.test(title)) score -= 35;
+  if (/\b(enters into|memorandum of understanding|what you need to know)\b/i.test(title)) score -= 40;
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
   if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
