@@ -48,7 +48,7 @@ window.CrmAgencyFees = (function () {
       otherCollabPct: 0,
       otherCollabBase: "my_share",
       otherCollabPaidFrom: "my_share",
-      showAgencyKeep: true,
+      showAgencyKeep: false,
       showSteps: false,
     };
   }

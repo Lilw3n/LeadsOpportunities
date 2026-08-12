@@ -635,18 +635,24 @@
     );
   }
 
-  /** Répartition honoraires : agence, autre négo, apporteur, toi, charges, net. */
+  /** KPI canoniques (réf. métier) :
+   * 1. Honoraires agence
+   * 2. Ta part (X %)
+   * 3. Charges (URSSAF+IR)
+   * 4. Net estimé (carte verte)
+   * Les extras (part agence, autre négo, apporteur, collab) restent optionnels via cases à cocher.
+   */
   function buildRemunerationKpis(res, ag, viewOpts) {
     var d = res.dealSplit;
     var opts = viewOpts || {};
-    var showAgency = opts.showAgencyKeep !== false;
+    var showAgency = opts.showAgencyKeep === true;
     var showApporteur = opts.apporteurEnabled === true;
     var showCollab = opts.otherCollabEnabled === true;
     var html = "";
     html += kpiCard("Honoraires agence", res.agencyFee, "muted");
     if (d) {
       if (showAgency) {
-        var agencyPct = Math.max(0, 100 - (Number(d.agentSharePct) || 0));
+        var agencyPct = Math.max(0, 100 - (Number(res.agentSharePct) || Number(d.agentSharePct) || 0));
         html += kpiCard("Part agence / réseau (" + agencyPct + " %)", d.agencyKeep, "muted");
       }
       if (d.otherGross > 0) {
@@ -681,15 +687,12 @@
         );
       }
     }
-    var roleLabel =
-      d && d.myRole === "sortant"
-        ? "Ta part (sortant)"
-        : d && d.myRole === "entrant"
-          ? "Ta part (entrant)"
-          : "Ta part";
-    html += kpiCard(roleLabel + " (" + (res.agentSharePct || 0) + "% masse)", res.agentGross, "");
-    html += kpiCard("Charges (URSSAF+CFE+compta)", res.charges, "muted");
-    html += kpiCard("Net estimé (ta poche)", res.agentNet, "highlight");
+    var sharePct = Number(res.agentSharePct) || 0;
+    var roleSuffix =
+      d && d.myRole === "sortant" ? " sortant" : d && d.myRole === "entrant" ? " entrant" : "";
+    html += kpiCard("Ta part (" + sharePct + "%)" + roleSuffix, res.agentGross, "");
+    html += kpiCard("Charges (URSSAF+IR)", res.charges, "muted");
+    html += kpiCard("Net estimé", res.agentNet, "highlight");
     return html;
   }
 
@@ -978,7 +981,7 @@
     document.getElementById("dealOtherCollabPct").value = p.otherCollabPct != null ? p.otherCollabPct : 0;
     document.getElementById("dealOtherCollabBase").value = p.otherCollabBase || "my_share";
     document.getElementById("dealOtherCollabPaidFrom").value = p.otherCollabPaidFrom || "my_share";
-    document.getElementById("dealShowAgencyKeep").checked = p.showAgencyKeep !== false;
+    document.getElementById("dealShowAgencyKeep").checked = !!p.showAgencyKeep;
     document.getElementById("dealShowSteps").checked = !!p.showSteps;
   }
 
