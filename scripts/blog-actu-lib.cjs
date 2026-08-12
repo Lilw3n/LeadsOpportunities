@@ -51,6 +51,19 @@ function existingFiles() {
   return files;
 }
 
+function keywordInText(hay, kw) {
+  var k = String(kw || "").toLowerCase().trim();
+  if (!k) return false;
+  if (k.length <= 4) {
+    var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    return new RegExp(
+      "(^|[^a-z0-9àâäéèêëïîôùûüç])" + escaped + "s?([^a-z0-9àâäéèêëïîôùûüç]|$)",
+      "i"
+    ).test(hay);
+  }
+  return hay.indexOf(k) !== -1;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +72,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordInText(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -74,6 +87,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matchScore: bestScore,
   };
 }
 
@@ -94,6 +108,41 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/**
+ * File inbox : ignore le gabarit « COLLEZ ICI… » et les statuts template.
+ * Sinon le cron GitHub publie le placeholder au lieu d'une vraie actu.
+ */
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template") return true;
+  if (!title) return true;
+  if (id.indexOf("template") !== -1) return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/titre de la une/i.test(title)) return true;
+  if (/^\[.*(titre|title|placeholder).*\]$/i.test(title)) return true;
+  return false;
+}
+
+/** Titres anglais (flux Bing) : mauvais SEO France. */
+function looksEnglishTitle(title) {
+  var t = String(title || "");
+  var hits = t.match(/\b(the|into|regarding|potential|advantages|getting|enters|memorandum|understanding|how|with|from|sale)\b/gi);
+  return !!(hits && hits.length >= 2);
+}
+
+/** Sujet réellement lié à un questionnaire (pas une actu générique → habitation par défaut). */
+function hasQualifiedLeadAngle(item) {
+  if (isPlaceholderActuItem(item)) return false;
+  if (looksEnglishTitle(item && item.title)) return false;
+  if ((item && item.matchScore) > 0) return true;
+  var hay = String((item && item.title) || "") + " " + String((item && item.summary) || "");
+  var topic = matchTopic(hay);
+  if ((topic.matchScore || 0) > 0) return true;
+  return /(assurance|mutuelle|emprunteur|sinistre|pr[eê]t immobilier|rembours|pr[eé]voyance|compl[eé]mentaire)/i.test(hay);
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -104,8 +153,9 @@ function scoreLeadPotential(candidate) {
   if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
     score += 12;
   }
-  if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
-  if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
+  var matchedNeed = (candidate.matchScore || 0) > 0;
+  if (matchedNeed && (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto")) score += 20;
+  if (matchedNeed && (need === "vtc" || need === "animaux" || need === "prevoyance")) score += 15;
 
   ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
     if (title.indexOf(kw) !== -1) score += 8;
@@ -238,6 +288,7 @@ function scaffoldArticle(input) {
       },
     ],
     related: relatedForSection(topic.section, topic.need),
+    matchScore: topic.matchScore || 0,
     _scaffold: true,
     _needsAgentEnrichment: true,
   };
@@ -347,6 +398,9 @@ module.exports = {
   appendPendingArticle: appendPendingArticle,
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  hasQualifiedLeadAngle: hasQualifiedLeadAngle,
+  looksEnglishTitle: looksEnglishTitle,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,

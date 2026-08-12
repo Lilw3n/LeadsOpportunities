@@ -12,6 +12,7 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
+  isPlaceholderActuItem,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -39,7 +40,8 @@ function mergeWithQuotas(buckets, quotas) {
 }
 
 function ingestQueueItem(item, buckets, processed) {
-  if (item.status === "published" || item.status === "rejected") return;
+  if (item.status === "published" || item.status === "rejected" || item.status === "template") return;
+  if (isPlaceholderActuItem(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -61,6 +63,7 @@ function ingestQueueItem(item, buckets, processed) {
     sourceType: queueType,
     suggestedFile: scaffold.file,
     section: scaffold.section,
+    matchScore: scaffold.matchScore || 0,
     status: "queued",
     fromDatabase: !!item.fromDatabase,
   });
@@ -109,6 +112,7 @@ async function processFeed(feed, buckets, processed, maxPerFeed) {
         need: scaffold.cta.href.match(/need=([^&]+)/)
           ? scaffold.cta.href.match(/need=([^&]+)/)[1]
           : "habitation",
+        matchScore: scaffold.matchScore || 0,
         leadScore: 0,
         status: "candidate",
       });

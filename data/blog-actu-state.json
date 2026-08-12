@@ -1,10 +1,19 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T21:07:38.808Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sciences/c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-ballon-generalli-au-dessus-du-parc-andre-citroen-plein-a-craquer-pour-observer-l-eclipse-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cdfda00b44448bcc1f8f8881db1a9&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+    "https://www.france24.com/fr/vid%C3%A9o/20260812-on-se-sent-tout-petits-%C3%A9motion-spectateurs-apr%C3%A8s-passage-%C3%A9clipse",
+    "https://www.lefigaro.fr/secteur/high-tech/eclipse-ces-precautions-a-prendre-si-vous-voulez-faire-des-belles-photos-sans-abimer-vos-yeux-ni-votre-materiel-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce05f2fce402e98ec9cc4df57ce7a&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+    "https://www.franceinfo.fr/sciences/astronomie/eclipse-solaire/video-c-est-assez-impressionnant-a-vivre-revivez-l-eclipse-solaire-totale-filmee-depuis-l-espagne_8145248.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/canicules-en-france-la-ministre-de-l-ecologie-evoque-un-cout-de-l-ordre-de-10-a-15-milliards-d-euros-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce09a970c46daa965e5bdffa45e2f&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsport%2fother%2fcoupe-du-monde-2026-combien-va-toucher-l-%c3%a9quipe-de-france-et-quel-manque-%c3%a0-gagner-%c3%a0-cause-de-l-%c3%a9limination-en-demi-finale%2far-AA27W3w7&c=11716201281435745413&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T21:07:39.945Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +26,82 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T21:04:30.748Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-b.html",
+          "title": "«C’était le meilleur spot de tout Paris, on se sent privilégié» : à bord du ballon Gene… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+          "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "on-se-sent-tout-petits-l-emotion-des-spectateurs-apres-le-passage-de-l-e.html",
+          "title": "\"On se sent tout petits\" : l'émotion des spectateurs après le passage de l'éclipse : assurance habitation — que faire ?",
+          "source": "Firefox — France 24",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T21:06:42.207Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "eclipse-ces-precautions-a-prendre-si-vous-voulez-faire-des-belles-photos.html",
+          "title": "Éclipse : ces précautions à prendre si vous voulez faire des (belles) photos sans abîme… : assurance auto — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-2.html",
+          "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "c-est-assez-impressionnant-a-vivre-revivez-l-eclipse-solaire-totale-film.html",
+          "title": "\"C'est assez impressionnant à vivre\" : revivez l'éclipse solaire totale filmée depuis l… : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-12T21:07:39.945Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+          "title": "Canicules en France : la ministre de l’Écologie Monique Barbut évoque un coût «de l’ord… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-combien-va-toucher-l-equipe-de-france-et-quel-manque.html",
+          "title": "Coupe du monde 2026: combien va toucher l'équipe de France et quel manque à gagner à ca… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+          "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
