@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T21:39:19.477Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sciences/c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-ballon-generalli-au-dessus-du-parc-andre-citroen-plein-a-craquer-pour-observer-l-eclipse-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ce8037f4f4efe936d9a1a089e3df2&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+    "https://www.franceinfo.fr/sciences/astronomie/eclipse-solaire/c-est-un-petit-croissant-de-soleil-partout-en-france-des-etoiles-plein-les-yeux-face-a-l-eclipse_8145305.html#xtor=RSS-3-[lestitres]"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T21:39:20.358Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T21:39:20.358Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-b.html",
+          "title": "«C’était le meilleur spot de tout Paris, on se sent privilégié» : à bord du ballon Gene… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+          "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "c-est-comme-un-serre-tete-qui-brille-face-a-l-eclipse-petits-et-grands-a.html",
+          "title": "\"C'est comme un serre-tête qui brille\" : face à l'éclipse, petits et grands avec des ét… : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
