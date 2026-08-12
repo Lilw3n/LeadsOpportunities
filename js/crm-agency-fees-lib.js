@@ -345,7 +345,12 @@ window.CrmAgencyFees = (function () {
       chargesPct = urssafPct + irPct;
     }
 
-    var charges = (agentGross * chargesPct) / 100;
+    var cfePct = opts.cfePct != null ? Number(opts.cfePct) : 0.5;
+    var accountingPct = opts.accountingPct != null ? Number(opts.accountingPct) : 1;
+    var urssafReserve = (agentGross * chargesPct) / 100;
+    var cfeReserve = (agentGross * cfePct) / 100;
+    var accountingReserve = (agentGross * accountingPct) / 100;
+    var charges = urssafReserve + cfeReserve + accountingReserve;
     var agentNet = Math.max(0, agentGross - charges);
     var fai = price + agencyFee;
 
@@ -359,8 +364,13 @@ window.CrmAgencyFees = (function () {
       agentSharePct: sharePct,
       agentGross: round2(agentGross),
       chargesPct: chargesPct,
+      cfePct: cfePct,
+      accountingPct: accountingPct,
       urssafPct: urssafPct,
       irPct: irPct,
+      urssafReserve: round2(urssafReserve),
+      cfeReserve: round2(cfeReserve),
+      accountingReserve: round2(accountingReserve),
       charges: round2(charges),
       agentNet: round2(agentNet),
     };
@@ -391,6 +401,8 @@ window.CrmAgencyFees = (function () {
           kind: kind,
           price: price,
           chargesPct: chargesPct,
+          cfePct: opts.cfePct,
+          accountingPct: opts.accountingPct,
           urssafPct: urssafPct,
           irPct: irPct,
         });
@@ -416,17 +428,25 @@ window.CrmAgencyFees = (function () {
       return {
         presetId: p.presetId || "custom_22",
         chargesPct: p.chargesPct != null ? Number(p.chargesPct) : DEFAULT_CHARGES_PCT,
+        cfePct: p.cfePct != null ? Number(p.cfePct) : 0.5,
+        accountingPct: p.accountingPct != null ? Number(p.accountingPct) : 1,
         urssafPct: p.urssafPct != null ? Number(p.urssafPct) : DEFAULT_URSSAF_PCT,
         irPct: p.irPct != null ? Number(p.irPct) : 0,
         advanced: !!p.advanced,
+        splitMode: p.splitMode || "agent_gross",
+        agentSharePct: p.agentSharePct != null ? Number(p.agentSharePct) : 100,
       };
     } catch (e) {
       return {
         presetId: "custom_22",
         chargesPct: DEFAULT_CHARGES_PCT,
+        cfePct: 0.5,
+        accountingPct: 1,
         urssafPct: DEFAULT_URSSAF_PCT,
         irPct: 0,
         advanced: false,
+        splitMode: "agent_gross",
+        agentSharePct: 100,
       };
     }
   }
@@ -437,9 +457,13 @@ window.CrmAgencyFees = (function () {
       JSON.stringify({
         presetId: prefs.presetId || "custom",
         chargesPct: Number(prefs.chargesPct) || 0,
+        cfePct: Number(prefs.cfePct) || 0,
+        accountingPct: Number(prefs.accountingPct) || 0,
         urssafPct: Number(prefs.urssafPct) || 0,
         irPct: Number(prefs.irPct) || 0,
         advanced: !!prefs.advanced,
+        splitMode: prefs.splitMode || "agent_gross",
+        agentSharePct: Number(prefs.agentSharePct) || 100,
         savedAt: new Date().toISOString(),
       })
     );

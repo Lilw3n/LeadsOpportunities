@@ -100,9 +100,21 @@
         <select id="taxPreset"></select>
       </div>
       <div>
-        <label for="chargesPct">Charges totales % <span style="font-weight:400">(URSSAF + impôts)</span></label>
+        <label for="chargesPct">Charges URSSAF/impôts %</label>
         <input id="chargesPct" type="number" min="0" max="50" step="0.1" value="22" />
       </div>
+      <div>
+        <label for="cfePct">Réserve CFE %</label>
+        <input id="cfePct" type="number" min="0" max="10" step="0.1" value="0.5" />
+      </div>
+      <div>
+        <label for="accountingPct">Réserve compta %</label>
+        <input id="accountingPct" type="number" min="0" max="20" step="0.1" value="1" />
+      </div>
+    </div>
+    <div class="af-actions" style="margin-top:10px">
+      <button type="button" class="btn btn-primary" id="btnSyncStripePrefs">Lier à Stripe (sauver serveur)</button>
+      <span class="af-hint" id="stripePrefsStatus" style="margin:0"></span>
     </div>
     <details class="af-tax-adv" id="taxAdvanced" style="margin-top:12px">
       <summary style="cursor:pointer;font-size:.88rem;font-weight:600">Détail avancé URSSAF / impôt (optionnel)</summary>
@@ -137,6 +149,24 @@
       </table>
     </div>
     <p class="af-hint" id="cmpHint"></p>
+    <div id="stripeSplitPreview" class="af-result" style="margin-top:12px"></div>
+    <div class="af-table-wrap" style="margin-top:14px">
+      <h3 style="margin:0 0 8px;font-size:.95rem">Encaissements Stripe — poche vs réserves</h3>
+      <table class="af-compare-table" id="stripeSplitsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Brut Stripe</th>
+            <th>Ta part</th>
+            <th>URSSAF/impôts</th>
+            <th>CFE</th>
+            <th>Compta</th>
+            <th>Dans ta poche</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
   </section>
 
   <div class="af-layout">

@@ -9,6 +9,7 @@ const {
   markPaymentLinkPaid,
   savePaymentLink,
   handlePaymentLinkPaid,
+  saveAgentPaymentSplit,
 } = require("../_lib/stripe-payment-store");
 
 module.exports.config = {
@@ -86,6 +87,15 @@ async function markQuotePaid(referenceId, email, amountTotal, sessionId) {
         `;
       } catch (revErr) {
         console.warn("[stripe/webhook] pro_revenue", revErr.message);
+      }
+      try {
+        await saveAgentPaymentSplit({
+          stripeSessionId: sessionId,
+          amountEur: amountTotal ? amountTotal / 100 : null,
+          metadata: { paymentKind: "acompte", referenceId: referenceId },
+        });
+      } catch (splitErr) {
+        console.warn("[stripe/webhook] quote split", splitErr.message);
       }
       return rows[0];
     }

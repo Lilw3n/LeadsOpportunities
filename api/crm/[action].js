@@ -51,6 +51,8 @@ const ROUTES = {
   "tariff-rates": () => require("../_lib/routes/crm-tariff-rates"),
   "calendar-sync": () => require("../_lib/routes/crm-calendar-sync"),
   "pro-accounting": () => require("../_lib/routes/crm-pro-accounting"),
+  "agent-tax-prefs": () => require("../_lib/routes/crm-agent-tax-prefs"),
+  "agent-payment-splits": () => require("../_lib/routes/crm-agent-payment-splits"),
 };
 
 module.exports = async (req, res) => {

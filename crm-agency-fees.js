@@ -34,6 +34,9 @@
 
   function applyTaxPrefsToForm() {
     document.getElementById("chargesPct").value = taxPrefs.chargesPct;
+    document.getElementById("cfePct").value = taxPrefs.cfePct != null ? taxPrefs.cfePct : 0.5;
+    document.getElementById("accountingPct").value =
+      taxPrefs.accountingPct != null ? taxPrefs.accountingPct : 1;
     document.getElementById("calcUrssaf").value = taxPrefs.urssafPct;
     document.getElementById("calcIr").value = taxPrefs.irPct;
     document.getElementById("taxPreset").value = taxPrefs.presetId || "custom";
@@ -45,9 +48,13 @@
     taxPrefs = {
       presetId: document.getElementById("taxPreset").value,
       chargesPct: Number(document.getElementById("chargesPct").value) || 0,
+      cfePct: Number(document.getElementById("cfePct").value) || 0,
+      accountingPct: Number(document.getElementById("accountingPct").value) || 0,
       urssafPct: Number(document.getElementById("calcUrssaf").value) || 0,
       irPct: Number(document.getElementById("calcIr").value) || 0,
       advanced: !!document.getElementById("taxAdvanced").open,
+      splitMode: taxPrefs.splitMode || "agent_gross",
+      agentSharePct: taxPrefs.agentSharePct != null ? taxPrefs.agentSharePct : 100,
     };
     Lib.saveTaxPrefs(taxPrefs);
   }
@@ -56,8 +63,129 @@
     return Number(document.getElementById("chargesPct").value) || 0;
   }
 
+  function currentCfePct() {
+    return Number(document.getElementById("cfePct").value) || 0;
+  }
+
+  function currentAccountingPct() {
+    return Number(document.getElementById("accountingPct").value) || 0;
+  }
+
+  function authHeaders() {
+    return {
+      Authorization: "Bearer " + token,
+      "Content-Type": "application/json",
+    };
+  }
+
+  function syncPrefsToServer() {
+    persistTaxFromForm();
+    var status = document.getElementById("stripePrefsStatus");
+    status.textContent = "Enregistrement…";
+    return fetch("/api/crm/agent-tax-prefs", {
+      method: "PUT",
+      headers: authHeaders(),
+      body: JSON.stringify({
+        chargesPct: taxPrefs.chargesPct,
+        cfePct: taxPrefs.cfePct,
+        accountingPct: taxPrefs.accountingPct,
+        agentSharePct: taxPrefs.agentSharePct || 100,
+        splitMode: taxPrefs.splitMode || "agent_gross",
+        presetId: taxPrefs.presetId,
+      }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        status.textContent = res.ok
+          ? "OK — Stripe utilisera ces % à chaque encaissement"
+          : res.error || "Erreur";
+        if (res.ok && res.samplePer1000) {
+          renderStripePreview(1000, res.samplePer1000);
+        }
+      })
+      .catch(function (e) {
+        status.textContent = e.message || "Erreur réseau";
+      });
+  }
+
+  function loadStripeSplits() {
+    fetch("/api/crm/agent-payment-splits?limit=20", { headers: authHeaders() })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        var tbody = document.querySelector("#stripeSplitsTable tbody");
+        if (!res.ok || !(res.splits || []).length) {
+          tbody.innerHTML =
+            '<tr><td colspan="7" style="color:var(--muted)">Aucun encaissement Stripe ventilé pour l’instant. Les prochains paiements CRM/messagerie seront séparés automatiquement.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = res.splits
+          .map(function (s) {
+            var d = s.created_at ? new Date(s.created_at).toLocaleDateString("fr-FR") : "—";
+            return (
+              "<tr><td>" +
+              d +
+              "</td><td>" +
+              Lib.formatEuro(s.amount_eur) +
+              "</td><td>" +
+              Lib.formatEuro(s.agent_gross_eur) +
+              "</td><td>" +
+              Lib.formatEuro(s.urssaf_reserve_eur) +
+              "</td><td>" +
+              Lib.formatEuro(s.cfe_reserve_eur) +
+              "</td><td>" +
+              Lib.formatEuro(s.accounting_reserve_eur) +
+              "</td><td><strong>" +
+              Lib.formatEuro(s.agent_net_eur) +
+              "</strong></td></tr>"
+            );
+          })
+          .join("");
+      })
+      .catch(function () {
+        document.querySelector("#stripeSplitsTable tbody").innerHTML =
+          '<tr><td colspan="7" style="color:var(--muted)">Impossible de charger le ledger Stripe.</td></tr>';
+      });
+  }
+
+  function renderStripePreview(amount, split) {
+    var box = document.getElementById("stripeSplitPreview");
+    if (!split) {
+      split = {
+        amountEur: amount,
+        agentGross: amount,
+        urssafReserve: (amount * currentChargesPct()) / 100,
+        cfeReserve: (amount * currentCfePct()) / 100,
+        accountingReserve: (amount * currentAccountingPct()) / 100,
+      };
+      split.totalReserves = split.urssafReserve + split.cfeReserve + split.accountingReserve;
+      split.agentNet = amount - split.totalReserves;
+    }
+    box.innerHTML =
+      '<div class="af-kpi muted"><span>Sur ' +
+      Lib.formatEuro(split.amountEur || amount) +
+      ' encaissé</span><strong>Répartition Stripe</strong></div>' +
+      '<div class="af-kpi"><span>Dans ta poche</span><strong>' +
+      Lib.formatEuro(split.agentNet) +
+      '</strong></div>' +
+      '<div class="af-kpi muted"><span>Réserve URSSAF/impôts</span><strong>' +
+      Lib.formatEuro(split.urssafReserve) +
+      '</strong></div>' +
+      '<div class="af-kpi muted"><span>Réserve CFE</span><strong>' +
+      Lib.formatEuro(split.cfeReserve) +
+      '</strong></div>' +
+      '<div class="af-kpi muted"><span>Réserve compta</span><strong>' +
+      Lib.formatEuro(split.accountingReserve) +
+      "</strong></div>";
+  }
+
   fillTaxPresetSelect();
   applyTaxPrefsToForm();
+  loadStripeSplits();
+  renderStripePreview(1000);
 
   function currentAgency() {
     return state.agencies.find(function (a) {
@@ -280,6 +408,8 @@
       scheduleId: state.scheduleId,
       price: price,
       chargesPct: currentChargesPct(),
+      cfePct: currentCfePct(),
+      accountingPct: currentAccountingPct(),
     });
     box.innerHTML =
       '<div class="af-kpi muted"><span>Net vendeur</span><strong>' +
@@ -288,22 +418,24 @@
       '<div class="af-kpi muted"><span>Honoraires agence</span><strong>' +
       Lib.formatEuro(res.agencyFee) +
       '</strong></div>' +
-      '<div class="af-kpi muted"><span>Prix FAI</span><strong>' +
-      Lib.formatEuro(res.fai) +
-      '</strong></div>' +
       '<div class="af-kpi"><span>Ta part (' +
       res.agentSharePct +
       '%)</span><strong>' +
       Lib.formatEuro(res.agentGross) +
       '</strong></div>' +
-      '<div class="af-kpi muted"><span>Charges (' +
-      res.chargesPct +
-      '%)</span><strong>' +
+      '<div class="af-kpi muted"><span>Réserves (URSSAF+CFE+compta)</span><strong>' +
       Lib.formatEuro(res.charges) +
       '</strong></div>' +
-      '<div class="af-kpi highlight"><span>Net estimé</span><strong>' +
+      '<div class="af-kpi highlight"><span>Dans ta poche</span><strong>' +
       Lib.formatEuro(res.agentNet) +
       "</strong></div>";
+    renderStripePreview(res.agentGross, {
+      amountEur: res.agentGross,
+      agentNet: res.agentNet,
+      urssafReserve: res.urssafReserve,
+      cfeReserve: res.cfeReserve,
+      accountingReserve: res.accountingReserve,
+    });
 
     var br = res.bracket;
     var brLabel = br
@@ -333,6 +465,8 @@
       price: price,
       kind: kind,
       chargesPct: currentChargesPct(),
+      cfePct: currentCfePct(),
+      accountingPct: currentAccountingPct(),
     });
     if (!rows.length) {
       tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Aucune agence</td></tr>';
@@ -534,10 +668,10 @@
     });
   });
 
-  ["cmpPrice", "cmpKind", "chargesPct"].forEach(function (id) {
+  ["cmpPrice", "cmpKind", "chargesPct", "cfePct", "accountingPct"].forEach(function (id) {
     document.getElementById(id).addEventListener("input", function () {
       if (id === "cmpPrice") document.getElementById("calcPrice").value = document.getElementById("cmpPrice").value;
-      if (id === "chargesPct") {
+      if (id === "chargesPct" || id === "cfePct" || id === "accountingPct") {
         document.getElementById("taxPreset").value = "custom";
         persistTaxFromForm();
       }
@@ -545,11 +679,13 @@
       renderCalc();
     });
     document.getElementById(id).addEventListener("change", function () {
-      if (id === "chargesPct") persistTaxFromForm();
+      if (id === "chargesPct" || id === "cfePct" || id === "accountingPct") persistTaxFromForm();
       renderCompare();
       renderCalc();
     });
   });
+
+  document.getElementById("btnSyncStripePrefs").onclick = syncPrefsToServer;
 
   document.getElementById("taxPreset").addEventListener("change", function () {
     var preset = Lib.getTaxPreset(document.getElementById("taxPreset").value);
