@@ -142,8 +142,24 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+function isPlaceholderQueueItem(item) {
+  if (!item) return true;
+  var id = String(item.id || "").toLowerCase();
+  var title = String(item.title || "").trim();
+  var titleLc = title.toLowerCase();
+  if (!title) return true;
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  if (/collez ici|placeholder|titre de la une|angle assurance a preciser|à coller|a coller/i.test(titleLc)) {
+    return true;
+  }
+  return false;
+}
+
 function rankCandidates(candidates) {
   return candidates
+    .filter(function (c) {
+      return !isPlaceholderQueueItem(c);
+    })
     .map(function (c) {
       return Object.assign({}, c, { leadScore: scoreLeadPotential(c) });
     })
@@ -349,6 +365,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
