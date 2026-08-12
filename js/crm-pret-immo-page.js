@@ -81,13 +81,19 @@
       .map(function (d) {
         var dep = (d.logement && d.logement.cp ? String(d.logement.cp).slice(0, 2) : "") || "—";
         var date = (d.updated_at || d.created_at || "").slice(0, 10);
+        var docsHref =
+          window.CrmPretDocSearch && window.CrmPretDocSearch.docsHrefFromDossier
+            ? window.CrmPretDocSearch.docsHrefFromDossier(d)
+            : "./crm-pret-immo-docs.html?dossierId=" + encodeURIComponent(d.id);
         return (
           "<tr>" +
           '<td><a href="./' +
           (d.mode === "coordonnees" ? "crm-pret-immo-coord.html" : "crm-pret-immo-sim.html") +
           "?id=" +
           encodeURIComponent(d.id) +
-          '" title="Ouvrir">🔍</a></td>' +
+          '" title="Ouvrir">🔍</a> <a href="' +
+          esc(docsHref) +
+          '" title="Documentation liée au projet">📑</a></td>' +
           "<td>" +
           esc(date) +
           "</td>" +

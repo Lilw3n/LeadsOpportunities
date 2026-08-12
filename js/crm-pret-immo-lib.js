@@ -143,6 +143,9 @@ window.CrmPretImmo = (function () {
       viager_montant: 0,
       viager_type_bien: "rp",
       objet: "",
+      /** Axes financement corrélés à la doc (PTZ / relais) */
+      ptz: false,
+      relais: false,
     };
   }
 

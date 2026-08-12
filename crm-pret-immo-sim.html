@@ -78,6 +78,7 @@
     <a href="./crm-pret-immo-sim.html" class="active" id="navSim">Effectuer simulation</a>
     <a href="./crm-pret-immo.html?view=transmettre">Transmettre dossier</a>
     <a href="./crm-pret-immo-coord.html">Transmettre coordonnées</a>
+    <a href="./crm-pret-immo-docs.html">Documentation</a>
     <a href="./crm-pret-immo-grilles.html">Grille des taux</a>
     <a href="./crm-pret-immo-fiches.html">Fiches produits</a>
     <a href="./crm-pret-immo-pvh.html">PVH</a>
@@ -113,6 +114,12 @@
               </label>
               <label class="type-only" data-show="immo,sci">Prix d’acquisition (€)<input type="number" id="prixAchat" min="0" step="1000" /></label>
               <label class="type-only" data-show="immo,sci">Travaux (€)<input type="number" id="travaux" min="0" step="1000" /></label>
+              <label class="type-only pi-inline" data-show="immo,sci" style="margin-top:22px">
+                <input type="checkbox" id="axePtz" /> Prêt à taux zéro (PTZ)
+              </label>
+              <label class="type-only pi-inline" data-show="immo,sci" style="margin-top:22px">
+                <input type="checkbox" id="axeRelais" /> Prêt relais
+              </label>
               <label class="type-only" data-show="scpi">Nom SCPI<input id="scpiNom" /></label>
               <label class="type-only" data-show="scpi">Nb parts<input type="number" id="scpiParts" min="0" /></label>
               <label class="type-only" data-show="scpi">Valeur part (€)<input type="number" id="scpiValeur" min="0" step="1" /></label>
@@ -298,6 +305,7 @@
           <button type="submit" class="btn btn-primary">Enregistrer</button>
           <button type="button" class="btn btn-orange" id="btnProspect">Enregistrer / demande publique</button>
           <button type="button" class="btn btn-purple" id="btnTransmit">Transmettre le dossier</button>
+          <button type="button" class="btn btn-ghost" id="btnDocsLinked" title="Ouvrir la doc filtrée sur ce projet">Documentation liée</button>
           <a class="btn btn-ghost" href="./crm-pret-immo.html">Annuler</a>
           <span id="simMsg" style="align-self:center;font-size:.85rem;color:#64748b"></span>
         </div>
@@ -322,6 +330,7 @@
 
   <script src="./js/crm-pret-immo-lib.js"></script>
   <script src="./js/crm-pret-immo-store.js"></script>
+  <script src="./js/crm-pret-doc-search.js"></script>
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-pret-immo-sim-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>

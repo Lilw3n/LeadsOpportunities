@@ -4,50 +4,47 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Fiches produits | Prêt Immo</title>
+  <title>Documentation intelligente | Prêt Immo</title>
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <style>
-    :root { --pi-blue:#1e3a8a; --pi-cyan:#0891b2; }
+    :root { --pi-blue:#1e3a8a; --pi-cyan:#0891b2; --pi-violet:#6d28d9; }
     .pi-nav { display:flex; flex-wrap:wrap; gap:8px; background:var(--pi-blue); padding:10px 14px; border-radius:12px; margin-bottom:14px; }
     .pi-nav a { color:#e2e8f0; text-decoration:none; font-weight:700; font-size:.8rem; padding:8px 12px; border-radius:8px; }
     .pi-nav a:hover, .pi-nav a.active { background:#2563eb; color:#fff; }
-    .g-title { margin:0 0 8px; color:var(--pi-blue); font-size:1.35rem; }
-    .g-sub { margin:0 0 14px; color:#64748b; font-size:.9rem; max-width:72ch; }
+    .g-title { margin:0 0 8px; color:var(--pi-blue); font-size:1.4rem; }
+    .g-sub { margin:0 0 14px; color:#64748b; font-size:.9rem; max-width:78ch; }
     .g-warn {
       display:flex; gap:10px; align-items:flex-start; background:#f1f5f9; border:1px solid #cbd5e1;
       border-radius:12px; padding:12px 14px; margin-bottom:14px; font-size:.82rem; color:#334155; line-height:1.4;
     }
-    .g-warn .ico { color:#dc2626; font-size:1.1rem; line-height:1; }
-    .g-search {
-      background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:14px;
-      display:grid; gap:10px;
-    }
+    .g-warn .ico { color:#dc2626; }
+    .g-search { background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px; margin-bottom:14px; display:grid; gap:10px; }
     .g-search-row { display:grid; grid-template-columns:1fr auto; gap:8px; }
     @media (max-width:700px){ .g-search-row { grid-template-columns:1fr; } }
-    .g-search input[type="search"], .g-search select, .g-search input[type="number"] {
-      padding:10px 12px; border:1px solid #cbd5e1; border-radius:10px; font:inherit; background:#f8fafc;
-    }
-    .g-filters { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
-    @media (max-width:900px){ .g-filters { grid-template-columns:1fr 1fr; } }
+    .g-search input, .g-search select { padding:10px 12px; border:1px solid #cbd5e1; border-radius:10px; font:inherit; background:#f8fafc; }
+    .g-filters { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+    @media (max-width:1000px){ .g-filters { grid-template-columns:1fr 1fr; } }
     .g-filters label { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:#64748b; }
     .g-chips { display:flex; flex-wrap:wrap; gap:8px; }
-    .g-chip {
-      border:1px solid #bfdbfe; background:#eff6ff; color:#1e3a8a; border-radius:999px;
-      padding:6px 12px; font-size:.78rem; font-weight:700; cursor:pointer;
-    }
-    .g-chip:hover { background:#dbeafe; }
+    .g-chip { border:1px solid #bfdbfe; background:#eff6ff; color:#1e3a8a; border-radius:999px; padding:6px 12px; font-size:.78rem; font-weight:700; cursor:pointer; }
+    .g-chip:hover, .g-chip.on { background:#dbeafe; }
+    .g-chip.axis { border-color:#c4b5fd; background:#f5f3ff; color:#5b21b6; }
+    .g-chip.axis.on { background:#ddd6fe; }
+    .g-axis-label { font-size:.72rem; font-weight:800; color:#64748b; margin:4px 0 0; width:100%; }
     .g-parsed { font-size:.82rem; color:#475569; margin:4px 0 0; }
-    .g-layout { display:grid; grid-template-columns:320px 1fr; gap:14px; align-items:start; }
+    .g-layout { display:grid; grid-template-columns:300px 1fr; gap:14px; align-items:start; }
     @media (max-width:980px){ .g-layout { grid-template-columns:1fr; } }
-    .g-advice {
-      background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:12px 14px; margin-bottom:10px;
-      font-size:.88rem; color:#334155; line-height:1.45;
-    }
+    .g-advice, .g-play { background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:12px 14px; margin-bottom:10px; font-size:.88rem; color:#334155; line-height:1.45; }
     .g-advice.muted { color:#64748b; background:#f8fafc; }
     .g-advice-hd { display:flex; gap:8px; align-items:center; margin-bottom:6px; }
     .g-advice ul { margin:8px 0 0; padding-left:18px; color:#64748b; font-size:.8rem; }
+    .g-play { border-color:#c4b5fd; background:linear-gradient(180deg,#f5f3ff,#fff); }
+    .g-play h3 { margin:0 0 8px; color:var(--pi-violet); font-size:.95rem; }
+    .g-play-step { margin-bottom:8px; }
+    .g-play-step p { margin:4px 0 0; }
+    .g-play-partners { margin:8px 0 0; font-size:.8rem; color:#5b21b6; }
     .g-meta { font-size:.78rem; color:#64748b; margin:0 0 10px; }
     .g-cat { background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:12px; }
     .g-cat h3 { margin:0 0 10px; color:var(--pi-blue); font-size:1rem; }
@@ -56,59 +53,60 @@
     .g-list li { padding:10px 0; border-bottom:1px solid #f1f5f9; }
     .g-list li:last-child { border-bottom:0; }
     .g-file { display:flex; gap:10px; align-items:flex-start; }
-    .g-ico { font-size:1.2rem; line-height:1.2; }
     .g-file-meta { font-size:.75rem; color:#64748b; margin:2px 0 4px; }
     .g-reasons { font-size:.72rem; color:#0369a1; margin-top:4px; }
-    .g-notes { font-size:.75rem; color:#94a3b8; margin-top:2px; }
-    .g-badge {
-      display:inline-block; padding:2px 8px; border-radius:999px; font-size:.68rem; font-weight:800;
-      background:#e2e8f0; color:#475569; vertical-align:middle;
-    }
+    .g-badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:.68rem; font-weight:800; background:#e2e8f0; color:#475569; vertical-align:middle; }
     .g-badge.ok { background:#dcfce7; color:#166534; }
     .g-badge.pending { background:#fef3c7; color:#92400e; }
     .g-badge.warn { background:#fee2e2; color:#991b1b; }
     .g-badge.draft { background:#e0e7ff; color:#3730a3; }
+    .g-badge.grille { background:#cffafe; color:#0e7490; }
+    .g-badge.fiche { background:#ede9fe; color:#5b21b6; }
     .g-empty { color:#64748b; padding:24px; text-align:center; }
     .btn-cyan { background:var(--pi-cyan); color:#fff; border:0; }
+    .g-links { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 14px; font-size:.82rem; }
+    .g-links a { color:var(--pi-blue); font-weight:700; }
   </style>
 </head>
-<body class="crm-subpage" data-kind="fiches" data-catalog="./data/pret-fiches-produits.json">
+<body class="crm-subpage">
   <nav class="pi-nav" aria-label="Prêt Immo">
     <a href="./crm-pret-immo.html">Mes dossiers</a>
     <a href="./crm-pret-immo-sim.html">Effectuer simulation</a>
     <a href="./crm-pret-immo-coord.html">Transmettre coordonnées</a>
-    <a href="./crm-pret-immo-docs.html">Documentation</a>
-    <a href="./crm-pret-immo-grilles.html">Grille des taux</a>
-    <a href="./crm-pret-immo-fiches.html" class="active">Fiches produits</a>
+    <a href="./crm-pret-immo-docs.html" class="active">Documentation</a>
+    <a href="./crm-pret-immo-grilles.html">Grilles</a>
+    <a href="./crm-pret-immo-fiches.html">Fiches</a>
     <a href="./crm-pret-immo-pvh.html">PVH</a>
     <a href="./crm-agency-fees.html">Barèmes</a>
   </nav>
 
-  <h1 class="g-title">Fiches produits</h1>
+  <h1 class="g-title">Documentation intelligente</h1>
   <p class="g-sub">
-    Catalogue intelligent des fiches partenaires (CFCAL, CGI, MMB, SYGMA, DOM-TOM…).
-    Ex. <em>« 60 ans, retraite, éligible RAC ? »</em> ou <em>« locataire sans garantie »</em> —
-    le moteur oriente vers les fiches utiles. Déposez les PDF dans <code>docs/pret-fiches/_inbox/</code> puis
-    <code>npm run pret:fiches:import</code>. Voir aussi <a href="./crm-pret-immo-docs.html">Documentation</a>
-    <a href="./crm-pret-immo-grilles.html">Grille des taux</a>.
+    Un seul moteur pour <strong>grilles de taux</strong> + <strong>fiches produits</strong>,
+    corrélé aux projets IMMO : prêt immo, PTZ, prêt relais, conso, travaux…
+    Posez une question métier ou sélectionnez un dossier / un axe projet.
+  </p>
+  <p class="g-links">
+    Catalogues séparés :
+    <a href="./crm-pret-immo-grilles.html">Grille des taux</a> ·
+    <a href="./crm-pret-immo-fiches.html">Fiches produits</a>
   </p>
 
   <div class="g-warn">
     <div class="ico" aria-hidden="true">⚠</div>
     <div>
-      <strong>Usage professionnel uniquement</strong> — documents non contractuels.
-      Les règles d’éligibilité affichées sont des <strong>brouillons</strong> (draft) à valider à l’import de chaque PDF/XLS.
-      Ne pas transmettre telles quelles à la clientèle.
+      Usage <strong>professionnel uniquement</strong>, documents non contractuels.
+      Conseils d’éligibilité en <strong>brouillon</strong> jusqu’à validation après lecture des PDF.
     </div>
   </div>
 
   <div class="g-search">
     <div class="g-search-row">
-      <input type="search" id="gQuery" placeholder="Ex. personne de plus de 60 ans éligible RAC avec garantie…" />
+      <input type="search" id="gQuery" placeholder="Ex. personne de 62 ans retraitée, propriétaire, éligible à un RAC CFCAL ?" autofocus />
       <button type="button" class="btn btn-cyan" id="gSearch">Rechercher</button>
     </div>
     <div class="g-filters">
-      <label>Âge emprunteur
+      <label>Âge
         <input type="number" id="gAge" min="18" max="100" placeholder="ex. 62" />
       </label>
       <label>Bien immobilier
@@ -132,14 +130,40 @@
           <option value="antilles">DOM-TOM Antilles</option>
         </select>
       </label>
+      <label>Source
+        <select id="gSource">
+          <option value="">Grilles + fiches</option>
+          <option value="grilles">Grilles seulement</option>
+          <option value="fiches">Fiches seulement</option>
+        </select>
+      </label>
+      <label>Grouper par
+        <select id="gGroup">
+          <option value="source">Source</option>
+          <option value="partner">Partenaire</option>
+          <option value="category">Catégorie</option>
+        </select>
+      </label>
+      <label>Dossier lié
+        <select id="gDossier">
+          <option value="">Aucun</option>
+        </select>
+      </label>
+      <label>Axe projet
+        <select id="gProject">
+          <option value="">Tous / auto</option>
+        </select>
+      </label>
     </div>
+    <div class="g-chips" id="gAxisChips"></div>
     <div class="g-chips" id="gChips"></div>
     <p class="g-parsed" id="gParsed"></p>
   </div>
 
   <div class="g-layout">
     <aside>
-      <h2 style="margin:0 0 8px;font-size:.95rem;color:var(--pi-blue)">Conseils d’orientation</h2>
+      <div id="gPlaybook"></div>
+      <h2 style="margin:0 0 8px;font-size:.95rem;color:var(--pi-blue)">Conseils</h2>
       <div id="gAdvice"></div>
     </aside>
     <main>
@@ -148,8 +172,10 @@
     </main>
   </div>
 
-  <script src="./js/crm-pret-grilles-lib.js"></script>
-  <script src="./js/crm-pret-grilles-page.js"></script>
+  <script src="./js/crm-pret-immo-lib.js"></script>
+  <script src="./js/crm-pret-immo-store.js"></script>
+  <script src="./js/crm-pret-doc-search.js"></script>
+  <script src="./js/crm-pret-docs-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
