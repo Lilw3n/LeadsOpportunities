@@ -935,6 +935,32 @@
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=en-direct-eclipse-solaire-du-12-aout",
       "matchedRule": null,
       "species": null
+    },
+    {
+      "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+      "title": "Meilleure mutuelle santé : comment choisir sa complémentaire en 2026 ? : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=meilleure-mutuelle-sante-comment-chois",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "a-defaut-de-coupe-du-monde-de-foot-ces-businessmen-s-offrent-un-club-de-.html",
+      "title": "À défaut de Coupe du monde de foot, ces businessmen s’offrent un club de basket (à 12,5… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=a-defaut-de-coupe-du-monde-de-foot-ces",
+      "matchedRule": null,
+      "species": null
     }
   ]
 }

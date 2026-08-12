@@ -1,11 +1,13 @@
 {
-  "lastFetch": "2026-08-12T17:06:41.059Z",
+  "lastFetch": "2026-08-12T17:06:55.275Z",
   "processedUrls": [
     "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
-    "https://www.lefigaro.fr/sciences/en-direct-eclipse-solaire-du-12-aout-horaires-lunettes-sites-d-observation-tout-savoir-sur-ce-phenomene-astronomique-rare-20260812"
+    "https://www.lefigaro.fr/sciences/en-direct-eclipse-solaire-du-12-aout-horaires-lunettes-sites-d-observation-tout-savoir-sur-ce-phenomene-astronomique-rare-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7ca82c6c5348f5a60fbe8228e8e0cd&url=https%3a%2f%2fwww.msn.com%2ffr-be%2fsante%2fesprit-et-corps%2fmeilleure-mutuelle-sant%25C3%25A9-comment-choisir-sa-compl%25C3%25A9mentaire-en-2026%2far-AA29W6AM&c=9946818186189925678&mkt=en-us",
+    "https://www.huffingtonpost.fr/sport/article/a-defaut-de-coupe-du-monde-de-foot-ces-businessmen-s-offrent-un-club-de-basket-a-12-5-milliards_303941.html"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-08-12T17:06:41.977Z",
+  "lastAutoRun": "2026-08-12T17:06:56.204Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -31,7 +33,26 @@
           "sourceType": "cafeyn"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T17:06:56.204Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+          "title": "Meilleure mutuelle santé : comment choisir sa complémentaire en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "a-defaut-de-coupe-du-monde-de-foot-ces-businessmen-s-offrent-un-club-de-.html",
+          "title": "À défaut de Coupe du monde de foot, ces businessmen s’offrent un club de basket (à 12,5… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Firefox — HuffPost",
+          "sourceType": "firefox"
+        }
+      ]
     }
   ],
-  "platformRotationIndex": 1
+  "platformRotationIndex": 0
 }
