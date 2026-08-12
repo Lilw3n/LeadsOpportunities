@@ -754,6 +754,117 @@ window.CrmAgencyFees = (function () {
     return (p * (Number(bracket.value) || 0)) / 100;
   }
 
+  /**
+   * Inverse FAI → net vendeur pour un barème à tranches (forfait ou %).
+   * FAI = net + honoraires(net). Cherche le palier cohérent ; sinon le plus proche.
+   * @returns {{ ok: boolean, netVendorPrice: number, fees: number, bracket: object|null, faiPrice: number, error?: string, approximate?: boolean }}
+   */
+  function netFromFai(brackets, faiPrice) {
+    var fai = Math.max(0, Number(faiPrice) || 0);
+    var list = (brackets || []).slice().sort(function (a, b) {
+      return (a.min || 0) - (b.min || 0);
+    });
+    if (!list.length) {
+      return {
+        ok: false,
+        netVendorPrice: fai,
+        fees: 0,
+        bracket: null,
+        faiPrice: fai,
+        error: "Aucun palier",
+      };
+    }
+
+    function inRange(net, b) {
+      var min = Number(b.min) || 0;
+      var max = b.max == null ? Infinity : Number(b.max);
+      return net >= min && net <= max;
+    }
+
+    var matches = [];
+    for (var i = 0; i < list.length; i++) {
+      var b = list[i];
+      var netCand;
+      var feeCand;
+      if (b.type === "fixed") {
+        feeCand = Number(b.value) || 0;
+        netCand = round2(fai - feeCand);
+      } else {
+        var pct = Number(b.value) || 0;
+        if (pct <= -100) continue;
+        netCand = round2(fai / (1 + pct / 100));
+        feeCand = round2(fai - netCand);
+      }
+      if (netCand < 0) continue;
+      if (inRange(netCand, b)) {
+        matches.push({ netVendorPrice: netCand, fees: feeCand, bracket: b });
+      }
+    }
+
+    if (matches.length) {
+      // En cas d'égalité de frontière, préférer le palier dont le FAI recalculé colle le mieux
+      matches.sort(function (a, c) {
+        var da = Math.abs(a.netVendorPrice + a.fees - fai);
+        var dc = Math.abs(c.netVendorPrice + c.fees - fai);
+        return da - dc;
+      });
+      var best = matches[0];
+      return {
+        ok: true,
+        netVendorPrice: best.netVendorPrice,
+        fees: best.fees,
+        bracket: best.bracket,
+        faiPrice: fai,
+      };
+    }
+
+    // Approximation : FAI valide le plus proche parmi les bornes de chaque palier
+    var nearest = null;
+    for (var j = 0; j < list.length; j++) {
+      var bb = list[j];
+      var minN = Number(bb.min) || 0;
+      var maxN = bb.max == null ? minN * 2 + 1e6 : Number(bb.max);
+      var ends = [minN, maxN];
+      for (var k = 0; k < ends.length; k++) {
+        var n = ends[k];
+        var fee = agencyFeeFromBracket(n, bb);
+        var f = round2(n + fee);
+        var dist = Math.abs(f - fai);
+        if (!nearest || dist < nearest.dist) {
+          nearest = { netVendorPrice: n, fees: fee, bracket: bb, faiPrice: f, dist: dist };
+        }
+      }
+    }
+    if (nearest) {
+      return {
+        ok: true,
+        approximate: true,
+        netVendorPrice: nearest.netVendorPrice,
+        fees: nearest.fees,
+        bracket: nearest.bracket,
+        faiPrice: nearest.faiPrice,
+        error: "FAI hors plage exacte — palier le plus proche",
+      };
+    }
+    return {
+      ok: false,
+      netVendorPrice: fai,
+      fees: 0,
+      bracket: null,
+      faiPrice: fai,
+      error: "Impossible d'inverser FAI → net",
+    };
+  }
+
+  /** true si le barème se calcule sur un prix net / vente (FAI invertible). */
+  function scheduleSupportsFai(schedule) {
+    if (!schedule) return false;
+    var basis = schedule.priceBasis || "prix_vente";
+    var model = schedule.feeModel || "brackets";
+    if (model !== "brackets") return false;
+    return basis === "net_vendeur" || basis === "prix_vente";
+  }
+
   function pickSchedule(agency, opts) {
     var schedules = agency.schedules || [];
     if (opts.scheduleId) {
@@ -799,7 +910,8 @@ window.CrmAgencyFees = (function () {
    * @param {object} opts.agency
    * @param {string} [opts.scheduleId]
    * @param {string} [opts.kind]
-   * @param {number} opts.price — net vendeur / prix / loyer annuel selon le barème
+   * @param {number} opts.price — net vendeur ou FAI selon priceMode / loyer / etc.
+   * @param {"net_vendeur"|"fai"} [opts.priceMode] — défaut net_vendeur (ventes)
    * @param {number} [opts.surface] — m² habitables (location habitation)
    * @param {string} [opts.zone] — tres_tendue | tendue | hors_zone
    * @param {string} [opts.rentalParty] — bailleur | locataire | total
@@ -809,12 +921,22 @@ window.CrmAgencyFees = (function () {
    */
   function calculate(opts) {
     var agency = opts.agency;
-    var price = Number(opts.price) || 0;
+    var inputPrice = Math.max(0, Number(opts.price) || 0);
+    var priceMode = String(opts.priceMode || "net_vendeur") === "fai" ? "fai" : "net_vendeur";
     var schedule = pickSchedule(agency, opts);
     var feeModel = schedule ? schedule.feeModel || "brackets" : "brackets";
     var bracket = null;
     var agencyFee = 0;
     var feeDetail = null;
+    var price = inputPrice;
+    var faiInvert = null;
+
+    if (priceMode === "fai" && scheduleSupportsFai(schedule)) {
+      faiInvert = netFromFai(schedule.brackets, inputPrice);
+      if (faiInvert.ok) {
+        price = faiInvert.netVendorPrice;
+      }
+    }
 
     if (schedule && feeModel === "annual_rent_percent") {
       var pct = Number(schedule.percentValue) || 0;
@@ -887,6 +1009,9 @@ window.CrmAgencyFees = (function () {
 
     return {
       price: price,
+      inputPrice: inputPrice,
+      priceMode: priceMode,
+      faiInvert: faiInvert,
       priceBasis: basis,
       feeModel: feeModel,
       feeDetail: feeDetail,
@@ -911,10 +1036,11 @@ window.CrmAgencyFees = (function () {
   }
 
   /**
-   * Compare toutes les agences sur le même prix (net vendeur).
+   * Compare toutes les agences sur le même prix (net vendeur ou FAI selon priceMode).
    */
   function compareAgencies(opts) {
     var price = Number(opts.price) || 0;
+    var priceMode = String(opts.priceMode || "net_vendeur") === "fai" ? "fai" : "net_vendeur";
     var kind = opts.kind || "vente_habitation";
     var chargesPct = opts.chargesPct;
     var urssafPct = opts.urssafPct;
@@ -934,6 +1060,7 @@ window.CrmAgencyFees = (function () {
           scheduleId: schedule ? schedule.id : null,
           kind: kind,
           price: price,
+          priceMode: priceMode,
           surface: opts.surface,
           zone: opts.zone,
           rentalParty: opts.rentalParty,
@@ -942,6 +1069,7 @@ window.CrmAgencyFees = (function () {
           accountingPct: opts.accountingPct,
           urssafPct: urssafPct,
           irPct: irPct,
+          deal: opts.deal,
         });
         return {
           agency: agency,
@@ -1086,6 +1214,8 @@ window.CrmAgencyFees = (function () {
     healPortesClesIfNeeded: healPortesClesIfNeeded,
     calculate: calculate,
     compareAgencies: compareAgencies,
+    netFromFai: netFromFai,
+    scheduleSupportsFai: scheduleSupportsFai,
     splitDealRemuneration: splitDealRemuneration,
     loadDealSplit: loadDealSplit,
     saveDealSplit: saveDealSplit,

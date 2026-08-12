@@ -110,8 +110,15 @@
 
   <section class="af-compare" id="comparePanel">
     <h3>Comparer les agences</h3>
-    <p class="af-sub">Même référence → honoraires agence, prix FAI (ventes), ta part et net auto-entrepreneur.</p>
+    <p class="af-sub">Même référence (net vendeur ou FAI) → honoraires agence, prix dérivé, ta part et net auto-entrepreneur.</p>
     <div class="af-calc-grid">
+      <div id="cmpPriceModeWrap">
+        <label for="cmpPriceMode">Type de prix</label>
+        <select id="cmpPriceMode">
+          <option value="net_vendeur">Net vendeur</option>
+          <option value="fai">FAI (honoraires inclus)</option>
+        </select>
+      </div>
       <div>
         <label for="cmpPrice" id="cmpPriceLabel">Prix net vendeur (€)</label>
         <input id="cmpPrice" type="number" min="0" step="1000" value="200000" />
@@ -193,7 +200,7 @@
             <th>Agence</th>
             <th>Barème utiliséé</th>
             <th>Honoraires agence</th>
-            <th>Prix FAI</th>
+            <th id="cmpColDerived">Prix FAI</th>
             <th>Ma part</th>
             <th>Net AE estimé</th>
           </tr>
@@ -528,6 +535,13 @@
       <section class="af-panel af-calc">
         <h3>Détail agence sélectionnée</h3>
         <div class="af-calc-grid">
+          <div id="calcPriceModeWrap">
+            <label for="calcPriceMode">Type de prix</label>
+            <select id="calcPriceMode">
+              <option value="net_vendeur">Net vendeur</option>
+              <option value="fai">FAI (honoraires inclus)</option>
+            </select>
+          </div>
           <div>
             <label for="calcPrice" id="calcPriceLabel">Prix net vendeur / de référence (€)</label>
             <input id="calcPrice" type="number" min="0" step="1000" value="200000" />
