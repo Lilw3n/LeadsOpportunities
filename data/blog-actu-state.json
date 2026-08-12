@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-12T22:05:23.972Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/eclipse-solaire-quel-effet-le-phenomene-aura-t-il-vraiment-sur-la-production-d-electricite-en-france-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cee238fd5499bade0f5419ddaba5b&url=https%3a%2f%2fwww.leparisien.fr%2fsports%2ffootball%2fcoupe-du-monde%2fcoupe-du-monde-2026-france-maroc-un-duel-entre-amis-09-07-2026-5OUGNE67LZG4NKDBUHXBDPD7R4.php&c=3949941458973546811&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-12T22:05:24.940Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-12T22:05:24.940Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "eclipse-solaire-quel-effet-le-phenomene-aura-t-il-vraiment-sur-la-produc.html",
+          "title": "Éclipse solaire : quel effet le phénomène aura-t-il vraiment sur la production d’électr… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-france-maroc-un-duel-entre-amis.html",
+          "title": "Coupe du monde 2026 : France - Maroc, un duel entre amis : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+          "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
