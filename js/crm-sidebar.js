@@ -110,7 +110,7 @@ window.CrmSidebar = {
       label: "Immobilier",
       defaultOpen: true,
       items: [
-        { type: "link", href: "./crm-immo-properties.html", label: "Inventaire biens", icon: "immo", highlight: true, desc: "Annonces manuelles + liens Leboncoin/SeLoger/ParuVendu", keywords: "bien annonce leboncoin seloger paruvendu inventaire" },
+        { type: "link", href: "./crm-immo-properties.html", label: "Piges & biens", icon: "immo", highlight: true, desc: "Filtres type Piges + actions listing (SMS, suivi, export…)", keywords: "piges bien annonce leboncoin seloger paruvendu inventaire prospection" },
         { type: "link", href: "./crm-immo-matching.html", label: "Matching acquéreurs", icon: "ai", badge: "smart", desc: "Critères géo, surface, pièces, dépendances vs biens", keywords: "matching acheteur recherche criteria" },
         { type: "link", href: "./crm-immo-documents.html", label: "Documents immo", icon: "document", desc: "Mandats, bons de visite, offres, compromis (édition)", keywords: "mandat compromis offre visite document" },
         { type: "link", href: "./crm-immo-property.html", label: "Fiche bien", icon: "immo", muted: true },

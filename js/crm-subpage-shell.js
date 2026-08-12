@@ -43,7 +43,7 @@
       "crm-insurance-requests.html": { subtitle: "Demandes assurance et suivi de traitement" },
       "crm-tariff-grid.html": { subtitle: "Bordereaux et grilles tarifaires internes" },
       "crm-agency-fees.html": { subtitle: "Honoraires vendeur + financement acheteur (prêt / rachat)" },
-      "crm-immo-properties.html": { subtitle: "Inventaire biens — saisie manuelle + URL portails, recherche locale" },
+      "crm-immo-properties.html": { subtitle: "Piges — filtres RECHERCHE / OÙ / QUI / QUOI / QUAND + actions listing" },
       "crm-immo-property.html": { subtitle: "Fiche bien, personnes liées et documents" },
       "crm-immo-matching.html": { subtitle: "Matching intelligent critères acquéreur ↔ biens" },
       "crm-immo-documents.html": { subtitle: "Édition mandats, offres, compromis et pièces immo" },

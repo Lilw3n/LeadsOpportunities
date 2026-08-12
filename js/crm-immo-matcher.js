@@ -362,24 +362,71 @@
     var source = query.listing_source || "";
     var city = (query.city || "").toLowerCase().trim();
     var status = query.status || "";
+    var etat = query.etat || "";
+    var transaction = query.transaction || "";
+    var agence = (query.agence || "").toLowerCase().trim();
+    var suivi = (query.suivi_par || "").toLowerCase().trim();
     var minPrice = toNum(query.min_price);
     var maxPrice = toNum(query.max_price);
     var minSurface = toNum(query.min_surface);
+    var maxSurface = toNum(query.max_surface);
     var minRooms = toNum(query.min_rooms);
+    var maxRooms = toNum(query.max_rooms);
+    var minBed = toNum(query.min_bedrooms);
+    var maxBed = toNum(query.max_bedrooms);
+    var phoneMode = query.phone || "any";
+    var geoMode = query.geo || "any";
+    var aContacter = query.a_contacter;
+    var contactConnu = query.contact_connu;
+    var dateFrom = query.date_from ? String(query.date_from) : "";
+    var dateTo = query.date_to ? String(query.date_to) : "";
 
     return (properties || []).filter(function (raw) {
       var p = normalizeProperty(raw);
       if (status && p.status !== status) return false;
       if (type && p.property_type !== type) return false;
       if (source && p.listing_source !== source) return false;
-      if (city && (!p.city || p.city.toLowerCase().indexOf(city) === -1)) return false;
+      if (transaction && (raw.transaction || "vente") !== transaction) return false;
+      if (etat && (raw.etat || "non_affectee") !== etat) return false;
+      if (city) {
+        var hayCity = ((p.city || "") + " " + (p.postal_code || "")).toLowerCase();
+        if (hayCity.indexOf(city) === -1) return false;
+      }
+      if (agence && String(raw.agence || "").toLowerCase().indexOf(agence) === -1) return false;
+      if (suivi && String(raw.suivi_par || "").toLowerCase().indexOf(suivi) === -1) return false;
       var price = p.price_fai != null ? p.price_fai : p.price_net;
       if (minPrice != null && (price == null || price < minPrice)) return false;
       if (maxPrice != null && (price == null || price > maxPrice)) return false;
       if (minSurface != null && (p.surface_m2 == null || p.surface_m2 < minSurface)) return false;
+      if (maxSurface != null && (p.surface_m2 == null || p.surface_m2 > maxSurface)) return false;
       if (minRooms != null && (p.rooms == null || p.rooms < minRooms)) return false;
+      if (maxRooms != null && (p.rooms == null || p.rooms > maxRooms)) return false;
+      if (minBed != null && (p.bedrooms == null || p.bedrooms < minBed)) return false;
+      if (maxBed != null && (p.bedrooms == null || p.bedrooms > maxBed)) return false;
+      var hasPhone = !!(raw.phone || raw.contact_phone);
+      if (phoneMode === "yes" && !hasPhone) return false;
+      if (phoneMode === "no" && hasPhone) return false;
+      var hasGeo = p.lat != null && p.lng != null;
+      if (geoMode === "yes" && !hasGeo) return false;
+      if (geoMode === "no" && hasGeo) return false;
+      if (aContacter === true && !raw.a_contacter) return false;
+      if (contactConnu === true && !raw.contact_connu && !raw.owner_contact_id && !raw.buyer_contact_id) return false;
+      var created = String(raw.created_at || raw.updated_at || "").slice(0, 10);
+      if (dateFrom && created && created < dateFrom) return false;
+      if (dateTo && created && created > dateTo) return false;
       if (q) {
-        var hay = [p.title, p.city, p.postal_code, p.address, p.listing_url, p.description, p.notes]
+        var hay = [
+          p.title,
+          p.city,
+          p.postal_code,
+          p.address,
+          p.listing_url,
+          p.description,
+          p.notes,
+          raw.agence,
+          raw.suivi_par,
+          raw.phone,
+        ]
           .join(" ")
           .toLowerCase();
         if (hay.indexOf(q) === -1) return false;
