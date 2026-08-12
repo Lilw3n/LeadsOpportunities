@@ -10,10 +10,11 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuItem } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+const { validateArticle } = require("./verify-actu-quality.cjs");
 
 var ROOT = path.join(__dirname, "..");
 
@@ -96,6 +97,7 @@ function pickCandidates(candidates, count, state) {
   var available = ranked.filter(function (c) {
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (isPlaceholderActuItem(c)) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
@@ -241,6 +243,12 @@ async function main() {
 
     if (!article || !article.blocks || !article.blocks.length) {
       console.warn("  Article invalide — ignoré");
+      continue;
+    }
+
+    var qualityErrs = validateArticle(article);
+    if (qualityErrs.length) {
+      console.warn("  Qualité insuffisante — ignoré:", qualityErrs.join("; "));
       continue;
     }
 
