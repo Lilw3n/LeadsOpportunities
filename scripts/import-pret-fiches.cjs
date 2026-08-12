@@ -12,9 +12,9 @@ function norm(name) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9._-]+/g, "-")
-    .replace(/-+/g, "-");
+    .replace(/\s*\(\d+\)(?=\.[^.]+$)/, "")
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, "");
 }
 
 if (!fs.existsSync(inbox)) {
@@ -35,10 +35,11 @@ const unmatched = [];
 files.forEach(function (file) {
   const n = norm(file);
   const entry = manifest.files.find(function (f) {
-    const names = [f.canonical].concat(f.aliases || []);
+    const names = [f.canonical, f.downloadName].concat(f.aliases || []).filter(Boolean);
     return names.some(function (a) {
       const na = norm(a);
-      return na === n || n.indexOf(na.replace(/\.[a-z0-9]+$/, "")) >= 0;
+      if (!na) return false;
+      return na === n || (na.length > 12 && (n.indexOf(na) >= 0 || na.indexOf(n) >= 0));
     });
   });
   if (!entry) {

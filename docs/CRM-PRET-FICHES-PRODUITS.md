@@ -23,6 +23,11 @@ IMMO · HYPO TRESO · PVH · Trésorerie · Rénovation · BANK B · CFCAL · CG
 ```bash
 # déposer les PDF/XLS/DOCX dans docs/pret-fiches/_inbox/
 npm run pret:fiches:import
+# (re)sync noms depuis une liste Téléchargements
+node scripts/sync-pret-fiches-download-list.cjs && npm run pret:fiches:build
 ```
 
-Les fichiers restent `pending_upload` tant qu’ils ne sont pas déposés (chemins Windows locaux inaccessibles à l’agent).
+Liste de référence : [`scripts/pret-fiches-download-list.txt`](../scripts/pret-fiches-download-list.txt) (~176 uniques).  
+Nouveautés mappées : gamme **Credit Lift** (UNILIFT, MINILIFT, CONSOLIFT, HYPOLIFT…), **SCPI CFCAL/CACF**, normes **SCI**, Investys Patrimonial.
+
+Les fichiers restent `pending_upload` tant qu’ils ne sont pas déposés (chemins Windows `f:\…` inaccessibles à l’agent).

@@ -3,219 +3,3208 @@
   "inbox": "docs/pret-fiches/_inbox",
   "baseDir": "docs/pret-fiches",
   "sections": [
-    { "id": "immo", "label": "Crédit immobilier", "short": "IMMO" },
-    { "id": "hypo_treso", "label": "Prêt hypothécaire de trésorerie", "short": "HYPO TRESO" },
-    { "id": "pvh", "label": "Prêt viager hypothécaire", "short": "PVH" },
-    { "id": "treso", "label": "Trésorerie", "short": "TRESO" },
-    { "id": "renov", "label": "Crédit rénovation", "short": "RENOV" },
-    { "id": "bank_b", "label": "BANK B", "short": "BANK B" },
-    { "id": "cfcal", "label": "CFCAL", "short": "CFCAL" },
-    { "id": "cgi", "label": "CGI", "short": "CGI" },
-    { "id": "cml", "label": "CML", "short": "CML" },
-    { "id": "cmt", "label": "CMT", "short": "CMT" },
-    { "id": "creatis", "label": "CREATIS", "short": "CREATIS" },
-    { "id": "antilles", "label": "DOM-TOM Antilles", "short": "Antilles" },
-    { "id": "reunion", "label": "DOM-TOM Réunion", "short": "Réunion" },
-    { "id": "lbp", "label": "La Banque Postale", "short": "LBP" },
-    { "id": "mmb", "label": "My Money Bank", "short": "MMB" },
-    { "id": "sygma", "label": "SYGMA by BNP", "short": "SYGMA" }
+    {
+      "id": "immo",
+      "label": "Crédit immobilier",
+      "short": "IMMO"
+    },
+    {
+      "id": "hypo_treso",
+      "label": "Prêt hypothécaire de trésorerie",
+      "short": "HYPO TRESO"
+    },
+    {
+      "id": "pvh",
+      "label": "Prêt viager hypothécaire",
+      "short": "PVH"
+    },
+    {
+      "id": "treso",
+      "label": "Trésorerie",
+      "short": "TRESO"
+    },
+    {
+      "id": "renov",
+      "label": "Crédit rénovation",
+      "short": "RENOV"
+    },
+    {
+      "id": "bank_b",
+      "label": "BANK B",
+      "short": "BANK B"
+    },
+    {
+      "id": "cfcal",
+      "label": "CFCAL",
+      "short": "CFCAL"
+    },
+    {
+      "id": "cgi",
+      "label": "CGI",
+      "short": "CGI"
+    },
+    {
+      "id": "cml",
+      "label": "CML",
+      "short": "CML"
+    },
+    {
+      "id": "cmt",
+      "label": "CMT",
+      "short": "CMT"
+    },
+    {
+      "id": "creatis",
+      "label": "CREATIS",
+      "short": "CREATIS"
+    },
+    {
+      "id": "antilles",
+      "label": "DOM-TOM Antilles",
+      "short": "Antilles"
+    },
+    {
+      "id": "reunion",
+      "label": "DOM-TOM Réunion",
+      "short": "Réunion"
+    },
+    {
+      "id": "lbp",
+      "label": "La Banque Postale",
+      "short": "LBP"
+    },
+    {
+      "id": "mmb",
+      "label": "My Money Bank",
+      "short": "MMB"
+    },
+    {
+      "id": "sygma",
+      "label": "SYGMA by BNP",
+      "short": "SYGMA"
+    },
+    {
+      "id": "scpi",
+      "label": "SCPI",
+      "short": "SCPI"
+    },
+    {
+      "id": "sci",
+      "label": "SCI",
+      "short": "SCI"
+    },
+    {
+      "id": "credilift",
+      "label": "Credit Lift",
+      "short": "CREDITLIFT"
+    }
   ],
   "files": [
-    { "section": "immo", "partner": "bank_b", "subsection": "produit", "canonical": "BANK-B-1ere-Acquisition-Personne-physique.pdf", "title": "BANK B — 1ère acquisition personne physique", "tags": ["immo", "primo", "personne_physique"], "period": null },
-    { "section": "immo", "partner": "cfcal", "subsection": "produit", "canonical": "CFCAL-01-2026-Fiche-Edifys-RP.pdf", "title": "CFCAL Edifys RP", "tags": ["immo", "rp", "edifys"], "period": "2026-01" },
-    { "section": "immo", "partner": "cfcal", "subsection": "produit", "canonical": "CFCAL-01-2026-Fiche-Hypo-Aquiz.pdf", "title": "CFCAL Hypo Aquiz", "tags": ["immo", "hypo", "aquiz"], "period": "2026-01" },
-    { "section": "immo", "partner": "cfcal", "subsection": "produit", "canonical": "CFCAL-01-2026-Fiche-Investys-RL.pdf", "title": "CFCAL Investys RL", "tags": ["immo", "locatif", "investys"], "period": "2026-01" },
-    { "section": "immo", "partner": "cfcal", "subsection": "book", "canonical": "CFCAL-Book-revenus-et-charges.pdf", "title": "CFCAL Book revenus et charges", "tags": ["book", "revenus", "charges", "dti"], "period": null, "kind": "book" },
-    { "section": "immo", "partner": "cfcal", "subsection": "memento", "canonical": "CFCAL-Memento-01-2026.pdf", "title": "CFCAL Memento 01 2026", "tags": ["memento", "normes"], "period": "2026-01", "kind": "memento" },
-    { "section": "immo", "partner": "cfcal", "subsection": "outil", "canonical": "TABLEAU-PATRIMONIAL.xlsx", "title": "Tableau patrimonial", "tags": ["patrimoine", "outil"], "period": null, "kind": "outil" },
-
-    { "section": "hypo_treso", "partner": "bank_b", "subsection": "produit", "canonical": "BANK-B-Rachat-de-soulte.pdf", "title": "BANK B — Rachat de soulte", "tags": ["soulte", "hypo", "treso"], "period": null },
-    { "section": "hypo_treso", "partner": "bank_b", "subsection": "produit", "canonical": "BANK-B-Travaux-75000-fins-privees.pdf", "title": "BANK B — Travaux 75 000 fins privées", "tags": ["travaux", "prive"], "period": null },
-    { "section": "hypo_treso", "partner": "bank_b", "subsection": "produit", "canonical": "BANK-B-Travaux-75000-fins-professionnelles.pdf", "title": "BANK B — Travaux 75 000 fins pro", "tags": ["travaux", "pro"], "period": null },
-    { "section": "hypo_treso", "partner": "bank_b", "subsection": "outil", "canonical": "BANK-B-TABLEAU-PATRIMOINE.pdf", "title": "BANK B — Tableau patrimoine", "tags": ["patrimoine"], "period": null, "kind": "outil" },
-    { "section": "hypo_treso", "partner": "bank_b", "subsection": "book", "canonical": "BANK-B-Book-01-2026.pdf", "title": "BANK B Book 01 2026", "tags": ["book"], "period": "2026-01", "kind": "book" },
-    { "section": "hypo_treso", "partner": "bank_b", "subsection": "norme", "canonical": "BANK-B-Zone-intervention-LTV.pdf", "title": "BANK B — Zone d'intervention LTV", "tags": ["ltv", "zone", "geo"], "period": null },
-    { "section": "hypo_treso", "partner": "cfcal", "subsection": "outil", "canonical": "CFCAL-TABLEAU-PATRIMONIAL.xlsx", "title": "CFCAL Tableau patrimonial", "tags": ["patrimoine", "outil"], "period": null, "kind": "outil" },
-    { "section": "hypo_treso", "partner": "cfcal", "subsection": "book", "canonical": "CFCAL-Book-revenus-et-charges.pdf", "title": "CFCAL Book revenus et charges", "tags": ["book", "revenus", "charges"], "period": null, "kind": "book" },
-    { "section": "hypo_treso", "partner": "cfcal", "subsection": "produit", "canonical": "CFCAL-HYPO-RENOV.pdf", "title": "CFCAL HYPO RENOV", "tags": ["renovation", "hypo", "travaux"], "period": null },
-    { "section": "hypo_treso", "partner": "cfcal", "subsection": "produit", "canonical": "CFCAL-HYPO-TRESO.pdf", "title": "CFCAL HYPO TRESO", "tags": ["hypo", "treso"], "period": null },
-    { "section": "hypo_treso", "partner": "cfcal", "subsection": "memento", "canonical": "CFCAL-Memento-01-2026.pdf", "title": "CFCAL Memento 01 2026", "tags": ["memento"], "period": "2026-01", "kind": "memento" },
-    { "section": "hypo_treso", "partner": "mmb", "subsection": "produit", "canonical": "MY-MONEY-BANK-11-2025-My-New-treso.pdf", "title": "MMB My New Treso", "tags": ["treso", "mmb"], "period": "2025-11" },
-
-    { "section": "pvh", "partner": "cfcal", "subsection": "produit", "canonical": "05-2026-CFCAL-PVH.pdf", "title": "CFCAL PVH", "tags": ["pvh", "senior", "viager"], "period": "2026-05" },
-    { "section": "pvh", "partner": "cfcal", "subsection": "formulaire", "canonical": "Attestation-de-destination-des-fonds.pdf", "title": "Attestation destination des fonds", "tags": ["formulaire", "pvh"], "period": null, "kind": "formulaire" },
-    { "section": "pvh", "partner": "cfcal", "subsection": "formulaire", "canonical": "Attestation-residence-secondaire-1-emprunteur.pdf", "title": "Attestation RS — 1 emprunteur", "tags": ["formulaire", "rs", "pvh"], "period": null, "kind": "formulaire" },
-    { "section": "pvh", "partner": "cfcal", "subsection": "formulaire", "canonical": "Attestation-residence-secondaire-2-emprunteurs.pdf", "title": "Attestation RS — 2 emprunteurs", "tags": ["formulaire", "rs", "pvh"], "period": null, "kind": "formulaire" },
-    { "section": "pvh", "partner": "cfcal", "subsection": "outil", "canonical": "CFCAL-Tableau-de-situation-patrimoniale.xlsx", "title": "CFCAL Tableau situation patrimoniale", "tags": ["patrimoine", "pvh"], "period": null, "kind": "outil" },
-    { "section": "pvh", "partner": "cfcal", "subsection": "formulaire", "canonical": "Fiche-renseignement-client.pdf", "title": "Fiche renseignement client", "tags": ["kyc", "pvh"], "period": null, "kind": "formulaire" },
-
-    { "section": "treso", "partner": "cfcal", "subsection": "book", "canonical": "0-Book-revenus-et-charges.pdf", "title": "Book revenus et charges", "tags": ["book", "revenus"], "period": null, "kind": "book" },
-    { "section": "treso", "partner": "cfcal", "subsection": "memento", "canonical": "0-Memento-01-2026.pdf", "title": "Memento 01 2026", "tags": ["memento"], "period": "2026-01", "kind": "memento" },
-    { "section": "treso", "partner": "cfcal", "subsection": "produit", "canonical": "01-2026-HYPO-TRESO-CFCAL.pdf", "title": "HYPO TRESO CFCAL", "tags": ["hypo", "treso", "rac"], "period": "2026-01" },
-    { "section": "treso", "partner": "cfcal", "subsection": "formulaire", "canonical": "Attestation-sur-honneur-HYPO-TRESO.docx", "title": "Attestation sur l'honneur HYPO TRESO", "tags": ["formulaire", "treso"], "period": null, "kind": "formulaire" },
-    { "section": "treso", "partner": "cml", "subsection": "produit", "canonical": "Fiche-produit-Pret-perso.pdf", "title": "CML — Prêt personnel", "tags": ["pret_personnel", "conso"], "period": null },
-    { "section": "treso", "partner": "cmt", "subsection": "produit", "canonical": "Griffon-Conso.pdf", "title": "Griffon Conso", "tags": ["griffon", "conso"], "period": null },
-    { "section": "treso", "partner": "cmt", "subsection": "produit", "canonical": "Griffon-Hypo.pdf", "title": "Griffon Hypo", "tags": ["griffon", "hypo"], "period": null },
-    { "section": "treso", "partner": "cmt", "subsection": "produit", "canonical": "Griffon-Patrimoine-Conso.pdf", "title": "Griffon Patrimoine Conso", "tags": ["griffon", "conso", "patrimoine"], "period": null },
-    { "section": "treso", "partner": "cmt", "subsection": "produit", "canonical": "Griffon-Patrimoine-Immo.pdf", "title": "Griffon Patrimoine Immo", "tags": ["griffon", "immo", "patrimoine"], "period": null },
-    { "section": "treso", "partner": "cmt", "subsection": "produit", "canonical": "Griffon-Patrimoine-Relais.pdf", "title": "Griffon Patrimoine Relais", "tags": ["griffon", "relais"], "period": null },
-    { "section": "treso", "partner": "cgi", "subsection": "produit", "canonical": "11-2023-CGI-Fiche-Duo-Projet.pdf", "title": "CGI Duo Projet", "tags": ["cgi", "projet", "sans_garantie"], "period": "2023-11" },
-    { "section": "treso", "partner": "cgi", "subsection": "norme", "canonical": "11-2023-CGI-Revenus-et-criteres-acceptation.pdf", "title": "CGI Revenus et critères", "tags": ["cgi", "revenus", "criteres"], "period": "2023-11" },
-    { "section": "treso", "partner": "creatis", "subsection": "produit", "canonical": "Pret-personnel-CREATIS.pdf", "title": "Prêt personnel CREATIS", "tags": ["pret_personnel", "creatis"], "period": null },
-    { "section": "treso", "partner": "mmb", "subsection": "produit", "canonical": "11-2023-Fiches-normes-My-New-Treso.pdf", "title": "MMB My New Treso (normes)", "tags": ["mmb", "treso"], "period": "2023-11" },
-    { "section": "treso", "partner": "sofinco", "subsection": "produit", "canonical": "2026-Normes-pret-personnel-SOFINCO.pdf", "title": "Sofinco prêt personnel", "tags": ["sofinco", "pret_personnel"], "period": "2026" },
-    { "section": "treso", "partner": "sygma", "subsection": "produit", "canonical": "3-FICHE-PROJET-26-01-2021-SYGMA.pdf", "title": "SYGMA Fiche projet", "tags": ["sygma", "projet"], "period": "2021-01" },
-    { "section": "treso", "partner": "sygma", "subsection": "produit", "canonical": "FICHE-2-Treso-complementaire.pdf", "title": "SYGMA Tréso complémentaire", "tags": ["sygma", "treso"], "period": null },
-
-    { "section": "renov", "partner": "cfcal", "subsection": "book", "canonical": "0-Book-revenus-et-charges.pdf", "title": "Book revenus et charges", "tags": ["book", "revenus"], "period": null, "kind": "book" },
-    { "section": "renov", "partner": "cfcal", "subsection": "memento", "canonical": "0-Memento-01-2026.pdf", "title": "Memento 01 2026", "tags": ["memento"], "period": "2026-01", "kind": "memento" },
-    { "section": "renov", "partner": "cfcal", "subsection": "produit", "canonical": "2-CFCAL-HYPO-RENOV.pdf", "title": "CFCAL HYPO RENOV", "tags": ["renovation", "hypo", "travaux"], "period": null },
-
-    { "section": "bank_b", "partner": "bank_b", "subsection": "book", "canonical": "Book-BANK-B-2026.pdf", "title": "Book BANK B 2026", "tags": ["book", "bank_b"], "period": "2026", "kind": "book" },
-    { "section": "bank_b", "partner": "bank_b", "subsection": "produit", "canonical": "Premiere-acquisition-personne-morale.pdf", "title": "1ère acquisition personne morale", "tags": ["primo", "personne_morale", "sci"], "period": null },
-    { "section": "bank_b", "partner": "bank_b", "subsection": "produit", "canonical": "Premiere-acquisition-personne-physique.pdf", "title": "1ère acquisition personne physique", "tags": ["primo", "personne_physique"], "period": null },
-    { "section": "bank_b", "partner": "bank_b", "subsection": "produit", "canonical": "Rachat-de-soulte.pdf", "title": "Rachat de soulte", "tags": ["soulte"], "period": null },
-    { "section": "bank_b", "partner": "bank_b", "subsection": "outil", "canonical": "Tableau-patrimonial.pdf", "title": "Tableau patrimonial", "tags": ["patrimoine"], "period": null, "kind": "outil" },
-    { "section": "bank_b", "partner": "bank_b", "subsection": "produit", "canonical": "Travaux-plus-de-75000-prive.pdf", "title": "Travaux > 75 000 € privé", "tags": ["travaux", "prive"], "period": null },
-    { "section": "bank_b", "partner": "bank_b", "subsection": "produit", "canonical": "Travaux-plus-de-75000-pro.pdf", "title": "Travaux > 75 000 € pro", "tags": ["travaux", "pro"], "period": null },
-    { "section": "bank_b", "partner": "bank_b", "subsection": "norme", "canonical": "Zone-intervention-LTV.pdf", "title": "Zone d'intervention LTV", "tags": ["ltv", "zone"], "period": null },
-
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "0-Book-revenus-et-charges.pdf", "title": "Book revenus et charges", "tags": ["book", "rac", "hypo"], "period": null, "kind": "book" },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "0-Memento-07-2026.pdf", "title": "Memento 07 2026", "tags": ["memento", "rac"], "period": "2026-07", "kind": "memento" },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Classique.pdf", "title": "CFCAL Hypo Classique", "tags": ["rac", "hypo", "avec_garantie"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-First.pdf", "title": "CFCAL Hypo First", "tags": ["rac", "hypo", "first", "avec_garantie"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Immo-Classique-Taux-fixe.pdf", "title": "Hypo Immo Classique taux fixe", "tags": ["rac", "hypo", "immo", "taux_fixe"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Immo-Classique-Taux-variable.pdf", "title": "Hypo Immo Classique taux variable", "tags": ["rac", "hypo", "immo", "taux_variable"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Immo-First-Taux-fixe.pdf", "title": "Hypo Immo First taux fixe", "tags": ["rac", "hypo", "first", "taux_fixe"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Immo-First-Taux-variable.pdf", "title": "Hypo Immo First taux variable", "tags": ["rac", "hypo", "first", "taux_variable"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Immo-Pro.pdf", "title": "Hypo Immo Pro", "tags": ["rac", "hypo", "pro"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Pro-Classique.pdf", "title": "Hypo Pro Classique", "tags": ["rac", "hypo", "pro"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Pro-First.pdf", "title": "Hypo Pro First", "tags": ["rac", "hypo", "pro", "first"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Soulte.pdf", "title": "Hypo Soulte", "tags": ["rac", "hypo", "soulte"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Wash-1.pdf", "title": "Hypo Wash 1", "tags": ["rac", "hypo", "wash"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_hypothecaire", "canonical": "CFCAL-Hypo-Wash-2.pdf", "title": "Hypo Wash 2", "tags": ["rac", "hypo", "wash"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_sans_garantie", "canonical": "0-CFCAL-Book-revenus-et-charges.pdf", "title": "Book revenus et charges (SG)", "tags": ["book", "sans_garantie"], "period": null, "kind": "book" },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_sans_garantie", "canonical": "0-CFCAL-Memento.pdf", "title": "CFCAL Memento (SG)", "tags": ["memento", "sans_garantie"], "period": null, "kind": "memento" },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_sans_garantie", "canonical": "CFCAL-RAC-Sans-Garantie-Locataire.pdf", "title": "RAC sans garantie — Locataire", "tags": ["rac", "sans_garantie", "locataire"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_sans_garantie", "canonical": "CFCAL-RAC-sans-Garantie-Proprietaire-Premium.pdf", "title": "RAC sans garantie — Propriétaire Premium", "tags": ["rac", "sans_garantie", "proprietaire", "premium"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_sans_garantie", "canonical": "CFCAL-RAC-sans-Garantie-Proprietaire.pdf", "title": "RAC sans garantie — Propriétaire", "tags": ["rac", "sans_garantie", "proprietaire"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_pro", "canonical": "4-CFCAL-Hypo-Immo-Pro.pdf", "title": "RAC Pro — Hypo Immo Pro", "tags": ["rac", "pro", "hypo"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_pro", "canonical": "4-CFCAL-Hypo-Pro-Classique.pdf", "title": "RAC Pro — Hypo Pro Classique", "tags": ["rac", "pro", "hypo"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "rac_pro", "canonical": "4-CFCAL-Hypo-Pro-First.pdf", "title": "RAC Pro — Hypo Pro First", "tags": ["rac", "pro", "hypo", "first"], "period": null },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "assurance", "canonical": "Book-Memento-RAC.pdf", "title": "Book Memento RAC (assurance)", "tags": ["assurance", "rac"], "period": null, "kind": "assurance" },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "interne", "canonical": "6-Descriptif-du-bien-immobilier-en-garantie.pdf", "title": "Descriptif bien en garantie", "tags": ["interne", "garantie", "bien"], "period": null, "kind": "interne" },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "interne", "canonical": "6-Liste-notaires-referents.pdf", "title": "Liste notaires référents", "tags": ["interne", "notaire"], "period": null, "kind": "interne" },
-    { "section": "cfcal", "partner": "cfcal", "subsection": "interne", "canonical": "6-Revenus-et-Charges-pour-le-calcul-du-Taux-Endettement.pdf", "title": "Revenus & charges — taux d'endettement", "tags": ["interne", "dti", "revenus", "charges"], "period": null, "kind": "interne" },
-
-    { "section": "cgi", "partner": "cgi", "subsection": "produit", "canonical": "Explication-differentiel.pdf", "title": "Explication différentiel", "tags": ["cgi", "differentiel"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "norme", "canonical": "Fiche-Revenus-Charges-et-Criteres.pdf", "title": "Revenus, charges et critères", "tags": ["cgi", "revenus", "criteres"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "produit", "canonical": "Fiche-avec-garantie-LS1.pdf", "title": "Avec garantie LS1", "tags": ["cgi", "avec_garantie", "rac"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "produit", "canonical": "Fiche-retraite.pdf", "title": "Fiche retraite", "tags": ["cgi", "retraite", "senior", "rac"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "produit", "canonical": "Fiche-sans-garantie-DUO-Projet.pdf", "title": "Sans garantie DUO Projet", "tags": ["cgi", "sans_garantie", "projet"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "produit", "canonical": "Fiche-sans-garantie-locataire.pdf", "title": "Sans garantie locataire", "tags": ["cgi", "sans_garantie", "locataire"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "produit", "canonical": "Fiche-sans-garantie-primo-accedants.pdf", "title": "Sans garantie primo-accédants", "tags": ["cgi", "sans_garantie", "primo"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "produit", "canonical": "Fiche-sans-garantie-proprietaire.pdf", "title": "Sans garantie propriétaire", "tags": ["cgi", "sans_garantie", "proprietaire"], "period": null },
-    { "section": "cgi", "partner": "cgi", "subsection": "interne", "canonical": "6-Calcul-des-retraites.pdf", "title": "Calcul des retraites", "tags": ["interne", "retraite", "senior"], "period": null, "kind": "interne" },
-    { "section": "cgi", "partner": "cgi", "subsection": "interne", "canonical": "6-Calcul-des-revenus.pdf", "title": "Calcul des revenus", "tags": ["interne", "revenus"], "period": null, "kind": "interne" },
-    { "section": "cgi", "partner": "cgi", "subsection": "interne", "canonical": "6-Fiche-Expertise.pdf", "title": "Fiche expertise", "tags": ["interne", "expertise"], "period": null, "kind": "interne" },
-    { "section": "cgi", "partner": "cgi", "subsection": "interne", "canonical": "6-Fiche-descriptive-bien-immo.pdf", "title": "Fiche descriptive bien immo", "tags": ["interne", "bien"], "period": null, "kind": "interne" },
-
-    { "section": "cml", "partner": "cml", "subsection": "produit", "canonical": "Pret-personnel-CREDIT-MUNICIPAL-LYON.pdf", "title": "Prêt personnel CML", "tags": ["pret_personnel", "cml"], "period": null },
-    { "section": "cml", "partner": "cml", "subsection": "produit", "canonical": "RAC-Credit-Municipal-Lyon.pdf", "title": "RAC CML", "tags": ["rac", "cml"], "period": null },
-
-    { "section": "cmt", "partner": "cmt", "subsection": "produit", "canonical": "Presentation-2025.pdf", "title": "Présentation RAC CMT 2025", "tags": ["rac", "cmt"], "period": "2025" },
-    { "section": "cmt", "partner": "cmt", "subsection": "assurance", "canonical": "2-Assurance-groupe-CGCV.pdf", "title": "Assurance groupe CGCV", "tags": ["assurance"], "period": null, "kind": "assurance" },
-    { "section": "cmt", "partner": "cmt", "subsection": "assurance", "canonical": "2-Assurance-groupe-conditions.pdf", "title": "Assurance groupe — conditions", "tags": ["assurance"], "period": null, "kind": "assurance" },
-    { "section": "cmt", "partner": "cmt", "subsection": "assurance", "canonical": "2-Assurances-groupe-CMT.pdf", "title": "Assurances groupe CMT", "tags": ["assurance"], "period": null, "kind": "assurance" },
-    { "section": "cmt", "partner": "cmt", "subsection": "interne", "canonical": "3-CMT-Aide-au-remplissage-de-la-fiche-excel.pdf", "title": "Aide remplissage fiche Excel", "tags": ["interne"], "period": null, "kind": "interne" },
-    { "section": "cmt", "partner": "cmt", "subsection": "interne", "canonical": "3-CMT-Carcasse-a-transmettre.xlsx", "title": "Carcasse à transmettre", "tags": ["interne", "outil"], "period": null, "kind": "outil" },
-
-    { "section": "creatis", "partner": "creatis", "subsection": "book", "canonical": "03-2026-Book-CREATIS.pdf", "title": "Book CREATIS", "tags": ["book"], "period": "2026-03", "kind": "book" },
-    { "section": "creatis", "partner": "creatis", "subsection": "norme", "canonical": "04-2026-Evolution-normes-CREATIS.pdf", "title": "Évolution normes CREATIS", "tags": ["normes"], "period": "2026-04", "kind": "memento" },
-    { "section": "creatis", "partner": "creatis", "subsection": "rac_hypothecaire", "canonical": "1-RAC-HYPO-03-2019.pdf", "title": "RAC HYPO", "tags": ["rac", "hypo", "avec_garantie"], "period": "2019-03" },
-    { "section": "creatis", "partner": "creatis", "subsection": "rac_hypothecaire", "canonical": "1-RAC-HYPO-Informations-generales-10-2020.pdf", "title": "RAC HYPO — infos générales", "tags": ["rac", "hypo"], "period": "2020-10" },
-    { "section": "creatis", "partner": "creatis", "subsection": "rac_sans_garantie", "canonical": "Fiche-Produit-MINIRAC-IOBSP-05-2022.pdf", "title": "MINIRAC IOBSP", "tags": ["rac", "sans_garantie", "minirac"], "period": "2022-05" },
-    { "section": "creatis", "partner": "creatis", "subsection": "rac_sans_garantie", "canonical": "Fiche-Produit-RAC-Conso-IOBSP-02-2022.pdf", "title": "RAC Conso IOBSP", "tags": ["rac", "conso", "sans_garantie"], "period": "2022-02" },
-    { "section": "creatis", "partner": "creatis", "subsection": "rac_projet", "canonical": "Fiche-Produit-Pret-Fusion-10-2021.pdf", "title": "Prêt Fusion", "tags": ["rac", "fusion", "projet"], "period": "2021-10" },
-    { "section": "creatis", "partner": "creatis", "subsection": "rac_projet", "canonical": "Fiche-Produit-RAC-Conso-Projets-IOBSP-10-2021.pdf", "title": "RAC Conso Projets", "tags": ["rac", "conso", "projet"], "period": "2021-10" },
-    { "section": "creatis", "partner": "creatis", "subsection": "assurance", "canonical": "4-Assurance-Fiche-ADE-06-2019.pdf", "title": "Assurance ADE", "tags": ["assurance"], "period": "2019-06", "kind": "assurance" },
-    { "section": "creatis", "partner": "creatis", "subsection": "interne", "canonical": "5-Allegement-pieces-proprietaires-et-accedants.pdf", "title": "Allègement pièces propriétaires", "tags": ["interne", "pieces", "proprietaire"], "period": null, "kind": "interne" },
-    { "section": "creatis", "partner": "creatis", "subsection": "interne", "canonical": "5-Les-pieces-indispensables-RAC-Conso-janv-2020.pdf", "title": "Pièces indispensables RAC Conso", "tags": ["interne", "pieces", "conso"], "period": "2020-01", "kind": "interne" },
-    { "section": "creatis", "partner": "creatis", "subsection": "interne", "canonical": "5-Les-pieces-indispensables-RAC-Hypo-janv-2020.pdf", "title": "Pièces indispensables RAC Hypo", "tags": ["interne", "pieces", "hypo"], "period": "2020-01", "kind": "interne" },
-    { "section": "creatis", "partner": "creatis", "subsection": "interne", "canonical": "5-Les-pieces-indispensables-RAC-Projets.pdf", "title": "Pièces indispensables RAC Projets", "tags": ["interne", "pieces", "projet"], "period": null, "kind": "interne" },
-    { "section": "creatis", "partner": "creatis", "subsection": "interne", "canonical": "5-Procedure-RAC-SANS-GARANTIE-HYPO-octobre-2020.pdf", "title": "Procédure RAC sans garantie / hypo", "tags": ["interne", "sans_garantie", "hypo"], "period": "2020-10", "kind": "interne" },
-    { "section": "creatis", "partner": "creatis", "subsection": "interne", "canonical": "Fiche-descriptive-CREATIS.pdf", "title": "Fiche descriptive CREATIS", "tags": ["interne"], "period": null, "kind": "interne" },
-    { "section": "creatis", "partner": "creatis", "subsection": "conformite", "canonical": "6-Courrier-de-patience-partenaire.pdf", "title": "Courrier de patience", "tags": ["conformite"], "period": null, "kind": "conformite" },
-    { "section": "creatis", "partner": "creatis", "subsection": "conformite", "canonical": "6-DEVOIR-DE-CONSEIL-DECEMBRE-2018.pdf", "title": "Devoir de conseil", "tags": ["conformite"], "period": "2018-12", "kind": "conformite" },
-    { "section": "creatis", "partner": "creatis", "subsection": "conformite", "canonical": "6-FICHE-GUIDE-PUB-2017.pdf", "title": "Guide pub", "tags": ["conformite"], "period": "2017", "kind": "conformite" },
-    { "section": "creatis", "partner": "creatis", "subsection": "conformite", "canonical": "6-FICHE-LUTTE-ANTIBLANCHIMENT-2018.pdf", "title": "Lutte antiblanchiment", "tags": ["conformite", "lab"], "period": "2018", "kind": "conformite" },
-    { "section": "creatis", "partner": "creatis", "subsection": "conformite", "canonical": "6-Formation-personnes-proposant-du-credit.pdf", "title": "Formation crédit", "tags": ["conformite"], "period": null, "kind": "conformite" },
-    { "section": "creatis", "partner": "creatis", "subsection": "conformite", "canonical": "6-Traitement-de-la-reclamation.pdf", "title": "Traitement réclamation", "tags": ["conformite"], "period": null, "kind": "conformite" },
-
-    { "section": "antilles", "partner": "credilift", "subsection": "norme", "canonical": "04-2026-Evolution-norme.pdf", "title": "Credit Lift — Évolution norme", "tags": ["dom_tom", "antilles", "normes"], "period": "2026-04", "region": "antilles" },
-    { "section": "antilles", "partner": "credilift", "subsection": "produit", "canonical": "Normalift-avec-et-sans-garantie-04-2026.pdf", "title": "Normalift avec/sans garantie", "tags": ["dom_tom", "antilles", "rac", "avec_garantie", "sans_garantie"], "period": "2026-04", "region": "antilles" },
-    { "section": "antilles", "partner": "credilift", "subsection": "norme", "canonical": "Recap-endettement-et-RAV-05-2026.pdf", "title": "Récap endettement et RAV", "tags": ["dom_tom", "antilles", "dti", "rav"], "period": "2026-05", "region": "antilles" },
-    { "section": "antilles", "partner": "lbp", "subsection": "book", "canonical": "Book-LBP-01-2026.pdf", "title": "Book LBP", "tags": ["dom_tom", "antilles", "lbp"], "period": "2026-01", "region": "antilles", "kind": "book" },
-    { "section": "antilles", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Criteres-Gamme-Avec-Garantie.pdf", "title": "SYGMA critères avec garantie", "tags": ["dom_tom", "antilles", "avec_garantie"], "period": "2025-02", "region": "antilles" },
-    { "section": "antilles", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Criteres-Gamme-Sans-Garantie.pdf", "title": "SYGMA critères sans garantie", "tags": ["dom_tom", "antilles", "sans_garantie"], "period": "2025-02", "region": "antilles" },
-    { "section": "antilles", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Fiche-Avec-Garantie.pdf", "title": "SYGMA fiche avec garantie", "tags": ["dom_tom", "antilles", "avec_garantie"], "period": "2025-02", "region": "antilles" },
-    { "section": "antilles", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Fiche-Sans-Garantie-Locataire.pdf", "title": "SYGMA sans garantie locataire", "tags": ["dom_tom", "antilles", "sans_garantie", "locataire"], "period": "2025-02", "region": "antilles" },
-    { "section": "antilles", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Fiche-Sans-Garantie-Proprietaire.pdf", "title": "SYGMA sans garantie propriétaire", "tags": ["dom_tom", "antilles", "sans_garantie", "proprietaire"], "period": "2025-02", "region": "antilles" },
-
-    { "section": "reunion", "partner": "creatis", "subsection": "produit", "canonical": "01-2025-Creatis-Pret-Fusion.pdf", "title": "CREATIS Prêt Fusion", "tags": ["dom_tom", "reunion", "fusion"], "period": "2025-01", "region": "reunion" },
-    { "section": "reunion", "partner": "creatis", "subsection": "produit", "canonical": "01-2025-Creatis-Projet.pdf", "title": "CREATIS Projet", "tags": ["dom_tom", "reunion", "projet"], "period": "2025-01", "region": "reunion" },
-    { "section": "reunion", "partner": "creatis", "subsection": "produit", "canonical": "01-2025-Creatis-Rac-Hypo-Immo.pdf", "title": "CREATIS RAC Hypo Immo", "tags": ["dom_tom", "reunion", "rac", "hypo"], "period": "2025-01", "region": "reunion" },
-    { "section": "reunion", "partner": "creatis", "subsection": "produit", "canonical": "01-2025-Creatis-Rac-Avec-Garantie.pdf", "title": "CREATIS RAC avec garantie", "tags": ["dom_tom", "reunion", "rac", "avec_garantie"], "period": "2025-01", "region": "reunion" },
-    { "section": "reunion", "partner": "creatis", "subsection": "produit", "canonical": "01-2025-Creatis-Rac-Sans-Garantie.pdf", "title": "CREATIS RAC sans garantie", "tags": ["dom_tom", "reunion", "rac", "sans_garantie"], "period": "2025-01", "region": "reunion" },
-    { "section": "reunion", "partner": "creatis", "subsection": "book", "canonical": "03-2026-Book-CREATIS.pdf", "title": "Book CREATIS", "tags": ["dom_tom", "reunion", "book"], "period": "2026-03", "region": "reunion", "kind": "book" },
-    { "section": "reunion", "partner": "creatis", "subsection": "norme", "canonical": "04-2026-Evolution-normes-CREATIS.pdf", "title": "Évolution normes CREATIS", "tags": ["dom_tom", "reunion", "normes"], "period": "2026-04", "region": "reunion" },
-    { "section": "reunion", "partner": "credilift", "subsection": "norme", "canonical": "2025-01-03-Bareme-et-conditions.pdf", "title": "Credit Lift barème et conditions", "tags": ["dom_tom", "reunion"], "period": "2025-01", "region": "reunion" },
-    { "section": "reunion", "partner": "credilift", "subsection": "produit", "canonical": "Normalift-avec-et-sans-garantie-04-2026.pdf", "title": "Normalift avec/sans garantie", "tags": ["dom_tom", "reunion", "rac"], "period": "2026-04", "region": "reunion" },
-    { "section": "reunion", "partner": "credilift", "subsection": "norme", "canonical": "Recap-endettement-et-RAV-05-2026.pdf", "title": "Récap endettement et RAV", "tags": ["dom_tom", "reunion", "dti", "rav"], "period": "2026-05", "region": "reunion" },
-    { "section": "reunion", "partner": "mmb", "subsection": "produit", "canonical": "01-2024-Fiche-de-normes-My-Simply-One.pdf", "title": "MMB My Simply One", "tags": ["dom_tom", "reunion", "rac", "hypo"], "period": "2024-01", "region": "reunion" },
-    { "section": "reunion", "partner": "mmb", "subsection": "produit", "canonical": "01-2024-MMB-Fiches-normes-Easy-Treso.pdf", "title": "MMB Easy Treso", "tags": ["dom_tom", "reunion", "treso", "sans_garantie"], "period": "2024-01", "region": "reunion" },
-    { "section": "reunion", "partner": "mmb", "subsection": "produit", "canonical": "05-2024-Fiches-Easy-Treso.pdf", "title": "MMB Easy Treso (05/2024)", "tags": ["dom_tom", "reunion", "treso"], "period": "2024-05", "region": "reunion" },
-    { "section": "reunion", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Criteres-Gamme-Avec-Garantie.pdf", "title": "SYGMA critères avec garantie", "tags": ["dom_tom", "reunion", "avec_garantie"], "period": "2025-02", "region": "reunion" },
-    { "section": "reunion", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Criteres-Gamme-Sans-Garantie.pdf", "title": "SYGMA critères sans garantie", "tags": ["dom_tom", "reunion", "sans_garantie"], "period": "2025-02", "region": "reunion" },
-    { "section": "reunion", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Fiche-Avec-Garantie.pdf", "title": "SYGMA fiche avec garantie", "tags": ["dom_tom", "reunion", "avec_garantie"], "period": "2025-02", "region": "reunion" },
-    { "section": "reunion", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Fiche-Sans-Garantie-Locataire.pdf", "title": "SYGMA sans garantie locataire", "tags": ["dom_tom", "reunion", "sans_garantie", "locataire"], "period": "2025-02", "region": "reunion" },
-    { "section": "reunion", "partner": "sygma", "subsection": "produit", "canonical": "02-2025-Fiche-Sans-Garantie-Proprietaire.pdf", "title": "SYGMA sans garantie propriétaire", "tags": ["dom_tom", "reunion", "sans_garantie", "proprietaire"], "period": "2025-02", "region": "reunion" },
-
-    { "section": "lbp", "partner": "lbp", "subsection": "book", "canonical": "Book-LBP-01-2026.pdf", "title": "Book LBP 01 2026", "tags": ["lbp", "rac", "book"], "period": "2026-01", "kind": "book" },
-
-    { "section": "mmb", "partner": "mmb", "subsection": "rac_hypothecaire", "canonical": "Fiche-normes-My-Simply-One-04-2026.pdf", "title": "My Simply One (avec garantie)", "tags": ["rac", "hypo", "avec_garantie", "mmb"], "period": "2026-04" },
-    { "section": "mmb", "partner": "mmb", "subsection": "rac_hypothecaire", "canonical": "Guide-Revenus-charges.pdf", "title": "Guide revenus charges", "tags": ["revenus", "charges", "mmb"], "period": null, "kind": "book" },
-    { "section": "mmb", "partner": "mmb", "subsection": "rac_sans_garantie", "canonical": "Fiche-normes-Easy-Treso-04-2026.pdf", "title": "Easy Treso (sans garantie)", "tags": ["rac", "sans_garantie", "treso", "mmb"], "period": "2026-04" },
-    { "section": "mmb", "partner": "mmb", "subsection": "treso", "canonical": "3-Attestation-sur-l-honneur-utilisation-des-fonds.pdf", "title": "Attestation utilisation des fonds", "tags": ["formulaire", "treso"], "period": null, "kind": "formulaire" },
-    { "section": "mmb", "partner": "mmb", "subsection": "treso", "canonical": "Fiche-normes-My-New-treso.pdf", "title": "My New Treso", "tags": ["treso", "hypo", "mmb"], "period": null },
-    { "section": "mmb", "partner": "mmb", "subsection": "assurance", "canonical": "4-Assurance-Groupe-EasyTreso-Fiche-09-2020.pdf", "title": "Assurance EasyTreso", "tags": ["assurance"], "period": "2020-09", "kind": "assurance" },
-    { "section": "mmb", "partner": "mmb", "subsection": "assurance", "canonical": "4-Assurance-Groupe-RAC-Notice-assurance.pdf", "title": "Assurance RAC — notice", "tags": ["assurance", "rac"], "period": null, "kind": "assurance" },
-    { "section": "mmb", "partner": "mmb", "subsection": "assurance", "canonical": "4-Assurance-groupe-EasyTreso-Les-fondamentaux-09-2020.pdf", "title": "Assurance EasyTreso — fondamentaux", "tags": ["assurance"], "period": "2020-09", "kind": "assurance" },
-    { "section": "mmb", "partner": "mmb", "subsection": "assurance", "canonical": "4-Assurance-groupe-RAC-Fiche-10-2020.pdf", "title": "Assurance RAC — fiche", "tags": ["assurance", "rac"], "period": "2020-10", "kind": "assurance" },
-    { "section": "mmb", "partner": "mmb", "subsection": "assurance", "canonical": "4-Assurance-groupe-RAC-Les-fondamentaux.pdf", "title": "Assurance RAC — fondamentaux", "tags": ["assurance", "rac"], "period": null, "kind": "assurance" },
-    { "section": "mmb", "partner": "mmb", "subsection": "assurance", "canonical": "4-Assurance-lettre-de-renonciation-05-2017.pdf", "title": "Lettre de renonciation assurance", "tags": ["assurance"], "period": "2017-05", "kind": "assurance" },
-    { "section": "mmb", "partner": "mmb", "subsection": "interne", "canonical": "01-2023-Attestation-Evolution-de-Signature.pdf", "title": "Attestation évolution signature", "tags": ["interne"], "period": "2023-01", "kind": "interne" },
-    { "section": "mmb", "partner": "mmb", "subsection": "interne", "canonical": "01-2023-Declaration-usage-des-fonds.pdf", "title": "Déclaration usage des fonds", "tags": ["interne"], "period": "2023-01", "kind": "interne" },
-    { "section": "mmb", "partner": "mmb", "subsection": "interne", "canonical": "01-2023-Guide-regles-revenus-et-charges.pdf", "title": "Guide règles revenus et charges", "tags": ["interne", "revenus"], "period": "2023-01", "kind": "interne" },
-    { "section": "mmb", "partner": "mmb", "subsection": "interne", "canonical": "07-2022-Declaration-Patrimoine-Locatif.xlsx", "title": "Déclaration patrimoine locatif", "tags": ["interne", "patrimoine"], "period": "2022-07", "kind": "outil" },
-    { "section": "mmb", "partner": "mmb", "subsection": "interne", "canonical": "10-2023-Formulaire-Descriptif-du-bien-immobilier.pdf", "title": "Descriptif bien immobilier", "tags": ["interne", "bien"], "period": "2023-10", "kind": "interne" },
-    { "section": "mmb", "partner": "mmb", "subsection": "interne", "canonical": "5-Liste-des-pieces-05-2019.pdf", "title": "Liste des pièces", "tags": ["interne", "pieces"], "period": "2019-05", "kind": "interne" },
-    { "section": "mmb", "partner": "mmb", "subsection": "conformite", "canonical": "6-Guide-integrite-MMB-05-2017.pdf", "title": "Guide d'intégrité MMB", "tags": ["conformite"], "period": "2017-05", "kind": "conformite" },
-
-    { "section": "sygma", "partner": "sygma", "subsection": "rac_sans_garantie", "canonical": "02-2025-Fiche-Criteres-Sans-Garantie.pdf", "title": "Critères sans garantie", "tags": ["rac", "sans_garantie", "sygma"], "period": "2025-02" },
-    { "section": "sygma", "partner": "sygma", "subsection": "rac_sans_garantie", "canonical": "02-2025-Fiche-Sans-Garantie-Locataire.pdf", "title": "Sans garantie locataire", "tags": ["rac", "sans_garantie", "locataire"], "period": "2025-02" },
-    { "section": "sygma", "partner": "sygma", "subsection": "rac_sans_garantie", "canonical": "02-2025-Fiche-Sans-Garantie-Proprietaire.pdf", "title": "Sans garantie propriétaire", "tags": ["rac", "sans_garantie", "proprietaire"], "period": "2025-02" },
-    { "section": "sygma", "partner": "sygma", "subsection": "rac_hypothecaire", "canonical": "02-2025-Criteres-Gamme-Avec-Garantie.pdf", "title": "Critères gamme avec garantie", "tags": ["rac", "avec_garantie", "hypo"], "period": "2025-02" },
-    { "section": "sygma", "partner": "sygma", "subsection": "rac_hypothecaire", "canonical": "02-2025-Fiche-Avec-Garantie.pdf", "title": "Fiche avec garantie", "tags": ["rac", "avec_garantie"], "period": "2025-02" },
-    { "section": "sygma", "partner": "sygma", "subsection": "rac_projet", "canonical": "3-FICHE-PROJET-26-01-2021-SYGMA.pdf", "title": "Fiche projet", "tags": ["rac", "projet"], "period": "2021-01" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-Fiche-nouveaute-SG-06-2020.pdf", "title": "Assurance nouveauté SG", "tags": ["assurance"], "period": "2020-06", "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-Memo-Cardif-SG-06-2020.pdf", "title": "Assurance Mémo Cardif", "tags": ["assurance"], "period": "2020-06", "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-Module-AG-02-2017.pdf", "title": "Assurance Module AG", "tags": ["assurance"], "period": "2017-02", "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-Module-SG-06-2020.pdf", "title": "Assurance Module SG", "tags": ["assurance"], "period": "2020-06", "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-Notice.pdf", "title": "Assurance Notice", "tags": ["assurance"], "period": null, "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-QS-Simplifie-01-2020.pdf", "title": "Assurance QS simplifié", "tags": ["assurance"], "period": "2020-01", "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-Questionnaire-etat-emploi.pdf", "title": "Questionnaire état d'emploi", "tags": ["assurance"], "period": null, "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "assurance", "canonical": "4-Assurance-demande-adhesion.pdf", "title": "Demande adhésion assurance", "tags": ["assurance"], "period": null, "kind": "assurance" },
-    { "section": "sygma", "partner": "sygma", "subsection": "interne", "canonical": "FICHE-SOUPLESSE-28-01-2020-SYGMA.pdf", "title": "Fiche souplesse", "tags": ["interne", "sygma"], "period": "2020-01", "kind": "interne" }
-  ]
+    {
+      "section": "immo",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "BANK-B-1ere-Acquisition-Personne-physique.pdf",
+      "title": "BANK B — 1ère acquisition personne physique",
+      "tags": [
+        "immo",
+        "primo",
+        "personne_physique"
+      ],
+      "period": null,
+      "aliases": [
+        "BANK-B-1ere-Acquisition--Personne-physique.pdf"
+      ],
+      "downloadName": "BANK-B-1ere-Acquisition--Personne-physique.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "CFCAL-01-2026-Fiche-Edifys-RP.pdf",
+      "title": "CFCAL Edifys RP",
+      "tags": [
+        "immo",
+        "rp",
+        "edifys"
+      ],
+      "period": "2026-01",
+      "aliases": [],
+      "downloadName": "CFCAL-01-2026-Fiche-Edifys-RP.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "CFCAL-01-2026-Fiche-Hypo-Aquiz.pdf",
+      "title": "CFCAL Hypo Aquiz",
+      "tags": [
+        "immo",
+        "hypo",
+        "aquiz"
+      ],
+      "period": "2026-01",
+      "aliases": [],
+      "downloadName": "CFCAL-01-2026-Fiche-Hypo-Aquiz.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "CFCAL-01-2026-Fiche-Investys-RL.pdf",
+      "title": "CFCAL Investys RL",
+      "tags": [
+        "immo",
+        "locatif",
+        "investys"
+      ],
+      "period": "2026-01",
+      "aliases": [],
+      "downloadName": "CFCAL-01-2026-Fiche-Investys-RL.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": "cfcal",
+      "subsection": "book",
+      "canonical": "CFCAL-Book-revenus-et-charges.pdf",
+      "title": "CFCAL Book revenus et charges",
+      "tags": [
+        "book",
+        "revenus",
+        "charges",
+        "dti"
+      ],
+      "period": null,
+      "kind": "book",
+      "aliases": [],
+      "downloadName": "CFCAL-Book-revenus-et-charges.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": "cfcal",
+      "subsection": "memento",
+      "canonical": "CFCAL-Memento-01-2026.pdf",
+      "title": "CFCAL Memento 01 2026",
+      "tags": [
+        "memento",
+        "normes"
+      ],
+      "period": "2026-01",
+      "kind": "memento",
+      "aliases": [],
+      "downloadName": "CFCAL-Memento-01-2026.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": "cfcal",
+      "subsection": "outil",
+      "canonical": "TABLEAU-PATRIMONIAL.xlsx",
+      "title": "Tableau patrimonial",
+      "tags": [
+        "patrimoine",
+        "outil"
+      ],
+      "period": null,
+      "kind": "outil"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "BANK-B-Rachat-de-soulte.pdf",
+      "title": "BANK B — Rachat de soulte",
+      "tags": [
+        "soulte",
+        "hypo",
+        "treso"
+      ],
+      "period": null,
+      "aliases": [
+        "BANK-B---Rachat-de-soulte.pdf"
+      ],
+      "downloadName": "BANK-B---Rachat-de-soulte.pdf"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "BANK-B-Travaux-75000-fins-privees.pdf",
+      "title": "BANK B — Travaux 75 000 fins privées",
+      "tags": [
+        "travaux",
+        "prive"
+      ],
+      "period": null,
+      "aliases": [
+        "BANK-B---Travaux---75-000-___-a-des-fins-privees.pdf"
+      ]
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "BANK-B-Travaux-75000-fins-professionnelles.pdf",
+      "title": "BANK B — Travaux 75 000 fins pro",
+      "tags": [
+        "travaux",
+        "pro"
+      ],
+      "period": null,
+      "aliases": [
+        "BANK-B---Travaux---75-000___-a-des-fins-professionnelles.pdf"
+      ]
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "bank_b",
+      "subsection": "outil",
+      "canonical": "BANK-B-TABLEAU-PATRIMOINE.pdf",
+      "title": "BANK B — Tableau patrimoine",
+      "tags": [
+        "patrimoine"
+      ],
+      "period": null,
+      "kind": "outil",
+      "aliases": [
+        "BANK-B--TABLEAU-PATRIMOINE.pdf"
+      ],
+      "downloadName": "BANK-B--TABLEAU-PATRIMOINE.pdf"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "bank_b",
+      "subsection": "book",
+      "canonical": "BANK-B-Book-01-2026.pdf",
+      "title": "BANK B Book 01 2026",
+      "tags": [
+        "book"
+      ],
+      "period": "2026-01",
+      "kind": "book",
+      "aliases": [],
+      "downloadName": "BANK-B-Book-01-2026.pdf"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "bank_b",
+      "subsection": "norme",
+      "canonical": "BANK-B-Zone-intervention-LTV.pdf",
+      "title": "BANK B — Zone d'intervention LTV",
+      "tags": [
+        "ltv",
+        "zone",
+        "geo"
+      ],
+      "period": null,
+      "aliases": [
+        "BANK-B-Zone-d-intervention-LTV.pdf"
+      ],
+      "downloadName": "BANK-B-Zone-d-intervention-LTV.pdf"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "cfcal",
+      "subsection": "outil",
+      "canonical": "CFCAL-TABLEAU-PATRIMONIAL.xlsx",
+      "title": "CFCAL Tableau patrimonial",
+      "tags": [
+        "patrimoine",
+        "outil"
+      ],
+      "period": null,
+      "kind": "outil"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "cfcal",
+      "subsection": "book",
+      "canonical": "CFCAL-Book-revenus-et-charges.pdf",
+      "title": "CFCAL Book revenus et charges",
+      "tags": [
+        "book",
+        "revenus",
+        "charges"
+      ],
+      "period": null,
+      "kind": "book"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "CFCAL-HYPO-RENOV.pdf",
+      "title": "CFCAL HYPO RENOV",
+      "tags": [
+        "renovation",
+        "hypo",
+        "travaux"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-HYPO-RENOV.pdf"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "CFCAL-HYPO-TRESO.pdf",
+      "title": "CFCAL HYPO TRESO",
+      "tags": [
+        "hypo",
+        "treso"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-HYPO-TRESO.pdf"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "cfcal",
+      "subsection": "memento",
+      "canonical": "CFCAL-Memento-01-2026.pdf",
+      "title": "CFCAL Memento 01 2026",
+      "tags": [
+        "memento"
+      ],
+      "period": "2026-01",
+      "kind": "memento"
+    },
+    {
+      "section": "hypo_treso",
+      "partner": "mmb",
+      "subsection": "produit",
+      "canonical": "MY-MONEY-BANK-11-2025-My-New-treso.pdf",
+      "title": "MMB My New Treso",
+      "tags": [
+        "treso",
+        "mmb"
+      ],
+      "period": "2025-11",
+      "aliases": [
+        "MY-MONEY-BANK-11-2025---My-New-treso.pdf"
+      ],
+      "downloadName": "MY-MONEY-BANK-11-2025---My-New-treso.pdf"
+    },
+    {
+      "section": "pvh",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "05-2026-CFCAL-PVH.pdf",
+      "title": "CFCAL PVH",
+      "tags": [
+        "pvh",
+        "senior",
+        "viager"
+      ],
+      "period": "2026-05",
+      "aliases": [],
+      "downloadName": "05-2026-CFCAL-PVH.pdf"
+    },
+    {
+      "section": "pvh",
+      "partner": "cfcal",
+      "subsection": "formulaire",
+      "canonical": "Attestation-de-destination-des-fonds.pdf",
+      "title": "Attestation destination des fonds",
+      "tags": [
+        "formulaire",
+        "pvh"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "aliases": [],
+      "downloadName": "Attestation-de-destination-des-fonds.pdf"
+    },
+    {
+      "section": "pvh",
+      "partner": "cfcal",
+      "subsection": "formulaire",
+      "canonical": "Attestation-residence-secondaire-1-emprunteur.pdf",
+      "title": "Attestation RS — 1 emprunteur",
+      "tags": [
+        "formulaire",
+        "rs",
+        "pvh"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "aliases": [
+        "Attestation-residence-secondaire---1-emprunteur.pdf"
+      ],
+      "downloadName": "Attestation-residence-secondaire---1-emprunteur.pdf"
+    },
+    {
+      "section": "pvh",
+      "partner": "cfcal",
+      "subsection": "formulaire",
+      "canonical": "Attestation-residence-secondaire-2-emprunteurs.pdf",
+      "title": "Attestation RS — 2 emprunteurs",
+      "tags": [
+        "formulaire",
+        "rs",
+        "pvh"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "aliases": [
+        "Attestation-residence-secondaire---2-emprunteurs.pdf"
+      ],
+      "downloadName": "Attestation-residence-secondaire---2-emprunteurs.pdf"
+    },
+    {
+      "section": "pvh",
+      "partner": "cfcal",
+      "subsection": "outil",
+      "canonical": "CFCAL-Tableau-de-situation-patrimoniale.xlsx",
+      "title": "CFCAL Tableau situation patrimoniale",
+      "tags": [
+        "patrimoine",
+        "pvh"
+      ],
+      "period": null,
+      "kind": "outil"
+    },
+    {
+      "section": "pvh",
+      "partner": "cfcal",
+      "subsection": "formulaire",
+      "canonical": "Fiche-renseignement-client.pdf",
+      "title": "Fiche renseignement client",
+      "tags": [
+        "kyc",
+        "pvh"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "aliases": [],
+      "downloadName": "Fiche-renseignement-client.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cfcal",
+      "subsection": "book",
+      "canonical": "0-Book-revenus-et-charges.pdf",
+      "title": "Book revenus et charges",
+      "tags": [
+        "book",
+        "revenus"
+      ],
+      "period": null,
+      "kind": "book",
+      "aliases": [
+        "0.-Book-revenus-et-charges.pdf"
+      ],
+      "downloadName": "0.-Book-revenus-et-charges.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cfcal",
+      "subsection": "memento",
+      "canonical": "0-Memento-01-2026.pdf",
+      "title": "Memento 01 2026",
+      "tags": [
+        "memento"
+      ],
+      "period": "2026-01",
+      "kind": "memento",
+      "aliases": [
+        "0.-Memento-01-2026.pdf"
+      ],
+      "downloadName": "0.-Memento-01-2026.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "01-2026-HYPO-TRESO-CFCAL.pdf",
+      "title": "HYPO TRESO CFCAL",
+      "tags": [
+        "hypo",
+        "treso",
+        "rac"
+      ],
+      "period": "2026-01",
+      "aliases": [],
+      "downloadName": "01-2026-HYPO-TRESO-CFCAL.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cfcal",
+      "subsection": "formulaire",
+      "canonical": "Attestation-sur-honneur-HYPO-TRESO.docx",
+      "title": "Attestation sur l'honneur HYPO TRESO",
+      "tags": [
+        "formulaire",
+        "treso"
+      ],
+      "period": null,
+      "kind": "formulaire"
+    },
+    {
+      "section": "treso",
+      "partner": "cml",
+      "subsection": "produit",
+      "canonical": "Fiche-produit-Pret-perso.pdf",
+      "title": "CML — Prêt personnel",
+      "tags": [
+        "pret_personnel",
+        "conso"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-produit-Pret-perso.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cmt",
+      "subsection": "produit",
+      "canonical": "Griffon-Conso.pdf",
+      "title": "Griffon Conso",
+      "tags": [
+        "griffon",
+        "conso"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Griffon-Conso.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cmt",
+      "subsection": "produit",
+      "canonical": "Griffon-Hypo.pdf",
+      "title": "Griffon Hypo",
+      "tags": [
+        "griffon",
+        "hypo"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Griffon-Hypo.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cmt",
+      "subsection": "produit",
+      "canonical": "Griffon-Patrimoine-Conso.pdf",
+      "title": "Griffon Patrimoine Conso",
+      "tags": [
+        "griffon",
+        "conso",
+        "patrimoine"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Griffon-Patrimoine-Conso.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cmt",
+      "subsection": "produit",
+      "canonical": "Griffon-Patrimoine-Immo.pdf",
+      "title": "Griffon Patrimoine Immo",
+      "tags": [
+        "griffon",
+        "immo",
+        "patrimoine"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Griffon-Patrimoine-Immo.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cmt",
+      "subsection": "produit",
+      "canonical": "Griffon-Patrimoine-Relais.pdf",
+      "title": "Griffon Patrimoine Relais",
+      "tags": [
+        "griffon",
+        "relais"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Griffon-Patrimoine-Relais.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "11-2023-CGI-Fiche-Duo-Projet.pdf",
+      "title": "CGI Duo Projet",
+      "tags": [
+        "cgi",
+        "projet",
+        "sans_garantie"
+      ],
+      "period": "2023-11",
+      "aliases": [
+        "11-2023---CGI---Fiche-Duo-Projet.pdf"
+      ],
+      "downloadName": "11-2023---CGI---Fiche-Duo-Projet.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "cgi",
+      "subsection": "norme",
+      "canonical": "11-2023-CGI-Revenus-et-criteres-acceptation.pdf",
+      "title": "CGI Revenus et critères",
+      "tags": [
+        "cgi",
+        "revenus",
+        "criteres"
+      ],
+      "period": "2023-11",
+      "aliases": [
+        "11-2023---CGI---Revenus-et-criteres-d-acceptation.pdf"
+      ],
+      "downloadName": "11-2023---CGI---Revenus-et-criteres-d-acceptation.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "creatis",
+      "subsection": "produit",
+      "canonical": "Pret-personnel-CREATIS.pdf",
+      "title": "Prêt personnel CREATIS",
+      "tags": [
+        "pret_personnel",
+        "creatis"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Pret-personnel-CREATIS.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "mmb",
+      "subsection": "produit",
+      "canonical": "11-2023-Fiches-normes-My-New-Treso.pdf",
+      "title": "MMB My New Treso (normes)",
+      "tags": [
+        "mmb",
+        "treso"
+      ],
+      "period": "2023-11",
+      "aliases": [
+        "11-2023---Fiches-normes-My-New-Treso.pdf"
+      ],
+      "downloadName": "11-2023---Fiches-normes-My-New-Treso.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "sofinco",
+      "subsection": "produit",
+      "canonical": "2026-Normes-pret-personnel-SOFINCO.pdf",
+      "title": "Sofinco prêt personnel",
+      "tags": [
+        "sofinco",
+        "pret_personnel"
+      ],
+      "period": "2026",
+      "aliases": [],
+      "downloadName": "2026-Normes-pret-personnel-SOFINCO.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "3-FICHE-PROJET-26-01-2021-SYGMA.pdf",
+      "title": "SYGMA Fiche projet",
+      "tags": [
+        "sygma",
+        "projet"
+      ],
+      "period": "2021-01",
+      "aliases": [
+        "3-FICHE-PROJET-26-01-2021SYGMA.pdf"
+      ],
+      "downloadName": "3-FICHE-PROJET-26-01-2021SYGMA.pdf"
+    },
+    {
+      "section": "treso",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "FICHE-2-Treso-complementaire.pdf",
+      "title": "SYGMA Tréso complémentaire",
+      "tags": [
+        "sygma",
+        "treso"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "FICHE-2-Treso-complementaire.pdf"
+    },
+    {
+      "section": "renov",
+      "partner": "cfcal",
+      "subsection": "book",
+      "canonical": "0-Book-revenus-et-charges.pdf",
+      "title": "Book revenus et charges",
+      "tags": [
+        "book",
+        "revenus"
+      ],
+      "period": null,
+      "kind": "book"
+    },
+    {
+      "section": "renov",
+      "partner": "cfcal",
+      "subsection": "memento",
+      "canonical": "0-Memento-01-2026.pdf",
+      "title": "Memento 01 2026",
+      "tags": [
+        "memento"
+      ],
+      "period": "2026-01",
+      "kind": "memento"
+    },
+    {
+      "section": "renov",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "canonical": "2-CFCAL-HYPO-RENOV.pdf",
+      "title": "CFCAL HYPO RENOV",
+      "tags": [
+        "renovation",
+        "hypo",
+        "travaux"
+      ],
+      "period": null,
+      "aliases": [
+        "2.-CFCAL-HYPO-RENOV.pdf"
+      ],
+      "downloadName": "2.-CFCAL-HYPO-RENOV.pdf"
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "book",
+      "canonical": "Book-BANK-B-2026.pdf",
+      "title": "Book BANK B 2026",
+      "tags": [
+        "book",
+        "bank_b"
+      ],
+      "period": "2026",
+      "kind": "book",
+      "aliases": [],
+      "downloadName": "Book-BANK-B-2026.pdf"
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "Premiere-acquisition-personne-morale.pdf",
+      "title": "1ère acquisition personne morale",
+      "tags": [
+        "primo",
+        "personne_morale",
+        "sci"
+      ],
+      "period": null,
+      "aliases": [
+        "BANK-B-1ere-Acquisition-Personne-morale.pdf"
+      ],
+      "downloadName": "BANK-B-1ere-Acquisition-Personne-morale.pdf"
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "Premiere-acquisition-personne-physique.pdf",
+      "title": "1ère acquisition personne physique",
+      "tags": [
+        "primo",
+        "personne_physique"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Premiere-acquisition-personne-physique.pdf"
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "Rachat-de-soulte.pdf",
+      "title": "Rachat de soulte",
+      "tags": [
+        "soulte"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Rachat-de-soulte.pdf"
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "outil",
+      "canonical": "Tableau-patrimonial.pdf",
+      "title": "Tableau patrimonial",
+      "tags": [
+        "patrimoine"
+      ],
+      "period": null,
+      "kind": "outil",
+      "aliases": [],
+      "downloadName": "Tableau-patrimonial.pdf"
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "Travaux-plus-de-75000-prive.pdf",
+      "title": "Travaux > 75 000 € privé",
+      "tags": [
+        "travaux",
+        "prive"
+      ],
+      "period": null,
+      "aliases": [
+        "Travaux-plus-de-75.000-Euros-prive.pdf"
+      ]
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "canonical": "Travaux-plus-de-75000-pro.pdf",
+      "title": "Travaux > 75 000 € pro",
+      "tags": [
+        "travaux",
+        "pro"
+      ],
+      "period": null,
+      "aliases": [
+        "Travaux-plus-de-75.000-Euros-pro.pdf"
+      ]
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "norme",
+      "canonical": "Zone-intervention-LTV.pdf",
+      "title": "Zone d'intervention LTV",
+      "tags": [
+        "ltv",
+        "zone"
+      ],
+      "period": null,
+      "aliases": [
+        "Zone-d-intervention---LTV.pdf"
+      ],
+      "downloadName": "Zone-d-intervention---LTV.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "0-Book-revenus-et-charges.pdf",
+      "title": "Book revenus et charges",
+      "tags": [
+        "book",
+        "rac",
+        "hypo"
+      ],
+      "period": null,
+      "kind": "book"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "0-Memento-07-2026.pdf",
+      "title": "Memento 07 2026",
+      "tags": [
+        "memento",
+        "rac"
+      ],
+      "period": "2026-07",
+      "kind": "memento",
+      "aliases": [
+        "0.-Memento-07-2026.pdf"
+      ],
+      "downloadName": "0.-Memento-07-2026.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Classique.pdf",
+      "title": "CFCAL Hypo Classique",
+      "tags": [
+        "rac",
+        "hypo",
+        "avec_garantie"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Classique.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-First.pdf",
+      "title": "CFCAL Hypo First",
+      "tags": [
+        "rac",
+        "hypo",
+        "first",
+        "avec_garantie"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-First.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Immo-Classique-Taux-fixe.pdf",
+      "title": "Hypo Immo Classique taux fixe",
+      "tags": [
+        "rac",
+        "hypo",
+        "immo",
+        "taux_fixe"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Immo-Classique-Taux-fixe.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Immo-Classique-Taux-variable.pdf",
+      "title": "Hypo Immo Classique taux variable",
+      "tags": [
+        "rac",
+        "hypo",
+        "immo",
+        "taux_variable"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Immo-Classique-Taux-variable.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Immo-First-Taux-fixe.pdf",
+      "title": "Hypo Immo First taux fixe",
+      "tags": [
+        "rac",
+        "hypo",
+        "first",
+        "taux_fixe"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Immo-First-Taux-fixe.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Immo-First-Taux-variable.pdf",
+      "title": "Hypo Immo First taux variable",
+      "tags": [
+        "rac",
+        "hypo",
+        "first",
+        "taux_variable"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Immo-First-Taux-variable.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Immo-Pro.pdf",
+      "title": "Hypo Immo Pro",
+      "tags": [
+        "rac",
+        "hypo",
+        "pro"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Immo-Pro.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Pro-Classique.pdf",
+      "title": "Hypo Pro Classique",
+      "tags": [
+        "rac",
+        "hypo",
+        "pro"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Pro-Classique.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Pro-First.pdf",
+      "title": "Hypo Pro First",
+      "tags": [
+        "rac",
+        "hypo",
+        "pro",
+        "first"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Pro-First.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Soulte.pdf",
+      "title": "Hypo Soulte",
+      "tags": [
+        "rac",
+        "hypo",
+        "soulte"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Soulte.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Wash-1.pdf",
+      "title": "Hypo Wash 1",
+      "tags": [
+        "rac",
+        "hypo",
+        "wash"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Wash-1.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_hypothecaire",
+      "canonical": "CFCAL-Hypo-Wash-2.pdf",
+      "title": "Hypo Wash 2",
+      "tags": [
+        "rac",
+        "hypo",
+        "wash"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-Hypo-Wash-2.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_sans_garantie",
+      "canonical": "0-CFCAL-Book-revenus-et-charges.pdf",
+      "title": "Book revenus et charges (SG)",
+      "tags": [
+        "book",
+        "sans_garantie"
+      ],
+      "period": null,
+      "kind": "book",
+      "aliases": [
+        "0.--CFCAL-Book-revenus-et-charges.pdf"
+      ],
+      "downloadName": "0.--CFCAL-Book-revenus-et-charges.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_sans_garantie",
+      "canonical": "0-CFCAL-Memento.pdf",
+      "title": "CFCAL Memento (SG)",
+      "tags": [
+        "memento",
+        "sans_garantie"
+      ],
+      "period": null,
+      "kind": "memento",
+      "aliases": [
+        "0.-CFCAL-Memento.pdf"
+      ],
+      "downloadName": "0.-CFCAL-Memento.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_sans_garantie",
+      "canonical": "CFCAL-RAC-Sans-Garantie-Locataire.pdf",
+      "title": "RAC sans garantie — Locataire",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "locataire"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-RAC-Sans-Garantie-Locataire.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_sans_garantie",
+      "canonical": "CFCAL-RAC-sans-Garantie-Proprietaire-Premium.pdf",
+      "title": "RAC sans garantie — Propriétaire Premium",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "proprietaire",
+        "premium"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-RAC-sans-Garantie-Proprietaire-Premium.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_sans_garantie",
+      "canonical": "CFCAL-RAC-sans-Garantie-Proprietaire.pdf",
+      "title": "RAC sans garantie — Propriétaire",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "proprietaire"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "CFCAL-RAC-sans-Garantie-Proprietaire.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_pro",
+      "canonical": "4-CFCAL-Hypo-Immo-Pro.pdf",
+      "title": "RAC Pro — Hypo Immo Pro",
+      "tags": [
+        "rac",
+        "pro",
+        "hypo"
+      ],
+      "period": null,
+      "aliases": [
+        "4.-CFCAL-Hypo-Immo-Pro.pdf"
+      ],
+      "downloadName": "4.-CFCAL-Hypo-Immo-Pro.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_pro",
+      "canonical": "4-CFCAL-Hypo-Pro-Classique.pdf",
+      "title": "RAC Pro — Hypo Pro Classique",
+      "tags": [
+        "rac",
+        "pro",
+        "hypo"
+      ],
+      "period": null,
+      "aliases": [
+        "4.-CFCAL-Hypo-Pro-Classique.pdf"
+      ],
+      "downloadName": "4.-CFCAL-Hypo-Pro-Classique.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "rac_pro",
+      "canonical": "4-CFCAL-Hypo-Pro-First.pdf",
+      "title": "RAC Pro — Hypo Pro First",
+      "tags": [
+        "rac",
+        "pro",
+        "hypo",
+        "first"
+      ],
+      "period": null,
+      "aliases": [
+        "4.-CFCAL-Hypo-Pro-First.pdf"
+      ],
+      "downloadName": "4.-CFCAL-Hypo-Pro-First.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "assurance",
+      "canonical": "Book-Memento-RAC.pdf",
+      "title": "Book Memento RAC (assurance)",
+      "tags": [
+        "assurance",
+        "rac"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "Book-Memento-RAC.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "interne",
+      "canonical": "6-Descriptif-du-bien-immobilier-en-garantie.pdf",
+      "title": "Descriptif bien en garantie",
+      "tags": [
+        "interne",
+        "garantie",
+        "bien"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "6-Descriptif-du-bien-immobilier-en-garantie.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "interne",
+      "canonical": "6-Liste-notaires-referents.pdf",
+      "title": "Liste notaires référents",
+      "tags": [
+        "interne",
+        "notaire"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "6-Liste-notaires-referents.pdf"
+    },
+    {
+      "section": "cfcal",
+      "partner": "cfcal",
+      "subsection": "interne",
+      "canonical": "6-Revenus-et-Charges-pour-le-calcul-du-Taux-Endettement.pdf",
+      "title": "Revenus & charges — taux d'endettement",
+      "tags": [
+        "interne",
+        "dti",
+        "revenus",
+        "charges"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "6-Revenus-et-Charges-pour-le-calcul-du-Taux-Endettement.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "Explication-differentiel.pdf",
+      "title": "Explication différentiel",
+      "tags": [
+        "cgi",
+        "differentiel"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Explication-differentiel.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "norme",
+      "canonical": "Fiche-Revenus-Charges-et-Criteres.pdf",
+      "title": "Revenus, charges et critères",
+      "tags": [
+        "cgi",
+        "revenus",
+        "criteres"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-Revenus-Charges-et-Criteres.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "Fiche-avec-garantie-LS1.pdf",
+      "title": "Avec garantie LS1",
+      "tags": [
+        "cgi",
+        "avec_garantie",
+        "rac"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-avec-garantie-LS1.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "Fiche-retraite.pdf",
+      "title": "Fiche retraite",
+      "tags": [
+        "cgi",
+        "retraite",
+        "senior",
+        "rac"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-retraite.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "Fiche-sans-garantie-DUO-Projet.pdf",
+      "title": "Sans garantie DUO Projet",
+      "tags": [
+        "cgi",
+        "sans_garantie",
+        "projet"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-sans-garantie-DUO-Projet.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "Fiche-sans-garantie-locataire.pdf",
+      "title": "Sans garantie locataire",
+      "tags": [
+        "cgi",
+        "sans_garantie",
+        "locataire"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-sans-garantie-locataire.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "Fiche-sans-garantie-primo-accedants.pdf",
+      "title": "Sans garantie primo-accédants",
+      "tags": [
+        "cgi",
+        "sans_garantie",
+        "primo"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-sans-garantie-primo-accedants.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "canonical": "Fiche-sans-garantie-proprietaire.pdf",
+      "title": "Sans garantie propriétaire",
+      "tags": [
+        "cgi",
+        "sans_garantie",
+        "proprietaire"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-sans-garantie-proprietaire.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "interne",
+      "canonical": "6-Calcul-des-retraites.pdf",
+      "title": "Calcul des retraites",
+      "tags": [
+        "interne",
+        "retraite",
+        "senior"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "6-Calcul-des-retraites.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "interne",
+      "canonical": "6-Calcul-des-revenus.pdf",
+      "title": "Calcul des revenus",
+      "tags": [
+        "interne",
+        "revenus"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "6-Calcul-des-revenus.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "interne",
+      "canonical": "6-Fiche-Expertise.pdf",
+      "title": "Fiche expertise",
+      "tags": [
+        "interne",
+        "expertise"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "6-Fiche-Expertise.pdf"
+    },
+    {
+      "section": "cgi",
+      "partner": "cgi",
+      "subsection": "interne",
+      "canonical": "6-Fiche-descriptive-bien-immo.pdf",
+      "title": "Fiche descriptive bien immo",
+      "tags": [
+        "interne",
+        "bien"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "6-Fiche-descriptive-bien-immo.pdf"
+    },
+    {
+      "section": "cml",
+      "partner": "cml",
+      "subsection": "produit",
+      "canonical": "Pret-personnel-CREDIT-MUNICIPAL-LYON.pdf",
+      "title": "Prêt personnel CML",
+      "tags": [
+        "pret_personnel",
+        "cml"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Pret-personnel-CREDIT-MUNICIPAL-LYON.pdf"
+    },
+    {
+      "section": "cml",
+      "partner": "cml",
+      "subsection": "produit",
+      "canonical": "RAC-Credit-Municipal-Lyon.pdf",
+      "title": "RAC CML",
+      "tags": [
+        "rac",
+        "cml"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "RAC-Credit-Municipal-Lyon.pdf"
+    },
+    {
+      "section": "cmt",
+      "partner": "cmt",
+      "subsection": "produit",
+      "canonical": "Presentation-2025.pdf",
+      "title": "Présentation RAC CMT 2025",
+      "tags": [
+        "rac",
+        "cmt"
+      ],
+      "period": "2025",
+      "aliases": [],
+      "downloadName": "Presentation-2025.pdf"
+    },
+    {
+      "section": "cmt",
+      "partner": "cmt",
+      "subsection": "assurance",
+      "canonical": "2-Assurance-groupe-CGCV.pdf",
+      "title": "Assurance groupe CGCV",
+      "tags": [
+        "assurance"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "2-Assurance-groupe-CGCV.pdf"
+    },
+    {
+      "section": "cmt",
+      "partner": "cmt",
+      "subsection": "assurance",
+      "canonical": "2-Assurance-groupe-conditions.pdf",
+      "title": "Assurance groupe — conditions",
+      "tags": [
+        "assurance"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "2-Assurance-groupe-conditions.pdf"
+    },
+    {
+      "section": "cmt",
+      "partner": "cmt",
+      "subsection": "assurance",
+      "canonical": "2-Assurances-groupe-CMT.pdf",
+      "title": "Assurances groupe CMT",
+      "tags": [
+        "assurance"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "2-Assurances-groupe-CMT.pdf"
+    },
+    {
+      "section": "cmt",
+      "partner": "cmt",
+      "subsection": "interne",
+      "canonical": "3-CMT-Aide-au-remplissage-de-la-fiche-excel.pdf",
+      "title": "Aide remplissage fiche Excel",
+      "tags": [
+        "interne"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "3-CMT-Aide-au-remplissage-de-la-fiche-excel.pdf"
+    },
+    {
+      "section": "cmt",
+      "partner": "cmt",
+      "subsection": "interne",
+      "canonical": "3-CMT-Carcasse-a-transmettre.xlsx",
+      "title": "Carcasse à transmettre",
+      "tags": [
+        "interne",
+        "outil"
+      ],
+      "period": null,
+      "kind": "outil"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "book",
+      "canonical": "03-2026-Book-CREATIS.pdf",
+      "title": "Book CREATIS",
+      "tags": [
+        "book"
+      ],
+      "period": "2026-03",
+      "kind": "book",
+      "aliases": [],
+      "downloadName": "03-2026-Book-CREATIS.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "norme",
+      "canonical": "04-2026-Evolution-normes-CREATIS.pdf",
+      "title": "Évolution normes CREATIS",
+      "tags": [
+        "normes"
+      ],
+      "period": "2026-04",
+      "kind": "memento",
+      "aliases": [],
+      "downloadName": "04-2026-Evolution-normes-CREATIS.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "rac_hypothecaire",
+      "canonical": "1-RAC-HYPO-03-2019.pdf",
+      "title": "RAC HYPO",
+      "tags": [
+        "rac",
+        "hypo",
+        "avec_garantie"
+      ],
+      "period": "2019-03",
+      "aliases": [],
+      "downloadName": "1-RAC-HYPO-03-2019.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "rac_hypothecaire",
+      "canonical": "1-RAC-HYPO-Informations-generales-10-2020.pdf",
+      "title": "RAC HYPO — infos générales",
+      "tags": [
+        "rac",
+        "hypo"
+      ],
+      "period": "2020-10",
+      "aliases": [
+        "1-RAC-HYPO-Inforrmations-generales10-2020.pdf"
+      ],
+      "downloadName": "1-RAC-HYPO-Inforrmations-generales10-2020.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "rac_sans_garantie",
+      "canonical": "Fiche-Produit-MINIRAC-IOBSP-05-2022.pdf",
+      "title": "MINIRAC IOBSP",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "minirac"
+      ],
+      "period": "2022-05",
+      "aliases": [],
+      "downloadName": "Fiche-Produit-MINIRAC-IOBSP-05-2022.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "rac_sans_garantie",
+      "canonical": "Fiche-Produit-RAC-Conso-IOBSP-02-2022.pdf",
+      "title": "RAC Conso IOBSP",
+      "tags": [
+        "rac",
+        "conso",
+        "sans_garantie"
+      ],
+      "period": "2022-02",
+      "aliases": [],
+      "downloadName": "Fiche-Produit-RAC-Conso-IOBSP-02-2022.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "rac_projet",
+      "canonical": "Fiche-Produit-Pret-Fusion-10-2021.pdf",
+      "title": "Prêt Fusion",
+      "tags": [
+        "rac",
+        "fusion",
+        "projet"
+      ],
+      "period": "2021-10",
+      "aliases": [
+        "Fiche-Produit-Pret-Fusion-10_2021.pdf"
+      ],
+      "downloadName": "Fiche-Produit-Pret-Fusion-10_2021.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "rac_projet",
+      "canonical": "Fiche-Produit-RAC-Conso-Projets-IOBSP-10-2021.pdf",
+      "title": "RAC Conso Projets",
+      "tags": [
+        "rac",
+        "conso",
+        "projet"
+      ],
+      "period": "2021-10",
+      "aliases": [],
+      "downloadName": "Fiche-Produit-RAC-Conso-Projets-IOBSP-10-2021.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Fiche-ADE-06-2019.pdf",
+      "title": "Assurance ADE",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2019-06",
+      "kind": "assurance",
+      "aliases": [
+        "4-Assurance-Fiche--ADE-06-2019.pdf"
+      ],
+      "downloadName": "4-Assurance-Fiche--ADE-06-2019.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "interne",
+      "canonical": "5-Allegement-pieces-proprietaires-et-accedants.pdf",
+      "title": "Allègement pièces propriétaires",
+      "tags": [
+        "interne",
+        "pieces",
+        "proprietaire"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "5-Allegement-pieces-proprietaires-et-accedants.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "interne",
+      "canonical": "5-Les-pieces-indispensables-RAC-Conso-janv-2020.pdf",
+      "title": "Pièces indispensables RAC Conso",
+      "tags": [
+        "interne",
+        "pieces",
+        "conso"
+      ],
+      "period": "2020-01",
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "5-Les-pieces-indispensables-RAC-Conso-janv-2020.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "interne",
+      "canonical": "5-Les-pieces-indispensables-RAC-Hypo-janv-2020.pdf",
+      "title": "Pièces indispensables RAC Hypo",
+      "tags": [
+        "interne",
+        "pieces",
+        "hypo"
+      ],
+      "period": "2020-01",
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "5-Les-pieces-indispensables-RAC-Hypo-janv-2020.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "interne",
+      "canonical": "5-Les-pieces-indispensables-RAC-Projets.pdf",
+      "title": "Pièces indispensables RAC Projets",
+      "tags": [
+        "interne",
+        "pieces",
+        "projet"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "5-Les-pieces-indispensables-RAC-Projets.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "interne",
+      "canonical": "5-Procedure-RAC-SANS-GARANTIE-HYPO-octobre-2020.pdf",
+      "title": "Procédure RAC sans garantie / hypo",
+      "tags": [
+        "interne",
+        "sans_garantie",
+        "hypo"
+      ],
+      "period": "2020-10",
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "5-Procedure-RAC-SANS-GARANTIE-HYPO-octobre-2020.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "interne",
+      "canonical": "Fiche-descriptive-CREATIS.pdf",
+      "title": "Fiche descriptive CREATIS",
+      "tags": [
+        "interne"
+      ],
+      "period": null,
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "Fiche-descriptive-CREATIS.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "conformite",
+      "canonical": "6-Courrier-de-patience-partenaire.pdf",
+      "title": "Courrier de patience",
+      "tags": [
+        "conformite"
+      ],
+      "period": null,
+      "kind": "conformite",
+      "aliases": [],
+      "downloadName": "6-Courrier-de-patience-partenaire.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "conformite",
+      "canonical": "6-DEVOIR-DE-CONSEIL-DECEMBRE-2018.pdf",
+      "title": "Devoir de conseil",
+      "tags": [
+        "conformite"
+      ],
+      "period": "2018-12",
+      "kind": "conformite",
+      "aliases": [],
+      "downloadName": "6-DEVOIR-DE-CONSEIL-DECEMBRE-2018.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "conformite",
+      "canonical": "6-FICHE-GUIDE-PUB-2017.pdf",
+      "title": "Guide pub",
+      "tags": [
+        "conformite"
+      ],
+      "period": "2017",
+      "kind": "conformite",
+      "aliases": [],
+      "downloadName": "6-FICHE-GUIDE-PUB-2017.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "conformite",
+      "canonical": "6-FICHE-LUTTE-ANTIBLANCHIMENT-2018.pdf",
+      "title": "Lutte antiblanchiment",
+      "tags": [
+        "conformite",
+        "lab"
+      ],
+      "period": "2018",
+      "kind": "conformite",
+      "aliases": [],
+      "downloadName": "6-FICHE-LUTTE-ANTIBLANCHIMENT-2018.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "conformite",
+      "canonical": "6-Formation-personnes-proposant-du-credit.pdf",
+      "title": "Formation crédit",
+      "tags": [
+        "conformite"
+      ],
+      "period": null,
+      "kind": "conformite",
+      "aliases": [],
+      "downloadName": "6-Formation-personnes-proposant-du-credit.pdf"
+    },
+    {
+      "section": "creatis",
+      "partner": "creatis",
+      "subsection": "conformite",
+      "canonical": "6-Traitement-de-la-reclamation.pdf",
+      "title": "Traitement réclamation",
+      "tags": [
+        "conformite"
+      ],
+      "period": null,
+      "kind": "conformite",
+      "aliases": [],
+      "downloadName": "6-Traitement-de-la-reclamation.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "credilift",
+      "subsection": "norme",
+      "canonical": "04-2026-Evolution-norme.pdf",
+      "title": "Credit Lift — Évolution norme",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "normes"
+      ],
+      "period": "2026-04",
+      "region": "antilles",
+      "aliases": [],
+      "downloadName": "04-2026-Evolution-norme.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "credilift",
+      "subsection": "produit",
+      "canonical": "Normalift-avec-et-sans-garantie-04-2026.pdf",
+      "title": "Normalift avec/sans garantie",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "rac",
+        "avec_garantie",
+        "sans_garantie"
+      ],
+      "period": "2026-04",
+      "region": "antilles",
+      "aliases": [],
+      "downloadName": "Normalift-avec-et-sans-garantie-04-2026.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "credilift",
+      "subsection": "norme",
+      "canonical": "Recap-endettement-et-RAV-05-2026.pdf",
+      "title": "Récap endettement et RAV",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "dti",
+        "rav"
+      ],
+      "period": "2026-05",
+      "region": "antilles",
+      "aliases": [],
+      "downloadName": "Recap-endettement-et-RAV-05-2026.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "lbp",
+      "subsection": "book",
+      "canonical": "Book-LBP-01-2026.pdf",
+      "title": "Book LBP",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "lbp"
+      ],
+      "period": "2026-01",
+      "region": "antilles",
+      "kind": "book",
+      "aliases": [],
+      "downloadName": "Book-LBP-01-2026.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Criteres-Gamme-Avec-Garantie.pdf",
+      "title": "SYGMA critères avec garantie",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "avec_garantie"
+      ],
+      "period": "2025-02",
+      "region": "antilles",
+      "aliases": [
+        "02-2025---Criteres-Gamme-Avec-Garantie.pdf"
+      ],
+      "downloadName": "02-2025---Criteres-Gamme-Avec-Garantie.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Criteres-Gamme-Sans-Garantie.pdf",
+      "title": "SYGMA critères sans garantie",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "sans_garantie"
+      ],
+      "period": "2025-02",
+      "region": "antilles"
+    },
+    {
+      "section": "antilles",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Fiche-Avec-Garantie.pdf",
+      "title": "SYGMA fiche avec garantie",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "avec_garantie"
+      ],
+      "period": "2025-02",
+      "region": "antilles",
+      "aliases": [
+        "02-2025---Fiche-Avec-Garantie.pdf"
+      ],
+      "downloadName": "02-2025---Fiche-Avec-Garantie.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Fiche-Sans-Garantie-Locataire.pdf",
+      "title": "SYGMA sans garantie locataire",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "sans_garantie",
+        "locataire"
+      ],
+      "period": "2025-02",
+      "region": "antilles",
+      "aliases": [
+        "02-2025---Fiche-Sans-Garantie-Locataire.pdf"
+      ],
+      "downloadName": "02-2025---Fiche-Sans-Garantie-Locataire.pdf"
+    },
+    {
+      "section": "antilles",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Fiche-Sans-Garantie-Proprietaire.pdf",
+      "title": "SYGMA sans garantie propriétaire",
+      "tags": [
+        "dom_tom",
+        "antilles",
+        "sans_garantie",
+        "proprietaire"
+      ],
+      "period": "2025-02",
+      "region": "antilles",
+      "aliases": [
+        "02-2025---Fiche-Sans-Garantie-Proprietaire.pdf"
+      ],
+      "downloadName": "02-2025---Fiche-Sans-Garantie-Proprietaire.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "creatis",
+      "subsection": "produit",
+      "canonical": "01-2025-Creatis-Pret-Fusion.pdf",
+      "title": "CREATIS Prêt Fusion",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "fusion"
+      ],
+      "period": "2025-01",
+      "region": "reunion",
+      "aliases": [
+        "01-2025---Creatis---Pret-Fusion.pdf"
+      ],
+      "downloadName": "01-2025---Creatis---Pret-Fusion.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "creatis",
+      "subsection": "produit",
+      "canonical": "01-2025-Creatis-Projet.pdf",
+      "title": "CREATIS Projet",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "projet"
+      ],
+      "period": "2025-01",
+      "region": "reunion",
+      "aliases": [
+        "01-2025---Creatis---Projet.pdf"
+      ],
+      "downloadName": "01-2025---Creatis---Projet.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "creatis",
+      "subsection": "produit",
+      "canonical": "01-2025-Creatis-Rac-Hypo-Immo.pdf",
+      "title": "CREATIS RAC Hypo Immo",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "rac",
+        "hypo"
+      ],
+      "period": "2025-01",
+      "region": "reunion",
+      "aliases": [
+        "01-2025---Creatis---Rac--Hypo-Immo.pdf"
+      ],
+      "downloadName": "01-2025---Creatis---Rac--Hypo-Immo.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "creatis",
+      "subsection": "produit",
+      "canonical": "01-2025-Creatis-Rac-Avec-Garantie.pdf",
+      "title": "CREATIS RAC avec garantie",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "rac",
+        "avec_garantie"
+      ],
+      "period": "2025-01",
+      "region": "reunion",
+      "aliases": [
+        "01-2025---Creatis---Rac-Avec-Garantie.pdf"
+      ],
+      "downloadName": "01-2025---Creatis---Rac-Avec-Garantie.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "creatis",
+      "subsection": "produit",
+      "canonical": "01-2025-Creatis-Rac-Sans-Garantie.pdf",
+      "title": "CREATIS RAC sans garantie",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "rac",
+        "sans_garantie"
+      ],
+      "period": "2025-01",
+      "region": "reunion",
+      "aliases": [
+        "01-2025---Creatis---Rac-Sans-Garantie.pdf"
+      ],
+      "downloadName": "01-2025---Creatis---Rac-Sans-Garantie.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "creatis",
+      "subsection": "book",
+      "canonical": "03-2026-Book-CREATIS.pdf",
+      "title": "Book CREATIS",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "book"
+      ],
+      "period": "2026-03",
+      "region": "reunion",
+      "kind": "book"
+    },
+    {
+      "section": "reunion",
+      "partner": "creatis",
+      "subsection": "norme",
+      "canonical": "04-2026-Evolution-normes-CREATIS.pdf",
+      "title": "Évolution normes CREATIS",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "normes"
+      ],
+      "period": "2026-04",
+      "region": "reunion"
+    },
+    {
+      "section": "reunion",
+      "partner": "credilift",
+      "subsection": "norme",
+      "canonical": "2025-01-03-Bareme-et-conditions.pdf",
+      "title": "Credit Lift barème et conditions",
+      "tags": [
+        "dom_tom",
+        "reunion"
+      ],
+      "period": "2025-01",
+      "region": "reunion",
+      "aliases": [
+        "2025-01-03---Bareme-et-conditions.pdf"
+      ],
+      "downloadName": "2025-01-03---Bareme-et-conditions.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "credilift",
+      "subsection": "produit",
+      "canonical": "Normalift-avec-et-sans-garantie-04-2026.pdf",
+      "title": "Normalift avec/sans garantie",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "rac"
+      ],
+      "period": "2026-04",
+      "region": "reunion"
+    },
+    {
+      "section": "reunion",
+      "partner": "credilift",
+      "subsection": "norme",
+      "canonical": "Recap-endettement-et-RAV-05-2026.pdf",
+      "title": "Récap endettement et RAV",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "dti",
+        "rav"
+      ],
+      "period": "2026-05",
+      "region": "reunion"
+    },
+    {
+      "section": "reunion",
+      "partner": "mmb",
+      "subsection": "produit",
+      "canonical": "01-2024-Fiche-de-normes-My-Simply-One.pdf",
+      "title": "MMB My Simply One",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "rac",
+        "hypo"
+      ],
+      "period": "2024-01",
+      "region": "reunion",
+      "aliases": [
+        "01-2024---Fiche-de-normes-My-Simply-One.pdf"
+      ],
+      "downloadName": "01-2024---Fiche-de-normes-My-Simply-One.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "mmb",
+      "subsection": "produit",
+      "canonical": "01-2024-MMB-Fiches-normes-Easy-Treso.pdf",
+      "title": "MMB Easy Treso",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "treso",
+        "sans_garantie"
+      ],
+      "period": "2024-01",
+      "region": "reunion",
+      "aliases": [
+        "01-2024---MMB---Fiches-normes-Easy-Treso.pdf"
+      ],
+      "downloadName": "01-2024---MMB---Fiches-normes-Easy-Treso.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "mmb",
+      "subsection": "produit",
+      "canonical": "05-2024-Fiches-Easy-Treso.pdf",
+      "title": "MMB Easy Treso (05/2024)",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "treso"
+      ],
+      "period": "2024-05",
+      "region": "reunion",
+      "aliases": [
+        "05-2024---Fiches-Easy-Treso.pdf"
+      ],
+      "downloadName": "05-2024---Fiches-Easy-Treso.pdf"
+    },
+    {
+      "section": "reunion",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Criteres-Gamme-Avec-Garantie.pdf",
+      "title": "SYGMA critères avec garantie",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "avec_garantie"
+      ],
+      "period": "2025-02",
+      "region": "reunion"
+    },
+    {
+      "section": "reunion",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Criteres-Gamme-Sans-Garantie.pdf",
+      "title": "SYGMA critères sans garantie",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "sans_garantie"
+      ],
+      "period": "2025-02",
+      "region": "reunion"
+    },
+    {
+      "section": "reunion",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Fiche-Avec-Garantie.pdf",
+      "title": "SYGMA fiche avec garantie",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "avec_garantie"
+      ],
+      "period": "2025-02",
+      "region": "reunion"
+    },
+    {
+      "section": "reunion",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Fiche-Sans-Garantie-Locataire.pdf",
+      "title": "SYGMA sans garantie locataire",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "sans_garantie",
+        "locataire"
+      ],
+      "period": "2025-02",
+      "region": "reunion"
+    },
+    {
+      "section": "reunion",
+      "partner": "sygma",
+      "subsection": "produit",
+      "canonical": "02-2025-Fiche-Sans-Garantie-Proprietaire.pdf",
+      "title": "SYGMA sans garantie propriétaire",
+      "tags": [
+        "dom_tom",
+        "reunion",
+        "sans_garantie",
+        "proprietaire"
+      ],
+      "period": "2025-02",
+      "region": "reunion"
+    },
+    {
+      "section": "lbp",
+      "partner": "lbp",
+      "subsection": "book",
+      "canonical": "Book-LBP-01-2026.pdf",
+      "title": "Book LBP 01 2026",
+      "tags": [
+        "lbp",
+        "rac",
+        "book"
+      ],
+      "period": "2026-01",
+      "kind": "book"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "rac_hypothecaire",
+      "canonical": "Fiche-normes-My-Simply-One-04-2026.pdf",
+      "title": "My Simply One (avec garantie)",
+      "tags": [
+        "rac",
+        "hypo",
+        "avec_garantie",
+        "mmb"
+      ],
+      "period": "2026-04",
+      "aliases": [],
+      "downloadName": "Fiche-normes-My-Simply-One-04-2026.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "rac_hypothecaire",
+      "canonical": "Guide-Revenus-charges.pdf",
+      "title": "Guide revenus charges",
+      "tags": [
+        "revenus",
+        "charges",
+        "mmb"
+      ],
+      "period": null,
+      "kind": "book",
+      "aliases": [],
+      "downloadName": "Guide-Revenus-charges.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "rac_sans_garantie",
+      "canonical": "Fiche-normes-Easy-Treso-04-2026.pdf",
+      "title": "Easy Treso (sans garantie)",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "treso",
+        "mmb"
+      ],
+      "period": "2026-04",
+      "aliases": [],
+      "downloadName": "Fiche-normes-Easy-Treso-04-2026.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "treso",
+      "canonical": "3-Attestation-sur-l-honneur-utilisation-des-fonds.pdf",
+      "title": "Attestation utilisation des fonds",
+      "tags": [
+        "formulaire",
+        "treso"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "aliases": [
+        "3-Attestation-sur-l_honneur-utilisation-des-fonds.pdf"
+      ],
+      "downloadName": "3-Attestation-sur-l_honneur-utilisation-des-fonds.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "treso",
+      "canonical": "Fiche-normes-My-New-treso.pdf",
+      "title": "My New Treso",
+      "tags": [
+        "treso",
+        "hypo",
+        "mmb"
+      ],
+      "period": null,
+      "aliases": [],
+      "downloadName": "Fiche-normes-My-New-treso.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Groupe-EasyTreso-Fiche-09-2020.pdf",
+      "title": "Assurance EasyTreso",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2020-09",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-Groupe-EasyTreso-Fiche-09-2020.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Groupe-RAC-Notice-assurance.pdf",
+      "title": "Assurance RAC — notice",
+      "tags": [
+        "assurance",
+        "rac"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [
+        "4-Assurance-Groupe-RAC-Notice-d_assurance.pdf"
+      ]
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-groupe-EasyTreso-Les-fondamentaux-09-2020.pdf",
+      "title": "Assurance EasyTreso — fondamentaux",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2020-09",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-groupe-EasyTreso-Les-fondamentaux-09-2020.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-groupe-RAC-Fiche-10-2020.pdf",
+      "title": "Assurance RAC — fiche",
+      "tags": [
+        "assurance",
+        "rac"
+      ],
+      "period": "2020-10",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-groupe-RAC-Fiche-10-2020.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-groupe-RAC-Les-fondamentaux.pdf",
+      "title": "Assurance RAC — fondamentaux",
+      "tags": [
+        "assurance",
+        "rac"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-groupe-RAC-Les-fondamentaux.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-lettre-de-renonciation-05-2017.pdf",
+      "title": "Lettre de renonciation assurance",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2017-05",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-lettre-de-renonciation-05-2017.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "interne",
+      "canonical": "01-2023-Attestation-Evolution-de-Signature.pdf",
+      "title": "Attestation évolution signature",
+      "tags": [
+        "interne"
+      ],
+      "period": "2023-01",
+      "kind": "interne",
+      "aliases": [
+        "01-2023---Attestation-Evolution-de-Signature.pdf"
+      ],
+      "downloadName": "01-2023---Attestation-Evolution-de-Signature.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "interne",
+      "canonical": "01-2023-Declaration-usage-des-fonds.pdf",
+      "title": "Déclaration usage des fonds",
+      "tags": [
+        "interne"
+      ],
+      "period": "2023-01",
+      "kind": "interne",
+      "aliases": [
+        "01-2023---Declaration-usage-des-fonds.pdf"
+      ],
+      "downloadName": "01-2023---Declaration-usage-des-fonds.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "interne",
+      "canonical": "01-2023-Guide-regles-revenus-et-charges.pdf",
+      "title": "Guide règles revenus et charges",
+      "tags": [
+        "interne",
+        "revenus"
+      ],
+      "period": "2023-01",
+      "kind": "interne",
+      "aliases": [
+        "01-2023---Guide-regles-revenus-et-charges.pdf"
+      ],
+      "downloadName": "01-2023---Guide-regles-revenus-et-charges.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "interne",
+      "canonical": "07-2022-Declaration-Patrimoine-Locatif.xlsx",
+      "title": "Déclaration patrimoine locatif",
+      "tags": [
+        "interne",
+        "patrimoine"
+      ],
+      "period": "2022-07",
+      "kind": "outil"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "interne",
+      "canonical": "10-2023-Formulaire-Descriptif-du-bien-immobilier.pdf",
+      "title": "Descriptif bien immobilier",
+      "tags": [
+        "interne",
+        "bien"
+      ],
+      "period": "2023-10",
+      "kind": "interne",
+      "aliases": [
+        "10-2023---Formulaire---Descriptif-du-bien-immobilier.pdf",
+        "Garantie-descriptif-bien-immobilier.pdf"
+      ],
+      "downloadName": "10-2023---Formulaire---Descriptif-du-bien-immobilier.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "interne",
+      "canonical": "5-Liste-des-pieces-05-2019.pdf",
+      "title": "Liste des pièces",
+      "tags": [
+        "interne",
+        "pieces"
+      ],
+      "period": "2019-05",
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "5-Liste-des-pieces-05-2019.pdf"
+    },
+    {
+      "section": "mmb",
+      "partner": "mmb",
+      "subsection": "conformite",
+      "canonical": "6-Guide-integrite-MMB-05-2017.pdf",
+      "title": "Guide d'intégrité MMB",
+      "tags": [
+        "conformite"
+      ],
+      "period": "2017-05",
+      "kind": "conformite",
+      "aliases": [
+        "6-Guide-d_integrite-MMB-05-2017.pdf"
+      ],
+      "downloadName": "6-Guide-d_integrite-MMB-05-2017.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "rac_sans_garantie",
+      "canonical": "02-2025-Fiche-Criteres-Sans-Garantie.pdf",
+      "title": "Critères sans garantie",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "sygma"
+      ],
+      "period": "2025-02",
+      "aliases": [
+        "02-2025---Fiche-Criteres---Sans-Garantie.pdf"
+      ],
+      "downloadName": "02-2025---Fiche-Criteres---Sans-Garantie.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "rac_sans_garantie",
+      "canonical": "02-2025-Fiche-Sans-Garantie-Locataire.pdf",
+      "title": "Sans garantie locataire",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "locataire"
+      ],
+      "period": "2025-02"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "rac_sans_garantie",
+      "canonical": "02-2025-Fiche-Sans-Garantie-Proprietaire.pdf",
+      "title": "Sans garantie propriétaire",
+      "tags": [
+        "rac",
+        "sans_garantie",
+        "proprietaire"
+      ],
+      "period": "2025-02"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "rac_hypothecaire",
+      "canonical": "02-2025-Criteres-Gamme-Avec-Garantie.pdf",
+      "title": "Critères gamme avec garantie",
+      "tags": [
+        "rac",
+        "avec_garantie",
+        "hypo"
+      ],
+      "period": "2025-02"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "rac_hypothecaire",
+      "canonical": "02-2025-Fiche-Avec-Garantie.pdf",
+      "title": "Fiche avec garantie",
+      "tags": [
+        "rac",
+        "avec_garantie"
+      ],
+      "period": "2025-02"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "rac_projet",
+      "canonical": "3-FICHE-PROJET-26-01-2021-SYGMA.pdf",
+      "title": "Fiche projet",
+      "tags": [
+        "rac",
+        "projet"
+      ],
+      "period": "2021-01"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Fiche-nouveaute-SG-06-2020.pdf",
+      "title": "Assurance nouveauté SG",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2020-06",
+      "kind": "assurance",
+      "aliases": [
+        "4-Assurance-Fiche--nouveaute-SG-06-2020.pdf"
+      ],
+      "downloadName": "4-Assurance-Fiche--nouveaute-SG-06-2020.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Memo-Cardif-SG-06-2020.pdf",
+      "title": "Assurance Mémo Cardif",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2020-06",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-Memo-Cardif-SG-06-2020.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Module-AG-02-2017.pdf",
+      "title": "Assurance Module AG",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2017-02",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-Module-AG-02-2017.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Module-SG-06-2020.pdf",
+      "title": "Assurance Module SG",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2020-06",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-Module-SG-06-2020.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Notice.pdf",
+      "title": "Assurance Notice",
+      "tags": [
+        "assurance"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-Notice.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-QS-Simplifie-01-2020.pdf",
+      "title": "Assurance QS simplifié",
+      "tags": [
+        "assurance"
+      ],
+      "period": "2020-01",
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-QS-Simplifie-01-2020.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-Questionnaire-etat-emploi.pdf",
+      "title": "Questionnaire état d'emploi",
+      "tags": [
+        "assurance"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [
+        "4-Assurance-Questionnaire-d_etat-d_emploi.pdf"
+      ]
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "assurance",
+      "canonical": "4-Assurance-demande-adhesion.pdf",
+      "title": "Demande adhésion assurance",
+      "tags": [
+        "assurance"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "aliases": [],
+      "downloadName": "4-Assurance-demande-adhesion.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "interne",
+      "canonical": "FICHE-SOUPLESSE-28-01-2020-SYGMA.pdf",
+      "title": "Fiche souplesse",
+      "tags": [
+        "interne",
+        "sygma"
+      ],
+      "period": "2020-01",
+      "kind": "interne",
+      "aliases": [],
+      "downloadName": "FICHE-SOUPLESSE-28-01-2020-SYGMA.pdf"
+    },
+    {
+      "section": "sci",
+      "partner": "cfcal",
+      "subsection": "norme",
+      "title": "CFCAL Modif normes SCI",
+      "tags": [
+        "sci",
+        "normes",
+        "cfcal"
+      ],
+      "period": "2026-01",
+      "kind": "memento",
+      "canonical": "CFCAL-Modif-normes-SCI-01-2026.pdf",
+      "aliases": [
+        "CFCAL-Modif-normes-SCI-01-2026.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "CFCAL Investys Patrimonial",
+      "tags": [
+        "immo",
+        "investys",
+        "patrimoine"
+      ],
+      "period": "2026-01",
+      "canonical": "CFCAL-01-2026-Fiche-Investys-Patrimonial.pdf",
+      "aliases": [
+        "CFCAL-01-2026-Fiche-Investys-Patrimonial.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "interne",
+      "title": "Process cession sur salaire",
+      "tags": [
+        "interne",
+        "credilift"
+      ],
+      "period": null,
+      "kind": "interne",
+      "canonical": "Process-cession-sur-salaire.pdf",
+      "aliases": [
+        "Process-cession-sur-salaire.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "formulaire",
+      "title": "Mandat SEPA",
+      "tags": [
+        "formulaire",
+        "sepa"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "canonical": "Mandat-SEPA.pdf",
+      "aliases": [
+        "Mandat-SEPA.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "formulaire",
+      "title": "Attestation non réendettement",
+      "tags": [
+        "formulaire",
+        "rac"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "canonical": "Attestation-non-re-endettement.pdf",
+      "aliases": [
+        "Attestation-non-re-endettement.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "formulaire",
+      "title": "Attestation clôture crédits renouvelables",
+      "tags": [
+        "formulaire",
+        "rac"
+      ],
+      "period": null,
+      "kind": "formulaire",
+      "canonical": "Attestation-de-cloture-des-credits-renouvelables.pdf",
+      "aliases": [
+        "Attestation-de-cloture-des-credits-renouvelables.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "assurance",
+      "title": "Assurance — lettre renonciation",
+      "tags": [
+        "assurance",
+        "credilift"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "canonical": "assurance-lettre-renonciation.pdf",
+      "aliases": [
+        "assurance-lettre-renonciation.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "assurance",
+      "title": "Assurance Assurlift — présentation",
+      "tags": [
+        "assurance",
+        "credilift"
+      ],
+      "period": null,
+      "kind": "assurance",
+      "canonical": "assurance-assurlift-presentation.pdf",
+      "aliases": [
+        "assurance-assurlift-presentation.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "UNILIFT",
+      "tags": [
+        "rac",
+        "credilift",
+        "unilift"
+      ],
+      "period": "2026-05",
+      "canonical": "UNILIFT-05-2026.pdf",
+      "aliases": [
+        "UNILIFT-05-2026.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "MINILIFT",
+      "tags": [
+        "rac",
+        "credilift",
+        "minilift",
+        "sans_garantie"
+      ],
+      "period": "2026-05",
+      "canonical": "MINILIFT-05-2026.pdf",
+      "aliases": [
+        "MINILIFT-05-2026.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "CONSOLIFT 180 mois",
+      "tags": [
+        "rac",
+        "credilift",
+        "consolift"
+      ],
+      "period": "2026-05",
+      "canonical": "CONSOLIFT-180-mois--05-2026.pdf",
+      "aliases": [
+        "CONSOLIFT-180-mois--05-2026.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "CONSOLIFT",
+      "tags": [
+        "rac",
+        "credilift",
+        "consolift"
+      ],
+      "period": "2026-05",
+      "canonical": "CONSOLIFT-05-2026.pdf",
+      "aliases": [
+        "CONSOLIFT-05-2026.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "CAUTIOLIFT conso",
+      "tags": [
+        "rac",
+        "credilift",
+        "caution",
+        "conso"
+      ],
+      "period": "2026-05",
+      "canonical": "CAUTIOLIFT-conso-05-2026.pdf",
+      "aliases": [
+        "CAUTIOLIFT-conso-05-2026.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "HYPOLIFT conso 2nd rang",
+      "tags": [
+        "rac",
+        "credilift",
+        "hypo",
+        "conso",
+        "avec_garantie"
+      ],
+      "period": "2026-05",
+      "canonical": "HYPOLIFT-conso-2nd-rang-05-2026.pdf",
+      "aliases": [
+        "HYPOLIFT-conso-2nd-rang-05-2026.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "HYPOLIFT conso",
+      "tags": [
+        "rac",
+        "credilift",
+        "hypo",
+        "conso",
+        "avec_garantie"
+      ],
+      "period": "2026-05",
+      "canonical": "HYPOLIFT-conso-05-2026.pdf",
+      "aliases": [
+        "HYPOLIFT-conso-05-2026.pdf"
+      ]
+    },
+    {
+      "section": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "SCPI nom propre — nantissement parts",
+      "tags": [
+        "scpi",
+        "nantissement",
+        "nom_propre"
+      ],
+      "period": "2026-06",
+      "canonical": "06-2026-SCPI-nom-propre-nantissement-parts-CFCAL.pdf",
+      "aliases": [
+        "06-2026-SCPI-nom-propre-nantissement-parts-CFCAL.pdf"
+      ]
+    },
+    {
+      "section": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "SCPI nom propre — caution logement",
+      "tags": [
+        "scpi",
+        "caution",
+        "nom_propre"
+      ],
+      "period": "2026-06",
+      "canonical": "06-2026-SCPI-nom-propre-caution-logement-CFCAL.pdf",
+      "aliases": [
+        "06-2026-SCPI-nom-propre-caution-logement-CFCAL.pdf"
+      ]
+    },
+    {
+      "section": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "SCPI financement via SCI",
+      "tags": [
+        "scpi",
+        "sci",
+        "nantissement"
+      ],
+      "period": "2026-06",
+      "canonical": "06-2026-SCPI-financement-via-SCI-CFCAL.pdf",
+      "aliases": [
+        "06-2026-SCPI-financement-via-SCI-CFCAL.pdf"
+      ]
+    },
+    {
+      "section": "scpi",
+      "partner": "credilift",
+      "subsection": "liste",
+      "title": "Liste SCPI CACF",
+      "tags": [
+        "scpi",
+        "liste",
+        "cacf"
+      ],
+      "period": "2026-07",
+      "kind": "liste",
+      "canonical": "07-2026-Liste-SCPI-CACF.pdf",
+      "aliases": [
+        "07-2026-Liste-SCPI-CACF.pdf"
+      ]
+    },
+    {
+      "section": "scpi",
+      "partner": "credilift",
+      "subsection": "book",
+      "title": "CACF Book SCPI",
+      "tags": [
+        "scpi",
+        "book",
+        "cacf"
+      ],
+      "period": "2026-07",
+      "kind": "book",
+      "canonical": "07-2026-CACF-BOOK-SCPI.pdf",
+      "aliases": [
+        "07-2026-CACF-BOOK-SCPI.pdf"
+      ]
+    }
+  ],
+  "downloadList": {
+    "source": "scripts/pret-fiches-download-list.txt",
+    "uniqueCount": 176,
+    "aliasAdds": 47,
+    "newAdds": 20,
+    "unmatched": []
+  }
 }
