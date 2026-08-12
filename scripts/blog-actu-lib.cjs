@@ -94,8 +94,24 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Titres / IDs placeholder (file manuelle, inbox) — ne jamais publier */
+function isJunkActuCandidate(candidate) {
+  var title = String((candidate && candidate.title) || "");
+  var id = String((candidate && candidate.id) || "").toLowerCase();
+  var note = String((candidate && candidate.note) || "");
+  var hay = (title + " " + note).toLowerCase();
+  if (!title.trim() || title.trim().length < 12) return true;
+  if (/collez ici|copiez ici|a completer|à compléter|placeholder|lorem ipsum|titre de la une/i.test(hay)) {
+    return true;
+  }
+  if (/pending-template|template-placeholder|inbox-template/.test(id)) return true;
+  if (/^TODO\b/i.test(title.trim())) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
+  if (isJunkActuCandidate(candidate)) return 0;
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
@@ -349,6 +365,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isJunkActuCandidate: isJunkActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
