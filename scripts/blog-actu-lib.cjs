@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
 const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { sourceScoreBoost } = require("./blog-actu-sources.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -101,9 +102,7 @@ function scoreLeadPotential(candidate) {
   var need = candidate.need || "";
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
-    score += 12;
-  }
+  score += sourceScoreBoost(candidate.sourceType || candidate.source || candidate.feedName);
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
@@ -297,14 +296,18 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanRssText(title),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanRssText(desc || "").slice(0, 400),
         pubDate: pub || "",
       });
     }
   }
   return items;
+}
+
+function cleanRssText(s) {
+  return stripHtml(decodeEntities(s)).replace(/\s+/g, " ").trim();
 }
 
 function extractTag(block, tag) {

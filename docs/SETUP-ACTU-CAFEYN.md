@@ -1,6 +1,6 @@
 # Mise en route — actu auto GitHub + Cafeyn (15 min)
 
-Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à Cursor, GitHub, Vercel ou ce dépôt.
+Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à Cursor, GitHub, Vercel ou ce dépôt : la collecte automatique utilise des RSS publics et, pour un article Cafeyn précis, un favori sécurisé avec jeton technique.
 
 ---
 
@@ -11,6 +11,7 @@ Guide pas à pas. **Ne communiquez jamais votre email/mot de passe Cafeyn** à C
 | « Il faut email + mot de passe Cafeyn » | Oui **pour vous** dans l’app / le site Cafeyn |
 | « Le bot peut se connecter avec » | **Non** — CGU Cafeyn, risque de bannissement, pas d’API officielle, sessions anti-bot |
 | « Comment récupérer mes articles Cafeyn ? » | **1)** RSS automatique (mêmes journaux) **2)** Favori 1 clic (vous êtes déjà connecté) |
+| « Et si je donne mes identifiants ? » | **Non** : un identifiant personnel ne doit pas être transmis ni stocké. Seul `BLOG_ACTU_INGEST_SECRET` est utilisé, et ce n'est pas un login Cafeyn. |
 
 Le favori = vous lisez Cafeyn **normalement** (avec votre login) → 1 clic → article en file prioritaire. **Aucun mot de passe stocké.**
 
