@@ -296,10 +296,12 @@ function parseRssItems(xml) {
     var desc = extractTag(block, "description");
     var pub = extractTag(block, "pubDate");
     if (title) {
+      var cleanTitle = stripHtml(decodeEntities(title));
+      var cleanSummary = stripHtml(decodeEntities(desc || "")).slice(0, 400);
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: cleanTitle,
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: cleanSummary,
         pubDate: pub || "",
       });
     }
@@ -331,6 +333,7 @@ function decodeEntities(s) {
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
     .replace(/&apos;/g, "'")
+    .replace(/&nbsp;/g, " ")
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
 }
 
