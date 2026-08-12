@@ -100,3 +100,27 @@ Authorization: Bearer {lo_token admin}
 ```
 
 Cree l’arborescence client si elle n’existe pas encore.
+
+---
+
+## Immobilier — Immo cloud
+
+Même credentials. Arborescence biens :
+
+```
+{GOOGLE_DRIVE_FOLDER_ID}/
+  └── Immo/
+        └── 2026/
+              └── prop_xxx_Ville_Titre/
+                    ├── 01_photos_publiques/
+                    ├── 02_photos_confidentielles/
+                    ├── 03_documents_publics/
+                    ├── 04_documents_confidentiels/
+                    ├── 05_diagnostics/
+                    ├── 06_mandat_pieces/
+                    ├── 07_medias_3d_video/
+                    └── 08_documents_imprimes/
+```
+
+API CRM : `POST /api/drive/immo` avec `{ action: "ensure"|"upload"|"list"|"classify", property, … }`  
+UI : fiche bien → onglets **Images** / **Immo cloud** (`crm-immo-property.html`).

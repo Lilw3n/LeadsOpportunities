@@ -28,3 +28,15 @@ Description · Pièces · Images · Immo cloud · Vendeur · Historique · Stati
 - Type `complexe` + unités pour multi-strates
 - Checklist docs adaptée (maison / copro / terrain / financement / loué)
 - Sync champs clés vers la liste Piges (ville, prix, surface, DPE…)
+
+## Images & Immo cloud (Google Drive)
+- **Images** : galerie publique, images confidentielles, liens médias (visite virtuelle, 360°, vidéo…)
+- **Immo cloud** : dossier Drive par bien sous `Immo/YYYY/{id}_{ville}_{titre}/` avec sous-dossiers :
+  - `01_photos_publiques` · `02_photos_confidentielles`
+  - `03_documents_publics` · `04_documents_confidentiels`
+  - `05_diagnostics` · `06_mandat_pieces`
+  - `07_medias_3d_video` · `08_documents_imprimes`
+- Classement auto selon nom/MIME (DPE → diagnostics, mandat → mandat, image → photos…)
+- API : `POST /api/drive/immo` (`ensure` | `upload` | `list` | `classify`)
+- Config : même `GOOGLE_SERVICE_ACCOUNT_JSON` + `GOOGLE_DRIVE_FOLDER_ID` que le Drive contacts (`docs/DRIVE-SETUP.md`)
+- Sans Drive configuré : mode local intelligent (localStorage) pour ne pas bloquer l’agent

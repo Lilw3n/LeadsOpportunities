@@ -75,7 +75,28 @@
     .meta-bar input, .meta-bar select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
     .save-bar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
     .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
-  </style>
+    .immo-hint { color:var(--muted); font-size:.82rem; margin:8px 0; }
+    .immo-field { display:flex; flex-direction:column; gap:4px; font-size:.8rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
+    .immo-img-layout { display:grid; grid-template-columns:200px 1fr; gap:14px; }
+    @media (max-width:800px){ .immo-img-layout { grid-template-columns:1fr; } }
+    .immo-img-side { display:flex; flex-direction:column; gap:6px; }
+    .immo-img-cat { text-align:left; border:1px solid var(--line); background:#fff; padding:10px 12px; border-radius:8px; cursor:pointer; font-weight:700; font-size:.78rem; }
+    .immo-img-cat.is-active { background:var(--immo-blue); color:#fff; border-color:var(--immo-blue); }
+    .immo-img-toolbar { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-bottom:10px; }
+    .immo-inline { display:flex; align-items:center; gap:6px; font-size:.78rem; font-weight:700; color:var(--muted); }
+    .immo-img-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
+    .immo-img-card { border:1px solid var(--line); border-radius:8px; overflow:hidden; background:#f8fafc; }
+    .immo-img-card img { width:100%; height:120px; object-fit:cover; display:block; }
+    .immo-img-ph { height:120px; display:flex; align-items:center; justify-content:center; color:var(--muted); background:#e2e8f0; }
+    .immo-img-actions { display:flex; gap:4px; padding:6px; }
+    .immo-cloud-head { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+    .immo-cloud-actions { display:flex; flex-wrap:wrap; gap:8px; }
+    .immo-cloud-folders { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .immo-cloud-folder-btn { border:1px solid var(--line); background:#fff; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:.78rem; font-weight:700; }
+    .immo-cloud-folder-btn.is-active { background:var(--immo-blue); color:#fff; border-color:var(--immo-blue); }
+    .immo-cloud-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+    .immo-cloud-table th, .immo-cloud-table td { padding:8px; border-bottom:1px solid #eef2f7; text-align:left; }
+    .immo-cloud-table th { color:var(--muted); font-size:.72rem; }
 </head>
 <body class="crm-subpage">
   <div class="dossier-head">
@@ -132,6 +153,7 @@
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>
+  <script src="./js/crm-immo-cloud.js"></script>
   <script src="./js/crm-immo-property-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
