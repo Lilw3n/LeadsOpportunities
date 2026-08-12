@@ -44,6 +44,7 @@
       "crm-tariff-grid.html": { subtitle: "Bordereaux et grilles tarifaires internes" },
       "crm-agency-fees.html": { subtitle: "Honoraires vendeur + financement acheteur (prêt / rachat)" },
       "crm-immo-properties.html": { subtitle: "Piges — filtres RECHERCHE / OÙ / QUI / QUOI / QUAND + actions listing" },
+      "crm-immo-suivi.html": { subtitle: "Suivi ventes / locations / offres / sorties de stock" },
       "crm-immo-property.html": { subtitle: "Fiche intelligente — composition, sections conditionnelles, diagnostics, pièces" },
       "crm-immo-matching.html": { subtitle: "Matching intelligent critères acquéreur ↔ biens" },
       "crm-immo-documents.html": { subtitle: "Édition mandats, offres, compromis et pièces immo" },

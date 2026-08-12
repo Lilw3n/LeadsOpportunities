@@ -36,6 +36,16 @@ Matching acquéreur : uniquement les statuts « matchables » (prospection → r
 
 Anciens codes migrés : `active`→mandat, `under_offer`→compromis, `sold`→vendu_loue, `archived`→archive.
 
+## Suivi pipeline
+Page [`crm-immo-suivi.html`](../crm-immo-suivi.html) :
+- Suivi des ventes
+- Suivi des locations
+- Suivi des offres (sous offre / SRU / compromis)
+- Sorties de stock ventes
+- Sorties de stock locations
+
+Groupement par statut métier + KPI (nb, Σ FAI / net).
+
 ## Images & Immo cloud (Google Drive)
 - **Images** : galerie publique, images confidentielles, liens médias (visite virtuelle, 360°, vidéo…)
 - **Immo cloud** : dossier Drive par bien sous `Immo/YYYY/{id}_{ville}_{titre}/` avec sous-dossiers :
