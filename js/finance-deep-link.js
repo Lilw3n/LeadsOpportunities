@@ -12,6 +12,8 @@
   var CREDIT_PATH = "/landings/credit-immo.html";
   var ACHETEUR_PATH = "/landings/acheteur-immo.html";
   var BAREMES_PATH = "/crm-agency-fees.html";
+  var PRET_PATH = "/crm-pret-immo-sim.html";
+  var PRET_LIST_PATH = "/crm-pret-immo.html";
 
   function num(v) {
     if (v == null || v === "") return null;
@@ -84,6 +86,18 @@
   function baremesUrl(data) {
     var qs = buildQuery(data || {}, { utmMedium: "immo-fiche", utmCampaign: "baremes" });
     return BAREMES_PATH + (qs ? "?" + qs : "");
+  }
+
+  function pretImmoUrl(data, extras) {
+    extras = extras || {};
+    var qs = buildQuery(data || {}, Object.assign({ utmCampaign: "pret-immo" }, extras));
+    var type = extras.type || "immo";
+    var housing = extras.housing ? "&housing=" + encodeURIComponent(extras.housing) : "";
+    return PRET_PATH + "?type=" + encodeURIComponent(type) + housing + (qs ? "&" + qs : "");
+  }
+
+  function pretListUrl() {
+    return PRET_LIST_PATH;
   }
 
   function applyToForm(root) {
@@ -176,6 +190,8 @@
     creditUrl: creditUrl,
     acheteurUrl: acheteurUrl,
     baremesUrl: baremesUrl,
+    pretImmoUrl: pretImmoUrl,
+    pretListUrl: pretListUrl,
     applyToForm: applyToForm,
     applyToBaremesForm: applyToBaremesForm,
   };
