@@ -459,6 +459,354 @@
     bindTri(body);
   }
 
+  function ensureMediaDetails(p) {
+    if (!p.details.medias) p.details.medias = {};
+    return p.details.medias;
+  }
+
+  function renderImagesTab(panel, p) {
+    var Cloud = window.CrmImmoCloud;
+    panel.innerHTML =
+      '<div class="immo-img-layout">' +
+      '<aside class="immo-img-side">' +
+      '<button type="button" class="immo-img-cat is-active" data-img-cat="public">Images (' +
+      (p.images || []).length +
+      ")</button>" +
+      '<button type="button" class="immo-img-cat" data-img-cat="confidential">Images confidentielles</button>' +
+      '<button type="button" class="immo-img-cat" data-img-cat="medias">Médias (liens)</button>' +
+      "</aside>" +
+      '<div class="immo-img-main" id="imgMain"></div></div>';
+
+    var cat = "public";
+    function paint() {
+      var main = document.getElementById("imgMain");
+      if (!main) return;
+      document.querySelectorAll("[data-img-cat]").forEach(function (b) {
+        b.classList.toggle("is-active", b.getAttribute("data-img-cat") === cat);
+      });
+      if (cat === "medias") {
+        var m = ensureMediaDetails(p);
+        main.innerHTML =
+          "<h3>Médias & liens</h3><p class='immo-hint'>Visites virtuelles, vidéo, 360° — liens externes.</p>" +
+          [
+            ["visite_virtuelle", "Visite virtuelle"],
+            ["visite_privee", "Visite virtuelle privée"],
+            ["video_aerienne", "Vidéo aérienne"],
+            ["url_360", "URL 360°"],
+            ["plan_2d_3d", "URL plan 2D-3D"],
+            ["lien_video", "Lien vidéo"],
+            ["url_myphoto", "URL MyPhotoAgency"],
+          ]
+            .map(function (row) {
+              return (
+                '<label class="immo-field">' +
+                esc(row[1]) +
+                '<input class="crm-input" data-media-key="' +
+                row[0] +
+                '" value="' +
+                esc(m[row[0]] || "") +
+                '" placeholder="https://…" /></label>'
+              );
+            })
+            .join("") +
+          '<p class="immo-hint">Les fichiers photos / PDF passent par <strong>Immo cloud</strong> (Google Drive).</p>';
+        main.querySelectorAll("[data-media-key]").forEach(function (inp) {
+          inp.onchange = function () {
+            ensureMediaDetails(p)[inp.getAttribute("data-media-key")] = inp.value.trim();
+          };
+        });
+        return;
+      }
+      if (cat === "confidential") {
+        main.innerHTML =
+          "<h3>Images confidentielles</h3><p class='immo-hint'>Dossier Drive <strong>02_photos_confidentielles</strong> — non diffusées sur les portails.</p>" +
+          '<button type="button" class="btn btn-primary" id="btnGoCloudConf">Ouvrir Immo cloud</button>';
+        var go = document.getElementById("btnGoCloudConf");
+        if (go) {
+          go.onclick = function () {
+            state.tab = "cloud";
+            renderAll();
+          };
+        }
+        return;
+      }
+      main.innerHTML =
+        '<div class="immo-img-toolbar">' +
+        '<label class="btn btn-primary btn-sm">Ajouter image(s)<input type="file" id="imgFiles" accept="image/*" multiple hidden /></label>' +
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnSyncDrive">Sync Drive → galerie</button>' +
+        '<label class="immo-inline">URL<input id="imgUrl" class="crm-input" placeholder="https://…" /></label>' +
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnAddImgUrl">Ajouter URL</button>' +
+        "</div>" +
+        '<p class="immo-hint">Upload → Google Drive (photos publiques). Réordonnez avec ↑↓.</p>' +
+        '<div id="imgList" class="immo-img-grid"></div>' +
+        '<p id="imgStatus" class="immo-hint"></p>';
+
+      function paintGrid() {
+        var list = document.getElementById("imgList");
+        if (!list) return;
+        list.innerHTML =
+          (p.images || [])
+            .map(function (url, i) {
+              var isLocal = String(url).indexOf("data:") === 0 || String(url).indexOf("local://") === 0;
+              return (
+                '<div class="immo-img-card" data-i="' +
+                i +
+                '">' +
+                (isLocal && String(url).indexOf("data:") === 0
+                  ? '<img src="' + esc(url) + '" alt="" />'
+                  : isLocal
+                    ? '<div class="immo-img-ph">Local</div>'
+                    : '<img src="' + esc(url) + '" alt="" onerror="this.style.display=\'none\'" />') +
+                '<div class="immo-img-actions">' +
+                '<button type="button" class="btn btn-ghost btn-sm" data-up="' +
+                i +
+                '">↑</button>' +
+                '<button type="button" class="btn btn-ghost btn-sm" data-dn="' +
+                i +
+                '">↓</button>' +
+                '<button type="button" class="btn btn-ghost btn-sm" data-rm-img="' +
+                i +
+                '">Suppr.</button></div></div>'
+              );
+            })
+            .join("") || "<p class='immo-hint'>Aucune image. Uploadez ou ajoutez une URL.</p>";
+        list.querySelectorAll("[data-rm-img]").forEach(function (b) {
+          b.onclick = function () {
+            p.images.splice(Number(b.getAttribute("data-rm-img")), 1);
+            paintGrid();
+          };
+        });
+        list.querySelectorAll("[data-up]").forEach(function (b) {
+          b.onclick = function () {
+            var i = Number(b.getAttribute("data-up"));
+            if (i < 1) return;
+            var t = p.images[i - 1];
+            p.images[i - 1] = p.images[i];
+            p.images[i] = t;
+            paintGrid();
+          };
+        });
+        list.querySelectorAll("[data-dn]").forEach(function (b) {
+          b.onclick = function () {
+            var i = Number(b.getAttribute("data-dn"));
+            if (i >= p.images.length - 1) return;
+            var t = p.images[i + 1];
+            p.images[i + 1] = p.images[i];
+            p.images[i] = t;
+            paintGrid();
+          };
+        });
+      }
+
+      document.getElementById("btnAddImgUrl").onclick = function () {
+        var u = document.getElementById("imgUrl").value.trim();
+        if (!u) return;
+        p.images.push(u);
+        document.getElementById("imgUrl").value = "";
+        paintGrid();
+      };
+
+      document.getElementById("imgFiles").onchange = async function (ev) {
+        var files = Array.from(ev.target.files || []);
+        var st = document.getElementById("imgStatus");
+        if (!files.length || !Cloud) return;
+        st.textContent = "Upload Drive…";
+        try {
+          for (var fi = 0; fi < files.length; fi++) {
+            var up = await Cloud.upload(p, files[fi], { hint: "photos" });
+            var f = up.file || {};
+            var link = f.url || f.webViewLink || f.thumbnailLink || "";
+            if (link && p.images.indexOf(link) === -1) p.images.push(link);
+          }
+          st.textContent = files.length + " fichier(s) envoyé(s) / classés.";
+          paintGrid();
+        } catch (e) {
+          st.textContent = "Erreur upload : " + (e.message || e);
+        }
+        ev.target.value = "";
+      };
+
+      document.getElementById("btnSyncDrive").onclick = async function () {
+        var st = document.getElementById("imgStatus");
+        if (!Cloud) return;
+        st.textContent = "Sync…";
+        try {
+          var ensured = await Cloud.ensure(p);
+          if (ensured.folderId) p.drive_folder_id = ensured.folderId;
+          if (ensured.subfolderIds) p.drive_subfolders = ensured.subfolderIds;
+          var listed = await Cloud.list(p, "01_photos_publiques");
+          (listed.files || []).forEach(function (f) {
+            var u = f.url || f.webViewLink || f.thumbnailLink;
+            if (u && p.images.indexOf(u) === -1) p.images.push(u);
+          });
+          st.textContent =
+            (listed.configured ? "Drive" : "Local") + " — " + (listed.files || []).length + " fichier(s) photos.";
+          paintGrid();
+        } catch (e) {
+          st.textContent = "Sync : " + (e.message || e);
+        }
+      };
+
+      paintGrid();
+    }
+
+    document.querySelectorAll("[data-img-cat]").forEach(function (b) {
+      b.onclick = function () {
+        cat = b.getAttribute("data-img-cat");
+        paint();
+      };
+    });
+    paint();
+  }
+
+  function renderCloudTab(panel, p) {
+    var Cloud = window.CrmImmoCloud;
+    if (!Cloud) {
+      panel.innerHTML = "<p class='immo-hint'>Module cloud non chargé.</p>";
+      return;
+    }
+    panel.innerHTML =
+      '<div class="immo-cloud-head">' +
+      "<div><h3>Immo cloud</h3><p class='immo-hint'>Drive intelligent par bien — classement auto (photos, diagnostics, mandat, docs). Google Drive (compte service) ou cache navigateur si non configuré.</p></div>" +
+      '<div class="immo-cloud-actions">' +
+      '<button type="button" class="btn btn-primary btn-sm" id="btnCloudEnsure">Ouvrir / créer dossier</button>' +
+      '<label class="btn btn-ghost btn-sm">Uploader<input type="file" id="cloudFiles" multiple hidden /></label>' +
+      '<a class="btn btn-ghost btn-sm" href="./crm-immo-documents.html?property=' +
+      encodeURIComponent(p.id) +
+      '">Éditeur documents</a>' +
+      '<a class="btn btn-ghost btn-sm" href="./test-drive.html" target="_blank" rel="noopener">Statut Drive</a>' +
+      "</div></div>" +
+      '<div id="cloudFolders" class="immo-cloud-folders"></div>' +
+      '<div id="cloudBrowser" class="immo-cloud-browser"></div>' +
+      '<p id="cloudStatus" class="immo-hint"></p>';
+
+    var currentFolder = null;
+
+    function status(msg) {
+      var el = document.getElementById("cloudStatus");
+      if (el) el.textContent = msg || "";
+    }
+
+    function paintFolderNav(subfolders) {
+      var nav = document.getElementById("cloudFolders");
+      var list = subfolders || Cloud.DEFAULT_FOLDERS;
+      nav.innerHTML = list
+        .map(function (f) {
+          var key = f.id;
+          var label = f.label || f.id;
+          return (
+            '<button type="button" class="immo-cloud-folder-btn' +
+            (currentFolder === key ? " is-active" : "") +
+            '" data-folder="' +
+            esc(key) +
+            '">📁 ' +
+            esc(label) +
+            "</button>"
+          );
+        })
+        .join("");
+      nav.querySelectorAll("[data-folder]").forEach(function (btn) {
+        btn.onclick = function () {
+          currentFolder = btn.getAttribute("data-folder");
+          browse(currentFolder);
+        };
+      });
+    }
+
+    async function browse(folderKey) {
+      currentFolder = folderKey || null;
+      paintFolderNav(p._cloudSubfolders || Cloud.DEFAULT_FOLDERS);
+      status("Chargement…");
+      try {
+        var listed = await Cloud.list(p, folderKey || undefined);
+        p._cloudSubfolders = listed.subfolders || Cloud.DEFAULT_FOLDERS;
+        paintFolderNav(p._cloudSubfolders);
+        var files = listed.files || [];
+        var html =
+          "<table class='immo-cloud-table'><thead><tr><th>Nom</th><th>Type</th><th>Source</th><th></th></tr></thead><tbody>";
+        if (!files.length) {
+          html +=
+            "<tr><td colspan='4' class='immo-hint'>Dossier vide — uploadez des photos ou PDF. Classement automatique selon le nom (DPE → diagnostics, mandat → mandat, images → photos…).</td></tr>";
+        }
+        files.forEach(function (f) {
+          var link = f.webViewLink || f.url
+            ? "<a href='" + esc(f.webViewLink || f.url) + "' target='_blank' rel='noopener'>Ouvrir</a>"
+            : "—";
+          html +=
+            "<tr><td>" +
+            esc(f.name) +
+            "</td><td>" +
+            esc(f.mimeType || "") +
+            "</td><td>" +
+            esc(f.source || "") +
+            "</td><td>" +
+            link +
+            "</td></tr>";
+        });
+        html += "</tbody></table>";
+        document.getElementById("cloudBrowser").innerHTML = html;
+        status(
+          (listed.configured ? "Google Drive" : "Mode local") +
+            (folderKey ? " · " + folderKey : " · racine / tous") +
+            " — " +
+            files.length +
+            " fichier(s)"
+        );
+      } catch (e) {
+        status("Erreur : " + (e.message || e));
+      }
+    }
+
+    async function openRoot() {
+      status("Connexion…");
+      try {
+        var ensured = await Cloud.ensure(p);
+        if (ensured.folderId) p.drive_folder_id = ensured.folderId;
+        if (ensured.subfolderIds) p.drive_subfolders = ensured.subfolderIds;
+        p._cloudSubfolders = ensured.subfolders || Cloud.DEFAULT_FOLDERS;
+        status(
+          ensured.configured || ensured.ok
+            ? ensured.simulated || !ensured.configured
+              ? "Mode local — Drive Google non configuré (docs/DRIVE-SETUP.md). Classement intelligent actif."
+              : "Google Drive prêt — dossier bien créé."
+            : ensured.message || "OK"
+        );
+        await browse(null);
+      } catch (e) {
+        status("Erreur : " + (e.message || e));
+      }
+    }
+
+    document.getElementById("btnCloudEnsure").onclick = openRoot;
+    document.getElementById("cloudFiles").onchange = async function (ev) {
+      var files = Array.from(ev.target.files || []);
+      if (!files.length) return;
+      status("Upload…");
+      try {
+        if (!p.drive_folder_id) {
+          var ens = await Cloud.ensure(p);
+          if (ens.folderId) p.drive_folder_id = ens.folderId;
+          if (ens.subfolderIds) p.drive_subfolders = ens.subfolderIds;
+        }
+        for (var i = 0; i < files.length; i++) {
+          var classified = Cloud.classify(files[i].name, files[i].type, false, "");
+          var up = await Cloud.upload(p, files[i], {});
+          status("Uploadé : " + files[i].name + " → " + (up.classifiedAs || classified));
+          if ((files[i].type || "").indexOf("image/") === 0 && String(up.classifiedAs || "").indexOf("photos_publiques") !== -1) {
+            var link = (up.file && (up.file.url || up.file.webViewLink)) || "";
+            if (link && p.images.indexOf(link) === -1) p.images.push(link);
+          }
+        }
+        await browse(currentFolder);
+      } catch (e) {
+        status("Erreur : " + (e.message || e));
+      }
+      ev.target.value = "";
+    };
+
+    openRoot();
+  }
+
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
@@ -515,42 +863,11 @@
       return;
     }
     if (state.tab === "images") {
-      panel.innerHTML =
-        "<h3>Images</h3><label>Ajouter URL image<input id='imgUrl' class='crm-input' placeholder='https://…' /></label> <button type='button' class='btn btn-primary btn-sm' id='btnAddImg'>Ajouter</button><div id='imgList' style='margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px'></div>";
-      function paintImgs() {
-        document.getElementById("imgList").innerHTML = prop.images
-          .map(function (url, i) {
-            return (
-              '<div><img src="' +
-              esc(url) +
-              '" alt="" style="width:100%;border-radius:8px;border:1px solid var(--line)" /><button type="button" class="btn btn-ghost btn-sm" data-rm-img="' +
-              i +
-              '">Retirer</button></div>'
-            );
-          })
-          .join("") || "<p style='color:var(--muted)'>Aucune image.</p>";
-        document.querySelectorAll("[data-rm-img]").forEach(function (b) {
-          b.onclick = function () {
-            prop.images.splice(Number(b.getAttribute("data-rm-img")), 1);
-            paintImgs();
-          };
-        });
-      }
-      document.getElementById("btnAddImg").onclick = function () {
-        var u = document.getElementById("imgUrl").value.trim();
-        if (!u) return;
-        prop.images.push(u);
-        document.getElementById("imgUrl").value = "";
-        paintImgs();
-      };
-      paintImgs();
+      renderImagesTab(panel, prop);
       return;
     }
     if (state.tab === "cloud") {
-      panel.innerHTML =
-        "<h3>Immo cloud</h3><p style='color:var(--muted)'>Espace documents cloud (Drive / pièces) — relié plus tard aux pièces justificatives et à l’éditeur documents.</p><p><a class='btn btn-ghost' href='./crm-immo-documents.html?property=" +
-        encodeURIComponent(prop.id) +
-        "'>Ouvrir documents immo</a></p>";
+      renderCloudTab(panel, prop);
       return;
     }
     if (state.tab === "historique") {

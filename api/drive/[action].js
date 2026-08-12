@@ -8,6 +8,7 @@ const ROUTES = {
   upload: () => require("../_lib/routes/drive-upload"),
   status: () => require("../_lib/routes/drive-status"),
   "test-lead": () => require("../_lib/routes/drive-test-lead"),
+  immo: () => require("../_lib/routes/drive-immo"),
 };
 
 module.exports = async (req, res) => {
