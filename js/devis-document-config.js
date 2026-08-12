@@ -35,6 +35,45 @@
         { type: "rib", label: "RIB", required: false },
       ],
     },
+    credit-immo: {
+      title: "Pièces pour votre demande de prêt immobilier",
+      intro:
+        "Ces documents accélèrent l'étude de financement. Vous pouvez les déposer maintenant ou plus tard — archivés sur votre dossier et le Drive courtier.",
+      items: [
+        { type: "piece_identite", label: "Pièce d'identité (CNI / passeport)", required: true },
+        { type: "avis_imposition", label: "Avis d'imposition (2 derniers)", required: true },
+        { type: "bulletins_salaire", label: "3 derniers bulletins de salaire", required: true },
+        { type: "releves_bancaires", label: "3 derniers relevés bancaires", required: false },
+        { type: "contrat_travail", label: "Contrat de travail / attestation employeur", required: false },
+        { type: "compromis_offre", label: "Compromis / offre d'achat (si signé)", required: false },
+        { type: "apport_justificatif", label: "Justificatif d'apport (épargne, donation…)", required: false },
+        { type: "rib", label: "RIB", required: true },
+      ],
+    },
+    "acheteur-immo": {
+      title: "Pièces dossier acquéreur (prêt & assurances)",
+      intro:
+        "Pour le prêt, l'emprunteur et l'habitation : déposez les pièces dès que possible. Le conseiller complète le dossier ensuite.",
+      items: [
+        { type: "piece_identite", label: "Pièce d'identité", required: true },
+        { type: "avis_imposition", label: "Avis d'imposition", required: true },
+        { type: "bulletins_salaire", label: "Bulletins de salaire (3 derniers)", required: true },
+        { type: "releves_bancaires", label: "Relevés bancaires", required: false },
+        { type: "compromis_offre", label: "Compromis / offre", required: false },
+        { type: "apport_justificatif", label: "Justificatif d'apport", required: false },
+        { type: "rib", label: "RIB", required: true },
+      ],
+    },
+    immo: {
+      title: "Pièces dossier immobilier",
+      intro: "Documents utiles au montage prêt / assurance habitation.",
+      items: [
+        { type: "piece_identite", label: "Pièce d'identité", required: true },
+        { type: "avis_imposition", label: "Avis d'imposition", required: false },
+        { type: "bulletins_salaire", label: "Bulletins de salaire", required: false },
+        { type: "rib", label: "RIB", required: false },
+      ],
+    },
     default: {
       title: "Pièces justificatives",
       intro: "Déposez les documents utiles au montage de votre devis. Formats PDF, JPG ou PNG (max 12 Mo).",

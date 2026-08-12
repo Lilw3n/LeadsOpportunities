@@ -667,6 +667,8 @@
       ]
     }
   </script>
+  <script src="../js/finance-deep-link.js"></script>
+  <script src="../js/devis-document-config.js"></script>
   <script src="../js/public-partners-trust.js"></script>
   <script src="../js/callback-form.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
@@ -682,5 +684,10 @@
   <script src="../js/cookie-banner.js"></script>
   <script src="../js/geo-france-guard.js"></script>
   <script src="./tracking.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.FinanceDeepLink) window.FinanceDeepLink.applyToForm(document);
+    });
+  </script>
 </body>
 </html>

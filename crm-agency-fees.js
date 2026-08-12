@@ -15,6 +15,7 @@
     console.error("CrmBuyerFinance missing");
     return;
   }
+  var Deep = window.FinanceDeepLink;
 
   var state = {
     agencies: Lib.listAgencies(),
@@ -23,6 +24,8 @@
     loanType: "pret_amortissable",
     dealRole: "both",
     priceMode: "net_vendeur",
+    propertyId: "",
+    contactId: "",
   };
 
   var PRICE_MODE_KEY = "lo_agency_fee_price_mode_v1";
@@ -1191,6 +1194,78 @@
     return '<span class="af-badge warn">Attention</span>';
   }
 
+  function buildLoanLinkData(bestFinance) {
+    var price = Number(document.getElementById("cmpPrice").value) || 0;
+    var priceMode = currentPriceMode();
+    var agencyRows = Lib.compareAgencies({
+      price: price,
+      priceMode: priceMode,
+      kind: document.getElementById("cmpKind").value,
+      surface: Number(document.getElementById("cmpSurface").value) || 0,
+      zone: document.getElementById("cmpZone").value || "hors_zone",
+      rentalParty: document.getElementById("cmpParty").value || "total",
+      chargesPct: currentChargesPct(),
+      cfePct: currentCfePct(),
+      accountingPct: currentAccountingPct(),
+      deal: readDealOpts(),
+    });
+    var top = agencyRows[0] || null;
+    var fai = bestFinance && bestFinance.project ? bestFinance.project.fai : top ? top.fai : price;
+    var net = bestFinance && bestFinance.project ? bestFinance.project.netVendeur : top ? top.netVendeur : price;
+    if (priceMode === "fai") {
+      fai = price;
+      if (top && top.netVendeur != null) net = top.netVendeur;
+    } else {
+      net = price;
+      if (top && top.fai != null) fai = top.fai;
+    }
+    return {
+      propertyPrice: fai,
+      prixFai: fai,
+      prixNet: net,
+      priceMode: priceMode,
+      downPayment: Number(document.getElementById("bfDown").value) || 0,
+      loanDuration: Number(document.getElementById("bfYears").value) || 25,
+      income: Number(document.getElementById("bfIncome").value) || 0,
+      propertyId: state.propertyId || "",
+      contactId: state.contactId || "",
+      agency: top && top.agency ? top.agency.name : "",
+      loanType: state.loanType || "pret_amortissable",
+      utmSource: "crm-agency-fees",
+    };
+  }
+
+  function updateLoanCtas(bestFinance) {
+    if (!Deep) return;
+    var data = buildLoanLinkData(bestFinance);
+    var credit = Deep.creditUrl(data);
+    var acheteur = Deep.acheteurUrl(data);
+    [
+      ["bfCtaCredit", credit],
+      ["bfCtaAcheteur", acheteur],
+      ["afLinkCredit", credit],
+      ["afLinkAcheteur", acheteur],
+      ["dealCtaCredit", credit],
+    ].forEach(function (pair) {
+      var el = document.getElementById(pair[0]);
+      if (el) el.href = pair[1];
+    });
+    var hint = document.getElementById("bfCtaHint");
+    if (hint) {
+      hint.textContent =
+        "Prérempli : FAI " +
+        Fin.formatEuro(data.prixFai) +
+        " · net " +
+        Fin.formatEuro(data.prixNet) +
+        " · apport " +
+        Fin.formatEuro(data.downPayment) +
+        " · " +
+        data.loanDuration +
+        " ans" +
+        (data.propertyId ? " · bien " + data.propertyId : "");
+    }
+  }
+
   function renderBuyerFinance() {
     if (!document.getElementById("buyerFinancePanel")) return;
     renderLoanTypeTabs();
@@ -1241,6 +1316,7 @@
             "</strong></div>");
     }
 
+    updateLoanCtas(best);
     var tbody = document.querySelector("#buyerFinanceTable tbody");
     if (!rows.length) {
       tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Aucune agence</td></tr>';
@@ -1637,6 +1713,39 @@
   applyDealPrefsToForm();
   applyBuyerPrefsToForm();
   state.priceMode = loadPriceMode();
+
+  if (Deep) {
+    var inbound = Deep.applyToBaremesForm() || Deep.readParams();
+    if (inbound.propertyId) state.propertyId = inbound.propertyId;
+    if (inbound.contactId) state.contactId = inbound.contactId;
+    if (inbound.priceMode === "fai" || inbound.priceMode === "net_vendeur") {
+      state.priceMode = inbound.priceMode;
+      savePriceMode(inbound.priceMode);
+    }
+  }
+
+  var btnCopy = document.getElementById("bfCtaCopy");
+  if (btnCopy) {
+    btnCopy.onclick = function () {
+      if (!Deep) return;
+      var url = Deep.creditUrl(buildLoanLinkData(null));
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(location.origin + url).then(
+          function () {
+            btnCopy.textContent = "Lien copié";
+            setTimeout(function () {
+              btnCopy.textContent = "Copier le lien";
+            }, 1500);
+          },
+          function () {
+            prompt("Copier ce lien :", location.origin + url);
+          }
+        );
+      } else {
+        prompt("Copier ce lien :", location.origin + url);
+      }
+    };
+  }
   syncPriceModeSelects(state.priceMode);
   renderAll();
 })();
