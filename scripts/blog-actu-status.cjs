@@ -3,6 +3,7 @@
  * Affiche l'état du pipeline actu blog.
  */
 const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
+const { SOURCE_TYPES } = require("./blog-actu-sources.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
 
 function main() {
@@ -20,6 +21,13 @@ function main() {
   console.log("Articles pending (brouillon):", pending.length);
   console.log("Dernier fetch:", state.lastFetch || "jamais");
   console.log("URLs traitées:", (state.processedUrls || []).length);
+
+  if (candidates.bySource) {
+    console.log("\n--- Candidats par source ---");
+    SOURCE_TYPES.forEach(function (type) {
+      console.log("-", type + ":", candidates.bySource[type] || 0);
+    });
+  }
 
   if ((candidates.candidates || []).length) {
     console.log("\n--- Top candidats ---");

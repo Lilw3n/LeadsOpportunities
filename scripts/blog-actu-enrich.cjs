@@ -195,12 +195,15 @@ function escapeHtml(s) {
 function platformLabel(sourceType) {
   var t = String(sourceType || "").toLowerCase();
   if (t === "cafeyn" || t.indexOf("cafeyn") !== -1) return "Cafeyn (presse partenaire)";
-  if (t === "edge" || t.indexOf("edge") !== -1 || t.indexOf("msn") !== -1 || t.indexOf("bing") !== -1) {
+  if (t === "edge" || t.indexOf("edge") !== -1 || t.indexOf("msn") !== -1) {
     return "Microsoft Edge / Bing actu";
   }
   if (t === "firefox" || t.indexOf("firefox") !== -1 || t.indexOf("pocket") !== -1) {
     return "Mozilla Firefox / Pocket";
   }
+  if (t === "google" || t.indexOf("google") !== -1) return "Google News";
+  if (t === "bing" || t.indexOf("bing") !== -1) return "Bing News";
+  if (t === "yahoo" || t.indexOf("yahoo") !== -1) return "Yahoo Actualites";
   return "l'actualite du jour";
 }
 

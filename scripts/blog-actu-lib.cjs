@@ -8,6 +8,7 @@ const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
 const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { normalizeSourceType } = require("./blog-actu-sources.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -99,10 +100,13 @@ function scoreLeadPotential(candidate) {
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
+  var sourceType = normalizeSourceType(candidate.sourceType || candidate.source);
 
   if (candidate.status === "queued") score += 25;
-  if (candidate.sourceType === "cafeyn" || candidate.sourceType === "edge" || candidate.sourceType === "firefox") {
+  if (sourceType === "cafeyn" || sourceType === "edge" || sourceType === "firefox") {
     score += 12;
+  } else if (sourceType === "google" || sourceType === "bing" || sourceType === "yahoo") {
+    score += 8;
   }
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
@@ -132,14 +136,56 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (/business\s*wire|globenewswire|pr newswire|communique de presse|communiqué de presse|mou\b|announces/i.test(title)) {
+    score -= 25;
+  }
+  if (looksMostlyEnglish(title + " " + String(candidate.summary || ""))) {
+    score -= 25;
+  }
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
     if (age < 3 * 86400000) score += 12;
     else if (age < 7 * 86400000) score += 6;
+    else if (age > 90 * 86400000) score -= 35;
+    else if (age > 30 * 86400000) score -= 20;
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+function looksMostlyEnglish(text) {
+  var hay = String(text || "").toLowerCase();
+  var englishHits = [
+    " the ",
+    " and ",
+    " with ",
+    " for ",
+    " from ",
+    " says ",
+    " after ",
+    " over ",
+    " insurance ",
+    " mortgage ",
+    " market ",
+  ].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+  var frenchHits = [
+    " le ",
+    " la ",
+    " les ",
+    " des ",
+    " de ",
+    " en ",
+    " pour ",
+    " assurance",
+    " mutuelle",
+    " france",
+  ].filter(function (kw) {
+    return hay.indexOf(kw) !== -1;
+  }).length;
+  return englishHits >= 3 && englishHits > frenchHits;
 }
 
 function rankCandidates(candidates) {
@@ -297,9 +343,9 @@ function parseRssItems(xml) {
     var pub = extractTag(block, "pubDate");
     if (title) {
       items.push({
-        title: decodeEntities(stripHtml(title)),
+        title: stripHtml(decodeEntities(title)),
         url: decodeEntities(link || ""),
-        summary: decodeEntities(stripHtml(desc || "")).slice(0, 400),
+        summary: stripHtml(decodeEntities(desc || "")).slice(0, 400),
         pubDate: pub || "",
       });
     }
