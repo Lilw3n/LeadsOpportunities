@@ -94,8 +94,20 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Titres / ids de consigne (templates inbox) — à ne jamais publier */
+function isPlaceholderActuCandidate(candidate) {
+  var title = String((candidate && candidate.title) || "");
+  var id = String((candidate && candidate.id) || "").toLowerCase();
+  if (/pending-template|placeholder|example-template/.test(id)) return true;
+  if (/^\s*collez\s+ici\b/i.test(title)) return true;
+  if (/\b(TODO|TBD|FIXME)\b/.test(title)) return true;
+  if (/\[\s*(titre|title|insérer|inserer|à\s+remplir|a\s+remplir)\s*\]/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
+  if (isPlaceholderActuCandidate(candidate)) return 0;
   var score = 0;
   var title = String(candidate.title || "").toLowerCase();
   var need = candidate.need || "";
@@ -144,6 +156,9 @@ function scoreLeadPotential(candidate) {
 
 function rankCandidates(candidates) {
   return candidates
+    .filter(function (c) {
+      return !isPlaceholderActuCandidate(c);
+    })
     .map(function (c) {
       return Object.assign({}, c, { leadScore: scoreLeadPotential(c) });
     })
@@ -349,6 +364,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuCandidate: isPlaceholderActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
