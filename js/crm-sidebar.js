@@ -110,7 +110,11 @@ window.CrmSidebar = {
       label: "Immobilier",
       defaultOpen: true,
       items: [
-        { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Financement", icon: "immo", highlight: true, desc: "Honoraires vendeur + capacité emprunt / rachat acheteur", keywords: "immo laforet honoraires commission bareme pret rachat financement acheteur" },
+        { type: "link", href: "./crm-immo-properties.html", label: "Inventaire biens", icon: "immo", highlight: true, desc: "Annonces manuelles + liens Leboncoin/SeLoger/ParuVendu", keywords: "bien annonce leboncoin seloger paruvendu inventaire" },
+        { type: "link", href: "./crm-immo-matching.html", label: "Matching acquéreurs", icon: "ai", badge: "smart", desc: "Critères géo, surface, pièces, dépendances vs biens", keywords: "matching acheteur recherche criteria" },
+        { type: "link", href: "./crm-immo-documents.html", label: "Documents immo", icon: "document", desc: "Mandats, bons de visite, offres, compromis (édition)", keywords: "mandat compromis offre visite document" },
+        { type: "link", href: "./crm-immo-property.html", label: "Fiche bien", icon: "immo", muted: true },
+        { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Financement", icon: "immo", desc: "Honoraires vendeur + capacité emprunt / rachat acheteur", keywords: "immo laforet honoraires commission bareme pret rachat financement acheteur" },
         { type: "link", href: "./negociateur-immobilier/", label: "Landing négociateur", icon: "immo", desc: "Parcours acquéreur prêt & assurances" },
       ],
     },

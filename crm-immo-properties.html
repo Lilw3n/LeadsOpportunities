@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Inventaire biens | CRM Immobilier</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+    .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
+    .immo-grid input, .immo-grid select, .immo-grid textarea { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .immo-card {
+      display:grid; grid-template-columns:1fr auto; gap:12px; align-items:start;
+      padding:14px 16px; border:1px solid var(--line); border-radius:12px; background:var(--card); margin-bottom:10px;
+    }
+    .immo-card h3 { margin:0 0 4px; font-size:1rem; }
+    .immo-meta { color:var(--muted); font-size:.82rem; }
+    .immo-tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+    .immo-tag { font-size:.72rem; font-weight:700; padding:3px 8px; border-radius:6px; background:#e0f2fe; color:#0369a1; }
+    .immo-actions { display:flex; flex-direction:column; gap:6px; }
+    .immo-check { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-top:8px; }
+    .immo-check label { flex-direction:row; align-items:center; gap:6px; font-weight:600; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · inventaire</p>
+      <h2>Biens & annonces</h2>
+      <p>Saisie manuelle + lien Leboncoin / SeLoger / ParuVendu (pas de scraping). Recherche locale intelligente, liaison prospects.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-matching.html" class="btn btn-ghost">Matching acquéreurs</a>
+      <a href="./crm-immo-documents.html" class="btn btn-ghost">Documents</a>
+      <a href="./crm-agency-fees.html" class="btn btn-ghost">Barèmes</a>
+      <button type="button" class="btn btn-primary" id="btnNewProp">+ Bien</button>
+    </div>
+  </section>
+
+  <div class="crm-toolbar acq-toolbar immo-grid" id="searchBar" style="margin-bottom:14px">
+    <label>Recherche
+      <input id="q" class="crm-input" placeholder="ville, titre, URL…" />
+    </label>
+    <label>Type
+      <select id="fType" class="crm-input"><option value="">Tous</option></select>
+    </label>
+    <label>Source
+      <select id="fSource" class="crm-input"><option value="">Toutes</option></select>
+    </label>
+    <label>Statut
+      <select id="fStatus" class="crm-input">
+        <option value="">Tous</option>
+        <option value="active" selected>Actif</option>
+        <option value="under_offer">Sous compromis</option>
+        <option value="sold">Vendu</option>
+        <option value="archived">Archivé</option>
+      </select>
+    </label>
+    <label>Ville
+      <input id="fCity" class="crm-input" placeholder="Strasbourg" />
+    </label>
+    <label>Prix max €
+      <input id="fMaxPrice" class="crm-input" type="number" min="0" step="1000" />
+    </label>
+    <label>Surface min m²
+      <input id="fMinSurf" class="crm-input" type="number" min="0" step="1" />
+    </label>
+    <label>Pièces min
+      <input id="fMinRooms" class="crm-input" type="number" min="0" step="1" />
+    </label>
+  </div>
+
+  <section class="panel" id="formPanel" hidden>
+    <h3 id="formTitle">Nouveau bien</h3>
+    <form id="propForm" class="immo-grid">
+      <input type="hidden" id="pId" />
+      <label>Titre<input id="pTitle" required placeholder="T3 centre…" /></label>
+      <label>Type<select id="pType"></select></label>
+      <label>Statut
+        <select id="pStatus">
+          <option value="active">Actif</option>
+          <option value="under_offer">Sous compromis</option>
+          <option value="sold">Vendu</option>
+          <option value="archived">Archivé</option>
+        </select>
+      </label>
+      <label>Source portail<select id="pSource"></select></label>
+      <label style="grid-column:1/-1">URL annonce<input id="pUrl" placeholder="https://www.leboncoin.fr/ad/…" /></label>
+      <label>Ville<input id="pCity" /></label>
+      <label>Code postal<input id="pCp" /></label>
+      <label>Département<input id="pDept" maxlength="3" /></label>
+      <label>Adresse<input id="pAddress" /></label>
+      <label>Surface m²<input id="pSurf" type="number" step="0.1" /></label>
+      <label>Pièces<input id="pRooms" type="number" step="0.5" /></label>
+      <label>Chambres<input id="pBed" type="number" step="0.5" /></label>
+      <label>Prix net €<input id="pNet" type="number" step="1000" /></label>
+      <label>Prix FAI €<input id="pFai" type="number" step="1000" /></label>
+      <label>Honoraires €<input id="pHon" type="number" step="100" /></label>
+      <label>DPE<input id="pDpe" maxlength="2" /></label>
+      <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
+      <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
+      <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
+      <div class="immo-check" style="grid-column:1/-1">
+        <label><input type="checkbox" id="pGarage" /> Garage</label>
+        <label><input type="checkbox" id="pParking" /> Parking</label>
+        <label><input type="checkbox" id="pCave" /> Cave</label>
+        <label><input type="checkbox" id="pGarden" /> Jardin</label>
+        <label><input type="checkbox" id="pTerrace" /> Terrasse</label>
+        <label><input type="checkbox" id="pBalcony" /> Balcon</label>
+        <label><input type="checkbox" id="pElev" /> Ascenseur</label>
+        <label><input type="checkbox" id="pPool" /> Piscine</label>
+      </div>
+      <label style="grid-column:1/-1">Description<textarea id="pDesc" rows="3"></textarea></label>
+      <label style="grid-column:1/-1">Notes internes<textarea id="pNotes" rows="2"></textarea></label>
+      <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <button type="button" class="btn btn-ghost" id="btnCancelForm">Annuler</button>
+      </div>
+    </form>
+  </section>
+
+  <div id="listMount" style="margin-top:14px"></div>
+
+  <script src="./js/crm-immo-matcher.js"></script>
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-properties-page.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
