@@ -334,6 +334,38 @@ function decodeEntities(s) {
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1");
 }
 
+/** Titres placeholder inbox / queue (ex. « COLLEZ ICI le titre… ») — jamais publier. */
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var t = title.toLowerCase().replace(/\s+/g, " ").trim();
+  var id = String((c && c.id) || "").toLowerCase();
+  if (!t) return true;
+  if (id.indexOf("pending-template") !== -1) return true;
+  if (/^collez ici\b/.test(t) || /\bcollez ici le titre\b/.test(t)) return true;
+  if (/\bTODO\b|\bFIXME\b|\bTBD\b/.test(title)) return true;
+  return false;
+}
+
+/** Titres 100 % anglais (Bing US) — hors ciblage leads France. */
+function isEnglishOnlyTitle(title) {
+  var t = String(title || "");
+  if (!t.trim()) return false;
+  var hasFr =
+    /[àâäéèêëïîôùûçœæ]/i.test(t) ||
+    /\b(le|la|les|un|une|des|du|de la|et|en|pour|dans|sur|avec|france|français|francais|assurance|mutuelle|emprunteur|sinistre|habitation|santé|sante|complémentaire|complementaire)\b/i.test(
+      t
+    );
+  var hasEn =
+    /\b(the|into|regarding|potential|enters|advantages|what you need|how to|memorandum of understanding|health insurance)\b/i.test(
+      t
+    );
+  return hasEn && !hasFr;
+}
+
+function shouldSkipActuCandidate(c) {
+  return isPlaceholderCandidate(c) || isEnglishOnlyTitle(c && c.title);
+}
+
 module.exports = {
   readJson: readJson,
   writeJson: writeJson,
@@ -351,4 +383,7 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  isEnglishOnlyTitle: isEnglishOnlyTitle,
+  shouldSkipActuCandidate: shouldSkipActuCandidate,
 };
