@@ -68,6 +68,14 @@
     .af-mode-tabs { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
     .af-mode-tab { border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:.82rem; cursor:pointer; }
     .af-mode-tab.active { background:#0369a1; color:#fff; border-color:#0369a1; }
+    .af-checks { display:flex; flex-wrap:wrap; gap:10px 18px; margin:0 0 14px; }
+    .af-check {
+      display:inline-flex; align-items:center; gap:8px; font-size:.88rem; font-weight:600;
+      color:#0f172a; cursor:pointer; user-select:none;
+      background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:8px 12px;
+    }
+    .af-check input { width:16px; height:16px; margin:0; accent-color:#0d9488; }
+    .af-check.is-on { background:#ecfdf5; border-color:#99f6e4; }
     .af-deal { border:1px solid #fde68a; border-radius:12px; background:linear-gradient(180deg,#fffbeb,#fff 42%); padding:18px; margin-bottom:16px; }
     .af-deal h3 { margin:0 0 4px; }
     .af-deal .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
@@ -195,33 +203,49 @@
     </div>
     <p class="af-hint" id="cmpHint"></p>
     <div id="stripeSplitPreview" class="af-result" style="margin-top:12px"></div>
-    <div class="af-table-wrap" style="margin-top:14px">
-      <h3 style="margin:0 0 8px;font-size:.95rem">Encaissements Stripe — poche vs réserves</h3>
-      <table class="af-compare-table" id="stripeSplitsTable">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Brut Stripe</th>
-            <th>Ta part</th>
-            <th>URSSAF/impôts</th>
-            <th>CFE</th>
-            <th>Compta</th>
-            <th>Dans ta poche</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
+    <details style="margin-top:14px">
+      <summary style="cursor:pointer;font-weight:600;font-size:.9rem">Encaissements Stripe — poche vs réserves</summary>
+      <div class="af-table-wrap" style="margin-top:10px">
+        <table class="af-compare-table" id="stripeSplitsTable">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Brut Stripe</th>
+              <th>Ta part</th>
+              <th>URSSAF/impôts</th>
+              <th>CFE</th>
+              <th>Compta</th>
+              <th>Dans ta poche</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </details>
   </section>
 
   <section class="af-deal" id="dealSplitPanel">
-    <h3>Rémunération — entrant / sortant / apporteur</h3>
-    <p class="af-sub">
-      Cascade métier : honoraires barème → part agence/réseau vs masse négociateurs → qui a fait quoi
-      (mandat vendeur = <strong>sortant</strong>, acquéreur = <strong>entrant</strong>) → apporteur éventuel.
-      Les % sortant/entrant et apporteur sont <strong>à saisir</strong> (aucune règle figée dans le PDF TG0422).
-    </p>
+    <h3>Rémunération — qui touche quoi</h3>
+    <p class="af-sub">Coche uniquement ce qui existe sur le dossier. Le reste reste masqué.</p>
     <div class="af-mode-tabs" id="dealRoleTabs"></div>
+    <div class="af-checks" id="dealOptionChecks">
+      <label class="af-check" id="chkApporteurLabel">
+        <input type="checkbox" id="dealApporteurEnabled" />
+        Apporteur d'affaires
+      </label>
+      <label class="af-check" id="chkCollabLabel">
+        <input type="checkbox" id="dealOtherCollabEnabled" />
+        Autre collaborateur (notaire, partenaire…)
+      </label>
+      <label class="af-check" id="chkAgencyLabel">
+        <input type="checkbox" id="dealShowAgencyKeep" checked />
+        Afficher part agence / réseau
+      </label>
+      <label class="af-check" id="chkStepsLabel">
+        <input type="checkbox" id="dealShowSteps" />
+        Afficher le détail des étapes
+      </label>
+    </div>
     <div class="af-calc-grid">
       <div id="dealShareWrap" hidden>
         <label for="dealSortantPct">Part sortant (% masse négo)</label>
@@ -234,20 +258,6 @@
       <div id="dealOtherWrap" hidden>
         <label for="dealOtherName">Autre négociateur (nom)</label>
         <input id="dealOtherName" type="text" placeholder="Ex. collègue / autre agence" />
-      </div>
-      <div>
-        <label for="dealApporteurEnabled">Apporteur d'affaires</label>
-        <select id="dealApporteurEnabled">
-          <option value="0">Non</option>
-          <option value="1">Oui</option>
-        </select>
-      </div>
-      <div>
-        <label for="dealOtherCollabEnabled">Autre collaborateur (notaire, partenaire…)</label>
-        <select id="dealOtherCollabEnabled">
-          <option value="0">Non</option>
-          <option value="1">Oui</option>
-        </select>
       </div>
     </div>
     <div class="af-calc-grid" id="dealApporteurFields" hidden style="margin-top:12px">
@@ -311,7 +321,7 @@
       </div>
     </div>
     <div class="af-result" id="dealKpis" style="margin-top:14px"></div>
-    <ul class="af-steps" id="dealSteps"></ul>
+    <ul class="af-steps" id="dealSteps" hidden></ul>
     <p class="af-hint" id="dealHint"></p>
   </section>
 
@@ -322,12 +332,22 @@
       Types : prêt amortissable, rachat / regroupement, renégociation, prêt relais.
     </p>
     <div class="af-mode-tabs" id="loanTypeTabs"></div>
+    <div class="af-checks" style="margin-bottom:12px">
+      <label class="af-check" id="chkCoBorrowerLabel">
+        <input type="checkbox" id="bfShowCoBorrower" />
+        Co-emprunteur
+      </label>
+      <label class="af-check" id="chkAdvFinanceLabel">
+        <input type="checkbox" id="bfShowAdvFinance" />
+        Options avancées (notaire / assurance)
+      </label>
+    </div>
     <div class="af-calc-grid">
       <div>
         <label for="bfIncome">Revenus nets mensuels (€)</label>
         <input id="bfIncome" type="number" min="0" step="50" value="3200" />
       </div>
-      <div>
+      <div id="bfCoIncomeWrap" hidden>
         <label for="bfCoIncome">Co-emprunteur (€/mois)</label>
         <input id="bfCoIncome" type="number" min="0" step="50" value="0" />
       </div>
@@ -358,7 +378,7 @@
           <option value="acheteur">Acquéreur</option>
         </select>
       </div>
-      <div>
+      <div id="bfNotaryWrap" hidden>
         <label for="bfNotary">Frais de notaire</label>
         <select id="bfNotary">
           <option value="ancien">Ancien (~7,5 %)</option>
@@ -370,14 +390,14 @@
         <label for="bfNotaryPct">Notaire %</label>
         <input id="bfNotaryPct" type="number" min="0" max="15" step="0.1" value="7.5" />
       </div>
-      <div>
+      <div id="bfFinanceNotaryWrap" hidden>
         <label for="bfFinanceNotary">Financer le notaire ?</label>
         <select id="bfFinanceNotary">
           <option value="1">Oui (dans l'emprunt)</option>
           <option value="0">Non (cash / apport)</option>
         </select>
       </div>
-      <div>
+      <div id="bfInsurWrap" hidden>
         <label for="bfInsur">Assurance emprunteur % / an</label>
         <input id="bfInsur" type="number" min="0" max="2" step="0.01" value="0.34" />
       </div>

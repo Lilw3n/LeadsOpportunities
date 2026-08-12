@@ -569,31 +569,30 @@
   }
 
   /** Répartition honoraires : agence, autre négo, apporteur, toi, charges, net. */
-  function buildRemunerationKpis(res, ag) {
+  function buildRemunerationKpis(res, ag, viewOpts) {
     var d = res.dealSplit;
+    var opts = viewOpts || {};
+    var showAgency = opts.showAgencyKeep !== false;
+    var showApporteur = opts.apporteurEnabled === true;
+    var showCollab = opts.otherCollabEnabled === true;
     var html = "";
     html += kpiCard("Honoraires agence", res.agencyFee, "muted");
     if (d) {
-      var agencyPct = Math.max(0, 100 - (Number(d.agentSharePct) || 0));
-      html += kpiCard(
-        "Part agence / réseau (" + agencyPct + " %)",
-        d.agencyKeep,
-        "muted"
-      );
+      if (showAgency) {
+        var agencyPct = Math.max(0, 100 - (Number(d.agentSharePct) || 0));
+        html += kpiCard("Part agence / réseau (" + agencyPct + " %)", d.agencyKeep, "muted");
+      }
       if (d.otherGross > 0) {
         var otherRole =
           d.myRole === "sortant" ? "entrant" : d.myRole === "entrant" ? "sortant" : "collaborateur";
         var otherName = (readDealOpts().otherAgentName || "").trim();
         html += kpiCard(
-          "Autre négociateur (" +
-            otherRole +
-            ")" +
-            (otherName ? " — " + esc(otherName) : ""),
+          "Autre négociateur (" + otherRole + ")" + (otherName ? " — " + esc(otherName) : ""),
           d.otherGross,
           "muted"
         );
       }
-      if (d.apporteur && d.apporteur.amount > 0) {
+      if (showApporteur && d.apporteur && d.apporteur.amount > 0) {
         html += kpiCard(
           "Apporteur" +
             (d.apporteur.name ? " — " + esc(d.apporteur.name) : "") +
@@ -604,7 +603,7 @@
           "muted"
         );
       }
-      if (d.otherCollab && d.otherCollab.amount > 0) {
+      if (showCollab && d.otherCollab && d.otherCollab.amount > 0) {
         html += kpiCard(
           (d.otherCollab.name ? esc(d.otherCollab.name) : "Autre collaborateur") +
             " (" +
@@ -621,11 +620,7 @@
         : d && d.myRole === "entrant"
           ? "Ta part (entrant)"
           : "Ta part";
-    html += kpiCard(
-      roleLabel + " (" + (res.agentSharePct || 0) + "% masse)",
-      res.agentGross,
-      ""
-    );
+    html += kpiCard(roleLabel + " (" + (res.agentSharePct || 0) + "% masse)", res.agentGross, "");
     html += kpiCard("Charges (URSSAF+CFE+compta)", res.charges, "muted");
     html += kpiCard("Net estimé (ta poche)", res.agentNet, "highlight");
     return html;
@@ -676,7 +671,7 @@
       refValue +
       "</strong></div>" +
       (res.fai != null ? kpiCard("Prix FAI", res.fai, "muted") : "") +
-      buildRemunerationKpis(res, ag);
+      buildRemunerationKpis(res, ag, readDealOpts());
 
     renderStripePreview(res.agentGross, {
       amountEur: res.agentGross,
@@ -715,11 +710,16 @@
               : "base prix vente";
     var d = res.dealSplit;
     var shareBits = [];
+    var view = readDealOpts();
     if (d) {
-      shareBits.push("agence " + Lib.formatEuro(d.agencyKeep));
+      if (view.showAgencyKeep) shareBits.push("agence " + Lib.formatEuro(d.agencyKeep));
       if (d.otherGross > 0) shareBits.push("autre négo " + Lib.formatEuro(d.otherGross));
-      if (d.apporteur) shareBits.push("apporteur " + Lib.formatEuro(d.apporteur.amount));
-      if (d.otherCollab) shareBits.push(d.otherCollab.name + " " + Lib.formatEuro(d.otherCollab.amount));
+      if (view.apporteurEnabled && d.apporteur) {
+        shareBits.push("apporteur " + Lib.formatEuro(d.apporteur.amount));
+      }
+      if (view.otherCollabEnabled && d.otherCollab) {
+        shareBits.push(d.otherCollab.name + " " + Lib.formatEuro(d.otherCollab.amount));
+      }
       shareBits.push("toi " + Lib.formatEuro(d.myGross));
     }
     detail.textContent =
@@ -836,27 +836,42 @@
   }
 
   function readDealOpts() {
+    function checked(id) {
+      var el = document.getElementById(id);
+      return !!(el && el.checked);
+    }
     return {
       myRole: state.dealRole || "both",
       sortantPct: Number(document.getElementById("dealSortantPct").value) || 0,
       entrantPct: Number(document.getElementById("dealEntrantPct").value) || 0,
       otherAgentName: document.getElementById("dealOtherName").value || "",
-      apporteurEnabled: document.getElementById("dealApporteurEnabled").value === "1",
+      apporteurEnabled: checked("dealApporteurEnabled"),
       apporteurName: document.getElementById("dealApporteurName").value || "",
       apporteurSide: document.getElementById("dealApporteurSide").value || "vendeur",
       apporteurPct: Number(document.getElementById("dealApporteurPct").value) || 0,
       apporteurBase: document.getElementById("dealApporteurBase").value || "my_share",
       apporteurPaidFrom: document.getElementById("dealApporteurPaidFrom").value || "my_share",
-      otherCollabEnabled: document.getElementById("dealOtherCollabEnabled").value === "1",
+      otherCollabEnabled: checked("dealOtherCollabEnabled"),
       otherCollabName: document.getElementById("dealOtherCollabName").value || "",
       otherCollabPct: Number(document.getElementById("dealOtherCollabPct").value) || 0,
       otherCollabBase: document.getElementById("dealOtherCollabBase").value || "my_share",
       otherCollabPaidFrom: document.getElementById("dealOtherCollabPaidFrom").value || "my_share",
+      showAgencyKeep: checked("dealShowAgencyKeep"),
+      showSteps: checked("dealShowSteps"),
     };
   }
 
   function persistDealPrefs() {
     Lib.saveDealSplit(readDealOpts());
+  }
+
+  function setCheckVisual(id, labelId) {
+    var el = document.getElementById(id);
+    var lab = document.getElementById(labelId);
+    if (lab && el) {
+      if (el.checked) lab.classList.add("is-on");
+      else lab.classList.remove("is-on");
+    }
   }
 
   function applyDealPrefsToForm() {
@@ -865,31 +880,38 @@
     document.getElementById("dealSortantPct").value = p.sortantPct != null ? p.sortantPct : 50;
     document.getElementById("dealEntrantPct").value = p.entrantPct != null ? p.entrantPct : 50;
     document.getElementById("dealOtherName").value = p.otherAgentName || "";
-    document.getElementById("dealApporteurEnabled").value = p.apporteurEnabled ? "1" : "0";
+    document.getElementById("dealApporteurEnabled").checked = !!p.apporteurEnabled;
     document.getElementById("dealApporteurName").value = p.apporteurName || "";
     document.getElementById("dealApporteurSide").value = p.apporteurSide || "vendeur";
     document.getElementById("dealApporteurPct").value = p.apporteurPct != null ? p.apporteurPct : 0;
     document.getElementById("dealApporteurBase").value = p.apporteurBase || "my_share";
     document.getElementById("dealApporteurPaidFrom").value = p.apporteurPaidFrom || "my_share";
-    document.getElementById("dealOtherCollabEnabled").value = p.otherCollabEnabled ? "1" : "0";
+    document.getElementById("dealOtherCollabEnabled").checked = !!p.otherCollabEnabled;
     document.getElementById("dealOtherCollabName").value = p.otherCollabName || "";
     document.getElementById("dealOtherCollabPct").value = p.otherCollabPct != null ? p.otherCollabPct : 0;
     document.getElementById("dealOtherCollabBase").value = p.otherCollabBase || "my_share";
     document.getElementById("dealOtherCollabPaidFrom").value = p.otherCollabPaidFrom || "my_share";
+    document.getElementById("dealShowAgencyKeep").checked = p.showAgencyKeep !== false;
+    document.getElementById("dealShowSteps").checked = !!p.showSteps;
   }
 
   function syncDealExtraFields() {
     var shared = state.dealRole === "sortant" || state.dealRole === "entrant";
-    var appOn = document.getElementById("dealApporteurEnabled").value === "1";
-    var collabOn = document.getElementById("dealOtherCollabEnabled").value === "1";
+    var deal = readDealOpts();
     ["dealShareWrap", "dealEntrantWrap", "dealOtherWrap"].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.hidden = !shared;
     });
     var app = document.getElementById("dealApporteurFields");
-    if (app) app.hidden = !appOn;
+    if (app) app.hidden = !deal.apporteurEnabled;
     var collab = document.getElementById("dealOtherCollabFields");
-    if (collab) collab.hidden = !collabOn;
+    if (collab) collab.hidden = !deal.otherCollabEnabled;
+    var steps = document.getElementById("dealSteps");
+    if (steps) steps.hidden = !deal.showSteps;
+    setCheckVisual("dealApporteurEnabled", "chkApporteurLabel");
+    setCheckVisual("dealOtherCollabEnabled", "chkCollabLabel");
+    setCheckVisual("dealShowAgencyKeep", "chkAgencyLabel");
+    setCheckVisual("dealShowSteps", "chkStepsLabel");
   }
 
   function renderDealRoleTabs() {
@@ -951,26 +973,38 @@
     });
     var d = res.dealSplit;
     if (!d) return;
-    kpis.innerHTML = buildRemunerationKpis(res, ag);
-    steps.innerHTML = (d.steps || [])
-      .map(function (s) {
-        return (
-          "<li><div><strong>" +
-          esc(s.label) +
-          '</strong><span class="af-step-detail">' +
-          esc(s.detail) +
-          "</span></div><span class='af-step-amt'>" +
-          Lib.formatEuro(s.value) +
-          "</span></li>"
-        );
-      })
-      .join("");
+    var view = readDealOpts();
+    kpis.innerHTML = buildRemunerationKpis(res, ag, view);
+    var filtered = (d.steps || []).filter(function (s) {
+      if (s.id === "agency_keep" && !view.showAgencyKeep) return false;
+      if (s.id === "apporteur" && !view.apporteurEnabled) return false;
+      if (s.id === "other_collab" && !view.otherCollabEnabled) return false;
+      return true;
+    });
+    if (view.showSteps) {
+      steps.hidden = false;
+      steps.innerHTML = filtered
+        .map(function (s) {
+          return (
+            "<li><div><strong>" +
+            esc(s.label) +
+            '</strong><span class="af-step-detail">' +
+            esc(s.detail) +
+            "</span></div><span class='af-step-amt'>" +
+            Lib.formatEuro(s.value) +
+            "</span></li>"
+          );
+        })
+        .join("");
+    } else {
+      steps.hidden = true;
+      steps.innerHTML = "";
+    }
     hint.textContent =
       ag.name +
       " · part négo " +
       ag.agentSharePct +
-      " % · les cartes montrent agence / autre négo / apporteur / collab seulement s’ils existent. " +
-      "Frais de notaire d’acte = côté acheteur (financement), pas une part d’honoraires sauf saisie collab.";
+      " % · coche seulement apporteur / collab / détail si besoin.";
   }
 
   function readBuyerOpts() {
@@ -1454,20 +1488,35 @@
     "dealOtherCollabPct",
     "dealOtherCollabBase",
     "dealOtherCollabPaidFrom",
+    "dealShowAgencyKeep",
+    "dealShowSteps",
   ].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;
-    el.addEventListener("input", function () {
+    var evt = el.type === "checkbox" ? "change" : "input";
+    el.addEventListener(evt, function () {
       syncDealExtraFields();
       persistDealPrefs();
       renderDealSplit();
       renderCalc();
     });
+    if (el.type !== "checkbox") {
+      el.addEventListener("change", function () {
+        syncDealExtraFields();
+        persistDealPrefs();
+        renderDealSplit();
+        renderCalc();
+      });
+    }
+  });
+
+  ["bfShowCoBorrower", "bfShowAdvFinance"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
     el.addEventListener("change", function () {
-      syncDealExtraFields();
-      persistDealPrefs();
-      renderDealSplit();
-      renderCalc();
+      syncBuyerExtraFields();
+      persistBuyerPrefs();
+      renderBuyerFinance();
     });
   });
 
