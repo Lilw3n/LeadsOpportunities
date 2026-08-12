@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-12",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation - MoneyVox",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "summary": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation MoneyVox",
+      "pubDate": "Tue, 11 Aug 2026 13:44:50 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026",
+      "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ?",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cecc610094e0f8cce1118ace3c6cd&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+      "summary": "La sophrologie est de plus en plus pratiquée en France, mais ses séances ne sont pas remboursées par l’Assurance maladie. Tout dépend de vot ...",
+      "pubDate": "Sat, 08 Aug 2026 03:29:00 GMT",
+      "feedId": "source-edge-bing-mutuelle",
+      "feedName": "Edge — Bing mutuelle",
+      "sourceType": "edge",
+      "suggestedFile": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+      "section": "sante",
+      "need": "sante",
+      "leadScore": 99,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration",
+      "title": "Incendies dans les Landes et en Gironde : déjà des milliers de déclarations de sinistres en habitation et auto reçues par les assureurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cecc83ffa41cb99e4ad68da615643&url=https%3a%2f%2fwww.argusdelassurance.com%2fenvironnement%2frisques-climatiques%2fincendie%2fincendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declarations-de-sinistres-en-habitation-et-auto-recues-par-les-assureurs.XV4324SE6NFYLPYNPX7ZDHOLD4.html&c=10735333884238472473&mkt=en-us",
+      "summary": "Les incendies dans le Sud-Ouest de la France, désormais fixés, ont ravagé plus de 42 000 hectares. Les assurés ont commencé à déclarer des sinistres auprès de leurs assureurs habitation et auto. Les p ...",
+      "pubDate": "Tue, 11 Aug 2026 05:47:00 GMT",
+      "feedId": "source-bing-sinistres",
+      "feedName": "Bing News — sinistres assurance",
+      "sourceType": "bing",
+      "suggestedFile": "incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb",
+      "title": "Sinistres : un bon niveau d'assurance habitation en France ? - Batiweb",
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNZVl3OFBqOHhqS2M2ZGl3Nm5Lb3VhZXYtY0pxOHZOVFJvRGt4UXhkMkJ4TkhqYlVwNDZDaTRpclZsTldzS2R5aVRROV9oeHpYcDJvSm80dWcxRG1hNXo0WGRtTkVNZEhEZlRlOEIzcTVyQjRaZzdjSHFqVDY0NE95Y0FZRUIxNllBbElBUjB5RFBVdHNIbzg3RVpKSTlZWmI2YWpTbDAzMA?oc=5",
+      "summary": "Sinistres : un bon niveau d'assurance habitation en France ? Batiweb",
+      "pubDate": "Tue, 16 Jun 2026 07:00:00 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "sinistres-un-bon-niveau-d-assurance-habitation-en-france-batiweb.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 88,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr",
+      "title": "Assurance emprunteur avec problème de santé : comment Cardif Libertés Emprunteur facilite votre accès au crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7cecc85ba14e248878b31b3fe2ad2f&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-emprunteur-facilite-votre-acces-au-credit-immobilier-1527762&c=1646374346497082993&mkt=en-us",
+      "summary": "Cardif œuvre depuis plus de 15 ans pour faciliter l’accès à l’assurance emprunteur aux personnes avec un risque aggravé de santé et va même au-delà des obligations légales, en offrant un accès sans ...",
+      "pubDate": "Mon, 22 Jun 2026 01:01:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 88,
+      "status": "candidate"
+    }
+  ]
+}
