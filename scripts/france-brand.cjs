@@ -40,7 +40,7 @@ function logoBlock(options) {
     iconClass +
     '">\n          ' +
     svg +
-    "\n        </span>\n        <span class=\"logo-text\">\n          <span class=\"logo-name\">Leads Opportunities</span>\n          <span class=\"logo-tagline\">Courtier assurance · France · ORIAS</span>\n        </span>\n      </a>"
+    "\n        </span>\n        <span class=\"logo-text\">\n          <span class=\"logo-name\">Leads Opportunities</span>\n          <span class=\"logo-tagline\">Assurance · Immo · Prêt · Banque · Finance</span>\n        </span>\n      </a>"
   );
 }
 
