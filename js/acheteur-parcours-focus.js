@@ -77,9 +77,19 @@
     }
   }
 
+  function applyModeLabel(informed) {
+    var label = document.querySelector("[data-wizard-mode-label]");
+    if (!label) return;
+    var autoText = label.getAttribute("data-mode-auto") || "Mode auto";
+    var focusText = label.getAttribute("data-mode-focus") || "Acces direct";
+    label.textContent = informed ? focusText : autoText;
+    label.setAttribute("aria-label", informed ? "Parcours acces direct" : "Parcours mode auto");
+  }
+
   function init() {
     var informed = isInformedVisitor();
     document.body.classList.add(informed ? "parcours-focus" : "parcours-clean");
+    applyModeLabel(informed);
 
     if (informed) {
       applyFocusCopy();

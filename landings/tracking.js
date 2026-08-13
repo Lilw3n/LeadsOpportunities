@@ -178,8 +178,9 @@
         o[k] = v;
       }
     });
-    /* Checkboxes non cochées absentes — ok. buyerNeeds toujours en tableau si multi. */
-    if (typeof o.buyerNeeds === "string") o.buyerNeeds = [o.buyerNeeds];
+    ["buyerNeeds", "propertySought", "serviceSought"].forEach(function (key) {
+      if (typeof o[key] === "string") o[key] = [o[key]];
+    });
     return o;
   }
 
@@ -327,10 +328,6 @@
     var subtitle = document.querySelector("[data-hero-subtitle]");
 
     if (!hero || !subtitle) return variant;
-
-    if (document.body.classList.contains("parcours-focus")) {
-      return variant;
-    }
 
     if (variant === "price") {
       hero.textContent = hero.getAttribute("data-price-title");

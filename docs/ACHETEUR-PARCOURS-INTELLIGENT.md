@@ -29,6 +29,10 @@ Sur [`crm-immo-matching.html`](../crm-immo-matching.html) :
 
 URL : `/crm-immo-matching.html?leadId=<id>`
 
+## Libellé mode auto (mobile)
+
+Le bandeau du wizard affiche **Mode auto** (parcours adaptatif) ou **Accès direct** (visiteur informé avec `#demande` / deep link). Voir `data-wizard-mode-label` dans le questionnaire.
+
 ## Accès épuré (visiteurs informés)
 
 [`js/acheteur-parcours-focus.js`](../js/acheteur-parcours-focus.js) + [`css/acheteur-parcours-focus.css`](../css/acheteur-parcours-focus.css)

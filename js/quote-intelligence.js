@@ -47,7 +47,9 @@
         o[k] = v;
       }
     });
-    if (typeof o.buyerNeeds === "string") o.buyerNeeds = [o.buyerNeeds];
+    ["buyerNeeds", "propertySought", "serviceSought"].forEach(function (key) {
+      if (typeof o[key] === "string") o[key] = [o[key]];
+    });
     return o;
   }
 
@@ -215,7 +217,6 @@
       sent = true;
       var step = parseInt(form.dataset.currentStep || "0", 10);
       var stepName = form.dataset.currentStepName || "";
-      var partial = collectFormPartial(form);
       var body = {
         leadId: getDraftLeadId(),
         event: "wizard_abandon",
@@ -224,9 +225,6 @@
         journey: getJourney(),
         vertical: verticalFromForm(form),
         abandoned: true,
-        partial_payload: partial,
-        email: partial.email || null,
-        phone: partial.phone || null,
       };
       try {
         navigator.sendBeacon("/api/lead-progress", new Blob([JSON.stringify(body)], { type: "application/json" }));

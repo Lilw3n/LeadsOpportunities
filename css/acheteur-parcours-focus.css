@@ -176,3 +176,19 @@ body.parcours-clean .landing-partners-slot,
 body.parcours-clean .landing-proximity-slot {
   display: none;
 }
+
+.wizard-meta [data-wizard-mode-label] {
+  color: #0f766e;
+  font-weight: 800;
+}
+
+body.parcours-focus .wizard-meta [data-wizard-mode-label] {
+  color: #4338ca;
+}
+
+@media (max-width: 640px) {
+  .wizard-meta [data-wizard-mode-label] {
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+  }
+}

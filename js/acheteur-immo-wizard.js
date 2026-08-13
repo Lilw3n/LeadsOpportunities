@@ -1,15 +1,17 @@
 /**
  * Parcours acquéreur intelligent :
- * 1) besoins (conditionne la suite)
- * 2) contact (email + téléphone — base CRM)
- * 3) recherche de bien (toujours — matching / visites)
- * 4) budget prêt (si pret/rachat)
- * 5) ADE (si pret ou emprunteur)
- * 6) habitation / PNO / locataire selon cases
+ * 1) recherche de bien (style annonce)
+ * 2) besoins (conditionne la suite)
+ * 3) contact (email + téléphone — base CRM)
+ * 4+) logement, projet, prêt, assurances…
  */
 (function () {
   function qsa(root, sel) {
     return Array.prototype.slice.call(root.querySelectorAll(sel));
+  }
+
+  function qs(root, sel) {
+    return root.querySelector(sel);
   }
 
   function isValidFrenchMobile(phone) {
@@ -29,7 +31,7 @@
     var phone = form.querySelector('[name="phone"]');
     if (!email || !phone) return;
     if (!isValidEmail(email.value) || !isValidFrenchMobile(phone.value)) return;
-    window.QuoteIntelligence.saveProgress(form, 2, "contact", "contact_capture");
+    window.QuoteIntelligence.saveProgress(form, 3, "contact", "contact_capture");
   }
 
   function needsOf(form) {
@@ -40,6 +42,19 @@
 
   function hasNeed(needs, id) {
     return needs.indexOf(id) >= 0;
+  }
+
+  function searchKindOf(form) {
+    var el = form.querySelector('input[name="searchKind"]:checked');
+    return el ? el.value : "";
+  }
+
+  function wantsBien(kind) {
+    return kind === "bien" || kind === "les_deux";
+  }
+
+  function wantsService(kind) {
+    return kind === "service" || kind === "les_deux";
   }
 
   function setSkip(el, skip) {
@@ -56,9 +71,6 @@
     } else {
       field.required = false;
       field.setAttribute("data-optional", "1");
-      if (field.tagName === "SELECT" && !field.value) {
-        /* keep empty */
-      }
     }
   }
 
@@ -79,6 +91,55 @@
     }
   }
 
+  function syncModeFromUi(form) {
+    var ui = form.querySelector('input[name="searchModeUi"]:checked');
+    if (!ui) return;
+    var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
+    if (hidden) hidden.checked = true;
+  }
+
+  function syncSearchPanels(form) {
+    syncModeFromUi(form);
+    var kind = searchKindOf(form) || "bien";
+    var bienPanel = qs(form, "[data-search-bien-panel]");
+    var servicePanel = qs(form, "[data-search-service-panel]");
+    if (bienPanel) bienPanel.hidden = !wantsBien(kind);
+    if (servicePanel) servicePanel.hidden = !wantsService(kind);
+
+    qsa(form, "[data-search-bien-required]").forEach(function (el) {
+      el.disabled = !wantsBien(kind);
+      if (!wantsBien(kind)) el.classList.remove("input-invalid");
+    });
+
+    var projet = qs(form, '[data-step-name="projet"]');
+    setSkip(projet, kind === "service");
+  }
+
+  function syncBudgetToPrice(form) {
+    var budgetMax = qs(form, "#budgetMax");
+    var propertyPrice = qs(form, "#propertyPrice");
+    if (budgetMax && propertyPrice && budgetMax.value && !propertyPrice.value) {
+      propertyPrice.value = budgetMax.value;
+    }
+    var surfSearch = qs(form, "#propertySurfaceSearch");
+    var surf = qs(form, "#propertySurface");
+    if (surfSearch && surf && surfSearch.value && !surf.value) {
+      surf.value = surfSearch.value;
+    }
+    var props = qsa(form, 'input[name="propertySought"]:checked');
+    var typeSel = qs(form, "#propertyType");
+    if (typeSel && props.length === 1 && !typeSel.value) {
+      var map = {
+        appartement: "Appartement ancien",
+        maison: "Maison ancienne",
+        terrain: "Terrain a batir",
+        local: "Local commercial / Mixte",
+        immeuble: "Local commercial / Mixte",
+      };
+      if (map[props[0].value]) typeSel.value = map[props[0].value];
+    }
+  }
+
   function syncConditional(form) {
     autoLinkAdeWithPret(form);
     var needs = needsOf(form);
@@ -92,25 +153,18 @@
     var typeId = form.querySelector("#propertyTypeId");
     if (typeSel && typeId) typeId.value = typeSel.value || "";
 
-    var budgetMax = form.querySelector("#budgetMax");
-    var propertyPrice = form.querySelector("#propertyPrice");
-    if (budgetMax && propertyPrice && budgetMax.value && !propertyPrice.value) {
-      propertyPrice.value = budgetMax.value;
-    }
+    syncBudgetToPrice(form);
 
     qsa(form, "[data-wizard-skip-pret]").forEach(function (step) {
       setSkip(step, !wantPret);
     });
 
-    /* Étape logement : alléger si pas locataire/PNO */
     var tenantIns = form.querySelector("#tenantInsurance");
-    var pnoProps = form.querySelector("#pnoProperties");
     setFieldRequired(tenantIns, wantLoc);
-    if (tenantIns && !wantLoc) {
-      if (!tenantIns.value) tenantIns.value = "Non concerne (pas locataire)";
+    if (tenantIns && !wantLoc && !tenantIns.value) {
+      tenantIns.value = "Non concerne (pas locataire)";
     }
 
-    /* Finalisation assurances */
     var hab = form.querySelector("#insuranceHabitationNeed");
     var pno = form.querySelector("#insurancePnoNeed");
     var loc = form.querySelector("#insuranceTenantNeed");
@@ -136,14 +190,14 @@
 
     var banner = form.querySelector("[data-buyer-path-banner]");
     if (banner) {
-      var bits = ["Vos coordonnees", "Recherche de bien (matching / visites)"];
+      var bits = ["Recherche de bien", "Vos coordonnees"];
       if (wantPret) bits.push("Questionnaire pret / budget");
       if (wantAde) bits.push("Assurance emprunteur");
       if (wantHab) bits.push("Habitation");
       if (wantPno) bits.push("PNO");
       if (wantLoc) bits.push("Locataire");
       banner.innerHTML =
-        "<strong>Parcours intelligent :</strong> " +
+        "<strong>Mode auto :</strong> " +
         bits
           .map(function (b, i) {
             return i + 1 + ". " + b;
@@ -151,6 +205,67 @@
           .join(" → ");
       banner.hidden = false;
     }
+  }
+
+  function syncAll(form) {
+    syncSearchPanels(form);
+    syncConditional(form);
+  }
+
+  function validateSearch(form) {
+    syncSearchPanels(form);
+    var kind = searchKindOf(form);
+    var kindHint = qs(form, "[data-search-kind-hint]");
+    var propHint = qs(form, "[data-property-sought-hint]");
+    var sellerHint = qs(form, "[data-seller-type-hint]");
+    var serviceHint = qs(form, "[data-service-sought-hint]");
+    var ok = true;
+
+    if (kindHint) kindHint.hidden = true;
+    if (propHint) propHint.hidden = true;
+    if (sellerHint) sellerHint.hidden = true;
+    if (serviceHint) serviceHint.hidden = true;
+
+    if (!kind) {
+      if (kindHint) kindHint.hidden = false;
+      return false;
+    }
+
+    if (wantsBien(kind)) {
+      var props = form.querySelectorAll('input[name="propertySought"]:checked');
+      if (!props.length) {
+        if (propHint) propHint.hidden = false;
+        ok = false;
+      }
+      var seller = form.querySelector('input[name="sellerType"]:checked');
+      if (!seller) {
+        if (sellerHint) sellerHint.hidden = false;
+        ok = false;
+      }
+      qsa(form, "[data-search-bien-required]").forEach(function (el) {
+        el.classList.remove("input-invalid");
+        var v = (el.value || "").trim();
+        if (!v) {
+          el.classList.add("input-invalid");
+          ok = false;
+          return;
+        }
+        if (el.name === "postalProject" && !/^[0-9]{5}$/.test(v)) {
+          el.classList.add("input-invalid");
+          ok = false;
+        }
+      });
+    }
+
+    if (wantsService(kind)) {
+      var services = form.querySelectorAll('input[name="serviceSought"]:checked');
+      if (!services.length) {
+        if (serviceHint) serviceHint.hidden = false;
+        ok = false;
+      }
+    }
+
+    return ok;
   }
 
   function validateBuyerNeeds(form) {
@@ -166,11 +281,23 @@
     return true;
   }
 
+  function visibleStep(form) {
+    return qsa(form, ".wizard-step").find(function (s) {
+      return !s.hidden;
+    });
+  }
+
   function bindForm(form) {
     if (!form || form.dataset.acheteurImmoBound) return;
     form.dataset.acheteurImmoBound = "1";
 
     ensureSmartDefaults(form);
+
+    qsa(form, "[data-search-mode]").forEach(function (r) {
+      r.addEventListener("change", function () {
+        syncSearchPanels(form);
+      });
+    });
 
     qsa(form, 'input[name="buyerNeeds"]').forEach(function (cb) {
       cb.addEventListener("change", function () {
@@ -181,17 +308,18 @@
         syncConditional(form);
       });
     });
+
     var typeSel = form.querySelector("#propertyType");
     if (typeSel) {
       typeSel.addEventListener("change", function () {
         syncConditional(form);
       });
     }
-    var budgetMax = form.querySelector("#budgetMax");
+
+    var budgetMax = qs(form, "#budgetMax");
     if (budgetMax) {
       budgetMax.addEventListener("change", function () {
-        var propertyPrice = form.querySelector("#propertyPrice");
-        if (propertyPrice && budgetMax.value && !propertyPrice.value) propertyPrice.value = budgetMax.value;
+        syncBudgetToPrice(form);
       });
     }
 
@@ -207,21 +335,29 @@
       }
     });
 
-    syncConditional(form);
+    syncAll(form);
 
     form.addEventListener(
       "click",
       function (e) {
         var btn = e.target.closest(".wizard-next");
         if (!btn) return;
-        var steps = qsa(form, ".wizard-step");
-        var visibleIdx = steps.findIndex(function (s) {
-          return !s.hidden;
-        });
-        if (visibleIdx !== 0) return;
-        if (!validateBuyerNeeds(form)) {
-          e.preventDefault();
-          e.stopImmediatePropagation();
+        var step = visibleStep(form);
+        var name = step && step.getAttribute("data-step-name");
+        if (name === "recherche") {
+          if (!validateSearch(form)) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          } else {
+            syncBudgetToPrice(form);
+          }
+          return;
+        }
+        if (name === "besoins") {
+          if (!validateBuyerNeeds(form)) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+          }
         }
       },
       true
@@ -232,14 +368,8 @@
       function (e) {
         var btn = e.target.closest(".wizard-next");
         if (!btn) return;
-        var steps = qsa(form, ".wizard-step");
-        var visibleIdx = steps.findIndex(function (s) {
-          return !s.hidden;
-        });
-        var contactStep = steps.findIndex(function (s) {
-          return s.getAttribute("data-step-name") === "contact";
-        });
-        if (visibleIdx !== contactStep) return;
+        var step = visibleStep(form);
+        if (!step || step.getAttribute("data-step-name") !== "contact") return;
         var email = form.querySelector('[name="email"]');
         var phone = form.querySelector('[name="phone"]');
         var phoneHint = form.querySelector("[data-phone-hint]");
@@ -259,7 +389,7 @@
     );
 
     form.addEventListener("lo:wizard_step", function () {
-      syncConditional(form);
+      syncAll(form);
     });
   }
 
@@ -276,5 +406,6 @@
   window.AcheteurImmoWizard = {
     needsOf: needsOf,
     syncConditional: syncConditional,
+    syncAll: syncAll,
   };
 })();
