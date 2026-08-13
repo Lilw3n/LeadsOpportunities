@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T07:12:28.863Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/meteo/en-direct-live-meteo-canicule-vague-chaleur-soleil-incendies-feux-temperatures-vigilance-secheresse-20260813",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d6e5c0501426386063a0265605085&url=https%3a%2f%2fwww.lavenir.net%2fsports%2fhockey%2f2026%2f08%2f13%2fcoupe-du-monde-2026-shane-mcleod-presente-les-vingt-lions-qui-visent-le-podium-mondial-5D3KG2PPQVEBFHCFI3YWC5JJZM%2f&c=12799327600629440431&mkt=en-us",
+    "https://www.franceinfo.fr/societe/mobilisation-des-pompiers/le-president-des-departements-de-france-appelle-a-revoir-le-modele-de-financement-de-la-securite-civile-alors-que-les-pompiers-sont-en-greve_8145767.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T07:12:29.752Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T07:12:29.752Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "en-direct-canicule-la-ministre-de-l-agriculture-va-reunir-les-eleveurs-l.html",
+          "title": "EN DIRECT - Canicule : la ministre de l’Agriculture va réunir les éleveurs le 27 août p… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-de-hockey-shane-mcleod-presente-les-vingt-lions-qui-.html",
+          "title": "Coupe du monde 2026 de hockey: Shane McLeod présente les vingt Lions qui visent le podi… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "le-president-des-departements-de-france-appelle-a-revoir-le-modele-de-fi.html",
+          "title": "Le président des Départements de France appelle à \"revoir le modèle\" de financement de … : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Franceinfo société",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
