@@ -78,6 +78,18 @@ function titleKey(t) {
     .slice(0, 72);
 }
 
+function titleIsSkipped(title, titleKeys) {
+  var n = normalizeTitle(title);
+  var k = titleKey(title);
+  if (titleKeys.has(n) || titleKeys.has(k)) return true;
+  var hit = false;
+  titleKeys.forEach(function (s) {
+    if (!s || s.length < 12) return;
+    if (n.indexOf(s) !== -1) hit = true;
+  });
+  return hit;
+}
+
 function loadPublishedTitleKeys(state) {
   var keys = new Set();
   function add(t) {
@@ -145,7 +157,7 @@ function pickCandidates(candidates, count, state) {
     if (isPlaceholderActuItem(c)) return false;
     if (isWeakLeadCandidate(c)) return false;
     if (c.url && processed.has(urlKey(c.url))) return false;
-    if (titleKeys.has(normalizeTitle(c.title)) || titleKeys.has(titleKey(c.title))) return false;
+    if (titleIsSkipped(c.title, titleKeys)) return false;
     var sug = String(c.suggestedFile || "");
     if (sug && !sug.endsWith(".html")) sug += ".html";
     if (sug && (occupiedFiles.has(sug) || occupiedFiles.has(sug.replace(/-\d+(?=\.html$)/, "")))) {

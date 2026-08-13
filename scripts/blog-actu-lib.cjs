@@ -128,8 +128,11 @@ function isWeakLeadCandidate(c) {
   if (/arme [àa] feu|bless[ée]es? par|faits[- ]divers/i.test(hay) && !hasLeadKeywords(hay)) return true;
   if (
     /comparateur mutuelle|meilleure mutuelle|classement exclusif/i.test(hay) &&
-    /comment (bien )?choisir|classement|comparatif/i.test(hay)
+    /comment (bien )?choisir|classement|comparatif|quelle est la meilleure/i.test(hay)
   ) {
+    return true;
+  }
+  if (/quelle est la meilleure mutuelle|meilleure mutuelle sant[ée] en france/i.test(hay)) {
     return true;
   }
   if (/banque de france|croissance au .*trimestre|\bpib\b/i.test(hay) && !hasLeadKeywords(hay)) {
