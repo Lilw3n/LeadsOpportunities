@@ -11,6 +11,7 @@ const {
   looksLikeEnglishHeadline,
   isStaleActuCandidate,
   scoreLeadPotential,
+  isHighIntentLead,
 } = require("./blog-actu-lib.cjs");
 const { validateArticle } = require("./verify-actu-quality.cjs");
 
@@ -60,6 +61,13 @@ check("titre anglais Business Wire", function () {
   );
 });
 
+check("titre anglais heatwave", function () {
+  assert.strictEqual(
+    looksLikeEnglishHeadline("Record June heatwave sees France record 'unprecedented' 5,764 excess deaths"),
+    true
+  );
+});
+
 check("titre français conservé", function () {
   assert.strictEqual(
     looksLikeEnglishHeadline("Mutuelle santé : les 5 critères pour comparer en 2026"),
@@ -96,6 +104,21 @@ check("mutuelle score > sport empilé", function () {
     pubDate: new Date().toISOString(),
   });
   assert.ok(mutuelle >= sport, "mutuelle=" + mutuelle + " sport=" + sport);
+});
+
+check("intent lead habitation", function () {
+  assert.strictEqual(
+    isHighIntentLead({
+      title: "Assurance habitation : les tarifs de vos contrats vont-ils exploser",
+    }),
+    true
+  );
+  assert.strictEqual(
+    isHighIntentLead({
+      title: "Équipe de France : Zinédine Zidane annonce son staff chez les Bleus",
+    }),
+    false
+  );
 });
 
 check("article enrichi passe le contrôle qualité", function () {

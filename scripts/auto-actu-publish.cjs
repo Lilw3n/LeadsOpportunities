@@ -18,6 +18,7 @@ const {
   isPlaceholderCandidate,
   looksLikeEnglishHeadline,
   isStaleActuCandidate,
+  isHighIntentLead,
 } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
@@ -84,11 +85,13 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
-function bestFromPlatform(available, platform, feedMap, used) {
+function bestFromPlatform(available, platform, feedMap, used, intentOnly) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      if (candidateSourceType(c, feedMap) !== platform || used.has(k)) return false;
+      if (intentOnly && !isHighIntentLead(c)) return false;
+      return true;
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -132,7 +135,7 @@ function pickCandidates(candidates, count, state) {
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestFromPlatform(available, platform, feedMap, used, true);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -143,7 +146,8 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestFromPlatform(available, platform, feedMap, used, true) ||
+        bestFromPlatform(available, platform, feedMap, used, false);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -151,6 +155,16 @@ function pickCandidates(candidates, count, state) {
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
+
+  available
+    .filter(isHighIntentLead)
+    .forEach(function (c) {
+      if (picks.length >= count) return;
+      var k = c.url || c.title;
+      if (used.has(k)) return;
+      picks.push(c);
+      used.add(k);
+    });
 
   available
     .filter(function (c) {

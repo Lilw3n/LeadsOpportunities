@@ -173,7 +173,7 @@ function isPlaceholderCandidate(item) {
 function looksLikeEnglishHeadline(title) {
   var t = String(title || "");
   if (
-    /\b(enters into|memorandum of understanding|regarding|potential sale|announces that|money talk|the advantages of getting)\b/i.test(
+    /\b(enters into|memorandum of understanding|regarding|potential sale|announces that|money talk|the advantages of getting|heatwave|excess deaths|unprecedented)\b/i.test(
       t
     )
   ) {
@@ -181,14 +181,15 @@ function looksLikeEnglishHeadline(title) {
   }
   var frHits = (
     t.match(
-      /\b(le|la|les|des|une|un|du|et|en|pour|avec|sur|dans|cette|france|équipe|equipe|assurance|mutuelle|selon|chez|contre)\b/gi
+      /\b(le|la|les|des|une|un|du|et|en|pour|avec|sur|dans|cette|france|équipe|equipe|assurance|mutuelle|selon|chez|contre|est|sont|que|qui)\b/gi
     ) || []
   ).length;
   var enHits = (
     t.match(
-      /\b(the|into|of|and|for|with|regarding|potential|sale|enters|announces|agreement|understanding)\b/gi
+      /\b(the|into|of|and|for|with|regarding|potential|sale|enters|announces|agreement|understanding|sees|heatwave|deaths|excess|june|july)\b/gi
     ) || []
   ).length;
+  if (enHits >= 2 && frHits === 0) return true;
   return enHits >= 3 && frHits <= 1;
 }
 
@@ -199,6 +200,14 @@ function isStaleActuCandidate(item, maxDays) {
   var t = new Date(item.pubDate).getTime();
   if (isNaN(t)) return false;
   return Date.now() - t > days * 86400000;
+}
+
+/** Titre orienté conversion (assurance / crédit / mutuelle), pas un recap sport. */
+function isHighIntentLead(candidate) {
+  var title = String((candidate && candidate.title) || "").toLowerCase();
+  return /assurance|mutuelle|emprunteur|habitation|sinistre|cr[eé]dit immo|pr[eê]t immobilier|pr[eê]t immo|compl[eé]mentaire sant[eé]|tarif/.test(
+    title
+  );
 }
 
 function ctaWithUtm(need, slug) {
@@ -401,6 +410,7 @@ module.exports = {
   isPlaceholderCandidate: isPlaceholderCandidate,
   looksLikeEnglishHeadline: looksLikeEnglishHeadline,
   isStaleActuCandidate: isStaleActuCandidate,
+  isHighIntentLead: isHighIntentLead,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
