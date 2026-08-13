@@ -167,12 +167,15 @@
             .join("") +
           "</div></div>" +
           '<div class="immo-actions">' +
+          '<a class="btn btn-primary btn-sm" href="./crm-immo-property.html?id=' +
+          encodeURIComponent(p.id) +
+          '&view=commercial">Fiche commerciale</a>' +
           '<a class="btn btn-ghost btn-sm" href="./crm-immo-property.html?id=' +
           encodeURIComponent(p.id) +
-          '">Fiche</a>' +
+          '&view=edition">Édition</a>' +
           '<button type="button" class="btn btn-ghost btn-sm" data-edit="' +
           esc(p.id) +
-          '">Éditer</button>' +
+          '">Rapide</button>' +
           "</div></article>"
         );
       })

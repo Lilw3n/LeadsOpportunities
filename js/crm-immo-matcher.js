@@ -34,6 +34,7 @@
   var PARTY_ROLES = [
     { id: "vendeur", label: "Vendeur / propriétaire" },
     { id: "mandant", label: "Mandant" },
+    { id: "agence", label: "Agence mandataire" },
     { id: "acquereur", label: "Acquéreur" },
     { id: "prospect", label: "Prospect intéressé" },
     { id: "colocataire", label: "Co-acquéreur" },

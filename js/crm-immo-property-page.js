@@ -13,7 +13,13 @@
   var prop = id ? Store.getProperty(id) : null;
   if (!prop) {
     document.getElementById("propTitle").textContent = "Bien introuvable";
-    document.getElementById("smartBanner").textContent = "Crée d’abord un bien depuis Piges.";
+    var banner = document.getElementById("smartBanner");
+    if (banner) banner.textContent = "Crée d’abord un bien depuis Piges.";
+    var cm = document.getElementById("commercialMount");
+    if (cm) {
+      cm.innerHTML =
+        '<p class="fc-empty">Bien introuvable. <a href="./crm-immo-properties.html">Retour aux piges</a></p>';
+    }
     return;
   }
 
@@ -24,6 +30,7 @@
   prop.history = Array.isArray(prop.history) ? prop.history : [];
 
   var state = {
+    mode: params.get("view") === "edition" ? "edition" : "commercial",
     tab: "description",
     sectionId: null,
   };
@@ -101,6 +108,36 @@
       qs.set("propertyId", prop.id);
       fin.href = "./crm-agency-fees.html?" + qs.toString();
     }
+    var match = document.getElementById("linkMatching");
+    if (match) match.href = "./crm-immo-matching.html?propertyId=" + encodeURIComponent(prop.id);
+    var saveBtn = document.getElementById("btnSave");
+    if (saveBtn) saveBtn.hidden = state.mode === "commercial";
+  }
+
+  function setMode(mode) {
+    state.mode = mode === "edition" ? "edition" : "commercial";
+    var u = new URL(location.href);
+    u.searchParams.set("id", prop.id);
+    if (state.mode === "edition") u.searchParams.set("view", "edition");
+    else u.searchParams.set("view", "commercial");
+    history.replaceState(null, "", u.toString());
+    document.querySelectorAll("#modeSwitch [data-mode]").forEach(function (btn) {
+      btn.classList.toggle("is-on", btn.getAttribute("data-mode") === state.mode);
+    });
+    var com = document.getElementById("commercialMount");
+    var ed = document.getElementById("editorMount");
+    if (state.mode === "commercial") {
+      if (com) com.hidden = false;
+      if (ed) ed.classList.add("is-hidden");
+      if (window.CrmImmoFicheCommerciale && com) {
+        window.CrmImmoFicheCommerciale.render(com, prop, { tab: "fiche" });
+      }
+    } else {
+      if (com) com.hidden = true;
+      if (ed) ed.classList.remove("is-hidden");
+      renderAll();
+    }
+    syncHeader();
   }
 
   function fillMeta() {
@@ -1024,11 +1061,21 @@
   var fin = ensureSectionBucket("finances");
   if ((fin.prix_net === "" || fin.prix_net == null) && prop.price_net != null) fin.prix_net = prop.price_net;
   if ((fin.prix_fai === "" || fin.prix_fai == null) && prop.price_fai != null) fin.prix_fai = prop.price_fai;
+  if ((fin.prix_annonce === "" || fin.prix_annonce == null) && prop.price_listing != null) fin.prix_annonce = prop.price_listing;
   var surf = ensureSectionBucket("surfaces");
   if ((surf.surface_habitable === "" || surf.surface_habitable == null) && prop.surface_m2 != null) surf.surface_habitable = prop.surface_m2;
   if ((surf.nb_pieces === "" || surf.nb_pieces == null) && prop.rooms != null) surf.nb_pieces = prop.rooms;
   var com = ensureSectionBucket("commentaires");
   if (!com.url_fiche && prop.listing_url) com.url_fiche = prop.listing_url;
+  if (!com.observations_generales && prop.description) com.observations_generales = prop.description;
 
-  renderAll();
+  var modeSwitch = document.getElementById("modeSwitch");
+  if (modeSwitch) {
+    modeSwitch.querySelectorAll("[data-mode]").forEach(function (btn) {
+      btn.onclick = function () {
+        setMode(btn.getAttribute("data-mode"));
+      };
+    });
+  }
+  setMode(state.mode);
 })();

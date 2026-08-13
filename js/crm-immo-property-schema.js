@@ -107,6 +107,10 @@ window.CrmImmoSchema = (function () {
       fields: [
         num("prix_net", "Prix net vendeur / loyer HC", "€", { important: true }),
         num("prix_fai", "Prix FAI", "€", { showIf: { transactions: ["vente"] } }),
+        num("prix_annonce", "Prix annonce d'origine", "€", {
+          showIf: { transactions: ["vente"] },
+          hint: "Pour afficher l’écart vs prix actuel sur la fiche commerciale",
+        }),
         num("honoraires", "Honoraires", "€"),
         sel("charge_honoraires", "Honoraires à charge", ["", "Vendeur", "Acquéreur", "Partagés"], {
           showIf: { transactions: ["vente"] },

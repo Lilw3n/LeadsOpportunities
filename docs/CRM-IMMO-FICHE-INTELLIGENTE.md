@@ -1,14 +1,35 @@
-# Fiche bien intelligente
+# Fiche bien intelligente + commerciale
 
-Référence métier (captures CRM) adaptée et réorganisée :
+## Deux modes sur le même bien
 
-## Onglets
+Page [`crm-immo-property.html`](../crm-immo-property.html) :
+
+| Mode | URL | Usage |
+|------|-----|--------|
+| **Fiche commerciale** (défaut) | `?id=…&view=commercial` | Présentation agent / partage |
+| **Édition** | `?id=…&view=edition` | Saisie sections conditionnelles |
+
+Basculer via le switcher en haut de page.
+
+## Fiche commerciale (mieux qu’un clone portail)
+
+- En-tête REF + type + ville + pièces + surface + prix
+- Onglets **Fiche commerciale** · **Diaporama** · **Documents publics**
+- Actions **Partager** (lien) · **Fiche technique** (impression)
+- Grille : héros + récit | caractéristiques groupées | contacts (agence / vendeur)
+- Écart **prix annonce → prix FAI** si les deux sont renseignés
+- Liens Matching + Financement
+
+Fichiers : [`js/crm-immo-fiche-commerciale.js`](../js/crm-immo-fiche-commerciale.js) · [`css/crm-immo-fiche-commerciale.css`](../css/crm-immo-fiche-commerciale.css)
+
+## Édition (onglets agent)
+
 Description · Pièces · Images · Immo cloud · Vendeur · Historique · Statistiques
 
-## Sections Description (ordre)
+### Sections Description (ordre)
 1. **Composition** — terrain → maison → appartements loués (unités imbriquées)
 2. Localisation
-3. Aspects financiers
+3. Aspects financiers (+ **prix annonce d’origine**)
 4. Surfaces
 5. Intérieur / Extérieur (selon type)
 6. Copropriété (appart / immeuble)
@@ -28,32 +49,20 @@ Description · Pièces · Images · Immo cloud · Vendeur · Historique · Stati
 - Type `complexe` + unités pour multi-strates
 - Checklist docs adaptée (maison / copro / terrain / financement / loué)
 - Sync champs clés vers la liste Piges (ville, prix, surface, DPE…)
+- Rôle partie **Agence mandataire** pour la carte contact commerciale
+
+## Liste piges
+[`crm-immo-properties.html`](../crm-immo-properties.html) — boutons **Fiche commerciale** / **Édition** / **Rapide**
 
 ## Statuts pipeline
 1 Prospection · 2 Estimation · 3 Mandat en cours · 4 Suspendu · 5 Sous offre · 6 Réservé - SRU · 7 Compromis · 8 Vendu / Loué · 10 Archivé · 11 A supprimer
 
-Matching acquéreur : uniquement les statuts « matchables » (prospection → réservé SRU, hors suspendu / compromis / clos).
+Matching acquéreur : uniquement les statuts « matchables ».
 
-Anciens codes migrés : `active`→mandat, `under_offer`→compromis, `sold`→vendu_loue, `archived`→archive.
-
-## Suivi pipeline
-Page [`crm-immo-suivi.html`](../crm-immo-suivi.html) :
-- Suivi des ventes
-- Suivi des locations
-- Suivi des offres (sous offre / SRU / compromis)
-- Sorties de stock ventes
-- Sorties de stock locations
-
-Groupement par statut métier + KPI (nb, Σ FAI / net).
+## Suivi / cloud
+Voir aussi [`crm-immo-suivi.html`](../crm-immo-suivi.html) et la section Images & Immo cloud ci-dessous.
 
 ## Images & Immo cloud (Google Drive)
-- **Images** : galerie publique, images confidentielles, liens médias (visite virtuelle, 360°, vidéo…)
-- **Immo cloud** : dossier Drive par bien sous `Immo/YYYY/{id}_{ville}_{titre}/` avec sous-dossiers :
-  - `01_photos_publiques` · `02_photos_confidentielles`
-  - `03_documents_publics` · `04_documents_confidentiels`
-  - `05_diagnostics` · `06_mandat_pieces`
-  - `07_medias_3d_video` · `08_documents_imprimes`
-- Classement auto selon nom/MIME (DPE → diagnostics, mandat → mandat, image → photos…)
-- API : `POST /api/drive/immo` (`ensure` | `upload` | `list` | `classify`)
-- Config : même `GOOGLE_SERVICE_ACCOUNT_JSON` + `GOOGLE_DRIVE_FOLDER_ID` que le Drive contacts (`docs/DRIVE-SETUP.md`)
-- Sans Drive configuré : mode local intelligent (localStorage) pour ne pas bloquer l’agent
+- **Images** : galerie publique, images confidentielles, liens médias
+- **Immo cloud** : dossier Drive par bien sous `Immo/YYYY/{id}_{ville}_{titre}/`
+- API : `POST /api/drive/immo` — config `docs/DRIVE-SETUP.md`
