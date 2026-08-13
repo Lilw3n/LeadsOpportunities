@@ -56,6 +56,13 @@ function normalizeTitle(t) {
     .trim();
 }
 
+function urlKey(u) {
+  return String(u || "")
+    .trim()
+    .replace(/#.*$/, "")
+    .replace(/&amp;/g, "&");
+}
+
 function loadPublishedTitleKeys() {
   var keys = new Set();
   var pub = readJson("blog-actu-published.json", { articles: [] });
@@ -96,14 +103,14 @@ function bestFromPlatform(available, platform, feedMap, used) {
 
 function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
-  var processed = new Set(state.processedUrls || []);
+  var processed = new Set((state.processedUrls || []).map(urlKey));
   var titleKeys = loadPublishedTitleKeys();
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
     if (isPlaceholderActuItem(c)) return false;
     if (isWeakLeadCandidate(c)) return false;
-    if (c.url && processed.has(c.url)) return false;
+    if (c.url && processed.has(urlKey(c.url))) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
