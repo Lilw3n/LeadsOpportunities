@@ -152,6 +152,19 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File manuelle / inbox : ignorer les gabarits non remplis (ex. « COLLEZ ICI »). */
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "rejected" || status === "draft-template") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.slice(-9) === "-template") return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/collez ici|titre de la une|à compléter|a completer|placeholder/i.test(title)) return true;
+  return false;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +362,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderCandidate: isPlaceholderCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
