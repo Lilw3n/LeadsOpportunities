@@ -52,27 +52,27 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Trouvez le bien qu'il vous faut — maison, appart, pro ou particulier"
+              data-speed-title="Recherche de bien, questionnaire pret, ou les deux — a votre rythme"
               data-price-title="Recherche de bien pour vos acquereurs : matching + pret"
             ></h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Comme sur une annonce : type, secteur, budget, vendeur. Ensuite on calage le pret et les assurances si besoin."
+              data-speed-subtitle="Choisissez : chercher un bien (comme une annonce), repondre au questionnaire pret/assurances, ou enchainner les deux."
               data-price-subtitle="Vos clients demarrent par la recherche du bien — vous gardez la main sur le matching et le financement."
             ></p>
             <ul class="points">
-              <li>Recherche de bien : maison / appart, pro ou particulier, secteur et budget</li>
-              <li>Matching et visites selon vos criteres</li>
-              <li>Pret et assurances (emprunteur, habitation, PNO) en complement</li>
+              <li>Recherche seule : criteres type Leboncoin + matching</li>
+              <li>Questionnaire seul : pret, emprunteur, habitation / PNO</li>
+              <li>Les deux : recherche puis financement / assurances</li>
             </ul>
             <div class="trust-row">
-              <span class="trust-pill">Recherche de bien</span>
+              <span class="trust-pill">Recherche et/ou questionnaire</span>
               <span class="trust-pill">Pro ou particulier</span>
               <span class="trust-pill">Pret si besoin</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#demande">Lancer ma recherche</a>
+              <a class="btn btn-primary" href="#demande">Choisir mon parcours</a>
             </div>
           </div>
         </div>
@@ -86,10 +86,10 @@
         </div>
 
         <div class="form-wrap" id="demande" data-lead-dossier>
-          <h2 class="form-title">Recherche de bien</h2>
+          <h2 class="form-title">Parcours immobilier</h2>
           <p class="form-lead">
-            Commencez comme sur une annonce : <strong>quel bien</strong>, <strong>où</strong>, <strong>budget</strong>, <strong>pro ou particulier</strong>.
-            Le pret et les assurances viennent apres, seulement si vous en avez besoin.
+            Faites <strong>l'un</strong>, <strong>l'autre</strong>, ou <strong>les deux</strong> :
+            recherche de bien (type annonce) et/ou questionnaire pret &amp; assurances.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
@@ -106,109 +106,145 @@
                 <div class="wizard-progress-fill"></div>
               </div>
               <div class="wizard-meta">
-                <span>Recherche guidee</span>
+                <span>Parcours au choix</span>
                 <span class="wizard-step-counter">Etape 1 / 11</span>
               </div>
             </div>
 
 
-            <!-- ETAPE 1 : Recherche de bien (style annonce) -->
+            <!-- ETAPE 1 : Intention + recherche de bien (optionnelle) -->
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
-              <h3>Quel bien recherchez-vous ?</h3>
+              <h3>Que souhaitez-vous faire ?</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
+                Vous pouvez <strong>seulement rechercher un bien</strong>, <strong>seulement repondre au questionnaire</strong> (pret / assurances),
+                ou <strong>faire les deux</strong>.
               </p>
 
+              <input type="checkbox" name="buyerNeeds" value="matching" data-matching-need hidden tabindex="-1" aria-hidden="true" />
+
               <div class="field full" hidden>
-                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
-                  <legend>Vous cherchez…</legend>
-                  <label class="field-check"><input type="radio" name="searchKind" value="bien" checked required /> Un bien a acheter / acquerir</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
+                <fieldset style="border:0;padding:0;margin:0">
+                  <legend>Intention</legend>
+                  <label class="field-check"><input type="radio" name="journeyIntent" value="recherche" checked required /> Recherche de bien</label>
+                  <label class="field-check"><input type="radio" name="journeyIntent" value="questionnaire" /> Questionnaire pret / assurances</label>
+                  <label class="field-check"><input type="radio" name="journeyIntent" value="les_deux" /> Les deux</label>
                 </fieldset>
-                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
+                <p class="small" data-journey-intent-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez recherche, questionnaire, ou les deux.</p>
               </div>
 
-              <div class="search-mode-tabs" role="tablist" aria-label="Mode de recherche">
+              <div class="search-mode-tabs" role="tablist" aria-label="Votre parcours">
                 <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
-                  <span>Je cherche un bien</span>
+                  <input type="radio" name="journeyModeUi" value="recherche" checked data-journey-mode />
+                  <span>Recherche de bien</span>
                 </label>
                 <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="service" data-search-mode />
-                  <span>Je cherche un service</span>
+                  <input type="radio" name="journeyModeUi" value="questionnaire" data-journey-mode />
+                  <span>Questionnaire pret / assurances</span>
                 </label>
                 <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
-                  <span>Bien + service</span>
+                  <input type="radio" name="journeyModeUi" value="les_deux" data-journey-mode />
+                  <span>Les deux</span>
                 </label>
               </div>
+              <p class="small" data-journey-intent-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez recherche, questionnaire, ou les deux.</p>
 
-              <div class="field full" data-search-bien-panel style="margin-top:16px">
-                <p class="search-section-label">Categorie</p>
-                <div class="search-chip-grid" role="group" aria-label="Type de bien">
-                  <label class="search-chip"><input type="checkbox" name="propertySought" value="appartement" /><span>Appartement</span></label>
-                  <label class="search-chip"><input type="checkbox" name="propertySought" value="maison" /><span>Maison</span></label>
-                  <label class="search-chip"><input type="checkbox" name="propertySought" value="terrain" /><span>Terrain</span></label>
-                  <label class="search-chip"><input type="checkbox" name="propertySought" value="local" /><span>Local / mixte</span></label>
-                  <label class="search-chip"><input type="checkbox" name="propertySought" value="immeuble" /><span>Immeuble</span></label>
-                </div>
-                <p class="small" data-property-sought-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez au moins une categorie (maison, appart…).</p>
-
-                <p class="search-section-label" style="margin-top:18px">Vendeur</p>
-                <div class="search-chip-grid search-chip-grid--3" role="group" aria-label="Type de vendeur">
-                  <label class="search-chip"><input type="radio" name="sellerType" value="particulier" /><span>Particulier</span></label>
-                  <label class="search-chip"><input type="radio" name="sellerType" value="pro" /><span>Professionnel</span></label>
-                  <label class="search-chip"><input type="radio" name="sellerType" value="indifferent" /><span>Les deux</span></label>
-                </div>
-                <p class="small" data-seller-type-hint hidden style="color:#b91c1c;margin-top:8px">Indiquez particulier, professionnel, ou les deux.</p>
-
-                <div class="grid" style="margin-top:18px">
-                  <div class="field">
-                    <label for="postalProject">Code postal / secteur</label>
-                    <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" data-search-bien-required placeholder="Ex. 75011" />
-                  </div>
-                  <div class="field">
-                    <label for="searchCities">Ville(s) visee(s)</label>
-                    <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Paris 11e, Vincennes" />
-                  </div>
-                  <div class="field">
-                    <label for="budgetMax">Budget max (€)</label>
-                    <input id="budgetMax" name="budgetMax" inputmode="numeric" data-search-bien-required placeholder="Ex. 280000" />
-                  </div>
-                  <div class="field">
-                    <label for="budgetMin">Budget min (€) — optionnel</label>
-                    <input id="budgetMin" name="budgetMin" inputmode="numeric" data-optional placeholder="Ex. 200000" />
-                  </div>
-                  <div class="field">
-                    <label for="roomsMin">Pieces min.</label>
-                    <input id="roomsMin" name="roomsMin" inputmode="numeric" data-optional placeholder="Ex. 3" />
-                  </div>
-                  <div class="field">
-                    <label for="propertySurfaceSearch">Surface min. (m²) — optionnel</label>
-                    <input id="propertySurfaceSearch" name="propertySurfaceSearch" inputmode="numeric" data-optional placeholder="Ex. 65" />
-                  </div>
-                </div>
+              <div class="field full" data-questionnaire-only-hint hidden style="margin-top:16px;padding:12px 14px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;color:#334155">
+                A l'etape suivante, cochez vos besoins (pret, emprunteur, habitation, PNO…).
+                Pas besoin de criteres de bien pour l'instant.
               </div>
 
-              <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
-                <p class="search-section-label">Quel service ?</p>
-                <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="estimation_vente" /><span>Estimation / vente</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="recherche_locataire" /><span>Locataire</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="transaction" /><span>Transaction</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="autre_service" /><span>Autre</span></label>
+              <div data-search-block>
+                <div class="field full" hidden>
+                  <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
+                    <legend>Vous cherchez…</legend>
+                    <label class="field-check"><input type="radio" name="searchKind" value="bien" checked /> Un bien a acheter / acquerir</label>
+                    <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
+                    <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
+                  </fieldset>
+                  <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
                 </div>
-                <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins un service.</p>
+
+                <div class="search-mode-tabs" data-search-kind-tabs role="tablist" aria-label="Bien ou service" style="margin-top:16px">
+                  <label class="search-mode-tab">
+                    <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
+                    <span>Je cherche un bien</span>
+                  </label>
+                  <label class="search-mode-tab">
+                    <input type="radio" name="searchModeUi" value="service" data-search-mode />
+                    <span>Je cherche un service</span>
+                  </label>
+                  <label class="search-mode-tab">
+                    <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
+                    <span>Bien + service</span>
+                  </label>
+                </div>
+
+                <div class="field full" data-search-bien-panel style="margin-top:16px">
+                  <p class="search-section-label">Categorie</p>
+                  <div class="search-chip-grid" role="group" aria-label="Type de bien">
+                    <label class="search-chip"><input type="checkbox" name="propertySought" value="appartement" /><span>Appartement</span></label>
+                    <label class="search-chip"><input type="checkbox" name="propertySought" value="maison" /><span>Maison</span></label>
+                    <label class="search-chip"><input type="checkbox" name="propertySought" value="terrain" /><span>Terrain</span></label>
+                    <label class="search-chip"><input type="checkbox" name="propertySought" value="local" /><span>Local / mixte</span></label>
+                    <label class="search-chip"><input type="checkbox" name="propertySought" value="immeuble" /><span>Immeuble</span></label>
+                  </div>
+                  <p class="small" data-property-sought-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez au moins une categorie (maison, appart…).</p>
+
+                  <p class="search-section-label" style="margin-top:18px">Vendeur</p>
+                  <div class="search-chip-grid search-chip-grid--3" role="group" aria-label="Type de vendeur">
+                    <label class="search-chip"><input type="radio" name="sellerType" value="particulier" /><span>Particulier</span></label>
+                    <label class="search-chip"><input type="radio" name="sellerType" value="pro" /><span>Professionnel</span></label>
+                    <label class="search-chip"><input type="radio" name="sellerType" value="indifferent" /><span>Les deux</span></label>
+                  </div>
+                  <p class="small" data-seller-type-hint hidden style="color:#b91c1c;margin-top:8px">Indiquez particulier, professionnel, ou les deux.</p>
+
+                  <div class="grid" style="margin-top:18px">
+                    <div class="field">
+                      <label for="postalProject">Code postal / secteur</label>
+                      <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" data-search-bien-required placeholder="Ex. 75011" />
+                    </div>
+                    <div class="field">
+                      <label for="searchCities">Ville(s) visee(s)</label>
+                      <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Paris 11e, Vincennes" />
+                    </div>
+                    <div class="field">
+                      <label for="budgetMax">Budget max (€)</label>
+                      <input id="budgetMax" name="budgetMax" inputmode="numeric" data-search-bien-required placeholder="Ex. 280000" />
+                    </div>
+                    <div class="field">
+                      <label for="budgetMin">Budget min (€) — optionnel</label>
+                      <input id="budgetMin" name="budgetMin" inputmode="numeric" data-optional placeholder="Ex. 200000" />
+                    </div>
+                    <div class="field">
+                      <label for="roomsMin">Pieces min.</label>
+                      <input id="roomsMin" name="roomsMin" inputmode="numeric" data-optional placeholder="Ex. 3" />
+                    </div>
+                    <div class="field">
+                      <label for="propertySurfaceSearch">Surface min. (m²) — optionnel</label>
+                      <input id="propertySurfaceSearch" name="propertySurfaceSearch" inputmode="numeric" data-optional placeholder="Ex. 65" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
+                  <p class="search-section-label">Quel service ?</p>
+                  <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
+                    <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
+                    <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>
+                    <label class="search-chip"><input type="checkbox" name="serviceSought" value="estimation_vente" /><span>Estimation / vente</span></label>
+                    <label class="search-chip"><input type="checkbox" name="serviceSought" value="recherche_locataire" /><span>Locataire</span></label>
+                    <label class="search-chip"><input type="checkbox" name="serviceSought" value="transaction" /><span>Transaction</span></label>
+                    <label class="search-chip"><input type="checkbox" name="serviceSought" value="autre_service" /><span>Autre</span></label>
+                  </div>
+                  <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins un service.</p>
+                </div>
               </div>
             </section>
 
             <!-- ETAPE 2 : Besoins pret et assurances -->
-            <section class="wizard-step" data-wizard-step="2" data-step-name="besoins" hidden>
+            <section class="wizard-step" data-wizard-step="2" data-step-name="besoins" data-wizard-skip-questionnaire hidden>
               <h3>Vos besoins (pret et assurances)</h3>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">Cochez tout ce qui vous concerne. Un conseiller prepare des propositions pour chaque besoin.</p>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">Cochez tout ce qui vous concerne. Si vous ne voulez que la recherche de bien, revenez a l'etape 1 et choisissez « Recherche de bien ».</p>
               <div class="field full">
                 <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
                   <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous etudier ?</legend>
@@ -224,7 +260,7 @@
             </section>
 
             <!-- ETAPE 3 : Situation logement et parrainage -->
-            <section class="wizard-step" data-wizard-step="3" data-step-name="logement" hidden>
+            <section class="wizard-step" data-wizard-step="3" data-step-name="logement" data-wizard-skip-questionnaire hidden>
               <h3>Votre situation logement</h3>
               <div class="grid">
                 <div class="field">
@@ -291,7 +327,7 @@
             </section>
 
             <!-- ETAPE 4 : Precisions bien recherche -->
-            <section class="wizard-step" data-wizard-step="4" data-step-name="projet" hidden>
+            <section class="wizard-step" data-wizard-step="4" data-step-name="projet" data-wizard-skip-search hidden>
               <h3>Precisions sur le bien recherche</h3>
               <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
                 Affinez le projet (residence, investissement, surface, secteur) pour le matching et le pret.
@@ -575,7 +611,7 @@
             </section>
 
             <!-- ETAPE 9 : Portefeuille multi-contrats -->
-            <section class="wizard-step" data-wizard-step="9" data-step-name="portefeuille" hidden>
+            <section class="wizard-step" data-wizard-step="9" data-step-name="portefeuille" data-wizard-skip-questionnaire hidden>
               <h3>Vos autres contrats (optionnel)</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">Confidentiel — permet un conseil global assurance + financement.</p>
               <div class="grid">
@@ -659,11 +695,33 @@
                   <label for="cityFull">Ville</label>
                   <input id="cityFull" name="cityFull" autocomplete="address-level2" required />
                 </div>
+                <div class="field">
+                  <label for="callbackTime">Horaire de rappel prefere</label>
+                  <select id="callbackTime" name="callbackTime" required>
+                    <option value="">Selectionnez</option>
+                    <option>Avant 9h</option>
+                    <option>9h - 11h</option>
+                    <option>11h - 13h</option>
+                    <option>13h - 15h</option>
+                    <option>15h - 17h</option>
+                    <option>17h - 19h</option>
+                    <option>Apres 19h</option>
+                    <option>Peu importe</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label for="details">Precisions complementaires</label>
+                  <textarea id="details" name="details" rows="4" data-optional placeholder="Credits a solder, projets particuliers, questions pour le courtier..."></textarea>
+                </div>
+                <label class="field-check full">
+                  <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
+                  <span>J'accepte d'etre contacte pour ma simulation et j'ai lu la <a href="../politique-confidentialite.html">politique de confidentialite</a>.</span>
+                </label>
               </div>
             </section>
 
             <!-- ETAPE 11 : Finalisation assurances -->
-            <section class="wizard-step" data-wizard-step="11" data-step-name="finalisation" hidden>
+            <section class="wizard-step" data-wizard-step="11" data-step-name="finalisation" data-wizard-skip-questionnaire hidden>
               <h3>Assurances et dernieres precisions</h3>
               <div class="grid">
                 <div class="field">
@@ -713,28 +771,6 @@
                   <label for="previousBank">Banque principale actuelle</label>
                   <input id="previousBank" name="previousBank" data-optional placeholder="Ex. Credit Agricole, BNP..." />
                 </div>
-                <div class="field">
-                  <label for="callbackTime">Horaire de rappel prefere</label>
-                  <select id="callbackTime" name="callbackTime" required>
-                    <option value="">Selectionnez</option>
-                    <option>Avant 9h</option>
-                    <option>9h - 11h</option>
-                    <option>11h - 13h</option>
-                    <option>13h - 15h</option>
-                    <option>15h - 17h</option>
-                    <option>17h - 19h</option>
-                    <option>Apres 19h</option>
-                    <option>Peu importe</option>
-                  </select>
-                </div>
-                <div class="field full">
-                  <label for="details">Precisions complementaires</label>
-                  <textarea id="details" name="details" rows="4" data-optional placeholder="Credits a solder, projets particuliers, questions pour le courtier..."></textarea>
-                </div>
-                <label class="field-check full">
-                  <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
-                  <span>J'accepte d'etre contacte pour ma simulation et j'ai lu la <a href="../politique-confidentialite.html">politique de confidentialite</a>.</span>
-                </label>
               </div>
             </section>
 
@@ -770,9 +806,9 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Recherche de bien</strong>Categorie, secteur, budget, pro ou particulier — comme une annonce.</li>
-            <li><strong>2. Pret et assurances</strong>Faisabilite, emprunteur, habitation / PNO selon vos besoins.</li>
-            <li><strong>3. Montage dossier</strong>Accompagnement jusqu'a la decision avec un conseiller unique.</li>
+            <li><strong>1. Votre choix</strong>Recherche de bien, questionnaire pret/assurances, ou les deux.</li>
+            <li><strong>2. Criteres utiles</strong>Annonce (type, budget, secteur) et/ou dossier pret &amp; assurances.</li>
+            <li><strong>3. Contact</strong>Un conseiller vous rappelle selon le parcours choisi.</li>
           </ol>
         </div>
 
