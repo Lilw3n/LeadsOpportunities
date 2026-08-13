@@ -152,6 +152,73 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File manuelle : consignes / templates, pas des vrais sujets à publier. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var title = String(item.title || "");
+  var id = String(item.id || "");
+  var note = String(item.note || "");
+  if (!title.trim()) return true;
+  if (/collez ici/i.test(title) || /collez ici/i.test(note)) return true;
+  if (/\bTODO\b|\bPLACEHOLDER\b|\bEXEMPLE\b/i.test(title)) return true;
+  if (id === "cafeyn-pending-template" || /-pending-template$/.test(id)) return true;
+  return false;
+}
+
+function significantTitleWords(title) {
+  return String(title || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9àâäéèêëïîôöùûüç ]/g, " ")
+    .split(/\s+/)
+    .filter(function (w) {
+      return w.length > 3;
+    });
+}
+
+function titlesTooSimilar(a, b) {
+  var wa = significantTitleWords(a);
+  if (wa.length < 3) return false;
+  var wb = new Set(significantTitleWords(b));
+  var hits = wa.filter(function (w) {
+    return wb.has(w);
+  }).length;
+  return hits >= 3;
+}
+
+/** Sport / actu hors marché FR, ou titres anglais (communiqués Business Wire). */
+function isOffMarketActuCandidate(candidate) {
+  var title = String(candidate.title || "");
+  var hay = title + " " + String(candidate.summary || "");
+  if (/hockey/i.test(hay) && !/\bfrance\b|\bfrançais\b|\bfrancais\b|\bbleus\b|équipe de france|equipe de france/i.test(hay)) {
+    return true;
+  }
+  if (isMostlyEnglishTitle(title)) return true;
+  return false;
+}
+
+function isMostlyEnglishTitle(title) {
+  var t = String(title || "");
+  if (/\b(enters into|memorandum of understanding|business wire|what you need to know|money talk)\b/i.test(t)) {
+    return true;
+  }
+  var words = t.toLowerCase().match(/[a-zàâäéèêëïîôöùûüç]+/g) || [];
+  if (!words.length) return false;
+  var enLex = {
+    the: 1, and: 1, with: 1, for: 1, from: 1, into: 1, of: 1, to: 1, in: 1, on: 1,
+    is: 1, are: 1, was: 1, were: 1, by: 1, at: 1, as: 1, or: 1, an: 1, this: 1,
+    that: 1, will: 1, can: 1, has: 1, have: 1, not: 1, bans: 1, calls: 1, fines: 1,
+    hefty: 1, unsolicited: 1, telemarketing: 1, regarding: 1, potential: 1,
+    enters: 1, memorandum: 1, understanding: 1, what: 1, you: 1, need: 1, know: 1,
+    how: 1, sale: 1, business: 1, health: 1, insurance: 1, advantages: 1, getting: 1,
+    violators: 1, violator: 1,
+  };
+  var enHits = 0;
+  words.forEach(function (w) {
+    if (enLex[w]) enHits += 1;
+  });
+  return enHits >= 3 || (words.length >= 6 && enHits / words.length >= 0.3);
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +416,9 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  titlesTooSimilar: titlesTooSimilar,
+  isOffMarketActuCandidate: isOffMarketActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
