@@ -19,6 +19,9 @@ function arg(name) {
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
+  else if (/collez ici|lorem ipsum|placeholder|titre de la une/i.test(article.title)) {
+    errors.push("titre placeholder (file inbox, non publiable)");
+  }
   if (!article.file) errors.push("file manquant");
   if (!article.blocks || !article.blocks.length) {
     errors.push("blocks vides");

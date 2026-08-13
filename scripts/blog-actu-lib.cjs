@@ -152,6 +152,23 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File / titre d’exemple à ne jamais publier (inbox Cafeyn, lorem, etc.). */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "draft" || status === "example" || status === "skipped") {
+    return true;
+  }
+  var id = String(item.id || "").toLowerCase();
+  if (/-template$/.test(id) || id.indexOf("pending-template") !== -1) return true;
+  var title = String(item.title || "");
+  if (!title.trim()) return true;
+  if (/collez ici|lorem ipsum|placeholder|à coller|a coller|\btitre de la une\b/i.test(title)) {
+    return true;
+  }
+  return false;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +366,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
