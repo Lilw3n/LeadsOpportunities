@@ -162,15 +162,21 @@
   border-color: #99f6e4;
 }
 
-.immo-zone-chip--primary {
+.immo-zone-chip--primary,
+.immo-geo-chip--highlight {
   background: #0d9488;
   color: #fff;
   border-color: #0d9488;
 }
 
-.immo-zone-chip--primary:hover {
+.immo-zone-chip--primary:hover,
+.immo-geo-chip--highlight:hover {
   background: #0f766e;
   color: #fff;
+}
+
+.immo-zone--priority {
+  border-color: #5eead4;
 }
 
 .immo-geo-field-block {
@@ -179,6 +185,11 @@
   border-radius: 12px;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
+}
+
+.immo-geo-field-block--priority {
+  border-color: #99f6e4;
+  background: #f0fdfa;
 }
 
 .immo-geo-field-block legend,
