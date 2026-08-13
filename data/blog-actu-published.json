@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-13T07:20:50.100Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,207 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "il-pretend-que-ses-parents-lui-ont-prete-la-voiture-un-jeune-conducteur-.html",
+      "section": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "Il prétend que ses parents lui ont prêté la voiture : un jeune conducteur flashé à 155 … : assurance auto — que faire ?",
+      "description": "Il prétend que ses parents lui ont prêté la voiture : un jeune conducteur flashé à 155 km/h au lieu de 80 alors qu’il n’a pas le permis de conduire — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Il prétend que ses parents lui ont prêté la voiture : un jeune conducteur flashé à 155 km/h au lieu de 80 alor — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=il-pretend-que-ses-parents-lui-ont-prete",
+        "label": "Questionnaire auto (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Il prétend que ses parents lui ont prêté la voiture : un jeune conducteur flashé à 155 …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le mauvais niveau de garantie auto se paie au premier sinistre responsable."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Tiers simple vs tiers etendu vs tous risques",
+            "Bonus-malus et coefficient actuel",
+            "Franchise et vehicule de remplacement",
+            "Conducteurs declares au contrat",
+            "Options assistance et protection juridique"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire auto : profil conducteur et usage en 3 minutes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-auto-bonus-malus.html",
+          "label": "Bonus-malus"
+        },
+        {
+          "href": "../assurance-auto/",
+          "label": "Assurance auto"
+        }
+      ]
+    },
+    {
+      "file": "assurance-habitation-incendies-de-foret-secheresses-canicules-les-tarifs.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Assurance habitation : incendies de forêt, sécheresses, canicules… les tarifs de vos co… : assurance habitation — que faire ?",
+      "description": "Assurance habitation : incendies de forêt, sécheresses, canicules… les tarifs de vos contrats vont-ils exploser - Les Echos — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Assurance habitation : incendies de forêt, sécheresses, canicules… les tarifs de vos contrats vont-ils explose — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-habitation-incendies-de-fore",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Assurance habitation : incendies de forêt, sécheresses, canicules… les tarifs de vos co…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "france-conduite-sous-stupefiants-le-cout-cache-de-l-assurance-auto-qui-p.html",
+      "section": "auto",
+      "tag": "Auto",
+      "tagClass": "tag-auto",
+      "title": "FRANCE : Conduite sous stupéfiants – Le coût caché de l’assurance auto qui peut explose… : assurance auto — que faire ?",
+      "description": "FRANCE : Conduite sous stupéfiants – Le coût caché de l’assurance auto qui peut exploser - presseagence.fr — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "FRANCE : Conduite sous stupéfiants – Le coût caché de l’assurance auto qui peut exploser - presseagence.fr — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=auto&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=auto&utm_content=france-conduite-sous-stupefiants-le",
+        "label": "Questionnaire auto (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>FRANCE : Conduite sous stupéfiants – Le coût caché de l’assurance auto qui peut explose…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le mauvais niveau de garantie auto se paie au premier sinistre responsable."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Tiers simple vs tiers etendu vs tous risques",
+            "Bonus-malus et coefficient actuel",
+            "Franchise et vehicule de remplacement",
+            "Conducteurs declares au contrat",
+            "Options assistance et protection juridique"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire auto : profil conducteur et usage en 3 minutes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-auto-bonus-malus.html",
+          "label": "Bonus-malus"
+        },
+        {
+          "href": "../assurance-auto/",
+          "label": "Assurance auto"
         }
       ]
     }
