@@ -17,6 +17,7 @@ const {
   appendPendingArticle,
   isPlaceholderActuItem,
   isWeakLeadCandidate,
+  existingFiles,
 } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
@@ -131,6 +132,12 @@ function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set((state.processedUrls || []).map(urlKey));
   var titleKeys = loadPublishedTitleKeys(state);
+  var occupiedFiles = new Set();
+  existingFiles().forEach(function (f) {
+    occupiedFiles.add(f);
+    occupiedFiles.add(String(f).replace(/-\d+(?=\.html$)/, ""));
+    occupiedFiles.add(String(f).replace(/\.html$/, "").replace(/-\d+$/, "").slice(0, 40));
+  });
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
@@ -138,6 +145,14 @@ function pickCandidates(candidates, count, state) {
     if (isWeakLeadCandidate(c)) return false;
     if (c.url && processed.has(urlKey(c.url))) return false;
     if (titleKeys.has(normalizeTitle(c.title)) || titleKeys.has(titleKey(c.title))) return false;
+    var sug = String(c.suggestedFile || "");
+    if (sug && !sug.endsWith(".html")) sug += ".html";
+    if (sug && (occupiedFiles.has(sug) || occupiedFiles.has(sug.replace(/-\d+(?=\.html$)/, "")))) {
+      return false;
+    }
+    if (sug && occupiedFiles.has(sug.replace(/\.html$/, "").replace(/-\d+$/, "").slice(0, 40))) {
+      return false;
+    }
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;

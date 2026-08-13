@@ -108,7 +108,7 @@ function matchTopic(text) {
 }
 
 function hasLeadKeywords(text) {
-  return /assurance|mutuelle|emprunteur|sinistre|pr[eê]t|cr[eé]dit|habitation|rembours|garantie|locataire|v[eé]t[eé]rinaire|franchise|orias|lemoine|pr[eé]voyance|rc pro|canicule|s[ée]cheresse|fissur|inondation|d[ée]g[aâ]ts?\s+des\s+eaux/i.test(
+  return /assurance|mutuelle|emprunteur|sinistre|pr[eê]t immobilier|cr[eé]dit immo|habitation|rembours|garantie|locataire|v[eé]t[eé]rinaire|franchise|orias|lemoine|pr[eé]voyance|rc pro|fissur|inondation|d[ée]g[aâ]ts?\s+des\s+eaux/i.test(
     String(text || "")
   );
 }
@@ -127,12 +127,18 @@ function isWeakLeadCandidate(c) {
   var url = String((c && c.url) || "");
   if (isPlaceholderActuItem(c)) return true;
   if (isMostlyEnglishTitle(title)) return true;
-  if (/guide-shopping|mutuelle\.fr|thelocal\.fr|msn\.com\/fr-be|\/fr-be\//i.test(url + " " + hay)) return true;
+  if (/^en direct\b|^live\s*[-:]/i.test(title)) return true;
+  if (/\bl['’'][ée]ditorial\b|\b[ée]ditorial de\b/i.test(title)) return true;
+  if (/guide-shopping|mutuelle\.fr|thelocal\.fr|msn\.com\/fr-be|\/fr-be\/|meilleurtaux|\bmagnolia\b/i.test(url + " " + hay)) return true;
   if (/^health insurance\b/i.test(title)) return true;
   if (
-    /^meilleure mutuelle/i.test(title) &&
-    /comment choisir|classement|comparatif/i.test(hay)
+    /comparateur mutuelle|meilleure mutuelle|classement exclusif/i.test(hay) &&
+    /comment (bien )?choisir|classement|comparatif|retrait[eé]/i.test(hay)
   ) {
+    return true;
+  }
+  if (/espace m[eé]so sp[eé]cifique/i.test(hay)) return true;
+  if (/s[ée]curit[ée] civile|d[ée]partements de france/i.test(hay) && /gr[eè]ve|pompier|financement/i.test(hay)) {
     return true;
   }
   if (
@@ -192,7 +198,9 @@ function isWeakLeadCandidate(c) {
   ) {
     return true;
   }
-  if (/pelouse du tramway/i.test(hay)) return true;
+  if (/^nouvelle canicule\b|^canicule\s*:/i.test(title) && !/habitation|sinistre|senior|mutuelle|fissur|d[ée]g[aâ]t/i.test(hay)) {
+    return true;
+  }
   if (hasLeadKeywords(hay)) return false;
   if (/[ée]clipse|astronomie|chasseurs d['’][ée]clipse/i.test(hay)) return true;
   var topic = matchTopic(hay);
