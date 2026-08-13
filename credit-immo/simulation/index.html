@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Simulation crédit immobilier | Capacité d'emprunt 2026</title>
-  <meta name="description" content="Simulez votre crédit immobilier : mensualité, durée, apport, assurance emprunteur. Courtier ORIAS, sans engagement." />
+  <meta name="description" content="Simulateur achat immobilier complet : prêt, taxe foncière, énergie, charges, travaux, apport et patrimoine. Projection mensuelle et sur 20 ans." />
   <meta name="keywords" content="simulation crédit immobilier, capacité emprunt, simulateur prêt immo" />
   <meta name="robots" content="index,follow" />
   <meta name="geo.region" content="FR" />
@@ -29,6 +29,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../../seo/seo-pages.css" />
   <link rel="stylesheet" href="../../css/geo-france-banner.css" />
+  <link rel="stylesheet" href="../../css/projection-achat.css" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JX8E35693F');</script>
   <script src="/api/google-config-env"></script>
@@ -76,23 +77,220 @@
     <header class="seo-hero">
       <span class="seo-badge">Simulation</span>
       <h1>Simulation credit immobilier</h1>
-      <p class="seo-intro">Avant de visiter des biens, clarifiez votre enveloppe d emprunt. Notre simulation integre revenus, charges et apport pour un budget realiste.</p>
+      <p class="seo-intro">Projetez le coût réel de votre achat : prêt, taxe foncière, énergie, charges, travaux — croisé avec vos revenus et votre patrimoine.</p>
       <div class="seo-hero-actions">
-        <a class="btn btn-primary btn-lg" href="../../landings/credit-immo.html">Demarrer la simulation</a>
-        <a class="btn btn-ghost btn-lg" href="../../index.html#contact">Nous contacter</a>
+        <a class="btn btn-primary btn-lg" href="#simulateur">Utiliser le simulateur</a>
+        <a class="btn btn-ghost btn-lg" href="../../landings/credit-immo.html">Demande de prêt complète</a>
       </div>
       <div class="seo-trust"><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Courtier ORIAS</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Devis gratuit</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Sans engagement</span><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Reponse rapide</span></div>
     </header>
+    <section class="proj-sim" id="simulateur">
+      <div id="projSimRoot" class="proj-sim-grid">
+        <div class="proj-panel">
+          <h2>Votre projet</h2>
+          <p class="proj-sub">Prix, charges du bien, travaux et financement.</p>
+
+          <div class="proj-section">
+            <h3>Bien & acquisition</h3>
+            <div class="proj-fields">
+              <div>
+                <label for="projFai">Prix FAI (€)</label>
+                <input id="projFai" type="number" min="0" step="1000" value="280000" />
+              </div>
+              <div>
+                <label for="projNet">Net vendeur (€)</label>
+                <input id="projNet" type="number" min="0" step="1000" placeholder="= FAI si vide" />
+              </div>
+              <div>
+                <label for="projSurface">Surface (m²)</label>
+                <input id="projSurface" type="number" min="10" step="1" value="68" />
+              </div>
+              <div>
+                <label for="projDpe">DPE</label>
+                <select id="projDpe">
+                  <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+                  <option value="D" selected>D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+                </select>
+              </div>
+              <div>
+                <label for="projHeating">Chauffage</label>
+                <select id="projHeating">
+                  <option value="gaz">Gaz</option>
+                  <option value="electrique">Électrique</option>
+                  <option value="pac">Pompe à chaleur</option>
+                  <option value="fioul">Fioul / GPL</option>
+                  <option value="urbain">Chauffage urbain</option>
+                  <option value="mixte">Mixte</option>
+                </select>
+              </div>
+              <div>
+                <label for="projCopro">Charges copro (€/mois)</label>
+                <input id="projCopro" type="number" min="0" step="10" value="95" />
+              </div>
+              <div>
+                <label for="projTaxe">Taxe foncière (€/an)</label>
+                <input id="projTaxe" type="number" min="0" step="50" placeholder="auto" />
+              </div>
+              <div>
+                <label for="projTaxePct">Ou % du prix (auto)</label>
+                <input id="projTaxePct" type="number" min="0" max="3" step="0.1" value="0.9" />
+              </div>
+            </div>
+            <p class="proj-hint" id="projTaxHint"></p>
+          </div>
+
+          <div class="proj-section">
+            <h3>Travaux & entretien</h3>
+            <div class="proj-fields">
+              <div>
+                <label for="projTravaux">Travaux à prévoir (€)</label>
+                <input id="projTravaux" type="number" min="0" step="1000" value="12000" />
+              </div>
+              <div>
+                <label for="projMaintPct">Entretien annuel (% prix)</label>
+                <input id="projMaintPct" type="number" min="0" max="3" step="0.1" value="0.6" />
+              </div>
+            </div>
+            <label class="proj-check"><input type="checkbox" id="projFinanceTravaux" checked /> Financer les travaux dans le prêt</label>
+          </div>
+
+          <div class="proj-section">
+            <h3>Financement</h3>
+            <div class="proj-fields">
+              <div>
+                <label for="projApport">Apport (€)</label>
+                <input id="projApport" type="number" min="0" step="1000" value="40000" />
+              </div>
+              <div>
+                <label for="projPatrimoine">Patrimoine liquide (€)</label>
+                <input id="projPatrimoine" type="number" min="0" step="1000" value="55000" />
+              </div>
+              <div>
+                <label for="projYears">Durée (ans)</label>
+                <input id="projYears" type="number" min="5" max="30" step="1" value="25" />
+              </div>
+              <div>
+                <label for="projRate">Taux % (vide = auto)</label>
+                <input id="projRate" type="number" min="0" max="12" step="0.05" placeholder="auto" />
+              </div>
+              <div>
+                <label for="projNotary">Frais de notaire</label>
+                <select id="projNotary">
+                  <option value="ancien">Ancien (~7,5 %)</option>
+                  <option value="neuf">Neuf / VEFA (~2,5 %)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="proj-section">
+            <h3>Vos revenus</h3>
+            <div class="proj-fields">
+              <div>
+                <label for="projIncome">Revenus nets / mois (€)</label>
+                <input id="projIncome" type="number" min="0" step="50" value="3400" />
+              </div>
+              <div>
+                <label for="projExisting">Crédits en cours (€/mois)</label>
+                <input id="projExisting" type="number" min="0" step="10" value="0" />
+              </div>
+              <div>
+                <label for="projDti">Plafond endettement %</label>
+                <input id="projDti" type="number" min="20" max="40" step="0.5" value="35" />
+              </div>
+              <div>
+                <label for="projRent">Loyer actuel (€/mois)</label>
+                <input id="projRent" type="number" min="0" step="10" value="0" placeholder="optionnel" />
+              </div>
+              <div>
+                <label for="projPersons">Personnes au foyer</label>
+                <input id="projPersons" type="number" min="1" max="10" step="1" value="2" />
+              </div>
+            </div>
+            <label class="proj-check"><input type="checkbox" id="projShowCo" /> Co-emprunteur</label>
+            <div class="proj-fields" id="projCoWrap" hidden>
+              <div>
+                <label for="projCoIncome">Revenus co-emprunteur (€/mois)</label>
+                <input id="projCoIncome" type="number" min="0" step="50" value="0" />
+              </div>
+            </div>
+            <label class="proj-check"><input type="checkbox" id="projShowAdv" /> Affiner énergie & assurance</label>
+            <div id="projAdvWrap" hidden>
+              <div class="proj-fields" style="margin-top:10px">
+                <div>
+                  <label for="projInsur">Assurance emprunteur %/an</label>
+                  <input id="projInsur" type="number" min="0" max="2" step="0.01" value="0.34" />
+                </div>
+                <div>
+                  <label for="projFinanceNotary">Financer le notaire</label>
+                  <select id="projFinanceNotary">
+                    <option value="1">Oui</option>
+                    <option value="0">Non (cash)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div id="projEnergyAdv" hidden>
+              <div class="proj-fields" style="margin-top:10px">
+                <div>
+                  <label for="projElec">Électricité (€/mois)</label>
+                  <input id="projElec" type="number" min="0" step="5" placeholder="auto DPE" />
+                </div>
+                <div>
+                  <label for="projGas">Gaz (€/mois)</label>
+                  <input id="projGas" type="number" min="0" step="5" placeholder="auto DPE" />
+                </div>
+                <div>
+                  <label for="projWater">Eau (€/mois)</label>
+                  <input id="projWater" type="number" min="0" step="5" placeholder="auto foyer" />
+                </div>
+              </div>
+              <p class="proj-hint" id="projEnergyHint"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="proj-panel">
+          <h2>Votre projection</h2>
+          <p class="proj-sub">Coût mensuel réel, reste à vivre et vision long terme.</p>
+          <div id="projStressBadge"></div>
+          <div class="proj-kpis" id="projKpis"></div>
+          <p id="projVsRent" class="proj-msg" hidden></p>
+
+          <div class="proj-breakdown">
+            <h3>Détail mensuel</h3>
+            <div id="projBreakdown"></div>
+          </div>
+
+          <p class="proj-msg" id="projMessages"></p>
+
+          <details class="proj-details">
+            <summary>Projection 5 / 10 / 15 / 20 ans</summary>
+            <div id="projRollup"></div>
+          </details>
+
+          <details class="proj-details">
+            <summary>Tableau d'amortissement (aperçu)</summary>
+            <div id="projAmort"></div>
+          </details>
+
+          <div class="proj-cta">
+            <p><strong>Affinez avec un courtier</strong> — transmettez ces chiffres pour monter votre dossier (bulletins, avis d'impôt, RIB…).</p>
+            <div class="btn-row">
+              <a class="btn btn-primary" id="projCtaCredit" href="../../landings/credit-immo.html#demande">Demande de prêt</a>
+              <a class="btn btn-ghost" id="projCtaAcheteur" href="../../landings/acheteur-immo.html#demande">Parcours acquéreur</a>
+            </div>
+            <p class="proj-hint" id="projCtaHint"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <div class="seo-layout">
       <div class="seo-main">
-        <section class="seo-card"><h2>Pourquoi nous choisir</h2><div class="seo-benefits"><div class="seo-benefit"><strong>Vision claire</strong><p>Mensualite cible et duree de pret.</p></div><div class="seo-benefit"><strong>Multi-scenarios</strong><p>Taux fixe, duree 20 ou 25 ans.</p></div><div class="seo-benefit"><strong>Rapidite</strong><p>Premiers elements sous 24h ouvrées.</p></div></div></section>
+        <section class="seo-card"><h2>Ce que le simulateur intègre</h2><div class="seo-benefits"><div class="seo-benefit"><strong>Coût total</strong><p>Crédit, assurance, taxe foncière, copro, énergie et entretien.</p></div><div class="seo-benefit"><strong>Votre situation</strong><p>Revenus, apport, patrimoine liquide et reste à vivre.</p></div><div class="seo-benefit"><strong>Vision long terme</strong><p>Projection sur 5 à 20 ans et tableau d'amortissement.</p></div></div></section>
         
-        <section class="seo-card"><h2>Documents utiles pour affiner la simulation</h2><ul class="seo-list"><li>Derniers bulletins de salaire</li><li>Releves de comptes (3 mois)</li><li>Estimation de l apport disponible</li><li>Nature du bien recherche (residence principale, locatif)</li></ul></section>
-        
-        
-        
-        
-        
+        <section class="seo-card"><h2>Documents utiles pour affiner la simulation</h2><ul class="seo-list"><li>Derniers bulletins de salaire</li><li>Relevés de comptes (3 mois)</li><li>Estimation de l'apport disponible</li><li>Taxe foncière et charges de copropriété du bien visé</li></ul></section>
       </div>
       <aside class="seo-aside">
         <div class="seo-aside-card">
@@ -124,6 +322,10 @@
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://www.leadsopportunities.fr/"},{"@type":"ListItem","position":2,"name":"Credit immobilier","item":"https://www.leadsopportunities.fr/credit-immo/"},{"@type":"ListItem","position":3,"name":"Simulation","item":"https://www.leadsopportunities.fr/credit-immo/simulation/"}]}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Simulation credit immobilier","description":"Simulez votre crédit immobilier : mensualité, durée, apport, assurance emprunteur. Courtier ORIAS, sans engagement.","provider":{"url":"https://www.leadsopportunities.fr/","@type":"InsuranceAgency","name":"Leads Opportunities","identifier":"15005935"},"areaServed":{"@type":"Country","name":"France"},"url":"https://www.leadsopportunities.fr/credit-immo/simulation/"}</script>
   
+  <script src="../../js/crm-buyer-finance-lib.js"></script>
+  <script src="../../js/projection-achat-lib.js"></script>
+  <script src="../../js/finance-deep-link.js"></script>
+  <script src="../../js/projection-achat-page.js"></script>
   <script src="../../js/france-seo-meta.js"></script>
   <script src="../../js/attribution.js"></script>
   <script src="../../js/cookie-banner.js"></script>

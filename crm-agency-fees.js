@@ -15,6 +15,7 @@
     console.error("CrmBuyerFinance missing");
     return;
   }
+  var Proj = window.ProjectionAchat;
   var Deep = window.FinanceDeepLink;
 
   var state = {
@@ -1423,6 +1424,85 @@
         })
         .join("");
     }
+
+    renderOwnershipProjection(best, opts);
+  }
+
+  function readOwnershipOpts(buyerOpts, bestFinance) {
+    var price = Number(document.getElementById("cmpPrice").value) || 0;
+    var priceMode = currentPriceMode();
+    var fai = price;
+    var net = price;
+    if (bestFinance && bestFinance.project) {
+      fai = bestFinance.project.fai;
+      net = bestFinance.project.netVendeur;
+    } else if (priceMode === "fai") {
+      net = price;
+    }
+    return Object.assign({}, buyerOpts || readBuyerOpts(), {
+      fai: fai,
+      netVendeur: net,
+      purchasePrice: fai,
+      surface: Number(document.getElementById("bfSurface").value) || 65,
+      dpe: document.getElementById("bfDpe").value || "D",
+      taxeFonciere: document.getElementById("bfTaxe").value === "" ? "" : Number(document.getElementById("bfTaxe").value),
+      chargesCopro: Number(document.getElementById("bfCopro").value) || 0,
+      travaux: Number(document.getElementById("bfTravaux").value) || 0,
+      liquidAssets: Number(document.getElementById("bfPatrimoine").value) || 0,
+      financeTravaux: true,
+    });
+  }
+
+  function renderOwnershipProjection(bestFinance, buyerOpts) {
+    if (!Proj || !document.getElementById("ownershipProjectionPanel")) return;
+    var oOpts = readOwnershipOpts(buyerOpts, bestFinance);
+    var result = Proj.analyze(oOpts);
+    var kpis = document.getElementById("bfOwnershipKpis");
+    if (kpis) {
+      kpis.innerHTML =
+        '<div class="af-kpi highlight"><span>Coût mensuel total</span><strong>' +
+        Proj.formatEuro(result.totalMonthly) +
+        "/mois</strong></div>" +
+        '<div class="af-kpi"><span>Charges du bien</span><strong>' +
+        Proj.formatEuro(result.ownershipMonthly) +
+        "</strong></div>" +
+        '<div class="af-kpi"><span>Reste à vivre</span><strong>' +
+        Proj.formatEuro(result.resteAVivre) +
+        "</strong></div>" +
+        '<div class="af-kpi"><span>Épargne après achat</span><strong>' +
+        Proj.formatEuro(result.patrimoine.remaining) +
+        "</strong></div>";
+    }
+    var hint = document.getElementById("bfOwnershipHint");
+    if (hint) {
+      hint.textContent =
+        "Taxe foncière ~" +
+        Proj.formatEuro(result.taxeFonciere.annual) +
+        "/an · Énergie ~" +
+        Proj.formatEuro(result.energy.total.monthly) +
+        "/mois · " +
+        result.messages.join(" · ");
+    }
+    if (Deep && Deep.projectionUrl) {
+      var el = document.getElementById("bfCtaProjection");
+      if (el) {
+        el.href = Deep.projectionUrl({
+          propertyPrice: oOpts.fai,
+          prixFai: oOpts.fai,
+          prixNet: oOpts.netVendeur,
+          downPayment: oOpts.downPayment,
+          loanDuration: oOpts.years,
+          income: oOpts.monthlyIncome,
+          surface: oOpts.surface,
+          dpe: oOpts.dpe,
+          taxeFonciere: oOpts.taxeFonciere,
+          chargesCopro: oOpts.chargesCopro,
+          travaux: oOpts.travaux,
+          patrimoine: oOpts.liquidAssets,
+          propertyId: state.propertyId,
+        });
+      }
+    }
   }
 
   function renderAll() {
@@ -1639,6 +1719,12 @@
     "bfCashOut",
     "bfIncludeProject",
     "bfBridge",
+    "bfSurface",
+    "bfDpe",
+    "bfTaxe",
+    "bfCopro",
+    "bfTravaux",
+    "bfPatrimoine",
   ].forEach(function (id) {
     var el = document.getElementById(id);
     if (!el) return;

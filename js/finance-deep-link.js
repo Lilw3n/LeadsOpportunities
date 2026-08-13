@@ -14,6 +14,7 @@
   var BAREMES_PATH = "/crm-agency-fees.html";
   var PRET_PATH = "/crm-pret-immo-sim.html";
   var PRET_LIST_PATH = "/crm-pret-immo.html";
+  var PROJECTION_PATH = "/credit-immo/simulation/";
 
   function num(v) {
     if (v == null || v === "") return null;
@@ -42,6 +43,12 @@
       agency: g(["agency", "agence"]),
       loanType: g(["loanType", "typePret"]),
       utmSource: g(["utm_source"]) || "crm-agency-fees",
+      surface: num(g(["surface", "surfaceHabitable"])),
+      dpe: g(["dpe"]),
+      taxeFonciere: num(g(["taxeFonciere", "taxe"])),
+      chargesCopro: num(g(["chargesCopro", "copro"])),
+      travaux: num(g(["travaux"])),
+      patrimoine: num(g(["patrimoine", "liquidAssets"])),
     };
   }
 
@@ -54,7 +61,14 @@
       p.set(k, String(v));
     }
     set("propertyPrice", data.propertyPrice != null ? Math.round(data.propertyPrice) : null);
-    set("prixFai", data.prixFai != null ? Math.round(data.prixFai) : data.propertyPrice != null ? Math.round(data.propertyPrice) : null);
+    set(
+      "prixFai",
+      data.prixFai != null
+        ? Math.round(data.prixFai)
+        : data.propertyPrice != null
+          ? Math.round(data.propertyPrice)
+          : null
+    );
     set("prixNet", data.prixNet != null ? Math.round(data.prixNet) : null);
     set("priceMode", data.priceMode);
     set("downPayment", data.downPayment != null ? Math.round(data.downPayment) : null);
@@ -66,6 +80,12 @@
     set("contactId", data.contactId);
     set("agency", data.agency);
     set("loanType", data.loanType);
+    set("surface", data.surface != null ? Math.round(data.surface) : null);
+    set("dpe", data.dpe);
+    set("taxeFonciere", data.taxeFonciere != null ? Math.round(data.taxeFonciere) : null);
+    set("chargesCopro", data.chargesCopro != null ? Math.round(data.chargesCopro) : null);
+    set("travaux", data.travaux != null ? Math.round(data.travaux) : null);
+    set("patrimoine", data.patrimoine != null ? Math.round(data.patrimoine) : null);
     set("utm_source", data.utmSource || "crm-agency-fees");
     set("utm_medium", extras.utmMedium || "crm");
     set("utm_campaign", extras.utmCampaign || "demande-pret");
@@ -86,6 +106,11 @@
   function baremesUrl(data) {
     var qs = buildQuery(data || {}, { utmMedium: "immo-fiche", utmCampaign: "baremes" });
     return BAREMES_PATH + (qs ? "?" + qs : "");
+  }
+
+  function projectionUrl(data, extras) {
+    var qs = buildQuery(data || {}, Object.assign({ utmCampaign: "projection-achat" }, extras || {}));
+    return PROJECTION_PATH + (qs ? "?" + qs : "") + "#simulateur";
   }
 
   function pretImmoUrl(data, extras) {
@@ -137,7 +162,6 @@
       setVal("revenus", Math.round(data.income));
     }
 
-    // Champs cachés attribution
     ["propertyId", "contactId", "prixNet", "priceMode", "agency"].forEach(function (key) {
       var val = data[key];
       if (!val && val !== 0) return;
@@ -178,6 +202,12 @@
     if (data.downPayment != null) set("bfDown", Math.round(data.downPayment));
     if (data.loanDuration != null) set("bfYears", Math.round(data.loanDuration));
     if (data.income != null) set("bfIncome", Math.round(data.income));
+    if (data.surface != null) set("bfSurface", Math.round(data.surface));
+    if (data.taxeFonciere != null) set("bfTaxe", Math.round(data.taxeFonciere));
+    if (data.chargesCopro != null) set("bfCopro", Math.round(data.chargesCopro));
+    if (data.travaux != null) set("bfTravaux", Math.round(data.travaux));
+    if (data.patrimoine != null) set("bfPatrimoine", Math.round(data.patrimoine));
+    if (data.dpe) set("bfDpe", data.dpe.toUpperCase());
     return data;
   }
 
@@ -185,11 +215,13 @@
     CREDIT_PATH: CREDIT_PATH,
     ACHETEUR_PATH: ACHETEUR_PATH,
     BAREMES_PATH: BAREMES_PATH,
+    PROJECTION_PATH: PROJECTION_PATH,
     readParams: readParams,
     buildQuery: buildQuery,
     creditUrl: creditUrl,
     acheteurUrl: acheteurUrl,
     baremesUrl: baremesUrl,
+    projectionUrl: projectionUrl,
     pretImmoUrl: pretImmoUrl,
     pretListUrl: pretListUrl,
     applyToForm: applyToForm,

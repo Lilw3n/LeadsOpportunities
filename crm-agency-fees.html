@@ -489,6 +489,45 @@
     </details>
   </section>
 
+  <section class="af-buyer" id="ownershipProjectionPanel" style="border-color:#c7d2fe;background:linear-gradient(180deg,#eef2ff,#fff 42%)">
+    <h3>Projection complète — coût de possession</h3>
+    <p class="af-sub">Prêt + taxe foncière + énergie + copro + travaux, croisé avec revenus et patrimoine.</p>
+    <div class="af-calc-grid">
+      <div>
+        <label for="bfSurface">Surface (m²)</label>
+        <input id="bfSurface" type="number" min="10" step="1" value="65" />
+      </div>
+      <div>
+        <label for="bfDpe">DPE</label>
+        <select id="bfDpe">
+          <option value="A">A</option><option value="B">B</option><option value="C">C</option>
+          <option value="D" selected>D</option><option value="E">E</option><option value="F">F</option><option value="G">G</option>
+        </select>
+      </div>
+      <div>
+        <label for="bfTaxe">Taxe foncière (€/an)</label>
+        <input id="bfTaxe" type="number" min="0" step="50" placeholder="auto" />
+      </div>
+      <div>
+        <label for="bfCopro">Charges copro (€/mois)</label>
+        <input id="bfCopro" type="number" min="0" step="10" value="0" />
+      </div>
+      <div>
+        <label for="bfTravaux">Travaux prévus (€)</label>
+        <input id="bfTravaux" type="number" min="0" step="1000" value="0" />
+      </div>
+      <div>
+        <label for="bfPatrimoine">Patrimoine liquide (€)</label>
+        <input id="bfPatrimoine" type="number" min="0" step="1000" value="50000" />
+      </div>
+    </div>
+    <div class="af-result" id="bfOwnershipKpis" style="margin-top:14px"></div>
+    <p class="af-hint" id="bfOwnershipHint"></p>
+    <div class="af-actions" style="margin-top:10px">
+      <a class="btn btn-primary" id="bfCtaProjection" href="./credit-immo/simulation/#simulateur" target="_blank" rel="noopener">Ouvrir simulateur public</a>
+    </div>
+  </section>
+
   <div class="af-layout">
     <aside class="af-list">
       <div class="af-list-hd">
@@ -604,6 +643,7 @@
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-agency-fees-lib.js"></script>
   <script src="./js/crm-buyer-finance-lib.js"></script>
+  <script src="./js/projection-achat-lib.js"></script>
   <script src="./crm-agency-fees.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
