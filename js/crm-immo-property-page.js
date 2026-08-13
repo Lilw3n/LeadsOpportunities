@@ -26,6 +26,7 @@
   var state = {
     tab: "description",
     sectionId: null,
+    editingPartyId: null,
   };
 
   function esc(s) {
@@ -68,7 +69,23 @@
       (prop.city || "") +
       " " +
       (prop.postal_code || "") +
-      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "");
+      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "") +
+      (function () {
+        var parties = Store.listParties(prop.id);
+        var sellers = parties.filter(function (p) {
+          return Matcher.isSellerRole(p.role);
+        }).length;
+        var buyers = parties.filter(function (p) {
+          return Matcher.isBuyerRole(p.role);
+        }).length;
+        if (!sellers && !buyers) return "";
+        return (
+          " · " +
+          (sellers ? sellers + " vendeur(s)/héritier(s)" : "") +
+          (sellers && buyers ? " · " : "") +
+          (buyers ? buyers + " acquéreur(s)" : "")
+        );
+      })();
     var a = document.getElementById("linkAnnonce");
     if (prop.listing_url) {
       a.href = prop.listing_url;
@@ -841,47 +858,207 @@
     openRoot();
   }
 
+  function partyShareLabel(p) {
+    if (p.share_pct == null || p.share_pct === "") return "";
+    var n = Number(p.share_pct);
+    if (!isFinite(n)) return "";
+    return n + " %";
+  }
+
+  function partiesShareTotal(list) {
+    return list.reduce(function (sum, p) {
+      var n = Number(p.share_pct);
+      return sum + (isFinite(n) ? n : 0);
+    }, 0);
+  }
+
+  function renderPartiesTab(panel) {
+    var parties = Store.listParties(prop.id);
+    var editingId = state.editingPartyId || null;
+    var editing = editingId
+      ? parties.find(function (p) {
+          return p.id === editingId;
+        })
+      : null;
+    var groups = Matcher.PARTY_GROUPS || [
+      { id: "vendeur", label: "Vendeurs / héritiers" },
+      { id: "acquereur", label: "Acquéreurs" },
+      { id: "autre", label: "Autres intervenants" },
+    ];
+    var sellers = parties.filter(function (p) {
+      return Matcher.isSellerRole(p.role);
+    });
+    var buyers = parties.filter(function (p) {
+      return Matcher.isBuyerRole(p.role);
+    });
+    var sellerShare = partiesShareTotal(sellers);
+
+    function renderGroup(group) {
+      var list = parties.filter(function (p) {
+        return Matcher.partyRoleGroup(p.role) === group.id;
+      });
+      var shareHint = "";
+      if (group.id === "vendeur" && list.length) {
+        shareHint =
+          '<p class="dossier-hint" style="margin:0 0 8px">Parts saisies : <strong>' +
+          (Math.round(sellerShare * 100) / 100) +
+          " %</strong>" +
+          (list.length > 1 ? " · " + list.length + " personnes (ex. succession / indivision)" : "") +
+          "</p>";
+      }
+      var body = list.length
+        ? list
+            .map(function (p) {
+              var share = partyShareLabel(p);
+              return (
+                '<div class="party-row" data-party-id="' +
+                esc(p.id) +
+                '"><div><strong>' +
+                esc(p.name || "Sans nom") +
+                "</strong> · " +
+                esc(Matcher.partyRoleLabel(p.role)) +
+                (share ? " · <strong>" + esc(share) + "</strong>" : "") +
+                "<br><span style='color:var(--muted)'>" +
+                esc([p.phone, p.email, p.contact_id].filter(Boolean).join(" · ") || "Coordonnées non renseignées") +
+                (p.notes ? "<br>" + esc(p.notes) : "") +
+                '</span></div><div class="party-actions">' +
+                '<button type="button" class="btn btn-ghost party-edit" data-id="' +
+                esc(p.id) +
+                '">Modifier</button>' +
+                '<button type="button" class="btn btn-ghost party-del" data-id="' +
+                esc(p.id) +
+                '">Retirer</button></div></div>'
+              );
+            })
+            .join("")
+        : '<p style="color:var(--muted);margin:0 0 8px">Aucune personne dans ce groupe.</p>';
+      return (
+        '<section class="party-group" style="margin:14px 0 18px"><h4 style="margin:0 0 6px;color:var(--immo-blue)">' +
+        esc(group.label) +
+        " <span style='color:var(--muted);font-weight:600'>(" +
+        list.length +
+        ")</span></h4>" +
+        shareHint +
+        body +
+        "</section>"
+      );
+    }
+
+    panel.innerHTML =
+      "<h3>Vendeurs &amp; acquéreurs</h3>" +
+      '<p class="dossier-hint">Ajoute autant de personnes que nécessaire (illimité) — ex. 8 héritiers pour une même maison, plusieurs co-acquéreurs, notaire…</p>' +
+      '<div class="smart-banner">Sur ce bien : <strong>' +
+      sellers.length +
+      " vendeur(s) / héritier(s)</strong> · <strong>" +
+      buyers.length +
+      " acquéreur(s)</strong> · " +
+      parties.length +
+      " personne(s) au total</div>" +
+      groups.map(renderGroup).join("") +
+      '<form id="partyForm" class="party-form" style="margin-top:8px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;padding-top:12px;border-top:1px solid var(--line)">' +
+      "<h4 style='grid-column:1/-1;margin:0;color:var(--immo-blue)'>" +
+      (editing ? "Modifier la personne" : "Ajouter une personne") +
+      "</h4>" +
+      '<input type="hidden" id="partyId" value="' +
+      esc(editing ? editing.id : "") +
+      '" />' +
+      '<label>Rôle<select id="partyRole">' +
+      Matcher.PARTY_ROLES.map(function (r) {
+        var preferred = editing
+          ? editing.role
+          : sellers.length
+            ? "heritier"
+            : "vendeur";
+        var sel = preferred === r.id ? " selected" : "";
+        return '<option value="' + r.id + '"' + sel + ">" + esc(r.label) + "</option>";
+      }).join("") +
+      '</select></label><label>Nom<input id="partyName" required value="' +
+      esc(editing ? editing.name || "" : "") +
+      '" /></label><label>Tél<input id="partyPhone" value="' +
+      esc(editing ? editing.phone || "" : "") +
+      '" /></label><label>Email<input id="partyEmail" type="email" value="' +
+      esc(editing ? editing.email || "" : "") +
+      '" /></label><label>Part / quote-part %<input id="partyShare" type="number" min="0" max="100" step="0.01" placeholder="ex. 12.5" value="' +
+      esc(editing && editing.share_pct != null ? editing.share_pct : "") +
+      '" /></label><label>Contact CRM (id)<input id="partyContact" placeholder="contact_…" value="' +
+      esc(editing ? editing.contact_id || "" : "") +
+      '" /></label><label style="grid-column:1/-1">Notes<input id="partyNotes" placeholder="ex. héritier résidant à l’étranger, contact prioritaire…" value="' +
+      esc(editing ? editing.notes || "" : "") +
+      '" /></label><div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">' +
+      '<button class="btn btn-primary" type="submit">' +
+      (editing ? "Enregistrer" : "Ajouter") +
+      "</button>" +
+      (editing
+        ? '<button class="btn btn-ghost" type="button" id="partyCancelEdit">Annuler</button>'
+        : "") +
+      "</div></form>";
+
+    document.getElementById("partyForm").onsubmit = function (e) {
+      e.preventDefault();
+      var shareRaw = document.getElementById("partyShare").value.trim();
+      Store.upsertParty({
+        id: document.getElementById("partyId").value.trim() || undefined,
+        property_id: prop.id,
+        role: document.getElementById("partyRole").value,
+        name: document.getElementById("partyName").value.trim(),
+        phone: document.getElementById("partyPhone").value.trim(),
+        email: document.getElementById("partyEmail").value.trim(),
+        contact_id: document.getElementById("partyContact").value.trim() || null,
+        share_pct: shareRaw === "" ? null : Number(shareRaw),
+        notes: document.getElementById("partyNotes").value.trim(),
+      });
+      prop.history = prop.history || [];
+      prop.history.push({
+        at: new Date().toISOString(),
+        text: editing ? "Personne mise à jour (vendeurs/acquéreurs)" : "Personne ajoutée (vendeurs/acquéreurs)",
+      });
+      Store.upsertProperty(prop);
+      state.editingPartyId = null;
+      renderOtherTab();
+      syncHeader();
+    };
+
+    var cancel = document.getElementById("partyCancelEdit");
+    if (cancel) {
+      cancel.onclick = function () {
+        state.editingPartyId = null;
+        renderOtherTab();
+      };
+    }
+
+    panel.querySelectorAll(".party-edit").forEach(function (btn) {
+      btn.onclick = function () {
+        state.editingPartyId = btn.getAttribute("data-id");
+        renderOtherTab();
+        var form = document.getElementById("partyForm");
+        if (form) form.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      };
+    });
+    panel.querySelectorAll(".party-del").forEach(function (btn) {
+      btn.onclick = function () {
+        var pid = btn.getAttribute("data-id");
+        var row = parties.find(function (p) {
+          return p.id === pid;
+        });
+        if (!confirm("Retirer " + ((row && row.name) || "cette personne") + " du bien ?")) return;
+        Store.deleteParty(pid);
+        if (state.editingPartyId === pid) state.editingPartyId = null;
+        prop.history = prop.history || [];
+        prop.history.push({
+          at: new Date().toISOString(),
+          text: "Personne retirée (vendeurs/acquéreurs)",
+        });
+        Store.upsertProperty(prop);
+        renderOtherTab();
+        syncHeader();
+      };
+    });
+  }
+
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
-      var parties = Store.listParties(prop.id);
-      panel.innerHTML =
-        "<h3>Vendeur & personnes</h3>" +
-        (parties.length
-          ? parties
-              .map(function (p) {
-                return (
-                  '<div class="party-row"><div><strong>' +
-                  esc(p.name || "—") +
-                  "</strong> · " +
-                  esc(p.role || "") +
-                  "<br><span style='color:var(--muted)'>" +
-                  esc(p.phone || "") +
-                  " " +
-                  esc(p.email || "") +
-                  "</span></div></div>"
-                );
-              })
-              .join("")
-          : "<p style='color:var(--muted)'>Aucune personne liée — ajoute-les depuis la fiche (ou Piges).</p>") +
-        '<form id="partyForm" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">' +
-        '<label>Rôle<select id="partyRole">' +
-        Matcher.PARTY_ROLES.map(function (r) {
-          return '<option value="' + r.id + '">' + r.label + "</option>";
-        }).join("") +
-        '</select></label><label>Nom<input id="partyName" required /></label><label>Tél<input id="partyPhone" /></label><label>Email<input id="partyEmail" /></label><label>Contact CRM<input id="partyContact" /></label><button class="btn btn-primary" type="submit">Ajouter</button></form>';
-      document.getElementById("partyForm").onsubmit = function (e) {
-        e.preventDefault();
-        Store.upsertParty({
-          property_id: prop.id,
-          role: document.getElementById("partyRole").value,
-          name: document.getElementById("partyName").value.trim(),
-          phone: document.getElementById("partyPhone").value.trim(),
-          email: document.getElementById("partyEmail").value.trim(),
-          contact_id: document.getElementById("partyContact").value.trim() || null,
-        });
-        renderOtherTab();
-      };
+      renderPartiesTab(panel);
       return;
     }
     if (state.tab === "pieces_plan") {

@@ -213,9 +213,50 @@ window.CrmImmoStore = (function () {
   }
 
   function listParties(propertyId) {
-    return loadLocal().parties.filter(function (p) {
-      return !propertyId || p.property_id === propertyId;
+    return loadLocal()
+      .parties.filter(function (p) {
+        return !propertyId || p.property_id === propertyId;
+      })
+      .slice()
+      .sort(function (a, b) {
+        var ga = Matcher && Matcher.partyRoleGroup ? Matcher.partyRoleGroup(a.role) : "autre";
+        var gb = Matcher && Matcher.partyRoleGroup ? Matcher.partyRoleGroup(b.role) : "autre";
+        var order = { vendeur: 0, acquereur: 1, autre: 2 };
+        var d = (order[ga] != null ? order[ga] : 9) - (order[gb] != null ? order[gb] : 9);
+        if (d) return d;
+        return String(a.name || "").localeCompare(String(b.name || ""), "fr");
+      });
+  }
+
+  function syncPropertyPrimaryContacts(propertyId) {
+    if (!propertyId) return;
+    var db = loadLocal();
+    var prop = db.properties.find(function (p) {
+      return p.id === propertyId;
     });
+    if (!prop) return;
+    var parties = db.parties.filter(function (p) {
+      return p.property_id === propertyId;
+    });
+    var primarySeller = parties.find(function (p) {
+      return p.contact_id && (Matcher && Matcher.isSellerRole ? Matcher.isSellerRole(p.role) : p.role === "vendeur");
+    });
+    var primaryBuyer = parties.find(function (p) {
+      return p.contact_id && (Matcher && Matcher.isBuyerRole ? Matcher.isBuyerRole(p.role) : p.role === "acquereur");
+    });
+    var changed = false;
+    if (primarySeller && prop.owner_contact_id !== primarySeller.contact_id) {
+      prop.owner_contact_id = primarySeller.contact_id;
+      changed = true;
+    }
+    if (primaryBuyer && prop.buyer_contact_id !== primaryBuyer.contact_id) {
+      prop.buyer_contact_id = primaryBuyer.contact_id;
+      changed = true;
+    }
+    if (!changed) return;
+    prop.updated_at = new Date().toISOString();
+    saveLocal(db);
+    pushEntity("property", prop);
   }
 
   function upsertParty(input) {
@@ -226,6 +267,11 @@ window.CrmImmoStore = (function () {
     if (!item.created_at) item.created_at = now;
     item.updated_at = now;
     if (!item.role) item.role = "prospect";
+    if (item.share_pct === "" || item.share_pct == null) item.share_pct = null;
+    else {
+      var n = Number(item.share_pct);
+      item.share_pct = isFinite(n) ? n : null;
+    }
     var idx = db.parties.findIndex(function (p) {
       return p.id === item.id;
     });
@@ -233,16 +279,22 @@ window.CrmImmoStore = (function () {
     else db.parties.unshift(item);
     saveLocal(db);
     pushEntity("party", item);
+    if (item.property_id) syncPropertyPrimaryContacts(item.property_id);
     return item;
   }
 
   function deleteParty(id) {
     var db = loadLocal();
+    var existing = db.parties.find(function (p) {
+      return p.id === id;
+    });
+    var propertyId = existing && existing.property_id;
     db.parties = db.parties.filter(function (p) {
       return p.id !== id;
     });
     saveLocal(db);
     deleteRemote("party", id);
+    if (propertyId) syncPropertyPrimaryContacts(propertyId);
   }
 
   function listDocuments(opts) {
@@ -381,6 +433,26 @@ window.CrmImmoStore = (function () {
         name: "M. Exemple Vendeur",
         phone: "",
         email: "",
+        share_pct: 50,
+      },
+      {
+        id: uid("party"),
+        property_id: props[0].id,
+        role: "heritier",
+        name: "Mme Héritière A",
+        phone: "",
+        email: "",
+        share_pct: 25,
+        notes: "Exemple indivision / succession",
+      },
+      {
+        id: uid("party"),
+        property_id: props[0].id,
+        role: "heritier",
+        name: "M. Héritier B",
+        phone: "",
+        email: "",
+        share_pct: 25,
       },
     ];
     db.documents = [

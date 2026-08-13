@@ -32,15 +32,47 @@
   ];
 
   var PARTY_ROLES = [
-    { id: "vendeur", label: "Vendeur / propriétaire" },
-    { id: "mandant", label: "Mandant" },
-    { id: "acquereur", label: "Acquéreur" },
-    { id: "prospect", label: "Prospect intéressé" },
-    { id: "colocataire", label: "Co-acquéreur" },
-    { id: "notaire", label: "Notaire" },
-    { id: "agent", label: "Agent / collègue" },
-    { id: "apporteur", label: "Apporteur" },
+    { id: "vendeur", label: "Vendeur / propriétaire", group: "vendeur" },
+    { id: "heritier", label: "Héritier (indivision)", group: "vendeur" },
+    { id: "co_vendeur", label: "Co-vendeur", group: "vendeur" },
+    { id: "mandant", label: "Mandant", group: "vendeur" },
+    { id: "acquereur", label: "Acquéreur", group: "acquereur" },
+    { id: "colocataire", label: "Co-acquéreur", group: "acquereur" },
+    { id: "prospect", label: "Prospect intéressé", group: "autre" },
+    { id: "notaire", label: "Notaire", group: "autre" },
+    { id: "agent", label: "Agent / collègue", group: "autre" },
+    { id: "apporteur", label: "Apporteur", group: "autre" },
   ];
+
+  var PARTY_GROUPS = [
+    { id: "vendeur", label: "Vendeurs / héritiers" },
+    { id: "acquereur", label: "Acquéreurs" },
+    { id: "autre", label: "Autres intervenants" },
+  ];
+
+  function partyRoleMeta(roleId) {
+    return (
+      PARTY_ROLES.find(function (r) {
+        return r.id === roleId;
+      }) || { id: roleId || "prospect", label: roleId || "Prospect", group: "autre" }
+    );
+  }
+
+  function partyRoleLabel(roleId) {
+    return partyRoleMeta(roleId).label;
+  }
+
+  function partyRoleGroup(roleId) {
+    return partyRoleMeta(roleId).group || "autre";
+  }
+
+  function isSellerRole(roleId) {
+    return partyRoleGroup(roleId) === "vendeur";
+  }
+
+  function isBuyerRole(roleId) {
+    return partyRoleGroup(roleId) === "acquereur";
+  }
 
   /** Statuts pipeline métier (réf. CRM immo) — numéro d’affichage + id stocké */
   var PROPERTY_STATUSES = [
@@ -488,7 +520,13 @@
     PROPERTY_STATUSES: PROPERTY_STATUSES,
     LISTING_SOURCES: LISTING_SOURCES,
     PARTY_ROLES: PARTY_ROLES,
+    PARTY_GROUPS: PARTY_GROUPS,
     DOC_TYPES: DOC_TYPES,
+    partyRoleMeta: partyRoleMeta,
+    partyRoleLabel: partyRoleLabel,
+    partyRoleGroup: partyRoleGroup,
+    isSellerRole: isSellerRole,
+    isBuyerRole: isBuyerRole,
     normalizeProperty: normalizeProperty,
     normalizePropertyStatus: normalizePropertyStatus,
     propertyStatusLabel: propertyStatusLabel,

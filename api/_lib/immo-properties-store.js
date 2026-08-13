@@ -100,10 +100,12 @@ async function ensureImmoSchema(sql) {
       email TEXT,
       phone TEXT,
       notes TEXT,
+      share_pct NUMERIC(8, 4),
       created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `;
+  await sql`ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS share_pct NUMERIC(8, 4)`;
   await sql`
     CREATE TABLE IF NOT EXISTS crm_immo_documents (
       id TEXT PRIMARY KEY,
@@ -210,7 +212,11 @@ async function loadAll(sql) {
     version: 1,
     properties: properties.map(rowToProperty),
     criteria: criteria.map(rowToCriteria),
-    parties: parties,
+    parties: parties.map(function (p) {
+      return Object.assign({}, p, {
+        share_pct: p.share_pct != null && p.share_pct !== "" ? Number(p.share_pct) : null,
+      });
+    }),
     documents: documents.map(function (d) {
       return Object.assign({}, d, {
         data: parseArr(d.data_json).length || typeof d.data_json === "string"
@@ -365,11 +371,16 @@ async function upsertCriteria(sql, item, user) {
 async function upsertParty(sql, item) {
   await ensureImmoSchema(sql);
   const id = item.id || uid("party");
+  const share =
+    item.share_pct === "" || item.share_pct == null || !Number.isFinite(Number(item.share_pct))
+      ? null
+      : Number(item.share_pct);
   await sql`
-    INSERT INTO crm_immo_parties (id, property_id, contact_id, role, name, email, phone, notes, updated_at)
+    INSERT INTO crm_immo_parties (id, property_id, contact_id, role, name, email, phone, notes, share_pct, updated_at)
     VALUES (
       ${id}, ${item.property_id}, ${item.contact_id || null}, ${item.role || "prospect"},
-      ${item.name || null}, ${item.email || null}, ${item.phone || null}, ${item.notes || null}, NOW()
+      ${item.name || null}, ${item.email || null}, ${item.phone || null}, ${item.notes || null},
+      ${share}, NOW()
     )
     ON CONFLICT (id) DO UPDATE SET
       property_id = EXCLUDED.property_id,
@@ -379,6 +390,7 @@ async function upsertParty(sql, item) {
       email = EXCLUDED.email,
       phone = EXCLUDED.phone,
       notes = EXCLUDED.notes,
+      share_pct = EXCLUDED.share_pct,
       updated_at = NOW()
   `;
   return id;

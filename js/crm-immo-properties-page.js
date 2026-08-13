@@ -153,6 +153,19 @@
           esc(src) +
           (p.suivi_par ? " · suivi " + esc(p.suivi_par) : "") +
           (p.phone ? " · ☎ " + esc(p.phone) : "") +
+          (function () {
+            var parties = Store.listParties(p.id);
+            var sellers = parties.filter(function (x) {
+              return Matcher.isSellerRole(x.role);
+            });
+            var buyers = parties.filter(function (x) {
+              return Matcher.isBuyerRole(x.role);
+            });
+            var bits = [];
+            if (sellers.length) bits.push(sellers.length + " vendeur(s)/héritier(s)");
+            if (buyers.length) bits.push(buyers.length + " acquéreur(s)");
+            return bits.length ? " · " + bits.join(" · ") : "";
+          })() +
           "</div>" +
           (p.listing_url
             ? '<div class="immo-meta"><a href="' +

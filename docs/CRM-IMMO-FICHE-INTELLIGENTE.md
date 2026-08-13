@@ -3,7 +3,15 @@
 Référence métier (captures CRM) adaptée et réorganisée :
 
 ## Onglets
-Description · Pièces · Images · Immo cloud · Vendeur · Historique · Statistiques
+Description · Pièces · Images · Immo cloud · **Vendeurs & acquéreurs** · Historique · Statistiques
+
+### Vendeurs & acquéreurs (illimité)
+Sur la fiche bien, onglet dédié : ajoute autant de personnes que nécessaire (ex. 8 héritiers en indivision, plusieurs co-acquéreurs).
+
+- Rôles : vendeur, héritier, co-vendeur, mandant, acquéreur, co-acquéreur, prospect, notaire, agent, apporteur
+- Quote-part % optionnelle (somme affichée côté vendeurs)
+- Modifier / retirer chaque personne
+- Sync du contact CRM principal (`owner_contact_id` / `buyer_contact_id`) si un id contact est renseigné
 
 ## Sections Description (ordre)
 1. **Composition** — terrain → maison → appartements loués (unités imbriquées)
