@@ -1,5 +1,5 @@
 /**
- * Couverture geo immobilier : France + DOM-TOM, focus Grand Nancy.
+ * Couverture geo immobilier : France + DOM-TOM, focus Dombasle / Varangéville / Meurthe.
  */
 (function () {
   var CONFIG_URL = "/data/immo-geo-france.json";
@@ -16,9 +16,13 @@
         return data;
       })
       .catch(function () {
-        configCache = { nancyFocus: { cities: [] }, domTom: [] };
+        configCache = { localZones: [], domTom: [] };
         return configCache;
       });
+  }
+
+  function zonesOf(cfg) {
+    return (cfg && cfg.localZones) || [];
   }
 
   function setFieldValue(id, value) {
@@ -37,25 +41,41 @@
     return {
       postalProject: q.get("postalProject") || q.get("cp") || "",
       searchCities: q.get("searchCities") || q.get("ville") || "",
-      zone: q.get("zone") || "",
+      zone: (q.get("zone") || "").toLowerCase(),
     };
   }
 
-  function applyUrlGeo() {
+  function applyUrlGeo(cfg) {
+    cfg = cfg || {};
     var geo = readUrlGeo();
+    var agency = cfg.agency || {};
+
     if (geo.postalProject) setFieldValue("postalProject", geo.postalProject);
     if (geo.searchCities) setFieldValue("searchCities", geo.searchCities);
-    if (geo.zone === "nancy" && !geo.postalProject) setFieldValue("postalProject", "54000");
+
+    if (geo.postalProject || geo.searchCities) return;
+
+    if (geo.zone === "dombasle" || geo.zone === "agence" || geo.zone === "meurthe") {
+      setFieldValue("postalProject", agency.postal || "54110");
+      setFieldValue("searchCities", agency.city || "Dombasle-sur-Meurthe");
+      return;
+    }
+    if (geo.zone === "varangeville") {
+      setFieldValue("postalProject", agency.homePostal || "54110");
+      setFieldValue("searchCities", agency.homeCity || "Varangéville");
+      return;
+    }
+    if (geo.zone === "nancy") {
+      setFieldValue("postalProject", "54000");
+      setFieldValue("searchCities", "Nancy");
+    }
   }
 
-  function chip(label, attrs) {
+  function chip(label, extraClass) {
     var btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "immo-geo-chip";
+    btn.className = "immo-geo-chip" + (extraClass ? " " + extraClass : "");
     btn.textContent = label;
-    Object.keys(attrs || {}).forEach(function (k) {
-      btn.setAttribute(k, attrs[k]);
-    });
     return btn;
   }
 
@@ -63,7 +83,7 @@
     btn.addEventListener("click", function () {
       if (postal) setFieldValue("postalProject", postal);
       if (city) setFieldValue("searchCities", city);
-      var group = btn.closest("[data-immo-geo-chips]");
+      var group = btn.closest(".immo-geo-chips");
       if (group) {
         group.querySelectorAll(".immo-geo-chip").forEach(function (c) {
           c.classList.remove("is-active");
@@ -73,40 +93,59 @@
     });
   }
 
+  function renderZoneBlock(zone, opts) {
+    opts = opts || {};
+    if (!zone || !zone.cities || !zone.cities.length) return null;
+
+    var block = document.createElement("div");
+    block.className = "immo-geo-field-block" + (zone.priority ? " immo-geo-field-block--priority" : "");
+
+    var label = document.createElement("span");
+    label.className = "immo-geo-field-label";
+    label.textContent = zone.title;
+    block.appendChild(label);
+
+    if (zone.summary && opts.showSummary) {
+      var sum = document.createElement("p");
+      sum.className = "immo-geo-note";
+      sum.textContent = zone.summary;
+      block.appendChild(sum);
+    }
+
+    var wrap = document.createElement("div");
+    wrap.className = "immo-geo-chips";
+    wrap.setAttribute("data-immo-geo-chips", zone.id || "zone");
+
+    zone.cities.forEach(function (c) {
+      var extra = c.highlight ? "immo-geo-chip--highlight" : "";
+      var b = chip(c.name + " (" + c.postal + ")", extra);
+      bindChip(b, c.postal, c.name);
+      wrap.appendChild(b);
+    });
+    block.appendChild(wrap);
+    return block;
+  }
+
   function renderFormChips(root, cfg) {
     var host = root.querySelector("[data-immo-geo-chips]");
     if (!host || !cfg) return;
 
-    var nancy = cfg.nancyFocus || {};
+    zonesOf(cfg).forEach(function (zone) {
+      var block = renderZoneBlock(zone, { showSummary: true });
+      if (block) host.appendChild(block);
+    });
+
     var dom = cfg.domTom || [];
-
-    if (nancy.cities && nancy.cities.length) {
-      var nBlock = document.createElement("div");
-      nBlock.className = "immo-geo-field-block";
-      nBlock.innerHTML = '<span class="immo-geo-field-label">Grand Nancy &amp; alentours (zone prioritaire)</span>';
-      var nWrap = document.createElement("div");
-      nWrap.className = "immo-geo-chips";
-      nWrap.setAttribute("data-immo-geo-chips", "nancy");
-      nancy.cities.forEach(function (c) {
-        var b = chip(c.name + " (" + c.postal + ")", { "data-postal": c.postal });
-        bindChip(b, c.postal, c.name);
-        nWrap.appendChild(b);
-      });
-      nBlock.appendChild(nWrap);
-      host.appendChild(nBlock);
-    }
-
     if (dom.length) {
       var dBlock = document.createElement("div");
       dBlock.className = "immo-geo-field-block";
       dBlock.innerHTML =
         '<span class="immo-geo-field-label">DOM-TOM &amp; Corse</span>' +
-        '<p class="immo-geo-note">Guadeloupe, Martinique, Reunion, Guyane, Mayotte, Corse — memes codes postaux (971xx, 972xx, 974xx…).</p>';
+        '<p class="immo-geo-note">Guadeloupe, Martinique, Reunion, Guyane, Mayotte, Corse — codes postaux 971xx, 972xx, 974xx…</p>';
       var dWrap = document.createElement("div");
       dWrap.className = "immo-geo-chips";
-      dWrap.setAttribute("data-immo-geo-chips", "dom");
       dom.forEach(function (c) {
-        var b = chip(c.name + " (" + c.postal + ")", { "data-postal": c.postal });
+        var b = chip(c.name + " (" + c.postal + ")");
         bindChip(b, c.postal, c.city || c.name);
         dWrap.appendChild(b);
       });
@@ -124,21 +163,61 @@
     return base + (qs ? "?" + qs : "") + "#demande";
   }
 
+  function renderHubZone(zone) {
+    if (!zone || !zone.cities || !zone.cities.length) return null;
+
+    var section = document.createElement("section");
+    section.className = "immo-zone immo-zone--nancy" + (zone.priority ? " immo-zone--priority" : "");
+
+    if (zone.badge) {
+      var badge = document.createElement("span");
+      badge.className = "immo-zone-badge";
+      badge.textContent = zone.badge;
+      section.appendChild(badge);
+    }
+
+    var h2 = document.createElement("h2");
+    h2.textContent = zone.title;
+    section.appendChild(h2);
+
+    if (zone.summary) {
+      var p = document.createElement("p");
+      p.textContent = zone.summary;
+      section.appendChild(p);
+    }
+
+    var chips = document.createElement("div");
+    chips.className = "immo-zone-chips";
+    zone.cities.forEach(function (c) {
+      var a = document.createElement("a");
+      a.className = "immo-zone-chip" + (c.highlight ? " immo-zone-chip--primary" : "");
+      a.href = acheteurUrl(c.postal, c.name);
+      a.textContent = c.name;
+      chips.appendChild(a);
+    });
+    section.appendChild(chips);
+    return section;
+  }
+
   function initHub() {
     var hub = document.querySelector("[data-immo-geo-hub]");
     if (!hub) return;
     loadConfig().then(function (cfg) {
-      var nancy = cfg.nancyFocus || {};
-      var chips = hub.querySelector("[data-immo-nancy-chips]");
-      if (chips && nancy.cities) {
-        nancy.cities.forEach(function (c, i) {
-          var a = document.createElement("a");
-          a.className = "immo-zone-chip" + (i === 0 ? " immo-zone-chip--primary" : "");
-          a.href = acheteurUrl(c.postal, c.name);
-          a.textContent = c.name;
-          chips.appendChild(a);
+      var localHost = hub.querySelector("[data-immo-local-zones]");
+      if (localHost) {
+        zonesOf(cfg).forEach(function (zone) {
+          var section = renderHubZone(zone);
+          if (section) localHost.appendChild(section);
         });
       }
+
+      var agency = cfg.agency || {};
+      var cta = hub.querySelector("[data-immo-agency-cta]");
+      if (cta && agency.city) {
+        cta.href = acheteurUrl(agency.postal, agency.city);
+        cta.textContent = "Démarrer un dossier à " + agency.city.replace(/-sur-Meurthe/i, "") + " →";
+      }
+
       var domChips = hub.querySelector("[data-immo-dom-chips]");
       if (domChips && cfg.domTom) {
         cfg.domTom.forEach(function (c) {
@@ -155,8 +234,8 @@
   function initForm() {
     var form = document.querySelector("form[data-acheteur-immo]");
     if (!form) return;
-    applyUrlGeo();
     loadConfig().then(function (cfg) {
+      applyUrlGeo(cfg);
       renderFormChips(form, cfg);
     });
   }
@@ -175,5 +254,6 @@
   window.ImmoGeoFrance = {
     loadConfig: loadConfig,
     acheteurUrl: acheteurUrl,
+    zonesOf: zonesOf,
   };
 })();
