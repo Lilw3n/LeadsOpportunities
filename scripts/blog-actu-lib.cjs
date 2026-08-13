@@ -48,7 +48,76 @@ function existingFiles() {
       if (f.endsWith(".html") && f !== "index.html") files.add(f);
     });
   } catch (e) {}
+  var state = readJson("blog-actu-state.json", { publishedFiles: [] });
+  (state.publishedFiles || []).forEach(function (f) {
+    if (f) files.add(String(f).replace(/^blog\//, ""));
+  });
   return files;
+}
+
+function hasLeadKeywords(hay) {
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|rembours|franchise|prime|tarif|contrat|d[ée]g[aâ]t|pr[eê]t immobilier|cr[ée]dit immo|loi lemoine|vtc|v[ée]t[ée]rinaire|locataire|bailleur|bonus-malus|tous risques/i.test(
+    String(hay || "")
+  );
+}
+
+/** File / titre d’exemple à ne jamais publier (inbox Cafeyn, lorem, etc.). */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "draft" || status === "example" || status === "skipped") {
+    return true;
+  }
+  var id = String(item.id || "").toLowerCase();
+  if (/-template$/.test(id) || id.indexOf("pending-template") !== -1) return true;
+  var title = String(item.title || "");
+  if (!title.trim()) return true;
+  if (/collez ici|lorem ipsum|placeholder|à coller|a coller|\btitre de la une\b/i.test(title)) {
+    return true;
+  }
+  return false;
+}
+
+function isMostlyEnglishTitle(title) {
+  var t = String(title || "");
+  var en = (t.match(/\b(the|and|for|with|from|this|that|health|insurance|news)\b/gi) || []).length;
+  var fr = (t.match(/\b(le|la|les|des|une|un|et|dans|pour|sur|avec|france|assurance|mutuelle)\b/gi) || []).length;
+  return en >= 4 && en > fr;
+}
+
+/** Sujets peu convertisseurs (lives, éditos, actu générique sans angle assurance). */
+function isWeakLeadCandidate(c) {
+  var title = String((c && c.title) || "");
+  var hay = title + " " + String((c && c.summary) || "") + " " + String((c && c.note) || "");
+  var url = String((c && c.url) || "");
+  if (isPlaceholderActuItem(c)) return true;
+  if (isMostlyEnglishTitle(title)) return true;
+  if (/^en direct\b|^live\s*[-:]/i.test(title)) return true;
+  if (/\bl['’'][ée]ditorial\b|\b[ée]ditorial de\b/i.test(title)) return true;
+  if (/guide-shopping|mutuelle\.fr|thelocal\.fr|msn\.com\/fr-be|\/fr-be\/|meilleurtaux/i.test(url + " " + hay)) {
+    return true;
+  }
+  if (
+    /comparateur mutuelle|meilleure mutuelle|classement exclusif/i.test(hay) &&
+    /comment (bien )?choisir|classement|comparatif/i.test(hay)
+  ) {
+    return true;
+  }
+  if (/banque de france|croissance au .*trimestre|\bpib\b/i.test(hay) && !hasLeadKeywords(hay)) {
+    return true;
+  }
+  if (hasLeadKeywords(hay)) return false;
+  if (/[ée]clipse|astronomie/i.test(hay)) return true;
+  if (
+    /tennis|masters 1000|supercoupe|real madrid|psg |ligue des champions/i.test(hay) &&
+    !/voyage|assurance|d[ée]placement/i.test(hay)
+  ) {
+    return true;
+  }
+  var topic = matchTopic(hay);
+  if (topic.tag === "Actu" && topic.need === "habitation" && !topic.matched) return true;
+  if (topic.tag === "Actu politique") return true;
+  return false;
 }
 
 function matchTopic(text) {
@@ -74,6 +143,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: !!(best && bestScore > 0),
   };
 }
 
@@ -130,6 +200,8 @@ function scoreLeadPotential(candidate) {
   }
 
   score += franceLeadScoreAdjust(candidate);
+
+  if (isWeakLeadCandidate(candidate)) score -= 40;
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
@@ -349,6 +421,10 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  isPlaceholderCandidate: isPlaceholderActuItem,
+  hasLeadKeywords: hasLeadKeywords,
+  isWeakLeadCandidate: isWeakLeadCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
