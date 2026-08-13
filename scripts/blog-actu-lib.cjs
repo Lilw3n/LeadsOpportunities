@@ -152,6 +152,19 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File manuelle : consignes / templates, pas des vrais sujets à publier. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var title = String(item.title || "");
+  var id = String(item.id || "");
+  var note = String(item.note || "");
+  if (!title.trim()) return true;
+  if (/collez ici/i.test(title) || /collez ici/i.test(note)) return true;
+  if (/\bTODO\b|\bPLACEHOLDER\b|\bEXEMPLE\b/i.test(title)) return true;
+  if (id === "cafeyn-pending-template" || /-pending-template$/.test(id)) return true;
+  return false;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +362,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
