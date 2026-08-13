@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T04:38:03.356Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/meteo/canicule/nouvelle-journee-de-canicule-en-france-80-departements-en-vigilance-orange-5b05d58a-96c9-11f1-9ee8-a50506a5291a?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d49e0a24f4033ab7efcc04c1ecb18&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+    "https://www.franceinfo.fr/sante/en-savoie-deux-personnes-decedees-de-legionellose-et-41-cas-recenses-depuis-le-mois-de-juin_8144765.html"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T04:38:04.322Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,39 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T04:36:53.233Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "nouvelle-journee-de-canicule-en-france-80-departements-en-vigilance-oran.html",
+          "title": "Nouvelle journée de canicule en France, 80 départements en vigilance orange : assurance habitation — que faire ?",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+          "title": "Sophrologie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-13T04:38:04.322Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "en-savoie-deux-personnes-decedees-de-legionellose-et-41-cas-recenses-dep.html",
+          "title": "En Savoie, deux personnes décédées de légionellose et 41 cas recensés depuis le mois de… : mutuelle et remboursements — que faire ?",
+          "source": "firefox",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }
