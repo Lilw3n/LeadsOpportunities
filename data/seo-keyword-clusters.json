@@ -21,8 +21,8 @@
       "id": "credit-immo",
       "priority": 3,
       "primary": "crédit immobilier",
-      "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo"],
-      "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/"],
+      "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo", "coût réel achat immobilier", "taxe foncière charges logement"],
+      "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/", "/landings/projection-achat.html"],
       "blog": ["/blog/pret-immo-erreurs-a-eviter.html", "/blog/assurance-emprunteur-loi-lemoine-2026.html"]
     },
     {

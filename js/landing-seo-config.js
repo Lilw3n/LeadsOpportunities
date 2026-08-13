@@ -38,6 +38,7 @@
           h2: "Credit immobilier et financement",
           text: "Simulation credit immo, courtier pret immobilier, rachat de credit, capacite d emprunt et taux 2026.",
           links: [
+            { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
             { href: "/landings/credit-immo.html", label: "Simulation credit immo" },
             { href: "/landings/questionnaire.html?need=rachat", label: "Rachat de credit" },
             { href: "/credit-immo/", label: "Guide credit immo" },
@@ -122,6 +123,21 @@
         {
           h2: "Accompagnement de bout en bout",
           text: "Simulation gratuite, estimation des economies emprunteur, conseiller unique jusqu a la signature chez le notaire.",
+        },
+      ],
+      pillar: "/credit-immo/",
+    },
+    "projection-achat": {
+      keywords:
+        "cout reel achat immobilier, simulateur pret immobilier, taxe fonciere, charges electricite gaz eau, travaux renovation, reste a vivre, capacite emprunt, apport personnel",
+      sections: [
+        {
+          h2: "Au-dela de la mensualite",
+          text: "Le pret n est qu une ligne. Taxe fonciere, energie, eau, copro, travaux et assurance habitation forment le vrai budget mensuel du proprietaire.",
+        },
+        {
+          h2: "Salaire, apport, patrimoine",
+          text: "Le simulateur croise endettement HCSF 35 %, reste a vivre et coussin d epargne apres apport — pour voir si le dossier tient et si vous vous en sortez au quotidien.",
         },
       ],
       pillar: "/credit-immo/",

@@ -134,6 +134,7 @@
       var path = window.location.pathname;
       if (path.indexOf("vtc") !== -1) return "vtc";
       if (path.indexOf("sante") !== -1) return "sante";
+      if (path.indexOf("projection-achat") !== -1) return "credit_immo";
       if (path.indexOf("credit-immo") !== -1) return "credit_immo";
       if (path.indexOf("acheteur-immo") !== -1) return "acheteur_immo";
       if (path.indexOf("animaux") !== -1) return "animaux";

@@ -11,6 +11,7 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   var CREDIT_PATH = "/landings/credit-immo.html";
   var ACHETEUR_PATH = "/landings/acheteur-immo.html";
+  var PROJECTION_PATH = "/landings/projection-achat.html";
   var BAREMES_PATH = "/crm-agency-fees.html";
   var PRET_PATH = "/crm-pret-immo-sim.html";
   var PRET_LIST_PATH = "/crm-pret-immo.html";
@@ -83,6 +84,12 @@
     return ACHETEUR_PATH + (qs ? "?" + qs : "") + "#demande";
   }
 
+  function projectionUrl(data, extras) {
+    extras = extras || {};
+    var qs = buildQuery(data || {}, Object.assign({ utmCampaign: "projection-achat" }, extras));
+    return PROJECTION_PATH + (qs ? "?" + qs : "") + "#simulateur";
+  }
+
   function baremesUrl(data) {
     var qs = buildQuery(data || {}, { utmMedium: "immo-fiche", utmCampaign: "baremes" });
     return BAREMES_PATH + (qs ? "?" + qs : "");
@@ -115,7 +122,9 @@
       } catch (e) {}
     }
     if (data.propertyPrice != null) setVal("propertyPrice", Math.round(data.propertyPrice));
+    if (data.propertyPrice != null) setVal("prix", Math.round(data.propertyPrice));
     if (data.downPayment != null) setVal("downPayment", Math.round(data.downPayment));
+    if (data.downPayment != null) setVal("apport", Math.round(data.downPayment));
     if (data.loanDuration != null) {
       var dur = String(Math.round(data.loanDuration));
       var sel = root.getElementById("loanDuration");
@@ -130,11 +139,13 @@
         });
         if (!matched) setVal("loanDuration", dur + " ans");
       }
+      setVal("dureeAns", dur);
     }
     if (data.income != null) {
       setVal("monthlyIncome", Math.round(data.income));
       setVal("income", Math.round(data.income));
       setVal("revenus", Math.round(data.income));
+      setVal("salaire", Math.round(data.income));
     }
 
     // Champs cachés attribution
@@ -184,11 +195,13 @@
   return {
     CREDIT_PATH: CREDIT_PATH,
     ACHETEUR_PATH: ACHETEUR_PATH,
+    PROJECTION_PATH: PROJECTION_PATH,
     BAREMES_PATH: BAREMES_PATH,
     readParams: readParams,
     buildQuery: buildQuery,
     creditUrl: creditUrl,
     acheteurUrl: acheteurUrl,
+    projectionUrl: projectionUrl,
     baremesUrl: baremesUrl,
     pretImmoUrl: pretImmoUrl,
     pretListUrl: pretListUrl,

@@ -1273,11 +1273,14 @@
     var data = buildLoanLinkData(bestFinance);
     var credit = Deep.creditUrl(data);
     var acheteur = Deep.acheteurUrl(data);
+    var projection = Deep.projectionUrl ? Deep.projectionUrl(data) : "./landings/projection-achat.html#simulateur";
     [
       ["bfCtaCredit", credit],
       ["bfCtaAcheteur", acheteur],
+      ["bfCtaProjection", projection],
       ["afLinkCredit", credit],
       ["afLinkAcheteur", acheteur],
+      ["afLinkProjection", projection],
       ["dealCtaCredit", credit],
       ["bfCtaDossier", Deep.pretImmoUrl ? Deep.pretImmoUrl(data, { type: "immo" }) : "./crm-pret-immo-sim.html?type=immo"],
     ].forEach(function (pair) {

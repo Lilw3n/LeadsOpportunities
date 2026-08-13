@@ -460,6 +460,7 @@ const PAGES = [
       },
     ],
     related: [
+      { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
       { href: "/credit-immo/simulation/", label: "Simulation" },
       { href: "/credit-immo/villes/", label: "Credit immo par ville" },
       { href: "/credit-immo/paris/", label: "Credit immo Paris" },
@@ -485,8 +486,8 @@ const PAGES = [
       "Simulation credit immobilier : mensualite, duree, taux. Estimez votre capacite d emprunt avec un conseiller dedie.",
     h1: "Simulation credit immobilier",
     intro:
-      "Avant de visiter des biens, clarifiez votre enveloppe d emprunt. Notre simulation integre revenus, charges et apport pour un budget realiste.",
-    cta: { href: "/landings/credit-immo.html", label: "Demarrer la simulation" },
+      "Avant de visiter des biens, clarifiez votre enveloppe d emprunt. Notre simulation integre revenus, charges et apport pour un budget realiste. Pour le cout mensuel reel (pret + taxe fonciere + energie + travaux), utilisez la projection d achat.",
+    cta: { href: "/landings/projection-achat.html", label: "Projection cout reel" },
     crumbs: [
       { name: "Accueil", url: "/" },
       { name: "Credit immobilier", url: "/credit-immo/" },
@@ -509,6 +510,7 @@ const PAGES = [
       },
     ],
     related: [
+      { href: "/landings/projection-achat.html", label: "Cout reel (TF, charges, travaux)" },
       { href: "/credit-immo/", label: "Guide credit immo" },
       { href: "/credit-immo/paris/", label: "Paris" },
     ],
@@ -531,6 +533,7 @@ const PAGES = [
       { name: "Paris", url: "/credit-immo/paris/" },
     ],
     related: [
+      { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
       { href: "/credit-immo/simulation/", label: "Simulation" },
       { href: "/credit-immo/", label: "Guide national" },
     ],

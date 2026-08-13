@@ -2,6 +2,12 @@
 
 Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 
+## Projection publique (acquéreur)
+
+Simulateur **coût réel du logement** : [`landings/projection-achat.html`](../landings/projection-achat.html)  
+Prêt + taxe foncière + énergie/eau + copro + travaux + salaire / apport / patrimoine / reste à vivre.  
+Moteur : [`js/achat-projection-lib.js`](../js/achat-projection-lib.js) — tests : `npm run verify:projection`.
+
 ## Accès
 - Liste : [`crm-pret-immo.html`](../crm-pret-immo.html)
 - Simulateur : [`crm-pret-immo-sim.html`](../crm-pret-immo-sim.html)

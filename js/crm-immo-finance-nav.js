@@ -25,7 +25,8 @@
       { id: "grilles", href: "./crm-pret-immo-grilles.html", label: "Grilles des taux" },
       { id: "fiches", href: "./crm-pret-immo-fiches.html", label: "Fiches produits" },
       { id: "pvh", href: "./crm-pret-immo-pvh.html", label: "PVH" },
-      { id: "baremes", href: "./crm-agency-fees.html", label: "Barèmes / FAI" }
+      { id: "baremes", href: "./crm-agency-fees.html", label: "Barèmes / FAI" },
+      { id: "projection", href: "./landings/projection-achat.html", label: "Projection coût réel (public)" }
     ],
     assurance: [
       { id: "hub", href: "./crm-assurance-immo.html", label: "Hub assurance immo" },

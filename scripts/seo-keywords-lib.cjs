@@ -100,6 +100,7 @@ function moneyLinksHtml(cluster) {
     "/credit-immo/": "Crédit immobilier",
     "/landings/credit-immo.html": "Simulation crédit",
     "/credit-immo/simulation/": "Simulateur prêt",
+    "/landings/projection-achat.html": "Coût réel achat",
     "/assurance-animaux/": "Assurance animaux",
     "/landings/animaux.html": "Devis animaux",
     "/assurance-habitation/": "Assurance habitation",

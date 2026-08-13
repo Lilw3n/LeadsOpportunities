@@ -49,6 +49,13 @@
       vertical: "acheteur_immo",
       landing: "./landings/acheteur-immo.html",
     },
+    "projection-achat": {
+      need: "credit-immo",
+      label: "Projection cout reel achat",
+      category: "finance",
+      vertical: "credit_immo",
+      landing: "./landings/projection-achat.html",
+    },
     auto: { need: "auto", label: "Assurance auto", category: "mobilite", vertical: "auto" },
     moto: { need: "moto", label: "Deux-roues / scooter", category: "mobilite", vertical: "moto" },
     flotte: { need: "flotte", label: "Flotte professionnelle", category: "mobilite", vertical: "flotte" },
@@ -162,6 +169,7 @@
     sante: "./landings/sante.html",
     immo: "./landings/credit-immo.html",
     "acheteur-immo": "./landings/acheteur-immo.html",
+    "projection-achat": "./landings/projection-achat.html",
   };
 
   function normalizeLandingPath(path, opts) {

@@ -1208,6 +1208,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurance-sante/villes/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/credit-immo/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/credit-immo/simulation/", priority: "0.87", changefreq: "weekly" },
+    { loc: base + "/landings/projection-achat.html", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/credit-immo/villes/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-auto/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-auto/villes/", priority: "0.9", changefreq: "weekly" },
