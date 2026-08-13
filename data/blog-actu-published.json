@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-13T03:58:53.133Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -365,6 +365,207 @@
         {
           "type": "p",
           "text": "Selon l'information relayee ce jour (<strong>Lieu de r&#xE9;sidence, intoxication chronique, analyse d'urine... Cinq questions sur l…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habit… : assurance habitation — que faire ?",
+      "description": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=hausse-des-primes-cout-des-sinistres",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habit…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "changement-d-assurance-emprunteur-quatre-banques-sanctionnees-pour-entra.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Changement d’assurance emprunteur : quatre banques sanctionnées pour entrave à la loi : pret et assurance emprunteur — que faire ?",
+      "description": "Changement d’assurance emprunteur : quatre banques sanctionnées pour entrave à la loi — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Changement d’assurance emprunteur : quatre banques sanctionnées pour entrave à la loi — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=changement-d-assurance-emprunteur-quat",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Changement d’assurance emprunteur : quatre banques sanctionnées pour entrave à la loi</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "baisses-de-remboursement-securite-sociale-les-mutuelles-vont-elles-coute.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Baisses de remboursement Sécurité sociale : les mutuelles vont-elles coûter plus cher ? : mutuelle et remboursements — que faire ?",
+      "description": "Baisses de remboursement Sécurité sociale : les mutuelles vont-elles coûter plus cher ? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Baisses de remboursement Sécurité sociale : les mutuelles vont-elles coûter plus cher ? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=baisses-de-remboursement-securite-social",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Baisses de remboursement Sécurité sociale : les mutuelles vont-elles coûter plus cher ?</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
         },
         {
           "type": "h2",

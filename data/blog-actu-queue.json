@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-08-13T03:58:53.139Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -33,9 +33,36 @@
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
-      "status": "pending",
+      "note": "Modèle inbox — ne pas publier. Remplacer via blog/actu-inbox.html.",
+      "status": "template",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "queue-habitation-primes-sinistres-2026-08",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "source": "aggregator",
+      "note": "Angle questionnaire habitation : primes, sinistres, sous-assurance.",
+      "status": "published",
+      "addedAt": "2026-08-13T04:00:00.000Z"
+    },
+    {
+      "id": "queue-emprunteur-banques-lemoine-2026-08",
+      "title": "Changement d’assurance emprunteur : quatre banques sanctionnées pour entrave à la loi",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQZkRwamxDM2ZkUVAwSU00endHZFNxcE9xUGM2b1FJTVo3RXJoNEtudHZwUlg0VFI4TUZ0MnpuaVgxVkhEVng0eHZnMlJ2ZGlfQXdoX05jSUJVczVHVC1oNFowQUozaC13bk1zMkhTWW93eEdqOUd5cW5TUWNZbXI2aU1mN0wtcUFRZGFzdG5KLWpzWkdhODlsTm9jelV6dnJlcFFIT1Z6MkJLOFJmZGd1TlBjWXl6N0hfeHFZRjNYQ0VWZWk5ek96Sg?oc=5",
+      "source": "aggregator",
+      "note": "Angle questionnaire emprunteur : délégation, loi Lemoine.",
+      "status": "published",
+      "addedAt": "2026-08-13T04:00:00.000Z"
+    },
+    {
+      "id": "queue-mutuelle-baisse-secu-2026-08",
+      "title": "Baisses de remboursement Sécurité sociale : les mutuelles vont-elles coûter plus cher ?",
+      "url": "https://news.google.com/rss/articles/CBMilgNBVV95cUxQcmJxcGJ4anhtdUpHdW0zMklyOGs0WFJpUmRhTXJTOXZ2U3ZYbHJEaFpQdFJJS3FXQ1JRWkh4VVJrMFhaMW1HNEtsYUV3TnR2cFozSXVHY3ZtSm9TUWtnT2pwMHVBZ0tvZGZOWnNGZGlmdVZaS0NuMktGZHBZenFfWEt5alQzM0xqOXBUT0s2cTNVN3Q3RGt0WHVNdnN4ZEQwQkJWVnFGRTBVYm1Jd0U0YUpHemZvaXNlWmUxQmZQUmZQZWRpSnlfbnFKdVRvMnpUMExxLXcwTm9MUXlYTUZWUHpoWHBmM01lNWR4WmZieS00WFFhV2RzdGJySXRFS2d0YkZZTHZERjJ5YVRqRFE2QU55a0xOZ2tEa2h5ZTA5RHA2bTV6b3pqMFVqN2h5ZDZrTUQyVFlxQjlwWm16aXFqNUhELU5iVmdsMHQ1VDZLekw1bElGVGItdHR6bWY5TVBNZWlZV3lOYTJMRGZQTVlkQVFlZlkwQ3pkV1puN0pIcFVSMFZfTGM5czdCZXlpZlU3NDI1R09R?oc=5",
+      "source": "aggregator",
+      "note": "Angle questionnaire mutuelle : reste à charge, complémentaire santé.",
+      "status": "published",
+      "addedAt": "2026-08-13T04:00:00.000Z"
     }
   ]
 }
