@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./crm-acquisition.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
   <style>
     .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; }
     .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
@@ -30,6 +31,7 @@
   </style>
 </head>
 <body class="crm-subpage">
+  <div id="immoFinanceNav" data-vertical="immo" data-active="matching"></div>
   <section class="crm-page-panel crm-gradient-panel">
     <div>
       <p class="crm-eyebrow">Immobilier · matching</p>
@@ -99,6 +101,7 @@
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-matching-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-immo-finance-nav.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
 </html>
