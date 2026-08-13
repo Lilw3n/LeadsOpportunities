@@ -163,6 +163,26 @@ function isWeakLeadCandidate(c) {
   ) {
     return true;
   }
+  if (
+    /epstein|mannequin|d[ée]ni de justice|faits-divers|accus[ée]e? de viol/i.test(hay + " " + url) &&
+    !/assurance|mutuelle|emprunteur|sinistre|habitation|rembours/i.test(hay)
+  ) {
+    return true;
+  }
+  if (
+    /boeing|737 max/i.test(hay) &&
+    !/assurance|voyage|annulation|rapatriement/i.test(hay)
+  ) {
+    return true;
+  }
+  if (
+    /gr[eè]ve|mobilisation|syndicat/i.test(hay) &&
+    /pompier|soldats du feu/i.test(hay) &&
+    !/assurance|sinistre|incendie de for[eê]t|habitation|d[ée]g[aâ]t/i.test(hay)
+  ) {
+    return true;
+  }
+  if (/pelouse du tramway/i.test(hay)) return true;
   if (hasLeadKeywords(hay)) return false;
   if (/[ée]clipse|astronomie|chasseurs d['’][ée]clipse/i.test(hay)) return true;
   var topic = matchTopic(hay);

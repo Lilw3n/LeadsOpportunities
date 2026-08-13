@@ -1,10 +1,29 @@
 {
-  "lastFetch": "2026-08-13T06:25:02.351Z",
+  "lastFetch": "2026-08-13T06:51:38.241Z",
   "processedUrls": [
     "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html",
-    "https://www.franceinfo.fr/sante/en-savoie-deux-personnes-decedees-de-legionellose-et-41-cas-recenses-depuis-le-mois-de-juin_8144765.html"
+    "https://www.franceinfo.fr/sante/en-savoie-deux-personnes-decedees-de-legionellose-et-41-cas-recenses-depuis-le-mois-de-juin_8144765.html",
+    "https://www.lefigaro.fr/vox/economie/l-editorial-de-gaetan-de-capele-face-a-la-lourde-facture-de-la-canicule-l-etat-est-nu-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d636b0b4644d28102d3f257a03915&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fcomparateur-mutuelle-comment-bien-choisir-sa-couverture-sant%25C3%25A9%2far-AA29ApGS&c=1022844048650390916&mkt=en-us",
+    "https://www.franceinfo.fr/environnement/evenements-meteorologiques-extremes/secheresse/reportage-l-eau-va-devenir-plus-chere-que-le-vin-en-cote-d-or-la-secheresse-contraint-quincy-le-vicomte-a-se-ravitailler-par-camion-citerne_8141777.html",
+    "https://www.ouest-france.fr/meteo/canicule/nouvelle-journee-de-canicule-en-france-80-departements-en-vigilance-orange-5b05d58a-96c9-11f1-9ee8-a50506a5291a?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d49e0a24f4033ab7efcc04c1ecb18&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fsophrologie-quel-remboursement-avec-sa-mutuelle-en-2026-15-08-2026-7UN4APDXANC3NJYK7ASSR5XRJ4.php&c=8655307114693742930&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+    "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQZkRwamxDM2ZkUVAwSU00endHZFNxcE9xUGM2b1FJTVo3RXJoNEtudHZwUlg0VFI4TUZ0MnpuaVgxVkhEVng0eHZnMlJ2ZGlfQXdoX05jSUJVczVHVC1oNFowQUozaC13bk1zMkhTWW93eEdqOUd5cW5TUWNZbXI2aU1mN0wtcUFRZGFzdG5KLWpzWkdhODlsTm9jelV6dnJlcFFIT1Z6MkJLOFJmZGd1TlBjWXl6N0hfeHFZRjNYQ0VWZWk5ek96Sg?oc=5",
+    "https://news.google.com/rss/articles/CBMilgNBVV95cUxQcmJxcGJ4anhtdUpHdW0zMklyOGs0WFJpUmRhTXJTOXZ2U3ZYbHJEaFpQdFJJS3FXQ1JRWkh4VVJrMFhaMW1HNEtsYUV3TnR2cFozSXVHY3ZtSm9TUWtnT2pwMHVBZ0tvZGZOWnNGZGlmdVZaS0NuMktGZHBZenFfWEt5alQzM0xqOXBUT0s2cTNVN3Q3RGt0WHVNdnN4ZEQwQkJWVnFGRTBVYm1Jd0U0YUpHemZvaXNlWmUxQmZQUmZQZWRpSnlfbnFKdVRvMnpUMExxLXcwTm9MUXlYTUZWUHpoWHBmM01lNWR4WmZieS00WFFhV2RzdGJySXRFS2d0YkZZTHZERjJ5YVRqRFE2QU55a0xOZ2tEa2h5ZTA5RHA2bTV6b3pqMFVqN2h5ZDZrTUQyVFlxQjlwWm16aXFqNUhELU5iVmdsMHQ1VDZLekw1bElGVGItdHR6bWY5TVBNZWlZV3lOYTJMRGZQTVlkQVFlZlkwQ3pkV1puN0pIcFVSMFZfTGM5czdCZXlpZlU3NDI1R09R?oc=5"
   ],
   "publishedFiles": [],
+  "skippedTitles": [
+    "Comparateur mutuelle : comment bien choisir sa couverture santé",
+    "L’éditorial de Gaëtan de Capèle : « Face à la lourde facture de la canicule, l’État est nu",
+    "L'eau va devenir plus chère que le vin",
+    "En Savoie, deux personnes décédées de légionellose",
+    "Sophrologie : quel remboursement avec sa mutuelle en 2026",
+    "Nouvelle journée de canicule en France : 80 départements en vigilance orange",
+    "Baisses de remboursement Sécurité sociale",
+    "Changement d'assurance emprunteur : quatre banques sanctionnées",
+    "Hausse des primes, coût des sinistres"
+  ],
   "lastAutoRun": "2026-06-16T15:11:49.864Z",
   "autoRuns": [
     {

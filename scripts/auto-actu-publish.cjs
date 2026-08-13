@@ -57,24 +57,50 @@ function normalizeTitle(t) {
 }
 
 function urlKey(u) {
-  return String(u || "")
+  var raw = String(u || "")
     .trim()
     .replace(/#.*$/, "")
     .replace(/&amp;/g, "&");
+  var bingInner = raw.match(/[?&]url=([^&]+)/);
+  if (bingInner && /bing\.com\/news\/apiclick/i.test(raw)) {
+    try {
+      raw = decodeURIComponent(bingInner[1]);
+    } catch (e) {}
+  }
+  return raw.replace(/[?&](utm_[^=]+|xtor|oc)=[^&]*/g, "").replace(/\?$/, "");
 }
 
-function loadPublishedTitleKeys() {
+function titleKey(t) {
+  return normalizeTitle(t)
+    .replace(/\s*:.*/, "")
+    .replace(/['’"]/g, "")
+    .slice(0, 72);
+}
+
+function loadPublishedTitleKeys(state) {
   var keys = new Set();
+  function add(t) {
+    var n = normalizeTitle(t);
+    if (n) keys.add(n);
+    var k = titleKey(t);
+    if (k) keys.add(k);
+  }
   var pub = readJson("blog-actu-published.json", { articles: [] });
   (pub.articles || []).forEach(function (a) {
-    keys.add(normalizeTitle(a.title));
+    add(a.title);
   });
   try {
     var manifest = require("./blog-articles-manifest.cjs");
     (manifest.articles || []).forEach(function (a) {
-      keys.add(normalizeTitle(a.title));
+      add(a.title);
     });
   } catch (e) {}
+  (state && state.skippedTitles ? state.skippedTitles : []).forEach(add);
+  (state && state.autoRuns ? state.autoRuns : []).forEach(function (run) {
+    (run.articles || []).forEach(function (a) {
+      add(a.title);
+    });
+  });
   return keys;
 }
 
@@ -104,14 +130,14 @@ function bestFromPlatform(available, platform, feedMap, used) {
 function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set((state.processedUrls || []).map(urlKey));
-  var titleKeys = loadPublishedTitleKeys();
+  var titleKeys = loadPublishedTitleKeys(state);
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
     if (isPlaceholderActuItem(c)) return false;
     if (isWeakLeadCandidate(c)) return false;
     if (c.url && processed.has(urlKey(c.url))) return false;
-    if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (titleKeys.has(normalizeTitle(c.title)) || titleKeys.has(titleKey(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
