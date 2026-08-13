@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T08:04:45.676Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.franceinfo.fr/societe/conge-de-naissance/je-tape-dans-mes-economies-les-premiers-beneficiaires-du-nouveau-conge-de-naissance-attendent-toujours-leurs-indemnites_8145695.html#xtor=RSS-3-%5Bgeneral%5D",
+    "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQY2VLaHpSc1J0dk9KV3k4R1JmREJlbThCWWg2V0pmRHRFZExvZ21YTGlWZTdIWjBEaFhZV3BhVXlNUnRHVHN6TzZTdFg2UkNqLUZjM0FkZkF4YVZ1OURUYWtpV0swTlhkVnFiTDhOZUZIbnFvUllpUlB3RmRTZW5mN2JoOTdzcWRWT2pYc000bW1QRTUzRUVrZUZvUTJFMWhWd2VsNGk4TDd5TVQyR1RBZXZPcVJzelFYTEVxbzd6UXpKeDg?oc=5",
+    "https://news.google.com/rss/articles/CBMiswFBVV95cUxPOExGUnlNYVZYSmltLTkxeTR3R0NPb1RRQjdRUXVwcW82ZExhQlA0WWtZZnNTeU9vTjZWQmYteVk1SXd1RlJuNHJSVmJpU3NGYUFDdndSajd5MDBaalVqMEtaZllSRWNYTHVCaHF4ZEFUUWxuNkI5bzc2RGdROExEM1lBamVkaG41U0RxakhuOTRDa2hJOUxucmlZUmtBRFNjZnN1T3FJcUFGNkFTNFhHSmNwSQ?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T08:04:46.627Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T08:04:46.627Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "je-tape-dans-mes-economies-les-premiers-beneficiaires-du-nouveau-conge-d.html",
+          "title": "\"Je tape dans mes économies\" : les premiers bénéficiaires du nouveau congé de naissance… : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo société",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "les-services-financiers-de-carrefour-france-et-le-groupe-magnolia-lancen.html",
+          "title": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en … : pret et assurance emprunteur — que faire ?",
+          "source": "Google News — assurance emprunteur",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "assurance-emprunteur-pres-de-20-de-parts-de-marche-pour-la-delegation-ma.html",
+          "title": "Assurance emprunteur : près de 20% de parts de marché pour la délégation - Magnolia.fr : pret et assurance emprunteur — que faire ?",
+          "source": "Google News — assurance emprunteur",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
