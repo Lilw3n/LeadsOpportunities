@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Récupère l'actu (RSS publics) + file d'attente manuelle (Cafeyn, Edge, etc.)
+ * Récupère l'actu (RSS publics) + file d'attente manuelle
+ * (Cafeyn, Edge, Firefox, Google, Bing, Yahoo, etc.)
  * → data/blog-actu-candidates.json
  *
  * Usage: npm run blog:actu:fetch
@@ -13,21 +14,17 @@ const {
   existingFiles,
   scoreLeadPotential,
 } = require("./blog-actu-lib.cjs");
+const { DEFAULT_QUOTAS, isPlaceholderQueueItem, resolveSourceType, sourceTypes } = require("./blog-actu-sources.cjs");
 
 const MAX_PER_FEED = 8;
-const DEFAULT_QUOTAS = { cafeyn: 20, edge: 12, firefox: 15, aggregator: 30 };
 
 function resolveQueueSourceType(source) {
-  var s = String(source || "").toLowerCase();
-  if (s.indexOf("cafeyn") !== -1) return "cafeyn";
-  if (s.indexOf("edge") !== -1 || s.indexOf("msn") !== -1 || s.indexOf("bing") !== -1) return "edge";
-  if (s.indexOf("firefox") !== -1 || s.indexOf("pocket") !== -1) return "firefox";
-  return "aggregator";
+  return resolveSourceType(source);
 }
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypes().forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
@@ -39,6 +36,7 @@ function mergeWithQuotas(buckets, quotas) {
 }
 
 function ingestQueueItem(item, buckets, processed) {
+  if (isPlaceholderQueueItem(item)) return;
   if (item.status === "published" || item.status === "rejected") return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
@@ -79,7 +77,7 @@ async function fetchText(url) {
 }
 
 async function processFeed(feed, buckets, processed, maxPerFeed) {
-  var sourceType = feed.sourceType || "aggregator";
+  var sourceType = resolveSourceType([feed.id, feed.name, feed.sourceType].join(" "), feed.sourceType || "aggregator");
   if (!buckets[sourceType]) buckets[sourceType] = [];
   try {
     var xml = await fetchText(feed.url);
@@ -150,7 +148,10 @@ async function main() {
     console.warn("DB queue:", e.message);
   }
   var processed = new Set(state.processedUrls || []);
-  var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
+  var buckets = {};
+  sourceTypes().forEach(function (type) {
+    buckets[type] = [];
+  });
 
   await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
@@ -162,7 +163,7 @@ async function main() {
   });
 
   var files = existingFiles();
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypes().forEach(function (type) {
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var f = c.suggestedFile || "";
       if (!f.endsWith(".html")) f += ".html";
@@ -170,7 +171,7 @@ async function main() {
     });
   });
 
-  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+  sourceTypes().forEach(function (type) {
     var seen = new Set();
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var k = (c.url || c.title).toLowerCase();
@@ -184,25 +185,31 @@ async function main() {
   });
 
   var deduped = mergeWithQuotas(buckets, quotas);
+  var bySource = {};
+  sourceTypes().forEach(function (type) {
+    bySource[type] = (buckets[type] || []).length;
+  });
 
   writeJson("blog-actu-candidates.json", {
     updated: new Date().toISOString(),
     quotas: quotas,
-    bySource: {
-      cafeyn: (buckets.cafeyn || []).length,
-      edge: (buckets.edge || []).length,
-      firefox: (buckets.firefox || []).length,
-      aggregator: (buckets.aggregator || []).length,
-    },
+    bySource: bySource,
     candidates: deduped,
   });
 
   state.lastFetch = new Date().toISOString();
   writeJson("blog-actu-state.json", state);
 
-  console.log("Candidates:", deduped.length, "— cafeyn/edge/firefox/aggr:",
-    (buckets.cafeyn || []).length + "/" + (buckets.edge || []).length + "/" +
-    (buckets.firefox || []).length + "/" + (buckets.aggregator || []).length);
+  console.log(
+    "Candidates:",
+    deduped.length,
+    "—",
+    sourceTypes()
+      .map(function (type) {
+        return type + ":" + ((buckets[type] || []).length);
+      })
+      .join(" ")
+  );
   if (deduped.length) {
     console.log("Top 3:");
     deduped.slice(0, 3).forEach(function (c, i) {
