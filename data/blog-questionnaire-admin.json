@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-08-13",
   "sections": [
     "actu",
     "animaux",
@@ -921,6 +921,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "gel-des-tarifs-sante-le-conseil-d-etat-renvoie-au-conseil-constitutionne.html",
+      "title": "Gel des tarifs santé : le Conseil d’État renvoie au Conseil constitutionnel le recours … : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=gel-des-tarifs-sante-le-conseil-d-etat",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "trottinettes-electriques-le-defaut-d-assurance-en-forte-hausse-en-france.html",
+      "title": "Trottinettes électriques : le défaut d’assurance en forte hausse en France - Euro-Assur… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=trottinettes-electriques-le-defaut-d-a",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "assurance-incendie-les-feux-de-foret-ne-sont-pas-consideres-comme-catast.html",
+      "title": "Assurance incendie : les feux de forêt ne sont pas considérés comme catastrophe naturel… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=assurance-incendie-les-feux-de-foret-n",
+      "matchedRule": "habitation",
       "species": null
     }
   ]

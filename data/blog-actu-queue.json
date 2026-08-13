@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-13T07:40:00.000Z",
+  "updated": "2026-08-13T07:46:20.099Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -36,6 +36,33 @@
       "note": "Exemple inbox — ne pas publier. Remplacer par un vrai titre + url, status pending.",
       "status": "template",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "auto-rss-trottinettes-electriques-le-defaut-d-assurance-en-forte-hausse-en-france",
+      "title": "Trottinettes électriques : le défaut d’assurance en forte hausse en France - Euro-Assurance",
+      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNRFRiSGh2YWxpcXlLRzhCeGRXU0pDcWpyeUFocnFrNDBfVTVsbExRWmhhUFU3REYxMnNHTUJ1ZThWX1FROFdBVGRkcFVIcElrUGlmVDJUMGN4alBrS1NXTnVpUGd2THVOdDg4ZnlhQVRpVmJxVlhqeEVKcjY3RzVyc3NLLUJMX282cDRGaUFyR3p0ZXA4ZlpCUTUyNlh2SW1tZk1wMTREUDdyWG1DRmJzYVpTellCOWNVWVJJLWdxT3NJTThoVzdiMXZHRUI?oc=5",
+      "source": "aggregator",
+      "note": "Actu assurance → questionnaire (utm_medium=actu_daily)",
+      "status": "published",
+      "addedAt": "2026-08-13T07:45:00.000Z"
+    },
+    {
+      "id": "auto-rss-quel-est-le-prix-d-une-assurance-chien-en-2026-quel-cout-a-l-annee-ouest",
+      "title": "Quel est le prix d'une Assurance Chien en 2026 ? Quel coût à l'année ? - Ouest-France",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPRTBqRzFMS1F3Y1poMDFxZk5XSUNGU0doUWg2eFdpX0EzWkNGU1VUQS1UWlg4eHB4V1o5Sjc2aW9VTFlKVncxa0t4VHp6T0hWUjNrLW9va2NGUU9HVkNLaFVUdm8zTTQzSjdEcVZuMk84M3Y4YWk4akNFcU9HMzFwMlZn?oc=5",
+      "source": "aggregator",
+      "note": "Actu assurance → questionnaire (utm_medium=actu_daily)",
+      "status": "queued",
+      "addedAt": "2026-08-13T07:45:00.000Z"
+    },
+    {
+      "id": "auto-rss-gel-des-tarifs-sante-le-conseil-d-etat-renvoie-au-conseil-constitutionne",
+      "title": "Gel des tarifs santé : le Conseil d’État renvoie au Conseil constitutionnel le recours déposé par France Assureurs et la Mutualité Française - L'Argus de l'assurance",
+      "url": "https://news.google.com/rss/articles/CBMi8AJBVV95cUxNUnZVcEl1VDZSczRZSTUtUzhDREplSWQtbDByem1xYUw3R0JfV29vYURROExDYnlfdmt2cnlTSVNvR1NpZGFUaUp5cHhGVFNlSi1jcDJCMHVQVUoyMFdGLUFmNGZMQXhRcEl2OENwSnN6SkxIQndWWmxiMzUzbDRfWTkzSmg4MnRrc1M1Vk1PR0ZsT3U3bG1rdkNSV0ZTYVYyOVJocnNVUlMtSTBjeGcyT2syZ1lsbDhXSktEcEM1c1pDM0Fsdy00aFFOR3dyVzVQczFjWV96TzIyUnlsamJVQXR2bzdTQ05fU3lqN2ZIMWN4c25BVk5oWG5CMk9KWm9yZFl6ajQta3RTcE5XOGx4V1FDbjJVMWwzRjFtOWRfaGQ4enVSUjRYTS1aZFE2WnJ0aEFCUjVtNTRlbDVQdUFqVU9STG5mWlFvRThBdkRZc2FlV2l5ZUpmX3hKRm9aVXpkZ0lsRmx1SkdSZjhVWXZkTQ?oc=5",
+      "source": "aggregator",
+      "note": "Actu assurance → questionnaire (utm_medium=actu_daily)",
+      "status": "published",
+      "addedAt": "2026-08-13T07:45:00.000Z"
     }
   ]
 }
