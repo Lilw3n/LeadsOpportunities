@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-08-13",
   "sections": [
     "actu",
     "animaux",
@@ -921,6 +921,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "equipe-de-france-zinedine-zidane-annonce-son-staff-chez-les-bleus-avec-f.html",
+      "title": "Staff de Zidane chez les Bleus : assurance voyage, mutuelle à l'étranger et logement vide",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=staff-zidane-bleus-cdm-2026",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+      "title": "Meilleure mutuelle santé 2026 : 7 critères avant de changer de complémentaire",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=meilleure-mutuelle-2026",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "conge-naissance-indemnites-prevoyance-epargne-2026.html",
+      "title": "Congé de naissance : indemnités en retard, épargne et prévoyance — que faire ?",
+      "section": "prevoyance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=conge-naissance-indemnites-2026",
+      "matchedRule": "emprunteur",
       "species": null
     }
   ]

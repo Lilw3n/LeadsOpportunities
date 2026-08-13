@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-13T09:02:06.261Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,221 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "equipe-de-france-zinedine-zidane-annonce-son-staff-chez-les-bleus-avec-f.html",
+      "section": "actu",
+      "tag": "Coupe du monde 2026",
+      "tagClass": "tag-actu",
+      "title": "Staff de Zidane chez les Bleus : assurance voyage, mutuelle à l'étranger et logement vide",
+      "description": "Zidane dévoile son staff (Barthez, Bettoni) avant la Coupe du monde 2026. Check-list assurance : mutuelle à l'étranger, annulation voyage, habitation pendant l'absence. Questionnaire gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Staff des Bleus officialisé : avant un déplacement CDM 2026, vérifiez mutuelle, voyage et logement vide.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=staff-zidane-bleus-cdm-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Zinédine Zidane a commencé à dévoiler son staff chez les Bleus (dont Fabien Barthez aux gardiens et David Bettoni). Pour les supporters et les familles qui prévoient un déplacement aux États-Unis, au Mexique ou au Canada, l'actualité sportive rappelle un point concret : <strong>un séjour Coupe du monde sans garanties adaptées peut coûter plus cher qu'un billet d'avion</strong>."
+        },
+        {
+          "type": "h2",
+          "text": "Ce que votre mutuelle ne paie souvent pas à l'étranger"
+        },
+        {
+          "type": "p",
+          "text": "Hors Union européenne, les frais d'hospitalisation et d'évacuation se chiffrent vite en dizaines de milliers d'euros. La carte Vitale et une mutuelle « France » ne suffisent pas. Vérifiez <strong>l'assistance rapatriement</strong>, le plafond de frais médicaux et les exclusions (sport, alcool, activités à risque autour des fan zones)."
+        },
+        {
+          "type": "h2",
+          "text": "Voyage, logement vide, voiture : la check-list 10 minutes"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Mutuelle / assistance : USA, Mexique, Canada — plafonds et tiers payant",
+            "Assurance voyage : annulation (blessure, grève, match reporté) et interruption de séjour",
+            "Habitation : logement inoccupé, vol, dégât des eaux pendant l'absence",
+            "Auto : stationnement longue durée, vol, bris de glace, assistance 0 km",
+            "Prévoyance : maintien de salaire si accident ou maladie pendant le séjour"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Qualifier votre couverture avant le coup d'envoi"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) sert à estimer le reste à charge à l'étranger et le niveau d'assistance. Sans engagement : un courtier ORIAS peut ensuite comparer April, AXA, Allianz, Generali et le marché."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. <strong>100 % gratuit</strong>, réponses orientées questionnaire, pas de démarchage agressif."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Meilleure mutuelle santé 2026 : 7 critères avant de changer de complémentaire",
+      "description": "Comment choisir une mutuelle en 2026 : hospitalisation, optique, dentaire, délais de carence, tiers payant. Évitez le trop-payé et le reste à charge. Questionnaire gratuit 3 min.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Choisir sa mutuelle 2026 : plafonds, carence, optique-dentaire — sans se tromper de niveau.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=meilleure-mutuelle-2026",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Les comparateurs mettent en avant un prix. En 2026, le bon contrat se juge sur <strong>ce qui est réellement remboursé</strong> : hospitalisation (honoraires), optique, dentaire, pharmacie hors 100 %, et délais avant de pouvoir changer. Un foyer qui surpaye 20 €/mois pour des garanties inutiles, ou qui reste sous-assuré à l'hôpital, paie deux fois."
+        },
+        {
+          "type": "h2",
+          "text": "Les 7 points à relire sur votre tableau de garanties"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation : chambre particulière, dépassements d'honoraires (OPTAM)",
+            "Optique et dentaire : plafonds annuels vs votre consommation réelle",
+            "Pharmacie et actes non remboursés Sécu : ce que la mutuelle reprend",
+            "Délais de carence et date d'échéance (résiliation infra-annuelle)",
+            "Tiers payant, télétransmission, réseau de soins",
+            "Ayants droit : conjoint, enfants, garde alternée",
+            "Coordination avec une prévoyance (arrêt de travail, invalidité)"
+          ]
+        },
+        {
+          "type": "h2",
+          "text": "Prix bas vs reste à charge : l'erreur classique"
+        },
+        {
+          "type": "p",
+          "text": "Une mutuelle « pas chère » avec un plafond optique de 50 € et sans chambre particulière revient plus cher dès la première hospitalisation ou le premier équipement. Comparez <strong>à garanties équivalentes</strong>, pas au seul cotisation mensuelle. Les seniors, les familles et les indépendants n'ont pas le même besoin."
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "3 minutes pour cibler le bon niveau"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle identifie hospitalisation, optique, dentaire et budget. Vous recevez une orientation avant échange avec un courtier ORIAS — April, AXA, Allianz, Generali, Zephir et le marché. <strong>Gratuit, sans engagement</strong>."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities accompagne uniquement le marché France. Réponse claire : garder, ajuster ou changer de complémentaire."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "conge-naissance-indemnites-prevoyance-epargne-2026.html",
+      "section": "prevoyance",
+      "tag": "Prévoyance",
+      "tagClass": "tag-prevoyance",
+      "title": "Congé de naissance : indemnités en retard, épargne et prévoyance — que faire ?",
+      "description": "Des parents tapent dans leur épargne en attendant les indemnités du congé de naissance. Check-list : maintien de salaire, prévoyance, mutuelle maternité. Questionnaire gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Indemnités de congé de naissance en attente : ne videz pas l'épargne sans vérifier prévoyance et mutuelle.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=conge-naissance-indemnites-2026",
+        "label": "Questionnaire prévoyance (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Le congé de naissance (lancé début juillet) permet de rester plus longtemps auprès de l'enfant. Des familles témoignent déjà : <strong>les indemnités tardent, l'épargne fond</strong>. L'Assurance maladie évoque un dispositif encore récent. En attendant, le trou de trésorerie se gère mieux si la prévoyance et la mutuelle sont calibrées — pas en piochant au hasard dans le livret."
+        },
+        {
+          "type": "h2",
+          "text": "Qui paie quoi pendant un congé parental"
+        },
+        {
+          "type": "p",
+          "text": "Salaire, IJSS, complément employeur, prévoyance collective ou individuelle : les strates se superposent. Un salarié du privé n'a pas le même filet qu'un indépendant. Vérifiez le <strong>délai de carence</strong>, le pourcentage de maintien de revenu et la durée. Sans prévoyance, deux mois sans flux suffisent à dégrader un budget logement et crédit."
+        },
+        {
+          "type": "h2",
+          "text": "Check-list foyer (avant de casser l'épargne)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Attestation employeur / dossier Indemnités journalières : pièces manquantes = retard",
+            "Prévoyance : franchise ITT, maintien de salaire, rente éducation",
+            "Mutuelle : forfaits naissance, chambre, dépassements, ostéo / kiné post-partum",
+            "Crédit immobilier : report d'échéance possible ? assurance emprunteur à jour",
+            "Épargne de précaution : 3 mois de charges avant de toucher à l'assurance-vie"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Qualifier prévoyance et mutuelle en 3 minutes"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire prévoyance estime statut (salarié / TNS), charges fixes et couverture actuelle. En parallèle, le parcours mutuelle couvre la naissance et le post-partum. Courtier ORIAS, <strong>gratuit, sans engagement</strong>."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — on compare le marché (April, AXA, Allianz, Generali, Zephir) selon votre foyer, pas selon un slogan « meilleure mutuelle »."
+        }
+      ],
+      "related": [
+        {
+          "href": "./prevoyance-independants-guide.html",
+          "label": "Prevoyance independants"
+        },
+        {
+          "href": "../assurance-prevoyance/",
+          "label": "Assurance prevoyance"
         }
       ]
     }
