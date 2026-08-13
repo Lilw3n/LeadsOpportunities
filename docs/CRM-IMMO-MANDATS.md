@@ -43,13 +43,21 @@ Inspiré de la structure type réseaux (ex. modèles Laforêt), **sans aucune ma
 | `js/crm-immo-mandat-form.js` | Rendu, mémorisation profil agence, génération clauses + parties |
 | Bouton **Formulaire mandat sans exclusivité** | Sur `/crm-immo-documents.html` |
 
-### Agence de votre choix
+### Remplir → aperçu → imprimer (type Favoriz)
 
-1. Saisie manuelle (raison sociale, carte T, garantie, RCS…) **ou**
-2. Liste déroulante des agences déjà créées dans `/crm-agency-fees.html` (ne remplit que le **nom** — le reste reste à compléter).
-3. **Mémoriser cette agence** → profil local `lo_immo_mandat_agence_profil_v1` pour les prochains mandats.
+Le formulaire suit le flux observé sur les outils type Favoriz :
 
-Le document enregistré porte `data.mandatForm` + clauses texte + `parties` JSON (mandataire / mandant).
+1. **Article 1 — Désignation du mandataire** : prose légale à trous (enseigne, société, capital, RCS, CPI, RCP, TVA…).
+2. **Toggles OUI/NON** qui ouvrent des champs :
+   - établissement secondaire
+   - compte séquestre (sinon mention « ne devant recevoir ni détenir… »)
+   - caisse de garantie (organisme, adresse, n° adhérent)
+   - ORIAS
+   - liens capitalistiques banque / autre
+3. **Aperçu live** à droite = rendu type mandat rempli.
+4. **Aperçu / imprimer** ouvre une fenêtre prête pour l’impression.
+
+L’enseigne n’est **jamais** figée (Laforêt, Favoriz, etc.) : vous complétez l’agence de votre choix, ou liez seulement le nom depuis les barèmes.
 
 ### PDF source
 

@@ -1,35 +1,59 @@
 {
   "id": "mandat_vente_sans_exclusivite",
-  "version": 1,
+  "version": 2,
   "label": "Mandat de vente sans exclusivité",
   "forme": "Simple",
   "docType": "mandat_vente",
-  "inspiredBy": "Structure type mandat de vente sans exclusivité (réseaux FR, ex. modèles type Laforêt) — sans marque ni coordonnées d’agence en dur.",
-  "disclaimer": "Brouillon CRM à faire valider. L’agence mandataire est saisie par vous (ou reprise depuis vos barèmes) ; aucun réseau n’est prérempli.",
+  "inspiredBy": "Structure type Favoriz / réseaux FR (article 1 désignation mandataire, toggles conditionnels, aperçu imprimable) — sans marque ni coordonnées d’agence en dur.",
+  "disclaimer": "Brouillon CRM à faire valider. Remplissez l’agence de votre choix ; l’aperçu montre le rendu type « mandat rempli / à imprimer ».",
   "agencyStorageKey": "lo_immo_mandat_agence_profil_v1",
+  "printMode": "article_prose",
   "sections": [
     {
       "id": "agence",
-      "label": "Mandataire (agence de votre choix)",
+      "label": "Article 1 — Désignation du mandataire",
       "audience": "agence",
-      "hint": "Complétez l’agence qui portera ce mandat. Vous pouvez partir d’une agence déjà créée dans les barèmes honoraires, puis renseigner carte pro / garantie.",
+      "article": "1",
+      "hint": "Comme sur Favoriz : identité légale + questions OUI/NON qui ouvrent des champs. Aucune enseigne n’est préremplie — vous liez l’agence de votre choix.",
       "fields": [
-        { "id": "nom", "label": "Raison sociale / enseigne", "type": "text", "required": true, "placeholder": "Ex. Agence Dupont Immobilier" },
-        { "id": "formeJuridique", "label": "Forme juridique", "type": "text", "placeholder": "SARL, SAS…" },
-        { "id": "capital", "label": "Capital social", "type": "text", "placeholder": "ex. 10 000 €" },
-        { "id": "adresse", "label": "Adresse du siège / agence", "type": "text", "required": true },
-        { "id": "cp", "label": "CP", "type": "text" },
-        { "id": "ville", "label": "Ville", "type": "text" },
-        { "id": "siret", "label": "SIRET", "type": "text" },
-        { "id": "rcs", "label": "RCS", "type": "text", "placeholder": "RCS Ville B XXX XXX XXX" },
-        { "id": "cartePro", "label": "N° carte professionnelle (T)", "type": "text", "required": true },
-        { "id": "delivreePar", "label": "Délivrée par", "type": "text", "placeholder": "CCI / CNACI…" },
-        { "id": "garantieFinanciere", "label": "Garantie financière (organisme)", "type": "text" },
-        { "id": "montantGarantie", "label": "Montant garantie", "type": "text" },
-        { "id": "rcp", "label": "Assurance RCP", "type": "text" },
-        { "id": "representant", "label": "Représenté par", "type": "text", "placeholder": "Nom du dirigeant / négociateur habilité" },
+        { "id": "enseigne", "label": "L'agence (enseigne)", "type": "text", "required": true, "placeholder": "Ex. enseigne commerciale", "prose": true },
+        { "id": "societe", "label": "Exploitée par la société", "type": "text", "required": true, "placeholder": "Raison sociale", "prose": true },
+        { "id": "formeJuridique", "label": "Forme juridique", "type": "text", "placeholder": "SARL, SAS…", "prose": true },
+        { "id": "capital", "label": "Capital", "type": "text", "placeholder": "1 000 €", "prose": true },
+        { "id": "adresse", "label": "Siège social — adresse", "type": "text", "required": true, "prose": true },
+        { "id": "cp", "label": "CP", "type": "text", "prose": true },
+        { "id": "ville", "label": "Ville siège", "type": "text", "prose": true },
+        { "id": "rcsVille", "label": "RCS (ville)", "type": "text", "placeholder": "NANCY", "prose": true },
+        { "id": "rcsNumero", "label": "N° RCS", "type": "text", "placeholder": "B 901 742 189", "prose": true },
+        { "id": "activiteCarte", "label": "Activité carte pro", "type": "text", "default": "Transactions sur immeubles et fonds de commerce", "prose": true },
+        { "id": "cartePro", "label": "N° carte professionnelle (CPI)", "type": "text", "required": true, "placeholder": "CPI …", "prose": true },
+        { "id": "delivreePar", "label": "Délivrée par", "type": "text", "placeholder": "CCI de …", "prose": true },
+        { "id": "rcp", "label": "Assurance RCP", "type": "text", "placeholder": "Assureur", "prose": true },
+        { "id": "tva", "label": "N° TVA intracommunautaire", "type": "text", "placeholder": "FR…", "prose": true },
+        { "id": "representant", "label": "Représenté par", "type": "text", "placeholder": "Dirigeant / négociateur habilité" },
         { "id": "tel", "label": "Téléphone agence", "type": "text" },
-        { "id": "email", "label": "E-mail agence", "type": "email" }
+        { "id": "email", "label": "E-mail agence", "type": "email" },
+
+        { "id": "etablissementSecondaire", "label": "Établissement secondaire ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "etabSecAdresse", "label": "Adresse établissement secondaire", "type": "text", "showIf": { "field": "etablissementSecondaire", "eq": "oui" } },
+        { "id": "etabSecCp", "label": "CP étab. secondaire", "type": "text", "showIf": { "field": "etablissementSecondaire", "eq": "oui" } },
+        { "id": "etabSecVille", "label": "Ville étab. secondaire", "type": "text", "showIf": { "field": "etablissementSecondaire", "eq": "oui" } },
+
+        { "id": "compteSequestre", "label": "Titulaire d'un compte séquestre ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "sequestreBanque", "label": "Banque / IBAN séquestre", "type": "text", "showIf": { "field": "compteSequestre", "eq": "oui" } },
+        { "id": "sequestreNotice", "label": "Mention si pas de séquestre", "type": "static", "text": "NE DEVANT RECEVOIR NI DÉTENIR D'AUTRES FONDS, EFFETS OU VALEURS QUE CEUX REPRÉSENTATIFS DE SA RÉMUNÉRATION", "showIf": { "field": "compteSequestre", "eq": "non" } },
+
+        { "id": "caisseGarantie", "label": "Adhérent d'une caisse de garantie ?", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "garantieOrganisme", "label": "Caisse / organisme", "type": "text", "placeholder": "ex. CEGC", "showIf": { "field": "caisseGarantie", "eq": "oui" }, "prose": true },
+        { "id": "garantieAdresse", "label": "Adresse caisse de garantie", "type": "text", "showIf": { "field": "caisseGarantie", "eq": "oui" }, "prose": true },
+        { "id": "garantieAdherent", "label": "N° adhérent", "type": "text", "showIf": { "field": "caisseGarantie", "eq": "oui" }, "prose": true },
+        { "id": "montantGarantie", "label": "Montant garantie financière", "type": "text", "showIf": { "field": "caisseGarantie", "eq": "oui" } },
+
+        { "id": "oriasInscrit", "label": "Inscrit à l'ORIAS ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "oriasNumero", "label": "N° ORIAS", "type": "text", "showIf": { "field": "oriasInscrit", "eq": "oui" } },
+
+        { "id": "liensBanque", "label": "Liens capitalistiques avec une banque / autre ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "liensBanqueDetail", "label": "Préciser les liens", "type": "textarea", "showIf": { "field": "liensBanque", "eq": "oui" } }
       ]
     },
     {
@@ -40,13 +64,14 @@
         { "id": "numero", "label": "N° mandat", "type": "text", "placeholder": "Selon numérotation de l’agence" },
         { "id": "lieuSignature", "label": "Fait à", "type": "text" },
         { "id": "dateSignature", "label": "Le", "type": "date" },
-        { "id": "horsEtablissement", "label": "Conclu hors établissement", "type": "tri", "hint": "Si oui : informer du droit de rétractation (Code conso)." }
+        { "id": "horsEtablissement", "label": "Conclu hors établissement", "type": "ouiNon", "default": "non", "toggle": true, "hint": "Si oui : informer du droit de rétractation (Code conso)." }
       ]
     },
     {
       "id": "mandant",
-      "label": "Le mandant (vendeur)",
+      "label": "Article 2 — Le mandant (vendeur)",
       "audience": "general",
+      "article": "2",
       "fields": [
         { "id": "qualite", "label": "Qualité", "type": "select", "options": ["", "Propriétaire", "Indivisaire", "Usufruitier", "SCI / société", "Mandataire du propriétaire", "Autre"] },
         { "id": "nom", "label": "Nom / raison sociale", "type": "text", "required": true },
@@ -61,8 +86,9 @@
     },
     {
       "id": "bien",
-      "label": "Désignation du bien",
+      "label": "Article 3 — Désignation du bien",
       "audience": "general",
+      "article": "3",
       "fields": [
         { "id": "typeBien", "label": "Type", "type": "text", "placeholder": "Appartement, maison, terrain…" },
         { "id": "adresse", "label": "Adresse du bien", "type": "text", "required": true },
@@ -78,19 +104,21 @@
     },
     {
       "id": "prix",
-      "label": "Prix de mise en vente",
+      "label": "Article 4 — Prix de mise en vente",
       "audience": "general",
+      "article": "4",
       "fields": [
         { "id": "prixNetVendeur", "label": "Prix net vendeur (€)", "type": "number" },
         { "id": "prixFai", "label": "Prix FAI (€)", "type": "number" },
-        { "id": "negociable", "label": "Négociable", "type": "tri" },
+        { "id": "negociable", "label": "Négociable", "type": "ouiNon", "default": "oui", "toggle": true },
         { "id": "observationsPrix", "label": "Observations prix", "type": "textarea" }
       ]
     },
     {
       "id": "honoraires",
-      "label": "Rémunération du mandataire",
+      "label": "Article 5 — Rémunération du mandataire",
       "audience": "general",
+      "article": "5",
       "hint": "Sans exclusivité : honoraires dus si l’opération est conclue grâce à l’agence (à préciser).",
       "fields": [
         { "id": "mode", "label": "Mode", "type": "select", "options": ["", "Pourcentage du prix", "Forfait", "Selon barème affiché"] },
@@ -103,8 +131,9 @@
     },
     {
       "id": "duree",
-      "label": "Durée & sans exclusivité",
+      "label": "Article 6 — Durée & sans exclusivité",
       "audience": "general",
+      "article": "6",
       "fields": [
         { "id": "dateDebut", "label": "Date de prise d’effet", "type": "date" },
         { "id": "dateFin", "label": "Date d’échéance", "type": "date" },
@@ -115,13 +144,14 @@
     },
     {
       "id": "pouvoirs",
-      "label": "Pouvoirs & moyens",
+      "label": "Article 7 — Pouvoirs & moyens",
       "audience": "general",
+      "article": "7",
       "fields": [
-        { "id": "pubPortails", "label": "Autorisation publicité / portails", "type": "tri" },
-        { "id": "photos", "label": "Autorisation photos / visite virtuelle", "type": "tri" },
-        { "id": "clefs", "label": "Remise des clés à l’agence", "type": "tri" },
-        { "id": "negociation", "label": "Pouvoir de négocier le prix", "type": "tri" },
+        { "id": "pubPortails", "label": "Autorisation publicité / portails", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "photos", "label": "Autorisation photos / visite virtuelle", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "clefs", "label": "Remise des clés à l’agence", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "negociation", "label": "Pouvoir de négocier le prix", "type": "ouiNon", "default": "oui", "toggle": true },
         { "id": "autresPouvoirs", "label": "Autres pouvoirs / observations", "type": "textarea" }
       ]
     }

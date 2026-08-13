@@ -131,10 +131,44 @@
       return x.id === d.doc_type;
     }) || {}).label || d.doc_type;
     var prop = d.property_id ? Store.getProperty(d.property_id) : null;
+    var mount = document.getElementById("docPreview");
+
+    if (data.mandatForm && MandatForm && formSchema) {
+      mount.innerHTML =
+        '<div style="display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:10px;font-family:system-ui,sans-serif">' +
+        "<div><strong>" +
+        esc(d.title) +
+        "</strong><br><span style='color:var(--muted);font-size:.8rem'>" +
+        esc(typeLabel) +
+        " · " +
+        esc(d.status) +
+        (prop ? " · " + esc(prop.title) : "") +
+        "</span></div>" +
+        '<button type="button" class="btn btn-ghost btn-sm" id="btnPrintDocPreview">Imprimer l’aperçu</button></div>' +
+        MandatForm.buildPrintHtml(data.mandatForm, formSchema);
+      var btn = document.getElementById("btnPrintDocPreview");
+      if (btn) {
+        btn.onclick = function () {
+          var html = MandatForm.buildPrintHtml(data.mandatForm, formSchema);
+          var w = window.open("", "_blank", "noopener,noreferrer,width=900,height=1000");
+          if (!w) return;
+          w.document.write(
+            "<!doctype html><html lang=\"fr\"><head><meta charset=\"utf-8\"/><title>Mandat</title>" +
+              "<link rel=\"stylesheet\" href=\"./css/crm-immo-mandats.css\" />" +
+              "<style>body{margin:24px;font-family:Georgia,serif}</style></head><body>" +
+              html +
+              "<script>setTimeout(function(){window.print()},300)<\\/script></body></html>"
+          );
+          w.document.close();
+        };
+      }
+      return;
+    }
+
     var formeLine = data.forme_mandat
       ? "<p>Forme : <strong>" + esc(data.forme_mandat) + "</strong></p>"
       : "";
-    document.getElementById("docPreview").innerHTML =
+    mount.innerHTML =
       "<h3 style='margin-top:0'>" +
       esc(typeLabel) +
       "</h3>" +
@@ -370,7 +404,10 @@
         ? JSON.parse(JSON.stringify(lastMandatForm))
         : MandatForm.emptyValues(schema);
       var profil = MandatForm.loadAgencyProfil(schema);
-      if ((!values.agence || !values.agence.nom) && profil && profil.nom) {
+      if (profil && profil.nom && !profil.enseigne) profil.enseigne = profil.nom;
+      if (profil && profil.nom && !profil.societe) profil.societe = profil.nom;
+      if (profil && profil.rcs && !profil.rcsNumero) profil.rcsNumero = profil.rcs;
+      if ((!values.agence || !(values.agence.enseigne || values.agence.societe || values.agence.nom)) && profil && (profil.enseigne || profil.societe || profil.nom)) {
         values.agence = Object.assign({}, values.agence || {}, profil);
       }
       var propId = document.getElementById("dProp").value || document.getElementById("filterProp").value;

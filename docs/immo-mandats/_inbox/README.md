@@ -4,6 +4,7 @@ Déposez ici les PDF fournis par le réseau, par exemple :
 
 - `comparatif_differentes-formes_des_mandats.pdf`
 - `mandat_de_vente_sans_exclusivite_*.pdf` (ex. modèle type Laforêt)
+- `mandat_favoriz_*.pdf` (référence UX : article 1 + toggles + rendu impression)
 
 Ces fichiers servent à **enrichir** :
 

@@ -254,3 +254,220 @@
 .mandat-form-label:has(textarea) {
   grid-column: 1 / -1;
 }
+
+.mandat-form__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .mandat-form__layout {
+    grid-template-columns: 1fr;
+  }
+}
+.mandat-form__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.mandat-form-input.is-prose {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+.mandat-form-cond {
+  display: contents;
+}
+.mandat-form-cond[hidden] {
+  display: none !important;
+}
+.mandat-form-static {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 10px 12px;
+  background: #f1f5f9;
+  border-left: 3px solid #64748b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #334155;
+  line-height: 1.4;
+}
+.mandat-toggle {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.mandat-toggle__q {
+  flex: 1;
+  min-width: 200px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+.mandat-toggle__opts {
+  display: inline-flex;
+  gap: 6px;
+}
+.mandat-toggle__btn {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: #64748b;
+}
+.mandat-toggle__btn.is-on {
+  background: #ecfdf5;
+  border-color: #34d399;
+  color: #047857;
+}
+.mandat-form__preview-pane {
+  position: sticky;
+  top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+}
+.mandat-form__preview-hd {
+  padding: 12px 14px;
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mandat-form__preview-hd span {
+  font-size: 0.78rem;
+  opacity: 0.75;
+  font-weight: 400;
+}
+.mandat-form__preview-body {
+  padding: 14px;
+  overflow: auto;
+  background: linear-gradient(180deg, #f8fafc, #fff);
+}
+
+/* Aperçu impression type Favoriz */
+.mf-print {
+  font-family: Georgia, "Times New Roman", serif;
+  color: #0f172a;
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+.mf-print-kicker {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+  font-family: system-ui, sans-serif;
+}
+.mf-print h2 {
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+}
+.mf-print-meta {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+}
+.mf-print-article {
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.mf-print-article__hd {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.mf-print-article h3 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  font-family: system-ui, sans-serif;
+}
+.mf-print-badge {
+  font-family: system-ui, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  background: #0f172a;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.mf-fill {
+  background: #e0e7ff;
+  padding: 0 3px;
+  border-radius: 3px;
+}
+.mf-blank {
+  color: #94a3b8;
+  border-bottom: 1px dotted #cbd5e1;
+}
+.mf-print-toggles {
+  margin: 8px 0 0;
+  padding-left: 1.1rem;
+}
+.mf-print-toggles li {
+  margin-bottom: 6px;
+}
+.mf-print-notice {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: #f1f5f9;
+  border-left: 3px solid #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-family: system-ui, sans-serif;
+}
+.mf-print-sign {
+  margin-top: 16px;
+}
+.mf-print-foot {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: #64748b;
+  font-family: system-ui, sans-serif;
+}
+@media print {
+  .mandat-form__fields,
+  .mandat-form__agency-pick,
+  .mandat-form__intro,
+  .mandat-comparatif,
+  .crm-page-panel,
+  .crm-toolbar,
+  .crm-action-row,
+  #docsLayout > div:first-child,
+  #docForm {
+    display: none !important;
+  }
+  .mandat-form__layout {
+    display: block;
+  }
+  .mandat-form__preview-pane {
+    position: static;
+    max-height: none;
+    border: 0;
+  }
+}
+
