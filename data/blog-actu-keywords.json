@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
+      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "lunettes", "yeux", "œil", "oeil", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
       "section": "sante",
       "need": "sante",
       "tag": "Santé & mutuelle",

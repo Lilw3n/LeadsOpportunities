@@ -21,6 +21,101 @@ function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
 
+/** File manuelle / inbox : consignes « COLLEZ ICI » — jamais publier. */
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var id = String((c && c.id) || "");
+  if (id === "cafeyn-pending-template") return true;
+  if (/collez ici/i.test(title)) return true;
+  return false;
+}
+
+/** Titres majoritairement anglais (fils Bing US), même avec un nom propre accentué. */
+function isEnglishHeavyTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return false;
+  var words = t.split(/[^A-Za-zÀ-ÿ]+/).filter(function (w) {
+    return w.length > 1;
+  });
+  if (words.length < 6) return false;
+  var enStops = {
+    the: 1,
+    into: 1,
+    and: 1,
+    for: 1,
+    with: 1,
+    from: 1,
+    regarding: 1,
+    potential: 1,
+    sale: 1,
+    enters: 1,
+    memorandum: 1,
+    understanding: 1,
+    advantages: 1,
+    getting: 1,
+    bans: 1,
+    unsolicited: 1,
+    forces: 1,
+    water: 1,
+    across: 1,
+    nearly: 1,
+    government: 1,
+    says: 1,
+    talk: 1,
+    of: 1,
+    to: 1,
+    in: 1,
+    on: 1,
+    an: 1,
+  };
+  var hits = 0;
+  words.forEach(function (w) {
+    if (enStops[w.toLowerCase()]) hits++;
+  });
+  if (hits >= 4) return true;
+  if (hits >= 3 && !/[éèêëàâäùûüôöîïçœæ]/i.test(t)) return true;
+  return false;
+}
+
+function hasLeadKeyword(c) {
+  var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "");
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|canicule|s[ée]cheresse|inondation|taux d['’]int[ée]r[eê]t|cr[ée]dit immo|pr[eê]t immo|retraite|s[ée]nior|sant[ée]|optique|lunette|kin[ée]|s[ée]curit[ée] sociale|matmut|pr[ée]voyance|tabag|vigilance orange|catastrophe naturelle|reste [àa] charge|d[ée]l[ée]gation/i.test(
+    hay
+  );
+}
+
+/** Actu spectacle / géopolitique / sport sans angle questionnaire. */
+function isLowLeadIntentTopic(c) {
+  var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "");
+  if (
+    /éclipse|eclipse/i.test(hay) &&
+    !/lunette|optique|fraude|dgccrf|r[ée]pression des fraudes/i.test(hay)
+  ) {
+    return true;
+  }
+  if (
+    /coop[ée]ration militaire|attach[ée] de d[ée]fense|h[ée]licopt[eè]re militaire|s[ée]isme de magnitude|pourparlers/i.test(
+      hay
+    )
+  ) {
+    return true;
+  }
+  if (
+    /\b(masters 1000|tour de france|supercoupe|tennis|tenmis|yacht)\b/i.test(hay) &&
+    !/assurance|mutuelle|emprunteur/i.test(hay)
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function shouldSkipLeadCandidate(c) {
+  if (isPlaceholderCandidate(c)) return true;
+  if (isEnglishHeavyTitle(c && c.title)) return true;
+  if (isLowLeadIntentTopic(c)) return true;
+  return false;
+}
+
 function slugify(text) {
   return String(text || "")
     .normalize("NFD")
@@ -351,4 +446,9 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  isEnglishHeavyTitle: isEnglishHeavyTitle,
+  isLowLeadIntentTopic: isLowLeadIntentTopic,
+  hasLeadKeyword: hasLeadKeyword,
+  shouldSkipLeadCandidate: shouldSkipLeadCandidate,
 };
