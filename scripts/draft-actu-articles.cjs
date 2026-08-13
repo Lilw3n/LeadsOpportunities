@@ -11,6 +11,7 @@ const {
   writeJson,
   scaffoldArticle,
   appendPendingArticle,
+  isWeakLeadActuTitle,
 } = require("./blog-actu-lib.cjs");
 
 function arg(name, def) {
@@ -43,6 +44,10 @@ function main() {
   }
 
   picked.forEach(function (c) {
+    if (isWeakLeadActuTitle(c.title)) {
+      console.warn("Ignoré (faible potentiel lead):", c.title);
+      return;
+    }
     var article = scaffoldArticle({
       title: c.title,
       summary: c.summary || "",
