@@ -114,6 +114,12 @@ function isWeakLeadCandidate(c) {
   if (isPlaceholderCandidate(c)) return true;
   if (isMostlyEnglishTitle(title)) return true;
   if (
+    /\b(colombie|colombia|venezuela|honduras|nicaragua|ukraine|gaza|liban|cisjordanie|salvador)\b/i.test(hay) &&
+    !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b/i.test(hay)
+  ) {
+    return true;
+  }
+  if (
     /tennis|tenmis|masters 1000|supercoupe|real madrid|psg ambitieux|ligue des champions/i.test(hay) &&
     !hasLeadKeywords(hay)
   ) {
