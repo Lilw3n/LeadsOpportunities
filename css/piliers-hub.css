@@ -114,24 +114,59 @@
 }
 .pilier-hero-media .pilier-actions {
   animation: pilier-rise 0.8s ease 0.14s both;
+  gap: 12px;
+}
+/* Boutons autonomes (ex. credit-immo sans main.css) */
+.pilier-hero-media .btn,
+.pilier-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 28px;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  font-weight: 800;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+.pilier-hero-media .btn:hover,
+.pilier-hero-media .btn:focus-visible,
+.pilier-actions .btn:hover,
+.pilier-actions .btn:focus-visible {
+  transform: translateY(-2px);
+  text-decoration: none;
 }
 .pilier-hero-media .btn-primary {
   background: #fff;
   color: var(--pilier-ink);
   border-color: #fff;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
 }
-.pilier-hero-media .btn-primary:hover {
+.pilier-hero-media .btn-primary:hover,
+.pilier-hero-media .btn-primary:focus-visible {
   background: var(--pilier-soft);
   border-color: var(--pilier-soft);
+  color: var(--pilier-ink);
 }
-.pilier-hero-media .btn-outline {
+.pilier-hero-media .btn-outline,
+.pilier-hero-media .btn-ghost {
   color: #fff;
-  border-color: rgba(255, 255, 255, 0.55);
-  background: rgba(15, 23, 42, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(6px);
+  box-shadow: none;
 }
-.pilier-hero-media .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.12);
+.pilier-hero-media .btn-outline:hover,
+.pilier-hero-media .btn-outline:focus-visible,
+.pilier-hero-media .btn-ghost:hover,
+.pilier-hero-media .btn-ghost:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
   border-color: #fff;
+  color: #fff;
 }
 
 /* Legacy boxed hero (fallback) */
