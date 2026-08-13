@@ -152,6 +152,18 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File manuelle / inbox : ignore les gabarits « COLLEZ ICI » (sinon ils volent le slot Cafeyn). */
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "draft-template") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String(item.title || "");
+  if (/collez ici|placeholder|titre de la une/i.test(title)) return true;
+  return false;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -351,4 +363,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
