@@ -65,6 +65,47 @@
   align-self: flex-start;
   margin-top: 4px;
 }
+.immo-letterhead-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.immo-letterhead-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.immo-letterhead-grid input,
+.immo-letterhead-grid textarea {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font: inherit;
+}
+.immo-letterhead-grid textarea {
+  min-height: 72px;
+  resize: vertical;
+}
+.immo-agency-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  font-size: 0.82rem;
+  margin-bottom: 10px;
+}
+.immo-agency-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
 .immo-cat-title {
   margin: 24px 0 8px;
   font-size: 0.85rem;

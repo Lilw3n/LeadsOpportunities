@@ -1,6 +1,7 @@
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
+const { listAgencyProfiles, resolveAgencyBrand } = require("../immo-agency-profiles");
 const {
   FORM_CATALOG,
   loadImmoBrandConfig,
@@ -24,11 +25,20 @@ module.exports = async (req, res) => {
   const formType = url.searchParams.get("type");
   const format = (url.searchParams.get("format") || "json").toLowerCase();
   const propertyId = url.searchParams.get("propertyId") || url.searchParams.get("property");
+  const agencyId = url.searchParams.get("agency") || url.searchParams.get("agencyId");
 
   if (!formType) {
+    const profileId = url.searchParams.get("profile");
+    if (profileId) {
+      return res.status(200).json({
+        ok: true,
+        profile: resolveAgencyBrand(profileId),
+      });
+    }
     return res.status(200).json({
       ok: true,
       catalog: FORM_CATALOG,
+      agencies: listAgencyProfiles(),
       categories: [
         { id: "mandat", label: "Mandats" },
         { id: "estimation", label: "Estimation & avis de valeur" },
@@ -59,26 +69,34 @@ module.exports = async (req, res) => {
     }
   }
 
-  const brand = loadImmoBrandConfig();
-  const model = buildDocumentModel(formType, { brand, property });
+  const brand = loadImmoBrandConfig(agencyId);
+  const model = buildDocumentModel(formType, { brand, property, agencyId });
 
   if (format === "html") {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     return res.status(200).send(renderDocumentHtml(model));
   }
 
+  const agencyQs = agencyId ? "&agency=" + encodeURIComponent(agencyId) : "";
   return res.status(200).json({
     ok: true,
     formType,
+    agencyId: brand.agencyId || agencyId || null,
     model: {
       meta: model.meta,
       prefill: model.prefill,
       propertyId: property ? property.id : null,
     },
+    brand: {
+      companyName: brand.companyName,
+      networkName: brand.networkName,
+      accentColor: brand.accentColor,
+    },
     prefillFromProperty: property ? buildPrefillFromProperty(property) : null,
     viewerUrl:
       "/crm-immo-formulaire.html?type=" +
       encodeURIComponent(formType) +
-      (propertyId ? "&property=" + encodeURIComponent(propertyId) : ""),
+      (propertyId ? "&property=" + encodeURIComponent(propertyId) : "") +
+      agencyQs,
   });
 };

@@ -15,7 +15,7 @@
     <div>
       <p class="crm-eyebrow">Immobilier · démarchage terrain</p>
       <h2>Formulaires PDF à remplir</h2>
-      <p>Mandats, estimation, bon de visite, prospection… Chaque modèle s’ouvre avec des <strong>encarts modifiables</strong> : complétez sur écran puis <strong>Imprimer → Enregistrer en PDF</strong>.</p>
+      <p>Mandats, estimation, bon de visite, prospection… Choisissez votre <strong>agence</strong> pour l'en-tête professionnel (Portes Clés, Laforêt…), complétez les encarts client puis <strong>Imprimer → PDF</strong>.</p>
     </div>
     <div class="crm-action-row">
       <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire biens</a>
@@ -24,15 +24,32 @@
   </section>
 
   <div class="panel" style="padding:18px">
-    <label class="crm-toolbar-label">Préremplir depuis un bien (optionnel)
-      <select id="filterProperty" class="crm-input">
-        <option value="">— Aucun —</option>
-      </select>
-    </label>
+    <div class="crm-toolbar" style="flex-wrap:wrap;gap:12px;margin-bottom:14px">
+      <label class="crm-toolbar-label">Agence / en-tête
+        <select id="filterAgency" class="crm-input"></select>
+      </label>
+      <label class="crm-toolbar-label">Préremplir depuis un bien (optionnel)
+        <select id="filterProperty" class="crm-input">
+          <option value="">— Aucun —</option>
+        </select>
+      </label>
+      <button type="button" class="btn btn-ghost" id="btnEditLetterhead">Configurer l'en-tête</button>
+    </div>
+    <div id="letterheadPanel" class="panel" hidden style="margin-bottom:16px;padding:16px;background:#f8fafc">
+      <h3 style="margin:0 0 10px">En-tête de l'agence sélectionnée</h3>
+      <p class="crm-muted-inline" style="margin:0 0 12px">Renseignez une fois : nom, adresse, garanties, médiateur… Ils seront repris automatiquement sur tous les PDF.</p>
+      <form id="letterheadForm" class="immo-letterhead-grid"></form>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button type="button" class="btn btn-primary" id="btnSaveLetterhead">Enregistrer l'en-tête</button>
+        <button type="button" class="btn btn-ghost" id="btnCloseLetterhead">Fermer</button>
+      </div>
+    </div>
     <p id="hubStatus" class="crm-muted-inline" style="margin-top:8px">Chargement des modèles…</p>
     <div id="formHub"></div>
   </div>
 
+  <script src="./js/crm-agency-fees-lib.js"></script>
+  <script src="./js/crm-immo-agency-brand.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-formulaires-page.js"></script>
   <script src="./js/admin-nav.js"></script>

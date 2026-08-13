@@ -3,7 +3,9 @@
   var params = new URLSearchParams(location.search);
   var formType = params.get("type");
   var propertyId = params.get("property") || "";
+  var agencyId = params.get("agency") || "";
   var token = localStorage.getItem(TOKEN_KEY);
+  var Brand = window.CrmImmoAgencyBrand;
 
   if (!token || !formType) {
     location.href = "./crm-immo-formulaires.html";
@@ -11,7 +13,10 @@
   }
 
   var Store = window.CrmImmoStore;
-  var draftKey = "immo_form_draft_" + formType + "_" + (propertyId || "solo");
+  if (Brand && !agencyId) agencyId = Brand.getSelectedAgencyId() || "";
+  if (Brand && agencyId) Brand.setSelectedAgencyId(agencyId);
+
+  var draftKey = "immo_form_draft_" + formType + "_" + (propertyId || "solo") + "_" + (agencyId || "default");
 
   if (propertyId) {
     var pl = document.getElementById("propertyLink");
@@ -20,7 +25,21 @@
   }
 
   document.getElementById("backLink").href =
-    "./crm-immo-formulaires.html" + (propertyId ? "?property=" + encodeURIComponent(propertyId) : "");
+    "./crm-immo-formulaires.html" +
+    (propertyId ? "?property=" + encodeURIComponent(propertyId) : "") +
+    (agencyId ? (propertyId ? "&" : "?") + "agency=" + encodeURIComponent(agencyId) : "");
+
+  function showAgencyBadge() {
+    if (!Brand || !agencyId) return;
+    var opt = Brand.listAgencyOptions().find(function (a) {
+      return a.id === agencyId;
+    });
+    if (!opt) return;
+    document.getElementById("agencyBadge").hidden = false;
+    document.getElementById("agencyLabel").textContent = "En-tête : " + opt.label;
+    document.getElementById("agencySwatch").style.background = opt.accentColor || "#1d4ed8";
+  }
+  showAgencyBadge();
 
   document.getElementById("btnPrint").onclick = function () {
     var frame = document.getElementById("docFrame");
@@ -134,22 +153,30 @@
     var doc = frame.contentDocument;
     if (!doc) return;
 
-    var localProp = propertyId && Store ? Store.getProperty(propertyId) : null;
-    if (localProp) applyValues(doc, buildLocalPrefill(localProp), true);
+    function finishSetup() {
+      if (Brand && agencyId) Brand.applyLetterheadToDocument(doc, agencyId);
+      var localProp = propertyId && Store ? Store.getProperty(propertyId) : null;
+      if (localProp) applyValues(doc, buildLocalPrefill(localProp), true);
+      try {
+        var saved = JSON.parse(localStorage.getItem(draftKey) || "{}");
+        applyValues(doc, saved, false);
+      } catch (e) {}
+      bindDraftSave(doc);
+    }
 
-    try {
-      var saved = JSON.parse(localStorage.getItem(draftKey) || "{}");
-      applyValues(doc, saved, false);
-    } catch (e) {}
-
-    bindDraftSave(doc);
+    if (Brand && agencyId) {
+      Brand.fetchProfile(agencyId, token).then(finishSetup);
+    } else {
+      finishSetup();
+    }
   }
 
   var apiUrl =
     "/api/crm/immo-document?type=" +
     encodeURIComponent(formType) +
     "&format=html" +
-    (propertyId ? "&propertyId=" + encodeURIComponent(propertyId) : "");
+    (propertyId ? "&propertyId=" + encodeURIComponent(propertyId) : "") +
+    (agencyId ? "&agency=" + encodeURIComponent(agencyId) : "");
 
   fetch(apiUrl, { headers: { Authorization: "Bearer " + token } })
     .then(function (r) {

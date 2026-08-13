@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { resolveAgencyBrand, loadImmoBrandBase } = require("./immo-agency-profiles");
 
 const FORM_CATALOG = [
   {
@@ -74,22 +75,8 @@ const FORM_CATALOG = [
   },
 ];
 
-function loadImmoBrandConfig() {
-  try {
-    const raw = fs.readFileSync(path.join(process.cwd(), "config", "immo-brand.json"), "utf8");
-    return JSON.parse(raw);
-  } catch (e) {
-    return {
-      companyName: "Leads Opportunities",
-      agentName: "",
-      tagline: "Negociateur immobilier",
-      email: "contact@leadsopportunities.fr",
-      orias: "15005935",
-      accentColor: "#1d4ed8",
-      draftNotice: "Modele brouillon a valider.",
-      footerLegal: "Leads Opportunities",
-    };
-  }
+function loadImmoBrandConfig(agencyId) {
+  return resolveAgencyBrand(agencyId || null);
 }
 
 function escHtml(value) {
@@ -287,47 +274,107 @@ function draftBanner(brand) {
   );
 }
 
+function brandField(brandVal, inputName, width) {
+  if (brandVal && String(brandVal).trim()) {
+    return '<span class="immo-brand-static">' + escHtml(brandVal) + "</span>";
+  }
+  return inp(inputName, "", { width: width || "200px" });
+}
+
 function renderHeader(brand, meta) {
+  const monogram =
+    brand.logoMonogram ||
+    String(brand.companyName || "LO")
+      .split(/\s+/)
+      .map(function (w) {
+        return w[0];
+      })
+      .join("")
+      .slice(0, 3)
+      .toUpperCase();
+  const lines = brand.addressLines && brand.addressLines.length ? brand.addressLines : brand.addressLine ? [brand.addressLine] : [];
+  const addrHtml = lines.map(function (l) {
+    return escHtml(l);
+  }).join("<br/>");
+
   return (
     '<header class="immo-header">' +
-    '<div class="immo-brand">' +
+    '<div class="immo-brand-block">' +
+    '<div class="immo-logo" aria-hidden="true">' +
+    escHtml(monogram) +
+    "</div>" +
+    '<div class="immo-brand-text">' +
     "<h1>" +
     escHtml(brand.companyName) +
     "</h1>" +
-    (brand.agentName ? "<p class=\"immo-agent\">" + escHtml(brand.agentName) + "</p>" : "") +
-    '<p class="immo-tag">' +
-    escHtml(brand.tagline || "") +
-    "</p>" +
-    "</div>" +
+    (brand.networkName ? '<p class="immo-network">' + escHtml(brand.networkName) + "</p>" : "") +
+    (brand.agentName ? '<p class="immo-agent">' + escHtml(brand.agentName) + "</p>" : "") +
+    (brand.tagline ? '<p class="immo-tag">' + escHtml(brand.tagline) + "</p>" : "") +
+    "</div></div>" +
     '<div class="immo-meta">' +
-  (brand.addressLine ? "<div>" + escHtml(brand.addressLine) + "</div>" : "") +
-    '<div><a href="mailto:' +
+    (addrHtml ? "<div class=\"immo-meta-addr\">" + addrHtml + "</div>" : "") +
+    (brand.phone ? '<div class="immo-meta-line"><span>Tél.</span> ' + escHtml(brand.phone) + "</div>" : "") +
+    '<div class="immo-meta-line"><span>E-mail</span> <a href="mailto:' +
     escHtml(brand.email) +
     '">' +
     escHtml(brand.email) +
     "</a></div>" +
-    (brand.phone ? "<div>" + escHtml(brand.phone) + "</div>" : "") +
-    (brand.orias ? "<div>ORIAS " + escHtml(brand.orias) + "</div>" : "") +
-    (brand.cartePro ? "<div>Carte pro T " + escHtml(brand.cartePro) + "</div>" : "") +
+    (brand.website ? '<div class="immo-meta-line"><span>Web</span> ' + escHtml(brand.website.replace(/^https?:\/\//, "")) + "</div>" : "") +
+    (brand.orias ? '<div class="immo-meta-line"><span>ORIAS</span> ' + escHtml(brand.orias) + "</div>" : "") +
+    (brand.cartePro ? '<div class="immo-meta-line"><span>Carte pro T</span> ' + escHtml(brand.cartePro) + "</div>" : "") +
     "</div></header>" +
     '<div class="immo-title-bar">' +
-    "<h2>" +
+    "<div><h2>" +
     escHtml(meta.title) +
     "</h2>" +
-    "<span>N° " +
+    '<p class="immo-ref">Réf. ' +
     escHtml(meta.reference) +
     " · " +
     escHtml(meta.date) +
-    "</span>" +
+    "</p></div>" +
+    '<div class="immo-title-badge">Document professionnel</div>' +
     "</div>"
   );
 }
 
+function renderCoverPage(brand, meta) {
+  return (
+    '<section class="immo-page immo-cover">' +
+    '<div class="immo-cover-inner">' +
+    '<div class="immo-cover-logo">' +
+    escHtml(brand.logoMonogram || "IM") +
+    "</div>" +
+    "<h1>" +
+    escHtml(meta.title) +
+    "</h1>" +
+    '<p class="immo-cover-agency">' +
+    escHtml(brand.companyName) +
+    "</p>" +
+    (brand.networkName ? '<p class="immo-cover-network">' + escHtml(brand.networkName) + "</p>" : "") +
+    (brand.agentName ? '<p class="immo-cover-agent">' + escHtml(brand.agentName) + "</p>" : "") +
+    '<div class="immo-cover-meta">' +
+    "<span>Réf. " +
+    escHtml(meta.reference) +
+    "</span>" +
+    "<span>" +
+    escHtml(meta.date) +
+    "</span>" +
+    "</div>" +
+    '<p class="immo-cover-foot">' +
+    escHtml(brand.addressLine || "") +
+    "</p>" +
+    "</div></section>"
+  );
+}
+
 function renderFooter(brand, page, total) {
+  const bits = [brand.footerLegal || brand.companyName];
+  if (brand.rcs) bits.push(brand.rcs);
+  if (brand.siret) bits.push("SIRET " + brand.siret);
   return (
     '<footer class="immo-footer">' +
     "<span>" +
-    escHtml(brand.footerLegal || brand.companyName) +
+    escHtml(bits.filter(Boolean).join(" — ")) +
     "</span>" +
     '<span class="immo-pagenum">' +
     page +
@@ -344,9 +391,9 @@ function legalMandatBlock(brand) {
     "<ul>" +
     "<li>Activité de transaction sur immeubles et fonds de commerce — carte professionnelle délivrée par la CCI.</li>" +
     "<li>Garantie financière : " +
-    inp("garantie_financiere", brand.garantieFinanciere || "", { width: "200px" }) +
+    brandField(brand.garantieFinanciere, "garantie_financiere", "220px") +
     " · Assurance RCP : " +
-    inp("rcp", brand.rcpInsurer || "", { width: "200px" }) +
+    brandField(brand.rcpInsurer, "rcp", "220px") +
     "</li>" +
     "<li>" +
     escHtml(brand.honorairesDefault || "Honoraires communiqués avant toute visite.") +
@@ -354,9 +401,9 @@ function legalMandatBlock(brand) {
     "<li>DPE et diagnostics obligatoires communiqués selon la réglementation en vigueur.</li>" +
     "<li>Délai de rétractation de 14 jours pour les mandats conclus hors établissement (si applicable).</li>" +
     "<li>" +
-    escHtml(brand.mediationClause || brand.mediationClause) +
+    escHtml(brand.mediationClause || "") +
     " Médiateur : " +
-    inp("mediateur", brand.mediateur || "", { width: "220px" }) +
+    brandField(brand.mediateur, "mediateur", "220px") +
     "</li>" +
     "</ul></div>"
   );
@@ -753,7 +800,7 @@ const RENDERERS = {
 
 function buildDocumentModel(formType, options) {
   const opts = options || {};
-  const brand = opts.brand || loadImmoBrandConfig();
+  const brand = opts.brand || loadImmoBrandConfig(opts.agencyId);
   const catalog = FORM_CATALOG.find(function (f) {
     return f.id === formType;
   });
@@ -771,6 +818,7 @@ function buildDocumentModel(formType, options) {
       reference,
       date: formatDateFr(opts.date || new Date().toISOString()),
       category: catalog.category,
+      withCover: catalog.category === "mandat" || catalog.category === "estimation",
     },
   };
 }
@@ -782,7 +830,10 @@ function renderDocumentHtml(model) {
 
   const brand = model.brand;
   const accent = brand.accentColor || "#1d4ed8";
-  const body = renderer(model.prefill, brand, model.meta);
+  let body = renderer(model.prefill, brand, model.meta);
+  if (model.meta.withCover) {
+    body = renderCoverPage(brand, model.meta) + body;
+  }
   const styles =
     "<style>:root{--immo-accent:" +
     accent +
@@ -808,56 +859,74 @@ function renderDocumentHtml(model) {
 
 function getDocumentStyles() {
   return `
-.immo-doc{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;font-size:11pt;color:#0f172a;background:#fff}
-.immo-page{max-width:820px;margin:0 auto;padding:24px 28px 48px;page-break-after:always;min-height:100vh;box-sizing:border-box;position:relative}
+.immo-doc{margin:0;font-family:"Segoe UI",Inter,Arial,sans-serif;font-size:10.5pt;color:#0f172a;background:#fff;line-height:1.45}
+.immo-page{max-width:800px;margin:0 auto;padding:22px 30px 52px;page-break-after:always;min-height:100vh;box-sizing:border-box;position:relative}
 .immo-page:last-child{page-break-after:auto}
-.immo-page-landscape{max-width:1000px}
-.immo-header{display:flex;justify-content:space-between;gap:16px;border-bottom:3px solid var(--immo-accent);padding-bottom:12px;margin-bottom:10px}
-.immo-brand h1{margin:0;font-size:1.35rem;color:var(--immo-accent)}
-.immo-agent{margin:2px 0 0;font-weight:700;font-size:.95rem}
-.immo-tag{margin:4px 0 0;font-size:.82rem;color:#64748b;font-style:italic}
-.immo-meta{text-align:right;font-size:.75rem;color:#64748b;line-height:1.45}
-.immo-meta a{color:#64748b;text-decoration:none}
-.immo-title-bar{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin:12px 0 16px;padding:8px 12px;background:#f1f5f9;border-radius:6px}
-.immo-title-bar h2{margin:0;font-size:1.05rem;color:var(--immo-accent-dark)}
-.immo-title-bar span{font-size:.78rem;color:#64748b}
-.immo-draft{background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:8px 12px;border-radius:6px;font-size:.78rem;margin-bottom:14px;line-height:1.4}
-.immo-doc h3{font-size:.88rem;color:var(--immo-accent-dark);margin:16px 0 8px;text-transform:uppercase;letter-spacing:.03em}
-.immo-line{display:grid;grid-template-columns:160px 1fr;gap:8px 12px;padding:5px 0;border-bottom:1px solid #e2e8f0;align-items:baseline;font-size:.88rem}
+.immo-page-landscape{max-width:1040px}
+.immo-header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;padding:0 0 14px;margin-bottom:0;border-bottom:4px solid var(--immo-accent)}
+.immo-brand-block{display:flex;gap:14px;align-items:flex-start;flex:1;min-width:0}
+.immo-logo{width:52px;height:52px;border-radius:10px;background:linear-gradient(145deg,var(--immo-accent),var(--immo-accent-dark));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;letter-spacing:.04em;flex-shrink:0;box-shadow:0 2px 8px rgba(15,23,42,.12)}
+.immo-brand-text h1{margin:0;font-size:1.28rem;color:var(--immo-accent-dark);letter-spacing:.01em;line-height:1.2}
+.immo-network{margin:3px 0 0;font-size:.78rem;font-weight:700;color:var(--immo-accent);text-transform:uppercase;letter-spacing:.05em}
+.immo-agent{margin:4px 0 0;font-weight:700;font-size:.9rem;color:#0f172a}
+.immo-tag{margin:3px 0 0;font-size:.78rem;color:#64748b}
+.immo-meta{text-align:right;font-size:.72rem;color:#475569;line-height:1.5;min-width:200px}
+.immo-meta a{color:#475569;text-decoration:none}
+.immo-meta-line{margin:2px 0}
+.immo-meta-line span{color:#94a3b8;font-weight:600;margin-right:4px}
+.immo-title-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 18px;padding:12px 16px;background:linear-gradient(90deg,#f8fafc,#fff);border:1px solid #e2e8f0;border-left:5px solid var(--immo-accent);border-radius:0 8px 8px 0}
+.immo-title-bar h2{margin:0;font-size:1.02rem;color:var(--immo-accent-dark);font-weight:800}
+.immo-ref{margin:4px 0 0;font-size:.76rem;color:#64748b}
+.immo-title-badge{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--immo-accent);padding:6px 10px;border:1px solid var(--immo-accent);border-radius:999px;background:#fff}
+.immo-cover{display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(160deg,#f8fafc 0%,#fff 45%,#f1f5f9 100%)}
+.immo-cover-inner{max-width:520px;padding:40px 24px}
+.immo-cover-logo{width:88px;height:88px;margin:0 auto 24px;border-radius:16px;background:linear-gradient(145deg,var(--immo-accent),var(--immo-accent-dark));color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:800;letter-spacing:.06em;box-shadow:0 8px 24px rgba(15,23,42,.15)}
+.immo-cover h1{margin:0 0 12px;font-size:1.55rem;color:var(--immo-accent-dark);line-height:1.25}
+.immo-cover-agency{margin:0;font-size:1.1rem;font-weight:700;color:#0f172a}
+.immo-cover-network{margin:6px 0 0;font-size:.85rem;color:var(--immo-accent);font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.immo-cover-agent{margin:10px 0 0;font-size:.95rem;color:#334155}
+.immo-cover-meta{display:flex;justify-content:center;gap:20px;margin-top:28px;font-size:.8rem;color:#64748b}
+.immo-cover-foot{margin-top:36px;font-size:.75rem;color:#94a3b8}
+.immo-draft{background:#fffbeb;border:1px solid #fcd34d;color:#78350f;padding:9px 12px;border-radius:6px;font-size:.74rem;margin-bottom:14px;line-height:1.45}
+.immo-brand-static{font-weight:600;color:#0f172a}
+.immo-doc h3{font-size:.82rem;color:var(--immo-accent-dark);margin:18px 0 8px;padding-bottom:5px;border-bottom:1px solid #e2e8f0;text-transform:uppercase;letter-spacing:.05em;font-weight:800}
+.immo-line{display:grid;grid-template-columns:155px 1fr;gap:8px 14px;padding:6px 0;border-bottom:1px solid #f1f5f9;align-items:baseline;font-size:.86rem}
 .immo-lbl{color:#64748b;font-weight:600}
 .immo-val{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
-.immo-fill{border:none;border-bottom:1px dashed #94a3b8;background:#f8fafc;font:inherit;font-size:.88rem;padding:3px 6px;min-width:140px;flex:1;max-width:100%;border-radius:2px}
-.immo-fill:focus{outline:2px solid var(--immo-accent);background:#fff}
-.immo-fill-short{min-width:80px;flex:0 1 auto}
-.immo-fill-num{min-width:70px;max-width:120px;flex:0 1 auto;text-align:right}
-.immo-fill-area{width:100%;min-height:60px;resize:vertical;line-height:1.45;border:1px dashed #cbd5e1;border-radius:4px;padding:8px}
-.immo-suffix{font-size:.82rem;color:#64748b;margin-left:2px}
-.immo-chk{display:inline-flex;align-items:center;gap:6px;font-size:.86rem;margin:4px 12px 4px 0;cursor:pointer}
+.immo-fill{border:none;border-bottom:1px dashed #94a3b8;background:#f8fafc;font:inherit;font-size:.86rem;padding:4px 8px;min-width:140px;flex:1;max-width:100%;border-radius:3px}
+.immo-fill:focus{outline:2px solid var(--immo-accent);background:#fff;border-bottom-style:solid}
+.immo-fill-short{min-width:72px;flex:0 1 auto}
+.immo-fill-num{min-width:68px;max-width:110px;flex:0 1 auto;text-align:right}
+.immo-fill-area{width:100%;min-height:64px;resize:vertical;line-height:1.45;border:1px dashed #cbd5e1;border-radius:6px;padding:10px;background:#fafbfc}
+.immo-suffix{font-size:.8rem;color:#64748b;margin-left:2px}
+.immo-chk{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;margin:4px 12px 4px 0;cursor:pointer}
 .immo-chk input{width:14px;height:14px;accent-color:var(--immo-accent)}
 .immo-list-check{list-style:none;padding:0;margin:8px 0}
 .immo-list-check li{margin:6px 0}
-.immo-checklist{list-style:none;padding:0;font-size:.86rem}
-.immo-checklist li{margin:8px 0;padding:6px 0;border-bottom:1px dotted #e2e8f0}
-.immo-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.82rem}
-.immo-table th,.immo-table td{border:1px solid #cbd5e1;padding:6px 8px;text-align:left;vertical-align:top}
-.immo-table th{background:#f1f5f9;font-weight:700}
-.immo-table .immo-fill{min-width:60px;font-size:.8rem;padding:2px 4px}
-.immo-table-est th{width:45%}
-.immo-legal{font-size:.76rem;color:#475569;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:10px 12px;margin:14px 0}
-.immo-legal ul{margin:6px 0;padding-left:1.1rem}
-.immo-alert{border-left:4px solid var(--immo-accent);padding:10px 12px;background:#eff6ff;font-size:.84rem;margin:12px 0}
-.immo-muted{font-size:.78rem;color:#94a3b8;font-style:italic}
-.immo-sigs{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
-.immo-sig{border:1px solid #e2e8f0;border-radius:6px;padding:12px;min-height:100px;font-size:.82rem}
-.immo-sig-pad{margin-top:40px;color:#94a3b8;font-size:.75rem}
-.immo-footer{position:absolute;left:28px;right:28px;bottom:16px;display:flex;justify-content:space-between;font-size:.7rem;color:#94a3b8;border-top:1px solid #e2e8f0;padding-top:8px}
+.immo-checklist{list-style:none;padding:0;font-size:.84rem}
+.immo-checklist li{margin:8px 0;padding:7px 0;border-bottom:1px dotted #e2e8f0}
+.immo-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.8rem}
+.immo-table th,.immo-table td{border:1px solid #cbd5e1;padding:7px 9px;text-align:left;vertical-align:top}
+.immo-table th{background:#f1f5f9;font-weight:700;color:#475569;font-size:.72rem;text-transform:uppercase;letter-spacing:.03em}
+.immo-table .immo-fill{min-width:56px;font-size:.78rem;padding:2px 5px}
+.immo-table-est th{width:42%}
+.immo-legal{font-size:.74rem;color:#475569;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px 14px;margin:16px 0}
+.immo-legal ul{margin:8px 0;padding-left:1.1rem}
+.immo-alert{border-left:4px solid var(--immo-accent);padding:11px 14px;background:#f0f7ff;font-size:.82rem;margin:14px 0;border-radius:0 6px 6px 0}
+.immo-muted{font-size:.76rem;color:#94a3b8;font-style:italic}
+.immo-sigs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.immo-sig{border:1px solid #e2e8f0;border-radius:8px;padding:14px;min-height:110px;font-size:.8rem;background:#fafbfc}
+.immo-sig-pad{margin-top:44px;color:#94a3b8;font-size:.72rem}
+.immo-footer{position:absolute;left:30px;right:30px;bottom:18px;display:flex;justify-content:space-between;gap:12px;font-size:.68rem;color:#94a3b8;border-top:1px solid #e2e8f0;padding-top:9px}
+.immo-footer span:first-child{max-width:75%}
 @media print{
-  .immo-fill{background:transparent!important;border-bottom:1px solid #334155}
-  .immo-fill-area{border:1px solid #94a3b8}
+  .immo-fill{background:transparent!important;border-bottom:1px solid #475569}
+  .immo-fill-area{border:1px solid #94a3b8;background:transparent}
   .immo-draft{background:#fff;border:1px solid #999}
-  .immo-page{padding:14mm 12mm 20mm;min-height:auto}
-  .immo-footer{position:fixed;bottom:8mm}
-  @page{margin:10mm}
+  .immo-page{padding:12mm 11mm 18mm;min-height:auto}
+  .immo-footer{position:fixed;bottom:7mm}
+  .immo-cover{background:#fff}
+  @page{margin:9mm}
 }
 `;
 }

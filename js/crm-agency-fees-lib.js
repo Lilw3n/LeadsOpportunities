@@ -566,6 +566,7 @@ window.CrmAgencyFees = (function () {
       agentSharePct: Math.max(0, Math.min(100, Number(a.agentSharePct) || 0)),
       notes: String(a.notes || ""),
       schedules: Array.isArray(a.schedules) ? a.schedules.map(normalizeSchedule) : [],
+      letterhead: a.letterhead && typeof a.letterhead === "object" ? a.letterhead : undefined,
       updatedAt: a.updatedAt || new Date().toISOString(),
     };
   }
