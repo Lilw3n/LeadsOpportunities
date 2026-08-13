@@ -17,16 +17,57 @@
       "priority": true,
       "summary": "Rayon immediat autour de l'agence a Dombasle-sur-Meurthe et de Varangéville.",
       "cities": [
-        { "name": "Dombasle-sur-Meurthe", "postal": "54110", "highlight": true },
-        { "name": "Varangéville", "postal": "54110", "highlight": true },
-        { "name": "Lenoncourt", "postal": "54110" },
-        { "name": "Sommerviller", "postal": "54110" },
-        { "name": "Haraucourt", "postal": "54110" },
-        { "name": "Buissoncourt", "postal": "54110" },
-        { "name": "Rosières-aux-Salines", "postal": "54110" },
-        { "name": "Crévic", "postal": "54110" },
-        { "name": "Flainval", "postal": "54110" },
-        { "name": "Mailley", "postal": "54110" }
+        {
+          "name": "Dombasle-sur-Meurthe",
+          "postal": "54110",
+          "highlight": true,
+          "slug": "dombasle-sur-meurthe",
+          "image": "/assets/immo/villes/dombasle-sur-meurthe.jpg",
+          "imageAlt": "Dombasle-sur-Meurthe, coeur de secteur immobilier"
+        },
+        {
+          "name": "Varangéville",
+          "postal": "54110",
+          "highlight": true,
+          "slug": "varangeville",
+          "image": "/assets/immo/villes/varangeville.jpg",
+          "imageAlt": "Varangéville, village de Meurthe-et-Moselle"
+        },
+        {
+          "name": "Lenoncourt",
+          "postal": "54110"
+        },
+        {
+          "name": "Sommerviller",
+          "postal": "54110"
+        },
+        {
+          "name": "Haraucourt",
+          "postal": "54110",
+          "slug": "haraucourt",
+          "image": "/assets/immo/villes/haraucourt.jpg",
+          "imageAlt": "Haraucourt, commune proche de Dombasle"
+        },
+        {
+          "name": "Buissoncourt",
+          "postal": "54110"
+        },
+        {
+          "name": "Rosières-aux-Salines",
+          "postal": "54110"
+        },
+        {
+          "name": "Crévic",
+          "postal": "54110"
+        },
+        {
+          "name": "Flainval",
+          "postal": "54110"
+        },
+        {
+          "name": "Mailley",
+          "postal": "54110"
+        }
       ]
     },
     {
@@ -36,14 +77,48 @@
       "priority": true,
       "summary": "Communes du Sel et du Vermois, a l'ouest de Dombasle et Varangéville.",
       "cities": [
-        { "name": "Saint-Nicolas-de-Port", "postal": "54210", "highlight": true },
-        { "name": "Ville-en-Vermois", "postal": "54210" },
-        { "name": "Manoncourt-en-Vermois", "postal": "54210" },
-        { "name": "Tonnoy", "postal": "54210" },
-        { "name": "Lupcourt", "postal": "54210" },
-        { "name": "Azelot", "postal": "54210" },
-        { "name": "Ferrières", "postal": "54210" },
-        { "name": "Art-sur-Meurthe", "postal": "54510" }
+        {
+          "name": "Saint-Nicolas-de-Port",
+          "postal": "54210",
+          "highlight": true,
+          "slug": "saint-nicolas-de-port",
+          "image": "/assets/immo/villes/saint-nicolas-de-port.jpg",
+          "imageAlt": "Saint-Nicolas-de-Port et basilique"
+        },
+        {
+          "name": "Ville-en-Vermois",
+          "postal": "54210",
+          "slug": "ville-en-vermois",
+          "image": "/assets/immo/villes/ville-en-vermois.jpg",
+          "imageAlt": "Ville-en-Vermois, Pays du Vermois"
+        },
+        {
+          "name": "Manoncourt-en-Vermois",
+          "postal": "54210",
+          "slug": "manoncourt-en-vermois",
+          "image": "/assets/immo/villes/manoncourt-en-vermois.jpg",
+          "imageAlt": "Manoncourt-en-Vermois, commune du Sel"
+        },
+        {
+          "name": "Tonnoy",
+          "postal": "54210"
+        },
+        {
+          "name": "Lupcourt",
+          "postal": "54210"
+        },
+        {
+          "name": "Azelot",
+          "postal": "54210"
+        },
+        {
+          "name": "Ferrières",
+          "postal": "54210"
+        },
+        {
+          "name": "Art-sur-Meurthe",
+          "postal": "54510"
+        }
       ]
     },
     {
@@ -53,27 +128,104 @@
       "priority": true,
       "summary": "Axe Meurthe entre Nancy et Lunéville : Mont-sur-Meurthe, Blainville, Damelevières et communes voisines.",
       "cities": [
-        { "name": "Lunéville", "postal": "54300", "highlight": true },
-        { "name": "Mont-sur-Meurthe", "postal": "54360", "highlight": true },
-        { "name": "Blainville-sur-l'Eau", "postal": "54360" },
-        { "name": "Damelevières", "postal": "54360" },
-        { "name": "Rehainviller", "postal": "54300" },
-        { "name": "Xermaménil", "postal": "54300" },
-        { "name": "Lamath", "postal": "54300" },
-        { "name": "Hériménil", "postal": "54300" },
-        { "name": "Vitrimont", "postal": "54300" },
-        { "name": "Charmois", "postal": "54360" },
-        { "name": "Chanteheux", "postal": "54300" },
-        { "name": "Croismare", "postal": "54360" },
-        { "name": "Einville-au-Jard", "postal": "54370" },
-        { "name": "Moncel-lès-Lunéville", "postal": "54300" },
-        { "name": "Laneuveville-devant-Nancy", "postal": "54410" },
-        { "name": "Houdemont", "postal": "54185" },
-        { "name": "Heillecourt", "postal": "54135" },
-        { "name": "Méréville", "postal": "54122" },
-        { "name": "Lay-Saint-Christophe", "postal": "54690" },
-        { "name": "Richardménil", "postal": "54630" },
-        { "name": "Seichamps", "postal": "54280" }
+        {
+          "name": "Lunéville",
+          "postal": "54300",
+          "highlight": true,
+          "slug": "luneville",
+          "image": "/assets/immo/villes/luneville.jpg",
+          "imageAlt": "Lunéville, chateau et centre-ville"
+        },
+        {
+          "name": "Mont-sur-Meurthe",
+          "postal": "54360",
+          "highlight": true,
+          "slug": "mont-sur-meurthe",
+          "image": "/assets/immo/villes/mont-sur-meurthe.jpg",
+          "imageAlt": "Mont-sur-Meurthe, vallee de la Meurthe"
+        },
+        {
+          "name": "Blainville-sur-l'Eau",
+          "postal": "54360",
+          "slug": "blainville-sur-l-eau",
+          "image": "/assets/immo/villes/blainville-sur-l-eau.jpg",
+          "imageAlt": "Blainville-sur-l'Eau, bords de Meurthe"
+        },
+        {
+          "name": "Damelevières",
+          "postal": "54360",
+          "slug": "damelevieres",
+          "image": "/assets/immo/villes/damelevieres.jpg",
+          "imageAlt": "Damelevières, axe Nancy-Luneville"
+        },
+        {
+          "name": "Rehainviller",
+          "postal": "54300"
+        },
+        {
+          "name": "Xermaménil",
+          "postal": "54300"
+        },
+        {
+          "name": "Lamath",
+          "postal": "54300"
+        },
+        {
+          "name": "Hériménil",
+          "postal": "54300"
+        },
+        {
+          "name": "Vitrimont",
+          "postal": "54300"
+        },
+        {
+          "name": "Charmois",
+          "postal": "54360"
+        },
+        {
+          "name": "Chanteheux",
+          "postal": "54300"
+        },
+        {
+          "name": "Croismare",
+          "postal": "54360"
+        },
+        {
+          "name": "Einville-au-Jard",
+          "postal": "54370"
+        },
+        {
+          "name": "Moncel-lès-Lunéville",
+          "postal": "54300"
+        },
+        {
+          "name": "Laneuveville-devant-Nancy",
+          "postal": "54410"
+        },
+        {
+          "name": "Houdemont",
+          "postal": "54185"
+        },
+        {
+          "name": "Heillecourt",
+          "postal": "54135"
+        },
+        {
+          "name": "Méréville",
+          "postal": "54122"
+        },
+        {
+          "name": "Lay-Saint-Christophe",
+          "postal": "54690"
+        },
+        {
+          "name": "Richardménil",
+          "postal": "54630"
+        },
+        {
+          "name": "Seichamps",
+          "postal": "54280"
+        }
       ]
     },
     {
@@ -83,12 +235,30 @@
       "priority": false,
       "summary": "Au nord et nord-ouest de Nancy : Pont-a-Mousson, Dieulouard, Custines et communes du plateau de Haye.",
       "cities": [
-        { "name": "Pont-à-Mousson", "postal": "54700" },
-        { "name": "Dieulouard", "postal": "54380" },
-        { "name": "Custines", "postal": "54670" },
-        { "name": "Montauville", "postal": "54700" },
-        { "name": "Rosières-en-Haye", "postal": "54385" },
-        { "name": "Velaine-en-Haye", "postal": "54840" }
+        {
+          "name": "Pont-à-Mousson",
+          "postal": "54700"
+        },
+        {
+          "name": "Dieulouard",
+          "postal": "54380"
+        },
+        {
+          "name": "Custines",
+          "postal": "54670"
+        },
+        {
+          "name": "Montauville",
+          "postal": "54700"
+        },
+        {
+          "name": "Rosières-en-Haye",
+          "postal": "54385"
+        },
+        {
+          "name": "Velaine-en-Haye",
+          "postal": "54840"
+        }
       ]
     },
     {
@@ -98,29 +268,155 @@
       "priority": false,
       "summary": "Couronne nanceienne pour les projets d'achat et de financement.",
       "cities": [
-        { "name": "Nancy", "postal": "54000" },
-        { "name": "Vandoeuvre-les-Nancy", "postal": "54500" },
-        { "name": "Laxou", "postal": "54520" },
-        { "name": "Villers-les-Nancy", "postal": "54600" },
-        { "name": "Saint-Max", "postal": "54130" },
-        { "name": "Essey-les-Nancy", "postal": "54270" },
-        { "name": "Jarville-la-Malgrange", "postal": "54140" },
-        { "name": "Maxeville", "postal": "54320" },
-        { "name": "Tomblaine", "postal": "54510" },
-        { "name": "Ludres", "postal": "54710" },
-        { "name": "Pompey", "postal": "54340" },
-        { "name": "Frouard", "postal": "54390" },
-        { "name": "Pulnoy", "postal": "54425" },
-        { "name": "Malzéville", "postal": "54220" }
+        {
+          "name": "Nancy",
+          "postal": "54000",
+          "slug": "nancy",
+          "image": "/assets/immo/villes/nancy.jpg",
+          "imageAlt": "Place Stanislas et centre-ville de Nancy"
+        },
+        {
+          "name": "Vandoeuvre-les-Nancy",
+          "postal": "54500",
+          "slug": "vandoeuvre-les-nancy",
+          "image": "/assets/immo/villes/vandoeuvre-les-nancy.jpg",
+          "imageAlt": "Quartier residentiel a Vandoeuvre-les-Nancy"
+        },
+        {
+          "name": "Laxou",
+          "postal": "54520",
+          "slug": "laxou",
+          "image": "/assets/immo/villes/laxou.jpg",
+          "imageAlt": "Maisons et verdure a Laxou"
+        },
+        {
+          "name": "Villers-les-Nancy",
+          "postal": "54600",
+          "slug": "villers-les-nancy",
+          "image": "/assets/immo/villes/villers-les-nancy.jpg",
+          "imageAlt": "Villers-les-Nancy, commune du Grand Nancy"
+        },
+        {
+          "name": "Saint-Max",
+          "postal": "54130",
+          "slug": "saint-max",
+          "image": "/assets/immo/villes/saint-max.jpg",
+          "imageAlt": "Centre-bourg de Saint-Max"
+        },
+        {
+          "name": "Essey-les-Nancy",
+          "postal": "54270",
+          "slug": "essey-les-nancy",
+          "image": "/assets/immo/villes/essey-les-nancy.jpg",
+          "imageAlt": "Essey-les-Nancy, proche agglomeration nanceienne"
+        },
+        {
+          "name": "Jarville-la-Malgrange",
+          "postal": "54140",
+          "slug": "jarville-la-malgrange",
+          "image": "/assets/immo/villes/jarville-la-malgrange.jpg",
+          "imageAlt": "Jarville-la-Malgrange, vallee de la Meurthe"
+        },
+        {
+          "name": "Maxeville",
+          "postal": "54320",
+          "slug": "maxeville",
+          "image": "/assets/immo/villes/maxeville.jpg",
+          "imageAlt": "Maxeville, commune du Grand Nancy"
+        },
+        {
+          "name": "Tomblaine",
+          "postal": "54510",
+          "slug": "tomblaine",
+          "image": "/assets/immo/villes/tomblaine.jpg",
+          "imageAlt": "Tomblaine, proche Meurthe-et-Moselle"
+        },
+        {
+          "name": "Ludres",
+          "postal": "54710",
+          "slug": "ludres",
+          "image": "/assets/immo/villes/ludres.jpg",
+          "imageAlt": "Ludres, sud de l'agglomeration nanceienne"
+        },
+        {
+          "name": "Pompey",
+          "postal": "54340",
+          "slug": "pompey",
+          "image": "/assets/immo/villes/pompey.jpg",
+          "imageAlt": "Pompey, nord de Nancy"
+        },
+        {
+          "name": "Frouard",
+          "postal": "54390",
+          "slug": "frouard",
+          "image": "/assets/immo/villes/frouard.jpg",
+          "imageAlt": "Frouard, bords de Meurthe"
+        },
+        {
+          "name": "Pulnoy",
+          "postal": "54425",
+          "slug": "pulnoy",
+          "image": "/assets/immo/villes/pulnoy.jpg",
+          "imageAlt": "Pulnoy, est de Nancy"
+        },
+        {
+          "name": "Malzéville",
+          "postal": "54220",
+          "slug": "malzeville",
+          "image": "/assets/immo/villes/malzeville.jpg",
+          "imageAlt": "Malzeville, commune du Grand Nancy"
+        }
       ]
     }
   ],
   "domTom": [
-    { "name": "Guadeloupe", "postal": "97110", "city": "Pointe-a-Pitre" },
-    { "name": "Martinique", "postal": "97200", "city": "Fort-de-France" },
-    { "name": "Reunion", "postal": "97400", "city": "Saint-Denis" },
-    { "name": "Guyane", "postal": "97300", "city": "Cayenne" },
-    { "name": "Mayotte", "postal": "97600", "city": "Mamoudzou" },
-    { "name": "Corse", "postal": "20000", "city": "Ajaccio" }
+    {
+      "name": "Guadeloupe",
+      "postal": "97110",
+      "city": "Pointe-a-Pitre",
+      "slug": "guadeloupe",
+      "image": "/assets/immo/villes/guadeloupe.jpg",
+      "imageAlt": "Guadeloupe, Pointe-a-Pitre et littoral caraibe"
+    },
+    {
+      "name": "Martinique",
+      "postal": "97200",
+      "city": "Fort-de-France",
+      "slug": "martinique",
+      "image": "/assets/immo/villes/martinique.jpg",
+      "imageAlt": "Martinique, baie de Fort-de-France"
+    },
+    {
+      "name": "Reunion",
+      "postal": "97400",
+      "city": "Saint-Denis",
+      "slug": "reunion",
+      "image": "/assets/immo/villes/reunion.jpg",
+      "imageAlt": "La Reunion, Saint-Denis et reliefs"
+    },
+    {
+      "name": "Guyane",
+      "postal": "97300",
+      "city": "Cayenne",
+      "slug": "guyane",
+      "image": "/assets/immo/villes/guyane.jpg",
+      "imageAlt": "Guyane, Cayenne et tropicale amazonienne"
+    },
+    {
+      "name": "Mayotte",
+      "postal": "97600",
+      "city": "Mamoudzou",
+      "slug": "mayotte",
+      "image": "/assets/immo/villes/mayotte.jpg",
+      "imageAlt": "Mayotte, lagon et Mamoudzou"
+    },
+    {
+      "name": "Corse",
+      "postal": "20000",
+      "city": "Ajaccio",
+      "slug": "corse",
+      "image": "/assets/immo/villes/corse.jpg",
+      "imageAlt": "Corse, Ajaccio et littoral mediterraneen"
+    }
   ]
 }
