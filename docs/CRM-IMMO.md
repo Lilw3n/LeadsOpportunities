@@ -10,6 +10,7 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 
 | Page | Rôle |
 |------|------|
+| `/landings/acheteur-immo.html` | **Vitrine publique** : filtres + cartes d’annonces (mandats matchables) puis alerte / dossier |
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
 | `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |
@@ -43,6 +44,17 @@ Implémentation : `js/crm-immo-matcher.js` (navigateur + Node).
 
 - `entity=all|property|criteria|party|document|match`
 - Auth CRM (`requireCrm`)
+
+`GET /api/immo-listings` — **public**, sans authentification.
+
+- Mandats au statut matchable uniquement (prospection, estimation, mandat, sous offre, réservé SRU)
+- Champs publics : titre, type, ville, CP, pièces, surface, prix FAI, DPE, tags (garage, jardin…)
+- **Jamais** : notes, e-mail, téléphone, adresse précise, contacts vendeur
+- Si aucun mandat : annonces d’illustration (`source: "demo"`)
+
+Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-immo-listings.js`.
+
+`questionnaire.html?need=acheteur-immo` redirige vers la vitrine (sauf `?wizard=1`).
 
 ## Documents (fondation)
 

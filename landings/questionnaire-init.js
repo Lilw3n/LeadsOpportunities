@@ -170,6 +170,16 @@
     var hub = qs("questionnaireHub");
     var wizard = qs("questionnaireWizard");
 
+    /* La recherche de bien n'est pas un devis assurance : renvoyer vers la vitrine. */
+    if (need === "acheteur-immo" && params.get("wizard") !== "1") {
+      var dest = new URL("./acheteur-immo.html", window.location.href);
+      params.forEach(function (v, k) {
+        if (k !== "need") dest.searchParams.set(k, v);
+      });
+      window.location.replace(dest.pathname + dest.search + dest.hash);
+      return;
+    }
+
     if (!need) {
       if (hub) hub.hidden = false;
       if (wizard) wizard.hidden = true;

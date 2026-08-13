@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez votre bien (maison, appartement, pro ou particulier) : secteur, budget, puis pret et assurances. Parcours acquereur Leads Opportunities." />
+  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
   <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
-  <meta property="og:description" content="Comme une recherche d'annonce : type de bien, secteur, budget, vendeur pro ou particulier — puis pret et assurances." />
+  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <!-- Google tag (gtag.js) -->
@@ -23,6 +23,7 @@
   <script src="/api/google-config-env"></script>
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../css/acheteur-immo-search.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
   <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
 </head>
@@ -52,28 +53,78 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Trouvez le bien qu'il vous faut — maison, appart, pro ou particulier"
-              data-price-title="Recherche de bien pour vos acquereurs : matching + pret"
-            ></h1>
+              data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
+              data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
+            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Comme sur une annonce : type, secteur, budget, vendeur. Ensuite on calage le pret et les assurances si besoin."
-              data-price-subtitle="Vos clients demarrent par la recherche du bien — vous gardez la main sur le matching et le financement."
-            ></p>
+              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
+              data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
+            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
             <ul class="points">
-              <li>Recherche de bien : maison / appart, pro ou particulier, secteur et budget</li>
-              <li>Matching et visites selon vos criteres</li>
-              <li>Pret et assurances (emprunteur, habitation, PNO) en complement</li>
+              <li>Annonces : type, ville, budget, pièces, surface</li>
+              <li>Mandats CRM (saisie manuelle, sans scraping Leboncoin / SeLoger)</li>
+              <li>Prêt et assurances seulement si vous en avez besoin</li>
             </ul>
             <div class="trust-row">
-              <span class="trust-pill">Recherche de bien</span>
-              <span class="trust-pill">Pro ou particulier</span>
-              <span class="trust-pill">Pret si besoin</span>
+              <span class="trust-pill">Annonces</span>
+              <span class="trust-pill">Ville + budget</span>
+              <span class="trust-pill">Alerte si aucun bien</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#demande">Lancer ma recherche</a>
+              <a class="btn btn-primary" href="#recherche">Voir les annonces</a>
+              <a class="btn btn-soft" href="#dossier">Déposer une alerte</a>
             </div>
+          </div>
+        </div>
+
+        <div class="listings-wrap" id="recherche" data-immo-search>
+          <h2>Annonces à vendre</h2>
+          <p class="listings-intro">Choisissez un type, une ville ou un budget — les cartes se mettent à jour. Ce n'est pas un questionnaire d'assurance.</p>
+          <div class="listings-types" role="group" aria-label="Type de bien">
+            <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="terrain" /><span>Terrain</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="local" /><span>Local</span></label>
+            <label class="search-chip"><input type="checkbox" name="listingType" value="immeuble" /><span>Immeuble</span></label>
+          </div>
+          <form class="listings-bar" data-listings-filters>
+            <div class="field">
+              <label for="listingCity">Ville</label>
+              <input id="listingCity" data-listing-city placeholder="Ex. Strasbourg, Lyon, Paris" autocomplete="address-level2" />
+            </div>
+            <div class="field">
+              <label for="listingPostal">Code postal</label>
+              <input id="listingPostal" data-listing-postal inputmode="numeric" maxlength="5" placeholder="Ex. 67000" />
+            </div>
+            <div class="field">
+              <label for="listingBudget">Budget max</label>
+              <input id="listingBudget" data-listing-budget inputmode="numeric" placeholder="Ex. 280000" />
+            </div>
+            <div class="field">
+              <label for="listingRooms">Pièces min.</label>
+              <input id="listingRooms" data-listing-rooms inputmode="numeric" placeholder="Ex. 3" />
+            </div>
+            <div class="field">
+              <label for="listingSurface">Surface min. m²</label>
+              <input id="listingSurface" data-listing-surface inputmode="numeric" placeholder="Ex. 65" />
+            </div>
+            <div class="field">
+              <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+          </form>
+          <p class="listings-demo-banner" data-listings-demo hidden>
+            Annonces d'illustration — les mandats saisis dans le CRM s'afficheront ici automatiquement.
+          </p>
+          <div class="listings-meta">
+            <span data-listings-count>Chargement des annonces…</span>
+          </div>
+          <div class="listings-grid" data-listings-grid></div>
+          <div class="listings-empty" data-listings-empty hidden>
+            <h3>Aucun bien pour ces critères</h3>
+            <p data-empty-hint>Aucun mandat ne correspond pour le moment.</p>
+            <a class="btn btn-primary" href="#dossier" data-listings-empty-cta>Déposer une alerte recherche</a>
           </div>
         </div>
 
@@ -85,17 +136,20 @@
           <section data-proximity-block data-proximity-context="credit" data-proximity-layout="compact"></section>
         </div>
 
-        <div class="form-wrap" id="demande" data-lead-dossier>
-          <h2 class="form-title">Recherche de bien</h2>
+        <div class="form-wrap" id="dossier" data-lead-dossier>
+          <span id="demande"></span>
+          <span class="dossier-kicker">Alerte &amp; dossier</span>
+          <h2 class="form-title">Pas le bon bien ? Déposez une alerte</h2>
           <p class="form-lead">
-            Commencez comme sur une annonce : <strong>quel bien</strong>, <strong>où</strong>, <strong>budget</strong>, <strong>pro ou particulier</strong>.
-            Le pret et les assurances viennent apres, seulement si vous en avez besoin.
+            On vous prévient quand un mandat correspond. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin — ce n'est pas l'écran de recherche.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
             <input type="hidden" name="need" value="acheteur-immo" />
             <input type="hidden" name="serviceNeed" value="acheteur-immo" />
             <input type="hidden" name="vertical" value="acheteur_immo" />
+            <input type="hidden" name="interestedListingId" id="interestedListingId" />
+            <input type="hidden" name="interestedListingTitle" id="interestedListingTitle" />
             <div data-cross-sell-panel hidden></div>
             <div class="hp-field" aria-hidden="true">
               <label for="hp_immo">Ne pas remplir</label>
@@ -106,7 +160,7 @@
                 <div class="wizard-progress-fill"></div>
               </div>
               <div class="wizard-meta">
-                <span>Recherche guidee</span>
+                <span>Alerte recherche</span>
                 <span class="wizard-step-counter">Etape 1 / 11</span>
               </div>
             </div>
@@ -207,11 +261,12 @@
 
             <!-- ETAPE 2 : Besoins pret et assurances -->
             <section class="wizard-step" data-wizard-step="2" data-step-name="besoins" hidden>
-              <h3>Vos besoins (pret et assurances)</h3>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">Cochez tout ce qui vous concerne. Un conseiller prepare des propositions pour chaque besoin.</p>
+              <h3>Vos besoins (optionnel — pret et assurances)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">Si vous cherchez seulement un bien, cochez « visites ». Les assurances et le pret sont facultatifs.</p>
               <div class="field full">
                 <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
                   <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous etudier ?</legend>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="visite" /> Recherche de bien / visites</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" /> Pret immobilier / capacite d'emprunt</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" /> Assurance emprunteur (delegation)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="habitation" /> Assurance habitation (future residence)</label>
@@ -741,7 +796,7 @@
             <div class="wizard-actions">
               <button type="button" class="btn btn-soft wizard-prev" hidden>Retour</button>
               <button type="button" class="btn btn-primary wizard-next">Continuer</button>
-              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer mon dossier acquereur</button>
+              <button type="submit" class="btn btn-primary wizard-submit" hidden data-track="cta_click">Envoyer mon alerte acquereur</button>
             </div>
             <div class="form-trust-row">
               <div class="form-trust-item">100% gratuit</div>
@@ -749,7 +804,7 @@
               <div class="form-trust-item">Sans engagement</div>
             </div>
           </form>
-          <p class="success" data-form-success hidden>Merci, votre dossier acquereur a bien ete envoye. Un conseiller pret + assurances vous rappelle rapidement.</p>
+          <p class="success" data-form-success hidden>Merci, votre alerte / dossier a bien ete envoye. Un conseiller vous rappelle pour les visites, le pret ou les assurances selon vos besoins.</p>
           <p class="form-error" data-form-error hidden>Envoi impossible. Reessayez dans quelques instants.</p>
           <div data-lead-insights hidden></div>
         </div>
@@ -770,40 +825,40 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Recherche de bien</strong>Categorie, secteur, budget, pro ou particulier — comme une annonce.</li>
-            <li><strong>2. Pret et assurances</strong>Faisabilite, emprunteur, habitation / PNO selon vos besoins.</li>
-            <li><strong>3. Montage dossier</strong>Accompagnement jusqu'a la decision avec un conseiller unique.</li>
+            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, cartes de biens, visite si un mandat correspond.</li>
+            <li><strong>2. Alerte si rien ne match</strong>On garde vos critères et on vous prévient dès qu'un mandat arrive.</li>
+            <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
 
         <div class="form-wrap">
-          <h2>FAQ credit immobilier</h2>
+          <h2>FAQ recherche de bien</h2>
           <ul class="faq-list landing-faq">
             <li>
               <details class="faq-item">
                 <summary>
-                  <span>La simulation est-elle engageante ?</span>
+                  <span>Pourquoi je ne vois pas Leboncoin ou SeLoger ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
-                <p>Non. Premiere estimation gratuite et sans engagement.</p>
+                <p>Le stock affiché, ce sont les mandats saisis dans le CRM (pas de scraping des portails). Si la vitrine est vide, des annonces d'illustration s'affichent et vous pouvez déposer une alerte.</p>
               </details>
             </li>
             <li>
               <details class="faq-item">
                 <summary>
-                  <span>Proposez-vous le credit et l'assurance emprunteur ?</span>
+                  <span>Dois-je remplir un dossier prêt pour chercher ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
-                <p>Oui. Credit via La Centrale de Financement et assurance emprunteur comparee via Marketplace Emprunteur.</p>
+                <p>Non. La recherche est en haut de page (filtres + cartes). Le questionnaire prêt / assurances est plus bas, uniquement si vous en avez besoin.</p>
               </details>
             </li>
             <li>
               <details class="faq-item">
                 <summary>
-                  <span>Que se passe-t-il apres la simulation ?</span>
+                  <span>Proposez-vous aussi le crédit et l'assurance emprunteur ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
-                <p>Un courtier valide la faisabilite, negocie les conditions et vous accompagne jusqu'a la signature.</p>
+                <p>Oui, en complément : crédit via La Centrale de Financement et assurance emprunteur via Marketplace Emprunteur — après la recherche du bien.</p>
               </details>
             </li>
           </ul>
@@ -826,26 +881,26 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "La simulation credit immo est-elle engageante ?",
+          "name": "Pourquoi je ne vois pas Leboncoin ou SeLoger ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Non, la simulation est une premiere estimation gratuite et sans engagement. Un courtier vous accompagne pour la suite uniquement si vous le souhaitez."
+            "text": "Le stock affiché, ce sont les mandats saisis dans le CRM, sans scraping des portails. Vous pouvez filtrer les annonces puis déposer une alerte si aucun bien ne correspond."
           }
         },
         {
           "@type": "Question",
-          "name": "Proposez-vous le credit et l'assurance emprunteur ?",
+          "name": "Dois-je remplir un dossier prêt pour chercher un bien ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Oui, le credit est monte via La Centrale de Financement et l'assurance emprunteur est comparee via la Marketplace Emprunteur."
+            "text": "Non. La recherche (filtres et cartes d'annonces) est en haut de page. Le questionnaire prêt et assurances est optionnel, plus bas."
           }
         },
         {
           "@type": "Question",
-          "name": "Que se passe-t-il apres la simulation ?",
+          "name": "Proposez-vous aussi le crédit et l'assurance emprunteur ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Un courtier analyse votre dossier, valide la faisabilite et negocie les meilleures conditions avec les banques. Il vous accompagne jusqu'a la signature chez le notaire."
+            "text": "Oui, en complément après la recherche du bien : crédit via La Centrale de Financement et assurance emprunteur via Marketplace Emprunteur."
           }
         }
       ]
@@ -864,6 +919,8 @@
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
+  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/acheteur-immo-search.js"></script>
   <script src="./tracking.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
