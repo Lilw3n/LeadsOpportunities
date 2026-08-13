@@ -12,6 +12,8 @@
 
 Accueil (`index.html`) : hero multi-piliers + grille `#piliers` (grandes tuiles photo) + nav alignée.
 
+Hubs : héros full-bleed + cartes parcours illustrées (bandeau photo) — sans pills nav redondantes.
+
 Styles : `css/piliers-hub.css`.
 Images : `assets/piliers/pilier-{assurance,immobilier,credit,banque,finance}.jpg`.
 
