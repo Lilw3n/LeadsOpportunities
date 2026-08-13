@@ -21,6 +21,15 @@ function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
 
+/** File manuelle / inbox : consignes « COLLEZ ICI » — jamais publier. */
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var id = String((c && c.id) || "");
+  if (id === "cafeyn-pending-template") return true;
+  if (/collez ici/i.test(title)) return true;
+  return false;
+}
+
 function slugify(text) {
   return String(text || "")
     .normalize("NFD")
@@ -351,4 +360,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
