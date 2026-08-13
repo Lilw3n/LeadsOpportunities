@@ -153,22 +153,68 @@
   margin: 0 0 20px;
 }
 
+/* Boutons (pages SEO n’incluent pas main.css) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 22px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  color: #fff;
+  background: var(--seo-accent);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--seo-accent) 35%, transparent);
+}
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: #fff;
+  box-shadow: 0 14px 32px color-mix(in srgb, var(--seo-accent) 45%, transparent);
+}
+.btn:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--seo-accent) 45%, #fff);
+  outline-offset: 2px;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--seo-accent), var(--seo-accent-dark, var(--seo-accent)));
+  color: #fff;
+  border-color: transparent;
+}
+.btn-ghost,
+.btn-outline {
+  background: #fff;
+  color: #0f172a;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+}
+.btn-ghost:hover,
+.btn-ghost:focus-visible,
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  color: var(--seo-accent-dark, var(--seo-accent));
+  border-color: var(--seo-accent);
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+}
+.btn-lg {
+  padding: 15px 28px;
+  font-size: 1.05rem;
+  border-radius: 16px;
+}
+
 .seo-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   align-items: center;
-}
-
-.seo-hero-actions .btn-primary {
-  background: var(--seo-accent);
-  box-shadow: 0 8px 20px color-mix(in srgb, var(--seo-accent) 40%, transparent);
-}
-
-.seo-hero-actions .btn-ghost {
-  background: #fff;
-  border: 1px solid #cbd5e1;
-  color: #334155;
 }
 
 .seo-trust {
@@ -329,9 +375,9 @@
   color: #64748b;
 }
 
+.seo-aside-card .btn,
 .seo-aside-card .btn-primary {
   width: 100%;
-  background: var(--seo-accent);
 }
 
 .seo-related {
@@ -424,9 +470,9 @@
   backdrop-filter: blur(8px);
 }
 
+.seo-mobile-cta .btn,
 .seo-mobile-cta .btn-primary {
   width: 100%;
-  background: var(--seo-accent);
 }
 
 @media (max-width: 900px) {
