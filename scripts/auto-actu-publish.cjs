@@ -10,7 +10,14 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isPlaceholderActuItem,
+  isWeakLeadCandidate,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -47,6 +54,13 @@ function normalizeTitle(t) {
     .toLowerCase()
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function urlKey(u) {
+  return String(u || "")
+    .trim()
+    .replace(/#.*$/, "")
+    .replace(/&amp;/g, "&");
 }
 
 function loadPublishedTitleKeys() {
@@ -89,12 +103,14 @@ function bestFromPlatform(available, platform, feedMap, used) {
 
 function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
-  var processed = new Set(state.processedUrls || []);
+  var processed = new Set((state.processedUrls || []).map(urlKey));
   var titleKeys = loadPublishedTitleKeys();
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
-    if (c.url && processed.has(c.url)) return false;
+    if (isPlaceholderActuItem(c)) return false;
+    if (isWeakLeadCandidate(c)) return false;
+    if (c.url && processed.has(urlKey(c.url))) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
@@ -279,7 +295,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
