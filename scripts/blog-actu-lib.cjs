@@ -185,19 +185,24 @@ function titlesTooSimilar(a, b) {
   return hits >= 3;
 }
 
-/** Sport / actu hors marché FR, ou titres anglais sans angle assurance France. */
+/** Sport / actu hors marché FR, ou titres anglais (communiqués Business Wire). */
 function isOffMarketActuCandidate(candidate) {
-  var hay = String(candidate.title || "") + " " + String(candidate.summary || "");
+  var title = String(candidate.title || "");
+  var hay = title + " " + String(candidate.summary || "");
   if (/hockey/i.test(hay) && !/\bfrance\b|\bfrançais\b|\bfrancais\b|\bbleus\b|équipe de france|equipe de france/i.test(hay)) {
     return true;
   }
-  if (
-    /\b(memorandum of understanding|what you need to know|money talk|enters into)\b/i.test(hay) &&
-    !/\bfrance\b|\bmutuelle\b|\bassurance\b/i.test(hay)
-  ) {
+  if (isMostlyEnglishTitle(title)) return true;
+  return false;
+}
+
+function isMostlyEnglishTitle(title) {
+  var t = String(title || "");
+  if (/\b(enters into|memorandum of understanding|business wire|what you need to know|money talk)\b/i.test(t)) {
     return true;
   }
-  return false;
+  var enHits = (t.match(/\b(the|and|into|regarding|potential|enters|memorandum|understanding|what|you|need|know|how|advantages)\b/gi) || []).length;
+  return enHits >= 3;
 }
 
 function ctaWithUtm(need, slug) {
