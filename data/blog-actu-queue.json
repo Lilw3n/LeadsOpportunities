@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-08-13T04:38:04.323Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -33,9 +33,18 @@
       "title": "COLLEZ ICI le titre de la une Cafeyn (Le Figaro, Le Parisien…)",
       "url": "",
       "source": "cafeyn",
-      "note": "Angle assurance a preciser",
-      "status": "pending",
+      "note": "Exemple inbox — ne pas publier. Remplacer par un vrai titre + url, status pending.",
+      "status": "template",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "firefox-legionellose-savoie-2026",
+      "title": "En Savoie, deux personnes décédées de légionellose et 41 cas recensés depuis le mois de juin",
+      "url": "https://www.franceinfo.fr/sante/en-savoie-deux-personnes-decedees-de-legionellose-et-41-cas-recenses-depuis-le-mois-de-juin_8144765.html",
+      "source": "firefox",
+      "note": "Angle mutuelle hospitalisation seniors — questionnaire sante",
+      "status": "published",
+      "addedAt": "2026-08-13T04:40:00.000Z"
     }
   ]
 }

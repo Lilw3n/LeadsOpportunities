@@ -12,6 +12,7 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
+  isPlaceholderActuItem,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -40,6 +41,7 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (isPlaceholderActuItem(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -152,14 +154,14 @@ async function main() {
   var processed = new Set(state.processedUrls || []);
   var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
 
-  await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
-
   (queue.items || []).forEach(function (item) {
     ingestQueueItem(item, buckets, processed);
   });
   dbQueue.forEach(function (item) {
     ingestQueueItem(item, buckets, processed);
   });
+
+  await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
   var files = existingFiles();
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
@@ -180,6 +182,7 @@ async function main() {
     });
     buckets[type].forEach(function (c) {
       c.leadScore = scoreLeadPotential(c);
+      if (c.status === "queued") c.leadScore += 30;
     });
   });
 
