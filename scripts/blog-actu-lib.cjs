@@ -123,8 +123,14 @@ function isWeakLeadCandidate(c) {
   var url = String((c && c.url) || "");
   if (isPlaceholderActuItem(c)) return true;
   if (isMostlyEnglishTitle(title)) return true;
-  if (/guide-shopping|mutuelle\.fr|thelocal\.fr/i.test(url + " " + hay)) return true;
+  if (/guide-shopping|mutuelle\.fr|thelocal\.fr|msn\.com\/fr-be|\/fr-be\//i.test(url + " " + hay)) return true;
   if (/^health insurance\b/i.test(title)) return true;
+  if (
+    /^meilleure mutuelle/i.test(title) &&
+    /comment choisir|classement|comparatif/i.test(hay)
+  ) {
+    return true;
+  }
   if (
     /\b(ceuta|melilla|enclave espagnole)\b/i.test(hay) &&
     !hasLeadKeywords(hay)
