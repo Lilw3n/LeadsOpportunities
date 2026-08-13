@@ -44,7 +44,7 @@
     },
     "acheteur-immo": {
       need: "acheteur-immo",
-      label: "Parcours acquereur immobilier",
+      label: "Recherche de bien immobilier",
       category: "finance",
       vertical: "acheteur_immo",
       landing: "./landings/acheteur-immo.html",

@@ -118,26 +118,31 @@
 }
 
 /* Finance : première carte mise en avant (grille impaire) */
-.pilier-page--finance .pilier-grid .pilier-card:first-child {
+.pilier-page--finance .pilier-grid .pilier-card:first-child,
+.pilier-page--immobilier .pilier-grid .pilier-card--featured {
   grid-column: 1 / -1;
   flex-direction: row;
   min-height: 220px;
 }
-.pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-media {
+.pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-media,
+.pilier-page--immobilier .pilier-grid .pilier-card--featured .pilier-card-media {
   width: min(42%, 360px);
   height: auto;
   align-self: stretch;
   min-height: 220px;
 }
-.pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-body {
+.pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-body,
+.pilier-page--immobilier .pilier-grid .pilier-card--featured .pilier-card-body {
   justify-content: center;
   padding: 24px 28px;
 }
 @media (max-width: 720px) {
-  .pilier-page--finance .pilier-grid .pilier-card:first-child {
+  .pilier-page--finance .pilier-grid .pilier-card:first-child,
+  .pilier-page--immobilier .pilier-grid .pilier-card--featured {
     flex-direction: column;
   }
-  .pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-media {
+  .pilier-page--finance .pilier-grid .pilier-card:first-child .pilier-card-media,
+  .pilier-page--immobilier .pilier-grid .pilier-card--featured .pilier-card-media {
     width: 100%;
     height: 148px;
     min-height: 148px;
