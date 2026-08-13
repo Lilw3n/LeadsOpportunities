@@ -57,13 +57,21 @@ function keywordMatches(hay, kw) {
     .trim();
   if (!k) return false;
   var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  var matched;
   if (k.length <= 5) {
     var re = new RegExp("(^|[^a-z0-9àâäéèêëïîôùûüç])" + escaped + "([^a-z0-9àâäéèêëïîôùûüç]|$)", "i");
-    return re.test(hay);
+    matched = re.test(hay);
+  } else {
+    matched = hay.indexOf(k) !== -1;
   }
-  if (hay.indexOf(k) === -1) return false;
+  if (!matched) return false;
   if (k === "équipe de france" || k === "equipe de france") {
     if (/[ée]quipe de france t[ée]l[ée]visions/i.test(hay)) return false;
+  }
+  if (k === "optique") {
+    if (/l['']optique de|dans l['']optique/i.test(hay) && !/lunette|verres?|ophtalm|mutuelle optique/i.test(hay)) {
+      return false;
+    }
   }
   return true;
 }
@@ -117,6 +125,12 @@ function isWeakLeadCandidate(c) {
   if (isMostlyEnglishTitle(title)) return true;
   if (/guide-shopping|mutuelle\.fr|thelocal\.fr/i.test(url + " " + hay)) return true;
   if (/^health insurance\b/i.test(title)) return true;
+  if (
+    /\b(ceuta|melilla|enclave espagnole)\b/i.test(hay) &&
+    !hasLeadKeywords(hay)
+  ) {
+    return true;
+  }
   if (
     /\b\d+\s+d[ée]partements?\b/i.test(hay) &&
     /vigilance|pic de (la )?canicule|alerte (canicule|m[ée]t[ée]o)/i.test(hay) &&
