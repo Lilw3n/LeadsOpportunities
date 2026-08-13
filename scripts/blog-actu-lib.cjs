@@ -109,7 +109,7 @@ function isWeakLeadCandidate(c) {
   }
   if (/epstein|mannequin|d[ée]ni de justice|lakers|avengers|l[ée]on marchand/i.test(hay)) return true;
   if (/baisses? de remboursement de la s[ée]curit[ée] sociale/i.test(hay)) return true;
-  if (/kin[ée]s dans le viseur|march[ée] des assurances sant[ée]|l['']assurance en 2025 : prot[ée]ger/i.test(hay)) {
+  if (/kin[ée]s dans le viseur|march[ée] des assurances sant[ée]|l.assurance en 2025/i.test(hay)) {
     return true;
   }
   if (
