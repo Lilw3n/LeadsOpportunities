@@ -10,10 +10,91 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isJunkActuTitle,
+  isLowConversionActuTitle,
+  slugify,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
+
+var MIN_PLATFORM_LEAD_SCORE = 40;
+
+/** Unes déjà couvertes par des PR draft — éviter les doublons. */
+var DRAFT_SLUG_PREFIXES = [
+  "acquereur-immobilier-pret-assurances-checklist-2026",
+  "a-paris-cette-association-lutte-contre-l-isolement",
+  "assurance-emprunteur-loi-lemoine-economies-2026",
+  "assurance-emprunteur-pres-de-20-de-parts-de-marche",
+  "assurance-habitation-certains-sinistres-doivent-attendre",
+  "assurance-habitation-degats-eaux-locataire-2026",
+  "assurance-habitation-des-hausses-de-tarifs-qui-atteignent",
+  "assurance-habitation-incendies-de-foret-secheresses",
+  "assurance-incendie-les-feux-de-foret-ne-sont-pas",
+  "assurance-vtc-attestation-plateformes-2026",
+  "avec-la-canicule-la-france-produit-moins-d-electricite",
+  "baisses-de-remboursement-securite-sociale-les-mutuelles",
+  "canicule-meteo-france-maintient-80-departements",
+  "caniculeprev-fatigue-insomnies-anxiete",
+  "canicules-en-france-la-ministre-de-l-ecologie",
+  "canicules-en-france-un-cout-de-l-ordre-de-10",
+  "c-est-comme-un-serre-tete-qui-brille",
+  "c-etait-le-meilleur-spot-de-tout-paris",
+  "changement-d-assurance-emprunteur-quatre-banques",
+  "comparateur-mutuelle-comment-bien-choisir",
+  "coupe-du-monde-2026-de-hockey",
+  "coupe-du-monde-2026-france-maroc",
+  "coupe-du-monde-2026-la-conference-de-presse",
+  "drone-pompier-systeme-ultra-precis",
+  "eclipse-ces-precautions-a-prendre",
+  "eclipse-solaire",
+  "en-direct-canicule",
+  "en-direct-meteo",
+  "en-savoie-deux-personnes-decedees-de-legionellose",
+  "fabien-barthez",
+  "france-conduite-sous-stupefiants",
+  "gel-des-tarifs-sante",
+  "hausse-des-primes-cout-des-sinistres",
+  "il-pretend-que-ses-parents-lui-ont-prete-la-voiture",
+  "je-tape-dans-mes-economies-les-premiers-beneficiaires",
+  "la-prefecture-de-police-de-paris-ordonne",
+  "l-eau-va-devenir-plus-chere-que-le-vin",
+  "l-editorial-de-gaetan-de-capele",
+  "le-parkour-geriatrique",
+  "le-president-des-departements-de-france",
+  "les-services-financiers-de-carrefour-france",
+  "meilleure-mutuelle-sante-comment-choisir",
+  "mutuelle-en-ligne-obtenez-un-devis",
+  "mutuelle-famille-budget-remboursements-2026",
+  "nouvelle-journee-de-canicule-en-france",
+  "pertes-agricoles-tresorerie",
+  "quand-auront-lieu-les-prochaines-eclipses",
+  "rachat-credits-rac-mensualite-2026",
+  "sophrologie-quel-remboursement",
+  "trottinettes-electriques-le-defaut-d-assurance",
+  "equipe-de-france-zinedine-zidane",
+  "equipe-de-france-le-staff-de-zinedine",
+  "football-fabien-barthez",
+  "hsbc-continental-europe",
+  "l-assurance-habitation-en-2025",
+  "le-gouvernement-prevoit-d-importantes-baisses",
+  "les-tarifs-de-l-assurance-habitation-grimpent",
+];
+
+function isAlreadyDrafted(title) {
+  var slug = slugify(title);
+  if (!slug) return false;
+  return DRAFT_SLUG_PREFIXES.some(function (prefix) {
+    var a = slug.slice(0, 36);
+    var b = prefix.slice(0, 36);
+    return slug.indexOf(b) === 0 || prefix.indexOf(a) === 0;
+  });
+}
 
 var ROOT = path.join(__dirname, "..");
 
@@ -75,16 +156,59 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
+function isInsuranceIntent(c) {
+  var hay = String(c.title || "") + " " + String(c.summary || "");
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|pr[eé]voyance|rembours|indemn|compl[eé]mentaire|s[eé]curit[eé] sociale|d[eé]l[eé]gation|cr[eé]dit immobilier|pr[eê]t immobilier/i.test(
+    hay
+  );
+}
+
+function stripSourceSuffix(title) {
+  return String(title || "")
+    .replace(/\s+[-–—]\s+[^-–—]{2,48}$/, "")
+    .trim();
+}
+
+function significantTitleTokens(title) {
+  return slugify(stripSourceSuffix(title))
+    .split("-")
+    .filter(function (w) {
+      return (
+        w.length > 3 &&
+        ["dans", "pour", "avec", "cette", "sont", "plus", "comme", "france", "europe", "selon", "entre"].indexOf(w) === -1
+      );
+    });
+}
+
+function isNearDuplicateTitle(title, other) {
+  var a = significantTitleTokens(title);
+  var b = significantTitleTokens(other);
+  if (!a.length || !b.length) return false;
+  var inter = a.filter(function (w) {
+    return b.indexOf(w) !== -1;
+  });
+  return inter.length >= 3 && inter.length / Math.min(a.length, b.length) >= 0.5;
+}
+
 function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      return (
+        candidateSourceType(c, feedMap) === platform &&
+        !used.has(k) &&
+        (c.leadScore || 0) >= MIN_PLATFORM_LEAD_SCORE
+      );
     })
     .sort(function (a, b) {
+      var ia = isInsuranceIntent(a) ? 1 : 0;
+      var ib = isInsuranceIntent(b) ? 1 : 0;
+      if (ib !== ia) return ib - ia;
       return b.leadScore - a.leadScore;
     });
-  return list[0] || null;
+  if (!list.length) return null;
+  if (!isInsuranceIntent(list[0])) return null;
+  return list[0];
 }
 
 function pickCandidates(candidates, count, state) {
@@ -96,6 +220,8 @@ function pickCandidates(candidates, count, state) {
   var available = ranked.filter(function (c) {
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (isJunkActuTitle(c.title) || isLowConversionActuTitle(c.title)) return false;
+    if (isAlreadyDrafted(c.title)) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
@@ -105,6 +231,13 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var usedTitles = [];
+
+  function alreadyUsedTitle(title) {
+    return usedTitles.some(function (t) {
+      return isNearDuplicateTitle(title, t);
+    });
+  }
 
   available
     .filter(function (c) {
@@ -115,6 +248,7 @@ function pickCandidates(candidates, count, state) {
       if (picks.length >= count) return;
       picks.push(c);
       used.add(c.url || c.title);
+      usedTitles.push(c.title);
     });
 
   if (count >= 3) {
@@ -124,6 +258,7 @@ function pickCandidates(candidates, count, state) {
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
+        usedTitles.push(pick.title);
       }
     });
     state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
@@ -135,30 +270,43 @@ function pickCandidates(candidates, count, state) {
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
+        usedTitles.push(rotated.title);
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
 
-  available
-    .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
-    })
-    .forEach(function (c) {
+  function preferInsurance(list) {
+    return list.slice().sort(function (a, b) {
+      var ia = isInsuranceIntent(a) ? 1 : 0;
+      var ib = isInsuranceIntent(b) ? 1 : 0;
+      if (ib !== ia) return ib - ia;
+      return (b.leadScore || 0) - (a.leadScore || 0);
+    });
+  }
+
+  function addFrom(list, requireInsurance) {
+    list.forEach(function (c) {
       if (picks.length >= count) return;
+      if (requireInsurance && !isInsuranceIntent(c)) return;
       var k = c.url || c.title;
       if (used.has(k)) return;
+      if (alreadyUsedTitle(c.title)) return;
       picks.push(c);
       used.add(k);
+      usedTitles.push(c.title);
     });
+  }
 
-  available.forEach(function (c) {
-    if (picks.length >= count) return;
-    var k = c.url || c.title;
-    if (used.has(k)) return;
-    picks.push(c);
-    used.add(k);
-  });
+  addFrom(
+    preferInsurance(
+      available.filter(function (c) {
+        return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+      })
+    ),
+    true
+  );
+  addFrom(preferInsurance(available), true);
 
   return picks;
 }
