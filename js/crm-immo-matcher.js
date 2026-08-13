@@ -33,6 +33,7 @@
 
   var PARTY_ROLES = [
     { id: "vendeur", label: "Vendeur / propriétaire" },
+    { id: "heritier", label: "Héritier / indivisaire vendeur" },
     { id: "mandant", label: "Mandant" },
     { id: "acquereur", label: "Acquéreur" },
     { id: "prospect", label: "Prospect intéressé" },
