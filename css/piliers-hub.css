@@ -1,0 +1,182 @@
+/* Hubs piliers publics — Assurance / Immo / Prêt / Banque / Finance */
+.pilier-page {
+  --pilier-accent: #0d9488;
+  --pilier-soft: #ccfbf1;
+  margin: 0;
+  font-family: Inter, "Segoe UI", system-ui, sans-serif;
+  color: #0f172a;
+  background: #f8fafc;
+  line-height: 1.6;
+}
+.pilier-page--assurance { --pilier-accent: #0d9488; --pilier-soft: #ccfbf1; }
+.pilier-page--immobilier { --pilier-accent: #0284c7; --pilier-soft: #e0f2fe; }
+.pilier-page--pret { --pilier-accent: #4f46e5; --pilier-soft: #e0e7ff; }
+.pilier-page--banque { --pilier-accent: #0f766e; --pilier-soft: #ccfbf1; }
+.pilier-page--finance { --pilier-accent: #b45309; --pilier-soft: #fef3c7; }
+
+.pilier-wrap { width: min(1080px, 92vw); margin: 0 auto; padding: 0 0 64px; }
+.pilier-hero {
+  margin: 28px 0 32px;
+  padding: 28px 24px;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, var(--pilier-soft), transparent 55%),
+    linear-gradient(180deg, #fff, #f8fafc);
+  border: 1px solid #e2e8f0;
+}
+.pilier-hero .section-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pilier-accent);
+  background: var(--pilier-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.pilier-hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(1.6rem, 4vw, 2.35rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.pilier-hero .lead {
+  margin: 0;
+  max-width: 40rem;
+  color: #475569;
+  font-size: 1.05rem;
+}
+.pilier-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.pilier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  margin: 8px 0 28px;
+}
+.pilier-card {
+  display: block;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.pilier-card:hover {
+  border-color: var(--pilier-accent);
+  transform: translateY(-2px);
+}
+.pilier-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+.pilier-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+.pilier-card .go {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--pilier-accent);
+}
+.pilier-nav-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+}
+.pilier-nav-pills a {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #334155;
+  text-decoration: none;
+}
+.pilier-nav-pills a[aria-current="page"] {
+  background: var(--pilier-accent);
+  border-color: var(--pilier-accent);
+  color: #fff;
+}
+.pilier-aside {
+  margin-top: 8px;
+  padding: 20px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--pilier-accent), #0f172a);
+  color: #fff;
+}
+.pilier-aside h2 { margin: 0 0 8px; font-size: 1.15rem; }
+.pilier-aside p { margin: 0 0 14px; opacity: 0.9; font-size: 0.95rem; }
+.pilier-aside .btn { background: #fff; color: #0f172a; }
+
+/* Home pillars strip */
+.home-pillars {
+  padding: 48px 0;
+  background: linear-gradient(180deg, #f8fafc, #fff);
+}
+.home-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+@media (max-width: 960px) {
+  .home-pillars-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .home-pillars-grid { grid-template-columns: 1fr; }
+}
+.home-pillar-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--line, #e2e8f0);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  min-height: 160px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.home-pillar-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+}
+.home-pillar-card .hp-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+.home-pillar-card.hp-assurance .hp-icon { background: #0d9488; }
+.home-pillar-card.hp-immo .hp-icon { background: #0284c7; }
+.home-pillar-card.hp-pret .hp-icon { background: #4f46e5; }
+.home-pillar-card.hp-banque .hp-icon { background: #0f766e; }
+.home-pillar-card.hp-finance .hp-icon { background: #b45309; }
+.home-pillar-card strong { font-size: 1.05rem; }
+.home-pillar-card span { color: var(--muted, #64748b); font-size: 0.88rem; line-height: 1.35; flex: 1; }
+.home-pillar-card em {
+  font-style: normal;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--primary, #0d9488);
+}
