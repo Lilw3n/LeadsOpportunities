@@ -154,14 +154,14 @@ async function main() {
   var processed = new Set(state.processedUrls || []);
   var buckets = { cafeyn: [], edge: [], firefox: [], aggregator: [] };
 
-  await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
-
   (queue.items || []).forEach(function (item) {
     ingestQueueItem(item, buckets, processed);
   });
   dbQueue.forEach(function (item) {
     ingestQueueItem(item, buckets, processed);
   });
+
+  await fetchFeedsParallel(feedsCfg.feeds || [], buckets, processed, maxPerFeed);
 
   var files = existingFiles();
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
@@ -182,6 +182,7 @@ async function main() {
     });
     buckets[type].forEach(function (c) {
       c.leadScore = scoreLeadPotential(c);
+      if (c.status === "queued") c.leadScore += 30;
     });
   });
 
