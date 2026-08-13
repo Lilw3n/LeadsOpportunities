@@ -9,6 +9,7 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  var initialPartyIds = [];
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -97,6 +98,94 @@
     });
   }
 
+  function partyRowsFromProperty(p) {
+    var parties = p.id ? Store.listParties(p.id) : [];
+    if (!parties.length) {
+      if (p.owner_contact_id) {
+        parties.push({ role: "vendeur", contact_id: p.owner_contact_id });
+      }
+      if (p.buyer_contact_id) {
+        parties.push({ role: "acquereur", contact_id: p.buyer_contact_id });
+      }
+    }
+    return parties.length ? parties : [{ role: "vendeur" }];
+  }
+
+  function partyRoleOptions(value) {
+    return Matcher.PARTY_ROLES.map(function (role) {
+      return (
+        '<option value="' +
+        esc(role.id) +
+        '"' +
+        (role.id === value ? " selected" : "") +
+        ">" +
+        esc(role.label) +
+        "</option>"
+      );
+    }).join("");
+  }
+
+  function renderPartyRows(parties) {
+    var list = document.getElementById("partyList");
+    if (!list) return;
+    list.innerHTML = (parties || []).map(function (party) {
+      return (
+        '<div class="party-editor-row" data-party-id="' +
+        esc(party.id || "") +
+        '">' +
+        '<label>Rôle<select data-party-field="role">' +
+        partyRoleOptions(party.role || "vendeur") +
+        "</select></label>" +
+        '<label>Nom<input data-party-field="name" value="' +
+        esc(party.name || "") +
+        '" placeholder="Nom de la personne" /></label>' +
+        '<label>Contact CRM<input data-party-field="contact_id" value="' +
+        esc(party.contact_id || "") +
+        '" placeholder="contact_…" /></label>' +
+        '<label>Téléphone<input data-party-field="phone" value="' +
+        esc(party.phone || "") +
+        '" placeholder="06…" /></label>' +
+        '<label>Email<input data-party-field="email" type="email" value="' +
+        esc(party.email || "") +
+        '" placeholder="nom@…" /></label>' +
+        '<button type="button" class="btn btn-ghost btn-sm party-editor-remove" data-remove-party>Retirer</button>' +
+        "</div>"
+      );
+    }).join("");
+    list.querySelectorAll("[data-remove-party]").forEach(function (button) {
+      button.onclick = function () {
+        button.closest("[data-party-id]").remove();
+        if (!list.querySelector("[data-party-id]")) renderPartyRows([{ role: "vendeur" }]);
+      };
+    });
+  }
+
+  function readPartyRows() {
+    return Array.from(document.querySelectorAll("#partyList [data-party-id]"))
+      .map(function (row) {
+        var party = { id: row.getAttribute("data-party-id") || undefined };
+        row.querySelectorAll("[data-party-field]").forEach(function (field) {
+          party[field.getAttribute("data-party-field")] = field.value.trim();
+        });
+        return party;
+      })
+      .filter(function (party) {
+        return party.name || party.contact_id || party.phone || party.email;
+      });
+  }
+
+  function saveParties(property, parties) {
+    var savedIds = {};
+    parties.forEach(function (party) {
+      party.property_id = property.id;
+      var saved = Store.upsertParty(party);
+      if (saved && saved.id) savedIds[saved.id] = true;
+    });
+    initialPartyIds.forEach(function (partyId) {
+      if (!savedIds[partyId]) Store.deleteParty(partyId);
+    });
+  }
+
   function renderList() {
     var list = Store.listProperties(queryFromForm());
     var mount = document.getElementById("listMount");
@@ -110,6 +199,13 @@
     mount.innerHTML = list
       .map(function (p) {
         var tags = [];
+        var parties = Store.listParties(p.id);
+        var sellerCount = parties.filter(function (party) {
+          return party.role === "vendeur" || party.role === "mandant";
+        }).length;
+        var buyerCount = parties.filter(function (party) {
+          return party.role === "acquereur" || party.role === "colocataire";
+        }).length;
         if (p.transaction === "location") tags.push("à louer");
         else tags.push("à vendre");
         if (p.a_contacter) tags.push("à contacter");
@@ -122,6 +218,8 @@
         if (p.has_balcony) tags.push("balcon");
         if (p.has_elevator) tags.push("ascenseur");
         if (p.has_pool) tags.push("piscine");
+        if (sellerCount) tags.push(sellerCount + " vendeur(s)");
+        if (buyerCount) tags.push(buyerCount + " acquéreur(s)");
         var src =
           (Matcher.LISTING_SOURCES.find(function (s) {
             return s.id === p.listing_source;
@@ -216,8 +314,6 @@
     document.getElementById("pAgence").value = p.agence || "";
     document.getElementById("pSuivi").value = p.suivi_par || "";
     document.getElementById("pPhone").value = p.phone || "";
-    document.getElementById("pOwner").value = p.owner_contact_id || "";
-    document.getElementById("pBuyer").value = p.buyer_contact_id || "";
     document.getElementById("pLead").value = p.lead_id || "";
     document.getElementById("pAContacter").checked = !!p.a_contacter;
     document.getElementById("pContactConnu").checked = !!p.contact_connu;
@@ -231,6 +327,10 @@
     document.getElementById("pPool").checked = !!p.has_pool;
     document.getElementById("pDesc").value = p.description || "";
     document.getElementById("pNotes").value = p.notes || "";
+    initialPartyIds = Store.listParties(p.id)
+      .map(function (party) { return party.id; })
+      .filter(Boolean);
+    renderPartyRows(partyRowsFromProperty(p));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -260,8 +360,6 @@
       agence: document.getElementById("pAgence").value.trim(),
       suivi_par: document.getElementById("pSuivi").value.trim(),
       phone: document.getElementById("pPhone").value.trim(),
-      owner_contact_id: document.getElementById("pOwner").value.trim() || null,
-      buyer_contact_id: document.getElementById("pBuyer").value.trim() || null,
       lead_id: document.getElementById("pLead").value.trim() || null,
       a_contacter: document.getElementById("pAContacter").checked,
       contact_connu: document.getElementById("pContactConnu").checked,
@@ -276,7 +374,17 @@
       description: document.getElementById("pDesc").value,
       notes: document.getElementById("pNotes").value,
     };
-    Store.upsertProperty(item);
+    var parties = readPartyRows();
+    item.owner_contact_id =
+      (parties.find(function (party) {
+        return party.role === "vendeur" || party.role === "mandant";
+      }) || {}).contact_id || null;
+    item.buyer_contact_id =
+      (parties.find(function (party) {
+        return party.role === "acquereur" || party.role === "colocataire";
+      }) || {}).contact_id || null;
+    var savedProperty = Store.upsertProperty(item);
+    saveParties(savedProperty, parties);
     document.getElementById("formPanel").hidden = true;
     renderList();
   };
@@ -286,6 +394,11 @@
   };
   document.getElementById("btnCancelForm").onclick = function () {
     document.getElementById("formPanel").hidden = true;
+  };
+  document.getElementById("btnAddParty").onclick = function () {
+    var parties = readPartyRows();
+    parties.push({ role: "vendeur" });
+    renderPartyRows(parties);
   };
   document.getElementById("btnPigesSearch").onclick = renderList;
 

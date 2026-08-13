@@ -166,6 +166,49 @@
     }
     .immo-check { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
     .immo-check label { flex-direction: row; align-items: center; gap: 6px; font-weight: 600; }
+    .party-editor {
+      grid-column: 1 / -1;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+    .party-editor-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .party-editor-title { font-weight: 800; color: #334155; }
+    .party-editor-hint { margin: 2px 0 10px; color: var(--muted); font-size: .78rem; }
+    .party-list { display: grid; gap: 8px; }
+    .party-editor-row {
+      display: grid;
+      grid-template-columns: minmax(125px, .8fr) minmax(150px, 1.2fr) minmax(130px, 1fr) minmax(130px, 1fr) minmax(130px, 1fr) auto;
+      gap: 7px;
+      align-items: end;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+    .party-editor-row label {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: .7rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .party-editor-row input,
+    .party-editor-row select { min-width: 0; padding: 7px 8px; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+    .party-editor-remove { white-space: nowrap; }
+    @media (max-width: 760px) {
+      .party-editor-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .party-editor-remove { grid-column: 1 / -1; justify-self: start; }
+    }
   </style>
 </head>
 <body class="crm-subpage">
@@ -357,8 +400,14 @@
           <label>Agence<input id="pAgence" /></label>
           <label>Suivi par<input id="pSuivi" /></label>
           <label>Téléphone contact<input id="pPhone" /></label>
-          <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
-          <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
+          <div class="party-editor" id="partyEditor">
+            <div class="party-editor-head">
+              <div class="party-editor-title">Vendeurs, acquéreurs &amp; autres personnes</div>
+              <button type="button" class="btn btn-ghost btn-sm" id="btnAddParty">+ Ajouter une personne</button>
+            </div>
+            <p class="party-editor-hint">Ajoutez autant de vendeurs ou d’acquéreurs que nécessaire — par exemple les 8 héritiers d’une même maison.</p>
+            <div class="party-list" id="partyList"></div>
+          </div>
           <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
           <div class="immo-check" style="grid-column:1/-1">
             <label><input type="checkbox" id="pAContacter" /> À contacter</label>
