@@ -121,30 +121,78 @@
     });
   }
 
+  function fieldLabelText(el) {
+    var lbl = el.closest("label");
+    if (lbl) {
+      var clone = lbl.cloneNode(true);
+      clone.querySelectorAll("input, select, textarea, .audit-tag").forEach(function (n) {
+        n.remove();
+      });
+      var t = (clone.textContent || "").replace(/\s+/g, " ").trim();
+      if (t) return t.slice(0, 80);
+    }
+    if (el.id) {
+      var forLbl = el.form && el.form.querySelector('label[for="' + el.id + '"]');
+      if (forLbl) {
+        var ft = (forLbl.textContent || "").replace(/\s+/g, " ").trim();
+        if (ft) return ft.slice(0, 80);
+      }
+    }
+    return "";
+  }
+
   function buildStepPanel(form, step, index) {
     var title = step.querySelector("h3");
     var name =
       step.getAttribute("data-step-name") ||
       step.getAttribute("data-step") ||
       "Étape " + (index + 1);
+    var seenGroups = {};
     var inputs = [];
     step.querySelectorAll("input, select, textarea").forEach(function (el) {
       if (el.disabled || el.type === "hidden" || el.type === "submit" || el.type === "button") return;
       if (el.name === "_hp") return;
-      var lbl = el.closest("label");
-      var labelText = lbl ? (lbl.childNodes[0] && lbl.childNodes[0].textContent) || el.name : el.name;
-      if (typeof labelText === "string") labelText = labelText.trim().slice(0, 60);
+
+      // Cases à cocher / radios : une seule ligne par groupe, libellés humains
+      if ((el.type === "checkbox" || el.type === "radio") && el.name) {
+        if (seenGroups[el.name]) return;
+        seenGroups[el.name] = true;
+        var opts = [];
+        step.querySelectorAll('input[name="' + el.name + '"]').forEach(function (cb) {
+          var ot = fieldLabelText(cb);
+          if (ot) opts.push(ot);
+        });
+        var rules = fieldRules(el)
+          .map(function (t) {
+            return t.text;
+          })
+          .join(" · ");
+        var groupTitle =
+          el.name === "buyerNeeds"
+            ? "Besoins sélectionnés"
+            : fieldLabelText(el) || el.name;
+        inputs.push(
+          "<li><strong>" +
+            groupTitle +
+            "</strong>" +
+            (rules ? " — " + rules : "") +
+            (opts.length ? "<br><span class='muted'>" + opts.join(" · ") + "</span>" : "") +
+            "</li>"
+        );
+        return;
+      }
+
+      var labelText = fieldLabelText(el) || el.name || el.id || "Champ";
       var rules = fieldRules(el)
         .map(function (t) {
           return t.text;
         })
         .join(" · ");
-      inputs.push("<li><strong>" + (labelText || el.name) + "</strong>" + (rules ? " — " + rules : "") + "</li>");
+      inputs.push("<li><strong>" + labelText + "</strong>" + (rules ? " — " + rules : "") + "</li>");
     });
     return (
       "<h4>" +
-      name +
-      (title ? " — " + title.textContent : "") +
+      (title ? title.textContent : name) +
       "</h4><ul>" +
       (inputs.length ? inputs.join("") : "<li class='muted'>Aucun champ saisissable</li>") +
       "</ul>"
@@ -214,7 +262,8 @@
       (steps.length
         ? '<label>Aller à <select data-audit-step-select>' + stepOptions + "</select></label>" +
           '<button type="button" data-audit-prev>◀ Étape</button>' +
-          '<button type="button" data-audit-next>Étape ▶</button>'
+          '<button type="button" data-audit-next>Étape ▶</button>' +
+          '<label class="form-audit-toggle"><input type="checkbox" data-audit-show-fields /> Liste des champs</label>'
         : "") +
       '<div class="form-audit-legend">' +
       '<span class="audit-tag--required">Obligatoire</span>' +
@@ -229,6 +278,7 @@
     var panel = document.createElement("div");
     panel.className = "form-audit-step-panel";
     panel.setAttribute("data-audit-step-summary", "");
+    panel.hidden = true;
     var mount = form.querySelector("#wizardStepsMount") || form.querySelector("[data-pet-journey]") || form.firstElementChild;
     if (mount && mount.parentNode) {
       mount.parentNode.insertBefore(panel, mount);
@@ -240,7 +290,8 @@
       form.dataset.auditMode = checked ? "1" : "0";
       document.body.classList.toggle("form-audit-active", checked);
       setAuditPreference(checked);
-      panel.hidden = !checked;
+      var showFields = bar.querySelector("[data-audit-show-fields]");
+      panel.hidden = !checked || !(showFields && showFields.checked);
       bar.style.opacity = checked ? "1" : "0.85";
     }
 
@@ -248,6 +299,12 @@
     toggle.addEventListener("change", function () {
       syncActive(toggle.checked);
     });
+    var showFields = bar.querySelector("[data-audit-show-fields]");
+    if (showFields) {
+      showFields.addEventListener("change", function () {
+        panel.hidden = !toggle.checked || !showFields.checked;
+      });
+    }
     syncActive(toggle.checked);
 
     if (steps.length) {

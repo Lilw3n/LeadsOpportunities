@@ -21,6 +21,7 @@
     bonusMalus: "Bonus-malus",
     serviceNeed: "Produit demandé",
     need: "Besoin",
+    buyerNeeds: "Besoins (prêt & assurances)",
     fullName: "Nom complet",
     firstName: "Prénom",
     first_name: "Prénom",
@@ -242,6 +243,15 @@
     return html;
   }
 
+  var VALUE_LABELS = {
+    pret: "Prêt immobilier / capacité d'emprunt",
+    emprunteur: "Assurance emprunteur",
+    habitation: "Assurance habitation",
+    pno: "PNO — propriétaire non occupant",
+    locataire: "Assurance locataire",
+    rachat: "Rachat ou renégociation de crédit",
+  };
+
   function humanizeKey(key) {
     if (FIELD_LABELS[key]) return FIELD_LABELS[key];
     return String(key)
@@ -252,15 +262,27 @@
       });
   }
 
+  function humanizeValue(val) {
+    if (val == null) return null;
+    if (typeof val === "string" && VALUE_LABELS[val]) return VALUE_LABELS[val];
+    return val;
+  }
+
   function flattenValue(val) {
     if (val == null || val === "") return null;
     if (typeof val === "boolean") return val ? "Oui" : "Non";
     if (typeof val === "number") return String(val);
-    if (typeof val === "string") return val.trim() || null;
+    if (typeof val === "string") {
+      var s = val.trim();
+      if (!s) return null;
+      return VALUE_LABELS[s] || s;
+    }
     if (Array.isArray(val)) {
       var joined = val
         .map(function (x) {
-          return typeof x === "object" ? JSON.stringify(x) : String(x);
+          if (typeof x === "object") return JSON.stringify(x);
+          var sx = String(x);
+          return VALUE_LABELS[sx] || sx;
         })
         .join(", ");
       return joined || null;
