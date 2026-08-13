@@ -123,12 +123,19 @@
         : need
           ? '<input type="hidden" name="need" value="' + esc(need) + '" />'
           : "") +
-      '<label class="field-check">' +
-      '<input type="checkbox" name="consent" value="1" required />' +
-      '<span>J\'accepte d\'être rappelé(e) par un conseiller Leads Opportunities, conformément à la <a href="' +
-      esc(options.privacyHref || "./politique-confidentialite.html") +
-      '" target="_blank" rel="noopener">politique de confidentialité</a>.</span>' +
-      "</label>" +
+      (global.PhoneConsent && global.PhoneConsent.buildCheckboxHtml
+        ? global.PhoneConsent.buildCheckboxHtml({
+            privacyHref: options.privacyHref || "./politique-confidentialite.html",
+            need: need,
+            serviceLabel: (getService(need) && getService(need).label) || need,
+            phoneRequired: true,
+            includeProcessing: true,
+          })
+        : '<label class="field-check">' +
+          '<input type="checkbox" name="phone_consent" value="1" required />' +
+          '<span>J\'accepte d\'être rappelé(e) par téléphone par un conseiller (12 mois max), cf. <a href="' +
+          esc(options.privacyHref || "./politique-confidentialite.html") +
+          '" target="_blank" rel="noopener">politique de confidentialité</a>.</span></label>') +
       '<button type="submit" class="btn btn-primary btn-callback" data-clarity-label="Demande rappel express">' +
       esc(options.submitLabel || COPY.submit) +
       "</button>" +
@@ -262,7 +269,12 @@
         getAttr(),
         fields
       );
-      delete leadPayload.consent;
+      if (global.PhoneConsent && global.PhoneConsent.enrichLeadPayload) {
+        global.PhoneConsent.enrichLeadPayload(leadPayload, form);
+      } else {
+        leadPayload.phone_consent =
+          fields.phone_consent === "1" || fields.consent === "1";
+      }
 
       if (typeof global.saveLeadRequest === "function") {
         global.saveLeadRequest(leadPayload);

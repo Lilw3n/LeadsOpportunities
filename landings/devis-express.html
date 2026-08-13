@@ -77,10 +77,10 @@
             <label>Email<input name="email" type="email" required autocomplete="email" /></label>
             <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" required /></label>
           </div>
-          <label class="checkbox-row">
-            <input type="checkbox" name="consent" required />
-            J'accepte d'etre contacte (<a href="../politique-confidentialite.html" target="_blank" rel="noopener">confidentialite</a>).
-          </label>
+          <div
+            data-phone-consent-mount
+            data-privacy="../politique-confidentialite.html"
+          ></div>
           <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px" data-track="cta_click">Demander mon rappel</button>
           <p class="small" id="expressCompletHint" style="margin-top:10px"></p>
           <p class="form-lead" data-form-success hidden>Merci ! Un conseiller vous contacte rapidement.</p>
@@ -101,6 +101,7 @@
   <script src="../js/cookie-banner.js"></script>
   <script src="../js/geo-france-guard.js"></script>
   <script src="./tracking.js"></script>
+  <script src="../js/phone-consent.js"></script>
   <script src="../js/callback-form.js"></script>
 </body>
 </html>

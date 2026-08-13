@@ -399,6 +399,9 @@
           window.QuoteIntelligence.attachLeadIdToPayload(leadPayload);
         }
         leadPayload.client_event_id = leadPayload.leadId || null;
+        if (window.PhoneConsent && window.PhoneConsent.enrichLeadPayload) {
+          window.PhoneConsent.enrichLeadPayload(leadPayload, form);
+        }
         if (typeof window.saveLeadRequest === "function") {
           window.saveLeadRequest(leadPayload);
         }

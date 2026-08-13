@@ -166,15 +166,28 @@
     );
   }
 
-  function stepFinalize() {
+  function stepFinalize(service) {
+    var privacy = "../politique-confidentialite.html";
+    var need = (service && (service.need || service.vertical)) || "";
+    var label = (service && service.label) || need;
+    var checks =
+      global.PhoneConsent && global.PhoneConsent.buildCheckboxHtml
+        ? global.PhoneConsent.buildCheckboxHtml({
+            privacyHref: privacy,
+            need: need,
+            serviceLabel: label,
+            phoneRequired: true,
+            includeProcessing: true,
+          })
+        : '<label class="field-check"><input type="checkbox" name="rgpd" value="1" required /><span>J\'accepte le traitement de ma demande (<a href="' +
+          privacy +
+          '">confidentialité</a>).</span></label>' +
+          '<label class="field-check"><input type="checkbox" name="phone_consent" value="1" required /><span>J\'accepte d\'être contacté(e) par téléphone (12 mois max).</span></label>';
     return (
       '<section class="wizard-step" hidden data-step="finalize" data-step-name="finalize">' +
       "<h3>Validation</h3>" +
-      '<p class="small">Un conseiller vous rappelle pour finaliser votre devis personnalise.</p>' +
-      '<label class="field-check">' +
-      '<input type="checkbox" name="rgpd" value="1" required />' +
-      "<span>J accepte d etre contacte et j ai lu la <a href=\"../politique-confidentialite.html\">politique de confidentialite</a>.</span>" +
-      "</label>" +
+      '<p class="small">Un conseiller vous rappelle pour finaliser votre devis personnalisé — uniquement si vous consentez à l\'appel ci-dessous.</p>' +
+      checks +
       "</section>"
     );
   }
@@ -206,7 +219,7 @@
     parts.push(stepPortefeuille());
     parts.push(stepBudget());
     parts.push(stepDocuments(service));
-    parts.push(stepFinalize());
+    parts.push(stepFinalize(service));
 
     return parts.join("");
   }

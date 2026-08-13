@@ -683,10 +683,11 @@
               <p class="form-hint"><a href="./assurances/">Voir toutes nos assurances</a></p>
               <label class="sr-only" for="contactMessage">Précision utile</label>
               <textarea id="contactMessage" name="message" rows="3" placeholder="Precision utile (facultatif)"></textarea>
-              <label class="field-check">
-                <input type="checkbox" name="rgpd" value="1" required />
-                <span>J accepte que mes informations soient utilisees pour repondre a ma demande, conformement a la <a href="./politique-confidentialite.html">politique de confidentialite</a>.</span>
-              </label>
+              <div
+                data-phone-consent-mount
+                data-privacy="./politique-confidentialite.html"
+                data-need-select="#contactNeed"
+              ></div>
               <button class="btn btn-primary btn-lg btn-full" type="submit" data-clarity-label="Envoyer demande devis accueil">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                 Envoyer ma demande
@@ -835,6 +836,7 @@
     })();
   </script>
   <script src="./js/public-partners-trust.js" defer></script>
+  <script src="./js/phone-consent.js"></script>
   <script src="./js/callback-form.js"></script>
   <script src="./js/public-proximity.js?v=20260528"></script>
   <script src="./js/acquisition-focus.js"></script>

@@ -220,7 +220,9 @@ document.addEventListener("DOMContentLoaded", function () {
         getAttr(),
         fields
       );
-      delete leadPayload.rgpd;
+      if (window.PhoneConsent && window.PhoneConsent.enrichLeadPayload) {
+        window.PhoneConsent.enrichLeadPayload(leadPayload, form);
+      }
       if (typeof window.saveLeadRequest === "function") {
         window.saveLeadRequest(leadPayload);
       }

@@ -395,10 +395,10 @@
                 <option value="">Quel est votre besoin ?</option>
               </select>
               <textarea name="message" rows="3" placeholder="Precision utile (facultatif)"></textarea>
-              <label class="field-check">
-                <input type="checkbox" name="rgpd" value="1" required />
-                <span>J accepte que mes informations soient utilisees pour repondre a ma demande, conformement a la <a href="./politique-confidentialite.html">politique de confidentialite</a>.</span>
-              </label>
+              <div
+                data-phone-consent-mount
+                data-privacy="./politique-confidentialite.html"
+              ></div>
               <button class="btn btn-primary btn-lg btn-full" type="submit">Envoyer ma demande</button>
             </form>
             <p id="formMessage" class="form-success" hidden>Merci ! Votre demande a ete envoyee.</p>
@@ -458,6 +458,7 @@
   <script src="./js/cookie-banner.js"></script>
   <script src="./js/lead-insights.js"></script>
   <script src="./js/public-partners-trust.js"></script>
+  <script src="./js/phone-consent.js"></script>
   <script src="./js/callback-form.js"></script>
   <script src="./js/public-proximity.js?v=20260528"></script>
   <script src="./main.js"></script>

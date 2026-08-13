@@ -637,10 +637,13 @@
                   <label for="details">Precisions complementaires</label>
                   <textarea id="details" name="details" rows="4" data-optional placeholder="Credits a solder, projets particuliers, questions pour le courtier..."></textarea>
                 </div>
-                <label class="field-check full">
-                  <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
-                  <span>J'accepte d'etre contacte pour ma simulation et j'ai lu la <a href="../politique-confidentialite.html">politique de confidentialite</a>.</span>
-                </label>
+                <div
+                  class="full"
+                  data-phone-consent-mount
+                  data-privacy="../politique-confidentialite.html"
+                  data-need="credit"
+                  data-service-label="crédit immobilier et assurances associées"
+                ></div>
               </div>
             </section>
 
@@ -770,6 +773,7 @@
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
+  <script src="../js/phone-consent.js"></script>
   <script src="./tracking.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {

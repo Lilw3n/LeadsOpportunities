@@ -72,6 +72,16 @@
     page: 1,
     variant: 1,
     consent: 1,
+    phone_consent: 1,
+    phone_consent_at: 1,
+    phone_consent_text: 1,
+    phone_consent_version: 1,
+    phone_consent_expires_at: 1,
+    phone_consent_page_url: 1,
+    phone_consent_ip: 1,
+    phone_consent_org: 1,
+    legacy_consent_mapped: 1,
+    rgpd: 1,
     _hp: 1,
     website: 1,
     company_url: 1,
@@ -356,6 +366,69 @@
     );
   }
 
+  function renderPhoneConsentProof(lead, esc) {
+    esc =
+      esc ||
+      function (s) {
+        var d = document.createElement("div");
+        d.textContent = s == null ? "" : s;
+        return d.innerHTML;
+      };
+    var payload = parsePayload(lead);
+    var ok =
+      lead.phone_consent === true ||
+      lead.phone_consent === "t" ||
+      payload.phone_consent === true ||
+      payload.phone_consent === 1 ||
+      payload.phone_consent === "1";
+    var at = lead.phone_consent_at || payload.phone_consent_at || "";
+    var exp = lead.phone_consent_expires_at || payload.phone_consent_expires_at || "";
+    var ver = lead.phone_consent_version || payload.phone_consent_version || "";
+    var text = payload.phone_consent_text || "";
+    var url = payload.phone_consent_page_url || payload.page || "";
+    var ip = payload.phone_consent_ip || lead.client_ip || payload.clientIp || "";
+    var badge = ok
+      ? '<span class="acq-badge" style="background:#ecfdf5;color:#047857">Opt-in appel OK</span>'
+      : '<span class="acq-badge" style="background:#fef2f2;color:#b91c1c">Pas d\'opt-in appel</span>';
+    var html =
+      '<section class="crm-meta-panel panel" style="margin-bottom:12px">' +
+      '<div class="crm-section-head"><div><p class="crm-eyebrow">Preuve consentement téléphone</p>' +
+      '<h2 style="margin:0;font-size:1rem">Prospection téléphonique (loi 11/08/2026)</h2></div>' +
+      badge +
+      "</div>";
+    if (ok) {
+      html +=
+        "<ul style=\"margin:8px 0 0;padding-left:1.1rem;font-size:.88rem;line-height:1.45\">" +
+        "<li><strong>Recueilli le :</strong> " +
+        esc(at || "—") +
+        "</li>" +
+        "<li><strong>Expire le :</strong> " +
+        esc(exp || "—") +
+        " (max 12 mois)</li>" +
+        "<li><strong>Version texte :</strong> " +
+        esc(ver || "—") +
+        "</li>" +
+        "<li><strong>Page :</strong> " +
+        esc(url || "—") +
+        "</li>" +
+        "<li><strong>IP :</strong> " +
+        esc(ip || "—") +
+        "</li>" +
+        "</ul>";
+      if (text) {
+        html +=
+          '<p style="margin:10px 0 0;padding:10px;background:#f8fafc;border-radius:8px;font-size:.82rem"><em>« ' +
+          esc(text) +
+          " »</em></p>";
+      }
+    } else {
+      html +=
+        '<p style="margin:8px 0 0;color:var(--muted);font-size:.88rem">Aucun consentement d\'appel enregistré — ne pas démarcher par téléphone à des fins commerciales.</p>';
+    }
+    html += "</section>";
+    return html;
+  }
+
   function renderQuestionnairePanel(lead, esc) {
     esc =
       esc ||
@@ -411,28 +484,46 @@
   }
 
   function renderDashboardBlock(lead, esc) {
+    esc =
+      esc ||
+      function (s) {
+        var d = document.createElement("div");
+        d.textContent = s == null ? "" : s;
+        return d.innerHTML;
+      };
     var payload = parsePayload(lead);
+    var consentBlock = renderPhoneConsentProof(lead, esc);
     var questionnaireBlock = renderQuestionnairePanel(lead, esc);
     if (isMetaLead(lead)) {
       var metaExtra = renderMetaPanel(lead, esc);
-      if (metaExtra) return metaExtra;
+      if (metaExtra) return consentBlock + metaExtra;
     }
     if (questionnaireBlock.indexOf("Aucune réponse") < 0) {
       return (
         '<div class="detail-item detail-full crm-dash-meta">' +
-        '<div class="dlabel">Réponses questionnaire</div>' +
+        '<div class="dlabel">Consentement & réponses</div>' +
         '<div class="dvalue">' +
+        consentBlock +
         questionnaireBlock +
         "</div></div>"
       );
     }
     var summary = getDevisSummary(lead);
     var table = renderDevisTable(payload, esc);
-    if (!summary && !table) return "";
+    if (!summary && !table) {
+      return (
+        '<div class="detail-item detail-full crm-dash-meta">' +
+        '<div class="dlabel">Consentement téléphone</div>' +
+        '<div class="dvalue">' +
+        consentBlock +
+        "</div></div>"
+      );
+    }
     return (
       '<div class="detail-item detail-full crm-dash-meta">' +
-      '<div class="dlabel">Réponses devis</div>' +
+      '<div class="dlabel">Consentement & réponses devis</div>' +
       '<div class="dvalue">' +
+      consentBlock +
       (summary ? "<p><strong>" + esc(summary) + "</strong></p>" : "") +
       table +
       "</div></div>"
@@ -449,6 +540,7 @@
     renderDevisTable: renderDevisTable,
     renderAnswersTable: renderAnswersTable,
     renderQuestionnairePanel: renderQuestionnairePanel,
+    renderPhoneConsentProof: renderPhoneConsentProof,
     renderMetaPanel: renderMetaPanel,
     renderDashboardBlock: renderDashboardBlock,
   };

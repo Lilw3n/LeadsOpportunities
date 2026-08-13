@@ -551,10 +551,10 @@
                   <label for="details">Precisions complementaires</label>
                   <textarea id="details" name="details" rows="4" data-optional placeholder="Medecin habituel, pathologie particuliere, besoins urgents..."></textarea>
                 </div>
-                <label class="field-check full">
-                  <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
-                  <span>J'accepte d'etre contacte pour mon comparatif et j'ai lu la <a href="../politique-confidentialite.html">politique de confidentialite</a>.</span>
-                </label>
+                <div
+                  data-phone-consent-mount
+                  data-privacy="../politique-confidentialite.html"
+                ></div>
               </div>
             </section>
 
@@ -674,6 +674,7 @@
     }
   </script>
   <script src="../js/public-partners-trust.js"></script>
+  <script src="../js/phone-consent.js"></script>
   <script src="../js/callback-form.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
