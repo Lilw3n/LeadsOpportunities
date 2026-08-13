@@ -112,13 +112,18 @@
 
             <!-- ETAPE 1 : Besoins pret et assurances -->
             <section class="wizard-step" data-wizard-step="1" data-step-name="besoins">
-              <h3>Vos besoins (pret et assurances)</h3>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">Cochez tout ce qui vous concerne. Un conseiller prepare des propositions pour chaque besoin.</p>
+              <h3>Vos besoins (on adapte le parcours)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:10px;">
+                Pour vous proposer les <strong>bons biens a visiter</strong>, un <strong>pret adapte a votre budget</strong>
+                et une <strong>assurance emprunteur</strong>, cochez ce qui vous concerne.
+                Le questionnaire s'adapte ensuite automatiquement.
+              </p>
+              <p class="small" data-buyer-path-banner hidden style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 12px;color:#1e3a8a;margin:0 0 12px"></p>
               <div class="field full">
                 <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
                   <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous etudier ?</legend>
-                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" /> Pret immobilier / capacite d'emprunt</label>
-                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" /> Assurance emprunteur (delegation)</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" checked /> Pret immobilier / capacite d'emprunt <em style="font-style:normal;color:#64748b">(recommande)</em></label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" checked /> Assurance emprunteur (delegation Lemoine) <em style="font-style:normal;color:#64748b">(recommande avec le pret)</em></label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="habitation" /> Assurance habitation (future residence)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pno" /> PNO — proprietaire non occupant (bien loue / investissement)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="locataire" /> Assurance locataire (logement actuel)</label>
@@ -195,9 +200,12 @@
               </div>
             </section>
 
-            <!-- ETAPE 3 : Votre projet immobilier -->
+            <!-- ETAPE 3 : Recherche de bien (matching / visites) — toujours -->
             <section class="wizard-step" data-wizard-step="3" data-step-name="projet" hidden>
-              <h3>Votre projet immobilier</h3>
+              <h3>Le bien que vous recherchez</h3>
+              <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
+                Ces informations servent a vous proposer des <strong>biens a visiter</strong> et a caler le <strong>budget pret</strong>.
+              </p>
               <div class="grid">
                 <div class="field">
                   <label for="projectType">Type de projet</label>
@@ -213,27 +221,47 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="propertyType">Type de bien</label>
+                  <label for="propertyType">Type de bien recherche</label>
                   <select id="propertyType" name="propertyType" required>
                     <option value="">Selectionnez</option>
-                    <option>Appartement ancien</option>
-                    <option>Appartement neuf / VEFA</option>
-                    <option>Maison ancienne</option>
-                    <option>Maison neuve / VEFA</option>
-                    <option>Terrain a batir</option>
-                    <option>Local commercial / Mixte</option>
+                    <option value="appartement">Appartement (ancien ou neuf)</option>
+                    <option value="maison">Maison (ancienne ou neuve)</option>
+                    <option value="terrain">Terrain a batir</option>
+                    <option value="local">Local commercial / mixte</option>
+                    <option value="immeuble">Immeuble / lots</option>
                   </select>
+                  <input type="hidden" name="propertyTypeId" id="propertyTypeId" value="" />
                 </div>
                 <div class="field">
-                  <label for="propertySurface">Surface approximative (m2)</label>
+                  <label for="propertySurface">Surface souhaitee (m²)</label>
                   <input id="propertySurface" name="propertySurface" inputmode="numeric" required placeholder="Ex. 65" />
                 </div>
                 <div class="field">
-                  <label for="postalProject">Code postal du bien</label>
+                  <label for="roomsMin">Nombre de pieces min.</label>
+                  <input id="roomsMin" name="roomsMin" inputmode="numeric" required placeholder="Ex. 3" />
+                </div>
+                <div class="field">
+                  <label for="bedroomsMin">Chambres min.</label>
+                  <input id="bedroomsMin" name="bedroomsMin" inputmode="numeric" data-optional placeholder="Ex. 2" />
+                </div>
+                <div class="field">
+                  <label for="budgetMax">Budget max pour les biens a visiter (€)</label>
+                  <input id="budgetMax" name="budgetMax" inputmode="numeric" required placeholder="Ex. 280000" />
+                </div>
+                <div class="field">
+                  <label for="budgetMin">Budget min (€) — optionnel</label>
+                  <input id="budgetMin" name="budgetMin" inputmode="numeric" data-optional placeholder="Ex. 200000" />
+                </div>
+                <div class="field">
+                  <label for="postalProject">Code postal / secteur recherche</label>
                   <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" required placeholder="Ex. 75011" />
                 </div>
                 <div class="field">
-                  <label for="propertyFound">Bien trouve ?</label>
+                  <label for="searchCities">Villes visees (virgules)</label>
+                  <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Strasbourg, Illkirch" />
+                </div>
+                <div class="field">
+                  <label for="propertyFound">Bien deja trouve ?</label>
                   <select id="propertyFound" name="propertyFound" required>
                     <option value="">Selectionnez</option>
                     <option>Oui, offre acceptee</option>
@@ -252,15 +280,28 @@
                     <option>Plus de 6 mois</option>
                   </select>
                 </div>
+                <div class="field full">
+                  <span style="font-weight:700;display:block;margin-bottom:8px">Criteres souhaites (optionnel)</span>
+                  <label class="field-check"><input type="checkbox" name="wantGarage" value="1" /> Garage</label>
+                  <label class="field-check"><input type="checkbox" name="wantParking" value="1" /> Parking</label>
+                  <label class="field-check"><input type="checkbox" name="wantCave" value="1" /> Cave</label>
+                  <label class="field-check"><input type="checkbox" name="wantGarden" value="1" /> Jardin</label>
+                  <label class="field-check"><input type="checkbox" name="wantTerrace" value="1" /> Terrasse</label>
+                  <label class="field-check"><input type="checkbox" name="wantBalcony" value="1" /> Balcon</label>
+                  <label class="field-check"><input type="checkbox" name="wantElevator" value="1" /> Ascenseur</label>
+                </div>
               </div>
             </section>
 
             <!-- ETAPE 4 : Budget et financement (pret) -->
             <section class="wizard-step" data-wizard-step="4" data-step-name="pret-budget" data-wizard-skip-pret hidden>
-              <h3>Budget et financement</h3>
+              <h3>Budget et financement (pret)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
+                Ce budget sert a verifier la <strong>faisabilite du pret</strong> et a filtrer les biens que l'on peut vous faire visiter.
+              </p>
               <div class="grid">
                 <div class="field">
-                  <label for="propertyPrice">Prix du bien (estimation ou reel)</label>
+                  <label for="propertyPrice">Prix cible du bien / estimation (€)</label>
                   <input id="propertyPrice" name="propertyPrice" inputmode="numeric" required placeholder="Ex. 280000" />
                 </div>
                 <div class="field">
@@ -676,9 +717,9 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Simulation credit</strong>Premier avis de faisabilite selon revenus et type de projet.</li>
-            <li><strong>2. Assurance emprunteur</strong>Comparatif des 6 formules et estimation des economies.</li>
-            <li><strong>3. Montage dossier</strong>Accompagnement jusqu'a la decision avec un conseiller unique.</li>
+            <li><strong>1. Bien recherche</strong>Type, surface, pieces, secteur, budget visite — pour le matching.</li>
+            <li><strong>2. Pret / capacite</strong>Prix, apport, revenus — pour financer et filtrer les biens.</li>
+            <li><strong>3. Assurance emprunteur</strong>Delegation Lemoine + habitations selon vos besoins.</li>
           </ol>
         </div>
 
