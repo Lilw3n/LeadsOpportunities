@@ -11,6 +11,7 @@ const {
   writeJson,
   scaffoldArticle,
   appendPendingArticle,
+  isPlaceholderActuTitle,
 } = require("./blog-actu-lib.cjs");
 
 function arg(name, def) {
@@ -43,6 +44,10 @@ function main() {
   }
 
   picked.forEach(function (c) {
+    if (isPlaceholderActuTitle(c.title)) {
+      console.warn("Ignoré (placeholder):", c.title);
+      return;
+    }
     var article = scaffoldArticle({
       title: c.title,
       summary: c.summary || "",

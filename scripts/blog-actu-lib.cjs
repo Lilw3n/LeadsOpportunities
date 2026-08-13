@@ -317,6 +317,13 @@ function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
 
+/** Titres d'instruction / modèles inbox — ne jamais publier. */
+function isPlaceholderActuTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return true;
+  return /collez ici|\bplaceholder\b|à compléter|a completer|titre de la une/i.test(t);
+}
+
 function decodeEntities(s) {
   return String(s)
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
@@ -351,4 +358,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuTitle: isPlaceholderActuTitle,
 };
