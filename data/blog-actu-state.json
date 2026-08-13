@@ -1,10 +1,18 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T07:46:18.847Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d751945d14fcfb6a2049214eea3e6&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fquelle-est-la-meilleure-mutuelle-sante-en-france-pour-un-retraite-1528267&c=16657145165417940574&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQZkRwamxDM2ZkUVAwSU00endHZFNxcE9xUGM2b1FJTVo3RXJoNEtudHZwUlg0VFI4TUZ0MnpuaVgxVkhEVng0eHZnMlJ2ZGlfQXdoX05jSUJVczVHVC1oNFowQUozaC13bk1zMkhTWW93eEdqOUd5cW5TUWNZbXI2aU1mN0wtcUFRZGFzdG5KLWpzWkdhODlsTm9jelV6dnJlcFFIT1Z6MkJLOFJmZGd1TlBjWXl6N0hfeHFZRjNYQ0VWZWk5ek96Sg?oc=5",
+    "https://news.google.com/rss/articles/CBMirAFBVV95cUxQT2xwQUw1UGFQaHBRRUwtVFp4MWtRZGhtMW9IMDA0TjZ5UklEQ1M5dUdZUllsRmVvUThCSHZVcnloQWRpckM5bDBXRGpWY3dlak1BS1h0eFFQcG5ncVhaRy1EVnlhcTZydDRPWjNDVGZCZ3c5MFpqMTl1RmNPOFBNbFktaTA1eERPZTlEUVd1cDAzSmppb25YUTVTdXpaS2dIOWxIOEQzaDVGcjhl?oc=5",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage",
+    "https://news.google.com/rss/articles/CBMi8AJBVV95cUxNUnZVcEl1VDZSczRZSTUtUzhDREplSWQtbDByem1xYUw3R0JfV29vYURROExDYnlfdmt2cnlTSVNvR1NpZGFUaUp5cHhGVFNlSi1jcDJCMHVQVUoyMFdGLUFmNGZMQXhRcEl2OENwSnN6SkxIQndWWmxiMzUzbDRfWTkzSmg4MnRrc1M1Vk1PR0ZsT3U3bG1rdkNSV0ZTYVYyOVJocnNVUlMtSTBjeGcyT2syZ1lsbDhXSktEcEM1c1pDM0Fsdy00aFFOR3dyVzVQczFjWV96TzIyUnlsamJVQXR2bzdTQ05fU3lqN2ZIMWN4c25BVk5oWG5CMk9KWm9yZFl6ajQta3RTcE5XOGx4V1FDbjJVMWwzRjFtOWRfaGQ4enVSUjRYTS1aZFE2WnJ0aEFCUjVtNTRlbDVQdUFqVU9STG5mWlFvRThBdkRZc2FlV2l5ZUpmX3hKRm9aVXpkZ0lsRmx1SkdSZjhVWXZkTQ?oc=5",
+    "https://news.google.com/rss/articles/CBMizAFBVV95cUxNRFRiSGh2YWxpcXlLRzhCeGRXU0pDcWpyeUFocnFrNDBfVTVsbExRWmhhUFU3REYxMnNHTUJ1ZThWX1FROFdBVGRkcFVIcElrUGlmVDJUMGN4alBrS1NXTnVpUGd2THVOdDg4ZnlhQVRpVmJxVlhqeEVKcjY3RzVyc3NLLUJMX282cDRGaUFyR3p0ZXA4ZlpCUTUyNlh2SW1tZk1wMTREUDdyWG1DRmJzYVpTellCOWNVWVJJLWdxT3NJTThoVzdiMXZHRUI?oc=5",
+    "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPUHE4bVpTVFVhU0JyU1ltTnpWVWhVYW9VWkc1R29kMmtWdEZZY3YyY0ZxblB0YTFZY0VBb2dkVXBlWXh1cWdtR1lHdTl0ckZ4d2M2QU14YUNOT3k0d1BIaVlLOFd6UmIweVY2alU4YkxTWXJQUzhBMk01VjllUGVZZGVveUVkSVMxWUhfeGtLX2VBakdyV3RHaHViVHhOSk5BcWZUVzdFRlloUFE?oc=5",
+    "https://news.google.com/rss/articles/CBMi7gFBVV95cUxQaW1oakdEd2ZGTVRHa2VsQlgxdXhhb3NoQ2pSQ0ZNY1pMYVM1eFlYR1JiWUhHYkp3S1p1RE1jdm15YlpzY2tURXpxa1owRG1tZ0tFTm4tMjVNeVlCMy1XREJUamlyZzNCNnZuLWN5aXZlSmNIMFAwMTE0TklyTFpmVWd4WlJrY042U2ozaHBVeElZRThYbVU1SUR4S3NnTl91ZDh6QWctcVlrTkhMaVZhRW1mXzBqdFdJVDlCa2FCcHQ5U0Q4MmZzQXkzUG16SVp4TGFESDEzUHEtTVg0RDh2Q3BHcjNsc0h0WHd4NG1R?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T07:46:20.098Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +25,75 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T07:43:39.469Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "gel-des-tarifs-sante-le-conseil-d-etat-renvoie-au-conseil-constitutionne.html",
+          "title": "Gel des tarifs santé : le Conseil d’État renvoie au Conseil constitutionnel le recours … : mutuelle et remboursements — que faire ?",
+          "source": "Google News — mutuelle santé",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "trottinettes-electriques-le-defaut-d-assurance-en-forte-hausse-en-france.html",
+          "title": "Trottinettes électriques : le défaut d’assurance en forte hausse en France - Euro-Assur… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Google News — assurance France",
+          "sourceType": "aggregator"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-13T07:45:05.269Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": []
+    },
+    {
+      "at": "2026-08-13T07:46:20.098Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-incendie-les-feux-de-foret-ne-sont-pas-consideres-comme-catast.html",
+          "title": "Assurance incendie : les feux de forêt ne sont pas considérés comme catastrophe naturel… : assurance habitation — que faire ?",
+          "source": "Google News — assurance",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "skippedTitles": [
+    "COLLEZ ICI le titre de la une Cafeyn",
+    "EN DIRECT - Canicule",
+    "L’éditorial de Gaëtan de Capèle",
+    "Il prétend que ses parents lui ont prêté la voiture",
+    "conduite sous stupéfiants",
+    "Incendies de forêt, sécheresses, canicules",
+    "Parkour gériatrique",
+    "Pertes agricoles",
+    "Comparateur mutuelle",
+    "légionellose",
+    "Sophrologie",
+    "Quatre banques sanctionnées",
+    "Baisses de remboursement",
+    "Assurance habitation : certains sinistrés doivent attendre près de sept mois",
+    "Assurance habitation : des hausses de tarifs qui atteignent plus de 24%",
+    "L'eau va devenir plus chère que le vin",
+    "Nouvelle journée de canicule",
+    "Hausse des primes, coût des sinistres",
+    "Caniculeprev",
+    "fatigue insomnies anxiete",
+    "Quelle est la meilleure mutuelle santé",
+    "meilleure mutuelle santé en France",
+    "Changement d’assurance emprunteur",
+    "produit moins d'électricité",
+    "produit moins d'electricite",
+    "Avec la canicule, la France produit moins",
+    "L’assurance en 2025",
+    "proteger aujourd’hui pour construire demain"
+  ],
+  "platformRotationIndex": 2
 }
