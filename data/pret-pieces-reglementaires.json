@@ -1,0 +1,911 @@
+{
+  "version": 1,
+  "kind": "pieces_reglementaires",
+  "updatedAt": "2026-08-13",
+  "disclaimer": "Documents à usage exclusif des professionnels (Cibfinance / Cibassur), non contractuels. Ne pas remettre à la clientèle. Tracking des téléchargements recommandé.",
+  "categories": [
+    {
+      "id": "pieces_immo",
+      "label": "Liste des pièces — Crédit immobilier",
+      "short": "PIÈCES IMMO",
+      "rubriques": [
+        "immo"
+      ],
+      "family": "pieces"
+    },
+    {
+      "id": "pieces_sci",
+      "label": "Liste des pièces — SCI",
+      "short": "PIÈCES SCI",
+      "rubriques": [
+        "sci"
+      ],
+      "family": "pieces"
+    },
+    {
+      "id": "pieces_scpi",
+      "label": "Liste des pièces — SCPI",
+      "short": "PIÈCES SCPI",
+      "rubriques": [
+        "scpi"
+      ],
+      "family": "pieces"
+    },
+    {
+      "id": "pieces_rac",
+      "label": "Liste des pièces — Regroupement de crédits",
+      "short": "PIÈCES RAC",
+      "rubriques": [
+        "rac"
+      ],
+      "family": "pieces"
+    },
+    {
+      "id": "pieces_hypo_treso",
+      "label": "Liste des pièces — Prêt hypo. trésorerie",
+      "short": "PIÈCES HYPO",
+      "rubriques": [
+        "hypo"
+      ],
+      "family": "pieces"
+    },
+    {
+      "id": "pieces_treso",
+      "label": "Liste des pièces — Trésorerie",
+      "short": "PIÈCES TRESO",
+      "rubriques": [
+        "conso",
+        "treso"
+      ],
+      "family": "pieces"
+    },
+    {
+      "id": "pieces_pvh",
+      "label": "Liste des pièces — PVH",
+      "short": "PIÈCES PVH",
+      "rubriques": [
+        "pvh",
+        "viager"
+      ],
+      "family": "pieces"
+    },
+    {
+      "id": "iobsp",
+      "label": "Documents réglementaires — IOBSP",
+      "short": "IOBSP",
+      "rubriques": [
+        "immo",
+        "rac"
+      ],
+      "family": "reglementaire"
+    },
+    {
+      "id": "ias",
+      "label": "Documents réglementaires — IAS",
+      "short": "IAS",
+      "rubriques": [
+        "assurance"
+      ],
+      "family": "reglementaire"
+    },
+    {
+      "id": "conformite",
+      "label": "Documents réglementaires — Conformité mandataires",
+      "short": "CONFORMITÉ",
+      "rubriques": [
+        "immo",
+        "rac"
+      ],
+      "family": "reglementaire"
+    },
+    {
+      "id": "indicateur",
+      "label": "Documents réglementaires — Indicateur d'affaires",
+      "short": "INDICATEUR",
+      "rubriques": [
+        "immo",
+        "rac"
+      ],
+      "family": "reglementaire"
+    }
+  ],
+  "partners": [
+    {
+      "id": "cibfinance",
+      "label": "Cibfinance",
+      "aliases": [
+        "cibfinance",
+        "cib finance"
+      ]
+    },
+    {
+      "id": "cibassur",
+      "label": "Cibassur",
+      "aliases": [
+        "cibassur"
+      ]
+    }
+  ],
+  "documents": [
+    {
+      "id": "pieces-immo-liste-pieces-dossier-credit-immobilier-pdf-0",
+      "category": "pieces_immo",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier Crédit immobilier",
+      "filename": "Dossier---Credit-immobilier.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "immo",
+        "dossier",
+        "credit_immobilier"
+      ],
+      "needs": [
+        "immo",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [
+        "Dossier Crédit immobilier.pdf",
+        "Dossier Credit immobilier.pdf"
+      ],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-sci-liste-pieces-dossier-sci-pdf-1",
+      "category": "pieces_sci",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier SCI",
+      "filename": "Dossier--SCI.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "sci",
+        "dossier"
+      ],
+      "needs": [
+        "sci",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [
+        "Dossier SCI.pdf"
+      ],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-scpi-liste-pieces-dossier-scpi-pdf-2",
+      "category": "pieces_scpi",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier SCPI",
+      "filename": "Dossier-SCPI.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "scpi",
+        "dossier"
+      ],
+      "needs": [
+        "scpi",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-rac-liste-pieces-dossier-rac-propiretaire-pdf-3",
+      "category": "pieces_rac",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier RAC — Propriétaire",
+      "filename": "Dossier-Rac---Propiretaire.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "rac",
+        "proprietaire",
+        "dossier"
+      ],
+      "needs": [
+        "rac",
+        "pieces"
+      ],
+      "profiles": [
+        "proprietaire"
+      ],
+      "aliases": [
+        "Dossier Rac Proprietaire.pdf",
+        "Dossier Rac Propiretaire.pdf"
+      ],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-rac-liste-pieces-dossier-rac-locataire-pdf-4",
+      "category": "pieces_rac",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier RAC — Locataire",
+      "filename": "Dossier-Rac---Locataire.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "rac",
+        "locataire",
+        "dossier"
+      ],
+      "needs": [
+        "rac",
+        "pieces"
+      ],
+      "profiles": [
+        "locataire"
+      ],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-rac-liste-pieces-dossier-rac-heberge-pdf-5",
+      "category": "pieces_rac",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier RAC — Hébergé",
+      "filename": "Dossier-Rac---Heberge.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "rac",
+        "heberge",
+        "dossier"
+      ],
+      "needs": [
+        "rac",
+        "pieces"
+      ],
+      "profiles": [
+        "locataire"
+      ],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-hypo-treso-liste-pieces-dossier-pret-hypothecaire-de-tresorerie-pdf-6",
+      "category": "pieces_hypo_treso",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier Prêt Hypothécaire de Trésorerie",
+      "filename": "Dossier---Pret-Hypothecaire-de-Tresorerie.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "hypo",
+        "treso",
+        "dossier"
+      ],
+      "needs": [
+        "hypo",
+        "treso",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-treso-liste-pieces-dossier-tresorerie-pdf-7",
+      "category": "pieces_treso",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Dossier Trésorerie",
+      "filename": "Dossier---Tresorerie.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "treso",
+        "dossier"
+      ],
+      "needs": [
+        "treso",
+        "conso",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "pieces-pvh-liste-pieces-liste-des-pieces-pvh-pdf-8",
+      "category": "pieces_pvh",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "liste_pieces",
+      "title": "Liste des pièces PVH",
+      "filename": "Liste-des-pieces-PVH.pdf",
+      "kind": "liste_pieces",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "pieces",
+        "pvh",
+        "viager",
+        "dossier"
+      ],
+      "needs": [
+        "pvh",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "indicateur-demande-entree-relation-indic-demande-entree-en-relation-copie-pdf-9",
+      "category": "indicateur",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "demande_entree_relation",
+      "title": "Indicateur — Demande d'entrée en relation",
+      "filename": "Indic---Demande-Entree-en-Relation---Copie.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "indicateur",
+        "entree_relation",
+        "reglementaire"
+      ],
+      "needs": [
+        "immo",
+        "rac",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "iobsp-demande-entree-relation-miob-demande-entree-en-relation-pdf-10",
+      "category": "iobsp",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "demande_entree_relation",
+      "title": "MIOB — Demande d'entrée en relation",
+      "filename": "MIOB---Demande-Entree-en-Relation.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "miob",
+        "entree_relation",
+        "reglementaire"
+      ],
+      "needs": [
+        "immo",
+        "rac",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "iobsp-convention-honoraires-convention-honoraire-cib-finance-pdf-pdf-11",
+      "category": "iobsp",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "convention_honoraires",
+      "title": "Convention d'honoraires Cibfinance",
+      "filename": "Convention-Honoraire-Cib-finance.pdf.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "convention",
+        "honoraires",
+        "reglementaire"
+      ],
+      "needs": [
+        "immo",
+        "rac"
+      ],
+      "profiles": [],
+      "aliases": [
+        "Convention Honoraire Cib finance.pdf"
+      ],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "iobsp-fiche-situation-immobilier-fiche-renseignements-clients-pdf-12",
+      "category": "iobsp",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "fiche_situation",
+      "title": "Fiche renseignements clients — Immobilier",
+      "filename": "Immobilier---Fiche-renseignements-clients.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "fiche",
+        "renseignements",
+        "immo"
+      ],
+      "needs": [
+        "immo",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "iobsp-fiche-situation-rac-fiche-renseignements-pdf-13",
+      "category": "iobsp",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "fiche_situation",
+      "title": "Fiche renseignements — RAC",
+      "filename": "Rac---Fiche-renseignements.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "fiche",
+        "renseignements",
+        "rac"
+      ],
+      "needs": [
+        "rac",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "iobsp-confirmation-honoraires-credit-immoiblier-annexe-convention-honoraires-pdf",
+      "category": "iobsp",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "confirmation_honoraires",
+      "title": "Annexe convention honoraires — Crédit immobilier",
+      "filename": "Credit-immoiblier---Annexe-convention-honoraires.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "honoraires",
+        "annexe",
+        "immo"
+      ],
+      "needs": [
+        "immo"
+      ],
+      "profiles": [],
+      "aliases": [
+        "Credit immobilier Annexe convention honoraires.pdf"
+      ],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "iobsp-confirmation-honoraires-regroupement-de-credits-annexe-convention-honorair",
+      "category": "iobsp",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "confirmation_honoraires",
+      "title": "Annexe convention honoraires — Regroupement de crédits",
+      "filename": "Regroupement-de-credits---Annexe-convention-honoraires.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "honoraires",
+        "annexe",
+        "rac"
+      ],
+      "needs": [
+        "rac"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "iobsp-mise-en-place-mise-en-place-immo-pdf-16",
+      "category": "iobsp",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "mise_en_place",
+      "title": "Mise en place IMMO",
+      "filename": "Mise-en-place-IMMO.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "iobsp",
+        "mise_en_place",
+        "immo",
+        "process"
+      ],
+      "needs": [
+        "immo",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "conformite-acquisition-client-acquisition-client-immo-docusign-pdf-17",
+      "category": "conformite",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "acquisition_client",
+      "title": "Acquisition client Immo (DocuSign)",
+      "filename": "Acquisition-client-Immo---Docusign.pdf",
+      "kind": "conformite",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "conformite",
+        "acquisition",
+        "docusign",
+        "immo"
+      ],
+      "needs": [
+        "immo",
+        "conformite"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "conformite-acquisition-client-acquisition-client-regroupement-de-credits-docusig",
+      "category": "conformite",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "acquisition_client",
+      "title": "Acquisition client Regroupement de crédits (DocuSign)",
+      "filename": "Acquisition-client-Regroupement-de-credits---Docusign.pdf",
+      "kind": "conformite",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "conformite",
+        "acquisition",
+        "docusign",
+        "rac"
+      ],
+      "needs": [
+        "rac",
+        "conformite"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "conformite-lcb-ft-lutte-anti-blanchiment-docusign-pdf-19",
+      "category": "conformite",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "lcb_ft",
+      "title": "Lutte anti-blanchiment (DocuSign)",
+      "filename": "Lutte-anti-blanchiment---Docusign.pdf",
+      "kind": "conformite",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "conformite",
+        "blanchiment",
+        "lcbft",
+        "docusign"
+      ],
+      "needs": [
+        "conformite"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "conformite-process-rac-procedure-de-commercialisation-des-rac-docusign-pdf-20",
+      "category": "conformite",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "process_rac",
+      "title": "Procédure de commercialisation des RAC (DocuSign)",
+      "filename": "Procedure-de-commercialisation-des-RAC---Docusign.pdf",
+      "kind": "conformite",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "conformite",
+        "commercialisation",
+        "rac",
+        "docusign"
+      ],
+      "needs": [
+        "rac",
+        "conformite"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "conformite-publicite-info-pub-docusign-pdf-21",
+      "category": "conformite",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "publicite",
+      "title": "Info publicité (DocuSign)",
+      "filename": "Info-pub---Docusign.pdf",
+      "kind": "conformite",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "conformite",
+        "publicite",
+        "docusign"
+      ],
+      "needs": [
+        "conformite"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "conformite-publicite-publicite-credit-immobilier-docusign-pdf-22",
+      "category": "conformite",
+      "partner": "cibfinance",
+      "region": "metropole",
+      "subsection": "publicite",
+      "title": "Publicité Crédit immobilier (DocuSign)",
+      "filename": "Publicite-Credit-immobilier---Docusign.pdf",
+      "kind": "conformite",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "conformite",
+        "publicite",
+        "immo",
+        "docusign"
+      ],
+      "needs": [
+        "immo",
+        "conformite"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "ias-fiche-situation-assure-information-pre-contractuelle-assurance-pdf-23",
+      "category": "ias",
+      "partner": "cibassur",
+      "region": "metropole",
+      "subsection": "fiche_situation_assure",
+      "title": "Information pré-contractuelle assurance",
+      "filename": "Information-pre-contractuelle-assurance.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "ias",
+        "assurance",
+        "precontrat",
+        "ade"
+      ],
+      "needs": [
+        "assurance",
+        "pieces"
+      ],
+      "profiles": [],
+      "aliases": [],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    },
+    {
+      "id": "ias-guide-ias-guide-d-informations-cibassur-pdf-24",
+      "category": "ias",
+      "partner": "cibassur",
+      "region": "metropole",
+      "subsection": "guide_ias",
+      "title": "Guide d'informations Cibassur",
+      "filename": "Guide-d_informations-Cibassur.pdf",
+      "kind": "reglementaire",
+      "status": "pending_upload",
+      "path": null,
+      "period": null,
+      "tags": [
+        "ias",
+        "assurance",
+        "guide",
+        "cibassur"
+      ],
+      "needs": [
+        "assurance"
+      ],
+      "profiles": [],
+      "aliases": [
+        "Guide d'informations Cibassur.pdf"
+      ],
+      "flags": [],
+      "notes": "À déposer dans docs/pret-pieces/_inbox/ puis npm run pret:pieces:import"
+    }
+  ],
+  "eligibilityRules": [
+    {
+      "id": "pieces-par-rubrique",
+      "label": "Liste de pièces selon le type de dossier",
+      "priority": 12,
+      "when": {
+        "needAny": [
+          "pieces",
+          "dossier",
+          "immo",
+          "rac",
+          "sci",
+          "scpi",
+          "pvh"
+        ]
+      },
+      "preferCategories": [
+        "pieces_immo",
+        "pieces_rac",
+        "pieces_sci",
+        "pieces_scpi",
+        "pieces_pvh",
+        "pieces_hypo_treso",
+        "pieces_treso"
+      ],
+      "preferTags": [
+        "pieces",
+        "dossier"
+      ],
+      "advice": "Ouvrir la liste de pièces correspondant à la rubrique (IMMO / RAC propriétaire|locataire|hébergé / SCI / SCPI / PVH / tréso).",
+      "confidence": "draft",
+      "todoValidate": [
+        "vérifier versions PDF à l’import"
+      ]
+    },
+    {
+      "id": "iobsp-parcours",
+      "label": "Parcours réglementaire IOBSP",
+      "priority": 18,
+      "when": {
+        "needAny": [
+          "immo",
+          "rac",
+          "iobsp",
+          "conformite"
+        ]
+      },
+      "preferCategories": [
+        "iobsp",
+        "indicateur",
+        "conformite"
+      ],
+      "preferTags": [
+        "iobsp",
+        "reglementaire"
+      ],
+      "advice": "Entrée en relation → fiche renseignements → convention / annexe honoraires → mise en place → pièces dossier.",
+      "confidence": "draft",
+      "todoValidate": []
+    },
+    {
+      "id": "ias-assurance",
+      "label": "Parcours réglementaire IAS (assurance)",
+      "priority": 20,
+      "when": {
+        "needAny": [
+          "assurance",
+          "ade",
+          "ias"
+        ]
+      },
+      "preferCategories": [
+        "ias"
+      ],
+      "preferTags": [
+        "ias",
+        "assurance"
+      ],
+      "advice": "Information pré-contractuelle + guide Cibassur avant proposition ADE / mutuelle.",
+      "confidence": "draft",
+      "todoValidate": []
+    }
+  ],
+  "manifest": {
+    "source": "scripts/pret-pieces-download-list.txt",
+    "uniqueFiles": 25,
+    "catalogued": 25,
+    "pending": 25,
+    "inbox": "docs/pret-pieces/_inbox/"
+  }
+}

@@ -9,6 +9,7 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - **Documentation intelligente** (hub) : [`crm-pret-immo-docs.html`](../crm-pret-immo-docs.html) — voir [`CRM-PRET-DOC-SEARCH.md`](./CRM-PRET-DOC-SEARCH.md)
 - Grilles des taux : [`crm-pret-immo-grilles.html`](../crm-pret-immo-grilles.html) — voir [`CRM-PRET-GRILLES-TAUX.md`](./CRM-PRET-GRILLES-TAUX.md)
 - Fiches produits : [`crm-pret-immo-fiches.html`](../crm-pret-immo-fiches.html) — voir [`CRM-PRET-FICHES-PRODUITS.md`](./CRM-PRET-FICHES-PRODUITS.md)
+- Pièces & réglementaire : [`CRM-PRET-PIECES.md`](./CRM-PRET-PIECES.md) (listes IMMO/SCI/SCPI/RAC/PVH + IOBSP/IAS/conformité)
 - **Assurance immo** (switcher) : [`crm-assurance-immo.html`](../crm-assurance-immo.html) — ADE / MRH
 - Sidebar Immobilier → **Prêts** / **Assurance immo**
 
@@ -26,8 +27,9 @@ Barèmes : charges forfaitaires + **revenu imposable estimé** (abattement micro
 - **Mes dossiers** — tableau (date, rubrique, réf., emprunteur, co-emprunteur, dép., apporteur, réseau, utilisateurs, position, DDP, montant, banque, produit, archive)
 - **Effectuer simulation** — RAC (Propriétaire / Locataire / Hébergé), IMMO, SCI, SCPI, CONSO, HYPO, VIAGER, PVH calculette
 - **Transmettre coordonnées** — [`crm-pret-immo-coord.html`](../crm-pret-immo-coord.html) : fiche légère indicateur d’affaires (responsable, emprunteur/co, logement, notes, option délégation)
-- **Documentation** — hub unique (grilles + fiches), corrélé aux projets (PTZ, relais, conso, travaux, prêt immo)
+- **Documentation** — hub unique (grilles + fiches + pièces/réglementaire), corrélé aux projets (PTZ, relais, conso, travaux, prêt immo, RAC, SCI…)
 - **Grille des taux** / **Fiches produits** — catalogues dédiés
+- **Pièces & réglementaire** — listes de pièces dossier + IOBSP / IAS / conformité (import `docs/pret-pieces/`)
 - Liens vers demande publique + barèmes FAI
 
 Sur un dossier IMMO : cases **PTZ** / **Prêt relais**, montant **Travaux** → la doc se filtre automatiquement (icône 📑 liste + bouton *Documentation liée* simulateur).
