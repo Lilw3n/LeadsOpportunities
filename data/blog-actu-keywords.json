@@ -1,14 +1,14 @@
 {
   "rules": [
     {
-      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
+      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "hospitalisation", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu", "complémentaire", "complementaire", "légionelle", "legionelle", "légionellose", "legionellose", "sophrologie"],
       "section": "sante",
       "need": "sante",
       "tag": "Santé & mutuelle",
       "tagClass": "tag-sante"
     },
     {
-      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "sécheresse", "secheresse", "fissure", "grêle", "grele", "séisme", "locataire", "bailleur"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation",
@@ -146,7 +146,8 @@
     "auto": { "href": "../landings/questionnaire.html?need=auto&journey=standard", "label": "Questionnaire auto (3 min)" },
     "vtc": { "href": "../landings/questionnaire.html?need=vtc&journey=standard", "label": "Questionnaire VTC (3 min)" },
     "animaux": { "href": "../landings/questionnaire.html?need=animaux&journey=standard", "label": "Questionnaire animaux (3 min)" },
-    "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire emprunteur (3 min)" },
+    "emprunteur": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire crédit / emprunteur (3 min)" },
+    "credit": { "href": "../landings/questionnaire.html?need=emprunteur&journey=standard", "label": "Questionnaire crédit immobilier (3 min)" },
     "prevoyance": { "href": "../landings/questionnaire.html?need=prevoyance&journey=standard", "label": "Questionnaire prévoyance (3 min)" },
     "rc-pro": { "href": "../landings/questionnaire.html?need=rc-pro&journey=standard", "label": "Questionnaire RC Pro (3 min)" }
   }
