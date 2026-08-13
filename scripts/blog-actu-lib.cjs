@@ -131,6 +131,10 @@ function scoreLeadPotential(candidate) {
 
   score += franceLeadScoreAdjust(candidate);
 
+  if (hasLeadKeyword(title + " " + String(candidate.summary || ""))) score += 18;
+  if (isLikelyEnglishTitle(candidate.title)) score -= 50;
+  if (isLowLeadIntent(candidate.title)) score -= 40;
+
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
   if (candidate.pubDate) {
@@ -150,6 +154,48 @@ function rankCandidates(candidates) {
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
+}
+
+var FR_TITLE_STOP =
+  /\b(le|la|les|des|une|un|du|de|et|pour|dans|sur|avec|pas|plus|aux|est|sont|que|qui|comment|cette|cet|ces|son|sa|ses|france|français|francais|mutuelle|assurance|prêt|pret|santé|sante)\b/gi;
+var EN_TITLE_STOP =
+  /\b(the|and|for|with|into|from|this|that|enters|regarding|potential|sale|health|insurance|what|you|need|know|about|advantages|getting|memorandum|understanding|concerning|agreement)\b/gi;
+
+function isLikelyEnglishTitle(title) {
+  var t = String(title || "");
+  if (!t.trim()) return false;
+  if (/\b(enters into|memorandum of understanding|what you need to know|the advantages of)\b/i.test(t)) {
+    return true;
+  }
+  var fr = (t.match(FR_TITLE_STOP) || []).length;
+  var en = (t.match(EN_TITLE_STOP) || []).length;
+  return en >= 3 && en > fr;
+}
+
+function hasLeadKeyword(text) {
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|pr[eê]t immobilier|rembours|garantie|canicule|s[eé]cheresse|inondation|vtc\b|pr[eé]voyance|lemoine|compl[eé]mentaire|franchise|catastrophe naturelle|s[eé]curit[eé] sociale|kin[eé]|d[eé]g[aâ]ts?\s+des\s+eaux|cat-?nat/i.test(
+    String(text || "")
+  );
+}
+
+function isLowLeadIntent(title) {
+  var t = String(title || "");
+  if (hasLeadKeyword(t)) return false;
+  return /éclipse|eclipse|astronom|mystic|ballon|supercoupe|spot de tout paris|observation du ciel|pleine lune/i.test(
+    t
+  );
+}
+
+/** File manuelle / inbox : ignore les gabarits « COLLEZ ICI » (sinon ils volent le slot Cafeyn). */
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "draft-template") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String(item.title || "");
+  if (/collez ici|placeholder|titre de la une/i.test(title)) return true;
+  return false;
 }
 
 function ctaWithUtm(need, slug) {
@@ -351,4 +397,8 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  isLikelyEnglishTitle: isLikelyEnglishTitle,
+  isLowLeadIntent: isLowLeadIntent,
+  hasLeadKeyword: hasLeadKeyword,
 };

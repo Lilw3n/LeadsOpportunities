@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-08-13",
   "sections": [
     "actu",
     "animaux",
@@ -920,6 +920,45 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+      "title": "Canicules en France : la ministre de l’Écologie Monique Barbut évoque un coût «de l’ord… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=canicules-en-france-la-ministre-de-l-e",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+      "title": "Meilleure mutuelle santé : comment choisir sa complémentaire en 2026 ? : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=meilleure-mutuelle-sante-comment-chois",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "a-paris-cette-association-lutte-contre-l-isolement-des-seniors.html",
+      "title": "A Paris, cette association lutte contre l'isolement des seniors : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=a-paris-cette-association-lutte-contre",
       "matchedRule": "mutuelle",
       "species": null
     }
