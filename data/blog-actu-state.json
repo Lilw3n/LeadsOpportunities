@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T08:24:39.076Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMi3gFBVV95cUxQQVFlWFJNVmRRV3dKTnZncnl0S1d2Zjd4T2VQTkRMSmtjTjFiYW1EMmsyYlo5WTE3aDBsWnZRdnY1bS1mZDktQzZpdzdKeEJCVUE4SjR1bDFIMWpCQW1zcjFMbk9tYjJLVDFjc2ZCR01BazlqZTRvM1hQSXkyZlRGMDdUUDlvOGJUNERNaGhMUWJyN25DbnBoNHUzbklKUjJ6WmpGNVRlSGJxVDk2eHRnT05VMEY4YnFDSjVsazhXUEMwTjlBQ01ZZXNKTmt2RWs2VTdBVnp0SF9ISVN3Tnc?oc=5",
+    "https://news.google.com/rss/articles/CBMirgFBVV95cUxQdnZtTkJtY0lOTzBraWk4bUJSczFrV2FJN1JrVFBUQmhSUjlTc0I5SHJsY1RmNzQ0SFh6UEZyQ1lNUUF4a0l0Qi1zWERfT0R6RExXU0FkZVFtN05PU1VuS2RSWU4ydURJQjMxa1ZJRjJxdS1ZTzlNX1cxYVgySGtLVlJueVVYU0JOaG10T2J5NnBpbi1BWEpqYkFsVFZOMXFLTk9XWDlUY0cyT2RHbVE?oc=5",
+    "https://news.google.com/rss/articles/CBMic0FVX3lxTE5aUGVzVWVFVzFlS2VDZDJHRlgydGxXM1BIRm44Y1FiU2tJSlFUYzVYbEQ0bklLRlphMjJMZHl3VFVPdE4xSFFuelVfYmEyZFZkWGRISnB3RjdqYWYwWHJQckpIR1ZkMVBwOGoxalVJU3psdkE?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T08:24:40.156Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T08:24:40.156Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "il-faut-changer-de-modele-le-cout-croissant-des-kines-dans-le-viseur-de-.html",
+          "title": "« Il faut changer de modèle » : le coût croissant des kinés dans le viseur de l'Assuran… : assurance habitation — que faire ?",
+          "source": "Google News — assurance France",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "credit-immobilier-pourquoi-la-france-se-demarque-en-europe-en-2026-le-re.html",
+          "title": "Crédit immobilier : pourquoi la France se démarque en Europe en 2026 - Le Revenu : pret et assurance emprunteur — que faire ?",
+          "source": "Google News — prêt immo emprunteur",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "assurance-des-mesures-exceptionnelles-pour-les-sinistres-des-incendies-d.html",
+          "title": "Assurance : des mesures exceptionnelles pour les sinistrés des incendies de Gironde, de… : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

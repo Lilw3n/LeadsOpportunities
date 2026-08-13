@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
+      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu", "kiné", "kine", "kinésithérapeute", "kinesitherapeute", "assurance maladie"],
       "section": "sante",
       "need": "sante",
       "tag": "Santé & mutuelle",
@@ -15,7 +15,7 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
+      "keywords": ["emprunteur", "prêt immobilier", "pret immobilier", "crédit immobilier", "credit immobilier", "crédit immo", "credit immo", "taux ", "banque", "lemoine", "acquéreur", "acquereur", "non-résident", "investissement immobilier", "assurance-vie", "assurance vie"],
       "section": "finance",
       "need": "emprunteur",
       "tag": "Crédit & emprunteur",
