@@ -12,7 +12,7 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
-  isPlaceholderActuTitle,
+  isWeakLeadActuTitle,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -41,7 +41,7 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected" || item.status === "template") return;
-  if (isPlaceholderActuTitle(item.title)) return;
+  if (isWeakLeadActuTitle(item.title)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);

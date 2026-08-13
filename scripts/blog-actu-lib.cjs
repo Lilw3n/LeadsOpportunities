@@ -132,6 +132,26 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (isEnglishHeavyTitle(candidate.title)) score -= 50;
+  if (isLowIntentSportTitle(candidate.title)) score -= 40;
+  if (isCompetitorPromoTitle(candidate.title)) score -= 35;
+
+  [
+    "canicule",
+    "sinistre",
+    "complémentaire",
+    "complementaire",
+    "délégation",
+    "delegation",
+    "lemoine",
+    "isolement",
+    "seniors",
+    "hausse des primes",
+    "kiné",
+    "kine",
+  ].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) score += 12;
+  });
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
@@ -324,6 +344,48 @@ function isPlaceholderActuTitle(title) {
   return /collez ici|\bplaceholder\b|à compléter|a completer|titre de la une/i.test(t);
 }
 
+function isEnglishHeavyTitle(title) {
+  var words = String(title || "")
+    .toLowerCase()
+    .split(/[^a-zàâäéèêëïîôùûüç'-]+/)
+    .filter(Boolean);
+  if (words.length < 6) return false;
+  var en = {
+    the: 1, into: 1, of: 1, and: 1, for: 1, with: 1, regarding: 1, potential: 1,
+    sale: 1, enters: 1, memorandum: 1, understanding: 1, advantages: 1, getting: 1,
+    need: 1, know: 1, about: 1, how: 1, choose: 1, health: 1, insurance: 1, what: 1,
+    you: 1, to: 1, in: 1,
+  };
+  var fr = {
+    le: 1, la: 1, les: 1, des: 1, une: 1, un: 1, du: 1, de: 1, et: 1, pour: 1,
+    avec: 1, dans: 1, sur: 1, cette: 1, contre: 1, comment: 1, mutuelle: 1,
+    assurance: 1, france: 1,
+  };
+  var enCount = 0;
+  var frCount = 0;
+  words.forEach(function (w) {
+    if (en[w]) enCount += 1;
+    if (fr[w]) frCount += 1;
+  });
+  return enCount >= 3 && enCount > frCount;
+}
+
+function isLowIntentSportTitle(title) {
+  var t = String(title || "").toLowerCase();
+  if (/assurance|mutuelle|emprunteur|sinistre|voyage|rapatriement|supporter|coupe du monde|équipe de france|equipe de france|les bleus|mbapp/.test(t)) {
+    return false;
+  }
+  return /tennis|tenmis|masters 1000|supercoupe|athlétisme|athletisme|natation|110m|400m|\bpsg\b|federer|nakashima|yacht/.test(t);
+}
+
+function isCompetitorPromoTitle(title) {
+  return /mutuelle\.fr|magnolia\.fr|obtenez un devis avec|comparateur\.com/i.test(String(title || ""));
+}
+
+function isWeakLeadActuTitle(title) {
+  return isPlaceholderActuTitle(title) || isEnglishHeavyTitle(title) || isLowIntentSportTitle(title) || isCompetitorPromoTitle(title);
+}
+
 function decodeEntities(s) {
   return String(s)
     .replace(/&#x([0-9a-fA-F]+);/g, function (_, hex) {
@@ -359,4 +421,7 @@ module.exports = {
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
   isPlaceholderActuTitle: isPlaceholderActuTitle,
+  isEnglishHeavyTitle: isEnglishHeavyTitle,
+  isLowIntentSportTitle: isLowIntentSportTitle,
+  isWeakLeadActuTitle: isWeakLeadActuTitle,
 };

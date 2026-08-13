@@ -11,7 +11,7 @@ const {
   writeJson,
   scaffoldArticle,
   appendPendingArticle,
-  isPlaceholderActuTitle,
+  isWeakLeadActuTitle,
 } = require("./blog-actu-lib.cjs");
 
 function arg(name, def) {
@@ -44,8 +44,8 @@ function main() {
   }
 
   picked.forEach(function (c) {
-    if (isPlaceholderActuTitle(c.title)) {
-      console.warn("Ignoré (placeholder):", c.title);
+    if (isWeakLeadActuTitle(c.title)) {
+      console.warn("Ignoré (faible potentiel lead):", c.title);
       return;
     }
     var article = scaffoldArticle({
