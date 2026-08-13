@@ -35,11 +35,13 @@
   </section>
 
   <div id="mandatComparatifMount" class="panel" style="margin-bottom:16px"></div>
+  <div id="mandatFormMount" class="panel" style="margin-bottom:16px" hidden></div>
 
   <div class="crm-toolbar" style="margin-bottom:12px">
     <label>Filtrer par bien
       <select id="filterProp" class="crm-input"><option value="">Tous</option></select>
     </label>
+    <button type="button" class="btn btn-ghost" id="btnOpenMandatForm">Formulaire mandat sans exclusivité</button>
   </div>
 
   <div class="panel" style="display:grid;grid-template-columns:1fr 1.2fr;gap:18px" id="docsLayout">
@@ -77,6 +79,7 @@
         <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
           <button type="submit" class="btn btn-primary">Enregistrer</button>
           <button type="button" class="btn btn-ghost" id="btnApplyMandatTemplate">Appliquer modèle forme</button>
+          <button type="button" class="btn btn-ghost" id="btnOpenMandatFormFromDoc">Formulaire structuré</button>
           <button type="button" class="btn btn-ghost" id="btnDelDoc">Supprimer</button>
         </div>
       </form>
@@ -87,7 +90,9 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-agency-fees-lib.js"></script>
   <script src="./js/crm-immo-mandat-formes.js"></script>
+  <script src="./js/crm-immo-mandat-form.js"></script>
   <script src="./js/crm-immo-documents-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

@@ -2,6 +2,7 @@
   var Store = window.CrmImmoStore;
   var Matcher = window.CrmImmoMatcher;
   var Mandats = window.CrmImmoMandatFormes;
+  var MandatForm = window.CrmImmoMandatForm;
   if (!Store || !Matcher) return;
   if (!localStorage.getItem("lo_token")) {
     location.href = "./crm.html";
@@ -20,6 +21,8 @@
   var focusProp = params.get("property");
 
   var catalog = null;
+  var formSchema = null;
+  var lastMandatForm = null;
   var uiState = {
     audience: "all",
     forme: "simple",
@@ -107,6 +110,7 @@
     document.getElementById("dNotes").value = d.notes || "";
     var formeSel = document.getElementById("dForme");
     if (formeSel) formeSel.value = data.forme_mandat || "";
+    if (data.mandatForm) lastMandatForm = data.mandatForm;
     if (isMandatDocType(d.doc_type) && Mandats && catalog) {
       var t = Mandats.findType(
         catalog,
@@ -158,8 +162,16 @@
       return null;
     }
     var formeVal = (document.getElementById("dForme") || {}).value || "";
+    var existing = null;
+    var curId = document.getElementById("dId").value;
+    if (curId) {
+      existing = Store.listDocuments({}).find(function (x) {
+        return x.id === curId;
+      });
+    }
+    var prevData = (existing && existing.data) || {};
     var item = Store.upsertDocument({
-      id: document.getElementById("dId").value || undefined,
+      id: curId || undefined,
       title: document.getElementById("dTitle").value.trim(),
       doc_type: document.getElementById("dType").value,
       status: document.getElementById("dStatus").value,
@@ -170,6 +182,8 @@
         parties: parties,
         clauses: document.getElementById("dBody").value,
         forme_mandat: formeVal || null,
+        mandatForm: lastMandatForm || prevData.mandatForm || null,
+        type_mandat: prevData.type_mandat || null,
       },
     });
     return item;
@@ -289,6 +303,97 @@
     if (btnPrefill) btnPrefill.onclick = function () {
       createMandatDraft(true);
     };
+    var btnStruct = document.getElementById("btnOpenStructuredMandat");
+    if (btnStruct) {
+      btnStruct.onclick = function () {
+        uiState.forme = "simple";
+        uiState.type = "vente";
+        openStructuredMandatForm();
+      };
+    }
+  }
+
+  function applyStructuredValues(values) {
+    if (!MandatForm || !formSchema) return;
+    lastMandatForm = values;
+    var parties = MandatForm.buildParties(values);
+    var clauses = MandatForm.buildClauses(values, formSchema);
+    var title = MandatForm.buildTitle(values);
+    document.getElementById("docForm").hidden = false;
+    document.getElementById("dTitle").value = title;
+    document.getElementById("dType").value = "mandat_vente";
+    document.getElementById("dForme").value = "Simple";
+    document.getElementById("dStatus").value = document.getElementById("dStatus").value || "draft";
+    document.getElementById("dBody").value = clauses;
+    document.getElementById("dParties").value = JSON.stringify(parties, null, 2);
+    var propId = document.getElementById("filterProp").value || document.getElementById("dProp").value;
+    if (propId) document.getElementById("dProp").value = propId;
+    if (!document.getElementById("dId").value) {
+      var item = Store.upsertDocument({
+        title: title,
+        doc_type: "mandat_vente",
+        status: "draft",
+        property_id: propId || null,
+        notes: "Formulaire mandat sans exclusivité — agence saisie manuellement.",
+        data: {
+          parties: parties,
+          clauses: clauses,
+          forme_mandat: "Simple",
+          type_mandat: "Vente",
+          mandatForm: values,
+          template_id: formSchema.id,
+        },
+      });
+      document.getElementById("dId").value = item.id;
+      renderList();
+      openDoc(item.id);
+    } else {
+      var saved = saveCurrentForm();
+      if (saved) {
+        renderList();
+        openDoc(saved.id);
+      }
+    }
+  }
+
+  function openStructuredMandatForm() {
+    if (!MandatForm) {
+      alert("Module formulaire mandat indisponible.");
+      return;
+    }
+    var mount = document.getElementById("mandatFormMount");
+    if (!mount) return;
+
+    function paint(schema) {
+      formSchema = schema;
+      var values = lastMandatForm
+        ? JSON.parse(JSON.stringify(lastMandatForm))
+        : MandatForm.emptyValues(schema);
+      var profil = MandatForm.loadAgencyProfil(schema);
+      if ((!values.agence || !values.agence.nom) && profil && profil.nom) {
+        values.agence = Object.assign({}, values.agence || {}, profil);
+      }
+      var propId = document.getElementById("dProp").value || document.getElementById("filterProp").value;
+      var prop = propId ? Store.getProperty(propId) : null;
+      if (prop) values = MandatForm.mergeFromProperty(values, prop);
+      MandatForm.render(mount, schema, values, {
+        onApply: applyStructuredValues,
+        onHide: function () {
+          mount.hidden = true;
+          mount.innerHTML = "";
+        },
+      });
+      mount.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    if (formSchema) paint(formSchema);
+    else {
+      MandatForm.loadFormSchema()
+        .then(paint)
+        .catch(function () {
+          alert("Impossible de charger le formulaire mandat.");
+        });
+    }
   }
 
   var btnApply = document.getElementById("btnApplyMandatTemplate");
@@ -345,6 +450,11 @@
     }
   };
 
+  var btnOpenForm = document.getElementById("btnOpenMandatForm");
+  if (btnOpenForm) btnOpenForm.onclick = openStructuredMandatForm;
+  var btnOpenFormDoc = document.getElementById("btnOpenMandatFormFromDoc");
+  if (btnOpenFormDoc) btnOpenFormDoc.onclick = openStructuredMandatForm;
+
   Store.seedDemoIfEmpty();
   fillTypes();
   fillProps();
@@ -372,6 +482,14 @@
             '<p style="color:var(--muted)">Comparatif mandats indisponible (catalogue JSON).</p>';
         }
       });
+  }
+
+  if (MandatForm) {
+    MandatForm.loadFormSchema()
+      .then(function (s) {
+        formSchema = s;
+      })
+      .catch(function () {});
   }
 
   bootComparatif();

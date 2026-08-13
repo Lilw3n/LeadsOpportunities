@@ -1,0 +1,129 @@
+{
+  "id": "mandat_vente_sans_exclusivite",
+  "version": 1,
+  "label": "Mandat de vente sans exclusivité",
+  "forme": "Simple",
+  "docType": "mandat_vente",
+  "inspiredBy": "Structure type mandat de vente sans exclusivité (réseaux FR, ex. modèles type Laforêt) — sans marque ni coordonnées d’agence en dur.",
+  "disclaimer": "Brouillon CRM à faire valider. L’agence mandataire est saisie par vous (ou reprise depuis vos barèmes) ; aucun réseau n’est prérempli.",
+  "agencyStorageKey": "lo_immo_mandat_agence_profil_v1",
+  "sections": [
+    {
+      "id": "agence",
+      "label": "Mandataire (agence de votre choix)",
+      "audience": "agence",
+      "hint": "Complétez l’agence qui portera ce mandat. Vous pouvez partir d’une agence déjà créée dans les barèmes honoraires, puis renseigner carte pro / garantie.",
+      "fields": [
+        { "id": "nom", "label": "Raison sociale / enseigne", "type": "text", "required": true, "placeholder": "Ex. Agence Dupont Immobilier" },
+        { "id": "formeJuridique", "label": "Forme juridique", "type": "text", "placeholder": "SARL, SAS…" },
+        { "id": "capital", "label": "Capital social", "type": "text", "placeholder": "ex. 10 000 €" },
+        { "id": "adresse", "label": "Adresse du siège / agence", "type": "text", "required": true },
+        { "id": "cp", "label": "CP", "type": "text" },
+        { "id": "ville", "label": "Ville", "type": "text" },
+        { "id": "siret", "label": "SIRET", "type": "text" },
+        { "id": "rcs", "label": "RCS", "type": "text", "placeholder": "RCS Ville B XXX XXX XXX" },
+        { "id": "cartePro", "label": "N° carte professionnelle (T)", "type": "text", "required": true },
+        { "id": "delivreePar", "label": "Délivrée par", "type": "text", "placeholder": "CCI / CNACI…" },
+        { "id": "garantieFinanciere", "label": "Garantie financière (organisme)", "type": "text" },
+        { "id": "montantGarantie", "label": "Montant garantie", "type": "text" },
+        { "id": "rcp", "label": "Assurance RCP", "type": "text" },
+        { "id": "representant", "label": "Représenté par", "type": "text", "placeholder": "Nom du dirigeant / négociateur habilité" },
+        { "id": "tel", "label": "Téléphone agence", "type": "text" },
+        { "id": "email", "label": "E-mail agence", "type": "email" }
+      ]
+    },
+    {
+      "id": "mandatMeta",
+      "label": "Références du mandat",
+      "audience": "agence",
+      "fields": [
+        { "id": "numero", "label": "N° mandat", "type": "text", "placeholder": "Selon numérotation de l’agence" },
+        { "id": "lieuSignature", "label": "Fait à", "type": "text" },
+        { "id": "dateSignature", "label": "Le", "type": "date" },
+        { "id": "horsEtablissement", "label": "Conclu hors établissement", "type": "tri", "hint": "Si oui : informer du droit de rétractation (Code conso)." }
+      ]
+    },
+    {
+      "id": "mandant",
+      "label": "Le mandant (vendeur)",
+      "audience": "general",
+      "fields": [
+        { "id": "qualite", "label": "Qualité", "type": "select", "options": ["", "Propriétaire", "Indivisaire", "Usufruitier", "SCI / société", "Mandataire du propriétaire", "Autre"] },
+        { "id": "nom", "label": "Nom / raison sociale", "type": "text", "required": true },
+        { "id": "prenom", "label": "Prénom", "type": "text" },
+        { "id": "adresse", "label": "Adresse", "type": "text" },
+        { "id": "cp", "label": "CP", "type": "text" },
+        { "id": "ville", "label": "Ville", "type": "text" },
+        { "id": "email", "label": "E-mail", "type": "email" },
+        { "id": "tel", "label": "Téléphone", "type": "text" },
+        { "id": "coMandants", "label": "Co-mandants / indivision (noms)", "type": "textarea", "hint": "Si plusieurs vendeurs, les lister ici." }
+      ]
+    },
+    {
+      "id": "bien",
+      "label": "Désignation du bien",
+      "audience": "general",
+      "fields": [
+        { "id": "typeBien", "label": "Type", "type": "text", "placeholder": "Appartement, maison, terrain…" },
+        { "id": "adresse", "label": "Adresse du bien", "type": "text", "required": true },
+        { "id": "cp", "label": "CP", "type": "text" },
+        { "id": "ville", "label": "Ville", "type": "text" },
+        { "id": "surface", "label": "Surface (m²)", "type": "text" },
+        { "id": "pieces", "label": "Nb pièces", "type": "text" },
+        { "id": "lots", "label": "Lots / dépendances", "type": "text" },
+        { "id": "cadastre", "label": "Références cadastrales", "type": "text" },
+        { "id": "occupation", "label": "Occupation", "type": "select", "options": ["", "Libre", "Occupé propriétaire", "Loué", "Autre"] },
+        { "id": "designation", "label": "Désignation complète", "type": "textarea" }
+      ]
+    },
+    {
+      "id": "prix",
+      "label": "Prix de mise en vente",
+      "audience": "general",
+      "fields": [
+        { "id": "prixNetVendeur", "label": "Prix net vendeur (€)", "type": "number" },
+        { "id": "prixFai", "label": "Prix FAI (€)", "type": "number" },
+        { "id": "negociable", "label": "Négociable", "type": "tri" },
+        { "id": "observationsPrix", "label": "Observations prix", "type": "textarea" }
+      ]
+    },
+    {
+      "id": "honoraires",
+      "label": "Rémunération du mandataire",
+      "audience": "general",
+      "hint": "Sans exclusivité : honoraires dus si l’opération est conclue grâce à l’agence (à préciser).",
+      "fields": [
+        { "id": "mode", "label": "Mode", "type": "select", "options": ["", "Pourcentage du prix", "Forfait", "Selon barème affiché"] },
+        { "id": "tauxPct", "label": "Taux (%)", "type": "number" },
+        { "id": "montantFixe", "label": "Montant fixe (€ TTC)", "type": "number" },
+        { "id": "chargePar", "label": "À la charge de", "type": "select", "options": ["", "Vendeur", "Acquéreur", "Partage"] },
+        { "id": "ttcOuHt", "label": "Affichage", "type": "select", "options": ["TTC", "HT"] },
+        { "id": "conditions", "label": "Conditions de paiement", "type": "textarea", "placeholder": "Ex. exigibles à la signature de l’acte authentique…" }
+      ]
+    },
+    {
+      "id": "duree",
+      "label": "Durée & sans exclusivité",
+      "audience": "general",
+      "fields": [
+        { "id": "dateDebut", "label": "Date de prise d’effet", "type": "date" },
+        { "id": "dateFin", "label": "Date d’échéance", "type": "date" },
+        { "id": "preavisJours", "label": "Préavis résiliation (jours)", "type": "number", "placeholder": "15" },
+        { "id": "reconduction", "label": "Reconduction", "type": "select", "options": ["", "Sans reconduction tacite", "Reconduction tacite encadrée", "À préciser"] },
+        { "id": "clauseSansExclusivite", "label": "Clause sans exclusivité (rappel)", "type": "textarea", "default": "Le présent mandat est conféré SANS EXCLUSIVITÉ. Le mandant conserve la faculté de confier le bien à d’autres intermédiaires et de traiter directement. Les honoraires ne seront dus au mandataire que si l’acquéreur a été présenté par ses soins et que la vente est conclue." }
+      ]
+    },
+    {
+      "id": "pouvoirs",
+      "label": "Pouvoirs & moyens",
+      "audience": "general",
+      "fields": [
+        { "id": "pubPortails", "label": "Autorisation publicité / portails", "type": "tri" },
+        { "id": "photos", "label": "Autorisation photos / visite virtuelle", "type": "tri" },
+        { "id": "clefs", "label": "Remise des clés à l’agence", "type": "tri" },
+        { "id": "negociation", "label": "Pouvoir de négocier le prix", "type": "tri" },
+        { "id": "autresPouvoirs", "label": "Autres pouvoirs / observations", "type": "textarea" }
+      ]
+    }
+  ]
+}

@@ -33,6 +33,28 @@ Module : `js/crm-immo-mandat-formes.js` · styles `css/crm-immo-mandats.css`
 
 Aligné sur les champs fiche : `forme_mandat`, `type_mandat`, `n_mandat`, dates, `mandat_hors_etablissement`, etc. (`js/crm-immo-property-schema.js`).
 
+## Formulaire « mandat de vente sans exclusivité »
+
+Inspiré de la structure type réseaux (ex. modèles Laforêt), **sans aucune marque ni coordonnées d’agence en dur**.
+
+| Élément | Rôle |
+|---------|------|
+| `data/immo-mandat-vente-simple-form.json` | Schéma des sections / champs |
+| `js/crm-immo-mandat-form.js` | Rendu, mémorisation profil agence, génération clauses + parties |
+| Bouton **Formulaire mandat sans exclusivité** | Sur `/crm-immo-documents.html` |
+
+### Agence de votre choix
+
+1. Saisie manuelle (raison sociale, carte T, garantie, RCS…) **ou**
+2. Liste déroulante des agences déjà créées dans `/crm-agency-fees.html` (ne remplit que le **nom** — le reste reste à compléter).
+3. **Mémoriser cette agence** → profil local `lo_immo_mandat_agence_profil_v1` pour les prochains mandats.
+
+Le document enregistré porte `data.mandatForm` + clauses texte + `parties` JSON (mandataire / mandant).
+
+### PDF source
+
+Déposer `mandat_de_vente_sans_exclusivite_*.pdf` dans `docs/immo-mandats/_inbox/` pour caler libellés exacts du réseau (toujours sans figer une enseigne).
+
 ## Workflow
 
 1. Filtrer un bien (optionnel) — le comparatif se synchronise sur la fiche.

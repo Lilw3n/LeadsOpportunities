@@ -297,6 +297,9 @@
         '<button type="button" class="btn btn-primary" id="btnCreateMandatDraft">Créer un brouillon mandat</button>'
       );
       html.push(
+        '<button type="button" class="btn btn-primary" id="btnOpenStructuredMandat" style="background:#0f766e">Formulaire sans exclusivité</button>'
+      );
+      html.push(
         '<button type="button" class="btn btn-ghost" id="btnPrefillFromProperty">Préremplir depuis le bien filtré</button>'
       );
       html.push(

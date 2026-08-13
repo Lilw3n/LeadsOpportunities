@@ -2,7 +2,15 @@
   "version": 1,
   "updatedAt": "2026-08-13",
   "sourceNote": "Synthèse droit FR (loi Hoguet / décret 72-678) + pratiques courantes agences. Déposer le PDF comparatif dans docs/immo-mandats/_inbox/ pour enrichir les libellés réseau.",
-  "inboxPdfHint": "comparatif_differentes-formes_des_mandats.pdf",
+  "inboxPdfHint": "comparatif_differentes-formes_des_mandats.pdf ; mandat_de_vente_sans_exclusivite_*.pdf",
+  "structuredForms": [
+    {
+      "id": "mandat_vente_sans_exclusivite",
+      "file": "data/immo-mandat-vente-simple-form.json",
+      "forme": "Simple",
+      "note": "Formulaire structuré sans marque réseau — bloc agence à compléter (ou lié aux barèmes)."
+    }
+  ],
   "audiences": {
     "general": {
       "label": "Droit / infos générales",

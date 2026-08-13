@@ -159,3 +159,98 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Formulaire structuré — mandat sans exclusivité */
+.mandat-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mandat-form__intro h3 {
+  margin: 0 0 4px;
+}
+.mandat-form__intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  max-width: 56rem;
+}
+.mandat-form__agency-pick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-end;
+  padding: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 10px;
+}
+.mandat-form__agency-pick label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 220px;
+  flex: 1;
+}
+.mandat-form__agency-pick select {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font: inherit;
+}
+.mandat-form__section {
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+.mandat-form__section h4 {
+  margin: 0 0 8px;
+  font-size: 0.98rem;
+}
+.mandat-form__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+.mandat-form-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.mandat-form-label .mandat-form-input,
+.mandat-form-input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font: inherit;
+  font-weight: 400;
+  color: inherit;
+  background: #fff;
+}
+.mandat-form-label textarea.mandat-form-input {
+  grid-column: 1 / -1;
+  min-height: 64px;
+  resize: vertical;
+}
+.mandat-form-hint {
+  display: block;
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.35;
+}
+.mandat-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+}
+.mandat-form-label:has(textarea) {
+  grid-column: 1 / -1;
+}
