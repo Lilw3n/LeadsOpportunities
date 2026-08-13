@@ -48,6 +48,10 @@ function existingFiles() {
       if (f.endsWith(".html") && f !== "index.html") files.add(f);
     });
   } catch (e) {}
+  var state = readJson("blog-actu-state.json", { publishedFiles: [] });
+  (state.publishedFiles || []).forEach(function (f) {
+    if (f) files.add(String(f).replace(/^blog\//, ""));
+  });
   return files;
 }
 
