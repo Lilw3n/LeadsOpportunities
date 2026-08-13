@@ -30,6 +30,71 @@ function isPlaceholderCandidate(c) {
   return false;
 }
 
+/** Titres 100 % anglais (fils Bing US) — SEO France + leads faibles. */
+function isEnglishHeavyTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return false;
+  if (/[éèêëàâäùûüôöîïçœæ]/i.test(t)) return false;
+  var words = t.split(/[^A-Za-zÀ-ÿ]+/).filter(function (w) {
+    return w.length > 1;
+  });
+  if (words.length < 5) return false;
+  var enStops = {
+    the: 1,
+    into: 1,
+    and: 1,
+    for: 1,
+    with: 1,
+    from: 1,
+    regarding: 1,
+    potential: 1,
+    sale: 1,
+    enters: 1,
+    memorandum: 1,
+    understanding: 1,
+    advantages: 1,
+    getting: 1,
+    bans: 1,
+    unsolicited: 1,
+    forces: 1,
+    water: 1,
+    across: 1,
+    nearly: 1,
+    government: 1,
+    says: 1,
+    talk: 1,
+    of: 1,
+    to: 1,
+    in: 1,
+    on: 1,
+    an: 1,
+  };
+  var hits = 0;
+  words.forEach(function (w) {
+    if (enStops[w.toLowerCase()]) hits++;
+  });
+  return hits >= 3;
+}
+
+/** Actu spectacle (éclipse photos / ballon) sans angle santé / énergie / fraude. */
+function isLowLeadIntentTopic(c) {
+  var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "");
+  if (
+    /éclipse|eclipse/i.test(hay) &&
+    !/lunette|œil|oeil|yeux|optique|fraude|dgccrf|répression des fraudes|repression des fraudes/i.test(hay)
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function shouldSkipLeadCandidate(c) {
+  if (isPlaceholderCandidate(c)) return true;
+  if (isEnglishHeavyTitle(c && c.title)) return true;
+  if (isLowLeadIntentTopic(c)) return true;
+  return false;
+}
+
 function slugify(text) {
   return String(text || "")
     .normalize("NFD")
@@ -361,4 +426,7 @@ module.exports = {
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
   isPlaceholderCandidate: isPlaceholderCandidate,
+  isEnglishHeavyTitle: isEnglishHeavyTitle,
+  isLowLeadIntentTopic: isLowLeadIntentTopic,
+  shouldSkipLeadCandidate: shouldSkipLeadCandidate,
 };
