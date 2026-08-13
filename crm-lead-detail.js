@@ -111,6 +111,9 @@
       '<a href="./crm-tariff-grid.html?leadId=' +
       encodeURIComponent(leadId) +
       '" class="btn btn-primary">Éditer bordereau tarifaire</a>' +
+      '<a href="./crm-immo-matching.html?leadId=' +
+      encodeURIComponent(leadId) +
+      '" class="btn btn-ghost">Matching biens (import critères)</a>' +
       '<a href="./crm-quote-new.html?contactId=' +
       encodeURIComponent(l.contact_id || "") +
       "&leadId=" +

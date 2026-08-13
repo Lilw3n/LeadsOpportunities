@@ -182,6 +182,84 @@
   document.getElementById("btnRunMatch").onclick = runMatch;
   document.getElementById("critSelect").onchange = runMatch;
 
+  function applyCriteriaToForm(crit) {
+    openForm(crit);
+    var status = document.getElementById("importLeadStatus");
+    if (status) {
+      status.textContent =
+        "Critères préremplis — enregistrez puis lancez le matching." +
+        (crit._finance && crit._finance.propertyPrice
+          ? " Budget prêt détecté : " + Number(crit._finance.propertyPrice).toLocaleString("fr-FR") + " €."
+          : "");
+    }
+    var fin = crit._finance;
+    if (fin && window.FinanceDeepLink && fin.propertyPrice) {
+      var existing = document.getElementById("importPretLink");
+      if (existing) existing.remove();
+      var a = document.createElement("a");
+      a.id = "importPretLink";
+      a.className = "btn btn-primary btn-sm";
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "Ouvrir simulation prêt (préremplie)";
+      a.href = window.FinanceDeepLink.pretImmoUrl
+        ? window.FinanceDeepLink.pretImmoUrl({
+            propertyPrice: fin.propertyPrice,
+            downPayment: fin.downPayment,
+            loanDuration: fin.loanDuration,
+            income: fin.income,
+            propertyId: "",
+            contactId: crit.contact_id || "",
+            utmSource: "crm-matching-lead",
+          })
+        : "./crm-pret-immo-sim.html";
+      var wrap = document.getElementById("btnImportLead");
+      if (wrap && wrap.parentNode) wrap.parentNode.appendChild(a);
+    }
+  }
+
+  async function importFromLead() {
+    var Mapper = window.CrmImmoLeadToCriteria;
+    var status = document.getElementById("importLeadStatus");
+    var leadId = document.getElementById("cLead").value.trim();
+    if (!Mapper) {
+      if (status) status.textContent = "Module mapping absent.";
+      return;
+    }
+    if (!leadId) {
+      if (status) status.textContent = "Indiquez un id de lead (ex. depuis la fiche lead).";
+      return;
+    }
+    if (status) status.textContent = "Chargement…";
+    try {
+      var token = localStorage.getItem("lo_token") || "";
+      var res = await fetch("/api/dashboard/lead-detail?id=" + encodeURIComponent(leadId), {
+        headers: { Authorization: "Bearer " + token },
+      });
+      var data = await res.json().catch(function () {
+        return {};
+      });
+      if (!res.ok || !data || !(data.lead || data.row || data.id)) {
+        throw new Error((data && (data.error || data.detail)) || "Lead introuvable");
+      }
+      var row = data.lead || data.row || data;
+      var crit = Mapper.fromLeadRow(row);
+      applyCriteriaToForm(crit);
+    } catch (e) {
+      if (status) status.textContent = "Échec import : " + (e.message || e);
+    }
+  }
+
+  var btnImport = document.getElementById("btnImportLead");
+  if (btnImport) btnImport.onclick = importFromLead;
+
+  var params = new URLSearchParams(location.search);
+  if (params.get("leadId")) {
+    openForm({ lead_id: params.get("leadId") });
+    document.getElementById("cLead").value = params.get("leadId");
+    importFromLead();
+  }
+
   Store.seedDemoIfEmpty();
   Store.syncFromApi()
     .then(function () {

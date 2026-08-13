@@ -171,8 +171,15 @@
     var fd = new FormData(form);
     var o = {};
     fd.forEach(function (v, k) {
-      o[k] = v;
+      if (Object.prototype.hasOwnProperty.call(o, k)) {
+        if (!Array.isArray(o[k])) o[k] = [o[k]];
+        o[k].push(v);
+      } else {
+        o[k] = v;
+      }
     });
+    /* Checkboxes non cochées absentes — ok. buyerNeeds toujours en tableau si multi. */
+    if (typeof o.buyerNeeds === "string") o.buyerNeeds = [o.buyerNeeds];
     return o;
   }
 
