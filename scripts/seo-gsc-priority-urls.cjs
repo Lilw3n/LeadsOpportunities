@@ -24,6 +24,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/assurance-sante/",
   "/assurance-sante/paris/",
   "/credit-immo/",
+  "/credit-immo/projection/",
   "/credit-immo/paris/",
   "/methode.html",
   "/assurances-niches.html",

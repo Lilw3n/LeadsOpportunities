@@ -101,6 +101,41 @@
       qs.set("propertyId", prop.id);
       fin.href = "./crm-agency-fees.html?" + qs.toString();
     }
+    var proj = document.getElementById("linkProjection");
+    if (proj) {
+      var attrs = prop.attrs || {};
+      if (typeof attrs === "string") {
+        try {
+          attrs = JSON.parse(attrs) || {};
+        } catch (e) {
+          attrs = {};
+        }
+      }
+      var projData = {
+        propertyPrice: prop.price_fai || prop.price_net || "",
+        propertyId: prop.id,
+        surface: attrs.surface_habitable || attrs.surface || prop.surface || "",
+        postalCode: prop.postal_code || "",
+        cp: prop.postal_code || "",
+        dpe: attrs.conso_energie_primaire || attrs.conso_energie_finale || "",
+        travaux: attrs.budget_travaux || "",
+        taxeFonciere: attrs.taxe_fonciere || "",
+        utmSource: "crm-immo-fiche",
+      };
+      if (window.FinanceDeepLink && window.FinanceDeepLink.projectionCrmUrl) {
+        proj.href = window.FinanceDeepLink.projectionCrmUrl(projData, { utmCampaign: "fiche-bien" });
+      } else {
+        var pq = new URLSearchParams();
+        if (projData.propertyPrice) pq.set("propertyPrice", Math.round(Number(projData.propertyPrice)));
+        pq.set("propertyId", prop.id);
+        if (projData.surface) pq.set("surface", projData.surface);
+        if (projData.cp) pq.set("cp", projData.cp);
+        if (projData.travaux) pq.set("travaux", projData.travaux);
+        if (projData.dpe) pq.set("dpe", String(projData.dpe).charAt(0));
+        if (projData.taxeFonciere) pq.set("taxeFonciere", projData.taxeFonciere);
+        proj.href = "./crm-pret-immo-projection.html?" + pq.toString();
+      }
+    }
   }
 
   function fillMeta() {

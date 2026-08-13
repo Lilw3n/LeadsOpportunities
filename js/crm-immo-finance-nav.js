@@ -25,6 +25,7 @@
       { id: "grilles", href: "./crm-pret-immo-grilles.html", label: "Grilles des taux" },
       { id: "fiches", href: "./crm-pret-immo-fiches.html", label: "Fiches produits" },
       { id: "pvh", href: "./crm-pret-immo-pvh.html", label: "PVH" },
+      { id: "projection", href: "./crm-pret-immo-projection.html", label: "Projection acheteur" },
       { id: "baremes", href: "./crm-agency-fees.html", label: "Barèmes / FAI" }
     ],
     assurance: [
@@ -121,6 +122,7 @@
     if (p === "crm-pret-immo-grilles.html") return "grilles";
     if (p === "crm-pret-immo-fiches.html") return "fiches";
     if (p === "crm-pret-immo-pvh.html") return "pvh";
+    if (p === "crm-pret-immo-projection.html") return "projection";
     if (p === "crm-agency-fees.html") return "baremes";
     return "";
   }

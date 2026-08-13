@@ -460,6 +460,7 @@ const PAGES = [
       },
     ],
     related: [
+      { href: "/credit-immo/projection/", label: "Projection coût réel" },
       { href: "/credit-immo/simulation/", label: "Simulation" },
       { href: "/credit-immo/villes/", label: "Credit immo par ville" },
       { href: "/credit-immo/paris/", label: "Credit immo Paris" },
@@ -510,6 +511,7 @@ const PAGES = [
     ],
     related: [
       { href: "/credit-immo/", label: "Guide credit immo" },
+      { href: "/credit-immo/projection/", label: "Projection coût réel" },
       { href: "/credit-immo/paris/", label: "Paris" },
     ],
     faq: [],
@@ -531,6 +533,7 @@ const PAGES = [
       { name: "Paris", url: "/credit-immo/paris/" },
     ],
     related: [
+      { href: "/credit-immo/projection/", label: "Projection coût réel" },
       { href: "/credit-immo/simulation/", label: "Simulation" },
       { href: "/credit-immo/", label: "Guide national" },
     ],

@@ -6,6 +6,7 @@
 - `npm run meta:rotation:status` — semaine Meta active + CPL (1 €/jour)
 - CRM **Gestion pubs** : `/crm-pubs.html` — liens Meta/Google/TikTok Ads Manager
 - CRM **Origine leads** : `/crm-sources.html` — UTM, gclid, fbclid, ttclid
+- **Projection acheteur** (prêt + foncière + énergie + travaux) : `/crm-pret-immo-projection.html` · public `/credit-immo/projection/` — voir `docs/IMMO-PROJECTION.md`
 - `npm run blog:actu:fetch` — récupère candidats actu (RSS + queue)
 - `npm run blog:actu:draft -- --top=2` — ébauches dans `data/blog-actu-pending.json`
 - `npm run blog:actu:publish` — blog + sitemap SEO

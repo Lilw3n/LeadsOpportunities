@@ -5,6 +5,7 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 ## Accès
 - Liste : [`crm-pret-immo.html`](../crm-pret-immo.html)
 - Simulateur : [`crm-pret-immo-sim.html`](../crm-pret-immo-sim.html)
+- **Projection acheteur** (prêt + foncière + énergie + travaux + revenus) : [`crm-pret-immo-projection.html`](../crm-pret-immo-projection.html) — voir [`IMMO-PROJECTION.md`](./IMMO-PROJECTION.md)
 - Coordonnées : [`crm-pret-immo-coord.html`](../crm-pret-immo-coord.html)
 - **Documentation intelligente** (hub) : [`crm-pret-immo-docs.html`](../crm-pret-immo-docs.html) — voir [`CRM-PRET-DOC-SEARCH.md`](./CRM-PRET-DOC-SEARCH.md)
 - Grilles des taux : [`crm-pret-immo-grilles.html`](../crm-pret-immo-grilles.html) — voir [`CRM-PRET-GRILLES-TAUX.md`](./CRM-PRET-GRILLES-TAUX.md)

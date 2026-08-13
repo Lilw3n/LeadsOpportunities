@@ -14,6 +14,8 @@
   var BAREMES_PATH = "/crm-agency-fees.html";
   var PRET_PATH = "/crm-pret-immo-sim.html";
   var PRET_LIST_PATH = "/crm-pret-immo.html";
+  var PROJECTION_CRM_PATH = "/crm-pret-immo-projection.html";
+  var PROJECTION_PUBLIC_PATH = "/credit-immo/projection/";
 
   function num(v) {
     if (v == null || v === "") return null;
@@ -66,6 +68,12 @@
     set("contactId", data.contactId);
     set("agency", data.agency);
     set("loanType", data.loanType);
+    set("travaux", data.travaux != null ? Math.round(data.travaux) : null);
+    set("surface", data.surface != null ? Math.round(data.surface) : null);
+    set("cp", data.postalCode || data.cp);
+    set("dpe", data.dpe);
+    set("patrimoine", data.patrimoine != null ? Math.round(data.patrimoine) : null);
+    set("taxeFonciere", data.taxeFonciere != null ? Math.round(data.taxeFonciere) : null);
     set("utm_source", data.utmSource || "crm-agency-fees");
     set("utm_medium", extras.utmMedium || "crm");
     set("utm_campaign", extras.utmCampaign || "demande-pret");
@@ -98,6 +106,16 @@
 
   function pretListUrl() {
     return PRET_LIST_PATH;
+  }
+
+  function projectionCrmUrl(data, extras) {
+    var qs = buildQuery(data || {}, Object.assign({ utmCampaign: "projection-crm" }, extras || {}));
+    return PROJECTION_CRM_PATH + (qs ? "?" + qs : "");
+  }
+
+  function projectionPublicUrl(data, extras) {
+    var qs = buildQuery(data || {}, Object.assign({ utmCampaign: "projection-public" }, extras || {}));
+    return PROJECTION_PUBLIC_PATH + (qs ? "?" + qs : "");
   }
 
   function applyToForm(root) {
@@ -185,6 +203,8 @@
     CREDIT_PATH: CREDIT_PATH,
     ACHETEUR_PATH: ACHETEUR_PATH,
     BAREMES_PATH: BAREMES_PATH,
+    PROJECTION_CRM_PATH: PROJECTION_CRM_PATH,
+    PROJECTION_PUBLIC_PATH: PROJECTION_PUBLIC_PATH,
     readParams: readParams,
     buildQuery: buildQuery,
     creditUrl: creditUrl,
@@ -192,6 +212,8 @@
     baremesUrl: baremesUrl,
     pretImmoUrl: pretImmoUrl,
     pretListUrl: pretListUrl,
+    projectionCrmUrl: projectionCrmUrl,
+    projectionPublicUrl: projectionPublicUrl,
     applyToForm: applyToForm,
     applyToBaremesForm: applyToBaremesForm,
   };
