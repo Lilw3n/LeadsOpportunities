@@ -63,6 +63,10 @@ function isLowConversionActuTitle(title) {
   if (looksEnglishTitle(title)) return true;
   var low = String(title || "").toLowerCase();
   if (/obtenez un devis|meilleure mutuelle|comparateur mutuelle/i.test(low)) return true;
+  if (/meilleurtaux|le comparateur assurance|classement des assureurs/i.test(low)) return true;
+  if (/selon votre profil/i.test(low)) return true;
+  if (/[iî]le-de-france mutuelle/i.test(low)) return true;
+  if (/assurance (sant[eé] )?en 202[45]/i.test(low)) return true;
   if (/assurance habitation en 2025/i.test(low)) return true;
   if (/m[eé]so sp[eé]cifique|cairn\.info/i.test(low)) return true;
   if (/classement exclusif de l['’']argus|march[eé] des alternatifs/i.test(low)) return true;

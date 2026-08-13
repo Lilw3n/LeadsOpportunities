@@ -82,6 +82,7 @@ var DRAFT_SLUG_PREFIXES = [
   "football-fabien-barthez",
   "hsbc-continental-europe",
   "l-assurance-habitation-en-2025",
+  "le-gouvernement-prevoit-d-importantes-baisses",
   "les-tarifs-de-l-assurance-habitation-grimpent",
 ];
 
@@ -157,9 +158,36 @@ function candidateSourceType(c, feedMap) {
 
 function isInsuranceIntent(c) {
   var hay = String(c.title || "") + " " + String(c.summary || "");
-  return /assurance|mutuelle|emprunteur|sinistre|habitation|pr[eé]voyance|rembours|indemn|compl[eé]mentaire|s[eé]curit[eé] sociale|d[eé]l[eé]gation/i.test(
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|pr[eé]voyance|rembours|indemn|compl[eé]mentaire|s[eé]curit[eé] sociale|d[eé]l[eé]gation|cr[eé]dit immobilier|pr[eê]t immobilier/i.test(
     hay
   );
+}
+
+function stripSourceSuffix(title) {
+  return String(title || "")
+    .replace(/\s+[-–—]\s+[^-–—]{2,48}$/, "")
+    .trim();
+}
+
+function significantTitleTokens(title) {
+  return slugify(stripSourceSuffix(title))
+    .split("-")
+    .filter(function (w) {
+      return (
+        w.length > 3 &&
+        ["dans", "pour", "avec", "cette", "sont", "plus", "comme", "france", "europe", "selon", "entre"].indexOf(w) === -1
+      );
+    });
+}
+
+function isNearDuplicateTitle(title, other) {
+  var a = significantTitleTokens(title);
+  var b = significantTitleTokens(other);
+  if (!a.length || !b.length) return false;
+  var inter = a.filter(function (w) {
+    return b.indexOf(w) !== -1;
+  });
+  return inter.length >= 3 && inter.length / Math.min(a.length, b.length) >= 0.5;
 }
 
 function bestFromPlatform(available, platform, feedMap, used) {
@@ -203,6 +231,13 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var usedTitles = [];
+
+  function alreadyUsedTitle(title) {
+    return usedTitles.some(function (t) {
+      return isNearDuplicateTitle(title, t);
+    });
+  }
 
   available
     .filter(function (c) {
@@ -213,6 +248,7 @@ function pickCandidates(candidates, count, state) {
       if (picks.length >= count) return;
       picks.push(c);
       used.add(c.url || c.title);
+      usedTitles.push(c.title);
     });
 
   if (count >= 3) {
@@ -222,6 +258,7 @@ function pickCandidates(candidates, count, state) {
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
+        usedTitles.push(pick.title);
       }
     });
     state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
@@ -233,6 +270,7 @@ function pickCandidates(candidates, count, state) {
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
+        usedTitles.push(rotated.title);
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
@@ -253,8 +291,10 @@ function pickCandidates(candidates, count, state) {
       if (requireInsurance && !isInsuranceIntent(c)) return;
       var k = c.url || c.title;
       if (used.has(k)) return;
+      if (alreadyUsedTitle(c.title)) return;
       picks.push(c);
       used.add(k);
+      usedTitles.push(c.title);
     });
   }
 
@@ -267,7 +307,6 @@ function pickCandidates(candidates, count, state) {
     true
   );
   addFrom(preferInsurance(available), true);
-  addFrom(preferInsurance(available), false);
 
   return picks;
 }
