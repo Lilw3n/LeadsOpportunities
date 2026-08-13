@@ -112,8 +112,18 @@ function isMostlyEnglishTitle(title) {
 function isWeakLeadCandidate(c) {
   var title = String((c && c.title) || "");
   var hay = title + " " + String((c && c.summary) || "") + " " + String((c && c.note) || "");
+  var url = String((c && c.url) || "");
   if (isPlaceholderActuItem(c)) return true;
   if (isMostlyEnglishTitle(title)) return true;
+  if (/guide-shopping|mutuelle\.fr|thelocal\.fr/i.test(url + " " + hay)) return true;
+  if (/^health insurance\b/i.test(title)) return true;
+  if (
+    /\b\d+\s+d[ée]partements?\b/i.test(hay) &&
+    /vigilance|pic de (la )?canicule|alerte (canicule|m[ée]t[ée]o)/i.test(hay) &&
+    !/prime|tarif|facture|sinistre|contrat|franchise|assurance habitation|d[ée]g[aâ]t/i.test(hay)
+  ) {
+    return true;
+  }
   if (
     /\b(colombie|colombia|venezuela|honduras|nicaragua|ukraine|gaza|liban|cisjordanie|salvador)\b/i.test(hay) &&
     !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b/i.test(hay)
