@@ -1,0 +1,81 @@
+{
+  "date": "2026-08-13",
+  "instruction": "Rédiger articles COMPLETS (8+ blocs, angle assurance, CTA questionnaire UTM). Ajouter dans data/blog-actu-pending.json puis npm run blog:actu:publish",
+  "picks": [
+    {
+      "id": "rss-hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation - MoneyVox",
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+      "summary": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habitation MoneyVox",
+      "pubDate": "Tue, 11 Aug 2026 13:44:50 GMT",
+      "feedId": "google-news-habitation",
+      "feedName": "Google News — habitation sinistre",
+      "sourceType": "google",
+      "suggestedFile": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 100,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-habitation-incendies-de-foret-secheresses-canicules-les-tarifs",
+      "title": "Assurance habitation : incendies de forêt, sécheresses, canicules… les tarifs de vos contrats vont-ils exploser - Les Echos",
+      "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPemdYNklTV0xhUDF5RVA5aG5VZU4zdktwUlJpcDFXaFN2VVVqQkZtYTZqTEtMMk83S1d6aFRVS251aEgyWHhyTzRJV1d3Nm9OOVhOblRwNklXaC1LU0g5MmhPUkFXNVVUNnlzV3MwMjhvanB3amNvTnIxR2N3eWd2YWJkZHFFeFpUbUFjQ3k5OGlaZVA5NHB1aXZzLW5RU21WZDh1bVR3VHJpMUtVTnhndm9mWU5IMEVMSWdjS0lZYjhFdFg0OXk1d1VfQUVMQTlNREdYMjRENTJWaEh3SUZWQVVlMk0yZlpNdUVGZm0tcWM?oc=5",
+      "summary": "Assurance habitation : incendies de forêt, sécheresses, canicules… les tarifs de vos contrats vont-ils exploser Les Echos",
+      "pubDate": "Tue, 11 Aug 2026 05:15:08 GMT",
+      "feedId": "google-news-habitation-fr",
+      "feedName": "Google News — assurance habitation",
+      "sourceType": "google",
+      "suggestedFile": "assurance-habitation-incendies-de-foret-secheresses-canicules-les-tarifs.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration",
+      "title": "Incendies dans les Landes et en Gironde : déjà des milliers de déclarations de sinistres en habitation et auto reçues par les assureurs",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d682376e24d81a6f5d2ab483f7c02&url=https%3a%2f%2fwww.argusdelassurance.com%2fenvironnement%2frisques-climatiques%2fincendie%2fincendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declarations-de-sinistres-en-habitation-et-auto-recues-par-les-assureurs.XV4324SE6NFYLPYNPX7ZDHOLD4.html&c=10735333884238472473&mkt=en-us",
+      "summary": "Les incendies dans le Sud-Ouest de la France, désormais fixés, ont ravagé plus de 42 000 hectares. Les assurés ont commencé à déclarer des sinistres auprès de leurs assureurs habitation et auto. Les p ...",
+      "pubDate": "Tue, 11 Aug 2026 05:47:00 GMT",
+      "feedId": "source-bing-sinistres",
+      "feedName": "Bing News — sinistres assurance",
+      "sourceType": "bing",
+      "suggestedFile": "incendies-dans-les-landes-et-en-gironde-deja-des-milliers-de-declaration.html",
+      "section": "habitat",
+      "need": "habitation",
+      "leadScore": 97,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr",
+      "title": "Assurance emprunteur avec problème de santé : comment Cardif Libertés Emprunteur facilite votre accès au crédit immobilier",
+      "url": "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d6823b1aa40e9afabed252bae81f3&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fassurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-emprunteur-facilite-votre-acces-au-credit-immobilier-1527762&c=1646374346497082993&mkt=en-us",
+      "summary": "Cardif œuvre depuis plus de 15 ans pour faciliter l’accès à l’assurance emprunteur aux personnes avec un risque aggravé de santé et va même au-delà des obligations légales, en offrant un accès sans ...",
+      "pubDate": "Mon, 22 Jun 2026 01:01:00 GMT",
+      "feedId": "source-bing-pret-immo",
+      "feedName": "Bing News — prêt immobilier",
+      "sourceType": "bing",
+      "suggestedFile": "assurance-emprunteur-avec-probleme-de-sante-comment-cardif-libertes-empr.html",
+      "section": "finance",
+      "need": "emprunteur",
+      "leadScore": 88,
+      "status": "candidate"
+    },
+    {
+      "id": "rss-france-conduite-sous-stupefiants-le-cout-cache-de-l-assurance-auto-qui-p",
+      "title": "FRANCE : Conduite sous stupéfiants – Le coût caché de l’assurance auto qui peut exploser - presseagence.fr",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQT2xwQUw1UGFQaHBRRUwtVFp4MWtRZGhtMW9IMDA0TjZ5UklEQ1M5dUdZUllsRmVvUThCSHZVcnloQWRpckM5bDBXRGpWY3dlak1BS1h0eFFQcG5ncVhaRy1EVnlhcTZydDRPWjNDVGZCZ3c5MFpqMTl1RmNPOFBNbFktaTA1eERPZTlEUVd1cDAzSmppb25YUTVTdXpaS2dIOWxIOEQzaDVGcjhl?oc=5",
+      "summary": "FRANCE : Conduite sous stupéfiants – Le coût caché de l’assurance auto qui peut exploser presseagence.fr",
+      "pubDate": "Thu, 13 Aug 2026 05:17:13 GMT",
+      "feedId": "google-news-assurance",
+      "feedName": "Google News — assurance",
+      "sourceType": "google",
+      "suggestedFile": "france-conduite-sous-stupefiants-le-cout-cache-de-l-assurance-auto-qui-p.html",
+      "section": "auto",
+      "need": "auto",
+      "leadScore": 87,
+      "status": "candidate"
+    }
+  ]
+}
