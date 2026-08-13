@@ -142,6 +142,17 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+function isPlaceholderCandidate(candidate) {
+  if (!candidate) return true;
+  var status = String(candidate.status || "").toLowerCase();
+  if (status === "template" || status === "draft") return true;
+  var id = String(candidate.id || "").toLowerCase();
+  if (/pending-template|placeholder|example-title/.test(id)) return true;
+  var title = String(candidate.title || "");
+  if (/COLLEZ ICI|coller ici|placeholder|titre de la une|example title/i.test(title)) return true;
+  return false;
+}
+
 function rankCandidates(candidates) {
   return candidates
     .map(function (c) {
@@ -349,6 +360,7 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderCandidate: isPlaceholderCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

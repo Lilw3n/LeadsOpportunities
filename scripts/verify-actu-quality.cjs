@@ -2,12 +2,16 @@
 /**
  * Contrôle qualité articles actu avant publication.
  * Usage: node scripts/verify-actu-quality.cjs [--file=path] [--stdin]
+ *
+ * En CI (stdin non-TTY vide), on retombe sur data/blog-actu-pending.json
+ * au lieu de JSON.parse("") qui faisait échouer le cron GitHub.
  */
 const fs = require("fs");
 const path = require("path");
 
 var MIN_BLOCKS = 6;
 var MIN_PARAGRAPHS = 3;
+var PENDING_FILE = path.join(__dirname, "..", "data", "blog-actu-pending.json");
 
 function arg(name) {
   var m = process.argv.find(function (a) {
@@ -16,11 +20,43 @@ function arg(name) {
   return m ? m.split("=").slice(1).join("=") : "";
 }
 
+function readStdinRaw() {
+  if (process.stdin.isTTY) return "";
+  try {
+    return fs.readFileSync(0, "utf8").trim();
+  } catch (e) {
+    return "";
+  }
+}
+
+function articlesFromJson(raw, label) {
+  try {
+    var parsed = JSON.parse(raw);
+    return parsed.articles || (Array.isArray(parsed) ? parsed : [parsed]);
+  } catch (e) {
+    console.error("JSON invalide (" + label + "):", e.message);
+    process.exit(1);
+  }
+}
+
+function loadPendingArticles() {
+  try {
+    var data = JSON.parse(fs.readFileSync(PENDING_FILE, "utf8"));
+    return data.articles || [];
+  } catch (e) {
+    console.error("Lecture pending:", e.message);
+    process.exit(1);
+  }
+}
+
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
-  if (!article.file) errors.push("file manquant");
-  if (!article.blocks || !article.blocks.length) {
+  if (article && /COLLEZ ICI|placeholder|titre de la une/i.test(String(article.title || ""))) {
+    errors.push("titre placeholder (modele inbox)");
+  }
+  if (!article || !article.file) errors.push("file manquant");
+  if (!article || !article.blocks || !article.blocks.length) {
     errors.push("blocks vides");
     return errors;
   }
@@ -53,23 +89,21 @@ function validateArticle(article) {
 
 function main() {
   var file = arg("file");
+  var wantStdin = process.argv.indexOf("--stdin") !== -1;
   var articles = [];
 
   if (file) {
-    var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
-    articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    var raw = fs.readFileSync(path.resolve(file), "utf8");
+    articles = articlesFromJson(raw, file);
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
+    var stdinRaw = wantStdin || !process.stdin.isTTY ? readStdinRaw() : "";
+    if (stdinRaw) {
+      articles = articlesFromJson(stdinRaw, "stdin");
+    } else if (wantStdin) {
+      console.error("JSON stdin vide (--stdin).");
       process.exit(1);
+    } else {
+      articles = loadPendingArticles();
     }
   }
 
