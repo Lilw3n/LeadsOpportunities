@@ -51,25 +51,59 @@ function validateArticle(article) {
   return errors;
 }
 
+function readStdinTrimmed() {
+  if (process.stdin.isTTY) return "";
+  try {
+    return fs.readFileSync(0, "utf8").trim();
+  } catch (e) {
+    return "";
+  }
+}
+
+function articlesFromJson(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (raw && Array.isArray(raw.articles)) return raw.articles;
+  if (raw && typeof raw === "object") return [raw];
+  return [];
+}
+
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  try {
+    var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+    return data.articles || [];
+  } catch (e) {
+    console.error("Lecture pending:", e.message);
+    process.exit(1);
+  }
+}
+
 function main() {
   var file = arg("file");
+  var wantStdin = process.argv.indexOf("--stdin") !== -1;
   var articles = [];
 
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
-    articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    articles = articlesFromJson(raw);
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
-      process.exit(1);
+    var stdin = readStdinTrimmed();
+    if (stdin) {
+      try {
+        articles = articlesFromJson(JSON.parse(stdin));
+      } catch (e) {
+        if (wantStdin) {
+          console.error("JSON stdin invalide:", e.message);
+          process.exit(1);
+        }
+        articles = [];
+      }
+    } else if (wantStdin) {
+      console.log("Aucun article à vérifier (stdin vide).");
+      process.exit(0);
+    }
+    if (!articles.length) {
+      articles = loadPendingArticles();
     }
   }
 
