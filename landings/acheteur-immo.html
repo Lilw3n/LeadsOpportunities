@@ -62,9 +62,9 @@
               data-price-subtitle="Un courtier unique pour le financement et les assurances liees a l'achat ou a la mise en location."
             ></p>
             <ul class="points">
+              <li>Recherche claire : bien (maison/appart, pro ou particulier) ou service (syndic, location…)</li>
               <li>Pret immobilier : faisabilite et montage dossier</li>
-              <li>Assurance emprunteur comparee (delegation Lemoine)</li>
-              <li>Habitation, PNO bailleur, assurance locataire — selon votre situation</li>
+              <li>Assurance emprunteur, habitation, PNO ou locataire — selon votre situation</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Negociateur immobilier</span>
@@ -88,7 +88,8 @@
         <div class="form-wrap" id="demande" data-lead-dossier>
           <h2 class="form-title">Questionnaire acquereur</h2>
           <p class="form-lead">
-            Chaque acheteur est interroge sur ses besoins de pret et d'assurances (emprunteur, habitation, PNO, locataire). Comptez 6 a 8 minutes.
+            Dites-nous d'abord <strong>ce que vous recherchez</strong> (un bien — maison/appart, pro ou particulier — ou un service : syndic, location, etc.),
+            puis vos besoins de pret et d'assurances. Comptez 6 a 8 minutes.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
@@ -106,12 +107,63 @@
               </div>
               <div class="wizard-meta">
                 <span>Parcours guide</span>
-                <span class="wizard-step-counter">Etape 1 / 10</span>
+                <span class="wizard-step-counter">Etape 1 / 11</span>
               </div>
             </div>
 
-            <!-- ETAPE 1 : Besoins pret et assurances -->
-            <section class="wizard-step" data-wizard-step="1" data-step-name="besoins">
+
+            <!-- ETAPE 1 : Ce que vous recherchez (bien / service) -->
+            <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
+              <h3>Ce que vous recherchez</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">
+                C'est l'etape la plus importante : un <strong>bien a acheter</strong> (maison, appart… chez un pro ou un particulier)
+                et/ou un <strong>service immobilier</strong> (syndic, location, estimation…).
+              </p>
+              <div class="field full">
+                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
+                  <legend style="font-weight:700;margin-bottom:10px">Vous cherchez…</legend>
+                  <label class="field-check"><input type="radio" name="searchKind" value="bien" required /> Un bien a acheter / acquerir</label>
+                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier (syndic, location, gestion…)</label>
+                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux (bien + service)</label>
+                </fieldset>
+                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
+              </div>
+
+              <div class="field full" data-search-bien-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
+                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0 0 14px">
+                  <legend style="font-weight:700;margin-bottom:10px">Type de bien recherche</legend>
+                  <label class="field-check"><input type="checkbox" name="propertySought" value="maison" /> Maison</label>
+                  <label class="field-check"><input type="checkbox" name="propertySought" value="appartement" /> Appartement</label>
+                  <label class="field-check"><input type="checkbox" name="propertySought" value="terrain" /> Terrain a batir</label>
+                  <label class="field-check"><input type="checkbox" name="propertySought" value="local" /> Local commercial / mixte</label>
+                  <label class="field-check"><input type="checkbox" name="propertySought" value="immeuble" /> Immeuble / lots</label>
+                </fieldset>
+                <p class="small" data-property-sought-hint hidden style="color:#b91c1c;margin-top:0;margin-bottom:12px">Cochez au moins un type de bien.</p>
+                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
+                  <legend style="font-weight:700;margin-bottom:10px">Aupres de qui ?</legend>
+                  <label class="field-check"><input type="radio" name="sellerType" value="pro" /> Professionnel (agence, mandataire, promoteur)</label>
+                  <label class="field-check"><input type="radio" name="sellerType" value="particulier" /> Particulier (sans intermediaire)</label>
+                  <label class="field-check"><input type="radio" name="sellerType" value="indifferent" /> Indifferent / les deux</label>
+                </fieldset>
+                <p class="small" data-seller-type-hint hidden style="color:#b91c1c;margin-top:8px">Indiquez si vous visez un pro, un particulier, ou les deux.</p>
+              </div>
+
+              <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
+                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
+                  <legend style="font-weight:700;margin-bottom:10px">Quel(s) service(s) ?</legend>
+                  <label class="field-check"><input type="checkbox" name="serviceSought" value="syndic_copro" /> Syndic / copropriete</label>
+                  <label class="field-check"><input type="checkbox" name="serviceSought" value="location_gestion" /> Mise en location / gestion locative</label>
+                  <label class="field-check"><input type="checkbox" name="serviceSought" value="estimation_vente" /> Estimation / mise en vente</label>
+                  <label class="field-check"><input type="checkbox" name="serviceSought" value="recherche_locataire" /> Recherche de locataire</label>
+                  <label class="field-check"><input type="checkbox" name="serviceSought" value="transaction" /> Accompagnement transaction (offre, compromis…)</label>
+                  <label class="field-check"><input type="checkbox" name="serviceSought" value="autre_service" /> Autre service immobilier</label>
+                </fieldset>
+                <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins un service.</p>
+              </div>
+            </section>
+
+            <!-- ETAPE 2 : Besoins pret et assurances -->
+            <section class="wizard-step" data-wizard-step="2" data-step-name="besoins" hidden>
               <h3>Vos besoins (pret et assurances)</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">Cochez tout ce qui vous concerne. Un conseiller prepare des propositions pour chaque besoin.</p>
               <div class="field full">
@@ -128,8 +180,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 2 : Situation logement et parrainage -->
-            <section class="wizard-step" data-wizard-step="2" data-step-name="logement" hidden>
+            <!-- ETAPE 3 : Situation logement et parrainage -->
+            <section class="wizard-step" data-wizard-step="3" data-step-name="logement" hidden>
               <h3>Votre situation logement</h3>
               <div class="grid">
                 <div class="field">
@@ -195,9 +247,12 @@
               </div>
             </section>
 
-            <!-- ETAPE 3 : Votre projet immobilier -->
-            <section class="wizard-step" data-wizard-step="3" data-step-name="projet" hidden>
-              <h3>Votre projet immobilier</h3>
+            <!-- ETAPE 4 : Precisions bien recherche -->
+            <section class="wizard-step" data-wizard-step="4" data-step-name="projet" hidden>
+              <h3>Precisions sur le bien recherche</h3>
+              <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
+                Affinez le projet (residence, investissement, surface, secteur) pour le matching et le pret.
+              </p>
               <div class="grid">
                 <div class="field">
                   <label for="projectType">Type de projet</label>
@@ -255,8 +310,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 4 : Budget et financement (pret) -->
-            <section class="wizard-step" data-wizard-step="4" data-step-name="pret-budget" data-wizard-skip-pret hidden>
+            <!-- ETAPE 5 : Budget et financement (pret) -->
+            <section class="wizard-step" data-wizard-step="5" data-step-name="pret-budget" data-wizard-skip-pret hidden>
               <h3>Budget et financement</h3>
               <div class="grid">
                 <div class="field">
@@ -307,8 +362,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 5 : Situation professionnelle (pret) -->
-            <section class="wizard-step" data-wizard-step="5" data-step-name="pret-pro" data-wizard-skip-pret hidden>
+            <!-- ETAPE 6 : Situation professionnelle (pret) -->
+            <section class="wizard-step" data-wizard-step="6" data-step-name="pret-pro" data-wizard-skip-pret hidden>
               <h3>Votre situation professionnelle</h3>
               <div class="grid">
                 <div class="field">
@@ -363,8 +418,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 6 : Charges (pret) -->
-            <section class="wizard-step" data-wizard-step="6" data-step-name="pret-charges" data-wizard-skip-pret hidden>
+            <!-- ETAPE 7 : Charges (pret) -->
+            <section class="wizard-step" data-wizard-step="7" data-step-name="pret-charges" data-wizard-skip-pret hidden>
               <h3>Vos charges actuelles</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">La banque analyse votre taux d'endettement (max ~35%). Soyez precis pour une estimation fiable.</p>
               <div class="grid">
@@ -415,8 +470,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 7 : Co-emprunteur (pret) -->
-            <section class="wizard-step" data-wizard-step="7" data-step-name="pret-co" data-wizard-skip-pret hidden>
+            <!-- ETAPE 8 : Co-emprunteur (pret) -->
+            <section class="wizard-step" data-wizard-step="8" data-step-name="pret-co" data-wizard-skip-pret hidden>
               <h3>Co-emprunteur</h3>
               <div class="grid">
                 <div class="field">
@@ -480,8 +535,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 8 : Portefeuille multi-contrats -->
-            <section class="wizard-step" data-wizard-step="8" data-step-name="portefeuille" hidden>
+            <!-- ETAPE 9 : Portefeuille multi-contrats -->
+            <section class="wizard-step" data-wizard-step="9" data-step-name="portefeuille" hidden>
               <h3>Vos autres contrats (optionnel)</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">Confidentiel — permet un conseil global assurance + financement.</p>
               <div class="grid">
@@ -521,8 +576,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 9 : Coordonnees -->
-            <section class="wizard-step" data-wizard-step="9" data-step-name="coordonnees" hidden>
+            <!-- ETAPE 10 : Coordonnees -->
+            <section class="wizard-step" data-wizard-step="10" data-step-name="coordonnees" hidden>
               <h3>Vos coordonnees</h3>
               <div class="grid">
                 <div class="field">
@@ -568,8 +623,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 10 : Finalisation assurances -->
-            <section class="wizard-step" data-wizard-step="10" data-step-name="finalisation" hidden>
+            <!-- ETAPE 11 : Finalisation assurances -->
+            <section class="wizard-step" data-wizard-step="11" data-step-name="finalisation" hidden>
               <h3>Assurances et dernieres precisions</h3>
               <div class="grid">
                 <div class="field">
@@ -676,8 +731,8 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Simulation credit</strong>Premier avis de faisabilite selon revenus et type de projet.</li>
-            <li><strong>2. Assurance emprunteur</strong>Comparatif des 6 formules et estimation des economies.</li>
+            <li><strong>1. Ce que vous recherchez</strong>Bien (maison/appart, pro ou particulier) et/ou service (syndic, location…).</li>
+            <li><strong>2. Pret et assurances</strong>Faisabilite, emprunteur, habitation / PNO selon vos besoins.</li>
             <li><strong>3. Montage dossier</strong>Accompagnement jusqu'a la decision avec un conseiller unique.</li>
           </ol>
         </div>

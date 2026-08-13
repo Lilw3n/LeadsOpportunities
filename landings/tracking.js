@@ -171,7 +171,15 @@
     var fd = new FormData(form);
     var o = {};
     fd.forEach(function (v, k) {
-      o[k] = v;
+      if (Object.prototype.hasOwnProperty.call(o, k)) {
+        if (!Array.isArray(o[k])) o[k] = [o[k]];
+        o[k].push(v);
+      } else {
+        o[k] = v;
+      }
+    });
+    ["buyerNeeds", "propertySought", "serviceSought"].forEach(function (key) {
+      if (typeof o[key] === "string") o[key] = [o[key]];
     });
     return o;
   }
