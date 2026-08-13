@@ -165,6 +165,32 @@ function isPlaceholderCandidate(item) {
   return false;
 }
 
+/** Communiqués EN (Business Wire, etc.) : SEO France + CTA questionnaire incompatibles. */
+function looksLikeEnglishHeadline(title) {
+  var t = String(title || "");
+  if (
+    /\b(enters into|memorandum of understanding|regarding|potential sale|announces that|money talk|the advantages of getting)\b/i.test(
+      t
+    )
+  ) {
+    return true;
+  }
+  var frHits = (t.match(/\b(le|la|les|des|une|un|du|et|en|pour|avec|sur|dans|cette|france|équipe|equipe|assurance|mutuelle|selon|chez|contre)\b/gi) || [])
+    .length;
+  var enHits = (t.match(/\b(the|into|of|and|for|with|regarding|potential|sale|enters|announces|agreement|understanding)\b/gi) || [])
+    .length;
+  return enHits >= 3 && frHits <= 1;
+}
+
+/** Actu > 21 jours : trop vieux pour un article « du jour ». File manuelle sans date : OK. */
+function isStaleActuCandidate(item, maxDays) {
+  var days = maxDays || 21;
+  if (!item || !item.pubDate) return false;
+  var t = new Date(item.pubDate).getTime();
+  if (isNaN(t)) return false;
+  return Date.now() - t > days * 86400000;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -363,6 +389,8 @@ module.exports = {
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
   isPlaceholderCandidate: isPlaceholderCandidate,
+  looksLikeEnglishHeadline: looksLikeEnglishHeadline,
+  isStaleActuCandidate: isStaleActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
