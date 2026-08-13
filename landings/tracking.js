@@ -178,8 +178,10 @@
         o[k] = v;
       }
     });
-    /* Checkboxes non cochées absentes — ok. buyerNeeds toujours en tableau si multi. */
-    if (typeof o.buyerNeeds === "string") o.buyerNeeds = [o.buyerNeeds];
+    ["buyerNeeds", "propertySought", "serviceSought"].forEach(function (key) {
+      if (typeof o[key] === "string") o[key] = [o[key]];
+    });
+    /* Checkboxes non cochées absentes — ok. */
     return o;
   }
 
