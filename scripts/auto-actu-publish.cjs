@@ -116,11 +116,12 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
-function bestFromPlatform(available, platform, feedMap, used) {
+function bestFromPlatform(available, platform, feedMap, used, minScore) {
+  var min = minScore == null ? 0 : minScore;
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      return candidateSourceType(c, feedMap) === platform && !used.has(k) && (c.leadScore || 0) >= min;
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -174,10 +175,12 @@ function pickCandidates(candidates, count, state) {
       used.add(c.url || c.title);
     });
 
+  var MIN_PLATFORM_SCORE = 70;
+
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestFromPlatform(available, platform, feedMap, used, MIN_PLATFORM_SCORE);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -188,7 +191,7 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestFromPlatform(available, platform, feedMap, used, MIN_PLATFORM_SCORE);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -199,7 +202,7 @@ function pickCandidates(candidates, count, state) {
 
   available
     .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1 && (c.leadScore || 0) >= MIN_PLATFORM_SCORE;
     })
     .forEach(function (c) {
       if (picks.length >= count) return;

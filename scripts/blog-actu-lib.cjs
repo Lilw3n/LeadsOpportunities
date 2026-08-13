@@ -204,7 +204,7 @@ function isWeakLeadCandidate(c) {
   if (/banque de france|croissance au .*trimestre|\bpib\b|0,\d\s*%\s+de croissance/i.test(hay) && !hasLeadKeywords(hay)) {
     return true;
   }
-  if (/france sant[eé]|label.*plut[oô]t qu['’]un chantier/i.test(hay) && !/mutuelle|rembours|questionnaire/i.test(hay)) {
+  if (/orientations? [àa] fuir|tabagisme en baisse|68[\s ]?000 morts/i.test(hay) && !/mutuelle|rembours|sinistre|habitation/i.test(hay)) {
     return true;
   }
   if (hasLeadKeywords(hay)) return false;
