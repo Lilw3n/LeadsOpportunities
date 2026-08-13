@@ -67,18 +67,27 @@
         { "name": "Croismare", "postal": "54360" },
         { "name": "Einville-au-Jard", "postal": "54370" },
         { "name": "Moncel-lès-Lunéville", "postal": "54300" },
-        { "name": "Montauville", "postal": "54700" },
-        { "name": "Rosières-en-Haye", "postal": "54385" },
         { "name": "Laneuveville-devant-Nancy", "postal": "54410" },
         { "name": "Houdemont", "postal": "54185" },
         { "name": "Heillecourt", "postal": "54135" },
         { "name": "Méréville", "postal": "54122" },
         { "name": "Lay-Saint-Christophe", "postal": "54690" },
         { "name": "Richardménil", "postal": "54630" },
-        { "name": "Seichamps", "postal": "54280" },
+        { "name": "Seichamps", "postal": "54280" }
+      ]
+    },
+    {
+      "id": "val-de-lorraine",
+      "title": "Val de Lorraine & plateau de Haye",
+      "badge": "Secteur elargi",
+      "priority": false,
+      "summary": "Au nord et nord-ouest de Nancy : Pont-a-Mousson, Dieulouard, Custines et communes du plateau de Haye.",
+      "cities": [
         { "name": "Pont-à-Mousson", "postal": "54700" },
-        { "name": "Custines", "postal": "54670" },
         { "name": "Dieulouard", "postal": "54380" },
+        { "name": "Custines", "postal": "54670" },
+        { "name": "Montauville", "postal": "54700" },
+        { "name": "Rosières-en-Haye", "postal": "54385" },
         { "name": "Velaine-en-Haye", "postal": "54840" }
       ]
     },
