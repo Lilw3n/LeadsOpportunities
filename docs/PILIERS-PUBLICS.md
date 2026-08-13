@@ -10,9 +10,10 @@
 | Banque & TRC | `/banque/` | Offres bancaires, trésorerie, épargne |
 | Finance | `/finance/` | Rachat, conso, crédit pro, patrimoine |
 
-Accueil (`index.html`) : hero multi-piliers + grille `#piliers` + nav alignée.
+Accueil (`index.html`) : hero multi-piliers + grille `#piliers` (grandes tuiles photo) + nav alignée.
 
 Styles : `css/piliers-hub.css`.
+Images : `assets/piliers/pilier-{assurance,immobilier,credit,banque,finance}.jpg`.
 
 ## Note TRC
 
