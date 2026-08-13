@@ -1,0 +1,33 @@
+{
+  "national": {
+    "title": "France entiere & DOM-TOM",
+    "summary": "Metropole, Corse et departements d'outre-mer : Guadeloupe, Martinique, Reunion, Guyane, Mayotte. Meme parcours acquereur partout."
+  },
+  "nancyFocus": {
+    "title": "Grand Nancy & alentours",
+    "summary": "Zone prioritaire immobilier : accompagnement renforce pour l'achat, le pret et les assurances autour de Nancy.",
+    "badge": "Zone prioritaire",
+    "cities": [
+      { "name": "Nancy", "postal": "54000" },
+      { "name": "Vandoeuvre-les-Nancy", "postal": "54500" },
+      { "name": "Laxou", "postal": "54520" },
+      { "name": "Villers-les-Nancy", "postal": "54600" },
+      { "name": "Saint-Max", "postal": "54130" },
+      { "name": "Essey-les-Nancy", "postal": "54270" },
+      { "name": "Jarville-la-Malgrange", "postal": "54140" },
+      { "name": "Maxeville", "postal": "54320" },
+      { "name": "Tomblaine", "postal": "54510" },
+      { "name": "Ludres", "postal": "54710" },
+      { "name": "Pompey", "postal": "54340" },
+      { "name": "Frouard", "postal": "54390" }
+    ]
+  },
+  "domTom": [
+    { "name": "Guadeloupe", "postal": "97110", "city": "Pointe-a-Pitre" },
+    { "name": "Martinique", "postal": "97200", "city": "Fort-de-France" },
+    { "name": "Reunion", "postal": "97400", "city": "Saint-Denis" },
+    { "name": "Guyane", "postal": "97300", "city": "Cayenne" },
+    { "name": "Mayotte", "postal": "97600", "city": "Mamoudzou" },
+    { "name": "Corse", "postal": "20000", "city": "Ajaccio" }
+  ]
+}

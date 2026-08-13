@@ -50,3 +50,12 @@ Entrées directes : hub [`immobilier/`](../immobilier/), [`landings/`](../landin
 - Champs obligatoires : prénom, nom, e-mail, mobile (06/07)
 - Sauvegarde brouillon immédiate (`contact_capture` → `/api/lead-progress`) dès saisie valide
 - Abandon de page : e-mail / téléphone inclus dans le payload si déjà saisis
+
+## Couverture géographique
+
+[`data/immo-geo-france.json`](../data/immo-geo-france.json) + [`js/immo-geo-france.js`](../js/immo-geo-france.js)
+
+- **France entière** : métropole, Corse, DOM-TOM (971–976)
+- **Focus Nancy** : Grand Nancy et alentours (zone prioritaire immo)
+- Raccourcis CP/ville sur le questionnaire + hub [`immobilier/`](../immobilier/)
+- Deep link : `?postalProject=54000&searchCities=Nancy&zone=nancy#demande`

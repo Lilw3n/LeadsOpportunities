@@ -24,6 +24,7 @@
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="../css/acheteur-parcours-focus.css" />
+  <link rel="stylesheet" href="../css/immo-geo-france.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
   <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
 </head>
@@ -94,7 +95,8 @@
           <h2 class="form-title">Questionnaire acquereur</h2>
           <p class="parcours-prefill-banner" data-prefill-summary aria-live="polite"></p>
           <p class="form-lead form-lead--full">
-            Cochez vos besoins : le parcours ne vous pose que les questions utiles. Comptez 5 a 8 minutes.
+            Cochez vos besoins : le parcours ne vous pose que les questions utiles. France metropolitaine, Corse et DOM-TOM.
+            Zone prioritaire : <strong>Grand Nancy</strong>.
           </p>
           <p class="form-lead form-lead--short">
             Cochez vos besoins et continuez — seules les etapes utiles s'affichent.
@@ -294,7 +296,8 @@
                 </div>
                 <div class="field">
                   <label for="postalProject">Code postal / secteur recherche</label>
-                  <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" required placeholder="Ex. 75011" />
+                  <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" required placeholder="Ex. 54000, 97100 (DOM-TOM)" />
+                  <div data-immo-geo-chips></div>
                 </div>
                 <div class="field">
                   <label for="searchCities">Villes visees (virgules)</label>
@@ -837,6 +840,7 @@
   <script src="../js/landing-seo-inject.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="../js/acheteur-parcours-focus.js"></script>
+  <script src="../js/immo-geo-france.js"></script>
   <script src="./tracking.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {

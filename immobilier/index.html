@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Immobilier : acquéreurs, négociateurs & habitat | Leads Opportunities</title>
-  <meta name="description" content="Immobilier : parcours acquéreur, négociateur, habitation et PNO. Courtier ORIAS Leads Opportunities." />
+  <meta name="description" content="Immobilier en France entière et DOM-TOM (Martinique, Guadeloupe, Réunion…). Focus Grand Nancy : parcours acquéreur, prêt et assurances." />
   <meta name="robots" content="index,follow" />
+  <meta name="geo.region" content="FR" />
+  <meta name="geo.placename" content="France" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/immobilier/" />
   <meta property="og:title" content="Immobilier : acquéreurs, négociateurs & habitat | Leads Opportunities" />
   <meta property="og:description" content="Immobilier : parcours acquéreur, négociateur, habitation et PNO. Courtier ORIAS Leads Opportunities." />
@@ -16,6 +18,7 @@
   <link rel="stylesheet" href="../css/piliers-hub.css" />
   <link rel="stylesheet" href="../css/clickable-affordance.css" />
   <link rel="stylesheet" href="../css/acheteur-parcours-focus.css" />
+  <link rel="stylesheet" href="../css/immo-geo-france.css" />
 </head>
 <body class="pilier-page pilier-page--immobilier">
   <header class="topbar">
@@ -41,7 +44,7 @@
     <div class="pilier-hero-inner">
       <span class="section-badge">Immobilier</span>
       <h1>Acquéreurs, négociateurs &amp; habitat</h1>
-      <p class="lead">Un questionnaire unique pour le prêt, l’assurance emprunteur et l’habitation — le parcours s’adapte à votre situation.</p>
+      <p class="lead">France métropolitaine, Corse et DOM-TOM — avec un accompagnement renforcé autour de <strong>Nancy</strong> et du Grand Est.</p>
       <div class="pilier-actions">
         <a class="btn btn-primary btn-lg" href="../landings/acheteur-immo.html#demande">Commencer mon dossier acquéreur</a>
         <a class="btn btn-outline btn-lg" href="../negociateur-immobilier/">Je suis négociateur</a>
@@ -55,6 +58,33 @@
         <span>Prêt, assurance emprunteur, habitation — questionnaire guidé, sans détails inutiles.</span>
         <em>Accéder au questionnaire →</em>
       </a>
+    </div>
+    <div class="immo-geo-zones" data-immo-geo-hub>
+      <section class="immo-zone immo-zone--nancy">
+        <span class="immo-zone-badge">Zone prioritaire immobilier</span>
+        <h2>Grand Nancy &amp; alentours</h2>
+        <p>
+          Accompagnement renforcé pour l’achat, le financement et les assurances :
+          Nancy, Vandœuvre, Laxou, Saint-Max, Essey-lès-Nancy et communes voisines.
+        </p>
+        <div class="immo-zone-chips" data-immo-nancy-chips></div>
+        <p style="margin:14px 0 0;font-size:.88rem;color:#0f766e">
+          <a href="../landings/acheteur-immo.html?zone=nancy&amp;postalProject=54000#demande" style="font-weight:700;color:inherit">Démarrer un dossier à Nancy →</a>
+          · <a href="../credit-immo/nancy/" style="color:#0f766e">Crédit immo Nancy</a>
+        </p>
+      </section>
+      <section class="immo-zone immo-zone--france">
+        <h2>France entière &amp; DOM-TOM</h2>
+        <p>
+          Même parcours acquéreur partout en France : métropole, îles françaises et départements d’outre-mer
+          (Guadeloupe, Martinique, La Réunion, Guyane, Mayotte, Corse).
+        </p>
+        <div class="immo-zone-chips" data-immo-dom-chips></div>
+        <p style="margin:14px 0 0;font-size:.88rem;color:#64748b">
+          <a href="../france/">Voir toutes les zones couvertes</a>
+          · <a href="../landings/acheteur-immo.html#demande">Questionnaire national</a>
+        </p>
+      </section>
     </div>
     <h2 class="pilier-section-title">Parcours immobilier</h2>
     <section class="pilier-grid">
@@ -128,5 +158,6 @@
       <small><a href="../index.html">Accueil</a> · <a href="../mentions-legales.html">Mentions légales</a></small>
     </div>
   </footer>
+  <script src="../js/immo-geo-france.js"></script>
 </body>
 </html>
