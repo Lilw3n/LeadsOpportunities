@@ -17,6 +17,21 @@ function readJson(file, fallback) {
   }
 }
 
+/**
+ * File manuelle / inbox : ignore les gabarits ("COLLEZ ICI…") qui ne sont pas de vraies actus.
+ * Sans ça, le cron GitHub publie le placeholder Cafeyn (score queued +25) et échoue au contrôle qualité.
+ */
+function isPlaceholderQueueItem(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "example" || status === "placeholder") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String(item.title || "");
+  if (/collez ici|copiez ici|remplacez ce titre|titre de la une/i.test(title)) return true;
+  return false;
+}
+
 function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
@@ -351,4 +366,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
 };

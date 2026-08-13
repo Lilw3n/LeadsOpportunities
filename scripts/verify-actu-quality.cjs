@@ -51,25 +51,41 @@ function validateArticle(article) {
   return errors;
 }
 
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+  return data.articles || [];
+}
+
+function parseArticlesJson(raw) {
+  var parsed = JSON.parse(raw);
+  return parsed.articles || (Array.isArray(parsed) ? parsed : [parsed]);
+}
+
 function main() {
   var file = arg("file");
   var articles = [];
 
   if (file) {
-    var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
-    articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    articles = parseArticlesJson(fs.readFileSync(path.resolve(file), "utf8"));
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
-      process.exit(1);
+    var stdinRaw = "";
+    if (!process.stdin.isTTY) {
+      try {
+        stdinRaw = fs.readFileSync(0, "utf8").trim();
+      } catch (e) {
+        stdinRaw = "";
+      }
+    }
+    if (stdinRaw) {
+      articles = parseArticlesJson(stdinRaw);
+    } else {
+      try {
+        articles = loadPendingArticles();
+      } catch (e) {
+        console.error("Lecture pending:", e.message);
+        process.exit(1);
+      }
     }
   }
 
