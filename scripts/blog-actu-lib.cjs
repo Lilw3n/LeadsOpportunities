@@ -133,6 +133,12 @@ function isWeakLeadCandidate(c) {
   ) {
     return true;
   }
+  if (
+    /prison|cannabis|trafic de drogue|voyage gratuit|arnaque.*voyage|plan tha[iï]lande/i.test(hay) &&
+    !hasLeadKeywords(hay)
+  ) {
+    return true;
+  }
   if (hasLeadKeywords(hay)) return false;
   if (/[ée]clipse|astronomie|chasseurs d['’][ée]clipse/i.test(hay)) return true;
   var topic = matchTopic(hay);
