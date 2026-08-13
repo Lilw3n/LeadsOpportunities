@@ -153,6 +153,7 @@
   var RAPIDE_LANDINGS = {
     animaux: "./landings/animaux-express.html",
     vtc: "./landings/devis-rapide.html",
+    "acheteur-immo": "./landings/acheteur-immo.html",
   };
 
   /** Parcours complet dedie (sinon questionnaire universel). */

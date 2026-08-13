@@ -187,6 +187,12 @@
       });
     });
 
+    document.addEventListener("lo:listing-interest", function (ev) {
+      var visite = form.querySelector('input[name="buyerNeeds"][value="visite"]');
+      if (visite) visite.checked = true;
+      syncAll(form);
+    });
+
     var budgetMax = qs(form, "#budgetMax");
     if (budgetMax) {
       budgetMax.addEventListener("change", function () {
