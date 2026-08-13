@@ -92,11 +92,40 @@ function isWeakLeadCandidate(c) {
   var url = String((c && c.url) || "");
   if (isPlaceholderActuItem(c)) return true;
   if (isMostlyEnglishTitle(title)) return true;
-  if (/^en direct\b|^live\s*[-:]/i.test(title)) return true;
+  if (/enters into|memorandum of understanding|regarding potential|sale of hsbc/i.test(title)) return true;
+  if (/^en direct\b|^direct[.\s]|^live\s*[-:]/i.test(title)) return true;
   if (/\bl['’'][ée]ditorial\b|\b[ée]ditorial de\b/i.test(title)) return true;
-  if (/guide-shopping|mutuelle\.fr|thelocal\.fr|msn\.com\/fr-be|\/fr-be\/|meilleurtaux/i.test(url + " " + hay)) {
+  if (
+    /guide-shopping|mutuelle\.fr|thelocal\.fr|msn\.com\/fr-be|\/fr-be\/|meilleurtaux|\bmagnolia\b|empruntis|journals\.openedition|businesswire\.com|comparateur assurance/i.test(
+      url + " " + hay
+    )
+  ) {
     return true;
   }
+  if (/\bhockey\b|ice hockey/i.test(hay)) return true;
+  if (/espace m[eé]so sp[eé]cifique/i.test(hay)) return true;
+  if (/assurance habitation en 2025|assurance sant[ée] en 202[0-9]|[iî]le-de-france mutuelle sant[ée]/i.test(hay)) {
+    return true;
+  }
+  if (/epstein|mannequin|d[ée]ni de justice|lakers|avengers|l[ée]on marchand/i.test(hay)) return true;
+  if (/baisses? de remboursement de la s[ée]curit[ée] sociale/i.test(hay)) return true;
+  if (/kin[ée]s dans le viseur|march[ée] des assurances sant[ée]|l['']assurance en 2025 : prot[ée]ger/i.test(hay)) {
+    return true;
+  }
+  if (
+    /s[ée]curit[ée] civile|d[ée]partements de france|sapeurs-pompiers/i.test(hay) &&
+    /financement|gr[eè]ve|pompier/i.test(hay) &&
+    !/sinistre|habitation|d[ée]g[aâ]t|incendie de for[eê]t/i.test(hay)
+  ) {
+    return true;
+  }
+  if (
+    /vigilance orange|pic de (la )?canicule|quasi-totalit[ée] de la france/i.test(hay) &&
+    !/sinistre|franchise|fissur|d[ée]g[aâ]t|tarif|prime|contrat/i.test(hay)
+  ) {
+    return true;
+  }
+  if (/arme [àa] feu|bless[ée]es? par|faits[- ]divers/i.test(hay) && !hasLeadKeywords(hay)) return true;
   if (
     /comparateur mutuelle|meilleure mutuelle|classement exclusif/i.test(hay) &&
     /comment (bien )?choisir|classement|comparatif/i.test(hay)
@@ -104,6 +133,10 @@ function isWeakLeadCandidate(c) {
     return true;
   }
   if (/banque de france|croissance au .*trimestre|\bpib\b/i.test(hay) && !hasLeadKeywords(hay)) {
+    return true;
+  }
+  var topic = matchTopic(hay);
+  if (topic.tag === "Coupe du monde 2026" && !/assurance|mutuelle|voyage|rapatriement|billet avion/i.test(hay)) {
     return true;
   }
   if (hasLeadKeywords(hay)) return false;
@@ -114,7 +147,6 @@ function isWeakLeadCandidate(c) {
   ) {
     return true;
   }
-  var topic = matchTopic(hay);
   if (topic.tag === "Actu" && topic.need === "habitation" && !topic.matched) return true;
   if (topic.tag === "Actu politique") return true;
   return false;
