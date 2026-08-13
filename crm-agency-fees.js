@@ -1273,12 +1273,20 @@
     var data = buildLoanLinkData(bestFinance);
     var credit = Deep.creditUrl(data);
     var acheteur = Deep.acheteurUrl(data);
+    var budgetQs = new URLSearchParams({
+      price: String(Math.round(data.prixFai || 0)),
+      apport: String(Math.round(data.downPayment || 0)),
+      income: String(Math.round((Number(document.getElementById("bfIncome").value) || 0) + (Number(document.getElementById("bfCoIncome").value) || 0))),
+    });
+    var surfEl = document.getElementById("cmpSurface");
+    if (surfEl && Number(surfEl.value) > 0) budgetQs.set("surface", String(Math.round(Number(surfEl.value))));
     [
       ["bfCtaCredit", credit],
       ["bfCtaAcheteur", acheteur],
       ["afLinkCredit", credit],
       ["afLinkAcheteur", acheteur],
       ["dealCtaCredit", credit],
+      ["bfCtaBudget", "./crm-budget-proprietaire.html?" + budgetQs.toString()],
       ["bfCtaDossier", Deep.pretImmoUrl ? Deep.pretImmoUrl(data, { type: "immo" }) : "./crm-pret-immo-sim.html?type=immo"],
     ].forEach(function (pair) {
       var el = document.getElementById(pair[0]);

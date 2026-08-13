@@ -9,13 +9,14 @@ Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 - **Documentation intelligente** (hub) : [`crm-pret-immo-docs.html`](../crm-pret-immo-docs.html) — voir [`CRM-PRET-DOC-SEARCH.md`](./CRM-PRET-DOC-SEARCH.md)
 - Grilles des taux : [`crm-pret-immo-grilles.html`](../crm-pret-immo-grilles.html) — voir [`CRM-PRET-GRILLES-TAUX.md`](./CRM-PRET-GRILLES-TAUX.md)
 - Fiches produits : [`crm-pret-immo-fiches.html`](../crm-pret-immo-fiches.html) — voir [`CRM-PRET-FICHES-PRODUITS.md`](./CRM-PRET-FICHES-PRODUITS.md)
+- **Budget propriétaire** (projection TCO) : [`crm-budget-proprietaire.html`](../crm-budget-proprietaire.html) — voir [`BUDGET-PROPRIETAIRE.md`](./BUDGET-PROPRIETAIRE.md)
 - **Assurance immo** (switcher) : [`crm-assurance-immo.html`](../crm-assurance-immo.html) — ADE / MRH
-- Sidebar Immobilier → **Prêts** / **Assurance immo**
+- Sidebar Immobilier → **Prêts** / **Assurance immo** / **Budget propriétaire**
 
 ## Menu switcher (4 piliers)
 Composant [`js/crm-immo-finance-nav.js`](../js/crm-immo-finance-nav.js) + [`css/crm-immo-finance-nav.css`](../css/crm-immo-finance-nav.css) :
 
-1. **Prêts** — dossiers / sims / docs / barèmes  
+1. **Prêts** — dossiers / sims / docs / barèmes / **budget propriétaire**  
 2. **Assurance immo** — ADE / MRH ([`crm-assurance-immo.html`](../crm-assurance-immo.html))  
 3. **Patrimoine** — retraite, mutuelle, invalidité, famille ([`crm-patrimoine.html`](../crm-patrimoine.html))  
 4. **Banque & épargne** — trésorerie / placements ([`crm-banque-epargne.html`](../crm-banque-epargne.html))

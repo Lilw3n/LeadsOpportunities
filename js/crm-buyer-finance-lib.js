@@ -124,6 +124,8 @@ window.CrmBuyerFinance = (function () {
    * @param {number} [o.notaryPct]
    * @param {boolean} [o.financeNotary]
    * @param {number} o.downPayment
+   * @param {number} [o.travaux] — budget travaux inclus au projet
+   * @param {boolean} [o.financeTravaux] — financer les travaux dans l'emprunt (défaut true si travaux > 0 côté appelant)
    */
   function projectCost(o) {
     var net = Number(o.netVendeur) || 0;
@@ -132,11 +134,16 @@ window.CrmBuyerFinance = (function () {
     // Prix acte (assiette notaire) = net vendeur. L'acquéreur paie toujours FAI (= net + honoraires).
     var priceActe = net;
     var acquisitionCash = net + fee;
+    var travaux = Math.max(0, Number(o.travaux) || 0);
+    var financeTravaux = o.financeTravaux !== false;
     var notary = notaryFees(priceActe, o.notaryPreset || "ancien", o.notaryPct);
     var down = Math.max(0, Number(o.downPayment) || 0);
     var financeNotary = o.financeNotary !== false;
-    var totalProject = acquisitionCash + notary.amount;
-    var financedBase = acquisitionCash + (financeNotary ? notary.amount : 0);
+    var totalProject = acquisitionCash + notary.amount + travaux;
+    var financedBase =
+      acquisitionCash +
+      (financeNotary ? notary.amount : 0) +
+      (financeTravaux ? travaux : 0);
     var loanNeeded = Math.max(0, financedBase - down);
     var ltv = acquisitionCash > 0 ? round2((loanNeeded / acquisitionCash) * 100) : 0;
 
@@ -148,12 +155,14 @@ window.CrmBuyerFinance = (function () {
       buyerPaysAgency: round2(feePayer === "acheteur" ? fee : 0),
       priceActe: round2(priceActe),
       acquisitionCash: round2(acquisitionCash),
+      travaux: round2(travaux),
+      financeTravaux: !!financeTravaux,
       notary: notary,
       downPayment: round2(down),
       financeNotary: !!financeNotary,
       totalProject: round2(totalProject),
       loanNeeded: round2(loanNeeded),
-      cashFromBuyer: round2(down),
+      cashFromBuyer: round2(down + (financeTravaux ? 0 : travaux) + (financeNotary ? 0 : notary.amount)),
       ltv: ltv,
     };
   }

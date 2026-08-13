@@ -1009,11 +1009,35 @@
       // re-pick first visible section if current hidden
       state.sectionId = null;
       renderAll();
+      syncBudgetLink();
     });
   });
 
   document.getElementById("btnSave").onclick = save;
   document.getElementById("btnSave2").onclick = save;
+
+  function syncBudgetLink() {
+    var a = document.getElementById("linkBudgetProprio");
+    if (!a) return;
+    var finB = ensureSectionBucket("finances");
+    var surfB = ensureSectionBucket("surfaces");
+    var diag = ensureSectionBucket("diagnostics");
+    var qs = new URLSearchParams();
+    var price = Number(finB.prix_fai || prop.price_fai) || 0;
+    var surface = Number(surfB.surface_habitable || prop.surface_m2) || 0;
+    if (price) qs.set("price", String(Math.round(price)));
+    if (surface) qs.set("surface", String(Math.round(surface)));
+    if (finB.taxe_fonciere) qs.set("tf", String(finB.taxe_fonciere));
+    var dpe = diag.conso_energie_primaire || diag.conso_energie_finale || "";
+    if (dpe) qs.set("dpe", String(dpe).charAt(0).toUpperCase());
+    var type = (prop.property_type || document.getElementById("mType").value || "appartement").toLowerCase();
+    if (type.indexOf("maison") >= 0) qs.set("type", "maison");
+    else if (type.indexOf("appart") >= 0) qs.set("type", "appartement");
+    var trav = ensureSectionBucket("travaux");
+    var travaux = Number(trav.budget || trav.travaux_budget || 0);
+    if (travaux > 0) qs.set("travaux", String(Math.round(travaux)));
+    a.href = "./crm-budget-proprietaire.html" + (qs.toString() ? "?" + qs.toString() : "");
+  }
 
   fillMeta();
   // seed localisation from top-level if empty
@@ -1031,4 +1055,5 @@
   if (!com.url_fiche && prop.listing_url) com.url_fiche = prop.listing_url;
 
   renderAll();
+  syncBudgetLink();
 })();

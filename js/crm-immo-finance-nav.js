@@ -25,6 +25,7 @@
       { id: "grilles", href: "./crm-pret-immo-grilles.html", label: "Grilles des taux" },
       { id: "fiches", href: "./crm-pret-immo-fiches.html", label: "Fiches produits" },
       { id: "pvh", href: "./crm-pret-immo-pvh.html", label: "PVH" },
+      { id: "budget", href: "./crm-budget-proprietaire.html", label: "Budget propriétaire" },
       { id: "baremes", href: "./crm-agency-fees.html", label: "Barèmes / FAI" }
     ],
     assurance: [
@@ -75,7 +76,7 @@
     if (p.indexOf("banque-epargne") >= 0 || p === "crm-bank-details.html" || p.indexOf("crm-financial") === 0)
       return "banque";
     if (p.indexOf("assurance-immo") >= 0) return "assurance";
-    if (p.indexOf("pret-immo") >= 0 || p === "crm-agency-fees.html") return "prets";
+    if (p.indexOf("pret-immo") >= 0 || p === "crm-agency-fees.html" || p === "crm-budget-proprietaire.html") return "prets";
     if (p.indexOf("insurance") >= 0 || p.indexOf("wholesaler") >= 0) {
       var q = new URLSearchParams(location.search);
       if (q.get("scope") === "immo" || q.get("tag") === "emprunteur" || q.get("tag") === "habitation") {

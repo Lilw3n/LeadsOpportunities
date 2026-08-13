@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget propriétaire | Prêt + taxe foncière + charges | Leads Opportunities</title>
+  <meta name="description" content="Projetez le vrai coût d'achat : mensualité de prêt, taxe foncière, électricité, gaz, eau, travaux, croisés avec salaire, apport et patrimoine. Simulation indicative." />
+  <meta name="robots" content="index,follow" />
+  <meta name="geo.region" content="FR" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/landings/budget-proprietaire.html" />
+  <meta property="og:title" content="Budget propriétaire — projection coût de vie après achat" />
+  <meta property="og:description" content="Prêt + taxe foncière + énergies + travaux + apport : voyez comment vous vous en sortez avant de signer." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.leadsopportunities.fr/landings/budget-proprietaire.html" />
+  <meta property="og:locale" content="fr_FR" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../css/crm-budget-proprietaire.css" />
+  <style>
+    .bp-public-hero { margin-bottom: 8px; }
+    .bp-public-hero h1 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); line-height: 1.2; margin: 0 0 10px; color: #0f3d3e; }
+    .bp-layout { margin-top: 18px; }
+    body .bp-sec summary { background: #0f3d3e; }
+    .bp-cta-box {
+      margin-top: 18px; padding: 16px; border-radius: 14px;
+      background: linear-gradient(135deg, #f0fdfa, #ecfeff); border: 1px solid #99f6e4;
+    }
+    .bp-cta-box p { margin: 0 0 12px; color: #115e59; font-size: .92rem; }
+  </style>
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../index.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        Retour à l'accueil
+      </a>
+      <a class="landing-logo" href="../index.html">
+        <span class="landing-logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Leads Opportunities
+      </a>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="container">
+      <span class="badge">Projection acquéreur</span>
+      <section class="card">
+        <div class="bp-public-hero">
+          <h1>Combien vous coûtera vraiment le bien — chaque mois</h1>
+          <p class="sub">
+            Au-delà de la mensualité de prêt : taxe foncière, électricité, gaz, eau, charges, assurance habitation et travaux —
+            croisés avec votre salaire, votre apport et votre patrimoine pour voir comment vous vous en sortez.
+          </p>
+        </div>
+
+        <div class="bp-layout">
+          <form id="bpForm" class="bp-form" autocomplete="off">
+            <details class="bp-sec" open>
+              <summary>Votre situation</summary>
+              <div class="bp-sec-body bp-grid">
+                <label>Revenus nets (€/mois)<input type="number" id="bpIncome" min="0" step="50" /></label>
+                <label>Co-emprunteur (€/mois)<input type="number" id="bpCoIncome" min="0" step="50" /></label>
+                <label>Crédits en cours (€/mois)<input type="number" id="bpExisting" min="0" step="10" /></label>
+                <label>Personnes au foyer<input type="number" id="bpHousehold" min="1" max="10" step="1" /></label>
+                <label>Loyer actuel (€/mois)<input type="number" id="bpRent" min="0" step="10" /></label>
+                <label>Apport (€)<input type="number" id="bpDown" min="0" step="1000" /></label>
+                <label>Épargne liquide (€)<input type="number" id="bpEpargne" min="0" step="1000" /></label>
+                <label>Autre patrimoine (€)<input type="number" id="bpPatrimoine" min="0" step="1000" /></label>
+                <label>Réserve cible (mois)<input type="number" id="bpReserve" min="0" max="24" step="1" /></label>
+              </div>
+            </details>
+
+            <details class="bp-sec" open>
+              <summary>Le bien visé</summary>
+              <div class="bp-sec-body bp-grid">
+                <label>Prix FAI (€)<input type="number" id="bpPrice" min="0" step="1000" /></label>
+                <label>Surface (m²)<input type="number" id="bpSurface" min="10" step="1" /></label>
+                <label>Type
+                  <select id="bpType">
+                    <option value="appartement">Appartement</option>
+                    <option value="maison">Maison</option>
+                  </select>
+                </label>
+                <label>Code postal<input type="text" id="bpCp" maxlength="5" /></label>
+                <label>DPE
+                  <select id="bpDpe">
+                    <option>A</option><option>B</option><option>C</option>
+                    <option selected>D</option><option>E</option><option>F</option><option>G</option>
+                  </select>
+                </label>
+                <label>Taxe foncière (€/an)<input type="number" id="bpTf" min="0" step="50" placeholder="auto si vide" /></label>
+                <label>Charges copro (€/mois)<input type="number" id="bpCopro" min="0" step="10" /></label>
+                <label>Électricité (€/mois)<input type="number" id="bpElec" min="0" step="5" placeholder="auto" /></label>
+                <label>Gaz / chauffage (€/mois)<input type="number" id="bpGas" min="0" step="5" placeholder="auto" /></label>
+                <label>Eau (€/mois)<input type="number" id="bpWater" min="0" step="5" placeholder="auto" /></label>
+                <label>Assurance habitation (€/an)<input type="number" id="bpMrh" min="0" step="10" placeholder="auto" /></label>
+                <input type="hidden" id="bpEnerMin" />
+                <input type="hidden" id="bpEnerMax" />
+              </div>
+            </details>
+
+            <details class="bp-sec" open>
+              <summary>Prêt &amp; travaux</summary>
+              <div class="bp-sec-body bp-grid">
+                <label>Durée (ans)<input type="number" id="bpYears" min="5" max="30" step="1" /></label>
+                <label>Taux %<input type="number" id="bpRate" min="0" max="12" step="0.05" placeholder="auto" /></label>
+                <label>Assurance emprunteur % / an<input type="number" id="bpInsur" min="0" max="2" step="0.01" value="0.34" /></label>
+                <label>Notaire
+                  <select id="bpNotary">
+                    <option value="ancien">Ancien (~7,5 %)</option>
+                    <option value="neuf">Neuf (~2,5 %)</option>
+                  </select>
+                </label>
+                <label>Financer le notaire ?
+                  <select id="bpFinanceNotary">
+                    <option value="1">Oui</option>
+                    <option value="0">Non (cash)</option>
+                  </select>
+                </label>
+                <label>Budget travaux (€)<input type="number" id="bpTravaux" min="0" step="500" /></label>
+                <label>Travaux dans le prêt ?
+                  <select id="bpTravauxLoan">
+                    <option value="0">Non</option>
+                    <option value="1">Oui</option>
+                  </select>
+                </label>
+                <label>Cash travaux (€)<input type="number" id="bpTravauxCash" min="0" step="500" placeholder="optionnel" /></label>
+                <label>Amort. travaux (ans)<input type="number" id="bpTravauxYears" min="1" max="30" value="10" /></label>
+                <input type="hidden" id="bpAgencyFee" value="0" />
+                <input type="hidden" id="bpNet" value="" />
+              </div>
+            </details>
+
+            <div class="bp-actions">
+              <button type="button" class="btn btn-primary" id="bpRun">Mettre à jour</button>
+              <button type="button" class="btn btn-ghost" id="bpSave">Mémoriser</button>
+              <button type="button" class="btn btn-ghost" id="bpReset">Exemple</button>
+            </div>
+
+            <div class="bp-cta-box" id="demande">
+              <p><strong>Projection convaincante ?</strong> Passez à une étude de financement personnalisée (courtier ORIAS) — sans engagement.</p>
+              <div class="actions" style="display:flex;flex-wrap:wrap;gap:8px">
+                <a class="btn btn-primary" id="bpCtaCredit" href="./credit-immo.html#demande">Demander mon étude de prêt</a>
+                <a class="btn btn-ghost" href="./acheteur-immo.html#demande">Parcours recherche de bien</a>
+              </div>
+            </div>
+          </form>
+
+          <aside class="bp-side" id="bpSide">
+            <div class="bp-verdict" id="bpVerdict">—</div>
+            <div class="bp-kpis" id="bpKpis"></div>
+            <h3 class="bp-side-h">Répartition mensuelle</h3>
+            <div class="bp-bars" id="bpBars"></div>
+            <h3 class="bp-side-h">Détail</h3>
+            <div class="bp-rows" id="bpRows"></div>
+            <h3 class="bp-side-h">Patrimoine après achat</h3>
+            <div class="bp-pat" id="bpPat"></div>
+            <h3 class="bp-side-h">Et si…</h3>
+            <div class="bp-stress" id="bpStress"></div>
+            <div class="bp-msgs" id="bpMsgs"></div>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="../js/crm-buyer-finance-lib.js"></script>
+  <script src="../js/crm-buyer-ownership-lib.js"></script>
+  <script src="../js/crm-budget-proprietaire-page.js"></script>
+</body>
+</html>
