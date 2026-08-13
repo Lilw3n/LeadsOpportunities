@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T04:25:14.323Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/canicules-en-france-la-ministre-de-l-ecologie-evoque-un-cout-de-l-ordre-de-10-a-15-milliards-d-euros-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d472689ad49ed8e582b0614d2cda3&url=https%3a%2f%2fwww.msn.com%2ffr-be%2ffinance%2fassurance%2fmeilleure-mutuelle-sant%25C3%25A9-comment-choisir-sa-compl%25C3%25A9mentaire-en-2026%2far-AA29W6AM&c=9346134064828957243&mkt=en-us",
+    "https://www.franceinfo.fr/environnement/evenements-meteorologiques-extremes/secheresse/reportage-l-eau-va-devenir-plus-chere-que-le-vin-en-cote-d-or-la-secheresse-contraint-quincy-le-vicomte-a-se-ravitailler-par-camion-citerne_8141777.html#xtor=RSS-3-[lestitres]"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T04:25:15.375Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T04:25:15.375Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+          "title": "Canicules en France : la ministre de l’Écologie Monique Barbut évoque un coût «de l’ord… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+          "title": "Meilleure mutuelle santé : comment choisir sa complémentaire en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "l-eau-va-devenir-plus-chere-que-le-vin-en-cote-d-or-la-secheresse-contra.html",
+          "title": "\"L'eau va devenir plus chère que le vin\" : en Côte-d'Or, la sécheresse contraint Quincy… : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
