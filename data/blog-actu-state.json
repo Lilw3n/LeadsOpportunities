@@ -1,10 +1,30 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T07:28:15.268Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMiiwJBVV95cUxOVGNPMzFVR1pRMTRBRHJvYVo4YlhHNWJsNFRyZUNLeTE4NXBEV0VJZDUzenVDS3NFQlhuZ2ZSRkxCeVk1VmZoazJseGI0eVZCSjFuY3BULUU5bng1aDhtZFNZRFhZSzNveV9oR19mN1luNTlvamtGenVnUnJSRm5zVEU4eVZxZzE1eUdJa0FFVlRkM0NfenptXzNmVHNMTWR1SkNadVdQTzU2bGptV2JVNk9lc2xWbXBtdnQyTG5XTE1MYVVHX1R2bm5PUU9JeFFqY2VZVURGR2tzSlhqR2ZkNFhlZkJmTUtlb1U2VGZhYWZlSzhKTlY1U2cwa1Q1dTdZU1dqbnpYWnlaUnM?oc=5",
+    "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOc3VRSW16M1ZQSS1QODgzV3lYbmxISDBvWFBfZnFOZjd4X1lWNVpUNmJCdVFuUnZXdG1MWFFlbGFTX1ZnYUJybzFJQU1ZY0FvRXV3dl80RDE3QS03aVBJakZHZXpWZjRNUHBodlVaaGd5OHd6SGZEV2xKNU9WOXdYNmhoUjh1SHhDdHZzVU5GWTU2S0tpNWlYODdDSFhSVmZUbkIwRERaVjhTYzNwWUxpN2kya3FESUlieVdvQ1lCNzBKZWgwQ0x0THRHb09PNjVBblFrMGJzTnZZSlloZjNDaHdTSk1XOUZzM3c?oc=5",
+    "https://news.google.com/rss/articles/CBMi5AFBVV95cUxPcU1Id01GR2tuZHoxeHNWVjNZQklMTTJzdWJlay1tSGdCZHVpRnJ0cURSR2JTeWFJM1I2ZVpaQjBXNTMwN1N6bE9qNjBZaXRSengydGVQVEl0S3Y5ZV9jcWREY2ZqUjlKcDhuYjJYcTJMOFkxZy1kb0VvcnpXb1pRUEFTYURuUUVkamZkLXBSbl9qUVFCNV9vRzJCcVpaRlYxUkJlQVNqbGlsU1BJYmRFd2Z2M1ZoU1AyRG5DcFN3ZTZDY1VZMVZqWmlwYzJUb3hzd2ZvSGw4YnhSS2Vodk9yUWI0OWo?oc=5"
   ],
-  "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "publishedFiles": [
+    "assurance-habitation-incendies-de-foret-secheresses-canicules-les-tarifs.html",
+    "france-conduite-sous-stupefiants-le-cout-cache-de-l-assurance-auto-qui-p.html",
+    "il-pretend-que-ses-parents-lui-ont-prete-la-voiture-un-jeune-conducteur-.html",
+    "caniculeprev-fatigue-insomnies-anxiete-sante-publique-france-veut-mesure.html",
+    "le-parkour-geriatrique-un-moyen-de-prevention-contre-les-chutes-venu-de-.html",
+    "pertes-agricoles-tresorerie-ce-que-la-canicule-et-les-incendies-vont-cou.html",
+    "comparateur-mutuelle-comment-bien-choisir-sa-couverture-sante.html",
+    "l-eau-va-devenir-plus-chere-que-le-vin-en-cote-d-or-la-secheresse-contra.html",
+    "l-editorial-de-gaetan-de-capele-face-a-la-lourde-facture-de-la-canicule-.html",
+    "en-savoie-deux-personnes-decedees-de-legionellose-et-41-cas-recenses-dep.html",
+    "nouvelle-journee-de-canicule-en-france-80-departements-en-vigilance-oran.html",
+    "sophrologie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+    "baisses-de-remboursement-securite-sociale-les-mutuelles-vont-elles-coute.html",
+    "changement-d-assurance-emprunteur-quatre-banques-sanctionnees-pour-entra.html",
+    "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+    "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+    "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html"
+  ],
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +37,42 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T07:28:16.184Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-habitation-certains-sinistres-doivent-attendre-pres-de-sept-mo.html",
+          "title": "Assurance habitation : certains sinistrés doivent attendre près de sept mois pour être … : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "assurance-habitation-des-hausses-de-tarifs-qui-atteignent-plus-de-24-dan.html",
+          "title": "Assurance habitation : des hausses de tarifs qui atteignent plus de 24% dans certains d… : assurance habitation — que faire ?",
+          "source": "Google News — assurance habitation",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "skippedTitles": [
+    "COLLEZ ICI le titre de la une Cafeyn",
+    "EN DIRECT - Canicule",
+    "L’éditorial de Gaëtan de Capèle",
+    "Il prétend que ses parents lui ont prêté la voiture",
+    "conduite sous stupéfiants",
+    "Incendies de forêt, sécheresses, canicules",
+    "Parkour gériatrique",
+    "Pertes agricoles",
+    "Comparateur mutuelle",
+    "légionellose",
+    "Sophrologie",
+    "Quatre banques sanctionnées",
+    "Baisses de remboursement"
+  ],
+  "platformRotationIndex": 0,
+  "lastAutoRun": "2026-08-13T07:28:16.184Z"
 }
