@@ -94,6 +94,17 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Titres / ids de file qui ne doivent jamais être publiés (modele inbox, TODO…). */
+function isPlaceholderCandidate(candidate) {
+  var title = String(candidate && candidate.title ? candidate.title : "").trim();
+  var id = String(candidate && candidate.id ? candidate.id : "").toLowerCase();
+  if (!title) return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/pending-template|placeholder|example-title/.test(id)) return true;
+  if (/^(collez|copiez|ins[eé]rez|todo\b|fixme\b)/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -351,4 +362,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
 };
