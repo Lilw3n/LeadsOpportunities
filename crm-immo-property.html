@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Fiche bien intelligente | CRM Immobilier</title>
+  <title>Fiche bien | CRM Immobilier</title>
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-fiche-commerciale.css" />
   <style>
     :root { --immo-blue:#1e4f8a; --immo-side:#2c3340; }
     .dossier-head { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
@@ -101,13 +102,13 @@
 <body class="crm-subpage">
   <div class="dossier-head">
     <div>
-      <p class="crm-eyebrow">Immobilier · fiche intelligente</p>
+      <p class="crm-eyebrow">Immobilier · bien</p>
       <h2 id="propTitle">Bien</h2>
       <p id="propSub" style="color:var(--muted);margin:0"></p>
     </div>
     <div class="crm-action-row">
       <a href="./crm-immo-properties.html" class="btn btn-ghost">← Piges</a>
-      <a href="./crm-immo-matching.html" class="btn btn-ghost">Matching</a>
+      <a href="./crm-immo-matching.html" class="btn btn-ghost" id="linkMatching">Matching</a>
       <a id="linkAgenda" class="btn btn-ghost" href="./crm-event-create.html">+ RDV agenda</a>
       <a id="linkFinancement" class="btn btn-ghost" href="./crm-agency-fees.html">Financement / prêt</a>
       <a id="linkAnnonce" class="btn btn-ghost" target="_blank" rel="noopener" hidden>Annonce</a>
@@ -115,6 +116,14 @@
     </div>
   </div>
 
+  <div class="mode-switch" id="modeSwitch" role="tablist" aria-label="Mode fiche">
+    <button type="button" data-mode="commercial" class="is-on">Fiche commerciale</button>
+    <button type="button" data-mode="edition">Édition</button>
+  </div>
+
+  <div id="commercialMount"></div>
+
+  <div id="editorMount">
   <div class="dossier-tabs" id="topTabs"></div>
 
   <div class="meta-bar" id="metaBar">
@@ -146,12 +155,14 @@
   <div id="tabOther" hidden>
     <section class="panel" id="otherPanel"></section>
   </div>
+  </div>
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>
   <script src="./js/crm-immo-cloud.js"></script>
   <script src="./js/finance-deep-link.js"></script>
+  <script src="./js/crm-immo-fiche-commerciale.js"></script>
   <script src="./js/crm-immo-property-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
