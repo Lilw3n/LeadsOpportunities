@@ -91,11 +91,22 @@ window.CrmPretDocSearch = (function () {
   }
 
   function allCategories() {
+    var partnerIds = {};
+    ["grilles", "fiches"].forEach(function (k) {
+      var c = catalogs[k];
+      if (!c) return;
+      (c.partners || []).forEach(function (p) {
+        partnerIds[p.id] = true;
+      });
+    });
     var map = {};
     ["grilles", "fiches"].forEach(function (k) {
       var c = catalogs[k];
       if (!c) return;
       (c.categories || []).forEach(function (p) {
+        // Ne pas remonter un partenaire / DOM-TOM dans la liste des types de prêt
+        if (partnerIds[p.id]) return;
+        if (p.id === "antilles" || p.id === "reunion") return;
         if (!map[p.id]) map[p.id] = p;
       });
     });

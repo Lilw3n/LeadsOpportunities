@@ -78,9 +78,10 @@
 
   <h1 class="g-title">Fiches produits</h1>
   <p class="g-sub">
-    Catalogue intelligent des fiches partenaires (CFCAL, CGI, MMB, SYGMA, DOM-TOM…).
-    Ex. <em>« 60 ans, retraite, éligible RAC ? »</em> ou <em>« locataire sans garantie »</em> —
-    le moteur oriente vers les fiches utiles. Déposez les PDF dans <code>docs/pret-fiches/_inbox/</code> puis
+    Catalogue intelligent : <strong>types de prêt</strong> (SCI, crédit immo, PVH, SCPI…) et
+    <strong>partenaires</strong> (CFCAL, CGI, MMB, SYGMA…) sont dissociés — DOM-TOM = région, pas partenaire.
+    Ex. <em>« 60 ans, retraite, éligible RAC ? »</em> ou <em>« locataire sans garantie »</em>.
+    Déposez les PDF dans <code>docs/pret-fiches/_inbox/</code> puis
     <code>npm run pret:fiches:import</code>. Voir aussi <a href="./crm-pret-immo-docs.html">Documentation</a>
     <a href="./crm-pret-immo-grilles.html">Grille des taux</a>.
   </p>
@@ -110,7 +111,7 @@
           <option value="0">Non (sans garantie)</option>
         </select>
       </label>
-      <label>Catégorie
+      <label>Type de prêt
         <select id="gCat"></select>
       </label>
       <label>Partenaire
