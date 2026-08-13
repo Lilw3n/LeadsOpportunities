@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T08:51:00.823Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/football/zidane-devoile-les-premiers-contours-de-son-staff-chez-les-bleus-20260813",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d85705c7448199e97fd703cd320e6&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2ffinance-assurance%2fassurance%2fmutuelle-en-ligne-obtenez-un-devis-avec-mutuellefr-22-10-2025-7I7VX6I4TRFP3GUS7E4H63WESI.php&c=11491153361780043555&mkt=en-us",
+    "https://www.franceinfo.fr/societe/conge-de-naissance/je-tape-dans-mes-economies-les-premiers-beneficiaires-du-nouveau-conge-de-naissance-attendent-toujours-leurs-indemnites_8145695.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T08:51:01.754Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T08:51:01.754Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "equipe-de-france-zinedine-zidane-annonce-son-staff-chez-les-bleus-avec-f.html",
+          "title": "Équipe de France : Zinédine Zidane annonce son staff chez les Bleus avec Fabien Barthez… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "mutuelle-en-ligne-obtenez-un-devis-avec-mutuelle-fr.html",
+          "title": "Mutuelle en ligne : obtenez un devis avec Mutuelle.fr : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "reportage-je-tape-dans-mes-economies-les-premiers-beneficiaires-du-nouve.html",
+          "title": "REPORTAGE. \"Je tape dans mes économies\" : les premiers bénéficiaires du nouveau congé d… : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo société",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
