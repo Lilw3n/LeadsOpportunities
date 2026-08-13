@@ -9,6 +9,8 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  var formParties = [];
+  var originalPartyIds = [];
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -190,6 +192,113 @@
     });
   }
 
+  function partyRoleOptions(selectedRole) {
+    return Matcher.PARTY_ROLES.map(function (role) {
+      return (
+        '<option value="' +
+        esc(role.id) +
+        '"' +
+        (role.id === selectedRole ? " selected" : "") +
+        ">" +
+        esc(role.label) +
+        "</option>"
+      );
+    }).join("");
+  }
+
+  function renderPropertyParties() {
+    var mount = document.getElementById("propertyParties");
+    if (!formParties.length) {
+      mount.innerHTML =
+        '<p class="immo-party-empty">Aucune personne ajoutée. Le nombre de vendeurs et d’acquéreurs n’est pas limité.</p>';
+      return;
+    }
+    mount.innerHTML = formParties
+      .map(function (party, index) {
+        return (
+          '<div class="immo-party-edit" data-party-index="' +
+          index +
+          '">' +
+          '<label>Rôle<select data-party-field="role">' +
+          partyRoleOptions(party.role || "vendeur") +
+          "</select></label>" +
+          '<label>Nom<input data-party-field="name" value="' +
+          esc(party.name || "") +
+          '" placeholder="Nom et prénom" /></label>' +
+          '<label>Téléphone<input data-party-field="phone" value="' +
+          esc(party.phone || "") +
+          '" /></label>' +
+          '<label>Email<input type="email" data-party-field="email" value="' +
+          esc(party.email || "") +
+          '" /></label>' +
+          '<label>Contact CRM (id)<input data-party-field="contact_id" value="' +
+          esc(party.contact_id || "") +
+          '" placeholder="contact_…" /></label>' +
+          '<button type="button" class="btn btn-ghost btn-sm" data-remove-party="' +
+          index +
+          '" aria-label="Supprimer cette personne">Supprimer</button>' +
+          "</div>"
+        );
+      })
+      .join("");
+  }
+
+  function addFormParty(role) {
+    formParties.push({
+      id: Store.uid("party"),
+      role: role,
+      name: "",
+      phone: "",
+      email: "",
+      contact_id: null,
+    });
+    renderPropertyParties();
+    var rows = document.querySelectorAll("#propertyParties [data-party-index]");
+    var last = rows[rows.length - 1];
+    if (last) {
+      var name = last.querySelector('[data-party-field="name"]');
+      if (name) name.focus();
+    }
+  }
+
+  function loadFormParties(property) {
+    var persisted = property.id ? Store.listParties(property.id) : [];
+    formParties = persisted.map(function (party) {
+      return Object.assign({}, party);
+    });
+    originalPartyIds = persisted.map(function (party) {
+      return party.id;
+    });
+
+    if (
+      property.owner_contact_id &&
+      !formParties.some(function (party) {
+        return party.contact_id === property.owner_contact_id && (party.role === "vendeur" || party.role === "mandant");
+      })
+    ) {
+      formParties.push({
+        id: Store.uid("party"),
+        role: "vendeur",
+        name: "",
+        contact_id: property.owner_contact_id,
+      });
+    }
+    if (
+      property.buyer_contact_id &&
+      !formParties.some(function (party) {
+        return party.contact_id === property.buyer_contact_id && (party.role === "acquereur" || party.role === "colocataire");
+      })
+    ) {
+      formParties.push({
+        id: Store.uid("party"),
+        role: "acquereur",
+        name: "",
+        contact_id: property.buyer_contact_id,
+      });
+    }
+    renderPropertyParties();
+  }
+
   function openForm(p) {
     p = p || {};
     document.getElementById("formPanel").hidden = false;
@@ -216,8 +325,6 @@
     document.getElementById("pAgence").value = p.agence || "";
     document.getElementById("pSuivi").value = p.suivi_par || "";
     document.getElementById("pPhone").value = p.phone || "";
-    document.getElementById("pOwner").value = p.owner_contact_id || "";
-    document.getElementById("pBuyer").value = p.buyer_contact_id || "";
     document.getElementById("pLead").value = p.lead_id || "";
     document.getElementById("pAContacter").checked = !!p.a_contacter;
     document.getElementById("pContactConnu").checked = !!p.contact_connu;
@@ -231,12 +338,26 @@
     document.getElementById("pPool").checked = !!p.has_pool;
     document.getElementById("pDesc").value = p.description || "";
     document.getElementById("pNotes").value = p.notes || "";
+    loadFormParties(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   document.getElementById("propForm").onsubmit = function (e) {
     e.preventDefault();
     var cp = document.getElementById("pCp").value.trim();
+    var invalidParty = formParties.some(function (party) {
+      return !String(party.name || "").trim() && !String(party.contact_id || "").trim();
+    });
+    if (invalidParty) {
+      alert("Indiquez un nom ou un identifiant de contact CRM pour chaque personne.");
+      return;
+    }
+    var primarySeller = formParties.find(function (party) {
+      return (party.role === "vendeur" || party.role === "mandant") && party.contact_id;
+    });
+    var primaryBuyer = formParties.find(function (party) {
+      return (party.role === "acquereur" || party.role === "colocataire") && party.contact_id;
+    });
     var item = {
       id: document.getElementById("pId").value || undefined,
       title: document.getElementById("pTitle").value.trim(),
@@ -260,8 +381,8 @@
       agence: document.getElementById("pAgence").value.trim(),
       suivi_par: document.getElementById("pSuivi").value.trim(),
       phone: document.getElementById("pPhone").value.trim(),
-      owner_contact_id: document.getElementById("pOwner").value.trim() || null,
-      buyer_contact_id: document.getElementById("pBuyer").value.trim() || null,
+      owner_contact_id: primarySeller ? primarySeller.contact_id : null,
+      buyer_contact_id: primaryBuyer ? primaryBuyer.contact_id : null,
       lead_id: document.getElementById("pLead").value.trim() || null,
       a_contacter: document.getElementById("pAContacter").checked,
       contact_connu: document.getElementById("pContactConnu").checked,
@@ -276,9 +397,49 @@
       description: document.getElementById("pDesc").value,
       notes: document.getElementById("pNotes").value,
     };
-    Store.upsertProperty(item);
+    var saved = Store.upsertProperty(item);
+    formParties.forEach(function (party) {
+      Store.upsertParty(
+        Object.assign({}, party, {
+          property_id: saved.id,
+          name: String(party.name || "").trim(),
+          phone: String(party.phone || "").trim(),
+          email: String(party.email || "").trim(),
+          contact_id: String(party.contact_id || "").trim() || null,
+        })
+      );
+    });
+    var currentPartyIds = formParties.map(function (party) {
+      return party.id;
+    });
+    originalPartyIds.forEach(function (partyId) {
+      if (currentPartyIds.indexOf(partyId) === -1) Store.deleteParty(partyId);
+    });
     document.getElementById("formPanel").hidden = true;
     renderList();
+  };
+
+  document.getElementById("btnAddSeller").onclick = function () {
+    addFormParty("vendeur");
+  };
+  document.getElementById("btnAddBuyer").onclick = function () {
+    addFormParty("acquereur");
+  };
+  document.getElementById("propertyParties").oninput = function (e) {
+    var row = e.target.closest("[data-party-index]");
+    var field = e.target.getAttribute("data-party-field");
+    if (!row || !field) return;
+    var index = Number(row.getAttribute("data-party-index"));
+    if (!formParties[index]) return;
+    formParties[index][field] = e.target.value;
+  };
+  document.getElementById("propertyParties").onchange =
+    document.getElementById("propertyParties").oninput;
+  document.getElementById("propertyParties").onclick = function (e) {
+    var button = e.target.closest("[data-remove-party]");
+    if (!button) return;
+    formParties.splice(Number(button.getAttribute("data-remove-party")), 1);
+    renderPropertyParties();
   };
 
   document.getElementById("btnNewProp").onclick = function () {

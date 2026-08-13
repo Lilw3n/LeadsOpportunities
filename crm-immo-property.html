@@ -74,7 +74,17 @@
     .meta-bar label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:var(--muted); }
     .meta-bar input, .meta-bar select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
     .save-bar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-    .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .party-summary { color:var(--muted); font-size:.84rem; margin:0 0 14px; }
+    .party-group { margin:16px 0; }
+    .party-group h4 { margin:0; color:#334155; }
+    .party-row { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .party-row-actions { display:flex; gap:6px; flex-wrap:wrap; }
+    .party-form {
+      margin-top:18px; display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px;
+      padding:14px; border:1px solid var(--line); border-radius:10px; background:#f8fafc;
+    }
+    .party-form label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:var(--muted); }
+    .party-form input, .party-form select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; background:#fff; }
     .immo-hint { color:var(--muted); font-size:.82rem; margin:8px 0; }
     .immo-field { display:flex; flex-direction:column; gap:4px; font-size:.8rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
     .immo-img-layout { display:grid; grid-template-columns:200px 1fr; gap:14px; }

@@ -166,6 +166,26 @@
     }
     .immo-check { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
     .immo-check label { flex-direction: row; align-items: center; gap: 6px; font-weight: 600; }
+    .immo-parties {
+      grid-column: 1 / -1; border: 1px solid var(--line); border-radius: 10px; padding: 12px;
+    }
+    .immo-parties legend { padding: 0 6px; font-weight: 800; color: #1e4f8a; }
+    .immo-parties-head { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .immo-parties-head p { margin: 0; color: var(--muted); font-size: .8rem; }
+    .immo-parties-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .immo-party-edit {
+      display: grid; grid-template-columns: minmax(130px, .8fr) minmax(160px, 1.2fr) repeat(3, minmax(130px, 1fr)) auto;
+      gap: 8px; align-items: end; padding: 10px 0; border-bottom: 1px solid #eef2f7;
+    }
+    .immo-party-edit:last-child { border-bottom: 0; }
+    .immo-party-edit label { min-width: 0; }
+    .immo-party-empty { margin: 12px 0 2px; color: var(--muted); font-size: .84rem; }
+    @media (max-width: 1050px) {
+      .immo-party-edit { grid-template-columns: repeat(2, minmax(150px, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .immo-party-edit { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body class="crm-subpage">
@@ -357,9 +377,18 @@
           <label>Agence<input id="pAgence" /></label>
           <label>Suivi par<input id="pSuivi" /></label>
           <label>Téléphone contact<input id="pPhone" /></label>
-          <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
-          <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
           <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
+          <fieldset class="immo-parties">
+            <legend>Vendeurs et acquéreurs</legend>
+            <div class="immo-parties-head">
+              <p>Ajoutez autant de personnes que nécessaire (indivision, héritiers, couple, SCI…).</p>
+              <div class="immo-parties-actions">
+                <button type="button" class="btn btn-ghost btn-sm" id="btnAddSeller">+ Vendeur</button>
+                <button type="button" class="btn btn-ghost btn-sm" id="btnAddBuyer">+ Acquéreur</button>
+              </div>
+            </div>
+            <div id="propertyParties"></div>
+          </fieldset>
           <div class="immo-check" style="grid-column:1/-1">
             <label><input type="checkbox" id="pAContacter" /> À contacter</label>
             <label><input type="checkbox" id="pContactConnu" /> Contact connu</label>

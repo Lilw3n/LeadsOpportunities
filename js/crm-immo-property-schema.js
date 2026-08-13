@@ -546,7 +546,7 @@ window.CrmImmoSchema = (function () {
     { id: "pieces_plan", label: "Pièces" },
     { id: "images", label: "Images" },
     { id: "cloud", label: "Immo cloud" },
-    { id: "vendeur", label: "Vendeur" },
+    { id: "vendeur", label: "Vendeurs / acquéreurs" },
     { id: "historique", label: "Historique" },
     { id: "stats", label: "Statistiques" },
   ];
