@@ -17,7 +17,7 @@ var ANGLES = {
       "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS.",
   },
   habitation: {
-    hook: "Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge.",
+    hook: "Un sinistre habitation mal couvert peut coûter des dizaines de milliers d'euros à votre charge.",
     checklist: [
       "Capital mobilier vs valeur reelle du contenu",
       "Degats des eaux, tempete, catastrophes naturelles",
@@ -149,7 +149,7 @@ function enrichFromCandidate(candidate) {
       {
         type: "p",
         text:
-          "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure.",
+          "Avant de réagir sous le coup de l'émotion médiatique, vérifiez <strong>ce que couvre déjà votre contrat</strong> : plafonds, franchises, exclusions, délais. Un comparatif à garanties équivalentes évite de surpayer ou de rester sous-assuré.",
       },
       { type: "h2", text: "Checklist pratique (5 minutes)" },
       { type: "ul", items: angle.checklist },

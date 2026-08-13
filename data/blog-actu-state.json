@@ -1,10 +1,15 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T08:59:54.041Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/football/zidane-devoile-les-premiers-contours-de-son-staff-chez-les-bleus-20260813",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d8788cd8b4e7ca5892662e8ba73df&url=https%3a%2f%2fwww.businesswire.com%2fnews%2fhome%2f20241220911691%2fen%2fHSBC-Continental-Europe-Enters-Into-a-Memorandum-of-Understanding-Regarding-Potential-Sale-of-HSBC-Assurances-Vie-France-to-Matmut-Soci%25C3%25A9t%25C3%25A9-d%25E2%2580%2599Assurance-Mutuelle%2f&c=2748877479019384144&mkt=en-us",
+    "https://www.franceinfo.fr/sports/foot/equipe-de-france/fabien-barthez-david-bettoni-le-nouveau-staff-de-l-equipe-de-france-sous-zinedine-zidane-en-grande-partie-devoile_8145797.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d87882d1a48a2b7aae2b60ca0c3b6&url=https%3a%2f%2fwww.msn.com%2ffr-be%2fsante%2fesprit-et-corps%2fmeilleure-mutuelle-sant%25C3%25A9-comment-choisir-sa-compl%25C3%25A9mentaire-en-2026%2far-AA29W6AM&c=9946818186189925678&mkt=en-us",
+    "https://www.franceinfo.fr/societe/conge-de-naissance/je-tape-dans-mes-economies-les-premiers-beneficiaires-du-nouveau-conge-de-naissance-attendent-toujours-leurs-indemnites_8145695.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T08:59:54.953Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +22,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T08:59:54.953Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "equipe-de-france-zinedine-zidane-annonce-son-staff-chez-les-bleus-avec-f.html",
+          "title": "Staff de Zidane chez les Bleus : assurance voyage, mutuelle à l'étranger et logement vide",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+          "title": "Meilleure mutuelle santé 2026 : 7 critères avant de changer de complémentaire",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "conge-naissance-indemnites-prevoyance-epargne-2026.html",
+          "title": "Congé de naissance : indemnités en retard, épargne et prévoyance — que faire ?",
+          "source": "Firefox — Franceinfo société",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

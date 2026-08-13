@@ -152,6 +152,45 @@ function rankCandidates(candidates) {
     });
 }
 
+/** File manuelle / inbox : ignorer les gabarits non remplis (ex. « COLLEZ ICI »). */
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "rejected" || status === "draft-template") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.slice(-9) === "-template") return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/collez ici|titre de la une|à compléter|a completer|placeholder/i.test(title)) return true;
+  return false;
+}
+
+/** Communiqués EN (Business Wire, etc.) : SEO France + CTA questionnaire incompatibles. */
+function looksLikeEnglishHeadline(title) {
+  var t = String(title || "");
+  if (
+    /\b(enters into|memorandum of understanding|regarding|potential sale|announces that|money talk|the advantages of getting)\b/i.test(
+      t
+    )
+  ) {
+    return true;
+  }
+  var frHits = (t.match(/\b(le|la|les|des|une|un|du|et|en|pour|avec|sur|dans|cette|france|équipe|equipe|assurance|mutuelle|selon|chez|contre)\b/gi) || [])
+    .length;
+  var enHits = (t.match(/\b(the|into|of|and|for|with|regarding|potential|sale|enters|announces|agreement|understanding)\b/gi) || [])
+    .length;
+  return enHits >= 3 && frHits <= 1;
+}
+
+/** Actu > 21 jours : trop vieux pour un article « du jour ». File manuelle sans date : OK. */
+function isStaleActuCandidate(item, maxDays) {
+  var days = maxDays || 21;
+  if (!item || !item.pubDate) return false;
+  var t = new Date(item.pubDate).getTime();
+  if (isNaN(t)) return false;
+  return Date.now() - t > days * 86400000;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -349,6 +388,9 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  looksLikeEnglishHeadline: looksLikeEnglishHeadline,
+  isStaleActuCandidate: isStaleActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };
