@@ -1,10 +1,16 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T02:57:54.841Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sciences/c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-ballon-generalli-au-dessus-du-parc-andre-citroen-plein-a-craquer-pour-observer-l-eclipse-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d322c1f2846c0a18f3144ee060c3a&url=https%3a%2f%2fwww.businesswire.com%2fnews%2fhome%2f20241220911691%2fen%2fHSBC-Continental-Europe-Enters-Into-a-Memorandum-of-Understanding-Regarding-Potential-Sale-of-HSBC-Assurances-Vie-France-to-Matmut-Soci%25C3%25A9t%25C3%25A9-d%25E2%2580%2599Assurance-Mutuelle%2f&c=2748877479019384144&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage",
+    "https://www.lefigaro.fr/conjoncture/canicules-en-france-la-ministre-de-l-ecologie-evoque-un-cout-de-l-ordre-de-10-a-15-milliards-d-euros-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d32ae69b94ff2ae0cb75b4bd176ea&url=https%3a%2f%2fwww.msn.com%2ffr-be%2ffinance%2fassurance%2fmeilleure-mutuelle-sant%25C3%25A9-comment-choisir-sa-compl%25C3%25A9mentaire-en-2026%2far-AA29W6AM&c=9346134064828957243&mkt=en-us",
+    "https://www.franceinfo.fr/sante/psycho-bien-etre/sante-mentale/a-paris-cette-association-lutte-contre-l-isolement-des-seniors_8144663.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T02:57:55.734Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +23,57 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T02:55:51.364Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-b.html",
+          "title": "«C’était le meilleur spot de tout Paris, on se sent privilégié» : à bord du ballon Gene… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "hsbc-continental-europe-enters-into-a-memorandum-of-understanding-regard.html",
+          "title": "HSBC Continental Europe Enters Into a Memorandum of Understanding Regarding Potential S… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        },
+        {
+          "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+          "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-13T02:57:55.734Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "canicules-en-france-la-ministre-de-l-ecologie-monique-barbut-evoque-un-c.html",
+          "title": "Canicules en France : la ministre de l’Écologie Monique Barbut évoque un coût «de l’ord… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+          "title": "Meilleure mutuelle santé : comment choisir sa complémentaire en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "a-paris-cette-association-lutte-contre-l-isolement-des-seniors.html",
+          "title": "A Paris, cette association lutte contre l'isolement des seniors : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
