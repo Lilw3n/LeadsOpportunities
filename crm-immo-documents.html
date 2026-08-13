@@ -60,7 +60,12 @@
         <label>Bien lié<select id="dProp"></select></label>
         <label>Contact id<input id="dContact" placeholder="contact_…" /></label>
         <label style="grid-column:1/-1">Corps / clauses<textarea id="dBody" rows="8" placeholder="Texte du document…"></textarea></label>
-        <label style="grid-column:1/-1">Parties (JSON simple)<textarea id="dParties" rows="3" placeholder='{"mandant":"…","acquereur":"…"}'></textarea></label>
+        <label style="grid-column:1/-1">Parties au document
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0">
+            <button type="button" class="btn btn-ghost btn-sm" id="btnImportParties">Importer depuis le bien</button>
+          </div>
+          <div id="dPartiesMount"></div>
+        </label>
         <label style="grid-column:1/-1">Notes<textarea id="dNotes" rows="2"></textarea></label>
         <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
           <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -74,6 +79,7 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-parties-ui.js"></script>
   <script src="./js/crm-immo-documents-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

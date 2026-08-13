@@ -56,7 +56,7 @@
     <form id="critForm" class="immo-grid">
       <input type="hidden" id="cId" />
       <label>Libellé<input id="cLabel" required placeholder="Famille Strasbourg…" /></label>
-      <label>Contact CRM id<input id="cContact" placeholder="contact_…" /></label>
+      <div style="grid-column:1/-1" id="cBuyersMount"></div>
       <label>Lead id<input id="cLead" placeholder="lead_…" /></label>
       <label>Types (virgules)<input id="cTypes" placeholder="appartement,maison" /></label>
       <label>Villes (virgules)<input id="cCities" placeholder="Strasbourg,Illkirch" /></label>
@@ -97,6 +97,7 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-parties-ui.js"></script>
   <script src="./js/crm-immo-matching-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

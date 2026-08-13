@@ -1,7 +1,8 @@
 (function () {
   var Store = window.CrmImmoStore;
   var Matcher = window.CrmImmoMatcher;
-  if (!Store || !Matcher) return;
+  var PartiesUi = window.CrmImmoPartiesUi;
+  if (!Store || !Matcher || !PartiesUi) return;
   if (!localStorage.getItem("lo_token")) {
     location.href = "./crm.html";
     return;
@@ -9,6 +10,7 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  var formParties = { sellers: [], buyers: [], propertyId: null };
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -190,6 +192,112 @@
     });
   }
 
+  function renderFormParties() {
+    var mount = document.getElementById("pPartiesMount");
+    if (!mount) return;
+    mount.innerHTML =
+      '<div id="formSellersMount" style="margin-bottom:16px"></div><div id="formBuyersMount"></div>';
+
+    function partyRow(p) {
+      return {
+        id: p.id,
+        role: p.role,
+        name: p.name,
+        phone: p.phone,
+        email: p.email,
+        contact_id: p.contact_id,
+      };
+    }
+
+    PartiesUi.mountSection(document.getElementById("formSellersMount"), {
+      prefix: "formSeller",
+      side: "sellers",
+      title: "Vendeurs / propriétaires",
+      hint: "Ex. plusieurs héritiers sur la même maison — ajoute-les tous ici.",
+      parties: formParties.sellers.map(partyRow),
+      onAdd: function (data) {
+        formParties.sellers.push({
+          id: Store.uid("party"),
+          role: data.role,
+          name: data.name.trim(),
+          phone: data.phone.trim(),
+          email: data.email.trim(),
+          contact_id: data.contact_id.trim() || null,
+        });
+        renderFormParties();
+      },
+      onDelete: function (id) {
+        formParties.sellers = formParties.sellers.filter(function (p) {
+          return p.id !== id;
+        });
+        renderFormParties();
+      },
+    });
+
+    PartiesUi.mountSection(document.getElementById("formBuyersMount"), {
+      prefix: "formBuyer",
+      side: "buyers",
+      title: "Acquéreurs",
+      hint: "Acquéreur(s) et co-acquéreurs éventuels.",
+      parties: formParties.buyers.map(partyRow),
+      onAdd: function (data) {
+        formParties.buyers.push({
+          id: Store.uid("party"),
+          role: data.role,
+          name: data.name.trim(),
+          phone: data.phone.trim(),
+          email: data.email.trim(),
+          contact_id: data.contact_id.trim() || null,
+        });
+        renderFormParties();
+      },
+      onDelete: function (id) {
+        formParties.buyers = formParties.buyers.filter(function (p) {
+          return p.id !== id;
+        });
+        renderFormParties();
+      },
+    });
+  }
+
+  function loadFormParties(p) {
+    formParties.propertyId = p && p.id ? p.id : null;
+    formParties.sellers = [];
+    formParties.buyers = [];
+    if (p && p.id) {
+      Store.migrateLegacyContactsToParties(p.id);
+      Store.listParties(p.id).forEach(function (party) {
+        if (Matcher.isSellerPartyRole(party.role)) formParties.sellers.push(party);
+        else if (Matcher.isBuyerPartyRole(party.role)) formParties.buyers.push(party);
+      });
+    }
+    renderFormParties();
+  }
+
+  function persistFormParties(propertyId) {
+    if (!propertyId) return;
+    var existing = Store.listParties(propertyId);
+    var keepIds = {};
+    formParties.sellers.concat(formParties.buyers).forEach(function (party) {
+      keepIds[party.id] = true;
+      Store.upsertParty({
+        id: party.id,
+        property_id: propertyId,
+        role: party.role,
+        name: party.name,
+        phone: party.phone,
+        email: party.email,
+        contact_id: party.contact_id,
+      });
+    });
+    existing.forEach(function (party) {
+      if (!keepIds[party.id] && (Matcher.isSellerPartyRole(party.role) || Matcher.isBuyerPartyRole(party.role))) {
+        Store.deleteParty(party.id);
+      }
+    });
+    Store.syncPrimaryContacts(propertyId);
+  }
+
   function openForm(p) {
     p = p || {};
     document.getElementById("formPanel").hidden = false;
@@ -216,8 +324,7 @@
     document.getElementById("pAgence").value = p.agence || "";
     document.getElementById("pSuivi").value = p.suivi_par || "";
     document.getElementById("pPhone").value = p.phone || "";
-    document.getElementById("pOwner").value = p.owner_contact_id || "";
-    document.getElementById("pBuyer").value = p.buyer_contact_id || "";
+    loadFormParties(p);
     document.getElementById("pLead").value = p.lead_id || "";
     document.getElementById("pAContacter").checked = !!p.a_contacter;
     document.getElementById("pContactConnu").checked = !!p.contact_connu;
@@ -260,8 +367,6 @@
       agence: document.getElementById("pAgence").value.trim(),
       suivi_par: document.getElementById("pSuivi").value.trim(),
       phone: document.getElementById("pPhone").value.trim(),
-      owner_contact_id: document.getElementById("pOwner").value.trim() || null,
-      buyer_contact_id: document.getElementById("pBuyer").value.trim() || null,
       lead_id: document.getElementById("pLead").value.trim() || null,
       a_contacter: document.getElementById("pAContacter").checked,
       contact_connu: document.getElementById("pContactConnu").checked,
@@ -276,7 +381,8 @@
       description: document.getElementById("pDesc").value,
       notes: document.getElementById("pNotes").value,
     };
-    Store.upsertProperty(item);
+    var saved = Store.upsertProperty(item);
+    persistFormParties(saved.id);
     document.getElementById("formPanel").hidden = true;
     renderList();
   };

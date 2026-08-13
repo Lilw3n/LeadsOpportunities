@@ -357,8 +357,7 @@
           <label>Agence<input id="pAgence" /></label>
           <label>Suivi par<input id="pSuivi" /></label>
           <label>Téléphone contact<input id="pPhone" /></label>
-          <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
-          <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
+          <div style="grid-column:1/-1" id="pPartiesMount"></div>
           <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
           <div class="immo-check" style="grid-column:1/-1">
             <label><input type="checkbox" id="pAContacter" /> À contacter</label>
@@ -387,6 +386,7 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-parties-ui.js"></script>
   <script src="./js/crm-immo-properties-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

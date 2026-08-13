@@ -2,7 +2,8 @@
   var Store = window.CrmImmoStore;
   var Matcher = window.CrmImmoMatcher;
   var Schema = window.CrmImmoSchema;
-  if (!Store || !Matcher || !Schema) return;
+  var PartiesUi = window.CrmImmoPartiesUi;
+  if (!Store || !Matcher || !Schema || !PartiesUi) return;
   if (!localStorage.getItem("lo_token")) {
     location.href = "./crm.html";
     return;
@@ -841,47 +842,69 @@
     openRoot();
   }
 
+  Store.migrateLegacyContactsToParties(prop.id);
+
+  function renderPartiesTab() {
+    var panel = document.getElementById("otherPanel");
+    panel.innerHTML =
+      '<p class="immo-hint">Indique tous les vendeurs (ex. héritiers indivisaires) et acquéreurs liés à ce bien — sans limite.</p>' +
+      '<div id="partiesSellersMount" style="margin-bottom:20px"></div>' +
+      '<div id="partiesBuyersMount"></div>';
+
+    function refreshParties() {
+      var parties = Store.listParties(prop.id);
+      PartiesUi.mountSection(document.getElementById("partiesSellersMount"), {
+        prefix: "seller",
+        side: "sellers",
+        title: "Vendeurs / propriétaires",
+        hint: "Héritiers, indivisaires, mandants… ajoute-en autant que nécessaire.",
+        parties: parties,
+        onAdd: function (data) {
+          Store.upsertParty({
+            property_id: prop.id,
+            role: data.role,
+            name: data.name.trim(),
+            phone: data.phone.trim(),
+            email: data.email.trim(),
+            contact_id: data.contact_id.trim() || null,
+          });
+          refreshParties();
+        },
+        onDelete: function (partyId) {
+          Store.deleteParty(partyId);
+          refreshParties();
+        },
+      });
+      PartiesUi.mountSection(document.getElementById("partiesBuyersMount"), {
+        prefix: "buyer",
+        side: "buyers",
+        title: "Acquéreurs",
+        hint: "Acquéreur principal, co-acquéreur, co-emprunteur…",
+        parties: parties,
+        onAdd: function (data) {
+          Store.upsertParty({
+            property_id: prop.id,
+            role: data.role,
+            name: data.name.trim(),
+            phone: data.phone.trim(),
+            email: data.email.trim(),
+            contact_id: data.contact_id.trim() || null,
+          });
+          refreshParties();
+        },
+        onDelete: function (partyId) {
+          Store.deleteParty(partyId);
+          refreshParties();
+        },
+      });
+    }
+    refreshParties();
+  }
+
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
-      var parties = Store.listParties(prop.id);
-      panel.innerHTML =
-        "<h3>Vendeur & personnes</h3>" +
-        (parties.length
-          ? parties
-              .map(function (p) {
-                return (
-                  '<div class="party-row"><div><strong>' +
-                  esc(p.name || "—") +
-                  "</strong> · " +
-                  esc(p.role || "") +
-                  "<br><span style='color:var(--muted)'>" +
-                  esc(p.phone || "") +
-                  " " +
-                  esc(p.email || "") +
-                  "</span></div></div>"
-                );
-              })
-              .join("")
-          : "<p style='color:var(--muted)'>Aucune personne liée — ajoute-les depuis la fiche (ou Piges).</p>") +
-        '<form id="partyForm" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">' +
-        '<label>Rôle<select id="partyRole">' +
-        Matcher.PARTY_ROLES.map(function (r) {
-          return '<option value="' + r.id + '">' + r.label + "</option>";
-        }).join("") +
-        '</select></label><label>Nom<input id="partyName" required /></label><label>Tél<input id="partyPhone" /></label><label>Email<input id="partyEmail" /></label><label>Contact CRM<input id="partyContact" /></label><button class="btn btn-primary" type="submit">Ajouter</button></form>';
-      document.getElementById("partyForm").onsubmit = function (e) {
-        e.preventDefault();
-        Store.upsertParty({
-          property_id: prop.id,
-          role: document.getElementById("partyRole").value,
-          name: document.getElementById("partyName").value.trim(),
-          phone: document.getElementById("partyPhone").value.trim(),
-          email: document.getElementById("partyEmail").value.trim(),
-          contact_id: document.getElementById("partyContact").value.trim() || null,
-        });
-        renderOtherTab();
-      };
+      renderPartiesTab();
       return;
     }
     if (state.tab === "pieces_plan") {

@@ -1,7 +1,8 @@
 (function () {
   var Store = window.CrmImmoStore;
   var Matcher = window.CrmImmoMatcher;
-  if (!Store || !Matcher) return;
+  var PartiesUi = window.CrmImmoPartiesUi;
+  if (!Store || !Matcher || !PartiesUi) return;
   if (!localStorage.getItem("lo_token")) {
     location.href = "./crm.html";
     return;
@@ -17,6 +18,7 @@
   var params = new URLSearchParams(location.search);
   var focusDoc = params.get("doc");
   var focusProp = params.get("property");
+  var docParties = [];
 
   function fillProps() {
     var props = Store.listProperties({});
@@ -39,6 +41,60 @@
     sel.innerHTML = Matcher.DOC_TYPES.map(function (t) {
       return '<option value="' + t.id + '">' + t.label + "</option>";
     }).join("");
+  }
+
+  function renderDocParties() {
+    var mount = document.getElementById("dPartiesMount");
+    if (!mount) return;
+    PartiesUi.mountSection(mount, {
+      prefix: "docParty",
+      side: "all",
+      title: "Vendeurs, acquéreurs et autres parties",
+      hint: "Liste libre pour mandats, compromis, offres… sans limite de personnes.",
+      parties: docParties,
+      onAdd: function (data) {
+        docParties.push({
+          id: Store.uid("party"),
+          role: data.role,
+          name: data.name.trim(),
+          phone: data.phone.trim(),
+          email: data.email.trim(),
+          contact_id: data.contact_id.trim() || null,
+        });
+        renderDocParties();
+      },
+      onDelete: function (id) {
+        docParties = docParties.filter(function (p) {
+          return p.id !== id;
+        });
+        renderDocParties();
+      },
+    });
+  }
+
+  function importPartiesFromProperty() {
+    var propId = document.getElementById("dProp").value;
+    if (!propId) {
+      alert("Choisis d'abord un bien lié.");
+      return;
+    }
+    Store.migrateLegacyContactsToParties(propId);
+    var imported = Store.listParties(propId).map(function (p) {
+      return {
+        id: Store.uid("party"),
+        role: p.role,
+        name: p.name,
+        phone: p.phone,
+        email: p.email,
+        contact_id: p.contact_id,
+      };
+    });
+    if (!imported.length) {
+      alert("Aucune personne sur ce bien — ajoute-les dans la fiche (onglet Vendeurs & acquéreurs).");
+      return;
+    }
+    docParties = imported;
+    renderDocParties();
   }
 
   function renderList() {
@@ -89,7 +145,10 @@
     document.getElementById("dContact").value = d.contact_id || "";
     var data = d.data || {};
     document.getElementById("dBody").value = data.clauses || data.body || "";
-    document.getElementById("dParties").value = JSON.stringify(data.parties || {}, null, 2);
+    docParties = Matcher.normalizeDocumentParties(data.parties).map(function (p) {
+      return Object.assign({ id: Store.uid("party") }, p);
+    });
+    renderDocParties();
     document.getElementById("dNotes").value = d.notes || "";
     preview(d);
   }
@@ -100,6 +159,7 @@
       return x.id === d.doc_type;
     }) || {}).label || d.doc_type;
     var prop = d.property_id ? Store.getProperty(d.property_id) : null;
+    var partiesText = Matcher.documentPartiesToText(docParties.length ? docParties : data.parties);
     document.getElementById("docPreview").innerHTML =
       "<h3 style='margin-top:0'>" +
       esc(typeLabel) +
@@ -111,7 +171,7 @@
       "</p>" +
       (prop ? "<p>Bien : " + esc(prop.title) + " — " + esc(prop.city || "") + "</p>" : "") +
       "<pre style='white-space:pre-wrap;font-family:inherit'>" +
-      esc(JSON.stringify(data.parties || {}, null, 2)) +
+      esc(partiesText || "—") +
       "</pre>" +
       "<div style='margin-top:12px;white-space:pre-wrap'>" +
       esc(data.clauses || data.body || "") +
@@ -120,13 +180,15 @@
 
   document.getElementById("docForm").onsubmit = function (e) {
     e.preventDefault();
-    var parties = {};
-    try {
-      parties = JSON.parse(document.getElementById("dParties").value || "{}");
-    } catch (err) {
-      alert("JSON parties invalide");
-      return;
-    }
+    var parties = docParties.map(function (p) {
+      return {
+        role: p.role,
+        name: p.name,
+        phone: p.phone,
+        email: p.email,
+        contact_id: p.contact_id,
+      };
+    });
     var item = Store.upsertDocument({
       id: document.getElementById("dId").value || undefined,
       title: document.getElementById("dTitle").value.trim(),
@@ -145,12 +207,13 @@
   };
 
   document.getElementById("btnNewDoc").onclick = function () {
+    docParties = [];
     var item = Store.upsertDocument({
       title: "Nouveau document",
       doc_type: "mandat_vente",
       status: "draft",
       property_id: document.getElementById("filterProp").value || null,
-      data: { parties: {}, clauses: "" },
+      data: { parties: [], clauses: "" },
     });
     renderList();
     openDoc(item.id);
@@ -165,6 +228,7 @@
     renderList();
   };
 
+  document.getElementById("btnImportParties").onclick = importPartiesFromProperty;
   document.getElementById("filterProp").onchange = renderList;
 
   Store.seedDemoIfEmpty();

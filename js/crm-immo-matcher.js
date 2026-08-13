@@ -33,6 +33,8 @@
 
   var PARTY_ROLES = [
     { id: "vendeur", label: "Vendeur / propriétaire" },
+    { id: "co_vendeur", label: "Co-vendeur" },
+    { id: "heritier", label: "Héritier / indivisaire" },
     { id: "mandant", label: "Mandant" },
     { id: "acquereur", label: "Acquéreur" },
     { id: "prospect", label: "Prospect intéressé" },
@@ -41,6 +43,89 @@
     { id: "agent", label: "Agent / collègue" },
     { id: "apporteur", label: "Apporteur" },
   ];
+
+  var SELLER_PARTY_ROLES = ["vendeur", "co_vendeur", "heritier", "mandant"];
+  var BUYER_PARTY_ROLES = ["acquereur", "colocataire"];
+
+  function isSellerPartyRole(role) {
+    return SELLER_PARTY_ROLES.indexOf(String(role || "").trim()) !== -1;
+  }
+
+  function isBuyerPartyRole(role) {
+    return BUYER_PARTY_ROLES.indexOf(String(role || "").trim()) !== -1;
+  }
+
+  function partyRoleLabel(role) {
+    var found = PARTY_ROLES.find(function (r) {
+      return r.id === role;
+    });
+    return found ? found.label : role || "—";
+  }
+
+  function filterPartiesBySide(parties, side) {
+    parties = parties || [];
+    if (side === "sellers") {
+      return parties.filter(function (p) {
+        return isSellerPartyRole(p.role);
+      });
+    }
+    if (side === "buyers") {
+      return parties.filter(function (p) {
+        return isBuyerPartyRole(p.role);
+      });
+    }
+    return parties.slice();
+  }
+
+  function partyHasContact(party) {
+    if (!party) return false;
+    return !!(party.contact_id || party.name || party.phone || party.email);
+  }
+
+  function propertyHasKnownParties(raw) {
+    var parties = raw._parties || raw.parties || [];
+    return parties.some(partyHasContact);
+  }
+
+  /** Normalise parties document : objet legacy ou tableau → tableau */
+  function normalizeDocumentParties(parties) {
+    if (Array.isArray(parties)) {
+      return parties.map(function (p) {
+        return {
+          role: p.role || "vendeur",
+          name: p.name || "",
+          email: p.email || "",
+          phone: p.phone || "",
+          contact_id: p.contact_id || null,
+        };
+      });
+    }
+    if (!parties || typeof parties !== "object") return [];
+    return Object.keys(parties).map(function (key) {
+      var val = parties[key];
+      if (val && typeof val === "object") {
+        return {
+          role: val.role || key,
+          name: val.name || "",
+          email: val.email || "",
+          phone: val.phone || "",
+          contact_id: val.contact_id || null,
+        };
+      }
+      return { role: key, name: String(val || ""), email: "", phone: "", contact_id: null };
+    });
+  }
+
+  function documentPartiesToText(parties) {
+    return normalizeDocumentParties(parties)
+      .map(function (p) {
+        var bits = [partyRoleLabel(p.role), p.name].filter(Boolean);
+        if (p.phone) bits.push(p.phone);
+        if (p.email) bits.push(p.email);
+        return bits.join(" · ");
+      })
+      .join("\n");
+  }
 
   /** Statuts pipeline métier (réf. CRM immo) — numéro d’affichage + id stocké */
   var PROPERTY_STATUSES = [
@@ -458,7 +543,14 @@
       if (geoMode === "yes" && !hasGeo) return false;
       if (geoMode === "no" && hasGeo) return false;
       if (aContacter === true && !raw.a_contacter) return false;
-      if (contactConnu === true && !raw.contact_connu && !raw.owner_contact_id && !raw.buyer_contact_id) return false;
+      if (
+        contactConnu === true &&
+        !raw.contact_connu &&
+        !raw.owner_contact_id &&
+        !raw.buyer_contact_id &&
+        !propertyHasKnownParties(raw)
+      )
+        return false;
       var created = String(raw.created_at || raw.updated_at || "").slice(0, 10);
       if (dateFrom && created && created < dateFrom) return false;
       if (dateTo && created && created > dateTo) return false;
@@ -488,6 +580,16 @@
     PROPERTY_STATUSES: PROPERTY_STATUSES,
     LISTING_SOURCES: LISTING_SOURCES,
     PARTY_ROLES: PARTY_ROLES,
+    SELLER_PARTY_ROLES: SELLER_PARTY_ROLES,
+    BUYER_PARTY_ROLES: BUYER_PARTY_ROLES,
+    isSellerPartyRole: isSellerPartyRole,
+    isBuyerPartyRole: isBuyerPartyRole,
+    partyRoleLabel: partyRoleLabel,
+    filterPartiesBySide: filterPartiesBySide,
+    partyHasContact: partyHasContact,
+    propertyHasKnownParties: propertyHasKnownParties,
+    normalizeDocumentParties: normalizeDocumentParties,
+    documentPartiesToText: documentPartiesToText,
     DOC_TYPES: DOC_TYPES,
     normalizeProperty: normalizeProperty,
     normalizePropertyStatus: normalizePropertyStatus,

@@ -192,6 +192,13 @@ function rowToCriteria(r) {
     want_pool: !!r.want_pool,
     must_haves: parseArr(r.must_haves_json),
     notes: r.notes || "",
+    metadata: (function () {
+      try {
+        return JSON.parse(r.metadata_json || "{}");
+      } catch (e) {
+        return {};
+      }
+    })(),
     created_by: r.created_by,
     created_at: r.created_at,
     updated_at: r.updated_at,
@@ -324,7 +331,7 @@ async function upsertCriteria(sql, item, user) {
       ${item.price_mode || "fai"},
       ${!!item.want_garage}, ${!!item.want_parking}, ${!!item.want_cave}, ${!!item.want_garden},
       ${!!item.want_terrace}, ${!!item.want_balcony}, ${!!item.want_elevator}, ${!!item.want_pool},
-      ${j(item.must_haves, [])}, ${item.notes || null}, ${j(item.metadata, {})},
+      ${j(item.must_haves, [])}, ${item.notes || null}, ${j(item.metadata || item.metadata_json, {})},
       ${(user && user.id) || item.created_by || null}, NOW()
     )
     ON CONFLICT (id) DO UPDATE SET

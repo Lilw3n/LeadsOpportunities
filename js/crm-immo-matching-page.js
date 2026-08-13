@@ -1,7 +1,8 @@
 (function () {
   var Store = window.CrmImmoStore;
   var Matcher = window.CrmImmoMatcher;
-  if (!Store || !Matcher) return;
+  var PartiesUi = window.CrmImmoPartiesUi;
+  if (!Store || !Matcher || !PartiesUi) return;
   if (!localStorage.getItem("lo_token")) {
     location.href = "./crm.html";
     return;
@@ -37,12 +38,43 @@
     if (!list.length) sel.innerHTML = '<option value="">Aucune fiche</option>';
   }
 
+  var critBuyers = [];
+
+  function renderCritBuyers() {
+    var mount = document.getElementById("cBuyersMount");
+    if (!mount) return;
+    PartiesUi.mountBuyersSection(mount, {
+      prefix: "critBuyer",
+      buyers: critBuyers,
+      onAdd: function (data) {
+        critBuyers.push({
+          id: Store.uid("buyer"),
+          role: "acquereur",
+          name: data.name.trim(),
+          phone: data.phone.trim(),
+          email: data.email.trim(),
+          contact_id: data.contact_id.trim() || null,
+        });
+        renderCritBuyers();
+      },
+      onDelete: function (id) {
+        critBuyers = critBuyers.filter(function (b) {
+          return b.id !== id;
+        });
+        renderCritBuyers();
+      },
+    });
+  }
+
   function openForm(c) {
     c = c || {};
     document.getElementById("critFormPanel").hidden = false;
     document.getElementById("cId").value = c.id || "";
     document.getElementById("cLabel").value = c.label || "";
-    document.getElementById("cContact").value = c.contact_id || "";
+    critBuyers = Store.listCriteriaBuyers(c).map(function (b) {
+      return Object.assign({ id: b.id || Store.uid("buyer"), role: "acquereur" }, b);
+    });
+    renderCritBuyers();
     document.getElementById("cLead").value = c.lead_id || "";
     document.getElementById("cTypes").value = (c.property_types || []).join(",");
     document.getElementById("cCities").value = (c.cities || []).join(",");
@@ -130,10 +162,15 @@
 
   document.getElementById("critForm").onsubmit = function (e) {
     e.preventDefault();
+    var firstContact = critBuyers.find(function (b) {
+      return b.contact_id;
+    });
     var item = Store.upsertCriteria({
       id: document.getElementById("cId").value || undefined,
       label: document.getElementById("cLabel").value.trim(),
-      contact_id: document.getElementById("cContact").value.trim() || null,
+      contact_id: firstContact ? firstContact.contact_id : null,
+      buyers: critBuyers,
+      metadata: { buyers: critBuyers },
       lead_id: document.getElementById("cLead").value.trim() || null,
       property_types: document.getElementById("cTypes").value,
       cities: document.getElementById("cCities").value,

@@ -102,7 +102,15 @@ window.CrmImmoStore = (function () {
 
   function listProperties(query) {
     var db = loadLocal();
-    var list = db.properties.slice();
+    var partiesByProperty = {};
+    db.parties.forEach(function (party) {
+      if (!party.property_id) return;
+      if (!partiesByProperty[party.property_id]) partiesByProperty[party.property_id] = [];
+      partiesByProperty[party.property_id].push(party);
+    });
+    var list = db.properties.slice().map(function (p) {
+      return Object.assign({}, p, { _parties: partiesByProperty[p.id] || [] });
+    });
     if (Matcher) list = Matcher.filterProperties(list, query || {});
     list.sort(function (a, b) {
       return String(b.updated_at || b.created_at || "").localeCompare(String(a.updated_at || a.created_at || ""));
@@ -111,9 +119,72 @@ window.CrmImmoStore = (function () {
   }
 
   function getProperty(id) {
-    return loadLocal().properties.find(function (p) {
+    var prop = loadLocal().properties.find(function (p) {
       return p.id === id;
-    }) || null;
+    });
+    if (!prop) return null;
+    return Object.assign({}, prop, { _parties: listParties(id) });
+  }
+
+  function syncPrimaryContacts(propertyId) {
+    if (!propertyId) return;
+    var db = loadLocal();
+    var prop = db.properties.find(function (p) {
+      return p.id === propertyId;
+    });
+    if (!prop) return;
+    var parties = db.parties.filter(function (p) {
+      return p.property_id === propertyId;
+    });
+    var owner = parties.find(function (p) {
+      return Matcher.isSellerPartyRole(p.role) && p.contact_id;
+    });
+    var buyer = parties.find(function (p) {
+      return Matcher.isBuyerPartyRole(p.role) && p.contact_id;
+    });
+    prop.owner_contact_id = owner ? owner.contact_id : prop.owner_contact_id || null;
+    prop.buyer_contact_id = buyer ? buyer.contact_id : prop.buyer_contact_id || null;
+    if (Matcher.propertyHasKnownParties({ _parties: parties })) prop.contact_connu = true;
+    prop.updated_at = new Date().toISOString();
+    saveLocal(db);
+    pushEntity("property", prop);
+    return prop;
+  }
+
+  function migrateLegacyContactsToParties(propertyId) {
+    if (!propertyId) return;
+    var db = loadLocal();
+    var prop = db.properties.find(function (p) {
+      return p.id === propertyId;
+    });
+    if (!prop) return;
+    var parties = db.parties.filter(function (p) {
+      return p.property_id === propertyId;
+    });
+    var now = new Date().toISOString();
+    if (prop.owner_contact_id && !parties.some(function (p) { return Matcher.isSellerPartyRole(p.role); })) {
+      db.parties.unshift({
+        id: uid("party"),
+        property_id: propertyId,
+        role: "vendeur",
+        name: "",
+        contact_id: prop.owner_contact_id,
+        created_at: now,
+        updated_at: now,
+      });
+    }
+    if (prop.buyer_contact_id && !parties.some(function (p) { return Matcher.isBuyerPartyRole(p.role); })) {
+      db.parties.unshift({
+        id: uid("party"),
+        property_id: propertyId,
+        role: "acquereur",
+        name: "",
+        contact_id: prop.buyer_contact_id,
+        created_at: now,
+        updated_at: now,
+      });
+    }
+    saveLocal(db);
   }
 
   function upsertProperty(input) {
@@ -182,6 +253,33 @@ window.CrmImmoStore = (function () {
     item.updated_at = now;
     if (!item.label) item.label = "Recherche acquéreur";
     if (!item.status) item.status = "active";
+    if (typeof item.metadata === "string") {
+      try {
+        item.metadata = JSON.parse(item.metadata || "{}");
+      } catch (e) {
+        item.metadata = {};
+      }
+    }
+    if (!item.metadata || typeof item.metadata !== "object") item.metadata = {};
+    if (Array.isArray(item.buyers)) {
+      item.metadata.buyers = item.buyers;
+    } else if (!Array.isArray(item.metadata.buyers)) {
+      item.metadata.buyers = [];
+    }
+    if (item.contact_id && !item.metadata.buyers.length) {
+      item.metadata.buyers.push({
+        id: uid("buyer"),
+        role: "acquereur",
+        name: "",
+        contact_id: item.contact_id,
+      });
+    }
+    if (item.metadata.buyers.length && !item.contact_id) {
+      var firstBuyer = item.metadata.buyers.find(function (b) {
+        return b.contact_id;
+      });
+      if (firstBuyer) item.contact_id = firstBuyer.contact_id;
+    }
     ["property_types", "cities", "postal_codes", "departments", "must_haves"].forEach(function (k) {
       if (typeof item[k] === "string") {
         item[k] = item[k]
@@ -233,16 +331,65 @@ window.CrmImmoStore = (function () {
     else db.parties.unshift(item);
     saveLocal(db);
     pushEntity("party", item);
+    if (item.property_id) syncPrimaryContacts(item.property_id);
     return item;
   }
 
   function deleteParty(id) {
     var db = loadLocal();
+    var existing = db.parties.find(function (p) {
+      return p.id === id;
+    });
     db.parties = db.parties.filter(function (p) {
       return p.id !== id;
     });
     saveLocal(db);
     deleteRemote("party", id);
+    if (existing && existing.property_id) syncPrimaryContacts(existing.property_id);
+  }
+
+  function listCriteriaBuyers(criteria) {
+    if (!criteria) return [];
+    var meta = criteria.metadata;
+    if (typeof meta === "string") {
+      try {
+        meta = JSON.parse(meta || "{}");
+      } catch (e) {
+        meta = {};
+      }
+    }
+    var buyers = (meta && meta.buyers) || criteria.buyers || [];
+    if (!Array.isArray(buyers)) buyers = [];
+    if (!buyers.length && criteria.contact_id) {
+      buyers = [{ id: uid("buyer"), role: "acquereur", name: "", contact_id: criteria.contact_id }];
+    }
+    return buyers;
+  }
+
+  function upsertCriteriaBuyers(criteriaId, buyers) {
+    var crit = getCriteria(criteriaId);
+    if (!crit) return null;
+    var meta = crit.metadata;
+    if (typeof meta === "string") {
+      try {
+        meta = JSON.parse(meta || "{}");
+      } catch (e) {
+        meta = {};
+      }
+    }
+    if (!meta || typeof meta !== "object") meta = {};
+    meta.buyers = (buyers || []).map(function (b) {
+      return Object.assign({ role: "acquereur" }, b || {});
+    });
+    var firstContact = meta.buyers.find(function (b) {
+      return b.contact_id;
+    });
+    return upsertCriteria({
+      id: criteriaId,
+      metadata: meta,
+      buyers: meta.buyers,
+      contact_id: firstContact ? firstContact.contact_id : crit.contact_id || null,
+    });
   }
 
   function listDocuments(opts) {
@@ -416,6 +563,10 @@ window.CrmImmoStore = (function () {
     listParties: listParties,
     upsertParty: upsertParty,
     deleteParty: deleteParty,
+    syncPrimaryContacts: syncPrimaryContacts,
+    migrateLegacyContactsToParties: migrateLegacyContactsToParties,
+    listCriteriaBuyers: listCriteriaBuyers,
+    upsertCriteriaBuyers: upsertCriteriaBuyers,
     listDocuments: listDocuments,
     upsertDocument: upsertDocument,
     deleteDocument: deleteDocument,
