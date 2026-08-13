@@ -119,10 +119,7 @@
             <label>Email<input name="email" type="email" required autocomplete="email" /></label>
             <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" required /></label>
           </div>
-          <label class="checkbox-row" style="margin-top:12px">
-            <input type="checkbox" name="consent" required />
-            J'accepte d'être contacté conformément à la <a href="../politique-confidentialite.html" target="_blank" rel="noopener">politique de confidentialité</a>.
-          </label>
+          <div data-phone-consent-mount data-privacy="../politique-confidentialite.html" style="margin-top:12px"></div>
           <button type="submit" class="btn btn-primary" style="width:100%;margin-top:12px" data-track="cta_click">Demander mon rappel</button>
           <p class="small" style="margin-top:10px">Besoin du detail (numero de puce, formules, tarif) ? <a href="./animaux.html">Parcours complet en 3 etapes</a> · <a href="./questionnaire.html?need=animaux&amp;journey=standard">Questionnaire universel</a></p>
           <p class="form-lead" data-form-success hidden>Merci ! Un conseiller animaux vous contacte rapidement.</p>
@@ -131,6 +128,7 @@
       </section>
     </div>
   </main>
+  <script src="../js/phone-consent.js"></script>
   <script src="../js/callback-form.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>

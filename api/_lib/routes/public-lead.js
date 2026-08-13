@@ -108,6 +108,27 @@ module.exports = async (req, res) => {
   enriched.clientIp = normalizeClientIp(req);
   enriched.visitor_country = visitorCountry || body.visitor_country || null;
 
+  try {
+    const { applyPhoneConsent } = require("../phone-consent");
+    applyPhoneConsent(enriched, enriched.clientIp);
+  } catch (consentErr) {
+    console.warn("[lead] phone consent", consentErr.message);
+  }
+
+  if (
+    (enriched.callbackRequested === true ||
+      enriched.journey === "callback" ||
+      String(enriched.source || "").indexOf("callback") !== -1) &&
+    !enriched.phone_consent
+  ) {
+    return res.status(400).json({
+      ok: false,
+      error: "phone_consent_required",
+      message:
+        "Le consentement à être contacté par téléphone est requis pour une demande de rappel (loi du 11 août 2026).",
+    });
+  }
+
   if (
     visitorCountry &&
     isFranceAudience(visitorCountry) &&
@@ -187,6 +208,12 @@ module.exports = async (req, res) => {
     try {
       const { neon } = require("@neondatabase/serverless");
       const sql = neon(dbUrl);
+      try {
+        const { ensureSiteLeadsSchema } = require("../ensure-schema");
+        await ensureSiteLeadsSchema(sql);
+      } catch (schemaErr) {
+        console.warn("[lead] ensure-schema", schemaErr.message);
+      }
 
       var normEmail = normalizeEmail(enriched.email);
       var normPhone = normalizePhone(enriched.phone);
@@ -218,7 +245,8 @@ module.exports = async (req, res) => {
           competitor_monthly, our_offer_monthly, relevance,
           landing_slug, seo_city, seo_department, seo_product,
           address_line, postal_code, city, geo_lat, geo_lng, geo_confidence,
-          parent_lead_id, is_duplicate, client_ip
+          parent_lead_id, is_duplicate, client_ip,
+          phone_consent, phone_consent_at, phone_consent_expires_at, phone_consent_version
         ) VALUES (
           ${leadId},
           ${String(enriched.source || "unknown").slice(0, 120)},
@@ -258,7 +286,11 @@ module.exports = async (req, res) => {
           ${enriched.geo_confidence ? String(enriched.geo_confidence).slice(0, 20) : null},
           ${parentLeadId},
           ${isDuplicate},
-          ${enriched.clientIp}
+          ${enriched.clientIp},
+          ${enriched.phone_consent === true},
+          ${enriched.phone_consent_at || null},
+          ${enriched.phone_consent_expires_at || null},
+          ${enriched.phone_consent_version ? String(enriched.phone_consent_version).slice(0, 80) : null}
         )
       `;
       stored = true;

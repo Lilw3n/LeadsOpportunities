@@ -1415,3 +1415,25 @@ article.service-card p {
   }
   .footer { padding-bottom: 80px; }
 }
+
+/* Opt-in téléphone (loi 11/08/2026) */
+.lo-consent-phone,
+.lo-consent-processing {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 10px 0;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+.lo-consent-phone input,
+.lo-consent-processing input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.lo-consent-phone {
+  padding: 10px 12px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+}

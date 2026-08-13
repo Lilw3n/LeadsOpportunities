@@ -126,6 +126,18 @@ async function ensureSiteLeadsSchema(sql) {
       function (s) {
         return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS our_offer_monthly NUMERIC`;
       },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS phone_consent BOOLEAN`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS phone_consent_at TIMESTAMPTZ`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS phone_consent_expires_at TIMESTAMPTZ`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS phone_consent_version TEXT`;
+      },
     ];
 
     for (var i = 0; i < steps.length; i++) {
