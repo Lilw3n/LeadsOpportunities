@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-mandats.css" />
   <style>
     .immo-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
     .immo-grid label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); }
@@ -24,13 +25,16 @@
     <div>
       <p class="crm-eyebrow">Immobilier · documents</p>
       <h2>Éditeur documents immo</h2>
-      <p>Fondation éditable : mandat, bon de visite, offre, compromis, diagnostics… (PDF / e-sign plus tard). Crédit immo en préparation séparée.</p>
+      <p>Mandats (simple / exclusif / semi-exclusif), bons de visite, offres, compromis… Distinguez le droit général des pratiques agence. PDF / e-sign plus tard.</p>
     </div>
     <div class="crm-action-row">
       <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire</a>
+      <a href="./crm-agency-fees.html" class="btn btn-ghost">Honoraires</a>
       <button type="button" class="btn btn-primary" id="btnNewDoc">+ Document</button>
     </div>
   </section>
+
+  <div id="mandatComparatifMount" class="panel" style="margin-bottom:16px"></div>
 
   <div class="crm-toolbar" style="margin-bottom:12px">
     <label>Filtrer par bien
@@ -49,6 +53,14 @@
         <input type="hidden" id="dId" />
         <label>Titre<input id="dTitle" required /></label>
         <label>Type<select id="dType"></select></label>
+        <label>Forme mandat
+          <select id="dForme">
+            <option value="">—</option>
+            <option value="Simple">Simple</option>
+            <option value="Exclusif">Exclusif</option>
+            <option value="Semi-exclusif">Semi-exclusif</option>
+          </select>
+        </label>
         <label>Statut
           <select id="dStatus">
             <option value="draft">Brouillon</option>
@@ -64,6 +76,7 @@
         <label style="grid-column:1/-1">Notes<textarea id="dNotes" rows="2"></textarea></label>
         <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
           <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-ghost" id="btnApplyMandatTemplate">Appliquer modèle forme</button>
           <button type="button" class="btn btn-ghost" id="btnDelDoc">Supprimer</button>
         </div>
       </form>
@@ -74,6 +87,7 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-mandat-formes.js"></script>
   <script src="./js/crm-immo-documents-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

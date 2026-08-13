@@ -1,0 +1,161 @@
+/* Comparatif mandats — crm-immo-documents */
+.mandat-comparatif {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mandat-comparatif__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.mandat-comparatif h3 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+.mandat-muted {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  max-width: 52rem;
+}
+.mandat-filters select {
+  margin-left: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  font: inherit;
+}
+.mandat-forme-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+}
+.mandat-forme-card {
+  text-align: left;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(165deg, #fff 0%, #f4f7fb 100%);
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.mandat-forme-card:hover {
+  border-color: #94a3b8;
+  transform: translateY(-1px);
+}
+.mandat-forme-card.is-active {
+  border-color: #0f766e;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.18);
+}
+.mandat-forme-card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+.mandat-forme-card p {
+  margin: 8px 0 0;
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+.mandat-type-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.mandat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+.mandat-chip.is-active {
+  border-color: #0f766e;
+  background: #ecfdf5;
+}
+.mandat-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+.mandat-badge--general {
+  background: #e2e8f0;
+  color: #334155;
+}
+.mandat-badge--agence {
+  background: #ffedd5;
+  color: #9a3412;
+}
+.mandat-detail {
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+}
+.mandat-detail h4 {
+  margin: 12px 0 6px;
+}
+.mandat-agence-note {
+  font-size: 0.9rem;
+  color: #9a3412;
+  background: #fff7ed;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+.mandat-dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.mandat-dl div {
+  padding: 8px 10px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+.mandat-dl dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.mandat-dl dd {
+  margin: 4px 0 0;
+  font-size: 0.88rem;
+}
+.mandat-points {
+  margin: 8px 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.mandat-points li {
+  margin-bottom: 6px;
+}
+.mandat-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+@media (max-width: 600px) {
+  .mandat-forme-cards {
+    grid-template-columns: 1fr;
+  }
+}
