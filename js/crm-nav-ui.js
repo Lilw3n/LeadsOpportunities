@@ -16,7 +16,7 @@ window.CrmNavUi = {
       var q = input.value.toLowerCase().trim();
       navRoot.querySelectorAll(".crm-nav-group").forEach(function (g) {
         var visible = 0;
-        g.querySelectorAll(".crm-nav-link, .crm-nav-btn, .crm-nav-favorite").forEach(function (el) {
+        g.querySelectorAll(".crm-nav-link, .crm-nav-btn, .crm-nav-favorite, .crm-nav-pillar").forEach(function (el) {
           var text = ((el.textContent || "") + " " + (el.getAttribute("data-keywords") || "")).toLowerCase();
           var show = !q || text.indexOf(q) >= 0;
           el.classList.toggle("crm-nav-hidden", !show);
