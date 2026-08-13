@@ -252,13 +252,20 @@ h1 {
   line-height: 1.12;
   font-weight: 900;
   letter-spacing: -.025em;
-  margin: 0 0 16px;
+  margin: 0 0 10px;
 }
 .text-gradient {
   background: linear-gradient(135deg, var(--primary), var(--accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.hero-byline {
+  margin: 0 0 18px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--primary-dark, #0f766e);
 }
 .hero-sub {
   font-size: 1.12rem;
