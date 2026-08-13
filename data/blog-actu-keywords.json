@@ -96,7 +96,9 @@
         "permis",
         "conducteur",
         "bonus",
-        "malus"
+        "malus",
+        "trottinette",
+        "trottinettes"
       ],
       "section": "auto",
       "need": "auto",

@@ -28,13 +28,34 @@ function resolveQueueSourceType(source) {
 
 function mergeWithQuotas(buckets, quotas) {
   var merged = [];
+  var used = new Set();
+  function keyOf(c) {
+    return c.url || c.title;
+  }
+  ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
+    (buckets[type] || []).forEach(function (c) {
+      if (c.status !== "queued") return;
+      var k = keyOf(c);
+      if (!k || used.has(k)) return;
+      merged.push(c);
+      used.add(k);
+    });
+  });
   ["cafeyn", "edge", "firefox", "aggregator"].forEach(function (type) {
     var cap = quotas[type] || 0;
     var list = (buckets[type] || []).slice();
     list.sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
-    merged = merged.concat(list.slice(0, cap));
+    var added = 0;
+    list.forEach(function (c) {
+      var k = keyOf(c);
+      if (used.has(k)) return;
+      if (added >= cap) return;
+      merged.push(c);
+      used.add(k);
+      added += 1;
+    });
   });
   return merged;
 }
