@@ -201,8 +201,22 @@ function isMostlyEnglishTitle(title) {
   if (/\b(enters into|memorandum of understanding|business wire|what you need to know|money talk)\b/i.test(t)) {
     return true;
   }
-  var enHits = (t.match(/\b(the|and|into|regarding|potential|enters|memorandum|understanding|what|you|need|know|how|advantages)\b/gi) || []).length;
-  return enHits >= 3;
+  var words = t.toLowerCase().match(/[a-zàâäéèêëïîôöùûüç]+/g) || [];
+  if (!words.length) return false;
+  var enLex = {
+    the: 1, and: 1, with: 1, for: 1, from: 1, into: 1, of: 1, to: 1, in: 1, on: 1,
+    is: 1, are: 1, was: 1, were: 1, by: 1, at: 1, as: 1, or: 1, an: 1, this: 1,
+    that: 1, will: 1, can: 1, has: 1, have: 1, not: 1, bans: 1, calls: 1, fines: 1,
+    hefty: 1, unsolicited: 1, telemarketing: 1, regarding: 1, potential: 1,
+    enters: 1, memorandum: 1, understanding: 1, what: 1, you: 1, need: 1, know: 1,
+    how: 1, sale: 1, business: 1, health: 1, insurance: 1, advantages: 1, getting: 1,
+    violators: 1, violator: 1,
+  };
+  var enHits = 0;
+  words.forEach(function (w) {
+    if (enLex[w]) enHits += 1;
+  });
+  return enHits >= 3 || (words.length >= 6 && enHits / words.length >= 0.3);
 }
 
 function ctaWithUtm(need, slug) {
