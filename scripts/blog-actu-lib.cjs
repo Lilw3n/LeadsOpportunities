@@ -165,6 +165,41 @@ function isPlaceholderActuItem(item) {
   return false;
 }
 
+function significantTitleWords(title) {
+  return String(title || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9àâäéèêëïîôöùûüç ]/g, " ")
+    .split(/\s+/)
+    .filter(function (w) {
+      return w.length > 3;
+    });
+}
+
+function titlesTooSimilar(a, b) {
+  var wa = significantTitleWords(a);
+  if (wa.length < 3) return false;
+  var wb = new Set(significantTitleWords(b));
+  var hits = wa.filter(function (w) {
+    return wb.has(w);
+  }).length;
+  return hits >= 3;
+}
+
+/** Sport / actu hors marché FR, ou titres anglais sans angle assurance France. */
+function isOffMarketActuCandidate(candidate) {
+  var hay = String(candidate.title || "") + " " + String(candidate.summary || "");
+  if (/hockey/i.test(hay) && !/\bfrance\b|\bfrançais\b|\bfrancais\b|\bbleus\b|équipe de france|equipe de france/i.test(hay)) {
+    return true;
+  }
+  if (
+    /\b(memorandum of understanding|what you need to know|money talk|enters into)\b/i.test(hay) &&
+    !/\bfrance\b|\bmutuelle\b|\bassurance\b/i.test(hay)
+  ) {
+    return true;
+  }
+  return false;
+}
+
 function ctaWithUtm(need, slug) {
   var cfg = readJson("blog-actu-keywords.json", { leadCta: {} });
   var base = cfg.leadCta[need] || cfg.leadCta.habitation;
@@ -363,6 +398,8 @@ module.exports = {
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
   isPlaceholderActuItem: isPlaceholderActuItem,
+  titlesTooSimilar: titlesTooSimilar,
+  isOffMarketActuCandidate: isOffMarketActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

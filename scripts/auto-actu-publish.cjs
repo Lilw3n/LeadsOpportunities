@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuItem } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuItem, titlesTooSimilar, isOffMarketActuCandidate } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -75,11 +75,19 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
-function bestFromPlatform(available, platform, feedMap, used) {
+function bestFromPlatform(available, platform, feedMap, used, picks) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      if (candidateSourceType(c, feedMap) !== platform || used.has(k)) return false;
+      if (
+        (picks || []).some(function (p) {
+          return titlesTooSimilar(c.title, p.title);
+        })
+      ) {
+        return false;
+      }
+      return true;
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -91,12 +99,21 @@ function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
   var processed = new Set(state.processedUrls || []);
   var titleKeys = loadPublishedTitleKeys();
+  var publishedTitles = Array.from(titleKeys);
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
     if (isPlaceholderActuItem(c)) return false;
+    if (isOffMarketActuCandidate(c)) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (
+      publishedTitles.some(function (t) {
+        return titlesTooSimilar(c.title, t);
+      })
+    ) {
+      return false;
+    }
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
@@ -107,36 +124,39 @@ function pickCandidates(candidates, count, state) {
   var picks = [];
   var used = new Set();
 
+  function tryAdd(c) {
+    if (!c || picks.length >= count) return;
+    var k = c.url || c.title;
+    if (used.has(k)) return;
+    if (
+      picks.some(function (p) {
+        return titlesTooSimilar(c.title, p.title);
+      })
+    ) {
+      return;
+    }
+    picks.push(c);
+    used.add(k);
+  }
+
   available
     .filter(function (c) {
       return c.status === "queued";
     })
-    .slice(0, count)
     .forEach(function (c) {
-      if (picks.length >= count) return;
-      picks.push(c);
-      used.add(c.url || c.title);
+      tryAdd(c);
     });
 
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
-      if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
-      if (pick) {
-        picks.push(pick);
-        used.add(pick.url || pick.title);
-      }
+      tryAdd(bestFromPlatform(available, platform, feedMap, used, picks));
     });
     state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
   } else {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
-      if (rotated) {
-        picks.push(rotated);
-        used.add(rotated.url || rotated.title);
-      }
+      tryAdd(bestFromPlatform(available, platform, feedMap, used, picks));
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
@@ -146,19 +166,11 @@ function pickCandidates(candidates, count, state) {
       return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
     })
     .forEach(function (c) {
-      if (picks.length >= count) return;
-      var k = c.url || c.title;
-      if (used.has(k)) return;
-      picks.push(c);
-      used.add(k);
+      tryAdd(c);
     });
 
   available.forEach(function (c) {
-    if (picks.length >= count) return;
-    var k = c.url || c.title;
-    if (used.has(k)) return;
-    picks.push(c);
-    used.add(k);
+    tryAdd(c);
   });
 
   return picks;
