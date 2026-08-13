@@ -64,6 +64,8 @@ function isLowConversionActuTitle(title) {
   var low = String(title || "").toLowerCase();
   if (/obtenez un devis|meilleure mutuelle|comparateur mutuelle/i.test(low)) return true;
   if (/assurance habitation en 2025/i.test(low)) return true;
+  if (/m[eé]so sp[eé]cifique|cairn\.info/i.test(low)) return true;
+  if (/classement exclusif de l['’']argus|march[eé] des alternatifs/i.test(low)) return true;
   if (/\b(zidane|barthez)\b/i.test(low) && /staff|entra[iî]neur/i.test(low)) return true;
   return false;
 }
