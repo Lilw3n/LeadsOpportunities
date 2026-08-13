@@ -107,26 +107,30 @@ function scoreLeadPotential(candidate) {
   if (need === "sante" || need === "emprunteur" || need === "habitation" || need === "auto") score += 20;
   if (need === "vtc" || need === "animaux" || need === "prevoyance") score += 15;
 
-  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie"].forEach(function (kw) {
-    if (title.indexOf(kw) !== -1) score += 8;
+  ["assurance", "mutuelle", "emprunteur", "sinistre", "pret", "prêt", "rembours", "garantie", "habitation", "locataire"].forEach(function (kw) {
+    if (title.indexOf(kw) !== -1) score += 10;
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
-  if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
-    [
-      "coupe du monde",
-      "mondial",
-      "mbappe",
-      "mbappé",
-      "deschamps",
-      "équipe de france",
-      "equipe de france",
-      "supporters",
-      "match france",
-      "les bleus",
-    ].forEach(function (kw) {
-      if (title.indexOf(kw) !== -1) score += 14;
-    });
+  var sportHit = [
+    "coupe du monde",
+    "mondial",
+    "mbappe",
+    "mbappé",
+    "deschamps",
+    "équipe de france",
+    "equipe de france",
+    "supporters",
+    "match france",
+    "les bleus",
+  ].some(function (kw) {
+    return title.indexOf(kw) !== -1;
+  });
+  if (
+    sportHit &&
+    (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay))
+  ) {
+    score += 10;
   }
 
   score += franceLeadScoreAdjust(candidate);
@@ -150,6 +154,60 @@ function rankCandidates(candidates) {
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
+}
+
+/** File manuelle / inbox : ignorer les gabarits non remplis (ex. « COLLEZ ICI »). */
+function isPlaceholderCandidate(item) {
+  if (!item) return true;
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template" || status === "rejected" || status === "draft-template") return true;
+  var id = String(item.id || "").toLowerCase();
+  if (id.indexOf("pending-template") !== -1 || id.slice(-9) === "-template") return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (/collez ici|titre de la une|à compléter|a completer|placeholder/i.test(title)) return true;
+  return false;
+}
+
+/** Communiqués EN (Business Wire, etc.) : SEO France + CTA questionnaire incompatibles. */
+function looksLikeEnglishHeadline(title) {
+  var t = String(title || "");
+  if (
+    /\b(enters into|memorandum of understanding|regarding|potential sale|announces that|money talk|the advantages of getting|heatwave|excess deaths|unprecedented)\b/i.test(
+      t
+    )
+  ) {
+    return true;
+  }
+  var frHits = (
+    t.match(
+      /\b(le|la|les|des|une|un|du|et|en|pour|avec|sur|dans|cette|france|équipe|equipe|assurance|mutuelle|selon|chez|contre|est|sont|que|qui)\b/gi
+    ) || []
+  ).length;
+  var enHits = (
+    t.match(
+      /\b(the|into|of|and|for|with|regarding|potential|sale|enters|announces|agreement|understanding|sees|heatwave|deaths|excess|june|july)\b/gi
+    ) || []
+  ).length;
+  if (enHits >= 2 && frHits === 0) return true;
+  return enHits >= 3 && frHits <= 1;
+}
+
+/** Actu > 21 jours : trop vieux pour un article « du jour ». File manuelle sans date : OK. */
+function isStaleActuCandidate(item, maxDays) {
+  var days = maxDays || 21;
+  if (!item || !item.pubDate) return false;
+  var t = new Date(item.pubDate).getTime();
+  if (isNaN(t)) return false;
+  return Date.now() - t > days * 86400000;
+}
+
+/** Titre orienté conversion (assurance / crédit / mutuelle), pas un recap sport. */
+function isHighIntentLead(candidate) {
+  var title = String((candidate && candidate.title) || "").toLowerCase();
+  return /assurance|mutuelle|emprunteur|habitation|sinistre|cr[eé]dit immo|pr[eê]t immobilier|pr[eê]t immo|compl[eé]mentaire sant[eé]|tarif/.test(
+    title
+  );
 }
 
 function ctaWithUtm(need, slug) {
@@ -349,6 +407,10 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  looksLikeEnglishHeadline: looksLikeEnglishHeadline,
+  isStaleActuCandidate: isStaleActuCandidate,
+  isHighIntentLead: isHighIntentLead,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

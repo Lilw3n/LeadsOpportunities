@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T10:12:44.084Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+    "https://news.google.com/rss/articles/CBMirAFBVV95cUxQT2xwQUw1UGFQaHBRRUwtVFp4MWtRZGhtMW9IMDA0TjZ5UklEQ1M5dUdZUllsRmVvUThCSHZVcnloQWRpckM5bDBXRGpWY3dlak1BS1h0eFFQcG5ncVhaRy1EVnlhcTZydDRPWjNDVGZCZ3c5MFpqMTl1RmNPOFBNbFktaTA1eERPZTlEUVd1cDAzSmppb25YUTVTdXpaS2dIOWxIOEQzaDVGcjhl?oc=5",
+    "https://news.google.com/rss/articles/CBMirgFBVV95cUxQdnZtTkJtY0lOTzBraWk4bUJSczFrV2FJN1JrVFBUQmhSUjlTc0I5SHJsY1RmNzQ0SFh6UEZyQ1lNUUF4a0l0Qi1zWERfT0R6RExXU0FkZVFtN05PU1VuS2RSWU4ydURJQjMxa1ZJRjJxdS1ZTzlNX1cxYVgySGtLVlJueVVYU0JOaG10T2J5NnBpbi1BWEpqYkFsVFZOMXFLTk9XWDlUY0cyT2RHbVE?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T10:12:44.106Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T10:12:44.106Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+          "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habit… : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "france-conduite-sous-stupefiants-le-cout-cache-de-l-assurance-auto-qui-p.html",
+          "title": "FRANCE : Conduite sous stupéfiants – Le coût caché de l’assurance auto qui peut explose… : assurance auto — que faire ?",
+          "source": "Google News — assurance",
+          "sourceType": "aggregator"
+        },
+        {
+          "file": "credit-immobilier-pourquoi-la-france-se-demarque-en-europe-en-2026-le-re.html",
+          "title": "Crédit immobilier : pourquoi la France se démarque en Europe en 2026 - Le Revenu : pret et assurance emprunteur — que faire ?",
+          "source": "Google News — prêt immo emprunteur",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
