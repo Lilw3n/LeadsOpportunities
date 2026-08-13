@@ -1,0 +1,88 @@
+.loq-viewer-toolbar,
+.immo-viewer-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0;
+  align-items: center;
+}
+.loq-viewer-frame,
+.immo-viewer-frame {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  min-height: 70vh;
+  overflow: auto;
+}
+.loq-viewer-frame iframe,
+.immo-viewer-frame iframe {
+  width: 100%;
+  min-height: 75vh;
+  border: 0;
+}
+.immo-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.immo-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.immo-form-card:hover {
+  border-color: #1d4ed8;
+  box-shadow: 0 4px 14px rgba(29, 78, 216, 0.12);
+}
+.immo-form-card h4 {
+  margin: 0;
+  font-size: 1rem;
+  color: #1e3a8a;
+}
+.immo-form-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.45;
+  flex: 1;
+}
+.immo-form-card .immo-form-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+.immo-form-card .btn {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+.immo-cat-title {
+  margin: 24px 0 8px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+}
+@media print {
+  .loq-viewer-toolbar,
+  .immo-viewer-toolbar,
+  .crm-sidebar,
+  .btn,
+  a.btn {
+    display: none !important;
+  }
+  .loq-viewer-frame,
+  .immo-viewer-frame {
+    border: none;
+    min-height: auto;
+  }
+}

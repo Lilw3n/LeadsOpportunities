@@ -114,6 +114,7 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-immo-suivi.html", label: "Suivi", icon: "immo", badge: "pipeline", desc: "Ventes, locations, offres, sorties de stock", keywords: "suivi ventes locations offres stock sorties" },
         { type: "link", href: "./crm-immo-matching.html", label: "Matching acquéreurs", icon: "ai", badge: "smart", desc: "Critères géo, surface, pièces, dépendances vs biens", keywords: "matching acheteur recherche criteria" },
         { type: "link", href: "./crm-immo-documents.html", label: "Documents immo", icon: "document", desc: "Mandats, bons de visite, offres, compromis (édition)", keywords: "mandat compromis offre visite document" },
+        { type: "link", href: "./crm-immo-formulaires.html", label: "Formulaires PDF", icon: "document", badge: "terrain", highlight: true, desc: "Mandats, estimation, bon de visite — encarts à remplir puis imprimer", keywords: "pdf formulaire mandat estimation visite prospection imprimer" },
         { type: "link", href: "./crm-immo-property.html", label: "Fiche bien", icon: "immo", muted: true },
         { type: "link", href: "./crm-pret-immo.html", label: "Prêts (dossiers)", icon: "immo", badge: "nouveau", highlight: true, desc: "Mes dossiers, simulations RAC / IMMO / SCI…", keywords: "pret credit rac rachat simulation dossier emprunteur" },
         { type: "link", href: "./crm-assurance-immo.html", label: "Assurance immo", icon: "insurance", badge: "ADE", highlight: true, desc: "Emprunteur ADE, habitation MRH", keywords: "assurance emprunteur ade mrh habitation immo" },

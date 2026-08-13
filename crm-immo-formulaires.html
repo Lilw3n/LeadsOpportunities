@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Formulaires imprimables | CRM Immo</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/immo-print-forms.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Immobilier · démarchage terrain</p>
+      <h2>Formulaires PDF à remplir</h2>
+      <p>Mandats, estimation, bon de visite, prospection… Chaque modèle s’ouvre avec des <strong>encarts modifiables</strong> : complétez sur écran puis <strong>Imprimer → Enregistrer en PDF</strong>.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire biens</a>
+      <a href="./crm-immo-documents.html" class="btn btn-ghost">Éditeur documents</a>
+    </div>
+  </section>
+
+  <div class="panel" style="padding:18px">
+    <label class="crm-toolbar-label">Préremplir depuis un bien (optionnel)
+      <select id="filterProperty" class="crm-input">
+        <option value="">— Aucun —</option>
+      </select>
+    </label>
+    <p id="hubStatus" class="crm-muted-inline" style="margin-top:8px">Chargement des modèles…</p>
+    <div id="formHub"></div>
+  </div>
+
+  <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-formulaires-page.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

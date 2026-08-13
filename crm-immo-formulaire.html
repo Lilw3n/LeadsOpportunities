@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Formulaire immo | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./css/immo-print-forms.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+</head>
+<body class="crm-subpage">
+  <div style="max-width:960px;margin:0 auto;padding:24px">
+    <div class="immo-viewer-toolbar">
+      <a href="./crm-immo-formulaires.html" id="backLink" class="btn btn-ghost">← Tous les formulaires</a>
+      <a href="#" id="propertyLink" class="btn btn-ghost" hidden>Fiche bien</a>
+      <button type="button" class="btn btn-primary" id="btnPrint">Imprimer / PDF</button>
+      <button type="button" class="btn btn-ghost" id="btnClear">Effacer mes saisies</button>
+    </div>
+    <p id="docStatus" class="crm-muted-inline">Chargement…</p>
+    <div class="immo-viewer-frame" id="docFrameWrap" hidden>
+      <iframe id="docFrame" title="Formulaire immobilier"></iframe>
+    </div>
+  </div>
+  <script src="./js/crm-immo-formulaire-page.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

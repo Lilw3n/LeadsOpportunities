@@ -83,6 +83,10 @@
         encodeURIComponent((prop.title || "Bien") + " — RDV") +
         "&type=visite";
     }
+    var formLink = document.getElementById("linkFormulaires");
+    if (formLink) {
+      formLink.href = "./crm-immo-formulaires.html?property=" + encodeURIComponent(prop.id);
+    }
     var fin = document.getElementById("linkFinancement");
     if (fin && window.FinanceDeepLink) {
       fin.href = window.FinanceDeepLink.baremesUrl({
@@ -705,6 +709,9 @@
       '<div class="immo-cloud-actions">' +
       '<button type="button" class="btn btn-primary btn-sm" id="btnCloudEnsure">Ouvrir / créer dossier</button>' +
       '<label class="btn btn-ghost btn-sm">Uploader<input type="file" id="cloudFiles" multiple hidden /></label>' +
+      '<a class="btn btn-ghost btn-sm" href="./crm-immo-formulaires.html?property=' +
+      encodeURIComponent(p.id) +
+      '">Formulaires PDF</a>' +
       '<a class="btn btn-ghost btn-sm" href="./crm-immo-documents.html?property=' +
       encodeURIComponent(p.id) +
       '">Éditeur documents</a>' +

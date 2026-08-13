@@ -1,0 +1,21 @@
+{
+  "id": "leads-opportunities-immo",
+  "companyName": "Leads Opportunities",
+  "agentName": "Wendy Buchet",
+  "tagline": "Négociateur immobilier · Courtier en assurance",
+  "addressLine": "Dombasle-sur-Meurthe (54110) — secteur Grand Nancy & vallée de la Meurthe",
+  "email": "contact@leadsopportunities.fr",
+  "phone": "",
+  "orias": "15005935",
+  "cartePro": "",
+  "garantieFinanciere": "",
+  "rcpInsurer": "",
+  "mediateur": "",
+  "website": "https://www.leadsopportunities.fr",
+  "accentColor": "#1d4ed8",
+  "accentDark": "#1e3a8a",
+  "footerLegal": "Leads Opportunities — Négociation immobilière & courtage assurance — ORIAS 15005935 — Modèle brouillon à valider avec votre réseau / avocat avant signature.",
+  "draftNotice": "DOCUMENT TYPE — à personnaliser, relire et faire valider avant remise au client. Les mentions légales (Loi Hoguet, ALUR, DPE, honoraires, médiation) doivent correspondre à votre statut et à votre réseau.",
+  "honorairesDefault": "Honoraires à la charge de l'acquéreur sauf mention contraire — barème communiqué avant toute visite.",
+  "mediationClause": "En cas de litige, le client peut saisir le médiateur de la consommation compétent après démarche préalable écrite auprès du professionnel."
+}
