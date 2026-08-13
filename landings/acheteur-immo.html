@@ -23,6 +23,7 @@
   <script src="/api/google-config-env"></script>
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../css/acheteur-parcours-focus.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
   <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
 </head>
@@ -48,31 +49,35 @@
         Acquereur immobilier
       </span>
       <section class="card">
-        <div class="hero-surface">
+        <div class="hero-surface" data-parcours-hero>
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Parcours acheteur — pret et assurances en un seul dossier"
-              data-price-title="Negociateur immobilier : offrez pret, emprunteur, habitation et PNO"
-            ></h1>
+              data-speed-title="Votre dossier acquereur — pret et assurances"
+              data-price-title="Votre dossier acquereur — pret et assurances"
+              data-focus-title="Completez votre dossier"
+            >Votre dossier acquereur — pret et assurances</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Questionnaire complet pour chaque acquereur : faisabilite pret, assurance emprunteur, habitation, PNO ou locataire."
-              data-price-subtitle="Un courtier unique pour le financement et les assurances liees a l'achat ou a la mise en location."
-            ></p>
-            <ul class="points">
-              <li>Pret immobilier : faisabilite et montage dossier</li>
-              <li>Assurance emprunteur comparee (delegation Lemoine)</li>
-              <li>Habitation, PNO bailleur, assurance locataire — selon votre situation</li>
-            </ul>
-            <div class="trust-row">
-              <span class="trust-pill">Negociateur immobilier</span>
-              <span class="trust-pill">Pret + assurances</span>
-              <span class="trust-pill">Conseiller unique</span>
-            </div>
-            <div class="actions">
-              <a class="btn btn-primary" href="#demande">Lancer ma simulation</a>
+              data-speed-subtitle="Un questionnaire qui s'adapte a vos besoins : pret, assurance emprunteur, habitation, PNO ou locataire."
+              data-price-subtitle="Un questionnaire qui s'adapte a vos besoins : pret, assurance emprunteur, habitation, PNO ou locataire."
+              data-focus-subtitle="Verifiez vos informations puis continuez — un conseiller vous rappelle rapidement."
+            >Un questionnaire qui s'adapte a vos besoins : pret, assurance emprunteur, habitation, PNO ou locataire.</p>
+            <div class="parcours-hero-extra">
+              <ul class="points">
+                <li>Pret immobilier : faisabilite et montage dossier</li>
+                <li>Assurance emprunteur comparee (delegation Lemoine)</li>
+                <li>Habitation, PNO bailleur, assurance locataire — selon votre situation</li>
+              </ul>
+              <div class="trust-row">
+                <span class="trust-pill">Negociateur immobilier</span>
+                <span class="trust-pill">Pret + assurances</span>
+                <span class="trust-pill">Conseiller unique</span>
+              </div>
+              <div class="actions">
+                <a class="btn btn-primary" href="#demande">Commencer le questionnaire</a>
+              </div>
             </div>
           </div>
         </div>
@@ -87,8 +92,12 @@
 
         <div class="form-wrap" id="demande" data-lead-dossier>
           <h2 class="form-title">Questionnaire acquereur</h2>
-          <p class="form-lead">
-            Chaque acheteur est interroge sur ses besoins de pret et d'assurances (emprunteur, habitation, PNO, locataire). Comptez 6 a 8 minutes.
+          <p class="parcours-prefill-banner" data-prefill-summary aria-live="polite"></p>
+          <p class="form-lead form-lead--full">
+            Cochez vos besoins : le parcours ne vous pose que les questions utiles. Comptez 5 a 8 minutes.
+          </p>
+          <p class="form-lead form-lead--short">
+            Cochez vos besoins et continuez — seules les etapes utiles s'affichent.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
@@ -701,60 +710,61 @@
           <div data-lead-insights hidden></div>
         </div>
 
-        <div class="form-wrap">
-          <h2>Formules assurance emprunteur</h2>
-          <p class="section-lead">Comparatif via Marketplace Emprunteur pour trouver la couverture adaptee a votre pret.</p>
-          <ul class="product-grid">
-            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Equilibre</strong><span class="product-item-text">Rapport garanties / prix equilibre</span><span class="product-item-cta">Demander un devis →</span></a></li>
-            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Essentiel</strong><span class="product-item-text">Entree de gamme</span><span class="product-item-cta">Demander un devis →</span></a></li>
-            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Integrale</strong><span class="product-item-text">Couverture large</span><span class="product-item-cta">Demander un devis →</span></a></li>
-            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Optimum +</strong><span class="product-item-text">Haut de gamme</span><span class="product-item-cta">Demander un devis →</span></a></li>
-            <li class="product-item"><a class="product-item-link" href="#demande"><strong>Horizon</strong><span class="product-item-text">Formule dediee</span><span class="product-item-cta">Demander un devis →</span></a></li>
-            <li class="product-item"><a class="product-item-link" href="#demande"><strong>APRIL Reprise</strong><span class="product-item-text">Reprise de contrat existant</span><span class="tag">Reprise</span><span class="product-item-cta">Demander un devis →</span></a></li>
-          </ul>
-        </div>
-
-        <div class="form-wrap">
-          <h2>Parcours accompagne</h2>
-          <ol class="steps">
-            <li><strong>1. Bien recherche</strong>Type, surface, pieces, secteur, budget visite — pour le matching.</li>
-            <li><strong>2. Pret / capacite</strong>Prix, apport, revenus — pour financer et filtrer les biens.</li>
-            <li><strong>3. Assurance emprunteur</strong>Delegation Lemoine + habitations selon vos besoins.</li>
-          </ol>
-        </div>
-
-        <div class="form-wrap">
-          <h2>FAQ credit immobilier</h2>
-          <ul class="faq-list landing-faq">
-            <li>
-              <details class="faq-item">
-                <summary>
-                  <span>La simulation est-elle engageante ?</span>
-                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <p>Non. Premiere estimation gratuite et sans engagement.</p>
-              </details>
-            </li>
-            <li>
-              <details class="faq-item">
-                <summary>
-                  <span>Proposez-vous le credit et l'assurance emprunteur ?</span>
-                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <p>Oui. Credit via La Centrale de Financement et assurance emprunteur comparee via Marketplace Emprunteur.</p>
-              </details>
-            </li>
-            <li>
-              <details class="faq-item">
-                <summary>
-                  <span>Que se passe-t-il apres la simulation ?</span>
-                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                </summary>
-                <p>Un courtier valide la faisabilite, negocie les conditions et vous accompagne jusqu'a la signature.</p>
-              </details>
-            </li>
-          </ul>
-        </div>
+        <details class="parcours-more" data-parcours-secondary>
+          <summary>En savoir plus (formules, etapes, FAQ)</summary>
+          <div class="form-wrap">
+            <h2>Formules assurance emprunteur</h2>
+            <p class="section-lead">Comparatif via Marketplace Emprunteur pour trouver la couverture adaptee a votre pret.</p>
+            <ul class="product-grid">
+              <li class="product-item"><a class="product-item-link" href="#demande"><strong>Equilibre</strong><span class="product-item-text">Rapport garanties / prix equilibre</span><span class="product-item-cta">Demander un devis →</span></a></li>
+              <li class="product-item"><a class="product-item-link" href="#demande"><strong>Essentiel</strong><span class="product-item-text">Entree de gamme</span><span class="product-item-cta">Demander un devis →</span></a></li>
+              <li class="product-item"><a class="product-item-link" href="#demande"><strong>Integrale</strong><span class="product-item-text">Couverture large</span><span class="product-item-cta">Demander un devis →</span></a></li>
+              <li class="product-item"><a class="product-item-link" href="#demande"><strong>Optimum +</strong><span class="product-item-text">Haut de gamme</span><span class="product-item-cta">Demander un devis →</span></a></li>
+              <li class="product-item"><a class="product-item-link" href="#demande"><strong>Horizon</strong><span class="product-item-text">Formule dediee</span><span class="product-item-cta">Demander un devis →</span></a></li>
+              <li class="product-item"><a class="product-item-link" href="#demande"><strong>APRIL Reprise</strong><span class="product-item-text">Reprise de contrat existant</span><span class="tag">Reprise</span><span class="product-item-cta">Demander un devis →</span></a></li>
+            </ul>
+          </div>
+          <div class="form-wrap">
+            <h2>Parcours accompagne</h2>
+            <ol class="steps">
+              <li><strong>1. Bien recherche</strong>Type, surface, pieces, secteur, budget visite — pour le matching.</li>
+              <li><strong>2. Pret / capacite</strong>Prix, apport, revenus — pour financer et filtrer les biens.</li>
+              <li><strong>3. Assurance emprunteur</strong>Delegation Lemoine + habitations selon vos besoins.</li>
+            </ol>
+          </div>
+          <div class="form-wrap">
+            <h2>FAQ credit immobilier</h2>
+            <ul class="faq-list landing-faq">
+              <li>
+                <details class="faq-item">
+                  <summary>
+                    <span>La simulation est-elle engageante ?</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </summary>
+                  <p>Non. Premiere estimation gratuite et sans engagement.</p>
+                </details>
+              </li>
+              <li>
+                <details class="faq-item">
+                  <summary>
+                    <span>Proposez-vous le credit et l'assurance emprunteur ?</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </summary>
+                  <p>Oui. Credit via La Centrale de Financement et assurance emprunteur comparee via Marketplace Emprunteur.</p>
+                </details>
+              </li>
+              <li>
+                <details class="faq-item">
+                  <summary>
+                    <span>Que se passe-t-il apres la simulation ?</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </summary>
+                  <p>Un courtier valide la faisabilite, negocie les conditions et vous accompagne jusqu'a la signature.</p>
+                </details>
+              </li>
+            </ul>
+          </div>
+        </details>
       </section>
     </div>
   </main>
@@ -811,6 +821,7 @@
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
+  <script src="../js/acheteur-parcours-focus.js"></script>
   <script src="./tracking.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {

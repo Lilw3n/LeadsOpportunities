@@ -28,3 +28,17 @@ Sur [`crm-immo-matching.html`](../crm-immo-matching.html) :
 4. Lien optionnel **simulation prêt préremplie**
 
 URL : `/crm-immo-matching.html?leadId=<id>`
+
+## Accès épuré (visiteurs informés)
+
+[`js/acheteur-parcours-focus.js`](../js/acheteur-parcours-focus.js) + [`css/acheteur-parcours-focus.css`](../css/acheteur-parcours-focus.css)
+
+Mode **focus** activé si :
+
+- `#demande` dans l’URL
+- `propertyPrice`, `apport`, `revenus`… (deep link CRM / barèmes)
+- `utm_source=negociateur` ou source CRM
+
+Effets : hero minimal, partenaires / FAQ masqués, bannière récap des infos préremplies, scroll direct vers le formulaire.
+
+Entrées directes : hub [`immobilier/`](../immobilier/), [`landings/`](../landings/), lien négociateur avec `#demande`.

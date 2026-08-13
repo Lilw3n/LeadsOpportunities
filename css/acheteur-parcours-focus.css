@@ -1,0 +1,169 @@
+/* Parcours acquéreur — mise en page épurée (focus + accès direct) */
+
+body.parcours-clean .parcours-hero-extra,
+body.parcours-focus .parcours-hero-extra {
+  display: none !important;
+}
+
+body.parcours-focus .landing-partners-slot,
+body.parcours-focus .landing-proximity-slot,
+body.parcours-focus [data-parcours-secondary],
+body.parcours-focus .page > .container > .badge {
+  display: none !important;
+}
+
+body.parcours-focus .hero-surface {
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border: 0;
+}
+
+body.parcours-focus .hero h1 {
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+body.parcours-focus .hero .sub {
+  font-size: 0.95rem;
+  margin: 0;
+  color: var(--muted, #64748b);
+}
+
+body.parcours-focus .hero .actions {
+  display: none;
+}
+
+body.parcours-focus .form-wrap#demande {
+  margin-top: 0;
+  scroll-margin-top: 72px;
+}
+
+body.parcours-focus .form-title {
+  font-size: 1.15rem;
+}
+
+body.parcours-focus .form-lead--full {
+  display: none;
+}
+
+body.parcours-focus .form-lead--short {
+  display: block;
+}
+
+.parcours-prefill-banner {
+  display: none;
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+body.parcours-focus .parcours-prefill-banner:not(:empty) {
+  display: block;
+}
+
+.form-lead--short {
+  display: none;
+  margin: 0 0 16px;
+  color: var(--muted, #64748b);
+  font-size: 0.92rem;
+}
+
+/* Sections secondaires repliées par défaut */
+.parcours-more {
+  margin-top: 8px;
+}
+
+.parcours-more > summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--muted, #64748b);
+  padding: 12px 0;
+  list-style: none;
+}
+
+.parcours-more > summary::-webkit-details-marker {
+  display: none;
+}
+
+.parcours-more[open] > summary {
+  color: var(--text, #0f172a);
+  margin-bottom: 12px;
+}
+
+body.parcours-clean [data-parcours-secondary] .form-wrap,
+body.parcours-clean [data-parcours-secondary] {
+  border-top: 1px solid var(--border, #e2e8f0);
+}
+
+/* Accès rapide hub immo */
+.immo-quick-path {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.immo-quick-path-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.immo-quick-path-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(13, 148, 136, 0.32);
+}
+
+.immo-quick-path-card strong {
+  font-size: 1.15rem;
+}
+
+.immo-quick-path-card span {
+  font-size: 0.92rem;
+  opacity: 0.92;
+  line-height: 1.45;
+}
+
+.immo-quick-path-card em {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.88rem;
+  margin-top: 4px;
+}
+
+.landings-hub-card--featured {
+  border-color: #5eead4;
+  background: linear-gradient(180deg, #f0fdfa 0%, #fff 100%);
+  box-shadow: 0 4px 16px rgba(13, 148, 136, 0.12);
+}
+
+.landings-hub-card--featured strong {
+  color: #0f766e;
+}
+
+.services-pill--featured {
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+}
+
+body.parcours-clean .landing-partners-slot,
+body.parcours-clean .landing-proximity-slot {
+  display: none;
+}

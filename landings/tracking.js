@@ -328,6 +328,10 @@
 
     if (!hero || !subtitle) return variant;
 
+    if (document.body.classList.contains("parcours-focus")) {
+      return variant;
+    }
+
     if (variant === "price") {
       hero.textContent = hero.getAttribute("data-price-title");
       subtitle.textContent = subtitle.getAttribute("data-price-subtitle");

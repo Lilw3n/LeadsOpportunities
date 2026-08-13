@@ -114,7 +114,10 @@
         el.dispatchEvent(new Event("change", { bubbles: true }));
       } catch (e) {}
     }
-    if (data.propertyPrice != null) setVal("propertyPrice", Math.round(data.propertyPrice));
+    if (data.propertyPrice != null) {
+      setVal("propertyPrice", Math.round(data.propertyPrice));
+      setVal("budgetMax", Math.round(data.propertyPrice));
+    }
     if (data.downPayment != null) setVal("downPayment", Math.round(data.downPayment));
     if (data.loanDuration != null) {
       var dur = String(Math.round(data.loanDuration));
