@@ -1,0 +1,43 @@
+/* Hub & landings personas visiteurs */
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.persona-card {
+  display: grid;
+  gap: 6px;
+  padding: 16px 14px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #0f172a;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  min-height: 120px;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.persona-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, .1);
+}
+.persona-card strong { font-size: 1.05rem; }
+.persona-card span { color: #64748b; font-size: .88rem; line-height: 1.35; }
+.persona-card em {
+  font-style: normal;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #1e4f8a;
+}
+.persona-acquereur { border-color: rgba(30, 58, 138, .35); }
+.persona-vendeur { border-color: rgba(15, 76, 92, .35); }
+.persona-emprunteur { border-color: rgba(37, 99, 235, .35); }
+.persona-assure { border-color: rgba(15, 118, 110, .35); }
+.persona-patrimoine { border-color: rgba(180, 83, 9, .35); }
+.persona-banque { border-color: rgba(51, 65, 85, .35); }
+
+.persona-badge.persona-vendeur { background: #0f4c5c; }
+.persona-badge.persona-assure { background: #0f766e; }
+.persona-badge.persona-patrimoine { background: #b45309; }
+.persona-badge.persona-banque { background: #334155; }
