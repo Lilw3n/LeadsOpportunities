@@ -845,41 +845,101 @@
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
       var parties = Store.listParties(prop.id);
+      var sellerRoles = ["vendeur", "mandant"];
+      var buyerRoles = ["acquereur", "colocataire", "prospect"];
+      var sellers = parties.filter(function (party) {
+        return sellerRoles.indexOf(party.role) !== -1;
+      });
+      var buyers = parties.filter(function (party) {
+        return buyerRoles.indexOf(party.role) !== -1;
+      });
+      var others = parties.filter(function (party) {
+        return sellers.indexOf(party) === -1 && buyers.indexOf(party) === -1;
+      });
+      function roleLabel(role) {
+        var found = Matcher.PARTY_ROLES.find(function (item) {
+          return item.id === role;
+        });
+        return found ? found.label : role || "Partie";
+      }
+      function partyRows(list) {
+        return list.map(function (party) {
+          return (
+            '<div class="party-row">' +
+            '<div><strong>' + esc(party.name || "Nom à compléter") + "</strong> · " + esc(roleLabel(party.role)) +
+            "<br><span style='color:var(--muted)'>" + esc(party.phone || "—") + " · " + esc(party.email || "—") +
+            (party.contact_id ? " · " + esc(party.contact_id) : "") +
+            "</span>" +
+            (party.notes ? "<br><span class='immo-hint'>" + esc(party.notes) + "</span>" : "") +
+            "</div><div class='party-actions'>" +
+            '<button type="button" class="btn btn-ghost btn-sm" data-party-edit="' + esc(party.id) + '">Modifier</button>' +
+            '<button type="button" class="btn btn-ghost btn-sm" data-party-delete="' + esc(party.id) + '">Supprimer</button>' +
+            "</div></div>"
+          );
+        }).join("");
+      }
+      function partyGroup(title, list) {
+        return (
+          '<section class="party-group"><h4>' + title + " <span>(" + list.length + ")</span></h4>" +
+          (list.length ? partyRows(list) : "<p class='immo-hint'>Aucun enregistrement.</p>") +
+          "</section>"
+        );
+      }
       panel.innerHTML =
-        "<h3>Vendeur & personnes</h3>" +
-        (parties.length
-          ? parties
-              .map(function (p) {
-                return (
-                  '<div class="party-row"><div><strong>' +
-                  esc(p.name || "—") +
-                  "</strong> · " +
-                  esc(p.role || "") +
-                  "<br><span style='color:var(--muted)'>" +
-                  esc(p.phone || "") +
-                  " " +
-                  esc(p.email || "") +
-                  "</span></div></div>"
-                );
-              })
-              .join("")
-          : "<p style='color:var(--muted)'>Aucune personne liée — ajoute-les depuis la fiche (ou Piges).</p>") +
-        '<form id="partyForm" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">' +
+        "<h3>Vendeurs &amp; acquéreurs</h3>" +
+        "<p class='immo-hint'>Ajoute autant de personnes que nécessaire : 8 héritiers vendeurs, plusieurs acquéreurs, co-acquéreurs ou autres intervenants. Il n’y a pas de limite métier.</p>" +
+        '<div class="party-summary"><strong>' + sellers.length + "</strong> vendeur(s) · <strong>" + buyers.length + "</strong> acquéreur(s) · <strong>" + others.length + "</strong> autre(s)</div>" +
+        partyGroup("Vendeurs / propriétaires", sellers) +
+        partyGroup("Acquéreurs", buyers) +
+        partyGroup("Autres parties", others) +
+        '<form id="partyForm" class="party-form">' +
+        '<input type="hidden" id="partyId" />' +
         '<label>Rôle<select id="partyRole">' +
         Matcher.PARTY_ROLES.map(function (r) {
-          return '<option value="' + r.id + '">' + r.label + "</option>";
+          return '<option value="' + esc(r.id) + '">' + esc(r.label) + "</option>";
         }).join("") +
-        '</select></label><label>Nom<input id="partyName" required /></label><label>Tél<input id="partyPhone" /></label><label>Email<input id="partyEmail" /></label><label>Contact CRM<input id="partyContact" /></label><button class="btn btn-primary" type="submit">Ajouter</button></form>';
+        '</select></label><label>Nom / raison sociale<input id="partyName" required /></label><label>Téléphone<input id="partyPhone" /></label><label>Email<input id="partyEmail" type="email" /></label><label>Contact CRM<input id="partyContact" placeholder="contact_…" /></label><label style="grid-column:1/-1">Notes<input id="partyNotes" placeholder="Indivision, héritier n°…" /></label><div class="party-form-actions"><button class="btn btn-primary" id="partySubmit" type="submit">Ajouter la partie</button><button class="btn btn-ghost" id="partyCancel" type="button" hidden>Annuler</button></div></form>';
       document.getElementById("partyForm").onsubmit = function (e) {
         e.preventDefault();
+        var partyId = document.getElementById("partyId").value;
         Store.upsertParty({
+          id: partyId || undefined,
           property_id: prop.id,
           role: document.getElementById("partyRole").value,
           name: document.getElementById("partyName").value.trim(),
           phone: document.getElementById("partyPhone").value.trim(),
           email: document.getElementById("partyEmail").value.trim(),
           contact_id: document.getElementById("partyContact").value.trim() || null,
+          notes: document.getElementById("partyNotes").value.trim(),
         });
+        renderOtherTab();
+      };
+      document.querySelectorAll("[data-party-edit]").forEach(function (button) {
+        button.onclick = function () {
+          var party = parties.find(function (item) {
+            return item.id === button.getAttribute("data-party-edit");
+          });
+          if (!party) return;
+          document.getElementById("partyId").value = party.id || "";
+          document.getElementById("partyRole").value = party.role || "vendeur";
+          document.getElementById("partyName").value = party.name || "";
+          document.getElementById("partyPhone").value = party.phone || "";
+          document.getElementById("partyEmail").value = party.email || "";
+          document.getElementById("partyContact").value = party.contact_id || "";
+          document.getElementById("partyNotes").value = party.notes || "";
+          document.getElementById("partySubmit").textContent = "Enregistrer la partie";
+          document.getElementById("partyCancel").hidden = false;
+          document.getElementById("partyForm").scrollIntoView({ behavior: "smooth", block: "center" });
+        };
+      });
+      document.querySelectorAll("[data-party-delete]").forEach(function (button) {
+        button.onclick = function () {
+          if (!confirm("Supprimer cette personne du bien ?")) return;
+          Store.deleteParty(button.getAttribute("data-party-delete"));
+          renderOtherTab();
+        };
+      });
+      document.getElementById("partyCancel").onclick = function () {
         renderOtherTab();
       };
       return;

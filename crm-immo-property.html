@@ -75,6 +75,21 @@
     .meta-bar input, .meta-bar select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
     .save-bar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
     .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .party-actions, .party-form-actions { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
+    .party-summary { margin:10px 0 14px; padding:9px 10px; border-radius:8px; background:#eff6ff; color:#1e3a8a; font-size:.82rem; }
+    .party-group { margin:16px 0; }
+    .party-group h4 { margin:0; color:var(--immo-blue); font-size:.9rem; }
+    .party-group h4 span { color:var(--muted); font-weight:500; }
+    .party-form {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px; margin-top:18px;
+      padding-top:14px; border-top:2px solid var(--immo-blue);
+    }
+    .party-form label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:var(--muted); }
+    .party-form input, .party-form select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    @media (max-width:600px) {
+      .party-row { flex-direction:column; }
+      .party-actions { align-self:flex-start; }
+    }
     .immo-hint { color:var(--muted); font-size:.82rem; margin:8px 0; }
     .immo-field { display:flex; flex-direction:column; gap:4px; font-size:.8rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
     .immo-img-layout { display:grid; grid-template-columns:200px 1fr; gap:14px; }

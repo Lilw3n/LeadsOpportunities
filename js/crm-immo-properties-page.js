@@ -9,6 +9,8 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  var formParties = [];
+  var formPartyOriginalIds = [];
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -61,6 +63,111 @@
         return "<option value=\"" + esc(c) + "\"></option>";
       })
       .join("");
+  }
+
+  function emptyParty(role) {
+    return {
+      role: role || "vendeur",
+      name: "",
+      phone: "",
+      email: "",
+      contact_id: "",
+      notes: "",
+    };
+  }
+
+  function renderPartyEditor() {
+    var editor = document.getElementById("pPartiesEditor");
+    if (!editor) return;
+    var roleOptions = Matcher.PARTY_ROLES.map(function (role) {
+      return '<option value="' + esc(role.id) + '">' + esc(role.label) + "</option>";
+    }).join("");
+    editor.innerHTML =
+      '<div class="party-editor-head">' +
+      '<div><strong>Vendeurs &amp; acquéreurs</strong><p class="party-editor-hint">Ajoute autant d’héritiers, vendeurs ou acquéreurs que nécessaire.</p></div>' +
+      '<div class="party-editor-actions">' +
+      '<button type="button" data-add-party-role="vendeur">+ Vendeur</button>' +
+      '<button type="button" data-add-party-role="acquereur">+ Acquéreur</button>' +
+      "</div></div>" +
+      (formParties.length
+        ? formParties.map(function (party, index) {
+            return (
+              '<div class="party-editor-row" data-party-index="' + index + '">' +
+              '<label>Rôle<select data-party-field="role">' +
+              roleOptions.replace(
+                'value="' + esc(party.role || "vendeur") + '"',
+                'value="' + esc(party.role || "vendeur") + '" selected'
+              ) +
+              "</select></label>" +
+              '<label>Nom / raison sociale<input data-party-field="name" value="' + esc(party.name) + '" placeholder="Ex. Jean Dupont" /></label>' +
+              '<label>Téléphone<input data-party-field="phone" value="' + esc(party.phone) + '" /></label>' +
+              '<label>Email<input data-party-field="email" value="' + esc(party.email) + '" type="email" /></label>' +
+              '<label>Contact CRM<input data-party-field="contact_id" value="' + esc(party.contact_id) + '" placeholder="contact_…" /></label>' +
+              '<button type="button" class="btn btn-ghost btn-sm party-remove" data-remove-party="' + index + '">Retirer</button>' +
+              '<label style="grid-column:1/-1">Notes<input data-party-field="notes" value="' + esc(party.notes) + '" placeholder="Indivision, héritier n°…" /></label>' +
+              "</div>"
+            );
+          }).join("")
+        : '<p class="party-editor-hint">Aucune partie ajoutée. Clique sur « + Vendeur » ou « + Acquéreur ».</p>');
+    editor.querySelectorAll("[data-add-party-role]").forEach(function (button) {
+      button.onclick = function () {
+        collectFormParties();
+        formParties.push(emptyParty(button.getAttribute("data-add-party-role")));
+        renderPartyEditor();
+      };
+    });
+    editor.querySelectorAll("[data-remove-party]").forEach(function (button) {
+      button.onclick = function () {
+        collectFormParties();
+        formParties.splice(Number(button.getAttribute("data-remove-party")), 1);
+        renderPartyEditor();
+      };
+    });
+  }
+
+  function collectFormParties() {
+    var editor = document.getElementById("pPartiesEditor");
+    if (!editor) return;
+    editor.querySelectorAll("[data-party-index]").forEach(function (row) {
+      var index = Number(row.getAttribute("data-party-index"));
+      var party = formParties[index] || emptyParty();
+      row.querySelectorAll("[data-party-field]").forEach(function (field) {
+        party[field.getAttribute("data-party-field")] = field.value.trim();
+      });
+      formParties[index] = party;
+    });
+  }
+
+  function loadFormParties(property) {
+    formParties = property && property.id ? Store.listParties(property.id).map(function (party) {
+      return Object.assign({}, party);
+    }) : [];
+    formPartyOriginalIds = formParties.map(function (party) {
+      return party.id;
+    }).filter(Boolean);
+    if (!formParties.length && property) {
+      if (property.owner_contact_id) {
+        formParties.push(Object.assign(emptyParty("vendeur"), { contact_id: property.owner_contact_id }));
+      }
+      if (property.buyer_contact_id) {
+        formParties.push(Object.assign(emptyParty("acquereur"), { contact_id: property.buyer_contact_id }));
+      }
+    }
+    renderPartyEditor();
+  }
+
+  function syncFormParties(propertyId) {
+    collectFormParties();
+    var savedIds = {};
+    formParties.forEach(function (party) {
+      if (!party.name && !party.contact_id && !party.phone && !party.email) return;
+      var saved = Store.upsertParty(Object.assign({}, party, { property_id: propertyId }));
+      savedIds[saved.id] = true;
+    });
+    formPartyOriginalIds.forEach(function (partyId) {
+      if (!savedIds[partyId]) Store.deleteParty(partyId);
+    });
+    formPartyOriginalIds = Object.keys(savedIds);
   }
 
   function queryFromForm() {
@@ -216,8 +323,7 @@
     document.getElementById("pAgence").value = p.agence || "";
     document.getElementById("pSuivi").value = p.suivi_par || "";
     document.getElementById("pPhone").value = p.phone || "";
-    document.getElementById("pOwner").value = p.owner_contact_id || "";
-    document.getElementById("pBuyer").value = p.buyer_contact_id || "";
+    loadFormParties(p);
     document.getElementById("pLead").value = p.lead_id || "";
     document.getElementById("pAContacter").checked = !!p.a_contacter;
     document.getElementById("pContactConnu").checked = !!p.contact_connu;
@@ -237,6 +343,13 @@
   document.getElementById("propForm").onsubmit = function (e) {
     e.preventDefault();
     var cp = document.getElementById("pCp").value.trim();
+    collectFormParties();
+    var seller = formParties.find(function (party) {
+      return party.role === "vendeur" || party.role === "mandant";
+    });
+    var buyer = formParties.find(function (party) {
+      return party.role === "acquereur" || party.role === "colocataire" || party.role === "prospect";
+    });
     var item = {
       id: document.getElementById("pId").value || undefined,
       title: document.getElementById("pTitle").value.trim(),
@@ -260,8 +373,8 @@
       agence: document.getElementById("pAgence").value.trim(),
       suivi_par: document.getElementById("pSuivi").value.trim(),
       phone: document.getElementById("pPhone").value.trim(),
-      owner_contact_id: document.getElementById("pOwner").value.trim() || null,
-      buyer_contact_id: document.getElementById("pBuyer").value.trim() || null,
+      owner_contact_id: seller && seller.contact_id ? seller.contact_id : null,
+      buyer_contact_id: buyer && buyer.contact_id ? buyer.contact_id : null,
       lead_id: document.getElementById("pLead").value.trim() || null,
       a_contacter: document.getElementById("pAContacter").checked,
       contact_connu: document.getElementById("pContactConnu").checked,
@@ -276,7 +389,8 @@
       description: document.getElementById("pDesc").value,
       notes: document.getElementById("pNotes").value,
     };
-    Store.upsertProperty(item);
+    item = Store.upsertProperty(item);
+    syncFormParties(item.id);
     document.getElementById("formPanel").hidden = true;
     renderList();
   };
