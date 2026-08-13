@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Immobilier : acquéreurs, négociateurs & habitat | Leads Opportunities</title>
-  <meta name="description" content="Recherchez un bien (maison, appart, pro ou particulier), parcours négociateur, habitation et PNO — Leads Opportunities." />
+  <meta name="description" content="Recherche de bien immobilier en France entiere et DOM-TOM : maison, appartement, pro ou particulier, avec focus Grand Nancy et parcours pret/assurances." />
   <meta name="robots" content="index,follow" />
+  <meta name="geo.region" content="FR" />
+  <meta name="geo.placename" content="France" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/immobilier/" />
   <meta property="og:title" content="Immobilier : recherche de bien, négociateurs & habitat | Leads Opportunities" />
   <meta property="og:description" content="Recherche de bien type annonce, outils négociateur, habitation et PNO." />
@@ -15,6 +17,8 @@
   <link rel="stylesheet" href="../main.css" />
   <link rel="stylesheet" href="../css/piliers-hub.css" />
   <link rel="stylesheet" href="../css/clickable-affordance.css" />
+  <link rel="stylesheet" href="../css/acheteur-parcours-focus.css" />
+  <link rel="stylesheet" href="../css/immo-geo-france.css" />
 </head>
 <body class="pilier-page pilier-page--immobilier">
   <header class="topbar">
@@ -40,21 +44,55 @@
     <div class="pilier-hero-inner">
       <span class="section-badge">Immobilier</span>
       <h1>Acquéreurs, négociateurs &amp; habitat</h1>
-      <p class="lead">Recherchez d’abord le bien (maison, appart, pro ou particulier) — puis on calage le prêt et les assurances.</p>
+      <p class="lead">Recherchez d'abord le bien (maison, appart, pro ou particulier) — puis on cale le pret et les assurances. France entiere, DOM-TOM, avec focus Grand Nancy.</p>
       <div class="pilier-actions">
-        <a class="btn btn-primary btn-lg" href="../landings/acheteur-immo.html">Rechercher un bien</a>
-        <a class="btn btn-outline btn-lg" href="../index.html#contact">Nous contacter</a>
+        <a class="btn btn-primary btn-lg" href="../landings/acheteur-immo.html#demande">Rechercher un bien</a>
+        <a class="btn btn-outline btn-lg" href="../negociateur-immobilier/">Je suis negociateur</a>
       </div>
     </div>
   </header>
   <main class="pilier-wrap">
+    <div class="immo-quick-path">
+      <a class="immo-quick-path-card" href="../landings/acheteur-immo.html#demande">
+        <strong>J’ai un projet ou des informations sur mon bien</strong>
+        <span>Prêt, assurance emprunteur, habitation — questionnaire guidé, sans détails inutiles.</span>
+        <em>Accéder au questionnaire →</em>
+      </a>
+    </div>
+    <div class="immo-geo-zones" data-immo-geo-hub>
+      <section class="immo-zone immo-zone--nancy">
+        <span class="immo-zone-badge">Zone prioritaire immobilier</span>
+        <h2>Grand Nancy &amp; alentours</h2>
+        <p>
+          Accompagnement renforcé pour l’achat, le financement et les assurances :
+          Nancy, Vandœuvre, Laxou, Saint-Max, Essey-lès-Nancy et communes voisines.
+        </p>
+        <div class="immo-city-grid" data-immo-nancy-cities></div>
+        <p style="margin:14px 0 0;font-size:.88rem;color:#0f766e">
+          <a href="../landings/acheteur-immo.html?zone=nancy&amp;postalProject=54000#demande" style="font-weight:700;color:inherit">Démarrer un dossier à Nancy →</a>
+          · <a href="../credit-immo/nancy/" style="color:#0f766e">Crédit immo Nancy</a>
+        </p>
+      </section>
+      <section class="immo-zone immo-zone--france">
+        <h2>France entière &amp; DOM-TOM</h2>
+        <p>
+          Même parcours acquéreur partout en France : métropole, îles françaises et départements d’outre-mer
+          (Guadeloupe, Martinique, La Réunion, Guyane, Mayotte, Corse).
+        </p>
+        <div class="immo-city-grid" data-immo-dom-cities></div>
+        <p style="margin:14px 0 0;font-size:.88rem;color:#64748b">
+          <a href="../france/">Voir toutes les zones couvertes</a>
+          · <a href="../landings/acheteur-immo.html#demande">Questionnaire national</a>
+        </p>
+      </section>
+    </div>
     <h2 class="pilier-section-title">Parcours immobilier</h2>
     <section class="pilier-grid">
-      <a class="pilier-card pilier-card--featured" href="../landings/acheteur-immo.html">
+      <a class="pilier-card pilier-card--featured" href="../landings/acheteur-immo.html#demande">
         <span class="pilier-card-media" style="background-image:url('../assets/piliers/pilier-immobilier.jpg');background-position:center 30%" aria-hidden="true"></span>
         <span class="pilier-card-body">
           <strong>Recherche de bien</strong>
-          <p>Maison ou appart, chez un pro ou un particulier — secteur, budget, puis matching. Comme une vraie recherche d’annonce.</p>
+          <p>Maison ou appart, chez un pro ou un particulier — secteur, budget, matching, puis pret et assurances si besoin.</p>
           <span class="go">Lancer ma recherche →</span>
         </span>
       </a>
@@ -120,5 +158,6 @@
       <small><a href="../index.html">Accueil</a> · <a href="../mentions-legales.html">Mentions légales</a></small>
     </div>
   </footer>
+  <script src="../js/immo-geo-france.js"></script>
 </body>
 </html>

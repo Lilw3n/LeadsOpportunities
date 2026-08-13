@@ -1,0 +1,147 @@
+{
+  "national": {
+    "title": "France entiere & DOM-TOM",
+    "summary": "Metropole, Corse et departements d'outre-mer : Guadeloupe, Martinique, Reunion, Guyane, Mayotte. Meme parcours acquereur partout."
+  },
+  "nancyFocus": {
+    "title": "Grand Nancy & alentours",
+    "summary": "Zone prioritaire immobilier : accompagnement renforce pour l'achat, le pret et les assurances autour de Nancy.",
+    "badge": "Zone prioritaire",
+    "cities": [
+      {
+        "name": "Nancy",
+        "slug": "nancy",
+        "postal": "54000",
+        "image": "/assets/immo/villes/nancy.jpg",
+        "imageAlt": "Place Stanislas et centre-ville de Nancy"
+      },
+      {
+        "name": "Vandoeuvre-les-Nancy",
+        "slug": "vandoeuvre-les-nancy",
+        "postal": "54500",
+        "image": "/assets/immo/villes/vandoeuvre-les-nancy.jpg",
+        "imageAlt": "Quartier residentiel a Vandoeuvre-les-Nancy"
+      },
+      {
+        "name": "Laxou",
+        "slug": "laxou",
+        "postal": "54520",
+        "image": "/assets/immo/villes/laxou.jpg",
+        "imageAlt": "Maisons et verdure a Laxou"
+      },
+      {
+        "name": "Villers-les-Nancy",
+        "slug": "villers-les-nancy",
+        "postal": "54600",
+        "image": "/assets/immo/villes/villers-les-nancy.jpg",
+        "imageAlt": "Villers-les-Nancy, commune du Grand Nancy"
+      },
+      {
+        "name": "Saint-Max",
+        "slug": "saint-max",
+        "postal": "54130",
+        "image": "/assets/immo/villes/saint-max.jpg",
+        "imageAlt": "Centre-bourg de Saint-Max"
+      },
+      {
+        "name": "Essey-les-Nancy",
+        "slug": "essey-les-nancy",
+        "postal": "54270",
+        "image": "/assets/immo/villes/essey-les-nancy.jpg",
+        "imageAlt": "Essey-les-Nancy, proche agglomeration nancéienne"
+      },
+      {
+        "name": "Jarville-la-Malgrange",
+        "slug": "jarville-la-malgrange",
+        "postal": "54140",
+        "image": "/assets/immo/villes/jarville-la-malgrange.jpg",
+        "imageAlt": "Jarville-la-Malgrange, vallee de la Meurthe"
+      },
+      {
+        "name": "Maxeville",
+        "slug": "maxeville",
+        "postal": "54320",
+        "image": "/assets/immo/villes/maxeville.jpg",
+        "imageAlt": "Maxeville, commune du Grand Nancy"
+      },
+      {
+        "name": "Tomblaine",
+        "slug": "tomblaine",
+        "postal": "54510",
+        "image": "/assets/immo/villes/tomblaine.jpg",
+        "imageAlt": "Tomblaine, proche Meurthe-et-Moselle"
+      },
+      {
+        "name": "Ludres",
+        "slug": "ludres",
+        "postal": "54710",
+        "image": "/assets/immo/villes/ludres.jpg",
+        "imageAlt": "Ludres, sud de l'agglomeration nancéienne"
+      },
+      {
+        "name": "Pompey",
+        "slug": "pompey",
+        "postal": "54340",
+        "image": "/assets/immo/villes/pompey.jpg",
+        "imageAlt": "Pompey, village au sud de Nancy"
+      },
+      {
+        "name": "Frouard",
+        "slug": "frouard",
+        "postal": "54390",
+        "image": "/assets/immo/villes/frouard.jpg",
+        "imageAlt": "Frouard, bords de Meurthe"
+      }
+    ]
+  },
+  "domTom": [
+    {
+      "name": "Guadeloupe",
+      "slug": "guadeloupe",
+      "postal": "97110",
+      "city": "Pointe-a-Pitre",
+      "image": "/assets/immo/villes/guadeloupe.jpg",
+      "imageAlt": "Guadeloupe, Pointe-a-Pitre et littoral caraibe"
+    },
+    {
+      "name": "Martinique",
+      "slug": "martinique",
+      "postal": "97200",
+      "city": "Fort-de-France",
+      "image": "/assets/immo/villes/martinique.jpg",
+      "imageAlt": "Martinique, baie de Fort-de-France"
+    },
+    {
+      "name": "Reunion",
+      "slug": "reunion",
+      "postal": "97400",
+      "city": "Saint-Denis",
+      "image": "/assets/immo/villes/reunion.jpg",
+      "imageAlt": "La Reunion, Saint-Denis et reliefs"
+    },
+    {
+      "name": "Guyane",
+      "slug": "guyane",
+      "postal": "97300",
+      "city": "Cayenne",
+      "image": "/assets/immo/villes/guyane.jpg",
+      "imageAlt": "Guyane, Cayenne et tropicale amazonienne"
+    },
+    {
+      "name": "Mayotte",
+      "slug": "mayotte",
+      "postal": "97600",
+      "city": "Mamoudzou",
+      "image": "/assets/immo/villes/mayotte.jpg",
+      "imageAlt": "Mayotte, lagon et Mamoudzou"
+    },
+    {
+      "name": "Corse",
+      "slug": "corse",
+      "postal": "20000",
+      "city": "Ajaccio",
+      "image": "/assets/immo/villes/corse.jpg",
+      "imageAlt": "Corse, Ajaccio et littoral mediterraneen"
+    }
+  ]
+}
