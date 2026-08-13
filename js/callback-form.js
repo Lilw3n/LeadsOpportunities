@@ -6,10 +6,10 @@
   var COPY = {
     title: "Pas envie de remplir tout le formulaire ?",
     lead:
-      "Laissez simplement votre e-mail et votre numéro : un conseiller vous rappelle sous 15 minutes (lun–ven, 9h–18h). Gratuit, sans engagement.",
+      "Laissez simplement votre e-mail et votre numéro : un conseiller vous rappelle dès que possible (lun–ven, 9h–18h). Gratuit, sans engagement.",
     submit: "Me rappeler",
     success:
-      "C'est noté ! Un conseiller vous rappelle très vite. Vous recevrez aussi une notification par e-mail côté équipe.",
+      "C'est noté ! Un conseiller vous rappelle dès que possible. Vous recevrez aussi une notification par e-mail côté équipe.",
     error: "Envoi impossible pour le moment. Réessayez dans quelques instants.",
     stripTitle: "Formulaire trop long ? On vous rappelle.",
     stripLead:
