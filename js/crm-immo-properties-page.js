@@ -9,6 +9,7 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  var partiesEditor = null;
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -153,6 +154,7 @@
           esc(src) +
           (p.suivi_par ? " · suivi " + esc(p.suivi_par) : "") +
           (p.phone ? " · ☎ " + esc(p.phone) : "") +
+          (p._parties_summary ? " · " + esc(p._parties_summary) : "") +
           "</div>" +
           (p.listing_url
             ? '<div class="immo-meta"><a href="' +
@@ -216,8 +218,6 @@
     document.getElementById("pAgence").value = p.agence || "";
     document.getElementById("pSuivi").value = p.suivi_par || "";
     document.getElementById("pPhone").value = p.phone || "";
-    document.getElementById("pOwner").value = p.owner_contact_id || "";
-    document.getElementById("pBuyer").value = p.buyer_contact_id || "";
     document.getElementById("pLead").value = p.lead_id || "";
     document.getElementById("pAContacter").checked = !!p.a_contacter;
     document.getElementById("pContactConnu").checked = !!p.contact_connu;
@@ -231,6 +231,11 @@
     document.getElementById("pPool").checked = !!p.has_pool;
     document.getElementById("pDesc").value = p.description || "";
     document.getElementById("pNotes").value = p.notes || "";
+    if (window.CrmImmoPartiesUi) {
+      partiesEditor = window.CrmImmoPartiesUi.mountEditor(document.getElementById("pPartiesMount"), {
+        parties: p.id ? Store.listParties(p.id) : [],
+      });
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
@@ -260,8 +265,6 @@
       agence: document.getElementById("pAgence").value.trim(),
       suivi_par: document.getElementById("pSuivi").value.trim(),
       phone: document.getElementById("pPhone").value.trim(),
-      owner_contact_id: document.getElementById("pOwner").value.trim() || null,
-      buyer_contact_id: document.getElementById("pBuyer").value.trim() || null,
       lead_id: document.getElementById("pLead").value.trim() || null,
       a_contacter: document.getElementById("pAContacter").checked,
       contact_connu: document.getElementById("pContactConnu").checked,
@@ -276,7 +279,13 @@
       description: document.getElementById("pDesc").value,
       notes: document.getElementById("pNotes").value,
     };
-    Store.upsertProperty(item);
+    var parties = partiesEditor ? partiesEditor.collect() : [];
+    var ids = Matcher.primaryContactIds(parties);
+    item.owner_contact_id = ids.owner_contact_id;
+    item.buyer_contact_id = ids.buyer_contact_id;
+    if (parties.length) item.contact_connu = true;
+    var saved = Store.upsertProperty(item);
+    Store.syncParties(saved.id, parties);
     document.getElementById("formPanel").hidden = true;
     renderList();
   };
@@ -355,13 +364,29 @@
         "phone",
         "suivi_par",
         "status",
+        "vendeurs",
+        "acquereurs",
       ];
       var csv = [headers.join(";")]
         .concat(
           rows.map(function (p) {
+            var grouped = Matcher.groupParties(Store.listParties(p.id));
+            var extra = {
+              vendeurs: grouped.sellers
+                .map(function (x) {
+                  return x.name + (x.share_label ? " (" + x.share_label + ")" : "");
+                })
+                .join(" | "),
+              acquereurs: grouped.buyers
+                .map(function (x) {
+                  return x.name;
+                })
+                .join(" | "),
+            };
             return headers
               .map(function (h) {
-                return '"' + String(p[h] != null ? p[h] : "").replace(/"/g, '""') + '"';
+                var v = extra[h] != null ? extra[h] : p[h];
+                return '"' + String(v != null ? v : "").replace(/"/g, '""') + '"';
               })
               .join(";");
           })

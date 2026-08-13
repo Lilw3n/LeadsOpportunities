@@ -102,7 +102,20 @@ window.CrmImmoStore = (function () {
 
   function listProperties(query) {
     var db = loadLocal();
-    var list = db.properties.slice();
+    var list = db.properties.slice().map(function (p) {
+      var parties = db.parties.filter(function (party) {
+        return party.property_id === p.id;
+      });
+      return Object.assign({}, p, {
+        _parties_hay: parties
+          .map(function (x) {
+            return [x.name, x.phone, x.email, x.role].join(" ");
+          })
+          .join(" "),
+        _parties_count: parties.length,
+        _parties_summary: Matcher ? Matcher.partiesSummary(parties) : "",
+      });
+    });
     if (Matcher) list = Matcher.filterProperties(list, query || {});
     list.sort(function (a, b) {
       return String(b.updated_at || b.created_at || "").localeCompare(String(a.updated_at || a.created_at || ""));
@@ -213,15 +226,18 @@ window.CrmImmoStore = (function () {
   }
 
   function listParties(propertyId) {
-    return loadLocal().parties.filter(function (p) {
+    var list = loadLocal().parties.filter(function (p) {
       return !propertyId || p.property_id === propertyId;
     });
+    if (!Matcher || !Matcher.groupParties) return list;
+    var g = Matcher.groupParties(list);
+    return g.sellers.concat(g.buyers, g.others);
   }
 
   function upsertParty(input) {
     var db = loadLocal();
     var now = new Date().toISOString();
-    var item = Object.assign({}, input || {});
+    var item = Matcher && Matcher.normalizeParty ? Matcher.normalizeParty(input) : Object.assign({}, input || {});
     if (!item.id) item.id = uid("party");
     if (!item.created_at) item.created_at = now;
     item.updated_at = now;
@@ -243,6 +259,27 @@ window.CrmImmoStore = (function () {
     });
     saveLocal(db);
     deleteRemote("party", id);
+  }
+
+  function syncParties(propertyId, items) {
+    var incoming = Array.isArray(items) ? items : [];
+    var existing = listParties(propertyId);
+    var keep = {};
+    var saved = incoming
+      .map(function (raw) {
+        var row = Object.assign({}, raw, { property_id: propertyId });
+        if (!(row.name || "").trim() && !(row.phone || "").trim() && !(row.email || "").trim()) {
+          return null;
+        }
+        var item = upsertParty(row);
+        keep[item.id] = true;
+        return item;
+      })
+      .filter(Boolean);
+    existing.forEach(function (p) {
+      if (!keep[p.id]) deleteParty(p.id);
+    });
+    return saved;
   }
 
   function listDocuments(opts) {
@@ -376,6 +413,38 @@ window.CrmImmoStore = (function () {
     db.parties = [
       {
         id: uid("party"),
+        property_id: props[1].id,
+        role: "heritier",
+        name: "Marie Exemple",
+        phone: "",
+        email: "",
+        share_label: "1/3",
+        share_pct: 33.333,
+        is_primary: true,
+        capacity: "signataire",
+      },
+      {
+        id: uid("party"),
+        property_id: props[1].id,
+        role: "heritier",
+        name: "Paul Exemple",
+        phone: "",
+        email: "",
+        share_label: "1/3",
+        share_pct: 33.333,
+      },
+      {
+        id: uid("party"),
+        property_id: props[1].id,
+        role: "heritier",
+        name: "Claire Exemple",
+        phone: "",
+        email: "",
+        share_label: "1/3",
+        share_pct: 33.333,
+      },
+      {
+        id: uid("party"),
         property_id: props[0].id,
         role: "vendeur",
         name: "M. Exemple Vendeur",
@@ -416,6 +485,7 @@ window.CrmImmoStore = (function () {
     listParties: listParties,
     upsertParty: upsertParty,
     deleteParty: deleteParty,
+    syncParties: syncParties,
     listDocuments: listDocuments,
     upsertDocument: upsertDocument,
     deleteDocument: deleteDocument,

@@ -97,11 +97,21 @@ CREATE TABLE IF NOT EXISTS crm_immo_parties (
   email TEXT,
   phone TEXT,
   notes TEXT,
+  share_pct NUMERIC(8, 4),
+  share_label TEXT,
+  is_primary BOOLEAN DEFAULT FALSE,
+  capacity TEXT,
+  address TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_crm_immo_parties_property ON crm_immo_parties(property_id);
 CREATE INDEX IF NOT EXISTS idx_crm_immo_parties_contact ON crm_immo_parties(contact_id);
+ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS share_pct NUMERIC(8, 4);
+ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS share_label TEXT;
+ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS is_primary BOOLEAN DEFAULT FALSE;
+ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS capacity TEXT;
+ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS address TEXT;
 
 CREATE TABLE IF NOT EXISTS crm_immo_documents (
   id TEXT PRIMARY KEY,

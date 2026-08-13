@@ -75,6 +75,22 @@
     .meta-bar input, .meta-bar select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
     .save-bar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
     .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .immo-parties-head h3 { margin:0 0 4px; color:var(--immo-blue); }
+    .immo-parties-summary, .immo-parties-hint, .immo-parties-empty { color:var(--muted); font-size:.84rem; margin:0 0 10px; }
+    .immo-parties-group { border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:14px; background:#f8fafc; }
+    .immo-parties-group h4 { margin:0 0 6px; font-size:.95rem; color:var(--immo-blue); }
+    .immo-parties-group h4 span { color:var(--muted); font-weight:600; }
+    .immo-party-row {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px;
+      padding:12px; margin-bottom:8px; background:#fff; border:1px solid #e2e8f0; border-radius:10px;
+    }
+    .immo-party-row label { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:var(--muted); }
+    .immo-party-row input, .immo-party-row select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .immo-party-row .immo-party-wide { grid-column:1 / -1; }
+    .immo-party-check { flex-direction:row !important; align-items:center; gap:6px !important; font-weight:600 !important; }
+    .immo-parties-share { font-size:.82rem; margin:8px 0; }
+    .immo-parties-share.ok { color:#166534; }
+    .immo-parties-share.warn { color:#9a3412; }
     .immo-hint { color:var(--muted); font-size:.82rem; margin:8px 0; }
     .immo-field { display:flex; flex-direction:column; gap:4px; font-size:.8rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
     .immo-img-layout { display:grid; grid-template-columns:200px 1fr; gap:14px; }
@@ -150,6 +166,7 @@
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>
+  <script src="./js/crm-immo-parties-ui.js"></script>
   <script src="./js/crm-immo-cloud.js"></script>
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-immo-property-page.js"></script>

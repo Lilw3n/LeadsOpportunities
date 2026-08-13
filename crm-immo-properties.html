@@ -166,6 +166,22 @@
     }
     .immo-check { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
     .immo-check label { flex-direction: row; align-items: center; gap: 6px; font-weight: 600; }
+    .immo-parties-head h3 { margin:0 0 4px; color:var(--piges-blue); }
+    .immo-parties-summary, .immo-parties-hint, .immo-parties-empty { color:var(--muted); font-size:.84rem; margin:0 0 10px; }
+    .immo-parties-group { border:1px solid var(--line); border-radius:12px; padding:14px; margin:12px 0; background:#f8fafc; }
+    .immo-parties-group h4 { margin:0 0 6px; font-size:.95rem; color:var(--piges-blue); }
+    .immo-parties-group h4 span { color:var(--muted); font-weight:600; }
+    .immo-party-row {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px;
+      padding:12px; margin-bottom:8px; background:#fff; border:1px solid #e2e8f0; border-radius:10px;
+    }
+    .immo-party-row label { display:flex; flex-direction:column; gap:4px; font-size:.72rem; font-weight:700; color:var(--muted); }
+    .immo-party-row input, .immo-party-row select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .immo-party-row .immo-party-wide { grid-column:1 / -1; }
+    .immo-party-check { flex-direction:row !important; align-items:center; gap:6px !important; font-weight:600 !important; }
+    .immo-parties-share { font-size:.82rem; margin:8px 0; }
+    .immo-parties-share.ok { color:#166534; }
+    .immo-parties-share.warn { color:#9a3412; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -357,8 +373,6 @@
           <label>Agence<input id="pAgence" /></label>
           <label>Suivi par<input id="pSuivi" /></label>
           <label>Téléphone contact<input id="pPhone" /></label>
-          <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
-          <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
           <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
           <div class="immo-check" style="grid-column:1/-1">
             <label><input type="checkbox" id="pAContacter" /> À contacter</label>
@@ -374,6 +388,7 @@
           </div>
           <label style="grid-column:1/-1">Description<textarea id="pDesc" rows="3"></textarea></label>
           <label style="grid-column:1/-1">Notes / suivi<textarea id="pNotes" rows="2"></textarea></label>
+          <div id="pPartiesMount" style="grid-column:1/-1"></div>
           <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
             <button type="submit" class="btn btn-primary">Enregistrer</button>
             <button type="button" class="btn btn-ghost" id="btnCancelForm">Annuler</button>
@@ -387,6 +402,7 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-parties-ui.js"></script>
   <script src="./js/crm-immo-properties-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

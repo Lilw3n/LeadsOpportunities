@@ -3,7 +3,7 @@
 Référence métier (captures CRM) adaptée et réorganisée :
 
 ## Onglets
-Description · Pièces · Images · Immo cloud · Vendeur · Historique · Statistiques
+Description · Pièces · Images · Immo cloud · Vendeurs & acquéreurs · Historique · Statistiques
 
 ## Sections Description (ordre)
 1. **Composition** — terrain → maison → appartements loués (unités imbriquées)
@@ -28,6 +28,7 @@ Description · Pièces · Images · Immo cloud · Vendeur · Historique · Stati
 - Type `complexe` + unités pour multi-strates
 - Checklist docs adaptée (maison / copro / terrain / financement / loué)
 - Sync champs clés vers la liste Piges (ville, prix, surface, DPE…)
+- **Vendeurs / acquéreurs illimités** : succession (héritiers), indivision, couple d’acquéreurs — quotes-parts facultatives
 
 ## Statuts pipeline
 1 Prospection · 2 Estimation · 3 Mandat en cours · 4 Suspendu · 5 Sous offre · 6 Réservé - SRU · 7 Compromis · 8 Vendu / Loué · 10 Archivé · 11 A supprimer

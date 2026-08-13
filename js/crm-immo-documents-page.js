@@ -75,6 +75,42 @@
     });
   }
 
+  function partiesFromProperty(propertyId) {
+    if (!propertyId) return Matcher.partiesDocumentPayload([]);
+    return Matcher.partiesDocumentPayload(Store.listParties(propertyId));
+  }
+
+  function formatPartiesPreview(parties) {
+    if (!parties) return "";
+    if (Array.isArray(parties.vendeurs) || Array.isArray(parties.acquereurs)) {
+      function lines(list, title) {
+        if (!list || !list.length) return "";
+        return (
+          "<p><strong>" +
+          esc(title) +
+          "</strong></p><ul>" +
+          list
+            .map(function (p) {
+              var bits = [p.name || "—", p.role_label || p.role, p.share, p.phone, p.email].filter(Boolean);
+              return "<li>" + esc(bits.join(" · ")) + "</li>";
+            })
+            .join("") +
+          "</ul>"
+        );
+      }
+      return (
+        lines(parties.vendeurs, "Vendeurs") +
+        lines(parties.acquereurs, "Acquéreurs") +
+        lines(parties.autres, "Autres")
+      );
+    }
+    return "<pre style='white-space:pre-wrap;font-family:inherit'>" + esc(JSON.stringify(parties, null, 2)) + "</pre>";
+  }
+
+  function fillPartiesField(propertyId) {
+    document.getElementById("dParties").value = JSON.stringify(partiesFromProperty(propertyId), null, 2);
+  }
+
   function openDoc(id) {
     var d = Store.listDocuments({}).find(function (x) {
       return x.id === id;
@@ -89,7 +125,11 @@
     document.getElementById("dContact").value = d.contact_id || "";
     var data = d.data || {};
     document.getElementById("dBody").value = data.clauses || data.body || "";
-    document.getElementById("dParties").value = JSON.stringify(data.parties || {}, null, 2);
+    var parties = data.parties;
+    if (!parties || (typeof parties === "object" && !Object.keys(parties).length)) {
+      parties = partiesFromProperty(d.property_id);
+    }
+    document.getElementById("dParties").value = JSON.stringify(parties || {}, null, 2);
     document.getElementById("dNotes").value = d.notes || "";
     preview(d);
   }
@@ -110,9 +150,7 @@
       esc(d.status) +
       "</p>" +
       (prop ? "<p>Bien : " + esc(prop.title) + " — " + esc(prop.city || "") + "</p>" : "") +
-      "<pre style='white-space:pre-wrap;font-family:inherit'>" +
-      esc(JSON.stringify(data.parties || {}, null, 2)) +
-      "</pre>" +
+      formatPartiesPreview(data.parties || {}) +
       "<div style='margin-top:12px;white-space:pre-wrap'>" +
       esc(data.clauses || data.body || "") +
       "</div>";
@@ -150,7 +188,7 @@
       doc_type: "mandat_vente",
       status: "draft",
       property_id: document.getElementById("filterProp").value || null,
-      data: { parties: {}, clauses: "" },
+      data: { parties: partiesFromProperty(document.getElementById("filterProp").value), clauses: "" },
     });
     renderList();
     openDoc(item.id);
@@ -166,6 +204,15 @@
   };
 
   document.getElementById("filterProp").onchange = renderList;
+  document.getElementById("dProp").onchange = function () {
+    fillPartiesField(document.getElementById("dProp").value);
+  };
+  var fillBtn = document.getElementById("btnFillParties");
+  if (fillBtn) {
+    fillBtn.onclick = function () {
+      fillPartiesField(document.getElementById("dProp").value);
+    };
+  }
 
   Store.seedDemoIfEmpty();
   fillTypes();

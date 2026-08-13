@@ -32,14 +32,34 @@
   ];
 
   var PARTY_ROLES = [
-    { id: "vendeur", label: "Vendeur / propriétaire" },
-    { id: "mandant", label: "Mandant" },
-    { id: "acquereur", label: "Acquéreur" },
-    { id: "prospect", label: "Prospect intéressé" },
-    { id: "colocataire", label: "Co-acquéreur" },
-    { id: "notaire", label: "Notaire" },
-    { id: "agent", label: "Agent / collègue" },
-    { id: "apporteur", label: "Apporteur" },
+    { id: "vendeur", label: "Vendeur / propriétaire", side: "seller" },
+    { id: "heritier", label: "Héritier vendeur", side: "seller" },
+    { id: "co_vendeur", label: "Co-vendeur / indivisaire", side: "seller" },
+    { id: "mandant", label: "Mandant", side: "seller" },
+    { id: "usufruitier", label: "Usufruitier", side: "seller" },
+    { id: "nu_proprietaire", label: "Nu-propriétaire", side: "seller" },
+    { id: "bailleur", label: "Bailleur", side: "seller" },
+    { id: "acquereur", label: "Acquéreur", side: "buyer" },
+    { id: "co_acquereur", label: "Co-acquéreur", side: "buyer" },
+    { id: "colocataire", label: "Co-acquéreur", side: "buyer" },
+    { id: "prospect", label: "Prospect intéressé", side: "buyer" },
+    { id: "notaire", label: "Notaire", side: "other" },
+    { id: "agent", label: "Agent / collègue", side: "other" },
+    { id: "apporteur", label: "Apporteur", side: "other" },
+    { id: "locataire", label: "Locataire en place", side: "other" },
+  ];
+
+  var PARTY_SIDES = [
+    { id: "seller", label: "Vendeurs", addLabel: "Ajouter un vendeur / héritier", defaultRole: "heritier" },
+    { id: "buyer", label: "Acquéreurs", addLabel: "Ajouter un acquéreur", defaultRole: "acquereur" },
+    { id: "other", label: "Autres interlocuteurs", addLabel: "Ajouter un interlocuteur", defaultRole: "notaire" },
+  ];
+
+  var PARTY_CAPACITIES = [
+    { id: "", label: "—" },
+    { id: "signataire", label: "Signataire" },
+    { id: "representant", label: "Représentant / mandataire" },
+    { id: "tutelle", label: "Tuteur / curateur" },
   ];
 
   /** Statuts pipeline métier (réf. CRM immo) — numéro d’affichage + id stocké */
@@ -114,6 +134,170 @@
     } catch (e) {
       return fallback;
     }
+  }
+
+  function partyRoleMeta(role) {
+    var id = String(role || "").trim() || "prospect";
+    return (
+      PARTY_ROLES.find(function (r) {
+        return r.id === id;
+      }) || { id: id, label: id, side: "other" }
+    );
+  }
+
+  function partyRoleLabel(role) {
+    return partyRoleMeta(role).label;
+  }
+
+  function partySide(role) {
+    return partyRoleMeta(role).side || "other";
+  }
+
+  function isSellerRole(role) {
+    return partySide(role) === "seller";
+  }
+
+  function isBuyerRole(role) {
+    return partySide(role) === "buyer";
+  }
+
+  /**
+   * Quote-part : "1/8", "12,5", "12.5%" → { share_pct, share_label }.
+   */
+  function parseShare(v) {
+    if (v == null || v === "") return { share_pct: null, share_label: "" };
+    if (typeof v === "number" && isFinite(v)) {
+      return { share_pct: v, share_label: String(v).replace(".", ",") + " %" };
+    }
+    var s = String(v).trim().replace("%", "").replace(",", ".");
+    if (!s) return { share_pct: null, share_label: "" };
+    var frac = s.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/);
+    if (frac) {
+      var den = Number(frac[2]);
+      if (!den) return { share_pct: null, share_label: String(v).trim() };
+      var pct = (Number(frac[1]) / den) * 100;
+      return {
+        share_pct: Math.round(pct * 1000) / 1000,
+        share_label: frac[1] + "/" + frac[2],
+      };
+    }
+    var n = Number(s);
+    if (isFinite(n)) {
+      return { share_pct: n, share_label: String(n).replace(".", ",") + " %" };
+    }
+    return { share_pct: null, share_label: String(v).trim() };
+  }
+
+  function formatShare(party) {
+    if (!party) return "";
+    if (party.share_label) return String(party.share_label);
+    if (party.share_pct == null || party.share_pct === "") return "";
+    return String(party.share_pct).replace(".", ",") + " %";
+  }
+
+  function shareTotal(parties) {
+    return (parties || []).reduce(function (sum, p) {
+      var n = toNum(p && p.share_pct);
+      return n == null ? sum : sum + n;
+    }, 0);
+  }
+
+  function normalizeParty(input) {
+    var p = input || {};
+    var parsed = parseShare(p.share_label || p.share || p.share_pct);
+    var sharePct = toNum(p.share_pct);
+    if (sharePct == null) sharePct = parsed.share_pct;
+    var role = String(p.role || "prospect").trim() || "prospect";
+    if (role === "colocataire") role = "co_acquereur";
+    return {
+      id: p.id || null,
+      property_id: p.property_id || null,
+      contact_id: p.contact_id || null,
+      role: role,
+      name: String(p.name || "").trim(),
+      email: String(p.email || "").trim(),
+      phone: String(p.phone || "").trim(),
+      notes: String(p.notes || "").trim(),
+      address: String(p.address || "").trim(),
+      share_pct: sharePct,
+      share_label: p.share_label ? String(p.share_label).trim() : parsed.share_label,
+      is_primary: !!p.is_primary,
+      capacity: String(p.capacity || "").trim(),
+      created_at: p.created_at || null,
+      updated_at: p.updated_at || null,
+    };
+  }
+
+  function groupParties(parties) {
+    var out = { sellers: [], buyers: [], others: [], all: [] };
+    (parties || []).forEach(function (raw) {
+      var p = normalizeParty(raw);
+      out.all.push(p);
+      var side = partySide(p.role);
+      if (side === "seller") out.sellers.push(p);
+      else if (side === "buyer") out.buyers.push(p);
+      else out.others.push(p);
+    });
+    return out;
+  }
+
+  function partiesSummary(parties) {
+    var g = groupParties(parties);
+    var bits = [];
+    if (g.sellers.length) {
+      bits.push(g.sellers.length + " vendeur" + (g.sellers.length > 1 ? "s" : ""));
+    }
+    if (g.buyers.length) {
+      bits.push(g.buyers.length + " acquéreur" + (g.buyers.length > 1 ? "s" : ""));
+    }
+    if (g.others.length) bits.push(g.others.length + " autre" + (g.others.length > 1 ? "s" : ""));
+    return bits.join(" · ") || "Aucune personne";
+  }
+
+  function primaryContactIds(parties) {
+    var g = groupParties(parties);
+    function pick(list) {
+      var primary = list.find(function (p) {
+        return p.is_primary && p.contact_id;
+      });
+      if (primary) return primary.contact_id;
+      var withId = list.find(function (p) {
+        return p.contact_id;
+      });
+      return withId ? withId.contact_id : null;
+    }
+    return {
+      owner_contact_id: pick(g.sellers),
+      buyer_contact_id: pick(g.buyers),
+    };
+  }
+
+  function partyToDoc(p) {
+    p = normalizeParty(p);
+    return {
+      role: p.role,
+      role_label: partyRoleLabel(p.role),
+      name: p.name,
+      email: p.email,
+      phone: p.phone,
+      share: formatShare(p),
+      share_pct: p.share_pct,
+      is_primary: p.is_primary,
+      capacity: p.capacity,
+    };
+  }
+
+  function partiesDocumentPayload(parties) {
+    var g = groupParties(parties);
+    var firstSeller = g.sellers[0];
+    var firstBuyer = g.buyers[0];
+    return {
+      vendeurs: g.sellers.map(partyToDoc),
+      acquereurs: g.buyers.map(partyToDoc),
+      autres: g.others.map(partyToDoc),
+      mandant: firstSeller ? firstSeller.name : "",
+      acquereur: firstBuyer ? firstBuyer.name : "",
+    };
   }
 
   function haversineKm(lat1, lng1, lat2, lng2) {
@@ -458,7 +642,14 @@
       if (geoMode === "yes" && !hasGeo) return false;
       if (geoMode === "no" && hasGeo) return false;
       if (aContacter === true && !raw.a_contacter) return false;
-      if (contactConnu === true && !raw.contact_connu && !raw.owner_contact_id && !raw.buyer_contact_id) return false;
+      if (
+        contactConnu === true &&
+        !raw.contact_connu &&
+        !raw.owner_contact_id &&
+        !raw.buyer_contact_id &&
+        !raw._parties_count
+      )
+        return false;
       var created = String(raw.created_at || raw.updated_at || "").slice(0, 10);
       if (dateFrom && created && created < dateFrom) return false;
       if (dateTo && created && created > dateTo) return false;
@@ -474,6 +665,7 @@
           raw.agence,
           raw.suivi_par,
           raw.phone,
+          raw._parties_hay,
         ]
           .join(" ")
           .toLowerCase();
@@ -488,7 +680,22 @@
     PROPERTY_STATUSES: PROPERTY_STATUSES,
     LISTING_SOURCES: LISTING_SOURCES,
     PARTY_ROLES: PARTY_ROLES,
+    PARTY_SIDES: PARTY_SIDES,
+    PARTY_CAPACITIES: PARTY_CAPACITIES,
     DOC_TYPES: DOC_TYPES,
+    partyRoleMeta: partyRoleMeta,
+    partyRoleLabel: partyRoleLabel,
+    partySide: partySide,
+    isSellerRole: isSellerRole,
+    isBuyerRole: isBuyerRole,
+    parseShare: parseShare,
+    formatShare: formatShare,
+    shareTotal: shareTotal,
+    normalizeParty: normalizeParty,
+    groupParties: groupParties,
+    partiesSummary: partiesSummary,
+    primaryContactIds: primaryContactIds,
+    partiesDocumentPayload: partiesDocumentPayload,
     normalizeProperty: normalizeProperty,
     normalizePropertyStatus: normalizePropertyStatus,
     propertyStatusLabel: propertyStatusLabel,

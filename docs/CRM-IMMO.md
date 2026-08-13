@@ -36,6 +36,7 @@ Implémentation : `js/crm-immo-matcher.js` (navigateur + Node).
 - **Local** : `localStorage` clé `lo_crm_immo_v1` (fonctionne immédiatement)
 - **Neon** : tables `crm_immo_*` (`database/crm-immo-properties.sql`) via `/api/crm/immo`
 - Sync : le store tente l’API puis retombe en local
+- **Parties illimitées** : vendeurs, héritiers, indivisaires, acquéreurs, co-acquéreurs — onglet **Vendeurs & acquéreurs** de la fiche bien, et formulaire Piges. Quotes-parts (`1/8`, `12,5 %`…) optionnelles. Un bien peut avoir 8 héritiers (ou plus) sur la même maison.
 
 ## API
 

@@ -27,6 +27,7 @@
     tab: "description",
     sectionId: null,
   };
+  var partiesEditor = null;
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -68,7 +69,11 @@
       (prop.city || "") +
       " " +
       (prop.postal_code || "") +
-      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "");
+      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "") +
+      (function () {
+        var sum = Matcher.partiesSummary(Store.listParties(prop.id));
+        return sum && sum !== "Aucune personne" ? " · " + sum : "";
+      })();
     var a = document.getElementById("linkAnnonce");
     if (prop.listing_url) {
       a.href = prop.listing_url;
@@ -146,6 +151,11 @@
 
   function renderTabs() {
     document.getElementById("topTabs").innerHTML = Schema.TABS.map(function (t) {
+      var extra = "";
+      if (t.id === "vendeur") {
+        var n = Store.listParties(prop.id).length;
+        if (n) extra = " (" + n + ")";
+      }
       return (
         '<button type="button" data-tab="' +
         t.id +
@@ -153,11 +163,13 @@
         (state.tab === t.id ? "active" : "") +
         '">' +
         esc(t.label) +
+        extra +
         "</button>"
       );
     }).join("");
     document.querySelectorAll("#topTabs [data-tab]").forEach(function (btn) {
       btn.onclick = function () {
+        persistParties();
         state.tab = btn.getAttribute("data-tab");
         renderAll();
       };
@@ -841,49 +853,35 @@
     openRoot();
   }
 
+  function persistParties() {
+    if (!partiesEditor || !window.CrmImmoPartiesUi) return;
+    var items = partiesEditor.collect();
+    Store.syncParties(prop.id, items);
+    var ids = Matcher.primaryContactIds(items);
+    if (ids.owner_contact_id) prop.owner_contact_id = ids.owner_contact_id;
+    if (ids.buyer_contact_id) prop.buyer_contact_id = ids.buyer_contact_id;
+  }
+
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
       var parties = Store.listParties(prop.id);
       panel.innerHTML =
-        "<h3>Vendeur & personnes</h3>" +
-        (parties.length
-          ? parties
-              .map(function (p) {
-                return (
-                  '<div class="party-row"><div><strong>' +
-                  esc(p.name || "—") +
-                  "</strong> · " +
-                  esc(p.role || "") +
-                  "<br><span style='color:var(--muted)'>" +
-                  esc(p.phone || "") +
-                  " " +
-                  esc(p.email || "") +
-                  "</span></div></div>"
-                );
-              })
-              .join("")
-          : "<p style='color:var(--muted)'>Aucune personne liée — ajoute-les depuis la fiche (ou Piges).</p>") +
-        '<form id="partyForm" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">' +
-        '<label>Rôle<select id="partyRole">' +
-        Matcher.PARTY_ROLES.map(function (r) {
-          return '<option value="' + r.id + '">' + r.label + "</option>";
-        }).join("") +
-        '</select></label><label>Nom<input id="partyName" required /></label><label>Tél<input id="partyPhone" /></label><label>Email<input id="partyEmail" /></label><label>Contact CRM<input id="partyContact" /></label><button class="btn btn-primary" type="submit">Ajouter</button></form>';
-      document.getElementById("partyForm").onsubmit = function (e) {
-        e.preventDefault();
-        Store.upsertParty({
-          property_id: prop.id,
-          role: document.getElementById("partyRole").value,
-          name: document.getElementById("partyName").value.trim(),
-          phone: document.getElementById("partyPhone").value.trim(),
-          email: document.getElementById("partyEmail").value.trim(),
-          contact_id: document.getElementById("partyContact").value.trim() || null,
+        '<div id="propPartiesMount"></div>' +
+        '<div class="save-bar"><button type="button" class="btn btn-primary" id="btnSaveParties">Enregistrer les personnes</button></div>';
+      if (window.CrmImmoPartiesUi) {
+        partiesEditor = window.CrmImmoPartiesUi.mountEditor(document.getElementById("propPartiesMount"), {
+          parties: parties,
         });
+      }
+      document.getElementById("btnSaveParties").onclick = function () {
+        persistParties();
+        Store.upsertProperty(prop);
         renderOtherTab();
       };
       return;
     }
+    partiesEditor = null;
     if (state.tab === "pieces_plan") {
       panel.innerHTML =
         "<h3>Pièces / plans</h3><p style='color:var(--muted)'>Découpage pièce par pièce (à enrichir). Pour l’instant, utilise Surfaces + Composition.</p>" +
@@ -953,6 +951,7 @@
   }
 
   function save() {
+    persistParties();
     readMeta();
     collectCurrentFields();
     collectUnits();
