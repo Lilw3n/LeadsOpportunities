@@ -201,6 +201,12 @@ function isWeakLeadCandidate(c) {
   if (/^nouvelle canicule\b|^canicule\s*:/i.test(title) && !/habitation|sinistre|senior|mutuelle|fissur|d[ée]g[aâ]t/i.test(hay)) {
     return true;
   }
+  if (/banque de france|croissance au .*trimestre|\bpib\b|0,\d\s*%\s+de croissance/i.test(hay) && !hasLeadKeywords(hay)) {
+    return true;
+  }
+  if (/france sant[eé]|label.*plut[oô]t qu['’]un chantier/i.test(hay) && !/mutuelle|rembours|questionnaire/i.test(hay)) {
+    return true;
+  }
   if (hasLeadKeywords(hay)) return false;
   if (/[ée]clipse|astronomie|chasseurs d['’][ée]clipse/i.test(hay)) return true;
   var topic = matchTopic(hay);
