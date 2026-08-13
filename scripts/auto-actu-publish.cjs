@@ -16,6 +16,7 @@ const {
   rankCandidates,
   appendPendingArticle,
   isJunkActuTitle,
+  isLowConversionActuTitle,
   slugify,
 } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
@@ -72,7 +73,13 @@ var DRAFT_SLUG_PREFIXES = [
   "rachat-credits-rac-mensualite-2026",
   "sophrologie-quel-remboursement",
   "trottinettes-electriques-le-defaut-d-assurance",
-  "vainqueur-d-aston-villa-le-psg",
+  "equipe-de-france-zinedine-zidane",
+  "equipe-de-france-le-staff-de-zinedine",
+  "football-fabien-barthez",
+  "hsbc-continental-europe",
+  "mutuelle-en-ligne-obtenez-un-devis",
+  "l-assurance-habitation-en-2025",
+  "les-tarifs-de-l-assurance-habitation-grimpent",
 ];
 
 function isAlreadyDrafted(title) {
@@ -145,6 +152,13 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
+function isInsuranceIntent(c) {
+  var hay = String(c.title || "") + " " + String(c.summary || "");
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|pr[eé]voyance|rembours|indemn|compl[eé]mentaire|s[eé]curit[eé] sociale|d[eé]l[eé]gation/i.test(
+    hay
+  );
+}
+
 function bestFromPlatform(available, platform, feedMap, used) {
   var list = available
     .filter(function (c) {
@@ -156,9 +170,14 @@ function bestFromPlatform(available, platform, feedMap, used) {
       );
     })
     .sort(function (a, b) {
+      var ia = isInsuranceIntent(a) ? 1 : 0;
+      var ib = isInsuranceIntent(b) ? 1 : 0;
+      if (ib !== ia) return ib - ia;
       return b.leadScore - a.leadScore;
     });
-  return list[0] || null;
+  if (!list.length) return null;
+  if (!isInsuranceIntent(list[0])) return null;
+  return list[0];
 }
 
 function pickCandidates(candidates, count, state) {
@@ -170,7 +189,7 @@ function pickCandidates(candidates, count, state) {
   var available = ranked.filter(function (c) {
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
-    if (isJunkActuTitle(c.title)) return false;
+    if (isJunkActuTitle(c.title) || isLowConversionActuTitle(c.title)) return false;
     if (isAlreadyDrafted(c.title)) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
@@ -216,19 +235,28 @@ function pickCandidates(candidates, count, state) {
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
 
-  available
-    .filter(function (c) {
+  function preferInsurance(list) {
+    return list.slice().sort(function (a, b) {
+      var ia = isInsuranceIntent(a) ? 1 : 0;
+      var ib = isInsuranceIntent(b) ? 1 : 0;
+      if (ib !== ia) return ib - ia;
+      return (b.leadScore || 0) - (a.leadScore || 0);
+    });
+  }
+
+  preferInsurance(
+    available.filter(function (c) {
       return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
     })
-    .forEach(function (c) {
-      if (picks.length >= count) return;
-      var k = c.url || c.title;
-      if (used.has(k)) return;
-      picks.push(c);
-      used.add(k);
-    });
+  ).forEach(function (c) {
+    if (picks.length >= count) return;
+    var k = c.url || c.title;
+    if (used.has(k)) return;
+    picks.push(c);
+    used.add(k);
+  });
 
-  available.forEach(function (c) {
+  preferInsurance(available).forEach(function (c) {
     if (picks.length >= count) return;
     var k = c.url || c.title;
     if (used.has(k)) return;

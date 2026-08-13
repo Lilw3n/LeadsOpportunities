@@ -49,6 +49,25 @@ function isJunkActuTitle(title) {
   return false;
 }
 
+function looksEnglishTitle(title) {
+  var t = String(title || "");
+  if (/[éèêëàâùûôçœï]/i.test(t)) return false;
+  return /\b(the|into|regarding|what you need|how to choose|advantages of|enters into|memorandum|health insurance in france|money talk)\b/i.test(
+    t
+  );
+}
+
+/** Titres qui n’envoient pas vers un questionnaire (affiliés, anglais, doublons sport staff). */
+function isLowConversionActuTitle(title) {
+  if (isJunkActuTitle(title)) return true;
+  if (looksEnglishTitle(title)) return true;
+  var low = String(title || "").toLowerCase();
+  if (/obtenez un devis|meilleure mutuelle|comparateur mutuelle/i.test(low)) return true;
+  if (/assurance habitation en 2025/i.test(low)) return true;
+  if (/\b(zidane|barthez)\b/i.test(low) && /staff|entra[iî]neur/i.test(low)) return true;
+  return false;
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -150,7 +169,7 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
-  if (isJunkActuTitle(candidate.title)) score = 0;
+  if (isJunkActuTitle(candidate.title) || isLowConversionActuTitle(candidate.title)) score = 0;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
@@ -358,6 +377,7 @@ module.exports = {
   writeJson: writeJson,
   slugify: slugify,
   isJunkActuTitle: isJunkActuTitle,
+  isLowConversionActuTitle: isLowConversionActuTitle,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
