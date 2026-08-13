@@ -59,3 +59,4 @@ Entrées directes : hub [`immobilier/`](../immobilier/), [`landings/`](../landin
 - **Focus Nancy** : Grand Nancy et alentours (zone prioritaire immo)
 - Raccourcis CP/ville sur le questionnaire + hub [`immobilier/`](../immobilier/)
 - Deep link : `?postalProject=54000&searchCities=Nancy&zone=nancy#demande`
+- Visuels par commune : `assets/immo/villes/<slug>.jpg` (regénérer via `npm run immo:ville-images`)

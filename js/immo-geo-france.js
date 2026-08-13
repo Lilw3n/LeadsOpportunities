@@ -21,6 +21,20 @@
       });
   }
 
+  function cityImage(c) {
+    if (c && c.image) return c.image;
+    if (c && c.slug) return "/assets/immo/villes/" + c.slug + ".jpg";
+    return "/assets/piliers/pilier-immobilier.jpg";
+  }
+
+  function cityLabel(c) {
+    return c.name || c.city || "";
+  }
+
+  function cityTargetName(c) {
+    return c.name || c.city || "";
+  }
+
   function setFieldValue(id, value) {
     if (!value) return;
     var el = document.getElementById(id);
@@ -48,32 +62,62 @@
     if (geo.zone === "nancy" && !geo.postalProject) setFieldValue("postalProject", "54000");
   }
 
-  function chip(label, attrs) {
-    var btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "immo-geo-chip";
-    btn.textContent = label;
-    Object.keys(attrs || {}).forEach(function (k) {
-      btn.setAttribute(k, attrs[k]);
-    });
-    return btn;
-  }
-
-  function bindChip(btn, postal, city) {
-    btn.addEventListener("click", function () {
+  function bindCityPick(el, postal, city) {
+    el.addEventListener("click", function (e) {
+      if (el.tagName === "A") return;
+      e.preventDefault();
       if (postal) setFieldValue("postalProject", postal);
       if (city) setFieldValue("searchCities", city);
-      var group = btn.closest("[data-immo-geo-chips]");
+      var group = el.closest("[data-immo-city-group]");
       if (group) {
-        group.querySelectorAll(".immo-geo-chip").forEach(function (c) {
+        group.querySelectorAll(".immo-city-card, .immo-geo-chip").forEach(function (c) {
           c.classList.remove("is-active");
         });
-        btn.classList.add("is-active");
+        el.classList.add("is-active");
       }
     });
   }
 
-  function renderFormChips(root, cfg) {
+  function createCityCard(c, opts) {
+    opts = opts || {};
+    var isLink = opts.mode === "link";
+    var el = document.createElement(isLink ? "a" : "button");
+    el.className =
+      "immo-city-card" +
+      (opts.primary ? " immo-city-card--primary" : "") +
+      (opts.compact ? " immo-city-card--compact" : "");
+    if (isLink) {
+      el.href = acheteurUrl(c.postal, cityTargetName(c));
+    } else {
+      el.type = "button";
+    }
+
+    var media = document.createElement("span");
+    media.className = "immo-city-card-media";
+    media.setAttribute("aria-hidden", "true");
+    media.style.backgroundImage = "url('" + cityImage(c) + "')";
+
+    var body = document.createElement("span");
+    body.className = "immo-city-card-body";
+    var name = document.createElement("strong");
+    name.textContent = cityLabel(c);
+    var meta = document.createElement("span");
+    meta.className = "immo-city-card-meta";
+    meta.textContent = c.postal + (c.city && c.city !== c.name ? " · " + c.city : "");
+
+    body.appendChild(name);
+    body.appendChild(meta);
+    el.appendChild(media);
+    el.appendChild(body);
+
+    if (!isLink) {
+      bindCityPick(el, c.postal, cityTargetName(c));
+    }
+
+    return el;
+  }
+
+  function renderFormCities(root, cfg) {
     var host = root.querySelector("[data-immo-geo-chips]");
     if (!host || !cfg) return;
 
@@ -85,12 +129,10 @@
       nBlock.className = "immo-geo-field-block";
       nBlock.innerHTML = '<span class="immo-geo-field-label">Grand Nancy &amp; alentours (zone prioritaire)</span>';
       var nWrap = document.createElement("div");
-      nWrap.className = "immo-geo-chips";
-      nWrap.setAttribute("data-immo-geo-chips", "nancy");
+      nWrap.className = "immo-city-grid immo-city-grid--form";
+      nWrap.setAttribute("data-immo-city-group", "nancy");
       nancy.cities.forEach(function (c) {
-        var b = chip(c.name + " (" + c.postal + ")", { "data-postal": c.postal });
-        bindChip(b, c.postal, c.name);
-        nWrap.appendChild(b);
+        nWrap.appendChild(createCityCard(c, { compact: true }));
       });
       nBlock.appendChild(nWrap);
       host.appendChild(nBlock);
@@ -103,12 +145,10 @@
         '<span class="immo-geo-field-label">DOM-TOM &amp; Corse</span>' +
         '<p class="immo-geo-note">Guadeloupe, Martinique, Reunion, Guyane, Mayotte, Corse — memes codes postaux (971xx, 972xx, 974xx…).</p>';
       var dWrap = document.createElement("div");
-      dWrap.className = "immo-geo-chips";
-      dWrap.setAttribute("data-immo-geo-chips", "dom");
+      dWrap.className = "immo-city-grid immo-city-grid--form";
+      dWrap.setAttribute("data-immo-city-group", "dom");
       dom.forEach(function (c) {
-        var b = chip(c.name + " (" + c.postal + ")", { "data-postal": c.postal });
-        bindChip(b, c.postal, c.city || c.name);
-        dWrap.appendChild(b);
+        dWrap.appendChild(createCityCard(c, { compact: true }));
       });
       dBlock.appendChild(dWrap);
       host.appendChild(dBlock);
@@ -124,31 +164,29 @@
     return base + (qs ? "?" + qs : "") + "#demande";
   }
 
+  function renderHubCities(container, cities, opts) {
+    if (!container || !cities || !cities.length) return;
+    container.innerHTML = "";
+    container.className = "immo-city-grid";
+    cities.forEach(function (c, i) {
+      container.appendChild(
+        createCityCard(c, {
+          mode: "link",
+          primary: opts && opts.primaryFirst && i === 0,
+        })
+      );
+    });
+  }
+
   function initHub() {
     var hub = document.querySelector("[data-immo-geo-hub]");
     if (!hub) return;
     loadConfig().then(function (cfg) {
       var nancy = cfg.nancyFocus || {};
-      var chips = hub.querySelector("[data-immo-nancy-chips]");
-      if (chips && nancy.cities) {
-        nancy.cities.forEach(function (c, i) {
-          var a = document.createElement("a");
-          a.className = "immo-zone-chip" + (i === 0 ? " immo-zone-chip--primary" : "");
-          a.href = acheteurUrl(c.postal, c.name);
-          a.textContent = c.name;
-          chips.appendChild(a);
-        });
-      }
-      var domChips = hub.querySelector("[data-immo-dom-chips]");
-      if (domChips && cfg.domTom) {
-        cfg.domTom.forEach(function (c) {
-          var a = document.createElement("a");
-          a.className = "immo-zone-chip";
-          a.href = acheteurUrl(c.postal, c.city || c.name);
-          a.textContent = c.name;
-          domChips.appendChild(a);
-        });
-      }
+      renderHubCities(hub.querySelector("[data-immo-nancy-cities]"), nancy.cities, {
+        primaryFirst: true,
+      });
+      renderHubCities(hub.querySelector("[data-immo-dom-cities]"), cfg.domTom);
     });
   }
 
@@ -157,7 +195,7 @@
     if (!form) return;
     applyUrlGeo();
     loadConfig().then(function (cfg) {
-      renderFormChips(form, cfg);
+      renderFormCities(form, cfg);
     });
   }
 
@@ -175,5 +213,6 @@
   window.ImmoGeoFrance = {
     loadConfig: loadConfig,
     acheteurUrl: acheteurUrl,
+    cityImage: cityImage,
   };
 })();
