@@ -51,6 +51,23 @@ function existingFiles() {
   return files;
 }
 
+function keywordMatches(hay, kw) {
+  var k = String(kw || "")
+    .toLowerCase()
+    .trim();
+  if (!k) return false;
+  var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (k.length <= 5) {
+    var re = new RegExp("(^|[^a-z0-9àâäéèêëïîôùûüç])" + escaped + "([^a-z0-9àâäéèêëïîôùûüç]|$)", "i");
+    return re.test(hay);
+  }
+  if (hay.indexOf(k) === -1) return false;
+  if (k === "équipe de france" || k === "equipe de france") {
+    if (/[ée]quipe de france t[ée]l[ée]visions/i.test(hay)) return false;
+  }
+  return true;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +76,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordMatches(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -74,7 +91,24 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: bestScore > 0,
   };
+}
+
+function hasLeadKeywords(text) {
+  return /assurance|mutuelle|emprunteur|sinistre|pr[eê]t|cr[eé]dit|habitation|rembours|garantie|locataire|v[eé]t[eé]rinaire|franchise|orias|lemoine|pr[eé]voyance|rc pro/i.test(
+    String(text || "")
+  );
+}
+
+function isWeakLeadCandidate(c) {
+  var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "") + " " + String((c && c.note) || "");
+  if (hasLeadKeywords(hay)) return false;
+  if (/[ée]clipse|astronomie|chasseurs d['’][ée]clipse/i.test(hay)) return true;
+  var topic = matchTopic(hay);
+  if (!topic.matched) return true;
+  if (topic.tag === "Actu" && topic.need === "habitation") return true;
+  return false;
 }
 
 function uniqueFile(baseSlug) {
@@ -130,6 +164,8 @@ function scoreLeadPotential(candidate) {
   }
 
   score += franceLeadScoreAdjust(candidate);
+
+  if (isWeakLeadCandidate(candidate)) score -= 40;
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
@@ -313,6 +349,14 @@ function extractTag(block, tag) {
   return m ? m[1].trim() : "";
 }
 
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var id = String((c && c.id) || "");
+  if (id === "cafeyn-pending-template") return true;
+  if (/collez ici|placeholder|\[titre\]|TODO\s*:/i.test(title)) return true;
+  return false;
+}
+
 function stripHtml(s) {
   return String(s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -351,4 +395,7 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  hasLeadKeywords: hasLeadKeywords,
+  isWeakLeadCandidate: isWeakLeadCandidate,
 };
