@@ -1,5 +1,7 @@
-/* Switcher Prêts · Assurance immo · Patrimoine · Banque + sous-menus */
+/* Piliers Immobilier · Prêts · Assurance · Banque (+ Patrimoine) — accès visible */
 .imf-nav {
+  --imf-immo: #0f4c5c;
+  --imf-immo-2: #1a6b7c;
   --imf-blue: #1e3a8a;
   --imf-blue-2: #2563eb;
   --imf-teal: #0f766e;
@@ -8,76 +10,115 @@
   --imf-amber-2: #d97706;
   --imf-slate: #334155;
   --imf-slate-2: #475569;
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   display: grid;
-  gap: 8px;
+  gap: 10px;
+}
+
+.imf-switch-label {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #64748b;
 }
 
 .imf-switch {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding: 4px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  width: fit-content;
-  max-width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
 }
 
 .imf-switch a {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  row-gap: 2px;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 12px 12px 12px 10px;
+  border-radius: 14px;
   text-decoration: none;
   font-weight: 800;
-  font-size: 0.86rem;
-  color: #475569;
-  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  font-size: 0.92rem;
+  color: #0f172a;
+  background: #fff;
+  border: 2px solid #e2e8f0;
+  min-height: 64px;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
 }
 
 .imf-switch a:hover {
-  background: #fff;
-  color: #0f172a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.1);
 }
 
-.imf-switch a.on-prets {
-  background: var(--imf-blue);
+.imf-switch .imf-ico {
+  grid-row: 1 / span 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-weight: 900;
   color: #fff;
-  box-shadow: 0 6px 16px rgba(30, 58, 138, 0.25);
+  background: #94a3b8;
 }
 
-.imf-switch a.on-assurance {
-  background: var(--imf-teal);
-  color: #fff;
-  box-shadow: 0 6px 16px rgba(15, 118, 110, 0.25);
+.imf-switch .imf-name {
+  font-size: 0.92rem;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
-.imf-switch a.on-patrimoine {
-  background: var(--imf-amber);
-  color: #fff;
-  box-shadow: 0 6px 16px rgba(180, 83, 9, 0.25);
+.imf-switch .imf-hint {
+  grid-column: 2;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
+/* Couleurs par pilier (inactif = bordure teintée) */
+.imf-switch a[data-v="immo"] { border-color: rgba(15, 76, 92, 0.28); }
+.imf-switch a[data-v="immo"] .imf-ico { background: var(--imf-immo); }
+.imf-switch a[data-v="prets"] { border-color: rgba(30, 58, 138, 0.28); }
+.imf-switch a[data-v="prets"] .imf-ico { background: var(--imf-blue); }
+.imf-switch a[data-v="assurance"] { border-color: rgba(15, 118, 110, 0.28); }
+.imf-switch a[data-v="assurance"] .imf-ico { background: var(--imf-teal); }
+.imf-switch a[data-v="patrimoine"] { border-color: rgba(180, 83, 9, 0.28); }
+.imf-switch a[data-v="patrimoine"] .imf-ico { background: var(--imf-amber); }
+.imf-switch a[data-v="banque"] { border-color: rgba(51, 65, 85, 0.28); }
+.imf-switch a[data-v="banque"] .imf-ico { background: var(--imf-slate); }
+
+.imf-switch a.on-immo,
+.imf-switch a.on-prets,
+.imf-switch a.on-assurance,
+.imf-switch a.on-patrimoine,
 .imf-switch a.on-banque {
-  background: var(--imf-slate);
   color: #fff;
-  box-shadow: 0 6px 16px rgba(51, 65, 85, 0.28);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.18);
 }
 
-.imf-switch .imf-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.55;
-}
+.imf-switch a.on-immo { background: var(--imf-immo); border-color: var(--imf-immo); }
+.imf-switch a.on-prets { background: var(--imf-blue); border-color: var(--imf-blue); }
+.imf-switch a.on-assurance { background: var(--imf-teal); border-color: var(--imf-teal); }
+.imf-switch a.on-patrimoine { background: var(--imf-amber); border-color: var(--imf-amber); }
+.imf-switch a.on-banque { background: var(--imf-slate); border-color: var(--imf-slate); }
 
-.imf-switch a[class*="on-"] .imf-dot {
-  opacity: 1;
-  background: #fff;
+.imf-switch a[class*="on-"] .imf-hint { color: rgba(255, 255, 255, 0.82); }
+.imf-switch a[class*="on-"] .imf-ico {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 .imf-bar {
@@ -90,21 +131,11 @@
   color: #e2e8f0;
 }
 
-.imf-bar.prets {
-  background: var(--imf-blue);
-}
-
-.imf-bar.assurance {
-  background: var(--imf-teal);
-}
-
-.imf-bar.patrimoine {
-  background: var(--imf-amber);
-}
-
-.imf-bar.banque {
-  background: var(--imf-slate);
-}
+.imf-bar.immo { background: var(--imf-immo); }
+.imf-bar.prets { background: var(--imf-blue); }
+.imf-bar.assurance { background: var(--imf-teal); }
+.imf-bar.patrimoine { background: var(--imf-amber); }
+.imf-bar.banque { background: var(--imf-slate); }
 
 .imf-bar a,
 .imf-bar button {
@@ -128,31 +159,20 @@
   color: #fff;
 }
 
+.imf-bar.immo a.active,
+.imf-bar.immo a:hover { background: var(--imf-immo-2); }
 .imf-bar.prets a.active,
 .imf-bar.prets a:hover,
 .imf-bar.prets button:hover,
-.imf-bar.prets .imf-dd.open > button {
-  background: var(--imf-blue-2);
-}
-
+.imf-bar.prets .imf-dd.open > button { background: var(--imf-blue-2); }
 .imf-bar.assurance a.active,
-.imf-bar.assurance a:hover {
-  background: var(--imf-teal-2);
-}
-
+.imf-bar.assurance a:hover { background: var(--imf-teal-2); }
 .imf-bar.patrimoine a.active,
-.imf-bar.patrimoine a:hover {
-  background: var(--imf-amber-2);
-}
-
+.imf-bar.patrimoine a:hover { background: var(--imf-amber-2); }
 .imf-bar.banque a.active,
-.imf-bar.banque a:hover {
-  background: var(--imf-slate-2);
-}
+.imf-bar.banque a:hover { background: var(--imf-slate-2); }
 
-.imf-dd {
-  position: relative;
-}
+.imf-dd { position: relative; }
 
 .imf-dd-menu {
   display: none;
@@ -168,9 +188,7 @@
   padding: 6px 0;
 }
 
-.imf-dd.open .imf-dd-menu {
-  display: block;
-}
+.imf-dd.open .imf-dd-menu { display: block; }
 
 .imf-dd-menu a {
   display: flex;
@@ -186,9 +204,7 @@
   text-decoration: none;
 }
 
-.imf-dd-menu a:hover {
-  background: #eff6ff;
-}
+.imf-dd-menu a:hover { background: #eff6ff; }
 
 .imf-sub {
   display: none;
@@ -202,13 +218,8 @@
   padding: 6px 0;
 }
 
-.imf-dd-menu .has-sub {
-  position: relative;
-}
-
-.imf-dd-menu .has-sub:hover .imf-sub {
-  display: block;
-}
+.imf-dd-menu .has-sub { position: relative; }
+.imf-dd-menu .has-sub:hover .imf-sub { display: block; }
 
 .imf-sep {
   width: 1px;
@@ -217,12 +228,19 @@
   margin: 0 4px;
 }
 
+@media (max-width: 1100px) {
+  .imf-switch {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 700px) {
   .imf-switch {
-    width: 100%;
+    grid-template-columns: 1fr 1fr;
   }
   .imf-switch a {
-    flex: 1;
-    justify-content: center;
+    min-height: 56px;
+    padding: 10px;
   }
+  .imf-switch .imf-hint { display: none; }
 }

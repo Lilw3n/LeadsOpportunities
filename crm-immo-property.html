@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
   <style>
     :root { --immo-blue:#1e4f8a; --immo-side:#2c3340; }
     .dossier-head { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
@@ -99,6 +100,7 @@
     .immo-cloud-table th { color:var(--muted); font-size:.72rem; }
 </head>
 <body class="crm-subpage">
+  <div id="immoFinanceNav" data-vertical="immo" data-active="fiche"></div>
   <div class="dossier-head">
     <div>
       <p class="crm-eyebrow">Immobilier · fiche intelligente</p>
@@ -154,6 +156,7 @@
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-immo-property-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-immo-finance-nav.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>
 </html>

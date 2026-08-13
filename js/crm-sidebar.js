@@ -29,14 +29,14 @@ window.CrmSidebar = {
   },
 
   FAVORITES: [
+    { href: "./crm-immo-properties.html", label: "Immobilier", icon: "immo", badge: "Biens", pillar: "immo" },
+    { href: "./crm-pret-immo.html", label: "Prêts", icon: "financial", badge: "Dossiers", pillar: "prets" },
+    { href: "./crm-assurance-immo.html", label: "Assurance", icon: "insurance", badge: "ADE", pillar: "assurance" },
+    { href: "./crm-banque-epargne.html", label: "Banque", icon: "financial", badge: "Épargne", pillar: "banque" },
     { href: "./crm-pubs.html", label: "Gestion pubs", icon: "social", badge: "1€/j" },
     { href: "./crm-sources.html", label: "Origine leads", icon: "stats" },
     { href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats" },
-    { href: "./crm-marches.html", label: "Marchés & présence", icon: "calendar" },
-    { href: "./crm-search.html", label: "Recherche", icon: "search" },
-    { href: "./crm-quote-new.html", label: "Nouveau devis", icon: "contract" },
     { href: "./crm-catalog.html", label: "Tous nos produits", icon: "insurance" },
-    { href: "./crm-products.html", label: "Catalogue vérifié", icon: "insurance" },
   ],
 
   GROUPS: [
@@ -107,19 +107,27 @@ window.CrmSidebar = {
     },
     {
       id: "immobilier",
-      label: "Immobilier",
+      label: "Immobilier & finance",
       defaultOpen: true,
       items: [
+        { type: "pillar", id: "pillar-immo", label: "Immobilier", pillar: "immo", hint: "Piges · suivi · matching" },
         { type: "link", href: "./crm-immo-properties.html", label: "Piges & biens", icon: "immo", highlight: true, desc: "Filtres type Piges + actions listing (SMS, suivi, export…)", keywords: "piges bien annonce leboncoin seloger paruvendu inventaire prospection" },
         { type: "link", href: "./crm-immo-suivi.html", label: "Suivi", icon: "immo", badge: "pipeline", desc: "Ventes, locations, offres, sorties de stock", keywords: "suivi ventes locations offres stock sorties" },
         { type: "link", href: "./crm-immo-matching.html", label: "Matching acquéreurs", icon: "ai", badge: "smart", desc: "Critères géo, surface, pièces, dépendances vs biens", keywords: "matching acheteur recherche criteria" },
         { type: "link", href: "./crm-immo-documents.html", label: "Documents immo", icon: "document", desc: "Mandats, bons de visite, offres, compromis (édition)", keywords: "mandat compromis offre visite document" },
         { type: "link", href: "./crm-immo-property.html", label: "Fiche bien", icon: "immo", muted: true },
-        { type: "link", href: "./crm-pret-immo.html", label: "Prêts (dossiers)", icon: "immo", badge: "nouveau", highlight: true, desc: "Mes dossiers, simulations RAC / IMMO / SCI…", keywords: "pret credit rac rachat simulation dossier emprunteur" },
+
+        { type: "pillar", id: "pillar-prets", label: "Prêts", pillar: "prets", hint: "Dossiers · sims · docs" },
+        { type: "link", href: "./crm-pret-immo.html", label: "Prêts (dossiers)", icon: "financial", badge: "hub", highlight: true, desc: "Mes dossiers, simulations RAC / IMMO / SCI…", keywords: "pret credit rac rachat simulation dossier emprunteur" },
+        { type: "link", href: "./crm-pret-immo-docs.html", label: "Documentation prêt", icon: "document", desc: "Grilles, fiches, pièces réglementaires", keywords: "documentation grilles fiches pieces" },
+        { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Financement", icon: "tariff", desc: "Honoraires + charges + revenu imposable estimé", keywords: "immo honoraires commission bareme pret financement" },
+
+        { type: "pillar", id: "pillar-assurance", label: "Assurance", pillar: "assurance", hint: "ADE · MRH" },
         { type: "link", href: "./crm-assurance-immo.html", label: "Assurance immo", icon: "insurance", badge: "ADE", highlight: true, desc: "Emprunteur ADE, habitation MRH", keywords: "assurance emprunteur ade mrh habitation immo" },
-        { type: "link", href: "./crm-patrimoine.html", label: "Patrimoine", icon: "immo", badge: "CGP", highlight: true, desc: "Retraite, mutuelle, invalidité, protection famille", keywords: "patrimoine retraite mutuelle invalidite prevoyance famille" },
-        { type: "link", href: "./crm-banque-epargne.html", label: "Banque & épargne", icon: "immo", desc: "Trésorerie pro, épargne, placements", keywords: "banque epargne placement per assurance vie tresorerie" },
-        { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Financement", icon: "immo", desc: "Honoraires + charges URSSAF/IR + revenu imposable estimé", keywords: "immo laforet honoraires commission bareme pret rachat financement acheteur urssaf" },
+
+        { type: "pillar", id: "pillar-banque", label: "Banque & patrimoine", pillar: "banque", hint: "Épargne · CGP" },
+        { type: "link", href: "./crm-banque-epargne.html", label: "Banque & épargne", icon: "financial", highlight: true, desc: "Trésorerie pro, épargne, placements", keywords: "banque epargne placement per assurance vie tresorerie" },
+        { type: "link", href: "./crm-patrimoine.html", label: "Patrimoine", icon: "immo", badge: "CGP", desc: "Retraite, mutuelle, invalidité, protection famille", keywords: "patrimoine retraite mutuelle invalidite prevoyance famille" },
         { type: "link", href: "./negociateur-immobilier/", label: "Landing négociateur", icon: "immo", desc: "Parcours acquéreur prêt & assurances" },
       ],
     },
@@ -241,25 +249,28 @@ window.CrmSidebar = {
     this.FAVORITES.forEach(function (item) {
       var icon = self.ICONS[item.icon] || self.ICONS.default;
       var active = activePath === item.href.replace(/^\.\//, "") ? " active" : "";
+      var pillar = item.pillar ? " crm-nav-fav-" + item.pillar : "";
       html +=
         '<a href="' +
         self.esc(item.href) +
         '" class="crm-nav-favorite' +
+        pillar +
         active +
         '"><span>' +
         icon +
         "</span><strong>" +
         self.esc(item.label) +
         "</strong>" +
-        (item.badge ? '<em>' + self.esc(item.badge) + "</em>" : "") +
+        (item.badge ? "<em>" + self.esc(item.badge) + "</em>" : "") +
         "</a>";
     });
     html += "</div>";
 
     this.GROUPS.forEach(function (g) {
       var hasActive = g.items.some(function (item) {
+        if (item.type === "pillar") return false;
         if (item.type === "section") return activeSection === item.id;
-        return activePath === item.href.replace(/^\.\//, "");
+        return item.href && activePath === item.href.replace(/^\.\//, "");
       });
       var collapsed = g.defaultOpen || hasActive ? "" : " crm-nav-group-collapsed";
       html +=
@@ -281,7 +292,20 @@ window.CrmSidebar = {
         var desc = item.desc ? '<small class="crm-nav-desc">' + self.esc(item.desc) + "</small>" : "";
         var badge = item.badge ? '<em class="crm-nav-badge">' + self.esc(item.badge) + "</em>" : "";
         var muted = item.muted ? " crm-nav-muted" : "";
-        var keywords = self.esc([item.label, item.desc, item.keywords].filter(Boolean).join(" "));
+        var keywords = self.esc([item.label, item.desc, item.keywords, item.hint].filter(Boolean).join(" "));
+        if (item.type === "pillar") {
+          html +=
+            '<div class="crm-nav-pillar crm-nav-pillar-' +
+            self.esc(item.pillar || "immo") +
+            '" data-keywords="' +
+            keywords +
+            '"><strong>' +
+            self.esc(item.label) +
+            "</strong>" +
+            (item.hint ? "<span>" + self.esc(item.hint) + "</span>" : "") +
+            "</div>";
+          return;
+        }
         if (item.type === "section") {
           var on = activeSection === item.id ? " active" : "";
           html +=
@@ -303,14 +327,14 @@ window.CrmSidebar = {
             "</span></a>";
         } else {
           var hrefFile = item.href.replace(/^\.\//, "");
-          var on = activePath === hrefFile ? " active" : "";
+          var onLink = activePath === hrefFile ? " active" : "";
           var ext = item.external ? ' target="_blank" rel="noopener"' : "";
           var hi = item.highlight ? " crm-nav-highlight" : "";
           html +=
             '<a href="' +
             self.esc(item.href) +
             '" class="crm-nav-link' +
-            on +
+            onLink +
             hi +
             muted +
             '"' +
