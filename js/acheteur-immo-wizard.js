@@ -1,6 +1,5 @@
 /**
- * Parcours acquereur immobilier —
- * etape 1 recherche (bien / service), sauts pret, validation besoins.
+ * Parcours acquereur — recherche de bien (style annonce) puis pret / assurances.
  */
 (function () {
   function qsa(root, sel) {
@@ -43,24 +42,64 @@
     });
   }
 
+  function syncModeFromUi(form) {
+    var ui = form.querySelector('input[name="searchModeUi"]:checked');
+    if (!ui) return;
+    var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
+    if (hidden) hidden.checked = true;
+  }
+
   function syncSearchPanels(form) {
-    var kind = searchKindOf(form);
+    syncModeFromUi(form);
+    var kind = searchKindOf(form) || "bien";
     var bienPanel = qs(form, "[data-search-bien-panel]");
     var servicePanel = qs(form, "[data-search-service-panel]");
     if (bienPanel) bienPanel.hidden = !wantsBien(kind);
     if (servicePanel) servicePanel.hidden = !wantsService(kind);
+
+    qsa(form, "[data-search-bien-required]").forEach(function (el) {
+      el.disabled = !wantsBien(kind);
+      if (!wantsBien(kind)) el.classList.remove("input-invalid");
+    });
 
     /* Service seul : pas d'etape « precisions bien » */
     var projet = qs(form, '[data-step-name="projet"]');
     setSkip(projet, kind === "service");
   }
 
+  function syncBudgetToPrice(form) {
+    var budgetMax = qs(form, "#budgetMax");
+    var propertyPrice = qs(form, "#propertyPrice");
+    if (budgetMax && propertyPrice && budgetMax.value && !propertyPrice.value) {
+      propertyPrice.value = budgetMax.value;
+    }
+    var surfSearch = qs(form, "#propertySurfaceSearch");
+    var surf = qs(form, "#propertySurface");
+    if (surfSearch && surf && surfSearch.value && !surf.value) {
+      surf.value = surfSearch.value;
+    }
+    var props = qsa(form, 'input[name="propertySought"]:checked');
+    var typeSel = qs(form, "#propertyType");
+    if (typeSel && props.length === 1 && !typeSel.value) {
+      var map = {
+        appartement: "Appartement ancien",
+        maison: "Maison ancienne",
+        terrain: "Terrain a batir",
+        local: "Local commercial / Mixte",
+        immeuble: "Local commercial / Mixte",
+      };
+      if (map[props[0].value]) typeSel.value = map[props[0].value];
+    }
+  }
+
   function syncAll(form) {
     syncSearchPanels(form);
     syncPretSteps(form);
+    syncBudgetToPrice(form);
   }
 
   function validateSearch(form) {
+    syncSearchPanels(form);
     var kind = searchKindOf(form);
     var kindHint = qs(form, "[data-search-kind-hint]");
     var propHint = qs(form, "[data-property-sought-hint]");
@@ -89,6 +128,19 @@
         if (sellerHint) sellerHint.hidden = false;
         ok = false;
       }
+      qsa(form, "[data-search-bien-required]").forEach(function (el) {
+        el.classList.remove("input-invalid");
+        var v = (el.value || "").trim();
+        if (!v) {
+          el.classList.add("input-invalid");
+          ok = false;
+          return;
+        }
+        if (el.name === "postalProject" && !/^[0-9]{5}$/.test(v)) {
+          el.classList.add("input-invalid");
+          ok = false;
+        }
+      });
     }
 
     if (wantsService(kind)) {
@@ -123,7 +175,7 @@
     if (!form || form.dataset.acheteurImmoBound) return;
     form.dataset.acheteurImmoBound = "1";
 
-    qsa(form, 'input[name="searchKind"]').forEach(function (r) {
+    qsa(form, "[data-search-mode]").forEach(function (r) {
       r.addEventListener("change", function () {
         syncSearchPanels(form);
       });
@@ -135,6 +187,13 @@
       });
     });
 
+    var budgetMax = qs(form, "#budgetMax");
+    if (budgetMax) {
+      budgetMax.addEventListener("change", function () {
+        syncBudgetToPrice(form);
+      });
+    }
+
     syncAll(form);
 
     form.addEventListener(
@@ -145,10 +204,11 @@
         var step = visibleStep(form);
         var name = step && step.getAttribute("data-step-name");
         if (name === "recherche") {
-          syncSearchPanels(form);
           if (!validateSearch(form)) {
             e.preventDefault();
             e.stopImmediatePropagation();
+          } else {
+            syncBudgetToPrice(form);
           }
           return;
         }
