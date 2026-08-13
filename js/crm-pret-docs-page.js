@@ -108,7 +108,7 @@
 
   function renderAxisChips() {
     if (!els.axisChips) return;
-    var main = ["pret_immo", "ptz", "pret_relais", "pret_conso", "travaux", "rac", "scpi"];
+    var main = ["pret_immo", "ptz", "pret_relais", "pret_conso", "travaux", "rac", "scpi", "sci", "pvh"];
     els.axisChips.innerHTML =
       '<span class="g-axis-label">Projets IMMO</span>' +
       Search.projectAxes()
@@ -186,17 +186,19 @@
   }
 
   function sourceBadge(source) {
-    return source === "grilles"
-      ? '<span class="g-badge grille">Grille</span>'
-      : '<span class="g-badge fiche">Fiche</span>';
+    if (source === "grilles") return '<span class="g-badge grille">Grille</span>';
+    if (source === "pieces") return '<span class="g-badge pieces">Pièces</span>';
+    return '<span class="g-badge fiche">Fiche</span>';
   }
 
   function kindIcon(kind, source) {
     if (kind === "outil") return "📊";
     if (kind === "formulaire") return "📝";
-    if (kind === "liste" || kind === "book" || kind === "memento") return "📋";
+    if (kind === "liste" || kind === "liste_pieces" || kind === "book" || kind === "memento") return "📋";
     if (kind === "assurance") return "🛡";
-    if (kind === "interne" || kind === "conformite") return "📁";
+    if (kind === "reglementaire" || kind === "conformite") return "⚖";
+    if (kind === "interne") return "📁";
+    if (source === "pieces") return "📎";
     return source === "grilles" ? "📈" : "📄";
   }
 
@@ -278,6 +280,8 @@
       " grille(s) · " +
       out.stats.fiches +
       " fiche(s) · " +
+      (out.stats.pieces || 0) +
+      " pièce(s)/réglem. · " +
       out.rules.length +
       " règle(s)";
 
@@ -383,10 +387,13 @@
     }),
     fetch("./data/pret-fiches-produits.json", { cache: "no-store" }).then(function (r) {
       return r.json();
+    }),
+    fetch("./data/pret-pieces-reglementaires.json", { cache: "no-store" }).then(function (r) {
+      return r.json();
     })
   ])
-    .then(function (pair) {
-      Search.setCatalogs(pair[0], pair[1]);
+    .then(function (triple) {
+      Search.setCatalogs(triple[0], triple[1], triple[2]);
       boot();
     })
     .catch(function (err) {

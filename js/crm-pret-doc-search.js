@@ -4,7 +4,7 @@
  * — parse profil / intention / région / partenaire
  */
 window.CrmPretDocSearch = (function () {
-  var catalogs = { grilles: null, fiches: null };
+  var catalogs = { grilles: null, fiches: null, pieces: null };
 
   function norm(s) {
     return String(s || "")
@@ -41,17 +41,20 @@ window.CrmPretDocSearch = (function () {
 
   /** Alias besoin → catégories / tags catalogue */
   var NEED_ALIASES = {
-    conso: ["conso", "treso"],
-    treso: ["treso", "conso"],
+    conso: ["conso", "treso", "pieces_treso"],
+    treso: ["treso", "conso", "pieces_treso", "pieces_hypo_treso"],
     renov: ["renov"],
-    ptz: ["ptz", "immo"],
+    ptz: ["ptz", "immo", "pieces_immo"],
     relais: ["relais"],
-    immo: ["immo"],
-    hypo: ["hypo", "hypo_treso"],
-    rac: ["rac"],
-    scpi: ["scpi"],
-    sci: ["sci"],
-    pvh: ["pvh"]
+    immo: ["immo", "pieces_immo"],
+    hypo: ["hypo", "hypo_treso", "pieces_hypo_treso"],
+    rac: ["rac", "pieces_rac"],
+    scpi: ["scpi", "pieces_scpi"],
+    sci: ["sci", "pieces_sci"],
+    pvh: ["pvh", "pieces_pvh"],
+    pieces: ["pieces", "pieces_immo", "pieces_rac", "pieces_sci", "pieces_scpi", "pieces_pvh", "pieces_treso", "pieces_hypo_treso"],
+    conformite: ["conformite", "iobsp"],
+    assurance: ["assurance", "ias"]
   };
 
   var PARTNER_ALIASES = [
@@ -66,17 +69,20 @@ window.CrmPretDocSearch = (function () {
     ["cmt", ["cmt", "credit municipal toulon", "griffon"]],
     ["bank_b", ["bank b", "banque b"]],
     ["sofinco", ["sofinco"]],
+    ["cibfinance", ["cibfinance", "cib finance"]],
+    ["cibassur", ["cibassur"]],
     ["cmt", ["griffon"]]
   ];
 
-  function setCatalogs(grilles, fiches) {
+  function setCatalogs(grilles, fiches, pieces) {
     catalogs.grilles = grilles || null;
     catalogs.fiches = fiches || null;
+    catalogs.pieces = pieces || null;
   }
 
   function allPartners() {
     var map = {};
-    ["grilles", "fiches"].forEach(function (k) {
+    ["grilles", "fiches", "pieces"].forEach(function (k) {
       var c = catalogs[k];
       if (!c) return;
       (c.partners || []).forEach(function (p) {
@@ -92,7 +98,7 @@ window.CrmPretDocSearch = (function () {
 
   function allCategories() {
     var map = {};
-    ["grilles", "fiches"].forEach(function (k) {
+    ["grilles", "fiches", "pieces"].forEach(function (k) {
       var c = catalogs[k];
       if (!c) return;
       (c.categories || []).forEach(function (p) {
@@ -105,21 +111,41 @@ window.CrmPretDocSearch = (function () {
   }
 
   function labelPartner(id, source) {
-    var c = catalogs[source] || catalogs.fiches || catalogs.grilles;
-    if (!c) return id || "—";
-    var p = (c.partners || []).find(function (x) {
-      return x.id === id;
-    });
-    return (p && p.label) || id || "—";
+    var order = source
+      ? [source, "pieces", "fiches", "grilles"]
+      : ["pieces", "fiches", "grilles"];
+    var seen = {};
+    for (var i = 0; i < order.length; i++) {
+      var key = order[i];
+      if (seen[key]) continue;
+      seen[key] = 1;
+      var c = catalogs[key];
+      if (!c) continue;
+      var p = (c.partners || []).find(function (x) {
+        return x.id === id;
+      });
+      if (p && p.label) return p.label;
+    }
+    return id || "—";
   }
 
   function labelCategory(id, source) {
-    var c = catalogs[source] || catalogs.fiches || catalogs.grilles;
-    if (!c) return id || "—";
-    var cat = (c.categories || []).find(function (x) {
-      return x.id === id;
-    });
-    return (cat && cat.label) || id || "—";
+    var order = source
+      ? [source, "pieces", "fiches", "grilles"]
+      : ["pieces", "fiches", "grilles"];
+    var seen = {};
+    for (var i = 0; i < order.length; i++) {
+      var key = order[i];
+      if (seen[key]) continue;
+      seen[key] = 1;
+      var c = catalogs[key];
+      if (!c) continue;
+      var cat = (c.categories || []).find(function (x) {
+        return x.id === id;
+      });
+      if (cat && cat.label) return cat.label;
+    }
+    return id || "—";
   }
 
   function regionLabel(id) {
@@ -226,9 +252,9 @@ window.CrmPretDocSearch = (function () {
       ["conso", ["conso", "consommation", "personnel", "pret perso", "pret conso"]],
       ["retraite", ["retraite", "pension"]],
       ["senior", ["senior"]],
-      ["assurance", ["assurance", "ade", "assurlift"]],
-      ["pieces", ["pieces", "dossier", "documents a fournir"]],
-      ["conformite", ["conformite", "blanchiment", "devoir de conseil"]]
+      ["assurance", ["assurance", "ade", "assurlift", "ias", "cibassur"]],
+      ["pieces", ["pieces", "dossier", "documents a fournir", "liste des pieces"]],
+      ["conformite", ["conformite", "blanchiment", "devoir de conseil", "iobsp", "docusign", "reglementaire", "mandataire"]]
     ];
     needMap.forEach(function (pair) {
       if (pair[1].some(function (k) { return n.indexOf(k) >= 0; })) out.need.push(pair[0]);
@@ -246,8 +272,10 @@ window.CrmPretDocSearch = (function () {
     if (/\btaux|grille|bareme|pricing|tarif/.test(n)) out.intents.push("taux");
     if (/\bcritere|norme|condition|acceptation|memento|book/.test(n)) out.intents.push("normes");
     if (/\bpiece|document|checklist|fournir/.test(n)) out.intents.push("pieces");
-    if (/\bassurance|ade|quotite/.test(n)) out.intents.push("assurance");
+    if (/\bassurance|ade|quotite|ias|cibassur/.test(n)) out.intents.push("assurance");
     if (/\bformulaire|attestation|mandat|sepa/.test(n)) out.intents.push("formulaire");
+    if (/\biobsp|reglementaire|entree en relation|convention.?honoraire|docusign|conformite|blanchiment/.test(n))
+      out.intents.push("reglementaire");
     if (!out.intents.length) {
       if (out.need.indexOf("rac") >= 0 || out.profile.indexOf("senior") >= 0) out.intents.push("eligibilite");
       else out.intents.push("documentation");
@@ -255,7 +283,9 @@ window.CrmPretDocSearch = (function () {
 
     /* Source hint from intent */
     if (out.intents.indexOf("taux") >= 0) out.kindHint = "grilles";
-    else if (out.intents.indexOf("pieces") >= 0 || out.intents.indexOf("normes") >= 0 || out.intents.indexOf("formulaire") >= 0)
+    else if (out.intents.indexOf("pieces") >= 0 || out.intents.indexOf("reglementaire") >= 0)
+      out.kindHint = "pieces";
+    else if (out.intents.indexOf("normes") >= 0 || out.intents.indexOf("formulaire") >= 0)
       out.kindHint = "fiches";
 
     if (filters.need) {
@@ -533,6 +563,10 @@ window.CrmPretDocSearch = (function () {
       var k = keys[i];
       if (doc.category === k || (doc.alsoCategories || []).indexOf(k) >= 0) return "category";
     }
+    if ((doc.needs || []).indexOf(need) >= 0) return "tag";
+    for (i = 0; i < keys.length; i++) {
+      if ((doc.needs || []).indexOf(keys[i]) >= 0) return "tag";
+    }
     for (i = 0; i < keys.length; i++) {
       if ((doc.tags || []).indexOf(keys[i]) >= 0) return "tag";
     }
@@ -629,11 +663,15 @@ window.CrmPretDocSearch = (function () {
         score += 14;
         reasons.push("intention critères → fiche");
       }
-      if (intent === "pieces" && (/piece|interne/.test(hay) || doc.kind === "interne")) {
+      if (intent === "pieces" && (/piece|liste_pieces|interne|dossier/.test(hay) || doc.kind === "interne" || doc.kind === "liste_pieces")) {
         score += 34;
         reasons.push("pièces dossier");
       }
-      if (intent === "assurance" && (doc.kind === "assurance" || (doc.tags || []).indexOf("assurance") >= 0)) {
+      if (intent === "reglementaire" && (doc.kind === "reglementaire" || doc.kind === "conformite" || /iobsp|ias|conformite|docusign/.test(hay))) {
+        score += 32;
+        reasons.push("réglementaire");
+      }
+      if (intent === "assurance" && (doc.kind === "assurance" || source === "pieces" && doc.category === "ias" || (doc.tags || []).indexOf("assurance") >= 0)) {
         score += 30;
         reasons.push("assurance");
       }
@@ -711,7 +749,8 @@ window.CrmPretDocSearch = (function () {
     var query = parseQuery(raw, filters);
     var rulesG = rulesFrom(catalogs.grilles, query);
     var rulesF = rulesFrom(catalogs.fiches, query);
-    var rules = rulesG.concat(rulesF);
+    var rulesP = rulesFrom(catalogs.pieces, query);
+    var rules = rulesG.concat(rulesF).concat(rulesP);
     /* dedupe rules by id */
     var seenR = {};
     rules = rules.filter(function (r) {
@@ -723,6 +762,7 @@ window.CrmPretDocSearch = (function () {
     var pool = [];
     if (!filters.source || filters.source === "grilles") pool = pool.concat(flattenDocs("grilles"));
     if (!filters.source || filters.source === "fiches") pool = pool.concat(flattenDocs("fiches"));
+    if (!filters.source || filters.source === "pieces") pool = pool.concat(flattenDocs("pieces"));
 
     var empty =
       !query.text &&
@@ -736,10 +776,21 @@ window.CrmPretDocSearch = (function () {
       query.hasProperty == null &&
       !query.profile.length;
 
+    function sourceLabelOf(source) {
+      if (source === "grilles") return "Grille des taux";
+      if (source === "pieces") return "Pièces / réglementaire";
+      return "Fiche produit";
+    }
+
+    function rulesForSource(source) {
+      if (source === "grilles") return rulesG;
+      if (source === "pieces") return rulesP;
+      return rulesF;
+    }
+
     var results = pool
       .map(function (item) {
-        var rulesFor = item.source === "grilles" ? rulesG : rulesF;
-        var sc = scoreDoc(item.doc, query, rulesFor, item.source);
+        var sc = scoreDoc(item.doc, query, rulesForSource(item.source), item.source);
         return {
           doc: item.doc,
           source: item.source,
@@ -751,7 +802,7 @@ window.CrmPretDocSearch = (function () {
           partnerLabel: labelPartner(item.doc.partner, item.source),
           categoryLabel: labelCategory(item.doc.category, item.source),
           regionLabel: regionLabel(item.doc.region),
-          sourceLabel: item.source === "grilles" ? "Grille des taux" : "Fiche produit"
+          sourceLabel: sourceLabelOf(item.source)
         };
       })
       .filter(function (r) {
@@ -760,10 +811,17 @@ window.CrmPretDocSearch = (function () {
         if (query.region && r.doc.region !== query.region) return false;
         if (query.need.length && !r.strongNeed) return false;
         if (query.kindHint === "grilles" && r.source !== "grilles" && !r.strongNeed) return false;
-        if (query.kindHint === "fiches" && r.source !== "fiches" && (query.intents || []).indexOf("pieces") >= 0 && !/piece/.test(norm(r.doc.title)))
+        if (query.kindHint === "pieces" && r.source !== "pieces" && !r.strongNeed) return false;
+        if (
+          query.kindHint === "fiches" &&
+          r.source !== "fiches" &&
+          (query.intents || []).indexOf("normes") >= 0 &&
+          !r.strongNeed
+        )
           return false;
         var min = 36;
-        if ((query.intents || []).indexOf("pieces") >= 0 || (query.intents || []).indexOf("taux") >= 0) min = 48;
+        if ((query.intents || []).indexOf("pieces") >= 0 || (query.intents || []).indexOf("taux") >= 0 || (query.intents || []).indexOf("reglementaire") >= 0)
+          min = 48;
         if (query.need.length || query.ageMin != null) min = 52;
         if (query.partner && query.need.length) min = 58;
         return r.score >= min;
@@ -803,7 +861,8 @@ window.CrmPretDocSearch = (function () {
       stats: {
         total: results.length,
         grilles: results.filter(function (r) { return r.source === "grilles"; }).length,
-        fiches: results.filter(function (r) { return r.source === "fiches"; }).length
+        fiches: results.filter(function (r) { return r.source === "fiches"; }).length,
+        pieces: results.filter(function (r) { return r.source === "pieces"; }).length
       }
     };
   }
@@ -863,7 +922,45 @@ window.CrmPretDocSearch = (function () {
     if (query.need.indexOf("immo") >= 0 && query.axes.indexOf("pret_immo") >= 0) {
       steps.push({
         title: "Prêt immobilier",
-        detail: "Fiches acquisition (Ancien / VEFA / CCMI) + grilles IMMO. Si PTZ ou relais coché sur le dossier, combiner les parcours associés."
+        detail:
+          "Fiches acquisition (Ancien / VEFA / CCMI) + grilles IMMO + liste de pièces dossier crédit immobilier. Si PTZ ou relais coché sur le dossier, combiner les parcours associés."
+      });
+    }
+    if (query.need.indexOf("rac") >= 0 || query.axes.indexOf("rac") >= 0) {
+      steps.push({
+        title: "RAC — pièces selon statut logement",
+        detail:
+          "Choisir la liste de pièces Propriétaire / Locataire / Hébergé, puis fiches critères + grilles. Compléter IOBSP (entrée en relation, honoraires) et conformité DocuSign si besoin."
+      });
+    }
+    if (query.need.indexOf("sci") >= 0 || query.axes.indexOf("sci") >= 0) {
+      steps.push({
+        title: "SCI",
+        detail: "Liste de pièces dossier SCI + fiches / grilles financement SCI."
+      });
+    }
+    if (query.need.indexOf("pvh") >= 0 || query.axes.indexOf("pvh") >= 0) {
+      steps.push({
+        title: "PVH",
+        detail: "Liste des pièces PVH + fiches / grilles viager hypothécaire (senior)."
+      });
+    }
+    if (
+      (query.intents || []).indexOf("pieces") >= 0 ||
+      (query.need || []).indexOf("pieces") >= 0 ||
+      query.kindHint === "pieces"
+    ) {
+      steps.push({
+        title: "Listes de pièces dossier",
+        detail:
+          "Filtrer source « Pièces / réglementaire » : IMMO, SCI, SCPI, RAC (3 statuts), hypo trésorerie, trésorerie, PVH. Déposer les PDF via docs/pret-pieces/_inbox/ si statut « À déposer »."
+      });
+    }
+    if ((query.intents || []).indexOf("reglementaire") >= 0 || (query.need || []).indexOf("conformite") >= 0) {
+      steps.push({
+        title: "Documents réglementaires",
+        detail:
+          "IOBSP (entrée en relation, conventions / annexes honoraires, fiches renseignements, mise en place IMMO) · Conformité mandataires (acquisition DocuSign, LCB-FT, pub, procédure RAC) · IAS (info pré-contractuelle, guide Cibassur)."
       });
     }
     if (!steps.length && rules[0]) {
@@ -913,6 +1010,15 @@ window.CrmPretDocSearch = (function () {
       { q: "personne de 62 ans retraitée, propriétaire, éligible RAC ?", label: "62 ans · retraite · RAC" },
       { q: "locataire sans garantie Credit Lift", label: "Locataire · Credit Lift" },
       { q: "taux RAC CFCAL avec garantie", label: "Taux RAC CFCAL" },
+      { q: "liste pièces RAC locataire", label: "Pièces RAC locataire", project: "rac" },
+      { q: "liste pièces dossier crédit immobilier", label: "Pièces crédit immo", project: "pret_immo" },
+      { q: "liste pièces SCI", label: "Pièces SCI", project: "sci" },
+      { q: "liste pièces PVH", label: "Pièces PVH", project: "pvh" },
+      { q: "liste pièces SCPI", label: "Pièces SCPI", project: "scpi" },
+      { q: "IOBSP demande entrée en relation", label: "IOBSP entrée relation" },
+      { q: "DocuSign lutte anti blanchiment", label: "LCB-FT DocuSign" },
+      { q: "convention honoraires Cibfinance", label: "Honoraires IOBSP" },
+      { q: "information pré-contractuelle assurance IAS", label: "IAS pré-contractuel" },
       { q: "pièces indispensables RAC hypo Creatis", label: "Pièces Creatis" },
       { q: "PVH senior trésorerie", label: "PVH" },
       { q: "SCPI nantissement CFCAL", label: "SCPI" },
@@ -937,7 +1043,7 @@ window.CrmPretDocSearch = (function () {
     if (query.intents.length) bits.push("intention : " + query.intents.join(", "));
     if (query.partner) bits.push("partenaire : " + labelPartner(query.partner, "fiches"));
     if (query.region) bits.push("région : " + regionLabel(query.region));
-    return bits.length ? bits.join(" · ") : "catalogue complet (grilles + fiches)";
+    return bits.length ? bits.join(" · ") : "catalogue complet (grilles + fiches + pièces)";
   }
 
   return {

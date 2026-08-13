@@ -63,6 +63,7 @@
     .g-badge.draft { background:#e0e7ff; color:#3730a3; }
     .g-badge.grille { background:#cffafe; color:#0e7490; }
     .g-badge.fiche { background:#ede9fe; color:#5b21b6; }
+    .g-badge.pieces { background:#ffedd5; color:#9a3412; }
     .g-empty { color:#64748b; padding:24px; text-align:center; }
     .btn-cyan { background:var(--pi-cyan); color:#fff; border:0; }
     .g-links { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 14px; font-size:.82rem; }
@@ -74,21 +75,24 @@
 
   <h1 class="g-title">Documentation intelligente</h1>
   <p class="g-sub">
-    Un seul moteur pour <strong>grilles de taux</strong> + <strong>fiches produits</strong>,
-    corrélé aux projets IMMO : prêt immo, PTZ, prêt relais, conso, travaux…
+    Un seul moteur pour <strong>grilles de taux</strong>, <strong>fiches produits</strong>
+    et <strong>listes de pièces / documents réglementaires</strong> (IOBSP, IAS, conformité),
+    corrélé aux projets IMMO : prêt immo, PTZ, prêt relais, RAC, SCPI, SCI, PVH…
     Posez une question métier ou sélectionnez un dossier / un axe projet.
   </p>
   <p class="g-links">
     Catalogues séparés :
     <a href="./crm-pret-immo-grilles.html">Grille des taux</a> ·
-    <a href="./crm-pret-immo-fiches.html">Fiches produits</a>
+    <a href="./crm-pret-immo-fiches.html">Fiches produits</a> ·
+    <a href="./docs/CRM-PRET-PIECES.md">Pièces &amp; réglementaire</a>
   </p>
 
   <div class="g-warn">
     <div class="ico" aria-hidden="true">⚠</div>
     <div>
-      Usage <strong>professionnel uniquement</strong>, documents non contractuels.
-      Conseils d’éligibilité en <strong>brouillon</strong> jusqu’à validation après lecture des PDF.
+      © Usage <strong>professionnel uniquement</strong> (ex. Cibfinance / Cibassur) — ne pas remettre à la clientèle.
+      Documents non contractuels. Conseils d’éligibilité en <strong>brouillon</strong> jusqu’à validation après lecture des PDF.
+      Tracking recommandé sur les téléchargements.
     </div>
   </div>
 
@@ -124,9 +128,10 @@
       </label>
       <label>Source
         <select id="gSource">
-          <option value="">Grilles + fiches</option>
+          <option value="">Tout (grilles + fiches + pièces)</option>
           <option value="grilles">Grilles seulement</option>
           <option value="fiches">Fiches seulement</option>
+          <option value="pieces">Pièces / réglementaire</option>
         </select>
       </label>
       <label>Grouper par
