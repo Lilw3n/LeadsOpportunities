@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T07:32:54.317Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/meteo/en-direct-live-meteo-canicule-vague-chaleur-soleil-incendies-feux-temperatures-vigilance-secheresse-20260813",
+    "https://www.franceinfo.fr/sports/foot/equipe-de-france/fabien-barthez-nomme-entraineur-des-gardiens-de-but-de-l-equipe-de-france_8145794.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d7326686d4d32809c47e08719d98d&url=https%3a%2f%2fwww.leparisien.fr%2fsports%2ffootball%2fcoupe-du-monde%2fcoupe-du-monde-2026-france-maroc-un-duel-entre-amis-09-07-2026-5OUGNE67LZG4NKDBUHXBDPD7R4.php&c=3949941458973546811&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T07:32:55.359Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,39 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T07:31:55.087Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "en-direct-canicule-la-ministre-de-l-agriculture-va-reunir-les-eleveurs-l.html",
+          "title": "EN DIRECT - Canicule : la ministre de l’Agriculture va réunir les éleveurs le 27 août p… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "fabien-barthez-nomme-entraineur-des-gardiens-de-but-de-l-equipe-de-franc.html",
+          "title": "Fabien Barthez nommé entraîneur des gardiens de but de l'équipe de France : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-13T07:32:55.359Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "coupe-du-monde-2026-france-maroc-un-duel-entre-amis.html",
+          "title": "Coupe du monde 2026 : France - Maroc, un duel entre amis : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 2
 }

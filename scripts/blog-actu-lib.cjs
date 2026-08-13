@@ -33,6 +33,10 @@ function isUnusableActuCandidate(item) {
   if (/collez ici/i.test(title)) return true;
   if (/\[?(titre|title)\s+(cafeyn|ici|à coller|a coller)/i.test(title)) return true;
   if (/placeholder|lorem ipsum/i.test(title)) return true;
+  var hay = (title + " " + String(item.summary || "")).toLowerCase();
+  // Sport hors foot FR / voyage : faible intent questionnaire
+  if (/\bhockey\b/.test(hay) && !/\b(assurance|mutuelle|sinistre|emprunteur)\b/.test(hay)) return true;
+  if (/\b(memorandum of understanding|what you need to know|money talk:)\b/i.test(title)) return true;
   return false;
 }
 
