@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-13T08:04:46.621Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -412,6 +412,207 @@
         {
           "href": "../assurance-sante/comparatif/",
           "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "je-tape-dans-mes-economies-les-premiers-beneficiaires-du-nouveau-conge-d.html",
+      "section": "prevoyance",
+      "tag": "Prévoyance",
+      "tagClass": "tag-prevoyance",
+      "title": "\"Je tape dans mes économies\" : les premiers bénéficiaires du nouveau congé de naissance… : prevoyance et revenus — que faire ?",
+      "description": "\"Je tape dans mes économies\" : les premiers bénéficiaires du nouveau congé de naissance attendent toujours leurs indemnités — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "\"Je tape dans mes économies\" : les premiers bénéficiaires du nouveau congé de naissance attendent toujours leu — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=je-tape-dans-mes-economies-les-premi",
+        "label": "Questionnaire prévoyance (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>Mozilla Firefox / Pocket</strong> (<strong>\"Je tape dans mes économies\" : les premiers bénéficiaires du nouveau congé de naissance…</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. Sans prevoyance solide, un arret de travail fait chuter les revenus du foyer."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Maintien de salaire et franchise ITT",
+            "Invalidite et rente education",
+            "Deces et capital pour les proches",
+            "Statut salarie vs TNS",
+            "Coordination avec mutuelle et PER"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire prevoyance : securiser revenus et charges fixes."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./prevoyance-independants-guide.html",
+          "label": "Prevoyance independants"
+        },
+        {
+          "href": "../assurance-prevoyance/",
+          "label": "Assurance prevoyance"
+        }
+      ]
+    },
+    {
+      "file": "les-services-financiers-de-carrefour-france-et-le-groupe-magnolia-lancen.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en … : pret et assurance emprunteur — que faire ?",
+      "description": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en Assurance Emprunteur immobilier pour optimiser le budget assurance d — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en Assurance Emprunteur im — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=les-services-financiers-de-carrefour-fra",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Les services financiers de Carrefour France et le groupe Magnolia lancent une offre en …</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
+        }
+      ]
+    },
+    {
+      "file": "assurance-emprunteur-pres-de-20-de-parts-de-marche-pour-la-delegation-ma.html",
+      "section": "finance",
+      "tag": "Crédit & emprunteur",
+      "tagClass": "tag-actu",
+      "title": "Assurance emprunteur : près de 20% de parts de marché pour la délégation - Magnolia.fr : pret et assurance emprunteur — que faire ?",
+      "description": "Assurance emprunteur : près de 20% de parts de marché pour la délégation - Magnolia.fr — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Assurance emprunteur : près de 20% de parts de marché pour la délégation - Magnolia.fr — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=assurance-emprunteur-pres-de-20-de-pa",
+        "label": "Questionnaire emprunteur (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayee ce jour via <strong>l'actualite du jour</strong> (<strong>Assurance emprunteur : près de 20% de parts de marché pour la délégation - Magnolia.fr</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. L'assurance emprunteur peut representer des milliers d'euros sur la duree du pret."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Quotite et garanties deces / invalidite",
+            "ITT et perte d'emploi selon statut",
+            "Loi Lemoine : comparer hors banque",
+            "Coordination avec prevoyance existante",
+            "Mise a jour apres demenagement ou divorce"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire emprunteur : pret, age, fumeur — orientation Lemoine possible."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-emprunteur-loi-lemoine-2026.html",
+          "label": "Loi Lemoine"
+        },
+        {
+          "href": "../assurance-emprunteur/",
+          "label": "Assurance emprunteur"
         }
       ]
     }

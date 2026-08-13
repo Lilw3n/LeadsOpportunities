@@ -8,7 +8,7 @@
       "tagClass": "tag-sante"
     },
     {
-      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur", "sécheresse", "secheresse", "cat nat", "catastrophe naturelle", "feu de forêt", "feux de forêt"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation",
@@ -29,7 +29,7 @@
       "tagClass": "tag-habitation"
     },
     {
-      "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus"],
+      "keywords": ["auto", "voiture", "automobile", "accident", "permis", "conducteur", "bonus", "malus", "trottinette", "nvei", "gyropode"],
       "section": "auto",
       "need": "auto",
       "tag": "Auto",
@@ -50,7 +50,7 @@
       "tagClass": "tag-animaux"
     },
     {
-      "keywords": ["prévoyance", "prevoyance", "décès", "deces", "invalidité", "invalidite", "arrêt de travail"],
+      "keywords": ["prévoyance", "prevoyance", "décès", "deces", "invalidité", "invalidite", "arrêt de travail", "congé de naissance", "conge de naissance", "indemnités", "indemnites", "assurance-maladie", "assurance maladie"],
       "section": "prevoyance",
       "need": "prevoyance",
       "tag": "Prévoyance",
