@@ -244,25 +244,27 @@ function pickCandidates(candidates, count, state) {
     });
   }
 
-  preferInsurance(
-    available.filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
-    })
-  ).forEach(function (c) {
-    if (picks.length >= count) return;
-    var k = c.url || c.title;
-    if (used.has(k)) return;
-    picks.push(c);
-    used.add(k);
-  });
+  function addFrom(list, requireInsurance) {
+    list.forEach(function (c) {
+      if (picks.length >= count) return;
+      if (requireInsurance && !isInsuranceIntent(c)) return;
+      var k = c.url || c.title;
+      if (used.has(k)) return;
+      picks.push(c);
+      used.add(k);
+    });
+  }
 
-  preferInsurance(available).forEach(function (c) {
-    if (picks.length >= count) return;
-    var k = c.url || c.title;
-    if (used.has(k)) return;
-    picks.push(c);
-    used.add(k);
-  });
+  addFrom(
+    preferInsurance(
+      available.filter(function (c) {
+        return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+      })
+    ),
+    true
+  );
+  addFrom(preferInsurance(available), true);
+  addFrom(preferInsurance(available), false);
 
   return picks;
 }
