@@ -97,6 +97,19 @@ function isFranceMarketTopic(input) {
   });
 }
 
+/** Titres anglophones (Bing US) qui polluent le blog FR / leads. */
+function isLikelyNonFrenchTitle(title) {
+  var t = String(title || "");
+  if (!t.trim()) return true;
+  var enHits = (
+    t.match(
+      /\b(the|and|into|regarding|what|you|need|know|about|enters|memorandum|understanding|advantages|getting|health|insurance|money|talk|how|why|this|that|with|from|sale|potential|enters)\b/gi
+    ) || []
+  ).length;
+  if (enHits >= 3) return true;
+  return false;
+}
+
 function isInternationalActuArticle(article) {
   if (!article) return false;
   if (article.audience === "international") return true;
@@ -136,6 +149,7 @@ module.exports = {
   INTL_ACTU_FILES: INTL_ACTU_FILES,
   isInternationalAudienceTopic: isInternationalAudienceTopic,
   isFranceMarketTopic: isFranceMarketTopic,
+  isLikelyNonFrenchTitle: isLikelyNonFrenchTitle,
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
