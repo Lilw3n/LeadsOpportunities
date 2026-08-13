@@ -30,15 +30,14 @@ function isPlaceholderCandidate(c) {
   return false;
 }
 
-/** Titres 100 % anglais (fils Bing US) — SEO France + leads faibles. */
+/** Titres majoritairement anglais (fils Bing US), même avec un nom propre accentué. */
 function isEnglishHeavyTitle(title) {
   var t = String(title || "").trim();
   if (!t) return false;
-  if (/[éèêëàâäùûüôöîïçœæ]/i.test(t)) return false;
   var words = t.split(/[^A-Za-zÀ-ÿ]+/).filter(function (w) {
     return w.length > 1;
   });
-  if (words.length < 5) return false;
+  if (words.length < 6) return false;
   var enStops = {
     the: 1,
     into: 1,
@@ -73,7 +72,9 @@ function isEnglishHeavyTitle(title) {
   words.forEach(function (w) {
     if (enStops[w.toLowerCase()]) hits++;
   });
-  return hits >= 3;
+  if (hits >= 4) return true;
+  if (hits >= 3 && !/[éèêëàâäùûüôöîïçœæ]/i.test(t)) return true;
+  return false;
 }
 
 function hasLeadKeyword(c) {
