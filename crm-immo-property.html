@@ -97,6 +97,16 @@
     .immo-cloud-table { width:100%; border-collapse:collapse; font-size:.84rem; }
     .immo-cloud-table th, .immo-cloud-table td { padding:8px; border-bottom:1px solid #eef2f7; text-align:left; }
     .immo-cloud-table th { color:var(--muted); font-size:.72rem; }
+    .immo-media-previews { display:grid; gap:12px; margin-top:12px; }
+    .imk-embed-wrap iframe { width:100%; aspect-ratio:16/9; border:0; border-radius:10px; background:#0f172a; }
+    .imk-embed-label { font-size:.78rem; font-weight:700; color:var(--muted); margin:0 0 6px; }
+    .immo-vitrine-head { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; margin-bottom:14px; }
+    .immo-vitrine-actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .immo-vitrine-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:10px; margin-bottom:12px; }
+    .immo-check-row { display:flex; align-items:center; gap:8px; font-weight:700; margin:10px 0; }
+    .immo-copy-row { display:flex; gap:8px; align-items:center; }
+    .immo-copy-row input { flex:1; }
+    .immo-lbl-inline { display:block; font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:4px; }
 </head>
 <body class="crm-subpage">
   <div class="dossier-head">
@@ -110,6 +120,8 @@
       <a href="./crm-immo-matching.html" class="btn btn-ghost">Matching</a>
       <a id="linkAgenda" class="btn btn-ghost" href="./crm-event-create.html">+ RDV agenda</a>
       <a id="linkFormulaires" class="btn btn-ghost" href="./crm-immo-formulaires.html">Formulaires PDF</a>
+      <a id="linkVitrine" class="btn btn-ghost" href="#" hidden>Vitrine publique</a>
+      <a id="linkStudio" class="btn btn-primary" href="#">Studio présentation</a>
       <a id="linkFinancement" class="btn btn-ghost" href="./crm-agency-fees.html">Financement / prêt</a>
       <a id="linkAnnonce" class="btn btn-ghost" target="_blank" rel="noopener" hidden>Annonce</a>
       <button type="button" class="btn btn-primary" id="btnSave">Enregistrer</button>
@@ -152,6 +164,7 @@
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>
   <script src="./js/crm-immo-cloud.js"></script>
+  <script src="./js/crm-immo-media-kit.js"></script>
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-immo-property-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>

@@ -148,6 +148,19 @@ function parseArr(v) {
 
 function rowToProperty(r) {
   if (!r) return null;
+  let meta = {};
+  try {
+    meta = typeof r.metadata_json === "string" ? JSON.parse(r.metadata_json || "{}") : r.metadata_json || {};
+  } catch (e) {
+    meta = {};
+  }
+  let photos = [];
+  try {
+    photos = typeof r.photos_json === "string" ? JSON.parse(r.photos_json || "[]") : r.photos_json || [];
+    if (!Array.isArray(photos)) photos = [];
+  } catch (e) {
+    photos = [];
+  }
   return Object.assign({}, r, {
     surface_m2: r.surface_m2 != null ? Number(r.surface_m2) : null,
     rooms: r.rooms != null ? Number(r.rooms) : null,
@@ -157,6 +170,14 @@ function rowToProperty(r) {
     honoraires: r.honoraires != null ? Number(r.honoraires) : null,
     lat: r.lat != null ? Number(r.lat) : null,
     lng: r.lng != null ? Number(r.lng) : null,
+    images: photos.length ? photos : meta.images || [],
+    details: meta.details || {},
+    transaction: meta.transaction || "vente",
+    drive_folder_id: meta.drive_folder_id || null,
+    drive_subfolders: meta.drive_subfolders || null,
+    units: meta.units || [],
+    docs_checklist: meta.docs_checklist || {},
+    history: meta.history || [],
   });
 }
 

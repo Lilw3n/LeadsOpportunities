@@ -31,7 +31,7 @@ window.CrmImmoStore = (function () {
       var raw = localStorage.getItem(KEY);
       var db = raw ? JSON.parse(raw) : null;
       if (!db || typeof db !== "object") return emptyDb();
-      db.properties = Array.isArray(db.properties) ? db.properties : [];
+      db.properties = Array.isArray(db.properties) ? db.properties.map(hydrateLocalProperty) : [];
       db.criteria = Array.isArray(db.criteria) ? db.criteria : [];
       db.parties = Array.isArray(db.parties) ? db.parties : [];
       db.documents = Array.isArray(db.documents) ? db.documents : [];
@@ -39,6 +39,59 @@ window.CrmImmoStore = (function () {
     } catch (e) {
       return emptyDb();
     }
+  }
+
+  function parseMetaField(v) {
+    if (v && typeof v === "object" && !Array.isArray(v)) return v;
+    if (typeof v === "string" && v.trim()) {
+      try {
+        return JSON.parse(v);
+      } catch (e) {
+        return {};
+      }
+    }
+    return {};
+  }
+
+  function hydrateLocalProperty(p) {
+    if (!p) return p;
+    var meta = parseMetaField(p.metadata_json || p.metadata);
+    if (!p.details || !Object.keys(p.details).length) p.details = meta.details || p.details || {};
+    if (!Array.isArray(p.images) || !p.images.length) {
+      var photos = p.photos_json || p.photos;
+      if (typeof photos === "string") {
+        try {
+          photos = JSON.parse(photos);
+        } catch (e) {
+          photos = [];
+        }
+      }
+      if (Array.isArray(photos) && photos.length) p.images = photos;
+    }
+    if (!p.transaction && meta.transaction) p.transaction = meta.transaction;
+    if (p.drive_folder_id == null && meta.drive_folder_id) p.drive_folder_id = meta.drive_folder_id;
+    return p;
+  }
+
+  function serializePropertyForApi(item) {
+    var photos = Array.isArray(item.images) ? item.images : [];
+    var meta = parseMetaField(item.metadata_json || item.metadata);
+    meta = Object.assign({}, meta, {
+      details: item.details || meta.details || {},
+      transaction: item.transaction || meta.transaction || "vente",
+      images: photos,
+      drive_folder_id: item.drive_folder_id || meta.drive_folder_id || null,
+      drive_subfolders: item.drive_subfolders || meta.drive_subfolders || null,
+      units: item.units || meta.units || [],
+      docs_checklist: item.docs_checklist || meta.docs_checklist || {},
+      history: item.history || meta.history || [],
+    });
+    return Object.assign({}, item, {
+      photos_json: photos,
+      photos: photos,
+      metadata_json: meta,
+      metadata: meta,
+    });
   }
 
   function saveLocal(db) {
@@ -134,14 +187,15 @@ window.CrmImmoStore = (function () {
     if (!item.docs_checklist || typeof item.docs_checklist !== "object") item.docs_checklist = {};
     if (!Array.isArray(item.images)) item.images = [];
     if (!Array.isArray(item.history)) item.history = [];
+    var payload = serializePropertyForApi(item);
     var idx = db.properties.findIndex(function (p) {
-      return p.id === item.id;
+      return p.id === payload.id;
     });
-    if (idx >= 0) db.properties[idx] = Object.assign({}, db.properties[idx], item);
-    else db.properties.unshift(item);
+    if (idx >= 0) db.properties[idx] = Object.assign({}, db.properties[idx], payload);
+    else db.properties.unshift(payload);
     saveLocal(db);
-    pushEntity("property", item);
-    return item;
+    pushEntity("property", payload);
+    return payload;
   }
 
   function deleteProperty(id) {

@@ -126,10 +126,16 @@
           (Matcher.LISTING_SOURCES.find(function (s) {
             return s.id === p.listing_source;
           }) || {}).label || p.listing_source;
+        var cover = window.CrmImmoMediaKit ? CrmImmoMediaKit.getCoverUrl(p) : (p.images && p.images[0]) || "";
+        var coverHtml = cover
+          ? '<div class="immo-card-cover"><img src="' + esc(cover) + '" alt="" loading="lazy" /></div>'
+          : '<div class="immo-card-cover immo-card-cover-empty">📷</div>';
         return (
           '<article class="immo-card" data-id="' +
           esc(p.id) +
           '">' +
+          coverHtml +
+          '<div class="immo-card-body">' +
           '<div><input type="checkbox" class="row-chk" data-id="' +
           esc(p.id) +
           '"' +
@@ -170,10 +176,13 @@
           '<a class="btn btn-ghost btn-sm" href="./crm-immo-property.html?id=' +
           encodeURIComponent(p.id) +
           '">Fiche</a>' +
+          '<a class="btn btn-ghost btn-sm" href="./crm-immo-vitrine-studio.html?id=' +
+          encodeURIComponent(p.id) +
+          '" target="_blank" rel="noopener">Studio</a>' +
           '<button type="button" class="btn btn-ghost btn-sm" data-edit="' +
           esc(p.id) +
           '">Éditer</button>' +
-          "</div></article>"
+          "</div></div></article>"
         );
       })
       .join("");

@@ -87,6 +87,20 @@
     if (formLink) {
       formLink.href = "./crm-immo-formulaires.html?property=" + encodeURIComponent(prop.id);
     }
+    var studio = document.getElementById("linkStudio");
+    if (studio && window.CrmImmoMediaKit) {
+      studio.href = CrmImmoMediaKit.studioUrl(prop);
+    }
+    var vitrine = document.getElementById("linkVitrine");
+    if (vitrine && window.CrmImmoMediaKit) {
+      var vurl = CrmImmoMediaKit.vitrineUrl(prop);
+      if (vurl) {
+        vitrine.href = vurl;
+        vitrine.hidden = false;
+        vitrine.target = "_blank";
+        vitrine.rel = "noopener";
+      } else vitrine.hidden = true;
+    }
     var fin = document.getElementById("linkFinancement");
     if (fin && window.FinanceDeepLink) {
       fin.href = window.FinanceDeepLink.baremesUrl({
@@ -524,35 +538,45 @@
       });
       if (cat === "medias") {
         var m = ensureMediaDetails(p);
+        var Kit = window.CrmImmoMediaKit;
+        var fields = Kit ? Kit.MEDIA_FIELDS : [];
         main.innerHTML =
-          "<h3>Médias & liens</h3><p class='immo-hint'>Visites virtuelles, vidéo, 360° — liens externes.</p>" +
-          [
-            ["visite_virtuelle", "Visite virtuelle"],
-            ["visite_privee", "Visite virtuelle privée"],
-            ["video_aerienne", "Vidéo aérienne"],
-            ["url_360", "URL 360°"],
-            ["plan_2d_3d", "URL plan 2D-3D"],
-            ["lien_video", "Lien vidéo"],
-            ["url_myphoto", "URL MyPhotoAgency"],
-          ]
+          "<h3>Médias & liens</h3><p class='immo-hint'>Vidéos, reels, visites 3D, live YouTube/Facebook — style présentation terrain.</p>" +
+          fields
             .map(function (row) {
               return (
                 '<label class="immo-field">' +
-                esc(row[1]) +
+                esc(row.icon + " " + row.label) +
                 '<input class="crm-input" data-media-key="' +
-                row[0] +
+                row.id +
                 '" value="' +
-                esc(m[row[0]] || "") +
+                esc(m[row.id] || "") +
                 '" placeholder="https://…" /></label>'
               );
             })
             .join("") +
-          '<p class="immo-hint">Les fichiers photos / PDF passent par <strong>Immo cloud</strong> (Google Drive).</p>';
+          '<div id="mediaPreviews" class="immo-media-previews"></div>' +
+          '<p class="immo-hint">Fichiers lourds → onglet <strong>Immo cloud</strong> (dossier 07_medias_3d_video). Vitrine & live → onglet <strong>Vitrine & live</strong>.</p>';
+        function paintPreviews() {
+          if (!Kit) return;
+          var box = document.getElementById("mediaPreviews");
+          if (!box) return;
+          var embeds = Kit.collectEmbeds(p);
+          box.innerHTML = embeds.length
+            ? embeds
+                .map(function (item) {
+                  return Kit.renderEmbedHtml(item);
+                })
+                .join("")
+            : "<p class='immo-hint'>Ajoutez un lien pour voir l'aperçu intégré.</p>";
+        }
         main.querySelectorAll("[data-media-key]").forEach(function (inp) {
-          inp.onchange = function () {
+          inp.oninput = function () {
             ensureMediaDetails(p)[inp.getAttribute("data-media-key")] = inp.value.trim();
+            paintPreviews();
           };
         });
+        paintPreviews();
         return;
       }
       if (cat === "confidential") {
@@ -848,6 +872,117 @@
     openRoot();
   }
 
+  function renderVitrineTab(panel, p) {
+    var Kit = window.CrmImmoMediaKit;
+    if (!Kit) {
+      panel.innerHTML = "<p>Module média non chargé.</p>";
+      return;
+    }
+    var v = Kit.ensureVitrine(p);
+    var photos = Kit.getPublicPhotos(p);
+    var url = Kit.vitrineUrl(p);
+
+    panel.innerHTML =
+      '<div class="immo-vitrine-head">' +
+      "<div><h3>Vitrine & présentation</h3>" +
+      "<p class='immo-hint'>Mettez le bien en avant comme un présentateur : photos hero, vidéos, live, visite 3D — lien partageable pour acquéreurs et réseaux.</p></div>" +
+      '<div class="immo-vitrine-actions">' +
+      '<a class="btn btn-primary" href="' +
+      esc(Kit.studioUrl(p)) +
+      '" target="_blank" rel="noopener">Ouvrir le studio</a>' +
+      (url
+        ? '<a class="btn btn-ghost" href="' + esc(url) + '" target="_blank" rel="noopener">Voir la vitrine</a>'
+        : "") +
+      "</div></div>" +
+      '<label class="immo-check-row"><input type="checkbox" id="vPublished"' +
+      (v.published ? " checked" : "") +
+      " /> Publier la vitrine (lien privé sécurisé)</label>" +
+      '<div class="immo-field"><span class="immo-lbl-inline">Lien à partager</span><div class="immo-copy-row">' +
+      '<input class="crm-input" id="vShareUrl" readonly value="' +
+      esc(url || "Publiez pour générer le lien") +
+      '" />' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnCopyVitrine">Copier</button></div></div>' +
+      '<label class="immo-field">Titre vitrine (accroche)<input class="crm-input" id="vHeadline" value="' +
+      esc(v.headline || p.title || "") +
+      '" placeholder="Ex. Coup de cœur — lumineux, prêt à emménager" /></label>' +
+      '<label class="immo-field">Pitch (2–3 phrases)<textarea class="crm-input" id="vPitch" rows="3" placeholder="Votre accroche style présentation TV…">' +
+      esc(v.pitch || p.description || "") +
+      "</textarea></label>" +
+      '<label class="immo-field">Photo de couverture<select class="crm-input" id="vCover"><option value="">— Première photo —</option>' +
+      photos
+        .map(function (u) {
+          return (
+            '<option value="' +
+            esc(u) +
+            '"' +
+            (v.cover_url === u ? " selected" : "") +
+            ">" +
+            esc(u.slice(0, 60)) +
+            (u.length > 60 ? "…" : "") +
+            "</option>"
+          );
+        })
+        .join("") +
+      "</select></label>" +
+      '<label class="immo-check-row"><input type="checkbox" id="vShowAddr"' +
+      (v.show_address ? " checked" : "") +
+      " /> Afficher l'adresse exacte sur la vitrine publique</label>" +
+      "<h4>Présentateur</h4>" +
+      '<div class="immo-vitrine-grid">' +
+      '<label>Nom<input class="crm-input" id="vAgentName" value="' +
+      esc(v.agent_name || "Wendy Buchet") +
+      '" /></label>' +
+      '<label>Accroche<input class="crm-input" id="vAgentTag" value="' +
+      esc(v.agent_tagline || "Votre négociateur immobilier") +
+      '" /></label>' +
+      '<label>Téléphone<input class="crm-input" id="vAgentPhone" value="' +
+      esc(v.agent_phone || "") +
+      '" /></label>' +
+      '<label>E-mail<input class="crm-input" id="vAgentEmail" value="' +
+      esc(v.agent_email || "contact@leadsopportunities.fr") +
+      '" /></label></div>' +
+      '<p class="immo-hint">' +
+      photos.length +
+      " photo(s) publique(s) · " +
+      Kit.collectEmbeds(p).length +
+      " média(s) lié(s). Complétez vidéos/live dans Images → Médias (liens).</p>";
+
+    function readVitrineForm() {
+      v.published = !!document.getElementById("vPublished").checked;
+      if (v.published && !v.published_at) v.published_at = new Date().toISOString();
+      v.headline = document.getElementById("vHeadline").value.trim();
+      v.pitch = document.getElementById("vPitch").value.trim();
+      v.cover_url = document.getElementById("vCover").value;
+      v.show_address = !!document.getElementById("vShowAddr").checked;
+      v.agent_name = document.getElementById("vAgentName").value.trim();
+      v.agent_tagline = document.getElementById("vAgentTag").value.trim();
+      v.agent_phone = document.getElementById("vAgentPhone").value.trim();
+      v.agent_email = document.getElementById("vAgentEmail").value.trim();
+      document.getElementById("vShareUrl").value = Kit.vitrineUrl(p) || "Publiez pour générer le lien";
+      syncHeader();
+    }
+
+    ["vPublished", "vHeadline", "vPitch", "vCover", "vShowAddr", "vAgentName", "vAgentTag", "vAgentPhone", "vAgentEmail"].forEach(function (
+      id
+    ) {
+      var el = document.getElementById(id);
+      if (el) el.onchange = readVitrineForm;
+      if (el && el.tagName === "TEXTAREA") el.oninput = readVitrineForm;
+    });
+
+    document.getElementById("btnCopyVitrine").onclick = function () {
+      readVitrineForm();
+      var u = Kit.vitrineUrl(p);
+      if (!u) {
+        alert("Cochez « Publier la vitrine » et enregistrez la fiche.");
+        return;
+      }
+      navigator.clipboard.writeText(u).then(function () {
+        alert("Lien copié !");
+      });
+    };
+  }
+
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
@@ -907,6 +1042,10 @@
       renderImagesTab(panel, prop);
       return;
     }
+    if (state.tab === "vitrine") {
+      renderVitrineTab(panel, prop);
+      return;
+    }
     if (state.tab === "cloud") {
       renderCloudTab(panel, prop);
       return;
@@ -961,6 +1100,19 @@
 
   function save() {
     readMeta();
+    if (document.getElementById("vPublished") && window.CrmImmoMediaKit) {
+      var v = CrmImmoMediaKit.ensureVitrine(prop);
+      v.published = !!document.getElementById("vPublished").checked;
+      if (v.published && !v.published_at) v.published_at = new Date().toISOString();
+      v.headline = document.getElementById("vHeadline").value.trim();
+      v.pitch = document.getElementById("vPitch").value.trim();
+      v.cover_url = document.getElementById("vCover").value;
+      v.show_address = !!document.getElementById("vShowAddr").checked;
+      v.agent_name = document.getElementById("vAgentName").value.trim();
+      v.agent_tagline = document.getElementById("vAgentTag").value.trim();
+      v.agent_phone = document.getElementById("vAgentPhone").value.trim();
+      v.agent_email = document.getElementById("vAgentEmail").value.trim();
+    }
     collectCurrentFields();
     collectUnits();
     if (state.sectionId === "pieces") collectDocs();

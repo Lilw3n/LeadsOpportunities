@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bien à vendre | Leads Opportunities Immo</title>
+  <meta name="description" content="Découvrez ce bien en photos, vidéo et visite virtuelle." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta id="ogTitle" property="og:title" content="Bien immobilier" />
+  <meta id="ogDesc" property="og:description" content="" />
+  <meta id="ogImage" property="og:image" content="" />
+  <link rel="stylesheet" href="../css/immo-vitrine.css" />
+</head>
+<body class="iv-page">
+  <header class="iv-top">
+    <a class="iv-brand" href="../immobilier/index.html">Leads Opportunities · Immo</a>
+    <a id="ctaTop" class="iv-cta iv-cta-sm" href="../landings/acheteur-immo.html#demande">Je suis intéressé</a>
+  </header>
+
+  <main id="app">
+    <p class="iv-loading">Chargement de la vitrine…</p>
+  </main>
+
+  <template id="tplVitrine">
+    <section class="iv-hero" id="hero">
+      <div class="iv-hero-media" id="heroMedia"></div>
+      <div class="iv-hero-overlay">
+        <p class="iv-live-badge" id="liveBadge" hidden>🔴 LIVE</p>
+        <h1 id="headline"></h1>
+        <p class="iv-location" id="location"></p>
+        <p class="iv-price" id="price"></p>
+        <div class="iv-chips" id="chips"></div>
+      </div>
+    </section>
+
+    <section class="iv-agent" id="agentBar">
+      <div>
+        <strong id="agentName"></strong>
+        <span id="agentTag"></span>
+      </div>
+      <div class="iv-agent-actions">
+        <a id="agentPhone" class="iv-cta iv-cta-outline" href="#" hidden>Appeler</a>
+        <a id="agentCta" class="iv-cta" href="#">Demander une visite</a>
+      </div>
+    </section>
+
+    <section class="iv-block" id="pitchBlock" hidden>
+      <h2>Le coup de cœur</h2>
+      <p id="pitch"></p>
+    </section>
+
+    <section class="iv-block" id="videoBlock" hidden>
+      <h2>Vidéos & présentation</h2>
+      <div id="videoEmbeds" class="iv-embeds"></div>
+    </section>
+
+    <section class="iv-block" id="liveBlock" hidden>
+      <h2>Live & replay</h2>
+      <p id="streamWhen" class="iv-muted"></p>
+      <div id="liveEmbeds" class="iv-embeds"></div>
+    </section>
+
+    <section class="iv-block" id="tourBlock" hidden>
+      <h2>Visite virtuelle & plans</h2>
+      <div id="tourEmbeds" class="iv-embeds iv-embeds-tall"></div>
+    </section>
+
+    <section class="iv-block" id="galleryBlock" hidden>
+      <h2>Galerie photos</h2>
+      <div id="gallery" class="iv-gallery"></div>
+    </section>
+
+    <section class="iv-footer-cta">
+      <h2>Envie d'en savoir plus ?</h2>
+      <p>Parcours acquéreur rapide — financement, assurance, visite avec votre négociateur.</p>
+      <a id="ctaBottom" class="iv-cta iv-cta-lg" href="#">Lancer mon projet d'achat</a>
+    </section>
+  </template>
+
+  <script src="../js/immo-vitrine-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+.studio-page {
+  margin: 0;
+  background: #0b1220;
+  min-height: 100vh;
+}
+.studio-toolbar {
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(15, 23, 42, 0.95);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+.studio-btn {
+  border: 1px solid #334155;
+  background: transparent;
+  color: #e2e8f0;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.studio-btn-accent {
+  background: #fbbf24;
+  color: #111827;
+  border-color: #fbbf24;
+  margin-left: auto;
+}
+.studio-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 0 40px;
+}
+.studio-hero {
+  position: relative;
+  min-height: 62vh;
+}
+.studio-hero img {
+  width: 100%;
+  height: 62vh;
+  object-fit: cover;
+  display: block;
+}
+.studio-hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32px 24px;
+  background: linear-gradient(180deg, transparent 25%, rgba(11, 18, 32, 0.92) 70%);
+  color: #fff;
+}
+.studio-hero h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  max-width: 20ch;
+}
+.studio-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fbbf24;
+  margin: 0 0 12px;
+}
+.studio-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: #111827;
+  position: sticky;
+  top: 52px;
+  z-index: 20;
+}
+.studio-nav button {
+  border: 0;
+  background: #1f2937;
+  color: #e2e8f0;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.studio-nav button.is-active {
+  background: #fbbf24;
+  color: #111827;
+}
+.studio-section {
+  padding: 20px 16px;
+  background: #fff;
+  margin-top: 2px;
+}
+.studio-section h2 {
+  margin: 0 0 12px;
+  color: #1e3a8a;
+  font-size: 1.05rem;
+}
+.studio-carousel {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+}
+.studio-carousel img {
+  height: 220px;
+  border-radius: 10px;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+.studio-live {
+  border: 2px solid #dc2626;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fef2f2;
+  margin-bottom: 12px;
+}

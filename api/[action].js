@@ -11,6 +11,7 @@ const ROUTES = {
   "blog-actu-ingest": () => require("./_lib/routes/blog-actu-ingest"),
   "geo-hint": () => require("./_lib/routes/public-geo-hint"),
   "acquisition-focus": () => require("./_lib/routes/public-acquisition-focus"),
+  "immo-vitrine": () => require("./_lib/routes/public-immo-vitrine"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

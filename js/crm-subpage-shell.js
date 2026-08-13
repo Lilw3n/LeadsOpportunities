@@ -60,6 +60,7 @@
       "crm-immo-documents.html": { subtitle: "Édition mandats, offres, compromis et pièces immo" },
       "crm-immo-formulaires.html": { subtitle: "Formulaires imprimables — mandats, estimation, visites, prospection" },
       "crm-immo-formulaire.html": { subtitle: "Remplir et imprimer un formulaire immo" },
+      "crm-immo-vitrine-studio.html": { subtitle: "Studio présentation — photos, vidéos, live" },
       "crm-eligibility-rules.html": { subtitle: "Règles d'éligibilité et critères de souscription" },
       "crm-eligibility-test.html": { subtitle: "Test de compatibilité avant proposition" },
       "crm-derogations.html": { subtitle: "Dérogations et cas à valider" },

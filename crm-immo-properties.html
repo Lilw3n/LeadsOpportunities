@@ -151,9 +151,13 @@
     }
     .piges-count { color: var(--muted); font-size: .85rem; font-weight: 600; }
     .immo-card {
-      display: grid; grid-template-columns: 28px 1fr auto; gap: 12px; align-items: start;
+      display: grid; grid-template-columns: 120px 28px 1fr auto; gap: 12px; align-items: start;
       padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); margin-bottom: 10px;
     }
+    .immo-card-cover { width:120px; height:84px; border-radius:10px; overflow:hidden; background:#e2e8f0; }
+    .immo-card-cover img { width:100%; height:100%; object-fit:cover; display:block; }
+    .immo-card-cover-empty { display:flex; align-items:center; justify-content:center; font-size:1.6rem; color:#94a3b8; }
+    .immo-card-body { display:contents; }
     .immo-card h3 { margin: 0 0 4px; font-size: 1rem; }
     .immo-meta { color: var(--muted); font-size: .82rem; }
     .immo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
@@ -387,6 +391,7 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-media-kit.js"></script>
   <script src="./js/crm-immo-properties-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
