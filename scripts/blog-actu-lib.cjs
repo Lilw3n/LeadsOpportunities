@@ -96,18 +96,42 @@ function matchTopic(text) {
 }
 
 function hasLeadKeywords(text) {
-  return /assurance|mutuelle|emprunteur|sinistre|pr[eê]t|cr[eé]dit|habitation|rembours|garantie|locataire|v[eé]t[eé]rinaire|franchise|orias|lemoine|pr[eé]voyance|rc pro/i.test(
+  return /assurance|mutuelle|emprunteur|sinistre|pr[eê]t|cr[eé]dit|habitation|rembours|garantie|locataire|v[eé]t[eé]rinaire|franchise|orias|lemoine|pr[eé]voyance|rc pro|canicule|s[ée]cheresse|fissur|inondation|d[ée]g[aâ]ts?\s+des\s+eaux/i.test(
     String(text || "")
   );
 }
 
+function isMostlyEnglishTitle(title) {
+  var t = String(title || "");
+  var en = (t.match(/\b(the|into|a|of|regarding|potential|enters|memorandum|understanding|sale|advantages|getting|news|with|for|and|to)\b/gi) || []).length;
+  var fr = (t.match(/\b(le|la|les|des|une|un|et|dans|pour|sur|avec|france|assurance|mutuelle)\b/gi) || []).length;
+  return en >= 4 && en > fr;
+}
+
 function isWeakLeadCandidate(c) {
-  var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "") + " " + String((c && c.note) || "");
+  var title = String((c && c.title) || "");
+  var hay = title + " " + String((c && c.summary) || "") + " " + String((c && c.note) || "");
+  if (isPlaceholderCandidate(c)) return true;
+  if (isMostlyEnglishTitle(title)) return true;
+  if (
+    /tennis|tenmis|masters 1000|supercoupe|real madrid|psg ambitieux|ligue des champions/i.test(hay) &&
+    !hasLeadKeywords(hay)
+  ) {
+    return true;
+  }
+  if (
+    /canicule/i.test(hay) &&
+    /[ée]lectricit|[ée]nergie|production/i.test(hay) &&
+    !/habitation|logement|sinistre|senior|mutuelle|locataire|fissur/i.test(hay)
+  ) {
+    return true;
+  }
   if (hasLeadKeywords(hay)) return false;
   if (/[ée]clipse|astronomie|chasseurs d['’][ée]clipse/i.test(hay)) return true;
   var topic = matchTopic(hay);
   if (!topic.matched) return true;
   if (topic.tag === "Actu" && topic.need === "habitation") return true;
+  if (topic.tag === "Coupe du monde 2026" || topic.tag === "Actu politique") return true;
   return false;
 }
 
