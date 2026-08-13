@@ -144,7 +144,7 @@
       title: "Les acteurs importants avec qui nous travaillons",
       lead:
         "Solly Azar, Zéphir, April, Allianz, AXA, Generali… : des noms que vos clients connaissent. Nous comparons leurs offres via notre réseau de courtage — pas un assureur obscur.",
-      speed: "Devis en 2 min · Rappel sous 15 min · Courtier ORIAS",
+      speed: "Devis en 2 min · Conseiller à l’écoute · Gratuit",
       filter: null,
     },
     vtc: {
