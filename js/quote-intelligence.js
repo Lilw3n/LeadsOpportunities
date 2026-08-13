@@ -47,6 +47,9 @@
         o[k] = v;
       }
     });
+    ["buyerNeeds", "propertySought", "serviceSought"].forEach(function (key) {
+      if (typeof o[key] === "string") o[key] = [o[key]];
+    });
     if (typeof o.buyerNeeds === "string") o.buyerNeeds = [o.buyerNeeds];
     return o;
   }

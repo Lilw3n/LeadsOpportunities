@@ -897,3 +897,107 @@ input::placeholder { color: #94a3b8; }
     margin-right: 0;
   }
 }
+
+/* Recherche de bien — chips type Leboncoin */
+.search-mode-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 4px;
+}
+.search-mode-tab {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  margin: 0;
+}
+.search-mode-tab input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.search-mode-tab span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 44px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.25;
+  transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.search-mode-tab input:checked + span {
+  border-color: var(--primary, #2563eb);
+  background: color-mix(in srgb, var(--primary, #2563eb) 12%, #fff);
+  color: var(--primary-dark, #1e3a8a);
+}
+.search-mode-tab input:focus-visible + span {
+  outline: 2px solid var(--primary, #2563eb);
+  outline-offset: 2px;
+}
+.search-section-label {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.search-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+  gap: 8px;
+}
+.search-chip-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.search-chip {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  margin: 0;
+}
+.search-chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.search-chip span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 52px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1.5px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.2;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+.search-chip input:checked + span {
+  border-color: var(--primary, #2563eb);
+  background: color-mix(in srgb, var(--primary, #2563eb) 10%, #fff);
+  box-shadow: inset 0 0 0 1px var(--primary, #2563eb);
+}
+.search-chip input:focus-visible + span {
+  outline: 2px solid var(--primary, #2563eb);
+  outline-offset: 2px;
+}
+@media (max-width: 640px) {
+  .search-mode-tabs {
+    grid-template-columns: 1fr;
+  }
+  .search-chip-grid--3 {
+    grid-template-columns: 1fr;
+  }
+}
