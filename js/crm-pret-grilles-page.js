@@ -45,8 +45,9 @@
   }
 
   function fillSelects(cat) {
+    var catLabel = PAGE_KIND === "fiches" ? "Tous types de prêt" : "Toutes catégories";
     els.cat.innerHTML =
-      '<option value="">Toutes catégories</option>' +
+      '<option value="">' + catLabel + "</option>" +
       (cat.categories || [])
         .map(function (c) {
           return '<option value="' + esc(c.id) + '">' + esc(c.short + " — " + c.label) + "</option>";

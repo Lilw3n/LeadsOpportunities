@@ -1,9 +1,18 @@
 {
-  "version": 1,
+  "version": 2,
   "kind": "fiches_produits",
-  "updatedAt": "2026-08-12",
-  "disclaimer": "Documents à usage exclusif des professionnels, non contractuels. Fiches produits partenaires — ne pas remettre à la clientèle.",
+  "updatedAt": "2026-08-13",
+  "disclaimer": "Documents à usage exclusif des professionnels, non contractuels. Fiches produits — types de prêt ≠ partenaires financeurs.",
   "categories": [
+    {
+      "id": "sci",
+      "label": "SCI",
+      "short": "SCI",
+      "rubriques": [
+        "sci"
+      ],
+      "description": "Type de prêt — SCI"
+    },
     {
       "id": "immo",
       "label": "Crédit immobilier",
@@ -11,7 +20,7 @@
       "rubriques": [
         "immo"
       ],
-      "description": "Fiches produits — Crédit immobilier"
+      "description": "Type de prêt — Crédit immobilier"
     },
     {
       "id": "hypo_treso",
@@ -20,7 +29,7 @@
       "rubriques": [
         "hypo_treso"
       ],
-      "description": "Fiches produits — Prêt hypothécaire de trésorerie"
+      "description": "Type de prêt — Prêt hypothécaire de trésorerie"
     },
     {
       "id": "pvh",
@@ -29,124 +38,7 @@
       "rubriques": [
         "pvh"
       ],
-      "description": "Fiches produits — Prêt viager hypothécaire"
-    },
-    {
-      "id": "treso",
-      "label": "Trésorerie",
-      "short": "TRESO",
-      "rubriques": [
-        "treso"
-      ],
-      "description": "Fiches produits — Trésorerie"
-    },
-    {
-      "id": "renov",
-      "label": "Crédit rénovation",
-      "short": "RENOV",
-      "rubriques": [
-        "renov"
-      ],
-      "description": "Fiches produits — Crédit rénovation"
-    },
-    {
-      "id": "bank_b",
-      "label": "BANK B",
-      "short": "BANK B",
-      "rubriques": [
-        "bank_b"
-      ],
-      "description": "Fiches produits — BANK B"
-    },
-    {
-      "id": "cfcal",
-      "label": "CFCAL",
-      "short": "CFCAL",
-      "rubriques": [
-        "cfcal"
-      ],
-      "description": "Fiches produits — CFCAL"
-    },
-    {
-      "id": "cgi",
-      "label": "CGI",
-      "short": "CGI",
-      "rubriques": [
-        "cgi"
-      ],
-      "description": "Fiches produits — CGI"
-    },
-    {
-      "id": "cml",
-      "label": "CML",
-      "short": "CML",
-      "rubriques": [
-        "cml"
-      ],
-      "description": "Fiches produits — CML"
-    },
-    {
-      "id": "cmt",
-      "label": "CMT",
-      "short": "CMT",
-      "rubriques": [
-        "cmt"
-      ],
-      "description": "Fiches produits — CMT"
-    },
-    {
-      "id": "creatis",
-      "label": "CREATIS",
-      "short": "CREATIS",
-      "rubriques": [
-        "creatis"
-      ],
-      "description": "Fiches produits — CREATIS"
-    },
-    {
-      "id": "antilles",
-      "label": "DOM-TOM Antilles",
-      "short": "Antilles",
-      "rubriques": [
-        "antilles"
-      ],
-      "description": "Fiches produits — DOM-TOM Antilles"
-    },
-    {
-      "id": "reunion",
-      "label": "DOM-TOM Réunion",
-      "short": "Réunion",
-      "rubriques": [
-        "reunion"
-      ],
-      "description": "Fiches produits — DOM-TOM Réunion"
-    },
-    {
-      "id": "lbp",
-      "label": "La Banque Postale",
-      "short": "LBP",
-      "rubriques": [
-        "lbp"
-      ],
-      "description": "Fiches produits — La Banque Postale"
-    },
-    {
-      "id": "mmb",
-      "label": "My Money Bank",
-      "short": "MMB",
-      "rubriques": [
-        "mmb"
-      ],
-      "description": "Fiches produits — My Money Bank"
-    },
-    {
-      "id": "sygma",
-      "label": "SYGMA by BNP",
-      "short": "SYGMA",
-      "rubriques": [
-        "sygma"
-      ],
-      "description": "Fiches produits — SYGMA by BNP"
+      "description": "Type de prêt — Prêt viager hypothécaire"
     },
     {
       "id": "scpi",
@@ -155,25 +47,43 @@
       "rubriques": [
         "scpi"
       ],
-      "description": "Fiches produits — SCPI"
+      "description": "Type de prêt — SCPI"
     },
     {
-      "id": "sci",
-      "label": "SCI",
-      "short": "SCI",
+      "id": "treso",
+      "label": "Trésorerie",
+      "short": "TRESO",
       "rubriques": [
-        "sci"
+        "treso"
       ],
-      "description": "Fiches produits — SCI"
+      "description": "Type de prêt — Trésorerie"
     },
     {
-      "id": "credilift",
-      "label": "Credit Lift",
-      "short": "CREDITLIFT",
+      "id": "renov",
+      "label": "Crédit rénovation",
+      "short": "RENOV",
       "rubriques": [
-        "credilift"
+        "renov"
       ],
-      "description": "Fiches produits — Credit Lift"
+      "description": "Type de prêt — Crédit rénovation"
+    },
+    {
+      "id": "rac",
+      "label": "Rachat de crédits",
+      "short": "RAC",
+      "rubriques": [
+        "rac"
+      ],
+      "description": "Type de prêt — Rachat de crédits"
+    },
+    {
+      "id": "relais",
+      "label": "Prêt relais",
+      "short": "RELAIS",
+      "rubriques": [
+        "relais"
+      ],
+      "description": "Type de prêt — Prêt relais"
     }
   ],
   "partners": [
@@ -221,7 +131,7 @@
     },
     {
       "id": "credilift",
-      "label": "Credit Lift / CREDILIFT",
+      "label": "Credit Lift / CREDITLIFT",
       "aliases": [
         "credilift"
       ]
@@ -266,6 +176,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "immo",
         "primo",
@@ -289,6 +200,7 @@
       "kind": "fiche",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "immo",
         "rp",
@@ -310,6 +222,7 @@
       "kind": "fiche",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "immo",
         "hypo",
@@ -331,6 +244,7 @@
       "kind": "fiche",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "immo",
         "locatif",
@@ -352,6 +266,7 @@
       "kind": "book",
       "period": null,
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "book",
         "revenus",
@@ -374,6 +289,7 @@
       "kind": "memento",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "memento",
         "normes"
@@ -394,6 +310,7 @@
       "kind": "outil",
       "period": null,
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "patrimoine",
         "outil"
@@ -406,7 +323,7 @@
     },
     {
       "id": "hypo-treso-bank-b-produit-na-bank-b-rachat-de-soulte-7",
-      "category": "hypo_treso",
+      "category": "treso",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "BANK B — Rachat de soulte",
@@ -414,6 +331,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "soulte",
         "hypo",
@@ -429,7 +347,7 @@
     },
     {
       "id": "hypo-treso-bank-b-produit-na-bank-b-travaux-75000-fins-privees-8",
-      "category": "hypo_treso",
+      "category": "renov",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "BANK B — Travaux 75 000 fins privées",
@@ -437,6 +355,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "travaux",
         "prive"
@@ -451,7 +370,7 @@
     },
     {
       "id": "hypo-treso-bank-b-produit-na-bank-b-travaux-75000-fins-professionnelles-9",
-      "category": "hypo_treso",
+      "category": "renov",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "BANK B — Travaux 75 000 fins pro",
@@ -459,6 +378,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "travaux",
         "pro"
@@ -481,6 +401,7 @@
       "kind": "outil",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "patrimoine"
       ],
@@ -502,6 +423,7 @@
       "kind": "book",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "book"
       ],
@@ -521,6 +443,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "ltv",
         "zone",
@@ -544,6 +467,7 @@
       "kind": "outil",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "patrimoine",
         "outil"
@@ -564,6 +488,7 @@
       "kind": "book",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "book",
         "revenus",
@@ -577,7 +502,7 @@
     },
     {
       "id": "hypo-treso-cfcal-produit-na-cfcal-hypo-renov-15",
-      "category": "hypo_treso",
+      "category": "renov",
       "partner": "cfcal",
       "subsection": "produit",
       "title": "CFCAL HYPO RENOV",
@@ -585,6 +510,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "renovation",
         "hypo",
@@ -598,7 +524,7 @@
     },
     {
       "id": "hypo-treso-cfcal-produit-na-cfcal-hypo-treso-16",
-      "category": "hypo_treso",
+      "category": "treso",
       "partner": "cfcal",
       "subsection": "produit",
       "title": "CFCAL HYPO TRESO",
@@ -606,6 +532,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "hypo",
         "treso"
@@ -626,6 +553,7 @@
       "kind": "memento",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "memento"
       ],
@@ -637,7 +565,7 @@
     },
     {
       "id": "hypo-treso-mmb-produit-2025-11-my-money-bank-11-2025-my-new-treso-18",
-      "category": "hypo_treso",
+      "category": "treso",
       "partner": "mmb",
       "subsection": "produit",
       "title": "MMB My New Treso",
@@ -645,6 +573,7 @@
       "kind": "fiche",
       "period": "2025-11",
       "region": "metropole",
+      "storageSection": "hypo_treso",
       "tags": [
         "treso",
         "mmb"
@@ -667,6 +596,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "pvh",
       "tags": [
         "pvh",
         "senior",
@@ -688,6 +618,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "pvh",
       "tags": [
         "formulaire",
         "pvh"
@@ -708,6 +639,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "pvh",
       "tags": [
         "formulaire",
         "rs",
@@ -731,6 +663,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "pvh",
       "tags": [
         "formulaire",
         "rs",
@@ -754,6 +687,7 @@
       "kind": "outil",
       "period": null,
       "region": "metropole",
+      "storageSection": "pvh",
       "tags": [
         "patrimoine",
         "pvh"
@@ -774,6 +708,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "pvh",
       "tags": [
         "kyc",
         "pvh"
@@ -794,6 +729,7 @@
       "kind": "book",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "book",
         "revenus"
@@ -816,6 +752,7 @@
       "kind": "memento",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "memento"
       ],
@@ -837,6 +774,7 @@
       "kind": "fiche",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "hypo",
         "treso",
@@ -858,6 +796,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "formulaire",
         "treso"
@@ -878,6 +817,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "pret_personnel",
         "conso"
@@ -898,6 +838,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "griffon",
         "conso"
@@ -918,6 +859,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "griffon",
         "hypo"
@@ -938,6 +880,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "griffon",
         "conso",
@@ -951,7 +894,7 @@
     },
     {
       "id": "treso-cmt-produit-na-griffon-patrimoine-immo-33",
-      "category": "treso",
+      "category": "immo",
       "partner": "cmt",
       "subsection": "produit",
       "title": "Griffon Patrimoine Immo",
@@ -959,6 +902,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "griffon",
         "immo",
@@ -972,7 +916,7 @@
     },
     {
       "id": "treso-cmt-produit-na-griffon-patrimoine-relais-34",
-      "category": "treso",
+      "category": "relais",
       "partner": "cmt",
       "subsection": "produit",
       "title": "Griffon Patrimoine Relais",
@@ -980,6 +924,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "griffon",
         "relais"
@@ -1000,6 +945,7 @@
       "kind": "fiche",
       "period": "2023-11",
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "cgi",
         "projet",
@@ -1023,6 +969,7 @@
       "kind": "fiche",
       "period": "2023-11",
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "cgi",
         "revenus",
@@ -1046,6 +993,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "pret_personnel",
         "creatis"
@@ -1066,6 +1014,7 @@
       "kind": "fiche",
       "period": "2023-11",
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "mmb",
         "treso"
@@ -1088,6 +1037,7 @@
       "kind": "fiche",
       "period": "2026",
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "sofinco",
         "pret_personnel"
@@ -1108,6 +1058,7 @@
       "kind": "fiche",
       "period": "2021-01",
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "sygma",
         "projet"
@@ -1130,6 +1081,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "treso",
       "tags": [
         "sygma",
         "treso"
@@ -1150,6 +1102,7 @@
       "kind": "book",
       "period": null,
       "region": "metropole",
+      "storageSection": "renov",
       "tags": [
         "book",
         "revenus"
@@ -1170,6 +1123,7 @@
       "kind": "memento",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "renov",
       "tags": [
         "memento"
       ],
@@ -1189,6 +1143,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "renov",
       "tags": [
         "renovation",
         "hypo",
@@ -1204,7 +1159,7 @@
     },
     {
       "id": "bank-b-bank-b-book-2026-book-bank-b-2026-45",
-      "category": "bank_b",
+      "category": "immo",
       "partner": "bank_b",
       "subsection": "book",
       "title": "Book BANK B 2026",
@@ -1212,6 +1167,7 @@
       "kind": "book",
       "period": "2026",
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "book",
         "bank_b"
@@ -1224,7 +1180,7 @@
     },
     {
       "id": "bank-b-bank-b-produit-na-premiere-acquisition-personne-morale-46",
-      "category": "bank_b",
+      "category": "sci",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "1ère acquisition personne morale",
@@ -1232,6 +1188,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "primo",
         "personne_morale",
@@ -1247,7 +1204,7 @@
     },
     {
       "id": "bank-b-bank-b-produit-na-premiere-acquisition-personne-physique-47",
-      "category": "bank_b",
+      "category": "immo",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "1ère acquisition personne physique",
@@ -1255,6 +1212,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "primo",
         "personne_physique"
@@ -1267,7 +1225,7 @@
     },
     {
       "id": "bank-b-bank-b-produit-na-rachat-de-soulte-48",
-      "category": "bank_b",
+      "category": "immo",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "Rachat de soulte",
@@ -1275,6 +1233,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "soulte"
       ],
@@ -1286,7 +1245,7 @@
     },
     {
       "id": "bank-b-bank-b-outil-na-tableau-patrimonial-49",
-      "category": "bank_b",
+      "category": "immo",
       "partner": "bank_b",
       "subsection": "outil",
       "title": "Tableau patrimonial",
@@ -1294,6 +1253,7 @@
       "kind": "outil",
       "period": null,
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "patrimoine"
       ],
@@ -1305,7 +1265,7 @@
     },
     {
       "id": "bank-b-bank-b-produit-na-travaux-plus-de-75000-prive-50",
-      "category": "bank_b",
+      "category": "renov",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "Travaux > 75 000 € privé",
@@ -1313,6 +1273,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "travaux",
         "prive"
@@ -1327,7 +1288,7 @@
     },
     {
       "id": "bank-b-bank-b-produit-na-travaux-plus-de-75000-pro-51",
-      "category": "bank_b",
+      "category": "renov",
       "partner": "bank_b",
       "subsection": "produit",
       "title": "Travaux > 75 000 € pro",
@@ -1335,6 +1296,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "travaux",
         "pro"
@@ -1349,7 +1311,7 @@
     },
     {
       "id": "bank-b-bank-b-norme-na-zone-intervention-ltv-52",
-      "category": "bank_b",
+      "category": "immo",
       "partner": "bank_b",
       "subsection": "norme",
       "title": "Zone d'intervention LTV",
@@ -1357,6 +1319,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "bank_b",
       "tags": [
         "ltv",
         "zone"
@@ -1371,7 +1334,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-0-book-revenus-et-charges-53",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Book revenus et charges",
@@ -1379,6 +1342,7 @@
       "kind": "book",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "book",
         "rac",
@@ -1392,7 +1356,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-2026-07-0-memento-07-2026-54",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Memento 07 2026",
@@ -1400,6 +1364,7 @@
       "kind": "memento",
       "period": "2026-07",
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "memento",
         "rac"
@@ -1414,7 +1379,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-classique-55",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "CFCAL Hypo Classique",
@@ -1422,6 +1387,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1435,7 +1401,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-first-56",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "CFCAL Hypo First",
@@ -1443,6 +1409,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1457,7 +1424,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-immo-classique-taux-fixe-57",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Immo Classique taux fixe",
@@ -1465,6 +1432,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1479,7 +1447,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-immo-classique-taux-variable-58",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Immo Classique taux variable",
@@ -1487,6 +1455,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1501,7 +1470,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-immo-first-taux-fixe-59",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Immo First taux fixe",
@@ -1509,6 +1478,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1523,7 +1493,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-immo-first-taux-variable-60",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Immo First taux variable",
@@ -1531,6 +1501,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1545,7 +1516,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-immo-pro-61",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Immo Pro",
@@ -1553,6 +1524,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1566,7 +1538,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-pro-classique-62",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Pro Classique",
@@ -1574,6 +1546,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1587,7 +1560,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-pro-first-63",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Pro First",
@@ -1595,6 +1568,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1609,7 +1583,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-soulte-64",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Soulte",
@@ -1617,6 +1591,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1630,7 +1605,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-wash-1-65",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Wash 1",
@@ -1638,6 +1613,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1651,7 +1627,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-hypothecaire-na-cfcal-hypo-wash-2-66",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_hypothecaire",
       "title": "Hypo Wash 2",
@@ -1659,6 +1635,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "hypo",
@@ -1672,7 +1649,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-sans-garantie-na-0-cfcal-book-revenus-et-charges-67",
-      "category": "cfcal",
+      "category": "immo",
       "partner": "cfcal",
       "subsection": "rac_sans_garantie",
       "title": "Book revenus et charges (SG)",
@@ -1680,6 +1657,7 @@
       "kind": "book",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "book",
         "sans_garantie"
@@ -1694,7 +1672,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-sans-garantie-na-0-cfcal-memento-68",
-      "category": "cfcal",
+      "category": "immo",
       "partner": "cfcal",
       "subsection": "rac_sans_garantie",
       "title": "CFCAL Memento (SG)",
@@ -1702,6 +1680,7 @@
       "kind": "memento",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "memento",
         "sans_garantie"
@@ -1716,7 +1695,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-sans-garantie-na-cfcal-rac-sans-garantie-locataire-69",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_sans_garantie",
       "title": "RAC sans garantie — Locataire",
@@ -1724,6 +1703,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "sans_garantie",
@@ -1737,7 +1717,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-sans-garantie-na-cfcal-rac-sans-garantie-proprietaire-premium-70",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_sans_garantie",
       "title": "RAC sans garantie — Propriétaire Premium",
@@ -1745,6 +1725,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "sans_garantie",
@@ -1759,7 +1740,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-sans-garantie-na-cfcal-rac-sans-garantie-proprietaire-71",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_sans_garantie",
       "title": "RAC sans garantie — Propriétaire",
@@ -1767,6 +1748,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "sans_garantie",
@@ -1780,7 +1762,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-pro-na-4-cfcal-hypo-immo-pro-72",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_pro",
       "title": "RAC Pro — Hypo Immo Pro",
@@ -1788,6 +1770,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "pro",
@@ -1803,7 +1786,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-pro-na-4-cfcal-hypo-pro-classique-73",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_pro",
       "title": "RAC Pro — Hypo Pro Classique",
@@ -1811,6 +1794,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "pro",
@@ -1826,7 +1810,7 @@
     },
     {
       "id": "cfcal-cfcal-rac-pro-na-4-cfcal-hypo-pro-first-74",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "rac_pro",
       "title": "RAC Pro — Hypo Pro First",
@@ -1834,6 +1818,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "rac",
         "pro",
@@ -1850,7 +1835,7 @@
     },
     {
       "id": "cfcal-cfcal-assurance-na-book-memento-rac-75",
-      "category": "cfcal",
+      "category": "rac",
       "partner": "cfcal",
       "subsection": "assurance",
       "title": "Book Memento RAC (assurance)",
@@ -1858,6 +1843,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "assurance",
         "rac"
@@ -1870,7 +1856,7 @@
     },
     {
       "id": "cfcal-cfcal-interne-na-6-descriptif-du-bien-immobilier-en-garantie-76",
-      "category": "cfcal",
+      "category": "immo",
       "partner": "cfcal",
       "subsection": "interne",
       "title": "Descriptif bien en garantie",
@@ -1878,6 +1864,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "interne",
         "garantie",
@@ -1891,7 +1878,7 @@
     },
     {
       "id": "cfcal-cfcal-interne-na-6-liste-notaires-referents-77",
-      "category": "cfcal",
+      "category": "immo",
       "partner": "cfcal",
       "subsection": "interne",
       "title": "Liste notaires référents",
@@ -1899,6 +1886,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "interne",
         "notaire"
@@ -1911,7 +1899,7 @@
     },
     {
       "id": "cfcal-cfcal-interne-na-6-revenus-et-charges-pour-le-calcul-du-taux-endettement-7",
-      "category": "cfcal",
+      "category": "immo",
       "partner": "cfcal",
       "subsection": "interne",
       "title": "Revenus & charges — taux d'endettement",
@@ -1919,6 +1907,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cfcal",
       "tags": [
         "interne",
         "dti",
@@ -1933,7 +1922,7 @@
     },
     {
       "id": "cgi-cgi-produit-na-explication-differentiel-79",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "produit",
       "title": "Explication différentiel",
@@ -1941,6 +1930,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "differentiel"
@@ -1953,7 +1943,7 @@
     },
     {
       "id": "cgi-cgi-norme-na-fiche-revenus-charges-et-criteres-80",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "norme",
       "title": "Revenus, charges et critères",
@@ -1961,6 +1951,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "revenus",
@@ -1974,7 +1965,7 @@
     },
     {
       "id": "cgi-cgi-produit-na-fiche-avec-garantie-ls1-81",
-      "category": "cgi",
+      "category": "rac",
       "partner": "cgi",
       "subsection": "produit",
       "title": "Avec garantie LS1",
@@ -1982,6 +1973,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "avec_garantie",
@@ -1995,7 +1987,7 @@
     },
     {
       "id": "cgi-cgi-produit-na-fiche-retraite-82",
-      "category": "cgi",
+      "category": "rac",
       "partner": "cgi",
       "subsection": "produit",
       "title": "Fiche retraite",
@@ -2003,6 +1995,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "retraite",
@@ -2017,7 +2010,7 @@
     },
     {
       "id": "cgi-cgi-produit-na-fiche-sans-garantie-duo-projet-83",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "produit",
       "title": "Sans garantie DUO Projet",
@@ -2025,6 +2018,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "sans_garantie",
@@ -2038,7 +2032,7 @@
     },
     {
       "id": "cgi-cgi-produit-na-fiche-sans-garantie-locataire-84",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "produit",
       "title": "Sans garantie locataire",
@@ -2046,6 +2040,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "sans_garantie",
@@ -2059,7 +2054,7 @@
     },
     {
       "id": "cgi-cgi-produit-na-fiche-sans-garantie-primo-accedants-85",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "produit",
       "title": "Sans garantie primo-accédants",
@@ -2067,6 +2062,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "sans_garantie",
@@ -2080,7 +2076,7 @@
     },
     {
       "id": "cgi-cgi-produit-na-fiche-sans-garantie-proprietaire-86",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "produit",
       "title": "Sans garantie propriétaire",
@@ -2088,6 +2084,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "cgi",
         "sans_garantie",
@@ -2101,7 +2098,7 @@
     },
     {
       "id": "cgi-cgi-interne-na-6-calcul-des-retraites-87",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "interne",
       "title": "Calcul des retraites",
@@ -2109,6 +2106,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "interne",
         "retraite",
@@ -2122,7 +2120,7 @@
     },
     {
       "id": "cgi-cgi-interne-na-6-calcul-des-revenus-88",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "interne",
       "title": "Calcul des revenus",
@@ -2130,6 +2128,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "interne",
         "revenus"
@@ -2142,7 +2141,7 @@
     },
     {
       "id": "cgi-cgi-interne-na-6-fiche-expertise-89",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "interne",
       "title": "Fiche expertise",
@@ -2150,6 +2149,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "interne",
         "expertise"
@@ -2162,7 +2162,7 @@
     },
     {
       "id": "cgi-cgi-interne-na-6-fiche-descriptive-bien-immo-90",
-      "category": "cgi",
+      "category": "immo",
       "partner": "cgi",
       "subsection": "interne",
       "title": "Fiche descriptive bien immo",
@@ -2170,6 +2170,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cgi",
       "tags": [
         "interne",
         "bien"
@@ -2182,7 +2183,7 @@
     },
     {
       "id": "cml-cml-produit-na-pret-personnel-credit-municipal-lyon-91",
-      "category": "cml",
+      "category": "immo",
       "partner": "cml",
       "subsection": "produit",
       "title": "Prêt personnel CML",
@@ -2190,6 +2191,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cml",
       "tags": [
         "pret_personnel",
         "cml"
@@ -2202,7 +2204,7 @@
     },
     {
       "id": "cml-cml-produit-na-rac-credit-municipal-lyon-92",
-      "category": "cml",
+      "category": "rac",
       "partner": "cml",
       "subsection": "produit",
       "title": "RAC CML",
@@ -2210,6 +2212,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "cml",
       "tags": [
         "rac",
         "cml"
@@ -2222,7 +2225,7 @@
     },
     {
       "id": "cmt-cmt-produit-2025-presentation-2025-93",
-      "category": "cmt",
+      "category": "rac",
       "partner": "cmt",
       "subsection": "produit",
       "title": "Présentation RAC CMT 2025",
@@ -2230,6 +2233,7 @@
       "kind": "fiche",
       "period": "2025",
       "region": "metropole",
+      "storageSection": "cmt",
       "tags": [
         "rac",
         "cmt"
@@ -2242,7 +2246,7 @@
     },
     {
       "id": "cmt-cmt-assurance-na-2-assurance-groupe-cgcv-94",
-      "category": "cmt",
+      "category": "immo",
       "partner": "cmt",
       "subsection": "assurance",
       "title": "Assurance groupe CGCV",
@@ -2250,6 +2254,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "cmt",
       "tags": [
         "assurance"
       ],
@@ -2261,7 +2266,7 @@
     },
     {
       "id": "cmt-cmt-assurance-na-2-assurance-groupe-conditions-95",
-      "category": "cmt",
+      "category": "immo",
       "partner": "cmt",
       "subsection": "assurance",
       "title": "Assurance groupe — conditions",
@@ -2269,6 +2274,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "cmt",
       "tags": [
         "assurance"
       ],
@@ -2280,7 +2286,7 @@
     },
     {
       "id": "cmt-cmt-assurance-na-2-assurances-groupe-cmt-96",
-      "category": "cmt",
+      "category": "immo",
       "partner": "cmt",
       "subsection": "assurance",
       "title": "Assurances groupe CMT",
@@ -2288,6 +2294,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "cmt",
       "tags": [
         "assurance"
       ],
@@ -2299,7 +2306,7 @@
     },
     {
       "id": "cmt-cmt-interne-na-3-cmt-aide-au-remplissage-de-la-fiche-excel-97",
-      "category": "cmt",
+      "category": "immo",
       "partner": "cmt",
       "subsection": "interne",
       "title": "Aide remplissage fiche Excel",
@@ -2307,6 +2314,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "cmt",
       "tags": [
         "interne"
       ],
@@ -2318,7 +2326,7 @@
     },
     {
       "id": "cmt-cmt-interne-na-3-cmt-carcasse-a-transmettre-98",
-      "category": "cmt",
+      "category": "immo",
       "partner": "cmt",
       "subsection": "interne",
       "title": "Carcasse à transmettre",
@@ -2326,6 +2334,7 @@
       "kind": "outil",
       "period": null,
       "region": "metropole",
+      "storageSection": "cmt",
       "tags": [
         "interne",
         "outil"
@@ -2338,7 +2347,7 @@
     },
     {
       "id": "creatis-creatis-book-2026-03-03-2026-book-creatis-99",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "book",
       "title": "Book CREATIS",
@@ -2346,6 +2355,7 @@
       "kind": "book",
       "period": "2026-03",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "book"
       ],
@@ -2357,7 +2367,7 @@
     },
     {
       "id": "creatis-creatis-norme-2026-04-04-2026-evolution-normes-creatis-100",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "norme",
       "title": "Évolution normes CREATIS",
@@ -2365,6 +2375,7 @@
       "kind": "memento",
       "period": "2026-04",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "normes"
       ],
@@ -2376,7 +2387,7 @@
     },
     {
       "id": "creatis-creatis-rac-hypothecaire-2019-03-1-rac-hypo-03-2019-101",
-      "category": "creatis",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "rac_hypothecaire",
       "title": "RAC HYPO",
@@ -2384,6 +2395,7 @@
       "kind": "fiche",
       "period": "2019-03",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "rac",
         "hypo",
@@ -2397,7 +2409,7 @@
     },
     {
       "id": "creatis-creatis-rac-hypothecaire-2020-10-1-rac-hypo-informations-generales-10-20",
-      "category": "creatis",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "rac_hypothecaire",
       "title": "RAC HYPO — infos générales",
@@ -2405,6 +2417,7 @@
       "kind": "fiche",
       "period": "2020-10",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "rac",
         "hypo"
@@ -2419,7 +2432,7 @@
     },
     {
       "id": "creatis-creatis-rac-sans-garantie-2022-05-fiche-produit-minirac-iobsp-05-2022-10",
-      "category": "creatis",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "rac_sans_garantie",
       "title": "MINIRAC IOBSP",
@@ -2427,6 +2440,7 @@
       "kind": "fiche",
       "period": "2022-05",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "rac",
         "sans_garantie",
@@ -2440,7 +2454,7 @@
     },
     {
       "id": "creatis-creatis-rac-sans-garantie-2022-02-fiche-produit-rac-conso-iobsp-02-2022-",
-      "category": "creatis",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "rac_sans_garantie",
       "title": "RAC Conso IOBSP",
@@ -2448,6 +2462,7 @@
       "kind": "fiche",
       "period": "2022-02",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "rac",
         "conso",
@@ -2461,7 +2476,7 @@
     },
     {
       "id": "creatis-creatis-rac-projet-2021-10-fiche-produit-pret-fusion-10-2021-105",
-      "category": "creatis",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "rac_projet",
       "title": "Prêt Fusion",
@@ -2469,6 +2484,7 @@
       "kind": "fiche",
       "period": "2021-10",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "rac",
         "fusion",
@@ -2484,7 +2500,7 @@
     },
     {
       "id": "creatis-creatis-rac-projet-2021-10-fiche-produit-rac-conso-projets-iobsp-10-2021",
-      "category": "creatis",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "rac_projet",
       "title": "RAC Conso Projets",
@@ -2492,6 +2508,7 @@
       "kind": "fiche",
       "period": "2021-10",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "rac",
         "conso",
@@ -2505,7 +2522,7 @@
     },
     {
       "id": "creatis-creatis-assurance-2019-06-4-assurance-fiche-ade-06-2019-107",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "assurance",
       "title": "Assurance ADE",
@@ -2513,6 +2530,7 @@
       "kind": "assurance",
       "period": "2019-06",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "assurance"
       ],
@@ -2526,7 +2544,7 @@
     },
     {
       "id": "creatis-creatis-interne-na-5-allegement-pieces-proprietaires-et-accedants-108",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "interne",
       "title": "Allègement pièces propriétaires",
@@ -2534,6 +2552,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "interne",
         "pieces",
@@ -2547,7 +2566,7 @@
     },
     {
       "id": "creatis-creatis-interne-2020-01-5-les-pieces-indispensables-rac-conso-janv-2020-",
-      "category": "creatis",
+      "category": "treso",
       "partner": "creatis",
       "subsection": "interne",
       "title": "Pièces indispensables RAC Conso",
@@ -2555,6 +2574,7 @@
       "kind": "interne",
       "period": "2020-01",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "interne",
         "pieces",
@@ -2568,7 +2588,7 @@
     },
     {
       "id": "creatis-creatis-interne-2020-01-5-les-pieces-indispensables-rac-hypo-janv-2020-1",
-      "category": "creatis",
+      "category": "hypo_treso",
       "partner": "creatis",
       "subsection": "interne",
       "title": "Pièces indispensables RAC Hypo",
@@ -2576,6 +2596,7 @@
       "kind": "interne",
       "period": "2020-01",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "interne",
         "pieces",
@@ -2589,7 +2610,7 @@
     },
     {
       "id": "creatis-creatis-interne-na-5-les-pieces-indispensables-rac-projets-111",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "interne",
       "title": "Pièces indispensables RAC Projets",
@@ -2597,6 +2618,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "interne",
         "pieces",
@@ -2610,7 +2632,7 @@
     },
     {
       "id": "creatis-creatis-interne-2020-10-5-procedure-rac-sans-garantie-hypo-octobre-2020-",
-      "category": "creatis",
+      "category": "hypo_treso",
       "partner": "creatis",
       "subsection": "interne",
       "title": "Procédure RAC sans garantie / hypo",
@@ -2618,6 +2640,7 @@
       "kind": "interne",
       "period": "2020-10",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "interne",
         "sans_garantie",
@@ -2631,7 +2654,7 @@
     },
     {
       "id": "creatis-creatis-interne-na-fiche-descriptive-creatis-113",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "interne",
       "title": "Fiche descriptive CREATIS",
@@ -2639,6 +2662,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "interne"
       ],
@@ -2650,7 +2674,7 @@
     },
     {
       "id": "creatis-creatis-conformite-na-6-courrier-de-patience-partenaire-114",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "conformite",
       "title": "Courrier de patience",
@@ -2658,6 +2682,7 @@
       "kind": "conformite",
       "period": null,
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "conformite"
       ],
@@ -2669,7 +2694,7 @@
     },
     {
       "id": "creatis-creatis-conformite-2018-12-6-devoir-de-conseil-decembre-2018-115",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "conformite",
       "title": "Devoir de conseil",
@@ -2677,6 +2702,7 @@
       "kind": "conformite",
       "period": "2018-12",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "conformite"
       ],
@@ -2688,7 +2714,7 @@
     },
     {
       "id": "creatis-creatis-conformite-2017-6-fiche-guide-pub-2017-116",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "conformite",
       "title": "Guide pub",
@@ -2696,6 +2722,7 @@
       "kind": "conformite",
       "period": "2017",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "conformite"
       ],
@@ -2707,7 +2734,7 @@
     },
     {
       "id": "creatis-creatis-conformite-2018-6-fiche-lutte-antiblanchiment-2018-117",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "conformite",
       "title": "Lutte antiblanchiment",
@@ -2715,6 +2742,7 @@
       "kind": "conformite",
       "period": "2018",
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "conformite",
         "lab"
@@ -2727,7 +2755,7 @@
     },
     {
       "id": "creatis-creatis-conformite-na-6-formation-personnes-proposant-du-credit-118",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "conformite",
       "title": "Formation crédit",
@@ -2735,6 +2763,7 @@
       "kind": "conformite",
       "period": null,
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "conformite"
       ],
@@ -2746,7 +2775,7 @@
     },
     {
       "id": "creatis-creatis-conformite-na-6-traitement-de-la-reclamation-119",
-      "category": "creatis",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "conformite",
       "title": "Traitement réclamation",
@@ -2754,6 +2783,7 @@
       "kind": "conformite",
       "period": null,
       "region": "metropole",
+      "storageSection": "creatis",
       "tags": [
         "conformite"
       ],
@@ -2765,7 +2795,7 @@
     },
     {
       "id": "antilles-credilift-norme-2026-04-04-2026-evolution-norme-120",
-      "category": "antilles",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "norme",
       "title": "Credit Lift — Évolution norme",
@@ -2773,6 +2803,7 @@
       "kind": "fiche",
       "period": "2026-04",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2786,7 +2817,7 @@
     },
     {
       "id": "antilles-credilift-produit-2026-04-normalift-avec-et-sans-garantie-04-2026-121",
-      "category": "antilles",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "Normalift avec/sans garantie",
@@ -2794,6 +2825,7 @@
       "kind": "fiche",
       "period": "2026-04",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2809,7 +2841,7 @@
     },
     {
       "id": "antilles-credilift-norme-2026-05-recap-endettement-et-rav-05-2026-122",
-      "category": "antilles",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "norme",
       "title": "Récap endettement et RAV",
@@ -2817,6 +2849,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2831,7 +2864,7 @@
     },
     {
       "id": "antilles-lbp-book-2026-01-book-lbp-01-2026-123",
-      "category": "antilles",
+      "category": "immo",
       "partner": "lbp",
       "subsection": "book",
       "title": "Book LBP",
@@ -2839,6 +2872,7 @@
       "kind": "book",
       "period": "2026-01",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2852,7 +2886,7 @@
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-criteres-gamme-avec-garantie-124",
-      "category": "antilles",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA critères avec garantie",
@@ -2860,6 +2894,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2875,7 +2910,7 @@
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-criteres-gamme-sans-garantie-125",
-      "category": "antilles",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA critères sans garantie",
@@ -2883,6 +2918,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2896,7 +2932,7 @@
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-fiche-avec-garantie-126",
-      "category": "antilles",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA fiche avec garantie",
@@ -2904,6 +2940,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2919,7 +2956,7 @@
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-fiche-sans-garantie-locataire-127",
-      "category": "antilles",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA sans garantie locataire",
@@ -2927,6 +2964,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2943,7 +2981,7 @@
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-fiche-sans-garantie-proprietaire-128",
-      "category": "antilles",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA sans garantie propriétaire",
@@ -2951,6 +2989,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "antilles",
+      "storageSection": "antilles",
       "tags": [
         "dom_tom",
         "antilles",
@@ -2967,7 +3006,7 @@
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-pret-fusion-129",
-      "category": "reunion",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "produit",
       "title": "CREATIS Prêt Fusion",
@@ -2975,6 +3014,7 @@
       "kind": "fiche",
       "period": "2025-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -2990,7 +3030,7 @@
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-projet-130",
-      "category": "reunion",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "produit",
       "title": "CREATIS Projet",
@@ -2998,6 +3038,7 @@
       "kind": "fiche",
       "period": "2025-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3013,7 +3054,7 @@
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-rac-hypo-immo-131",
-      "category": "reunion",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "produit",
       "title": "CREATIS RAC Hypo Immo",
@@ -3021,6 +3062,7 @@
       "kind": "fiche",
       "period": "2025-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3037,7 +3079,7 @@
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-rac-avec-garantie-132",
-      "category": "reunion",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "produit",
       "title": "CREATIS RAC avec garantie",
@@ -3045,6 +3087,7 @@
       "kind": "fiche",
       "period": "2025-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3061,7 +3104,7 @@
     },
     {
       "id": "reunion-creatis-produit-2025-01-01-2025-creatis-rac-sans-garantie-133",
-      "category": "reunion",
+      "category": "rac",
       "partner": "creatis",
       "subsection": "produit",
       "title": "CREATIS RAC sans garantie",
@@ -3069,6 +3112,7 @@
       "kind": "fiche",
       "period": "2025-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3085,7 +3129,7 @@
     },
     {
       "id": "reunion-creatis-book-2026-03-03-2026-book-creatis-134",
-      "category": "reunion",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "book",
       "title": "Book CREATIS",
@@ -3093,6 +3137,7 @@
       "kind": "book",
       "period": "2026-03",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3106,7 +3151,7 @@
     },
     {
       "id": "reunion-creatis-norme-2026-04-04-2026-evolution-normes-creatis-135",
-      "category": "reunion",
+      "category": "immo",
       "partner": "creatis",
       "subsection": "norme",
       "title": "Évolution normes CREATIS",
@@ -3114,6 +3159,7 @@
       "kind": "fiche",
       "period": "2026-04",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3127,7 +3173,7 @@
     },
     {
       "id": "reunion-credilift-norme-2025-01-2025-01-03-bareme-et-conditions-136",
-      "category": "reunion",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "norme",
       "title": "Credit Lift barème et conditions",
@@ -3135,6 +3181,7 @@
       "kind": "fiche",
       "period": "2025-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion"
@@ -3149,7 +3196,7 @@
     },
     {
       "id": "reunion-credilift-produit-2026-04-normalift-avec-et-sans-garantie-04-2026-137",
-      "category": "reunion",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "Normalift avec/sans garantie",
@@ -3157,6 +3204,7 @@
       "kind": "fiche",
       "period": "2026-04",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3170,7 +3218,7 @@
     },
     {
       "id": "reunion-credilift-norme-2026-05-recap-endettement-et-rav-05-2026-138",
-      "category": "reunion",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "norme",
       "title": "Récap endettement et RAV",
@@ -3178,6 +3226,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3192,7 +3241,7 @@
     },
     {
       "id": "reunion-mmb-produit-2024-01-01-2024-fiche-de-normes-my-simply-one-139",
-      "category": "reunion",
+      "category": "rac",
       "partner": "mmb",
       "subsection": "produit",
       "title": "MMB My Simply One",
@@ -3200,6 +3249,7 @@
       "kind": "fiche",
       "period": "2024-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3216,7 +3266,7 @@
     },
     {
       "id": "reunion-mmb-produit-2024-01-01-2024-mmb-fiches-normes-easy-treso-140",
-      "category": "reunion",
+      "category": "treso",
       "partner": "mmb",
       "subsection": "produit",
       "title": "MMB Easy Treso",
@@ -3224,6 +3274,7 @@
       "kind": "fiche",
       "period": "2024-01",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3240,7 +3291,7 @@
     },
     {
       "id": "reunion-mmb-produit-2024-05-05-2024-fiches-easy-treso-141",
-      "category": "reunion",
+      "category": "treso",
       "partner": "mmb",
       "subsection": "produit",
       "title": "MMB Easy Treso (05/2024)",
@@ -3248,6 +3299,7 @@
       "kind": "fiche",
       "period": "2024-05",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3263,7 +3315,7 @@
     },
     {
       "id": "reunion-sygma-produit-2025-02-02-2025-criteres-gamme-avec-garantie-142",
-      "category": "reunion",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA critères avec garantie",
@@ -3271,6 +3323,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3284,7 +3337,7 @@
     },
     {
       "id": "reunion-sygma-produit-2025-02-02-2025-criteres-gamme-sans-garantie-143",
-      "category": "reunion",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA critères sans garantie",
@@ -3292,6 +3345,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3305,7 +3359,7 @@
     },
     {
       "id": "reunion-sygma-produit-2025-02-02-2025-fiche-avec-garantie-144",
-      "category": "reunion",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA fiche avec garantie",
@@ -3313,6 +3367,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3326,7 +3381,7 @@
     },
     {
       "id": "reunion-sygma-produit-2025-02-02-2025-fiche-sans-garantie-locataire-145",
-      "category": "reunion",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA sans garantie locataire",
@@ -3334,6 +3389,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3348,7 +3404,7 @@
     },
     {
       "id": "reunion-sygma-produit-2025-02-02-2025-fiche-sans-garantie-proprietaire-146",
-      "category": "reunion",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "produit",
       "title": "SYGMA sans garantie propriétaire",
@@ -3356,6 +3412,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "reunion",
+      "storageSection": "reunion",
       "tags": [
         "dom_tom",
         "reunion",
@@ -3370,7 +3427,7 @@
     },
     {
       "id": "lbp-lbp-book-2026-01-book-lbp-01-2026-147",
-      "category": "lbp",
+      "category": "rac",
       "partner": "lbp",
       "subsection": "book",
       "title": "Book LBP 01 2026",
@@ -3378,6 +3435,7 @@
       "kind": "book",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "lbp",
       "tags": [
         "lbp",
         "rac",
@@ -3391,7 +3449,7 @@
     },
     {
       "id": "mmb-mmb-rac-hypothecaire-2026-04-fiche-normes-my-simply-one-04-2026-148",
-      "category": "mmb",
+      "category": "rac",
       "partner": "mmb",
       "subsection": "rac_hypothecaire",
       "title": "My Simply One (avec garantie)",
@@ -3399,6 +3457,7 @@
       "kind": "fiche",
       "period": "2026-04",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "rac",
         "hypo",
@@ -3413,7 +3472,7 @@
     },
     {
       "id": "mmb-mmb-rac-hypothecaire-na-guide-revenus-charges-149",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "rac_hypothecaire",
       "title": "Guide revenus charges",
@@ -3421,6 +3480,7 @@
       "kind": "book",
       "period": null,
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "revenus",
         "charges",
@@ -3434,7 +3494,7 @@
     },
     {
       "id": "mmb-mmb-rac-sans-garantie-2026-04-fiche-normes-easy-treso-04-2026-150",
-      "category": "mmb",
+      "category": "rac",
       "partner": "mmb",
       "subsection": "rac_sans_garantie",
       "title": "Easy Treso (sans garantie)",
@@ -3442,6 +3502,7 @@
       "kind": "fiche",
       "period": "2026-04",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "rac",
         "sans_garantie",
@@ -3456,7 +3517,7 @@
     },
     {
       "id": "mmb-mmb-treso-na-3-attestation-sur-l-honneur-utilisation-des-fonds-151",
-      "category": "mmb",
+      "category": "treso",
       "partner": "mmb",
       "subsection": "treso",
       "title": "Attestation utilisation des fonds",
@@ -3464,6 +3525,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "formulaire",
         "treso"
@@ -3478,7 +3540,7 @@
     },
     {
       "id": "mmb-mmb-treso-na-fiche-normes-my-new-treso-152",
-      "category": "mmb",
+      "category": "treso",
       "partner": "mmb",
       "subsection": "treso",
       "title": "My New Treso",
@@ -3486,6 +3548,7 @@
       "kind": "fiche",
       "period": null,
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "treso",
         "hypo",
@@ -3499,7 +3562,7 @@
     },
     {
       "id": "mmb-mmb-assurance-2020-09-4-assurance-groupe-easytreso-fiche-09-2020-153",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "assurance",
       "title": "Assurance EasyTreso",
@@ -3507,6 +3570,7 @@
       "kind": "assurance",
       "period": "2020-09",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "assurance"
       ],
@@ -3518,7 +3582,7 @@
     },
     {
       "id": "mmb-mmb-assurance-na-4-assurance-groupe-rac-notice-assurance-154",
-      "category": "mmb",
+      "category": "rac",
       "partner": "mmb",
       "subsection": "assurance",
       "title": "Assurance RAC — notice",
@@ -3526,6 +3590,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "assurance",
         "rac"
@@ -3540,7 +3605,7 @@
     },
     {
       "id": "mmb-mmb-assurance-2020-09-4-assurance-groupe-easytreso-les-fondamentaux-09-2020-",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "assurance",
       "title": "Assurance EasyTreso — fondamentaux",
@@ -3548,6 +3613,7 @@
       "kind": "assurance",
       "period": "2020-09",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "assurance"
       ],
@@ -3559,7 +3625,7 @@
     },
     {
       "id": "mmb-mmb-assurance-2020-10-4-assurance-groupe-rac-fiche-10-2020-156",
-      "category": "mmb",
+      "category": "rac",
       "partner": "mmb",
       "subsection": "assurance",
       "title": "Assurance RAC — fiche",
@@ -3567,6 +3633,7 @@
       "kind": "assurance",
       "period": "2020-10",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "assurance",
         "rac"
@@ -3579,7 +3646,7 @@
     },
     {
       "id": "mmb-mmb-assurance-na-4-assurance-groupe-rac-les-fondamentaux-157",
-      "category": "mmb",
+      "category": "rac",
       "partner": "mmb",
       "subsection": "assurance",
       "title": "Assurance RAC — fondamentaux",
@@ -3587,6 +3654,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "assurance",
         "rac"
@@ -3599,7 +3667,7 @@
     },
     {
       "id": "mmb-mmb-assurance-2017-05-4-assurance-lettre-de-renonciation-05-2017-158",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "assurance",
       "title": "Lettre de renonciation assurance",
@@ -3607,6 +3675,7 @@
       "kind": "assurance",
       "period": "2017-05",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "assurance"
       ],
@@ -3618,7 +3687,7 @@
     },
     {
       "id": "mmb-mmb-interne-2023-01-01-2023-attestation-evolution-de-signature-159",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "interne",
       "title": "Attestation évolution signature",
@@ -3626,6 +3695,7 @@
       "kind": "interne",
       "period": "2023-01",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "interne"
       ],
@@ -3639,7 +3709,7 @@
     },
     {
       "id": "mmb-mmb-interne-2023-01-01-2023-declaration-usage-des-fonds-160",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "interne",
       "title": "Déclaration usage des fonds",
@@ -3647,6 +3717,7 @@
       "kind": "interne",
       "period": "2023-01",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "interne"
       ],
@@ -3660,7 +3731,7 @@
     },
     {
       "id": "mmb-mmb-interne-2023-01-01-2023-guide-regles-revenus-et-charges-161",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "interne",
       "title": "Guide règles revenus et charges",
@@ -3668,6 +3739,7 @@
       "kind": "interne",
       "period": "2023-01",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "interne",
         "revenus"
@@ -3682,7 +3754,7 @@
     },
     {
       "id": "mmb-mmb-interne-2022-07-07-2022-declaration-patrimoine-locatif-162",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "interne",
       "title": "Déclaration patrimoine locatif",
@@ -3690,6 +3762,7 @@
       "kind": "outil",
       "period": "2022-07",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "interne",
         "patrimoine"
@@ -3702,7 +3775,7 @@
     },
     {
       "id": "mmb-mmb-interne-2023-10-10-2023-formulaire-descriptif-du-bien-immobilier-163",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "interne",
       "title": "Descriptif bien immobilier",
@@ -3710,6 +3783,7 @@
       "kind": "interne",
       "period": "2023-10",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "interne",
         "bien"
@@ -3725,7 +3799,7 @@
     },
     {
       "id": "mmb-mmb-interne-2019-05-5-liste-des-pieces-05-2019-164",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "interne",
       "title": "Liste des pièces",
@@ -3733,6 +3807,7 @@
       "kind": "interne",
       "period": "2019-05",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "interne",
         "pieces"
@@ -3745,7 +3820,7 @@
     },
     {
       "id": "mmb-mmb-conformite-2017-05-6-guide-integrite-mmb-05-2017-165",
-      "category": "mmb",
+      "category": "immo",
       "partner": "mmb",
       "subsection": "conformite",
       "title": "Guide d'intégrité MMB",
@@ -3753,6 +3828,7 @@
       "kind": "conformite",
       "period": "2017-05",
       "region": "metropole",
+      "storageSection": "mmb",
       "tags": [
         "conformite"
       ],
@@ -3766,7 +3842,7 @@
     },
     {
       "id": "sygma-sygma-rac-sans-garantie-2025-02-02-2025-fiche-criteres-sans-garantie-166",
-      "category": "sygma",
+      "category": "rac",
       "partner": "sygma",
       "subsection": "rac_sans_garantie",
       "title": "Critères sans garantie",
@@ -3774,6 +3850,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "rac",
         "sans_garantie",
@@ -3789,7 +3866,7 @@
     },
     {
       "id": "sygma-sygma-rac-sans-garantie-2025-02-02-2025-fiche-sans-garantie-locataire-167",
-      "category": "sygma",
+      "category": "rac",
       "partner": "sygma",
       "subsection": "rac_sans_garantie",
       "title": "Sans garantie locataire",
@@ -3797,6 +3874,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "rac",
         "sans_garantie",
@@ -3810,7 +3888,7 @@
     },
     {
       "id": "sygma-sygma-rac-sans-garantie-2025-02-02-2025-fiche-sans-garantie-proprietaire-1",
-      "category": "sygma",
+      "category": "rac",
       "partner": "sygma",
       "subsection": "rac_sans_garantie",
       "title": "Sans garantie propriétaire",
@@ -3818,6 +3896,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "rac",
         "sans_garantie",
@@ -3831,7 +3910,7 @@
     },
     {
       "id": "sygma-sygma-rac-hypothecaire-2025-02-02-2025-criteres-gamme-avec-garantie-169",
-      "category": "sygma",
+      "category": "rac",
       "partner": "sygma",
       "subsection": "rac_hypothecaire",
       "title": "Critères gamme avec garantie",
@@ -3839,6 +3918,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "rac",
         "avec_garantie",
@@ -3852,7 +3932,7 @@
     },
     {
       "id": "sygma-sygma-rac-hypothecaire-2025-02-02-2025-fiche-avec-garantie-170",
-      "category": "sygma",
+      "category": "rac",
       "partner": "sygma",
       "subsection": "rac_hypothecaire",
       "title": "Fiche avec garantie",
@@ -3860,6 +3940,7 @@
       "kind": "fiche",
       "period": "2025-02",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "rac",
         "avec_garantie"
@@ -3872,7 +3953,7 @@
     },
     {
       "id": "sygma-sygma-rac-projet-2021-01-3-fiche-projet-26-01-2021-sygma-171",
-      "category": "sygma",
+      "category": "rac",
       "partner": "sygma",
       "subsection": "rac_projet",
       "title": "Fiche projet",
@@ -3880,6 +3961,7 @@
       "kind": "fiche",
       "period": "2021-01",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "rac",
         "projet"
@@ -3892,7 +3974,7 @@
     },
     {
       "id": "sygma-sygma-assurance-2020-06-4-assurance-fiche-nouveaute-sg-06-2020-172",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Assurance nouveauté SG",
@@ -3900,6 +3982,7 @@
       "kind": "assurance",
       "period": "2020-06",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -3913,7 +3996,7 @@
     },
     {
       "id": "sygma-sygma-assurance-2020-06-4-assurance-memo-cardif-sg-06-2020-173",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Assurance Mémo Cardif",
@@ -3921,6 +4004,7 @@
       "kind": "assurance",
       "period": "2020-06",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -3932,7 +4016,7 @@
     },
     {
       "id": "sygma-sygma-assurance-2017-02-4-assurance-module-ag-02-2017-174",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Assurance Module AG",
@@ -3940,6 +4024,7 @@
       "kind": "assurance",
       "period": "2017-02",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -3951,7 +4036,7 @@
     },
     {
       "id": "sygma-sygma-assurance-2020-06-4-assurance-module-sg-06-2020-175",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Assurance Module SG",
@@ -3959,6 +4044,7 @@
       "kind": "assurance",
       "period": "2020-06",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -3970,7 +4056,7 @@
     },
     {
       "id": "sygma-sygma-assurance-na-4-assurance-notice-176",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Assurance Notice",
@@ -3978,6 +4064,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -3989,7 +4076,7 @@
     },
     {
       "id": "sygma-sygma-assurance-2020-01-4-assurance-qs-simplifie-01-2020-177",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Assurance QS simplifié",
@@ -3997,6 +4084,7 @@
       "kind": "assurance",
       "period": "2020-01",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -4008,7 +4096,7 @@
     },
     {
       "id": "sygma-sygma-assurance-na-4-assurance-questionnaire-etat-emploi-178",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Questionnaire état d'emploi",
@@ -4016,6 +4104,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -4029,7 +4118,7 @@
     },
     {
       "id": "sygma-sygma-assurance-na-4-assurance-demande-adhesion-179",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "assurance",
       "title": "Demande adhésion assurance",
@@ -4037,6 +4126,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "assurance"
       ],
@@ -4048,7 +4138,7 @@
     },
     {
       "id": "sygma-sygma-interne-2020-01-fiche-souplesse-28-01-2020-sygma-180",
-      "category": "sygma",
+      "category": "immo",
       "partner": "sygma",
       "subsection": "interne",
       "title": "Fiche souplesse",
@@ -4056,6 +4146,7 @@
       "kind": "interne",
       "period": "2020-01",
       "region": "metropole",
+      "storageSection": "sygma",
       "tags": [
         "interne",
         "sygma"
@@ -4076,6 +4167,7 @@
       "kind": "memento",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "sci",
       "tags": [
         "sci",
         "normes",
@@ -4099,6 +4191,7 @@
       "kind": "fiche",
       "period": "2026-01",
       "region": "metropole",
+      "storageSection": "immo",
       "tags": [
         "immo",
         "investys",
@@ -4114,7 +4207,7 @@
     },
     {
       "id": "credilift-credilift-interne-na-process-cession-sur-salaire-183",
-      "category": "credilift",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "interne",
       "title": "Process cession sur salaire",
@@ -4122,6 +4215,7 @@
       "kind": "interne",
       "period": null,
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "interne",
         "credilift"
@@ -4136,7 +4230,7 @@
     },
     {
       "id": "credilift-credilift-formulaire-na-mandat-sepa-184",
-      "category": "credilift",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "formulaire",
       "title": "Mandat SEPA",
@@ -4144,6 +4238,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "formulaire",
         "sepa"
@@ -4158,7 +4253,7 @@
     },
     {
       "id": "credilift-credilift-formulaire-na-attestation-non-re-endettement-185",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "formulaire",
       "title": "Attestation non réendettement",
@@ -4166,6 +4261,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "formulaire",
         "rac"
@@ -4180,7 +4276,7 @@
     },
     {
       "id": "credilift-credilift-formulaire-na-attestation-de-cloture-des-credits-renouvelabl",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "formulaire",
       "title": "Attestation clôture crédits renouvelables",
@@ -4188,6 +4284,7 @@
       "kind": "formulaire",
       "period": null,
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "formulaire",
         "rac"
@@ -4202,7 +4299,7 @@
     },
     {
       "id": "credilift-credilift-assurance-na-assurance-lettre-renonciation-187",
-      "category": "credilift",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "assurance",
       "title": "Assurance — lettre renonciation",
@@ -4210,6 +4307,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "assurance",
         "credilift"
@@ -4224,7 +4322,7 @@
     },
     {
       "id": "credilift-credilift-assurance-na-assurance-assurlift-presentation-188",
-      "category": "credilift",
+      "category": "immo",
       "partner": "credilift",
       "subsection": "assurance",
       "title": "Assurance Assurlift — présentation",
@@ -4232,6 +4330,7 @@
       "kind": "assurance",
       "period": null,
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "assurance",
         "credilift"
@@ -4246,7 +4345,7 @@
     },
     {
       "id": "credilift-credilift-produit-2026-05-unilift-05-2026-189",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "UNILIFT",
@@ -4254,6 +4353,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "rac",
         "credilift",
@@ -4269,7 +4369,7 @@
     },
     {
       "id": "credilift-credilift-produit-2026-05-minilift-05-2026-190",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "MINILIFT",
@@ -4277,6 +4377,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "rac",
         "credilift",
@@ -4293,7 +4394,7 @@
     },
     {
       "id": "credilift-credilift-produit-2026-05-consolift-180-mois-05-2026-191",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "CONSOLIFT 180 mois",
@@ -4301,6 +4402,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "rac",
         "credilift",
@@ -4316,7 +4418,7 @@
     },
     {
       "id": "credilift-credilift-produit-2026-05-consolift-05-2026-192",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "CONSOLIFT",
@@ -4324,6 +4426,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "rac",
         "credilift",
@@ -4339,7 +4442,7 @@
     },
     {
       "id": "credilift-credilift-produit-2026-05-cautiolift-conso-05-2026-193",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "CAUTIOLIFT conso",
@@ -4347,6 +4450,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "rac",
         "credilift",
@@ -4363,7 +4467,7 @@
     },
     {
       "id": "credilift-credilift-produit-2026-05-hypolift-conso-2nd-rang-05-2026-194",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "HYPOLIFT conso 2nd rang",
@@ -4371,6 +4475,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "rac",
         "credilift",
@@ -4388,7 +4493,7 @@
     },
     {
       "id": "credilift-credilift-produit-2026-05-hypolift-conso-05-2026-195",
-      "category": "credilift",
+      "category": "rac",
       "partner": "credilift",
       "subsection": "produit",
       "title": "HYPOLIFT conso",
@@ -4396,6 +4501,7 @@
       "kind": "fiche",
       "period": "2026-05",
       "region": "metropole",
+      "storageSection": "credilift",
       "tags": [
         "rac",
         "credilift",
@@ -4421,6 +4527,7 @@
       "kind": "fiche",
       "period": "2026-06",
       "region": "metropole",
+      "storageSection": "scpi",
       "tags": [
         "scpi",
         "nantissement",
@@ -4444,6 +4551,7 @@
       "kind": "fiche",
       "period": "2026-06",
       "region": "metropole",
+      "storageSection": "scpi",
       "tags": [
         "scpi",
         "caution",
@@ -4467,6 +4575,7 @@
       "kind": "fiche",
       "period": "2026-06",
       "region": "metropole",
+      "storageSection": "scpi",
       "tags": [
         "scpi",
         "sci",
@@ -4490,6 +4599,7 @@
       "kind": "liste",
       "period": "2026-07",
       "region": "metropole",
+      "storageSection": "scpi",
       "tags": [
         "scpi",
         "liste",
@@ -4513,6 +4623,7 @@
       "kind": "book",
       "period": "2026-07",
       "region": "metropole",
+      "storageSection": "scpi",
       "tags": [
         "scpi",
         "book",
@@ -4543,9 +4654,13 @@
         ]
       },
       "preferCategories": [
+        "rac",
+        "pvh",
+        "hypo_treso"
+      ],
+      "preferPartners": [
         "cgi",
         "cfcal",
-        "pvh",
         "mmb",
         "sygma"
       ],
@@ -4576,13 +4691,16 @@
         ]
       },
       "preferCategories": [
+        "rac",
+        "treso"
+      ],
+      "preferPartners": [
         "cfcal",
         "cgi",
         "sygma",
         "creatis",
         "mmb",
-        "antilles",
-        "reunion"
+        "credilift"
       ],
       "preferTags": [
         "sans_garantie",
@@ -4606,6 +4724,10 @@
         ]
       },
       "preferCategories": [
+        "rac",
+        "hypo_treso"
+      ],
+      "preferPartners": [
         "cfcal",
         "cgi",
         "mmb",
@@ -4634,13 +4756,19 @@
         ]
       },
       "preferCategories": [
-        "reunion",
-        "antilles"
+        "rac",
+        "treso",
+        "immo"
+      ],
+      "preferPartners": [
+        "credilift",
+        "cfcal",
+        "cgi"
       ],
       "preferTags": [
         "dom_tom"
       ],
-      "advice": "Utiliser uniquement les fiches Réunion / Antilles (normes et RAV spécifiques).",
+      "advice": "Filtrer la région Réunion / Antilles (normes et RAV spécifiques) — ce ne sont pas des partenaires.",
       "confidence": "draft",
       "todoValidate": []
     },
@@ -4656,6 +4784,10 @@
       },
       "preferCategories": [
         "pvh"
+      ],
+      "preferPartners": [
+        "cfcal",
+        "cgi"
       ],
       "preferTags": [
         "pvh",
@@ -4678,7 +4810,9 @@
       },
       "preferCategories": [
         "renov",
-        "hypo_treso",
+        "hypo_treso"
+      ],
+      "preferPartners": [
         "bank_b",
         "cfcal"
       ],
@@ -4703,9 +4837,12 @@
         ]
       },
       "preferCategories": [
-        "immo",
+        "immo"
+      ],
+      "preferPartners": [
         "bank_b",
-        "cgi"
+        "cgi",
+        "cfcal"
       ],
       "preferTags": [
         "primo",
@@ -4731,9 +4868,12 @@
         ]
       },
       "preferCategories": [
-        "credilift",
-        "antilles",
-        "reunion"
+        "rac",
+        "treso",
+        "hypo_treso"
+      ],
+      "preferPartners": [
+        "credilift"
       ],
       "preferTags": [
         "credilift",
@@ -4758,6 +4898,9 @@
       "preferCategories": [
         "scpi"
       ],
+      "preferPartners": [
+        "cfcal"
+      ],
       "preferTags": [
         "scpi",
         "nantissement",
@@ -4768,78 +4911,27 @@
       "todoValidate": []
     },
     {
-      "id": "ptz-primo-fiches",
-      "label": "PTZ / primo-accession",
-      "priority": 24,
+      "id": "sci-fiches",
+      "label": "Financement SCI",
+      "priority": 22,
       "when": {
         "needAny": [
-          "ptz",
-          "primo",
-          "taux zero"
+          "sci"
         ]
       },
       "preferCategories": [
-        "immo",
+        "sci",
+        "immo"
+      ],
+      "preferPartners": [
+        "cfcal",
         "bank_b",
         "cgi"
       ],
       "preferTags": [
-        "primo",
-        "immo",
-        "acquisition"
+        "sci"
       ],
-      "advice": "Fiches IMMO primo (BANK B 1ère acquisition, CFCAL Edifys/Aquiz). PTZ réglementaire à valider hors fiches partenaires jusqu’à dépôt PDF PTZ.",
-      "confidence": "draft",
-      "todoValidate": [
-        "zones",
-        "plafonds"
-      ]
-    },
-    {
-      "id": "pret-relais-fiches",
-      "label": "Prêt relais",
-      "priority": 25,
-      "when": {
-        "needAny": [
-          "relais",
-          "bridge"
-        ]
-      },
-      "preferCategories": [
-        "relais",
-        "treso",
-        "bank_b",
-        "cmt"
-      ],
-      "preferTags": [
-        "relais"
-      ],
-      "advice": "Griffon Patrimoine Relais / BANK B / CMT — croiser durée et quotité.",
-      "confidence": "draft",
-      "todoValidate": []
-    },
-    {
-      "id": "pret-conso-fiches",
-      "label": "Prêt conso / trésorerie",
-      "priority": 26,
-      "when": {
-        "needAny": [
-          "conso",
-          "treso",
-          "personnel"
-        ]
-      },
-      "preferCategories": [
-        "treso",
-        "credilift",
-        "cmt",
-        "bank_b"
-      ],
-      "preferTags": [
-        "conso",
-        "treso"
-      ],
-      "advice": "Fiches TRESO, Griffon conso, Credit Lift conso — vérifier RAV.",
+      "advice": "Croiser fiches SCI / personne morale et conditions partenaire.",
       "confidence": "draft",
       "todoValidate": []
     }
@@ -4848,6 +4940,7 @@
     "source": "scripts/pret-fiches-manifest.json",
     "uniqueFiles": 201,
     "available": 0,
-    "pending": 201
+    "pending": 201,
+    "note": "categories = types de prêt ; partners = établissements ; region = géographie (DOM-TOM ≠ partenaire)"
   }
 }

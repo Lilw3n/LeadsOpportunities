@@ -8,9 +8,15 @@ Même logique que les [grilles de taux](./CRM-PRET-GRILLES-TAUX.md), pour les **
 - Manifeste : [`scripts/pret-fiches-manifest.json`](../scripts/pret-fiches-manifest.json)
 - Inbox : `docs/pret-fiches/_inbox/`
 
-## Sections cataloguées
-IMMO · HYPO TRESO · PVH · Trésorerie · Rénovation · BANK B · CFCAL · CGI · CML · CMT · CREATIS · DOM-TOM Antilles / Réunion · LBP · MMB · SYGMA
+## Types de prêt ≠ partenaires
 
+| Filtre | Contenu |
+|--------|---------|
+| **Type de prêt** | SCI, Crédit immobilier, Hypo trésorerie, PVH, SCPI, Trésorerie, Rénovation, RAC, Relais |
+| **Partenaire** | BANK B, CFCAL, CGI, CML, CMT, CREATIS, Credit Lift, LBP, MMB, SYGMA… |
+| **Région** | Métropole, DOM-TOM Antilles / Réunion (pas un partenaire) |
+
+Les dossiers filesystem peuvent encore porter un nom partenaire ; le catalogue expose la **catégorie métier** déduite des tags.
 ## Recherche métier (exemples)
 | Requête | Orientation |
 |---------|-------------|

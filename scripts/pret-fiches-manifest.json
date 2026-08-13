@@ -1,102 +1,121 @@
 {
-  "sourceNote": "Fiches produits (écrans portail) — déposer dans docs/pret-fiches/_inbox/ puis npm run pret:fiches:import",
+  "sourceNote": "Fiches produits — sections dossiers. Types de prêt ≠ partenaires (voir build-pret-fiches-catalog.cjs).",
   "inbox": "docs/pret-fiches/_inbox",
   "baseDir": "docs/pret-fiches",
   "sections": [
     {
       "id": "immo",
       "label": "Crédit immobilier",
-      "short": "IMMO"
+      "short": "IMMO",
+      "kind": "product"
     },
     {
       "id": "hypo_treso",
       "label": "Prêt hypothécaire de trésorerie",
-      "short": "HYPO TRESO"
+      "short": "HYPO TRESO",
+      "kind": "product"
     },
     {
       "id": "pvh",
       "label": "Prêt viager hypothécaire",
-      "short": "PVH"
+      "short": "PVH",
+      "kind": "product"
     },
     {
       "id": "treso",
       "label": "Trésorerie",
-      "short": "TRESO"
+      "short": "TRESO",
+      "kind": "product"
     },
     {
       "id": "renov",
       "label": "Crédit rénovation",
-      "short": "RENOV"
+      "short": "RENOV",
+      "kind": "product"
     },
     {
       "id": "bank_b",
       "label": "BANK B",
-      "short": "BANK B"
+      "short": "BANK B",
+      "kind": "partner"
     },
     {
       "id": "cfcal",
       "label": "CFCAL",
-      "short": "CFCAL"
+      "short": "CFCAL",
+      "kind": "partner"
     },
     {
       "id": "cgi",
       "label": "CGI",
-      "short": "CGI"
+      "short": "CGI",
+      "kind": "partner"
     },
     {
       "id": "cml",
       "label": "CML",
-      "short": "CML"
+      "short": "CML",
+      "kind": "partner"
     },
     {
       "id": "cmt",
       "label": "CMT",
-      "short": "CMT"
+      "short": "CMT",
+      "kind": "partner"
     },
     {
       "id": "creatis",
       "label": "CREATIS",
-      "short": "CREATIS"
+      "short": "CREATIS",
+      "kind": "partner"
     },
     {
       "id": "antilles",
       "label": "DOM-TOM Antilles",
-      "short": "Antilles"
+      "short": "Antilles",
+      "kind": "region"
     },
     {
       "id": "reunion",
       "label": "DOM-TOM Réunion",
-      "short": "Réunion"
+      "short": "Réunion",
+      "kind": "region"
     },
     {
       "id": "lbp",
       "label": "La Banque Postale",
-      "short": "LBP"
+      "short": "LBP",
+      "kind": "partner"
     },
     {
       "id": "mmb",
       "label": "My Money Bank",
-      "short": "MMB"
+      "short": "MMB",
+      "kind": "partner"
     },
     {
       "id": "sygma",
       "label": "SYGMA by BNP",
-      "short": "SYGMA"
+      "short": "SYGMA",
+      "kind": "partner"
     },
     {
       "id": "scpi",
       "label": "SCPI",
-      "short": "SCPI"
+      "short": "SCPI",
+      "kind": "product"
     },
     {
       "id": "sci",
       "label": "SCI",
-      "short": "SCI"
+      "short": "SCI",
+      "kind": "product"
     },
     {
       "id": "credilift",
       "label": "Credit Lift",
-      "short": "CREDITLIFT"
+      "short": "CREDITLIFT",
+      "kind": "partner"
     }
   ],
   "files": [
