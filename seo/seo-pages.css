@@ -165,33 +165,38 @@
   font-weight: 800;
   font-size: 0.95rem;
   line-height: 1.2;
-  text-decoration: none;
+  text-decoration: none !important;
   cursor: pointer;
   transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
-  color: #fff;
+  color: #fff !important;
   background: var(--seo-accent);
   box-shadow: 0 10px 24px color-mix(in srgb, var(--seo-accent) 35%, transparent);
+  box-sizing: border-box;
 }
+.btn:visited { color: #fff !important; text-decoration: none !important; }
 .btn:hover,
 .btn:focus-visible {
   transform: translateY(-2px);
-  text-decoration: none;
-  color: #fff;
+  text-decoration: none !important;
+  color: #fff !important;
   box-shadow: 0 14px 32px color-mix(in srgb, var(--seo-accent) 45%, transparent);
 }
 .btn:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--seo-accent) 45%, #fff);
   outline-offset: 2px;
 }
-.btn-primary {
+.btn-primary,
+.btn-primary:visited {
   background: linear-gradient(135deg, var(--seo-accent), var(--seo-accent-dark, var(--seo-accent)));
-  color: #fff;
+  color: #fff !important;
   border-color: transparent;
 }
 .btn-ghost,
-.btn-outline {
+.btn-outline,
+.btn-ghost:visited,
+.btn-outline:visited {
   background: #fff;
-  color: #0f172a;
+  color: #0f172a !important;
   border-color: #cbd5e1;
   box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
 }
@@ -199,7 +204,7 @@
 .btn-ghost:focus-visible,
 .btn-outline:hover,
 .btn-outline:focus-visible {
-  color: var(--seo-accent-dark, var(--seo-accent));
+  color: var(--seo-accent-dark, var(--seo-accent)) !important;
   border-color: var(--seo-accent);
   background: #fff;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
