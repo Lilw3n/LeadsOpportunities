@@ -51,26 +51,41 @@ function validateArticle(article) {
   return errors;
 }
 
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  try {
+    var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+    return data.articles || [];
+  } catch (e) {
+    console.error("Lecture pending:", e.message);
+    process.exit(1);
+  }
+}
+
+function parseArticlesJson(raw, label) {
+  var text = String(raw || "").trim();
+  if (!text) {
+    console.error(label + ": JSON vide");
+    process.exit(1);
+  }
+  var parsed = JSON.parse(text);
+  if (Array.isArray(parsed)) return parsed;
+  if (parsed && Array.isArray(parsed.articles)) return parsed.articles;
+  return [parsed];
+}
+
 function main() {
   var file = arg("file");
+  var useStdin = process.argv.indexOf("--stdin") !== -1;
   var articles = [];
 
   if (file) {
-    var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
-    articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
+    articles = parseArticlesJson(fs.readFileSync(path.resolve(file), "utf8"), file);
+  } else if (useStdin) {
+    articles = parseArticlesJson(fs.readFileSync(0, "utf8"), "stdin");
   } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
-    try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
-    } catch (e) {
-      console.error("Lecture pending:", e.message);
-      process.exit(1);
-    }
+    // En CI (GitHub Actions) stdin n'est pas un TTY : ne pas parser un flux vide.
+    articles = loadPendingArticles();
   }
 
   if (!articles.length) {
