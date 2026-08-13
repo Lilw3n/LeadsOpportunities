@@ -2,7 +2,7 @@
 /**
  * Affiche l'état du pipeline actu blog.
  */
-const { readJson, loadPendingArticles } = require("./blog-actu-lib.cjs");
+const { readJson, loadPendingArticles, isPlaceholderQueueItem } = require("./blog-actu-lib.cjs");
 const MANIFEST = require("./blog-articles-manifest.cjs");
 
 function main() {
@@ -14,7 +14,7 @@ function main() {
   console.log("=== Pipeline blog actu ===\n");
   console.log("Articles manifeste:", MANIFEST.articles.length);
   console.log("File manuelle (queue):", (queue.items || []).filter(function (i) {
-    return i.status !== "published";
+    return i.status !== "published" && i.status !== "rejected" && !isPlaceholderQueueItem(i);
   }).length);
   console.log("Candidats RSS:", (candidates.candidates || []).length);
   console.log("Articles pending (brouillon):", pending.length);

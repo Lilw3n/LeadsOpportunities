@@ -233,6 +233,12 @@ function isSportActu(text) {
     "légende du foot",
     "demi-finale",
     "quart de finale",
+    "psg",
+    "paris saint-germain",
+    "supercoupe",
+    "ligue des champions",
+    "ligue 1",
+    "football",
   ].some(function (kw) {
     return hay.indexOf(kw) !== -1;
   });
