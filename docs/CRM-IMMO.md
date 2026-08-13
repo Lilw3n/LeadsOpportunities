@@ -13,7 +13,7 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
 | `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |
-| `/crm-immo-documents.html` | Éditeur mandats / offres / compromis (fondation) |
+| `/crm-immo-documents.html` | Éditeur mandats / offres / compromis + **comparatif formes** (Simple / Exclusif / Semi-exclusif, badge général vs agence) — voir `docs/CRM-IMMO-MANDATS.md` |
 | `/crm-agency-fees.html` | Barèmes honoraires + financement acheteur |
 
 Sidebar : groupe **Immobilier**.
@@ -46,7 +46,9 @@ Implémentation : `js/crm-immo-matcher.js` (navigateur + Node).
 
 ## Documents (fondation)
 
-Types : mandat vente / recherche, bon de visite, offre d’achat, compromis, diagnostics, honoraires.
+Types : mandat vente / **location** / recherche, bon de visite, offre d’achat, compromis, diagnostics, honoraires.
+
+Comparatif formes + brouillons : `data/immo-mandat-formes.json`, `docs/CRM-IMMO-MANDATS.md`. Préremplissage depuis la fiche bien (`forme_mandat` / `type_mandat`).
 
 Prochaines étapes possibles : templates HTML/PDF (comme devis assurance), Drive, e-signature.
 

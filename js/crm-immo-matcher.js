@@ -91,6 +91,7 @@
 
   var DOC_TYPES = [
     { id: "mandat_vente", label: "Mandat de vente" },
+    { id: "mandat_location", label: "Mandat de location" },
     { id: "mandat_recherche", label: "Mandat de recherche" },
     { id: "bon_visite", label: "Bon de visite" },
     { id: "offre_achat", label: "Offre d'achat" },

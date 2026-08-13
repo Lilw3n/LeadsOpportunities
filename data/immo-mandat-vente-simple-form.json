@@ -1,0 +1,159 @@
+{
+  "id": "mandat_vente_sans_exclusivite",
+  "version": 2,
+  "label": "Mandat de vente sans exclusivité",
+  "forme": "Simple",
+  "docType": "mandat_vente",
+  "inspiredBy": "Structure type Favoriz / réseaux FR (article 1 désignation mandataire, toggles conditionnels, aperçu imprimable) — sans marque ni coordonnées d’agence en dur.",
+  "disclaimer": "Brouillon CRM à faire valider. Remplissez l’agence de votre choix ; l’aperçu montre le rendu type « mandat rempli / à imprimer ».",
+  "agencyStorageKey": "lo_immo_mandat_agence_profil_v1",
+  "printMode": "article_prose",
+  "sections": [
+    {
+      "id": "agence",
+      "label": "Article 1 — Désignation du mandataire",
+      "audience": "agence",
+      "article": "1",
+      "hint": "Comme sur Favoriz : identité légale + questions OUI/NON qui ouvrent des champs. Aucune enseigne n’est préremplie — vous liez l’agence de votre choix.",
+      "fields": [
+        { "id": "enseigne", "label": "L'agence (enseigne)", "type": "text", "required": true, "placeholder": "Ex. enseigne commerciale", "prose": true },
+        { "id": "societe", "label": "Exploitée par la société", "type": "text", "required": true, "placeholder": "Raison sociale", "prose": true },
+        { "id": "formeJuridique", "label": "Forme juridique", "type": "text", "placeholder": "SARL, SAS…", "prose": true },
+        { "id": "capital", "label": "Capital", "type": "text", "placeholder": "1 000 €", "prose": true },
+        { "id": "adresse", "label": "Siège social — adresse", "type": "text", "required": true, "prose": true },
+        { "id": "cp", "label": "CP", "type": "text", "prose": true },
+        { "id": "ville", "label": "Ville siège", "type": "text", "prose": true },
+        { "id": "rcsVille", "label": "RCS (ville)", "type": "text", "placeholder": "NANCY", "prose": true },
+        { "id": "rcsNumero", "label": "N° RCS", "type": "text", "placeholder": "B 901 742 189", "prose": true },
+        { "id": "activiteCarte", "label": "Activité carte pro", "type": "text", "default": "Transactions sur immeubles et fonds de commerce", "prose": true },
+        { "id": "cartePro", "label": "N° carte professionnelle (CPI)", "type": "text", "required": true, "placeholder": "CPI …", "prose": true },
+        { "id": "delivreePar", "label": "Délivrée par", "type": "text", "placeholder": "CCI de …", "prose": true },
+        { "id": "rcp", "label": "Assurance RCP", "type": "text", "placeholder": "Assureur", "prose": true },
+        { "id": "tva", "label": "N° TVA intracommunautaire", "type": "text", "placeholder": "FR…", "prose": true },
+        { "id": "representant", "label": "Représenté par", "type": "text", "placeholder": "Dirigeant / négociateur habilité" },
+        { "id": "tel", "label": "Téléphone agence", "type": "text" },
+        { "id": "email", "label": "E-mail agence", "type": "email" },
+
+        { "id": "etablissementSecondaire", "label": "Établissement secondaire ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "etabSecAdresse", "label": "Adresse établissement secondaire", "type": "text", "showIf": { "field": "etablissementSecondaire", "eq": "oui" } },
+        { "id": "etabSecCp", "label": "CP étab. secondaire", "type": "text", "showIf": { "field": "etablissementSecondaire", "eq": "oui" } },
+        { "id": "etabSecVille", "label": "Ville étab. secondaire", "type": "text", "showIf": { "field": "etablissementSecondaire", "eq": "oui" } },
+
+        { "id": "compteSequestre", "label": "Titulaire d'un compte séquestre ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "sequestreBanque", "label": "Banque / IBAN séquestre", "type": "text", "showIf": { "field": "compteSequestre", "eq": "oui" } },
+        { "id": "sequestreNotice", "label": "Mention si pas de séquestre", "type": "static", "text": "NE DEVANT RECEVOIR NI DÉTENIR D'AUTRES FONDS, EFFETS OU VALEURS QUE CEUX REPRÉSENTATIFS DE SA RÉMUNÉRATION", "showIf": { "field": "compteSequestre", "eq": "non" } },
+
+        { "id": "caisseGarantie", "label": "Adhérent d'une caisse de garantie ?", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "garantieOrganisme", "label": "Caisse / organisme", "type": "text", "placeholder": "ex. CEGC", "showIf": { "field": "caisseGarantie", "eq": "oui" }, "prose": true },
+        { "id": "garantieAdresse", "label": "Adresse caisse de garantie", "type": "text", "showIf": { "field": "caisseGarantie", "eq": "oui" }, "prose": true },
+        { "id": "garantieAdherent", "label": "N° adhérent", "type": "text", "showIf": { "field": "caisseGarantie", "eq": "oui" }, "prose": true },
+        { "id": "montantGarantie", "label": "Montant garantie financière", "type": "text", "showIf": { "field": "caisseGarantie", "eq": "oui" } },
+
+        { "id": "oriasInscrit", "label": "Inscrit à l'ORIAS ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "oriasNumero", "label": "N° ORIAS", "type": "text", "showIf": { "field": "oriasInscrit", "eq": "oui" } },
+
+        { "id": "liensBanque", "label": "Liens capitalistiques avec une banque / autre ?", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "liensBanqueDetail", "label": "Préciser les liens", "type": "textarea", "showIf": { "field": "liensBanque", "eq": "oui" } }
+      ]
+    },
+    {
+      "id": "mandatMeta",
+      "label": "Références du mandat",
+      "audience": "agence",
+      "fields": [
+        { "id": "numero", "label": "N° mandat", "type": "text", "placeholder": "Selon numérotation de l’agence" },
+        { "id": "lieuSignature", "label": "Fait à", "type": "text" },
+        { "id": "dateSignature", "label": "Le", "type": "date" },
+        { "id": "horsEtablissement", "label": "Conclu hors établissement", "type": "ouiNon", "default": "non", "toggle": true, "hint": "Si oui : informer du droit de rétractation (Code conso)." }
+      ]
+    },
+    {
+      "id": "mandant",
+      "label": "Article 2 — Le mandant (vendeur)",
+      "audience": "general",
+      "article": "2",
+      "fields": [
+        { "id": "qualite", "label": "Qualité", "type": "select", "options": ["", "Propriétaire", "Indivisaire", "Usufruitier", "SCI / société", "Mandataire du propriétaire", "Autre"] },
+        { "id": "nom", "label": "Nom / raison sociale", "type": "text", "required": true },
+        { "id": "prenom", "label": "Prénom", "type": "text" },
+        { "id": "adresse", "label": "Adresse", "type": "text" },
+        { "id": "cp", "label": "CP", "type": "text" },
+        { "id": "ville", "label": "Ville", "type": "text" },
+        { "id": "email", "label": "E-mail", "type": "email" },
+        { "id": "tel", "label": "Téléphone", "type": "text" },
+        { "id": "coMandants", "label": "Co-mandants / indivision (noms)", "type": "textarea", "hint": "Si plusieurs vendeurs, les lister ici." }
+      ]
+    },
+    {
+      "id": "bien",
+      "label": "Article 3 — Désignation du bien",
+      "audience": "general",
+      "article": "3",
+      "fields": [
+        { "id": "typeBien", "label": "Type", "type": "text", "placeholder": "Appartement, maison, terrain…" },
+        { "id": "adresse", "label": "Adresse du bien", "type": "text", "required": true },
+        { "id": "cp", "label": "CP", "type": "text" },
+        { "id": "ville", "label": "Ville", "type": "text" },
+        { "id": "surface", "label": "Surface (m²)", "type": "text" },
+        { "id": "pieces", "label": "Nb pièces", "type": "text" },
+        { "id": "lots", "label": "Lots / dépendances", "type": "text" },
+        { "id": "cadastre", "label": "Références cadastrales", "type": "text" },
+        { "id": "occupation", "label": "Occupation", "type": "select", "options": ["", "Libre", "Occupé propriétaire", "Loué", "Autre"] },
+        { "id": "designation", "label": "Désignation complète", "type": "textarea" }
+      ]
+    },
+    {
+      "id": "prix",
+      "label": "Article 4 — Prix de mise en vente",
+      "audience": "general",
+      "article": "4",
+      "fields": [
+        { "id": "prixNetVendeur", "label": "Prix net vendeur (€)", "type": "number" },
+        { "id": "prixFai", "label": "Prix FAI (€)", "type": "number" },
+        { "id": "negociable", "label": "Négociable", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "observationsPrix", "label": "Observations prix", "type": "textarea" }
+      ]
+    },
+    {
+      "id": "honoraires",
+      "label": "Article 5 — Rémunération du mandataire",
+      "audience": "general",
+      "article": "5",
+      "hint": "Sans exclusivité : honoraires dus si l’opération est conclue grâce à l’agence (à préciser).",
+      "fields": [
+        { "id": "mode", "label": "Mode", "type": "select", "options": ["", "Pourcentage du prix", "Forfait", "Selon barème affiché"] },
+        { "id": "tauxPct", "label": "Taux (%)", "type": "number" },
+        { "id": "montantFixe", "label": "Montant fixe (€ TTC)", "type": "number" },
+        { "id": "chargePar", "label": "À la charge de", "type": "select", "options": ["", "Vendeur", "Acquéreur", "Partage"] },
+        { "id": "ttcOuHt", "label": "Affichage", "type": "select", "options": ["TTC", "HT"] },
+        { "id": "conditions", "label": "Conditions de paiement", "type": "textarea", "placeholder": "Ex. exigibles à la signature de l’acte authentique…" }
+      ]
+    },
+    {
+      "id": "duree",
+      "label": "Article 6 — Durée & sans exclusivité",
+      "audience": "general",
+      "article": "6",
+      "fields": [
+        { "id": "dateDebut", "label": "Date de prise d’effet", "type": "date" },
+        { "id": "dateFin", "label": "Date d’échéance", "type": "date" },
+        { "id": "preavisJours", "label": "Préavis résiliation (jours)", "type": "number", "placeholder": "15" },
+        { "id": "reconduction", "label": "Reconduction", "type": "select", "options": ["", "Sans reconduction tacite", "Reconduction tacite encadrée", "À préciser"] },
+        { "id": "clauseSansExclusivite", "label": "Clause sans exclusivité (rappel)", "type": "textarea", "default": "Le présent mandat est conféré SANS EXCLUSIVITÉ. Le mandant conserve la faculté de confier le bien à d’autres intermédiaires et de traiter directement. Les honoraires ne seront dus au mandataire que si l’acquéreur a été présenté par ses soins et que la vente est conclue." }
+      ]
+    },
+    {
+      "id": "pouvoirs",
+      "label": "Article 7 — Pouvoirs & moyens",
+      "audience": "general",
+      "article": "7",
+      "fields": [
+        { "id": "pubPortails", "label": "Autorisation publicité / portails", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "photos", "label": "Autorisation photos / visite virtuelle", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "clefs", "label": "Remise des clés à l’agence", "type": "ouiNon", "default": "non", "toggle": true },
+        { "id": "negociation", "label": "Pouvoir de négocier le prix", "type": "ouiNon", "default": "oui", "toggle": true },
+        { "id": "autresPouvoirs", "label": "Autres pouvoirs / observations", "type": "textarea" }
+      ]
+    }
+  ]
+}

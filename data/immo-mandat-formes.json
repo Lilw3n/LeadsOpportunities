@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-13",
+  "sourceNote": "Synthèse droit FR (loi Hoguet / décret 72-678) + pratiques courantes agences. Déposer le PDF comparatif dans docs/immo-mandats/_inbox/ pour enrichir les libellés réseau.",
+  "inboxPdfHint": "comparatif_differentes-formes_des_mandats.pdf ; mandat_de_vente_sans_exclusivite_*.pdf",
+  "structuredForms": [
+    {
+      "id": "mandat_vente_sans_exclusivite",
+      "file": "data/immo-mandat-vente-simple-form.json",
+      "forme": "Simple",
+      "note": "Formulaire structuré sans marque réseau — bloc agence à compléter (ou lié aux barèmes)."
+    }
+  ],
+  "audiences": {
+    "general": {
+      "label": "Droit / infos générales",
+      "description": "Applicable à tout intermédiaire immobilier (agence, réseau, agent commercial) et au mandant. Mentions légales, formes de mandat, rétractation."
+    },
+    "agence": {
+      "label": "Pratiques agence / réseau",
+      "description": "Usages commerciaux, grilles d’honoraires, co-listing, numérotation interne, délais de publication — à adapter au réseau (pas une règle légale unique)."
+    }
+  },
+  "types": [
+    {
+      "id": "vente",
+      "label": "Vente",
+      "docType": "mandat_vente",
+      "audience": "general",
+      "summary": "Le mandant charge l’intermédiaire de rechercher un acquéreur et de négocier la vente du bien.",
+      "agencyNote": "Souvent lié à un n° mandat / archive et à un délai de mise en ligne portails."
+    },
+    {
+      "id": "location",
+      "label": "Location",
+      "docType": "mandat_location",
+      "audience": "general",
+      "summary": "Mandat de mise en location (et éventuellement gestion locative si carte G).",
+      "agencyNote": "Honoraires locataire / bailleur selon barème agence affiché en vitrine et contrat."
+    },
+    {
+      "id": "recherche",
+      "label": "Recherche",
+      "docType": "mandat_recherche",
+      "audience": "general",
+      "summary": "Le mandant (acquéreur ou locataire) charge l’intermédiaire de rechercher un bien correspondant à un cahier des charges.",
+      "agencyNote": "Utile pour matching CRM ; peut être simple ou exclusif côté recherche."
+    },
+    {
+      "id": "estimation",
+      "label": "Estimation",
+      "docType": "autre",
+      "audience": "agence",
+      "summary": "Souvent un document commercial d’avis de valeur — pas toujours un mandat de vente signé.",
+      "agencyNote": "Ne confond pas estimation gratuite et mandat : sans mandat écrit conforme Hoguet, pas de commercialisation exclusive."
+    }
+  ],
+  "formes": [
+    {
+      "id": "simple",
+      "label": "Simple",
+      "schemaValue": "Simple",
+      "audience": "general",
+      "tagline": "Plusieurs intermédiaires possibles ; le vendeur peut aussi vendre seul.",
+      "exclusivity": "none",
+      "comparison": {
+        "nbIntermediaires": "Plusieurs en parallèle",
+        "venteDirecteMandant": "Oui, sans honoraires dus à l’agence (sauf si apport d’affaires prouvé)",
+        "honorairesQuand": "Si l’agence a présenté l’acquéreur qui signe",
+        "engagementAgence": "Variable — souvent moindre priorité vs exclusifs",
+        "dureeTypique": "3 mois renouvelables (à fixer au contrat)",
+        "resiliation": "Selon clause ; délai de préavis contractuel"
+      },
+      "points": [
+        {
+          "audience": "general",
+          "text": "Le mandant peut confier le même bien à plusieurs agences simultanément."
+        },
+        {
+          "audience": "general",
+          "text": "Le mandant conserve la liberté de vendre (ou louer) de gré à gré."
+        },
+        {
+          "audience": "general",
+          "text": "La rémunération n’est due qu’en cas d’opération conclue grâce à l’intermédiaire (clause à rédiger clairement)."
+        },
+        {
+          "audience": "agence",
+          "text": "En pratique, beaucoup d’agences priorisent les exclusifs pour budget pub et temps agent."
+        },
+        {
+          "audience": "agence",
+          "text": "Risque de « course » entre agences : bien noter l’origine de chaque visite (bon de visite)."
+        }
+      ],
+      "clausesDraft": [
+        "Le présent mandat est conféré à titre SIMPLE.",
+        "Le mandant se réserve la faculté de confier le bien à d’autres intermédiaires et de traiter directement.",
+        "Les honoraires ne seront dus à l’agence que si l’acquéreur (ou le locataire) a été présenté par ses soins et que l’opération est conclue."
+      ]
+    },
+    {
+      "id": "exclusif",
+      "label": "Exclusif",
+      "schemaValue": "Exclusif",
+      "audience": "general",
+      "tagline": "Un seul intermédiaire ; exclusivité forte pendant la durée du mandat.",
+      "exclusivity": "full",
+      "comparison": {
+        "nbIntermediaires": "Un seul",
+        "venteDirecteMandant": "En principe non sans devoir les honoraires (selon clause)",
+        "honorairesQuand": "Dès que la vente/location intervient pendant le mandat (même si apport externe — selon rédaction)",
+        "engagementAgence": "Fort : pub, portails, reporting attendu",
+        "dureeTypique": "Souvent 3 mois, reconduction encadrée",
+        "resiliation": "Préavis et conditions prévues au mandat ; mentions obligatoires"
+      },
+      "points": [
+        {
+          "audience": "general",
+          "text": "Exclusivité : le mandant s’interdit de mandater un autre professionnel pendant la durée."
+        },
+        {
+          "audience": "general",
+          "text": "Souvent, toute vente conclue pendant le mandat ouvre droit aux honoraires de l’agence exclusive (rédaction à vérifier)."
+        },
+        {
+          "audience": "general",
+          "text": "Le mandat doit être écrit et comporter les mentions obligatoires (loi Hoguet)."
+        },
+        {
+          "audience": "agence",
+          "text": "Levier commercial : package diffusion (portails, vitrine, réseaux sociaux) en contrepartie de l’exclusivité."
+        },
+        {
+          "audience": "agence",
+          "text": "Suivi CRM : reporting visites, relances vendeur, date d’échéance et renouvellement."
+        }
+      ],
+      "clausesDraft": [
+        "Le présent mandat est conféré à titre EXCLUSIF.",
+        "Pendant sa durée, le mandant s’interdit de confier le bien à tout autre intermédiaire.",
+        "Toute opération portant sur le bien pendant la durée du mandat donnera lieu au paiement des honoraires prévus, selon les conditions du présent acte."
+      ]
+    },
+    {
+      "id": "semi_exclusif",
+      "label": "Semi-exclusif",
+      "schemaValue": "Semi-exclusif",
+      "audience": "general",
+      "tagline": "Un intermédiaire principal ; le mandant garde souvent la vente directe sous conditions.",
+      "exclusivity": "partial",
+      "comparison": {
+        "nbIntermediaires": "Un seul professionnel (pas d’autres agences)",
+        "venteDirecteMandant": "Souvent oui, avec honoraires réduits ou nuls selon clause",
+        "honorairesQuand": "Si l’agence apporte l’acquéreur ; règles spécifiques si vente directe",
+        "engagementAgence": "Intermédiaire entre simple et exclusif",
+        "dureeTypique": "3 mois typiques",
+        "resiliation": "Comme exclusif — selon contrat"
+      },
+      "points": [
+        {
+          "audience": "general",
+          "text": "Le mandant ne mandate en principe qu’une seule agence, mais peut se réserver la vente de particulier à particulier."
+        },
+        {
+          "audience": "general",
+          "text": "Les honoraires en cas de vente directe doivent être explicitement prévus (taux réduit, forfait, ou exonération)."
+        },
+        {
+          "audience": "agence",
+          "text": "Définition variable selon les réseaux : toujours lire la clause du modèle maison — ce n’est pas un statut légal unique."
+        },
+        {
+          "audience": "agence",
+          "text": "Parfois appelé « exclusif avec réserve de vente directe » dans les packs commerciaux."
+        },
+        {
+          "audience": "agence",
+          "text": "Co-listing / partage d’honoraires entre agences partenaires : usage réseau, pas une obligation légale."
+        }
+      ],
+      "clausesDraft": [
+        "Le présent mandat est conféré à titre SEMI-EXCLUSIF.",
+        "Le mandant s’interdit de confier le bien à un autre intermédiaire pendant la durée du mandat.",
+        "Le mandant se réserve la faculté de traiter directement avec un acquéreur non présenté par l’agence, selon les conditions d’honoraires prévues ci-après."
+      ]
+    }
+  ],
+  "mentionsObligatoires": [
+    {
+      "audience": "general",
+      "text": "Identité et qualité des parties ; n° carte professionnelle et organisme délivreur."
+    },
+    {
+      "audience": "general",
+      "text": "Désignation précise du bien et prix (ou fourchette / loyer) convenu."
+    },
+    {
+      "audience": "general",
+      "text": "Montant ou mode de calcul de la rémunération et qui la paie (vendeur / acquéreur / partage)."
+    },
+    {
+      "audience": "general",
+      "text": "Durée du mandat et conditions de reconduction / résiliation."
+    },
+    {
+      "audience": "general",
+      "text": "Si conclusion hors établissement : information sur le droit de rétractation (Code de la consommation)."
+    },
+    {
+      "audience": "agence",
+      "text": "N° mandat / archive interne, délai de publication, origine de l’info — champs fiche bien CRM."
+    }
+  ],
+  "workflowAgence": [
+    {
+      "step": 1,
+      "title": "Choisir type + forme",
+      "audience": "agence",
+      "text": "Vente / location / recherche × Simple / Exclusif / Semi-exclusif — aligné sur la fiche bien."
+    },
+    {
+      "step": 2,
+      "title": "Renseigner le bien & le mandant",
+      "audience": "agence",
+      "text": "Préremplir depuis la fiche (n° mandat, dates, notaire, désignation)."
+    },
+    {
+      "step": 3,
+      "title": "Clauses & honoraires",
+      "audience": "agence",
+      "text": "Insérer le brouillon de forme + barème honoraires agence (crm-agency-fees)."
+    },
+    {
+      "step": 4,
+      "title": "Signature & suivi",
+      "audience": "general",
+      "text": "Statut brouillon → prêt → signé ; surveiller échéance et renouvellement."
+    }
+  ],
+  "propertyFieldMap": {
+    "forme_mandat": "forme",
+    "type_mandat": "type",
+    "n_mandat": "numero",
+    "date_mandat": "dateDebut",
+    "date_echeance": "dateEcheance",
+    "info_mandat": "notes",
+    "designation_bien": "designation",
+    "notaire": "notaire",
+    "mandat_hors_etablissement": "horsEtablissement"
+  }
+}
