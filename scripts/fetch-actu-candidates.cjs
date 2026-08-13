@@ -12,6 +12,7 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
+  isPlaceholderActuItem,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -40,6 +41,7 @@ function mergeWithQuotas(buckets, quotas) {
 
 function ingestQueueItem(item, buckets, processed) {
   if (item.status === "published" || item.status === "rejected") return;
+  if (isPlaceholderActuItem(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -166,7 +168,16 @@ async function main() {
     buckets[type] = (buckets[type] || []).filter(function (c) {
       var f = c.suggestedFile || "";
       if (!f.endsWith(".html")) f += ".html";
-      return !files.has(f);
+      if (files.has(f)) return false;
+      var base = f.replace(/-\d+(?=\.html$)/, "");
+      if (base !== f && files.has(base)) return false;
+      var prefix = f.replace(/\.html$/, "").replace(/-\d+$/, "").slice(0, 40);
+      var taken = false;
+      files.forEach(function (existing) {
+        if (String(existing).replace(/\.html$/, "").slice(0, 40) === prefix) taken = true;
+      });
+      if (taken) return false;
+      return true;
     });
   });
 

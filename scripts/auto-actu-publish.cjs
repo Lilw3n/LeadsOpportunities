@@ -10,7 +10,15 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const {
+  readJson,
+  writeJson,
+  rankCandidates,
+  appendPendingArticle,
+  isPlaceholderActuItem,
+  isWeakLeadCandidate,
+  existingFiles,
+} = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -49,18 +57,51 @@ function normalizeTitle(t) {
     .trim();
 }
 
-function loadPublishedTitleKeys() {
+function urlKey(u) {
+  var raw = String(u || "")
+    .trim()
+    .replace(/#.*$/, "")
+    .replace(/&amp;/g, "&");
+  var bingInner = raw.match(/[?&]url=([^&]+)/);
+  if (bingInner && /bing\.com\/news\/apiclick/i.test(raw)) {
+    try {
+      raw = decodeURIComponent(bingInner[1]);
+    } catch (e) {}
+  }
+  return raw.replace(/[?&](utm_[^=]+|xtor|oc)=[^&]*/g, "").replace(/\?$/, "");
+}
+
+function titleKey(t) {
+  return normalizeTitle(t)
+    .replace(/\s*:.*/, "")
+    .replace(/['’"]/g, "")
+    .slice(0, 72);
+}
+
+function loadPublishedTitleKeys(state) {
   var keys = new Set();
+  function add(t) {
+    var n = normalizeTitle(t);
+    if (n) keys.add(n);
+    var k = titleKey(t);
+    if (k) keys.add(k);
+  }
   var pub = readJson("blog-actu-published.json", { articles: [] });
   (pub.articles || []).forEach(function (a) {
-    keys.add(normalizeTitle(a.title));
+    add(a.title);
   });
   try {
     var manifest = require("./blog-articles-manifest.cjs");
     (manifest.articles || []).forEach(function (a) {
-      keys.add(normalizeTitle(a.title));
+      add(a.title);
     });
   } catch (e) {}
+  (state && state.skippedTitles ? state.skippedTitles : []).forEach(add);
+  (state && state.autoRuns ? state.autoRuns : []).forEach(function (run) {
+    (run.articles || []).forEach(function (a) {
+      add(a.title);
+    });
+  });
   return keys;
 }
 
@@ -75,11 +116,12 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
-function bestFromPlatform(available, platform, feedMap, used) {
+function bestFromPlatform(available, platform, feedMap, used, minScore) {
+  var min = minScore == null ? 0 : minScore;
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
-      return candidateSourceType(c, feedMap) === platform && !used.has(k);
+      return candidateSourceType(c, feedMap) === platform && !used.has(k) && (c.leadScore || 0) >= min;
     })
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
@@ -89,13 +131,29 @@ function bestFromPlatform(available, platform, feedMap, used) {
 
 function pickCandidates(candidates, count, state) {
   var feedMap = loadFeedSourceMap();
-  var processed = new Set(state.processedUrls || []);
-  var titleKeys = loadPublishedTitleKeys();
+  var processed = new Set((state.processedUrls || []).map(urlKey));
+  var titleKeys = loadPublishedTitleKeys(state);
+  var occupiedFiles = new Set();
+  existingFiles().forEach(function (f) {
+    occupiedFiles.add(f);
+    occupiedFiles.add(String(f).replace(/-\d+(?=\.html$)/, ""));
+    occupiedFiles.add(String(f).replace(/\.html$/, "").replace(/-\d+$/, "").slice(0, 40));
+  });
   var ranked = rankCandidates(candidates);
 
   var available = ranked.filter(function (c) {
-    if (c.url && processed.has(c.url)) return false;
-    if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (isPlaceholderActuItem(c)) return false;
+    if (isWeakLeadCandidate(c)) return false;
+    if (c.url && processed.has(urlKey(c.url))) return false;
+    if (titleKeys.has(normalizeTitle(c.title)) || titleKeys.has(titleKey(c.title))) return false;
+    var sug = String(c.suggestedFile || "");
+    if (sug && !sug.endsWith(".html")) sug += ".html";
+    if (sug && (occupiedFiles.has(sug) || occupiedFiles.has(sug.replace(/-\d+(?=\.html$)/, "")))) {
+      return false;
+    }
+    if (sug && occupiedFiles.has(sug.replace(/\.html$/, "").replace(/-\d+$/, "").slice(0, 40))) {
+      return false;
+    }
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;
@@ -117,10 +175,12 @@ function pickCandidates(candidates, count, state) {
       used.add(c.url || c.title);
     });
 
+  var MIN_PLATFORM_SCORE = 70;
+
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used);
+      var pick = bestFromPlatform(available, platform, feedMap, used, MIN_PLATFORM_SCORE);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
@@ -131,7 +191,7 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used);
+      var rotated = bestFromPlatform(available, platform, feedMap, used, MIN_PLATFORM_SCORE);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
@@ -142,7 +202,7 @@ function pickCandidates(candidates, count, state) {
 
   available
     .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1 && (c.leadScore || 0) >= MIN_PLATFORM_SCORE;
     })
     .forEach(function (c) {
       if (picks.length >= count) return;
@@ -279,7 +339,10 @@ async function main() {
     if (process.env.STRICT_ACTU_QUALITY === "1" || process.argv.indexOf("--strict-quality") !== -1) {
       console.log("\n=== Contrôle qualité ===");
       try {
-        execSync("node scripts/verify-actu-quality.cjs", { stdio: "inherit", cwd: ROOT });
+        execSync("node scripts/verify-actu-quality.cjs --file=data/blog-actu-pending.json", {
+          stdio: "inherit",
+          cwd: ROOT,
+        });
       } catch (e) {
         console.error("Qualité insuffisante — publication annulée. Utilisez Cursor pour enrichir.");
         process.exit(1);
