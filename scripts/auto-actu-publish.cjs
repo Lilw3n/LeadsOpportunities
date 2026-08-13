@@ -85,12 +85,13 @@ function candidateSourceType(c, feedMap) {
   return feedMap[c.feedId] || "aggregator";
 }
 
-function bestFromPlatform(available, platform, feedMap, used, intentOnly) {
+function bestFromPlatform(available, platform, feedMap, used, intentOnly, usedNeeds) {
   var list = available
     .filter(function (c) {
       var k = c.url || c.title;
       if (candidateSourceType(c, feedMap) !== platform || used.has(k)) return false;
       if (intentOnly && !isHighIntentLead(c)) return false;
+      if (usedNeeds && c.need && usedNeeds.has(c.need) && usedNeeds.size < 3) return false;
       return true;
     })
     .sort(function (a, b) {
@@ -120,6 +121,7 @@ function pickCandidates(candidates, count, state) {
 
   var picks = [];
   var used = new Set();
+  var usedNeeds = new Set();
 
   available
     .filter(function (c) {
@@ -130,15 +132,17 @@ function pickCandidates(candidates, count, state) {
       if (picks.length >= count) return;
       picks.push(c);
       used.add(c.url || c.title);
+      if (c.need) usedNeeds.add(c.need);
     });
 
   if (count >= 3) {
     PLATFORM_TYPES.forEach(function (platform) {
       if (picks.length >= count) return;
-      var pick = bestFromPlatform(available, platform, feedMap, used, true);
+      var pick = bestFromPlatform(available, platform, feedMap, used, true, usedNeeds);
       if (pick) {
         picks.push(pick);
         used.add(pick.url || pick.title);
+        if (pick.need) usedNeeds.add(pick.need);
       }
     });
     state._nextPlatformRotation = ((state.platformRotationIndex || 0) + PLATFORM_TYPES.length) % PLATFORM_TYPES.length;
@@ -146,11 +150,13 @@ function pickCandidates(candidates, count, state) {
     var rot = state.platformRotationIndex || 0;
     for (var i = 0; i < count && picks.length < count; i++) {
       var platform = PLATFORM_TYPES[(rot + i) % PLATFORM_TYPES.length];
-      var rotated = bestFromPlatform(available, platform, feedMap, used, true) ||
-        bestFromPlatform(available, platform, feedMap, used, false);
+      var rotated = bestFromPlatform(available, platform, feedMap, used, true, usedNeeds) ||
+        bestFromPlatform(available, platform, feedMap, used, false, usedNeeds);
       if (rotated) {
         picks.push(rotated);
         used.add(rotated.url || rotated.title);
+        if (rotated.need) usedNeeds.add(rotated.need);
+        if (rotated.need) usedNeeds.add(rotated.need);
       }
     }
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
@@ -162,8 +168,11 @@ function pickCandidates(candidates, count, state) {
       if (picks.length >= count) return;
       var k = c.url || c.title;
       if (used.has(k)) return;
+      var need = c.need || "";
+      if (need && usedNeeds.has(need) && usedNeeds.size < count) return;
       picks.push(c);
       used.add(k);
+      if (need) usedNeeds.add(need);
     });
 
   available
