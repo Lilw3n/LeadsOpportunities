@@ -97,11 +97,15 @@ CREATE TABLE IF NOT EXISTS crm_immo_parties (
   email TEXT,
   phone TEXT,
   notes TEXT,
+  share_pct NUMERIC(8, 4),
+  is_primary BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_crm_immo_parties_property ON crm_immo_parties(property_id);
 CREATE INDEX IF NOT EXISTS idx_crm_immo_parties_contact ON crm_immo_parties(contact_id);
+-- Migration soft : ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS share_pct NUMERIC(8, 4);
+-- Migration soft : ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS is_primary BOOLEAN DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS crm_immo_documents (
   id TEXT PRIMARY KEY,

@@ -3,7 +3,9 @@
 Référence métier (captures CRM) adaptée et réorganisée :
 
 ## Onglets
-Description · Pièces · Images · Immo cloud · Vendeur · Historique · Statistiques
+Description · Pièces · Images · Immo cloud · **Vendeurs & acquéreurs** · Historique · Statistiques
+
+L’onglet **Vendeurs & acquéreurs** accepte un nombre **illimité** de personnes (ex. 8 héritiers sur la même maison), avec rôle, quote-part %, contact CRM et principal.
 
 ## Sections Description (ordre)
 1. **Composition** — terrain → maison → appartements loués (unités imbriquées)

@@ -166,6 +166,25 @@
     }
     .immo-check { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 8px; }
     .immo-check label { flex-direction: row; align-items: center; gap: 6px; font-weight: 600; }
+    .immo-parties-block {
+      grid-column: 1 / -1;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 12px;
+      background: #f8fafc;
+    }
+    .immo-parties-block h4 { margin: 0 0 6px; font-size: .9rem; color: #0f172a; }
+    .immo-parties-hint { margin: 0 0 10px; color: var(--muted); font-size: .8rem; font-weight: 500; }
+    .immo-party-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .immo-party-item {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)) auto; gap: 8px; align-items: end;
+      padding: 8px; background: #fff; border: 1px solid var(--line); border-radius: 8px;
+    }
+    .immo-party-item label { display: flex; flex-direction: column; gap: 4px; font-size: .72rem; font-weight: 700; color: var(--muted); }
+    .immo-party-item input, .immo-party-item select {
+      padding: 7px 8px; border-radius: 6px; border: 1px solid var(--line); font: inherit; font-weight: 500; color: #0f172a;
+    }
+    .immo-party-item .immo-party-remove { align-self: end; }
   </style>
 </head>
 <body class="crm-subpage">
@@ -357,9 +376,16 @@
           <label>Agence<input id="pAgence" /></label>
           <label>Suivi par<input id="pSuivi" /></label>
           <label>Téléphone contact<input id="pPhone" /></label>
-          <label>Contact vendeur (id)<input id="pOwner" placeholder="contact_…" /></label>
-          <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
           <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
+          <div class="immo-parties-block" id="partiesBlock">
+            <h4>Vendeurs &amp; acquéreurs (illimité)</h4>
+            <p class="immo-parties-hint">Ajoute tous les héritiers / co-vendeurs / co-acquéreurs (ex. 8 héritiers sur la même maison). Les IDs contact CRM restent optionnels.</p>
+            <div class="immo-party-list" id="partyRows"></div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <button type="button" class="btn btn-ghost" id="btnAddSeller">+ Vendeur / héritier</button>
+              <button type="button" class="btn btn-ghost" id="btnAddBuyer">+ Acquéreur</button>
+            </div>
+          </div>
           <div class="immo-check" style="grid-column:1/-1">
             <label><input type="checkbox" id="pAContacter" /> À contacter</label>
             <label><input type="checkbox" id="pContactConnu" /> Contact connu</label>

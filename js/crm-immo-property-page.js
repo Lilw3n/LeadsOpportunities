@@ -26,6 +26,7 @@
   var state = {
     tab: "description",
     sectionId: null,
+    editingPartyId: null,
   };
 
   function esc(s) {
@@ -68,7 +69,11 @@
       (prop.city || "") +
       " " +
       (prop.postal_code || "") +
-      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "");
+      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "") +
+      (function () {
+        var n = Store.listParties(prop.id).length;
+        return n ? " · " + n + " personne(s)" : "";
+      })();
     var a = document.getElementById("linkAnnonce");
     if (prop.listing_url) {
       a.href = prop.listing_url;
@@ -844,44 +849,7 @@
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
-      var parties = Store.listParties(prop.id);
-      panel.innerHTML =
-        "<h3>Vendeur & personnes</h3>" +
-        (parties.length
-          ? parties
-              .map(function (p) {
-                return (
-                  '<div class="party-row"><div><strong>' +
-                  esc(p.name || "—") +
-                  "</strong> · " +
-                  esc(p.role || "") +
-                  "<br><span style='color:var(--muted)'>" +
-                  esc(p.phone || "") +
-                  " " +
-                  esc(p.email || "") +
-                  "</span></div></div>"
-                );
-              })
-              .join("")
-          : "<p style='color:var(--muted)'>Aucune personne liée — ajoute-les depuis la fiche (ou Piges).</p>") +
-        '<form id="partyForm" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">' +
-        '<label>Rôle<select id="partyRole">' +
-        Matcher.PARTY_ROLES.map(function (r) {
-          return '<option value="' + r.id + '">' + r.label + "</option>";
-        }).join("") +
-        '</select></label><label>Nom<input id="partyName" required /></label><label>Tél<input id="partyPhone" /></label><label>Email<input id="partyEmail" /></label><label>Contact CRM<input id="partyContact" /></label><button class="btn btn-primary" type="submit">Ajouter</button></form>';
-      document.getElementById("partyForm").onsubmit = function (e) {
-        e.preventDefault();
-        Store.upsertParty({
-          property_id: prop.id,
-          role: document.getElementById("partyRole").value,
-          name: document.getElementById("partyName").value.trim(),
-          phone: document.getElementById("partyPhone").value.trim(),
-          email: document.getElementById("partyEmail").value.trim(),
-          contact_id: document.getElementById("partyContact").value.trim() || null,
-        });
-        renderOtherTab();
-      };
+      renderPartiesTab(panel);
       return;
     }
     if (state.tab === "pieces_plan") {
@@ -935,6 +903,7 @@
       var recu = docs.filter(function (k) {
         return prop.docs_checklist[k] && prop.docs_checklist[k].recu;
       }).length;
+      var partiesCount = Store.listParties(prop.id).length;
       panel.innerHTML =
         "<h3>Statistiques fiche</h3><p>Complétude champs visibles : <strong>" +
         (total ? Math.round((filled / total) * 100) : 0) +
@@ -944,12 +913,187 @@
         total +
         ")</p><p>Unités : <strong>" +
         prop.units.length +
-        "</strong></p><p>Pièces reçues cochées : <strong>" +
+        "</strong></p><p>Vendeurs / acquéreurs liés : <strong>" +
+        partiesCount +
+        "</strong> (illimité)</p><p>Pièces reçues cochées : <strong>" +
         recu +
         "</strong></p>";
       return;
     }
     panel.innerHTML = "<p>Onglet</p>";
+  }
+
+  function renderPartiesTab(panel) {
+    var parties = Store.listParties(prop.id);
+    var editingId = state.editingPartyId || null;
+    var editing = editingId
+      ? parties.find(function (p) {
+          return p.id === editingId;
+        }) || null
+      : null;
+
+    function group(side) {
+      return parties.filter(function (p) {
+        return Matcher.partySide(p.role) === side;
+      });
+    }
+
+    var sellers = group("seller");
+    var buyers = group("buyer");
+    var others = group("other");
+    var shareSum = sellers.reduce(function (acc, p) {
+      return acc + (p.share_pct != null ? Number(p.share_pct) : 0);
+    }, 0);
+
+    function partyCard(p) {
+      var roleLabel = Matcher.partyRoleLabel(p.role);
+      var bits = [];
+      if (p.phone) bits.push(esc(p.phone));
+      if (p.email) bits.push(esc(p.email));
+      if (p.contact_id) bits.push("CRM " + esc(p.contact_id));
+      if (p.share_pct != null && p.share_pct !== "") bits.push(esc(String(p.share_pct)) + " %");
+      return (
+        '<div class="party-row' +
+        (p.is_primary ? " is-primary" : "") +
+        '">' +
+        "<div><strong>" +
+        esc(p.name || "—") +
+        "</strong>" +
+        (p.is_primary ? ' <span class="party-badge">Principal</span>' : "") +
+        " · " +
+        esc(roleLabel) +
+        "<br><span style='color:var(--muted)'>" +
+        (bits.length ? bits.join(" · ") : "Coordonnées à compléter") +
+        "</span>" +
+        (p.notes ? "<br><span style='color:var(--muted);font-size:.82rem'>" + esc(p.notes) + "</span>" : "") +
+        '</div><div class="party-actions">' +
+        '<button type="button" class="btn btn-ghost btn-sm" data-edit-party="' +
+        esc(p.id) +
+        '">Modifier</button>' +
+        '<button type="button" class="btn btn-ghost btn-sm" data-del-party="' +
+        esc(p.id) +
+        '">Retirer</button></div></div>'
+      );
+    }
+
+    function section(title, list, emptyHint) {
+      return (
+        '<div class="party-group"><h4>' +
+        esc(title) +
+        " <span class=\"party-count\">" +
+        list.length +
+        "</span></h4>" +
+        (list.length
+          ? list.map(partyCard).join("")
+          : '<p class="immo-hint">' + esc(emptyHint) + "</p>") +
+        "</div>"
+      );
+    }
+
+    panel.innerHTML =
+      "<h3>Vendeurs &amp; acquéreurs</h3>" +
+      '<p class="immo-hint">Ajoute autant de personnes que nécessaire (héritiers, co-vendeurs, co-acquéreurs…) — <strong>sans limite</strong>. Ex. 8 héritiers sur la même maison.</p>' +
+      (sellers.length && shareSum > 0
+        ? '<p class="immo-hint">Quotes-parts vendeurs saisies : <strong>' +
+          Math.round(shareSum * 100) / 100 +
+          " %</strong>" +
+          (Math.abs(shareSum - 100) > 0.05 ? " (total ≠ 100 % — à vérifier)" : " ✓") +
+          "</p>"
+        : "") +
+      section("Côté vendeurs", sellers, "Aucun vendeur / héritier pour l’instant.") +
+      section("Côté acquéreurs", buyers, "Aucun acquéreur lié.") +
+      section("Autres intervenants", others, "Notaire, agent, apporteur…") +
+      '<form id="partyForm" class="party-form">' +
+      "<h4>" +
+      (editing ? "Modifier la personne" : "Ajouter une personne") +
+      "</h4>" +
+      '<input type="hidden" id="partyId" value="' +
+      esc(editing ? editing.id : "") +
+      '" />' +
+      '<label>Rôle<select id="partyRole">' +
+      Matcher.PARTY_ROLES.map(function (r) {
+        var sel = (editing ? editing.role : "heritier") === r.id ? " selected" : "";
+        return '<option value="' + r.id + '"' + sel + ">" + esc(r.label) + "</option>";
+      }).join("") +
+      '</select></label><label>Nom<input id="partyName" required value="' +
+      esc(editing ? editing.name : "") +
+      '" placeholder="Nom prénom" /></label><label>Tél<input id="partyPhone" value="' +
+      esc(editing ? editing.phone : "") +
+      '" /></label><label>Email<input id="partyEmail" type="email" value="' +
+      esc(editing ? editing.email : "") +
+      '" /></label><label>Contact CRM<input id="partyContact" value="' +
+      esc(editing && editing.contact_id ? editing.contact_id : "") +
+      '" placeholder="contact_…" /></label><label>Quote-part %<input id="partyShare" type="number" min="0" max="100" step="0.01" value="' +
+      esc(editing && editing.share_pct != null ? editing.share_pct : "") +
+      '" placeholder="ex. 12.5" /></label><label class="party-check"><input type="checkbox" id="partyPrimary"' +
+      (editing && editing.is_primary ? " checked" : "") +
+      " /> Contact principal de son côté</label><label style=\"grid-column:1/-1\">Notes<input id=\"partyNotes\" value=\"" +
+      esc(editing ? editing.notes || "" : "") +
+      '" placeholder="ex. indivision, tuteur, notaire de famille…" /></label>' +
+      '<div class="party-form-actions">' +
+      '<button class="btn btn-primary" type="submit">' +
+      (editing ? "Enregistrer" : "Ajouter") +
+      "</button>" +
+      (editing
+        ? '<button type="button" class="btn btn-ghost" id="partyCancelEdit">Annuler</button>'
+        : "") +
+      "</div></form>";
+
+    panel.querySelectorAll("[data-edit-party]").forEach(function (btn) {
+      btn.onclick = function () {
+        state.editingPartyId = btn.getAttribute("data-edit-party");
+        renderOtherTab();
+      };
+    });
+    panel.querySelectorAll("[data-del-party]").forEach(function (btn) {
+      btn.onclick = function () {
+        if (!confirm("Retirer cette personne du bien ?")) return;
+        Store.deleteParty(btn.getAttribute("data-del-party"));
+        if (state.editingPartyId === btn.getAttribute("data-del-party")) state.editingPartyId = null;
+        prop.history = prop.history || [];
+        prop.history.push({ at: new Date().toISOString(), text: "Personne retirée du bien" });
+        Store.upsertProperty(prop);
+        renderOtherTab();
+        syncHeader();
+      };
+    });
+    var cancel = document.getElementById("partyCancelEdit");
+    if (cancel) {
+      cancel.onclick = function () {
+        state.editingPartyId = null;
+        renderOtherTab();
+      };
+    }
+    document.getElementById("partyForm").onsubmit = function (e) {
+      e.preventDefault();
+      var payload = {
+        id: document.getElementById("partyId").value || undefined,
+        property_id: prop.id,
+        role: document.getElementById("partyRole").value,
+        name: document.getElementById("partyName").value.trim(),
+        phone: document.getElementById("partyPhone").value.trim(),
+        email: document.getElementById("partyEmail").value.trim(),
+        contact_id: document.getElementById("partyContact").value.trim() || null,
+        share_pct: document.getElementById("partyShare").value,
+        is_primary: document.getElementById("partyPrimary").checked,
+        notes: document.getElementById("partyNotes").value.trim(),
+      };
+      Store.upsertParty(payload);
+      prop.history = prop.history || [];
+      prop.history.push({
+        at: new Date().toISOString(),
+        text:
+          (payload.id ? "Personne modifiée : " : "Personne ajoutée : ") +
+          payload.name +
+          " (" +
+          Matcher.partyRoleLabel(payload.role) +
+          ")",
+      });
+      Store.upsertProperty(prop);
+      state.editingPartyId = null;
+      renderOtherTab();
+      syncHeader();
+    };
   }
 
   function save() {

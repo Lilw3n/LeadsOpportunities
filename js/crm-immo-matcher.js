@@ -32,15 +32,53 @@
   ];
 
   var PARTY_ROLES = [
-    { id: "vendeur", label: "Vendeur / propriétaire" },
-    { id: "mandant", label: "Mandant" },
-    { id: "acquereur", label: "Acquéreur" },
-    { id: "prospect", label: "Prospect intéressé" },
-    { id: "colocataire", label: "Co-acquéreur" },
-    { id: "notaire", label: "Notaire" },
-    { id: "agent", label: "Agent / collègue" },
-    { id: "apporteur", label: "Apporteur" },
+    { id: "vendeur", label: "Vendeur / propriétaire", side: "seller" },
+    { id: "heritier", label: "Héritier (vendeur)", side: "seller" },
+    { id: "co_vendeur", label: "Co-vendeur", side: "seller" },
+    { id: "mandant", label: "Mandant", side: "seller" },
+    { id: "acquereur", label: "Acquéreur", side: "buyer" },
+    { id: "colocataire", label: "Co-acquéreur", side: "buyer" },
+    { id: "prospect", label: "Prospect intéressé", side: "buyer" },
+    { id: "notaire", label: "Notaire", side: "other" },
+    { id: "agent", label: "Agent / collègue", side: "other" },
+    { id: "apporteur", label: "Apporteur", side: "other" },
   ];
+
+  var SELLER_ROLE_IDS = PARTY_ROLES.filter(function (r) {
+    return r.side === "seller";
+  }).map(function (r) {
+    return r.id;
+  });
+
+  var BUYER_ROLE_IDS = PARTY_ROLES.filter(function (r) {
+    return r.side === "buyer";
+  }).map(function (r) {
+    return r.id;
+  });
+
+  function partyRoleMeta(roleId) {
+    return (
+      PARTY_ROLES.find(function (r) {
+        return r.id === roleId;
+      }) || { id: roleId || "prospect", label: roleId || "Prospect", side: "other" }
+    );
+  }
+
+  function partyRoleLabel(roleId) {
+    return partyRoleMeta(roleId).label;
+  }
+
+  function isSellerRole(roleId) {
+    return SELLER_ROLE_IDS.indexOf(roleId) !== -1;
+  }
+
+  function isBuyerRole(roleId) {
+    return BUYER_ROLE_IDS.indexOf(roleId) !== -1;
+  }
+
+  function partySide(roleId) {
+    return partyRoleMeta(roleId).side || "other";
+  }
 
   /** Statuts pipeline métier (réf. CRM immo) — numéro d’affichage + id stocké */
   var PROPERTY_STATUSES = [
@@ -488,6 +526,13 @@
     PROPERTY_STATUSES: PROPERTY_STATUSES,
     LISTING_SOURCES: LISTING_SOURCES,
     PARTY_ROLES: PARTY_ROLES,
+    SELLER_ROLE_IDS: SELLER_ROLE_IDS,
+    BUYER_ROLE_IDS: BUYER_ROLE_IDS,
+    partyRoleMeta: partyRoleMeta,
+    partyRoleLabel: partyRoleLabel,
+    isSellerRole: isSellerRole,
+    isBuyerRole: isBuyerRole,
+    partySide: partySide,
     DOC_TYPES: DOC_TYPES,
     normalizeProperty: normalizeProperty,
     normalizePropertyStatus: normalizePropertyStatus,

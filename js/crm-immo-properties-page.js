@@ -9,6 +9,7 @@
 
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
+  var formParties = [];
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -21,6 +22,105 @@
   function euro(n) {
     if (n == null || n === "") return "—";
     return Number(n).toLocaleString("fr-FR") + " €";
+  }
+
+  function readPartyRowsFromDom() {
+    var mount = document.getElementById("partyRows");
+    if (!mount) return formParties.slice();
+    var rows = [];
+    mount.querySelectorAll(".immo-party-item").forEach(function (row) {
+      rows.push({
+        id: row.getAttribute("data-id") || undefined,
+        role: row.querySelector("[data-f=role]").value,
+        name: row.querySelector("[data-f=name]").value.trim(),
+        phone: row.querySelector("[data-f=phone]").value.trim(),
+        email: row.querySelector("[data-f=email]").value.trim(),
+        contact_id: row.querySelector("[data-f=contact]").value.trim() || null,
+        share_pct: row.querySelector("[data-f=share]").value,
+        is_primary: row.querySelector("[data-f=primary]").checked,
+      });
+    });
+    formParties = rows;
+    return rows;
+  }
+
+  function renderPartyRows() {
+    var mount = document.getElementById("partyRows");
+    if (!mount) return;
+    if (!formParties.length) {
+      mount.innerHTML =
+        '<p style="margin:0;color:var(--muted);font-size:.8rem;font-weight:500">Aucune personne — clique « + Vendeur / héritier » pour en ajouter (illimité).</p>';
+      return;
+    }
+    mount.innerHTML = formParties
+      .map(function (p, idx) {
+        return (
+          '<div class="immo-party-item" data-id="' +
+          esc(p.id || "") +
+          '" data-idx="' +
+          idx +
+          '">' +
+          "<label>Rôle<select data-f=\"role\">" +
+          Matcher.PARTY_ROLES.map(function (r) {
+            return (
+              '<option value="' +
+              r.id +
+              '"' +
+              (p.role === r.id ? " selected" : "") +
+              ">" +
+              esc(r.label) +
+              "</option>"
+            );
+          }).join("") +
+          "</select></label>" +
+          '<label>Nom<input data-f="name" value="' +
+          esc(p.name || "") +
+          '" placeholder="Nom prénom" /></label>' +
+          '<label>Tél<input data-f="phone" value="' +
+          esc(p.phone || "") +
+          '" /></label>' +
+          '<label>Email<input data-f="email" value="' +
+          esc(p.email || "") +
+          '" /></label>' +
+          '<label>Contact CRM<input data-f="contact" value="' +
+          esc(p.contact_id || "") +
+          '" placeholder="contact_…" /></label>' +
+          '<label>Quote-part %<input data-f="share" type="number" min="0" max="100" step="0.01" value="' +
+          esc(p.share_pct != null ? p.share_pct : "") +
+          '" /></label>' +
+          '<label style="flex-direction:row;align-items:center;gap:6px;margin-top:18px"><input data-f="primary" type="checkbox"' +
+          (p.is_primary ? " checked" : "") +
+          " /> Principal</label>" +
+          '<button type="button" class="btn btn-ghost immo-party-remove" data-remove-party="' +
+          idx +
+          '">Retirer</button></div>'
+        );
+      })
+      .join("");
+    mount.querySelectorAll("[data-remove-party]").forEach(function (btn) {
+      btn.onclick = function () {
+        readPartyRowsFromDom();
+        var i = Number(btn.getAttribute("data-remove-party"));
+        formParties.splice(i, 1);
+        renderPartyRows();
+      };
+    });
+  }
+
+  function addFormParty(role) {
+    readPartyRowsFromDom();
+    formParties.push({
+      role: role || "heritier",
+      name: "",
+      phone: "",
+      email: "",
+      contact_id: null,
+      share_pct: "",
+      is_primary: formParties.filter(function (p) {
+        return Matcher.partySide(p.role) === Matcher.partySide(role || "heritier");
+      }).length === 0,
+    });
+    renderPartyRows();
   }
 
   function switchOn(el, on) {
@@ -122,6 +222,8 @@
         if (p.has_balcony) tags.push("balcon");
         if (p.has_elevator) tags.push("ascenseur");
         if (p.has_pool) tags.push("piscine");
+        var partyN = Store.listParties(p.id).length;
+        if (partyN) tags.push(partyN + " personne" + (partyN > 1 ? "s" : ""));
         var src =
           (Matcher.LISTING_SOURCES.find(function (s) {
             return s.id === p.listing_source;
@@ -216,9 +318,46 @@
     document.getElementById("pAgence").value = p.agence || "";
     document.getElementById("pSuivi").value = p.suivi_par || "";
     document.getElementById("pPhone").value = p.phone || "";
-    document.getElementById("pOwner").value = p.owner_contact_id || "";
-    document.getElementById("pBuyer").value = p.buyer_contact_id || "";
     document.getElementById("pLead").value = p.lead_id || "";
+    formParties = p.id
+      ? Store.listParties(p.id).map(function (x) {
+          return {
+            id: x.id,
+            role: x.role,
+            name: x.name || "",
+            phone: x.phone || "",
+            email: x.email || "",
+            contact_id: x.contact_id || null,
+            share_pct: x.share_pct != null ? x.share_pct : "",
+            is_primary: !!x.is_primary,
+          };
+        })
+      : [];
+    if (!formParties.length && (p.owner_contact_id || p.buyer_contact_id)) {
+      if (p.owner_contact_id) {
+        formParties.push({
+          role: "vendeur",
+          name: "",
+          phone: "",
+          email: "",
+          contact_id: p.owner_contact_id,
+          share_pct: "",
+          is_primary: true,
+        });
+      }
+      if (p.buyer_contact_id) {
+        formParties.push({
+          role: "acquereur",
+          name: "",
+          phone: "",
+          email: "",
+          contact_id: p.buyer_contact_id,
+          share_pct: "",
+          is_primary: true,
+        });
+      }
+    }
+    renderPartyRows();
     document.getElementById("pAContacter").checked = !!p.a_contacter;
     document.getElementById("pContactConnu").checked = !!p.contact_connu;
     document.getElementById("pGarage").checked = !!p.has_garage;
@@ -236,6 +375,19 @@
 
   document.getElementById("propForm").onsubmit = function (e) {
     e.preventDefault();
+    var parties = readPartyRowsFromDom();
+    var sellers = parties.filter(function (x) {
+      return Matcher.isSellerRole(x.role) && x.contact_id;
+    });
+    var buyers = parties.filter(function (x) {
+      return Matcher.isBuyerRole(x.role) && x.contact_id;
+    });
+    function pickPrimary(list) {
+      var prim = list.find(function (x) {
+        return x.is_primary;
+      });
+      return (prim || list[0] || {}).contact_id || null;
+    }
     var cp = document.getElementById("pCp").value.trim();
     var item = {
       id: document.getElementById("pId").value || undefined,
@@ -260,11 +412,11 @@
       agence: document.getElementById("pAgence").value.trim(),
       suivi_par: document.getElementById("pSuivi").value.trim(),
       phone: document.getElementById("pPhone").value.trim(),
-      owner_contact_id: document.getElementById("pOwner").value.trim() || null,
-      buyer_contact_id: document.getElementById("pBuyer").value.trim() || null,
+      owner_contact_id: pickPrimary(sellers),
+      buyer_contact_id: pickPrimary(buyers),
       lead_id: document.getElementById("pLead").value.trim() || null,
       a_contacter: document.getElementById("pAContacter").checked,
-      contact_connu: document.getElementById("pContactConnu").checked,
+      contact_connu: document.getElementById("pContactConnu").checked || parties.length > 0,
       has_garage: document.getElementById("pGarage").checked,
       has_parking: document.getElementById("pParking").checked,
       has_cave: document.getElementById("pCave").checked,
@@ -276,7 +428,8 @@
       description: document.getElementById("pDesc").value,
       notes: document.getElementById("pNotes").value,
     };
-    Store.upsertProperty(item);
+    var saved = Store.upsertProperty(item);
+    Store.replacePropertyParties(saved.id, parties);
     document.getElementById("formPanel").hidden = true;
     renderList();
   };
@@ -286,6 +439,12 @@
   };
   document.getElementById("btnCancelForm").onclick = function () {
     document.getElementById("formPanel").hidden = true;
+  };
+  document.getElementById("btnAddSeller").onclick = function () {
+    addFormParty("heritier");
+  };
+  document.getElementById("btnAddBuyer").onclick = function () {
+    addFormParty("acquereur");
   };
   document.getElementById("btnPigesSearch").onclick = renderList;
 

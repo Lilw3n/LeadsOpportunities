@@ -18,6 +18,15 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 
 Sidebar : groupe **Immobilier**.
 
+## Parties (vendeurs / acquéreurs)
+
+Sur chaque bien, l’onglet **Vendeurs & acquéreurs** (et le formulaire Piges) permet d’ajouter **autant de personnes que nécessaire** : héritiers, co-vendeurs, co-acquéreurs, notaire…
+
+- Rôles : vendeur, héritier, co-vendeur, mandant, acquéreur, co-acquéreur, prospect, notaire, agent, apporteur
+- Quote-part % (utile en indivision / succession)
+- Contact principal par côté (synchronise `owner_contact_id` / `buyer_contact_id` pour les filtres existants)
+- Stockage : table `crm_immo_parties` (illimitée par `property_id`)
+
 ## Matching (score 0–100)
 
 Critères scorés :
