@@ -162,15 +162,26 @@
   border-color: #99f6e4;
 }
 
+.immo-geo-field-block--priority {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+}
+
+.immo-geo-chip--highlight,
 .immo-zone-chip--primary {
   background: #0d9488;
   color: #fff;
   border-color: #0d9488;
 }
 
+.immo-geo-chip--highlight:hover,
 .immo-zone-chip--primary:hover {
   background: #0f766e;
   color: #fff;
+}
+
+.immo-zone--priority {
+  border-width: 2px;
 }
 
 .immo-geo-field-block {
@@ -194,6 +205,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  margin-top: 10px;
 }
 
 .immo-geo-chip.is-active {

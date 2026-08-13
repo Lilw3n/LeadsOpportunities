@@ -3,97 +3,389 @@
     "title": "France entiere & DOM-TOM",
     "summary": "Metropole, Corse et departements d'outre-mer : Guadeloupe, Martinique, Reunion, Guyane, Mayotte. Meme parcours acquereur partout."
   },
-  "nancyFocus": {
-    "title": "Grand Nancy & alentours",
-    "summary": "Zone prioritaire immobilier : accompagnement renforce pour l'achat, le pret et les assurances autour de Nancy.",
-    "badge": "Zone prioritaire",
-    "cities": [
-      {
-        "name": "Nancy",
-        "slug": "nancy",
-        "postal": "54000",
-        "image": "/assets/immo/villes/nancy.jpg",
-        "imageAlt": "Place Stanislas et centre-ville de Nancy"
-      },
-      {
-        "name": "Vandoeuvre-les-Nancy",
-        "slug": "vandoeuvre-les-nancy",
-        "postal": "54500",
-        "image": "/assets/immo/villes/vandoeuvre-les-nancy.jpg",
-        "imageAlt": "Quartier residentiel a Vandoeuvre-les-Nancy"
-      },
-      {
-        "name": "Laxou",
-        "slug": "laxou",
-        "postal": "54520",
-        "image": "/assets/immo/villes/laxou.jpg",
-        "imageAlt": "Maisons et verdure a Laxou"
-      },
-      {
-        "name": "Villers-les-Nancy",
-        "slug": "villers-les-nancy",
-        "postal": "54600",
-        "image": "/assets/immo/villes/villers-les-nancy.jpg",
-        "imageAlt": "Villers-les-Nancy, commune du Grand Nancy"
-      },
-      {
-        "name": "Saint-Max",
-        "slug": "saint-max",
-        "postal": "54130",
-        "image": "/assets/immo/villes/saint-max.jpg",
-        "imageAlt": "Centre-bourg de Saint-Max"
-      },
-      {
-        "name": "Essey-les-Nancy",
-        "slug": "essey-les-nancy",
-        "postal": "54270",
-        "image": "/assets/immo/villes/essey-les-nancy.jpg",
-        "imageAlt": "Essey-les-Nancy, proche agglomeration nancéienne"
-      },
-      {
-        "name": "Jarville-la-Malgrange",
-        "slug": "jarville-la-malgrange",
-        "postal": "54140",
-        "image": "/assets/immo/villes/jarville-la-malgrange.jpg",
-        "imageAlt": "Jarville-la-Malgrange, vallee de la Meurthe"
-      },
-      {
-        "name": "Maxeville",
-        "slug": "maxeville",
-        "postal": "54320",
-        "image": "/assets/immo/villes/maxeville.jpg",
-        "imageAlt": "Maxeville, commune du Grand Nancy"
-      },
-      {
-        "name": "Tomblaine",
-        "slug": "tomblaine",
-        "postal": "54510",
-        "image": "/assets/immo/villes/tomblaine.jpg",
-        "imageAlt": "Tomblaine, proche Meurthe-et-Moselle"
-      },
-      {
-        "name": "Ludres",
-        "slug": "ludres",
-        "postal": "54710",
-        "image": "/assets/immo/villes/ludres.jpg",
-        "imageAlt": "Ludres, sud de l'agglomeration nancéienne"
-      },
-      {
-        "name": "Pompey",
-        "slug": "pompey",
-        "postal": "54340",
-        "image": "/assets/immo/villes/pompey.jpg",
-        "imageAlt": "Pompey, village au sud de Nancy"
-      },
-      {
-        "name": "Frouard",
-        "slug": "frouard",
-        "postal": "54390",
-        "image": "/assets/immo/villes/frouard.jpg",
-        "imageAlt": "Frouard, bords de Meurthe"
-      }
-    ]
+  "agency": {
+    "city": "Dombasle-sur-Meurthe",
+    "postal": "54110",
+    "homeCity": "Varangéville",
+    "homePostal": "54110"
   },
+  "localZones": [
+    {
+      "id": "coeur-agence",
+      "title": "Dombasle — Varangéville (agence & domicile)",
+      "badge": "Coeur de secteur",
+      "priority": true,
+      "summary": "Rayon immediat autour de l'agence a Dombasle-sur-Meurthe et de Varangéville.",
+      "cities": [
+        {
+          "name": "Dombasle-sur-Meurthe",
+          "slug": "dombasle-sur-meurthe",
+          "postal": "54110",
+          "highlight": true,
+          "image": "/assets/immo/villes/dombasle-sur-meurthe.jpg",
+          "imageAlt": "Dombasle-sur-Meurthe, agence et centre-bourg"
+        },
+        {
+          "name": "Varangéville",
+          "slug": "varangeville",
+          "postal": "54110",
+          "highlight": true,
+          "image": "/assets/immo/villes/varangeville.jpg",
+          "imageAlt": "Varangéville, siège et maisons du village"
+        },
+        {
+          "name": "Lenoncourt",
+          "slug": "lenoncourt",
+          "postal": "54110",
+          "image": "/assets/immo/villes/lenoncourt.jpg",
+          "imageAlt": "Lenoncourt, village du Pays du Sel"
+        },
+        {
+          "name": "Sommerviller",
+          "slug": "sommerviller",
+          "postal": "54110",
+          "image": "/assets/immo/villes/sommerviller.jpg",
+          "imageAlt": "Sommerviller, commune de Meurthe-et-Moselle"
+        },
+        {
+          "name": "Haraucourt",
+          "slug": "haraucourt",
+          "postal": "54110",
+          "highlight": true,
+          "image": "/assets/immo/villes/haraucourt.jpg",
+          "imageAlt": "Haraucourt, village près de Dombasle"
+        },
+        {
+          "name": "Buissoncourt",
+          "slug": "buissoncourt",
+          "postal": "54110",
+          "image": "/assets/immo/villes/buissoncourt.jpg",
+          "imageAlt": "Buissoncourt, village du sel"
+        },
+        {
+          "name": "Rosières-aux-Salines",
+          "slug": "rosieres-aux-salines",
+          "postal": "54110",
+          "image": "/assets/immo/villes/rosieres-aux-salines.jpg",
+          "imageAlt": "Rosières-aux-Salines, bourg du Pays du Sel"
+        },
+        {
+          "name": "Crévic",
+          "slug": "crevic",
+          "postal": "54110",
+          "image": "/assets/immo/villes/crevic.jpg",
+          "imageAlt": "Crévic, village près de Dombasle"
+        },
+        {
+          "name": "Flainval",
+          "slug": "flainval",
+          "postal": "54110",
+          "image": "/assets/immo/villes/flainval.jpg",
+          "imageAlt": "Flainval, hameau de Meurthe-et-Moselle"
+        },
+        {
+          "name": "Hudiviller",
+          "slug": "hudiviller",
+          "postal": "54110",
+          "image": "/assets/immo/villes/hudiviller.jpg",
+          "imageAlt": "Hudiviller, commune 54110"
+        }
+      ]
+    },
+    {
+      "id": "saint-nicolas-vermois",
+      "title": "Saint-Nicolas-de-Port & Pays du Vermois",
+      "badge": "Secteur prioritaire",
+      "priority": true,
+      "summary": "Communes du Sel et du Vermois, a l'ouest de Dombasle et Varangéville.",
+      "cities": [
+        {
+          "name": "Saint-Nicolas-de-Port",
+          "slug": "saint-nicolas-de-port",
+          "postal": "54210",
+          "highlight": true,
+          "image": "/assets/immo/villes/saint-nicolas-de-port.jpg",
+          "imageAlt": "Saint-Nicolas-de-Port, basilique et centre-ville"
+        },
+        {
+          "name": "Ville-en-Vermois",
+          "slug": "ville-en-vermois",
+          "postal": "54210",
+          "highlight": true,
+          "image": "/assets/immo/villes/ville-en-vermois.jpg",
+          "imageAlt": "Ville-en-Vermois, village du Pays du Vermois"
+        },
+        {
+          "name": "Manoncourt-en-Vermois",
+          "slug": "manoncourt-en-vermois",
+          "postal": "54210",
+          "highlight": true,
+          "image": "/assets/immo/villes/manoncourt-en-vermois.jpg",
+          "imageAlt": "Manoncourt-en-Vermois, maisons du village"
+        },
+        {
+          "name": "Tonnoy",
+          "slug": "tonnoy",
+          "postal": "54210",
+          "image": "/assets/immo/villes/tonnoy.jpg",
+          "imageAlt": "Tonnoy, village du Vermois"
+        },
+        {
+          "name": "Lupcourt",
+          "slug": "lupcourt",
+          "postal": "54210",
+          "image": "/assets/immo/villes/lupcourt.jpg",
+          "imageAlt": "Lupcourt, commune du Vermois"
+        },
+        {
+          "name": "Azelot",
+          "slug": "azelot",
+          "postal": "54210",
+          "image": "/assets/immo/villes/azelot.jpg",
+          "imageAlt": "Azelot, village près de Saint-Nicolas-de-Port"
+        },
+        {
+          "name": "Ferrières",
+          "slug": "ferrieres",
+          "postal": "54210",
+          "image": "/assets/immo/villes/ferrieres.jpg",
+          "imageAlt": "Ferrières, commune du Vermois"
+        },
+        {
+          "name": "Art-sur-Meurthe",
+          "slug": "art-sur-meurthe",
+          "postal": "54510",
+          "image": "/assets/immo/villes/art-sur-meurthe.jpg",
+          "imageAlt": "Art-sur-Meurthe, bords de Meurthe"
+        }
+      ]
+    },
+    {
+      "id": "luneville-meurthe",
+      "title": "Lunéville & vallee de la Meurthe",
+      "badge": "Secteur prioritaire",
+      "priority": true,
+      "summary": "Axe Meurthe entre Nancy et Lunéville : Blainville-sur-l'Eau, Damelevières, Mont-sur-Meurthe et communes riveraines.",
+      "cities": [
+        {
+          "name": "Lunéville",
+          "slug": "luneville",
+          "postal": "54300",
+          "highlight": true,
+          "image": "/assets/immo/villes/luneville.jpg",
+          "imageAlt": "Lunéville, château et centre-ville"
+        },
+        {
+          "name": "Blainville-sur-l'Eau",
+          "slug": "blainville-sur-leau",
+          "postal": "54360",
+          "highlight": true,
+          "image": "/assets/immo/villes/blainville-sur-leau.jpg",
+          "imageAlt": "Blainville-sur-l'Eau, vallée de la Meurthe"
+        },
+        {
+          "name": "Damelevières",
+          "slug": "damelevieres",
+          "postal": "54360",
+          "highlight": true,
+          "image": "/assets/immo/villes/damelevieres.jpg",
+          "imageAlt": "Damelevières, commune voisine de Blainville"
+        },
+        {
+          "name": "Mont-sur-Meurthe",
+          "slug": "mont-sur-meurthe",
+          "postal": "54360",
+          "highlight": true,
+          "image": "/assets/immo/villes/mont-sur-meurthe.jpg",
+          "imageAlt": "Mont-sur-Meurthe, village au-dessus de la Meurthe"
+        },
+        {
+          "name": "Chanteheux",
+          "slug": "chanteheux",
+          "postal": "54300",
+          "image": "/assets/immo/villes/chanteheux.jpg",
+          "imageAlt": "Chanteheux, proche Lunéville"
+        },
+        {
+          "name": "Croismare",
+          "slug": "croismare",
+          "postal": "54360",
+          "image": "/assets/immo/villes/croismare.jpg",
+          "imageAlt": "Croismare, village de la Meurthe"
+        },
+        {
+          "name": "Einville-au-Jard",
+          "slug": "einville-au-jard",
+          "postal": "54370",
+          "image": "/assets/immo/villes/einville-au-jard.jpg",
+          "imageAlt": "Einville-au-Jard, commune près de Lunéville"
+        },
+        {
+          "name": "Moncel-lès-Lunéville",
+          "slug": "moncel-les-luneville",
+          "postal": "54300",
+          "image": "/assets/immo/villes/moncel-les-luneville.jpg",
+          "imageAlt": "Moncel-lès-Lunéville, entrée de Lunéville"
+        },
+        {
+          "name": "Montauville",
+          "slug": "montauville",
+          "postal": "54700",
+          "image": "/assets/immo/villes/montauville.jpg",
+          "imageAlt": "Montauville, proche Pont-à-Mousson"
+        },
+        {
+          "name": "Laneuveville-devant-Nancy",
+          "slug": "laneuveville-devant-nancy",
+          "postal": "54410",
+          "image": "/assets/immo/villes/laneuveville-devant-nancy.jpg",
+          "imageAlt": "Laneuveville-devant-Nancy, entre Nancy et Dombasle"
+        },
+        {
+          "name": "Houdemont",
+          "slug": "houdemont",
+          "postal": "54180",
+          "image": "/assets/immo/villes/houdemont.jpg",
+          "imageAlt": "Houdemont, sud de Nancy"
+        },
+        {
+          "name": "Heillecourt",
+          "slug": "heillecourt",
+          "postal": "54180",
+          "image": "/assets/immo/villes/heillecourt.jpg",
+          "imageAlt": "Heillecourt, commune du Grand Nancy"
+        },
+        {
+          "name": "Pont-à-Mousson",
+          "slug": "pont-a-mousson",
+          "postal": "54700",
+          "image": "/assets/immo/villes/pont-a-mousson.jpg",
+          "imageAlt": "Pont-à-Mousson, place Duroc"
+        },
+        {
+          "name": "Custines",
+          "slug": "custines",
+          "postal": "54670",
+          "image": "/assets/immo/villes/custines.jpg",
+          "imageAlt": "Custines, bords de Moselle"
+        },
+        {
+          "name": "Dieulouard",
+          "slug": "dieulouard",
+          "postal": "54380",
+          "image": "/assets/immo/villes/dieulouard.jpg",
+          "imageAlt": "Dieulouard, commune de Meurthe-et-Moselle"
+        }
+      ]
+    },
+    {
+      "id": "grand-nancy",
+      "title": "Grand Nancy",
+      "badge": "Agglomeration",
+      "priority": false,
+      "summary": "Couronne nanceienne pour les projets d'achat et de financement.",
+      "cities": [
+        {
+          "name": "Nancy",
+          "slug": "nancy",
+          "postal": "54000",
+          "image": "/assets/immo/villes/nancy.jpg",
+          "imageAlt": "Place Stanislas et centre-ville de Nancy"
+        },
+        {
+          "name": "Vandoeuvre-les-Nancy",
+          "slug": "vandoeuvre-les-nancy",
+          "postal": "54500",
+          "image": "/assets/immo/villes/vandoeuvre-les-nancy.jpg",
+          "imageAlt": "Quartier residentiel a Vandoeuvre-les-Nancy"
+        },
+        {
+          "name": "Laxou",
+          "slug": "laxou",
+          "postal": "54520",
+          "image": "/assets/immo/villes/laxou.jpg",
+          "imageAlt": "Maisons et verdure a Laxou"
+        },
+        {
+          "name": "Villers-les-Nancy",
+          "slug": "villers-les-nancy",
+          "postal": "54600",
+          "image": "/assets/immo/villes/villers-les-nancy.jpg",
+          "imageAlt": "Villers-les-Nancy, commune du Grand Nancy"
+        },
+        {
+          "name": "Saint-Max",
+          "slug": "saint-max",
+          "postal": "54130",
+          "image": "/assets/immo/villes/saint-max.jpg",
+          "imageAlt": "Centre-bourg de Saint-Max"
+        },
+        {
+          "name": "Essey-les-Nancy",
+          "slug": "essey-les-nancy",
+          "postal": "54270",
+          "image": "/assets/immo/villes/essey-les-nancy.jpg",
+          "imageAlt": "Essey-les-Nancy, proche agglomeration nancéienne"
+        },
+        {
+          "name": "Jarville-la-Malgrange",
+          "slug": "jarville-la-malgrange",
+          "postal": "54140",
+          "image": "/assets/immo/villes/jarville-la-malgrange.jpg",
+          "imageAlt": "Jarville-la-Malgrange, vallee de la Meurthe"
+        },
+        {
+          "name": "Maxeville",
+          "slug": "maxeville",
+          "postal": "54320",
+          "image": "/assets/immo/villes/maxeville.jpg",
+          "imageAlt": "Maxeville, commune du Grand Nancy"
+        },
+        {
+          "name": "Tomblaine",
+          "slug": "tomblaine",
+          "postal": "54510",
+          "image": "/assets/immo/villes/tomblaine.jpg",
+          "imageAlt": "Tomblaine, proche Meurthe-et-Moselle"
+        },
+        {
+          "name": "Ludres",
+          "slug": "ludres",
+          "postal": "54710",
+          "image": "/assets/immo/villes/ludres.jpg",
+          "imageAlt": "Ludres, sud de l'agglomeration nancéienne"
+        },
+        {
+          "name": "Pompey",
+          "slug": "pompey",
+          "postal": "54340",
+          "image": "/assets/immo/villes/pompey.jpg",
+          "imageAlt": "Pompey, au nord de Nancy"
+        },
+        {
+          "name": "Frouard",
+          "slug": "frouard",
+          "postal": "54390",
+          "image": "/assets/immo/villes/frouard.jpg",
+          "imageAlt": "Frouard, bords de Meurthe"
+        },
+        {
+          "name": "Pulnoy",
+          "slug": "pulnoy",
+          "postal": "54425",
+          "image": "/assets/immo/villes/pulnoy.jpg",
+          "imageAlt": "Pulnoy, est de Nancy"
+        },
+        {
+          "name": "Malzéville",
+          "slug": "malzeville",
+          "postal": "54220",
+          "image": "/assets/immo/villes/malzeville.jpg",
+          "imageAlt": "Malzéville, coteau nord de Nancy"
+        }
+      ]
+    }
+  ],
   "domTom": [
     {
       "name": "Guadeloupe",

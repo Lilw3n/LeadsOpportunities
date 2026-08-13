@@ -56,7 +56,8 @@ Entrées directes : hub [`immobilier/`](../immobilier/), [`landings/`](../landin
 [`data/immo-geo-france.json`](../data/immo-geo-france.json) + [`js/immo-geo-france.js`](../js/immo-geo-france.js)
 
 - **France entière** : métropole, Corse, DOM-TOM (971–976)
-- **Focus Nancy** : Grand Nancy et alentours (zone prioritaire immo)
+- **Focus local** : agence **Dombasle-sur-Meurthe**, domicile **Varangéville**, rayon Saint-Nicolas-de-Port, Vermois, Lunéville, Blainville-sur-l'Eau, Damelevières, Mont-sur-Meurthe + Grand Nancy
+- Hub : **carte photo** pour chaque commune ; questionnaire : photos des villes mises en avant, puces pour les alentours (parcours épuré)
 - Raccourcis CP/ville sur le questionnaire + hub [`immobilier/`](../immobilier/)
-- Deep link : `?postalProject=54000&searchCities=Nancy&zone=nancy#demande`
+- Deep link : `?postalProject=54110&searchCities=Dombasle-sur-Meurthe&zone=dombasle#demande`
 - Visuels par commune : `assets/immo/villes/<slug>.jpg` (regénérer via `npm run immo:ville-images`)
