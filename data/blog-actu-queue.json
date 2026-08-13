@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-08-13T05:07:27.511Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -34,7 +34,7 @@
       "url": "",
       "source": "cafeyn",
       "note": "Angle assurance a preciser",
-      "status": "pending",
+      "status": "template",
       "addedAt": "2026-06-17T08:00:00.000Z"
     }
   ]

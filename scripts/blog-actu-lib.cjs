@@ -51,6 +51,23 @@ function existingFiles() {
   return files;
 }
 
+function keywordMatches(hay, kw) {
+  var k = String(kw || "")
+    .toLowerCase()
+    .trim();
+  if (!k) return false;
+  var escaped = k.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (k.length <= 5) {
+    var re = new RegExp("(^|[^a-z0-9àâäéèêëïîôùûüç])" + escaped + "([^a-z0-9àâäéèêëïîôùûüç]|$)", "i");
+    return re.test(hay);
+  }
+  if (hay.indexOf(k) === -1) return false;
+  if (k === "équipe de france" || k === "equipe de france") {
+    if (/[ée]quipe de france t[ée]l[ée]visions/i.test(hay)) return false;
+  }
+  return true;
+}
+
 function matchTopic(text) {
   var cfg = readJson("blog-actu-keywords.json", { rules: [], default: {}, leadCta: {} });
   var hay = String(text || "").toLowerCase();
@@ -59,7 +76,7 @@ function matchTopic(text) {
   (cfg.rules || []).forEach(function (rule) {
     var score = 0;
     (rule.keywords || []).forEach(function (kw) {
-      if (hay.indexOf(String(kw).toLowerCase()) !== -1) score += 1;
+      if (keywordMatches(hay, kw)) score += 1;
     });
     if (score > bestScore) {
       bestScore = score;
@@ -74,7 +91,62 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: bestScore > 0,
   };
+}
+
+function hasLeadKeywords(text) {
+  return /assurance|mutuelle|emprunteur|sinistre|pr[eê]t|cr[eé]dit|habitation|rembours|garantie|locataire|v[eé]t[eé]rinaire|franchise|orias|lemoine|pr[eé]voyance|rc pro|canicule|s[ée]cheresse|fissur|inondation|d[ée]g[aâ]ts?\s+des\s+eaux|l[ée]gionell|hospitalisation|compl[ée]mentaire/i.test(
+    String(text || "")
+  );
+}
+
+function isMostlyEnglishTitle(title) {
+  var t = String(title || "");
+  var en = (t.match(/\b(the|into|a|of|regarding|potential|enters|memorandum|understanding|sale|advantages|getting|news|with|for|and|to)\b/gi) || []).length;
+  var fr = (t.match(/\b(le|la|les|des|une|un|et|dans|pour|sur|avec|france|assurance|mutuelle)\b/gi) || []).length;
+  return en >= 4 && en > fr;
+}
+
+function isPlaceholderCandidate(c) {
+  var title = String((c && c.title) || "");
+  var id = String((c && c.id) || "");
+  if (id === "cafeyn-pending-template") return true;
+  if (/collez ici|placeholder|\[titre\]|TODO\s*:/i.test(title)) return true;
+  return false;
+}
+
+function isWeakLeadCandidate(c) {
+  var title = String((c && c.title) || "");
+  var hay = title + " " + String((c && c.summary) || "") + " " + String((c && c.note) || "");
+  if (isPlaceholderCandidate(c)) return true;
+  if (isMostlyEnglishTitle(title)) return true;
+  if (
+    /\b(colombie|colombia|venezuela|honduras|nicaragua|ukraine|gaza|liban|cisjordanie|salvador)\b/i.test(hay) &&
+    !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b/i.test(hay)
+  ) {
+    return true;
+  }
+  if (
+    /tennis|tenmis|masters 1000|supercoupe|real madrid|psg ambitieux|ligue des champions/i.test(hay) &&
+    !hasLeadKeywords(hay)
+  ) {
+    return true;
+  }
+  if (
+    /canicule/i.test(hay) &&
+    /[ée]lectricit|[ée]nergie|production/i.test(hay) &&
+    !/habitation|logement|sinistre|senior|mutuelle|locataire|fissur/i.test(hay)
+  ) {
+    return true;
+  }
+  if (hasLeadKeywords(hay)) return false;
+  if (/[ée]clipse|astronomie|chasseurs d['’][ée]clipse/i.test(hay)) return true;
+  var topic = matchTopic(hay);
+  if (!topic.matched) return true;
+  if (topic.tag === "Actu" && topic.need === "habitation") return true;
+  if (topic.tag === "Coupe du monde 2026" || topic.tag === "Actu politique") return true;
+  return false;
 }
 
 function uniqueFile(baseSlug) {
@@ -130,6 +202,8 @@ function scoreLeadPotential(candidate) {
   }
 
   score += franceLeadScoreAdjust(candidate);
+
+  if (isWeakLeadCandidate(candidate)) score -= 40;
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
 
@@ -351,4 +425,6 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderCandidate: isPlaceholderCandidate,
+  isWeakLeadCandidate: isWeakLeadCandidate,
 };

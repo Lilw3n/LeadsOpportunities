@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T05:07:26.497Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.ouest-france.fr/faits-divers/incendie/drone-pompier-systeme-ultra-precis-face-aux-incendies-a-quoi-vont-ressembler-les-technologies-du-futur-9dd9f43c-8fe8-11f1-9add-57c399f24235?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d510bbf064585977171c5f9b3fd2e&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fcomparateur-mutuelle-comment-bien-choisir-sa-couverture-sant%25C3%25A9%2far-AA29ApGS&c=1022844048650390916&mkt=en-us",
+    "https://www.europe1.fr/meteo/canicule-meteo-france-maintient-80-departements-en-vigilance-orange-1011638?at_medium=RSS%20feeds&amp;at_campaign=Flux%20Generique"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T05:07:27.511Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T05:07:27.511Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "drone-pompier-systeme-ultra-precis-face-aux-incendies-a-quoi-vont-ressem.html",
+          "title": "Drone-pompier, système ultra-précis… : face aux incendies, à quoi vont ressembler les t… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "comparateur-mutuelle-comment-bien-choisir-sa-couverture-sante.html",
+          "title": "Comparateur mutuelle : comment bien choisir sa couverture santé : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "canicule-meteo-france-maintient-80-departements-en-vigilance-orange.html",
+          "title": "Canicule : Météo-France maintient 80 départements en vigilance orange : assurance habitation — que faire ?",
+          "source": "Firefox — Europe 1",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
