@@ -58,6 +58,16 @@
         ok = false;
         el.classList.add("input-invalid");
       }
+      if (el.name === "phone" && el.value) {
+        var pd = el.value.replace(/\D/g, "");
+        if (pd.indexOf("33") === 0 && pd.length === 11) pd = "0" + pd.slice(2);
+        if (pd.length < 10 || !/^0[67]/.test(pd)) {
+          ok = false;
+          el.classList.add("input-invalid");
+          var ph = step.querySelector("[data-phone-hint]");
+          if (ph) ph.hidden = false;
+        }
+      }
       if (
         (el.name === "postalCode" || el.name === "postalProject") &&
         el.value &&
@@ -364,6 +374,19 @@
         if (!validateStep(steps[steps.length - 1])) {
           e.preventDefault();
           e.stopImmediatePropagation();
+          return;
+        }
+        var emailEl = form.querySelector('[name="email"]');
+        var phoneEl = form.querySelector('[name="phone"]');
+        if (emailEl && !(emailEl.value || "").trim()) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          emailEl.classList.add("input-invalid");
+        }
+        if (phoneEl && !(phoneEl.value || "").trim()) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          phoneEl.classList.add("input-invalid");
         }
       },
       true

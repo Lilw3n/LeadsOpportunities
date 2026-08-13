@@ -58,6 +58,10 @@
       <label>Libellé<input id="cLabel" required placeholder="Famille Strasbourg…" /></label>
       <label>Contact CRM id<input id="cContact" placeholder="contact_…" /></label>
       <label>Lead id<input id="cLead" placeholder="lead_…" /></label>
+      <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <button type="button" class="btn btn-ghost btn-sm" id="btnImportLead">Importer critères depuis ce lead</button>
+        <span id="importLeadStatus" style="font-size:.8rem;color:var(--muted)"></span>
+      </div>
       <label>Types (virgules)<input id="cTypes" placeholder="appartement,maison" /></label>
       <label>Villes (virgules)<input id="cCities" placeholder="Strasbourg,Illkirch" /></label>
       <label>CP (virgules)<input id="cCp" placeholder="67000,67400" /></label>
@@ -97,6 +101,8 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/crm-immo-lead-to-criteria.js"></script>
+  <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-immo-matching-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>

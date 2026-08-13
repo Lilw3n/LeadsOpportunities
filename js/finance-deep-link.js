@@ -42,6 +42,9 @@
       agency: g(["agency", "agence"]),
       loanType: g(["loanType", "typePret"]),
       utmSource: g(["utm_source"]) || "crm-agency-fees",
+      postalProject: g(["postalProject", "cp", "postal"]),
+      searchCities: g(["searchCities", "ville", "city"]),
+      zone: g(["zone"]),
     };
   }
 
@@ -114,7 +117,10 @@
         el.dispatchEvent(new Event("change", { bubbles: true }));
       } catch (e) {}
     }
-    if (data.propertyPrice != null) setVal("propertyPrice", Math.round(data.propertyPrice));
+    if (data.propertyPrice != null) {
+      setVal("propertyPrice", Math.round(data.propertyPrice));
+      setVal("budgetMax", Math.round(data.propertyPrice));
+    }
     if (data.downPayment != null) setVal("downPayment", Math.round(data.downPayment));
     if (data.loanDuration != null) {
       var dur = String(Math.round(data.loanDuration));
@@ -136,6 +142,8 @@
       setVal("income", Math.round(data.income));
       setVal("revenus", Math.round(data.income));
     }
+    if (data.postalProject) setVal("postalProject", data.postalProject);
+    if (data.searchCities) setVal("searchCities", data.searchCities);
 
     // Champs cachés attribution
     ["propertyId", "contactId", "prixNet", "priceMode", "agency"].forEach(function (key) {

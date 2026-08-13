@@ -181,6 +181,7 @@
     ["buyerNeeds", "propertySought", "serviceSought"].forEach(function (key) {
       if (typeof o[key] === "string") o[key] = [o[key]];
     });
+    /* Checkboxes non cochées absentes — ok. */
     return o;
   }
 
@@ -328,6 +329,10 @@
     var subtitle = document.querySelector("[data-hero-subtitle]");
 
     if (!hero || !subtitle) return variant;
+
+    if (document.body.classList.contains("parcours-focus")) {
+      return variant;
+    }
 
     if (variant === "price") {
       hero.textContent = hero.getAttribute("data-price-title");

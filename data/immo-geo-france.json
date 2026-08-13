@@ -1,0 +1,126 @@
+{
+  "national": {
+    "title": "France entiere & DOM-TOM",
+    "summary": "Metropole, Corse et departements d'outre-mer : Guadeloupe, Martinique, Reunion, Guyane, Mayotte. Meme parcours acquereur partout."
+  },
+  "agency": {
+    "city": "Dombasle-sur-Meurthe",
+    "postal": "54110",
+    "homeCity": "Varangéville",
+    "homePostal": "54110"
+  },
+  "localZones": [
+    {
+      "id": "coeur-agence",
+      "title": "Dombasle — Varangéville (agence & domicile)",
+      "badge": "Coeur de secteur",
+      "priority": true,
+      "summary": "Rayon immediat autour de l'agence a Dombasle-sur-Meurthe et de Varangéville.",
+      "cities": [
+        { "name": "Dombasle-sur-Meurthe", "postal": "54110", "highlight": true },
+        { "name": "Varangéville", "postal": "54110", "highlight": true },
+        { "name": "Lenoncourt", "postal": "54110" },
+        { "name": "Sommerviller", "postal": "54110" },
+        { "name": "Haraucourt", "postal": "54110" },
+        { "name": "Buissoncourt", "postal": "54110" },
+        { "name": "Rosières-aux-Salines", "postal": "54110" },
+        { "name": "Crévic", "postal": "54110" },
+        { "name": "Flainval", "postal": "54110" },
+        { "name": "Mailley", "postal": "54110" }
+      ]
+    },
+    {
+      "id": "saint-nicolas-vermois",
+      "title": "Saint-Nicolas-de-Port & Pays du Vermois",
+      "badge": "Secteur prioritaire",
+      "priority": true,
+      "summary": "Communes du Sel et du Vermois, a l'ouest de Dombasle et Varangéville.",
+      "cities": [
+        { "name": "Saint-Nicolas-de-Port", "postal": "54210", "highlight": true },
+        { "name": "Ville-en-Vermois", "postal": "54210" },
+        { "name": "Manoncourt-en-Vermois", "postal": "54210" },
+        { "name": "Tonnoy", "postal": "54210" },
+        { "name": "Lupcourt", "postal": "54210" },
+        { "name": "Azelot", "postal": "54210" },
+        { "name": "Ferrières", "postal": "54210" },
+        { "name": "Art-sur-Meurthe", "postal": "54510" }
+      ]
+    },
+    {
+      "id": "lunéville-meurthe",
+      "title": "Lunéville & vallee de la Meurthe",
+      "badge": "Secteur prioritaire",
+      "priority": true,
+      "summary": "Axe Meurthe entre Nancy et Lunéville : Mont-sur-Meurthe, Blainville, Damelevières et communes voisines.",
+      "cities": [
+        { "name": "Lunéville", "postal": "54300", "highlight": true },
+        { "name": "Mont-sur-Meurthe", "postal": "54360", "highlight": true },
+        { "name": "Blainville-sur-l'Eau", "postal": "54360" },
+        { "name": "Damelevières", "postal": "54360" },
+        { "name": "Rehainviller", "postal": "54300" },
+        { "name": "Xermaménil", "postal": "54300" },
+        { "name": "Lamath", "postal": "54300" },
+        { "name": "Hériménil", "postal": "54300" },
+        { "name": "Vitrimont", "postal": "54300" },
+        { "name": "Charmois", "postal": "54360" },
+        { "name": "Chanteheux", "postal": "54300" },
+        { "name": "Croismare", "postal": "54360" },
+        { "name": "Einville-au-Jard", "postal": "54370" },
+        { "name": "Moncel-lès-Lunéville", "postal": "54300" },
+        { "name": "Laneuveville-devant-Nancy", "postal": "54410" },
+        { "name": "Houdemont", "postal": "54185" },
+        { "name": "Heillecourt", "postal": "54135" },
+        { "name": "Méréville", "postal": "54122" },
+        { "name": "Lay-Saint-Christophe", "postal": "54690" },
+        { "name": "Richardménil", "postal": "54630" },
+        { "name": "Seichamps", "postal": "54280" }
+      ]
+    },
+    {
+      "id": "val-de-lorraine",
+      "title": "Val de Lorraine & plateau de Haye",
+      "badge": "Secteur elargi",
+      "priority": false,
+      "summary": "Au nord et nord-ouest de Nancy : Pont-a-Mousson, Dieulouard, Custines et communes du plateau de Haye.",
+      "cities": [
+        { "name": "Pont-à-Mousson", "postal": "54700" },
+        { "name": "Dieulouard", "postal": "54380" },
+        { "name": "Custines", "postal": "54670" },
+        { "name": "Montauville", "postal": "54700" },
+        { "name": "Rosières-en-Haye", "postal": "54385" },
+        { "name": "Velaine-en-Haye", "postal": "54840" }
+      ]
+    },
+    {
+      "id": "grand-nancy",
+      "title": "Grand Nancy",
+      "badge": "Agglomeration",
+      "priority": false,
+      "summary": "Couronne nanceienne pour les projets d'achat et de financement.",
+      "cities": [
+        { "name": "Nancy", "postal": "54000" },
+        { "name": "Vandoeuvre-les-Nancy", "postal": "54500" },
+        { "name": "Laxou", "postal": "54520" },
+        { "name": "Villers-les-Nancy", "postal": "54600" },
+        { "name": "Saint-Max", "postal": "54130" },
+        { "name": "Essey-les-Nancy", "postal": "54270" },
+        { "name": "Jarville-la-Malgrange", "postal": "54140" },
+        { "name": "Maxeville", "postal": "54320" },
+        { "name": "Tomblaine", "postal": "54510" },
+        { "name": "Ludres", "postal": "54710" },
+        { "name": "Pompey", "postal": "54340" },
+        { "name": "Frouard", "postal": "54390" },
+        { "name": "Pulnoy", "postal": "54425" },
+        { "name": "Malzéville", "postal": "54220" }
+      ]
+    }
+  ],
+  "domTom": [
+    { "name": "Guadeloupe", "postal": "97110", "city": "Pointe-a-Pitre" },
+    { "name": "Martinique", "postal": "97200", "city": "Fort-de-France" },
+    { "name": "Reunion", "postal": "97400", "city": "Saint-Denis" },
+    { "name": "Guyane", "postal": "97300", "city": "Cayenne" },
+    { "name": "Mayotte", "postal": "97600", "city": "Mamoudzou" },
+    { "name": "Corse", "postal": "20000", "city": "Ajaccio" }
+  ]
+}

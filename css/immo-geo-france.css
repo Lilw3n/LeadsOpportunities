@@ -1,0 +1,139 @@
+.immo-geo-zones {
+  display: grid;
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.immo-zone {
+  border-radius: 16px;
+  padding: 22px 24px;
+  border: 1px solid var(--border, #e2e8f0);
+  background: #fff;
+}
+
+.immo-zone--nancy {
+  border-color: #5eead4;
+  background: linear-gradient(180deg, #f0fdfa 0%, #fff 55%);
+  box-shadow: 0 8px 24px rgba(13, 148, 136, 0.12);
+}
+
+.immo-zone--france {
+  background: linear-gradient(180deg, #eff6ff 0%, #fff 60%);
+  border-color: #bfdbfe;
+}
+
+.immo-zone-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0f766e;
+  background: #ccfbf1;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+
+.immo-zone h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+}
+
+.immo-zone > p {
+  margin: 0 0 14px;
+  color: var(--muted, #64748b);
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.immo-zone-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.immo-zone-chip,
+.immo-geo-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+
+.immo-zone-chip:hover,
+.immo-geo-chip:hover {
+  border-color: #0d9488;
+  background: #f0fdfa;
+  transform: translateY(-1px);
+}
+
+.immo-zone--nancy .immo-zone-chip {
+  border-color: #99f6e4;
+}
+
+.immo-geo-field-block--priority {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+}
+
+.immo-geo-chip--highlight,
+.immo-zone-chip--primary {
+  background: #0d9488;
+  color: #fff;
+  border-color: #0d9488;
+}
+
+.immo-geo-chip--highlight:hover,
+.immo-zone-chip--primary:hover {
+  background: #0f766e;
+  color: #fff;
+}
+
+.immo-zone--priority {
+  border-width: 2px;
+}
+
+.immo-geo-field-block {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.immo-geo-field-block legend,
+.immo-geo-field-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.immo-geo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.immo-geo-chip.is-active {
+  background: #0d9488;
+  color: #fff;
+  border-color: #0d9488;
+}
+
+.immo-geo-note {
+  margin: 8px 0 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}

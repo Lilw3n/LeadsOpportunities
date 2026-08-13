@@ -23,6 +23,8 @@
   <script src="/api/google-config-env"></script>
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../css/acheteur-parcours-focus.css" />
+  <link rel="stylesheet" href="../css/immo-geo-france.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
   <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
 </head>
@@ -48,7 +50,7 @@
         Recherche de bien
       </span>
       <section class="card">
-        <div class="hero-surface">
+        <div class="hero-surface" data-parcours-hero>
           <div class="hero">
             <h1
               data-hero-title
@@ -86,10 +88,15 @@
         </div>
 
         <div class="form-wrap" id="demande" data-lead-dossier>
-          <h2 class="form-title">Recherche de bien</h2>
-          <p class="form-lead">
+          <h2 class="form-title">Recherche de bien et dossier acquereur</h2>
+          <p class="parcours-prefill-banner" data-prefill-summary aria-live="polite"></p>
+          <p class="form-lead form-lead--full">
             Commencez comme sur une annonce : <strong>quel bien</strong>, <strong>où</strong>, <strong>budget</strong>, <strong>pro ou particulier</strong>.
-            Le pret et les assurances viennent apres, seulement si vous en avez besoin.
+            Le pret et les assurances viennent apres, seulement si vous en avez besoin. Zone prioritaire :
+            <strong>Dombasle, Varangéville</strong> et communes alentours.
+          </p>
+          <p class="form-lead form-lead--short">
+            Recherchez votre bien, laissez vos coordonnees, puis continuez seulement sur les etapes utiles.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
@@ -107,7 +114,7 @@
               </div>
               <div class="wizard-meta">
                 <span>Recherche guidee</span>
-                <span class="wizard-step-counter">Etape 1 / 11</span>
+                <span class="wizard-step-counter">Etape 1 / 12</span>
               </div>
             </div>
 
@@ -166,11 +173,12 @@
                 <div class="grid" style="margin-top:18px">
                   <div class="field">
                     <label for="postalProject">Code postal / secteur</label>
-                    <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" data-search-bien-required placeholder="Ex. 75011" />
+                    <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" data-search-bien-required placeholder="Ex. 54110, 54000, 97100" />
+                    <div data-immo-geo-chips></div>
                   </div>
                   <div class="field">
                     <label for="searchCities">Ville(s) visee(s)</label>
-                    <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Paris 11e, Vincennes" />
+                    <input id="searchCities" name="searchCities" data-optional placeholder="Ex. Dombasle-sur-Meurthe, Varangéville" />
                   </div>
                   <div class="field">
                     <label for="budgetMax">Budget max (€)</label>
@@ -212,19 +220,51 @@
               <div class="field full">
                 <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
                   <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous etudier ?</legend>
-                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" /> Pret immobilier / capacite d'emprunt</label>
-                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" /> Assurance emprunteur (delegation)</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" checked /> Pret immobilier / capacite d'emprunt <em style="font-style:normal;color:#64748b">(recommande)</em></label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" checked /> Assurance emprunteur (delegation Lemoine) <em style="font-style:normal;color:#64748b">(recommande avec le pret)</em></label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="habitation" /> Assurance habitation (future residence)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pno" /> PNO — proprietaire non occupant (bien loue / investissement)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="locataire" /> Assurance locataire (logement actuel)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="rachat" /> Rachat ou renegociation de credit</label>
                 </fieldset>
                 <p class="small" data-buyer-needs-hint hidden style="color:#b91c1c;margin-top:8px">Selectionnez au moins un besoin pour continuer.</p>
+                <p class="small" data-buyer-path-banner hidden style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 12px;color:#1e3a8a;margin:12px 0 0"></p>
               </div>
             </section>
 
-            <!-- ETAPE 3 : Situation logement et parrainage -->
-            <section class="wizard-step" data-wizard-step="3" data-step-name="logement" hidden>
+            <!-- ETAPE 3 : Contact essentiel (base CRM) -->
+            <section class="wizard-step" data-wizard-step="3" data-step-name="contact" hidden>
+              <h3>Vos coordonnees pour le rappel</h3>
+              <p class="small parcours-contact-lead" style="margin-top:0;margin-bottom:14px;color:#334155">
+                <strong>E-mail et mobile obligatoires</strong> — pour vous envoyer l'etude et vous rappeler.
+                Enregistres des que vous les saisissez, meme si vous interrompez le questionnaire.
+              </p>
+              <div class="grid">
+                <div class="field">
+                  <label for="firstName">Prenom <span class="field-essential">*</span></label>
+                  <input id="firstName" name="firstName" autocomplete="given-name" required />
+                </div>
+                <div class="field">
+                  <label for="lastName">Nom <span class="field-essential">*</span></label>
+                  <input id="lastName" name="lastName" autocomplete="family-name" required />
+                </div>
+                <div class="field">
+                  <label for="email">E-mail <span class="field-essential">*</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" required inputmode="email" />
+                </div>
+                <div class="field">
+                  <label for="phone">Telephone mobile <span class="field-essential">*</span></label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="06 ou 07..." inputmode="tel" />
+                  <p class="small" data-phone-hint hidden style="color:#b91c1c;margin:4px 0 0">Numero mobile francais a 10 chiffres (06 ou 07).</p>
+                </div>
+              </div>
+              <p class="small parcours-contact-privacy" style="margin:12px 0 0;color:#64748b">
+                Donnees protegees — utilisees uniquement pour votre dossier et le rappel conseiller.
+              </p>
+            </section>
+
+            <!-- ETAPE 4 : Situation logement et parrainage -->
+            <section class="wizard-step" data-wizard-step="4" data-step-name="logement" hidden>
               <h3>Votre situation logement</h3>
               <div class="grid">
                 <div class="field">
@@ -290,8 +330,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 4 : Precisions bien recherche -->
-            <section class="wizard-step" data-wizard-step="4" data-step-name="projet" hidden>
+            <!-- ETAPE 5 : Precisions bien recherche -->
+            <section class="wizard-step" data-wizard-step="5" data-step-name="projet" hidden>
               <h3>Precisions sur le bien recherche</h3>
               <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
                 Affinez le projet (residence, investissement, surface, secteur) pour le matching et le pret.
@@ -321,6 +361,7 @@
                     <option>Terrain a batir</option>
                     <option>Local commercial / Mixte</option>
                   </select>
+                  <input type="hidden" name="propertyTypeId" id="propertyTypeId" value="" />
                 </div>
                 <div class="field">
                   <label for="propertySurface">Surface approximative (m2)</label>
@@ -349,9 +390,12 @@
               </div>
             </section>
 
-            <!-- ETAPE 5 : Budget et financement (pret) -->
-            <section class="wizard-step" data-wizard-step="5" data-step-name="pret-budget" data-wizard-skip-pret hidden>
-              <h3>Budget et financement</h3>
+            <!-- ETAPE 6 : Budget et financement (pret) -->
+            <section class="wizard-step" data-wizard-step="6" data-step-name="pret-budget" data-wizard-skip-pret hidden>
+              <h3>Budget et financement (pret)</h3>
+              <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
+                Ce budget sert a verifier la <strong>faisabilite du pret</strong> et a filtrer les biens que l'on peut vous faire visiter.
+              </p>
               <div class="grid">
                 <div class="field">
                   <label for="propertyPrice">Prix du bien (estimation ou reel)</label>
@@ -401,8 +445,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 6 : Situation professionnelle (pret) -->
-            <section class="wizard-step" data-wizard-step="6" data-step-name="pret-pro" data-wizard-skip-pret hidden>
+            <!-- ETAPE 7 : Situation professionnelle (pret) -->
+            <section class="wizard-step" data-wizard-step="7" data-step-name="pret-pro" data-wizard-skip-pret hidden>
               <h3>Votre situation professionnelle</h3>
               <div class="grid">
                 <div class="field">
@@ -457,8 +501,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 7 : Charges (pret) -->
-            <section class="wizard-step" data-wizard-step="7" data-step-name="pret-charges" data-wizard-skip-pret hidden>
+            <!-- ETAPE 8 : Charges (pret) -->
+            <section class="wizard-step" data-wizard-step="8" data-step-name="pret-charges" data-wizard-skip-pret hidden>
               <h3>Vos charges actuelles</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">La banque analyse votre taux d'endettement (max ~35%). Soyez precis pour une estimation fiable.</p>
               <div class="grid">
@@ -509,8 +553,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 8 : Co-emprunteur (pret) -->
-            <section class="wizard-step" data-wizard-step="8" data-step-name="pret-co" data-wizard-skip-pret hidden>
+            <!-- ETAPE 9 : Co-emprunteur (pret) -->
+            <section class="wizard-step" data-wizard-step="9" data-step-name="pret-co" data-wizard-skip-pret hidden>
               <h3>Co-emprunteur</h3>
               <div class="grid">
                 <div class="field">
@@ -574,8 +618,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 9 : Portefeuille multi-contrats -->
-            <section class="wizard-step" data-wizard-step="9" data-step-name="portefeuille" hidden>
+            <!-- ETAPE 10 : Portefeuille multi-contrats -->
+            <section class="wizard-step" data-wizard-step="10" data-step-name="portefeuille" hidden>
               <h3>Vos autres contrats (optionnel)</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">Confidentiel — permet un conseil global assurance + financement.</p>
               <div class="grid">
@@ -615,9 +659,9 @@
               </div>
             </section>
 
-            <!-- ETAPE 10 : Coordonnees -->
-            <section class="wizard-step" data-wizard-step="10" data-step-name="coordonnees" hidden>
-              <h3>Vos coordonnees</h3>
+            <!-- ETAPE 11 : Adresse et identite -->
+            <section class="wizard-step" data-wizard-step="11" data-step-name="coordonnees" hidden>
+              <h3>Adresse et identite</h3>
               <div class="grid">
                 <div class="field">
                   <label for="civility">Civilite</label>
@@ -628,24 +672,8 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="firstName">Prenom</label>
-                  <input id="firstName" name="firstName" autocomplete="given-name" required />
-                </div>
-                <div class="field">
-                  <label for="lastName">Nom</label>
-                  <input id="lastName" name="lastName" autocomplete="family-name" required />
-                </div>
-                <div class="field">
                   <label for="dob">Date de naissance</label>
                   <input id="dob" name="dob" type="date" required />
-                </div>
-                <div class="field">
-                  <label for="email">E-mail</label>
-                  <input id="email" name="email" type="email" autocomplete="email" required />
-                </div>
-                <div class="field">
-                  <label for="phone">Telephone mobile</label>
-                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="06 / 07..." />
                 </div>
                 <div class="field full">
                   <label for="street">Adresse actuelle</label>
@@ -662,8 +690,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 11 : Finalisation assurances -->
-            <section class="wizard-step" data-wizard-step="11" data-step-name="finalisation" hidden>
+            <!-- ETAPE 12 : Finalisation assurances -->
+            <section class="wizard-step" data-wizard-step="12" data-step-name="finalisation" hidden>
               <h3>Assurances et dernieres precisions</h3>
               <div class="grid">
                 <div class="field">
@@ -863,6 +891,7 @@
   <script src="../js/lead-insights.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
+  <script src="../js/immo-geo-france.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="./tracking.js"></script>
   <script>
