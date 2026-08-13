@@ -115,7 +115,7 @@
               </div>
               <div class="wizard-meta">
                 <span>Parcours guide</span>
-                <span class="wizard-step-counter">Etape 1 / 10</span>
+                <span class="wizard-step-counter">Etape 1 / 11</span>
               </div>
             </div>
 
@@ -142,8 +142,39 @@
               </div>
             </section>
 
-            <!-- ETAPE 2 : Situation logement et parrainage -->
-            <section class="wizard-step" data-wizard-step="2" data-step-name="logement" hidden>
+            <!-- ETAPE 2 : Contact essentiel (base CRM) -->
+            <section class="wizard-step" data-wizard-step="2" data-step-name="contact" hidden>
+              <h3>Vos coordonnees pour le rappel</h3>
+              <p class="small parcours-contact-lead" style="margin-top:0;margin-bottom:14px;color:#334155">
+                <strong>E-mail et mobile obligatoires</strong> — pour vous envoyer l'etude et vous rappeler.
+                Enregistres des que vous les saisissez, meme si vous interrompez le questionnaire.
+              </p>
+              <div class="grid">
+                <div class="field">
+                  <label for="firstName">Prenom <span class="field-essential">*</span></label>
+                  <input id="firstName" name="firstName" autocomplete="given-name" required />
+                </div>
+                <div class="field">
+                  <label for="lastName">Nom <span class="field-essential">*</span></label>
+                  <input id="lastName" name="lastName" autocomplete="family-name" required />
+                </div>
+                <div class="field">
+                  <label for="email">E-mail <span class="field-essential">*</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" required inputmode="email" />
+                </div>
+                <div class="field">
+                  <label for="phone">Telephone mobile <span class="field-essential">*</span></label>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="06 ou 07..." inputmode="tel" />
+                  <p class="small" data-phone-hint hidden style="color:#b91c1c;margin:4px 0 0">Numero mobile francais a 10 chiffres (06 ou 07).</p>
+                </div>
+              </div>
+              <p class="small parcours-contact-privacy" style="margin:12px 0 0;color:#64748b">
+                Donnees protegees — utilisees uniquement pour votre dossier et le rappel conseiller.
+              </p>
+            </section>
+
+            <!-- ETAPE 3 : Situation logement et parrainage -->
+            <section class="wizard-step" data-wizard-step="3" data-step-name="logement" hidden>
               <h3>Votre situation logement</h3>
               <div class="grid">
                 <div class="field">
@@ -210,7 +241,7 @@
             </section>
 
             <!-- ETAPE 3 : Recherche de bien (matching / visites) — toujours -->
-            <section class="wizard-step" data-wizard-step="3" data-step-name="projet" hidden>
+            <section class="wizard-step" data-wizard-step="4" data-step-name="projet" hidden>
               <h3>Le bien que vous recherchez</h3>
               <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
                 Ces informations servent a vous proposer des <strong>biens a visiter</strong> et a caler le <strong>budget pret</strong>.
@@ -303,7 +334,7 @@
             </section>
 
             <!-- ETAPE 4 : Budget et financement (pret) -->
-            <section class="wizard-step" data-wizard-step="4" data-step-name="pret-budget" data-wizard-skip-pret hidden>
+            <section class="wizard-step" data-wizard-step="5" data-step-name="pret-budget" data-wizard-skip-pret hidden>
               <h3>Budget et financement (pret)</h3>
               <p class="small" style="margin-top:0;margin-bottom:12px;color:#334155">
                 Ce budget sert a verifier la <strong>faisabilite du pret</strong> et a filtrer les biens que l'on peut vous faire visiter.
@@ -358,7 +389,7 @@
             </section>
 
             <!-- ETAPE 5 : Situation professionnelle (pret) -->
-            <section class="wizard-step" data-wizard-step="5" data-step-name="pret-pro" data-wizard-skip-pret hidden>
+            <section class="wizard-step" data-wizard-step="6" data-step-name="pret-pro" data-wizard-skip-pret hidden>
               <h3>Votre situation professionnelle</h3>
               <div class="grid">
                 <div class="field">
@@ -414,7 +445,7 @@
             </section>
 
             <!-- ETAPE 6 : Charges (pret) -->
-            <section class="wizard-step" data-wizard-step="6" data-step-name="pret-charges" data-wizard-skip-pret hidden>
+            <section class="wizard-step" data-wizard-step="7" data-step-name="pret-charges" data-wizard-skip-pret hidden>
               <h3>Vos charges actuelles</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">La banque analyse votre taux d'endettement (max ~35%). Soyez precis pour une estimation fiable.</p>
               <div class="grid">
@@ -466,7 +497,7 @@
             </section>
 
             <!-- ETAPE 7 : Co-emprunteur (pret) -->
-            <section class="wizard-step" data-wizard-step="7" data-step-name="pret-co" data-wizard-skip-pret hidden>
+            <section class="wizard-step" data-wizard-step="8" data-step-name="pret-co" data-wizard-skip-pret hidden>
               <h3>Co-emprunteur</h3>
               <div class="grid">
                 <div class="field">
@@ -531,7 +562,7 @@
             </section>
 
             <!-- ETAPE 8 : Portefeuille multi-contrats -->
-            <section class="wizard-step" data-wizard-step="8" data-step-name="portefeuille" hidden>
+            <section class="wizard-step" data-wizard-step="9" data-step-name="portefeuille" hidden>
               <h3>Vos autres contrats (optionnel)</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">Confidentiel — permet un conseil global assurance + financement.</p>
               <div class="grid">
@@ -571,9 +602,9 @@
               </div>
             </section>
 
-            <!-- ETAPE 9 : Coordonnees -->
-            <section class="wizard-step" data-wizard-step="9" data-step-name="coordonnees" hidden>
-              <h3>Vos coordonnees</h3>
+            <!-- ETAPE 10 : Adresse et identite -->
+            <section class="wizard-step" data-wizard-step="10" data-step-name="coordonnees" hidden>
+              <h3>Adresse et identite</h3>
               <div class="grid">
                 <div class="field">
                   <label for="civility">Civilite</label>
@@ -584,24 +615,8 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="firstName">Prenom</label>
-                  <input id="firstName" name="firstName" autocomplete="given-name" required />
-                </div>
-                <div class="field">
-                  <label for="lastName">Nom</label>
-                  <input id="lastName" name="lastName" autocomplete="family-name" required />
-                </div>
-                <div class="field">
                   <label for="dob">Date de naissance</label>
                   <input id="dob" name="dob" type="date" required />
-                </div>
-                <div class="field">
-                  <label for="email">E-mail</label>
-                  <input id="email" name="email" type="email" autocomplete="email" required />
-                </div>
-                <div class="field">
-                  <label for="phone">Telephone mobile</label>
-                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="06 / 07..." />
                 </div>
                 <div class="field full">
                   <label for="street">Adresse actuelle</label>
@@ -618,8 +633,8 @@
               </div>
             </section>
 
-            <!-- ETAPE 10 : Finalisation assurances -->
-            <section class="wizard-step" data-wizard-step="10" data-step-name="finalisation" hidden>
+            <!-- ETAPE 11 : Finalisation assurances -->
+            <section class="wizard-step" data-wizard-step="11" data-step-name="finalisation" hidden>
               <h3>Assurances et dernieres precisions</h3>
               <div class="grid">
                 <div class="field">

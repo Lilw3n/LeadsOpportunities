@@ -1,14 +1,35 @@
 /**
  * Parcours acquéreur intelligent :
  * 1) besoins (conditionne la suite)
- * 2) recherche de bien (toujours — matching / visites)
- * 3) budget prêt (si pret/rachat)
- * 4) ADE (si pret ou emprunteur)
- * 5) habitation / PNO / locataire selon cases
+ * 2) contact (email + téléphone — base CRM)
+ * 3) recherche de bien (toujours — matching / visites)
+ * 4) budget prêt (si pret/rachat)
+ * 5) ADE (si pret ou emprunteur)
+ * 6) habitation / PNO / locataire selon cases
  */
 (function () {
   function qsa(root, sel) {
     return Array.prototype.slice.call(root.querySelectorAll(sel));
+  }
+
+  function isValidFrenchMobile(phone) {
+    if (!phone) return false;
+    var d = String(phone).replace(/\D/g, "");
+    if (d.indexOf("33") === 0 && d.length === 11) d = "0" + d.slice(2);
+    return d.length >= 10 && /^0[67]/.test(d);
+  }
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || "").trim());
+  }
+
+  function saveContactDraft(form) {
+    if (!window.QuoteIntelligence) return;
+    var email = form.querySelector('[name="email"]');
+    var phone = form.querySelector('[name="phone"]');
+    if (!email || !phone) return;
+    if (!isValidEmail(email.value) || !isValidFrenchMobile(phone.value)) return;
+    window.QuoteIntelligence.saveProgress(form, 2, "contact", "contact_capture");
   }
 
   function needsOf(form) {
@@ -115,7 +136,7 @@
 
     var banner = form.querySelector("[data-buyer-path-banner]");
     if (banner) {
-      var bits = ["Recherche de bien (matching / visites)"];
+      var bits = ["Vos coordonnees", "Recherche de bien (matching / visites)"];
       if (wantPret) bits.push("Questionnaire pret / budget");
       if (wantAde) bits.push("Assurance emprunteur");
       if (wantHab) bits.push("Habitation");
@@ -174,6 +195,18 @@
       });
     }
 
+    qsa(form, "#email, #phone, #firstName, #lastName").forEach(function (el) {
+      el.addEventListener("blur", function () {
+        saveContactDraft(form);
+      });
+      if (el.id === "phone") {
+        el.addEventListener("input", function () {
+          var hint = form.querySelector("[data-phone-hint]");
+          if (hint) hint.hidden = isValidFrenchMobile(el.value) || !(el.value || "").trim();
+        });
+      }
+    });
+
     syncConditional(form);
 
     form.addEventListener(
@@ -189,6 +222,37 @@
         if (!validateBuyerNeeds(form)) {
           e.preventDefault();
           e.stopImmediatePropagation();
+        }
+      },
+      true
+    );
+
+    form.addEventListener(
+      "click",
+      function (e) {
+        var btn = e.target.closest(".wizard-next");
+        if (!btn) return;
+        var steps = qsa(form, ".wizard-step");
+        var visibleIdx = steps.findIndex(function (s) {
+          return !s.hidden;
+        });
+        var contactStep = steps.findIndex(function (s) {
+          return s.getAttribute("data-step-name") === "contact";
+        });
+        if (visibleIdx !== contactStep) return;
+        var email = form.querySelector('[name="email"]');
+        var phone = form.querySelector('[name="phone"]');
+        var phoneHint = form.querySelector("[data-phone-hint]");
+        if (phone && phone.value && !isValidFrenchMobile(phone.value)) {
+          if (phoneHint) phoneHint.hidden = false;
+          phone.classList.add("input-invalid");
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          return;
+        }
+        if (phoneHint) phoneHint.hidden = true;
+        if (email && phone && isValidEmail(email.value) && isValidFrenchMobile(phone.value)) {
+          saveContactDraft(form);
         }
       },
       true

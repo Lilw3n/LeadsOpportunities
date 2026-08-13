@@ -156,6 +156,15 @@ body.parcours-clean [data-parcours-secondary] {
   color: #0f766e;
 }
 
+.field-essential {
+  color: #0d9488;
+  font-weight: 800;
+}
+
+.parcours-contact-lead strong {
+  color: #0f766e;
+}
+
 .services-pill--featured {
   background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%) !important;
   color: #fff !important;

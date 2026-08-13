@@ -42,3 +42,11 @@ Mode **focus** activé si :
 Effets : hero minimal, partenaires / FAQ masqués, bannière récap des infos préremplies, scroll direct vers le formulaire.
 
 Entrées directes : hub [`immobilier/`](../immobilier/), [`landings/`](../landings/), lien négociateur avec `#demande`.
+
+## Contact CRM (étape 2)
+
+**E-mail et téléphone** sont demandés dès l’**étape 2** (juste après les besoins), avant le détail du projet.
+
+- Champs obligatoires : prénom, nom, e-mail, mobile (06/07)
+- Sauvegarde brouillon immédiate (`contact_capture` → `/api/lead-progress`) dès saisie valide
+- Abandon de page : e-mail / téléphone inclus dans le payload si déjà saisis
