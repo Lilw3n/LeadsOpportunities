@@ -77,6 +77,17 @@ function matchTopic(text) {
   };
 }
 
+/** File manuelle / inbox : ignore les gabarits « COLLEZ ICI » qui bloquent le cron. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (item.id === "cafeyn-pending-template") return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/^\[?(titre|title|placeholder)\b/i.test(title)) return true;
+  return false;
+}
+
 function uniqueFile(baseSlug) {
   var files = existingFiles();
   var slug = baseSlug;
@@ -340,6 +351,7 @@ module.exports = {
   slugify: slugify,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
+  isPlaceholderActuItem: isPlaceholderActuItem,
   matchTopic: matchTopic,
   scaffoldArticle: scaffoldArticle,
   stripForManifest: stripForManifest,
