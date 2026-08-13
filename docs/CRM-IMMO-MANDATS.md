@@ -59,8 +59,8 @@ Déposer `mandat_de_vente_sans_exclusivite_*.pdf` dans `docs/immo-mandats/_inbox
 
 1. Filtrer un bien (optionnel) — le comparatif se synchronise sur la fiche.
 2. Choisir forme + type ; filtrer **Droit / général** ou **Pratiques agence**.
-3. **Créer un brouillon mandat** ou **Préremplir depuis le bien**.
-4. Ajuster clauses / parties ; **Appliquer modèle forme** dans l’éditeur.
+3. **Formulaire sans exclusivité** : remplir agence (libre) + mandant + bien + prix + honoraires → **Appliquer au document**.
+4. Ou **Créer un brouillon mandat** / **Préremplir depuis le bien**.
 5. Lien honoraires : `/crm-agency-fees.html`.
 
 ## PDF réseau (inbox)
