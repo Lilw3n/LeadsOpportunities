@@ -76,12 +76,32 @@ function isEnglishHeavyTitle(title) {
   return hits >= 3;
 }
 
-/** Actu spectacle (éclipse photos / ballon) sans angle santé / énergie / fraude. */
+function hasLeadKeyword(c) {
+  var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "");
+  return /assurance|mutuelle|emprunteur|sinistre|habitation|canicule|s[ée]cheresse|inondation|taux d['’]int[ée]r[eê]t|cr[ée]dit immo|pr[eê]t immo|retraite|s[ée]nior|sant[ée]|optique|lunette|kin[ée]|s[ée]curit[ée] sociale|matmut|pr[ée]voyance|tabag|vigilance orange|catastrophe naturelle|reste [àa] charge|d[ée]l[ée]gation/i.test(
+    hay
+  );
+}
+
+/** Actu spectacle / géopolitique / sport sans angle questionnaire. */
 function isLowLeadIntentTopic(c) {
   var hay = String((c && c.title) || "") + " " + String((c && c.summary) || "");
   if (
     /éclipse|eclipse/i.test(hay) &&
-    !/lunette|œil|oeil|yeux|optique|fraude|dgccrf|répression des fraudes|repression des fraudes/i.test(hay)
+    !/lunette|optique|fraude|dgccrf|r[ée]pression des fraudes/i.test(hay)
+  ) {
+    return true;
+  }
+  if (
+    /coop[ée]ration militaire|attach[ée] de d[ée]fense|h[ée]licopt[eè]re militaire|s[ée]isme de magnitude|pourparlers/i.test(
+      hay
+    )
+  ) {
+    return true;
+  }
+  if (
+    /\b(masters 1000|tour de france|supercoupe|tennis|tenmis|yacht)\b/i.test(hay) &&
+    !/assurance|mutuelle|emprunteur/i.test(hay)
   ) {
     return true;
   }
@@ -428,5 +448,6 @@ module.exports = {
   isPlaceholderCandidate: isPlaceholderCandidate,
   isEnglishHeavyTitle: isEnglishHeavyTitle,
   isLowLeadIntentTopic: isLowLeadIntentTopic,
+  hasLeadKeyword: hasLeadKeyword,
   shouldSkipLeadCandidate: shouldSkipLeadCandidate,
 };

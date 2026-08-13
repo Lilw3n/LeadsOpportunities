@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle, shouldSkipLeadCandidate } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, shouldSkipLeadCandidate, hasLeadKeyword } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -84,7 +84,9 @@ function bestFromPlatform(available, platform, feedMap, used) {
     .sort(function (a, b) {
       return b.leadScore - a.leadScore;
     });
-  return list[0] || null;
+  var withKw = list.filter(hasLeadKeyword);
+  var pool = withKw.length ? withKw : list;
+  return pool[0] || null;
 }
 
 function pickCandidates(candidates, count, state) {
@@ -141,25 +143,25 @@ function pickCandidates(candidates, count, state) {
     state._nextPlatformRotation = (rot + count) % PLATFORM_TYPES.length;
   }
 
-  available
-    .filter(function (c) {
-      return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
-    })
-    .forEach(function (c) {
+  function pushAvailable(filterFn) {
+    available.forEach(function (c) {
       if (picks.length >= count) return;
+      if (filterFn && !filterFn(c)) return;
       var k = c.url || c.title;
       if (used.has(k)) return;
       picks.push(c);
       used.add(k);
     });
+  }
 
-  available.forEach(function (c) {
-    if (picks.length >= count) return;
-    var k = c.url || c.title;
-    if (used.has(k)) return;
-    picks.push(c);
-    used.add(k);
+  pushAvailable(function (c) {
+    return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1 && hasLeadKeyword(c);
   });
+  pushAvailable(function (c) {
+    return PLATFORM_TYPES.indexOf(candidateSourceType(c, feedMap)) !== -1;
+  });
+  pushAvailable(hasLeadKeyword);
+  pushAvailable(null);
 
   return picks;
 }
