@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T03:16:32.703Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conso/eclipse-solaire-des-lunettes-non-conformes-ont-ete-vendues-en-france-selon-la-repression-des-fraudes-20260812",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d3710368946a4b285a75fad7c1155&url=https%3a%2f%2fwww.beinsports.com%2ffr-fr%2ffootball%2fcoupe-du-monde-de-la-fifa-2026%2farticles-video%2fcoupe-du-monde-2026-la-conf%25C3%25A9rence-de-presse-de-deschamps-et-za%25C3%25AFre-emery-avant-france-espagne-2026-07-14&c=6857850969209012687&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T03:16:33.574Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T03:16:33.574Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "eclipse-solaire-des-lunettes-non-conformes-ont-ete-vendues-en-france-sel.html",
+          "title": "Éclipse solaire : des lunettes non conformes ont été vendues en France, selon la Répres… : mutuelle et remboursements — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-2026-la-conference-de-presse-de-deschamps-et-zaire-emery-.html",
+          "title": "Coupe du monde 2026 : La conférence de presse de Deschamps et Zaïre-Emery avant France - Espagne : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+          "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

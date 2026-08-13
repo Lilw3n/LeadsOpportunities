@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-08-13",
   "sections": [
     "actu",
     "animaux",
@@ -921,6 +921,45 @@
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+      "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=avec-la-canicule-la-france-produit-moin",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "eclipse-solaire-des-lunettes-non-conformes-ont-ete-vendues-en-france-sel.html",
+      "title": "Éclipse solaire : des lunettes non conformes ont été vendues en France, selon la Répres… : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=eclipse-solaire-des-lunettes-non-confo",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "coupe-du-monde-2026-la-conference-de-presse-de-deschamps-et-zaire-emery-.html",
+      "title": "Coupe du monde 2026 : La conférence de presse de Deschamps et Zaïre-Emery avant France … : assurance voyage, mutuelle etranger et habitation — guide supporters",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=coupe-du-monde-2026-la-conference-de-p",
+      "matchedRule": null,
       "species": null
     }
   ]
