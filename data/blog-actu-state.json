@@ -1,10 +1,17 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-13T03:52:09.279Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/eclipse-solaire-quel-effet-le-phenomene-aura-t-il-vraiment-sur-la-production-d-electricite-en-france-20260812",
+    "https://www.france24.com/fr/%C3%A9missions/info-%C3%A9co/20260811-avec-la-canicule-la-france-produit-moins-d-%C3%A9lectricit%C3%A9-et-en-consomme-davantage",
+    "https://www.lefigaro.fr/sciences/c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-ballon-generalli-au-dessus-du-parc-andre-citroen-plein-a-craquer-pour-observer-l-eclipse-20260812",
+    "https://www.franceinfo.fr/sciences/astronomie/eclipse-solaire/c-est-un-petit-croissant-de-soleil-partout-en-france-des-etoiles-plein-les-yeux-face-a-l-eclipse_8145305.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/secteur/high-tech/eclipse-ces-precautions-a-prendre-si-vous-voulez-faire-des-belles-photos-sans-abimer-vos-yeux-ni-votre-materiel-20260812",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a7d3f66b61e4e2a887a16ca02395778&url=https%3a%2f%2fwww.msn.com%2ffr-be%2ffinance%2fassurance%2fmeilleure-mutuelle-sant%25C3%25A9-comment-choisir-sa-compl%25C3%25A9mentaire-en-2026%2far-AA29W6AM&c=9346134064828957243&mkt=en-us",
+    "https://www.franceinfo.fr/economie/greve/la-prefecture-de-police-de-paris-ordonne-l-evacuation-du-samu-social-occupe-par-des-salaries-grevistes-et-400-personnes_8144318.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-13T03:52:10.289Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +24,70 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-13T03:50:54.887Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "eclipse-solaire-quel-effet-le-phenomene-aura-t-il-vraiment-sur-la-produc.html",
+          "title": "Éclipse solaire : quel effet le phénomène aura-t-il vraiment sur la production d’électr… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "avec-la-canicule-la-france-produit-moins-d-electricite-mais-en-consomme-.html",
+          "title": "Avec la canicule, la France produit moins d'électricité mais en consomme davantage : assurance habitation — que faire ?",
+          "source": "Firefox — France 24 économie",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-13T03:51:39.921Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "c-etait-le-meilleur-spot-de-tout-paris-on-se-sent-privilegie-a-bord-du-b.html",
+          "title": "«C’était le meilleur spot de tout Paris, on se sent privilégié» : à bord du ballon Gene… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "c-est-comme-un-serre-tete-qui-brille-face-a-l-eclipse-petits-et-grands-o.html",
+          "title": "\"C'est comme un serre-tête qui brille\" : face à l'éclipse, petits et grands ont eu des … : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-13T03:52:10.289Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "eclipse-ces-precautions-a-prendre-si-vous-voulez-faire-des-belles-photos.html",
+          "title": "Éclipse : ces précautions à prendre si vous voulez faire des (belles) photos sans abîme… : assurance auto — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "meilleure-mutuelle-sante-comment-choisir-sa-complementaire-en-2026.html",
+          "title": "Meilleure mutuelle santé : comment choisir sa complémentaire en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "la-prefecture-de-police-de-paris-ordonne-l-evacuation-du-samu-social-occ.html",
+          "title": "La préfecture de police de Paris ordonne l'évacuation du Samu social, occupé par des sa… : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo société",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
