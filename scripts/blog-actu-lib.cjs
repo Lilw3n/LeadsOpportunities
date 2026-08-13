@@ -31,6 +31,24 @@ function slugify(text) {
     .slice(0, 72);
 }
 
+/**
+ * Titres à ne jamais publier : placeholder inbox, lives, éditos, hors marché FR.
+ */
+function isJunkActuTitle(title) {
+  var t = String(title || "").replace(/\s+/g, " ").trim();
+  if (!t) return true;
+  var low = t.toLowerCase();
+  if (/collez ici/i.test(t)) return true;
+  if (/\bplaceholder\b/i.test(t)) return true;
+  if (/^en direct\b/i.test(t)) return true;
+  if (/^live\s*[-–:]/i.test(t)) return true;
+  if (/l['’']éditorial/i.test(low) || /l['’']editorial/i.test(low)) return true;
+  if (/hockey/i.test(t) && !/france|équipe de france|equipe de france|les bleus/i.test(t)) {
+    return true;
+  }
+  return false;
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -132,6 +150,7 @@ function scoreLeadPotential(candidate) {
   score += franceLeadScoreAdjust(candidate);
 
   if (title.indexOf("chomage") !== -1 && title.indexOf("assurance") === -1) score -= 15;
+  if (isJunkActuTitle(candidate.title)) score = 0;
 
   if (candidate.pubDate) {
     var age = Date.now() - new Date(candidate.pubDate).getTime();
@@ -338,6 +357,7 @@ module.exports = {
   readJson: readJson,
   writeJson: writeJson,
   slugify: slugify,
+  isJunkActuTitle: isJunkActuTitle,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
