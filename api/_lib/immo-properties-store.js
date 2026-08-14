@@ -53,6 +53,16 @@ async function ensureImmoSchema(sql) {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `;
+  // Colonnes "piges" (affectation, suivi terrain) ajoutées après la création initiale de la table.
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS etat TEXT DEFAULT 'non_affectee'`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS agence TEXT`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS suivi_par TEXT`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS phone TEXT`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS "transaction" TEXT DEFAULT 'vente'`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS a_contacter BOOLEAN DEFAULT FALSE`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS contact_connu BOOLEAN DEFAULT FALSE`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_etat ON crm_immo_properties(etat)`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_suivi_par ON crm_immo_properties(suivi_par)`;
   await sql`
     CREATE TABLE IF NOT EXISTS crm_immo_buyer_criteria (
       id TEXT PRIMARY KEY,
@@ -240,7 +250,8 @@ async function upsertProperty(sql, item, user) {
       has_elevator, has_garage, has_parking, has_cave, has_garden, has_terrace, has_balcony, has_pool,
       dependencies_json, price_net, price_fai, honoraires, dpe, ges,
       description, notes, photos_json, metadata_json,
-      owner_contact_id, buyer_contact_id, lead_id, assigned_to, created_by, updated_at
+      owner_contact_id, buyer_contact_id, lead_id, assigned_to, created_by, updated_at,
+      etat, agence, suivi_par, phone, "transaction", a_contacter, contact_connu
     ) VALUES (
       ${id}, ${item.title || "Bien"}, ${item.property_type || "appartement"}, ${item.status || "active"},
       ${item.listing_source || "manual"}, ${item.listing_url || null},
@@ -256,7 +267,9 @@ async function upsertProperty(sql, item, user) {
       ${item.description || null}, ${item.notes || null},
       ${j(item.photos_json || item.photos, [])}, ${j(item.metadata_json || item.metadata, {})},
       ${item.owner_contact_id || null}, ${item.buyer_contact_id || null}, ${item.lead_id || null},
-      ${item.assigned_to || null}, ${createdBy}, NOW()
+      ${item.assigned_to || item.suivi_par || null}, ${createdBy}, NOW(),
+      ${item.etat || "non_affectee"}, ${item.agence || null}, ${item.suivi_par || null}, ${item.phone || null},
+      ${item.transaction || "vente"}, ${!!item.a_contacter}, ${!!item.contact_connu}
     )
     ON CONFLICT (id) DO UPDATE SET
       title = EXCLUDED.title,
@@ -296,6 +309,13 @@ async function upsertProperty(sql, item, user) {
       buyer_contact_id = EXCLUDED.buyer_contact_id,
       lead_id = EXCLUDED.lead_id,
       assigned_to = EXCLUDED.assigned_to,
+      etat = EXCLUDED.etat,
+      agence = EXCLUDED.agence,
+      suivi_par = EXCLUDED.suivi_par,
+      phone = EXCLUDED.phone,
+      "transaction" = EXCLUDED."transaction",
+      a_contacter = EXCLUDED.a_contacter,
+      contact_connu = EXCLUDED.contact_connu,
       updated_at = NOW()
   `;
   return id;

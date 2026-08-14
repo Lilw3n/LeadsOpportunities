@@ -6,6 +6,7 @@ const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, isHoneypotFilled, rateLimit, getClientIp } = require("../security");
 const { getVisitorCountry, isFranceAudience } = require("../geo-france");
 const { getSql } = require("../db");
+const { finalizeLeadIngest } = require("../lead-post-ingest");
 const Portals = require("../../../js/immo-listing-portals-lib.js");
 const Lib = require("../../../js/immo-public-listings-lib.js");
 
@@ -359,6 +360,39 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     }
   }
 
+  var notifyPayload = {
+    vertical: vertical,
+    source: detections[0] && detections[0].portal === "manual" ? "listing_manual" : "listing_url",
+    role: role,
+    need: need,
+    email: email || null,
+    phone: phone || null,
+    firstName: firstName || null,
+    lastName: lastName || null,
+    city: city || buyCity || null,
+    postal_code: postal || buyPostal || null,
+    sellerName: sellerName || null,
+    sellerPhone: sellerPhone || null,
+    sellerEmail: sellerEmail || null,
+    sellerAgency: sellerAgency || null,
+    listingUrls: detections.map(function (d) {
+      return d.url;
+    }).filter(Boolean),
+    portals: detections.map(function (d) {
+      return d.portal;
+    }),
+    propertyIds: propertyIds,
+    alsoBuys: role === "les_deux",
+    wantsRelais: wantsRelais,
+    landing_path: "/landings/acheteur-immo.html",
+  };
+  var notifyResult = { emailSent: false };
+  try {
+    notifyResult = await finalizeLeadIngest(notifyPayload, leadId, leadScore, req);
+  } catch (notifyErr) {
+    console.warn("[immo-listing-submit] notify", notifyErr && notifyErr.message);
+  }
+
   return res.status(200).json({
     ok: true,
     leadId: leadId,
@@ -371,6 +405,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
       return { url: d.url, portal: d.portal, label: d.label, listingId: d.listingId };
     }),
     stored: propertyIds.length > 0,
+    emailSent: !!notifyResult.emailSent,
     photos: photos.length,
     hasCapture: photos.some(function (p) {
       return p.kind === "capture";

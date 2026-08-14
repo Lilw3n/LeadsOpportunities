@@ -50,6 +50,17 @@ CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_postal ON crm_immo_properties
 CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_owner ON crm_immo_properties(owner_contact_id);
 CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_buyer ON crm_immo_properties(buyer_contact_id);
 
+-- Colonnes "piges" (affectation par secteur / suivi terrain jusqu'au mandat)
+ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS etat TEXT DEFAULT 'non_affectee';
+ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS agence TEXT;
+ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS suivi_par TEXT;
+ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS phone TEXT;
+ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS "transaction" TEXT DEFAULT 'vente';
+ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS a_contacter BOOLEAN DEFAULT FALSE;
+ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS contact_connu BOOLEAN DEFAULT FALSE;
+CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_etat ON crm_immo_properties(etat);
+CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_suivi_par ON crm_immo_properties(suivi_par);
+
 CREATE TABLE IF NOT EXISTS crm_immo_buyer_criteria (
   id TEXT PRIMARY KEY,
   contact_id TEXT,

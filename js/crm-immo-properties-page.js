@@ -10,6 +10,14 @@
   var triState = { fPhone: "any", fGeo: "any" };
   var selected = {};
 
+  function currentUser() {
+    try {
+      return JSON.parse(localStorage.getItem("lo_user") || "null") || {};
+    } catch (e) {
+      return {};
+    }
+  }
+
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;")
@@ -74,6 +82,21 @@
       fStatus.innerHTML += '<option value="' + s.id + '">' + s.label + "</option>";
       pStatus.innerHTML += '<option value="' + s.id + '">' + s.label + "</option>";
     });
+  }
+
+  function applyQueryParams() {
+    var params = new URLSearchParams(window.location.search);
+    var city = params.get("city");
+    var etat = params.get("etat");
+    var status = params.get("status");
+    var aContacter = params.get("a_contacter");
+    if (city) document.getElementById("fCity").value = city;
+    if (etat) document.getElementById("fEtat").value = etat;
+    if (status) document.getElementById("fStatus").value = status;
+    if (aContacter === "1" || aContacter === "true") {
+      switchOn(document.getElementById("swContact"), true);
+    }
+    return !!(city || etat || status || aContacter);
   }
 
   function fillCityList() {
@@ -460,6 +483,29 @@
       return;
     }
 
+    if (act === "claim") {
+      ids = needSelection();
+      if (!ids) return;
+      var me = currentUser();
+      var myName = (me.full_name || me.email || "Négociateur").trim();
+      var stampClaim = new Date().toLocaleString("fr-FR");
+      ids.forEach(function (id) {
+        var p = Store.getProperty(id);
+        if (!p) return;
+        p.suivi_par = myName;
+        p.assigned_to = me.email || myName;
+        p.etat = "en_cours";
+        p.a_contacter = true;
+        p.notes =
+          (p.notes ? p.notes + "\n" : "") +
+          "[" + stampClaim + "] " + myName + " prend en charge cette pige — direction chercher le mandat.";
+        Store.upsertProperty(p);
+      });
+      renderList();
+      alert("Pige(s) affectée(s) à vous — à vous d'aller chercher le mandat sur ce secteur.");
+      return;
+    }
+
     if (act === "suivi") {
       ids = needSelection();
       if (!ids) return;
@@ -516,6 +562,7 @@
   };
 
   fillSelects();
+  applyQueryParams();
   bindUrlAutodetect(document.getElementById("pUrl"), document.getElementById("pSource"));
   Store.seedDemoIfEmpty();
   Store.syncFromApi().then(renderList).catch(renderList);

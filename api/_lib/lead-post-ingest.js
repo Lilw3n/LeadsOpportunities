@@ -58,15 +58,25 @@ async function sendResendEmail(payload, score, leadId) {
     return false;
   }
 
-  var sub =
-    "[Lead " +
-    (payload.vertical || "?") +
-    "] score " +
-    score +
-    " — " +
-    (payload.email || payload.phone || leadId);
+  var isImmoListing = isImmoListingLead(payload);
+  var sub = isImmoListing
+    ? "[Pige immo] " +
+      ([payload.city, payload.postal_code].filter(Boolean).join(" ") || "secteur ?") +
+      " — score " +
+      score
+    : "[Lead " +
+      (payload.vertical || "?") +
+      "] score " +
+      score +
+      " — " +
+      (payload.email || payload.phone || leadId);
   var html =
-    "<h2>Nouvelle demande Leads Opportunities</h2>" +
+    "<h2>" +
+    (isImmoListing ? "Nouvelle pige immo à travailler" : "Nouvelle demande Leads Opportunities") +
+    "</h2>" +
+    (isImmoListing
+      ? "<p>Un lien d'annonce (ex. Leboncoin) vient d'être transmis sur votre secteur : à vous d'aller chercher le mandat.</p>"
+      : "") +
     "<p><strong>ID</strong> " +
     leadId +
     "</p>" +
@@ -105,6 +115,15 @@ async function sendResendEmail(payload, score, leadId) {
   return true;
 }
 
+function isImmoListingLead(payload) {
+  var vertical = String(payload.vertical || "");
+  var src = String(payload.source || "");
+  return (
+    /^(acheteur_immo|vendeur_immo|acheteur_vendeur_immo)$/.test(vertical) &&
+    (src === "listing_manual" || src === "listing_url")
+  );
+}
+
 async function notifySlack(payload, score, leadId) {
   var url = (process.env.SLACK_WEBHOOK_URL || "").trim();
   if (!url) return false;
@@ -116,17 +135,45 @@ async function notifySlack(payload, score, leadId) {
   ).replace(/\/$/, "");
   var src = String(payload.source || "site");
   var vertical = String(payload.vertical || "devis");
+  var isImmoListing = isImmoListingLead(payload);
   var crmPath =
-    src === "meta_lead_ads" ? "/crm-meta-inbox.html" : "/crm-acquisition.html";
-  var lines = [
-    "*Nouveau lead* — " + vertical + " · score " + score + "/100",
-    "Source: " + src,
-    payload.phone ? "Tel: " + payload.phone : "",
-    payload.email ? "Email: " + payload.email : "",
-    payload.utm_campaign ? "Campagne: " + payload.utm_campaign : "",
-    "ID: " + leadId,
-    "<" + appUrl + crmPath + "|Ouvrir le CRM>",
-  ].filter(Boolean);
+    src === "meta_lead_ads"
+      ? "/crm-meta-inbox.html"
+      : isImmoListing
+        ? "/crm-immo-properties.html?etat=non_affectee" +
+          (payload.city ? "&city=" + encodeURIComponent(payload.city) : "")
+        : "/crm-acquisition.html";
+  var lines;
+  if (isImmoListing) {
+    var roleLabel =
+      payload.role === "vendeur"
+        ? "dépôt vendeur"
+        : payload.role === "les_deux"
+          ? "vend + rachète"
+          : "annonce collée par un acquéreur";
+    lines = [
+      "*Nouvelle pige immo à travailler* — " + roleLabel + " · score " + score + "/100",
+      "Secteur : " + ([payload.city, payload.postal_code].filter(Boolean).join(" ") || "non renseigné"),
+      payload.listingUrls && payload.listingUrls.length ? "Annonce : " + payload.listingUrls[0] : "",
+      payload.sellerName ? "Vendeur : " + payload.sellerName : "",
+      payload.sellerPhone ? "Tel vendeur : " + payload.sellerPhone : "",
+      payload.phone ? "Tel contact : " + payload.phone : "",
+      payload.email ? "Email contact : " + payload.email : "",
+      "→ Direction cette localité pour aller chercher le mandat.",
+      "ID: " + leadId,
+      "<" + appUrl + crmPath + "|Ouvrir la pige dans le CRM>",
+    ].filter(Boolean);
+  } else {
+    lines = [
+      "*Nouveau lead* — " + vertical + " · score " + score + "/100",
+      "Source: " + src,
+      payload.phone ? "Tel: " + payload.phone : "",
+      payload.email ? "Email: " + payload.email : "",
+      payload.utm_campaign ? "Campagne: " + payload.utm_campaign : "",
+      "ID: " + leadId,
+      "<" + appUrl + crmPath + "|Ouvrir le CRM>",
+    ].filter(Boolean);
+  }
 
   try {
     var r = await fetch(url, {
@@ -231,4 +278,5 @@ module.exports = {
   sendResendEmail,
   getLeadNotificationRecipients,
   sendSlackTestMessage,
+  isImmoListingLead,
 };
