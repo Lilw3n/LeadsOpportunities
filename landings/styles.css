@@ -401,6 +401,13 @@ textarea:focus-visible {
   gap: 6px;
 }
 
+/* .field { display:flex } annule sinon l'attribut HTML hidden (UA stylesheet) */
+.field[hidden],
+[data-search-bien-panel][hidden],
+[data-search-service-panel][hidden] {
+  display: none !important;
+}
+
 .full {
   grid-column: 1 / -1;
 }

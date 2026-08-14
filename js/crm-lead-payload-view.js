@@ -260,8 +260,8 @@
     locataire: "Assurance locataire",
     rachat: "Rachat ou renégociation de crédit",
     bien: "Un bien à acheter / acquérir",
-    service: "Un service immobilier",
-    les_deux: "Bien + service",
+    service: "Un service pro (syndic, gestion…)",
+    les_deux: "Bien + service pro",
     maison: "Maison",
     appartement: "Appartement",
     terrain: "Terrain à bâtir",
@@ -275,7 +275,7 @@
     estimation_vente: "Estimation / mise en vente",
     recherche_locataire: "Recherche de locataire",
     transaction: "Accompagnement transaction",
-    autre_service: "Autre service immobilier",
+    autre_service: "Autre service pro",
   };
 
   function humanizeKey(key) {

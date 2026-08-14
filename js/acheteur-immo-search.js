@@ -178,8 +178,15 @@
       );
       if (cb) cb.checked = true;
     }
-    var kind = form.querySelector('input[name="searchKind"][value="bien"]');
-    if (kind) kind.checked = true;
+    var kind = form.querySelector('input[name="searchKind"]');
+    if (kind) {
+      if (kind.type === "hidden") kind.value = "bien";
+      else if (kind.value === "bien") kind.checked = true;
+      else {
+        var kindBien = form.querySelector('input[name="searchKind"][value="bien"]');
+        if (kindBien) kindBien.checked = true;
+      }
+    }
     var mode = form.querySelector('input[name="searchModeUi"][value="bien"]');
     if (mode) mode.checked = true;
     try {

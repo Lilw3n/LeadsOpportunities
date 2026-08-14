@@ -11,8 +11,12 @@
   }
 
   function searchKindOf(form) {
-    var el = form.querySelector('input[name="searchKind"]:checked');
-    return el ? el.value : "";
+    var hidden = form.querySelector('input[name="searchKind"]');
+    if (hidden && hidden.type === "hidden" && hidden.value) return hidden.value;
+    var checked = form.querySelector('input[name="searchKind"]:checked');
+    if (checked) return checked.value;
+    var ui = form.querySelector('input[name="searchModeUi"]:checked');
+    return ui ? ui.value : "";
   }
 
   function wantsBien(kind) {
@@ -45,8 +49,13 @@
   function syncModeFromUi(form) {
     var ui = form.querySelector('input[name="searchModeUi"]:checked');
     if (!ui) return;
-    var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
-    if (hidden) hidden.checked = true;
+    var hidden = form.querySelector('input[name="searchKind"]');
+    if (hidden && hidden.type === "hidden") {
+      hidden.value = ui.value;
+      return;
+    }
+    var radio = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
+    if (radio) radio.checked = true;
   }
 
   function syncSearchPanels(form) {
