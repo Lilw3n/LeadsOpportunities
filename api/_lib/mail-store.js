@@ -5,6 +5,22 @@ const {
   classifyLeadInboxKind,
   subjectForKind,
 } = require("./lead-inbox-kind");
+const { computeLeadValue, formatEuros } = require("../../js/lead-value.js");
+
+/** Valeur potentielle (€) : celle calculée à l'ingestion, sinon recalcul. */
+function leadValueOf(row, payload) {
+  if (payload && payload.estimated_value != null && isFinite(Number(payload.estimated_value))) {
+    return {
+      value: Number(payload.estimated_value),
+      band: payload.estimated_value_band || null,
+    };
+  }
+  try {
+    return computeLeadValue(payload, row);
+  } catch (e) {
+    return null;
+  }
+}
 
 function leadFromAddr(row, payload) {
   var email = (row.email || payload.email || "").trim();
@@ -27,6 +43,7 @@ function leadThreadKey(row, payload) {
 function formatLeadBodyText(row, payload, kind) {
   var step = Number(row.questionnaire_step || payload.questionnaire_step || payload.step || 0);
   var total = Number(row.questionnaire_total || payload.questionnaire_total || 10) || 10;
+  var lv = leadValueOf(row, payload);
   var typeLabel =
     kind === "express_callback"
       ? "Rappel express"
@@ -45,6 +62,7 @@ function formatLeadBodyText(row, payload, kind) {
     "Téléphone : " + (row.phone || payload.phone || "—"),
     "Étape : " + step + " / " + total,
     "Score : " + (row.lead_score != null ? row.lead_score : payload.leadScore != null ? payload.leadScore : "—"),
+    "Valeur potentielle : " + (lv ? "~" + formatEuros(lv.value) + (lv.band ? " (" + lv.band + ")" : "") : "—"),
     "Ville : " + (row.city || payload.city || "—"),
     "Code postal : " + (row.postal_code || payload.postal_code || payload.postalCode || "—"),
     "Message : " + (payload.message || payload.comment || "—"),
@@ -65,7 +83,9 @@ async function upsertLeadMailboxRow(sql, row) {
   const kind = classifyLeadInboxKind(row, payload);
   const id = "lead_" + row.id;
   const fromAddr = leadFromAddr(row, payload);
-  const subject = subjectForKind(kind, row, payload);
+  var subject = subjectForKind(kind, row, payload);
+  var lv = leadValueOf(row, payload);
+  if (lv && lv.value > 0) subject += " · ~" + formatEuros(lv.value);
   const bodyText = formatLeadBodyText(row, payload, kind);
   const threadKey = leadThreadKey(row, payload);
   const createdAt = row.created_at || new Date().toISOString();

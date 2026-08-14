@@ -86,6 +86,14 @@ module.exports = async (req, res) => {
     })
   );
 
+  var leadValue = null;
+  try {
+    const { computeLeadValue } = require("../../../js/lead-value.js");
+    leadValue = computeLeadValue(Object.assign({}, body, { leadScore: score }));
+  } catch (valErr) {
+    console.warn("[lead] value estimate", valErr.message);
+  }
+
   var enriched = Object.assign({}, body, {
     leadId: leadId,
     leadScore: score,
@@ -97,6 +105,9 @@ module.exports = async (req, res) => {
     tariffQuote: tariffAnalysis.quote || null,
     crossSell: crossSellAnalysis,
     portfolio: crossSellAnalysis ? crossSellAnalysis.portfolio : null,
+    estimated_value: leadValue ? leadValue.value : null,
+    estimated_value_band: leadValue ? leadValue.band : null,
+    estimated_value_reasons: leadValue ? leadValue.reasons : null,
     journey: body.journey || body.formJourney || "full",
     openedAt: null,
     serverReceivedAt: new Date().toISOString(),
