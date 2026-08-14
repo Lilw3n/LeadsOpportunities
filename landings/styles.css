@@ -401,6 +401,11 @@ textarea:focus-visible {
   gap: 6px;
 }
 
+/* `.field { display: flex }` gagne sinon sur l’attribut HTML hidden (UA = display:none). */
+[hidden] {
+  display: none !important;
+}
+
 .full {
   grid-column: 1 / -1;
 }

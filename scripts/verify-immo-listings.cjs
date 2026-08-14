@@ -184,6 +184,22 @@ assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos
 assert(html.indexOf("data-listing-view") === -1 || html.indexOf("Voir photos") !== -1, "landing : bouton voir photos (JS)");
 assert(html.indexOf("acheteur-immo-search.js") !== -1, "script recherche chargé");
 assert(html.indexOf("immo-public-listings-lib.js") !== -1, "lib listings chargée");
+assert(html.indexOf("name=\"searchModeUi\"") === -1, "landing : pas de doublon searchModeUi");
+assert(html.indexOf("Je cherche un service") === -1, "landing : pas de choix exclusif bien vs service");
+assert(html.indexOf("Un bien a acheter") === -1 && html.indexOf("Un bien à acheter") === -1, "landing : pas de radios searchKind");
+assert(html.indexOf("type=\"hidden\" name=\"searchKind\"") !== -1, "landing : searchKind dérivé (hidden)");
+assert(html.indexOf("Un autre accompagnement") !== -1, "landing : extras syndic/gestion facultatifs");
+assert(html.indexOf('value="transaction"') === -1, "landing : pas de chip Transaction (redondant avec la recherche)");
+
+var wizard = read("js/acheteur-immo-wizard.js");
+assert(wizard.indexOf("searchModeUi") === -1, "wizard : plus de sync searchModeUi");
+assert(wizard.indexOf("les_deux") !== -1 && wizard.indexOf("serviceSought") !== -1, "wizard : extras → searchKind les_deux");
+
+var styles = read("landings/styles.css");
+assert(
+  styles.indexOf("[hidden]") !== -1 && styles.indexOf("display: none !important") !== -1,
+  "CSS : [hidden] n'est pas écrasé par .field { display:flex }"
+);
 
 var qinit = read("landings/questionnaire-init.js");
 assert(

@@ -400,35 +400,11 @@
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
               <h3>Quel bien recherchez-vous ?</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
+                Type, secteur, budget, vendeur — on s’occupe de vous proposer des biens à visiter.
               </p>
+              <input type="hidden" name="searchKind" value="bien" data-search-kind />
 
-              <div class="field full" hidden>
-                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
-                  <legend>Vous cherchez…</legend>
-                  <label class="field-check"><input type="radio" name="searchKind" value="bien" checked required /> Un bien a acheter / acquerir</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
-                </fieldset>
-                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
-              </div>
-
-              <div class="search-mode-tabs" role="tablist" aria-label="Mode de recherche">
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
-                  <span>Je cherche un bien</span>
-                </label>
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="service" data-search-mode />
-                  <span>Je cherche un service</span>
-                </label>
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
-                  <span>Bien + service</span>
-                </label>
-              </div>
-
-              <div class="field full" data-search-bien-panel style="margin-top:16px">
+              <div class="field full" data-search-bien-panel>
                 <p class="search-section-label">Categorie</p>
                 <div class="search-chip-grid" role="group" aria-label="Type de bien">
                   <label class="search-chip"><input type="checkbox" name="propertySought" value="appartement" /><span>Appartement</span></label>
@@ -479,17 +455,16 @@
                 </div>
               </div>
 
-              <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
-                <p class="search-section-label">Quel service ?</p>
-                <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="estimation_vente" /><span>Estimation / vente</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="recherche_locataire" /><span>Locataire</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="transaction" /><span>Transaction</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="autre_service" /><span>Autre</span></label>
+              <div class="field full" data-search-service-panel style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
+                <p class="search-section-label">Un autre accompagnement ? (facultatif)</p>
+                <p class="small" style="margin:0 0 10px">Syndic, gestion locative, estimation… en plus de la recherche.</p>
+                <div class="search-chip-grid" role="group" aria-label="Accompagnements optionnels">
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" data-optional /><span>Syndic / copro</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" data-optional /><span>Location / gestion</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="estimation_vente" data-optional /><span>Estimation / vente</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="recherche_locataire" data-optional /><span>Locataire</span></label>
+                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="autre_service" data-optional /><span>Autre</span></label>
                 </div>
-                <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins un service.</p>
               </div>
             </section>
 
