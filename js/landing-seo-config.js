@@ -39,6 +39,9 @@
           text: "Simulation credit immo, courtier pret immobilier, rachat de credit, capacite d emprunt et taux 2026.",
           links: [
             { href: "/landings/credit-immo.html", label: "Simulation credit immo" },
+            { href: "/landings/acheteur-immo.html", label: "Recherche de bien" },
+            { href: "/landings/vendeur-immo.html", label: "Déposer un bien" },
+            { href: "/landings/acheteur-vendeur-immo.html", label: "Vendre et racheter" },
             { href: "/landings/questionnaire.html?need=rachat", label: "Rachat de credit" },
             { href: "/credit-immo/", label: "Guide credit immo" },
           ],

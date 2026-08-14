@@ -184,6 +184,7 @@ assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos
 assert(html.indexOf("data-listing-view") === -1 || html.indexOf("Voir photos") !== -1, "landing : bouton voir photos (JS)");
 assert(html.indexOf("acheteur-immo-search.js") !== -1, "script recherche chargé");
 assert(html.indexOf("immo-public-listings-lib.js") !== -1, "lib listings chargée");
+assert(html.indexOf("/og/og-acheteur-immo.jpg") !== -1, "landing : visuel Open Graph JPEG");
 
 var qinit = read("landings/questionnaire-init.js");
 assert(

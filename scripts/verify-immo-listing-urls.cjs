@@ -61,6 +61,8 @@ assert(html.indexOf("data-hat-dual-only") !== -1, "landing : double casquette ve
 assert(html.indexOf("listingMode") !== -1, "landing : saisie manuelle ou URL");
 assert(html.indexOf("immo-listing-portals-lib.js") !== -1, "landing charge le catalogue");
 assert(html.indexOf("acheteur-immo-listing-url.js") !== -1, "landing charge le formulaire URL");
+assert(read("landings/vendeur-immo.html").indexOf("og-vendeur-immo.jpg") !== -1, "page partage vendeur : OG JPEG");
+assert(read("landings/acheteur-vendeur-immo.html").indexOf("og-acheteur-vendeur-immo.jpg") !== -1, "page partage double casquette : OG JPEG");
 assert(html.indexOf("sellerPhone") !== -1 && html.indexOf("sellerName") !== -1, "champs vendeur");
 assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-capture") !== -1, "champs photos + capture");
 assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");

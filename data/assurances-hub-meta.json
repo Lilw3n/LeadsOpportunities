@@ -44,13 +44,13 @@
     "vendeur-immo": {
       "icon": "🏷️",
       "teaser": "Déposez votre bien à vendre : saisie manuelle ou URL d'annonce.",
-      "seoUrl": "/landings/acheteur-immo.html?role=vendeur",
+      "seoUrl": "/landings/vendeur-immo.html",
       "keywords": ["vendre maison", "deposer annonce", "vendeur immobilier"]
     },
     "acheteur-vendeur-immo": {
       "icon": "🔄",
       "teaser": "Vous vendez et vous rachètez : les deux casquettes, chaîne et prêt relais.",
-      "seoUrl": "/landings/acheteur-immo.html?role=les_deux",
+      "seoUrl": "/landings/acheteur-vendeur-immo.html",
       "keywords": ["vente rachat", "pret relais", "chaine immobiliere"]
     },
     "auto": {

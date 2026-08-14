@@ -126,6 +126,8 @@
     if (path.indexOf("vtc") !== -1) return "vtc";
     if (path.indexOf("sante") !== -1) return "sante";
     if (path.indexOf("credit-immo") !== -1) return "credit_immo";
+    if (path.indexOf("acheteur-vendeur-immo") !== -1) return "acheteur_vendeur_immo";
+    if (path.indexOf("vendeur-immo") !== -1) return "vendeur_immo";
     if (path.indexOf("acheteur-immo") !== -1) {
       var role = new URLSearchParams(window.location.search).get("role") || "";
       if (role === "vendeur") return "vendeur_immo";
