@@ -78,7 +78,7 @@ window.CrmSidebar = {
       defaultOpen: true,
       items: [
         { type: "section", id: "contacts", label: "Contacts", icon: "contacts", desc: "Prospects, clients, apporteurs" },
-        { type: "link", href: "./crm-contact.html", label: "Fiche contact", icon: "contacts", muted: true },
+        { type: "link", href: "./crm-relations.html", label: "Relations & parrainage", icon: "contacts", desc: "Famille, SCI, héritiers, apporteurs — sans promesse", keywords: "parrainage apporteur famille conjoint sci heritier indivision" },
         { type: "link", href: "./crm-contact-modules.html", label: "Modules contact", icon: "tools" },
         { type: "link", href: "./crm-interlocutors.html", label: "Interlocuteurs", icon: "contacts" },
         { type: "link", href: "./crm-event-manager.html", label: "Suivi événements / dossiers", icon: "calendar" },

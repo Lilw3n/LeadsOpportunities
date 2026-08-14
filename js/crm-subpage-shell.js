@@ -30,6 +30,7 @@
       "crm-driver-new.html": { subtitle: "Ajout conducteur rattaché à un contact" },
       "crm-search.html": { subtitle: "Recherche transversale contacts, dossiers et événements" },
       "crm-contact.html": { subtitle: "Fiche contact, contrats, événements et documents" },
+      "crm-relations.html": { subtitle: "Famille, SCI, héritiers, parrainage — aucune rémunération promise aux apporteurs" },
       "crm-interlocutors.html": { subtitle: "Interlocuteurs, relations et points de contact" },
       "crm-projects.html": { subtitle: "Projets clients et suivi opérationnel" },
       "crm-documents.html": { subtitle: "Documents clients et pièces de dossiers" },

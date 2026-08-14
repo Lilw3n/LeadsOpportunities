@@ -16,8 +16,32 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |
 | `/crm-immo-documents.html` | Éditeur mandats / offres / compromis (fondation) |
 | `/crm-agency-fees.html` | Barèmes honoraires + financement acheteur |
+| `/crm-relations.html` | **Relations & parrainage** : famille, SCI, héritiers, apporteurs |
 
-Sidebar : groupe **Immobilier**.
+Sidebar : groupe **Immobilier** + **Clients & dossiers** (relations).
+
+## Relations entre personnes
+
+On suit les **liens** (pas des promesses) :
+
+- **Famille** : conjoint, Pacs, union libre, enfants, parents, fratrie, ex-conjoint + **statut matrimonial** sur la fiche
+- **Patrimoine** : héritiers (succession)
+- **Société** : associés SCI / indivision
+- **Parrainage** = **apporteur d’affaires** (filleul → apporteur)
+
+**Règle** : *Aucun engagement de rémunération n’est promis aux apporteurs d’affaires.*  
+Pas de % / cadeau / « vous recevrez » sur le lien, ni sur les landings publiques. Un % d’apporteur n’existe que dans le calculateur d’honoraires **si un accord est déjà saisi sur le dossier**.
+
+API : `GET/POST/DELETE /api/crm/relations`  
+Tables : `crm_contact_relationships` + colonnes `share_pct`, `legal_form`, `capacity`, `entity_name` sur `crm_immo_parties`.
+
+## Multi-propriétaires / parts
+
+Sur la fiche bien, onglet **Personnes & parts** :
+
+- plusieurs propriétaires, héritiers, usufruit / nue-propriété, associés SCI
+- quote-part % (alerte si le total des rôles propriétaires ≠ 100 %)
+- forme juridique (personne physique, SCI, indivision)
 
 ## Matching (score 0–100)
 
@@ -34,8 +58,8 @@ Implémentation : `js/crm-immo-matcher.js` (navigateur + Node).
 
 ## Données
 
-- **Local** : `localStorage` clé `lo_crm_immo_v1` (fonctionne immédiatement)
-- **Neon** : tables `crm_immo_*` (`database/crm-immo-properties.sql`) via `/api/crm/immo`
+- **Local** : `localStorage` clés `lo_crm_immo_v1` (biens) et `lo_crm_relations_v1` (liens personnes)
+- **Neon** : tables `crm_immo_*` (`database/crm-immo-properties.sql`) + `crm_contact_relationships` (`database/crm-contact-relationships.sql`) via `/api/crm/immo` et `/api/crm/relations`
 - Sync : le store tente l’API puis retombe en local
 
 ## API

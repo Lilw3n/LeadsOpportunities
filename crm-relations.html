@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Relations &amp; parrainage | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .rel-disclaimer { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; padding:10px 14px; border-radius:10px; font-size:.88rem; line-height:1.45; margin:0 0 16px; }
+    .rel-toolbar { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:14px; }
+    .rel-toolbar input, .rel-toolbar select { padding:8px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
+    .rel-kpis { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; margin-bottom:16px; }
+    .rel-kpi { background:#fff; border:1px solid var(--line); border-radius:10px; padding:12px; }
+    .rel-kpi strong { display:block; font-size:1.35rem; }
+    .rel-kpi span { font-size:.78rem; color:var(--muted); }
+    .rel-table { width:100%; border-collapse:collapse; font-size:.88rem; background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+    .rel-table th, .rel-table td { padding:10px 12px; border-bottom:1px solid #eef2f7; text-align:left; }
+    .rel-table th { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+    .rel-badge { display:inline-block; font-size:.72rem; font-weight:700; padding:2px 8px; border-radius:999px; background:#f1f5f9; }
+    .rel-badge.parrainage { background:#fff7ed; color:#9a3412; }
+    .rel-badge.famille { background:#ecfeff; color:#155e75; }
+    .rel-badge.patrimoine { background:#f5f3ff; color:#5b21b6; }
+    .rel-badge.societe { background:#ecfdf5; color:#065f46; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <p class="crm-eyebrow">Contacts · relations</p>
+  <h1>Relations entre personnes</h1>
+  <p class="rel-disclaimer" id="relDisclaimer"></p>
+  <div class="rel-kpis" id="relKpis"></div>
+  <div class="rel-toolbar">
+    <input type="search" id="relFilterQ" placeholder="Rechercher un nom…" />
+    <select id="relFilterType">
+      <option value="">Tous les liens</option>
+    </select>
+    <a class="btn btn-ghost" href="./crm.html#contacts">Fiches contacts</a>
+    <a class="btn btn-ghost" href="./crm-immo-properties.html">Biens &amp; parts</a>
+  </div>
+  <div class="panel">
+    <table class="rel-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>De</th>
+          <th>Lien</th>
+          <th>Vers</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody id="relBody">
+        <tr><td colspan="5">Chargement…</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="./js/crm-people-relations-lib.js"></script>
+  <script src="./js/crm-relations-store.js"></script>
+  <script src="./js/crm-relations-page.js"></script>
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

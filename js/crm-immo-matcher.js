@@ -55,6 +55,10 @@
     { id: "notaire", label: "Notaire" },
     { id: "agent", label: "Agent / collègue" },
     { id: "apporteur", label: "Apporteur" },
+    { id: "heritier", label: "Héritier" },
+    { id: "associe_sci", label: "Associé SCI" },
+    { id: "usufruitier", label: "Usufruitier" },
+    { id: "nu_proprietaire", label: "Nu-propriétaire" },
   ];
 
   /** Statuts pipeline métier (réf. CRM immo) — numéro d’affichage + id stocké */
