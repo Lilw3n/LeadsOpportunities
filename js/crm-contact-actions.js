@@ -16,6 +16,7 @@ window.CrmContactActions = {
       { label: "+ Conducteur", href: "./crm-driver-new.html?" + q },
       { label: "+ Demande assurance", href: "./crm-insurance-request-new.html?" + q },
       { label: "Paiement devis", href: "./crm-quote-payment.html?" + q },
+      { label: "Déposer un document", href: "./crm-depot-drive.html?" + q },
       { label: "Test éligibilité", href: "./crm-eligibility-test.html?" + q },
       { label: "Dérogations", href: "./crm-derogations.html" },
       { label: "Simulation portail", href: "./crm-simulate.html?" + q },

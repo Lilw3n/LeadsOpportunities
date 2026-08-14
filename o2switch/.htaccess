@@ -1,0 +1,7 @@
+# Le script PHP est public (auth par secret). Interdire le listing.
+Options -Indexes
+<IfModule mod_authz_core.c>
+  <FilesMatch "\.(php|htaccess)$">
+    Require all granted
+  </FilesMatch>
+</IfModule>

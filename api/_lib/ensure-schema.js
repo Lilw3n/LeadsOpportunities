@@ -164,7 +164,13 @@ async function ensureMailboxSchema(sql) {
   });
 }
 
+async function ensureDocumentFilesSchema(sql) {
+  const { ensureDocumentFilesSchema: ensureDocs } = require("./document-files");
+  return ensureDocs(sql);
+}
+
 module.exports = {
   ensureSiteLeadsSchema,
   ensureMailboxSchema,
+  ensureDocumentFilesSchema,
 };

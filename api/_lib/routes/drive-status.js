@@ -1,11 +1,12 @@
 /**
- * GET /api/drive/status — test configuration Drive (admin CRM)
+ * GET /api/drive/status — test configuration Drive + copie o2switch (admin CRM)
  */
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
 const { isDriveConfigured, getRootFolderId, testDriveConnection } = require("../google-drive-auth");
 const { getSql } = require("../db");
 const { ensureClientDriveFolders } = require("../drive-folders");
+const { isBackupConfigured, testBackupConnection, getBackupUrl } = require("../o2switch-backup");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -20,6 +21,7 @@ module.exports = async (req, res) => {
 
   const url = new URL(req.url, "http://localhost");
   const contactId = url.searchParams.get("contactId");
+  const skipBackupPing = url.searchParams.get("skipBackup") === "1";
 
   try {
     const status = {
@@ -27,19 +29,34 @@ module.exports = async (req, res) => {
       rootFolderId: getRootFolderId() || null,
       hasServiceAccount: !!(process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "").trim(),
       hasManualToken: !!(process.env.GOOGLE_DRIVE_ACCESS_TOKEN || "").trim(),
+      backupConfigured: isBackupConfigured(),
+      backupUrlHost: (function () {
+        try {
+          var u = getBackupUrl();
+          return u ? new URL(u).host : null;
+        } catch (e) {
+          return null;
+        }
+      })(),
     };
+
+    var backup = { configured: status.backupConfigured, skipped: skipBackupPing };
+    if (!skipBackupPing) {
+      backup = await testBackupConnection();
+    }
 
     if (!status.configured || !status.rootFolderId) {
       return res.status(200).json({
         ok: false,
         ...status,
-        error: "Variables manquantes — voir docs/DRIVE-SETUP.md",
+        backup: backup,
+        error: "Variables Drive manquantes — voir docs/DRIVE-SETUP.md",
       });
     }
 
     const test = await testDriveConnection();
     if (!test.ok) {
-      return res.status(200).json({ ok: false, ...status, ...test });
+      return res.status(200).json({ ok: false, ...status, ...test, backup: backup });
     }
 
     var folderTest = null;
@@ -55,6 +72,7 @@ module.exports = async (req, res) => {
       ...status,
       connection: test,
       contactFolder: folderTest,
+      backup: backup,
     });
   } catch (e) {
     console.error("[drive/status]", e);

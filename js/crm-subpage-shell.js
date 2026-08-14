@@ -32,6 +32,7 @@
       "crm-interlocutors.html": { subtitle: "Interlocuteurs, relations et points de contact" },
       "crm-projects.html": { subtitle: "Projets clients et suivi opérationnel" },
       "crm-documents.html": { subtitle: "Documents clients et pièces de dossiers" },
+      "crm-depot-drive.html": { subtitle: "Dépôt automatique Google Drive, copie o2switch, vérification Stripe" },
       "crm-pending-documents.html": { subtitle: "Pièces manquantes à réclamer ou valider" },
       "crm-quotes.html": { subtitle: "Devis en cours, acceptés et à relancer" },
       "crm-quote-new.html": { subtitle: "Création de devis à partir de données vérifiées" },

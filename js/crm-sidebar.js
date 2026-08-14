@@ -84,6 +84,7 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-projects-new.html", label: "Nouveau projet", icon: "tools" },
         { type: "link", href: "./crm-projects-detail.html", label: "Détail projet", icon: "tools", muted: true },
         { type: "link", href: "./crm-documents.html", label: "Documents", icon: "document" },
+        { type: "link", href: "./crm-depot-drive.html", label: "Dépôt Drive", icon: "document", badge: "auto", highlight: true, desc: "Google Drive, copie o2switch, test Stripe", keywords: "drive google depot document o2switch stripe" },
         { type: "link", href: "./crm-pending-documents.html", label: "Documents en attente", icon: "document", badge: "à traiter" },
         { type: "link", href: "./crm-bank-details.html", label: "Coordonnées bancaires", icon: "financial" },
       ],

@@ -6,6 +6,8 @@ const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../se
 const { getSql } = require("../db");
 const { uploadTextFile, uploadBase64File } = require("../drive-upload-core");
 const { subfolderForDocumentType } = require("../drive-folders");
+const { UPLOAD_JSON_MAX_BYTES } = require("../upload-limits");
+const { resolveOrCreateContact } = require("../resolve-upload-contact");
 
 function attachmentFromBody(body, driveResult) {
   return {
@@ -16,25 +18,14 @@ function attachmentFromBody(body, driveResult) {
     driveFileId: driveResult.fileId || null,
     webViewLink: driveResult.webViewLink || null,
     thumbnailLink: driveResult.thumbnailLink || null,
+    backupPath: driveResult.backup && (driveResult.backup.relativePath || driveResult.backup.path),
+    backupOk: !!(driveResult.backup && driveResult.backup.ok),
+    backupOnly: !!driveResult.backupOnly,
     uploadedAt: new Date().toISOString(),
     description: body.description || "",
     vertical: body.vertical || body.need || null,
     leadId: body.leadId || body.lead_id || null,
   };
-}
-
-async function resolveContact(sql, body) {
-  const contactId = body.contactId || body.contact_id || null;
-  if (contactId) {
-    const rows = await sql`SELECT id, first_name, last_name, email FROM crm_contacts WHERE id = ${contactId} LIMIT 1`;
-    if (rows.length) return rows[0];
-  }
-  const email = body.email ? String(body.email).trim().toLowerCase() : "";
-  if (!email) return null;
-  const contacts = await sql`
-    SELECT id, first_name, last_name, email FROM crm_contacts WHERE LOWER(email) = ${email} LIMIT 1
-  `;
-  return contacts.length ? contacts[0] : null;
 }
 
 module.exports = async (req, res) => {
@@ -46,7 +37,7 @@ module.exports = async (req, res) => {
   const rl = rateLimit("ext-upload:" + ip, 30, 3600000);
   if (!rl.allowed) return res.status(429).json({ error: "Trop de requetes" });
 
-  const parsed = parseJsonBody(req);
+  const parsed = parseJsonBody(req, UPLOAD_JSON_MAX_BYTES);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
   const body = parsed.body || {};
   const fileName = body.fileName || body.name;
@@ -67,27 +58,34 @@ module.exports = async (req, res) => {
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
 
   try {
-    const contact = await resolveContact(sql, body);
-    if (!contact) return res.status(404).json({ error: "Dossier client introuvable" });
+    const resolved = await resolveOrCreateContact(sql, body);
+    const contact = resolved.contact;
+    if (!contact) return res.status(400).json({ error: "email invalide — impossible de rattacher le document" });
 
     const subfolder = subfolderForDocumentType(documentType);
     var driveResult = null;
+    var uploadOpts = {
+      fileName: fileName,
+      mimeType: body.mimeType,
+      contactId: contact.id,
+      subfolder: subfolder,
+      documentType: documentType,
+      source: body.source || "portal_upload",
+    };
     if (body.fileBase64) {
-      driveResult = await uploadBase64File({
-        fileName: fileName,
-        base64: body.fileBase64,
-        mimeType: body.mimeType || "application/octet-stream",
-        contactId: contact.id,
-        subfolder: subfolder,
-      });
+      driveResult = await uploadBase64File(
+        Object.assign({}, uploadOpts, {
+          base64: body.fileBase64,
+          mimeType: body.mimeType || "application/octet-stream",
+        })
+      );
     } else if (body.content) {
-      driveResult = await uploadTextFile({
-        fileName: fileName,
-        content: typeof body.content === "string" ? body.content : JSON.stringify(body.content),
-        mimeType: body.mimeType || "text/plain",
-        contactId: contact.id,
-        subfolder: subfolder,
-      });
+      driveResult = await uploadTextFile(
+        Object.assign({}, uploadOpts, {
+          content: typeof body.content === "string" ? body.content : JSON.stringify(body.content),
+          mimeType: body.mimeType || "text/plain",
+        })
+      );
     }
 
     const attachment = attachmentFromBody(body, driveResult || {});
@@ -97,6 +95,7 @@ module.exports = async (req, res) => {
       source: body.source || "portal_upload",
       vertical: body.vertical || body.need || null,
       leadId: body.leadId || body.lead_id || null,
+      contactCreated: resolved.created,
     });
 
     const actId = "act_" + crypto.randomUUID();
@@ -140,9 +139,12 @@ module.exports = async (req, res) => {
       ok: true,
       eventId: evtId,
       contactId: contact.id,
+      contactCreated: resolved.created,
       attachment: attachment,
       drive: driveResult,
-      message: "Document enregistré",
+      message: driveResult && driveResult.backupOnly
+        ? "Document enregistré (copie o2switch — Drive à reconnecter)"
+        : "Document enregistré",
     });
   } catch (e) {
     console.error("[external/upload]", e);

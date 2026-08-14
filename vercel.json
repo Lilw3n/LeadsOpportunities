@@ -70,6 +70,12 @@
     },
     "api/webhooks/[action].js": {
       "maxDuration": 60
+    },
+    "api/drive/[action].js": {
+      "maxDuration": 60
+    },
+    "api/external/[action].js": {
+      "maxDuration": 60
     }
   },
   "headers": [

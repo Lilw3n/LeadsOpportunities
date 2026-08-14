@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dépôt Drive | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .depot-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+    .depot-card { padding:16px; border:1px solid var(--line,#e2e8f0); border-radius:12px; background:#fff; }
+    .depot-pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:.75rem; font-weight:700; }
+    .depot-pill.ok { background:#dcfce7; color:#166534; }
+    .depot-pill.ko { background:#fee2e2; color:#991b1b; }
+    .depot-pill.warn { background:#ffedd5; color:#9a3412; }
+    .depot-muted { color:var(--muted,#64748b); font-size:.85rem; }
+    #depotOut, #stripeOut, #uploadOut { white-space:pre-wrap; font-size:.8rem; max-height:220px; overflow:auto; }
+    .depot-files { width:100%; border-collapse:collapse; font-size:.85rem; }
+    .depot-files th, .depot-files td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line,#e2e8f0); }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Documents</p>
+      <h2>Dépôt automatique Google Drive</h2>
+      <p>Chaque pièce déposée sur le site part vers le Drive courtier. Une copie de secours est écrite sur o2switch si le script PHP est en place. Stripe se vérifie ensuite depuis cette page.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-documents.html" class="btn btn-ghost">Documents</a>
+      <a href="./test-drive.html" class="btn btn-ghost">Explorateur Drive</a>
+      <a href="./crm-quote-payment.html" class="btn btn-ghost">Paiement devis</a>
+    </div>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="depot-grid" id="statusGrid">
+      <article class="depot-card">
+        <p class="crm-eyebrow">Google Drive</p>
+        <h3>Connexion</h3>
+        <p><span class="depot-pill warn" id="drivePill">…</span></p>
+        <p class="depot-muted" id="driveSummary">Vérification…</p>
+        <button type="button" class="btn btn-primary" id="btnDriveStatus" style="margin-top:12px">Vérifier Drive</button>
+      </article>
+      <article class="depot-card">
+        <p class="crm-eyebrow">o2switch</p>
+        <h3>Copie de secours</h3>
+        <p><span class="depot-pill warn" id="backupPill">…</span></p>
+        <p class="depot-muted" id="backupSummary">Vérification…</p>
+      </article>
+      <article class="depot-card">
+        <p class="crm-eyebrow">Paiement</p>
+        <h3>Stripe</h3>
+        <p><span class="depot-pill warn" id="stripePill">non testé</span></p>
+        <p class="depot-muted" id="stripeSummary">Cliquez pour tester la clé secrète et le webhook.</p>
+        <button type="button" class="btn btn-ghost" id="btnStripe" style="margin-top:12px">Vérifier Stripe</button>
+      </article>
+    </div>
+    <pre class="panel" id="depotOut" style="margin-top:16px">Cliquez sur Vérifier Drive.</pre>
+    <pre class="panel" id="stripeOut" hidden></pre>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Test dépôt</p>
+        <h2>Envoyer un document</h2>
+        <p class="depot-muted">PDF, JPG ou PNG — max 12 Mo. Renseignez l’e-mail du client (un prospect est créé s’il n’existe pas encore).</p>
+      </div>
+    </div>
+    <form id="depotForm" class="panel">
+      <label class="crm-label">E-mail client
+        <input type="email" name="email" class="crm-input" required autocomplete="email" />
+      </label>
+      <label class="crm-label" style="margin-top:12px;display:block">ID contact (optionnel)
+        <input name="contactId" class="crm-input" placeholder="ct_…" />
+      </label>
+      <label class="crm-label" style="margin-top:12px;display:block">Type de pièce
+        <select name="documentType" class="crm-input">
+          <option value="piece_identite">Pièce d’identité</option>
+          <option value="avis_imposition">Avis d’imposition</option>
+          <option value="bulletins_salaire">Bulletins de salaire</option>
+          <option value="rib">RIB</option>
+          <option value="kbis">KBIS</option>
+          <option value="carte_grise">Carte grise</option>
+          <option value="permis">Permis</option>
+          <option value="compromis_offre">Compromis / offre</option>
+          <option value="generic">Autre</option>
+        </select>
+      </label>
+      <label class="crm-label" style="margin-top:12px;display:block">Fichier
+        <input type="file" name="file" class="crm-input" accept=".pdf,.jpg,.jpeg,.png,.txt" required />
+      </label>
+      <button type="submit" class="btn btn-primary" style="margin-top:16px">Déposer sur Drive</button>
+    </form>
+    <p id="uploadOut" class="depot-muted" style="margin-top:12px"></p>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Journal</p>
+        <h2>Derniers dépôts</h2>
+      </div>
+      <button type="button" class="btn btn-ghost" id="btnRefreshFiles">Actualiser</button>
+    </div>
+    <div id="filesMount">Chargement…</div>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-depot-drive.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

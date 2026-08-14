@@ -2,3 +2,5 @@ node_modules/
 .env
 .vercel
 .env*.local
+o2switch/lo-docs-backup.config.php
+o2switch/lo-docs-data/
