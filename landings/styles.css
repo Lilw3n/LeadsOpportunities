@@ -401,6 +401,12 @@ textarea:focus-visible {
   gap: 6px;
 }
 
+/* display:flex ci-dessus écraserait l'attribut hidden (champs techniques,
+   panneaux bien/service) — on force le masquage. */
+.field[hidden] {
+  display: none !important;
+}
+
 .full {
   grid-column: 1 / -1;
 }
