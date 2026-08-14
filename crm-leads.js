@@ -73,6 +73,10 @@
         alert(res.error || "Action impossible");
         return res;
       }
+      if (body.action === "promote" && res.contactId) {
+        location.href = "./crm-contact.html?id=" + encodeURIComponent(res.contactId);
+        return res;
+      }
       load();
       return res;
     });
@@ -323,7 +327,7 @@
             (!l.isProspect
               ? '<button type="button" class="btn btn-primary btn-sm" data-promote="' +
                 esc(l.id) +
-                '">→ Prospect</button>'
+                '">Créer fiche interlocuteur</button>'
               : l.contactId
                 ? '<a class="btn btn-ghost btn-sm" href="./crm-contact.html?id=' +
                   encodeURIComponent(l.contactId) +

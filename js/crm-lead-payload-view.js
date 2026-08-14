@@ -453,7 +453,14 @@
     }
 
     html += renderFunnelSteps(payload, esc);
-    html += renderAnswersTable(rows, esc);
+    if (global.InterlocuteurDossier) {
+      html += global.InterlocuteurDossier.renderSections(
+        global.InterlocuteurDossier.buildDossier(lead, payload),
+        { title: false }
+      );
+    } else {
+      html += renderAnswersTable(rows, esc);
+    }
     html += "</section>";
     return html;
   }

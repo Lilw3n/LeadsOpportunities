@@ -1,0 +1,109 @@
+.int-dossier {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 12px 0 18px;
+}
+.int-dossier-lead {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted, #64748b);
+  font-size: 0.9rem;
+}
+.int-card {
+  background: #fff;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.int-card h3 {
+  margin: 0 0 10px;
+  font-size: 0.98rem;
+}
+.int-card h4 {
+  margin: 12px 0 6px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted, #64748b);
+}
+.int-card-perso { border-top: 3px solid #2563eb; }
+.int-card-pro { border-top: 3px solid #7c3aed; }
+.int-card-biens { border-top: 3px solid #059669; grid-column: 1 / -1; }
+.int-card-projet { border-top: 3px solid #d97706; grid-column: 1 / -1; }
+.int-dl {
+  display: grid;
+  grid-template-columns: minmax(120px, 38%) 1fr;
+  gap: 6px 12px;
+  margin: 0;
+}
+.int-dl dt {
+  color: var(--muted, #64748b);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.int-dl dd {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.int-empty {
+  margin: 0;
+  color: var(--muted, #64748b);
+  font-size: 0.85rem;
+}
+.int-cta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 12px;
+}
+.int-cta-bar strong { font-size: 0.92rem; }
+.int-slack-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 12px;
+  background: #fff;
+}
+.int-slack-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #94a3b8;
+  display: inline-block;
+}
+.int-slack-dot.is-on { background: #16a34a; }
+.int-cta-bar a, .int-cta-bar button, .int-slack-bar a, .int-slack-bar button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1.5px solid #c7d2fe;
+  background: #fff;
+  color: #1e1b4b;
+}
+.int-cta-bar .btn-primary, .int-cta-bar .btn.btn-primary {
+  background: #4f46e5;
+  border-color: #4f46e5;
+  color: #fff;
+}
+@media (max-width: 800px) {
+  .int-dossier { grid-template-columns: 1fr; }
+  .int-card-biens, .int-card-projet { grid-column: auto; }
+}

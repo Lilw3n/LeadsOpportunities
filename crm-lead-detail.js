@@ -46,6 +46,9 @@
       (window.CrmLeadPayloadView && window.CrmLeadPayloadView.isMetaLead(l)
         ? '<a href="./crm-meta-inbox.html" class="btn btn-ghost">Leads Meta</a>'
         : "") +
+      (l.contact_id
+        ? ' <a href="./crm-contact.html?id=' + encodeURIComponent(l.contact_id) + '" class="btn btn-primary">Fiche interlocuteur</a>'
+        : ' <button type="button" class="btn btn-primary" id="ldCreateInt">Créer fiche interlocuteur</button>') +
       "</p>" +
       "<h1>" +
       pm.icon +
@@ -120,7 +123,7 @@
         ? '<a href="./crm-contact.html?id=' +
           encodeURIComponent(l.contact_id) +
           '" class="btn btn-ghost">Fiche contact</a>'
-        : '<button type="button" class="btn btn-ghost" id="btnConvert">Convertir en contact</button>') +
+        : '<button type="button" class="btn btn-ghost" id="btnConvert">Créer fiche interlocuteur</button>') +
       "</p>" +
       (l.tariff_snapshot
         ? '<section class="panel" style="margin-top:16px"><h2 style="margin-top:0;font-size:1rem">Dernier bordereau (' +
@@ -157,23 +160,24 @@
       );
     };
 
-    var bc = document.getElementById("btnConvert");
-    if (bc) {
-      bc.onclick = function () {
-        fetch("/api/crm/convert-lead", {
-          method: "POST",
-          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
-          body: JSON.stringify({ leadId: leadId }),
+    function createFiche() {
+      fetch("/api/crm/lead-lifecycle", {
+        method: "POST",
+        headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "promote", leadId: leadId }),
+      })
+        .then(function (r) {
+          return r.json();
         })
-          .then(function (r) {
-            return r.json();
-          })
-          .then(function (res) {
-            if (res.ok) location.href = "./crm-contact.html?id=" + encodeURIComponent(res.contactId);
-            else alert(res.error);
-          });
-      };
+        .then(function (res) {
+          if (res.ok && res.contactId) location.href = "./crm-contact.html?id=" + encodeURIComponent(res.contactId);
+          else alert(res.error || "Impossible de créer la fiche");
+        });
     }
+    var bc = document.getElementById("btnConvert");
+    if (bc) bc.onclick = createFiche;
+    var topBtn = document.getElementById("ldCreateInt");
+    if (topBtn) topBtn.onclick = createFiche;
   }
 
   function load() {

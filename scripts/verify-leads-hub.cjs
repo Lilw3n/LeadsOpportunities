@@ -75,6 +75,7 @@ assert(js.indexOf('confirm: "SUPPRIMER"') >= 0, "double validation SUPPRIMER");
 assert(js.indexOf("confirmAck") >= 0, "double validation case à cocher");
 assert(js.indexOf("deleteInterlocutor") >= 0, "suppression interlocuteur");
 assert(js.indexOf('action: "promote"') >= 0, "devenir prospect");
+assert(js.indexOf("crm-contact.html?id=") >= 0, "promote ouvre la fiche interlocuteur");
 assert(js.indexOf('kind === "fuse"') >= 0, "fusion");
 assert(js.indexOf('data-link-a') >= 0, "liaison");
 assert(js.indexOf('action: "unlink"') >= 0, "déliaison");

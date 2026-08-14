@@ -45,6 +45,7 @@ const ROUTES = {
   "markets-presence": () => require("../_lib/routes/crm-markets-presence"),
   "pubs-hub": () => require("../_lib/routes/crm-pubs-hub"),
   "test-slack": () => require("../_lib/routes/crm-test-slack"),
+  "notify-slack": () => require("../_lib/routes/crm-notify-slack"),
   "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
   "contact-duplicates": () => require("../_lib/routes/crm-contact-duplicates"),
   "merge-contacts": () => require("../_lib/routes/crm-merge-contacts"),
