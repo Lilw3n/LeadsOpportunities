@@ -46,6 +46,21 @@ module.exports = async (req, res) => {
     return res.status(200).json({ ok: true, leadId: randomUUID(), leadScore: 0 });
   }
 
+  try {
+    const { isIpBlocked, ensureIpBlocksSchema } = require("../ip-blocks");
+    const dbUrlBlock = process.env.DATABASE_URL;
+    if (dbUrlBlock) {
+      const { neon } = require("@neondatabase/serverless");
+      const sqlBlock = neon(dbUrlBlock);
+      await ensureIpBlocksSchema(sqlBlock);
+      if (await isIpBlocked(sqlBlock, ip)) {
+        return res.status(200).json({ ok: true, leadId: randomUUID(), leadScore: 0 });
+      }
+    }
+  } catch (blockErr) {
+    console.warn("[lead] ip-block check", blockErr.message);
+  }
+
   var visitorCountry = getVisitorCountry(req);
   if (visitorCountry && !isFranceAudience(visitorCountry)) {
     return res.status(200).json({

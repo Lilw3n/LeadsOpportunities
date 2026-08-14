@@ -5,7 +5,7 @@
   var token = localStorage.getItem("lo_token");
   if (!token) return;
 
-  var state = { view: "all", q: "", data: null, isAdmin: false };
+  var state = { view: "all", q: "", ip: "", data: null, isAdmin: false, selected: {}, blocked: {} };
 
   function esc(s) {
     var d = document.createElement("div");
@@ -199,7 +199,69 @@
       .join("");
   }
 
+  function visibleLeads(leads) {
+    var ip = (state.ip || "").trim();
+    if (!ip) return leads || [];
+    return (leads || []).filter(function (l) {
+      return String(l.ip || "").indexOf(ip) >= 0;
+    });
+  }
+
+  function selectedIds() {
+    return Object.keys(state.selected).filter(function (id) {
+      return state.selected[id];
+    });
+  }
+
+  function updateBulk() {
+    var ids = selectedIds();
+    var bar = document.getElementById("lhBulk");
+    if (!bar) return;
+    bar.hidden = !ids.length;
+    document.getElementById("lhBulkCount").textContent = ids.length + " sélectionné" + (ids.length > 1 ? "s" : "");
+  }
+
+  function renderBlocked(list) {
+    var mount = document.getElementById("lhBlocked");
+    if (!mount) return;
+    state.blocked = {};
+    if (!list || !list.length) {
+      mount.innerHTML = '<p class="muted">Aucune IP bloquée.</p>';
+      return;
+    }
+    list.forEach(function (b) {
+      state.blocked[b.ip] = true;
+    });
+    mount.innerHTML = list
+      .map(function (b) {
+        return (
+          '<span class="lh-ip-chip">' +
+          esc(b.ip) +
+          ' <button type="button" class="btn btn-ghost btn-sm" data-unblock="' +
+          esc(b.ip) +
+          '">Débloquer</button></span>'
+        );
+      })
+      .join(" ");
+  }
+
+  function setIpBlock(ip, blocked, extra) {
+    extra = extra || {};
+    return api("/api/dashboard/ip-block", {
+      method: "POST",
+      body: { ip: ip, blocked: blocked, deleteLeads: !!extra.deleteLeads },
+    }).then(function (res) {
+      if (!res.ok) {
+        alert(res.error || "IP : action impossible");
+        return res;
+      }
+      load();
+      return res;
+    });
+  }
+
   function renderTable(leads) {
+    leads = visibleLeads(leads);
     var mount = document.getElementById("lhTable");
     if (state.view === "pending") {
       mount.innerHTML = "";
@@ -211,12 +273,17 @@
     }
     mount.innerHTML =
       '<table class="lh-table"><thead><tr>' +
-      "<th>Personne</th><th>Confiance</th><th>Rôle</th><th>IP / navigateur</th><th>Origine</th><th></th>" +
+      "<th></th><th>Personne</th><th>Confiance</th><th>Rôle</th><th>IP / navigateur</th><th>Origine</th><th></th>" +
       "</tr></thead><tbody>" +
       leads
         .map(function (l) {
           return (
             "<tr>" +
+            '<td><input type="checkbox" class="lh-row-check" data-id="' +
+            esc(l.id) +
+            '"' +
+            (state.selected[l.id] ? " checked" : "") +
+            " /></td>" +
             "<td><strong>" +
             esc(l.name) +
             "</strong><div class='lh-meta'>" +
@@ -235,7 +302,14 @@
               : '<span class="lh-badge lh-badge--lead">Lead</span>') +
             "</td>" +
             "<td><div class='lh-ip'>" +
-            esc(l.ip || "—") +
+            (l.ip
+              ? '<button type="button" class="btn btn-ghost btn-sm" data-filter-ip="' +
+                esc(l.ip) +
+                '">' +
+                esc(l.ip) +
+                "</button>" +
+                (state.blocked[l.ip] ? " bloquée" : "")
+              : "—") +
             "</div><div class='lh-meta'>" +
             esc(l.uaLabel) +
             (l.country ? " · " + esc(l.country) : "") +
@@ -260,13 +334,21 @@
                 esc(l.id) +
                 '" data-prospect="' +
                 (l.isProspect ? "1" : "0") +
-                '">Supprimer</button>'
+                '">Supprimer</button>' +
+                (l.ip
+                  ? '<button type="button" class="btn btn-ghost btn-sm" data-block-ip="' +
+                    esc(l.ip) +
+                    '">' +
+                    (state.blocked[l.ip] ? "Débloquer IP" : "Bloquer IP") +
+                    "</button>"
+                  : "")
               : "") +
             "</div></td></tr>"
           );
         })
         .join("") +
       "</tbody></table>";
+    updateBulk();
   }
 
   function confirmDelete(leadId, isProspect) {
@@ -324,7 +406,12 @@
       "&q=" +
       encodeURIComponent(state.q);
     document.getElementById("lhTable").innerHTML = '<p class="lh-empty">Chargement…</p>';
-    api(qs).then(function (res) {
+    Promise.all([
+      api(qs),
+      state.isAdmin || true ? api("/api/dashboard/ip-block") : Promise.resolve({ ok: false }),
+    ]).then(function (pair) {
+      var res = pair[0];
+      var blocks = pair[1];
       if (!res.ok) {
         document.getElementById("lhTable").innerHTML =
           '<p class="lh-empty">' + esc(res.error || "Accès refusé") + "</p>";
@@ -332,6 +419,8 @@
       }
       state.data = res;
       state.isAdmin = !!res.isAdmin;
+      if (blocks && blocks.ok) renderBlocked(blocks.blocks || []);
+      else renderBlocked([]);
       renderKpis(res.kpis);
       renderPending(res.pending || []);
       renderMatches(res.matches || []);
@@ -353,8 +442,104 @@
       load();
     }, 280);
   });
+  document.getElementById("lhIp").addEventListener("input", function () {
+    var v = this.value;
+    clearTimeout(t);
+    t = setTimeout(function () {
+      state.ip = v.trim();
+      if (state.data) renderTable(state.data.leads || []);
+    }, 200);
+  });
+  document.getElementById("lhSelectAll").addEventListener("change", function () {
+    var on = this.checked;
+    document.querySelectorAll(".lh-row-check").forEach(function (box) {
+      box.checked = on;
+      if (on) state.selected[box.getAttribute("data-id")] = true;
+      else delete state.selected[box.getAttribute("data-id")];
+    });
+    updateBulk();
+  });
+  document.getElementById("lhBulkDelete").addEventListener("click", function () {
+    var ids = selectedIds();
+    if (!ids.length) return;
+    openModal(
+      "Supprimer " + ids.length + " leads",
+      '<p class="lh-warn">Double validation : cochez et tapez SUPPRIMER.</p>' +
+        '<label class="lh-check"><input type="checkbox" id="lhAck" /> Je confirme</label>' +
+        '<label>Tapez <strong>SUPPRIMER</strong><input class="crm-input" id="lhConfirmWord" autocomplete="off" /></label>',
+      function () {
+        var ack = document.getElementById("lhAck").checked;
+        var word = (document.getElementById("lhConfirmWord").value || "").trim();
+        if (!ack || word !== "SUPPRIMER") {
+          alert("Cochez la case et tapez SUPPRIMER.");
+          return false;
+        }
+        return api("/api/dashboard/lead-delete", { method: "POST", body: { leadIds: ids } }).then(function (res) {
+          if (!res.ok) {
+            alert(res.error || "Suppression impossible");
+            return false;
+          }
+          state.selected = {};
+          load();
+        });
+      },
+      "Supprimer définitivement"
+    );
+  });
+  document.getElementById("lhBulkBlock").addEventListener("click", function () {
+    var ips = {};
+    (visibleLeads((state.data && state.data.leads) || [])).forEach(function (l) {
+      if (state.selected[l.id] && l.ip) ips[l.ip] = true;
+    });
+    var list = Object.keys(ips);
+    if (!list.length) {
+      alert("Aucune IP sur la sélection");
+      return;
+    }
+    if (!window.confirm("Bloquer " + list.length + " IP ?\n" + list.join("\n"))) return;
+    var i = 0;
+    function next() {
+      if (i >= list.length) {
+        load();
+        return;
+      }
+      setIpBlock(list[i++], true).then(next);
+    }
+    next();
+  });
+  document.getElementById("lhBtnBlock").addEventListener("click", function () {
+    var ip = (document.getElementById("lhBlockIp").value || "").trim();
+    if (!ip) return;
+    setIpBlock(ip, true);
+  });
 
   document.body.addEventListener("click", function (e) {
+    var chk = e.target.closest(".lh-row-check");
+    if (chk) {
+      var cid = chk.getAttribute("data-id");
+      if (chk.checked) state.selected[cid] = true;
+      else delete state.selected[cid];
+      updateBulk();
+      return;
+    }
+    var fip = e.target.closest("[data-filter-ip]");
+    if (fip) {
+      document.getElementById("lhIp").value = fip.getAttribute("data-filter-ip") || "";
+      state.ip = document.getElementById("lhIp").value;
+      renderTable((state.data && state.data.leads) || []);
+      return;
+    }
+    var unb = e.target.closest("[data-unblock]");
+    if (unb) {
+      setIpBlock(unb.getAttribute("data-unblock"), false);
+      return;
+    }
+    var bip = e.target.closest("[data-block-ip]");
+    if (bip) {
+      var ip = bip.getAttribute("data-block-ip");
+      setIpBlock(ip, !state.blocked[ip]);
+      return;
+    }
     var el = e.target.closest("[data-promote],[data-del],[data-fuse-a],[data-link-a],[data-review],[data-unlink],[data-split]");
     if (!el) return;
     if (el.getAttribute("data-promote")) {

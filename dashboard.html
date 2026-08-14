@@ -286,6 +286,57 @@
     }
     .filter-select:focus, .filter-input:focus { border-color: var(--primary); }
     .filter-input { min-width: 200px; }
+    .filter-input-ip { min-width: 140px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .leads-bulk-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 22px;
+      background: #fff7ed;
+      border-bottom: 1px solid #fed7aa;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    .leads-bulk-bar[hidden] { display: none; }
+    .blocked-ips-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      padding: 10px 22px;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.82rem;
+    }
+    .ip-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #fef2f2;
+      color: #991b1b;
+      border-radius: 999px;
+      padding: 3px 8px 3px 10px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.75rem;
+    }
+    .ip-chip button {
+      border: 0;
+      background: transparent;
+      color: #b91c1c;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .btn-ip-filter {
+      background: none;
+      border: 0;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      color: var(--primary);
+      text-decoration: underline;
+    }
+    .lead-check-cell { width: 28px; }
 
     /* TABLE */
     .leads-table {
@@ -1796,6 +1847,9 @@
               <option value="vtc">VTC</option>
               <option value="sante">Santé</option>
               <option value="credit-immo">Crédit Immo</option>
+              <option value="acheteur_immo">Acheteur immo</option>
+              <option value="vendeur_immo">Vendeur immo</option>
+              <option value="animaux">Animaux</option>
             </select>
             <select class="filter-select" id="filterPlatform">
               <option value="">Tous réseaux</option>
@@ -1806,16 +1860,40 @@
               <option value="linkedin">LinkedIn</option>
               <option value="withallo">WithAllo</option>
               <option value="site_web">Site web</option>
+              <option value="landing_form">landing_form</option>
+              <option value="landing_quick">landing_quick</option>
+            </select>
+            <select class="filter-select" id="filterScore">
+              <option value="">Tous scores</option>
+              <option value="70">Score ≥ 70</option>
+              <option value="40">Score ≥ 40</option>
+              <option value="1">Score &gt; 0</option>
             </select>
             <input type="text" class="filter-input" id="filterSearch" placeholder="Rechercher email, téléphone..." />
+            <input type="text" class="filter-input filter-input-ip" id="filterIp" placeholder="Filtrer par IP…" />
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
               <input type="checkbox" id="soundNewLead" checked /> Son nouveau lead
             </label>
+          </div>
+          <div class="blocked-ips-bar" id="blockedIpsBar">
+            <strong>IP bloquées</strong>
+            <span id="blockedIpsList" class="muted">Aucune</span>
+            <input type="text" class="filter-input filter-input-ip" id="blockIpInput" placeholder="Bloquer une IP…" style="min-width:130px" />
+            <button type="button" class="btn-lead-delete" id="btnBlockIp">Bloquer</button>
+          </div>
+          <div class="leads-bulk-bar" id="leadsBulkBar" hidden>
+            <label style="display:flex;align-items:center;gap:6px">
+              <input type="checkbox" id="selectAllLeads" /> Tout sélectionner
+            </label>
+            <span id="leadsBulkCount">0 sélectionné</span>
+            <button type="button" class="btn-lead-delete" id="bulkDeleteLeads">Supprimer la sélection</button>
+            <button type="button" class="btn-lead-open" id="bulkBlockIps">Bloquer les IP cochées</button>
           </div>
           <div class="panel-body" style="overflow-x:auto;">
             <table class="leads-table">
               <thead>
                 <tr>
+                  <th class="lead-check-cell"></th>
                   <th data-sort="created_at">Date</th>
                   <th data-sort="lead_score">Score</th>
                   <th data-sort="vertical">Vertical</th>
@@ -1829,7 +1907,7 @@
                 </tr>
               </thead>
               <tbody id="leadsTableBody">
-                <tr><td colspan="10" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
+                <tr><td colspan="11" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>
               </tbody>
             </table>
           </div>
@@ -2061,6 +2139,8 @@
     var currentOrder = "desc";
     var lastNotifyAt = new Date().toISOString();
     var soundEnabled = true;
+    var selectedLeadIds = {};
+    var blockedIpSet = {};
 
     function getToken() { return D.getToken(); }
     function getUser() { return D.getUser(); }
@@ -2126,7 +2206,7 @@
     async function deleteLead(id, opts) {
       opts = opts || {};
       var hint = opts.label || id;
-      if (!window.confirm("Supprimer ce lead définitivement ?\n\n" + hint + "\n\nCette action est irréversible.")) {
+      if (!opts.skipConfirm && !window.confirm("Supprimer ce lead définitivement ?\n\n" + hint + "\n\nCette action est irréversible.")) {
         return false;
       }
       var data = await D.api("/api/dashboard/lead-delete", {
@@ -2138,9 +2218,83 @@
         return false;
       }
       toast("Lead supprimé");
+      delete selectedLeadIds[id];
       if (opts.closeModal) {
         document.getElementById("leadModal").classList.remove("show");
       }
+      if (!opts.silentReload) {
+        loadLeads();
+        loadStats();
+      }
+      return true;
+    }
+
+    function selectedIds() {
+      return Object.keys(selectedLeadIds).filter(function (id) {
+        return selectedLeadIds[id];
+      });
+    }
+
+    function updateBulkBar() {
+      var ids = selectedIds();
+      var bar = document.getElementById("leadsBulkBar");
+      if (!bar) return;
+      bar.hidden = ids.length === 0;
+      document.getElementById("leadsBulkCount").textContent =
+        ids.length + " sélectionné" + (ids.length > 1 ? "s" : "");
+      var all = document.getElementById("selectAllLeads");
+      if (all) {
+        var boxes = document.querySelectorAll(".lead-row-check");
+        all.checked = boxes.length > 0 && ids.length >= boxes.length;
+      }
+    }
+
+    async function loadBlockedIps() {
+      var data = await D.api("/api/dashboard/ip-block");
+      var mount = document.getElementById("blockedIpsList");
+      blockedIpSet = {};
+      if (!data.ok || !data.blocks || !data.blocks.length) {
+        if (mount) mount.innerHTML = '<span class="muted">Aucune</span>';
+        return;
+      }
+      data.blocks.forEach(function (b) {
+        blockedIpSet[b.ip] = true;
+      });
+      if (!mount) return;
+      mount.innerHTML = data.blocks
+        .map(function (b) {
+          return (
+            '<span class="ip-chip">' +
+            esc(b.ip) +
+            ' <button type="button" data-unblock-ip="' +
+            esc(b.ip) +
+            '" title="Débloquer">×</button></span>'
+          );
+        })
+        .join(" ");
+    }
+
+    async function setIpBlocked(ip, blocked, extra) {
+      extra = extra || {};
+      if (!ip || ip === "—") {
+        toast("Pas d’IP", "error");
+        return false;
+      }
+      var data = await D.api("/api/dashboard/ip-block", {
+        method: "POST",
+        body: JSON.stringify({
+          ip: ip,
+          blocked: !!blocked,
+          deleteLeads: !!extra.deleteLeads,
+          reason: extra.reason || "dashboard",
+        }),
+      });
+      if (!data.ok) {
+        toast(data.error || "IP : action impossible", "error");
+        return false;
+      }
+      toast(blocked ? "IP bloquée" + (data.deletedLeads ? " · " + data.deletedLeads + " lead(s) retiré(s)" : "") : "IP débloquée");
+      loadBlockedIps();
       loadLeads();
       loadStats();
       return true;
@@ -2201,7 +2355,7 @@
         a.classList.add("active");
         document.querySelectorAll(".dash-section").forEach(function(s) { s.classList.remove("active"); });
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
-        if (a.dataset.section === "leads") { loadLeads(); pollNewLeads(); }
+        if (a.dataset.section === "leads") { loadBlockedIps(); loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
         if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox({});
       });
@@ -2461,13 +2615,15 @@
     // LOAD LEADS
     async function loadLeads() {
       var tbody = document.getElementById("leadsTableBody");
-      tbody.innerHTML = '<tr><td colspan="10" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="11" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
 
       var status = document.getElementById("filterStatus").value;
       var vertical = document.getElementById("filterVertical").value;
       var search = document.getElementById("filterSearch").value;
       var view = document.getElementById("filterView").value;
       var platform = document.getElementById("filterPlatform").value;
+      var ipFilter = document.getElementById("filterIp") ? document.getElementById("filterIp").value.trim() : "";
+      var scoreMin = document.getElementById("filterScore") ? document.getElementById("filterScore").value : "";
 
       var params = "?page=" + currentPage + "&limit=20&sort=" + currentSort + "&order=" + currentOrder;
       if (status) params += "&status=" + encodeURIComponent(status);
@@ -2475,6 +2631,8 @@
       if (view) params += "&view=" + encodeURIComponent(view);
       if (platform) params += "&platform=" + encodeURIComponent(platform);
       if (search) params += "&search=" + encodeURIComponent(search);
+      if (ipFilter) params += "&ip=" + encodeURIComponent(ipFilter);
+      if (scoreMin) params += "&scoreMin=" + encodeURIComponent(scoreMin);
 
       var data = await D.api("/api/dashboard/leads" + params);
       if (!data.ok) {
@@ -2482,7 +2640,7 @@
         if (data.status === 403) leadErr = "Session expiree";
         if (data.detail) leadErr += " — " + esc(data.detail);
         tbody.innerHTML =
-          '<tr><td colspan="10"><div class="empty-state">' +
+          '<tr><td colspan="11"><div class="empty-state">' +
           leadErr +
           '<br><a href="./auth.html">Reconnectez-vous</a> · <button type="button" class="btn btn-ghost btn-sm" onclick="loadLeads()">Reessayer</button></div></td></tr>';
         return;
@@ -2492,7 +2650,7 @@
         tbody.innerHTML = "";
         if (!data.leads || data.leads.length === 0) {
           tbody.innerHTML =
-            '<tr><td colspan="10"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
           data.leads.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
@@ -2505,19 +2663,46 @@
             else if (isUnopenedLead(l)) pills += '<span class="lead-pill lead-pill-unopened">Jamais ouvert</span>';
             var rel = l.relevance || (l.payload && l.payload.relevance);
             if (rel) pills += '<span class="lead-pill lead-pill-' + rel + '">' + relevanceLabel(rel) + '</span>';
+            var ip = leadClientIp(l);
+            var ipBlocked = ip && ip !== "—" && blockedIpSet[ip];
+            var ipHtml =
+              ip && ip !== "—"
+                ? '<button type="button" class="btn-ip-filter" data-filter-ip="' +
+                  esc(ip) +
+                  '" title="Filtrer cette IP">' +
+                  esc(ip) +
+                  "</button>" +
+                  (ipBlocked ? ' <span class="lead-pill lead-pill-new">bloquée</span>' : "")
+                : "—";
             tr.innerHTML =
+              '<td class="lead-check-cell"><input type="checkbox" class="lead-row-check" data-lead-id="' +
+              esc(l.id) +
+              '"' +
+              (selectedLeadIds[l.id] ? " checked" : "") +
+              " /></td>" +
               '<td>' + fmtDate(l.created_at) + (pills ? '<div style="margin-top:4px">' + pills + '</div>' : '') + '</td>' +
               '<td><div class="score-bar"><div class="score-fill"><span style="width:' + (score||0) + '%;background:' + scoreColor(score) + '"></span></div><span class="score-val">' + score + '</span></div></td>' +
               '<td>' + esc(l.vertical) + '</td>' +
               '<td>' + esc(l.email) + '</td>' +
               '<td>' + esc(l.phone) + '</td>' +
-              '<td><code style="font-size:0.78rem">' + esc(leadClientIp(l)) + '</code></td>' +
+              '<td>' + ipHtml + '</td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
-              '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> <button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button></td>';
+              '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> <button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button>' +
+              (ip && ip !== "—"
+                ? ' <button type="button" class="btn-lead-delete" data-block-ip="' +
+                  esc(ip) +
+                  '">' +
+                  (ipBlocked ? "Débloquer IP" : "Bloquer IP") +
+                  "</button>"
+                : "") +
+              "</td>";
             tr.addEventListener("click", function(e) {
               if (e.target.closest(".btn-lead-delete")) return;
+              if (e.target.closest(".lead-row-check")) return;
+              if (e.target.closest(".btn-ip-filter")) return;
+              if (e.target.closest("[data-block-ip]")) return;
               if (e.target.closest(".btn-lead-open")) {
                 e.stopPropagation();
                 openLeadDetail(l.id);
@@ -2528,6 +2713,7 @@
             tbody.appendChild(tr);
           });
         }
+        updateBulkBar();
 
         // Pagination
         var pg = data.pagination;
@@ -2539,7 +2725,7 @@
         document.getElementById("nextPage").disabled = pg.page >= pg.totalPages;
       } catch(e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="10" style="color:var(--red)">Erreur réseau</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="11" style="color:var(--red)">Erreur réseau</td></tr>';
       }
     }
 
@@ -2564,8 +2750,44 @@
     }
 
     document.getElementById("leadsTableBody").addEventListener("click", function(e) {
+      var unb = e.target.closest("[data-unblock-ip]");
+      if (unb) return;
+      var ipBtn = e.target.closest("[data-filter-ip]");
+      if (ipBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.getElementById("filterIp").value = ipBtn.getAttribute("data-filter-ip") || "";
+        currentPage = 1;
+        loadLeads();
+        return;
+      }
+      var blockBtn = e.target.closest("[data-block-ip]");
+      if (blockBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        var ip = blockBtn.getAttribute("data-block-ip");
+        var already = !!blockedIpSet[ip];
+        if (already) {
+          setIpBlocked(ip, false);
+          return;
+        }
+        var wipe = window.confirm(
+          "Bloquer l’IP " + ip + " ?\n\nLes nouveaux formulaires de cette IP seront ignorés.\n\nOK = bloquer seulement\nAnnuler = ne rien faire\n\nEnsuite vous pourrez supprimer les leads de cette IP via le filtre."
+        );
+        if (wipe) setIpBlocked(ip, true);
+        return;
+      }
+      var chk = e.target.closest(".lead-row-check");
+      if (chk) {
+        e.stopPropagation();
+        var id = chk.getAttribute("data-lead-id");
+        if (chk.checked) selectedLeadIds[id] = true;
+        else delete selectedLeadIds[id];
+        updateBulkBar();
+        return;
+      }
       var btn = e.target.closest(".btn-lead-delete");
-      if (!btn) return;
+      if (!btn || btn.getAttribute("data-block-ip")) return;
       e.preventDefault();
       e.stopPropagation();
       deleteLead(btn.getAttribute("data-lead-id"), { label: btn.getAttribute("data-lead-label") });
@@ -2576,6 +2798,7 @@
     document.getElementById("filterStatus").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterVertical").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterPlatform").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    document.getElementById("filterScore").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("soundNewLead").addEventListener("change", function() {
       soundEnabled = document.getElementById("soundNewLead").checked;
     });
@@ -2584,6 +2807,79 @@
     document.getElementById("filterSearch").addEventListener("input", function() {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(function() { currentPage = 1; loadLeads(); }, 400);
+    });
+    document.getElementById("filterIp").addEventListener("input", function() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(function() { currentPage = 1; loadLeads(); }, 400);
+    });
+
+    document.getElementById("selectAllLeads").addEventListener("change", function() {
+      var on = this.checked;
+      document.querySelectorAll(".lead-row-check").forEach(function (box) {
+        box.checked = on;
+        var id = box.getAttribute("data-lead-id");
+        if (on) selectedLeadIds[id] = true;
+        else delete selectedLeadIds[id];
+      });
+      updateBulkBar();
+    });
+
+    document.getElementById("bulkDeleteLeads").addEventListener("click", async function() {
+      var ids = selectedIds();
+      if (!ids.length) return;
+      var word = window.prompt(
+        "Supprimer " + ids.length + " lead(s) définitivement ?\n\nTapez SUPPRIMER pour confirmer."
+      );
+      if (word !== "SUPPRIMER") {
+        toast("Suppression annulée", "error");
+        return;
+      }
+      var data = await D.api("/api/dashboard/lead-delete", {
+        method: "POST",
+        body: JSON.stringify({ leadIds: ids }),
+      });
+      if (!data.ok) {
+        toast(data.error || "Suppression impossible", "error");
+        return;
+      }
+      selectedLeadIds = {};
+      toast((data.deleted && data.deleted.length ? data.deleted.length : ids.length) + " lead(s) supprimé(s)");
+      loadLeads();
+      loadStats();
+    });
+
+    document.getElementById("bulkBlockIps").addEventListener("click", async function() {
+      var ips = {};
+      document.querySelectorAll(".lead-row-check:checked").forEach(function (box) {
+        var row = box.closest("tr");
+        var btn = row && row.querySelector("[data-filter-ip]");
+        if (btn) ips[btn.getAttribute("data-filter-ip")] = true;
+      });
+      var list = Object.keys(ips);
+      if (!list.length) {
+        toast("Aucune IP sur la sélection", "error");
+        return;
+      }
+      if (!window.confirm("Bloquer " + list.length + " IP ?\n\n" + list.join("\n"))) return;
+      for (var i = 0; i < list.length; i++) {
+        await setIpBlocked(list[i], true);
+      }
+    });
+
+    document.getElementById("btnBlockIp").addEventListener("click", function() {
+      var ip = (document.getElementById("blockIpInput").value || "").trim();
+      if (!ip) {
+        toast("Indiquez une IP", "error");
+        return;
+      }
+      var wipe = window.confirm("Bloquer " + ip + " et supprimer aussi les leads existants de cette IP ?\n\nOK = bloquer + supprimer\nAnnuler = bloquer seulement");
+      setIpBlocked(ip, true, { deleteLeads: wipe });
+    });
+
+    document.getElementById("blockedIpsBar").addEventListener("click", function(e) {
+      var btn = e.target.closest("[data-unblock-ip]");
+      if (!btn) return;
+      setIpBlocked(btn.getAttribute("data-unblock-ip"), false);
     });
 
     document.getElementById("prevPage").addEventListener("click", function() { if (currentPage > 1) { currentPage--; loadLeads(); } });
@@ -2734,7 +3030,14 @@
           '<div class="detail-grid">' +
             '<div class="detail-item"><div class="dlabel">Email</div><div class="dvalue">' + esc(l.email) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Téléphone</div><div class="dvalue">' + esc(l.phone) + '</div></div>' +
-            '<div class="detail-item"><div class="dlabel">Adresse IP</div><div class="dvalue"><code>' + esc(leadClientIp(l)) + '</code></div></div>' +
+            '<div class="detail-item"><div class="dlabel">Adresse IP</div><div class="dvalue"><code>' + esc(leadClientIp(l)) + '</code>' +
+            (leadClientIp(l) !== "—"
+              ? ' <button type="button" class="btn-lead-open" id="modalFilterIp" data-ip="' + esc(leadClientIp(l)) + '">Filtrer</button> ' +
+                '<button type="button" class="btn-lead-delete" id="modalBlockIp" data-ip="' + esc(leadClientIp(l)) + '">' +
+                (blockedIpSet[leadClientIp(l)] ? "Débloquer IP" : "Bloquer IP") +
+                "</button>"
+              : "") +
+            "</div></div>" +
             '<div class="detail-item"><div class="dlabel">Vertical</div><div class="dvalue">' + esc(l.vertical) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Score</div><div class="dvalue">' + (l.lead_score != null ? l.lead_score + '/100' : '—') + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Date</div><div class="dvalue">' + fmtDate(l.created_at) + '</div></div>' +
@@ -2780,6 +3083,23 @@
             closeModal: true,
           });
         });
+        var filterIpBtn = document.getElementById("modalFilterIp");
+        if (filterIpBtn) {
+          filterIpBtn.addEventListener("click", function () {
+            document.getElementById("filterIp").value = this.getAttribute("data-ip") || "";
+            document.getElementById("leadModal").classList.remove("show");
+            currentPage = 1;
+            loadLeads();
+          });
+        }
+        var blockIpBtn = document.getElementById("modalBlockIp");
+        if (blockIpBtn) {
+          blockIpBtn.addEventListener("click", function () {
+            var ip = this.getAttribute("data-ip");
+            if (blockedIpSet[ip]) setIpBlocked(ip, false);
+            else setIpBlocked(ip, true);
+          });
+        }
 
         document.getElementById("saveLeadBtn").addEventListener("click", async function() {
           var btn = this;
@@ -2827,12 +3147,16 @@
     });
     var refreshRot = document.getElementById("refreshMetaRotation");
     if (refreshRot) refreshRot.addEventListener("click", loadMetaRotation);
-    document.getElementById("refreshLeads").addEventListener("click", loadLeads);
+    document.getElementById("refreshLeads").addEventListener("click", function () {
+      loadBlockedIps();
+      loadLeads();
+    });
 
     var params = new URLSearchParams(window.location.search);
     if (params.get("section") === "leads") {
       setTimeout(function () {
         goToLeads(params.get("view") || "");
+        loadBlockedIps();
         var leadId = params.get("lead");
         if (leadId) setTimeout(function () { openLeadDetail(leadId); }, 400);
       }, 100);

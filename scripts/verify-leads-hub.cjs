@@ -96,11 +96,34 @@ assert(router.indexOf("leads-hub") >= 0 && router.indexOf("lead-lifecycle") >= 0
 
 var ingest = read("api/_lib/routes/public-lead.js");
 assert(ingest.indexOf("clientUa") >= 0, "ingest stocke le user-agent");
+assert(ingest.indexOf("isIpBlocked") >= 0, "ingest ignore les IP bloquées");
+
+var dash = read("dashboard.html");
+assert(dash.indexOf("filterIp") >= 0, "dashboard : filtre IP");
+assert(dash.indexOf("bulkDeleteLeads") >= 0, "dashboard : suppression groupée");
+assert(dash.indexOf("btnBlockIp") >= 0, "dashboard : bloquer IP");
+assert(dash.indexOf("data-unblock-ip") >= 0, "dashboard : débloquer IP");
+assert(dash.indexOf("lead-row-check") >= 0, "dashboard : cases à cocher");
+assert(dash.indexOf("filterScore") >= 0, "dashboard : filtre score");
+assert(dash.indexOf("acheteur_immo") >= 0, "dashboard : vertical acheteur immo");
+
+var del = read("api/_lib/routes/lead-delete.js");
+assert(del.indexOf("leadIds") >= 0, "API suppression multiple");
+
+var ipApi = read("api/_lib/routes/ip-block.js");
+assert(ipApi.indexOf("setIpBlock") >= 0, "API ip-block");
+
+var dashRouter = read("api/dashboard/[action].js");
+assert(dashRouter.indexOf("ip-block") >= 0, "route dashboard ip-block");
+
+assert(js.indexOf("lhBulkDelete") >= 0, "CRM : suppression groupée");
+assert(js.indexOf("data-block-ip") >= 0, "CRM : bloquer IP");
+assert(page.indexOf("lhIp") >= 0, "CRM : champ filtre IP");
 
 var side = read("js/crm-sidebar.js");
 assert(side.indexOf("crm-leads.html") >= 0, "sidebar : page leads");
 
-["js/lead-identity-lib.js", "crm-leads.js", "api/_lib/routes/crm-leads-hub.js", "api/_lib/routes/crm-lead-lifecycle.js"].forEach(
+["js/lead-identity-lib.js", "crm-leads.js", "api/_lib/routes/crm-leads-hub.js", "api/_lib/routes/crm-lead-lifecycle.js", "api/_lib/ip-blocks.js", "api/_lib/routes/ip-block.js", "api/_lib/routes/lead-delete.js"].forEach(
   function (rel) {
     require("child_process").execFileSync(process.execPath, ["--check", path.join(__dirname, "..", rel)]);
     assert(true, "syntaxe " + rel);

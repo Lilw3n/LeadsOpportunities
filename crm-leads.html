@@ -29,7 +29,8 @@
   <div class="acq-stats" id="lhKpis"></div>
 
   <div class="crm-toolbar acq-toolbar lh-toolbar">
-    <input type="search" id="lhSearch" class="crm-input" placeholder="Nom, email, téléphone, IP…" />
+    <input type="search" id="lhSearch" class="crm-input" placeholder="Nom, email, téléphone…" />
+    <input type="search" id="lhIp" class="crm-input" placeholder="Filtrer par IP…" style="max-width:180px;font-family:ui-monospace,monospace" />
     <select id="lhView" class="crm-input">
       <option value="all">Tous</option>
       <option value="leads">Leads (pas encore prospect)</option>
@@ -41,6 +42,23 @@
       <option value="pending">À valider (admin)</option>
     </select>
     <button type="button" class="btn btn-ghost" id="lhRefresh">Actualiser</button>
+  </div>
+
+  <section class="panel lh-admin" id="lhBlockedBox">
+    <h2>IP bloquées</h2>
+    <p class="muted">Les formulaires depuis une IP bloquée sont ignorés. Vous pouvez débloquer à tout moment.</p>
+    <div class="lh-block-row">
+      <input type="text" id="lhBlockIp" class="crm-input" placeholder="IP à bloquer…" />
+      <button type="button" class="btn btn-ghost" id="lhBtnBlock">Bloquer</button>
+    </div>
+    <div id="lhBlocked"></div>
+  </section>
+
+  <div class="lh-bulk" id="lhBulk" hidden>
+    <label><input type="checkbox" id="lhSelectAll" /> Tout sélectionner</label>
+    <span id="lhBulkCount">0</span>
+    <button type="button" class="btn btn-ghost btn-sm" id="lhBulkDelete">Supprimer la sélection</button>
+    <button type="button" class="btn btn-ghost btn-sm" id="lhBulkBlock">Bloquer les IP cochées</button>
   </div>
 
   <section class="panel lh-admin" id="lhPendingBox" hidden>
