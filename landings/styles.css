@@ -401,6 +401,13 @@ textarea:focus-visible {
   gap: 6px;
 }
 
+/* `display: flex` ci-dessus neutralise l'attribut HTML `hidden`
+   (la règle auteur gagne sur la feuille de style navigateur) :
+   on rétablit le masquage des blocs techniques et panneaux conditionnels. */
+.field[hidden] {
+  display: none !important;
+}
+
 .full {
   grid-column: 1 / -1;
 }
