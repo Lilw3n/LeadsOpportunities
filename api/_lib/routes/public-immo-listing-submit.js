@@ -8,6 +8,7 @@ const { getVisitorCountry, isFranceAudience } = require("../geo-france");
 const { getSql } = require("../db");
 const Portals = require("../../../js/immo-listing-portals-lib.js");
 const Lib = require("../../../js/immo-public-listings-lib.js");
+const Secteur = require("../../../js/immo-secteur-lib.js");
 
 function str(v, max) {
   var s = String(v == null ? "" : v).trim();
@@ -51,6 +52,26 @@ function manualDetection() {
     label: "Saisie manuelle",
     listingId: "",
     host: "",
+  };
+}
+
+function truthy(v) {
+  return v === true || v === "1" || v === "on" || v === "true" || v === 1;
+}
+
+/**
+ * Mission « aller chercher le mandat » : l'acquéreur envoie une annonce repérée ailleurs,
+ * on démarche le vendeur. Faisable en direct sur la localité, sinon relais confrère.
+ */
+function mandateMission(requested, sector) {
+  if (!requested) return { requested: false, zone: sector.zone, label: Secteur.shortLabel(sector), status: "non_demande", message: "" };
+  var status = sector.zone === "coeur" ? "a_demarcher" : sector.zone === "proche" ? "a_qualifier" : "a_relayer";
+  return {
+    requested: true,
+    zone: sector.zone,
+    label: Secteur.shortLabel(sector),
+    status: status,
+    message: sector.message,
   };
 }
 
@@ -145,7 +166,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var buyRooms = num(body.buyRoomsMin || body.buy_rooms_min);
   var buySurface = num(body.buySurfaceMin || body.buy_surface_min);
   var buyType = str(body.buyPropertyType || body.buy_property_type, 40);
-  var wantsRelais = body.wantsRelais === true || body.wantsRelais === "1" || body.pretRelais === true;
+  var wantsRelais = truthy(body.wantsRelais) || truthy(body.pretRelais);
+  var sector = Secteur.evaluate({ city: city, postal_code: postal });
+  var mandateRequested =
+    !isOwner && (truthy(body.mandateHunt) || truthy(body.mandateSearch) || truthy(body.mandateRequest));
+  var mandate = mandateMission(mandateRequested, sector);
 
   var detections = collectDetections(body);
   var hasManualBits = !!(city || description || photos.length || price);
@@ -174,6 +199,10 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var need = needForRole(role);
   var vertical = verticalForRole(role);
   var leadScore = role === "les_deux" ? 85 : isOwner ? 75 : sellerPhone || sellerEmail ? 70 : 55;
+  if (mandate.requested) {
+    leadScore += sector.zone === "coeur" ? 15 : sector.zone === "proche" ? 8 : 3;
+    if (leadScore > 95) leadScore = 95;
+  }
   var leadId = crypto.randomUUID();
   var propertyIds = [];
   var criteriaId = null;
@@ -196,6 +225,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
           d.listingId ? "#" + d.listingId : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
+          mandate.requested ? "Mission : aller chercher le mandat — " + mandate.label + " (" + mandate.status + ")." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
           details,
         ]
@@ -222,11 +252,13 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             photos: photos,
             notes: notesBits,
             lead_id: leadId,
-            a_contacter: !!(sellerPhone || sellerEmail),
+            a_contacter: !!(sellerPhone || sellerEmail) || mandate.requested,
             contact_connu: !!(sellerPhone || sellerEmail || sellerName),
             metadata: {
               origin: origin,
               role: role,
+              mandate: mandate,
+              sector: { zone: sector.zone, label: sector.label, department: sector.department },
               hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
               portal: d.portal,
               listingId: d.listingId,
@@ -272,9 +304,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             notes:
               role === "les_deux"
                 ? "Vend ce bien et cherche à racheter" + (wantsRelais ? " (prêt relais / chaîne)" : "")
-                : d.url
-                  ? "A collé l'URL " + d.url
-                  : "Prospect acquéreur",
+                : mandate.requested
+                  ? "Demande d'aller chercher le mandat — " + mandate.label + (d.url ? " · " + d.url : "")
+                  : d.url
+                    ? "A collé l'URL " + d.url
+                    : "Prospect acquéreur",
           });
         }
       }
@@ -341,6 +375,10 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             }),
             hasDescription: !!description,
             alsoBuys: role === "les_deux",
+            mandateHunt: mandate.requested,
+            mandateStatus: mandate.status,
+            sectorZone: sector.zone,
+            sectorLabel: mandate.label,
             wantsRelais: wantsRelais,
             buyCity: buyCity,
             buyBudgetMax: buyBudget,
@@ -365,6 +403,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     role: role,
     hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
     received: detections.length,
+    mandate: mandate,
+    sector: { zone: sector.zone, label: sector.label, department: sector.department },
     propertyIds: propertyIds,
     criteriaId: criteriaId,
     listings: detections.map(function (d) {

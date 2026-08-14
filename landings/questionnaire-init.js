@@ -172,7 +172,10 @@
 
     /* Immobilier public : vitrine + dépôt vendeur (pas un devis assurance). */
     if (
-      (need === "acheteur-immo" || need === "vendeur-immo" || need === "acheteur-vendeur-immo") &&
+      (need === "acheteur-immo" ||
+        need === "vendeur-immo" ||
+        need === "acheteur-vendeur-immo" ||
+        need === "mandat-immo") &&
       params.get("wizard") !== "1"
     ) {
       var dest = new URL("./acheteur-immo.html", window.location.href);
@@ -181,6 +184,10 @@
       });
       if (need === "vendeur-immo" && !dest.searchParams.get("role")) dest.searchParams.set("role", "vendeur");
       if (need === "acheteur-vendeur-immo" && !dest.searchParams.get("role")) dest.searchParams.set("role", "les_deux");
+      if (need === "mandat-immo") {
+        if (!dest.searchParams.get("mandat")) dest.searchParams.set("mandat", "1");
+        dest.hash = "mandat";
+      }
       window.location.replace(dest.pathname + dest.search + dest.hash);
       return;
     }

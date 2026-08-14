@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <title>Recherche de bien immobilier | Envoyez le lien, je vais chercher le mandat</title>
+  <meta name="description" content="Vous avez repéré une annonce (Leboncoin, PAP, agence) ? Envoyez le lien : je contacte le vendeur et je vais chercher le mandat sur mon secteur. Prêt et assurances en option." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
-  <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
-  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
+  <meta property="og:title" content="Recherche de bien immobilier | Envoyez le lien, je vais chercher le mandat" />
+  <meta property="og:description" content="Recherche de bien pour mes clients sur ma localité : vous envoyez l'URL d'une annonce, je vais chercher le mandat. Prêt et assurances ensuite, si besoin." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <!-- Google tag (gtag.js) -->
@@ -63,17 +63,19 @@
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
             >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
             <ul class="points">
+              <li>Une annonce repérée ailleurs ? Envoyez le lien : je vais chercher le mandat</li>
               <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
               <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
               <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
             </ul>
             <div class="trust-row">
-              <span class="trust-pill">Acquéreur</span>
+              <span class="trust-pill">Recherche de bien</span>
+              <span class="trust-pill">Chasse au mandat</span>
               <span class="trust-pill">Vendeur</span>
               <span class="trust-pill">Vend + rachète</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+              <a class="btn btn-primary" href="#mandat">Envoyer un lien d'annonce</a>
               <a class="btn btn-soft" href="#recherche">Voir les annonces</a>
             </div>
           </div>
@@ -143,6 +145,37 @@
             <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
           </div>
         </div>
+
+        <section class="mandate-hunt" id="mandat" aria-labelledby="mandatTitle">
+          <span class="dossier-kicker">Recherche de bien pour vous</span>
+          <h2 id="mandatTitle">Vous envoyez le lien, je vais chercher le mandat</h2>
+          <p class="listings-intro">
+            Je suis négociateur immobilier : je peux partir à la recherche d'un bien pour mes clients,
+            principalement sur <strong>ma localité</strong> (Varangéville, Saint-Nicolas-de-Port,
+            Dombasle-sur-Meurthe, Nancy et alentours — Meurthe-et-Moselle, environ 30 km).
+            Vous repérez une annonce sur Leboncoin, PAP, SeLoger ou chez une autre agence :
+            envoyez-moi le lien, <strong>mon travail c'est d'aller chercher le mandat</strong>.
+          </p>
+          <ol class="mandate-steps">
+            <li><strong>1. Vous m'envoyez le lien</strong>Collez l'URL de l'annonce (ou plusieurs), avec la ville et le prix affiché.</li>
+            <li><strong>2. Je contacte le vendeur</strong>Particulier ou confrère : j'appelle, je qualifie le bien et je négocie le mandat.</li>
+            <li><strong>3. Mandat signé, on visite</strong>Bon de visite, offre, négociation — vous êtes accompagné jusqu'au compromis.</li>
+            <li><strong>4. Prêt et assurances si besoin</strong>Courtage prêt immo et assurance emprunteur / habitation, seulement si vous le voulez.</li>
+          </ol>
+          <div class="mandate-zone">
+            <p class="search-section-label">Mon secteur d'intervention</p>
+            <ul class="mandate-zone-list">
+              <li><strong>Dans mon secteur</strong> — Meurthe-et-Moselle (54) : je vais chercher le mandat directement.</li>
+              <li><strong>Secteur élargi</strong> — Grand Est : je tente le mandat, sinon je travaille l'annonce avec un confrère du coin.</li>
+              <li><strong>Hors secteur</strong> — j'enregistre le bien, je relaie à un confrère, et je garde le prêt et les assurances.</li>
+            </ul>
+            <p class="small">Aucun scraping : rien n'est aspiré chez Leboncoin ou SeLoger, c'est vous qui m'envoyez le lien.</p>
+          </div>
+          <div class="actions">
+            <a class="btn btn-primary" href="#deposer-bien">Envoyer une annonce à démarcher</a>
+            <a class="btn btn-soft" href="#dossier">Déposer plutôt une alerte</a>
+          </div>
+        </section>
 
         <div class="url-capture" id="deposer-bien" data-listing-url-capture>
           <span id="annonce-url"></span>
@@ -226,6 +259,17 @@
                 <textarea id="urlDescription" name="description" rows="4" placeholder="Pièces, jardin, parking, proximité commerces, travaux…"></textarea>
               </div>
             </div>
+            <div class="mandate-mission" data-hat-acheteur-only data-mandate-mission>
+              <p class="search-section-label">Aller chercher le mandat</p>
+              <label class="field-check">
+                <input type="checkbox" name="mandateHunt" value="1" checked data-mandate-hunt />
+                Contactez le vendeur et allez chercher le mandat de ce bien pour moi
+              </label>
+              <p class="mandate-sector" data-sector-hint aria-live="polite">
+                Indiquez la ville ou le code postal du bien pour savoir si je peux aller chercher le mandat.
+              </p>
+            </div>
+
             <p class="search-section-label" style="margin-top:16px">Photos et capture</p>
             <div class="grid">
               <div class="field">
@@ -371,7 +415,7 @@
           <span class="dossier-kicker">Alerte &amp; dossier</span>
           <h2 class="form-title">Pas le bon bien ? Déposez une alerte</h2>
           <p class="form-lead">
-            On vous prévient quand un mandat correspond. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin — ce n'est pas l'écran de recherche.
+            Je pars à la recherche du bien sur mon secteur et je vous préviens dès qu'un mandat correspond — y compris en allant démarcher les annonces que vous me signalez. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
@@ -476,6 +520,10 @@
                     <label for="listingUrls">URL d'annonces déjà vues (Leboncoin, SeLoger…)</label>
                     <textarea id="listingUrls" name="listingUrls" rows="2" data-optional placeholder="https://www.leboncoin.fr/ad/…"></textarea>
                   </div>
+                  <label class="field-check full">
+                    <input type="checkbox" name="mandateSearch" value="1" data-optional />
+                    Allez chercher le mandat des annonces que je vous envoie (démarchage vendeur sur mon secteur)
+                  </label>
                 </div>
               </div>
 
@@ -1061,7 +1109,8 @@
           <ol class="steps">
             <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
             <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
-            <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
+            <li><strong>3. Chasse au mandat</strong>Sur mon secteur, j'appelle le vendeur et je vais chercher le mandat avant la visite.</li>
+            <li><strong>4. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
 
@@ -1080,12 +1129,33 @@
             <li>
               <details class="faq-item">
                 <summary>
+                  <span>J'ai vu une annonce ailleurs : que faites-vous du lien ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Je pars à la recherche du bien pour vous : j'appelle le vendeur (particulier ou confrère), je qualifie le bien et je vais chercher le mandat. Ensuite on visite ensemble, avec bon de visite et négociation.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Sur quel secteur intervenez-vous ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Principalement ma localité : Varangéville, Saint-Nicolas-de-Port, Dombasle-sur-Meurthe, Nancy et alentours (Meurthe-et-Moselle, environ 30 km). En Grand Est élargi je tente le mandat ou je travaille avec un confrère ; ailleurs en France je relaie le bien et je garde le prêt et les assurances.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
                   <span>Je vends et je rachète : comment ça marche ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
                 <p>Choisissez « Je vends et je rachète ». On enregistre le bien à vendre et le bien recherché (chaîne, prêt relais). Une seule fiche, deux casquettes.</p>
               </details>
             </li>
+            <li>
+              <details class="faq-item">
+                <summary>
                   <span>Dois-je remplir un dossier prêt pour chercher ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
@@ -1125,6 +1195,22 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Pas de scraping. Vendeur : dépôt à la main ou URL. Acquéreur : coller une URL déjà vue. Double casquette : vendre et racheter (chaîne / prêt relais)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "J'ai vu une annonce ailleurs : que faites-vous du lien ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Vous envoyez l'URL de l'annonce (Leboncoin, PAP, SeLoger, autre agence). Négociateur immobilier, je pars à la recherche du bien pour vous : j'appelle le vendeur, je qualifie le bien et je vais chercher le mandat, puis on visite ensemble."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Sur quel secteur allez-vous chercher le mandat ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Principalement ma localité : Varangéville, Saint-Nicolas-de-Port, Dombasle-sur-Meurthe, Nancy et alentours (Meurthe-et-Moselle, environ 30 km). En Grand Est élargi je tente le mandat ou je travaille avec un confrère ; ailleurs en France je relaie le bien et je garde le prêt et les assurances."
           }
         },
         {
@@ -1171,6 +1257,7 @@
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>
+  <script src="../js/immo-secteur-lib.js"></script>
   <script src="../js/acheteur-immo-listing-url.js"></script>
   <script src="./tracking.js"></script>
   <script>

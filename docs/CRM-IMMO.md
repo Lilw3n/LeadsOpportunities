@@ -60,9 +60,34 @@ Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-imm
 - Saisie manuelle **sans URL** pour un vendeur (ville obligatoire)
 - Détecte le portail si URL (Leboncoin, SeLoger, ParuVendu…)
 - Parties CRM : vendeur (déposant ou infos collées) ; acquéreur si recherche / double casquette ; critères de rachat si `les_deux`
+- `mandateHunt` : mission **aller chercher le mandat** (acquéreur uniquement)
 - **Pas de scraping**
 
 Catalogue : `js/immo-listing-portals-lib.js`.
+
+## Recherche de bien & chasse au mandat
+
+Un client envoie l'URL d'une annonce repérée ailleurs (Leboncoin, PAP, autre agence) : le négociateur
+part à la recherche du bien, démarche le vendeur et va chercher le mandat. Secteur : `js/immo-secteur-lib.js`
+(Node + navigateur).
+
+| Zone | Règle | Mission CRM (`metadata.mandate.status`) |
+|------|-------|-----------------------------------------|
+| `coeur` | département **54** ou ville du cœur de secteur (Varangéville, Saint-Nicolas-de-Port, Dombasle, Nancy…) | `a_demarcher` |
+| `proche` | reste du **Grand Est** (08, 10, 51, 52, 55, 57, 67, 68, 88) | `a_qualifier` |
+| `hors` | autre département | `a_relayer` (confrère ; on garde prêt + assurances) |
+| `inconnu` | ni ville ni code postal | — |
+
+Effets côté API :
+
+- `metadata.mandate` + `metadata.sector` sur le bien, note « Mission : aller chercher le mandat »
+- `a_contacter` forcé (il faut joindre le vendeur), partie acquéreur annotée
+- `lead_score` majoré (+15 cœur, +8 proche, +3 hors, plafond 95) ; payload `site_leads` : `mandateHunt`, `mandateStatus`, `sectorZone`
+- Vendeur / double casquette : `mandateHunt` ignoré (il est déjà le mandant)
+
+Côté public (`/landings/acheteur-immo.html`) : section `#mandat`, case « allez chercher le mandat »
+dans le dépôt d'URL, badge de secteur en direct depuis la ville / le code postal, case
+`mandateSearch` dans l'alerte acquéreur. Deep link : `?mandat=1#mandat` (need `mandat-immo`).
 
 ## Documents (fondation)
 

@@ -1,5 +1,5 @@
 {
-  "featured": ["vtc", "sante", "immo", "acheteur-immo", "vendeur-immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
+  "featured": ["vtc", "sante", "immo", "acheteur-immo", "mandat-immo", "vendeur-immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
   "blogActuExamples": [
     "elections-presidentielles-prevoyance-patrimoine.html",
     "ligue-champions-assurance-voyage-deplacement.html",
@@ -40,6 +40,12 @@
       "seoUrl": "/landings/acheteur-immo.html",
       "blogUrl": "/blog/pret-immo-erreurs-a-eviter.html",
       "keywords": ["negociateur immobilier", "acquereur", "pret immobilier"]
+    },
+    "mandat-immo": {
+      "icon": "🔎",
+      "teaser": "Une annonce repérée ailleurs ? Envoyez le lien : je vais chercher le mandat sur ma localité.",
+      "seoUrl": "/landings/acheteur-immo.html?mandat=1#mandat",
+      "keywords": ["recherche de bien", "chasse au mandat", "negociateur immobilier"]
     },
     "vendeur-immo": {
       "icon": "🏷️",

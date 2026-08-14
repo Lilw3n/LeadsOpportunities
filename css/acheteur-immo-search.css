@@ -263,6 +263,85 @@
   margin-bottom: 6px;
 }
 
+.mandate-hunt {
+  margin: 0 0 20px;
+  padding: 18px;
+  background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 70%);
+  border: 1px solid #99f6e4;
+  border-radius: 18px;
+}
+.mandate-hunt h2 { margin: 0 0 8px; font-size: 1.2rem; }
+.mandate-hunt .actions { margin-top: 16px; }
+.mandate-steps {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.mandate-steps li {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #334155;
+}
+.mandate-steps strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #0f766e;
+}
+.mandate-zone {
+  margin-top: 16px;
+  padding: 14px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+.mandate-zone-list {
+  margin: 8px 0 10px;
+  padding-left: 18px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #334155;
+}
+.mandate-zone-list strong { color: #0f172a; }
+
+.mandate-mission {
+  margin-top: 16px;
+  padding: 14px;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  border-radius: 14px;
+}
+.mandate-mission .search-section-label { margin-top: 0; }
+.mandate-sector {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.86rem;
+  background: #f1f5f9;
+  color: #475569;
+}
+.mandate-sector--coeur {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+.mandate-sector--proche {
+  background: #fffbeb;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+.mandate-sector--hors {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
 .url-capture {
   margin: 8px 0 28px;
   padding: 18px;

@@ -3,6 +3,7 @@ var fs = require("fs");
 var path = require("path");
 var Portals = require("../js/immo-listing-portals-lib.js");
 var Matcher = require("../js/crm-immo-matcher.js");
+var Secteur = require("../js/immo-secteur-lib.js");
 
 var ROOT = path.join(__dirname, "..");
 var failed = 0;
@@ -66,6 +67,23 @@ assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-
 assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");
 assert(html.indexOf("data-listing-preview") !== -1, "aperçu de fiche");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
+assert(html.indexOf("id=\"mandat\"") !== -1, "landing : section chasse au mandat");
+assert(html.indexOf("name=\"mandateHunt\"") !== -1, "landing : case aller chercher le mandat");
+assert(html.indexOf("name=\"mandateSearch\"") !== -1, "landing : mandat depuis l'alerte acquéreur");
+assert(html.indexOf("data-sector-hint") !== -1, "landing : badge secteur d'intervention");
+assert(html.indexOf("immo-secteur-lib.js") !== -1, "landing charge la lib secteur");
+assert(
+  html.indexOf("Meurthe-et-Moselle") !== -1 && html.indexOf("ma localité") !== -1,
+  "landing : secteur d'intervention annoncé"
+);
+
+var coeur = Secteur.evaluate({ city: "Saint-Nicolas-de-Port", postal_code: "54210" });
+assert(coeur.zone === "coeur" && coeur.mandateReady, "secteur : 54 = mandat direct");
+assert(Secteur.evaluate({ city: "Varangeville" }).zone === "coeur", "secteur : ville du cœur sans CP (sans accent)");
+assert(Secteur.evaluate({ postal_code: "67000" }).zone === "proche", "secteur : Grand Est = élargi");
+assert(Secteur.evaluate({ postal_code: "38420" }).zone === "hors", "secteur : Isère = hors secteur");
+assert(Secteur.evaluate({}).zone === "inconnu", "secteur : inconnu sans ville ni CP");
+assert(Secteur.departmentOf("97400") === "974", "secteur : DOM sur 3 chiffres");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");
@@ -178,6 +196,44 @@ Promise.resolve()
       c.body.hats && c.body.hats.indexOf("vendeur") !== -1 && c.body.hats.indexOf("acquereur") !== -1,
       "deux casquettes"
     );
+    return call({
+      urls: ["https://www.leboncoin.fr/ad/ventes_immobilieres/333"],
+      email: "acquereur@example.fr",
+      city: "Dombasle-sur-Meurthe",
+      postal_code: "54110",
+      mandateHunt: "1",
+      price_fai: 189000,
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API accepte la mission mandat");
+    assert(c.body.mandate && c.body.mandate.requested === true, "mandat demandé");
+    assert(c.body.mandate.status === "a_demarcher", "mandat à démarcher (cœur de secteur)");
+    assert(c.body.sector && c.body.sector.zone === "coeur", "secteur cœur renvoyé");
+    return call({
+      urls: ["https://www.leboncoin.fr/ad/ventes_immobilieres/444"],
+      email: "acquereur@example.fr",
+      city: "Domene",
+      postal_code: "38420",
+      mandateHunt: true,
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API accepte un bien hors secteur");
+    assert(c.body.mandate.status === "a_relayer", "hors secteur : mandat à relayer");
+    assert(c.body.sector.zone === "hors", "secteur hors renvoyé");
+    return call({
+      role: "vendeur",
+      email: "vendeur2@example.fr",
+      city: "Nancy",
+      postal_code: "54000",
+      mandateHunt: "1",
+      price_fai: 250000,
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API vendeur avec mandateHunt");
+    assert(c.body.mandate.requested === false, "vendeur : pas de chasse au mandat (il est le vendeur)");
     return call({ urls: ["https://www.leboncoin.fr/ad/x/1"], email: "a@b.fr", _hp: "bot" });
   })
   .then(function (c) {

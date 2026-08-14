@@ -49,6 +49,13 @@
       vertical: "acheteur_immo",
       landing: "./landings/acheteur-immo.html",
     },
+    "mandat-immo": {
+      need: "mandat-immo",
+      label: "Faire chercher le mandat d'une annonce",
+      category: "finance",
+      vertical: "acheteur_immo",
+      landing: "./landings/acheteur-immo.html?mandat=1#mandat",
+    },
     "vendeur-immo": {
       need: "vendeur-immo",
       label: "Déposer un bien à vendre",
@@ -168,6 +175,7 @@
     animaux: "./landings/animaux-express.html",
     vtc: "./landings/devis-rapide.html",
     "acheteur-immo": "./landings/acheteur-immo.html",
+    "mandat-immo": "./landings/acheteur-immo.html?mandat=1#mandat",
     "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
     "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
   };
@@ -179,6 +187,7 @@
     sante: "./landings/sante.html",
     immo: "./landings/credit-immo.html",
     "acheteur-immo": "./landings/acheteur-immo.html",
+    "mandat-immo": "./landings/acheteur-immo.html?mandat=1#mandat",
     "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
     "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
   };

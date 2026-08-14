@@ -23,6 +23,29 @@
     return Number(n).toLocaleString("fr-FR") + " €";
   }
 
+  var MANDATE_STATUS_LABELS = {
+    a_demarcher: "mandat à démarcher",
+    a_qualifier: "mandat à qualifier",
+    a_relayer: "mandat à relayer",
+  };
+
+  /** Mission « aller chercher le mandat » posée par un acquéreur depuis la vitrine publique. */
+  function mandateTags(p) {
+    var meta = p.metadata;
+    if (typeof meta === "string" || p.metadata_json) {
+      try {
+        meta = JSON.parse(typeof meta === "string" ? meta : p.metadata_json || "{}");
+      } catch (e) {
+        meta = null;
+      }
+    }
+    var mandate = meta && meta.mandate;
+    if (!mandate || !mandate.requested) return [];
+    var tags = [MANDATE_STATUS_LABELS[mandate.status] || "mandat à chercher"];
+    if (mandate.label) tags.push(mandate.label);
+    return tags;
+  }
+
   function switchOn(el, on) {
     el.dataset.on = on ? "1" : "0";
     el.classList.toggle("on", !!on);
@@ -139,6 +162,9 @@
         if (p.transaction === "location") tags.push("à louer");
         else tags.push("à vendre");
         if (p.a_contacter) tags.push("à contacter");
+        mandateTags(p).forEach(function (t) {
+          tags.push(t);
+        });
         tags.push(Matcher.propertyStatusLabel(p.status));
         if (p.has_garage) tags.push("garage");
         if (p.has_parking) tags.push("parking");
