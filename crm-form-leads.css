@@ -72,9 +72,49 @@
   margin-top: 14px;
 }
 
-.fl-toolbar {
-  display: flex;
-  flex-wrap: wrap;
+.fl-tier {
+  display: inline-block;
+  min-width: 28px;
+  text-align: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+.fl-tier-aplus { background: #fef3c7; color: #92400e; }
+.fl-tier-a { background: #dcfce7; color: #166534; }
+.fl-tier-b { background: #e0f2fe; color: #075985; }
+.fl-tier-c { background: #f1f5f9; color: #475569; }
+
+.fl-xs {
+  display: inline-block;
+  margin: 0 4px 4px 0;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #065f46;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.fl-value-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 10px;
-  align-items: center;
+}
+.fl-value-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fff;
+}
+.fl-value-card p {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.fl-value-rank {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0f766e;
 }

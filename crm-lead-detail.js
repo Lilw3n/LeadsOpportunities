@@ -51,6 +51,61 @@
           })
         : {};
     var formBits = [formClass.categoryLabel, formClass.needLabel, formClass.kindLabel].filter(Boolean);
+    var leadVal =
+      window.LeadValueLib && window.LeadValueLib.computeLeadValue
+        ? window.LeadValueLib.computeLeadValue({
+            source: l.source,
+            vertical: l.vertical,
+            email: l.email,
+            phone: l.phone,
+            payload: payload,
+            questionnaire_step: l.questionnaire_step,
+            questionnaire_total: l.questionnaire_total,
+            formNeed: formClass.need,
+            formNeedLabel: formClass.needLabel,
+            formKind: formClass.kind,
+            formCategory: formClass.category,
+          })
+        : payload.leadValue || null;
+    function euro(n) {
+      return Math.round(Number(n) || 0).toLocaleString("fr-FR") + " €";
+    }
+    var valuePanel = "";
+    if (leadVal) {
+      var xs = (leadVal.crossSell || [])
+        .map(function (x) {
+          return (
+            "<li><strong>" +
+            esc(x.label) +
+            "</strong> — +" +
+            euro(x.expectedEur) +
+            " <span style='color:var(--muted)'>(" +
+            esc(x.reason) +
+            ")</span></li>"
+          );
+        })
+        .join("");
+      valuePanel =
+        '<div class="panel" style="margin:16px 0">' +
+        "<h2>Ce que ce lead peut rapporter</h2>" +
+        "<p>Dossier <strong>" +
+        esc(leadVal.primary && leadVal.primary.label) +
+        "</strong> (questionnaire " +
+        (leadVal.completeness || 0) +
+        " %) : espérance <strong>" +
+        euro(leadVal.primaryEur) +
+        "</strong> sur un deal type " +
+        euro(leadVal.primary && leadVal.primary.dealEur) +
+        ".</p>" +
+        (xs
+          ? "<p>À pousser en plus si le profil colle :</p><ul>" + xs + "</ul>"
+          : "<p>Pas d’autre produit fortement compatible pour l’instant.</p>") +
+        "<p><strong>Total estimé : " +
+        euro(leadVal.totalEur) +
+        "</strong> · palier " +
+        esc(leadVal.tier) +
+        "</p></div>";
+    }
 
     document.getElementById("leadMount").innerHTML =
       '<p><a href="./crm-form-leads.html" class="btn btn-ghost">← Leads formulaires</a> ' +
@@ -86,6 +141,7 @@
       '<div class="kpi-card panel"><div class="kpi-label">Priorité</div><div class="kpi-value" style="font-size:1rem">' +
       esc(l.priority || "medium") +
       "</div></div></div>" +
+      valuePanel +
       '<div class="panel" style="display:grid;gap:12px;max-width:520px">' +
       "<label>Étape questionnaire (numéro)<input type='number' id='qStep' min='0' max='50' value='" +
       (l.questionnaire_step || 0) +

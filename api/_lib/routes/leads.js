@@ -246,7 +246,9 @@ module.exports = async (req, res) => {
     ? sanitizeSearch(url.searchParams.get("search"))
     : null;
   const searchPattern = searchVal ? "%" + searchVal + "%" : null;
-  var sortCol = sanitizeEnum(url.searchParams.get("sort") || "created_at", VALID_SORT, "created_at");
+  const sortRaw = url.searchParams.get("sort") || "created_at";
+  const sortValue = sortRaw === "value";
+  var sortCol = sanitizeEnum(sortValue ? "created_at" : sortRaw, VALID_SORT, "created_at");
   const orderAsc = String(url.searchParams.get("order") || "desc").toUpperCase() === "ASC";
   const listFilters = parseLeadListFilters(url);
   const viewVal = listFilters.view;
@@ -270,7 +272,7 @@ module.exports = async (req, res) => {
 
     await ensureSiteLeadsSchema(sql);
 
-    const needsFormScan = !!(formCategoryVal || formKindVal || wantFormStats);
+    const needsFormScan = !!(formCategoryVal || formKindVal || wantFormStats || sortValue);
     const fetchOpts = needsFormScan
       ? Object.assign({}, queryOpts, { limit: 500, offset: 0 })
       : queryOpts;
@@ -280,12 +282,23 @@ module.exports = async (req, res) => {
     });
     let formStats = null;
     if (needsFormScan) {
-      formStats = { total: leads.length, categories: {}, kinds: {} };
+      formStats = { total: leads.length, categories: {}, kinds: {}, value: { sum: 0, byCategory: {}, byNeed: {} } };
       leads.forEach(function (l) {
         var cat = l.formCategory || "contact";
         var kind = l.formKind || "questionnaire";
+        var need = l.formNeed || l.vertical || "autre";
         formStats.categories[cat] = (formStats.categories[cat] || 0) + 1;
         formStats.kinds[kind] = (formStats.kinds[kind] || 0) + 1;
+        var eur = Number(l.valueTotal) || 0;
+        formStats.value.sum += eur;
+        if (!formStats.value.byCategory[cat]) formStats.value.byCategory[cat] = { count: 0, sum: 0 };
+        formStats.value.byCategory[cat].count += 1;
+        formStats.value.byCategory[cat].sum += eur;
+        if (!formStats.value.byNeed[need]) {
+          formStats.value.byNeed[need] = { count: 0, sum: 0, label: l.formNeedLabel || need };
+        }
+        formStats.value.byNeed[need].count += 1;
+        formStats.value.byNeed[need].sum += eur;
       });
       if (formCategoryVal) {
         leads = leads.filter(function (l) {
@@ -295,6 +308,11 @@ module.exports = async (req, res) => {
       if (formKindVal) {
         leads = leads.filter(function (l) {
           return l.formKind === formKindVal;
+        });
+      }
+      if (sortValue) {
+        leads.sort(function (a, b) {
+          return (Number(b.valueTotal) || 0) - (Number(a.valueTotal) || 0);
         });
       }
     }

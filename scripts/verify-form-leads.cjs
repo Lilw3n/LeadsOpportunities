@@ -96,6 +96,74 @@ assert(leadsApi.indexOf("formCategoryVal") >= 0 && leadsApi.indexOf("formStats")
 var publicLead = fs.readFileSync(path.join(__dirname, "../api/_lib/routes/public-lead.js"), "utf8");
 assert(publicLead.indexOf("formCategory") >= 0, "POST /api/lead stocke la catégorie");
 
+var LV = require("../js/lead-value-lib");
+var vendeurVal = LV.computeLeadValue({
+  vertical: "vendeur-immo",
+  source: "landing_form",
+  email: "a@b.fr",
+  phone: "0612345678",
+  payload: { need: "vendeur-immo", journey: "full", questionnaire_step: 8, questionnaire_total: 8 },
+  formNeed: "vendeur-immo",
+  formKind: "questionnaire",
+});
+assert(vendeurVal.primaryEur > 0, "vendeur : valeur dossier > 0");
+assert(vendeurVal.totalEur >= vendeurVal.primaryEur, "total >= dossier");
+
+var vtcVal = LV.computeLeadValue({
+  vertical: "vtc",
+  email: "c@d.fr",
+  phone: "0699999999",
+  payload: {
+    need: "vtc",
+    hasMutuelle: "non",
+    hasCompany: "oui",
+    journey: "full",
+    questionnaire_step: 10,
+    questionnaire_total: 10,
+  },
+  formNeed: "vtc",
+  formKind: "questionnaire",
+});
+assert(vtcVal.upsideEur > 0, "VTC indépendant : upside mutuelle/prévoyance");
+assert(
+  vtcVal.crossSell.some(function (x) {
+    return x.product === "sante";
+  }),
+  "VTC → mutuelle recommandée"
+);
+
+var achVal = LV.computeLeadValue({
+  vertical: "acheteur-immo",
+  email: "e@f.fr",
+  phone: "0688888888",
+  payload: {
+    need: "acheteur-immo",
+    buyerNeeds: ["pret", "emprunteur", "habitation"],
+    journey: "full",
+    questionnaire_step: 6,
+    questionnaire_total: 6,
+  },
+  formNeed: "acheteur-immo",
+  formKind: "questionnaire",
+});
+var achProducts = achVal.crossSell.map(function (x) {
+  return x.product;
+});
+assert(achProducts.indexOf("credit-immo") >= 0, "acquéreur → crédit immo");
+assert(achProducts.indexOf("emprunteur") >= 0, "acquéreur → ADE");
+assert(achVal.totalEur > vtcVal.totalEur, "acquéreur+prêt rapporte plus qu’un VTC seul");
+
+var cbVal = LV.computeLeadValue({
+  source: "homepage_callback",
+  payload: { callbackRequested: true },
+  formNeed: "contact",
+  formKind: "express_callback",
+});
+assert(cbVal.primaryEur < vendeurVal.primaryEur, "rappel express < mandat vendeur");
+
+var htmlFl = fs.readFileSync(path.join(__dirname, "../crm-form-leads.html"), "utf8");
+assert(htmlFl.indexOf("flValueRank") >= 0, "bloc classement valeur sur la page CRM");
+
 if (failed) {
   console.log("\n" + failed + " échec(s)");
   process.exit(1);

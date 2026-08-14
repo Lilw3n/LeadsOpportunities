@@ -201,6 +201,30 @@ module.exports = async (req, res) => {
     console.warn("[lead] form category", classErr.message);
   }
 
+  try {
+    const LeadValue = require("../../../js/lead-value-lib");
+    var valueRow = LeadValue.computeLeadValue({
+      source: enriched.source,
+      vertical: enriched.vertical,
+      email: enriched.email,
+      phone: enriched.phone,
+      payload: enriched,
+      questionnaire_step: qStep,
+      questionnaire_total: qTotal,
+      formNeed: enriched.formNeed,
+      formNeedLabel: enriched.formNeedLabel,
+      formKind: enriched.formKind,
+      formCategory: enriched.formCategory,
+    });
+    enriched.leadValue = valueRow;
+    enriched.valuePrimary = valueRow.primaryEur;
+    enriched.valueUpside = valueRow.upsideEur;
+    enriched.valueTotal = valueRow.totalEur;
+    enriched.valueTier = valueRow.tier;
+  } catch (valErr) {
+    console.warn("[lead] lead value", valErr.message);
+  }
+
   console.log("[lead]", leadId, score, enriched.vertical, platform, enriched.email || enriched.phone || "");
 
   var stored = false;

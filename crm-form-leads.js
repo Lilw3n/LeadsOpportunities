@@ -11,6 +11,7 @@
     kind: "",
     search: "",
     status: "",
+    sort: "value",
     stats: null,
   };
 
@@ -35,6 +36,26 @@
     } catch (e) {
       return {};
     }
+  }
+
+  function euro(n) {
+    n = Math.round(Number(n) || 0);
+    return n.toLocaleString("fr-FR") + " €";
+  }
+
+  function ensureValue(l) {
+    if (l.valueTotal != null && l.leadValue) return l;
+    if (window.LeadValueLib && window.LeadValueLib.applyToLead) {
+      window.LeadValueLib.applyToLead(l);
+    }
+    return l;
+  }
+
+  function tierClass(t) {
+    if (t === "A+") return "fl-tier fl-tier-aplus";
+    if (t === "A") return "fl-tier fl-tier-a";
+    if (t === "B") return "fl-tier fl-tier-b";
+    return "fl-tier fl-tier-c";
   }
 
   function displayName(l) {
@@ -89,11 +110,61 @@
     document.getElementById("flKindChips").innerHTML = kindHtml;
   }
 
+  function renderValueRank() {
+    var mount = document.getElementById("flValueRank");
+    if (!mount) return;
+    var val = (state.stats && state.stats.value) || {};
+    var byNeed = val.byNeed || {};
+    var rows = Object.keys(byNeed)
+      .map(function (id) {
+        var x = byNeed[id];
+        return {
+          id: id,
+          label: x.label || id,
+          count: x.count || 0,
+          sum: x.sum || 0,
+          avg: x.count ? x.sum / x.count : 0,
+        };
+      })
+      .sort(function (a, b) {
+        return b.avg - a.avg;
+      })
+      .slice(0, 8);
+    if (!rows.length) {
+      mount.innerHTML = '<p class="muted">Pas encore assez de leads pour classer la valeur.</p>';
+      return;
+    }
+    mount.innerHTML =
+      '<div class="fl-value-grid">' +
+      rows
+        .map(function (r, i) {
+          return (
+            '<div class="fl-value-card">' +
+            '<span class="fl-value-rank">#' +
+            (i + 1) +
+            "</span>" +
+            "<strong>" +
+            esc(r.label) +
+            "</strong>" +
+            '<p>Espérance moyenne <b>' +
+            euro(r.avg) +
+            "</b> · " +
+            r.count +
+            " lead" +
+            (r.count > 1 ? "s" : "") +
+            " · pot. " +
+            euro(r.sum) +
+            "</p></div>"
+          );
+        })
+        .join("") +
+      "</div>";
+  }
+
   function renderStats(pagination) {
-    var s = state.stats || { categories: {}, kinds: {}, total: 0 };
-    var q = s.kinds.questionnaire || 0;
-    var c = s.kinds.contact_request || 0;
-    var r = s.kinds.express_callback || 0;
+    var s = state.stats || { categories: {}, kinds: {}, total: 0, value: { sum: 0 } };
+    var q = (s.kinds && s.kinds.questionnaire) || 0;
+    var pot = (s.value && s.value.sum) || 0;
     document.getElementById("flStats").innerHTML =
       '<div class="kpi-card panel"><div class="kpi-label">Leads formulaires</div><div class="kpi-value">' +
       (s.total || 0) +
@@ -101,15 +172,16 @@
       '<div class="kpi-card panel"><div class="kpi-label">Questionnaires</div><div class="kpi-value">' +
       q +
       '</div></div>' +
-      '<div class="kpi-card panel"><div class="kpi-label">Contacts</div><div class="kpi-value">' +
-      c +
-      '</div></div>' +
-      '<div class="kpi-card panel"><div class="kpi-label">Rappels express</div><div class="kpi-value">' +
-      r +
+      '<div class="kpi-card panel"><div class="kpi-label">Potentiel file</div><div class="kpi-value">' +
+      euro(pot) +
+      '</div><div class="kpi-sub">somme des espérances</div></div>' +
+      '<div class="kpi-card panel"><div class="kpi-label">Moyenne / lead</div><div class="kpi-value">' +
+      euro(s.total ? pot / s.total : 0) +
       "</div></div>";
     document.getElementById("flCount").textContent = pagination
       ? pagination.total + " résultat" + (pagination.total > 1 ? "s" : "")
       : "";
+    renderValueRank();
   }
 
   function renderRows(leads) {
@@ -121,9 +193,27 @@
     }
     tbody.innerHTML = leads
       .map(function (l) {
+        l = ensureValue(l);
         var cat = l.formCategory || "contact";
         var kind = l.formKind || "questionnaire";
         var when = l.created_at ? new Date(l.created_at).toLocaleString("fr-FR") : "—";
+        var xs = (l.valueCrossSell || []).slice(0, 3);
+        var extra =
+          xs.length === 0
+            ? '<span class="muted">—</span>'
+            : xs
+                .map(function (x) {
+                  return (
+                    '<span class="fl-xs" title="' +
+                    esc(x.reason || "") +
+                    '">' +
+                    esc(x.label) +
+                    " +" +
+                    euro(x.expectedEur) +
+                    "</span>"
+                  );
+                })
+                .join(" ");
         return (
           "<tr>" +
           "<td>" +
@@ -149,11 +239,18 @@
           " · " +
           esc(l.phone || "—") +
           "</span></td>" +
+          '<td><span class="' +
+          tierClass(l.valueTier) +
+          '">' +
+          esc(l.valueTier || "C") +
+          "</span> <strong>" +
+          euro(l.valueTotal) +
+          '</strong><div class="muted">dossier ' +
+          euro(l.valuePrimary) +
+          "</div></td>" +
           "<td>" +
-          esc(l.source || "—") +
-          "</td>" +
-          "<td>" +
-          (l.lead_score != null ? l.lead_score : "—") +
+          extra +
+          (l.valueUpside ? '<div class="muted">+' + euro(l.valueUpside) + "</div>" : "") +
           "</td>" +
           "<td>" +
           esc(l.status || "new") +
@@ -204,7 +301,7 @@
   }
 
   function load() {
-    var params = "?limit=50&page=" + state.page + "&formStats=1";
+    var params = "?limit=50&page=" + state.page + "&formStats=1&sort=" + encodeURIComponent(state.sort || "value");
     if (state.category) params += "&category=" + encodeURIComponent(state.category);
     if (state.kind) params += "&kind=" + encodeURIComponent(state.kind);
     if (state.status) params += "&status=" + encodeURIComponent(state.status);
@@ -242,6 +339,11 @@
     load();
   });
   document.getElementById("flRefresh").addEventListener("click", load);
+  document.getElementById("flSort").addEventListener("change", function () {
+    state.sort = this.value || "value";
+    state.page = 1;
+    load();
+  });
   document.getElementById("flStatus").addEventListener("change", function () {
     state.status = this.value;
     state.page = 1;

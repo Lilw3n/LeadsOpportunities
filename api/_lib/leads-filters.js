@@ -69,6 +69,11 @@ function enrichLeadRow(row) {
     applyToLead(row);
   } catch (e) {}
 
+  try {
+    const LeadValue = require("../../js/lead-value-lib");
+    LeadValue.applyToLead(row);
+  } catch (e) {}
+
   return row;
 
 }

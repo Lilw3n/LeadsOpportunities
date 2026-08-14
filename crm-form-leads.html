@@ -17,7 +17,7 @@
     <div>
       <p class="crm-eyebrow">Formulaires site</p>
       <h2>Leads classés par catégorie</h2>
-      <p>Questionnaires, demandes de contact et rappels express — regroupés par métier, pas seulement dans la messagerie.</p>
+      <p>Classés par ce que le dossier peut rapporter (questionnaire) et par l’upside si vous poussez d’autres produits compatibles.</p>
     </div>
     <div class="crm-action-row">
       <a href="./dashboard.html?section=mailbox" class="btn btn-ghost">Messagerie</a>
@@ -36,9 +36,18 @@
       <option value="converted">Converti</option>
       <option value="lost">Perdu</option>
     </select>
+    <select id="flSort" class="crm-input" style="max-width:200px">
+      <option value="value" selected>Trier : ce qui rapporte</option>
+      <option value="created_at">Trier : plus récents</option>
+    </select>
     <button type="button" class="btn btn-primary" id="flRefresh">Actualiser</button>
   </div>
 
+  <section class="panel fl-section">
+    <h2>Ce qui rapporte le plus (valeur estimée)</h2>
+    <p class="muted" style="margin:0 0 10px">Espérance courtier = honoraires / commission 1re année × taux de closing × qualité du questionnaire. L’upside additionne les autres produits du catalogue si le profil est compatible.</p>
+    <div id="flValueRank"></div>
+  </section>
   <section class="panel fl-section">
     <h2>Catégories</h2>
     <div class="crm-filter-chips" id="flCatChips"></div>
@@ -67,8 +76,8 @@
             <th>Besoin</th>
             <th>Type</th>
             <th>Contact</th>
-            <th>Source</th>
-            <th>Score</th>
+            <th>Valeur dossier</th>
+            <th>Upside produits</th>
             <th>Statut</th>
             <th></th>
           </tr>
@@ -82,6 +91,7 @@
   </section>
 
   <script src="./js/form-lead-category.js"></script>
+  <script src="./js/lead-value-lib.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-form-leads.js"></script>
   <script src="./js/admin-nav.js"></script>
