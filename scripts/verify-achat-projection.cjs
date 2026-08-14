@@ -94,6 +94,14 @@ var dept = P.deptFromPostal("75011");
 assert(dept === "75", "département Paris");
 assert(P.deptFromPostal("97400") === "974", "département Réunion");
 
+var fs = require("fs");
+var path = require("path");
+var html = fs.readFileSync(path.join(__dirname, "../landings/projection-achat.html"), "utf8");
+assert(html.indexOf("js/achat-projection-lib.js") !== -1, "landing charge le moteur");
+assert(html.indexOf("js/achat-projection-page.js") !== -1, "landing charge l'UI");
+assert(html.indexOf("/og/og-projection-achat.jpg") !== -1, "landing : visuel Open Graph dédié");
+assert(html.indexOf("og-default.svg") === -1, "landing : pas de SVG OG");
+
 if (failed) {
   console.error("\n" + failed + " assertion(s) failed");
   process.exit(1);
