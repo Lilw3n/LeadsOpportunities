@@ -113,6 +113,35 @@ function robotsMetaForArticle(article) {
   return "index,follow";
 }
 
+/** Diplomatie / conflit sans angle assurance : ne génère pas de leads questionnaire. */
+const LOW_LEAD_GEOPOLITICS = [
+  /\bisra[eë]l\b/i,
+  /\bgaza\b/i,
+  /\bcisjordanie\b/i,
+  /\bhamas\b/i,
+  /\bpalestine\b/i,
+  /\bhezbollah\b/i,
+  /\bukraine\b/i,
+  /\bpoutine\b/i,
+  /\bnetanyahu\b/i,
+  /\bcolons?\b/i,
+  /\btaiwan\b/i,
+  /\btaïwan\b/i,
+];
+
+function isLowLeadGeopolitics(input) {
+  var hay = textBlob(input);
+  if (!LOW_LEAD_GEOPOLITICS.some(function (re) {
+    return re.test(hay);
+  })) {
+    return false;
+  }
+  if (/\b(assurance|mutuelle|sinistre|emprunteur|habitation|pr[eê]t immobilier)\b/i.test(hay)) {
+    return false;
+  }
+  return true;
+}
+
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
@@ -122,6 +151,8 @@ function franceLeadScoreAdjust(candidate) {
   if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {
     delta -= 45;
   }
+
+  if (isLowLeadGeopolitics(hay)) delta -= 80;
 
   if (isFranceMarketTopic(hay)) delta += 25;
 
@@ -136,6 +167,7 @@ module.exports = {
   INTL_ACTU_FILES: INTL_ACTU_FILES,
   isInternationalAudienceTopic: isInternationalAudienceTopic,
   isFranceMarketTopic: isFranceMarketTopic,
+  isLowLeadGeopolitics: isLowLeadGeopolitics,
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
