@@ -42,15 +42,7 @@
     });
   }
 
-  function syncModeFromUi(form) {
-    var ui = form.querySelector('input[name="searchModeUi"]:checked');
-    if (!ui) return;
-    var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
-    if (hidden) hidden.checked = true;
-  }
-
   function syncSearchPanels(form) {
-    syncModeFromUi(form);
     var kind = searchKindOf(form) || "bien";
     var bienPanel = qs(form, "[data-search-bien-panel]");
     var servicePanel = qs(form, "[data-search-service-panel]");
