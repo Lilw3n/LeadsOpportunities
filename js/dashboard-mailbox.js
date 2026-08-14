@@ -234,6 +234,55 @@
     return s.charAt(0).toUpperCase() + s.slice(1);
   }
 
+  /** Valeur potentielle (€) d'un message lead — règles dans js/lead-value.js */
+  function messageValue(m) {
+    if (!m || messageKind(m) !== "site") return 0;
+    if (m._lvCache != null) return m._lvCache;
+    var v = 0;
+    var body = String(m.body_text || "");
+    var mt = body.match(/^Valeur potentielle\s*:\s*~?\s*([\d\s\u202f\u00a0]+)\s*€/m);
+    if (mt) v = parseInt(mt[1].replace(/[\s\u202f\u00a0]/g, ""), 10) || 0;
+    if (!v) {
+      var p = parseLeadPayload(m.body_text);
+      if (p) {
+        if (p.estimated_value != null && isFinite(Number(p.estimated_value))) {
+          v = Number(p.estimated_value);
+        } else if (window.LeadValue) {
+          try {
+            v = window.LeadValue.computeLeadValue(p).value || 0;
+          } catch (e) {}
+        }
+      }
+    }
+    m._lvCache = v;
+    return v;
+  }
+
+  function valueBand(v) {
+    var bands =
+      (window.LeadValue && window.LeadValue.RULES && window.LeadValue.RULES.bands) || {
+        high: 600,
+        medium: 150,
+      };
+    return v >= bands.high ? "high" : v >= bands.medium ? "medium" : "low";
+  }
+
+  function fmtEuros(v) {
+    if (window.LeadValue && window.LeadValue.formatEuros) return window.LeadValue.formatEuros(v);
+    return Math.round(v) + " €";
+  }
+
+  function valuePill(v) {
+    if (!v || v <= 0) return "";
+    return (
+      '<span class="mbx-pill mbx-pill--value mbx-pill--value-' +
+      valueBand(v) +
+      '">~' +
+      esc(fmtEuros(v)) +
+      "</span>"
+    );
+  }
+
   function messagePreview(m) {
     var t = (m.body_text || "").replace(/\s+/g, " ").trim();
     if (t.indexOf("===") === 0 || t.charAt(0) === "{") {
@@ -352,24 +401,33 @@
         });
       t.subject = (subjIn && subjIn.subject) || last.subject || "(sans objet)";
       t.preview = messagePreview(last);
+      t.value = t.messages.reduce(function (max, m) {
+        var v = messageValue(m);
+        return v > max ? v : max;
+      }, 0);
+      t.highValue = valueBand(t.value) === "high";
       if (t.needsCallback && t.hasExpress) {
         t.priority = 0;
-      } else if (t.needsReply && t.hasImap) {
+      } else if (t.highValue && t.needsReply) {
+        /* Gros potentiel non traité : juste sous les rappels express */
         t.priority = 1;
-      } else if (t.needsReply) {
+      } else if (t.needsReply && t.hasImap) {
         t.priority = 2;
-      } else if (t.hasImap) {
+      } else if (t.needsReply) {
         t.priority = 3;
-      } else if (t.hasSite) {
+      } else if (t.hasImap) {
         t.priority = 4;
-      } else {
+      } else if (t.hasSite) {
         t.priority = 5;
+      } else {
+        t.priority = 6;
       }
       return t;
     });
 
     threads.sort(function (a, b) {
       if (a.priority !== b.priority) return a.priority - b.priority;
+      if (a.value !== b.value) return b.value - a.value;
       return new Date(b.lastAt) - new Date(a.lastAt);
     });
     return threads;
@@ -563,9 +621,11 @@
     var cls = "mbx-thread-card";
     if (active) cls += " is-active";
     if (t.needsCallback && t.hasExpress) cls += " mbx-thread-card--express";
+    else if (t.highValue && t.needsReply) cls += " mbx-thread-card--value";
     else if (t.needsReply && t.hasImap) cls += " mbx-thread-card--reply";
     else if (t.hasImap) cls += " mbx-thread-card--mail";
     var tags =
+      valuePill(t.value) +
       (t.needsCallback && t.hasExpress
         ? '<span class="mbx-pill mbx-pill--express">Rappel express</span>'
         : "") +
@@ -624,23 +684,28 @@
     }
 
     var html = "";
-    var urgent = threads.filter(function (t) {
-      return t.needsReply && t.hasImap;
-    });
-    var mail = threads.filter(function (t) {
-      return t.hasImap && !(t.needsReply && t.hasImap);
-    });
-    var siteOnly = threads.filter(function (t) {
-      return !t.hasImap && t.hasSite;
-    });
-    var questionnairesOnly = threads.filter(function (t) {
-      return !t.hasImap && t.hasQuestionnaire && !t.hasExpress;
-    });
     var expressOnly = threads.filter(function (t) {
       return t.needsCallback && t.hasExpress;
     });
+    var highValue = threads.filter(function (t) {
+      return t.highValue && t.needsReply && !(t.needsCallback && t.hasExpress);
+    });
+    function inHighValue(t) {
+      return highValue.indexOf(t) >= 0;
+    }
+    var urgent = threads.filter(function (t) {
+      return t.needsReply && t.hasImap && !inHighValue(t);
+    });
+    var mail = threads.filter(function (t) {
+      return t.hasImap && !(t.needsReply && t.hasImap) && !inHighValue(t);
+    });
+    var questionnairesOnly = threads.filter(function (t) {
+      return !t.hasImap && t.hasQuestionnaire && !t.hasExpress && !inHighValue(t);
+    });
     var contactOnly = threads.filter(function (t) {
-      return !t.hasImap && t.hasContactRequest && !t.hasQuestionnaire && !t.hasExpress;
+      return (
+        !t.hasImap && t.hasContactRequest && !t.hasQuestionnaire && !t.hasExpress && !inHighValue(t)
+      );
     });
 
     function block(label, items) {
@@ -654,6 +719,7 @@
 
     if (state.view === "feed") {
       html += block("URGENT — Rappels express a traiter", expressOnly);
+      html += block("FORT POTENTIEL — RDV / dossiers qui rapportent", highValue);
       html += block("A repondre — e-mail recu", urgent);
       html += block("Conversations e-mail", mail);
       html += block("Questionnaires remplis", questionnairesOnly);
@@ -741,6 +807,7 @@
   function renderLeadItem(m) {
     var active = m.id === state.selectedId ? " is-active" : "";
     var preview = messagePreview(m);
+    var pill = valuePill(messageValue(m));
     return (
       '<button type="button" class="mbx-item' +
       active +
@@ -748,7 +815,9 @@
       esc(m.id) +
       '"><span class="mbx-item__main"><strong>' +
       esc(m.subject || "(sans objet)") +
-      "</strong><br><span style='font-size:0.8rem;color:var(--muted)'>" +
+      "</strong>" +
+      (pill ? " " + pill : "") +
+      "<br><span style='font-size:0.8rem;color:var(--muted)'>" +
       esc(extractEmail(m.from_addr)) +
       " · " +
       fmtDate(m.created_at) +
@@ -760,7 +829,7 @@
     );
   }
 
-  /** Liste groupée par produit (vertical) pour ne plus deviner quoi va avec quoi. */
+  /** Liste groupée par produit, priorisée par valeur potentielle décroissante. */
   function renderGroupedLeadList(list) {
     var groups = {};
     var order = [];
@@ -773,8 +842,24 @@
       groups[key].push(m);
     });
 
-    // Groupes triés par message le plus récent
+    // Dans chaque groupe : plus forte valeur d'abord, puis plus récent
+    order.forEach(function (key) {
+      groups[key].sort(function (a, b) {
+        var va = messageValue(a);
+        var vb = messageValue(b);
+        if (va !== vb) return vb - va;
+        return (new Date(b.created_at).getTime() || 0) - (new Date(a.created_at).getTime() || 0);
+      });
+    });
+
+    // Groupes triés par valeur max décroissante (ce qui rapporte le plus en haut)
+    function groupMax(key) {
+      return groups[key].length ? messageValue(groups[key][0]) : 0;
+    }
     order.sort(function (a, b) {
+      var va = groupMax(a);
+      var vb = groupMax(b);
+      if (va !== vb) return vb - va;
       var ta = new Date(groups[a][0].created_at).getTime() || 0;
       var tb = new Date(groups[b][0].created_at).getTime() || 0;
       return tb - ta;
@@ -790,6 +875,7 @@
         ' <span style="font-weight:400;color:var(--muted)">— ' +
         items.length +
         (items.length > 1 ? " demandes" : " demande") +
+        (groupMax(key) > 0 ? " · jusqu'à ~" + esc(fmtEuros(groupMax(key))) : "") +
         "</span></div>";
       items.forEach(function (m) {
         html += renderLeadItem(m);
