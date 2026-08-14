@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <meta name="description" content="Confiez votre recherche immobilière locale ou envoyez le lien d'une annonce repérée. Votre conseiller contacte l'annonceur pour tenter d'obtenir le mandat ou une collaboration." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
   <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
-  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
+  <meta property="og:description" content="Recherche immobilière principalement locale : envoyez aussi une annonce Leboncoin ou SeLoger repérée pour que votre conseiller démarche l'annonceur." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <!-- Google tag (gtag.js) -->
@@ -53,19 +53,20 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
+              data-speed-title="Votre recherche immobilière locale, y compris à partir d'une annonce repérée"
               data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
-            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
+            >Votre recherche immobilière locale, y compris à partir d'une annonce repérée</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
+              data-speed-subtitle="Votre conseiller recherche principalement sur son secteur. Envoyez-lui aussi un lien Leboncoin, SeLoger ou autre : il contacte l'annonceur pour tenter d'obtenir le mandat ou organiser une collaboration."
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
-            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
+            >Votre conseiller recherche principalement sur son secteur. Envoyez-lui aussi un lien Leboncoin, SeLoger ou autre : il contacte l'annonceur pour tenter d'obtenir le mandat ou organiser une collaboration.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
+              <li>Acquéreur : confiez vos critères ou envoyez le lien d'un bien déjà repéré</li>
+              <li>Votre conseiller vérifie l'annonce et démarche le vendeur ou l'agence</li>
               <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
-              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+              <li>Les deux casquettes : vous vendez et vous rachetez — on gère la chaîne</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Acquéreur</span>
@@ -100,7 +101,7 @@
 
         <div class="listings-wrap" id="recherche" data-immo-search>
           <h2>Annonces à vendre</h2>
-          <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
+          <p class="listings-intro">Les mandats disponibles s'affichent ici. Si le bien recherché n'y figure pas, envoyez son lien : votre conseiller pourra démarcher l'annonceur.</p>
           <div class="listings-types" role="group" aria-label="Type de bien">
             <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
             <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
@@ -149,7 +150,7 @@
           <span class="dossier-kicker" data-deposit-kicker>Annonce déjà vue</span>
           <h2 data-deposit-title>Collez l'URL du bien</h2>
           <p class="listings-intro" data-deposit-intro>
-            Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
+            Leboncoin, SeLoger, ParuVendu… Envoyez le lien du bien qui vous intéresse. Votre conseiller vérifiera l'annonce puis contactera le vendeur ou l'agence pour tenter d'obtenir le mandat ou une collaboration.
           </p>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
@@ -400,7 +401,7 @@
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
               <h3>Quel bien recherchez-vous ?</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
+                Indiquez vos critères pour une recherche principalement menée sur le secteur local. Vous pouvez aussi transmettre une annonce déjà repérée : votre conseiller se charge de démarcher l'annonceur.
               </p>
 
               <div class="field full" hidden>
@@ -473,7 +474,7 @@
                     <input id="propertySurfaceSearch" name="propertySurfaceSearch" inputmode="numeric" data-optional placeholder="Ex. 65" />
                   </div>
                   <div class="field full">
-                    <label for="listingUrls">URL d'annonces déjà vues (Leboncoin, SeLoger…)</label>
+                    <label for="listingUrls">Liens d'annonces à démarcher (Leboncoin, SeLoger…)</label>
                     <textarea id="listingUrls" name="listingUrls" rows="2" data-optional placeholder="https://www.leboncoin.fr/ad/…"></textarea>
                   </div>
                 </div>
@@ -1059,9 +1060,10 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
-            <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
-            <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
+            <li><strong>1. Confier votre recherche</strong>Précisez le secteur, le budget et vos critères, principalement sur la zone locale du conseiller.</li>
+            <li><strong>2. Envoyer une annonce repérée</strong>Transmettez son lien Leboncoin, SeLoger ou autre, même si elle n'est pas encore dans nos mandats.</li>
+            <li><strong>3. Démarcher l'annonceur</strong>Votre conseiller vérifie la disponibilité et tente d'obtenir le mandat ou une collaboration avec l'agence. Le résultat dépend de l'accord du vendeur ou du professionnel.</li>
+            <li><strong>4. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
 
@@ -1086,6 +1088,18 @@
                 <p>Choisissez « Je vends et je rachète ». On enregistre le bien à vendre et le bien recherché (chaîne, prêt relais). Une seule fiche, deux casquettes.</p>
               </details>
             </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Puis-je envoyer une annonce Leboncoin qui n'est pas dans vos mandats ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui. Envoyez le lien du bien qui vous intéresse. Votre conseiller, principalement actif sur son secteur local, vérifie l'annonce et contacte le vendeur ou l'agence pour tenter d'obtenir le mandat ou organiser une collaboration. La visite reste soumise à leur accord et à la disponibilité du bien.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
                   <span>Dois-je remplir un dossier prêt pour chercher ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
@@ -1125,6 +1139,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Pas de scraping. Vendeur : dépôt à la main ou URL. Acquéreur : coller une URL déjà vue. Double casquette : vendre et racheter (chaîne / prêt relais)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Puis-je envoyer une annonce Leboncoin qui n'est pas dans vos mandats ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Envoyez le lien du bien qui vous intéresse. Votre conseiller recherche principalement sur son secteur local, vérifie l'annonce et contacte le vendeur ou l'agence pour tenter d'obtenir le mandat ou organiser une collaboration. La visite dépend de leur accord et de la disponibilité du bien."
           }
         },
         {

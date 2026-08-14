@@ -128,11 +128,11 @@
     acheteur: {
       kicker: "Annonce déjà vue",
       title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
+      intro: "Leboncoin, SeLoger, ParuVendu… Envoyez le lien du bien qui vous intéresse. Votre conseiller vérifie l'annonce puis contacte le vendeur ou l'agence pour tenter d'obtenir le mandat ou une collaboration.",
       submit: "Envoyer l'annonce",
       coords: "Vos coordonnées",
       details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      hint: "Confiez votre recherche, principalement sur le secteur local, ou envoyez une annonce déjà repérée à démarcher.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -145,8 +145,8 @@
     },
     les_deux: {
       kicker: "Double casquette",
-      title: "Vous vendez et vous rachètez",
-      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
+      title: "Vous vendez et vous rachetez",
+      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez votre recherche locale ou transmettez une annonce à démarcher. Chaîne et prêt relais possibles.",
       submit: "Déposer et chercher",
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
