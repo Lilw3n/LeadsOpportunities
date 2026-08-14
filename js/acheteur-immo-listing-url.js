@@ -126,30 +126,33 @@
 
   var HAT_COPY = {
     acheteur: {
-      kicker: "Annonce déjà vue",
-      title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      kicker: "Annonce repérée",
+      title: "Envoyez-moi le lien de l'annonce",
+      intro: "Leboncoin, SeLoger, ParuVendu… Le lien devient une pige privée. Je contacte le vendeur ou l'agence pour tenter d'obtenir le mandat, principalement sur mon secteur.",
+      submit: "Envoyer le lien à prospecter",
       coords: "Vos coordonnées",
       details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      modeLabel: "Comment m'envoyer le bien",
+      hint: "Vous cherchez un bien : je travaille principalement sur mon secteur et vous pouvez m'envoyer le lien d'une annonce à prospecter.",
     },
     vendeur: {
       kicker: "Vous vendez",
       title: "Déposez votre bien",
-      intro: "Saisie à la main ou URL de votre annonce déjà en ligne. Photos + description pour l'afficher ici. Pas de scraping.",
+      intro: "Saisie à la main ou URL de votre annonce déjà en ligne. Photos et description préparent la fiche ; la publication intervient après obtention du mandat.",
       submit: "Déposer mon bien",
       coords: "Vos coordonnées (vendeur)",
       details: "Précisions (disponibilité, urgence, honoraires…)",
-      hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce.",
+      modeLabel: "Comment déposer votre bien",
+      hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce. Je vous rappelle pour préparer le mandat.",
     },
     les_deux: {
       kicker: "Double casquette",
-      title: "Vous vendez et vous rachètez",
+      title: "Vous vendez et vous rachetez",
       intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
       submit: "Déposer et chercher",
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
+      modeLabel: "Comment déposer le bien à vendre",
       hint: "Les deux casquettes : on capte le bien à vendre et la recherche de rachat.",
     },
   };
@@ -171,6 +174,7 @@
     setTxt("[data-deposit-submit]", copy.submit);
     setTxt("[data-coords-label]", copy.coords);
     setTxt("[data-details-label]", copy.details);
+    setTxt("[data-deposit-mode-label]", copy.modeLabel);
     setTxt("[data-hat-hint]", copy.hint);
     var hatRadio = document.querySelector("[name='immoHat'][value='" + hat + "']");
     if (hatRadio) hatRadio.checked = true;
@@ -456,15 +460,31 @@
           var hats = (res.data.hats || []).join(" + ");
           if (ok) {
             ok.hidden = false;
-            ok.textContent =
-              res.data.received +
-              " bien" +
-              (res.data.received > 1 ? "s" : "") +
-              " enregistré" +
-              (res.data.received > 1 ? "s" : "") +
-              (payload.photos.length ? " avec photos / capture" : "") +
-              (hats ? " (" + hats + ")" : "") +
-              ". Un conseiller vous rappelle.";
+            if (hat === "acheteur") {
+              ok.textContent =
+                res.data.received +
+                " annonce" +
+                (res.data.received > 1 ? "s" : "") +
+                " transmise" +
+                (res.data.received > 1 ? "s" : "") +
+                ". Je vais étudier " +
+                (res.data.received > 1 ? "ces biens" : "ce bien") +
+                " et contacter " +
+                (res.data.received > 1 ? "les annonceurs" : "l'annonceur") +
+                " pour tenter d'obtenir " +
+                (res.data.received > 1 ? "les mandats" : "le mandat") +
+                ".";
+            } else {
+              ok.textContent =
+                res.data.received +
+                " bien" +
+                (res.data.received > 1 ? "s" : "") +
+                " enregistré" +
+                (res.data.received > 1 ? "s" : "") +
+                (payload.photos.length ? " avec photos / capture" : "") +
+                (hats ? " (" + hats + ")" : "") +
+                ". Un conseiller vous rappelle.";
+            }
           }
           form.reset();
           state.photos = [];

@@ -1,6 +1,6 @@
 /**
- * POST /api/immo-listing-submit — dépôt de bien (vendeur) ou URL collée (acquéreur).
- * Saisie manuelle ou URL. Double casquette : vend + rachète. Pas de scraping.
+ * POST /api/immo-listing-submit — dépôt vendeur ou pige privée envoyée par un acquéreur.
+ * Une URL acquéreur reste en prospection jusqu'à l'obtention d'un mandat. Pas de scraping.
  */
 const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, isHoneypotFilled, rateLimit, getClientIp } = require("../security");
@@ -193,7 +193,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           price ? Math.round(price) + " €" : "",
         ].filter(Boolean);
         var notesBits = [
-          isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
+          isOwner
+            ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")."
+            : "Pige acquéreur privée — contacter l'annonceur pour tenter d'obtenir le mandat. Portail : " + d.label,
           d.listingId ? "#" + d.listingId : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
@@ -241,6 +243,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
               buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
               alsoBuys: role === "les_deux",
               wantsRelais: wantsRelais,
+              mandateObjective: !isOwner,
+              publicAfterMandateOnly: true,
             },
           },
           null
@@ -342,6 +346,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             hasDescription: !!description,
             alsoBuys: role === "les_deux",
             wantsRelais: wantsRelais,
+            mandateObjective: !isOwner,
+            publicAfterMandateOnly: true,
             buyCity: buyCity,
             buyBudgetMax: buyBudget,
           })},
@@ -376,5 +382,6 @@ module.exports = async function publicImmoListingSubmit(req, res) {
       return p.kind === "capture";
     }),
     hasDescription: !!description,
+    workflow: isOwner ? "seller_deposit" : "private_prospecting_to_mandate",
   });
 };

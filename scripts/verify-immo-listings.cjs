@@ -169,13 +169,15 @@ assert(html.indexOf("data-listings-grid") !== -1, "landing : grille d'annonces")
 assert(html.indexOf("id=\"recherche\"") !== -1, "landing : ancre #recherche");
 assert(html.indexOf("id=\"dossier\"") !== -1, "landing : dossier secondaire");
 assert(
-  html.indexOf("Appartements et maisons à vendre") !== -1,
-  "landing : h1 visible (pas vide en attendant le JS)"
+  html.indexOf("Confiez-moi votre recherche de bien sur mon secteur") !== -1,
+  "landing : recherche principalement territoriale"
 );
+assert(html.indexOf("tenter d'obtenir le mandat") !== -1, "landing : objectif de recherche du mandat explicite");
+assert(html.indexOf("piges privées pendant la prospection") !== -1, "landing : liens acquéreurs annoncés comme privés");
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");
-assert(html.indexOf("Déposer / coller un bien") !== -1, "landing : CTA dépôt / URL");
+assert(html.indexOf("M'envoyer une annonce") !== -1, "landing : CTA d'envoi d'annonce");
 assert(html.indexOf("id=\"deposer-bien\"") !== -1, "landing : ancre dépôt vendeur");
 assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes acquéreur / vendeur");
 assert(html.indexOf("data-listings-demo") === -1, "landing : pas de bandeau d'illustration");
@@ -202,6 +204,10 @@ assert(apiIndex.indexOf("immo-listings") !== -1, "route API immo-listings enregi
 var route = read("api/_lib/routes/public-immo-listings.js");
 assert(route.indexOf("toPublicListing") !== -1, "route : sanitizer public");
 assert(route.indexOf("DEMO_LISTINGS") === -1, "route : pas de fallback démo");
+assert(
+  route.indexOf('normalizePropertyStatus(status) === "mandat"') !== -1,
+  "route : seules les fiches sous mandat sont publiques"
+);
 
 var handler = require("../api/_lib/routes/public-immo-listings.js");
 var captured = { status: 0, body: null, headers: {} };

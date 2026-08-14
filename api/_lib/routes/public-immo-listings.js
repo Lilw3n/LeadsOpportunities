@@ -1,6 +1,6 @@
 /**
  * GET /api/immo-listings — vitrine publique des biens (sans PII).
- * Uniquement les piges / mandats CRM (URL collée ou saisie). Pas d'annonces d'illustration.
+ * Uniquement les biens sous mandat CRM. Les piges restent privées jusqu'à l'obtention du mandat.
  */
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
@@ -21,6 +21,10 @@ function queryFromReq(req) {
   };
 }
 
+function isPublicListingStatus(status) {
+  return Matcher.normalizePropertyStatus(status) === "mandat";
+}
+
 async function loadCrmListings() {
   var sql = getSql();
   if (!sql) return [];
@@ -28,7 +32,7 @@ async function loadCrmListings() {
   var db = await store.loadAll(sql);
   return (db.properties || [])
     .filter(function (p) {
-      return Matcher.isMatchableStatus(p.status);
+      return isPublicListingStatus(p.status);
     })
     .map(function (p) {
       return Lib.toPublicListing(p);

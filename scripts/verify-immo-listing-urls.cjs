@@ -112,6 +112,7 @@ Promise.resolve()
     assert(c.status === 200 && c.body && c.body.ok, "API accepte URL + contact");
     assert(c.body.received === 1, "1 annonce reçue");
     assert(c.body.listings[0].portal === "leboncoin", "portail renvoyé");
+    assert(c.body.workflow === "private_prospecting_to_mandate", "URL acquéreur : pige privée vers mandat");
     var tinyJpeg =
       "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
     return call({
@@ -156,6 +157,7 @@ Promise.resolve()
     assert(c.body.role === "vendeur", "rôle vendeur");
     assert(c.body.hats && c.body.hats.indexOf("vendeur") !== -1, "casquette vendeur");
     assert(c.body.listings[0].portal === "manual", "source saisie manuelle");
+    assert(c.body.workflow === "seller_deposit", "dépôt vendeur distingué de la pige acquéreur");
     return call({ role: "vendeur", email: "x@y.fr" });
   })
   .then(function (c) {

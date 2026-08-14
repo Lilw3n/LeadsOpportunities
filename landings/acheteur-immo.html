@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <meta name="description" content="Confiez-moi votre recherche de bien, principalement sur mon secteur. Envoyez le lien d'une annonce repérée : je contacte le vendeur pour tenter d'obtenir le mandat." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
   <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
-  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
+  <meta property="og:description" content="Vous avez repéré une annonce ? Envoyez-moi son lien : je démarche le vendeur pour tenter d'obtenir le mandat et vous accompagner." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <!-- Google tag (gtag.js) -->
@@ -53,19 +53,20 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
-              data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
-            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
+              data-speed-title="Confiez-moi votre recherche de bien sur mon secteur"
+              data-price-title="Une annonce vous intéresse ? Je recherche le mandat"
+            >Confiez-moi votre recherche de bien sur mon secteur</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
-              data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
-            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
+              data-speed-subtitle="J'interviens principalement sur mon secteur géographique. Envoyez-moi aussi toute annonce que vous avez repérée."
+              data-price-subtitle="Transmettez-moi le lien : je contacte le vendeur ou l'agence afin de tenter d'obtenir un mandat."
+            >J'interviens principalement sur mon secteur géographique. Envoyez-moi aussi toute annonce que vous avez repérée.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
+              <li>Acquéreur : envoyez-moi le lien d'une annonce repérée, par exemple sur Leboncoin</li>
+              <li>Je contacte le vendeur ou l'agence pour présenter votre recherche et tenter d'obtenir le mandat</li>
               <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
-              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+              <li>Les deux casquettes : vous vendez et vous rachetez — on gère la chaîne</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Acquéreur</span>
@@ -73,8 +74,8 @@
               <span class="trust-pill">Vend + rachète</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
-              <a class="btn btn-soft" href="#recherche">Voir les annonces</a>
+              <a class="btn btn-primary" href="#deposer-bien">M'envoyer une annonce</a>
+              <a class="btn btn-soft" href="#recherche">Voir les mandats disponibles</a>
             </div>
           </div>
         </div>
@@ -95,12 +96,12 @@
               <span>Je vends et je rachète</span>
             </label>
           </div>
-          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : on capte le vendeur, l'acquéreur, ou les deux.</p>
+          <p class="listings-intro" data-hat-hint>Vous cherchez un bien : je travaille principalement sur mon secteur et vous pouvez m'envoyer le lien d'une annonce à prospecter.</p>
         </div>
 
         <div class="listings-wrap" id="recherche" data-immo-search>
-          <h2>Annonces à vendre</h2>
-          <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
+          <h2>Biens disponibles sous mandat</h2>
+          <p class="listings-intro">Seuls les biens pour lesquels un mandat a été obtenu s'affichent ici. Les liens envoyés par les acquéreurs restent privés pendant la prospection.</p>
           <div class="listings-types" role="group" aria-label="Type de bien">
             <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
             <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
@@ -138,18 +139,18 @@
           </div>
           <div class="listings-grid" data-listings-grid></div>
           <div class="listings-empty" data-listings-empty>
-            <h3>Aucun bien pour le moment</h3>
-            <p data-empty-hint>Déposez un bien (vendeur) ou collez une URL d'annonce.</p>
-            <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+            <h3>Aucun mandat disponible pour le moment</h3>
+            <p data-empty-hint>Envoyez-moi le lien d'une annonce repérée : je pourrai contacter le vendeur pour rechercher le mandat.</p>
+            <a class="btn btn-primary" href="#deposer-bien">M'envoyer une annonce</a>
           </div>
         </div>
 
         <div class="url-capture" id="deposer-bien" data-listing-url-capture>
           <span id="annonce-url"></span>
-          <span class="dossier-kicker" data-deposit-kicker>Annonce déjà vue</span>
-          <h2 data-deposit-title>Collez l'URL du bien</h2>
+          <span class="dossier-kicker" data-deposit-kicker>Annonce repérée</span>
+          <h2 data-deposit-title>Envoyez-moi le lien de l'annonce</h2>
           <p class="listings-intro" data-deposit-intro>
-            Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
+            Leboncoin, SeLoger, ParuVendu… Transmettez-moi le lien. Il devient une pige privée : je contacte l'annonceur pour tenter d'obtenir le mandat.
           </p>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
@@ -157,11 +158,11 @@
               <label for="hp_listing_url">Ne pas remplir</label>
               <input type="text" id="hp_listing_url" name="_hp" tabindex="-1" autocomplete="off" />
             </div>
-            <p class="search-section-label">Comment déposer le bien</p>
+            <p class="search-section-label" data-deposit-mode-label>Comment m'envoyer le bien</p>
             <div class="search-mode-tabs" role="radiogroup" aria-label="Mode de dépôt">
               <label class="search-mode-tab">
                 <input type="radio" name="listingMode" value="url" checked data-listing-mode />
-                <span>J'ai une URL d'annonce</span>
+                <span>J'envoie une URL d'annonce</span>
               </label>
               <label class="search-mode-tab">
                 <input type="radio" name="listingMode" value="manuel" data-listing-mode />
@@ -169,7 +170,7 @@
               </label>
             </div>
             <div data-url-block>
-              <label for="listingUrlsBox" data-url-label>URL de l'annonce (une par ligne si plusieurs)</label>
+              <label for="listingUrlsBox" data-url-label>URL de l'annonce repérée (une par ligne si plusieurs)</label>
               <textarea id="listingUrlsBox" data-listing-urls placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…&#10;https://www.seloger.com/annonces/…"></textarea>
               <div class="url-detected" data-url-detected aria-live="polite"></div>
             </div>
