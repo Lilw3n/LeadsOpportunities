@@ -63,8 +63,8 @@
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
             >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
             <ul class="points">
-              <li>Collez une URL Leboncoin, SeLoger, ParuVendu… photos, description et capture d'annonce</li>
-              <li>Mandats CRM + alerte si aucun bien ne correspond</li>
+              <li>Collez une URL Leboncoin, SeLoger, ParuVendu… photos, description et capture</li>
+              <li>Le bien s'affiche ici — pas d'annonces d'exemple</li>
               <li>Prêt et assurances seulement si vous en avez besoin</li>
             </ul>
             <div class="trust-row">
@@ -73,15 +73,15 @@
               <span class="trust-pill">Alerte si aucun bien</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#recherche">Voir les annonces</a>
-              <a class="btn btn-soft" href="#annonce-url">Coller une URL d'annonce</a>
+              <a class="btn btn-primary" href="#annonce-url">Ajouter un bien via URL</a>
+              <a class="btn btn-soft" href="#recherche">Voir les annonces</a>
             </div>
           </div>
         </div>
 
         <div class="listings-wrap" id="recherche" data-immo-search>
           <h2>Annonces à vendre</h2>
-          <p class="listings-intro">Photo, prix, description — cliquez <strong>Voir photos / capture</strong> pour la fiche. Ce n'est pas un questionnaire d'assurance.</p>
+          <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
           <div class="listings-types" role="group" aria-label="Type de bien">
             <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
             <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
@@ -114,17 +114,14 @@
               <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
           </form>
-          <p class="listings-demo-banner" data-listings-demo hidden>
-            Annonces d'illustration — les mandats saisis dans le CRM s'afficheront ici automatiquement.
-          </p>
           <div class="listings-meta">
             <span data-listings-count>Chargement des annonces…</span>
           </div>
           <div class="listings-grid" data-listings-grid></div>
-          <div class="listings-empty" data-listings-empty hidden>
-            <h3>Aucun bien pour ces critères</h3>
-            <p data-empty-hint>Aucun mandat ne correspond pour le moment.</p>
-            <a class="btn btn-primary" href="#dossier" data-listings-empty-cta>Déposer une alerte recherche</a>
+          <div class="listings-empty" data-listings-empty>
+            <h3>Aucun bien pour le moment</h3>
+            <p data-empty-hint>Collez l'URL d'une annonce (Leboncoin, SeLoger…) pour l'afficher ici.</p>
+            <a class="btn btn-primary" href="#annonce-url">Ajouter un bien via URL</a>
           </div>
         </div>
 

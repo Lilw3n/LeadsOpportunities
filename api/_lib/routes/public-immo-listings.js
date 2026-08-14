@@ -1,6 +1,6 @@
 /**
- * GET /api/immo-listings — vitrine publique des mandats (sans PII).
- * Si aucun mandat CRM matchable : annonces d'illustration (source=demo).
+ * GET /api/immo-listings — vitrine publique des biens (sans PII).
+ * Uniquement les piges / mandats CRM (URL collée ou saisie). Pas d'annonces d'illustration.
  */
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
@@ -64,13 +64,8 @@ module.exports = async function publicImmoListings(req, res) {
     listings = [];
   }
 
-  if (!listings.length) {
-    listings = Lib.DEMO_LISTINGS.slice();
-    source = "demo";
-  }
-
   var filtered = Lib.filterListings(listings, query);
-  res.setHeader("Cache-Control", "public, max-age=60, s-maxage=120");
+  res.setHeader("Cache-Control", "private, no-store");
   return res.status(200).json({
     ok: true,
     source: source,

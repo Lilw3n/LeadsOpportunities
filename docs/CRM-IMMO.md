@@ -50,7 +50,7 @@ Implémentation : `js/crm-immo-matcher.js` (navigateur + Node).
 - Mandats au statut matchable uniquement (prospection, estimation, mandat, sous offre, réservé SRU)
 - Champs publics : titre, type, ville, CP, pièces, surface, prix FAI, DPE, tags (garage, jardin…)
 - **Jamais** : notes, e-mail, téléphone, adresse précise, contacts vendeur
-- Si aucun mandat : annonces d’illustration (`source: "demo"`)
+- Pas d’annonces d’illustration : grille vide tant qu’aucun bien n’est collé (URL) ou saisi au CRM
 
 Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-immo-listings.js`.
 

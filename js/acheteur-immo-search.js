@@ -130,14 +130,11 @@
     var grid = qs(root, "[data-listings-grid]");
     var count = qs(root, "[data-listings-count]");
     var empty = qs(root, "[data-listings-empty]");
-    var banner = qs(root, "[data-listings-demo]");
-    if (banner) banner.hidden = source !== "demo";
     if (count) {
       count.textContent =
         listings.length +
         " annonce" +
-        (listings.length > 1 ? "s" : "") +
-        (source === "demo" ? " d'illustration" : " en mandat");
+        (listings.length > 1 ? "s" : "");
     }
     if (!listings.length) {
       if (grid) grid.innerHTML = "";
@@ -150,8 +147,8 @@
           if (query.postal) bits.push(query.postal);
           if (query.budgetMax) bits.push("budget " + Lib.formatPrice(query.budgetMax));
           hint.textContent = bits.length
-            ? "Aucun mandat pour " + bits.join(", ") + "."
-            : "Aucun mandat pour ces critères pour le moment.";
+            ? "Aucun bien pour " + bits.join(", ") + ". Collez une URL pour en ajouter un."
+            : "Collez l'URL d'une annonce (Leboncoin, SeLoger…) pour l'afficher ici.";
         }
       }
       return;
@@ -272,11 +269,7 @@
         throw new Error("bad");
       })
       .catch(function () {
-        return {
-          ok: true,
-          source: "demo",
-          listings: Lib.filterListings(Lib.DEMO_LISTINGS, query),
-        };
+        return { ok: true, source: "crm", listings: [] };
       });
   }
 
@@ -284,7 +277,7 @@
     if (!root || root.dataset.listingsBound) return;
     root.dataset.listingsBound = "1";
     applyQueryToForm(root);
-    var state = { listings: [], source: "demo" };
+    var state = { listings: [], source: "crm" };
 
     function refresh() {
       var query = queryFromForm(root);
@@ -307,10 +300,6 @@
       el.addEventListener("change", refresh);
     });
     bindGrid(root, state);
-    qs(root, "[data-listings-empty-cta]") &&
-      qs(root, "[data-listings-empty-cta]").addEventListener("click", function () {
-        prefillDossier(null, queryFromForm(root));
-      });
     refresh();
     document.addEventListener("lo:listing-submitted", refresh);
     var lb = document.getElementById("listingLightbox");

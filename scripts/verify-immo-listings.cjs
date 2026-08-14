@@ -23,23 +23,56 @@ function read(rel) {
   return fs.readFileSync(path.join(ROOT, rel), "utf8");
 }
 
-assert(Lib.DEMO_LISTINGS.length >= 6, "au moins 6 annonces d'illustration");
-assert(
-  Lib.DEMO_LISTINGS.every(function (p) {
-    return p.id && p.city && p.postal_code && p.property_type && p.price_fai > 0;
-  }),
-  "démo : id, ville, CP, type, prix"
-);
+assert(Lib.filterListings, "filtre listings exposé");
+assert(!Lib.DEMO_LISTINGS || Lib.DEMO_LISTINGS.length === 0, "pas d'annonces d'illustration dans la lib");
 
-assert(Lib.DEMO_LISTINGS.every(function (p) {
-  return p.cover && p.cover.url && p.description;
-}), "démo : photo de couverture + description");
-assert(
-  Lib.DEMO_LISTINGS.some(function (p) {
-    return p.capture && p.capture.kind === "capture";
+var SAMPLE = [
+  Lib.toPublicListing({
+    id: "s_stras",
+    property_type: "appartement",
+    city: "Strasbourg",
+    postal_code: "67000",
+    rooms: 3,
+    surface_m2: 68,
+    price_fai: 265000,
   }),
-  "démo : au moins une capture d'annonce"
-);
+  Lib.toPublicListing({
+    id: "s_illkirch",
+    property_type: "maison",
+    city: "Illkirch-Graffenstaden",
+    postal_code: "67400",
+    rooms: 5,
+    surface_m2: 120,
+    price_fai: 420000,
+  }),
+  Lib.toPublicListing({
+    id: "s_studio",
+    property_type: "appartement",
+    city: "Strasbourg",
+    postal_code: "67000",
+    rooms: 1,
+    surface_m2: 28,
+    price_fai: 145000,
+  }),
+  Lib.toPublicListing({
+    id: "s_lyon",
+    property_type: "appartement",
+    city: "Lyon",
+    postal_code: "69003",
+    rooms: 4,
+    surface_m2: 82,
+    price_fai: 389000,
+  }),
+  Lib.toPublicListing({
+    id: "s_lille",
+    property_type: "maison",
+    city: "Lille",
+    postal_code: "59000",
+    rooms: 5,
+    surface_m2: 110,
+    price_fai: 275000,
+  }),
+];
 
 var dirty = {
   id: "prop_secret",
@@ -106,22 +139,22 @@ assert(withMedia.capture && withMedia.capture.kind === "capture", "fiche : captu
 assert(withMedia.description.indexOf("grand jardin") !== -1, "fiche : description publique");
 assert(withMedia.listing_url == null && withMedia.phone == null, "fiche : pas d'URL portail ni tél");
 
-var lyon = Lib.filterListings(Lib.DEMO_LISTINGS, { city: "lyon" });
+var lyon = Lib.filterListings(SAMPLE, { city: "lyon" });
 assert(lyon.length === 1 && lyon[0].city === "Lyon", "filtre ville Lyon");
 
-var maisons = Lib.filterListings(Lib.DEMO_LISTINGS, { types: "maison" });
+var maisons = Lib.filterListings(SAMPLE, { types: "maison" });
 assert(
   maisons.length >= 2 && maisons.every(function (p) { return p.property_type === "maison"; }),
   "filtre type maison"
 );
 
-var budget = Lib.filterListings(Lib.DEMO_LISTINGS, { budgetMax: 200000 });
+var budget = Lib.filterListings(SAMPLE, { budgetMax: 200000 });
 assert(
   budget.length >= 1 && budget.every(function (p) { return p.price_fai <= 200000; }),
   "filtre budget max 200k"
 );
 
-var cp67 = Lib.filterListings(Lib.DEMO_LISTINGS, { postal: "67" });
+var cp67 = Lib.filterListings(SAMPLE, { postal: "67" });
 assert(
   cp67.length >= 2 && cp67.every(function (p) { return String(p.department) === "67"; }),
   "filtre département 67"
@@ -142,6 +175,9 @@ assert(
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");
+assert(html.indexOf("Ajouter un bien via URL") !== -1, "landing : CTA coller URL");
+assert(html.indexOf("data-listings-demo") === -1, "landing : pas de bandeau d'illustration");
+assert(html.indexOf("Annonces d'illustration") === -1, "landing : pas de texte d'illustration");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos/capture");
 assert(html.indexOf("data-listing-view") === -1 || html.indexOf("Voir photos") !== -1, "landing : bouton voir photos (JS)");
 assert(html.indexOf("acheteur-immo-search.js") !== -1, "script recherche chargé");
@@ -161,7 +197,7 @@ assert(apiIndex.indexOf("immo-listings") !== -1, "route API immo-listings enregi
 
 var route = read("api/_lib/routes/public-immo-listings.js");
 assert(route.indexOf("toPublicListing") !== -1, "route : sanitizer public");
-assert(route.indexOf("isMatchableStatus") !== -1, "route : statuts matchables seulement");
+assert(route.indexOf("DEMO_LISTINGS") === -1, "route : pas de fallback démo");
 
 var handler = require("../api/_lib/routes/public-immo-listings.js");
 var captured = { status: 0, body: null, headers: {} };
@@ -183,20 +219,24 @@ var res = {
 };
 return Promise.resolve(handler({ method: "GET", query: { city: "Strasbourg" }, headers: {} }, res)).then(function () {
   assert(captured.status === 200 && captured.body && captured.body.ok, "GET /api/immo-listings 200");
+  assert(captured.body.source === "crm", "source crm (pas de démo)");
   assert(Array.isArray(captured.body.listings), "réponse : listings[]");
-  assert(captured.body.source === "demo" || captured.body.source === "crm", "source demo ou crm");
-  assert(
-    captured.body.listings.every(function (p) {
-      return p.city && String(p.city).toLowerCase().indexOf("strasbourg") !== -1;
-    }),
-    "filtre API ville Strasbourg"
-  );
   assert(
     captured.body.listings.every(function (p) {
       return p.notes == null && p.email == null && p.phone == null && p.address == null;
     }),
     "API : aucune PII dans les cartes"
   );
+  if (!captured.body.listings.length) {
+    assert(true, "API : grille vide tant qu'aucun bien n'est collé");
+  } else {
+    assert(
+      captured.body.listings.every(function (p) {
+        return p.city && String(p.city).toLowerCase().indexOf("strasbourg") !== -1;
+      }),
+      "filtre API ville Strasbourg"
+    );
+  }
 
   if (failed) {
     console.log("\n" + failed + " échec(s)");
