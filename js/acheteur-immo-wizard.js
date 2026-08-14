@@ -12,15 +12,17 @@
 
   function searchKindOf(form) {
     var el = form.querySelector('input[name="searchKind"]:checked');
+    if (el) return el.value;
+    el = form.querySelector('input[name="searchKind"]');
     return el ? el.value : "";
   }
 
   function wantsBien(kind) {
-    return kind === "bien" || kind === "les_deux";
+    return kind === "bien" || kind === "les_deux" || kind === "";
   }
 
   function wantsService(kind) {
-    return kind === "service" || kind === "les_deux";
+    return kind === "les_deux";
   }
 
   function needsPretSection(form) {
@@ -43,10 +45,9 @@
   }
 
   function syncModeFromUi(form) {
-    var ui = form.querySelector('input[name="searchModeUi"]:checked');
-    if (!ui) return;
-    var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
-    if (hidden) hidden.checked = true;
+    var searchKind = form.querySelector('input[name="searchKind"]');
+    var toggle = form.querySelector("[data-search-services-toggle]");
+    if (searchKind) searchKind.value = toggle && toggle.checked ? "les_deux" : "bien";
   }
 
   function syncSearchPanels(form) {
@@ -62,9 +63,14 @@
       if (!wantsBien(kind)) el.classList.remove("input-invalid");
     });
 
-    /* Service seul : pas d'etape « precisions bien » */
+    qsa(form, 'input[name="serviceSought"]').forEach(function (el) {
+      el.disabled = !wantsService(kind);
+      if (!wantsService(kind)) el.checked = false;
+    });
+
+    /* La recherche du bien reste toujours le parcours principal. */
     var projet = qs(form, '[data-step-name="projet"]');
-    setSkip(projet, kind === "service");
+    setSkip(projet, false);
   }
 
   function syncBudgetToPrice(form) {
@@ -101,21 +107,14 @@
   function validateSearch(form) {
     syncSearchPanels(form);
     var kind = searchKindOf(form);
-    var kindHint = qs(form, "[data-search-kind-hint]");
     var propHint = qs(form, "[data-property-sought-hint]");
     var sellerHint = qs(form, "[data-seller-type-hint]");
     var serviceHint = qs(form, "[data-service-sought-hint]");
     var ok = true;
 
-    if (kindHint) kindHint.hidden = true;
     if (propHint) propHint.hidden = true;
     if (sellerHint) sellerHint.hidden = true;
     if (serviceHint) serviceHint.hidden = true;
-
-    if (!kind) {
-      if (kindHint) kindHint.hidden = false;
-      return false;
-    }
 
     if (wantsBien(kind)) {
       var props = form.querySelectorAll('input[name="propertySought"]:checked');
@@ -175,7 +174,7 @@
     if (!form || form.dataset.acheteurImmoBound) return;
     form.dataset.acheteurImmoBound = "1";
 
-    qsa(form, "[data-search-mode]").forEach(function (r) {
+    qsa(form, "[data-search-services-toggle]").forEach(function (r) {
       r.addEventListener("change", function () {
         syncSearchPanels(form);
       });

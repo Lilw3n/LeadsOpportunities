@@ -178,10 +178,10 @@
       );
       if (cb) cb.checked = true;
     }
-    var kind = form.querySelector('input[name="searchKind"][value="bien"]');
-    if (kind) kind.checked = true;
-    var mode = form.querySelector('input[name="searchModeUi"][value="bien"]');
-    if (mode) mode.checked = true;
+    var kind = form.querySelector('input[name="searchKind"]');
+    if (kind) kind.value = "bien";
+    var extraSupport = form.querySelector("[data-search-services-toggle]");
+    if (extraSupport) extraSupport.checked = false;
     try {
       document.dispatchEvent(
         new CustomEvent("lo:listing-interest", { detail: { listing: listing, query: query } })
