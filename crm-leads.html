@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Leads | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./crm-leads.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Qualification</p>
+      <h2>Leads → prospects</h2>
+      <p>Un lead devient un <strong>prospect / interlocuteur</strong> du site. Fusion ou liaison si les coordonnées (email, tél, IP) sont identiques — validation admin à la main. Score humain vs spam / robot.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-interlocutors.html" class="btn btn-ghost">Interlocuteurs</a>
+      <a href="./crm-acquisition.html" class="btn btn-ghost">Pipeline pubs</a>
+      <a href="./crm-calendar.html" class="btn btn-ghost">Agenda</a>
+    </div>
+  </section>
+
+  <div class="acq-stats" id="lhKpis"></div>
+
+  <div class="crm-toolbar acq-toolbar lh-toolbar">
+    <input type="search" id="lhSearch" class="crm-input" placeholder="Nom, email, téléphone, IP…" />
+    <select id="lhView" class="crm-input">
+      <option value="all">Tous</option>
+      <option value="leads">Leads (pas encore prospect)</option>
+      <option value="prospects">Prospects / interlocuteurs</option>
+      <option value="humain">Humains</option>
+      <option value="suspect">Suspects</option>
+      <option value="spam">Spam / robots</option>
+      <option value="matches">Doublons (même identité)</option>
+      <option value="pending">À valider (admin)</option>
+    </select>
+    <button type="button" class="btn btn-ghost" id="lhRefresh">Actualiser</button>
+  </div>
+
+  <section class="panel lh-admin" id="lhPendingBox" hidden>
+    <h2>Validations admin</h2>
+    <p class="muted">Fusion, liaison, déliaison et séparation — vous validez à la main.</p>
+    <div id="lhPending"></div>
+  </section>
+
+  <section class="panel lh-matches" id="lhMatchesBox" hidden>
+    <h2>Coordonnées identiques</h2>
+    <p class="muted">Même email, téléphone, visitor ou IP — fusionner (1 fiche) ou lier (2 fiches liées).</p>
+    <div id="lhMatches"></div>
+  </section>
+
+  <div id="lhTable" class="lh-table-wrap"></div>
+
+  <div class="lh-modal" id="lhModal" hidden>
+    <div class="lh-modal-card">
+      <h3 id="lhModalTitle">Confirmer</h3>
+      <div id="lhModalBody"></div>
+      <div class="lh-modal-actions">
+        <button type="button" class="btn btn-ghost" id="lhModalCancel">Annuler</button>
+        <button type="button" class="btn btn-primary" id="lhModalOk">Valider</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/lead-identity-lib.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-leads.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

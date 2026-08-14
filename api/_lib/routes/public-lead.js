@@ -106,6 +106,7 @@ module.exports = async (req, res) => {
   delete enriched.company_url;
 
   enriched.clientIp = normalizeClientIp(req);
+  enriched.clientUa = String(req.headers["user-agent"] || body.userAgent || body.user_agent || "").slice(0, 400);
   enriched.visitor_country = visitorCountry || body.visitor_country || null;
 
   if (
@@ -187,6 +188,12 @@ module.exports = async (req, res) => {
     try {
       const { neon } = require("@neondatabase/serverless");
       const sql = neon(dbUrl);
+      try {
+        const { ensureSiteLeadsSchema } = require("../ensure-schema");
+        await ensureSiteLeadsSchema(sql);
+      } catch (schErr) {
+        console.warn("[lead] ensure-schema", schErr.message);
+      }
 
       var normEmail = normalizeEmail(enriched.email);
       var normPhone = normalizePhone(enriched.phone);
@@ -218,7 +225,7 @@ module.exports = async (req, res) => {
           competitor_monthly, our_offer_monthly, relevance,
           landing_slug, seo_city, seo_department, seo_product,
           address_line, postal_code, city, geo_lat, geo_lng, geo_confidence,
-          parent_lead_id, is_duplicate, client_ip
+          parent_lead_id, is_duplicate, client_ip, client_ua
         ) VALUES (
           ${leadId},
           ${String(enriched.source || "unknown").slice(0, 120)},
@@ -258,7 +265,8 @@ module.exports = async (req, res) => {
           ${enriched.geo_confidence ? String(enriched.geo_confidence).slice(0, 20) : null},
           ${parentLeadId},
           ${isDuplicate},
-          ${enriched.clientIp}
+          ${enriched.clientIp},
+          ${enriched.clientUa || null}
         )
       `;
       stored = true;
