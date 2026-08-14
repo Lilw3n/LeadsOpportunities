@@ -175,7 +175,7 @@ assert(
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");
-assert(html.indexOf("Déposer / coller un bien") !== -1, "landing : CTA dépôt / URL");
+assert(html.indexOf("M'envoyer une annonce") !== -1, "landing : CTA envoi d'annonce / URL");
 assert(html.indexOf("id=\"deposer-bien\"") !== -1, "landing : ancre dépôt vendeur");
 assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes acquéreur / vendeur");
 assert(html.indexOf("data-listings-demo") === -1, "landing : pas de bandeau d'illustration");
