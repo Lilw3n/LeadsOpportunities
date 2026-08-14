@@ -206,6 +206,34 @@
     return null;
   }
 
+  /** Vertical (produit) d'un message lead : ligne « Vertical : x », payload, ou sujet. */
+  function messageVertical(m) {
+    if (!m) return "";
+    var body = String(m.body_text || "");
+    var mt = body.match(/^Vertical\s*:\s*(.+)$/m);
+    var v = mt ? mt[1].trim() : "";
+    if (!v || v === "—") {
+      var p = parseLeadPayload(m.body_text);
+      v = (p && (p.vertical || p.need || p.serviceNeed)) || "";
+    }
+    if (!v) {
+      var ms = String(m.subject || "").match(
+        /(?:Questionnaire|Rappel express|Demande de contact)\s*[—–-]?\s*([a-zA-Z0-9_-]{2,})/
+      );
+      v = ms ? ms[1] : "";
+    }
+    return String(v).trim().toLowerCase();
+  }
+
+  function productLabel(v) {
+    if (window.VerticalLabels && window.VerticalLabels.label) {
+      return window.VerticalLabels.label(v);
+    }
+    var s = String(v || "").replace(/[_-]+/g, " ").trim();
+    if (!s) return "Autre demande";
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
   function messagePreview(m) {
     var t = (m.body_text || "").replace(/\s+/g, " ").trim();
     if (t.indexOf("===") === 0 || t.charAt(0) === "{") {
@@ -710,66 +738,104 @@
     });
   }
 
+  function renderLeadItem(m) {
+    var active = m.id === state.selectedId ? " is-active" : "";
+    var preview = messagePreview(m);
+    return (
+      '<button type="button" class="mbx-item' +
+      active +
+      '" data-id="' +
+      esc(m.id) +
+      '"><span class="mbx-item__main"><strong>' +
+      esc(m.subject || "(sans objet)") +
+      "</strong><br><span style='font-size:0.8rem;color:var(--muted)'>" +
+      esc(extractEmail(m.from_addr)) +
+      " · " +
+      fmtDate(m.created_at) +
+      "</span>" +
+      (preview
+        ? "<br><span class='mbx-item__preview'>" + esc(preview) + "</span>"
+        : "") +
+      "</span></button>"
+    );
+  }
+
+  /** Liste groupée par produit (vertical) pour ne plus deviner quoi va avec quoi. */
+  function renderGroupedLeadList(list) {
+    var groups = {};
+    var order = [];
+    state.filtered.forEach(function (m) {
+      var key = messageVertical(m) || "__autre";
+      if (!groups[key]) {
+        groups[key] = [];
+        order.push(key);
+      }
+      groups[key].push(m);
+    });
+
+    // Groupes triés par message le plus récent
+    order.sort(function (a, b) {
+      var ta = new Date(groups[a][0].created_at).getTime() || 0;
+      var tb = new Date(groups[b][0].created_at).getTime() || 0;
+      return tb - ta;
+    });
+
+    var html = "";
+    order.forEach(function (key) {
+      var items = groups[key];
+      var label = key === "__autre" ? "Autre demande" : productLabel(key);
+      html +=
+        '<div class="mbx-list-section">' +
+        esc(label) +
+        ' <span style="font-weight:400;color:var(--muted)">— ' +
+        items.length +
+        (items.length > 1 ? " demandes" : " demande") +
+        "</span></div>";
+      items.forEach(function (m) {
+        html += renderLeadItem(m);
+      });
+    });
+    list.innerHTML = html;
+  }
+
   function renderList() {
     if (state.tableMissing) {
       document.getElementById("mailboxList").innerHTML =
         '<div class="mbx-empty" style="padding:24px"><p>Erreur base.</p></div>';
       return;
     }
-    if (state.view === "feed") renderThreadList();
-    else if (state.view === "received") renderMessageList();
-    else if (
+    if (state.view === "feed") return renderThreadList();
+    if (state.view === "received") return renderMessageList();
+    if (
       state.view === "questionnaires" ||
       state.view === "express_callbacks" ||
       state.view === "contact_requests" ||
       state.view === "site" ||
       state.view === "sent"
     ) {
-      if (
-        state.view === "questionnaires" ||
-        state.view === "express_callbacks" ||
-        state.view === "contact_requests" ||
-        state.view === "site" ||
-        state.view === "sent"
-      ) {
-        var list = document.getElementById("mailboxList");
-        if (!state.filtered.length) {
-          var emptyMsg =
-            state.view === "express_callbacks"
-              ? "Aucun rappel express en attente."
-              : state.view === "questionnaires"
-                ? "Aucun questionnaire enregistre."
-                : state.view === "contact_requests"
-                  ? "Aucune demande de contact."
-                  : "Rien ici.";
-          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>' + emptyMsg + "</p></div>";
-          return;
-        }
-        list.innerHTML = state.filtered
-          .map(function (m) {
-            var kind = messageKind(m);
-            var active = m.id === state.selectedId ? " is-active" : "";
-            return (
-              '<button type="button" class="mbx-item' +
-              active +
-              '" data-id="' +
-              esc(m.id) +
-              '"><span class="mbx-item__main"><strong>' +
-              esc(m.subject || "(sans objet)") +
-              "</strong><br><span style='font-size:0.8rem;color:var(--muted)'>" +
-              esc(extractEmail(m.from_addr)) +
-              " · " +
-              fmtDate(m.created_at) +
-              "</span></span></button>"
-            );
-          })
-          .join("");
-        list.querySelectorAll(".mbx-item").forEach(function (btn) {
-          btn.addEventListener("click", function () {
-            selectMessage(btn.getAttribute("data-id"));
-          });
-        });
+      var list = document.getElementById("mailboxList");
+      if (!state.filtered.length) {
+        var emptyMsg =
+          state.view === "express_callbacks"
+            ? "Aucun rappel express en attente."
+            : state.view === "questionnaires"
+              ? "Aucun questionnaire enregistre."
+              : state.view === "contact_requests"
+                ? "Aucune demande de contact."
+                : "Rien ici.";
+        list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>' + emptyMsg + "</p></div>";
+        return;
       }
+      if (state.view === "sent") {
+        list.innerHTML = state.filtered.map(renderLeadItem).join("");
+      } else {
+        renderGroupedLeadList(list);
+      }
+      list.querySelectorAll(".mbx-item").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          selectMessage(btn.getAttribute("data-id"));
+        });
+      });
     }
   }
 
