@@ -128,11 +128,11 @@
     acheteur: {
       kicker: "Annonce déjà vue",
       title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
+      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien de l'annonce qui vous intéresse : on contacte le vendeur et on va chercher le mandat pour vous, principalement sur notre secteur.",
       submit: "Envoyer l'annonce",
       coords: "Vos coordonnées",
       details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      hint: "Vous cherchez un bien : filtrez la vitrine ou envoyez le lien d'une annonce — on va chercher le mandat pour vous.",
     },
     vendeur: {
       kicker: "Vous vendez",

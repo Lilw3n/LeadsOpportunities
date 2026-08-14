@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <meta name="description" content="Recherchez un appartement ou une maison, ou envoyez le lien d'une annonce (Leboncoin, SeLoger…) : on contacte le vendeur et on va chercher le mandat pour vous, principalement sur notre secteur." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
@@ -63,9 +63,10 @@
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
             >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
+              <li>Acquéreur : envoyez le lien d'une annonce (Leboncoin, SeLoger…) — on contacte le vendeur et on va chercher le mandat pour vous</li>
+              <li>Recherche de bien principalement sur notre secteur — connaissance du terrain ; plus loin, on étudie au cas par cas</li>
               <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
-              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+              <li>Les deux casquettes : vous vendez et vous rachetez — on gère la chaîne</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Acquéreur</span>
@@ -149,8 +150,13 @@
           <span class="dossier-kicker" data-deposit-kicker>Annonce déjà vue</span>
           <h2 data-deposit-title>Collez l'URL du bien</h2>
           <p class="listings-intro" data-deposit-intro>
-            Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
+            Leboncoin, SeLoger, ParuVendu… Collez le lien de l'annonce qui vous intéresse : on contacte le vendeur et on va chercher le mandat pour vous.
           </p>
+          <div data-hat-acheteur-only>
+            <p class="listings-intro">
+              <strong>Comment ça marche ?</strong> Vous avez repéré une annonce (Leboncoin, SeLoger, PAP…) ? Envoyez-nous simplement le lien : notre négociateur part à la recherche du bien pour vous — il contacte le vendeur, va chercher le mandat et organise la visite. On intervient principalement sur notre localité et notre secteur ; pour un bien plus éloigné, on étudie au cas par cas.
+            </p>
+          </div>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
             <div class="hp-field" aria-hidden="true">
@@ -1059,8 +1065,8 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
-            <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
+            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou envoyez le lien d'une annonce Leboncoin / SeLoger / ParuVendu.</li>
+            <li><strong>2. On va chercher le mandat</strong>Notre négociateur contacte le vendeur ou l'agence, récupère le mandat et organise la visite — principalement sur notre secteur.</li>
             <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
@@ -1068,6 +1074,15 @@
         <div class="form-wrap">
           <h2>FAQ recherche de bien</h2>
           <ul class="faq-list landing-faq">
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Je peux vous envoyer un lien d'annonce (Leboncoin) ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui, c'est même le cœur du service : envoyez-nous le lien d'une annonce qui vous intéresse (Leboncoin, SeLoger, PAP…). Notre négociateur part à la recherche du bien pour vous : il contacte le vendeur, va chercher le mandat et organise la visite. On intervient principalement sur notre localité et notre secteur ; pour un bien plus éloigné, on étudie au cas par cas.</p>
+              </details>
+            </li>
             <li>
               <details class="faq-item">
                 <summary>
@@ -1086,6 +1101,9 @@
                 <p>Choisissez « Je vends et je rachète ». On enregistre le bien à vendre et le bien recherché (chaîne, prêt relais). Une seule fiche, deux casquettes.</p>
               </details>
             </li>
+            <li>
+              <details class="faq-item">
+                <summary>
                   <span>Dois-je remplir un dossier prêt pour chercher ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
@@ -1119,6 +1137,14 @@
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Je peux vous envoyer un lien d'annonce (Leboncoin) ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui : envoyez le lien d'une annonce (Leboncoin, SeLoger, PAP…). Notre négociateur contacte le vendeur, va chercher le mandat et organise la visite — principalement sur notre localité et notre secteur."
+          }
+        },
         {
           "@type": "Question",
           "name": "Pourquoi je ne vois pas Leboncoin ou SeLoger ?",
