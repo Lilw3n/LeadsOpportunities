@@ -7,6 +7,7 @@ const { applyApiGuards, parseJsonBody, isHoneypotFilled, rateLimit, getClientIp 
 const { getVisitorCountry, isFranceAudience } = require("../geo-france");
 const { getSql } = require("../db");
 const Portals = require("../../../js/immo-listing-portals-lib.js");
+const Lib = require("../../../js/immo-public-listings-lib.js");
 
 function str(v, max) {
   var s = String(v == null ? "" : v).trim();
@@ -46,7 +47,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     return res.status(429).json({ error: "Trop de requêtes, réessayez plus tard" });
   }
 
-  var parsed = parseJsonBody(req, 32768);
+  var parsed = parseJsonBody(req, 2500000);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
   var body = parsed.body || {};
   if (isHoneypotFilled(body)) {
@@ -88,7 +89,12 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var propertyType = str(body.property_type || body.propertyType || body.propertySought, 40) || "appartement";
   var price = num(body.price_fai || body.budgetMax || body.price);
   var rooms = num(body.rooms || body.roomsMin);
+  var bedrooms = num(body.bedrooms);
   var surface = num(body.surface_m2 || body.propertySurfaceSearch);
+  var dpe = str(body.dpe, 1).toUpperCase();
+  var description = str(body.description, 800);
+  var details = str(body.details, 500);
+  var photos = Lib.sanitizeMedia(body.photos);
   var sellerName = str(body.sellerName || body.vendeurNom, 120);
   var sellerPhone = str(body.sellerPhone || body.vendeurTel, 40);
   var sellerEmail = str(body.sellerEmail || body.vendeurEmail, 320).toLowerCase();
@@ -118,10 +124,17 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             postal_code: postal || null,
             department: postal ? postal.slice(0, 2) : null,
             rooms: rooms,
+            bedrooms: bedrooms,
             surface_m2: surface,
+            dpe: dpe || null,
             price_fai: price,
-            description: str(body.description || body.details, 800),
-            notes: "Soumis via URL publique. Portail : " + d.label + (d.listingId ? " #" + d.listingId : ""),
+            description: description,
+            photos: photos,
+            notes:
+              "Soumis via URL publique. Portail : " +
+              d.label +
+              (d.listingId ? " #" + d.listingId : "") +
+              (details ? "\n" + details : ""),
             lead_id: leadId,
             a_contacter: !!(sellerPhone || sellerEmail),
             contact_connu: !!(sellerPhone || sellerEmail || sellerName),
@@ -186,6 +199,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             sellerAgency: sellerAgency,
             firstName: firstName,
             lastName: lastName,
+            photoCount: photos.length,
+            hasCapture: photos.some(function (p) { return p.kind === "capture"; }),
+            hasDescription: !!description,
           })},
           ${"site_web"},
           ${"new"},
@@ -210,5 +226,10 @@ module.exports = async function publicImmoListingSubmit(req, res) {
       return { url: d.url, portal: d.portal, label: d.label, listingId: d.listingId };
     }),
     stored: propertyIds.length > 0,
+    photos: photos.length,
+    hasCapture: photos.some(function (p) {
+      return p.kind === "capture";
+    }),
+    hasDescription: !!description,
   });
 };

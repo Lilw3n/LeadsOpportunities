@@ -59,6 +59,10 @@ assert(html.indexOf("data-listing-url-capture") !== -1, "landing : bloc coller U
 assert(html.indexOf("immo-listing-portals-lib.js") !== -1, "landing charge le catalogue");
 assert(html.indexOf("acheteur-immo-listing-url.js") !== -1, "landing charge le formulaire URL");
 assert(html.indexOf("sellerPhone") !== -1 && html.indexOf("sellerName") !== -1, "champs vendeur");
+assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-capture") !== -1, "champs photos + capture");
+assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");
+assert(html.indexOf("data-listing-preview") !== -1, "aperçu de fiche");
+assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");
@@ -105,6 +109,32 @@ Promise.resolve()
     assert(c.status === 200 && c.body && c.body.ok, "API accepte URL + contact");
     assert(c.body.received === 1, "1 annonce reçue");
     assert(c.body.listings[0].portal === "leboncoin", "portail renvoyé");
+    var tinyJpeg =
+      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
+    return call({
+      urls: ["https://www.leboncoin.fr/ad/ventes_immobilieres/222"],
+      email: "test@example.fr",
+      city: "Dombasle-sur-Meurthe",
+      postal_code: "54110",
+      property_type: "maison",
+      price_fai: 209000,
+      rooms: 5,
+      bedrooms: 4,
+      surface_m2: 105,
+      dpe: "D",
+      description: "Maison 5 pièces 105 m² avec grand jardin plein centre dans rue au calme.",
+      photos: [
+        { url: tinyJpeg, kind: "photo" },
+        { url: tinyJpeg, kind: "capture" },
+        { url: "javascript:alert(1)", kind: "photo" },
+      ],
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API accepte photos + description + capture");
+    assert(c.body.photos === 2, "2 médias conservés (javascript: rejeté)");
+    assert(c.body.hasCapture === true, "capture détectée");
+    assert(c.body.hasDescription === true, "description enregistrée");
     return call({ urls: ["https://www.leboncoin.fr/ad/x/1"], email: "a@b.fr", _hp: "bot" });
   })
   .then(function (c) {

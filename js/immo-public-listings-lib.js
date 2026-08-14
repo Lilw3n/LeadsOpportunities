@@ -37,6 +37,10 @@
       has_balcony: true,
       has_cave: true,
       description: "Appartement lumineux proche tram, cave et balcon. Mandat d'exemple.",
+      photos: [
+        { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=70", kind: "photo" },
+        { url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=70", kind: "capture" },
+      ],
     },
     {
       id: "demo_illkirch_maison",
@@ -54,6 +58,7 @@
       has_garden: true,
       has_terrace: true,
       description: "Maison familiale avec jardin et garage, proche écoles.",
+      photos: [{ url: "https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=800&q=70", kind: "photo" }],
     },
     {
       id: "demo_krutenau_studio",
@@ -69,6 +74,7 @@
       dpe: "E",
       has_cave: true,
       description: "Studio au calme, idéal primo-accédant ou investissement.",
+      photos: [{ url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=70", kind: "photo" }],
     },
     {
       id: "demo_lyon_t4",
@@ -85,6 +91,7 @@
       has_elevator: true,
       has_parking: true,
       description: "Grand T4 avec parking, proche métro.",
+      photos: [{ url: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=70", kind: "photo" }],
     },
     {
       id: "demo_bordeaux_maison",
@@ -101,6 +108,7 @@
       has_garden: true,
       has_terrace: true,
       description: "Maison de ville, jardin clos, commerces à pied.",
+      photos: [{ url: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=800&q=70", kind: "photo" }],
     },
     {
       id: "demo_paris11_t2",
@@ -117,6 +125,7 @@
       has_elevator: true,
       has_balcony: true,
       description: "T2 avec balcon, quartier Oberkampf.",
+      photos: [{ url: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=800&q=70", kind: "photo" }],
     },
     {
       id: "demo_nantes_t3",
@@ -133,6 +142,7 @@
       has_parking: true,
       has_balcony: true,
       description: "T3 rénové, parking, proche tramway.",
+      photos: [{ url: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=70", kind: "photo" }],
     },
     {
       id: "demo_lille_maison",
@@ -149,6 +159,7 @@
       has_garage: true,
       has_garden: true,
       description: "Maison de caractère, garage et jardin.",
+      photos: [{ url: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=70", kind: "photo" }],
     },
   ];
 
@@ -164,7 +175,6 @@
     "created_by",
     "listing_url",
     "photos_json",
-    "photos",
     "metadata_json",
     "metadata",
     "honoraires",
@@ -202,8 +212,54 @@
 
   function publicDescription(p) {
     var d = String(p.description || "").replace(/\s+/g, " ").trim();
-    if (!d || looksPrivate(d)) return "";
-    return d.slice(0, 220);
+    if (!d) return "";
+    d = d.replace(/\b0[1-9](?:[\s.-]*\d{2}){4}\b/g, "").replace(/\S+@\S+\.\S+/g, "").replace(/\s+/g, " ").trim();
+    return d.slice(0, 700);
+  }
+
+  function isSafeMediaUrl(url) {
+    if (!url || typeof url !== "string") return false;
+    if (/^data:image\/(jpeg|jpg|png|webp);base64,/i.test(url) && url.length <= 280000) return true;
+    if (/^https:\/\//i.test(url) && url.length <= 2000 && !/@/.test(url)) return true;
+    return false;
+  }
+
+  function sanitizeMedia(list) {
+    var arr = list;
+    if (typeof list === "string") {
+      try {
+        arr = JSON.parse(list);
+      } catch (e) {
+        arr = [];
+      }
+    }
+    if (!Array.isArray(arr)) arr = [];
+    var out = [];
+    arr.forEach(function (item) {
+      if (out.length >= 5) return;
+      var url = typeof item === "string" ? item : item && (item.url || item.src);
+      var kind = item && item.kind === "capture" ? "capture" : "photo";
+      if (!isSafeMediaUrl(url)) return;
+      out.push({ url: url, kind: kind });
+    });
+    return out;
+  }
+
+  function coverOf(photos) {
+    if (!photos || !photos.length) return null;
+    var photo = photos.filter(function (p) {
+      return p.kind !== "capture";
+    })[0];
+    return photo || photos[0];
+  }
+
+  function captureOf(photos) {
+    if (!photos || !photos.length) return null;
+    return (
+      photos.filter(function (p) {
+        return p.kind === "capture";
+      })[0] || null
+    );
   }
 
   function toPublicListing(raw) {
@@ -234,6 +290,10 @@
       description: publicDescription(p),
       demo: !!p.demo || String(p.id || "").indexOf("demo_") === 0,
     };
+    var media = sanitizeMedia(p.photos || p.photos_json);
+    listing.photos = media;
+    listing.cover = coverOf(media);
+    listing.capture = captureOf(media);
     SENSITIVE_KEYS.forEach(function (k) {
       if (Object.prototype.hasOwnProperty.call(listing, k)) delete listing[k];
     });
@@ -319,6 +379,10 @@
     }),
     SENSITIVE_KEYS: SENSITIVE_KEYS,
     toPublicListing: toPublicListing,
+    sanitizeMedia: sanitizeMedia,
+    isSafeMediaUrl: isSafeMediaUrl,
+    coverOf: coverOf,
+    captureOf: captureOf,
     filterListings: filterListings,
     formatPrice: formatPrice,
     amenityTags: amenityTags,

@@ -31,6 +31,16 @@ assert(
   "démo : id, ville, CP, type, prix"
 );
 
+assert(Lib.DEMO_LISTINGS.every(function (p) {
+  return p.cover && p.cover.url && p.description;
+}), "démo : photo de couverture + description");
+assert(
+  Lib.DEMO_LISTINGS.some(function (p) {
+    return p.capture && p.capture.kind === "capture";
+  }),
+  "démo : au moins une capture d'annonce"
+);
+
 var dirty = {
   id: "prop_secret",
   title: "T3 test",
@@ -63,6 +73,38 @@ assert(pub.owner_contact_id == null && pub.lead_id == null, "pas d'ids contacts"
 assert(pub.listing_url == null && pub.lat == null && pub.price_net == null, "pas d'URL / GPS / net vendeur");
 assert(JSON.stringify(pub).indexOf("Lilas") === -1, "adresse absente du JSON public");
 assert(JSON.stringify(pub).indexOf("0612345678") === -1, "téléphone absent du JSON public");
+
+var tinyJpeg =
+  "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
+var media = Lib.sanitizeMedia([
+  { url: tinyJpeg, kind: "photo" },
+  { url: "javascript:alert(1)", kind: "photo" },
+  { url: "https://images.unsplash.com/photo-x?w=800", kind: "capture" },
+  { url: "data:image/jpeg;base64," + Array(300000).join("A"), kind: "photo" },
+]);
+assert(media.length === 2, "sanitizer : 2 médias sûrs (data jpeg + https)");
+assert(media[0].kind === "photo" && media[1].kind === "capture", "sanitizer : kinds photo/capture");
+assert(!Lib.isSafeMediaUrl("javascript:alert(1)"), "refuse javascript:");
+assert(!Lib.isSafeMediaUrl("http://example.com/x.jpg"), "refuse http non-https");
+
+var withMedia = Lib.toPublicListing({
+  id: "p1",
+  title: "Maison 5 pièces",
+  property_type: "maison",
+  city: "Dombasle-sur-Meurthe",
+  postal_code: "54110",
+  rooms: 5,
+  surface_m2: 105,
+  price_fai: 209000,
+  description: "Maison 5 pièces 105 m² avec grand jardin plein centre dans rue au calme.",
+  photos: [{ url: tinyJpeg, kind: "photo" }, { url: "https://images.unsplash.com/photo-x", kind: "capture" }],
+  listing_url: "https://www.leboncoin.fr/ad/ventes_immobilieres/secret",
+  phone: "0612345678",
+});
+assert(withMedia.cover && withMedia.cover.url.indexOf("data:image/jpeg") === 0, "fiche : cover jpeg");
+assert(withMedia.capture && withMedia.capture.kind === "capture", "fiche : capture séparée");
+assert(withMedia.description.indexOf("grand jardin") !== -1, "fiche : description publique");
+assert(withMedia.listing_url == null && withMedia.phone == null, "fiche : pas d'URL portail ni tél");
 
 var lyon = Lib.filterListings(Lib.DEMO_LISTINGS, { city: "lyon" });
 assert(lyon.length === 1 && lyon[0].city === "Lyon", "filtre ville Lyon");
@@ -100,6 +142,8 @@ assert(
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");
+assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos/capture");
+assert(html.indexOf("data-listing-view") === -1 || html.indexOf("Voir photos") !== -1, "landing : bouton voir photos (JS)");
 assert(html.indexOf("acheteur-immo-search.js") !== -1, "script recherche chargé");
 assert(html.indexOf("immo-public-listings-lib.js") !== -1, "lib listings chargée");
 

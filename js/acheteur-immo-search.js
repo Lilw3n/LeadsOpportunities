@@ -75,13 +75,31 @@
       );
     }
     var loc = [p.city, p.postal_code].filter(Boolean).join(" ");
+    var cover = p.cover && p.cover.url;
+    var coverImg = cover
+      ? '<img class="listing-card-cover" src="' + esc(cover) + '" alt="" />'
+      : "";
+    var excerpt = p.description
+      ? p.description.slice(0, 140) + (p.description.length > 140 ? "…" : "")
+      : "";
+    var hasMedia = !!(cover || (p.photos && p.photos.length) || p.capture);
+    var viewBtn = hasMedia
+      ? '<button type="button" class="btn btn-soft" data-listing-view>Voir photos / capture</button>'
+      : "";
+    var captureBadge = p.capture ? '<span class="listing-card-capture">Capture</span>' : "";
     return (
       '<article class="listing-card" data-listing-id="' +
       esc(p.id) +
       '">' +
-      '<div class="listing-card-media" data-type="' +
+      '<div class="listing-card-media' +
+      (cover ? " has-photo" : "") +
+      '" data-type="' +
       esc(p.property_type) +
-      '">' +
+      '"' +
+      (hasMedia ? " data-listing-view" : "") +
+      ">" +
+      coverImg +
+      captureBadge +
       '<span class="listing-card-price">' +
       esc(Lib.formatPrice(p.price_fai)) +
       "</span>" +
@@ -99,10 +117,11 @@
       '<div class="listing-card-stats">' +
       stats.join(" · ") +
       "</div>" +
+      (excerpt ? '<p class="listing-card-desc">' + esc(excerpt) + "</p>" : "") +
       (tags ? '<div class="listing-tags">' + tags + "</div>" : "") +
       '<div class="listing-card-actions">' +
       '<button type="button" class="btn btn-primary" data-listing-interest>Je suis intéressé</button>' +
-      '<a class="btn btn-soft" href="#dossier" data-listing-alert>Alerte similaire</a>' +
+      viewBtn +
       "</div></div></article>"
     );
   }
@@ -173,8 +192,59 @@
     } catch (e) {}
   }
 
+  function openLightbox(listing) {
+    var box = document.getElementById("listingLightbox");
+    if (!box || !listing) return;
+    var photos = listing.photos || [];
+    var imgs = photos
+      .map(function (m, i) {
+        var label = m.kind === "capture" ? "Capture d'annonce" : "Photo " + (i + 1);
+        return (
+          '<figure><img src="' +
+          esc(m.url) +
+          '" alt="' +
+          esc(label) +
+          '" /><figcaption>' +
+          esc(label) +
+          "</figcaption></figure>"
+        );
+      })
+      .join("");
+    qs(box, "[data-lb-title]").textContent = listing.title || "Bien";
+    qs(box, "[data-lb-meta]").textContent = [
+      Lib.formatPrice(listing.price_fai),
+      listing.rooms ? listing.rooms + " pièces" : "",
+      listing.surface_m2 ? listing.surface_m2 + " m²" : "",
+      [listing.city, listing.postal_code].filter(Boolean).join(" "),
+    ]
+      .filter(Boolean)
+      .join(" · ");
+    qs(box, "[data-lb-desc]").textContent = listing.description || "Pas de description.";
+    qs(box, "[data-lb-media]").innerHTML =
+      imgs || "<p class='listings-intro'>Aucune photo ni capture pour ce bien.</p>";
+    box.hidden = false;
+    box.setAttribute("aria-hidden", "false");
+  }
+
+  function closeLightbox() {
+    var box = document.getElementById("listingLightbox");
+    if (!box) return;
+    box.hidden = true;
+    box.setAttribute("aria-hidden", "true");
+  }
+
   function bindGrid(root, state) {
     root.addEventListener("click", function (e) {
+      var view = e.target.closest("[data-listing-view]");
+      if (view) {
+        var cardV = view.closest("[data-listing-id]");
+        var idV = cardV && cardV.getAttribute("data-listing-id");
+        var listingV = (state.listings || []).filter(function (p) {
+          return p.id === idV;
+        })[0];
+        openLightbox(listingV);
+        return;
+      }
       var btn = e.target.closest("[data-listing-interest], [data-listing-alert]");
       if (!btn) return;
       var card = btn.closest("[data-listing-id]");
@@ -242,6 +312,17 @@
         prefillDossier(null, queryFromForm(root));
       });
     refresh();
+    document.addEventListener("lo:listing-submitted", refresh);
+    var lb = document.getElementById("listingLightbox");
+    if (lb && !lb.dataset.bound) {
+      lb.dataset.bound = "1";
+      lb.addEventListener("click", function (e) {
+        if (e.target === lb || e.target.closest("[data-lb-close]")) closeLightbox();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeLightbox();
+      });
+    }
   }
 
   function boot() {

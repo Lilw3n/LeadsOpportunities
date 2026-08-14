@@ -1,9 +1,15 @@
 /**
  * Capture publique d'URL d'annonces (Leboncoin, SeLoger, ParuVendu…).
+ * Photos + description + capture d'écran fournies par l'utilisateur (pas de scraping).
  */
 (function () {
   var Portals = window.ImmoListingPortals;
+  var Lib = window.ImmoPublicListings;
   if (!Portals) return;
+
+  var MAX_PHOTOS = 4;
+  var MAX_DIM = 1200;
+  var MAX_DATA = 240000;
 
   function qs(root, sel) {
     return (root || document).querySelector(sel);
@@ -14,9 +20,59 @@
     return el ? String(el.value || "").trim() : "";
   }
 
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function compressFile(file) {
+    return new Promise(function (resolve) {
+      if (!file || !file.type || file.type.indexOf("image/") !== 0) {
+        resolve(null);
+        return;
+      }
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        var w = img.naturalWidth || 1;
+        var h = img.naturalHeight || 1;
+        var scale = Math.min(1, MAX_DIM / Math.max(w, h));
+        var cw = Math.max(1, Math.round(w * scale));
+        var ch = Math.max(1, Math.round(h * scale));
+        var canvas = document.createElement("canvas");
+        canvas.width = cw;
+        canvas.height = ch;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, cw, ch);
+        var q = 0.72;
+        var data = canvas.toDataURL("image/jpeg", q);
+        while (data.length > MAX_DATA && q > 0.38) {
+          q -= 0.08;
+          data = canvas.toDataURL("image/jpeg", q);
+        }
+        URL.revokeObjectURL(url);
+        resolve(data.length <= 280000 ? data : null);
+      };
+      img.onerror = function () {
+        URL.revokeObjectURL(url);
+        resolve(null);
+      };
+      img.src = url;
+    });
+  }
+
+  function mediaList(state) {
+    var list = state.photos.slice();
+    if (state.capture) list.push(state.capture);
+    return list;
+  }
+
   function renderDetected(root, text) {
     var mount = qs(root, "[data-url-detected]");
-    if (!mount) return;
+    if (!mount) return [];
     var hits = Portals.detectMany(text).filter(function (d) {
       return d.ok;
     });
@@ -33,13 +89,104 @@
     return hits;
   }
 
+  function renderThumbs(root, state) {
+    var mount = qs(root, "[data-listing-thumbs]");
+    if (!mount) return;
+    var items = mediaList(state);
+    mount.innerHTML = items
+      .map(function (m, i) {
+        var label = m.kind === "capture" ? "Capture" : "Photo";
+        return (
+          '<div class="listing-thumb">' +
+          '<img src="' +
+          esc(m.url) +
+          '" alt="' +
+          label +
+          '" />' +
+          "<span>" +
+          label +
+          "</span>" +
+          '<button type="button" data-remove-media="' +
+          i +
+          '" aria-label="Retirer">×</button>' +
+          "</div>"
+        );
+      })
+      .join("");
+  }
+
+  function renderPreview(root, state) {
+    var mount = qs(root, "[data-listing-preview]");
+    if (!mount || !Lib) return;
+    var form = qs(root, "[data-url-capture-form]");
+    var photos = mediaList(state);
+    var listing = Lib.toPublicListing({
+      id: "preview",
+      title: "",
+      property_type: val(form, "property_type") || "appartement",
+      city: val(form, "city"),
+      postal_code: val(form, "postal_code"),
+      rooms: val(form, "rooms"),
+      bedrooms: val(form, "bedrooms"),
+      surface_m2: val(form, "surface_m2"),
+      price_fai: val(form, "price_fai"),
+      dpe: val(form, "dpe"),
+      description: val(form, "description"),
+      photos: photos,
+    });
+    var cover = listing.cover && listing.cover.url;
+    var excerpt = listing.description
+      ? listing.description.slice(0, 140) + (listing.description.length > 140 ? "…" : "")
+      : "Ajoutez la description de l'annonce pour l'afficher ici.";
+    var loc = [listing.city, listing.postal_code].filter(Boolean).join(" ") || "Ville du bien";
+    var stats = [];
+    if (listing.rooms) stats.push(listing.rooms + " p.");
+    if (listing.surface_m2) stats.push(listing.surface_m2 + " m²");
+    if (listing.bedrooms) stats.push(listing.bedrooms + " ch.");
+    if (listing.dpe) stats.push("DPE " + listing.dpe);
+    mount.innerHTML =
+      '<article class="listing-card">' +
+      '<div class="listing-card-media' +
+      (cover ? " has-photo" : "") +
+      '" data-type="' +
+      esc(listing.property_type) +
+      '">' +
+      (cover ? '<img class="listing-card-cover" src="' + esc(cover) + '" alt="" />' : "") +
+      (listing.capture ? '<span class="listing-card-capture">Capture</span>' : "") +
+      '<span class="listing-card-price">' +
+      esc(Lib.formatPrice(listing.price_fai)) +
+      "</span>" +
+      '<span class="listing-card-type">' +
+      esc(listing.type_label) +
+      " à vendre</span></div>" +
+      '<div class="listing-card-body"><h3>' +
+      esc(listing.title || listing.type_label) +
+      "</h3>" +
+      '<p class="listing-card-loc">' +
+      esc(loc) +
+      "</p>" +
+      (stats.length ? '<div class="listing-card-stats">' + esc(stats.join(" · ")) + "</div>" : "") +
+      '<p class="listing-card-desc">' +
+      esc(excerpt) +
+      "</p></div></article>";
+  }
+
   function init(root) {
     if (!root || root.dataset.urlCaptureBound) return;
     root.dataset.urlCaptureBound = "1";
+    var state = { photos: [], capture: null };
     var area = qs(root, "[data-listing-urls]");
     var form = qs(root, "[data-url-capture-form]");
     var err = qs(root, "[data-url-capture-err]");
     var ok = qs(root, "[data-url-capture-ok]");
+    var photosInput = qs(root, "[data-listing-photos]");
+    var captureInput = qs(root, "[data-listing-capture]");
+
+    function refreshMedia() {
+      renderThumbs(root, state);
+      renderPreview(root, state);
+    }
+
     if (area) {
       area.addEventListener("input", function () {
         renderDetected(root, area.value);
@@ -50,6 +197,79 @@
         }, 0);
       });
     }
+    if (form) {
+      form.addEventListener("input", function () {
+        renderPreview(root, state);
+      });
+      form.addEventListener("change", function () {
+        renderPreview(root, state);
+      });
+    }
+
+    if (photosInput) {
+      photosInput.addEventListener("change", function () {
+        var files = Array.prototype.slice.call(photosInput.files || []).slice(0, MAX_PHOTOS);
+        Promise.all(files.map(compressFile)).then(function (urls) {
+          state.photos = urls
+            .filter(Boolean)
+            .slice(0, MAX_PHOTOS)
+            .map(function (url) {
+              return { url: url, kind: "photo" };
+            });
+          refreshMedia();
+          photosInput.value = "";
+        });
+      });
+    }
+    if (captureInput) {
+      captureInput.addEventListener("change", function () {
+        var file = captureInput.files && captureInput.files[0];
+        compressFile(file).then(function (url) {
+          state.capture = url ? { url: url, kind: "capture" } : null;
+          refreshMedia();
+          captureInput.value = "";
+        });
+      });
+    }
+
+    root.addEventListener("paste", function (e) {
+      var items = e.clipboardData && e.clipboardData.items;
+      if (!items) return;
+      var file = null;
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].type && items[i].type.indexOf("image/") === 0) {
+          file = items[i].getAsFile();
+          break;
+        }
+      }
+      if (!file) return;
+      var tag = (e.target && e.target.tagName) || "";
+      if (tag === "TEXTAREA" || tag === "INPUT") return;
+      e.preventDefault();
+      compressFile(file).then(function (url) {
+        if (!url) return;
+        state.capture = { url: url, kind: "capture" };
+        refreshMedia();
+      });
+    });
+
+    root.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-remove-media]");
+      if (!btn) return;
+      var idx = Number(btn.getAttribute("data-remove-media"));
+      var list = mediaList(state);
+      var item = list[idx];
+      if (!item) return;
+      if (item.kind === "capture") state.capture = null;
+      else {
+        state.photos = state.photos.filter(function (p) {
+          return p.url !== item.url;
+        });
+      }
+      refreshMedia();
+    });
+
+    refreshMedia();
     if (!form) return;
     form.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -82,12 +302,16 @@
         property_type: val(form, "property_type"),
         price_fai: val(form, "price_fai"),
         rooms: val(form, "rooms"),
+        bedrooms: val(form, "bedrooms"),
         surface_m2: val(form, "surface_m2"),
+        dpe: val(form, "dpe"),
+        description: val(form, "description"),
         sellerName: val(form, "sellerName"),
         sellerPhone: val(form, "sellerPhone"),
         sellerEmail: val(form, "sellerEmail"),
         sellerAgency: val(form, "sellerAgency"),
         details: val(form, "details"),
+        photos: mediaList(state),
         _hp: val(form, "_hp"),
         need: "acheteur-immo",
         vertical: "acheteur_immo",
@@ -124,10 +348,17 @@
               (res.data.received > 1 ? "s" : "") +
               " enregistrée" +
               (res.data.received > 1 ? "s" : "") +
+              (payload.photos.length ? " avec photos / capture" : "") +
               ". Un conseiller vous rappelle pour le bien et le vendeur.";
           }
           form.reset();
+          state.photos = [];
+          state.capture = null;
           renderDetected(root, "");
+          refreshMedia();
+          try {
+            document.dispatchEvent(new CustomEvent("lo:listing-submitted"));
+          } catch (ev) {}
         })
         .catch(function (ex) {
           if (err) {

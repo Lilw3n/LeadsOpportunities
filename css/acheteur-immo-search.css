@@ -94,6 +94,7 @@
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
 }
 .listing-card-media {
+  position: relative;
   height: 132px;
   display: flex;
   flex-direction: column;
@@ -101,6 +102,27 @@
   padding: 12px 14px;
   color: #fff;
   background: linear-gradient(135deg, #0f766e, #0ea5e9);
+  overflow: hidden;
+}
+.listing-card-media.has-photo {
+  height: 180px;
+  cursor: pointer;
+}
+.listing-card-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+.listing-card-media.has-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(15, 23, 42, 0.62));
+  pointer-events: none;
 }
 .listing-card-media[data-type="maison"] {
   background: linear-gradient(135deg, #b45309, #f59e0b);
@@ -113,14 +135,38 @@
   background: linear-gradient(135deg, #334155, #64748b);
 }
 .listing-card-price {
+  position: relative;
+  z-index: 2;
   font-size: 1.35rem;
   font-weight: 800;
   letter-spacing: -0.03em;
 }
 .listing-card-type {
+  position: relative;
+  z-index: 2;
   font-size: 0.8rem;
   opacity: 0.92;
   font-weight: 600;
+}
+.listing-card-capture {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(15, 23, 42, 0.78);
+  color: #fff;
+  border-radius: 999px;
+  padding: 4px 8px;
+}
+.listing-card-desc {
+  margin: 0;
+  color: #475569;
+  font-size: 0.86rem;
+  line-height: 1.4;
 }
 .listing-card-body {
   padding: 12px 14px 14px;
@@ -279,4 +325,139 @@
   color: #b91c1c;
   font-size: 0.9rem;
   margin-top: 8px;
+}
+
+.listing-thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 4px;
+}
+.listing-thumb {
+  position: relative;
+  width: 88px;
+  height: 66px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+.listing-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.listing-thumb span {
+  position: absolute;
+  left: 4px;
+  bottom: 4px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: rgba(15, 23, 42, 0.75);
+  color: #fff;
+  border-radius: 4px;
+  padding: 1px 5px;
+}
+.listing-thumb button {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+.listing-preview-wrap {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #cbd5e1;
+}
+.listing-preview-wrap .listing-card {
+  max-width: 340px;
+}
+.listing-media-hint {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.listing-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(15, 23, 42, 0.62);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 12px;
+  overflow: auto;
+}
+.listing-lightbox[hidden] {
+  display: none;
+}
+.listing-lightbox-panel {
+  position: relative;
+  width: min(920px, 100%);
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 20px 16px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+}
+.listing-lightbox-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: #f1f5f9;
+  border-radius: 999px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+}
+.listing-lightbox-panel h2 {
+  margin: 0 36px 6px 0;
+  font-size: 1.2rem;
+}
+.listing-lightbox-meta {
+  margin: 0 0 10px;
+  color: #0f766e;
+  font-weight: 700;
+}
+.listing-lightbox-desc {
+  margin: 0 0 14px;
+  color: #334155;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.listing-lightbox-media {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+.listing-lightbox-media figure {
+  margin: 0;
+  background: #f8fafc;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+.listing-lightbox-media img {
+  width: 100%;
+  display: block;
+  max-height: 360px;
+  object-fit: cover;
+}
+.listing-lightbox-media figcaption {
+  padding: 6px 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #475569;
 }
