@@ -421,6 +421,11 @@
               "</span></div>" +
               '<div style="display:flex;gap:6px;flex-wrap:wrap">' +
               '<a class="btn btn-ghost btn-sm" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Ouvrir</a>' +
+              (window.CrmCreateInterlocuteur
+                ? window.CrmCreateInterlocuteur.buttonHtml(l, esc, { compact: true })
+                : '<button type="button" class="btn btn-primary btn-sm btn-int-create" data-create-interlocuteur="' +
+                  esc(l.id) +
+                  '">Créer fiche</button>') +
               '<button type="button" class="btn btn-ghost btn-sm btn-prio-archive" data-id="' + esc(l.id) + '">Archiver</button>' +
               "</div></div>"
             );
@@ -538,35 +543,16 @@
             "<td>" +
             esc(l.status || "new") +
             "</td>" +
-            "<td><button type=\"button\" class=\"btn btn-ghost btn-convert\" data-id=\"" +
-            esc(l.id) +
-            "\">→ Contact</button></td></tr>"
+            "<td>" +
+            (window.CrmCreateInterlocuteur
+              ? window.CrmCreateInterlocuteur.buttonHtml(l, esc, { compact: true })
+              : '<button type="button" class="btn btn-primary btn-sm btn-int-create" data-create-interlocuteur="' +
+                esc(l.id) +
+                '">Créer fiche interlocuteur</button>') +
+            "</td></tr>"
           );
         })
         .join("");
-      tbody.querySelectorAll(".btn-convert").forEach(function (btn) {
-        btn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          var leadId = btn.getAttribute("data-id");
-          api("/api/crm/convert-lead", {
-            method: "POST",
-            body: { leadId: leadId, contactType: "prospect" },
-          }).then(function (res) {
-            if (res.ok && res.contactId) {
-              if (confirm("Contact cree. Ouvrir la fiche complete ?")) {
-                window.location.href =
-                  "./crm-contact.html?id=" + encodeURIComponent(res.contactId);
-              } else {
-                loadLeads();
-                loadOverview();
-              }
-            } else if (res.ok) {
-              loadLeads();
-              loadOverview();
-            } else alert(res.error || "Erreur");
-          });
-        });
-      });
       renderDuplicates();
     });
   }

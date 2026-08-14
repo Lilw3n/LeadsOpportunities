@@ -94,6 +94,10 @@
     healthPriority: "Priorité santé",
     healthStatus: "Mutuelle actuelle",
     parcours_label: "Parcours",
+    huntLicense: "Permis de chasser",
+    huntCover: "Couverture chasse",
+    huntWeapon: "Arme",
+    huntType: "Type de chasse",
   };
 
   var VALUE_LABELS = {
@@ -216,6 +220,10 @@
     "healthPriority",
     "healthStatus",
     "parcours_label",
+    "huntLicense",
+    "huntCover",
+    "huntWeapon",
+    "huntType",
   ];
 
   var SKIP = {

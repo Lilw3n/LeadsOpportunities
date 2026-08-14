@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, canManageAllContacts } = require("../rbac");
 const { getSql } = require("../db");
 const { buildProfileMetadata } = require("../crm-profile-meta");
+const { hydrateInterlocuteurFromLead } = require("../hydrate-interlocuteur");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -30,7 +31,14 @@ module.exports = async (req, res) => {
     if (!leads.length) return res.status(404).json({ error: "Lead introuvable" });
     const lead = leads[0];
     if (lead.contact_id) {
-      return res.status(200).json({ ok: true, contactId: lead.contact_id, alreadyLinked: true });
+      const hydrated = await hydrateInterlocuteurFromLead(sql, user, lead, lead.contact_id);
+      return res.status(200).json({
+        ok: true,
+        contactId: lead.contact_id,
+        alreadyLinked: true,
+        dossierFilled: hydrated.dossierFilled,
+        slack: hydrated.slack,
+      });
     }
 
     let payload = {};
@@ -83,7 +91,13 @@ module.exports = async (req, res) => {
       )
     `;
 
-    return res.status(201).json({ ok: true, contactId });
+    const hydrated = await hydrateInterlocuteurFromLead(sql, user, lead, contactId);
+    return res.status(201).json({
+      ok: true,
+      contactId,
+      dossierFilled: hydrated.dossierFilled,
+      slack: hydrated.slack,
+    });
   } catch (e) {
     console.error("[crm/convert-lead]", e);
     return res.status(500).json({ error: "Erreur serveur" });

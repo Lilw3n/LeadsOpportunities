@@ -856,6 +856,14 @@
         body.innerHTML = renderMailboxLeadDetail(m, null);
         return;
       }
+      if (data.lead.contact_id) m.contact_id = data.lead.contact_id;
+      var headActions = document.querySelector("#mailboxDetailHead .mbx-detail-actions");
+      if (headActions && window.CrmCreateInterlocuteur) {
+        var oldBtn = headActions.querySelector(".btn-int-create, [data-create-interlocuteur]");
+        var fresh = window.CrmCreateInterlocuteur.buttonHtml(data.lead, esc);
+        if (oldBtn && fresh) oldBtn.outerHTML = fresh;
+        else if (fresh) headActions.insertAdjacentHTML("afterbegin", fresh);
+      }
       body.innerHTML = renderMailboxLeadDetail(m, data);
     } catch (e) {
       body.innerHTML = renderMailboxLeadDetail(m, null);
@@ -1175,6 +1183,13 @@
           return m.direction === "inbound";
         }) || t.last;
 
+    var threadLead =
+      t.messages
+        .map(function (m) {
+          return leadIdFromMessage(m);
+        })
+        .find(Boolean) || null;
+
     document.getElementById("mailboxDetailHead").innerHTML =
       "<h2>" +
       esc(t.contact) +
@@ -1183,7 +1198,14 @@
       esc(t.subject) +
       (t.needsReply ? ' · <strong style="color:#b45309">En attente de reponse</strong>' : "") +
       "</p>" +
-      '<div class="mbx-detail-actions" style="margin-top:12px">' +
+      '<div class="mbx-detail-actions" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">' +
+      (threadLead
+        ? (window.CrmCreateInterlocuteur
+            ? window.CrmCreateInterlocuteur.buttonHtml({ id: threadLead }, esc)
+            : '<button type="button" class="btn-int-create" data-create-interlocuteur="' +
+              esc(threadLead) +
+              '">Créer fiche interlocuteur</button>')
+        : "") +
       (t.hasSite
         ? '<a class="btn-ghost" href="./dashboard.html?section=leads">Voir leads</a>'
         : "") +
@@ -1231,7 +1253,12 @@
       "</p>" +
       '<div class="mbx-detail-actions" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">' +
       (leadId
-        ? '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
+        ? (window.CrmCreateInterlocuteur
+            ? window.CrmCreateInterlocuteur.buttonHtml({ id: leadId, contact_id: m.contact_id }, esc)
+            : '<button type="button" class="btn-int-create" data-create-interlocuteur="' +
+              esc(leadId) +
+              '">Créer fiche interlocuteur</button>') +
+          '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
           '<a class="btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
           encodeURIComponent(leadId) +
           '">Fiche CRM</a>' +

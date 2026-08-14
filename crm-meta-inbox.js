@@ -88,17 +88,21 @@
       new Date(l.created_at).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" }) +
       "</div>" +
       '<div class="meta-inbox-actions">' +
+      (window.CrmCreateInterlocuteur
+        ? window.CrmCreateInterlocuteur.buttonHtml(l, esc, { compact: true })
+        : l.contact_id
+          ? '<a href="./crm-contact.html?id=' +
+            encodeURIComponent(l.contact_id) +
+            '" class="btn btn-ghost btn-sm">Contact</a>'
+          : '<button type="button" class="btn btn-primary btn-sm btn-int-create" data-create-interlocuteur="' +
+            esc(l.id) +
+            '">Créer fiche interlocuteur</button>') +
       '<a href="./crm-lead-detail.html?id=' +
       encodeURIComponent(l.id) +
       '" class="btn btn-primary btn-sm">Ouvrir fiche</a>' +
       '<a href="./crm-tariff-grid.html?leadId=' +
       encodeURIComponent(l.id) +
       '" class="btn btn-ghost btn-sm">Tarifs</a>' +
-      (l.contact_id
-        ? '<a href="./crm-contact.html?id=' +
-          encodeURIComponent(l.contact_id) +
-          '" class="btn btn-ghost btn-sm">Contact</a>'
-        : "") +
       "</div></article>"
     );
   }

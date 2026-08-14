@@ -261,9 +261,11 @@
         ? '<a href="./crm-contact.html?id=' +
           encodeURIComponent(l.contact_id) +
           '" class="btn btn-ghost btn-sm">Contact</a>'
-        : '<button type="button" class="btn btn-primary btn-sm btn-convert" data-id="' +
-          esc(l.id) +
-          '">→ Contact</button>') +
+        : window.CrmCreateInterlocuteur
+          ? window.CrmCreateInterlocuteur.buttonHtml(l, esc, { compact: true })
+          : '<button type="button" class="btn btn-primary btn-sm btn-int-create" data-create-interlocuteur="' +
+            esc(l.id) +
+            '">Créer fiche interlocuteur</button>') +
       '<button type="button" class="btn btn-ghost btn-sm btn-assign" data-id="' +
       esc(l.id) +
       '">Assigner</button>' +

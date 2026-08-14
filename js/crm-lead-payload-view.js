@@ -45,6 +45,10 @@
     serviceLabel: "Produit",
     parcours_label: "Parcours",
     parcours_id: "Parcours ID",
+    huntLicense: "Permis de chasser",
+    huntCover: "Couverture chasse",
+    huntWeapon: "Arme",
+    huntType: "Type de chasse",
   };
 
   var SKIP_PAYLOAD_KEYS = {
@@ -426,9 +430,15 @@
             )
           );
 
+    var ctaBar =
+      global.CrmCreateInterlocuteur && lead && lead.id
+        ? global.CrmCreateInterlocuteur.barHtml(lead, esc)
+        : "";
+
     if (!rows.length && !payload.devis_summary && !(payload.funnel && payload.funnel.events)) {
       return (
         '<section class="crm-meta-panel panel mbx-answers-panel">' +
+        ctaBar +
         '<p class="alerts-empty">Aucune réponse structurée enregistrée pour ce lead.</p></section>'
       );
     }
@@ -443,7 +453,8 @@
       esc(String(lead.questionnaire_step || payload.questionnaire_step || 0)) +
       "/" +
       esc(String(lead.questionnaire_total || payload.questionnaire_total || 10)) +
-      "</span></div>";
+      "</span></div>" +
+      ctaBar;
 
     if (payload.devis_summary) {
       html +=

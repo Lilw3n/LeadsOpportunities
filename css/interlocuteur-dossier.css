@@ -98,10 +98,45 @@
   background: #fff;
   color: #1e1b4b;
 }
-.int-cta-bar .btn-primary, .int-cta-bar .btn.btn-primary {
+.int-cta-bar .btn-primary, .int-cta-bar .btn.btn-primary,
+.btn-int-create {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
   background: #4f46e5;
-  border-color: #4f46e5;
-  color: #fff;
+  border: none;
+  border-radius: 8px;
+  color: #fff !important;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.int-cta-bar .btn-primary:hover,
+.btn-int-create:hover {
+  background: #4338ca;
+  color: #fff !important;
+}
+.btn-int-create.btn-int-open {
+  background: #059669;
+}
+.btn-int-create.btn-int-open:hover {
+  background: #047857;
+}
+.lead-modal-cta-hint {
+  font-size: 13px;
+  color: #3730a3;
+  flex: 1;
+  min-width: 140px;
+}
+.lead-modal-cta-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  margin: 0 0 14px;
 }
 @media (max-width: 800px) {
   .int-dossier { grid-template-columns: 1fr; }

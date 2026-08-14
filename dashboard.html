@@ -474,7 +474,7 @@
     .modal {
       background: #fff;
       border-radius: 20px;
-      width: min(640px, 94vw);
+      width: min(860px, 96vw);
       max-height: 90vh;
       overflow: auto;
       box-shadow: 0 20px 60px rgba(15,23,42,.15);
@@ -598,6 +598,17 @@
       margin-right: 6px;
     }
     .btn-lead-open:hover { background: #d1fae5; }
+    .btn-int-create {
+      display: inline-flex; align-items: center;
+      padding: 6px 10px; margin-right: 6px;
+      background: #4f46e5; color: #fff !important;
+      border: none; border-radius: 8px; cursor: pointer;
+      font-size: 0.78rem; font-weight: 700; font-family: inherit;
+      text-decoration: none; white-space: nowrap;
+    }
+    .btn-int-create:hover { background: #4338ca; color: #fff; }
+    .btn-int-create.btn-int-open { background: #059669; }
+    .btn-int-create.btn-int-open:hover { background: #047857; }
     .lead-actions-cell { width: 1%; white-space: nowrap; text-align: right; }
     .detail-actions-row {
       display: flex;
@@ -1052,6 +1063,22 @@
       text-decoration: none;
     }
     .mbx-detail-actions .btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+    .mbx-detail-actions .btn-int-create,
+    .mbx-detail-actions .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      font-family: inherit;
+      border: none;
+    }
+    .mbx-detail-actions .btn-int-create { background: #4f46e5; color: #fff; }
+    .mbx-detail-actions .btn-int-create.btn-int-open { background: #059669; }
+    .mbx-detail-actions .btn-primary { background: #0d9488; color: #fff; }
     .mbx-detail-body {
       min-height: 0;
       overflow-x: hidden;
@@ -1874,6 +1901,10 @@
               <option value="acheteur_immo">Acheteur immo</option>
               <option value="vendeur_immo">Vendeur immo</option>
               <option value="animaux">Animaux</option>
+              <option value="chasse">Chasse</option>
+              <option value="niches">Niches</option>
+              <option value="auto">Auto</option>
+              <option value="habitation">Habitation</option>
             </select>
             <select class="filter-select" id="filterPlatform">
               <option value="">Tous réseaux</option>
@@ -2162,6 +2193,7 @@
   <div class="toast" id="toast"></div>
 
   <script src="./js/interlocuteur-dossier-lib.js"></script>
+  <script src="./js/crm-create-interlocuteur.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
@@ -2817,7 +2849,9 @@
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
-              '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> <button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button>' +
+              '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> ' +
+              (window.CrmCreateInterlocuteur ? window.CrmCreateInterlocuteur.buttonHtml(l, esc, { compact: true }) + " " : "") +
+              '<button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button>' +
               (ip && ip !== "—"
                 ? ' <button type="button" class="btn-lead-delete" data-block-ip="' +
                   esc(ip) +
@@ -2831,6 +2865,8 @@
               if (e.target.closest(".lead-row-check")) return;
               if (e.target.closest(".btn-ip-filter")) return;
               if (e.target.closest("[data-block-ip]")) return;
+              if (e.target.closest("[data-create-interlocuteur]")) return;
+              if (e.target.closest(".btn-int-create")) return;
               if (e.target.closest(".btn-lead-open")) {
                 e.stopPropagation();
                 openLeadDetail(l.id);
@@ -3146,10 +3182,44 @@
           crossHtml += "</ul></div></div>";
         }
 
-        var metaHtml = "";
-        if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderDashboardBlock) {
-          metaHtml = window.CrmLeadPayloadView.renderDashboardBlock(Object.assign({}, l, { payload: payload }), esc);
+        var answersPanel = "";
+        if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
+          answersPanel =
+            window.CrmLeadPayloadView.renderQuestionnairePanel(
+              Object.assign({}, l, { payload: payload }),
+              esc
+            );
+        } else if (window.InterlocuteurDossier) {
+          answersPanel = window.InterlocuteurDossier.renderSections(
+            window.InterlocuteurDossier.buildDossier(Object.assign({}, l, { payload: payload }))
+          );
         }
+
+        var metaHtml = "";
+        if (
+          window.CrmLeadPayloadView &&
+          window.CrmLeadPayloadView.isMetaLead &&
+          window.CrmLeadPayloadView.isMetaLead(Object.assign({}, l, { payload: payload })) &&
+          window.CrmLeadPayloadView.renderMetaPanel
+        ) {
+          metaHtml = window.CrmLeadPayloadView.renderMetaPanel(Object.assign({}, l, { payload: payload }), esc);
+        }
+
+        var ficheCta =
+          (window.CrmCreateInterlocuteur
+            ? window.CrmCreateInterlocuteur.buttonHtml(l, esc)
+            : l.contact_id
+              ? '<a class="btn btn-primary btn-int-create btn-int-open" href="./crm-contact.html?id=' +
+                encodeURIComponent(l.contact_id) +
+                '">Ouvrir fiche interlocuteur</a>'
+              : '<button type="button" class="btn btn-primary btn-int-create" id="btnCreateInterlocuteur" data-create-interlocuteur="' +
+                esc(l.id) +
+                '">Créer fiche interlocuteur</button>') +
+          ' <a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a>';
+        var ctaBar =
+          '<div class="int-cta-bar lead-modal-cta-sticky" id="btnCreateInterlocuteurBar"><strong>Fiche interlocuteur</strong> — perso, pro, biens. ' +
+          ficheCta +
+          "</div>";
 
         var quoteHtml = "";
         if (tq.totalMonthly != null) {
@@ -3163,29 +3233,8 @@
             "</small></div></div>";
         }
 
-        var answersPanel = "";
-        if (window.InterlocuteurDossier) {
-          answersPanel = window.InterlocuteurDossier.renderSections(
-            window.InterlocuteurDossier.buildDossier(Object.assign({}, l, { payload: payload }))
-          );
-        } else if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
-          answersPanel =
-            window.CrmLeadPayloadView.renderQuestionnairePanel(
-              Object.assign({}, l, { payload: payload }),
-              esc
-            );
-        }
-
-        var ficheCta = l.contact_id
-          ? '<a class="btn btn-primary" href="./crm-contact.html?id=' +
-            encodeURIComponent(l.contact_id) +
-            '">Ouvrir la fiche interlocuteur →</a>'
-          : '<button type="button" class="btn btn-primary" id="btnCreateInterlocuteur">Créer la fiche interlocuteur</button>';
-
         body.innerHTML =
-          '<div class="int-cta-bar"><strong>Fiche interlocuteur</strong> — les réponses du formulaire y sont classées (perso, pro, biens). ' +
-          ficheCta +
-          ' <a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a></div>' +
+          ctaBar +
           answersPanel +
           '<div class="detail-grid">' +
             '<div class="detail-item"><div class="dlabel">Email</div><div class="dvalue">' + esc(l.email) + '</div></div>' +
@@ -3215,6 +3264,7 @@
             quoteHtml +
             '<div class="detail-item detail-full"><div class="dlabel">Données complètes</div><div class="dvalue"><pre style="white-space:pre-wrap;font-size:0.8rem;max-height:200px;overflow:auto;background:var(--bg);padding:12px;border-radius:8px;margin-top:6px">' + esc(JSON.stringify(payload, null, 2)) + '</pre></div></div>' +
           '</div>' +
+          ctaBar.replace(" lead-modal-cta-sticky", "").replace(' id="btnCreateInterlocuteurBar"', "") +
           '<div class="detail-actions" style="flex-direction:column">' +
             '<p style="margin:0 0 8px"><a class="btn btn-ghost" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Fiche CRM complète →</a></p>' +
             '<div style="display:flex;gap:10px;align-items:center">' +
@@ -3244,7 +3294,7 @@
           });
         });
         var createInt = document.getElementById("btnCreateInterlocuteur");
-        if (createInt) {
+        if (createInt && !createInt.getAttribute("data-create-interlocuteur") && !window.CrmCreateInterlocuteur) {
           createInt.addEventListener("click", async function () {
             createInt.disabled = true;
             createInt.textContent = "Création…";
