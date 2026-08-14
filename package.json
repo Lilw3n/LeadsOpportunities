@@ -47,11 +47,8 @@
     "verify:listings": "node scripts/verify-immo-listings.cjs",
     "verify:listing-urls": "node scripts/verify-immo-listing-urls.cjs",
     "verify:projection": "node scripts/verify-achat-projection.cjs",
-<<<<<<< HEAD
-    "verify:questionnaires": "node scripts/verify-questionnaires-fields.cjs"
-=======
+    "verify:questionnaires": "node scripts/verify-questionnaires-fields.cjs",
     "verify:leads-hub": "node scripts/verify-leads-hub.cjs"
->>>>>>> origin/cursor/leads-prospects-hub-71f8
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
