@@ -10,8 +10,12 @@
     return root.querySelector(sel);
   }
 
+  function searchKindEl(form) {
+    return form.querySelector('input[name="searchKind"]');
+  }
+
   function searchKindOf(form) {
-    var el = form.querySelector('input[name="searchKind"]:checked');
+    var el = searchKindEl(form);
     return el ? el.value : "";
   }
 
@@ -44,9 +48,8 @@
 
   function syncModeFromUi(form) {
     var ui = form.querySelector('input[name="searchModeUi"]:checked');
-    if (!ui) return;
-    var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
-    if (hidden) hidden.checked = true;
+    var el = searchKindEl(form);
+    if (ui && el) el.value = ui.value;
   }
 
   function syncSearchPanels(form) {
@@ -100,22 +103,15 @@
 
   function validateSearch(form) {
     syncSearchPanels(form);
-    var kind = searchKindOf(form);
-    var kindHint = qs(form, "[data-search-kind-hint]");
+    var kind = searchKindOf(form) || "bien";
     var propHint = qs(form, "[data-property-sought-hint]");
     var sellerHint = qs(form, "[data-seller-type-hint]");
     var serviceHint = qs(form, "[data-service-sought-hint]");
     var ok = true;
 
-    if (kindHint) kindHint.hidden = true;
     if (propHint) propHint.hidden = true;
     if (sellerHint) sellerHint.hidden = true;
     if (serviceHint) serviceHint.hidden = true;
-
-    if (!kind) {
-      if (kindHint) kindHint.hidden = false;
-      return false;
-    }
 
     if (wantsBien(kind)) {
       var props = form.querySelectorAll('input[name="propertySought"]:checked');

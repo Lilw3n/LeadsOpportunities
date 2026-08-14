@@ -178,8 +178,8 @@
       );
       if (cb) cb.checked = true;
     }
-    var kind = form.querySelector('input[name="searchKind"][value="bien"]');
-    if (kind) kind.checked = true;
+    var kind = form.querySelector('input[name="searchKind"]');
+    if (kind) kind.value = "bien";
     var mode = form.querySelector('input[name="searchModeUi"][value="bien"]');
     if (mode) mode.checked = true;
     try {

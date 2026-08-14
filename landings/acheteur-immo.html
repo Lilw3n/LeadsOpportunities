@@ -398,35 +398,30 @@
 
             <!-- ETAPE 1 : Recherche de bien (style annonce) -->
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
-              <h3>Quel bien recherchez-vous ?</h3>
+              <h3>Que cherchez-vous ?</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
+                Un bien a visiter, un mandat a nous confier (gestion, syndic, estimation), ou les deux.
               </p>
 
-              <div class="field full" hidden>
-                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
-                  <legend>Vous cherchez…</legend>
-                  <label class="field-check"><input type="radio" name="searchKind" value="bien" checked required /> Un bien a acheter / acquerir</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
-                </fieldset>
-                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
-              </div>
+              <input type="hidden" name="searchKind" value="bien" />
 
-              <div class="search-mode-tabs" role="tablist" aria-label="Mode de recherche">
+              <div class="search-mode-tabs" role="tablist" aria-label="Type de demande">
                 <label class="search-mode-tab">
                   <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
-                  <span>Je cherche un bien</span>
+                  <span>Trouver un bien</span>
                 </label>
                 <label class="search-mode-tab">
                   <input type="radio" name="searchModeUi" value="service" data-search-mode />
-                  <span>Je cherche un service</span>
+                  <span>Confier un bien</span>
                 </label>
                 <label class="search-mode-tab">
                   <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
-                  <span>Bien + service</span>
+                  <span>Les deux</span>
                 </label>
               </div>
+              <p class="small" data-search-mode-hint style="margin-top:8px">
+                Trouver un bien : on vous propose des biens a visiter (achat, investissement). Confier un bien : gestion locative, syndic, estimation, mise en vente ou en location.
+              </p>
 
               <div class="field full" data-search-bien-panel style="margin-top:16px">
                 <p class="search-section-label">Categorie</p>
@@ -480,7 +475,7 @@
               </div>
 
               <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
-                <p class="search-section-label">Quel service ?</p>
+                <p class="search-section-label">Que voulez-vous nous confier ?</p>
                 <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>

@@ -37,6 +37,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+/* .field, .grid… declarent display, ce qui annule le [hidden] du navigateur */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 body {
   margin: 0;
