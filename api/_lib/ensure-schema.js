@@ -192,8 +192,40 @@ async function ensureMailboxSchema(sql) {
   });
 }
 
+async function ensureCalendarSchema(sql) {
+  if (!sql) return false;
+  var steps = [
+    function (s) {
+      return s`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_refresh_token TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_id TEXT DEFAULT 'primary'`;
+    },
+    function (s) {
+      return s`ALTER TABLE users ADD COLUMN IF NOT EXISTS google_calendar_connected_at TIMESTAMPTZ`;
+    },
+    function (s) {
+      return s`ALTER TABLE crm_events ADD COLUMN IF NOT EXISTS extra_data TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE crm_events ADD COLUMN IF NOT EXISTS google_event_id TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE crm_events ADD COLUMN IF NOT EXISTS google_sync_status TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE crm_events ADD COLUMN IF NOT EXISTS google_updated_at TIMESTAMPTZ`;
+    },
+  ];
+  for (var i = 0; i < steps.length; i++) {
+    await runStatement(sql, steps[i]);
+  }
+  return true;
+}
+
 module.exports = {
   ensureSiteLeadsSchema,
   ensureMailboxSchema,
   ensurePersonLinksSchema,
+  ensureCalendarSchema,
 };

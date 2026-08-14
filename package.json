@@ -50,7 +50,8 @@
     "verify:questionnaires": "node scripts/verify-questionnaires-fields.cjs",
     "verify:leads-hub": "node scripts/verify-leads-hub.cjs",
     "verify:event-manager": "node scripts/verify-event-manager.cjs",
-    "verify:relations": "node scripts/verify-people-relations.cjs"
+    "verify:relations": "node scripts/verify-people-relations.cjs",
+    "verify:google-calendar": "node scripts/verify-google-calendar.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

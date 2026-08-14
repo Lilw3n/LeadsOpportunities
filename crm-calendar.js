@@ -105,19 +105,106 @@
       })
       .then(function (res) {
         if (!calBanner) return;
+        if (res.configured === false) {
+          calBanner.className = "cal-banner cal-banner-warn";
+          calBanner.textContent =
+            "Google n'est pas configuré sur le serveur (GOOGLE_CLIENT_ID / SECRET). Impossible de connecter Agenda.";
+          return;
+        }
         if (res.connected) {
           calBanner.className = "cal-banner cal-banner-ok";
           calBanner.textContent =
-            "Google Calendar connecté (" + (res.calendarId || "primary") + ") — les RDV CRM sont poussés vers Agenda.";
+            "Google Calendar connecté (" +
+            (res.calendarId || "primary") +
+            ") — Cliquez Synchroniser Google pour pousser les RDV CRM et importer l'agenda.";
           document.getElementById("btnConnectCal").textContent = "Reconnecter Google";
         } else {
           calBanner.className = "cal-banner cal-banner-warn";
           calBanner.textContent =
-            "Google Calendar non connecté — créez des RDV puis cliquez Connecter Google pour synchroniser.";
+            "Google Calendar non connecté — cliquez Connecter Google, acceptez l'accès Agenda, puis Synchroniser.";
         }
       })
       .catch(function () {
         if (calBanner) calBanner.textContent = "Statut agenda indisponible";
+      });
+  }
+
+  function startGoogleConnect() {
+    var btn = document.getElementById("btnConnectCal");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Redirection Google…";
+    }
+    fetch("/api/crm/calendar-sync?action=connect", { headers: authHeaders() })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (res.url) {
+          location.href = res.url;
+          return;
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Connecter Google";
+        }
+        alert(res.error || "Connexion Google impossible");
+      })
+      .catch(function () {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Connecter Google";
+        }
+        alert("Connexion Google impossible");
+      });
+  }
+
+  function runGoogleSync(opts) {
+    opts = opts || {};
+    var btn = document.getElementById("btnPullCal");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Synchronisation…";
+    }
+    fetch("/api/crm/calendar-sync?action=sync", { headers: authHeaders() })
+      .then(function (r) {
+        return r.json().then(function (body) {
+          return { status: r.status, body: body };
+        });
+      })
+      .then(function (pack) {
+        var res = pack.body || {};
+        if (pack.status === 400 && /non connect/.test(String(res.error || ""))) {
+          if (!opts.skipConnect) startGoogleConnect();
+          else alert(res.error);
+          return;
+        }
+        if (!res.ok) {
+          alert(res.error || "Erreur de synchronisation");
+          return;
+        }
+        var msg =
+          "Sync OK — " +
+          (res.pushed || 0) +
+          " RDV CRM envoyé(s) vers Google, " +
+          (res.imported || 0) +
+          " événement(s) importé(s).";
+        if (calBanner) {
+          calBanner.className = "cal-banner cal-banner-ok";
+          calBanner.textContent = msg;
+        }
+        if (!opts.silent) alert(msg);
+        loadCalendarStatus();
+        loadEvents(render);
+      })
+      .catch(function () {
+        alert("Erreur de synchronisation Google");
+      })
+      .finally(function () {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = "Synchroniser Google";
+        }
       });
   }
 
@@ -379,25 +466,11 @@
   }
 
   document.getElementById("btnConnectCal").onclick = function () {
-    fetch("/api/crm/calendar-sync?action=connect", { headers: authHeaders() })
-      .then(function (r) {
-        return r.json();
-      })
-      .then(function (res) {
-        if (res.url) location.href = res.url;
-        else alert(res.error || "Connexion impossible");
-      });
+    startGoogleConnect();
   };
 
   document.getElementById("btnPullCal").onclick = function () {
-    fetch("/api/crm/calendar-sync?action=pull", { headers: authHeaders() })
-      .then(function (r) {
-        return r.json();
-      })
-      .then(function (res) {
-        alert(res.ok ? "Sync OK — " + (res.imported || 0) + " importé(s)" : res.error || "Erreur");
-        loadEvents(render);
-      });
+    runGoogleSync();
   };
 
   document.getElementById("btnIcal").onclick = exportIcal;
@@ -444,4 +517,21 @@
   });
   loadCalendarStatus();
   loadEvents(render);
+
+  var params = new URLSearchParams(location.search);
+  var calErr = params.get("calendar_error");
+  if (calErr && calBanner) {
+    calBanner.className = "cal-banner cal-banner-warn";
+    calBanner.textContent = calErr;
+  }
+  if (params.get("calendar") === "connected") {
+    if (calBanner) {
+      calBanner.className = "cal-banner cal-banner-ok";
+      calBanner.textContent = "Google Calendar connecté — synchronisation en cours…";
+    }
+    runGoogleSync({ silent: true, skipConnect: true });
+    if (history.replaceState) {
+      history.replaceState({}, "", location.pathname);
+    }
+  }
 })();
