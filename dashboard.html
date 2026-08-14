@@ -1792,10 +1792,15 @@
               <option value="lost">Perdu</option>
             </select>
             <select class="filter-select" id="filterVertical">
-              <option value="">Tous les verticaux</option>
-              <option value="vtc">VTC</option>
-              <option value="sante">Santé</option>
-              <option value="credit-immo">Crédit Immo</option>
+              <option value="">Tous les produits</option>
+              <option value="vtc">Assurance VTC</option>
+              <option value="sante">Mutuelle santé</option>
+              <option value="sante-collective">Santé collective</option>
+              <option value="credit-immo">Crédit immobilier</option>
+              <option value="acheteur_immo">Acheteur immobilier</option>
+              <option value="animaux">Assurance animaux</option>
+              <option value="chasse">Assurance chasse</option>
+              <option value="equitation">Assurance équitation</option>
             </select>
             <select class="filter-select" id="filterPlatform">
               <option value="">Tous réseaux</option>
@@ -2046,6 +2051,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
+  <script src="./js/vertical-labels.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
@@ -2458,6 +2464,30 @@
       });
     });
 
+    function verticalDisplay(v) {
+      if (!v) return "—";
+      return window.VerticalLabels ? window.VerticalLabels.label(v) : v;
+    }
+
+    // Ajoute au filtre les produits rencontrés dans les résultats (pas de liste figée)
+    function registerVerticalOptions(leads) {
+      var sel = document.getElementById("filterVertical");
+      if (!sel || !leads) return;
+      var known = {};
+      Array.prototype.forEach.call(sel.options, function (o) {
+        known[o.value] = true;
+      });
+      leads.forEach(function (l) {
+        var v = String(l.vertical || "").trim().toLowerCase();
+        if (!v || known[v]) return;
+        known[v] = true;
+        var opt = document.createElement("option");
+        opt.value = v;
+        opt.textContent = verticalDisplay(v);
+        sel.appendChild(opt);
+      });
+    }
+
     // LOAD LEADS
     async function loadLeads() {
       var tbody = document.getElementById("leadsTableBody");
@@ -2494,6 +2524,7 @@
           tbody.innerHTML =
             '<tr><td colspan="10"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
+          registerVerticalOptions(data.leads);
           data.leads.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
             var tr = document.createElement("tr");
@@ -2508,7 +2539,7 @@
             tr.innerHTML =
               '<td>' + fmtDate(l.created_at) + (pills ? '<div style="margin-top:4px">' + pills + '</div>' : '') + '</td>' +
               '<td><div class="score-bar"><div class="score-fill"><span style="width:' + (score||0) + '%;background:' + scoreColor(score) + '"></span></div><span class="score-val">' + score + '</span></div></td>' +
-              '<td>' + esc(l.vertical) + '</td>' +
+              '<td title="' + esc(l.vertical) + '">' + esc(verticalDisplay(l.vertical)) + '</td>' +
               '<td>' + esc(l.email) + '</td>' +
               '<td>' + esc(l.phone) + '</td>' +
               '<td><code style="font-size:0.78rem">' + esc(leadClientIp(l)) + '</code></td>' +

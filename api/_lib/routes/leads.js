@@ -4,8 +4,17 @@ const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
-const VALID_VERTICAL = ["vtc", "sante", "credit-immo"];
 const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
+
+/** Slug vertical libre (tous les questionnaires, pas une liste figée). */
+function sanitizeVertical(raw) {
+  var v = String(raw || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]/g, "")
+    .slice(0, 40);
+  return v || null;
+}
 
 const ORDER_BY_CASE = `
     ORDER BY
@@ -210,9 +219,7 @@ module.exports = async (req, res) => {
   const statusVal = url.searchParams.get("status")
     ? sanitizeEnum(url.searchParams.get("status"), VALID_STATUS, null)
     : null;
-  const verticalVal = url.searchParams.get("vertical")
-    ? sanitizeEnum(url.searchParams.get("vertical"), VALID_VERTICAL, null)
-    : null;
+  const verticalVal = sanitizeVertical(url.searchParams.get("vertical"));
   const searchVal = url.searchParams.get("search")
     ? sanitizeSearch(url.searchParams.get("search"))
     : null;
