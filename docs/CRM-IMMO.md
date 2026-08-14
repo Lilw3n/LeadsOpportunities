@@ -59,6 +59,7 @@ Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-imm
 - Rôle `acheteur` | `vendeur` | `les_deux` (vend et rachète)
 - Saisie manuelle **sans URL** pour un vendeur (ville obligatoire)
 - Détecte le portail si URL (Leboncoin, SeLoger, ParuVendu…)
+- Une URL envoyée par un acquéreur crée une pige en prospection, marquée `mandat_a_rechercher` : le négociateur étudie l’annonce et contacte l’annonceur pour tenter d’obtenir le mandat, en priorité sur son secteur local
 - Parties CRM : vendeur (déposant ou infos collées) ; acquéreur si recherche / double casquette ; critères de rachat si `les_deux`
 - **Pas de scraping**
 

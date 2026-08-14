@@ -126,6 +126,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var dpe = str(body.dpe, 1).toUpperCase();
   var description = str(body.description, 800);
   var details = str(body.details, 500);
+  var mandateGoal = isOwner ? "" : "mandat_a_rechercher";
   var photos = Lib.sanitizeMedia(body.photos);
   var sellerKind = str(body.sellerKind || body.sellerType, 40) || (isOwner ? "particulier" : "");
   var sellerName = str(body.sellerName || body.vendeurNom, 120);
@@ -193,7 +194,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           price ? Math.round(price) + " €" : "",
         ].filter(Boolean);
         var notesBits = [
-          isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
+          isOwner
+            ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")."
+            : "Pige transmise par un acquéreur — mandat à rechercher. Portail : " + d.label + ".",
           d.listingId ? "#" + d.listingId : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
@@ -241,6 +244,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
               buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
               alsoBuys: role === "les_deux",
               wantsRelais: wantsRelais,
+              mandateGoal: mandateGoal,
             },
           },
           null
@@ -342,6 +346,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             hasDescription: !!description,
             alsoBuys: role === "les_deux",
             wantsRelais: wantsRelais,
+            mandateGoal: mandateGoal,
             buyCity: buyCity,
             buyBudgetMax: buyBudget,
           })},
@@ -363,6 +368,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     ok: true,
     leadId: leadId,
     role: role,
+    mandateGoal: mandateGoal,
     hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
     received: detections.length,
     propertyIds: propertyIds,

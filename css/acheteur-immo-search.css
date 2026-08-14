@@ -335,6 +335,31 @@
   border-radius: 16px;
 }
 .immo-hats .search-mode-tabs { margin-bottom: 8px; }
+.local-mandate-info {
+  margin: 0 0 24px;
+  padding: 20px;
+  background: linear-gradient(135deg, #ecfdf5, #ecfeff);
+  border: 1px solid #5eead4;
+  border-radius: 18px;
+}
+.local-mandate-info h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.local-mandate-info p {
+  margin: 0 0 12px;
+  color: #334155;
+  line-height: 1.55;
+}
+.local-mandate-info ol {
+  margin: 0 0 16px;
+  padding-left: 20px;
+  color: #334155;
+}
+.local-mandate-info li + li {
+  margin-top: 6px;
+}
 [data-hat-vendeur-only],
 [data-hat-dual-only] {
   display: none;

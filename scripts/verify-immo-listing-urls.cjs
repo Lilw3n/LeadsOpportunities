@@ -66,6 +66,8 @@ assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-
 assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");
 assert(html.indexOf("data-listing-preview") !== -1, "aperçu de fiche");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
+assert(html.indexOf("je recherche le mandat") !== -1, "landing : recherche du mandat annoncée");
+assert(html.indexOf("principalement sur mon secteur géographique") !== -1, "landing : priorité au secteur local");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");
@@ -112,6 +114,7 @@ Promise.resolve()
     assert(c.status === 200 && c.body && c.body.ok, "API accepte URL + contact");
     assert(c.body.received === 1, "1 annonce reçue");
     assert(c.body.listings[0].portal === "leboncoin", "portail renvoyé");
+    assert(c.body.mandateGoal === "mandat_a_rechercher", "URL acquéreur marquée mandat à rechercher");
     var tinyJpeg =
       "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
     return call({

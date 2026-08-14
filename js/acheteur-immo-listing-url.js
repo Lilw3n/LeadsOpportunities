@@ -126,13 +126,14 @@
 
   var HAT_COPY = {
     acheteur: {
-      kicker: "Annonce déjà vue",
-      title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      kicker: "Annonce repérée",
+      title: "Envoyez-moi le lien de l'annonce",
+      intro: "Leboncoin, SeLoger, ParuVendu… Le lien suffit pour me signaler le bien. Je l'étudie et contacte l'annonceur afin de tenter d'obtenir le mandat.",
+      submit: "M'envoyer l'annonce",
       coords: "Vos coordonnées",
-      details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      details: "Précisions sur votre recherche",
+      modeTitle: "Comment transmettre l'annonce",
+      hint: "Vous cherchez un bien : consultez la vitrine ou envoyez-moi une annonce repérée. Je rechercherai le mandat, en priorité sur mon secteur.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -141,15 +142,17 @@
       submit: "Déposer mon bien",
       coords: "Vos coordonnées (vendeur)",
       details: "Précisions (disponibilité, urgence, honoraires…)",
+      modeTitle: "Comment déposer le bien",
       hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce.",
     },
     les_deux: {
       kicker: "Double casquette",
-      title: "Vous vendez et vous rachètez",
+      title: "Vous vendez et vous rachetez",
       intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
       submit: "Déposer et chercher",
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
+      modeTitle: "Comment déposer le bien",
       hint: "Les deux casquettes : on capte le bien à vendre et la recherche de rachat.",
     },
   };
@@ -171,6 +174,7 @@
     setTxt("[data-deposit-submit]", copy.submit);
     setTxt("[data-coords-label]", copy.coords);
     setTxt("[data-details-label]", copy.details);
+    setTxt("[data-deposit-mode-title]", copy.modeTitle);
     setTxt("[data-hat-hint]", copy.hint);
     var hatRadio = document.querySelector("[name='immoHat'][value='" + hat + "']");
     if (hatRadio) hatRadio.checked = true;
@@ -456,15 +460,20 @@
           var hats = (res.data.hats || []).join(" + ");
           if (ok) {
             ok.hidden = false;
-            ok.textContent =
-              res.data.received +
-              " bien" +
-              (res.data.received > 1 ? "s" : "") +
-              " enregistré" +
-              (res.data.received > 1 ? "s" : "") +
-              (payload.photos.length ? " avec photos / capture" : "") +
-              (hats ? " (" + hats + ")" : "") +
-              ". Un conseiller vous rappelle.";
+            if (hat === "acheteur") {
+              ok.textContent =
+                "Annonce transmise. Je vais l'étudier et contacter l'annonceur afin de tenter d'obtenir le mandat. Je vous rappelle pour la suite.";
+            } else {
+              ok.textContent =
+                res.data.received +
+                " bien" +
+                (res.data.received > 1 ? "s" : "") +
+                " enregistré" +
+                (res.data.received > 1 ? "s" : "") +
+                (payload.photos.length ? " avec photos / capture" : "") +
+                (hats ? " (" + hats + ")" : "") +
+                ". Un conseiller vous rappelle.";
+            }
           }
           form.reset();
           state.photos = [];
