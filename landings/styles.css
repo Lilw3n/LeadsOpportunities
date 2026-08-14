@@ -401,6 +401,10 @@ textarea:focus-visible {
   gap: 6px;
 }
 
+.field[hidden] {
+  display: none;
+}
+
 .full {
   grid-column: 1 / -1;
 }
