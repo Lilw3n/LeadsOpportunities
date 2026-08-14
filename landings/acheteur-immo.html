@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <title>Recherche de bien immobilier locale | Envoyez une annonce</title>
+  <meta name="description" content="Recherche de bien locale : envoyez un lien d'annonce (Leboncoin, SeLoger...), je contacte le vendeur et tente d'obtenir le mandat. Prêt et assurances en option." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
-  <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
-  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
+  <meta property="og:title" content="Recherche de bien immobilier locale | Envoyez une annonce" />
+  <meta property="og:description" content="Envoyez un lien Leboncoin, SeLoger ou autre : recherche locale, prise de contact vendeur et tentative de mandat. Prêt et assurances seulement si besoin." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <!-- Google tag (gtag.js) -->
@@ -53,19 +53,19 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
+              data-speed-title="Recherche de bien locale — envoyez une annonce, je contacte le vendeur"
               data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
-            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
+            >Recherche de bien locale — envoyez une annonce, je contacte le vendeur</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
+              data-speed-subtitle="Vous pouvez m'envoyer un lien Leboncoin, SeLoger ou autre. J'interviens surtout sur mon secteur pour chercher le mandat, puis organiser la suite."
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
-            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
+            >Vous pouvez m'envoyer un lien Leboncoin, SeLoger ou autre. J'interviens surtout sur mon secteur pour chercher le mandat, puis organiser la suite.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
-              <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
-              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+              <li>Acquéreur : envoyez vos critères ou le lien d'une annonce déjà repérée</li>
+              <li>Recherche locale : je contacte l'annonceur et tente d'obtenir le mandat quand le bien correspond</li>
+              <li>Vendeur ou double projet : dépôt du bien, rachat et chaîne de vente peuvent être suivis au même endroit</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Acquéreur</span>
@@ -73,7 +73,7 @@
               <span class="trust-pill">Vend + rachète</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+              <a class="btn btn-primary" href="#deposer-bien">Envoyer un lien d'annonce</a>
               <a class="btn btn-soft" href="#recherche">Voir les annonces</a>
             </div>
           </div>
@@ -95,12 +95,12 @@
               <span>Je vends et je rachète</span>
             </label>
           </div>
-          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : on capte le vendeur, l'acquéreur, ou les deux.</p>
+          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : recherche locale, vendeur, ou les deux.</p>
         </div>
 
         <div class="listings-wrap" id="recherche" data-immo-search>
           <h2>Annonces à vendre</h2>
-          <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
+          <p class="listings-intro">Les biens transmis par lien d'annonce peuvent s'afficher ici (photo, description, capture) après vérification. Pas d'annonces d'exemple.</p>
           <div class="listings-types" role="group" aria-label="Type de bien">
             <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
             <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
@@ -139,17 +139,17 @@
           <div class="listings-grid" data-listings-grid></div>
           <div class="listings-empty" data-listings-empty>
             <h3>Aucun bien pour le moment</h3>
-            <p data-empty-hint>Déposez un bien (vendeur) ou collez une URL d'annonce.</p>
-            <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+            <p data-empty-hint>Envoyez un lien d'annonce : je regarde si le bien entre dans mon secteur de recherche.</p>
+            <a class="btn btn-primary" href="#deposer-bien">Envoyer un lien d'annonce</a>
           </div>
         </div>
 
         <div class="url-capture" id="deposer-bien" data-listing-url-capture>
           <span id="annonce-url"></span>
-          <span class="dossier-kicker" data-deposit-kicker>Annonce déjà vue</span>
-          <h2 data-deposit-title>Collez l'URL du bien</h2>
+          <span class="dossier-kicker" data-deposit-kicker>Annonce repérée</span>
+          <h2 data-deposit-title>Envoyez le lien du bien</h2>
           <p class="listings-intro" data-deposit-intro>
-            Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
+            Leboncoin, SeLoger, ParuVendu… Envoyez le lien : je peux contacter le vendeur sur mon secteur et tenter d'obtenir le mandat.
           </p>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
@@ -169,7 +169,7 @@
               </label>
             </div>
             <div data-url-block>
-              <label for="listingUrlsBox" data-url-label>URL de l'annonce (une par ligne si plusieurs)</label>
+              <label for="listingUrlsBox" data-url-label>URL de l'annonce à examiner (une par ligne si plusieurs)</label>
               <textarea id="listingUrlsBox" data-listing-urls placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…&#10;https://www.seloger.com/annonces/…"></textarea>
               <div class="url-detected" data-url-detected aria-live="polite"></div>
             </div>
@@ -262,6 +262,7 @@
 
             <div data-hat-acheteur-only>
               <p class="search-section-label" style="margin-top:16px">Infos vendeur / agence (visibles sur l'annonce)</p>
+              <p class="listings-intro">Ajoutez les contacts visibles : cela m'aide à joindre l'annonceur et à chercher le mandat plus vite.</p>
               <div class="grid">
                 <div class="field">
                   <label for="sellerName">Nom du vendeur ou de l'annonceur</label>
@@ -342,13 +343,13 @@
               </div>
               <div class="field full">
                 <label for="urlDetails" data-details-label>Précisions</label>
-                <textarea id="urlDetails" name="details" rows="2" placeholder="Créneau de visite, questions, urgence de vente…"></textarea>
+                <textarea id="urlDetails" name="details" rows="2" placeholder="Secteur souhaité, annonce prioritaire, visite, questions, urgence…"></textarea>
               </div>
             </div>
             <p class="url-capture-err" data-url-capture-err hidden></p>
             <p class="url-capture-ok" data-url-capture-ok hidden></p>
             <div style="margin-top:14px">
-              <button type="submit" class="btn btn-primary" data-deposit-submit>Envoyer l'annonce</button>
+              <button type="submit" class="btn btn-primary" data-deposit-submit>Envoyer le lien</button>
             </div>
           </form>
           <details class="url-portals-legend">
@@ -369,9 +370,9 @@
         <div class="form-wrap" id="dossier" data-lead-dossier>
           <span id="demande"></span>
           <span class="dossier-kicker">Alerte &amp; dossier</span>
-          <h2 class="form-title">Pas le bon bien ? Déposez une alerte</h2>
+          <h2 class="form-title">Pas encore le bon bien ? Confiez votre recherche locale</h2>
           <p class="form-lead">
-            On vous prévient quand un mandat correspond. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin — ce n'est pas l'écran de recherche.
+            Décrivez votre secteur, votre budget ou envoyez une annonce déjà vue : je peux partir en recherche pour vous, surtout sur ma localité territoriale. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
@@ -400,7 +401,7 @@
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
               <h3>Quel bien recherchez-vous ?</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
+                Type, secteur, budget, lien d'annonce — les criteres essentiels pour lancer la recherche locale et contacter le vendeur.
               </p>
 
               <div class="field full" hidden>
@@ -473,7 +474,7 @@
                     <input id="propertySurfaceSearch" name="propertySurfaceSearch" inputmode="numeric" data-optional placeholder="Ex. 65" />
                   </div>
                   <div class="field full">
-                    <label for="listingUrls">URL d'annonces déjà vues (Leboncoin, SeLoger…)</label>
+                    <label for="listingUrls">Lien d'annonce déjà vue (Leboncoin, SeLoger…)</label>
                     <textarea id="listingUrls" name="listingUrls" rows="2" data-optional placeholder="https://www.leboncoin.fr/ad/…"></textarea>
                   </div>
                 </div>
@@ -500,7 +501,7 @@
               <div class="field full">
                 <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
                   <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous etudier ?</legend>
-                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="visite" /> Recherche de bien / visites</label>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="visite" /> Recherche locale de bien / visites / mandat à chercher</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" /> Pret immobilier / capacite d'emprunt</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" /> Assurance emprunteur (delegation)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="habitation" /> Assurance habitation (future residence)</label>
@@ -1059,8 +1060,8 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
-            <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
+            <li><strong>1. Envoyer l'annonce</strong>Filtres ville / budget, ou lien Leboncoin / SeLoger / ParuVendu deja repere.</li>
+            <li><strong>2. Recherche locale + vendeur</strong>On enregistre le lien, la ville et les coordonnees visibles pour contacter l'annonceur et chercher le mandat.</li>
             <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
@@ -1074,7 +1075,7 @@
                   <span>Pourquoi je ne vois pas Leboncoin ou SeLoger ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
-                <p>Pas de scraping. Un vendeur dépose son bien à la main ou colle l’URL de son annonce. Un acquéreur peut aussi coller une URL déjà vue. Les biens s’affichent ensuite dans la vitrine.</p>
+                <p>Pas de scraping. Un vendeur dépose son bien à la main ou colle l’URL de son annonce. Un acquéreur peut aussi envoyer une URL déjà vue : je vérifie le secteur, je contacte l'annonceur et je tente d'obtenir le mandat quand le bien correspond.</p>
               </details>
             </li>
             <li>

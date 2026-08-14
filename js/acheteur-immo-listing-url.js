@@ -126,13 +126,13 @@
 
   var HAT_COPY = {
     acheteur: {
-      kicker: "Annonce déjà vue",
-      title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      kicker: "Annonce repérée",
+      title: "Envoyez le lien du bien",
+      intro: "Leboncoin, SeLoger, ParuVendu… Envoyez le lien, la description et les contacts visibles. Je peux contacter le vendeur sur mon secteur et tenter d'obtenir le mandat.",
+      submit: "Envoyer le lien",
       coords: "Vos coordonnées",
-      details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      details: "Précisions (secteur, visite, annonce prioritaire)",
+      hint: "Vous cherchez un bien : envoyez vos critères ou le lien d'une annonce déjà repérée.",
     },
     vendeur: {
       kicker: "Vous vendez",
