@@ -4,6 +4,7 @@ const { classifyLeadInboxKind } = require("./lead-inbox-kind");
 const VerticalLabels = require("../../js/vertical-labels.js");
 const CrmLeadPayloadView = require("../../js/crm-lead-payload-view.js");
 const LeadValue = require("../../js/lead-value.js");
+const { detectFamilyLead } = require("../../js/lead-vip.js");
 
 function leadValueInfo(payload, score) {
   if (payload && payload.estimated_value != null && isFinite(Number(payload.estimated_value))) {
@@ -98,7 +99,13 @@ async function sendResendEmail(payload, score, leadId) {
   var bandTxt =
     lv && lv.band === "high" ? " (fort potentiel)" : lv && lv.band === "medium" ? "" : "";
 
+  var family = null;
+  try {
+    family = detectFamilyLead(payload);
+  } catch (e) {}
+
   var sub =
+    (family ? "[Famille BUCHET] " : "") +
     "[" +
     typeLabel +
     " · " +
@@ -149,6 +156,11 @@ async function sendResendEmail(payload, score, leadId) {
 
   var html =
     '<div style="font-family:Arial,Helvetica,sans-serif;color:#0f172a">' +
+    (family
+      ? '<p style="margin:0 0 12px;padding:10px 14px;background:#ede9fe;border:1px solid #c4b5fd;border-radius:8px;color:#5b21b6;font-weight:bold">' +
+        escapeHtml(family.greeting) +
+        "</p>"
+      : "") +
     '<h2 style="margin:0 0 4px">' +
     escapeHtml(typeLabel) +
     " — " +

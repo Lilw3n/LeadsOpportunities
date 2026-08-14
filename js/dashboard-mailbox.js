@@ -283,6 +283,36 @@
     );
   }
 
+  /** Lead de la famille BUCHET ? (ligne « Famille : » du corps, sujet ou payload) */
+  function messageFamily(m) {
+    if (!m || messageKind(m) !== "site") return null;
+    if (m._famCache !== undefined) return m._famCache;
+    var fam = null;
+    var body = String(m.body_text || "");
+    var mt = body.match(/^Famille\s*:\s*(.+)$/m);
+    if (mt) {
+      fam = { greeting: mt[1].trim() };
+    } else if (String(m.subject || "").indexOf("[Famille BUCHET]") >= 0) {
+      fam = { greeting: "Passez le bonjour !" };
+    } else if (window.LeadVip) {
+      try {
+        fam = window.LeadVip.detectFamilyLead(parseLeadPayload(m.body_text) || {});
+      } catch (e) {}
+    }
+    m._famCache = fam;
+    return fam;
+  }
+
+  function familyPill(m) {
+    var fam = messageFamily(m);
+    if (!fam) return "";
+    return (
+      '<span class="mbx-pill mbx-pill--family" title="' +
+      esc(fam.greeting) +
+      '">Famille BUCHET — bonjour !</span>'
+    );
+  }
+
   function messagePreview(m) {
     var t = (m.body_text || "").replace(/\s+/g, " ").trim();
     if (t.indexOf("===") === 0 || t.charAt(0) === "{") {
@@ -406,6 +436,10 @@
         return v > max ? v : max;
       }, 0);
       t.highValue = valueBand(t.value) === "high";
+      t.family = null;
+      for (var fi = 0; fi < t.messages.length && !t.family; fi++) {
+        t.family = messageFamily(t.messages[fi]);
+      }
       if (t.needsCallback && t.hasExpress) {
         t.priority = 0;
       } else if (t.highValue && t.needsReply) {
@@ -625,6 +659,11 @@
     else if (t.needsReply && t.hasImap) cls += " mbx-thread-card--reply";
     else if (t.hasImap) cls += " mbx-thread-card--mail";
     var tags =
+      (t.family
+        ? '<span class="mbx-pill mbx-pill--family" title="' +
+          esc(t.family.greeting) +
+          '">Famille BUCHET — bonjour !</span>'
+        : "") +
       valuePill(t.value) +
       (t.needsCallback && t.hasExpress
         ? '<span class="mbx-pill mbx-pill--express">Rappel express</span>'
@@ -807,7 +846,7 @@
   function renderLeadItem(m) {
     var active = m.id === state.selectedId ? " is-active" : "";
     var preview = messagePreview(m);
-    var pill = valuePill(messageValue(m));
+    var pill = familyPill(m) + valuePill(messageValue(m));
     return (
       '<button type="button" class="mbx-item' +
       active +

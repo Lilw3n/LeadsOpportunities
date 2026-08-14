@@ -6,6 +6,7 @@ const {
   subjectForKind,
 } = require("./lead-inbox-kind");
 const { computeLeadValue, formatEuros } = require("../../js/lead-value.js");
+const { detectFamilyLead } = require("../../js/lead-vip.js");
 
 /** Valeur potentielle (€) : celle calculée à l'ingestion, sinon recalcul. */
 function leadValueOf(row, payload) {
@@ -52,9 +53,16 @@ function formatLeadBodyText(row, payload, kind) {
         ? "Rappel express"
         : "Demande de contact"
       : "Questionnaire";
+  var family = null;
+  try {
+    family = detectFamilyLead(payload);
+  } catch (e) {}
   var lines = [
     "=== " + typeLabel + " ===",
     "Type: " + typeLabel,
+  ];
+  if (family) lines.push("Famille : " + family.greeting);
+  lines = lines.concat([
     "ID lead : " + row.id,
     "Vertical : " + (row.vertical || payload.vertical || "—"),
     "Source : " + (row.source || payload.source || "site"),
@@ -72,7 +80,7 @@ function formatLeadBodyText(row, payload, kind) {
     "",
     "--- Données JSON ---",
     JSON.stringify(payload, null, 2).slice(0, 7500),
-  ];
+  ]);
   return lines.join("\n");
 }
 
@@ -86,6 +94,9 @@ async function upsertLeadMailboxRow(sql, row) {
   var subject = subjectForKind(kind, row, payload);
   var lv = leadValueOf(row, payload);
   if (lv && lv.value > 0) subject += " · ~" + formatEuros(lv.value);
+  try {
+    if (detectFamilyLead(payload)) subject = "[Famille BUCHET] " + subject;
+  } catch (e) {}
   const bodyText = formatLeadBodyText(row, payload, kind);
   const threadKey = leadThreadKey(row, payload);
   const createdAt = row.created_at || new Date().toISOString();
