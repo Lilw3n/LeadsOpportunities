@@ -63,7 +63,8 @@
             { v: "aucun", t: "Pas encore assure" },
             { v: "en_cours", t: "Contrat en cours" },
             { v: "resilie", t: "Resiliation recente" },
-          ], false)
+          ], false) +
+            input("vehiclePlate", "Plaque d'immatriculation", "text", "AA-123-BB", true)
         )
       );
     },
@@ -106,13 +107,18 @@
       );
     },
     pro: function () {
-      return fieldRow(
-        input("businessActivity", "Activite / metier", "text", "Ex. plombier", true) +
-          select("legalForm", "Statut", [
-            { v: "ei", t: "EI / micro" },
-            { v: "sarl", t: "SARL / EURL" },
-            { v: "sas", t: "SAS / SASU" },
-          ], false)
+      return (
+        fieldRow(
+          input("businessActivity", "Activite / metier", "text", "Ex. plombier", true) +
+            select("legalForm", "Statut", [
+              { v: "ei", t: "EI / micro" },
+              { v: "sarl", t: "SARL / EURL" },
+              { v: "sas", t: "SAS / SASU" },
+            ], false)
+        ) +
+        fieldRow(
+          input("companySiret", "SIREN (9) ou SIRET (14 chiffres)", "text", "123456789 ou 12345678901234", true)
+        )
       );
     },
     patrimoine: function () {
@@ -158,24 +164,33 @@
 
   var BY_NEED = {
     vtc: function () {
-      return fieldRow(
-        select("vtcStatus", "Statut VTC", [
-          { v: "actif", t: "Chauffeur actif" },
-          { v: "creation", t: "Creation activite" },
-        ]) +
-          input("vtcCity", "Ville d activite", "text", "Ex. Paris", true)
+      return (
+        fieldRow(
+          select("vtcStatus", "Statut VTC", [
+            { v: "actif", t: "Chauffeur actif" },
+            { v: "creation", t: "Creation activite" },
+          ]) +
+            input("vtcCity", "Ville d activite", "text", "Ex. Paris", true)
+        ) +
+        fieldRow(
+          input("vtcVehiclePlate", "Plaque d'immatriculation", "text", "AA-123-BB", true) +
+            input("companySiret", "SIREN (9) ou SIRET (14 chiffres)", "text", "123456789 ou 12345678901234", true)
+        )
       );
     },
     auto: function () {
-      return fieldRow(
-        select("autoFormula", "Formule", [
-          { v: "tiers", t: "Au tiers" },
-          { v: "tous_risques", t: "Tous risques" },
-        ]) +
-          select("autoDriverProfile", "Conducteur", [
-            { v: "standard", t: "Experimente" },
-            { v: "jeune", t: "Jeune conducteur" },
-          ], false)
+      return (
+        fieldRow(
+          select("autoFormula", "Formule", [
+            { v: "tiers", t: "Au tiers" },
+            { v: "tous_risques", t: "Tous risques" },
+          ]) +
+            select("autoDriverProfile", "Conducteur", [
+              { v: "standard", t: "Experimente" },
+              { v: "jeune", t: "Jeune conducteur" },
+            ], false)
+        ) +
+        fieldRow(input("autoPlate", "Plaque d'immatriculation", "text", "AA-123-BB", true))
       );
     },
     emprunteur: function () {
@@ -188,19 +203,29 @@
       );
     },
     "rc-pro": function () {
-      return fieldRow(
-        input("rcProActivity", "Activite", "text", "Ex. consultant", true) +
-          select("rcProTurnover", "CA annuel", [
-            { v: "moins50", t: "Moins de 50 kEUR" },
-            { v: "50-150", t: "50 a 150 kEUR" },
-            { v: "150plus", t: "Plus de 150 kEUR" },
-          ], false)
+      return (
+        fieldRow(
+          input("rcProActivity", "Activite", "text", "Ex. consultant", true) +
+            select("rcProTurnover", "CA annuel", [
+              { v: "moins50", t: "Moins de 50 kEUR" },
+              { v: "50-150", t: "50 a 150 kEUR" },
+              { v: "150plus", t: "Plus de 150 kEUR" },
+            ], false)
+        ) +
+        fieldRow(
+          input("companySiret", "SIREN (9) ou SIRET (14 chiffres)", "text", "123456789 ou 12345678901234", true)
+        )
       );
     },
     decennale: function () {
-      return fieldRow(
-        input("decennaleTrade", "Metier", "text", "Ex. maconnerie", true) +
-          input("decennaleCa", "CA travaux (EUR)", "text", "Ex. 200000", true)
+      return (
+        fieldRow(
+          input("decennaleTrade", "Metier", "text", "Ex. maconnerie", true) +
+            input("decennaleCa", "CA travaux (EUR)", "text", "Ex. 200000", true)
+        ) +
+        fieldRow(
+          input("companySiret", "SIREN (9) ou SIRET (14 chiffres)", "text", "123456789 ou 12345678901234", true)
+        )
       );
     },
     collective: function () {
@@ -222,20 +247,61 @@
             ])
         ) +
         fieldRow(
-          input("collectiveSiret", "SIRET (facultatif)", "text", "14 chiffres", false) +
+          input("collectiveSiret", "SIREN (9) ou SIRET (14 chiffres)", "text", "123456789 ou 12345678901234", true) +
             input("collectiveBudget", "Budget cible par salarie / mois", "text", "Ex. 45 EUR", false)
         )
       );
     },
   };
 
+  var MOBILITY_NEEDS = ["auto", "moto", "vtc", "flotte", "temporaire", "caravane"];
+  var PRO_NEEDS = [
+    "rc-pro",
+    "mrp",
+    "decennale",
+    "pj-pro",
+    "dirigeant",
+    "credit-pro",
+    "tns",
+    "collective",
+    "flotte",
+    "vtc",
+  ];
+  var PLATE_NAMES = [
+    "autoPlate",
+    "vtcVehiclePlate",
+    "vehiclePlate",
+    "motoPlate",
+    "tempVehiclePlate",
+    "fleetMainPlate",
+    "rvPlate",
+  ];
+  var SIRET_NAMES = ["companySiret", "collectiveSiret", "siret"];
+
+  function htmlHasName(html, names) {
+    return names.some(function (n) {
+      return html.indexOf('name="' + n + '"') !== -1;
+    });
+  }
+
   function fieldsHtmlForService(service) {
     var need = service.need;
-    if (typeof BY_NEED[need] === "function") return BY_NEED[need]();
-    var cat = service.category || "patrimoine";
-    var fn = BY_CATEGORY[cat];
-    if (fn) return fn();
-    return BY_CATEGORY.patrimoine();
+    var html = "";
+    if (typeof BY_NEED[need] === "function") html = BY_NEED[need]();
+    else {
+      var cat = service.category || "patrimoine";
+      var fn = BY_CATEGORY[cat];
+      html = fn ? fn() : BY_CATEGORY.patrimoine();
+    }
+    if (MOBILITY_NEEDS.indexOf(need) >= 0 && !htmlHasName(html, PLATE_NAMES)) {
+      html += fieldRow(input("vehiclePlate", "Plaque d'immatriculation", "text", "AA-123-BB", true));
+    }
+    if (PRO_NEEDS.indexOf(need) >= 0 && !htmlHasName(html, SIRET_NAMES)) {
+      html += fieldRow(
+        input("companySiret", "SIREN (9) ou SIRET (14 chiffres)", "text", "123456789 ou 12345678901234", true)
+      );
+    }
+    return html;
   }
 
   global.DEVIS_EXPRESS_CONFIG = {

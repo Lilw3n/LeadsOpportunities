@@ -66,9 +66,28 @@
         ok = false;
         el.classList.add("input-invalid");
       }
-      if (el.name === "companySiret" && el.value) {
-        var d = el.value.replace(/\s/g, "");
-        if (d.length !== 14 || !/^[0-9]+$/.test(d)) {
+      if (
+        el.name === "companySiret" ||
+        el.name === "collectiveSiret" ||
+        el.name === "siret"
+      ) {
+        var siretDigits = (el.value || "").replace(/\s/g, "");
+        if (siretDigits && !/^[0-9]{9}$/.test(siretDigits) && !/^[0-9]{14}$/.test(siretDigits)) {
+          ok = false;
+          el.classList.add("input-invalid");
+        }
+      }
+      if (
+        el.name === "autoPlate" ||
+        el.name === "vtcVehiclePlate" ||
+        el.name === "vehiclePlate" ||
+        el.name === "motoPlate" ||
+        el.name === "tempVehiclePlate" ||
+        el.name === "fleetMainPlate" ||
+        el.name === "rvPlate"
+      ) {
+        var plateCompact = (el.value || "").replace(/[\s-]/g, "");
+        if (plateCompact && plateCompact.length < 4) {
           ok = false;
           el.classList.add("input-invalid");
         }
