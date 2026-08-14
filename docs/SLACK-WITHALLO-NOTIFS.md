@@ -17,17 +17,26 @@ Le CRM **décide** (score, priorité, archivage). Slack **alerte**. WithAllo **c
 
 ---
 
-## Phase 1 — Slack gratuit (maintenant)
+## Phase 1 — Slack (token ou webhook)
 
-### 1. Créer un Incoming Webhook Slack
+Deux options (l’une suffit) :
+
+### A. Token utilisateur / bot (recommandé si vous avez un `xoxp` / `xoxb`)
+
+| Variable | Valeur |
+|----------|--------|
+| `SLACK_BOT_TOKEN` | Token Slack (`xoxp-…`, `xoxb-…` ou export `xoxe.xoxp-1-…`) |
+| `SLACK_CHANNEL` | Canal, ex. `leads` (défaut) |
+
+Le token n’est **jamais** dans le git — uniquement Vercel → Environment Variables.
+
+### B. Incoming Webhook
 
 1. [https://app.slack.com/](https://app.slack.com/) → votre workspace
 2. **Apps** → **Incoming Webhooks** (ou créer une app Slack depuis [api.slack.com/apps](https://api.slack.com/apps))
 3. Choisir le canal (ex. `#leads` ou `#alertes-courtier`)
 4. Copier l’URL du type :  
    `https://hooks.slack.com/services/T…/B…/…`
-
-### 2. Variable Vercel
 
 | Variable | Valeur |
 |----------|--------|
@@ -97,7 +106,9 @@ flowchart LR
 
 | Variable | Phase | Obligatoire |
 |----------|-------|-------------|
-| `SLACK_WEBHOOK_URL` | Slack | Recommandé |
+| `SLACK_BOT_TOKEN` | Slack | Recommandé (token xoxp / xoxb) |
+| `SLACK_CHANNEL` | Slack | Optionnel (défaut `leads`) |
+| `SLACK_WEBHOOK_URL` | Slack | Alternative au token |
 | `RESEND_API_KEY` + `LEAD_NOTIFICATION_EMAIL` | Email | Recommandé |
 | `WITHALLO_WEBHOOK_SECRET` | WithAllo | Quand WithAllo actif |
 | `LEAD_WEBHOOK_URL` | Make/n8n | Optionnel (scénarios avancés) |

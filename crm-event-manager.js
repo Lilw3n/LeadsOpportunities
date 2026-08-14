@@ -389,7 +389,7 @@
         return r.json();
       })
       .then(function (res) {
-        st.textContent = res.configured ? "Slack connecté — alertes leads et fiches interlocuteur" : "Slack non configuré (SLACK_WEBHOOK_URL)";
+        st.textContent = res.configured ? "Slack connecté — alertes leads et fiches interlocuteur" : "Slack non configuré (SLACK_BOT_TOKEN)";
         if (dot) dot.classList.toggle("is-on", !!res.configured);
       })
       .catch(function () {

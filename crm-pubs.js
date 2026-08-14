@@ -47,12 +47,12 @@
       '<span class="acq-badge ' +
       (ok ? "meta" : "muted") +
       '">' +
-      (ok ? "Configuré ✓" : "SLACK_WEBHOOK_URL manquant") +
+      (ok ? "Configuré ✓" : "Token / webhook manquant") +
       "</span></div>" +
-      "<p style=\"color:var(--muted)\">Chaque lead (site + Meta Lead Ads) envoie une alerte Slack si la variable Vercel est définie.</p>" +
+      "<p style=\"color:var(--muted)\">Chaque lead (site + Meta Lead Ads) et chaque fiche interlocuteur envoie une alerte Slack. Variable : <strong>SLACK_BOT_TOKEN</strong> (ou webhook).</p>" +
       (ok
         ? '<p><button type="button" class="btn btn-primary btn-sm" id="btnTestSlack">Envoyer un test Slack</button> <span id="slackTestResult" style="margin-left:8px;color:var(--muted)"></span></p>'
-        : '<ol style="color:var(--muted);margin:8px 0 0 18px;line-height:1.6"><li><a href="https://api.slack.com/apps" target="_blank" rel="noopener">Créer une app Slack</a> → Incoming Webhooks → canal #leads</li><li>Copier l’URL <code>https://hooks.slack.com/services/…</code></li><li>Vercel → projet → Settings → Environment Variables → <strong>SLACK_WEBHOOK_URL</strong></li><li>Redeploy puis revenir ici et cliquer « Tester Slack »</li></ol>') +
+        : '<ol style="color:var(--muted);margin:8px 0 0 18px;line-height:1.6"><li>Ouvrir l’app Slack <a href="https://api.slack.com/apps/A0BQ6Q905KM" target="_blank" rel="noopener">Leads Opportunities CRM</a></li><li>OAuth &amp; Permissions → <strong>Install to Workspace</strong> → choisir le canal (ex. #leads)</li><li>Copier le <strong>Bot User OAuth Token</strong> (<code>xoxb-…</code>) dans Vercel → <strong>SLACK_BOT_TOKEN</strong> <em>ou</em> l’Incoming Webhook → <strong>SLACK_WEBHOOK_URL</strong></li><li>Redeploy puis cliquer « Tester Slack »</li></ol>') +
       '<div class="pub-link-row">' +
       '<a href="https://api.slack.com/apps" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Créer webhook Slack ↗</a>' +
       '<a href="https://vercel.com/dashboard" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Vercel env ↗</a>' +

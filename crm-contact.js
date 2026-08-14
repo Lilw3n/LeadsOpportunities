@@ -200,7 +200,7 @@
     api("/api/crm/notify-slack").then(function (res) {
       var st = document.getElementById("slackFicheStatus");
       var dot = document.getElementById("slackDot");
-      if (st) st.textContent = res.configured ? "Slack connecté — notifier cette fiche" : "Slack non configuré (SLACK_WEBHOOK_URL)";
+      if (st) st.textContent = res.configured ? "Slack connecté — notifier cette fiche" : "Slack non configuré (SLACK_BOT_TOKEN)";
       if (dot) dot.classList.toggle("is-on", !!res.configured);
     });
   }

@@ -52,7 +52,8 @@
     "verify:event-manager": "node scripts/verify-event-manager.cjs",
     "verify:relations": "node scripts/verify-people-relations.cjs",
     "verify:google-calendar": "node scripts/verify-google-calendar.cjs",
-    "verify:interlocuteur": "node scripts/verify-interlocuteur-dossier.cjs"
+    "verify:interlocuteur": "node scripts/verify-interlocuteur-dossier.cjs",
+    "verify:slack": "node scripts/verify-slack-notify.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

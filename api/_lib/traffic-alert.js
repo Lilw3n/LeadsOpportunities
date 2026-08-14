@@ -1,6 +1,6 @@
 const { getSql } = require("./db");
 const { buildTrafficStats } = require("./traffic-stats");
-const { sendSlackText } = require("./slack-notify");
+const { sendSlackText, slackConfigured } = require("./slack-notify");
 
 function getAlertConfig() {
   var threshold = Number(process.env.TRAFFIC_ALERT_THRESHOLD_PCT);
@@ -10,7 +10,7 @@ function getAlertConfig() {
   var cooldownHours = Number(process.env.TRAFFIC_ALERT_COOLDOWN_HOURS);
   if (!Number.isFinite(cooldownHours)) cooldownHours = 24;
   var enabled = process.env.TRAFFIC_ALERT_ENABLED !== "false";
-  var slack = !!(process.env.SLACK_WEBHOOK_URL || "").trim();
+  var slack = slackConfigured();
   return {
     enabled: enabled && slack,
     threshold_pct: threshold,
