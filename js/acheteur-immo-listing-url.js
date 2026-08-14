@@ -127,12 +127,13 @@
   var HAT_COPY = {
     acheteur: {
       kicker: "Annonce déjà vue",
-      title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      title: "Envoyez le lien, on part chercher le mandat",
+      intro:
+        "Leboncoin, SeLoger, ParuVendu… Collez le lien. Notre travail : aller voir le vendeur et chercher le mandat, principalement sur notre localité territoriale.",
+      submit: "Envoyer le lien — chercher le mandat",
       coords: "Vos coordonnées",
-      details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      details: "Précisions (visite, secteur, urgence)",
+      hint: "Vous cherchez un bien : envoyez-nous le lien de l'annonce — on part chercher le mandat, surtout sur notre localité.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -141,16 +142,16 @@
       submit: "Déposer mon bien",
       coords: "Vos coordonnées (vendeur)",
       details: "Précisions (disponibilité, urgence, honoraires…)",
-      hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce.",
+      hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce. On peut aussi partir chercher le mandat autour de notre localité.",
     },
     les_deux: {
       kicker: "Double casquette",
       title: "Vous vendez et vous rachètez",
-      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
+      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. On part chercher le mandat de rachat surtout sur notre localité.",
       submit: "Déposer et chercher",
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
-      hint: "Les deux casquettes : on capte le bien à vendre et la recherche de rachat.",
+      hint: "Les deux casquettes : on capte le bien à vendre et on part chercher le mandat du bien visé, surtout sur notre localité.",
     },
   };
 

@@ -147,8 +147,8 @@
           if (query.postal) bits.push(query.postal);
           if (query.budgetMax) bits.push("budget " + Lib.formatPrice(query.budgetMax));
           hint.textContent = bits.length
-            ? "Aucun bien pour " + bits.join(", ") + ". Déposez-en un via URL ou à la main."
-            : "Déposez un bien (vendeur) ou collez une URL d'annonce.";
+            ? "Aucun bien pour " + bits.join(", ") + ". Envoyez un lien d'annonce : on part chercher le mandat."
+            : "Collez un lien d'annonce (Leboncoin…) : on part chercher le mandat sur notre localité.";
         }
       }
       return;

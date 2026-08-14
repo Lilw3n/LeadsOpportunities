@@ -66,6 +66,8 @@ assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-
 assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");
 assert(html.indexOf("data-listing-preview") !== -1, "aperçu de fiche");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
+assert(html.indexOf("data-mandat-hunt") !== -1, "landing : encadré mandat / localité");
+assert(html.indexOf("chercher le mandat") !== -1, "landing : copy chercher le mandat");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");

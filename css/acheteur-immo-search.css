@@ -346,7 +346,8 @@ html[data-immo-hat="les_deux"] [data-hat-dual-only] {
 }
 html[data-immo-hat="vendeur"] [data-hat-acheteur-only],
 html[data-immo-hat="les_deux"] [data-hat-acheteur-only],
-html[data-immo-hat="vendeur"] #dossier {
+html[data-immo-hat="vendeur"] #dossier,
+html[data-immo-hat="vendeur"] [data-mandat-hunt] {
   display: none !important;
 }
 
@@ -483,4 +484,37 @@ html[data-immo-hat="vendeur"] #dossier {
   font-size: 0.78rem;
   font-weight: 700;
   color: #475569;
+}
+
+.mandat-hunt {
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  border: 1px solid #bfdbfe;
+  background: linear-gradient(135deg, #eff6ff, #ecfdf5);
+}
+.mandat-hunt strong {
+  display: block;
+  font-size: 1.08rem;
+  margin: 0 0 8px;
+  color: #0f172a;
+}
+.mandat-hunt p {
+  margin: 0 0 12px;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  max-width: 44rem;
+}
+.mandat-hunt ol {
+  margin: 0 0 14px;
+  padding-left: 1.2rem;
+  color: #334155;
+  font-size: 0.92rem;
+}
+.mandat-hunt li {
+  margin: 0 0 4px;
+}
+.mandat-hunt .btn {
+  margin-top: 2px;
 }
