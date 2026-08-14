@@ -1832,7 +1832,7 @@
         <div class="dash-topbar">
           <div>
             <h1>Gestion des Leads</h1>
-            <p class="subtitle">Tous les leads reçus sont ici (liste complète). Qualification spam/prospect : <a href="./crm-leads.html" style="color:var(--primary);font-weight:600">Leads → prospects</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">Devis remplis</a></p>
+            <p class="subtitle">Tous les leads reçus sont ici (liste complète). <a href="./crm-leads-roi.html" style="color:var(--primary);font-weight:600">Dashboard avancé (CPL / réseaux)</a> · <a href="./crm-leads.html" style="color:var(--primary);font-weight:600">Leads → prospects</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">Devis remplis</a></p>
           </div>
           <div class="topbar-actions">
             <button class="btn-refresh" id="refreshLeads">
@@ -2592,7 +2592,7 @@
         "<p>" +
         esc((r.recommendation && r.recommendation.reason) || "") +
         "</p>" +
-        "<p><a href=\"./crm-acquisition.html\">CRM acquisition</a> · <a href=\"./crm-pubs.html\">Gestion pubs</a> · <a href=\"./crm-sources.html\">Origine leads</a> · docs/META-ROTATION-4-SEMAINES.md</p>";
+        "<p><a href=\"./crm-leads-roi.html\">Dashboard leads (CPL)</a> · <a href=\"./crm-acquisition.html\">CRM acquisition</a> · <a href=\"./crm-pubs.html\">Gestion pubs</a> · <a href=\"./crm-sources.html\">Origine leads</a></p>";
     }
 
     async function loadJourneyDropoffs() {
@@ -3344,6 +3344,14 @@
     var params = new URLSearchParams(window.location.search);
     if (params.get("section") === "leads") {
       setTimeout(function () {
+        var platQ = params.get("platform");
+        if (platQ && document.getElementById("filterPlatform")) {
+          document.getElementById("filterPlatform").value = platQ;
+        }
+        var vertQ = params.get("vertical");
+        if (vertQ && document.getElementById("filterVertical")) {
+          document.getElementById("filterVertical").value = vertQ;
+        }
         goToLeads(params.get("view") || "");
         loadBlockedIps();
         var leadId = params.get("lead");
