@@ -216,3 +216,67 @@
   color: #0f766e;
   margin-bottom: 6px;
 }
+
+.url-capture {
+  margin: 8px 0 28px;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #99f6e4;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.url-capture h2 { margin: 0 0 6px; font-size: 1.2rem; }
+.url-capture .listings-intro { margin-bottom: 12px; }
+.url-detected {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 28px;
+  margin: 8px 0 12px;
+}
+.url-pill {
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: #ecfeff;
+  color: #155e75;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.url-pill--unknown { background: #f1f5f9; color: #475569; }
+.url-capture textarea {
+  width: 100%;
+  min-height: 88px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font: inherit;
+  resize: vertical;
+}
+.url-capture .grid { margin-top: 12px; }
+.url-portals-legend {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+.url-portals-legend summary { cursor: pointer; font-weight: 700; color: #0f766e; }
+.url-portals-legend ul {
+  columns: 2;
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+@media (max-width: 640px) {
+  .url-portals-legend ul { columns: 1; }
+}
+.url-capture-ok {
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 10px;
+}
+.url-capture-err {
+  color: #b91c1c;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}

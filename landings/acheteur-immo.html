@@ -63,8 +63,8 @@
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
             >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
             <ul class="points">
-              <li>Annonces : type, ville, budget, pièces, surface</li>
-              <li>Mandats CRM (saisie manuelle, sans scraping Leboncoin / SeLoger)</li>
+              <li>Collez une URL Leboncoin, SeLoger, ParuVendu… on enregistre le bien et le vendeur</li>
+              <li>Mandats CRM + alerte si aucun bien ne correspond</li>
               <li>Prêt et assurances seulement si vous en avez besoin</li>
             </ul>
             <div class="trust-row">
@@ -74,7 +74,7 @@
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="#recherche">Voir les annonces</a>
-              <a class="btn btn-soft" href="#dossier">Déposer une alerte</a>
+              <a class="btn btn-soft" href="#annonce-url">Coller une URL d'annonce</a>
             </div>
           </div>
         </div>
@@ -126,6 +126,108 @@
             <p data-empty-hint>Aucun mandat ne correspond pour le moment.</p>
             <a class="btn btn-primary" href="#dossier" data-listings-empty-cta>Déposer une alerte recherche</a>
           </div>
+        </div>
+
+        <div class="url-capture" id="annonce-url" data-listing-url-capture>
+          <span class="dossier-kicker">Annonce déjà vue</span>
+          <h2>Collez l'URL du bien</h2>
+          <p class="listings-intro">
+            Leboncoin, SeLoger, ParuVendu, Bien'ici, Figaro Immo… Collez le lien.
+            Recopiez ensuite les infos <strong>bien</strong> et <strong>vendeur</strong> visibles sur l'annonce — on ne scrape pas les portails.
+          </p>
+          <form data-url-capture-form novalidate>
+            <div class="hp-field" aria-hidden="true">
+              <label for="hp_listing_url">Ne pas remplir</label>
+              <input type="text" id="hp_listing_url" name="_hp" tabindex="-1" autocomplete="off" />
+            </div>
+            <label for="listingUrlsBox">URL de l'annonce (une par ligne si plusieurs)</label>
+            <textarea id="listingUrlsBox" data-listing-urls placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…&#10;https://www.seloger.com/annonces/…"></textarea>
+            <div class="url-detected" data-url-detected aria-live="polite"></div>
+            <div class="grid">
+              <div class="field">
+                <label for="urlPropType">Type de bien</label>
+                <select id="urlPropType" name="property_type">
+                  <option value="appartement">Appartement</option>
+                  <option value="maison">Maison</option>
+                  <option value="terrain">Terrain</option>
+                  <option value="local">Local / mixte</option>
+                  <option value="immeuble">Immeuble</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="urlCity">Ville du bien</label>
+                <input id="urlCity" name="city" placeholder="Ex. Strasbourg" />
+              </div>
+              <div class="field">
+                <label for="urlPostal">Code postal</label>
+                <input id="urlPostal" name="postal_code" inputmode="numeric" maxlength="5" placeholder="67000" />
+              </div>
+              <div class="field">
+                <label for="urlPrice">Prix affiché (€)</label>
+                <input id="urlPrice" name="price_fai" inputmode="numeric" placeholder="Ex. 265000" />
+              </div>
+              <div class="field">
+                <label for="urlRooms">Pièces</label>
+                <input id="urlRooms" name="rooms" inputmode="numeric" placeholder="Ex. 3" />
+              </div>
+              <div class="field">
+                <label for="urlSurf">Surface m²</label>
+                <input id="urlSurf" name="surface_m2" inputmode="numeric" placeholder="Ex. 68" />
+              </div>
+            </div>
+            <p class="search-section-label" style="margin-top:16px">Infos vendeur / agence (visibles sur l'annonce)</p>
+            <div class="grid">
+              <div class="field">
+                <label for="sellerName">Nom du vendeur ou de l'annonceur</label>
+                <input id="sellerName" name="sellerName" placeholder="Ex. M. Dupont / Agence Martin" />
+              </div>
+              <div class="field">
+                <label for="sellerPhone">Téléphone vendeur</label>
+                <input id="sellerPhone" name="sellerPhone" inputmode="tel" placeholder="06…" />
+              </div>
+              <div class="field">
+                <label for="sellerEmail">E-mail vendeur</label>
+                <input id="sellerEmail" name="sellerEmail" type="email" placeholder="vendeur@…" />
+              </div>
+              <div class="field">
+                <label for="sellerAgency">Agence / réseau</label>
+                <input id="sellerAgency" name="sellerAgency" placeholder="Ex. ORPI, indépendant" />
+              </div>
+            </div>
+            <p class="search-section-label" style="margin-top:16px">Vos coordonnées</p>
+            <div class="grid">
+              <div class="field">
+                <label for="urlFirstName">Prénom</label>
+                <input id="urlFirstName" name="firstName" required />
+              </div>
+              <div class="field">
+                <label for="urlLastName">Nom</label>
+                <input id="urlLastName" name="lastName" />
+              </div>
+              <div class="field">
+                <label for="urlEmail">Votre e-mail</label>
+                <input id="urlEmail" name="email" type="email" placeholder="vous@email.fr" />
+              </div>
+              <div class="field">
+                <label for="urlPhone">Votre téléphone</label>
+                <input id="urlPhone" name="phone" type="tel" placeholder="06…" />
+              </div>
+              <div class="field full">
+                <label for="urlDetails">Précisions (visite, offre, questions)</label>
+                <textarea id="urlDetails" name="details" rows="2" placeholder="Créneau de visite, questions au vendeur…"></textarea>
+              </div>
+            </div>
+            <p class="url-capture-err" data-url-capture-err hidden></p>
+            <p class="url-capture-ok" data-url-capture-ok hidden></p>
+            <div style="margin-top:14px">
+              <button type="submit" class="btn btn-primary">Envoyer l'annonce</button>
+            </div>
+          </form>
+          <details class="url-portals-legend">
+            <summary>Portails reconnus (diffusion)</summary>
+            <p class="small">Supports payants : Acheter-Louer, Amanda AMEPI, Bien'ici, Cautioneo, Cession PME, DOMimmo, Figaro Immo, FNAIM, Green-Acres, ImmoRegion / atHome, Leboncoin (direct &amp; Ubiflow), Les-terrains, Maisons &amp; Appartements, Ouest-France Immo, ParuVendu, Propriétés Le Figaro, Résidences Immobilier, SNPI, Studapart.</p>
+            <p class="small">Gratuits : EtreProprio, IMMO SQUARE. Agences : export XML libre. Courants : SeLoger, PAP, Logic-Immo, ORPI.</p>
+          </details>
         </div>
 
         <div class="landing-partners-slot">
@@ -241,6 +343,10 @@
                   <div class="field">
                     <label for="propertySurfaceSearch">Surface min. (m²) — optionnel</label>
                     <input id="propertySurfaceSearch" name="propertySurfaceSearch" inputmode="numeric" data-optional placeholder="Ex. 65" />
+                  </div>
+                  <div class="field full">
+                    <label for="listingUrls">URL d'annonces déjà vues (Leboncoin, SeLoger…)</label>
+                    <textarea id="listingUrls" name="listingUrls" rows="2" data-optional placeholder="https://www.leboncoin.fr/ad/…"></textarea>
                   </div>
                 </div>
               </div>
@@ -825,8 +931,8 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, cartes de biens, visite si un mandat correspond.</li>
-            <li><strong>2. Alerte si rien ne match</strong>On garde vos critères et on vous prévient dès qu'un mandat arrive.</li>
+            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
+            <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
             <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
@@ -840,7 +946,7 @@
                   <span>Pourquoi je ne vois pas Leboncoin ou SeLoger ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
-                <p>Le stock affiché, ce sont les mandats saisis dans le CRM (pas de scraping des portails). Si la vitrine est vide, des annonces d'illustration s'affichent et vous pouvez déposer une alerte.</p>
+                <p>Le stock affiché, ce sont les mandats CRM. Pour une annonce Leboncoin, SeLoger, ParuVendu… collez l’URL plus bas : on enregistre le bien et les infos vendeur que vous recopiez (pas de scraping).</p>
               </details>
             </li>
             <li>
@@ -921,6 +1027,8 @@
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
+  <script src="../js/immo-listing-portals-lib.js"></script>
+  <script src="../js/acheteur-immo-listing-url.js"></script>
   <script src="./tracking.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {

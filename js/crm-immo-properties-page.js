@@ -29,6 +29,34 @@
     el.setAttribute("aria-pressed", on ? "true" : "false");
   }
 
+  function fillSourceSelect(sel, withAll) {
+    if (!sel) return;
+    var Portals = window.ImmoListingPortals;
+    var html = withAll ? '<option value="">Toutes</option>' : "";
+    if (Portals && Portals.groupedOptions) {
+      Portals.groupedOptions().forEach(function (g) {
+        html += '<optgroup label="' + esc(g.label) + '">';
+        g.items.forEach(function (t) {
+          html += '<option value="' + esc(t.id) + '">' + esc(t.label) + "</option>";
+        });
+        html += "</optgroup>";
+      });
+    } else {
+      Matcher.LISTING_SOURCES.forEach(function (t) {
+        html += '<option value="' + esc(t.id) + '">' + esc(t.label) + "</option>";
+      });
+    }
+    sel.innerHTML = html;
+  }
+
+  function bindUrlAutodetect(urlEl, sourceEl) {
+    if (!urlEl || !sourceEl || !window.ImmoListingPortals) return;
+    urlEl.addEventListener("change", function () {
+      var d = window.ImmoListingPortals.detectFromUrl(urlEl.value);
+      if (d.ok && d.portal && d.portal !== "autre") sourceEl.value = d.portal;
+    });
+  }
+
   function fillSelects() {
     var typeSel = document.getElementById("fType");
     var srcSel = document.getElementById("fSource");
@@ -40,10 +68,8 @@
       typeSel.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
       pType.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
     });
-    Matcher.LISTING_SOURCES.forEach(function (t) {
-      srcSel.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
-      pSource.innerHTML += '<option value="' + t.id + '">' + t.label + "</option>";
-    });
+    fillSourceSelect(srcSel, true);
+    fillSourceSelect(pSource, false);
     Matcher.PROPERTY_STATUSES.forEach(function (s) {
       fStatus.innerHTML += '<option value="' + s.id + '">' + s.label + "</option>";
       pStatus.innerHTML += '<option value="' + s.id + '">' + s.label + "</option>";
@@ -490,6 +516,7 @@
   };
 
   fillSelects();
+  bindUrlAutodetect(document.getElementById("pUrl"), document.getElementById("pSource"));
   Store.seedDemoIfEmpty();
   Store.syncFromApi().then(renderList).catch(renderList);
 })();

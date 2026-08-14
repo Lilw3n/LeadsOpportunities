@@ -10,7 +10,7 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 
 | Page | Rôle |
 |------|------|
-| `/landings/acheteur-immo.html` | **Vitrine publique** : filtres + cartes d’annonces (mandats matchables) puis alerte / dossier |
+| `/landings/acheteur-immo.html` | **Vitrine publique** : filtres + cartes, **coller une URL d’annonce** (Leboncoin, SeLoger, ParuVendu…) + infos vendeur, puis alerte / dossier |
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
 | `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |
@@ -54,7 +54,13 @@ Implémentation : `js/crm-immo-matcher.js` (navigateur + Node).
 
 Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-immo-listings.js`.
 
-`questionnaire.html?need=acheteur-immo` redirige vers la vitrine (sauf `?wizard=1`).
+`POST /api/immo-listing-submit` — URL(s) d’annonces collées par l’acquéreur.
+
+- Détecte le portail (Leboncoin, Ubiflow, SeLoger, ParuVendu, Bien'ici, Figaro, FNAIM, etc.)
+- Enregistre une pige `prospection` + parties **vendeur** (si infos fournies) et **acquéreur**
+- **Pas de scraping** : seules les infos recopiées du formulaire + l’URL sont stockées
+
+Catalogue : `js/immo-listing-portals-lib.js`.
 
 ## Documents (fondation)
 
