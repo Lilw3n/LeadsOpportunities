@@ -500,7 +500,7 @@
       "</p></div>" +
       '<div class="pet-summary-total"><span style="font-size:.85rem">Total indicatif</span><strong>' +
       esc(fmtEuro(total)) +
-      " / mois</strong><span style="font-size:.85rem;color:#64748b">soit " +
+      ' / mois</strong><span style="font-size:.85rem;color:#64748b">soit ' +
       esc(fmtEuro(annual)) +
       " / an</span></div></div>" +
       (cfg.promoLabel
