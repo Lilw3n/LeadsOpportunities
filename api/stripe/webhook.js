@@ -170,6 +170,20 @@ module.exports = async (req, res) => {
         await handlePaymentLinkPaid(paymentLink);
       }
 
+      try {
+        const { recordPaymentReferralReward } = require("../_lib/referral-store");
+        await recordPaymentReferralReward({
+          customerEmail: email,
+          amountEur: session.amount_total != null ? session.amount_total / 100 : null,
+          stripeSessionId: session.id,
+          referralCodeFromMeta: meta.referralCode || meta.referral_code || "",
+          paymentKind: meta.paymentKind || meta.category || meta.requestType,
+          referenceId: referenceId,
+        });
+      } catch (refPayErr) {
+        console.warn("[stripe/webhook] referral reward", refPayErr.message);
+      }
+
       console.log("Stripe checkout complete:", {
         sessionId: session.id,
         customerEmail: email,

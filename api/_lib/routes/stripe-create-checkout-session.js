@@ -102,6 +102,15 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: "Email client invalide." });
     }
 
+    var referralCode = String(body.referralCode || body.referral_code || "").trim();
+    if (!referralCode && body.metadata && body.metadata.referral_code) {
+      referralCode = String(body.metadata.referral_code);
+    }
+    try {
+      const { normalizeCode } = require("../referral-store");
+      referralCode = normalizeCode(referralCode);
+    } catch (e) {}
+
     const appUrl = getStripeAppUrl();
     const companyCode = process.env.COMPANY_CODE || "LEADSOPP";
     const amountCents = toStripeAmount(amountEur);
@@ -132,6 +141,7 @@ module.exports = async (req, res) => {
         requestType: requestType,
         referenceId: referenceId,
         expectedAmountCents: String(amountCents),
+        referralCode: referralCode ? String(referralCode).slice(0, 32) : "",
       },
     });
 

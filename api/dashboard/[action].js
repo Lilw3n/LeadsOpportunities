@@ -15,6 +15,8 @@ const ROUTES = {
   "payment-links": () => require("../_lib/routes/dashboard-payment-links"),
   "journey-dropoffs": () => require("../_lib/routes/journey-dropoffs"),
   "meta-rotation": () => require("../_lib/routes/dashboard-meta-rotation"),
+  "referral-stats": () => require("../_lib/routes/referral-stats"),
+  "referral-partners": () => require("../_lib/routes/referral-partners"),
 };
 
 module.exports = async (req, res) => {

@@ -116,6 +116,17 @@ document.addEventListener("DOMContentLoaded", function () {
           requestType: "devis_acompte",
           referenceId: referenceId || "none",
           label: "Acompte dossier Leads Opportunities",
+          referralCode: (function () {
+            try {
+              if (typeof window.getAttributionPayload === "function") {
+                var a = window.getAttributionPayload();
+                return a.referral_code || "";
+              }
+              return localStorage.getItem("lo_ref_v1") || "";
+            } catch (e) {
+              return "";
+            }
+          })(),
         }),
       });
 

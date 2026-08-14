@@ -28,6 +28,7 @@
     "gsc:niches": "node scripts/print-gsc-niche-urls.cjs",
     "deploy:trigger": "node scripts/trigger-vercel-deploy.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs",
+    "verify:stripe": "node scripts/verify-stripe.cjs",
     "prod:check": "node scripts/check-prod-deploy.cjs",
     "test:meta": "bash scripts/test-meta-pixel.sh",
     "meta:verify": "node scripts/verify-meta-lead-setup.cjs",

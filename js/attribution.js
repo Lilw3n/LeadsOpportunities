@@ -4,6 +4,15 @@
   var KEY_PARCOURS_ACTIVE = "lo_parcours_active_v1";
   var KEY_PARCOURS_CUSTOM = "lo_parcours_custom_v1";
   var KEY_PARCOURS_ENTERED = "lo_parcours_entered_sid_v1";
+  var KEY_REFERRAL = "lo_ref_v1";
+
+  function normalizeReferralCode(raw) {
+    return String(raw || "")
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-Z0-9_-]/g, "")
+      .slice(0, 32);
+  }
   var DEFAULT_PARCOURS = [
     {
       id: "meta_lead_rapide",
@@ -174,6 +183,20 @@
         "fbclid",
         "msclkid",
       ];
+      var refRaw =
+        params.get("ref") || params.get("parrain") || params.get("referral") || params.get("referral_code");
+      var refCode = normalizeReferralCode(refRaw);
+      if (refCode) {
+        try {
+          localStorage.setItem(KEY_REFERRAL, refCode);
+        } catch (e) {}
+        bag.referral_code = refCode;
+      } else if (!bag.referral_code) {
+        try {
+          var storedRef = localStorage.getItem(KEY_REFERRAL);
+          if (storedRef) bag.referral_code = normalizeReferralCode(storedRef);
+        } catch (e2) {}
+      }
       var raw = localStorage.getItem(KEY_ATTR);
       var bag = {};
       try {
@@ -491,6 +514,7 @@
         attr_last_fbclid: lt.fbclid || cur.get("fbclid") || "",
         fbp: readCookie("_fbp") || "",
         attr_fbp: readCookie("_fbp") || "",
+        referral_code: bag.referral_code || "",
       };
     } catch (e) {
       return { visitor_id: ensureVisitorId() };
@@ -546,6 +570,20 @@
     } else {
       setTimeout(bootTracking, 1500);
     }
+    try {
+      var attr = window.getAttributionPayload();
+      if (attr && attr.referral_code) {
+        fetch("/api/referral/visit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            referral_code: attr.referral_code,
+            visitor_id: attr.visitor_id,
+            page_path: window.location.pathname,
+          }),
+        }).catch(function () {});
+      }
+    } catch (e) {}
   }
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", scheduleBoot);

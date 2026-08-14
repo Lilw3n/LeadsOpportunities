@@ -303,6 +303,12 @@ module.exports = async (req, res) => {
       } catch (mbErr) {
         console.warn("[lead] mailbox sync", mbErr.message);
       }
+      try {
+        const { attachLeadReferral } = require("../referral-store");
+        await attachLeadReferral(leadId, enriched);
+      } catch (refErr) {
+        console.warn("[lead] referral attach", refErr.message);
+      }
     } catch (e) {
       console.error("[lead] db insert extended failed, fallback", e.message);
       try {
@@ -333,6 +339,12 @@ module.exports = async (req, res) => {
           await syncLeadToMailbox(sql, leadId);
         } catch (mbErr) {
           console.warn("[lead] mailbox sync fallback", mbErr.message);
+        }
+        try {
+          const { attachLeadReferral } = require("../referral-store");
+          await attachLeadReferral(leadId, enriched);
+        } catch (refErr) {
+          console.warn("[lead] referral attach fallback", refErr.message);
         }
       } catch (e2) {
         console.error("[lead] db insert fallback failed", e2);

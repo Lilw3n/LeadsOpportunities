@@ -13,6 +13,9 @@ module.exports = async (req, res) => {
   }
 
   const secret = process.env.CRON_SECRET;
+  if (process.env.VERCEL === "1" && !secret) {
+    return res.status(503).json({ ok: false, error: "CRON_SECRET requis en production" });
+  }
   if (secret) {
     const auth = req.headers.authorization || "";
     const token = auth.replace(/^Bearer\s+/i, "").trim();
