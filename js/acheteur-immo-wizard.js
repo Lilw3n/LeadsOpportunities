@@ -12,6 +12,8 @@
 
   function searchKindOf(form) {
     var el = form.querySelector('input[name="searchKind"]:checked');
+    if (el) return el.value;
+    el = form.querySelector('input[name="searchKind"]');
     return el ? el.value : "";
   }
 
@@ -47,6 +49,10 @@
     if (!ui) return;
     var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
     if (hidden) hidden.checked = true;
+    else {
+      hidden = form.querySelector('input[name="searchKind"]');
+      if (hidden) hidden.value = ui.value;
+    }
   }
 
   function syncSearchPanels(form) {

@@ -369,9 +369,9 @@
         <div class="form-wrap" id="dossier" data-lead-dossier>
           <span id="demande"></span>
           <span class="dossier-kicker">Alerte &amp; dossier</span>
-          <h2 class="form-title">Pas le bon bien ? Déposez une alerte</h2>
+          <h2 class="form-title">Déposez une alerte de recherche</h2>
           <p class="form-lead">
-            On vous prévient quand un mandat correspond. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin — ce n'est pas l'écran de recherche.
+            On vous prévient quand un mandat correspond. La recherche de bien est l'accompagnement principal ; le <strong>prêt</strong> et les <strong>assurances</strong> restent optionnels.
           </p>
 
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
@@ -400,33 +400,10 @@
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
               <h3>Quel bien recherchez-vous ?</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
+                Type, secteur, budget et vendeur — les criteres essentiels pour vous proposer des biens a visiter.
               </p>
 
-              <div class="field full" hidden>
-                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
-                  <legend>Vous cherchez…</legend>
-                  <label class="field-check"><input type="radio" name="searchKind" value="bien" checked required /> Un bien a acheter / acquerir</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
-                </fieldset>
-                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
-              </div>
-
-              <div class="search-mode-tabs" role="tablist" aria-label="Mode de recherche">
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
-                  <span>Je cherche un bien</span>
-                </label>
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="service" data-search-mode />
-                  <span>Je cherche un service</span>
-                </label>
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
-                  <span>Bien + service</span>
-                </label>
-              </div>
+              <input type="hidden" name="searchKind" value="bien" />
 
               <div class="field full" data-search-bien-panel style="margin-top:16px">
                 <p class="search-section-label">Categorie</p>
@@ -479,28 +456,16 @@
                 </div>
               </div>
 
-              <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
-                <p class="search-section-label">Quel service ?</p>
-                <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="estimation_vente" /><span>Estimation / vente</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="recherche_locataire" /><span>Locataire</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="transaction" /><span>Transaction</span></label>
-                  <label class="search-chip"><input type="checkbox" name="serviceSought" value="autre_service" /><span>Autre</span></label>
-                </div>
-                <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins un service.</p>
-              </div>
             </section>
 
             <!-- ETAPE 2 : Besoins pret et assurances -->
             <section class="wizard-step" data-wizard-step="2" data-step-name="besoins" hidden>
-              <h3>Vos besoins (optionnel — pret et assurances)</h3>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">Si vous cherchez seulement un bien, cochez « visites ». Les assurances et le pret sont facultatifs.</p>
+              <h3>Accompagnement et options</h3>
+              <p class="small" style="margin-top:0;margin-bottom:14px;">La recherche de bien et les visites sont incluses. Ajoutez un pret ou une assurance seulement si vous voulez les etudier.</p>
               <div class="field full">
                 <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
-                  <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous etudier ?</legend>
-                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="visite" /> Recherche de bien / visites</label>
+                  <legend style="font-weight:700;margin-bottom:10px">Que souhaitez-vous ajouter au dossier ?</legend>
+                  <label class="field-check"><input type="checkbox" name="buyerNeeds" value="visite" checked /> Recherche de bien / visites</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="pret" /> Pret immobilier / capacite d'emprunt</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="emprunteur" /> Assurance emprunteur (delegation)</label>
                   <label class="field-check"><input type="checkbox" name="buyerNeeds" value="habitation" /> Assurance habitation (future residence)</label>

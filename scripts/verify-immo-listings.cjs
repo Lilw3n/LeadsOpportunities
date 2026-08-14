@@ -178,6 +178,8 @@ assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine ava
 assert(html.indexOf("Déposer / coller un bien") !== -1, "landing : CTA dépôt / URL");
 assert(html.indexOf("id=\"deposer-bien\"") !== -1, "landing : ancre dépôt vendeur");
 assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes acquéreur / vendeur");
+assert(html.indexOf("Je cherche un service") === -1, "landing : pas de doublon bien/service dans l'alerte");
+assert(html.indexOf("Bien + service") === -1, "landing : pas de bouton bien + service redondant");
 assert(html.indexOf("data-listings-demo") === -1, "landing : pas de bandeau d'illustration");
 assert(html.indexOf("Annonces d'illustration") === -1, "landing : pas de texte d'illustration");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos/capture");
