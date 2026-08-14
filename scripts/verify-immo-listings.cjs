@@ -173,7 +173,10 @@ assert(
   "landing : recherche principalement territoriale"
 );
 assert(html.indexOf("tenter d'obtenir le mandat") !== -1, "landing : objectif de recherche du mandat explicite");
-assert(html.indexOf("piges privées pendant la prospection") !== -1, "landing : liens acquéreurs annoncés comme privés");
+assert(
+  html.indexOf("liens envoyés par les acquéreurs restent privés pendant la prospection") !== -1,
+  "landing : liens acquéreurs annoncés comme privés"
+);
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");
@@ -238,7 +241,7 @@ return Promise.resolve(handler({ method: "GET", query: { city: "Strasbourg" }, h
     "API : aucune PII dans les cartes"
   );
   if (!captured.body.listings.length) {
-    assert(true, "API : grille vide tant qu'aucun bien n'est collé");
+    assert(true, "API : grille vide tant qu'aucun bien n'est sous mandat");
   } else {
     assert(
       captured.body.listings.every(function (p) {
