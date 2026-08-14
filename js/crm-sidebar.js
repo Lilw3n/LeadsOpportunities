@@ -32,7 +32,6 @@ window.CrmSidebar = {
     { href: "./crm-pubs.html", label: "Gestion pubs", icon: "social", badge: "1€/j" },
     { href: "./crm-sources.html", label: "Origine leads", icon: "stats" },
     { href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats" },
-    { href: "./crm-marches.html", label: "Marchés & présence", icon: "calendar" },
     { href: "./crm-search.html", label: "Recherche", icon: "search" },
     { href: "./crm-quote-new.html", label: "Nouveau devis", icon: "contract" },
     { href: "./crm-catalog.html", label: "Tous nos produits", icon: "insurance" },
@@ -170,7 +169,6 @@ window.CrmSidebar = {
       label: "Agenda & activité",
       items: [
         { type: "link", href: "./crm-calendar.html", label: "Agenda (Google)", icon: "calendar", highlight: true, desc: "Timeline / jour / semaine / mois + sync Google Calendar" },
-        { type: "link", href: "./crm-marches.html", label: "Marchés & présence", icon: "calendar", badge: "terrain", highlight: true, desc: "Où être présent — horaires modifiables par tous" },
         { type: "link", href: "./crm-events.html", label: "Événements" },
         { type: "link", href: "./crm-event-create.html", label: "Créer événement" },
         { type: "link", href: "./crm-create-complete.html", label: "Création complète" },

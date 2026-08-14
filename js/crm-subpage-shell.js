@@ -75,7 +75,6 @@
       "crm-calendar.html": { subtitle: "Agenda Google Calendar — timeline, jour, semaine, mois, export iCal" },
       "crm-event-create.html": { subtitle: "Créer un RDV (Estimation, Visite…) sync Google Agenda" },
       "crm-events.html": { subtitle: "Liste des événements CRM" },
-      "crm-marches.html": { subtitle: "Marchés, permanences — présence équipe modifiable par tous" },
       "crm-events.html": { subtitle: "Événements CRM et historique d'activité" },
       "crm-event-create.html": { subtitle: "Planifier un appel, RDV ou tâche" },
       "crm-create-complete.html": { subtitle: "Onboarding contact, conducteur et véhicule" },

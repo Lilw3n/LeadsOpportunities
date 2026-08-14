@@ -1,6 +1,11 @@
 {
   "redirects": [
     {
+      "source": "/crm-marches.html",
+      "destination": "/crm.html",
+      "permanent": true
+    },
+    {
       "source": "/blog",
       "destination": "/blog/",
       "permanent": true
