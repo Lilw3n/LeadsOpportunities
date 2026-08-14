@@ -232,6 +232,31 @@ window.CrmFormHelpers = {
       ? children.map(this.childRow.bind(this)).join("")
       : this.childRow({}, 0);
     return (
+      "<h3>Statut matrimonial</h3>" +
+      '<label class="full">Situation<select name="maritalStatus">' +
+      '<option value="">Non renseigné</option>' +
+      '<option value="celibataire"' +
+      (f.maritalStatus === "celibataire" ? " selected" : "") +
+      ">Célibataire</option>" +
+      '<option value="marie"' +
+      (f.maritalStatus === "marie" ? " selected" : "") +
+      ">Marié(e)</option>" +
+      '<option value="pacse"' +
+      (f.maritalStatus === "pacse" ? " selected" : "") +
+      ">Pacsé(e)</option>" +
+      '<option value="union_libre"' +
+      (f.maritalStatus === "union_libre" ? " selected" : "") +
+      ">Union libre</option>" +
+      '<option value="divorce"' +
+      (f.maritalStatus === "divorce" ? " selected" : "") +
+      ">Divorcé(e)</option>" +
+      '<option value="separe"' +
+      (f.maritalStatus === "separe" ? " selected" : "") +
+      ">Séparé(e)</option>" +
+      '<option value="veuf"' +
+      (f.maritalStatus === "veuf" ? " selected" : "") +
+      ">Veuf / veuve</option>" +
+      "</select></label>" +
       "<h3>Conjoint</h3>" +
       '<label>Prenom<input name="spouse_firstName" value="' +
       (s.firstName || "") +
@@ -304,6 +329,7 @@ window.CrmFormHelpers = {
       i++;
     }
     return {
+      maritalStatus: fd.get("maritalStatus") || "",
       spouse: {
         firstName: fd.get("spouse_firstName") || "",
         lastName: fd.get("spouse_lastName") || "",

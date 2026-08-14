@@ -97,6 +97,10 @@ CREATE TABLE IF NOT EXISTS crm_immo_parties (
   email TEXT,
   phone TEXT,
   notes TEXT,
+  share_pct NUMERIC,
+  legal_form TEXT,
+  capacity TEXT,
+  entity_name TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );

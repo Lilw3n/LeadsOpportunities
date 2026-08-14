@@ -74,7 +74,11 @@
     .meta-bar label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:var(--muted); }
     .meta-bar input, .meta-bar select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
     .save-bar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
-    .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); align-items:flex-start; }
+    .rel-disclaimer { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; padding:10px 12px; border-radius:8px; font-size:.82rem; margin:8px 0 12px; line-height:1.4; }
+    .rel-share-warn { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:10px 12px; border-radius:8px; font-size:.82rem; margin:8px 0 12px; }
+    .rel-share-ok { background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:8px 12px; border-radius:8px; font-size:.82rem; margin:8px 0 12px; }
+    .party-meta { font-size:.8rem; color:var(--muted); }
     .immo-hint { color:var(--muted); font-size:.82rem; margin:8px 0; }
     .immo-field { display:flex; flex-direction:column; gap:4px; font-size:.8rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
     .immo-img-layout { display:grid; grid-template-columns:200px 1fr; gap:14px; }
@@ -148,6 +152,7 @@
   </div>
 
   <script src="./js/immo-listing-portals-lib.js"></script>
+  <script src="./js/crm-people-relations-lib.js"></script>
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
   <script src="./js/crm-immo-property-schema.js"></script>

@@ -863,32 +863,154 @@
   function renderOtherTab() {
     var panel = document.getElementById("otherPanel");
     if (state.tab === "vendeur") {
+      var Rel = window.CrmPeopleRelations;
       var parties = Store.listParties(prop.id);
+      var totals = Rel ? Rel.ownershipShareTotal(parties) : { ok: true, counted: 0, sum: 0, warning: "" };
+      var shareBanner = "";
+      if (totals.counted && !totals.ok) {
+        shareBanner = '<p class="rel-share-warn">' + esc(totals.warning) + "</p>";
+      } else if (totals.counted && totals.ok) {
+        shareBanner =
+          '<p class="rel-share-ok">Quote-parts propriétaires : ' +
+          esc(String(totals.sum)) +
+          " %.</p>";
+      }
       panel.innerHTML =
-        "<h3>Vendeur & personnes</h3>" +
+        "<h3>Personnes, propriétaires &amp; parts</h3>" +
+        '<p class="dossier-hint">Plusieurs propriétaires, héritiers, SCI, usufruit : chaque personne a un rôle, une capacité et une quote-part. Le parrainage est un apporteur d’affaires — ' +
+        esc((Rel && Rel.NO_PROMISE) || "") +
+        "</p>" +
+        shareBanner +
         (parties.length
           ? parties
               .map(function (p) {
+                var bits = [];
+                if (p.share_pct != null && p.share_pct !== "") bits.push(p.share_pct + " %");
+                if (p.legal_form && Rel) bits.push(Rel.legalFormLabel(p.legal_form));
+                if (p.capacity && Rel) bits.push(Rel.capacityLabel(p.capacity));
+                if (p.entity_name) bits.push(p.entity_name);
+                var roleLabel = (Matcher.PARTY_ROLES.find(function (r) {
+                  return r.id === p.role;
+                }) || { label: p.role }).label;
+                var disc =
+                  p.role === "apporteur" && Rel
+                    ? '<div class="rel-disclaimer" style="margin:6px 0 0">' + esc(Rel.NO_PROMISE) + "</div>"
+                    : "";
                 return (
-                  '<div class="party-row"><div><strong>' +
+                  '<div class="party-row" data-party-id="' +
+                  esc(p.id) +
+                  '"><div><strong>' +
                   esc(p.name || "—") +
                   "</strong> · " +
-                  esc(p.role || "") +
-                  "<br><span style='color:var(--muted)'>" +
+                  esc(roleLabel) +
+                  (p.contact_id
+                    ? ' · <a href="./crm-contact.html?id=' +
+                      encodeURIComponent(p.contact_id) +
+                      '">fiche</a>'
+                    : "") +
+                  "<br><span class='party-meta'>" +
                   esc(p.phone || "") +
                   " " +
                   esc(p.email || "") +
-                  "</span></div></div>"
+                  (bits.length ? " · " + esc(bits.join(" · ")) : "") +
+                  "</span>" +
+                  disc +
+                  '</div><button type="button" class="btn btn-ghost btn-sm btn-del-party" data-id="' +
+                  esc(p.id) +
+                  '">Retirer</button></div>'
                 );
               })
               .join("")
-          : "<p style='color:var(--muted)'>Aucune personne liée — ajoute-les depuis la fiche (ou Piges).</p>") +
-        '<form id="partyForm" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">' +
+          : "<p style='color:var(--muted)'>Aucune personne liée — ajoute les propriétaires, héritiers, associés SCI, usufruitiers…</p>") +
+        '<form id="partyForm" style="margin-top:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px">' +
         '<label>Rôle<select id="partyRole">' +
         Matcher.PARTY_ROLES.map(function (r) {
           return '<option value="' + r.id + '">' + r.label + "</option>";
         }).join("") +
-        '</select></label><label>Nom<input id="partyName" required /></label><label>Tél<input id="partyPhone" /></label><label>Email<input id="partyEmail" /></label><label>Contact CRM<input id="partyContact" /></label><button class="btn btn-primary" type="submit">Ajouter</button></form>';
+        "</select></label>" +
+        '<label>Nom<input id="partyName" required /></label>' +
+        '<label>Tél<input id="partyPhone" /></label>' +
+        '<label>Email<input id="partyEmail" /></label>' +
+        '<label>Quote-part %<input id="partyShare" type="number" min="0" max="100" step="0.01" placeholder="ex. 50" /></label>' +
+        '<label>Forme<select id="partyLegal"><option value="">—</option>' +
+        (Rel ? Rel.optionsHtml(Rel.LEGAL_FORMS, "") : "") +
+        "</select></label>" +
+        '<label>Capacité<select id="partyCapacity"><option value="">—</option>' +
+        (Rel ? Rel.optionsHtml(Rel.CAPACITIES, "") : "") +
+        "</select></label>" +
+        '<label>SCI / entité<input id="partyEntity" placeholder="Nom SCI ou indivision" /></label>' +
+        '<label>Contact CRM<input id="partyContact" placeholder="id ou recherche" /></label>' +
+        '<label class="full" style="grid-column:1/-1">Rechercher un contact<input id="partySearch" type="search" placeholder="Nom, email…" autocomplete="off" /></label>' +
+        '<div id="partySearchHits" style="grid-column:1/-1"></div>' +
+        '<p id="partyApporteurHint" class="rel-disclaimer" hidden style="grid-column:1/-1">' +
+        esc((Rel && Rel.NO_PROMISE) || "") +
+        "</p>" +
+        '<button class="btn btn-primary" type="submit">Ajouter</button></form>';
+
+      function toggleApporteurHint() {
+        var hint = document.getElementById("partyApporteurHint");
+        if (hint) hint.hidden = document.getElementById("partyRole").value !== "apporteur";
+      }
+      document.getElementById("partyRole").onchange = toggleApporteurHint;
+      toggleApporteurHint();
+
+      var searchTimer = null;
+      document.getElementById("partySearch").oninput = function () {
+        var q = this.value.trim();
+        clearTimeout(searchTimer);
+        if (q.length < 2) {
+          document.getElementById("partySearchHits").innerHTML = "";
+          return;
+        }
+        searchTimer = setTimeout(function () {
+          var tok = localStorage.getItem("lo_token") || "";
+          fetch("/api/crm/contacts?search=" + encodeURIComponent(q) + "&limit=6", {
+            headers: tok ? { Authorization: "Bearer " + tok } : {},
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (res) {
+              var hits = (res && res.contacts) || [];
+              document.getElementById("partySearchHits").innerHTML = hits
+                .map(function (c) {
+                  var name = ((c.first_name || "") + " " + (c.last_name || "")).trim() || c.email || c.id;
+                  return (
+                    '<button type="button" class="btn btn-ghost btn-sm party-pick" data-id="' +
+                    esc(c.id) +
+                    '" data-name="' +
+                    esc(name) +
+                    '" data-email="' +
+                    esc(c.email || "") +
+                    '" data-phone="' +
+                    esc(c.phone || "") +
+                    '">' +
+                    esc(name) +
+                    (c.contact_type ? " · " + esc(c.contact_type) : "") +
+                    "</button>"
+                  );
+                })
+                .join(" ");
+              panel.querySelectorAll(".party-pick").forEach(function (btn) {
+                btn.onclick = function () {
+                  document.getElementById("partyContact").value = btn.getAttribute("data-id") || "";
+                  document.getElementById("partyName").value = btn.getAttribute("data-name") || "";
+                  document.getElementById("partyEmail").value = btn.getAttribute("data-email") || "";
+                  document.getElementById("partyPhone").value = btn.getAttribute("data-phone") || "";
+                };
+              });
+            })
+            .catch(function () {});
+        }, 250);
+      };
+
+      panel.querySelectorAll(".btn-del-party").forEach(function (btn) {
+        btn.onclick = function () {
+          if (!confirm("Retirer cette personne du bien ?")) return;
+          Store.deleteParty(btn.getAttribute("data-id"));
+          renderOtherTab();
+        };
+      });
       document.getElementById("partyForm").onsubmit = function (e) {
         e.preventDefault();
         Store.upsertParty({
@@ -898,6 +1020,10 @@
           phone: document.getElementById("partyPhone").value.trim(),
           email: document.getElementById("partyEmail").value.trim(),
           contact_id: document.getElementById("partyContact").value.trim() || null,
+          share_pct: document.getElementById("partyShare").value,
+          legal_form: document.getElementById("partyLegal").value,
+          capacity: document.getElementById("partyCapacity").value,
+          entity_name: document.getElementById("partyEntity").value.trim(),
         });
         renderOtherTab();
       };

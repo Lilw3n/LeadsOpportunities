@@ -11,6 +11,7 @@
     insuranceRequests: [],
     activities: [],
     leads: [],
+    relations: [],
     meta: {},
   };
   var modal = { resource: null, itemId: null };
@@ -337,8 +338,15 @@
       })
       .filter(Boolean)
       .join(", ");
+    var Rel = window.CrmPeopleRelations;
+    var marital =
+      fa.maritalStatus && Rel
+        ? Rel.maritalLabel(fa.maritalStatus)
+        : fa.maritalStatus || "—";
     fbox.innerHTML =
-      "<p><strong>Conjoint :</strong> " +
+      "<p><strong>Statut matrimonial :</strong> " +
+      esc(marital) +
+      "</p><p><strong>Conjoint :</strong> " +
       esc((sp.firstName || "") + " " + (sp.lastName || "") || "—") +
       "</p><p><strong>Enfants :</strong> " +
       (kids || "—") +
@@ -347,6 +355,149 @@
       " · " +
       esc(ec.phone || "—") +
       "</p>";
+  }
+
+  function renderRelations() {
+    var box = document.getElementById("relationsBox");
+    var disc = document.getElementById("relNoPromise");
+    var Rel = window.CrmPeopleRelations;
+    var Store = window.CrmRelationsStore;
+    if (!box || !Rel || !Store) return;
+    if (disc) disc.textContent = Rel.NO_PROMISE;
+    var typeSel = document.getElementById("relType");
+    if (typeSel && !typeSel.options.length) {
+      Rel.REL_TYPES.forEach(function (t) {
+        var opt = document.createElement("option");
+        opt.value = t.id;
+        opt.textContent = t.label;
+        typeSel.appendChild(opt);
+      });
+    }
+    Store.list({ contactId: contactId }).then(function (rows) {
+      data.relations = rows || [];
+      if (!data.relations.length) {
+        box.innerHTML =
+          "<p>Aucun lien enregistré. Ajoute un conjoint, un héritier, un associé SCI ou un parrainage (apporteur) — sans aucune promesse de rémunération.</p>";
+        return;
+      }
+      box.innerHTML = data.relations
+        .map(function (r) {
+          var d = Rel.describeRelation(r, contactId);
+          var otherName =
+            String(d.otherId) === String(r.from_contact_id)
+              ? r.from_name || r.from_contact_id
+              : r.to_name || r.to_contact_id;
+          if (String(d.otherId) === String(r.from_contact_id)) {
+            otherName = r.from_name || r.from_contact_id;
+          } else {
+            otherName = r.to_name || r.to_contact_id;
+          }
+          var extra =
+            r.rel_type === "parrainage"
+              ? '<p class="rel-disclaimer" style="margin:6px 0 0">' + esc(Rel.NO_PROMISE) + "</p>"
+              : "";
+          return (
+            '<div class="rel-row" data-id="' +
+            esc(r.id) +
+            '"><div><span class="rel-kind">' +
+            esc(Rel.relTypeLabel(r.rel_type)) +
+            "</span><p style='margin:4px 0 0'><strong>" +
+            esc(d.label) +
+            "</strong> " +
+            (d.otherId
+              ? '<a href="./crm-contact.html?id=' + encodeURIComponent(d.otherId) + '">' + esc(otherName || "contact") + "</a>"
+              : esc(otherName || "—")) +
+            "</p>" +
+            (r.notes ? "<p style='margin:4px 0 0;color:var(--muted)'>" + esc(r.notes) + "</p>" : "") +
+            extra +
+            '</div><button type="button" class="btn btn-ghost btn-sm btn-del-rel" data-id="' +
+            esc(r.id) +
+            '">Retirer</button></div>'
+          );
+        })
+        .join("");
+      box.querySelectorAll(".btn-del-rel").forEach(function (btn) {
+        btn.onclick = function () {
+          if (!confirm("Retirer ce lien ?")) return;
+          Store.remove(btn.getAttribute("data-id")).then(function () {
+            renderRelations();
+          });
+        };
+      });
+    });
+  }
+
+  function bindRelationsForm() {
+    var form = document.getElementById("relForm");
+    if (!form || form._relBound) return;
+    form._relBound = true;
+    var Rel = window.CrmPeopleRelations;
+    var Store = window.CrmRelationsStore;
+    var timer = null;
+    document.getElementById("relSearch").addEventListener("input", function () {
+      var q = this.value.trim();
+      clearTimeout(timer);
+      if (q.length < 2) {
+        document.getElementById("relSearchHits").innerHTML = "";
+        return;
+      }
+      timer = setTimeout(function () {
+        api("/api/crm/contacts?search=" + encodeURIComponent(q) + "&limit=6").then(function (res) {
+          var hits = (res && res.contacts) || [];
+          document.getElementById("relSearchHits").innerHTML = hits
+            .filter(function (c) {
+              return c.id !== contactId;
+            })
+            .map(function (c) {
+              var name = ((c.first_name || "") + " " + (c.last_name || "")).trim() || c.email || c.id;
+              return (
+                '<button type="button" class="btn btn-ghost btn-sm rel-pick" data-id="' +
+                esc(c.id) +
+                '" data-name="' +
+                esc(name) +
+                '">' +
+                esc(name) +
+                (c.contact_type ? " · " + esc(c.contact_type) : "") +
+                "</button>"
+              );
+            })
+            .join(" ");
+          document.querySelectorAll(".rel-pick").forEach(function (btn) {
+            btn.onclick = function () {
+              document.getElementById("relOtherId").value = btn.getAttribute("data-id") || "";
+              document.getElementById("relPicked").textContent =
+                "Lié à : " + (btn.getAttribute("data-name") || "");
+            };
+          });
+        });
+      }, 250);
+    });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var other = document.getElementById("relOtherId").value.trim();
+      if (!other) {
+        alert("Choisissez un contact lié.");
+        return;
+      }
+      var dir = document.getElementById("relDir").value;
+      var payload = {
+        rel_type: document.getElementById("relType").value,
+        from_contact_id: dir === "incoming" ? other : contactId,
+        to_contact_id: dir === "incoming" ? contactId : other,
+        notes: document.getElementById("relNotes").value.trim(),
+      };
+      Store.upsert(payload)
+        .then(function () {
+          document.getElementById("relOtherId").value = "";
+          document.getElementById("relNotes").value = "";
+          document.getElementById("relPicked").textContent = "";
+          document.getElementById("relSearch").value = "";
+          renderRelations();
+        })
+        .catch(function (err) {
+          alert((err && err.message) || Rel.NO_PROMISE);
+        });
+    });
   }
 
   function renderActivities() {
@@ -987,6 +1138,8 @@
     renderEligibility();
     renderQuoteDetails();
     renderCompanyFamily();
+    renderRelations();
+    bindRelationsForm();
     renderEvents();
     renderActivities();
     renderClaims();

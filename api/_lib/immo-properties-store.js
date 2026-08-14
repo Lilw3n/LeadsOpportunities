@@ -3,11 +3,28 @@
  */
 const crypto = require("crypto");
 const Matcher = require("../../js/crm-immo-matcher.js");
+const Rel = require("../../js/crm-people-relations-lib.js");
+const relationsStore = require("./contact-relations-store");
 
 let schemaReady = false;
+let partyColsReady = false;
+
+async function ensurePartyShareColumns(sql) {
+  if (!sql || partyColsReady) return;
+  await sql`ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS share_pct NUMERIC`;
+  await sql`ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS legal_form TEXT`;
+  await sql`ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS capacity TEXT`;
+  await sql`ALTER TABLE crm_immo_parties ADD COLUMN IF NOT EXISTS entity_name TEXT`;
+  partyColsReady = true;
+}
 
 async function ensureImmoSchema(sql) {
-  if (!sql || schemaReady) return !!sql;
+  if (!sql) return false;
+  if (schemaReady) {
+    await ensurePartyShareColumns(sql);
+    await relationsStore.ensureRelationsSchema(sql);
+    return true;
+  }
   await sql`
     CREATE TABLE IF NOT EXISTS crm_immo_properties (
       id TEXT PRIMARY KEY,
@@ -120,6 +137,8 @@ async function ensureImmoSchema(sql) {
     )
   `;
   schemaReady = true;
+  await ensurePartyShareColumns(sql);
+  await relationsStore.ensureRelationsSchema(sql);
   return true;
 }
 
@@ -157,6 +176,14 @@ function rowToProperty(r) {
     honoraires: r.honoraires != null ? Number(r.honoraires) : null,
     lat: r.lat != null ? Number(r.lat) : null,
     lng: r.lng != null ? Number(r.lng) : null,
+  });
+}
+
+function rowToParty(r) {
+  if (!r) return null;
+  return Object.assign(Rel.normalizeParty(r), {
+    created_at: r.created_at,
+    updated_at: r.updated_at,
   });
 }
 
@@ -210,7 +237,7 @@ async function loadAll(sql) {
     version: 1,
     properties: properties.map(rowToProperty),
     criteria: criteria.map(rowToCriteria),
-    parties: parties,
+    parties: parties.map(rowToParty),
     documents: documents.map(function (d) {
       return Object.assign({}, d, {
         data: parseArr(d.data_json).length || typeof d.data_json === "string"
@@ -364,12 +391,17 @@ async function upsertCriteria(sql, item, user) {
 
 async function upsertParty(sql, item) {
   await ensureImmoSchema(sql);
-  const id = item.id || uid("party");
+  const norm = Rel.normalizeParty(item);
+  const id = norm.id || item.id || uid("party");
   await sql`
-    INSERT INTO crm_immo_parties (id, property_id, contact_id, role, name, email, phone, notes, updated_at)
+    INSERT INTO crm_immo_parties (
+      id, property_id, contact_id, role, name, email, phone, notes,
+      share_pct, legal_form, capacity, entity_name, updated_at
+    )
     VALUES (
-      ${id}, ${item.property_id}, ${item.contact_id || null}, ${item.role || "prospect"},
-      ${item.name || null}, ${item.email || null}, ${item.phone || null}, ${item.notes || null}, NOW()
+      ${id}, ${norm.property_id || item.property_id}, ${norm.contact_id || null}, ${norm.role || "prospect"},
+      ${norm.name || null}, ${norm.email || null}, ${norm.phone || null}, ${norm.notes || null},
+      ${norm.share_pct}, ${norm.legal_form || null}, ${norm.capacity || null}, ${norm.entity_name || null}, NOW()
     )
     ON CONFLICT (id) DO UPDATE SET
       property_id = EXCLUDED.property_id,
@@ -379,6 +411,10 @@ async function upsertParty(sql, item) {
       email = EXCLUDED.email,
       phone = EXCLUDED.phone,
       notes = EXCLUDED.notes,
+      share_pct = EXCLUDED.share_pct,
+      legal_form = EXCLUDED.legal_form,
+      capacity = EXCLUDED.capacity,
+      entity_name = EXCLUDED.entity_name,
       updated_at = NOW()
   `;
   return id;

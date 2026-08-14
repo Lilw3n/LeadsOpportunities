@@ -221,14 +221,17 @@ window.CrmImmoStore = (function () {
   function upsertParty(input) {
     var db = loadLocal();
     var now = new Date().toISOString();
-    var item = Object.assign({}, input || {});
+    var Rel = window.CrmPeopleRelations;
+    var item = Rel ? Rel.normalizeParty(input || {}) : Object.assign({}, input || {});
     if (!item.id) item.id = uid("party");
-    if (!item.created_at) item.created_at = now;
-    item.updated_at = now;
     if (!item.role) item.role = "prospect";
+    if (Rel) item = Rel.stripPromises(item);
     var idx = db.parties.findIndex(function (p) {
       return p.id === item.id;
     });
+    if (idx >= 0 && db.parties[idx].created_at) item.created_at = db.parties[idx].created_at;
+    else if (!item.created_at) item.created_at = now;
+    item.updated_at = now;
     if (idx >= 0) db.parties[idx] = Object.assign({}, db.parties[idx], item);
     else db.parties.unshift(item);
     saveLocal(db);

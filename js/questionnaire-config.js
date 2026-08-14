@@ -1216,6 +1216,7 @@
                 select("referredBy", "Accompagne par", [
                   { v: "negociateur", t: "Negociateur immobilier" },
                   { v: "agence", t: "Agence / mandataire" },
+                  { v: "parrain", t: "Parrain / connaissance" },
                   { v: "seul", t: "Seul(e)" },
                 ])
             ) +

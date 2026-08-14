@@ -102,6 +102,32 @@
           <div class="panel-head section-head-family"><h2>Famille</h2><button type="button" class="btn btn-primary btn-sm" id="btnEditFamily">Modifier</button></div>
           <div id="familyBox" class="entity-box"></div>
         </section>
+        <section class="panel" data-crm-section="relations">
+          <div class="panel-head"><h2>Relations &amp; parrainage</h2></div>
+          <p class="rel-disclaimer" id="relNoPromise"></p>
+          <div id="relationsBox" class="entity-box"></div>
+          <form id="relForm" class="form-grid" style="margin-top:12px">
+            <label>Type de lien
+              <select id="relType"></select>
+            </label>
+            <label>Sens
+              <select id="relDir">
+                <option value="outgoing">Cette personne → l’autre</option>
+                <option value="incoming">L’autre → cette personne</option>
+              </select>
+            </label>
+            <label class="full">Rechercher le contact lié
+              <input type="search" id="relSearch" placeholder="Nom, email…" autocomplete="off" />
+            </label>
+            <input type="hidden" id="relOtherId" />
+            <div id="relSearchHits" class="full"></div>
+            <p id="relPicked" class="full" style="margin:0;color:var(--muted)"></p>
+            <label class="full">Note (sans rémunération)
+              <input id="relNotes" maxlength="240" placeholder="Ex. SCI familiale, indivision successorale…" />
+            </label>
+            <div class="full"><button type="submit" class="btn btn-primary btn-sm">Enregistrer le lien</button></div>
+          </form>
+        </section>
         <section class="panel module-section section-claims" data-crm-section="claims">
           <div class="panel-head section-head-claims"><h2>Sinistres</h2><button type="button" class="btn btn-primary btn-sm btn-add-module" data-resource="claims">+ Ajouter</button></div>
           <div id="claimsCards" class="module-cards"></div>
@@ -162,6 +188,8 @@
   <script src="./js/crm-export.js"></script>
   <script src="./js/crm-eligibility.js"></script>
   <script src="./js/crm-form-helpers.js"></script>
+  <script src="./js/crm-people-relations-lib.js"></script>
+  <script src="./js/crm-relations-store.js"></script>
   <script src="./js/crm-date-utils.js"></script>
   <script src="./js/crm-event-form.js"></script>
   <script src="./js/crm-event-search.js"></script>
