@@ -126,6 +126,15 @@
       ]
     },
     {
+      "source": "/crm-leads.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
       "source": "/crm-events.html",
       "headers": [
         {

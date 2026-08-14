@@ -4,8 +4,26 @@ const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
-const VALID_VERTICAL = ["vtc", "sante", "credit-immo"];
 const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
+
+function sanitizeVertical(v) {
+  var s = String(v || "")
+    .trim()
+    .toLowerCase()
+    .slice(0, 40);
+  if (!s) return null;
+  if (!/^[a-z0-9][a-z0-9_-]*$/.test(s)) return null;
+  return s;
+}
+
+function sanitizeIpQuery(v) {
+  var s = String(v || "")
+    .trim()
+    .slice(0, 45);
+  if (!s) return null;
+  if (!/^[0-9a-fA-F.:]+$/.test(s)) return null;
+  return s;
+}
 
 const ORDER_BY_CASE = `
     ORDER BY
@@ -39,7 +57,24 @@ async function fetchLeadsStandard(sql, opts) {
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.ipPattern}::text IS NULL OR (
+        LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.ipPattern})
+      ))
+      AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
       AND (${view} = '' OR ${view} != 'relevant' OR COALESCE(
         CASE
           WHEN payload IS NULL OR trim(payload) = '' THEN NULL
@@ -98,7 +133,24 @@ async function countLeadsStandard(sql, opts) {
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.ipPattern}::text IS NULL OR (
+        LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.ipPattern})
+      ))
+      AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
       AND (${view} = '' OR ${view} != 'relevant' OR COALESCE(
         CASE
           WHEN payload IS NULL OR trim(payload) = '' THEN NULL
@@ -147,7 +199,24 @@ async function fetchLeadsMinimal(sql, opts) {
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.ipPattern}::text IS NULL OR (
+        LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.ipPattern})
+      ))
+      AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
     ORDER BY
       CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = true THEN lead_score END ASC NULLS LAST,
       CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = false THEN lead_score END DESC NULLS LAST,
@@ -167,7 +236,24 @@ async function countLeadsMinimal(sql, opts) {
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.searchPattern})
       ))
+      AND (${opts.ipPattern}::text IS NULL OR (
+        LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
+        OR LOWER(COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
+            ELSE NULL
+          END, '')) LIKE LOWER(${opts.ipPattern})
+      ))
+      AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
   `;
   return rows[0].total;
 }
@@ -211,12 +297,16 @@ module.exports = async (req, res) => {
     ? sanitizeEnum(url.searchParams.get("status"), VALID_STATUS, null)
     : null;
   const verticalVal = url.searchParams.get("vertical")
-    ? sanitizeEnum(url.searchParams.get("vertical"), VALID_VERTICAL, null)
+    ? sanitizeVertical(url.searchParams.get("vertical"))
     : null;
   const searchVal = url.searchParams.get("search")
     ? sanitizeSearch(url.searchParams.get("search"))
     : null;
   const searchPattern = searchVal ? "%" + searchVal + "%" : null;
+  const ipVal = sanitizeIpQuery(url.searchParams.get("ip"));
+  const ipPattern = ipVal ? "%" + ipVal + "%" : null;
+  var scoreMinRaw = parseInt(url.searchParams.get("scoreMin") || "", 10);
+  const scoreMin = Number.isFinite(scoreMinRaw) ? scoreMinRaw : null;
   var sortCol = sanitizeEnum(url.searchParams.get("sort") || "created_at", VALID_SORT, "created_at");
   const orderAsc = String(url.searchParams.get("order") || "desc").toUpperCase() === "ASC";
   const listFilters = parseLeadListFilters(url);
@@ -227,6 +317,8 @@ module.exports = async (req, res) => {
     statusVal,
     verticalVal,
     searchPattern,
+    ipPattern,
+    scoreMin,
     sortCol,
     orderAsc,
     limit,
