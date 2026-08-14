@@ -26,6 +26,25 @@
   <link rel="stylesheet" href="../css/acheteur-immo-search.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
   <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
+  <style>
+    .local-mandate-callout {
+      margin: 18px 0 0;
+      padding: 18px 20px;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #eff6ff, #f8fafc);
+      color: #1e3a8a;
+    }
+    .local-mandate-callout h2 { margin: 0 0 7px; font-size: 1.08rem; }
+    .local-mandate-callout p { margin: 0; color: #334155; }
+    .local-mandate-callout ol {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: #334155;
+    }
+    .local-mandate-callout li + li { margin-top: 4px; }
+    .local-mandate-note { margin-top: 10px !important; font-size: .82rem; color: #64748b !important; }
+  </style>
 </head>
 <body>
   <header class="landing-topbar">
@@ -55,17 +74,18 @@
               data-hero-title
               data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
               data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
-            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
+            >Recherche de bien pour vos clients — envoyez-moi le lien de l'annonce</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
+              data-speed-subtitle="Envoyez un lien, je recherche le mandat localement. Le prêt et les assurances restent optionnels."
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
-            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
+            >Vous repérez un bien sur Leboncoin ou un autre portail ? Transmettez-moi le lien : je vérifie le secteur et je recherche le mandat auprès du propriétaire ou de l'agence.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
+              <li>Recherche locale : vous m'envoyez l'annonce qui intéresse votre client</li>
+              <li>Je prends contact pour rechercher un mandat, selon l'accord du vendeur</li>
               <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
-              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+              <li>Les deux casquettes : vous vendez et vous rachetez — on gère la chaîne</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Acquéreur</span>
@@ -78,6 +98,24 @@
             </div>
           </div>
         </div>
+
+        <section class="local-mandate-callout" aria-labelledby="local-mandate-title">
+          <h2 id="local-mandate-title">Vous avez déjà trouvé une annonce ?</h2>
+          <p>
+            Pour vos clients, vous pouvez simplement transmettre le lien d'un bien situé dans votre secteur.
+            Je l'étudie, retrouve le contact vendeur ou l'agence lorsqu'il est disponible, puis je recherche
+            un mandat de vente ou un accord de collaboration.
+          </p>
+          <ol>
+            <li>Vous envoyez le lien Leboncoin, SeLoger, PAP, ParuVendu…</li>
+            <li>Vous indiquez la ville et les coordonnées du client intéressé</li>
+            <li>Je traite la piste localement et je vous tiens informé de la prise de contact</li>
+          </ol>
+          <p class="local-mandate-note">
+            Le lien est une piste commerciale : aucun mandat n'est garanti avant l'accord du propriétaire ou de l'agence.
+            La page n'effectue pas de scraping automatique.
+          </p>
+        </section>
 
         <div class="immo-hats" data-immo-hats>
           <p class="search-section-label">Vous êtes</p>
@@ -149,7 +187,8 @@
           <span class="dossier-kicker" data-deposit-kicker>Annonce déjà vue</span>
           <h2 data-deposit-title>Collez l'URL du bien</h2>
           <p class="listings-intro" data-deposit-intro>
-            Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
+            Leboncoin, SeLoger, ParuVendu… Collez le lien : je peux rechercher localement le mandat pour votre client.
+            Recopiez la description et ajoutez une capture si nécessaire.
           </p>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
@@ -261,7 +300,7 @@
             </div>
 
             <div data-hat-acheteur-only>
-              <p class="search-section-label" style="margin-top:16px">Infos vendeur / agence (visibles sur l'annonce)</p>
+              <p class="search-section-label" style="margin-top:16px">Infos vendeur / agence pour rechercher le mandat</p>
               <div class="grid">
                 <div class="field">
                   <label for="sellerName">Nom du vendeur ou de l'annonceur</label>
@@ -342,7 +381,7 @@
               </div>
               <div class="field full">
                 <label for="urlDetails" data-details-label>Précisions</label>
-                <textarea id="urlDetails" name="details" rows="2" placeholder="Créneau de visite, questions, urgence de vente…"></textarea>
+                <textarea id="urlDetails" name="details" rows="2" placeholder="Client intéressé, secteur prioritaire, créneau de rappel…"></textarea>
               </div>
             </div>
             <p class="url-capture-err" data-url-capture-err hidden></p>
@@ -1038,7 +1077,7 @@
               <div class="form-trust-item">Sans engagement</div>
             </div>
           </form>
-          <p class="success" data-form-success hidden>Merci, votre alerte / dossier a bien ete envoye. Un conseiller vous rappelle pour les visites, le pret ou les assurances selon vos besoins.</p>
+          <p class="success" data-form-success hidden>Merci, votre demande a bien ete envoyee. Nous traitons la piste localement et vous rappelons pour la recherche de mandat, les visites, le pret ou les assurances selon vos besoins.</p>
           <p class="form-error" data-form-error hidden>Envoi impossible. Reessayez dans quelques instants.</p>
           <div data-lead-insights hidden></div>
         </div>
@@ -1086,6 +1125,18 @@
                 <p>Choisissez « Je vends et je rachète ». On enregistre le bien à vendre et le bien recherché (chaîne, prêt relais). Une seule fiche, deux casquettes.</p>
               </details>
             </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>Mon client a déjà repéré une annonce : pouvez-vous rechercher le mandat ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui, principalement dans votre secteur local : transmettez le lien de l'annonce et les coordonnées du client intéressé. Nous étudions la piste et contactons le propriétaire ou l'agence lorsqu'un contact est disponible afin de rechercher un mandat ou un accord de collaboration. Le mandat reste soumis à l'accord du vendeur.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
                   <span>Dois-je remplir un dossier prêt pour chercher ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
@@ -1125,6 +1176,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Pas de scraping. Vendeur : dépôt à la main ou URL. Acquéreur : coller une URL déjà vue. Double casquette : vendre et racheter (chaîne / prêt relais)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mon client a déjà repéré une annonce : pouvez-vous rechercher le mandat ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui, principalement dans le secteur local : transmettez le lien et les coordonnées du client. La piste est étudiée puis le propriétaire ou l'agence peut être contacté pour rechercher un mandat ou un accord de collaboration, sous réserve de son accord."
           }
         },
         {

@@ -173,6 +173,12 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
   var need = needForRole(role);
   var vertical = verticalForRole(role);
+  var serviceIntent =
+    role === "acheteur"
+      ? "recherche_locale_mandat"
+      : role === "les_deux"
+        ? "vente_et_rachat"
+        : "prise_mandat_vendeur";
   var leadScore = role === "les_deux" ? 85 : isOwner ? 75 : sellerPhone || sellerEmail ? 70 : 55;
   var leadId = crypto.randomUUID();
   var propertyIds = [];
@@ -194,6 +200,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         ].filter(Boolean);
         var notesBits = [
           isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
+          !isOwner ? "Mission : rechercher localement le mandat à partir de l'annonce transmise par l'acquéreur." : "",
           d.listingId ? "#" + d.listingId : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
@@ -226,6 +233,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             contact_connu: !!(sellerPhone || sellerEmail || sellerName),
             metadata: {
               origin: origin,
+              serviceIntent: serviceIntent,
+              territory: city || postal || "",
               role: role,
               hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
               portal: d.portal,
@@ -317,6 +326,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           ${phone || null},
           ${JSON.stringify({
             need: need,
+            serviceIntent: serviceIntent,
+            territory: city || postal || "",
             role: role,
             hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
             listingUrls: detections.map(function (d) {

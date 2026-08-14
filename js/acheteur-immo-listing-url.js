@@ -128,11 +128,11 @@
     acheteur: {
       kicker: "Annonce déjà vue",
       title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien : nous étudions la piste localement et recherchons le mandat pour votre client.",
+      submit: "Transmettre la piste",
       coords: "Vos coordonnées",
-      details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      details: "Précisions (client intéressé, secteur, rappel)",
+      hint: "Vous cherchez un bien pour un client : filtrez la vitrine ou transmettez une URL pour rechercher le mandat.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -428,6 +428,12 @@
         _hp: val(form, "_hp"),
         need: hat === "vendeur" ? "vendeur-immo" : hat === "les_deux" ? "acheteur-vendeur-immo" : "acheteur-immo",
         vertical: hat === "vendeur" ? "vendeur_immo" : hat === "les_deux" ? "acheteur_vendeur_immo" : "acheteur_immo",
+        serviceIntent:
+          hat === "vendeur"
+            ? "prise_mandat_vendeur"
+            : hat === "les_deux"
+              ? "vente_et_rachat"
+              : "recherche_locale_mandat",
       };
       if (!payload.email && !payload.phone) {
         if (err) {
@@ -464,7 +470,7 @@
               (res.data.received > 1 ? "s" : "") +
               (payload.photos.length ? " avec photos / capture" : "") +
               (hats ? " (" + hats + ")" : "") +
-              ". Un conseiller vous rappelle.";
+              ". Nous revenons vers vous pour la suite de la recherche de mandat.";
           }
           form.reset();
           state.photos = [];
