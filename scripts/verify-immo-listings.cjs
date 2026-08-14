@@ -103,7 +103,20 @@ assert(pub.city === "Lyon" && pub.price_fai === 255000, "champs publics conserv�
 assert(pub.address == null, "pas d'adresse précise");
 assert(pub.notes == null && pub.email == null && pub.phone == null, "pas de notes / email / tel");
 assert(pub.owner_contact_id == null && pub.lead_id == null, "pas d'ids contacts");
-assert(pub.listing_url == null && pub.lat == null && pub.price_net == null, "pas d'URL / GPS / net vendeur");
+assert(pub.listing_url == null && pub.lat == null && pub.price_net == null, "pas d'URL interne / GPS / net vendeur");
+assert(!pub.source_url, "URL interne non exposée en source_url");
+
+var fromLbc = Lib.toPublicListing({
+  id: "prop_lbc",
+  property_type: "appartement",
+  city: "Lyon",
+  listing_source: "leboncoin",
+  listing_url: "https://www.leboncoin.fr/ad/ventes_immobilieres/1234567890",
+  price_fai: 200000,
+});
+assert(fromLbc.source_url && fromLbc.source_url.indexOf("leboncoin.fr") !== -1, "URL portail public exposée");
+assert(fromLbc.portal === "leboncoin", "portail public");
+assert(fromLbc.site_path === "/annonce.html?id=prop_lbc", "chemin fiche site");
 assert(JSON.stringify(pub).indexOf("Lilas") === -1, "adresse absente du JSON public");
 assert(JSON.stringify(pub).indexOf("0612345678") === -1, "téléphone absent du JSON public");
 

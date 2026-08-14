@@ -47,8 +47,8 @@
       "destination": "/api/mailbox/:path*"
     },
     {
-      "source": "/negociateur-immobilier",
-      "destination": "/negociateur-immobilier/index.html"
+      "source": "/annonce",
+      "destination": "/annonce.html"
     },
     {
       "source": "/negociateur-immobilier/",

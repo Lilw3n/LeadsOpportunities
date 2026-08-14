@@ -186,10 +186,15 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
       for (var i = 0; i < detections.length; i++) {
         var d = detections[i];
+        var hints = d.url ? Portals.hintsFromUrl(d.url, d.portal) : {};
+        var rowCity = city || hints.city || "";
+        var rowPostal = postal || hints.postal_code || "";
+        var rowType = propertyType;
+        if ((!rowType || rowType === "appartement") && hints.property_type) rowType = hints.property_type;
         var origin = d.portal === "manual" ? "public_listing_manual" : "public_listing_url";
         var titleBits = [
           isOwner ? "Bien vendeur" : d.label,
-          city || d.host,
+          rowCity || d.host,
           price ? Math.round(price) + " €" : "",
         ].filter(Boolean);
         var notesBits = [
@@ -206,13 +211,13 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           sql,
           {
             title: titleBits.join(" · ") || (isOwner ? "Bien à vendre" : "Annonce " + d.label),
-            property_type: propertyType,
+            property_type: rowType,
             status: "prospection",
             listing_source: d.portal || "manual",
             listing_url: d.url || null,
-            city: city || null,
-            postal_code: postal || null,
-            department: postal ? postal.slice(0, 2) : null,
+            city: rowCity || null,
+            postal_code: rowPostal || null,
+            department: rowPostal ? rowPostal.slice(0, 2) : null,
             rooms: rooms,
             bedrooms: bedrooms,
             surface_m2: surface,
@@ -367,8 +372,17 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     received: detections.length,
     propertyIds: propertyIds,
     criteriaId: criteriaId,
-    listings: detections.map(function (d) {
-      return { url: d.url, portal: d.portal, label: d.label, listingId: d.listingId };
+    listings: detections.map(function (d, idx) {
+      var pid = propertyIds[idx] || null;
+      var ficheId = pid || leadId;
+      return {
+        url: d.url,
+        portal: d.portal,
+        label: d.label,
+        listingId: d.listingId,
+        propertyId: pid,
+        sitePath: ficheId ? "/annonce.html?id=" + encodeURIComponent(ficheId) : null,
+      };
     }),
     stored: propertyIds.length > 0,
     photos: photos.length,

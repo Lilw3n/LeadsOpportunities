@@ -34,7 +34,7 @@ async function loadCrmListings() {
       return Lib.toPublicListing(p);
     })
     .filter(function (p) {
-      return p.id && p.city;
+      return p.id && (p.city || p.source_url || (p.photos && p.photos.length));
     });
 }
 
@@ -62,6 +62,22 @@ module.exports = async function publicImmoListings(req, res) {
   } catch (err) {
     console.warn("[immo-listings]", err && err.message);
     listings = [];
+  }
+
+  var id = String((req.query && (req.query.id || req.query.listingId)) || "").trim();
+  if (id) {
+    listings = listings.filter(function (p) {
+      return p.id === id;
+    });
+    res.setHeader("Cache-Control", "private, no-store");
+    return res.status(200).json({
+      ok: true,
+      source: source,
+      count: listings.length,
+      total: listings.length,
+      listing: listings[0] || null,
+      listings: listings,
+    });
   }
 
   var filtered = Lib.filterListings(listings, query);

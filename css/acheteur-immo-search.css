@@ -274,10 +274,8 @@
 .url-capture h2 { margin: 0 0 6px; font-size: 1.2rem; }
 .url-capture .listings-intro { margin-bottom: 12px; }
 .url-detected {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-height: 28px;
+  display: grid;
+  gap: 8px;
   margin: 8px 0 12px;
 }
 .url-pill {
@@ -289,6 +287,58 @@
   padding: 4px 10px;
 }
 .url-pill--unknown { background: #f1f5f9; color: #475569; }
+.url-link-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+.url-link-favicon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #fff;
+  flex-shrink: 0;
+}
+.url-link-body { min-width: 0; }
+.url-link-portal {
+  margin: 0;
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: #0f172a;
+}
+.url-link-href {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  color: #0369a1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.url-link-site {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  color: #0f766e;
+}
+.listing-card-origin {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+.listing-origin-pill {
+  background: #ecfeff;
+  color: #155e75;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
 .url-capture textarea {
   width: 100%;
   min-height: 88px;

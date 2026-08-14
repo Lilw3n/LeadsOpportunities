@@ -20,6 +20,11 @@
     return el ? String(el.value || "").trim() : "";
   }
 
+  function areaVal(root) {
+    var el = qs(root, "[data-listing-urls]");
+    return el ? String(el.value || "") : "";
+  }
+
   function esc(s) {
     return String(s == null ? "" : s)
       .replace(/&/g, "&amp;")
@@ -82,11 +87,48 @@
     }
     mount.innerHTML = hits
       .map(function (d) {
-        var cls = d.portal === "autre" ? " url-pill--unknown" : "";
-        return '<span class="url-pill' + cls + '">' + d.label + "</span>";
+        var hints = Portals.hintsFromUrl(d.url, d.portal);
+        var bits = [d.label];
+        if (hints.property_type) bits.push(hints.property_type);
+        if (hints.city) bits.push(hints.city);
+        if (hints.postal_code) bits.push(hints.postal_code);
+        if (hints.listingId) bits.push("#" + hints.listingId);
+        var shortUrl = d.url.replace(/^https?:\/\/(www\.)?/i, "");
+        if (shortUrl.length > 64) shortUrl = shortUrl.slice(0, 62) + "…";
+        var icon = Portals.faviconForHost(d.host);
+        return (
+          '<article class="url-link-card">' +
+          (icon ? '<img class="url-link-favicon" src="' + esc(icon) + '" alt="" />' : "") +
+          '<div class="url-link-body"><p class="url-link-portal">' +
+          esc(bits.join(" · ")) +
+          '</p><p class="url-link-href">' +
+          esc(shortUrl) +
+          "</p>" +
+          '<p class="url-link-site">Aperçu puis fiche sur <strong>leadsopportunities.fr</strong></p>' +
+          "</div></article>"
+        );
       })
       .join("");
     return hits;
+  }
+
+  function applyUrlHints(root, text) {
+    var form = qs(root, "[data-url-capture-form]");
+    if (!form || !Portals.hintsFromUrl) return;
+    var hits = Portals.detectMany(text).filter(function (d) {
+      return d.ok;
+    });
+    if (!hits.length) return;
+    var hints = Portals.hintsFromUrl(hits[0].url, hits[0].portal);
+    function fillIfEmpty(name, value) {
+      if (!value) return;
+      var el = form.querySelector("[name='" + name + "']");
+      if (!el || String(el.value || "").trim()) return;
+      el.value = value;
+    }
+    fillIfEmpty("property_type", hints.property_type);
+    fillIfEmpty("city", hints.city);
+    fillIfEmpty("postal_code", hints.postal_code);
   }
 
   function renderThumbs(root, state) {
@@ -238,6 +280,25 @@
     if (listing.surface_m2) stats.push(listing.surface_m2 + " m²");
     if (listing.bedrooms) stats.push(listing.bedrooms + " ch.");
     if (listing.dpe) stats.push("DPE " + listing.dpe);
+    var urlsText = areaVal(root);
+    var hits = Portals.detectMany(urlsText).filter(function (d) {
+      return d.ok;
+    });
+    var linkBlock = "";
+    if (hits.length) {
+      linkBlock =
+        '<div class="listing-card-origin">' +
+        hits
+          .map(function (d) {
+            return (
+              '<span class="listing-origin-pill">' +
+              esc(d.label) +
+              "</span>"
+            );
+          })
+          .join("") +
+        "<span>Fiche ensuite sur notre site</span></div>";
+    }
     mount.innerHTML =
       '<article class="listing-card">' +
       '<div class="listing-card-media' +
@@ -262,7 +323,9 @@
       (stats.length ? '<div class="listing-card-stats">' + esc(stats.join(" · ")) + "</div>" : "") +
       '<p class="listing-card-desc">' +
       esc(excerpt) +
-      "</p></div></article>";
+      "</p>" +
+      linkBlock +
+      "</div></article>";
   }
 
   function init(root) {
@@ -284,10 +347,14 @@
     if (area) {
       area.addEventListener("input", function () {
         renderDetected(root, area.value);
+        applyUrlHints(root, area.value);
+        renderPreview(root, state);
       });
       area.addEventListener("paste", function () {
         setTimeout(function () {
           renderDetected(root, area.value);
+          applyUrlHints(root, area.value);
+          renderPreview(root, state);
         }, 0);
       });
     }
@@ -454,9 +521,23 @@
             throw new Error((res.data && res.data.message) || "Envoi impossible");
           }
           var hats = (res.data.hats || []).join(" + ");
+          var siteLinks = (res.data.listings || [])
+            .filter(function (l) {
+              return l.sitePath;
+            })
+            .map(function (l) {
+              return (
+                '<a href="' +
+                esc(l.sitePath) +
+                '">' +
+                esc(l.label || "Fiche") +
+                " sur notre site</a>"
+              );
+            })
+            .join(" · ");
           if (ok) {
             ok.hidden = false;
-            ok.textContent =
+            ok.innerHTML =
               res.data.received +
               " bien" +
               (res.data.received > 1 ? "s" : "") +
@@ -464,7 +545,8 @@
               (res.data.received > 1 ? "s" : "") +
               (payload.photos.length ? " avec photos / capture" : "") +
               (hats ? " (" + hats + ")" : "") +
-              ". Un conseiller vous rappelle.";
+              ". Un conseiller vous rappelle." +
+              (siteLinks ? " Visualisation : " + siteLinks + "." : "");
           }
           form.reset();
           state.photos = [];

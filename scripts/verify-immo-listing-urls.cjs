@@ -39,8 +39,20 @@ assert(sel.ok && sel.portal === "seloger", "détecte SeLoger");
 var pv = Portals.detectFromUrl("https://www.paruvendu.fr/immobilier/vente/maison/strasbourg-67000/9876543");
 assert(pv.ok && pv.portal === "paruvendu", "détecte ParuVendu");
 
-var bi = Portals.detectFromUrl("https://www.bienici.com/annonce/vente/lille/abc-def");
-assert(bi.ok && bi.portal === "bienici", "détecte Bien'ici");
+var seHints = Portals.hintsFromUrl(
+  "https://www.seloger.com/annonces/achat/appartement/paris-11eme-75/12345678.htm",
+  "seloger"
+);
+assert(seHints.property_type === "appartement", "hints SeLoger : type");
+assert(/Paris/i.test(seHints.city), "hints SeLoger : ville depuis l'URL");
+assert(seHints.listingId === "12345678", "hints SeLoger : id");
+
+var pvHints = Portals.hintsFromUrl(
+  "https://www.paruvendu.fr/immobilier/vente/maison/strasbourg-67000/9876543",
+  "paruvendu"
+);
+assert(pvHints.property_type === "maison" && pvHints.postal_code === "67000", "hints ParuVendu : type + CP");
+assert(/Strasbourg/i.test(pvHints.city), "hints ParuVendu : ville");
 
 var many = Portals.detectMany(
   "voir https://www.leboncoin.fr/ad/ventes_immobilieres/1 et https://www.seloger.com/annonces/achat/x/22222222.htm"
@@ -66,6 +78,10 @@ assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-
 assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");
 assert(html.indexOf("data-listing-preview") !== -1, "aperçu de fiche");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
+assert(read("annonce.html").indexOf("immo-annonce-page.js") !== -1, "page fiche sur notre site");
+assert(read("js/immo-annonce-page.js").indexOf("/api/immo-listings?id=") !== -1, "fiche charge l'annonce par id");
+assert(read("js/acheteur-immo-listing-url.js").indexOf("url-link-card") !== -1, "aperçu visuel du lien collé");
+assert(read("js/acheteur-immo-listing-url.js").indexOf("sitePath") !== -1, "lien vers notre fiche après envoi");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");
@@ -112,6 +128,7 @@ Promise.resolve()
     assert(c.status === 200 && c.body && c.body.ok, "API accepte URL + contact");
     assert(c.body.received === 1, "1 annonce reçue");
     assert(c.body.listings[0].portal === "leboncoin", "portail renvoyé");
+    assert(c.body.listings[0].sitePath && c.body.listings[0].sitePath.indexOf("annonce.html") !== -1, "chemin fiche sur notre site");
     var tinyJpeg =
       "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
     return call({

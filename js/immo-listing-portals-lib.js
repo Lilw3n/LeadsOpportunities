@@ -179,6 +179,69 @@
     return p ? p.label : id || "Autre";
   }
 
+  function slugToCity(slug) {
+    return String(slug || "")
+      .replace(/[-_]+/g, " ")
+      .replace(/\d{2,5}\s*eme\b/gi, "")
+      .replace(/\d{5}/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+      .replace(/(^|\s)\S/g, function (c) {
+        return c.toUpperCase();
+      });
+  }
+
+  function typeFromPath(path) {
+    var p = String(path || "").toLowerCase();
+    if (/maison|house|villa/.test(p)) return "maison";
+    if (/appartement|appart|studio/.test(p)) return "appartement";
+    if (/terrain/.test(p)) return "terrain";
+    if (/immeuble/.test(p)) return "immeuble";
+    if (/parking|garage/.test(p)) return "parking";
+    if (/local|commerce|bureau/.test(p)) return "local";
+    return "";
+  }
+
+  function hintsFromUrl(url, portalId) {
+    var hints = { property_type: "", city: "", postal_code: "", listingId: "" };
+    var raw = String(url || "").trim();
+    if (!raw) return hints;
+    hints.listingId = parseListingId(raw, portalId);
+    try {
+      var u = new URL(/^https?:\/\//i.test(raw) ? raw : "https://" + raw);
+      var path = decodeURIComponent(u.pathname || "");
+      hints.property_type = typeFromPath(path);
+      var postal = path.match(/(\d{5})/);
+      if (postal) hints.postal_code = postal[1];
+      var se = path.match(/\/annonces\/[^/]+\/[^/]+\/([^/]+)\//i);
+      if (se) hints.city = slugToCity(se[1]);
+      var pv = path.match(/\/immobilier\/[^/]+\/[^/]+\/([^/]+)/i);
+      if (pv) {
+        var m = pv[1].match(/^(.*)-(\d{5})$/);
+        if (m) {
+          hints.city = slugToCity(m[1]);
+          hints.postal_code = hints.postal_code || m[2];
+        } else {
+          hints.city = slugToCity(pv[1]);
+        }
+      }
+      var bi = path.match(/\/annonce\/(?:vente|location)\/([^/]+)/i);
+      if (bi) hints.city = hints.city || slugToCity(bi[1]);
+    } catch (e) {}
+    return hints;
+  }
+
+  function faviconForHost(host) {
+    var h = String(host || "").replace(/^www\./i, "");
+    if (!h) return "";
+    return "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(h) + "&sz=64";
+  }
+
+  function isPublicPortalUrl(url) {
+    var d = detectFromUrl(url);
+    return !!(d.ok && d.portal && d.portal !== "autre" && d.portal !== "manual");
+  }
+
   return {
     GROUPS: GROUPS,
     PORTALS: PORTALS,
@@ -189,5 +252,9 @@
     groupedOptions: groupedOptions,
     labelFor: labelFor,
     isHttpUrl: isHttpUrl,
+    hintsFromUrl: hintsFromUrl,
+    faviconForHost: faviconForHost,
+    isPublicPortalUrl: isPublicPortalUrl,
+    slugToCity: slugToCity,
   };
 });

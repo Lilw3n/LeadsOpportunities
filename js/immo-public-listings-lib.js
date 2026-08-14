@@ -9,6 +9,12 @@
     root.ImmoPublicListings = factory();
   }
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
+  var PortalsLib = null;
+  if (typeof require === "function") {
+    try {
+      PortalsLib = require("./immo-listing-portals-lib.js");
+    } catch (e) {}
+  }
   var TYPE_LABELS = {
     appartement: "Appartement",
     maison: "Maison",
@@ -151,6 +157,25 @@
     listing.photos = media;
     listing.cover = coverOf(media);
     listing.capture = captureOf(media);
+    var portal = String(p.listing_source || p.portal || "").trim();
+    if (portal && portal !== "manual") {
+      listing.portal = portal;
+      var P = PortalsLib || (typeof globalThis !== "undefined" && globalThis.ImmoListingPortals);
+      listing.portal_label = String(p.portal_label || (P && P.labelFor(portal)) || portal).trim();
+    }
+    var srcUrl = String(p.listing_url || p.source_url || "").trim();
+    if (
+      /^https:\/\//i.test(srcUrl) &&
+      srcUrl.length <= 500 &&
+      /(leboncoin|seloger|paruvendu|bienici|pap\.fr|orpi|logic-immo|logicimmo|figaro|fnaim|green-acres|ouestfrance-immo|acheter-louer|keldom|athome)/i.test(
+        srcUrl
+      )
+    ) {
+      listing.source_url = srcUrl;
+    }
+    if (listing.id && listing.id !== "preview") {
+      listing.site_path = "/annonce.html?id=" + encodeURIComponent(listing.id);
+    }
     SENSITIVE_KEYS.forEach(function (k) {
       if (Object.prototype.hasOwnProperty.call(listing, k)) delete listing[k];
     });

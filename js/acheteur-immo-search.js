@@ -87,6 +87,13 @@
       ? '<button type="button" class="btn btn-soft" data-listing-view>Voir photos / capture</button>'
       : "";
     var captureBadge = p.capture ? '<span class="listing-card-capture">Capture</span>' : "";
+    var ficheHref = p.site_path || (p.id ? "/annonce.html?id=" + encodeURIComponent(p.id) : "");
+    var ficheBtn = ficheHref
+      ? '<a class="btn btn-soft" href="' + esc(ficheHref) + '">Voir la fiche</a>'
+      : "";
+    var origin = p.portal_label || p.portal
+      ? '<span class="listing-origin-pill">' + esc(p.portal_label || p.portal) + "</span>"
+      : "";
     return (
       '<article class="listing-card" data-listing-id="' +
       esc(p.id) +
@@ -119,8 +126,10 @@
       "</div>" +
       (excerpt ? '<p class="listing-card-desc">' + esc(excerpt) + "</p>" : "") +
       (tags ? '<div class="listing-tags">' + tags + "</div>" : "") +
+      (origin ? '<div class="listing-card-origin">' + origin + "<span>sur notre site</span></div>" : "") +
       '<div class="listing-card-actions">' +
       '<button type="button" class="btn btn-primary" data-listing-interest>Je suis intéressé</button>' +
+      ficheBtn +
       viewBtn +
       "</div></div></article>"
     );
