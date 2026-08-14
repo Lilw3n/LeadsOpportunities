@@ -14,6 +14,16 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   "use strict";
 
+  var LC = null;
+  if (typeof require === "function") {
+    try {
+      LC = require("./living-charges-lib.js");
+    } catch (e) {
+      LC = null;
+    }
+  }
+  if (!LC && typeof globalThis !== "undefined") LC = globalThis.LivingCharges;
+
   var DPE_KWH = { A: 50, B: 90, C: 145, D: 215, E: 290, F: 375, G: 480 };
   var DPE_TRAVAUX_M2 = { A: 0, B: 20, C: 50, D: 140, E: 280, F: 450, G: 650 };
   var DPE_ORDER = ["A", "B", "C", "D", "E", "F", "G"];
@@ -342,7 +352,8 @@
       fraisNotaireOverride: raw.fraisNotaireOverride,
       guaranteeOverride: raw.guaranteeOverride,
       mrhAnnuelle: raw.mrhAnnuelle,
-      financerFrais: !!raw.financerFrais
+      financerFrais: !!raw.financerFrais,
+      livingCharges: LC ? LC.normalizeList(raw.livingCharges) : []
     };
   }
 
@@ -518,12 +529,16 @@
     var coproMois = round2(copro / 12);
     var mrhMois = round2(mrh / 12);
     var chargesLogement = round2(tfMois + elecMois + gazMois + eauMois + coproMois + mrhMois);
-    var coutMensuelTotal = round2(loan.mensAc + chargesLogement);
 
     var revenus = round2(input.salaire + input.salaireCo + input.autresRevenus);
     var chargesPerso = round2(input.creditsEnCours + input.pensionVersee);
-    var dtiNum = revenus > 0 ? round2(((loan.mensAc + chargesPerso) / revenus) * 100) : 0;
-    var rav = round2(revenus - loan.mensAc - chargesPerso - chargesLogement);
+    var livingAll = LC ? LC.sumAll(input.livingCharges) : 0;
+    var livingDti = LC ? LC.sumInDti(input.livingCharges) : 0;
+    var dtiNum = revenus > 0 ? round2(((loan.mensAc + chargesPerso + livingDti) / revenus) * 100) : 0;
+    var rav = round2(revenus - loan.mensAc - chargesPerso - chargesLogement - livingAll);
+    var effortPct =
+      revenus > 0 ? round2(((loan.mensAc + chargesPerso + chargesLogement + livingAll) / revenus) * 100) : 0;
+    var coutMensuelTotal = round2(loan.mensAc + chargesLogement + livingAll);
     var adultes = 1 + (input.hasCo ? 1 : 0);
     var minRav = minResteAVivre(adultes, input.enfants);
     var confRav = comfortResteAVivre(adultes, input.enfants);
@@ -538,7 +553,7 @@
     var fraisCouverts = input.apport >= loan.fraisAcq;
     var manqueFrais = Math.max(0, round0(loan.fraisAcq - input.apport));
 
-    var maxMensHcsf = Math.max(0, round2(revenus * (HCSF_DTI / 100) - chargesPerso));
+    var maxMensHcsf = Math.max(0, round2(revenus * (HCSF_DTI / 100) - chargesPerso - livingDti));
     var maxMensAssur = loan.aFinancer > 0 ? loan.mensAc - loan.mensHa : 0;
     var maxHa = Math.max(0, maxMensHcsf - maxMensAssur);
     var capaciteEmprunt = round0(maxPrincipal(maxHa, loan.taux, loan.months));
@@ -636,7 +651,17 @@
       { id: "eau", label: "Eau", mois: eauMois, an: utils.eauAn },
       { id: "copro", label: "Charges de copropriété", mois: coproMois, an: copro },
       { id: "mrh", label: "Assurance habitation", mois: mrhMois, an: mrh }
-    ].filter(function (row) {
+    ];
+    (input.livingCharges || []).forEach(function (ch) {
+      if (!ch || !ch.amount) return;
+      breakdown.push({
+        id: "live_" + ch.id,
+        label: ch.label || "Charge",
+        mois: round2(ch.amount),
+        an: round0(ch.amount * 12)
+      });
+    });
+    breakdown = breakdown.filter(function (row) {
       return row.an > 0 || row.id === "pret" || row.id === "ade";
     });
 
@@ -652,7 +677,9 @@
       coutAnnuelTotal: round0(coutMensuelTotal * 12),
       revenus: revenus,
       chargesPerso: chargesPerso,
+      livingAll: livingAll,
       dti: dtiNum,
+      effortPct: effortPct,
       rav: rav,
       ravPers: ravPers,
       minRav: minRav,

@@ -48,7 +48,14 @@ Champs projet selon la rubrique :
 - **HYPO / Viager** — valeur du bien, montant souhaité, ratio hypothécaire
 - **RAC** — crédits à racheter, découvert, IRA / frais, besoin total
 
-Commun : emprunteur & co · famille / logement · toggles patrimoine · banque · revenus / charges · résultat · commentaires
+Commun : emprunteur & co · famille / logement · toggles patrimoine · banque · **revenus / charges nommables** · **taux d’endettement** · résultat · commentaires
+
+Les charges de vie (gaz, électricité, internet, abonnements…) ont un **libellé éditable** + bouton d’ajout.  
+- **Taux d’endettement (HCSF ~35 %)** : crédits + pension + loyer + lignes cochées « Endettement »  
+- **Taux d’effort / reste à vivre** : toutes les charges de vie en plus  
+
+Même widget sur [`crm-agency-fees.html`](../crm-agency-fees.html) (côté acheteur) et [`landings/projection-achat.html`](../landings/projection-achat.html).  
+Lib : [`js/living-charges-lib.js`](../js/living-charges-lib.js) — tests : `npm run verify:charges`.
 
 Actions : Simuler · Enregistrer · Enregistrer / demande publique · Transmettre (DDP)
 

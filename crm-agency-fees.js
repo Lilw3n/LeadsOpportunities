@@ -29,6 +29,7 @@
   };
 
   var PRICE_MODE_KEY = "lo_agency_fee_price_mode_v1";
+  var livingChargesApi = null;
 
   function loadPriceMode() {
     try {
@@ -1139,6 +1140,7 @@
       monthlyIncome: Number(document.getElementById("bfIncome").value) || 0,
       coBorrowerIncome: Number(document.getElementById("bfCoIncome").value) || 0,
       existingLoansMonthly: Number(document.getElementById("bfExisting").value) || 0,
+      livingCharges: livingChargesApi ? livingChargesApi.get() : window.LivingCharges ? window.LivingCharges.defaultList() : [],
       downPayment: Number(document.getElementById("bfDown").value) || 0,
       years: Number(document.getElementById("bfYears").value) || 25,
       ratePct: document.getElementById("bfRate").value === "" ? "" : Number(document.getElementById("bfRate").value),
@@ -1182,6 +1184,19 @@
     document.getElementById("bfCashOut").value = p.cashOut || 0;
     document.getElementById("bfIncludeProject").value = p.includeProjectInRachat === false ? "0" : "1";
     document.getElementById("bfBridge").value = p.bridgeAmount || 0;
+    if (window.LivingCharges && document.getElementById("bfLivingCharges")) {
+      livingChargesApi = window.LivingCharges.mount(
+        document.getElementById("bfLivingCharges"),
+        p.livingCharges || window.LivingCharges.defaultList(),
+        {
+          showDti: true,
+          onChange: function () {
+            persistBuyerPrefs();
+            renderBuyerFinance();
+          },
+        }
+      );
+    }
   }
 
   function syncBuyerExtraFields() {
@@ -1350,7 +1365,25 @@
             "/mois</strong></div>"
           : '<div class="af-kpi highlight"><span>Marge capacité (meilleure agence)</span><strong>' +
             Fin.formatEuro(best.headroom) +
-            "</strong></div>");
+            "</strong></div>") +
+        '<div class="af-kpi"><span>Taux d\'endettement</span><strong>' +
+        Fin.formatPct(best.debtRatio) +
+        "</strong></div>" +
+        '<div class="af-kpi muted"><span>Taux d\'effort (charges de vie)</span><strong>' +
+        Fin.formatPct(best.effortPct || 0) +
+        "</strong></div>" +
+        '<div class="af-kpi muted"><span>Reste à vivre</span><strong>' +
+        Fin.formatEuro(best.rav || 0) +
+        "</strong></div>";
+    }
+    if (window.LivingCharges && document.getElementById("bfDtiBox") && best) {
+      document.getElementById("bfDtiBox").innerHTML = window.LivingCharges.dtiBoxHtml({
+        dtiApres: best.debtRatio,
+        dtiMax: best.capacity && best.capacity.dtiMax,
+        effortPct: best.effortPct,
+        rav: best.rav,
+        livingAll: best.livingAll,
+      });
     }
 
     updateLoanCtas(best);
@@ -1395,6 +1428,9 @@
             "</span></td>" +
             "<td>" +
             Fin.formatPct(f.debtRatio) +
+            "<br><span style='font-size:.75rem;color:var(--muted)'>effort " +
+            Fin.formatPct(f.effortPct || 0) +
+            "</span>" +
             "</td>" +
             "<td>" +
             statusBadge(f.status) +

@@ -2,7 +2,9 @@
   "use strict";
 
   var Lib = window.AchatProjection;
+  var LC = window.LivingCharges;
   if (!Lib) return;
+  var livingApi = null;
 
   function $(id) {
     return document.getElementById(id);
@@ -65,7 +67,8 @@
       enfants: numVal("enfants") || 0,
       ptzMontant: numVal("ptzMontant") || 0,
       financerFrais: isChecked("financerFrais"),
-      mrhAnnuelle: numVal("mrhAnnuelle")
+      mrhAnnuelle: numVal("mrhAnnuelle"),
+      livingCharges: livingApi ? livingApi.get() : []
     };
   }
 
@@ -231,7 +234,9 @@
     $("kpiTotalSub").textContent =
       "dont crédit " + euro(p.loan.mensAc) + " + charges " + euro(p.chargesLogement);
     $("kpiDti").textContent = pct(p.dti);
-    $("kpiDtiSub").textContent = "plafond HCSF 35 %";
+    $("kpiDtiSub").textContent =
+      "HCSF 35 %" +
+      (p.effortPct != null ? " · effort " + pct(p.effortPct) : "");
     $("kpiRav").textContent = euro(p.rav);
     $("kpiRavSub").textContent = "plancher indicatif " + euro(p.minRav);
     $("kpiLoan").textContent = euro(p.loan.aFinancer);
@@ -302,6 +307,14 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    if (LC && $("projLivingCharges")) {
+      livingApi = LC.mount($("projLivingCharges"), [
+        { id: "internet", label: "Internet", amount: 0 },
+        { id: "abonnements", label: "Abonnements", amount: 0 },
+        { id: "telephone", label: "Téléphone / mobile", amount: 0 },
+        { id: "mutuelle", label: "Mutuelle", amount: 0 }
+      ], { showDti: false });
+    }
     prefillFromUrl();
     if (window.FinanceDeepLink && window.FinanceDeepLink.applyToForm) {
       window.FinanceDeepLink.applyToForm(document);

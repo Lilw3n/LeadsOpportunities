@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="../css/callback-form.css" />
   <link rel="stylesheet" href="../css/achat-projection.css" />
+  <link rel="stylesheet" href="../css/living-charges.css" />
 </head>
 <body data-market-intent="FR">
   <header class="landing-topbar">
@@ -273,6 +274,12 @@
                       <input id="mrhAnnuelle" name="mrhAnnuelle" inputmode="numeric" placeholder="Laisser vide = estimation" />
                     </div>
                   </div>
+                  <h4 style="margin:16px 0 6px;font-size:0.95rem">Charges nommables (internet, abonnements…)</h4>
+                  <p class="small" style="margin:0 0 8px;color:#64748b">
+                    Gaz et électricité du <strong>nouveau</strong> logement sont déjà estimés via le DPE.
+                    Ajoutez ici vos abonnements et charges perso — chaque libellé est modifiable.
+                  </p>
+                  <div id="projLivingCharges"></div>
                 </section>
               </form>
             </div>
@@ -417,6 +424,7 @@
   <script src="../js/cookie-banner.js"></script>
   <script src="../js/geo-france-guard.js"></script>
   <script src="./tracking.js"></script>
+  <script src="../js/living-charges-lib.js"></script>
   <script src="../js/achat-projection-lib.js"></script>
   <script src="../js/achat-projection-page.js"></script>
 </body>

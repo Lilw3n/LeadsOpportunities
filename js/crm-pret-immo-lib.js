@@ -192,6 +192,7 @@ window.CrmPretImmo = (function () {
         pension_versee: 0,
         autres: 0,
       },
+      charges_libres: o.charges_libres || (window.LivingCharges ? window.LivingCharges.defaultList() : []),
       credits: o.credits || {
         pret_immo_nb: 0,
         pret_immo_mens: 0,
@@ -275,6 +276,10 @@ window.CrmPretImmo = (function () {
     var p = d.projet || emptyProjet();
     var totalRevenus = sumRevenus(d.revenus);
     var totalCharges = sumCharges(d.charges);
+    var LC = window.LivingCharges;
+    var living = LC ? LC.normalizeList(d.charges_libres) : [];
+    var livingAll = LC ? LC.sumAll(living) : 0;
+    var livingDti = LC ? LC.sumInDti(living) : 0;
     var creditsGardes = Number(cr.pret_garder_mens) || 0;
     var creditsExistants =
       creditsGardes + (Number(cr.pret_immo_mens) || 0) + (Number(cr.pret_conso_mens) || 0);
@@ -327,11 +332,13 @@ window.CrmPretImmo = (function () {
       : 0;
     var mensAc = round2(mensHa + assurE + assurC);
 
-    var chargesAvant = round2(totalCharges + creditsExistants);
-    var chargesApres = round2(totalCharges + creditsGardes + mensAc);
+    var chargesAvant = round2(totalCharges + creditsExistants + livingDti);
+    var chargesApres = round2(totalCharges + creditsGardes + mensAc + livingDti);
     var dtiAvant = totalRevenus > 0 ? round2((chargesAvant / totalRevenus) * 100) : 0;
     var dtiApres = totalRevenus > 0 ? round2((chargesApres / totalRevenus) * 100) : 0;
-    var rav = round2(totalRevenus - chargesApres);
+    var effortApres = round2(chargesApres - livingDti + livingAll);
+    var effortPct = totalRevenus > 0 ? round2((effortApres / totalRevenus) * 100) : 0;
+    var rav = round2(totalRevenus - effortApres);
     var pers = 1 + (d.has_co ? 1 : 0) + (Number(d.enfants_nb) || 0);
     var ravPers = pers > 0 ? round2(rav / pers) : rav;
     var valeurGarantie = Number(p.hypo_valeur_bien || p.viager_valeur || prixAchat) || 0;
@@ -345,6 +352,10 @@ window.CrmPretImmo = (function () {
     return {
       totalRevenus: totalRevenus,
       totalCharges: totalCharges,
+      livingAll: livingAll,
+      livingDti: livingDti,
+      effortPct: effortPct,
+      effortApres: effortApres,
       creditsGardes: creditsGardes,
       creditsExistants: creditsExistants,
       crd: crd,

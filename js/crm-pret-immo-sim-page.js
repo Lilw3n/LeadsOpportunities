@@ -4,6 +4,7 @@
   var Lib = window.CrmPretImmo;
   var Store = window.CrmPretImmoStore;
   var Deep = window.FinanceDeepLink;
+  var LC = window.LivingCharges;
   if (!Lib || !Store) return;
   if (!localStorage.getItem("lo_token")) {
     location.href = "./crm.html";
@@ -12,6 +13,7 @@
 
   var params = new URLSearchParams(location.search);
   var dossier = null;
+  var livingApi = null;
   var type = String(params.get("type") || "immo").toLowerCase();
   var housing = params.get("housing") || "proprietaire";
 
@@ -351,6 +353,7 @@
     d.projet = collectProjet();
     d.revenus = Object.assign(d.revenus || {}, readKeyed("data-rev"));
     d.charges = Object.assign(d.charges || {}, readKeyed("data-chg"));
+    if (livingApi) d.charges_libres = livingApi.get();
     d.credits = Object.assign(d.credits || {}, readKeyed("data-cr"));
     if (type === "conso") {
       d.credits.besoin_client = d.projet.prix_achat;
@@ -405,6 +408,8 @@
       ["Mensualité A.C.", Lib.euro(s.mensAc)],
       ["DTI avant", (s.dtiAvant || 0).toFixed(1).replace(".", ",") + " %"],
       ["DTI après", (s.dtiApres || 0).toFixed(1).replace(".", ",") + " %"],
+      ["Taux d'effort", (s.effortPct || 0).toFixed(1).replace(".", ",") + " %"],
+      ["Charges de vie", Lib.euro(s.livingAll || 0)],
       ["Reste à vivre", Lib.euro(s.rav)],
       ["RAV / pers.", Lib.euro(s.ravPers)],
       ["Ratio hypothécaire", (s.ratioHypo || 0).toFixed(1).replace(".", ",") + " %"]
@@ -439,6 +444,15 @@
     var s = Lib.synthesize(dossier);
     if ($("totRev")) $("totRev").textContent = Lib.euro(s.totalRevenus);
     if ($("totChg")) $("totChg").textContent = Lib.euro(s.totalCharges);
+    if (LC && $("livingDtiBox")) {
+      $("livingDtiBox").innerHTML = LC.dtiBoxHtml({
+        dtiApres: s.dtiApres,
+        dtiMax: 35,
+        effortPct: s.effortPct,
+        rav: s.rav,
+        livingAll: s.livingAll
+      });
+    }
     renderSide(s);
     if ($("synMount")) {
       $("synMount").innerHTML =
@@ -553,6 +567,9 @@
     fillKeyed("data-rev", d.revenus || {});
     fillKeyed("data-chg", d.charges || {});
     fillKeyed("data-cr", d.credits || {});
+    if (LC && $("livingChargesMount")) {
+      livingApi = LC.mount($("livingChargesMount"), d.charges_libres || LC.defaultList(), { showDti: true });
+    }
     Object.keys(d.retards || {}).forEach(function (k) {
       var cb = document.querySelector('[data-ret="' + k + '"]');
       if (cb) cb.checked = !!d.retards[k];

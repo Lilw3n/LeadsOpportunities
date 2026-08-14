@@ -166,6 +166,9 @@ window.CrmBuyerFinance = (function () {
     var coIncome = Math.max(0, Number(o.coBorrowerIncome) || 0);
     var totalIncome = income + coIncome;
     var existing = Math.max(0, Number(o.existingLoansMonthly) || 0);
+    var LC = window.LivingCharges;
+    var livingDti = LC ? LC.sumInDti(o.livingCharges) : 0;
+    existing = existing + livingDti;
     var dtiMax = Number(o.dtiMax) || DTI_MAX_DEFAULT;
     var rate = Number(o.ratePct);
     if (rate == null || isNaN(rate)) rate = RATE_BANDS.standard.mid;
@@ -202,6 +205,10 @@ window.CrmBuyerFinance = (function () {
     var income = Number(o.monthlyIncome) || 0;
     var co = Number(o.coBorrowerIncome) || 0;
     var existing = Number(o.existingLoansMonthly) || 0;
+    var LC = window.LivingCharges;
+    var living = LC ? LC.normalizeList(o.livingCharges) : [];
+    var livingAll = LC ? LC.sumAll(living) : 0;
+    var livingDti = LC ? LC.sumInDti(living) : 0;
     var dtiMax = Number(o.dtiMax) || DTI_MAX_DEFAULT;
 
     var project = projectCost(o);
@@ -251,15 +258,18 @@ window.CrmBuyerFinance = (function () {
     var insur = insuranceMonthly(loanAmount, o.insurancePctYear);
     var totalMonthlyHousing = round2(payment + insur);
     var totalDebtAfter = round2(
-      (loanType === "rachat" ? 0 : existing) + totalMonthlyHousing
+      (loanType === "rachat" ? 0 : existing) + totalMonthlyHousing + livingDti
     );
     // En rachat, les mensualités regroupées disparaissent
     if (loanType === "rachat") {
-      totalDebtAfter = round2(totalMonthlyHousing + Math.max(0, existing - currentMonthly));
+      totalDebtAfter = round2(totalMonthlyHousing + Math.max(0, existing - currentMonthly) + livingDti);
     }
 
     var totalIncome = income + co;
     var debtRatio = totalIncome > 0 ? round2((totalDebtAfter / totalIncome) * 100) : 0;
+    var effortOut = round2(totalDebtAfter - livingDti + livingAll);
+    var effortPct = totalIncome > 0 ? round2((effortOut / totalIncome) * 100) : 0;
+    var rav = round2(totalIncome - effortOut);
     profile = pickRateProfile({
       monthlyIncome: totalIncome,
       debtRatio: debtRatio,
@@ -345,6 +355,15 @@ window.CrmBuyerFinance = (function () {
         detail: "Ordre de grandeur ~0,25–0,40 % du capital / an (décès-invalidité). Loi Lemoine : résiliable à tout moment.",
       },
       {
+        id: "living",
+        label: "Charges de vie (libellés libres)",
+        value: formatEuro(livingAll) + "/mois",
+        detail:
+          "Gaz, électricité, internet, abonnements… hors taux d'endettement HCSF sauf si coché. Elles baissent le reste à vivre (taux d'effort " +
+          formatPct(effortPct) +
+          ").",
+      },
+      {
         id: "fee_payer",
         label: "Charge des honoraires",
         value: project.feePayer === "vendeur" ? "Vendeur (FAI)" : "Acquéreur",
@@ -392,6 +411,10 @@ window.CrmBuyerFinance = (function () {
       totalMonthlyHousing: totalMonthlyHousing,
       totalDebtAfter: totalDebtAfter,
       debtRatio: debtRatio,
+      effortPct: effortPct,
+      rav: rav,
+      livingAll: livingAll,
+      livingDti: livingDti,
       feasible: feasible,
       status: status,
       messages: messages,
@@ -456,6 +479,7 @@ window.CrmBuyerFinance = (function () {
       cashOut: 0,
       includeProjectInRachat: true,
       bridgeAmount: 0,
+      livingCharges: window.LivingCharges ? window.LivingCharges.defaultList() : [],
     };
   }
 

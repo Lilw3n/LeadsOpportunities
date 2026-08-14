@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
+  <link rel="stylesheet" href="./css/living-charges.css" />
   <style>
     :root { --pi-blue:#1e4f8a; --pi-cyan:#0891b2; --pi-orange:#ea580c; --pi-purple:#7c3aed; --pi-yellow:#fffbeb; }
     .pi-nav { display:flex; flex-wrap:wrap; gap:8px; background:#1e3a8a; padding:10px 14px; border-radius:12px; margin-bottom:14px; }
@@ -252,11 +253,17 @@
               <p>Total : <strong id="totRev">0 €</strong></p>
             </div>
             <div>
-              <strong>CHARGES</strong>
+              <strong>CHARGES BANQUE</strong>
               <label>Loyer / charges logement<input type="number" data-chg="loyer" min="0" /></label>
               <label>Pension versée<input type="number" data-chg="pension_versee" min="0" /></label>
-              <label>Autres<input type="number" data-chg="autres" min="0" /></label>
-              <p>Total : <strong id="totChg">0 €</strong></p>
+              <label>Autres (comptées DTI)<input type="number" data-chg="autres" min="0" /></label>
+              <p>Sous-total banque : <strong id="totChg">0 €</strong></p>
+            </div>
+            <div style="grid-column:1/-1">
+              <strong>CHARGES DE VIE (libellés libres)</strong>
+              <p style="margin:4px 0 8px;font-size:.8rem;color:#64748b">Gaz, électricité, internet, abonnements… Nommez chaque ligne. Le taux d’endettement banque n’inclut que les lignes cochées « Endettement ».</p>
+              <div id="livingChargesMount"></div>
+              <div id="livingDtiBox"></div>
             </div>
           </div>
         </details>
@@ -320,6 +327,7 @@
     </div>
   </div>
 
+  <script src="./js/living-charges-lib.js"></script>
   <script src="./js/crm-pret-immo-lib.js"></script>
   <script src="./js/crm-pret-immo-store.js"></script>
   <script src="./js/crm-pret-doc-search.js"></script>

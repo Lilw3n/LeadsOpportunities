@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="../css/acheteur-immo-search.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
+  <link rel="stylesheet" href="../css/living-charges.css" />
   <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
 </head>
 <body>
@@ -797,6 +798,11 @@
                   </select>
                 </div>
               </div>
+              <h4 style="margin:16px 0 6px;font-size:1rem">Autres charges (libellés libres)</h4>
+              <p class="small" style="margin:0 0 8px;color:#64748b">Gaz, électricité, internet, abonnements… Nommez chaque ligne. Le taux d’endettement s’affiche en dessous (plafond HCSF 35 %).</p>
+              <div id="livingChargesMount" data-living-charges-auto data-show-dti="1" data-hidden="livingChargesJson" data-preview="livingDtiPreview"></div>
+              <input type="hidden" name="livingChargesJson" id="livingChargesJson" data-optional />
+              <div id="livingDtiPreview"></div>
             </section>
 
             <!-- ETAPE 8 : Co-emprunteur (pret) -->
@@ -1156,6 +1162,7 @@
       <div class="listing-lightbox-media" data-lb-media></div>
     </div>
   </div>
+  <script src="../js/living-charges-lib.js"></script>
   <script src="../js/finance-deep-link.js"></script>
   <script src="../js/devis-document-config.js"></script>
   <script src="../js/public-partners-trust.js"></script>

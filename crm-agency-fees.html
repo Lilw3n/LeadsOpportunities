@@ -88,6 +88,7 @@
   </style>
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <link rel="stylesheet" href="./css/crm-immo-finance-nav.css" />
+  <link rel="stylesheet" href="./css/living-charges.css" />
 </head>
 <body class="crm-subpage">
   <div id="immoFinanceNav" data-vertical="prets" data-active="baremes"></div>
@@ -422,6 +423,13 @@
       </div>
     </div>
 
+    <div style="margin-top:14px">
+      <h4 style="margin:0 0 6px;font-size:.92rem">Charges de vie — libellés libres</h4>
+      <p class="af-sub" style="margin-top:0">Gaz, électricité, internet, abonnements… Chaque ligne se nomme. Le taux d’endettement (HCSF) n’inclut que les lignes cochées « Endettement ».</p>
+      <div id="bfLivingCharges"></div>
+      <div id="bfDtiBox"></div>
+    </div>
+
     <div class="af-calc-grid" id="bfRachatFields" hidden style="margin-top:12px">
       <div>
         <label for="bfCurBalance">Capital restant dû regroupé (€)</label>
@@ -605,6 +613,7 @@
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/finance-deep-link.js"></script>
   <script src="./js/crm-agency-fees-lib.js"></script>
+  <script src="./js/living-charges-lib.js"></script>
   <script src="./js/crm-buyer-finance-lib.js"></script>
   <script src="./crm-agency-fees.js"></script>
   <script src="./js/admin-nav.js"></script>

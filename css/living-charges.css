@@ -1,0 +1,54 @@
+.lc-widget { margin: 8px 0 4px; }
+.lc-hint { margin: 0 0 10px; font-size: .82rem; color: #64748b; line-height: 1.4; font-weight: 500; }
+.lc-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.lc-chip {
+  border: 1px dashed #94a3b8; background: #f8fafc; color: #334155;
+  border-radius: 999px; padding: 4px 10px; font-size: .75rem; font-weight: 700;
+  cursor: pointer; font-family: inherit;
+}
+.lc-chip:hover { background: #e0f2fe; border-color: #0284c7; color: #075985; }
+.lc-rows { display: flex; flex-direction: column; gap: 6px; }
+.lc-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.4fr) minmax(90px, 0.7fr) auto auto;
+  gap: 8px;
+  align-items: center;
+}
+@media (max-width: 640px) {
+  .lc-row { grid-template-columns: 1fr 110px auto; }
+  .lc-indti { grid-column: 1 / -1; }
+}
+.lc-row .lc-label, .lc-row .lc-amount {
+  padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 8px;
+  font: inherit; width: 100%; box-sizing: border-box;
+}
+.lc-indti {
+  display: flex; align-items: center; gap: 6px;
+  font-size: .72rem; font-weight: 700; color: #64748b; white-space: nowrap;
+  margin: 0;
+}
+.lc-remove {
+  border: 0; background: #fee2e2; color: #991b1b; width: 32px; height: 32px;
+  border-radius: 8px; cursor: pointer; font-size: 1.1rem; line-height: 1;
+}
+.lc-add {
+  margin-top: 8px; border: 1px dashed #0ea5e9; background: #f0f9ff; color: #075985;
+  border-radius: 8px; padding: 8px 12px; font-weight: 700; font-size: .82rem;
+  cursor: pointer; font-family: inherit;
+}
+.lc-total { margin: 8px 0 0; font-size: .85rem; color: #334155; }
+.lc-dti-box {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px; margin: 10px 0 4px;
+}
+.lc-dti-kpi {
+  background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 12px;
+}
+.lc-dti-kpi span { display: block; font-size: .72rem; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.lc-dti-kpi strong { font-size: 1.15rem; }
+.lc-dti-kpi.is-ok { background: #ecfdf5; border-color: #a7f3d0; }
+.lc-dti-kpi.is-ok strong { color: #047857; }
+.lc-dti-kpi.is-tight { background: #fffbeb; border-color: #fde68a; }
+.lc-dti-kpi.is-tight strong { color: #b45309; }
+.lc-dti-kpi.is-no { background: #fef2f2; border-color: #fecaca; }
+.lc-dti-kpi.is-no strong { color: #b91c1c; }
