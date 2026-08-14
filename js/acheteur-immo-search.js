@@ -178,10 +178,6 @@
       );
       if (cb) cb.checked = true;
     }
-    var kind = form.querySelector('input[name="searchKind"][value="bien"]');
-    if (kind) kind.checked = true;
-    var mode = form.querySelector('input[name="searchModeUi"][value="bien"]');
-    if (mode) mode.checked = true;
     try {
       document.dispatchEvent(
         new CustomEvent("lo:listing-interest", { detail: { listing: listing, query: query } })

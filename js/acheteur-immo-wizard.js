@@ -10,19 +10,6 @@
     return root.querySelector(sel);
   }
 
-  function searchKindOf(form) {
-    var el = form.querySelector('input[name="searchKind"]:checked');
-    return el ? el.value : "";
-  }
-
-  function wantsBien(kind) {
-    return kind === "bien" || kind === "les_deux";
-  }
-
-  function wantsService(kind) {
-    return kind === "service" || kind === "les_deux";
-  }
-
   function needsPretSection(form) {
     var pret = form.querySelector('input[name="buyerNeeds"][value="pret"]:checked');
     var rachat = form.querySelector('input[name="buyerNeeds"][value="rachat"]:checked');
@@ -42,29 +29,14 @@
     });
   }
 
-  function syncModeFromUi(form) {
-    var ui = form.querySelector('input[name="searchModeUi"]:checked');
-    if (!ui) return;
-    var hidden = form.querySelector('input[name="searchKind"][value="' + ui.value + '"]');
-    if (hidden) hidden.checked = true;
-  }
-
+  /* La recherche de bien est le coeur du parcours ; les services d'agence
+     sont des options. searchKind (champ cache) suit les cases serviceSought
+     pour le CRM : "bien" par defaut, "les_deux" si un service est coche. */
   function syncSearchPanels(form) {
-    syncModeFromUi(form);
-    var kind = searchKindOf(form) || "bien";
-    var bienPanel = qs(form, "[data-search-bien-panel]");
-    var servicePanel = qs(form, "[data-search-service-panel]");
-    if (bienPanel) bienPanel.hidden = !wantsBien(kind);
-    if (servicePanel) servicePanel.hidden = !wantsService(kind);
-
-    qsa(form, "[data-search-bien-required]").forEach(function (el) {
-      el.disabled = !wantsBien(kind);
-      if (!wantsBien(kind)) el.classList.remove("input-invalid");
-    });
-
-    /* Service seul : pas d'etape « precisions bien » */
-    var projet = qs(form, '[data-step-name="projet"]');
-    setSkip(projet, kind === "service");
+    var kindField = qs(form, "[data-search-kind-field]");
+    if (!kindField) return;
+    var services = form.querySelectorAll('input[name="serviceSought"]:checked');
+    kindField.value = services.length ? "les_deux" : "bien";
   }
 
   function syncBudgetToPrice(form) {
@@ -100,56 +72,36 @@
 
   function validateSearch(form) {
     syncSearchPanels(form);
-    var kind = searchKindOf(form);
-    var kindHint = qs(form, "[data-search-kind-hint]");
     var propHint = qs(form, "[data-property-sought-hint]");
     var sellerHint = qs(form, "[data-seller-type-hint]");
-    var serviceHint = qs(form, "[data-service-sought-hint]");
     var ok = true;
 
-    if (kindHint) kindHint.hidden = true;
     if (propHint) propHint.hidden = true;
     if (sellerHint) sellerHint.hidden = true;
-    if (serviceHint) serviceHint.hidden = true;
 
-    if (!kind) {
-      if (kindHint) kindHint.hidden = false;
-      return false;
+    var props = form.querySelectorAll('input[name="propertySought"]:checked');
+    if (!props.length) {
+      if (propHint) propHint.hidden = false;
+      ok = false;
     }
-
-    if (wantsBien(kind)) {
-      var props = form.querySelectorAll('input[name="propertySought"]:checked');
-      if (!props.length) {
-        if (propHint) propHint.hidden = false;
+    var seller = form.querySelector('input[name="sellerType"]:checked');
+    if (!seller) {
+      if (sellerHint) sellerHint.hidden = false;
+      ok = false;
+    }
+    qsa(form, "[data-search-bien-required]").forEach(function (el) {
+      el.classList.remove("input-invalid");
+      var v = (el.value || "").trim();
+      if (!v) {
+        el.classList.add("input-invalid");
+        ok = false;
+        return;
+      }
+      if (el.name === "postalProject" && !/^[0-9]{5}$/.test(v)) {
+        el.classList.add("input-invalid");
         ok = false;
       }
-      var seller = form.querySelector('input[name="sellerType"]:checked');
-      if (!seller) {
-        if (sellerHint) sellerHint.hidden = false;
-        ok = false;
-      }
-      qsa(form, "[data-search-bien-required]").forEach(function (el) {
-        el.classList.remove("input-invalid");
-        var v = (el.value || "").trim();
-        if (!v) {
-          el.classList.add("input-invalid");
-          ok = false;
-          return;
-        }
-        if (el.name === "postalProject" && !/^[0-9]{5}$/.test(v)) {
-          el.classList.add("input-invalid");
-          ok = false;
-        }
-      });
-    }
-
-    if (wantsService(kind)) {
-      var services = form.querySelectorAll('input[name="serviceSought"]:checked');
-      if (!services.length) {
-        if (serviceHint) serviceHint.hidden = false;
-        ok = false;
-      }
-    }
+    });
 
     return ok;
   }
@@ -175,8 +127,8 @@
     if (!form || form.dataset.acheteurImmoBound) return;
     form.dataset.acheteurImmoBound = "1";
 
-    qsa(form, "[data-search-mode]").forEach(function (r) {
-      r.addEventListener("change", function () {
+    qsa(form, 'input[name="serviceSought"]').forEach(function (cb) {
+      cb.addEventListener("change", function () {
         syncSearchPanels(form);
       });
     });
