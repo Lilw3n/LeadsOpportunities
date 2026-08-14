@@ -4,6 +4,7 @@ const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
 const { ensurePersonLinksSchema } = require("../ensure-schema");
 const { buildProfileMetadata } = require("../crm-profile-meta");
+const { hydrateInterlocuteurFromLead } = require("../hydrate-interlocuteur");
 const Ident = require("../../../js/lead-identity-lib");
 
 function isAdmin(user) {
@@ -95,7 +96,14 @@ async function promoteLead(sql, user, lead) {
           last_activity_at = NOW()
       WHERE id = ${lead.contact_id}
     `;
-    return { ok: true, contactId: lead.contact_id, alreadyLinked: true };
+    const hydrated = await hydrateInterlocuteurFromLead(sql, user, lead, lead.contact_id);
+    return {
+      ok: true,
+      contactId: lead.contact_id,
+      alreadyLinked: true,
+      dossierFilled: hydrated.dossierFilled,
+      slack: hydrated.slack,
+    };
   }
   var payload = parsePayload(lead.payload);
   const contactId = "ct_" + crypto.randomUUID();
@@ -136,7 +144,13 @@ async function promoteLead(sql, user, lead) {
       ${"Vertical: " + (lead.vertical || "")}
     )
   `;
-  return { ok: true, contactId: contactId };
+  const hydrated = await hydrateInterlocuteurFromLead(sql, user, lead, contactId);
+  return {
+    ok: true,
+    contactId: contactId,
+    dossierFilled: hydrated.dossierFilled,
+    slack: hydrated.slack,
+  };
 }
 
 async function deleteLeadAndMaybeContact(sql, lead, alsoContact) {

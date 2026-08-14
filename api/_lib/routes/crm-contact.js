@@ -40,7 +40,7 @@ module.exports = async (req, res) => {
       `;
 
       const leads = await sql`
-        SELECT id, vertical, lead_score, status, email, phone, created_at
+        SELECT id, vertical, lead_score, status, email, phone, created_at, payload, contact_id
         FROM site_leads
         WHERE contact_id = ${contactId}
         ORDER BY created_at DESC

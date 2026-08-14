@@ -377,4 +377,44 @@
 
   renderRoleChips();
   load();
+
+  (function slackBar() {
+    var st = document.getElementById("emSlackStatus");
+    var dot = document.getElementById("emSlackDot");
+    var btn = document.getElementById("emSlackTest");
+    if (!st) return;
+    var token = localStorage.getItem("lo_token");
+    fetch("/api/crm/notify-slack", { headers: { Authorization: "Bearer " + token } })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        st.textContent = res.configured ? "Slack connecté — alertes leads et fiches interlocuteur" : "Slack non configuré (SLACK_WEBHOOK_URL)";
+        if (dot) dot.classList.toggle("is-on", !!res.configured);
+      })
+      .catch(function () {
+        st.textContent = "Slack : statut indisponible";
+      });
+    if (btn) {
+      btn.addEventListener("click", function () {
+        btn.disabled = true;
+        fetch("/api/crm/notify-slack", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: "{}",
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (res) {
+            st.textContent = res.ok ? "Test Slack envoyé" : res.error || "Échec Slack";
+            btn.disabled = false;
+          })
+          .catch(function () {
+            st.textContent = "Erreur réseau Slack";
+            btn.disabled = false;
+          });
+      });
+    }
+  })();
 })();

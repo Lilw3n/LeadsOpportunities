@@ -33,7 +33,7 @@ async function fetchLeadRow(sql, leadId) {
                payload, created_at, updated_at, opened_at, platform,
                competitor_monthly, our_offer_monthly, relevance, client_ip,
                landing_slug, seo_city, seo_product, pipeline_stage,
-               questionnaire_step, questionnaire_total
+               questionnaire_step, questionnaire_total, contact_id
         FROM site_leads WHERE id = ${leadId}
       `;
     },

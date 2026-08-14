@@ -22,6 +22,7 @@ window.CrmContactActions = {
       { label: "Vue modules", href: "./crm-contact-modules.html?id=" + encodeURIComponent(contactId) },
       { label: "Événement", href: "./crm-event-create.html?" + q },
       { label: "Suivi événements", href: "./crm-event-manager.html" },
+      { label: "Agenda", href: "./crm-calendar.html" },
     ];
   },
 

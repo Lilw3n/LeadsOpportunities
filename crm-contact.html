@@ -4,11 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Fiche contact | CRM</title>
+  <title>Fiche interlocuteur | CRM</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-contact.css" />
+  <link rel="stylesheet" href="./css/interlocuteur-dossier.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <link rel="stylesheet" href="./css/devis-documents.css" />
 </head>
@@ -22,7 +23,7 @@
         <a href="./crm-event-manager.html" class="btn btn-ghost">Suivi événements</a>
         <a href="./crm-events.html" class="btn btn-ghost">Événements</a>
         <div>
-          <h1 id="contactName">Contact</h1>
+          <h1 id="contactName">Interlocuteur</h1>
           <p id="contactMeta"></p>
         </div>
       </div>
@@ -31,11 +32,20 @@
         <a href="#" id="btnModulesTree" class="btn btn-ghost">Vue modules</a>
         <button type="button" class="btn btn-ghost" id="btnExportContact">Exporter CSV</button>
         <button type="button" class="btn btn-ghost" id="btnPrintContact">Imprimer</button>
+        <button type="button" class="btn btn-ghost" id="btnSlackFiche">Envoyer sur Slack</button>
         <button type="button" class="btn btn-ghost" id="btnEditProfile">Modifier profil</button>
         <button type="button" class="btn btn-ghost contact-danger" id="btnDeleteContact">Supprimer</button>
       </div>
     </header>
     <div id="contactProfileBar" class="contact-profile-bar panel"></div>
+    <div id="slackFicheBar" class="int-slack-bar" hidden>
+      <span class="int-slack-dot" id="slackDot"></span>
+      <span id="slackFicheStatus">Slack…</span>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnSlackFiche2">Notifier Slack</button>
+      <a href="./crm-pubs.html" class="btn btn-ghost btn-sm">Configurer Slack</a>
+      <a href="./crm-event-manager.html" class="btn btn-ghost btn-sm">Dashboard événements</a>
+    </div>
+    <div id="dossierMount"></div>
     <div id="contactActionsMount"></div>
     <div id="contactKpis" class="contact-kpis"></div>
     <section class="panel" id="contactDocumentsPanel" data-crm-section="documents">
@@ -181,6 +191,7 @@
       <div class="modal-foot"><button type="button" class="btn btn-ghost" id="transferCancel">Annuler</button><button type="button" class="btn btn-primary" id="transferConfirm">Transférer</button></div>
     </div>
   </div>
+  <script src="./js/interlocuteur-dossier-lib.js"></script>
   <script src="./js/service-catalog.js"></script>
   <script src="./js/partner-eligibility.js"></script>
   <script src="./js/crm-contact-profiles.js"></script>

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="./crm.css" />
   <link rel="stylesheet" href="./crm-ui.css" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/interlocuteur-dossier.css" />
   <link rel="stylesheet" href="./crm-event-manager.css" />
 </head>
 <body class="crm-subpage">
@@ -24,8 +25,16 @@
       <a href="./crm-calendar.html" class="btn btn-ghost">Agenda</a>
       <a href="./crm-events.html" class="btn btn-ghost">Liste brute</a>
       <a href="./crm-interlocutors.html" class="btn btn-ghost">Interlocuteurs</a>
+      <a href="./crm-pubs.html" class="btn btn-ghost">Slack</a>
     </div>
   </section>
+
+  <div class="int-slack-bar" id="emSlackBar">
+    <span class="int-slack-dot" id="emSlackDot"></span>
+    <span id="emSlackStatus">Slack…</span>
+    <button type="button" class="btn btn-ghost btn-sm" id="emSlackTest">Tester Slack</button>
+    <a href="./crm-pubs.html" class="btn btn-ghost btn-sm">Configurer</a>
+  </div>
 
   <div class="acq-stats" id="emKpis"></div>
 

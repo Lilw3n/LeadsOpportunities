@@ -138,7 +138,7 @@
       '<span class="badge badge-' +
       (c.contact_type === "client" ? "client" : c.contact_type === "apporteur" ? "apporteur" : "prospect") +
       '">' +
-      labelType(c.contact_type) +
+      (c.contact_type === "client" ? "Client" : "Interlocuteur / prospect") +
       "</span>" +
       (prof
         ? ' <span class="badge badge-profile">' + esc(prof.label) + "</span>"
@@ -149,6 +149,60 @@
       phoneHtml +
       (c.company ? " · " + esc(c.company) : "");
     if (window.SecureContact) window.SecureContact.bindReveal(document.getElementById("contactMeta"));
+  }
+
+  function dossierFromData() {
+    var Lib = window.InterlocuteurDossier;
+    if (!Lib) return null;
+    var lead = (data.leads || [])[0];
+    if (lead) return Lib.buildDossier(lead);
+    var fake = {
+      email: data.contact && data.contact.email,
+      phone: data.contact && data.contact.phone,
+      payload: data.meta && data.meta.dossier ? { _fromMeta: true } : {},
+    };
+    if (data.meta && data.meta.dossier && data.meta.dossier.perso) {
+      return {
+        perso: data.meta.dossier.perso || [],
+        pro: data.meta.dossier.pro || [],
+        biens: data.meta.dossier.biens || {},
+        projet: data.meta.dossier.projet || [],
+        raw: {},
+      };
+    }
+    return Lib.buildDossier(fake);
+  }
+
+  function renderDossier() {
+    var mount = document.getElementById("dossierMount");
+    if (!mount || !window.InterlocuteurDossier) return;
+    var dossier = dossierFromData();
+    mount.innerHTML = window.InterlocuteurDossier.renderSections(dossier);
+  }
+
+  function bindSlackFiche() {
+    function send() {
+      api("/api/crm/notify-slack", { method: "POST", body: { contactId: contactId } }).then(function (res) {
+        var st = document.getElementById("slackFicheStatus");
+        if (st) st.textContent = res.ok ? "Fiche envoyée sur Slack" : res.error || "Slack indisponible";
+        if (!res.ok) alert(res.error || "Slack : " + (res.hint || "webhook manquant"));
+      });
+    }
+    ["btnSlackFiche", "btnSlackFiche2"].forEach(function (id) {
+      var btn = document.getElementById(id);
+      if (btn && !btn.dataset.bound) {
+        btn.dataset.bound = "1";
+        btn.addEventListener("click", send);
+      }
+    });
+    var bar = document.getElementById("slackFicheBar");
+    if (bar) bar.hidden = false;
+    api("/api/crm/notify-slack").then(function (res) {
+      var st = document.getElementById("slackFicheStatus");
+      var dot = document.getElementById("slackDot");
+      if (st) st.textContent = res.configured ? "Slack connecté — notifier cette fiche" : "Slack non configuré (SLACK_WEBHOOK_URL)";
+      if (dot) dot.classList.toggle("is-on", !!res.configured);
+    });
   }
 
   function priorityBadge(p) {
@@ -1133,6 +1187,8 @@
       window.CrmContactProfiles.applyLayout(profileKey);
     }
     renderHeader();
+    renderDossier();
+    bindSlackFiche();
     renderKpis();
     renderDocuments();
     renderEligibility();

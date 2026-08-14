@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/interlocuteur-dossier.css" />
   <style>
     :root {
       --bg: #f1f5f9;
@@ -2160,6 +2161,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
+  <script src="./js/interlocuteur-dossier-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
@@ -3162,7 +3164,11 @@
         }
 
         var answersPanel = "";
-        if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
+        if (window.InterlocuteurDossier) {
+          answersPanel = window.InterlocuteurDossier.renderSections(
+            window.InterlocuteurDossier.buildDossier(Object.assign({}, l, { payload: payload }))
+          );
+        } else if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
           answersPanel =
             window.CrmLeadPayloadView.renderQuestionnairePanel(
               Object.assign({}, l, { payload: payload }),
@@ -3170,7 +3176,16 @@
             );
         }
 
+        var ficheCta = l.contact_id
+          ? '<a class="btn btn-primary" href="./crm-contact.html?id=' +
+            encodeURIComponent(l.contact_id) +
+            '">Ouvrir la fiche interlocuteur →</a>'
+          : '<button type="button" class="btn btn-primary" id="btnCreateInterlocuteur">Créer la fiche interlocuteur</button>';
+
         body.innerHTML =
+          '<div class="int-cta-bar"><strong>Fiche interlocuteur</strong> — les réponses du formulaire y sont classées (perso, pro, biens). ' +
+          ficheCta +
+          ' <a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a></div>' +
           answersPanel +
           '<div class="detail-grid">' +
             '<div class="detail-item"><div class="dlabel">Email</div><div class="dvalue">' + esc(l.email) + '</div></div>' +
@@ -3228,6 +3243,32 @@
             closeModal: true,
           });
         });
+        var createInt = document.getElementById("btnCreateInterlocuteur");
+        if (createInt) {
+          createInt.addEventListener("click", async function () {
+            createInt.disabled = true;
+            createInt.textContent = "Création…";
+            try {
+              var res = await fetch("/api/crm/lead-lifecycle", {
+                method: "POST",
+                headers: authHeaders(),
+                body: JSON.stringify({ action: "promote", leadId: l.id }),
+              });
+              var out = await res.json();
+              if (!out.ok || !out.contactId) {
+                toast(out.error || "Impossible de créer la fiche", "error");
+                createInt.disabled = false;
+                createInt.textContent = "Créer la fiche interlocuteur";
+                return;
+              }
+              window.location.href = "./crm-contact.html?id=" + encodeURIComponent(out.contactId);
+            } catch (err) {
+              toast("Erreur réseau", "error");
+              createInt.disabled = false;
+              createInt.textContent = "Créer la fiche interlocuteur";
+            }
+          });
+        }
         var filterIpBtn = document.getElementById("modalFilterIp");
         if (filterIpBtn) {
           filterIpBtn.addEventListener("click", function () {
