@@ -28,7 +28,8 @@
       <p>RDV lié contact + bien optionnel — sync Google Calendar à l'enregistrement.</p>
     </div>
     <div class="crm-action-row">
-      <a href="./crm-calendar.html" class="btn btn-ghost">← Agenda</a>
+      <a href="./crm-event-manager.html" class="btn btn-ghost">← Gestionnaire</a>
+      <a href="./crm-calendar.html" class="btn btn-ghost">Agenda</a>
       <a href="./crm-events.html" class="btn btn-ghost">Liste</a>
     </div>
   </section>
@@ -98,6 +99,11 @@
       </label>
       <p id="contactLabel" style="color:var(--muted);font-size:.85rem;margin:0 0 12px"></p>
 
+      <h3>Interlocuteurs du dossier</h3>
+      <p style="color:var(--muted);font-size:.8rem;margin:0 0 10px">Les personnes à suivre pour ce dossier (banque, notaire, co-emprunteur, partenaire…).</p>
+      <div id="interlocutorsBox"></div>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnAddInterlocutor">+ Interlocuteur</button>
+
       <h3>Bien(s)</h3>
       <label>ID bien immo (optionnel)
         <input name="propertyId" id="propertyId" class="crm-input" placeholder="prop_…" />
@@ -113,6 +119,7 @@
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/crm-prefill-contact-id.js"></script>
   <script src="./js/crm-agenda-types.js"></script>
+  <script src="./js/crm-dossier-interlocutors.js"></script>
   <script src="./crm-event-create.js"></script>
   <script src="./js/admin-nav.js"></script>
 </body>

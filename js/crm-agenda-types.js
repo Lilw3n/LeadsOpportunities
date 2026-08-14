@@ -12,6 +12,11 @@ window.CrmAgendaTypes = (function () {
     { id: "email", label: "Email", color: "#475569" },
     { id: "task", label: "Tâche", color: "#64748b" },
     { id: "prospection", label: "Prospection", color: "#9333ea" },
+    { id: "relance", label: "Relance suivi", color: "#b45309" },
+    { id: "pieces", label: "Pièces dossier", color: "#7c3aed" },
+    { id: "banque", label: "RDV banque", color: "#1e3a8a" },
+    { id: "notaire", label: "RDV notaire", color: "#9a3412" },
+    { id: "partenaire", label: "Point partenaire", color: "#0f766e" },
     { id: "note", label: "Note", color: "#94a3b8" },
   ];
 

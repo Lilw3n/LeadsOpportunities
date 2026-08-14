@@ -21,6 +21,7 @@ window.CrmContactActions = {
       { label: "Simulation portail", href: "./crm-simulate.html?" + q },
       { label: "Vue modules", href: "./crm-contact-modules.html?id=" + encodeURIComponent(contactId) },
       { label: "Événement", href: "./crm-event-create.html?" + q },
+      { label: "Suivi événements", href: "./crm-event-manager.html" },
     ];
   },
 

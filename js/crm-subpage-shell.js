@@ -74,6 +74,7 @@
       "crm-pro-accounting.html": { subtitle: "Comptabilité professionnelle et dépenses structurées" },
       "crm-periods.html": { subtitle: "Périodes comptables et clôtures" },
       "crm-calendar.html": { subtitle: "Agenda Google Calendar — timeline, jour, semaine, mois, export iCal" },
+      "crm-event-manager.html": { subtitle: "Suivi des dossiers — relances et interlocuteurs importants (client, banque, notaire, partenaire…)" },
       "crm-event-create.html": { subtitle: "Créer un RDV (Estimation, Visite…) sync Google Agenda" },
       "crm-events.html": { subtitle: "Liste des événements CRM" },
       "crm-marches.html": { subtitle: "Marchés, permanences — présence équipe modifiable par tous" },

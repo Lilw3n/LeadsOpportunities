@@ -48,7 +48,8 @@
     "verify:listing-urls": "node scripts/verify-immo-listing-urls.cjs",
     "verify:projection": "node scripts/verify-achat-projection.cjs",
     "verify:questionnaires": "node scripts/verify-questionnaires-fields.cjs",
-    "verify:leads-hub": "node scripts/verify-leads-hub.cjs"
+    "verify:leads-hub": "node scripts/verify-leads-hub.cjs",
+    "verify:event-manager": "node scripts/verify-event-manager.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

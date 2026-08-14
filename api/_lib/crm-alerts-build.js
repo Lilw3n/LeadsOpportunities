@@ -182,7 +182,7 @@ async function buildOperationalAlerts(sql, scope) {
       title: "Événement en retard",
       message: e.title + " — " + name,
       contactId: e.contact_id,
-      href: "./crm-events.html",
+      href: "./crm-event-manager.html",
     });
   });
 
@@ -205,7 +205,7 @@ async function buildOperationalAlerts(sql, scope) {
       title: "Événement urgent",
       message: e.title + " — " + name,
       contactId: e.contact_id,
-      href: "./crm-events.html",
+      href: "./crm-event-manager.html",
     });
   });
 

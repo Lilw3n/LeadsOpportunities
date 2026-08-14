@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { syncCrmEventToGoogle } = require("../google-calendar");
+const Interlocutors = require("../../../js/crm-dossier-interlocutors");
 
 async function touchContact(sql, contactId) {
   await sql`UPDATE crm_contacts SET updated_at = NOW() WHERE id = ${contactId}`;
@@ -79,6 +80,7 @@ module.exports = async (req, res) => {
           googleEventId: r.google_event_id,
           googleSyncStatus: r.google_sync_status,
           participants: extra.participants || [],
+          interlocutors: Interlocutors.normalizeList(extra.interlocutors || extra.participants || []),
           attachments: extra.attachments || [],
         };
       });
@@ -116,6 +118,7 @@ module.exports = async (req, res) => {
       const eventTime = body.eventTime || null;
       const extra = JSON.stringify({
         participants: body.participants || [],
+        interlocutors: Interlocutors.normalizeList(body.interlocutors || body.participants || []),
         attachments: body.attachments || [],
         source: body.source || "crm-event-create",
         eventTime: eventTime,
@@ -165,6 +168,52 @@ module.exports = async (req, res) => {
       });
     } catch (e) {
       console.error("[crm/events POST]", e);
+      return res.status(500).json({ error: "Erreur serveur" });
+    }
+  }
+
+  if (req.method === "PATCH") {
+    const parsed = parseJsonBody(req);
+    if (parsed.error) return res.status(400).json({ error: parsed.error });
+    const body = parsed.body || {};
+    const eventId = body.id || body.eventId;
+    if (!eventId) return res.status(400).json({ error: "id requis" });
+    try {
+      const rows = await sql`
+        SELECT e.* FROM crm_events e
+        INNER JOIN crm_contacts c ON c.id = e.contact_id
+        WHERE e.id = ${eventId}
+          AND (${scope}::text IS NULL OR c.assigned_to = ${scope})
+        LIMIT 1
+      `;
+      if (!rows.length) return res.status(404).json({ error: "Événement introuvable" });
+      var extra = {};
+      try {
+        extra = rows[0].extra_data ? JSON.parse(rows[0].extra_data) : {};
+      } catch (e) {
+        extra = {};
+      }
+      if (body.interlocutors) extra.interlocutors = Interlocutors.normalizeList(body.interlocutors);
+      if (body.location != null) extra.location = body.location;
+      if (body.mode != null) extra.mode = body.mode;
+      var status = body.status || rows[0].status;
+      var priority = body.priority || rows[0].priority;
+      var title = body.title || rows[0].title;
+      var description = body.description != null ? body.description : rows[0].description;
+      var extraStr = JSON.stringify(extra);
+      await sql`
+        UPDATE crm_events
+        SET title = ${title},
+            description = ${description},
+            status = ${status},
+            priority = ${priority},
+            extra_data = ${extraStr},
+            updated_at = NOW()
+        WHERE id = ${eventId}
+      `;
+      return res.status(200).json({ ok: true, id: eventId });
+    } catch (e) {
+      console.error("[crm/events PATCH]", e);
       return res.status(500).json({ error: "Erreur serveur" });
     }
   }

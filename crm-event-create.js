@@ -137,6 +137,53 @@
     }, 250);
   });
 
+  var interlocutorsBox = document.getElementById("interlocutorsBox");
+  var INT = window.CrmDossierInterlocutors;
+
+  function interlocutorRow(data) {
+    data = data || {};
+    var wrap = document.createElement("div");
+    wrap.className = "ev-int-row";
+    wrap.style.cssText = "display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;margin-bottom:8px;align-items:end";
+    wrap.innerHTML =
+      '<label>Rôle<select class="crm-input ev-int-role">' +
+      (INT ? INT.roleOptionsHtml(data.role || "client") : "") +
+      "</select></label>" +
+      '<label>Nom<input class="crm-input ev-int-name" placeholder="Nom" value="' +
+      String(data.name || "").replace(/"/g, "&quot;") +
+      '" /></label>' +
+      '<label>Tél / e-mail<input class="crm-input ev-int-reach" placeholder="06… ou email" value="' +
+      String(data.phone || data.email || "").replace(/"/g, "&quot;") +
+      '" /></label>' +
+      '<button type="button" class="btn btn-ghost btn-sm ev-int-rm">×</button>';
+    wrap.querySelector(".ev-int-rm").onclick = function () {
+      wrap.remove();
+    };
+    return wrap;
+  }
+
+  function collectInterlocutors() {
+    if (!interlocutorsBox) return [];
+    return Array.prototype.slice.call(interlocutorsBox.querySelectorAll(".ev-int-row")).map(function (row) {
+      var reach = (row.querySelector(".ev-int-reach").value || "").trim();
+      var item = {
+        role: row.querySelector(".ev-int-role").value,
+        name: row.querySelector(".ev-int-name").value,
+        followUp: "pending",
+      };
+      if (reach.indexOf("@") >= 0) item.email = reach;
+      else item.phone = reach;
+      return item;
+    });
+  }
+
+  if (interlocutorsBox && INT) {
+    interlocutorsBox.appendChild(interlocutorRow({ role: "client" }));
+    document.getElementById("btnAddInterlocutor").onclick = function () {
+      interlocutorsBox.appendChild(interlocutorRow({ role: "banque" }));
+    };
+  }
+
   form.onsubmit = function (e) {
     e.preventDefault();
     var fd = new FormData(form);
@@ -171,6 +218,7 @@
         eventType: fd.get("eventType") || "meeting",
         status: "pending",
         source: "crm-agenda",
+        interlocutors: collectInterlocutors(),
       }),
     })
       .then(function (r) {
@@ -190,7 +238,7 @@
                   ? " — CRM OK, sync Google : " + sync.error
                   : "");
           setTimeout(function () {
-            location.href = "./crm-calendar.html";
+            location.href = "./crm-event-manager.html";
           }, 900);
         } else {
           msg.style.color = "#b91c1c";
