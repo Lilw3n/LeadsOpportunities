@@ -113,6 +113,9 @@ assert(dash.indexOf("leadStatTotal") >= 0, "dashboard : KPI tous les leads");
 assert(dash.indexOf("filterLimit") >= 0, "dashboard : 100 par page");
 assert(dash.indexOf("renderLeadsPagination") >= 0, "dashboard : pagination lisible");
 assert(dash.indexOf("leads au total") >= 0, "dashboard : total explicite");
+assert(dash.indexOf("leadNetworkLabel") >= 0, "dashboard : colonne réseau (label)");
+assert(dash.indexOf('value="landing_form"') < 0, "dashboard : pas d’option landing_form (type de formulaire)");
+assert(dash.indexOf('value="facebook">Meta') >= 0, "dashboard : filtre Meta");
 
 var leadsApi = read("api/_lib/routes/leads.js");
 assert(leadsApi.indexOf("Math.min(250") >= 0, "API leads : jusqu’à 250 par page");
