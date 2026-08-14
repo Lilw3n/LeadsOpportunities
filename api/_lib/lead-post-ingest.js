@@ -3,6 +3,24 @@ const { normalizeClientIp } = require("./security");
 const { classifyLeadInboxKind } = require("./lead-inbox-kind");
 const VerticalLabels = require("../../js/vertical-labels.js");
 const CrmLeadPayloadView = require("../../js/crm-lead-payload-view.js");
+const LeadValue = require("../../js/lead-value.js");
+
+function leadValueInfo(payload, score) {
+  if (payload && payload.estimated_value != null && isFinite(Number(payload.estimated_value))) {
+    return {
+      value: Number(payload.estimated_value),
+      band: payload.estimated_value_band || null,
+      reasons: payload.estimated_value_reasons || [],
+    };
+  }
+  try {
+    return LeadValue.computeLeadValue(
+      Object.assign({}, payload, { leadScore: payload.leadScore != null ? payload.leadScore : score })
+    );
+  } catch (e) {
+    return null;
+  }
+}
 
 function normalizeEmailAddress(addr) {
   var s = String(addr || "").trim();
@@ -75,7 +93,21 @@ async function sendResendEmail(payload, score, leadId) {
     .trim() || String(payload.fullName || payload.name || "").trim();
   var who = name || payload.email || payload.phone || leadId;
 
-  var sub = "[" + typeLabel + " · " + productLabel + "] " + who + " — score " + score;
+  var lv = leadValueInfo(payload, score);
+  var valueTxt = lv && lv.value > 0 ? "~" + LeadValue.formatEuros(lv.value) : "";
+  var bandTxt =
+    lv && lv.band === "high" ? " (fort potentiel)" : lv && lv.band === "medium" ? "" : "";
+
+  var sub =
+    "[" +
+    typeLabel +
+    " · " +
+    productLabel +
+    "] " +
+    who +
+    " — score " +
+    score +
+    (valueTxt ? " · " + valueTxt : "");
 
   var appUrl = (
     process.env.APP_URL ||
@@ -126,8 +158,17 @@ async function sendResendEmail(payload, score, leadId) {
     escapeHtml(who) +
     " · score " +
     score +
-    "/100</p>" +
+    "/100" +
+    (valueTxt
+      ? ' · <strong style="color:#15803d">' + escapeHtml(valueTxt + bandTxt) + "</strong>"
+      : "") +
+    "</p>" +
     '<table style="border-collapse:collapse;font-size:14px">' +
+    row("Rémunération potentielle", valueTxt ? valueTxt + bandTxt : "") +
+    row(
+      "Détail du calcul",
+      lv && lv.reasons && lv.reasons.length ? lv.reasons.join(" · ") : ""
+    ) +
     row("Nom", name) +
     row("E-mail", payload.email) +
     row("Téléphone", payload.phone) +
@@ -190,8 +231,18 @@ async function notifySlack(payload, score, leadId) {
   var vertical = String(payload.vertical || "devis");
   var crmPath =
     src === "meta_lead_ads" ? "/crm-meta-inbox.html" : "/crm-acquisition.html";
+  var lvSlack = leadValueInfo(payload, score);
   var lines = [
-    "*Nouveau lead* — " + vertical + " · score " + score + "/100",
+    "*Nouveau lead* — " +
+      vertical +
+      " · score " +
+      score +
+      "/100" +
+      (lvSlack && lvSlack.value > 0
+        ? " · ~" +
+          LeadValue.formatEuros(lvSlack.value) +
+          (lvSlack.band === "high" ? " (fort potentiel)" : "")
+        : ""),
     "Source: " + src,
     payload.phone ? "Tel: " + payload.phone : "",
     payload.email ? "Email: " + payload.email : "",
