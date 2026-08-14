@@ -173,7 +173,7 @@
     return {
       level: res.level,
       tone: res.tone,
-      text: (place ? place + " — " : "") + res.short + " · " + res.message,
+      text: (place ? place + " — " : "") + res.short + ". " + res.message,
       canHunt: res.canHunt,
       needsPartner: res.needsPartner,
     };
