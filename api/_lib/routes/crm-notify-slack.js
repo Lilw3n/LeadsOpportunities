@@ -6,7 +6,7 @@
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
-const { sendSlackText } = require("../slack-notify");
+const { sendSlackText, slackConfigured } = require("../slack-notify");
 const { sendSlackTestMessage } = require("../lead-post-ingest");
 const { notifyInterlocuteurSlack, parseMeta } = require("../hydrate-interlocuteur");
 const Dossier = require("../../../js/interlocuteur-dossier-lib");
@@ -18,15 +18,15 @@ module.exports = async (req, res) => {
   const user = await requireCrm(req, res);
   if (!user) return;
 
-  const configured = !!(process.env.SLACK_WEBHOOK_URL || "").trim();
+  const configured = slackConfigured();
 
   if (req.method === "GET") {
     return res.status(200).json({
       ok: true,
       configured: configured,
       hint: configured
-        ? "Webhook Slack actif (SLACK_WEBHOOK_URL)"
-        : "Vercel → Settings → Environment Variables → SLACK_WEBHOOK_URL → Redeploy",
+        ? "Slack actif (token ou webhook)"
+        : "Vercel → SLACK_BOT_TOKEN (ou SLACK_WEBHOOK_URL) → Redeploy",
     });
   }
 
@@ -61,7 +61,7 @@ module.exports = async (req, res) => {
         return res.status(result.error && String(result.error).indexOf("non défini") >= 0 ? 503 : 502).json({
           ok: false,
           error: result.error,
-          hint: "Ajouter SLACK_WEBHOOK_URL sur Vercel puis Redeploy",
+          hint: "Ajouter SLACK_BOT_TOKEN (ou SLACK_WEBHOOK_URL) sur Vercel puis Redeploy",
         });
       }
       return res.status(200).json({ ok: true, message: "Fiche envoyée sur Slack" });
@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
       return res.status(result.error && result.error.indexOf("non défini") >= 0 ? 503 : 502).json({
         ok: false,
         error: result.error,
-        hint: "Vercel → Settings → Environment Variables → SLACK_WEBHOOK_URL → Redeploy",
+        hint: "Vercel → Settings → Environment Variables → SLACK_BOT_TOKEN ou SLACK_WEBHOOK_URL → Redeploy",
       });
     }
     return res.status(200).json({ ok: true, message: "Message test envoyé sur Slack" });

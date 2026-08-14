@@ -106,8 +106,7 @@ async function sendResendEmail(payload, score, leadId) {
 }
 
 async function notifySlack(payload, score, leadId) {
-  var url = (process.env.SLACK_WEBHOOK_URL || "").trim();
-  if (!url) return false;
+  const { sendSlackText } = require("./slack-notify");
 
   var appUrl = (
     process.env.APP_URL ||
@@ -129,13 +128,9 @@ async function notifySlack(payload, score, leadId) {
   ].filter(Boolean);
 
   try {
-    var r = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text: lines.join("\n") }),
-    });
-    if (!r.ok) console.warn("[lead] slack", r.status, await r.text().catch(function () { return ""; }));
-    return r.ok;
+    var r = await sendSlackText(lines.join("\n"));
+    if (!r.ok) console.warn("[lead] slack", r.error);
+    return !!r.ok;
   } catch (e) {
     console.error("[lead] slack error", e.message);
     return false;
