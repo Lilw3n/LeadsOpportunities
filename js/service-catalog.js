@@ -49,6 +49,20 @@
       vertical: "acheteur_immo",
       landing: "./landings/acheteur-immo.html",
     },
+    "vendeur-immo": {
+      need: "vendeur-immo",
+      label: "Déposer un bien à vendre",
+      category: "finance",
+      vertical: "vendeur_immo",
+      landing: "./landings/acheteur-immo.html?role=vendeur",
+    },
+    "acheteur-vendeur-immo": {
+      need: "acheteur-vendeur-immo",
+      label: "Vendre et racheter un bien",
+      category: "finance",
+      vertical: "acheteur_vendeur_immo",
+      landing: "./landings/acheteur-immo.html?role=les_deux",
+    },
     "projection-achat": {
       need: "credit-immo",
       label: "Projection cout reel achat",
@@ -160,6 +174,10 @@
   var RAPIDE_LANDINGS = {
     animaux: "./landings/animaux-express.html",
     vtc: "./landings/devis-rapide.html",
+    "acheteur-immo": "./landings/acheteur-immo.html",
+    "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
+    "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
+    "projection-achat": "./landings/projection-achat.html",
   };
 
   /** Parcours complet dedie (sinon questionnaire universel). */
@@ -169,6 +187,8 @@
     sante: "./landings/sante.html",
     immo: "./landings/credit-immo.html",
     "acheteur-immo": "./landings/acheteur-immo.html",
+    "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
+    "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
     "projection-achat": "./landings/projection-achat.html",
   };
 

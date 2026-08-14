@@ -10,6 +10,7 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 
 | Page | Rôle |
 |------|------|
+| `/landings/acheteur-immo.html` | **Vitrine publique** : casquettes acquéreur / vendeur / les deux, dépôt **manuel ou URL**, photos + description + capture |
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
 | `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |
@@ -43,6 +44,25 @@ Implémentation : `js/crm-immo-matcher.js` (navigateur + Node).
 
 - `entity=all|property|criteria|party|document|match`
 - Auth CRM (`requireCrm`)
+
+`GET /api/immo-listings` — **public**, sans authentification.
+
+- Mandats au statut matchable uniquement (prospection, estimation, mandat, sous offre, réservé SRU)
+- Champs publics : titre, type, ville, CP, pièces, surface, prix FAI, DPE, tags (garage, jardin…)
+- **Jamais** : notes, e-mail, téléphone, adresse précise, contacts vendeur
+- Pas d’annonces d’illustration : grille vide tant qu’aucun bien n’est collé (URL) ou saisi au CRM
+
+Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-immo-listings.js`.
+
+`POST /api/immo-listing-submit` — dépôt de bien (vendeur) ou URL collée (acquéreur).
+
+- Rôle `acheteur` | `vendeur` | `les_deux` (vend et rachète)
+- Saisie manuelle **sans URL** pour un vendeur (ville obligatoire)
+- Détecte le portail si URL (Leboncoin, SeLoger, ParuVendu…)
+- Parties CRM : vendeur (déposant ou infos collées) ; acquéreur si recherche / double casquette ; critères de rachat si `les_deux`
+- **Pas de scraping**
+
+Catalogue : `js/immo-listing-portals-lib.js`.
 
 ## Documents (fondation)
 

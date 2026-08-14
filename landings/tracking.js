@@ -127,7 +127,12 @@
     if (path.indexOf("sante") !== -1) return "sante";
     if (path.indexOf("projection-achat") !== -1) return "credit_immo";
     if (path.indexOf("credit-immo") !== -1) return "credit_immo";
-    if (path.indexOf("acheteur-immo") !== -1) return "acheteur_immo";
+    if (path.indexOf("acheteur-immo") !== -1) {
+      var role = new URLSearchParams(window.location.search).get("role") || "";
+      if (role === "vendeur") return "vendeur_immo";
+      if (role === "les_deux") return "acheteur_vendeur_immo";
+      return "acheteur_immo";
+    }
     if (path.indexOf("animaux") !== -1) return "animaux";
     if (path.indexOf("devis") !== -1) return need || "devis";
     return "unknown";

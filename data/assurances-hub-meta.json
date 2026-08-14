@@ -1,5 +1,5 @@
 {
-  "featured": ["vtc", "sante", "immo", "acheteur-immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
+  "featured": ["vtc", "sante", "immo", "acheteur-immo", "vendeur-immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
   "blogActuExamples": [
     "elections-presidentielles-prevoyance-patrimoine.html",
     "ligue-champions-assurance-voyage-deplacement.html",
@@ -36,10 +36,22 @@
     },
     "acheteur-immo": {
       "icon": "🏘️",
-      "teaser": "Parcours acquereur : pret, emprunteur, habitation, PNO, locataire — pour negociateurs immobiliers.",
-      "seoUrl": "/negociateur-immobilier/",
+      "teaser": "Recherche de bien : annonces, ville, budget — puis pret et assurances en option.",
+      "seoUrl": "/landings/acheteur-immo.html",
       "blogUrl": "/blog/pret-immo-erreurs-a-eviter.html",
-      "keywords": ["negociateur immobilier", "acquereur", "pret immobilier", "PNO", "assurance emprunteur"]
+      "keywords": ["negociateur immobilier", "acquereur", "pret immobilier"]
+    },
+    "vendeur-immo": {
+      "icon": "🏷️",
+      "teaser": "Déposez votre bien à vendre : saisie manuelle ou URL d'annonce.",
+      "seoUrl": "/landings/acheteur-immo.html?role=vendeur",
+      "keywords": ["vendre maison", "deposer annonce", "vendeur immobilier"]
+    },
+    "acheteur-vendeur-immo": {
+      "icon": "🔄",
+      "teaser": "Vous vendez et vous rachètez : les deux casquettes, chaîne et prêt relais.",
+      "seoUrl": "/landings/acheteur-immo.html?role=les_deux",
+      "keywords": ["vente rachat", "pret relais", "chaine immobiliere"]
     },
     "auto": {
       "icon": "🚙",

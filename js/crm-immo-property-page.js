@@ -117,9 +117,28 @@
     mStatus.innerHTML = Matcher.PROPERTY_STATUSES.map(function (s) {
       return '<option value="' + s.id + '">' + s.label + "</option>";
     }).join("");
-    mSource.innerHTML = Matcher.LISTING_SOURCES.map(function (t) {
-      return '<option value="' + t.id + '">' + t.label + "</option>";
-    }).join("");
+    var Portals = window.ImmoListingPortals;
+    if (Portals && Portals.groupedOptions) {
+      mSource.innerHTML = Portals.groupedOptions()
+        .map(function (g) {
+          return (
+            '<optgroup label="' +
+            g.label +
+            '">' +
+            g.items
+              .map(function (t) {
+                return '<option value="' + t.id + '">' + t.label + "</option>";
+              })
+              .join("") +
+            "</optgroup>"
+          );
+        })
+        .join("");
+    } else {
+      mSource.innerHTML = Matcher.LISTING_SOURCES.map(function (t) {
+        return '<option value="' + t.id + '">' + t.label + "</option>";
+      }).join("");
+    }
     document.getElementById("mTitle").value = prop.title || "";
     mType.value = prop.property_type || "appartement";
     mTx.value = prop.transaction || "vente";
@@ -1016,6 +1035,15 @@
   document.getElementById("btnSave2").onclick = save;
 
   fillMeta();
+  (function bindUrlDetect() {
+    var urlEl = document.getElementById("mUrl");
+    var srcEl = document.getElementById("mSource");
+    if (!urlEl || !srcEl || !window.ImmoListingPortals) return;
+    urlEl.addEventListener("change", function () {
+      var d = window.ImmoListingPortals.detectFromUrl(urlEl.value);
+      if (d.ok && d.portal && d.portal !== "autre") srcEl.value = d.portal;
+    });
+  })();
   // seed localisation from top-level if empty
   var loc = ensureSectionBucket("localisation");
   if (!loc.ville && prop.city) loc.ville = prop.city;

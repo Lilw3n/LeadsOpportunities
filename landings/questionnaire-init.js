@@ -170,6 +170,21 @@
     var hub = qs("questionnaireHub");
     var wizard = qs("questionnaireWizard");
 
+    /* Immobilier public : vitrine + dépôt vendeur (pas un devis assurance). */
+    if (
+      (need === "acheteur-immo" || need === "vendeur-immo" || need === "acheteur-vendeur-immo") &&
+      params.get("wizard") !== "1"
+    ) {
+      var dest = new URL("./acheteur-immo.html", window.location.href);
+      params.forEach(function (v, k) {
+        if (k !== "need") dest.searchParams.set(k, v);
+      });
+      if (need === "vendeur-immo" && !dest.searchParams.get("role")) dest.searchParams.set("role", "vendeur");
+      if (need === "acheteur-vendeur-immo" && !dest.searchParams.get("role")) dest.searchParams.set("role", "les_deux");
+      window.location.replace(dest.pathname + dest.search + dest.hash);
+      return;
+    }
+
     if (!need) {
       if (hub) hub.hidden = false;
       if (wizard) wizard.hidden = true;

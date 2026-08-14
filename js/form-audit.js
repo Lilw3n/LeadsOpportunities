@@ -138,6 +138,14 @@
         if (ft) return ft.slice(0, 80);
       }
     }
+    var fs = el.closest("fieldset");
+    if (fs) {
+      var legend = fs.querySelector("legend");
+      if (legend) {
+        var lt = (legend.textContent || "").replace(/\s+/g, " ").trim();
+        if (lt) return lt.slice(0, 80);
+      }
+    }
     return "";
   }
 
@@ -159,18 +167,19 @@
         seenGroups[el.name] = true;
         var opts = [];
         step.querySelectorAll('input[name="' + el.name + '"]').forEach(function (cb) {
-          var ot = fieldLabelText(cb);
-          if (ot) opts.push(ot);
+          var ot = fieldLabelText(cb) || cb.value;
+          if (ot && opts.indexOf(ot) === -1) opts.push(ot);
         });
         var rules = fieldRules(el)
           .map(function (t) {
             return t.text;
           })
           .join(" · ");
+        var legend = el.closest("fieldset") && el.closest("fieldset").querySelector("legend");
+        var legendText = legend ? (legend.textContent || "").replace(/\s+/g, " ").trim() : "";
         var groupTitle =
-          el.name === "buyerNeeds"
-            ? "Besoins sélectionnés"
-            : fieldLabelText(el) || el.name;
+          legendText ||
+          (el.name === "buyerNeeds" ? "Besoins sélectionnés" : fieldLabelText(el) || el.name);
         inputs.push(
           "<li><strong>" +
             groupTitle +

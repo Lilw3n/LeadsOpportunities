@@ -20,16 +20,31 @@
     { id: "autre", label: "Autre" },
   ];
 
-  var LISTING_SOURCES = [
-    { id: "manual", label: "Saisie manuelle" },
-    { id: "leboncoin", label: "Leboncoin" },
-    { id: "seloger", label: "SeLoger" },
-    { id: "paruvendu", label: "ParuVendu" },
-    { id: "pap", label: "PAP" },
-    { id: "logic_immo", label: "Logic-Immo" },
-    { id: "orpi", label: "ORPI / réseau" },
-    { id: "autre", label: "Autre portail" },
-  ];
+  var Portals =
+    (typeof require === "function"
+      ? (function () {
+          try {
+            return require("./immo-listing-portals-lib.js");
+          } catch (e) {
+            return null;
+          }
+        })()
+      : typeof root !== "undefined"
+        ? root.ImmoListingPortals
+        : null) || (typeof globalThis !== "undefined" ? globalThis.ImmoListingPortals : null);
+
+  var LISTING_SOURCES =
+    (Portals && Portals.LISTING_SOURCES) || [
+      { id: "manual", label: "Saisie manuelle" },
+      { id: "leboncoin", label: "Leboncoin (en direct)" },
+      { id: "seloger", label: "SeLoger" },
+      { id: "paruvendu", label: "ParuVendu" },
+      { id: "bienici", label: "Bien'ici" },
+      { id: "pap", label: "PAP" },
+      { id: "logic_immo", label: "Logic-Immo" },
+      { id: "orpi", label: "ORPI / réseau" },
+      { id: "autre", label: "Autre portail" },
+    ];
 
   var PARTY_ROLES = [
     { id: "vendeur", label: "Vendeur / propriétaire" },

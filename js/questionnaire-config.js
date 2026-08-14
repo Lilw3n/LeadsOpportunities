@@ -1164,9 +1164,36 @@
     "acheteur-immo": function () {
       return (
         wizardSection(
+          "recherche-bien",
+          "Quel bien recherchez-vous ?",
+          '<p class="small">Type, secteur et budget — comme une recherche d\'annonce. <a href="./acheteur-immo.html">Voir les annonces →</a></p>' +
+            fieldRow(
+              select("propertyTypeSought", "Type de bien", [
+                { v: "appartement", t: "Appartement" },
+                { v: "maison", t: "Maison" },
+                { v: "terrain", t: "Terrain" },
+                { v: "local", t: "Local / mixte" },
+                { v: "immeuble", t: "Immeuble" },
+              ]) +
+                input("postalProject", "Code postal", "text", "Ex. 67000", true)
+            ) +
+            fieldRow(
+              input("searchCities", "Ville(s)", "text", "Ex. Strasbourg", false) +
+                input("budgetMax", "Budget max (EUR)", "text", "Ex. 280000", true)
+            ) +
+            fieldRow(
+              input("roomsMin", "Pieces min.", "text", "Ex. 3", false) +
+                select("sellerType", "Vendeur", [
+                  { v: "indifferent", t: "Pro ou particulier" },
+                  { v: "particulier", t: "Particulier" },
+                  { v: "pro", t: "Professionnel" },
+                ])
+            )
+        ) +
+        wizardSection(
           "acheteur-immo",
-          "Parcours acquereur immobilier",
-          '<p class="small">Pret, assurance emprunteur, habitation, PNO ou locataire — indiquez vos besoins.</p>' +
+          "Pret et assurances (optionnel)",
+          '<p class="small">Uniquement si vous voulez aussi etudier le financement ou les assurances.</p>' +
             fieldRow(
               select("buyerNeedPret", "Pret immobilier a etudier ?", [
                 { v: "oui", t: "Oui" },
@@ -1203,7 +1230,7 @@
                 ])
             )
         ) +
-        '<p class="small"><a href="../landings/acheteur-immo.html">Questionnaire complet acquereur →</a></p>'
+        '<p class="small"><a href="./acheteur-immo.html">Vitrine d\'annonces acquereur →</a></p>'
       );
     },
 

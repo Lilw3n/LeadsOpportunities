@@ -10,6 +10,8 @@ const ROUTES = {
   "journey-event": () => require("./_lib/routes/public-journey-event"),
   "blog-actu-ingest": () => require("./_lib/routes/blog-actu-ingest"),
   "geo-hint": () => require("./_lib/routes/public-geo-hint"),
+  "immo-listings": () => require("./_lib/routes/public-immo-listings"),
+  "immo-listing-submit": () => require("./_lib/routes/public-immo-listing-submit"),
   "acquisition-focus": () => require("./_lib/routes/public-acquisition-focus"),
   dashboard: () => require("./dashboard/[action].js"),
 };
