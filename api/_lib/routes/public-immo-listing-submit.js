@@ -1,6 +1,6 @@
 /**
- * POST /api/immo-listing-submit — coller des URL d'annonces (Leboncoin, SeLoger…).
- * Enregistre le bien + infos vendeur fournies. Pas de scraping des portails.
+ * POST /api/immo-listing-submit — dépôt de bien (vendeur) ou URL collée (acquéreur).
+ * Saisie manuelle ou URL. Double casquette : vend + rachète. Pas de scraping.
  */
 const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, isHoneypotFilled, rateLimit, getClientIp } = require("../security");
@@ -20,6 +20,17 @@ function num(v) {
   return isFinite(n) ? n : null;
 }
 
+function normalizeRole(v) {
+  var s = String(v || "")
+    .toLowerCase()
+    .replace(/-/g, "_");
+  if (s === "vendeur" || s === "seller" || s === "vendeur_immo") return "vendeur";
+  if (s === "les_deux" || s === "both" || s === "acheteur_vendeur" || s === "acheteur_vendeur_immo") {
+    return "les_deux";
+  }
+  return "acheteur";
+}
+
 function collectDetections(body) {
   var urls = [];
   if (Array.isArray(body.urls)) urls = body.urls;
@@ -30,6 +41,29 @@ function collectDetections(body) {
   return detected.filter(function (d) {
     return d.ok;
   }).slice(0, 8);
+}
+
+function manualDetection() {
+  return {
+    ok: true,
+    portal: "manual",
+    url: "",
+    label: "Saisie manuelle",
+    listingId: "",
+    host: "",
+  };
+}
+
+function needForRole(role) {
+  if (role === "vendeur") return "vendeur-immo";
+  if (role === "les_deux") return "acheteur-vendeur-immo";
+  return "acheteur-immo";
+}
+
+function verticalForRole(role) {
+  if (role === "vendeur") return "vendeur_immo";
+  if (role === "les_deux") return "acheteur_vendeur_immo";
+  return "acheteur_immo";
 }
 
 module.exports = async function publicImmoListingSubmit(req, res) {
@@ -63,14 +97,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     });
   }
 
-  var detections = collectDetections(body);
-  if (!detections.length) {
-    return res.status(400).json({
-      ok: false,
-      error: "url_required",
-      message: "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).",
-    });
-  }
+  var role = normalizeRole(body.role || body.hat || body.immoHat);
+  var isOwner = role === "vendeur" || role === "les_deux";
+  var alsoBuys = role === "les_deux" || body.alsoBuys === true || body.alsoBuys === "1";
+  if (alsoBuys && role === "vendeur") role = "les_deux";
+  isOwner = role === "vendeur" || role === "les_deux";
 
   var email = str(body.email, 320).toLowerCase();
   var phone = str(body.phone || body.telephone, 40);
@@ -84,6 +115,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
   var firstName = str(body.firstName || body.prenom, 80);
   var lastName = str(body.lastName || body.nom, 80);
+  var personName = [firstName, lastName].filter(Boolean).join(" ");
   var city = str(body.city || body.searchCities, 120);
   var postal = str(body.postal_code || body.postalProject || body.postal, 5);
   var propertyType = str(body.property_type || body.propertyType || body.propertySought, 40) || "appartement";
@@ -95,13 +127,56 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var description = str(body.description, 800);
   var details = str(body.details, 500);
   var photos = Lib.sanitizeMedia(body.photos);
+  var sellerKind = str(body.sellerKind || body.sellerType, 40) || (isOwner ? "particulier" : "");
   var sellerName = str(body.sellerName || body.vendeurNom, 120);
   var sellerPhone = str(body.sellerPhone || body.vendeurTel, 40);
   var sellerEmail = str(body.sellerEmail || body.vendeurEmail, 320).toLowerCase();
   var sellerAgency = str(body.sellerAgency || body.agence, 120);
 
+  if (isOwner) {
+    sellerName = sellerName || personName || "Vendeur";
+    sellerPhone = sellerPhone || phone;
+    sellerEmail = sellerEmail || email;
+  }
+
+  var buyCity = str(body.buyCity || body.searchCitiesBuy, 120);
+  var buyPostal = str(body.buyPostal || body.buy_postal_code, 5);
+  var buyBudget = num(body.buyBudgetMax || body.buy_budget_max);
+  var buyRooms = num(body.buyRoomsMin || body.buy_rooms_min);
+  var buySurface = num(body.buySurfaceMin || body.buy_surface_min);
+  var buyType = str(body.buyPropertyType || body.buy_property_type, 40);
+  var wantsRelais = body.wantsRelais === true || body.wantsRelais === "1" || body.pretRelais === true;
+
+  var detections = collectDetections(body);
+  var hasManualBits = !!(city || description || photos.length || price);
+  if (!detections.length) {
+    if (isOwner && hasManualBits) {
+      detections = [manualDetection()];
+    } else {
+      return res.status(400).json({
+        ok: false,
+        error: isOwner ? "listing_required" : "url_required",
+        message: isOwner
+          ? "Indiquez la ville du bien, ou collez l'URL de votre annonce."
+          : "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).",
+      });
+    }
+  }
+
+  if (isOwner && !city) {
+    return res.status(400).json({
+      ok: false,
+      error: "city_required",
+      message: "Indiquez la ville du bien à vendre.",
+    });
+  }
+
+  var need = needForRole(role);
+  var vertical = verticalForRole(role);
+  var leadScore = role === "les_deux" ? 85 : isOwner ? 75 : sellerPhone || sellerEmail ? 70 : 55;
   var leadId = crypto.randomUUID();
   var propertyIds = [];
+  var criteriaId = null;
   var sql = getSql();
 
   if (sql) {
@@ -111,15 +186,30 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
       for (var i = 0; i < detections.length; i++) {
         var d = detections[i];
-        var titleBits = [d.label, city || d.host, price ? Math.round(price) + " €" : ""].filter(Boolean);
+        var origin = d.portal === "manual" ? "public_listing_manual" : "public_listing_url";
+        var titleBits = [
+          isOwner ? "Bien vendeur" : d.label,
+          city || d.host,
+          price ? Math.round(price) + " €" : "",
+        ].filter(Boolean);
+        var notesBits = [
+          isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
+          d.listingId ? "#" + d.listingId : "",
+          role === "les_deux" ? "Double casquette : vend et rachète." : "",
+          wantsRelais ? "Intérêt prêt relais / chaîne." : "",
+          details,
+        ]
+          .filter(Boolean)
+          .join(" ");
+
         var propId = await store.upsertProperty(
           sql,
           {
-            title: titleBits.join(" · ") || "Annonce " + d.label,
+            title: titleBits.join(" · ") || (isOwner ? "Bien à vendre" : "Annonce " + d.label),
             property_type: propertyType,
             status: "prospection",
-            listing_source: d.portal,
-            listing_url: d.url,
+            listing_source: d.portal || "manual",
+            listing_url: d.url || null,
             city: city || null,
             postal_code: postal || null,
             department: postal ? postal.slice(0, 2) : null,
@@ -130,50 +220,88 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             price_fai: price,
             description: description,
             photos: photos,
-            notes:
-              "Soumis via URL publique. Portail : " +
-              d.label +
-              (d.listingId ? " #" + d.listingId : "") +
-              (details ? "\n" + details : ""),
+            notes: notesBits,
             lead_id: leadId,
             a_contacter: !!(sellerPhone || sellerEmail),
             contact_connu: !!(sellerPhone || sellerEmail || sellerName),
             metadata: {
-              origin: "public_listing_url",
+              origin: origin,
+              role: role,
+              hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
               portal: d.portal,
               listingId: d.listingId,
+              sellerKind: sellerKind,
               seller: {
                 name: sellerName,
                 phone: sellerPhone,
                 email: sellerEmail,
                 agency: sellerAgency,
+                kind: sellerKind,
               },
               buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
+              alsoBuys: role === "les_deux",
+              wantsRelais: wantsRelais,
             },
           },
           null
         );
         propertyIds.push(propId);
 
-        if (sellerName || sellerPhone || sellerEmail) {
+        if (isOwner || sellerName || sellerPhone || sellerEmail) {
           await store.upsertParty(sql, {
             property_id: propId,
             role: "vendeur",
-            name: sellerName || sellerAgency || "Vendeur annonce",
+            name: sellerName || sellerAgency || personName || "Vendeur",
             email: sellerEmail || null,
             phone: sellerPhone || null,
-            notes: sellerAgency ? "Agence : " + sellerAgency : "Infos collées depuis l'annonce",
+            notes: isOwner
+              ? "Propriétaire / déposant" + (sellerAgency ? " — " + sellerAgency : "") + (sellerKind ? " (" + sellerKind + ")" : "")
+              : sellerAgency
+                ? "Agence : " + sellerAgency
+                : "Infos collées depuis l'annonce",
           });
         }
 
-        await store.upsertParty(sql, {
-          property_id: propId,
-          role: "acquereur",
-          name: [firstName, lastName].filter(Boolean).join(" ") || "Acquéreur",
-          email: email || null,
-          phone: phone || null,
-          notes: "A collé l'URL " + d.url,
-        });
+        if (role === "acheteur" || role === "les_deux") {
+          await store.upsertParty(sql, {
+            property_id: propId,
+            role: "acquereur",
+            name: personName || (role === "les_deux" ? "Vendeur-acquéreur" : "Acquéreur"),
+            email: email || null,
+            phone: phone || null,
+            notes:
+              role === "les_deux"
+                ? "Vend ce bien et cherche à racheter" + (wantsRelais ? " (prêt relais / chaîne)" : "")
+                : d.url
+                  ? "A collé l'URL " + d.url
+                  : "Prospect acquéreur",
+          });
+        }
+      }
+
+      if (role === "les_deux") {
+        try {
+          criteriaId = await store.upsertCriteria(
+            sql,
+            {
+              lead_id: leadId,
+              label: "Rachat — " + (personName || "vendeur-acquéreur"),
+              status: "active",
+              property_types: buyType ? [buyType] : [],
+              cities: buyCity ? [buyCity] : [],
+              postal_codes: buyPostal ? [buyPostal] : [],
+              departments: buyPostal ? [buyPostal.slice(0, 2)] : [],
+              rooms_min: buyRooms,
+              surface_min: buySurface,
+              budget_max: buyBudget,
+              notes: wantsRelais ? "Chaîne / prêt relais demandé." : "Vend et rachète.",
+              metadata: { origin: "public_dual_hat", role: "les_deux" },
+            },
+            null
+          );
+        } catch (critErr) {
+          console.warn("[immo-listing-submit] criteria", critErr && critErr.message);
+        }
       }
 
       try {
@@ -182,26 +310,40 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           id, source, vertical, lead_score, email, phone, payload, platform, status, pipeline_stage
         ) VALUES (
           ${leadId},
-          ${"listing_url"},
-          ${"acheteur_immo"},
-          ${sellerPhone || sellerEmail ? 70 : 55},
+          ${detections[0] && detections[0].portal === "manual" ? "listing_manual" : "listing_url"},
+          ${vertical},
+          ${leadScore},
           ${email || null},
           ${phone || null},
           ${JSON.stringify({
-            need: "acheteur-immo",
-            listingUrls: detections.map(function (d) { return d.url; }),
-            portals: detections.map(function (d) { return d.portal; }),
+            need: need,
+            role: role,
+            hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+            listingUrls: detections.map(function (d) {
+              return d.url;
+            }).filter(Boolean),
+            portals: detections.map(function (d) {
+              return d.portal;
+            }),
             propertyIds: propertyIds,
+            criteriaId: criteriaId,
             city: city,
             postal_code: postal,
             sellerName: sellerName,
             sellerPhone: sellerPhone,
             sellerAgency: sellerAgency,
+            sellerKind: sellerKind,
             firstName: firstName,
             lastName: lastName,
             photoCount: photos.length,
-            hasCapture: photos.some(function (p) { return p.kind === "capture"; }),
+            hasCapture: photos.some(function (p) {
+              return p.kind === "capture";
+            }),
             hasDescription: !!description,
+            alsoBuys: role === "les_deux",
+            wantsRelais: wantsRelais,
+            buyCity: buyCity,
+            buyBudgetMax: buyBudget,
           })},
           ${"site_web"},
           ${"new"},
@@ -220,8 +362,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   return res.status(200).json({
     ok: true,
     leadId: leadId,
+    role: role,
+    hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
     received: detections.length,
     propertyIds: propertyIds,
+    criteriaId: criteriaId,
     listings: detections.map(function (d) {
       return { url: d.url, portal: d.portal, label: d.label, listingId: d.listingId };
     }),

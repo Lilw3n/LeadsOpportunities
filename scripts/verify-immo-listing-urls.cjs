@@ -56,6 +56,9 @@ assert(
 
 var html = read("landings/acheteur-immo.html");
 assert(html.indexOf("data-listing-url-capture") !== -1, "landing : bloc coller URL");
+assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes vendeur / acquéreur");
+assert(html.indexOf("data-hat-dual-only") !== -1, "landing : double casquette vend + rachète");
+assert(html.indexOf("listingMode") !== -1, "landing : saisie manuelle ou URL");
 assert(html.indexOf("immo-listing-portals-lib.js") !== -1, "landing charge le catalogue");
 assert(html.indexOf("acheteur-immo-listing-url.js") !== -1, "landing charge le formulaire URL");
 assert(html.indexOf("sellerPhone") !== -1 && html.indexOf("sellerName") !== -1, "champs vendeur");
@@ -135,6 +138,46 @@ Promise.resolve()
     assert(c.body.photos === 2, "2 médias conservés (javascript: rejeté)");
     assert(c.body.hasCapture === true, "capture détectée");
     assert(c.body.hasDescription === true, "description enregistrée");
+    return call({
+      role: "vendeur",
+      email: "vendeur@example.fr",
+      firstName: "Frederic",
+      city: "Domene",
+      postal_code: "38420",
+      property_type: "maison",
+      price_fai: 200000,
+      rooms: 4,
+      surface_m2: 101,
+      description: "Maison de village, jardin, terrasse.",
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API vendeur : saisie manuelle sans URL");
+    assert(c.body.role === "vendeur", "rôle vendeur");
+    assert(c.body.hats && c.body.hats.indexOf("vendeur") !== -1, "casquette vendeur");
+    assert(c.body.listings[0].portal === "manual", "source saisie manuelle");
+    return call({ role: "vendeur", email: "x@y.fr" });
+  })
+  .then(function (c) {
+    assert(c.status === 400 && c.body && c.body.error === "listing_required", "vendeur sans ville ni URL refusé");
+    return call({
+      role: "les_deux",
+      email: "chaine@example.fr",
+      firstName: "Marie",
+      city: "Domene",
+      price_fai: 200000,
+      buyCity: "Grenoble",
+      buyBudgetMax: 280000,
+      wantsRelais: true,
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API double casquette vend + rachète");
+    assert(c.body.role === "les_deux", "rôle les_deux");
+    assert(
+      c.body.hats && c.body.hats.indexOf("vendeur") !== -1 && c.body.hats.indexOf("acquereur") !== -1,
+      "deux casquettes"
+    );
     return call({ urls: ["https://www.leboncoin.fr/ad/x/1"], email: "a@b.fr", _hp: "bot" });
   })
   .then(function (c) {

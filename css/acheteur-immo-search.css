@@ -327,6 +327,29 @@
   margin-top: 8px;
 }
 
+.immo-hats {
+  margin: 0 0 20px;
+  padding: 16px 16px 8px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+}
+.immo-hats .search-mode-tabs { margin-bottom: 8px; }
+[data-hat-vendeur-only],
+[data-hat-dual-only] {
+  display: none;
+}
+html[data-immo-hat="vendeur"] [data-hat-vendeur-only],
+html[data-immo-hat="les_deux"] [data-hat-vendeur-only],
+html[data-immo-hat="les_deux"] [data-hat-dual-only] {
+  display: block;
+}
+html[data-immo-hat="vendeur"] [data-hat-acheteur-only],
+html[data-immo-hat="les_deux"] [data-hat-acheteur-only],
+html[data-immo-hat="vendeur"] #dossier {
+  display: none !important;
+}
+
 .listing-thumbs {
   display: flex;
   flex-wrap: wrap;

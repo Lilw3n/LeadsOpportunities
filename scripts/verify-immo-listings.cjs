@@ -175,7 +175,9 @@ assert(
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");
-assert(html.indexOf("Ajouter un bien via URL") !== -1, "landing : CTA coller URL");
+assert(html.indexOf("Déposer / coller un bien") !== -1, "landing : CTA dépôt / URL");
+assert(html.indexOf("id=\"deposer-bien\"") !== -1, "landing : ancre dépôt vendeur");
+assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes acquéreur / vendeur");
 assert(html.indexOf("data-listings-demo") === -1, "landing : pas de bandeau d'illustration");
 assert(html.indexOf("Annonces d'illustration") === -1, "landing : pas de texte d'illustration");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos/capture");
@@ -185,8 +187,10 @@ assert(html.indexOf("immo-public-listings-lib.js") !== -1, "lib listings chargé
 
 var qinit = read("landings/questionnaire-init.js");
 assert(
-  qinit.indexOf('need === "acheteur-immo"') !== -1 && qinit.indexOf("acheteur-immo.html") !== -1,
-  "questionnaire universel redirige vers la vitrine"
+  qinit.indexOf('need === "acheteur-immo"') !== -1 &&
+    qinit.indexOf("vendeur-immo") !== -1 &&
+    qinit.indexOf("acheteur-immo.html") !== -1,
+  "questionnaire universel redirige vers la vitrine (acquéreur / vendeur)"
 );
 
 var qcfg = read("js/questionnaire-config.js");

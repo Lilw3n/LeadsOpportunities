@@ -147,8 +147,8 @@
           if (query.postal) bits.push(query.postal);
           if (query.budgetMax) bits.push("budget " + Lib.formatPrice(query.budgetMax));
           hint.textContent = bits.length
-            ? "Aucun bien pour " + bits.join(", ") + ". Collez une URL pour en ajouter un."
-            : "Collez l'URL d'une annonce (Leboncoin, SeLoger…) pour l'afficher ici.";
+            ? "Aucun bien pour " + bits.join(", ") + ". Déposez-en un via URL ou à la main."
+            : "Déposez un bien (vendeur) ou collez une URL d'annonce.";
         }
       }
       return;

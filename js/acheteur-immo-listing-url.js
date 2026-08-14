@@ -115,6 +115,100 @@
       .join("");
   }
 
+  function radioVal(scope, name) {
+    var el = (scope || document).querySelector("[name='" + name + "']:checked");
+    return el ? String(el.value || "").trim() : "";
+  }
+
+  function currentHat() {
+    return radioVal(document, "immoHat") || "acheteur";
+  }
+
+  var HAT_COPY = {
+    acheteur: {
+      kicker: "Annonce déjà vue",
+      title: "Collez l'URL du bien",
+      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
+      submit: "Envoyer l'annonce",
+      coords: "Vos coordonnées",
+      details: "Précisions (visite, offre, questions)",
+      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+    },
+    vendeur: {
+      kicker: "Vous vendez",
+      title: "Déposez votre bien",
+      intro: "Saisie à la main ou URL de votre annonce déjà en ligne. Photos + description pour l'afficher ici. Pas de scraping.",
+      submit: "Déposer mon bien",
+      coords: "Vos coordonnées (vendeur)",
+      details: "Précisions (disponibilité, urgence, honoraires…)",
+      hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce.",
+    },
+    les_deux: {
+      kicker: "Double casquette",
+      title: "Vous vendez et vous rachètez",
+      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
+      submit: "Déposer et chercher",
+      coords: "Vos coordonnées (vente + rachat)",
+      details: "Précisions (délai de vente, relais, secteur visé…)",
+      hint: "Les deux casquettes : on capte le bien à vendre et la recherche de rachat.",
+    },
+  };
+
+  function applyHat(hat) {
+    hat = hat || currentHat();
+    if (hat !== "vendeur" && hat !== "les_deux") hat = "acheteur";
+    document.documentElement.setAttribute("data-immo-hat", hat);
+    var roleInput = document.querySelector("[data-hat-role]");
+    if (roleInput) roleInput.value = hat;
+    var copy = HAT_COPY[hat];
+    var setTxt = function (sel, text) {
+      var el = document.querySelector(sel);
+      if (el) el.textContent = text;
+    };
+    setTxt("[data-deposit-kicker]", copy.kicker);
+    setTxt("[data-deposit-title]", copy.title);
+    setTxt("[data-deposit-intro]", copy.intro);
+    setTxt("[data-deposit-submit]", copy.submit);
+    setTxt("[data-coords-label]", copy.coords);
+    setTxt("[data-details-label]", copy.details);
+    setTxt("[data-hat-hint]", copy.hint);
+    var hatRadio = document.querySelector("[name='immoHat'][value='" + hat + "']");
+    if (hatRadio) hatRadio.checked = true;
+    if (hat !== "acheteur") {
+      var manuel = document.querySelector("[name='listingMode'][value='manuel']");
+      var urlMode = document.querySelector("[name='listingMode'][value='url']");
+      var urlsEl = document.querySelector("[data-listing-urls]");
+      if (manuel && urlMode && urlMode.checked && urlsEl && !String(urlsEl.value || "").trim()) {
+        manuel.checked = true;
+      }
+    }
+    applyListingMode();
+  }
+
+  function applyListingMode() {
+    var mode = radioVal(document, "listingMode") || "url";
+    var block = document.querySelector("[data-url-block]");
+    if (block) block.hidden = mode === "manuel";
+  }
+
+  function bindHats() {
+    if (document.documentElement.dataset.immoHatsBound) return;
+    document.documentElement.dataset.immoHatsBound = "1";
+    var params = new URLSearchParams(window.location.search);
+    var role = (params.get("role") || params.get("hat") || "").toLowerCase();
+    if (role === "vendeur" || role === "seller") applyHat("vendeur");
+    else if (role === "les_deux" || role === "both" || role === "acheteur-vendeur") applyHat("les_deux");
+    else applyHat("acheteur");
+    document.querySelectorAll("[name='immoHat']").forEach(function (el) {
+      el.addEventListener("change", function () {
+        applyHat(el.value);
+      });
+    });
+    document.querySelectorAll("[name='listingMode']").forEach(function (el) {
+      el.addEventListener("change", applyListingMode);
+    });
+  }
+
   function renderPreview(root, state) {
     var mount = qs(root, "[data-listing-preview]");
     if (!mount || !Lib) return;
@@ -278,18 +372,29 @@
         err.textContent = "";
       }
       if (ok) ok.hidden = true;
+      var hat = val(form, "role") || currentHat();
+      var isOwner = hat === "vendeur" || hat === "les_deux";
       var urlsText = area ? area.value : "";
       var hits = Portals.detectMany(urlsText).filter(function (d) {
         return d.ok;
       });
-      if (!hits.length) {
+      if (!hits.length && !isOwner) {
         if (err) {
           err.hidden = false;
           err.textContent = "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).";
         }
         return;
       }
+      if (isOwner && !val(form, "city") && !hits.length) {
+        if (err) {
+          err.hidden = false;
+          err.textContent = "Indiquez la ville du bien, ou collez l'URL de votre annonce.";
+        }
+        return;
+      }
       var payload = {
+        role: hat,
+        alsoBuys: hat === "les_deux",
         urls: hits.map(function (d) {
           return d.url;
         }),
@@ -306,15 +411,23 @@
         surface_m2: val(form, "surface_m2"),
         dpe: val(form, "dpe"),
         description: val(form, "description"),
+        sellerKind: radioVal(form, "sellerKind"),
         sellerName: val(form, "sellerName"),
         sellerPhone: val(form, "sellerPhone"),
         sellerEmail: val(form, "sellerEmail"),
-        sellerAgency: val(form, "sellerAgency"),
+        sellerAgency: val(form, "sellerAgency") || val(form, "sellerAgencyThird"),
         details: val(form, "details"),
+        buyCity: val(form, "buyCity"),
+        buyPostal: val(form, "buyPostal"),
+        buyBudgetMax: val(form, "buyBudgetMax"),
+        buyRoomsMin: val(form, "buyRoomsMin"),
+        buySurfaceMin: val(form, "buySurfaceMin"),
+        buyPropertyType: val(form, "buyPropertyType"),
+        wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
         photos: mediaList(state),
         _hp: val(form, "_hp"),
-        need: "acheteur-immo",
-        vertical: "acheteur_immo",
+        need: hat === "vendeur" ? "vendeur-immo" : hat === "les_deux" ? "acheteur-vendeur-immo" : "acheteur-immo",
+        vertical: hat === "vendeur" ? "vendeur_immo" : hat === "les_deux" ? "acheteur_vendeur_immo" : "acheteur_immo",
       };
       if (!payload.email && !payload.phone) {
         if (err) {
@@ -340,22 +453,25 @@
           if (!res.data || !res.data.ok) {
             throw new Error((res.data && res.data.message) || "Envoi impossible");
           }
+          var hats = (res.data.hats || []).join(" + ");
           if (ok) {
             ok.hidden = false;
             ok.textContent =
               res.data.received +
-              " annonce" +
+              " bien" +
               (res.data.received > 1 ? "s" : "") +
-              " enregistrée" +
+              " enregistré" +
               (res.data.received > 1 ? "s" : "") +
               (payload.photos.length ? " avec photos / capture" : "") +
-              ". Un conseiller vous rappelle pour le bien et le vendeur.";
+              (hats ? " (" + hats + ")" : "") +
+              ". Un conseiller vous rappelle.";
           }
           form.reset();
           state.photos = [];
           state.capture = null;
           renderDetected(root, "");
           refreshMedia();
+          applyHat(hat);
           try {
             document.dispatchEvent(new CustomEvent("lo:listing-submitted"));
           } catch (ev) {}
@@ -373,6 +489,7 @@
   }
 
   function boot() {
+    bindHats();
     var nodes = document.querySelectorAll("[data-listing-url-capture]");
     for (var i = 0; i < nodes.length; i++) init(nodes[i]);
   }

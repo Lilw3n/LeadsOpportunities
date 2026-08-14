@@ -49,6 +49,20 @@
       vertical: "acheteur_immo",
       landing: "./landings/acheteur-immo.html",
     },
+    "vendeur-immo": {
+      need: "vendeur-immo",
+      label: "Déposer un bien à vendre",
+      category: "finance",
+      vertical: "vendeur_immo",
+      landing: "./landings/acheteur-immo.html?role=vendeur",
+    },
+    "acheteur-vendeur-immo": {
+      need: "acheteur-vendeur-immo",
+      label: "Vendre et racheter un bien",
+      category: "finance",
+      vertical: "acheteur_vendeur_immo",
+      landing: "./landings/acheteur-immo.html?role=les_deux",
+    },
     auto: { need: "auto", label: "Assurance auto", category: "mobilite", vertical: "auto" },
     moto: { need: "moto", label: "Deux-roues / scooter", category: "mobilite", vertical: "moto" },
     flotte: { need: "flotte", label: "Flotte professionnelle", category: "mobilite", vertical: "flotte" },
@@ -154,6 +168,8 @@
     animaux: "./landings/animaux-express.html",
     vtc: "./landings/devis-rapide.html",
     "acheteur-immo": "./landings/acheteur-immo.html",
+    "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
+    "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
   };
 
   /** Parcours complet dedie (sinon questionnaire universel). */
@@ -163,6 +179,8 @@
     sante: "./landings/sante.html",
     immo: "./landings/credit-immo.html",
     "acheteur-immo": "./landings/acheteur-immo.html",
+    "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
+    "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
   };
 
   function normalizeLandingPath(path, opts) {
