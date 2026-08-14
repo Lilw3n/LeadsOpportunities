@@ -120,7 +120,7 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-patrimoine.html", label: "Patrimoine", icon: "immo", badge: "CGP", highlight: true, desc: "Retraite, mutuelle, invalidité, protection famille", keywords: "patrimoine retraite mutuelle invalidite prevoyance famille" },
         { type: "link", href: "./crm-banque-epargne.html", label: "Banque & épargne", icon: "immo", desc: "Trésorerie pro, épargne, placements", keywords: "banque epargne placement per assurance vie tresorerie" },
         { type: "link", href: "./crm-agency-fees.html", label: "Barèmes / Financement", icon: "immo", desc: "Honoraires + charges URSSAF/IR + revenu imposable estimé", keywords: "immo laforet honoraires commission bareme pret rachat financement acheteur urssaf" },
-        { type: "link", href: "./negociateur-immobilier/", label: "Landing négociateur", icon: "immo", desc: "Parcours acquéreur prêt & assurances" },
+        { type: "link", href: "./negociateur-immobilier/", label: "Landing négociateur", icon: "immo", desc: "Lien d'annonce → mandat local, prêt & assurances", keywords: "mandat negociateur leboncoin recherche bien localite" },
       ],
     },
     {

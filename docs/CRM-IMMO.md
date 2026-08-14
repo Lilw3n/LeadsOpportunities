@@ -4,13 +4,15 @@
 
 Module CRM pour piloter l’activité immobilière **sans scraper** Leboncoin / SeLoger / ParuVendu : saisie manuelle + URL d’annonce, liaison prospects, matching acquéreur ↔ biens, édition de documents.
 
+**Recherche de bien (métier)** : le négociateur part chercher des biens pour ses clients, **principalement sur sa localité territoriale**. Un client (ou un apporteur) envoie un **lien d’annonce** (ex. Leboncoin) → le travail est d’**aller chercher le mandat** (vendeur / agence), pas de scraper le portail.
+
 Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via deep link → landings `credit-immo` / `acheteur-immo` + collecte de pièces (`docs/FINANCEMENT-DEMANDE-PRET.md`).
 
 ## Pages
 
 | Page | Rôle |
 |------|------|
-| `/landings/acheteur-immo.html` | **Vitrine publique** : casquettes acquéreur / vendeur / les deux, dépôt **manuel ou URL**, photos + description + capture |
+| `/landings/acheteur-immo.html` | **Vitrine publique** : casquettes acquéreur / vendeur / les deux, dépôt **manuel ou URL**, photos + description + capture — message métier : lien → mandat local |
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
 | `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |

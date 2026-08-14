@@ -126,13 +126,13 @@
 
   var HAT_COPY = {
     acheteur: {
-      kicker: "Annonce déjà vue",
+      kicker: "Lien d'annonce → mandat",
       title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      intro: "Leboncoin, SeLoger, ParuVendu… Envoyez le lien : on part chercher le mandat sur la localité territoriale. Description, photos et capture aident le dossier.",
+      submit: "Envoyer pour chercher le mandat",
       coords: "Vos coordonnées",
       details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL — on part chercher le mandat en localité.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -456,6 +456,10 @@
           var hats = (res.data.hats || []).join(" + ");
           if (ok) {
             ok.hidden = false;
+            var mandateHint =
+              hat === "acheteur"
+                ? " Un négociateur part chercher le mandat sur sa localité."
+                : " Un conseiller vous rappelle.";
             ok.textContent =
               res.data.received +
               " bien" +
@@ -464,7 +468,8 @@
               (res.data.received > 1 ? "s" : "") +
               (payload.photos.length ? " avec photos / capture" : "") +
               (hats ? " (" + hats + ")" : "") +
-              ". Un conseiller vous rappelle.";
+              "." +
+              mandateHint;
           }
           form.reset();
           state.photos = [];

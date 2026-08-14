@@ -148,7 +148,7 @@
           if (query.budgetMax) bits.push("budget " + Lib.formatPrice(query.budgetMax));
           hint.textContent = bits.length
             ? "Aucun bien pour " + bits.join(", ") + ". Déposez-en un via URL ou à la main."
-            : "Déposez un bien (vendeur) ou collez une URL d'annonce.";
+            : "Collez un lien d'annonce (on part chercher le mandat) ou déposez un bien vendeur.";
         }
       }
       return;

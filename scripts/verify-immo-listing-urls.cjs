@@ -66,6 +66,14 @@ assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-
 assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");
 assert(html.indexOf("data-listing-preview") !== -1, "aperçu de fiche");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
+assert(html.indexOf("partir chercher le mandat") !== -1 || html.indexOf("part chercher le mandat") !== -1, "copy métier : lien → mandat");
+assert(html.indexOf("localité") !== -1 || html.indexOf("localite") !== -1, "copy métier : localité territoriale");
+
+var nego = read("negociateur-immobilier/index.html");
+assert(nego.indexOf("mandat") !== -1 && nego.indexOf("localité") !== -1, "hub négociateur : mandat + localité");
+
+var listingUrlJs = read("js/acheteur-immo-listing-url.js");
+assert(listingUrlJs.indexOf("chercher le mandat") !== -1, "HAT_COPY acheteur : chercher le mandat");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");
