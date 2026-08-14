@@ -311,7 +311,7 @@
       ACCEPT +
       '" hidden />' +
       "</div>" +
-      '<div data-docs-queue class="devis-docs-queue"></div>" +
+      '<div data-docs-queue class="devis-docs-queue"></div>' +
       '<p class="small" style="margin-top:8px;color:#64748b">Les fichiers seront envoyés à la validation du formulaire et archivés pour votre conseiller.</p>' +
       "</div></section>"
     );
