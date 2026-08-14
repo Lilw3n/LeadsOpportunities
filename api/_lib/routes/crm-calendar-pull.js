@@ -105,7 +105,7 @@ async function runCalendarPull(user) {
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
-  if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+  if (req.method !== "GET") return res.status(405).json({ error: "Utilisez GET" });
 
   const user = await requireCrm(req, res);
   if (!user) return;

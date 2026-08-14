@@ -35,10 +35,49 @@ assert(cal.indexOf("ensureGoogleAgendaContact") !== -1, "contact technique Agend
 assert(cal.indexOf("ensureCalendarSchema") !== -1, "calendar lib appelle le schéma");
 
 var sync = read("api/_lib/routes/crm-calendar-sync.js");
-assert(sync.indexOf('action === "connect"') !== -1, "route connect");
-assert(sync.indexOf('action === "sync"') !== -1, "route sync bidirectionnelle");
+assert(sync.indexOf("resolveInnerOp") !== -1, "sync : ignore collision ?action=");
+assert(sync.indexOf('op === "connect"') !== -1, "route connect");
+assert(sync.indexOf('op === "sync"') !== -1, "route sync bidirectionnelle");
 assert(sync.indexOf("pushUnsyncedCrmEvents") !== -1, "sync pousse les RDV");
 assert(sync.indexOf("runCalendarPull") !== -1, "sync importe Google");
+
+var ca = require("../api/_lib/catch-all-action");
+var routes = { "calendar-sync": true, events: true };
+assert(
+  ca.resolveCatchAllAction(
+    { query: { action: ["calendar-sync", "sync"] }, url: "/api/crm/calendar-sync?action=sync" },
+    routes,
+    /\/api\/crm\/([^/?#]+)/
+  ) === "calendar-sync",
+  "routeur : collision query action"
+);
+assert(
+  ca.resolveInnerOp(
+    { query: { action: ["calendar-sync", "connect"] }, url: "/api/crm/calendar-sync?action=connect" },
+    { status: 1, connect: 1, sync: 1 },
+    "status",
+    {}
+  ) === "connect",
+  "inner op : connect malgré collision"
+);
+assert(
+  ca.resolveInnerOp(
+    { query: { action: "calendar-sync", op: "sync" }, url: "/api/crm/calendar-sync?op=sync" },
+    { status: 1, connect: 1, sync: 1 },
+    "status",
+    {}
+  ) === "sync",
+  "inner op : query op"
+);
+assert(
+  ca.resolveInnerOp(
+    { query: { action: "calendar-sync" }, url: "/api/crm/calendar-sync" },
+    { status: 1, connect: 1, sync: 1 },
+    "status",
+    { op: "connect" }
+  ) === "connect",
+  "inner op : body POST"
+);
 
 var pull = read("api/_lib/routes/crm-calendar-pull.js");
 assert(pull.indexOf("runCalendarPull") !== -1, "pull exporté");
@@ -52,7 +91,9 @@ assert(cb.indexOf("ensureCalendarSchema") !== -1, "callback crée les colonnes")
 
 var ui = read("crm-calendar.js");
 assert(ui.indexOf("startGoogleConnect") !== -1, "UI : Connecter Google");
-assert(ui.indexOf("action=sync") !== -1, "UI : Synchroniser = sync complet");
+assert(ui.indexOf("calendarApi") !== -1, "UI : helper API agenda");
+assert(ui.indexOf('calendarApi("sync")') !== -1, "UI : Synchroniser = op sync");
+assert(ui.indexOf('calendarApi("connect")') !== -1, "UI : Connecter = op connect");
 assert(ui.indexOf('get("calendar")') !== -1, "UI : auto-sync après OAuth");
 assert(ui.indexOf("calendar_error") !== -1, "UI : erreur OAuth affichée");
 
@@ -62,8 +103,9 @@ assert(html.indexOf("btnPullCal") !== -1, "bouton Synchroniser Google");
 
 var routes = read("api/crm/[action].js");
 assert(routes.indexOf("calendar-sync") !== -1, "route CRM calendar-sync enregistrée");
+assert(routes.indexOf("resolveCatchAllAction") !== -1, "routeur CRM : collision [action]");
 
-["api/_lib/google-calendar.js", "api/_lib/google-oauth.js", "api/_lib/routes/crm-calendar-sync.js", "api/_lib/routes/crm-calendar-pull.js", "api/_lib/routes/google-callback.js", "api/_lib/ensure-schema.js"].forEach(function (rel) {
+["api/_lib/catch-all-action.js", "api/_lib/google-calendar.js", "api/_lib/google-oauth.js", "api/_lib/routes/crm-calendar-sync.js", "api/_lib/routes/crm-calendar-pull.js", "api/_lib/routes/google-callback.js", "api/_lib/ensure-schema.js"].forEach(function (rel) {
   try {
     require("fs");
     require("child_process").execFileSync(process.execPath, ["--check", path.join(ROOT, rel)], { stdio: "pipe" });

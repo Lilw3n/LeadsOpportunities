@@ -98,12 +98,37 @@
     );
   }
 
+  function calendarApi(op, opts) {
+    opts = opts || {};
+    var method = opts.method || (op === "status" ? "GET" : "POST");
+    var url = "/api/crm/calendar-sync?op=" + encodeURIComponent(op);
+    var headers = authHeaders();
+    var init = { method: method, headers: headers };
+    if (method !== "GET") {
+      headers["Content-Type"] = "application/json";
+      init.body = JSON.stringify({ op: op, returnTo: opts.returnTo || "/crm-calendar.html" });
+    }
+    return fetch(url, init).then(function (r) {
+      return r.json().then(function (body) {
+        return { status: r.status, body: body || {} };
+      }).catch(function () {
+        return { status: r.status, body: { error: "Réponse invalide" } };
+      });
+    });
+  }
+
+  function showCalError(msg) {
+    if (calBanner) {
+      calBanner.className = "cal-banner cal-banner-warn";
+      calBanner.textContent = msg;
+    }
+    alert(msg);
+  }
+
   function loadCalendarStatus() {
-    fetch("/api/crm/calendar-sync?action=status", { headers: authHeaders() })
-      .then(function (r) {
-        return r.json();
-      })
-      .then(function (res) {
+    calendarApi("status", { method: "GET" })
+      .then(function (pack) {
+        var res = pack.body || {};
         if (!calBanner) return;
         if (res.configured === false) {
           calBanner.className = "cal-banner cal-banner-warn";
@@ -135,11 +160,9 @@
       btn.disabled = true;
       btn.textContent = "Redirection Google…";
     }
-    fetch("/api/crm/calendar-sync?action=connect", { headers: authHeaders() })
-      .then(function (r) {
-        return r.json();
-      })
-      .then(function (res) {
+    calendarApi("connect")
+      .then(function (pack) {
+        var res = pack.body || {};
         if (res.url) {
           location.href = res.url;
           return;
@@ -148,14 +171,14 @@
           btn.disabled = false;
           btn.textContent = "Connecter Google";
         }
-        alert(res.error || "Connexion Google impossible");
+        showCalError(res.error || "Connexion Google impossible");
       })
       .catch(function () {
         if (btn) {
           btn.disabled = false;
           btn.textContent = "Connecter Google";
         }
-        alert("Connexion Google impossible");
+        showCalError("Connexion Google impossible");
       });
   }
 
@@ -166,21 +189,16 @@
       btn.disabled = true;
       btn.textContent = "Synchronisation…";
     }
-    fetch("/api/crm/calendar-sync?action=sync", { headers: authHeaders() })
-      .then(function (r) {
-        return r.json().then(function (body) {
-          return { status: r.status, body: body };
-        });
-      })
+    calendarApi("sync")
       .then(function (pack) {
         var res = pack.body || {};
         if (pack.status === 400 && /non connect/.test(String(res.error || ""))) {
           if (!opts.skipConnect) startGoogleConnect();
-          else alert(res.error);
+          else showCalError(res.error);
           return;
         }
         if (!res.ok) {
-          alert(res.error || "Erreur de synchronisation");
+          showCalError(res.error || "Erreur de synchronisation Google Agenda");
           return;
         }
         var msg =
@@ -198,7 +216,7 @@
         loadEvents(render);
       })
       .catch(function () {
-        alert("Erreur de synchronisation Google");
+        showCalError("Erreur de synchronisation Google");
       })
       .finally(function () {
         if (btn) {

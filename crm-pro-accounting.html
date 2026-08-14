@@ -46,7 +46,7 @@
       function headers() {
         return { Authorization: "Bearer " + token, "Content-Type": "application/json" };
       }
-      fetch("/api/crm/pro-accounting?action=summary", { headers: headers() })
+      fetch("/api/crm/pro-accounting?op=summary", { headers: headers() })
         .then(function (r) {
           return r.json();
         })

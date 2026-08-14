@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, effectiveCrmRole } = require("../rbac");
 const { getSql } = require("../db");
+const { resolveInnerOp } = require("../catch-all-action");
 
 function isAdmin(user) {
   return user.role === "admin" || effectiveCrmRole({ role: user.role, crm_role: user.crmRole }) === "admin";
@@ -19,7 +20,7 @@ module.exports = async (req, res) => {
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
 
   const url = new URL(req.url, "http://localhost");
-  const action = url.searchParams.get("action") || "summary";
+  const action = resolveInnerOp(req, { summary: 1, export: 1 }, "summary", {});
 
   if (req.method === "GET" && action === "summary") {
     try {
