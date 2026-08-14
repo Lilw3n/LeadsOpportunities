@@ -22,10 +22,10 @@
     serviceNeed: "Produit demandé",
     need: "Besoin",
     buyerNeeds: "Besoins (prêt & assurances)",
-    searchKind: "Recherche (bien / service)",
+    searchKind: "Recherche (bien / prestation pro)",
     propertySought: "Type(s) de bien recherché(s)",
     sellerType: "Vendeur (pro ou particulier)",
-    serviceSought: "Service(s) immobilier(s)",
+    serviceSought: "Prestation(s) pro",
     budgetMax: "Budget max recherche",
     budgetMin: "Budget min recherche",
     searchCities: "Villes / secteurs visés",
@@ -260,8 +260,8 @@
     locataire: "Assurance locataire",
     rachat: "Rachat ou renégociation de crédit",
     bien: "Un bien à acheter / acquérir",
-    service: "Un service immobilier",
-    les_deux: "Bien + service",
+    service: "Une prestation pro (syndic, gestion…)",
+    les_deux: "Bien + prestation pro",
     maison: "Maison",
     appartement: "Appartement",
     terrain: "Terrain à bâtir",
@@ -275,7 +275,7 @@
     estimation_vente: "Estimation / mise en vente",
     recherche_locataire: "Recherche de locataire",
     transaction: "Accompagnement transaction",
-    autre_service: "Autre service immobilier",
+    autre_service: "Autre prestation pro",
   };
 
   function humanizeKey(key) {

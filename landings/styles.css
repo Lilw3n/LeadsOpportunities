@@ -401,6 +401,12 @@ textarea:focus-visible {
   gap: 6px;
 }
 
+/* Empêche .field { display:flex } d'écraser l'attribut HTML hidden */
+.field[hidden],
+[hidden].field {
+  display: none !important;
+}
+
 .full {
   grid-column: 1 / -1;
 }
