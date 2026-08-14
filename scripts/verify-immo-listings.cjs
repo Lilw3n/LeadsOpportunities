@@ -172,6 +172,10 @@ assert(
   html.indexOf("Appartements et maisons à vendre") !== -1,
   "landing : h1 visible (pas vide en attendant le JS)"
 );
+assert(
+  html.indexOf("obtenir le mandat") !== -1 && html.indexOf("secteur local") !== -1,
+  "landing : promesse recherche locale + mandat"
+);
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");

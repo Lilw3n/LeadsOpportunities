@@ -1166,7 +1166,7 @@
         wizardSection(
           "recherche-bien",
           "Quel bien recherchez-vous ?",
-          '<p class="small">Type, secteur et budget — comme une recherche d\'annonce. <a href="./acheteur-immo.html">Voir les annonces →</a></p>' +
+          '<p class="small">Type, secteur et budget — ou lien d\'annonce deja reperee (Leboncoin, SeLoger...). Je peux partir en recherche locale et contacter le vendeur pour chercher le mandat. <a href="./acheteur-immo.html">Voir les annonces →</a></p>' +
             fieldRow(
               select("propertyTypeSought", "Type de bien", [
                 { v: "appartement", t: "Appartement" },
