@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function renderDocumentsCta(container, leadPayload) {
     if (!container) return;
     var email = (leadPayload && leadPayload.email ? String(leadPayload.email) : "").trim();
-    var href = "/external/upload-document.html?public=1";
+    var href = "/external/upload-document.html?public=1&need=pieces";
     if (email) href += "&email=" + encodeURIComponent(email);
     var cta = document.getElementById("docsCtaInline");
     if (!cta) {

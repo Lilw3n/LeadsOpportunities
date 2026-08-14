@@ -33,6 +33,9 @@ const DOC_TYPE_SUBFOLDER = {
   diagnostic: "04_vehicule_ou_bien",
   mandat: "05_devis_signes",
   devis_signe: "05_devis_signes",
+  attestation_autoregulation: "05_devis_signes",
+  politique_reclamations: "03_contrats_existants",
+  procedure_vente_souscription: "03_contrats_existants",
   generic: "01_identite",
   autre: "01_identite",
 };

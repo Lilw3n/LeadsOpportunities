@@ -82,15 +82,46 @@
         { type: "rib", label: "RIB", required: false },
       ],
     },
+    pieces: {
+      title: "Envoi de vos pièces justificatives",
+      section: "Pièces à importer",
+      intro:
+        "Pièces justificatives à importer afin de poursuivre l'étude de votre dossier. Dans le cas où vous souhaitez joindre plusieurs fichiers pour une même pièce, cliquez sur + pour importer un exemplaire supplémentaire du document.",
+      items: [
+        { type: "attestation_autoregulation", label: "DP Attestation autorégulation", required: true },
+        { type: "politique_reclamations", label: "Politique de gestion des réclamations", required: false },
+        { type: "procedure_vente_souscription", label: "Procédure de vente et de souscription", required: false },
+      ],
+    },
   };
 
+  function introFor(cfg) {
+    var items = (cfg && cfg.items) || [];
+    var n = items.length;
+    return (
+      n +
+      " pièce" +
+      (n > 1 ? "s" : "") +
+      " justificative" +
+      (n > 1 ? "s" : "") +
+      " à importer afin de poursuivre l'étude de votre dossier. Dans le cas où vous souhaitez joindre plusieurs fichiers pour une même pièce, cliquez sur + pour importer un exemplaire supplémentaire du document."
+    );
+  }
+
   function getConfig(needOrVertical) {
-    var key = needOrVertical || "default";
-    return BY_NEED[key] || BY_NEED.default;
+    var key = needOrVertical || "pieces";
+    var cfg = BY_NEED[key] || BY_NEED.pieces;
+    return {
+      title: cfg.title,
+      section: cfg.section || "Pièces à importer",
+      intro: introFor(cfg),
+      items: cfg.items || [],
+    };
   }
 
   global.DEVIS_DOCUMENT_CONFIG = {
     getConfig: getConfig,
+    introFor: introFor,
     BY_NEED: BY_NEED,
   };
 })(typeof window !== "undefined" ? window : global);

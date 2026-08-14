@@ -272,58 +272,59 @@
   function buildStepHtml(need) {
     var cfg = global.DEVIS_DOCUMENT_CONFIG ? global.DEVIS_DOCUMENT_CONFIG.getConfig(need) : null;
     if (!cfg) return "";
-    var checklist = cfg.items
-      .map(function (it) {
-        return (
-          "<li>" +
-          esc(it.label) +
-          (it.required ? ' <span class="req">recommandé</span>' : "") +
-          "</li>"
-        );
-      })
-      .join("");
-    var typeOpts = cfg.items
-      .map(function (it) {
-        return '<option value="' + esc(it.type) + '">' + esc(it.label) + "</option>";
-      })
-      .join("");
+    var inner;
+    if (global.PiecesImport && global.PiecesImport.buildMarkup) {
+      inner = global.PiecesImport.buildMarkup({ mode: "embed", email: "" }).replace(
+        '<div class="pi-page" data-pieces-import-root>',
+        '<div class="pi-page" data-pieces-import-root data-devis-documents-root>'
+      );
+    } else {
+      var checklist = cfg.items
+        .map(function (it) {
+          return (
+            "<li>" +
+            esc(it.label) +
+            (it.required ? ' <span class="req">recommandé</span>' : "") +
+            "</li>"
+          );
+        })
+        .join("");
+      inner =
+        '<div class="devis-docs-step" data-devis-documents-root>' +
+        "<h3>" +
+        esc(cfg.title) +
+        "</h3>" +
+        '<p class="wizard-step-intro">' +
+        esc(cfg.intro) +
+        "</p>" +
+        '<ul class="devis-docs-checklist">' +
+        checklist +
+        "</ul></div>";
+    }
 
     return (
       '<section class="wizard-step" hidden data-step="documents" data-step-name="documents" data-optional-step="1">' +
-      '<div class="devis-docs-step" data-devis-documents-root>' +
-      "<h3>" +
-      esc(cfg.title) +
-      "</h3>" +
-      '<p class="wizard-step-intro">' +
-      esc(cfg.intro) +
-      "</p>" +
-      '<ul class="devis-docs-checklist">' +
-      checklist +
-      "</ul>" +
-      '<label style="display:block;margin:12px 0 6px;font-weight:600;font-size:.9rem">Type de document</label>' +
-      '<select data-docs-type data-optional>' +
-      typeOpts +
-      "</select>" +
-      '<div class="devis-docs-drop" data-docs-drop style="margin-top:12px">' +
-      "<strong>Glissez un fichier ici ou cliquez</strong>" +
-      "<p>PDF, JPG, PNG — max 12 Mo. Vous pouvez passer cette étape et envoyer plus tard.</p>" +
-      '<input type="file" data-docs-input accept="' +
-      ACCEPT +
-      '" hidden />' +
-      "</div>" +
-      '<div data-docs-queue class="devis-docs-queue"></div>" +
-      '<p class="small" style="margin-top:8px;color:#64748b">Les fichiers seront envoyés à la validation du formulaire et archivés pour votre conseiller.</p>' +
-      "</div></section>"
+      inner +
+      "</section>"
     );
   }
 
   function mountInForm(form, need) {
     var step = form.querySelector('[data-step-name="documents"]');
     if (!step) return null;
-    var root = step.querySelector("[data-devis-documents-root]");
+    var root = step.querySelector("[data-devis-documents-root]") || step.querySelector("[data-pieces-import-root]");
     if (!root) return null;
-    var uploader = new DevisDocumentUpload(root, { need: need });
-    uploader.renderQueue();
+    var uploader;
+    if (global.PiecesImport && global.PiecesImport.PiecesImport) {
+      uploader = new global.PiecesImport.PiecesImport(root, {
+        need: need,
+        mode: "embed",
+        source: "devis_wizard",
+      });
+    } else {
+      uploader = new DevisDocumentUpload(root, { need: need });
+      uploader.renderQueue();
+    }
     form._devisDocumentUpload = uploader;
     return uploader;
   }

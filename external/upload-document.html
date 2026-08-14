@@ -3,45 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Déposer un document | Leads Opportunities</title>
+  <title>Envoi de vos pièces justificatives | Leads Opportunities</title>
+  <meta name="robots" content="noindex,nofollow" />
   <link rel="stylesheet" href="../landings/styles.css" />
-  <link rel="stylesheet" href="../css/devis-documents.css" />
-  <style>
-    .form-page { max-width:560px; margin:0 auto; padding:24px; }
-    .form-page label { display:block; margin-top:12px; font-weight:600; font-size:.9rem; }
-    .form-page input, .form-page select, .form-page textarea { width:100%; margin-top:6px; padding:10px; border:1px solid #e2e8f0; border-radius:8px; }
-    .btn-submit { margin-top:20px; padding:14px; width:100%; background:#0d9488; color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; }
-  </style>
+  <link rel="stylesheet" href="../css/pieces-import.css" />
 </head>
 <body class="landing-page">
-  <div class="form-page">
-    <a href="../index.html">← Retour au site</a>
-    <h1 id="uploadPageTitle">Déposer un document</h1>
-    <p id="uploadPageIntro" style="color:#64748b">KBIS, contrat mutuelle, convention collective… — pour accélérer le montage de votre devis.</p>
-    <div id="dropZone" class="devis-docs-drop" style="margin:16px 0">
-      <strong>Déposer un fichier ici</strong>
-      <p>PDF, JPG, PNG — max 12 Mo</p>
-      <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" hidden />
-    </div>
-    <ul id="uploadChecklist" style="font-size:.85rem;color:#64748b;margin:0 0 16px;padding-left:20px"></ul>
-    <form id="uploadForm">
-      <label>Type<select name="documentType">
-        <option value="kbis">KBIS</option>
-        <option value="convention_collective">Convention collective</option>
-        <option value="contrat_mutuelle">Contrat mutuelle</option>
-        <option value="liste_salaries">Liste salariés</option>
-        <option value="rib">RIB</option>
-        <option value="autre">Autre</option>
-      </select></label>
-      <label>Nom du fichier<input name="fileName" required placeholder="document.pdf" /></label>
-      <label>Notes<textarea name="description" rows="3" placeholder="Contexte du document…"></textarea></label>
-      <button type="submit" class="btn-submit">Envoyer au courtier</button>
-    </form>
-    <p id="uploadMsg" style="margin-top:16px"></p>
-    <h2 style="font-size:1rem;margin:24px 0 8px">Vos documents déposés</h2>
-    <div id="docsVisualGrid" class="devis-docs-grid"></div>
-  </div>
+  <div id="piecesMount"></div>
   <script src="../js/devis-document-config.js"></script>
+  <script src="../js/pieces-import.js"></script>
   <script src="upload-document.js"></script>
 </body>
 </html>

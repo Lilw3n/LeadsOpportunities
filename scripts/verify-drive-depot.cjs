@@ -22,7 +22,22 @@ assert(folders.subfolderForDocumentType("piece_identite") === "01_identite", "CN
 assert(folders.subfolderForDocumentType("avis_imposition") === "02_justificatifs_revenus", "avis → revenus");
 assert(folders.subfolderForDocumentType("bulletins_salaire") === "02_justificatifs_revenus", "bulletins → revenus");
 assert(folders.subfolderForDocumentType("compromis_offre") === "04_vehicule_ou_bien", "compromis → bien");
-assert(folders.subfolderForDocumentType("kbis") === "06_entreprise_collective", "kbis → entreprise");
+assert(folders.subfolderForDocumentType("attestation_autoregulation") === "05_devis_signes", "attestation → devis");
+
+var cfgMod = fs.readFileSync(path.join(root, "js/devis-document-config.js"), "utf8");
+assert(cfgMod.indexOf("DP Attestation") >= 0, "pack pièces screenshot");
+assert(cfgMod.indexOf("Politique de gestion des réclamations") >= 0, "politique réclamations");
+assert(cfgMod.indexOf("Procédure de vente et de souscription") >= 0, "procédure vente");
+
+var piecesHtml = fs.readFileSync(path.join(root, "external/upload-document.html"), "utf8");
+assert(piecesHtml.indexOf("pieces-import.js") >= 0, "page client charge le widget");
+var piecesJs = fs.readFileSync(path.join(root, "js/pieces-import.js"), "utf8");
+assert(piecesJs.indexOf("data-pi-action") >= 0, "actions Importer / + / aperçu");
+assert(piecesJs.indexOf("/api/external/upload") >= 0, "widget envoie vers Drive");
+assert(piecesJs.indexOf("missingRequired") >= 0, "pièce obligatoire bloquante");
+var piecesCss = fs.readFileSync(path.join(root, "css/pieces-import.css"), "utf8");
+assert(piecesCss.indexOf("pi-btn-import") >= 0, "bouton Importer");
+assert(piecesCss.indexOf("pi-btn-send") >= 0, "bouton Envoyer");
 assert(folders.CLIENT_SUBFOLDERS.indexOf("01_identite") >= 0, "sous-dossiers client");
 
 var backup = require("../api/_lib/o2switch-backup");

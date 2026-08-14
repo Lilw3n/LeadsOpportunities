@@ -228,7 +228,7 @@
     var need = getNeedFromPayload(leadPayload);
     var href =
       "/external/upload-document.html?public=1&need=" +
-      encodeURIComponent(need) +
+      encodeURIComponent(need || "pieces") +
       (email ? "&email=" + encodeURIComponent(email) : "") +
       (contactId ? "&contactId=" + encodeURIComponent(contactId) : "");
 
