@@ -135,6 +135,15 @@
       ]
     },
     {
+      "source": "/crm-event-manager.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    },
+    {
       "source": "/crm-contact-modules.html",
       "headers": [
         {

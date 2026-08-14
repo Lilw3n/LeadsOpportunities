@@ -2,6 +2,7 @@
 
 ## Accès
 - UI : [`crm-calendar.html`](../crm-calendar.html) — **Agenda (Google)** dans la sidebar
+- **Gestionnaire** : [`crm-event-manager.html`](../crm-event-manager.html) — suivi dossiers + interlocuteurs (client, banque, notaire, partenaire, apporteur…)
 - Création : [`crm-event-create.html`](../crm-event-create.html)
 - Liste : [`crm-events.html`](../crm-events.html)
 
@@ -18,7 +19,7 @@ Timeline · Jour · Semaine · Mois — filtres type (Estimation, Visite, Mandat
 Champs poussés : titre, horaires, lieu, description, lien contact, lien bien immo (`propertyId`), rappel, `extendedProperties.lo*`.
 
 ## Types métier
-Estimation · Visite · Signature mandat · Compromis · RDV · Appel · Email · Tâche · Prospection · Note
+Estimation · Visite · Signature mandat · Compromis · RDV · Appel · Email · Tâche · Prospection · Relance suivi · Pièces dossier · RDV banque · RDV notaire · Point partenaire · Note
 
 ## Branches futures (non bloquantes)
 | Module | Statut | Hook prévu |
