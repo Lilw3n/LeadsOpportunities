@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <meta name="description" content="Recherche de bien sur votre secteur : collez une URL Leboncoin ou déposez vos critères. Votre négociateur part chercher le mandat. Prêt et assurances en option." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
@@ -63,7 +63,8 @@
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
             >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
+              <li>Acquéreur : cherchez sur le secteur, ou envoyez-moi le lien d'une annonce (Leboncoin, SeLoger…)</li>
+              <li>Mon travail : partir en recherche pour vous et aller chercher le mandat chez le vendeur</li>
               <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
               <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
             </ul>
@@ -95,7 +96,7 @@
               <span>Je vends et je rachète</span>
             </label>
           </div>
-          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : on capte le vendeur, l'acquéreur, ou les deux.</p>
+          <p class="listings-intro" data-hat-hint>Acquéreur : cherchez sur le secteur ou envoyez un lien d'annonce — je pars chercher le mandat. Vendeur : déposez votre bien.</p>
         </div>
 
         <div class="listings-wrap" id="recherche" data-immo-search>
@@ -149,7 +150,7 @@
           <span class="dossier-kicker" data-deposit-kicker>Annonce déjà vue</span>
           <h2 data-deposit-title>Collez l'URL du bien</h2>
           <p class="listings-intro" data-deposit-intro>
-            Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
+            Vous avez repéré un bien sur Leboncoin, SeLoger ou ParuVendu ? Collez le lien : je pars en recherche sur mon secteur et je vais chercher le mandat auprès du vendeur. Recopiez la description, ajoutez photos et capture si vous le souhaitez.
           </p>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
@@ -1059,8 +1060,8 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
-            <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
+            <li><strong>1. Vous trouvez ou vous cherchez</strong>Filtres ville / budget sur mon secteur, ou vous m'envoyez le lien d'une annonce déjà vue (Leboncoin, SeLoger, ParuVendu…).</li>
+            <li><strong>2. Je pars chercher le mandat</strong>J'enregistre le bien, je contacte le vendeur sur ma zone territoriale et je négocie le mandat pour organiser la visite.</li>
             <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
@@ -1086,6 +1087,18 @@
                 <p>Choisissez « Je vends et je rachète ». On enregistre le bien à vendre et le bien recherché (chaîne, prêt relais). Une seule fiche, deux casquettes.</p>
               </details>
             </li>
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>J'ai trouvé un bien sur Leboncoin : que faire ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Collez l'URL de l'annonce dans le formulaire « Déposer / coller un bien ». Mon travail : aller chercher le mandat auprès du vendeur sur mon secteur, puis vous proposer la visite. Pas besoin de contacter le vendeur vous-même.</p>
+              </details>
+            </li>
+            <li>
+              <details class="faq-item">
+                <summary>
                   <span>Dois-je remplir un dossier prêt pour chercher ?</span>
                   <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
                 </summary>
@@ -1129,7 +1142,13 @@
         },
         {
           "@type": "Question",
-          "name": "Dois-je remplir un dossier prêt pour chercher un bien ?",
+          "name": "J'ai trouvé un bien sur Leboncoin : que faire ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Collez l'URL de l'annonce. Le négociateur part chercher le mandat auprès du vendeur sur son secteur, puis organise la visite."
+          }
+        },
+        {
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Non. La recherche (filtres et cartes d'annonces) est en haut de page. Le questionnaire prêt et assurances est optionnel, plus bas."
