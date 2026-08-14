@@ -66,6 +66,11 @@ assert(html.indexOf("data-listing-photos") !== -1 && html.indexOf("data-listing-
 assert(html.indexOf("name=\"description\"") !== -1, "champ description d'annonce");
 assert(html.indexOf("data-listing-preview") !== -1, "aperçu de fiche");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
+assert(html.indexOf("name=\"wantsMandat\"") !== -1, "landing : case chasse de mandat");
+assert(html.toLowerCase().indexOf("chercher le mandat") !== -1, "landing : promesse « chercher le mandat »");
+
+var jsUrl = read("js/acheteur-immo-listing-url.js");
+assert(jsUrl.indexOf("wantsMandat") !== -1, "JS URL : envoie wantsMandat");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");
@@ -112,6 +117,26 @@ Promise.resolve()
     assert(c.status === 200 && c.body && c.body.ok, "API accepte URL + contact");
     assert(c.body.received === 1, "1 annonce reçue");
     assert(c.body.listings[0].portal === "leboncoin", "portail renvoyé");
+    assert(c.body.mandatHunt === true, "acquéreur URL : chasse de mandat activée par défaut");
+    return call({
+      urls: ["https://www.leboncoin.fr/ad/ventes_immobilieres/333"],
+      email: "nomandat@example.fr",
+      wantsMandat: false,
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API accepte URL sans chasse de mandat");
+    assert(c.body.mandatHunt === false, "wantsMandat=false désactive la chasse de mandat");
+    return call({
+      role: "vendeur",
+      email: "vendeurmandat@example.fr",
+      city: "Nancy",
+      price_fai: 180000,
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API vendeur enregistré");
+    assert(c.body.mandatHunt === false, "vendeur : pas de chasse de mandat");
     var tinyJpeg =
       "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
     return call({

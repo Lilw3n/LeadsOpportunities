@@ -1,6 +1,8 @@
 /**
  * POST /api/immo-listing-submit — dépôt de bien (vendeur) ou URL collée (acquéreur).
  * Saisie manuelle ou URL. Double casquette : vend + rachète. Pas de scraping.
+ * Chasse de mandat : un acquéreur envoie un lien d'annonce et nous confie
+ * la recherche du mandat auprès du vendeur, sur notre secteur.
  */
 const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, isHoneypotFilled, rateLimit, getClientIp } = require("../security");
@@ -147,6 +149,19 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var buyType = str(body.buyPropertyType || body.buy_property_type, 40);
   var wantsRelais = body.wantsRelais === true || body.wantsRelais === "1" || body.pretRelais === true;
 
+  // Chasse de mandat : l'acquéreur nous envoie un lien d'annonce (souvent un
+  // particulier sur Leboncoin) et nous confie le soin d'aller chercher le mandat
+  // auprès du vendeur. Activé par défaut pour un acquéreur, sauf refus explicite.
+  var wantsMandatRaw = body.wantsMandat != null ? body.wantsMandat : body.chasseMandat;
+  var wantsMandat;
+  if (wantsMandatRaw === false || wantsMandatRaw === "0" || wantsMandatRaw === "false") {
+    wantsMandat = false;
+  } else if (wantsMandatRaw === true || wantsMandatRaw === "1" || wantsMandatRaw === "true") {
+    wantsMandat = true;
+  } else {
+    wantsMandat = role === "acheteur";
+  }
+
   var detections = collectDetections(body);
   var hasManualBits = !!(city || description || photos.length || price);
   if (!detections.length) {
@@ -171,9 +186,13 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     });
   }
 
+  var mandatHunt = wantsMandat && role === "acheteur";
   var need = needForRole(role);
   var vertical = verticalForRole(role);
   var leadScore = role === "les_deux" ? 85 : isOwner ? 75 : sellerPhone || sellerEmail ? 70 : 55;
+  // Un acquéreur qui nous confie la recherche du mandat est un lead à forte
+  // valeur : il déclenche une prospection vendeur ciblée sur notre secteur.
+  if (mandatHunt) leadScore = Math.max(leadScore, sellerPhone || sellerEmail ? 82 : 72);
   var leadId = crypto.randomUUID();
   var propertyIds = [];
   var criteriaId = null;
@@ -195,6 +214,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         var notesBits = [
           isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
           d.listingId ? "#" + d.listingId : "",
+          mandatHunt ? "Chasse de mandat : aller chercher le mandat auprès du vendeur." : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
           details,
@@ -222,7 +242,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             photos: photos,
             notes: notesBits,
             lead_id: leadId,
-            a_contacter: !!(sellerPhone || sellerEmail),
+            a_contacter: !!(sellerPhone || sellerEmail) || mandatHunt,
             contact_connu: !!(sellerPhone || sellerEmail || sellerName),
             metadata: {
               origin: origin,
@@ -230,6 +250,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
               hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
               portal: d.portal,
               listingId: d.listingId,
+              mandatHunt: mandatHunt,
               sellerKind: sellerKind,
               seller: {
                 name: sellerName,
@@ -272,9 +293,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             notes:
               role === "les_deux"
                 ? "Vend ce bien et cherche à racheter" + (wantsRelais ? " (prêt relais / chaîne)" : "")
-                : d.url
-                  ? "A collé l'URL " + d.url
-                  : "Prospect acquéreur",
+                : mandatHunt
+                  ? "Nous confie la recherche du mandat" + (d.url ? " sur " + d.url : "")
+                  : d.url
+                    ? "A collé l'URL " + d.url
+                    : "Prospect acquéreur",
           });
         }
       }
@@ -340,6 +363,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
               return p.kind === "capture";
             }),
             hasDescription: !!description,
+            mandatHunt: mandatHunt,
             alsoBuys: role === "les_deux",
             wantsRelais: wantsRelais,
             buyCity: buyCity,
@@ -364,6 +388,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     leadId: leadId,
     role: role,
     hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+    mandatHunt: mandatHunt,
     received: detections.length,
     propertyIds: propertyIds,
     criteriaId: criteriaId,

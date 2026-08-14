@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <meta name="description" content="Un bien vu sur Leboncoin ou ailleurs ? Envoyez-nous le lien : on va chercher le mandat auprès du vendeur sur notre secteur. Recherche de bien locale, prêt et assurances en option." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
   <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
-  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
+  <meta property="og:description" content="Envoyez le lien d'une annonce (Leboncoin, SeLoger…) : on va chercher le mandat auprès du vendeur sur notre secteur, puis prêt et assurances si besoin." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <!-- Google tag (gtag.js) -->
@@ -53,19 +53,19 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
+              data-speed-title="Un bien vous plaît ? Envoyez le lien, on va chercher le mandat"
               data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
-            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
+            >Un bien vous plaît ? Envoyez le lien, on va chercher le mandat</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
+              data-speed-subtitle="Vu un bien sur Leboncoin ou ailleurs ? Collez l'URL : on contacte le vendeur sur notre secteur pour décrocher le mandat et vous accompagner."
               data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
-            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
+            >Vu un bien sur Leboncoin ou ailleurs ? Collez l'URL : on contacte le vendeur sur notre secteur pour décrocher le mandat et vous accompagner.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
-              <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
-              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+              <li>Envoyez-nous le lien d'une annonce : on va chercher le mandat pour vous</li>
+              <li>Recherche de bien locale : on prospecte le vendeur sur notre secteur</li>
+              <li>Vendeur ou double casquette : dépôt manuel ou URL, on gère la chaîne</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Acquéreur</span>
@@ -73,7 +73,7 @@
               <span class="trust-pill">Vend + rachète</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+              <a class="btn btn-primary" href="#deposer-bien">Envoyer un lien / déposer un bien</a>
               <a class="btn btn-soft" href="#recherche">Voir les annonces</a>
             </div>
           </div>
@@ -84,7 +84,7 @@
           <div class="search-mode-tabs" role="radiogroup" aria-label="Votre casquette">
             <label class="search-mode-tab">
               <input type="radio" name="immoHat" value="acheteur" checked />
-              <span>Je cherche un bien</span>
+              <span>Je vous envoie un lien</span>
             </label>
             <label class="search-mode-tab">
               <input type="radio" name="immoHat" value="vendeur" />
@@ -95,7 +95,7 @@
               <span>Je vends et je rachète</span>
             </label>
           </div>
-          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : on capte le vendeur, l'acquéreur, ou les deux.</p>
+          <p class="listings-intro" data-hat-hint>Un bien vu ailleurs vous intéresse ? Collez l'URL : on va chercher le mandat pour vous.</p>
         </div>
 
         <div class="listings-wrap" id="recherche" data-immo-search>
@@ -261,6 +261,12 @@
             </div>
 
             <div data-hat-acheteur-only>
+              <p class="search-section-label" style="margin-top:16px">Chasse de mandat</p>
+              <label class="field-check full">
+                <input type="checkbox" name="wantsMandat" value="1" checked />
+                <span>Allez chercher le mandat pour moi : contactez le vendeur de cette annonce et accompagnez-moi jusqu'à la signature.</span>
+              </label>
+              <p class="listings-intro">On prospecte le vendeur sur notre secteur. Recopiez les infos vendeur visibles sur l'annonce pour accélérer.</p>
               <p class="search-section-label" style="margin-top:16px">Infos vendeur / agence (visibles sur l'annonce)</p>
               <div class="grid">
                 <div class="field">
@@ -1059,8 +1065,8 @@
         <div class="form-wrap">
           <h2>Parcours accompagne</h2>
           <ol class="steps">
-            <li><strong>1. Parcourir les annonces</strong>Filtres ville / budget, ou collez une URL Leboncoin / SeLoger / ParuVendu.</li>
-            <li><strong>2. Bien + vendeur</strong>On enregistre le lien, le prix, la ville et les coordonnées vendeur visibles.</li>
+            <li><strong>1. Vous envoyez le lien</strong>Un bien vu sur Leboncoin / SeLoger / ParuVendu : collez l'URL (ou parcourez la vitrine par ville / budget).</li>
+            <li><strong>2. On va chercher le mandat</strong>On contacte le vendeur sur notre secteur, on décroche le mandat et on organise la visite.</li>
             <li><strong>3. Prêt et assurances (optionnel)</strong>Uniquement si vous voulez financer ou assurer le projet.</li>
           </ol>
         </div>
@@ -1068,6 +1074,15 @@
         <div class="form-wrap">
           <h2>FAQ recherche de bien</h2>
           <ul class="faq-list landing-faq">
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>J'ai vu un bien sur Leboncoin : vous allez chercher le mandat ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui. Envoyez-nous le lien de l'annonce : on contacte le vendeur (souvent un particulier) sur notre secteur pour décrocher le mandat, puis on organise la visite et on vous accompagne jusqu'à la signature. Cochez « Allez chercher le mandat pour moi » dans le formulaire.</p>
+              </details>
+            </li>
             <li>
               <details class="faq-item">
                 <summary>
@@ -1119,6 +1134,14 @@
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "J'ai vu un bien sur Leboncoin : vous allez chercher le mandat ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Oui. Envoyez le lien de l'annonce : on contacte le vendeur sur notre secteur pour décrocher le mandat, on organise la visite et on vous accompagne jusqu'à la signature."
+          }
+        },
         {
           "@type": "Question",
           "name": "Pourquoi je ne vois pas Leboncoin ou SeLoger ?",

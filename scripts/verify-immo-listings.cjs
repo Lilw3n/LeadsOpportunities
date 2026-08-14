@@ -169,7 +169,7 @@ assert(html.indexOf("data-listings-grid") !== -1, "landing : grille d'annonces")
 assert(html.indexOf("id=\"recherche\"") !== -1, "landing : ancre #recherche");
 assert(html.indexOf("id=\"dossier\"") !== -1, "landing : dossier secondaire");
 assert(
-  html.indexOf("Appartements et maisons à vendre") !== -1,
+  html.indexOf("on va chercher le mandat") !== -1,
   "landing : h1 visible (pas vide en attendant le JS)"
 );
 var idxSearch = html.indexOf("data-immo-search");

@@ -126,13 +126,13 @@
 
   var HAT_COPY = {
     acheteur: {
-      kicker: "Annonce déjà vue",
-      title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      kicker: "Un bien vous plaît ?",
+      title: "Envoyez-nous le lien, on va chercher le mandat",
+      intro: "Vu un bien sur Leboncoin, SeLoger, ParuVendu… ? Collez le lien : on contacte le vendeur sur notre secteur pour aller décrocher le mandat et vous accompagner jusqu'à la signature.",
+      submit: "Envoyer le lien du bien",
       coords: "Vos coordonnées",
-      details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      details: "Précisions (secteur, visite, urgence, questions)",
+      hint: "Un bien vu ailleurs vous intéresse ? Collez l'URL : on va chercher le mandat pour vous.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -424,6 +424,11 @@
         buySurfaceMin: val(form, "buySurfaceMin"),
         buyPropertyType: val(form, "buyPropertyType"),
         wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
+        wantsMandat: (function () {
+          if (hat !== "acheteur") return false;
+          var el = form.querySelector("[name='wantsMandat']");
+          return el ? !!el.checked : true;
+        })(),
         photos: mediaList(state),
         _hp: val(form, "_hp"),
         need: hat === "vendeur" ? "vendeur-immo" : hat === "les_deux" ? "acheteur-vendeur-immo" : "acheteur-immo",
@@ -456,6 +461,7 @@
           var hats = (res.data.hats || []).join(" + ");
           if (ok) {
             ok.hidden = false;
+            var mandat = res.data.mandatHunt || payload.wantsMandat;
             ok.textContent =
               res.data.received +
               " bien" +
@@ -464,7 +470,10 @@
               (res.data.received > 1 ? "s" : "") +
               (payload.photos.length ? " avec photos / capture" : "") +
               (hats ? " (" + hats + ")" : "") +
-              ". Un conseiller vous rappelle.";
+              ". " +
+              (mandat
+                ? "On part chercher le mandat auprès du vendeur et on vous rappelle."
+                : "Un conseiller vous rappelle.");
           }
           form.reset();
           state.photos = [];

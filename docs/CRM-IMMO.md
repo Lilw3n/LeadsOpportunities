@@ -60,6 +60,7 @@ Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-imm
 - Saisie manuelle **sans URL** pour un vendeur (ville obligatoire)
 - Détecte le portail si URL (Leboncoin, SeLoger, ParuVendu…)
 - Parties CRM : vendeur (déposant ou infos collées) ; acquéreur si recherche / double casquette ; critères de rachat si `les_deux`
+- **Chasse de mandat** (`wantsMandat`, activé par défaut pour un acquéreur) : l'acquéreur envoie un lien d'annonce et nous confie la recherche du mandat auprès du vendeur. Le bien est marqué `a_contacter`, le `lead_score` est relevé, `metadata.mandatHunt = true` et une note « Chasse de mandat » est ajoutée pour la prospection vendeur sur le secteur.
 - **Pas de scraping**
 
 Catalogue : `js/immo-listing-portals-lib.js`.
