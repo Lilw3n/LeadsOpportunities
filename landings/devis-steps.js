@@ -36,7 +36,11 @@
         input("email", "E-mail", "email", "vous@email.fr", true) +
           input("phone", "Telephone mobile", "tel", "06 / 07...", true)
       ) +
-      fieldRow(input("postalCode", "Code postal", "text", "75001", true)) +
+      fieldRow(input("street", "Adresse postale (numero et rue)", "text", "12 rue...", true)) +
+      fieldRow(
+        input("postalCode", "Code postal", "text", "75001", true) +
+          input("cityFull", "Ville", "text", "Paris", true)
+      ) +
       "</section>"
     );
   }

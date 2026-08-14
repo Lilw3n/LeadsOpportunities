@@ -65,6 +65,7 @@ window.IntelligentQuoteWizard = {
       companySiret: "",
       companyActivity: "",
       vehicleType: "",
+      vehiclePlate: "",
       activityType: "",
       propertyType: "",
       propertySurface: "",
@@ -79,7 +80,7 @@ window.IntelligentQuoteWizard = {
       if (options.ocrHint.match(/habitation|mrh|pno/i)) data.insuranceType = data.insuranceType || "habitation";
       if (options.ocrHint.match(/sant[eé]|mutuelle/i)) data.insuranceType = data.insuranceType || "sante";
       var immat = options.ocrHint.match(/[A-Z]{2}[-\s]?\d{3}[-\s]?[A-Z]{2}/i);
-      if (immat) data.vehicleRegistration = immat[0].replace(/\s/g, "-");
+      if (immat) data.vehiclePlate = immat[0].replace(/\s/g, "-");
     }
     if (options.prefillData) {
       var ex = options.prefillData.extracted || options.prefillData;
@@ -177,9 +178,12 @@ window.IntelligentQuoteWizard = {
     }
 
     function stepCompany() {
+      var proType = data.insuranceType === "rc-pro" || data.insuranceType === "decennale";
+      if (proType) data.hasCompany = true;
       return (
         '<label class="full"><input type="checkbox" id="hasCompany" ' +
         (data.hasCompany ? "checked" : "") +
+        (proType ? " disabled" : "") +
         " /> Je suis un professionnel / entreprise</label>" +
         '<div id="companyFields" class="form-grid' +
         (data.hasCompany ? "" : " hidden") +
@@ -187,7 +191,7 @@ window.IntelligentQuoteWizard = {
         '<label class="full">Raison sociale<input name="companyName" value="' +
         self.esc(data.companyName) +
         '" /></label>' +
-        '<label>SIRET<input name="companySiret" maxlength="14" value="' +
+        '<label>SIREN ou SIRET<input name="companySiret" maxlength="17" placeholder="123456789 ou 12345678901234" value="' +
         self.esc(data.companySiret) +
         '" /></label>' +
         '<label>Activité<input name="companyActivity" value="' +
@@ -203,7 +207,10 @@ window.IntelligentQuoteWizard = {
       if (t === "auto" || t === "vtc-taxi") {
         extra =
           '<label>Type véhicule<select name="vehicleType"><option value="">—</option><option>VTC</option><option>Berline</option><option>Utilitaire</option></select></label>' +
-          '<label>Activité<select name="activityType"><option value="">—</option><option>VTC</option><option>Taxi</option><option>Personnel</option></select></label>';
+          '<label>Activité<select name="activityType"><option value="">—</option><option>VTC</option><option>Taxi</option><option>Personnel</option></select></label>' +
+          '<label>Plaque d\'immatriculation<input name="vehiclePlate" required placeholder="AA-123-BB" value="' +
+          self.esc(data.vehiclePlate) +
+          '" /></label>';
       } else if (t === "habitation") {
         extra =
           '<label>Type logement<select name="propertyType"><option>Appartement</option><option>Maison</option></select></label>' +
@@ -263,7 +270,10 @@ window.IntelligentQuoteWizard = {
       fd.forEach(function (v, k) {
         data[k] = v;
       });
-      data.hasCompany = !!root.querySelector("#hasCompany:checked");
+      data.hasCompany =
+        !!root.querySelector("#hasCompany:checked") ||
+        data.insuranceType === "rc-pro" ||
+        data.insuranceType === "decennale";
     }
 
     function validate() {
@@ -271,9 +281,24 @@ window.IntelligentQuoteWizard = {
       if (id === "insurance-type" && !data.insuranceType) return "Choisissez un type";
       if (id === "personal") {
         if (!data.firstName || !data.lastName || !data.email || !data.phone) return "Champs requis";
+        if (!(data.street || "").trim()) return "Adresse postale requise";
+        if (!(data.city || "").trim()) return "Ville requise";
         if (!/^\d{5}$/.test(data.postalCode || "")) return "Code postal invalide";
       }
-      if (id === "company" && data.hasCompany && !data.companyName) return "Raison sociale requise";
+      if (id === "company") {
+        var proType = data.insuranceType === "rc-pro" || data.insuranceType === "decennale";
+        if (proType || data.hasCompany) {
+          if (!data.companyName) return "Raison sociale requise";
+          var siretDigits = String(data.companySiret || "").replace(/\s/g, "");
+          if (!/^\d{9}$/.test(siretDigits) && !/^\d{14}$/.test(siretDigits)) {
+            return "SIREN (9) ou SIRET (14 chiffres) requis";
+          }
+        }
+      }
+      if (id === "needs" && (data.insuranceType === "auto" || data.insuranceType === "vtc-taxi")) {
+        var plate = String(data.vehiclePlate || "").replace(/[\s-]/g, "");
+        if (plate.length < 4) return "Plaque d'immatriculation requise";
+      }
       return null;
     }
 

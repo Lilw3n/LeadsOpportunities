@@ -63,8 +63,25 @@
     if (name === "postalCode" || name === "postalProject") {
       tags.push({ kind: "rule", text: "CP 5 chiffres" });
     }
-    if (name === "companySiret") {
-      tags.push({ kind: "rule", text: "SIRET 14 chiffres" });
+    if (name === "street") {
+      tags.push({ kind: "rule", text: "Adresse postale" });
+    }
+    if (name === "cityFull" || name === "city") {
+      tags.push({ kind: "rule", text: "Ville" });
+    }
+    if (name === "companySiret" || name === "collectiveSiret" || name === "siret") {
+      tags.push({ kind: "rule", text: "SIREN 9 ou SIRET 14 chiffres" });
+    }
+    if (
+      name === "autoPlate" ||
+      name === "vtcVehiclePlate" ||
+      name === "vehiclePlate" ||
+      name === "motoPlate" ||
+      name === "tempVehiclePlate" ||
+      name === "fleetMainPlate" ||
+      name === "rvPlate"
+    ) {
+      tags.push({ kind: "rule", text: "Plaque d'immatriculation" });
     }
     if (type === "date" || name.indexOf("Dob") !== -1 || name.indexOf("Birth") !== -1) {
       tags.push({ kind: "rule", text: "Date valide" });

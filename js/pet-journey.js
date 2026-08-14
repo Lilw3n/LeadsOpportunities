@@ -518,7 +518,9 @@
       '<label>Nom complet <input name="fullName" required autocomplete="name" /></label>' +
       '<label>Téléphone <input name="phone" type="tel" required autocomplete="tel" /></label>' +
       '<label>Email <input name="email" type="email" required autocomplete="email" /></label>' +
-      '<label>Code postal <input name="postalCode" inputmode="numeric" maxlength="5" required /></label>' +
+      '<label style="grid-column:1/-1">Adresse postale (numéro et rue) <input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>' +
+      '<label>Code postal <input name="postalCode" inputmode="numeric" maxlength="5" required autocomplete="postal-code" /></label>' +
+      '<label>Ville <input name="cityFull" required autocomplete="address-level2" placeholder="Paris" /></label>' +
       '<label style="grid-column:1/-1" class="checkbox-row"><input type="checkbox" name="consent" required /> J\'accepte d\'être contacté (voir <a href="../politique-confidentialite.html" target="_blank" rel="noopener">confidentialité</a>).</label>' +
       "</div></div>"
     );

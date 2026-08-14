@@ -44,6 +44,43 @@
     );
   }
 
+  var PLATE_LABEL = "Plaque d'immatriculation";
+  var PLATE_PLACEHOLDER = "AA-123-BB";
+  var SIRET_LABEL = "SIREN (9) ou SIRET (14 chiffres)";
+  var SIRET_PLACEHOLDER = "123456789 ou 12345678901234";
+
+  var PLATE_FIELD_NAMES = [
+    "autoPlate",
+    "vtcVehiclePlate",
+    "vehiclePlate",
+    "motoPlate",
+    "tempVehiclePlate",
+    "fleetMainPlate",
+    "rvPlate",
+  ];
+  var SIRET_FIELD_NAMES = ["companySiret", "collectiveSiret", "siret"];
+  var MOBILITY_NEEDS = ["auto", "moto", "vtc", "flotte", "temporaire", "caravane"];
+  var PRO_NEEDS = [
+    "rc-pro",
+    "mrp",
+    "decennale",
+    "pj-pro",
+    "dirigeant",
+    "credit-pro",
+    "tns",
+    "collective",
+    "flotte",
+    "vtc",
+  ];
+
+  function plateField(name, required) {
+    return input(name, PLATE_LABEL, "text", PLATE_PLACEHOLDER, required !== false);
+  }
+
+  function siretField(name, required) {
+    return input(name || "companySiret", SIRET_LABEL, "text", SIRET_PLACEHOLDER, required !== false);
+  }
+
   function textarea(name, label, placeholder, required) {
     var req = required !== false ? " required" : "";
     return (
@@ -192,8 +229,11 @@
               input("claims24Months", "Sinistres sur 24 mois", "number", "Ex. 0", false)
           ) +
           fieldRow(
-            input("driverAge", "Age du conducteur", "number", "Ex. 32", false) +
-              input("garageDepartment", "Departement de garage", "text", "Ex. 75", false)
+            plateField("vehiclePlate", true) +
+              input("driverAge", "Age du conducteur", "number", "Ex. 32", false)
+          ) +
+          fieldRow(
+            input("garageDepartment", "Departement de garage", "text", "Ex. 75", false)
           ) +
           '<label class="field-check"><input type="checkbox" name="isFleet" value="oui" /> <span>Plusieurs vehicules a assurer</span></label>'
       );
@@ -298,13 +338,10 @@
             input("employeeCount", "Nombre de salaries", "text", "0 si seul", true) +
               input("annualRevenue", "Chiffre d affaires annuel (EUR)", "text", "Facultatif", false)
           ) +
-          '<label class="field-check"><input type="checkbox" name="hasCompany" value="1" /> <span>J ai une structure immatriculee (SIRET)</span></label>' +
-          '<div data-company-fields hidden>' +
           fieldRow(
-            input("companyName", "Raison sociale", "text", "", false) +
-              input("companySiret", "SIRET", "text", "14 chiffres", false)
-          ) +
-          "</div>"
+            input("companyName", "Raison sociale", "text", "Ex. SARL Dupont", true) +
+              siretField("companySiret", true)
+          )
       );
     },
 
@@ -404,8 +441,9 @@
               { v: "etendu", t: "Tiers etendu + RC" },
               { v: "tous_risques", t: "Tous risques" },
             ]) +
-              input("vtcVehiclePlate", "Immatriculation (facultatif)", "text", "AA-123-BB", false)
-          )
+              plateField("vtcVehiclePlate", true)
+          ) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -428,6 +466,9 @@
               { v: "leasing", t: "Leasing / LOA" },
             ]) +
               input("fleetMainCity", "Ville principale d exploitation", "text", "Ex. Lyon", true)
+          ) +
+          fieldRow(
+            plateField("fleetMainPlate", true) + siretField("companySiret", true)
           )
       );
     },
@@ -452,7 +493,8 @@
               { v: "autre", t: "Autre" },
             ]) +
               input("tempVehicleId", "Marque / modele vehicule", "text", "Ex. Peugeot 208", true)
-          )
+          ) +
+          fieldRow(plateField("tempVehiclePlate", true))
       );
     },
 
@@ -474,7 +516,8 @@
               { v: "pro", t: "Professionnel (livraison…)" },
             ]) +
               input("motoGarageZip", "Code postal garage", "text", "75001", true)
-          )
+          ) +
+          fieldRow(plateField("motoPlate", true))
       );
     },
 
@@ -511,7 +554,7 @@
               ])
           ) +
           fieldRow(
-            input("autoPlate", "Immatriculation (facultatif)", "text", "AA-123-BB", false) +
+            plateField("autoPlate", true) +
               input("autoAnnualKm", "Km annuels estimes", "text", "Ex. 12000", false)
           )
       );
@@ -735,7 +778,8 @@
               { v: "a_definir", t: "A definir avec le conseiller" },
             ], false) +
               textarea("proCreditDetails", "Precision", "Equipement, tresorerie, BFR…", false)
-          )
+          ) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -798,7 +842,8 @@
                 { v: "non", t: "Non necessaire" },
                 { v: "ns", t: "A definir" },
               ], false)
-          )
+          ) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -826,7 +871,8 @@
                 { v: "oui", t: "Oui" },
               ], false)
           ) +
-          textarea("pjProDetails", "Contexte", "Contrats, pays, volume…", false)
+          textarea("pjProDetails", "Contexte", "Contrats, pays, volume…", false) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -859,7 +905,8 @@
               { v: "autre", t: "Autre" },
             ], false) +
               input("keyPersonCapital", "Capital a garantir (EUR)", "text", "Facultatif", false)
-          )
+          ) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -1011,7 +1058,8 @@
               { v: "both", t: "Sante + prevoyance" },
             ]) +
               input("tnsCa", "Revenu annuel (EUR)", "text", "Facultatif", false)
-          )
+          ) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -1021,7 +1069,7 @@
         "Mutuelle collective",
         fieldRow(
           input("collectiveCompany", "Raison sociale", "text", "Ex. SARL Dupont", true) +
-            input("collectiveSiret", "SIRET (facultatif)", "text", "14 chiffres", false)
+            siretField("collectiveSiret", true)
         ) +
           fieldRow(
             input("collectiveHeadcount", "Effectif a couvrir", "number", "Ex. 12", true) +
@@ -1253,7 +1301,8 @@
                 { v: "ancien", t: "Sinistre ancien" },
                 { v: "en_cours", t: "Sinistre en cours" },
               ], false)
-          )
+          ) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -1276,7 +1325,8 @@
               { v: "2plus", t: "2 et plus" },
             ], false) +
               textarea("rcProDescription", "Description de l activite", "Clients, sous-traitance, deplacements…", false)
-          )
+          ) +
+          fieldRow(siretField("companySiret", true))
       );
     },
 
@@ -1402,7 +1452,8 @@
                 { v: "30-90", t: "30 a 90 jours" },
                 { v: "plus90", t: "Plus de 90 jours" },
               ], false)
-          )
+          ) +
+          fieldRow(plateField("rvPlate", true))
       );
     },
 
@@ -1491,6 +1542,14 @@
     select: select,
     input: input,
     textarea: textarea,
+    plateField: plateField,
+    siretField: siretField,
+    PLATE_LABEL: PLATE_LABEL,
+    SIRET_LABEL: SIRET_LABEL,
+    PLATE_FIELD_NAMES: PLATE_FIELD_NAMES,
+    SIRET_FIELD_NAMES: SIRET_FIELD_NAMES,
+    MOBILITY_NEEDS: MOBILITY_NEEDS,
+    PRO_NEEDS: PRO_NEEDS,
     CATEGORY_CONTEXT: CATEGORY_CONTEXT,
     NEED_OVERLAYS: NEED_OVERLAYS,
     contextForService: contextForService,
