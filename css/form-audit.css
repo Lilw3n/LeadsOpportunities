@@ -3,6 +3,35 @@ body.form-audit-active {
   padding-top: 52px;
 }
 
+body.form-audit-real .form-audit-bar {
+  background: linear-gradient(135deg, #14532d 0%, #0f766e 100%);
+}
+
+.form-audit-status {
+  font-weight: 700;
+  color: #ecfdf5;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.form-audit-real-hint {
+  margin: 0 0 16px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  font-size: 0.85rem;
+  color: #065f46;
+  font-weight: 600;
+}
+
+.form-audit-blocked {
+  border-color: #fca5a5 !important;
+  background: #fef2f2 !important;
+  color: #991b1b !important;
+}
+
 .form-audit-bar {
   position: fixed;
   top: 0;

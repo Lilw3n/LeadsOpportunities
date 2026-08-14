@@ -17,6 +17,7 @@
     var title = document.title.replace(/\s*\|.*$/i, "").trim();
 
     var PAGE_META = {
+      "crm-form-leads.html": { subtitle: "Questionnaires, contacts et rappels — classés par catégorie métier" },
       "crm-acquisition.html": { subtitle: "Leads Google, Meta, TikTok, Instagram, Allo — tri, assignation, archivage" },
       "crm-sources.html": { subtitle: "Attribution UTM — plateforme, campagne, gclid, fbclid, ttclid" },
       "crm-pubs.html": { subtitle: "Liens Ads Manager Meta, Google, TikTok — campagne active et formulaires" },

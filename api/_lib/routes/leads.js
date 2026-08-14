@@ -3,9 +3,33 @@ const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
 const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
+const { applyToLead } = require("../../../js/form-lead-category");
+
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
-const VALID_VERTICAL = ["vtc", "sante", "credit-immo"];
 const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
+const VALID_FORM_CATEGORIES = [
+  "mobilite",
+  "sante",
+  "habitat",
+  "finance",
+  "pro",
+  "patrimoine",
+  "animaux",
+  "niches",
+  "contact",
+];
+const VALID_FORM_KINDS = ["questionnaire", "contact_request", "express_callback"];
+
+function sanitizeVerticalParam(raw) {
+  if (!raw) return null;
+  var s = String(raw)
+    .trim()
+    .toLowerCase()
+    .replace(/_/g, "-")
+    .slice(0, 80);
+  if (!/^[a-z0-9][a-z0-9-]{0,79}$/.test(s)) return null;
+  return s;
+}
 
 const ORDER_BY_CASE = `
     ORDER BY
@@ -33,7 +57,7 @@ async function fetchLeadsStandard(sql, opts) {
       landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip
     FROM site_leads
     WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
-      AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+      AND (${opts.verticalVal}::text IS NULL OR REPLACE(LOWER(COALESCE(vertical, '')), '_', '-') = ${opts.verticalVal})
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -92,7 +116,7 @@ async function countLeadsStandard(sql, opts) {
   const rows = await sql`
     SELECT COUNT(*)::int AS total FROM site_leads
     WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
-      AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+      AND (${opts.verticalVal}::text IS NULL OR REPLACE(LOWER(COALESCE(vertical, '')), '_', '-') = ${opts.verticalVal})
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -141,7 +165,7 @@ async function fetchLeadsMinimal(sql, opts) {
       id, source, vertical, lead_score, email, phone,
       created_at, updated_at, payload
     FROM site_leads
-    WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+    WHERE (${opts.verticalVal}::text IS NULL OR REPLACE(LOWER(COALESCE(vertical, '')), '_', '-') = ${opts.verticalVal})
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -161,7 +185,7 @@ async function fetchLeadsMinimal(sql, opts) {
 async function countLeadsMinimal(sql, opts) {
   const rows = await sql`
     SELECT COUNT(*)::int AS total FROM site_leads
-    WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+    WHERE (${opts.verticalVal}::text IS NULL OR REPLACE(LOWER(COALESCE(vertical, '')), '_', '-') = ${opts.verticalVal})
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -204,15 +228,20 @@ module.exports = async (req, res) => {
 
   const url = new URL(req.url, "http://localhost");
   const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
-  const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") || "20", 10)));
+  const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") || "20", 10)));
   const offset = (page - 1) * limit;
 
   const statusVal = url.searchParams.get("status")
     ? sanitizeEnum(url.searchParams.get("status"), VALID_STATUS, null)
     : null;
-  const verticalVal = url.searchParams.get("vertical")
-    ? sanitizeEnum(url.searchParams.get("vertical"), VALID_VERTICAL, null)
+  const verticalVal = sanitizeVerticalParam(url.searchParams.get("vertical"));
+  const formCategoryVal = url.searchParams.get("category")
+    ? sanitizeEnum(url.searchParams.get("category"), VALID_FORM_CATEGORIES, null)
     : null;
+  const formKindVal = url.searchParams.get("kind")
+    ? sanitizeEnum(url.searchParams.get("kind"), VALID_FORM_KINDS, null)
+    : null;
+  const wantFormStats = url.searchParams.get("formStats") === "1";
   const searchVal = url.searchParams.get("search")
     ? sanitizeSearch(url.searchParams.get("search"))
     : null;
@@ -241,13 +270,43 @@ module.exports = async (req, res) => {
 
     await ensureSiteLeadsSchema(sql);
 
-    const result = await loadLeadsList(sql, queryOpts);
-    const leads = result.rows.map(enrichLeadRow);
-    const total = result.total;
+    const needsFormScan = !!(formCategoryVal || formKindVal || wantFormStats);
+    const fetchOpts = needsFormScan
+      ? Object.assign({}, queryOpts, { limit: 500, offset: 0 })
+      : queryOpts;
+    const result = await loadLeadsList(sql, fetchOpts);
+    let leads = result.rows.map(function (row) {
+      return applyToLead(enrichLeadRow(row));
+    });
+    let formStats = null;
+    if (needsFormScan) {
+      formStats = { total: leads.length, categories: {}, kinds: {} };
+      leads.forEach(function (l) {
+        var cat = l.formCategory || "contact";
+        var kind = l.formKind || "questionnaire";
+        formStats.categories[cat] = (formStats.categories[cat] || 0) + 1;
+        formStats.kinds[kind] = (formStats.kinds[kind] || 0) + 1;
+      });
+      if (formCategoryVal) {
+        leads = leads.filter(function (l) {
+          return l.formCategory === formCategoryVal;
+        });
+      }
+      if (formKindVal) {
+        leads = leads.filter(function (l) {
+          return l.formKind === formKindVal;
+        });
+      }
+    }
+    const total = needsFormScan ? leads.length : result.total;
+    if (needsFormScan) {
+      leads = leads.slice(offset, offset + limit);
+    }
 
     return res.status(200).json({
       ok: true,
       leads,
+      formStats: formStats,
       pagination: {
         page,
         limit,

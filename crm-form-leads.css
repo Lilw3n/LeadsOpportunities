@@ -1,0 +1,80 @@
+/* Leads formulaires — catégories */
+
+.fl-section {
+  margin-bottom: 16px;
+}
+
+.fl-section h2 {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+}
+
+.fl-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.fl-table th,
+.fl-table td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+  vertical-align: top;
+}
+
+.fl-table th {
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fl-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.fl-badge--mobilite { background: #ecfeff; color: #0e7490; }
+.fl-badge--sante { background: #fef2f2; color: #b91c1c; }
+.fl-badge--habitat { background: #f0fdf4; color: #15803d; }
+.fl-badge--finance { background: #eef2ff; color: #3730a3; }
+.fl-badge--pro { background: #fff7ed; color: #c2410c; }
+.fl-badge--patrimoine { background: #faf5ff; color: #7e22ce; }
+.fl-badge--animaux { background: #fdf4ff; color: #a21caf; }
+.fl-badge--niches { background: #f8fafc; color: #475569; }
+.fl-badge--contact { background: #f1f5f9; color: #334155; }
+
+.fl-badge--questionnaire { background: #ecfdf5; color: #047857; }
+.fl-badge--contact_request { background: #eff6ff; color: #1d4ed8; }
+.fl-badge--express_callback { background: #fff7ed; color: #c2410c; }
+
+.fl-contact strong {
+  display: block;
+}
+
+.fl-contact span {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.fl-pager {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 14px;
+}
+
+.fl-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}

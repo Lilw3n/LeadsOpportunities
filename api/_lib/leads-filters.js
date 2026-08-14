@@ -64,6 +64,11 @@ function enrichLeadRow(row) {
     row.client_ip = p.clientIp || p.client_ip || p.ip || null;
   }
 
+  try {
+    const { applyToLead } = require("../../js/form-lead-category");
+    applyToLead(row);
+  } catch (e) {}
+
   return row;
 
 }

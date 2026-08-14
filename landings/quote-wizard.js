@@ -362,9 +362,22 @@
           msg.scrollIntoView({ behavior: "smooth", block: "nearest" });
           return;
         }
-        if (!validateStep(steps[steps.length - 1])) {
+        var invalidIdx = -1;
+        for (var si = 0; si < steps.length; si++) {
+          if (!validateStep(steps[si])) {
+            invalidIdx = si;
+            break;
+          }
+        }
+        if (invalidIdx >= 0) {
           e.preventDefault();
           e.stopImmediatePropagation();
+          showStep(invalidIdx);
+          if (validationHint) {
+            validationHint.hidden = false;
+            validationHint.textContent =
+              "Il manque une information obligatoire. Remplissez les champs marqués en rouge, puis renvoyez.";
+          }
         }
       },
       true

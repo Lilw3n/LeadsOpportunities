@@ -179,6 +179,28 @@ module.exports = async (req, res) => {
   if (qStep > 0 && qStep < qTotal) pipelineStage = "questionnaire";
   if (qStep >= qTotal && qTotal > 0) pipelineStage = "quote_sent";
 
+  try {
+    const { classifyFormLead } = require("../../../js/form-lead-category");
+    var formClass = classifyFormLead({
+      source: enriched.source,
+      vertical: enriched.vertical,
+      payload: enriched,
+      questionnaire_step: qStep,
+      questionnaire_total: qTotal,
+    });
+    enriched.formCategory = formClass.category;
+    enriched.formCategoryLabel = formClass.categoryLabel;
+    enriched.formNeed = formClass.need;
+    enriched.formNeedLabel = formClass.needLabel;
+    enriched.formKind = formClass.kind;
+    enriched.formKindLabel = formClass.kindLabel;
+    if (!enriched.serviceCategory) enriched.serviceCategory = formClass.category;
+    if (!enriched.serviceNeed) enriched.serviceNeed = formClass.need;
+    if (!enriched.serviceLabel) enriched.serviceLabel = formClass.needLabel;
+  } catch (classErr) {
+    console.warn("[lead] form category", classErr.message);
+  }
+
   console.log("[lead]", leadId, score, enriched.vertical, platform, enriched.email || enriched.phone || "");
 
   var stored = false;

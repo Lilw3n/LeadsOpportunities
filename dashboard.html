@@ -1759,7 +1759,7 @@
         <div class="dash-topbar">
           <div>
             <h1>Gestion des Leads</h1>
-            <p class="subtitle">Consultez, filtrez et gérez vos leads — <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">formulaires devis remplis (pipeline CRM)</a></p>
+            <p class="subtitle">Consultez, filtrez et gérez vos leads — <a href="./crm-form-leads.html" style="color:var(--primary);font-weight:600">leads formulaires par catégorie</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">pipeline pubs</a></p>
           </div>
           <div class="topbar-actions">
             <button class="btn-refresh" id="refreshLeads">
@@ -1794,8 +1794,13 @@
             <select class="filter-select" id="filterVertical">
               <option value="">Tous les verticaux</option>
               <option value="vtc">VTC</option>
+              <option value="auto">Auto</option>
               <option value="sante">Santé</option>
-              <option value="credit-immo">Crédit Immo</option>
+              <option value="credit-immo">Crédit immo</option>
+              <option value="acheteur-immo">Acheteur immo</option>
+              <option value="vendeur-immo">Vendeur immo</option>
+              <option value="habitation">Habitation</option>
+              <option value="animaux">Animaux</option>
             </select>
             <select class="filter-select" id="filterPlatform">
               <option value="">Tous réseaux</option>
@@ -1879,7 +1884,7 @@
         <div class="dash-topbar">
           <div>
             <h1>Messagerie</h1>
-            <p class="subtitle" id="mailboxSubtitle">Formulaires site, e-mails contact@ et reponses depuis un seul endroit</p>
+            <p class="subtitle" id="mailboxSubtitle">Formulaires site, e-mails contact@ et réponses — <a href="./crm-form-leads.html" style="color:var(--primary);font-weight:600">voir les leads par catégorie</a></p>
           </div>
           <div class="topbar-actions">
             <a href="https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&amp;_mbox=INBOX" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailBtn" title="Roundcube o2switch — contact@leadsopportunities.fr">Boîte mail o2switch ↗</a>

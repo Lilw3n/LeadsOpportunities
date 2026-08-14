@@ -413,6 +413,24 @@
           window.QuoteIntelligence.attachLeadIdToPayload(leadPayload);
         }
         leadPayload.client_event_id = leadPayload.leadId || null;
+        if (window.FormLeadCategory && window.FormLeadCategory.classifyFormLead) {
+          var formClass = window.FormLeadCategory.classifyFormLead({
+            source: leadPayload.source,
+            vertical: leadPayload.vertical,
+            payload: leadPayload,
+            questionnaire_step: leadPayload.questionnaire_step,
+            questionnaire_total: leadPayload.questionnaire_total,
+          });
+          leadPayload.formCategory = formClass.category;
+          leadPayload.formCategoryLabel = formClass.categoryLabel;
+          leadPayload.formNeed = formClass.need;
+          leadPayload.formNeedLabel = formClass.needLabel;
+          leadPayload.formKind = formClass.kind;
+          leadPayload.formKindLabel = formClass.kindLabel;
+          if (!leadPayload.serviceCategory) leadPayload.serviceCategory = formClass.category;
+          if (!leadPayload.serviceNeed) leadPayload.serviceNeed = formClass.need;
+          if (!leadPayload.serviceLabel) leadPayload.serviceLabel = formClass.needLabel;
+        }
         if (typeof window.saveLeadRequest === "function") {
           window.saveLeadRequest(leadPayload);
         }

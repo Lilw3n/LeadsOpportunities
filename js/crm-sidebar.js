@@ -29,6 +29,7 @@ window.CrmSidebar = {
   },
 
   FAVORITES: [
+    { href: "./crm-form-leads.html", label: "Leads formulaires", icon: "leads" },
     { href: "./crm-pubs.html", label: "Gestion pubs", icon: "social", badge: "1€/j" },
     { href: "./crm-sources.html", label: "Origine leads", icon: "stats" },
     { href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats" },
@@ -62,6 +63,7 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats", badge: "WoW", desc: "Comparaison semaine vs semaine précédente" },
         { type: "link", href: "./crm-acquisition.html", label: "Pipeline acquisition", icon: "acquisition", highlight: true, badge: "priorité", desc: "Google, Meta, TikTok, Allo" },
         { type: "link", href: "./crm-meta-inbox.html", label: "Leads Meta (Facebook)", icon: "social", badge: "Lead Ads", desc: "Formulaires instantanés Meta" },
+        { type: "link", href: "./crm-form-leads.html", label: "Leads formulaires", icon: "leads", highlight: true, badge: "catégories", desc: "Questionnaires et contacts classés par catégorie" },
         { type: "section", id: "leads", label: "Leads web", icon: "leads", desc: "Demandes site public" },
         { type: "link", href: "./crm-private-offer-matching.html", label: "Matching VSP privé", icon: "ai", badge: "privé", desc: "Orientation partenaires" },
         { type: "link", href: "./crm-leads-analysis.html", label: "Analyse leads IA", icon: "ai" },

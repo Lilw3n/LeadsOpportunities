@@ -40,9 +40,21 @@
       window.CrmAttributionPanel && window.CrmAttributionPanel.render
         ? window.CrmAttributionPanel.render(Object.assign({}, l, { payload_obj: payload }))
         : "";
+    var formClass =
+      window.FormLeadCategory && window.FormLeadCategory.classifyFormLead
+        ? window.FormLeadCategory.classifyFormLead({
+            source: l.source,
+            vertical: l.vertical,
+            payload: payload,
+            questionnaire_step: l.questionnaire_step,
+            questionnaire_total: l.questionnaire_total,
+          })
+        : {};
+    var formBits = [formClass.categoryLabel, formClass.needLabel, formClass.kindLabel].filter(Boolean);
 
     document.getElementById("leadMount").innerHTML =
-      '<p><a href="./crm-acquisition.html" class="btn btn-ghost">← Pipeline acquisition</a> ' +
+      '<p><a href="./crm-form-leads.html" class="btn btn-ghost">← Leads formulaires</a> ' +
+      '<a href="./crm-acquisition.html" class="btn btn-ghost">Pipeline acquisition</a> ' +
       (window.CrmLeadPayloadView && window.CrmLeadPayloadView.isMetaLead(l)
         ? '<a href="./crm-meta-inbox.html" class="btn btn-ghost">Leads Meta</a>'
         : "") +
@@ -54,6 +66,7 @@
       "</h1>" +
       '<p style="color:var(--muted)">' +
       esc(pm.label) +
+      (formBits.length ? " · " + esc(formBits.join(" · ")) : "") +
       " · " +
       esc(l.vertical) +
       " · score " +

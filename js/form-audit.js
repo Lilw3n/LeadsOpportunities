@@ -1,8 +1,10 @@
 /**
- * Mode contrôle admin : parcourir les formulaires multi-étapes sans remplir,
- * avec annotations (obligatoire, choix obligatoire, règles @email, CP, etc.)
+ * Contrôle admin des formulaires : barre toujours visible pour un compte admin.
+ * Case cochée = parcourir sans remplir (envoi bloqué).
+ * Case décochée = validation réelle et création d’un lead de test.
  *
- * Activation : compte admin (lo_user), ?audit=1, ou localStorage lo_form_audit=1
+ * Activation barre : compte admin (lo_user), ?audit=1
+ * Préférence : localStorage lo_form_audit = 1 | 0
  */
 (function () {
   var STORAGE_KEY = "lo_form_audit";
@@ -33,8 +35,7 @@
 
   function setAuditPreference(on) {
     try {
-      if (on) localStorage.setItem(STORAGE_KEY, "1");
-      else localStorage.removeItem(STORAGE_KEY);
+      localStorage.setItem(STORAGE_KEY, on ? "1" : "0");
     } catch (e) {}
   }
 
@@ -245,13 +246,59 @@
     form.dataset.auditStep = String(i + 1);
   }
 
-  function mountToolbar(form) {
-    if (form._auditBar) return;
+  function auditFormSelector() {
+    return "form[data-quote-wizard], form[data-pet-journey-form], form[data-track-form], form[data-quick-devis]";
+  }
+
+  function allAuditForms() {
+    return document.querySelectorAll(auditFormSelector());
+  }
+
+  function ensureRealHint(form) {
+    var hint = form.querySelector("[data-audit-real-hint]");
+    if (hint) return hint;
+    hint = document.createElement("p");
+    hint.setAttribute("data-audit-real-hint", "");
+    hint.className = "form-audit-real-hint";
+    hint.hidden = true;
+    var actions = form.querySelector(".wizard-actions");
+    if (actions && actions.parentNode) {
+      actions.parentNode.insertBefore(hint, actions);
+    } else {
+      form.insertBefore(hint, form.firstChild);
+    }
+    return hint;
+  }
+
+  function applyModeToForms(checked) {
+    allAuditForms().forEach(function (form) {
+      form.dataset.auditMode = checked ? "1" : "0";
+      var blocked = form.querySelector("[data-audit-submit-hint]");
+      if (blocked) blocked.hidden = !checked;
+      var real = ensureRealHint(form);
+      real.hidden = checked;
+      real.textContent = checked
+        ? ""
+        : "Mode test réel : remplissez les champs obligatoires à chaque étape, puis envoyez. Un lead sera créé (page Leads formulaires + messagerie).";
+    });
+    document.body.classList.toggle("form-audit-active", true);
+    document.body.classList.toggle("form-audit-skip", checked);
+    document.body.classList.toggle("form-audit-real", !checked);
+  }
+
+  function mountToolbar(form, startOn) {
+    var existing = document.getElementById("formAuditBar");
+    if (existing) {
+      form._auditBar = existing;
+      applyModeToForms(startOn);
+      return;
+    }
     var steps = getWizardSteps(form);
     var bar = document.createElement("div");
+    bar.id = "formAuditBar";
     bar.className = "form-audit-bar";
     bar.setAttribute("role", "region");
-    bar.setAttribute("aria-label", "Mode contrôle formulaire");
+    bar.setAttribute("aria-label", "Contrôle admin formulaire");
 
     var stepOptions = steps
       .map(function (s, i) {
@@ -267,7 +314,8 @@
 
     bar.innerHTML =
       "<strong>Contrôle admin</strong>" +
-      '<label class="form-audit-toggle"><input type="checkbox" data-audit-active checked /> Mode contrôle (sans remplir)</label>' +
+      '<label class="form-audit-toggle"><input type="checkbox" data-audit-active /> Mode contrôle (sans remplir)</label>' +
+      '<span class="form-audit-status" data-audit-status></span>' +
       (steps.length
         ? '<label>Aller à <select data-audit-step-select>' + stepOptions + "</select></label>" +
           '<button type="button" data-audit-prev>◀ Étape</button>' +
@@ -296,15 +344,20 @@
     }
 
     function syncActive(checked) {
-      form.dataset.auditMode = checked ? "1" : "0";
-      document.body.classList.toggle("form-audit-active", checked);
+      applyModeToForms(checked);
       setAuditPreference(checked);
       var showFields = bar.querySelector("[data-audit-show-fields]");
       panel.hidden = !checked || !(showFields && showFields.checked);
-      bar.style.opacity = checked ? "1" : "0.85";
+      var status = bar.querySelector("[data-audit-status]");
+      if (status) {
+        status.textContent = checked
+          ? "Parcours libre · envoi de lead bloqué"
+          : "Validation réelle · l’envoi crée un lead";
+      }
     }
 
     var toggle = bar.querySelector("[data-audit-active]");
+    toggle.checked = !!startOn;
     toggle.addEventListener("change", function () {
       syncActive(toggle.checked);
     });
@@ -344,66 +397,65 @@
     });
   }
 
-  function showEnablePrompt() {
-    if (document.getElementById("formAuditPrompt")) return;
-    var p = document.createElement("p");
-    p.id = "formAuditPrompt";
-    p.className = "form-audit-prompt";
-    p.innerHTML =
-      "Compte admin détecté — parcourez le questionnaire sans remplir et affichez les règles des champs. " +
-      '<button type="button" id="formAuditEnableBtn">Activer le mode contrôle</button>';
-    var wrap = document.querySelector("#demande .form-wrap") || document.querySelector(".form-wrap");
-    if (wrap) wrap.insertBefore(p, wrap.firstChild);
-    document.getElementById("formAuditEnableBtn").addEventListener("click", function () {
-      setAuditPreference(true);
-      p.remove();
-      initAll(true);
-    });
-  }
-
   function initForm(form, forceOn) {
     if (!canUseAudit()) return;
     annotateForm(form);
-    var on = forceOn || auditEnabledByDefault();
-    if (!on) return;
-    mountToolbar(form);
-    form.dataset.auditMode = "1";
-    document.body.classList.add("form-audit-active");
+    var on = forceOn === true ? true : forceOn === false ? false : auditEnabledByDefault();
+    mountToolbar(form, on);
   }
 
   function initAll(forceOn) {
-    var forms = document.querySelectorAll("form[data-quote-wizard], form[data-pet-journey-form]");
+    var forms = allAuditForms();
     if (!forms.length) return;
-    forms.forEach(function (form) {
+    Array.prototype.forEach.call(forms, function (form) {
       initForm(form, forceOn);
     });
+  }
+
+  function skipValidation(form) {
+    return !!(form && form.dataset.auditMode === "1");
   }
 
   window.FormAudit = {
     canUseAudit: canUseAudit,
     isAdminUser: isAdminUser,
-    skipValidation: function (form) {
-      return form && form.dataset.auditMode === "1";
-    },
-    isActive: function (form) {
-      return form && form.dataset.auditMode === "1";
-    },
+    skipValidation: skipValidation,
+    isActive: skipValidation,
     refresh: function () {
       initAll(true);
     },
   };
 
+  document.addEventListener(
+    "submit",
+    function (e) {
+      var form = e.target;
+      if (!(form instanceof HTMLFormElement)) return;
+      if (!skipValidation(form)) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      var msg = form.querySelector("[data-audit-submit-hint]");
+      if (!msg) {
+        msg = document.createElement("p");
+        msg.setAttribute("data-audit-submit-hint", "");
+        msg.className = "form-audit-step-panel form-audit-blocked";
+        var actions = form.querySelector(".wizard-actions");
+        if (actions && actions.parentNode) actions.parentNode.insertBefore(msg, actions);
+        else form.appendChild(msg);
+      }
+      msg.hidden = false;
+      msg.textContent =
+        "Mode contrôle actif : décochez « Mode contrôle (sans remplir) » dans la barre en haut, remplissez les champs, puis renvoyez pour créer un vrai lead.";
+      msg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    },
+    true
+  );
+
   document.addEventListener("DOMContentLoaded", function () {
     if (!canUseAudit()) return;
-    var forms = document.querySelectorAll("form[data-quote-wizard], form[data-pet-journey-form]");
-    if (!forms.length) return;
-
+    if (!allAuditForms().length) return;
     setTimeout(function () {
-      if (auditEnabledByDefault()) {
-        initAll(true);
-      } else {
-        showEnablePrompt();
-      }
+      initAll();
     }, 0);
   });
 })();

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leads formulaires | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./crm-form-leads.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Formulaires site</p>
+      <h2>Leads classés par catégorie</h2>
+      <p>Questionnaires, demandes de contact et rappels express — regroupés par métier, pas seulement dans la messagerie.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./dashboard.html?section=mailbox" class="btn btn-ghost">Messagerie</a>
+      <a href="./crm-acquisition.html" class="btn btn-ghost">Pipeline pubs</a>
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine UTM</a>
+    </div>
+  </section>
+
+  <div class="crm-toolbar acq-toolbar fl-toolbar">
+    <input type="search" id="flSearch" class="acq-search crm-input" placeholder="Rechercher email, téléphone, besoin…" />
+    <select id="flStatus" class="crm-input" style="max-width:160px">
+      <option value="">Tous statuts</option>
+      <option value="new">Nouveau</option>
+      <option value="contacted">Contacté</option>
+      <option value="qualified">Qualifié</option>
+      <option value="converted">Converti</option>
+      <option value="lost">Perdu</option>
+    </select>
+    <button type="button" class="btn btn-primary" id="flRefresh">Actualiser</button>
+  </div>
+
+  <section class="panel fl-section">
+    <h2>Catégories</h2>
+    <div class="crm-filter-chips" id="flCatChips"></div>
+  </section>
+  <section class="panel fl-section">
+    <h2>Type de formulaire</h2>
+    <div class="crm-filter-chips" id="flKindChips"></div>
+  </section>
+
+  <div class="acq-stats" id="flStats"></div>
+
+  <section class="panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Liste</p>
+        <h2 id="flListTitle">Tous les leads formulaires</h2>
+      </div>
+      <p class="muted" id="flCount">—</p>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="fl-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Catégorie</th>
+            <th>Besoin</th>
+            <th>Type</th>
+            <th>Contact</th>
+            <th>Source</th>
+            <th>Score</th>
+            <th>Statut</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="flBody">
+          <tr><td colspan="9" class="alerts-empty">Chargement…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="fl-pager" id="flPager"></div>
+  </section>
+
+  <script src="./js/form-lead-category.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-form-leads.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
