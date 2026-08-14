@@ -37,6 +37,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+/* Sans cette regle, .field { display:flex } et consorts annulent l'attribut hidden */
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 body {
   margin: 0;
@@ -916,8 +918,19 @@ input::placeholder { color: #94a3b8; }
   opacity: 0;
   pointer-events: none;
 }
+.search-kind-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.search-kind-fieldset > legend {
+  padding: 0;
+}
 .search-mode-tab span {
   display: flex;
+  flex-direction: column;
+  gap: 3px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -931,6 +944,16 @@ input::placeholder { color: #94a3b8; }
   font-weight: 700;
   line-height: 1.25;
   transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.search-mode-tab span small {
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #64748b;
+}
+.search-mode-tab input:checked + span small {
+  color: inherit;
+  opacity: 0.85;
 }
 .search-mode-tab input:checked + span {
   border-color: var(--primary, #2563eb);

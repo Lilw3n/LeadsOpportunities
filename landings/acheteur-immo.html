@@ -398,34 +398,30 @@
 
             <!-- ETAPE 1 : Recherche de bien (style annonce) -->
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
-              <h3>Quel bien recherchez-vous ?</h3>
+              <h3>Que recherchez-vous ?</h3>
               <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
+                Un bien à visiter, une prestation sur un bien que vous détenez déjà (estimation, gestion, syndic), ou les deux.
               </p>
 
-              <div class="field full" hidden>
-                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
-                  <legend>Vous cherchez…</legend>
-                  <label class="field-check"><input type="radio" name="searchKind" value="bien" checked required /> Un bien a acheter / acquerir</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
+              <div class="field full">
+                <fieldset class="search-kind-fieldset">
+                  <legend class="search-section-label">Vous cherchez</legend>
+                  <div class="search-mode-tabs" role="radiogroup" aria-label="Vous cherchez">
+                    <label class="search-mode-tab">
+                      <input type="radio" name="searchKind" value="bien" checked required data-search-mode />
+                      <span>Un bien à acheter<small>Annonces, visites, budget</small></span>
+                    </label>
+                    <label class="search-mode-tab">
+                      <input type="radio" name="searchKind" value="service" data-search-mode />
+                      <span>Une prestation<small>Estimation, gestion locative, syndic, mise en vente</small></span>
+                    </label>
+                    <label class="search-mode-tab">
+                      <input type="radio" name="searchKind" value="les_deux" data-search-mode />
+                      <span>Les deux<small>J'achète et j'ai un bien à confier</small></span>
+                    </label>
+                  </div>
                 </fieldset>
-                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
-              </div>
-
-              <div class="search-mode-tabs" role="tablist" aria-label="Mode de recherche">
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
-                  <span>Je cherche un bien</span>
-                </label>
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="service" data-search-mode />
-                  <span>Je cherche un service</span>
-                </label>
-                <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
-                  <span>Bien + service</span>
-                </label>
+                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, prestation, ou les deux pour continuer.</p>
               </div>
 
               <div class="field full" data-search-bien-panel style="margin-top:16px">
@@ -480,8 +476,8 @@
               </div>
 
               <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
-                <p class="search-section-label">Quel service ?</p>
-                <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
+                <p class="search-section-label">Quelle prestation sur votre bien ?</p>
+                <div class="search-chip-grid" role="group" aria-label="Prestations immobilières">
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="estimation_vente" /><span>Estimation / vente</span></label>
@@ -489,7 +485,7 @@
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="transaction" /><span>Transaction</span></label>
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="autre_service" /><span>Autre</span></label>
                 </div>
-                <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins un service.</p>
+                <p class="small" data-service-sought-hint hidden style="color:#b91c1c;margin-top:8px">Cochez au moins une prestation.</p>
               </div>
             </section>
 

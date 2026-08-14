@@ -123,6 +123,14 @@ label.form-audit-field {
   position: relative;
 }
 
+/* Onglets et chips : le badge se pose sous le bouton, sans le deformer */
+label.search-mode-tab.form-audit-field > .audit-tag,
+label.search-chip.form-audit-field > .audit-tag {
+  justify-content: center;
+  width: 100%;
+  margin-top: 6px;
+}
+
 .wizard-step.form-audit-step-active {
   outline: 2px dashed #0f766e;
   outline-offset: 8px;
