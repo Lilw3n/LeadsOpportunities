@@ -5,6 +5,7 @@
 (function () {
   var Portals = window.ImmoListingPortals;
   var Lib = window.ImmoPublicListings;
+  var Secteur = window.ImmoSecteur;
   if (!Portals) return;
 
   var MAX_PHOTOS = 4;
@@ -128,11 +129,13 @@
     acheteur: {
       kicker: "Annonce déjà vue",
       title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
+      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. Je contacte le vendeur et je vais chercher le mandat.",
       submit: "Envoyer l'annonce",
       coords: "Vos coordonnées",
       details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      hint: "Vous cherchez un bien : filtrez la vitrine, ou envoyez un lien d'annonce et j'irai chercher le mandat.",
+      mandate: "Allez chercher le mandat auprès du vendeur de cette annonce",
+      mandateHint: "J'appelle l'annonceur, je me déplace et je négocie le mandat pour pouvoir vous représenter.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -142,6 +145,8 @@
       coords: "Vos coordonnées (vendeur)",
       details: "Précisions (disponibilité, urgence, honoraires…)",
       hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce.",
+      mandate: "Je suis prêt à confier un mandat pour ce bien",
+      mandateHint: "Estimation, mandat de vente simple ou exclusif : on en parle avant de signer quoi que ce soit.",
     },
     les_deux: {
       kicker: "Double casquette",
@@ -151,6 +156,8 @@
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
       hint: "Les deux casquettes : on capte le bien à vendre et la recherche de rachat.",
+      mandate: "Mandat de vente pour mon bien + recherche pour le rachat",
+      mandateHint: "Un seul interlocuteur sur les deux opérations : vente de votre bien et chasse du bien suivant.",
     },
   };
 
@@ -172,6 +179,8 @@
     setTxt("[data-coords-label]", copy.coords);
     setTxt("[data-details-label]", copy.details);
     setTxt("[data-hat-hint]", copy.hint);
+    setTxt("[data-mandate-mission-label]", copy.mandate);
+    setTxt("[data-mandate-mission-hint]", copy.mandateHint);
     var hatRadio = document.querySelector("[name='immoHat'][value='" + hat + "']");
     if (hatRadio) hatRadio.checked = true;
     if (hat !== "acheteur") {
@@ -189,6 +198,36 @@
     var mode = radioVal(document, "listingMode") || "url";
     var block = document.querySelector("[data-url-block]");
     if (block) block.hidden = mode === "manuel";
+  }
+
+  /** Secteur d'intervention : une seule source de vérité (immo-secteur-lib). */
+  function applySecteurLabel() {
+    if (!Secteur) return;
+    var el = document.querySelector("[data-secteur-label]");
+    if (el) el.textContent = Secteur.secteurLabel();
+  }
+
+  /** Dit à l'acquéreur, en direct, si on peut aller chercher le mandat sur place. */
+  function renderSecteur(root) {
+    var mount = qs(root, "[data-secteur-feedback]");
+    var form = qs(root, "[data-url-capture-form]");
+    if (!mount || !form) return;
+    if (!Secteur) {
+      mount.hidden = true;
+      return;
+    }
+    var city = val(form, "city");
+    var postal = val(form, "postal_code");
+    if (!city && !postal) {
+      mount.hidden = true;
+      mount.textContent = "";
+      mount.removeAttribute("data-tone");
+      return;
+    }
+    var fb = Secteur.feedback({ city: city, postal_code: postal });
+    mount.hidden = false;
+    mount.setAttribute("data-tone", fb.tone);
+    mount.textContent = fb.text;
   }
 
   function bindHats() {
@@ -281,6 +320,9 @@
       renderPreview(root, state);
     }
 
+    applySecteurLabel();
+    renderSecteur(root);
+
     if (area) {
       area.addEventListener("input", function () {
         renderDetected(root, area.value);
@@ -294,9 +336,11 @@
     if (form) {
       form.addEventListener("input", function () {
         renderPreview(root, state);
+        renderSecteur(root);
       });
       form.addEventListener("change", function () {
         renderPreview(root, state);
+        renderSecteur(root);
       });
     }
 
@@ -392,9 +436,11 @@
         }
         return;
       }
+      var mandateEl = form.querySelector("[data-mandate-mission]");
       var payload = {
         role: hat,
         alsoBuys: hat === "les_deux",
+        mandateMission: mandateEl ? !!mandateEl.checked : true,
         urls: hits.map(function (d) {
           return d.url;
         }),
@@ -454,6 +500,8 @@
             throw new Error((res.data && res.data.message) || "Envoi impossible");
           }
           var hats = (res.data.hats || []).join(" + ");
+          var mandate = res.data.mandate || {};
+          var secteur = res.data.secteur || {};
           if (ok) {
             ok.hidden = false;
             ok.textContent =
@@ -464,13 +512,17 @@
               (res.data.received > 1 ? "s" : "") +
               (payload.photos.length ? " avec photos / capture" : "") +
               (hats ? " (" + hats + ")" : "") +
-              ". Un conseiller vous rappelle.";
+              ". " +
+              (mandate.requested && secteur.message
+                ? secteur.message
+                : "Un conseiller vous rappelle.");
           }
           form.reset();
           state.photos = [];
           state.capture = null;
           renderDetected(root, "");
           refreshMedia();
+          renderSecteur(root);
           applyHat(hat);
           try {
             document.dispatchEvent(new CustomEvent("lo:listing-submitted"));

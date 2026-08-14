@@ -10,7 +10,7 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 
 | Page | Rôle |
 |------|------|
-| `/landings/acheteur-immo.html` | **Vitrine publique** : casquettes acquéreur / vendeur / les deux, dépôt **manuel ou URL**, photos + description + capture |
+| `/landings/acheteur-immo.html` | **Vitrine publique** : casquettes acquéreur / vendeur / les deux, dépôt **manuel ou URL**, photos + description + capture, **chasse de mandat** sur secteur |
 | `/crm-immo-properties.html` | **Piges** : panneau filtres (Recherche / Où / Qui / Quoi / Quand) + barre d’actions (SMS, suivi, affecter, export, print) |
 | `/crm-immo-property.html?id=` | **Fiche intelligente** : sections conditionnelles + composition unités + pièces |
 | `/crm-immo-matching.html` | Critères acquéreur + score vs biens actifs |
@@ -60,9 +60,39 @@ Implémentation : `js/immo-public-listings-lib.js` + `api/_lib/routes/public-imm
 - Saisie manuelle **sans URL** pour un vendeur (ville obligatoire)
 - Détecte le portail si URL (Leboncoin, SeLoger, ParuVendu…)
 - Parties CRM : vendeur (déposant ou infos collées) ; acquéreur si recherche / double casquette ; critères de rachat si `les_deux`
+- `mandateMission` (défaut **vrai**) : mission « aller chercher le mandat » + secteur (voir ci-dessous)
 - **Pas de scraping**
 
 Catalogue : `js/immo-listing-portals-lib.js`.
+
+## Chasse de mandat (recherche de bien)
+
+Promesse publique : **l'acquéreur envoie un lien d'annonce, le négociateur va chercher le mandat**
+auprès du vendeur, principalement sur sa localité territoriale.
+
+Secteur : `js/immo-secteur-lib.js` (navigateur + Node) — seule source de vérité.
+
+| Niveau | Règle | Conséquence |
+|--------|-------|-------------|
+| `coeur` | commune de la liste `CORE_CITIES` | déplacement direct |
+| `territoire` | département `54` | prise en main, mandat visé |
+| `proche` | départements limitrophes (`55`, `57`, `88`, `67`…) | déplacement à caler |
+| `hors` | autre département | confrère local (apport d'affaires) |
+| `inconnu` | ni ville ni CP | on redemande la localisation |
+
+Éditer le secteur = éditer `CORE_CITIES` / `CORE_DEPARTMENTS` / `NEAR_DEPARTMENTS` dans la lib.
+La landing lit le libellé via `secteurLabel()` (`[data-secteur-label]`) et affiche le verdict en
+direct sous la case mission (`[data-secteur-feedback]`).
+
+Côté CRM, chaque bien déposé enregistre :
+
+- `metadata.mandate` = `{ requested, kind, label }` — `kind` : `chasse` (acquéreur), `vente` (vendeur), `vente_recherche` (double casquette)
+- `metadata.secteur` = `{ level, short, department, canHunt, needsPartner }`
+- `notes` : mission mandat + secteur + rappel « confrère local » si hors secteur
+- `a_contacter` forcé à vrai quand on doit aller chercher le mandat
+- `lead_score` : +10 en secteur (`coeur` / `territoire`), −10 hors secteur
+
+Vérification : `npm run verify:mandat`.
 
 ## Documents (fondation)
 

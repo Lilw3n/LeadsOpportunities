@@ -1,6 +1,7 @@
 /**
  * POST /api/immo-listing-submit — dépôt de bien (vendeur) ou URL collée (acquéreur).
  * Saisie manuelle ou URL. Double casquette : vend + rachète. Pas de scraping.
+ * Mission mandat : on qualifie le secteur pour savoir si on va chercher le mandat sur place.
  */
 const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, isHoneypotFilled, rateLimit, getClientIp } = require("../security");
@@ -8,6 +9,7 @@ const { getVisitorCountry, isFranceAudience } = require("../geo-france");
 const { getSql } = require("../db");
 const Portals = require("../../../js/immo-listing-portals-lib.js");
 const Lib = require("../../../js/immo-public-listings-lib.js");
+const Secteur = require("../../../js/immo-secteur-lib.js");
 
 function str(v, max) {
   var s = String(v == null ? "" : v).trim();
@@ -147,6 +149,15 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var buyType = str(body.buyPropertyType || body.buy_property_type, 40);
   var wantsRelais = body.wantsRelais === true || body.wantsRelais === "1" || body.pretRelais === true;
 
+  var mandateWanted = !(
+    body.mandateMission === false ||
+    body.mandateMission === "0" ||
+    body.mandateMission === "false"
+  );
+  var mandateKind = Secteur.mandateKind(role);
+  var secteur = Secteur.evaluate({ city: city, postal_code: postal });
+  var mandateMessage = Secteur.missionMessage({ level: secteur.level, requested: mandateWanted });
+
   var detections = collectDetections(body);
   var hasManualBits = !!(city || description || photos.length || price);
   if (!detections.length) {
@@ -174,6 +185,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var need = needForRole(role);
   var vertical = verticalForRole(role);
   var leadScore = role === "les_deux" ? 85 : isOwner ? 75 : sellerPhone || sellerEmail ? 70 : 55;
+  if (mandateWanted && (secteur.level === "coeur" || secteur.level === "territoire")) leadScore += 10;
+  else if (mandateWanted && secteur.needsPartner) leadScore -= 10;
+  leadScore = Math.max(5, Math.min(100, leadScore));
   var leadId = crypto.randomUUID();
   var propertyIds = [];
   var criteriaId = null;
@@ -197,6 +211,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           d.listingId ? "#" + d.listingId : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
+          mandateWanted ? mandateKind.crmLabel + "." : "Pas de mission mandat demandée.",
+          "Secteur : " + secteur.short + (secteur.department ? " (" + secteur.department + ")" : "") + ".",
+          secteur.needsPartner && mandateWanted ? "Hors secteur : prévoir un confrère local (apport d'affaires)." : "",
           details,
         ]
           .filter(Boolean)
@@ -222,7 +239,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             photos: photos,
             notes: notesBits,
             lead_id: leadId,
-            a_contacter: !!(sellerPhone || sellerEmail),
+            a_contacter: !!(sellerPhone || sellerEmail) || (mandateWanted && !isOwner),
             contact_connu: !!(sellerPhone || sellerEmail || sellerName),
             metadata: {
               origin: origin,
@@ -241,6 +258,18 @@ module.exports = async function publicImmoListingSubmit(req, res) {
               buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
               alsoBuys: role === "les_deux",
               wantsRelais: wantsRelais,
+              mandate: {
+                requested: mandateWanted,
+                kind: mandateKind.id,
+                label: mandateKind.crmLabel,
+              },
+              secteur: {
+                level: secteur.level,
+                short: secteur.short,
+                department: secteur.department,
+                canHunt: secteur.canHunt,
+                needsPartner: secteur.needsPartner,
+              },
             },
           },
           null
@@ -256,9 +285,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             phone: sellerPhone || null,
             notes: isOwner
               ? "Propriétaire / déposant" + (sellerAgency ? " — " + sellerAgency : "") + (sellerKind ? " (" + sellerKind + ")" : "")
-              : sellerAgency
-                ? "Agence : " + sellerAgency
-                : "Infos collées depuis l'annonce",
+              : (sellerAgency ? "Agence : " + sellerAgency : "Infos collées depuis l'annonce") +
+                (mandateWanted ? " — à contacter pour le mandat" : ""),
           });
         }
 
@@ -344,6 +372,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             wantsRelais: wantsRelais,
             buyCity: buyCity,
             buyBudgetMax: buyBudget,
+            mandateRequested: mandateWanted,
+            mandateKind: mandateKind.id,
+            secteurLevel: secteur.level,
+            secteurDepartment: secteur.department,
+            secteurCanHunt: secteur.canHunt,
           })},
           ${"site_web"},
           ${"new"},
@@ -371,6 +404,19 @@ module.exports = async function publicImmoListingSubmit(req, res) {
       return { url: d.url, portal: d.portal, label: d.label, listingId: d.listingId };
     }),
     stored: propertyIds.length > 0,
+    mandate: {
+      requested: mandateWanted,
+      kind: mandateKind.id,
+      label: mandateKind.label,
+    },
+    secteur: {
+      level: secteur.level,
+      short: secteur.short,
+      department: secteur.department,
+      canHunt: secteur.canHunt,
+      needsPartner: secteur.needsPartner,
+      message: mandateMessage,
+    },
     photos: photos.length,
     hasCapture: photos.some(function (p) {
       return p.kind === "capture";

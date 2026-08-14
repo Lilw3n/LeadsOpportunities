@@ -327,6 +327,82 @@
   margin-top: 8px;
 }
 
+/* Service négociateur : « envoyez le lien, je vais chercher le mandat » */
+.mandate-service {
+  margin: 8px 0 22px;
+  padding: 18px;
+  background: linear-gradient(180deg, #f0fdfa, #ffffff);
+  border: 1px solid #99f6e4;
+  border-radius: 18px;
+}
+.mandate-service h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+  letter-spacing: -0.02em;
+}
+.mandate-steps {
+  margin: 0 0 14px;
+}
+.mandate-sector {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+}
+.mandate-sector-title {
+  margin: 0 0 4px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+.mandate-sector-label {
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.mandate-sector-note {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.mandate-mission {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+.mandate-mission .field-check {
+  font-weight: 650;
+}
+.mandate-feedback {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.86rem;
+  line-height: 1.4;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+}
+.mandate-feedback[hidden] {
+  display: none;
+}
+.mandate-feedback[data-tone="ok"] {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+  color: #065f46;
+}
+.mandate-feedback[data-tone="warn"] {
+  background: #fff7ed;
+  border-color: #fed7aa;
+  color: #9a3412;
+}
+
 .immo-hats {
   margin: 0 0 20px;
   padding: 16px 16px 8px;

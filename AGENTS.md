@@ -11,6 +11,7 @@
 - `npm run blog:actu:publish` — blog + sitemap SEO
 - `npm run seo:build` — sitemaps
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
+- `npm run verify:mandat` — recherche de bien : chasse de mandat + secteur (`js/immo-secteur-lib.js`)
 
 ## Blog actu (leads qualifiés)
 
