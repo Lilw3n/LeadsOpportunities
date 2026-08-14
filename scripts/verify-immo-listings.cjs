@@ -169,15 +169,17 @@ assert(html.indexOf("data-listings-grid") !== -1, "landing : grille d'annonces")
 assert(html.indexOf("id=\"recherche\"") !== -1, "landing : ancre #recherche");
 assert(html.indexOf("id=\"dossier\"") !== -1, "landing : dossier secondaire");
 assert(
-  html.indexOf("Appartements et maisons à vendre") !== -1,
+  html.indexOf("On part à la recherche de bien pour vous") !== -1,
   "landing : h1 visible (pas vide en attendant le JS)"
 );
 var idxSearch = html.indexOf("data-immo-search");
 var idxNeeds = html.indexOf('name="buyerNeeds"');
 assert(idxSearch !== -1 && idxNeeds !== -1 && idxSearch < idxNeeds, "vitrine avant les cases prêt/assurances");
-assert(html.indexOf("Déposer / coller un bien") !== -1, "landing : CTA dépôt / URL");
+assert(html.indexOf("Envoyer un lien d'annonce") !== -1, "landing : CTA dépôt / URL");
 assert(html.indexOf("id=\"deposer-bien\"") !== -1, "landing : ancre dépôt vendeur");
 assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes acquéreur / vendeur");
+assert(html.indexOf("chercher le mandat") !== -1, "landing : positionnement lien → mandat");
+assert(html.indexOf("territoire") !== -1, "landing : priorité localité territoriale");
 assert(html.indexOf("data-listings-demo") === -1, "landing : pas de bandeau d'illustration");
 assert(html.indexOf("Annonces d'illustration") === -1, "landing : pas de texte d'illustration");
 assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos/capture");

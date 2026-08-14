@@ -127,12 +127,13 @@
   var HAT_COPY = {
     acheteur: {
       kicker: "Annonce déjà vue",
-      title: "Collez l'URL du bien",
-      intro: "Leboncoin, SeLoger, ParuVendu… Collez le lien, description, photos et capture. On enregistre aussi le vendeur visible sur l'annonce.",
-      submit: "Envoyer l'annonce",
+      title: "Collez le lien — on va chercher le mandat",
+      intro:
+        "Leboncoin, SeLoger, ParuVendu… Envoyez le lien : on part à la recherche du bien / du mandat, en priorité sur le territoire local. Description, photos et capture aident à préparer le contact vendeur.",
+      submit: "Envoyer le lien (recherche de mandat)",
       coords: "Vos coordonnées",
       details: "Précisions (visite, offre, questions)",
-      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
+      hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL — on part chercher le mandat sur le territoire.",
     },
     vendeur: {
       kicker: "Vous vendez",
@@ -146,11 +147,11 @@
     les_deux: {
       kicker: "Double casquette",
       title: "Vous vendez et vous rachètez",
-      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
+      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. On part aussi chercher le mandat / le bien de rachat sur le territoire.",
       submit: "Déposer et chercher",
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
-      hint: "Les deux casquettes : on capte le bien à vendre et la recherche de rachat.",
+      hint: "Les deux casquettes : bien à vendre + recherche de rachat (mandat local).",
     },
   };
 

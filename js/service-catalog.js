@@ -44,7 +44,7 @@
     },
     "acheteur-immo": {
       need: "acheteur-immo",
-      label: "Recherche de bien immobilier",
+      label: "Recherche de bien (lien → mandat local)",
       category: "finance",
       vertical: "acheteur_immo",
       landing: "./landings/acheteur-immo.html",
