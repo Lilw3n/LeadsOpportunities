@@ -57,6 +57,8 @@ assert(
 var html = read("landings/acheteur-immo.html");
 assert(html.indexOf("data-listing-url-capture") !== -1, "landing : bloc coller URL");
 assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes vendeur / acquéreur");
+assert(html.indexOf('value="prospecteur"') !== -1, "landing : recherche pour un client");
+assert(html.indexOf("data-hat-prospecteur-only") !== -1, "landing : informations client / pige mandat");
 assert(html.indexOf("data-hat-dual-only") !== -1, "landing : double casquette vend + rachète");
 assert(html.indexOf("listingMode") !== -1, "landing : saisie manuelle ou URL");
 assert(html.indexOf("immo-listing-portals-lib.js") !== -1, "landing charge le catalogue");
@@ -156,6 +158,21 @@ Promise.resolve()
     assert(c.body.role === "vendeur", "rôle vendeur");
     assert(c.body.hats && c.body.hats.indexOf("vendeur") !== -1, "casquette vendeur");
     assert(c.body.listings[0].portal === "manual", "source saisie manuelle");
+    return call({
+      role: "prospecteur",
+      email: "agent@example.fr",
+      firstName: "Agent",
+      lastName: "Local",
+      urls: ["https://www.leboncoin.fr/ad/ventes_immobilieres/333"],
+      city: "Domène",
+      clientName: "Client Martin",
+      clientPhone: "0611223344",
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API pige URL transmise par un professionnel");
+    assert(c.body.role === "prospecteur", "rôle recherche de mandat");
+    assert(c.body.hats && c.body.hats.indexOf("prospecteur") !== -1, "casquette prospecteur");
     return call({ role: "vendeur", email: "x@y.fr" });
   })
   .then(function (c) {

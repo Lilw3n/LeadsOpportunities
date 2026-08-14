@@ -28,6 +28,15 @@ function normalizeRole(v) {
   if (s === "les_deux" || s === "both" || s === "acheteur_vendeur" || s === "acheteur_vendeur_immo") {
     return "les_deux";
   }
+  if (
+    s === "prospecteur" ||
+    s === "agent" ||
+    s === "mandat" ||
+    s === "recherche_mandat" ||
+    s === "recherche_mandat_immo"
+  ) {
+    return "prospecteur";
+  }
   return "acheteur";
 }
 
@@ -57,12 +66,14 @@ function manualDetection() {
 function needForRole(role) {
   if (role === "vendeur") return "vendeur-immo";
   if (role === "les_deux") return "acheteur-vendeur-immo";
+  if (role === "prospecteur") return "recherche-mandat-immo";
   return "acheteur-immo";
 }
 
 function verticalForRole(role) {
   if (role === "vendeur") return "vendeur_immo";
   if (role === "les_deux") return "acheteur_vendeur_immo";
+  if (role === "prospecteur") return "recherche_mandat_immo";
   return "acheteur_immo";
 }
 
@@ -132,6 +143,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var sellerPhone = str(body.sellerPhone || body.vendeurTel, 40);
   var sellerEmail = str(body.sellerEmail || body.vendeurEmail, 320).toLowerCase();
   var sellerAgency = str(body.sellerAgency || body.agence, 120);
+  var clientName = str(body.clientName || body.client_name, 120);
+  var clientPhone = str(body.clientPhone || body.client_phone, 40);
+  var clientEmail = str(body.clientEmail || body.client_email, 320).toLowerCase();
 
   if (isOwner) {
     sellerName = sellerName || personName || "Vendeur";
@@ -173,7 +187,16 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
   var need = needForRole(role);
   var vertical = verticalForRole(role);
-  var leadScore = role === "les_deux" ? 85 : isOwner ? 75 : sellerPhone || sellerEmail ? 70 : 55;
+  var leadScore =
+    role === "les_deux"
+      ? 85
+      : isOwner
+        ? 75
+        : role === "prospecteur"
+          ? sellerPhone || sellerEmail ? 78 : 68
+          : sellerPhone || sellerEmail
+            ? 70
+            : 55;
   var leadId = crypto.randomUUID();
   var propertyIds = [];
   var criteriaId = null;
@@ -193,7 +216,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           price ? Math.round(price) + " €" : "",
         ].filter(Boolean);
         var notesBits = [
-          isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
+          isOwner
+            ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")."
+            : role === "prospecteur"
+              ? "Pige transmise par un professionnel pour prospecter le vendeur et obtenir un mandat. Portail : " + d.label
+              : "Soumis via URL publique. Portail : " + d.label,
           d.listingId ? "#" + d.listingId : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
@@ -227,9 +254,17 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             metadata: {
               origin: origin,
               role: role,
-              hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+              hats:
+                role === "les_deux"
+                  ? ["vendeur", "acquereur"]
+                  : isOwner
+                    ? ["vendeur"]
+                    : role === "prospecteur"
+                      ? ["prospecteur"]
+                      : ["acquereur"],
               portal: d.portal,
               listingId: d.listingId,
+              agentSearch: role === "prospecteur",
               sellerKind: sellerKind,
               seller: {
                 name: sellerName,
@@ -239,6 +274,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
                 kind: sellerKind,
               },
               buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
+              client: { name: clientName, email: clientEmail, phone: clientPhone },
               alsoBuys: role === "les_deux",
               wantsRelais: wantsRelais,
             },
@@ -276,6 +312,29 @@ module.exports = async function publicImmoListingSubmit(req, res) {
                   ? "A collé l'URL " + d.url
                   : "Prospect acquéreur",
           });
+        }
+
+        if (role === "prospecteur") {
+          if (personName || email || phone) {
+            await store.upsertParty(sql, {
+              property_id: propId,
+              role: "agent",
+              name: personName || "Professionnel",
+              email: email || null,
+              phone: phone || null,
+              notes: "Professionnel ayant transmis la pige pour recherche de mandat vendeur.",
+            });
+          }
+          if (clientName || clientEmail || clientPhone) {
+            await store.upsertParty(sql, {
+              property_id: propId,
+              role: "acquereur",
+              name: clientName || "Client à l'origine de la recherche",
+              email: clientEmail || null,
+              phone: clientPhone || null,
+              notes: "Client à l'origine de la demande de recherche.",
+            });
+          }
         }
       }
 
@@ -318,7 +377,14 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           ${JSON.stringify({
             need: need,
             role: role,
-            hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+            hats:
+              role === "les_deux"
+                ? ["vendeur", "acquereur"]
+                : isOwner
+                  ? ["vendeur"]
+                  : role === "prospecteur"
+                    ? ["prospecteur"]
+                    : ["acquereur"],
             listingUrls: detections.map(function (d) {
               return d.url;
             }).filter(Boolean),
@@ -333,6 +399,10 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             sellerPhone: sellerPhone,
             sellerAgency: sellerAgency,
             sellerKind: sellerKind,
+            clientName: clientName,
+            clientPhone: clientPhone,
+            clientEmail: clientEmail,
+            agentSearch: role === "prospecteur",
             firstName: firstName,
             lastName: lastName,
             photoCount: photos.length,
@@ -363,7 +433,14 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     ok: true,
     leadId: leadId,
     role: role,
-    hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+    hats:
+      role === "les_deux"
+        ? ["vendeur", "acquereur"]
+        : isOwner
+          ? ["vendeur"]
+          : role === "prospecteur"
+            ? ["prospecteur"]
+            : ["acquereur"],
     received: detections.length,
     propertyIds: propertyIds,
     criteriaId: criteriaId,

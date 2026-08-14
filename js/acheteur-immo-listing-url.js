@@ -134,6 +134,15 @@
       details: "Précisions (visite, offre, questions)",
       hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
     },
+    prospecteur: {
+      kicker: "Recherche pour un client",
+      title: "Collez l'URL envoyée par votre client",
+      intro: "Votre client vous transmet une annonce Leboncoin, SeLoger ou autre. Enregistrez le lien et les éléments utiles pour prospecter le vendeur et obtenir le mandat.",
+      submit: "Enregistrer la pige client",
+      coords: "Vos coordonnées (professionnel)",
+      details: "Précisions (client, stratégie de prospection, secteur)",
+      hint: "Votre client vous envoie un lien : vous contactez ensuite le vendeur pour proposer un mandat.",
+    },
     vendeur: {
       kicker: "Vous vendez",
       title: "Déposez votre bien",
@@ -156,7 +165,7 @@
 
   function applyHat(hat) {
     hat = hat || currentHat();
-    if (hat !== "vendeur" && hat !== "les_deux") hat = "acheteur";
+    if (hat !== "vendeur" && hat !== "les_deux" && hat !== "prospecteur") hat = "acheteur";
     document.documentElement.setAttribute("data-immo-hat", hat);
     var roleInput = document.querySelector("[data-hat-role]");
     if (roleInput) roleInput.value = hat;
@@ -174,7 +183,7 @@
     setTxt("[data-hat-hint]", copy.hint);
     var hatRadio = document.querySelector("[name='immoHat'][value='" + hat + "']");
     if (hatRadio) hatRadio.checked = true;
-    if (hat !== "acheteur") {
+    if (hat === "vendeur" || hat === "les_deux") {
       var manuel = document.querySelector("[name='listingMode'][value='manuel']");
       var urlMode = document.querySelector("[name='listingMode'][value='url']");
       var urlsEl = document.querySelector("[data-listing-urls]");
@@ -198,6 +207,7 @@
     var role = (params.get("role") || params.get("hat") || "").toLowerCase();
     if (role === "vendeur" || role === "seller") applyHat("vendeur");
     else if (role === "les_deux" || role === "both" || role === "acheteur-vendeur") applyHat("les_deux");
+    else if (role === "prospecteur" || role === "agent" || role === "mandat" || role === "recherche-mandat") applyHat("prospecteur");
     else applyHat("acheteur");
     document.querySelectorAll("[name='immoHat']").forEach(function (el) {
       el.addEventListener("change", function () {
@@ -416,6 +426,9 @@
         sellerPhone: val(form, "sellerPhone"),
         sellerEmail: val(form, "sellerEmail"),
         sellerAgency: val(form, "sellerAgency") || val(form, "sellerAgencyThird"),
+        clientName: val(form, "clientName"),
+        clientPhone: val(form, "clientPhone"),
+        clientEmail: val(form, "clientEmail"),
         details: val(form, "details"),
         buyCity: val(form, "buyCity"),
         buyPostal: val(form, "buyPostal"),
@@ -426,8 +439,22 @@
         wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
         photos: mediaList(state),
         _hp: val(form, "_hp"),
-        need: hat === "vendeur" ? "vendeur-immo" : hat === "les_deux" ? "acheteur-vendeur-immo" : "acheteur-immo",
-        vertical: hat === "vendeur" ? "vendeur_immo" : hat === "les_deux" ? "acheteur_vendeur_immo" : "acheteur_immo",
+        need:
+          hat === "vendeur"
+            ? "vendeur-immo"
+            : hat === "les_deux"
+              ? "acheteur-vendeur-immo"
+              : hat === "prospecteur"
+                ? "recherche-mandat-immo"
+                : "acheteur-immo",
+        vertical:
+          hat === "vendeur"
+            ? "vendeur_immo"
+            : hat === "les_deux"
+              ? "acheteur_vendeur_immo"
+              : hat === "prospecteur"
+                ? "recherche_mandat_immo"
+                : "acheteur_immo",
       };
       if (!payload.email && !payload.phone) {
         if (err) {
