@@ -94,6 +94,18 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** File manuelle : ignore les gabarits « COLLEZ ICI » (pas de vraie une). */
+function isQueuePlaceholder(item) {
+  var id = String((item && item.id) || "").toLowerCase();
+  var title = String((item && item.title) || "").trim();
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template") return true;
+  if (id.indexOf("pending-template") !== -1) return true;
+  if (/^collez ici/i.test(title)) return true;
+  if (/^\[.*titre.*\]$/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -348,6 +360,7 @@ module.exports = {
   parseRssItems: parseRssItems,
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
+  isQueuePlaceholder: isQueuePlaceholder,
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
