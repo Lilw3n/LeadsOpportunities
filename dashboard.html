@@ -388,9 +388,30 @@
     .lead-pill-unopened { background: var(--blue-light); color: #1e40af; }
     .lead-pill-high { background: var(--green-light); color: #166534; }
     .lead-pill-not_relevant { background: var(--red-light); color: #991b1b; }
-    .lead-mgmt-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .lead-mgmt-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
     .lead-mgmt-stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
     .lead-mgmt-stat strong { font-size: 1.4rem; display: block; }
+    .lead-mgmt-stat.lead-mgmt-stat-total { border-color: var(--primary); background: var(--accent-light, #eef2ff); }
+    .leads-total-banner {
+      margin: 0 0 14px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #fffbeb;
+      border: 1px solid #f59e0b;
+      color: #92400e;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+    .leads-total-banner strong { color: #78350f; font-size: 1.05rem; }
+    .pagination.is-top { border-top: 0; border-bottom: 1px solid var(--line); }
+    .pagination .page-num.is-current {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    @media (max-width: 900px) {
+      .lead-mgmt-stats { grid-template-columns: repeat(2, 1fr); }
+    }
 
     /* SCORE BAR */
     .score-bar {
@@ -1810,7 +1831,7 @@
         <div class="dash-topbar">
           <div>
             <h1>Gestion des Leads</h1>
-            <p class="subtitle">Consultez, filtrez et gérez vos leads — <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">formulaires devis remplis (pipeline CRM)</a></p>
+            <p class="subtitle">Tous les leads reçus sont ici (liste complète). Qualification spam/prospect : <a href="./crm-leads.html" style="color:var(--primary);font-weight:600">Leads → prospects</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">Devis remplis</a></p>
           </div>
           <div class="topbar-actions">
             <button class="btn-refresh" id="refreshLeads">
@@ -1821,10 +1842,12 @@
         </div>
 
         <div class="lead-mgmt-stats">
+          <div class="lead-mgmt-stat lead-mgmt-stat-total"><span class="muted">Tous les leads</span><strong id="leadStatTotal">—</strong></div>
           <div class="lead-mgmt-stat"><span class="muted">Nouveaux (non ouverts)</span><strong id="leadStatNew">—</strong></div>
           <div class="lead-mgmt-stat"><span class="muted">Jamais ouverts</span><strong id="leadStatUnopened">—</strong></div>
           <div class="lead-mgmt-stat"><span class="muted">Pertinents</span><strong id="leadStatRelevant">—</strong></div>
         </div>
+        <div class="leads-total-banner" id="leadsTotalBanner">Vos leads sont tous dans ce tableau. Par défaut 100 par page (plus de pagination à 20).</div>
 
         <div class="dash-panel">
           <div class="filters-bar">
@@ -1869,6 +1892,12 @@
               <option value="40">Score ≥ 40</option>
               <option value="1">Score &gt; 0</option>
             </select>
+            <select class="filter-select" id="filterLimit" title="Nombre de leads affichés par page">
+              <option value="20">20 par page</option>
+              <option value="50">50 par page</option>
+              <option value="100" selected>100 par page</option>
+              <option value="250">Tous (250)</option>
+            </select>
             <input type="text" class="filter-input" id="filterSearch" placeholder="Rechercher email, téléphone..." />
             <input type="text" class="filter-input filter-input-ip" id="filterIp" placeholder="Filtrer par IP…" />
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
@@ -1888,6 +1917,13 @@
             <span id="leadsBulkCount">0 sélectionné</span>
             <button type="button" class="btn-lead-delete" id="bulkDeleteLeads">Supprimer la sélection</button>
             <button type="button" class="btn-lead-open" id="bulkBlockIps">Bloquer les IP cochées</button>
+          </div>
+          <div class="pagination is-top" id="leadsPaginationTop" style="display:none">
+            <span id="paginationInfoTop"></span>
+            <div class="page-btns" id="pageBtnsTop">
+              <button type="button" id="prevPageTop">← Précédent</button>
+              <button type="button" id="nextPageTop">Suivant →</button>
+            </div>
           </div>
           <div class="panel-body" style="overflow-x:auto;">
             <table class="leads-table">
@@ -1913,9 +1949,9 @@
           </div>
           <div class="pagination" id="leadsPagination" style="display:none">
             <span id="paginationInfo"></span>
-            <div class="page-btns">
-              <button id="prevPage">← Précédent</button>
-              <button id="nextPage">Suivant →</button>
+            <div class="page-btns" id="pageBtns">
+              <button type="button" id="prevPage">← Précédent</button>
+              <button type="button" id="nextPage">Suivant →</button>
             </div>
           </div>
         </div>
@@ -2135,6 +2171,7 @@
     var TOKEN_KEY = D.TOKEN_KEY;
     var USER_KEY = D.USER_KEY;
     var currentPage = 1;
+    var leadsLimit = 100;
     var currentSort = "created_at";
     var currentOrder = "desc";
     var lastNotifyAt = new Date().toISOString();
@@ -2314,6 +2351,92 @@
       currentPage = 1;
       loadLeads();
       pollNewLeads();
+    }
+
+    function renderLeadsPagination(pg) {
+      var total = Number(pg.total || 0);
+      var page = Number(pg.page || 1);
+      var limit = Number(pg.limit || leadsLimit);
+      var totalPages = Number(pg.totalPages || 1) || 1;
+      var from = total ? (page - 1) * limit + 1 : 0;
+      var to = Math.min(page * limit, total);
+      var info = total
+        ? (totalPages > 1
+            ? total + " leads au total — affichage " + from + " à " + to + " · page " + page + " / " + totalPages
+            : total + " leads au total — tous affichés")
+        : "Aucun lead";
+      var infoEl = document.getElementById("paginationInfo");
+      var infoTop = document.getElementById("paginationInfoTop");
+      if (infoEl) infoEl.textContent = info;
+      if (infoTop) infoTop.textContent = info;
+      if (document.getElementById("leadStatTotal")) document.getElementById("leadStatTotal").textContent = total;
+      var banner = document.getElementById("leadsTotalBanner");
+      if (banner) {
+        if (!total) {
+          banner.textContent = "Aucun lead pour ces filtres. Choisissez « Tous (chrono) » pour voir toute la base.";
+        } else if (totalPages > 1) {
+          banner.innerHTML =
+            "<strong>" +
+            total +
+            " leads</strong> sont tous ici. Cette vue en montre " +
+            (to - from + 1) +
+            " (page " +
+            page +
+            " / " +
+            totalPages +
+            "). Cliquez <strong>Suivant</strong> ou passez à <strong>100 par page</strong> / <strong>Tous (250)</strong>.";
+        } else {
+          banner.innerHTML =
+            "<strong>" +
+            total +
+            " leads</strong> en base — tous affichés dans le tableau ci-dessous. Rien n’a été déplacé ni perdu.";
+        }
+      }
+      ["leadsPagination", "leadsPaginationTop"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.style.display = "flex";
+      });
+      ["prevPage", "prevPageTop"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.disabled = page <= 1;
+      });
+      ["nextPage", "nextPageTop"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.disabled = page >= totalPages;
+      });
+      function numsHtml() {
+        if (totalPages <= 1) return "";
+        var html = "";
+        var i;
+        for (i = 1; i <= totalPages; i++) {
+          html +=
+            '<button type="button" class="page-num' +
+            (i === page ? " is-current" : "") +
+            '" data-page="' +
+            i +
+            '">' +
+            i +
+            "</button>";
+        }
+        return html;
+      }
+      var nums = numsHtml();
+      function fillBtns(containerId, nextId) {
+        var box = document.getElementById(containerId);
+        if (!box) return;
+        var oldNums = box.querySelector(".page-nums");
+        if (oldNums) oldNums.remove();
+        var next = document.getElementById(nextId);
+        if (!nums || !next) return;
+        var wrap = document.createElement("span");
+        wrap.className = "page-nums";
+        wrap.style.display = "inline-flex";
+        wrap.style.gap = "4px";
+        wrap.innerHTML = nums;
+        box.insertBefore(wrap, next);
+      }
+      fillBtns("pageBtns", "nextPage");
+      fillBtns("pageBtnsTop", "nextPageTop");
     }
 
     function playNewLeadSound() {
@@ -2533,6 +2656,7 @@
         document.getElementById("statAvg").textContent = s.avgScore + "/100";
         document.getElementById("statWeek").textContent = s.thisWeek;
         updateLeadAlerts(s);
+        if (document.getElementById("leadStatTotal") && s.total != null) document.getElementById("leadStatTotal").textContent = s.total;
         if (document.getElementById("leadStatNew")) document.getElementById("leadStatNew").textContent = s.newUnopened != null ? s.newUnopened : "—";
         if (document.getElementById("leadStatUnopened")) document.getElementById("leadStatUnopened").textContent = s.unopened != null ? s.unopened : "—";
         if (document.getElementById("leadStatRelevant")) document.getElementById("leadStatRelevant").textContent = s.relevant != null ? s.relevant : "—";
@@ -2625,7 +2749,9 @@
       var ipFilter = document.getElementById("filterIp") ? document.getElementById("filterIp").value.trim() : "";
       var scoreMin = document.getElementById("filterScore") ? document.getElementById("filterScore").value : "";
 
-      var params = "?page=" + currentPage + "&limit=20&sort=" + currentSort + "&order=" + currentOrder;
+      var limitEl = document.getElementById("filterLimit");
+      if (limitEl) leadsLimit = parseInt(limitEl.value, 10) || 100;
+      var params = "?page=" + currentPage + "&limit=" + leadsLimit + "&sort=" + currentSort + "&order=" + currentOrder;
       if (status) params += "&status=" + encodeURIComponent(status);
       if (vertical) params += "&vertical=" + encodeURIComponent(vertical);
       if (view) params += "&view=" + encodeURIComponent(view);
@@ -2715,14 +2841,8 @@
         }
         updateBulkBar();
 
-        // Pagination
-        var pg = data.pagination;
-        var pgEl = document.getElementById("leadsPagination");
-        pgEl.style.display = "flex";
-        document.getElementById("paginationInfo").textContent =
-          "Page " + pg.page + " / " + pg.totalPages + " (" + pg.total + " leads)";
-        document.getElementById("prevPage").disabled = pg.page <= 1;
-        document.getElementById("nextPage").disabled = pg.page >= pg.totalPages;
+        var pg = data.pagination || { page: currentPage, limit: leadsLimit, total: (data.leads || []).length, totalPages: 1 };
+        renderLeadsPagination(pg);
       } catch(e) {
         console.error(e);
         tbody.innerHTML = '<tr><td colspan="11" style="color:var(--red)">Erreur réseau</td></tr>';
@@ -2799,6 +2919,13 @@
     document.getElementById("filterVertical").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterPlatform").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterScore").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    if (document.getElementById("filterLimit")) {
+      document.getElementById("filterLimit").addEventListener("change", function() {
+        leadsLimit = parseInt(this.value, 10) || 100;
+        currentPage = 1;
+        loadLeads();
+      });
+    }
     document.getElementById("soundNewLead").addEventListener("change", function() {
       soundEnabled = document.getElementById("soundNewLead").checked;
     });
@@ -2884,6 +3011,24 @@
 
     document.getElementById("prevPage").addEventListener("click", function() { if (currentPage > 1) { currentPage--; loadLeads(); } });
     document.getElementById("nextPage").addEventListener("click", function() { currentPage++; loadLeads(); });
+    if (document.getElementById("prevPageTop")) {
+      document.getElementById("prevPageTop").addEventListener("click", function() { if (currentPage > 1) { currentPage--; loadLeads(); } });
+    }
+    if (document.getElementById("nextPageTop")) {
+      document.getElementById("nextPageTop").addEventListener("click", function() { currentPage++; loadLeads(); });
+    }
+    function onPageNumClick(e) {
+      var btn = e.target.closest("[data-page]");
+      if (!btn) return;
+      var n = parseInt(btn.getAttribute("data-page"), 10);
+      if (!n || n === currentPage) return;
+      currentPage = n;
+      loadLeads();
+    }
+    document.getElementById("leadsPagination").addEventListener("click", onPageNumClick);
+    if (document.getElementById("leadsPaginationTop")) {
+      document.getElementById("leadsPaginationTop").addEventListener("click", onPageNumClick);
+    }
 
     // SORT
     document.querySelectorAll(".leads-table th[data-sort]").forEach(function(th) {

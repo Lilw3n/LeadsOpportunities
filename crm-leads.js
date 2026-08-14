@@ -81,7 +81,7 @@
   function renderKpis(k) {
     k = k || {};
     document.getElementById("lhKpis").innerHTML =
-      kpi("Leads", k.total) +
+      kpi("Leads (liste complète)", k.total, "./dashboard.html?section=leads") +
       kpi("Humains", k.humains) +
       kpi("Suspects", k.suspects) +
       kpi("Spam / robots", k.spam) +
@@ -89,14 +89,17 @@
       kpi("À valider", k.pending);
   }
 
-  function kpi(label, n) {
-    return (
-      '<div class="kpi-card panel"><div class="kpi-label">' +
+  function kpi(label, n, href) {
+    var inner =
+      '<div class="kpi-label">' +
       esc(label) +
       '</div><div class="kpi-value">' +
       esc(n || 0) +
-      "</div></div>"
-    );
+      "</div>";
+    if (href) {
+      return '<a href="' + esc(href) + '" class="kpi-card panel" style="text-decoration:none;color:inherit">' + inner + "</a>";
+    }
+    return '<div class="kpi-card panel">' + inner + "</div>";
   }
 
   function renderPending(list) {
@@ -404,7 +407,8 @@
       "/api/crm/leads-hub?view=" +
       encodeURIComponent(state.view) +
       "&q=" +
-      encodeURIComponent(state.q);
+      encodeURIComponent(state.q) +
+      "&limit=400";
     document.getElementById("lhTable").innerHTML = '<p class="lh-empty">Chargement…</p>';
     Promise.all([
       api(qs),

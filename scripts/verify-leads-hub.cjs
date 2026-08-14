@@ -70,6 +70,8 @@ assert(page.indexOf("crm-leads.js") >= 0, "page charge le JS");
 assert(page.indexOf("lead-identity-lib.js") >= 0, "page charge l’identité");
 assert(page.indexOf("value=\"pending\"") >= 0, "filtre à valider admin");
 
+assert(page.indexOf("dashboard.html?section=leads") >= 0, "lien vers liste complète dashboard");
+
 var js = read("crm-leads.js");
 assert(js.indexOf('confirm: "SUPPRIMER"') >= 0, "double validation SUPPRIMER");
 assert(js.indexOf("confirmAck") >= 0, "double validation case à cocher");
@@ -106,6 +108,13 @@ assert(dash.indexOf("data-unblock-ip") >= 0, "dashboard : débloquer IP");
 assert(dash.indexOf("lead-row-check") >= 0, "dashboard : cases à cocher");
 assert(dash.indexOf("filterScore") >= 0, "dashboard : filtre score");
 assert(dash.indexOf("acheteur_immo") >= 0, "dashboard : vertical acheteur immo");
+assert(dash.indexOf("leadStatTotal") >= 0, "dashboard : KPI tous les leads");
+assert(dash.indexOf("filterLimit") >= 0, "dashboard : 100 par page");
+assert(dash.indexOf("renderLeadsPagination") >= 0, "dashboard : pagination lisible");
+assert(dash.indexOf("leads au total") >= 0, "dashboard : total explicite");
+
+var leadsApi = read("api/_lib/routes/leads.js");
+assert(leadsApi.indexOf("Math.min(250") >= 0, "API leads : jusqu’à 250 par page");
 
 var del = read("api/_lib/routes/lead-delete.js");
 assert(del.indexOf("leadIds") >= 0, "API suppression multiple");
