@@ -500,4 +500,7 @@
     renderMetaPanel: renderMetaPanel,
     renderDashboardBlock: renderDashboardBlock,
   };
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = global.CrmLeadPayloadView;
+  }
 })(typeof window !== "undefined" ? window : global);

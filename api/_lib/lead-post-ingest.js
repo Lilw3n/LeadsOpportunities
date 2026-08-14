@@ -1,5 +1,8 @@
 const { sendMetaEvent } = require("./meta-capi");
 const { normalizeClientIp } = require("./security");
+const { classifyLeadInboxKind } = require("./lead-inbox-kind");
+const VerticalLabels = require("../../js/vertical-labels.js");
+const CrmLeadPayloadView = require("../../js/crm-lead-payload-view.js");
 
 function normalizeEmailAddress(addr) {
   var s = String(addr || "").trim();
@@ -58,30 +61,99 @@ async function sendResendEmail(payload, score, leadId) {
     return false;
   }
 
-  var sub =
-    "[Lead " +
-    (payload.vertical || "?") +
-    "] score " +
-    score +
-    " — " +
-    (payload.email || payload.phone || leadId);
+  var kind = classifyLeadInboxKind({ source: payload.source }, payload);
+  var typeLabel =
+    kind === "express_callback"
+      ? "Rappel express"
+      : kind === "contact_request"
+        ? "Demande de contact"
+        : "Questionnaire";
+  var productLabel = VerticalLabels.label(payload.vertical || payload.need);
+  var name = [payload.firstName || payload.first_name, payload.lastName || payload.last_name]
+    .filter(Boolean)
+    .join(" ")
+    .trim() || String(payload.fullName || payload.name || "").trim();
+  var who = name || payload.email || payload.phone || leadId;
+
+  var sub = "[" + typeLabel + " · " + productLabel + "] " + who + " — score " + score;
+
+  var appUrl = (
+    process.env.APP_URL ||
+    process.env.NEXT_PUBLIC_APP_URL ||
+    "https://www.leadsopportunities.fr"
+  ).replace(/\/$/, "");
+
+  function row(label, value) {
+    if (value == null || String(value).trim() === "") return "";
+    return (
+      '<tr><th style="text-align:left;padding:4px 10px 4px 0;color:#475569;white-space:nowrap;vertical-align:top">' +
+      escapeHtml(label) +
+      '</th><td style="padding:4px 0">' +
+      escapeHtml(String(value)) +
+      "</td></tr>"
+    );
+  }
+
+  var step = payload.questionnaire_step || payload.step;
+  var total = payload.questionnaire_total || payload.step_total;
+
+  var answersHtml = "";
+  try {
+    var answers = CrmLeadPayloadView.getAllAnswerRows(payload);
+    if (answers.length) {
+      answersHtml =
+        '<h3 style="margin:20px 0 6px;font-size:15px">Réponses du questionnaire</h3>' +
+        '<table style="border-collapse:collapse;font-size:14px">' +
+        answers
+          .map(function (r) {
+            return row(r.label, r.value);
+          })
+          .join("") +
+        "</table>";
+    }
+  } catch (e) {
+    console.warn("[lead] email answers render", e.message);
+  }
+
   var html =
-    "<h2>Nouvelle demande Leads Opportunities</h2>" +
-    "<p><strong>ID</strong> " +
-    leadId +
-    "</p>" +
-    "<p><strong>Score</strong> " +
+    '<div style="font-family:Arial,Helvetica,sans-serif;color:#0f172a">' +
+    '<h2 style="margin:0 0 4px">' +
+    escapeHtml(typeLabel) +
+    " — " +
+    escapeHtml(productLabel) +
+    "</h2>" +
+    '<p style="margin:0 0 16px;color:#475569">' +
+    escapeHtml(who) +
+    " · score " +
     score +
     "/100</p>" +
-    "<p><strong>Source</strong> " +
-    escapeHtml(String(payload.source || "")) +
-    "</p>" +
-    "<p><strong>Vertical</strong> " +
-    escapeHtml(String(payload.vertical || "")) +
-    "</p>" +
-    "<pre style=\"background:#f1f5f9;padding:12px;border-radius:8px;overflow:auto\">" +
+    '<table style="border-collapse:collapse;font-size:14px">' +
+    row("Nom", name) +
+    row("E-mail", payload.email) +
+    row("Téléphone", payload.phone) +
+    row("Ville", payload.city) +
+    row("Code postal", payload.postal_code || payload.postalCode) +
+    row("Étape questionnaire", step && total ? step + " / " + total : step || "") +
+    row("Source", payload.source) +
+    row("Campagne", payload.utm_campaign) +
+    row("ID lead", leadId) +
+    "</table>" +
+    answersHtml +
+    '<p style="margin:20px 0 6px">' +
+    '<a href="' +
+    appUrl +
+    '/dashboard.html?section=mailbox" style="color:#0f766e;font-weight:bold">Ouvrir la messagerie CRM</a>' +
+    " · " +
+    '<a href="' +
+    appUrl +
+    "/crm-lead-detail.html?id=" +
+    encodeURIComponent(leadId) +
+    '" style="color:#0f766e">Fiche lead</a></p>' +
+    '<details><summary style="color:#94a3b8;font-size:12px;cursor:pointer">Données brutes (debug)</summary>' +
+    '<pre style="background:#f1f5f9;padding:12px;border-radius:8px;overflow:auto;font-size:11px">' +
     escapeHtml(JSON.stringify(payload, null, 2).slice(0, 12000)) +
-    "</pre>";
+    "</pre></details>" +
+    "</div>";
 
   var r = await fetch("https://api.resend.com/emails", {
     method: "POST",
