@@ -1,9 +1,9 @@
 /**
  * Injection SEO : meta keywords, bloc contenu semantique, schema WebPage/FAQ.
  */
-(function () {
+(function (global) {
   function cfg() {
-    return window.LANDING_SEO_CONFIG;
+    return global.LANDING_SEO_CONFIG;
   }
 
   function ensureMetaKeywords(content) {

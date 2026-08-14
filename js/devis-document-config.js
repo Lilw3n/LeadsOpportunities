@@ -35,7 +35,7 @@
         { type: "rib", label: "RIB", required: false },
       ],
     },
-    credit-immo: {
+    "credit-immo": {
       title: "Pièces pour votre demande de prêt immobilier",
       intro:
         "Ces documents accélèrent l'étude de financement. Vous pouvez les déposer maintenant ou plus tard — archivés sur votre dossier et le Drive courtier.",
