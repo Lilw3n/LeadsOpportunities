@@ -44,7 +44,8 @@ function verifyOAuthState(state) {
 }
 
 const SCOPES_LOGIN = "openid email profile";
-const SCOPES_CALENDAR = SCOPES_LOGIN + " https://www.googleapis.com/auth/calendar.events";
+const SCOPES_CALENDAR =
+  SCOPES_LOGIN + " https://www.googleapis.com/auth/calendar";
 
 function buildGoogleAuthUrl(state, options) {
   const opts = options || {};
@@ -55,6 +56,7 @@ function buildGoogleAuthUrl(state, options) {
     scope: opts.calendar ? SCOPES_CALENDAR : SCOPES_LOGIN,
     access_type: opts.calendar ? "offline" : "online",
     prompt: opts.calendar ? "consent" : "select_account",
+    include_granted_scopes: "true",
     state: state,
   });
   if (opts.loginHint) params.set("login_hint", opts.loginHint);

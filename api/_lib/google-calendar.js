@@ -1,12 +1,15 @@
 const { getSql } = require("./db");
 const { refreshGoogleAccessToken } = require("./google-oauth");
+const { ensureCalendarSchema } = require("./ensure-schema");
 
-const CALENDAR_SCOPE = "https://www.googleapis.com/auth/calendar.events";
+const CALENDAR_SCOPE = "https://www.googleapis.com/auth/calendar";
 const TIMEZONE = "Europe/Paris";
+const GOOGLE_AGENDA_CONTACT_ID = "ct_google_agenda";
 
 async function getCalendarAccessToken(userId) {
   const sql = getSql();
   if (!sql || !userId) return null;
+  await ensureCalendarSchema(sql);
 
   const rows = await sql`
     SELECT google_refresh_token, google_calendar_id
@@ -200,6 +203,7 @@ async function syncCrmEventToGoogle(userId, eventId) {
 async function getCalendarConnectionStatus(userId) {
   const sql = getSql();
   if (!sql) return { connected: false };
+  await ensureCalendarSchema(sql);
   const rows = await sql`
     SELECT google_refresh_token, google_calendar_id, google_calendar_connected_at
     FROM users WHERE id = ${userId} LIMIT 1
@@ -213,11 +217,68 @@ async function getCalendarConnectionStatus(userId) {
   };
 }
 
+async function ensureGoogleAgendaContact(sql, userId) {
+  const existing = await sql`
+    SELECT id FROM crm_contacts WHERE id = ${GOOGLE_AGENDA_CONTACT_ID} LIMIT 1
+  `;
+  if (existing.length) return GOOGLE_AGENDA_CONTACT_ID;
+  await sql`
+    INSERT INTO crm_contacts (
+      id, contact_type, first_name, last_name, email, company, status, source, assigned_to, notes, last_activity_at
+    ) VALUES (
+      ${GOOGLE_AGENDA_CONTACT_ID},
+      ${"prospect"},
+      ${"Agenda"},
+      ${"Google"},
+      ${"agenda-google@leadsopportunities.fr"},
+      ${"Google Calendar"},
+      ${"active"},
+      ${"google_calendar"},
+      ${userId || null},
+      ${"Fiche technique : RDV importés depuis Google Calendar sans contact CRM."},
+      NOW()
+    )
+    ON CONFLICT (id) DO NOTHING
+  `;
+  return GOOGLE_AGENDA_CONTACT_ID;
+}
+
+async function pushUnsyncedCrmEvents(userId) {
+  const sql = getSql();
+  if (!sql) return { ok: false, error: "no_db", pushed: 0 };
+  await ensureCalendarSchema(sql);
+  const auth = await getCalendarAccessToken(userId);
+  if (!auth) return { ok: false, error: "Agenda Google non connecté", pushed: 0, skipped: true };
+
+  const rows = await sql`
+    SELECT e.id
+    FROM crm_events e
+    WHERE (e.google_event_id IS NULL OR e.google_event_id = '')
+      AND (e.google_sync_status IS NULL OR e.google_sync_status IN ('pending', 'error', 'skipped', ''))
+    ORDER BY e.event_date DESC NULLS LAST
+    LIMIT 100
+  `;
+
+  var pushed = 0;
+  var errors = 0;
+  var skipped = 0;
+  for (var i = 0; i < rows.length; i++) {
+    var result = await syncCrmEventToGoogle(userId, rows[i].id);
+    if (result && result.ok && !result.skipped) pushed++;
+    else if (result && result.skipped) skipped++;
+    else errors++;
+  }
+  return { ok: true, pushed: pushed, scanned: rows.length, errors: errors, skipped: skipped };
+}
+
 module.exports = {
   CALENDAR_SCOPE,
+  GOOGLE_AGENDA_CONTACT_ID,
   createGoogleCalendarEvent,
   syncCrmEventToGoogle,
   getCalendarConnectionStatus,
   getCalendarAccessToken,
   buildEventDateTime,
+  ensureGoogleAgendaContact,
+  pushUnsyncedCrmEvents,
 };

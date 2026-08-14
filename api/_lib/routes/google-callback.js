@@ -9,10 +9,17 @@ const {
   getAppUrl,
 } = require("../google-oauth");
 const { getSql } = require("../db");
+const { ensureCalendarSchema } = require("../ensure-schema");
 
 function redirectAuth(res, params) {
   const q = new URLSearchParams(params);
   res.writeHead(302, { Location: getAppUrl() + "/auth.html?" + q.toString() });
+  res.end();
+}
+
+function redirectCalendar(res, query) {
+  const dest = "/crm-calendar.html" + (query ? "?" + query : "");
+  res.writeHead(302, { Location: getAppUrl() + dest });
   res.end();
 }
 
@@ -59,12 +66,22 @@ module.exports = async (req, res) => {
 
     if (oauthPurpose === "google_calendar") {
       if (!calendarUserId) {
-        return redirectAuth(res, { oauth_error: "Session agenda invalide" });
+        return redirectCalendar(res, "calendar_error=" + encodeURIComponent("Session agenda invalide"));
+      }
+      await ensureCalendarSchema(sql);
+      if (!tokens.refresh_token) {
+        return redirectCalendar(
+          res,
+          "calendar_error=" +
+            encodeURIComponent(
+              "Google n'a pas renvoyé de jeton d'accès hors ligne. Recliquez Connecter Google et acceptez toutes les autorisations Agenda."
+            )
+        );
       }
       const calId = process.env.GOOGLE_CALENDAR_DEFAULT_ID || "primary";
       await sql`
         UPDATE users SET
-          google_refresh_token = COALESCE(${tokens.refresh_token || null}, google_refresh_token),
+          google_refresh_token = ${tokens.refresh_token},
           google_calendar_id = ${calId},
           google_calendar_connected_at = NOW(),
           updated_at = NOW()
@@ -73,7 +90,7 @@ module.exports = async (req, res) => {
       const dest =
         returnTo && returnTo.indexOf("/crm") === 0 ? returnTo : "/crm-calendar.html";
       res.writeHead(302, {
-        Location: getAppUrl() + dest + "?calendar=connected",
+        Location: getAppUrl() + dest + (dest.indexOf("?") >= 0 ? "&" : "?") + "calendar=connected",
       });
       res.end();
       return;
@@ -157,6 +174,12 @@ module.exports = async (req, res) => {
     res.end();
   } catch (e) {
     console.error("[auth/google-callback]", e);
+    if (oauthPurpose === "google_calendar") {
+      return redirectCalendar(
+        res,
+        "calendar_error=" + encodeURIComponent(e.message || "Connexion Google Agenda échouée")
+      );
+    }
     return redirectAuth(res, { oauth_error: "Connexion Google echouee" });
   }
 };
