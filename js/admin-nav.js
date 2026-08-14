@@ -8,7 +8,7 @@
   var LINKS = [
     { href: "./index.html", label: "Accueil", id: "home" },
     { href: "./dashboard.html", label: "Dashboard", id: "dashboard" },
-    { href: "./crm-leads.html", label: "Leads", id: "leads" },
+    { href: "./dashboard.html?section=leads", label: "Leads", id: "leads" },
     { href: "./crm-acquisition.html", label: "Devis remplis", id: "crm-acquisition" },
     { href: "./dashboard.html?section=partners", label: "Partenaires", id: "partners" },
     { href: "./crm.html", label: "CRM", id: "crm" },

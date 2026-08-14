@@ -290,7 +290,7 @@ module.exports = async (req, res) => {
 
   const url = new URL(req.url, "http://localhost");
   const page = Math.max(1, parseInt(url.searchParams.get("page") || "1", 10));
-  const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get("limit") || "20", 10)));
+  const limit = Math.min(250, Math.max(1, parseInt(url.searchParams.get("limit") || "100", 10)));
   const offset = (page - 1) * limit;
 
   const statusVal = url.searchParams.get("status")
