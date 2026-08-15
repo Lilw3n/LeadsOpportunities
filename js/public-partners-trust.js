@@ -116,6 +116,50 @@
       tagline: "Prévoyance et épargne",
       products: "Prévoyance · Santé · Vie",
     },
+    {
+      id: "lcf",
+      name: "La Centrale de Financement",
+      logo: "🏦",
+      tier: "principal",
+      active: true,
+      tags: ["credit", "immo"],
+      category: "credit",
+      tagline: "Courtier crédit immobilier — montage du prêt",
+      products: "Prêt immo · Rachat · Emprunteur",
+    },
+    {
+      id: "cfcal",
+      name: "CFCAL",
+      logo: "🏦",
+      tier: "reseau",
+      active: true,
+      tags: ["credit", "immo"],
+      category: "credit",
+      tagline: "Prêteur — RAC et financement immobilier",
+      products: "RAC · Prêt immo · SCPI",
+    },
+    {
+      id: "cgi",
+      name: "CGI",
+      logo: "🏦",
+      tier: "reseau",
+      active: true,
+      tags: ["credit", "immo"],
+      category: "credit",
+      tagline: "Prêteur — crédit immobilier et locataires",
+      products: "Prêt immo · Locataire",
+    },
+    {
+      id: "sygma",
+      name: "SYGMA",
+      logo: "🏦",
+      tier: "reseau",
+      active: true,
+      tags: ["credit", "immo"],
+      category: "credit",
+      tagline: "Prêteur — grilles crédit immobilier",
+      products: "Prêt immo · RAC",
+    },
   ];
 
   var LOGO_FILES = {
@@ -129,6 +173,7 @@
     bullebleue: "bulle-bleue.png",
     kozoo: "kozoo.png",
     swisslife: "swiss-life.png",
+    lcf: "la-centrale-financement.svg",
   };
 
   var CATEGORIES = [
@@ -136,6 +181,7 @@
     { id: "animaux", label: "Assurance animaux", icon: "🐾" },
     { id: "sante", label: "Santé & prévoyance", icon: "💊" },
     { id: "general", label: "Particuliers & professionnels", icon: "🏢" },
+    { id: "credit", label: "Crédit immobilier", icon: "🏦" },
   ];
 
   var COPY = {
@@ -169,10 +215,10 @@
       badge: "Financement",
       title: "Banques et courtiers immo partenaires",
       lead:
-        "Pour le crédit immobilier, orientation vers des établissements et courtiers habituels du marché français.",
+        "Pour le crédit immobilier, orientation vers La Centrale de Financement et les prêteurs du dossier (CFCAL, CGI, SYGMA…). Pas d’assureurs auto, mutuelle ou animaux sur ce parcours.",
       speed: "Simulation gratuite · réponse sous 24–48 h",
-      filter: [],
-      categories: [],
+      partnerCategories: ["credit"],
+      categories: ["credit"],
     },
     animaux: {
       badge: "Assurance animaux",
@@ -309,7 +355,7 @@
 
   function partnerMatchesContext(p, ctx) {
     var cats = ctx.partnerCategories;
-    if (!cats || !cats.length) return true;
+    if (!cats || !cats.length) return p.category !== "credit";
     if (cats.indexOf(p.category) >= 0) return true;
     return p.tags.some(function (t) {
       return cats.indexOf(t) >= 0;
@@ -321,6 +367,7 @@
     var list = PARTNERS.filter(function (p) {
       return partnerMatchesContext(p, ctx);
     });
+    if (ctx.partnerCategories && ctx.partnerCategories.length) return list;
     if (!list.length) return PARTNERS.filter(function (p) { return p.tier === "principal"; });
     return list;
   }
@@ -364,7 +411,7 @@
       })
       .join("");
     return (
-      '<div class="partners-marquee" aria-label="Assureurs et partenaires">' +
+      '<div class="partners-marquee" aria-label="Partenaires">' +
       '<div class="partners-marquee-track">' +
       chips +
       chipsDup +

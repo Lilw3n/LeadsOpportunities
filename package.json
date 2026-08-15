@@ -59,7 +59,8 @@
     "verify:interlocuteur": "node scripts/verify-interlocuteur-dossier.cjs",
     "verify:print-document": "node scripts/verify-print-document.cjs",
     "verify:slack": "node scripts/verify-slack-notify.cjs",
-    "verify:canicule-mutuelle": "node scripts/verify-canicule-mutuelle.cjs"
+    "verify:canicule-mutuelle": "node scripts/verify-canicule-mutuelle.cjs",
+    "verify:partners-credit": "node scripts/verify-partners-credit.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
