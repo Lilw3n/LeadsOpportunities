@@ -24,6 +24,9 @@
     listing: "Listing de biens",
     devis: "Devis",
     contrat: "Contrat",
+    avenant: "Avenant",
+    bordereau: "Bordereau tarifaire",
+    sinistre: "Sinistre",
   };
 
   function esc(s) {
@@ -298,6 +301,33 @@
     );
   }
 
+  function contactName(contact) {
+    contact = contact || {};
+    return (
+      [contact.first_name, contact.last_name].filter(Boolean).join(" ") ||
+      contact.email ||
+      contact.company ||
+      ""
+    );
+  }
+
+  function money(n) {
+    if (n == null || n === "") return "";
+    var num = Number(n);
+    if (isNaN(num)) return String(n);
+    return num.toLocaleString("fr-FR") + " €";
+  }
+
+  function parseJson(value) {
+    if (!value) return {};
+    if (typeof value === "object") return value;
+    try {
+      return JSON.parse(value);
+    } catch (e) {
+      return {};
+    }
+  }
+
   function fromDossier(dossier, extra) {
     extra = extra || {};
     var raw = (dossier && dossier.raw) || {};
@@ -411,6 +441,309 @@
     });
   }
 
+  function fromQuote(quote, contact, extra) {
+    extra = extra || {};
+    quote = quote || {};
+    contact = contact || {};
+    var data = parseJson(quote.data);
+    var offers = (data.quoteDetails && data.quoteDetails.offers) || data.offers || [];
+    var name = extra.contactName || contactName(contact) || personName(quote);
+    var body =
+      kpisHtml(
+        [
+          { label: "Prime estimée", value: money(quote.premium_estimate) || "—" },
+          { label: "Statut", value: quote.status || "brouillon" },
+          { label: "Produit", value: quote.product_type || quote.title || "—" },
+        ]
+      ) +
+      section(
+        "Client",
+        rowsHtml([
+          { label: "Nom", value: name },
+          { label: "E-mail", value: contact.email || data.email },
+          { label: "Téléphone", value: contact.phone || data.phone },
+          { label: "Entreprise", value: contact.company || data.companyName },
+        ])
+      ) +
+      section(
+        "Devis",
+        rowsHtml([
+          { label: "Référence", value: quote.id },
+          { label: "Titre", value: quote.title },
+          { label: "Produit", value: quote.product_type },
+          { label: "Couverture", value: data.coverage || data.coverageLevel },
+          { label: "Budget", value: data.budget },
+          { label: "Notes", value: quote.notes },
+        ])
+      ) +
+      (offers.length
+        ? section(
+            "Offres",
+            tableHtml(
+              ["Assureur", "Prime", "Score"],
+              offers.map(function (o) {
+                return [
+                  o.insurer || o.name || "—",
+                  money(o.premium || o.price) || "—",
+                  o.score != null ? String(o.score) : "—",
+                ];
+              })
+            )
+          )
+        : "") +
+      section(
+        "Garanties",
+        rowsHtml([
+          { label: "Garanties", value: data.garanties || data.guarantees },
+          { label: "Franchise", value: data.franchise || data.deductible },
+          { label: "Exclusions", value: data.exclusions },
+          { label: "Plafond", value: data.plafond || data.coverageLimit },
+          { label: "Conditions", value: data.conditions || quote.notes },
+        ])
+      );
+    return open({
+      kind: "devis",
+      title: extra.title || quote.title || ("Devis " + (quote.product_type || "")).trim(),
+      subtitle: extra.subtitle || (name ? "Proposition commerciale — " + name : "Proposition commerciale"),
+      meta: extra.meta || [quote.id, quote.status].filter(Boolean),
+      bodyHtml: body,
+      footnote:
+        extra.footnote ||
+        "Proposition indicative. Non contractuelle tant que le devis n'est pas signé et les pièces validées.",
+    });
+  }
+
+  function fromContract(contract, contact, extras) {
+    extras = extras || {};
+    contract = contract || {};
+    contact = contact || {};
+    var name = extras.contactName || contactName(contact);
+    var vehicles = extras.vehicles || [];
+    var claims = extras.claims || [];
+    var body =
+      kpisHtml([
+        {
+          label: "Prime",
+          value: contract.premium != null ? money(contract.premium) + " / mois" : "—",
+        },
+        { label: "Statut", value: contract.status || "—" },
+        { label: "Assureur", value: contract.insurer || "—" },
+      ]) +
+      section(
+        "Client",
+        rowsHtml([
+          { label: "Nom", value: name },
+          { label: "E-mail", value: contact.email },
+          { label: "Téléphone", value: contact.phone },
+        ])
+      ) +
+      section(
+        "Contrat",
+        rowsHtml([
+          { label: "Référence", value: contract.id },
+          { label: "N° police", value: contract.policy_number },
+          { label: "Type", value: contract.contract_type },
+          { label: "Assureur", value: contract.insurer },
+          { label: "Début", value: contract.start_date },
+          { label: "Fin", value: contract.end_date },
+          {
+            label: "Prime mensuelle",
+            value: contract.premium != null ? money(contract.premium) : "",
+          },
+        ])
+      ) +
+      (vehicles.length
+        ? section(
+            "Véhicules liés",
+            tableHtml(
+              ["Immatriculation", "Véhicule"],
+              vehicles.slice(0, 8).map(function (v) {
+                return [
+                  v.registration || "—",
+                  [v.brand, v.model].filter(Boolean).join(" ") || "—",
+                ];
+              })
+            )
+          )
+        : "") +
+      (claims.length
+        ? section(
+            "Sinistres",
+            tableHtml(
+              ["Type", "Statut"],
+              claims.slice(0, 8).map(function (cl) {
+                return [cl.claim_type || "—", cl.status || "—"];
+              })
+            )
+          )
+        : "") +
+      (contract.description ? section("Description / avenants", prose(contract.description)) : "");
+    return open({
+      kind: "contrat",
+      title: extras.title || contract.policy_number || contract.contract_type || "Contrat",
+      subtitle: extras.subtitle || (name ? "Assuré : " + name : ""),
+      meta: extras.meta || [contract.id, contract.status].filter(Boolean),
+      bodyHtml: body,
+      footnote:
+        extras.footnote ||
+        "Synthèse de contrat destinée à l'échange avec le client. Les conditions générales de l'assureur prévalent.",
+    });
+  }
+
+  function fromAvenant(avenant, contract, contact, extra) {
+    extra = extra || {};
+    avenant = avenant || {};
+    contract = contract || {};
+    contact = contact || {};
+    var name = extra.contactName || contactName(contact);
+    var body =
+      kpisHtml([
+        { label: "Type", value: avenant.avenantType || "—" },
+        {
+          label: "Nouvelle prime",
+          value:
+            avenant.premium != null && avenant.premium !== ""
+              ? money(avenant.premium) + " / mois"
+              : "—",
+        },
+        { label: "Statut", value: avenant.status || "—" },
+      ]) +
+      section(
+        "Contrat d'origine",
+        rowsHtml([
+          { label: "Référence", value: contract.id || avenant.contractId },
+          { label: "N° police", value: contract.policy_number },
+          { label: "Type", value: contract.contract_type },
+          { label: "Assureur", value: contract.insurer },
+          {
+            label: "Prime actuelle",
+            value: contract.premium != null ? money(contract.premium) + " / mois" : "",
+          },
+          { label: "Fin actuelle", value: contract.end_date },
+        ])
+      ) +
+      section(
+        "Client",
+        rowsHtml([
+          { label: "Nom", value: name },
+          { label: "E-mail", value: contact.email },
+        ])
+      ) +
+      section(
+        "Modification demandée",
+        rowsHtml([
+          { label: "Type d'avenant", value: avenant.avenantType },
+          {
+            label: "Nouvelle prime",
+            value:
+              avenant.premium != null && avenant.premium !== ""
+                ? money(avenant.premium) + " / mois"
+                : "",
+          },
+          { label: "Nouvelle date de fin", value: avenant.endDate },
+          { label: "Nouveau statut", value: avenant.status },
+        ])
+      ) +
+      section("Motif", prose(avenant.notes || ""));
+    return open({
+      kind: "avenant",
+      title: extra.title || ("Avenant — " + (avenant.avenantType || "modification")),
+      subtitle: extra.subtitle || (name ? "Assuré : " + name : "Projet d'avenant"),
+      meta: extra.meta || [contract.policy_number || contract.id, avenant.status].filter(Boolean),
+      bodyHtml: body,
+      footnote:
+        extra.footnote ||
+        "Projet d'avenant. Non contractuel tant que l'assureur n'a pas émis l'avenant signé.",
+    });
+  }
+
+  function fromTariffGrid(grid, extra) {
+    extra = extra || {};
+    grid = grid || {};
+    var rows = grid.rows || [];
+    var total = rows.reduce(function (s, r) {
+      return s + (Number(r.annualPremium) || 0);
+    }, 0);
+    if (grid.totalAnnual != null) total = Number(grid.totalAnnual) || total;
+    var body =
+      kpisHtml([
+        { label: "Assureur", value: grid.insurerLabel || grid.insurer || extra.insurer || "—" },
+        { label: "Produit", value: grid.product || extra.product || "—" },
+        { label: "Prime annuelle", value: money(total) || "—" },
+      ]) +
+      section(
+        "Garanties",
+        tableHtml(
+          ["Garantie", "Code", "Franchise", "Prime annuelle", "Commission"],
+          rows.map(function (r) {
+            return [
+              r.label || "—",
+              r.code || "—",
+              r.franchise != null && r.franchise !== "" ? money(r.franchise) : "—",
+              r.annualPremium != null && r.annualPremium !== "" ? money(r.annualPremium) : "—",
+              r.commissionPct != null && r.commissionPct !== "" ? r.commissionPct + " %" : "—",
+            ];
+          })
+        )
+      ) +
+      (grid.note || extra.note ? note(grid.note || extra.note) : "");
+    return open({
+      kind: "bordereau",
+      title:
+        extra.title ||
+        ("Bordereau tarifaire" +
+          (grid.insurerLabel || grid.insurer
+            ? " — " + (grid.insurerLabel || grid.insurer)
+            : "")),
+      subtitle: extra.subtitle || "Grille de garanties et primes — document de travail",
+      meta: extra.meta || [grid.product || extra.product, extra.leadId ? "Lead " + extra.leadId : ""].filter(Boolean),
+      bodyHtml: body,
+      footnote:
+        extra.footnote ||
+        "Bordereau indicatif interne. Valider les tarifs sur le bordereau partenaire avant remise client.",
+    });
+  }
+
+  function fromClaim(claim, contact, extra) {
+    extra = extra || {};
+    claim = claim || {};
+    contact = contact || {};
+    var name = extra.contactName || contactName(contact);
+    var body =
+      kpisHtml([
+        { label: "Type", value: claim.claim_type || "—" },
+        { label: "Statut", value: claim.status || "—" },
+        { label: "Montant", value: claim.amount != null ? money(claim.amount) : "—" },
+      ]) +
+      section(
+        "Assuré",
+        rowsHtml([
+          { label: "Nom", value: name },
+          { label: "E-mail", value: contact.email },
+        ])
+      ) +
+      section(
+        "Sinistre",
+        rowsHtml([
+          { label: "Date", value: claim.claim_date },
+          { label: "Type", value: claim.claim_type },
+          { label: "Statut", value: claim.status },
+          { label: "Montant", value: claim.amount != null ? money(claim.amount) : "" },
+        ])
+      ) +
+      section("Description", prose(claim.description || ""));
+    return open({
+      kind: "sinistre",
+      title: extra.title || ("Sinistre — " + (claim.claim_type || "déclaration")),
+      subtitle: extra.subtitle || (name ? "Assuré : " + name : ""),
+      meta: extra.meta || [claim.id, claim.status].filter(Boolean),
+      bodyHtml: body,
+      footnote:
+        extra.footnote ||
+        "Fiche de suivi sinistre. Document de travail, non opposable à l'assureur.",
+    });
+  }
+
   var api = {
     BRAND: BRAND,
     KIND_LABELS: KIND_LABELS,
@@ -422,6 +755,8 @@
     note: note,
     prose: prose,
     tableHtml: tableHtml,
+    money: money,
+    contactName: contactName,
     css: css,
     renderHtml: renderHtml,
     open: open,
@@ -431,6 +766,11 @@
     fromImmoDoc: fromImmoDoc,
     fromProperty: fromProperty,
     fromKpis: fromKpis,
+    fromQuote: fromQuote,
+    fromContract: fromContract,
+    fromAvenant: fromAvenant,
+    fromTariffGrid: fromTariffGrid,
+    fromClaim: fromClaim,
     personName: personName,
   };
 

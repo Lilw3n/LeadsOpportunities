@@ -14,18 +14,45 @@
   document.getElementById("backLink").href =
     "./crm-contract-detail.html?id=" + encodeURIComponent(contractId) + "&contactId=" + encodeURIComponent(contactId);
 
+  var lastContract = null;
+  var lastContact = null;
+
+  function collectAvenant() {
+    var form = document.getElementById("avenantForm");
+    var fd = new FormData(form);
+    return {
+      contractId: fd.get("contractId") || contractId,
+      contactId: fd.get("contactId") || contactId,
+      avenantType: fd.get("avenantType"),
+      premium: fd.get("premium") ? Number(fd.get("premium")) : "",
+      endDate: fd.get("endDate") || "",
+      status: fd.get("status"),
+      notes: fd.get("notes") || "",
+    };
+  }
+
   fetch("/api/crm/contact?id=" + encodeURIComponent(contactId), {
     headers: { Authorization: "Bearer " + localStorage.getItem(TOKEN_KEY) },
   })
     .then(function (r) { return r.json(); })
     .then(function (res) {
       if (!res.ok) return;
+      lastContact = res.contact || null;
       var ct = (res.contracts || []).find(function (c) { return c.id === contractId; });
       if (!ct) return;
+      lastContract = ct;
       if (ct.premium != null) document.querySelector("[name=premium]").value = ct.premium;
       if (ct.end_date) document.querySelector("[name=endDate]").value = String(ct.end_date).slice(0, 10);
       if (ct.status) document.querySelector("[name=status]").value = ct.status;
     });
+
+  var btnPrintAv = document.getElementById("btnPrintAvenant");
+  if (btnPrintAv) {
+    btnPrintAv.onclick = function () {
+      if (!window.PrintDocument) return;
+      window.PrintDocument.fromAvenant(collectAvenant(), lastContract || {}, lastContact || {});
+    };
+  }
 
   document.getElementById("avenantForm").onsubmit = function (e) {
     e.preventDefault();

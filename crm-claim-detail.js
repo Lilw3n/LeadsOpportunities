@@ -47,11 +47,21 @@
         "</dd><dt>Description</dt><dd>" +
         esc(cl.description || "—") +
         "</dd></dl>" +
-        "<p style='margin-top:20px'><a href='./crm-contact.html?id=" +
+        "<p style='margin-top:20px;display:flex;flex-wrap:wrap;gap:8px'>" +
+        '<button type="button" class="btn btn-ghost" id="btnPrintClaim">Imprimer / PDF</button>' +
+        "<a class='btn btn-ghost' href='./crm-contact.html?id=" +
         encodeURIComponent(contactId) +
         "'>" +
         esc(name) +
         " — fiche contact</a></p>" +
         "<p><a href='./crm-documents.html'>Documents en attente →</a></p>";
+      var btnPrintClaim = document.getElementById("btnPrintClaim");
+      if (btnPrintClaim) {
+        btnPrintClaim.onclick = function () {
+          if (window.PrintDocument) {
+            window.PrintDocument.fromClaim(cl, res.contact || {}, { contactName: name });
+          }
+        };
+      }
     });
 })();

@@ -129,7 +129,7 @@
       (l.tariff_snapshot
         ? '<section class="panel" style="margin-top:16px"><h2 style="margin-top:0;font-size:1rem">Dernier bordereau (' +
           esc(l.tariff_insurer || "") +
-          ")</h2><pre style='font-size:.78rem;overflow:auto'>" +
+          ')</h2><p><button type="button" class="btn btn-ghost" id="ldPrintTariff">Imprimer / PDF le bordereau</button></p><pre style=\'font-size:.78rem;overflow:auto\'>' +
           esc(JSON.stringify(l.tariff_snapshot_obj || {}, null, 2).slice(0, 2000)) +
           "</pre></section>"
         : "");
@@ -148,6 +148,17 @@
         if (window.PrintDocument) {
           window.PrintDocument.fromLead(Object.assign({}, l, { payload_obj: payload, payload: payload }), {
             kind: "questionnaire",
+          });
+        }
+      };
+    }
+    var ldPrintTariff = document.getElementById("ldPrintTariff");
+    if (ldPrintTariff) {
+      ldPrintTariff.onclick = function () {
+        if (window.PrintDocument) {
+          window.PrintDocument.fromTariffGrid(l.tariff_snapshot_obj || {}, {
+            insurer: l.tariff_insurer,
+            leadId: leadId,
           });
         }
       };

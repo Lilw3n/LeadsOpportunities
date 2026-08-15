@@ -31,6 +31,7 @@
     <button type="button" class="btn btn-primary" id="btnLoad">Charger tarifs</button>
     <button type="button" class="btn btn-ghost" id="btnSave">Enregistrer sur le lead</button>
     <button type="button" class="btn btn-ghost" id="btnExport">Export CSV</button>
+    <button type="button" class="btn btn-ghost" id="btnPrintTariff">Imprimer / PDF</button>
   </div>
   <p id="tariffNote" style="font-size:.85rem;color:var(--muted)"></p>
   <div class="panel" style="overflow:auto">
@@ -38,6 +39,7 @@
   </div>
   <p class="tariff-total" id="tariffTotal"></p>
   <p style="margin-top:12px"><a href="./crm-quote-new.html" id="linkQuote" class="btn btn-primary">Créer un devis depuis ce bordereau</a></p>
+  <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-tariff-grid.js"></script>
   <script src="./js/admin-nav.js"></script>

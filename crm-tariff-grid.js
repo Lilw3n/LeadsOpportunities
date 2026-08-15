@@ -131,6 +131,21 @@
       });
   };
 
+  document.getElementById("btnPrintTariff").onclick = function () {
+    if (!grid) {
+      alert("Chargez d'abord une grille tarifaire.");
+      return;
+    }
+    if (!window.PrintDocument) return;
+    var snap = collectGrid();
+    window.PrintDocument.fromTariffGrid(snap, {
+      insurer: document.getElementById("insurer").value,
+      product: document.getElementById("product").value,
+      leadId: document.getElementById("leadId").value.trim(),
+      note: document.getElementById("tariffNote").textContent,
+    });
+  };
+
   document.getElementById("btnExport").onclick = function () {
     if (!grid) return;
     var g = collectGrid();
