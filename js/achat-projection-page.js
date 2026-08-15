@@ -299,6 +299,50 @@
     if (ach) ach.href = acheteurUrl(input);
 
     updateCallbackMessage(Lib.summaryText(p));
+    lastProjection = { input: input, p: p, sc: sc };
+  }
+
+  var lastProjection = null;
+
+  function printProjection() {
+    if (!window.PrintDocument || !lastProjection) return;
+    var P = lastProjection.p;
+    var euro = Lib.euro;
+    var pct = Lib.pct;
+    var body =
+      window.PrintDocument.kpisHtml([
+        { label: "Coût mensuel réel", value: euro(P.coutMensuelTotal) },
+        { label: "Endettement", value: pct(P.dti) },
+        { label: "Reste à vivre", value: euro(P.rav) },
+        { label: "À emprunter", value: euro(P.loan.aFinancer) },
+        { label: "Capacité d'emprunt", value: euro(P.capaciteEmprunt) },
+        { label: "Budget bien max", value: euro(P.budgetMaxBien) },
+      ]) +
+      window.PrintDocument.section(
+        "Verdict",
+        "<p><strong>" +
+          window.PrintDocument.esc(P.comfort.verdict) +
+          "</strong> — score " +
+          P.comfort.score +
+          "/100</p>"
+      ) +
+      window.PrintDocument.section(
+        "Détail annuel",
+        window.PrintDocument.tableHtml(
+          ["Poste", "Par an"],
+          (P.breakdown || []).map(function (r) {
+            return [r.label || r.name || "—", euro(r.an)];
+          })
+        )
+      );
+    window.PrintDocument.open({
+      kind: "projection",
+      title: "Projection d'achat immobilier",
+      subtitle: "Simulation indicative à présenter au client",
+      bodyHtml: body,
+      footnote:
+        "Estimations pédagogiques, non contractuelles. Ce n'est pas une offre de crédit. Norme HCSF : endettement max. 35 %.",
+    });
   }
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -312,5 +356,7 @@
       root.addEventListener("change", paint);
     }
     paint();
+    var btnPrint = $("btnPrintProjection");
+    if (btnPrint) btnPrint.addEventListener("click", printProjection);
   });
 })();

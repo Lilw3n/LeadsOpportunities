@@ -2162,6 +2162,7 @@
   <div class="toast" id="toast"></div>
 
   <script src="./js/interlocuteur-dossier-lib.js"></script>
+  <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
@@ -3216,7 +3217,9 @@
             '<div class="detail-item detail-full"><div class="dlabel">Données complètes</div><div class="dvalue"><pre style="white-space:pre-wrap;font-size:0.8rem;max-height:200px;overflow:auto;background:var(--bg);padding:12px;border-radius:8px;margin-top:6px">' + esc(JSON.stringify(payload, null, 2)) + '</pre></div></div>' +
           '</div>' +
           '<div class="detail-actions" style="flex-direction:column">' +
-            '<p style="margin:0 0 8px"><a class="btn btn-ghost" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Fiche CRM complète →</a></p>' +
+            '<p style="margin:0 0 8px;display:flex;flex-wrap:wrap;gap:8px">' +
+            '<button type="button" class="btn btn-ghost" id="modalPrintPdf">Imprimer / PDF</button>' +
+            '<a class="btn btn-ghost" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Fiche CRM complète →</a></p>' +
             '<div style="display:flex;gap:10px;align-items:center">' +
               '<label style="font-weight:600;font-size:0.85rem;white-space:nowrap">Statut :</label>' +
               '<select id="modalStatus" class="filter-select">' +
@@ -3284,6 +3287,17 @@
             var ip = this.getAttribute("data-ip");
             if (blockedIpSet[ip]) setIpBlocked(ip, false);
             else setIpBlocked(ip, true);
+          });
+        }
+
+        var modalPrint = document.getElementById("modalPrintPdf");
+        if (modalPrint) {
+          modalPrint.addEventListener("click", function () {
+            if (window.PrintDocument) {
+              window.PrintDocument.fromLead(Object.assign({}, l, { payload: payload, payload_obj: payload }), {
+                kind: "questionnaire",
+              });
+            }
           });
         }
 

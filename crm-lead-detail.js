@@ -49,6 +49,7 @@
       (l.contact_id
         ? ' <a href="./crm-contact.html?id=' + encodeURIComponent(l.contact_id) + '" class="btn btn-primary">Fiche interlocuteur</a>'
         : ' <button type="button" class="btn btn-primary" id="ldCreateInt">Créer fiche interlocuteur</button>') +
+      ' <button type="button" class="btn btn-ghost" id="ldPrintPdf">Imprimer / PDF</button>' +
       "</p>" +
       "<h1>" +
       pm.icon +
@@ -139,6 +140,17 @@
         var d = new Date(l.next_followup_at);
         document.getElementById("followup").value = d.toISOString().slice(0, 16);
       } catch (e) {}
+    }
+
+    var ldPrint = document.getElementById("ldPrintPdf");
+    if (ldPrint) {
+      ldPrint.onclick = function () {
+        if (window.PrintDocument) {
+          window.PrintDocument.fromLead(Object.assign({}, l, { payload_obj: payload, payload: payload }), {
+            kind: "questionnaire",
+          });
+        }
+      };
     }
 
     document.getElementById("btnSave").onclick = function () {

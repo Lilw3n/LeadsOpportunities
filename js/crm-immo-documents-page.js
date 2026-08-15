@@ -17,6 +17,7 @@
   var params = new URLSearchParams(location.search);
   var focusDoc = params.get("doc");
   var focusProp = params.get("property");
+  var currentDoc = null;
 
   function fillProps() {
     var props = Store.listProperties({});
@@ -91,6 +92,7 @@
     document.getElementById("dBody").value = data.clauses || data.body || "";
     document.getElementById("dParties").value = JSON.stringify(data.parties || {}, null, 2);
     document.getElementById("dNotes").value = d.notes || "";
+    currentDoc = d;
     preview(d);
   }
 
@@ -156,11 +158,30 @@
     openDoc(item.id);
   };
 
+  var btnPrintDoc = document.getElementById("btnPrintDoc");
+  if (btnPrintDoc) {
+    btnPrintDoc.onclick = function () {
+      if (!currentDoc) {
+        alert("Ouvrez un document d’abord.");
+        return;
+      }
+      var typeLabel =
+        (Matcher.DOC_TYPES.find(function (x) {
+          return x.id === currentDoc.doc_type;
+        }) || {}).label || currentDoc.doc_type;
+      var prop = currentDoc.property_id ? Store.getProperty(currentDoc.property_id) : null;
+      if (window.PrintDocument) {
+        window.PrintDocument.fromImmoDoc(currentDoc, prop, { kindLabel: typeLabel });
+      }
+    };
+  }
+
   document.getElementById("btnDelDoc").onclick = function () {
     var id = document.getElementById("dId").value;
     if (!id || !confirm("Supprimer ce document ?")) return;
     Store.deleteDocument(id);
     document.getElementById("docForm").hidden = true;
+    currentDoc = null;
     document.getElementById("docPreview").textContent = "Sélectionnez ou créez un document.";
     renderList();
   };

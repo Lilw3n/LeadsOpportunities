@@ -1157,6 +1157,13 @@
     });
   });
 
+  var btnPrintProp = document.getElementById("btnPrintProperty");
+  if (btnPrintProp) {
+    btnPrintProp.onclick = function () {
+      if (window.PrintDocument) window.PrintDocument.fromProperty(prop);
+    };
+  }
+
   document.getElementById("btnSave").onclick = save;
   document.getElementById("btnSave2").onclick = save;
 

@@ -38,6 +38,7 @@
   var state = {
     all: [],
     filtered: [],
+    printLead: null,
     threads: [],
     view: "feed",
     selectedId: null,
@@ -834,6 +835,9 @@
       lead && lead.payload
         ? lead.payload
         : parseLeadPayload(m.body_text) || {};
+    state.printLead = lead
+      ? Object.assign({}, lead, { payload: payload, payload_obj: payload })
+      : { payload: payload, payload_obj: payload };
     var html = '<div class="mbx-lead-answers-wrap">';
     html += renderLeadBubble(m, payload, lead);
     html += "</div>";
@@ -1232,19 +1236,34 @@
       '<div class="mbx-detail-actions" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">' +
       (leadId
         ? '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
+          '<button type="button" class="btn btn-ghost btn-sm" id="mbxBtnPrintPdf">Imprimer / PDF</button>' +
           '<a class="btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
           encodeURIComponent(leadId) +
           '">Fiche CRM</a>' +
           '<a class="btn-ghost btn-sm" href="./dashboard.html?section=leads&lead=' +
           encodeURIComponent(leadId) +
           '">Modal lead</a>'
-        : "") +
+        : '<button type="button" class="btn btn-ghost btn-sm" id="mbxBtnPrintPdf">Imprimer / PDF</button>') +
       "</div>";
 
     var answersBtn = document.getElementById("mbxBtnAllAnswers");
     if (answersBtn) {
       answersBtn.addEventListener("click", function () {
         if (typeof window.openLeadDetail === "function") window.openLeadDetail(leadId);
+      });
+    }
+    var printBtn = document.getElementById("mbxBtnPrintPdf");
+    if (printBtn) {
+      printBtn.addEventListener("click", function () {
+        var payload = parseLeadPayload(m.body_text) || {};
+        var lead = state.printLead || {
+          payload: payload,
+          payload_obj: payload,
+          email: payload.email || extractEmail(m.from_addr),
+          phone: payload.phone,
+          vertical: payload.vertical,
+        };
+        if (window.PrintDocument) window.PrintDocument.fromLead(lead, { kind: "questionnaire" });
       });
     }
 
