@@ -62,6 +62,7 @@ const GEO_PRODUCTS = [
       { href: "/assurance-vtc/rc-pro/", label: "RC Pro VTC" },
       { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
       { href: "/assurance-vtc/tarif/", label: "Tarif VTC" },
+      { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Blog : payer moins cher" },
       { href: "/landings/devis-rapide.html", label: "Devis express" },
     ],
@@ -653,10 +654,9 @@ function buildGeoPageConfigs(cities, pageFn) {
         related = related.concat(product.extraRelated);
       }
       related = related.concat(crossLinksForCity(product, city));
-      related = related.concat(contentLib.nearbyLinks(city, cities, product.dir, 8));
+          related = related.concat(contentLib.nearbyLinks(city, cities, product.dir, 8));
 
-      out.push(
-        pageFn({
+          var geoPage = {
           file: product.dir + "/" + city.slug + "/index.html",
           theme: product.theme,
           badge: city.region,
@@ -681,8 +681,14 @@ function buildGeoPageConfigs(cities, pageFn) {
           related: related,
           nearbyCities: contentLib.nearbyLinks(city, cities, product.dir, 12),
           faq: faq,
-        })
-      );
+        };
+        if (product.key === "vtc" && city.regionSlug === "ile-de-france") {
+          geoPage.related = [
+            { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
+            { href: "/assurance-vtc/uber-paris/", label: "Uber Paris" },
+          ].concat(geoPage.related);
+        }
+        out.push(pageFn(geoPage));
     });
   });
   return out;
@@ -1202,6 +1208,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurance-vtc/comparatif-assureurs/", priority: "0.86", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/pas-cher/", priority: "0.84", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/villes/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/ile-de-france/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-sante/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-sante/comparatif/", priority: "0.87", changefreq: "weekly" },
     { loc: base + "/assurance-sante/remboursement-optique/", priority: "0.78", changefreq: "monthly" },
@@ -1246,7 +1253,14 @@ function collectSitemapUrls(cities, departments, regions, base) {
     cities.forEach(function (city) {
       urls.push({
         loc: base + "/" + product.dir + "/" + city.slug + "/",
-        priority: city.slug === "paris" ? "0.78" : "0.68",
+        priority:
+          product.key === "vtc" && city.regionSlug === "ile-de-france"
+            ? city.slug === "paris"
+              ? "0.86"
+              : "0.8"
+            : city.slug === "paris"
+              ? "0.78"
+              : "0.68",
         changefreq: "monthly",
       });
     });

@@ -23,6 +23,8 @@ const {
 } = require("./seo-geo-lib.cjs");
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
+const { buildVtcIdfPages, getVtcIdfSitemapEntries } = require("./seo-vtc-idf-pages.cjs");
+const SeoImg = require("./seo-images-lib.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
 
@@ -64,6 +66,8 @@ const PAGES = [
     intro:
       "Que vous soyez chauffeur VTC confirme ou en cours d immatriculation, nous comparons les offres du marche a garanties equivalentes. Un conseiller specialise vous explique chaque poste avant de signer.",
     cta: { href: "/landings/vtc.html", label: "Obtenir mon devis VTC" },
+    heroImage: SeoImg.VTC_ASSETS.chauffeur,
+    gallery: [SeoImg.VTC_ASSETS.paris, SeoImg.VTC_ASSETS.voiture, SeoImg.VTC_ASSETS.smartphone],
     crumbs: [
       { name: "Accueil", url: "/" },
       { name: "Assurance VTC", url: "/assurance-vtc/" },
@@ -104,6 +108,8 @@ const PAGES = [
       { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
       { href: "/assurance-vtc/creation-activite/", label: "Creation d activite" },
       { href: "/assurance-vtc/paris/", label: "Assurance VTC Paris" },
+      { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
+      { href: "/assurance-vtc/uber-paris/", label: "Uber Paris" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Article : payer moins cher" },
     ],
     faq: [
@@ -559,10 +565,13 @@ function hrefPath(prefix, urlPath) {
   return prefix + urlPath.replace(/^\//, "");
 }
 
-function renderSections(sections) {
+function renderSections(sections, prefix) {
   return (sections || [])
     .map(function (s) {
       var html = '<section class="seo-card"><h2>' + esc(s.h2) + "</h2>";
+      if (s.figure && s.figure.file) {
+        html += SeoImg.renderFigure(s.figure, prefix, "seo-figure seo-figure--section");
+      }
       (s.paragraphs || []).forEach(function (p) {
         html += "<p>" + esc(p) + "</p>";
       });
@@ -673,6 +682,12 @@ function renderPage(p) {
       : { "@type": "Country", name: "France" },
     url: canonical,
   };
+  var heroAsset = theme === "vtc" ? SeoImg.pickVtcHero(p) : null;
+  var ogFile = SeoImg.ogFileFor(Object.assign({ theme: theme }, p));
+  var ogUrl = ogFile ? BASE + SeoImg.publicPath(ogFile) : BASE + "/og-default.svg";
+  if (heroAsset && heroAsset.file) {
+    serviceLd.image = SeoImg.imageObjectLd(BASE, heroAsset.file);
+  }
 
   const faqLd =
     faq.length > 0
@@ -799,6 +814,16 @@ function renderPage(p) {
         "</ul></section>"
       : "";
 
+  const heroMedia = heroAsset
+    ? SeoImg.renderFigure(heroAsset, prefix, "seo-hero-figure", true)
+    : "";
+  const galleryHtml =
+    p.gallery && p.gallery.length
+      ? '<section class="seo-card seo-card--gallery"><h2>En images</h2>' +
+        SeoImg.renderGallery(p.gallery, prefix) +
+        "</section>"
+      : "";
+
   return `<!doctype html>
 <html lang="fr">
 <head>
@@ -816,12 +841,12 @@ function renderPage(p) {
   <meta property="og:description" content="${esc(p.description)}" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="${esc(canonical)}" />
-  <meta property="og:image" content="${BASE}/og-default.svg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
+  <meta property="og:image" content="${esc(ogUrl)}" />
+  <meta property="og:image:width" content="1280" />
+  <meta property="og:image:height" content="720" />
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="${BASE}/og-default.svg" />
+  <meta name="twitter:image" content="${esc(ogUrl)}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
@@ -849,7 +874,9 @@ function renderPage(p) {
   </header>
   <main class="seo-container">
     <nav class="seo-breadcrumb" aria-label="Fil d Ariane">${crumbsHtml}</nav>
-    <header class="seo-hero">
+    <header class="seo-hero${heroMedia ? " seo-hero--media" : ""}">
+      ${heroMedia}
+      <div class="seo-hero-copy">
       ${p.badge ? '<span class="seo-badge">' + esc(p.badge) + "</span>" : ""}
       <h1>${esc(p.h1)}</h1>
       <p class="seo-intro">${esc(p.intro)}</p>
@@ -858,12 +885,14 @@ function renderPage(p) {
         <a class="btn btn-ghost btn-lg" href="${prefix}index.html#contact">Nous contacter</a>
       </div>
       <div class="seo-trust">${trustHtml}</div>
+      </div>
     </header>
     <div class="seo-layout">
       <div class="seo-main">
         ${renderBenefits(p.benefits)}
+        ${galleryHtml}
         ${renderSteps(p.steps)}
-        ${renderSections(p.sections)}
+        ${renderSections(p.sections, prefix)}
         ${nearbyGridHtml}
         ${cityGridHtml}
         ${deptGridHtml}
@@ -909,10 +938,36 @@ function renderPage(p) {
 }
 
 const VTC_LONGTAIL_PAGES = buildVtcLongtailPages(page);
+const VTC_IDF_PAGES = buildVtcIdfPages(page);
+var idfHub = VTC_IDF_PAGES.filter(function (p) {
+  return p.file === "assurance-vtc/ile-de-france/index.html";
+})[0];
+if (idfHub) {
+  idfHub.hubCityGrid = CITIES.filter(function (c) {
+    return c.regionSlug === "ile-de-france";
+  }).map(function (c) {
+    return { href: "/assurance-vtc/" + c.slug + "/", label: c.name };
+  });
+  idfHub.hubDeptGrid = [
+    { href: "/assurance-vtc/departement/paris/", label: "Paris (75)" },
+    { href: "/assurance-vtc/departement/hauts-de-seine/", label: "Hauts-de-Seine (92)" },
+    { href: "/assurance-vtc/departement/seine-saint-denis/", label: "Seine-Saint-Denis (93)" },
+    { href: "/assurance-vtc/departement/val-de-marne/", label: "Val-de-Marne (94)" },
+    { href: "/assurance-vtc/departement/seine-et-marne/", label: "Seine-et-Marne (77)" },
+    { href: "/assurance-vtc/departement/yvelines/", label: "Yvelines (78)" },
+    { href: "/assurance-vtc/departement/essonne/", label: "Essonne (91)" },
+    { href: "/assurance-vtc/departement/val-d-oise/", label: "Val-d Oise (95)" },
+    { href: "/assurance-vtc/aeroport-cdg/", label: "Aeroport CDG" },
+    { href: "/assurance-vtc/aeroport-orly/", label: "Aeroport Orly" },
+    { href: "/assurance-vtc/la-defense/", label: "La Defense" },
+    { href: "/assurance-vtc/paris-gares/", label: "Gares de Paris" },
+  ];
+}
 
 const ALL_PAGES = PAGES.concat(
   NICHE_PAGES,
   VTC_LONGTAIL_PAGES,
+  VTC_IDF_PAGES,
   buildPillarPageConfigs(page),
   buildGeoPageConfigs(CITIES, page),
   buildDeptPageConfigs(DEPARTMENTS, CITIES, page),
@@ -944,7 +999,8 @@ const mainUrls = allUrls
     return geoUrls.indexOf(u) < 0 && franceUrls.indexOf(u) < 0;
   })
   .concat(getNicheSitemapEntries(BASE))
-  .concat(getVtcLongtailSitemapEntries(BASE));
+  .concat(getVtcLongtailSitemapEntries(BASE))
+  .concat(getVtcIdfSitemapEntries(BASE));
 
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));

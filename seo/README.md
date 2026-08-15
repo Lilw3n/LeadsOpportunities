@@ -15,6 +15,18 @@
 node scripts/generate-seo-pages.cjs
 ```
 
+VTC **Île-de-France** (priorité) : hub `/assurance-vtc/ile-de-france/`, aéroports CDG/Orly, La Défense, gares, 20 arrondissements, photos `images/seo/vtc/`.
+
+```bash
+npm run seo:images   # photos Unsplash locales
+npm run seo:build
+npm run verify:seo-vtc-idf
+```
+
+```bash
+node scripts/generate-seo-pages.cjs
+```
+
 Commande tout-en-un :
 
 ```bash

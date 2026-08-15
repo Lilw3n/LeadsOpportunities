@@ -138,7 +138,13 @@ function chasseCitySections(city) {
 }
 
 function vtcCitySections(city) {
-  return [
+  var isIdf = city.regionSlug === "ile-de-france";
+  var localTip = pickVariant(city.slug, [
+    "Comparez RC Pro, dommages vehicule et franchises a garanties equivalentes — pas seulement la prime affichee.",
+    "Un bon CRM (bonus-malus) peut faire baisser la cotisation de plusieurs centaines d'euros par an.",
+    "Le vehicule de remplacement evite de perdre des courses apres un sinistre, surtout a temps plein.",
+  ]);
+  var sections = [
     {
       h2: "Assurance VTC a " + city.name,
       paragraphs: [
@@ -147,10 +153,7 @@ function vtcCitySections(city) {
           " (" +
           city.region +
           ") influence le risque percu par les assureurs (trafic, stationnement, sinistralite).",
-        pickVariant(city.slug, [
-          "Comparez RC Pro, dommages vehicule et franchises a garanties equivalentes — pas seulement la prime affichee.",
-          "Un bon CRM (bonus-malus) peut faire baisser la cotisation de plusieurs centaines d'euros par an.",
-        ]),
+        localTip,
       ],
       list: [
         "RC professionnelle et garanties conducteur",
@@ -158,14 +161,39 @@ function vtcCitySections(city) {
         "Creation d'activite ou renouvellement",
         "Demande de rappel via formulaire en ligne",
       ],
-    },
-    {
-      h2: "Guides et blog VTC",
-      paragraphs: [
-        "Consultez nos articles : payer moins cher, RC Pro, plateformes, resiliation. Pages locales comme celle-ci + hub national.",
-      ],
+      figure: isIdf
+        ? { file: "vtc/chauffeur-ville.jpg", alt: "Chauffeur VTC a " + city.name }
+        : { file: "vtc/berline-ville.jpg", alt: "Berline VTC — " + city.name },
     },
   ];
+  if (isIdf) {
+    sections.push({
+      h2: city.name + " dans l activite VTC francilienne",
+      paragraphs: [
+        pickVariant(city.slug, [
+          "Paris, CDG, Orly, La Defense et le peripherique structurent les courses. Un chauffeur base a " +
+            city.name +
+            " declare souvent un usage regional, pas uniquement communal.",
+          "Petite et grande couronne : les liaisons aéroports et gares parisiennes pèsent sur le kilométrage. Nous le faisons figurer dans le comparatif.",
+          "En Ile-de-France, le contrat doit autoriser le transport de personnes a titre onereux — une auto perso ne suffit pas pour Uber ou Bolt.",
+        ]),
+        "Consultez aussi le hub regional Ile-de-France, les pages aéroports et les arrondissements parisiens pour un maillage local precis.",
+      ],
+      list: [
+        "Hub VTC Ile-de-France",
+        "Aéroports CDG et Orly",
+        "La Defense et gares parisiennes",
+      ],
+      figure: { file: "vtc/paris-nuit.jpg", alt: "Ile-de-France de nuit — courses VTC depuis " + city.name },
+    });
+  }
+  sections.push({
+    h2: "Guides et blog VTC",
+    paragraphs: [
+      "Consultez nos articles : payer moins cher, RC Pro, plateformes, resiliation. Pages locales comme celle-ci + hub national.",
+    ],
+  });
+  return sections;
 }
 
 function equitationCitySections(city) {

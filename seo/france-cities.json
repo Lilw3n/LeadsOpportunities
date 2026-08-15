@@ -42,6 +42,13 @@
     "dept": "gard"
   },
   {
+    "slug": "alfortville",
+    "name": "Alfortville",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
+  },
+  {
     "slug": "amiens",
     "name": "Amiens",
     "region": "Hauts-de-France",
@@ -126,6 +133,13 @@
     "dept": "gers"
   },
   {
+    "slug": "aulnay-sous-bois",
+    "name": "Aulnay-sous-Bois",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-saint-denis"
+  },
+  {
     "slug": "aurillac",
     "name": "Aurillac",
     "region": "Auvergne-Rhone-Alpes",
@@ -145,6 +159,13 @@
     "region": "Provence-Alpes-Cote d Azur",
     "regionSlug": "provence-alpes-cote-d-azur",
     "dept": "vaucluse"
+  },
+  {
+    "slug": "bagnolet",
+    "name": "Bagnolet",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-saint-denis"
   },
   {
     "slug": "bastia",
@@ -215,6 +236,13 @@
     "region": "Centre-Val de Loire",
     "regionSlug": "centre-val-de-loire",
     "dept": "loir-et-cher"
+  },
+  {
+    "slug": "bondy",
+    "name": "Bondy",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-saint-denis"
   },
   {
     "slug": "bordeaux",
@@ -357,6 +385,13 @@
     "dept": "indre"
   },
   {
+    "slug": "chelles",
+    "name": "Chelles",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-et-marne"
+  },
+  {
     "slug": "cherbourg",
     "name": "Cherbourg-en-Cotentin",
     "region": "Normandie",
@@ -364,11 +399,25 @@
     "dept": "manche"
   },
   {
+    "slug": "choisy-le-roi",
+    "name": "Choisy-le-Roi",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
+  },
+  {
     "slug": "cholet",
     "name": "Cholet",
     "region": "Pays de la Loire",
     "regionSlug": "pays-de-la-loire",
     "dept": "maine-et-loire"
+  },
+  {
+    "slug": "clamart",
+    "name": "Clamart",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "hauts-de-seine"
   },
   {
     "slug": "clermont-ferrand",
@@ -490,6 +539,13 @@
     "dept": "vosges"
   },
   {
+    "slug": "epinay-sur-seine",
+    "name": "Epinay-sur-Seine",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-saint-denis"
+  },
+  {
     "slug": "evreux",
     "name": "Evreux",
     "region": "Normandie",
@@ -518,6 +574,13 @@
     "dept": "vendee"
   },
   {
+    "slug": "fontenay-sous-bois",
+    "name": "Fontenay-sous-Bois",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
+  },
+  {
     "slug": "fort-de-france",
     "name": "Fort-de-France",
     "region": "Martinique",
@@ -537,6 +600,20 @@
     "region": "Provence-Alpes-Cote d Azur",
     "regionSlug": "provence-alpes-cote-d-azur",
     "dept": "hautes-alpes"
+  },
+  {
+    "slug": "gennevilliers",
+    "name": "Gennevilliers",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "hauts-de-seine"
+  },
+  {
+    "slug": "gonesse",
+    "name": "Gonesse",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-d-oise"
   },
   {
     "slug": "grasse",
@@ -567,6 +644,13 @@
     "dept": "bas-rhin"
   },
   {
+    "slug": "houilles",
+    "name": "Houilles",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "yvelines"
+  },
+  {
     "slug": "hyeres",
     "name": "Hyeres",
     "region": "Provence-Alpes-Cote d Azur",
@@ -586,6 +670,13 @@
     "region": "Provence-Alpes-Cote d Azur",
     "regionSlug": "provence-alpes-cote-d-azur",
     "dept": "bouches-du-rhone"
+  },
+  {
+    "slug": "ivry-sur-seine",
+    "name": "Ivry-sur-Seine",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
   },
   {
     "slug": "la-roche-sur-yon",
@@ -728,6 +819,13 @@
     "dept": "bouches-du-rhone"
   },
   {
+    "slug": "massy",
+    "name": "Massy",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "essonne"
+  },
+  {
     "slug": "maubeuge",
     "name": "Maubeuge",
     "region": "Hauts-de-France",
@@ -770,6 +868,13 @@
     "dept": "moselle"
   },
   {
+    "slug": "meudon",
+    "name": "Meudon",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "hauts-de-seine"
+  },
+  {
     "slug": "mont-de-marsan",
     "name": "Mont-de-Marsan",
     "region": "Nouvelle-Aquitaine",
@@ -791,6 +896,13 @@
     "dept": "doubs"
   },
   {
+    "slug": "montigny-le-bretonneux",
+    "name": "Montigny-le-Bretonneux",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "yvelines"
+  },
+  {
     "slug": "montlucon",
     "name": "Montlucon",
     "region": "Auvergne-Rhone-Alpes",
@@ -810,6 +922,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "seine-saint-denis"
+  },
+  {
+    "slug": "montrouge",
+    "name": "Montrouge",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "hauts-de-seine"
   },
   {
     "slug": "morlaix",
@@ -861,6 +980,13 @@
     "dept": "aude"
   },
   {
+    "slug": "neuilly-sur-seine",
+    "name": "Neuilly-sur-Seine",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "hauts-de-seine"
+  },
+  {
     "slug": "nevers",
     "name": "Nevers",
     "region": "Bourgogne-Franche-Comte",
@@ -896,6 +1022,13 @@
     "dept": "seine-saint-denis"
   },
   {
+    "slug": "noisy-le-sec",
+    "name": "Noisy-le-Sec",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-saint-denis"
+  },
+  {
     "slug": "orange",
     "name": "Orange",
     "region": "Provence-Alpes-Cote d Azur",
@@ -910,11 +1043,25 @@
     "dept": "loiret"
   },
   {
+    "slug": "orly",
+    "name": "Orly",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
+  },
+  {
     "slug": "pamiers",
     "name": "Pamiers",
     "region": "Occitanie",
     "regionSlug": "occitanie",
     "dept": "ariege"
+  },
+  {
+    "slug": "pantin",
+    "name": "Pantin",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-saint-denis"
   },
   {
     "slug": "paris",
@@ -959,6 +1106,13 @@
     "dept": "guadeloupe"
   },
   {
+    "slug": "poissy",
+    "name": "Poissy",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "yvelines"
+  },
+  {
     "slug": "poitiers",
     "name": "Poitiers",
     "region": "Nouvelle-Aquitaine",
@@ -966,11 +1120,25 @@
     "dept": "vienne"
   },
   {
+    "slug": "pontoise",
+    "name": "Pontoise",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-d-oise"
+  },
+  {
     "slug": "privas",
     "name": "Privas",
     "region": "Auvergne-Rhone-Alpes",
     "regionSlug": "auvergne-rhone-alpes",
     "dept": "ardeche"
+  },
+  {
+    "slug": "puteaux",
+    "name": "Puteaux",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "hauts-de-seine"
   },
   {
     "slug": "quimper",
@@ -1020,6 +1188,13 @@
     "region": "Occitanie",
     "regionSlug": "occitanie",
     "dept": "aveyron"
+  },
+  {
+    "slug": "roissy-en-france",
+    "name": "Roissy-en-France",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-d-oise"
   },
   {
     "slug": "roubaix",
@@ -1127,6 +1302,13 @@
     "dept": "pas-de-calais"
   },
   {
+    "slug": "saint-ouen-sur-seine",
+    "name": "Saint-Ouen-sur-Seine",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "seine-saint-denis"
+  },
+  {
     "slug": "saint-paul-reunion",
     "name": "Saint-Paul",
     "region": "La Reunion",
@@ -1176,11 +1358,25 @@
     "dept": "moselle"
   },
   {
+    "slug": "sartrouville",
+    "name": "Sartrouville",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "yvelines"
+  },
+  {
     "slug": "saumur",
     "name": "Saumur",
     "region": "Pays de la Loire",
     "regionSlug": "pays-de-la-loire",
     "dept": "maine-et-loire"
+  },
+  {
+    "slug": "savigny-sur-orge",
+    "name": "Savigny-sur-Orge",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "essonne"
   },
   {
     "slug": "sete",
@@ -1202,6 +1398,13 @@
     "region": "Grand Est",
     "regionSlug": "grand-est",
     "dept": "bas-rhin"
+  },
+  {
+    "slug": "suresnes",
+    "name": "Suresnes",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "hauts-de-seine"
   },
   {
     "slug": "tarbes",
@@ -1309,6 +1512,13 @@
     "dept": "val-de-marne"
   },
   {
+    "slug": "villeneuve-saint-georges",
+    "name": "Villeneuve-Saint-Georges",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
+  },
+  {
     "slug": "villeurbanne",
     "name": "Villeurbanne",
     "region": "Auvergne-Rhone-Alpes",
@@ -1316,10 +1526,24 @@
     "dept": "rhone"
   },
   {
+    "slug": "vincennes",
+    "name": "Vincennes",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
+  },
+  {
     "slug": "verson",
     "name": "Vire",
     "region": "Normandie",
     "regionSlug": "normandie",
     "dept": "calvados"
+  },
+  {
+    "slug": "vitry-sur-seine",
+    "name": "Vitry-sur-Seine",
+    "region": "Ile-de-France",
+    "regionSlug": "ile-de-france",
+    "dept": "val-de-marne"
   }
 ]
