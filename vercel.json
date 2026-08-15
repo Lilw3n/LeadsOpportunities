@@ -31,6 +31,31 @@
       ],
       "destination": "https://www.leadsopportunities.fr/:path*",
       "permanent": true
+    },
+    {
+      "source": "/niches/dashboard.html",
+      "destination": "/dashboard.html",
+      "permanent": false
+    },
+    {
+      "source": "/niches/crm.html",
+      "destination": "/crm.html",
+      "permanent": false
+    },
+    {
+      "source": "/niches/crm-acquisition.html",
+      "destination": "/crm-acquisition.html",
+      "permanent": false
+    },
+    {
+      "source": "/niches/auth.html",
+      "destination": "/auth.html",
+      "permanent": false
+    },
+    {
+      "source": "/niches/blog-questionnaires.html",
+      "destination": "/blog-questionnaires.html",
+      "permanent": false
     }
   ],
   "rewrites": [

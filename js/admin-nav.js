@@ -6,21 +6,21 @@
   var USER_KEY = "lo_user";
 
   var LINKS = [
-    { href: "./index.html", label: "Accueil", id: "home" },
-    { href: "./dashboard.html", label: "Dashboard", id: "dashboard" },
-    { href: "./dashboard.html?section=leads", label: "Leads", id: "leads" },
-    { href: "./crm-acquisition.html", label: "Devis remplis", id: "crm-acquisition" },
-    { href: "./dashboard.html?section=partners", label: "Partenaires", id: "partners" },
-    { href: "./crm.html", label: "CRM", id: "crm" },
-    { href: "./blog-questionnaires.html", label: "Blog → devis", id: "blog-devis" },
-    { href: "./niches/", label: "Niches SEO", id: "niches" },
-    { href: "./auth.html", label: "Compte", id: "auth" },
+    { href: "/index.html", label: "Accueil", id: "home" },
+    { href: "/dashboard.html", label: "Dashboard", id: "dashboard" },
+    { href: "/dashboard.html?section=leads", label: "Leads", id: "leads" },
+    { href: "/crm-acquisition.html", label: "Devis remplis", id: "crm-acquisition" },
+    { href: "/dashboard.html?section=partners", label: "Partenaires", id: "partners" },
+    { href: "/crm.html", label: "CRM", id: "crm" },
+    { href: "/blog-questionnaires.html", label: "Blog → devis", id: "blog-devis" },
+    { href: "/niches/", label: "Niches SEO", id: "niches" },
+    { href: "/auth.html", label: "Compte", id: "auth" },
   ];
 
   var MOBILE_EXTRA = [
-    { href: "./landings/vtc.html", label: "Landing VTC", external: true },
-    { href: "./landings/sante.html", label: "Landing Sante", external: true },
-    { href: "./landings/credit-immo.html", label: "Landing Credit", external: true },
+    { href: "/landings/vtc.html", label: "Landing VTC", external: true },
+    { href: "/landings/sante.html", label: "Landing Sante", external: true },
+    { href: "/landings/credit-immo.html", label: "Landing Credit", external: true },
   ];
 
   function getUser() {
