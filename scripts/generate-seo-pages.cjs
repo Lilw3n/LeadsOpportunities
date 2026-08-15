@@ -24,6 +24,7 @@ const {
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
 const { buildVtcIdfPages, getVtcIdfSitemapEntries } = require("./seo-vtc-idf-pages.cjs");
+const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require("./seo-immo-destinations.cjs");
 const SeoImg = require("./seo-images-lib.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
@@ -468,6 +469,8 @@ const PAGES = [
     related: [
       { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
       { href: "/credit-immo/simulation/", label: "Simulation" },
+      { href: "/pret-immobilier/", label: "Pret immobilier — toutes les villes" },
+      { href: "/recherche-bien/", label: "Recherche de bien" },
       { href: "/credit-immo/villes/", label: "Credit immo par ville" },
       { href: "/credit-immo/paris/", label: "Credit immo Paris" },
       { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
@@ -939,6 +942,7 @@ function renderPage(p) {
 
 const VTC_LONGTAIL_PAGES = buildVtcLongtailPages(page);
 const VTC_IDF_PAGES = buildVtcIdfPages(page);
+const IMMO_DEST_PAGES = buildImmoDestinationPages(page, CITIES);
 var idfHub = VTC_IDF_PAGES.filter(function (p) {
   return p.file === "assurance-vtc/ile-de-france/index.html";
 })[0];
@@ -968,6 +972,7 @@ const ALL_PAGES = PAGES.concat(
   NICHE_PAGES,
   VTC_LONGTAIL_PAGES,
   VTC_IDF_PAGES,
+  IMMO_DEST_PAGES,
   buildPillarPageConfigs(page),
   buildGeoPageConfigs(CITIES, page),
   buildDeptPageConfigs(DEPARTMENTS, CITIES, page),
@@ -988,7 +993,9 @@ const allUrls = collectSitemapUrls(CITIES, DEPARTMENTS, REGIONS, BASE);
 const geoUrls = allUrls.filter(function (u) {
   return (
     u.loc.indexOf("/assurance-") > -1 ||
-    u.loc.indexOf("/credit-immo/") > -1
+    u.loc.indexOf("/credit-immo/") > -1 ||
+    u.loc.indexOf("/pret-immobilier/") > -1 ||
+    u.loc.indexOf("/recherche-bien/") > -1
   );
 });
 const franceUrls = allUrls.filter(function (u) {
@@ -1000,7 +1007,8 @@ const mainUrls = allUrls
   })
   .concat(getNicheSitemapEntries(BASE))
   .concat(getVtcLongtailSitemapEntries(BASE))
-  .concat(getVtcIdfSitemapEntries(BASE));
+  .concat(getVtcIdfSitemapEntries(BASE))
+  .concat(getImmoDestinationSitemapEntries(BASE));
 
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));

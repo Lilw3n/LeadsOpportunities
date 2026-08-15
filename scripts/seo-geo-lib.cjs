@@ -4,6 +4,7 @@
 const fs = require("fs");
 const path = require("path");
 const contentLib = require("./seo-content-lib.cjs");
+const immoLib = require("./seo-immo-content-lib.cjs");
 
 const DEFAULT_GEO_STEPS = [
   { title: "Demande en ligne", text: "Formulaire ou demande de rappel sur le site." },
@@ -171,6 +172,123 @@ const GEO_PRODUCTS = [
         },
       ];
     },
+    extraRelated: [
+      { href: "/pret-immobilier/", label: "Pret immobilier (silo villes)" },
+      { href: "/recherche-bien/", label: "Recherche de bien" },
+      { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
+      { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
+    ],
+  },
+  {
+    key: "pret",
+    theme: "credit",
+    dir: "pret-immobilier",
+    siloLabel: "Pret immobilier",
+    siloUrl: "/pret-immobilier/",
+    hubUrl: "/pret-immobilier/villes/",
+    hubDeptUrl: "/pret-immobilier/departements/",
+    landing: "/landings/credit-immo.html",
+    landingForCity: function (city) {
+      return "/landings/credit-immo.html?ville=" + encodeURIComponent(city.name);
+    },
+    ctaLabel: function (city) {
+      return "Simulation pret " + city.name;
+    },
+    title: function (city) {
+      return "Pret immobilier " + city.name + " | Taux, apport, courtier " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Pret immobilier a " +
+        city.name +
+        " (" +
+        city.region +
+        ") : simulation capacite d emprunt, apport, assurance emprunteur. Courtier ORIAS, iles et metropole."
+      );
+    },
+    h1: function (city) {
+      return "Pret immobilier a " + city.name;
+    },
+    intro: function (city) {
+      var p = immoLib.profile(city);
+      return (
+        "Vous financez un bien a " +
+        city.name +
+        " ? " +
+        p.loan +
+        ". Simulation gratuite, dossier banque et assurance emprunteur."
+      );
+    },
+    sections: immoLib.pretCitySections,
+    faq: immoLib.pretCityFaq,
+    geoSteps: [
+      { title: "Projet et ville", text: "RP, secondaire ou locatif — budget et apport." },
+      { title: "Faisabilite pret", text: "Capacite, banques, assurance emprunteur." },
+      { title: "Offre", text: "Pieces, negociation, signature." },
+    ],
+    extraRelated: [
+      { href: "/pret-immobilier/iles-francaises/", label: "Pret — iles francaises" },
+      { href: "/pret-immobilier/dom-tom/", label: "Pret — DOM-TOM" },
+      { href: "/pret-immobilier/destinations/", label: "Pret — destinations" },
+      { href: "/recherche-bien/", label: "Recherche de bien" },
+      { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
+      { href: "/credit-immo/", label: "Guide credit immo" },
+    ],
+  },
+  {
+    key: "recherche",
+    theme: "credit",
+    dir: "recherche-bien",
+    siloLabel: "Recherche de bien",
+    siloUrl: "/recherche-bien/",
+    hubUrl: "/recherche-bien/villes/",
+    hubDeptUrl: "/recherche-bien/departements/",
+    landing: "/landings/acheteur-immo.html",
+    landingForCity: function (city) {
+      return "/landings/acheteur-immo.html?ville=" + encodeURIComponent(city.name);
+    },
+    ctaLabel: function (city) {
+      return "Chercher un bien a " + city.name;
+    },
+    title: function (city) {
+      return "Recherche de bien " + city.name + " | Achat immobilier " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Recherche de bien a " +
+        city.name +
+        " : appartements, maisons, villas. Budget pret, courtier, metropole et iles."
+      );
+    },
+    h1: function (city) {
+      return "Recherche de bien a " + city.name;
+    },
+    intro: function (city) {
+      var p = immoLib.profile(city);
+      return (
+        "Trouver un bien a " +
+        city.name +
+        " (" +
+        p.label +
+        ") : " +
+        p.search +
+        "."
+      );
+    },
+    sections: immoLib.rechercheCitySections,
+    faq: immoLib.rechercheCityFaq,
+    geoSteps: [
+      { title: "Criteres", text: "Ville, type, budget, usage." },
+      { title: "Enveloppe pret", text: "Mensualite cible avant les visites." },
+      { title: "Selection", text: "Biens finançables, offre, compromis." },
+    ],
+    extraRelated: [
+      { href: "/recherche-bien/iles-francaises/", label: "Recherche — iles" },
+      { href: "/recherche-bien/dom-tom/", label: "Recherche — outre-mer" },
+      { href: "/recherche-bien/destinations/", label: "Recherche — destinations" },
+      { href: "/pret-immobilier/", label: "Pret immobilier" },
+      { href: "/landings/acheteur-immo.html", label: "Wizard acheteur" },
+    ],
   },
   {
     key: "auto",
@@ -615,6 +733,17 @@ const GEO_PRODUCTS = [
 
 function crossLinksForCity(product, city) {
   var links = [];
+  if (product.key === "pret") {
+    links.push({ href: "/recherche-bien/" + city.slug + "/", label: "Recherche de bien " + city.name });
+    links.push({ href: "/credit-immo/" + city.slug + "/", label: "Credit immo " + city.name });
+  }
+  if (product.key === "recherche") {
+    links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Pret immobilier " + city.name });
+  }
+  if (product.key === "credit") {
+    links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Pret immobilier " + city.name });
+    links.push({ href: "/recherche-bien/" + city.slug + "/", label: "Recherche de bien " + city.name });
+  }
   if (product.key === "animaux" || product.key === "chien" || product.key === "chat") {
     if (product.key !== "chien") {
       links.push({
@@ -664,7 +793,10 @@ function buildGeoPageConfigs(cities, pageFn) {
           description: product.description(city),
           h1: product.h1(city),
           intro: product.intro(city),
-          cta: { href: product.landing, label: product.ctaLabel(city) },
+          cta: {
+            href: product.landingForCity ? product.landingForCity(city) : product.landing,
+            label: product.ctaLabel(city),
+          },
           city: city,
           crumbs: [
             { name: "Accueil", url: "/" },
@@ -1111,6 +1243,8 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
           list: [
             "Assurance VTC — chauffeurs et creation d activite",
             "Mutuelle sante — particuliers, familles, independants",
+            "Pret immobilier — villes, iles, DOM-TOM et destinations",
+            "Recherche de bien — achat accompagne, budget pret",
             "Credit immobilier — primo-accedants et investisseurs",
             "Assurance auto — tous profils conducteurs",
             "Assurance habitation — locataires et proprietaires",
@@ -1125,6 +1259,8 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
         { href: "/assurance-sante/villes/", label: "Villes mutuelle" },
         { href: "/assurance-auto/villes/", label: "Villes auto" },
         { href: "/assurance-habitation/villes/", label: "Villes habitation" },
+        { href: "/pret-immobilier/villes/", label: "Villes pret immobilier" },
+        { href: "/recherche-bien/villes/", label: "Villes recherche de bien" },
         { href: "/credit-immo/villes/", label: "Villes credit immo" },
       ],
       faq: [
@@ -1179,6 +1315,14 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/vtc.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/credit-immo.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/acheteur-immo.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/pret-immobilier/", priority: "0.94", changefreq: "weekly" },
+    { loc: base + "/pret-immobilier/villes/", priority: "0.92", changefreq: "weekly" },
+    { loc: base + "/pret-immobilier/iles-francaises/", priority: "0.93", changefreq: "weekly" },
+    { loc: base + "/pret-immobilier/dom-tom/", priority: "0.92", changefreq: "weekly" },
+    { loc: base + "/pret-immobilier/destinations/", priority: "0.91", changefreq: "weekly" },
+    { loc: base + "/recherche-bien/", priority: "0.93", changefreq: "weekly" },
+    { loc: base + "/recherche-bien/villes/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/landings/devis.html", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/landings/devis-rapide.html", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/landings/animaux.html", priority: "0.92", changefreq: "weekly" },
@@ -1258,6 +1402,10 @@ function collectSitemapUrls(cities, departments, regions, base) {
             ? city.slug === "paris"
               ? "0.86"
               : "0.8"
+            : product.key === "pret" && (immoLib.isIsland(city) || city.slug === "paris" || immoLib.isDestination(city))
+              ? "0.84"
+              : product.key === "recherche" && (immoLib.isIsland(city) || immoLib.isDestination(city))
+                ? "0.8"
             : city.slug === "paris"
               ? "0.78"
               : "0.68",
