@@ -55,7 +55,8 @@
     });
 
     document.getElementById("btnPrint").onclick = function () {
-      window.print();
+      if (window.PrintDocument) window.PrintDocument.fromQuote(q, contact || {});
+      else window.print();
     };
     var btnContract = document.getElementById("btnCreateContract");
     if (btnContract) {

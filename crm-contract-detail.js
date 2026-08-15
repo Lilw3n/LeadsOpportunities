@@ -22,8 +22,16 @@
       encodeURIComponent(contactId);
     linkAv.classList.remove("hidden");
   }
+  var lastContract = null;
+  var lastContact = null;
+  var lastExtras = {};
+
   document.getElementById("btnPrint").onclick = function () {
-    window.print();
+    if (window.PrintDocument && lastContract) {
+      window.PrintDocument.fromContract(lastContract, lastContact || {}, lastExtras);
+    } else {
+      window.print();
+    }
   };
 
   fetch("/api/crm/contact?id=" + encodeURIComponent(contactId), {
@@ -48,10 +56,13 @@
         return;
       }
       var name = ((res.contact.first_name || "") + " " + (res.contact.last_name || "")).trim();
-      window.CrmContractReading.render(document.getElementById("contractMount"), contract, res.contact, {
+      lastContract = contract;
+      lastContact = res.contact;
+      lastExtras = {
         contactName: name || res.contact.email,
         vehicles: res.vehicles,
         claims: res.claims,
-      });
+      };
+      window.CrmContractReading.render(document.getElementById("contractMount"), contract, res.contact, lastExtras);
     });
 })();

@@ -29,9 +29,13 @@
       <option value="Résilié">Résilié</option>
     </select></label>
     <label style="display:block;margin-top:12px">Motif / description avenant<textarea name="notes" rows="5" required placeholder="Détail de l'avenant, documents joints…" style="width:100%;padding:10px;margin-top:4px;border:1px solid var(--line);border-radius:8px;box-sizing:border-box"></textarea></label>
-    <button type="submit" class="btn btn-primary" style="margin-top:16px">Enregistrer l'avenant</button>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+      <button type="submit" class="btn btn-primary">Enregistrer l'avenant</button>
+      <button type="button" class="btn btn-ghost" id="btnPrintAvenant">Imprimer / PDF</button>
+    </div>
     <p id="avMsg" style="margin-top:12px;color:#b91c1c"></p>
   </form>
+    <script src="./js/print-document-lib.js"></script>
     <script src="./js/crm-prefill-contact-id.js"></script>
 <script src="./crm-contract-avenant.js"></script>
   <script src="./js/admin-nav.js"></script>
