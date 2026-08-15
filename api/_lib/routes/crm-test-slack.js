@@ -23,7 +23,8 @@ module.exports = async (req, res) => {
       return res.status(result.error && result.error.indexOf("non défini") >= 0 ? 503 : 502).json({
         ok: false,
         error: result.error,
-        hint: "Vercel → Settings → Environment Variables → SLACK_BOT_TOKEN ou SLACK_WEBHOOK_URL → Redeploy",
+        hint:
+          "Vercel → SLACK_WEBHOOK_URL = https://hooks.slack.com/services/… (URL complète) ou SLACK_BOT_TOKEN = xoxb-… → Redeploy",
       });
     }
     return res.status(200).json({ ok: true, message: "Message test envoyé sur Slack" });

@@ -40,7 +40,7 @@ Le token n’est **jamais** dans le git — uniquement Vercel → Environment Va
 
 | Variable | Valeur |
 |----------|--------|
-| `SLACK_WEBHOOK_URL` | URL Incoming Webhook copiée |
+| `SLACK_WEBHOOK_URL` | URL Incoming Webhook **complète** (`https://hooks.slack.com/services/T…/B…/…`). Un hash / signing secret seul fait échouer `fetch`. |
 
 **Redeploy** Vercel.
 

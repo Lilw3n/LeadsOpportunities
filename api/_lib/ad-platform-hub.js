@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { readJson, buildRotationState } = require("./meta-campaign-rotation");
-const { slackConfigured } = require("./slack-notify");
+const { slackStatus } = require("./slack-notify");
 
 const HUB_PATH = path.join(process.cwd(), "config/ad-platform-hub.json");
 const FORMS_PATH = path.join(process.cwd(), "config/meta-lead-forms.json");
@@ -46,14 +46,17 @@ async function buildPubsHub(options) {
   var actu = rotation && rotation.intelligence && rotation.intelligence.actu_override;
   var vspCfg = readJson(VSP_DISCRET_PATH);
   var vspCampaign = vspCfg && vspCfg.campaign ? vspCfg.campaign : null;
-  var slackConfiguredFlag = slackConfigured();
+  var slack = slackStatus();
 
   return {
     ok: true,
     accounts: hub.accounts,
     notifications: {
       slack: {
-        configured: slackConfiguredFlag,
+        configured: slack.configured,
+        webhook_ok: slack.webhook_ok,
+        token_ok: slack.token_ok,
+        webhook_invalid: slack.webhook_invalid,
         env_var: "SLACK_BOT_TOKEN / SLACK_WEBHOOK_URL",
         doc: "./docs/SLACK-WITHALLO-NOTIFS.md",
       },
