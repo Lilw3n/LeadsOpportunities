@@ -50,10 +50,11 @@
       (ok ? "Configuré ✓" : "Token / webhook manquant") +
       "</span></div>" +
       "<p style=\"color:var(--muted)\">Chaque lead (site + Meta Lead Ads) et chaque fiche interlocuteur envoie une alerte Slack. Variable : <strong>SLACK_BOT_TOKEN</strong> (ou webhook).</p>" +
-      (s.webhook_invalid
-        ? '<p style="color:#b91c1c;font-size:.9rem">SLACK_WEBHOOK_URL n’est pas une URL. Collez <code>https://hooks.slack.com/services/…</code> (pas le signing secret). ' +
-          (s.token_ok ? "Le test utilisera le token bot." : "Ajoutez aussi SLACK_BOT_TOKEN (xoxb-…).") +
-          "</p>"
+      (s.webhook_invalid && s.token_ok
+        ? '<p style="color:var(--muted);font-size:.88rem">Le token bot suffit. Sur Vercel vous pouvez <strong>supprimer SLACK_WEBHOOK_URL</strong> (ce n’est pas une URL Slack, souvent un signing secret). Inutile de coller l’exemple hooks.slack.com — uniquement une vraie URL Incoming Webhook si vous en créez une.</p>'
+        : "") +
+      (s.webhook_invalid && !s.token_ok
+        ? '<p style="color:#b91c1c;font-size:.9rem">SLACK_WEBHOOK_URL n’est pas une URL Slack. Créez un Incoming Webhook dans Slack et collez l’URL complète, ou ajoutez SLACK_BOT_TOKEN (xoxb-…).</p>'
         : "") +
       (s.token_ok
         ? '<p style="color:var(--muted);font-size:.88rem">Canal visé : <strong>#' +
