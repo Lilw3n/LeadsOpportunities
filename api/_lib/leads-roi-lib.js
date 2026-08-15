@@ -73,18 +73,22 @@ function topEntries(map, limit) {
 }
 
 function computeSpend(paid, daysList, dailyBudget, actualByDay) {
+  var periodDays = (daysList || []).length;
   if (!paid) {
     return {
       spend_eur: 0,
       estimated_eur: 0,
       actual_eur: 0,
       actual_days: 0,
+      estimated_days: 0,
+      period_days: periodDays,
       daily_budget_eur: 0,
     };
   }
   var estimated = 0;
   var actual = 0;
   var actualDays = 0;
+  var estimatedDays = 0;
   var budget = Number(dailyBudget) || 0;
   (daysList || []).forEach(function (day) {
     if (actualByDay && actualByDay[day] != null && actualByDay[day] !== "") {
@@ -92,6 +96,7 @@ function computeSpend(paid, daysList, dailyBudget, actualByDay) {
       actualDays++;
     } else {
       estimated += budget;
+      estimatedDays++;
     }
   });
   return {
@@ -99,6 +104,8 @@ function computeSpend(paid, daysList, dailyBudget, actualByDay) {
     estimated_eur: round2(estimated) || 0,
     actual_eur: round2(actual) || 0,
     actual_days: actualDays,
+    estimated_days: estimatedDays,
+    period_days: periodDays,
     daily_budget_eur: round2(budget) || 0,
   };
 }
@@ -180,6 +187,8 @@ function aggregateLeadsRoi(rows, opts) {
       estimated_eur: spend.estimated_eur,
       actual_eur: spend.actual_eur,
       actual_days: spend.actual_days,
+      estimated_days: spend.estimated_days,
+      period_days: spend.period_days,
       daily_budget_eur: spend.daily_budget_eur,
       cpl_eur: cpl(spend.spend_eur, b.leads),
       cpl_qualified_eur: cpl(spend.spend_eur, b.qualified),
@@ -192,6 +201,18 @@ function aggregateLeadsRoi(rows, opts) {
 
   var spendTotal = platforms.reduce(function (s, p) {
     return s + (p.paid ? Number(p.spend_eur) || 0 : 0);
+  }, 0);
+  var actualEurTotal = platforms.reduce(function (s, p) {
+    return s + (p.paid ? Number(p.actual_eur) || 0 : 0);
+  }, 0);
+  var estimatedEurTotal = platforms.reduce(function (s, p) {
+    return s + (p.paid ? Number(p.estimated_eur) || 0 : 0);
+  }, 0);
+  var actualDaysTotal = platforms.reduce(function (s, p) {
+    return s + (p.paid ? Number(p.actual_days) || 0 : 0);
+  }, 0);
+  var estimatedDaysTotal = platforms.reduce(function (s, p) {
+    return s + (p.paid ? Number(p.estimated_days) || 0 : 0);
   }, 0);
   var paidLeads = platforms.reduce(function (s, p) {
     return s + (p.paid ? p.leads : 0);
@@ -238,6 +259,11 @@ function aggregateLeadsRoi(rows, opts) {
     organic_leads: total - paidLeads,
     qualified: qualifiedTotal,
     spend_eur: round2(spendTotal) || 0,
+    actual_eur: round2(actualEurTotal) || 0,
+    estimated_eur: round2(estimatedEurTotal) || 0,
+    actual_days: actualDaysTotal,
+    estimated_days: estimatedDaysTotal,
+    period_days: daysList.length,
     cpl_eur: cpl(spendTotal, paidLeads),
     cpl_all_eur: cpl(spendTotal, total),
     cpl_qualified_eur: cpl(spendTotal, qualifiedTotal),

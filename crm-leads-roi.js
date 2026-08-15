@@ -65,8 +65,18 @@
       '<div class="acq-stat">Qualifiés (≥70) <strong>' +
       k.qualified +
       "</strong></div>" +
-      '<div class="acq-stat">Dépense <strong>' +
+      '<div class="acq-stat">Dépense totale <strong>' +
       euro(k.spend_eur) +
+      "</strong></div>" +
+      '<div class="acq-stat">Jours validés <strong>' +
+      (k.actual_days || 0) +
+      " j · " +
+      euro(k.actual_eur) +
+      "</strong></div>" +
+      '<div class="acq-stat">Jours non validés <strong>' +
+      (k.estimated_days || 0) +
+      " j · " +
+      euro(k.estimated_eur) +
       "</strong></div>" +
       '<div class="acq-stat">CPL pubs <strong class="' +
       moneyClass(k.cpl_eur) +
@@ -163,10 +173,23 @@
           '<input type="number" name="daily" class="crm-input" min="0" step="0.01" value="' +
           (p.daily_budget_eur || 0) +
           '" /></label>' +
-          '<p class="roi-card-meta">Estimé période : ' +
+          '<div class="roi-spend-split">' +
+          '<p class="roi-card-meta roi-card-meta--ok">Jours validés : <strong>' +
+          euro(p.actual_eur) +
+          "</strong> (" +
+          (p.actual_days || 0) +
+          " j)</p>" +
+          '<p class="roi-card-meta">Jours non validés : <strong>' +
           euro(p.estimated_eur) +
-          (p.actual_days ? " · réel saisi : " + euro(p.actual_eur) + " (" + p.actual_days + " j)" : "") +
-          "</p>" +
+          "</strong> (" +
+          (p.estimated_days || 0) +
+          " j)</p>" +
+          '<p class="roi-card-meta roi-card-meta--total">Total période : <strong>' +
+          euro(p.spend_eur) +
+          "</strong> (" +
+          (p.period_days || (p.actual_days || 0) + (p.estimated_days || 0)) +
+          " j)</p>" +
+          "</div>" +
           '<button type="submit" class="btn btn-ghost btn-sm">Enregistrer</button>' +
           "</form>"
         );
@@ -174,12 +197,48 @@
       .join("");
   }
 
+  function tableFootHtml(platforms) {
+    var paid = (platforms || []).filter(function (p) {
+      return p.paid;
+    });
+    if (!paid.length) return "";
+    var leads = 0;
+    var actualDays = 0;
+    var estimatedDays = 0;
+    var actualEur = 0;
+    var estimatedEur = 0;
+    var spend = 0;
+    paid.forEach(function (p) {
+      leads += p.leads || 0;
+      actualDays += p.actual_days || 0;
+      estimatedDays += p.estimated_days || 0;
+      actualEur += Number(p.actual_eur) || 0;
+      estimatedEur += Number(p.estimated_eur) || 0;
+      spend += Number(p.spend_eur) || 0;
+    });
+    return (
+      "<tfoot><tr><th>Total pubs</th><th>" +
+      leads +
+      "</th><th></th><th></th><th></th><th></th><th></th><th>" +
+      actualDays +
+      " j</th><th>" +
+      euro(actualEur) +
+      "</th><th>" +
+      estimatedDays +
+      " j</th><th>" +
+      euro(estimatedEur) +
+      "</th><th>" +
+      euro(spend) +
+      "</th><th></th><th></th></tr></tfoot>"
+    );
+  }
+
   function tableHtml(platforms) {
     if (!platforms || !platforms.length) return "<p>Aucune donnée.</p>";
     return (
       '<div class="table-wrap"><table class="roi-table"><thead><tr>' +
       "<th>Réseau</th><th>Leads</th><th>%</th><th>Score</th><th>Qualifiés</th><th>Convertis</th>" +
-      "<th>Budget/j</th><th>Dépense</th><th>CPL</th><th>CPL qualifié</th>" +
+      "<th>Budget/j</th><th>J. validés</th><th>Réel</th><th>J. non validés</th><th>Estimé</th><th>Total</th><th>CPL</th><th>CPL qualifié</th>" +
       "</tr></thead><tbody>" +
       platforms
         .map(function (p) {
@@ -201,6 +260,14 @@
             "</td><td>" +
             euro(p.daily_budget_eur) +
             "</td><td>" +
+            (p.paid ? (p.actual_days || 0) + " j" : "—") +
+            "</td><td>" +
+            euro(p.actual_eur) +
+            "</td><td>" +
+            (p.paid ? (p.estimated_days || 0) + " j" : "—") +
+            "</td><td>" +
+            euro(p.estimated_eur) +
+            "</td><td>" +
             euro(p.spend_eur) +
             "</td><td class=\"" +
             moneyClass(p.cpl_eur) +
@@ -212,7 +279,9 @@
           );
         })
         .join("") +
-      "</tbody></table></div>"
+      "</tbody>" +
+      tableFootHtml(platforms) +
+      "</table></div>"
     );
   }
 

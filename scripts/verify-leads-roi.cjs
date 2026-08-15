@@ -29,6 +29,9 @@ assert(Math.abs(sum - 10) < 0.02, "somme répartition = 10 (got " + sum + ")");
 
 var spend = Roi.computeSpend(true, ["2026-08-01", "2026-08-02"], 1, { "2026-08-01": 4 });
 assert(spend.spend_eur === 5, "mix réel + budget (got " + spend.spend_eur + ")");
+assert(spend.actual_days === 1 && spend.actual_eur === 4, "1 jour validé = 4 €");
+assert(spend.estimated_days === 1 && spend.estimated_eur === 1, "1 jour non validé = 1 €");
+assert(spend.period_days === 2, "période 2 jours");
 assert(Roi.computeSpend(false, ["2026-08-01"], 9, {}).spend_eur === 0, "organique = 0 €");
 
 var rows = [
@@ -88,6 +91,9 @@ assert(html.indexOf("Dashboard leads avancé") >= 0, "titre page");
 var js = read("crm-leads-roi.js");
 assert(js.indexOf("/api/crm/leads-roi") >= 0, "JS appelle l’API");
 assert(js.indexOf("op: \"budget\"") >= 0 || js.indexOf("op: 'budget'") >= 0, "POST budget");
+assert(js.indexOf("Jours non validés") >= 0, "total jours non validés affiché");
+assert(js.indexOf("Total période") >= 0, "total période par plateforme");
+assert(js.indexOf("tableFootHtml") >= 0, "ligne total pubs du tableau");
 
 var api = read("api/crm/[action].js");
 assert(api.indexOf("leads-roi") >= 0, "route CRM enregistrée");

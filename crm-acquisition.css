@@ -564,6 +564,26 @@
   line-height: 1.4;
 }
 
+.roi-spend-split {
+  margin: 0 0 10px;
+}
+
+.roi-spend-split .roi-card-meta {
+  margin: 0 0 4px;
+}
+
+.roi-card-meta--ok {
+  color: #166534;
+}
+
+.roi-card-meta--total {
+  color: #0f172a;
+  font-weight: 600;
+  border-top: 1px dashed var(--line);
+  padding-top: 6px;
+  margin-top: 4px;
+}
+
 .roi-cost-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -614,6 +634,14 @@
   text-align: left;
   padding: 8px 10px;
   border-bottom: 1px solid var(--line);
+}
+
+.roi-table tfoot th,
+.roi-table tfoot td {
+  border-bottom: none;
+  border-top: 2px solid var(--line);
+  font-weight: 700;
+  background: #f8fafc;
 }
 
 .roi-good {
