@@ -57,6 +57,7 @@ async function buildPubsHub(options) {
         webhook_ok: slack.webhook_ok,
         token_ok: slack.token_ok,
         webhook_invalid: slack.webhook_invalid,
+        channel: slack.channel,
         env_var: "SLACK_BOT_TOKEN / SLACK_WEBHOOK_URL",
         doc: "./docs/SLACK-WITHALLO-NOTIFS.md",
       },

@@ -55,6 +55,11 @@
           (s.token_ok ? "Le test utilisera le token bot." : "Ajoutez aussi SLACK_BOT_TOKEN (xoxb-…).") +
           "</p>"
         : "") +
+      (s.token_ok
+        ? '<p style="color:var(--muted);font-size:.88rem">Canal visé : <strong>#' +
+          esc(s.channel || "leads") +
+          "</strong>. Si le test dit « canal introuvable », invitez l’app dans ce canal Slack (Intégrations → Ajouter des applications) ou changez <code>SLACK_CHANNEL</code> sur Vercel.</p>"
+        : "") +
       (ok
         ? '<p><button type="button" class="btn btn-primary btn-sm" id="btnTestSlack">Envoyer un test Slack</button> <span id="slackTestResult" style="margin-left:8px;color:var(--muted)"></span></p>'
         : '<ol style="color:var(--muted);margin:8px 0 0 18px;line-height:1.6"><li>Ouvrir l’app Slack <a href="https://api.slack.com/apps/A0BQ6Q905KM" target="_blank" rel="noopener">Leads Opportunities CRM</a></li><li>OAuth &amp; Permissions → <strong>Install to Workspace</strong> → choisir le canal (ex. #leads)</li><li>Copier le <strong>Bot User OAuth Token</strong> (<code>xoxb-…</code>) dans Vercel → <strong>SLACK_BOT_TOKEN</strong> <em>ou</em> l’Incoming Webhook → <strong>SLACK_WEBHOOK_URL</strong></li><li>Redeploy puis cliquer « Tester Slack »</li></ol>') +

@@ -28,6 +28,11 @@ process.env.SLACK_BOT_TOKEN = "xoxb-test-token";
 assert(Slack.slackConfigured(), "token OK malgré webhook invalide");
 assert(Slack.slackStatus().token_ok, "statut token_ok");
 assert(Slack.slackStatus().webhook_invalid, "statut webhook_invalid");
+assert(Slack.defaultChannel() === "leads", "canal défaut leads");
+process.env.SLACK_CHANNEL = "#alertes";
+assert(Slack.defaultChannel() === "alertes", "SLACK_CHANNEL sans #");
+delete process.env.SLACK_CHANNEL;
+assert(Slack.channelHelpError("leads", "channel_not_found").indexOf("Canal Slack") >= 0, "aide canal");
 
 assert(
   Slack.normalizeWebhookUrl("T00000000/B00000000/abcdef0123456789") ===
