@@ -274,6 +274,8 @@ module.exports = {
       related: [
         { href: "./canicule-degats-eaux-assurance-habitation.html", label: "Canicule habitation & sante" },
         { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle 2026" },
+        { href: "./canicule-enfants-famille-mutuelle.html", label: "Canicule et mutuelle famille" },
+        { href: "./canicule-maladies-chroniques-mutuelle.html", label: "Maladies chroniques et canicule" },
         { href: "../assurance-sante/", label: "Mutuelle sante" },
       ],
     },
@@ -364,6 +366,8 @@ module.exports = {
       ],
       related: [
         { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur seniors" },
+        { href: "./canicule-enfants-famille-mutuelle.html", label: "Canicule enfants et famille" },
+        { href: "./canicule-teleconsultation-medecin-mutuelle.html", label: "Téléconsultation canicule" },
         { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle" },
         { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
       ],
@@ -2535,6 +2539,11 @@ module.exports = {
 
 const { applyUpgrades } = require("./blog-articles-upgrades.cjs");
 applyUpgrades(module.exports.articles);
+
+const caniculeMutuelle = require("./blog-canicule-mutuelle-articles.cjs");
+caniculeMutuelle.forEach(function (a) {
+  module.exports.articles.push(a);
+});
 
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();

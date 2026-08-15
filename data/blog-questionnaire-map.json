@@ -249,6 +249,36 @@
       "hook": "Insolation ou coup de chaleur : l'hospitalisation peut coûter cher sans mutuelle adaptée.",
       "question": "Votre mutuelle couvre-t-elle bien les urgences et l'hospitalisation en période de canicule ?"
     },
+    "canicule-enfants-famille-mutuelle.html": {
+      "section": "sante",
+      "hook": "Enfants et canicule : insolation et urgences pédiatriques — la mutuelle famille limite le reste à charge.",
+      "question": "Votre mutuelle famille couvre-t-elle bien pédiatre, téléconsultation et hospitalisation ?"
+    },
+    "canicule-maladies-chroniques-mutuelle.html": {
+      "section": "sante",
+      "hook": "Diabète, tension, traitements : la canicule aggrave les risques — vérifiez analyses et hospitalisation.",
+      "question": "Votre mutuelle complète-t-elle bien l'ALD et les urgences hors pathologie ?"
+    },
+    "canicule-teleconsultation-medecin-mutuelle.html": {
+      "section": "sante",
+      "hook": "Cabinets fermés, urgences saturées : la téléconsultation est le premier recours — encore faut-il qu'elle soit remboursée.",
+      "question": "Votre mutuelle rembourse-t-elle vraiment la téléconsultation ?"
+    },
+    "canicule-travailleurs-exterieur-mutuelle.html": {
+      "section": "sante",
+      "hook": "Chantier, livraison, champs : un coup de chaleur au travail coûte cher sans mutuelle adaptée.",
+      "question": "Indépendant ou salarié exposé : votre mutuelle (et prévoyance) sont-elles à jour ?"
+    },
+    "canicule-vigilance-meteo-france-mutuelle.html": {
+      "section": "sante",
+      "hook": "Alerte orange ou rouge : relisez hospitalisation et téléconsultation avant le pic.",
+      "question": "Avez-vous votre attestation mutuelle et des plafonds hospitalisation suffisants ?"
+    },
+    "canicule-grossesse-mutuelle-maternite.html": {
+      "section": "sante",
+      "hook": "Grossesse et canicule : suivi, malaises et mutuelle maternité (chambre, honoraires, carence).",
+      "question": "Votre forfait maternité et l'hospitalisation sont-ils adaptés à cet été ?"
+    },
     "feu-friteuse-cuisine-assurance-habitation.html": {
       "section": "habitat",
       "hook": "Un feu de friteuse peut coûter des milliers d'euros — votre MRH est-elle bien calibrée ?",

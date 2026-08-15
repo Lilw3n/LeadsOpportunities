@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-02",
+  "updated": "2026-08-15",
   "sections": [
     "actu",
     "animaux",
@@ -843,6 +843,84 @@
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard",
       "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "canicule-enfants-famille-mutuelle.html",
+      "title": "Canicule et enfants : insolation, urgences pédiatriques et mutuelle famille",
+      "section": "sante",
+      "hook": "Enfants et canicule : insolation et urgences pédiatriques — la mutuelle famille limite le reste à charge.",
+      "question": "Votre mutuelle famille couvre-t-elle bien pédiatre, téléconsultation et hospitalisation ?",
+      "need": "sante",
+      "landing": "../landings/devis.html?need=sante",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicule-maladies-chroniques-mutuelle.html",
+      "title": "Canicule et maladies chroniques : diabète, tension, médicaments et mutuelle",
+      "section": "sante",
+      "hook": "Diabète, tension, traitements : la canicule aggrave les risques — vérifiez analyses et hospitalisation.",
+      "question": "Votre mutuelle complète-t-elle bien l'ALD et les urgences hors pathologie ?",
+      "need": "sante",
+      "landing": "../landings/devis.html?need=sante",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicule-teleconsultation-medecin-mutuelle.html",
+      "title": "Canicule : téléconsultation, médecin et remboursement mutuelle",
+      "section": "sante",
+      "hook": "Cabinets fermés, urgences saturées : la téléconsultation est le premier recours — encore faut-il qu'elle soit remboursée.",
+      "question": "Votre mutuelle rembourse-t-elle vraiment la téléconsultation ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicule-travailleurs-exterieur-mutuelle.html",
+      "title": "Canicule au travail : BTP, livreurs, agriculteurs — mutuelle et arrêt",
+      "section": "sante",
+      "hook": "Chantier, livraison, champs : un coup de chaleur au travail coûte cher sans mutuelle adaptée.",
+      "question": "Indépendant ou salarié exposé : votre mutuelle (et prévoyance) sont-elles à jour ?",
+      "need": "sante",
+      "landing": "../landings/devis.html?need=sante",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicule-vigilance-meteo-france-mutuelle.html",
+      "title": "Vigilance canicule Météo-France : ce qu'il faut vérifier sur sa mutuelle",
+      "section": "sante",
+      "hook": "Alerte orange ou rouge : relisez hospitalisation et téléconsultation avant le pic.",
+      "question": "Avez-vous votre attestation mutuelle et des plafonds hospitalisation suffisants ?",
+      "need": "sante",
+      "landing": "../landings/devis.html?need=sante",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "canicule-grossesse-mutuelle-maternite.html",
+      "title": "Canicule et grossesse : risques, suivi et mutuelle maternité",
+      "section": "sante",
+      "hook": "Grossesse et canicule : suivi, malaises et mutuelle maternité (chambre, honoraires, carence).",
+      "question": "Votre forfait maternité et l'hospitalisation sont-ils adaptés à cet été ?",
+      "need": "sante",
+      "landing": "../landings/devis.html?need=sante",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
       "species": null
     },
     {
