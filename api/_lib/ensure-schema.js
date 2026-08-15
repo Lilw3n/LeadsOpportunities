@@ -223,9 +223,45 @@ async function ensureCalendarSchema(sql) {
   return true;
 }
 
+async function ensureAdPlatformCostsSchema(sql) {
+  if (!sql) return false;
+  await runStatement(sql, function (s) {
+    return s`
+      CREATE TABLE IF NOT EXISTS ad_platform_costs (
+        platform TEXT PRIMARY KEY,
+        daily_budget_eur NUMERIC NOT NULL DEFAULT 0,
+        notes TEXT,
+        updated_at TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+  });
+  await runStatement(sql, function (s) {
+    return s`
+      CREATE TABLE IF NOT EXISTS ad_platform_spend (
+        id TEXT PRIMARY KEY,
+        platform TEXT NOT NULL,
+        spend_date DATE NOT NULL,
+        amount_eur NUMERIC NOT NULL,
+        notes TEXT,
+        created_at TIMESTAMPTZ DEFAULT NOW(),
+        UNIQUE (platform, spend_date)
+      )
+    `;
+  });
+  await runStatement(sql, function (s) {
+    return s`
+      INSERT INTO ad_platform_costs (platform, daily_budget_eur)
+      VALUES ('facebook', 1)
+      ON CONFLICT (platform) DO NOTHING
+    `;
+  });
+  return true;
+}
+
 module.exports = {
   ensureSiteLeadsSchema,
   ensureMailboxSchema,
   ensurePersonLinksSchema,
   ensureCalendarSchema,
+  ensureAdPlatformCostsSchema,
 };
