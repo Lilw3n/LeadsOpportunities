@@ -50,6 +50,10 @@ Slack.sendSlackText("ping").then(function (res) {
   assert(!res.ok, "hash seul : envoi refusé");
   assert(String(res.error || "").indexOf("Failed to parse URL") < 0, "erreur sans Failed to parse URL");
   assert(String(res.error || "").indexOf("hooks.slack.com") >= 0, "message d'aide webhook");
+  var pubs = require("fs").readFileSync(require("path").join(__dirname, "..", "crm-pubs.js"), "utf8");
+  assert(pubs.indexOf("Le token bot suffit") >= 0, "hint webhook optionnel si token OK");
+  assert(pubs.indexOf("pas le signing secret). Le test utilisera") < 0, "plus d'alerte rouge si token OK");
+
   if (failed) {
     console.log("\n" + failed + " échec(s)");
     process.exit(1);
