@@ -26,7 +26,7 @@ Deux options (l’une suffit) :
 | Variable | Valeur |
 |----------|--------|
 | `SLACK_BOT_TOKEN` | Token Slack (`xoxp-…`, `xoxb-…` ou export `xoxe.xoxp-1-…`) |
-| `SLACK_CHANNEL` | Canal, ex. `leads` (défaut) |
+| `SLACK_CHANNEL` | Canal, ex. `leads` (défaut). **Invitez l’app dans ce canal** sinon `channel_not_found`. |
 
 Le token n’est **jamais** dans le git — uniquement Vercel → Environment Variables.
 

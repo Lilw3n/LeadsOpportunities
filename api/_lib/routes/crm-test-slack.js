@@ -24,7 +24,9 @@ module.exports = async (req, res) => {
         ok: false,
         error: result.error,
         hint:
-          "Vercel → SLACK_WEBHOOK_URL = https://hooks.slack.com/services/… (URL complète) ou SLACK_BOT_TOKEN = xoxb-… → Redeploy",
+          result.error && result.error.indexOf("Canal Slack") >= 0
+            ? "Slack → canal → Intégrations → Ajouter « Leads Opportunities CRM », ou Vercel SLACK_CHANNEL=general"
+            : "Vercel → SLACK_WEBHOOK_URL = https://hooks.slack.com/services/… ou SLACK_BOT_TOKEN = xoxb-… → Redeploy",
       });
     }
     return res.status(200).json({ ok: true, message: "Message test envoyé sur Slack" });
