@@ -408,6 +408,12 @@
     "regionSlug": "hauts-de-france"
   },
   {
+    "slug": "nouvelle-caledonie",
+    "name": "Nouvelle-Caledonie",
+    "region": "Nouvelle-Caledonie",
+    "regionSlug": "nouvelle-caledonie"
+  },
+  {
     "slug": "oise",
     "name": "Oise",
     "region": "Hauts-de-France",
@@ -432,6 +438,12 @@
     "regionSlug": "hauts-de-france"
   },
   {
+    "slug": "polynesie-francaise",
+    "name": "Polynesie-Francaise",
+    "region": "Polynesie francaise",
+    "regionSlug": "polynesie-francaise"
+  },
+  {
     "slug": "puy-de-dome",
     "name": "Puy-De-Dome",
     "region": "Auvergne-Rhone-Alpes",
@@ -454,6 +466,24 @@
     "name": "Rhone",
     "region": "Auvergne-Rhone-Alpes",
     "regionSlug": "auvergne-rhone-alpes"
+  },
+  {
+    "slug": "saint-barthelemy",
+    "name": "Saint-Barthelemy",
+    "region": "Saint-Barthelemy",
+    "regionSlug": "saint-barthelemy"
+  },
+  {
+    "slug": "saint-martin",
+    "name": "Saint-Martin",
+    "region": "Saint-Martin",
+    "regionSlug": "saint-martin"
+  },
+  {
+    "slug": "saint-pierre-et-miquelon",
+    "name": "Saint-Pierre-Et-Miquelon",
+    "region": "Saint-Pierre-et-Miquelon",
+    "regionSlug": "saint-pierre-et-miquelon"
   },
   {
     "slug": "saone-et-loire",
@@ -556,6 +586,12 @@
     "name": "Vosges",
     "region": "Grand Est",
     "regionSlug": "grand-est"
+  },
+  {
+    "slug": "wallis-et-futuna",
+    "name": "Wallis-Et-Futuna",
+    "region": "Wallis-et-Futuna",
+    "regionSlug": "wallis-et-futuna"
   },
   {
     "slug": "yonne",

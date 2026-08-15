@@ -91,6 +91,13 @@
     "dept": "hauts-de-seine"
   },
   {
+    "slug": "arcachon",
+    "name": "Arcachon",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine",
+    "dept": "gironde"
+  },
+  {
     "slug": "argenteuil",
     "name": "Argenteuil",
     "region": "Ile-de-France",
@@ -166,6 +173,27 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "seine-saint-denis"
+  },
+  {
+    "slug": "baie-mahault",
+    "name": "Baie-Mahault",
+    "region": "Guadeloupe",
+    "regionSlug": "guadeloupe",
+    "dept": "guadeloupe"
+  },
+  {
+    "slug": "bandol",
+    "name": "Bandol",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur",
+    "dept": "var"
+  },
+  {
+    "slug": "basse-terre",
+    "name": "Basse-Terre",
+    "region": "Guadeloupe",
+    "regionSlug": "guadeloupe",
+    "dept": "guadeloupe"
   },
   {
     "slug": "bastia",
@@ -245,6 +273,13 @@
     "dept": "seine-saint-denis"
   },
   {
+    "slug": "bonifacio",
+    "name": "Bonifacio",
+    "region": "Corse",
+    "regionSlug": "corse",
+    "dept": "corse-du-sud"
+  },
+  {
     "slug": "bordeaux",
     "name": "Bordeaux",
     "region": "Nouvelle-Aquitaine",
@@ -301,6 +336,13 @@
     "dept": "pas-de-calais"
   },
   {
+    "slug": "calvi",
+    "name": "Calvi",
+    "region": "Corse",
+    "regionSlug": "corse",
+    "dept": "haute-corse"
+  },
+  {
     "slug": "cambrai",
     "name": "Cambrai",
     "region": "Hauts-de-France",
@@ -329,6 +371,13 @@
     "dept": "vaucluse"
   },
   {
+    "slug": "cassis",
+    "name": "Cassis",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur",
+    "dept": "bouches-du-rhone"
+  },
+  {
     "slug": "cayenne",
     "name": "Cayenne",
     "region": "Guyane",
@@ -355,6 +404,13 @@
     "region": "Auvergne-Rhone-Alpes",
     "regionSlug": "auvergne-rhone-alpes",
     "dept": "savoie"
+  },
+  {
+    "slug": "chamonix",
+    "name": "Chamonix-Mont-Blanc",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes",
+    "dept": "haute-savoie"
   },
   {
     "slug": "champigny-sur-marne",
@@ -469,6 +525,13 @@
     "dept": "essonne"
   },
   {
+    "slug": "corte",
+    "name": "Corte",
+    "region": "Corse",
+    "regionSlug": "corse",
+    "dept": "haute-corse"
+  },
+  {
     "slug": "courbevoie",
     "name": "Courbevoie",
     "region": "Ile-de-France",
@@ -481,6 +544,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "val-de-marne"
+  },
+  {
+    "slug": "deauville",
+    "name": "Deauville",
+    "region": "Normandie",
+    "regionSlug": "normandie",
+    "dept": "calvados"
   },
   {
     "slug": "dieppe",
@@ -504,6 +574,13 @@
     "dept": "cote-d-or"
   },
   {
+    "slug": "dinard",
+    "name": "Dinard",
+    "region": "Bretagne",
+    "regionSlug": "bretagne",
+    "dept": "ille-et-vilaine"
+  },
+  {
     "slug": "douai",
     "name": "Douai",
     "region": "Hauts-de-France",
@@ -525,11 +602,32 @@
     "dept": "seine-saint-denis"
   },
   {
+    "slug": "ducos",
+    "name": "Ducos",
+    "region": "Martinique",
+    "regionSlug": "martinique",
+    "dept": "martinique"
+  },
+  {
+    "slug": "dumbea",
+    "name": "Dumbea",
+    "region": "Nouvelle-Caledonie",
+    "regionSlug": "nouvelle-caledonie",
+    "dept": "nouvelle-caledonie"
+  },
+  {
     "slug": "dunkerque",
     "name": "Dunkerque",
     "region": "Hauts-de-France",
     "regionSlug": "hauts-de-france",
     "dept": "nord"
+  },
+  {
+    "slug": "dzaoudzi",
+    "name": "Dzaoudzi",
+    "region": "Mayotte",
+    "regionSlug": "mayotte",
+    "dept": "mayotte"
   },
   {
     "slug": "epinal",
@@ -558,6 +656,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "essonne"
+  },
+  {
+    "slug": "faaa",
+    "name": "Faaa",
+    "region": "Polynesie francaise",
+    "regionSlug": "polynesie-francaise",
+    "dept": "polynesie-francaise"
   },
   {
     "slug": "foix",
@@ -637,11 +742,25 @@
     "dept": "creuse"
   },
   {
+    "slug": "gustavia",
+    "name": "Gustavia",
+    "region": "Saint-Barthelemy",
+    "regionSlug": "saint-barthelemy",
+    "dept": "saint-barthelemy"
+  },
+  {
     "slug": "haguenau",
     "name": "Haguenau",
     "region": "Grand Est",
     "regionSlug": "grand-est",
     "dept": "bas-rhin"
+  },
+  {
+    "slug": "honfleur",
+    "name": "Honfleur",
+    "region": "Normandie",
+    "regionSlug": "normandie",
+    "dept": "calvados"
   },
   {
     "slug": "houilles",
@@ -679,6 +798,41 @@
     "dept": "val-de-marne"
   },
   {
+    "slug": "koungou",
+    "name": "Koungou",
+    "region": "Mayotte",
+    "regionSlug": "mayotte",
+    "dept": "mayotte"
+  },
+  {
+    "slug": "kourou",
+    "name": "Kourou",
+    "region": "Guyane",
+    "regionSlug": "guyane",
+    "dept": "guyane"
+  },
+  {
+    "slug": "ile-rousse",
+    "name": "L'Ile-Rousse",
+    "region": "Corse",
+    "regionSlug": "corse",
+    "dept": "haute-corse"
+  },
+  {
+    "slug": "la-baule",
+    "name": "La Baule-Escoublac",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire",
+    "dept": "loire-atlantique"
+  },
+  {
+    "slug": "la-flotte",
+    "name": "La Flotte",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine",
+    "dept": "charente-maritime"
+  },
+  {
     "slug": "la-roche-sur-yon",
     "name": "La Roche-sur-Yon",
     "region": "Pays de la Loire",
@@ -714,11 +868,39 @@
     "dept": "mayenne"
   },
   {
+    "slug": "le-chateau-d-oleron",
+    "name": "Le Chateau-d'Oleron",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine",
+    "dept": "charente-maritime"
+  },
+  {
+    "slug": "le-francois",
+    "name": "Le Francois",
+    "region": "Martinique",
+    "regionSlug": "martinique",
+    "dept": "martinique"
+  },
+  {
+    "slug": "le-gosier",
+    "name": "Le Gosier",
+    "region": "Guadeloupe",
+    "regionSlug": "guadeloupe",
+    "dept": "guadeloupe"
+  },
+  {
     "slug": "le-havre",
     "name": "Le Havre",
     "region": "Normandie",
     "regionSlug": "normandie",
     "dept": "seine-maritime"
+  },
+  {
+    "slug": "le-lamentin",
+    "name": "Le Lamentin",
+    "region": "Martinique",
+    "regionSlug": "martinique",
+    "dept": "martinique"
   },
   {
     "slug": "le-mans",
@@ -728,11 +910,67 @@
     "dept": "sarthe"
   },
   {
+    "slug": "le-marin",
+    "name": "Le Marin",
+    "region": "Martinique",
+    "regionSlug": "martinique",
+    "dept": "martinique"
+  },
+  {
+    "slug": "mont-dore",
+    "name": "Le Mont-Dore",
+    "region": "Nouvelle-Caledonie",
+    "regionSlug": "nouvelle-caledonie",
+    "dept": "nouvelle-caledonie"
+  },
+  {
+    "slug": "le-palais",
+    "name": "Le Palais",
+    "region": "Bretagne",
+    "regionSlug": "bretagne",
+    "dept": "morbihan"
+  },
+  {
+    "slug": "le-port",
+    "name": "Le Port",
+    "region": "La Reunion",
+    "regionSlug": "la-reunion",
+    "dept": "la-reunion"
+  },
+  {
+    "slug": "le-tampon",
+    "name": "Le Tampon",
+    "region": "La Reunion",
+    "regionSlug": "la-reunion",
+    "dept": "la-reunion"
+  },
+  {
+    "slug": "lege-cap-ferret",
+    "name": "Lege-Cap-Ferret",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine",
+    "dept": "gironde"
+  },
+  {
     "slug": "lens",
     "name": "Lens",
     "region": "Hauts-de-France",
     "regionSlug": "hauts-de-france",
     "dept": "pas-de-calais"
+  },
+  {
+    "slug": "les-abymes",
+    "name": "Les Abymes",
+    "region": "Guadeloupe",
+    "regionSlug": "guadeloupe",
+    "dept": "guadeloupe"
+  },
+  {
+    "slug": "les-sables-d-olonne",
+    "name": "Les Sables-d'Olonne",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire",
+    "dept": "vendee"
   },
   {
     "slug": "levallois-perret",
@@ -805,6 +1043,13 @@
     "dept": "yvelines"
   },
   {
+    "slug": "marigot",
+    "name": "Marigot",
+    "region": "Saint-Martin",
+    "regionSlug": "saint-martin",
+    "dept": "saint-martin"
+  },
+  {
     "slug": "marseille",
     "name": "Marseille",
     "region": "Provence-Alpes-Cote d Azur",
@@ -826,6 +1071,13 @@
     "dept": "essonne"
   },
   {
+    "slug": "mata-utu",
+    "name": "Mata-Utu",
+    "region": "Wallis-et-Futuna",
+    "regionSlug": "wallis-et-futuna",
+    "dept": "wallis-et-futuna"
+  },
+  {
     "slug": "maubeuge",
     "name": "Maubeuge",
     "region": "Hauts-de-France",
@@ -840,6 +1092,13 @@
     "dept": "seine-et-marne"
   },
   {
+    "slug": "megeve",
+    "name": "Megeve",
+    "region": "Auvergne-Rhone-Alpes",
+    "regionSlug": "auvergne-rhone-alpes",
+    "dept": "haute-savoie"
+  },
+  {
     "slug": "melun",
     "name": "Melun",
     "region": "Ile-de-France",
@@ -852,6 +1111,13 @@
     "region": "Occitanie",
     "regionSlug": "occitanie",
     "dept": "lozere"
+  },
+  {
+    "slug": "menton",
+    "name": "Menton",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur",
+    "dept": "alpes-maritimes"
   },
   {
     "slug": "merignac",
@@ -929,6 +1195,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "hauts-de-seine"
+  },
+  {
+    "slug": "moorea",
+    "name": "Moorea",
+    "region": "Polynesie francaise",
+    "regionSlug": "polynesie-francaise",
+    "dept": "polynesie-francaise"
   },
   {
     "slug": "morlaix",
@@ -1015,6 +1288,13 @@
     "dept": "deux-sevres"
   },
   {
+    "slug": "noirmoutier-en-l-ile",
+    "name": "Noirmoutier-en-l'Ile",
+    "region": "Pays de la Loire",
+    "regionSlug": "pays-de-la-loire",
+    "dept": "vendee"
+  },
+  {
     "slug": "noisy-le-grand",
     "name": "Noisy-le-Grand",
     "region": "Ile-de-France",
@@ -1027,6 +1307,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "seine-saint-denis"
+  },
+  {
+    "slug": "noumea",
+    "name": "Noumea",
+    "region": "Nouvelle-Caledonie",
+    "regionSlug": "nouvelle-caledonie",
+    "dept": "nouvelle-caledonie"
   },
   {
     "slug": "orange",
@@ -1062,6 +1349,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "seine-saint-denis"
+  },
+  {
+    "slug": "papeete",
+    "name": "Papeete",
+    "region": "Polynesie francaise",
+    "regionSlug": "polynesie-francaise",
+    "dept": "polynesie-francaise"
   },
   {
     "slug": "paris",
@@ -1127,11 +1421,25 @@
     "dept": "val-d-oise"
   },
   {
+    "slug": "porto-vecchio",
+    "name": "Porto-Vecchio",
+    "region": "Corse",
+    "regionSlug": "corse",
+    "dept": "corse-du-sud"
+  },
+  {
     "slug": "privas",
     "name": "Privas",
     "region": "Auvergne-Rhone-Alpes",
     "regionSlug": "auvergne-rhone-alpes",
     "dept": "ardeche"
+  },
+  {
+    "slug": "propriano",
+    "name": "Propriano",
+    "region": "Corse",
+    "regionSlug": "corse",
+    "dept": "corse-du-sud"
   },
   {
     "slug": "puteaux",
@@ -1153,6 +1461,13 @@
     "region": "Bretagne",
     "regionSlug": "bretagne",
     "dept": "finistere"
+  },
+  {
+    "slug": "ramatuelle",
+    "name": "Ramatuelle",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur",
+    "dept": "var"
   },
   {
     "slug": "reims",
@@ -1225,6 +1540,20 @@
     "dept": "hauts-de-seine"
   },
   {
+    "slug": "saint-andre-reunion",
+    "name": "Saint-Andre",
+    "region": "La Reunion",
+    "regionSlug": "la-reunion",
+    "dept": "la-reunion"
+  },
+  {
+    "slug": "saint-benoit-reunion",
+    "name": "Saint-Benoit",
+    "region": "La Reunion",
+    "regionSlug": "la-reunion",
+    "dept": "la-reunion"
+  },
+  {
     "slug": "saint-brieuc",
     "name": "Saint-Brieuc",
     "region": "Bretagne",
@@ -1253,6 +1582,13 @@
     "dept": "loire"
   },
   {
+    "slug": "saint-francois-guadeloupe",
+    "name": "Saint-Francois",
+    "region": "Guadeloupe",
+    "regionSlug": "guadeloupe",
+    "dept": "guadeloupe"
+  },
+  {
     "slug": "saint-gaudens",
     "name": "Saint-Gaudens",
     "region": "Occitanie",
@@ -1274,11 +1610,46 @@
     "dept": "loire-atlantique"
   },
   {
+    "slug": "saint-jean-cap-ferrat",
+    "name": "Saint-Jean-Cap-Ferrat",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur",
+    "dept": "alpes-maritimes"
+  },
+  {
+    "slug": "saint-laurent-du-maroni",
+    "name": "Saint-Laurent-du-Maroni",
+    "region": "Guyane",
+    "regionSlug": "guyane",
+    "dept": "guyane"
+  },
+  {
+    "slug": "saint-leu",
+    "name": "Saint-Leu",
+    "region": "La Reunion",
+    "regionSlug": "la-reunion",
+    "dept": "la-reunion"
+  },
+  {
+    "slug": "saint-louis-reunion",
+    "name": "Saint-Louis",
+    "region": "La Reunion",
+    "regionSlug": "la-reunion",
+    "dept": "la-reunion"
+  },
+  {
     "slug": "saint-malo",
     "name": "Saint-Malo",
     "region": "Bretagne",
     "regionSlug": "bretagne",
     "dept": "ille-et-vilaine"
+  },
+  {
+    "slug": "saint-martin-de-re",
+    "name": "Saint-Martin-de-Re",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine",
+    "dept": "charente-maritime"
   },
   {
     "slug": "saint-maur-des-fosses",
@@ -1323,6 +1694,20 @@
     "dept": "la-reunion"
   },
   {
+    "slug": "saint-pierre-miquelon",
+    "name": "Saint-Pierre",
+    "region": "Saint-Pierre-et-Miquelon",
+    "regionSlug": "saint-pierre-et-miquelon",
+    "dept": "saint-pierre-et-miquelon"
+  },
+  {
+    "slug": "saint-pierre-d-oleron",
+    "name": "Saint-Pierre-d'Oleron",
+    "region": "Nouvelle-Aquitaine",
+    "regionSlug": "nouvelle-aquitaine",
+    "dept": "charente-maritime"
+  },
+  {
     "slug": "saint-quentin",
     "name": "Saint-Quentin",
     "region": "Hauts-de-France",
@@ -1332,6 +1717,34 @@
   {
     "slug": "saint-raphael",
     "name": "Saint-Raphael",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur",
+    "dept": "var"
+  },
+  {
+    "slug": "saint-tropez",
+    "name": "Saint-Tropez",
+    "region": "Provence-Alpes-Cote d Azur",
+    "regionSlug": "provence-alpes-cote-d-azur",
+    "dept": "var"
+  },
+  {
+    "slug": "sainte-anne-martinique",
+    "name": "Sainte-Anne",
+    "region": "Martinique",
+    "regionSlug": "martinique",
+    "dept": "martinique"
+  },
+  {
+    "slug": "sainte-anne-guadeloupe",
+    "name": "Sainte-Anne",
+    "region": "Guadeloupe",
+    "regionSlug": "guadeloupe",
+    "dept": "guadeloupe"
+  },
+  {
+    "slug": "sainte-maxime",
+    "name": "Sainte-Maxime",
     "region": "Provence-Alpes-Cote d Azur",
     "regionSlug": "provence-alpes-cote-d-azur",
     "dept": "var"
@@ -1377,6 +1790,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "essonne"
+  },
+  {
+    "slug": "schoelcher",
+    "name": "Schoelcher",
+    "region": "Martinique",
+    "regionSlug": "martinique",
+    "dept": "martinique"
   },
   {
     "slug": "sete",
