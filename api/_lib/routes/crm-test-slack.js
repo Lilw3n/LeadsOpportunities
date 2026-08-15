@@ -29,7 +29,12 @@ module.exports = async (req, res) => {
             : "Vercel → SLACK_WEBHOOK_URL = https://hooks.slack.com/services/… ou SLACK_BOT_TOKEN = xoxb-… → Redeploy",
       });
     }
-    return res.status(200).json({ ok: true, message: "Message test envoyé sur Slack" });
+    return res.status(200).json({
+      ok: true,
+      message: "Message test envoyé sur Slack",
+      channel: result.channel || null,
+      via: result.via || null,
+    });
   } catch (e) {
     console.error("[crm/test-slack]", e);
     return res.status(500).json({ ok: false, error: e.message });
