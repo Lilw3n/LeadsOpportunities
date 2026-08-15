@@ -758,6 +758,7 @@
         return p && p.abatementPct != null ? p.abatementPct : undefined;
       })(),
     });
+    state.lastFees = { agency: ag, res: res, price: price, priceMode: priceMode };
     var refLabel =
       res.priceBasis === "loyer_annuel"
         ? "Loyer annuel"
@@ -1783,6 +1784,29 @@
       }
     };
   }
+  var btnPrintFees = document.getElementById("btnPrintFees");
+  if (btnPrintFees) {
+    btnPrintFees.onclick = function () {
+      var last = state.lastFees;
+      if (!last || !window.PrintDocument) {
+        alert("Calculez d’abord une estimation.");
+        return;
+      }
+      var r = last.res;
+      var items = [
+        { label: "Honoraires TTC", value: Lib.formatEuro(r.agencyFee) },
+        { label: "Net vendeur", value: Lib.formatEuro(r.price) },
+        { label: "FAI", value: r.fai != null ? Lib.formatEuro(r.fai) : "—" },
+      ];
+      if (r.netAgency != null) items.push({ label: "Net agence", value: Lib.formatEuro(r.netAgency) });
+      window.PrintDocument.fromKpis("Estimation d'honoraires", items, {
+        kind: "estimation",
+        subtitle: last.agency ? last.agency.name : "Barème agence",
+        note: "Barème indicatif, honoraires négociables au mandat.",
+      });
+    };
+  }
+
   syncPriceModeSelects(state.priceMode);
   renderAll();
 })();

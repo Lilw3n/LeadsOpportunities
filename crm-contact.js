@@ -1749,9 +1749,22 @@
   var btnExp = document.getElementById("btnExportContact");
   if (btnExp) btnExp.onclick = exportContactCsv;
   var btnPrint = document.getElementById("btnPrintContact");
-  if (btnPrint) btnPrint.onclick = function () {
-    window.print();
-  };
+  if (btnPrint) {
+    btnPrint.onclick = function () {
+      var dossier = dossierFromData();
+      var c = data.contact || {};
+      var name = [c.first_name, c.last_name].filter(Boolean).join(" ") || "Interlocuteur";
+      if (window.PrintDocument && dossier) {
+        window.PrintDocument.fromDossier(dossier, {
+          title: name,
+          subtitle: "Fiche interlocuteur — document de présentation",
+          meta: [c.email, c.phone, c.company].filter(Boolean),
+        });
+      } else {
+        window.print();
+      }
+    };
+  }
   var btnNewQuote = document.getElementById("btnNewQuote");
   if (btnNewQuote) {
     btnNewQuote.onclick = function () {

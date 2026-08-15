@@ -402,33 +402,27 @@
     }
 
     if (act === "print") {
-      var printable = Store.listProperties(queryFromForm())
-        .map(function (p) {
-          return (
-            "<tr><td>" +
-            esc(p.title) +
-            "</td><td>" +
-            esc(p.city) +
-            "</td><td>" +
-            (p.surface_m2 || "") +
-            "</td><td>" +
-            (p.rooms || "") +
-            "</td><td>" +
-            euro(p.price_fai != null ? p.price_fai : p.price_net) +
-            "</td><td>" +
-            esc(p.phone || "") +
-            "</td></tr>"
-          );
-        })
-        .join("");
-      var w = window.open("", "_blank");
-      w.document.write(
-        "<html><head><title>Listing piges</title></head><body><h1>Listing piges</h1><table border=1 cellpadding=6><tr><th>Titre</th><th>Ville</th><th>m²</th><th>Pièces</th><th>Prix</th><th>Tél.</th></tr>" +
-          printable +
-          "</table></body></html>"
-      );
-      w.document.close();
-      w.print();
+      var rows = Store.listProperties(queryFromForm()).map(function (p) {
+        return [
+          p.title || "—",
+          p.city || "",
+          p.surface_m2 || "",
+          p.rooms || "",
+          euro(p.price_fai != null ? p.price_fai : p.price_net),
+          p.phone || "",
+        ];
+      });
+      if (window.PrintDocument) {
+        window.PrintDocument.open({
+          kind: "listing",
+          title: "Listing de biens",
+          subtitle: rows.length + " annonce(s) — document de présentation",
+          bodyHtml: window.PrintDocument.tableHtml(
+            ["Titre", "Ville", "m²", "Pièces", "Prix", "Tél."],
+            rows
+          ),
+        });
+      }
       return;
     }
 

@@ -24,7 +24,7 @@
     <div>
       <p class="crm-eyebrow">Immobilier · documents</p>
       <h2>Éditeur documents immo</h2>
-      <p>Fondation éditable : mandat, bon de visite, offre, compromis, diagnostics… (PDF / e-sign plus tard). Crédit immo en préparation séparée.</p>
+      <p>Mandat, bon de visite, offre, compromis… Éditez puis <strong>Imprimer / PDF</strong> pour un document présentable.</p>
     </div>
     <div class="crm-action-row">
       <a href="./crm-immo-properties.html" class="btn btn-ghost">Inventaire</a>
@@ -64,6 +64,7 @@
         <label style="grid-column:1/-1">Notes<textarea id="dNotes" rows="2"></textarea></label>
         <div style="grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap">
           <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-ghost" id="btnPrintDoc">Imprimer / PDF</button>
           <button type="button" class="btn btn-ghost" id="btnDelDoc">Supprimer</button>
         </div>
       </form>
@@ -74,6 +75,7 @@
 
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>
+  <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-immo-documents-page.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./js/admin-nav.js"></script>
