@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
-const { loadAllModules } = require("../crm-modules-lib");
+const { loadAllModules, loadLinkedEvents } = require("../crm-modules-lib");
 const { mergeMeta } = require("../crm-profile-meta");
 
 module.exports = async (req, res) => {
@@ -54,11 +54,19 @@ module.exports = async (req, res) => {
         console.warn("[crm/contact GET] modules:", modErr.message);
       }
 
+      let linkedEvents = [];
+      try {
+        linkedEvents = await loadLinkedEvents(sql, contactId);
+      } catch (linkErr) {
+        console.warn("[crm/contact GET] linked events:", linkErr.message);
+      }
+
       return res.status(200).json({
         ok: true,
         contact: rows[0],
         activities,
         leads,
+        linkedEvents,
         ...modules,
       });
     } catch (e) {

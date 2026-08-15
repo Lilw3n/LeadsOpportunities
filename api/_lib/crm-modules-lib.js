@@ -114,12 +114,41 @@ async function loadAllModules(sql, contactId) {
   return { events, claims, vehicles, drivers, contracts, insuranceRequests };
 }
 
+/** Événements d’autres dossiers où ce contact est cité comme interlocuteur. */
+async function loadLinkedEvents(sql, contactId) {
+  const like = "%" + String(contactId) + "%";
+  return sql`
+    SELECT
+      e.id,
+      e.contact_id,
+      e.event_type,
+      e.title,
+      e.description,
+      e.event_date,
+      e.event_time,
+      e.status,
+      e.priority,
+      e.extra_data,
+      e.created_at,
+      c.first_name AS dossier_first_name,
+      c.last_name AS dossier_last_name
+    FROM crm_events e
+    INNER JOIN crm_contacts c ON c.id = e.contact_id
+    WHERE e.contact_id <> ${contactId}
+      AND e.extra_data IS NOT NULL
+      AND e.extra_data LIKE ${like}
+    ORDER BY e.event_date DESC NULLS LAST, e.created_at DESC
+    LIMIT 80
+  `;
+}
+
 module.exports = {
   RESOURCES,
   pickBody,
   assertContactAccess,
   touchContact,
   loadAllModules,
+  loadLinkedEvents,
   newId(prefix) {
     return prefix + crypto.randomUUID();
   },

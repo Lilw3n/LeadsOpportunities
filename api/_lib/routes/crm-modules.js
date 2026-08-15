@@ -8,6 +8,7 @@ const {
   touchContact,
   newId,
 } = require("../crm-modules-lib");
+const Interlocutors = require("../../../js/crm-dossier-interlocutors");
 
 async function listForContact(sql, resource, contactId, scope) {
   if (resource === "events") {
@@ -205,12 +206,14 @@ module.exports = async (req, res) => {
       const id = newId(def.prefix);
 
       if (resource === "events") {
+        var participants =
+          body.participants ||
+          (body.participant_name || body.participantName
+            ? [{ name: body.participant_name || body.participantName, role: "recipient" }]
+            : []);
         var extraData = JSON.stringify({
-          participants:
-            body.participants ||
-            (body.participant_name || body.participantName
-              ? [{ name: body.participant_name || body.participantName, role: "recipient" }]
-              : []),
+          participants: participants,
+          interlocutors: Interlocutors.normalizeList(body.interlocutors || participants),
           attachments: body.attachments || [],
           urls: body.urls || [],
           createdBy: user.email || user.id,
@@ -329,19 +332,24 @@ module.exports = async (req, res) => {
 
       if (resource === "events") {
         var extraPatch = null;
-        if (body.participants || body.attachments || body.urls) {
+        if (body.participants || body.attachments || body.urls || body.interlocutors) {
           var prev = {};
           if (existingRows[0].extra_data) {
             try {
               prev = JSON.parse(existingRows[0].extra_data);
             } catch (e) {}
           }
-          extraPatch = JSON.stringify({
-            participants: body.participants || prev.participants || [],
-            attachments: body.attachments || prev.attachments || [],
-            urls: body.urls || prev.urls || [],
-            createdBy: prev.createdBy || user.email,
-          });
+          extraPatch = JSON.stringify(
+            Object.assign({}, prev, {
+              participants: body.participants || prev.participants || [],
+              interlocutors: Interlocutors.normalizeList(
+                body.interlocutors || prev.interlocutors || body.participants || prev.participants || []
+              ),
+              attachments: body.attachments || prev.attachments || [],
+              urls: body.urls || prev.urls || [],
+              createdBy: prev.createdBy || user.email,
+            })
+          );
         }
         await sql`
           UPDATE crm_events SET

@@ -91,7 +91,39 @@ assert(mgrJs.indexOf('status: "completed"') >= 0, "marquer événement fait");
 assert(mgrJs.indexOf("renderByInterlocutor") >= 0, "vue groupée par interlocuteur");
 assert(mgrJs.indexOf("renderByDossier") >= 0, "vue groupée par dossier");
 
-["crm-event-manager.js", "crm-event-create.js", "js/crm-dossier-interlocutors.js", "api/_lib/routes/crm-events.js"].forEach(
+var contactHtml = read("crm-contact.html");
+assert(contactHtml.indexOf("contactEventsPanel") >= 0, "fiche interlocuteur : panneau événements");
+assert(contactHtml.indexOf("btnAddEvent") >= 0, "fiche interlocuteur : bouton + événement");
+assert(contactHtml.indexOf("btnAddEventFull") >= 0, "fiche interlocuteur : lien RDV complet");
+assert(contactHtml.indexOf("eventRoleFilter") >= 0, "fiche interlocuteur : filtre rôle interlocuteur");
+assert(contactHtml.indexOf("crm-dossier-interlocutors.js") >= 0, "fiche interlocuteur charge les rôles");
+assert(contactHtml.indexOf("crm-agenda-types.js") >= 0, "fiche interlocuteur charge les types agenda");
+assert(contactHtml.indexOf("contactEventKpis") >= 0, "fiche interlocuteur : KPI événements");
+
+var contactJs = read("crm-contact.js");
+assert(contactJs.indexOf("linkedEvents") >= 0, "fiche JS : événements d’autres dossiers");
+assert(contactJs.indexOf("data-int-cycle") >= 0, "fiche JS : cycle suivi interlocuteur");
+assert(contactJs.indexOf('status: "completed"') >= 0, "fiche JS : marquer événement fait");
+assert(contactJs.indexOf("interlocutorsOf") >= 0, "fiche JS : interlocutorsOf");
+assert(contactJs.indexOf("_defaultInterlocutor") >= 0, "fiche JS : interlocuteur client prérempli");
+
+var formJs = read("js/crm-event-form.js");
+assert(formJs.indexOf("interlocutorRow") >= 0, "formulaire événement : ligne interlocuteur");
+assert(formJs.indexOf("interlocutorsBox") >= 0, "formulaire événement : bloc interlocuteurs");
+assert(formJs.indexOf("interlocutors: interlocutors") >= 0, "formulaire événement : parse interlocutors");
+
+var modulesApi = read("api/_lib/routes/crm-modules.js");
+assert(modulesApi.indexOf("Interlocutors.normalizeList") >= 0, "modules API : normalise interlocuteurs");
+assert(modulesApi.indexOf("crm-dossier-interlocutors") >= 0, "modules API importe le catalogue");
+
+var contactApi = read("api/_lib/routes/crm-contact.js");
+assert(contactApi.indexOf("loadLinkedEvents") >= 0, "contact GET : events liés");
+assert(contactApi.indexOf("linkedEvents") >= 0, "contact GET : champ linkedEvents");
+
+var lib = read("api/_lib/crm-modules-lib.js");
+assert(lib.indexOf("async function loadLinkedEvents") >= 0, "lib : loadLinkedEvents");
+
+["crm-event-manager.js", "crm-event-create.js", "js/crm-dossier-interlocutors.js", "api/_lib/routes/crm-events.js", "js/crm-event-form.js", "crm-contact.js", "api/_lib/crm-modules-lib.js", "api/_lib/routes/crm-contact.js", "api/_lib/routes/crm-modules.js"].forEach(
   function (rel) {
     require("child_process").execFileSync(process.execPath, ["--check", path.join(__dirname, "..", rel)]);
     assert(true, "syntaxe " + rel);

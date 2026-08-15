@@ -12,6 +12,7 @@
     activities: [],
     leads: [],
     relations: [],
+    linkedEvents: [],
     meta: {},
   };
   var modal = { resource: null, itemId: null };
@@ -60,8 +61,58 @@
   }
 
   function eventTypeLabel(t) {
+    if (window.CrmAgendaTypes && window.CrmAgendaTypes.byId) {
+      var hit = window.CrmAgendaTypes.byId(t);
+      if (hit && hit.label) return hit.label;
+    }
     var m = { call: "Appel", email: "Email", meeting: "RDV", task: "Tache", note: "Note", document: "Document" };
     return m[t] || t;
+  }
+
+  function contactDisplayName() {
+    if (!data.contact) return "";
+    return ((data.contact.first_name || "") + " " + (data.contact.last_name || "")).trim();
+  }
+
+  function allEvents() {
+    var seen = {};
+    var own = (data.events || []).map(function (e) {
+      return Object.assign({}, e, { _linked: false });
+    });
+    var linked = (data.linkedEvents || []).map(function (e) {
+      return Object.assign({}, e, { _linked: true });
+    });
+    return own.concat(linked).filter(function (e) {
+      if (!e || !e.id || seen[e.id]) return false;
+      seen[e.id] = true;
+      return true;
+    });
+  }
+
+  function interlocutorsOf(e) {
+    var extra = parseEventExtra(e);
+    var INT = window.CrmDossierInterlocutors;
+    var list = extra.interlocutors || extra.participants || [];
+    if (INT && INT.normalizeList) list = INT.normalizeList(list);
+    if ((!list || !list.length) && data.contact && e.contact_id === contactId) {
+      var name = contactDisplayName();
+      if (name && INT) {
+        list = INT.normalizeList([{ role: "client", name: name, contactId: contactId }]);
+      }
+    }
+    return list || [];
+  }
+
+  function eventDayStart(e) {
+    var raw = e.event_date || e.eventDate;
+    if (!raw) return null;
+    var d = new Date(raw);
+    if (isNaN(d.getTime())) return null;
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  }
+
+  function isEventOpen(e) {
+    return e.status !== "completed" && e.status !== "cancelled";
   }
 
   function showError(msg) {
@@ -87,6 +138,7 @@
       data.contact = res.contact;
       data.meta = parseMeta(res.contact);
       data.events = res.events || [];
+      data.linkedEvents = res.linkedEvents || [];
       data.claims = res.claims || [];
       data.vehicles = res.vehicles || [];
       data.drivers = res.drivers || [];
@@ -217,17 +269,40 @@
     var type = document.getElementById("eventTypeFilter").value;
     var status = document.getElementById("eventStatusFilter").value;
     var priority = document.getElementById("eventPriorityFilter").value;
+    var roleEl = document.getElementById("eventRoleFilter");
+    var role = roleEl ? roleEl.value : "";
     var sort = document.getElementById("eventSort").value || "date-desc";
-    var list = data.events.filter(function (e) {
+    var list = allEvents().filter(function (e) {
       if (type && e.event_type !== type) return false;
-      if (status && e.status !== status) return false;
+      if (status === "open" && !isEventOpen(e)) return false;
+      else if (status && status !== "open" && e.status !== status) return false;
       if (priority && e.priority !== priority) return false;
+      if (role) {
+        var hit = interlocutorsOf(e).some(function (p) {
+          return p.role === role;
+        });
+        if (!hit && !(role === "client" && e.contact_id === contactId)) return false;
+      }
       if (q) {
         var ai = document.getElementById("eventAiSearch") && document.getElementById("eventAiSearch").checked;
         if (ai && window.CrmEventSearch) {
           if (!window.CrmEventSearch.match(e, q)) return false;
         } else {
-          var hay = ((e.title || "") + " " + (e.description || "")).toLowerCase();
+          var hay = (
+            (e.title || "") +
+            " " +
+            (e.description || "") +
+            " " +
+            interlocutorsOf(e)
+              .map(function (p) {
+                return (p.name || "") + " " + (p.roleLabel || p.role || "");
+              })
+              .join(" ") +
+            " " +
+            (e.dossier_first_name || "") +
+            " " +
+            (e.dossier_last_name || "")
+          ).toLowerCase();
           if (hay.indexOf(q) === -1) return false;
         }
       }
@@ -275,29 +350,135 @@
     }
   }
 
+  function fillEventRoleFilter() {
+    var sel = document.getElementById("eventRoleFilter");
+    if (!sel || sel.getAttribute("data-filled")) return;
+    var INT = window.CrmDossierInterlocutors;
+    var roles = INT && INT.importantRoles ? INT.importantRoles() : [];
+    roles.forEach(function (r) {
+      var opt = document.createElement("option");
+      opt.value = r.id;
+      opt.textContent = r.label;
+      sel.appendChild(opt);
+    });
+    sel.setAttribute("data-filled", "1");
+  }
+
+  function renderEventKpis() {
+    var box = document.getElementById("contactEventKpis");
+    if (!box) return;
+    var today = new Date();
+    var todayTs = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+    var week = todayTs + 7 * 86400000;
+    var nToday = 0;
+    var nOverdue = 0;
+    var nWeek = 0;
+    var nLinked = 0;
+    allEvents().forEach(function (e) {
+      if (e._linked) nLinked++;
+      if (!isEventOpen(e)) return;
+      var day = eventDayStart(e);
+      if (day != null && day < todayTs) nOverdue++;
+      else if (day === todayTs) nToday++;
+      else if (day != null && day >= todayTs && day < week) nWeek++;
+    });
+    box.innerHTML =
+      '<div class="kpi-card"><div class="kpi-label">Aujourd’hui</div><div class="kpi-value">' +
+      nToday +
+      '</div></div><div class="kpi-card"><div class="kpi-label">En retard</div><div class="kpi-value">' +
+      nOverdue +
+      '</div></div><div class="kpi-card"><div class="kpi-label">Cette semaine</div><div class="kpi-value">' +
+      nWeek +
+      '</div></div><div class="kpi-card"><div class="kpi-label">Autres dossiers</div><div class="kpi-value">' +
+      nLinked +
+      "</div></div>";
+  }
+
   function renderEvents() {
+    fillEventRoleFilter();
+    renderEventKpis();
     var list = filteredEvents();
     renderSmartTimeline();
     var el = document.getElementById("eventsList");
+    var INT = window.CrmDossierInterlocutors || {};
     if (!list.length) {
-      el.innerHTML = '<p class="empty-module">Aucun evenement</p>';
+      el.innerHTML =
+        '<p class="empty-module">Aucun événement pour cette fiche. Ajoutez un RDV, une relance ou un suivi banque / notaire.</p>';
       return;
     }
+    var today = new Date();
+    var todayTs = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
     el.innerHTML = list
       .map(function (e) {
         var dateStr = e.event_date
           ? new Date(e.event_date).toLocaleDateString("fr-FR")
           : new Date(e.created_at).toLocaleDateString("fr-FR");
         var extra = parseEventExtra(e);
-        var parts = (extra.participants || [])
-          .map(function (p) {
-            return (p.name || p.email || "").trim();
-          })
-          .filter(Boolean);
+        var ints = interlocutorsOf(e);
+        var day = eventDayStart(e);
+        var overdue = isEventOpen(e) && day != null && day < todayTs;
         var att = (extra.attachments || []).length;
-        var links = (extra.links || []).length;
+        var links = (extra.links || extra.urls || []).length;
+        var dossierName = ((e.dossier_first_name || "") + " " + (e.dossier_last_name || "")).trim();
+        var tags = ints
+          .map(function (p, idx) {
+            var cls = p.followUp === "done" ? "em-tag--done" : p.followUp === "waiting" ? "em-tag--waiting" : "";
+            var fu = INT.followUpLabel ? INT.followUpLabel(p.followUp) : p.followUp || "À relancer";
+            return (
+              '<button type="button" class="em-tag ' +
+              cls +
+              '" data-int-cycle="' +
+              esc(e.id) +
+              '" data-int-idx="' +
+              idx +
+              '" title="Suivi : ' +
+              esc(fu) +
+              ' — cliquer pour changer">' +
+              esc(p.roleLabel || p.role) +
+              (p.name ? " · " + esc(p.name) : "") +
+              " · " +
+              esc(fu) +
+              "</button>"
+            );
+          })
+          .join("");
+        var actions = "";
+        if (!e._linked) {
+          actions +=
+            '<button type="button" class="btn btn-ghost btn-xs btn-edit-event" data-id="' +
+            esc(e.id) +
+            '">Modifier</button>' +
+            '<button type="button" class="btn btn-ghost btn-xs btn-dup-event" data-id="' +
+            esc(e.id) +
+            '">Dupliquer</button>' +
+            '<button type="button" class="btn btn-ghost btn-xs btn-del-event" data-id="' +
+            esc(e.id) +
+            '">Supprimer</button>';
+        } else if (e.contact_id) {
+          actions +=
+            '<a class="btn btn-ghost btn-xs" href="./crm-contact.html?id=' +
+            encodeURIComponent(e.contact_id) +
+            '">Dossier ' +
+            esc(dossierName || "") +
+            "</a>";
+        }
+        if (isEventOpen(e)) {
+          actions +=
+            '<button type="button" class="btn btn-ghost btn-xs btn-done-event" data-id="' +
+            esc(e.id) +
+            '">Marquer fait</button>';
+        }
+        actions +=
+          '<a class="btn btn-ghost btn-xs" href="./crm-event-create.html?contactId=' +
+          encodeURIComponent(e.contact_id || contactId) +
+          "&title=" +
+          encodeURIComponent("Suivi — " + (e.title || contactDisplayName())) +
+          '">+ Relance</a>';
         return (
-          '<article class="event-card" data-id="' +
+          '<article class="event-card' +
+          (overdue ? " event-card--overdue" : "") +
+          (e._linked ? " event-card--linked" : "") +
+          '" data-id="' +
           esc(e.id) +
           '">' +
           "<h4>" +
@@ -312,10 +493,10 @@
           " · " +
           dateStr +
           (e.event_time ? " " + esc(e.event_time) : "") +
+          (overdue ? ' <span class="em-tag em-tag--overdue">En retard</span>' : "") +
+          (e._linked ? " · Autre dossier" + (dossierName ? " · " + esc(dossierName) : "") : "") +
           "</p>" +
-          (parts.length
-            ? '<p class="meta">Participants : ' + esc(parts.join(", ")) + "</p>"
-            : "") +
+          (tags ? '<div class="em-tags">' + tags + "</div>" : "") +
           (att || links
             ? '<p class="meta">' +
               (att ? att + " PJ" : "") +
@@ -325,24 +506,19 @@
             : "") +
           (e.description ? "<p>" + esc(e.description) + "</p>" : "") +
           '<div class="actions">' +
-          '<button type="button" class="btn btn-ghost btn-xs btn-edit-event" data-id="' +
-          esc(e.id) +
-          '">Modifier</button>' +
-          '<button type="button" class="btn btn-ghost btn-xs btn-dup-event" data-id="' +
-          esc(e.id) +
-          '">Dupliquer</button>' +
-          '<button type="button" class="btn btn-ghost btn-xs btn-del-event" data-id="' +
-          esc(e.id) +
-          '">Supprimer</button>' +
+          actions +
           "</div></article>"
         );
       })
       .join("");
     el.querySelectorAll(".btn-edit-event").forEach(function (btn) {
       btn.onclick = function () {
-        openModal("events", data.events.find(function (x) {
-          return x.id === btn.getAttribute("data-id");
-        }));
+        openModal(
+          "events",
+          allEvents().find(function (x) {
+            return x.id === btn.getAttribute("data-id");
+          })
+        );
       };
     });
     el.querySelectorAll(".btn-dup-event").forEach(function (btn) {
@@ -360,6 +536,36 @@
       btn.onclick = function () {
         if (!confirm("Supprimer cet evenement ?")) return;
         delModule("events", btn.getAttribute("data-id"));
+      };
+    });
+    el.querySelectorAll(".btn-done-event").forEach(function (btn) {
+      btn.onclick = function () {
+        api("/api/crm/events", {
+          method: "PATCH",
+          body: { id: btn.getAttribute("data-id"), status: "completed" },
+        }).then(function (res) {
+          if (res.ok) loadContact();
+          else alert(res.error || "Erreur");
+        });
+      };
+    });
+    el.querySelectorAll("[data-int-cycle]").forEach(function (btn) {
+      btn.onclick = function () {
+        var id = btn.getAttribute("data-int-cycle");
+        var idx = Number(btn.getAttribute("data-int-idx"));
+        var evt = allEvents().find(function (x) {
+          return x.id === id;
+        });
+        if (!evt || !INT.nextFollowUp) return;
+        var ints = interlocutorsOf(evt).map(function (p, i) {
+          var copy = Object.assign({}, p);
+          if (i === idx) copy.followUp = INT.nextFollowUp(copy.followUp);
+          return copy;
+        });
+        api("/api/crm/events", { method: "PATCH", body: { id: id, interlocutors: ints } }).then(function (res) {
+          if (res.ok) loadContact();
+          else alert(res.error || "Erreur");
+        });
       };
     });
   }
@@ -801,7 +1007,7 @@
     var cfg = window.CrmContactProfiles ? window.CrmContactProfiles.get(profileKey) : null;
     var keys = (cfg && cfg.kpis) || ["events", "contracts", "requests"];
     var defs = {
-      events: { n: data.events.length, label: "Événements" },
+      events: { n: allEvents().length, label: "Événements" },
       claims: { n: data.claims.length, label: "Sinistres" },
       vehicles: { n: data.vehicles.length, label: "Véhicules" },
       contracts: { n: data.contracts.length, label: "Contrats" },
@@ -1328,7 +1534,18 @@
       document.getElementById("modalTitle").textContent =
         (item ? "Modifier " : "Ajouter ") + "evenement";
       var formEl = document.getElementById("modalForm");
-      formEl.innerHTML = window.CrmEventForm.build(item);
+      var eventItem = item ? Object.assign({}, item) : {};
+      if (!item) {
+        eventItem._defaultInterlocutor = {
+          role: "client",
+          name: contactDisplayName(),
+          contactId: contactId,
+          phone: (data.contact && data.contact.phone) || "",
+          email: (data.contact && data.contact.email) || "",
+          followUp: "pending",
+        };
+      }
+      formEl.innerHTML = window.CrmEventForm.build(eventItem);
       window.CrmEventForm.bindDynamic(formEl);
       document.getElementById("modalOverlay").classList.remove("hidden");
       return;
@@ -1672,7 +1889,11 @@
   if (aiEl) {
     aiEl.addEventListener("change", renderEvents);
   }
-  ["eventSearch", "eventTypeFilter", "eventStatusFilter", "eventPriorityFilter", "eventSort"].forEach(
+  var fullBtn = document.getElementById("btnAddEventFull");
+  if (fullBtn && contactId) {
+    fullBtn.href = "./crm-event-create.html?contactId=" + encodeURIComponent(contactId);
+  }
+  ["eventSearch", "eventTypeFilter", "eventStatusFilter", "eventPriorityFilter", "eventRoleFilter", "eventSort"].forEach(
     function (id) {
       var el = document.getElementById(id);
       if (!el) return;
@@ -1721,7 +1942,7 @@
       { section: "Profil", label: "Email", value: c.email },
       { section: "Profil", label: "Telephone", value: c.phone },
     ];
-    (data.events || []).forEach(function (e) {
+    allEvents().forEach(function (e) {
       rows.push({
         section: "Evenement",
         label: e.title,

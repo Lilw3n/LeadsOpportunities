@@ -233,7 +233,7 @@ window.CrmContactProfiles = {
     document.querySelectorAll("[data-crm-section]").forEach(function (el) {
       var key = el.getAttribute("data-crm-section");
       var show = sections[key] === true;
-      if (key === "quotes" || key === "moduleLinks") show = true;
+      if (key === "quotes" || key === "moduleLinks" || key === "events") show = true;
       el.classList.toggle("crm-section-hidden", !show);
     });
     var bar = document.getElementById("contactProfileBar");

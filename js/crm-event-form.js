@@ -110,7 +110,65 @@ window.CrmEventForm = {
         var lr = t.closest(".link-row");
         if (lr) lr.remove();
       }
+      if (t.classList.contains("btn-add-interlocutor")) {
+        e.preventDefault();
+        var ibox = form.querySelector("#interlocutorsBox");
+        var ii = ibox.querySelectorAll(".interlocutor-row").length;
+        ibox.insertAdjacentHTML("beforeend", self.interlocutorRow({}, ii));
+      }
+      if (t.classList.contains("btn-rm-interlocutor")) {
+        e.preventDefault();
+        var ir = t.closest(".interlocutor-row");
+        if (ir) ir.remove();
+      }
     });
+  },
+
+  interlocutorRow: function (p, i) {
+    p = p || {};
+    var INT = window.CrmDossierInterlocutors;
+    var follow = p.followUp || "pending";
+    return (
+      '<div class="interlocutor-row form-grid" data-index="' +
+      i +
+      '">' +
+      "<label>Rôle dossier<select name=\"int_role_" +
+      i +
+      '">' +
+      (INT ? INT.roleOptionsHtml(p.role || "client") : "<option value=\"client\">Client</option>") +
+      "</select></label>" +
+      '<label>Nom<input name="int_name_' +
+      i +
+      '" value="' +
+      this.escAttr(p.name) +
+      '" placeholder="Nom" /></label>' +
+      '<label>Tél<input name="int_phone_' +
+      i +
+      '" value="' +
+      this.escAttr(p.phone) +
+      '" /></label>' +
+      '<label>E-mail<input name="int_email_' +
+      i +
+      '" value="' +
+      this.escAttr(p.email) +
+      '" /></label>' +
+      '<label>Suivi<select name="int_follow_' +
+      i +
+      '"><option value="pending"' +
+      (follow === "pending" ? " selected" : "") +
+      '>À relancer</option><option value="waiting"' +
+      (follow === "waiting" ? " selected" : "") +
+      '>En attente</option><option value="done"' +
+      (follow === "done" ? " selected" : "") +
+      ">Fait</option></select></label>" +
+      '<input type="hidden" name="int_contact_' +
+      i +
+      '" value="' +
+      this.escAttr(p.contactId) +
+      '" />' +
+      '<button type="button" class="btn btn-ghost btn-xs btn-rm-interlocutor">Retirer</button>' +
+      "</div>"
+    );
   },
 
   build: function (item) {
@@ -125,8 +183,25 @@ window.CrmEventForm = {
     if (!parts.length) parts = [{ name: "", role: "recipient" }];
     var attachments = extra.attachments || [];
     var urls = extra.urls || extra.links || [];
+    var INT = window.CrmDossierInterlocutors;
+    var ints = extra.interlocutors || [];
+    if (INT && INT.normalizeList) ints = INT.normalizeList(ints);
+    if (!ints.length && item._defaultInterlocutor) ints = [item._defaultInterlocutor];
+    if (!ints.length) ints = [{ role: "client", name: "", followUp: "pending" }];
+
+    var typeIds = ["call", "email", "meeting", "task", "note", "document", "relance", "pieces", "banque", "notaire", "partenaire", "visite", "estimation"];
+    if (window.CrmAgendaTypes && window.CrmAgendaTypes.TYPES) {
+      typeIds = window.CrmAgendaTypes.TYPES.map(function (t) {
+        return t.id;
+      });
+    }
+    var typeLabel = function (id) {
+      if (window.CrmAgendaTypes && window.CrmAgendaTypes.byId) return window.CrmAgendaTypes.byId(id).label;
+      return id;
+    };
 
     var partHtml = parts.map(this.participantRow.bind(this)).join("");
+    var intHtml = ints.map(this.interlocutorRow.bind(this)).join("");
     var attHtml = attachments.length
       ? attachments.map(this.attachmentRow.bind(this)).join("")
       : "";
@@ -137,7 +212,7 @@ window.CrmEventForm = {
 
     return (
       '<label>Type<select name="event_type" required>' +
-      ["call", "email", "meeting", "task", "note", "document"]
+      typeIds
         .map(function (t) {
           return (
             '<option value="' +
@@ -145,7 +220,7 @@ window.CrmEventForm = {
             '"' +
             ((item.event_type || "call") === t ? " selected" : "") +
             ">" +
-            t +
+            typeLabel(t) +
             "</option>"
           );
         })
@@ -175,6 +250,12 @@ window.CrmEventForm = {
       '>Haute</option><option value="urgent"' +
       (item.priority === "urgent" ? " selected" : "") +
       ">Urgente</option></select></label>" +
+      '<h3 class="form-section-title">Interlocuteurs du dossier</h3>' +
+      '<p class="form-hint">Client, banque, notaire, partenaire… — suivi de relance sur la fiche.</p>' +
+      '<div id="interlocutorsBox">' +
+      intHtml +
+      "</div>" +
+      '<button type="button" class="btn btn-ghost btn-sm btn-add-interlocutor">+ Interlocuteur</button>' +
       '<h3 class="form-section-title">Participants</h3>' +
       '<div id="participantsBox">' +
       partHtml +
@@ -206,8 +287,33 @@ window.CrmEventForm = {
       }
       i++;
     }
+    var interlocutors = [];
+    i = 0;
+    while (i < 20) {
+      var iname = fd.get("int_name_" + i);
+      var irole = fd.get("int_role_" + i);
+      var iphone = fd.get("int_phone_" + i);
+      var iemail = fd.get("int_email_" + i);
+      var icid = fd.get("int_contact_" + i);
+      if (irole || iname || iphone || iemail || icid) {
+        interlocutors.push({
+          role: irole || "autre",
+          name: iname || "",
+          phone: iphone || "",
+          email: iemail || "",
+          contactId: icid || "",
+          followUp: fd.get("int_follow_" + i) || "pending",
+        });
+      }
+      i++;
+    }
+    if (!participants.length && interlocutors.length) {
+      participants = interlocutors.map(function (p) {
+        return { name: p.name, role: "attendee" };
+      });
+    }
     if (!participants.length) {
-      return { error: "Au moins un participant est requis" };
+      return { error: "Au moins un participant ou interlocuteur est requis" };
     }
 
     var attachments = [];
@@ -241,6 +347,7 @@ window.CrmEventForm = {
       status: fd.get("status"),
       priority: fd.get("priority"),
       participants: participants,
+      interlocutors: interlocutors,
       attachments: attachments,
       urls: urls,
     };

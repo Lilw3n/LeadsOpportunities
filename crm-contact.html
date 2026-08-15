@@ -48,6 +48,66 @@
     <div id="dossierMount"></div>
     <div id="contactActionsMount"></div>
     <div id="contactKpis" class="contact-kpis"></div>
+    <section class="panel contact-events contact-events--wide" id="contactEventsPanel">
+      <div class="panel-head">
+        <h2>Événements &amp; suivi</h2>
+        <div class="contact-events-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="btnAddEvent">+ Ajouter</button>
+          <a href="./crm-event-create.html" class="btn btn-ghost btn-sm" id="btnAddEventFull">+ RDV complet</a>
+          <a href="./crm-event-manager.html" class="btn btn-ghost btn-sm">Gestionnaire</a>
+          <a href="./crm-calendar.html" class="btn btn-ghost btn-sm">Agenda</a>
+        </div>
+      </div>
+      <p class="contact-events-lead">RDV, relances et interlocuteurs du dossier (banque, notaire, partenaire…) — y compris les événements où cette personne est citée sur un autre dossier.</p>
+      <div id="contactEventKpis" class="contact-event-kpis"></div>
+      <div class="event-filters event-filters--row">
+        <input type="search" id="eventSearch" placeholder="Rechercher un événement, un interlocuteur…" />
+        <select id="eventTypeFilter">
+          <option value="">Tous types</option>
+          <option value="call">Appel</option>
+          <option value="email">Email</option>
+          <option value="meeting">Rendez-vous</option>
+          <option value="task">Tâche</option>
+          <option value="note">Note</option>
+          <option value="document">Document</option>
+          <option value="relance">Relance</option>
+          <option value="pieces">Pièces</option>
+          <option value="banque">RDV banque</option>
+          <option value="notaire">RDV notaire</option>
+          <option value="partenaire">Partenaire</option>
+        </select>
+        <select id="eventStatusFilter">
+          <option value="open">Ouverts (à faire)</option>
+          <option value="">Tous statuts</option>
+          <option value="pending">En attente</option>
+          <option value="completed">Terminé</option>
+          <option value="cancelled">Annulé</option>
+        </select>
+        <select id="eventPriorityFilter">
+          <option value="">Toutes priorités</option>
+          <option value="low">Faible</option>
+          <option value="medium">Moyenne</option>
+          <option value="high">Haute</option>
+          <option value="urgent">Urgente</option>
+        </select>
+        <select id="eventRoleFilter">
+          <option value="">Tous interlocuteurs</option>
+        </select>
+        <select id="eventSort">
+          <option value="date-desc">Date ↓</option>
+          <option value="date-asc">Date ↑</option>
+          <option value="created-desc">Création ↓</option>
+        </select>
+        <label class="ai-search-toggle"><input type="checkbox" id="eventAiSearch" /> Recherche étendue</label>
+      </div>
+      <section class="smart-timeline-panel">
+        <h3 class="sub-title">Timeline intelligente</h3>
+        <div id="smartTimelineBox"></div>
+      </section>
+      <div id="eventsList" class="events-list events-list--board"></div>
+      <h3 class="sub-title">Activités système</h3>
+      <div id="activitiesList" class="activities-list"></div>
+    </section>
     <section class="panel" id="contactDocumentsPanel" data-crm-section="documents">
       <div class="panel-head">
         <h2>Pièces justificatives (Drive)</h2>
@@ -60,50 +120,6 @@
       <div id="eligibilityBox"></div>
     </section>
     <div class="contact-grid">
-      <aside class="contact-events panel">
-        <div class="panel-head">
-          <h2>Événements</h2>
-          <button type="button" class="btn btn-primary btn-sm" id="btnAddEvent">+ Ajouter</button>
-        </div>
-        <div class="event-filters">
-          <input type="search" id="eventSearch" placeholder="Rechercher..." />
-          <select id="eventTypeFilter">
-            <option value="">Tous types</option>
-            <option value="call">Appel</option>
-            <option value="email">Email</option>
-            <option value="meeting">Rendez-vous</option>
-            <option value="task">Tâche</option>
-            <option value="note">Note</option>
-            <option value="document">Document</option>
-          </select>
-          <select id="eventStatusFilter">
-            <option value="">Tous statuts</option>
-            <option value="pending">En attente</option>
-            <option value="completed">Terminé</option>
-            <option value="cancelled">Annulé</option>
-          </select>
-          <select id="eventPriorityFilter">
-            <option value="">Toutes priorités</option>
-            <option value="low">Faible</option>
-            <option value="medium">Moyenne</option>
-            <option value="high">Haute</option>
-            <option value="urgent">Urgente</option>
-          </select>
-          <select id="eventSort">
-            <option value="date-desc">Date ↓</option>
-            <option value="date-asc">Date ↑</option>
-            <option value="created-desc">Création ↓</option>
-          </select>
-          <label class="ai-search-toggle"><input type="checkbox" id="eventAiSearch" /> Recherche etendue (synonymes)</label>
-        </div>
-        <section class="panel smart-timeline-panel">
-          <h3 class="sub-title">Timeline intelligente</h3>
-          <div id="smartTimelineBox"></div>
-        </section>
-        <div id="eventsList" class="events-list"></div>
-        <h3 class="sub-title">Activités système</h3>
-        <div id="activitiesList" class="activities-list"></div>
-      </aside>
       <main class="contact-modules">
         <section class="panel section-company" data-crm-section="company">
           <div class="panel-head section-head-company"><h2>Entreprise</h2><button type="button" class="btn btn-primary btn-sm" id="btnEditCompany">Modifier</button></div>
@@ -204,6 +220,8 @@
   <script src="./js/crm-people-relations-lib.js"></script>
   <script src="./js/crm-relations-store.js"></script>
   <script src="./js/crm-date-utils.js"></script>
+  <script src="./js/crm-agenda-types.js"></script>
+  <script src="./js/crm-dossier-interlocutors.js"></script>
   <script src="./js/crm-event-form.js"></script>
   <script src="./js/crm-event-search.js"></script>
   <script src="./js/crm-smart-timeline.js"></script>
