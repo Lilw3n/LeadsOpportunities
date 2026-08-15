@@ -50,6 +50,11 @@
       (ok ? "Configuré ✓" : "Token / webhook manquant") +
       "</span></div>" +
       "<p style=\"color:var(--muted)\">Chaque lead (site + Meta Lead Ads) et chaque fiche interlocuteur envoie une alerte Slack. Variable : <strong>SLACK_BOT_TOKEN</strong> (ou webhook).</p>" +
+      (s.webhook_invalid
+        ? '<p style="color:#b91c1c;font-size:.9rem">SLACK_WEBHOOK_URL n’est pas une URL. Collez <code>https://hooks.slack.com/services/…</code> (pas le signing secret). ' +
+          (s.token_ok ? "Le test utilisera le token bot." : "Ajoutez aussi SLACK_BOT_TOKEN (xoxb-…).") +
+          "</p>"
+        : "") +
       (ok
         ? '<p><button type="button" class="btn btn-primary btn-sm" id="btnTestSlack">Envoyer un test Slack</button> <span id="slackTestResult" style="margin-left:8px;color:var(--muted)"></span></p>'
         : '<ol style="color:var(--muted);margin:8px 0 0 18px;line-height:1.6"><li>Ouvrir l’app Slack <a href="https://api.slack.com/apps/A0BQ6Q905KM" target="_blank" rel="noopener">Leads Opportunities CRM</a></li><li>OAuth &amp; Permissions → <strong>Install to Workspace</strong> → choisir le canal (ex. #leads)</li><li>Copier le <strong>Bot User OAuth Token</strong> (<code>xoxb-…</code>) dans Vercel → <strong>SLACK_BOT_TOKEN</strong> <em>ou</em> l’Incoming Webhook → <strong>SLACK_WEBHOOK_URL</strong></li><li>Redeploy puis cliquer « Tester Slack »</li></ol>') +
