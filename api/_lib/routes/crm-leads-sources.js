@@ -5,7 +5,6 @@ const { applyApiGuards, sanitizeEnum } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
 const { loadHubConfig } = require("../ad-platform-hub");
-const { detectNetwork } = require("../lead-network");
 
 const PLATFORMS = [
   "facebook", "instagram", "google", "tiktok", "linkedin", "youtube",
@@ -23,7 +22,21 @@ function parsePayloadSafe(raw) {
 }
 
 function detectPlatform(row) {
-  return detectNetwork(row);
+  var payload = parsePayloadSafe(row.payload);
+  if (row.platform) return row.platform;
+  var utm = String(row.utm_source || payload.utm_source || "").toLowerCase();
+  var src = String(row.source || payload.source || "").toLowerCase();
+  if (/withallo|allo/.test(src + " " + utm)) return "withallo";
+  if (row.fbclid || payload.fbclid || /facebook|meta|fb/.test(utm)) {
+    return /instagram|ig/.test(utm) ? "instagram" : "facebook";
+  }
+  if (row.ttclid || payload.ttclid || /tiktok/.test(utm)) return "tiktok";
+  if (row.gclid || row.msclkid || payload.gclid || /google|gclid|adwords/.test(utm)) return "google";
+  if (/bing|microsoft|msclkid/.test(utm + " " + src)) return "bing";
+  if (/linkedin/.test(utm)) return "linkedin";
+  if (row.source === "meta_lead_ads") return "facebook";
+  if (row.source === "landing_form" || /site|organic|direct|seo/.test(utm + " " + src)) return "site_web";
+  return "autre";
 }
 
 function bump(map, key, inc) {

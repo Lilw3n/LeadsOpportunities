@@ -40,7 +40,6 @@ const ROUTES = {
   "leads-hub": () => require("../_lib/routes/crm-leads-hub"),
   "lead-lifecycle": () => require("../_lib/routes/crm-lead-lifecycle"),
   "leads-sources": () => require("../_lib/routes/crm-leads-sources"),
-  "leads-roi": () => require("../_lib/routes/crm-leads-roi"),
   "traffic-stats": () => require("../_lib/routes/crm-traffic-stats"),
   "traffic-alert-test": () => require("../_lib/routes/crm-traffic-alert-test"),
   "markets-presence": () => require("../_lib/routes/crm-markets-presence"),
