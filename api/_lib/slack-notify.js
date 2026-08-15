@@ -130,6 +130,20 @@ async function slackApi(method, token, body) {
   return data;
 }
 
+async function slackGet(method, token, params) {
+  var usp = new URLSearchParams();
+  Object.keys(params || {}).forEach(function (k) {
+    if (params[k] == null) return;
+    usp.set(k, String(params[k]));
+  });
+  var r = await fetch("https://slack.com/api/" + method + "?" + usp.toString(), {
+    headers: { Authorization: "Bearer " + token },
+  });
+  return r.json().catch(function () {
+    return { ok: false, error: "json" };
+  });
+}
+
 async function sendViaWebhook(text) {
   var url = getWebhookUrl();
   if (!url) return { ok: false, error: INVALID_WEBHOOK_MSG };
@@ -159,13 +173,13 @@ function uniqueNames(list) {
 }
 
 async function listChannels(token, method, types) {
-  var data = await slackApi(method, token, {
+  var data = await slackGet(method, token, {
     types: types,
-    exclude_archived: true,
-    limit: 200,
+    exclude_archived: "true",
+    limit: "200",
   });
-  if (!data.ok) return [];
-  return data.channels || [];
+  if (!data.ok) return { channels: [], error: data.error || "list" };
+  return { channels: data.channels || [], error: null };
 }
 
 async function tryPost(token, channel, text) {
@@ -191,17 +205,35 @@ async function sendViaToken(text) {
     "random",
   ]);
   var lastErr = "échec";
+  var listErr = null;
   var i;
   for (i = 0; i < tokens.length; i++) {
     var token = tokens[i];
+    var who = await slackApi("auth.test", token, {});
+    if (!who.ok) {
+      lastErr = who.error || lastErr;
+      if (who.error === "invalid_auth" || who.error === "not_authed" || who.error === "account_inactive") {
+        return {
+          ok: false,
+          error:
+            "Token Slack invalide. Vercel → SLACK_BOT_TOKEN = Bot User OAuth Token (xoxb-…), puis Redeploy.",
+        };
+      }
+      continue;
+    }
     var n;
+    var data;
     for (n = 0; n < names.length; n++) {
-      var data = await tryPost(token, names[n], text);
+      data = await tryPost(token, names[n], text);
       if (data.ok) return { ok: true, via: "token", channel: names[n] };
       lastErr = data.error || lastErr;
+      data = await tryPost(token, "#" + names[n], text);
+      if (data.ok) return { ok: true, via: "token", channel: names[n] };
     }
 
-    var member = await listChannels(token, "users.conversations", "public_channel,private_channel");
+    var memberRes = await listChannels(token, "users.conversations", "public_channel,private_channel");
+    if (memberRes.error) listErr = memberRes.error;
+    var member = memberRes.channels || [];
     var m;
     for (m = 0; m < member.length; m++) {
       if (member[m].is_archived) continue;
@@ -210,7 +242,9 @@ async function sendViaToken(text) {
       lastErr = data.error || lastErr;
     }
 
-    var pub = await listChannels(token, "conversations.list", "public_channel");
+    var pubRes = await listChannels(token, "conversations.list", "public_channel");
+    if (pubRes.error) listErr = pubRes.error;
+    var pub = pubRes.channels || [];
     var p;
     for (p = 0; p < pub.length; p++) {
       var ch = pub[p];
@@ -230,11 +264,11 @@ async function sendViaToken(text) {
       lastErr = data.error || lastErr;
     }
   }
-  if (lastErr === "missing_scope") {
+  if (lastErr === "missing_scope" || listErr === "missing_scope") {
     return {
       ok: false,
       error:
-        "Ce token Slack ne peut pas poster (jeton de configuration d’app). Installez l’app « Leads Opportunities CRM » puis copiez le token bot xoxb- ou l’Incoming Webhook dans Vercel.",
+        "Le bot Slack n’a pas les droits canaux. App Slack → OAuth & Permissions → scopes chat:write, channels:join, channels:read → Reinstall to Workspace, puis invitez l’app dans #leads.",
     };
   }
   return { ok: false, error: channelHelpError(preferred, lastErr) };

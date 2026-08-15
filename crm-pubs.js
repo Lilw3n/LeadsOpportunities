@@ -84,8 +84,9 @@
           .then(function (res) {
             if (out) {
               out.textContent = res.body.ok
-                ? "✓ Message reçu sur Slack"
-                : res.body.error || "Erreur " + res.status;
+                ? "✓ Message reçu sur Slack" +
+                  (res.body.channel ? " (#" + res.body.channel + ")" : "")
+                : res.body.error || res.body.hint || "Erreur " + res.status;
               out.style.color = res.body.ok ? "#16a34a" : "#b91c1c";
             }
           })
