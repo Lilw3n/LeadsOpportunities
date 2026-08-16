@@ -1,6 +1,6 @@
 /**
  * Manifeste des articles blog — source pour generate-blog-articles, index et RSS.
- * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu
+ * section: animaux | vtc | sante | auto | habitat | prevoyance | pro | patrimoine | finance | actu | chasse | equitation
  * themes (optionnel): sujets additionnels — ex. ["canicule","seniors"] ; voir scripts/blog-themes.cjs
  */
 module.exports = {
@@ -9,7 +9,7 @@ module.exports = {
       id: "actu",
       title: "Actu, culture & tendances",
       intro:
-        "Presidentielles 2027, Trump, Melenchon, Darmanin, Formule 1, GTA 6, Zelda Ocarina of Time, Ligue des champions… Chaque sujet du moment, relie a assurance et pret immobilier.",
+        "Presidentielles 2027, incendies Gironde, restrictions d'eau, Trump, Formule 1, GTA 6… Chaque sujet du moment, relie a assurance et pret immobilier.",
     },
     { id: "sante", title: "Sante & mutuelle", cta: { href: "../landings/questionnaire.html?need=sante&journey=standard", label: "Questionnaire mutuelle" } },
     { id: "habitat", title: "Habitation & emprunteur", cta: { href: "../landings/questionnaire.html?need=habitation&journey=standard", label: "Questionnaire habitation" } },
@@ -19,6 +19,8 @@ module.exports = {
     { id: "patrimoine", title: "Patrimoine & epargne", cta: { href: "../landings/questionnaire.html?need=assurance-vie&journey=standard", label: "Questionnaire patrimoine" } },
     { id: "finance", title: "Credit & immobilier", cta: { href: "../landings/questionnaire.html?need=credit-immo&journey=standard", label: "Questionnaire credit immo" } },
     { id: "animaux", title: "Assurance animaux (chien & chat)", cta: { href: "../landings/questionnaire.html?need=animaux&journey=standard", label: "Questionnaire animaux" } },
+    { id: "chasse", title: "Assurance chasse & RC chasseur", cta: { href: "../landings/chasse.html", label: "Devis chasse" } },
+    { id: "equitation", title: "Assurance equitation & RC equestre", cta: { href: "../landings/equitation.html", label: "Devis equitation" } },
     { id: "vtc", title: "Assurance VTC & chauffeurs", cta: { href: "../landings/questionnaire.html?need=vtc&journey=standard", label: "Questionnaire VTC" } },
   ],
   articles: [
@@ -2544,6 +2546,11 @@ applyUpgrades(module.exports.articles);
 
 const caniculeMutuelle = require("./blog-canicule-mutuelle-articles.cjs");
 caniculeMutuelle.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
+const nichesActu = require("./blog-niches-actu-articles.cjs");
+nichesActu.forEach(function (a) {
   module.exports.articles.push(a);
 });
 

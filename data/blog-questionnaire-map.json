@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-05",
+  "updated": "2026-08-16",
   "sections": {
     "animaux": {
       "need": "animaux",
@@ -120,12 +120,44 @@
       "questionnaireLabel": "Questionnaire assurance",
       "landingLabel": "Catalogue assurances",
       "expressLabel": "Devis express"
+    },
+    "chasse": {
+      "need": "chasse",
+      "questionnaire": "/landings/questionnaire.html?need=chasse&journey=standard",
+      "landing": "/landings/chasse.html",
+      "express": "/landings/devis.html?need=chasse",
+      "hook": "RC chasseur et assurance chasse : un accident se paie cher sans couverture adaptée.",
+      "question": "Votre RC chasseur est-elle à jour pour la saison ?",
+      "primaryLabel": "Devis assurance chasse",
+      "questionnaireLabel": "Questionnaire chasse (3 min)",
+      "landingLabel": "Parcours chasse complet",
+      "expressLabel": "Devis chasse rapide"
+    },
+    "equitation": {
+      "need": "equitation",
+      "questionnaire": "/landings/questionnaire.html?need=equitation&journey=standard",
+      "landing": "/landings/equitation.html",
+      "express": "/landings/devis.html?need=equitation",
+      "hook": "RC équestre et frais liés au cheval : comparez avant la prochaine saison.",
+      "question": "Votre assurance équitation couvre-t-elle vraiment votre pratique ?",
+      "primaryLabel": "Devis équitation",
+      "questionnaireLabel": "Questionnaire équitation (3 min)",
+      "landingLabel": "Parcours équitation complet",
+      "expressLabel": "Devis équitation rapide"
     }
   },
   "keywordRules": [
     {
       "id": "puces-chat",
-      "match": ["puce", "puces", "antiparasitaire", "antipuce", "tique", "tiques", "vermifuge"],
+      "match": [
+        "puce",
+        "puces",
+        "antiparasitaire",
+        "antipuce",
+        "tique",
+        "tiques",
+        "vermifuge"
+      ],
       "section": "animaux",
       "species": "chat",
       "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
@@ -133,7 +165,12 @@
     },
     {
       "id": "chat",
-      "match": ["chat", "chaton", "félin", "felin"],
+      "match": [
+        "chat",
+        "chaton",
+        "félin",
+        "felin"
+      ],
       "section": "animaux",
       "species": "chat",
       "hook": "Les soins du chat (digestif, urgence, imagerie) montent vite sans mutuelle animaux.",
@@ -141,7 +178,11 @@
     },
     {
       "id": "chien",
-      "match": ["chien", "chiot", "canin"],
+      "match": [
+        "chien",
+        "chiot",
+        "canin"
+      ],
       "section": "animaux",
       "species": "chien",
       "hook": "Chirurgie, radio, allergie : le chien est souvent plus coûteux à soigner que prévu.",
@@ -149,28 +190,113 @@
     },
     {
       "id": "vtc",
-      "match": ["vtc", "uber", "bolt", "heetch", "chauffeur", "rc pro chauffeur"],
+      "match": [
+        "vtc",
+        "uber",
+        "bolt",
+        "heetch",
+        "chauffeur",
+        "rc pro chauffeur"
+      ],
       "section": "vtc"
     },
     {
       "id": "mutuelle",
-      "match": ["mutuelle", "optique", "dentaire", "hospitalisation", "remboursement santé"],
+      "match": [
+        "mutuelle",
+        "optique",
+        "dentaire",
+        "hospitalisation",
+        "remboursement santé"
+      ],
       "section": "sante"
     },
     {
       "id": "habitation",
-      "match": ["habitation", "degats des eaux", "dégâts des eaux", "locataire", "pno", "multirisque"],
+      "match": [
+        "habitation",
+        "degats des eaux",
+        "dégâts des eaux",
+        "locataire",
+        "pno",
+        "multirisque"
+      ],
       "section": "habitat"
     },
     {
       "id": "emprunteur",
-      "match": ["emprunteur", "lemoine", "pret immobilier", "prêt immobilier", "credit immo", "crédit immo"],
+      "match": [
+        "emprunteur",
+        "lemoine",
+        "pret immobilier",
+        "prêt immobilier",
+        "credit immo",
+        "crédit immo"
+      ],
       "section": "finance"
     },
     {
       "id": "auto",
-      "match": ["assurance auto", "bonus malus", "jeune conducteur", "tous risques"],
+      "match": [
+        "assurance auto",
+        "bonus malus",
+        "jeune conducteur",
+        "tous risques"
+      ],
       "section": "auto"
+    },
+    {
+      "id": "incendie-foret",
+      "match": [
+        "incendie",
+        "feux de forêt",
+        "feu de forêt",
+        "gironde",
+        "pompiers"
+      ],
+      "section": "habitat"
+    },
+    {
+      "id": "restriction-eau",
+      "match": [
+        "restriction d'eau",
+        "sécheresse",
+        "arrosage",
+        "piscine"
+      ],
+      "section": "habitat"
+    },
+    {
+      "id": "presidentielle",
+      "match": [
+        "présidentielle",
+        "presidentielle",
+        "élection",
+        "retraite 2027"
+      ],
+      "section": "prevoyance"
+    },
+    {
+      "id": "chasse-rc",
+      "match": [
+        "chasse",
+        "chasseur",
+        "rc chasseur",
+        "battue"
+      ],
+      "section": "chasse"
+    },
+    {
+      "id": "equitation-rc",
+      "match": [
+        "équitation",
+        "equitation",
+        "cheval",
+        "équestre",
+        "equestre",
+        "cavalier"
+      ],
+      "section": "equitation"
     }
   ],
   "articles": {
@@ -401,6 +527,48 @@
       "questionnaireLabel": "Questionnaire credit conso",
       "landingLabel": "Etude credit consommation",
       "expressLabel": "Rappel credit conso"
+    },
+    "incendies-gironde-feux-foret-assurance-habitation-2026.html": {
+      "section": "habitat",
+      "hook": "Feux de forêt Gironde : relisez incendie, Cat Nat et dépendances avant le prochain pic."
+    },
+    "pompiers-vigilance-rouge-feux-foret-prevoyance-sinistre.html": {
+      "section": "prevoyance",
+      "hook": "Après l'incendie : habitation pour le bien, prévoyance pour les revenus."
+    },
+    "restriction-eau-secheresse-gironde-assurance-habitation.html": {
+      "section": "habitat",
+      "hook": "Restrictions d'eau et sécheresse : le contrat habitation doit suivre les fissures et le bâti."
+    },
+    "secheresse-jardin-piscine-restriction-eau-assurance.html": {
+      "section": "habitat"
+    },
+    "presidentielle-2027-checklist-assurances-foyer.html": {
+      "section": "actu",
+      "hook": "Présidentielle 2027 : checklist foyer (habitation, mutuelle, prévoyance, emprunteur)."
+    },
+    "presidentielle-2027-retraite-mutuelle-prevoyance.html": {
+      "section": "prevoyance"
+    },
+    "assurance-chasse-rc-chasseur-guide-2026.html": {
+      "section": "chasse"
+    },
+    "assurance-chien-de-chasse-rc-comparatif.html": {
+      "section": "animaux",
+      "hook": "Chien de chasse : frais véto + RC — comparez animaux et chasse."
+    },
+    "assurance-equitation-rc-equestre-guide-2026.html": {
+      "section": "equitation"
+    },
+    "assurance-cheval-pas-cher-criteres-2026.html": {
+      "section": "equitation"
+    },
+    "feux-foret-animaux-chien-chat-assurance.html": {
+      "section": "animaux",
+      "hook": "Feux de forêt : kit évacuation + assurance animaux pour les frais véto."
+    },
+    "orages-grele-ete-auto-habitation-2026.html": {
+      "section": "auto"
     }
   }
 }

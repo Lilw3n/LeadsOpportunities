@@ -64,6 +64,16 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/questionnaire.html?need=chasse&journey=standard",
   "/landings/questionnaire.html?need=equitation&journey=standard",
   "/assurance-habitation/",
+  /* Blog niches + actu climat / présidentielle */
+  "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
+  "/blog/restriction-eau-secheresse-gironde-assurance-habitation.html",
+  "/blog/pompiers-vigilance-rouge-feux-foret-prevoyance-sinistre.html",
+  "/blog/presidentielle-2027-checklist-assurances-foyer.html",
+  "/blog/assurance-chasse-rc-chasseur-guide-2026.html",
+  "/blog/assurance-equitation-rc-equestre-guide-2026.html",
+  "/blog/assurance-cheval-pas-cher-criteres-2026.html",
+  "/blog/feux-foret-animaux-chien-chat-assurance.html",
+  "/blog/orages-grele-ete-auto-habitation-2026.html",
   /* Blog money — VTC + mutuelle canicule + emprunteur */
   "/blog/assurance-vtc-moins-cher-2026.html",
   "/blog/vtc-premiere-course-checklist-assurance.html",

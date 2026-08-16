@@ -61,7 +61,8 @@
     "verify:slack": "node scripts/verify-slack-notify.cjs",
     "verify:canicule-mutuelle": "node scripts/verify-canicule-mutuelle.cjs",
     "verify:partners-credit": "node scripts/verify-partners-credit.cjs",
-    "verify:acquisition-priorites": "node scripts/verify-acquisition-priorites.cjs"
+    "verify:acquisition-priorites": "node scripts/verify-acquisition-priorites.cjs",
+    "verify:niches-actu": "node scripts/verify-niches-actu.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

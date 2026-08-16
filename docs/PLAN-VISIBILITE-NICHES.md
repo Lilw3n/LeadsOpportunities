@@ -50,11 +50,13 @@ Tu as **3 silos live** avec **189 villes** chacun :
 | **Équitation** | assurance équitation, rc équestre | `/assurance-equitation/`, `/assurance-equitation/lyon/` |
 | **Animaux** | assurance chien pas cher | `/assurance-animaux/chien/pas-cher/`, `/comparatif/` |
 
-**Actions contenu :**
+**Actions contenu (août 2026) :**
 
-- 1 article blog / niche / mois (chasse, équitation — **manquants aujourd’hui**)
-- Partager les URLs niches sur Facebook / groupes chasse-équitation (backlinks légers)
+- Module blog **`scripts/blog-niches-actu-articles.cjs`** — incendies Gironde, restrictions d'eau, présidentielle 2027, chasse, équitation, animaux
+- Vérif : `npm run verify:niches-actu`
+- Partager les URLs niches + articles actu sur Facebook / groupes chasse-équitation
 - Google Business Profile Varangeville + lien site
+- GSC : `npm run gsc:niches` + `npm run gsc:urls`
 
 ### Temps 3 — Activer les niches « planned » (T3–T4 2026)
 
@@ -116,3 +118,22 @@ Google : `site:leadsopportunities.fr assurance chasse`
 - Animaux → `/landings/animaux.html`
 
 Mots-clés exact : `assurance chasse`, `rc chasseur`, `assurance équitation`.
+
+---
+
+## Actu niches août 2026 (mots-clés)
+
+| Article | Requêtes cibles | Landing |
+|---------|-----------------|---------|
+| Incendies Gironde | incendies gironde, feux de forêt assurance habitation | habitation |
+| Restrictions d'eau | restriction eau gironde, sécheresse habitation | habitation |
+| Présidentielle checklist | présidentielle 2027 assurance | questionnaire |
+| RC chasseur | assurance chasse, rc chasseur devis | `/landings/chasse.html` |
+| RC équestre | assurance équitation, assurance cheval pas cher | `/landings/equitation.html` |
+| Animaux + feux | évacuation chien chat incendie | `/landings/animaux.html` |
+
+```bash
+npm run blog:build
+npm run verify:niches-actu
+npm run gsc:niches
+```
