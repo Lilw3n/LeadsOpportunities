@@ -51,6 +51,7 @@
 </script>
   <script src="/js/clarity-init.js" defer></script>
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./css/immo-parcours.css" />
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
 </head>
@@ -105,6 +106,8 @@
             </div>
           </div>
         </div>
+
+        <nav data-immo-parcours data-immo-step="credit" aria-label="Parcours acquéreur"></nav>
 
         <div class="landing-partners-slot">
           <section data-partners-trust data-partners-context="credit" data-partners-layout="featured"></section>
@@ -572,7 +575,7 @@
         </div>
 
         <div class="form-wrap">
-          <h2>Formules assurance emprunteur</h2>
+          <h2 id="formules">Formules assurance emprunteur</h2>
           <p class="section-lead">Comparatif via Marketplace Emprunteur pour trouver la couverture adaptee a votre pret.</p>
           <ul class="product-grid">
             <li class="product-item"><a class="product-item-link" href="#demande"><strong>Equilibre</strong><span class="product-item-text">Rapport garanties / prix equilibre</span><span class="product-item-cta">Demander un devis →</span></a></li>
@@ -669,6 +672,7 @@
     }
   </script>
   <script src="../js/finance-deep-link.js"></script>
+  <script src="../js/immo-parcours-strip.js"></script>
   <script src="../js/devis-document-config.js"></script>
   <script src="../js/public-partners-trust.js"></script>
   <script src="../js/callback-form.js"></script>

@@ -1,14 +1,23 @@
 Type,Campaign,Ad Group,Keyword,Criterion Type,Match Type,Headline 1,Headline 2,Headline 3,Description 1,Description 2,Final URL,Status
 Campaign,FR_Search_VTC_HotIntent,,,,,,,,,,,Enabled
+Campaign,FR_Search_VTC_IDF,,,,,,,,,,,Enabled
 Campaign,FR_Search_Sante_HotIntent,,,,,,,,,,,Paused
 Campaign,FR_Search_CreditImmo_HotIntent,,,,,,,,,,,Paused
 Ad Group,FR_Search_VTC_HotIntent,devis_assurance_vtc,,,,,,,,,,Enabled
 Ad Group,FR_Search_VTC_HotIntent,assurance_vtc_tarif,,,,,,,,,,Enabled
+Ad Group,FR_Search_VTC_IDF,assurance_vtc_paris,,,,,,,,,,Enabled
+Ad Group,FR_Search_VTC_IDF,assurance_vtc_idf,,,,,,,,,,Enabled
 Ad Group,FR_Search_Sante_HotIntent,devis_sante,,,,,,,,,,Paused
 Ad Group,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,,,,,,,,,,Paused
 Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,"devis assurance vtc",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/landings/devis-rapide.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_hot&utm_content=kw_devis_assurance_vtc,Enabled
 Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,[devis assurance vtc],Keyword,Exact,,,,,,https://www.leadsopportunities.fr/landings/devis-rapide.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_hot&utm_content=kw_exact_devis_assurance_vtc,Enabled
 Keyword,FR_Search_VTC_HotIntent,assurance_vtc_tarif,"assurance vtc tarif",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/landings/vtc.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_hot&utm_content=kw_assurance_vtc_tarif,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_paris,"assurance vtc paris",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/assurance-vtc/paris/?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=kw_assurance_vtc_paris,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_paris,[assurance vtc paris],Keyword,Exact,,,,,,https://www.leadsopportunities.fr/assurance-vtc/paris/?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=kw_exact_assurance_vtc_paris,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_paris,"assurance vtc ile de france",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/assurance-vtc/ile-de-france/?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=kw_assurance_vtc_idf,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_idf,"assurance vtc cdg",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/assurance-vtc/aeroport-cdg/?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=kw_assurance_vtc_cdg,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_idf,"assurance vtc orly",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/assurance-vtc/aeroport-orly/?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=kw_assurance_vtc_orly,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_idf,"assurance chauffeur vtc paris",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/landings/vtc.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=kw_chauffeur_vtc_paris,Enabled
 Keyword,FR_Search_Sante_HotIntent,devis_sante,"devis assurance sante",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/landings/sante.html?utm_source=google&utm_medium=cpc&utm_campaign=sante_search_hot&utm_content=kw_devis_assurance_sante,Paused
 Keyword,FR_Search_Sante_HotIntent,devis_sante,"comparatif mutuelle sante",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/landings/sante.html?utm_source=google&utm_medium=cpc&utm_campaign=sante_search_hot&utm_content=kw_comparatif_mutuelle,Paused
 Keyword,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,"simulation credit immo",Keyword,Phrase,,,,,,https://www.leadsopportunities.fr/landings/credit-immo.html?utm_source=google&utm_medium=cpc&utm_campaign=creditimmo_search_hot&utm_content=kw_simulation_credit_immo,Paused
@@ -18,7 +27,12 @@ Negative Keyword,FR_Search_VTC_HotIntent,,emploi,Keyword,Phrase,,,,,,,,Enabled
 Negative Keyword,FR_Search_VTC_HotIntent,,stage,Keyword,Phrase,,,,,,,,Enabled
 Negative Keyword,FR_Search_VTC_HotIntent,,formation,Keyword,Phrase,,,,,,,,Enabled
 Negative Keyword,FR_Search_VTC_HotIntent,,forum,Keyword,Phrase,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_IDF,,gratuit,Keyword,Phrase,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_IDF,,emploi,Keyword,Phrase,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_IDF,,formation,Keyword,Phrase,,,,,,,,Enabled
 Responsive Search Ad,FR_Search_VTC_HotIntent,devis_assurance_vtc,,,,Devis VTC Auto Pro Rapide,Usage Pro Declare,Tarif Clair Sans Engagement,Devis assurance VTC via usage professionnel Auto Pro.,Rappel rapide et garanties explicites.,https://www.leadsopportunities.fr/landings/devis-rapide.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_hot&utm_content=rsa_devis_assurance_vtc,Enabled
 Responsive Search Ad,FR_Search_VTC_HotIntent,assurance_vtc_tarif,,,,Assurance VTC Tarif Pro,Devis Express Ou Complet,Conseiller VTC Dedie,Comparez tarif VTC avec franchises expliquees.,Sans engagement. Rappel sous 15 min.,https://www.leadsopportunities.fr/landings/vtc.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_hot&utm_content=rsa_assurance_vtc_tarif,Enabled
+Responsive Search Ad,FR_Search_VTC_IDF,assurance_vtc_paris,,,,Assurance VTC Paris IDF,CDG Orly La Defense,Devis Chauffeur Local,Hub Ile-de-France : arrondissements, aeroports, gares.,Courtier ORIAS — Solly Azar / Zephir.,https://www.leadsopportunities.fr/assurance-vtc/ile-de-france/?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=rsa_vtc_idf,Enabled
+Responsive Search Ad,FR_Search_VTC_IDF,assurance_vtc_idf,,,,Chauffeur VTC Ile-de-France,Renouvellement Ou Creation,Devis Sous 24h,Couverture pro Uber Bolt Heetch en region parisienne.,Comparez sans engagement.,https://www.leadsopportunities.fr/landings/vtc.html?utm_source=google&utm_medium=cpc&utm_campaign=vtc_search_idf&utm_content=rsa_vtc_chauffeur_idf,Enabled
 Responsive Search Ad,FR_Search_Sante_HotIntent,devis_sante,,,,12+ Formules Sante Comparees,Mutuelle Optique Dentaire,Sans Engagement,Marketplace sante : Optimale Flexi Vita Serenite.,Comparatif par poste et budget.,https://www.leadsopportunities.fr/landings/sante.html?utm_source=google&utm_medium=cpc&utm_campaign=sante_search_hot&utm_content=rsa_devis_sante,Paused
 Responsive Search Ad,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,,,,Simulation Credit Immo Rapide,6 Formules Emprunteur,Faisabilite En Minutes,Credit via partenaire + assurance emprunteur comparee.,Conseiller unique jusqu a la signature.,https://www.leadsopportunities.fr/landings/credit-immo.html?utm_source=google&utm_medium=cpc&utm_campaign=creditimmo_search_hot&utm_content=rsa_simulation_credit_immo,Paused

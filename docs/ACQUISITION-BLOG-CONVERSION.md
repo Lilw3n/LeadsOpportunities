@@ -107,28 +107,31 @@ Coût souvent **2–3× moins cher** qu’une campagne froide.
 
 ## Google — priorité Search chaud (existant)
 
-Le CSV `google-ads-editor-ready-utm.csv` envoie déjà vers les **landings**, pas le blog — c’est correct pour Search.
+Le CSV `google-ads-editor-ready-utm.csv` envoie déjà vers les **landings / hubs SEO**, pas le blog — c’est correct pour Search.
 
-**Activer une campagne à la fois** (VTC déjà Enabled) ; n’activer Santé/Crédit que quand VTC est rentable.
+**Ordre 2026 (étude marché)** :
+1. `FR_Search_VTC_HotIntent` (Enabled)
+2. **`FR_Search_VTC_IDF`** (Enabled) — Paris, IDF, CDG, Orly
+3. Santé / Crédit = Paused jusqu’à CPL VTC OK
 
 Articles blog = plutôt **Demand Gen / Display** plus tard, pas Search.
+
+Exécution détaillée : **`docs/ACQUISITION-PRIORITES-90J.md`**.
 
 ---
 
 ## Top articles → conversion (priorité pub)
 
-| Priorité | Article | Vertical | Landing conversion | Campagne UTM |
-|----------|---------|----------|---------------------|--------------|
+| Priorité | Article / cible | Vertical | Landing conversion | Campagne UTM |
+|----------|-----------------|----------|---------------------|--------------|
 | 1 | `vtc-premiere-course-checklist-assurance.html` | VTC | `/landings/devis-rapide.html` | `vtc_blog_convert` |
 | 2 | `assurance-vtc-moins-cher-2026.html` | VTC | `/landings/vtc.html` | `vtc_blog_convert` |
-| 3 | `mutuelle-sante-5-criteres.html` | Mutuelle | `/landings/sante.html` | `sante_blog_convert` |
-| 4 | `questionnaire-mutuelle-quel-niveau-choisir.html` | Mutuelle | `/landings/questionnaire.html?need=sante` | `sante_blog_convert` |
-| 5 | `inflation-mutuelle-hausse-2026.html` | Mutuelle | `/landings/sante.html` | `sante_blog_convert` |
-| 6 | `assurance-emprunteur-loi-lemoine-2026.html` | Emprunteur | `/landings/credit-immo.html` | `credit_blog_convert` |
-| 7 | `assurance-habitation-locataire-proprietaire-2026.html` | Habitation | `/landings/devis.html?need=habitation` | `habitation_blog_convert` |
-| 8 | `assurance-auto-jeune-conducteur-2026.html` | Auto | `/landings/devis.html?need=auto` | `auto_blog_convert` |
+| 3 | Hub `/assurance-vtc/ile-de-france/` | VTC IDF | `/landings/vtc.html` | `vtc_idf_convert` |
+| 4–7 | Articles canicule mutuelle (seniors, téléconsult, famille, vigilance) | Mutuelle | `/landings/sante.html` | `sante_blog_convert` |
+| 8 | `inflation-mutuelle-hausse-2026.html` | Mutuelle | `/landings/sante.html` | `sante_blog_convert` |
+| 9 | `assurance-emprunteur-loi-lemoine-2026.html` | Emprunteur | `/landings/credit-immo.html` | `credit_blog_convert` |
 
-Détails complets : `ads/meta-blog-conversions.csv`
+Détails complets : `ads/meta-blog-conversions.csv` · checklist : `npm run verify:acquisition-priorites`
 
 ---
 

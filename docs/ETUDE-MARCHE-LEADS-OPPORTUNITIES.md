@@ -230,6 +230,8 @@ Article blog (tiède)  ──ou──►  Landing (chaud)
 
 ## 8. Recommandations actionnables (90 jours)
 
+> **Exécution détaillée** : [`docs/ACQUISITION-PRIORITES-90J.md`](./ACQUISITION-PRIORITES-90J.md) · `npm run verify:acquisition-priorites`
+
 ### Priorité P0 — Ne rien casser
 - Garder **France only** + score `qualified_lead`.  
 - Rotation Meta **1 €/j** : VTC ↔ mutuelle canicule ↔ VSP ↔ Lemoine.  
@@ -241,7 +243,7 @@ Article blog (tiède)  ──ou──►  Landing (chaud)
 3. **GSC** : resoumettre `sitemap.xml` ; indexer hubs prêt / recherche-bien / VTC.
 
 ### Priorité P2 — Ticket moyen
-4. Packager le parcours **bien → projection → crédit → emprunteur** (1 tunnel CRM).  
+4. Packager le parcours **bien → projection → crédit → emprunteur** (bandeau landings — livré).  
 5. Google Search « prêt immobilier {top 20 villes} » uniquement si tracking lead OK.
 
 ### Priorité P3 — Diversification SEO
@@ -298,10 +300,12 @@ Document vivant : à mettre à jour après chaque trimestre de CPL Meta / GSC / 
 
 ## Références internes
 
+- `docs/ACQUISITION-PRIORITES-90J.md` — **exécution P1/P2** (ads, GSC, tunnel immo)  
 - `docs/ACQUISITION-BLOG-CONVERSION.md`  
 - `docs/SEO-SEA-FRANCE-CIBLAGE.md`  
 - `docs/META-ROTATION-4-SEMAINES.md`  
 - `docs/PLAN-VISIBILITE-NICHES.md`  
 - `docs/PILIERS-PUBLICS.md`  
 - `js/public-partners-trust.js`  
-- `data/meta-campaign-rotation-active.json`
+- `data/meta-campaign-rotation-active.json`  
+- `npm run verify:acquisition-priorites`

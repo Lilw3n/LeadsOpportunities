@@ -2,25 +2,27 @@
 
 ## 1) Campagnes (ordre de lancement)
 1. `FR_Search_VTC_HotIntent`
-2. `FR_Search_Sante_HotIntent`
-3. `FR_Search_CreditImmo_HotIntent`
+2. `FR_Search_VTC_IDF` — Paris / IDF / CDG / Orly (P1 étude marché)
+3. `FR_Search_Sante_HotIntent` (Paused tant que VTC rentable)
+4. `FR_Search_CreditImmo_HotIntent` (Paused)
+
+Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
 
 ## 2) Groupes d'annonces par campagne
 
-### VTC
+### VTC HotIntent
 - `devis_assurance_vtc`
 - `assurance_vtc_tarif`
-- `assurance_vtc_rapide`
+
+### VTC IDF
+- `assurance_vtc_paris`
+- `assurance_vtc_idf`
 
 ### Sante
 - `devis_sante`
-- `comparatif_sante`
-- `mutuelle_budget`
 
 ### Credit/Immo
 - `simulation_credit_immo`
-- `courtier_credit_immo`
-- `rachat_credit`
 
 ## 3) Exemples mots-cles (requete large moderee + expression + exact)
 - VTC:

@@ -23,7 +23,7 @@ npm run meta:rotation:build    # régénère data/meta-campaign-rotation-active.
 
 Puis le cycle reprend (S1 VTC → …).
 
-**Override actif jusqu’au** : 14 juillet 2026 (modifiable dans `config/meta-campaign-rotation.json`).
+**Override actif jusqu’au** : **30 septembre 2026** (été / vagues de chaleur — `valid_until` dans `config/meta-campaign-rotation.json`).
 
 **Début cycle** : `epoch_start` dans `config/meta-campaign-rotation.json` (30 juin 2026).
 

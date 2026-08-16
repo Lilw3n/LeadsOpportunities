@@ -38,6 +38,7 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 - Libs : `scripts/france-audience-lib.cjs` (scoring actu, `noindex` international), `scripts/france-brand.cjs` (meta + logo).
 - Doc : **`docs/TRAFIC-FRANCE.md`**, **`docs/GSC-SOLO-GUIDE.md`**
 - Étude de marché (verticales, concurrence, reco 90 j) : **`docs/ETUDE-MARCHE-LEADS-OPPORTUNITIES.md`**
+- Exécution priorités 90 j (Meta canicule, VTC IDF, tunnel immo) : **`docs/ACQUISITION-PRIORITES-90J.md`** · `npm run verify:acquisition-priorites`
 - Search Console : `npm run verify:gsc` · URLs prioritaires : `npm run gsc:urls`
 - SEO/SEA (geo API, garde formulaires, `qualified_lead`) : **`docs/SEO-SEA-FRANCE-CIBLAGE.md`**
 - Acquisition blog → conversion (0 € test, pub intelligente) : **`docs/ACQUISITION-BLOG-CONVERSION.md`** + `ads/meta-blog-conversions.csv`

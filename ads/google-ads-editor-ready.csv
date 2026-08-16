@@ -1,50 +1,36 @@
 Type,Campaign,Ad Group,Keyword,Criterion Type,Match Type,Headline 1,Headline 2,Headline 3,Description 1,Description 2,Final URL,Path 1,Path 2,Status
 Campaign,FR_Search_VTC_HotIntent,,,,,,,,,,,,Enabled
+Campaign,FR_Search_VTC_IDF,,,,,,,,,,,,Enabled
 Campaign,FR_Search_Sante_HotIntent,,,,,,,,,,,,Paused
 Campaign,FR_Search_CreditImmo_HotIntent,,,,,,,,,,,,Paused
 Ad Group,FR_Search_VTC_HotIntent,devis_assurance_vtc,,,,,,,,,,,Enabled
 Ad Group,FR_Search_VTC_HotIntent,assurance_vtc_tarif,,,,,,,,,,,Enabled
-Ad Group,FR_Search_VTC_HotIntent,assurance_vtc_rapide,,,,,,,,,,,Enabled
+Ad Group,FR_Search_VTC_IDF,assurance_vtc_paris,,,,,,,,,,,Enabled
+Ad Group,FR_Search_VTC_IDF,assurance_vtc_idf,,,,,,,,,,,Enabled
 Ad Group,FR_Search_Sante_HotIntent,devis_sante,,,,,,,,,,,Paused
-Ad Group,FR_Search_Sante_HotIntent,comparatif_sante,,,,,,,,,,,Paused
-Ad Group,FR_Search_Sante_HotIntent,mutuelle_budget,,,,,,,,,,,Paused
 Ad Group,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,,,,,,,,,,,Paused
-Ad Group,FR_Search_CreditImmo_HotIntent,courtier_credit_immo,,,,,,,,,,,Paused
-Ad Group,FR_Search_CreditImmo_HotIntent,rachat_credit,,,,,,,,,,,Paused
-Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,"devis assurance vtc",Keyword,Phrase,,,,,,,http://localhost:3005/landings/vtc.html,devis,vtc,Enabled
-Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,[devis assurance vtc],Keyword,Exact,,,,,,,http://localhost:3005/landings/vtc.html,devis,vtc,Enabled
-Keyword,FR_Search_VTC_HotIntent,assurance_vtc_tarif,"assurance vtc tarif",Keyword,Phrase,,,,,,,http://localhost:3005/landings/vtc.html,assurance,vtc,Enabled
-Keyword,FR_Search_VTC_HotIntent,assurance_vtc_rapide,"assurance vtc rapide",Keyword,Phrase,,,,,,,http://localhost:3005/landings/vtc.html,rapide,vtc,Enabled
-Keyword,FR_Search_Sante_HotIntent,devis_sante,"devis assurance sante",Keyword,Phrase,,,,,,,http://localhost:3005/landings/sante.html,devis,sante,Paused
-Keyword,FR_Search_Sante_HotIntent,comparatif_sante,[comparatif mutuelle sante],Keyword,Exact,,,,,,,http://localhost:3005/landings/sante.html,comparatif,sante,Paused
-Keyword,FR_Search_Sante_HotIntent,mutuelle_budget,"mutuelle sante pas cher",Keyword,Phrase,,,,,,,http://localhost:3005/landings/sante.html,mutuelle,sante,Paused
-Keyword,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,"simulation credit immo",Keyword,Phrase,,,,,,,http://localhost:3005/landings/credit-immo.html,simulation,immo,Paused
-Keyword,FR_Search_CreditImmo_HotIntent,courtier_credit_immo,[courtier pret immobilier],Keyword,Exact,,,,,,,http://localhost:3005/landings/credit-immo.html,courtier,immo,Paused
-Keyword,FR_Search_CreditImmo_HotIntent,rachat_credit,"rachat credit immo",Keyword,Phrase,,,,,,,http://localhost:3005/landings/credit-immo.html,rachat,credit,Paused
+Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,"devis assurance vtc",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/devis-rapide.html,devis,vtc,Enabled
+Keyword,FR_Search_VTC_HotIntent,devis_assurance_vtc,[devis assurance vtc],Keyword,Exact,,,,,,,https://www.leadsopportunities.fr/landings/devis-rapide.html,devis,vtc,Enabled
+Keyword,FR_Search_VTC_HotIntent,assurance_vtc_tarif,"assurance vtc tarif",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vtc.html,assurance,vtc,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_paris,"assurance vtc paris",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-vtc/paris/,vtc,paris,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_paris,[assurance vtc paris],Keyword,Exact,,,,,,,https://www.leadsopportunities.fr/assurance-vtc/paris/,vtc,paris,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_paris,"assurance vtc ile de france",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-vtc/ile-de-france/,vtc,idf,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_idf,"assurance vtc cdg",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-vtc/aeroport-cdg/,vtc,cdg,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_idf,"assurance vtc orly",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-vtc/aeroport-orly/,vtc,orly,Enabled
+Keyword,FR_Search_VTC_IDF,assurance_vtc_idf,"assurance chauffeur vtc paris",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vtc.html,vtc,paris,Enabled
+Keyword,FR_Search_Sante_HotIntent,devis_sante,"devis assurance sante",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/sante.html,devis,sante,Paused
+Keyword,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,"simulation credit immo",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/credit-immo.html,simulation,immo,Paused
 Negative Keyword,FR_Search_VTC_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
 Negative Keyword,FR_Search_VTC_HotIntent,,emploi,Keyword,Phrase,,,,,,,,,Enabled
 Negative Keyword,FR_Search_VTC_HotIntent,,stage,Keyword,Phrase,,,,,,,,,Enabled
 Negative Keyword,FR_Search_VTC_HotIntent,,formation,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_VTC_HotIntent,,definition,Keyword,Phrase,,,,,,,,,Enabled
 Negative Keyword,FR_Search_VTC_HotIntent,,forum,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_Sante_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_Sante_HotIntent,,emploi,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_Sante_HotIntent,,stage,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_Sante_HotIntent,,formation,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_Sante_HotIntent,,definition,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_Sante_HotIntent,,forum,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_CreditImmo_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_CreditImmo_HotIntent,,emploi,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_CreditImmo_HotIntent,,stage,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_CreditImmo_HotIntent,,formation,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_CreditImmo_HotIntent,,definition,Keyword,Phrase,,,,,,,,,Enabled
-Negative Keyword,FR_Search_CreditImmo_HotIntent,,forum,Keyword,Phrase,,,,,,,,,Enabled
-Responsive Search Ad,FR_Search_VTC_HotIntent,devis_assurance_vtc,,,,Devis Assurance VTC en 2 Min,Tarifs Clairs Sans Engagement,Rappel Rapide 15 Min,Comparez rapidement les offres adaptees a votre profil chauffeur.,Demande simple et reponse rapide d un conseiller dedie.,http://localhost:3005/landings/vtc.html,devis,vtc,Enabled
-Responsive Search Ad,FR_Search_VTC_HotIntent,assurance_vtc_tarif,,,,Assurance VTC Tarif Competitif,Devis VTC Rapide,Offres Claires Et Fiables,Trouvez une solution VTC claire avec garanties explicites.,Obtenez votre devis sans engagement des maintenant.,http://localhost:3005/landings/vtc.html,assurance,vtc,Enabled
-Responsive Search Ad,FR_Search_VTC_HotIntent,assurance_vtc_rapide,,,,Assurance VTC Immediate,Obtenez Votre Devis VTC,Conseiller VTC Dedie,Reponse rapide et accompagnement pour chauffeurs VTC.,Comparez les tarifs et choisissez une offre adaptee.,http://localhost:3005/landings/vtc.html,rapide,vtc,Enabled
-Responsive Search Ad,FR_Search_Sante_HotIntent,devis_sante,,,,Devis Assurance Sante Rapide,Garanties Utiles Au Bon Prix,Sans Engagement,Recevez une proposition claire selon vos besoins sante.,Comparez facilement les offres et economisez.,http://localhost:3005/landings/sante.html,devis,sante,Paused
-Responsive Search Ad,FR_Search_Sante_HotIntent,comparatif_sante,,,,Comparatif Mutuelle Sante,Couverture Claire Et Adaptee,Conseiller Sante Disponible,Visualisez rapidement les niveaux de couverture utiles.,Demande simple avec rappel prioritaire.,http://localhost:3005/landings/sante.html,comparatif,sante,Paused
-Responsive Search Ad,FR_Search_Sante_HotIntent,mutuelle_budget,,,,Mutuelle Sante Petit Budget,Comparez Et Choisissez,Demande En 2 Minutes,Trouvez une mutuelle adaptee a votre budget et profil.,Accompagnement clair sans jargon administratif.,http://localhost:3005/landings/sante.html,mutuelle,sante,Paused
-Responsive Search Ad,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,,,,Simulation Credit Immo Rapide,Faisabilite En Quelques Minutes,Accompagnement Dedie,Lancez votre simulation et obtenez un premier avis clair.,Un conseiller vous guide jusqu au montage du dossier.,http://localhost:3005/landings/credit-immo.html,simulation,immo,Paused
-Responsive Search Ad,FR_Search_CreditImmo_HotIntent,courtier_credit_immo,,,,Courtier Credit Immobilier,Projet Immo Mieux Cadre,Reponse Rapide,Optimisez votre financement avec un expert dedie.,Demande rapide pour demarrer votre projet sereinement.,http://localhost:3005/landings/credit-immo.html,courtier,immo,Paused
-Responsive Search Ad,FR_Search_CreditImmo_HotIntent,rachat_credit,,,,Rachat Credit Immo Simple,Diminuez Vos Mensualites,Conseiller A Vos Cotes,Etudiez une solution claire de rachat credit immobilier.,Recevez un accompagnement complet et rapide.,http://localhost:3005/landings/credit-immo.html,rachat,credit,Paused
+Negative Keyword,FR_Search_VTC_IDF,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_IDF,,emploi,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VTC_IDF,,formation,Keyword,Phrase,,,,,,,,,Enabled
+Responsive Search Ad,FR_Search_VTC_HotIntent,devis_assurance_vtc,,,,Devis VTC Auto Pro Rapide,Usage Pro Declare,Tarif Clair Sans Engagement,Devis assurance VTC via usage professionnel Auto Pro.,Rappel rapide et garanties explicites.,https://www.leadsopportunities.fr/landings/devis-rapide.html,devis,vtc,Enabled
+Responsive Search Ad,FR_Search_VTC_HotIntent,assurance_vtc_tarif,,,,Assurance VTC Tarif Pro,Devis Express Ou Complet,Conseiller VTC Dedie,Comparez tarif VTC avec franchises expliquees.,Sans engagement. Rappel sous 15 min.,https://www.leadsopportunities.fr/landings/vtc.html,assurance,vtc,Enabled
+Responsive Search Ad,FR_Search_VTC_IDF,assurance_vtc_paris,,,,Assurance VTC Paris IDF,CDG Orly La Defense,Devis Chauffeur Local,Hub Ile-de-France : arrondissements, aeroports, gares.,Courtier ORIAS — Solly Azar / Zephir.,https://www.leadsopportunities.fr/assurance-vtc/ile-de-france/,vtc,idf,Enabled
+Responsive Search Ad,FR_Search_VTC_IDF,assurance_vtc_idf,,,,Chauffeur VTC Ile-de-France,Renouvellement Ou Creation,Devis Sous 24h,Couverture pro Uber Bolt Heetch en region parisienne.,Comparez sans engagement.,https://www.leadsopportunities.fr/landings/vtc.html,vtc,idf,Enabled
+Responsive Search Ad,FR_Search_Sante_HotIntent,devis_sante,,,,12+ Formules Sante Comparees,Mutuelle Optique Dentaire,Sans Engagement,Marketplace sante : Optimale Flexi Vita Serenite.,Comparatif par poste et budget.,https://www.leadsopportunities.fr/landings/sante.html,devis,sante,Paused
+Responsive Search Ad,FR_Search_CreditImmo_HotIntent,simulation_credit_immo,,,,Simulation Credit Immo Rapide,6 Formules Emprunteur,Faisabilite En Minutes,Credit via partenaire + assurance emprunteur comparee.,Conseiller unique jusqu a la signature.,https://www.leadsopportunities.fr/landings/credit-immo.html,simulation,immo,Paused

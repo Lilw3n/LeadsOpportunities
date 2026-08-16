@@ -1,5 +1,6 @@
 /**
  * URLs prioritaires : Search Console (indexation manuelle) + IndexNow.
+ * Aligné sur docs/ETUDE-MARCHE-LEADS-OPPORTUNITIES.md (P1 VTC / mutuelle / prêt).
  * Source unique — npm run gsc:urls pour la checklist.
  */
 const { SITE_ORIGIN: SITE } = require("./site-url.cjs");
@@ -9,24 +10,46 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/nos-services.html",
   "/assurances/",
   "/france/",
+  /* Landings chaudes */
   "/landings/vtc.html",
   "/landings/sante.html",
   "/landings/credit-immo.html",
+  "/landings/acheteur-immo.html",
   "/landings/projection-achat.html",
   "/landings/devis.html",
+  "/landings/rappel.html",
   "/landings/questionnaire.html?need=vtc&journey=standard",
   "/landings/questionnaire.html?need=sante&journey=standard",
   "/landings/questionnaire.html?need=credit-immo&journey=standard",
   "/blog/",
+  /* VTC — hub national + IDF (P1) */
   "/assurance-vtc/",
+  "/assurance-vtc/ile-de-france/",
   "/assurance-vtc/paris/",
+  "/assurance-vtc/paris-15e/",
+  "/assurance-vtc/aeroport-cdg/",
+  "/assurance-vtc/aeroport-orly/",
+  "/assurance-vtc/la-defense/",
+  "/assurance-vtc/paris-gares/",
   "/assurance-vtc/lyon/",
   "/assurance-vtc/marseille/",
+  /* Mutuelle */
   "/assurance-sante/",
   "/assurance-sante/paris/",
+  "/assurance-sante/comparatif/",
+  /* Prêt + recherche bien (P1–P2) */
   "/credit-immo/",
   "/credit-immo/paris/",
+  "/pret-immobilier/",
+  "/pret-immobilier/paris/",
+  "/pret-immobilier/lyon/",
+  "/pret-immobilier/marseille/",
+  "/recherche-bien/",
+  "/recherche-bien/paris/",
+  "/recherche-bien/lyon/",
+  "/assurance-emprunteur/",
   "/methode.html",
+  /* Niches (P3 — indexation) */
   "/assurances-niches.html",
   "/assurance-animaux/",
   "/assurance-animaux/chien/pas-cher/",
@@ -41,11 +64,19 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/questionnaire.html?need=chasse&journey=standard",
   "/landings/questionnaire.html?need=equitation&journey=standard",
   "/assurance-habitation/",
+  /* Blog money — VTC + mutuelle canicule + emprunteur */
   "/blog/assurance-vtc-moins-cher-2026.html",
+  "/blog/vtc-premiere-course-checklist-assurance.html",
+  "/blog/assurance-vtc-uber-bolt-heetch.html",
   "/blog/mutuelle-sante-5-criteres.html",
+  "/blog/inflation-mutuelle-hausse-2026.html",
+  "/blog/canicule-mutuelle-coup-chaleur-seniors-2026.html",
   "/blog/canicule-vigilance-meteo-france-mutuelle.html",
   "/blog/canicule-enfants-famille-mutuelle.html",
   "/blog/canicule-teleconsultation-medecin-mutuelle.html",
+  "/blog/canicule-maladies-chroniques-mutuelle.html",
+  "/blog/canicule-grossesse-mutuelle-maternite.html",
+  "/blog/assurance-emprunteur-loi-lemoine-2026.html",
   "/blog/pret-immo-erreurs-a-eviter.html",
   "/blog/assurance-vtc-rc-pro-garanties.html",
   "/mentions-legales.html",

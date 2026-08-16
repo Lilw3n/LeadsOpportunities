@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-06-28T10:13:20.288Z",
+  "generatedAt": "2026-08-16T05:12:31.893Z",
   "policy": {
     "max_daily_budget_eur": 1,
     "max_active_campaigns": 1,
@@ -8,14 +8,14 @@
     "max_active_ads": 1,
     "multiply_campaigns": false
   },
-  "calendar_week": 1,
+  "calendar_week": 7,
   "cycle_index": 1,
   "week_bounds": {
     "weekIndex": 1,
-    "calendarWeek": 1,
+    "calendarWeek": 7,
     "slotWeek": 2,
     "startsAt": "2026-06-25T12:00:00.000Z",
-    "endsAt": "2026-07-14T12:00:00.000Z",
+    "endsAt": "2026-09-30T12:00:00.000Z",
     "actu_override": true
   },
   "active_slot": {
@@ -33,7 +33,7 @@
     },
     "ad_copy": {
       "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
-      "primary": "Canicule en cours — seniors : vérifiez hospitalisation, téléconsultation et forfait chaleur. Devis mutuelle express en 3 min, sans engagement.",
+      "primary": "Chaleur extrême — seniors : vérifiez hospitalisation, téléconsultation et forfait. Devis mutuelle express en 3 min, sans engagement.",
       "cta": "Comparer ma mutuelle"
     },
     "site_focus": {
@@ -49,7 +49,7 @@
     },
     "why": "Canicule maintenant — audience large seniors, actu forte.",
     "actu_override": true,
-    "actu_reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)",
+    "actu_reason": "Été 2026 — vagues de chaleur récurrentes : priorité mutuelle seniors (étude marché P1)",
     "form_id": "1503493211458105",
     "form_name": "Mutuelle — Comparatif express (Meta)",
     "campaign_internal": "meta_sante_convert",
@@ -108,7 +108,7 @@
   },
   "recommendation": {
     "action": "activate_actu",
-    "reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)"
+    "reason": "Été 2026 — vagues de chaleur récurrentes : priorité mutuelle seniors (étude marché P1)"
   },
   "intelligence": {
     "cheapest_historical_vertical": "vtc",
@@ -130,8 +130,8 @@
     "actu_override": {
       "active": true,
       "slot_id": "sante_senior_canicule",
-      "reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)",
-      "valid_until": "2026-07-14"
+      "reason": "Été 2026 — vagues de chaleur récurrentes : priorité mutuelle seniors (étude marché P1)",
+      "valid_until": "2026-09-30"
     }
   },
   "schedule": [

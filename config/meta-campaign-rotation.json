@@ -26,12 +26,12 @@
   "actu_override": {
     "active": true,
     "slot_id": "sante_senior_canicule",
-    "reason": "Canicule en cours — priorité seniors mutuelle (actu juin 2026)",
+    "reason": "Été 2026 — vagues de chaleur récurrentes : priorité mutuelle seniors (étude marché P1)",
     "valid_from": "2026-06-25",
-    "valid_until": "2026-07-14",
+    "valid_until": "2026-09-30",
     "ad_copy_patch": {
       "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
-      "primary": "Canicule en cours — seniors : vérifiez hospitalisation, téléconsultation et forfait chaleur. Devis mutuelle express en 3 min, sans engagement.",
+      "primary": "Chaleur extrême — seniors : vérifiez hospitalisation, téléconsultation et forfait. Devis mutuelle express en 3 min, sans engagement.",
       "cta": "Comparer ma mutuelle"
     },
     "site_focus_patch": {
