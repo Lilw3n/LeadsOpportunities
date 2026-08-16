@@ -121,9 +121,23 @@
       (tags ? '<div class="listing-tags">' + tags + "</div>" : "") +
       '<div class="listing-card-actions">' +
       '<button type="button" class="btn btn-primary" data-listing-interest>Je suis intéressé</button>' +
+      '<a class="btn btn-soft" href="' +
+      projectionHref(p) +
+      '">Projeter ce bien</a>' +
       viewBtn +
       "</div></div></article>"
     );
+  }
+
+  function projectionHref(p) {
+    var params = new URLSearchParams();
+    if (p && p.price_fai) params.set("prix", String(p.price_fai));
+    if (p && p.city) params.set("ville", String(p.city));
+    if (p && p.postal_code) params.set("cp", String(p.postal_code));
+    if (p && p.surface_m2) params.set("surface", String(p.surface_m2));
+    if (p && p.id) params.set("listing", String(p.id));
+    var q = params.toString();
+    return "./projection-achat.html" + (q ? "?" + q : "");
   }
 
   function render(root, listings, source, query) {

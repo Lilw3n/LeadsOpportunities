@@ -656,6 +656,12 @@ function renderPage(p) {
   const related = p.related || [];
   const faq = p.faq || [];
   const ctaHref = hrefPath(prefix, p.cta.href);
+  const isVtcTheme = theme === "vtc" || String(p.file || "").indexOf("assurance-vtc") === 0;
+  var ctaPrimaryHref = ctaHref;
+  if (isVtcTheme && /landings\/vtc\.html/i.test(ctaHref) && ctaHref.indexOf("#") < 0) {
+    ctaPrimaryHref = ctaHref + "#demande";
+  }
+  const ctaExpressHref = isVtcTheme ? hrefPath(prefix, "/landings/devis-rapide.html?need=vtc") : null;
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
@@ -871,7 +877,7 @@ function renderPage(p) {
         <a href="${navSante}">Sante</a>
         <a href="${navAnimaux}">Animaux</a>
         <a href="${navCredit}">Credit immo</a>
-        <a class="seo-cta" href="${esc(ctaHref)}">${esc(p.cta.label)}</a>
+        <a class="seo-cta" href="${esc(ctaPrimaryHref)}">${esc(p.cta.label)}</a>
       </nav>
     </div>
   </header>
@@ -884,8 +890,14 @@ function renderPage(p) {
       <h1>${esc(p.h1)}</h1>
       <p class="seo-intro">${esc(p.intro)}</p>
       <div class="seo-hero-actions">
-        <a class="btn btn-primary btn-lg" href="${esc(ctaHref)}">${esc(p.cta.label)}</a>
-        <a class="btn btn-ghost btn-lg" href="${prefix}index.html#contact">Nous contacter</a>
+        <a class="btn btn-primary btn-lg" href="${esc(ctaPrimaryHref)}">${esc(p.cta.label)}</a>
+        ${
+          ctaExpressHref
+            ? '<a class="btn btn-ghost btn-lg" href="' +
+              esc(ctaExpressHref) +
+              '" data-seo-vtc-express="1">Devis express (30 sec)</a>'
+            : '<a class="btn btn-ghost btn-lg" href="' + prefix + 'index.html#contact">Nous contacter</a>'
+        }
       </div>
       <div class="seo-trust">${trustHtml}</div>
       </div>
@@ -906,7 +918,14 @@ function renderPage(p) {
         <div class="seo-aside-card">
           <h3>Demarrer maintenant</h3>
           <p>Devis gratuit, conseiller dedie, reponse rapide. Sans engagement.</p>
-          <a class="btn btn-primary" href="${esc(ctaHref)}">${esc(p.cta.label)}</a>
+          <a class="btn btn-primary" href="${esc(ctaPrimaryHref)}">${esc(p.cta.label)}</a>
+          ${
+            ctaExpressHref
+              ? '<a class="btn btn-ghost" style="margin-top:8px;display:inline-flex" href="' +
+                esc(ctaExpressHref) +
+                '" data-seo-vtc-express-aside="1">Devis express 30 sec</a>'
+              : ""
+          }
         </div>
         ${relatedHtml ? '<div class="seo-aside-card"><h3>Pages liees</h3><ul class="seo-related">' + relatedHtml + "</ul></div>" : ""}
         <div class="seo-aside-card">
@@ -927,12 +946,13 @@ function renderPage(p) {
     </div>
   </footer>
   <div class="seo-mobile-cta">
-    <a class="btn btn-primary btn-lg" href="${esc(ctaHref)}">${esc(p.cta.label)}</a>
+    <a class="btn btn-primary btn-lg" href="${esc(ctaPrimaryHref)}">${esc(p.cta.label)}</a>
   </div>
   <script type="application/ld+json">${JSON.stringify(breadcrumbLd)}</script>
   <script type="application/ld+json">${JSON.stringify(serviceLd)}</script>
   ${faqLd ? '<script type="application/ld+json">' + JSON.stringify(faqLd) + "</script>" : ""}
   <script src="${prefix}js/france-seo-meta.js"></script>
+  <script src="${prefix}js/seo-landing-bridge.js"></script>
   <script src="${prefix}js/attribution.js"></script>
   <script src="${prefix}js/cookie-banner.js"></script>
   <script src="${prefix}js/geo-france-guard.js"></script>

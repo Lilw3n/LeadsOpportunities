@@ -21,7 +21,7 @@ module.exports = [
       "urgences pediatriques chaleur",
       "devis mutuelle famille",
     ],
-    cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle famille" },
+    cta: { href: "../landings/sante.html", label: "Devis mutuelle famille" },
     heroImage: {
       src: "./images/sante/family-health.jpg",
       alt: "Famille avec enfants — prévention canicule et mutuelle santé",
@@ -30,7 +30,7 @@ module.exports = [
     blocks: [
       {
         type: "p",
-        text: "Un <strong>enfant</strong> se déshydrate plus vite qu'un adulte : moins de réserve d'eau, thermorégulation encore immature, envie de jouer dehors malgré 35 °C. Chaque <strong>canicule en France</strong>, les <strong>urgences pédiatriques</strong> voient plus d'insolations, de fièvres et de malaises. La <strong>mutuelle famille</strong> ne remplace pas les gestes de prévention, mais elle limite le reste à charge si une consultation, une téléconsultation ou une hospitalisation s'impose. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle famille</strong></a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire mutuelle</a>.",
+        text: "Un <strong>enfant</strong> se déshydrate plus vite qu'un adulte : moins de réserve d'eau, thermorégulation encore immature, envie de jouer dehors malgré 35 °C. Chaque <strong>canicule en France</strong>, les <strong>urgences pédiatriques</strong> voient plus d'insolations, de fièvres et de malaises. La <strong>mutuelle famille</strong> ne remplace pas les gestes de prévention, mais elle limite le reste à charge si une consultation, une téléconsultation ou une hospitalisation s'impose. <a href=\"../landings/sante.html\"><strong>Demander un devis mutuelle famille</strong></a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire mutuelle</a>.",
       },
       {
         type: "gallery",
@@ -131,7 +131,7 @@ module.exports = [
       "mutuelle maladie chronique",
       "devis mutuelle sante",
     ],
-    cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle santé" },
+    cta: { href: "../landings/sante.html", label: "Devis mutuelle santé" },
     heroImage: {
       src: "./images/sante/medicaments.jpg",
       alt: "Médicaments et ordonnance — vigilance canicule et mutuelle",
@@ -140,7 +140,7 @@ module.exports = [
     blocks: [
       {
         type: "p",
-        text: "La <strong>canicule</strong> n'est pas seulement un sujet « seniors » ou « enfants ». Les personnes suivies pour <strong>diabète</strong>, <strong>hypertension</strong>, insuffisance cardiaque, insuffisance rénale ou troubles psychiatriques sont plus exposées aux malaises, à la déshydratation et aux déséquilibres de traitement. Votre <strong>mutuelle santé</strong> intervient sur les consultations, les analyses, la pharmacie et l'hospitalisation — à condition que les plafonds soient adaptés. <a href=\"../landings/devis.html?need=sante\"><strong>Comparer une mutuelle</strong></a>.",
+        text: "La <strong>canicule</strong> n'est pas seulement un sujet « seniors » ou « enfants ». Les personnes suivies pour <strong>diabète</strong>, <strong>hypertension</strong>, insuffisance cardiaque, insuffisance rénale ou troubles psychiatriques sont plus exposées aux malaises, à la déshydratation et aux déséquilibres de traitement. Votre <strong>mutuelle santé</strong> intervient sur les consultations, les analyses, la pharmacie et l'hospitalisation — à condition que les plafonds soient adaptés. <a href=\"../landings/sante.html\"><strong>Comparer une mutuelle</strong></a>.",
       },
       {
         type: "gallery",
@@ -335,7 +335,7 @@ module.exports = [
       "livreur canicule",
       "devis mutuelle",
     ],
-    cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+    cta: { href: "../landings/sante.html", label: "Devis mutuelle" },
     heroImage: {
       src: "./images/canicule/chaleur-soleil-maison.jpg",
       alt: "Forte chaleur en extérieur — travailleurs exposés et mutuelle",
@@ -344,7 +344,7 @@ module.exports = [
     blocks: [
       {
         type: "p",
-        text: "Sur un <strong>chantier</strong>, dans une <strong>camionnette</strong> sans clim ou au <strong>champ</strong>, la canicule n'est pas une météo : c'est un risque professionnel. Coups de chaleur, insolations, arrêts de travail, parfois hospitalisation. L'employeur a des obligations (eau, ombre, aménagement des horaires). La <strong>mutuelle</strong> (individuelle ou collective) et parfois la <strong>prévoyance</strong> couvrent ce que la Sécu et l'accident du travail ne prennent pas en totalité. <a href=\"../landings/devis.html?need=sante\"><strong>Devis mutuelle</strong></a> · <a href=\"../landings/devis.html?need=prevoyance\">prévoyance</a>.",
+        text: "Sur un <strong>chantier</strong>, dans une <strong>camionnette</strong> sans clim ou au <strong>champ</strong>, la canicule n'est pas une météo : c'est un risque professionnel. Coups de chaleur, insolations, arrêts de travail, parfois hospitalisation. L'employeur a des obligations (eau, ombre, aménagement des horaires). La <strong>mutuelle</strong> (individuelle ou collective) et parfois la <strong>prévoyance</strong> couvrent ce que la Sécu et l'accident du travail ne prennent pas en totalité. <a href=\"../landings/sante.html\"><strong>Devis mutuelle</strong></a> · <a href=\"../landings/devis.html?need=prevoyance\">prévoyance</a>.",
       },
       {
         type: "gallery",
@@ -435,7 +435,7 @@ module.exports = [
       "canicule france mutuelle",
       "devis mutuelle",
     ],
-    cta: { href: "../landings/devis.html?need=sante", label: "Vérifier ma mutuelle" },
+    cta: { href: "../landings/sante.html", label: "Vérifier ma mutuelle" },
     heroImage: {
       src: "./images/canicule/climat-chaleur-extreme.jpg",
       alt: "Carte de vigilance canicule et chaleur extrême en France",
@@ -444,7 +444,7 @@ module.exports = [
     blocks: [
       {
         type: "p",
-        text: "Quand <strong>Météo-France</strong> place un département en <strong>vigilance orange ou rouge canicule</strong>, le réflexe habituel est l'eau, les volets, les proches. Le réflexe trop rare : ouvrir son <strong>tableau de garanties mutuelle</strong>. Les assureurs n'augmentent pas les plafonds pendant l'alerte. Si votre contrat est trop bas sur l'hospitalisation ou la téléconsultation, le reste à charge tombera <em>pendant</em> le pic. <a href=\"../landings/devis.html?need=sante\"><strong>Comparer maintenant</strong></a>.",
+        text: "Quand <strong>Météo-France</strong> place un département en <strong>vigilance orange ou rouge canicule</strong>, le réflexe habituel est l'eau, les volets, les proches. Le réflexe trop rare : ouvrir son <strong>tableau de garanties mutuelle</strong>. Les assureurs n'augmentent pas les plafonds pendant l'alerte. Si votre contrat est trop bas sur l'hospitalisation ou la téléconsultation, le reste à charge tombera <em>pendant</em> le pic. <a href=\"../landings/sante.html\"><strong>Comparer maintenant</strong></a>.",
       },
       {
         type: "gallery",
@@ -535,7 +535,7 @@ module.exports = [
       "hospitalisation grossesse",
       "devis mutuelle famille",
     ],
-    cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle maternité" },
+    cta: { href: "../landings/sante.html", label: "Devis mutuelle maternité" },
     heroImage: {
       src: "./images/sante/family-health.jpg",
       alt: "Famille et grossesse — mutuelle maternité en période de canicule",
@@ -544,7 +544,7 @@ module.exports = [
     blocks: [
       {
         type: "p",
-        text: "Une <strong>femme enceinte</strong> supporte moins bien la chaleur : volume sanguin modifié, effort cardiaque, risque de malaise et de contractions. Les sages-femmes et obstétriciens rappellent chaque été les mêmes consignes (eau, siestes, éviter 11 h–17 h). Côté contrats, la <strong>mutuelle maternité</strong> complète le forfait hospitalier, la chambre, parfois la préparation à la naissance et les dépassements. <a href=\"../landings/devis.html?need=sante\"><strong>Devis mutuelle maternité</strong></a>.",
+        text: "Une <strong>femme enceinte</strong> supporte moins bien la chaleur : volume sanguin modifié, effort cardiaque, risque de malaise et de contractions. Les sages-femmes et obstétriciens rappellent chaque été les mêmes consignes (eau, siestes, éviter 11 h–17 h). Côté contrats, la <strong>mutuelle maternité</strong> complète le forfait hospitalier, la chambre, parfois la préparation à la naissance et les dépassements. <a href=\"../landings/sante.html\"><strong>Devis mutuelle maternité</strong></a>.",
       },
       {
         type: "gallery",

@@ -79,6 +79,23 @@ assert(read("landings/credit-immo.html").indexOf('id="demande"') >= 0, "ancre #d
 
 assert(fs.existsSync(path.join(root, "docs/ACQUISITION-PRIORITES-90J.md")), "doc ACQUISITION-PRIORITES-90J");
 
+/* Bridges conversion (P1/P2 approfondi) */
+assert(fs.existsSync(path.join(root, "js/seo-landing-bridge.js")), "seo-landing-bridge.js");
+assert(read("js/france-seo-meta.js").indexOf("seo-landing-bridge") >= 0, "france-seo-meta charge le bridge");
+assert(read("assurance-vtc/ile-de-france/index.html").indexOf("devis-rapide.html") >= 0, "hub IDF CTA express");
+assert(read("assurance-vtc/ile-de-france/index.html").indexOf("vtc.html#demande") >= 0, "hub IDF deep-link #demande");
+assert(read("landings/vtc.html").indexOf("devis-rapide.html") >= 0, "vtc.html CTA express");
+assert(read("landings/vtc.html").indexOf("vtc-zone-hint") >= 0, "vtc.html zone hint");
+assert(read("js/immo-parcours-strip.js").indexOf("#formules") >= 0, "parcours détecte #formules");
+assert(read("landings/acheteur-immo.html").indexOf("credit-immo.html#demande") >= 0, "acheteur → crédit");
+assert(read("js/acheteur-immo-search.js").indexOf("Projeter ce bien") >= 0, "listings → projection");
+assert(read("landings/projection-achat.html").indexOf("credit-immo.html#formules") >= 0, "projection → emprunteur");
+assert(read("landings/credit-immo.html").indexOf("acheteur-immo.html") >= 0, "crédit → recherche bien");
+var seniors = read("blog/canicule-mutuelle-coup-chaleur-seniors-2026.html");
+assert(seniors.indexOf("article-bridge--mid") >= 0, "canicule seniors mid-bridge");
+assert(seniors.indexOf("landings/sante.html") >= 0, "canicule seniors → sante.html");
+assert(seniors.indexOf('href="../landings/devis.html?need=sante"') < 0, "canicule seniors plus de devis.html outline");
+
 if (failed) {
   console.log("\n" + failed + " échec(s)");
   process.exit(1);

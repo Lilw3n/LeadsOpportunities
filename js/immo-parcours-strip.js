@@ -1,6 +1,7 @@
 /**
  * Bandeau parcours immo : Bien → Projection → Crédit → Emprunteur
- * Usage : <nav data-immo-parcours data-immo-step="bien|projection|credit"></nav>
+ * Usage : <nav data-immo-parcours data-immo-step="bien|projection|credit|emprunteur"></nav>
+ * Si hash #formules sur credit-immo, l’étape active devient emprunteur.
  */
 (function () {
   var STEPS = [
@@ -38,8 +39,17 @@
       .replace(/"/g, "&quot;");
   }
 
-  function mount(el) {
+  function resolveStep(el) {
     var current = (el.getAttribute("data-immo-step") || "").toLowerCase();
+    var hash = (window.location.hash || "").toLowerCase();
+    if (hash === "#formules" || hash.indexOf("#formules") === 0) {
+      return "emprunteur";
+    }
+    return current;
+  }
+
+  function mount(el) {
+    var current = resolveStep(el);
     var html =
       '<div class="immo-parcours-inner">' +
       '<p class="immo-parcours-kicker">Parcours acquéreur</p>' +
@@ -75,6 +85,7 @@
       '<p class="immo-parcours-note">Un conseiller suit le dossier jusqu’à la signature — crédit + assurance emprunteur.</p>' +
       "</div>";
     el.classList.add("immo-parcours", "immo-parcours--mounted");
+    el.setAttribute("data-immo-step-resolved", current);
     el.innerHTML = html;
   }
 
@@ -87,4 +98,5 @@
   } else {
     boot();
   }
+  window.addEventListener("hashchange", boot);
 })();

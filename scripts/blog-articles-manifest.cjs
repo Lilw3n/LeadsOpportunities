@@ -212,7 +212,7 @@ module.exports = {
       description: "Vague de chaleur en France : deshydratation, urgences, hospitalisation — postes mutuelle a verifier pour les personnes agees et fragiles.",
       meta: "7 min · Juin 2026",
       cardExcerpt: "Chaleur extreme : mutuelle, urgences et prevention seniors.",
-      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle senior" },
+      cta: { href: "../landings/sante.html", label: "Comparer ma mutuelle" },
       heroImage: {
         src: "./images/canicule/senior-hydratation.jpg",
         alt: "Personne agee en periode de forte chaleur — prevention et mutuelle",
@@ -223,6 +223,7 @@ module.exports = {
           type: "p",
           text: "Chaque <strong>canicule en France</strong>, les services d'urgence enregistrent une hausse des <strong>coups de chaleur</strong>, deshydratations et malaises chez les <strong>personnes agees</strong>. Votre <strong>mutuelle sante</strong> intervient sur les consultations, la teleconsultation, l'hospitalisation et parfois la prevention — a condition de connaitre vos garanties.",
         },
+        { type: "bridge" },
         {
           type: "gallery",
           label: "Sante et chaleur : trois postes mutuelle a controler",
@@ -277,6 +278,7 @@ module.exports = {
         { href: "./canicule-enfants-famille-mutuelle.html", label: "Canicule et mutuelle famille" },
         { href: "./canicule-maladies-chroniques-mutuelle.html", label: "Maladies chroniques et canicule" },
         { href: "../assurance-sante/", label: "Mutuelle sante" },
+        { href: "../landings/sante.html", label: "Comparatif mutuelle" },
       ],
     },
     {
@@ -289,7 +291,7 @@ module.exports = {
       description: "Signes d'insolation, gestes d'urgence, numero 15, hospitalisation — et comment une mutuelle limite le reste a charge. Devis sante gratuit.",
       meta: "8 min · Juin 2026",
       cardExcerpt: "Insolation : gestes d'urgence, 15/SAMU et mutuelle.",
-      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle sante" },
+      cta: { href: "../landings/sante.html", label: "Devis mutuelle sante" },
       heroImage: {
         src: "./images/canicule/urgences-chaleur.jpg",
         alt: "Urgence medicale canicule — insolation et coup de chaleur",
@@ -298,7 +300,7 @@ module.exports = {
       blocks: [
         {
           type: "p",
-          text: "L'<strong>insolation</strong> (ou <strong>coup de chaleur</strong> lie au soleil) survient quand le corps ne parvient plus a se refroidir : temperature interne qui monte, deshydratation, parfois perte de connaissance. En <strong>canicule</strong>, les enfants, les sportifs, les travailleurs dehors et les <strong>personnes agees</strong> sont les plus exposes. Voici <strong>que faire tout de suite</strong>, quand appeler le <strong>15</strong>, et pourquoi verifier sa <strong>mutuelle sante</strong> avant l'ete. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle</strong></a> · <a href=\"../landings/sante.html\">comparatif sante</a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire mutuelle</a>.",
+          text: "L'<strong>insolation</strong> (ou <strong>coup de chaleur</strong> lie au soleil) survient quand le corps ne parvient plus a se refroidir : temperature interne qui monte, deshydratation, parfois perte de connaissance. En <strong>canicule</strong>, les enfants, les sportifs, les travailleurs dehors et les <strong>personnes agees</strong> sont les plus exposes. Voici <strong>que faire tout de suite</strong>, quand appeler le <strong>15</strong>, et pourquoi verifier sa <strong>mutuelle sante</strong> avant l'ete. <a href=\"../landings/sante.html\"><strong>Demander un devis mutuelle</strong></a> · <a href=\"../landings/sante.html\">comparatif sante</a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire mutuelle</a>.",
         },
         {
           type: "gallery",
@@ -351,7 +353,7 @@ module.exports = {
         },
         {
           type: "p",
-          text: "Une insolation severe peut necessiter <strong>perfusion</strong>, analyses sanguines et <strong>hospitalisation</strong> de quelques heures a plusieurs jours. L'Assurance maladie rembourse une partie ; le <strong>reste a charge</strong> depend de votre <strong>mutuelle</strong> (hospitalisation, depassements d'honoraires, forfait journalier). Sans bonne couverture, la facture peut depasser <strong>500 a 1 500 €</strong>. Anticiper avec un <a href=\"../landings/devis.html?need=sante\">devis mutuelle sante</a> ou un <a href=\"../landings/sante-express.html\">devis express</a> evite les mauvaises surprises.",
+          text: "Une insolation severe peut necessiter <strong>perfusion</strong>, analyses sanguines et <strong>hospitalisation</strong> de quelques heures a plusieurs jours. L'Assurance maladie rembourse une partie ; le <strong>reste a charge</strong> depend de votre <strong>mutuelle</strong> (hospitalisation, depassements d'honoraires, forfait journalier). Sans bonne couverture, la facture peut depasser <strong>500 a 1 500 €</strong>. Anticiper avec un <a href=\"../landings/sante.html\">devis mutuelle sante</a> ou un <a href=\"../landings/sante-express.html\">devis express</a> evite les mauvaises surprises.",
         },
         { type: "h2", text: "5. Prevention : eviter l'insolation cet ete" },
         {
@@ -361,7 +363,7 @@ module.exports = {
         { type: "h2", text: "6. Verifier sa mutuelle avant la canicule" },
         {
           type: "p",
-          text: "Postes a comparer : <strong>urgences</strong>, <strong>hospitalisation</strong> (chambre particuliere, forfait journalier), <strong>teleconsultation</strong>, medecine de ville. Un contrat adapte limite le stress financier quand il faut agir vite. <a href=\"../landings/devis.html?need=sante\"><strong>Obtenir un devis mutuelle gratuit</strong></a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire en 2 min</a> · <a href=\"../assurance-sante/\">mutuelle sante France</a>.",
+          text: "Postes a comparer : <strong>urgences</strong>, <strong>hospitalisation</strong> (chambre particuliere, forfait journalier), <strong>teleconsultation</strong>, medecine de ville. Un contrat adapte limite le stress financier quand il faut agir vite. <a href=\"../landings/sante.html\"><strong>Obtenir un devis mutuelle gratuit</strong></a> · <a href=\"../landings/questionnaire.html?need=sante&journey=standard\">questionnaire en 2 min</a> · <a href=\"../assurance-sante/\">mutuelle sante France</a>.",
         },
       ],
       related: [
@@ -369,7 +371,7 @@ module.exports = {
         { href: "./canicule-enfants-famille-mutuelle.html", label: "Canicule enfants et famille" },
         { href: "./canicule-teleconsultation-medecin-mutuelle.html", label: "Téléconsultation canicule" },
         { href: "./mutuelle-sante-hospitalisation-2026.html", label: "Hospitalisation mutuelle" },
-        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+        { href: "../landings/sante.html", label: "Devis mutuelle" },
       ],
     },
     {
@@ -535,7 +537,7 @@ module.exports = {
       description: "Personnes agees et forte chaleur : hydratation, ventilation, pieces fraiches — et mutuelle a jour pour teleconsultation et urgences.",
       meta: "8 min · Juin 2026",
       cardExcerpt: "Seniors : rester au frais sans sortir — reflexes + mutuelle.",
-      cta: { href: "../landings/devis.html?need=sante", label: "Demander un devis mutuelle" },
+      cta: { href: "../landings/sante.html", label: "Demander un devis mutuelle" },
       heroImage: {
         src: "./images/canicule/logement-frais-senior.jpg",
         alt: "Logement ventile — senior protege de la chaleur estivale",
@@ -544,7 +546,7 @@ module.exports = {
       blocks: [
         {
           type: "p",
-          text: "Pour un <strong>senior</strong>, la <strong>canicule</strong> est le moment de privilegier le logement plutot que les deplacements. Ces <strong>astuces pour avoir moins chaud</strong> limitent le risque de <strong>coup de chaleur</strong>. Et si un malaise survient malgre tout, une <strong>mutuelle sante</strong> bien calibree (teleconsultation, hospitalisation) evite une facture lourde — <a href=\"../landings/devis.html?need=sante\">demandez un devis mutuelle</a> pour comparer.",
+          text: "Pour un <strong>senior</strong>, la <strong>canicule</strong> est le moment de privilegier le logement plutot que les deplacements. Ces <strong>astuces pour avoir moins chaud</strong> limitent le risque de <strong>coup de chaleur</strong>. Et si un malaise survient malgre tout, une <strong>mutuelle sante</strong> bien calibree (teleconsultation, hospitalisation) evite une facture lourde — <a href=\"../landings/sante.html\">demandez un devis mutuelle</a> pour comparer.",
         },
         {
           type: "gallery",
@@ -597,7 +599,7 @@ module.exports = {
         },
         {
           type: "p",
-          text: "Beaucoup de mutuelles remboursent la <strong>teleconsultation</strong> comme une visite classique. Verifiez aussi les postes <strong>soins infirmiers a domicile</strong> si des perfusions sont necessaires. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle senior</strong></a> pour comparer hospitalisation et depassements.",
+          text: "Beaucoup de mutuelles remboursent la <strong>teleconsultation</strong> comme une visite classique. Verifiez aussi les postes <strong>soins infirmiers a domicile</strong> si des perfusions sont necessaires. <a href=\"../landings/sante.html\"><strong>Demander un devis mutuelle senior</strong></a> pour comparer hospitalisation et depassements.",
         },
         { type: "h2", text: "5. Quand appeler les secours" },
         {
@@ -608,7 +610,7 @@ module.exports = {
       related: [
         { href: "./canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Mutuelle coup de chaleur" },
         { href: "./canicule-plan-gouvernement-seniors-mutuelle.html", label: "Plan canicule gouvernement" },
-        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+        { href: "../landings/sante.html", label: "Devis mutuelle" },
       ],
     },
     {
@@ -620,7 +622,7 @@ module.exports = {
       description: "Canicules plus longues et plus frequentes en France : impact sur personnes agees, assurance habitation et niveau de mutuelle a anticiper.",
       meta: "8 min · Juin 2026",
       cardExcerpt: "Climat futur : seniors, mutuelle et logement a repenser.",
-      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle adaptee canicule" },
+      cta: { href: "../landings/sante.html", label: "Devis mutuelle adaptee canicule" },
       heroImage: {
         src: "./images/canicule/climat-chaleur-extreme.jpg",
         alt: "Chaleur extreme estivale — futur climatique et canicules en France",
@@ -655,7 +657,7 @@ module.exports = {
         { type: "h2", text: "Mutuelle : un filet qui va prendre plus de valeur" },
         {
           type: "p",
-          text: "Plus de jours au-dessus de 35 °C signifie plus de consultations, d'urgences et parfois d'hospitalisations chez les <strong>personnes agees</strong>. Une mutuelle avec de bons postes <strong>hospitalisation</strong>, teleconsultation et soins infirmiers limite le reste a charge quand le systeme public est sature. <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle</strong></a> permet de comparer sans attendre la prochaine canicule.",
+          text: "Plus de jours au-dessus de 35 °C signifie plus de consultations, d'urgences et parfois d'hospitalisations chez les <strong>personnes agees</strong>. Une mutuelle avec de bons postes <strong>hospitalisation</strong>, teleconsultation et soins infirmiers limite le reste a charge quand le systeme public est sature. <a href=\"../landings/sante.html\"><strong>Demander un devis mutuelle</strong></a> permet de comparer sans attendre la prochaine canicule.",
         },
         { type: "h2", text: "Habitation : secheresse, orages, climatisation" },
         {
@@ -688,7 +690,7 @@ module.exports = {
       related: [
         { href: "./canicule-seniors-astuces-moins-chaud-mutuelle.html", label: "Astuces moins chaud seniors" },
         { href: "./canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html", label: "Lacunes pouvoirs publics" },
-        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+        { href: "../landings/sante.html", label: "Devis mutuelle" },
       ],
     },
     {
@@ -700,7 +702,7 @@ module.exports = {
       description: "Dispositifs publics canicule en France : Plan National, centres d'accueil, appels a la vigilance — complement mutuelle pour les soins.",
       meta: "7 min · Juin 2026",
       cardExcerpt: "Plan canicule Etat : dispositifs + mutuelle complementaire.",
-      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle senior" },
+      cta: { href: "../landings/sante.html", label: "Devis mutuelle senior" },
       heroImage: {
         src: "./images/canicule/politique-canicule-france.jpg",
         alt: "Politique publique et canicule en France — dispositifs seniors",
@@ -762,13 +764,13 @@ module.exports = {
         },
         {
           type: "p",
-          text: "Le gouvernement sensibilise et ouvre des lieux ; la <strong>mutuelle</strong> prend le relais sur le financier medical : forfait journalier, chambre particuliere, optique pour lunettes solaires medicalisees si besoin. <a href=\"../landings/devis.html?need=sante\"><strong>Demandez un devis mutuelle senior</strong></a> pour un niveau hospitalisation confortable.",
+          text: "Le gouvernement sensibilise et ouvre des lieux ; la <strong>mutuelle</strong> prend le relais sur le financier medical : forfait journalier, chambre particuliere, optique pour lunettes solaires medicalisees si besoin. <a href=\"../landings/sante.html\"><strong>Demandez un devis mutuelle senior</strong></a> pour un niveau hospitalisation confortable.",
         },
       ],
       related: [
         { href: "./canicule-lacunes-pouvoirs-publics-mutuelle-seniors.html", label: "Limites des dispositifs publics" },
         { href: "./canicule-seniors-astuces-moins-chaud-mutuelle.html", label: "Astuces moins chaud" },
-        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+        { href: "../landings/sante.html", label: "Devis mutuelle" },
       ],
     },
     {
@@ -780,7 +782,7 @@ module.exports = {
       description: "Delais Cat Nat, deserts medicaux, logements mal isoles : limites des pouvoirs publics face a la chaleur — anticiper avec mutuelle et habitation.",
       meta: "8 min · Juin 2026",
       cardExcerpt: "Public insuffisant ? Mutuelle et habitation pour les seniors.",
-      cta: { href: "../landings/devis.html?need=sante", label: "Devis mutuelle — comparer maintenant" },
+      cta: { href: "../landings/sante.html", label: "Devis mutuelle — comparer maintenant" },
       heroImage: {
         src: "./images/canicule/urgences-chaleur.jpg",
         alt: "Urgences medicales canicule — lacunes systeme public et mutuelle",
@@ -826,7 +828,7 @@ module.exports = {
         },
         {
           type: "p",
-          text: "En canicule, les SAMU et urgences sont debordees. La teleconsultation aide, mais un <strong>coup de chaleur grave</strong> finit en hospitalisation. Les bas de gamme mutuelle laissent un reste a charge significatif (forfait journalier, depassements). <a href=\"../landings/devis.html?need=sante\"><strong>Demander un devis mutuelle senior</strong></a> avant l'ete.",
+          text: "En canicule, les SAMU et urgences sont debordees. La teleconsultation aide, mais un <strong>coup de chaleur grave</strong> finit en hospitalisation. Les bas de gamme mutuelle laissent un reste a charge significatif (forfait journalier, depassements). <a href=\"../landings/sante.html\"><strong>Demander un devis mutuelle senior</strong></a> avant l'ete.",
         },
         { type: "h2", text: "3. Cat Nat et sinistres : lenteur administrative" },
         {
@@ -842,13 +844,13 @@ module.exports = {
         { type: "h2", text: "4. Ce que vous pouvez faire sans attendre l'Etat" },
         {
           type: "p",
-          text: "Comparez mutuelle (hospitalisation, teleconsultation), habitation (cave, clim), prevoyance si fragilite. Un courtier ORIAS vous aide a <strong>faire les choses bien</strong> cote contrats pendant que les debats publics avancent lentement. <a href=\"../landings/devis.html?need=sante\">Devis mutuelle</a> · <a href=\"../landings/devis.html?need=habitation\">Devis habitation</a>.",
+          text: "Comparez mutuelle (hospitalisation, teleconsultation), habitation (cave, clim), prevoyance si fragilite. Un courtier ORIAS vous aide a <strong>faire les choses bien</strong> cote contrats pendant que les debats publics avancent lentement. <a href=\"../landings/sante.html\">Devis mutuelle</a> · <a href=\"../landings/devis.html?need=habitation\">Devis habitation</a>.",
         },
       ],
       related: [
         { href: "./canicule-plan-gouvernement-seniors-mutuelle.html", label: "Dispositifs gouvernement" },
         { href: "./canicule-futur-climatique-seniors-assurance-mutuelle.html", label: "Futur climatique" },
-        { href: "../landings/devis.html?need=sante", label: "Devis mutuelle" },
+        { href: "../landings/sante.html", label: "Devis mutuelle" },
       ],
     },
     {

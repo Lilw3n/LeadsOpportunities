@@ -38,6 +38,24 @@
     return ORIGIN + path;
   }
 
+  function loadSeoLandingBridge() {
+    if (document.getElementById("seo-landing-bridge")) return;
+    var scripts = document.getElementsByTagName("script");
+    var base = "/js/seo-landing-bridge.js";
+    for (var i = 0; i < scripts.length; i++) {
+      var src = scripts[i].src || "";
+      if (src.indexOf("france-seo-meta.js") >= 0) {
+        base = src.replace(/france-seo-meta\.js.*$/, "seo-landing-bridge.js");
+        break;
+      }
+    }
+    var s = document.createElement("script");
+    s.id = "seo-landing-bridge";
+    s.src = base;
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
     var url = pageUrl();
     ensureLink("alternate", "fr-FR", url);
@@ -46,5 +64,6 @@
     ensureMeta("language", "fr-FR", false);
     ensureMeta("og:locale", "fr_FR", true);
     ensureMeta("content-language", "fr-FR", false);
+    loadSeoLandingBridge();
   });
 })();

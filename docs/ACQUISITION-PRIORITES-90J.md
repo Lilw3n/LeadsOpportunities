@@ -25,13 +25,22 @@ npm run verify:acquisition-priorites
 
 | Étape | Landing | Ancre |
 |-------|---------|-------|
-| 1. Bien | `/landings/acheteur-immo.html` | bandeau `data-immo-step="bien"` |
-| 2. Projection | `/landings/projection-achat.html` | `data-immo-step="projection"` |
-| 3. Crédit | `/landings/credit-immo.html#demande` | `data-immo-step="credit"` |
-| 4. Emprunteur | `/landings/credit-immo.html#formules` | (lien depuis le bandeau) |
+| 1. Bien | `/landings/acheteur-immo.html` | bandeau `data-immo-step="bien"` + CTA crédit + « Projeter ce bien » sur annonces |
+| 2. Projection | `/landings/projection-achat.html` | CTA crédit + emprunteur (`#formules`) |
+| 3. Crédit | `/landings/credit-immo.html#demande` | retour recherche bien |
+| 4. Emprunteur | `/landings/credit-immo.html#formules` | hash → étape active dans le bandeau |
 
 Assets : `js/immo-parcours-strip.js` + `landings/css/immo-parcours.css`.  
 Partenaires affichés = **crédit uniquement** (pas d’assureurs) — `npm run verify:partners-credit`.
+
+### Bridges conversion (approfondi)
+
+| Chemin | Fichier clé |
+|--------|-------------|
+| SEO VTC → landing + UTM | `js/seo-landing-bridge.js` (chargé via `france-seo-meta.js`) |
+| Hub IDF dual CTA | `#demande` + devis express 30 sec |
+| Zone VTC (Paris/CDG/Orly) | `js/vtc-zone-hint.js` sur `landings/vtc.html` |
+| Blog canicule → mutuelle | outline **`/landings/sante.html`** (aligné Meta) + mid-bridge seniors |
 
 ---
 
