@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simulation crédit immobilier | Assurance emprunteur 2026</title>
-  <meta name="description" content="Simulation crédit immo + assurance emprunteur. Faisabilité, taux, loi Lemoine. Courtier ORIAS France." />
-  <meta name="keywords" content="simulation crédit immobilier, assurance emprunteur, crédit immo devis" />
+  <title>Simulation crédit immobilier | Prêt refusé — 2e chance</title>
+  <meta name="description" content="Crédit immo refusé ? Étude 2e chance multi-banques + assurance emprunteur. Courtier ORIAS — endettement, apport, CDD, santé." />
+  <meta name="keywords" content="prêt immobilier refusé, crédit immo 2e chance, simulation crédit immobilier, assurance emprunteur" />
   <meta name="robots" content="index,follow" />
   <meta name="geo.region" content="FR" />
   <meta name="language" content="fr-FR" />
@@ -94,14 +94,17 @@
               <li>Credit immo : faisabilite rapide via partenaire financement</li>
               <li>Marketplace emprunteur : Equilibre, Essentiel, Integrale, Optimum+, Horizon</li>
               <li>Conseiller unique : credit + assurance de pret jusqu'a la signature</li>
+              <li>Dossier deja refuse ailleurs ? On cherche une 2e chance multi-banques</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Faisabilite rapide</span>
               <span class="trust-pill">APRIL Reprise possible</span>
               <span class="trust-pill">Conseiller unique</span>
+              <span class="trust-pill">Apres refus banque</span>
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="#demande">Lancer ma simulation</a>
+              <a class="btn btn-soft" href="#pret-refuse">On m'a refuse un pret</a>
               <a class="btn btn-soft" href="#formules">Formules emprunteur</a>
               <a class="btn btn-soft" href="./projection-achat.html">Cout reel (TF, charges, travaux)</a>
               <a class="btn btn-soft" href="./acheteur-immo.html#recherche">Chercher un bien</a>
@@ -110,6 +113,25 @@
         </div>
 
         <nav data-immo-parcours data-immo-step="credit" aria-label="Parcours acquéreur"></nav>
+
+        <div class="form-wrap" id="pret-refuse">
+          <h2>On vous a refuse un pret ? On cherche une solution</h2>
+          <p class="section-lead">
+            Endettement HCSF, apport, CDD, assurance emprunteur, FICP… Un refus n’est pas forcément la fin du projet.
+            Un courtier reformule le dossier et le présente à d’autres partenaires (ex. La Centrale de Financement).
+          </p>
+          <ul class="points" style="margin-bottom:16px">
+            <li>Recalcul endettement / rachat de crédits conso</li>
+            <li>Délégation assurance emprunteur (santé, surprimes)</li>
+            <li>Co-emprunteur, apport, PTZ, bien moins cher</li>
+            <li>Timing pour ne pas griller le marché bancaire</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-primary" href="#demande">Étudier mon dossier refusé</a>
+            <a class="btn btn-soft" href="../blog/pret-immobilier-refuse-que-faire-2026.html">Guide : prêt refusé que faire</a>
+            <a class="btn btn-soft" href="./projection-achat.html">Recalculer ma capacité</a>
+          </div>
+        </div>
 
         <div class="landing-partners-slot">
           <section data-partners-trust data-partners-context="credit" data-partners-layout="featured"></section>
@@ -156,6 +178,7 @@
                     <option>Pret travaux</option>
                     <option>Construction maison</option>
                     <option>Achat terrain + construction</option>
+                    <option>Dossier deja refuse — 2e chance</option>
                   </select>
                 </div>
                 <div class="field">
@@ -186,6 +209,17 @@
                     <option>Oui, en negociation</option>
                     <option>En recherche active</option>
                     <option>Phase d'exploration</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="loanRefusedBefore">Un pret vous a deja ete refuse ?</label>
+                  <select id="loanRefusedBefore" name="loanRefusedBefore" required>
+                    <option value="">Selectionnez</option>
+                    <option>Oui — je cherche une 2e chance</option>
+                    <option>Oui — motif endettement / apport</option>
+                    <option>Oui — motif pro / sante / fichiers</option>
+                    <option>Non, premiere demande</option>
+                    <option>Je ne sais pas encore</option>
                   </select>
                 </div>
                 <div class="field">
@@ -551,7 +585,7 @@
                 </div>
                 <div class="field full">
                   <label for="details">Precisions complementaires</label>
-                  <textarea id="details" name="details" rows="4" data-optional placeholder="Credits a solder, projets particuliers, questions pour le courtier..."></textarea>
+                  <textarea id="details" name="details" rows="4" data-optional placeholder="Ex. pret refuse par ma banque pour endettement, credits conso a solder, questions pour le courtier..."></textarea>
                 </div>
                 <label class="field-check full">
                   <input type="checkbox" name="rgpd" value="1" required aria-required="true" />
@@ -605,6 +639,15 @@
         <div class="form-wrap">
           <h2>FAQ credit immobilier</h2>
           <ul class="faq-list landing-faq">
+            <li>
+              <details class="faq-item">
+                <summary>
+                  <span>On m'a deja refuse un pret — pouvez-vous m'aider ?</span>
+                  <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </summary>
+                <p>Oui. On analyse le motif (endettement, apport, statut pro, assurance, fichiers), on corrige le dossier et on le presente a d'autres partenaires. Aucune garantie d'acceptation — mais une vraie 2e chance methodique.</p>
+              </details>
+            </li>
             <li>
               <details class="faq-item">
                 <summary>

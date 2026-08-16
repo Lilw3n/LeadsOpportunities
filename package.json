@@ -62,7 +62,8 @@
     "verify:canicule-mutuelle": "node scripts/verify-canicule-mutuelle.cjs",
     "verify:partners-credit": "node scripts/verify-partners-credit.cjs",
     "verify:acquisition-priorites": "node scripts/verify-acquisition-priorites.cjs",
-    "verify:niches-actu": "node scripts/verify-niches-actu.cjs"
+    "verify:niches-actu": "node scripts/verify-niches-actu.cjs",
+    "verify:pret-refuse": "node scripts/verify-pret-refuse.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

@@ -2554,6 +2554,11 @@ nichesActu.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const pretRefuse = require("./blog-pret-refuse-articles.cjs");
+pretRefuse.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};

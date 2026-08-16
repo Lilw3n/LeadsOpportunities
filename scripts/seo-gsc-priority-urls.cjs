@@ -88,6 +88,12 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/canicule-grossesse-mutuelle-maternite.html",
   "/blog/assurance-emprunteur-loi-lemoine-2026.html",
   "/blog/pret-immo-erreurs-a-eviter.html",
+  "/blog/pret-immobilier-refuse-que-faire-2026.html",
+  "/blog/pret-refuse-endettement-35-hcsf-solutions.html",
+  "/blog/pret-refuse-courtier-multibanque-deuxieme-chance.html",
+  "/blog/pret-refuse-assurance-emprunteur-sante.html",
+  "/blog/pret-refuse-apport-insuffisant-solutions.html",
+  "/blog/rachat-credit-immobilier-guide-2026.html",
   "/blog/assurance-vtc-rc-pro-garanties.html",
   "/mentions-legales.html",
 ];

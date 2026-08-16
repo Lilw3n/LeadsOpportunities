@@ -40,6 +40,7 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 - Étude de marché (verticales, concurrence, reco 90 j) : **`docs/ETUDE-MARCHE-LEADS-OPPORTUNITIES.md`**
 - Exécution priorités 90 j (Meta canicule, VTC IDF, tunnel immo) : **`docs/ACQUISITION-PRIORITES-90J.md`** · `npm run verify:acquisition-priorites`
 - Niches + actu (incendies Gironde, eau, présidentielle, chasse, équitation) : **`docs/PLAN-VISIBILITE-NICHES.md`** · `npm run verify:niches-actu` · `npm run gsc:niches`
+- Prêt immobilier refusé → solutions : `npm run verify:pret-refuse` · landing `/landings/credit-immo.html#pret-refuse`
 - Search Console : `npm run verify:gsc` · URLs prioritaires : `npm run gsc:urls`
 - SEO/SEA (geo API, garde formulaires, `qualified_lead`) : **`docs/SEO-SEA-FRANCE-CIBLAGE.md`**
 - Acquisition blog → conversion (0 € test, pub intelligente) : **`docs/ACQUISITION-BLOG-CONVERSION.md`** + `ads/meta-blog-conversions.csv`

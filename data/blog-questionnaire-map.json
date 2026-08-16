@@ -297,6 +297,19 @@
         "cavalier"
       ],
       "section": "equitation"
+    },
+    {
+      "id": "pret-refuse",
+      "match": [
+        "prêt refusé",
+        "pret refuse",
+        "refus de prêt",
+        "refus banque",
+        "endettement 35",
+        "ficp",
+        "deuxième chance crédit"
+      ],
+      "section": "finance"
     }
   ],
   "articles": {
@@ -569,6 +582,90 @@
     },
     "orages-grele-ete-auto-habitation-2026.html": {
       "section": "auto"
+    },
+    "pret-immobilier-refuse-que-faire-2026.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-endettement-35-hcsf-solutions.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-apport-insuffisant-solutions.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-cdi-cdd-interim-freelance.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-assurance-emprunteur-sante.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-fichiers-banque-de-france-ficp-fcc.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-courtier-multibanque-deuxieme-chance.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-rachat-credits-consommateurs.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-primo-accedant-ptz-solutions.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-co-emprunteur-caution-solutions.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-apres-refus-delai-nouveau-dossier.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
+    },
+    "pret-refuse-investissement-locatif-ou-moins-cher.html": {
+      "section": "finance",
+      "hook": "Prêt refusé ? On reconstruit le dossier et on cherche une 2e chance multi-banques.",
+      "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
+      "landing": "/landings/credit-immo.html",
+      "landingLabel": "Étude crédit 2e chance"
     }
   }
 }
