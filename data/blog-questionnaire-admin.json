@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-08-17",
   "sections": [
     "actu",
     "animaux",
@@ -1236,6 +1236,58 @@
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
       "matchedRule": "pret-refuse",
       "species": null
+    },
+    {
+      "file": "alerte-immobilier-acquereur-avant-les-autres.html",
+      "title": "Alerte immobilier : être prévenu avant les autres (guide acquéreur)",
+      "section": "habitat",
+      "hook": "Les soins du chat (digestif, urgence, imagerie) montent vite sans mutuelle animaux.",
+      "question": "Avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/acheteur-immo.html#alerte",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "chat",
+      "species": "chat"
+    },
+    {
+      "file": "acheter-appartement-sans-passer-des-mois-sur-seloger.html",
+      "title": "Acheter un appartement sans passer 3 mois sur SeLoger",
+      "section": "habitat",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html#alerte",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "pret-refuse",
+      "species": null
+    },
+    {
+      "file": "visite-immobiliere-checklist-acquereur.html",
+      "title": "Visite immobilière : checklist acquéreur (ce qu’il faut regarder)",
+      "section": "habitat",
+      "hook": "Les soins du chat (digestif, urgence, imagerie) montent vite sans mutuelle animaux.",
+      "question": "Avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/acheteur-immo.html#alerte",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "chat",
+      "species": "chat"
+    },
+    {
+      "file": "offre-achat-immobilier-negocier-sans-se-faire-doubler.html",
+      "title": "Offre d’achat immobilier : négocier sans se faire doubler",
+      "section": "habitat",
+      "hook": "Les soins du chat (digestif, urgence, imagerie) montent vite sans mutuelle animaux.",
+      "question": "Avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/acheteur-immo.html#alerte",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "chat",
+      "species": "chat"
     },
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",

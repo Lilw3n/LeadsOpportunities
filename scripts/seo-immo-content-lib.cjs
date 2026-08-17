@@ -178,7 +178,7 @@ function profile(city) {
     loan:
       "capacite d emprunt, taux d effort, apport et assurance emprunteur. Nous comparons les banques favorables a votre profil",
     search:
-      "annonces portails + recherche off-market. Filtrez par mensualite cible, pas seulement par prix",
+      "alerte acquereur (tel. + e-mail) puis visites des mandats qui matchent. Filtrez par ville et budget, pas par scroll de portails",
   };
 }
 

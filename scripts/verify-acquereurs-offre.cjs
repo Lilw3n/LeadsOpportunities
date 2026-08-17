@@ -98,8 +98,9 @@ assert(acq.moneyPages.indexOf("/recherche-bien/") >= 0, "cluster money recherche
 var LT = require("./seo-long-term-related.cjs");
 assert(LT.ACQUEREUR_IMMO && LT.ACQUEREUR_IMMO.length >= 4, "LT.ACQUEREUR_IMMO");
 
-require("child_process").execFileSync(process.execPath, ["--check", path.join(__dirname, "blog-acquereur-articles.cjs")]);
-assert(true, "syntaxe blog-acquereur-articles.cjs");
+assert(read("blog/alerte-immobilier-acquereur-avant-les-autres.html").indexOf("acheteur-immo.html") >= 0, "article alerte généré");
+assert(read("recherche-bien/index.html").indexOf("alerte") >= 0, "hub recherche-bien alerte");
+assert(read("recherche-bien/lyon/index.html").indexOf("#alerte") >= 0, "page Lyon → #alerte");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
