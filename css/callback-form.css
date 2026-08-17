@@ -41,14 +41,25 @@
 
 .callback-form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 
-@media (max-width: 540px) {
+@media (min-width: 560px) {
   .callback-form-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
+}
+
+.callback-form-row .field,
+.callback-form-row label.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
 }
 
 .callback-form input[type="email"],
@@ -198,6 +209,10 @@
   text-decoration: underline;
   padding: 0;
   text-align: left;
+}
+
+.callback-strip--inline .callback-strip-form-wrap {
+  display: block;
 }
 
 .callback-strip-form-wrap {

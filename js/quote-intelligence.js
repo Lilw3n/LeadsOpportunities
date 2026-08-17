@@ -252,6 +252,41 @@
     );
   }
 
+  function bindContactCapture(form) {
+    if (!form || form._contactCaptureBound) return;
+    form._contactCaptureBound = true;
+    var timer = null;
+    function maybeSave() {
+      var emailEl = form.querySelector('[name="email"]');
+      var phoneEl = form.querySelector('[name="phone"]');
+      var email = emailEl ? String(emailEl.value || "").trim() : "";
+      var phone = phoneEl ? String(phoneEl.value || "").replace(/\s/g, "") : "";
+      if (!email && phone.length < 10) return;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        saveProgress(form, parseInt(form.dataset.currentStep || "1", 10), "contact_partial", "contact_blur");
+      }, 350);
+    }
+    form.addEventListener(
+      "blur",
+      function (e) {
+        if (!e.target || (e.target.name !== "email" && e.target.name !== "phone")) return;
+        maybeSave();
+      },
+      true
+    );
+    form.addEventListener("change", function (e) {
+      if (!e.target || (e.target.name !== "email" && e.target.name !== "phone")) return;
+      maybeSave();
+    });
+  }
+
+  function bindContactCaptureAll() {
+    document.querySelectorAll("form").forEach(function (form) {
+      if (form.querySelector('[name="email"], [name="phone"]')) bindContactCapture(form);
+    });
+  }
+
   window.QuoteIntelligence = {
     getDraftLeadId: getDraftLeadId,
     setDraftLeadId: setDraftLeadId,
@@ -265,6 +300,7 @@
     showInternalQuote: showInternalQuote,
     showCrossSellPanel: showCrossSellPanel,
     bindAbandon: bindAbandon,
+    bindContactCapture: bindContactCapture,
     isInternalPreview: isInternalPreview,
     attachLeadIdToPayload: function (payload) {
       var id = getDraftLeadId();
@@ -279,5 +315,15 @@
     forms.forEach(function (f) {
       f.dataset.submitted = "1";
     });
+  });
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindContactCaptureAll);
+  } else {
+    bindContactCaptureAll();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(bindContactCaptureAll, 200);
   });
 })();

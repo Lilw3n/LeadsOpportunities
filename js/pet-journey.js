@@ -28,6 +28,8 @@
     franchise: "franchise20",
     prevention: "0",
     fraction: "mensuelle",
+    phone: "",
+    email: "",
   };
 
   function esc(s) {
@@ -149,6 +151,33 @@
   }
 
   function renderStepAnimals(cfg) {
+    var pair =
+      (global.ContactPair && global.ContactPair.pairHtml
+        ? global.ContactPair.pairHtml({ idPrefix: "pet-" })
+        : '<fieldset class="contact-pair"><legend>Comment vous joindre</legend><div class="contact-pair-row">' +
+          '<label>Téléphone <input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" /></label>' +
+          '<label>E-mail <input name="email" type="email" required autocomplete="email" /></label>' +
+          "</div></fieldset>") +
+      "";
+    /* values restored after render via fillContactFields */
+    return pair + renderStepAnimalsBody(cfg);
+  }
+
+  function fillContactFields(root) {
+    var phone = root.querySelector('[name="phone"]');
+    var email = root.querySelector('[name="email"]');
+    if (phone && state.phone) phone.value = state.phone;
+    if (email && state.email) email.value = state.email;
+  }
+
+  function captureContactFields(root) {
+    var phone = root.querySelector('[name="phone"]');
+    var email = root.querySelector('[name="email"]');
+    if (phone) state.phone = phone.value;
+    if (email) state.email = email.value;
+  }
+
+  function renderStepAnimalsBody(cfg) {
     var blocks = state.pets
       .map(function (pet, i) {
         return (
@@ -500,7 +529,7 @@
       "</p></div>" +
       '<div class="pet-summary-total"><span style="font-size:.85rem">Total indicatif</span><strong>' +
       esc(fmtEuro(total)) +
-      " / mois</strong><span style="font-size:.85rem;color:#64748b">soit " +
+      ' / mois</strong><span style="font-size:.85rem;color:#64748b">soit ' +
       esc(fmtEuro(annual)) +
       " / an</span></div></div>" +
       (cfg.promoLabel
@@ -511,13 +540,19 @@
   }
 
   function renderStepContact() {
+    var pair =
+      global.ContactPair && global.ContactPair.pairHtml
+        ? global.ContactPair.pairHtml({ idPrefix: "pet-final-" })
+        : '<fieldset class="contact-pair"><legend>Comment vous joindre</legend><div class="contact-pair-row">' +
+          '<label>Téléphone <input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" /></label>' +
+          '<label>E-mail <input name="email" type="email" required autocomplete="email" /></label>' +
+          "</div></fieldset>";
     return (
       '<div class="pet-panel"><h3>Vos coordonnées</h3>' +
       '<p class="pet-hint">Un conseiller vous rappelle pour confirmer le tarif définitif auprès de nos partenaires (Santévet, Bulle Bleue, Kozoo…).</p>' +
+      pair +
       '<div class="pet-grid">' +
       '<label>Nom complet <input name="fullName" required autocomplete="name" /></label>' +
-      '<label>Téléphone <input name="phone" type="tel" required autocomplete="tel" /></label>' +
-      '<label>Email <input name="email" type="email" required autocomplete="email" /></label>' +
       '<label style="grid-column:1/-1">Adresse postale (numéro et rue) <input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>' +
       '<label>Code postal <input name="postalCode" inputmode="numeric" maxlength="5" required autocomplete="postal-code" /></label>' +
       '<label>Ville <input name="cityFull" required autocomplete="address-level2" placeholder="Paris" /></label>' +
@@ -564,6 +599,8 @@
     set("petsJson", JSON.stringify(state.pets));
     set("questionnaire_step", String(state.step + 1));
     set("questionnaire_total", "3");
+    if (!form.querySelector('input[name="phone"]:not([type="hidden"])')) set("phone", state.phone || "");
+    if (!form.querySelector('input[name="email"]:not([type="hidden"])')) set("email", state.email || "");
   }
 
   function bindStepEvents(root, cfg, form) {
@@ -636,6 +673,8 @@
   function validateStep() {
     if (state.step === 0) {
       if (!state.effectDate) return false;
+      if ((state.phone || "").replace(/\D/g, "").length < 10) return false;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email || "")) return false;
       for (var i = 0; i < state.pets.length; i++) {
         var p = state.pets[i];
         if (!(p.breed || "").trim()) return false;
@@ -664,6 +703,7 @@
   }
 
   function render(root, cfg, form) {
+    captureContactFields(root);
     syncHiddenFields(form, cfg);
     var body = renderProgress();
     if (state.step === 0) body += renderStepAnimals(cfg);
@@ -682,6 +722,7 @@
       '<p class="pet-disclaimer">Tarifs indicatifs modifiables dans <code>data/niche-tariffs-animaux.json</code> — devis définitif par conseiller ORIAS.</p>';
 
     root.innerHTML = '<div class="pet-journey-wrap">' + body + "</div>";
+    fillContactFields(root);
     bindStepEvents(root, cfg, form);
 
     var prev = root.querySelector("[data-pet-prev]");
@@ -697,8 +738,9 @@
     }
     if (next) {
       next.addEventListener("click", function () {
+        captureContactFields(root);
         if (!validateStep()) {
-          alert("Merci de compléter les champs obligatoires.");
+          alert("Merci de compléter les champs obligatoires (dont téléphone et e-mail).");
           return;
         }
         state.step++;

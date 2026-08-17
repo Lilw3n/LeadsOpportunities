@@ -28,16 +28,27 @@
 
   function input(name, label, type, placeholder, required) {
     var req = required !== false ? " required" : "";
+    var t = type || "text";
+    var extra = "";
+    if (t === "email" || name === "email") extra = ' autocomplete="email" inputmode="email" enterkeyhint="next"';
+    else if (t === "tel" || name === "phone") extra = ' autocomplete="tel-national" inputmode="tel" enterkeyhint="next"';
+    else if (name === "fullName") extra = ' autocomplete="name"';
+    else if (name === "street") extra = ' autocomplete="street-address"';
+    else if (name === "postalCode") extra = ' autocomplete="postal-code" inputmode="numeric"';
+    else if (name === "cityFull") extra = ' autocomplete="address-level2"';
     return (
       "<label>" +
       label +
-      '<input name="' +
+      '<input id="' +
+      name +
+      '" name="' +
       name +
       '" type="' +
-      (type || "text") +
+      t +
       '" placeholder="' +
       (placeholder || "") +
       '"' +
+      extra +
       req +
       " /></label>"
     );

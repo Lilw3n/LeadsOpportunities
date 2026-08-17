@@ -64,7 +64,8 @@
     "verify:acquisition-priorites": "node scripts/verify-acquisition-priorites.cjs",
     "verify:niches-actu": "node scripts/verify-niches-actu.cjs",
     "verify:pret-refuse": "node scripts/verify-pret-refuse.cjs",
-    "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs"
+    "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
+    "verify:contact-pair": "node scripts/verify-contact-pair.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",

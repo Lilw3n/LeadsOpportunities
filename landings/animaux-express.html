@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="./quote-intelligence.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
   <script>try { localStorage.setItem('lo_form_journey', 'quick'); } catch (e) {}</script>
 </head>
 <body>
@@ -113,10 +114,16 @@
               </select>
             </label>
           </div>
+          <fieldset class="contact-pair">
+            <legend>Comment vous joindre</legend>
+            <p class="contact-pair-hint">Téléphone et e-mail : un conseiller animaux vous rappelle.</p>
+            <div class="contact-pair-row">
+              <label>Téléphone<input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" /></label>
+              <label>E-mail<input name="email" type="email" required autocomplete="email" inputmode="email" placeholder="vous@email.fr" /></label>
+            </div>
+          </fieldset>
           <div class="grid" style="margin-top:12px">
             <label>Prenom et nom<input name="fullName" required autocomplete="name" /></label>
-            <label>Telephone<input name="phone" type="tel" required autocomplete="tel" /></label>
-            <label>Email<input name="email" type="email" required autocomplete="email" /></label>
           </div>
           <div class="grid" style="margin-top:12px">
             <label>Adresse postale (numero et rue)<input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>

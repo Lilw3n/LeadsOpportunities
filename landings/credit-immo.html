@@ -54,6 +54,8 @@
   <link rel="stylesheet" href="./css/immo-parcours.css" />
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
+  <link rel="stylesheet" href="../css/callback-form.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
 </head>
 <body>
   <header class="landing-topbar">
@@ -146,6 +148,7 @@
           <p class="form-lead">
             Ce questionnaire detaille permet de preparer un dossier solide des le premier contact. Un courtier analyse votre faisabilite. Comptez 5 a 7 minutes.
           </p>
+          <div data-callback-strip data-callback-need="credit-immo" data-callback-source="landing_credit"></div>
 
           <form data-track-form data-quote-wizard novalidate>
             <div data-cross-sell-panel hidden></div>
@@ -166,6 +169,20 @@
             <!-- ETAPE 1 : Votre projet immobilier -->
             <section class="wizard-step" data-wizard-step="1">
               <h3>Votre projet immobilier</h3>
+              <fieldset class="contact-pair">
+                <legend>Comment vous joindre</legend>
+                <p class="contact-pair-hint">Telephone et e-mail d'abord : un courtier peut vous rappeler meme si le dossier n'est pas termine.</p>
+                <div class="contact-pair-row">
+                  <div class="field">
+                    <label for="phone">Telephone mobile</label>
+                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" required placeholder="06 12 34 56 78" />
+                  </div>
+                  <div class="field">
+                    <label for="email">E-mail</label>
+                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" required placeholder="vous@email.fr" />
+                  </div>
+                </div>
+              </fieldset>
               <div class="grid">
                 <div class="field">
                   <label for="projectType">Type de projet</label>
@@ -525,14 +542,6 @@
                   <label for="dob">Date de naissance</label>
                   <input id="dob" name="dob" type="date" required />
                 </div>
-                <div class="field">
-                  <label for="email">E-mail</label>
-                  <input id="email" name="email" type="email" autocomplete="email" required />
-                </div>
-                <div class="field">
-                  <label for="phone">Telephone mobile</label>
-                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="06 / 07..." />
-                </div>
                 <div class="field full">
                   <label for="street">Adresse actuelle</label>
                   <input id="street" name="street" autocomplete="street-address" required />
@@ -724,6 +733,7 @@
   <script src="../js/immo-parcours-strip.js"></script>
   <script src="../js/devis-document-config.js"></script>
   <script src="../js/public-partners-trust.js"></script>
+  <script src="../js/contact-pair.js"></script>
   <script src="../js/callback-form.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>

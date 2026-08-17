@@ -54,6 +54,8 @@
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="./quote-intelligence.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
+  <link rel="stylesheet" href="../css/callback-form.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
 </head>
 <body class="landing-sante-easy">
   <header class="landing-topbar">
@@ -124,7 +126,7 @@
           <div class="help-callout">
             <div>
               <strong>Besoin d'aide pour remplir le formulaire ?</strong>
-              <p>Vous pouvez choisir le parcours rapide (nom + telephone) ou nous contacter : un conseiller peut vous guider.</p>
+              <p>Vous pouvez laisser telephone + e-mail (rappel 2 champs) ou continuer le formulaire : un conseiller vous guide.</p>
               <p style="margin-top:8px"><strong>Employeur ?</strong> <a href="./sante-collective.html">Devis mutuelle collective entreprise</a> (ANI, PME, TPE).</p>
             </div>
             <div class="help-callout-actions">
@@ -137,6 +139,7 @@
             <a href="./devis-express.html?need=sante">Rappel rapide (2 min)</a>
             <a href="./sante.html" class="is-active">Formulaire guide (7 etapes)</a>
           </div>
+          <div data-callback-strip data-callback-need="sante" data-callback-source="landing_sante"></div>
 
           <form data-track-form data-quote-wizard novalidate>
             <div data-cross-sell-panel hidden></div>
@@ -169,7 +172,21 @@
             <!-- ETAPE 1 : Votre profil -->
             <section class="wizard-step" data-wizard-step="1" data-step-title="Qui etes-vous ?">
               <h3>Qui etes-vous ?</h3>
-              <p class="wizard-step-intro">Commencez par quelques informations sur vous. Chaque liste deroulante : cliquez, puis choisissez une reponse.</p>
+              <p class="wizard-step-intro">Commencez par telephone et e-mail : on peut vous rappeler meme si vous n'allez pas au bout. Puis quelques informations sur vous.</p>
+              <fieldset class="contact-pair">
+                <legend>Comment vous joindre</legend>
+                <p class="contact-pair-hint">Les deux champs : le conseiller rappelle et envoie le comparatif par e-mail.</p>
+                <div class="contact-pair-row">
+                  <div class="field">
+                    <label for="phone">Votre numero de telephone</label>
+                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" required placeholder="06 12 34 56 78" />
+                  </div>
+                  <div class="field">
+                    <label for="email">E-mail</label>
+                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" required placeholder="vous@email.fr" />
+                  </div>
+                </div>
+              </fieldset>
               <div class="grid">
                 <div class="field">
                   <label for="civility">Vous etes</label>
@@ -480,15 +497,6 @@
                   <label for="lastName">Nom</label>
                   <input id="lastName" name="lastName" autocomplete="family-name" required />
                 </div>
-                <div class="field">
-                  <label for="email">E-mail</label>
-                  <input id="email" name="email" type="email" autocomplete="email" required />
-                </div>
-                <div class="field">
-                  <label for="phone">Votre numero de telephone</label>
-                  <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="Ex. 06 12 34 56 78" />
-                  <p class="field-hint">Le conseiller vous rappelle sur ce numero.</p>
-                </div>
                 <div class="field full">
                   <label for="street">Adresse complete</label>
                   <input id="street" name="street" autocomplete="street-address" required />
@@ -674,6 +682,7 @@
     }
   </script>
   <script src="../js/public-partners-trust.js"></script>
+  <script src="../js/contact-pair.js"></script>
   <script src="../js/callback-form.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>

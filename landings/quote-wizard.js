@@ -58,6 +58,13 @@
         ok = false;
         el.classList.add("input-invalid");
       }
+      if ((el.name === "phone" || el.type === "tel") && el.value) {
+        var digits = el.value.replace(/\D/g, "");
+        if (digits.length < 10) {
+          ok = false;
+          el.classList.add("input-invalid");
+        }
+      }
       if (
         (el.name === "postalCode" || el.name === "postalProject") &&
         el.value &&
@@ -307,7 +314,10 @@
     });
 
     showStep(0);
-    if (window.QuoteIntelligence) window.QuoteIntelligence.bindAbandon(form);
+    if (window.QuoteIntelligence) {
+      window.QuoteIntelligence.bindAbandon(form);
+      if (window.QuoteIntelligence.bindContactCapture) window.QuoteIntelligence.bindContactCapture(form);
+    }
 
     form.addEventListener("lo-audit-goto", function (e) {
       if (e.detail && typeof e.detail.index === "number") showStep(e.detail.index);

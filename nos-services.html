@@ -44,6 +44,7 @@
   <link rel="stylesheet" href="./css/partners-trust.css" />
   <link rel="stylesheet" href="./css/proximity.css" />
   <link rel="stylesheet" href="./css/callback-form.css" />
+  <link rel="stylesheet" href="./css/contact-pair.css" />
 </head>
 <body>
 
@@ -392,11 +393,11 @@
                 <label for="website_hp">Ne pas remplir</label>
                 <input type="text" id="website_hp" name="_hp" tabindex="-1" autocomplete="off" />
               </div>
-              <div class="form-row">
-                <input type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
-                <input type="tel" name="phone" autocomplete="tel" placeholder="Telephone" required />
+              <input type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
+              <div class="form-row contact-pair-row">
+                <input type="tel" name="phone" autocomplete="tel-national" inputmode="tel" placeholder="Telephone mobile" required />
+                <input type="email" name="email" autocomplete="email" inputmode="email" placeholder="Adresse e-mail" required />
               </div>
-              <input type="email" name="email" autocomplete="email" placeholder="Adresse e-mail" required />
               <select name="need" required>
                 <option value="">Quel est votre besoin ?</option>
               </select>

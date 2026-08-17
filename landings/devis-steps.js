@@ -21,9 +21,18 @@
   }
 
   function stepIdentity() {
+    var pair =
+      global.ContactPair && global.ContactPair.pairHtml
+        ? global.ContactPair.pairHtml()
+        : fieldRow(
+            input("phone", "Telephone mobile", "tel", "06 12 34 56 78", true) +
+              input("email", "E-mail", "email", "vous@email.fr", true)
+          );
     return (
       '<section class="wizard-step" data-step="identity" data-step-name="identity">' +
-      "<h3>Vos coordonnees</h3>" +
+      "<h3>Comment vous joindre</h3>" +
+      "<p class=\"wizard-step-intro\">Telephone et e-mail d'abord : un conseiller peut vous rappeler meme si vous n'allez pas au bout.</p>" +
+      pair +
       fieldRow(
         select("civility", "Civilite", [
           { v: "M", t: "M." },
@@ -32,10 +41,15 @@
           input("firstName", "Prenom", "text", "Jean", true) +
           input("lastName", "Nom", "text", "Dupont", true)
       ) +
-      fieldRow(
-        input("email", "E-mail", "email", "vous@email.fr", true) +
-          input("phone", "Telephone mobile", "tel", "06 / 07...", true)
-      ) +
+      "</section>"
+    );
+  }
+
+  function stepAddress() {
+    return (
+      '<section class="wizard-step" data-step="address" data-step-name="address">' +
+      "<h3>Votre adresse</h3>" +
+      "<p class=\"wizard-step-intro\">Pour le devis et les courriers assureur.</p>" +
       fieldRow(input("street", "Adresse postale (numero et rue)", "text", "12 rue...", true)) +
       fieldRow(
         input("postalCode", "Code postal", "text", "75001", true) +
@@ -210,6 +224,7 @@
     parts.push(stepPortefeuille());
     parts.push(stepBudget());
     parts.push(stepDocuments(service));
+    parts.push(stepAddress());
     parts.push(stepFinalize());
 
     return parts.join("");

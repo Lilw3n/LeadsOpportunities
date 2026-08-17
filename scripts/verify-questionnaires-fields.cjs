@@ -60,6 +60,7 @@ function hasAnyField(html, names) {
 
 var sandbox = loadScripts([
   "js/service-catalog.js",
+  "js/contact-pair.js",
   "js/questionnaire-config.js",
   "landings/devis-steps.js",
   "js/devis-express-config.js",
@@ -75,9 +76,12 @@ assert(QC.MOBILITY_NEEDS.length >= 5, "liste besoins mobilité");
 assert(QC.PRO_NEEDS.length >= 8, "liste besoins pro");
 
 var identity = steps.buildWizardHtml({ need: "sante", category: "sante", label: "Sante" });
+assert(hasRequiredField(identity, "phone"), "identité : téléphone obligatoire");
+assert(hasRequiredField(identity, "email"), "identité : e-mail obligatoire");
 assert(hasRequiredField(identity, "street"), "identité : adresse (rue) obligatoire");
 assert(hasRequiredField(identity, "postalCode"), "identité : code postal obligatoire");
 assert(hasRequiredField(identity, "cityFull"), "identité : ville obligatoire");
+assert(identity.indexOf("Comment vous joindre") < identity.indexOf("Votre adresse"), "téléphone+email avant adresse");
 
 QC.MOBILITY_NEEDS.forEach(function (need) {
   var service = catalog.getService(need) || { need: need, category: "mobilite", label: need };

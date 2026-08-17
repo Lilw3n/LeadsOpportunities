@@ -39,6 +39,7 @@
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="./quote-intelligence.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
   <script>
     try { localStorage.setItem('lo_form_journey', 'quick'); } catch (e) {}
   </script>
@@ -73,9 +74,15 @@
           <div class="hp-field" aria-hidden="true">
             <label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
           </div>
+          <fieldset class="contact-pair">
+            <legend>Comment vous joindre</legend>
+            <p class="contact-pair-hint">Telephone et e-mail : on vous rappelle, meme sans le reste du formulaire.</p>
+            <div class="contact-pair-row">
+              <label>Telephone mobile<input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" /></label>
+              <label>E-mail<input name="email" type="email" required autocomplete="email" inputmode="email" placeholder="vous@email.fr" /></label>
+            </div>
+          </fieldset>
           <label>Prénom et nom<input name="fullName" required autocomplete="name" /></label>
-          <label>Téléphone<input name="phone" type="tel" required autocomplete="tel" /></label>
-          <label>Email<input name="email" type="email" required autocomplete="email" /></label>
           <label>Plaque d'immatriculation<input name="vehiclePlate" required placeholder="AA-123-BB" /></label>
           <label>SIREN (9) ou SIRET (14 chiffres)<input name="siret" inputmode="numeric" required placeholder="123456789 ou 12345678901234" /></label>
           <label>Adresse postale (numéro et rue)<input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>

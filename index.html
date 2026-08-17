@@ -66,6 +66,7 @@
   <link rel="stylesheet" href="./css/clickable-affordance.css" />
   <link rel="stylesheet" href="./css/proximity.css" />
   <link rel="stylesheet" href="./css/callback-form.css" />
+  <link rel="stylesheet" href="./css/contact-pair.css" />
   <link rel="stylesheet" href="./css/piliers-hub.css" />
 </head>
 <body data-admin-nav-page data-market-intent="FR">
@@ -736,14 +737,14 @@
                 <label for="website_hp">Ne pas remplir</label>
                 <input type="text" id="website_hp" name="_hp" tabindex="-1" autocomplete="off" />
               </div>
-              <div class="form-row">
-                <label class="sr-only" for="contactFullName">Nom et prénom</label>
-                <input id="contactFullName" type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
+              <label class="sr-only" for="contactFullName">Nom et prénom</label>
+              <input id="contactFullName" type="text" name="fullName" autocomplete="name" placeholder="Nom et prenom" required />
+              <div class="form-row contact-pair-row">
                 <label class="sr-only" for="contactPhone">Téléphone</label>
-                <input id="contactPhone" type="tel" name="phone" autocomplete="tel" placeholder="Telephone" required />
+                <input id="contactPhone" type="tel" name="phone" autocomplete="tel-national" inputmode="tel" placeholder="Telephone mobile" required />
+                <label class="sr-only" for="contactEmail">Adresse e-mail</label>
+                <input id="contactEmail" type="email" name="email" autocomplete="email" inputmode="email" placeholder="Adresse e-mail" required />
               </div>
-              <label class="sr-only" for="contactEmail">Adresse e-mail</label>
-              <input id="contactEmail" type="email" name="email" autocomplete="email" placeholder="Adresse e-mail" required />
               <label class="sr-only" for="contactNeed">Votre besoin</label>
               <select id="contactNeed" name="need" required>
                 <option value="">Quel est votre besoin ?</option>

@@ -40,6 +40,7 @@
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="./quote-intelligence.css" />
   <link rel="stylesheet" href="../css/callback-form.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
   <script>try { localStorage.setItem('lo_form_journey', 'quick'); } catch (e) {}</script>
 </head>
 <body>
@@ -68,14 +69,21 @@
           <div class="hp-field" aria-hidden="true">
             <label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label>
           </div>
-          <h2 class="form-title" style="margin-top:0">Votre besoin</h2>
-          <div id="expressFieldsMount"></div>
-          <h2 class="form-title">Vos coordonnees</h2>
+          <h2 class="form-title" style="margin-top:0">Vos coordonnees</h2>
+          <fieldset class="contact-pair">
+            <legend>Telephone + e-mail</legend>
+            <p class="contact-pair-hint">Les deux : un conseiller vous rappelle et envoie le devis.</p>
+            <div class="contact-pair-row">
+              <label>Telephone mobile<input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" /></label>
+              <label>E-mail<input name="email" type="email" required autocomplete="email" inputmode="email" placeholder="vous@email.fr" /></label>
+            </div>
+          </fieldset>
           <div class="grid">
             <label>Prenom et nom<input name="fullName" required autocomplete="name" /></label>
-            <label>Telephone<input name="phone" type="tel" required autocomplete="tel" /></label>
-            <label>Email<input name="email" type="email" required autocomplete="email" /></label>
           </div>
+          <h2 class="form-title">Votre besoin</h2>
+          <div id="expressFieldsMount"></div>
+          <h2 class="form-title">Adresse</h2>
           <div class="grid">
             <label>Adresse postale (numero et rue)<input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>
             <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" required autocomplete="postal-code" /></label>
@@ -94,6 +102,7 @@
     </div>
   </main>
   <script src="../js/service-catalog.js"></script>
+  <script src="../js/contact-pair.js"></script>
   <script src="../js/devis-express-config.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>

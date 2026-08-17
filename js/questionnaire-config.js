@@ -29,18 +29,39 @@
 
   function input(name, label, type, placeholder, required) {
     var req = required !== false ? " required" : "";
+    var t = type || "text";
+    var extra = "";
+    if (t === "email" || name === "email") extra = ' autocomplete="email" inputmode="email" enterkeyhint="next"';
+    else if (t === "tel" || name === "phone") extra = ' autocomplete="tel-national" inputmode="tel" enterkeyhint="next"';
+    else if (name === "firstName") extra = ' autocomplete="given-name"';
+    else if (name === "lastName") extra = ' autocomplete="family-name"';
+    else if (name === "fullName") extra = ' autocomplete="name"';
+    else if (name === "street") extra = ' autocomplete="street-address"';
+    else if (name === "postalCode") extra = ' autocomplete="postal-code" inputmode="numeric"';
+    else if (name === "cityFull") extra = ' autocomplete="address-level2"';
     return (
       "<label>" +
       label +
-      '<input name="' +
+      '<input id="' +
+      name +
+      '" name="' +
       name +
       '" type="' +
-      (type || "text") +
+      t +
       '" placeholder="' +
       (placeholder || "") +
       '"' +
+      extra +
       req +
       " /></label>"
+    );
+  }
+
+  function contactPair() {
+    if (global.ContactPair && global.ContactPair.pairHtml) return global.ContactPair.pairHtml();
+    return fieldRow(
+      input("phone", "Telephone mobile", "tel", "06 12 34 56 78", true) +
+        input("email", "E-mail", "email", "vous@email.fr", true)
     );
   }
 
@@ -1542,6 +1563,7 @@
     fieldRow: fieldRow,
     select: select,
     input: input,
+    contactPair: contactPair,
     textarea: textarea,
     plateField: plateField,
     siretField: siretField,

@@ -11,9 +11,9 @@
     success:
       "C'est noté ! Un conseiller vous rappelle dès que possible. Vous recevrez aussi une notification par e-mail côté équipe.",
     error: "Envoi impossible pour le moment. Réessayez dans quelques instants.",
-    stripTitle: "Formulaire trop long ? On vous rappelle.",
+    stripTitle: "Formulaire trop long ? Téléphone + e-mail suffisent.",
     stripLead:
-      "Deux champs suffisent (e-mail + téléphone) : un humain reprend votre dossier à votre place.",
+      "Laissez les deux : un conseiller vous rappelle et envoie le devis. Vous n'avez pas à tout remplir.",
   };
 
   function esc(s) {
@@ -112,9 +112,21 @@
       esc(id) +
       '" data-callback-submit novalidate>' +
       '<div class="hp-field" aria-hidden="true"><label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label></div>' +
-      '<div class="callback-form-row">' +
-      '<input type="email" name="email" autocomplete="email" placeholder="Votre e-mail" required />' +
-      '<input type="tel" name="phone" autocomplete="tel" placeholder="Votre téléphone" required />' +
+      '<div class="callback-form-row contact-pair-row">' +
+      '<label class="field" for="' +
+      esc(id) +
+      '-phone">Téléphone mobile' +
+      '<input id="' +
+      esc(id) +
+      '-phone" type="tel" name="phone" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" placeholder="06 12 34 56 78" required />' +
+      "</label>" +
+      '<label class="field" for="' +
+      esc(id) +
+      '-email">E-mail' +
+      '<input id="' +
+      esc(id) +
+      '-email" type="email" name="email" autocomplete="email" inputmode="email" enterkeyhint="next" placeholder="vous@email.fr" required />' +
+      "</label>" +
       "</div>" +
       (showNeed
         ? '<select name="need" class="callback-need-select" aria-label="Votre besoin">' +
@@ -153,7 +165,7 @@
       (window.location.search ? (need ? "&" : "?") + window.location.search.replace(/^\?/, "") : "");
 
     return (
-      '<div class="callback-strip" data-callback-strip-root>' +
+      '<div class="callback-strip callback-strip--inline" data-callback-strip-root>' +
       '<div class="callback-strip-inner">' +
       '<div class="callback-strip-text">' +
       "<strong>" +
@@ -164,13 +176,12 @@
       "</p>" +
       "</div>" +
       '<div class="callback-strip-actions">' +
-      '<button type="button" class="btn btn-primary btn-sm callback-strip-open" data-callback-strip-open>Me rappeler (2 champs)</button>' +
       '<a class="btn btn-outline btn-sm" href="' +
       esc(rappelHref) +
       '">Page rappel dédiée</a>' +
       "</div>" +
       "</div>" +
-      '<div class="callback-strip-form-wrap" data-callback-strip-form hidden></div>' +
+      '<div class="callback-strip-form-wrap" data-callback-strip-form></div>' +
       "</div>"
     );
   }
@@ -241,6 +252,16 @@
 
       var fields = collectFormFields(form);
       if (fields._hp) return;
+
+      var phone = String(fields.phone || "").replace(/\s/g, "");
+      var email = String(fields.email || "").trim();
+      if (phone.length < 10 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        if (errorEl) {
+          errorEl.textContent = "Indiquez un téléphone et un e-mail valides — les deux sont utiles pour vous joindre.";
+          errorEl.hidden = false;
+        }
+        return;
+      }
 
       var need = fields.need || options.need || getNeedFromUrl() || "";
       var svc = getService(need);
@@ -348,30 +369,21 @@
     var need = el.getAttribute("data-callback-need") || getNeedFromUrl();
     el.innerHTML = renderStripHtml({ need: need });
 
-    var openBtn = el.querySelector("[data-callback-strip-open]");
     var formWrap = el.querySelector("[data-callback-strip-form]");
-    if (!openBtn || !formWrap) return;
-
-    openBtn.addEventListener("click", function () {
-      if (formWrap.hidden) {
-        formWrap.hidden = false;
-        formWrap.innerHTML = renderFormHtml({
-          need: need,
-          showNeed: !need,
-          compact: true,
-          source: "landing_callback_strip",
-          privacyHref: "../politique-confidentialite.html",
-        });
-        wireForm(formWrap.querySelector("form"), {
-          source: "landing_callback_strip",
-          need: need,
-        });
-        openBtn.textContent = "Masquer";
-        formWrap.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      } else {
-        formWrap.hidden = true;
-        openBtn.textContent = "Me rappeler (2 champs)";
-      }
+    if (!formWrap) return;
+    formWrap.hidden = false;
+    formWrap.innerHTML = renderFormHtml({
+      need: need,
+      showNeed: !need,
+      compact: true,
+      source: el.getAttribute("data-callback-source") || "landing_callback_strip",
+      privacyHref: "../politique-confidentialite.html",
+      title: "Téléphone + e-mail",
+      lead: "Les deux champs, puis « Me rappeler ». Un conseiller reprend le dossier.",
+    });
+    wireForm(formWrap.querySelector("form"), {
+      source: el.getAttribute("data-callback-source") || "landing_callback_strip",
+      need: need,
     });
   }
 
