@@ -111,6 +111,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/acheter-appartement-sans-passer-des-mois-sur-seloger.html",
   "/blog/visite-immobiliere-checklist-acquereur.html",
   "/blog/offre-achat-immobilier-negocier-sans-se-faire-doubler.html",
+  "/blog/capacite-emprunt-hcsf-avant-visite-acquereur.html",
   "/blog/pret-refuse-cdi-cdd-interim-freelance.html",
   "/blog/pret-refuse-fichiers-banque-de-france-ficp-fcc.html",
   "/blog/rachat-credit-immobilier-guide-2026.html",

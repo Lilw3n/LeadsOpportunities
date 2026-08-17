@@ -142,7 +142,7 @@ function buildImmoDestinationPages(page, cities) {
       keywords: "appartements a vendre, alerte immobilier, recherche bien, acheter appartement, maisons a vendre",
       h1: "Appartements et maisons : alerte acquéreur, ville par ville",
       intro:
-        "Creez une alerte (ville, telephone, e-mail) : on vous previent des qu un mandat correspond. Les vendeurs rejoignent un vivier d acquereurs — pas une vitrine vide. Le pret reste optionnel.",
+        "Creez une alerte (ville, telephone, e-mail), puis verifiez votre capacite HCSF : on peut vous proposer le pret. Les vendeurs rejoignent un vivier d acquereurs solvables — pas une vitrine vide.",
       cta: { href: SEARCH_LANDING + "#alerte", label: "Creer mon alerte" },
       crumbs: [
         { name: "Accueil", url: "/" },
@@ -150,8 +150,8 @@ function buildImmoDestinationPages(page, cities) {
       ],
       steps: [
         { title: "Alerte", text: "Ville, telephone, e-mail — 30 secondes." },
-        { title: "Visites", text: "Mandats qui matchent vos criteres." },
-        { title: "Offre", text: "Pret et assurances seulement si besoin." },
+        { title: "Capacite", text: "HCSF ~35 % : budget que vous pouvez viser." },
+        { title: "Pret", text: "On vous propose le dossier banque." },
       ],
       sections: [
         {
@@ -167,12 +167,14 @@ function buildImmoDestinationPages(page, cities) {
         { href: "/recherche-bien/destinations/", label: "Destinations" },
         { href: "/recherche-bien/villes/", label: "Toutes les villes" },
         { href: SEARCH_LANDING + "#alerte", label: "Alerte acquereur" },
+        { href: SEARCH_LANDING + "#capacite", label: "Capacite + pret" },
         { href: "/pret-immobilier/", label: "Pret immobilier" },
         { href: PROJ, label: "Projection cout reel" },
       ],
       related: LT.mergeUnique(
         [
           { href: SEARCH_LANDING + "#alerte", label: "Alerte acquereur" },
+          { href: SEARCH_LANDING + "#capacite", label: "Capacite + pret" },
           { href: "/recherche-bien/villes/", label: "Recherche par ville" },
           { href: "/pret-immobilier/", label: "Pret immobilier" },
           { href: PRET_LANDING, label: "Simulation pret" },

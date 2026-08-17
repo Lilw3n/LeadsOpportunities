@@ -76,6 +76,8 @@ var ACQUEREUR_IMMO = [
   link("/blog/acheter-appartement-sans-passer-des-mois-sur-seloger.html", "Acheter sans 3 mois de portails"),
   link("/blog/visite-immobiliere-checklist-acquereur.html", "Checklist visite"),
   link("/blog/offre-achat-immobilier-negocier-sans-se-faire-doubler.html", "Offre d'achat"),
+  link("/blog/capacite-emprunt-hcsf-avant-visite-acquereur.html", "Capacité HCSF"),
+  link("/landings/acheteur-immo.html#capacite", "Capacité + prêt"),
 ];
 
 var SILOS_IMMO = [

@@ -46,13 +46,14 @@
       "id": "acquereur-immo",
       "priority": 3,
       "primary": "alerte immobilier acquéreur",
-      "longTail": ["appartements à vendre", "acheter un appartement", "alerte bien immobilier", "visite immobilière checklist", "offre d'achat immobilier"],
+      "longTail": ["appartements à vendre", "acheter un appartement", "alerte bien immobilier", "visite immobilière checklist", "offre d'achat immobilier", "capacité d'emprunt HCSF"],
       "moneyPages": ["/recherche-bien/", "/landings/acheteur-immo.html", "/recherche-bien/villes/", "/immobilier/"],
       "blog": [
         "/blog/alerte-immobilier-acquereur-avant-les-autres.html",
         "/blog/acheter-appartement-sans-passer-des-mois-sur-seloger.html",
         "/blog/visite-immobiliere-checklist-acquereur.html",
-        "/blog/offre-achat-immobilier-negocier-sans-se-faire-doubler.html"
+        "/blog/offre-achat-immobilier-negocier-sans-se-faire-doubler.html",
+        "/blog/capacite-emprunt-hcsf-avant-visite-acquereur.html"
       ]
     },
     {

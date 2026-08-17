@@ -7,15 +7,15 @@
   var STEPS = [
     {
       id: "bien",
-      label: "1. Bien",
-      href: "./acheteur-immo.html",
-      hint: "Chercher / alerte",
+      label: "1. Alerte",
+      href: "./acheteur-immo.html#alerte",
+      hint: "Tél. + e-mail",
     },
     {
-      id: "projection",
-      label: "2. Projection",
-      href: "./projection-achat.html",
-      hint: "Prêt + charges",
+      id: "capacite",
+      label: "2. Capacité",
+      href: "./acheteur-immo.html#capacite",
+      hint: "HCSF + prêt",
     },
     {
       id: "credit",
@@ -45,6 +45,13 @@
     if (hash === "#formules" || hash.indexOf("#formules") === 0) {
       return "emprunteur";
     }
+    if (hash === "#capacite" || hash === "#simulateur") {
+      return "capacite";
+    }
+    if (hash === "#alerte") {
+      return "bien";
+    }
+    if (current === "projection") return "capacite";
     return current;
   }
 
@@ -57,9 +64,9 @@
     STEPS.forEach(function (step, i) {
       var active = step.id === current;
       var done =
-        current === "projection" && step.id === "bien"
+        current === "capacite" && step.id === "bien"
           ? true
-          : current === "credit" && (step.id === "bien" || step.id === "projection")
+          : current === "credit" && (step.id === "bien" || step.id === "capacite")
             ? true
             : current === "emprunteur" && step.id !== "emprunteur";
       html +=

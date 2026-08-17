@@ -1290,6 +1290,19 @@
       "species": "chat"
     },
     {
+      "file": "capacite-emprunt-hcsf-avant-visite-acquereur.html",
+      "title": "Capacité d’emprunt HCSF : calculez avant de visiter (acquéreur)",
+      "section": "habitat",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html#capacite",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "pret-refuse",
+      "species": null
+    },
+    {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
       "title": "Investir en France sans y resider : assurance emprunteur et pret immo",
       "section": "finance",

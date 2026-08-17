@@ -37,7 +37,11 @@
       priceMode: g(["priceMode", "prixMode"]) || "",
       downPayment: num(g(["downPayment", "apport"])),
       loanDuration: num(g(["loanDuration", "duree", "years"])),
-      income: num(g(["income", "revenus"])),
+      income: num(g(["income", "revenus", "netIncome", "salaire"])),
+      currentLoans: num(g(["currentLoans", "credits", "creditsEnCours"])),
+      phone: g(["phone", "tel"]),
+      email: g(["email"]),
+      city: g(["ville", "city"]),
       propertyId: g(["propertyId", "bienId"]),
       contactId: g(["contactId"]),
       agency: g(["agency", "agence"]),
@@ -63,6 +67,10 @@
     set("loanDuration", data.loanDuration);
     set("duree", data.loanDuration);
     set("income", data.income != null ? Math.round(data.income) : null);
+    set("currentLoans", data.currentLoans != null ? Math.round(data.currentLoans) : null);
+    set("phone", data.phone);
+    set("email", data.email);
+    set("ville", data.city);
     set("propertyId", data.propertyId);
     set("contactId", data.contactId);
     set("agency", data.agency);
@@ -146,6 +154,14 @@
       setVal("income", Math.round(data.income));
       setVal("revenus", Math.round(data.income));
       setVal("salaire", Math.round(data.income));
+      setVal("netIncome", Math.round(data.income));
+    }
+    if (data.currentLoans != null) setVal("currentLoans", Math.round(data.currentLoans));
+    if (data.phone) setVal("phone", data.phone);
+    if (data.email) setVal("email", data.email);
+    if (data.city) {
+      setVal("searchCities", data.city);
+      setVal("listingCity", data.city);
     }
 
     // Champs cachés attribution

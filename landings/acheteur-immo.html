@@ -67,8 +67,8 @@
             >Téléphone + e-mail. On vous prévient dès qu’un mandat match votre ville — même si la grille est encore vide.</p>
             <ul class="points">
               <li>Acquéreur : alerte express (ville, tél., e-mail) puis visites</li>
-              <li>Déjà vu une annonce ? Collez l’URL, on enregistre votre intérêt</li>
-              <li>Vendeur : déposez ensuite — les acheteurs sont déjà là</li>
+              <li>Capacité HCSF : on vérifie ce que vous pouvez financer, puis on propose le prêt</li>
+              <li>Vendeur : déposez ensuite — les acheteurs solvables sont déjà là</li>
             </ul>
             <div class="trust-row">
               <span class="trust-pill">Acquéreur d’abord</span>
@@ -77,9 +77,9 @@
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="#alerte">Créer une alerte (tél. + e-mail)</a>
+              <a class="btn btn-soft" href="#capacite">Vérifier ma capacité / prêt</a>
               <a class="btn btn-soft" href="#recherche">Voir les mandats</a>
               <a class="btn btn-soft" href="./acheteur-immo.html?role=vendeur#deposer-bien">Je vends</a>
-              <a class="btn btn-soft" href="./projection-achat.html">Me projeter (prêt + charges)</a>
             </div>
           </div>
         </div>
@@ -128,6 +128,47 @@
             · Affiner les critères : <a href="#dossier">alerte détaillée</a>
             · Je vends : <a href="./acheteur-immo.html?role=vendeur#deposer-bien">déposer un bien</a>
           </p>
+          <div id="alerte-next" class="buyer-alert-next" hidden>
+            <p><strong>Alerte notée.</strong> Prochaine étape : vérifier votre capacité — on vous propose le prêt immo.</p>
+            <a class="btn btn-primary" href="#capacite">Vérifier ma capacité de financement</a>
+          </div>
+        </section>
+
+        <section class="buyer-capacity" id="capacite" data-buyer-capacity>
+          <span class="dossier-kicker">Étape 2 — Prêt</span>
+          <h2>Vérifier ma capacité de financement</h2>
+          <p class="listings-intro">
+            Revenus, apport, crédits en cours : on estime la mensualité max (HCSF ~35&nbsp;%) et le budget que vous pouvez viser.
+            <strong>Ensuite on vous propose le prêt</strong> — courtier ORIAS, multi-banques. Indicatif, sans engagement.
+          </p>
+          <form class="capacity-form" data-capacity-form novalidate>
+            <div class="grid">
+              <div class="field">
+                <label for="capRevenus">Revenus nets du foyer (€ / mois)</label>
+                <input id="capRevenus" name="capRevenus" inputmode="numeric" placeholder="Ex. 3200" autocomplete="off" />
+              </div>
+              <div class="field">
+                <label for="capApport">Apport personnel (€)</label>
+                <input id="capApport" name="capApport" inputmode="numeric" placeholder="Ex. 25000" />
+              </div>
+              <div class="field">
+                <label for="capCredits">Crédits en cours (€ / mois)</label>
+                <input id="capCredits" name="capCredits" inputmode="numeric" placeholder="0 si aucun" />
+              </div>
+              <div class="field">
+                <label for="capDuree">Durée du prêt</label>
+                <select id="capDuree" name="capDuree">
+                  <option value="20">20 ans</option>
+                  <option value="25" selected>25 ans</option>
+                  <option value="15">15 ans</option>
+                </select>
+              </div>
+            </div>
+          </form>
+          <p class="capacity-need-contact" data-capacity-need-contact hidden>
+            Laissez d’abord téléphone + e-mail dans <a href="#alerte">l’alerte</a> : le dossier prêt part avec le même contact.
+          </p>
+          <div class="capacity-result" data-capacity-result hidden></div>
         </section>
 
         <div class="listings-wrap" id="recherche" data-immo-search>
@@ -173,6 +214,7 @@
             <h3>Aucun mandat public ici pour l’instant</h3>
             <p data-empty-hint>On ne scrappe pas les portails. Créez une alerte : on vous appelle dès qu’un vendeur dépose dans votre zone.</p>
             <a class="btn btn-primary" href="#alerte">Créer mon alerte</a>
+            <a class="btn btn-soft" href="#capacite">Vérifier ma capacité / prêt</a>
           </div>
         </div>
 
@@ -1183,7 +1225,7 @@
           "name": "Dois-je remplir un dossier prêt pour chercher un bien ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Non. La recherche (filtres et cartes d'annonces) est en haut de page. Le questionnaire prêt et assurances est optionnel, plus bas."
+            "text": "L'alerte (tél. + e-mail) suffit pour exister. Ensuite on vérifie votre capacité HCSF et on peut vous proposer le prêt immobilier — ce n'est pas un prérequis pour l'alerte."
           }
         },
         {
@@ -1191,7 +1233,7 @@
           "name": "Proposez-vous aussi le crédit et l'assurance emprunteur ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Oui, en complément après la recherche du bien : crédit via La Centrale de Financement et assurance emprunteur via Marketplace Emprunteur."
+            "text": "Oui. Après l'alerte : capacité indicative, puis dossier prêt (courtier ORIAS, multi-banques) et assurance emprunteur. Un conseiller suit jusqu'à la signature."
           }
         }
       ]
@@ -1212,6 +1254,7 @@
   <script src="../js/public-partners-trust.js"></script>
   <script src="../js/contact-pair.js"></script>
   <script src="../js/callback-form.js"></script>
+  <script src="../js/buyer-capacity.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>

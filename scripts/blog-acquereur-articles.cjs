@@ -307,4 +307,74 @@ module.exports = [
       },
     ],
   },
+  {
+    file: "capacite-emprunt-hcsf-avant-visite-acquereur.html",
+    section: "habitat",
+    tag: "Acquéreur",
+    tagClass: "tag-actu",
+    themes: ["acquereur", "immobilier", "pret"],
+    title: "Capacité d’emprunt HCSF : calculez avant de visiter (acquéreur)",
+    description:
+      "Règle des 35 % HCSF, apport, crédits en cours : estimez votre budget, puis un courtier peut vous proposer le prêt. Alerte acquéreur + dossier crédit.",
+    meta: "7 min · Août 2026",
+    cardExcerpt: "HCSF 35 % : mensualité max, capital, budget bien — puis on propose le prêt.",
+    keywords: [
+      "capacité d'emprunt immobilier",
+      "HCSF 35 %",
+      "taux d'endettement achat",
+      "combien puis-je emprunter",
+      "simulation capacité prêt immobilier",
+    ],
+    cta: { href: "../landings/acheteur-immo.html#capacite", label: "Vérifier ma capacité / prêt" },
+    heroImage: {
+      src: "./images/finance/budget-famille.jpg",
+      alt: "Budget foyer — capacité d'emprunt",
+      caption: "La banque regarde l'endettement, pas seulement le coup de cœur.",
+    },
+    blocks: [
+      {
+        type: "p",
+        text: "Un vendeur préfère un acquéreur <strong>finançable</strong>. Avant les visites, calculez votre <strong>capacité d’emprunt</strong> (HCSF ~35&nbsp;% des revenus nets, moins les crédits en cours). On le fait en 30 secondes après l’alerte — puis on <strong>propose le prêt</strong>. <a href=\"../landings/acheteur-immo.html#capacite\"><strong>Vérifier ma capacité</strong></a>.",
+      },
+      { type: "bridge" },
+      {
+        type: "h2",
+        text: "1. La règle des 35 % (HCSF)",
+      },
+      {
+        type: "p",
+        text: "En France, le Haut Conseil de stabilité financière plafonne en pratique le taux d’effort autour de <strong>35&nbsp;%</strong> des revenus nets (assurance emprunteur comprise, selon les dossiers). Revenus 3&nbsp;200&nbsp;€, 200&nbsp;€ de crédits conso → mensualité max ≈ 920&nbsp;€. Ce n’est pas une offre : c’est le cadre dans lequel un courtier travaille.",
+      },
+      {
+        type: "h2",
+        text: "2. Apport, notaire, durée",
+      },
+      {
+        type: "ul",
+        items: [
+          "L’apport couvre souvent les frais de notaire (~7–8 % en ancien) + un matelas",
+          "25 ans reste la durée max courante (un peu plus si rénovation énergétique)",
+          "Un crédit conso en cours mange de la capacité : parfois mieux de le racheter avant",
+          "Co-emprunteur, PTZ, don familial : levier, pas magie",
+        ],
+      },
+      {
+        type: "h2",
+        text: "3. Alerte d’abord, prêt ensuite",
+      },
+      {
+        type: "p",
+        text: "Sans contact, personne ne vous propose un mandat ni un crédit. L’<a href=\"./alerte-immobilier-acquereur-avant-les-autres.html\">alerte acquéreur</a> (tél. + e-mail) vous fait exister. La capacité dit <em>jusqu’où</em> viser. Le dossier <a href=\"../landings/credit-immo.html\">prêt immo</a> est ce qu’on peut vous monter — y compris après un <a href=\"./pret-immobilier-refuse-que-faire-2026.html\">refus banque</a>.",
+      },
+      { type: "bridge" },
+      {
+        type: "h2",
+        text: "4. Offre inversée : acheteurs solvables",
+      },
+      {
+        type: "p",
+        text: "Les vendeurs déposent là où il y a des acquéreurs <strong>joignables et finançables</strong>. D’où la séquence : alerte → capacité → proposition de prêt → visites. <a href=\"../landings/acheteur-immo.html#capacite\"><strong>Calculer ma capacité et demander le prêt</strong></a>.",
+      },
+    ],
+  },
 ];

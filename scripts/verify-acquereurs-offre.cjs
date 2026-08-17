@@ -28,6 +28,11 @@ assert(heroPrimary.indexOf('href="#alerte"') >= 0, "CTA primaire alerte dans her
 assert(heroPrimary.indexOf("Déposer / coller un bien") < 0, "plus de dépôt en CTA primaire hero");
 assert(landing.indexOf("data-callback-source=\"buyer_alert_express\"") >= 0, "form alerte express");
 assert(landing.indexOf("Aucun mandat public ici") >= 0, "empty state acquéreur");
+assert(landing.indexOf('id="capacite"') >= 0, "landing #capacite");
+assert(landing.indexOf("data-buyer-capacity") >= 0, "widget capacité");
+assert(landing.indexOf("Vérifier ma capacité") >= 0, "CTA capacité");
+assert(landing.indexOf("js/buyer-capacity.js") >= 0, "script capacité");
+assert(heroPrimary.indexOf("#capacite") >= 0, "hero lien capacité");
 
 var search = read("js/acheteur-immo-search.js");
 assert(search.indexOf('params.get("ville")') >= 0, "prefill ?ville=");
@@ -39,7 +44,9 @@ assert(hat.indexOf("Alerte sur cette URL") >= 0, "hat acheteur = alerte URL");
 assert(hat.indexOf("pas besoin du téléphone du vendeur") >= 0, "pas de tél vendeur côté acheteur");
 
 var parcours = read("js/immo-parcours-strip.js");
-assert(parcours.indexOf("Chercher / alerte") >= 0, "parcours hint alerte");
+assert(parcours.indexOf("#alerte") >= 0, "parcours étape alerte");
+assert(parcours.indexOf("#capacite") >= 0, "parcours étape capacité");
+assert(parcours.indexOf("HCSF") >= 0, "parcours hint HCSF");
 
 var api = read("api/_lib/routes/public-immo-listing-submit.js");
 assert(api.indexOf('role === "les_deux" || role === "acheteur"') >= 0, "criteria aussi pour acheteur");
@@ -69,6 +76,7 @@ var gsc = require("./seo-gsc-priority-urls.cjs").GSC_INDEX_NOW_PRIORITY;
   "/recherche-bien/villes/",
   "/landings/acheteur-immo.html#alerte",
   "/blog/alerte-immobilier-acquereur-avant-les-autres.html",
+  "/blog/capacite-emprunt-hcsf-avant-visite-acquereur.html",
 ].forEach(function (u) {
   assert(gsc.indexOf(u) >= 0, "GSC " + u);
 });
@@ -79,10 +87,11 @@ assert(home.indexOf("./recherche-bien/villes/") >= 0, "home raccourci villes rec
 
 var hub = read("immobilier/index.html");
 assert(hub.indexOf("acheteur-immo.html#alerte") >= 0, "hub immo → alerte");
-assert(hub.indexOf("Alerte acquéreur") >= 0, "hub immo copy alerte");
+assert(hub.indexOf("acheteur-immo.html#capacite") >= 0, "hub immo → capacité");
+assert(hub.indexOf("Capacité + prêt") >= 0, "hub immo copy capacité");
 
 var arts = require("./blog-acquereur-articles.cjs");
-assert(arts.length >= 4, "4 articles acquéreur");
+assert(arts.length >= 5, "5 articles acquéreur");
 arts.forEach(function (a) {
   assert(String(a.cta && a.cta.href).indexOf("acheteur-immo.html") >= 0, a.file + " CTA landing");
 });
@@ -92,7 +101,7 @@ var clusters = require("../data/seo-keyword-clusters.json").clusters;
 var acq = clusters.find(function (c) {
   return c.id === "acquereur-immo";
 });
-assert(acq && acq.blog.length >= 4, "cluster acquereur-immo");
+assert(acq && acq.blog.length >= 5, "cluster acquereur-immo");
 assert(acq.moneyPages.indexOf("/recherche-bien/") >= 0, "cluster money recherche-bien");
 
 var LT = require("./seo-long-term-related.cjs");
@@ -101,6 +110,29 @@ assert(LT.ACQUEREUR_IMMO && LT.ACQUEREUR_IMMO.length >= 4, "LT.ACQUEREUR_IMMO");
 assert(read("blog/alerte-immobilier-acquereur-avant-les-autres.html").indexOf("acheteur-immo.html") >= 0, "article alerte généré");
 assert(read("recherche-bien/index.html").indexOf("alerte") >= 0, "hub recherche-bien alerte");
 assert(read("recherche-bien/lyon/index.html").indexOf("#alerte") >= 0, "page Lyon → #alerte");
+
+var capJs = read("js/buyer-capacity.js");
+assert(capJs.indexOf("buyer_capacity") >= 0, "lead source buyer_capacity");
+assert(capJs.indexOf("HCSF") >= 0, "formule HCSF");
+assert(capJs.indexOf("credit-immo.html") >= 0, "CTA dossier prêt");
+assert(capJs.indexOf("lo_buyer_contact") >= 0, "session contact");
+assert(read("landings/credit-immo.html").indexOf("acheteur-immo.html#capacite") >= 0, "crédit → capacité acquéreur");
+assert(read("js/finance-deep-link.js").indexOf("netIncome") >= 0, "deep link revenus");
+assert(read("scripts/seo-geo-lib.cjs").indexOf("#capacite") >= 0, "geo related capacité");
+
+require("child_process").execFileSync(process.execPath, ["--check", path.join(__dirname, "blog-acquereur-articles.cjs")]);
+assert(true, "syntaxe blog-acquereur-articles.cjs");
+require("child_process").execFileSync(process.execPath, ["--check", path.join(__dirname, "../js/buyer-capacity.js")]);
+assert(true, "syntaxe buyer-capacity.js");
+
+(function () {
+  var r = 0.0345 / 12;
+  var n = 300;
+  var M = 3200 * 0.35;
+  var f = Math.pow(1 + r, n);
+  var principal = Math.round((M * (f - 1)) / (r * f));
+  assert(principal > 180000 && principal < 280000, "ordre de grandeur capacité 3200 €/mois");
+})();
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

@@ -293,14 +293,15 @@ const GEO_PRODUCTS = [
     faq: immoLib.rechercheCityFaq,
     geoSteps: [
       { title: "Alerte", text: "Ville, telephone, e-mail — on vous previent." },
-      { title: "Visites", text: "Mandats qui matchent vos criteres." },
-      { title: "Pret si besoin", text: "Enveloppe et dossier, optionnel." },
+      { title: "Capacite", text: "HCSF 35 % : on verifie ce que vous pouvez financer." },
+      { title: "Pret", text: "On vous propose le dossier banque." },
     ],
     extraRelated: [
       { href: "/recherche-bien/iles-francaises/", label: "Recherche — iles" },
       { href: "/recherche-bien/dom-tom/", label: "Recherche — outre-mer" },
       { href: "/recherche-bien/destinations/", label: "Recherche — destinations" },
       { href: "/landings/acheteur-immo.html#alerte", label: "Alerte acquereur" },
+      { href: "/landings/acheteur-immo.html#capacite", label: "Capacite + pret" },
       { href: "/pret-immobilier/", label: "Pret immobilier" },
       { href: "/blog/alerte-immobilier-acquereur-avant-les-autres.html", label: "Alerte avant les autres" },
       { href: "/landings/credit-immo.html", label: "Simulation pret" },

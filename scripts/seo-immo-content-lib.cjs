@@ -319,8 +319,8 @@ function rechercheCitySections(city) {
     {
       h2: "Comment on cherche avec vous a " + city.name,
       paragraphs: [
-        "1) Alerte express (tel. + e-mail). 2) Criteres (pieces, quartier, budget). 3) On vous previent des qu un mandat correspond. 4) Visite, offre, pret si besoin.",
-        "La grille peut etre vide : on ne scrappe pas les portails. L alerte sert a ne pas attendre. Vous vendez aussi ? Depot vendeur a cote.",
+        "1) Alerte express (tel. + e-mail). 2) Capacite de financement (HCSF ~35 %) : on verifie ce que vous pouvez viser. 3) On vous propose le pret immo (courtier). 4) Visite, offre.",
+        "La grille peut etre vide : on ne scrappe pas les portails. L alerte + la capacite font un acquereur solvable — les vendeurs suivent.",
       ],
     },
   ];
@@ -338,9 +338,9 @@ function rechercheCitySections(city) {
   sections.push({
     h2: "Financer le bien trouve a " + city.name,
     paragraphs: [
-      "La page pret immobilier " +
+      "Apres l alerte, on calcule votre capacite d emprunt (HCSF 35 %) a " +
         city.name +
-        " detaille capacite d emprunt, apport et assurance. La projection d achat montre le cout mensuel reel.",
+        " et on peut vous proposer un pret immobilier. La projection d achat montre le cout mensuel reel (taxe fonciere, charges).",
     ],
   });
   return sections;
@@ -361,8 +361,8 @@ function rechercheCityFaq(city) {
       a: "Oui, parcours vendeur / depot. Les acquereurs alertes sont deja la : c est l offre inversee.",
     },
     {
-      q: "Faut-il un pret avant de visiter ?",
-      a: "Fortement conseille a " + city.name + " : les vendeurs privilegient les dossiers finances. Simulation gratuite.",
+      q: "Proposez-vous un pret avec la recherche de bien ?",
+      a: "Oui. Apres l alerte, on verifie la capacite de financement (revenus, apport, HCSF) puis un courtier peut monter le dossier pret. Ce n est pas un prerequis pour etre alerte.",
     },
   ]);
 }

@@ -428,6 +428,7 @@ var MAP = {
   "acheter-appartement-sans-passer-des-mois-sur-seloger.html": { hero: "maisonFamille", figure: "appartLoc" },
   "visite-immobiliere-checklist-acquereur.html": { hero: "bailleur", figure: "appartLoc" },
   "offre-achat-immobilier-negocier-sans-se-faire-doubler.html": { hero: "creditCles", figure: "signaturePret" },
+  "capacite-emprunt-hcsf-avant-visite-acquereur.html": { hero: "budgetFam", figure: "creditCles" },
   "trump-politique-us-taux-pret-assurance-emprunteur.html": { hero: "politique", figure: "creditCles" },
   "gta-6-pret-immobilier-budget-gaming.html": { hero: "creditCles", figure: "budgetFam" },
 
