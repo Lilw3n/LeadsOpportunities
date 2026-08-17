@@ -37,7 +37,7 @@
 
   function applyQueryToForm(root) {
     var params = new URLSearchParams(window.location.search);
-    var city = params.get("city") || params.get("searchCities") || "";
+    var city = params.get("ville") || params.get("city") || params.get("searchCities") || "";
     var postal = params.get("postal") || params.get("postalProject") || "";
     var budget = params.get("budgetMax") || params.get("budget") || "";
     var rooms = params.get("roomsMin") || "";
@@ -57,6 +57,19 @@
       var cb = root.querySelector('input[name="listingType"][value="' + t + '"]');
       if (cb) cb.checked = true;
     });
+    fillBuyerCityFields(city);
+  }
+
+  function fillBuyerCityFields(city) {
+    if (!city) return;
+    var searchCities = document.getElementById("searchCities");
+    if (searchCities && !searchCities.value) searchCities.value = city;
+    var nodes = document.querySelectorAll(
+      "#alerte input[name='city'], [data-callback-form] input[name='city'], [data-alert-city]"
+    );
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i] && !nodes[i].value) nodes[i].value = city;
+    }
   }
 
   function cardHtml(p) {
@@ -161,8 +174,8 @@
           if (query.postal) bits.push(query.postal);
           if (query.budgetMax) bits.push("budget " + Lib.formatPrice(query.budgetMax));
           hint.textContent = bits.length
-            ? "Aucun bien pour " + bits.join(", ") + ". Déposez-en un via URL ou à la main."
-            : "Déposez un bien (vendeur) ou collez une URL d'annonce.";
+            ? "Aucun mandat pour " + bits.join(", ") + ". Créez une alerte : on vous prévient dès qu’un vendeur dépose."
+            : "Aucun mandat public ici. Créez une alerte : on vous appelle dès qu’un vendeur dépose dans votre zone.";
         }
       }
       return;

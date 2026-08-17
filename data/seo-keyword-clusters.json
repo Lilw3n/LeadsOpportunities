@@ -33,13 +33,26 @@
       "priority": 3,
       "primary": "crédit immobilier",
       "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo", "prêt immobilier refusé", "coût réel achat immobilier"],
-      "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/", "/pret-immobilier/", "/recherche-bien/", "/landings/projection-achat.html"],
+      "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/", "/pret-immobilier/", "/landings/projection-achat.html"],
       "blog": [
         "/blog/pret-immo-erreurs-a-eviter.html",
         "/blog/assurance-emprunteur-loi-lemoine-2026.html",
         "/blog/pret-immobilier-refuse-que-faire-2026.html",
         "/blog/pret-refuse-endettement-35-hcsf-solutions.html",
         "/blog/pret-refuse-courtier-multibanque-deuxieme-chance.html"
+      ]
+    },
+    {
+      "id": "acquereur-immo",
+      "priority": 3,
+      "primary": "alerte immobilier acquéreur",
+      "longTail": ["appartements à vendre", "acheter un appartement", "alerte bien immobilier", "visite immobilière checklist", "offre d'achat immobilier"],
+      "moneyPages": ["/recherche-bien/", "/landings/acheteur-immo.html", "/recherche-bien/villes/", "/immobilier/"],
+      "blog": [
+        "/blog/alerte-immobilier-acquereur-avant-les-autres.html",
+        "/blog/acheter-appartement-sans-passer-des-mois-sur-seloger.html",
+        "/blog/visite-immobiliere-checklist-acquereur.html",
+        "/blog/offre-achat-immobilier-negocier-sans-se-faire-doubler.html"
       ]
     },
     {

@@ -136,28 +136,28 @@ function buildImmoDestinationPages(page, cities) {
     destPage(page, {
       file: "recherche-bien/index.html",
       badge: "Recherche de bien",
-      title: "Recherche de bien immobilier | Villes, iles et destinations",
+      title: "Recherche de bien immobilier | Alerte acquéreur ville par ville",
       description:
-        "Recherche de bien en France : appartements, maisons, villas. Metropole, Corse, DOM-TOM, iles et destinations. Courtier, budget pret.",
-      keywords: "recherche bien immobilier, achat maison, villa ile, appartement ville, courtier immobilier",
-      h1: "Recherche de bien : ville par ville, iles comprises",
+        "Appartements et maisons a vendre en France : alerte acquereur (tel. + e-mail), visites, matching. Metropole, Corse, DOM-TOM. Pret optionnel.",
+      keywords: "appartements a vendre, alerte immobilier, recherche bien, acheter appartement, maisons a vendre",
+      h1: "Appartements et maisons : alerte acquéreur, ville par ville",
       intro:
-        "Dites-nous ou et pour quel budget. Nous calons d abord une enveloppe pret si besoin, puis une recherche (annonces + accompagnement) en metropole, dans les iles et les destinations.",
-      cta: { href: SEARCH_LANDING, label: "Lancer ma recherche" },
+        "Creez une alerte (ville, telephone, e-mail) : on vous previent des qu un mandat correspond. Les vendeurs rejoignent un vivier d acquereurs — pas une vitrine vide. Le pret reste optionnel.",
+      cta: { href: SEARCH_LANDING + "#alerte", label: "Creer mon alerte" },
       crumbs: [
         { name: "Accueil", url: "/" },
         { name: "Recherche de bien", url: "/recherche-bien/" },
       ],
       steps: [
-        { title: "Criteres", text: "Ville, type, budget, usage." },
-        { title: "Enveloppe", text: "Pret et mensualite cible." },
-        { title: "Selection", text: "Biens finançables, visites, offre." },
+        { title: "Alerte", text: "Ville, telephone, e-mail — 30 secondes." },
+        { title: "Visites", text: "Mandats qui matchent vos criteres." },
+        { title: "Offre", text: "Pret et assurances seulement si besoin." },
       ],
       sections: [
         {
-          h2: "Ne cherchez pas hors budget",
+          h2: "Pourquoi l alerte avant la vitrine",
           paragraphs: [
-            "A Saint-Tropez comme a Saint-Denis de La Reunion, un bien « coup de coeur » hors pret fait perdre des semaines. Nous inversons : enveloppe d abord, visites ensuite.",
+            "Sans acquereurs visibles, un vendeur n a aucune raison de deposer. Nous inversons : d abord un vivier d acheteurs (alerte tel. + e-mail), ensuite les mandats. Pas de scraping Leboncoin ou SeLoger.",
           ],
         },
       ],
@@ -166,24 +166,34 @@ function buildImmoDestinationPages(page, cities) {
         { href: "/recherche-bien/dom-tom/", label: "DOM-TOM & Pacifique" },
         { href: "/recherche-bien/destinations/", label: "Destinations" },
         { href: "/recherche-bien/villes/", label: "Toutes les villes" },
+        { href: SEARCH_LANDING + "#alerte", label: "Alerte acquereur" },
         { href: "/pret-immobilier/", label: "Pret immobilier" },
-        { href: SEARCH_LANDING, label: "Wizard acheteur" },
         { href: PROJ, label: "Projection cout reel" },
       ],
       related: LT.mergeUnique(
         [
+          { href: SEARCH_LANDING + "#alerte", label: "Alerte acquereur" },
+          { href: "/recherche-bien/villes/", label: "Recherche par ville" },
           { href: "/pret-immobilier/", label: "Pret immobilier" },
-          { href: SEARCH_LANDING, label: "Wizard acheteur" },
           { href: PRET_LANDING, label: "Simulation pret" },
           { href: PROJ, label: "Projection cout reel" },
         ],
-        LT.PRET_REFUSE.slice(0, 3),
+        LT.ACQUEREUR_IMMO ? LT.ACQUEREUR_IMMO.slice(0, 4) : [],
+        LT.PRET_REFUSE.slice(0, 2),
         LT.SILOS_IMMO
       ),
       faq: [
         {
-          q: "Cherchez-vous aussi a la vente ?",
-          a: "Oui, parcours vendeur / depot. Un conseiller rappelle.",
+          q: "Comment etre alerte d un bien ?",
+          a: "Laissez telephone et e-mail + votre ville. Un conseiller confirme les criteres et vous previent des qu un mandat correspond.",
+        },
+        {
+          q: "Pourquoi la grille est parfois vide ?",
+          a: "Nous n importons pas les portails. Les biens affiches sont des mandats deposes ici. L alerte sert justement a ne pas attendre une vitrine pleine.",
+        },
+        {
+          q: "Je vends : puis-je deposer ?",
+          a: "Oui, parcours vendeur / depot. Les acquereurs alertes sont deja la — c est l offre inversee.",
         },
       ],
     })
@@ -318,9 +328,9 @@ function buildImmoDestinationPages(page, cities) {
   pages.push(islandHub("pret-immobilier", PRET_LANDING, "Pret immobilier", "Simuler un pret ile"));
   pages.push(domHub("pret-immobilier", PRET_LANDING, "Pret immobilier", "Etude pret outre-mer"));
   pages.push(destHub("pret-immobilier", PRET_LANDING, "Pret immobilier", "Simulation destination"));
-  pages.push(islandHub("recherche-bien", SEARCH_LANDING, "Recherche de bien", "Chercher sur une ile"));
-  pages.push(domHub("recherche-bien", SEARCH_LANDING, "Recherche de bien", "Chercher outre-mer"));
-  pages.push(destHub("recherche-bien", SEARCH_LANDING, "Recherche de bien", "Chercher une destination"));
+  pages.push(islandHub("recherche-bien", SEARCH_LANDING + "#alerte", "Recherche de bien", "Alerte sur une ile"));
+  pages.push(domHub("recherche-bien", SEARCH_LANDING + "#alerte", "Recherche de bien", "Alerte outre-mer"));
+  pages.push(destHub("recherche-bien", SEARCH_LANDING + "#alerte", "Recherche de bien", "Alerte destination"));
 
   return pages;
 }

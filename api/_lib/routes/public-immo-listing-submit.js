@@ -279,23 +279,40 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         }
       }
 
-      if (role === "les_deux") {
+      if (role === "les_deux" || role === "acheteur") {
         try {
+          var critCity = role === "les_deux" ? buyCity : buyCity || city;
+          var critPostal = role === "les_deux" ? buyPostal : buyPostal || postal;
+          var critBudget = role === "les_deux" ? buyBudget : buyBudget || price;
+          var critRooms = role === "les_deux" ? buyRooms : buyRooms || rooms;
+          var critSurface = role === "les_deux" ? buySurface : buySurface || surface;
+          var critType = role === "les_deux" ? buyType : buyType || propertyType;
           criteriaId = await store.upsertCriteria(
             sql,
             {
               lead_id: leadId,
-              label: "Rachat — " + (personName || "vendeur-acquéreur"),
+              label:
+                role === "les_deux"
+                  ? "Rachat — " + (personName || "vendeur-acquéreur")
+                  : "Alerte — " + (personName || critCity || "acquéreur"),
               status: "active",
-              property_types: buyType ? [buyType] : [],
-              cities: buyCity ? [buyCity] : [],
-              postal_codes: buyPostal ? [buyPostal] : [],
-              departments: buyPostal ? [buyPostal.slice(0, 2)] : [],
-              rooms_min: buyRooms,
-              surface_min: buySurface,
-              budget_max: buyBudget,
-              notes: wantsRelais ? "Chaîne / prêt relais demandé." : "Vend et rachète.",
-              metadata: { origin: "public_dual_hat", role: "les_deux" },
+              property_types: critType ? [critType] : [],
+              cities: critCity ? [critCity] : [],
+              postal_codes: critPostal ? [critPostal] : [],
+              departments: critPostal ? [critPostal.slice(0, 2)] : [],
+              rooms_min: critRooms,
+              surface_min: critSurface,
+              budget_max: critBudget,
+              notes:
+                role === "les_deux"
+                  ? wantsRelais
+                    ? "Chaîne / prêt relais demandé."
+                    : "Vend et rachète."
+                  : details || "Alerte acquéreur (URL ou dépôt).",
+              metadata: {
+                origin: role === "les_deux" ? "public_dual_hat" : "public_buyer_hat",
+                role: role,
+              },
             },
             null
           );

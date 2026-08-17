@@ -310,17 +310,17 @@ function rechercheCitySections(city) {
         tip,
       ],
       list: [
+        "Alerte acquereur : telephone + e-mail, ville, budget",
         "Appartement, maison, villa, terrain",
         "Residence principale, secondaire ou locatif",
-        "Budget calé sur un pret (pas l inverse)",
-        "Annonces portails + recherche accompagnee",
+        "Visites des mandats qui matchent — pret optionnel",
       ],
     },
     {
       h2: "Comment on cherche avec vous a " + city.name,
       paragraphs: [
-        "1) Questionnaire acheteur (budget, pieces, quartier). 2) Enveloppe pret si besoin. 3) Selection de biens et prise de contact. 4) Offre et conditions suspensives.",
-        "Vous pouvez aussi deposer un bien si vous vendez, pour un echange local.",
+        "1) Alerte express (tel. + e-mail). 2) Criteres (pieces, quartier, budget). 3) On vous previent des qu un mandat correspond. 4) Visite, offre, pret si besoin.",
+        "La grille peut etre vide : on ne scrappe pas les portails. L alerte sert a ne pas attendre. Vous vendez aussi ? Depot vendeur a cote.",
       ],
     },
   ];
@@ -349,12 +349,16 @@ function rechercheCitySections(city) {
 function rechercheCityFaq(city) {
   return contentLib.defaultCityFaq(city, "Recherche de bien").concat([
     {
+      q: "Comment etre alerte d un bien a " + city.name + " ?",
+      a: "Laissez telephone, e-mail et votre secteur. On vous previent des qu un mandat correspond a " + city.name + " — meme si la vitrine est encore vide.",
+    },
+    {
       q: "Cherchez-vous des biens a " + city.name + " ?",
-      a: "Oui. Formulaire acheteur, criteres (budget, type, quartier) puis selection. Couverture metropole, Corse, DOM-TOM et destinations.",
+      a: "Oui. Alerte acquereur, criteres (budget, type, quartier) puis visites. Couverture metropole, Corse, DOM-TOM et destinations.",
     },
     {
       q: "Puis-je vendre un bien a " + city.name + " ?",
-      a: "Oui, parcours vendeur / depot d annonce. Un conseiller rappelle pour qualifier le mandat.",
+      a: "Oui, parcours vendeur / depot. Les acquereurs alertes sont deja la : c est l offre inversee.",
     },
     {
       q: "Faut-il un pret avant de visiter ?",

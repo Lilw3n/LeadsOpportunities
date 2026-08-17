@@ -346,8 +346,25 @@ html[data-immo-hat="les_deux"] [data-hat-dual-only] {
 }
 html[data-immo-hat="vendeur"] [data-hat-acheteur-only],
 html[data-immo-hat="les_deux"] [data-hat-acheteur-only],
+html[data-immo-hat="acheteur"] [data-hat-acheteur-only],
 html[data-immo-hat="vendeur"] #dossier {
   display: none !important;
+}
+
+.buyer-alert-express {
+  margin: 0 0 24px;
+  padding: 20px 20px 12px;
+  background: linear-gradient(180deg, #f0f9ff 0%, #fff 55%);
+  border: 2px solid #bae6fd;
+  border-radius: 16px;
+  scroll-margin-top: 88px;
+}
+.buyer-alert-express h2 {
+  margin: 4px 0 8px;
+}
+.buyer-alert-express .callback-panel {
+  margin-top: 8px;
+  box-shadow: none;
 }
 
 .listing-thumbs {

@@ -9,7 +9,7 @@
       id: "bien",
       label: "1. Bien",
       href: "./acheteur-immo.html",
-      hint: "Chercher ou déposer",
+      hint: "Chercher / alerte",
     },
     {
       id: "projection",

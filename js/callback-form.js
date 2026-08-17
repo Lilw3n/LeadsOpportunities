@@ -96,6 +96,8 @@
     var showNeed = options.showNeed !== false;
     var need = options.need || getNeedFromUrl();
     var id = options.id || "callback-" + Math.random().toString(36).slice(2, 8);
+    var cityField = !!options.cityField;
+    var cityValue = options.cityValue || "";
 
     return (
       '<div class="callback-panel' +
@@ -112,6 +114,15 @@
       esc(id) +
       '" data-callback-submit novalidate>' +
       '<div class="hp-field" aria-hidden="true"><label>Ne pas remplir<input type="text" name="_hp" tabindex="-1" autocomplete="off" /></label></div>' +
+      (cityField
+        ? '<label class="field" for="' +
+          esc(id) +
+          '-city">Ville / secteur<input id="' +
+          esc(id) +
+          '-city" type="text" name="city" autocomplete="address-level2" placeholder="Ex. Lyon, Paris 11e" value="' +
+          esc(cityValue) +
+          '" /></label>'
+        : "") +
       '<div class="callback-form-row contact-pair-row">' +
       '<label class="field" for="' +
       esc(id) +
@@ -277,13 +288,17 @@
           serviceCategory: (svc && svc.category) || "",
           page: window.location.pathname + window.location.search,
           message:
-            "Demande de rappel express — l'utilisateur préfère être contacté plutôt que de remplir le formulaire complet.",
+            (options.source === "buyer_alert_express"
+              ? "Alerte acquéreur express — téléphone + e-mail, matching dès qu'un mandat correspond."
+              : "Demande de rappel express — l'utilisateur préfère être contacté plutôt que de remplir le formulaire complet.") +
+            (fields.city ? " Ville / secteur : " + fields.city + "." : ""),
         },
         getUtmParams(),
         getAttr(),
         fields
       );
       delete leadPayload.consent;
+      if (fields.city && !leadPayload.searchCities) leadPayload.searchCities = fields.city;
 
       if (typeof global.saveLeadRequest === "function") {
         global.saveLeadRequest(leadPayload);
@@ -323,7 +338,7 @@
         if (result && result.ok) {
           form.hidden = true;
           if (successEl) {
-            successEl.textContent = COPY.success;
+            successEl.textContent = options.success || COPY.success;
             successEl.hidden = false;
           }
           return;
@@ -350,6 +365,13 @@
     if (window.location.pathname.indexOf("index.html") !== -1 || window.location.pathname === "/") {
       privacyHref = "./politique-confidentialite.html";
     }
+    var cityFromQuery = "";
+    try {
+      cityFromQuery =
+        new URLSearchParams(window.location.search).get("ville") ||
+        new URLSearchParams(window.location.search).get("city") ||
+        "";
+    } catch (e) {}
 
     el.innerHTML = renderFormHtml({
       need: need,
@@ -359,10 +381,18 @@
       privacyHref: privacyHref,
       title: el.getAttribute("data-callback-title") || undefined,
       lead: el.getAttribute("data-callback-lead") || undefined,
+      submitLabel: el.getAttribute("data-callback-submit") || undefined,
+      cityField: el.hasAttribute("data-callback-city"),
+      cityValue: el.getAttribute("data-callback-city-value") || cityFromQuery,
     });
 
     var form = el.querySelector("form");
-    wireForm(form, { source: source, need: need });
+    wireForm(form, {
+      source: source,
+      need: need,
+      submitLabel: el.getAttribute("data-callback-submit") || undefined,
+      success: el.getAttribute("data-callback-success") || undefined,
+    });
   }
 
   function mountStripEl(el) {

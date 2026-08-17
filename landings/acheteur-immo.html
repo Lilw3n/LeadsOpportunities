@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
-  <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
+  <title>Alerte acquéreur immobilier | Appartements et maisons à vendre</title>
+  <meta name="description" content="Créez une alerte acquéreur (tél. + e-mail) : on vous prévient dès qu'un mandat correspond dans votre ville. Visites, offre, prêt en option. Pas de scraping d'annonces." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <meta name="google-site-verification" content="ScnkvjLBpwnI_QIExLhB1bMxxvGnNZSmiqFgexE9x64" />
-  <meta property="og:title" content="Recherche de bien immobilier | Maison, appart, pro ou particulier" />
-  <meta property="og:description" content="Vitrine d'annonces : type, ville, budget, pièces — puis alerte et prêt si besoin. Pas un questionnaire d'assurance." />
+  <meta property="og:title" content="Alerte acquéreur immobilier | Appartements et maisons à vendre" />
+  <meta property="og:description" content="Téléphone + e-mail : on vous alerte dès qu'un bien correspond. Les vendeurs rejoignent un vivier d'acquéreurs, pas une vitrine vide." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.leadsopportunities.fr/landings/acheteur-immo.html" />
   <!-- Google tag (gtag.js) -->
@@ -56,30 +56,30 @@
           <div class="hero">
             <h1
               data-hero-title
-              data-speed-title="Appartements et maisons à vendre — recherchez par ville et budget"
-              data-price-title="Annonces immobilières : mandats en cours, matching acquéreur"
-            >Appartements et maisons à vendre — recherchez par ville et budget</h1>
+              data-speed-title="Acquéreur : soyez alerté dès qu’un bien correspond"
+              data-price-title="Alerte acquéreur : mandats, visites, matching ville + budget"
+            >Acquéreur : soyez alerté dès qu’un bien correspond</h1>
             <p
               class="sub"
               data-hero-subtitle
-              data-speed-subtitle="Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels."
-              data-price-subtitle="Vos mandats s'affichent ici. L'acquéreur filtre, clique, se projette."
-            >Filtres, cartes d'annonces, visites. Le prêt et les assurances restent optionnels.</p>
+              data-speed-subtitle="Téléphone + e-mail. On vous prévient pour visiter. Le prêt reste optionnel."
+              data-price-subtitle="Les mandats s’affichent ici. Vous, vous captez l’acheteur avant la vitrine."
+            >Téléphone + e-mail. On vous prévient dès qu’un mandat match votre ville — même si la grille est encore vide.</p>
             <ul class="points">
-              <li>Acquéreur : cherchez un bien, ou collez une URL déjà vue</li>
-              <li>Vendeur : déposez votre bien à la main ou via l'URL de votre annonce</li>
-              <li>Les deux casquettes : vous vendez et vous rachètez — on gère la chaîne</li>
+              <li>Acquéreur : alerte express (ville, tél., e-mail) puis visites</li>
+              <li>Déjà vu une annonce ? Collez l’URL, on enregistre votre intérêt</li>
+              <li>Vendeur : déposez ensuite — les acheteurs sont déjà là</li>
             </ul>
             <div class="trust-row">
-              <span class="trust-pill">Acquéreur</span>
-              <span class="trust-pill">Vendeur</span>
-              <span class="trust-pill">Vend + rachète</span>
+              <span class="trust-pill">Acquéreur d’abord</span>
+              <span class="trust-pill">Alerte tél. + e-mail</span>
+              <span class="trust-pill">Vendeur ensuite</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
-              <a class="btn btn-soft" href="#recherche">Voir les annonces</a>
+              <a class="btn btn-primary" href="#alerte">Créer une alerte (tél. + e-mail)</a>
+              <a class="btn btn-soft" href="#recherche">Voir les mandats</a>
+              <a class="btn btn-soft" href="./acheteur-immo.html?role=vendeur#deposer-bien">Je vends</a>
               <a class="btn btn-soft" href="./projection-achat.html">Me projeter (prêt + charges)</a>
-              <a class="btn btn-soft" href="./credit-immo.html#demande">Dossier crédit</a>
             </div>
           </div>
         </div>
@@ -102,12 +102,37 @@
               <span>Je vends et je rachète</span>
             </label>
           </div>
-          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : on capte le vendeur, l'acquéreur, ou les deux.</p>
+          <p class="listings-intro" data-hat-hint>Acquéreur d’abord : créez l’alerte. Le dépôt vendeur reste disponible à côté.</p>
         </div>
 
+        <section class="buyer-alert-express" id="alerte">
+          <span class="dossier-kicker">Offre inversée</span>
+          <h2>Créer une alerte acquéreur</h2>
+          <p class="listings-intro">
+            Ville + téléphone + e-mail. On vous prévient dès qu’un mandat correspond — <strong>même si aucun bien n’est affiché ici</strong> (on ne scrappe pas Leboncoin ni SeLoger).
+            Les vendeurs déposent ensuite, parce que les acheteurs sont déjà là.
+          </p>
+          <div
+            data-callback-form
+            data-callback-need="acheteur-immo"
+            data-callback-show-need="false"
+            data-callback-source="buyer_alert_express"
+            data-callback-city
+            data-callback-title="Recevoir les biens par SMS / e-mail"
+            data-callback-lead="Les deux coordonnées. Un conseiller confirme vos critères (type, budget, pièces) au rappel."
+            data-callback-submit="Créer mon alerte"
+            data-callback-success="Alerte créée. Un conseiller vous rappelle dès qu’un mandat correspond dans votre secteur."
+          ></div>
+          <p class="listings-intro" style="margin-top:12px">
+            Déjà une annonce sous les yeux ? <a href="#deposer-bien">Collez l’URL</a>
+            · Affiner les critères : <a href="#dossier">alerte détaillée</a>
+            · Je vends : <a href="./acheteur-immo.html?role=vendeur#deposer-bien">déposer un bien</a>
+          </p>
+        </section>
+
         <div class="listings-wrap" id="recherche" data-immo-search>
-          <h2>Annonces à vendre</h2>
-          <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
+          <h2>Mandats en cours</h2>
+          <p class="listings-intro">Biens déposés par des vendeurs (photo, description). Pas d’annonces d’exemple, pas de scraping.</p>
           <div class="listings-types" role="group" aria-label="Type de bien">
             <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
             <label class="search-chip"><input type="checkbox" name="listingType" value="maison" /><span>Maison</span></label>
@@ -145,9 +170,9 @@
           </div>
           <div class="listings-grid" data-listings-grid></div>
           <div class="listings-empty" data-listings-empty>
-            <h3>Aucun bien pour le moment</h3>
-            <p data-empty-hint>Déposez un bien (vendeur) ou collez une URL d'annonce.</p>
-            <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
+            <h3>Aucun mandat public ici pour l’instant</h3>
+            <p data-empty-hint>On ne scrappe pas les portails. Créez une alerte : on vous appelle dès qu’un vendeur dépose dans votre zone.</p>
+            <a class="btn btn-primary" href="#alerte">Créer mon alerte</a>
           </div>
         </div>
 
@@ -267,7 +292,7 @@
               </div>
             </div>
 
-            <div data-hat-acheteur-only>
+            <div data-hat-acheteur-only hidden>
               <p class="search-section-label" style="margin-top:16px">Infos vendeur / agence (visibles sur l'annonce)</p>
               <div class="grid">
                 <div class="field">
@@ -383,10 +408,10 @@
 
         <div class="form-wrap" id="dossier" data-lead-dossier>
           <span id="demande"></span>
-          <span class="dossier-kicker">Alerte &amp; dossier</span>
-          <h2 class="form-title">Pas le bon bien ? Déposez une alerte</h2>
+          <span class="dossier-kicker">Alerte détaillée</span>
+          <h2 class="form-title">Affiner mes critères d’acquéreur</h2>
           <p class="form-lead">
-            On vous prévient quand un mandat correspond. Le <strong>prêt</strong> et les <strong>assurances</strong> viennent ensuite, seulement si vous en avez besoin — ce n'est pas l'écran de recherche.
+            Déjà une alerte express plus haut ? Ici vous précisez type, budget, pièces. Le <strong>prêt</strong> et les <strong>assurances</strong> restent optionnels.
           </p>
           <div data-callback-strip data-callback-need="acheteur-immo" data-callback-source="landing_acheteur"></div>
 

@@ -68,9 +68,20 @@ var VTC_IDF = [
   link("/blog/assurance-vtc-uber-bolt-heetch.html", "Uber, Bolt, Heetch"),
 ];
 
+var ACQUEREUR_IMMO = [
+  link("/landings/acheteur-immo.html#alerte", "Alerte acquéreur"),
+  link("/recherche-bien/", "Recherche de bien"),
+  link("/recherche-bien/villes/", "Par ville"),
+  link("/blog/alerte-immobilier-acquereur-avant-les-autres.html", "Alerte avant les autres"),
+  link("/blog/acheter-appartement-sans-passer-des-mois-sur-seloger.html", "Acheter sans 3 mois de portails"),
+  link("/blog/visite-immobiliere-checklist-acquereur.html", "Checklist visite"),
+  link("/blog/offre-achat-immobilier-negocier-sans-se-faire-doubler.html", "Offre d'achat"),
+];
+
 var SILOS_IMMO = [
   link("/pret-immobilier/", "Prêt immobilier — villes"),
   link("/recherche-bien/", "Recherche de bien"),
+  link("/landings/acheteur-immo.html#alerte", "Alerte acquéreur"),
   link("/credit-immo/", "Crédit immobilier"),
   link("/landings/projection-achat.html", "Projection coût réel"),
 ];
@@ -98,6 +109,7 @@ module.exports = {
   NICHES_ANIMAUX: NICHES_ANIMAUX,
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
+  ACQUEREUR_IMMO: ACQUEREUR_IMMO,
   SILOS_IMMO: SILOS_IMMO,
   mergeUnique: mergeUnique,
   link: link,

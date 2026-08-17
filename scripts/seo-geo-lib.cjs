@@ -259,32 +259,32 @@ const GEO_PRODUCTS = [
     hubDeptUrl: "/recherche-bien/departements/",
     landing: "/landings/acheteur-immo.html",
     landingForCity: function (city) {
-      return "/landings/acheteur-immo.html?ville=" + encodeURIComponent(city.name);
+      return "/landings/acheteur-immo.html?ville=" + encodeURIComponent(city.name) + "#alerte";
     },
     ctaLabel: function (city) {
-      return "Chercher un bien a " + city.name;
+      return "Creer une alerte a " + city.name;
     },
     title: function (city) {
-      return "Recherche de bien " + city.name + " | Achat immobilier " + city.region;
+      return "Appartements a vendre " + city.name + " | Alerte acquereur";
     },
     description: function (city) {
       return (
-        "Recherche de bien a " +
+        "Acheter a " +
         city.name +
-        " : appartements, maisons, villas. Budget pret, courtier, metropole et iles."
+        " : alerte acquereur (tel. + e-mail), appartements et maisons, visites. Pret optionnel."
       );
     },
     h1: function (city) {
-      return "Recherche de bien a " + city.name;
+      return "Alerte acquereur a " + city.name;
     },
     intro: function (city) {
       var p = immoLib.profile(city);
       return (
-        "Trouver un bien a " +
+        "Creez une alerte pour " +
         city.name +
         " (" +
         p.label +
-        ") : " +
+        ") : on vous previent des qu un mandat correspond. " +
         p.search +
         "."
       );
@@ -292,17 +292,17 @@ const GEO_PRODUCTS = [
     sections: immoLib.rechercheCitySections,
     faq: immoLib.rechercheCityFaq,
     geoSteps: [
-      { title: "Criteres", text: "Ville, type, budget, usage." },
-      { title: "Enveloppe pret", text: "Mensualite cible avant les visites." },
-      { title: "Selection", text: "Biens finançables, offre, compromis." },
+      { title: "Alerte", text: "Ville, telephone, e-mail — on vous previent." },
+      { title: "Visites", text: "Mandats qui matchent vos criteres." },
+      { title: "Pret si besoin", text: "Enveloppe et dossier, optionnel." },
     ],
     extraRelated: [
       { href: "/recherche-bien/iles-francaises/", label: "Recherche — iles" },
       { href: "/recherche-bien/dom-tom/", label: "Recherche — outre-mer" },
       { href: "/recherche-bien/destinations/", label: "Recherche — destinations" },
+      { href: "/landings/acheteur-immo.html#alerte", label: "Alerte acquereur" },
       { href: "/pret-immobilier/", label: "Pret immobilier" },
-      { href: "/landings/acheteur-immo.html", label: "Wizard acheteur" },
-      { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse : que faire" },
+      { href: "/blog/alerte-immobilier-acquereur-avant-les-autres.html", label: "Alerte avant les autres" },
       { href: "/landings/credit-immo.html", label: "Simulation pret" },
     ],
   },

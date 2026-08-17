@@ -424,6 +424,10 @@ var MAP = {
   "taux-credit-immobilier-2026-frais-dossier.html": { hero: "creditCles", figure: "budgetFam" },
   "rachat-credit-immobilier-guide-2026.html": { hero: "budgetFam", figure: "signaturePret" },
   "emprunteur-non-residents-investissement-immobilier-2026.html": { hero: "maisonFamille", figure: "signaturePret" },
+  "alerte-immobilier-acquereur-avant-les-autres.html": { hero: "appartLoc", figure: "maisonFamille" },
+  "acheter-appartement-sans-passer-des-mois-sur-seloger.html": { hero: "maisonFamille", figure: "appartLoc" },
+  "visite-immobiliere-checklist-acquereur.html": { hero: "bailleur", figure: "appartLoc" },
+  "offre-achat-immobilier-negocier-sans-se-faire-doubler.html": { hero: "creditCles", figure: "signaturePret" },
   "trump-politique-us-taux-pret-assurance-emprunteur.html": { hero: "politique", figure: "creditCles" },
   "gta-6-pret-immobilier-budget-gaming.html": { hero: "creditCles", figure: "budgetFam" },
 
