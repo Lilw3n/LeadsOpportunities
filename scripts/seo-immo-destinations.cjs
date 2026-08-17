@@ -2,6 +2,7 @@
  * Hubs SEO prêt + recherche : îles, DOM-TOM, destinations françaises.
  */
 var Immo = require("./seo-immo-content-lib.cjs");
+var LT = require("./seo-long-term-related.cjs");
 
 var PRET_LANDING = "/landings/credit-immo.html";
 var SEARCH_LANDING = "/landings/acheteur-immo.html";
@@ -17,12 +18,15 @@ function destPage(page, data) {
           { title: "Iles & destinations", text: "Corse, Antilles, Reunion, Pacifique, cote, montagne." },
           { title: "A distance", text: "Pieces numeriques, visio, rappel conseiller." },
         ],
-        related: data.related || [
-          { href: "/pret-immobilier/", label: "Pret immobilier" },
-          { href: "/recherche-bien/", label: "Recherche de bien" },
-          { href: PRET_LANDING, label: "Simulation pret" },
-          { href: SEARCH_LANDING, label: "Lancer une recherche" },
-        ],
+        related: data.related || LT.mergeUnique(
+          [
+            { href: "/pret-immobilier/", label: "Pret immobilier" },
+            { href: "/recherche-bien/", label: "Recherche de bien" },
+            { href: PRET_LANDING, label: "Simulation pret" },
+            { href: SEARCH_LANDING, label: "Lancer une recherche" },
+          ],
+          LT.PRET_REFUSE.slice(0, 4)
+        ),
       },
       data
     )
@@ -80,6 +84,12 @@ function buildImmoDestinationPages(page, cities) {
             "Nous accompagnons aussi les Francais des iles : residents, metropolitains qui achètent sur place, ou insulaires qui financent un bien en metropole. Pacifique (CFP) : etude au cas par cas.",
           ],
         },
+        {
+          h2: "Apres un refus de pret",
+          paragraphs: [
+            "Si une banque a deja refuse votre dossier, consultez nos guides « pret refuse » (endettement, apport, emprunteur sante) puis la landing credit avec l option deuxieme chance.",
+          ],
+        },
       ],
       hubCityGrid: [
         { href: "/pret-immobilier/iles-francaises/", label: "Iles francaises" },
@@ -94,7 +104,17 @@ function buildImmoDestinationPages(page, cities) {
         { href: "/pret-immobilier/noumea/", label: "Noumea" },
         { href: "/recherche-bien/", label: "Recherche de bien" },
         { href: PROJ, label: "Projection cout reel" },
+        { href: "/landings/credit-immo.html#pret-refuse", label: "Pret refuse — 2e chance" },
       ],
+      related: LT.mergeUnique(
+        [
+          { href: "/recherche-bien/", label: "Recherche de bien" },
+          { href: PRET_LANDING, label: "Simulation pret" },
+          { href: "/credit-immo/", label: "Guide credit immo" },
+          { href: PROJ, label: "Projection cout reel" },
+        ],
+        LT.PRET_REFUSE
+      ),
       faq: [
         {
           q: "Intervenez-vous hors metropole ?",
@@ -103,6 +123,10 @@ function buildImmoDestinationPages(page, cities) {
         {
           q: "La simulation est-elle gratuite ?",
           a: "Oui, sans engagement.",
+        },
+        {
+          q: "Que faire apres un refus de pret ?",
+          a: "Analyser la cause (endettement, apport, assurance, fichiers), corriger le dossier, puis repartir en multibanque avec un courtier.",
         },
       ],
     })
@@ -144,7 +168,18 @@ function buildImmoDestinationPages(page, cities) {
         { href: "/recherche-bien/villes/", label: "Toutes les villes" },
         { href: "/pret-immobilier/", label: "Pret immobilier" },
         { href: SEARCH_LANDING, label: "Wizard acheteur" },
+        { href: PROJ, label: "Projection cout reel" },
       ],
+      related: LT.mergeUnique(
+        [
+          { href: "/pret-immobilier/", label: "Pret immobilier" },
+          { href: SEARCH_LANDING, label: "Wizard acheteur" },
+          { href: PRET_LANDING, label: "Simulation pret" },
+          { href: PROJ, label: "Projection cout reel" },
+        ],
+        LT.PRET_REFUSE.slice(0, 3),
+        LT.SILOS_IMMO
+      ),
       faq: [
         {
           q: "Cherchez-vous aussi a la vente ?",

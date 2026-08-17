@@ -5,25 +5,42 @@
       "id": "vtc",
       "priority": 1,
       "primary": "assurance VTC",
-      "longTail": ["devis assurance VTC", "RC pro chauffeur VTC", "assurance Uber Bolt Heetch", "assurance VTC pas cher"],
-      "moneyPages": ["/assurance-vtc/", "/landings/vtc.html", "/assurance-vtc/paris/"],
-      "blog": ["/blog/assurance-vtc-moins-cher-2026.html", "/blog/assurance-vtc-rc-pro-garanties.html"]
+      "longTail": ["devis assurance VTC", "RC pro chauffeur VTC", "assurance Uber Bolt Heetch", "assurance VTC pas cher", "assurance VTC Île-de-France"],
+      "moneyPages": ["/assurance-vtc/", "/landings/vtc.html", "/assurance-vtc/paris/", "/assurance-vtc/ile-de-france/", "/assurance-vtc/pas-cher/"],
+      "blog": [
+        "/blog/assurance-vtc-moins-cher-2026.html",
+        "/blog/assurance-vtc-rc-pro-garanties.html",
+        "/blog/vtc-premiere-course-checklist-assurance.html",
+        "/blog/assurance-vtc-uber-bolt-heetch.html"
+      ]
     },
     {
       "id": "mutuelle",
       "priority": 2,
       "primary": "mutuelle santé",
-      "longTail": ["comparatif mutuelle", "mutuelle remboursement dentaire", "mutuelle senior", "devis mutuelle"],
+      "longTail": ["comparatif mutuelle", "mutuelle remboursement dentaire", "mutuelle senior", "devis mutuelle", "canicule mutuelle"],
       "moneyPages": ["/assurance-sante/", "/landings/sante.html", "/assurance-sante/paris/"],
-      "blog": ["/blog/mutuelle-sante-5-criteres.html", "/blog/mutuelle-remboursement-optique-dentaire-2026.html"]
+      "blog": [
+        "/blog/mutuelle-sante-5-criteres.html",
+        "/blog/mutuelle-remboursement-optique-dentaire-2026.html",
+        "/blog/canicule-mutuelle-coup-chaleur-seniors-2026.html",
+        "/blog/canicule-vigilance-meteo-france-mutuelle.html",
+        "/blog/insolation-canicule-que-faire-mutuelle-devis.html"
+      ]
     },
     {
       "id": "credit-immo",
       "priority": 3,
       "primary": "crédit immobilier",
-      "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo", "coût réel achat immobilier", "taxe foncière charges logement"],
-      "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/", "/landings/projection-achat.html"],
-      "blog": ["/blog/pret-immo-erreurs-a-eviter.html", "/blog/assurance-emprunteur-loi-lemoine-2026.html"]
+      "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo", "prêt immobilier refusé", "coût réel achat immobilier"],
+      "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/", "/pret-immobilier/", "/recherche-bien/", "/landings/projection-achat.html"],
+      "blog": [
+        "/blog/pret-immo-erreurs-a-eviter.html",
+        "/blog/assurance-emprunteur-loi-lemoine-2026.html",
+        "/blog/pret-immobilier-refuse-que-faire-2026.html",
+        "/blog/pret-refuse-endettement-35-hcsf-solutions.html",
+        "/blog/pret-refuse-courtier-multibanque-deuxieme-chance.html"
+      ]
     },
     {
       "id": "animaux",
@@ -31,15 +48,25 @@
       "primary": "assurance animaux",
       "longTail": ["assurance chien", "assurance chat", "mutuelle animaux sans délai de carence"],
       "moneyPages": ["/assurance-animaux/", "/landings/animaux.html"],
-      "blog": ["/blog/assurance-animaux-comment-choisir.html", "/blog/assurance-chien-frais-veterinaires.html"]
+      "blog": [
+        "/blog/assurance-animaux-comment-choisir.html",
+        "/blog/assurance-chien-frais-veterinaires.html",
+        "/blog/feux-foret-animaux-chien-chat-assurance.html",
+        "/blog/canicule-animaux-eau-chien-chat-oiseaux-assurance.html"
+      ]
     },
     {
       "id": "habitation",
       "priority": 5,
       "primary": "assurance habitation",
-      "longTail": ["assurance habitation locataire", "multirisque habitation", "devis habitation"],
+      "longTail": ["assurance habitation locataire", "multirisque habitation", "devis habitation", "incendie habitation Gironde"],
       "moneyPages": ["/assurance-habitation/", "/landings/devis.html?need=habitation"],
-      "blog": ["/blog/assurance-habitation-locataire-proprietaire-2026.html"]
+      "blog": [
+        "/blog/assurance-habitation-locataire-proprietaire-2026.html",
+        "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
+        "/blog/restriction-eau-secheresse-gironde-assurance-habitation.html",
+        "/blog/orages-grele-ete-auto-habitation-2026.html"
+      ]
     },
     {
       "id": "chasse",
@@ -47,8 +74,11 @@
       "competition": "low",
       "primary": "assurance chasse",
       "longTail": ["rc chasseur", "assurance chasse pas cher", "assurance chien de chasse", "responsabilité chasseur"],
-      "moneyPages": ["/assurance-chasse/", "/assurance-chasse/rc-chasseur/", "/assurance-chasse/paris/"],
-      "blog": []
+      "moneyPages": ["/assurance-chasse/", "/assurance-chasse/rc-chasseur/", "/assurance-chasse/chien-chasse/", "/assurance-chasse/paris/", "/landings/chasse.html"],
+      "blog": [
+        "/blog/assurance-chasse-rc-chasseur-guide-2026.html",
+        "/blog/assurance-chien-de-chasse-rc-comparatif.html"
+      ]
     },
     {
       "id": "equitation",
@@ -56,8 +86,11 @@
       "competition": "low",
       "primary": "assurance équitation",
       "longTail": ["rc équestre", "assurance cheval", "assurance centre équestre", "assurance cheval pas cher"],
-      "moneyPages": ["/assurance-equitation/", "/assurance-equitation/rc-equestre/", "/assurance-equitation/paris/"],
-      "blog": []
+      "moneyPages": ["/assurance-equitation/", "/assurance-equitation/rc-equestre/", "/assurance-equitation/cheval/", "/assurance-equitation/paris/", "/landings/equitation.html"],
+      "blog": [
+        "/blog/assurance-equitation-rc-equestre-guide-2026.html",
+        "/blog/assurance-cheval-pas-cher-criteres-2026.html"
+      ]
     },
     {
       "id": "animaux-longtail",

@@ -28,6 +28,7 @@ const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require(
 const SeoImg = require("./seo-images-lib.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
+const LT = require("./seo-long-term-related.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
@@ -101,18 +102,18 @@ const PAGES = [
         ],
       },
     ],
-    related: [
-      { href: "/assurance-vtc/devis-rapide/", label: "Devis assurance VTC rapide" },
-      { href: "/assurance-vtc/tarif/", label: "Comprendre le tarif VTC" },
-      { href: "/assurance-vtc/villes/", label: "Assurance VTC par ville" },
-      { href: "/assurance-vtc/rc-pro/", label: "RC Pro VTC" },
-      { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
-      { href: "/assurance-vtc/creation-activite/", label: "Creation d activite" },
-      { href: "/assurance-vtc/paris/", label: "Assurance VTC Paris" },
-      { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
-      { href: "/assurance-vtc/uber-paris/", label: "Uber Paris" },
-      { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Article : payer moins cher" },
-    ],
+    related: LT.mergeUnique(
+      [
+        { href: "/assurance-vtc/devis-rapide/", label: "Devis assurance VTC rapide" },
+        { href: "/assurance-vtc/tarif/", label: "Comprendre le tarif VTC" },
+        { href: "/assurance-vtc/villes/", label: "Assurance VTC par ville" },
+        { href: "/assurance-vtc/rc-pro/", label: "RC Pro VTC" },
+        { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
+        { href: "/assurance-vtc/creation-activite/", label: "Creation d activite" },
+        { href: "/assurance-vtc/uber-paris/", label: "Uber Paris" },
+      ],
+      LT.VTC_IDF
+    ),
     faq: [
       {
         q: "Quelle assurance est obligatoire pour un chauffeur VTC ?",
@@ -304,14 +305,24 @@ const PAGES = [
           "Notre methode : partir de vos depenses de sante des 12 derniers mois, puis calibrer le niveau de garanties.",
         ],
       },
+      {
+        h2: "Canicule et besoins sante",
+        paragraphs: [
+          "Vagues de chaleur, seniors, enfants, teleconsultation : les recherches saisonnieres « canicule mutuelle » sont une porte d entree SEO vers le devis sante. Nos guides detaillent les risques et renvoient vers le comparatif.",
+        ],
+      },
     ],
-    related: [
-      { href: "/assurance-sante/comparatif/", label: "Comparatif mutuelle" },
-      { href: "/assurance-sante/remboursement-optique/", label: "Remboursement optique" },
-      { href: "/assurance-sante/villes/", label: "Mutuelle par ville" },
-      { href: "/assurance-sante/paris/", label: "Mutuelle Paris" },
-      { href: "/blog/mutuelle-sante-5-criteres.html", label: "5 criteres de choix" },
-    ],
+    related: LT.mergeUnique(
+      [
+        { href: "/assurance-sante/comparatif/", label: "Comparatif mutuelle" },
+        { href: "/assurance-sante/remboursement-optique/", label: "Remboursement optique" },
+        { href: "/assurance-sante/villes/", label: "Mutuelle par ville" },
+        { href: "/assurance-sante/paris/", label: "Mutuelle Paris" },
+        { href: "/blog/mutuelle-sante-5-criteres.html", label: "5 criteres de choix" },
+        { href: "/blog/inflation-mutuelle-hausse-2026.html", label: "Inflation mutuelle 2026" },
+      ],
+      LT.CANICULE_MUTUELLE
+    ),
     faq: [
       {
         q: "Comment comparer deux mutuelles ?",
@@ -465,16 +476,26 @@ const PAGES = [
           "Les conditions varient fortement d une banque a l autre. Un courtier identifie les etablissements les plus favorables a votre profil et evite les refus inutiles.",
         ],
       },
+      {
+        h2: "Pret immobilier refuse : deuxieme chance",
+        paragraphs: [
+          "Un refus bancaire n est pas une fin de parcours. Endettement HCSF, apport, assurance emprunteur sante, fichiers Banque de France : nous documentons les leviers et remontons un dossier multibanque.",
+        ],
+      },
     ],
-    related: [
-      { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
-      { href: "/credit-immo/simulation/", label: "Simulation" },
-      { href: "/pret-immobilier/", label: "Pret immobilier — toutes les villes" },
-      { href: "/recherche-bien/", label: "Recherche de bien" },
-      { href: "/credit-immo/villes/", label: "Credit immo par ville" },
-      { href: "/credit-immo/paris/", label: "Credit immo Paris" },
-      { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
-    ],
+    related: LT.mergeUnique(
+      [
+        { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
+        { href: "/credit-immo/simulation/", label: "Simulation" },
+        { href: "/pret-immobilier/", label: "Pret immobilier — toutes les villes" },
+        { href: "/recherche-bien/", label: "Recherche de bien" },
+        { href: "/credit-immo/villes/", label: "Credit immo par ville" },
+        { href: "/credit-immo/paris/", label: "Credit immo Paris" },
+        { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
+        { href: "/blog/assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
+      ],
+      LT.PRET_REFUSE
+    ),
     faq: [
       {
         q: "Puis-je faire une simulation sans engagement ?",

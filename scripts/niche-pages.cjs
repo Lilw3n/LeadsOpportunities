@@ -3,6 +3,7 @@
  */
 const { buildAnimauxLongtailPages } = require("./niche-animaux-pages.cjs");
 const { buildChassePages, buildEquitationPages } = require("./niche-chasse-equitation-pages.cjs");
+const LT = require("./seo-long-term-related.cjs");
 
 function page(data) {
   return Object.assign(
@@ -67,17 +68,21 @@ const ANIMAUX_PAGES = [
         ],
       },
     ],
-    related: [
-      { href: "/assurance-animaux/chien/", label: "Assurance chien" },
-      { href: "/assurance-animaux/chat/", label: "Assurance chat" },
-      { href: "/assurance-animaux/villes/", label: "Assurance animaux par ville" },
-      { href: "/assurance-animaux/comparatif/", label: "Comparatif assurance animaux" },
-      { href: "/assurance-animaux/tarif/", label: "Tarif assurance animaux" },
-      { href: "/assurance-animaux/chien/pas-cher/", label: "Assurance chien pas cher" },
-      { href: "/assurance-animaux/chat/pas-cher/", label: "Assurance chat pas cher" },
-      { href: "/assurance-animaux/remboursement-veterinaire/", label: "Remboursement veterinaire" },
-      { href: LANDING_EXPRESS, label: "Devis express 30 sec" },
-    ],
+    related: LT.mergeUnique(
+      [
+        { href: "/assurance-animaux/chien/", label: "Assurance chien" },
+        { href: "/assurance-animaux/chat/", label: "Assurance chat" },
+        { href: "/assurance-animaux/villes/", label: "Assurance animaux par ville" },
+        { href: "/assurance-animaux/comparatif/", label: "Comparatif assurance animaux" },
+        { href: "/assurance-animaux/tarif/", label: "Tarif assurance animaux" },
+        { href: "/assurance-animaux/chien/pas-cher/", label: "Assurance chien pas cher" },
+        { href: "/assurance-animaux/chat/pas-cher/", label: "Assurance chat pas cher" },
+        { href: "/assurance-animaux/remboursement-veterinaire/", label: "Remboursement veterinaire" },
+        { href: LANDING_EXPRESS, label: "Devis express 30 sec" },
+        { href: "/assurances-niches.html", label: "Hub niches" },
+      ],
+      LT.NICHES_ANIMAUX
+    ),
     faq: [
       {
         q: "Assurance animaux : a partir de quel age ?",

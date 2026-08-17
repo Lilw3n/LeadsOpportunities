@@ -51,6 +51,8 @@ function keywordsForPath(path) {
       if (p.indexOf("/assurance-vtc") === 0 && c.id === "vtc") best = c;
       if (p.indexOf("/assurance-sante") === 0 && c.id === "mutuelle") best = c;
       if (p.indexOf("/credit-immo") === 0 && c.id === "credit-immo") best = c;
+      if (p.indexOf("/pret-immobilier") === 0 && c.id === "credit-immo") best = c;
+      if (p.indexOf("/recherche-bien") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/assurance-animaux") === 0 && c.id === "animaux") best = c;
       if (p.indexOf("/assurance-habitation") === 0 && c.id === "habitation") best = c;
       if (p.indexOf("/assurance-chasse") === 0 && c.id === "chasse") best = c;

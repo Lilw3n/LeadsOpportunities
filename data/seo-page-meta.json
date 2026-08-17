@@ -159,6 +159,26 @@
       "title": "Devis assurance équitation | RC équestre France",
       "description": "Assurance équitation : RC équestre, cheval, centre équestre. Devis gratuit, courtier ORIAS.",
       "keywords": "devis assurance équitation, rc équestre, assurance cheval"
+    },
+    {
+      "path": "/pret-immobilier",
+      "title": "Prêt immobilier France 2026 | Villes, îles, DOM-TOM | Courtier ORIAS",
+      "description": "Prêt immobilier partout en France : métropole, Corse, Antilles, Réunion. Simulation, refus bancaire 2e chance, assurance emprunteur.",
+      "keywords": "prêt immobilier, prêt immobilier ville, prêt immobilier refusé, simulation prêt, courtier crédit",
+      "h1": "Prêt immobilier : chaque ville, les îles et les destinations"
+    },
+    {
+      "path": "/recherche-bien",
+      "title": "Recherche de bien immobilier | Villes, îles et destinations France",
+      "description": "Recherche de bien en France : appartements, maisons, villas. Budget prêt d’abord, métropole et îles. Courtier ORIAS.",
+      "keywords": "recherche bien immobilier, achat maison, villa île, appartement ville, courtier immobilier",
+      "h1": "Recherche de bien : ville par ville, îles comprises"
+    },
+    {
+      "path": "/assurances-niches.html",
+      "title": "Assurances de niche France | Chasse, équitation, animaux",
+      "description": "Assurances peu concurrentielles : chasse, RC équestre, chien pas cher. 900+ pages SEO, devis courtier ORIAS.",
+      "keywords": "assurance niche, assurance chasse, assurance équitation, assurance chien pas cher"
     }
   ]
 }

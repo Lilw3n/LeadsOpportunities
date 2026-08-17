@@ -64,7 +64,9 @@ const GEO_PRODUCTS = [
       { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
       { href: "/assurance-vtc/tarif/", label: "Tarif VTC" },
       { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
+      { href: "/assurance-vtc/pas-cher/", label: "VTC pas cher" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Blog : payer moins cher" },
+      { href: "/blog/vtc-premiere-course-checklist-assurance.html", label: "Checklist 1re course" },
       { href: "/landings/devis-rapide.html", label: "Devis express" },
     ],
   },
@@ -119,6 +121,13 @@ const GEO_PRODUCTS = [
         },
       ];
     },
+    extraRelated: [
+      { href: "/assurance-sante/comparatif/", label: "Comparatif mutuelle" },
+      { href: "/blog/mutuelle-sante-5-criteres.html", label: "5 criteres mutuelle" },
+      { href: "/blog/canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Canicule & mutuelle" },
+      { href: "/blog/canicule-vigilance-meteo-france-mutuelle.html", label: "Vigilance canicule" },
+      { href: "/landings/sante.html", label: "Devis mutuelle" },
+    ],
   },
   {
     key: "credit",
@@ -177,6 +186,9 @@ const GEO_PRODUCTS = [
       { href: "/recherche-bien/", label: "Recherche de bien" },
       { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
       { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
+      { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse : que faire" },
+      { href: "/blog/pret-refuse-courtier-multibanque-deuxieme-chance.html", label: "Courtier 2e chance" },
+      { href: "/landings/credit-immo.html#pret-refuse", label: "Landing pret refuse" },
     ],
   },
   {
@@ -233,6 +245,8 @@ const GEO_PRODUCTS = [
       { href: "/recherche-bien/", label: "Recherche de bien" },
       { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
       { href: "/credit-immo/", label: "Guide credit immo" },
+      { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse" },
+      { href: "/blog/pret-refuse-endettement-35-hcsf-solutions.html", label: "Endettement 35 %" },
     ],
   },
   {
@@ -288,6 +302,8 @@ const GEO_PRODUCTS = [
       { href: "/recherche-bien/destinations/", label: "Recherche — destinations" },
       { href: "/pret-immobilier/", label: "Pret immobilier" },
       { href: "/landings/acheteur-immo.html", label: "Wizard acheteur" },
+      { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse : que faire" },
+      { href: "/landings/credit-immo.html", label: "Simulation pret" },
     ],
   },
   {
@@ -448,7 +464,9 @@ const GEO_PRODUCTS = [
     },
     extraRelated: [
       { href: "/credit-immo/", label: "Credit immobilier" },
+      { href: "/pret-immobilier/", label: "Pret immobilier" },
       { href: "/blog/assurance-emprunteur-loi-lemoine-2026.html", label: "Blog : loi Lemoine" },
+      { href: "/blog/pret-refuse-assurance-emprunteur-sante.html", label: "Refus & emprunteur sante" },
       { href: "/landings/devis.html?need=emprunteur", label: "Devis emprunteur" },
     ],
   },
@@ -547,6 +565,7 @@ const GEO_PRODUCTS = [
       { href: "/assurance-chat/villes/", label: "Assurance chat par ville" },
       { href: "/assurance-animaux/comparatif/", label: "Comparatif animaux" },
       { href: "/assurance-animaux/tarif/", label: "Tarifs animaux" },
+      { href: "/blog/feux-foret-animaux-chien-chat-assurance.html", label: "Feux de foret & animaux" },
       { href: "/landings/animaux-express.html", label: "Rappel express" },
     ],
   },
@@ -597,6 +616,7 @@ const GEO_PRODUCTS = [
       { href: "/assurance-animaux/chien/pas-cher/", label: "Chien pas cher" },
       { href: "/assurance-animaux/chien/chiot/", label: "Assurance chiot" },
       { href: "/assurance-animaux/", label: "Assurance animaux" },
+      { href: "/blog/feux-foret-animaux-chien-chat-assurance.html", label: "Feux & animaux" },
     ],
   },
   {
@@ -641,6 +661,7 @@ const GEO_PRODUCTS = [
       { href: "/assurance-animaux/chat/pas-cher/", label: "Chat pas cher" },
       { href: "/assurance-animaux/chat/chaton/", label: "Assurance chaton" },
       { href: "/assurance-animaux/", label: "Assurance animaux" },
+      { href: "/blog/canicule-animaux-eau-chien-chat-oiseaux-assurance.html", label: "Canicule animaux" },
     ],
   },
   {
@@ -683,6 +704,9 @@ const GEO_PRODUCTS = [
     extraRelated: [
       { href: "/assurance-chasse/rc-chasseur/", label: "RC chasseur" },
       { href: "/assurance-chasse/chien-chasse/", label: "Chien de chasse" },
+      { href: "/blog/assurance-chasse-rc-chasseur-guide-2026.html", label: "Guide RC chasseur" },
+      { href: "/blog/assurance-chien-de-chasse-rc-comparatif.html", label: "Chien de chasse" },
+      { href: "/assurances-niches.html", label: "Hub niches" },
       { href: "/assurances/", label: "Toutes nos assurances" },
     ],
   },
@@ -726,6 +750,9 @@ const GEO_PRODUCTS = [
     extraRelated: [
       { href: "/assurance-equitation/rc-equestre/", label: "RC equestre" },
       { href: "/assurance-equitation/cheval/", label: "Assurance cheval" },
+      { href: "/blog/assurance-equitation-rc-equestre-guide-2026.html", label: "Guide RC equestre" },
+      { href: "/blog/assurance-cheval-pas-cher-criteres-2026.html", label: "Cheval pas cher" },
+      { href: "/assurances-niches.html", label: "Hub niches" },
       { href: "/assurances/", label: "Toutes nos assurances" },
     ],
   },
