@@ -189,6 +189,9 @@ const GEO_PRODUCTS = [
       { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse : que faire" },
       { href: "/blog/pret-refuse-courtier-multibanque-deuxieme-chance.html", label: "Courtier 2e chance" },
       { href: "/landings/credit-immo.html#pret-refuse", label: "Landing pret refuse" },
+      { href: "/rachat-credit/", label: "Rachat de credits" },
+      { href: "/pret-relais/", label: "Pret relais" },
+      { href: "/credit-conso/", label: "Credit consommation" },
     ],
   },
   {
@@ -304,6 +307,206 @@ const GEO_PRODUCTS = [
       { href: "/landings/acheteur-immo.html", label: "Wizard acheteur" },
       { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse : que faire" },
       { href: "/landings/credit-immo.html", label: "Simulation pret" },
+    ],
+  },
+  {
+    key: "rachat",
+    theme: "credit",
+    dir: "rachat-credit",
+    siloLabel: "Rachat de credits",
+    siloUrl: "/rachat-credit/",
+    hubUrl: "/rachat-credit/villes/",
+    hubDeptUrl: "/rachat-credit/departements/",
+    landing: "/landings/rachat.html",
+    landingForCity: function (city) {
+      return "/landings/rachat.html?ville=" + encodeURIComponent(city.name);
+    },
+    ctaLabel: function (city) {
+      return "Etude rachat " + city.name;
+    },
+    title: function (city) {
+      return "Rachat de credits " + city.name + " | RAC " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Rachat de credits a " +
+        city.name +
+        " (" +
+        city.region +
+        ") : regroupement, baisse de mensualites. Courtier ORIAS, etude gratuite."
+      );
+    },
+    h1: function (city) {
+      return "Rachat de credits a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Plusieurs credits a " +
+        city.name +
+        " ? Nous etudions un regroupement (RAC) pour baisser la mensualite ou degager du reste a vivre, en " +
+        city.region +
+        "."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Regrouper ses credits a " + city.name,
+          paragraphs: [
+            "Immo, conso, auto : une mensualite unique. IRA, duree et cout total compares avant depot, pour les foyers bases a " +
+              city.name +
+              ".",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Le rachat de credits est-il possible a " + city.name + " ?",
+          a: "Oui, l etude de faisabilite est nationale. Un conseiller analyse encours et mensualites pour un foyer a " + city.name + ".",
+        },
+      ];
+    },
+    extraRelated: [
+      { href: "/rachat-credit/regroupement/", label: "Regroupement" },
+      { href: "/rachat-credit/mensualites/", label: "Mensualites" },
+      { href: "/credit-conso/", label: "Credit conso" },
+      { href: "/renegociation-pret/", label: "Renegociation" },
+      { href: "/blog/regroupement-credits-baisser-mensualites-2026.html", label: "Blog mensualites" },
+      { href: "/landings/rachat.html", label: "Landing rachat" },
+    ],
+  },
+  {
+    key: "conso",
+    theme: "credit",
+    dir: "credit-conso",
+    siloLabel: "Credit consommation",
+    siloUrl: "/credit-conso/",
+    hubUrl: "/credit-conso/villes/",
+    hubDeptUrl: "/credit-conso/departements/",
+    landing: "/landings/conso.html",
+    landingForCity: function (city) {
+      return "/landings/conso.html?ville=" + encodeURIComponent(city.name);
+    },
+    ctaLabel: function (city) {
+      return "Credit conso " + city.name;
+    },
+    title: function (city) {
+      return "Credit consommation " + city.name + " | Travaux, auto " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Credit consommation a " +
+        city.name +
+        " : travaux, vehicule, tresorerie. Courtier ORIAS, etude montant et duree."
+      );
+    },
+    h1: function (city) {
+      return "Credit consommation a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Projet perso, travaux ou tresorerie a " +
+        city.name +
+        " (" +
+        city.region +
+        ") : nous calibrons un credit conso selon vos revenus et credits deja en cours."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Un credit conso pour un foyer a " + city.name,
+          paragraphs: [
+            "TAEG, duree et endettement : on evite d ajouter une ligne si un rachat est plus sain. Accompagnement pour les residents de " +
+              city.name +
+              ".",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Puis-je demander un credit conso depuis " + city.name + " ?",
+          a: "Oui, le dossier est etudie a distance. Un conseiller rappelle les foyers bases a " + city.name + ".",
+        },
+      ];
+    },
+    extraRelated: [
+      { href: "/credit-conso/travaux/", label: "Credit travaux" },
+      { href: "/credit-conso/tresorerie/", label: "Tresorerie" },
+      { href: "/rachat-credit/", label: "Rachat de credits" },
+      { href: "/blog/credit-consommation-guide-france-2026.html", label: "Guide credit conso" },
+      { href: "/landings/conso.html", label: "Landing conso" },
+    ],
+  },
+  {
+    key: "relais",
+    theme: "credit",
+    dir: "pret-relais",
+    siloLabel: "Pret relais",
+    siloUrl: "/pret-relais/",
+    hubUrl: "/pret-relais/villes/",
+    hubDeptUrl: "/pret-relais/departements/",
+    landing: "/landings/pret-relais.html",
+    landingForCity: function (city) {
+      return "/landings/pret-relais.html?ville=" + encodeURIComponent(city.name);
+    },
+    ctaLabel: function (city) {
+      return "Pret relais " + city.name;
+    },
+    title: function (city) {
+      return "Pret relais " + city.name + " | Vente + achat " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Pret relais a " +
+        city.name +
+        " : acheter avant d avoir vendu. Quotite, duree, courtier ORIAS " +
+        city.region +
+        "."
+      );
+    },
+    h1: function (city) {
+      return "Pret relais a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Vous vendez et rachetez a " +
+        city.name +
+        " ? Nous chiffrons un pret relais (pont) et le pret d acquisition, selon le marche local en " +
+        city.region +
+        "."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Vendre et acheter a " + city.name,
+          paragraphs: [
+            "Quotite selon l estimation du bien a vendre, duree 12 a 24 mois, plan B si la vente tarde. Montage pour un projet base a " +
+              city.name +
+              ".",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Le pret relais est-il propose a " + city.name + " ?",
+          a: "Oui, l etude est nationale. Le marche immobilier de " + city.name + " entre dans l estimation et la quotite.",
+        },
+      ];
+    },
+    extraRelated: [
+      { href: "/credit-immo/", label: "Credit immobilier" },
+      { href: "/recherche-bien/", label: "Recherche de bien" },
+      { href: "/blog/pret-relais-vente-achat-guide-2026.html", label: "Guide pret relais" },
+      { href: "/landings/pret-relais.html", label: "Landing relais" },
+      { href: "/landings/acheteur-immo.html?role=les_deux", label: "Parcours vente + achat" },
     ],
   },
   {
@@ -1342,6 +1545,18 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/vtc.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/credit-immo.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/rachat.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/conso.html", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/landings/pret-relais.html", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/landings/credit-pro.html", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/landings/renegociation.html", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/finance/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/banque/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/rachat-credit/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/credit-conso/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/pret-relais/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/credit-pro/", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/renegociation-pret/", priority: "0.86", changefreq: "weekly" },
     { loc: base + "/landings/acheteur-immo.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/pret-immobilier/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/pret-immobilier/villes/", priority: "0.92", changefreq: "weekly" },

@@ -112,6 +112,7 @@
           { v: "achat", t: "Achat immobilier" },
           { v: "rachat", t: "Rachat de credits" },
           { v: "conso", t: "Credit consommation" },
+          { v: "relais", t: "Pret relais" },
           { v: "renegociation", t: "Renegociation" },
         ]) +
           input("financeAmount", "Montant (EUR)", "text", "Ex. 180000", true)

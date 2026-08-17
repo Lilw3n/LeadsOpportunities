@@ -43,6 +43,51 @@
       ]
     },
     {
+      "id": "rachat-credit",
+      "priority": 3,
+      "primary": "rachat de crédits",
+      "longTail": ["regroupement de crédits", "RAC baisse mensualités", "rachat vs renégociation", "rachat crédits immo conso"],
+      "moneyPages": ["/rachat-credit/", "/landings/rachat.html", "/rachat-credit/regroupement/", "/renegociation-pret/", "/landings/renegociation.html"],
+      "blog": [
+        "/blog/regroupement-credits-baisser-mensualites-2026.html",
+        "/blog/rachat-vs-renegociation-pret-2026.html",
+        "/blog/rachat-credits-mix-immo-conso-2026.html",
+        "/blog/rachat-credit-immobilier-guide-2026.html",
+        "/blog/renegociation-pret-immobilier-taux-2026.html"
+      ]
+    },
+    {
+      "id": "credit-conso",
+      "priority": 3,
+      "primary": "crédit consommation",
+      "longTail": ["crédit travaux", "prêt personnel", "crédit trésorerie", "TAEG crédit conso"],
+      "moneyPages": ["/credit-conso/", "/landings/conso.html", "/credit-conso/travaux/", "/credit-conso/tresorerie/"],
+      "blog": [
+        "/blog/credit-consommation-guide-france-2026.html",
+        "/blog/credit-travaux-conso-guide-2026.html",
+        "/blog/credit-tresorerie-foyer-guide-2026.html"
+      ]
+    },
+    {
+      "id": "pret-relais",
+      "priority": 3,
+      "primary": "prêt relais",
+      "longTail": ["crédit relais achat vente", "quotité prêt relais", "acheter avant de vendre"],
+      "moneyPages": ["/pret-relais/", "/landings/pret-relais.html"],
+      "blog": [
+        "/blog/pret-relais-vente-achat-guide-2026.html",
+        "/blog/pret-relais-duree-taux-quand-utiliser-2026.html"
+      ]
+    },
+    {
+      "id": "credit-pro",
+      "priority": 4,
+      "primary": "crédit professionnel",
+      "longTail": ["prêt pro TNS", "financement entreprise", "crédit matériel professionnel"],
+      "moneyPages": ["/credit-pro/", "/landings/credit-pro.html"],
+      "blog": ["/blog/credit-professionnel-tns-entreprise-2026.html"]
+    },
+    {
       "id": "animaux",
       "priority": 4,
       "primary": "assurance animaux",

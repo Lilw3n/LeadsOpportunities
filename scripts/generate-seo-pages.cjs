@@ -25,6 +25,7 @@ const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
 const { buildVtcIdfPages, getVtcIdfSitemapEntries } = require("./seo-vtc-idf-pages.cjs");
 const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require("./seo-immo-destinations.cjs");
+const { buildFinanceHubPages } = require("./seo-finance-hubs.cjs");
 const SeoImg = require("./seo-images-lib.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
@@ -493,6 +494,10 @@ const PAGES = [
         { href: "/credit-immo/paris/", label: "Credit immo Paris" },
         { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
         { href: "/blog/assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
+        { href: "/rachat-credit/", label: "Rachat de credits" },
+        { href: "/pret-relais/", label: "Pret relais" },
+        { href: "/credit-conso/", label: "Credit consommation" },
+        { href: "/renegociation-pret/", label: "Renegociation de pret" },
       ],
       LT.PRET_REFUSE
     ),
@@ -1014,6 +1019,7 @@ const ALL_PAGES = PAGES.concat(
   VTC_LONGTAIL_PAGES,
   VTC_IDF_PAGES,
   IMMO_DEST_PAGES,
+  buildFinanceHubPages(page),
   buildPillarPageConfigs(page),
   buildGeoPageConfigs(CITIES, page),
   buildDeptPageConfigs(DEPARTMENTS, CITIES, page),
@@ -1036,7 +1042,10 @@ const geoUrls = allUrls.filter(function (u) {
     u.loc.indexOf("/assurance-") > -1 ||
     u.loc.indexOf("/credit-immo/") > -1 ||
     u.loc.indexOf("/pret-immobilier/") > -1 ||
-    u.loc.indexOf("/recherche-bien/") > -1
+    u.loc.indexOf("/recherche-bien/") > -1 ||
+    u.loc.indexOf("/rachat-credit/") > -1 ||
+    u.loc.indexOf("/credit-conso/") > -1 ||
+    u.loc.indexOf("/pret-relais/") > -1
   );
 });
 const franceUrls = allUrls.filter(function (u) {

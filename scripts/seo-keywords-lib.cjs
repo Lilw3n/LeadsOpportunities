@@ -53,6 +53,11 @@ function keywordsForPath(path) {
       if (p.indexOf("/credit-immo") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/pret-immobilier") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/recherche-bien") === 0 && c.id === "credit-immo") best = c;
+      if (p.indexOf("/rachat-credit") === 0 && c.id === "rachat-credit") best = c;
+      if (p.indexOf("/credit-conso") === 0 && c.id === "credit-conso") best = c;
+      if (p.indexOf("/pret-relais") === 0 && c.id === "pret-relais") best = c;
+      if (p.indexOf("/credit-pro") === 0 && c.id === "credit-pro") best = c;
+      if (p.indexOf("/renegociation-pret") === 0 && c.id === "rachat-credit") best = c;
       if (p.indexOf("/assurance-animaux") === 0 && c.id === "animaux") best = c;
       if (p.indexOf("/assurance-habitation") === 0 && c.id === "habitation") best = c;
       if (p.indexOf("/assurance-chasse") === 0 && c.id === "chasse") best = c;
@@ -68,6 +73,12 @@ function clusterForBlogArticle(article) {
   var file = String(article.file || "");
   var section = article.section || "";
   var hay = (article.title || "") + " " + file + " " + section;
+  if (/relais/i.test(hay)) return clusterById("pret-relais");
+  if (/rachat|regroupement|ren[eé]gociation/i.test(hay)) return clusterById("rachat-credit");
+  if (/consommation|credit conso|crédit conso|tresorerie|trésorerie|credit travaux/i.test(hay))
+    return clusterById("credit-conso");
+  if (/cr[eé]dit pro|professionnel|tns/i.test(hay) && /credit|pr[eê]t|financement/i.test(hay))
+    return clusterById("credit-pro");
   if (/vtc|chauffeur|uber|bolt|heetch/i.test(hay)) return clusterById("vtc");
   if (/mutuelle|sant[eé]|optique|dentaire|hospitalisation/i.test(hay)) return clusterById("mutuelle");
   if (/cr[eé]dit|emprunt|immobilier|lemoine|pret|prêt/i.test(hay)) return clusterById("credit-immo");
@@ -103,6 +114,14 @@ function moneyLinksHtml(cluster) {
     "/landings/credit-immo.html": "Simulation crédit",
     "/credit-immo/simulation/": "Simulateur prêt",
     "/landings/projection-achat.html": "Coût réel achat",
+    "/rachat-credit/": "Rachat de crédits",
+    "/landings/rachat.html": "Étude rachat",
+    "/credit-conso/": "Crédit consommation",
+    "/landings/conso.html": "Crédit conso",
+    "/pret-relais/": "Prêt relais",
+    "/landings/pret-relais.html": "Étude prêt relais",
+    "/credit-pro/": "Crédit professionnel",
+    "/renegociation-pret/": "Renégociation de prêt",
     "/assurance-animaux/": "Assurance animaux",
     "/landings/animaux.html": "Devis animaux",
     "/assurance-habitation/": "Assurance habitation",
@@ -110,7 +129,7 @@ function moneyLinksHtml(cluster) {
   var items = cluster.moneyPages.slice(0, 4).map(function (href) {
     var label = labels[href] || href.replace(/^\//, "").replace(/\/$/, "");
     var rel = href.indexOf("/landings/") === 0 ? "../" + href.replace(/^\//, "") : "../" + href.replace(/^\//, "");
-    if (href.indexOf("/assurance-") === 0 || href.indexOf("/credit-") === 0) rel = ".." + href;
+    if (href.indexOf("/assurance-") === 0 || href.indexOf("/credit-") === 0 || href.indexOf("/rachat-") === 0 || href.indexOf("/pret-") === 0 || href.indexOf("/renegociation-") === 0) rel = ".." + href;
     return '        <li><a href="' + rel + '">' + label + "</a></li>\n";
   });
   return (

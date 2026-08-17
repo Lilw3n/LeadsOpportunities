@@ -108,19 +108,47 @@
       vertical: "emprunteur",
     },
     mrh: { need: "mrh", label: "Multirisque habitation", category: "habitat", vertical: "mrh" },
-    rachat: { need: "rachat", label: "Rachat de credit", category: "finance", vertical: "rachat" },
-    conso: { need: "conso", label: "Credit consommation", category: "finance", vertical: "conso" },
+    rachat: {
+      need: "rachat",
+      label: "Rachat de credits",
+      category: "finance",
+      vertical: "rachat",
+      landing: "./landings/rachat.html",
+    },
+    conso: {
+      need: "conso",
+      label: "Credit consommation",
+      category: "finance",
+      vertical: "conso",
+      landing: "./landings/conso.html",
+    },
+    relais: {
+      need: "relais",
+      label: "Pret relais",
+      category: "finance",
+      vertical: "relais",
+      landing: "./landings/pret-relais.html",
+    },
+    "pret-relais": {
+      need: "relais",
+      label: "Pret relais",
+      category: "finance",
+      vertical: "relais",
+      landing: "./landings/pret-relais.html",
+    },
     "credit-pro": {
       need: "credit-pro",
       label: "Credit professionnel",
       category: "finance",
       vertical: "credit_pro",
+      landing: "./landings/credit-pro.html",
     },
     renegociation: {
       need: "renegociation",
       label: "Renegociation de pret",
       category: "finance",
       vertical: "renegociation",
+      landing: "./landings/renegociation.html",
     },
     "rc-pro": { need: "rc-pro", label: "RC professionnelle", category: "pro", vertical: "rc_pro" },
     mrp: { need: "mrp", label: "Multirisque professionnelle", category: "pro", vertical: "mrp" },
@@ -165,6 +193,11 @@
       "credit-immo": "immo",
       credit_immo: "immo",
       emprunteur: "immo",
+      "pret-relais": "relais",
+      pret_relais: "relais",
+      rac: "rachat",
+      "rachat-credit": "rachat",
+      "credit-conso": "conso",
     };
     if (ALIASES[key]) key = ALIASES[key];
     return SERVICES[key] || null;
@@ -190,6 +223,12 @@
     "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
     "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
     "projection-achat": "./landings/projection-achat.html",
+    rachat: "./landings/rachat.html",
+    conso: "./landings/conso.html",
+    relais: "./landings/pret-relais.html",
+    "pret-relais": "./landings/pret-relais.html",
+    "credit-pro": "./landings/credit-pro.html",
+    renegociation: "./landings/renegociation.html",
   };
 
   function normalizeLandingPath(path, opts) {

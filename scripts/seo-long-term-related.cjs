@@ -90,6 +90,18 @@ function mergeUnique() {
   return out;
 }
 
+var SILOS_FINANCE = [
+  link("/rachat-credit/", "Rachat de credits"),
+  link("/credit-conso/", "Credit consommation"),
+  link("/pret-relais/", "Pret relais"),
+  link("/credit-pro/", "Credit professionnel"),
+  link("/renegociation-pret/", "Renegociation de pret"),
+  link("/finance/", "Hub finance"),
+  link("/landings/rachat.html", "Landing rachat"),
+  link("/landings/conso.html", "Landing conso"),
+  link("/landings/pret-relais.html", "Landing pret relais"),
+];
+
 module.exports = {
   CANICULE_MUTUELLE: CANICULE_MUTUELLE,
   PRET_REFUSE: PRET_REFUSE,
@@ -99,6 +111,7 @@ module.exports = {
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
   SILOS_IMMO: SILOS_IMMO,
+  SILOS_FINANCE: SILOS_FINANCE,
   mergeUnique: mergeUnique,
   link: link,
 };

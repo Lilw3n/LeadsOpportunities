@@ -36,12 +36,15 @@
         },
         {
           h2: "Credit immobilier et financement",
-          text: "Simulation credit immo, courtier pret immobilier, rachat de credit, capacite d emprunt et taux 2026.",
+          text: "Simulation credit immo, rachat de credits, credit conso, pret relais, credit pro et renegociation.",
           links: [
             { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
             { href: "/landings/credit-immo.html", label: "Simulation credit immo" },
-            { href: "/landings/questionnaire.html?need=rachat", label: "Rachat de credit" },
+            { href: "/landings/rachat.html", label: "Rachat de credits" },
+            { href: "/landings/conso.html", label: "Credit consommation" },
+            { href: "/landings/pret-relais.html", label: "Pret relais" },
             { href: "/credit-immo/", label: "Guide credit immo" },
+            { href: "/rachat-credit/", label: "Guide rachat" },
           ],
         },
       ],
@@ -111,6 +114,58 @@
         },
       ],
       pillar: "/assurance-sante/",
+    },
+    rachat: {
+      keywords:
+        "rachat de credits, regroupement de credits, RAC, baisse mensualites, rachat credit immobilier, rachat credits conso",
+      sections: [
+        {
+          h2: "Rachat et regroupement de credits",
+          text: "Fusionner immo, conso et auto en une mensualite. IRA, duree et cout total compares. Courtier ORIAS.",
+        },
+      ],
+      pillar: "/rachat-credit/",
+    },
+    conso: {
+      keywords:
+        "credit consommation, credit conso, pret travaux, pret personnel, tresorerie, TAEG credit conso",
+      sections: [
+        {
+          h2: "Credit consommation",
+          text: "Travaux, vehicule, projet perso ou tresorerie. Endettement et duree calibres, alternative rachat si trop de lignes.",
+        },
+      ],
+      pillar: "/credit-conso/",
+    },
+    "pret-relais": {
+      keywords: "pret relais, credit relais, achat vente immobilier, quotite pret relais, pont financier",
+      sections: [
+        {
+          h2: "Pret relais vente et achat",
+          text: "Financer l achat avant la vente. Quotite, duree 12-24 mois, pret d acquisition associe.",
+        },
+      ],
+      pillar: "/pret-relais/",
+    },
+    "credit-pro": {
+      keywords: "credit professionnel, pret pro TNS, financement entreprise, credit materiel, BFR",
+      sections: [
+        {
+          h2: "Credit professionnel TNS et entreprise",
+          text: "Materiel, tresorerie, developpement. Bilans, SIREN et garanties (caution, BPI).",
+        },
+      ],
+      pillar: "/credit-pro/",
+    },
+    renegociation: {
+      keywords: "renegociation pret immobilier, baisser taux credit, rachat vs renegociation, IRA pret",
+      sections: [
+        {
+          h2: "Renegociation de pret",
+          text: "Baisser le taux chez votre banque avant un rachat externe. Comparatif frais et economie.",
+        },
+      ],
+      pillar: "/renegociation-pret/",
     },
     "credit-immo": {
       keywords:

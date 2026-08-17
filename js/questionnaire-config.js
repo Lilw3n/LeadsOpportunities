@@ -324,6 +324,7 @@
             { v: "achat", t: "Achat immobilier" },
             { v: "rachat", t: "Rachat de credits" },
             { v: "conso", t: "Credit consommation" },
+            { v: "relais", t: "Pret relais" },
             { v: "pro", t: "Investissement pro" },
             { v: "renegociation", t: "Renegociation" },
           ]) +
@@ -801,6 +802,38 @@
               textarea("proCreditDetails", "Precision", "Equipement, tresorerie, BFR…", false)
           ) +
           fieldRow(siretField("companySiret", true))
+      );
+    },
+
+    relais: function () {
+      return wizardSection(
+        "relais",
+        "Pret relais (vente + achat)",
+        fieldRow(
+          input("relaisSalePrice", "Prix de vente estime du bien actuel (EUR)", "text", "Ex. 280000", true) +
+            input("relaisPurchasePrice", "Prix du bien vise (EUR)", "text", "Ex. 350000", true)
+        ) +
+          fieldRow(
+            select("relaisDelay", "Delai de vente estime", [
+              { v: "3mois", t: "Moins de 3 mois" },
+              { v: "6mois", t: "3 a 6 mois" },
+              { v: "12mois", t: "6 a 12 mois" },
+              { v: "plus12", t: "Plus de 12 mois / inconnu" },
+            ]) +
+              select("relaisType", "Montage souhaite", [
+                { v: "sec", t: "Relais sec (pont seul)" },
+                { v: "acquisition", t: "Relais + pret d acquisition" },
+                { v: "ns", t: "A definir avec le conseiller" },
+              ])
+          ) +
+          fieldRow(
+            input("relaisRemainingLoan", "Capital restant du pret actuel (EUR)", "text", "Ex. 120000", false) +
+              select("relaisCompromis", "Compromis d achat", [
+                { v: "oui", t: "Deja signe / en cours" },
+                { v: "recherche", t: "Bien identifie, pas encore signe" },
+                { v: "non", t: "Recherche en cours" },
+              ], false)
+          )
       );
     },
 

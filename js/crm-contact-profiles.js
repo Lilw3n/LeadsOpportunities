@@ -185,7 +185,7 @@ window.CrmContactProfiles = {
     if (["auto", "moto", "flotte", "temporaire"].indexOf(v) !== -1) return "mobilite";
     if (["sante", "prevoyance", "tns", "deces", "collective"].indexOf(v) !== -1) return "sante";
     if (["habitation", "pno", "emprunteur", "mrh"].indexOf(v) !== -1) return "habitat";
-    if (["credit_immo", "credit_immo", "rachat", "conso", "credit_pro", "renegociation"].indexOf(v) !== -1)
+    if (["credit_immo", "credit_immo", "rachat", "conso", "credit_pro", "renegociation", "relais"].indexOf(v) !== -1)
       return "finance";
     if (["rc_pro", "mrp", "decennale", "pj_pro", "dirigeant"].indexOf(v) !== -1) return "pro";
     if (["assurance_vie", "retraite", "gav", "pj", "famille", "autre"].indexOf(v) !== -1) return "patrimoine";

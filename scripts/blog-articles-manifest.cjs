@@ -2494,9 +2494,9 @@ module.exports = {
       description: "Regroupement de credits, baisse de mensualites, rachat credit immobilier : etude de faisabilite.",
       meta: "8 min · Juin 2026",
       cardExcerpt: "Rachat credit : baisser la mensualite.",
-      cta: { href: "../landings/credit-immo.html", label: "Etude rachat credit" },
+      cta: { href: "../landings/rachat.html", label: "Etude rachat credit" },
       blocks: [
-        { type: "p", text: "Le <strong>rachat credit immobilier</strong> (ou regroupement) fusionne plusieurs credits en un seul pret, souvent sur une duree plus longue. Objectif : <strong>baisser la mensualite</strong> — au prix d'un cout total parfois plus eleve." },
+        { type: "p", text: "Le <strong>rachat credit immobilier</strong> (ou regroupement) fusionne plusieurs credits en un seul pret, souvent sur une duree plus longue. Objectif : <strong>baisser la mensualite</strong> — au prix d'un cout total parfois plus eleve. <a href=\"../landings/rachat.html\"><strong>Etude rachat</strong></a> · <a href=\"../rachat-credit/\">hub rachat de credits</a>." },
         { type: "h2", text: "Quels credits peuvent etre rachetes ?" },
         { type: "ul", items: ["Pret immobilier residuel", "Credits consommation", "Credits auto", "Decouverts et dettes certaines (selon banque racheteuse)"] },
         { type: "h2", text: "Conditions de faisabilite" },
@@ -2505,9 +2505,10 @@ module.exports = {
         { type: "p", text: "IRA (indemnites de remboursement anticipé) sur les credits soldes, frais de dossier du rachat, nouvelle assurance emprunteur. Comparez economie mensuelle vs cout total sur toute la duree." },
       ],
       related: [
-        { href: "../credit-immo/rachat-credit/", label: "Page rachat credit" },
+        { href: "../rachat-credit/", label: "Hub rachat de credits" },
+        { href: "../credit-immo/rachat-credit/", label: "Page rachat (silo credit immo)" },
         { href: "./taux-credit-immobilier-2026-frais-dossier.html", label: "Taux et frais 2026" },
-        { href: "../landings/credit-immo.html", label: "Landing credit immo" },
+        { href: "../landings/rachat.html", label: "Landing rachat" },
       ],
     },
     {
@@ -2556,6 +2557,11 @@ nichesActu.forEach(function (a) {
 
 const pretRefuse = require("./blog-pret-refuse-articles.cjs");
 pretRefuse.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
+const financeCredits = require("./blog-finance-credits-articles.cjs");
+financeCredits.forEach(function (a) {
   module.exports.articles.push(a);
 });
 

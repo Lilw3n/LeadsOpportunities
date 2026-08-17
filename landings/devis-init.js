@@ -9,13 +9,23 @@
     if (!catalog || !stepsBuilder) return;
 
     var params = new URLSearchParams(window.location.search);
-    var need = params.get("need") || "autre";
+    var bodyNeed = (document.body.getAttribute("data-need") || "").trim();
+    var need = bodyNeed || params.get("need") || "autre";
     var service = catalog.getService(need) || catalog.getService("autre");
 
     var forceStandard =
       params.get("journey") === "standard" || params.get("wizard") === "1";
+    var landingFile = (service.landing || "").replace(/^\.\/landings\//, "").split("?")[0];
+    var pathName = window.location.pathname || "";
+    var onDedicatedLanding =
+      !!bodyNeed ||
+      (landingFile &&
+        landingFile !== "devis.html" &&
+        landingFile.indexOf("questionnaire.html") === -1 &&
+        (pathName.indexOf("/" + landingFile) !== -1 || pathName.slice(-landingFile.length) === landingFile));
     if (
       !forceStandard &&
+      !onDedicatedLanding &&
       service.landing &&
       service.landing.indexOf("devis.html") === -1 &&
       service.landing.indexOf("questionnaire.html") === -1
