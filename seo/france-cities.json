@@ -308,6 +308,13 @@
     "dept": "cher"
   },
   {
+    "slug": "bouxieres-aux-dames",
+    "name": "Bouxieres-aux-Dames",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "brest",
     "name": "Brest",
     "region": "Bretagne",
@@ -420,6 +427,13 @@
     "dept": "haute-savoie"
   },
   {
+    "slug": "champigneulles",
+    "name": "Champigneulles",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "champigny-sur-marne",
     "name": "Champigny-sur-Marne",
     "region": "Ile-de-France",
@@ -446,6 +460,13 @@
     "region": "Centre-Val de Loire",
     "regionSlug": "centre-val-de-loire",
     "dept": "indre"
+  },
+  {
+    "slug": "chavigny",
+    "name": "Chavigny",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "chelles",
@@ -595,6 +616,20 @@
     "dept": "ille-et-vilaine"
   },
   {
+    "slug": "dombasle-sur-meurthe",
+    "name": "Dombasle-sur-Meurthe",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
+    "slug": "dommartemont",
+    "name": "Dommartemont",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "douai",
     "name": "Douai",
     "region": "Hauts-de-France",
@@ -728,6 +763,13 @@
     "dept": "var"
   },
   {
+    "slug": "frouard",
+    "name": "Frouard",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "gap",
     "name": "Gap",
     "region": "Provence-Alpes-Cote d Azur",
@@ -740,6 +782,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "hauts-de-seine"
+  },
+  {
+    "slug": "gondreville",
+    "name": "Gondreville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "gonesse",
@@ -796,6 +845,13 @@
     "region": "Normandie",
     "regionSlug": "normandie",
     "dept": "calvados"
+  },
+  {
+    "slug": "houdemont",
+    "name": "Houdemont",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "houilles",
@@ -1057,11 +1113,25 @@
     "dept": "haute-vienne"
   },
   {
+    "slug": "liverdun",
+    "name": "Liverdun",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "lorient",
     "name": "Lorient",
     "region": "Bretagne",
     "regionSlug": "bretagne",
     "dept": "morbihan"
+  },
+  {
+    "slug": "ludres",
+    "name": "Ludres",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "lunel",
@@ -1195,6 +1265,13 @@
     "region": "Provence-Alpes-Cote d Azur",
     "regionSlug": "provence-alpes-cote-d-azur",
     "dept": "alpes-maritimes"
+  },
+  {
+    "slug": "mereville",
+    "name": "Mereville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "merignac",
@@ -1335,6 +1412,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "hauts-de-seine"
+  },
+  {
+    "slug": "neuves-maisons",
+    "name": "Neuves-Maisons",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "nevers",
@@ -1533,6 +1617,13 @@
     "dept": "corse-du-sud"
   },
   {
+    "slug": "pulnoy",
+    "name": "Pulnoy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "puteaux",
     "name": "Puteaux",
     "region": "Ile-de-France",
@@ -1608,6 +1699,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "val-d-oise"
+  },
+  {
+    "slug": "rosieres-aux-salines",
+    "name": "Rosieres-aux-Salines",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "roubaix",
@@ -1757,6 +1855,13 @@
     "dept": "val-de-marne"
   },
   {
+    "slug": "saint-max",
+    "name": "Saint-Max",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "saint-nazaire",
     "name": "Saint-Nazaire",
     "region": "Pays de la Loire",
@@ -1881,6 +1986,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "yvelines"
+  },
+  {
+    "slug": "saulxures-les-nancy",
+    "name": "Saulxures-les-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "saumur",

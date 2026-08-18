@@ -25,7 +25,22 @@
     "custines",
     "pompey",
     "richardmenil",
-    "pont-a-mousson",
+    "dombasle",
+    "houdemont",
+    "ludres",
+    "saint-max",
+    "pulnoy",
+    "saulxures",
+    "dommartemont",
+    "rosieres",
+    "champigneulles",
+    "frouard",
+    "liverdun",
+    "neuves-maisons",
+    "bouxieres",
+    "gondreville",
+    "mereville",
+    "chavigny",
     "meurthe",
     "54000",
     "54140",
@@ -63,7 +78,7 @@
     el.innerHTML =
       '<p><strong>Pret immobilier ' +
       label +
-      '</strong> — courtier a Varangéville. Jarville, Nancy et communes du 54 : <a href="/pret-immobilier/nancy-metropole/">toutes nos pages locales</a>.</p>';
+      '</strong> — courtier a Varangéville. Jarville, Dombasle, Houdemont, Ludres, Saint-Max et communes du 54 : <a href="/pret-immobilier/nancy-metropole/">toutes nos pages locales</a>.</p>';
     host.insertBefore(el, host.firstChild);
   }
 

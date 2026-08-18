@@ -182,6 +182,134 @@ var COMMUNES = [
     loan: "profils université et salariés locaux — apport et garanties classiques",
     local: "Pont-à-Mousson : porte sud du bassin d'emploi nancéien",
   },
+  {
+    slug: "dombasle-sur-meurthe",
+    name: "Dombasle-sur-Meurthe",
+    keywords: ["pret immobilier dombasle", "credit immo dombasle sur meurthe"],
+    market: "commune voisine de Varangéville : maisons, lotissements, bassin salin — demande familiale et primo-accédants",
+    loan: "dossiers du secteur Dombasle–Varangéville–Jarville : même étude de faisabilité, banques habituées au 54",
+    local: "Dombasle est collée à Varangéville : recherches « prêt Dombasle » = même courtier de proximité",
+  },
+  {
+    slug: "houdemont",
+    name: "Houdemont",
+    keywords: ["pret immobilier houdemont"],
+    market: "pavillons, résidences, Technopôle Brabois à deux pas — cadres et familles du Grand Nancy",
+    loan: "tickets parfois plus élevés qu'à Jarville : reste à vivre et apport à caler avant offre",
+    local: "Houdemont : commune de la métropole, très demandée pour le calme et l'accès Nancy / Brabois",
+  },
+  {
+    slug: "ludres",
+    name: "Ludres",
+    keywords: ["pret immobilier ludres"],
+    market: "sud de l'agglomération, maisons et zones d'activité — bon rapport surface / budget",
+    loan: "profils salariés du sud nancéien : simulation avant compromis recommandée",
+    local: "Ludres : alternative à Vandœuvre et Houdemont pour un premier achat",
+  },
+  {
+    slug: "saint-max",
+    name: "Saint-Max",
+    keywords: ["pret immobilier saint max"],
+    market: "commune limitrophe de Nancy : appartements, maisons de ville, marché tendu sur les biens finançables",
+    loan: "comme Nancy intra-muros : banques regardent apport, stabilité et reste à vivre",
+    local: "Saint-Max : recherche « prêt Nancy » souvent élargie à Saint-Max et Essey",
+  },
+  {
+    slug: "pulnoy",
+    name: "Pulnoy",
+    keywords: ["pret immobilier pulnoy"],
+    market: "est de l'agglomération, pavillons et petits collectifs proches Essey et Seichamps",
+    loan: "couples actifs et familles : mensualité calée sur le marché local 54",
+    local: "Pulnoy : commune du Grand Nancy, stock limité — financement validé avant visite",
+  },
+  {
+    slug: "saulxures-les-nancy",
+    name: "Saulxures-lès-Nancy",
+    keywords: ["pret immobilier saulxures les nancy"],
+    market: "résidentiel calme entre Seichamps et Pulnoy — maisons familiales",
+    loan: "projets RP famille : apport et assurance emprunteur au cœur du dossier",
+    local: "Saulxures-lès-Nancy : souvent tapé « Saulxures Nancy » dans les recherches Google",
+  },
+  {
+    slug: "dommartemont",
+    name: "Dommartemont",
+    keywords: ["pret immobilier dommartemont"],
+    market: "petite commune de la métropole, villas et maisons, cadre verdoyant au nord-est",
+    loan: "tickets plus élevés : épargne de précaution et reste à vivre décisifs",
+    local: "Dommartemont : stock rare, un accord de principe fait la différence",
+  },
+  {
+    slug: "rosieres-aux-salines",
+    name: "Rosières-aux-Salines",
+    keywords: ["pret immobilier rosieres aux salines"],
+    market: "sud-est du bassin (Dombasle, Saint-Nicolas) : maisons, centre-bourg, prix plus doux qu'à Nancy",
+    loan: "primo-accédants et familles : bonne alternative budget au 54",
+    local: "Rosières-aux-Salines : même dynamique que Saint-Nicolas-de-Port et Dombasle",
+  },
+  {
+    slug: "champigneulles",
+    name: "Champigneulles",
+    keywords: ["pret immobilier champigneulles"],
+    market: "nord de Nancy, maisons et collectifs, axe Pompey / Frouard",
+    loan: "dossiers salariés industries et services du val de Moselle",
+    local: "Champigneulles : porte nord du bassin, souvent cherchée avec Maxéville et Frouard",
+  },
+  {
+    slug: "frouard",
+    name: "Frouard",
+    keywords: ["pret immobilier frouard"],
+    market: "confluent Moselle / Meurthe, maisons de ville, marché accessible",
+    loan: "primo-accédants et rachats : étude de faisabilité identique au reste du 54",
+    local: "Frouard : searches « prêt Frouard Pompey » — même courtier Varangéville",
+  },
+  {
+    slug: "liverdun",
+    name: "Liverdun",
+    keywords: ["pret immobilier liverdun"],
+    market: "bourg perché, maisons de caractère, vue Moselle — mix ancien et pavillonnaire",
+    loan: "biens anciens : intégrer travaux et DPE dans le montage",
+    local: "Liverdun : commune recherchée pour le cadre, financement à préparer avant visite",
+  },
+  {
+    slug: "neuves-maisons",
+    name: "Neuves-Maisons",
+    keywords: ["pret immobilier neuves maisons"],
+    market: "sud Moselle, maisons et appartements, marché plus accessible que Nancy centre",
+    loan: "profils salariés et primo-accédants du sud nancéien",
+    local: "Neuves-Maisons : souvent associée à Chavigny, Méréville, Richardménil",
+  },
+  {
+    slug: "bouxieres-aux-dames",
+    name: "Bouxières-aux-Dames",
+    keywords: ["pret immobilier bouxieres aux dames"],
+    market: "nord-est, pavillons, proximité Lay-Saint-Christophe et Malzéville",
+    loan: "familles du nord de l'agglomération : simulation avant offre",
+    local: "Bouxières-aux-Dames : commune recherchée pour le résidentiel calme",
+  },
+  {
+    slug: "gondreville",
+    name: "Gondreville",
+    keywords: ["pret immobilier gondreville 54"],
+    market: "ouest du bassin, maisons et terrains, cadre semi-rural proche Laxou / Velaine",
+    loan: "maison + éventuellement terrain : enveloppe globale à monter avec la banque",
+    local: "Gondreville : alternative ouest à Laxou et Villers pour un budget 54",
+  },
+  {
+    slug: "mereville",
+    name: "Méréville",
+    keywords: ["pret immobilier mereville 54"],
+    market: "sud, maisons et lotissements proches Neuves-Maisons et Richardménil",
+    loan: "projets familiaux avec budget maîtrisé",
+    local: "Méréville (54) : ne pas confondre avec l'Essonne — bassin nancéien",
+  },
+  {
+    slug: "chavigny",
+    name: "Chavigny",
+    keywords: ["pret immobilier chavigny 54"],
+    market: "petite commune sud, maisons, proximité Neuves-Maisons",
+    loan: "stock limité : financement prêt avant de visiter",
+    local: "Chavigny : recherches locales souvent couplées à Neuves-Maisons",
+  },
 ];
 
 var SLUG_SET = {};
@@ -212,6 +340,7 @@ function profile(city) {
     label: "Nancy métropole (54)",
     market: c.market,
     loan: c.loan,
+    local: c.local,
     search:
       c.local +
       ". Filtrez par mensualité cible après simulation — pas seulement par prix affiché sur les portails",
@@ -258,7 +387,7 @@ function pretCitySections(city) {
       paragraphs: [
         "Projet à " + name + " : " + p.market + ".",
         p.loan + ".",
-        "Leads Opportunities accompagne les acheteurs de Nancy métropole depuis Varangéville : Jarville, Maxéville, Vandœuvre, Saint-Nicolas-de-Port et toutes les communes alentour.",
+        "Leads Opportunities accompagne les acheteurs de Nancy métropole depuis Varangéville : Jarville, Dombasle-sur-Meurthe, Houdemont, Ludres, Saint-Max, Maxéville, Vandœuvre, Laxou, Saint-Nicolas-de-Port et toutes les communes alentour.",
       ],
       list: [
         "Simulation capacité d'emprunt et mensualité",
@@ -329,7 +458,7 @@ function nearbyLinks(city, productDir) {
   return COMMUNES.filter(function (c) {
     return c.slug !== city.slug;
   })
-    .slice(0, 11)
+    .slice(0, 16)
     .map(function (c) {
       return {
         href: "/" + productDir + "/" + c.slug + "/",
@@ -348,15 +477,15 @@ function buildHubPages(page) {
   var gridPret = hubCityGrid("pret-immobilier");
   var gridCredit = hubCityGrid("credit-immo");
   var intro =
-    "Prêt immobilier et crédit sur Nancy métropole : Nancy, Jarville-la-Malgrange, Varangéville (Varengeville), Maxéville, Vandœuvre, Laxou, Saint-Nicolas-de-Port et toutes les communes du 54. Courtier ORIAS basé à Varangéville — simulation gratuite, dossier banque, assurance emprunteur.";
+    "Prêt immobilier et crédit sur Nancy métropole : Nancy, Jarville-la-Malgrange, Varangéville (Varengeville), Dombasle-sur-Meurthe, Houdemont, Ludres, Saint-Max, Maxéville, Vandœuvre, Laxou, Saint-Nicolas-de-Port, Champigneulles, Frouard, Neuves-Maisons et toutes les communes du 54. Courtier ORIAS basé à Varangéville — simulation gratuite, dossier banque, assurance emprunteur.";
   function hub(file, siloLabel, siloUrl, grid, ctaHref) {
     return page({
       file: file,
       theme: "credit",
       badge: "Nancy métropole · 54",
-      title: "Prêt immobilier Nancy métropole | Jarville, Varangéville, 54",
+      title: "Prêt immobilier Nancy métropole | Jarville, Varangéville, Dombasle, Houdemont, 54",
       description:
-        "Prêt immobilier Nancy, Jarville, Varangéville, Maxéville et communes du 54. Courtier de proximité à Varangéville. Simulation gratuite.",
+        "Prêt immobilier Nancy, Jarville, Varangéville, Dombasle, Houdemont, Ludres, Saint-Max, Maxéville et communes du Grand Nancy (54). Courtier à Varangéville. Simulation gratuite.",
       keywords:
         "pret immobilier nancy, pret jarville, pret varangeville, pret varengeville, credit immo 54, courtier nancy",
       h1: "Prêt immobilier — bassin Nancy métropole (54)",
@@ -371,7 +500,7 @@ function buildHubPages(page) {
         {
           h2: "Pourquoi une page par commune",
           paragraphs: [
-            "Les recherches « prêt immobilier Jarville », « crédit Varangéville », « simulation prêt Nancy » méritent une réponse locale : prix au m², type de biens, banques habituées au 54.",
+            "Les recherches « prêt immobilier Jarville », « crédit Varangéville », « prêt Dombasle », « crédit Houdemont », « simulation prêt Nancy » méritent une réponse locale : prix au m², type de biens, banques habituées au 54.",
             "Chaque fiche commune détaille le marché local et renvoie vers la simulation en ligne avec rappel conseiller.",
           ],
         },
@@ -379,7 +508,7 @@ function buildHubPages(page) {
           h2: "Courtier de proximité — Varangéville",
           paragraphs: [
             "Leads Opportunities (Wendy BUCHET) accompagne les projets du bassin nancéien : primo-accédants, rachats, investisseurs, prêt refusé (2e chance).",
-            "Une seule demande couvre Nancy, Jarville et les communes alentour — pas besoin de multiplier les interlocuteurs.",
+            "Une seule demande couvre Nancy, Jarville, Varangéville, Dombasle, Houdemont, Ludres, Saint-Max et les communes alentour — pas besoin de multiplier les interlocuteurs.",
           ],
         },
       ],
@@ -399,6 +528,14 @@ function buildHubPages(page) {
         {
           q: "Et Jarville-la-Malgrange ?",
           a: "Oui, page dédiée et étude de faisabilité incluant les profils du secteur commercial et résidentiel de Jarville.",
+        },
+        {
+          q: "Dombasle, Houdemont, Ludres, Saint-Max : vous y allez ?",
+          a: "Oui. Dombasle-sur-Meurthe (voisine de Varangéville), Houdemont, Ludres, Saint-Max, Pulnoy, Champigneulles, Frouard, Neuves-Maisons : une page par commune et la même simulation.",
+        },
+        {
+          q: "Quelles communes du Grand Nancy couvrez-vous ?",
+          a: "Nancy, Art-sur-Meurthe, Essey, Fléville, Heillecourt, Houdemont, Jarville, Laneuveville, Laxou, Ludres, Malzéville, Maxéville, Pulnoy, Saint-Max, Saulxures-lès-Nancy, Seichamps, Tomblaine, Vandœuvre, Villers, Dommartemont — plus Varangéville, Dombasle et le bassin élargi (54).",
         },
       ],
     });
