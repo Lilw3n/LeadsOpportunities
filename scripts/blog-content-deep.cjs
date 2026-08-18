@@ -898,6 +898,109 @@ var DEEP = {
       ]),
     ],
   },
+  "prix-credit-immo-questions-groupe-facebook-2026.html": {
+    keywords: [
+      "groupe facebook immobilier",
+      "question prix achat maison",
+      "frais courtier credit immo",
+      "taux credit immobilier facebook",
+      "combien coute un courtier",
+      "prix bien immobilier realiste",
+      "simulation credit immobilier gratuite",
+      "courtier ORIAS",
+      "devis credit immobilier",
+    ],
+    extraBlocks: [
+      h2("Passer de la question Facebook a un chiffre fiable"),
+      p(
+        "Les groupes FB servent a <strong>comprendre les erreurs des autres</strong>. Pour votre dossier : questionnaire credit (prix bien, apport, revenus) ou projection achat — pas un sondage public."
+      ),
+      h2("Liens utiles"),
+      ul([
+        "Simulation credit — /landings/credit-immo.html",
+        "Projection cout reel — /landings/projection-achat.html",
+        "Recherche bien — /landings/acheteur-immo.html",
+      ]),
+    ],
+  },
+  "combien-coute-courtier-credit-immobilier-honoraires-2026.html": {
+    keywords: [
+      "combien coute un courtier credit immobilier",
+      "honoraires courtier pret immobilier",
+      "courtier credit immo gratuit",
+      "frais courtage pret immobilier",
+      "1 pourcent courtier emprunt",
+      "courtier ORIAS",
+    ],
+    extraBlocks: [
+      h2("Mandat courtier : ce qu'il faut lire"),
+      ul([
+        "Qui paie (vous, la banque, ou les deux)",
+        "Montant ou pourcentage exact",
+        "Facturation si refus du pret",
+        "Services inclus (assurance, rachat conso, suivi notaire)",
+      ]),
+    ],
+  },
+  "prix-annonce-facebook-realiste-budget-achat.html": {
+    keywords: [
+      "prix maison facebook realiste",
+      "annonce immobiliere groupe facebook",
+      "prix au m2 normal",
+      "budget achat immobilier",
+      "estimation prix bien",
+    ],
+    extraBlocks: [
+      h2("Avant de visiter"),
+      p(
+        "Validez votre <strong>enveloppe d'emprunt</strong> puis comparez le prix affiche aux ventes reelles (DVF) sur la commune. Un post Facebook ne remplace pas ces deux etapes."
+      ),
+    ],
+  },
+  "courtier-banque-comparateur-ce-qui-marche-pas.html": {
+    keywords: [
+      "courtier ou banque directe",
+      "comparateur credit immobilier avis",
+      "meilleur taux courtier ou banque",
+      "simulation credit en ligne fiable",
+    ],
+    extraBlocks: [
+      h2("Comparer le TAEG final"),
+      p(
+        "Taux nominal + assurance + frais dossier + garantie = <strong>TAEG</strong>. C'est le seul chiffre honnete pour comparer banque, courtier et comparateur."
+      ),
+    ],
+  },
+  "frais-notaire-dossier-courtage-cout-reel-achat.html": {
+    keywords: [
+      "frais notaire achat immobilier",
+      "cout reel achat maison",
+      "frais dossier credit immobilier",
+      "budget achat immobilier complet",
+      "TAEG pret immobilier",
+    ],
+    extraBlocks: [
+      h2("Neuf vs ancien"),
+      p(
+        "Dans le <strong>neuf</strong>, les frais de notaire sont bien plus bas (~2–3 %). Dans l'<strong>ancien</strong>, comptez ~7–8 %. Les groupes FB melangent souvent les deux — verifiez le type de bien."
+      ),
+    ],
+  },
+  "prix-immobilier-54-saint-nicolas-budget-acquereur.html": {
+    keywords: [
+      "prix immobilier saint nicolas de port",
+      "acheter maison art sur meurthe",
+      "budget immobilier nancy metropole",
+      "prix maison meurthe et moselle",
+      "acquereur 54 credit immo",
+    ],
+    extraBlocks: [
+      h2("Salaries Solvay et bassin minier"),
+      p(
+        "Revenus stables du secteur industriel (Solvay Dombasle, mine de sel Varangeville) : valorises par les banques si le dossier est propre (pas de decouverts, apport coherent). Le prix du bien doit rester dans l'endettement HCSF."
+      ),
+    ],
+  },
 };
 
 function getOverride(file) {

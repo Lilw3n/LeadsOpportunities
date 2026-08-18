@@ -310,6 +310,30 @@
         "deuxième chance crédit"
       ],
       "section": "finance"
+    },
+    {
+      "id": "prix-facebook",
+      "match": [
+        "groupe facebook",
+        "facebook immo",
+        "combien coute",
+        "combien coûte",
+        "honoraires courtier",
+        "frais courtier",
+        "prix annonce",
+        "prix au m",
+        "prix au m2",
+        "taux facebook",
+        "comparateur en ligne",
+        "frais notaire",
+        "coût réel",
+        "cout reel",
+        "ce qui marche",
+        "ce qui ne marche pas"
+      ],
+      "section": "finance",
+      "hook": "Les groupes Facebook donnent des avis — pas un chiffre fiable sur votre dossier. Simulation gratuite sur vos vrais revenus et votre prix de bien.",
+      "question": "Quel est le prix du bien que vous visez (ou votre budget max) ?"
     }
   ],
   "articles": {
@@ -666,6 +690,49 @@
       "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
       "landing": "/landings/credit-immo.html",
       "landingLabel": "Étude crédit 2e chance"
+    },
+    "prix-credit-immo-questions-groupe-facebook-2026.html": {
+      "section": "finance",
+      "hook": "Vous avez lu 50 réponses contradictoires dans un groupe Facebook ? Passons à un chiffre sur VOTRE dossier.",
+      "question": "Quelle question « prix » vous bloque le plus (courtier, taux, notaire, bien) ?",
+      "landing": "/landings/credit-immo.html?utm_source=blog&utm_medium=facebook_prix",
+      "landingLabel": "Simulation sur mon dossier",
+      "questionnaireLabel": "Questionnaire crédit (prix + apport)"
+    },
+    "combien-coute-courtier-credit-immobilier-honoraires-2026.html": {
+      "section": "finance",
+      "hook": "Honoraires courtier : mandat clair avant de signer — on détaille le coût sur votre montant d'emprunt.",
+      "question": "Quel montant envisagez-vous d'emprunter ?",
+      "landing": "/landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=facebook_prix",
+      "landingLabel": "Questionnaire — mon projet"
+    },
+    "prix-annonce-facebook-realiste-budget-achat.html": {
+      "section": "finance",
+      "hook": "Un prix vu sur Facebook n'est pas un budget validé. Projettez le coût réel avant de visiter.",
+      "question": "Quel prix de bien avez-vous repéré (ou votre budget max) ?",
+      "landing": "/landings/projection-achat.html?utm_source=blog&utm_medium=facebook_prix",
+      "landingLabel": "Projection coût réel"
+    },
+    "courtier-banque-comparateur-ce-qui-marche-pas.html": {
+      "section": "finance",
+      "hook": "Banque, comparateur ou courtier ? On compare le TAEG final sur votre profil — pas un taux vitrine.",
+      "question": "Avez-vous déjà une offre banque ou comparateur à confronter ?",
+      "landing": "/landings/credit-immo.html?utm_source=blog&utm_medium=facebook_prix",
+      "landingLabel": "Étude comparative"
+    },
+    "frais-notaire-dossier-courtage-cout-reel-achat.html": {
+      "section": "finance",
+      "hook": "Prix affiché ≠ coût total. Intégrez notaire, dossier, assurance et courtage dans votre budget.",
+      "question": "Connaissez-vous le prix du bien visé ?",
+      "landing": "/landings/projection-achat.html?utm_source=blog&utm_medium=facebook_prix",
+      "landingLabel": "Calculer le coût complet"
+    },
+    "prix-immobilier-54-saint-nicolas-budget-acquereur.html": {
+      "section": "finance",
+      "hook": "Acquéreur dans le 54 (Saint-Nicolas, Art-sur-Meurthe, Haroué) : alerte bien + prêt depuis Varangeville.",
+      "question": "Dans quelle commune cherchez-vous à acheter ?",
+      "landing": "/landings/acheteur-immo.html?city=Saint-Nicolas-de-Port&utm_source=blog&utm_medium=facebook_prix#recherche",
+      "landingLabel": "Alerte acquéreur 54"
     }
   }
 }

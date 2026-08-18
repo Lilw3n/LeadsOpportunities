@@ -2559,6 +2559,11 @@ pretRefuse.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const facebookPrix = require("./blog-facebook-prix-articles.cjs");
+facebookPrix.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};

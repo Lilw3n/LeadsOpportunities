@@ -1226,6 +1226,22 @@
                 { v: "locatif", t: "Investissement locatif" },
                 { v: "secondaire", t: "Residence secondaire" },
               ])
+          ) +
+          fieldRow(
+            select("immoPricingConcern", "Question « prix » principale (vu en groupe FB, forum…)", [
+              { v: "courtier", t: "Combien coute le courtier ?" },
+              { v: "taux", t: "Taux / mensualite (comparateur vs banque)" },
+              { v: "notaire_frais", t: "Frais notaire, dossier, courtage" },
+              { v: "bien", t: "Prix du bien : realiste ou trop cher ?" },
+              { v: "budget", t: "Quel budget max pour mon salaire ?" },
+              { v: "autre", t: "Autre / plusieurs questions" },
+            ], false)
+          ) +
+          textarea(
+            "immoPriceQuestion",
+            "Precisez votre question (optionnel)",
+            "Ex. J'ai vu 3,1 % sur Facebook, est-ce possible avec 15 % d'apport ?",
+            false
           )
       );
     },
