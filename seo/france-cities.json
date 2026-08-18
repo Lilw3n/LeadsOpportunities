@@ -119,6 +119,13 @@
     "dept": "pas-de-calais"
   },
   {
+    "slug": "art-sur-meurthe",
+    "name": "Art-sur-Meurthe",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "asnieres-sur-seine",
     "name": "Asnieres-sur-Seine",
     "region": "Ile-de-France",
@@ -257,6 +264,13 @@
     "region": "Nouvelle-Aquitaine",
     "regionSlug": "nouvelle-aquitaine",
     "dept": "pyrenees-atlantiques"
+  },
+  {
+    "slug": "blenod-les-pont-a-mousson",
+    "name": "Blénod-lès-Pont-à-Mousson",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "blois",
@@ -560,6 +574,13 @@
     "dept": "seine-maritime"
   },
   {
+    "slug": "dieulouard",
+    "name": "Dieulouard",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "digne-les-bains",
     "name": "Digne-les-Bains",
     "region": "Provence-Alpes-Cote d Azur",
@@ -672,6 +693,13 @@
     "dept": "polynesie-francaise"
   },
   {
+    "slug": "fleville-devant-nancy",
+    "name": "Fléville-devant-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "foix",
     "name": "Foix",
     "region": "Occitanie",
@@ -763,6 +791,13 @@
     "dept": "bas-rhin"
   },
   {
+    "slug": "haroue",
+    "name": "Haroué",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "honfleur",
     "name": "Honfleur",
     "region": "Normandie",
@@ -852,6 +887,13 @@
     "region": "Nouvelle-Aquitaine",
     "regionSlug": "nouvelle-aquitaine",
     "dept": "charente-maritime"
+  },
+  {
+    "slug": "laneuveville-devant-nancy",
+    "name": "Laneuveville-devant-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "lannion",
@@ -957,6 +999,13 @@
     "region": "Nouvelle-Aquitaine",
     "regionSlug": "nouvelle-aquitaine",
     "dept": "gironde"
+  },
+  {
+    "slug": "lenoncourt",
+    "name": "Lenoncourt",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "lens",
@@ -1167,6 +1216,13 @@
     "region": "Occitanie",
     "regionSlug": "occitanie",
     "dept": "tarn-et-garonne"
+  },
+  {
+    "slug": "montauville",
+    "name": "Montauville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "montbeliard",
@@ -1860,6 +1916,13 @@
     "region": "Grand Est",
     "regionSlug": "grand-est",
     "dept": "moselle"
+  },
+  {
+    "slug": "tomblaine",
+    "name": "Tomblaine",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "toulon",

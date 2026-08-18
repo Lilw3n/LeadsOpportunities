@@ -41,3 +41,24 @@
   background: rgba(13, 148, 136, 0.12);
   color: #115e59;
 }
+
+.nancy-bassin-pill-link {
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.nancy-bassin-pill-link:hover {
+  background: rgba(13, 148, 136, 0.22);
+  text-decoration: none;
+}
+
+.nancy-bassin-communes {
+  margin: 0 0 16px;
+}
+
+.nancy-bassin-communes-label {
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #134e4a;
+}

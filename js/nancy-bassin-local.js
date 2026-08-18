@@ -1,14 +1,31 @@
 /**
- * Bannière locale bassin nancéien (mine de sel, Solvay, basilique Saint-Nicolas-de-Port).
+ * Bannière locale bassin nancéien — acquéreurs autour de Saint-Nicolas-de-Port.
  * <div data-nancy-bassin-banner></div>
+ * <div data-nancy-bassin-communes></div> — puces villes vers recherche bien
  */
 (function (global) {
+  var COMMUNES_ACQUEREUR = [
+    { name: "Saint-Nicolas-de-Port", slug: "saint-nicolas-de-port" },
+    { name: "Art-sur-Meurthe", slug: "art-sur-meurthe" },
+    { name: "Haroué", slug: "haroue" },
+    { name: "Laneuveville", slug: "laneuveville-devant-nancy" },
+    { name: "Tomblaine", slug: "tomblaine" },
+    { name: "Lenoncourt", slug: "lenoncourt" },
+    { name: "Dieulouard", slug: "dieulouard" },
+    { name: "Montauville", slug: "montauville" },
+    { name: "Fléville", slug: "fleville-devant-nancy" },
+    { name: "Dombasle", slug: "dombasle-sur-meurthe" },
+    { name: "Varangeville", slug: "varangeville" },
+    { name: "Blénod", slug: "blenod-les-pont-a-mousson" },
+  ];
+
   var COPY = {
-    title: "Courtier à Varangeville — bassin nancéien (54)",
+    title: "Acquéreur autour de Saint-Nicolas-de-Port — bassin nancéien (54)",
     text:
-      "Nous connaissons votre territoire : la mine de sel de Varangeville, le site Solvay à Dombasle-sur-Meurthe et la basilique Saint-Nicolas-de-Port. Bureau 15–17 rue Pierre Curie — prêt, assurance et immo avec un conseiller local.",
-    pills: ["Mine de sel", "Solvay Dombasle", "Basilique St-Nicolas", "Nancy métropole"],
+      "Vous cherchez à acheter à Saint-Nicolas-de-Port, Art-sur-Meurthe, Haroué ou dans le val de Meurthe ? Nous connaissons le territoire : mine de sel de Varangeville, Solvay à Dombasle, basilique Saint-Nicolas-de-Port, château d'Haroué. Bureau 15–17 rue Pierre Curie — alerte bien, projection budget et prêt.",
+    pills: ["Saint-Nicolas", "Art-sur-Meurthe", "Haroué", "Val de Meurthe"],
     hub: "/immobilier/nancy-metropole/",
+    search: "/landings/acheteur-immo.html",
     contact: "/index.html#contact",
   };
 
@@ -18,6 +35,29 @@
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+  }
+
+  function searchUrl(cityName) {
+    return COPY.search + "?city=" + encodeURIComponent(cityName) + "#recherche";
+  }
+
+  function renderCommunes(root) {
+    if (!root || root.dataset.nbCommunesBound) return;
+    root.dataset.nbCommunesBound = "1";
+    root.className = (root.className + " nancy-bassin-communes").trim();
+    root.innerHTML =
+      '<p class="nancy-bassin-communes-label">Acquéreur — communes autour de Saint-Nicolas-de-Port :</p>' +
+      '<div class="nancy-bassin-pills">' +
+      COMMUNES_ACQUEREUR.map(function (c) {
+        return (
+          '<a class="nancy-bassin-pill nancy-bassin-pill-link" href="' +
+          esc(searchUrl(c.name)) +
+          '">' +
+          esc(c.name) +
+          "</a>"
+        );
+      }).join("") +
+      "</div>";
   }
 
   function render(root) {
@@ -35,16 +75,26 @@
       }).join("") +
       '</div><p style="margin:10px 0 0;font-size:.85rem"><a href="' +
       esc(COPY.hub) +
-      '">Guide Nancy métropole &amp; 54</a> · <a href="' +
+      '">Guide acquéreur 54</a> · <a href="' +
+      esc(searchUrl("Saint-Nicolas-de-Port")) +
+      '">Lancer une alerte</a> · <a href="' +
       esc(COPY.contact) +
       '">Nous contacter</a></p>';
   }
 
   function init() {
     document.querySelectorAll("[data-nancy-bassin-banner]").forEach(render);
+    document.querySelectorAll("[data-nancy-bassin-communes]").forEach(renderCommunes);
   }
 
-  global.NancyBassinLocal = { COPY: COPY, render: render, init: init };
+  global.NancyBassinLocal = {
+    COPY: COPY,
+    COMMUNES_ACQUEREUR: COMMUNES_ACQUEREUR,
+    searchUrl: searchUrl,
+    render: render,
+    renderCommunes: renderCommunes,
+    init: init,
+  };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
