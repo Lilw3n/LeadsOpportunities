@@ -18,6 +18,7 @@
 
     var PAGE_META = {
       "crm-acquisition.html": { subtitle: "Leads Google, Meta, TikTok, Instagram, Allo — tri, assignation, archivage" },
+      "crm-revenue-opportunities.html": { subtitle: "Registre des pistes revenus — idées agent, CPL Meta, priorités P1–P3" },
       "crm-leads.html": { subtitle: "Lead → prospect / interlocuteur — fusion, liaison, spam IP, validation admin" },
       "crm-sources.html": { subtitle: "Attribution UTM — plateforme, campagne, gclid, fbclid, ttclid" },
       "crm-pubs.html": { subtitle: "Liens Ads Manager Meta, Google, TikTok — campagne active et formulaires" },

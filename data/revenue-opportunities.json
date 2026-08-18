@@ -1,0 +1,311 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-18",
+  "intro": "Registre des pistes pour générer du chiffre — acquisition, conversion, partenariats et produits. Les idées marquées « Agent Cursor » sont proposées automatiquement lors des sessions de développement.",
+  "categories": [
+    { "id": "acquisition", "label": "Acquisition (pubs & SEO)" },
+    { "id": "conversion", "label": "Conversion (site & tunnel)" },
+    { "id": "produit", "label": "Produit & offres" },
+    { "id": "partenariat", "label": "Partenariats & commissions" },
+    { "id": "saas", "label": "SaaS & revente" },
+    { "id": "agent", "label": "Idées Agent Cursor" }
+  ],
+  "ideas": [
+    {
+      "id": "canicule-mutuelle-meta",
+      "title": "Mutuelle seniors — campagne canicule (Meta 1 €/j)",
+      "category": "acquisition",
+      "priority": "P1",
+      "status": "in_progress",
+      "revenueType": "commission_recurrente",
+      "ticketEstimate": "60–180 € / contrat / an",
+      "effort": "faible",
+      "summary": "Override Meta actif jusqu’au 30/09/2026 sur le vertical santé seniors. Articles blog canicule → landing mutuelle. CPL cible < 15 € avec qualified_lead (score ≥ 50).",
+      "actions": [
+        "Garder 1 ad set actif sur sante_senior_canicule",
+        "A/B les 4 créas ads/meta-canicule-maintenant.csv",
+        "Filtrer Clarity par market_intent=FR"
+      ],
+      "links": [
+        { "label": "Gestion pubs", "href": "/crm-pubs.html" },
+        { "label": "CSV Meta canicule", "href": "/ads/meta-canicule-maintenant.csv" },
+        { "label": "Landing mutuelle", "href": "/landings/sante.html" },
+        { "label": "Doc rotation", "href": "/docs/META-ROTATION-4-SEMAINES.md" }
+      ],
+      "source": "etude_marche",
+      "implementedInRepo": true
+    },
+    {
+      "id": "vtc-idf-google-meta",
+      "title": "VTC Île-de-France — Search + Meta discret",
+      "category": "acquisition",
+      "priority": "P1",
+      "status": "planned",
+      "revenueType": "commission",
+      "ticketEstimate": "200–350 € / contrat / an",
+      "effort": "moyen",
+      "summary": "Meilleur CPL historique du portefeuille. Hubs SEO Paris/CDG/Orly + campagne Google FR_Search_VTC_IDF + rotation Meta vtc_discret.",
+      "actions": [
+        "Importer ads/google-ads-editor-ready-utm.csv dans Google Ads Editor",
+        "Activer Search IDF avec CPC plafonné",
+        "Retargeting abandon → landings/rappel.html"
+      ],
+      "links": [
+        { "label": "Landing VTC", "href": "/landings/vtc.html" },
+        { "label": "Hub SEO Paris", "href": "/assurance-vtc/paris/" },
+        { "label": "Origine leads", "href": "/crm-sources.html" }
+      ],
+      "source": "etude_marche",
+      "implementedInRepo": true
+    },
+    {
+      "id": "tunnel-immo-4-etapes",
+      "title": "Tunnel immo complet (ticket le plus élevé)",
+      "category": "conversion",
+      "priority": "P1",
+      "status": "in_progress",
+      "revenueType": "honoraires_plus_commissions",
+      "ticketEstimate": "1 500–4 000 € / dossier prêt + ADE",
+      "effort": "élevé",
+      "summary": "Chaîne acquéreur → projection → crédit → assurance emprunteur. Chaque étape capture l’e-mail et peut déposer des pièces sur Drive sécurisé.",
+      "actions": [
+        "Pousser « Projeter ce bien » depuis les annonces acquéreur",
+        "Relancer les leads projection sans suite vers crédit-immo",
+        "Cross-sell MRH post-signature emprunteur"
+      ],
+      "links": [
+        { "label": "Acquéreur", "href": "/landings/acheteur-immo.html" },
+        { "label": "Projection achat", "href": "/landings/projection-achat.html" },
+        { "label": "Crédit immo", "href": "/landings/credit-immo.html#demande" },
+        { "label": "Honoraires immo CRM", "href": "/crm-agency-fees.html" }
+      ],
+      "source": "acquisition_90j",
+      "implementedInRepo": true
+    },
+    {
+      "id": "drive-upload-secure",
+      "title": "Dépôt documents Drive après simulation (conversion dossier)",
+      "category": "conversion",
+      "priority": "P1",
+      "status": "in_progress",
+      "revenueType": "taux_transformation",
+      "ticketEstimate": "+15–25 % conversion dossier → mandat",
+      "effort": "moyen",
+      "summary": "Les prospects qui envoient pièce d’identité + bulletins convertissent mieux. Upload sécurisé JWT + whitelist PDF/images vers votre Google Drive.",
+      "actions": [
+        "Vérifier GOOGLE_SERVICE_ACCOUNT_JSON + JWT_SECRET en prod",
+        "Relancer par e-mail les leads sans pièce à J+2",
+        "Suivre les uploads dans CRM → Documents en attente"
+      ],
+      "links": [
+        { "label": "Pièces en attente", "href": "/crm-pending-documents.html" },
+        { "label": "Setup Drive", "href": "/docs/DRIVE-SETUP.md" }
+      ],
+      "source": "agent_cursor",
+      "implementedInRepo": true,
+      "agentNote": "Branche cursor/drive-upload-secure-857b — panneau post-formulaire sur les 3 landings immo."
+    },
+    {
+      "id": "blog-actu-conversion",
+      "title": "Blog actu → bridge devis (0 € puis scale)",
+      "category": "acquisition",
+      "priority": "P2",
+      "status": "in_progress",
+      "revenueType": "leads_qualifies",
+      "ticketEstimate": "Variable selon vertical",
+      "effort": "faible",
+      "summary": "Pipeline blog:actu:auto 1–5×/jour. Ne payer Meta que sur les articles avec JourneyFormStart organique (meta-blog-conversions.csv).",
+      "actions": [
+        "npm run blog:actu:auto — 1 article/jour minimum",
+        "Promouvoir en Meta uniquement le top 2 du ranking",
+        "Mapper CTA questionnaire dans blog-questionnaire-map.json"
+      ],
+      "links": [
+        { "label": "Blog questionnaires", "href": "/blog-questionnaires.html" },
+        { "label": "CSV blog conversions", "href": "/ads/meta-blog-conversions.csv" },
+        { "label": "Doc acquisition blog", "href": "/docs/ACQUISITION-BLOG-CONVERSION.md" }
+      ],
+      "source": "acquisition_90j",
+      "implementedInRepo": true
+    },
+    {
+      "id": "lemoine-emprunteur",
+      "title": "Loi Lemoine — économies assurance emprunteur",
+      "category": "produit",
+      "priority": "P2",
+      "status": "planned",
+      "revenueType": "commission",
+      "ticketEstimate": "300–800 € / dossier",
+      "effort": "faible",
+      "summary": "Intent chaud : emprunteurs en place qui veulent baisser leur ADE. Rotation Meta semaine 4 credit_lemoine + articles blog dédiés.",
+      "actions": [
+        "Activer slot rotation credit_lemoine",
+        "Landing #formules + calculateur économies",
+        "Cibler les leads crédit existants sans ADE chez vous"
+      ],
+      "links": [
+        { "label": "Crédit #formules", "href": "/landings/credit-immo.html#formules" },
+        { "label": "Pipeline acquisition", "href": "/crm-acquisition.html" }
+      ],
+      "source": "etude_marche",
+      "implementedInRepo": false
+    },
+    {
+      "id": "nancy-bassin-seo",
+      "title": "SEO local Nancy / 54 — acquéreurs & vendeurs",
+      "category": "acquisition",
+      "priority": "P2",
+      "status": "in_progress",
+      "revenueType": "leads_locaux",
+      "ticketEstimate": "Honoraires agence + prêt bassin nancéien",
+      "effort": "moyen",
+      "summary": "Hub nancy-metropole, articles blog, estimation DVF Varangeville/Dombasle. Trafic organique gratuit vers bureau Varangeville.",
+      "actions": [
+        "Soumettre URLs GSC npm run gsc:urls",
+        "Relier estimation DVF → formulaire vendeur",
+        "Publier 1 actu locale / semaine avec angle 54"
+      ],
+      "links": [
+        { "label": "Hub Nancy", "href": "/immobilier/nancy-metropole/" },
+        { "label": "Estimation vente", "href": "/landings/estimation-vente.html" }
+      ],
+      "source": "agent_cursor",
+      "implementedInRepo": true,
+      "agentNote": "Branches SEO Nancy + DVF estimation — PRs séparées."
+    },
+    {
+      "id": "vsp-matching-prive",
+      "title": "VSP privé — matching partenaire discret",
+      "category": "partenariat",
+      "priority": "P2",
+      "status": "planned",
+      "revenueType": "commission",
+      "ticketEstimate": "150–250 € / contrat",
+      "effort": "faible",
+      "summary": "Profils citadins / jeunes conducteurs hors comparateurs publics. Outil interne sans exposer les règles grossiste.",
+      "actions": [
+        "Traiter les leads VTC score < 40 via matching privé",
+        "Campagne meta-vsp-discret.csv",
+        "Suivi dans crm-private-offer-matching"
+      ],
+      "links": [
+        { "label": "Matching VSP", "href": "/crm-private-offer-matching.html" },
+        { "label": "CSV Meta VSP", "href": "/ads/meta-vsp-discret.csv" }
+      ],
+      "source": "etude_marche",
+      "implementedInRepo": true
+    },
+    {
+      "id": "niches-animaux-seo",
+      "title": "Niches animaux / chasse / équitation — SEO longue traîne",
+      "category": "acquisition",
+      "priority": "P3",
+      "status": "in_progress",
+      "revenueType": "commission",
+      "ticketEstimate": "30–80 € / contrat",
+      "effort": "faible",
+      "summary": "189 villes, CPC quasi nul. Teasers tarifs dans data/niche-tariffs-animaux.json. Volume faible mais marge acquisition nulle.",
+      "actions": [
+        "Maintenir pages niches à jour",
+        "Cross-sell mutuelle / MRH depuis landing animaux",
+        "Publier 1 comparatif saisonnier / trimestre"
+      ],
+      "links": [
+        { "label": "Landing animaux", "href": "/landings/animaux.html" },
+        { "label": "Dashboard niches", "href": "/niches/" }
+      ],
+      "source": "etude_marche",
+      "implementedInRepo": true
+    },
+    {
+      "id": "stripe-acompte-devis",
+      "title": "Acompte devis Stripe (trésorerie immédiate)",
+      "category": "produit",
+      "priority": "P2",
+      "status": "planned",
+      "revenueType": "encaissement_direct",
+      "ticketEstimate": "50–200 € / acompte",
+      "effort": "faible",
+      "summary": "crm-quote-payment.html permet d’encaisser un acompte avant production du dossier. Réduit les no-shows.",
+      "actions": [
+        "Proposer acompte sur devis > 500 €",
+        "Automatiser le lien paiement dans l’e-mail devis",
+        "Suivre encaissements crm-financial-payments"
+      ],
+      "links": [
+        { "label": "Paiement devis", "href": "/crm-quote-payment.html" },
+        { "label": "Encaissements", "href": "/crm-financial-payments.html" }
+      ],
+      "source": "agent_cursor",
+      "implementedInRepo": true,
+      "agentNote": "Module existant — à systématiser sur les gros dossiers immo."
+    },
+    {
+      "id": "relance-leads-dormants",
+      "title": "Relance leads dormants > 72 h (CRM acquisition)",
+      "category": "conversion",
+      "priority": "P1",
+      "status": "idea",
+      "revenueType": "taux_transformation",
+      "ticketEstimate": "10–30 % des leads « perdus »",
+      "effort": "faible",
+      "summary": "Filtre « Leads dormants » déjà dans crm-acquisition. Relancer par SMS/e-mail les non ouverts avec lien rappel express.",
+      "actions": [
+        "Chaque matin : vue unopened + dormant",
+        "Envoyer landings/rappel.html?need=… par SMS",
+        "Marquer relancé dans pipeline"
+      ],
+      "links": [
+        { "label": "Pipeline acquisition", "href": "/crm-acquisition.html?view=unopened" },
+        { "label": "Rappel express", "href": "/landings/rappel.html" }
+      ],
+      "source": "agent_cursor",
+      "implementedInRepo": false,
+      "agentNote": "Quick win manuel dès aujourd’hui — automatisation Resend possible ensuite."
+    },
+    {
+      "id": "saas-white-label",
+      "title": "SaaS white-label CRM courtiers",
+      "category": "saas",
+      "priority": "P3",
+      "status": "idea",
+      "revenueType": "abonnement",
+      "ticketEstimate": "99–499 € / mois / cabinet",
+      "effort": "élevé",
+      "summary": "Packager le stack leads + CRM + prêts pour cabinets immo/crédit qui ne veulent pas développer.",
+      "actions": [
+        "Définir offre Starter vs Courtier vs Réseau",
+        "Isoler multi-tenant (Neon par client)",
+        "Page commerciale + démo"
+      ],
+      "links": [
+        { "label": "Doc SaaS revente", "href": "/docs/SAAS-REVENTE.md" }
+      ],
+      "source": "etude_marche",
+      "implementedInRepo": false
+    },
+    {
+      "id": "hub-revenus-crm",
+      "title": "Hub Revenus & opportunités (ce registre)",
+      "category": "agent",
+      "priority": "P1",
+      "status": "in_progress",
+      "revenueType": "pilotage",
+      "ticketEstimate": "—",
+      "effort": "faible",
+      "summary": "Page CRM centralisée pour suivre les pistes monétaires, le CPL Meta live et marquer ce qui est fait / à faire.",
+      "actions": [
+        "Consulter chaque lundi et prioriser P1",
+        "Ajouter vos propres idées via le formulaire",
+        "Demander à l’agent Cursor d’en implémenter une"
+      ],
+      "links": [
+        { "label": "Hub revenus", "href": "/crm-revenue-opportunities.html" },
+        { "label": "Priorités 90j", "href": "/docs/ACQUISITION-PRIORITES-90J.md" }
+      ],
+      "source": "agent_cursor",
+      "implementedInRepo": true,
+      "agentNote": "Créé le 18/08/2026 — registre data/revenue-opportunities.json."
+    }
+  ]
+}

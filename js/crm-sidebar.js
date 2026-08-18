@@ -30,6 +30,7 @@ window.CrmSidebar = {
 
   FAVORITES: [
     { href: "./dashboard.html?section=leads", label: "Leads", icon: "leads" },
+    { href: "./crm-revenue-opportunities.html", label: "Revenus & opportunités", icon: "financial", badge: "€" },
     { href: "./crm-pubs.html", label: "Gestion pubs", icon: "social", badge: "1€/j" },
     { href: "./crm-sources.html", label: "Origine leads", icon: "stats" },
     { href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats" },
@@ -49,6 +50,7 @@ window.CrmSidebar = {
       items: [
         { type: "section", id: "overview", label: "Tableau de bord", icon: "overview", desc: "Vue d'ensemble CRM", keywords: "dashboard accueil cockpit" },
         { type: "link", href: "./crm-search.html", label: "Recherche universelle", icon: "search", desc: "Contacts, dossiers, événements", keywords: "global search transverse" },
+        { type: "link", href: "./crm-revenue-opportunities.html", label: "Revenus & opportunités", icon: "financial", badge: "€", highlight: true, desc: "Idées monétisation, CPL live, registre agent" },
         { type: "link", href: "./crm-statistics.html", label: "Statistiques", icon: "stats", desc: "Performance commerciale" },
         { type: "link", href: "./crm-statistics-reports.html", label: "Rapports", icon: "stats", desc: "Analyses détaillées" },
         { type: "link", href: "./crm-statistics-export.html", label: "Exports statistiques", icon: "stats" },

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Revenus &amp; opportunités | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-revenue-opportunities.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Pilotage · Monétisation</p>
+      <h2>Revenus &amp; opportunités</h2>
+      <p>
+        Registre des pistes pour gagner de l’argent — pubs, tunnels, partenariats, SaaS.
+        Les idées <strong>Agent Cursor</strong> sont proposées lors des sessions de développement.
+      </p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-acquisition.html" class="btn btn-primary">Pipeline acquisition</a>
+      <a href="./crm-pubs.html" class="btn btn-ghost">Gestion pubs</a>
+      <a href="./crm-financial.html" class="btn btn-ghost">Financier</a>
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine leads</a>
+    </div>
+  </section>
+
+  <div id="revLiveKpis" class="rev-kpis"></div>
+
+  <section class="crm-page-panel" id="revMetaPanel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Live</p>
+        <h2>Meta rotation &amp; CPL</h2>
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnRevRefreshMeta">Actualiser</button>
+    </div>
+    <p class="rev-meta-live" id="revMetaSummary">Chargement…</p>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="rev-toolbar">
+      <input type="search" id="revSearch" class="crm-input" placeholder="Rechercher une idée…" style="flex:1;max-width:280px" />
+      <select id="revFilterPriority" class="crm-input">
+        <option value="">Toutes priorités</option>
+        <option value="P1">P1 — urgent</option>
+        <option value="P2">P2</option>
+        <option value="P3">P3</option>
+      </select>
+      <select id="revFilterStatus" class="crm-input">
+        <option value="">Tous statuts</option>
+        <option value="idea">Idée</option>
+        <option value="planned">Planifié</option>
+        <option value="in_progress">En cours</option>
+        <option value="done">Fait</option>
+        <option value="paused">En pause</option>
+      </select>
+    </div>
+    <div class="rev-chips" id="revCategoryChips"></div>
+    <div class="rev-grid" id="revIdeasGrid"></div>
+    <p class="rev-empty" id="revEmpty" hidden>Aucune idée ne correspond aux filtres.</p>
+  </section>
+
+  <section class="crm-page-panel rev-add-panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Vos idées</p>
+        <h2>Ajouter une opportunité</h2>
+      </div>
+    </div>
+    <p class="small" style="color:#64748b;margin:0 0 12px">
+      Stockées localement sur ce navigateur. Pour une idée à implémenter par l’agent, décrivez-la clairement (vertical, ticket visé, lien landing).
+    </p>
+    <form id="revAddForm">
+      <label>Titre<input name="title" class="crm-input" required placeholder="Ex. Relance SMS leads VTC IDF" /></label>
+      <label style="display:block;margin-top:10px">Catégorie
+        <select name="category" class="crm-input">
+          <option value="acquisition">Acquisition</option>
+          <option value="conversion">Conversion</option>
+          <option value="produit">Produit</option>
+          <option value="partenariat">Partenariat</option>
+          <option value="saas">SaaS</option>
+          <option value="agent">Idée perso / agent</option>
+        </select>
+      </label>
+      <label style="display:block;margin-top:10px">Priorité
+        <select name="priority" class="crm-input">
+          <option value="P1">P1</option>
+          <option value="P2" selected>P2</option>
+          <option value="P3">P3</option>
+        </select>
+      </label>
+      <label style="display:block;margin-top:10px">Ticket estimé<input name="ticketEstimate" class="crm-input" placeholder="Ex. 200 € / contrat" /></label>
+      <label style="display:block;margin-top:10px">Description<textarea name="summary" class="crm-input" required placeholder="En quoi ça rapporte, et quelle est la prochaine action ?"></textarea></label>
+      <button type="submit" class="btn btn-primary" style="margin-top:12px">Ajouter à mon registre</button>
+    </form>
+  </section>
+
+  <div class="crm-module-grid" style="margin-top:20px">
+    <a class="crm-module-card" href="./docs/ACQUISITION-PRIORITES-90J.md"><strong>Priorités 90 jours</strong><span>Checklist exécution été 2026</span></a>
+    <a class="crm-module-card" href="./docs/ETUDE-MARCHE-LEADS-OPPORTUNITIES.md"><strong>Étude marché</strong><span>SWOT, verticals, rentabilité</span></a>
+    <a class="crm-module-card" href="./docs/ACQUISITION-BLOG-CONVERSION.md"><strong>Blog → conversion</strong><span>Phase 0 € puis scale Meta</span></a>
+    <a class="crm-module-card" href="./ads/budget-paliers.md"><strong>Budget paliers</strong><span>Quand augmenter les dépenses pub</span></a>
+    <a class="crm-module-card" href="./crm-statistics.html"><strong>Statistiques CRM</strong><span>Leads, devis, contrats</span></a>
+    <a class="crm-module-card" href="./crm-kanban.html"><strong>Kanban pipeline</strong><span>Opportunités commerciales en cours</span></a>
+  </div>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-revenue-opportunities.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>
