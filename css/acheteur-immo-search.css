@@ -336,7 +336,8 @@
 }
 .immo-hats .search-mode-tabs { margin-bottom: 8px; }
 [data-hat-vendeur-only],
-[data-hat-dual-only] {
+[data-hat-dual-only],
+[data-hat-signalement-only] {
   display: none;
 }
 html[data-immo-hat="vendeur"] [data-hat-vendeur-only],
@@ -344,9 +345,20 @@ html[data-immo-hat="les_deux"] [data-hat-vendeur-only],
 html[data-immo-hat="les_deux"] [data-hat-dual-only] {
   display: block;
 }
+html[data-immo-hat="signalement"] [data-hat-signalement-only] {
+  display: block;
+}
 html[data-immo-hat="vendeur"] [data-hat-acheteur-only],
 html[data-immo-hat="les_deux"] [data-hat-acheteur-only],
+html[data-immo-hat="signalement"] [data-hat-acheteur-only],
+html[data-immo-hat="signalement"] [data-hat-vendeur-only],
+html[data-immo-hat="signalement"] [data-hat-dual-only],
+html[data-immo-hat="signalement"] [data-url-block],
+html[data-immo-hat="signalement"] [data-listing-mode-wrap],
 html[data-immo-hat="vendeur"] #dossier {
+  display: none !important;
+}
+html[data-immo-hat="signalement"] #dossier {
   display: none !important;
 }
 

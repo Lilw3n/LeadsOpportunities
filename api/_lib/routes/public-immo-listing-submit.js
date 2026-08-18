@@ -24,6 +24,9 @@ function normalizeRole(v) {
   var s = String(v || "")
     .toLowerCase()
     .replace(/-/g, "_");
+  if (s === "signalement" || s === "temoin" || s === "témoin" || s === "chasseur" || s === "tip") {
+    return "signalement";
+  }
   if (s === "vendeur" || s === "seller" || s === "vendeur_immo") return "vendeur";
   if (s === "les_deux" || s === "both" || s === "acheteur_vendeur" || s === "acheteur_vendeur_immo") {
     return "les_deux";
@@ -55,15 +58,24 @@ function manualDetection() {
 }
 
 function needForRole(role) {
+  if (role === "signalement") return "signalement-bien";
   if (role === "vendeur") return "vendeur-immo";
   if (role === "les_deux") return "acheteur-vendeur-immo";
   return "acheteur-immo";
 }
 
 function verticalForRole(role) {
+  if (role === "signalement") return "chasseur_immo";
   if (role === "vendeur") return "vendeur_immo";
   if (role === "les_deux") return "acheteur_vendeur_immo";
   return "acheteur_immo";
+}
+
+function hatsForRole(role) {
+  if (role === "les_deux") return ["vendeur", "acquereur"];
+  if (role === "vendeur") return ["vendeur"];
+  if (role === "signalement") return ["signalement", "chasseur"];
+  return ["acquereur"];
 }
 
 module.exports = async function publicImmoListingSubmit(req, res) {
@@ -98,6 +110,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   }
 
   var role = normalizeRole(body.role || body.hat || body.immoHat);
+  var isSignalement = role === "signalement";
   var isOwner = role === "vendeur" || role === "les_deux";
   var alsoBuys = role === "les_deux" || body.alsoBuys === true || body.alsoBuys === "1";
   if (alsoBuys && role === "vendeur") role = "les_deux";
@@ -131,9 +144,14 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var sellerName = str(body.sellerName || body.vendeurNom, 120);
   var sellerPhone = str(body.sellerPhone || body.vendeurTel, 40);
   var sellerEmail = str(body.sellerEmail || body.vendeurEmail, 320).toLowerCase();
+  var signalementSource = str(body.signalementSource || body.signalement_source, 80);
+  var addressHint = str(body.addressHint || body.address_hint || body.adresse, 200);
+
   var sellerAgency = str(body.sellerAgency || body.agence, 120);
 
-  if (isOwner) {
+  if (isSignalement) {
+    sellerName = sellerName || "Vendeur (non identifié)";
+  } else if (isOwner) {
     sellerName = sellerName || personName || "Vendeur";
     sellerPhone = sellerPhone || phone;
     sellerEmail = sellerEmail || email;
@@ -148,10 +166,16 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var wantsRelais = body.wantsRelais === true || body.wantsRelais === "1" || body.pretRelais === true;
 
   var detections = collectDetections(body);
-  var hasManualBits = !!(city || description || photos.length || price);
+  var hasManualBits = !!(city || description || photos.length || price || addressHint);
   if (!detections.length) {
-    if (isOwner && hasManualBits) {
+    if ((isOwner || isSignalement) && hasManualBits) {
       detections = [manualDetection()];
+    } else if (isSignalement) {
+      return res.status(400).json({
+        ok: false,
+        error: "signalement_incomplete",
+        message: "Indiquez la ville du bien et au moins une photo ou une description.",
+      });
     } else {
       return res.status(400).json({
         ok: false,
@@ -163,17 +187,28 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     }
   }
 
-  if (isOwner && !city) {
+  if ((isOwner || isSignalement) && !city) {
     return res.status(400).json({
       ok: false,
       error: "city_required",
-      message: "Indiquez la ville du bien à vendre.",
+      message: isSignalement
+        ? "Indiquez la ville ou la commune du bien signalé."
+        : "Indiquez la ville du bien à vendre.",
+    });
+  }
+
+  if (isSignalement && !photos.length && !description) {
+    return res.status(400).json({
+      ok: false,
+      error: "photo_or_desc_required",
+      message: "Ajoutez au moins une photo ou une courte description du bien.",
     });
   }
 
   var need = needForRole(role);
   var vertical = verticalForRole(role);
-  var leadScore = role === "les_deux" ? 85 : isOwner ? 75 : sellerPhone || sellerEmail ? 70 : 55;
+  var leadScore =
+    role === "les_deux" ? 85 : isOwner ? 75 : isSignalement ? (photos.length ? 72 : 62) : sellerPhone || sellerEmail ? 70 : 55;
   var leadId = crypto.randomUUID();
   var propertyIds = [];
   var criteriaId = null;
@@ -186,14 +221,24 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
       for (var i = 0; i < detections.length; i++) {
         var d = detections[i];
-        var origin = d.portal === "manual" ? "public_listing_manual" : "public_listing_url";
+        var origin = isSignalement
+          ? "public_signalement_chasseur"
+          : d.portal === "manual"
+            ? "public_listing_manual"
+            : "public_listing_url";
         var titleBits = [
-          isOwner ? "Bien vendeur" : d.label,
+          isSignalement ? "Signalement chasseur" : isOwner ? "Bien vendeur" : d.label,
           city || d.host,
           price ? Math.round(price) + " €" : "",
         ].filter(Boolean);
         var notesBits = [
-          isOwner ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")." : "Soumis via URL publique. Portail : " + d.label,
+          isSignalement
+            ? "Signalement tiers (chasseur de bien)." +
+              (signalementSource ? " Source : " + signalementSource + "." : "") +
+              (addressHint ? " Adresse / repère : " + addressHint + "." : "")
+            : isOwner
+              ? "Dépôt vendeur (" + (d.portal === "manual" ? "saisie manuelle" : d.label) + ")."
+              : "Soumis via URL publique. Portail : " + d.label,
           d.listingId ? "#" + d.listingId : "",
           role === "les_deux" ? "Double casquette : vend et rachète." : "",
           wantsRelais ? "Intérêt prêt relais / chaîne." : "",
@@ -205,7 +250,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         var propId = await store.upsertProperty(
           sql,
           {
-            title: titleBits.join(" · ") || (isOwner ? "Bien à vendre" : "Annonce " + d.label),
+            title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : isOwner ? "Bien à vendre" : "Annonce " + d.label),
             property_type: propertyType,
             status: "prospection",
             listing_source: d.portal || "manual",
@@ -227,7 +272,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             metadata: {
               origin: origin,
               role: role,
-              hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+              hats: hatsForRole(role),
               portal: d.portal,
               listingId: d.listingId,
               sellerKind: sellerKind,
@@ -247,7 +292,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         );
         propertyIds.push(propId);
 
-        if (isOwner || sellerName || sellerPhone || sellerEmail) {
+        if (!isSignalement && (isOwner || sellerName || sellerPhone || sellerEmail)) {
           await store.upsertParty(sql, {
             property_id: propId,
             role: "vendeur",
@@ -259,6 +304,20 @@ module.exports = async function publicImmoListingSubmit(req, res) {
               : sellerAgency
                 ? "Agence : " + sellerAgency
                 : "Infos collées depuis l'annonce",
+          });
+        }
+
+        if (isSignalement) {
+          await store.upsertParty(sql, {
+            property_id: propId,
+            role: "signaleur",
+            name: personName || "Signaleur",
+            email: email || null,
+            phone: phone || null,
+            notes:
+              "Signalement chasseur de bien" +
+              (signalementSource ? " — source : " + signalementSource : "") +
+              (addressHint ? " — repère : " + addressHint : ""),
           });
         }
 
@@ -318,7 +377,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           ${JSON.stringify({
             need: need,
             role: role,
-            hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+            hats: hatsForRole(role),
             listingUrls: detections.map(function (d) {
               return d.url;
             }).filter(Boolean),
@@ -344,6 +403,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             wantsRelais: wantsRelais,
             buyCity: buyCity,
             buyBudgetMax: buyBudget,
+            signalementSource: signalementSource,
+            addressHint: addressHint,
           })},
           ${"site_web"},
           ${"new"},
@@ -363,7 +424,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     ok: true,
     leadId: leadId,
     role: role,
-    hats: role === "les_deux" ? ["vendeur", "acquereur"] : isOwner ? ["vendeur"] : ["acquereur"],
+    hats: hatsForRole(role),
     received: detections.length,
     propertyIds: propertyIds,
     criteriaId: criteriaId,

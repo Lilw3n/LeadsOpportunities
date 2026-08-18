@@ -64,6 +64,20 @@
       vertical: "acheteur_vendeur_immo",
       landing: "./landings/acheteur-immo.html?role=les_deux",
     },
+    "signalement-bien": {
+      need: "signalement-bien",
+      label: "Signaler un bien en vente",
+      category: "finance",
+      vertical: "chasseur_immo",
+      landing: "./landings/chasseur-bien.html",
+    },
+    "chasseur-bien": {
+      need: "signalement-bien",
+      label: "Chasseur de bien immobilier",
+      category: "finance",
+      vertical: "chasseur_immo",
+      landing: "./landings/chasseur-bien.html",
+    },
     "projection-achat": {
       need: "credit-immo",
       label: "Projection cout reel achat",
@@ -185,6 +199,8 @@
     "acheteur-immo": "./landings/acheteur-immo.html",
     "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
     "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
+    "signalement-bien": "./landings/chasseur-bien.html",
+    "chasseur-bien": "./landings/chasseur-bien.html",
     "projection-achat": "./landings/projection-achat.html",
   };
 
@@ -197,6 +213,8 @@
     "acheteur-immo": "./landings/acheteur-immo.html",
     "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
     "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
+    "signalement-bien": "./landings/chasseur-bien.html",
+    "chasseur-bien": "./landings/chasseur-bien.html",
     "projection-achat": "./landings/projection-achat.html",
   };
 

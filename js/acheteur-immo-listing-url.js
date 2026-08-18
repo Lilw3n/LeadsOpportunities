@@ -134,6 +134,16 @@
       details: "Précisions (visite, offre, questions)",
       hint: "Vous cherchez un bien : filtrez la vitrine ou collez une URL déjà vue.",
     },
+    signalement: {
+      kicker: "Signalement terrain",
+      title: "Signalez un bien à vendre",
+      intro:
+        "Panneau « À vendre », maison vue de passage, annonce papier… Photo + ville suffisent. Nous enquêtons comme un chasseur de bien — sans promesse de mandat.",
+      submit: "Envoyer le signalement",
+      coords: "Vos coordonnées (pour vous recontacter si besoin)",
+      details: "Ce que vous avez observé (état, panneau, voisin…)",
+      hint: "Vous n'êtes pas le vendeur : vous nous aidez à repérer une opportunité pour nos acquéreurs.",
+    },
     vendeur: {
       kicker: "Vous vendez",
       title: "Déposez votre bien",
@@ -156,7 +166,7 @@
 
   function applyHat(hat) {
     hat = hat || currentHat();
-    if (hat !== "vendeur" && hat !== "les_deux") hat = "acheteur";
+    if (hat !== "vendeur" && hat !== "les_deux" && hat !== "signalement") hat = "acheteur";
     document.documentElement.setAttribute("data-immo-hat", hat);
     var roleInput = document.querySelector("[data-hat-role]");
     if (roleInput) roleInput.value = hat;
@@ -174,11 +184,13 @@
     setTxt("[data-hat-hint]", copy.hint);
     var hatRadio = document.querySelector("[name='immoHat'][value='" + hat + "']");
     if (hatRadio) hatRadio.checked = true;
-    if (hat !== "acheteur") {
+    if (hat === "signalement" || hat === "vendeur" || hat === "les_deux") {
       var manuel = document.querySelector("[name='listingMode'][value='manuel']");
       var urlMode = document.querySelector("[name='listingMode'][value='url']");
       var urlsEl = document.querySelector("[data-listing-urls]");
-      if (manuel && urlMode && urlMode.checked && urlsEl && !String(urlsEl.value || "").trim()) {
+      if (hat === "signalement" && manuel) {
+        manuel.checked = true;
+      } else if (manuel && urlMode && urlMode.checked && urlsEl && !String(urlsEl.value || "").trim()) {
         manuel.checked = true;
       }
     }
@@ -186,8 +198,16 @@
   }
 
   function applyListingMode() {
+    var hat = document.documentElement.getAttribute("data-immo-hat") || currentHat();
     var mode = radioVal(document, "listingMode") || "url";
     var block = document.querySelector("[data-url-block]");
+    var modeWrap = document.querySelector("[data-listing-mode-wrap]");
+    if (hat === "signalement") {
+      if (block) block.hidden = true;
+      if (modeWrap) modeWrap.hidden = true;
+      return;
+    }
+    if (modeWrap) modeWrap.hidden = false;
     if (block) block.hidden = mode === "manuel";
   }
 
@@ -196,7 +216,11 @@
     document.documentElement.dataset.immoHatsBound = "1";
     var params = new URLSearchParams(window.location.search);
     var role = (params.get("role") || params.get("hat") || "").toLowerCase();
+    var presetHat = document.documentElement.getAttribute("data-immo-hat");
+    var presetSignalement = document.querySelector("[name='immoHat'][value='signalement']:checked");
     if (role === "vendeur" || role === "seller") applyHat("vendeur");
+    else if (role === "signalement" || role === "temoin" || role === "chasseur" || presetSignalement || presetHat === "signalement")
+      applyHat("signalement");
     else if (role === "les_deux" || role === "both" || role === "acheteur-vendeur") applyHat("les_deux");
     else applyHat("acheteur");
     document.querySelectorAll("[name='immoHat']").forEach(function (el) {
@@ -374,21 +398,31 @@
       if (ok) ok.hidden = true;
       var hat = val(form, "role") || currentHat();
       var isOwner = hat === "vendeur" || hat === "les_deux";
+      var isSignalement = hat === "signalement";
       var urlsText = area ? area.value : "";
       var hits = Portals.detectMany(urlsText).filter(function (d) {
         return d.ok;
       });
-      if (!hits.length && !isOwner) {
+      if (!hits.length && !isOwner && !isSignalement) {
         if (err) {
           err.hidden = false;
           err.textContent = "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).";
         }
         return;
       }
-      if (isOwner && !val(form, "city") && !hits.length) {
+      if ((isOwner || isSignalement) && !val(form, "city") && !hits.length) {
         if (err) {
           err.hidden = false;
-          err.textContent = "Indiquez la ville du bien, ou collez l'URL de votre annonce.";
+          err.textContent = isSignalement
+            ? "Indiquez la ville du bien signalé."
+            : "Indiquez la ville du bien, ou collez l'URL de votre annonce.";
+        }
+        return;
+      }
+      if (isSignalement && !mediaList(state).length && !val(form, "description")) {
+        if (err) {
+          err.hidden = false;
+          err.textContent = "Ajoutez au moins une photo ou une description du bien.";
         }
         return;
       }
@@ -416,6 +450,8 @@
         sellerPhone: val(form, "sellerPhone"),
         sellerEmail: val(form, "sellerEmail"),
         sellerAgency: val(form, "sellerAgency") || val(form, "sellerAgencyThird"),
+        signalementSource: val(form, "signalementSource"),
+        addressHint: val(form, "addressHint"),
         details: val(form, "details"),
         buyCity: val(form, "buyCity"),
         buyPostal: val(form, "buyPostal"),
@@ -426,8 +462,22 @@
         wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
         photos: mediaList(state),
         _hp: val(form, "_hp"),
-        need: hat === "vendeur" ? "vendeur-immo" : hat === "les_deux" ? "acheteur-vendeur-immo" : "acheteur-immo",
-        vertical: hat === "vendeur" ? "vendeur_immo" : hat === "les_deux" ? "acheteur_vendeur_immo" : "acheteur_immo",
+        need:
+          hat === "signalement"
+            ? "signalement-bien"
+            : hat === "vendeur"
+              ? "vendeur-immo"
+              : hat === "les_deux"
+                ? "acheteur-vendeur-immo"
+                : "acheteur-immo",
+        vertical:
+          hat === "signalement"
+            ? "chasseur_immo"
+            : hat === "vendeur"
+              ? "vendeur_immo"
+              : hat === "les_deux"
+                ? "acheteur_vendeur_immo"
+                : "acheteur_immo",
       };
       if (!payload.email && !payload.phone) {
         if (err) {

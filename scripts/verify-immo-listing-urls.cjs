@@ -57,6 +57,7 @@ assert(
 var html = read("landings/acheteur-immo.html");
 assert(html.indexOf("data-listing-url-capture") !== -1, "landing : bloc coller URL");
 assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes vendeur / acquéreur");
+assert(html.indexOf('value="signalement"') !== -1, "landing : casquette signalement");
 assert(html.indexOf("data-hat-dual-only") !== -1, "landing : double casquette vend + rachète");
 assert(html.indexOf("listingMode") !== -1, "landing : saisie manuelle ou URL");
 assert(html.indexOf("immo-listing-portals-lib.js") !== -1, "landing charge le catalogue");
@@ -178,6 +179,19 @@ Promise.resolve()
       c.body.hats && c.body.hats.indexOf("vendeur") !== -1 && c.body.hats.indexOf("acquereur") !== -1,
       "deux casquettes"
     );
+    var tinyJpeg =
+      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP///wD/2wBDAf///wD/wgARCAABAAEDAREAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAG/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AfwD/2Q==";
+    return call({
+      role: "signalement",
+      email: "signaleur@example.fr",
+      city: "Varangeville",
+      signalementSource: "passage",
+      photos: [{ url: tinyJpeg, kind: "photo" }],
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API signalement chasseur");
+    assert(c.body.role === "signalement", "rôle signalement");
     return call({ urls: ["https://www.leboncoin.fr/ad/x/1"], email: "a@b.fr", _hp: "bot" });
   })
   .then(function (c) {

@@ -101,8 +101,12 @@
               <input type="radio" name="immoHat" value="les_deux" />
               <span>Je vends et je rachète</span>
             </label>
+            <label class="search-mode-tab">
+              <input type="radio" name="immoHat" value="signalement" />
+              <span>Je signale un bien en vente</span>
+            </label>
           </div>
-          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : on capte le vendeur, l'acquéreur, ou les deux.</p>
+          <p class="listings-intro" data-hat-hint>Choisissez votre casquette : acquéreur, vendeur, les deux — ou signalement terrain (chasseur de bien).</p>
         </div>
 
         <div class="listings-wrap" id="recherche" data-immo-search>
@@ -164,8 +168,8 @@
               <label for="hp_listing_url">Ne pas remplir</label>
               <input type="text" id="hp_listing_url" name="_hp" tabindex="-1" autocomplete="off" />
             </div>
-            <p class="search-section-label">Comment déposer le bien</p>
-            <div class="search-mode-tabs" role="radiogroup" aria-label="Mode de dépôt">
+            <p class="search-section-label" data-listing-mode-label>Comment déposer le bien</p>
+            <div class="search-mode-tabs" role="radiogroup" aria-label="Mode de dépôt" data-listing-mode-wrap>
               <label class="search-mode-tab">
                 <input type="radio" name="listingMode" value="url" checked data-listing-mode />
                 <span>J'ai une URL d'annonce</span>
@@ -232,8 +236,23 @@
                 <label for="urlDescription">Description</label>
                 <textarea id="urlDescription" name="description" rows="4" placeholder="Pièces, jardin, parking, proximité commerces, travaux…"></textarea>
               </div>
+              <div class="field" data-hat-signalement-only hidden>
+                <label for="signalement-source">Comment avez-vous vu ce bien ?</label>
+                <select id="signalement-source" name="signalementSource">
+                  <option value="">— Choisir —</option>
+                  <option value="panneau">Panneau « À vendre »</option>
+                  <option value="voisin">Voisin / connaissance</option>
+                  <option value="passage">Vu en passant</option>
+                  <option value="reseau">Réseau / bouche-à-oreille</option>
+                  <option value="autre">Autre</option>
+                </select>
+              </div>
+              <div class="field full" data-hat-signalement-only hidden>
+                <label for="address-hint">Adresse ou repère (optionnel)</label>
+                <input id="address-hint" name="addressHint" placeholder="ex. 12 rue …, quartier …" autocomplete="street-address" />
+              </div>
             </div>
-            <p class="search-section-label" style="margin-top:16px">Photos et capture</p>
+            <p class="search-section-label" style="margin-top:16px" data-photos-label>Photos et capture</p>
             <div class="grid">
               <div class="field">
                 <label for="urlPhotos">Photos du bien (max 4)</label>

@@ -15,6 +15,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/sante.html",
   "/landings/credit-immo.html",
   "/landings/acheteur-immo.html",
+  "/landings/chasseur-bien.html",
   "/landings/projection-achat.html",
   "/landings/devis.html",
   "/landings/rappel.html",

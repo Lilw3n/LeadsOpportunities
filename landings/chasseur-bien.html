@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="fr" data-immo-hat="signalement">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chasseur de bien immobilier | Signalez un bien à vendre avec photo</title>
+  <meta name="description" content="Vous avez vu un panneau À vendre, une maison vide ou un bien à rénover ? Signalez-le avec une photo. Nous enquêtons comme un chasseur de bien pour nos acquéreurs — sans promesse de mandat." />
+  <meta name="robots" content="index,follow" />
+  <meta name="geo.region" content="FR" />
+  <meta name="language" content="fr-FR" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/landings/chasseur-bien.html" />
+  <link rel="alternate" hreflang="fr-FR" href="https://www.leadsopportunities.fr/landings/chasseur-bien.html" />
+  <meta property="og:title" content="Chasseur de bien immobilier | Leads Opportunities" />
+  <meta property="og:description" content="Signalement terrain : photo + ville. Nous croisons avec les acquéreurs en recherche — comme un détective sur le bien." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:url" content="https://www.leadsopportunities.fr/landings/chasseur-bien.html" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JX8E35693F');
+  </script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <script type="text/javascript">
+(function(){
+  var K="lo_cookie_consent_v1";
+  function ok(){try{return localStorage.getItem(K)!=="essential";}catch(e){return true;}}
+  window.clarity=window.clarity||function(){(window.clarity.q=window.clarity.q||[]).push(arguments);};
+  var g=ok();
+  window.clarity("consentv2",{ad_Storage:g?"granted":"denied",analytics_Storage:g?"granted":"denied"});
+  if(document.getElementById("clarity-script"))return;
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments);};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;t.id="clarity-script";
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window,document,"clarity","script","x7yqp46fj9");
+})();
+  </script>
+  <script src="/js/clarity-init.js" defer></script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../css/geo-france-banner.css" />
+  <link rel="stylesheet" href="../css/acheteur-immo-search.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
+  <style>
+    .chasseur-hero { margin-bottom: 24px; }
+    .chasseur-hero h1 { font-size: clamp(1.45rem, 4vw, 1.95rem); line-height: 1.2; margin: 0 0 12px; }
+    .chasseur-hero .sub { color: #475569; line-height: 1.55; margin: 0; }
+    .chasseur-disclaimer {
+      background: #fff7ed; border: 1px solid #fdba74; color: #9a3412;
+      padding: 12px 14px; border-radius: 10px; font-size: .9rem; line-height: 1.5; margin: 20px 0;
+    }
+    .chasseur-steps { display: grid; gap: 14px; margin: 24px 0; }
+    @media (min-width: 640px) { .chasseur-steps { grid-template-columns: repeat(3, 1fr); } }
+    .chasseur-step {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px;
+    }
+    .chasseur-step strong { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: #0d9488; margin-bottom: 6px; }
+    .chasseur-step h3 { margin: 0 0 6px; font-size: 1rem; }
+    .chasseur-step p { margin: 0; font-size: .88rem; color: #64748b; line-height: 1.45; }
+    .chasseur-links { display: flex; flex-wrap: wrap; gap: 10px; margin: 20px 0 0; }
+    .chasseur-faq details { border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; background: #fff; }
+    .chasseur-faq summary { cursor: pointer; font-weight: 700; }
+    .chasseur-faq p { margin: 10px 0 0; color: #475569; font-size: .92rem; line-height: 1.5; }
+    .chasseur-form-wrap { margin-top: 28px; padding-top: 24px; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body data-market-intent="FR">
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../index.html">Retour accueil</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container" style="max-width:760px">
+      <span class="badge">Chasseur de bien</span>
+      <section class="card">
+        <div class="chasseur-hero">
+          <h1>Vous avez repéré un bien à vendre ? On enquête pour nos acquéreurs.</h1>
+          <p class="sub" id="chasseurIntro"></p>
+        </div>
+
+        <p class="chasseur-disclaimer" id="chasseurDisclaimer"></p>
+
+        <div class="chasseur-steps">
+          <div class="chasseur-step">
+            <strong>Étape 1</strong>
+            <h3>Vous signalez</h3>
+            <p>Panneau, façade, annonce papier… Une photo et la ville suffisent. Vous n'êtes pas obligé d'être le vendeur.</p>
+          </div>
+          <div class="chasseur-step">
+            <strong>Étape 2</strong>
+            <h3>Nous enquêtons</h3>
+            <p>Comme un détective sur le terrain : nous vérifions, recroisons avec les acquéreurs qui cherchent déjà.</p>
+          </div>
+          <div class="chasseur-step">
+            <strong>Étape 3</strong>
+            <h3>Si ça matche</h3>
+            <p>Contact vendeur, visite, dossier — sans promesse de mandat ni de commission pour vous à l'avance.</p>
+          </div>
+        </div>
+
+        <div class="chasseur-links">
+          <a class="btn btn-soft" href="./acheteur-immo.html#recherche">Je cherche un bien</a>
+          <a class="btn btn-soft" href="./acheteur-immo.html?role=vendeur#deposer-bien">Je vends mon bien</a>
+        </div>
+
+        <div class="chasseur-form-wrap">
+          <div class="url-capture" id="signalement" data-listing-url-capture>
+            <span class="dossier-kicker" data-deposit-kicker>Signalement terrain</span>
+            <h2 data-deposit-title>Signalez un bien à vendre</h2>
+            <p class="listings-intro" data-deposit-intro></p>
+            <form data-url-capture-form novalidate>
+              <input type="radio" name="immoHat" value="signalement" checked hidden />
+              <input type="hidden" name="role" value="signalement" data-hat-role />
+              <div class="hp-field" aria-hidden="true">
+                <label for="hp_chasseur">Ne pas remplir</label>
+                <input type="text" id="hp_chasseur" name="_hp" tabindex="-1" autocomplete="off" />
+              </div>
+              <input type="radio" name="listingMode" value="manuel" checked hidden />
+              <div class="grid">
+                <div class="field">
+                  <label for="urlPropType">Type de bien</label>
+                  <select id="urlPropType" name="property_type">
+                    <option value="appartement">Appartement</option>
+                    <option value="maison">Maison</option>
+                    <option value="terrain">Terrain</option>
+                    <option value="local">Local / mixte</option>
+                    <option value="immeuble">Immeuble</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="urlCity">Ville du bien <span aria-hidden="true">*</span></label>
+                  <input id="urlCity" name="city" required placeholder="Ex. Nancy, Jarville…" />
+                </div>
+                <div class="field">
+                  <label for="urlPostal">Code postal</label>
+                  <input id="urlPostal" name="postal_code" inputmode="numeric" maxlength="5" placeholder="54000" />
+                </div>
+                <div class="field" data-hat-signalement-only>
+                  <label for="signalement-source">Comment l'avez-vous vu ?</label>
+                  <select id="signalement-source" name="signalementSource">
+                    <option value="">— Choisir —</option>
+                    <option value="panneau">Panneau « À vendre »</option>
+                    <option value="voisin">Voisin / connaissance</option>
+                    <option value="passage">Vu en passant</option>
+                    <option value="reseau">Réseau / bouche-à-oreille</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+                <div class="field full" data-hat-signalement-only>
+                  <label for="address-hint">Adresse ou repère (optionnel)</label>
+                  <input id="address-hint" name="addressHint" placeholder="ex. rue …, quartier …" autocomplete="street-address" />
+                </div>
+                <div class="field full">
+                  <label for="urlDescription">Description (si pas de photo)</label>
+                  <textarea id="urlDescription" name="description" rows="3" placeholder="État du bien, panneau visible, travaux apparents…"></textarea>
+                </div>
+              </div>
+              <p class="search-section-label" style="margin-top:16px">Photo du bien</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="urlPhotos">Photos (max 4) <span aria-hidden="true">*</span></label>
+                  <input id="urlPhotos" type="file" accept="image/*" multiple data-listing-photos />
+                  <p class="listing-media-hint">Panneau, façade, rue — même floue, ça aide.</p>
+                </div>
+                <div class="field">
+                  <label for="urlCapture">Capture d'écran (optionnel)</label>
+                  <input id="urlCapture" type="file" accept="image/*" data-listing-capture />
+                </div>
+              </div>
+              <div class="listing-thumbs" data-listing-thumbs></div>
+              <div class="listing-preview-wrap">
+                <p class="search-section-label">Aperçu</p>
+                <div data-listing-preview></div>
+              </div>
+              <p class="search-section-label" style="margin-top:16px" data-coords-label>Vos coordonnées</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="urlFirstName">Prénom</label>
+                  <input id="urlFirstName" name="firstName" autocomplete="given-name" />
+                </div>
+                <div class="field">
+                  <label for="urlLastName">Nom</label>
+                  <input id="urlLastName" name="lastName" autocomplete="family-name" />
+                </div>
+              </div>
+              <fieldset class="contact-pair">
+                <legend>Comment vous joindre</legend>
+                <p class="contact-pair-hint">Pour vous recontacter si nous avons besoin de précisions — signalement anonyme possible.</p>
+                <div class="contact-pair-row">
+                  <div class="field">
+                    <label for="urlPhone">Téléphone</label>
+                    <input id="urlPhone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" />
+                  </div>
+                  <div class="field">
+                    <label for="urlEmail">E-mail</label>
+                    <input id="urlEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="vous@email.fr" />
+                  </div>
+                </div>
+              </fieldset>
+              <div class="grid">
+                <div class="field full">
+                  <label for="urlDetails" data-details-label>Précisions</label>
+                  <textarea id="urlDetails" name="details" rows="2" placeholder="Ce que vous avez observé…"></textarea>
+                </div>
+              </div>
+              <p class="url-capture-err" data-url-capture-err hidden></p>
+              <p class="url-capture-ok" data-url-capture-ok hidden></p>
+              <div style="margin-top:14px">
+                <button type="submit" class="btn btn-primary" data-deposit-submit>Envoyer le signalement</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="chasseur-faq" style="margin-top:32px">
+          <h2>Questions fréquentes</h2>
+          <details>
+            <summary>Dois-je être le vendeur pour signaler ?</summary>
+            <p>Non. Voisin, passant, agent, artisan : si vous avez vu un bien à vendre, vous pouvez nous le signaler avec une photo et la ville.</p>
+          </details>
+          <details>
+            <summary>Est-ce que je touche une commission ?</summary>
+            <p>Nous ne prometons rien à l'avance. Comme pour un apport d'affaires ou un dossier prêt, une reconnaissance pourra être étudiée seulement si le dossier aboutit — sans garantie.</p>
+          </details>
+          <details>
+            <summary>Que faites-vous avec mon signalement ?</summary>
+            <p>Nous l'ajoutons à notre veille chasseur, recroisons avec les acquéreurs en recherche active, et enquêtons sur le bien (contact vendeur, disponibilité) — sans engagement de mandat exclusif.</p>
+          </details>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="../js/contact-pair.js"></script>
+  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/immo-listing-portals-lib.js"></script>
+  <script src="../js/acheteur-immo-listing-url.js"></script>
+  <script>
+    (function () {
+      var intro =
+        "Panneau « À vendre », maison vide, annonce papier ou bien à rénover : envoyez une photo et la ville. Nous vérifions et croisons avec nos acquéreurs.";
+      var disclaimer =
+        "Aucun mandat exclusif n'est garanti. Comme pour un prêt, nous ne pouvons pas promettre que vous serez notre client final — mais chaque signalement utile est étudié.";
+      var elIntro = document.getElementById("chasseurIntro");
+      var elDisc = document.getElementById("chasseurDisclaimer");
+      if (elIntro) elIntro.textContent = intro;
+      if (elDisc) elDisc.textContent = disclaimer;
+      document.addEventListener("DOMContentLoaded", function () {
+        document.documentElement.setAttribute("data-immo-hat", "signalement");
+      });
+    })();
+  </script>
+</body>
+</html>
