@@ -145,34 +145,15 @@ const GEO_PRODUCTS = [
       return "Credit immobilier " + city.name + " | Courtier " + city.region;
     },
     description: function (city) {
-      return (
-        "Credit immobilier a " +
-        city.name +
-        " : simulation, capacite d emprunt, negociation de taux. Courtier ORIAS, primo-accedants et investisseurs."
-      );
+      return contentLib.creditImmoCityDescription(city);
     },
     h1: function (city) {
       return "Credit immobilier a " + city.name;
     },
     intro: function (city) {
-      return (
-        "Projet d achat ou investissement locatif a " +
-        city.name +
-        " ? Nous analysons votre capacite d emprunt et identifions les banques les plus favorables a votre profil en " +
-        city.region +
-        "."
-      );
+      return contentLib.creditImmoCityIntro(city);
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Financer un bien a " + city.name,
-          paragraphs: [
-            "Marche local, apport, assurance emprunteur : chaque element compte dans l acceptation du dossier. Nous vous aidons a presenter un financement credible.",
-          ],
-        },
-      ];
-    },
+    sections: contentLib.creditImmoCitySections,
     faq: function (city) {
       return [
         {
@@ -389,16 +370,7 @@ const GEO_PRODUCTS = [
         " ? Nous calibrons votre multirisque habitation selon le type de bien et votre situation."
       );
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Proteger son logement a " + city.name,
-          paragraphs: [
-            "Degats des eaux, vol, responsabilite civile : les garanties essentielles varient selon que vous etes locataire ou proprietaire occupant.",
-          ],
-        },
-      ];
-    },
+    sections: contentLib.habitationCitySections,
     faq: function (city) {
       return [
         {
@@ -440,16 +412,7 @@ const GEO_PRODUCTS = [
         " ? Comparez les contrats emprunteur (delegation, resiliation) et reduisez le cout de votre assurance de pret."
       );
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Assurance de pret a " + city.name,
-          paragraphs: [
-            "La loi Lemoine permet souvent de changer d'assureur sans attendre l'echeance. Nous verifions l'equivalence de garanties exigee par votre banque.",
-          ],
-        },
-      ];
-    },
+    sections: contentLib.emprunteurCitySections,
     faq: function (city) {
       return [
         {
@@ -1328,6 +1291,17 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
   return out;
 }
 
+function citySitemapPriority(slug) {
+  if (slug === "paris") return "0.78";
+  if (contentLib.NANCY_BASSIN_SLUGS[slug]) return "0.76";
+  return "0.68";
+}
+
+function deptSitemapPriority(slug) {
+  if (slug === "meurthe-et-moselle") return "0.78";
+  return "0.7";
+}
+
 function collectSitemapUrls(cities, departments, regions, base) {
   const today = new Date().toISOString().slice(0, 10);
   const blogManifest = require("./blog-articles-manifest.cjs");
@@ -1433,16 +1407,14 @@ function collectSitemapUrls(cities, departments, regions, base) {
               ? "0.84"
               : product.key === "recherche" && (immoLib.isIsland(city) || immoLib.isDestination(city))
                 ? "0.8"
-            : city.slug === "paris"
-              ? "0.78"
-              : "0.68",
+                : citySitemapPriority(city.slug),
         changefreq: "monthly",
       });
     });
     departments.forEach(function (dept) {
       urls.push({
         loc: base + "/" + product.dir + "/departement/" + dept.slug + "/",
-        priority: "0.7",
+        priority: deptSitemapPriority(dept.slug),
         changefreq: "monthly",
       });
     });

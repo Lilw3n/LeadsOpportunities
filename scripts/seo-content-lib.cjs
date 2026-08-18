@@ -12,8 +12,82 @@ function pickVariant(slug, variants) {
   return variants[hashSlug(slug) % variants.length];
 }
 
+/** Bassin Nancy / Meurthe-et-Moselle — zone d'intervention prioritaire SEO. */
+var NANCY_BASSIN_SLUGS = {
+  nancy: 1,
+  varangeville: 1,
+  luneville: 1,
+  "jarville-la-malgrange": 1,
+  "laneuveville-devant-nancy": 1,
+  "dombasle-sur-meurthe": 1,
+  "saint-nicolas-de-port": 1,
+  "vandoeuvre-les-nancy": 1,
+  "saint-max": 1,
+  laxou: 1,
+  "villers-les-nancy": 1,
+  maxeville: 1,
+  toul: 1,
+  "pont-a-mousson": 1,
+  "essey-les-nancy": 1,
+  tomblaine: 1,
+  seichamps: 1,
+  heillecourt: 1,
+  malzeville: 1,
+  "saint-julien-les-vandoeuvre": 1,
+  pompey: 1,
+  custines: 1,
+  richardmenil: 1,
+  jarny: 1,
+  "pont-saint-vincent": 1,
+};
+
+function isNancyBassin(city) {
+  return !!(city && (city.dept === "meurthe-et-moselle" || NANCY_BASSIN_SLUGS[city.slug]));
+}
+
+function nancyBassinNearbyOrder(city, allCities) {
+  var priority = [
+    "varangeville",
+    "nancy",
+    "jarville-la-malgrange",
+    "laneuveville-devant-nancy",
+    "dombasle-sur-meurthe",
+    "luneville",
+    "saint-nicolas-de-port",
+    "vandoeuvre-les-nancy",
+    "laxou",
+    "saint-max",
+    "maxeville",
+    "villers-les-nancy",
+    "toul",
+    "pont-a-mousson",
+  ];
+  if (!isNancyBassin(city)) return null;
+  var bySlug = {};
+  allCities.forEach(function (c) {
+    if (c.dept === "meurthe-et-moselle" && c.slug !== city.slug) bySlug[c.slug] = c;
+  });
+  var ordered = [];
+  priority.forEach(function (slug) {
+    if (bySlug[slug]) {
+      ordered.push(bySlug[slug]);
+      delete bySlug[slug];
+    }
+  });
+  Object.keys(bySlug)
+    .sort()
+    .forEach(function (slug) {
+      ordered.push(bySlug[slug]);
+    });
+  return ordered;
+}
+
 function getNearbyCities(city, allCities, limit) {
   limit = limit || 8;
+  var nancyOrdered = nancyBassinNearbyOrder(city, allCities);
+  if (nancyOrdered && nancyOrdered.length) {
+    return nancyOrdered.slice(0, limit);
+  }
   var same = allCities.filter(function (c) {
     return c.dept === city.dept && c.slug !== city.slug;
   });
@@ -208,6 +282,125 @@ function equitationCitySections(city) {
   ];
 }
 
+function creditImmoCitySections(city) {
+  var sections = [
+    {
+      h2: "Financer un bien a " + city.name,
+      paragraphs: [
+        "Marche local, apport, assurance emprunteur : chaque element compte dans l acceptation du dossier. Nous vous aidons a presenter un financement credible.",
+      ],
+    },
+  ];
+  if (isNancyBassin(city)) {
+    sections.push({
+      h2: "Courtier implanté en Meurthe-et-Moselle",
+      paragraphs: [
+        "Bureau a Varangeville (54110), a quelques minutes de Nancy, Dombasle-sur-Meurthe et Laneuveville : permanences sur place et rappel conseiller pour tout le bassin nanceien.",
+        pickVariant(city.slug, [
+          "A " +
+            city.name +
+            ", le prix au m2 varie fortement entre centre-ville, communes limitrophes et secteur Lunéville / Saint-Nicolas-de-Port : nous croisons capacite d emprunt, taxe fonciere et charges pour une projection realiste.",
+          "Primo-accedants de " +
+            city.name +
+            " : anticipez notaire, travaux et assurance emprunteur (loi Lemoine) avant la visite du bien.",
+          "Investissement locatif autour de Nancy metropole : nous chiffrons mensualite, rentabilite brute et reste a vivre apres charges de copropriete.",
+        ]),
+      ],
+      list: [
+        "Simulation projection achat (credit + charges + energie)",
+        "Capacite d emprunt et endettement HCSF",
+        "Assurance emprunteur : delegation et economie",
+        "Accompagnement dossier banque — Grand Est",
+      ],
+    });
+    sections.push({
+      h2: "Communes proches",
+      paragraphs: [
+        "Nous accompagnons les projets sur Nancy metropole, Varangeville, Jarville-la-Malgrange, Lunéville, Saint-Nicolas-de-Port, Vandoeuvre, Laxou et l ensemble de la Meurthe-et-Moselle (54).",
+      ],
+    });
+  }
+  return sections;
+}
+
+function habitationCitySections(city) {
+  var sections = [
+    {
+      h2: "Assurance habitation a " + city.name,
+      paragraphs: [
+        "Locataire ou proprietaire : multirisque, degats des eaux, vol et responsabilite civile. Devis adapte a votre logement en " + city.region + ".",
+      ],
+    },
+  ];
+  if (isNancyBassin(city)) {
+    sections[0].paragraphs.push(
+      "Sur le bassin nanceien, les coproprietes et maisons individuelles de " +
+        city.name +
+        " ont des profils de risque differents : nous ajustons plafonds et franchises."
+    );
+  }
+  return sections;
+}
+
+function emprunteurCitySections(city) {
+  var sections = [
+    {
+      h2: "Assurance emprunteur a " + city.name,
+      paragraphs: [
+        "Loi Lemoine : changez d assureur a tout moment pour reduire le cout de votre pret. Nous comparons equivalence de garanties et economie sur la duree du credit.",
+      ],
+    },
+  ];
+  if (isNancyBassin(city)) {
+    sections.push({
+      h2: "Coupler credit immo et assurance emprunteur",
+      paragraphs: [
+        "Depuis notre bureau de Varangeville, nous traitons credit immobilier et assurance emprunteur pour les acquereurs de " +
+          city.name +
+          " et des communes voisines — un seul interlocuteur pour le cout global du projet.",
+      ],
+    });
+  }
+  return sections;
+}
+
+function creditImmoCityIntro(city) {
+  if (!isNancyBassin(city)) {
+    return (
+      "Projet d achat ou investissement locatif a " +
+      city.name +
+      " ? Nous analysons votre capacite d emprunt et identifions les banques les plus favorables a votre profil en " +
+      city.region +
+      "."
+    );
+  }
+  if (city.slug === "varangeville") {
+    return (
+      "Siege et bureau Leads Opportunities a Varangeville : simulation credit immobilier, projection complete (pret + taxe fonciere + charges) et montage dossier pour Nancy metropole et la Meurthe-et-Moselle."
+    );
+  }
+  return (
+    "Achat ou investissement a " +
+    city.name +
+    " (54) ? Courtier base a Varangeville, a proximite de Nancy : capacite d emprunt, negociation de taux et assurance emprunteur pour le bassin nanceien."
+  );
+}
+
+function creditImmoCityDescription(city) {
+  if (!isNancyBassin(city)) {
+    return (
+      "Credit immobilier a " +
+      city.name +
+      " : simulation, capacite d emprunt, negociation de taux. Courtier ORIAS, primo-accedants et investisseurs."
+    );
+  }
+  return (
+    "Credit immobilier " +
+    city.name +
+    " (54) : simulation, projection achat, taux et assurance emprunteur. Bureau Varangeville — Nancy metropole, Lunéville, Saint-Nicolas-de-Port."
+  );
+}
+
 function defaultCityFaq(city, productLabel) {
   return [
     {
@@ -241,6 +434,8 @@ function animauxCityFaq(city) {
 module.exports = {
   hashSlug: hashSlug,
   pickVariant: pickVariant,
+  NANCY_BASSIN_SLUGS: NANCY_BASSIN_SLUGS,
+  isNancyBassin: isNancyBassin,
   getNearbyCities: getNearbyCities,
   nearbyLinks: nearbyLinks,
   animauxCitySections: animauxCitySections,
@@ -249,6 +444,11 @@ module.exports = {
   vtcCitySections: vtcCitySections,
   chasseCitySections: chasseCitySections,
   equitationCitySections: equitationCitySections,
+  creditImmoCitySections: creditImmoCitySections,
+  habitationCitySections: habitationCitySections,
+  emprunteurCitySections: emprunteurCitySections,
+  creditImmoCityIntro: creditImmoCityIntro,
+  creditImmoCityDescription: creditImmoCityDescription,
   defaultCityFaq: defaultCityFaq,
   animauxCityFaq: animauxCityFaq,
 };
