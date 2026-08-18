@@ -13,7 +13,13 @@
   "use strict";
 
   var NO_PROMISE =
-    "Aucun engagement de rémunération n’est promis aux apporteurs d’affaires.";
+    "Aucune rémunération n'est promise à l'avance aux apporteurs d'affaires. Si le dossier est mené jusqu'à sa conclusion (signature, déblocage ou contrat effectif), une reconnaissance pourra éventuellement être étudiée — sans engagement préalable.";
+
+  var APPORTEUR_TAGLINE =
+    "Orientez un projet immobilier, une assurance ou un financement : nous accompagnons votre contact de A à Z.";
+
+  var APPORTEUR_COMPLETION =
+    "Rien n'est garanti à l'avance. En revanche, lorsqu'un dossier aboutit vraiment (acte notarié, prêt débloqué, contrat signé), une reconnaissance peut être étudiée au cas par cas.";
 
   var PROMISE_KEY_RE =
     /promis|promise|reward|cadeau|gift|bonus_apporteur|commission_promise|remuneration_promise|recompense/i;
@@ -276,6 +282,8 @@
 
   return {
     NO_PROMISE: NO_PROMISE,
+    APPORTEUR_TAGLINE: APPORTEUR_TAGLINE,
+    APPORTEUR_COMPLETION: APPORTEUR_COMPLETION,
     REL_TYPES: REL_TYPES,
     MARITAL_STATUSES: MARITAL_STATUSES,
     LEGAL_FORMS: LEGAL_FORMS,

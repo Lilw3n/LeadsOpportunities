@@ -11,6 +11,7 @@
     patrimoine: { id: "patrimoine", label: "Patrimoine" },
     animaux: { id: "animaux", label: "Animaux de compagnie" },
     niches: { id: "niches", label: "Assurances de niche" },
+    reseau: { id: "reseau", label: "Réseau & apporteurs" },
   };
 
   var SERVICES = {
@@ -69,6 +70,13 @@
       category: "finance",
       vertical: "credit_immo",
       landing: "./landings/projection-achat.html",
+    },
+    "apporteur-affaires": {
+      need: "apporteur-affaires",
+      label: "Apporteur d'affaires",
+      category: "reseau",
+      vertical: "apporteur",
+      landing: "./landings/apporteur-affaires.html",
     },
     auto: { need: "auto", label: "Assurance auto", category: "mobilite", vertical: "auto" },
     moto: { need: "moto", label: "Deux-roues / scooter", category: "mobilite", vertical: "moto" },

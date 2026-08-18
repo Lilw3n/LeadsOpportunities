@@ -121,10 +121,16 @@ assert(!/vous recevrez|cadeau offert|commission garantie/i.test(libSrc), "lib sa
 
 var landing = read("landings/acheteur-immo.html");
 assert(landing.indexOf("Parrain / connaissance") !== -1, "landing : option parrain");
-assert(/Aucun engagement de rémunération n.est promis/.test(landing), "landing : disclaimer parrain");
+assert(/rémunération.*promis|promis.*rémunération/i.test(landing), "landing : disclaimer parrain");
+
+var apportLanding = read("landings/apporteur-affaires.html");
+assert(apportLanding.indexOf("apporteur") !== -1, "landing apporteur public");
+assert(apportLanding.indexOf("conclusion") !== -1, "landing : dossier finalisé");
+assert(apportLanding.indexOf("reconnaissance") !== -1, "landing : reconnaissance étudiée");
+assert(!/vous recevrez|commission garantie|% garanti|prime garantie/i.test(apportLanding), "landing sans promesse chiffrée");
 
 var fees = read("crm-agency-fees.html");
-assert(fees.indexOf("Aucun engagement de rémunération") !== -1, "barèmes : disclaimer apporteur");
+assert(fees.indexOf("reconnaissance") !== -1, "barèmes : reconnaissance si abouti");
 
 var api = read("api/_lib/routes/crm-relations.js");
 assert(api.indexOf("no_promise") !== -1, "API refuse les clés de promesse");

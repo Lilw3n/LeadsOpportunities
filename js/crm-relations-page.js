@@ -85,7 +85,7 @@
       kpi("Famille", counts.famille, "conjoint, enfants…") +
       kpi("Patrimoine", counts.patrimoine, "héritiers") +
       kpi("SCI / associés", counts.societe, "parts sociales") +
-      kpi("Parrainage", counts.parrainage, "apporteurs — sans promesse");
+      kpi("Parrainage", counts.parrainage, "apporteurs — reconnaissance si abouti");
   }
 
   function kpi(label, n, hint) {

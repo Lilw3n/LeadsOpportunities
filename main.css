@@ -381,6 +381,39 @@ h1 {
 .acq-focus-banner a:hover {
   text-decoration: underline;
 }
+
+.apporteur-network-section {
+  padding-top: 0;
+  padding-bottom: 48px;
+}
+.apporteur-network-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 28px;
+  padding: 28px 32px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 45%, #fff 100%);
+  border: 1px solid #99f6e4;
+  box-shadow: 0 8px 32px rgba(13, 148, 136, 0.08);
+}
+.apporteur-network-copy h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  line-height: 1.25;
+}
+.apporteur-network-copy p {
+  margin: 0;
+  max-width: 52ch;
+  color: #475569;
+  line-height: 1.55;
+  font-size: .95rem;
+}
+.apporteur-network-copy strong {
+  color: #0f766e;
+  font-weight: 700;
+}
 .hfc-icon {
   width: 48px;
   height: 48px;
