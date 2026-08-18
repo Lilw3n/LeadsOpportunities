@@ -2460,6 +2460,86 @@ module.exports = {
       related: [{ href: "../credit-immo/", label: "Credit immobilier" }],
     },
     {
+      file: "vente-immobiliere-3d-divorce-deces-demenagement.html",
+      section: "finance",
+      tag: "Vente",
+      tagClass: "tag-immo",
+      title: "Vendre son bien : divorce, deces, demenagement (les 3D)",
+      description:
+        "Divorce, deces, demenagement : vendre un bien dans une etape de vie difficile. Notaire, avocat, credit — accompagnement humain.",
+      meta: "10 min · Aout 2026",
+      cardExcerpt: "Les 3D de la vente immobiliere : vous n'etes pas seul.",
+      cta: { href: "../landings/acheteur-immo.html?role=vendeur", label: "Parler de ma vente" },
+      blocks: [
+        {
+          type: "p",
+          text: "Vendre un <strong>bien immobilier</strong>, ce n'est pas toujours un choix « classique ». Dans le metier, on evoque parfois les <strong>3D</strong> : <strong>divorce</strong>, <strong>deces</strong>, <strong>demenagement</strong>. Ce sont des moments ou la vente devient sensible — et ou vous meritez d'etre entendu, pas presses.",
+        },
+        { type: "h2", text: "Les 3D, ce que ca veut dire concretement" },
+        {
+          type: "ul",
+          items: [
+            "Divorce ou separation : partage du bien, credit en cours, calendrier avec l'autre partie",
+            "Deces : succession, indivision entre heritiers, delais et mandats",
+            "Demenagement : vente en chaine, depart en retraite, mutation professionnelle",
+          ],
+        },
+        { type: "h2", text: "Divorce et separation : vendre sans aggraver la situation" },
+        {
+          type: "p",
+          text: "La vente du <strong>bien commun</strong> intervient souvent dans un contexte de divorce ou de separation. Points sensibles : qui habite encore le logement, qui paie le credit, a quel prix vendre, dans quel delai. Un <strong>avocat</strong> traite le volet juridique ; le <strong>notaire</strong> securise l'acte ; notre role est de <strong>coordonner la mise en vente</strong> et la recherche d'acquereur sans precipiter une decision que vous regretteriez.",
+        },
+        {
+          type: "p",
+          text: "Si un <strong>credit immobilier</strong> est en cours, la banque et le co-emprunteur entrent en ligne de compte. Mieux vaut anticiper le solde du pret, les indemnites eventuelles et la repartition des fonds avant de fixer un prix « pour aller vite ».",
+        },
+        { type: "h2", text: "Deces : vendre dans le respect du rythme familial" },
+        {
+          type: "p",
+          text: "Apres un <strong>deces</strong>, la vente peut etre necessaire pour partager la succession ou liberer un bien devenu inoccupe. Les heritiers ne sont pas toujours d'accord sur le prix, le calendrier ou l'agent a mandater. Le <strong>notaire</strong> est central ; nous pouvons aider a <strong>estimer le bien</strong>, organiser les visites et recroiser avec des acquereurs — en respectant les delais legaux et la charge emotionnelle de chacun.",
+        },
+        { type: "h2", text: "Demenagement : vendre pour rebondir ailleurs" },
+        {
+          type: "p",
+          text: "Parfois la vente est liee a un <strong>demenagement</strong> : mutation, rapprochement familial, maison trop grande, besoin de monter ou descendre en surface. La vente en chaine (vendre puis racheter) demande une vraie coordination : date de sortie, <strong>pret relais</strong>, delai de refus bancaire sur le prochain achat. C'est la que notre travail de <strong>chasseur de bien</strong> et de courtier prend tout son sens : aligner vendeur et acquereur, sans vous laisser seul entre deux notaires.",
+        },
+        { type: "h2", text: "Notaire, avocat, courtier : qui fait quoi ?" },
+        {
+          type: "ul",
+          items: [
+            "Notaire : acte authentique, securite juridique, calcul des droits",
+            "Avocat : divorce, partage, contentieux entre heritiers si besoin",
+            "Courtier / accompagnant immo : estimation, acquereurs, credit, assurance emprunteur, calendrier global",
+          ],
+        },
+        { type: "h2", text: "Notre promesse : vous concernent, vous accompagner" },
+        {
+          type: "p",
+          text: "Si vous traversez l'une de ces etapes, <strong>vous etes concerne</strong> — et vous n'etes pas oblige de tout porter seul. Nous ne promettons pas un mandat ni un delai miracle ; nous promettons d'<strong>ecouter la situation</strong>, d'en parler franchement (y compris quand un autre bien ou un autre calendrier serait plus sain), et de vous aider a atteindre votre objectif sans vous mettre en danger financierement.",
+        },
+      ],
+      related: [
+        { href: "../landings/acheteur-immo.html?role=vendeur", label: "Deposer un bien a vendre" },
+        { href: "../landings/chasseur-bien.html", label: "Chasseur de bien" },
+        { href: "../landings/credit-immo.html", label: "Credit et pret relais" },
+        { href: "./pret-refuse-co-emprunteur-caution-solutions.html", label: "Co-emprunteur et caution" },
+      ],
+      faq: [
+        {
+          q: "Dois-je vendre vite apres un divorce ?",
+          a: "Pas necessairement. Le calendrier depend du jugement, du credit et de votre situation personnelle. Precipiter la vente peut faire baisser le prix ou aggraver les tensions.",
+        },
+        {
+          q: "Qui signe la vente apres un deces ?",
+          a: "Les heritiers ou le notaire selon la succession. Chaque cas est unique : ne vendez pas sans cadre juridique clair.",
+        },
+        {
+          q: "Puis-je vendre et racheter en meme temps ?",
+          a: "Oui (vente en chaine, pret relais). Il faut anticiper banque, dates et reste a vivre — c'est un montage a preparer, pas une urgence subie.",
+        },
+      ],
+    },
+    {
       file: "taux-credit-immobilier-2026-frais-dossier.html",
       section: "finance",
       tag: "Taux & frais",

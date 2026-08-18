@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-08-18",
   "sections": [
     "actu",
     "animaux",
@@ -738,6 +738,19 @@
       "question": "Votre projet immo mérite une étude avant signature — prêt à faire le point ?",
       "need": "credit-immo",
       "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "vente-immobiliere-3d-divorce-deces-demenagement.html",
+      "title": "Vendre son bien : divorce, deces, demenagement (les 3D)",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?role=vendeur",
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
       "matchedRule": "emprunteur",

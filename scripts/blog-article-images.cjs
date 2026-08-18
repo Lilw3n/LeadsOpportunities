@@ -421,6 +421,7 @@ var MAP = {
 
   /* Finance */
   "pret-immo-erreurs-a-eviter.html": { hero: "signaturePret", figure: "creditCles" },
+  "vente-immobiliere-3d-divorce-deces-demenagement.html": { hero: "maisonFamille", figure: "signaturePret" },
   "taux-credit-immobilier-2026-frais-dossier.html": { hero: "creditCles", figure: "budgetFam" },
   "rachat-credit-immobilier-guide-2026.html": { hero: "budgetFam", figure: "signaturePret" },
   "emprunteur-non-residents-investissement-immobilier-2026.html": { hero: "maisonFamille", figure: "signaturePret" },

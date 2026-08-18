@@ -111,6 +111,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/pret-refuse-primo-accedant-ptz-solutions.html",
   "/blog/pret-refuse-cdi-cdd-interim-freelance.html",
   "/blog/pret-refuse-fichiers-banque-de-france-ficp-fcc.html",
+  "/blog/vente-immobiliere-3d-divorce-deces-demenagement.html",
   "/blog/rachat-credit-immobilier-guide-2026.html",
   "/blog/assurance-vtc-rc-pro-garanties.html",
   "/mentions-legales.html",
