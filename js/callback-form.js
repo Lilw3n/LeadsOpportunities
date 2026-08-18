@@ -326,6 +326,23 @@
             successEl.textContent = COPY.success;
             successEl.hidden = false;
           }
+          var docNeed =
+            options.docNeed ||
+            (form.getAttribute && form.getAttribute("data-callback-doc-need")) ||
+            need ||
+            "";
+          if (
+            global.loTrackingRenderDocuments &&
+            ["collective", "vtc", "sante", "credit-immo", "acheteur-immo", "projection-achat"].indexOf(
+              docNeed
+            ) !== -1
+          ) {
+            global.loTrackingRenderDocuments(
+              successEl,
+              Object.assign({}, leadPayload, { need: docNeed, serviceNeed: docNeed }),
+              result
+            );
+          }
           return;
         }
 
@@ -362,7 +379,11 @@
     });
 
     var form = el.querySelector("form");
-    wireForm(form, { source: source, need: need });
+    wireForm(form, {
+      source: source,
+      need: need,
+      docNeed: el.getAttribute("data-callback-doc-need") || need,
+    });
   }
 
   function mountStripEl(el) {

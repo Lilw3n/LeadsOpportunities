@@ -55,6 +55,8 @@
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="../css/callback-form.css" />
   <link rel="stylesheet" href="../css/achat-projection.css" />
+  <link rel="stylesheet" href="../css/devis-documents.css" />
+  <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
 </head>
 <body data-market-intent="FR">
   <header class="landing-topbar">
@@ -318,7 +320,8 @@
                 <a class="btn btn-soft" id="ctaEmprunteur" href="./credit-immo.html#formules">Assurance emprunteur</a>
                 <a class="btn btn-soft" id="ctaAcheteur" href="./acheteur-immo.html#recherche">Je cherche encore le bien</a>
               </div>
-              <div data-callback-form data-callback-need="credit-immo" data-callback-show-need="false" data-callback-source="projection_achat" data-callback-compact data-callback-title="Un courtier relit votre projection" data-callback-lead="On reprend ces chiffres (prêt, charges, apport) et on vous dit si le dossier passe vraiment en banque."></div>
+              <div data-callback-form data-callback-need="credit-immo" data-callback-doc-need="projection-achat" data-callback-show-need="false" data-callback-source="projection_achat" data-callback-compact data-callback-title="Un courtier relit votre projection" data-callback-lead="On reprend ces chiffres (prêt, charges, apport) et on vous dit si le dossier passe vraiment en banque."></div>
+              <div data-lead-dossier data-lead-dossier-need="projection-achat"></div>
               <p class="proj-legal">
                 Estimations pédagogiques, non contractuelles. Ce n'est pas une offre de crédit.
                 Taxe foncière, énergie et travaux sont des ordres de grandeur (DPE, surface, département)
@@ -415,6 +418,9 @@
   <script src="../js/service-catalog.js"></script>
   <script src="../js/finance-deep-link.js"></script>
   <script src="../js/immo-parcours-strip.js"></script>
+  <script src="../js/devis-document-config.js"></script>
+  <script src="../js/devis-document-upload.js"></script>
+  <script src="../js/lead-dossier-upload.js"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
   <script src="../js/callback-form.js"></script>

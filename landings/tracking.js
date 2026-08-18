@@ -225,12 +225,14 @@
     var email = (leadPayload && leadPayload.email ? String(leadPayload.email) : "").trim();
     var contactId = (result && result.contactId) || null;
     var leadId = (result && result.leadId) || null;
+    var uploadToken = (result && result.uploadToken) || null;
     var need = getNeedFromPayload(leadPayload);
     var href =
       "/external/upload-document.html?public=1&need=" +
       encodeURIComponent(need) +
       (email ? "&email=" + encodeURIComponent(email) : "") +
-      (contactId ? "&contactId=" + encodeURIComponent(contactId) : "");
+      (contactId ? "&contactId=" + encodeURIComponent(contactId) : "") +
+      (uploadToken ? "&uploadToken=" + encodeURIComponent(uploadToken) : "");
 
     var panel = document.getElementById("docsUploadPanel");
     if (!panel) {
@@ -241,8 +243,8 @@
         "<h3>Vos pièces justificatives</h3>" +
         '<p class="small">Complétez votre dossier pour accélérer le devis. Les fichiers sont archivés sur Drive courtier.</p>' +
         '<div data-devis-documents-root data-docs-visual-panel>' +
-        '<div class="devis-docs-drop" data-docs-drop><strong>Ajouter un document</strong><p>PDF, JPG, PNG — max 12 Mo</p>' +
-        '<input type="file" data-docs-input accept=".pdf,.jpg,.jpeg,.png" hidden /></div>' +
+        '<div class="devis-docs-drop" data-docs-drop><strong>Ajouter un document</strong><p>PDF, JPG, PNG, WEBP — max 12 Mo</p>' +
+        '<input type="file" data-docs-input accept=".pdf,.jpg,.jpeg,.png,.webp" hidden /></div>' +
         '<label style="display:block;margin:10px 0 4px;font-weight:600;font-size:.85rem">Type</label>' +
         '<select data-docs-type data-optional></select>' +
         '<div data-docs-queue class="devis-docs-queue"></div>' +
@@ -268,13 +270,18 @@
           panel.querySelector("[data-devis-documents-root]"),
           { need: need }
         );
-        uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
+        uploader.setSession({ email: email, contactId: contactId, leadId: leadId, uploadToken: uploadToken });
         panel._uploader = uploader;
         uploader.fetchRemoteList();
       }
     } else {
       if (panel._uploader) {
-        panel._uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
+        panel._uploader.setSession({
+          email: email,
+          contactId: contactId,
+          leadId: leadId,
+          uploadToken: uploadToken,
+        });
         panel._uploader.fetchRemoteList();
       }
     }
@@ -288,6 +295,7 @@
       email: email,
       contactId: (result && result.contactId) || null,
       leadId: (result && result.leadId) || null,
+      uploadToken: (result && result.uploadToken) || null,
     });
     return uploader.uploadQueued().then(function (up) {
       var panel = document.getElementById("docsUploadPanel");
@@ -464,6 +472,8 @@
       });
     }
   }
+
+  global.loTrackingRenderDocuments = renderDocumentsCta;
 
   document.addEventListener("DOMContentLoaded", bindTracking);
 })();

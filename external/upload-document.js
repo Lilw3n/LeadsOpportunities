@@ -6,6 +6,7 @@
   var isPublicFlow = params.get("public") === "1";
   var need = params.get("need") || "default";
   var contactId = params.get("contactId") || "";
+  var uploadToken = params.get("uploadToken") || params.get("upload_token") || "";
   var email =
     (params.get("email") || "").trim().toLowerCase() ||
     (localStorage.getItem(EMAIL_KEY) || "").trim().toLowerCase();
@@ -44,6 +45,7 @@
     if (file.type) return file.type;
     if (/\.pdf$/i.test(file.name)) return "application/pdf";
     if (/\.png$/i.test(file.name)) return "image/png";
+    if (/\.webp$/i.test(file.name)) return "image/webp";
     return "image/jpeg";
   }
 
@@ -108,15 +110,54 @@
       .join("");
   }
 
-  function refreshList() {
-    var q = contactId ? "contactId=" + encodeURIComponent(contactId) : "email=" + encodeURIComponent(email);
-    fetch("/api/external/documents-list?" + q)
+  function ensureUploadToken() {
+    if (uploadToken) return Promise.resolve(uploadToken);
+    return fetch("/api/external/upload-init", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        contactId: contactId || undefined,
+        need: need,
+      }),
+    })
       .then(function (r) {
         return r.json();
       })
       .then(function (res) {
-        if (res.ok) renderRemoteDocs(res.documents || []);
+        if (res.ok && res.uploadToken) {
+          uploadToken = res.uploadToken;
+          if (res.contactId) contactId = res.contactId;
+          return uploadToken;
+        }
+        return null;
+      })
+      .catch(function () {
+        return null;
       });
+  }
+
+  function refreshList() {
+    ensureUploadToken().then(function (token) {
+      if (!token) {
+        if (visualGrid) {
+          visualGrid.innerHTML =
+            "<p style='color:#64748b;font-size:.85rem'>Envoyez d'abord le formulaire avec votre e-mail pour activer le dépôt sécurisé.</p>";
+        }
+        return;
+      }
+      var q = contactId ? "contactId=" + encodeURIComponent(contactId) : "email=" + encodeURIComponent(email);
+      q += "&uploadToken=" + encodeURIComponent(token);
+      fetch("/api/external/documents-list?" + q, {
+        headers: { "X-Upload-Token": token },
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (res) {
+          if (res.ok) renderRemoteDocs(res.documents || []);
+        });
+    });
   }
 
   if (window.DEVIS_DOCUMENT_CONFIG) {
@@ -149,27 +190,38 @@
     e.preventDefault();
     var fd = new FormData(e.target);
     if (!pendingFile) {
-      document.getElementById("uploadMsg").textContent = "Sélectionnez un fichier (PDF, JPG ou PNG).";
+      document.getElementById("uploadMsg").textContent = "Sélectionnez un fichier (PDF, JPG, PNG ou WEBP).";
       return;
     }
     document.getElementById("uploadMsg").textContent = "Envoi…";
-    readBase64(pendingFile)
-      .then(function (dataUrl) {
-        return fetch("/api/external/upload", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: email,
-            contactId: contactId || undefined,
-            fileName: fd.get("fileName") || pendingFile.name,
-            documentType: fd.get("documentType"),
-            description: fd.get("description"),
-            mimeType: mimeFor(pendingFile),
-            fileBase64: dataUrl,
-            vertical: need,
-            need: need,
-            source: "upload_page",
-          }),
+    ensureUploadToken()
+      .then(function (token) {
+        if (!token) {
+          throw new Error(
+            "Autorisation manquante. Envoyez d'abord le formulaire avec votre e-mail, puis revenez ici."
+          );
+        }
+        return readBase64(pendingFile).then(function (dataUrl) {
+          return fetch("/api/external/upload", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "X-Upload-Token": token,
+            },
+            body: JSON.stringify({
+              email: email,
+              contactId: contactId || undefined,
+              uploadToken: token,
+              fileName: fd.get("fileName") || pendingFile.name,
+              documentType: fd.get("documentType"),
+              description: fd.get("description"),
+              mimeType: mimeFor(pendingFile),
+              fileBase64: dataUrl,
+              vertical: need,
+              need: need,
+              source: "upload_page",
+            }),
+          });
         });
       })
       .then(function (r) {
@@ -189,7 +241,7 @@
           } catch (err) {}
           pendingFile = null;
           document.getElementById("uploadMsg").innerHTML =
-            "✅ Document transmis et archivé. " +
+            "✅ Document transmis et archivé sur Drive. " +
             (res.drive && res.drive.simulated ? "(Mode simulation — Drive non configuré)" : "") +
             (isPublicFlow
               ? ' <a href="/">Retour au site</a>'
@@ -197,11 +249,11 @@
           e.target.reset();
           refreshList();
         } else {
-          document.getElementById("uploadMsg").textContent = res.error || "Erreur";
+          document.getElementById("uploadMsg").textContent = res.error || res.message || "Erreur";
         }
       })
-      .catch(function () {
-        document.getElementById("uploadMsg").textContent = "Erreur réseau";
+      .catch(function (err) {
+        document.getElementById("uploadMsg").textContent = (err && err.message) || "Erreur réseau";
       });
   };
 })();

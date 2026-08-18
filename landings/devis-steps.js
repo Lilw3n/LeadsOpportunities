@@ -200,7 +200,7 @@
   function needsDocumentStep(service) {
     if (!service) return false;
     var need = service.need || service.vertical || "";
-    return ["collective", "vtc", "sante"].indexOf(need) !== -1;
+    return ["collective", "vtc", "sante", "credit-immo", "acheteur-immo", "projection-achat"].indexOf(need) !== -1;
   }
 
   function stepDocuments(service) {

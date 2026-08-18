@@ -1,0 +1,41 @@
+.lead-dossier-upload {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 14px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+}
+
+.lead-dossier-upload h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+
+.lead-dossier-intro {
+  margin: 0 0 12px;
+  color: #475569;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.lead-dossier-type-label {
+  display: block;
+  margin: 12px 0 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.lead-dossier-hint {
+  margin: 10px 0 0;
+  color: #64748b;
+}
+
+.lead-dossier-drop-wrap select {
+  width: 100%;
+  max-width: 420px;
+  margin-bottom: 8px;
+}
+
+[data-lead-dossier-send] {
+  margin-top: 10px;
+}

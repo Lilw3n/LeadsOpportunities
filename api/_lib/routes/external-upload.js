@@ -6,6 +6,27 @@ const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../se
 const { getSql } = require("../db");
 const { uploadTextFile, uploadBase64File } = require("../drive-upload-core");
 const { subfolderForDocumentType } = require("../drive-folders");
+const { verifyUploadToken, tokenMatchesBody } = require("../upload-token");
+
+function extractUploadToken(req, body) {
+  return (
+    body.uploadToken ||
+    body.upload_token ||
+    (req.headers["x-upload-token"] ? String(req.headers["x-upload-token"]) : null)
+  );
+}
+
+async function authorizeUpload(req, body, contact) {
+  const token = extractUploadToken(req, body);
+  const decoded = verifyUploadToken(token);
+  if (!decoded) {
+    return { ok: false, status: 401, error: "Token upload manquant ou invalide. Rechargez la page après avoir envoyé le formulaire." };
+  }
+  if (!tokenMatchesBody(decoded, Object.assign({}, body, { email: contact.email, contactId: contact.id }))) {
+    return { ok: false, status: 403, error: "Jeton upload non valide pour ce dossier." };
+  }
+  return { ok: true, decoded: decoded };
+}
 
 function attachmentFromBody(body, driveResult) {
   return {
@@ -69,6 +90,9 @@ module.exports = async (req, res) => {
   try {
     const contact = await resolveContact(sql, body);
     if (!contact) return res.status(404).json({ error: "Dossier client introuvable" });
+
+    const auth = await authorizeUpload(req, body, contact);
+    if (!auth.ok) return res.status(auth.status).json({ error: auth.error });
 
     const subfolder = subfolderForDocumentType(documentType);
     var driveResult = null;
@@ -146,6 +170,9 @@ module.exports = async (req, res) => {
     });
   } catch (e) {
     console.error("[external/upload]", e);
+    if (e.code === "type_non_autorise" || e.code === "fichier_trop_lourd" || e.code === "extension_invalide") {
+      return res.status(400).json({ error: e.message || "Fichier refuse" });
+    }
     return res.status(500).json({ error: e.message || "Erreur serveur" });
   }
 };

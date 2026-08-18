@@ -84,12 +84,22 @@ async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, s
 
 async function uploadBase64File({ fileName, base64, mimeType, folderId, contactId, subfolder }) {
   if (!base64) throw new Error("base64 requis");
-  var raw = String(base64).replace(/^data:[^;]+;base64,/, "");
-  var buffer = Buffer.from(raw, "base64");
-  if (buffer.length > 12 * 1024 * 1024) {
-    throw new Error("Fichier trop volumineux (max 12 Mo)");
+  const { parseBase64Payload, validateUploadBuffer } = require("./file-validation");
+  var buffer = parseBase64Payload(base64);
+  var checked = validateUploadBuffer(buffer, fileName, mimeType);
+  if (!checked.ok) {
+    var err = new Error(checked.message || "Fichier refuse");
+    err.code = checked.error;
+    throw err;
   }
-  return uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, subfolder });
+  return uploadBuffer({
+    fileName: checked.fileName,
+    buffer: buffer,
+    mimeType: checked.mimeType,
+    folderId: folderId,
+    contactId: contactId,
+    subfolder: subfolder,
+  });
 }
 
 async function uploadTextFile({ fileName, content, mimeType, folderId, contactId, subfolder }) {

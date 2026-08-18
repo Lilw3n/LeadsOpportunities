@@ -64,6 +64,21 @@
         { type: "rib", label: "RIB", required: true },
       ],
     },
+    "projection-achat": {
+      title: "Pièces pour votre simulation / dossier prêt",
+      intro:
+        "Après avoir renseigné votre e-mail, déposez vos justificatifs (PDF ou photos). Ils sont archivés de façon sécurisée sur le Drive courtier.",
+      items: [
+        { type: "piece_identite", label: "Pièce d'identité", required: true },
+        { type: "avis_imposition", label: "Avis d'imposition", required: true },
+        { type: "bulletins_salaire", label: "Bulletins de salaire", required: true },
+        { type: "releves_bancaires", label: "Relevés bancaires", required: false },
+        { type: "compromis_offre", label: "Compromis / offre / annonce", required: false },
+        { type: "taxe_fonciere", label: "Taxe foncière / charges", required: false },
+        { type: "dpe", label: "DPE ou diagnostics", required: false },
+        { type: "rib", label: "RIB", required: false },
+      ],
+    },
     immo: {
       title: "Pièces dossier immobilier",
       intro: "Documents utiles au montage prêt / assurance habitation.",

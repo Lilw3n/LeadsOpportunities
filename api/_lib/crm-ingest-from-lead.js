@@ -87,6 +87,13 @@ async function ingestLeadToCrm(sql, body, leadId) {
     )
   `;
 
+  try {
+    const { ensureClientDriveFolders } = require("./drive-folders");
+    await ensureClientDriveFolders(contactId);
+  } catch (driveErr) {
+    console.warn("[crm-ingest] drive folders", driveErr.message);
+  }
+
   return contactId;
 }
 

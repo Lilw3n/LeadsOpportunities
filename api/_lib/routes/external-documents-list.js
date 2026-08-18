@@ -4,6 +4,7 @@
  */
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
+const { verifyUploadToken } = require("../upload-token");
 
 function parseAttachments(extraRaw, event) {
   var extra = {};
@@ -52,9 +53,18 @@ module.exports = async (req, res) => {
   const url = new URL(req.url, "http://localhost");
   const email = (url.searchParams.get("email") || "").trim().toLowerCase();
   const contactId = url.searchParams.get("contactId") || url.searchParams.get("contact_id");
+  const uploadToken =
+    url.searchParams.get("uploadToken") ||
+    url.searchParams.get("upload_token") ||
+    (req.headers["x-upload-token"] ? String(req.headers["x-upload-token"]) : null);
 
   if (!email && !contactId) {
     return res.status(400).json({ error: "email ou contactId requis" });
+  }
+
+  const decoded = verifyUploadToken(uploadToken);
+  if (!decoded) {
+    return res.status(401).json({ error: "Token upload requis pour consulter les documents" });
   }
 
   const sql = getSql();
@@ -70,6 +80,9 @@ module.exports = async (req, res) => {
       contact = rows[0] || null;
     }
     if (!contact) return res.status(404).json({ error: "Dossier introuvable" });
+    if (decoded.email !== String(contact.email).toLowerCase()) {
+      return res.status(403).json({ error: "Acces refuse" });
+    }
 
     const events = await sql`
       SELECT id, title, extra_data, status, created_at

@@ -20,6 +20,7 @@ const {
 } = require("../geo-france");
 
 const { finalizeLeadIngest } = require("../lead-post-ingest");
+const { createUploadToken } = require("../upload-token");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -397,5 +398,21 @@ module.exports = async (req, res) => {
     duplicate: !!enriched.parent_lead_id,
     parentLeadId: enriched.parent_lead_id || null,
     seoCity: enriched.seo_city || null,
+    uploadToken:
+      contactIdOut && enriched.email
+        ? (function () {
+            try {
+              return createUploadToken({
+                email: enriched.email,
+                contactId: contactIdOut,
+                leadId: leadId,
+                need: enriched.need || enriched.serviceNeed || enriched.vertical,
+              });
+            } catch (tokErr) {
+              console.warn("[lead] upload token", tokErr.message);
+              return null;
+            }
+          })()
+        : null,
   });
 };

@@ -3,7 +3,7 @@
  */
 (function (global) {
   var MAX_BYTES = 12 * 1024 * 1024;
-  var ACCEPT = ".pdf,.jpg,.jpeg,.png";
+  var ACCEPT = ".pdf,.jpg,.jpeg,.png,.webp";
 
   function readFileAsBase64(file) {
     return new Promise(function (resolve, reject) {
@@ -42,7 +42,7 @@
     this.need = options.need || "default";
     this.queue = [];
     this.uploaded = [];
-    this.session = { email: null, contactId: null, leadId: null };
+    this.session = { email: null, contactId: null, leadId: null, uploadToken: null };
     this.config = global.DEVIS_DOCUMENT_CONFIG
       ? global.DEVIS_DOCUMENT_CONFIG.getConfig(this.need)
       : { title: "Pièces justificatives", intro: "", items: [] };
@@ -108,6 +108,7 @@
     this.session.email = session.email || this.session.email;
     this.session.contactId = session.contactId || this.session.contactId;
     this.session.leadId = session.leadId || this.session.leadId;
+    this.session.uploadToken = session.uploadToken || this.session.uploadToken;
   };
 
   DevisDocumentUpload.prototype.uploadQueued = function () {
@@ -115,6 +116,9 @@
     if (!this.queue.length) return Promise.resolve({ uploaded: [], errors: [] });
     if (!this.session.email && !this.session.contactId) {
       return Promise.resolve({ uploaded: [], errors: [{ error: "email ou contactId manquant" }] });
+    }
+    if (!this.session.uploadToken) {
+      return Promise.resolve({ uploaded: [], errors: [{ error: "Envoyez d'abord le formulaire avec votre e-mail pour obtenir l'autorisation d'upload." }] });
     }
     var pending = this.queue.filter(function (q) {
       return q.status === "queued" || q.status === "error";
@@ -127,11 +131,15 @@
           .then(function (dataUrl) {
             return fetch("/api/external/upload", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                "X-Upload-Token": self.session.uploadToken || "",
+              },
               body: JSON.stringify({
                 email: self.session.email,
                 contactId: self.session.contactId,
                 leadId: self.session.leadId,
+                uploadToken: self.session.uploadToken,
                 fileName: item.fileName,
                 documentType: item.documentType,
                 mimeType: item.mimeType,
@@ -249,10 +257,14 @@
   DevisDocumentUpload.prototype.fetchRemoteList = function () {
     var self = this;
     if (!this.session.email && !this.session.contactId) return Promise.resolve([]);
+    if (!this.session.uploadToken) return Promise.resolve([]);
     var q = this.session.contactId
       ? "contactId=" + encodeURIComponent(this.session.contactId)
       : "email=" + encodeURIComponent(this.session.email);
-    return fetch("/api/external/documents-list?" + q)
+    q += "&uploadToken=" + encodeURIComponent(this.session.uploadToken);
+    return fetch("/api/external/documents-list?" + q, {
+      headers: { "X-Upload-Token": this.session.uploadToken },
+    })
       .then(function (r) {
         return r.json();
       })
@@ -306,7 +318,7 @@
       "</select>" +
       '<div class="devis-docs-drop" data-docs-drop style="margin-top:12px">' +
       "<strong>Glissez un fichier ici ou cliquez</strong>" +
-      "<p>PDF, JPG, PNG — max 12 Mo. Vous pouvez passer cette étape et envoyer plus tard.</p>" +
+      "<p>PDF, JPG, PNG, WEBP — max 12 Mo. Vous pouvez passer cette étape et envoyer plus tard.</p>" +
       '<input type="file" data-docs-input accept="' +
       ACCEPT +
       '" hidden />' +
