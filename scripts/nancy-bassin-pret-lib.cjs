@@ -29,14 +29,13 @@ var COMMUNES = [
   {
     slug: "varangeville",
     name: "Varangéville",
-    aliases: ["Varengeville"],
-    keywords: ["pret immobilier varangeville", "pret immobilier varengeville", "credit immo varangeville"],
+    keywords: ["pret immobilier varangeville", "credit immo varangeville"],
     market:
       "commune résidentielle entre Nancy et Jarville : maisons individuelles, lotissements, demande familiale stable",
     loan:
       "courtier basé à Varangéville : accompagnement de proximité pour les projets du bassin (RP, premier achat, rachat)",
     local:
-      "Recherche « prêt Varangéville » ou « Varengeville » : même bassin Nancy métropole, même étude de faisabilité",
+      "Recherche « prêt Varangéville » : bassin Nancy métropole, même étude de faisabilité que Jarville et Dombasle",
   },
   {
     slug: "maxeville",
@@ -435,9 +434,9 @@ function pretCityFaq(city) {
         " et dans tout le bassin Nancy métropole (54). Simulation gratuite, courtier ORIAS basé à Varangéville.",
     },
     {
-      q: "Cherchez-vous « prêt Varengeville » ou « Varangéville » ?",
+      q: "Le courtier est-il basé à Varangéville ?",
       a:
-        "C'est le même secteur : Varangéville (orthographe officielle), souvent tapé « Varengeville ». Nous couvrons Jarville, Nancy et les communes alentour.",
+        "Oui. Le cabinet est à Varangéville et couvre Jarville, Nancy, Dombasle et toutes les communes du bassin (54).",
     },
     {
       q: "Quel apport pour acheter à " + name + " ?",
@@ -477,7 +476,7 @@ function buildHubPages(page) {
   var gridPret = hubCityGrid("pret-immobilier");
   var gridCredit = hubCityGrid("credit-immo");
   var intro =
-    "Prêt immobilier et crédit sur Nancy métropole : Nancy, Jarville-la-Malgrange, Varangéville (Varengeville), Dombasle-sur-Meurthe, Houdemont, Ludres, Saint-Max, Maxéville, Vandœuvre, Laxou, Saint-Nicolas-de-Port, Champigneulles, Frouard, Neuves-Maisons et toutes les communes du 54. Courtier ORIAS basé à Varangéville — simulation gratuite, dossier banque, assurance emprunteur.";
+    "Prêt immobilier et crédit sur Nancy métropole : Nancy, Jarville-la-Malgrange, Varangéville, Dombasle-sur-Meurthe, Houdemont, Ludres, Saint-Max, Maxéville, Vandœuvre, Laxou, Saint-Nicolas-de-Port, Champigneulles, Frouard, Neuves-Maisons et toutes les communes du 54. Courtier ORIAS basé à Varangéville — simulation gratuite, dossier banque, assurance emprunteur.";
   function hub(file, siloLabel, siloUrl, grid, ctaHref) {
     return page({
       file: file,
@@ -487,7 +486,7 @@ function buildHubPages(page) {
       description:
         "Prêt immobilier Nancy, Jarville, Varangéville, Dombasle, Houdemont, Ludres, Saint-Max, Maxéville et communes du Grand Nancy (54). Courtier à Varangéville. Simulation gratuite.",
       keywords:
-        "pret immobilier nancy, pret jarville, pret varangeville, pret varengeville, credit immo 54, courtier nancy",
+        "pret immobilier nancy, pret jarville, pret varangeville, credit immo 54, courtier nancy",
       h1: "Prêt immobilier — bassin Nancy métropole (54)",
       intro: intro,
       cta: { href: ctaHref, label: "Simulation prêt — bassin Nancy" },
@@ -522,8 +521,8 @@ function buildHubPages(page) {
       ],
       faq: [
         {
-          q: "Couvrez-vous Varangéville et Varengeville ?",
-          a: "Oui — orthographe officielle Varangéville ; beaucoup de recherches tapent « Varengeville ». Même bassin, même accompagnement.",
+          q: "Couvrez-vous Varangéville ?",
+          a: "Oui — le courtier est basé à Varangéville et accompagne tout le bassin Nancy métropole (Jarville, Dombasle, Houdemont, Nancy…).",
         },
         {
           q: "Et Jarville-la-Malgrange ?",

@@ -41,12 +41,14 @@ assert(bassin.isBassinCity({ slug: "saint-max" }), "Saint-Max");
 assert(exists("pret-immobilier/nancy-metropole/index.html"), "hub pret nancy-metropole");
 assert(exists("credit-immo/nancy-metropole/index.html"), "hub credit nancy-metropole");
 assert(read("pret-immobilier/nancy-metropole/index.html").indexOf("Jarville") !== -1, "hub Jarville");
-assert(read("pret-immobilier/nancy-metropole/index.html").indexOf("Varengeville") !== -1, "hub typo Varengeville");
+assert(read("pret-immobilier/nancy-metropole/index.html").indexOf("Varangéville") !== -1, "hub Varangéville");
+assert(read("pret-immobilier/nancy-metropole/index.html").indexOf("Varengeville") === -1, "pas de Varengeville");
+assert(read("pret-immobilier/varangeville/index.html").indexOf("Varengeville") === -1, "page Varangéville sans typo");
 assert(read("pret-immobilier/nancy-metropole/index.html").indexOf("Dombasle") !== -1, "hub Dombasle");
 assert(read("pret-immobilier/nancy-metropole/index.html").indexOf("Houdemont") !== -1, "hub Houdemont");
 
 assert(read("scripts/seo-gsc-priority-urls.cjs").indexOf("nancy-metropole") !== -1, "GSC priorité");
-assert(read("js/nancy-bassin-local.js").indexOf("varengeville") !== -1, "bannière JS");
+assert(read("js/nancy-bassin-local.js").indexOf("varangeville") !== -1, "bannière JS");
 assert(read("landings/credit-immo.html").indexOf("nancy-bassin-local.js") !== -1, "landing credit script");
 
 var cities = JSON.parse(read("seo/france-cities.json"));

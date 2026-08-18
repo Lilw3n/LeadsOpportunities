@@ -7,7 +7,6 @@
     "nancy",
     "jarville",
     "varangeville",
-    "varengeville",
     "maxeville",
     "vandoeuvre",
     "laxou",

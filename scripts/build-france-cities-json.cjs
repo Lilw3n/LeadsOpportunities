@@ -76,7 +76,7 @@ const CITIES = [
   ["mulhouse", "Mulhouse", "grand-est", "haut-rhin"],
   ["nancy", "Nancy", "grand-est", "meurthe-et-moselle"],
   ["jarville-la-malgrange", "Jarville-la-Malgrange", "grand-est", "meurthe-et-moselle"],
-  ["varangeville", "Varangeville", "grand-est", "meurthe-et-moselle"],
+  ["varangeville", "Varangéville", "grand-est", "meurthe-et-moselle"],
   ["maxeville", "Maxeville", "grand-est", "meurthe-et-moselle"],
   ["vandoeuvre-les-nancy", "Vandoeuvre-les-Nancy", "grand-est", "meurthe-et-moselle"],
   ["laxou", "Laxou", "grand-est", "meurthe-et-moselle"],

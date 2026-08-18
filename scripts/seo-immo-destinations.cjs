@@ -92,7 +92,7 @@ function buildImmoDestinationPages(page, cities) {
         },
       ],
       hubCityGrid: [
-        { href: "/pret-immobilier/nancy-metropole/", label: "Nancy metropole (54) — Jarville, Varangeville, Dombasle, Houdemont" },
+        { href: "/pret-immobilier/nancy-metropole/", label: "Nancy metropole (54) — Jarville, Varangéville, Dombasle, Houdemont" },
         { href: "/pret-immobilier/iles-francaises/", label: "Iles francaises" },
         { href: "/pret-immobilier/dom-tom/", label: "DOM-TOM & Pacifique" },
         { href: "/pret-immobilier/destinations/", label: "Destinations (cote, montagne)" },
