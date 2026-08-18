@@ -238,13 +238,43 @@ window.CrmSidebar = {
     var activePath = options.activePath || location.pathname.split("/").pop() || "crm.html";
     var self = this;
 
+    var siteAdmin = true;
+    try {
+      var u = JSON.parse(localStorage.getItem("lo_user") || "{}");
+      siteAdmin = u.role === "admin" || u.isSiteAdmin === true;
+    } catch (e) {
+      siteAdmin = true;
+    }
+
+    var favorites = siteAdmin
+      ? this.FAVORITES
+      : this.FAVORITES.filter(function (item) {
+          return String(item.href || "").indexOf("dashboard.html") < 0;
+        });
+
+    var groups = this.GROUPS.filter(function (g) {
+      if (!siteAdmin && (g.id === "team" || g.id === "automations")) return false;
+      return true;
+    }).map(function (g) {
+      if (siteAdmin) return g;
+      return {
+        id: g.id,
+        label: g.label,
+        defaultOpen: g.defaultOpen,
+        items: g.items.filter(function (item) {
+          var href = String(item.href || "");
+          return href.indexOf("dashboard.html") < 0;
+        }),
+      };
+    });
+
     var html =
       '<div class="crm-nav-search-wrap">' +
       '<input type="search" id="crmNavSearch" class="crm-nav-search" placeholder="Rechercher dans le menu…" autocomplete="off" />' +
       "</div>" +
       '<div class="crm-nav-favorites" aria-label="Accès rapides">';
 
-    this.FAVORITES.forEach(function (item) {
+    favorites.forEach(function (item) {
       var icon = self.ICONS[item.icon] || self.ICONS.default;
       var active = activePath === item.href.replace(/^\.\//, "") ? " active" : "";
       html +=
@@ -262,7 +292,7 @@ window.CrmSidebar = {
     });
     html += "</div>";
 
-    this.GROUPS.forEach(function (g) {
+    groups.forEach(function (g) {
       var hasActive = g.items.some(function (item) {
         if (item.type === "section") return activeSection === item.id;
         return activePath === item.href.replace(/^\.\//, "");

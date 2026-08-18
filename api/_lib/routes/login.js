@@ -37,6 +37,9 @@ module.exports = async (req, res) => {
     }
 
     const user = rows[0];
+    if (user.status && user.status !== "active") {
+      return res.status(403).json({ error: "Compte desactive. Contactez l administrateur." });
+    }
     if (user.auth_provider === "google" && !user.password_hash) {
       return res.status(401).json({
         error: "Ce compte utilise la connexion Google. Cliquez sur « Continuer avec Google ».",
@@ -70,6 +73,8 @@ module.exports = async (req, res) => {
         crmRole: crmRole || null,
         fullName: user.full_name,
         phone: user.phone,
+        isSiteAdmin: user.role === "admin",
+        isCollaborator: user.role !== "admin" && !!crmRole,
       },
     });
   } catch (e) {

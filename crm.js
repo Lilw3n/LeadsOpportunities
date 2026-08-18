@@ -110,10 +110,17 @@
     window.dispatchEvent(new CustomEvent("lo:crm-app-visible"));
     var name = state.user.fullName || state.user.email;
     document.getElementById("crmUserName").textContent = name;
-    document.getElementById("crmUserRole").textContent =
-      (state.user.crmRole || state.user.role || "").toUpperCase();
+    var roleText =
+      window.LoCollaborator && window.LoCollaborator.roleLabel
+        ? window.LoCollaborator.roleLabel(state.user)
+        : (state.user.crmRole || state.user.role || "").toUpperCase();
+    document.getElementById("crmUserRole").textContent = roleText;
     var av = document.getElementById("crmUserAvatar");
     if (av) av.textContent = (name.charAt(0) || "U").toUpperCase();
+    var teamPanel = document.getElementById("userFormPanel");
+    if (teamPanel) {
+      teamPanel.hidden = !(window.LoCollaborator && window.LoCollaborator.isSiteAdmin(state.user));
+    }
   }
 
   function mountSidebar() {
@@ -574,29 +581,63 @@
   function loadTeam() {
     api("/api/crm/users").then(function (data) {
       var tbody = document.getElementById("teamTable");
+      var canManage = data.canManage || (window.LoCollaborator && window.LoCollaborator.isSiteAdmin());
+      var formPanel = document.getElementById("userFormPanel");
+      if (formPanel) formPanel.hidden = !canManage;
       if (!data.ok) {
         tbody.innerHTML = '<tr><td colspan="5">' + esc(data.error) + "</td></tr>";
         return;
       }
       tbody.innerHTML = (data.users || [])
         .map(function (u) {
+          var type =
+            u.role === "admin"
+              ? '<span class="crm-badge-admin">Administrateur</span>'
+              : '<span class="crm-badge-collab">Collaborateur</span>';
+          var actions = "";
+          if (canManage && u.role !== "admin") {
+            actions =
+              ' <button type="button" class="btn btn-ghost btn-sm" data-user-toggle="' +
+              esc(u.id) +
+              '" data-status="' +
+              esc(u.status === "inactive" ? "active" : "inactive") +
+              '">' +
+              (u.status === "inactive" ? "Réactiver" : "Désactiver") +
+              "</button>";
+          }
           return (
             "<tr><td>" +
             esc(u.full_name || "—") +
             "</td><td>" +
             esc(u.email) +
             "</td><td>" +
-            esc(u.crm_role || u.role) +
+            type +
+            " " +
+            esc(u.crm_role || "—") +
             "</td><td>" +
             esc(u.status || "active") +
             "</td><td>" +
             (u.last_login_at
               ? new Date(u.last_login_at).toLocaleDateString("fr-FR")
               : "—") +
+            actions +
             "</td></tr>"
           );
         })
         .join("");
+      tbody.querySelectorAll("[data-user-toggle]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var id = btn.getAttribute("data-user-toggle");
+          var status = btn.getAttribute("data-status");
+          api("/api/crm/users", {
+            method: "PATCH",
+            body: { id: id, status: status },
+          }).then(function (res) {
+            if (res.ok) loadTeam();
+            else alert(res.error || "Erreur");
+          });
+        });
+      });
     });
   }
 
@@ -617,7 +658,9 @@
         state.user = data.user;
         if (data.user.role !== "admin" && !data.user.crmRole) {
           document.getElementById("crmAuthMsg").textContent =
-            "Compte sans acces CRM. Contactez l administrateur.";
+            "Compte sans accès CRM. Demandez à l'administrateur de créer votre accès collaborateur.";
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(USER_KEY);
           return;
         }
         showApp();

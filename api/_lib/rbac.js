@@ -4,6 +4,19 @@ const { getSql } = require("./db");
 const CONTACT_TYPES = ["prospect", "client", "apporteur"];
 const CRM_STAFF_ROLES = ["admin", "staff", "commercial"];
 const ALL_CRM_ROLES = ["admin", "staff", "commercial", "apporteur"];
+/** Rôles assignables aux collaborateurs (jamais administrateur site). */
+const COLLABORATOR_CRM_ROLES = ["staff", "commercial", "apporteur"];
+
+function isSiteAdmin(user) {
+  return !!(user && user.role === "admin");
+}
+
+function isCollaborator(user) {
+  if (!user) return false;
+  if (isSiteAdmin(user)) return false;
+  const r = effectiveCrmRole(user);
+  return COLLABORATOR_CRM_ROLES.indexOf(r) !== -1;
+}
 
 function userFromJwt(decoded) {
   if (!decoded || !decoded.userId) return null;
@@ -24,7 +37,7 @@ async function loadUser(decoded) {
   if (!sql || !decoded?.userId) return null;
   try {
     const rows = await sql`
-      SELECT id, email, role, crm_role, full_name, phone, google_id, auth_provider
+      SELECT id, email, role, crm_role, full_name, phone, google_id, auth_provider, linked_contact_id, status
       FROM users WHERE id = ${decoded.userId} LIMIT 1
     `;
     return rows[0] || null;
@@ -47,8 +60,11 @@ function canAccessCrm(user) {
 }
 
 function canManageUsers(user) {
-  const r = effectiveCrmRole(user);
-  return user?.role === "admin" || r === "admin" || r === "staff";
+  return isSiteAdmin(user);
+}
+
+function canManageCollaborators(user) {
+  return isSiteAdmin(user);
 }
 
 function canManageAllContacts(user) {
@@ -64,7 +80,9 @@ function toCrmUser(user) {
     crmRole: effectiveCrmRole(user),
     fullName: user.full_name,
     phone: user.phone,
-    linkedContactId: null,
+    linkedContactId: user.linked_contact_id || null,
+    isSiteAdmin: isSiteAdmin(user),
+    isCollaborator: isCollaborator(user),
   };
 }
 
@@ -112,8 +130,12 @@ module.exports = {
   CONTACT_TYPES,
   CRM_STAFF_ROLES,
   ALL_CRM_ROLES,
+  COLLABORATOR_CRM_ROLES,
+  isSiteAdmin,
+  isCollaborator,
   canAccessCrm,
   canManageUsers,
+  canManageCollaborators,
   canManageAllContacts,
   requireCrm,
   optionalCrm,

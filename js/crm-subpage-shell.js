@@ -9,6 +9,9 @@
       location.href = "./crm.html";
       return;
     }
+    if (window.LoCollaborator && window.LoCollaborator.refreshSession) {
+      window.LoCollaborator.refreshSession();
+    }
     buildShell();
   }
 

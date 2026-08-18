@@ -26,18 +26,24 @@ module.exports = async (req, res) => {
     }
 
     const u = rows[0];
+    if (u.status && u.status !== "active") {
+      return res.status(403).json({ error: "Compte desactive" });
+    }
+    const crmRole = u.role === "admin" ? u.crm_role || "admin" : u.crm_role;
     return res.status(200).json({
       ok: true,
       user: {
         id: u.id,
         email: u.email,
         role: u.role,
-        crmRole: u.role === "admin" ? u.crm_role || "admin" : u.crm_role,
+        crmRole: crmRole,
         fullName: u.full_name,
         status: u.status,
         phone: u.phone,
         createdAt: u.created_at,
         lastLoginAt: u.last_login_at,
+        isSiteAdmin: u.role === "admin",
+        isCollaborator: u.role !== "admin" && !!crmRole,
       },
     });
   } catch (e) {
