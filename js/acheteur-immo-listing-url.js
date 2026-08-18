@@ -207,6 +207,12 @@
     document.querySelectorAll("[name='listingMode']").forEach(function (el) {
       el.addEventListener("change", applyListingMode);
     });
+    document.querySelectorAll("[data-hat-switch]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var hat = btn.getAttribute("data-hat-switch");
+        if (hat) applyHat(hat);
+      });
+    });
   }
 
   function renderPreview(root, state) {

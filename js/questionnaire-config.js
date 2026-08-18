@@ -1230,6 +1230,51 @@
       );
     },
 
+    "vendeur-immo": function () {
+      return wizardSection(
+        "vendeur-immo",
+        "Bien invendu ou difficile a vendre",
+        '<p class="small">Mandat agence, prix, DPE, travaux — on active des acquereurs finançables sur votre secteur. <a href="./acheteur-immo.html?role=vendeur">Depot annonce →</a></p>' +
+          fieldRow(
+            input("sellerPropertyCity", "Ville du bien", "text", "Ex. Saint-Nicolas-de-Port", true) +
+              input("sellerPropertyPrice", "Prix affiche (EUR)", "text", "Ex. 220000", true)
+          ) +
+          fieldRow(
+            select("sellerUnsoldDuration", "En vente depuis", [
+              { v: "moins_3", t: "Moins de 3 mois" },
+              { v: "3_6", t: "3 a 6 mois" },
+              { v: "6_12", t: "6 a 12 mois" },
+              { v: "plus_12", t: "Plus de 12 mois" },
+            ]) +
+              select("sellerHasNegotiator", "Mandat negociateur / agence ?", [
+                { v: "oui_exclusif", t: "Oui, mandat exclusif" },
+                { v: "oui_simple", t: "Oui, mandat simple" },
+                { v: "non", t: "Non, vente directe" },
+                { v: "ancien", t: "Mandat termine / rompu" },
+              ])
+          ) +
+          fieldRow(
+            select("sellerUnsoldReason", "Blocage principal", [
+              { v: "prix", t: "Prix / pas de visites" },
+              { v: "mandat", t: "Agence sans resultat" },
+              { v: "dpe", t: "DPE / passoire thermique" },
+              { v: "travaux", t: "Travaux a prevoir" },
+              { v: "financement", t: "Pas d acheteurs finançables" },
+              { v: "annonce", t: "Annonce / photos" },
+              { v: "autre", t: "Autre / inconnu" },
+            ]) +
+              select("sellerWantsBuyerMatch", "Activer des acquereurs budget + pret ?", [
+                { v: "oui", t: "Oui" },
+                { v: "info", t: "Conseil d abord" },
+              ])
+          ) +
+          fieldRow(
+            input("sellerListingUrl", "URL annonce (optionnel)", "text", "https://…", false) +
+              textarea("sellerUnsoldDetails", "Details (visites, offres refusees…)", "Contexte utile pour le conseiller", false)
+          )
+      );
+    },
+
     "acheteur-immo": function () {
       return (
         wizardSection(

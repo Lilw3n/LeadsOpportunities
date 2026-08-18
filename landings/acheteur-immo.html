@@ -84,6 +84,23 @@
           </div>
         </div>
 
+        <div class="form-wrap" id="bien-invendu" style="margin:0 0 20px;padding:16px;border:1px solid #fecaca;border-radius:12px;background:#fff7ed">
+          <h2 style="margin:0 0 8px;font-size:1.1rem">Votre bien ne se vend pas ?</h2>
+          <p class="section-lead" style="margin:0 0 12px;font-size:.9rem">
+            Mandat chez un négociateur sans visite, prix trop élevé, pas d'acquéreur finançable…
+            On active des <strong>acheteurs avec budget et prêt calés</strong> — en complément de votre agence.
+          </p>
+          <ul class="points" style="margin-bottom:12px;font-size:.88rem">
+            <li>8 contextes fréquents : prix, DPE, travaux, mandat bloqué, financement acquéreur…</li>
+            <li>Dépôt vendeur + alerte acquéreur + dossier crédit côté acheteur</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-primary" href="#deposer-bien" data-hat-switch="vendeur">Déposer mon bien invendu</a>
+            <a class="btn btn-soft" href="../blog/maison-ne-se-vend-pas-pourquoi-que-faire-2026.html">Guide : pourquoi ça ne part pas</a>
+            <a class="btn btn-soft" href="../immobilier/maisons-invendues/">Hub biens invendus</a>
+          </div>
+        </div>
+
         <nav data-immo-parcours data-immo-step="bien" aria-label="Parcours acquéreur"></nav>
 
         <div class="immo-hats" data-immo-hats>
@@ -263,6 +280,32 @@
                 <div class="field">
                   <label for="sellerAgencyOwner">Agence / réseau (si pro)</label>
                   <input id="sellerAgencyOwner" name="sellerAgency" placeholder="Ex. ORPI, indépendant" />
+                </div>
+                <div class="field">
+                  <label for="sellerUnsoldDuration">Depuis combien de temps en vente ?</label>
+                  <select id="sellerUnsoldDuration" name="sellerUnsoldDuration">
+                    <option value="">Choisir…</option>
+                    <option value="moins_3">Moins de 3 mois</option>
+                    <option value="3_6">3 à 6 mois</option>
+                    <option value="6_12">6 à 12 mois</option>
+                    <option value="plus_12">Plus de 12 mois</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="sellerUnsoldReason">Pourquoi pensez-vous que ça ne part pas ?</label>
+                  <select id="sellerUnsoldReason" name="sellerUnsoldReason">
+                    <option value="">Choisir…</option>
+                    <option value="prix">Prix trop élevé / pas de visites</option>
+                    <option value="mandat">Mandat agence sans résultat</option>
+                    <option value="dpe">DPE / passoire thermique</option>
+                    <option value="travaux">Travaux à prévoir</option>
+                    <option value="financement">Pas d'acheteurs finançables</option>
+                    <option value="annonce">Annonce / photos</option>
+                    <option value="autre">Autre / je ne sais pas</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label class="field-check"><input type="checkbox" name="sellerWantsBuyerMatch" value="1" checked /> Activez des acquéreurs avec budget / prêt sur mon secteur</label>
                 </div>
               </div>
             </div>

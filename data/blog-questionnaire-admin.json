@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-08-18",
   "sections": [
     "actu",
     "animaux",
@@ -1235,6 +1235,71 @@
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
       "matchedRule": "pret-refuse",
+      "species": null
+    },
+    {
+      "file": "maison-ne-se-vend-pas-pourquoi-que-faire-2026.html",
+      "title": "Maison qui ne se vend pas : pourquoi (8 contextes) et que faire en 2026",
+      "section": "finance",
+      "hook": "8 contextes possibles — on identifie le vôtre et on active des acquéreurs finançables.",
+      "question": "Votre bien est-il en mandat chez un négociateur ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?role=vendeur&utm_source=blog&utm_medium=invendu&utm_content=hub#deposer-bien",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "bien-invendu",
+      "species": null
+    },
+    {
+      "file": "bien-mandat-negociateur-sans-visite-solutions.html",
+      "title": "Bien chez un négociateur immobilier sans visites : que faire ?",
+      "section": "finance",
+      "hook": "Mandat sans visite : repositionnement + acquéreurs avec prêt validé.",
+      "question": "Avez-vous l'URL de l'annonce en ligne ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?role=vendeur&utm_source=blog&utm_medium=invendu&utm_content=mandat#deposer-bien",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "bien-invendu",
+      "species": null
+    },
+    {
+      "file": "trouver-acquereur-pret-valide-maison-invendue.html",
+      "title": "Trouver un acquéreur avec prêt validé pour une maison invendue",
+      "section": "finance",
+      "hook": "On qualifie budget et crédit avant de vous envoyer une visite sérieuse.",
+      "question": "Quel secteur et quel prix pour votre bien ?",
+      "need": "credit-immo",
+      "landing": "../landings/questionnaire.html?need=vendeur-immo&journey=standard",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=acheteur-immo&journey=standard&utm_source=blog&utm_medium=invendu",
+      "matchedRule": "bien-invendu",
+      "species": null
+    },
+    {
+      "file": "prix-trop-eleve-vendre-maison-repositionner.html",
+      "title": "Prix trop élevé : comment repositionner une maison qui ne se vend pas",
+      "section": "finance",
+      "hook": "Votre bien stagne chez un négociateur ? On active des acquéreurs dont le prêt est calé — pas des curieux.",
+      "question": "Depuis combien de temps votre bien est-il en vente ?",
+      "need": "credit-immo",
+      "landing": "../landings/projection-achat.html?utm_source=blog&utm_medium=invendu",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "bien-invendu",
+      "species": null
+    },
+    {
+      "file": "maison-invendue-54-trouver-acquereur.html",
+      "title": "Maison invendue dans le 54 : trouver un acquéreur finançable (Saint-Nicolas, Nancy…)",
+      "section": "finance",
+      "hook": "54 : Saint-Nicolas, Nancy, val de Meurthe — acquéreurs finançables depuis Varangeville.",
+      "question": "Dans quelle commune est le bien ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?role=vendeur&city=Saint-Nicolas-de-Port&utm_source=blog&utm_medium=invendu_54#deposer-bien",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "bien-invendu",
       "species": null
     },
     {

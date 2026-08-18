@@ -898,6 +898,38 @@ var DEEP = {
       ]),
     ],
   },
+  "maison-ne-se-vend-pas-pourquoi-que-faire-2026.html": {
+    keywords: [
+      "maison ne se vend pas",
+      "bien invendu",
+      "mandat immobilier sans visite",
+      "negociateur immobilier",
+      "trouver acquereur pret valide",
+      "vendre maison difficile",
+    ],
+    extraBlocks: [
+      h2("Vendeur et negociateur : meme objectif"),
+      p(
+        "Nous ne remplacons pas le mandat agence : nous <strong>qualifions des acquereurs finançables</strong> pour debloquer les visites sans suite."
+      ),
+    ],
+  },
+  "trouver-acquereur-pret-valide-maison-invendue.html": {
+    keywords: [
+      "trouver acquereur maison",
+      "acheteur pret valide",
+      "capacite emprunt acquereur",
+      "courtier immobilier acquereur vendeur",
+    ],
+    extraBlocks: [
+      h2("Chaine vendeur-acquereur-credit"),
+      ul([
+        "Depot bien — /landings/acheteur-immo.html?role=vendeur",
+        "Alerte acquereur — budget + secteur",
+        "Credit — /landings/credit-immo.html",
+      ]),
+    ],
+  },
 };
 
 function getOverride(file) {

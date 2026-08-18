@@ -3,6 +3,7 @@
  * Angles îles, DOM-TOM, COM et destinations françaises.
  */
 var contentLib = require("./seo-content-lib.cjs");
+var invendues = require("./maisons-invendues-lib.cjs");
 
 var ISLAND_REGIONS = {
   corse: {
@@ -343,6 +344,7 @@ function rechercheCitySections(city) {
         " detaille capacite d emprunt, apport et assurance. La projection d achat montre le cout mensuel reel.",
     ],
   });
+  sections = sections.concat(invendues.vendeurUnsoldSections(city));
   return sections;
 }
 
@@ -360,7 +362,7 @@ function rechercheCityFaq(city) {
       q: "Faut-il un pret avant de visiter ?",
       a: "Fortement conseille a " + city.name + " : les vendeurs privilegient les dossiers finances. Simulation gratuite.",
     },
-  ]);
+  ]).concat(invendues.vendeurUnsoldFaq(city));
 }
 
 module.exports = {

@@ -310,6 +310,26 @@
         "deuxième chance crédit"
       ],
       "section": "finance"
+    },
+    {
+      "id": "bien-invendu",
+      "match": [
+        "ne se vend pas",
+        "n se vend pas",
+        "bien invendu",
+        "maison invendue",
+        "mandat sans visite",
+        "negociateur immobilier",
+        "négociateur immobilier",
+        "pas de visite",
+        "en vente depuis",
+        "trouver acquereur",
+        "trouver acquéreur",
+        "acheteur finançable"
+      ],
+      "section": "finance",
+      "hook": "Votre bien stagne chez un négociateur ? On active des acquéreurs dont le prêt est calé — pas des curieux.",
+      "question": "Depuis combien de temps votre bien est-il en vente ?"
     }
   ],
   "articles": {
@@ -666,6 +686,35 @@
       "question": "Voulez-vous faire étudier votre dossier déjà refusé ?",
       "landing": "/landings/credit-immo.html",
       "landingLabel": "Étude crédit 2e chance"
+    },
+    "maison-ne-se-vend-pas-pourquoi-que-faire-2026.html": {
+      "section": "finance",
+      "hook": "8 contextes possibles — on identifie le vôtre et on active des acquéreurs finançables.",
+      "question": "Votre bien est-il en mandat chez un négociateur ?",
+      "landing": "/landings/acheteur-immo.html?role=vendeur&utm_source=blog&utm_medium=invendu#deposer-bien",
+      "landingLabel": "Déposer mon bien invendu",
+      "questionnaireLabel": "Questionnaire vendeur (3 min)"
+    },
+    "bien-mandat-negociateur-sans-visite-solutions.html": {
+      "section": "finance",
+      "hook": "Mandat sans visite : repositionnement + acquéreurs avec prêt validé.",
+      "question": "Avez-vous l'URL de l'annonce en ligne ?",
+      "landing": "/landings/acheteur-immo.html?role=vendeur#deposer-bien",
+      "landingLabel": "Activer des acquéreurs"
+    },
+    "trouver-acquereur-pret-valide-maison-invendue.html": {
+      "section": "finance",
+      "hook": "On qualifie budget et crédit avant de vous envoyer une visite sérieuse.",
+      "question": "Quel secteur et quel prix pour votre bien ?",
+      "landing": "/landings/questionnaire.html?need=vendeur-immo&journey=standard",
+      "landingLabel": "Questionnaire vendeur"
+    },
+    "maison-invendue-54-trouver-acquereur.html": {
+      "section": "finance",
+      "hook": "54 : Saint-Nicolas, Nancy, val de Meurthe — acquéreurs finançables depuis Varangeville.",
+      "question": "Dans quelle commune est le bien ?",
+      "landing": "/landings/acheteur-immo.html?role=vendeur&city=Saint-Nicolas-de-Port#deposer-bien",
+      "landingLabel": "Déposer — 54"
     }
   }
 }
