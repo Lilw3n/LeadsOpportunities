@@ -3,6 +3,7 @@
  * Angles îles, DOM-TOM, COM et destinations françaises.
  */
 var contentLib = require("./seo-content-lib.cjs");
+var bassin = require("./bassin-nance-local-lib.cjs");
 
 var ISLAND_REGIONS = {
   corse: {
@@ -166,6 +167,17 @@ function profile(city) {
         "stock saisonnier, visites concentrees hors ete. Un budget pret arrete fait gagner les biens serieux",
     };
   }
+  if (bassin.isBassinCity(city)) {
+    return {
+      kind: "bassin-nance",
+      label: "Meurthe-et-Moselle — bassin nancéien",
+      market: bassin.localIntroParagraph(city),
+      loan:
+        "salaires industriels (Solvay, mines), fonction publique nancéienne ou commerces locaux : nous calons capacité d emprunt, apport et assurance emprunteur sur votre réalité du 54",
+      search:
+        "entre Nancy, Varangeville, Dombasle et Saint-Nicolas-de-Port : annonces portails + budget prêt validé avant visite — estimation DVF disponible pour les vendeurs",
+    };
+  }
   return {
     kind: "metro",
     label: city.region,
@@ -256,6 +268,8 @@ function pretCitySections(city) {
         "Nous calons l usage, la duree d occupation, et le plan B si la location ne remplit pas.",
       ],
     });
+  } else if (p.kind === "bassin-nance") {
+    sections = sections.concat(bassin.seoSections(city));
   }
   sections.push({
     h2: "Recherche de bien et projection a " + city.name,
@@ -268,7 +282,7 @@ function pretCitySections(city) {
 
 function pretCityFaq(city) {
   var p = profile(city);
-  return contentLib.defaultCityFaq(city, "Pret immobilier").concat([
+  var faq = contentLib.defaultCityFaq(city, "Pret immobilier").concat([
     {
       q: "Puis-je obtenir un pret immobilier a " + city.name + " ?",
       a:
@@ -291,6 +305,10 @@ function pretCityFaq(city) {
       a: "Oui. Premiere analyse de faisabilite gratuite, puis accompagnement dossier si vous poursuivez.",
     },
   ]);
+  if (bassin.isBassinCity(city)) {
+    faq = faq.concat(bassin.seoFaqExtra(city));
+  }
+  return faq;
 }
 
 function rechercheCitySections(city) {
@@ -335,6 +353,9 @@ function rechercheCitySections(city) {
       ],
     });
   }
+  if (p.kind === "bassin-nance") {
+    sections = sections.concat(bassin.seoSections(city));
+  }
   sections.push({
     h2: "Financer le bien trouve a " + city.name,
     paragraphs: [
@@ -347,7 +368,7 @@ function rechercheCitySections(city) {
 }
 
 function rechercheCityFaq(city) {
-  return contentLib.defaultCityFaq(city, "Recherche de bien").concat([
+  var faq = contentLib.defaultCityFaq(city, "Recherche de bien").concat([
     {
       q: "Cherchez-vous des biens a " + city.name + " ?",
       a: "Oui. Formulaire acheteur, criteres (budget, type, quartier) puis selection. Couverture metropole, Corse, DOM-TOM et destinations.",
@@ -361,6 +382,10 @@ function rechercheCityFaq(city) {
       a: "Fortement conseille a " + city.name + " : les vendeurs privilegient les dossiers finances. Simulation gratuite.",
     },
   ]);
+  if (bassin.isBassinCity(city)) {
+    faq = faq.concat(bassin.seoFaqExtra(city));
+  }
+  return faq;
 }
 
 module.exports = {

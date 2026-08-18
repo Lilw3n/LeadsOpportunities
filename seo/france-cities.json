@@ -581,6 +581,13 @@
     "dept": "ille-et-vilaine"
   },
   {
+    "slug": "dombasle-sur-meurthe",
+    "name": "Dombasle-sur-Meurthe",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "douai",
     "name": "Douai",
     "region": "Hauts-de-France",
@@ -1083,6 +1090,13 @@
     "region": "Hauts-de-France",
     "regionSlug": "hauts-de-france",
     "dept": "nord"
+  },
+  {
+    "slug": "maxeville",
+    "name": "Maxeville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "meaux",
@@ -1666,6 +1680,13 @@
     "dept": "loire-atlantique"
   },
   {
+    "slug": "saint-nicolas-de-port",
+    "name": "Saint-Nicolas-de-Port",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "saint-omer",
     "name": "Saint-Omer",
     "region": "Hauts-de-France",
@@ -1902,6 +1923,13 @@
     "region": "Bretagne",
     "regionSlug": "bretagne",
     "dept": "morbihan"
+  },
+  {
+    "slug": "varangeville",
+    "name": "Varangeville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "venissieux",

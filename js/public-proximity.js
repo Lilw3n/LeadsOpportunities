@@ -112,13 +112,12 @@
 
     credit: {
 
-      badge: "Courtier crédit immo",
+      badge: "Courtier crédit immo · 54",
 
-      title: "Un interlocuteur unique pour votre projet",
+      title: "Un interlocuteur qui connaît le bassin nancéien",
 
       lead:
-
-        "Simulation en ligne, puis suivi humain jusqu’au notaire. Même conseiller, mêmes coordonnées — pas de plateforme impersonnelle.",
+        "Basés à Varangeville (mine de sel, bassin potassique), nous accompagnons aussi les projets à Dombasle (Solvay), Saint-Nicolas-de-Port (basilique) et Nancy métropole. Simulation en ligne, puis suivi humain jusqu’au notaire.",
 
     },
 

@@ -1,0 +1,43 @@
+.nancy-bassin-banner {
+  margin: 16px 0 20px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #99f6e4;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ecfeff 100%);
+  color: #134e4a;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.nancy-bassin-banner strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+  color: #0f766e;
+}
+
+.nancy-bassin-banner a {
+  color: #0d9488;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nancy-bassin-banner a:hover {
+  text-decoration: underline;
+}
+
+.nancy-bassin-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.nancy-bassin-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(13, 148, 136, 0.12);
+  color: #115e59;
+}
