@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="../css/callback-form.css" />
   <link rel="stylesheet" href="../css/contact-pair.css" />
   <link rel="stylesheet" href="../css/lead-dossier-upload.css" />
+  <link rel="stylesheet" href="../css/property-estimate.css" />
 </head>
 <body>
   <header class="landing-topbar">
@@ -253,6 +254,40 @@
             </div>
 
             <div data-hat-vendeur-only>
+              <div class="property-estimate" data-property-estimate style="margin-top:16px">
+                <h2 style="font-size:1.05rem;margin:0 0 8px">Estimation indicative (ventes DVF)</h2>
+                <p class="property-estimate-intro">Prix moyen sur votre adresse — Varangeville, Dombasle, Saint-Nicolas, Nancy et 54 en priorité.</p>
+                <form class="property-estimate-form">
+                  <div class="grid">
+                    <div class="field full">
+                      <label for="peAddressInline">Adresse du bien</label>
+                      <input id="peAddressInline" name="address" placeholder="Rue et numéro" />
+                    </div>
+                    <div class="field">
+                      <label for="peCpInline">CP</label>
+                      <input id="peCpInline" name="postalCode" inputmode="numeric" maxlength="5" />
+                    </div>
+                    <div class="field">
+                      <label for="peCityInline">Ville</label>
+                      <input id="peCityInline" name="city" />
+                    </div>
+                    <div class="field">
+                      <label for="peTypeInline">Type</label>
+                      <select id="peTypeInline" name="propertyType">
+                        <option value="maison">Maison</option>
+                        <option value="appartement">Appartement</option>
+                      </select>
+                    </div>
+                    <div class="field">
+                      <label for="peSurfInline">Surface m²</label>
+                      <input id="peSurfInline" name="surface" inputmode="numeric" />
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-soft" style="margin-top:10px">Estimer le prix</button>
+                </form>
+                <div data-property-estimate-result></div>
+                <p class="small" style="margin:8px 0 0"><a href="./estimation-vente.html">Page estimation détaillée →</a></p>
+              </div>
               <p class="search-section-label" style="margin-top:16px">Vous vendez en tant que</p>
               <div class="search-chip-grid search-chip-grid--3" role="group" aria-label="Type de vendeur">
                 <label class="search-chip"><input type="radio" name="sellerKind" value="particulier" checked /><span>Particulier</span></label>
@@ -1201,6 +1236,7 @@
   <script src="../js/acheteur-immo-search.js"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>
   <script src="../js/acheteur-immo-listing-url.js"></script>
+  <script src="../js/property-estimate-widget.js" defer></script>
   <script src="./tracking.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {

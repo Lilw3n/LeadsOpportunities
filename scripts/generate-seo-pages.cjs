@@ -632,6 +632,7 @@ const PAGES = [
       { href: "/landings/acheteur-immo.html?role=vendeur", label: "Deposer un bien (vendeur)" },
       { href: "/landings/credit-immo.html", label: "Simulation pret" },
       { href: "/landings/projection-achat.html", label: "Projection achat" },
+      { href: "/landings/estimation-vente.html", label: "Estimation vente (DVF)" },
       { href: "/credit-immo/varangeville/", label: "Credit immo Varangeville" },
       { href: "/blog/acheter-nancy-metropole-pret-recherche-2026.html", label: "Guide acquereur 54" },
       { href: "/blog/vendre-nancy-metropole-projet-vendeur-2026.html", label: "Guide vendeur 54" },

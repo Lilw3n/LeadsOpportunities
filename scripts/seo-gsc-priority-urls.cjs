@@ -16,6 +16,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/credit-immo.html",
   "/landings/acheteur-immo.html",
   "/landings/projection-achat.html",
+  "/landings/estimation-vente.html",
   "/immobilier/",
   "/immobilier/nancy-metropole/",
   "/landings/devis.html",

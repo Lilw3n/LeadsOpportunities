@@ -5,6 +5,8 @@
   "description": "Leads Opportunities website with Stripe serverless integration",
   "scripts": {
     "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-assurances-niches-page.cjs && node scripts/generate-seo-pages.cjs",
+    "dvf:build": "node scripts/build-dvf-stats.cjs",
+    "verify:dvf": "node scripts/verify-dvf-estimate.cjs",
     "seo:images": "node scripts/download-seo-images.cjs",
     "verify:seo-vtc-idf": "node scripts/verify-seo-vtc-idf.cjs",
     "verify:seo-pret-recherche": "node scripts/verify-seo-pret-recherche.cjs",

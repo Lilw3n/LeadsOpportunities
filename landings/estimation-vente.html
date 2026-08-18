@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estimation vente immobilière | Varangeville, Nancy, Dombasle — DVF</title>
+  <meta name="description" content="Estimez le prix de vente de votre maison ou appartement à Varangeville, Dombasle, Saint-Nicolas-de-Port, Nancy et en France. Données DVF (ventes notariées) + accompagnement vendeur." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/landings/estimation-vente.html" />
+  <meta property="og:title" content="Estimation vente immobilière — bassin Nancy / France" />
+  <meta property="og:description" content="Prix moyen maison et appartement par adresse : ventes DVF + fourchette indicative. Bureau Varangeville (54)." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.leadsopportunities.fr/landings/estimation-vente.html" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JX8E35693F"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JX8E35693F');</script>
+  <script src="/api/google-config-env"></script>
+  <script src="../google-config.js"></script>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="../css/property-estimate.css" />
+  <link rel="stylesheet" href="../css/nancy-bassin-banner.css" />
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../immobilier/nancy-metropole/">← Nancy métropole</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container">
+      <span class="badge">Vendeur · Estimation</span>
+      <section class="card">
+        <h1>Combien vaut votre bien ?</h1>
+        <p class="sub">
+          Nous interprétons les <strong>ventes notariées publiques (DVF)</strong> — comme sur les sites d’analyse immobilière —
+          pour vous donner une <strong>fourchette indicative</strong> sur votre adresse.
+          Zone prioritaire : <strong>Varangeville, Dombasle, Saint-Nicolas-de-Port, Nancy</strong> et le 54.
+          Ailleurs en France : médiane communale.
+        </p>
+
+        <div class="property-estimate" data-property-estimate>
+          <h2>Estimation par adresse</h2>
+          <p class="property-estimate-intro">
+            Saisissez l’adresse complète et la surface habitable. Nous comparons les ventes récentes sur la même rue, le quartier, puis la commune.
+          </p>
+          <form class="property-estimate-form">
+            <div class="grid">
+              <div class="field full">
+                <label for="peAddress">Adresse (rue et numéro)</label>
+                <input id="peAddress" name="address" required placeholder="Ex. 12 rue de la Saline" autocomplete="street-address" />
+              </div>
+              <div class="field">
+                <label for="peCp">Code postal</label>
+                <input id="peCp" name="postalCode" required inputmode="numeric" maxlength="5" placeholder="54110" value="54110" />
+              </div>
+              <div class="field">
+                <label for="peCity">Ville</label>
+                <input id="peCity" name="city" required placeholder="Varangéville" value="Varangéville" />
+              </div>
+              <div class="field">
+                <label for="peType">Type de bien</label>
+                <select id="peType" name="propertyType">
+                  <option value="maison" selected>Maison</option>
+                  <option value="appartement">Appartement</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="peSurface">Surface habitable (m²)</label>
+                <input id="peSurface" name="surface" required inputmode="numeric" placeholder="Ex. 105" />
+              </div>
+            </div>
+            <div class="actions" style="margin-top:14px">
+              <button type="submit" class="btn btn-primary">Estimer mon bien</button>
+              <a class="btn btn-soft" href="./acheteur-immo.html?role=vendeur">Déposer mon annonce</a>
+            </div>
+          </form>
+          <div data-property-estimate-result></div>
+        </div>
+
+        <ul class="points" style="margin-top:24px">
+          <li><strong>Projet vendeur</strong> : net vendeur, honoraires, délai, vente + rachat</li>
+          <li><strong>Projet acquéreur</strong> : prêt, recherche, projection du coût mensuel réel</li>
+          <li><strong>Bureau Varangeville (54110)</strong> — un interlocuteur pour les deux casquettes</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+  <script src="../js/nancy-bassin-local.js" defer></script>
+  <script src="../js/property-estimate-widget.js" defer></script>
+  <script src="./tracking.js"></script>
+</body>
+</html>

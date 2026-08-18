@@ -1,0 +1,101 @@
+.property-estimate {
+  margin: 20px 0;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+}
+
+.property-estimate h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+
+.property-estimate-intro {
+  margin: 0 0 16px;
+  color: #475569;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.property-estimate-form .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.property-estimate-form .field.full {
+  grid-column: 1 / -1;
+}
+
+.property-estimate-result {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.property-estimate-result.is-soft {
+  background: #fff7ed;
+  color: #9a3412;
+  border: 1px solid #fdba74;
+}
+
+.property-estimate-price {
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.property-estimate-range {
+  margin-top: 6px;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.property-estimate-meta {
+  margin-top: 12px;
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.property-estimate-comps {
+  margin-top: 14px;
+}
+
+.property-estimate-comps h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+
+.property-estimate-comps table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.property-estimate-comps th,
+.property-estimate-comps td {
+  padding: 6px 8px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  text-align: left;
+}
+
+.property-estimate-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.property-estimate-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
