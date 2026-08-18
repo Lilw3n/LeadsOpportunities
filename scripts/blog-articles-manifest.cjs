@@ -2671,6 +2671,11 @@ pretRefuse.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const leadIntent = require("./blog-lead-intent-articles.cjs");
+leadIntent.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};
