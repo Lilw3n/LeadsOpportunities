@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const contentLib = require("./seo-content-lib.cjs");
 const immoLib = require("./seo-immo-content-lib.cjs");
+const nancyBassin = require("./nancy-bassin-pret-lib.cjs");
 
 const DEFAULT_GEO_STEPS = [
   { title: "Demande en ligne", text: "Formulaire ou demande de rappel sur le site." },
@@ -142,9 +143,13 @@ const GEO_PRODUCTS = [
       return "Simulation credit " + city.name;
     },
     title: function (city) {
-      return "Credit immobilier " + city.name + " | Courtier " + city.region;
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.pretTitle(city);
+      return (
+        "Credit immobilier " + city.name + " | Courtier " + city.region
+      );
     },
     description: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.pretDescription(city);
       return (
         "Credit immobilier a " +
         city.name +
@@ -152,9 +157,11 @@ const GEO_PRODUCTS = [
       );
     },
     h1: function (city) {
+      if (nancyBassin.isBassinCity(city)) return "Credit immobilier a " + (nancyBassin.getCommune(city) || city).name;
       return "Credit immobilier a " + city.name;
     },
     intro: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.pretIntro(city);
       return (
         "Projet d achat ou investissement locatif a " +
         city.name +
@@ -164,6 +171,7 @@ const GEO_PRODUCTS = [
       );
     },
     sections: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.pretCitySections(city);
       return [
         {
           h2: "Financer un bien a " + city.name,
@@ -174,6 +182,9 @@ const GEO_PRODUCTS = [
       ];
     },
     faq: function (city) {
+      if (nancyBassin.isBassinCity(city)) {
+        return contentLib.defaultCityFaq(city, "Credit immobilier").concat(nancyBassin.pretCityFaq(city));
+      }
       return [
         {
           q: "La simulation est-elle gratuite ?",
@@ -207,9 +218,11 @@ const GEO_PRODUCTS = [
       return "Simulation pret " + city.name;
     },
     title: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.pretTitle(city);
       return "Pret immobilier " + city.name + " | Taux, apport, courtier " + city.region;
     },
     description: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.pretDescription(city);
       return (
         "Pret immobilier a " +
         city.name +
@@ -219,9 +232,11 @@ const GEO_PRODUCTS = [
       );
     },
     h1: function (city) {
+      if (nancyBassin.isBassinCity(city)) return "Pret immobilier a " + (nancyBassin.getCommune(city) || city).name;
       return "Pret immobilier a " + city.name;
     },
     intro: function (city) {
+      if (nancyBassin.isBassinCity(city)) return nancyBassin.pretIntro(city);
       var p = immoLib.profile(city);
       return (
         "Vous financez un bien a " +
@@ -809,8 +824,18 @@ function buildGeoPageConfigs(cities, pageFn) {
       if (product.extraRelated) {
         related = related.concat(product.extraRelated);
       }
+      if (nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")) {
+        related = [
+          { href: "/" + product.dir + "/nancy-metropole/", label: "Hub Nancy metropole (54)" },
+          { href: "/landings/credit-immo.html?ville=" + encodeURIComponent(city.name), label: "Simulation pret " + city.name },
+        ].concat(related);
+      }
       related = related.concat(crossLinksForCity(product, city));
-          related = related.concat(contentLib.nearbyLinks(city, cities, product.dir, 8));
+      var nearbyList =
+        nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")
+          ? nancyBassin.nearbyLinks(city, product.dir)
+          : contentLib.nearbyLinks(city, cities, product.dir, 8);
+      related = related.concat(nearbyList);
 
           var geoPage = {
           file: product.dir + "/" + city.slug + "/index.html",
@@ -838,7 +863,10 @@ function buildGeoPageConfigs(cities, pageFn) {
           steps: product.geoSteps || DEFAULT_GEO_STEPS,
           sections: sections,
           related: related,
-          nearbyCities: contentLib.nearbyLinks(city, cities, product.dir, 12),
+          nearbyCities:
+            nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")
+              ? nancyBassin.nearbyLinks(city, product.dir)
+              : contentLib.nearbyLinks(city, cities, product.dir, 12),
           faq: faq,
         };
         if (product.key === "vtc" && city.regionSlug === "ile-de-france") {

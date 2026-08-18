@@ -66,6 +66,7 @@
     "verify:pret-refuse": "node scripts/verify-pret-refuse.cjs",
     "verify:collaborateurs-crm": "node scripts/verify-collaborateurs-crm.cjs",
     "verify:apporteur-public": "node scripts/verify-apporteur-public.cjs",
+    "verify:nancy-bassin-pret": "node scripts/verify-nancy-bassin-pret.cjs",
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs"
   },

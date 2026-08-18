@@ -119,6 +119,13 @@
     "dept": "pas-de-calais"
   },
   {
+    "slug": "art-sur-meurthe",
+    "name": "Art-sur-Meurthe",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "asnieres-sur-seine",
     "name": "Asnieres-sur-Seine",
     "region": "Ile-de-France",
@@ -546,6 +553,13 @@
     "dept": "val-de-marne"
   },
   {
+    "slug": "custines",
+    "name": "Custines",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "deauville",
     "name": "Deauville",
     "region": "Normandie",
@@ -644,6 +658,13 @@
     "dept": "seine-saint-denis"
   },
   {
+    "slug": "essey-les-nancy",
+    "name": "Essey-les-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "evreux",
     "name": "Evreux",
     "region": "Normandie",
@@ -663,6 +684,13 @@
     "region": "Polynesie francaise",
     "regionSlug": "polynesie-francaise",
     "dept": "polynesie-francaise"
+  },
+  {
+    "slug": "fleville-devant-nancy",
+    "name": "Fleville-devant-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "foix",
@@ -756,6 +784,13 @@
     "dept": "bas-rhin"
   },
   {
+    "slug": "heillecourt",
+    "name": "Heillecourt",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "honfleur",
     "name": "Honfleur",
     "region": "Normandie",
@@ -796,6 +831,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "val-de-marne"
+  },
+  {
+    "slug": "jarville-la-malgrange",
+    "name": "Jarville-la-Malgrange",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "koungou",
@@ -847,6 +889,13 @@
     "dept": "charente-maritime"
   },
   {
+    "slug": "laneuveville-devant-nancy",
+    "name": "Laneuveville-devant-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "lannion",
     "name": "Lannion",
     "region": "Bretagne",
@@ -866,6 +915,20 @@
     "region": "Pays de la Loire",
     "regionSlug": "pays-de-la-loire",
     "dept": "mayenne"
+  },
+  {
+    "slug": "laxou",
+    "name": "Laxou",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
+    "slug": "lay-saint-christophe",
+    "name": "Lay-Saint-Christophe",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "le-chateau-d-oleron",
@@ -1022,6 +1085,13 @@
     "dept": "saone-et-loire"
   },
   {
+    "slug": "malzeville",
+    "name": "Malzeville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "mamoudzou",
     "name": "Mamoudzou",
     "region": "Mayotte",
@@ -1083,6 +1153,13 @@
     "region": "Hauts-de-France",
     "regionSlug": "hauts-de-france",
     "dept": "nord"
+  },
+  {
+    "slug": "maxeville",
+    "name": "Maxeville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "meaux",
@@ -1414,6 +1491,20 @@
     "dept": "vienne"
   },
   {
+    "slug": "pompey",
+    "name": "Pompey",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
+    "slug": "pont-a-mousson",
+    "name": "Pont-a-Mousson",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "pontoise",
     "name": "Pontoise",
     "region": "Ile-de-France",
@@ -1489,6 +1580,13 @@
     "region": "Pays de la Loire",
     "regionSlug": "pays-de-la-loire",
     "dept": "loire-atlantique"
+  },
+  {
+    "slug": "richardmenil",
+    "name": "Richardmenil",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "roanne",
@@ -1666,6 +1764,13 @@
     "dept": "loire-atlantique"
   },
   {
+    "slug": "saint-nicolas-de-port",
+    "name": "Saint-Nicolas-de-Port",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "saint-omer",
     "name": "Saint-Omer",
     "region": "Hauts-de-France",
@@ -1799,6 +1904,13 @@
     "dept": "martinique"
   },
   {
+    "slug": "seichamps",
+    "name": "Seichamps",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "sete",
     "name": "Sete",
     "region": "Occitanie",
@@ -1839,6 +1951,13 @@
     "region": "Grand Est",
     "regionSlug": "grand-est",
     "dept": "moselle"
+  },
+  {
+    "slug": "tomblaine",
+    "name": "Tomblaine",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "toulon",
@@ -1897,11 +2016,25 @@
     "dept": "nord"
   },
   {
+    "slug": "vandoeuvre-les-nancy",
+    "name": "Vandoeuvre-les-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "vannes",
     "name": "Vannes",
     "region": "Bretagne",
     "regionSlug": "bretagne",
     "dept": "morbihan"
+  },
+  {
+    "slug": "varangeville",
+    "name": "Varangeville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "venissieux",
@@ -1937,6 +2070,13 @@
     "region": "Ile-de-France",
     "regionSlug": "ile-de-france",
     "dept": "val-de-marne"
+  },
+  {
+    "slug": "villers-les-nancy",
+    "name": "Villers-les-Nancy",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
   },
   {
     "slug": "villeurbanne",

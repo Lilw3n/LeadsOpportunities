@@ -100,3 +100,18 @@ a.immo-parcours-link:hover {
     flex: 1 1 calc(50% - 0.35rem);
   }
 }
+
+.nancy-bassin-pret-banner {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #5eead4;
+  background: linear-gradient(90deg, #ecfdf5, #f0fdfa);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: #134e4a;
+}
+.nancy-bassin-pret-banner a {
+  font-weight: 700;
+  color: #0d9488;
+}

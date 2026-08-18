@@ -3,6 +3,7 @@
  * Angles îles, DOM-TOM, COM et destinations françaises.
  */
 var contentLib = require("./seo-content-lib.cjs");
+var nancyBassin = require("./nancy-bassin-pret-lib.cjs");
 
 var ISLAND_REGIONS = {
   corse: {
@@ -145,6 +146,9 @@ function isDestination(city) {
 }
 
 function profile(city) {
+  if (nancyBassin.isBassinCity(city)) {
+    return nancyBassin.profile(city);
+  }
   var island = ISLAND_REGIONS[city.regionSlug];
   if (island) {
     return {
@@ -183,6 +187,9 @@ function profile(city) {
 }
 
 function pretCitySections(city) {
+  if (nancyBassin.isBassinCity(city)) {
+    return nancyBassin.pretCitySections(city);
+  }
   var p = profile(city);
   var tip = contentLib.pickVariant(city.slug, [
     "Le taux affiche ne fait pas le cout : assurance, frais de dossier et duree changent la mensualite reelle.",
@@ -267,6 +274,9 @@ function pretCitySections(city) {
 }
 
 function pretCityFaq(city) {
+  if (nancyBassin.isBassinCity(city)) {
+    return contentLib.defaultCityFaq(city, "Pret immobilier").concat(nancyBassin.pretCityFaq(city));
+  }
   var p = profile(city);
   return contentLib.defaultCityFaq(city, "Pret immobilier").concat([
     {

@@ -25,6 +25,7 @@ const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
 const { buildVtcIdfPages, getVtcIdfSitemapEntries } = require("./seo-vtc-idf-pages.cjs");
 const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require("./seo-immo-destinations.cjs");
+const nancyBassin = require("./nancy-bassin-pret-lib.cjs");
 const SeoImg = require("./seo-images-lib.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
@@ -983,7 +984,7 @@ function renderPage(p) {
 
 const VTC_LONGTAIL_PAGES = buildVtcLongtailPages(page);
 const VTC_IDF_PAGES = buildVtcIdfPages(page);
-const IMMO_DEST_PAGES = buildImmoDestinationPages(page, CITIES);
+const IMMO_DEST_PAGES = buildImmoDestinationPages(page, CITIES).concat(nancyBassin.buildHubPages(page));
 var idfHub = VTC_IDF_PAGES.filter(function (p) {
   return p.file === "assurance-vtc/ile-de-france/index.html";
 })[0];
@@ -1049,7 +1050,8 @@ const mainUrls = allUrls
   .concat(getNicheSitemapEntries(BASE))
   .concat(getVtcLongtailSitemapEntries(BASE))
   .concat(getVtcIdfSitemapEntries(BASE))
-  .concat(getImmoDestinationSitemapEntries(BASE));
+  .concat(getImmoDestinationSitemapEntries(BASE))
+  .concat(nancyBassin.sitemapEntries(BASE));
 
 writeSitemap(mainUrls, path.join(ROOT, "sitemap-main.xml"));
 writeSitemap(geoUrls, path.join(ROOT, "sitemap-geo.xml"));
