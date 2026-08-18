@@ -464,30 +464,21 @@
                 Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
               </p>
 
-              <div class="field full" hidden>
-                <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
-                  <legend>Vous cherchez…</legend>
-                  <label class="field-check"><input type="radio" name="searchKind" value="bien" checked required /> Un bien a acheter / acquerir</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
-                </fieldset>
-                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
-              </div>
-
               <div class="search-mode-tabs" role="tablist" aria-label="Mode de recherche">
                 <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
+                  <input type="radio" name="searchKind" value="bien" checked required data-search-mode />
                   <span>Je cherche un bien</span>
                 </label>
                 <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="service" data-search-mode />
+                  <input type="radio" name="searchKind" value="service" data-search-mode />
                   <span>Je cherche un service</span>
                 </label>
                 <label class="search-mode-tab">
-                  <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
+                  <input type="radio" name="searchKind" value="les_deux" data-search-mode />
                   <span>Bien + service</span>
                 </label>
               </div>
+              <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
 
               <div class="field full" data-search-bien-panel style="margin-top:16px">
                 <p class="search-section-label">Categorie</p>

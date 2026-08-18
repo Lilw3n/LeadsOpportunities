@@ -184,6 +184,13 @@ assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos
 assert(html.indexOf("data-listing-view") === -1 || html.indexOf("Voir photos") !== -1, "landing : bouton voir photos (JS)");
 assert(html.indexOf("acheteur-immo-search.js") !== -1, "script recherche chargé");
 assert(html.indexOf("immo-public-listings-lib.js") !== -1, "lib listings chargée");
+assert(html.indexOf('name="searchModeUi"') === -1, "wizard : pas de doublon searchModeUi");
+assert(
+  (html.match(/name="searchKind"/g) || []).length >= 3,
+  "wizard : onglets searchKind (bien / service / les deux)"
+);
+assert(html.indexOf("data-search-mode") !== -1, "wizard : onglets reliés au wizard JS");
+assert(html.indexOf("data-search-service-panel") !== -1, "wizard : panneau services");
 
 var qinit = read("landings/questionnaire-init.js");
 assert(

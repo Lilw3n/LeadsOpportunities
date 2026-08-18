@@ -97,6 +97,7 @@
     meta_form_template: 1,
     meta_ad_id: 1,
     payload: 1,
+    searchModeUi: 1,
   };
 
   var DEVIS_KEYS = Object.keys(FIELD_LABELS);
