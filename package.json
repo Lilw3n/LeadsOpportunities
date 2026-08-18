@@ -68,6 +68,7 @@
     "verify:apporteur-public": "node scripts/verify-apporteur-public.cjs",
     "verify:chasseur-bien": "node scripts/verify-chasseur-bien.cjs",
     "verify:client-value": "node scripts/verify-client-value.cjs",
+    "verify:pret-risks": "node scripts/verify-pret-risks.cjs",
     "verify:nancy-bassin-pret": "node scripts/verify-nancy-bassin-pret.cjs",
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs"

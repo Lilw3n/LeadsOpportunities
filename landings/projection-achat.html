@@ -55,6 +55,7 @@
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="../css/callback-form.css" />
   <link rel="stylesheet" href="../css/achat-projection.css" />
+  <link rel="stylesheet" href="../css/pret-risks-block.css" />
 </head>
 <body data-market-intent="FR">
   <header class="landing-topbar">
@@ -100,6 +101,8 @@
         </div>
 
         <nav data-immo-parcours data-immo-step="projection" aria-label="Parcours acquéreur"></nav>
+
+        <div data-pret-risks-block="landing"></div>
 
         <div class="form-wrap" id="simulateur">
           <div class="proj-layout">
@@ -330,6 +333,13 @@
         </div>
 
         <div class="form-wrap proj-method">
+          <h2>Emprunter sans se mettre en danger</h2>
+          <p>
+            Un prêt immobilier, ce n'est pas qu'une mensualité : c'est s'endetter sur la durée.
+            En cas de divorce ou de séparation, le crédit et le bien peuvent devenir un sujet délicat.
+            Le simulateur ci-dessus sert aussi à ça : voir si le projet tient <strong>après</strong> taxe foncière,
+            charges et imprévus — pas seulement si la banque dit oui.
+          </p>
           <h2>Ce que le simulateur corrélationne</h2>
           <p>
             L'erreur classique : regarder uniquement la mensualité. Une fois propriétaire, le loyer disparaît
@@ -395,6 +405,14 @@
     "mainEntity": [
       {
         "@type": "Question",
+        "name": "Quels risques si je m'endette pour acheter ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Un crédit engage vos revenus sur des années. Divorce ou séparation : mensualités, bien, co-emprunt — des complications possibles. Le simulateur aide à dimensionner le projet (reste à vivre, apport, charges) avant de s'engager."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "Pourquoi additionner taxe foncière et charges au prêt ?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -423,6 +441,8 @@
   <script src="../js/france-seo-meta.js"></script>
   <script src="../js/cookie-banner.js"></script>
   <script src="../js/geo-france-guard.js"></script>
+  <script src="../js/pret-risks-messaging-lib.js"></script>
+  <script src="../js/pret-risks-block.js"></script>
   <script src="./tracking.js"></script>
   <script src="../js/achat-projection-lib.js"></script>
   <script src="../js/print-document-lib.js"></script>
