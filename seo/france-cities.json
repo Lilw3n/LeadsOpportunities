@@ -1904,6 +1904,13 @@
     "dept": "morbihan"
   },
   {
+    "slug": "varangeville",
+    "name": "Varangeville",
+    "region": "Grand Est",
+    "regionSlug": "grand-est",
+    "dept": "meurthe-et-moselle"
+  },
+  {
     "slug": "venissieux",
     "name": "Venissieux",
     "region": "Auvergne-Rhone-Alpes",

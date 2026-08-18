@@ -95,15 +95,19 @@ Liste complète en local : `npm run gsc:urls`
 
 ---
 
-## Jour 3 — Google Business Profile (10 min)
+## Jour 3 — Google Business Profile (20 min) — PRIORITAIRE
 
-1. [Google Business Profile](https://business.google.com/)
-2. Créer ou revendiquer la fiche **Leads Opportunities** — Varangeville (54110)
-3. Renseigner :
-   - Site : [https://www.leadsopportunities.fr/](https://www.leadsopportunities.fr/)
-   - Catégorie : courtier en assurance / agent d’assurance
-   - ORIAS n° 15 005 935
-4. Publier au moins 1 photo + horaires de rappel
+La fiche actuelle (**M Wendy Buchet**, catégorie seulement « courtier d’assurances ») a donné **4 clics site en 6 mois**. À corriger dans [Google Business Profile](https://business.google.com/) :
+
+1. **Nom** : `Leads Opportunities - Wendy Buchet` (la marque du site doit apparaître)
+2. **Site web** : [https://www.leadsopportunities.fr/agence-varangeville/](https://www.leadsopportunities.fr/agence-varangeville/) — **pas** seulement la home
+3. **Tél / NAP** : `06 95 82 08 66` · `15 rue Pierre Curie, 54110 Varangéville` · Lun–Ven 9h–18h
+4. **Catégories** : principale *Courtier d'assurances* + secondaires *courtier en crédit immobilier / courtier en prêts*
+5. **Services** : rachat de crédits, crédit conso, prêt relais, crédit pro, mutuelle, VTC (textes prêts sur la page cabinet, encadré jaune)
+6. **Publications** : coller 1 post / semaine (6 textes déjà rédigés sur la même page)
+7. Photo façade + logo + portrait Wendy Buchet
+
+Page unique (NAP + copier-coller) : `/agence-varangeville/`
 
 ---
 

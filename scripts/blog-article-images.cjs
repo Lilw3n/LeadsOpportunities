@@ -433,6 +433,8 @@ var MAP = {
   "pret-relais-duree-taux-quand-utiliser-2026.html": { hero: "creditCles", figure: "signaturePret" },
   "credit-professionnel-tns-entreprise-2026.html": { hero: "signaturePret", figure: "creditCles" },
   "renegociation-pret-immobilier-taux-2026.html": { hero: "signaturePret", figure: "budgetFam" },
+  "courtier-varangeville-nancy-assurance-credit-2026.html": { hero: "maisonFamille", figure: "signaturePret" },
+  "rachat-credits-nancy-meurthe-et-moselle-2026.html": { hero: "budgetFam", figure: "creditCles" },
   "emprunteur-non-residents-investissement-immobilier-2026.html": { hero: "maisonFamille", figure: "signaturePret" },
   "trump-politique-us-taux-pret-assurance-emprunteur.html": { hero: "politique", figure: "creditCles" },
   "gta-6-pret-immobilier-budget-gaming.html": { hero: "creditCles", figure: "budgetFam" },

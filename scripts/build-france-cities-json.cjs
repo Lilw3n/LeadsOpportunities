@@ -75,6 +75,7 @@ const CITIES = [
   ["metz", "Metz", "grand-est", "moselle"],
   ["mulhouse", "Mulhouse", "grand-est", "haut-rhin"],
   ["nancy", "Nancy", "grand-est", "meurthe-et-moselle"],
+  ["varangeville", "Varangeville", "grand-est", "meurthe-et-moselle"],
   ["troyes", "Troyes", "grand-est", "aube"],
   ["colmar", "Colmar", "grand-est", "haut-rhin"],
   ["charleville-mezieres", "Charleville-Mezieres", "grand-est", "ardennes"],

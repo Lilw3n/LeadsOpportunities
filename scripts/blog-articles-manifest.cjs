@@ -2565,6 +2565,11 @@ financeCredits.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const local54 = require("./blog-local-54-articles.cjs");
+local54.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};

@@ -16,6 +16,10 @@
 
     city: "Varangeville",
 
+    phone: "06 95 82 08 66",
+
+    phoneHref: "tel:+33695820866",
+
     region: "Grand Est",
 
     hours: "Lun–Ven, 9h–18h",

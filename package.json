@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Leads Opportunities website with Stripe serverless integration",
   "scripts": {
-    "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-assurances-niches-page.cjs && node scripts/generate-seo-pages.cjs",
+    "seo:build": "node scripts/build-france-cities-json.cjs && node scripts/generate-assurances-niches-page.cjs && node scripts/generate-agence-varangeville.cjs && node scripts/generate-seo-pages.cjs",
     "seo:images": "node scripts/download-seo-images.cjs",
     "verify:seo-vtc-idf": "node scripts/verify-seo-vtc-idf.cjs",
     "verify:seo-pret-recherche": "node scripts/verify-seo-pret-recherche.cjs",
@@ -65,6 +65,7 @@
     "verify:niches-actu": "node scripts/verify-niches-actu.cjs",
     "verify:pret-refuse": "node scripts/verify-pret-refuse.cjs",
     "verify:finance-credits": "node scripts/verify-finance-credits.cjs",
+    "verify:gbp-local": "node scripts/verify-gbp-local.cjs",
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs"
   },

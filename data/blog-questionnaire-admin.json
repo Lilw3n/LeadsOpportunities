@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17",
+  "updated": "2026-08-18",
   "sections": [
     "actu",
     "animaux",
@@ -1366,6 +1366,32 @@
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
       "matchedRule": "emprunteur",
       "species": null
+    },
+    {
+      "file": "courtier-varangeville-nancy-assurance-credit-2026.html",
+      "title": "Courtier à Varangéville et Nancy : assurance, crédit, rachat (2026)",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../agence-varangeville/",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "rachat-credits-nancy-meurthe-et-moselle-2026.html",
+      "title": "Rachat de crédits à Nancy et en Meurthe-et-Moselle (2026)",
+      "section": "finance",
+      "hook": "Les soins du chat (digestif, urgence, imagerie) montent vite sans mutuelle animaux.",
+      "question": "Avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../landings/rachat.html?utm_content=nancy-54",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "chat",
+      "species": "chat"
     },
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",

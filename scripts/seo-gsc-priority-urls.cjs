@@ -7,6 +7,7 @@ const { SITE_ORIGIN: SITE } = require("./site-url.cjs");
 
 const GSC_INDEX_NOW_PRIORITY = [
   "/",
+  "/agence-varangeville/",
   "/nos-services.html",
   "/assurances/",
   "/france/",
@@ -118,6 +119,8 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/credit-consommation-guide-france-2026.html",
   "/blog/pret-relais-vente-achat-guide-2026.html",
   "/blog/credit-professionnel-tns-entreprise-2026.html",
+  "/blog/courtier-varangeville-nancy-assurance-credit-2026.html",
+  "/blog/rachat-credits-nancy-meurthe-et-moselle-2026.html",
   "/blog/assurance-vtc-rc-pro-garanties.html",
   "/mentions-legales.html",
 ];

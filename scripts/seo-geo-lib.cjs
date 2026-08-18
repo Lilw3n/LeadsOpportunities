@@ -1550,6 +1550,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/pret-relais.html", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/landings/credit-pro.html", priority: "0.86", changefreq: "weekly" },
     { loc: base + "/landings/renegociation.html", priority: "0.86", changefreq: "weekly" },
+    { loc: base + "/agence-varangeville/", priority: "0.95", changefreq: "weekly" },
     { loc: base + "/finance/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/banque/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/rachat-credit/", priority: "0.9", changefreq: "weekly" },
