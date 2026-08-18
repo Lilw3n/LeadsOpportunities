@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Vérifie le bloc vente 3D (divorce, décès, déménagement). */
+/** Vérifie le bloc vente 3D et situations complexes. */
 var fs = require("fs");
 var path = require("path");
 var Msg = require("../js/vente-3d-messaging-lib.js");
@@ -22,7 +22,27 @@ function read(rel) {
 assert(/divorce/i.test(Msg.LEAD), "LEAD divorce");
 assert(/décès|deces/i.test(Msg.LEAD), "LEAD décès");
 assert(/déménagement|demenagement/i.test(Msg.LEAD), "LEAD déménagement");
+assert(/viager|SCI|bénéficiaires|beneficiaires/i.test(Msg.LEAD), "LEAD situations complexes");
 assert(Msg.ITEMS.length === 3, "3 situations 3D");
+assert(Msg.COMPLEX_CASES && Msg.COMPLEX_CASES.length >= 5, "cas complexes");
+assert(
+  Msg.COMPLEX_CASES.some(function (c) {
+    return /viager/i.test(c.label);
+  }),
+  "cas viager"
+);
+assert(
+  Msg.COMPLEX_CASES.some(function (c) {
+    return /SCI/i.test(c.label);
+  }),
+  "cas SCI"
+);
+assert(
+  Msg.COMPLEX_CASES.some(function (c) {
+    return /pro|professionnel/i.test(c.label);
+  }),
+  "cas locaux pro"
+);
 assert(fs.existsSync(path.join(root, "blog", Msg.BLOG_SLUG)), "article blog 3D");
 
 [
@@ -41,6 +61,8 @@ assert(
   read("scripts/seo-gsc-priority-urls.cjs").indexOf("vente-immobiliere-3d-divorce-deces-demenagement") !== -1,
   "URL GSC prioritaire"
 );
-assert(/divorce|décès|déménagement|3D/i.test(read("index.html")), "accueil : FAQ 3D");
+assert(/viager|SCI|héritiers|heritiers/i.test(read("index.html")), "accueil : FAQ élargie");
+assert(/viager|SCI|héritiers|heritiers/i.test(read("landings/acheteur-immo.html")), "acquéreur : FAQ élargie");
+assert(/viager|SCI familiale/i.test(read("scripts/blog-articles-manifest.cjs")), "blog : sections complexes");
 
 process.exit(failed ? 1 : 0);

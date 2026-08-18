@@ -2464,16 +2464,16 @@ module.exports = {
       section: "finance",
       tag: "Vente",
       tagClass: "tag-immo",
-      title: "Vendre son bien : divorce, deces, demenagement (les 3D)",
+      title: "Vendre son bien : divorce, deces, demenagement et situations complexes",
       description:
-        "Divorce, deces, demenagement : vendre un bien dans une etape de vie difficile. Notaire, avocat, credit — accompagnement humain.",
-      meta: "10 min · Aout 2026",
-      cardExcerpt: "Les 3D de la vente immobiliere : vous n'etes pas seul.",
+        "Divorce, deces, demenagement, heritage conflictuel, viager, SCI, locaux pro : vendre dans une etape difficile. Notaire, avocat — accompagnement humain.",
+      meta: "12 min · Aout 2026",
+      cardExcerpt: "3D, heritage, viager, SCI, locaux pro : vous n'etes pas seul.",
       cta: { href: "../landings/acheteur-immo.html?role=vendeur", label: "Parler de ma vente" },
       blocks: [
         {
           type: "p",
-          text: "Vendre un <strong>bien immobilier</strong>, ce n'est pas toujours un choix « classique ». Dans le metier, on evoque parfois les <strong>3D</strong> : <strong>divorce</strong>, <strong>deces</strong>, <strong>demenagement</strong>. Ce sont des moments ou la vente devient sensible — et ou vous meritez d'etre entendu, pas presses.",
+          text: "Vendre un <strong>bien immobilier</strong>, ce n'est pas toujours un choix « classique ». Dans le metier, on evoque les <strong>3D</strong> : <strong>divorce</strong>, <strong>deces</strong>, <strong>demenagement</strong>. Derriere, il y a souvent plus : <strong>heritiers qui ne s'accordent pas</strong>, <strong>ex-conjoints en desaccord</strong>, <strong>viager</strong>, <strong>SCI familiale</strong>, <strong>locaux professionnels</strong>… Des moments ou la vente devient sensible — et ou vous meritez d'etre entendu, pas presses.",
         },
         { type: "h2", text: "Les 3D, ce que ca veut dire concretement" },
         {
@@ -2487,7 +2487,7 @@ module.exports = {
         { type: "h2", text: "Divorce et separation : vendre sans aggraver la situation" },
         {
           type: "p",
-          text: "La vente du <strong>bien commun</strong> intervient souvent dans un contexte de divorce ou de separation. Points sensibles : qui habite encore le logement, qui paie le credit, a quel prix vendre, dans quel delai. Un <strong>avocat</strong> traite le volet juridique ; le <strong>notaire</strong> securise l'acte ; notre role est de <strong>coordonner la mise en vente</strong> et la recherche d'acquereur sans precipiter une decision que vous regretteriez.",
+          text: "La vente du <strong>bien commun</strong> intervient souvent dans un contexte de divorce ou de separation. Points sensibles : qui habite encore le logement, qui paie le credit, a quel prix vendre, dans quel delai — surtout quand les deux parties <strong>ne sont pas d'accord</strong>. Un <strong>avocat</strong> traite le volet juridique ; le <strong>notaire</strong> securise l'acte ; notre role est de <strong>coordonner la mise en vente</strong> et la recherche d'acquereur sans precipiter une decision que vous regretteriez, ni forcer un prix « pour calmer le conflit ».",
         },
         {
           type: "p",
@@ -2496,7 +2496,27 @@ module.exports = {
         { type: "h2", text: "Deces : vendre dans le respect du rythme familial" },
         {
           type: "p",
-          text: "Apres un <strong>deces</strong>, la vente peut etre necessaire pour partager la succession ou liberer un bien devenu inoccupe. Les heritiers ne sont pas toujours d'accord sur le prix, le calendrier ou l'agent a mandater. Le <strong>notaire</strong> est central ; nous pouvons aider a <strong>estimer le bien</strong>, organiser les visites et recroiser avec des acquereurs — en respectant les delais legaux et la charge emotionnelle de chacun.",
+          text: "Apres un <strong>deces</strong>, la vente peut etre necessaire pour partager la succession ou liberer un bien devenu inoccupe. Avec <strong>de nombreux beneficiaires</strong>, les desaccords sur le prix, le calendrier ou l'agent a mandater sont frequents. Le <strong>notaire</strong> est central ; nous pouvons proposer une <strong>estimation argumentee</strong>, organiser les visites et recroiser avec des acquereurs — en respectant les delais legaux et la charge emotionnelle de chacun, sans imposer un accord artificiel.",
+        },
+        { type: "h2", text: "Heritage : quand les heritiers ne tombent pas d'accord" },
+        {
+          type: "p",
+          text: "Indivision, parts inegales, l'un veut vendre vite, l'autre garder le bien : ce n'est pas rare. Avant de baisser le prix « pour en finir », clarifiez qui peut signer, quel est le prix de marche reel et quelles alternatives existent (location, rachat de parts par un heritier). Notre approche : <strong>ecouter chaque partie</strong>, documenter l'estimation, et avancer au rythme du cadre juridique — pas au rythme de la colere.",
+        },
+        { type: "h2", text: "Vente en viager : un montage a part entiere" },
+        {
+          type: "p",
+          text: "Le <strong>viager</strong> (occupe ou libre) peut convenir a un vendeur qui cherche un revenu complementaire ou a un acquereur avec un budget limite. Mais bouquet, rente, esperance de vie, occupation du logement : tout doit etre chiffre avec le <strong>notaire</strong>. Ce n'est pas une vente classique — on vous aide a comprendre si c'est pertinent pour votre situation, sans vous orienter vers un montage inadapte.",
+        },
+        { type: "h2", text: "SCI familiale et transmission" },
+        {
+          type: "p",
+          text: "Une <strong>SCI</strong> est souvent montee pour faciliter la <strong>succession</strong> ou mutualiser un patrimoine familial. Vendre le bien de la SCI, ou ceder des parts, implique plusieurs associes et parfois des statuts contraignants. Chaque structure merite une lecture attentive : qui decide, a quelle majorite, quel impact fiscal. On recoupe avec le notaire et, si besoin, l'expert-comptable.",
+        },
+        { type: "h2", text: "Locaux professionnels, entreprise et fonds de commerce" },
+        {
+          type: "p",
+          text: "Boutique, bureau, entrepot, local commercial avec <strong>bail</strong>, parfois <strong>fonds de commerce</strong> : la logique n'est pas celle de l'habitation. Estimation, duree du bail, travaux, clientele — tout entre en ligne de compte. Si vous vendez dans un contexte de <strong>cessation d'activite</strong> ou de transmission d'entreprise, on avance avec vos conseils (avocat, expert-comptable) pour ne pas melanger les enjeux.",
         },
         { type: "h2", text: "Demenagement : vendre pour rebondir ailleurs" },
         {
@@ -2525,6 +2545,18 @@ module.exports = {
         { href: "./pret-refuse-co-emprunteur-caution-solutions.html", label: "Co-emprunteur et caution" },
       ],
       faq: [
+        {
+          q: "Plusieurs heritiers ne s'accordent pas sur le prix : que faire ?",
+          a: "Ne bradez pas par epuisement. Faites estimer le bien de facon argumentee, clarifiez qui peut signer avec le notaire, et explorez les options (vente, rachat de parts, location). Un accompagnement neutre aide a depasser le blocage.",
+        },
+        {
+          q: "Ex-conjoints en desaccord sur la vente : pouvez-vous intervenir ?",
+          a: "Oui, dans le respect du cadre juridique fixe par l'avocat et le notaire. On coordonne estimation et mise en relation acquereur — sans prendre le parti d'une partie ni forcer un prix.",
+        },
+        {
+          q: "Vente en viager ou SCI : est-ce dans votre champ ?",
+          a: "Oui. Viager, SCI familiale, locaux pro : ce sont des montages specifiques. On clarifie les etapes avec le notaire et vos autres conseils avant toute decision.",
+        },
         {
           q: "Dois-je vendre vite apres un divorce ?",
           a: "Pas necessairement. Le calendrier depend du jugement, du credit et de votre situation personnelle. Precipiter la vente peut faire baisser le prix ou aggraver les tensions.",
