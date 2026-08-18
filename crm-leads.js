@@ -275,7 +275,14 @@
       return;
     }
     if (!leads || !leads.length) {
-      mount.innerHTML = '<p class="lh-empty">Aucun lead pour ce filtre.</p>';
+      var q = (state.q || "").trim();
+      var uuidLink =
+        window.LeadSearch && window.LeadSearch.isLeadUuid(q)
+          ? ' <a class="btn btn-primary btn-sm" href="./crm-lead-detail.html?id=' +
+            encodeURIComponent(q) +
+            '">Ouvrir la fiche par ID</a>'
+          : "";
+      mount.innerHTML = '<p class="lh-empty">Aucun lead pour ce filtre.' + uuidLink + "</p>";
       return;
     }
     mount.innerHTML =
@@ -297,6 +304,7 @@
             esc(l.email || "—") +
             " · " +
             esc(l.phone || "—") +
+            (l.email || l.phone ? "" : " · ID " + esc(l.id)) +
             "</div></td>" +
             "<td>" +
             badgeTrust(l.trust) +
@@ -327,6 +335,9 @@
             esc(when(l.createdAt)) +
             "</div></td>" +
             '<td><div class="lh-actions">' +
+            '<a class="btn btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
+            encodeURIComponent(l.id) +
+            '">Fiche lead</a>' +
             (!l.isProspect
               ? '<button type="button" class="btn btn-primary btn-sm" data-promote="' +
                 esc(l.id) +
@@ -450,6 +461,11 @@
       load();
     }, 280);
   });
+  var bootQ = new URLSearchParams(location.search).get("q") || new URLSearchParams(location.search).get("id") || new URLSearchParams(location.search).get("lead");
+  if (bootQ) {
+    state.q = bootQ;
+    document.getElementById("lhSearch").value = bootQ;
+  }
   document.getElementById("lhIp").addEventListener("input", function () {
     var v = this.value;
     clearTimeout(t);

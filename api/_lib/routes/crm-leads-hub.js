@@ -3,6 +3,7 @@ const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
 const { ensureSiteLeadsSchema, ensurePersonLinksSchema } = require("../ensure-schema");
 const Ident = require("../../../js/lead-identity-lib");
+const { isLeadUuid } = require("../lead-search");
 
 function parsePayload(raw) {
   if (!raw) return {};
@@ -91,7 +92,7 @@ module.exports = async (req, res) => {
   const limit = Math.min(400, Math.max(20, Number(url.searchParams.get("limit") || 250)));
 
   try {
-    const rows = await sql`
+    var rows = await sql`
       SELECT
         l.id, l.created_at, l.email, l.phone, l.vertical, l.source, l.lead_score,
         l.status, l.contact_id, l.client_ip, l.visitor_id, l.payload,
@@ -103,6 +104,28 @@ module.exports = async (req, res) => {
       ORDER BY l.created_at DESC
       LIMIT ${limit}
     `;
+
+    if (isLeadUuid(q)) {
+      try {
+        const extra = await sql`
+          SELECT
+            l.id, l.created_at, l.email, l.phone, l.vertical, l.source, l.lead_score,
+            l.status, l.contact_id, l.client_ip, l.visitor_id, l.payload,
+            l.questionnaire_step, l.questionnaire_total, l.gclid, l.fbclid, l.ttclid,
+            l.platform, l.parent_lead_id, l.is_duplicate, l.archived_at,
+            c.first_name, c.last_name, c.contact_type, c.status AS contact_status
+          FROM site_leads l
+          LEFT JOIN crm_contacts c ON c.id = l.contact_id
+          WHERE LOWER(l.id) = LOWER(${q})
+          LIMIT 1
+        `;
+        if (extra[0] && !rows.some(function (r) { return String(r.id).toLowerCase() === String(extra[0].id).toLowerCase(); })) {
+          rows = [extra[0]].concat(rows);
+        }
+      } catch (idErr) {
+        console.warn("[crm/leads-hub] exact id", idErr.message);
+      }
+    }
 
     const rawItems = rows.map(function (r) {
       var p = parsePayload(r.payload);
@@ -122,7 +145,8 @@ module.exports = async (req, res) => {
 
     if (q) {
       items = items.filter(function (it) {
-        var hay = [it.name, it.email, it.phone, it.ip, it.vertical, it.contactId].join(" ").toLowerCase();
+        var hay = [it.id, it.name, it.email, it.phone, it.ip, it.vertical, it.source, it.contactId, it.visitorId].join(" ").toLowerCase();
+        if (isLeadUuid(q) && String(it.id || "").toLowerCase() === q) return true;
         return hay.indexOf(q) >= 0;
       });
     }

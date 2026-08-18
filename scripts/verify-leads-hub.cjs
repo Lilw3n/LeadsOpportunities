@@ -116,6 +116,7 @@ assert(dash.indexOf("leads au total") >= 0, "dashboard : total explicite");
 
 var leadsApi = read("api/_lib/routes/leads.js");
 assert(leadsApi.indexOf("Math.min(250") >= 0, "API leads : jusqu’à 250 par page");
+assert(leadsApi.indexOf("LOWER(id)") >= 0, "API leads : recherche par ID");
 
 var del = read("api/_lib/routes/lead-delete.js");
 assert(del.indexOf("leadIds") >= 0, "API suppression multiple");

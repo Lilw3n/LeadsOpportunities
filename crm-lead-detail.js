@@ -30,7 +30,7 @@
     } catch (e) {}
     var pm = window.CrmLeadPlatform.meta(window.CrmLeadPlatform.detect(l));
     var pct = window.CrmLeadPlatform.questionnairePct(l);
-    document.title = (l.email || l.phone || "Lead") + " | Acquisition";
+    document.title = (l.email || l.phone || "Lead") + " · " + (l.id || "") + " | Acquisition";
 
     var metaPanel =
       window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderMetaPanel
@@ -56,6 +56,10 @@
       " " +
       esc(l.email || l.phone || l.id) +
       "</h1>" +
+      '<p style="font-family:ui-monospace,monospace;font-size:.85rem;color:var(--muted)">ID ' +
+      esc(l.id) +
+      (!l.email && !l.phone ? " · pas d’email ni de téléphone" : "") +
+      "</p>" +
       '<p style="color:var(--muted)">' +
       esc(pm.label) +
       " · " +

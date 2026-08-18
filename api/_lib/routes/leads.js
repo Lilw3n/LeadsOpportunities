@@ -2,6 +2,7 @@ const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
 const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
+const { isLeadUuid, leadListSearchMatch, leadListSearchMatchMinimal } = require("../lead-search");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
 const VALID_SORT = ["created_at", "lead_score", "vertical", "email", "status"];
@@ -52,19 +53,7 @@ async function fetchLeadsStandard(sql, opts) {
     FROM site_leads
     WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
       AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
-      AND (${opts.searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(
-          CASE
-            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
-            ELSE NULL
-          END, '')) LIKE LOWER(${opts.searchPattern})
-      ))
+      AND (${opts.searchPattern}::text IS NULL OR ${leadListSearchMatch(sql, opts.searchPattern)})
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -128,19 +117,7 @@ async function countLeadsStandard(sql, opts) {
     SELECT COUNT(*)::int AS total FROM site_leads
     WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
       AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
-      AND (${opts.searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(
-          CASE
-            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
-            ELSE NULL
-          END, '')) LIKE LOWER(${opts.searchPattern})
-      ))
+      AND (${opts.searchPattern}::text IS NULL OR ${leadListSearchMatch(sql, opts.searchPattern)})
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -194,19 +171,7 @@ async function fetchLeadsMinimal(sql, opts) {
       created_at, updated_at, payload
     FROM site_leads
     WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
-      AND (${opts.searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(
-          CASE
-            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
-            ELSE NULL
-          END, '')) LIKE LOWER(${opts.searchPattern})
-      ))
+      AND (${opts.searchPattern}::text IS NULL OR ${leadListSearchMatchMinimal(sql, opts.searchPattern)})
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -231,19 +196,7 @@ async function countLeadsMinimal(sql, opts) {
   const rows = await sql`
     SELECT COUNT(*)::int AS total FROM site_leads
     WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
-      AND (${opts.searchPattern}::text IS NULL OR (
-        LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(vertical, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(source, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.searchPattern})
-        OR LOWER(COALESCE(
-          CASE
-            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'clientIp')
-            ELSE NULL
-          END, '')) LIKE LOWER(${opts.searchPattern})
-      ))
+      AND (${opts.searchPattern}::text IS NULL OR ${leadListSearchMatchMinimal(sql, opts.searchPattern)})
       AND (${opts.ipPattern}::text IS NULL OR (
         LOWER(COALESCE(client_ip, '')) LIKE LOWER(${opts.ipPattern})
         OR LOWER(COALESCE(
@@ -258,22 +211,81 @@ async function countLeadsMinimal(sql, opts) {
   return rows[0].total;
 }
 
+async function fetchLeadByExactId(sql, leadId, tier) {
+  const id = String(leadId || "").trim();
+  if (!id) return null;
+  try {
+    if (tier !== "minimal") {
+      const rows = await sql`
+        SELECT
+          id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
+          COALESCE(status, 'new') AS status, notes, created_at, updated_at, payload,
+          landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip
+        FROM site_leads
+        WHERE LOWER(id) = LOWER(${id})
+        LIMIT 1
+      `;
+      if (rows[0]) return { row: rows[0], tier: "standard" };
+    }
+  } catch (e) {
+    console.warn("[dashboard/leads] exact id standard:", e.message);
+  }
+  try {
+    const rows = await sql`
+      SELECT
+        id, source, vertical, lead_score, email, phone,
+        created_at, updated_at, payload
+      FROM site_leads
+      WHERE LOWER(id) = LOWER(${id})
+      LIMIT 1
+    `;
+    return rows[0] ? { row: rows[0], tier: "minimal" } : null;
+  } catch (e) {
+    console.warn("[dashboard/leads] exact id minimal:", e.message);
+    return null;
+  }
+}
+
+function mergeExactIdLead(result, exact) {
+  if (!exact || !exact.row) return result;
+  const id = String(exact.row.id || "").toLowerCase();
+  const already = (result.rows || []).some(function (r) {
+    return String(r.id || "").toLowerCase() === id;
+  });
+  if (already) {
+    result.exactIdMatch = true;
+    return result;
+  }
+  result.rows = [exact.row].concat(result.rows || []);
+  result.total = (result.total || 0) + 1;
+  result.exactIdMatch = true;
+  return result;
+}
+
 async function loadLeadsList(sql, opts) {
+  var result;
   try {
     const rows = await fetchLeadsStandard(sql, opts);
     const total = await countLeadsStandard(sql, opts);
-    return { rows, total, tier: "standard" };
+    result = { rows, total, tier: "standard" };
   } catch (e) {
     console.warn("[dashboard/leads] standard failed:", e.message);
   }
-  try {
-    const rows = await fetchLeadsMinimal(sql, opts);
-    const total = await countLeadsMinimal(sql, opts);
-    return { rows, total, tier: "minimal" };
-  } catch (e) {
-    console.warn("[dashboard/leads] minimal failed:", e.message);
-    throw e;
+  if (!result) {
+    try {
+      const rows = await fetchLeadsMinimal(sql, opts);
+      const total = await countLeadsMinimal(sql, opts);
+      result = { rows, total, tier: "minimal" };
+    } catch (e) {
+      console.warn("[dashboard/leads] minimal failed:", e.message);
+      throw e;
+    }
   }
+  if (opts.exactId) {
+    const exact = await fetchLeadByExactId(sql, opts.exactId, result.tier);
+    result = mergeExactIdLead(result, exact);
+  }
+  return result;
 }
 
 module.exports = async (req, res) => {
@@ -303,6 +315,7 @@ module.exports = async (req, res) => {
     ? sanitizeSearch(url.searchParams.get("search"))
     : null;
   const searchPattern = searchVal ? "%" + searchVal + "%" : null;
+  const exactId = searchVal && isLeadUuid(searchVal) ? searchVal.trim() : null;
   const ipVal = sanitizeIpQuery(url.searchParams.get("ip"));
   const ipPattern = ipVal ? "%" + ipVal + "%" : null;
   var scoreMinRaw = parseInt(url.searchParams.get("scoreMin") || "", 10);
@@ -325,6 +338,7 @@ module.exports = async (req, res) => {
     offset,
     viewVal,
     platformVal,
+    exactId,
   };
 
   try {
@@ -340,6 +354,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       leads,
+      exactIdMatch: !!result.exactIdMatch,
       pagination: {
         page,
         limit,

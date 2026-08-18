@@ -4,6 +4,7 @@
 const { applyApiGuards, sanitizeSearch } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
+const { isLeadUuid, leadListSearchMatch } = require("../lead-search");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -29,7 +30,7 @@ module.exports = async (req, res) => {
   const limit = 15;
 
   try {
-    const results = { contacts: [], vehicles: [], contracts: [], claims: [], drivers: [] };
+    const results = { contacts: [], vehicles: [], contracts: [], claims: [], drivers: [], leads: [] };
 
     if (entity === "all" || entity === "contacts") {
       results.contacts = await sql`
@@ -110,12 +111,47 @@ module.exports = async (req, res) => {
       `;
     }
 
+    if (entity === "all" || entity === "leads") {
+      try {
+        const exactId = isLeadUuid(q) ? q.trim() : null;
+        results.leads = await sql`
+          SELECT id, source, vertical, lead_score, email, phone, created_at, contact_id, visitor_id, status
+          FROM site_leads
+          WHERE (
+            ${leadListSearchMatch(sql, pattern)}
+            OR (${exactId}::text IS NOT NULL AND LOWER(id) = LOWER(${exactId}))
+          )
+          ORDER BY created_at DESC
+          LIMIT ${limit}
+        `;
+      } catch (leadErr) {
+        console.warn("[crm/universal-search] leads", leadErr.message);
+        try {
+          results.leads = await sql`
+            SELECT id, source, vertical, lead_score, email, phone, created_at
+            FROM site_leads
+            WHERE LOWER(id) LIKE LOWER(${pattern})
+              OR LOWER(COALESCE(email,'')) LIKE LOWER(${pattern})
+              OR LOWER(COALESCE(phone,'')) LIKE LOWER(${pattern})
+              OR LOWER(COALESCE(source,'')) LIKE LOWER(${pattern})
+              OR LOWER(COALESCE(vertical,'')) LIKE LOWER(${pattern})
+            ORDER BY created_at DESC
+            LIMIT ${limit}
+          `;
+        } catch (leadErr2) {
+          console.warn("[crm/universal-search] leads minimal", leadErr2.message);
+          results.leads = [];
+        }
+      }
+    }
+
     const total =
       results.contacts.length +
       results.vehicles.length +
       results.contracts.length +
       results.claims.length +
-      results.drivers.length;
+      results.drivers.length +
+      results.leads.length;
 
     return res.status(200).json({ ok: true, query: q, total: total, results: results });
   } catch (e) {

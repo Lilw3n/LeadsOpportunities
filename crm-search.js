@@ -103,8 +103,10 @@
           document.getElementById("searchResults").innerHTML =
             '<div class="crm-empty-state"><h3>Aucun résultat pour « ' +
             esc(q) +
-            ' »</h3><p>Essayez un téléphone sans espaces, une partie du nom, une plaque ou une adresse e-mail.</p>' +
-            '<p style="margin:14px 0 0"><a class="btn btn-primary" href="./crm.html#contacts">Créer un contact</a> <a class="btn btn-ghost" href="./crm-acquisition.html">Voir les leads</a></p></div>';
+            ' »</h3><p>Essayez un ID Slack (UUID), un téléphone sans espaces, une partie du nom, une plaque ou une adresse e-mail.</p>' +
+            '<p style="margin:14px 0 0"><a class="btn btn-primary" href="./crm.html#contacts">Créer un contact</a> <a class="btn btn-ghost" href="./dashboard.html?section=leads&amp;search=' +
+            encodeURIComponent(q) +
+            '">Chercher dans les leads</a></p></div>';
 
           return;
 
@@ -352,6 +354,56 @@
 
 
 
+        if (r.leads && r.leads.length) {
+
+          html += section(
+
+            "Leads (" + r.leads.length + ")",
+
+            r.leads
+
+              .map(function (l) {
+
+                var label = l.email || l.phone || l.id;
+
+                return (
+
+                  '<div class="result-row"><div><a href="./crm-lead-detail.html?id=' +
+
+                  encodeURIComponent(l.id) +
+
+                  '">' +
+
+                  esc(label) +
+
+                  '</a><div class="result-meta">' +
+
+                  esc(l.vertical || l.source || "lead") +
+
+                  " · score " +
+
+                  esc(l.lead_score != null ? l.lead_score : "—") +
+
+                  " · ID " +
+
+                  esc(l.id) +
+
+                  (l.email || l.phone ? "" : " · sans email/tél") +
+
+                  "</div></div></div>"
+
+                );
+
+              })
+
+              .join("")
+
+          );
+
+        }
+
+
+
         document.getElementById("searchResults").innerHTML = html;
 
       });
@@ -432,10 +484,22 @@
 
   document.querySelectorAll("[data-sample]").forEach(function (btn) {
     btn.onclick = function () {
-      document.getElementById("searchQ").value = btn.getAttribute("data-sample");
+      var sample = btn.getAttribute("data-sample");
+      document.getElementById("searchQ").value = sample;
+      if (sample && sample.indexOf("-") === 8) {
+        document.getElementById("searchEntity").value = "leads";
+      }
       document.getElementById("searchQ").focus();
+      if (sample && sample.length >= 2) search();
     };
   });
+
+  var boot = new URLSearchParams(location.search);
+  if (boot.get("entity")) document.getElementById("searchEntity").value = boot.get("entity");
+  if (boot.get("q") || boot.get("id") || boot.get("lead")) {
+    document.getElementById("searchQ").value = boot.get("q") || boot.get("id") || boot.get("lead");
+    search();
+  }
 
 })();
 

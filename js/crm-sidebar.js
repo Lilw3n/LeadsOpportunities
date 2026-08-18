@@ -48,7 +48,7 @@ window.CrmSidebar = {
       defaultOpen: true,
       items: [
         { type: "section", id: "overview", label: "Tableau de bord", icon: "overview", desc: "Vue d'ensemble CRM", keywords: "dashboard accueil cockpit" },
-        { type: "link", href: "./crm-search.html", label: "Recherche universelle", icon: "search", desc: "Contacts, dossiers, événements", keywords: "global search transverse" },
+        { type: "link", href: "./crm-search.html", label: "Recherche universelle", icon: "search", desc: "Leads par ID Slack, contacts, dossiers", keywords: "global search transverse uuid lead id" },
         { type: "link", href: "./crm-statistics.html", label: "Statistiques", icon: "stats", desc: "Performance commerciale" },
         { type: "link", href: "./crm-statistics-reports.html", label: "Rapports", icon: "stats", desc: "Analyses détaillées" },
         { type: "link", href: "./crm-statistics-export.html", label: "Exports statistiques", icon: "stats" },

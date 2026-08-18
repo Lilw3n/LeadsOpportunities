@@ -31,7 +31,7 @@
       "crm-quote-payment.html": { subtitle: "Acompte devis et lien Stripe sécurisé" },
       "crm-bank-details.html": { subtitle: "IBAN clients — accès CRM authentifié" },
       "crm-driver-new.html": { subtitle: "Ajout conducteur rattaché à un contact" },
-      "crm-search.html": { subtitle: "Recherche transversale contacts, dossiers et événements" },
+      "crm-search.html": { subtitle: "Recherche transversale : ID lead Slack, contacts, dossiers" },
       "crm-contact.html": { subtitle: "Fiche interlocuteur — perso, pro, biens, événements, Slack" },
       "crm-relations.html": { subtitle: "Famille, SCI, héritiers, parrainage — reconnaissance étudiée si dossier abouti" },
       "crm-interlocutors.html": { subtitle: "Interlocuteurs, relations et points de contact" },

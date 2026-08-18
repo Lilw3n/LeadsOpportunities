@@ -16,7 +16,7 @@
     <div>
       <p class="crm-eyebrow">Acquisition</p>
       <h2>Pipeline leads multi-sources</h2>
-      <p>Priorisez les prospects entrants, repérez les leads non ouverts, archivez ce qui pollue la vue et orientez les dossiers vers le bon partenaire.</p>
+      <p>Priorisez les prospects entrants, repérez les leads non ouverts, archivez ce qui pollue la vue et orientez les dossiers vers le bon partenaire. Collez un <strong>ID Slack</strong> (UUID) pour ouvrir la fiche même sans email ni téléphone.</p>
     </div>
     <div class="crm-action-row">
       <a href="./crm-leads.html" class="btn btn-primary">Page leads</a>
@@ -30,7 +30,7 @@
   </section>
 
   <div class="crm-toolbar acq-toolbar">
-    <input type="search" id="acqSearch" class="acq-search crm-input" placeholder="Rechercher email, téléphone, nom…" />
+    <input type="search" id="acqSearch" class="acq-search crm-input" placeholder="Email, téléphone, nom, ID Slack…" />
     <select id="acqTime" class="crm-input" style="max-width:160px">
       <option value="">Tous délais</option>
       <option value="24h">&lt; 24 h</option>
@@ -86,6 +86,7 @@
 }</pre>
   </section>
 
+  <script src="./js/lead-search-lib.js"></script>
   <script src="./js/crm-lead-platform.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>

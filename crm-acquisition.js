@@ -16,6 +16,14 @@
     filterView = urlView;
   }
   var searchQ = "";
+  var urlParams = new URLSearchParams(location.search);
+  var urlLeadId = urlParams.get("id") || urlParams.get("lead");
+  if (urlLeadId && /^[0-9a-f]{8}-[0-9a-f-]{27}$/i.test(urlLeadId)) {
+    location.replace("./crm-lead-detail.html?id=" + encodeURIComponent(urlLeadId));
+    return;
+  }
+  var urlQ = urlParams.get("q") || urlParams.get("search");
+  if (urlQ) searchQ = urlQ;
   var soundOn = localStorage.getItem("lo_acq_sound") === "1";
   var seenLeadIds = [];
   var serverStats = {};
@@ -111,12 +119,13 @@
       if (filterDormant && !l.is_dormant) return false;
       if (!timeFilter(l)) return false;
       if (searchQ) {
-        var q = searchQ.toLowerCase();
-        return (
-          String(l.email || "").toLowerCase().indexOf(q) >= 0 ||
-          String(l.phone || "").indexOf(q) >= 0 ||
-          String(l.full_name || "").toLowerCase().indexOf(q) >= 0 ||
-          String(l.devis_summary || "").toLowerCase().indexOf(q) >= 0
+        var matcher = window.LeadSearch && window.LeadSearch.matches;
+        return matcher ? matcher(l, searchQ) : (
+          String(l.email || "").toLowerCase().indexOf(searchQ.toLowerCase()) >= 0 ||
+          String(l.phone || "").indexOf(searchQ) >= 0 ||
+          String(l.full_name || "").toLowerCase().indexOf(searchQ.toLowerCase()) >= 0 ||
+          String(l.id || "").toLowerCase().indexOf(searchQ.toLowerCase()) >= 0 ||
+          String(l.devis_summary || "").toLowerCase().indexOf(searchQ.toLowerCase()) >= 0
         );
       }
       return l.pipeline_stage !== "won" && l.pipeline_stage !== "lost";
@@ -226,6 +235,7 @@
       esc(l.vertical || "—") +
       " · score " +
       (l.lead_score != null ? l.lead_score : "—") +
+      (!l.email && !l.phone && l.id ? " · ID " + esc(l.id) : "") +
       "</span></div>" +
       '<span class="acq-priority ' +
       esc(l.priority || "medium") +
@@ -435,6 +445,7 @@
   function load() {
     var url = "/api/crm/leads-acquisition?limit=150&view=" + encodeURIComponent(filterView);
     if (filterDormant) url += "&dormant=1";
+    if (searchQ) url += "&q=" + encodeURIComponent(searchQ);
     var pipeline = document.getElementById("acqPipeline");
     if (pipeline && !pipeline.querySelector(".acq-col")) {
       pipeline.innerHTML = '<p class="alerts-empty" style="padding:24px;text-align:center">Chargement des formulaires remplis…</p>';
@@ -452,6 +463,26 @@
         }
         allLeads = res.leads || [];
         showEmptyDiagnostic(res);
+        if (res.exactIdMatch && allLeads[0] && searchQ) {
+          var box = document.getElementById("acqDiagBanner");
+          if (!box) {
+            box = document.createElement("div");
+            box.id = "acqDiagBanner";
+            box.className = "panel";
+            box.style.marginBottom = "12px";
+            var pipeline = document.getElementById("acqPipeline");
+            if (pipeline && pipeline.parentNode) pipeline.parentNode.insertBefore(box, pipeline);
+          }
+          box.innerHTML =
+            '<p style="margin:0"><strong>Lead trouvé par ID.</strong> ' +
+            '<a href="./crm-lead-detail.html?id=' +
+            encodeURIComponent(allLeads[0].id) +
+            '">Ouvrir la fiche</a>' +
+            (allLeads[0].email || allLeads[0].phone
+              ? ""
+              : " — pas d’email ni de téléphone sur cette fiche.") +
+            "</p>";
+        }
         var currentInteresting = allLeads
           .filter(function (l) { return l.is_interesting && !l.is_opened && !l.is_archived; })
           .map(function (l) { return l.id; });
@@ -598,9 +629,19 @@
   function bindUi() {
     var search = document.getElementById("acqSearch");
     if (search) {
+      if (searchQ) search.value = searchQ;
+      var searchTimer = null;
       search.oninput = function () {
         searchQ = this.value.trim();
-        render();
+        if (window.LeadSearch && window.LeadSearch.isLeadUuid(searchQ)) {
+          load();
+          return;
+        }
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(function () {
+          if (searchQ.length >= 8) load();
+          else render();
+        }, 280);
       };
     }
     var time = document.getElementById("acqTime");

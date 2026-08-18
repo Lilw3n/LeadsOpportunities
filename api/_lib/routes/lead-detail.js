@@ -34,7 +34,7 @@ async function fetchLeadRow(sql, leadId) {
                competitor_monthly, our_offer_monthly, relevance, client_ip,
                landing_slug, seo_city, seo_product, pipeline_stage,
                questionnaire_step, questionnaire_total, contact_id
-        FROM site_leads WHERE id = ${leadId}
+        FROM site_leads WHERE LOWER(id) = LOWER(${leadId})
       `;
     },
     function () {
@@ -43,13 +43,13 @@ async function fetchLeadRow(sql, leadId) {
                utm_source, utm_medium, utm_campaign, gclid, visitor_id,
                COALESCE(status, 'new') AS status, notes,
                payload, created_at, platform
-        FROM site_leads WHERE id = ${leadId}
+        FROM site_leads WHERE LOWER(id) = LOWER(${leadId})
       `;
     },
     function () {
       return sql`
         SELECT id, source, vertical, lead_score, email, phone, payload, created_at
-        FROM site_leads WHERE id = ${leadId}
+        FROM site_leads WHERE LOWER(id) = LOWER(${leadId})
       `;
     },
   ];

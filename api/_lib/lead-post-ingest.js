@@ -115,16 +115,21 @@ async function notifySlack(payload, score, leadId) {
   ).replace(/\/$/, "");
   var src = String(payload.source || "site");
   var vertical = String(payload.vertical || "devis");
-  var crmPath =
-    src === "meta_lead_ads" ? "/crm-meta-inbox.html" : "/crm-acquisition.html";
+  var detailPath = "/crm-lead-detail.html?id=" + encodeURIComponent(String(leadId || ""));
+  var dashPath = "/dashboard.html?section=leads&lead=" + encodeURIComponent(String(leadId || ""));
+  var extraInbox =
+    src === "meta_lead_ads" ? "<" + appUrl + "/crm-meta-inbox.html|Inbox Meta>" : "";
   var lines = [
     "*Nouveau lead* — " + vertical + " · score " + score + "/100",
     "Source: " + src,
     payload.phone ? "Tel: " + payload.phone : "",
     payload.email ? "Email: " + payload.email : "",
+    payload.phone || payload.email ? "" : "Sans email ni téléphone — ouvrir la fiche par ID",
     payload.utm_campaign ? "Campagne: " + payload.utm_campaign : "",
-    "ID: " + leadId,
-    "<" + appUrl + crmPath + "|Ouvrir le CRM>",
+    "ID: `" + leadId + "`",
+    "<" + appUrl + detailPath + "|Ouvrir la fiche lead>",
+    "<" + appUrl + dashPath + "|Liste dashboard>",
+    extraInbox,
   ].filter(Boolean);
 
   try {

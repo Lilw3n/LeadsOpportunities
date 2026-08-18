@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
   if (req.method === "GET") {
     try {
       const rows = await sql`
-        SELECT * FROM site_leads WHERE id = ${leadId} LIMIT 1
+        SELECT * FROM site_leads WHERE LOWER(id) = LOWER(${leadId}) LIMIT 1
       `;
       if (!rows.length) return res.status(404).json({ error: "Lead introuvable" });
       await markLeadOpened(sql, leadId, user.id);
@@ -53,7 +53,7 @@ module.exports = async (req, res) => {
     const body = parsed.body || {};
 
     try {
-      const existing = await sql`SELECT id FROM site_leads WHERE id = ${leadId}`;
+      const existing = await sql`SELECT id FROM site_leads WHERE LOWER(id) = LOWER(${leadId})`;
       if (!existing.length) return res.status(404).json({ error: "Lead introuvable" });
 
         if (body.action === "open") {

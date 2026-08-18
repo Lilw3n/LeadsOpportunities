@@ -30,7 +30,7 @@
     <div>
       <p class="crm-eyebrow">Recherche globale</p>
       <h2>Retrouver un dossier en quelques secondes</h2>
-      <p>Recherchez par nom, email, téléphone, immatriculation, numéro de contrat, permis ou sinistre. Le moteur traverse les entités CRM utiles au quotidien.</p>
+      <p>Recherchez par nom, email, téléphone, <strong>ID de lead (Slack)</strong>, immatriculation, numéro de contrat, permis ou sinistre. Le moteur traverse les leads et les entités CRM utiles au quotidien.</p>
     </div>
     <div class="crm-action-row">
       <a class="btn btn-ghost" href="./crm.html#contacts">Contacts</a>
@@ -48,9 +48,10 @@
       <p id="searchHint" class="crm-muted-inline"></p>
     </div>
     <div class="search-bar">
-      <input type="search" id="searchQ" placeholder="Ex. 0696..., client@..., AA-123-AA, contrat, permis…" autofocus />
+      <input type="search" id="searchQ" placeholder="Ex. ID Slack, 0696..., client@..., AA-123-AA…" autofocus />
       <select id="searchEntity">
       <option value="all">Toutes entités</option>
+      <option value="leads">Leads (dont ID)</option>
       <option value="contacts">Contacts</option>
       <option value="vehicles">Véhicules</option>
       <option value="contracts">Contrats</option>
@@ -62,7 +63,7 @@
     <div class="search-examples">
       <button type="button" class="search-example" data-sample="client"><strong>Nom client</strong><span>Retrouver fiche, devis, contrats</span></button>
       <button type="button" class="search-example" data-sample="0696"><strong>Téléphone</strong><span>Identifier un appel entrant</span></button>
-      <button type="button" class="search-example" data-sample="AA-123-AA"><strong>Immatriculation</strong><span>Accéder au véhicule lié</span></button>
+      <button type="button" class="search-example" data-sample="734978c7-8710-41b7-969a-07a88ab307d5"><strong>ID lead Slack</strong><span>Coller l’UUID de la notification</span></button>
     </div>
   </section>
 

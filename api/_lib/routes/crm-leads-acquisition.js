@@ -5,6 +5,7 @@ const { applyApiGuards, sanitizeSearch, sanitizeEnum } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
+const { isLeadUuid, leadMatchesQuery } = require("../lead-search");
 
 const STAGES = ["new", "questionnaire", "tariff_editing", "quote_sent", "follow_up", "won", "lost"];
 const PLATFORMS = [
@@ -95,6 +96,39 @@ async function fetchAcquisitionRows(sql, limit) {
     throw new Error("Table site_leads absente — exécutez database/site_leads.sql sur Neon");
   }
   throw new Error(msg + " — exécutez database/crm-acquisition-bootstrap.sql sur Neon");
+}
+
+async function fetchLeadRowById(sql, leadId) {
+  var id = String(leadId || "").trim();
+  if (!id) return null;
+  try {
+    var rows = await sql`
+      SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+             gclid, visitor_id, payload, COALESCE(status, 'new') AS status, notes, created_at, updated_at,
+             contact_id, platform, pipeline_stage, questionnaire_step, questionnaire_total, form_id,
+             fbclid, ttclid, msclkid, priority, next_followup_at, last_activity_at, tariff_insurer,
+             opened_at, opened_by, archived_at, archived_by, archive_reason, assigned_to, shared_with,
+             last_event_at, last_event_type, city, postal_code
+      FROM site_leads
+      WHERE LOWER(id) = LOWER(${id})
+      LIMIT 1
+    `;
+    return rows[0] || null;
+  } catch (e) {
+    try {
+      var fallback = await sql`
+        SELECT id, source, vertical, lead_score, email, phone, utm_source, utm_medium, utm_campaign,
+               gclid, visitor_id, payload, created_at
+        FROM site_leads
+        WHERE LOWER(id) = LOWER(${id})
+        LIMIT 1
+      `;
+      return fallback[0] || null;
+    } catch (e2) {
+      console.warn("[crm/leads-acquisition] exact id", e2.message);
+      return null;
+    }
+  }
 }
 
 function safeEnrich(row) {
@@ -239,10 +273,16 @@ module.exports = async (req, res) => {
       : null;
     const view = url.searchParams.get("view") || "active";
     const q = url.searchParams.get("q") ? sanitizeSearch(url.searchParams.get("q")) : null;
-    const pattern = q ? "%" + q + "%" : null;
     const limit = Math.min(200, Math.max(1, parseInt(url.searchParams.get("limit") || "120", 10)));
 
     var rows = await fetchAcquisitionRows(sql, limit);
+
+    if (q && isLeadUuid(q)) {
+      var exactRow = await fetchLeadRowById(sql, q);
+      if (exactRow && !rows.some(function (r) { return String(r.id).toLowerCase() === String(exactRow.id).toLowerCase(); })) {
+        rows = [exactRow].concat(rows);
+      }
+    }
 
     var leads = rows.map(safeEnrich);
     if (platform) leads = leads.filter(function (l) { return l.platform === platform; });
@@ -253,18 +293,13 @@ module.exports = async (req, res) => {
     }
     if (stage) leads = leads.filter(function (l) { return l.pipeline_stage === stage; });
     if (dormantOnly) leads = leads.filter(function (l) { return l.is_dormant; });
-    if (view === "active" || view === "unarchived") leads = leads.filter(function (l) { return !l.is_archived; });
-    if (view === "archived") leads = leads.filter(function (l) { return l.is_archived; });
-    if (view === "unopened") leads = leads.filter(function (l) { return !l.is_opened && !l.is_archived; });
-    if (view === "interesting") leads = leads.filter(function (l) { return l.is_interesting && !l.is_archived; });
-    if (pattern) {
-      leads = leads.filter(function (l) {
-        return (
-          String(l.email || "").toLowerCase().includes(pattern.slice(1, -1).toLowerCase()) ||
-          String(l.phone || "").includes(pattern.slice(1, -1)) ||
-          String(l.full_name || "").toLowerCase().includes(pattern.slice(1, -1).toLowerCase())
-        );
-      });
+    var uuidLookup = !!(q && isLeadUuid(q));
+    if (!uuidLookup && (view === "active" || view === "unarchived")) leads = leads.filter(function (l) { return !l.is_archived; });
+    if (!uuidLookup && view === "archived") leads = leads.filter(function (l) { return l.is_archived; });
+    if (!uuidLookup && view === "unopened") leads = leads.filter(function (l) { return !l.is_opened && !l.is_archived; });
+    if (!uuidLookup && view === "interesting") leads = leads.filter(function (l) { return l.is_interesting && !l.is_archived; });
+    if (q) {
+      leads = leads.filter(function (l) { return leadMatchesQuery(l, q); });
     }
     leads = leads.slice(0, limit);
 
@@ -280,6 +315,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       leads: leads,
+      exactIdMatch: uuidLookup && leads.length > 0,
       diagnostics: {
         databaseConfigured: true,
         rowsFetched: rows.length,

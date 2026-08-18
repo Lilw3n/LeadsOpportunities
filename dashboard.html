@@ -1832,7 +1832,7 @@
         <div class="dash-topbar">
           <div>
             <h1>Gestion des Leads</h1>
-            <p class="subtitle">Tous les leads reçus sont ici (liste complète). Qualification spam/prospect : <a href="./crm-leads.html" style="color:var(--primary);font-weight:600">Leads → prospects</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">Devis remplis</a></p>
+            <p class="subtitle">Tous les leads reçus sont ici (liste complète). Recherchez par email, téléphone ou <strong>ID Slack</strong>. Qualification spam/prospect : <a href="./crm-leads.html" style="color:var(--primary);font-weight:600">Leads → prospects</a> · <a href="./crm-acquisition.html" style="color:var(--primary);font-weight:600">Devis remplis</a> · <a href="./crm-search.html" style="color:var(--primary);font-weight:600">Recherche universelle</a></p>
           </div>
           <div class="topbar-actions">
             <button class="btn-refresh" id="refreshLeads">
@@ -1899,7 +1899,7 @@
               <option value="100" selected>100 par page</option>
               <option value="250">Tous (250)</option>
             </select>
-            <input type="text" class="filter-input" id="filterSearch" placeholder="Rechercher email, téléphone..." />
+            <input type="text" class="filter-input" id="filterSearch" placeholder="Email, téléphone, ID Slack…" />
             <input type="text" class="filter-input filter-input-ip" id="filterIp" placeholder="Filtrer par IP…" />
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
               <input type="checkbox" id="soundNewLead" checked /> Son nouveau lead
@@ -2161,6 +2161,7 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
+  <script src="./js/lead-search-lib.js"></script>
   <script src="./js/interlocuteur-dossier-lib.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
@@ -2778,8 +2779,20 @@
       try {
         tbody.innerHTML = "";
         if (!data.leads || data.leads.length === 0) {
+          var searchVal = (document.getElementById("filterSearch").value || "").trim();
+          var uuidLink =
+            window.LeadSearch && window.LeadSearch.isLeadUuid(searchVal)
+              ? ' <a class="btn btn-primary btn-sm" href="./crm-lead-detail.html?id=' +
+                encodeURIComponent(searchVal) +
+                '">Ouvrir la fiche par ID</a>'
+              : "";
           tbody.innerHTML =
-            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';loadLeads();return false;">Reinitialiser</a>' +
+            uuidLink +
+            "</div></td></tr>";
+          if (window.LeadSearch && window.LeadSearch.isLeadUuid(searchVal)) {
+            openLeadDetail(searchVal);
+          }
         } else {
           data.leads.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
@@ -2812,8 +2825,8 @@
               '<td>' + fmtDate(l.created_at) + (pills ? '<div style="margin-top:4px">' + pills + '</div>' : '') + '</td>' +
               '<td><div class="score-bar"><div class="score-fill"><span style="width:' + (score||0) + '%;background:' + scoreColor(score) + '"></span></div><span class="score-val">' + score + '</span></div></td>' +
               '<td>' + esc(l.vertical) + '</td>' +
-              '<td>' + esc(l.email) + '</td>' +
-              '<td>' + esc(l.phone) + '</td>' +
+              '<td>' + esc(l.email || "") + (!l.email && l.id ? '<div class="muted" style="font-size:.75rem;font-family:ui-monospace,monospace">' + esc(l.id) + '</div>' : '') + '</td>' +
+              '<td>' + esc(l.phone || "") + '</td>' +
               '<td>' + ipHtml + '</td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
@@ -3357,7 +3370,13 @@
       setTimeout(function () {
         goToLeads(params.get("view") || "");
         loadBlockedIps();
-        var leadId = params.get("lead");
+        var leadId = params.get("lead") || params.get("id");
+        var searchParam = params.get("search") || params.get("q") || leadId;
+        if (searchParam && document.getElementById("filterSearch")) {
+          document.getElementById("filterSearch").value = searchParam;
+          currentPage = 1;
+          loadLeads();
+        }
         if (leadId) setTimeout(function () { openLeadDetail(leadId); }, 400);
       }, 100);
     } else if (params.get("section") === "partners") {
