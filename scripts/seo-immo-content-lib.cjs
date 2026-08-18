@@ -136,6 +136,59 @@ var DEST_SLUGS = {
   "saint-raphael": "littoral varois, gare TGV, appartements et villas",
 };
 
+function nancyBassinProfile(city) {
+  var name = city.name;
+  var isHq = city.slug === "varangeville";
+  return {
+    kind: "nancy-bassin",
+    label: "Meurthe-et-Moselle (54)",
+    market:
+      "marche " +
+      name +
+      " : mix appartements (centres-villes, metropole), maisons en lotissement et biens a renover. Prix plus accessibles qu en Ile-de-France, mais ecarts forts entre Nancy centre, communes limitrophes et secteurs Lunéville / Saint-Nicolas-de-Port",
+    loan:
+      "pret immobilier 54 : banques regardent reste a vivre, apport et stabilite pro (fonction publique, CHU, industrie). Bureau courtier a Varangeville — simulation, projection complete (pret + taxe fonciere + charges) et montage dossier acquéreur",
+    search:
+      "recherche de bien " +
+      name +
+      " : stock sur SeLoger, LeBonCoin et mandats locaux. Les vendeurs privilegient les offres avec financement valide — nous calons budget pret avant les visites",
+    buyer:
+      "projet acquéreur : definir quartier (Vandoeuvre, Laxou, Jarville, centre Nancy…), enveloppe mensuelle reelle, puis recherche accompagnee et offre avec conditions suspensives",
+    seller:
+      "projet vendeur : estimer net vendeur, honoraires, delai de vente et rachat eventuel. Depot d annonce + mise en relation acheteurs finances sur le bassin nanceien",
+    hqNote: isHq
+      ? "Siege Leads Opportunities a Varangeville (54110) : permanences et rappel conseiller pour tout le 54"
+      : "Accompagnement depuis le bureau de Varangeville, a quelques minutes de " + name,
+  };
+}
+
+function nancyBuyerSellerSections(city, productLabel) {
+  if (!contentLib.isNancyBassin(city)) return [];
+  var p = nancyBassinProfile(city);
+  return [
+    {
+      h2: "Projet acquéreur a " + city.name,
+      paragraphs: [p.buyer + ". " + p.hqNote + "."],
+      list: [
+        "Simulation pret + projection cout mensuel (charges, energie, travaux)",
+        "Recherche de bien : budget, pieces, quartier",
+        "Assurance emprunteur (Loi Lemoine) et habitation apres achat",
+        "Offre et dossier banque pret pour rassurer le vendeur",
+      ],
+    },
+    {
+      h2: "Projet vendeur a " + city.name,
+      paragraphs: [p.seller + ". Nous croisons aussi votre " + productLabel + " si vous rachetez en parallele."],
+      list: [
+        "Estimation et net vendeur (honoraires, prix FAI)",
+        "Depot d annonce ou mandat — matching acquéreurs finances",
+        "Vente + rachat : calendrier compromis / pret relais",
+        "Assurance habitation jusqu a la remise des cles",
+      ],
+    },
+  ];
+}
+
 function isIsland(city) {
   return !!ISLAND_REGIONS[city.regionSlug];
 }
@@ -145,6 +198,9 @@ function isDestination(city) {
 }
 
 function profile(city) {
+  if (contentLib.isNancyBassin(city)) {
+    return nancyBassinProfile(city);
+  }
   var island = ISLAND_REGIONS[city.regionSlug];
   if (island) {
     return {
@@ -231,6 +287,9 @@ function pretCitySections(city) {
       ],
     },
   ];
+  if (p.kind === "nancy-bassin") {
+    sections = sections.concat(nancyBuyerSellerSections(city, "pret immobilier"));
+  }
   if (p.kind === "island") {
     sections.push({
       h2: "Iles et outre-mer : particularites a " + city.name,
@@ -268,7 +327,7 @@ function pretCitySections(city) {
 
 function pretCityFaq(city) {
   var p = profile(city);
-  return contentLib.defaultCityFaq(city, "Pret immobilier").concat([
+  var faq = contentLib.defaultCityFaq(city, "Pret immobilier").concat([
     {
       q: "Puis-je obtenir un pret immobilier a " + city.name + " ?",
       a:
@@ -291,6 +350,19 @@ function pretCityFaq(city) {
       a: "Oui. Premiere analyse de faisabilite gratuite, puis accompagnement dossier si vous poursuivez.",
     },
   ]);
+  if (contentLib.isNancyBassin(city)) {
+    faq = faq.concat([
+      {
+        q: "Je vends et j achete en meme temps dans le 54 — vous gerez les deux ?",
+        a: "Oui : estimation vendeur, depot d annonce, recherche du bien suivant et montage pret (y compris relais si pertinent). Bureau a Varangeville.",
+      },
+      {
+        q: "Pourquoi passer par un courtier local plutot qu une seule banque ?",
+        a: "Les criteres varient entre etablissements. Nous comparons les banques favorables a votre profil sur Nancy metropole et la Meurthe-et-Moselle, avec projection du cout reel du logement.",
+      },
+    ]);
+  }
+  return faq;
 }
 
 function rechercheCitySections(city) {
@@ -324,6 +396,20 @@ function rechercheCitySections(city) {
       ],
     },
   ];
+  if (contentLib.isNancyBassin(city)) {
+    sections = sections.concat(nancyBuyerSellerSections(city, "recherche de bien"));
+    sections.push({
+      h2: "Assurance et pret : le trio local a " + city.name,
+      paragraphs: [
+        "Achat, vente ou les deux : nous enchainons recherche de bien, simulation pret, assurance emprunteur et habitation. Un seul interlocuteur depuis Varangeville pour tout le bassin Nancy–Lunéville.",
+      ],
+      list: [
+        "Acquéreur : pret valide avant offre",
+        "Vendeur : acheteurs finances en priorite",
+        "Rachat + vente : calendrier et pret relais",
+      ],
+    });
+  }
   if (p.kind === "island" || p.kind === "destination") {
     sections.push({
       h2: "Iles et destinations : chercher autrement",
@@ -347,7 +433,7 @@ function rechercheCitySections(city) {
 }
 
 function rechercheCityFaq(city) {
-  return contentLib.defaultCityFaq(city, "Recherche de bien").concat([
+  var faq = contentLib.defaultCityFaq(city, "Recherche de bien").concat([
     {
       q: "Cherchez-vous des biens a " + city.name + " ?",
       a: "Oui. Formulaire acheteur, criteres (budget, type, quartier) puis selection. Couverture metropole, Corse, DOM-TOM et destinations.",
@@ -361,6 +447,15 @@ function rechercheCityFaq(city) {
       a: "Fortement conseille a " + city.name + " : les vendeurs privilegient les dossiers finances. Simulation gratuite.",
     },
   ]);
+  if (contentLib.isNancyBassin(city)) {
+    faq = faq.concat([
+      {
+        q: "Vous accompagnez aussi le pret et l assurance apres la recherche ?",
+        a: "Oui — simulation pret, projection mensuelle, assurance emprunteur et habitation. Tout depuis le bureau de Varangeville.",
+      },
+    ]);
+  }
+  return faq;
 }
 
 module.exports = {

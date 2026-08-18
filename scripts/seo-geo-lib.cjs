@@ -804,6 +804,9 @@ function buildGeoPageConfigs(cities, pageFn) {
           nearbyCities: contentLib.nearbyLinks(city, cities, product.dir, 12),
           faq: faq,
         };
+        if (contentLib.isNancyBassin(city)) {
+          geoPage.nancyBassin = true;
+        }
         if (product.key === "vtc" && city.regionSlug === "ile-de-france") {
           geoPage.related = [
             { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
@@ -830,44 +833,49 @@ function buildDeptPageConfigs(departments, cities, pageFn) {
         };
       });
       out.push(
-        pageFn({
-          file: product.dir + "/departement/" + dept.slug + "/index.html",
-          theme: product.theme,
-          badge: dept.name,
-          title: product.siloLabel + " " + dept.name + " (" + dept.region + ")",
-          description:
-            product.siloLabel +
-            " dans le " +
-            dept.name +
-            " : " +
-            deptCities.length +
-            " villes couvertes. Devis gratuit, courtier ORIAS.",
-          h1: product.siloLabel + " dans le " + dept.name,
-          intro:
-            "Retrouvez nos pages locales pour le departement " +
-            dept.name +
-            " (" +
-            dept.region +
-            "). Devis en ligne et accompagnement par telephone.",
-          cta: { href: product.landing, label: "Demander un devis" },
-          crumbs: [
-            { name: "Accueil", url: "/" },
-            { name: product.siloLabel, url: product.siloUrl },
-            { name: dept.name, url: "/" + product.dir + "/departement/" + dept.slug + "/" },
-          ],
-          related: [
-            { href: product.hubUrl, label: "Toutes les villes" },
-            { href: product.hubDeptUrl || product.siloUrl + "departements/", label: "Tous les departements" },
-            { href: "/france/region/" + dept.regionSlug + "/", label: dept.region },
-          ],
-          hubCityGrid: cityLinks,
-          faq: [
+        pageFn(
+          Object.assign(
             {
-              q: "Couvrez-vous tout le " + dept.name + " ?",
-              a: "Oui, communes principales et agglomerations du departement. Contactez-nous pour une commune non listee.",
+              file: product.dir + "/departement/" + dept.slug + "/index.html",
+              theme: product.theme,
+              badge: dept.name,
+              title: product.siloLabel + " " + dept.name + " (" + dept.region + ")",
+              description:
+                product.siloLabel +
+                " dans le " +
+                dept.name +
+                " : " +
+                deptCities.length +
+                " villes couvertes. Devis gratuit, courtier ORIAS.",
+              h1: product.siloLabel + " dans le " + dept.name,
+              intro:
+                "Retrouvez nos pages locales pour le departement " +
+                dept.name +
+                " (" +
+                dept.region +
+                "). Devis en ligne et accompagnement par telephone.",
+              cta: { href: product.landing, label: "Demander un devis" },
+              crumbs: [
+                { name: "Accueil", url: "/" },
+                { name: product.siloLabel, url: product.siloUrl },
+                { name: dept.name, url: "/" + product.dir + "/departement/" + dept.slug + "/" },
+              ],
+              related: [
+                { href: product.hubUrl, label: "Toutes les villes" },
+                { href: product.hubDeptUrl || product.siloUrl + "departements/", label: "Tous les departements" },
+                { href: "/france/region/" + dept.regionSlug + "/", label: dept.region },
+              ],
+              hubCityGrid: cityLinks,
+              faq: [
+                {
+                  q: "Couvrez-vous tout le " + dept.name + " ?",
+                  a: "Oui, communes principales et agglomerations du departement. Contactez-nous pour une commune non listee.",
+                },
+              ],
             },
-          ],
-        })
+            dept.slug === "meurthe-et-moselle" ? { nancyBassin: true } : {}
+          )
+        )
       );
     });
   });
@@ -1317,6 +1325,8 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/credit-immo.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/acheteur-immo.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/immobilier/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/immobilier/nancy-metropole/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/pret-immobilier/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/pret-immobilier/villes/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/pret-immobilier/iles-francaises/", priority: "0.93", changefreq: "weekly" },

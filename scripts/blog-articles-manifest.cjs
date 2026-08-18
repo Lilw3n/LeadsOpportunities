@@ -2559,6 +2559,11 @@ pretRefuse.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const nancyImmo = require("./blog-nancy-immo-articles.cjs");
+nancyImmo.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};

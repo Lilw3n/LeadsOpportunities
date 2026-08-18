@@ -319,6 +319,18 @@ function creditImmoCitySections(city) {
         "Nous accompagnons les projets sur Nancy metropole, Varangeville, Jarville-la-Malgrange, Lunéville, Saint-Nicolas-de-Port, Vandoeuvre, Laxou et l ensemble de la Meurthe-et-Moselle (54).",
       ],
     });
+    sections.push({
+      h2: "Acquéreur ou vendeur : deux parcours, un interlocuteur",
+      paragraphs: [
+        "Vous achetez ? Simulation pret, recherche de bien, projection du cout mensuel reel et assurance emprunteur.",
+        "Vous vendez ? Estimation, depot d annonce et mise en relation avec des acquéreurs finances. Vente + rachat : nous calons le calendrier et le pret relais si besoin.",
+      ],
+      list: [
+        "Parcours acquéreur : budget → recherche → offre → pret",
+        "Parcours vendeur : estimation → annonce → visites → acte",
+        "Assurance habitation et emprunteur en complement",
+      ],
+    });
   }
   return sections;
 }

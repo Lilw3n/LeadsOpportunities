@@ -29,6 +29,7 @@ const SeoImg = require("./seo-images-lib.cjs");
 const { providerBlock } = require("./seo-org-schema.cjs");
 const { resolvePageMeta } = require("./seo-keywords-lib.cjs");
 const LT = require("./seo-long-term-related.cjs");
+const contentLib = require("./seo-content-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
 const { SITE_ORIGIN: BASE } = require("./site-url.cjs");
@@ -482,9 +483,21 @@ const PAGES = [
           "Un refus bancaire n est pas une fin de parcours. Endettement HCSF, apport, assurance emprunteur sante, fichiers Banque de France : nous documentons les leviers et remontons un dossier multibanque.",
         ],
       },
+      {
+        h2: "Nancy metropole et Meurthe-et-Moselle (54)",
+        paragraphs: [
+          "Siege a Varangeville (54110) : accompagnement acquereurs (pret, recherche, projection) et vendeurs (estimation, annonce, vente + rachat) sur Nancy, Jarville, Lunéville, Dombasle, Saint-Nicolas-de-Port et tout le departement.",
+        ],
+        list: [
+          "Hub local acquereur + vendeur",
+          "Pages credit, pret, recherche et assurance par commune",
+          "Bureau Varangeville — rappel conseiller",
+        ],
+      },
     ],
     related: LT.mergeUnique(
       [
+        { href: "/immobilier/nancy-metropole/", label: "Hub Nancy metropole (54)" },
         { href: "/landings/projection-achat.html", label: "Cout reel du logement" },
         { href: "/credit-immo/simulation/", label: "Simulation" },
         { href: "/pret-immobilier/", label: "Pret immobilier — toutes les villes" },
@@ -568,6 +581,72 @@ const PAGES = [
       { href: "/credit-immo/", label: "Guide national" },
     ],
     faq: [],
+  }),
+  page({
+    file: "immobilier/nancy-metropole/index.html",
+    theme: "credit",
+    nancyBassin: true,
+    badge: "Meurthe-et-Moselle (54)",
+    title: "Immobilier Nancy metropole | Acquereurs et vendeurs — Varangeville",
+    description:
+      "Pret immobilier, recherche de bien, assurance emprunteur et habitation dans le 54. Bureau Varangeville. Accompagnement projet acquereur et vendeur.",
+    keywords:
+      "immobilier Nancy, pret Varangeville, vendre Nancy, acheter Meurthe-et-Moselle, courtier immo 54",
+    h1: "Nancy metropole : immobilier, pret et recherche de bien",
+    intro:
+      "Bureau a Varangeville (54110) : nous accompagnons acquereurs (pret, recherche, projection) et vendeurs (estimation, annonce, vente + rachat) sur tout le bassin nanceien.",
+    cta: { href: "/landings/acheteur-immo.html?ville=Nancy", label: "Lancer ma recherche acquereur" },
+    crumbs: [
+      { name: "Accueil", url: "/" },
+      { name: "Immobilier", url: "/immobilier/" },
+      { name: "Nancy metropole", url: "/immobilier/nancy-metropole/" },
+    ],
+    benefits: [
+      { title: "Acquereurs", text: "Pret, projection cout reel, recherche de bien, assurance." },
+      { title: "Vendeurs", text: "Estimation net vendeur, depot annonce, acheteurs finances." },
+      { title: "Local 54", text: "Siege Varangeville — rappel conseiller." },
+    ],
+    steps: [
+      { title: "Parcours acquereur", text: "Budget pret, recherche, offre avec financement valide." },
+      { title: "Parcours vendeur", text: "Estimation, annonce, matching acquereurs serieux." },
+      { title: "Un interlocuteur", text: "Pret + assurance + immo depuis le meme bureau." },
+    ],
+    sections: [
+      {
+        h2: "Deux projets, un accompagnement",
+        paragraphs: [
+          "Que vous achetiez votre premier T3 a Nancy ou vendiez un pavillon a Lunéville pour racheter a Varangeville, nous calons pret, assurances et calendrier immo.",
+        ],
+      },
+      {
+        h2: "Services sur le bassin Nancy–Varangeville–Lunéville",
+        list: [
+          "Credit et pret immobilier par commune",
+          "Recherche de bien (budget pret, pas prix affiche)",
+          "Assurance emprunteur (Loi Lemoine) et habitation",
+          "Projection complete : taxe fonciere, energie, charges",
+        ],
+      },
+    ],
+    related: [
+      { href: "/landings/acheteur-immo.html?role=vendeur", label: "Deposer un bien (vendeur)" },
+      { href: "/landings/credit-immo.html", label: "Simulation pret" },
+      { href: "/landings/projection-achat.html", label: "Projection achat" },
+      { href: "/credit-immo/varangeville/", label: "Credit immo Varangeville" },
+      { href: "/blog/acheter-nancy-metropole-pret-recherche-2026.html", label: "Guide acquereur 54" },
+      { href: "/blog/vendre-nancy-metropole-projet-vendeur-2026.html", label: "Guide vendeur 54" },
+      { href: "/blog/assurance-pret-habitation-nancy-54-guide.html", label: "Assurance pret + habitation" },
+    ],
+    faq: [
+      {
+        q: "Ou est votre bureau ?",
+        a: "Varangeville (54110), a quelques minutes de Nancy metropole.",
+      },
+      {
+        q: "Accompagnez-vous les vendeurs ?",
+        a: "Oui : estimation, depot annonce, vente + rachat et mise en relation avec des acquereurs finances.",
+      },
+    ],
   }),
 ];
 
@@ -771,6 +850,15 @@ function renderPage(p) {
   const navSante = hrefPath(prefix, "/assurance-sante/");
   const navAnimaux = hrefPath(prefix, "/assurance-animaux/");
   const navCredit = hrefPath(prefix, "/credit-immo/");
+
+  const nancyBassinFoot =
+    p.nancyBassin || (p.city && contentLib.isNancyBassin(p.city))
+      ? '  <link rel="stylesheet" href="' +
+        prefix +
+        'css/nancy-bassin-banner.css" />\n  <script src="' +
+        prefix +
+        'js/nancy-bassin-local.js" defer></script>\n'
+      : "";
 
   const geoMeta = p.city
     ? '<meta name="geo.region" content="FR" />\n  <meta name="geo.placename" content="' +
@@ -977,7 +1065,7 @@ function renderPage(p) {
   <script src="${prefix}js/attribution.js"></script>
   <script src="${prefix}js/cookie-banner.js"></script>
   <script src="${prefix}js/geo-france-guard.js"></script>
-</body>
+${nancyBassinFoot}</body>
 </html>`;
 }
 
@@ -1023,6 +1111,56 @@ const ALL_PAGES = PAGES.concat(
   buildFranceDeptPages(DEPARTMENTS, CITIES, page),
   buildHubPageConfigs(CITIES, REGIONS, DEPARTMENTS, page)
 );
+
+var nancyHub = ALL_PAGES.filter(function (p) {
+  return p.file === "immobilier/nancy-metropole/index.html";
+})[0];
+if (nancyHub) {
+  var nancyPriority = [
+    "varangeville",
+    "nancy",
+    "jarville-la-malgrange",
+    "laneuveville-devant-nancy",
+    "dombasle-sur-meurthe",
+    "luneville",
+    "saint-nicolas-de-port",
+    "vandoeuvre-les-nancy",
+    "laxou",
+    "saint-max",
+    "maxeville",
+    "toul",
+    "pont-a-mousson",
+  ];
+  var nancyBySlug = {};
+  CITIES.filter(function (c) {
+    return c.dept === "meurthe-et-moselle";
+  }).forEach(function (c) {
+    nancyBySlug[c.slug] = c;
+  });
+  nancyHub.hubCityGrid = [];
+  nancyPriority.forEach(function (slug) {
+    if (nancyBySlug[slug]) {
+      nancyHub.hubCityGrid.push({
+        href: "/credit-immo/" + slug + "/",
+        label: nancyBySlug[slug].name,
+      });
+    }
+  });
+  Object.keys(nancyBySlug)
+    .sort()
+    .forEach(function (slug) {
+      if (nancyPriority.indexOf(slug) >= 0) return;
+      nancyHub.hubCityGrid.push({ href: "/credit-immo/" + slug + "/", label: nancyBySlug[slug].name });
+    });
+  nancyHub.hubDeptGrid = [
+    { href: "/credit-immo/departement/meurthe-et-moselle/", label: "Credit immo 54" },
+    { href: "/pret-immobilier/departement/meurthe-et-moselle/", label: "Pret immobilier 54" },
+    { href: "/recherche-bien/departement/meurthe-et-moselle/", label: "Recherche de bien 54" },
+    { href: "/assurance-emprunteur/nancy/", label: "Assurance emprunteur Nancy" },
+    { href: "/assurance-habitation/nancy/", label: "Assurance habitation Nancy" },
+    { href: "/france/departement/meurthe-et-moselle/", label: "Departement 54" },
+  ];
+}
 
 ALL_PAGES.forEach(function (p) {
   const out = path.join(ROOT, p.file);

@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16",
+  "updated": "2026-08-18",
   "sections": [
     "actu",
     "animaux",
@@ -1235,6 +1235,45 @@
       "express": "../landings/devis-express.html?need=credit-immo",
       "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
       "matchedRule": "pret-refuse",
+      "species": null
+    },
+    {
+      "file": "acheter-nancy-metropole-pret-recherche-2026.html",
+      "title": "Acheter à Nancy métropole en 2026 : prêt, recherche de bien et projection",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?ville=Nancy&utm_content=blog-acheteur-nancy",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "vendre-nancy-metropole-projet-vendeur-2026.html",
+      "title": "Vendre en Meurthe-et-Moselle : projet vendeur, prix net et rachat",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?role=vendeur&ville=Varangeville&utm_content=blog-vendeur-54",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "assurance-pret-habitation-nancy-54-guide.html",
+      "title": "Assurance prêt et habitation à Nancy : guide acquéreur et vendeur",
+      "section": "habitat",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_content=blog-assurance-nancy",
+      "matchedRule": "emprunteur",
       "species": null
     },
     {

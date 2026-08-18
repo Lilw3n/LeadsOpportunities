@@ -16,6 +16,8 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/credit-immo.html",
   "/landings/acheteur-immo.html",
   "/landings/projection-achat.html",
+  "/immobilier/",
+  "/immobilier/nancy-metropole/",
   "/landings/devis.html",
   "/landings/rappel.html",
   "/landings/questionnaire.html?need=vtc&journey=standard",
@@ -121,6 +123,9 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/pret-refuse-cdi-cdd-interim-freelance.html",
   "/blog/pret-refuse-fichiers-banque-de-france-ficp-fcc.html",
   "/blog/rachat-credit-immobilier-guide-2026.html",
+  "/blog/acheter-nancy-metropole-pret-recherche-2026.html",
+  "/blog/vendre-nancy-metropole-projet-vendeur-2026.html",
+  "/blog/assurance-pret-habitation-nancy-54-guide.html",
   "/blog/assurance-vtc-rc-pro-garanties.html",
   "/mentions-legales.html",
 ];

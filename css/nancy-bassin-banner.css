@@ -1,0 +1,53 @@
+.nancy-bassin-banner {
+  background: linear-gradient(135deg, #1e3a8a 0%, #312e81 55%, #4c1d95 100%);
+  color: #fff;
+  padding: 12px 16px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.nancy-bassin-banner-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nancy-bassin-banner p {
+  margin: 0;
+  flex: 1 1 280px;
+}
+
+.nancy-bassin-banner strong {
+  font-weight: 700;
+}
+
+.nancy-bassin-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.nancy-bassin-banner .nb-btn {
+  display: inline-block;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nancy-bassin-banner .nb-btn-primary {
+  background: #fff;
+  color: #1e3a8a;
+}
+
+.nancy-bassin-banner .nb-btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
