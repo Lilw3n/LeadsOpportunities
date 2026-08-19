@@ -71,6 +71,7 @@
       if (!src || !dst || !String(src.value || "").trim()) return;
       if (!String(dst.value || "").trim()) dst.value = src.value;
     });
+    updateDuplicateLocationUi();
     var pt = form.querySelector("[name='property_type']");
     if (pt && pt.value && !p.querySelector('[name="sellPropertyType"]:checked')) {
       var radio = p.querySelector('[name="sellPropertyType"][value="' + pt.value + '"]');
@@ -224,7 +225,9 @@
     });
 
     var ownersMount = p.querySelector("[data-owners-mount]");
-    if (ownersMount) {
+    if (ownersMount && window.AcheteurImmoOwners && window.AcheteurImmoOwners.collect) {
+      o.owners = window.AcheteurImmoOwners.collect(ownersMount, expressForm());
+    } else if (ownersMount) {
       var cards = ownersMount.querySelectorAll(".immo-owner-card");
       o.owners = Array.prototype.map.call(cards, function (card) {
         var row = {};
@@ -275,6 +278,66 @@
     });
   }
 
+  function hasExpressLocation() {
+    var urlCity = document.querySelector("#urlCity");
+    var urlPostal = document.querySelector("#urlPostal");
+    return (
+      !!(urlCity && String(urlCity.value || "").trim()) ||
+      !!(urlPostal && String(urlPostal.value || "").replace(/\D/g, "").length >= 5)
+    );
+  }
+
+  function hasAnyBienLocation() {
+    if (hasExpressLocation()) return true;
+    var sellCity = document.querySelector("#sellCity");
+    var sellPostal = document.querySelector("#sellPostalCode");
+    return (
+      !!(sellCity && String(sellCity.value || "").trim()) ||
+      !!(sellPostal && String(sellPostal.value || "").replace(/\D/g, "").length >= 5)
+    );
+  }
+
+  function updateDuplicateLocationUi() {
+    var fbWrap = document.querySelector("[data-city-fallback-wrap]");
+    if (fbWrap) fbWrap.hidden = hasAnyBienLocation();
+
+    var p = panel();
+    if (!p) return;
+    var urlCity = document.querySelector("#urlCity");
+    var urlPostal = document.querySelector("#urlPostal");
+    var sellCity = p.querySelector("#sellCity");
+    var sellPostal = p.querySelector("#sellPostalCode");
+    var syncedNote = p.querySelector("[data-sell-location-synced]");
+    var sellCityField = sellCity && sellCity.closest(".field");
+    var sellPostalField = sellPostal && sellPostal.closest(".field");
+    var expressFilled = hasExpressLocation();
+
+    if (expressFilled && sellCityField && sellPostalField) {
+      sellCityField.hidden = true;
+      sellPostalField.hidden = true;
+      if (syncedNote) {
+        syncedNote.hidden = false;
+        var cityTxt = urlCity && String(urlCity.value || "").trim() ? String(urlCity.value).trim() : "—";
+        var postalTxt = urlPostal && String(urlPostal.value || "").trim() ? String(urlPostal.value).trim() : "";
+        syncedNote.textContent =
+          "Ville et code postal repris de la saisie rapide (section 1) : " +
+          cityTxt +
+          (postalTxt ? " (" + postalTxt + ")" : "") +
+          ".";
+      }
+    } else {
+      if (sellCityField) sellCityField.hidden = false;
+      if (sellPostalField) sellPostalField.hidden = false;
+      if (syncedNote) syncedNote.hidden = true;
+    }
+
+    if (window.AcheteurImmoOwners && window.AcheteurImmoOwners.syncAllCards) {
+      document.querySelectorAll("[data-owners-mount]").forEach(function (m) {
+        window.AcheteurImmoOwners.syncAllCards(m);
+      });
+    }
+  }
+
   function bindCityFallback() {
     var fb = document.querySelector("[data-city-fallback]");
     var fbPostal = document.querySelector("[data-postal-fallback]");
@@ -311,6 +374,7 @@
     }
 
     function refreshGuide() {
+      updateDuplicateLocationUi();
       var root = document.querySelector("[data-listing-url-capture]");
       if (root && window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.refreshUi) {
         window.AcheteurImmoDepositGuide.refreshUi(root);
@@ -322,6 +386,7 @@
       var postal = firstPostal();
       if (city && fb.value !== city) fb.value = city;
       if (fbPostal && postal && fbPostal.value !== postal) fbPostal.value = postal;
+      updateDuplicateLocationUi();
     }
 
     function pushCity(value) {
@@ -363,6 +428,7 @@
     });
 
     syncFromSources();
+    updateDuplicateLocationUi();
   }
 
   function boot() {
@@ -370,7 +436,10 @@
     bindExpressSync();
     bindCityFallback();
     syncVisibility();
-    requestAnimationFrame(syncVisibility);
+    requestAnimationFrame(function () {
+      syncVisibility();
+      updateDuplicateLocationUi();
+    });
   }
 
   window.AcheteurImmoDepositVente = {
@@ -379,6 +448,7 @@
     syncExpressToSell: syncExpressToSell,
     syncSellToExpress: syncSellToExpress,
     syncCityFallback: bindCityFallback,
+    updateDuplicateLocationUi: updateDuplicateLocationUi,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

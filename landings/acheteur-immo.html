@@ -417,7 +417,8 @@
               </div>
             </div>
 
-            <p class="search-section-label" style="margin-top:16px" data-coords-label>Vos coordonnées</p>
+            <p class="search-section-label" style="margin-top:16px" data-coords-label>Vos coordonnées — personne qui dépose</p>
+            <p class="small immo-coords-deposit-hint" data-hat-vendeur-only hidden style="margin:0 0 10px;color:#64748b">Vous déposez pour vous ou pour un propriétaire (héritier, mandataire…) : ces coordonnées servent à vous recontacter. Le propriétaire légal se renseigne dans le dossier vente.</p>
             <fieldset class="immo-account-block" data-account-block hidden>
               <legend>Votre compte sur le site</legend>
               <p class="small immo-account-lead">Le dépôt crée ou met à jour votre espace client pour reprendre le dossier, déposer des pièces et suivre votre projet.</p>
@@ -609,7 +610,7 @@
 
                 <details class="immo-vente-block" open>
                   <summary>Propriétaires &amp; mandants</summary>
-                  <p class="small" style="margin:8px 0 10px;color:#64748b">Minimum un propriétaire (nom + tél ou e-mail). Plusieurs lignes pour indivision, SCI, héritiers…</p>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Minimum un propriétaire (nom + tél ou e-mail). Propriétaire 1 peut reprendre vos coordonnées ; l'adresse postale de chaque proprio peut être différente de celle du bien (héritage, indivision…).</p>
                   <div data-owners-mount class="immo-owners-mount"></div>
                   <p class="small" data-owners-hint hidden style="color:#b91c1c;margin:8px 0 0">Indiquez au moins un propriétaire complet.</p>
                   <button type="button" class="btn btn-soft btn-sm" data-owner-add style="margin:10px 0 0">+ Ajouter un propriétaire</button>
@@ -638,12 +639,13 @@
                       <label for="sellDoor">Porte</label>
                       <input id="sellDoor" name="sellDoor" data-optional placeholder="12, gauche…" />
                     </div>
+                    <p class="small immo-sell-location-synced" data-sell-location-synced hidden></p>
                     <div class="field">
-                      <label for="sellPostalCode">Code postal</label>
+                      <label for="sellPostalCode">Code postal du bien</label>
                       <input id="sellPostalCode" name="sellPostalCode" inputmode="numeric" maxlength="5" data-search-vente-required placeholder="54000" />
                     </div>
                     <div class="field">
-                      <label for="sellCity">Ville</label>
+                      <label for="sellCity">Ville du bien</label>
                       <input id="sellCity" name="sellCity" autocomplete="address-level2" data-search-vente-required placeholder="Nancy" />
                     </div>
                     <div class="field">

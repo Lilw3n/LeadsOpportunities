@@ -243,7 +243,7 @@
     if (isOwner) {
       var ownersMount = document.querySelector("[data-owners-mount]");
       if (ownersMount && global.AcheteurImmoOwners) {
-        var ov = global.AcheteurImmoOwners.validate(ownersMount);
+        var ov = global.AcheteurImmoOwners.validate(ownersMount, form);
         if (!ov.ok) {
           recommended.push(
             missingItem("owners", "Au moins un propriétaire (nom + tél ou e-mail)", ownersMount, "Propriétaires")
@@ -251,7 +251,13 @@
         }
       }
       var sellPostal = document.querySelector("#sellPostalCode");
-      if (sellPostal && !String(sellPostal.value || "").trim()) {
+      var expressPostal = val(form, "postal_code").replace(/\D/g, "");
+      if (
+        sellPostal &&
+        !String(sellPostal.value || "").trim() &&
+        expressPostal.length < 5 &&
+        !sellPostal.closest(".field[hidden]")
+      ) {
         recommended.push(missingItem("sellPostalCode", "Code postal du bien", sellPostal, "Coordonnées du bien"));
       }
       var sellType = document.querySelector('[name="sellPropertyType"]:checked');
@@ -292,7 +298,7 @@
       var ownersMount = document.querySelector("[data-owners-mount]");
       var ownersOk =
         ownersMount && global.AcheteurImmoOwners
-          ? global.AcheteurImmoOwners.validate(ownersMount).ok
+          ? global.AcheteurImmoOwners.validate(ownersMount, form).ok
           : true;
       steps.push({ id: "owners", done: ownersOk, label: "Propriétaire" });
       steps.push({
@@ -701,7 +707,7 @@
     var ownersMount = qs("[data-owners-mount]");
     var owners = [];
     if (ownersMount && global.AcheteurImmoOwners && global.AcheteurImmoOwners.collect) {
-      owners = global.AcheteurImmoOwners.collect(ownersMount);
+      owners = global.AcheteurImmoOwners.collect(ownersMount, form);
     }
     return {
       v: 2,
@@ -905,6 +911,9 @@
   function refreshUi(root) {
     root = root || qs("[data-listing-url-capture]");
     if (!root) return;
+    if (global.AcheteurImmoDepositVente && global.AcheteurImmoDepositVente.updateDuplicateLocationUi) {
+      global.AcheteurImmoDepositVente.updateDuplicateLocationUi();
+    }
     var form = qs("[data-url-capture-form]", root);
     if (!form) return;
     var ctx = buildCtx(form, root);

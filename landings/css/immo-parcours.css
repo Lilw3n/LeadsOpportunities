@@ -177,6 +177,42 @@ a.immo-parcours-link:hover {
   text-decoration: underline;
 }
 
+.immo-owner-same-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+}
+
+.immo-owner-same-opt {
+  font-size: 0.82rem;
+  color: #0f766e;
+  margin: 0;
+}
+
+.immo-owner-contact-fields,
+.immo-owner-address-fields {
+  display: contents;
+}
+
+.immo-sell-location-synced {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1e40af;
+}
+
+.immo-coords-deposit-hint {
+  line-height: 1.45;
+}
+
 .btn-sm {
   padding: 0.45rem 0.85rem;
   font-size: 0.82rem;
