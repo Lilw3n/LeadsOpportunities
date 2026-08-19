@@ -94,14 +94,19 @@ async function markLeadOpened(sql, leadId, actorId) {
 
 async function archiveLead(sql, leadId, actorId, reason) {
   if (!sql || !leadId) return;
-  await sql`
-    UPDATE site_leads
-    SET archived_at = NOW(),
-        archived_by = ${actorId || null},
-        archive_reason = ${reason || "Archive manuel"},
-        updated_at = NOW()
-    WHERE id = ${leadId}
-  `;
+  try {
+    await sql`
+      UPDATE site_leads
+      SET archived_at = NOW(),
+          archived_by = ${actorId || null},
+          archive_reason = ${reason || "Archive manuel"},
+          updated_at = NOW()
+      WHERE id = ${leadId}
+    `;
+  } catch (e) {
+    console.error("[lead-workflow] archive", e.message);
+    throw e;
+  }
   await recordLeadEvent(sql, {
     leadId,
     actorId,

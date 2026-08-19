@@ -1,8 +1,10 @@
 /**
  * Migrations idempotentes Neon — exécutées une fois par instance serverless.
  * Évite les erreurs « colonne / table absente » sans passage manuel SQL Editor.
+ * Incrémenter SITE_LEADS_SCHEMA_VERSION quand des colonnes sont ajoutées.
  */
-let done = false;
+const SITE_LEADS_SCHEMA_VERSION = 2;
+let siteLeadsSchemaVersion = 0;
 let running = null;
 
 async function runStatement(sql, query) {
@@ -17,7 +19,7 @@ async function runStatement(sql, query) {
 
 async function ensureSiteLeadsSchema(sql) {
   if (!sql) return false;
-  if (done) return true;
+  if (siteLeadsSchemaVersion >= SITE_LEADS_SCHEMA_VERSION) return true;
   if (running) return running;
 
   running = (async function () {
@@ -77,6 +79,21 @@ async function ensureSiteLeadsSchema(sql) {
       },
       function (s) {
         return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS msclkid TEXT`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS priority TEXT DEFAULT 'medium'`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS next_followup_at TIMESTAMPTZ`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS last_activity_at TIMESTAMPTZ DEFAULT NOW()`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS tariff_insurer TEXT`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS tariff_snapshot TEXT`;
       },
       function (s) {
         return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS opened_at TIMESTAMPTZ`;
@@ -141,7 +158,7 @@ async function ensureSiteLeadsSchema(sql) {
       await runStatement(sql, steps[i]);
     }
 
-    done = true;
+    siteLeadsSchemaVersion = SITE_LEADS_SCHEMA_VERSION;
     return true;
   })();
 

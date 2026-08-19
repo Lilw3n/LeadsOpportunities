@@ -436,10 +436,26 @@
 
         box.querySelectorAll(".btn-prio-archive").forEach(function (btn) {
           btn.addEventListener("click", function () {
+            if (btn.disabled) return;
             var id = btn.getAttribute("data-id");
+            if (!id) return;
+            if (!confirm("Archiver ce lead ? Il disparaîtra de la liste des nouveaux leads prioritaires.")) return;
+            btn.disabled = true;
+            btn.textContent = "Archivage…";
             patchAcqLead(id, { action: "archive", archive_reason: "Archive depuis overview CRM" }).then(function (res) {
-              if (!res.ok) return alert(res.error || "Erreur archivage");
-              renderPriorityLeads();
+              if (!res.ok) {
+                btn.disabled = false;
+                btn.textContent = "Archiver";
+                alert((res.error || "Erreur archivage") + (res.detail ? "\n" + res.detail : ""));
+                return;
+              }
+              var row = btn.closest(".alert-item");
+              if (row) row.remove();
+              if (!box.querySelector(".alert-item")) {
+                box.innerHTML =
+                  "<p class='alerts-empty'>Aucun nouveau lead non ouvert. " +
+                  '<a href="./crm-acquisition.html?view=all">Tous les formulaires</a></p>';
+              }
             });
           });
         });

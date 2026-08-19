@@ -5,6 +5,7 @@ const { applyApiGuards, parseJsonBody, sanitizeEnum } = require("../security");
 const { requireCrm } = require("../rbac");
 const { getSql } = require("../db");
 const { archiveLead, assignLead, markLeadOpened, recordLeadEvent } = require("../lead-workflow");
+const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const STAGES = ["new", "questionnaire", "tariff_editing", "quote_sent", "follow_up", "won", "lost"];
 const PRIORITIES = ["low", "medium", "high"];
@@ -53,6 +54,7 @@ module.exports = async (req, res) => {
     const body = parsed.body || {};
 
     try {
+      await ensureSiteLeadsSchema(sql);
       const existing = await sql`SELECT id FROM site_leads WHERE id = ${leadId}`;
       if (!existing.length) return res.status(404).json({ error: "Lead introuvable" });
 
@@ -138,10 +140,15 @@ module.exports = async (req, res) => {
         `;
       }
 
-      return res.status(200).json({ ok: true });
+      return res.status(200).json({ ok: true, leadId: leadId, archived: body.action === "archive" });
     } catch (e) {
       console.error("[crm/lead-acquisition PATCH]", e);
-      return res.status(500).json({ error: "Erreur serveur" });
+      return res.status(500).json({
+        error: "Erreur serveur",
+        detail: /column .* does not exist/i.test(String(e.message || ""))
+          ? "Colonnes site_leads manquantes — schéma CRM en cours de mise à jour, réessayez."
+          : undefined,
+      });
     }
   }
 
