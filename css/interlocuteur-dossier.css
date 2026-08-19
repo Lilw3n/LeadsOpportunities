@@ -128,7 +128,8 @@
 .int-drive-bar--warn .int-drive-dot {
   background: #d97706;
 }
-.int-drive-bar--warn a.btn-primary {
+.int-drive-bar--warn a.btn-primary,
+.int-drive-bar--warn #btnOpenContactDrive {
   background: #b45309;
   border-color: #b45309;
 }
@@ -142,7 +143,13 @@
   color: #14532d;
   font-size: 0.82rem;
   font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
   text-decoration: none;
+}
+.int-drive-bar--warn .int-drive-prop-link {
+  border-color: #fcd34d;
+  color: #92400e;
 }
 .int-dossier-edit {
   margin: 12px 0 18px;

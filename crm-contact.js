@@ -1179,37 +1179,40 @@
       }
     }
     if (mainBtn) {
+      var driveTarget = "contact";
       if (primaryProp && primaryProp.webViewLink && immoDocCount > 0) {
-        mainBtn.href = primaryProp.webViewLink;
-        mainBtn.textContent = "Ouvrir dossier Drive (bien)";
-        mainBtn.hidden = false;
-      } else if (contactUrl) {
-        mainBtn.href = contactUrl;
-        mainBtn.hidden = false;
-        mainBtn.textContent = "Ouvrir dossier Drive (contact)";
-      } else if (primaryProp && primaryProp.webViewLink) {
-        mainBtn.href = primaryProp.webViewLink;
-        mainBtn.textContent = "Ouvrir dossier Drive (bien)";
-        mainBtn.hidden = false;
+        driveTarget = "property";
+      } else if (primaryProp && primaryProp.webViewLink && !contactUrl) {
+        driveTarget = "property";
+      }
+      mainBtn.dataset.driveTarget = driveTarget;
+      if (driveTarget === "property" && primaryProp) {
+        mainBtn.dataset.drivePropertyId = primaryProp.propertyId || "";
       } else {
-        mainBtn.href = "#";
-        mainBtn.hidden = false;
-        mainBtn.textContent = driveConfigured ? "Créer dossier Drive" : "Configurer Drive";
+        delete mainBtn.dataset.drivePropertyId;
+      }
+      mainBtn.hidden = false;
+      if (driveTarget === "property" && primaryProp && primaryProp.webViewLink) {
+        mainBtn.textContent = "Ouvrir dossier Drive (bien)";
+      } else if (contactUrl || driveConfigured) {
+        mainBtn.textContent = contactUrl ? "Ouvrir dossier Drive (contact)" : "Créer dossier Drive";
+      } else {
+        mainBtn.textContent = "Configurer Drive";
       }
       if (!mainBtn.dataset.driveBound) {
         mainBtn.dataset.driveBound = "1";
         mainBtn.addEventListener("click", function (ev) {
+          ev.preventDefault();
           var info = data.driveInfo || {};
-          if (info.driveConfigured !== true && info.setupUrl) {
-            ev.preventDefault();
+          if (
+            info.driveConfigured !== true &&
+            info.setupUrl &&
+            !info.driveFolderWebViewLink &&
+            !(info.propertyFolders && info.propertyFolders.length)
+          ) {
             window.open(info.setupUrl, "_blank", "noopener,noreferrer");
             return;
           }
-          var href = mainBtn.getAttribute("href") || "";
-          if (href.indexOf("drive.google.com") >= 0) {
-            return;
-          }
-          ev.preventDefault();
           openContactDriveFolder(mainBtn);
         });
       }
@@ -1217,9 +1220,7 @@
     if (propLinks) {
       propLinks.innerHTML =
         (contactUrl && primaryProp && immoDocCount > 0
-          ? '<a class="int-drive-prop-link" href="' +
-            esc(contactUrl) +
-            '" target="_blank" rel="noopener">Dossier contact</a>'
+          ? '<button type="button" class="int-drive-prop-link" data-drive-open="contact">Dossier contact</button>'
           : "") +
         folders
           .map(function (f, idx) {
@@ -1228,44 +1229,89 @@
               return "";
             }
             return (
-              '<a class="int-drive-prop-link" href="' +
-              esc(f.webViewLink) +
-              '" target="_blank" rel="noopener">Bien : ' +
+              '<button type="button" class="int-drive-prop-link" data-drive-open="property" data-drive-property-id="' +
+              esc(f.propertyId || "") +
+              '">Bien : ' +
               esc(f.title || "Drive") +
-              "</a>"
+              "</button>"
             );
           })
           .join("");
+      propLinks.querySelectorAll("[data-drive-open]").forEach(function (el) {
+        if (el.dataset.driveLinkBound) return;
+        el.dataset.driveLinkBound = "1";
+        el.addEventListener("click", function () {
+          var fakeBtn = {
+            textContent: el.textContent,
+            dataset: {
+              drivePropertyId: el.getAttribute("data-drive-property-id") || "",
+            },
+            setAttribute: function () {},
+            removeAttribute: function () {},
+          };
+          if (el.getAttribute("data-drive-open") === "contact") {
+            fakeBtn.dataset.drivePropertyId = "";
+          }
+          openContactDriveFolder(fakeBtn);
+        });
+      });
     }
+  }
+
+  function openDriveUrl(url, driveWin) {
+    if (!url) return false;
+    if (driveWin && !driveWin.closed) {
+      try {
+        driveWin.location.href = url;
+        return true;
+      } catch (e) {}
+    }
+    var win = window.open(url, "_blank", "noopener,noreferrer");
+    if (win) return true;
+    var a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return true;
   }
 
   function openContactDriveFolder(btn) {
     if (!contactId) return;
     var prev = btn ? btn.textContent : "";
+    var propertyId = btn && btn.dataset.drivePropertyId ? btn.dataset.drivePropertyId : "";
+    var apiPath = "/api/crm/drive-folder?contactId=" + encodeURIComponent(contactId);
+    if (propertyId) apiPath += "&propertyId=" + encodeURIComponent(propertyId);
     var driveWin = window.open("about:blank", "_blank", "noopener,noreferrer");
-    if (btn) {
+    if (btn && btn.id === "btnOpenContactDrive") {
       btn.textContent = "Ouverture Drive…";
       btn.setAttribute("aria-busy", "true");
     }
-    api("/api/crm/drive-folder?contactId=" + encodeURIComponent(contactId))
+    api(apiPath)
       .then(function (res) {
-        if (res.ok && res.webViewLink) {
-          if (driveWin && !driveWin.closed) {
-            driveWin.location.href = res.webViewLink;
-          } else {
-            window.open(res.webViewLink, "_blank", "noopener,noreferrer");
-          }
+        var url = res && res.webViewLink ? res.webViewLink : null;
+        if (url) {
+          openDriveUrl(url, driveWin);
           if (data.driveInfo) {
-            data.driveInfo.driveFolderWebViewLink = res.webViewLink;
+            if (propertyId) {
+              (data.driveInfo.propertyFolders || []).forEach(function (f) {
+                if (f.propertyId === propertyId) f.webViewLink = url;
+              });
+            } else {
+              data.driveInfo.driveFolderWebViewLink = url;
+            }
             renderDriveBar(data.driveInfo);
           }
           return;
         }
         if (driveWin && !driveWin.closed) driveWin.close();
         var msg =
-          res.error ||
+          (res && res.error) ||
           "Impossible d'ouvrir le dossier Drive. Google Drive n'est probablement pas configuré sur Vercel.";
-        if (res.setupUrl) {
+        if (res && res.setupUrl) {
           msg += "\n\nOuvrir la page de configuration Drive ?";
           if (window.confirm(msg)) {
             window.open(res.setupUrl, "_blank", "noopener,noreferrer");
@@ -1279,9 +1325,10 @@
         alert("Erreur réseau — impossible d'ouvrir Google Drive.");
       })
       .then(function () {
-        if (btn) {
-          btn.textContent = prev || "Ouvrir dossier Drive (contact)";
+        if (btn && btn.id === "btnOpenContactDrive") {
           btn.removeAttribute("aria-busy");
+          if (data.driveInfo) renderDriveBar(data.driveInfo);
+          else btn.textContent = prev || "Ouvrir dossier Drive (contact)";
         }
       });
   }

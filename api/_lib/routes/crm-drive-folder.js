@@ -6,7 +6,8 @@ const { applyApiGuards } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { ensureClientDriveFolders } = require("../drive-folders");
-const { resolveFolderWebLink, isValidDriveId, rootFolderWebLink } = require("../drive-share");
+const { ensurePropertyDriveFolders } = require("../immo-drive");
+const { resolveFolderWebLink, isValidDriveId, rootFolderWebLink, fallbackFolderUrl } = require("../drive-share");
 const { isDriveConfigured, isDriveUploadConfigured, getRootFolderId } = require("../google-drive-auth");
 
 module.exports = async (req, res) => {
@@ -23,6 +24,7 @@ module.exports = async (req, res) => {
   const scope = contactScopeFilter(user);
   const url = new URL(req.url, "http://localhost");
   const contactId = url.searchParams.get("contactId") || url.searchParams.get("id");
+  const propertyId = url.searchParams.get("propertyId");
   if (!contactId) return res.status(400).json({ error: "contactId requis" });
 
   try {
@@ -34,6 +36,59 @@ module.exports = async (req, res) => {
       LIMIT 1
     `;
     if (!contacts.length) return res.status(404).json({ error: "Contact introuvable" });
+
+    if (propertyId) {
+      const props = await sql`
+        SELECT id, title, city, postal_code, drive_folder_id, owner_contact_id, lead_id, metadata_json
+        FROM crm_immo_properties
+        WHERE id = ${propertyId}
+          AND owner_contact_id = ${contactId}
+        LIMIT 1
+      `;
+      if (!props.length) return res.status(404).json({ error: "Bien introuvable pour ce contact" });
+      var prop = props[0];
+      var propFolderId = prop.drive_folder_id || null;
+      if (!isValidDriveId(propFolderId)) {
+        var ensuredProp = await ensurePropertyDriveFolders({
+          id: prop.id,
+          title: prop.title,
+          city: prop.city,
+          postal_code: prop.postal_code,
+          drive_folder_id: prop.drive_folder_id,
+        });
+        if (ensuredProp && ensuredProp.folderId) {
+          propFolderId = ensuredProp.folderId;
+          await sql`
+            UPDATE crm_immo_properties
+            SET drive_folder_id = ${propFolderId}, updated_at = NOW()
+            WHERE id = ${prop.id} AND drive_folder_id IS NULL
+          `;
+        }
+      }
+      if (!isValidDriveId(propFolderId)) {
+        return res.status(200).json({
+          ok: false,
+          error: "Dossier Drive du bien non créé — vérifiez la configuration Google Drive.",
+          contactId: contactId,
+          propertyId: propertyId,
+          driveConfigured: isDriveConfigured() && !!getRootFolderId(),
+          uploadConfigured: isDriveUploadConfigured(),
+          setupUrl: "https://www.leadsopportunities.fr/test-drive.html",
+        });
+      }
+      var resolvedProp = await resolveFolderWebLink(propFolderId, { share: true });
+      var propLink = resolvedProp.webViewLink || fallbackFolderUrl(propFolderId);
+      return res.status(200).json({
+        ok: !!propLink,
+        contactId: contactId,
+        propertyId: propertyId,
+        folderId: propFolderId,
+        webViewLink: propLink,
+        folderName: resolvedProp.name || prop.title || null,
+        shared: true,
+        error: resolvedProp.error || null,
+      });
+    }
 
     var folderId = contacts[0].drive_folder_id || null;
     var ensured = null;
@@ -59,11 +114,12 @@ module.exports = async (req, res) => {
     }
 
     var resolved = await resolveFolderWebLink(folderId, { share: true });
+    var webViewLink = resolved.webViewLink || fallbackFolderUrl(folderId);
     return res.status(200).json({
-      ok: !!resolved.ok,
+      ok: !!webViewLink,
       contactId: contactId,
       folderId: folderId,
-      webViewLink: resolved.webViewLink || null,
+      webViewLink: webViewLink,
       folderName: resolved.name || null,
       shared: true,
       error: resolved.error || null,
