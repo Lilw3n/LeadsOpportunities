@@ -313,6 +313,10 @@ a.immo-parcours-link:hover {
   }
 }
 
+html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
+  display: none !important;
+}
+
 .immo-fill-toolbar {
   display: flex;
   flex-wrap: wrap;

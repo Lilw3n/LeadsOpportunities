@@ -17,29 +17,40 @@
     return null;
   }
 
-  function isCrmUser() {
+  function readUser() {
     try {
-      var u = JSON.parse(localStorage.getItem("lo_user") || "{}");
-      return u.role === "admin" || u.role === "agent" || u.role === "conseiller";
+      return JSON.parse(localStorage.getItem("lo_user") || "{}");
     } catch (e) {
-      return false;
+      return {};
     }
   }
 
+  /** Réservé au site admin (pas aux visiteurs / clients). */
+  function isSiteAdmin() {
+    var u = readUser();
+    return u.role === "admin" || u.isSiteAdmin === true;
+  }
+
+  function canUseConseillerMode() {
+    return isSiteAdmin();
+  }
+
   function currentMode() {
+    if (!canUseConseillerMode()) return "client";
     var url = getModeFromUrl();
-    if (url) return url;
+    if (url === "conseiller") return "conseiller";
+    if (url === "client") return "client";
     try {
       var stored = localStorage.getItem(STORAGE_KEY);
-      if (stored === "conseiller" || stored === "client") return stored;
+      if (stored === "conseiller") return "conseiller";
     } catch (e) {}
-    if (isCrmUser()) return "conseiller";
     return "client";
   }
 
   function setMode(mode, opts) {
     opts = opts || {};
-    mode = mode === "conseiller" ? "conseiller" : "client";
+    if (!canUseConseillerMode()) mode = "client";
+    else mode = mode === "conseiller" ? "conseiller" : "client";
     try {
       localStorage.setItem(STORAGE_KEY, mode);
     } catch (e) {}
@@ -85,10 +96,30 @@
     if (el && !el.value) el.value = name.replace(/\+/g, " ");
   }
 
+  function syncToolbarVisibility() {
+    var admin = canUseConseillerMode();
+    document.documentElement.setAttribute("data-immo-fill-admin", admin ? "1" : "0");
+    var toolbar = qs("[data-immo-fill-toolbar]");
+    if (!toolbar) return;
+    toolbar.hidden = !admin;
+    var conseillerOpt = toolbar.querySelector('input[name="fillModeUi"][value="conseiller"]');
+    if (conseillerOpt) {
+      var wrap = conseillerOpt.closest(".immo-fill-mode-opt");
+      if (wrap) wrap.hidden = !admin;
+    }
+  }
+
   function bindToolbar() {
     var toolbar = qs("[data-immo-fill-toolbar]");
     if (!toolbar || toolbar.dataset.fillBound) return;
     toolbar.dataset.fillBound = "1";
+
+    syncToolbarVisibility();
+
+    if (!canUseConseillerMode()) {
+      setMode("client", { updateUrl: false });
+      return;
+    }
 
     qsa('input[name="fillModeUi"]', toolbar).forEach(function (r) {
       r.addEventListener("change", function () {
@@ -107,6 +138,8 @@
   window.AcheteurImmoFillMode = {
     getMode: currentMode,
     setMode: setMode,
+    isSiteAdmin: isSiteAdmin,
+    canUseConseillerMode: canUseConseillerMode,
     isConseiller: function () {
       return currentMode() === "conseiller";
     },

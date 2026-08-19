@@ -259,14 +259,19 @@
   function open(opts) {
     if (typeof window === "undefined") return renderHtml(opts);
     var html = renderHtml(opts);
-    var w = window.open("", "_blank", "noopener,noreferrer,width=920,height=1100");
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var blobUrl = URL.createObjectURL(blob);
+    var w = window.open(blobUrl, "_blank", "noopener,noreferrer,width=920,height=1100");
     if (!w) {
+      URL.revokeObjectURL(blobUrl);
       alert("Autorisez les fenêtres pop-up pour imprimer / enregistrer le PDF.");
       return html;
     }
-    w.document.open();
-    w.document.write(html);
-    w.document.close();
+    w.addEventListener("load", function () {
+      setTimeout(function () {
+        URL.revokeObjectURL(blobUrl);
+      }, 60000);
+    });
     return html;
   }
 
