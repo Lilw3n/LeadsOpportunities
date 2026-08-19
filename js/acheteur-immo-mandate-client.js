@@ -11,7 +11,11 @@
     var chk = qs("[data-sell-wants-mandate]", wrap);
     var fields = qs("[data-sell-mandate-fields]", wrap);
     if (!chk || !fields) return;
-    fields.hidden = !chk.checked;
+    var open = !!chk.checked;
+    fields.hidden = !open;
+    fields.querySelectorAll("input, select, textarea").forEach(function (el) {
+      el.disabled = !open;
+    });
   }
 
   function bind(root) {
