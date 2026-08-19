@@ -1,10 +1,14 @@
 /**
  * Authentification Google Drive pour Vercel.
- * Priorite : compte de service (JSON) > token OAuth manuel.
+ *
+ * Gmail perso (courtier972@gmail.com) : le compte de service peut créer des dossiers
+ * partagés mais PAS déposer de fichiers (quota = 0). Les uploads exigent OAuth utilisateur
+ * (GOOGLE_DRIVE_REFRESH_TOKEN ou GOOGLE_DRIVE_ACCESS_TOKEN).
  */
 const jwt = require("jsonwebtoken");
 
-let cached = { token: null, expiresAt: 0 };
+let cachedOAuth = { token: null, expiresAt: 0, source: null, email: null };
+let cachedSa = { token: null, expiresAt: 0, source: null, email: null };
 
 function parseServiceAccount() {
   var raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "";
@@ -52,31 +56,81 @@ async function tokenFromServiceAccount(sa) {
   };
 }
 
+async function tokenFromRefreshToken() {
+  var refresh = (process.env.GOOGLE_DRIVE_REFRESH_TOKEN || "").trim();
+  if (!refresh) return null;
+  const { refreshGoogleAccessToken } = require("./google-oauth");
+  const data = await refreshGoogleAccessToken(refresh);
+  return {
+    accessToken: data.access_token,
+    expiresIn: data.expires_in || 3600,
+    source: "oauth_refresh",
+    email: (process.env.GOOGLE_DRIVE_USER_EMAIL || "courtier972@gmail.com").trim(),
+  };
+}
+
+function hasOAuthCredentials() {
+  return !!(
+    (process.env.GOOGLE_DRIVE_REFRESH_TOKEN || "").trim() ||
+    (process.env.GOOGLE_DRIVE_ACCESS_TOKEN || "").trim()
+  );
+}
+
+function isServiceAccountQuotaError(message) {
+  var m = String(message || "").toLowerCase();
+  return m.indexOf("storage quota") >= 0 || m.indexOf("shared drives") >= 0;
+}
+
 /**
- * Retourne un access token Drive valide.
+ * @param {{ forUpload?: boolean }} options — forUpload:true exclut le compte de service (Gmail perso).
  */
-async function getDriveAccessToken() {
-  const manual = (process.env.GOOGLE_DRIVE_ACCESS_TOKEN || "").trim();
-  const now = Date.now();
+async function getDriveAccessToken(options) {
+  options = options || {};
+  var forUpload = options.forUpload === true;
+  var now = Date.now();
+  var manual = (process.env.GOOGLE_DRIVE_ACCESS_TOKEN || "").trim();
+  var refresh = (process.env.GOOGLE_DRIVE_REFRESH_TOKEN || "").trim();
 
-  if (cached.token && cached.expiresAt > now + 60000) {
-    return { accessToken: cached.token, source: cached.source, email: cached.email };
-  }
-
-  const sa = parseServiceAccount();
-  if (sa) {
-    const t = await tokenFromServiceAccount(sa);
-    cached = {
-      token: t.accessToken,
-      expiresAt: now + (t.expiresIn - 120) * 1000,
-      source: t.source,
-      email: t.email,
-    };
-    return { accessToken: t.accessToken, source: t.source, email: t.email };
+  if (refresh) {
+    if (cachedOAuth.token && cachedOAuth.expiresAt > now + 60000 && cachedOAuth.source === "oauth_refresh") {
+      return { accessToken: cachedOAuth.token, source: cachedOAuth.source, email: cachedOAuth.email };
+    }
+    try {
+      var tRefresh = await tokenFromRefreshToken();
+      cachedOAuth = {
+        token: tRefresh.accessToken,
+        expiresAt: now + (tRefresh.expiresIn - 120) * 1000,
+        source: tRefresh.source,
+        email: tRefresh.email,
+      };
+      return { accessToken: tRefresh.accessToken, source: tRefresh.source, email: tRefresh.email };
+    } catch (e) {
+      console.warn("[drive-auth] refresh token", e.message);
+      if (forUpload && !manual) throw e;
+    }
   }
 
   if (manual) {
     return { accessToken: manual, source: "access_token_env", email: null };
+  }
+
+  if (forUpload) {
+    return null;
+  }
+
+  var sa = parseServiceAccount();
+  if (sa) {
+    if (cachedSa.token && cachedSa.expiresAt > now + 60000) {
+      return { accessToken: cachedSa.token, source: cachedSa.source, email: cachedSa.email };
+    }
+    var tSa = await tokenFromServiceAccount(sa);
+    cachedSa = {
+      token: tSa.accessToken,
+      expiresAt: now + (tSa.expiresIn - 120) * 1000,
+      source: tSa.source,
+      email: tSa.email,
+    };
+    return { accessToken: tSa.accessToken, source: tSa.source, email: tSa.email };
   }
 
   return null;
@@ -87,7 +141,18 @@ function getRootFolderId() {
 }
 
 function isDriveConfigured() {
-  return !!(parseServiceAccount() || (process.env.GOOGLE_DRIVE_ACCESS_TOKEN || "").trim());
+  return !!(hasOAuthCredentials() || parseServiceAccount());
+}
+
+function isDriveUploadConfigured() {
+  return hasOAuthCredentials();
+}
+
+function uploadConfigHint() {
+  return (
+    "Gmail perso : ajoutez GOOGLE_DRIVE_REFRESH_TOKEN (OAuth courtier972@gmail.com). " +
+    "Le compte de service seul ne peut pas deposer de fichiers — voir docs/DRIVE-SETUP.md"
+  );
 }
 
 async function testDriveConnection() {
@@ -96,11 +161,11 @@ async function testDriveConnection() {
     return { ok: false, error: "GOOGLE_DRIVE_FOLDER_ID manquant" };
   }
 
-  const auth = await getDriveAccessToken();
+  const auth = await getDriveAccessToken({ forUpload: false });
   if (!auth) {
     return {
       ok: false,
-      error: "Configurez GOOGLE_SERVICE_ACCOUNT_JSON ou GOOGLE_DRIVE_ACCESS_TOKEN",
+      error: "Configurez GOOGLE_DRIVE_REFRESH_TOKEN ou GOOGLE_SERVICE_ACCOUNT_JSON",
     };
   }
 
@@ -116,7 +181,7 @@ async function testDriveConnection() {
       ok: false,
       error: folderData.error?.message || "Dossier racine inaccessible",
       hint:
-        "Verifiez que le dossier est partage avec le compte de service (editeur) ou que le token a acces au Drive courtier972@gmail.com",
+        "Verifiez que le dossier est partage avec le compte de service (editeur) ou que le token OAuth a acces au Drive courtier972@gmail.com",
     };
   }
 
@@ -131,10 +196,54 @@ async function testDriveConnection() {
     return { ok: false, error: listData.error?.message || "Liste fichiers impossible" };
   }
 
+  var uploadAuth = await getDriveAccessToken({ forUpload: true });
+  var uploadTest = null;
+  if (uploadAuth) {
+    try {
+      var probeName = "_drive_probe_" + Date.now() + ".txt";
+      var boundary = "probe_" + Date.now();
+      var meta = { name: probeName, parents: [rootId], mimeType: "text/plain" };
+      var probeBody =
+        "--" +
+        boundary +
+        "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
+        JSON.stringify(meta) +
+        "\r\n--" +
+        boundary +
+        "\r\nContent-Type: text/plain\r\n\r\n" +
+        "probe\r\n--" +
+        boundary +
+        "--";
+      var probeRes = await fetch(
+        "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + uploadAuth.accessToken,
+            "Content-Type": "multipart/related; boundary=" + boundary,
+          },
+          body: probeBody,
+        }
+      );
+      var probeData = await probeRes.json();
+      if (!probeRes.ok) {
+        uploadTest = { ok: false, error: probeData.error?.message || "Upload probe failed" };
+      } else {
+        uploadTest = { ok: true, fileId: probeData.id, fileName: probeData.name };
+      }
+    } catch (e) {
+      uploadTest = { ok: false, error: e.message };
+    }
+  }
+
   return {
     ok: true,
     authSource: auth.source,
     serviceAccountEmail: auth.email,
+    uploadConfigured: isDriveUploadConfigured(),
+    uploadAuthSource: uploadAuth ? uploadAuth.source : null,
+    uploadTest: uploadTest,
+    uploadHint: !isDriveUploadConfigured() ? uploadConfigHint() : null,
     rootFolder: { id: folderData.id, name: folderData.name },
     sampleChildren: listData.files || [],
   };
@@ -144,5 +253,8 @@ module.exports = {
   getDriveAccessToken,
   getRootFolderId,
   isDriveConfigured,
+  isDriveUploadConfigured,
+  isServiceAccountQuotaError,
+  uploadConfigHint,
   testDriveConnection,
 };

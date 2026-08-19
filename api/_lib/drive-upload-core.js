@@ -34,16 +34,18 @@ async function resolveTargetFolder(folderId, contactId, subfolder) {
 }
 
 async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, subfolder }) {
-  const { getDriveAccessToken } = require("./google-drive-auth");
-  const auth = await getDriveAccessToken();
+  const { getDriveAccessToken, isDriveUploadConfigured, uploadConfigHint, isServiceAccountQuotaError } =
+    require("./google-drive-auth");
+  var auth = await getDriveAccessToken({ forUpload: true });
   var token = auth ? auth.accessToken : null;
   var targetFolder = await resolveTargetFolder(folderId, contactId, subfolder);
 
   if (!token || !targetFolder) {
+    var hint = !isDriveUploadConfigured() ? uploadConfigHint() : "Token ou dossier cible manquant";
     return {
       ok: true,
       simulated: true,
-      message: "Upload simule — configurez GOOGLE_SERVICE_ACCOUNT_JSON + GOOGLE_DRIVE_FOLDER_ID (voir docs/DRIVE-SETUP.md)",
+      message: "Upload simule — " + hint,
       fileId: "sim_" + Date.now(),
       fileName: fileName,
     };
@@ -68,7 +70,12 @@ async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, s
   );
   if (!resp.ok) {
     var errText = await resp.text();
-    throw new Error("Drive upload " + resp.status + ": " + errText.slice(0, 200));
+    if (isServiceAccountQuotaError(errText)) {
+      throw new Error(
+        "Drive upload refuse (quota compte de service). " + uploadConfigHint()
+      );
+    }
+    throw new Error("Drive upload " + resp.status + ": " + errText.slice(0, 280));
   }
   var data = await resp.json();
   return {
