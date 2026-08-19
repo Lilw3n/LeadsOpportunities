@@ -636,8 +636,52 @@
                 </details>
 
                 <details class="immo-vente-block" open>
-                  <summary>Mandat</summary>
-                  <div class="grid" style="margin-top:12px">
+                  <summary>Mandat de vente</summary>
+
+                  <div class="immo-mandate-client" data-client-mandate-panel>
+                    <p class="small immo-mandate-lead">
+                      Vous pouvez indiquer si vous souhaitez nous confier la vente. Le mandat officiel sera proposé <strong>après analyse du bien</strong> et validation du prix avec votre conseiller.
+                    </p>
+                    <label class="field-check full immo-mandate-opt-in">
+                      <input type="checkbox" name="sellWantsMandate" value="1" data-sell-wants-mandate data-optional />
+                      <span><strong>Je souhaite confier un mandat de vente</strong> à votre agence (après validation du dossier et du prix).</span>
+                    </label>
+                    <div class="immo-mandate-client-fields" data-sell-mandate-fields hidden>
+                      <p class="search-section-label" style="margin:14px 0 8px">Fourchette de prix envisageable</p>
+                      <p class="small" style="margin:0 0 10px;color:#64748b">
+                        Indiquez une large fourchette — vous pourrez l'ajuster avec le conseiller après la visite et l'estimation.
+                      </p>
+                      <div class="grid">
+                        <div class="field">
+                          <label for="sellMandatePriceMin">Prix minimum souhaité (€)</label>
+                          <input id="sellMandatePriceMin" name="sellMandatePriceMin" inputmode="numeric" data-optional placeholder="Ex. 180 000" />
+                        </div>
+                        <div class="field">
+                          <label for="sellMandatePriceMax">Prix maximum souhaité (€)</label>
+                          <input id="sellMandatePriceMax" name="sellMandatePriceMax" inputmode="numeric" data-optional placeholder="Ex. 220 000" />
+                        </div>
+                      </div>
+                      <p class="search-section-label" style="margin-top:14px">Type de collaboration souhaitée</p>
+                      <div class="search-chip-grid search-chip-grid--3" role="group" aria-label="Préférence mandat">
+                        <label class="search-chip"><input type="radio" name="sellMandatePreference" value="simple" data-optional /><span>Plusieurs agences possibles</span></label>
+                        <label class="search-chip"><input type="radio" name="sellMandatePreference" value="exclusif" data-optional /><span>Une seule agence (exclusif)</span></label>
+                        <label class="search-chip"><input type="radio" name="sellMandatePreference" value="indifferent" checked data-optional /><span>À discuter avec le conseiller</span></label>
+                      </div>
+                      <div class="field full" style="margin-top:12px">
+                        <label for="sellMandateClientNotes">Précisions (délai, visites, contraintes…)</label>
+                        <textarea id="sellMandateClientNotes" name="sellMandateClientNotes" rows="2" data-optional placeholder="Disponibilités pour la visite conseiller, date souhaitée de mise en vente…"></textarea>
+                      </div>
+                      <div class="immo-mandate-notice" role="note">
+                        <strong>Avant le mandat signé</strong>
+                        <p>
+                          Votre conseiller doit d'abord <strong>visiter le bien</strong>, vérifier les pièces (diagnostics, copropriété, titre…) et <strong>analyser le marché local</strong> pour déterminer avec vous le <strong>prix de mise en vente</strong> le plus adapté. Ce formulaire enregistre votre intention — le mandat officiel vous sera remis ensuite, une fois tout cela validé ensemble.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="grid immo-mandate-admin" style="margin-top:16px" data-conseiller-only hidden>
+                    <p class="field full small" style="margin:0;color:#64748b">Dossier mandat — réservé conseiller (n° mandat, honoraires, clauses…).</p>
                     <div class="field">
                       <label for="sellMandateNumber">N° mandat</label>
                       <input id="sellMandateNumber" name="sellMandateNumber" data-optional />
@@ -665,7 +709,7 @@
                       </select>
                     </div>
                     <div class="field full">
-                      <label for="sellMandateInfo">Infos mandat</label>
+                      <label for="sellMandateInfo">Infos mandat (honoraires, échéance…)</label>
                       <textarea id="sellMandateInfo" name="sellMandateInfo" rows="2" data-optional placeholder="Honoraires, échéance, commercialisation…"></textarea>
                     </div>
                     <div class="field full">
@@ -1958,6 +2002,7 @@
   <script src="../js/vente-3d-block.js"></script>
   <script src="../js/acheteur-immo-copro-works.js"></script>
   <script src="../js/immo-sell-docs-checklist.js"></script>
+  <script src="../js/acheteur-immo-mandate-client.js"></script>
   <script src="../js/acheteur-immo-laforet-extras.js"></script>
   <script src="../js/acheteur-immo-sell-photos.js"></script>
   <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>

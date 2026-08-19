@@ -538,6 +538,54 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   margin-top: 6px;
 }
 
+.immo-mandate-lead {
+  margin: 10px 0 12px;
+  color: #64748b;
+}
+
+.immo-mandate-opt-in {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #99f6e4;
+  background: #f0fdfa;
+}
+
+.immo-mandate-client-fields {
+  margin-top: 4px;
+}
+
+.immo-mandate-notice {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.84rem;
+  color: #475569;
+}
+
+.immo-mandate-notice strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #0f766e;
+}
+
+.immo-mandate-notice p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.immo-mandate-admin {
+  padding-top: 12px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+[data-immo-fill-mode="conseiller"] .immo-mandate-client {
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #e2e8f0;
+}
+
 .immo-copro-works-table th {
   font-size: 0.72rem;
   white-space: nowrap;
