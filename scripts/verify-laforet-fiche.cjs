@@ -31,7 +31,11 @@ assert(html.indexOf("data-sell-recent-build-toggle") >= 0, "construction <10 ans
 assert(html.indexOf("data-sell-furniture-toggle") >= 0, "mobilier inclus");
 assert(html.indexOf("data-timeline-matrix") >= 0, "matrice passé/présent/futur");
 assert(html.indexOf("data-sell-docs-mount") >= 0, "checklist pièces justificatives");
-assert(html.indexOf('name="sellDoc[]"') >= 0, "checkboxes documents");
+var sellDocsJs = read("js/immo-sell-docs-checklist.js");
+assert(
+  html.indexOf('name="sellDoc[]"') >= 0 || sellDocsJs.indexOf('name="sellDoc[]"') >= 0,
+  "checkboxes documents"
+);
 assert(html.indexOf("sellGes") >= 0, "GES descriptif");
 
 var css = read("landings/css/immo-parcours.css");
