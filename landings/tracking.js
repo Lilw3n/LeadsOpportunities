@@ -442,7 +442,13 @@
               msgOk.hidden = false;
             }
           } else if (result && result.ok) {
-            uploadWizardDocuments(form, leadPayload, result).finally(function () {
+            var photoPromise = Promise.resolve();
+            if (window.SellPhotosState && window.SellPhotosState.getPhotos().length) {
+              photoPromise = window.SellPhotosState.submitPhotosAfterLead(form, result);
+            }
+            photoPromise.then(function () {
+              return uploadWizardDocuments(form, leadPayload, result);
+            }).finally(function () {
               if (msgOk) {
                 if (result.emailSent === false && result.stored === false) {
                   msgOk.textContent =

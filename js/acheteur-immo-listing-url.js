@@ -8,27 +8,12 @@
   if (!Portals) return;
 
   var MAX_PHOTOS = 4;
-  var MAX_DIM = 1200;
-  var MAX_DATA = 240000;
-
-  function qs(root, sel) {
-    return (root || document).querySelector(sel);
-  }
-
-  function val(root, name) {
-    var el = root.querySelector("[name='" + name + "']");
-    return el ? String(el.value || "").trim() : "";
-  }
-
-  function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
+  var Compress = window.ImmoPhotoCompress;
 
   function compressFile(file) {
+    if (Compress && Compress.compressFile) return Compress.compressFile(file);
+    var MAX_DIM = 1200;
+    var MAX_DATA = 240000;
     return new Promise(function (resolve) {
       if (!file || !file.type || file.type.indexOf("image/") !== 0) {
         resolve(null);
@@ -62,6 +47,23 @@
       };
       img.src = url;
     });
+  }
+
+  function qs(root, sel) {
+    return (root || document).querySelector(sel);
+  }
+
+  function val(root, name) {
+    var el = root.querySelector("[name='" + name + "']");
+    return el ? String(el.value || "").trim() : "";
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   function mediaList(state) {
@@ -507,13 +509,14 @@
           var hats = (res.data.hats || []).join(" + ");
           if (ok) {
             ok.hidden = false;
+            var driveNote = res.data.driveConfigured ? " Copie Google Drive effectuée ou en cours." : "";
             ok.textContent =
               res.data.received +
               " bien" +
               (res.data.received > 1 ? "s" : "") +
               " enregistré" +
               (res.data.received > 1 ? "s" : "") +
-              (payload.photos.length ? " avec photos / capture" : "") +
+              (payload.photos.length ? " avec photos / capture" + driveNote : "") +
               (hats ? " (" + hats + ")" : "") +
               ". Un conseiller vous rappelle.";
           }

@@ -25,6 +25,7 @@ async function ensureImmoSchema(sql) {
     await relationsStore.ensureRelationsSchema(sql);
     return true;
   }
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS drive_folder_id TEXT`;
   await sql`
     CREATE TABLE IF NOT EXISTS crm_immo_properties (
       id TEXT PRIMARY KEY,
@@ -389,6 +390,37 @@ async function upsertCriteria(sql, item, user) {
   return id;
 }
 
+async function patchPropertyMedia(sql, propertyId, patch) {
+  await ensureImmoSchema(sql);
+  if (!propertyId) return;
+  var photos = patch.photos != null ? j(patch.photos, []) : null;
+  var meta = patch.metadata != null ? j(patch.metadata, {}) : null;
+  var driveFolderId = patch.drive_folder_id != null ? patch.drive_folder_id : null;
+  if (photos != null && meta != null && driveFolderId != null) {
+    await sql`
+      UPDATE crm_immo_properties SET
+        photos_json = ${photos},
+        metadata_json = ${meta},
+        drive_folder_id = ${driveFolderId},
+        updated_at = NOW()
+      WHERE id = ${propertyId}
+    `;
+  } else if (photos != null && driveFolderId != null) {
+    await sql`
+      UPDATE crm_immo_properties SET
+        photos_json = ${photos},
+        drive_folder_id = ${driveFolderId},
+        updated_at = NOW()
+      WHERE id = ${propertyId}
+    `;
+  } else if (photos != null) {
+    await sql`
+      UPDATE crm_immo_properties SET photos_json = ${photos}, updated_at = NOW()
+      WHERE id = ${propertyId}
+    `;
+  }
+}
+
 async function upsertParty(sql, item) {
   await ensureImmoSchema(sql);
   const norm = Rel.normalizeParty(item);
@@ -466,6 +498,7 @@ module.exports = {
   ensureImmoSchema,
   loadAll,
   upsertProperty,
+  patchPropertyMedia,
   upsertCriteria,
   upsertParty,
   upsertDocument,

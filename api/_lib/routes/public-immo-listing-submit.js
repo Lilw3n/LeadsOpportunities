@@ -247,6 +247,25 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           .filter(Boolean)
           .join(" ");
 
+        var propMetadata = {
+          origin: origin,
+          role: role,
+          hats: hatsForRole(role),
+          portal: d.portal,
+          listingId: d.listingId,
+          sellerKind: sellerKind,
+          seller: {
+            name: sellerName,
+            phone: sellerPhone,
+            email: sellerEmail,
+            agency: sellerAgency,
+            kind: sellerKind,
+          },
+          buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
+          alsoBuys: role === "les_deux",
+          wantsRelais: wantsRelais,
+        };
+
         var propId = await store.upsertProperty(
           sql,
           {
@@ -269,28 +288,42 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             lead_id: leadId,
             a_contacter: !!(sellerPhone || sellerEmail),
             contact_connu: !!(sellerPhone || sellerEmail || sellerName),
-            metadata: {
-              origin: origin,
-              role: role,
-              hats: hatsForRole(role),
-              portal: d.portal,
-              listingId: d.listingId,
-              sellerKind: sellerKind,
-              seller: {
-                name: sellerName,
-                phone: sellerPhone,
-                email: sellerEmail,
-                agency: sellerAgency,
-                kind: sellerKind,
-              },
-              buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
-              alsoBuys: role === "les_deux",
-              wantsRelais: wantsRelais,
-            },
+            metadata: propMetadata,
           },
           null
         );
         propertyIds.push(propId);
+
+        if (photos.length && (isOwner || isSignalement)) {
+          try {
+            var driveSync = require("../immo-listing-drive");
+            var driveResult = await driveSync.syncPropertyPhotosToDrive(
+              {
+                id: propId,
+                title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : "Bien à vendre"),
+                city: city,
+                postal_code: postal,
+              },
+              photos
+            );
+            if (driveResult.uploaded > 0 || driveResult.driveFolderId) {
+              propMetadata.drive = {
+                folderId: driveResult.driveFolderId || null,
+                uploaded: driveResult.uploaded || 0,
+                simulated: !!driveResult.simulated,
+                webViewLink: driveResult.webViewLink || null,
+              };
+              await store.patchPropertyMedia(sql, propId, {
+                photos: driveResult.photos || photos,
+                drive_folder_id: driveResult.driveFolderId || null,
+                metadata: propMetadata,
+              });
+              photos = driveResult.photos || photos;
+            }
+          } catch (driveErr) {
+            console.warn("[immo-listing-submit] drive", driveErr && driveErr.message);
+          }
+        }
 
         if (!isSignalement && (isOwner || sellerName || sellerPhone || sellerEmail)) {
           await store.upsertParty(sql, {
@@ -437,5 +470,12 @@ module.exports = async function publicImmoListingSubmit(req, res) {
       return p.kind === "capture";
     }),
     hasDescription: !!description,
+    driveConfigured: (function () {
+      try {
+        return require("../google-drive-auth").isDriveConfigured();
+      } catch (e) {
+        return false;
+      }
+    })(),
   });
 };

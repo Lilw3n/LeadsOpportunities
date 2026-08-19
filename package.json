@@ -75,7 +75,8 @@
     "verify:nancy-bassin-pret": "node scripts/verify-nancy-bassin-pret.cjs",
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs",
-    "verify:laforet-fees": "node scripts/verify-laforet-network-fees.cjs"
+    "verify:laforet-fees": "node scripts/verify-laforet-network-fees.cjs",
+    "verify:immo-drive": "node scripts/verify-immo-drive.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
