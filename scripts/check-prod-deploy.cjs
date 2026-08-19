@@ -11,6 +11,7 @@ const checks = [
   { name: "acquisition-focus", url: "/api/acquisition-focus", expect: (r, t) => r.ok && t.includes("meta_sante_senior_canicule") },
   { name: "meta-webhook verify", url: "/api/webhooks/meta-lead?hub.mode=subscribe&hub.verify_token=lo-meta-webhook-2026&hub.challenge=ping", expect: (r, t) => r.ok && t.trim() === "ping" },
   { name: "negociateur-immobilier", url: "/negociateur-immobilier/", expect: (r, t) => r.ok && t.includes("Negociateur immobilier") },
+  { name: "agence-varangeville", url: "/agence-varangeville/", expect: (r, t) => r.ok && t.includes("Varangéville") && t.includes("Wendy Buchet") },
   { name: "acheteur-immo landing", url: "/landings/acheteur-immo.html", expect: (r, t) => r.ok && t.includes("acheteur-immo") },
   { name: "projection-achat", url: "/landings/projection-achat.html", expect: (r, t) => r.ok && t.includes("projForm") && t.includes("achat-projection-lib") },
 ];

@@ -78,6 +78,14 @@
     {
       "source": "/negociateur-immobilier/",
       "destination": "/negociateur-immobilier/index.html"
+    },
+    {
+      "source": "/agence-varangeville",
+      "destination": "/agence-varangeville/index.html"
+    },
+    {
+      "source": "/agence-varangeville/",
+      "destination": "/agence-varangeville/index.html"
     }
   ],
   "crons": [
