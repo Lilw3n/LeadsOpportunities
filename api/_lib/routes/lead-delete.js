@@ -1,15 +1,6 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, parseJsonBody } = require("../security");
-
-async function deleteOne(sql, leadId) {
-  await sql`UPDATE site_leads SET parent_lead_id = NULL WHERE parent_lead_id = ${leadId}`;
-  try {
-    await sql`DELETE FROM lead_events WHERE lead_id = ${leadId}`;
-  } catch (eventsErr) {
-    /* table optionnelle */
-  }
-  await sql`DELETE FROM site_leads WHERE id = ${leadId}`;
-}
+const { deleteLeadById } = require("../lead-delete-lib");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -65,14 +56,28 @@ module.exports = async (req, res) => {
     const sql = neon(dbUrl);
     var deleted = [];
     var missing = [];
+    var errors = [];
     for (var i = 0; i < ids.length; i++) {
       const existing = await sql`SELECT id FROM site_leads WHERE id = ${ids[i]} LIMIT 1`;
       if (!existing.length) {
         missing.push(ids[i]);
         continue;
       }
-      await deleteOne(sql, ids[i]);
-      deleted.push(ids[i]);
+      try {
+        await deleteLeadById(sql, ids[i]);
+        deleted.push(ids[i]);
+      } catch (oneErr) {
+        console.error("[dashboard/lead-delete] one", ids[i], oneErr);
+        errors.push({ id: ids[i], message: oneErr.message });
+      }
+    }
+
+    if (!deleted.length && errors.length) {
+      return res.status(500).json({
+        error: "Erreur serveur",
+        detail: errors[0].message,
+        failed: errors,
+      });
     }
 
     return res.status(200).json({
@@ -81,6 +86,7 @@ module.exports = async (req, res) => {
       leadId: deleted[0] || null,
       deleted: deleted,
       missing: missing,
+      failed: errors,
     });
   } catch (e) {
     console.error("[dashboard/lead-delete]", e);

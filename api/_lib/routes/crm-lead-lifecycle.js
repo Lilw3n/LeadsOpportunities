@@ -5,6 +5,7 @@ const { getSql } = require("../db");
 const { ensurePersonLinksSchema } = require("../ensure-schema");
 const { buildProfileMetadata } = require("../crm-profile-meta");
 const { hydrateInterlocuteurFromLead } = require("../hydrate-interlocuteur");
+const { deleteLeadById } = require("../lead-delete-lib");
 const Ident = require("../../../js/lead-identity-lib");
 
 function isAdmin(user) {
@@ -154,11 +155,7 @@ async function promoteLead(sql, user, lead) {
 }
 
 async function deleteLeadAndMaybeContact(sql, lead, alsoContact) {
-  await sql`UPDATE site_leads SET parent_lead_id = NULL WHERE parent_lead_id = ${lead.id}`;
-  try {
-    await sql`DELETE FROM lead_events WHERE lead_id = ${lead.id}`;
-  } catch (e) {}
-  await sql`DELETE FROM site_leads WHERE id = ${lead.id}`;
+  await deleteLeadById(sql, lead.id);
   if (alsoContact && lead.contact_id) {
     const others = await sql`SELECT id FROM site_leads WHERE contact_id = ${lead.contact_id} LIMIT 1`;
     if (!others.length) {

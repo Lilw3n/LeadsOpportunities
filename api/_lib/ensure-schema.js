@@ -129,6 +129,12 @@ async function ensureSiteLeadsSchema(sql) {
       function (s) {
         return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS our_offer_monthly NUMERIC`;
       },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS parent_lead_id TEXT`;
+      },
+      function (s) {
+        return s`ALTER TABLE site_leads ADD COLUMN IF NOT EXISTS is_duplicate BOOLEAN DEFAULT FALSE`;
+      },
     ];
 
     for (var i = 0; i < steps.length; i++) {

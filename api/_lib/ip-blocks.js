@@ -2,6 +2,7 @@
  * Blocage d’IP (spam / robots) — table site_ip_blocks.
  */
 const { normalizeClientIp } = require("./security");
+const { deleteLeadById } = require("./lead-delete-lib");
 
 async function ensureIpBlocksSchema(sql) {
   if (!sql) return false;
@@ -91,8 +92,7 @@ async function deleteLeadsByIp(sql, ip) {
   for (var i = 0; i < rows.length; i++) {
     var id = rows[i].id;
     try {
-      await sql`UPDATE site_leads SET parent_lead_id = NULL WHERE parent_lead_id = ${id}`;
-      await sql`DELETE FROM site_leads WHERE id = ${id}`;
+      await deleteLeadById(sql, id);
       n++;
     } catch (e) {}
   }
