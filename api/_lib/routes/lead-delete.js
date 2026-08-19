@@ -1,6 +1,11 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, parseJsonBody } = require("../security");
-const { deleteLeadById } = require("../lead-delete-lib");
+const { getSql } = require("../db");
+const { deleteLeadById, LeadDeleteBlockedError, loadLeadForDelete } = require("../lead-delete-lib");
+
+function canDeleteLeads(user) {
+  return !!(user && (user.role === "admin" || user.crmRole === "admin"));
+}
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -10,8 +15,8 @@ module.exports = async (req, res) => {
   }
 
   const user = await getAuthUser(req);
-  if (!user || user.role !== "admin") {
-    return res.status(403).json({ error: "Accès refusé" });
+  if (!canDeleteLeads(user)) {
+    return res.status(403).json({ error: "Accès refusé — admin requis" });
   }
 
   var body = req.body;
@@ -48,28 +53,55 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "leadId ou leadIds requis" });
   }
 
-  const dbUrl = process.env.DATABASE_URL;
-  if (!dbUrl) return res.status(500).json({ error: "Base de données non configurée" });
+  const sql = getSql();
+  if (!sql) return res.status(500).json({ error: "Base de données non configurée" });
 
   try {
-    const { neon } = require("@neondatabase/serverless");
-    const sql = neon(dbUrl);
     var deleted = [];
     var missing = [];
+    var blocked = [];
     var errors = [];
+
     for (var i = 0; i < ids.length; i++) {
-      const existing = await sql`SELECT id FROM site_leads WHERE id = ${ids[i]} LIMIT 1`;
-      if (!existing.length) {
-        missing.push(ids[i]);
+      var leadId = ids[i];
+      var existing = await loadLeadForDelete(sql, leadId);
+      if (!existing) {
+        missing.push(leadId);
+        continue;
+      }
+      if (existing.contact_id) {
+        blocked.push({
+          id: leadId,
+          contactId: existing.contact_id,
+          message:
+            "Lead rattaché à une fiche interlocuteur — supprimez le contact depuis la fiche CRM si besoin, pas le lead seul.",
+        });
         continue;
       }
       try {
-        await deleteLeadById(sql, ids[i]);
-        deleted.push(ids[i]);
+        await deleteLeadById(sql, leadId);
+        deleted.push(leadId);
       } catch (oneErr) {
-        console.error("[dashboard/lead-delete] one", ids[i], oneErr);
-        errors.push({ id: ids[i], message: oneErr.message });
+        if (oneErr instanceof LeadDeleteBlockedError || oneErr.code === "LEAD_LINKED_CONTACT") {
+          blocked.push({
+            id: leadId,
+            contactId: oneErr.contactId,
+            message: oneErr.message,
+          });
+          continue;
+        }
+        console.error("[dashboard/lead-delete] one", leadId, oneErr);
+        errors.push({ id: leadId, message: oneErr.message });
       }
+    }
+
+    if (!deleted.length && blocked.length && !errors.length) {
+      return res.status(409).json({
+        ok: false,
+        error: blocked[0].message,
+        blocked: blocked,
+        hint: "La fiche interlocuteur est conservée — seuls les leads sans fiche peuvent être supprimés ici.",
+      });
     }
 
     if (!deleted.length && errors.length) {
@@ -77,6 +109,7 @@ module.exports = async (req, res) => {
         error: "Erreur serveur",
         detail: errors[0].message,
         failed: errors,
+        blocked: blocked,
       });
     }
 
@@ -86,6 +119,7 @@ module.exports = async (req, res) => {
       leadId: deleted[0] || null,
       deleted: deleted,
       missing: missing,
+      blocked: blocked,
       failed: errors,
     });
   } catch (e) {

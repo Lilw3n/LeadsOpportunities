@@ -155,7 +155,7 @@ async function promoteLead(sql, user, lead) {
 }
 
 async function deleteLeadAndMaybeContact(sql, lead, alsoContact) {
-  await deleteLeadById(sql, lead.id);
+  await deleteLeadById(sql, lead.id, { allowLinkedContact: !!alsoContact });
   if (alsoContact && lead.contact_id) {
     const others = await sql`SELECT id FROM site_leads WHERE contact_id = ${lead.contact_id} LIMIT 1`;
     if (!others.length) {
@@ -205,6 +205,15 @@ module.exports = async (req, res) => {
       }
       const lead = await loadLead(sql, body.leadId);
       if (!lead) return res.status(404).json({ error: "Lead introuvable" });
+      if (lead.contact_id && !body.deleteInterlocutor) {
+        return res.status(409).json({
+          ok: false,
+          error:
+            "Ce lead est rattaché à une fiche interlocuteur — suppression impossible sans supprimer la fiche contact.",
+          contactId: lead.contact_id,
+          hint: "Leads < fiche interlocuteur : ouvrez la fiche CRM ou cochez la suppression du contact.",
+        });
+      }
       await deleteLeadAndMaybeContact(sql, lead, !!body.deleteInterlocutor);
       return res.status(200).json({ ok: true, deleted: lead.id });
     }

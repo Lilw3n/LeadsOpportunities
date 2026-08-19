@@ -2261,6 +2261,10 @@
       });
       if (!data.ok) {
         toast((data.error || "Suppression impossible") + (data.detail ? " — " + data.detail : ""), "error");
+        if (data.blocked && data.blocked[0] && data.blocked[0].contactId) {
+          toast("Fiche interlocuteur : ./crm-contact.html?id=" + data.blocked[0].contactId, "error");
+        }
+        if (data.hint) toast(data.hint, "error");
         return false;
       }
       toast("Lead supprimé");
@@ -2824,7 +2828,16 @@
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
               '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
-              '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> <button type="button" class="btn-lead-delete" data-lead-id="' + esc(l.id) + '" data-lead-label="' + esc(l.email || l.phone || l.vertical || l.id) + '">Supprimer</button>' +
+              '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> ' +
+              (l.contact_id
+                ? '<a class="btn btn-ghost btn-sm" href="./crm-contact.html?id=' +
+                  encodeURIComponent(l.contact_id) +
+                  '" title="Lead rattaché à une fiche interlocuteur — suppression du lead seul impossible">Fiche interlocuteur</a>'
+                : '<button type="button" class="btn-lead-delete" data-lead-id="' +
+                  esc(l.id) +
+                  '" data-lead-label="' +
+                  esc(l.email || l.phone || l.vertical || l.id) +
+                  '">Supprimer</button>') +
               (ip && ip !== "—"
                 ? ' <button type="button" class="btn-lead-delete" data-block-ip="' +
                   esc(ip) +
@@ -2976,10 +2989,15 @@
       });
       if (!data.ok) {
         toast(data.error || "Suppression impossible", "error");
+        if (data.hint) toast(data.hint, "error");
+        if (data.blocked && data.blocked.length) {
+          toast(data.blocked.length + " lead(s) rattaché(s) à une fiche interlocuteur — non supprimés", "error");
+        }
         return;
       }
       selectedLeadIds = {};
-      toast((data.deleted && data.deleted.length ? data.deleted.length : ids.length) + " lead(s) supprimé(s)");
+      var nDel = data.deleted && data.deleted.length ? data.deleted.length : ids.length;
+      toast(nDel + " lead(s) supprimé(s)" + (data.blocked && data.blocked.length ? " · " + data.blocked.length + " conservé(s) (fiche interlocuteur)" : ""));
       loadLeads();
       loadStats();
     });
@@ -3242,7 +3260,15 @@
             '<label style="font-weight:600;font-size:0.85rem;margin-top:8px;display:block">Notre offre (EUR/mois)<input type="number" id="modalOurOffer" class="filter-input" style="width:100%;margin-top:4px" value="' + esc(l.our_offer_monthly != null ? l.our_offer_monthly : (payload.ourOfferMonthly || "")) + '" /></label>' +
             '<textarea id="modalNotes" placeholder="Notes internes sur ce lead...">' + esc(l.notes || "") + '</textarea>' +
             '<div class="detail-actions-row">' +
-              '<button type="button" class="btn-delete" id="deleteLeadBtn" data-id="' + esc(l.id) + '" data-label="' + esc(l.email || l.phone || l.id) + '">Supprimer</button>' +
+              (l.contact_id
+                ? '<p class="small" style="margin:0;color:#b45309">Lead rattaché à une <a href="./crm-contact.html?id=' +
+                  encodeURIComponent(l.contact_id) +
+                  '">fiche interlocuteur</a> — suppression du lead seul impossible.</p>'
+                : '<button type="button" class="btn-delete" id="deleteLeadBtn" data-id="' +
+                  esc(l.id) +
+                  '" data-label="' +
+                  esc(l.email || l.phone || l.id) +
+                  '">Supprimer</button>') +
               '<button class="btn-save" id="saveLeadBtn" data-id="' + esc(l.id) + '">Enregistrer</button>' +
             '</div>' +
           '</div>';
@@ -3284,13 +3310,16 @@
           }
         }
 
-        document.getElementById("deleteLeadBtn").addEventListener("click", async function() {
-          var btn = this;
-          await deleteLead(btn.dataset.id, {
-            label: btn.dataset.label,
-            closeModal: true,
+        var deleteBtn = document.getElementById("deleteLeadBtn");
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", async function() {
+            var btn = this;
+            await deleteLead(btn.dataset.id, {
+              label: btn.dataset.label,
+              closeModal: true,
+            });
           });
-        });
+        }
         var createInt = document.getElementById("btnCreateInterlocuteur");
         if (createInt) {
           createInt.addEventListener("click", async function () {

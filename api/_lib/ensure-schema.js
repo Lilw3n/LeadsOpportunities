@@ -165,6 +165,43 @@ async function ensureSiteLeadsSchema(sql) {
   return running;
 }
 
+async function ensureLeadWorkflowSchema(sql) {
+  if (!sql) return false;
+  await ensureSiteLeadsSchema(sql);
+  await runStatement(sql, function (s) {
+    return s`
+      CREATE TABLE IF NOT EXISTS lead_events (
+        id TEXT PRIMARY KEY,
+        lead_id TEXT,
+        contact_id TEXT,
+        event_type TEXT NOT NULL,
+        source TEXT NOT NULL DEFAULT 'crm',
+        title TEXT,
+        body TEXT,
+        payload TEXT,
+        actor_id TEXT,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+  });
+  await runStatement(sql, function (s) {
+    return s`
+      CREATE TABLE IF NOT EXISTS lead_touchpoints (
+        id TEXT PRIMARY KEY,
+        lead_id TEXT,
+        channel TEXT,
+        label TEXT,
+        payload TEXT,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+  });
+  await runStatement(sql, function (s) {
+    return s`ALTER TABLE crm_activities ADD COLUMN IF NOT EXISTS lead_id TEXT`;
+  });
+  return true;
+}
+
 async function ensurePersonLinksSchema(sql) {
   if (!sql) return false;
   await ensureSiteLeadsSchema(sql);
@@ -248,6 +285,7 @@ async function ensureCalendarSchema(sql) {
 
 module.exports = {
   ensureSiteLeadsSchema,
+  ensureLeadWorkflowSchema,
   ensureMailboxSchema,
   ensurePersonLinksSchema,
   ensureCalendarSchema,

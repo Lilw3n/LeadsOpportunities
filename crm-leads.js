@@ -484,8 +484,21 @@
         }
         return api("/api/dashboard/lead-delete", { method: "POST", body: { leadIds: ids } }).then(function (res) {
           if (!res.ok) {
-            alert(res.error || "Suppression impossible");
+            var msg = res.error || "Suppression impossible";
+            if (res.blocked && res.blocked.length) {
+              msg += "\n\n" + res.blocked.length + " lead(s) rattachés à une fiche interlocuteur — non supprimés.";
+            }
+            if (res.hint) msg += "\n\n" + res.hint;
+            alert(msg);
             return false;
+          }
+          if (res.blocked && res.blocked.length) {
+            alert(
+              (res.deleted ? res.deleted.length : 0) +
+                " supprimé(s), " +
+                res.blocked.length +
+                " conservé(s) (fiche interlocuteur)."
+            );
           }
           state.selected = {};
           load();

@@ -50,11 +50,14 @@
         return { ok: false, error: data.error || "Session expiree", status: res.status };
       }
       if (!res.ok) {
-        return {
-          ok: false,
-          error: data.error || data.detail || "Erreur " + res.status,
-          status: res.status,
-        };
+        return Object.assign(
+          {
+            ok: false,
+            error: data.error || data.detail || "Erreur " + res.status,
+            status: res.status,
+          },
+          data
+        );
       }
       return Object.assign({ ok: true, status: res.status }, data);
     },
