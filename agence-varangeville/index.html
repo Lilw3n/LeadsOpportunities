@@ -54,6 +54,28 @@
       gap: 8px;
     }
     .gbp-mobile-bar a { flex: 1; text-align: center; }
+    .contact-pref {
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      border-radius: 16px;
+      padding: 18px 22px;
+      margin: 0 0 20px;
+    }
+    .contact-pref p { margin: 0 0 12px; line-height: 1.5; }
+    .contact-pref-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .contact-pref-actions .call-link { font-size: .92rem; color: #475569; }
+    .btn-whatsapp,
+    .btn-whatsapp:visited {
+      background: #25d366;
+      color: #fff;
+      border: 2px solid #25d366;
+    }
+    .btn-whatsapp:hover,
+    .btn-whatsapp:focus-visible {
+      background: #1da851;
+      border-color: #1da851;
+      color: #fff;
+    }
     @media (max-width: 720px) {
       .gbp-mobile-bar { display: flex; }
       body { padding-bottom: 72px; }
@@ -75,7 +97,7 @@
         <a href="../credit-immo/">Prêt immo</a>
         <a href="../rachat-credit/">Rachat</a>
         <a href="../finance/">Finance</a>
-        <a class="btn btn-nav" href="tel:+33695820866">Appeler</a>
+        <a class="btn btn-nav btn-whatsapp" href="https://wa.me/33695820866?text=Bonjour%20Wendy%2C%20" data-track="whatsapp_click">WhatsApp</a>
       </nav>
     </div>
   </header>
@@ -85,12 +107,21 @@
       <h1>Courtier à Varangéville : assurance, crédit et rachat</h1>
       <p class="lead">Wendy Buchet — Leads Opportunities. Un interlocuteur ORIAS pour le Grand Nancy : crédit immobilier, RAC, conso, prêt relais, mutuelle et habitation.</p>
       <div class="pilier-actions">
-        <a class="btn btn-primary btn-lg" href="tel:+33695820866">Appeler 06 95 82 08 66</a>
+        <a class="btn btn-whatsapp btn-lg" href="https://wa.me/33695820866?text=Bonjour%20Wendy%2C%20" data-track="whatsapp_click">WhatsApp</a>
+        <a class="btn btn-outline btn-lg" href="sms:+33695820866?body=Bonjour%20Wendy%2C%20">SMS</a>
         <a class="btn btn-outline btn-lg" href="../landings/rappel.html">Demander un rappel</a>
       </div>
     </div>
   </header>
   <main class="pilier-wrap">
+    <aside class="contact-pref" aria-label="Mode de contact préféré">
+      <p><strong>N’hésitez pas à m’envoyer un message WhatsApp de préférence</strong> — j’ai beaucoup d’appels et de rendez-vous. <strong>Sinon, un SMS en second lieu.</strong> Je vous réponds dès que possible.</p>
+      <div class="contact-pref-actions">
+        <a class="btn btn-whatsapp" href="https://wa.me/33695820866?text=Bonjour%20Wendy%2C%20" data-track="whatsapp_click">WhatsApp 06 95 82 08 66</a>
+        <a class="btn btn-outline" href="sms:+33695820866?body=Bonjour%20Wendy%2C%20">SMS</a>
+        <span class="call-link">Appel possible : <a href="tel:+33695820866">06 95 82 08 66</a></span>
+      </div>
+    </aside>
     <div class="nap-card" itemscope itemtype="https://schema.org/LocalBusiness">
       <meta itemprop="name" content="Leads Opportunities" />
       <p><strong itemprop="alternateName">Wendy Buchet</strong> · Courtier ORIAS n° 15005935</p>
@@ -105,7 +136,9 @@
       <p>Horaires : <strong>Lun–Ven 9h–18h</strong> · Étude en ligne 24h/24</p>
       <p>Zone : Varangéville, Saint-Nicolas-de-Port, Dombasle, Nancy, Lunéville, Meurthe-et-Moselle — dossiers partout en France.</p>
       <div class="nap-actions">
-        <a class="btn btn-primary" href="https://www.google.com/maps/search/?api=1&amp;query=15%20rue%20Pierre%20Curie%2054110%20Varang%C3%A9ville" rel="noopener">Itinéraire Google Maps</a>
+        <a class="btn btn-whatsapp" href="https://wa.me/33695820866?text=Bonjour%20Wendy%2C%20" data-track="whatsapp_click">WhatsApp</a>
+        <a class="btn btn-outline" href="sms:+33695820866?body=Bonjour%20Wendy%2C%20">SMS</a>
+        <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&amp;query=15%20rue%20Pierre%20Curie%2054110%20Varang%C3%A9ville" rel="noopener">Itinéraire Google Maps</a>
         <a class="btn btn-outline" href="../landings/rachat.html">Étude rachat</a>
         <a class="btn btn-outline" href="../landings/credit-immo.html">Crédit immo</a>
       </div>
@@ -228,7 +261,9 @@ Financement : crédit immobilier (y compris après un refus), rachat / regroupem
 
 Étude gratuite, sans engagement. Rappel sous 15 min en journée. Dossiers partout en France, rendez-vous possibles en Meurthe-et-Moselle.
 
-15 rue Pierre Curie, 54110 Varangéville — 06 95 82 08 66 — leadsopportunities.fr</pre>
+Contact de préférence : message WhatsApp (beaucoup d’appels et de RDV), sinon SMS. Tél. 06 95 82 08 66.
+
+15 rue Pierre Curie, 54110 Varangéville — leadsopportunities.fr</pre>
       <h3>Services / produits à cocher sur la fiche</h3>
       <ul>
         <li>Crédit immobilier — https://www.leadsopportunities.fr/credit-immo/</li>
@@ -283,9 +318,9 @@ Financement : crédit immobilier (y compris après un refus), rachat / regroupem
     </div>
   </footer>
   <div class="gbp-mobile-bar" aria-label="Actions rapides">
-    <a class="btn btn-primary" href="tel:+33695820866">Appeler</a>
+    <a class="btn btn-whatsapp" href="https://wa.me/33695820866?text=Bonjour%20Wendy%2C%20" data-track="whatsapp_click">WhatsApp</a>
+    <a class="btn btn-outline" href="sms:+33695820866?body=Bonjour%20Wendy%2C%20">SMS</a>
     <a class="btn btn-outline" href="../landings/rappel.html">Rappel</a>
-    <a class="btn btn-outline" href="https://www.google.com/maps/search/?api=1&amp;query=15%20rue%20Pierre%20Curie%2054110%20Varang%C3%A9ville">Itinéraire</a>
   </div>
   <script>
     if (location.search.indexOf("gbp=admin") !== -1) {
