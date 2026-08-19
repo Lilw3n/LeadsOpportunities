@@ -2255,7 +2255,7 @@
         body: JSON.stringify({ leadId: id }),
       });
       if (!data.ok) {
-        toast(data.error || "Suppression impossible", "error");
+        toast((data.error || "Suppression impossible") + (data.detail ? " — " + data.detail : ""), "error");
         return false;
       }
       toast("Lead supprimé");
