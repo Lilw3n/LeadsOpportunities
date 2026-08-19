@@ -375,9 +375,38 @@ html[data-immo-hat="vendeur"] [data-dossier-acheteur-only] {
   align-items: center;
   justify-content: space-between;
 }
-.immo-fiche-bridge-inner .small {
-  color: #475569;
+.immo-deposit-vente-wrap {
+  margin: 8px 0 4px;
+  padding: 14px 0 0;
+  border-top: 1px solid #e2e8f0;
+}
+.immo-deposit-vente-toggle {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #cce7e3;
+  background: #f0fdfa;
   line-height: 1.45;
+}
+.immo-deposit-vente-toggle input {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.immo-deposit-vente-panel {
+  margin-top: 4px;
+}
+.immo-deposit-vente-panel-inner {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+.immo-deposit-vente-panel-inner > .immo-form-section-title:first-child,
+.immo-deposit-vente-panel-inner > .immo-form-section-lead:first-of-type {
+  display: none;
 }
 
 html[data-immo-hat="acheteur"] [data-dossier-vendeur-only],

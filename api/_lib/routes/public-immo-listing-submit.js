@@ -164,6 +164,27 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var buySurface = num(body.buySurfaceMin || body.buy_surface_min);
   var buyType = str(body.buyPropertyType || body.buy_property_type, 40);
   var wantsRelais = body.wantsRelais === true || body.wantsRelais === "1" || body.pretRelais === true;
+  var wantsSellDossier = body.wantsSellDossier === true || body.wantsSellDossier === "1";
+  var sellDossier =
+    body.sellDossier && typeof body.sellDossier === "object" && !Array.isArray(body.sellDossier)
+      ? body.sellDossier
+      : null;
+  if (sellDossier) wantsSellDossier = true;
+
+  if (sellDossier) {
+    city = city || str(sellDossier.sellCity, 120);
+    postal = postal || str(sellDossier.sellPostalCode, 5);
+    description = description || str(sellDossier.sellDescription, 800);
+    rooms = rooms != null ? rooms : num(sellDossier.sellRooms);
+    bedrooms = bedrooms != null ? bedrooms : num(sellDossier.sellBedrooms);
+    surface = surface != null ? surface : num(sellDossier.sellSurface);
+    dpe = dpe || str(sellDossier.sellDpe, 1).toUpperCase();
+    price = price != null ? price : num(sellDossier.sellPriceFai || sellDossier.sellAskingPrice);
+    propertyType = propertyType || str(sellDossier.sellPropertyType, 40);
+    if (Array.isArray(sellDossier.sellPhotos) && sellDossier.sellPhotos.length) {
+      photos = Lib.sanitizeMedia(photos.concat(sellDossier.sellPhotos));
+    }
+  }
 
   var detections = collectDetections(body);
   var hasManualBits = !!(city || description || photos.length || price || addressHint);
@@ -264,6 +285,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           buyer: { firstName: firstName, lastName: lastName, email: email, phone: phone },
           alsoBuys: role === "les_deux",
           wantsRelais: wantsRelais,
+          wantsSellDossier: wantsSellDossier,
+          sellDossier: sellDossier || null,
         };
 
         var propId = await store.upsertProperty(
@@ -438,6 +461,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             buyBudgetMax: buyBudget,
             signalementSource: signalementSource,
             addressHint: addressHint,
+            wantsSellDossier: wantsSellDossier,
+            sellDossier: sellDossier || null,
           })},
           ${"site_web"},
           ${"new"},

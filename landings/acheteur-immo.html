@@ -179,21 +179,14 @@
           <p class="listings-intro" data-deposit-intro>
             Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
           </p>
-          <div class="immo-fiche-bridge" data-fiche-complete-bridge hidden>
-            <div class="immo-fiche-bridge-inner">
-              <div>
-                <strong>Dépôt express</strong> (ci-dessous) — vitrine + photos sur le site et Google Drive.
-                <p class="small" style="margin:6px 0 0">Pour <strong>toutes les infos du bien</strong> : propriétaires, mandat, pièces, copro, travaux, diagnostics, checklist documents, matrice projet… utilisez la fiche complète.</p>
-              </div>
-              <a class="btn btn-primary" href="#demande" data-goto-fiche-complete>Fiche complète vendeur →</a>
-            </div>
-          </div>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
             <div class="hp-field" aria-hidden="true">
               <label for="hp_listing_url">Ne pas remplir</label>
               <input type="text" id="hp_listing_url" name="_hp" tabindex="-1" autocomplete="off" />
             </div>
+            <p class="search-section-label" data-deposit-section-basic style="margin-top:4px">1. Le bien — saisie rapide</p>
+            <p class="listing-media-hint" style="margin:0 0 10px">Annonce vitrine + photos sur le site et Google Drive (<strong>Immo → 01_photos_publiques</strong>).</p>
             <p class="search-section-label" data-listing-mode-label>Comment déposer le bien</p>
             <div class="search-mode-tabs" role="radiogroup" aria-label="Mode de dépôt" data-listing-mode-wrap>
               <label class="search-mode-tab">
@@ -297,6 +290,15 @@
               <p class="search-section-label">Aperçu de la fiche</p>
               <div data-listing-preview></div>
             </div>
+
+            <section class="immo-deposit-vente-wrap" data-deposit-vente-wrap hidden>
+              <p class="search-section-label" style="margin-top:20px">2. Dossier vente détaillé</p>
+              <label class="immo-deposit-vente-toggle field-check full">
+                <input type="checkbox" name="wantsSellDossier" value="1" data-deposit-vente-toggle />
+                <span><strong>Compléter les informations pour une vente de bien</strong> — propriétaires, mandat, descriptif pièce par pièce, copro, travaux, checklist documents, matrice projet… (sections repliables, optionnel mais recommandé)</span>
+              </label>
+              <div class="immo-deposit-vente-panel" data-deposit-vente-mount hidden></div>
+            </section>
 
             <div data-hat-vendeur-only>
               <p class="search-section-label" style="margin-top:16px">Vous vendez en tant que</p>
@@ -524,6 +526,8 @@
               </div>
 
               <span data-search-vente-first hidden aria-hidden="true"></span>
+
+              <div data-search-vente-panel-placeholder></div>
 
               <div class="immo-form-section" data-search-vente-panel hidden>
                 <h4 class="immo-form-section-title">1. Projet de vente</h4>
@@ -1969,6 +1973,7 @@
   <script src="../js/acheteur-immo-rooms.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="../js/acheteur-immo-hat-dossier.js"></script>
+  <script src="../js/acheteur-immo-deposit-vente.js"></script>
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>

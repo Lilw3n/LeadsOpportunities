@@ -21,6 +21,7 @@ function read(rel) {
 [
   "js/immo-photo-compress-lib.js",
   "js/acheteur-immo-sell-photos.js",
+  "js/acheteur-immo-deposit-vente.js",
   "api/_lib/immo-listing-drive.js",
 ].forEach(function (f) {
   assert(fs.existsSync(path.join(root, f)), f + " existe");
@@ -28,7 +29,7 @@ function read(rel) {
 
 var listingSubmit = read("api/_lib/routes/public-immo-listing-submit.js");
 assert(listingSubmit.indexOf("immo-listing-drive") >= 0, "listing-submit appelle immo-listing-drive");
-assert(listingSubmit.indexOf("patchPropertyMedia") >= 0, "listing-submit met à jour photos après Drive");
+assert(listingSubmit.indexOf("sellDossier") >= 0, "listing-submit enregistre sellDossier");
 
 var store = read("api/_lib/immo-properties-store.js");
 assert(store.indexOf("patchPropertyMedia") >= 0, "immo-properties-store expose patchPropertyMedia");
@@ -39,7 +40,9 @@ assert(driveLib.indexOf("01_photos_publiques") >= 0, "photos → 01_photos_publi
 assert(driveLib.indexOf("syncPropertyPhotosToDrive") >= 0, "syncPropertyPhotosToDrive exporté");
 
 var html = read("landings/acheteur-immo.html");
-assert(html.indexOf("data-sell-photos-mount") >= 0, "bloc photos section vente");
+assert(html.indexOf("data-deposit-vente-toggle") >= 0, "coche dossier vente dans dépôt");
+assert(html.indexOf("data-deposit-vente-mount") >= 0, "mount dossier vente dépôt");
+assert(html.indexOf("acheteur-immo-deposit-vente.js") >= 0, "script fusion dépôt/vente");
 assert(html.indexOf("immo-photo-compress-lib.js") >= 0, "compress lib chargée");
 
 var tracking = read("landings/tracking.js");

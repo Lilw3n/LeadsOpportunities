@@ -198,7 +198,8 @@
     }
     applyListingMode();
     if (window.VendeurVisitePretBlock) window.VendeurVisitePretBlock.syncVisibility();
-    if (window.AcheteurImmoHatDossier) window.AcheteurImmoHatDossier.sync(hat);
+    if (window.AcheteurImmoDepositVente) window.AcheteurImmoDepositVente.sync();
+    else if (window.AcheteurImmoHatDossier) window.AcheteurImmoHatDossier.sync(hat);
   }
 
   function applyListingMode() {
@@ -466,6 +467,11 @@
         wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
         photos: mediaList(state),
         _hp: val(form, "_hp"),
+        wantsSellDossier: !!(form.querySelector("[data-deposit-vente-toggle]") && form.querySelector("[data-deposit-vente-toggle]").checked),
+        sellDossier:
+          window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.collectSellDossier
+            ? window.AcheteurImmoDepositVente.collectSellDossier()
+            : null,
         need:
           hat === "signalement"
             ? "signalement-bien"
@@ -511,6 +517,8 @@
           if (ok) {
             ok.hidden = false;
             var driveNote = res.data.driveConfigured ? " Copie Google Drive effectuée ou en cours." : "";
+            var dossierNote =
+              payload.wantsSellDossier && payload.sellDossier ? " Dossier vente détaillé enregistré." : "";
             ok.textContent =
               res.data.received +
               " bien" +
@@ -519,6 +527,7 @@
               (res.data.received > 1 ? "s" : "") +
               (payload.photos.length ? " avec photos / capture" + driveNote : "") +
               (hats ? " (" + hats + ")" : "") +
+              dossierNote +
               ". Un conseiller vous rappelle.";
           }
           form.reset();

@@ -108,16 +108,13 @@
   }
 
   function syncBridge(hat) {
-    var bridge = document.querySelector("[data-fiche-complete-bridge]");
-    if (!bridge) return;
-    bridge.hidden = hat !== "vendeur" && hat !== "les_deux";
+    /* Pont remplacé par fusion inline (AcheteurImmoDepositVente). */
   }
 
   function syncAll(hat) {
     hat = hat || hatFromDoc();
     applyDossierCopy(hat);
-    syncBridge(hat);
-    if (hat === "vendeur" || hat === "les_deux") prefillFromExpress();
+    if (window.AcheteurImmoDepositVente) window.AcheteurImmoDepositVente.sync();
   }
 
   function bindGotoFiche() {
