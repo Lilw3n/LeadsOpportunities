@@ -231,12 +231,12 @@
                 </select>
               </div>
               <div class="field">
-                <label for="urlCity">Ville du bien</label>
-                <input id="urlCity" name="city" placeholder="Ex. Nancy, Lyon" />
+                <label for="urlCity">Ville du bien <span class="field-req" data-hat-vendeur-only hidden aria-hidden="true">*</span></label>
+                <input id="urlCity" name="city" placeholder="Ex. Nancy, Lyon" autocomplete="address-level2" />
               </div>
               <div class="field">
-                <label for="urlPostal">Code postal</label>
-                <input id="urlPostal" name="postal_code" inputmode="numeric" maxlength="5" placeholder="38420" />
+                <label for="urlPostal">Code postal <span class="field-req" data-hat-vendeur-only hidden aria-hidden="true">*</span></label>
+                <input id="urlPostal" name="postal_code" inputmode="numeric" maxlength="5" placeholder="54000" autocomplete="postal-code" />
               </div>
               <div class="field">
                 <label for="urlPrice">Prix affiché (€)</label>

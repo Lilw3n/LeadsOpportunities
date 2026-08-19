@@ -12,6 +12,7 @@
   var activeDraftId = null;
   var formDirty = false;
   var saveTimer = null;
+  var refreshTimer = null;
 
   function qs(sel, root) {
     return (root || document).querySelector(sel);
@@ -118,6 +119,27 @@
     return "";
   }
 
+  function hasBienLocation(form, urlHitCount) {
+    if (urlHitCount > 0) return true;
+    if (resolveCity(form)) return true;
+    var postal = val(form, "postal_code").replace(/\D/g, "");
+    if (postal.length >= 5) return true;
+    var sellPostal = document.querySelector("#sellPostalCode");
+    if (sellPostal && String(sellPostal.value || "").replace(/\D/g, "").length >= 5) return true;
+    return false;
+  }
+
+  function bienLocationMissingEl(form) {
+    return (
+      form.querySelector("[name='city']") ||
+      form.querySelector("[name='postal_code']") ||
+      document.querySelector("[data-city-fallback]") ||
+      document.querySelector("#sellCity") ||
+      document.querySelector("#sellPostalCode") ||
+      qs("[data-listing-urls]", form)
+    );
+  }
+
   function labelFor(el) {
     if (!el) return "Champ requis";
     if (el.id) {
@@ -182,17 +204,15 @@
       );
     }
 
-    if ((isOwner || isSignalement) && !resolveCity(form) && !hits.length) {
-      var cityEl =
-        document.querySelector("[data-city-fallback]") ||
-        document.querySelector("#sellCity") ||
-        form.querySelector("[name='city']");
+    if ((isOwner || isSignalement) && !hasBienLocation(form, hits.length)) {
       blocking.push(
         missingItem(
           "city",
-          "Ville du bien (ou URL d'annonce)",
-          cityEl,
-          isSignalement ? "Signalement" : "Coordonnées du bien"
+          isSignalement
+            ? "Ville du bien signalé (ou photo / description)"
+            : "Ville ou code postal du bien (section « saisie rapide » en haut, ou URL d'annonce)",
+          bienLocationMissingEl(form),
+          isSignalement ? "Signalement" : "Le bien"
         )
       );
     }
@@ -214,8 +234,13 @@
 
     if (isOwner) {
       if (!val(form, "firstName")) {
-        recommended.push(missingItem("firstName", "Prénom", form.querySelector("[name='firstName']"), "Coordonnées"));
+        blocking.push(
+          missingItem("firstName", "Prénom", form.querySelector("[name='firstName']"), "Vos coordonnées")
+        );
       }
+    }
+
+    if (isOwner) {
       var ownersMount = document.querySelector("[data-owners-mount]");
       if (ownersMount && global.AcheteurImmoOwners) {
         var ov = global.AcheteurImmoOwners.validate(ownersMount);
@@ -246,16 +271,17 @@
       ok: blocking.length === 0,
       blocking: blocking,
       recommended: recommended,
-      progress: computeProgress(form, isOwner, isSignalement, hits.length, photos, blocking, recommended),
+      progress: computeProgress(form, hat, isOwner, isSignalement, hits.length, photos, blocking, recommended),
     };
   }
 
-  function computeProgress(form, isOwner, isSignalement, urlCount, photoCount, blocking, recommended) {
+  function computeProgress(form, hat, isOwner, isSignalement, urlCount, photoCount, blocking, recommended) {
+    hat = hat || val(form, "role") || radioVal(document, "immoHat") || "acheteur";
     var steps = [];
     steps.push({ id: "contact", done: contactSatisfied(form, hat), label: "Contact" });
     steps.push({
       id: "bien",
-      done: !!resolveCity(form) || urlCount > 0,
+      done: hasBienLocation(form, urlCount),
       label: "Ville ou annonce",
     });
     if (isSignalement) {
@@ -416,6 +442,11 @@
       ' pour envoyer.</strong> ' +
       '<button type="button" class="immo-link-btn immo-err-jump" data-sell-jump-errors-inline>Voir la liste des erreurs et corriger →</button>';
     updateJumpErrors(root, n);
+    var panel = qs("[data-sell-validation-panel]", root);
+    if (panel) {
+      panel.hidden = false;
+      panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
     jumpToErrors(root, result);
   }
 
@@ -900,9 +931,17 @@
     };
   }
 
+  function scheduleRefreshUi(root) {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(function () {
+      refreshUi(root);
+    }, 120);
+  }
+
   function markDirty() {
     formDirty = true;
     scheduleSave();
+    scheduleRefreshUi(qs("[data-listing-url-capture]"));
   }
 
   function scheduleSave() {

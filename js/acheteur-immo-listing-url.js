@@ -439,9 +439,19 @@
       var cityResolved = resolveCity(form);
 
       if (window.AcheteurImmoDepositGuide) {
-        var guideResult = window.AcheteurImmoDepositGuide.validate(
-          window.AcheteurImmoDepositGuide.buildCtx(form, root)
-        );
+        var guideResult;
+        try {
+          guideResult = window.AcheteurImmoDepositGuide.validate(
+            window.AcheteurImmoDepositGuide.buildCtx(form, root)
+          );
+        } catch (guideErr) {
+          console.error("[listing-submit] validation", guideErr);
+          if (err) {
+            err.hidden = false;
+            err.textContent = "Erreur de validation du formulaire — rechargez la page ou contactez-nous.";
+          }
+          return;
+        }
         window.AcheteurImmoDepositGuide.renderValidationPanel(root, guideResult);
         if (!guideResult.ok) {
           window.AcheteurImmoDepositGuide.showSubmitError(err, guideResult, root);

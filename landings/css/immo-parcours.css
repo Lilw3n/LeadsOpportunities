@@ -887,6 +887,11 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   line-height: 1.45;
 }
 
+.field-req {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
 .immo-account-block {
   margin: 12px 0 16px;
   padding: 14px 16px;
