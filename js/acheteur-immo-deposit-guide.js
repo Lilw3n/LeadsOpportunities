@@ -106,6 +106,11 @@
   }
 
   function resolveCity(form) {
+    if (global.AcheteurImmoDepositVente && global.AcheteurImmoDepositVente.syncAllLocations) {
+      global.AcheteurImmoDepositVente.syncAllLocations();
+    }
+    var urlCity = document.querySelector("#urlCity");
+    if (urlCity && String(urlCity.value || "").trim()) return String(urlCity.value).trim();
     var c = val(form, "city");
     if (c) return c;
     var fb = document.querySelector("[data-city-fallback]");
@@ -185,6 +190,9 @@
 
   function validate(ctx) {
     var form = ctx.form;
+    if (global.AcheteurImmoDepositVente && global.AcheteurImmoDepositVente.syncAllLocations) {
+      global.AcheteurImmoDepositVente.syncAllLocations();
+    }
     var hat = ctx.hat || radioVal(document, "immoHat") || "acheteur";
     var isOwner = hat === "vendeur" || hat === "les_deux";
     var isSignalement = hat === "signalement";

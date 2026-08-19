@@ -240,7 +240,7 @@
         detail: { documentType: documentType, status: "queued", mode: this.mode },
       })
     );
-    if (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()) {
+    if (global.ImmoDepositDriveSession) {
       global.ImmoDepositDriveSession.scheduleUpload();
     }
   };
@@ -261,9 +261,12 @@
         " fichier(s)" +
         (done ? " · " + done + " sur Drive" : "") +
         (pending ? " · " + pending + " en attente" : "") +
-        (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()
-          ? " — envoi automatique"
-          : " — envoyés après enregistrement du dossier");
+        (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.canUploadStaging &&
+        global.ImmoDepositDriveSession.canUploadStaging()
+          ? " — sauvegarde Drive automatique"
+          : global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()
+            ? " — envoi automatique"
+            : " — sauvegardés sur Drive (session en cours)");
     }
   };
 
@@ -274,15 +277,23 @@
     });
     if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
 
+    if (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.merge) {
+      this.session = Object.assign(this.session, global.ImmoDepositDriveSession.merge(this.session));
+    }
+
     if (this.mode === "vendeur" || this.mode === "vendeur-immo") {
-      if (
-        !this.session.propertyId ||
-        (!this.session.email && !this.session.phone && !this.session.contactId)
-      ) {
+      var canProperty =
+        this.session.propertyId &&
+        (this.session.email || this.session.phone || this.session.contactId);
+      var canStaging = !!(this.session.depositSessionId || (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.getDepositSessionId()));
+      if (!canProperty && !canStaging) {
         return Promise.resolve({
           uploaded: [],
-          errors: [{ error: "propertyId et email, téléphone ou contactId requis pour les documents bien" }],
+          errors: [{ error: "Session de dépôt indisponible pour l'upload Drive" }],
         });
+      }
+      if (!this.session.depositSessionId && global.ImmoDepositDriveSession) {
+        this.session.depositSessionId = global.ImmoDepositDriveSession.getDepositSessionId();
       }
     } else if (!this.session.email && !this.session.contactId) {
       return Promise.resolve({ uploaded: [], errors: [{ error: "email ou contactId requis" }] });
@@ -297,16 +308,36 @@
             return readFileAsBase64(item.file)
               .then(function (dataUrl) {
                 if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
-                  return fetch("/api/immo-listing-document", {
+                  var useProperty =
+                    self.session.propertyId &&
+                    (self.session.email || self.session.phone || self.session.contactId);
+                  if (useProperty) {
+                    return fetch("/api/immo-listing-document", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      credentials: "same-origin",
+                      body: JSON.stringify({
+                        propertyId: self.session.propertyId,
+                        email: self.session.email,
+                        phone: self.session.phone,
+                        contactId: self.session.contactId,
+                        leadId: self.session.leadId,
+                        documentType: item.documentType,
+                        documentGroup: item.groupId,
+                        fileName: item.fileName,
+                        mimeType: item.mimeType,
+                        fileBase64: dataUrl,
+                      }),
+                    });
+                  }
+                  return fetch("/api/immo-listing-document-staging", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "same-origin",
                     body: JSON.stringify({
-                      propertyId: self.session.propertyId,
-                      email: self.session.email,
-                      phone: self.session.phone,
-                      contactId: self.session.contactId,
-                      leadId: self.session.leadId,
+                      depositSessionId: self.session.depositSessionId,
+                      email: self.session.email || undefined,
+                      phone: self.session.phone || undefined,
                       documentType: item.documentType,
                       documentGroup: item.groupId,
                       fileName: item.fileName,
@@ -348,8 +379,12 @@
                   throw new Error("Google Drive non disponible — contactez votre conseiller");
                 }
                 item.status = "done";
-                item.webViewLink = meta.webViewLink || (res.data.drive && res.data.drive.webViewLink) || null;
-                item.driveFileId = meta.driveFileId;
+                item.staging = !!(res.data && res.data.staging);
+                item.webViewLink =
+                  meta.webViewLink ||
+                  (res.data.drive && res.data.drive.webViewLink) ||
+                  null;
+                item.driveFileId = meta.driveFileId || (res.data.drive && res.data.drive.fileId) || null;
                 self._updateChip(item);
                 self._refreshLine(item.documentType);
                 document.dispatchEvent(
@@ -397,7 +432,16 @@
 
   function boot() {
     document.querySelectorAll("[data-immo-docs-panel]").forEach(function (el) {
-      mount(el, el.getAttribute("data-immo-docs-panel") || "vendeur");
+      var inst = mount(el, el.getAttribute("data-immo-docs-panel") || "vendeur");
+      if (
+        inst &&
+        global.ImmoDepositDriveSession &&
+        global.ImmoDepositDriveSession.merge &&
+        (el.getAttribute("data-immo-docs-panel") === "vendeur" ||
+          el.getAttribute("data-immo-docs-panel") === "vendeur-immo")
+      ) {
+        inst.setSession(global.ImmoDepositDriveSession.merge());
+      }
     });
   }
 

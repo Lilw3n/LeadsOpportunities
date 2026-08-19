@@ -123,6 +123,11 @@
   }
 
   function resolveCity(form) {
+    if (window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.syncAllLocations) {
+      window.AcheteurImmoDepositVente.syncAllLocations();
+    }
+    var urlCity = document.querySelector("#urlCity");
+    if (urlCity && String(urlCity.value || "").trim()) return String(urlCity.value).trim();
     var c = val(form, "city");
     if (c) return c;
     var fb = document.querySelector("[data-city-fallback]");
@@ -427,7 +432,9 @@
         err.textContent = "";
       }
       if (ok) ok.hidden = true;
-      if (window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.syncSellToExpress) {
+      if (window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.syncAllLocations) {
+        window.AcheteurImmoDepositVente.syncAllLocations();
+      } else if (window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.syncSellToExpress) {
         window.AcheteurImmoDepositVente.syncSellToExpress();
       }
       var hat = val(form, "role") || currentHat();
@@ -499,9 +506,14 @@
       ) {
         payloadEmail = window.AcheteurImmoDepositGuide.sessionEmail();
       }
+      var depositSessionId =
+        window.ImmoDepositDriveSession && window.ImmoDepositDriveSession.getDepositSessionId
+          ? window.ImmoDepositDriveSession.getDepositSessionId()
+          : null;
       var payload = {
         role: hat,
         alsoBuys: hat === "les_deux",
+        depositSessionId: depositSessionId,
         urls: hits.map(function (d) {
           return d.url;
         }),
@@ -595,6 +607,7 @@
           }
           var hats = (res.data.hats || []).join(" + ");
           var driveSession = {
+            depositSessionId: depositSessionId,
             email: payload.email || "",
             phone: payload.phone || "",
             contactId: res.data.contactId || null,

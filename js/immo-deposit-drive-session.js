@@ -1,9 +1,10 @@
 /**
- * Session Drive après dépôt vendeur — permet d'envoyer des docs sur Drive
- * même après « Déposer mon bien » (ajout tardif de pièces).
+ * Session Drive dépôt vendeur — upload immédiat (staging) puis rattachement au bien après validation.
+ * Chaque session de formulaire a un depositSessionId unique (même personne = nouvelle session si nouvelle demande).
  */
 (function (global) {
   var KEY = "lo_immo_deposit_drive_session";
+  var DRAFT_SESSION_KEY = "lo_immo_draft_active_id";
   var uploadTimer = null;
 
   function load() {
@@ -15,16 +16,64 @@
     }
   }
 
+  function readFormAuth() {
+    var form = document.querySelector("[data-url-capture-form]");
+    if (!form) return { email: "", phone: "" };
+    function v(name) {
+      var el = form.querySelector("[name='" + name + "']");
+      return el ? String(el.value || "").trim() : "";
+    }
+    return {
+      email: v("email").toLowerCase(),
+      phone: v("phone"),
+    };
+  }
+
+  function getDepositSessionId() {
+    try {
+      var existing = sessionStorage.getItem(DRAFT_SESSION_KEY);
+      if (existing) return existing;
+    } catch (e) {}
+    var id = "dep_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 10);
+    try {
+      sessionStorage.setItem(DRAFT_SESSION_KEY, id);
+    } catch (e2) {}
+    return id;
+  }
+
+  function mergeSession(partial) {
+    var base = load() || {};
+    var auth = readFormAuth();
+    return Object.assign(
+      {
+        depositSessionId: getDepositSessionId(),
+        email: auth.email || base.email || "",
+        phone: auth.phone || base.phone || "",
+        contactId: base.contactId || null,
+        leadId: base.leadId || null,
+        propertyId: base.propertyId || null,
+      },
+      partial || {}
+    );
+  }
+
   function hasAuth(session) {
-    return !!(session && (session.email || session.phone || session.contactId));
+    session = session || mergeSession();
+    return !!(session.depositSessionId || session.email || session.phone || session.contactId);
   }
 
   function canUploadPropertyDocs(session) {
-    return !!(session && session.propertyId && hasAuth(session));
+    session = session || mergeSession();
+    return !!(session.propertyId && (session.email || session.phone || session.contactId));
+  }
+
+  function canUploadStaging(session) {
+    session = session || mergeSession();
+    return !!session.depositSessionId;
   }
 
   function applyToModules(session) {
-    if (!session) return;
+    if (!session) session = mergeSession();
     if (global.ImmoSellDocsChecklist && global.ImmoSellDocsChecklist.setSession) {
       global.ImmoSellDocsChecklist.setSession(session);
     }
@@ -35,7 +84,8 @@
   }
 
   function save(session) {
-    if (!session || !hasAuth(session)) return;
+    session = mergeSession(session);
+    if (!session.depositSessionId && !session.email && !session.phone && !session.contactId) return;
     try {
       sessionStorage.setItem(KEY, JSON.stringify(session));
     } catch (e) {}
@@ -52,7 +102,7 @@
     if (n && okEl) {
       okEl.hidden = false;
       var prev = okEl.textContent || "";
-      var add = n + " document(s) copié(s) sur Google Drive.";
+      var add = n + " document(s) sauvegardé(s) sur Google Drive.";
       okEl.textContent = prev.indexOf(add) >= 0 ? prev : (prev ? prev + " " : "") + add;
     }
     if (errN && errEl) {
@@ -64,19 +114,16 @@
   }
 
   function uploadAllPending() {
-    var session = load();
-    if (!hasAuth(session)) {
-      return Promise.resolve({ uploaded: [], errors: [] });
-    }
+    var session = mergeSession(load());
+    save(session);
     applyToModules(session);
 
     var acc = { uploaded: [], errors: [] };
     var chain = Promise.resolve(acc);
 
-    if (canUploadPropertyDocs(session)) {
+    var panel = document.querySelector('[data-immo-docs-panel="vendeur"]');
+    if (panel && panel._immoDocs) {
       chain = chain.then(function () {
-        var panel = document.querySelector('[data-immo-docs-panel="vendeur"]');
-        if (!panel || !panel._immoDocs) return acc;
         return panel._immoDocs.uploadAll().then(function (r) {
           acc.uploaded = acc.uploaded.concat(r.uploaded || []);
           acc.errors = acc.errors.concat(r.errors || []);
@@ -94,24 +141,32 @@
   }
 
   function scheduleUpload() {
-    if (!load()) return;
     clearTimeout(uploadTimer);
     uploadTimer = setTimeout(function () {
+      save(mergeSession(load()));
       uploadAllPending();
     }, 450);
   }
 
   function boot() {
-    var session = load();
-    if (session) applyToModules(session);
+    var session = mergeSession(load());
+    save(session);
   }
 
   global.ImmoDepositDriveSession = {
     save: save,
     load: load,
+    merge: mergeSession,
     apply: applyToModules,
+    getDepositSessionId: getDepositSessionId,
     hasSession: function () {
-      return hasAuth(load());
+      return hasAuth(mergeSession(load()));
+    },
+    canUploadStaging: function () {
+      return canUploadStaging(mergeSession(load()));
+    },
+    canUploadPropertyDocs: function () {
+      return canUploadPropertyDocs(mergeSession(load()));
     },
     uploadAllPending: uploadAllPending,
     scheduleUpload: scheduleUpload,
@@ -119,7 +174,7 @@
 
   document.addEventListener("lo:listing-submitted", function (ev) {
     var detail = (ev && ev.detail) || {};
-    if (detail.session) save(detail.session);
+    if (detail.session) save(mergeSession(detail.session));
   });
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

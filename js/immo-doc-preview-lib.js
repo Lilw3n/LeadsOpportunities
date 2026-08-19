@@ -189,7 +189,7 @@
 
   function statusLabel(status) {
     if (status === "done") return "Sur Drive";
-    if (status === "uploading") return "Envoi…";
+    if (status === "uploading") return "Sauvegarde…";
     if (status === "error") return "Erreur";
     return "En attente";
   }

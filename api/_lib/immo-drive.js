@@ -241,12 +241,151 @@ async function listFolderFiles(folderId, pageSize) {
   return { configured: true, files: data.files || [] };
 }
 
+async function listFolderChildren(folderId, pageSize) {
+  const token = await getToken();
+  if (!token || !folderId) return [];
+  const q =
+    "'" +
+    folderId +
+    "' in parents and trashed=false and mimeType='application/vnd.google-apps.folder'";
+  const url =
+    "https://www.googleapis.com/drive/v3/files?q=" +
+    encodeURIComponent(q) +
+    "&pageSize=" +
+    (pageSize || 30) +
+    "&fields=files(id,name,mimeType)";
+  const resp = await fetch(url, { headers: { Authorization: "Bearer " + token } });
+  if (!resp.ok) return [];
+  const data = await resp.json();
+  return data.files || [];
+}
+
+async function driveCopyFile(token, fileId, newParentId, newName) {
+  const resp = await fetch(
+    "https://www.googleapis.com/drive/v3/files/" + encodeURIComponent(fileId) + "/copy?fields=id,name,webViewLink,mimeType",
+    {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newName, parents: newParentId ? [newParentId] : undefined }),
+    }
+  );
+  const data = await resp.json();
+  if (!resp.ok) throw new Error((data.error && data.error.message) || "Drive copy failed");
+  return data;
+}
+
+/** Dossier temporaire par session de dépôt (avant validation du dossier). */
+async function ensureStagingDriveFolder(depositSessionId) {
+  const token = await getToken();
+  const rootId = getRootFolderId();
+  const configured = !!(token && rootId && isDriveConfigured());
+  const sessionKey = safeName(depositSessionId, 56);
+
+  if (!configured) {
+    return {
+      ok: true,
+      simulated: true,
+      configured: false,
+      sessionKey: sessionKey,
+      message: "Drive non configuré — staging simulé",
+    };
+  }
+
+  const yearFolder = await ensureImmoRoot(token, rootId);
+  const stagingRoot = await findChildFolder(token, yearFolder.id, "_staging");
+  const sessionFolder = await findChildFolder(token, stagingRoot.id, sessionKey);
+  return {
+    ok: true,
+    configured: true,
+    simulated: false,
+    sessionKey: sessionKey,
+    folderId: sessionFolder.id,
+    webViewLink: sessionFolder.webViewLink || null,
+  };
+}
+
+async function ensureStagingClassifiedFolder(depositSessionId, classifiedKey) {
+  const staging = await ensureStagingDriveFolder(depositSessionId);
+  if (!staging.configured || staging.simulated) return staging;
+  const token = await getToken();
+  const subKey = safeName(classifiedKey || "04_documents_confidentiels", 48);
+  const sub = await findChildFolder(token, staging.folderId, subKey);
+  return Object.assign({}, staging, { classifiedFolderId: sub.id, classifiedKey: subKey });
+}
+
+/**
+ * Après validation du dossier : copie les pièces staging vers le dossier bien définitif.
+ */
+async function promoteStagingToProperty(depositSessionId, property) {
+  if (!depositSessionId || !property || !property.id) {
+    return { ok: true, promoted: 0, files: [] };
+  }
+
+  const staging = await ensureStagingDriveFolder(depositSessionId);
+  if (!staging.configured || staging.simulated || !staging.folderId) {
+    return { ok: true, promoted: 0, simulated: !!staging.simulated, files: [] };
+  }
+
+  const token = await getToken();
+  const ensured = await ensurePropertyDriveFolders(property);
+  if (!ensured.folderId || !ensured.subfolderIds) {
+    return { ok: true, promoted: 0, files: [] };
+  }
+
+  const promoted = [];
+  const subfolders = await listFolderChildren(staging.folderId, 40);
+  const buckets = subfolders.length
+    ? subfolders.map(function (sf) {
+        return { id: sf.id, key: sf.name };
+      })
+    : [{ id: staging.folderId, key: null }];
+
+  for (var b = 0; b < buckets.length; b++) {
+    var bucket = buckets[b];
+    var classified = bucket.key || "04_documents_confidentiels";
+    var target =
+      (ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) || ensured.folderId;
+    var listed = await listFolderFiles(bucket.id, 100);
+    for (var i = 0; i < (listed.files || []).length; i++) {
+      var f = listed.files[i];
+      if (!f || !f.id || f.mimeType === "application/vnd.google-apps.folder") continue;
+      try {
+        var copied = await driveCopyFile(token, f.id, target, f.name);
+        promoted.push({
+          type: classified,
+          fileName: f.name,
+          driveFileId: copied.id,
+          webViewLink: copied.webViewLink || f.webViewLink || null,
+          source: "staging_promote",
+          stagingSessionId: depositSessionId,
+        });
+      } catch (copyErr) {
+        console.warn("[immo-drive] promote copy", f.name, copyErr.message);
+      }
+    }
+  }
+
+  return {
+    ok: true,
+    promoted: promoted.length,
+    files: promoted,
+    propertyFolderId: ensured.folderId,
+    stagingFolderId: staging.folderId,
+  };
+}
+
 module.exports = {
   IMMO_SUBFOLDERS,
   classifyImmoFile,
   resolveListingMediaFolder,
   resolveVendeurDocumentFolder,
   ensurePropertyDriveFolders,
+  ensureStagingDriveFolder,
+  ensureStagingClassifiedFolder,
+  promoteStagingToProperty,
   listFolderFiles,
   safeName,
 };

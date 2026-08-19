@@ -62,47 +62,64 @@
   }
 
   function syncExpressToSell() {
-    var form = expressForm();
-    var p = panel();
-    if (!form || !p) return;
-    SYNC_MAP.forEach(function (m) {
-      var src = form.querySelector(m.express);
-      var dst = p.querySelector(m.sell);
-      if (!src || !dst || !String(src.value || "").trim()) return;
-      if (!String(dst.value || "").trim()) dst.value = src.value;
-    });
-    updateDuplicateLocationUi();
-    var pt = form.querySelector("[name='property_type']");
-    if (pt && pt.value && !p.querySelector('[name="sellPropertyType"]:checked')) {
-      var radio = p.querySelector('[name="sellPropertyType"][value="' + pt.value + '"]');
-      if (radio) radio.checked = true;
-    }
+    syncAllLocations();
   }
 
   function syncSellToExpress() {
-    var form = expressForm();
-    var p = panel();
-    if (!form || !p) return;
-    SYNC_MAP.forEach(function (m) {
-      var src = p.querySelector(m.sell);
-      var dst = form.querySelector(m.express);
-      if (!src || !dst || !String(src.value || "").trim()) return;
-      if (!String(dst.value || "").trim()) dst.value = src.value;
-    });
-    var sellType = p.querySelector('[name="sellPropertyType"]:checked');
-    var pt = form.querySelector("[name='property_type']");
-    if (sellType && pt && !String(pt.value || "").trim()) pt.value = sellType.value;
-    var sellDesc = p.querySelector("#sellDescription");
-    var urlDesc = form.querySelector("#urlDescription");
-    if (sellDesc && urlDesc && !String(urlDesc.value || "").trim() && String(sellDesc.value || "").trim()) {
-      urlDesc.value = sellDesc.value;
-    }
+    syncAllLocations();
+  }
+
+  function syncAllLocations(preferredSource) {
+    var urlCity = document.querySelector("#urlCity");
+    var sellCity = document.querySelector("#sellCity");
+    var urlPostal = document.querySelector("#urlPostal");
+    var sellPostal = document.querySelector("#sellPostalCode");
     var fb = document.querySelector("[data-city-fallback]");
     var fbPostal = document.querySelector("[data-postal-fallback]");
-    var urlCity = form.querySelector("#urlCity");
-    var urlPostal = form.querySelector("#urlPostal");
-    if (fb && urlCity && String(urlCity.value || "").trim()) fb.value = urlCity.value;
-    if (fbPostal && urlPostal && String(urlPostal.value || "").trim()) fbPostal.value = urlPostal.value;
+
+    var city = "";
+    var postal = "";
+
+    if (preferredSource && preferredSource.id) {
+      if (preferredSource.id === "urlCity" || preferredSource.id === "sellCity" || preferredSource.hasAttribute("data-city-fallback")) {
+        city = String(preferredSource.value || "").trim();
+      }
+      if (
+        preferredSource.id === "urlPostal" ||
+        preferredSource.id === "sellPostalCode" ||
+        preferredSource.hasAttribute("data-postal-fallback")
+      ) {
+        postal = String(preferredSource.value || "").trim();
+      }
+    }
+
+    if (!city) {
+      city =
+        (sellCity && String(sellCity.value || "").trim()) ||
+        (urlCity && String(urlCity.value || "").trim()) ||
+        (fb && String(fb.value || "").trim()) ||
+        "";
+    }
+    if (!postal) {
+      postal =
+        (sellPostal && String(sellPostal.value || "").trim()) ||
+        (urlPostal && String(urlPostal.value || "").trim()) ||
+        (fbPostal && String(fbPostal.value || "").trim()) ||
+        "";
+    }
+
+    if (city) {
+      if (urlCity) urlCity.value = city;
+      if (sellCity) sellCity.value = city;
+      if (fb) fb.value = city;
+    }
+    if (postal) {
+      if (urlPostal) urlPostal.value = postal;
+      if (sellPostal) sellPostal.value = postal;
+      if (fbPostal) fbPostal.value = postal;
+    }
+
+    updateDuplicateLocationUi();
   }
 
   function bindExpressSync() {
@@ -113,10 +130,32 @@
       form.addEventListener(ev, function (e) {
         if (!panelOpen(hat(), toggleEl() && toggleEl().checked)) return;
         var id = e.target && e.target.id;
+        if (id === "urlCity" || id === "urlPostal") {
+          syncAllLocations(e.target);
+          return;
+        }
         if (!id && !(e.target && e.target.name)) return;
-        syncExpressToSell();
+        syncExpressFields();
       });
     });
+  }
+
+  function syncExpressFields() {
+    var form = expressForm();
+    var p = panel();
+    if (!form || !p) return;
+    SYNC_MAP.forEach(function (m) {
+      if (m.express === "#urlCity" || m.express === "#urlPostal") return;
+      var src = form.querySelector(m.express);
+      var dst = p.querySelector(m.sell);
+      if (!src || !dst || !String(src.value || "").trim()) return;
+      if (!String(dst.value || "").trim()) dst.value = src.value;
+    });
+    var pt = form.querySelector("[name='property_type']");
+    if (pt && pt.value && !p.querySelector('[name="sellPropertyType"]:checked')) {
+      var radio = p.querySelector('[name="sellPropertyType"][value="' + pt.value + '"]');
+      if (radio) radio.checked = true;
+    }
   }
 
   function enablePanelFields(on) {
@@ -357,22 +396,6 @@
       return document.querySelector("#sellPostalCode");
     }
 
-    function firstVal() {
-      var nodes = [urlCityEl(), sellCityEl(), fb];
-      for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i] && String(nodes[i].value || "").trim()) return String(nodes[i].value).trim();
-      }
-      return "";
-    }
-
-    function firstPostal() {
-      var nodes = [urlPostalEl(), sellPostalEl(), fbPostal];
-      for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i] && String(nodes[i].value || "").trim()) return String(nodes[i].value).trim();
-      }
-      return "";
-    }
-
     function refreshGuide() {
       updateDuplicateLocationUi();
       var root = document.querySelector("[data-listing-url-capture]");
@@ -381,53 +404,41 @@
       }
     }
 
-    function syncFromSources() {
-      var city = firstVal();
-      var postal = firstPostal();
-      if (city && fb.value !== city) fb.value = city;
-      if (fbPostal && postal && fbPostal.value !== postal) fbPostal.value = postal;
-      updateDuplicateLocationUi();
-    }
-
-    function pushCity(value) {
-      var v = String(value || "").trim();
-      var url = urlCityEl();
-      var sell = sellCityEl();
-      if (url) url.value = v;
-      if (sell) sell.value = v;
-    }
-
-    function pushPostal(value) {
-      var v = String(value || "").trim();
-      var url = urlPostalEl();
-      var sell = sellPostalEl();
-      if (url) url.value = v;
-      if (sell) sell.value = v;
-    }
-
     fb.addEventListener("input", function () {
-      pushCity(fb.value);
+      syncAllLocations(fb);
       refreshGuide();
     });
     if (fbPostal) {
       fbPostal.addEventListener("input", function () {
-        pushPostal(fbPostal.value);
+        syncAllLocations(fbPostal);
         refreshGuide();
       });
     }
 
     [urlCityEl(), sellCityEl()].forEach(function (el) {
       if (!el) return;
-      el.addEventListener("input", syncFromSources);
-      el.addEventListener("change", syncFromSources);
+      el.addEventListener("input", function () {
+        syncAllLocations(el);
+        refreshGuide();
+      });
+      el.addEventListener("change", function () {
+        syncAllLocations(el);
+        refreshGuide();
+      });
     });
     [urlPostalEl(), sellPostalEl()].forEach(function (el) {
       if (!el) return;
-      el.addEventListener("input", syncFromSources);
-      el.addEventListener("change", syncFromSources);
+      el.addEventListener("input", function () {
+        syncAllLocations(el);
+        refreshGuide();
+      });
+      el.addEventListener("change", function () {
+        syncAllLocations(el);
+        refreshGuide();
+      });
     });
 
-    syncFromSources();
+    syncAllLocations();
     updateDuplicateLocationUi();
   }
 
@@ -447,6 +458,7 @@
     collectSellDossier: collectSellDossier,
     syncExpressToSell: syncExpressToSell,
     syncSellToExpress: syncSellToExpress,
+    syncAllLocations: syncAllLocations,
     syncCityFallback: bindCityFallback,
     updateDuplicateLocationUi: updateDuplicateLocationUi,
   };

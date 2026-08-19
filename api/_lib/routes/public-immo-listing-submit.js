@@ -118,6 +118,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
   var email = str(body.email, 320).toLowerCase();
   var phone = str(body.phone || body.telephone, 40);
+  var depositSessionId = str(body.depositSessionId || body.deposit_session_id, 80);
   var confirmMethod = str(body.confirmMethod, 20).toLowerCase();
   if (!email && !phone) {
     return res.status(400).json({
@@ -325,6 +326,33 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           null
         );
         propertyIds.push(propId);
+
+        if (depositSessionId && (isOwner || isSignalement)) {
+          try {
+            var immoDrive = require("../immo-drive");
+            var promoteResult = await immoDrive.promoteStagingToProperty(depositSessionId, {
+              id: propId,
+              title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : "Bien à vendre"),
+              city: city,
+              postal_code: postal,
+              drive_folder_id: null,
+            });
+            if (promoteResult.promoted > 0) {
+              propMetadata.staging = {
+                depositSessionId: depositSessionId,
+                promoted: promoteResult.promoted,
+                files: promoteResult.files || [],
+              };
+              propMetadata.documents = (propMetadata.documents || []).concat(promoteResult.files || []);
+              await store.patchPropertyMedia(sql, propId, {
+                metadata: propMetadata,
+                drive_folder_id: promoteResult.propertyFolderId || null,
+              });
+            }
+          } catch (stagingErr) {
+            console.warn("[immo-listing-submit] staging promote", stagingErr && stagingErr.message);
+          }
+        }
 
         if (photos.length && (isOwner || isSignalement)) {
           try {
