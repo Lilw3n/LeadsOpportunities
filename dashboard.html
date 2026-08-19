@@ -3271,6 +3271,31 @@
               createInt.textContent = "Créer la fiche interlocuteur";
             }
           });
+        } else if (!l.contact_id && l.email && l.phone) {
+          fetch("/api/crm/lead-lifecycle", {
+            method: "POST",
+            headers: authHeaders(),
+            body: JSON.stringify({ action: "promote", leadId: l.id }),
+          })
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (out) {
+              if (out.ok && out.contactId) {
+                l.contact_id = out.contactId;
+                var bar = document.querySelector(".int-cta-bar");
+                if (bar) {
+                  bar.innerHTML =
+                    '<strong>Fiche interlocuteur</strong> — créée automatiquement (e-mail + téléphone). ' +
+                    '<a class="btn btn-primary" href="./crm-contact.html?id=' +
+                    encodeURIComponent(out.contactId) +
+                    '">Ouvrir la fiche interlocuteur →</a> ' +
+                    '<a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a>';
+                }
+                toast("Fiche interlocuteur créée automatiquement", "success");
+              }
+            })
+            .catch(function () {});
         }
         var filterIpBtn = document.getElementById("modalFilterIp");
         if (filterIpBtn) {

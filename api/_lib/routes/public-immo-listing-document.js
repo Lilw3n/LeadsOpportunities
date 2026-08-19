@@ -3,6 +3,7 @@
  */
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
+const crypto = require("crypto");
 const { uploadBase64File } = require("../drive-upload-core");
 const { resolveVendeurDocumentFolder, ensurePropertyDriveFolders } = require("../immo-drive");
 
@@ -73,6 +74,12 @@ module.exports = async function publicImmoListingDocument(req, res) {
       `;
       leadOk = leads2.length > 0;
     }
+    if (!leadOk && body.contactId) {
+      var cRows = await sql`
+        SELECT id FROM crm_contacts WHERE id = ${body.contactId} LIMIT 1
+      `;
+      leadOk = cRows.length > 0;
+    }
     if (!leadOk) {
       return res.status(403).json({ ok: false, error: "Email non autorise pour ce bien" });
     }
@@ -131,9 +138,49 @@ module.exports = async function publicImmoListingDocument(req, res) {
       WHERE id = ${propertyId}
     `;
 
+    var contactId = body.contactId || null;
+    if (!contactId && prop.lead_id) {
+      var leadContact = await sql`
+        SELECT contact_id FROM site_leads WHERE id = ${prop.lead_id} LIMIT 1
+      `;
+      if (leadContact.length && leadContact[0].contact_id) {
+        contactId = leadContact[0].contact_id;
+      }
+    }
+    if (contactId) {
+      try {
+        var attachment = {
+          name: fileName,
+          type: documentType,
+          driveFileId: uploaded.fileId || null,
+          webViewLink: uploaded.webViewLink || null,
+          uploadedAt: new Date().toISOString(),
+          propertyId: propertyId,
+          source: "immo_listing_document",
+        };
+        var actId = "act_" + crypto.randomUUID();
+        await sql`
+          INSERT INTO crm_activities (id, contact_id, activity_type, title, body)
+          VALUES (
+            ${actId}, ${contactId},
+            'document_upload', ${"Document bien — " + fileName}, ${JSON.stringify(attachment)}
+          )
+        `;
+        await sql`
+          UPDATE immo_properties SET
+            owner_contact_id = COALESCE(owner_contact_id, ${contactId}),
+            contact_id = COALESCE(contact_id, ${contactId})
+          WHERE id = ${propertyId}
+        `;
+      } catch (syncErr) {
+        console.warn("[immo-listing-document] contact sync", syncErr.message);
+      }
+    }
+
     return res.status(201).json({
       ok: true,
       propertyId: propertyId,
+      contactId: contactId,
       documentType: documentType,
       classifiedAs: classified,
       drive: uploaded,

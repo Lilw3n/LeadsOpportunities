@@ -94,11 +94,63 @@ module.exports = async (req, res) => {
       LIMIT 30
     `;
 
+    var propertyDocs = [];
+    try {
+      const props = await sql`
+        SELECT id, title, city, drive_folder_id, metadata, lead_id
+        FROM immo_properties
+        WHERE owner_contact_id = ${contactId}
+           OR contact_id = ${contactId}
+        ORDER BY updated_at DESC
+        LIMIT 20
+      `;
+      props.forEach(function (p) {
+        var meta = p.metadata;
+        if (typeof meta === "string") {
+          try {
+            meta = JSON.parse(meta);
+          } catch (e) {
+            meta = {};
+          }
+        }
+        meta = meta || {};
+        if (Array.isArray(meta.documents)) {
+          meta.documents.forEach(function (doc, idx) {
+            propertyDocs.push({
+              id: p.id + "_doc_" + idx,
+              propertyId: p.id,
+              name: doc.fileName || doc.type || "Document bien",
+              type: doc.type || "immo_property",
+              driveFileId: doc.driveFileId || null,
+              uploadedAt: doc.uploadedAt || null,
+              source: "immo_property",
+              propertyTitle: p.title,
+              driveFolderId: p.drive_folder_id || null,
+            });
+          });
+        }
+        if (meta.drive && meta.drive.folderId) {
+          propertyDocs.push({
+            id: p.id + "_drive",
+            propertyId: p.id,
+            name: "Dossier Drive — " + (p.title || p.city || p.id),
+            type: "drive_folder",
+            webViewLink: meta.drive.webViewLink || null,
+            driveFolderId: meta.drive.folderId || p.drive_folder_id,
+            source: "immo_property_drive",
+            propertyTitle: p.title,
+          });
+        }
+      });
+    } catch (propErr) {
+      console.warn("[crm/contact-documents] properties", propErr.message);
+    }
+
     return res.status(200).json({
       ok: true,
       contactId: contactId,
       driveFolderId: contacts[0].drive_folder_id || null,
-      documents: documents,
+      documents: documents.concat(propertyDocs),
       activities: activities.map(function (a) {
         var meta = {};
         try {

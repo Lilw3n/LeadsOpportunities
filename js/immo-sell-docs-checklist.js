@@ -39,7 +39,7 @@
   }
 
   var queue = [];
-  var session = { email: null, contactId: null, leadId: null };
+  var session = { email: null, phone: null, contactId: null, leadId: null };
 
   function renderLine(item) {
     return (
@@ -167,10 +167,10 @@
       return q.status === "queued" || q.status === "error";
     });
     if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
-    if (!session.email && !session.contactId) {
+    if (!session.email && !session.phone && !session.contactId) {
       return Promise.resolve({
         uploaded: [],
-        errors: [{ error: "email ou contactId requis pour les uploads checklist" }],
+        errors: [{ error: "email, téléphone ou contactId requis pour les uploads checklist" }],
       });
     }
 
@@ -186,6 +186,7 @@
                 credentials: "same-origin",
                 body: JSON.stringify({
                   email: session.email,
+                  phone: session.phone,
                   contactId: session.contactId,
                   leadId: session.leadId,
                   fileName: item.fileName,

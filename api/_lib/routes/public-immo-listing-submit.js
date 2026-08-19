@@ -242,6 +242,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var propertyIds = [];
   var criteriaId = null;
   var sql = getSql();
+  var leadPayload = null;
 
   if (sql) {
     try {
@@ -427,6 +428,52 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         }
       }
 
+      leadPayload = {
+        need: need,
+        role: role,
+        hats: hatsForRole(role),
+        listingUrls: detections
+          .map(function (d) {
+            return d.url;
+          })
+          .filter(Boolean),
+        portals: detections.map(function (d) {
+          return d.portal;
+        }),
+        propertyIds: propertyIds,
+        criteriaId: criteriaId,
+        city: city,
+        postal_code: postal,
+        sellerName: sellerName,
+        sellerPhone: sellerPhone,
+        sellerAgency: sellerAgency,
+        sellerKind: sellerKind,
+        firstName: firstName,
+        lastName: lastName,
+        email: email || null,
+        phone: phone || null,
+        photoCount: photos.length,
+        hasCapture: photos.some(function (p) {
+          return p.kind === "capture";
+        }),
+        hasDescription: !!description,
+        alsoBuys: role === "les_deux",
+        wantsRelais: wantsRelais,
+        buyCity: buyCity,
+        buyBudgetMax: buyBudget,
+        signalementSource: signalementSource,
+        addressHint: addressHint,
+        wantsSellDossier: wantsSellDossier,
+        sellDossier: sellDossier || null,
+        confirmByEmail:
+          body.confirmMethod === "email" ||
+          body.confirmMethod === "google" ||
+          (body.confirmByEmail !== false && body.confirmByEmail !== "0" && body.confirmMethod !== "phone"),
+        confirmByPhone: body.confirmMethod === "phone" || body.confirmByPhone === true || body.confirmByPhone === "1",
+        confirmMethod: confirmMethod || null,
+        createAccount: body.createAccount !== false && body.createAccount !== "0",
+      };
+
       try {
         await sql`
         INSERT INTO site_leads (
@@ -438,47 +485,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           ${leadScore},
           ${email || null},
           ${phone || null},
-          ${JSON.stringify({
-            need: need,
-            role: role,
-            hats: hatsForRole(role),
-            listingUrls: detections.map(function (d) {
-              return d.url;
-            }).filter(Boolean),
-            portals: detections.map(function (d) {
-              return d.portal;
-            }),
-            propertyIds: propertyIds,
-            criteriaId: criteriaId,
-            city: city,
-            postal_code: postal,
-            sellerName: sellerName,
-            sellerPhone: sellerPhone,
-            sellerAgency: sellerAgency,
-            sellerKind: sellerKind,
-            firstName: firstName,
-            lastName: lastName,
-            photoCount: photos.length,
-            hasCapture: photos.some(function (p) {
-              return p.kind === "capture";
-            }),
-            hasDescription: !!description,
-            alsoBuys: role === "les_deux",
-            wantsRelais: wantsRelais,
-            buyCity: buyCity,
-            buyBudgetMax: buyBudget,
-            signalementSource: signalementSource,
-            addressHint: addressHint,
-            wantsSellDossier: wantsSellDossier,
-            sellDossier: sellDossier || null,
-            confirmByEmail:
-              body.confirmMethod === "email" ||
-              body.confirmMethod === "google" ||
-              (body.confirmByEmail !== false && body.confirmByEmail !== "0" && body.confirmMethod !== "phone"),
-            confirmByPhone: body.confirmMethod === "phone" || body.confirmByPhone === true || body.confirmByPhone === "1",
-            confirmMethod: confirmMethod || null,
-            createAccount: body.createAccount !== false && body.createAccount !== "0",
-          })},
+          ${JSON.stringify(leadPayload)},
           ${"site_web"},
           ${"new"},
           ${"new"}
@@ -496,7 +503,8 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var contactId = null;
   var verifyEmailSent = false;
   var accountCreated = false;
-  if (sql && email) {
+  var interlocuteurCreated = false;
+  if (sql && (email || phone)) {
     try {
       var confirmByEmail =
         body.confirmMethod === "email" ||
@@ -504,24 +512,38 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         (body.confirmByEmail !== false && body.confirmByEmail !== "0" && body.confirmMethod !== "phone");
       var confirmByPhone = body.confirmMethod === "phone" || body.confirmByPhone === true || body.confirmByPhone === "1";
       var ingest = require("../crm-ingest-from-lead");
-      contactId = await ingest.ingestLeadToCrm(
-        sql,
-        {
-          email: email,
-          phone: phone,
-          firstName: firstName,
-          lastName: lastName,
+      var ingestBody = {
+        email: email,
+        phone: phone,
+        firstName: firstName,
+        lastName: lastName,
+        vertical: vertical,
+        need: need,
+        source: "vendeur_immo_listing",
+        leadScore: leadScore,
+        confirmByEmail: confirmByEmail,
+        confirmByPhone: confirmByPhone,
+        payload: leadPayload,
+        city: city,
+        postal_code: postal,
+        propertyIds: propertyIds,
+        wantsSellDossier: wantsSellDossier,
+        sellDossier: sellDossier || null,
+      };
+      contactId = await ingest.ingestLeadToCrm(sql, ingestBody, leadId, {
+        hydrate: true,
+        propertyIds: propertyIds,
+        leadRow: {
+          id: leadId,
+          email: email || null,
+          phone: phone || null,
           vertical: vertical,
-          need: need,
-          source: "vendeur_immo_listing",
-          leadScore: leadScore,
-          confirmByEmail: confirmByEmail,
-          confirmByPhone: confirmByPhone,
+          payload: JSON.stringify(leadPayload || ingestBody),
         },
-        leadId
-      );
+      });
       accountCreated = !!contactId;
-      if (contactId && confirmByEmail) {
+      interlocuteurCreated = !!(contactId && email && phone);
+      if (contactId && confirmByEmail && email) {
         var authLib = require("../external-client-auth");
         var sent = await authLib.sendEmailVerification(
           contactId,
@@ -541,6 +563,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     leadId: leadId,
     contactId: contactId,
     accountCreated: accountCreated,
+    interlocuteurCreated: interlocuteurCreated,
     verifyEmailSent: verifyEmailSent,
     role: role,
     hats: hatsForRole(role),

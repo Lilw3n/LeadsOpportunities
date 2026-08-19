@@ -1,22 +1,94 @@
 const crypto = require("crypto");
 const { buildProfileMetadata, mergeMeta } = require("./crm-profile-meta");
+const { hydrateInterlocuteurFromLead } = require("./hydrate-interlocuteur");
+
+function phoneDigits(phone) {
+  return String(phone || "").replace(/\D/g, "");
+}
+
+async function findExistingContact(sql, email, phone) {
+  if (email) {
+    const byEmail = await sql`
+      SELECT id FROM crm_contacts
+      WHERE LOWER(email) = ${email}
+      LIMIT 1
+    `;
+    if (byEmail.length) return byEmail[0].id;
+  }
+  var digits = phoneDigits(phone);
+  if (digits.length >= 10) {
+    var tail = digits.slice(-10);
+    const byPhone = await sql`
+      SELECT id FROM crm_contacts
+      WHERE phone IS NOT NULL
+        AND REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '.', ''), '-', ''), '+33', '0') LIKE ${"%" + tail}
+      LIMIT 1
+    `;
+    if (byPhone.length) return byPhone[0].id;
+  }
+  return null;
+}
+
+async function linkPropertiesToContact(sql, contactId, propertyIds, leadId) {
+  if (!sql || !contactId || !Array.isArray(propertyIds) || !propertyIds.length) return;
+  for (var i = 0; i < propertyIds.length; i++) {
+    var pid = propertyIds[i];
+    if (!pid) continue;
+    try {
+      await sql`
+        UPDATE immo_properties SET
+          owner_contact_id = COALESCE(owner_contact_id, ${contactId}),
+          contact_id = COALESCE(contact_id, ${contactId}),
+          lead_id = COALESCE(lead_id, ${leadId || null}),
+          updated_at = NOW()
+        WHERE id = ${pid}
+      `;
+    } catch (e) {
+      console.warn("[crm-ingest] link property", pid, e.message);
+    }
+  }
+}
+
+function buildLeadRow(body, leadId, email, phone) {
+  var payload = body.payload;
+  if (payload && typeof payload !== "string") {
+    try {
+      payload = JSON.stringify(payload);
+    } catch (e) {
+      payload = "{}";
+    }
+  }
+  if (!payload) {
+    try {
+      payload = JSON.stringify(body);
+    } catch (e2) {
+      payload = "{}";
+    }
+  }
+  return {
+    id: leadId,
+    email: email || body.email || null,
+    phone: phone || body.phone || body.telephone || null,
+    vertical: body.vertical || body.need || "",
+    payload: payload,
+  };
+}
 
 /**
  * Cree ou met a jour un contact CRM + demande + evenement depuis un lead site.
+ * Options : { hydrate, leadRow, propertyIds }
  */
-async function ingestLeadToCrm(sql, body, leadId) {
+async function ingestLeadToCrm(sql, body, leadId, options) {
+  options = options || {};
   const email = body.email ? String(body.email).trim().toLowerCase() : null;
-  if (!email) return null;
+  const phone = body.phone || body.telephone || null;
+  if (!email && !phone) return null;
 
   const firstName = body.firstName || body.first_name || body.prenom || "Prospect";
   const lastName = body.lastName || body.last_name || body.nom || "";
-  const phone = body.phone || body.telephone || null;
 
-  const existing = await sql`
-    SELECT id FROM crm_contacts
-    WHERE LOWER(email) = ${email}
-    LIMIT 1
-  `;
+  var existingId = await findExistingContact(sql, email, phone);
+  const existing = existingId ? [{ id: existingId }] : [];
 
   let contactId;
   if (existing.length) {
@@ -32,10 +104,13 @@ async function ingestLeadToCrm(sql, body, leadId) {
       meta.confirmByPhone = true;
       meta.pendingPhoneConfirm = true;
     }
+    if (meta.interlocuteur !== true) meta.interlocuteur = true;
     await sql`
       UPDATE crm_contacts SET
+        contact_type = 'prospect',
         first_name = COALESCE(${firstName}, first_name),
         last_name = COALESCE(${lastName}, last_name),
+        email = COALESCE(${email}, email),
         phone = COALESCE(${phone}, phone),
         metadata = ${JSON.stringify(meta)},
         last_activity_at = NOW(),
@@ -50,6 +125,7 @@ async function ingestLeadToCrm(sql, body, leadId) {
         profileMeta.confirmByPhone = true;
         profileMeta.pendingPhoneConfirm = true;
       }
+      profileMeta.interlocuteur = true;
       await sql`
         INSERT INTO crm_contacts (
           id, contact_type, first_name, last_name, email, phone,
@@ -65,7 +141,7 @@ async function ingestLeadToCrm(sql, body, leadId) {
   }
 
   await sql`
-    UPDATE site_leads SET contact_id = ${contactId} WHERE id = ${leadId}
+    UPDATE site_leads SET contact_id = ${contactId}, updated_at = NOW() WHERE id = ${leadId}
   `;
 
   try {
@@ -73,6 +149,18 @@ async function ingestLeadToCrm(sql, body, leadId) {
     await ensureClientDriveFolders(contactId);
   } catch (driveErr) {
     console.warn("[crm-ingest] drive folder", driveErr.message);
+  }
+
+  await linkPropertiesToContact(sql, contactId, options.propertyIds || body.propertyIds, leadId);
+
+  var shouldHydrate = options.hydrate !== false && (email || phone);
+  if (shouldHydrate && leadId) {
+    try {
+      var leadRow = options.leadRow || buildLeadRow(body, leadId, email, phone);
+      await hydrateInterlocuteurFromLead(sql, null, leadRow, contactId);
+    } catch (hydrateErr) {
+      console.warn("[crm-ingest] hydrate interlocuteur", hydrateErr.message);
+    }
   }
 
   const reqId = "req_" + crypto.randomUUID();
@@ -116,4 +204,8 @@ async function ingestLeadToCrm(sql, body, leadId) {
   return contactId;
 }
 
-module.exports = { ingestLeadToCrm };
+module.exports = {
+  ingestLeadToCrm,
+  linkPropertiesToContact,
+  findExistingContact,
+};

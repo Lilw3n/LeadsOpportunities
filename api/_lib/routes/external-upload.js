@@ -30,11 +30,25 @@ async function resolveContact(sql, body) {
     if (rows.length) return rows[0];
   }
   const email = body.email ? String(body.email).trim().toLowerCase() : "";
-  if (!email) return null;
-  const contacts = await sql`
-    SELECT id, first_name, last_name, email FROM crm_contacts WHERE LOWER(email) = ${email} LIMIT 1
-  `;
-  return contacts.length ? contacts[0] : null;
+  if (email) {
+    const contacts = await sql`
+      SELECT id, first_name, last_name, email FROM crm_contacts WHERE LOWER(email) = ${email} LIMIT 1
+    `;
+    if (contacts.length) return contacts[0];
+  }
+  const phone = body.phone || body.telephone || "";
+  var digits = String(phone).replace(/\D/g, "");
+  if (digits.length >= 10) {
+    var tail = digits.slice(-10);
+    const byPhone = await sql`
+      SELECT id, first_name, last_name, email FROM crm_contacts
+      WHERE phone IS NOT NULL
+        AND REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '.', ''), '-', ''), '+33', '0') LIKE ${"%" + tail}
+      LIMIT 1
+    `;
+    if (byPhone.length) return byPhone[0];
+  }
+  return null;
 }
 
 module.exports = async (req, res) => {
@@ -56,8 +70,8 @@ module.exports = async (req, res) => {
   if (!fileName) {
     return res.status(400).json({ error: "fileName requis" });
   }
-  if (!body.email && !body.contactId && !body.contact_id) {
-    return res.status(400).json({ error: "email ou contactId requis" });
+  if (!body.email && !body.contactId && !body.contact_id && !body.phone && !body.telephone) {
+    return res.status(400).json({ error: "email, téléphone ou contactId requis" });
   }
   if (!body.fileBase64) {
     return res.status(400).json({ error: "fileBase64 requis (PDF ou image JPG/PNG)" });

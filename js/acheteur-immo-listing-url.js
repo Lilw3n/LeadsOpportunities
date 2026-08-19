@@ -600,9 +600,10 @@
           var hats = (res.data.hats || []).join(" + ");
           var docNote = "";
           var uploadChain = Promise.resolve();
-          if (window.ImmoSellDocsChecklist && payload.email) {
+          if (window.ImmoSellDocsChecklist && (payload.email || payload.phone || res.data.contactId)) {
             window.ImmoSellDocsChecklist.setSession({
               email: payload.email,
+              phone: payload.phone,
               contactId: res.data.contactId || null,
               leadId: res.data.leadId || null,
             });
@@ -623,6 +624,8 @@
             vendeurPanel._immoDocs.setSession({
               propertyId: res.data.propertyIds[0],
               email: payload.email,
+              phone: payload.phone,
+              contactId: res.data.contactId || null,
               leadId: res.data.leadId || null,
             });
             return uploadChain.then(function () {
