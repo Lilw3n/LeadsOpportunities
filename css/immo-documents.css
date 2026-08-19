@@ -65,9 +65,41 @@
 
 .immo-doc-cat summary {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   font-weight: 700;
   padding: 12px 4px 8px;
   color: #0f172a;
+  list-style: none;
+  user-select: none;
+}
+
+.immo-doc-cat summary::-webkit-details-marker {
+  display: none;
+}
+
+.immo-doc-cat summary::after {
+  content: "";
+  flex-shrink: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 2px solid #64748b;
+  border-bottom: 2px solid #64748b;
+  transform: rotate(-45deg);
+  transition: transform 0.2s ease;
+}
+
+.immo-doc-cat:not([open]) > summary::after {
+  transform: rotate(-45deg);
+  margin-top: -2px;
+}
+
+.immo-doc-cat[open] > summary::after {
+  transform: rotate(45deg);
+  margin-top: 2px;
+  border-color: #0f766e;
 }
 
 .immo-doc-cat-list {
