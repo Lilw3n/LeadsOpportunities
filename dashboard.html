@@ -13,6 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/admin-nav.css" />
   <link rel="stylesheet" href="./css/interlocuteur-dossier.css" />
+  <link rel="stylesheet" href="./css/immo-documents.css" />
+  <link rel="stylesheet" href="./crm-contact.css" />
   <style>
     :root {
       --bg: #f1f5f9;
@@ -2163,6 +2165,9 @@
 
   <script src="./js/interlocuteur-dossier-lib.js"></script>
   <script src="./js/interlocuteur-dossier-edit.js"></script>
+  <script src="./js/immo-documents-config.js"></script>
+  <script src="./js/immo-category-documents.js"></script>
+  <script src="./js/crm-questionnaire-tools.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/dashboard.js"></script>
@@ -3169,7 +3174,7 @@
           ? window.InterlocuteurDossier.buildDossier(Object.assign({}, l, { payload: payload }))
           : null;
         var answersPanel = dossier
-          ? '<div id="modalAnswersPanel"></div>'
+          ? '<div id="modalQuestionnaireWorkspace"></div>'
           : (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel
               ? window.CrmLeadPayloadView.renderQuestionnairePanel(Object.assign({}, l, { payload: payload }), esc)
               : "");
@@ -3216,7 +3221,13 @@
           '<div class="detail-actions" style="flex-direction:column">' +
             '<p style="margin:0 0 8px;display:flex;flex-wrap:wrap;gap:8px">' +
             '<button type="button" class="btn btn-ghost" id="modalPrintPdf">Imprimer / PDF</button>' +
-            '<a class="btn btn-ghost" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Fiche CRM complète →</a></p>' +
+            '<a class="btn btn-ghost" href="./crm-lead-detail.html?id=' + encodeURIComponent(l.id) + '">Fiche CRM complète →</a>' +
+            (window.CrmQuestionnaireTools
+              ? ' <a class="btn btn-ghost" href="' +
+                esc(window.CrmQuestionnaireTools.buildMailboxUrl(l.id)) +
+                '">← Messagerie questionnaires</a>'
+              : "") +
+            '</p>' +
             '<div style="display:flex;gap:10px;align-items:center">' +
               '<label style="font-weight:600;font-size:0.85rem;white-space:nowrap">Statut :</label>' +
               '<select id="modalStatus" class="filter-select">' +
@@ -3236,8 +3247,23 @@
             '</div>' +
           '</div>';
 
-        if (dossier && window.InterlocuteurDossierEdit) {
-          var answersMount = document.getElementById("modalAnswersPanel");
+        if (dossier && window.CrmQuestionnaireTools) {
+          var wsMount = document.getElementById("modalQuestionnaireWorkspace");
+          if (wsMount) {
+            var qCtx = window.CrmQuestionnaireTools.leadContextFromData(l);
+            qCtx.payload = payload;
+            window.CrmQuestionnaireTools.mountQuestionnaireWorkspace(wsMount, qCtx, {
+              api: "dashboard",
+              authHeaders: authHeaders,
+              mailboxUrl: window.CrmQuestionnaireTools.buildMailboxUrl(l.id),
+              onSaved: function (res) {
+                if (res && res.payload) payload = res.payload;
+                toast("Questionnaire enregistré — fiche interlocuteur synchronisée", "success");
+              },
+            });
+          }
+        } else if (dossier && window.InterlocuteurDossierEdit) {
+          var answersMount = document.getElementById("modalQuestionnaireWorkspace");
           if (answersMount) {
             window.InterlocuteurDossierEdit.mountEditable(answersMount, dossier, {
               leadId: l.id,
@@ -3252,7 +3278,7 @@
             });
           }
         } else if (dossier && window.InterlocuteurDossier) {
-          var answersMountRead = document.getElementById("modalAnswersPanel");
+          var answersMountRead = document.getElementById("modalQuestionnaireWorkspace");
           if (answersMountRead) {
             answersMountRead.innerHTML = window.InterlocuteurDossier.renderSections(dossier);
           }

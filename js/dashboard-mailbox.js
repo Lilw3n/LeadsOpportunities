@@ -835,13 +835,53 @@
       lead && lead.payload
         ? lead.payload
         : parseLeadPayload(m.body_text) || {};
+    if (lead && lead.payload && typeof lead.payload === "string") {
+      try {
+        payload = JSON.parse(lead.payload);
+      } catch (e) {}
+    }
     state.printLead = lead
       ? Object.assign({}, lead, { payload: payload, payload_obj: payload })
       : { payload: payload, payload_obj: payload };
+
+    if (window.CrmQuestionnaireTools && lead && lead.id) {
+      var ctx = window.CrmQuestionnaireTools.leadContextFromData(lead);
+      ctx.payload = payload;
+      return (
+        '<div class="mbx-lead-answers-wrap" id="mbxQuestionnaireWorkspace" data-lead-id="' +
+        esc(lead.id) +
+        '"></div>'
+      );
+    }
+
     var html = '<div class="mbx-lead-answers-wrap">';
     html += renderLeadBubble(m, payload, lead);
     html += "</div>";
     return html;
+  }
+
+  function bindMailboxQuestionnaireWorkspace(m, leadData) {
+    var root = document.getElementById("mbxQuestionnaireWorkspace");
+    if (!root || !window.CrmQuestionnaireTools || !leadData || !leadData.lead) return;
+    var lead = leadData.lead;
+    var payload = lead.payload || {};
+    if (typeof payload === "string") {
+      try {
+        payload = JSON.parse(payload);
+      } catch (e) {
+        payload = {};
+      }
+    }
+    var ctx = window.CrmQuestionnaireTools.leadContextFromData(lead);
+    ctx.payload = payload;
+    window.CrmQuestionnaireTools.mountQuestionnaireWorkspace(root, ctx, {
+      api: "dashboard",
+      authHeaders: window.Dashboard && window.Dashboard.authHeaders,
+      onSaved: function () {
+        var leadId = lead.id;
+        if (leadId) hydrateLeadQuestionnaireAnswers(m, leadId);
+      },
+    });
   }
 
   async function hydrateLeadQuestionnaireAnswers(m, leadId) {
@@ -861,6 +901,7 @@
         return;
       }
       body.innerHTML = renderMailboxLeadDetail(m, data);
+      bindMailboxQuestionnaireWorkspace(m, data);
     } catch (e) {
       body.innerHTML = renderMailboxLeadDetail(m, null);
     }
@@ -1237,6 +1278,11 @@
       (leadId
         ? '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
           '<button type="button" class="btn btn-ghost btn-sm" id="mbxBtnPrintPdf">Imprimer / PDF</button>' +
+          (window.CrmQuestionnaireTools
+            ? '<a class="btn-ghost btn-sm" href="' +
+              esc(window.CrmQuestionnaireTools.buildResumeUrl({ leadId: leadId, email: extractEmail(m.from_addr) })) +
+              '" target="_blank" rel="noopener">Ouvrir questionnaire</a>'
+            : "") +
           '<a class="btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
           encodeURIComponent(leadId) +
           '">Fiche CRM</a>' +

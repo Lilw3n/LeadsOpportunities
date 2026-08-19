@@ -274,3 +274,29 @@
   .contact-events { position: static; max-height: none; }
   .event-filters--row { grid-template-columns: 1fr 1fr; }
 }
+
+.crm-q-toolbar {
+  margin: 0 0 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 12px;
+  background: #f8fafc;
+}
+.crm-q-toolbar__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.crm-q-toolbar strong { margin-right: 6px; font-size: 0.9rem; }
+.crm-q-answers { margin-bottom: 12px; }
+.crm-doc-upload-wrap {
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #fff;
+}
+.crm-doc-generic { display: grid; gap: 10px; max-width: 520px; }
+.crm-doc-generic__type select,
+.crm-doc-generic__file input { width: 100%; }

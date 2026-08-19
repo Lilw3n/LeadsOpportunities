@@ -242,6 +242,24 @@
         payload = typeof lead.payload === "object" ? lead.payload : JSON.parse(lead.payload);
       } catch (e) {}
     }
+    var toolbarMount = document.getElementById("questionnaireToolbarMount");
+    if (toolbarMount && !leadId) toolbarMount.innerHTML = "";
+    if (toolbarMount && window.CrmQuestionnaireTools && leadId) {
+      var ctx = window.CrmQuestionnaireTools.leadContextFromData(lead || { id: leadId, payload: payload }, data.contact);
+      if (data.driveInfo && data.driveInfo.propertyFolders && data.driveInfo.propertyFolders[0]) {
+        ctx.propertyId = data.driveInfo.propertyFolders[0].propertyId;
+      }
+      window.CrmQuestionnaireTools.mountQuestionnaireWorkspace(toolbarMount, ctx, {
+        api: "crm",
+        showUpload: false,
+        mailboxUrl: window.CrmQuestionnaireTools.buildMailboxUrl(leadId),
+        onSaved: function () {
+          loadContact();
+        },
+      });
+      mount.innerHTML = "";
+      return;
+    }
     var canEdit =
       leadId &&
       window.InterlocuteurDossierEdit &&
@@ -1429,6 +1447,13 @@
       var docs = res.documents || [];
       var folderLink = res.driveFolderWebViewLink;
       var propFolders = res.propertyFolders || [];
+      var lead = (data.leads || [])[0];
+      var uploadCtx = null;
+      if (window.CrmQuestionnaireTools && (lead || contactId)) {
+        uploadCtx = window.CrmQuestionnaireTools.leadContextFromData(lead || {}, data.contact || { id: contactId });
+        uploadCtx.contactId = contactId;
+        if (propFolders[0]) uploadCtx.propertyId = propFolders[0].propertyId;
+      }
       var driveNotice = "";
       if (res.driveConfigured !== true) {
         driveNotice =
@@ -1494,6 +1519,13 @@
             '<p style="margin-top:8px;font-size:0.88rem;color:var(--muted)">Les documents déposés sur le parcours vendeur ou le portail client apparaîtront ici.</p>';
         }
         mount.innerHTML = emptyHtml;
+        if (uploadCtx && window.CrmQuestionnaireTools) {
+          window.CrmQuestionnaireTools.mountDocUpload(mount, uploadCtx, {
+            onUploaded: function () {
+              renderDocuments();
+            },
+          });
+        }
         return;
       }
       mount.innerHTML =
@@ -1547,6 +1579,13 @@
           })
           .join("") +
         "</div>";
+      if (uploadCtx && window.CrmQuestionnaireTools) {
+        window.CrmQuestionnaireTools.mountDocUpload(mount, uploadCtx, {
+          onUploaded: function () {
+            renderDocuments();
+          },
+        });
+      }
     });
   }
 

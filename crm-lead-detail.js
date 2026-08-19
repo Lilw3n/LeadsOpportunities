@@ -104,11 +104,16 @@
       "</textarea></label>" +
       '<button type="button" class="btn btn-primary" id="btnSave">Enregistrer</button></div>' +
       attrPanel +
-      (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel
-        ? window.CrmLeadPayloadView.renderQuestionnairePanel(
-            Object.assign({}, l, { payload_obj: payload }),
-            esc
-          )
+      (window.CrmQuestionnaireTools
+        ? ""
+        : window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel
+          ? window.CrmLeadPayloadView.renderQuestionnairePanel(
+              Object.assign({}, l, { payload_obj: payload }),
+              esc
+            )
+          : "") +
+      (window.CrmQuestionnaireTools
+        ? '<div id="ldQuestionnaireTools" style="margin-top:16px"></div>'
         : "") +
       metaPanel +
       '<p style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">' +
@@ -138,7 +143,8 @@
       window.InterlocuteurDossierEdit &&
       window.InterlocuteurDossierEdit.canEditQuestionnaire &&
       window.InterlocuteurDossierEdit.canEditQuestionnaire() &&
-      window.InterlocuteurDossier
+      window.InterlocuteurDossier &&
+      !window.CrmQuestionnaireTools
     ) {
       var intBlock = document.querySelector(".mbx-answers-panel .int-dossier");
       if (intBlock) {
@@ -153,6 +159,21 @@
           contactId: l.contact_id || null,
           api: "crm",
           payload: payload,
+          onSaved: function () {
+            load();
+          },
+        });
+      }
+    }
+
+    if (window.CrmQuestionnaireTools) {
+      var toolsMount = document.getElementById("ldQuestionnaireTools");
+      if (toolsMount) {
+        var ctx = window.CrmQuestionnaireTools.leadContextFromData(l);
+        ctx.payload = payload;
+        window.CrmQuestionnaireTools.mountQuestionnaireWorkspace(toolsMount, ctx, {
+          api: "crm",
+          mailboxUrl: window.CrmQuestionnaireTools.buildMailboxUrl(leadId),
           onSaved: function () {
             load();
           },
