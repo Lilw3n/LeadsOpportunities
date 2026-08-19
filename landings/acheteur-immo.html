@@ -409,6 +409,21 @@
             </div>
 
             <p class="search-section-label" style="margin-top:16px" data-coords-label>Vos coordonnées</p>
+            <fieldset class="immo-account-block" data-account-block hidden>
+              <legend>Votre compte sur le site</legend>
+              <p class="small immo-account-lead">Le dépôt crée ou met à jour votre espace client pour reprendre le dossier, déposer des pièces et suivre votre projet.</p>
+              <p class="immo-account-status" data-account-status hidden></p>
+              <div class="immo-account-confirm">
+                <p class="small" style="margin:0 0 8px;font-weight:700;color:#334155">Comment confirmer votre identité ?</p>
+                <label class="field-check"><input type="checkbox" name="confirmByEmail" value="1" checked /> Par e-mail (lien de confirmation après envoi)</label>
+                <label class="field-check"><input type="checkbox" name="confirmByPhone" value="1" checked /> Par téléphone (rappel conseiller pour valider le numéro)</label>
+              </div>
+              <div class="immo-account-oauth">
+                <a class="btn-google immo-account-google" data-account-google href="/api/external/google?returnTo=%2Flandings%2Facheteur-immo.html%3Fhat%3Dvendeur%23deposer-bien" rel="nofollow">Continuer avec Google</a>
+                <p class="small immo-account-google-hint">Google confirme automatiquement votre e-mail — vos coordonnées seront pré-remplies.</p>
+              </div>
+              <p class="small immo-account-resend-wrap">Déjà inscrit ? <button type="button" class="immo-link-btn" data-account-resend-verify>Renvoyer l'e-mail de confirmation</button> · <a href="../external/login.html">Se connecter</a></p>
+            </fieldset>
             <div class="grid">
               <div class="field">
                 <label for="urlFirstName">Prénom</label>
@@ -2008,6 +2023,7 @@
   <script src="../js/acheteur-immo-hat-dossier.js"></script>
   <script src="../js/acheteur-immo-deposit-vente.js"></script>
   <script src="../js/acheteur-immo-deposit-guide.js"></script>
+  <script src="../js/acheteur-immo-account.js"></script>
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>

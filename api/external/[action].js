@@ -8,6 +8,9 @@ const ROUTES = {
   claim: () => require("../_lib/routes/external-claim"),
   upload: () => require("../_lib/routes/external-upload"),
   "documents-list": () => require("../_lib/routes/external-documents-list"),
+  google: () => require("../_lib/routes/external-google-start"),
+  "send-verify": () => require("../_lib/routes/external-send-verify"),
+  "verify-email": () => require("../_lib/routes/external-verify-email"),
 };
 
 module.exports = async (req, res) => {

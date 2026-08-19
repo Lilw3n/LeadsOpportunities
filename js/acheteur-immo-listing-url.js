@@ -515,6 +515,13 @@
         buySurfaceMin: val(form, "buySurfaceMin"),
         buyPropertyType: val(form, "buyPropertyType"),
         wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
+        confirmByEmail: !!(
+          form.querySelector('[name="confirmByEmail"]') && form.querySelector('[name="confirmByEmail"]').checked
+        ),
+        confirmByPhone: !!(
+          form.querySelector('[name="confirmByPhone"]') && form.querySelector('[name="confirmByPhone"]').checked
+        ),
+        createAccount: true,
         photos: mediaList(state),
         _hp: val(form, "_hp"),
         wantsSellDossier:
@@ -614,6 +621,18 @@
             var driveNote = res.data.driveConfigured ? " Copie Google Drive effectuée ou en cours." : "";
             var dossierNote =
               payload.wantsSellDossier && payload.sellDossier ? " Dossier vente détaillé enregistré." : "";
+            var accountNote = "";
+            if (res.data.accountCreated) {
+              accountNote = " Compte client créé.";
+              if (res.data.verifyEmailSent) {
+                accountNote += " E-mail de confirmation envoyé — cliquez le lien pour activer votre espace.";
+              } else if (payload.confirmByEmail) {
+                accountNote += " Confirmation e-mail : utilisez « Renvoyer l'e-mail de confirmation » si besoin.";
+              }
+              if (payload.confirmByPhone) {
+                accountNote += " Un conseiller vous rappellera pour confirmer votre téléphone.";
+              }
+            }
             ok.textContent =
               res.data.received +
               " bien" +
@@ -623,8 +642,9 @@
               (payloadPhotos ? " avec photos / capture" + driveNote : "") +
               (ctx.hats ? " (" + ctx.hats + ")" : "") +
               dossierNote +
+              accountNote +
               (ctx.docNote || "") +
-              ". Un conseiller vous rappelle.";
+              ". Reprenez votre dossier à tout moment via le brouillon ou votre espace client.";
           }
           form.reset();
           state.photos = [];

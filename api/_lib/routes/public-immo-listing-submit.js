@@ -463,6 +463,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             addressHint: addressHint,
             wantsSellDossier: wantsSellDossier,
             sellDossier: sellDossier || null,
+            confirmByEmail: body.confirmByEmail !== false && body.confirmByEmail !== "0",
+            confirmByPhone: body.confirmByPhone === true || body.confirmByPhone === "1",
+            createAccount: body.createAccount !== false && body.createAccount !== "0",
           })},
           ${"site_web"},
           ${"new"},
@@ -478,9 +481,52 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     }
   }
 
+  var contactId = null;
+  var verifyEmailSent = false;
+  var accountCreated = false;
+  if (sql && email) {
+    try {
+      var confirmByEmail = body.confirmByEmail !== false && body.confirmByEmail !== "0";
+      var confirmByPhone = body.confirmByPhone === true || body.confirmByPhone === "1";
+      var ingest = require("../crm-ingest-from-lead");
+      contactId = await ingest.ingestLeadToCrm(
+        sql,
+        {
+          email: email,
+          phone: phone,
+          firstName: firstName,
+          lastName: lastName,
+          vertical: vertical,
+          need: need,
+          source: "vendeur_immo_listing",
+          leadScore: leadScore,
+          confirmByEmail: confirmByEmail,
+          confirmByPhone: confirmByPhone,
+        },
+        leadId
+      );
+      accountCreated = !!contactId;
+      if (contactId && confirmByEmail) {
+        var authLib = require("../external-client-auth");
+        var sent = await authLib.sendEmailVerification(
+          contactId,
+          email,
+          firstName,
+          "/landings/acheteur-immo.html?hat=vendeur&reprise=1#deposer-bien"
+        );
+        verifyEmailSent = sent.ok;
+      }
+    } catch (crmErr) {
+      console.warn("[immo-listing-submit] crm", crmErr && crmErr.message);
+    }
+  }
+
   return res.status(200).json({
     ok: true,
     leadId: leadId,
+    contactId: contactId,
+    accountCreated: accountCreated,
+    verifyEmailSent: verifyEmailSent,
     role: role,
     hats: hatsForRole(role),
     received: detections.length,

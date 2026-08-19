@@ -10,6 +10,7 @@ const {
 } = require("../google-oauth");
 const { getSql } = require("../db");
 const { ensureCalendarSchema } = require("../ensure-schema");
+const { upsertContactGoogle, makeExtToken, safeReturnPath } = require("../external-client-auth");
 
 function redirectAuth(res, params) {
   const q = new URLSearchParams(params);
@@ -157,6 +158,29 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (oauthPurpose === "external_client") {
+      const profile = await fetchGoogleProfile(tokens.access_token);
+      const contact = await upsertContactGoogle(sql, profile);
+      const extToken = makeExtToken();
+      const dest = safeReturnPath(returnTo || "/external/dashboard.html");
+      const q = new URLSearchParams({
+        ext_oauth: "success",
+        token: extToken,
+        email: contact.email,
+        dest: dest,
+        verified: "google",
+      });
+      const landing = dest.indexOf("/landings/") === 0 ? dest.split("#")[0] : "/external/login.html";
+      const hash = dest.indexOf("#") >= 0 ? dest.slice(dest.indexOf("#")) : "";
+      if (landing.indexOf("/landings/") === 0) {
+        res.writeHead(302, { Location: getAppUrl() + landing + (landing.indexOf("?") >= 0 ? "&" : "?") + q.toString() + hash });
+      } else {
+        res.writeHead(302, { Location: getAppUrl() + "/external/login.html?" + q.toString() });
+      }
+      res.end();
+      return;
+    }
+
     const profile = await fetchGoogleProfile(tokens.access_token);
     const email = String(profile.email).trim().toLowerCase();
     const googleId = String(profile.id);
@@ -252,6 +276,16 @@ module.exports = async (req, res) => {
         res,
         "calendar_error=" + encodeURIComponent(e.message || "Connexion Google Agenda échouée")
       );
+    }
+    if (oauthPurpose === "external_client") {
+      res.writeHead(302, {
+        Location:
+          getAppUrl() +
+          "/external/login.html?oauth_error=" +
+          encodeURIComponent(e.message || "Connexion Google client échouée"),
+      });
+      res.end();
+      return;
     }
     return redirectAuth(res, { oauth_error: "Connexion Google echouee" });
   }

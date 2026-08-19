@@ -795,3 +795,101 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   color: #64748b;
   font-size: 0.78rem;
 }
+
+.immo-account-block {
+  margin: 12px 0 16px;
+  padding: 14px 16px;
+  border: 1px solid #c7d2fe;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+}
+
+.immo-account-block legend {
+  font-weight: 800;
+  color: #312e81;
+  padding: 0 6px;
+}
+
+.immo-account-lead {
+  margin: 0 0 10px;
+  color: #475569;
+}
+
+.immo-account-status {
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  color: #065f46;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.immo-account-confirm .field-check {
+  display: block;
+  margin: 6px 0;
+}
+
+.immo-account-oauth {
+  margin: 12px 0 8px;
+}
+
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #334155;
+  font-weight: 700;
+  font-size: 0.88rem;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+}
+
+.btn-google:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.btn-google::before {
+  content: "G";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #4285f4, #ea4335 50%, #fbbc05 80%, #34a853);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.immo-account-google-hint {
+  margin: 6px 0 0;
+  color: #64748b;
+}
+
+.immo-link-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #0d9488;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
+}
+
+.immo-account-resend-wrap {
+  margin: 8px 0 0;
+  color: #64748b;
+}

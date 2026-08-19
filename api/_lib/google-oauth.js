@@ -37,7 +37,7 @@ function signOAuthState(opts) {
 
 function verifyOAuthState(state) {
   const decoded = jwt.verify(state, requireJwtSecret(), { algorithms: ["HS256"] });
-  if (!decoded || (decoded.purpose !== "google_oauth" && decoded.purpose !== "google_calendar" && decoded.purpose !== "google_drive")) {
+  if (!decoded || (decoded.purpose !== "google_oauth" && decoded.purpose !== "google_calendar" && decoded.purpose !== "google_drive" && decoded.purpose !== "external_client")) {
     throw new Error("Invalid oauth state");
   }
   return decoded;

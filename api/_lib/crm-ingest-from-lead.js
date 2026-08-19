@@ -27,6 +27,11 @@ async function ingestLeadToCrm(sql, body, leadId) {
       meta = cur[0]?.metadata ? JSON.parse(cur[0].metadata) : {};
     } catch (e) {}
     meta = mergeMeta(meta, buildProfileMetadata(body));
+    if (body.confirmByEmail !== false && body.confirmByEmail !== "0") meta.confirmByEmail = true;
+    if (body.confirmByPhone === true || body.confirmByPhone === "1") {
+      meta.confirmByPhone = true;
+      meta.pendingPhoneConfirm = true;
+    }
     await sql`
       UPDATE crm_contacts SET
         first_name = COALESCE(${firstName}, first_name),
@@ -40,6 +45,11 @@ async function ingestLeadToCrm(sql, body, leadId) {
   } else {
     contactId = "ct_" + crypto.randomUUID();
       const profileMeta = buildProfileMetadata(body);
+      if (body.confirmByEmail !== false && body.confirmByEmail !== "0") profileMeta.confirmByEmail = true;
+      if (body.confirmByPhone === true || body.confirmByPhone === "1") {
+        profileMeta.confirmByPhone = true;
+        profileMeta.pendingPhoneConfirm = true;
+      }
       await sql`
         INSERT INTO crm_contacts (
           id, contact_type, first_name, last_name, email, phone,
@@ -58,8 +68,23 @@ async function ingestLeadToCrm(sql, body, leadId) {
     UPDATE site_leads SET contact_id = ${contactId} WHERE id = ${leadId}
   `;
 
+  try {
+    const { ensureClientDriveFolders } = require("./drive-folders");
+    await ensureClientDriveFolders(contactId);
+  } catch (driveErr) {
+    console.warn("[crm-ingest] drive folder", driveErr.message);
+  }
+
   const reqId = "req_" + crypto.randomUUID();
-  await sql`
+  const vertical = body.vertical || body.need || "";
+  const skipInsurance =
+    vertical === "vendeur_immo" ||
+    vertical === "acheteur_vendeur_immo" ||
+    vertical === "acheteur-immo" ||
+    vertical === "vendeur-immo" ||
+    String(body.source || "").indexOf("listing") >= 0;
+  if (!skipInsurance) {
+    await sql`
     INSERT INTO crm_insurance_requests (
       id, contact_id, request_type, status, requested_date, description, priority
     ) VALUES (
@@ -69,6 +94,7 @@ async function ingestLeadToCrm(sql, body, leadId) {
       ${body.leadScore >= 70 ? "Haute" : "Moyenne"}
     )
   `;
+  }
 
   const evtId = "evt_" + crypto.randomUUID();
   const extra = JSON.stringify({
