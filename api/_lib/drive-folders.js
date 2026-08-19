@@ -24,6 +24,7 @@ const DOC_TYPE_SUBFOLDER = {
 };
 
 const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
+const { shareFolderWithBroker, resolveFolderWebLink, isValidDriveId } = require("./drive-share");
 
 async function getDriveToken() {
   const auth = await getDriveAccessToken();
@@ -95,7 +96,13 @@ async function ensureClientDriveFolders(contactId) {
   if (!contacts.length) return { ok: false, error: "contact_not_found" };
   const c = contacts[0];
   if (c.drive_folder_id) {
-    return { ok: true, folderId: c.drive_folder_id, existing: true };
+    var existing = await resolveFolderWebLink(c.drive_folder_id, { share: true });
+    return {
+      ok: true,
+      folderId: c.drive_folder_id,
+      existing: true,
+      webViewLink: existing.webViewLink || null,
+    };
   }
 
   const year = String(new Date().getFullYear());
@@ -133,7 +140,18 @@ async function ensureClientDriveFolders(contactId) {
     WHERE id = ${contactId}
   `;
 
-  return { ok: true, folderId: clientFolder.id, subfolders: CLIENT_SUBFOLDERS };
+  if (token) {
+    await shareFolderWithBroker(token, clientFolder.id);
+  }
+
+  var link = await resolveFolderWebLink(clientFolder.id, { share: false });
+
+  return {
+    ok: true,
+    folderId: clientFolder.id,
+    subfolders: CLIENT_SUBFOLDERS,
+    webViewLink: link.webViewLink || clientFolder.webViewLink || null,
+  };
 }
 
 async function resolveContactUploadFolderId(contactId) {

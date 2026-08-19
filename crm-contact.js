@@ -1160,15 +1160,22 @@
       if (contactUrl) {
         mainBtn.href = contactUrl;
         mainBtn.hidden = false;
+        mainBtn.textContent = "Ouvrir dossier Drive (contact)";
       } else if (folders.length && folders[0].webViewLink) {
         mainBtn.href = folders[0].webViewLink;
         mainBtn.textContent = "Ouvrir dossier Drive (bien)";
         mainBtn.hidden = false;
       } else {
-        mainBtn.hidden = true;
+        mainBtn.href = "#";
+        mainBtn.hidden = false;
+        mainBtn.textContent = "Ouvrir dossier Drive";
       }
-      if (contactUrl && mainBtn.textContent !== "Ouvrir dossier Drive (contact)") {
-        mainBtn.textContent = "Ouvrir dossier Drive (contact)";
+      if (!mainBtn.dataset.driveBound) {
+        mainBtn.dataset.driveBound = "1";
+        mainBtn.addEventListener("click", function (ev) {
+          ev.preventDefault();
+          openContactDriveFolder(mainBtn);
+        });
       }
     }
     if (propLinks) {
@@ -1186,6 +1193,46 @@
         })
         .join("");
     }
+  }
+
+  function openContactDriveFolder(btn) {
+    if (!contactId) return;
+    var prev = btn ? btn.textContent : "";
+    var driveWin = window.open("about:blank", "_blank", "noopener,noreferrer");
+    if (btn) {
+      btn.textContent = "Ouverture Drive…";
+      btn.setAttribute("aria-busy", "true");
+    }
+    api("/api/crm/drive-folder?contactId=" + encodeURIComponent(contactId))
+      .then(function (res) {
+        if (res.ok && res.webViewLink) {
+          if (driveWin && !driveWin.closed) {
+            driveWin.location.href = res.webViewLink;
+          } else {
+            window.open(res.webViewLink, "_blank", "noopener,noreferrer");
+          }
+          if (data.driveInfo) {
+            data.driveInfo.driveFolderWebViewLink = res.webViewLink;
+            renderDriveBar(data.driveInfo);
+          }
+          return;
+        }
+        if (driveWin && !driveWin.closed) driveWin.close();
+        alert(
+          res.error ||
+            "Impossible d'ouvrir le dossier Drive. Vérifiez la configuration (docs/DRIVE-SETUP.md)."
+        );
+      })
+      .catch(function () {
+        if (driveWin && !driveWin.closed) driveWin.close();
+        alert("Erreur réseau — impossible d'ouvrir Google Drive.");
+      })
+      .then(function () {
+        if (btn) {
+          btn.textContent = prev || "Ouvrir dossier Drive (contact)";
+          btn.removeAttribute("aria-busy");
+        }
+      });
   }
 
   function renderDocuments() {

@@ -5,6 +5,8 @@
 const { applyApiGuards } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
+const { resolveFolderWebLink, isValidDriveId, fallbackFolderUrl } = require("../drive-share");
+const { ensureClientDriveFolders } = require("../drive-folders");
 
 function parseJson(raw, fallback) {
   if (!raw) return fallback || {};
@@ -30,8 +32,7 @@ function parseArr(raw) {
 }
 
 function driveFolderUrl(folderId) {
-  if (!folderId) return null;
-  return "https://drive.google.com/drive/folders/" + encodeURIComponent(String(folderId));
+  return fallbackFolderUrl(folderId);
 }
 
 function driveFileUrl(fileId) {
@@ -247,17 +248,19 @@ module.exports = async (req, res) => {
         LIMIT 30
       `;
 
-      props.forEach(function (p) {
+      for (var pi = 0; pi < props.length; pi++) {
+        var p = props[pi];
         propertyDocs = propertyDocs.concat(propertyDocsFromRow(p));
-        if (p.drive_folder_id) {
+        if (isValidDriveId(p.drive_folder_id)) {
+          var resolvedProp = await resolveFolderWebLink(p.drive_folder_id, { share: true });
           propertyFolders.push({
             propertyId: p.id,
             title: p.title || p.city || p.id,
             driveFolderId: p.drive_folder_id,
-            webViewLink: driveFolderUrl(p.drive_folder_id),
+            webViewLink: resolvedProp.webViewLink || driveFolderUrl(p.drive_folder_id),
           });
         }
-      });
+      }
     } catch (propErr) {
       console.warn("[crm/contact-documents] properties", propErr.message);
     }
@@ -265,7 +268,22 @@ module.exports = async (req, res) => {
     documents = dedupeDocs(documents.concat(propertyDocs));
 
     var contactFolderId = contacts[0].drive_folder_id || null;
-    var driveFolderWebViewLink = driveFolderUrl(contactFolderId);
+    if (!isValidDriveId(contactFolderId)) {
+      try {
+        var ensuredContact = await ensureClientDriveFolders(contactId);
+        if (ensuredContact && ensuredContact.folderId) {
+          contactFolderId = ensuredContact.folderId;
+        }
+      } catch (ensureErr) {
+        console.warn("[crm/contact-documents] ensure folder", ensureErr.message);
+      }
+    }
+
+    var driveFolderWebViewLink = null;
+    if (isValidDriveId(contactFolderId)) {
+      var resolvedContact = await resolveFolderWebLink(contactFolderId, { share: true });
+      driveFolderWebViewLink = resolvedContact.webViewLink || driveFolderUrl(contactFolderId);
+    }
 
     return res.status(200).json({
       ok: true,
