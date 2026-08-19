@@ -138,17 +138,13 @@
     var sellEl = document.querySelector("#sellCity");
     var cityEl = form.querySelector("[name='city']");
     var panel = document.querySelector("[data-search-vente-panel]");
-    var useSell =
-      sellEl &&
-      panel &&
-      !panel.hidden &&
-      String(sellEl.value || "").trim() === "" &&
-      cityEl &&
-      String(cityEl.value || "").trim() === "";
-    var target = useSell ? sellEl : cityEl || sellEl;
+    var target = cityEl || sellEl;
+    if (panel && !panel.hidden && sellEl) target = sellEl;
     if (!target) return;
     var block = target.closest("details.immo-vente-block");
     if (block && !block.open) block.open = true;
+    if (cityEl) cityEl.classList.remove("input-invalid");
+    if (sellEl) sellEl.classList.remove("input-invalid");
     target.classList.add("input-invalid");
     target.scrollIntoView({ behavior: "smooth", block: "center" });
     try {
@@ -343,11 +339,13 @@
     function refreshMedia() {
       renderThumbs(root, state);
       renderPreview(root, state);
+      if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.refreshUi(root);
     }
 
     if (area) {
       area.addEventListener("input", function () {
         renderDetected(root, area.value);
+        if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.refreshUi(root);
       });
       area.addEventListener("paste", function () {
         setTimeout(function () {
@@ -441,35 +439,47 @@
       }
       var hat = val(form, "role") || currentHat();
       var isOwner = hat === "vendeur" || hat === "les_deux";
-      var isSignalement = hat === "signalement";
       var urlsText = area ? area.value : "";
       var hits = Portals.detectMany(urlsText).filter(function (d) {
         return d.ok;
       });
       var cityResolved = resolveCity(form);
-      if (!hits.length && !isOwner && !isSignalement) {
-        if (err) {
-          err.hidden = false;
-          err.textContent = "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).";
+
+      if (window.AcheteurImmoDepositGuide) {
+        var guideResult = window.AcheteurImmoDepositGuide.validate(
+          window.AcheteurImmoDepositGuide.buildCtx(form, root)
+        );
+        window.AcheteurImmoDepositGuide.renderValidationPanel(root, guideResult);
+        if (!guideResult.ok) {
+          window.AcheteurImmoDepositGuide.showSubmitError(err, guideResult);
+          return;
         }
-        return;
-      }
-      if ((isOwner || isSignalement) && !cityResolved && !hits.length) {
-        if (err) {
-          err.hidden = false;
-          err.textContent = isSignalement
-            ? "Indiquez la ville du bien signalé."
-            : "Indiquez la ville du bien (section « Coordonnées du bien » ou saisie rapide), ou collez l'URL de votre annonce.";
+      } else {
+        var isSignalement = hat === "signalement";
+        if (!hits.length && !isOwner && !isSignalement) {
+          if (err) {
+            err.hidden = false;
+            err.textContent = "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).";
+          }
+          return;
         }
-        focusCityField(form);
-        return;
-      }
-      if (isSignalement && !mediaList(state).length && !val(form, "description")) {
-        if (err) {
-          err.hidden = false;
-          err.textContent = "Ajoutez au moins une photo ou une description du bien.";
+        if ((isOwner || isSignalement) && !cityResolved && !hits.length) {
+          if (err) {
+            err.hidden = false;
+            err.textContent = isSignalement
+              ? "Indiquez la ville du bien signalé."
+              : "Indiquez la ville du bien (section « Coordonnées du bien » ou saisie rapide), ou collez l'URL de votre annonce.";
+          }
+          focusCityField(form);
+          return;
         }
-        return;
+        if (isSignalement && !mediaList(state).length && !val(form, "description")) {
+          if (err) {
+            err.hidden = false;
+            err.textContent = "Ajoutez au moins une photo ou une description du bien.";
+          }
+          return;
+        }
       }
       var payload = {
         role: hat,
@@ -531,7 +541,7 @@
                 ? "acheteur_vendeur_immo"
                 : "acheteur_immo",
       };
-      if (!payload.email && !payload.phone) {
+      if (!payload.email && !payload.phone && !window.AcheteurImmoDepositGuide) {
         if (err) {
           err.hidden = false;
           err.textContent = "Indiquez votre e-mail ou votre téléphone.";
@@ -619,6 +629,7 @@
           form.reset();
           state.photos = [];
           state.capture = null;
+          if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.clearDraft();
           renderDetected(root, "");
           refreshMedia();
           applyHat(hat);

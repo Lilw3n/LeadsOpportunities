@@ -194,6 +194,14 @@
             Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
           </p>
           <form data-url-capture-form novalidate>
+            <div class="immo-deposit-draft-banner" data-sell-draft-banner hidden>
+              <span data-sell-draft-text>Brouillon enregistré</span>
+              <div class="immo-deposit-draft-actions">
+                <button type="button" class="btn btn-primary btn-sm" data-sell-draft-restore>Reprendre mon dossier</button>
+                <button type="button" class="btn btn-soft btn-sm" data-sell-draft-dismiss>Effacer</button>
+              </div>
+            </div>
+            <p class="immo-deposit-draft-toast" data-sell-draft-toast hidden role="status"></p>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
             <div class="hp-field" aria-hidden="true">
               <label for="hp_listing_url">Ne pas remplir</label>
@@ -432,6 +440,17 @@
               </div>
             </div>
             <p class="url-capture-err" data-url-capture-err hidden></p>
+            <div class="immo-deposit-progress-wrap" data-sell-progress-wrap>
+              <div class="immo-deposit-progress-head">
+                <span data-sell-progress-label>Dossier 0 % — complétez les informations essentielles</span>
+                <button type="button" class="btn btn-soft btn-sm" data-sell-draft-save title="Enregistrer sur cet appareil">Sauvegarder pour plus tard</button>
+              </div>
+              <div class="immo-deposit-progress-track" aria-hidden="true"><span class="immo-deposit-progress-bar" data-sell-progress-bar style="width:0%"></span></div>
+            </div>
+            <div class="immo-deposit-validation" data-sell-validation-panel hidden>
+              <p class="immo-deposit-validation-title">Pour envoyer, complétez :</p>
+              <ul class="immo-deposit-validation-list" data-sell-validation-list></ul>
+            </div>
             <p class="url-capture-ok" data-url-capture-ok hidden></p>
             <div style="margin-top:14px">
               <button type="submit" class="btn btn-primary" data-deposit-submit>Envoyer l'annonce</button>
@@ -1988,6 +2007,7 @@
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="../js/acheteur-immo-hat-dossier.js"></script>
   <script src="../js/acheteur-immo-deposit-vente.js"></script>
+  <script src="../js/acheteur-immo-deposit-guide.js"></script>
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>

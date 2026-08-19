@@ -203,6 +203,7 @@
     validate: validateOwners,
     render: render,
     bind: bindMount,
+    collect: collectCards,
   };
 
   if (document.readyState === "loading") {
