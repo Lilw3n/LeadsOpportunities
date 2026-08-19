@@ -414,15 +414,16 @@
     extraData = extraData || {};
     var candidates = [];
     if (extraData.leadSnapshot != null) candidates.push(extraData.leadSnapshot);
-    if (description != null && String(description).trim()) candidates.push(description);
     if (extraData.payload != null) candidates.push(extraData.payload);
+    if (description != null && String(description).trim()) candidates.push(description);
+    var merged = {};
     var i;
     for (i = 0; i < candidates.length; i++) {
       var flat = flattenLeadPayload(candidates[i]);
-      if (looksLikeLeadPayload(flat)) return flat;
+      if (!flat || typeof flat !== "object" || !Object.keys(flat).length) continue;
+      merged = Object.assign({}, merged, flat);
     }
-    if (candidates.length) return flattenLeadPayload(candidates[0]);
-    return {};
+    return merged;
   }
 
   function flatten(val) {
