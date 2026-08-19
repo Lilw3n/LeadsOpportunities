@@ -3,7 +3,13 @@
  */
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
-const { isDriveConfigured, getRootFolderId, testDriveConnection } = require("../google-drive-auth");
+const {
+  isDriveConfigured,
+  isDriveUploadConfigured,
+  getRootFolderId,
+  testDriveConnection,
+  uploadConfigHint,
+} = require("../google-drive-auth");
 const { getSql } = require("../db");
 const { ensureClientDriveFolders } = require("../drive-folders");
 
@@ -24,9 +30,12 @@ module.exports = async (req, res) => {
   try {
     const status = {
       configured: isDriveConfigured(),
+      uploadConfigured: isDriveUploadConfigured(),
       rootFolderId: getRootFolderId() || null,
       hasServiceAccount: !!(process.env.GOOGLE_SERVICE_ACCOUNT_JSON || "").trim(),
+      hasRefreshToken: !!(process.env.GOOGLE_DRIVE_REFRESH_TOKEN || "").trim(),
       hasManualToken: !!(process.env.GOOGLE_DRIVE_ACCESS_TOKEN || "").trim(),
+      uploadHint: !isDriveUploadConfigured() ? uploadConfigHint() : null,
     };
 
     if (!status.configured || !status.rootFolderId) {

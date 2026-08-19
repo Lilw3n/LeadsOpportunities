@@ -3,7 +3,7 @@
  */
 const { applyApiGuards } = require("../security");
 const { requireCrm } = require("../rbac");
-const { getDriveAccessToken, getRootFolderId } = require("../google-drive-auth");
+const { getDriveAccessToken, getRootFolderId, uploadConfigHint } = require("../google-drive-auth");
 
 async function driveJson(url, token, options) {
   const resp = await fetch(url, Object.assign({}, options || {}, {
@@ -91,30 +91,39 @@ module.exports = async (req, res) => {
     return res.status(403).json({ error: "Admin requis pour ce test" });
   }
 
-  const auth = await getDriveAccessToken();
+  var folderAuth = await getDriveAccessToken({ forUpload: false });
+  var uploadAuth = await getDriveAccessToken({ forUpload: true });
   const rootId = getRootFolderId();
-  if (!auth || !rootId) {
+  if (!folderAuth || !rootId) {
     return res.status(400).json({
       ok: false,
-      error: "Drive non configure. Verifiez GOOGLE_SERVICE_ACCOUNT_JSON et GOOGLE_DRIVE_FOLDER_ID.",
+      error: "Drive non configure. Verifiez GOOGLE_DRIVE_FOLDER_ID et credentials.",
+    });
+  }
+  if (!uploadAuth) {
+    return res.status(400).json({
+      ok: false,
+      error: uploadConfigHint(),
+      folderOnly: true,
     });
   }
 
   try {
-    let folder = await findFolder(auth.accessToken, rootId, "test lead");
+    let folder = await findFolder(folderAuth.accessToken, rootId, "test lead");
     const existed = !!folder;
-    if (!folder) folder = await createFolder(auth.accessToken, rootId, "test lead");
-    const file = await uploadTestFile(auth.accessToken, folder.id);
+    if (!folder) folder = await createFolder(folderAuth.accessToken, rootId, "test lead");
+    const file = await uploadTestFile(uploadAuth.accessToken, folder.id);
     return res.status(200).json({
       ok: true,
       folderExisted: existed,
       folder: folder,
       testFile: file,
-      authSource: auth.source,
-      serviceAccountEmail: auth.email,
+      authSource: folderAuth.source,
+      uploadAuthSource: uploadAuth.source,
+      serviceAccountEmail: folderAuth.email || uploadAuth.email,
     });
   } catch (e) {
     console.error("[drive/test-lead]", e);
-    return res.status(502).json({ ok: false, error: e.message });
+    return res.status(502).json({ ok: false, error: e.message, hint: uploadConfigHint() });
   }
 };

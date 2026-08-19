@@ -13,6 +13,26 @@
     return d.innerHTML;
   }
 
+  document.getElementById("btnDriveOAuth").onclick = function () {
+    fetch("/api/drive/oauth-start", {
+      headers: { Authorization: "Bearer " + token },
+      redirect: "manual",
+    })
+      .then(function (r) {
+        var loc = r.headers.get("Location");
+        if (loc) {
+          location.href = loc;
+          return;
+        }
+        return r.json().then(function (data) {
+          alert((data && data.error) || "OAuth Drive indisponible");
+        });
+      })
+      .catch(function (e) {
+        alert(String(e));
+      });
+  };
+
   document.getElementById("btnTestDrive").onclick = function () {
     var out = document.getElementById("driveConfigOut");
     out.textContent = "Test en cours…";

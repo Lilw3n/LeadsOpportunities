@@ -8,6 +8,7 @@ const ROUTES = {
   upload: () => require("../_lib/routes/drive-upload"),
   status: () => require("../_lib/routes/drive-status"),
   "test-lead": () => require("../_lib/routes/drive-test-lead"),
+  "oauth-start": () => require("../_lib/routes/drive-oauth-start"),
   immo: () => require("../_lib/routes/drive-immo"),
 };
 

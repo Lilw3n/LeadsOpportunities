@@ -37,7 +37,7 @@ function signOAuthState(opts) {
 
 function verifyOAuthState(state) {
   const decoded = jwt.verify(state, requireJwtSecret(), { algorithms: ["HS256"] });
-  if (!decoded || (decoded.purpose !== "google_oauth" && decoded.purpose !== "google_calendar")) {
+  if (!decoded || (decoded.purpose !== "google_oauth" && decoded.purpose !== "google_calendar" && decoded.purpose !== "google_drive")) {
     throw new Error("Invalid oauth state");
   }
   return decoded;
@@ -65,6 +65,21 @@ function buildGoogleAuthUrl(state, options) {
 
 function buildGoogleCalendarAuthUrl(state, loginHint) {
   return buildGoogleAuthUrl(state, { calendar: true, loginHint: loginHint });
+}
+
+function buildGoogleDriveAuthUrl(state, loginHint) {
+  const params = new URLSearchParams({
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    redirect_uri: getRedirectUri(),
+    response_type: "code",
+    scope: "https://www.googleapis.com/auth/drive",
+    access_type: "offline",
+    prompt: "consent",
+    include_granted_scopes: "true",
+    state: state,
+  });
+  if (loginHint) params.set("login_hint", loginHint);
+  return "https://accounts.google.com/o/oauth2/v2/auth?" + params.toString();
 }
 
 async function exchangeCodeForTokens(code) {
@@ -129,6 +144,7 @@ module.exports = {
   verifyOAuthState,
   buildGoogleAuthUrl,
   buildGoogleCalendarAuthUrl,
+  buildGoogleDriveAuthUrl,
   exchangeCodeForTokens,
   refreshGoogleAccessToken,
   fetchGoogleProfile,

@@ -64,6 +64,67 @@ module.exports = async (req, res) => {
   try {
     const tokens = await exchangeCodeForTokens(code);
 
+    if (oauthPurpose === "google_drive") {
+      const expectedEmail = (process.env.GOOGLE_DRIVE_USER_EMAIL || "courtier972@gmail.com")
+        .trim()
+        .toLowerCase();
+      const profile = await fetchGoogleProfile(tokens.access_token);
+      const email = String(profile.email || "")
+        .trim()
+        .toLowerCase();
+      if (expectedEmail && email !== expectedEmail) {
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        res.end(
+          "<!doctype html><html lang=\"fr\"><body style=\"font-family:sans-serif;max-width:640px;margin:40px auto;padding:0 16px\">" +
+            "<h1>Compte Google incorrect</h1>" +
+            "<p>Connectez-vous avec <strong>" +
+            expectedEmail +
+            "</strong> (pas " +
+            email +
+            ").</p>" +
+            "<p><a href=\"" +
+            getAppUrl() +
+            "/test-drive.html\">Retour test Drive</a></p></body></html>"
+        );
+        return;
+      }
+      if (!tokens.refresh_token) {
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        res.end(
+          "<!doctype html><html lang=\"fr\"><body style=\"font-family:sans-serif;max-width:640px;margin:40px auto;padding:0 16px\">" +
+            "<h1>Refresh token manquant</h1>" +
+            "<p>Google n'a pas renvoye de refresh token. Recommencez et acceptez toutes les autorisations Drive.</p>" +
+            "<p><a href=\"" +
+            getAppUrl() +
+            "/api/drive/oauth-start\">Relancer la connexion Drive</a></p></body></html>"
+        );
+        return;
+      }
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.end(
+        "<!doctype html><html lang=\"fr\"><head><meta charset=\"UTF-8\"/><title>Drive OAuth</title>" +
+          "<style>body{font-family:Inter,Arial,sans-serif;max-width:720px;margin:32px auto;padding:0 16px;line-height:1.5}" +
+          "code,pre{background:#f1f5f9;padding:12px;border-radius:8px;word-break:break-all;display:block}" +
+          ".warn{background:#fef3c7;border:1px solid #fcd34d;padding:12px;border-radius:8px}</style></head><body>" +
+          "<h1>GOOGLE_DRIVE_REFRESH_TOKEN</h1>" +
+          "<p>Compte : <strong>" +
+          email +
+          "</strong></p>" +
+          "<div class=\"warn\"><strong>Etape suivante :</strong> copiez le refresh token ci-dessous dans Vercel → Settings → Environment Variables → " +
+          "<code>GOOGLE_DRIVE_REFRESH_TOKEN</code>, puis <strong>Redeploy</strong> sur <code>main</code>.</div>" +
+          "<h2>Refresh token</h2><pre id=\"rt\">" +
+          tokens.refresh_token +
+          "</pre>" +
+          "<p>Verifiez aussi : <code>GOOGLE_DRIVE_FOLDER_ID=19b0BAIySKxIDyc7ZTFwkp865Jk3nzs-Q</code></p>" +
+          "<p><a href=\"" +
+          getAppUrl() +
+          "/test-drive.html\">→ Ouvrir test-drive.html</a></p>" +
+          "<script>try{navigator.clipboard.writeText(document.getElementById('rt').textContent);}catch(e){}</script>" +
+          "</body></html>"
+      );
+      return;
+    }
+
     if (oauthPurpose === "google_calendar") {
       if (!calendarUserId) {
         return redirectCalendar(res, "calendar_error=" + encodeURIComponent("Session agenda invalide"));
@@ -174,6 +235,18 @@ module.exports = async (req, res) => {
     res.end();
   } catch (e) {
     console.error("[auth/google-callback]", e);
+    if (oauthPurpose === "google_drive") {
+      res.setHeader("Content-Type", "text/html; charset=utf-8");
+      res.end(
+        "<!doctype html><html lang=\"fr\"><body style=\"font-family:sans-serif;max-width:640px;margin:40px auto;padding:0 16px\">" +
+          "<h1>Erreur OAuth Drive</h1><p>" +
+          (e.message || "Connexion echouee") +
+          "</p><p><a href=\"" +
+          getAppUrl() +
+          "/test-drive.html\">Retour test Drive</a></p></body></html>"
+      );
+      return;
+    }
     if (oauthPurpose === "google_calendar") {
       return redirectCalendar(
         res,

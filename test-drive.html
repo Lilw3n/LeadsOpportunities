@@ -18,8 +18,13 @@
   <p style="color:var(--muted)">Configuration : <a href="./docs/DRIVE-SETUP.md" target="_blank">docs/DRIVE-SETUP.md</a></p>
   <section class="panel" id="driveConfigPanel">
     <h3>Test configuration Drive</h3>
+    <p style="color:var(--muted);font-size:.9rem;margin:0 0 12px">
+      Dossier racine : <a href="https://drive.google.com/drive/folders/19b0BAIySKxIDyc7ZTFwkp865Jk3nzs-Q" target="_blank" rel="noopener">Clients_LeadsOpportunities</a>
+      — les uploads exigent <code>GOOGLE_DRIVE_REFRESH_TOKEN</code> (Gmail courtier972).
+    </p>
     <button type="button" class="btn btn-primary" id="btnTestDrive">Verifier la connexion</button>
-    <button type="button" class="btn btn-ghost" id="btnCreateTestLead">Créer dossier test lead</button>
+    <button type="button" class="btn btn-soft" id="btnDriveOAuth">Obtenir refresh token (OAuth)</button>
+    <button type="button" class="btn btn-ghost" id="btnCreateTestLead">Creer dossier test lead</button>
     <button type="button" class="btn btn-ghost" id="btnCreateCrmTestLead">Créer contact CRM Test Lead</button>
     <pre id="driveConfigOut" style="margin-top:12px">Cliquez pour tester…</pre>
   </section>
