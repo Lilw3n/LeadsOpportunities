@@ -53,6 +53,21 @@ window.CrmAgencyFees = (function () {
     };
   }
 
+  function normalizePostShareCosts(list) {
+    return (Array.isArray(list) ? list : [])
+      .map(function (item, idx) {
+        return {
+          id: String((item && item.id) || ("post_share_" + idx)),
+          label: String((item && item.label) || ("Frais post-part " + (idx + 1))).trim(),
+          pct: Math.max(0, Math.min(100, Number(item && item.pct) || 0)),
+          source: String((item && item.source) || "").trim(),
+        };
+      })
+      .filter(function (item) {
+        return item.pct > 0;
+      });
+  }
+
   function loadDealSplit() {
     try {
       var raw = localStorage.getItem(DEAL_SPLIT_KEY);
@@ -176,6 +191,22 @@ window.CrmAgencyFees = (function () {
     var myGross = cutState.myGross;
     var agencyKeepAfter = cutState.agencyKeepAfter;
     var otherGrossAfter = cutState.otherGrossAfter;
+    var myGrossBeforeNetwork = myGross;
+    var networkCosts = normalizePostShareCosts(taxOpts && taxOpts.postShareCosts);
+    var networkCostsTotal = 0;
+    networkCosts = networkCosts.map(function (cost) {
+      var amount = round2((myGrossBeforeNetwork * cost.pct) / 100);
+      networkCostsTotal += amount;
+      return {
+        id: cost.id,
+        label: cost.label,
+        pct: cost.pct,
+        source: cost.source,
+        amount: amount,
+      };
+    });
+    networkCostsTotal = round2(networkCostsTotal);
+    myGross = round2(Math.max(0, myGrossBeforeNetwork - networkCostsTotal));
 
     taxOpts = taxOpts || {};
     var chargesPct =
@@ -254,11 +285,20 @@ window.CrmAgencyFees = (function () {
         detail: "Notaire / partenaire / autre — % saisi, pas une règle barème.",
       });
     }
+    networkCosts.forEach(function (cost) {
+      steps.push({
+        id: cost.id,
+        label: cost.label + " (" + cost.pct + " %)",
+        value: cost.amount,
+        detail: cost.source || "Déduit après ta part négociateur brute.",
+      });
+    });
     steps.push({
       id: "my_gross",
       label: "Ta rémunération brute",
       value: myGross,
-      detail: "Après partage et collabs éventuels — avant réserves URSSAF/CFE/compta.",
+      detail:
+        "Après partage, collabs éventuels et frais réseau post-part — avant réserves URSSAF/CFE/compta.",
     });
     steps.push({
       id: "my_net",
@@ -278,9 +318,12 @@ window.CrmAgencyFees = (function () {
       sortantGross: round2(sortantGross),
       entrantGross: round2(entrantGross),
       myGrossBeforeApporteur: round2(myGrossBeforeApp),
+      myGrossBeforeNetwork: round2(myGrossBeforeNetwork),
       otherGross: round2(otherGrossAfter),
       apporteur: appDetail,
       otherCollab: collabDetail,
+      networkCosts: networkCosts,
+      networkCostsTotal: networkCostsTotal,
       myGross: myGross,
       chargesPct: chargesPct,
       cfePct: cfePct,
@@ -466,7 +509,22 @@ window.CrmAgencyFees = (function () {
       id: "agency_laforet",
       name: "Laforêt",
       agentSharePct: 40,
-      notes: "Barème honoraires ventes TTC (réf. juillet 2023) — modifiable.",
+      notes:
+        "Barème honoraires ventes TTC (réf. juillet 2023) — modifiable. Hypothèse réseau appliquée après ta part : fonctionnement 4 % + franchise/publicité 2 % (sources publiques franchise, à ajuster selon ton contrat / ton CA).",
+      postShareCosts: [
+        {
+          id: "laforet_operating",
+          label: "Frais fonctionnement agence",
+          pct: 4,
+          source: "Sources publiques franchise Laforêt : redevance de fonctionnement 2/4/6 % selon CA — valeur médiane 4 % retenue ici.",
+        },
+        {
+          id: "laforet_franchise",
+          label: "Redevance franchise / publicité",
+          pct: 2,
+          source: "Sources publiques franchise Laforêt : redevance publicitaire réseau 2 % retenue ici.",
+        },
+      ],
       schedules: [
         {
           id: "sched_laforet_vente",
@@ -565,6 +623,7 @@ window.CrmAgencyFees = (function () {
       name: String(a.name || "Agence").trim() || "Agence",
       agentSharePct: Math.max(0, Math.min(100, Number(a.agentSharePct) || 0)),
       notes: String(a.notes || ""),
+      postShareCosts: normalizePostShareCosts(a.postShareCosts),
       schedules: Array.isArray(a.schedules) ? a.schedules.map(normalizeSchedule) : [],
       updatedAt: a.updatedAt || new Date().toISOString(),
     };
@@ -1005,6 +1064,7 @@ window.CrmAgencyFees = (function () {
       irPct: opts.irPct,
       cfePct: opts.cfePct,
       accountingPct: opts.accountingPct,
+      postShareCosts: agency.postShareCosts || [],
     });
     var agentGross = dealSplit.myGross;
 

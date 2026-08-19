@@ -517,6 +517,21 @@
             <label for="agentSharePct">Ma part des honoraires (%)</label>
             <input id="agentSharePct" type="number" min="0" max="100" step="0.1" />
           </div>
+          <div>
+            <label for="agencyOperatingPct">Frais fonctionnement agence (%)</label>
+            <input id="agencyOperatingPct" type="number" min="0" max="100" step="0.1" />
+          </div>
+          <div>
+            <label for="agencyFranchisePct">Redevance franchise / pub (%)</label>
+            <input id="agencyFranchisePct" type="number" min="0" max="100" step="0.1" />
+          </div>
+          <div style="grid-column:1/-1">
+            <p class="af-hint" style="margin:0">
+              Ces deux frais sont déduits <strong>après ta part négociateur</strong>, avant URSSAF / CFE / compta.
+              Pour Laforêt, les sources publiques consultées pointent plutôt vers une redevance de fonctionnement
+              variable selon CA et une redevance pub réseau ; adapte les % à ton contrat réel.
+            </p>
+          </div>
           <div style="grid-column:1/-1">
             <label for="agencyNotes">Notes</label>
             <textarea id="agencyNotes" placeholder="Référence barème, conditions…"></textarea>

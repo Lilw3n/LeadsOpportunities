@@ -314,15 +314,22 @@
     var disabled = !ag;
     document.getElementById("agencyName").disabled = disabled;
     document.getElementById("agentSharePct").disabled = disabled;
+    document.getElementById("agencyOperatingPct").disabled = disabled;
+    document.getElementById("agencyFranchisePct").disabled = disabled;
     document.getElementById("agencyNotes").disabled = disabled;
     if (!ag) {
       document.getElementById("agencyName").value = "";
       document.getElementById("agentSharePct").value = "";
+      document.getElementById("agencyOperatingPct").value = "";
+      document.getElementById("agencyFranchisePct").value = "";
       document.getElementById("agencyNotes").value = "";
       return;
     }
+    var post = ag.postShareCosts || [];
     document.getElementById("agencyName").value = ag.name;
     document.getElementById("agentSharePct").value = ag.agentSharePct;
+    document.getElementById("agencyOperatingPct").value = post[0] && post[0].pct != null ? post[0].pct : 0;
+    document.getElementById("agencyFranchisePct").value = post[1] && post[1].pct != null ? post[1].pct : 0;
     document.getElementById("agencyNotes").value = ag.notes || "";
   }
 
@@ -490,7 +497,7 @@
     }
     if (ag && /lafor[eê]t/i.test(ag.name || "")) {
       hint.textContent =
-        "Exemple Laforêt : 170 001–220 000 € → 9 % · Garage → 2 500 € fixe. Pour le PDF Portes Clés, sélectionne l’agence « Les Portes Clés » à gauche.";
+        "Exemple Laforêt : 170 001–220 000 € → 9 % · Garage → 2 500 € fixe. Le simulateur peut aussi déduire des frais réseau post-part (fonctionnement / franchise-pub) après tes 40 %.";
       return;
     }
     hint.textContent = "Tranches % ou forfait — enregistre après modification.";
@@ -521,6 +528,20 @@
     if (!ag) return;
     ag.name = document.getElementById("agencyName").value.trim() || ag.name;
     ag.agentSharePct = Number(document.getElementById("agentSharePct").value) || 0;
+    ag.postShareCosts = [
+      {
+        id: "operating_cost",
+        label: "Frais fonctionnement agence",
+        pct: Number(document.getElementById("agencyOperatingPct").value) || 0,
+      },
+      {
+        id: "franchise_cost",
+        label: "Redevance franchise / publicité",
+        pct: Number(document.getElementById("agencyFranchisePct").value) || 0,
+      },
+    ].filter(function (item) {
+      return item.pct > 0;
+    });
     ag.notes = document.getElementById("agencyNotes").value;
     var sched = currentSchedule(ag);
     if (sched && (!sched.feeModel || sched.feeModel === "brackets")) {
@@ -693,6 +714,14 @@
           d.otherCollab.amount,
           "muted"
         );
+      }
+      if (d.networkCostsTotal > 0) {
+        var networkHint = (d.networkCosts || [])
+          .map(function (cost) {
+            return cost.label + " " + cost.pct + " %";
+          })
+          .join(" + ");
+        html += kpiCard("Frais réseau post-part", d.networkCostsTotal, "muted", networkHint);
       }
     }
     var sharePct = Number(res.agentSharePct) || 0;
