@@ -421,6 +421,28 @@
           </p>
           <div data-callback-strip data-callback-need="acheteur-immo" data-callback-source="landing_acheteur"></div>
 
+          <div class="immo-fill-toolbar" data-immo-fill-toolbar data-active-mode="client">
+            <div class="immo-fill-toolbar-main">
+              <span class="immo-fill-badge" data-fill-mode-badge>Mode client</span>
+              <p class="immo-fill-hint">Le conseiller et le client peuvent remplir le même questionnaire. Imprimez-le vierge, partiel ou complet.</p>
+            </div>
+            <div class="immo-fill-mode" role="radiogroup" aria-label="Qui remplit le formulaire">
+              <label class="immo-fill-mode-opt">
+                <input type="radio" name="fillModeUi" value="client" checked />
+                <span>Je suis le client</span>
+              </label>
+              <label class="immo-fill-mode-opt">
+                <input type="radio" name="fillModeUi" value="conseiller" />
+                <span>Je suis conseiller</span>
+              </label>
+            </div>
+            <div class="immo-fill-print" role="group" aria-label="Imprimer le questionnaire">
+              <button type="button" class="btn btn-soft btn-sm" data-print-mode="empty">Imprimer vide</button>
+              <button type="button" class="btn btn-soft btn-sm" data-print-mode="partial">Imprimer partiel</button>
+              <button type="button" class="btn btn-primary btn-sm" data-print-mode="full">Imprimer complet</button>
+            </div>
+          </div>
+
           <form data-track-form data-quote-wizard data-acheteur-immo novalidate>
             <input type="hidden" name="need" value="acheteur-immo" />
             <input type="hidden" name="serviceNeed" value="acheteur-immo" />
@@ -554,15 +576,15 @@
                         <option value="autre">Autre</option>
                       </select>
                     </div>
-                    <div class="field">
+                    <div class="field" data-conseiller-only hidden>
                       <label for="sellAdvisorName">Nom du conseiller</label>
                       <input id="sellAdvisorName" name="sellAdvisorName" data-optional placeholder="Ex. BUCHET Wendy" />
                     </div>
-                    <div class="field">
+                    <div class="field" data-conseiller-only hidden>
                       <label for="sellDossierNumber">N° dossier</label>
                       <input id="sellDossierNumber" name="sellDossierNumber" data-optional />
                     </div>
-                    <div class="field">
+                    <div class="field" data-conseiller-only hidden>
                       <label for="sellIsuiviNumber">i-SUIVI n°</label>
                       <input id="sellIsuiviNumber" name="sellIsuiviNumber" data-optional />
                     </div>
@@ -798,7 +820,7 @@
                   </div>
                 </details>
 
-                <details class="immo-vente-block">
+                <details class="immo-vente-block" data-conseiller-only hidden>
                   <summary>Estimation &amp; mise en vente (prix, honoraires, net vendeur)</summary>
                   <p class="small" style="margin:8px 0;color:#64748b">Fourchettes et historique — comme la fiche Laforêt.</p>
                   <div class="immo-price-grid" style="margin-top:10px">
@@ -851,7 +873,7 @@
                   </div>
                 </details>
 
-                <details class="immo-vente-block">
+                <details class="immo-vente-block" data-conseiller-only hidden>
                   <summary>Communication (annonce, vitrine, argumentaire)</summary>
                   <div class="grid" style="margin-top:12px">
                     <div class="field full"><label for="sellStrengths">Arguments forts</label><textarea id="sellStrengths" name="sellStrengths" rows="2" data-optional></textarea></div>
@@ -1670,6 +1692,9 @@
   <script src="../js/lead-insights.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
+  <script src="../js/print-document-lib.js"></script>
+  <script src="../js/acheteur-immo-fill-mode.js"></script>
+  <script src="../js/acheteur-immo-print.js"></script>
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/acheteur-immo-rooms.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
