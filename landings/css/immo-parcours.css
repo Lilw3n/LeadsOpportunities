@@ -405,3 +405,143 @@ a.immo-parcours-link:hover {
     display: none !important;
   }
 }
+
+/* Matrice passé / présent / futur */
+.immo-timeline-matrix {
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.immo-timeline-head,
+.immo-timeline-row {
+  display: grid;
+  grid-template-columns: minmax(110px, 1.1fr) repeat(3, minmax(0, 1fr));
+  gap: 0;
+  align-items: stretch;
+}
+
+.immo-timeline-head {
+  background: linear-gradient(90deg, #f8fafc, #f1f5f9);
+  border-bottom: 2px solid #e2e8f0;
+  font-weight: 800;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.immo-timeline-corner {
+  padding: 10px 12px;
+  border-right: 1px solid #e2e8f0;
+}
+
+.immo-timeline-col {
+  padding: 10px 12px;
+  text-align: center;
+  border-right: 1px solid #e2e8f0;
+}
+
+.immo-timeline-col--past { color: #7c2d12; background: #fff7ed; }
+.immo-timeline-col--present { color: #0f766e; background: #f0fdfa; }
+.immo-timeline-col--future { color: #1e40af; background: #eff6ff; border-right: 0; }
+
+.immo-timeline-row {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.immo-timeline-row:last-child {
+  border-bottom: 0;
+}
+
+.immo-timeline-label {
+  padding: 10px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #334155;
+  background: #f8fafc;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+}
+
+.immo-timeline-row textarea {
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-right: 1px solid #e2e8f0;
+  border-radius: 0;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 0.82rem;
+  resize: vertical;
+  background: #fff;
+}
+
+.immo-timeline-row textarea:focus {
+  outline: 2px solid #99f6e4;
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.immo-timeline-row textarea:last-child {
+  border-right: 0;
+}
+
+/* Checklist pièces justificatives */
+.immo-docs-counter {
+  display: inline-block;
+  margin: 0 0 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #0f766e;
+  background: #ccfbf1;
+  border: 1px solid #5eead4;
+}
+
+.immo-docs-checklist {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.immo-docs-group {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+
+.immo-docs-group legend {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0 4px;
+}
+
+.immo-docs-group .field-check {
+  display: block;
+  margin: 6px 0 0;
+  font-size: 0.84rem;
+}
+
+.immo-copro-works-table th {
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .immo-timeline-head,
+  .immo-timeline-row {
+    grid-template-columns: 1fr;
+  }
+  .immo-timeline-head .immo-timeline-corner { display: none; }
+  .immo-timeline-col { border-right: 0; border-bottom: 1px solid #e2e8f0; text-align: left; }
+  .immo-timeline-label { border-right: 0; border-bottom: 1px solid #e2e8f0; }
+  .immo-timeline-row textarea { border-right: 0; border-bottom: 1px solid #f1f5f9; }
+}

@@ -667,6 +667,16 @@
                         <option>E</option><option>F</option><option>G</option>
                       </select>
                     </div>
+                    <div class="field"><label for="sellGes">GES</label>
+                      <select id="sellGes" name="sellGes" data-optional>
+                        <option value="">—</option>
+                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                        <option>E</option><option>F</option><option>G</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellOrientation">Orientation principale</label><input id="sellOrientation" name="sellOrientation" data-optional placeholder="Sud, EST…" /></div>
+                    <div class="field"><label for="sellView">Vue</label><input id="sellView" name="sellView" data-optional placeholder="Dégagée, parc, rue…" /></div>
+                    <div class="field"><label for="sellMitoyennete">Mitoyenneté</label><input id="sellMitoyennete" name="sellMitoyennete" data-optional placeholder="1 côté, pavillon…" /></div>
                     <div class="field"><label for="sellKitchenType">Type cuisine</label>
                       <select id="sellKitchenType" name="sellKitchenType" data-optional>
                         <option value="">—</option>
@@ -827,7 +837,130 @@
                     <div class="field"><label for="sellChargesMonthly">Moyenne mensuelle (€)</label><input id="sellChargesMonthly" name="sellChargesMonthly" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellTaxeFonciere">Taxe foncière (€/an)</label><input id="sellTaxeFonciere" name="sellTaxeFonciere" inputmode="numeric" data-optional placeholder="Ex. 500/600" /></div>
                     <div class="field"><label for="sellTaxeHabitation">Taxe d'habitation (€/an)</label><input id="sellTaxeHabitation" name="sellTaxeHabitation" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellCoproLots">Nombre de lots (copro)</label><input id="sellCoproLots" name="sellCoproLots" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellCoproLotsBuilding">Lots dans l'immeuble</label><input id="sellCoproLotsBuilding" name="sellCoproLotsBuilding" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellWorkFund">Fonds travaux ALUR (€)</label><input id="sellWorkFund" name="sellWorkFund" inputmode="numeric" data-optional placeholder="Montant disponible" /></div>
+                    <div class="field full">
+                      <label class="field-check"><input type="checkbox" name="sellCoproProcedure" value="1" data-optional /> Procédure copropriété en cours (contentieux, travaux forcés…)</label>
+                    </div>
+                    <div class="field full"><label for="sellCoproProcedureDetail">Détail procédure / travaux imposés</label><textarea id="sellCoproProcedureDetail" name="sellCoproProcedureDetail" rows="2" data-optional></textarea></div>
                     <div class="field full"><label for="sellSellerNotary">Notaire désigné vendeur</label><input id="sellSellerNotary" name="sellSellerNotary" data-optional /></div>
+                  </div>
+                  <p class="search-section-label" style="margin-top:16px">Travaux copropriété — faits / votés / payés</p>
+                  <p class="small" style="margin:0 0 8px;color:#64748b">Comme la fiche Laforêt : ravalement, ascenseur, toiture, réseaux… Indiquez le statut et la quote-part vendeur.</p>
+                  <div class="immo-copro-works-wrap" data-copro-works-mount>
+                    <table class="immo-rooms-table immo-copro-works-table">
+                      <thead>
+                        <tr>
+                          <th>Nature</th>
+                          <th>Statut</th>
+                          <th>Montant</th>
+                          <th>Date</th>
+                          <th>Quote-part</th>
+                          <th>Note</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody data-copro-works-body></tbody>
+                    </table>
+                    <button type="button" class="btn btn-soft btn-sm" data-copro-work-add style="margin-top:8px">+ Ajouter un travaux copro</button>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Construction ou rénovation lourde &lt; 10 ans</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Dommage-ouvrage, garantie décennale, parfait achèvement — obligatoire si travaux récents.</p>
+                  <div class="field full">
+                    <label class="field-check"><input type="checkbox" name="sellRecentBuild" value="1" data-sell-recent-build-toggle data-optional /> Construction neuve ou rénovation lourde de moins de 10 ans</label>
+                  </div>
+                  <div data-sell-recent-build-panel hidden>
+                    <div class="grid" style="margin-top:12px">
+                      <div class="field"><label for="sellBuildCompletionDate">Date achèvement travaux</label><input id="sellBuildCompletionDate" name="sellBuildCompletionDate" type="date" data-optional /></div>
+                      <div class="field"><label for="sellBuilderName">Constructeur / entreprise</label><input id="sellBuilderName" name="sellBuilderName" data-optional /></div>
+                      <div class="field"><label for="sellBuildPermit">N° permis de construire / DP</label><input id="sellBuildPermit" name="sellBuildPermit" data-optional /></div>
+                      <div class="field"><label for="sellBuildArchitect">Architecte / maître d'œuvre</label><input id="sellBuildArchitect" name="sellBuildArchitect" data-optional /></div>
+                      <div class="field full">
+                        <span class="search-section-label" style="margin:0">Dommage-ouvrage (DO)</span>
+                      </div>
+                      <div class="field">
+                        <label for="sellDoInsurer">Assureur DO</label><input id="sellDoInsurer" name="sellDoInsurer" data-optional placeholder="Compagnie" />
+                      </div>
+                      <div class="field">
+                        <label for="sellDoPolicy">N° police DO</label><input id="sellDoPolicy" name="sellDoPolicy" data-optional />
+                      </div>
+                      <div class="field">
+                        <label for="sellDoExpiry">Échéance DO</label><input id="sellDoExpiry" name="sellDoExpiry" type="date" data-optional />
+                      </div>
+                      <div class="field full">
+                        <label class="field-check"><input type="checkbox" name="sellDoAttestation" value="1" data-optional /> Attestation DO remise au notaire</label>
+                      </div>
+                      <div class="field full">
+                        <span class="search-section-label" style="margin:0">Garanties constructeur</span>
+                      </div>
+                      <div class="field">
+                        <label class="field-check"><input type="checkbox" name="sellDecennale" value="1" data-optional /> Garantie décennale en cours</label>
+                      </div>
+                      <div class="field">
+                        <label for="sellDecennaleUntil">Décennale jusqu'au</label><input id="sellDecennaleUntil" name="sellDecennaleUntil" type="date" data-optional />
+                      </div>
+                      <div class="field">
+                        <label class="field-check"><input type="checkbox" name="sellBiennale" value="1" data-optional /> Garantie biennale (équipements)</label>
+                      </div>
+                      <div class="field">
+                        <label class="field-check"><input type="checkbox" name="sellPerfectCompletion" value="1" data-optional /> Garantie de parfait achèvement (GPA)</label>
+                      </div>
+                      <div class="field">
+                        <label for="sellRcDecennale">RC décennale constructeur — assureur</label><input id="sellRcDecennale" name="sellRcDecennale" data-optional />
+                      </div>
+                      <div class="field full">
+                        <label for="sellBuildNotes">Travaux réalisés / réserves / sinistres</label>
+                        <textarea id="sellBuildNotes" name="sellBuildNotes" rows="2" data-optional placeholder="Extension, surélévation, rénovation énergétique…"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block">
+                  <summary>Mobilier &amp; électroménager inclus</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Inventaire type Laforêt — ce qui reste avec le bien à la vente.</p>
+                  <div class="field full">
+                    <label class="field-check"><input type="checkbox" name="sellFurnitureIncluded" value="1" data-sell-furniture-toggle data-optional /> Mobilier / électroménager inclus dans la vente</label>
+                  </div>
+                  <div data-sell-furniture-panel hidden>
+                    <div class="field" style="margin-top:10px">
+                      <label for="sellFurnitureValue">Valeur estimée du mobilier (€)</label>
+                      <input id="sellFurnitureValue" name="sellFurnitureValue" inputmode="numeric" data-optional placeholder="Hors prix immobilier" />
+                    </div>
+                    <p class="search-section-label" style="margin-top:12px">Cuisine &amp; électroménager</p>
+                    <div class="search-chip-grid" role="group">
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="cuisine_equipee" /><span>Cuisine équipée</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="plaque" /><span>Plaque / induction</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="four" /><span>Four</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="micro_ondes" /><span>Micro-ondes</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="hotte" /><span>Hotte</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="lave_vaisselle" /><span>Lave-vaisselle</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="frigo" /><span>Réfrigérateur</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="congelateur" /><span>Congélateur</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="lave_linge" /><span>Lave-linge</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="seche_linge" /><span>Sèche-linge</span></label>
+                    </div>
+                    <p class="search-section-label" style="margin-top:12px">Séjour &amp; chambres</p>
+                    <div class="search-chip-grid" role="group">
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="canape" /><span>Canapé</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="table" /><span>Table</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="chaises" /><span>Chaises</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="literie" /><span>Literie</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="armoires" /><span>Armoires / dressing</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="bureau" /><span>Bureau</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="luminaires" /><span>Luminaires</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="rideaux" /><span>Rideaux / stores</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="tv" /><span>TV / écrans</span></label>
+                      <label class="search-chip"><input type="checkbox" name="sellFurniture[]" value="exterieur" /><span>Mobilier extérieur</span></label>
+                    </div>
+                    <div class="field full" style="margin-top:12px">
+                      <label for="sellFurnitureInventory">Inventaire détaillé (marque, état, pièce…)</label>
+                      <textarea id="sellFurnitureInventory" name="sellFurnitureInventory" rows="3" data-optional placeholder="Liste pièce par pièce pour l'acte / annonce meublée…"></textarea>
+                    </div>
                   </div>
                 </details>
 
@@ -894,21 +1027,141 @@
                   </div>
                 </details>
 
-                <details class="immo-vente-block">
-                  <summary>Projet vendeur (passé · présent · futur)</summary>
-                  <div class="grid" style="margin-top:12px">
-                    <div class="field full"><label for="sellPastExperience">Passé — expérience immo / bien actuel</label><textarea id="sellPastExperience" name="sellPastExperience" rows="2" data-optional></textarea></div>
-                    <div class="field full"><label for="sellPresentSituation">Présent — situation &amp; attentes</label><textarea id="sellPresentSituation" name="sellPresentSituation" rows="2" data-optional></textarea></div>
-                    <div class="field full"><label for="sellFutureProject">Futur — projet de rachat (si chaîne)</label><textarea id="sellFutureProject" name="sellFutureProject" rows="2" data-optional placeholder="Pourquoi, pour quand, secteur…"></textarea></div>
+                <details class="immo-vente-block" open>
+                  <summary>Projet vendeur — matrice passé · présent · futur</summary>
+                  <p class="small" style="margin:8px 0 12px;color:#64748b">Vue synthétique type Laforêt : comprendre le parcours du vendeur en un coup d'œil.</p>
+                  <div class="immo-timeline-matrix" data-timeline-matrix>
+                    <div class="immo-timeline-head">
+                      <span class="immo-timeline-corner"></span>
+                      <span class="immo-timeline-col immo-timeline-col--past">Passé</span>
+                      <span class="immo-timeline-col immo-timeline-col--present">Présent</span>
+                      <span class="immo-timeline-col immo-timeline-col--future">Futur</span>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Motivation / déclencheur</span>
+                      <textarea name="sellTimelinePastMotivation" rows="2" data-optional placeholder="Pourquoi vendre maintenant ?"></textarea>
+                      <textarea name="sellTimelinePresentMotivation" rows="2" data-optional placeholder="Urgence, délai souhaité…"></textarea>
+                      <textarea name="sellTimelineFutureMotivation" rows="2" data-optional placeholder="Objectif après vente…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Situation perso / pro</span>
+                      <textarea name="sellTimelinePastSituation" rows="2" data-optional placeholder="Famille, travail, retraite…"></textarea>
+                      <textarea name="sellTimelinePresentSituation" rows="2" data-optional placeholder="Occupation du bien, contraintes…"></textarea>
+                      <textarea name="sellTimelineFutureSituation" rows="2" data-optional placeholder="Projet de vie visé…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Bien / logement</span>
+                      <textarea name="sellTimelinePastHousing" rows="2" data-optional placeholder="Historique du bien, achat initial…"></textarea>
+                      <textarea name="sellTimelinePresentHousing" rows="2" data-optional placeholder="État, travaux faits, occupation…"></textarea>
+                      <textarea name="sellTimelineFutureHousing" rows="2" data-optional placeholder="Rachat, location, résidence secondaire…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Financement / prêt</span>
+                      <textarea name="sellTimelinePastFinance" rows="2" data-optional placeholder="Crédit initial, apport…"></textarea>
+                      <textarea name="sellTimelinePresentFinance" rows="2" data-optional placeholder="CRD, capacité rachat, relais…"></textarea>
+                      <textarea name="sellTimelineFutureFinance" rows="2" data-optional placeholder="Besoin prêt rachat, apport visé…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Timing / échéance</span>
+                      <textarea name="sellTimelinePastTiming" rows="2" data-optional placeholder="Dates clés passées…"></textarea>
+                      <textarea name="sellTimelinePresentTiming" rows="2" data-optional placeholder="Date idéale de vente / libération…"></textarea>
+                      <textarea name="sellTimelineFutureTiming" rows="2" data-optional placeholder="Chaîne, compromis, emménagement…"></textarea>
+                    </div>
+                    <div class="immo-timeline-row">
+                      <span class="immo-timeline-label">Critères prioritaires</span>
+                      <textarea name="sellTimelinePastCriteria" rows="2" data-optional placeholder="Expériences antérieures…"></textarea>
+                      <textarea name="sellTimelinePresentCriteria" rows="2" data-optional placeholder="Prix net, délai, discrétion…"></textarea>
+                      <textarea name="sellTimelineFutureCriteria" rows="2" data-optional placeholder="Secteur rachat, type de bien…"></textarea>
+                    </div>
+                  </div>
+                  <div class="grid" style="margin-top:14px">
+                    <div class="field full"><label for="sellPastExperience">Notes passé (complément libre)</label><textarea id="sellPastExperience" name="sellPastExperience" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellPresentSituation">Notes présent (complément libre)</label><textarea id="sellPresentSituation" name="sellPresentSituation" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellFutureProject">Notes futur — rachat / chaîne</label><textarea id="sellFutureProject" name="sellFutureProject" rows="2" data-optional placeholder="Pourquoi, pour quand, secteur…"></textarea></div>
                     <div class="field full">
-                      <span class="search-section-label" style="margin:0">Engagements attendus</span>
+                      <span class="search-section-label" style="margin:0">Engagements attendus envers le vendeur</span>
                       <div class="search-chip-grid" role="group">
                         <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="ecoute" /><span>Écoute</span></label>
                         <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="accompagnement" /><span>Accompagnement</span></label>
                         <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="liberte" /><span>Liberté</span></label>
                         <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="visibilite" /><span>Visibilité</span></label>
                         <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="exclusivite" /><span>Exclusivité de service</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="transparence" /><span>Transparence honoraires</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCommit[]" value="reactivite" /><span>Réactivité visites</span></label>
                       </div>
+                    </div>
+                  </div>
+                </details>
+
+                <details class="immo-vente-block" open>
+                  <summary>Pièces justificatives à fournir (checklist)</summary>
+                  <p class="small" style="margin:8px 0 8px;color:#64748b">Page 7 type Laforêt — cochez ce que le vendeur peut déjà transmettre (original ou copie). Les pièces manquantes seront demandées au notaire / conseiller.</p>
+                  <p class="immo-docs-counter" data-sell-docs-counter>0 / 0 pièces cochées</p>
+                  <div class="immo-docs-checklist" data-sell-docs-mount>
+                    <fieldset class="immo-docs-group">
+                      <legend>Identité &amp; domicile vendeur(s)</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="identite" /> Pièce d'identité / passeport (tous mandants)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="domicile" /> Justificatif de domicile (&lt; 3 mois)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="livret_famille" /> Livret de famille / acte mariage / PACS</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="kbis_sci" /> Kbis / statuts SCI (si personne morale)</label>
+                    </fieldset>
+                    <fieldset class="immo-docs-group">
+                      <legend>Titre &amp; propriété</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="titre_propriete" /> Titre de propriété / acte notarié</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="cadastre" /> Plan cadastral / extrait cadastre</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="plans" /> Plans du bien / permis de construire</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="servitudes" /> Servitudes / bornage / bornage plan</label>
+                    </fieldset>
+                    <fieldset class="immo-docs-group">
+                      <legend>Copropriété</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="reglement_copro" /> Règlement de copropriété &amp; EDD</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="pv_ag" /> PV dernière AG + convocation</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="charges_copro" /> Appels de charges (3 derniers)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="carnet_entretien" /> Carnet d'entretien immeuble</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="fiche_synth_copro" /> Fiche synthétique copro (Loi ALUR)</label>
+                    </fieldset>
+                    <fieldset class="immo-docs-group">
+                      <legend>Diagnostics &amp; technique</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="dpe" /> DPE (&lt; 10 ans / valide)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="amiante" /> Amiante (avant 1997)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="plomb" /> Plomb CREP (avant 1949)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="termites" /> État parasitaire / termites</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="erp" /> ERP (risques naturels / technologiques)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="gaz_elec" /> Conformité gaz / électricité</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="assainissement" /> Assainissement / SPANC</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="carrez" /> Mesurage Loi Carrez (copro)</label>
+                    </fieldset>
+                    <fieldset class="immo-docs-group">
+                      <legend>Fiscalité &amp; financement</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="taxe_fonciere" /> Taxe foncière (dernier avis)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="taxe_habitation" /> Taxe d'habitation (si applicable)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="releve_pret" /> Tableau amortissement / CRD prêt</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="assurance_pno" /> Assurance PNO / habitation en cours</label>
+                    </fieldset>
+                    <fieldset class="immo-docs-group">
+                      <legend>Location (si bien occupé / loué)</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="bail" /> Bail en cours + annexes</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="edl" /> État des lieux entrée / sortie</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="quittances" /> Quittances de loyer (3 dernières)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="depot_garantie" /> Dépôt de garantie / inventaire meublé</label>
+                    </fieldset>
+                    <fieldset class="immo-docs-group">
+                      <legend>Construction &lt; 10 ans &amp; travaux</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="do_attestation" /> Attestation dommage-ouvrage</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="decennale" /> Attestation garantie décennale</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="factures_travaux" /> Factures travaux récents / garanties</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="declaration_travaux" /> Déclaration préalable / permis + PC non-opposition</label>
+                    </fieldset>
+                    <fieldset class="immo-docs-group">
+                      <legend>Compteurs &amp; divers</legend>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="compteurs" /> Relevés compteurs (eau, élec, gaz)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="inventaire_meuble" /> Inventaire mobilier (si meublé)</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="mandat_signe" /> Mandat signé / bon de visite</label>
+                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="autre_doc" /> Autre (préciser ci-dessous)</label>
+                    </fieldset>
+                    <div class="field full" style="margin-top:10px">
+                      <label for="sellDocNotes">Pièces manquantes / remarques / dépôt Drive</label>
+                      <textarea id="sellDocNotes" name="sellDocNotes" rows="2" data-optional placeholder="Ce qui sera envoyé par e-mail, Google Drive, ou remis en RDV…"></textarea>
                     </div>
                   </div>
                 </details>
@@ -1722,6 +1975,8 @@
   <script src="../js/achat-perennite-block.js"></script>
   <script src="../js/vente-3d-messaging-lib.js"></script>
   <script src="../js/vente-3d-block.js"></script>
+  <script src="../js/acheteur-immo-copro-works.js"></script>
+  <script src="../js/acheteur-immo-laforet-extras.js"></script>
   <script src="../js/acheteur-immo-sell-photos.js"></script>
   <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>
   <script src="../js/vendeur-visite-pret-block.js"></script>

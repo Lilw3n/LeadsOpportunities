@@ -109,7 +109,7 @@
       if (el.disabled || el.type === "hidden" || el.type === "button" || el.type === "submit") return;
       if (el.name === "_hp") return;
       if (el.type === "radio" || el.type === "checkbox") return;
-      if (el.closest("[data-owners-mount], [data-rooms-mount]")) return;
+      if (el.closest("[data-owners-mount], [data-rooms-mount], [data-copro-works-mount]")) return;
       if (mode !== "empty" && el.closest("[hidden]")) return;
 
       var key = el.name + ":" + el.type;
@@ -211,6 +211,84 @@
     };
   }
 
+  function collectCoproWorks(form, mode) {
+    var mount = qs("[data-copro-works-mount]", form);
+    if (!mount) return null;
+    if (mode !== "empty" && mount.closest("[hidden]")) return null;
+
+    var trs = qsa(".immo-copro-work-row", mount);
+    if (!trs.length && mode !== "partial") {
+      return {
+        title: "Travaux copropriété",
+        headers: ["Nature", "Statut", "Montant", "Date", "Quote-part", "Note"],
+        tableRows: mode === "empty" ? [["", "", "", "", "", ""]] : [],
+      };
+    }
+
+    var statusLabels = { fait: "Fait", vote: "Voté AG", paye: "Payé", prevu: "Prévu" };
+    var tableRows = trs
+      .map(function (tr) {
+        var cells = [];
+        var empty = false;
+        qsa("[data-copro-field]", tr).forEach(function (el) {
+          var v = valueOf(el);
+          if (el.getAttribute("data-copro-field") === "status" && v) v = statusLabels[v] || v;
+          if (!v) empty = true;
+          cells.push(mode === "empty" ? "" : v || (mode === "full" ? "—" : ""));
+        });
+        if (mode === "partial" && empty && cells.every(function (c) {
+          return !c;
+        }))
+          return null;
+        return cells;
+      })
+      .filter(Boolean);
+
+    if (mode === "partial" && !tableRows.length) return null;
+
+    return {
+      title: "Travaux copropriété",
+      headers: ["Nature", "Statut", "Montant", "Date", "Quote-part", "Note"],
+      tableRows: tableRows.length ? tableRows : mode === "empty" ? [["", "", "", "", "", ""]] : [],
+    };
+  }
+
+  function collectTimelineMatrix(form, mode) {
+    var matrix = qs("[data-timeline-matrix]", form);
+    if (!matrix) return null;
+    if (mode !== "empty" && matrix.closest("[hidden]")) return null;
+
+    var rows = qsa(".immo-timeline-row", matrix);
+    var tableRows = rows
+      .map(function (row) {
+        var label = qs(".immo-timeline-label", row);
+        var areas = qsa("textarea", row);
+        var labelText = label ? label.textContent.trim() : "Ligne";
+        var cells = [labelText];
+        areas.forEach(function (ta) {
+          var v = valueOf(ta);
+          cells.push(mode === "empty" ? "" : v || (mode === "full" ? "—" : ""));
+        });
+        if (
+          mode === "partial" &&
+          cells.slice(1).every(function (c) {
+            return !c;
+          })
+        )
+          return null;
+        return cells;
+      })
+      .filter(Boolean);
+
+    if (mode === "partial" && !tableRows.length) return null;
+
+    return {
+      title: "Matrice passé · présent · futur",
+      headers: ["Rubrique", "Passé", "Présent", "Futur"],
+      tableRows: tableRows.length ? tableRows : mode === "empty" ? [["", "", "", ""]] : [],
+    };
+  }
+
   function collectSections(form, mode) {
     annotateSections(form);
     var kind = searchKind(form);
@@ -244,6 +322,16 @@
     var rooms = collectRooms(form, mode);
     if (rooms && (rooms.tableRows.length || mode !== "partial")) {
       sections.push(rooms);
+    }
+
+    var coproWorks = collectCoproWorks(form, mode);
+    if (coproWorks && (coproWorks.tableRows.length || mode !== "partial")) {
+      sections.push(coproWorks);
+    }
+
+    var timeline = collectTimelineMatrix(form, mode);
+    if (timeline && (timeline.tableRows.length || mode !== "partial")) {
+      sections.push(timeline);
     }
 
     return sections;

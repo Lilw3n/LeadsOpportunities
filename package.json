@@ -76,7 +76,8 @@
     "verify:seo-long-terme": "node scripts/verify-seo-long-terme.cjs",
     "verify:contact-pair": "node scripts/verify-contact-pair.cjs",
     "verify:laforet-fees": "node scripts/verify-laforet-network-fees.cjs",
-    "verify:immo-drive": "node scripts/verify-immo-drive.cjs"
+    "verify:immo-drive": "node scripts/verify-immo-drive.cjs",
+    "verify:laforet-fiche": "node scripts/verify-laforet-fiche.cjs"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
