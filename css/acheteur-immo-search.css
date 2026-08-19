@@ -348,17 +348,40 @@ html[data-immo-hat="les_deux"] [data-hat-dual-only] {
 html[data-immo-hat="signalement"] [data-hat-signalement-only] {
   display: block;
 }
-html[data-immo-hat="vendeur"] [data-hat-acheteur-only],
-html[data-immo-hat="les_deux"] [data-hat-acheteur-only],
 html[data-immo-hat="signalement"] [data-hat-acheteur-only],
 html[data-immo-hat="signalement"] [data-hat-vendeur-only],
 html[data-immo-hat="signalement"] [data-hat-dual-only],
 html[data-immo-hat="signalement"] [data-url-block],
 html[data-immo-hat="signalement"] [data-listing-mode-wrap],
-html[data-immo-hat="vendeur"] #dossier {
+html[data-immo-hat="signalement"] #dossier {
   display: none !important;
 }
-html[data-immo-hat="signalement"] #dossier {
+
+html[data-immo-hat="vendeur"] [data-dossier-acheteur-only] {
+  display: none !important;
+}
+
+.immo-fiche-bridge {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #99f6e4;
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.08), rgba(255, 255, 255, 0.95));
+}
+.immo-fiche-bridge-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+.immo-fiche-bridge-inner .small {
+  color: #475569;
+  line-height: 1.45;
+}
+
+html[data-immo-hat="acheteur"] [data-dossier-vendeur-only],
+html[data-immo-hat="signalement"] [data-dossier-vendeur-only] {
   display: none !important;
 }
 

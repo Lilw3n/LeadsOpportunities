@@ -179,6 +179,15 @@
           <p class="listings-intro" data-deposit-intro>
             Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
           </p>
+          <div class="immo-fiche-bridge" data-fiche-complete-bridge hidden>
+            <div class="immo-fiche-bridge-inner">
+              <div>
+                <strong>Dépôt express</strong> (ci-dessous) — vitrine + photos sur le site et Google Drive.
+                <p class="small" style="margin:6px 0 0">Pour <strong>toutes les infos du bien</strong> : propriétaires, mandat, pièces, copro, travaux, diagnostics, checklist documents, matrice projet… utilisez la fiche complète.</p>
+              </div>
+              <a class="btn btn-primary" href="#demande" data-goto-fiche-complete>Fiche complète vendeur →</a>
+            </div>
+          </div>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
             <div class="hp-field" aria-hidden="true">
@@ -499,7 +508,7 @@
                 <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez votre casquette pour continuer.</p>
               </div>
 
-              <div class="search-mode-tabs" role="tablist" aria-label="Votre casquette">
+              <div class="search-mode-tabs" role="tablist" aria-label="Votre casquette" data-dossier-acheteur-only>
                 <label class="search-mode-tab">
                   <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
                   <span>Je cherche un bien</span>
@@ -518,7 +527,7 @@
 
               <div class="immo-form-section" data-search-vente-panel hidden>
                 <h4 class="immo-form-section-title">1. Projet de vente</h4>
-                <p class="small immo-form-section-lead">Fiche type Laforêt : propriétaires, bien, mandat, descriptif, estimation, copro, visites… Les blocs avancés sont repliables.</p>
+                <p class="small immo-form-section-lead">Dossier vente complet : propriétaires, bien, mandat, descriptif, estimation, copro, visites… Les blocs avancés sont repliables.</p>
 
                 <div data-sell-photos-mount></div>
 
@@ -844,7 +853,7 @@
                     <div class="field full"><label for="sellSellerNotary">Notaire désigné vendeur</label><input id="sellSellerNotary" name="sellSellerNotary" data-optional /></div>
                   </div>
                   <p class="search-section-label" style="margin-top:16px">Travaux copropriété — faits / votés / payés</p>
-                  <p class="small" style="margin:0 0 8px;color:#64748b">Comme la fiche Laforêt : ravalement, ascenseur, toiture, réseaux… Indiquez le statut et la quote-part vendeur.</p>
+                  <p class="small" style="margin:0 0 8px;color:#64748b">Ravalement, ascenseur, toiture, réseaux… Indiquez le statut et la quote-part vendeur.</p>
                   <div class="immo-copro-works-wrap" data-copro-works-mount>
                     <table class="immo-rooms-table immo-copro-works-table">
                       <thead>
@@ -919,7 +928,7 @@
 
                 <details class="immo-vente-block">
                   <summary>Mobilier &amp; électroménager inclus</summary>
-                  <p class="small" style="margin:8px 0 10px;color:#64748b">Inventaire type Laforêt — ce qui reste avec le bien à la vente.</p>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Ce qui reste avec le bien à la vente (inventaire pour l'acte ou annonce meublée).</p>
                   <div class="field full">
                     <label class="field-check"><input type="checkbox" name="sellFurnitureIncluded" value="1" data-sell-furniture-toggle data-optional /> Mobilier / électroménager inclus dans la vente</label>
                   </div>
@@ -963,7 +972,7 @@
 
                 <details class="immo-vente-block" data-conseiller-only hidden>
                   <summary>Estimation &amp; mise en vente (prix, honoraires, net vendeur)</summary>
-                  <p class="small" style="margin:8px 0;color:#64748b">Fourchettes et historique — comme la fiche Laforêt.</p>
+                  <p class="small" style="margin:8px 0;color:#64748b">Fourchettes prix, honoraires et net vendeur — suivi conseiller.</p>
                   <div class="immo-price-grid" style="margin-top:10px">
                     <div class="immo-price-row immo-price-row--head">
                       <span></span><span>Prix vente (€)</span><span>Honoraires (€)</span><span>Reste vendeur (€)</span><span>Date</span>
@@ -1026,7 +1035,7 @@
 
                 <details class="immo-vente-block" open>
                   <summary>Projet vendeur — matrice passé · présent · futur</summary>
-                  <p class="small" style="margin:8px 0 12px;color:#64748b">Vue synthétique type Laforêt : comprendre le parcours du vendeur en un coup d'œil.</p>
+                  <p class="small" style="margin:8px 0 12px;color:#64748b">Comprendre le parcours du vendeur en un coup d'œil (passé · présent · futur).</p>
                   <div class="immo-timeline-matrix" data-timeline-matrix>
                     <div class="immo-timeline-head">
                       <span class="immo-timeline-corner"></span>
@@ -1092,7 +1101,7 @@
 
                 <details class="immo-vente-block" open>
                   <summary>Pièces justificatives à fournir (checklist)</summary>
-                  <p class="small" style="margin:8px 0 8px;color:#64748b">Page 7 type Laforêt — cochez ce que le vendeur peut déjà transmettre (original ou copie). Les pièces manquantes seront demandées au notaire / conseiller.</p>
+                  <p class="small" style="margin:8px 0 8px;color:#64748b">Cochez ce que le vendeur peut déjà transmettre. Les pièces manquantes seront demandées au notaire ou via Google Drive.</p>
                   <p class="immo-docs-counter" data-sell-docs-counter>0 / 0 pièces cochées</p>
                   <div class="immo-docs-checklist" data-sell-docs-mount>
                     <fieldset class="immo-docs-group">
@@ -1959,6 +1968,7 @@
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/acheteur-immo-rooms.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
+  <script src="../js/acheteur-immo-hat-dossier.js"></script>
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>

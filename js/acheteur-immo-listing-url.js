@@ -198,6 +198,7 @@
     }
     applyListingMode();
     if (window.VendeurVisitePretBlock) window.VendeurVisitePretBlock.syncVisibility();
+    if (window.AcheteurImmoHatDossier) window.AcheteurImmoHatDossier.sync(hat);
   }
 
   function applyListingMode() {

@@ -336,4 +336,14 @@
   } else {
     init();
   }
+
+  window.AcheteurImmoWizard = {
+    sync: function (form) {
+      if (!form) {
+        qsa(document, "form[data-acheteur-immo]").forEach(syncAll);
+        return;
+      }
+      syncAll(form);
+    },
+  };
 })();
