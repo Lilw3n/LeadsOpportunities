@@ -59,7 +59,7 @@
   <link rel="stylesheet" href="../css/client-value-block.css" />
   <link rel="stylesheet" href="../css/pret-risks-block.css" />
   <link rel="stylesheet" href="../css/achat-perennite-block.css" />
-  <link rel="stylesheet" href="../css/vente-3d-block.css" />
+  <link rel="stylesheet" href="../css/landing-form-first.css" />
 </head>
 <body>
   <header class="landing-topbar">
@@ -83,7 +83,7 @@
         Credit Immobilier
       </span>
       <section class="card">
-        <div class="hero-surface">
+        <div class="hero-surface landing-hero--compact">
           <div class="hero">
             <h1
               data-hero-title
@@ -120,42 +120,9 @@
 
         <nav data-immo-parcours data-immo-step="credit" aria-label="Parcours acquéreur"></nav>
 
-        <div data-client-value-block="landing"></div>
-
-        <div data-pret-risks-block="landing"></div>
-
-        <div data-achat-perennite-block="landing"></div>
-
-        <div data-vente-3d-block="landing"></div>
-
-        <div class="form-wrap" id="pret-refuse">
-          <h2>On vous a refuse un pret ? On cherche une solution</h2>
-          <p class="section-lead">
-            Endettement HCSF, apport, CDD, assurance emprunteur, FICP… Un refus n’est pas forcément la fin du projet.
-            Un courtier reformule le dossier et le présente à d’autres partenaires (ex. La Centrale de Financement).
-          </p>
-          <ul class="points" style="margin-bottom:16px">
-            <li>Recalcul endettement / rachat de crédits conso</li>
-            <li>Délégation assurance emprunteur (santé, surprimes)</li>
-            <li>Co-emprunteur, apport, PTZ, bien moins cher</li>
-            <li>Timing pour ne pas griller le marché bancaire</li>
-          </ul>
-          <div class="actions">
-            <a class="btn btn-primary" href="#demande">Étudier mon dossier refusé</a>
-            <a class="btn btn-soft" href="../blog/pret-immobilier-refuse-que-faire-2026.html">Guide : prêt refusé que faire</a>
-            <a class="btn btn-soft" href="./projection-achat.html">Recalculer ma capacité</a>
-          </div>
-        </div>
-
-        <div class="landing-partners-slot">
-          <section data-partners-trust data-partners-context="credit" data-partners-layout="featured"></section>
-        </div>
-
-        <div class="landing-proximity-slot">
-          <section data-proximity-block data-proximity-context="credit" data-proximity-layout="compact"></section>
-        </div>
-
-        <div class="form-wrap" id="demande">
+        <div class="landing-form-first">
+          <div class="landing-form-primary">
+        <div class="form-wrap landing-form-wrap--hero" id="demande">
           <h2 class="form-title">Simulation et dossier complet</h2>
           <p class="form-lead">
             Ce questionnaire detaille permet de preparer un dossier solide des le premier contact. Un courtier analyse votre faisabilite. Comptez 5 a 7 minutes.
@@ -630,6 +597,51 @@
           <p class="form-error" data-form-error hidden>Envoi impossible. Reessayez dans quelques instants.</p>
           <div data-lead-insights hidden></div>
         </div>
+          </div>
+
+          <aside class="landing-form-aside" aria-label="Aide rapide">
+            <div class="landing-aside-card landing-aside-card--alert" id="pret-refuse">
+              <h3>Prêt déjà refusé ?</h3>
+              <p>Endettement, apport, CDD, assurance… un refus n’est pas forcément la fin. Indiquez-le dans le questionnaire — on reformule le dossier.</p>
+              <ul>
+                <li>2e chance multi-banques</li>
+                <li>Rachat crédits conso</li>
+                <li>Délégation assurance emprunteur</li>
+              </ul>
+              <a class="btn btn-soft btn-sm" href="#loanRefusedBefore">Remplir le questionnaire</a>
+            </div>
+            <div class="landing-aside-trust">
+              <span class="trust-pill">100 % gratuit</span>
+              <span class="trust-pill">Sans engagement</span>
+              <span class="trust-pill">ORIAS</span>
+            </div>
+            <nav class="landing-aside-links" aria-label="Liens utiles">
+              <a href="#formules">Formules emprunteur</a>
+              <a href="./projection-achat.html">Coût réel (charges, travaux)</a>
+              <a href="../blog/pret-immobilier-refuse-que-faire-2026.html">Guide prêt refusé</a>
+              <a href="./acheteur-immo.html#recherche">Chercher un bien</a>
+            </nav>
+          </aside>
+        </div>
+
+        <div class="landing-partners-slot">
+          <section data-partners-trust data-partners-context="credit" data-partners-layout="featured"></section>
+        </div>
+
+        <div class="landing-proximity-slot">
+          <section data-proximity-block data-proximity-context="credit" data-proximity-layout="compact"></section>
+        </div>
+
+        <section class="landing-info-bottom" aria-label="Pour aller plus loin">
+          <h2 class="landing-info-bottom__title">Pour aller plus loin</h2>
+          <p class="landing-info-bottom__lead">Honoraires, risques du crédit et achat durable — à consulter après avoir lancé votre dossier ci-dessus.</p>
+          <div class="landing-info-bottom__grid">
+            <div data-client-value-block="landing"></div>
+            <div data-pret-risks-block="landing"></div>
+            <div data-achat-perennite-block="landing"></div>
+            <div data-vente-3d-block="landing"></div>
+          </div>
+        </section>
 
         <div class="form-wrap" id="formules-wrap">
           <h2 id="formules">Formules assurance emprunteur</h2>

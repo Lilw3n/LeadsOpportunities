@@ -57,7 +57,7 @@
   <link rel="stylesheet" href="../css/achat-projection.css" />
   <link rel="stylesheet" href="../css/pret-risks-block.css" />
   <link rel="stylesheet" href="../css/achat-perennite-block.css" />
-  <link rel="stylesheet" href="../css/vente-3d-block.css" />
+  <link rel="stylesheet" href="../css/landing-form-first.css" />
 </head>
 <body data-market-intent="FR">
   <header class="landing-topbar">
@@ -104,13 +104,7 @@
 
         <nav data-immo-parcours data-immo-step="projection" aria-label="Parcours acquéreur"></nav>
 
-        <div data-pret-risks-block="landing"></div>
-
-        <div data-achat-perennite-block="landing"></div>
-
-        <div data-vente-3d-block="landing"></div>
-
-        <div class="form-wrap" id="simulateur">
+        <div class="form-wrap landing-form-wrap--hero" id="simulateur">
           <div class="proj-layout">
             <div>
               <form id="projForm" novalidate>
@@ -376,6 +370,16 @@
             <a href="../credit-immo/">Guide crédit immobilier</a>.
           </p>
         </div>
+
+        <section class="landing-info-bottom" aria-label="Pour aller plus loin">
+          <h2 class="landing-info-bottom__title">Pour aller plus loin</h2>
+          <p class="landing-info-bottom__lead">Risques du crédit, achat durable — après avoir testé votre projection ci-dessus.</p>
+          <div class="landing-info-bottom__grid">
+            <div data-pret-risks-block="landing"></div>
+            <div data-achat-perennite-block="landing"></div>
+            <div data-vente-3d-block="landing"></div>
+          </div>
+        </section>
       </section>
     </div>
   </main>
