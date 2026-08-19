@@ -291,6 +291,42 @@
     );
   }
 
+  var PARTY_LABELS = {
+    seller: "Vendeur",
+    vendeur: "Vendeur",
+    buyer: "Acquéreur",
+    acquereur: "Acquéreur",
+    buyer2: "Co-acquéreur",
+    owner: "Propriétaire",
+    tenant: "Locataire",
+    notary: "Notaire",
+    agent: "Agent immobilier",
+    agency: "Agence",
+    bank: "Banque",
+    insurer: "Assureur",
+  };
+
+  function partyLabel(key) {
+    if (PARTY_LABELS[key]) return PARTY_LABELS[key];
+    var Lib = typeof root !== "undefined" ? root.InterlocuteurDossier : null;
+    if (typeof window !== "undefined") Lib = window.InterlocuteurDossier || Lib;
+    if (Lib && Lib.labelOf) return Lib.labelOf(key);
+    return String(key)
+      .replace(/_/g, " ")
+      .replace(/^\w/, function (c) {
+        return c.toUpperCase();
+      });
+  }
+
+  function translateValue(val) {
+    var Lib = typeof root !== "undefined" ? root.InterlocuteurDossier : null;
+    if (typeof window !== "undefined") Lib = window.InterlocuteurDossier || Lib;
+    if (Lib && Lib.VALUE_LABELS && val != null && Lib.VALUE_LABELS[String(val)]) {
+      return Lib.VALUE_LABELS[String(val)];
+    }
+    return flattenValue(val);
+  }
+
   function personName(obj) {
     obj = obj || {};
     var p = obj.payload || obj.payload_obj || obj;
@@ -355,7 +391,7 @@
     var l = lead || {};
     var name = personName(l);
     var meta = [
-      l.vertical ? "Produit : " + l.vertical : "",
+      l.vertical ? "Produit : " + translateValue(l.vertical) : "",
       l.lead_score != null ? "Score " + l.lead_score : "",
       l.email || "",
       l.phone || "",
@@ -376,7 +412,7 @@
     var data = doc.data || {};
     var parties = data.parties || {};
     var partyRows = Object.keys(parties).map(function (k) {
-      return { label: k, value: flattenValue(parties[k]) };
+      return { label: partyLabel(k), value: flattenValue(parties[k]) };
     });
     var propRows = [];
     if (prop) {

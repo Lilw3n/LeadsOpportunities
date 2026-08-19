@@ -44,7 +44,24 @@
     vertical: "Vertical",
     serviceLabel: "Produit",
     parcours_label: "Parcours",
-    parcours_id: "Parcours ID",
+    parcours_id: "Parcours",
+    role: "Profil",
+    hats: "Profils",
+    portals: "Portails / sources",
+    propertyIds: "Identifiant(s) du bien",
+    sellerName: "Nom du vendeur",
+    sellerPhone: "Téléphone vendeur",
+    sellerKind: "Type de vendeur",
+    photoCount: "Nombre de photos",
+    hasCapture: "Capture d'écran",
+    hasDescription: "Description saisie",
+    alsoBuys: "Achete aussi",
+    wantsRelais: "Intérêt prêt relais",
+    wantsSellDossier: "Dossier de vente détaillé",
+    confirmByEmail: "Confirmation par e-mail",
+    confirmByPhone: "Confirmation par téléphone",
+    confirmMethod: "Mode de confirmation",
+    createAccount: "Création de compte",
   };
 
   var SKIP_PAYLOAD_KEYS = {
@@ -276,10 +293,27 @@
     recherche_locataire: "Recherche de locataire",
     transaction: "Accompagnement transaction",
     autre_service: "Autre service immobilier",
+    vendeur: "Vendeur",
+    acheteur: "Acheteur",
+    acquereur: "Acquéreur",
+    les_deux: "Vendeur et acheteur",
+    signalement: "Signalement",
+    chasseur: "Chasseur de bien",
+    manual: "Saisie manuelle",
+    google: "Compte Google",
+    email: "E-mail",
+    phone: "Téléphone",
+    vendeur_immo: "Vente immobilière",
+    acheteur_immo: "Achat immobilier",
+    acheteur_vendeur_immo: "Achat et vente immobilière",
+    chasseur_immo: "Chasseur de bien",
   };
 
   function humanizeKey(key) {
     if (FIELD_LABELS[key]) return FIELD_LABELS[key];
+    if (global.InterlocuteurDossier && global.InterlocuteurDossier.labelOf) {
+      return global.InterlocuteurDossier.labelOf(key);
+    }
     return String(key)
       .replace(/_/g, " ")
       .replace(/([a-z])([A-Z])/g, "$1 $2")

@@ -58,6 +58,22 @@ assert(patches.company && patches.company.siret === "12345678901234", "patch ent
 assert(patches.family && patches.family.maritalStatus === "marie", "patch famille");
 assert(Dossier.countFilled(d) >= 8, "compte champs remplis");
 assert(Dossier.renderSections(d).indexOf("Info perso") >= 0, "HTML info perso");
+assert(Dossier.labelOf("propertyIds") === "Identifiant(s) du bien", "libellé propertyIds FR");
+assert(Dossier.labelOf("confirmByEmail") === "Confirmation par e-mail", "libellé confirmByEmail FR");
+var immoD = Dossier.buildDossier({
+  payload: {
+    role: "vendeur",
+    propertyIds: ["prop_test"],
+    confirmByEmail: true,
+    sellerKind: "particulier",
+  },
+});
+assert(
+  immoD.projet.some(function (r) {
+    return r.key === "role" && r.label === "Profil" && r.value === "Vendeur";
+  }),
+  "champs immo classés en projet avec libellés FR"
+);
 assert(Dossier.slackLines(d, { contactUrl: "https://x/c" }).indexOf("marie@test.fr") >= 0, "Slack email");
 
 var html = read("crm-contact.html");
