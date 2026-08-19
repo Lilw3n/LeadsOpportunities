@@ -283,6 +283,8 @@
     "sellSurface",
     "sellRooms",
     "sellPrice",
+    "property_type",
+    "price_fai",
   ];
 
   var PROJET_KEYS = [
@@ -625,6 +627,84 @@
     return html;
   }
 
+  function flattenLeadPayload(raw) {
+    var p = typeof raw === "string" ? parsePayload(raw) : Object.assign({}, raw || {});
+    if (p.payload && typeof p.payload === "object" && !Array.isArray(p.payload)) {
+      p = Object.assign({}, p, p.payload);
+      delete p.payload;
+    }
+    return p;
+  }
+
+  function leadEventSummaryText(body) {
+    var p = flattenLeadPayload(body);
+    var parts = [];
+    var name = [p.firstName || p.first_name, p.lastName || p.last_name].filter(Boolean).join(" ");
+    if (name) parts.push(name);
+    if (p.email) parts.push(String(p.email));
+    var phone = p.phone || p.sellerPhone;
+    if (phone) parts.push(String(phone));
+    var city = p.city || p.sellCity;
+    var postal = p.postal_code || p.sellPostalCode || p.postalCode;
+    if (city) parts.push(city + (postal ? " (" + postal + ")" : ""));
+    if (p.sellerName && p.sellerName !== name) parts.push("vendeur annonce : " + p.sellerName);
+    if (p.sellerKind) parts.push(p.sellerKind);
+    if (p.vertical || p.need) parts.push(String(p.vertical || p.need));
+    if (p.leadScore != null) parts.push("score " + p.leadScore);
+    if (Array.isArray(p.propertyIds) && p.propertyIds.length) parts.push(p.propertyIds.length + " bien(s)");
+    return parts.join(" · ").slice(0, 480);
+  }
+
+  function renderLeadEventBody(description, extraData) {
+    extraData = extraData || {};
+    var raw = extraData.leadSnapshot != null ? extraData.leadSnapshot : description;
+    var p = flattenLeadPayload(raw);
+    var looksLikeLead =
+      p &&
+      (p.email ||
+        p.phone ||
+        p.firstName ||
+        p.first_name ||
+        p.vertical ||
+        p.need ||
+        p.city ||
+        p.sellCity ||
+        (Array.isArray(p.propertyIds) && p.propertyIds.length));
+    if (!looksLikeLead) {
+      if (typeof description === "string" && description.trim() && description.trim().charAt(0) !== "{") {
+        return '<p class="event-desc">' + esc(description) + "</p>";
+      }
+      return "";
+    }
+    var dossier = buildDossier(null, p);
+    var b = dossier.biens || {};
+    function section(title, cls, rows) {
+      if (!rows || !rows.length) return "";
+      return (
+        '<section class="int-card ' +
+        cls +
+        '"><h3>' +
+        esc(title) +
+        "</h3>" +
+        rowsHtml(rows) +
+        "</section>"
+      );
+    }
+    var bienRows = []
+      .concat(b.vehicules || [], b.immobilier || [], (b.autres || []).slice(0, 8));
+    var html = '<div class="event-lead-dossier"><div class="int-dossier int-dossier--compact">';
+    if (p.leadScore != null) {
+      html +=
+        '<p class="event-lead-score">Score lead : <strong>' + esc(String(p.leadScore)) + "</strong></p>";
+    }
+    html += section("Contact", "int-card-perso", dossier.perso);
+    html += section("Professionnel", "int-card-pro", dossier.pro);
+    html += section("Bien immobilier", "int-card-biens", bienRows);
+    html += section("Projet / annonce", "int-card-projet", dossier.projet);
+    html += "</div></div>";
+    return html;
+  }
+
   function slackLines(dossier, ctx) {
     ctx = ctx || {};
     var p = (dossier && dossier.raw) || {};
@@ -649,6 +729,9 @@
     patchesFromDossier: patchesFromDossier,
     countFilled: countFilled,
     renderSections: renderSections,
+    renderLeadEventBody: renderLeadEventBody,
+    flattenLeadPayload: flattenLeadPayload,
+    leadEventSummaryText: leadEventSummaryText,
     slackLines: slackLines,
     first: first,
     labelOf: labelOf,

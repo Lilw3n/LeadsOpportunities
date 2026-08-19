@@ -6,6 +6,35 @@ function phoneDigits(phone) {
   return String(phone || "").replace(/\D/g, "");
 }
 
+function flattenLeadBody(body) {
+  if (!body || typeof body !== "object") return {};
+  if (body.payload && typeof body.payload === "object" && !Array.isArray(body.payload)) {
+    var merged = Object.assign({}, body, body.payload);
+    delete merged.payload;
+    return merged;
+  }
+  return Object.assign({}, body);
+}
+
+function leadEventSummaryText(body) {
+  var p = flattenLeadBody(body);
+  var parts = [];
+  var name = [p.firstName || p.first_name, p.lastName || p.last_name].filter(Boolean).join(" ");
+  if (name) parts.push(name);
+  if (p.email) parts.push(String(p.email));
+  var phone = p.phone || p.sellerPhone;
+  if (phone) parts.push(String(phone));
+  var city = p.city || p.sellCity;
+  var postal = p.postal_code || p.sellPostalCode || p.postalCode;
+  if (city) parts.push(city + (postal ? " (" + postal + ")" : ""));
+  if (p.sellerName && p.sellerName !== name) parts.push("vendeur annonce : " + p.sellerName);
+  if (p.sellerKind) parts.push(p.sellerKind);
+  if (p.vertical || p.need) parts.push(String(p.vertical || p.need));
+  if (p.leadScore != null) parts.push("score " + p.leadScore);
+  if (Array.isArray(p.propertyIds) && p.propertyIds.length) parts.push(p.propertyIds.length + " bien(s)");
+  return parts.join(" · ").slice(0, 480) || "Lead web — " + (body.vertical || "demande");
+}
+
 async function findExistingContact(sql, email, phone) {
   if (email) {
     const byEmail = await sql`
@@ -187,6 +216,7 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
   const extra = JSON.stringify({
     participants: [{ name: (firstName + " " + lastName).trim(), role: "recipient" }],
     leadId: leadId,
+    leadSnapshot: body,
   });
   await sql`
     INSERT INTO crm_events (
@@ -194,7 +224,7 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
     ) VALUES (
       ${evtId}, ${contactId}, 'note',
       ${"Nouveau lead web — " + (body.vertical || "demande")},
-      ${JSON.stringify(body).slice(0, 2000)},
+      ${leadEventSummaryText(body)},
       ${new Date().toISOString().slice(0, 10)},
       'pending', ${body.leadScore >= 70 ? "high" : "medium"}, ${extra}
     )

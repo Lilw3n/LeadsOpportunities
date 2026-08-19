@@ -122,6 +122,35 @@
 .event-card .actions { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
 .event-card--overdue { border-color: #fecaca; background: #fef2f2; }
 .event-card--linked { border-style: dashed; }
+.event-desc { margin: 8px 0 0; line-height: 1.45; color: #334155; }
+.event-lead-dossier { margin-top: 8px; }
+.event-lead-dossier .int-dossier--compact {
+  display: block;
+  margin: 0;
+  gap: 0;
+}
+.event-lead-dossier .int-dossier--compact .int-card {
+  margin-bottom: 8px;
+  padding: 10px 12px;
+}
+.event-lead-dossier .int-dossier--compact .int-card h3 {
+  font-size: 0.78rem;
+  margin-bottom: 6px;
+}
+.event-lead-dossier .int-dl {
+  gap: 4px 10px;
+}
+.event-lead-dossier .int-dl dt {
+  font-size: 0.72rem;
+}
+.event-lead-dossier .int-dl dd {
+  font-size: 0.82rem;
+}
+.event-lead-score {
+  margin: 0 0 8px;
+  font-size: 0.78rem;
+  color: #0f766e;
+}
 .em-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
 .em-tag {
   font-size: .68rem;

@@ -360,6 +360,16 @@
     }
   }
 
+  function eventDescriptionHtml(e) {
+    var INT = window.InterlocuteurDossier;
+    if (INT && INT.renderLeadEventBody) {
+      var extra = parseEventExtra(e);
+      var html = INT.renderLeadEventBody(e.description, extra);
+      if (html) return html;
+    }
+    return e.description ? '<p class="event-desc">' + esc(e.description) + "</p>" : "";
+  }
+
   function renderSmartTimeline() {
     var box = document.getElementById("smartTimelineBox");
     if (!box) return;
@@ -532,7 +542,7 @@
               (links ? links + " lien(s)" : "") +
               "</p>"
             : "") +
-          (e.description ? "<p>" + esc(e.description) + "</p>" : "") +
+          (eventDescriptionHtml(e) || "") +
           '<div class="actions">' +
           actions +
           "</div></article>"
