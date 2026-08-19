@@ -4,7 +4,7 @@
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
 const { uploadBase64File } = require("../drive-upload-core");
-const { classifyImmoFile, ensurePropertyDriveFolders } = require("../immo-drive");
+const { resolveVendeurDocumentFolder, ensurePropertyDriveFolders } = require("../immo-drive");
 
 function str(v, max) {
   return String(v == null ? "" : v).trim().slice(0, max || 200);
@@ -85,23 +85,12 @@ module.exports = async function publicImmoListingDocument(req, res) {
       drive_folder_id: prop.drive_folder_id,
     });
 
-    var hintMap = {
-      diagnostics: "diagnostics",
-      dpe: "diagnostics",
-      amiante: "diagnostics",
-      titre: "mandat",
-      titre_propriete: "mandat",
-      acte_vente: "mandat",
-      mandat_signe: "mandat",
-    };
-    var hint = hintMap[documentType] || hintMap[documentGroup] || "docs";
-    var classified =
-      classifyImmoFile({
-        fileName: fileName,
-        mimeType: body.mimeType,
-        hint: hint,
-        confidential: /identite|titre|acte|mandat|kbis|releve_pret|taxe/.test(documentType),
-      }) || "03_documents_publics";
+    var classified = resolveVendeurDocumentFolder({
+      documentGroup: documentGroup,
+      documentType: documentType,
+      fileName: fileName,
+      mimeType: body.mimeType,
+    });
 
     var targetFolder =
       (ensured.subfolderIds && ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) ||

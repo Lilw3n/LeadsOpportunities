@@ -39,6 +39,30 @@ var driveLib = read("api/_lib/immo-listing-drive.js");
 assert(driveLib.indexOf("01_photos_publiques") >= 0, "photos → 01_photos_publiques");
 assert(driveLib.indexOf("syncPropertyPhotosToDrive") >= 0, "syncPropertyPhotosToDrive exporté");
 
+var immoDrive = read("api/_lib/immo-drive.js");
+assert(immoDrive.indexOf("resolveVendeurDocumentFolder") >= 0, "resolveVendeurDocumentFolder exporté");
+assert(immoDrive.indexOf("resolveListingMediaFolder") >= 0, "resolveListingMediaFolder exporté");
+var classify = require("../api/_lib/immo-drive");
+assert(
+  classify.resolveVendeurDocumentFolder({ documentGroup: "identite", documentType: "identite" }) ===
+    "04_documents_confidentiels",
+  "identité → 04_documents_confidentiels"
+);
+assert(
+  classify.resolveVendeurDocumentFolder({ documentGroup: "diagnostics", documentType: "dpe" }) === "05_diagnostics",
+  "DPE → 05_diagnostics"
+);
+assert(
+  classify.resolveVendeurDocumentFolder({ documentGroup: "pub_docs", documentType: "capture_annonce" }) ===
+    "01_photos_publiques",
+  "capture annonce → 01_photos_publiques"
+);
+assert(classify.resolveListingMediaFolder("capture") === "01_photos_publiques", "capture listing → 01_photos_publiques");
+
+var docCfg = read("js/immo-documents-config.js");
+assert(docCfg.indexOf('id: "pub"') >= 0, "zone pub vendeur");
+assert(docCfg.indexOf('id: "perso"') >= 0, "zone perso vendeur");
+
 var html = read("landings/acheteur-immo.html");
 assert(html.indexOf("data-deposit-vente-toggle") >= 0, "coche dossier vente dans dépôt");
 assert(html.indexOf("data-deposit-vente-mount") >= 0, "mount dossier vente dépôt");

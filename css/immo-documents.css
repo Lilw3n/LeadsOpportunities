@@ -1,3 +1,38 @@
+.immo-doc-zone {
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed #cbd5e1;
+}
+
+.immo-doc-zone:last-child {
+  border-bottom: 0;
+}
+
+.immo-doc-zone-title {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  color: #0f766e;
+}
+
+.immo-doc-zone-hint {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.immo-doc-drive-hint {
+  margin: 6px 0 8px;
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.immo-doc-drive-hint code {
+  font-size: 0.72rem;
+  background: #f1f5f9;
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
 .immo-doc-panel {
   margin: 16px 0 0;
   padding: 16px 0 0;

@@ -1,7 +1,7 @@
 /**
  * Sync photos bien immo → Google Drive (01_photos_publiques).
  */
-const { ensurePropertyDriveFolders } = require("./immo-drive");
+const { ensurePropertyDriveFolders, resolveListingMediaFolder } = require("./immo-drive");
 const { uploadBase64File } = require("./drive-upload-core");
 const { isDriveConfigured } = require("./google-drive-auth");
 
@@ -36,7 +36,8 @@ async function syncPropertyPhotosToDrive(property, photos) {
   var ensured = await ensurePropertyDriveFolders(prop);
   var folderId = ensured.folderId || property.drive_folder_id || null;
   var subMap = ensured.subfolderIds || {};
-  var targetFolder = (subMap["01_photos_publiques"] && subMap["01_photos_publiques"].id) || folderId;
+  var pubFolderKey = resolveListingMediaFolder("photo");
+  var targetFolder = (subMap[pubFolderKey] && subMap[pubFolderKey].id) || folderId;
 
   if (ensured.simulated || !targetFolder) {
     return {
@@ -55,12 +56,15 @@ async function syncPropertyPhotosToDrive(property, photos) {
 
   for (var i = 0; i < photos.length; i++) {
     var p = photos[i];
+    var folderKey = resolveListingMediaFolder(p.kind === "capture" ? "capture" : "photo");
+    var uploadFolder =
+      (subMap[folderKey] && subMap[folderKey].id) || targetFolder;
     try {
       var uploadedFile = await uploadBase64File({
         fileName: safePhotoName(i, p.kind),
         base64: stripBase64(p.url),
         mimeType: mimeFromDataUrl(p.url),
-        folderId: targetFolder,
+        folderId: uploadFolder,
         kind: "photo",
       });
       if (uploadedFile.simulated) {
@@ -75,6 +79,7 @@ async function syncPropertyPhotosToDrive(property, photos) {
           thumbnailLink: uploadedFile.thumbnailLink || null,
           url: uploadedFile.thumbnailLink || uploadedFile.webViewLink || p.url,
           storage: "drive",
+          driveFolder: folderKey,
         })
       );
     } catch (err) {

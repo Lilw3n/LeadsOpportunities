@@ -72,6 +72,12 @@ function classifyImmoFile({ fileName, mimeType, confidential, hint }) {
   var conf = !!confidential;
   var h = String(hint || "").toLowerCase();
 
+  if (h === "pub" || h === "photos_publiques" || h === "annonce") {
+    if (mime.indexOf("image/") === 0 || /\.(jpe?g|png|webp|gif|heic)$/i.test(name)) {
+      return "01_photos_publiques";
+    }
+    return "03_documents_publics";
+  }
   if (h === "diagnostics" || /dpe|erp|amiante|plomb|termite|gaz|elec|carrez|parasite/.test(name)) {
     return "05_diagnostics";
   }
@@ -84,8 +90,66 @@ function classifyImmoFile({ fileName, mimeType, confidential, hint }) {
   if (mime.indexOf("image/") === 0 || /\.(jpe?g|png|webp|gif|heic)$/i.test(name)) {
     return conf ? "02_photos_confidentielles" : "01_photos_publiques";
   }
-  if (h === "imprime" || /print|listing|affiche/.test(name)) return "08_documents_imprimes";
+  if (h === "imprime" || /capture.?annonce|print|listing|affiche/.test(name)) return "08_documents_imprimes";
   return conf ? "04_documents_confidentiels" : "03_documents_publics";
+}
+
+/** Dossier Drive pour photos / capture dépôt annonce (Leboncoin, vitrine). */
+function resolveListingMediaFolder(kind) {
+  if (kind === "capture") return "01_photos_publiques";
+  return "01_photos_publiques";
+}
+
+var VENDEUR_GROUP_FOLDER = {
+  identite: "04_documents_confidentiels",
+  titre: "06_mandat_pieces",
+  copro: "04_documents_confidentiels",
+  diagnostics: "05_diagnostics",
+  pub_docs: "03_documents_publics",
+  fiscalite: "04_documents_confidentiels",
+  location: "04_documents_confidentiels",
+  travaux: "04_documents_confidentiels",
+  divers: "04_documents_confidentiels",
+};
+
+var VENDEUR_TYPE_FOLDER = {
+  mandat_signe: "06_mandat_pieces",
+  titre_propriete: "06_mandat_pieces",
+  acte_vente: "06_mandat_pieces",
+  kbis_sci: "06_mandat_pieces",
+  cadastre: "06_mandat_pieces",
+  identite: "04_documents_confidentiels",
+  domicile: "04_documents_confidentiels",
+  livret_famille: "04_documents_confidentiels",
+  dpe: "05_diagnostics",
+  amiante: "05_diagnostics",
+  plomb: "05_diagnostics",
+  termites: "05_diagnostics",
+  erp: "05_diagnostics",
+  gaz_elec: "05_diagnostics",
+  assainissement: "05_diagnostics",
+  carrez: "05_diagnostics",
+  taxe_fonciere: "04_documents_confidentiels",
+  taxe_habitation: "04_documents_confidentiels",
+  releve_pret: "04_documents_confidentiels",
+  descriptif_annonce: "03_documents_publics",
+  plan_pub: "03_documents_publics",
+  capture_annonce: "01_photos_publiques",
+};
+
+/** Classe un document vendeur (section 3) — perso vs pub. */
+function resolveVendeurDocumentFolder({ documentGroup, documentType, fileName, mimeType }) {
+  var type = String(documentType || "").toLowerCase();
+  var group = String(documentGroup || "").toLowerCase();
+  if (VENDEUR_TYPE_FOLDER[type]) return VENDEUR_TYPE_FOLDER[type];
+  if (VENDEUR_GROUP_FOLDER[group]) return VENDEUR_GROUP_FOLDER[group];
+  var isPub = group === "diagnostics" || group === "pub_docs";
+  return classifyImmoFile({
+    fileName: fileName,
+    mimeType: mimeType,
+    confidential: !isPub,
+    hint: isPub ? "pub" : group === "titre" ? "mandat" : "docs",
+  });
 }
 
 async function ensureImmoRoot(token, rootId) {
@@ -178,6 +242,8 @@ async function listFolderFiles(folderId, pageSize) {
 module.exports = {
   IMMO_SUBFOLDERS,
   classifyImmoFile,
+  resolveListingMediaFolder,
+  resolveVendeurDocumentFolder,
   ensurePropertyDriveFolders,
   listFolderFiles,
   safeName,

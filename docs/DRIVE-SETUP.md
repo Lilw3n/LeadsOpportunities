@@ -46,8 +46,9 @@ Le dossier `Immo/2026/prop_xxx/` peut etre cree, mais l'upload de photos echoue.
 1. [Google Cloud Console](https://console.cloud.google.com/) — meme projet que le login CRM.
 2. Activer **[Google Drive API](https://console.cloud.google.com/apis/library/drive.googleapis.com)**.
 3. **APIs et services → Identifiants → Client OAuth** (celui deja utilise pour le CRM).
-4. **URI de redirection autorisees** — ajouter :
-   - `https://developers.google.com/oauthplayground`
+4. **URI de redirection autorisees** — ajouter si besoin :
+   - `https://www.leadsopportunities.fr/api/auth/google-callback`
+   - `https://developers.google.com/oauthplayground` (option Playground)
 
 ### 2. Dossier racine sur le Drive courtier
 

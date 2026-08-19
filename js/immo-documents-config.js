@@ -1,101 +1,138 @@
 /**
  * Catégories de documents — dépôt bien (vendeur) et recherche / financement (acquéreur).
+ * Vendeur : 2 zones Drive — pub (annonce) vs perso (confidentiel).
  */
 (function (global) {
+  var PERSO_GROUPS = [
+    {
+      id: "identite",
+      label: "Identité & domicile vendeur(s)",
+      driveFolder: "04_documents_confidentiels",
+      items: [
+        { type: "identite", label: "Pièce d'identité / passeport (tous mandants)" },
+        { type: "domicile", label: "Justificatif de domicile (< 3 mois)" },
+        { type: "livret_famille", label: "Livret de famille / acte mariage / PACS" },
+        { type: "kbis_sci", label: "Kbis / statuts SCI (personne morale)" },
+      ],
+    },
+    {
+      id: "titre",
+      label: "Titre, propriété & actes",
+      driveFolder: "06_mandat_pieces",
+      items: [
+        { type: "titre_propriete", label: "Titre de propriété / acte notarié" },
+        { type: "acte_vente", label: "Acte de vente / acte d'acquisition" },
+        { type: "cadastre", label: "Plan cadastral / extrait cadastre" },
+        { type: "plans", label: "Plans du bien / permis de construire" },
+        { type: "servitudes", label: "Servitudes / bornage" },
+      ],
+    },
+    {
+      id: "copro",
+      label: "Copropriété",
+      driveFolder: "04_documents_confidentiels",
+      items: [
+        { type: "reglement_copro", label: "Règlement de copropriété & EDD" },
+        { type: "pv_ag", label: "PV dernière AG + convocation" },
+        { type: "charges_copro", label: "Appels de charges (3 derniers)" },
+        { type: "carnet_entretien", label: "Carnet d'entretien immeuble" },
+        { type: "fiche_synth_copro", label: "Fiche synthétique copro (Loi ALUR)" },
+      ],
+    },
+    {
+      id: "fiscalite",
+      label: "Fiscalité & prêt en cours",
+      driveFolder: "04_documents_confidentiels",
+      items: [
+        { type: "taxe_fonciere", label: "Taxe foncière (dernier avis)" },
+        { type: "taxe_habitation", label: "Taxe d'habitation (si applicable)" },
+        { type: "releve_pret", label: "Tableau amortissement / CRD prêt" },
+        { type: "assurance_pno", label: "Assurance PNO / habitation en cours" },
+      ],
+    },
+    {
+      id: "location",
+      label: "Location (si bien occupé / loué)",
+      driveFolder: "04_documents_confidentiels",
+      items: [
+        { type: "bail", label: "Bail en cours + annexes" },
+        { type: "edl", label: "État des lieux entrée / sortie" },
+        { type: "quittances", label: "Quittances de loyer (3 dernières)" },
+        { type: "depot_garantie", label: "Dépôt de garantie / inventaire meublé" },
+      ],
+    },
+    {
+      id: "travaux",
+      label: "Construction < 10 ans & travaux",
+      driveFolder: "04_documents_confidentiels",
+      items: [
+        { type: "do_attestation", label: "Attestation dommage-ouvrage" },
+        { type: "decennale", label: "Attestation garantie décennale" },
+        { type: "factures_travaux", label: "Factures travaux récents / garanties" },
+        { type: "declaration_travaux", label: "Déclaration préalable / permis" },
+      ],
+    },
+    {
+      id: "divers",
+      label: "Compteurs, mandat & divers",
+      driveFolder: "04_documents_confidentiels",
+      items: [
+        { type: "compteurs", label: "Relevés compteurs (eau, élec, gaz)" },
+        { type: "inventaire_meuble", label: "Inventaire mobilier (si meublé)" },
+        { type: "mandat_signe", label: "Mandat signé / bon de visite" },
+        { type: "autre_doc", label: "Autre document confidentiel" },
+      ],
+    },
+  ];
+
+  var PUB_GROUPS = [
+    {
+      id: "diagnostics",
+      label: "Diagnostics pour l'annonce (DPE, ERP…)",
+      driveFolder: "05_diagnostics",
+      items: [
+        { type: "dpe", label: "DPE (< 10 ans / valide)" },
+        { type: "amiante", label: "Amiante (avant 1997)" },
+        { type: "plomb", label: "Plomb CREP (avant 1949)" },
+        { type: "termites", label: "État parasitaire / termites" },
+        { type: "erp", label: "ERP (risques naturels / technologiques)" },
+        { type: "gaz_elec", label: "Conformité gaz / électricité" },
+        { type: "assainissement", label: "Assainissement / SPANC" },
+        { type: "carrez", label: "Mesurage Loi Carrez (copro)" },
+      ],
+    },
+    {
+      id: "pub_docs",
+      label: "Descriptif & visuels annonce",
+      driveFolder: "03_documents_publics",
+      items: [
+        { type: "descriptif_annonce", label: "PDF / texte descriptif vitrine" },
+        { type: "plan_pub", label: "Plan surface pour annonce" },
+        { type: "capture_annonce", label: "Capture écran annonce (Leboncoin…)" },
+      ],
+    },
+  ];
+
   var VENDEUR = {
     title: "Documents du bien à vendre",
     intro:
-      "Déposez les pièces par catégorie (PDF, JPG, PNG — max 12 Mo). Elles sont archivées dans le dossier immo Google Drive du bien.",
+      "Classés automatiquement sur Google Drive : infos perso (confidentiel) vs pièces pub (annonce). Les photos Leboncoin se déposent dans la section ci-dessus.",
     need: "vendeur-immo",
-    groups: [
+    zones: [
       {
-        id: "identite",
-        label: "Identité & domicile vendeur(s)",
-        items: [
-          { type: "identite", label: "Pièce d'identité / passeport (tous mandants)" },
-          { type: "domicile", label: "Justificatif de domicile (< 3 mois)" },
-          { type: "livret_famille", label: "Livret de famille / acte mariage / PACS" },
-          { type: "kbis_sci", label: "Kbis / statuts SCI (personne morale)" },
-        ],
+        id: "pub",
+        label: "Infos pour la pub (annonce, Leboncoin…)",
+        driveHint: "Drive : 01_photos_publiques (photos) · 05_diagnostics · 03_documents_publics",
+        groups: PUB_GROUPS,
       },
       {
-        id: "titre",
-        label: "Titre, propriété & actes",
-        items: [
-          { type: "titre_propriete", label: "Titre de propriété / acte notarié" },
-          { type: "acte_vente", label: "Acte de vente / acte d'acquisition" },
-          { type: "cadastre", label: "Plan cadastral / extrait cadastre" },
-          { type: "plans", label: "Plans du bien / permis de construire" },
-          { type: "servitudes", label: "Servitudes / bornage" },
-        ],
-      },
-      {
-        id: "copro",
-        label: "Copropriété",
-        items: [
-          { type: "reglement_copro", label: "Règlement de copropriété & EDD" },
-          { type: "pv_ag", label: "PV dernière AG + convocation" },
-          { type: "charges_copro", label: "Appels de charges (3 derniers)" },
-          { type: "carnet_entretien", label: "Carnet d'entretien immeuble" },
-          { type: "fiche_synth_copro", label: "Fiche synthétique copro (Loi ALUR)" },
-        ],
-      },
-      {
-        id: "diagnostics",
-        label: "Diagnostics & technique",
-        driveHint: "diagnostics",
-        items: [
-          { type: "dpe", label: "DPE (< 10 ans / valide)" },
-          { type: "amiante", label: "Amiante (avant 1997)" },
-          { type: "plomb", label: "Plomb CREP (avant 1949)" },
-          { type: "termites", label: "État parasitaire / termites" },
-          { type: "erp", label: "ERP (risques naturels / technologiques)" },
-          { type: "gaz_elec", label: "Conformité gaz / électricité" },
-          { type: "assainissement", label: "Assainissement / SPANC" },
-          { type: "carrez", label: "Mesurage Loi Carrez (copro)" },
-        ],
-      },
-      {
-        id: "fiscalite",
-        label: "Fiscalité & prêt en cours",
-        items: [
-          { type: "taxe_fonciere", label: "Taxe foncière (dernier avis)" },
-          { type: "taxe_habitation", label: "Taxe d'habitation (si applicable)" },
-          { type: "releve_pret", label: "Tableau amortissement / CRD prêt" },
-          { type: "assurance_pno", label: "Assurance PNO / habitation en cours" },
-        ],
-      },
-      {
-        id: "location",
-        label: "Location (si bien occupé / loué)",
-        items: [
-          { type: "bail", label: "Bail en cours + annexes" },
-          { type: "edl", label: "État des lieux entrée / sortie" },
-          { type: "quittances", label: "Quittances de loyer (3 dernières)" },
-          { type: "depot_garantie", label: "Dépôt de garantie / inventaire meublé" },
-        ],
-      },
-      {
-        id: "travaux",
-        label: "Construction < 10 ans & travaux",
-        items: [
-          { type: "do_attestation", label: "Attestation dommage-ouvrage" },
-          { type: "decennale", label: "Attestation garantie décennale" },
-          { type: "factures_travaux", label: "Factures travaux récents / garanties" },
-          { type: "declaration_travaux", label: "Déclaration préalable / permis" },
-        ],
-      },
-      {
-        id: "divers",
-        label: "Compteurs, mandat & divers",
-        items: [
-          { type: "compteurs", label: "Relevés compteurs (eau, élec, gaz)" },
-          { type: "inventaire_meuble", label: "Inventaire mobilier (si meublé)" },
-          { type: "mandat_signe", label: "Mandat signé / bon de visite" },
-          { type: "autre_doc", label: "Autre document" },
-        ],
+        id: "perso",
+        label: "Infos perso du bien (confidentiel vendeur)",
+        driveHint: "Drive : 04_documents_confidentiels · 06_mandat_pieces",
+        groups: PERSO_GROUPS,
       },
     ],
+    groups: PUB_GROUPS.concat(PERSO_GROUPS),
   };
 
   var ACHETEUR = {
@@ -155,6 +192,20 @@
     ],
   };
 
+  function flattenGroups(cfg) {
+    if (!cfg) return [];
+    if (cfg.zones && cfg.zones.length) {
+      return cfg.zones.reduce(function (acc, z) {
+        return acc.concat(
+          (z.groups || []).map(function (g) {
+            return Object.assign({}, g, { zoneId: z.id, zoneLabel: z.label });
+          })
+        );
+      }, []);
+    }
+    return cfg.groups || [];
+  }
+
   function getConfig(mode) {
     if (mode === "vendeur" || mode === "vendeur-immo") return VENDEUR;
     if (mode === "acheteur" || mode === "acheteur-immo") return ACHETEUR;
@@ -163,6 +214,7 @@
 
   global.ImmoDocumentsConfig = {
     getConfig: getConfig,
+    flattenGroups: flattenGroups,
     vendeur: VENDEUR,
     acheteur: ACHETEUR,
   };

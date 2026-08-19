@@ -53,53 +53,80 @@
     Object.assign(this.session, session || {});
   };
 
-  ImmoCategoryDocuments.prototype._render = function () {
-    var cfg = this.config;
-    var groupsHtml = (cfg.groups || [])
-      .map(function (g) {
-        var opts = g.items
-          .map(function (it) {
-            return '<option value="' + esc(it.type) + '">' + esc(it.label) + "</option>";
-          })
-          .join("");
-        var list = g.items
-          .map(function (it) {
-            return "<li>" + esc(it.label) + "</li>";
-          })
-          .join("");
-        return (
-          '<details class="immo-doc-cat" open data-immo-doc-group="' +
-          esc(g.id) +
-          '">' +
-          "<summary>" +
-          esc(g.label) +
-          "</summary>" +
-          '<ul class="immo-doc-cat-list">' +
-          list +
-          "</ul>" +
-          '<div class="immo-doc-cat-upload" data-immo-doc-slot="' +
-          esc(g.id) +
-          '">' +
-          '<label class="immo-doc-type-label">Type de pièce</label>' +
-          '<select data-immo-doc-type data-optional>' +
-          opts +
-          "</select>" +
-          '<div class="immo-doc-drop" data-immo-doc-drop tabindex="0" role="button">' +
-          "<strong>Ajouter un fichier</strong>" +
-          "<p>PDF, JPG, PNG — max 12 Mo</p>" +
-          '<input type="file" data-immo-doc-input accept="' +
-          ACCEPT +
-          '" hidden />' +
-          "</div>" +
-          '<div class="immo-doc-queue" data-immo-doc-queue></div>' +
-          "</div></details>"
-        );
+  ImmoCategoryDocuments.prototype._renderGroup = function (g) {
+    var opts = g.items
+      .map(function (it) {
+        return '<option value="' + esc(it.type) + '">' + esc(it.label) + "</option>";
       })
       .join("");
+    var list = g.items
+      .map(function (it) {
+        return "<li>" + esc(it.label) + "</li>";
+      })
+      .join("");
+    var driveNote = g.driveFolder
+      ? '<p class="immo-doc-drive-hint">→ Drive : <code>' + esc(g.driveFolder) + "</code></p>"
+      : "";
+    return (
+      '<details class="immo-doc-cat" open data-immo-doc-group="' +
+      esc(g.id) +
+      '">' +
+      "<summary>" +
+      esc(g.label) +
+      "</summary>" +
+      driveNote +
+      '<ul class="immo-doc-cat-list">' +
+      list +
+      "</ul>" +
+      '<div class="immo-doc-cat-upload" data-immo-doc-slot="' +
+      esc(g.id) +
+      '">' +
+      '<label class="immo-doc-type-label">Type de pièce</label>' +
+      '<select data-immo-doc-type data-optional>' +
+      opts +
+      "</select>" +
+      '<div class="immo-doc-drop" data-immo-doc-drop tabindex="0" role="button">' +
+      "<strong>Ajouter un fichier</strong>" +
+      "<p>PDF, JPG, PNG — max 12 Mo</p>" +
+      '<input type="file" data-immo-doc-input accept="' +
+      ACCEPT +
+      '" hidden />' +
+      "</div>" +
+      '<div class="immo-doc-queue" data-immo-doc-queue></div>' +
+      "</div></details>"
+    );
+  };
+
+  ImmoCategoryDocuments.prototype._render = function () {
+    var cfg = this.config;
+    var groupsHtml = "";
+
+    if (cfg.zones && cfg.zones.length) {
+      groupsHtml = cfg.zones
+        .map(function (zone) {
+          var inner = (zone.groups || []).map(this._renderGroup.bind(this)).join("");
+          return (
+            '<section class="immo-doc-zone" data-immo-doc-zone="' +
+            esc(zone.id) +
+            '">' +
+            '<h5 class="immo-doc-zone-title">' +
+            esc(zone.label) +
+            "</h5>" +
+            (zone.driveHint
+              ? '<p class="immo-doc-zone-hint">' + esc(zone.driveHint) + "</p>"
+              : "") +
+            inner +
+            "</section>"
+          );
+        }, this)
+        .join("");
+    } else {
+      groupsHtml = (cfg.groups || []).map(this._renderGroup.bind(this)).join("");
+    }
 
     this.root.innerHTML =
       '<div class="immo-doc-panel-inner">' +
-      "<h4 class=\"immo-doc-panel-title\">" +
+      '<h4 class="immo-doc-panel-title">' +
       esc(cfg.title) +
       "</h4>" +
       '<p class="small immo-doc-panel-intro">' +
