@@ -450,13 +450,18 @@
       .replace(/"/g, "&quot;");
   }
 
-  function rowsHtml(rows) {
+  function rowsHtml(rows, fieldComments) {
+    fieldComments = fieldComments || {};
     if (!rows || !rows.length) return '<p class="int-empty">Aucune information saisie dans le formulaire.</p>';
     return (
       '<dl class="int-dl">' +
       rows
         .map(function (r) {
-          return "<dt>" + esc(r.label) + "</dt><dd>" + esc(r.value) + "</dd>";
+          var comment = fieldComments[r.key];
+          var commentHtml = comment
+            ? '<small class="int-admin-comment">Admin : ' + esc(comment) + "</small>"
+            : "";
+          return "<dt>" + esc(r.label) + "</dt><dd>" + esc(r.value) + commentHtml + "</dd>";
         })
         .join("") +
       "</dl>"
@@ -467,26 +472,33 @@
     opts = opts || {};
     var d = dossier || { perso: [], pro: [], biens: {}, projet: [] };
     var b = d.biens || {};
+    var raw = d.raw || {};
+    var fieldComments = raw.adminFieldComments || {};
+    var adminNotes = raw.adminQuestionnaireNotes || "";
+    var notesBanner = adminNotes
+      ? '<div class="int-admin-notes-banner"><strong>Note admin (questionnaire) :</strong> ' + esc(adminNotes) + "</div>"
+      : "";
     var html =
       '<div class="int-dossier">' +
       (opts.title !== false
         ? '<p class="int-dossier-lead">Infos reprises du questionnaire — classées pour la fiche interlocuteur.</p>'
         : "") +
+      notesBanner +
       '<section class="int-card int-card-perso"><h3>Info perso</h3>' +
-      rowsHtml(d.perso) +
+      rowsHtml(d.perso, fieldComments) +
       "</section>" +
       '<section class="int-card int-card-pro"><h3>Info pro</h3>' +
-      rowsHtml(d.pro) +
+      rowsHtml(d.pro, fieldComments) +
       "</section>" +
       '<section class="int-card int-card-biens"><h3>Biens — véhicule, immobilier</h3>' +
       "<h4>Véhicule / mobilier</h4>" +
-      rowsHtml(b.vehicules) +
+      rowsHtml(b.vehicules, fieldComments) +
       "<h4>Maison, appartement, immeuble</h4>" +
-      rowsHtml(b.immobilier) +
-      ((b.autres || []).length ? "<h4>Autres éléments</h4>" + rowsHtml(b.autres) : "") +
+      rowsHtml(b.immobilier, fieldComments) +
+      ((b.autres || []).length ? "<h4>Autres éléments</h4>" + rowsHtml(b.autres, fieldComments) : "") +
       "</section>" +
       '<section class="int-card int-card-projet"><h3>Projet / produit demandé</h3>' +
-      rowsHtml(d.projet) +
+      rowsHtml(d.projet, fieldComments) +
       "</section></div>";
     return html;
   }

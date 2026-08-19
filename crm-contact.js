@@ -229,6 +229,34 @@
     var mount = document.getElementById("dossierMount");
     if (!mount || !window.InterlocuteurDossier) return;
     var dossier = dossierFromData();
+    var lead = (data.leads || [])[0];
+    var leadId = lead && lead.id;
+    if (!leadId && data.meta && data.meta.dossier && data.meta.dossier.leadId) {
+      leadId = data.meta.dossier.leadId;
+    }
+    var payload = (dossier && dossier.raw) || {};
+    if (lead && lead.payload) {
+      try {
+        payload = typeof lead.payload === "object" ? lead.payload : JSON.parse(lead.payload);
+      } catch (e) {}
+    }
+    var canEdit =
+      leadId &&
+      window.InterlocuteurDossierEdit &&
+      window.InterlocuteurDossierEdit.canEditQuestionnaire &&
+      window.InterlocuteurDossierEdit.canEditQuestionnaire();
+    if (canEdit) {
+      window.InterlocuteurDossierEdit.mountEditable(mount, dossier, {
+        leadId: leadId,
+        contactId: contactId,
+        api: "crm",
+        payload: payload,
+        onSaved: function () {
+          loadContact();
+        },
+      });
+      return;
+    }
     mount.innerHTML = window.InterlocuteurDossier.renderSections(dossier);
   }
 

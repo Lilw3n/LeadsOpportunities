@@ -134,6 +134,32 @@
           "</pre></section>"
         : "");
 
+    if (
+      window.InterlocuteurDossierEdit &&
+      window.InterlocuteurDossierEdit.canEditQuestionnaire &&
+      window.InterlocuteurDossierEdit.canEditQuestionnaire() &&
+      window.InterlocuteurDossier
+    ) {
+      var intBlock = document.querySelector(".mbx-answers-panel .int-dossier");
+      if (intBlock) {
+        var editWrap = document.createElement("div");
+        intBlock.parentNode.replaceChild(editWrap, intBlock);
+        var dossier = window.InterlocuteurDossier.buildDossier(
+          Object.assign({}, l, { payload_obj: payload }),
+          payload
+        );
+        window.InterlocuteurDossierEdit.mountEditable(editWrap, dossier, {
+          leadId: leadId,
+          contactId: l.contact_id || null,
+          api: "crm",
+          payload: payload,
+          onSaved: function () {
+            load();
+          },
+        });
+      }
+    }
+
     document.getElementById("priority").value = l.priority || "medium";
     if (l.next_followup_at) {
       try {

@@ -2162,6 +2162,7 @@
   <div class="toast" id="toast"></div>
 
   <script src="./js/interlocuteur-dossier-lib.js"></script>
+  <script src="./js/interlocuteur-dossier-edit.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/dashboard.js"></script>
@@ -3164,18 +3165,14 @@
             "</small></div></div>";
         }
 
-        var answersPanel = "";
-        if (window.InterlocuteurDossier) {
-          answersPanel = window.InterlocuteurDossier.renderSections(
-            window.InterlocuteurDossier.buildDossier(Object.assign({}, l, { payload: payload }))
-          );
-        } else if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
-          answersPanel =
-            window.CrmLeadPayloadView.renderQuestionnairePanel(
-              Object.assign({}, l, { payload: payload }),
-              esc
-            );
-        }
+        var dossier = window.InterlocuteurDossier
+          ? window.InterlocuteurDossier.buildDossier(Object.assign({}, l, { payload: payload }))
+          : null;
+        var answersPanel = dossier
+          ? '<div id="modalAnswersPanel"></div>'
+          : (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel
+              ? window.CrmLeadPayloadView.renderQuestionnairePanel(Object.assign({}, l, { payload: payload }), esc)
+              : "");
 
         var ficheCta = l.contact_id
           ? '<a class="btn btn-primary" href="./crm-contact.html?id=' +
@@ -3238,6 +3235,28 @@
               '<button class="btn-save" id="saveLeadBtn" data-id="' + esc(l.id) + '">Enregistrer</button>' +
             '</div>' +
           '</div>';
+
+        if (dossier && window.InterlocuteurDossierEdit) {
+          var answersMount = document.getElementById("modalAnswersPanel");
+          if (answersMount) {
+            window.InterlocuteurDossierEdit.mountEditable(answersMount, dossier, {
+              leadId: l.id,
+              contactId: l.contact_id || null,
+              api: "dashboard",
+              authHeaders: authHeaders,
+              payload: payload,
+              onSaved: function (res) {
+                if (res && res.payload) payload = res.payload;
+                toast("Questionnaire enregistré — fiche interlocuteur synchronisée", "success");
+              },
+            });
+          }
+        } else if (dossier && window.InterlocuteurDossier) {
+          var answersMountRead = document.getElementById("modalAnswersPanel");
+          if (answersMountRead) {
+            answersMountRead.innerHTML = window.InterlocuteurDossier.renderSections(dossier);
+          }
+        }
 
         document.getElementById("deleteLeadBtn").addEventListener("click", async function() {
           var btn = this;

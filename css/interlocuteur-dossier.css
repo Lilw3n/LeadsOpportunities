@@ -103,6 +103,90 @@
   border-color: #4f46e5;
   color: #fff;
 }
+.int-dossier-edit {
+  margin: 12px 0 18px;
+}
+.int-edit-global-note {
+  display: block;
+  margin: 0 0 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.int-edit-global-note textarea {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 10px;
+  font: inherit;
+  resize: vertical;
+}
+.int-edit-section {
+  margin-bottom: 12px;
+}
+.int-edit-rows {
+  display: grid;
+  gap: 10px;
+}
+.int-edit-row {
+  display: grid;
+  gap: 6px;
+}
+.int-edit-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted, #64748b);
+}
+.int-edit-label input[type="text"] {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 9px 11px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 500;
+  color: inherit;
+}
+.int-field-comment {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.82rem;
+  background: #f8fafc;
+}
+.int-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 14px;
+}
+.int-edit-status {
+  font-size: 0.85rem;
+  color: var(--muted, #64748b);
+}
+.int-admin-notes-banner {
+  grid-column: 1 / -1;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  font-size: 0.88rem;
+}
+.int-admin-comment {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #92400e;
+  font-style: italic;
+}
 @media (max-width: 800px) {
   .int-dossier { grid-template-columns: 1fr; }
   .int-card-biens, .int-card-projet { grid-column: auto; }

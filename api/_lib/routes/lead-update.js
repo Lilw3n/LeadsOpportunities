@@ -155,6 +155,23 @@ module.exports = async (req, res) => {
       }
     }
 
+    if (body.payloadPatch || body.fields || body.adminQuestionnaireNotes != null || body.fieldComments) {
+      const { patchLeadQuestionnaire } = require("../lead-questionnaire-patch");
+      const qOut = await patchLeadQuestionnaire(sql, {
+        leadId: body.leadId,
+        payloadPatch: body.payloadPatch || body.fields,
+        fieldComments: body.fieldComments,
+        adminQuestionnaireNotes: body.adminQuestionnaireNotes,
+        adminComment: body.adminComment,
+        syncContact: body.syncContact !== false,
+        user: user,
+      });
+      if (!qOut.ok) {
+        return res.status(400).json(qOut);
+      }
+      return res.status(200).json(Object.assign({ message: "Questionnaire mis à jour" }, qOut));
+    }
+
     return res.status(200).json({ ok: true, message: "Lead mis à jour" });
   } catch (e) {
     console.error("[dashboard/lead-update]", e);
