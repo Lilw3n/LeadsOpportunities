@@ -87,22 +87,22 @@
       '<div class="field"><label>Rôle / qualité</label><select name="ownerRole[]" data-owner-field="role"><option value="">— Choisir —</option>' +
       roleOptions(data.role) +
       "</select></div>" +
-      '<div class="field"><label>Prénom</label><input name="ownerFirstName[]" data-owner-field="firstName" autocomplete="given-name" placeholder="Ex. Andréa" value="' +
+      '<div class="field"><label>Prénom</label><input name="ownerFirstName[]" data-owner-field="firstName" autocomplete="given-name" placeholder="Ex. Jean" value="' +
       esc(data.firstName || "") +
       '" /></div>' +
-      '<div class="field"><label>Nom</label><input name="ownerLastName[]" data-owner-field="lastName" autocomplete="family-name" placeholder="Ex. Tafka" value="' +
+      '<div class="field"><label>Nom</label><input name="ownerLastName[]" data-owner-field="lastName" autocomplete="family-name" placeholder="Ex. Dupont" value="' +
       esc(data.lastName || "") +
       '" /></div>' +
       '<div class="field full"><label>Adresse postale</label><input name="ownerAddress[]" data-owner-field="address" autocomplete="street-address" placeholder="Rue, numéro…" value="' +
       esc(data.address || "") +
       '" /></div>' +
-      '<div class="field"><label>Code postal</label><input name="ownerPostal[]" data-owner-field="postal" inputmode="numeric" maxlength="5" placeholder="54110" value="' +
+      '<div class="field"><label>Code postal</label><input name="ownerPostal[]" data-owner-field="postal" inputmode="numeric" maxlength="5" placeholder="75011" value="' +
       esc(data.postal || "") +
       '" /></div>' +
-      '<div class="field"><label>Ville</label><input name="ownerCity[]" data-owner-field="city" autocomplete="address-level2" placeholder="Varangéville" value="' +
+      '<div class="field"><label>Ville</label><input name="ownerCity[]" data-owner-field="city" autocomplete="address-level2" placeholder="Paris" value="' +
       esc(data.city || "") +
       '" /></div>' +
-      '<div class="field"><label>Téléphone</label><input name="ownerPhone[]" data-owner-field="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="06 05 91 68 73" value="' +
+      '<div class="field"><label>Téléphone</label><input name="ownerPhone[]" data-owner-field="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="06 12 34 56 78" value="' +
       esc(data.phone || "") +
       '" /></div>' +
       '<div class="field"><label>E-mail</label><input name="ownerEmail[]" data-owner-field="email" type="email" autocomplete="email" placeholder="vous@email.fr" value="' +
