@@ -28,7 +28,7 @@ async function loadCrmListings() {
   var db = await store.loadAll(sql);
   return (db.properties || [])
     .filter(function (p) {
-      return Matcher.isMatchableStatus(p.status);
+      return p.published && Matcher.isMatchableStatus(p.status);
     })
     .map(function (p) {
       return Lib.toPublicListing(p);

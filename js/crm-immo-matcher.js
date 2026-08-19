@@ -447,9 +447,12 @@
     var contactConnu = query.contact_connu;
     var dateFrom = query.date_from ? String(query.date_from) : "";
     var dateTo = query.date_to ? String(query.date_to) : "";
+    var publishedMode = query.published || "any";
 
     return (properties || []).filter(function (raw) {
       var p = normalizeProperty(raw);
+      if (publishedMode === "yes" && !raw.published) return false;
+      if (publishedMode === "no" && raw.published) return false;
       if (status && p.status !== status) return false;
       if (type && p.property_type !== type) return false;
       if (source && p.listing_source !== source) return false;

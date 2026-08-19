@@ -304,6 +304,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : isOwner ? "Bien à vendre" : "Annonce " + d.label),
             property_type: propertyType,
             status: "prospection",
+            published: false,
             listing_source: d.portal || "manual",
             listing_url: d.url || null,
             city: city || null,

@@ -129,6 +129,9 @@ window.CrmImmoStore = (function () {
     if (!item.property_type) item.property_type = "appartement";
     if (!item.transaction) item.transaction = "vente";
     if (!item.listing_source) item.listing_source = "manual";
+    if (item.published == null) item.published = false;
+    if (item.published === true && !item.published_at) item.published_at = now;
+    if (item.published === false) item.published_at = null;
     if (!item.details || typeof item.details !== "object") item.details = {};
     if (!Array.isArray(item.units)) item.units = [];
     if (!item.docs_checklist || typeof item.docs_checklist !== "object") item.docs_checklist = {};

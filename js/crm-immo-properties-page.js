@@ -114,6 +114,7 @@
       contact_connu: document.getElementById("swKnown").dataset.on === "1" ? true : undefined,
       date_from: document.getElementById("fDateFrom").value,
       date_to: document.getElementById("fDateTo").value,
+      published: document.getElementById("fPublished").value,
     };
   }
 
@@ -139,6 +140,7 @@
         if (p.transaction === "location") tags.push("à louer");
         else tags.push("à vendre");
         if (p.a_contacter) tags.push("à contacter");
+        if (p.published) tags.push("vitrine");
         tags.push(Matcher.propertyStatusLabel(p.status));
         if (p.has_garage) tags.push("garage");
         if (p.has_parking) tags.push("parking");
@@ -246,6 +248,7 @@
     document.getElementById("pBuyer").value = p.buyer_contact_id || "";
     document.getElementById("pLead").value = p.lead_id || "";
     document.getElementById("pAContacter").checked = !!p.a_contacter;
+    document.getElementById("pPublished").checked = !!p.published;
     document.getElementById("pContactConnu").checked = !!p.contact_connu;
     document.getElementById("pGarage").checked = !!p.has_garage;
     document.getElementById("pParking").checked = !!p.has_parking;
@@ -290,6 +293,7 @@
       buyer_contact_id: document.getElementById("pBuyer").value.trim() || null,
       lead_id: document.getElementById("pLead").value.trim() || null,
       a_contacter: document.getElementById("pAContacter").checked,
+      published: document.getElementById("pPublished").checked,
       contact_connu: document.getElementById("pContactConnu").checked,
       has_garage: document.getElementById("pGarage").checked,
       has_parking: document.getElementById("pParking").checked,
@@ -423,6 +427,35 @@
           ),
         });
       }
+      return;
+    }
+
+    if (act === "publish") {
+      ids = needSelection();
+      if (!ids) return;
+      var nowPub = new Date().toISOString();
+      ids.forEach(function (id) {
+        var p = Store.getProperty(id);
+        if (!p) return;
+        p.published = true;
+        p.published_at = nowPub;
+        Store.upsertProperty(p);
+      });
+      renderList();
+      return;
+    }
+
+    if (act === "unpublish") {
+      ids = needSelection();
+      if (!ids) return;
+      ids.forEach(function (id) {
+        var p = Store.getProperty(id);
+        if (!p) return;
+        p.published = false;
+        p.published_at = null;
+        Store.upsertProperty(p);
+      });
+      renderList();
       return;
     }
 

@@ -48,6 +48,9 @@
     prop.status = document.getElementById("mStatus").value;
     prop.listing_source = document.getElementById("mSource").value;
     prop.listing_url = document.getElementById("mUrl").value.trim();
+    prop.published = !!document.getElementById("mPublished").checked;
+    if (prop.published && !prop.published_at) prop.published_at = new Date().toISOString();
+    if (!prop.published) prop.published_at = null;
   }
 
   function syncHeader() {
@@ -68,7 +71,8 @@
       (prop.city || "") +
       " " +
       (prop.postal_code || "") +
-      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "");
+      (prop.units.length ? " · " + prop.units.length + " unité(s)" : "") +
+      (prop.published ? " · Vitrine publique" : "");
     var a = document.getElementById("linkAnnonce");
     if (prop.listing_url) {
       a.href = prop.listing_url;
@@ -146,6 +150,7 @@
     mStatus.value = prop.status;
     mSource.value = prop.listing_source || "manual";
     document.getElementById("mUrl").value = prop.listing_url || "";
+    document.getElementById("mPublished").checked = !!prop.published;
   }
 
   function smartText() {

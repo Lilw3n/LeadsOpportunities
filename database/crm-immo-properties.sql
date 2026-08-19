@@ -40,11 +40,13 @@ CREATE TABLE IF NOT EXISTS crm_immo_properties (
   buyer_contact_id TEXT,
   lead_id TEXT,
   assigned_to TEXT,
+  published BOOLEAN DEFAULT FALSE,
+  published_at TIMESTAMPTZ,
   created_by TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_status ON crm_immo_properties(status);
+CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_published ON crm_immo_properties(published);
 CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_city ON crm_immo_properties(city);
 CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_postal ON crm_immo_properties(postal_code);
 CREATE INDEX IF NOT EXISTS idx_crm_immo_properties_owner ON crm_immo_properties(owner_contact_id);

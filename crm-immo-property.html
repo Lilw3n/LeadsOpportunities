@@ -73,6 +73,8 @@
     .meta-bar { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px; margin-bottom:12px; }
     .meta-bar label { display:flex; flex-direction:column; gap:4px; font-size:.75rem; font-weight:700; color:var(--muted); }
     .meta-bar input, .meta-bar select { padding:8px 10px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .meta-bar .meta-publish { flex-direction:row; align-items:center; gap:8px; }
+    .meta-bar .meta-publish input[type=checkbox] { width:18px; height:18px; min-width:18px; flex:0; }
     .save-bar { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; }
     .party-row { display:flex; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); align-items:flex-start; }
     .rel-disclaimer { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; padding:10px 12px; border-radius:8px; font-size:.82rem; margin:8px 0 12px; line-height:1.4; }
@@ -131,6 +133,10 @@
     </label>
     <label>Origine<select id="mSource"></select></label>
     <label>URL annonce<input id="mUrl" placeholder="https://…" /></label>
+    <label class="meta-publish" title="Visible sur la vitrine acheteur (landings/acheteur-immo.html)">
+      <span>Vitrine publique</span>
+      <input type="checkbox" id="mPublished" />
+    </label>
   </div>
 
   <div id="tabDescription">

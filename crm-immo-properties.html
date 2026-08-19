@@ -207,6 +207,13 @@
         <div class="piges-row"><span>Classif. projet</span><input type="checkbox" id="fClassif" /></div>
         <div class="piges-row"><span>À contacter</span><button type="button" class="piges-switch" id="swContact" data-on="0" aria-pressed="false"><i></i></button></div>
         <div class="piges-row"><span>Contact connu</span><button type="button" class="piges-switch" id="swKnown" data-on="0" aria-pressed="false"><i></i></button></div>
+        <label class="piges-field">Vitrine publique
+          <select id="fPublished">
+            <option value="any">Tous</option>
+            <option value="yes">Publiés sur vitrine</option>
+            <option value="no">Non publiés</option>
+          </select>
+        </label>
         <div class="piges-row">
           <span>Téléphone</span>
           <div class="piges-tri" data-tri="fPhone">
@@ -303,6 +310,8 @@
 
     <div>
       <div class="piges-toolbar" id="pigesActions">
+        <button type="button" data-act="publish">Publier vitrine</button>
+        <button type="button" data-act="unpublish">Retirer vitrine</button>
         <button type="button" data-act="sms">SMS</button>
         <button type="button" data-act="suivi">Créer suivi</button>
         <button type="button" data-act="delete">Supprimer</button>
@@ -361,6 +370,7 @@
           <label>Contact acquéreur (id)<input id="pBuyer" placeholder="contact_…" /></label>
           <label>Lead lié (id)<input id="pLead" placeholder="lead_…" /></label>
           <div class="immo-check" style="grid-column:1/-1">
+            <label><input type="checkbox" id="pPublished" /> Publier sur vitrine acheteur</label>
             <label><input type="checkbox" id="pAContacter" /> À contacter</label>
             <label><input type="checkbox" id="pContactConnu" /> Contact connu</label>
             <label><input type="checkbox" id="pGarage" /> Garage</label>

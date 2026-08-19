@@ -26,6 +26,8 @@ async function ensureImmoSchema(sql) {
     return true;
   }
   await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS drive_folder_id TEXT`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS published BOOLEAN DEFAULT FALSE`;
+  await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS published_at TIMESTAMPTZ`;
   await sql`
     CREATE TABLE IF NOT EXISTS crm_immo_properties (
       id TEXT PRIMARY KEY,
@@ -169,6 +171,8 @@ function parseArr(v) {
 function rowToProperty(r) {
   if (!r) return null;
   return Object.assign({}, r, {
+    published: r.published === true,
+    published_at: r.published_at || null,
     surface_m2: r.surface_m2 != null ? Number(r.surface_m2) : null,
     rooms: r.rooms != null ? Number(r.rooms) : null,
     bedrooms: r.bedrooms != null ? Number(r.bedrooms) : null,
@@ -260,6 +264,21 @@ async function upsertProperty(sql, item, user) {
   await ensureImmoSchema(sql);
   const id = item.id || uid("prop");
   const createdBy = (user && user.id) || item.created_by || null;
+  let published = false;
+  let publishedAt = null;
+  if (item.published === true) {
+    published = true;
+    publishedAt = item.published_at || new Date().toISOString();
+  } else if (item.published === false) {
+    published = false;
+    publishedAt = null;
+  } else if (item.id) {
+    const existing = await sql`SELECT published, published_at FROM crm_immo_properties WHERE id = ${item.id} LIMIT 1`;
+    if (existing.length) {
+      published = existing[0].published === true;
+      publishedAt = existing[0].published_at || null;
+    }
+  }
   await sql`
     INSERT INTO crm_immo_properties (
       id, title, property_type, status, listing_source, listing_url,
@@ -268,7 +287,8 @@ async function upsertProperty(sql, item, user) {
       has_elevator, has_garage, has_parking, has_cave, has_garden, has_terrace, has_balcony, has_pool,
       dependencies_json, price_net, price_fai, honoraires, dpe, ges,
       description, notes, photos_json, metadata_json,
-      owner_contact_id, buyer_contact_id, lead_id, assigned_to, created_by, updated_at
+      owner_contact_id, buyer_contact_id, lead_id, assigned_to, created_by,
+      published, published_at, updated_at
     ) VALUES (
       ${id}, ${item.title || "Bien"}, ${item.property_type || "appartement"}, ${item.status || "active"},
       ${item.listing_source || "manual"}, ${item.listing_url || null},
@@ -284,7 +304,7 @@ async function upsertProperty(sql, item, user) {
       ${item.description || null}, ${item.notes || null},
       ${j(item.photos_json || item.photos, [])}, ${j(item.metadata_json || item.metadata, {})},
       ${item.owner_contact_id || null}, ${item.buyer_contact_id || null}, ${item.lead_id || null},
-      ${item.assigned_to || null}, ${createdBy}, NOW()
+      ${item.assigned_to || null}, ${createdBy}, ${published}, ${publishedAt}, NOW()
     )
     ON CONFLICT (id) DO UPDATE SET
       title = EXCLUDED.title,
@@ -324,6 +344,8 @@ async function upsertProperty(sql, item, user) {
       buyer_contact_id = EXCLUDED.buyer_contact_id,
       lead_id = EXCLUDED.lead_id,
       assigned_to = EXCLUDED.assigned_to,
+      published = EXCLUDED.published,
+      published_at = EXCLUDED.published_at,
       updated_at = NOW()
   `;
   return id;
