@@ -133,6 +133,8 @@
     sellRooms: "Nombre de pièces",
     sellPrice: "Prix souhaité",
     sellDossierSummary: "Résumé dossier vente",
+    entityName: "Raison sociale / SCI",
+    sharePct: "Quote-part (%)",
     notes: "Notes",
     platform: "Plateforme",
     source: "Source",
@@ -185,6 +187,15 @@
     logic_immo: "Logic-immo",
     figaro: "Figaro Immobilier",
     avendrealouer: "Avendre A Louer",
+    sci: "SCI / personne morale",
+    associe_sci: "Associé SCI / société",
+    indivisaire: "Indivisaire / co-propriétaire",
+    nu_proprietaire: "Nu-propriétaire",
+    usufruitier: "Usufruitier",
+    mandataire: "Mandataire / représentant",
+    heritier: "Héritier",
+    proprietaire: "Propriétaire",
+    deposant: "Déposant",
   };
 
   var PERSO_KEYS = [
@@ -367,6 +378,86 @@
     questionnaire_pct: 1,
   };
 
+  function parseSellDossier(p) {
+    var sd = p && p.sellDossier;
+    if (typeof sd === "string") {
+      try {
+        sd = JSON.parse(sd);
+      } catch (e) {
+        sd = null;
+      }
+    }
+    return sd && typeof sd === "object" ? sd : null;
+  }
+
+  function ownersRowsFromPayload(p) {
+    p = p || {};
+    var sd = parseSellDossier(p);
+    var owners = (sd && Array.isArray(sd.owners) ? sd.owners : null) || (Array.isArray(p.owners) ? p.owners : []);
+    if (!owners.length) return [];
+    return owners
+      .map(function (o, idx) {
+        o = o || {};
+        var name = [o.firstName || o.first_name, o.lastName || o.last_name].filter(Boolean).join(" ").trim();
+        var role = VALUE_LABELS[o.role] || o.role || "";
+        var bits = [];
+        if (role) bits.push(role);
+        if (o.entityName || o.entity_name) bits.push("Structure : " + (o.entityName || o.entity_name));
+        if (o.siret) bits.push("SIRET " + o.siret);
+        if (o.sharePct != null && o.sharePct !== "") bits.push(o.sharePct + " %");
+        if (o.phone) bits.push(o.phone);
+        if (o.email) bits.push(o.email);
+        if (o.city || o.postal) bits.push([o.postal, o.city].filter(Boolean).join(" "));
+        if (o.mailRecipient) bits.push("Destinataire courriers");
+        var label = name || o.entityName || o.entity_name || "Mandant " + (idx + 1);
+        return {
+          key: "owner_" + idx,
+          label: label,
+          value: bits.join(" · ") || "—",
+        };
+      })
+      .filter(function (r) {
+        return r.label && r.value;
+      });
+  }
+
+  function enterprisesRowsFromPayload(p) {
+    p = p || {};
+    var sd = parseSellDossier(p);
+    var owners = (sd && Array.isArray(sd.owners) ? sd.owners : null) || (Array.isArray(p.owners) ? p.owners : []);
+    var map = {};
+    owners.forEach(function (o) {
+      o = o || {};
+      var en = o.entityName || o.entity_name || (o.role === "sci" ? [o.firstName, o.lastName].filter(Boolean).join(" ") : "");
+      if (!en) return;
+      if (!map[en]) {
+        map[en] = {
+          key: "enterprise_" + en,
+          label: en,
+          parts: [],
+          siret: o.siret || "",
+          legalForm: VALUE_LABELS[o.legalForm || o.legal_form] || o.legalForm || "",
+        };
+      }
+      var person = [o.firstName, o.lastName].filter(Boolean).join(" ").trim();
+      if (person) {
+        var bit = person;
+        if (o.sharePct != null && o.sharePct !== "") bit += " (" + o.sharePct + " %)";
+        if (VALUE_LABELS[o.role]) bit += " — " + VALUE_LABELS[o.role];
+        map[en].parts.push(bit);
+      }
+      if (o.siret && !map[en].siret) map[en].siret = o.siret;
+    });
+    return Object.keys(map).map(function (k) {
+      var e = map[k];
+      var bits = [];
+      if (e.legalForm) bits.push(e.legalForm);
+      if (e.siret) bits.push("SIRET " + e.siret);
+      if (e.parts.length) bits.push("Associés : " + e.parts.join(", "));
+      return { key: e.key, label: e.label, value: bits.join(" · ") };
+    });
+  }
+
   function parsePayload(raw) {
     if (!raw) return {};
     if (typeof raw === "object") return raw;
@@ -476,6 +567,8 @@
     var vehicules = pick(p, VEHICLE_KEYS);
     var immobilier = pick(p, IMMO_KEYS);
     var projet = pick(p, PROJET_KEYS);
+    var mandants = ownersRowsFromPayload(p);
+    var entreprises = enterprisesRowsFromPayload(p);
 
     var known = {};
     PERSO_KEYS.concat(PRO_KEYS, VEHICLE_KEYS, IMMO_KEYS, PROJET_KEYS).forEach(function (k) {
@@ -494,6 +587,8 @@
     return {
       perso: perso,
       pro: pro,
+      mandants: mandants,
+      entreprises: entreprises,
       biens: { vehicules: vehicules, immobilier: immobilier, autres: autres.slice(0, 24) },
       projet: projet,
       raw: p,
@@ -541,6 +636,8 @@
           }
         : null,
       immo: immobilierSummary(p),
+      enterprises: enterprisesRowsFromPayload(p),
+      mandants: ownersRowsFromPayload(p),
     };
   }
 
@@ -561,6 +658,7 @@
   function countFilled(dossier) {
     if (!dossier) return 0;
     var n = (dossier.perso || []).length + (dossier.pro || []).length + (dossier.projet || []).length;
+    n += (dossier.mandants || []).length + (dossier.entreprises || []).length;
     var b = dossier.biens || {};
     n += (b.vehicules || []).length + (b.immobilier || []).length;
     return n;
@@ -614,6 +712,16 @@
       '<section class="int-card int-card-pro"><h3>Info pro</h3>' +
       rowsHtml(d.pro, fieldComments) +
       "</section>" +
+      ((d.entreprises || []).length
+        ? '<section class="int-card int-card-entreprises"><h3>Entreprises / SCI</h3>' +
+          rowsHtml(d.entreprises, fieldComments) +
+          "</section>"
+        : "") +
+      ((d.mandants || []).length
+        ? '<section class="int-card int-card-mandants"><h3>Propriétaires &amp; mandants (dossier vente)</h3>' +
+          rowsHtml(d.mandants, fieldComments) +
+          "</section>"
+        : "") +
       '<section class="int-card int-card-biens"><h3>Biens — véhicule, immobilier</h3>' +
       "<h4>Véhicule / mobilier</h4>" +
       rowsHtml(b.vehicules, fieldComments) +
@@ -699,6 +807,8 @@
     }
     html += section("Contact", "int-card-perso", dossier.perso);
     html += section("Professionnel", "int-card-pro", dossier.pro);
+    html += section("Entreprises / SCI", "int-card-entreprises", dossier.entreprises);
+    html += section("Propriétaires & mandants", "int-card-mandants", dossier.mandants);
     html += section("Bien immobilier", "int-card-biens", bienRows);
     html += section("Projet / annonce", "int-card-projet", dossier.projet);
     html += "</div></div>";
@@ -715,6 +825,8 @@
       first(p, ["phone"]) ? "Tél: " + first(p, ["phone"]) : "",
       first(p, ["need", "serviceNeed", "vertical"]) ? "Produit: " + first(p, ["need", "serviceNeed", "vertical"]) : "",
       first(p, ["companySiret", "siret", "siren"]) ? "SIREN/SIRET: " + first(p, ["companySiret", "siret", "siren"]) : "",
+      (dossier.mandants || []).length ? "Mandants: " + dossier.mandants.length : "",
+      (dossier.entreprises || []).length ? "Structures: " + dossier.entreprises.map(function (e) { return e.label; }).join(", ") : "",
       ctx.contactUrl ? "<" + ctx.contactUrl + "|Ouvrir la fiche>" : "",
       ctx.eventsUrl ? "<" + ctx.eventsUrl + "|Événements>" : "",
     ];
@@ -725,6 +837,9 @@
     LABELS: LABELS,
     VALUE_LABELS: VALUE_LABELS,
     parsePayload: parsePayload,
+    ownersRowsFromPayload: ownersRowsFromPayload,
+    enterprisesRowsFromPayload: enterprisesRowsFromPayload,
+    parseSellDossier: parseSellDossier,
     buildDossier: buildDossier,
     patchesFromDossier: patchesFromDossier,
     countFilled: countFilled,

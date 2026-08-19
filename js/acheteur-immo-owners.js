@@ -11,8 +11,20 @@
     { v: "usufruitier", t: "Usufruitier" },
     { v: "indivisaire", t: "Indivisaire / co-propriétaire" },
     { v: "sci", t: "SCI / personne morale" },
+    { v: "associe_sci", t: "Associé SCI / société" },
     { v: "mandataire", t: "Mandataire / représentant" },
     { v: "heritier", t: "Héritier" },
+    { v: "autre", t: "Autre" },
+  ];
+
+  var ENTITY_ROLES = { sci: 1, associe_sci: 1, indivisaire: 1, mandataire: 1 };
+
+  var LEGAL_FORM_OPTS = [
+    { v: "", t: "— Forme juridique —" },
+    { v: "sci", t: "SCI" },
+    { v: "societe", t: "SARL / SAS / SA…" },
+    { v: "indivision", t: "Indivision" },
+    { v: "personne_physique", t: "Personne physique" },
     { v: "autre", t: "Autre" },
   ];
 
@@ -26,6 +38,20 @@
 
   function roleOptions(selected) {
     return ROLE_OPTS.map(function (o) {
+      return (
+        '<option value="' +
+        esc(o.v) +
+        '"' +
+        (selected === o.v ? " selected" : "") +
+        ">" +
+        esc(o.t) +
+        "</option>"
+      );
+    }).join("");
+  }
+
+  function legalFormOptions(selected) {
+    return LEGAL_FORM_OPTS.map(function (o) {
       return (
         '<option value="' +
         esc(o.v) +
@@ -106,10 +132,15 @@
     var index = Number(card.getAttribute("data-owner-index") || "0");
     var sameContactEl = card.querySelector("[data-owner-same-contact]");
     var samePropertyEl = card.querySelector("[data-owner-same-property]");
+    var roleEl = card.querySelector('[data-owner-field="role"]');
+    var role = roleEl ? String(roleEl.value || "") : "";
     var sameContact = index === 0 && sameContactEl && sameContactEl.checked;
     var sameProperty = samePropertyEl && samePropertyEl.checked;
     var contactWrap = card.querySelector("[data-owner-contact-fields]");
     var addressWrap = card.querySelector("[data-owner-address-fields]");
+    var entityWrap = card.querySelector("[data-owner-entity-fields]");
+    var shareWrap = card.querySelector("[data-owner-share-field]");
+    var showEntity = !!(ENTITY_ROLES[role] || (dataEntityHint(card) && role !== "heritier"));
     if (contactWrap) contactWrap.hidden = sameContact;
     if (addressWrap) {
       addressWrap.hidden = sameProperty;
@@ -118,7 +149,16 @@
         samePropertyEl.disabled = !(prop.city || prop.postal || prop.address);
       }
     }
+    if (entityWrap) entityWrap.hidden = !showEntity;
+    if (shareWrap) {
+      shareWrap.hidden = !(role === "associe_sci" || role === "indivisaire" || role === "heritier" || role === "sci");
+    }
     if (sameContactEl) sameContactEl.closest("[data-owner-same-contact-wrap]").hidden = index !== 0;
+  }
+
+  function dataEntityHint(card) {
+    var el = card.querySelector('[data-owner-field="entityName"]');
+    return el && String(el.value || "").trim();
   }
 
   function syncAllCards(mount) {
@@ -163,6 +203,20 @@
       '<div class="field"><label>Rôle / qualité</label><select name="ownerRole[]" data-owner-field="role"><option value="">— Choisir —</option>' +
       roleOptions(data.role) +
       "</select></div>" +
+      '<div class="immo-owner-entity-fields" data-owner-entity-fields hidden>' +
+      '<div class="field full"><label>Raison sociale / SCI</label><input name="ownerEntityName[]" data-owner-field="entityName" autocomplete="organization" placeholder="Ex. SCI Les Lilas" value="' +
+      esc(data.entityName || "") +
+      '" /></div>' +
+      '<div class="field"><label>SIRET / SIREN</label><input name="ownerSiret[]" data-owner-field="siret" inputmode="numeric" maxlength="17" placeholder="123 456 789 00012" value="' +
+      esc(data.siret || "") +
+      '" /></div>' +
+      '<div class="field"><label>Forme juridique</label><select name="ownerLegalForm[]" data-owner-field="legalForm">' +
+      legalFormOptions(data.legalForm || (data.role === "sci" ? "sci" : "")) +
+      "</select></div>" +
+      "</div>" +
+      '<div class="field immo-owner-share-field" data-owner-share-field hidden><label>Quote-part (%)</label><input name="ownerSharePct[]" data-owner-field="sharePct" type="number" min="0" max="100" step="0.01" inputmode="decimal" placeholder="Ex. 50" value="' +
+      esc(data.sharePct != null ? data.sharePct : "") +
+      '" /></div>' +
       '<div class="immo-owner-contact-fields" data-owner-contact-fields>' +
       '<div class="field"><label>Prénom</label><input name="ownerFirstName[]" data-owner-field="firstName" autocomplete="given-name" placeholder="Ex. Jean" value="' +
       esc(data.firstName || "") +
@@ -320,7 +374,8 @@
     mount.addEventListener("change", function (e) {
       if (
         e.target.matches("[data-owner-same-contact]") ||
-        e.target.matches("[data-owner-same-property]")
+        e.target.matches("[data-owner-same-property]") ||
+        e.target.matches('[data-owner-field="role"]')
       ) {
         syncCardFieldVisibility(e.target.closest(".immo-owner-card"));
       }
@@ -329,6 +384,9 @@
     document.addEventListener("input", function (e) {
       if (!e.target || !e.target.closest("[data-url-capture-form], [data-search-vente-panel]")) return;
       syncAllCards(mount);
+      if (e.target.matches('[data-owner-field="entityName"]') && mount.contains(e.target)) {
+        syncCardFieldVisibility(e.target.closest(".immo-owner-card"));
+      }
     });
   }
 

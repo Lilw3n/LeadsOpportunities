@@ -402,18 +402,43 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         }
 
         if (!isSignalement && (isOwner || sellerName || sellerPhone || sellerEmail)) {
-          await store.upsertParty(sql, {
-            property_id: propId,
-            role: "vendeur",
-            name: sellerName || sellerAgency || personName || "Vendeur",
-            email: sellerEmail || null,
-            phone: sellerPhone || null,
-            notes: isOwner
-              ? "Propriétaire / déposant" + (sellerAgency ? " — " + sellerAgency : "") + (sellerKind ? " (" + sellerKind + ")" : "")
-              : sellerAgency
-                ? "Agence : " + sellerAgency
-                : "Infos collées depuis l'annonce",
-          });
+          var OwnersLib = require("../immo-sell-owners-lib");
+          var ownersForParties =
+            (sellDossier && Array.isArray(sellDossier.owners) && sellDossier.owners.length
+              ? sellDossier.owners
+              : null) || (Array.isArray(promoteOwners) && promoteOwners.length ? promoteOwners : null);
+
+          if (ownersForParties && ownersForParties.length && isOwner) {
+            for (var oi = 0; oi < ownersForParties.length; oi++) {
+              var ow = OwnersLib.normalizeSellOwner(ownersForParties[oi], oi);
+              if (!OwnersLib.ownerFullName(ow) && !ow.entityName) continue;
+              await store.upsertParty(sql, {
+                property_id: propId,
+                role: OwnersLib.ownerPartyRole(ow),
+                name: OwnersLib.ownerPartyDisplayName(ow),
+                email: ow.email || null,
+                phone: ow.phone || null,
+                entity_name: ow.entityName || null,
+                legal_form: OwnersLib.ownerLegalForm(ow),
+                capacity: OwnersLib.ownerPartyCapacity(ow),
+                share_pct: ow.sharePct,
+                notes: OwnersLib.ownerPartyNotes(ow),
+              });
+            }
+          } else {
+            await store.upsertParty(sql, {
+              property_id: propId,
+              role: "vendeur",
+              name: sellerName || sellerAgency || personName || "Vendeur",
+              email: sellerEmail || null,
+              phone: sellerPhone || null,
+              notes: isOwner
+                ? "Propriétaire / déposant" + (sellerAgency ? " — " + sellerAgency : "") + (sellerKind ? " (" + sellerKind + ")" : "")
+                : sellerAgency
+                  ? "Agence : " + sellerAgency
+                  : "Infos collées depuis l'annonce",
+            });
+          }
         }
 
         if (isSignalement) {

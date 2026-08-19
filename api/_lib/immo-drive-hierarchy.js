@@ -1,13 +1,18 @@
 /**
- * Hiérarchie Drive vendeur : Famille (si 2+ mandants) → Personne → Bien → type de pièce.
+ * Hiérarchie Drive vendeur :
+ * Famille (si 2+ mandants) → Entreprise (SCI / société) → Personne → Bien → type de pièce.
  * Création paresseuse — uniquement les dossiers nécessaires à chaque upload.
  */
 const { getDriveAccessToken, getRootFolderId, isDriveConfigured } = require("./google-drive-auth");
+const OwnersLib = require("./immo-sell-owners-lib");
 
 var PERSON_DOC_TYPES = {
   identite: true,
   domicile: true,
   livret_famille: true,
+};
+
+var ENTERPRISE_DOC_TYPES = {
   kbis_sci: true,
 };
 
@@ -110,30 +115,7 @@ function ownerDisplayName(owner) {
 }
 
 function normalizeOwners(owners, depositor) {
-  owners = Array.isArray(owners) ? owners : [];
-  var list = owners
-    .map(function (o, idx) {
-      var n = ownerDisplayName(o);
-      if (!n.full && !n.lastName) return null;
-      return {
-        index: idx,
-        firstName: n.firstName,
-        lastName: n.lastName,
-        role: o.role || "",
-      };
-    })
-    .filter(Boolean);
-
-  if (!list.length && depositor) {
-    var d = ownerDisplayName(depositor);
-    if (d.full || d.lastName) {
-      list.push({ index: 0, firstName: d.firstName, lastName: d.lastName, role: "deposant" });
-    }
-  }
-  if (!list.length) {
-    list.push({ index: 0, firstName: "Mandant", lastName: "", role: "inconnu" });
-  }
-  return list;
+  return OwnersLib.normalizeOwnersList(owners, depositor);
 }
 
 function isMultiOwnerFamily(owners) {
@@ -201,6 +183,10 @@ function isPersonSpecificDoc(documentType) {
   return !!PERSON_DOC_TYPES[String(documentType || "").toLowerCase()];
 }
 
+function isEnterpriseSpecificDoc(documentType) {
+  return !!ENTERPRISE_DOC_TYPES[String(documentType || "").toLowerCase()];
+}
+
 function buildDriveFileName(opts) {
   opts = opts || {};
   var label = safeName(
@@ -231,27 +217,34 @@ function buildPathSegments(opts) {
   var person = personFolderName(owner);
   var bien = bienFolderName(opts.property, opts.depositSessionId);
   var doc = docFolderName(opts.documentType, opts.documentLabel);
-  var personDoc = isPersonSpecificDoc(opts.documentType);
+  var docType = String(opts.documentType || "").toLowerCase();
+  var personDoc = isPersonSpecificDoc(docType);
+  var enterpriseDoc = isEnterpriseSpecificDoc(docType);
+  var enterprise = OwnersLib.isEnterpriseOwner(owner) ? OwnersLib.enterpriseFolderName(owner) : null;
 
   var segments = [];
   if (opts.depositSessionId) {
     segments.push("_staging", safeName(opts.depositSessionId, 56));
   }
-  if (multi) {
-    segments.push(family);
-    if (personDoc) {
-      segments.push(person, bien, doc);
-    } else {
-      segments.push(bien, doc);
+  if (multi) segments.push(family);
+  if (enterprise) {
+    if (enterpriseDoc || personDoc) {
+      segments.push(enterprise);
+      if (personDoc) segments.push(person);
+    } else if (!multi) {
+      segments.push(enterprise);
     }
-  } else {
-    segments.push(person, bien, doc);
+  } else if (personDoc || !multi) {
+    segments.push(person);
   }
+  segments.push(bien, doc);
+
   return {
     segments: segments,
     owners: owners,
     multi: multi,
     family: family,
+    enterprise: enterprise,
     person: person,
     bien: bien,
     doc: doc,
@@ -453,6 +446,7 @@ function maxFilesForType(documentType) {
 
 module.exports = {
   PERSON_DOC_TYPES,
+  ENTERPRISE_DOC_TYPES,
   MAX_FILES_BY_TYPE,
   maxFilesForType,
   safeName,

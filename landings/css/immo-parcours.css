@@ -205,8 +205,13 @@ a.immo-parcours-link:hover {
 }
 
 .immo-owner-contact-fields,
-.immo-owner-address-fields {
+.immo-owner-address-fields,
+.immo-owner-entity-fields {
   display: contents;
+}
+
+.immo-owner-entity-fields:not([hidden]) {
+  grid-column: 1 / -1;
 }
 
 .immo-sell-location-synced {

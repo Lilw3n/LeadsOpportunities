@@ -112,6 +112,8 @@ async function hydrateInterlocuteurFromLead(sql, user, lead, contactId) {
   meta.dossier = {
     perso: dossier.perso,
     pro: dossier.pro,
+    mandants: dossier.mandants || [],
+    entreprises: dossier.entreprises || [],
     biens: dossier.biens,
     projet: dossier.projet,
     leadId: lead.id,
@@ -120,6 +122,9 @@ async function hydrateInterlocuteurFromLead(sql, user, lead, contactId) {
   meta.interlocuteur = true;
   if (patches.company && (patches.company.name || patches.company.siret)) {
     meta.company = Object.assign({}, meta.company || {}, patches.company);
+  }
+  if (patches.enterprises && patches.enterprises.length) {
+    meta.enterprises = patches.enterprises;
   }
   if (patches.family) {
     meta.family = Object.assign({}, meta.family || {}, patches.family);

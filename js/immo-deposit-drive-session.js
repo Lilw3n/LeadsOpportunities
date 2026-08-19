@@ -190,8 +190,16 @@
 
   function resolveOwnerIndex(documentType, existingCount, owners) {
     owners = owners || [];
-    var personTypes = { identite: 1, domicile: 1, livret_famille: 1, kbis_sci: 1 };
-    if (!personTypes[String(documentType || "").toLowerCase()] || owners.length < 2) return 0;
+    var t = String(documentType || "").toLowerCase();
+    if (t === "kbis_sci") {
+      for (var i = 0; i < owners.length; i++) {
+        var o = owners[i] || {};
+        if (o.role === "sci" || o.entityName) return i;
+      }
+      return 0;
+    }
+    var personTypes = { identite: 1, domicile: 1, livret_famille: 1 };
+    if (!personTypes[t] || owners.length < 2) return 0;
     return existingCount % owners.length;
   }
 
