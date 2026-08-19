@@ -7,7 +7,7 @@ const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { ensureClientDriveFolders } = require("../drive-folders");
 const { ensurePropertyDriveFolders } = require("../immo-drive");
-const { resolveFolderWebLink, isValidDriveId, rootFolderWebLink, fallbackFolderUrl } = require("../drive-share");
+const { inspectDriveFolder, isValidDriveId, rootFolderWebLink, fallbackFolderUrl } = require("../drive-share");
 const { isDriveConfigured, isDriveUploadConfigured, getRootFolderId } = require("../google-drive-auth");
 
 module.exports = async (req, res) => {
@@ -47,7 +47,17 @@ module.exports = async (req, res) => {
       `;
       if (!props.length) return res.status(404).json({ error: "Bien introuvable pour ce contact" });
       var prop = props[0];
-      var propFolderId = prop.drive_folder_id || null;
+      var meta = {};
+      try {
+        meta = prop.metadata_json ? JSON.parse(prop.metadata_json) : {};
+      } catch (e) {
+        meta = {};
+      }
+      var propFolderId =
+        prop.drive_folder_id ||
+        (meta.drive && meta.drive.folderId) ||
+        (meta.staging && meta.staging.bienFolderId) ||
+        null;
       if (!isValidDriveId(propFolderId)) {
         var ensuredProp = await ensurePropertyDriveFolders({
           id: prop.id,
@@ -76,17 +86,19 @@ module.exports = async (req, res) => {
           setupUrl: "https://www.leadsopportunities.fr/test-drive.html",
         });
       }
-      var resolvedProp = await resolveFolderWebLink(propFolderId, { share: true });
-      var propLink = resolvedProp.webViewLink || fallbackFolderUrl(propFolderId);
+      var inspectedProp = await inspectDriveFolder(propFolderId, { share: true });
+      var propLink = inspectedProp.webViewLink || fallbackFolderUrl(propFolderId);
       return res.status(200).json({
         ok: !!propLink,
         contactId: contactId,
         propertyId: propertyId,
         folderId: propFolderId,
         webViewLink: propLink,
-        folderName: resolvedProp.name || prop.title || null,
+        folderName: inspectedProp.name || prop.title || null,
+        fileCount: inspectedProp.fileCount,
+        isEmpty: inspectedProp.isEmpty,
         shared: true,
-        error: resolvedProp.error || null,
+        error: inspectedProp.error || null,
       });
     }
 
@@ -113,16 +125,18 @@ module.exports = async (req, res) => {
       });
     }
 
-    var resolved = await resolveFolderWebLink(folderId, { share: true });
-    var webViewLink = resolved.webViewLink || fallbackFolderUrl(folderId);
+    var inspected = await inspectDriveFolder(folderId, { share: true });
+    var webViewLink = inspected.webViewLink || fallbackFolderUrl(folderId);
     return res.status(200).json({
       ok: !!webViewLink,
       contactId: contactId,
       folderId: folderId,
       webViewLink: webViewLink,
-      folderName: resolved.name || null,
+      folderName: inspected.name || null,
+      fileCount: inspected.fileCount,
+      isEmpty: inspected.isEmpty,
       shared: true,
-      error: resolved.error || null,
+      error: inspected.error || null,
     });
   } catch (e) {
     console.error("[crm/drive-folder]", e);

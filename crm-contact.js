@@ -217,6 +217,8 @@
       return {
         perso: data.meta.dossier.perso || [],
         pro: data.meta.dossier.pro || [],
+        mandants: data.meta.dossier.mandants || [],
+        entreprises: data.meta.dossier.entreprises || [],
         biens: data.meta.dossier.biens || {},
         projet: data.meta.dossier.projet || [],
         raw: {},
@@ -1145,6 +1147,27 @@
     }
   }
 
+  function driveEmptyStatusText(stats) {
+    if (!stats || stats.isEmpty !== true) return "";
+    if (stats.fileCount === 0) {
+      return stats.folderCount > 0
+        ? "Dossier Drive créé — aucun fichier (sous-dossiers vides)"
+        : "Dossier Drive vide — aucune pièce déposée";
+    }
+    return "";
+  }
+
+  function cachedDriveUrl(info, propertyId) {
+    info = info || {};
+    if (propertyId) {
+      var pf = (info.propertyFolders || []).filter(function (f) {
+        return f.propertyId === propertyId;
+      })[0];
+      return (pf && pf.webViewLink) || null;
+    }
+    return info.driveFolderWebViewLink || null;
+  }
+
   function renderDriveBar(driveInfo) {
     var bar = document.getElementById("contactDriveBar");
     if (!bar) return;
@@ -1166,20 +1189,32 @@
       return;
     }
     bar.hidden = false;
-    bar.classList.toggle("int-drive-bar--warn", !driveConfigured || (!hasRealFolder && simulatedCount > 0));
+    bar.classList.toggle("int-drive-bar--warn", !driveConfigured || (!hasRealFolder && simulatedCount > 0) || contactEmpty || primaryPropEmpty);
     var status = document.getElementById("contactDriveStatus");
     var mainBtn = document.getElementById("btnOpenContactDrive");
     var propLinks = document.getElementById("contactDrivePropertyLinks");
     var primaryProp = folders.length ? folders[0] : null;
+    var contactStats = driveInfo.driveFolderStats || null;
+    var contactEmpty = contactStats && contactStats.isEmpty === true;
+    var primaryPropHasFiles = primaryProp && primaryProp.isEmpty === false;
+    var primaryPropEmpty = primaryProp && primaryProp.isEmpty === true;
     if (status) {
       if (!driveConfigured) {
         status.textContent = "Drive non configuré sur le serveur";
       } else if (simulatedCount > 0 && uploadConfigured) {
         status.textContent =
           simulatedCount + " pièce(s) à re-déposer (archivées avant activation Drive)";
+      } else if (primaryPropHasFiles) {
+        status.textContent =
+          (primaryProp.fileCount != null ? primaryProp.fileCount + " fichier(s) · " : "") +
+          "Dossier bien · Google Drive";
       } else if (immoDocCount > 0 && folders.length) {
         status.textContent =
-          immoDocCount + " pièce(s) bien · dossier Immo/2026 · Google Drive";
+          immoDocCount + " pièce(s) bien · dossier Immo · Google Drive";
+      } else if (contactEmpty && !primaryPropHasFiles) {
+        status.textContent = driveEmptyStatusText(contactStats) || "Dossier contact vide";
+      } else if (primaryPropEmpty && !hasDocs) {
+        status.textContent = driveEmptyStatusText(primaryProp) || "Dossier bien vide";
       } else if (!hasRealFolder && simulatedCount > 0) {
         status.textContent =
           simulatedCount + " pièce(s) archivée(s) CRM — dossier Drive à créer";
@@ -1190,16 +1225,24 @@
     }
     if (mainBtn) {
       var driveTarget = "contact";
-      if (primaryProp && primaryProp.webViewLink && immoDocCount > 0) {
-        driveTarget = "property";
+      if (primaryProp && primaryProp.webViewLink) {
+        if (primaryPropHasFiles || (primaryPropEmpty === false && immoDocCount > 0)) {
+          driveTarget = "property";
+        } else if (!contactUrl || contactEmpty) {
+          driveTarget = "property";
+        } else if (immoDocCount > 0) {
+          driveTarget = "property";
+        }
       } else if (primaryProp && primaryProp.webViewLink && !contactUrl) {
         driveTarget = "property";
       }
       mainBtn.dataset.driveTarget = driveTarget;
       if (driveTarget === "property" && primaryProp) {
         mainBtn.dataset.drivePropertyId = primaryProp.propertyId || "";
+        mainBtn.dataset.driveUrl = primaryProp.webViewLink || "";
       } else {
         delete mainBtn.dataset.drivePropertyId;
+        mainBtn.dataset.driveUrl = contactUrl || "";
       }
       mainBtn.hidden = false;
       if (driveTarget === "property" && primaryProp && primaryProp.webViewLink) {
@@ -1251,16 +1294,21 @@
         if (el.dataset.driveLinkBound) return;
         el.dataset.driveLinkBound = "1";
         el.addEventListener("click", function () {
+          var propId = el.getAttribute("data-drive-property-id") || "";
+          var pf = (data.driveInfo && data.driveInfo.propertyFolders) || [];
+          var match = pf.filter(function (f) { return f.propertyId === propId; })[0];
           var fakeBtn = {
             textContent: el.textContent,
             dataset: {
-              drivePropertyId: el.getAttribute("data-drive-property-id") || "",
+              drivePropertyId: propId,
+              driveUrl: (match && match.webViewLink) || "",
             },
             setAttribute: function () {},
             removeAttribute: function () {},
           };
           if (el.getAttribute("data-drive-open") === "contact") {
             fakeBtn.dataset.drivePropertyId = "";
+            fakeBtn.dataset.driveUrl = (data.driveInfo && data.driveInfo.driveFolderWebViewLink) || "";
           }
           openContactDriveFolder(fakeBtn);
         });
@@ -1293,9 +1341,16 @@
     if (!contactId) return;
     var prev = btn ? btn.textContent : "";
     var propertyId = btn && btn.dataset.drivePropertyId ? btn.dataset.drivePropertyId : "";
+    var cached =
+      (btn && btn.dataset.driveUrl) ||
+      cachedDriveUrl(data.driveInfo, propertyId) ||
+      null;
+    if (cached) {
+      openDriveUrl(cached, null);
+      return;
+    }
     var apiPath = "/api/crm/drive-folder?contactId=" + encodeURIComponent(contactId);
     if (propertyId) apiPath += "&propertyId=" + encodeURIComponent(propertyId);
-    var driveWin = window.open("about:blank", "_blank", "noopener,noreferrer");
     if (btn && btn.id === "btnOpenContactDrive") {
       btn.textContent = "Ouverture Drive…";
       btn.setAttribute("aria-busy", "true");
@@ -1304,20 +1359,27 @@
       .then(function (res) {
         var url = res && res.webViewLink ? res.webViewLink : null;
         if (url) {
-          openDriveUrl(url, driveWin);
+          openDriveUrl(url, null);
           if (data.driveInfo) {
             if (propertyId) {
               (data.driveInfo.propertyFolders || []).forEach(function (f) {
-                if (f.propertyId === propertyId) f.webViewLink = url;
+                if (f.propertyId === propertyId) {
+                  f.webViewLink = url;
+                  if (res.isEmpty != null) f.isEmpty = res.isEmpty;
+                  if (res.fileCount != null) f.fileCount = res.fileCount;
+                }
               });
             } else {
               data.driveInfo.driveFolderWebViewLink = url;
+              data.driveInfo.driveFolderStats = Object.assign({}, data.driveInfo.driveFolderStats || {}, {
+                fileCount: res.fileCount,
+                isEmpty: res.isEmpty,
+              });
             }
             renderDriveBar(data.driveInfo);
           }
           return;
         }
-        if (driveWin && !driveWin.closed) driveWin.close();
         var msg =
           (res && res.error) ||
           "Impossible d'ouvrir le dossier Drive. Google Drive n'est probablement pas configuré sur Vercel.";
@@ -1331,7 +1393,6 @@
         }
       })
       .catch(function () {
-        if (driveWin && !driveWin.closed) driveWin.close();
         alert("Erreur réseau — impossible d'ouvrir Google Drive.");
       })
       .then(function () {
@@ -1388,7 +1449,15 @@
           "</div>";
       }
       if (!docs.length) {
-        var emptyHtml = driveNotice + "<p style='color:var(--muted)'>Aucune pièce listée pour l'instant.</p>";
+        var emptyHtml = driveNotice;
+        if (res.driveFolderStats && res.driveFolderStats.isEmpty === true && !propFolders.some(function (f) { return f.isEmpty === false; })) {
+          emptyHtml +=
+            '<p class="int-drive-empty" style="color:#b45309;margin:0 0 8px"><strong>Dossier Drive vide</strong> — aucun fichier n\'a encore été déposé.</p>';
+        } else if (propFolders.length && propFolders.every(function (f) { return f.isEmpty === true; }) && (!res.driveFolderStats || res.driveFolderStats.isEmpty !== false)) {
+          emptyHtml +=
+            '<p class="int-drive-empty" style="color:#b45309;margin:0 0 8px"><strong>Dossier bien vide</strong> — structure créée, en attente de pièces.</p>';
+        }
+        emptyHtml += "<p style='color:var(--muted)'>Aucune pièce listée pour l'instant.</p>";
         if (folderLink || propFolders.length) {
           emptyHtml +=
             '<p style="margin-top:10px">Le dossier Drive existe — ouvrez-le depuis la barre verte ci-dessus ou :</p><p style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">';

@@ -67,13 +67,105 @@ async function shareFolderWithBroker(token, folderId) {
   }
 }
 
+async function getDriveReadToken() {
+  var auth = await getDriveAccessToken({ forUpload: true });
+  if (auth && auth.accessToken) return auth;
+  return getDriveAccessToken({ forUpload: false });
+}
+
+async function listFolderChildren(token, folderId, pageSize) {
+  if (!token || !isValidDriveId(folderId)) return [];
+  var q = "'" + folderId + "' in parents and trashed=false";
+  var url =
+    "https://www.googleapis.com/drive/v3/files?q=" +
+    encodeURIComponent(q) +
+    "&pageSize=" +
+    (pageSize || 100) +
+    "&fields=files(id,name,mimeType)&supportsAllDrives=true";
+  var resp = await fetch(url, { headers: { Authorization: "Bearer " + token } });
+  if (!resp.ok) return [];
+  var data = await resp.json();
+  return data.files || [];
+}
+
+/**
+ * Compte fichiers (hors dossiers) dans l'arborescence, profondeur limitée.
+ */
+async function inspectDriveFolder(folderId, opts) {
+  opts = opts || {};
+  if (!isValidDriveId(folderId)) {
+    return { ok: false, folderId: folderId, fileCount: 0, folderCount: 0, isEmpty: true, error: "id_invalide" };
+  }
+
+  var resolved = await resolveFolderWebLink(folderId, { share: opts.share !== false });
+  var auth = await getDriveReadToken();
+  if (!auth || !auth.accessToken) {
+    return {
+      ok: !!resolved.webViewLink,
+      folderId: folderId,
+      webViewLink: resolved.webViewLink || fallbackFolderUrl(folderId),
+      fileCount: null,
+      folderCount: null,
+      isEmpty: null,
+      inaccessible: true,
+      name: resolved.name || null,
+    };
+  }
+
+  var maxDepth = typeof opts.maxDepth === "number" ? opts.maxDepth : 4;
+  var fileCount = 0;
+  var folderCount = 0;
+
+  async function walk(id, depth) {
+    if (depth > maxDepth) return;
+    var children = await listFolderChildren(auth.accessToken, id, 80);
+    for (var i = 0; i < children.length; i++) {
+      var f = children[i];
+      if (f.mimeType === "application/vnd.google-apps.folder") {
+        folderCount++;
+        await walk(f.id, depth + 1);
+      } else {
+        fileCount++;
+      }
+    }
+  }
+
+  try {
+    await walk(folderId, 0);
+  } catch (e) {
+    return {
+      ok: !!resolved.webViewLink,
+      folderId: folderId,
+      webViewLink: resolved.webViewLink || fallbackFolderUrl(folderId),
+      fileCount: null,
+      folderCount: null,
+      isEmpty: null,
+      inaccessible: true,
+      error: e.message,
+      name: resolved.name || null,
+    };
+  }
+
+  return {
+    ok: true,
+    folderId: folderId,
+    webViewLink: resolved.webViewLink || fallbackFolderUrl(folderId),
+    name: resolved.name || null,
+    fileCount: fileCount,
+    folderCount: folderCount,
+    isEmpty: fileCount === 0,
+    inaccessible: false,
+    error: resolved.error || null,
+  };
+}
+
 async function resolveFolderWebLink(folderId, opts) {
   opts = opts || {};
   if (!isValidDriveId(folderId)) {
     return { ok: false, folderId: folderId, webViewLink: null, error: "id_invalide" };
   }
 
-  var auth = await getDriveAccessToken({ forUpload: false });
+  var auth = await getDriveReadToken();
   if (!auth || !auth.accessToken) {
     return {
       ok: true,
@@ -131,4 +223,6 @@ module.exports = {
   fallbackFolderUrl,
   shareFolderWithBroker,
   resolveFolderWebLink,
+  inspectDriveFolder,
+  getDriveReadToken,
 };

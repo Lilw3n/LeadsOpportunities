@@ -5,9 +5,8 @@
 const { applyApiGuards } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
-const { resolveFolderWebLink, isValidDriveId, fallbackFolderUrl, isSimulatedDriveId } = require("../drive-share");
+const { resolveFolderWebLink, inspectDriveFolder, isValidDriveId, fallbackFolderUrl, isSimulatedDriveId } = require("../drive-share");
 const { ensureClientDriveFolders } = require("../drive-folders");
-const { ensurePropertyDriveFolders } = require("../immo-drive");
 const { isDriveConfigured, isDriveUploadConfigured, getRootFolderId } = require("../google-drive-auth");
 
 function parseJson(raw, fallback) {
@@ -113,6 +112,19 @@ function dedupeDocs(list) {
   return out;
 }
 
+function resolvePropertyDriveFolderId(p) {
+  var meta = parseJson(p.metadata_json || p.metadata, {});
+  var candidates = [
+    p.drive_folder_id,
+    meta.drive && meta.drive.folderId,
+    meta.staging && meta.staging.bienFolderId,
+  ];
+  for (var i = 0; i < candidates.length; i++) {
+    if (isValidDriveId(candidates[i])) return candidates[i];
+  }
+  return null;
+}
+
 function propertyDocsFromRow(p) {
   var docs = [];
   var meta = parseJson(p.metadata_json || p.metadata, {});
@@ -166,14 +178,16 @@ function propertyDocsFromRow(p) {
     });
   });
 
-  if (p.drive_folder_id) {
+  if (p.drive_folder_id || (meta.drive && meta.drive.folderId)) {
+    var folderId = resolvePropertyDriveFolderId(p);
     docs.push({
       id: p.id + "_drive_folder",
       propertyId: p.id,
       name: "Dossier bien — " + title,
       type: "drive_folder",
-      webViewLink: driveFolderUrl(p.drive_folder_id),
-      driveFolderId: p.drive_folder_id,
+      webViewLink:
+        (meta.drive && meta.drive.webViewLink) || driveFolderUrl(folderId || p.drive_folder_id),
+      driveFolderId: folderId || p.drive_folder_id,
       source: "immo_property_drive",
       propertyTitle: title,
     });
@@ -256,35 +270,17 @@ module.exports = async (req, res) => {
       for (var pi = 0; pi < props.length; pi++) {
         var p = props[pi];
         propertyDocs = propertyDocs.concat(propertyDocsFromRow(p));
-        var propFolderId = p.drive_folder_id || null;
-        if (!isValidDriveId(propFolderId) && isDriveUploadConfigured()) {
-          try {
-            var ensuredProp = await ensurePropertyDriveFolders({
-              id: p.id,
-              title: p.title,
-              city: p.city,
-              postal_code: p.postal_code,
-              drive_folder_id: p.drive_folder_id,
-            });
-            if (ensuredProp && ensuredProp.folderId) {
-              propFolderId = ensuredProp.folderId;
-              await sql`
-                UPDATE crm_immo_properties
-                SET drive_folder_id = ${propFolderId}, updated_at = NOW()
-                WHERE id = ${p.id} AND drive_folder_id IS NULL
-              `;
-            }
-          } catch (ensurePropErr) {
-            console.warn("[crm/contact-documents] ensure property folder", ensurePropErr.message);
-          }
-        }
+        var propFolderId = resolvePropertyDriveFolderId(p);
         if (isValidDriveId(propFolderId)) {
-          var resolvedProp = await resolveFolderWebLink(propFolderId, { share: true });
+          var inspectedProp = await inspectDriveFolder(propFolderId, { share: true });
           propertyFolders.push({
             propertyId: p.id,
             title: p.title || p.city || p.id,
             driveFolderId: propFolderId,
-            webViewLink: resolvedProp.webViewLink || driveFolderUrl(propFolderId),
+            webViewLink: inspectedProp.webViewLink || driveFolderUrl(propFolderId),
+            fileCount: inspectedProp.fileCount,
+            isEmpty: inspectedProp.isEmpty,
+            folderName: inspectedProp.name || null,
           });
         }
       }
@@ -307,9 +303,17 @@ module.exports = async (req, res) => {
     }
 
     var driveFolderWebViewLink = null;
+    var driveFolderStats = null;
     if (isValidDriveId(contactFolderId)) {
-      var resolvedContact = await resolveFolderWebLink(contactFolderId, { share: true });
-      driveFolderWebViewLink = resolvedContact.webViewLink || driveFolderUrl(contactFolderId);
+      var inspectedContact = await inspectDriveFolder(contactFolderId, { share: true });
+      driveFolderWebViewLink = inspectedContact.webViewLink || driveFolderUrl(contactFolderId);
+      driveFolderStats = {
+        fileCount: inspectedContact.fileCount,
+        folderCount: inspectedContact.folderCount,
+        isEmpty: inspectedContact.isEmpty,
+        folderName: inspectedContact.name || null,
+        inaccessible: !!inspectedContact.inaccessible,
+      };
     }
 
     var simulatedCount = documents.filter(function (d) {
@@ -323,6 +327,7 @@ module.exports = async (req, res) => {
       contactId: contactId,
       driveFolderId: contactFolderId,
       driveFolderWebViewLink: driveFolderWebViewLink,
+      driveFolderStats: driveFolderStats,
       propertyFolders: propertyFolders,
       documents: documents,
       driveConfigured: isDriveConfigured() && !!rootId,
