@@ -195,6 +195,7 @@
       }
     }
     applyListingMode();
+    if (window.VendeurVisitePretBlock) window.VendeurVisitePretBlock.syncVisibility();
   }
 
   function applyListingMode() {

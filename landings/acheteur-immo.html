@@ -33,6 +33,7 @@
   <link rel="stylesheet" href="../css/pret-risks-block.css" />
   <link rel="stylesheet" href="../css/achat-perennite-block.css" />
   <link rel="stylesheet" href="../css/vente-3d-block.css" />
+  <link rel="stylesheet" href="../css/vendeur-visite-pret-block.css" />
 </head>
 <body>
   <header class="landing-topbar">
@@ -121,6 +122,10 @@
           <p class="listings-intro" data-hat-hint>Choisissez votre casquette : acquéreur, vendeur, les deux — ou signalement terrain (chasseur de bien).</p>
         </div>
 
+        <div data-vendeur-visite-pret-wrap hidden>
+          <div data-vendeur-visite-pret-block="landing"></div>
+        </div>
+
         <div class="listings-wrap" id="recherche" data-immo-search>
           <h2>Annonces à vendre</h2>
           <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
@@ -174,6 +179,7 @@
           <p class="listings-intro" data-deposit-intro>
             Leboncoin, SeLoger, ParuVendu… Collez le lien, recopiez la description, ajoutez photos et capture.
           </p>
+          <div data-vendeur-visite-pret-block="compact"></div>
           <form data-url-capture-form novalidate>
             <input type="hidden" name="role" value="acheteur" data-hat-role />
             <div class="hp-field" aria-hidden="true">
@@ -513,6 +519,8 @@
               <div class="immo-form-section" data-search-vente-panel hidden>
                 <h4 class="immo-form-section-title">1. Projet de vente</h4>
                 <p class="small immo-form-section-lead">Fiche type Laforêt : propriétaires, bien, mandat, descriptif, estimation, copro, visites… Les blocs avancés sont repliables.</p>
+
+                <div data-vendeur-visite-pret-block="compact"></div>
 
                 <details class="immo-vente-block" open>
                   <summary>Propriétaires &amp; mandants</summary>
@@ -1710,6 +1718,8 @@
   <script src="../js/achat-perennite-block.js"></script>
   <script src="../js/vente-3d-messaging-lib.js"></script>
   <script src="../js/vente-3d-block.js"></script>
+  <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>
+  <script src="../js/vendeur-visite-pret-block.js"></script>
   <script src="./tracking.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
