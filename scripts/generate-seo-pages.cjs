@@ -713,8 +713,9 @@ function renderPage(p) {
       : { "@type": "Country", name: "France" },
     url: canonical,
   };
-  var heroAsset = theme === "vtc" ? SeoImg.pickVtcHero(p) : null;
+  var heroAsset = SeoImg.pickHero(p);
   var ogFile = SeoImg.ogFileFor(Object.assign({ theme: theme }, p));
+  var sectionsWithFigures = SeoImg.enrichSections(p.sections, theme, p);
   var ogUrl = ogFile ? BASE + SeoImg.publicPath(ogFile) : BASE + "/og-default.svg";
   if (heroAsset && heroAsset.file) {
     serviceLd.image = SeoImg.imageObjectLd(BASE, heroAsset.file);
@@ -929,7 +930,7 @@ function renderPage(p) {
         ${renderBenefits(p.benefits)}
         ${galleryHtml}
         ${renderSteps(p.steps)}
-        ${renderSections(p.sections, prefix)}
+        ${renderSections(sectionsWithFigures, prefix)}
         ${nearbyGridHtml}
         ${cityGridHtml}
         ${deptGridHtml}

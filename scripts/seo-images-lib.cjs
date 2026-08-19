@@ -1,15 +1,15 @@
 /**
- * Catalogue d’images SEO (photos stock Unsplash, hebergees en local).
+ * Catalogue d’images SEO — VTC (images/seo/) + autres thèmes (blog/images, og/).
  */
 var THEME_OG = {
-  vtc: "vtc/og-vtc.jpg",
-  sante: "vtc/og-vtc.jpg",
-  credit: "vtc/og-vtc.jpg",
-  auto: "vtc/voiture-nuit.jpg",
-  habitation: "vtc/og-vtc.jpg",
-  prevoyance: "vtc/og-vtc.jpg",
-  animaux: "vtc/og-vtc.jpg",
-  niche: "vtc/og-vtc.jpg",
+  vtc: "images/seo/vtc/og-vtc.jpg",
+  sante: "og/og-sante.jpg",
+  credit: "og/og-credit-immo.jpg",
+  auto: "og/og-default.svg",
+  habitation: "og/og-default.svg",
+  prevoyance: "og/og-default.svg",
+  animaux: "og/og-animaux.jpg",
+  niche: "og/og-default.svg",
 };
 
 var VTC_ASSETS = {
@@ -26,6 +26,58 @@ var VTC_ASSETS = {
   route: { file: "vtc/peripherique.jpg", alt: "Voie rapide Île-de-France — activité chauffeur VTC" },
 };
 
+var SANTE_ASSETS = {
+  family: { file: "blog/images/sante/family-health.jpg", alt: "Famille — couverture mutuelle santé adaptée" },
+  senior: { file: "blog/images/sante/senior-doctor.jpg", alt: "Senior en consultation médicale avec un professionnel de santé" },
+  optique: { file: "blog/images/sante/optique-lunettes.jpg", alt: "Choix de lunettes en magasin d'optique — remboursement mutuelle" },
+  dental: { file: "blog/images/sante/dental-care.jpg", alt: "Soin dentaire — remboursement mutuelle" },
+  hospital: { file: "blog/images/sante/hospital-care.jpg", alt: "Personnel soignant et patient en établissement de santé" },
+  consult: { file: "blog/images/sante/medecin-consultation.jpg", alt: "Consultation chez le médecin généraliste" },
+  docs: { file: "blog/images/sante/mutuelle-documents.jpg", alt: "Documents et contrat de complémentaire santé" },
+  seniors: { file: "blog/images/sante/seniors-couple.jpg", alt: "Couple de seniors — mutuelle santé adaptée" },
+};
+
+var ANIMAUX_ASSETS = {
+  chienVet: { file: "blog/images/animaux/chien-veterinaire.jpg", alt: "Chien chez le vétérinaire — assurance animaux" },
+  chat: { file: "blog/images/animaux/chat-soin.jpg", alt: "Chat domestique — assurance animaux" },
+  chiot: { file: "blog/images/animaux/chiot-chaton.jpg", alt: "Chiot et chaton — assurer tôt ou tard" },
+  promenade: { file: "blog/images/animaux/chien-promenade.jpg", alt: "Propriétaire promenant son chien" },
+};
+
+var CREDIT_ASSETS = {
+  cles: { file: "blog/images/finance/credit-immo-cles.jpg", alt: "Clés et maison — crédit immobilier" },
+  signature: { file: "blog/images/finance/signature-pret.jpg", alt: "Signature de contrat de prêt immobilier" },
+  budget: { file: "blog/images/finance/budget-famille.jpg", alt: "Budget familial et documents financiers" },
+};
+
+var AUTO_ASSETS = {
+  voiture: { file: "blog/images/auto/voiture-route.jpg", alt: "Voiture sur route — assurance auto" },
+  jeune: { file: "blog/images/auto/jeune-conducteur.jpg", alt: "Jeune conducteur au volant" },
+  bonus: { file: "blog/images/auto/bonus-malus.jpg", alt: "Tableau de bord voiture — bonus-malus" },
+};
+
+var HABITATION_ASSETS = {
+  maison: { file: "blog/images/habitat/maison-famille.jpg", alt: "Maison avec jardin — assurance habitation" },
+  appart: { file: "blog/images/habitat/appartement-locataire.jpg", alt: "Salon d'appartement en location" },
+  sinistre: { file: "blog/images/habitat/sinistre-degats.jpg", alt: "Intervention après sinistre dans un logement" },
+};
+
+var PREVOYANCE_ASSETS = {
+  famille: { file: "blog/images/prevoyance/famille-protection.jpg", alt: "Famille réunie — prévoyance et protection" },
+  obseques: { file: "blog/images/prevoyance/deces-obseques.jpg", alt: "Bougie et fleurs — assurance décès et obsèques" },
+};
+
+var SECTION_POOL = {
+  vtc: [VTC_ASSETS.voiture, VTC_ASSETS.chauffeur, VTC_ASSETS.smartphone, VTC_ASSETS.route],
+  sante: [SANTE_ASSETS.consult, SANTE_ASSETS.optique, SANTE_ASSETS.dental, SANTE_ASSETS.hospital, SANTE_ASSETS.seniors],
+  animaux: [ANIMAUX_ASSETS.chienVet, ANIMAUX_ASSETS.chat, ANIMAUX_ASSETS.chiot, ANIMAUX_ASSETS.promenade],
+  credit: [CREDIT_ASSETS.cles, CREDIT_ASSETS.signature, CREDIT_ASSETS.budget],
+  auto: [AUTO_ASSETS.voiture, AUTO_ASSETS.jeune, AUTO_ASSETS.bonus],
+  habitation: [HABITATION_ASSETS.maison, HABITATION_ASSETS.appart, HABITATION_ASSETS.sinistre],
+  prevoyance: [PREVOYANCE_ASSETS.famille, PREVOYANCE_ASSETS.obseques],
+  niche: [SANTE_ASSETS.family, ANIMAUX_ASSETS.chienVet, CREDIT_ASSETS.cles],
+};
+
 var UNSPLASH = {
   "vtc/og-vtc.jpg": "photo-1449965408869-eaa3f722e40d",
   "vtc/chauffeur-ville.jpg": "photo-1549317661-bd32c8ce0db2",
@@ -40,14 +92,24 @@ var UNSPLASH = {
   "vtc/peripherique.jpg": "photo-1469854523086-cc02fe5d8800",
 };
 
+function isExternalPath(file) {
+  return /^(blog|og)\//.test(String(file || ""));
+}
+
 function publicPath(file) {
-  return "/images/seo/" + file.replace(/^\//, "");
+  file = String(file || "").replace(/^\//, "");
+  if (isExternalPath(file)) return "/" + file;
+  if (file.indexOf("images/seo/") === 0) return "/" + file;
+  return "/images/seo/" + file;
 }
 
 function srcFor(file, prefix) {
   prefix = prefix || "/";
   if (prefix === "./") prefix = "";
-  return prefix + "images/seo/" + file.replace(/^\//, "");
+  file = String(file || "").replace(/^\//, "");
+  if (isExternalPath(file) || file.indexOf("og/") === 0) return prefix + file;
+  if (file.indexOf("images/seo/") === 0) return prefix + file.replace(/^images\/seo\//, "images/seo/");
+  return prefix + "images/seo/" + file;
 }
 
 function pickVtcHero(page) {
@@ -73,10 +135,62 @@ function pickVtcHero(page) {
   return VTC_ASSETS.chauffeur;
 }
 
+function pickSanteHero(page) {
+  var file = (page && page.file) || "";
+  if (file.indexOf("optique") >= 0) return SANTE_ASSETS.optique;
+  if (file.indexOf("comparatif") >= 0) return SANTE_ASSETS.docs;
+  if (file.indexOf("hospital") >= 0) return SANTE_ASSETS.hospital;
+  if (file.indexOf("dentaire") >= 0) return SANTE_ASSETS.dental;
+  if (file.indexOf("canicule") >= 0) return SANTE_ASSETS.seniors;
+  return SANTE_ASSETS.family;
+}
+
+function pickAnimauxHero(page) {
+  var file = (page && page.file) || "";
+  if (file.indexOf("chat") >= 0) return ANIMAUX_ASSETS.chat;
+  if (file.indexOf("chiot") >= 0 || file.indexOf("chaton") >= 0) return ANIMAUX_ASSETS.chiot;
+  if (file.indexOf("chien") >= 0) return ANIMAUX_ASSETS.promenade;
+  return ANIMAUX_ASSETS.chienVet;
+}
+
+function pickCreditHero(page) {
+  var file = (page && page.file) || "";
+  if (file.indexOf("simulation") >= 0 || file.indexOf("rachat") >= 0) return CREDIT_ASSETS.budget;
+  if (file.indexOf("pret") >= 0 || file.indexOf("emprunteur") >= 0) return CREDIT_ASSETS.signature;
+  return CREDIT_ASSETS.cles;
+}
+
+function pickHero(page) {
+  if (page && page.heroImage) return page.heroImage;
+  var theme = (page && page.theme) || "vtc";
+  if (theme === "vtc") return pickVtcHero(page);
+  if (theme === "sante") return pickSanteHero(page);
+  if (theme === "animaux") return pickAnimauxHero(page);
+  if (theme === "credit") return pickCreditHero(page);
+  if (theme === "auto") return AUTO_ASSETS.voiture;
+  if (theme === "habitation") return HABITATION_ASSETS.maison;
+  if (theme === "prevoyance") return PREVOYANCE_ASSETS.famille;
+  return SANTE_ASSETS.family;
+}
+
 function ogFileFor(page) {
   if (page && page.ogImage) return page.ogImage;
-  if (page && page.theme === "vtc") return VTC_ASSETS.og.file;
-  return null;
+  var theme = (page && page.theme) || "vtc";
+  if (theme === "vtc") return VTC_ASSETS.og.file;
+  return THEME_OG[theme] || THEME_OG.niche;
+}
+
+function enrichSections(sections, theme, page) {
+  if (!sections || !sections.length) return sections || [];
+  var pool = SECTION_POOL[theme] || SECTION_POOL.niche;
+  if (!pool || !pool.length) return sections;
+  var file = (page && page.file) || "";
+  var offset = 0;
+  for (var i = 0; i < file.length; i++) offset = (offset * 31 + file.charCodeAt(i)) >>> 0;
+  return sections.map(function (s, i) {
+    if (s.figure && s.figure.file) return s;
+    return Object.assign({}, s, { figure: pool[(offset + i) % pool.length] });
+  });
 }
 
 function renderFigure(asset, prefix, className, eager) {
@@ -122,11 +236,16 @@ function imageObjectLd(base, file) {
 module.exports = {
   THEME_OG: THEME_OG,
   VTC_ASSETS: VTC_ASSETS,
+  SANTE_ASSETS: SANTE_ASSETS,
+  ANIMAUX_ASSETS: ANIMAUX_ASSETS,
+  CREDIT_ASSETS: CREDIT_ASSETS,
   UNSPLASH: UNSPLASH,
   publicPath: publicPath,
   srcFor: srcFor,
   pickVtcHero: pickVtcHero,
+  pickHero: pickHero,
   ogFileFor: ogFileFor,
+  enrichSections: enrichSections,
   renderFigure: renderFigure,
   renderGallery: renderGallery,
   imageObjectLd: imageObjectLd,
