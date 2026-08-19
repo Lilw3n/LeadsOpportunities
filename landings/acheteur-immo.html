@@ -410,6 +410,21 @@
               </div>
             </div>
 
+            <div class="immo-city-fallback-wrap" data-city-fallback-wrap>
+              <p class="search-section-label" style="margin-top:16px">Ville du bien</p>
+              <p class="small immo-city-fallback-hint">Si vous ne l'avez pas indiquée en haut du formulaire ou dans le dossier vente, complétez ici :</p>
+              <div class="grid">
+                <div class="field">
+                  <label for="cityFallback">Ville</label>
+                  <input id="cityFallback" data-city-fallback autocomplete="address-level2" placeholder="Ex. Nancy" />
+                </div>
+                <div class="field">
+                  <label for="postalFallback">Code postal</label>
+                  <input id="postalFallback" data-postal-fallback inputmode="numeric" maxlength="5" placeholder="54000" />
+                </div>
+              </div>
+            </div>
+
             <p class="search-section-label" style="margin-top:16px" data-coords-label>Vos coordonnées</p>
             <fieldset class="immo-account-block" data-account-block hidden>
               <legend>Votre compte sur le site</legend>

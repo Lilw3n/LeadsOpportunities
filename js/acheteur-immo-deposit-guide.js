@@ -107,6 +107,8 @@
   function resolveCity(form) {
     var c = val(form, "city");
     if (c) return c;
+    var fb = document.querySelector("[data-city-fallback]");
+    if (fb && String(fb.value || "").trim()) return String(fb.value).trim();
     var sellEl = document.querySelector("#sellCity");
     if (sellEl && String(sellEl.value || "").trim()) return String(sellEl.value).trim();
     if (global.AcheteurImmoDepositVente && global.AcheteurImmoDepositVente.collectSellDossier) {
@@ -181,7 +183,10 @@
     }
 
     if ((isOwner || isSignalement) && !resolveCity(form) && !hits.length) {
-      var cityEl = document.querySelector("#sellCity") || form.querySelector("[name='city']");
+      var cityEl =
+        document.querySelector("[data-city-fallback]") ||
+        document.querySelector("#sellCity") ||
+        form.querySelector("[name='city']");
       blocking.push(
         missingItem(
           "city",

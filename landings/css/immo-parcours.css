@@ -919,6 +919,31 @@ html[data-immo-hat="les_deux"] [data-account-block][hidden] {
   display: none;
 }
 
+.immo-city-fallback-wrap {
+  margin: 4px 0 8px;
+  padding: 12px 14px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.immo-city-fallback-hint {
+  margin: 0 0 10px;
+  color: #64748b;
+}
+
+html[data-immo-hat="vendeur"] [data-city-fallback-wrap],
+html[data-immo-hat="les_deux"] [data-city-fallback-wrap],
+html[data-immo-hat="signalement"] [data-city-fallback-wrap] {
+  display: block;
+}
+
+html[data-immo-hat="vendeur"] [data-city-fallback-wrap][hidden],
+html[data-immo-hat="les_deux"] [data-city-fallback-wrap][hidden],
+html[data-immo-hat="signalement"] [data-city-fallback-wrap][hidden] {
+  display: none;
+}
+
 .immo-account-oauth {
   margin: 12px 0 8px;
 }

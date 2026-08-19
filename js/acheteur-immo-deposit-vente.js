@@ -96,6 +96,12 @@
     if (sellDesc && urlDesc && !String(urlDesc.value || "").trim() && String(sellDesc.value || "").trim()) {
       urlDesc.value = sellDesc.value;
     }
+    var fb = document.querySelector("[data-city-fallback]");
+    var fbPostal = document.querySelector("[data-postal-fallback]");
+    var urlCity = form.querySelector("#urlCity");
+    var urlPostal = form.querySelector("#urlPostal");
+    if (fb && urlCity && String(urlCity.value || "").trim()) fb.value = urlCity.value;
+    if (fbPostal && urlPostal && String(urlPostal.value || "").trim()) fbPostal.value = urlPostal.value;
   }
 
   function bindExpressSync() {
@@ -269,9 +275,100 @@
     });
   }
 
+  function bindCityFallback() {
+    var fb = document.querySelector("[data-city-fallback]");
+    var fbPostal = document.querySelector("[data-postal-fallback]");
+    if (!fb || fb.dataset.cityFallbackBound) return;
+    fb.dataset.cityFallbackBound = "1";
+
+    function urlCityEl() {
+      return document.querySelector("#urlCity");
+    }
+    function sellCityEl() {
+      return document.querySelector("#sellCity");
+    }
+    function urlPostalEl() {
+      return document.querySelector("#urlPostal");
+    }
+    function sellPostalEl() {
+      return document.querySelector("#sellPostalCode");
+    }
+
+    function firstVal() {
+      var nodes = [urlCityEl(), sellCityEl(), fb];
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i] && String(nodes[i].value || "").trim()) return String(nodes[i].value).trim();
+      }
+      return "";
+    }
+
+    function firstPostal() {
+      var nodes = [urlPostalEl(), sellPostalEl(), fbPostal];
+      for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i] && String(nodes[i].value || "").trim()) return String(nodes[i].value).trim();
+      }
+      return "";
+    }
+
+    function refreshGuide() {
+      var root = document.querySelector("[data-listing-url-capture]");
+      if (root && window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.refreshUi) {
+        window.AcheteurImmoDepositGuide.refreshUi(root);
+      }
+    }
+
+    function syncFromSources() {
+      var city = firstVal();
+      var postal = firstPostal();
+      if (city && fb.value !== city) fb.value = city;
+      if (fbPostal && postal && fbPostal.value !== postal) fbPostal.value = postal;
+    }
+
+    function pushCity(value) {
+      var v = String(value || "").trim();
+      var url = urlCityEl();
+      var sell = sellCityEl();
+      if (url) url.value = v;
+      if (sell) sell.value = v;
+    }
+
+    function pushPostal(value) {
+      var v = String(value || "").trim();
+      var url = urlPostalEl();
+      var sell = sellPostalEl();
+      if (url) url.value = v;
+      if (sell) sell.value = v;
+    }
+
+    fb.addEventListener("input", function () {
+      pushCity(fb.value);
+      refreshGuide();
+    });
+    if (fbPostal) {
+      fbPostal.addEventListener("input", function () {
+        pushPostal(fbPostal.value);
+        refreshGuide();
+      });
+    }
+
+    [urlCityEl(), sellCityEl()].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("input", syncFromSources);
+      el.addEventListener("change", syncFromSources);
+    });
+    [urlPostalEl(), sellPostalEl()].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("input", syncFromSources);
+      el.addEventListener("change", syncFromSources);
+    });
+
+    syncFromSources();
+  }
+
   function boot() {
     bindToggle();
     bindExpressSync();
+    bindCityFallback();
     syncVisibility();
     requestAnimationFrame(syncVisibility);
   }
@@ -281,6 +378,7 @@
     collectSellDossier: collectSellDossier,
     syncExpressToSell: syncExpressToSell,
     syncSellToExpress: syncSellToExpress,
+    syncCityFallback: bindCityFallback,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

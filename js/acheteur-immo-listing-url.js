@@ -125,6 +125,8 @@
   function resolveCity(form) {
     var c = val(form, "city");
     if (c) return c;
+    var fb = document.querySelector("[data-city-fallback]");
+    if (fb && String(fb.value || "").trim()) return String(fb.value).trim();
     var sellEl = document.querySelector("#sellCity");
     if (sellEl && String(sellEl.value || "").trim()) return String(sellEl.value).trim();
     if (window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.collectSellDossier) {
@@ -135,16 +137,19 @@
   }
 
   function focusCityField(form) {
+    var fallback = document.querySelector("[data-city-fallback]");
     var sellEl = document.querySelector("#sellCity");
     var cityEl = form.querySelector("[name='city']");
     var panel = document.querySelector("[data-search-vente-panel]");
-    var target = cityEl || sellEl;
-    if (panel && !panel.hidden && sellEl) target = sellEl;
+    var target = fallback || cityEl || sellEl;
+    if (panel && !panel.hidden && sellEl && !fallback) target = sellEl;
+    if (fallback) target = fallback;
     if (!target) return;
     var block = target.closest("details.immo-vente-block");
     if (block && !block.open) block.open = true;
     if (cityEl) cityEl.classList.remove("input-invalid");
     if (sellEl) sellEl.classList.remove("input-invalid");
+    if (fallback) fallback.classList.remove("input-invalid");
     target.classList.add("input-invalid");
     target.scrollIntoView({ behavior: "smooth", block: "center" });
     try {
