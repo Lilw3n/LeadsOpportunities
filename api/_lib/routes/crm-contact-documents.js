@@ -5,8 +5,9 @@
 const { applyApiGuards } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
-const { resolveFolderWebLink, isValidDriveId, fallbackFolderUrl } = require("../drive-share");
+const { resolveFolderWebLink, isValidDriveId, fallbackFolderUrl, isSimulatedDriveId } = require("../drive-share");
 const { ensureClientDriveFolders } = require("../drive-folders");
+const { isDriveConfigured, isDriveUploadConfigured, getRootFolderId } = require("../google-drive-auth");
 
 function parseJson(raw, fallback) {
   if (!raw) return fallback || {};
@@ -36,6 +37,7 @@ function driveFolderUrl(folderId) {
 }
 
 function driveFileUrl(fileId) {
+  if (isSimulatedDriveId(fileId)) return null;
   if (!fileId) return null;
   return "https://drive.google.com/file/d/" + encodeURIComponent(String(fileId)) + "/view";
 }
@@ -78,19 +80,21 @@ function parseEventDocs(e) {
 function activityToDoc(a) {
   var meta = parseJson(a.body, {});
   var fileId = meta.driveFileId || null;
+  var simulated = isSimulatedDriveId(fileId);
   return {
     id: "act_" + a.id,
     activityId: a.id,
     name: meta.name || meta.fileName || a.title || "Document",
     type: meta.type || meta.documentType || "document_upload",
     mimeType: meta.mimeType || null,
-    driveFileId: fileId,
-    webViewLink: meta.webViewLink || driveFileUrl(fileId),
+    driveFileId: simulated ? null : fileId,
+    webViewLink: simulated ? null : meta.webViewLink || driveFileUrl(fileId),
     thumbnailLink: meta.thumbnailLink || null,
     uploadedAt: meta.uploadedAt || a.created_at,
-    status: "deposé",
+    status: simulated ? "archivé CRM (Drive non configuré)" : "deposé",
     source: meta.source || "activite",
     propertyId: meta.propertyId || null,
+    simulated: simulated,
   };
 }
 
@@ -285,6 +289,12 @@ module.exports = async (req, res) => {
       driveFolderWebViewLink = resolvedContact.webViewLink || driveFolderUrl(contactFolderId);
     }
 
+    var simulatedCount = documents.filter(function (d) {
+      return d.simulated || isSimulatedDriveId(d.driveFileId);
+    }).length;
+    var rootId = getRootFolderId();
+    var rootFolderLink = rootId ? driveFolderUrl(rootId) : null;
+
     return res.status(200).json({
       ok: true,
       contactId: contactId,
@@ -292,6 +302,11 @@ module.exports = async (req, res) => {
       driveFolderWebViewLink: driveFolderWebViewLink,
       propertyFolders: propertyFolders,
       documents: documents,
+      driveConfigured: isDriveConfigured() && !!rootId,
+      uploadConfigured: isDriveUploadConfigured(),
+      rootFolderLink: rootFolderLink,
+      simulatedDocumentCount: simulatedCount,
+      setupUrl: "https://www.leadsopportunities.fr/test-drive.html",
       activities: activities.map(function (a) {
         var meta = parseJson(a.body, {});
         return {

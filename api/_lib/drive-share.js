@@ -14,6 +14,15 @@ function isValidDriveId(folderId) {
   return /^[\w-]{10,}$/.test(id);
 }
 
+function isSimulatedDriveId(id) {
+  return !id || String(id).trim().indexOf("sim_") === 0;
+}
+
+function rootFolderWebLink() {
+  var rootId = (process.env.GOOGLE_DRIVE_FOLDER_ID || "").trim();
+  return rootId ? fallbackFolderUrl(rootId) : null;
+}
+
 function fallbackFolderUrl(folderId) {
   if (!isValidDriveId(folderId)) return null;
   return "https://drive.google.com/drive/folders/" + encodeURIComponent(String(folderId));
@@ -117,6 +126,8 @@ async function resolveFolderWebLink(folderId, opts) {
 module.exports = {
   brokerEmail,
   isValidDriveId,
+  isSimulatedDriveId,
+  rootFolderWebLink,
   fallbackFolderUrl,
   shareFolderWithBroker,
   resolveFolderWebLink,

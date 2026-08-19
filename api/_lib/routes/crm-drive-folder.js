@@ -6,7 +6,8 @@ const { applyApiGuards } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { ensureClientDriveFolders } = require("../drive-folders");
-const { resolveFolderWebLink, isValidDriveId } = require("../drive-share");
+const { resolveFolderWebLink, isValidDriveId, rootFolderWebLink } = require("../drive-share");
+const { isDriveConfigured, isDriveUploadConfigured, getRootFolderId } = require("../google-drive-auth");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -35,16 +36,25 @@ module.exports = async (req, res) => {
     if (!contacts.length) return res.status(404).json({ error: "Contact introuvable" });
 
     var folderId = contacts[0].drive_folder_id || null;
+    var ensured = null;
     if (!isValidDriveId(folderId)) {
-      var ensured = await ensureClientDriveFolders(contactId);
+      ensured = await ensureClientDriveFolders(contactId);
       if (ensured && ensured.folderId) folderId = ensured.folderId;
     }
 
     if (!isValidDriveId(folderId)) {
+      var setupUrl = "https://www.leadsopportunities.fr/test-drive.html";
+      var ensuredErr = ensured && ensured.error ? ensured.error : null;
       return res.status(200).json({
         ok: false,
-        error: "Dossier Drive non créé — vérifiez docs/DRIVE-SETUP.md (GOOGLE_DRIVE_REFRESH_TOKEN)",
+        error:
+          ensuredErr ||
+          "Dossier Drive non créé — Google Drive n'est pas configuré sur le serveur (GOOGLE_DRIVE_REFRESH_TOKEN requis).",
         contactId: contactId,
+        driveConfigured: isDriveConfigured() && !!getRootFolderId(),
+        uploadConfigured: isDriveUploadConfigured(),
+        rootFolderLink: rootFolderWebLink(),
+        setupUrl: setupUrl,
       });
     }
 

@@ -1141,20 +1141,31 @@
     driveInfo = driveInfo || {};
     var contactUrl = driveInfo.driveFolderWebViewLink || null;
     var folders = driveInfo.propertyFolders || [];
-    var hasAny = contactUrl || folders.length || (driveInfo.documents && driveInfo.documents.length);
+    var hasRealFolder = !!(contactUrl || folders.length);
+    var hasDocs = driveInfo.documents && driveInfo.documents.length;
+    var simulatedCount = driveInfo.simulatedDocumentCount || 0;
+    var driveConfigured = driveInfo.driveConfigured === true;
+    var hasAny = hasRealFolder || hasDocs;
     if (!hasAny) {
       bar.hidden = true;
+      bar.classList.remove("int-drive-bar--warn");
       return;
     }
     bar.hidden = false;
+    bar.classList.toggle("int-drive-bar--warn", !driveConfigured || (!hasRealFolder && simulatedCount > 0));
     var status = document.getElementById("contactDriveStatus");
     var mainBtn = document.getElementById("btnOpenContactDrive");
     var propLinks = document.getElementById("contactDrivePropertyLinks");
     if (status) {
-      status.textContent =
-        (driveInfo.documents && driveInfo.documents.length
-          ? driveInfo.documents.length + " pièce(s) · "
-          : "") + "Google Drive";
+      if (!driveConfigured) {
+        status.textContent = "Drive non configuré sur le serveur";
+      } else if (!hasRealFolder && simulatedCount > 0) {
+        status.textContent =
+          simulatedCount + " pièce(s) archivée(s) CRM — dossier Drive à créer";
+      } else {
+        status.textContent =
+          (hasDocs ? driveInfo.documents.length + " pièce(s) · " : "") + "Google Drive";
+      }
     }
     if (mainBtn) {
       if (contactUrl) {
@@ -1168,12 +1179,17 @@
       } else {
         mainBtn.href = "#";
         mainBtn.hidden = false;
-        mainBtn.textContent = "Ouvrir dossier Drive";
+        mainBtn.textContent = driveConfigured ? "Créer dossier Drive" : "Configurer Drive";
       }
       if (!mainBtn.dataset.driveBound) {
         mainBtn.dataset.driveBound = "1";
         mainBtn.addEventListener("click", function (ev) {
           ev.preventDefault();
+          var info = data.driveInfo || {};
+          if (info.driveConfigured !== true && info.setupUrl) {
+            window.open(info.setupUrl, "_blank", "noopener,noreferrer");
+            return;
+          }
           openContactDriveFolder(mainBtn);
         });
       }
@@ -1218,10 +1234,17 @@
           return;
         }
         if (driveWin && !driveWin.closed) driveWin.close();
-        alert(
+        var msg =
           res.error ||
-            "Impossible d'ouvrir le dossier Drive. Vérifiez la configuration (docs/DRIVE-SETUP.md)."
-        );
+          "Impossible d'ouvrir le dossier Drive. Google Drive n'est probablement pas configuré sur Vercel.";
+        if (res.setupUrl) {
+          msg += "\n\nOuvrir la page de configuration Drive ?";
+          if (window.confirm(msg)) {
+            window.open(res.setupUrl, "_blank", "noopener,noreferrer");
+          }
+        } else {
+          alert(msg);
+        }
       })
       .catch(function () {
         if (driveWin && !driveWin.closed) driveWin.close();
@@ -1249,9 +1272,27 @@
       var docs = res.documents || [];
       var folderLink = res.driveFolderWebViewLink;
       var propFolders = res.propertyFolders || [];
+      var driveNotice = "";
+      if (res.driveConfigured !== true) {
+        driveNotice =
+          '<div class="int-drive-notice" style="margin:0 0 12px;padding:10px 12px;border-radius:10px;border:1px solid #fcd34d;background:#fffbeb;font-size:0.88rem">' +
+          "<strong>Google Drive non configuré</strong> — les pièces sont archivées dans le CRM uniquement. " +
+          '<a href="' +
+          esc(res.setupUrl || "./test-drive.html") +
+          '" target="_blank" rel="noopener">Configurer Drive (OAuth)</a> puis redeploy Vercel.' +
+          (res.rootFolderLink
+            ? ' · <a href="' + esc(res.rootFolderLink) + '" target="_blank" rel="noopener">Dossier racine</a>'
+            : "") +
+          "</div>";
+      } else if ((res.simulatedDocumentCount || 0) > 0 && !folderLink) {
+        driveNotice =
+          '<div class="int-drive-notice" style="margin:0 0 12px;padding:10px 12px;border-radius:10px;border:1px solid #bbf7d0;background:#f0fdf4;font-size:0.88rem">' +
+          (res.simulatedDocumentCount || 0) +
+          " pièce(s) déposée(s) avant configuration Drive — cliquez « Créer dossier Drive » pour les ranger sur Google Drive." +
+          "</div>";
+      }
       if (!docs.length) {
-        var emptyHtml =
-          "<p style='color:var(--muted)'>Aucune pièce listée pour l'instant.</p>";
+        var emptyHtml = driveNotice + "<p style='color:var(--muted)'>Aucune pièce listée pour l'instant.</p>";
         if (folderLink || propFolders.length) {
           emptyHtml +=
             '<p style="margin-top:10px">Le dossier Drive existe — ouvrez-le depuis la barre verte ci-dessus ou :</p><p style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">';
@@ -1280,6 +1321,7 @@
         return;
       }
       mount.innerHTML =
+        driveNotice +
         '<div class="crm-docs-grid">' +
         docs
           .map(function (d) {
@@ -1303,7 +1345,9 @@
                   (d.mimeType && d.mimeType.indexOf("pdf") !== -1 ? "📕" : "📄") +
                   "</span>";
             var drive =
-              d.webViewLink && d.driveFileId
+              d.simulated
+                ? "<span>Archivé CRM — Drive non configuré</span>"
+                : d.webViewLink && d.driveFileId
                 ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
                 : d.webViewLink
                   ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'

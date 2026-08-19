@@ -121,11 +121,16 @@
   background: #16a34a;
   display: inline-block;
 }
-.int-drive-bar a.btn-primary {
-  background: #15803d;
-  border-color: #15803d;
-  color: #fff;
-  text-decoration: none;
+.int-drive-bar--warn {
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+.int-drive-bar--warn .int-drive-dot {
+  background: #d97706;
+}
+.int-drive-bar--warn a.btn-primary {
+  background: #b45309;
+  border-color: #b45309;
 }
 .int-drive-bar .int-drive-prop-link {
   display: inline-flex;

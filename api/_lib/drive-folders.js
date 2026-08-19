@@ -27,8 +27,11 @@ const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
 const { shareFolderWithBroker, resolveFolderWebLink, isValidDriveId } = require("./drive-share");
 
 async function getDriveToken() {
-  const auth = await getDriveAccessToken();
-  return auth ? auth.accessToken : null;
+  // OAuth courtier en priorité : dossiers créés directement sur le Drive Gmail perso.
+  var oauth = await getDriveAccessToken({ forUpload: true });
+  if (oauth && oauth.accessToken) return oauth.accessToken;
+  var sa = await getDriveAccessToken({ forUpload: false });
+  return sa ? sa.accessToken : null;
 }
 
 async function driveCreateFolder(token, name, parentId) {
@@ -86,7 +89,12 @@ async function ensureClientDriveFolders(contactId) {
 
   if (!sql) return { ok: false, error: "no_db" };
   if (!token || !rootId) {
-    return { ok: true, simulated: true, message: "Drive non configure (token ou dossier racine)" };
+    return {
+      ok: false,
+      simulated: true,
+      error: "Drive non configuré sur le serveur (GOOGLE_DRIVE_REFRESH_TOKEN + GOOGLE_DRIVE_FOLDER_ID)",
+      setupUrl: "https://www.leadsopportunities.fr/test-drive.html",
+    };
   }
 
   const contacts = await sql`
