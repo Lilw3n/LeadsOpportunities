@@ -118,11 +118,19 @@ module.exports = async function publicImmoListingSubmit(req, res) {
 
   var email = str(body.email, 320).toLowerCase();
   var phone = str(body.phone || body.telephone, 40);
+  var confirmMethod = str(body.confirmMethod, 20).toLowerCase();
   if (!email && !phone) {
     return res.status(400).json({
       ok: false,
       error: "contact_required",
-      message: "Indiquez votre e-mail ou téléphone pour qu'on puisse vous recontacter.",
+      message:
+        confirmMethod === "google"
+          ? "Connectez-vous avec Google ou choisissez e-mail / téléphone pour confirmer votre identité."
+          : confirmMethod === "email"
+            ? "Indiquez votre e-mail pour qu'on puisse vous recontacter."
+            : confirmMethod === "phone"
+              ? "Indiquez votre téléphone pour qu'on puisse vous recontacter."
+              : "Indiquez votre e-mail ou téléphone pour qu'on puisse vous recontacter.",
     });
   }
 
@@ -463,8 +471,12 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             addressHint: addressHint,
             wantsSellDossier: wantsSellDossier,
             sellDossier: sellDossier || null,
-            confirmByEmail: body.confirmByEmail !== false && body.confirmByEmail !== "0",
-            confirmByPhone: body.confirmByPhone === true || body.confirmByPhone === "1",
+            confirmByEmail:
+              body.confirmMethod === "email" ||
+              body.confirmMethod === "google" ||
+              (body.confirmByEmail !== false && body.confirmByEmail !== "0" && body.confirmMethod !== "phone"),
+            confirmByPhone: body.confirmMethod === "phone" || body.confirmByPhone === true || body.confirmByPhone === "1",
+            confirmMethod: confirmMethod || null,
             createAccount: body.createAccount !== false && body.createAccount !== "0",
           })},
           ${"site_web"},
@@ -486,8 +498,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var accountCreated = false;
   if (sql && email) {
     try {
-      var confirmByEmail = body.confirmByEmail !== false && body.confirmByEmail !== "0";
-      var confirmByPhone = body.confirmByPhone === true || body.confirmByPhone === "1";
+      var confirmByEmail =
+        body.confirmMethod === "email" ||
+        body.confirmMethod === "google" ||
+        (body.confirmByEmail !== false && body.confirmByEmail !== "0" && body.confirmMethod !== "phone");
+      var confirmByPhone = body.confirmMethod === "phone" || body.confirmByPhone === true || body.confirmByPhone === "1";
       var ingest = require("../crm-ingest-from-lead");
       contactId = await ingest.ingestLeadToCrm(
         sql,

@@ -842,6 +842,83 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   margin: 6px 0;
 }
 
+.immo-account-confirm-lead {
+  margin: 0 0 10px;
+  color: #334155;
+}
+
+.immo-confirm-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: #334155;
+}
+
+.immo-confirm-option:has(input:checked) {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.immo-confirm-option input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.immo-account-panel-hint {
+  margin: 8px 0 0;
+  color: #475569;
+}
+
+.contact-field--required label::after {
+  content: " *";
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.immo-deposit-submit-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.immo-jump-errors {
+  font-weight: 700;
+}
+
+.immo-err-jump {
+  font-weight: 700;
+  color: #b91c1c;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+}
+
+.immo-err-jump:hover {
+  color: #991b1b;
+}
+
+html[data-immo-hat="vendeur"] [data-account-block],
+html[data-immo-hat="les_deux"] [data-account-block] {
+  display: block;
+}
+
+html[data-immo-hat="vendeur"] [data-account-block][hidden],
+html[data-immo-hat="les_deux"] [data-account-block][hidden] {
+  display: none;
+}
+
 .immo-account-oauth {
   margin: 12px 0 8px;
 }

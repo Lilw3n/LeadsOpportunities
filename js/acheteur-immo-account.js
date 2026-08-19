@@ -9,6 +9,10 @@
     return (root || document).querySelector(sel);
   }
 
+  function qsa(sel, root) {
+    return Array.prototype.slice.call((root || document).querySelectorAll(sel));
+  }
+
   function currentReturnTo() {
     var path = location.pathname + location.search;
     var hash = location.hash || "";
@@ -52,6 +56,46 @@
     }
   }
 
+  function getConfirmMethod(root) {
+    var checked = qs("[name='confirmMethod']:checked", root);
+    return checked ? String(checked.value || "").trim() : "email";
+  }
+
+  function syncConfirmMethodUi(root) {
+    var block = qs("[data-account-block]", root);
+    if (!block || block.hidden) return;
+    var method = getConfirmMethod(block);
+    qsa("[data-confirm-panel]", block).forEach(function (panel) {
+      var show = panel.getAttribute("data-confirm-panel") === method;
+      panel.hidden = !show;
+    });
+    var form = qs("[data-url-capture-form]", root);
+    var emailWrap = qs("[data-contact-email-wrap]", root);
+    var phoneWrap = qs("[data-contact-phone-wrap]", root);
+    var hint = qs("[data-contact-hint]", root);
+    if (emailWrap) emailWrap.classList.toggle("contact-field--required", method === "email");
+    if (phoneWrap) phoneWrap.classList.toggle("contact-field--required", method === "phone");
+    if (hint) {
+      if (method === "google") {
+        hint.textContent = isLoggedIn()
+          ? "Connecté via Google — vous pouvez compléter un téléphone en option."
+          : "Connectez-vous avec Google ci-dessus, ou choisissez e-mail / téléphone.";
+      } else if (method === "email") {
+        hint.textContent = "Indiquez votre e-mail — un lien de confirmation vous sera envoyé après le dépôt.";
+      } else if (method === "phone") {
+        hint.textContent = "Indiquez votre téléphone — un conseiller vous rappellera pour confirmer votre identité.";
+      }
+    }
+    if (method === "google" && isLoggedIn() && form) {
+      var googleRadio = qs("[name='confirmMethod'][value='google']", block);
+      if (googleRadio && !googleRadio.checked) googleRadio.checked = true;
+      prefillFromSession(form);
+    }
+    if (global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.refreshUi) {
+      global.AcheteurImmoDepositGuide.refreshUi(root);
+    }
+  }
+
   function updateAccountUi(root) {
     var badge = qs("[data-account-status]", root);
     var block = qs("[data-account-block]", root);
@@ -64,12 +108,15 @@
       if (isLoggedIn()) {
         badge.hidden = false;
         badge.textContent = "Connecté : " + (localStorage.getItem(EMAIL_KEY) || "");
+        var googleRadio = qs("[name='confirmMethod'][value='google']", block);
+        if (googleRadio) googleRadio.checked = true;
       } else {
         badge.hidden = true;
       }
     }
     var googleBtn = qs("[data-account-google]", root);
     if (googleBtn) googleBtn.href = googleUrl();
+    syncConfirmMethodUi(root);
   }
 
   function handleOAuthReturn() {
@@ -134,6 +181,16 @@
     });
   }
 
+  function bindConfirmMethod(root) {
+    qsa("[name='confirmMethod']", root).forEach(function (el) {
+      if (el.dataset.boundConfirm) return;
+      el.dataset.boundConfirm = "1";
+      el.addEventListener("change", function () {
+        syncConfirmMethodUi(root);
+      });
+    });
+  }
+
   function bind(root) {
     if (!root || root.dataset.accountBound) return;
     root.dataset.accountBound = "1";
@@ -142,6 +199,7 @@
     prefillFromSession(form);
     updateAccountUi(root);
     bindResendVerify(root);
+    bindConfirmMethod(root);
     document.querySelectorAll("[name='immoHat']").forEach(function (el) {
       el.addEventListener("change", function () {
         setTimeout(function () {
@@ -160,7 +218,9 @@
     storeSession: storeSession,
     prefillFromSession: prefillFromSession,
     updateAccountUi: updateAccountUi,
+    syncConfirmMethodUi: syncConfirmMethodUi,
     googleUrl: googleUrl,
+    getConfirmMethod: getConfirmMethod,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

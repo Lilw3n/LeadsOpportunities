@@ -415,16 +415,19 @@
               <legend>Votre compte sur le site</legend>
               <p class="small immo-account-lead">Le dépôt crée ou met à jour votre espace client pour reprendre le dossier, déposer des pièces et suivre votre projet.</p>
               <p class="immo-account-status" data-account-status hidden></p>
-              <div class="immo-account-confirm">
-                <p class="small" style="margin:0 0 8px;font-weight:700;color:#334155">Comment confirmer votre identité ?</p>
-                <label class="field-check"><input type="checkbox" name="confirmByEmail" value="1" checked /> Par e-mail (lien de confirmation après envoi)</label>
-                <label class="field-check"><input type="checkbox" name="confirmByPhone" value="1" checked /> Par téléphone (rappel conseiller pour valider le numéro)</label>
+              <div class="immo-account-confirm" role="radiogroup" aria-label="Confirmation d'identité">
+                <p class="small immo-account-confirm-lead">Comment confirmer votre identité ? <strong>Un seul choix.</strong></p>
+                <label class="immo-confirm-option"><input type="radio" name="confirmMethod" value="google" /> <span>Avec Google — e-mail confirmé automatiquement</span></label>
+                <label class="immo-confirm-option"><input type="radio" name="confirmMethod" value="email" checked /> <span>Par e-mail — lien de confirmation après envoi</span></label>
+                <label class="immo-confirm-option"><input type="radio" name="confirmMethod" value="phone" /> <span>Par téléphone — rappel conseiller pour valider le numéro</span></label>
               </div>
-              <div class="immo-account-oauth">
+              <div class="immo-account-oauth" data-confirm-panel="google" hidden>
                 <a class="btn-google immo-account-google" data-account-google href="/api/external/google?returnTo=%2Flandings%2Facheteur-immo.html%3Fhat%3Dvendeur%23deposer-bien" rel="nofollow">Continuer avec Google</a>
-                <p class="small immo-account-google-hint">Google confirme automatiquement votre e-mail — vos coordonnées seront pré-remplies.</p>
+                <p class="small immo-account-google-hint">Connectez-vous avec Google : votre e-mail est confirmé et vos coordonnées seront pré-remplies.</p>
               </div>
-              <p class="small immo-account-resend-wrap">Déjà inscrit ? <button type="button" class="immo-link-btn" data-account-resend-verify>Renvoyer l'e-mail de confirmation</button> · <a href="../external/login.html">Se connecter</a></p>
+              <p class="small immo-account-panel-hint" data-confirm-panel="email">Indiquez votre e-mail ci-dessous — un lien de confirmation vous sera envoyé après le dépôt.</p>
+              <p class="small immo-account-panel-hint" data-confirm-panel="phone" hidden>Indiquez votre téléphone ci-dessous — un conseiller vous rappellera pour confirmer votre identité.</p>
+              <p class="small immo-account-resend-wrap" data-confirm-panel="email">Déjà inscrit ? <button type="button" class="immo-link-btn" data-account-resend-verify>Renvoyer l'e-mail de confirmation</button> · <a href="../external/login.html">Se connecter</a></p>
             </fieldset>
             <div class="grid">
               <div class="field">
@@ -438,15 +441,15 @@
             </div>
             <fieldset class="contact-pair">
               <legend>Comment vous joindre</legend>
-              <p class="contact-pair-hint">Téléphone et e-mail : on vous rappelle pour cette URL / ce bien.</p>
+              <p class="contact-pair-hint" data-contact-hint>Téléphone et e-mail : on vous rappelle pour cette URL / ce bien.</p>
               <div class="contact-pair-row">
-                <div class="field">
+                <div class="field" data-contact-phone-wrap>
                   <label for="urlPhone">Téléphone</label>
-                  <input id="urlPhone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" required placeholder="06 12 34 56 78" />
+                  <input id="urlPhone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" />
                 </div>
-                <div class="field">
+                <div class="field" data-contact-email-wrap>
                   <label for="urlEmail">E-mail</label>
-                  <input id="urlEmail" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="vous@email.fr" />
+                  <input id="urlEmail" name="email" type="email" autocomplete="email" inputmode="email" placeholder="vous@email.fr" />
                 </div>
               </div>
             </fieldset>
@@ -456,20 +459,21 @@
                 <textarea id="urlDetails" name="details" rows="2" placeholder="Créneau de visite, questions, urgence de vente…"></textarea>
               </div>
             </div>
-            <p class="url-capture-err" data-url-capture-err hidden></p>
             <div class="immo-deposit-progress-wrap" data-sell-progress-wrap>
               <div class="immo-deposit-progress-head">
                 <span data-sell-progress-label>Dossier 0 % — complétez les informations essentielles</span>
-                <button type="button" class="btn btn-soft btn-sm" data-sell-draft-save title="Enregistrer sur cet appareil">Sauvegarder pour plus tard</button>
+                <button type="button" class="btn btn-soft btn-sm" data-sell-draft-save title="Enregistrer sur cet appareil">Sauvegarder pour cet appareil</button>
               </div>
               <div class="immo-deposit-progress-track" aria-hidden="true"><span class="immo-deposit-progress-bar" data-sell-progress-bar style="width:0%"></span></div>
             </div>
-            <div class="immo-deposit-validation" data-sell-validation-panel hidden>
+            <div class="immo-deposit-validation" id="deposer-bien-errors" data-sell-validation-panel hidden>
               <p class="immo-deposit-validation-title">Pour envoyer, complétez :</p>
               <ul class="immo-deposit-validation-list" data-sell-validation-list></ul>
             </div>
+            <p class="url-capture-err" data-url-capture-err hidden role="alert"></p>
             <p class="url-capture-ok" data-url-capture-ok hidden></p>
-            <div style="margin-top:14px">
+            <div class="immo-deposit-submit-row">
+              <button type="button" class="btn btn-soft immo-jump-errors" data-sell-jump-errors hidden>Voir les erreurs ↑</button>
               <button type="submit" class="btn btn-primary" data-deposit-submit>Envoyer l'annonce</button>
             </div>
           </form>

@@ -40,6 +40,70 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val(form, "email"));
   }
 
+  function isOwnerHat(hat) {
+    return hat === "vendeur" || hat === "les_deux";
+  }
+
+  function getConfirmMethod(form, hat) {
+    if (!isOwnerHat(hat)) return null;
+    var el = form && form.querySelector("[name='confirmMethod']:checked");
+    return el ? String(el.value || "").trim() : "email";
+  }
+
+  function isGoogleLoggedIn() {
+    return !!(global.AcheteurImmoAccount && global.AcheteurImmoAccount.isLoggedIn());
+  }
+
+  function sessionEmail() {
+    try {
+      return localStorage.getItem("lo_client_email") || "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function contactSatisfied(form, hat) {
+    var method = getConfirmMethod(form, hat);
+    if (method === "google") return isGoogleLoggedIn();
+    if (method === "email") return hasEmail(form);
+    if (method === "phone") return hasPhone(form);
+    return hasEmail(form) || hasPhone(form);
+  }
+
+  function contactMissingItem(form, hat) {
+    var method = getConfirmMethod(form, hat);
+    if (method === "google") {
+      return missingItem(
+        "confirmGoogle",
+        "Connexion Google pour confirmer votre identité",
+        qs("[data-account-google]", form) || qs("[data-account-block]", form),
+        "Compte client"
+      );
+    }
+    if (method === "email") {
+      return missingItem(
+        "contactEmail",
+        "E-mail pour vous recontacter et confirmer votre identité",
+        form.querySelector("[name='email']"),
+        "Vos coordonnées"
+      );
+    }
+    if (method === "phone") {
+      return missingItem(
+        "contactPhone",
+        "Téléphone pour vous recontacter et confirmer votre identité",
+        form.querySelector("[name='phone']"),
+        "Vos coordonnées"
+      );
+    }
+    return missingItem(
+      "contact",
+      "E-mail ou téléphone pour vous recontacter",
+      form.querySelector("[name='email']") || form.querySelector("[name='phone']"),
+      "Vos coordonnées"
+    );
+  }
+
   function resolveCity(form) {
     var c = val(form, "city");
     if (c) return c;
@@ -139,15 +203,8 @@
       );
     }
 
-    if (!hasEmail(form) && !hasPhone(form)) {
-      blocking.push(
-        missingItem(
-          "contact",
-          "E-mail ou téléphone pour vous recontacter",
-          form.querySelector("[name='email']") || form.querySelector("[name='phone']"),
-          "Vos coordonnées"
-        )
-      );
+    if (!contactSatisfied(form, hat)) {
+      blocking.push(contactMissingItem(form, hat));
     }
 
     if (isOwner) {
@@ -190,7 +247,7 @@
 
   function computeProgress(form, isOwner, isSignalement, urlCount, photoCount, blocking, recommended) {
     var steps = [];
-    steps.push({ id: "contact", done: hasEmail(form) || hasPhone(form), label: "Contact" });
+    steps.push({ id: "contact", done: contactSatisfied(form, hat), label: "Contact" });
     steps.push({
       id: "bien",
       done: !!resolveCity(form) || urlCount > 0,
@@ -242,6 +299,7 @@
     }
 
     if (result.ok) {
+      updateJumpErrors(root, 0);
       if (result.recommended && result.recommended.length && result.progress.percent < 100) {
         panel.hidden = false;
         list.innerHTML =
@@ -289,6 +347,41 @@
     result.blocking.forEach(function (item) {
       list._focusMap[item.id] = item.el;
     });
+    updateJumpErrors(root, result.blocking.length);
+  }
+
+  function updateJumpErrors(root, count) {
+    var jumpBtn = qs("[data-sell-jump-errors]", root);
+    if (!jumpBtn) return;
+    if (count > 0) {
+      jumpBtn.hidden = false;
+      jumpBtn.textContent =
+        "Voir les " + count + " erreur" + (count > 1 ? "s" : "") + " ↑";
+    } else {
+      jumpBtn.hidden = true;
+    }
+  }
+
+  function jumpToErrors(root, result) {
+    root = root || qs("[data-listing-url-capture]");
+    var panel = qs("#deposer-bien-errors", root) || qs("[data-sell-validation-panel]", root);
+    if (panel) {
+      panel.hidden = false;
+      panel.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    if (result && result.blocking && result.blocking.length) {
+      var firstLink = qs("[data-sell-validation-list] .immo-deposit-missing-link", root);
+      if (firstLink) {
+        try {
+          firstLink.focus({ preventScroll: true });
+        } catch (e) {}
+      }
+      if (result.blocking[0] && result.blocking[0].el) {
+        setTimeout(function () {
+          focusTarget(result.blocking[0].el);
+        }, 350);
+      }
+    }
   }
 
   function esc(s) {
@@ -299,21 +392,26 @@
       .replace(/"/g, "&quot;");
   }
 
-  function showSubmitError(errEl, result) {
+  function showSubmitError(errEl, result, root) {
     if (!errEl) return;
+    root = root || qs("[data-listing-url-capture]");
     if (result.ok) {
       errEl.hidden = true;
       errEl.textContent = "";
+      updateJumpErrors(root, 0);
       return;
     }
     errEl.hidden = false;
+    var n = result.blocking.length;
     errEl.innerHTML =
       "<strong>Il manque " +
-      result.blocking.length +
+      n +
       " information" +
-      (result.blocking.length > 1 ? "s" : "") +
-      " pour envoyer.</strong> Cliquez sur un point ci-dessus pour y accéder directement.";
-    if (result.blocking[0] && result.blocking[0].el) focusTarget(result.blocking[0].el);
+      (n > 1 ? "s" : "") +
+      ' pour envoyer.</strong> ' +
+      '<button type="button" class="immo-link-btn immo-err-jump" data-sell-jump-errors-inline>Voir la liste des erreurs et corriger →</button>';
+    updateJumpErrors(root, n);
+    jumpToErrors(root, result);
   }
 
   function serializeScope(scope) {
@@ -829,6 +927,12 @@
     bindUnloadGuards();
 
     root.addEventListener("click", function (e) {
+      if (e.target.closest("[data-sell-jump-errors], [data-sell-jump-errors-inline]")) {
+        e.preventDefault();
+        var ctx = buildCtx(form, root);
+        jumpToErrors(root, validate(ctx));
+        return;
+      }
       var focusBtn = e.target.closest("[data-sell-focus]");
       if (focusBtn) {
         var list = qs("[data-sell-validation-list]", root);
@@ -880,6 +984,7 @@
     validate: validate,
     renderValidationPanel: renderValidationPanel,
     showSubmitError: showSubmitError,
+    jumpToErrors: jumpToErrors,
     buildCtx: buildCtx,
     focusTarget: focusTarget,
     saveDraft: saveDraft,
@@ -889,6 +994,9 @@
     startNewDemand: startNewDemand,
     refreshUi: refreshUi,
     flushSave: flushSave,
+    getConfirmMethod: getConfirmMethod,
+    contactSatisfied: contactSatisfied,
+    sessionEmail: sessionEmail,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

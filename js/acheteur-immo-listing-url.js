@@ -230,6 +230,8 @@
     if (window.VendeurVisitePretBlock) window.VendeurVisitePretBlock.syncVisibility();
     if (window.AcheteurImmoDepositVente) window.AcheteurImmoDepositVente.sync();
     else if (window.AcheteurImmoHatDossier) window.AcheteurImmoHatDossier.sync(hat);
+    var captureRoot = document.querySelector("[data-listing-url-capture]");
+    if (captureRoot && window.AcheteurImmoAccount) window.AcheteurImmoAccount.updateAccountUi(captureRoot);
   }
 
   function applyListingMode() {
@@ -451,7 +453,7 @@
         );
         window.AcheteurImmoDepositGuide.renderValidationPanel(root, guideResult);
         if (!guideResult.ok) {
-          window.AcheteurImmoDepositGuide.showSubmitError(err, guideResult);
+          window.AcheteurImmoDepositGuide.showSubmitError(err, guideResult, root);
           return;
         }
       } else {
@@ -481,6 +483,21 @@
           return;
         }
       }
+      var confirmMethod =
+        window.AcheteurImmoAccount && window.AcheteurImmoAccount.getConfirmMethod
+          ? window.AcheteurImmoAccount.getConfirmMethod(root)
+          : null;
+      if (!confirmMethod && isOwner) confirmMethod = "email";
+      var payloadEmail = val(form, "email");
+      var payloadPhone = val(form, "phone");
+      if (
+        !payloadEmail &&
+        window.AcheteurImmoDepositGuide &&
+        window.AcheteurImmoDepositGuide.sessionEmail &&
+        (confirmMethod === "google" || window.AcheteurImmoAccount && window.AcheteurImmoAccount.isLoggedIn())
+      ) {
+        payloadEmail = window.AcheteurImmoDepositGuide.sessionEmail();
+      }
       var payload = {
         role: hat,
         alsoBuys: hat === "les_deux",
@@ -489,8 +506,8 @@
         }),
         firstName: val(form, "firstName"),
         lastName: val(form, "lastName"),
-        email: val(form, "email"),
-        phone: val(form, "phone"),
+        email: payloadEmail,
+        phone: payloadPhone,
         city: cityResolved || val(form, "city"),
         postal_code: val(form, "postal_code"),
         property_type: val(form, "property_type"),
@@ -515,12 +532,9 @@
         buySurfaceMin: val(form, "buySurfaceMin"),
         buyPropertyType: val(form, "buyPropertyType"),
         wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
-        confirmByEmail: !!(
-          form.querySelector('[name="confirmByEmail"]') && form.querySelector('[name="confirmByEmail"]').checked
-        ),
-        confirmByPhone: !!(
-          form.querySelector('[name="confirmByPhone"]') && form.querySelector('[name="confirmByPhone"]').checked
-        ),
+        confirmMethod: confirmMethod,
+        confirmByEmail: confirmMethod === "email" || confirmMethod === "google",
+        confirmByPhone: confirmMethod === "phone",
         createAccount: true,
         photos: mediaList(state),
         _hp: val(form, "_hp"),
@@ -548,8 +562,14 @@
                 ? "acheteur_vendeur_immo"
                 : "acheteur_immo",
       };
-      if (!payload.email && !payload.phone && !window.AcheteurImmoDepositGuide) {
-        if (err) {
+      if (!payload.email && !payload.phone) {
+        if (window.AcheteurImmoDepositGuide) {
+          var lateGuide = window.AcheteurImmoDepositGuide.validate(
+            window.AcheteurImmoDepositGuide.buildCtx(form, root)
+          );
+          window.AcheteurImmoDepositGuide.renderValidationPanel(root, lateGuide);
+          window.AcheteurImmoDepositGuide.showSubmitError(err, lateGuide, root);
+        } else if (err) {
           err.hidden = false;
           err.textContent = "Indiquez votre e-mail ou votre téléphone.";
         }
@@ -626,11 +646,14 @@
               accountNote = " Compte client créé.";
               if (res.data.verifyEmailSent) {
                 accountNote += " E-mail de confirmation envoyé — cliquez le lien pour activer votre espace.";
-              } else if (payload.confirmByEmail) {
+              } else if (confirmMethod === "email" || payload.confirmByEmail) {
                 accountNote += " Confirmation e-mail : utilisez « Renvoyer l'e-mail de confirmation » si besoin.";
               }
-              if (payload.confirmByPhone) {
+              if (confirmMethod === "phone" || payload.confirmByPhone) {
                 accountNote += " Un conseiller vous rappellera pour confirmer votre téléphone.";
+              }
+              if (confirmMethod === "google") {
+                accountNote += " Identité confirmée via Google.";
               }
             }
             ok.textContent =
