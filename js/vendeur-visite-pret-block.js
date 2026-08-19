@@ -122,15 +122,19 @@
     }
   }
 
-  function syncWrapVisibility() {
+  function shouldShow() {
     var hat = document.documentElement.getAttribute("data-immo-hat") || "acheteur";
-    var show = hat === "vendeur" || hat === "les_deux";
+    if (hat === "vendeur" || hat === "les_deux") return true;
+    var form = document.querySelector("form[data-acheteur-immo]");
+    if (!form) return false;
+    var kind = form.querySelector('input[name="searchKind"]:checked');
+    return !!(kind && (kind.value === "service" || kind.value === "les_deux"));
+  }
+
+  function syncWrapVisibility() {
+    var show = shouldShow();
     document.querySelectorAll("[data-vendeur-visite-pret-wrap]").forEach(function (wrap) {
       wrap.hidden = !show;
-    });
-    document.querySelectorAll("[data-vendeur-visite-pret-block]").forEach(function (block) {
-      if (block.closest("[data-vendeur-visite-pret-wrap]")) return;
-      block.hidden = !show;
     });
   }
 

@@ -271,6 +271,7 @@
           var est = form.querySelector('input[name="serviceSought"][value="estimation_vente"]');
           if (est) est.checked = true;
         }
+        if (window.VendeurVisitePretBlock) window.VendeurVisitePretBlock.syncVisibility();
       });
     });
 
