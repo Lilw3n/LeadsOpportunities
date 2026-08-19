@@ -377,7 +377,7 @@
     var fillMode = window.AcheteurImmoFillMode ? window.AcheteurImmoFillMode.getMode() : "client";
 
     var subtitles = {
-      empty: "Modèle vierge — projet de vente / recherche (Laforêt)",
+      empty: "Modèle vierge — projet de vente / recherche",
       partial: "État actuel du formulaire — réponses saisies uniquement",
       full: "Questionnaire complet — trame avec toutes les rubriques",
     };

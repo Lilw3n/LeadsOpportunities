@@ -1,5 +1,5 @@
 /**
- * Fiche Laforêt — extras : construction <10 ans, checklist docs, matrice timeline.
+ * Dossier vente — extras : construction récente, checklist docs, matrice timeline.
  */
 (function () {
   function qs(sel, root) {
@@ -47,8 +47,8 @@
   }
 
   function bind(form) {
-    if (!form || form.dataset.laforetExtrasBound) return;
-    form.dataset.laforetExtrasBound = "1";
+    if (!form || form.dataset.sellExtrasBound) return;
+    form.dataset.sellExtrasBound = "1";
     bindConstructionToggle(form);
     bindFurnitureToggle(form);
     bindDocsProgress(form);
@@ -59,7 +59,8 @@
     bind(form);
   }
 
-  window.AcheteurImmoLaforetExtras = { bind: bind };
+  window.AcheteurImmoSellExtras = { bind: bind };
+  window.AcheteurImmoLaforetExtras = window.AcheteurImmoSellExtras;
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

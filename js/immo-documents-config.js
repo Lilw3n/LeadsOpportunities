@@ -206,7 +206,7 @@
     return cfg.groups || [];
   }
 
-  /** Checklist Laforêt — une ligne = checkbox + upload (dossier Drive par type). */
+  /** Checklist vendeur — une ligne = checkbox + upload (dossier Drive par type). */
   var CHECKLIST_GROUPS = [
     {
       id: "identite",

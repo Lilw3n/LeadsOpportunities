@@ -1,5 +1,5 @@
 /**
- * Checklist vendeur Laforêt — checkbox + upload par pièce.
+ * Checklist vendeur — checkbox + upload par pièce.
  * Drive : dossier client Nom_Prenom_Tel_Email → sous-dossier par type de pièce.
  */
 (function (global) {

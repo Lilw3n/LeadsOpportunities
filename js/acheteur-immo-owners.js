@@ -1,5 +1,5 @@
 /**
- * Bloc propriétaires répétables — fiche Laforêt (projet de vente).
+ * Bloc propriétaires répétables — dossier vente.
  * Évite les doublons avec « Vos coordonnées » ; adresse proprio ≠ adresse du bien (héritage).
  */
 (function () {

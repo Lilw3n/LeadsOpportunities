@@ -20,7 +20,7 @@ function read(rel) {
 
 [
   "js/acheteur-immo-copro-works.js",
-  "js/acheteur-immo-laforet-extras.js",
+  "js/acheteur-immo-sell-extras.js",
 ].forEach(function (f) {
   assert(fs.existsSync(path.join(root, f)), f + " existe");
 });
