@@ -47,7 +47,7 @@
         o[k] = v;
       }
     });
-    ["buyerNeeds", "propertySought", "serviceSought"].forEach(function (key) {
+    ["buyerNeeds", "propertySought", "serviceSought", "ownerRole[]", "ownerFirstName[]", "ownerLastName[]", "ownerPhone[]", "ownerEmail[]"].forEach(function (key) {
       if (typeof o[key] === "string") o[key] = [o[key]];
     });
     return o;

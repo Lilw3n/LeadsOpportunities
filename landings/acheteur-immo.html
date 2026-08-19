@@ -443,12 +443,12 @@
             </div>
 
 
-            <!-- ETAPE 1 : Recherche de bien (style annonce) -->
+            <!-- ETAPE 1 : Vente / recherche / les deux -->
             <section class="wizard-step" data-wizard-step="1" data-step-name="recherche">
-              <h3>Quel bien recherchez-vous ?</h3>
+              <h3 data-wizard-recherche-title>Quel bien recherchez-vous ?</h3>
               <fieldset class="contact-pair">
-                <legend>Comment vous joindre</legend>
-                <p class="contact-pair-hint">Téléphone et e-mail : on vous alerte dès qu'un bien correspond, même si le dossier n'est pas fini.</p>
+                <legend>Comment vous joindre (interlocuteur principal)</legend>
+                <p class="contact-pair-hint">Téléphone et e-mail : on vous alerte ou vous rappelle, même si le dossier n'est pas fini. Les propriétaires du bien à vendre se renseignent plus bas.</p>
                 <div class="contact-pair-row">
                   <div class="field">
                     <label for="phone">Téléphone mobile</label>
@@ -460,36 +460,186 @@
                   </div>
                 </div>
               </fieldset>
-              <p class="small" style="margin-top:0;margin-bottom:14px;">
-                Type, secteur, budget, vendeur — les criteres essentiels pour vous proposer des biens a visiter.
-              </p>
 
               <div class="field full" hidden>
                 <fieldset class="buyer-needs-fieldset" style="border:0;padding:0;margin:0">
                   <legend>Vous cherchez…</legend>
                   <label class="field-check"><input type="radio" name="searchKind" value="bien" checked required /> Un bien a acheter / acquerir</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Un service immobilier</label>
-                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Les deux</label>
+                  <label class="field-check"><input type="radio" name="searchKind" value="service" /> Vendre / estimer mon bien</label>
+                  <label class="field-check"><input type="radio" name="searchKind" value="les_deux" /> Je vends et je rachète</label>
                 </fieldset>
-                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez bien, service, ou les deux pour continuer.</p>
+                <p class="small" data-search-kind-hint hidden style="color:#b91c1c;margin-top:8px">Choisissez votre casquette pour continuer.</p>
               </div>
 
-              <div class="search-mode-tabs" role="tablist" aria-label="Mode de recherche">
+              <div class="search-mode-tabs" role="tablist" aria-label="Votre casquette">
                 <label class="search-mode-tab">
                   <input type="radio" name="searchModeUi" value="bien" checked data-search-mode />
                   <span>Je cherche un bien</span>
                 </label>
                 <label class="search-mode-tab">
                   <input type="radio" name="searchModeUi" value="service" data-search-mode />
-                  <span>Je cherche un service</span>
+                  <span>Je veux vendre / estimer</span>
                 </label>
                 <label class="search-mode-tab">
                   <input type="radio" name="searchModeUi" value="les_deux" data-search-mode />
-                  <span>Bien + service</span>
+                  <span>Je vends et je rachète</span>
                 </label>
               </div>
 
-              <div class="field full" data-search-bien-panel style="margin-top:16px">
+              <span data-search-vente-first hidden aria-hidden="true"></span>
+
+              <div class="immo-form-section" data-search-vente-panel hidden>
+                <h4 class="immo-form-section-title">1. Bien à vendre</h4>
+                <p class="small immo-form-section-lead">Coordonnées des propriétaires, localisation du bien, mandat et descriptif — comme sur une fiche mandat.</p>
+
+                <p class="search-section-label">Propriétaires</p>
+                <p class="small" style="margin:0 0 10px;color:#64748b">Un propriétaire minimum (nom + téléphone ou e-mail). Ajoutez-en d'autres si indivision, SCI, héritiers…</p>
+                <div data-owners-mount class="immo-owners-mount"></div>
+                <p class="small" data-owners-hint hidden style="color:#b91c1c;margin:8px 0 0">Indiquez au moins un propriétaire complet (nom + téléphone ou e-mail).</p>
+                <button type="button" class="btn btn-soft btn-sm" data-owner-add style="margin:10px 0 18px">+ Ajouter un propriétaire</button>
+
+                <p class="search-section-label">Coordonnées du bien</p>
+                <div class="grid">
+                  <div class="field full">
+                    <label for="sellAddress">Adresse</label>
+                    <input id="sellAddress" name="sellAddress" autocomplete="street-address" data-search-vente-required placeholder="Ex. 12 rue des Lilas" />
+                  </div>
+                  <div class="field full">
+                    <label for="sellAddressExtra">Complément d'adresse</label>
+                    <input id="sellAddressExtra" name="sellAddressExtra" data-optional placeholder="Bât. B, étage 3, digicode…" />
+                  </div>
+                  <div class="field">
+                    <label for="sellPostalCode">Code postal</label>
+                    <input id="sellPostalCode" name="sellPostalCode" inputmode="numeric" maxlength="5" data-search-vente-required placeholder="Ex. 54110" />
+                  </div>
+                  <div class="field">
+                    <label for="sellCity">Ville</label>
+                    <input id="sellCity" name="sellCity" autocomplete="address-level2" data-search-vente-required placeholder="Ex. Varangéville" />
+                  </div>
+                  <div class="field">
+                    <label for="sellDistrict">Quartier / secteur</label>
+                    <input id="sellDistrict" name="sellDistrict" data-optional placeholder="Ex. centre-ville, ZAC…" />
+                  </div>
+                </div>
+
+                <p class="search-section-label" style="margin-top:18px">Dossier &amp; suivi</p>
+                <div class="grid">
+                  <div class="field">
+                    <label for="sellRdvDate">Date de RDV</label>
+                    <input id="sellRdvDate" name="sellRdvDate" type="datetime-local" data-optional />
+                  </div>
+                  <div class="field">
+                    <label for="sellContactOrigin">Origine du contact</label>
+                    <select id="sellContactOrigin" name="sellContactOrigin" data-optional>
+                      <option value="">— Choisir —</option>
+                      <option value="recommandation">Recommandation</option>
+                      <option value="panneau">Panneau / passage</option>
+                      <option value="leboncoin">Leboncoin / annonce en ligne</option>
+                      <option value="agence">Agence / mandataire</option>
+                      <option value="notaire">Notaire</option>
+                      <option value="reseau">Réseau / bouche-à-oreille</option>
+                      <option value="meta">Meta / Facebook</option>
+                      <option value="google">Google / site web</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="sellAdvisorName">Nom du conseiller</label>
+                    <input id="sellAdvisorName" name="sellAdvisorName" data-optional placeholder="Ex. Wendy Buchet" />
+                  </div>
+                  <div class="field">
+                    <label for="sellDossierNumber">N° dossier</label>
+                    <input id="sellDossierNumber" name="sellDossierNumber" data-optional placeholder="Réf. interne ou client" />
+                  </div>
+                </div>
+
+                <p class="search-section-label" style="margin-top:18px">Mandat</p>
+                <div class="grid">
+                  <div class="field">
+                    <label for="sellMandateNumber">N° mandat</label>
+                    <input id="sellMandateNumber" name="sellMandateNumber" data-optional placeholder="Si déjà connu" />
+                  </div>
+                  <div class="field">
+                    <label for="sellMandateForm">Forme du mandat</label>
+                    <select id="sellMandateForm" name="sellMandateForm" data-optional>
+                      <option value="">— Choisir —</option>
+                      <option value="simple">Simple</option>
+                      <option value="exclusif">Exclusif</option>
+                      <option value="semi_exclusif">Semi-exclusif</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="sellMandateType">Type de mandat</label>
+                    <select id="sellMandateType" name="sellMandateType" data-optional>
+                      <option value="">— Choisir —</option>
+                      <option value="vente">Vente</option>
+                      <option value="estimation">Estimation</option>
+                      <option value="recherche">Recherche</option>
+                      <option value="location">Location</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="sellMandateDate">Date du mandat</label>
+                    <input id="sellMandateDate" name="sellMandateDate" type="date" data-optional />
+                  </div>
+                  <div class="field full">
+                    <label for="sellMandateInfo">Infos mandat</label>
+                    <textarea id="sellMandateInfo" name="sellMandateInfo" rows="2" data-optional placeholder="Échéance, honoraires, exclusivité, clauses…"></textarea>
+                  </div>
+                </div>
+
+                <p class="search-section-label" style="margin-top:18px">Descriptif de l'habitation</p>
+                <div class="search-chip-grid" role="group" aria-label="Type de bien à vendre">
+                  <label class="search-chip"><input type="radio" name="sellPropertyType" value="appartement" /><span>Appartement</span></label>
+                  <label class="search-chip"><input type="radio" name="sellPropertyType" value="maison" /><span>Maison</span></label>
+                  <label class="search-chip"><input type="radio" name="sellPropertyType" value="terrain" /><span>Terrain</span></label>
+                  <label class="search-chip"><input type="radio" name="sellPropertyType" value="local" /><span>Local / mixte</span></label>
+                  <label class="search-chip"><input type="radio" name="sellPropertyType" value="immeuble" /><span>Immeuble</span></label>
+                </div>
+                <p class="small" data-sell-type-hint hidden style="color:#b91c1c;margin-top:8px">Indiquez le type de bien à vendre.</p>
+                <div class="grid" style="margin-top:14px">
+                  <div class="field">
+                    <label for="sellRooms">Pièces</label>
+                    <input id="sellRooms" name="sellRooms" inputmode="numeric" data-optional placeholder="Ex. 4" />
+                  </div>
+                  <div class="field">
+                    <label for="sellBedrooms">Chambres</label>
+                    <input id="sellBedrooms" name="sellBedrooms" inputmode="numeric" data-optional placeholder="Ex. 2" />
+                  </div>
+                  <div class="field">
+                    <label for="sellSurface">Surface habitable (m²)</label>
+                    <input id="sellSurface" name="sellSurface" inputmode="numeric" data-optional placeholder="Ex. 101" />
+                  </div>
+                  <div class="field">
+                    <label for="sellDpe">DPE</label>
+                    <select id="sellDpe" name="sellDpe" data-optional>
+                      <option value="">Non indiqué</option>
+                      <option>A</option><option>B</option><option>C</option><option>D</option>
+                      <option>E</option><option>F</option><option>G</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="sellPriceNet">Prix net vendeur (€)</label>
+                    <input id="sellPriceNet" name="sellPriceNet" inputmode="numeric" data-optional placeholder="Ex. 195000" />
+                  </div>
+                  <div class="field">
+                    <label for="sellPriceFai">Prix FAI (€)</label>
+                    <input id="sellPriceFai" name="sellPriceFai" inputmode="numeric" data-optional placeholder="Ex. 200000" />
+                  </div>
+                  <div class="field full">
+                    <label for="sellListingUrl">URL annonce (Leboncoin, SeLoger…)</label>
+                    <input id="sellListingUrl" name="sellListingUrl" type="url" data-optional placeholder="https://…" />
+                  </div>
+                  <div class="field full">
+                    <label for="sellDescription">Descriptif complet</label>
+                    <textarea id="sellDescription" name="sellDescription" rows="4" data-optional placeholder="Pièces, état, travaux, jardin, copro, points forts / faibles…"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="immo-form-section" data-search-bien-panel style="margin-top:16px">
+                <h4 class="immo-form-section-title" data-search-bien-heading>2. Bien recherché</h4>
+                <p class="small immo-form-section-lead" data-search-bien-lead>Type, secteur, budget — critères pour vous proposer des biens à visiter.</p>
                 <p class="search-section-label">Categorie</p>
                 <div class="search-chip-grid" role="group" aria-label="Type de bien">
                   <label class="search-chip"><input type="checkbox" name="propertySought" value="appartement" /><span>Appartement</span></label>
@@ -541,7 +691,8 @@
               </div>
 
               <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
-                <p class="search-section-label">Quel service ?</p>
+                <p class="search-section-label">Services complémentaires (optionnel)</p>
+                <p class="small" style="margin:0 0 10px;color:#64748b">Syndic, gestion locative, recherche locataire… en plus de la vente.</p>
                 <div class="search-chip-grid" role="group" aria-label="Services immobiliers">
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="syndic_copro" /><span>Syndic / copro</span></label>
                   <label class="search-chip"><input type="checkbox" name="serviceSought" value="location_gestion" /><span>Location / gestion</span></label>
@@ -1275,6 +1426,7 @@
   <script src="../js/lead-insights.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
+  <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
