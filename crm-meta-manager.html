@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestionnaire Meta | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./crm-acquisition.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .mm-tabs { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0; }
+    .mm-tabs button { padding:10px 16px; border:1px solid var(--line); border-radius:10px; background:#fff; cursor:pointer; font-weight:600; font-size:.88rem; }
+    .mm-tabs button.active { background:#1877f2; color:#fff; border-color:#1877f2; }
+    .mm-panel { display:none; }
+    .mm-panel.active { display:block; }
+    .mm-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:16px; }
+    .mm-card { background:var(--card,#fff); border:1px solid var(--line); border-radius:12px; padding:16px; }
+    .mm-card h3 { margin:0 0 8px; font-size:.85rem; color:var(--muted); font-weight:600; }
+    .mm-big { font-size:1.6rem; font-weight:800; line-height:1.1; }
+    .mm-status--ok { color:#16a34a; font-weight:700; }
+    .mm-status--warn { color:#b45309; font-weight:700; }
+    .mm-status--off { color:var(--muted); font-weight:600; }
+    .mm-channel { border-left:4px solid #1877f2; padding-left:12px; margin-bottom:12px; }
+    .mm-channel--off { border-color:#94a3b8; opacity:.85; }
+    .mm-lead-row { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+    .mm-badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:.72rem; font-weight:700; }
+    .mm-badge--ads { background:#dbeafe; color:#1d4ed8; }
+    .mm-badge--site { background:#dcfce7; color:#166534; }
+    .mm-page-card { border:1px solid var(--line); border-radius:12px; padding:14px; margin-bottom:10px; }
+    .mm-page-card.group { border-left:4px solid #f59e0b; }
+    .mm-form-grid { display:grid; gap:10px; max-width:520px; margin-top:12px; }
+    .mm-form-grid input, .mm-form-grid textarea { width:100%; padding:10px; border:1px solid var(--line); border-radius:8px; font:inherit; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Meta / Facebook</p>
+      <h2>Gestionnaire Meta — pages & leads</h2>
+      <p>Lead Ads (formulaires instantanés), trafic site avec <code>fbclid</code>, santé webhook, pages enregistrées. Les <strong>groupes</strong> ne peuvent pas être surveillés automatiquement — ajoutez un lien UTM vers une landing.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-meta-inbox.html" class="btn btn-primary">Inbox Lead Ads</a>
+      <a href="./crm-pubs.html" class="btn btn-ghost">Gestion pubs</a>
+      <a href="./crm-sources.html" class="btn btn-ghost">Origine leads</a>
+      <button type="button" class="btn btn-ghost" id="mmRefresh">Actualiser</button>
+    </div>
+  </section>
+
+  <div class="mm-tabs" id="mmTabs">
+    <button type="button" class="active" data-tab="overview">Vue d'ensemble</button>
+    <button type="button" data-tab="leads">Leads Meta</button>
+    <button type="button" data-tab="pages">Pages & groupes</button>
+    <button type="button" data-tab="campaigns">Campagnes & formulaires</button>
+  </div>
+
+  <section class="mm-panel active" id="mmPanelOverview">
+    <div class="acq-stats" id="mmKpis"></div>
+    <div class="mm-grid" id="mmHealth"></div>
+    <section class="panel pub-hub-section">
+      <h2>Canaux de récupération</h2>
+      <div id="mmChannels"></div>
+    </section>
+  </section>
+
+  <section class="mm-panel" id="mmPanelLeads">
+    <section class="panel">
+      <div class="crm-toolbar" style="margin-bottom:12px">
+        <select id="mmLeadDays" class="crm-input" style="max-width:140px">
+          <option value="7" selected>7 jours</option>
+          <option value="14">14 jours</option>
+          <option value="30">30 jours</option>
+        </select>
+        <select id="mmLeadFilter" class="crm-input" style="max-width:200px">
+          <option value="">Tous canaux Meta</option>
+          <option value="lead_ads">Lead Ads uniquement</option>
+          <option value="site_meta">Site fbclid uniquement</option>
+        </select>
+      </div>
+      <div id="mmLeadsList"></div>
+    </section>
+  </section>
+
+  <section class="mm-panel" id="mmPanelPages">
+    <section class="panel pub-hub-section">
+      <h2>Pages enregistrées</h2>
+      <p style="color:var(--muted);margin-top:0">Collez les liens de vos pages Facebook. Pour les groupes, un lien UTM est généré pour poster dans le groupe.</p>
+      <div id="mmPagesList"></div>
+    </section>
+    <section class="panel pub-hub-section">
+      <h2>Ajouter une page ou un groupe</h2>
+      <form id="mmAddPageForm" class="mm-form-grid">
+        <label>Nom (ex. Page Nancy immo)<input type="text" name="name" required placeholder="Nom affiché dans le CRM" /></label>
+        <label>URL Facebook<input type="url" name="url" required placeholder="https://www.facebook.com/… ou facebook.com/groups/…" /></label>
+        <label>Notes (optionnel)<textarea name="notes" rows="2" placeholder="Usage, commune, produit…"></textarea></label>
+        <div><button type="submit" class="btn btn-primary">Enregistrer</button> <span id="mmAddPageMsg" style="margin-left:8px;color:var(--muted)"></span></div>
+      </form>
+    </section>
+  </section>
+
+  <section class="mm-panel" id="mmPanelCampaigns">
+    <section class="panel pub-hub-section" id="mmActiveCampaign">
+      <p style="color:var(--muted)">Chargement…</p>
+    </section>
+    <section class="panel pub-hub-section">
+      <h2>Formulaires Lead Ads</h2>
+      <div id="mmForms"></div>
+    </section>
+    <section class="panel pub-hub-section">
+      <h2>Liens Meta</h2>
+      <div class="pub-link-row" id="mmLinks"></div>
+    </section>
+  </section>
+
+  <script src="./js/crm-lead-platform.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./crm-meta-manager.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

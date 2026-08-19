@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "primary_page_id": "1183829618147455",
+  "pages": [
+    {
+      "id": "1183829618147455",
+      "name": "Leads Opportunities",
+      "url": "https://www.facebook.com/1183829618147455",
+      "role": "primary",
+      "lead_ads_webhook": true,
+      "notes": "Page principale — formulaires instantanés Meta + webhook /api/webhooks/meta-lead"
+    }
+  ],
+  "groups_policy": "Les groupes Facebook ne peuvent pas être surveillés automatiquement (API Meta fermée). Utilisez un lien UTM vers une landing ou une pub Lead Ads ciblée.",
+  "messenger_policy": "Les messages privés Page (Messenger) pourront être branchés en phase 2 — webhook messages."
+}

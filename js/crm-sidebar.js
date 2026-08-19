@@ -65,6 +65,7 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-sources.html", label: "Origine des leads", icon: "stats", badge: "UTM", desc: "Plateforme, campagne, gclid, ttclid" },
         { type: "link", href: "./crm-trafic.html", label: "Trafic & visites", icon: "stats", badge: "WoW", desc: "Comparaison semaine vs semaine précédente" },
         { type: "link", href: "./crm-acquisition.html", label: "Pipeline acquisition", icon: "acquisition", highlight: true, badge: "priorité", desc: "Google, Meta, TikTok, Allo" },
+        { type: "link", href: "./crm-meta-manager.html", label: "Gestionnaire Meta", icon: "social", badge: "hub", highlight: true, desc: "Pages, Lead Ads, santé webhook, leads fbclid" },
         { type: "link", href: "./crm-meta-inbox.html", label: "Leads Meta (Facebook)", icon: "social", badge: "Lead Ads", desc: "Formulaires instantanés Meta" },
         { type: "section", id: "leads", label: "Leads web", icon: "leads", desc: "Demandes site public" },
         { type: "link", href: "./crm-private-offer-matching.html", label: "Matching VSP privé", icon: "ai", badge: "privé", desc: "Orientation partenaires" },

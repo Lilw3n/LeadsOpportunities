@@ -50,6 +50,7 @@
         }
       ],
       "internal": [
+        { "label": "Gestionnaire Meta (CRM)", "href": "./crm-meta-manager.html" },
         { "label": "Leads Meta (CRM)", "href": "./crm-meta-inbox.html" },
         { "label": "Gestion pubs (CRM)", "href": "./crm-pubs.html" },
         { "label": "Matching VSP privé", "href": "./crm-private-offer-matching.html" },
