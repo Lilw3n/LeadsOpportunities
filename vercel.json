@@ -81,11 +81,15 @@
     },
     {
       "source": "/agence-varangeville",
-      "destination": "/agence-varangeville/index.html"
+      "destination": "/agence-varangeville.html"
     },
     {
       "source": "/agence-varangeville/",
-      "destination": "/agence-varangeville/index.html"
+      "destination": "/agence-varangeville.html"
+    },
+    {
+      "source": "/agence-varangeville/index.html",
+      "destination": "/agence-varangeville.html"
     }
   ],
   "crons": [
@@ -106,6 +110,33 @@
     }
   },
   "headers": [
+    {
+      "source": "/agence-varangeville",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/agence-varangeville/",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/agence-varangeville.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
     {
       "source": "/(.*)",
       "headers": [
