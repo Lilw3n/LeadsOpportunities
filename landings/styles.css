@@ -999,19 +999,19 @@ input::placeholder { color: #94a3b8; }
   pointer-events: none;
 }
 .search-chip span {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   text-align: center;
-  min-height: 52px;
-  padding: 10px 12px;
+  min-height: 2.75rem;
+  padding: 0.7rem 0.75rem 0.85rem;
   border-radius: 14px;
   border: 1.5px solid #cbd5e1;
   background: #fff;
   color: #0f172a;
   font-size: 0.92rem;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.45;
+  overflow: visible;
+  box-sizing: border-box;
   transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 .search-chip input:checked + span {
