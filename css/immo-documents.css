@@ -91,14 +91,8 @@
   transition: transform 0.2s ease;
 }
 
-.immo-doc-cat:not([open]) > summary::after {
-  transform: rotate(-45deg);
-  margin-top: -2px;
-}
-
 .immo-doc-cat[open] > summary::after {
   transform: rotate(45deg);
-  margin-top: 2px;
   border-color: #0f766e;
 }
 
