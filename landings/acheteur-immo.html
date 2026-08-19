@@ -47,6 +47,7 @@
   <link rel="stylesheet" href="../css/achat-perennite-block.css" />
   <link rel="stylesheet" href="../css/vente-3d-block.css" />
   <link rel="stylesheet" href="../css/vendeur-visite-pret-block.css" />
+  <link rel="stylesheet" href="../css/immo-documents.css" />
 </head>
 <body>
   <header class="landing-topbar">
@@ -312,6 +313,12 @@
                 <span data-deposit-vente-toggle-label><strong>Afficher le dossier vente détaillé</strong> (recommandé pour une mise en vente)</span>
               </label>
               <div class="immo-deposit-vente-panel" data-deposit-vente-mount></div>
+            </section>
+
+            <section class="immo-doc-panel" data-immo-docs-vendeur-wrap>
+              <p class="search-section-label" style="margin-top:20px">3. Documents du bien à vendre</p>
+              <p class="small" style="margin:0 0 10px;color:#64748b">Acte de vente, taxe foncière, DPE, copro, diagnostics… Déposez les pièces par catégorie (PDF, JPG — max 12 Mo).</p>
+              <div data-immo-docs-panel="vendeur"></div>
             </section>
 
             <div data-hat-vendeur-only>
@@ -1242,6 +1249,12 @@
                     <textarea id="listingUrls" name="listingUrls" rows="2" data-optional placeholder="https://www.leboncoin.fr/ad/…"></textarea>
                   </div>
                 </div>
+
+                <section class="immo-doc-panel" data-immo-docs-acheteur-wrap style="margin-top:18px">
+                  <p class="search-section-label">Documents financement &amp; recherche</p>
+                  <p class="small" style="margin:0 0 10px;color:#64748b">Bulletins de salaire, avis d'imposition, relevés bancaires, justificatif d'apport… pour étudier votre prêt.</p>
+                  <div data-immo-docs-panel="acheteur"></div>
+                </section>
               </div>
 
               <div class="field full" data-search-service-panel hidden style="margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0">
@@ -1968,6 +1981,8 @@
   <script src="../js/finance-deep-link.js"></script>
   <script src="../js/immo-parcours-strip.js"></script>
   <script src="../js/devis-document-config.js"></script>
+  <script src="../js/immo-documents-config.js"></script>
+  <script src="../js/immo-category-documents.js"></script>
   <script src="../js/public-partners-trust.js"></script>
   <script src="../js/contact-pair.js"></script>
   <script src="../js/callback-form.js"></script>

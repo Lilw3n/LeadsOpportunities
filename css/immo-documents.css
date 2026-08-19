@@ -1,0 +1,108 @@
+.immo-doc-panel {
+  margin: 16px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.immo-doc-panel-title {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  color: #0f766e;
+}
+
+.immo-doc-panel-intro {
+  margin: 0 0 14px;
+  color: #64748b;
+}
+
+.immo-doc-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.immo-doc-cat {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0 12px 12px;
+  background: #fafafa;
+}
+
+.immo-doc-cat summary {
+  cursor: pointer;
+  font-weight: 700;
+  padding: 12px 4px 8px;
+  color: #0f172a;
+}
+
+.immo-doc-cat-list {
+  margin: 0 0 10px 18px;
+  padding: 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.immo-doc-cat-upload {
+  margin-top: 4px;
+}
+
+.immo-doc-type-label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.immo-doc-drop {
+  margin-top: 8px;
+  padding: 14px;
+  border: 2px dashed #99f6e4;
+  border-radius: 10px;
+  background: #f0fdfa;
+  text-align: center;
+  cursor: pointer;
+}
+
+.immo-doc-drop.is-dragover {
+  border-color: #0d9488;
+  background: #ccfbf1;
+}
+
+.immo-doc-drop strong {
+  display: block;
+  font-size: 0.9rem;
+}
+
+.immo-doc-drop p {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+.immo-doc-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  font-size: 0.85rem;
+}
+
+.immo-doc-panel-foot {
+  margin-top: 10px;
+  color: #047857;
+}
+
+html[data-immo-hat="acheteur"] [data-immo-docs-vendeur-wrap],
+html[data-immo-hat="signalement"] [data-immo-docs-acheteur-wrap] {
+  display: none !important;
+}
+
+html[data-immo-hat="vendeur"] [data-immo-docs-acheteur-wrap] {
+  display: none !important;
+}

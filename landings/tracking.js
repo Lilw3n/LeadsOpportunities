@@ -446,8 +446,27 @@
             if (window.SellPhotosState && window.SellPhotosState.getPhotos().length) {
               photoPromise = window.SellPhotosState.submitPhotosAfterLead(form, result);
             }
-            photoPromise.then(function () {
-              return uploadWizardDocuments(form, leadPayload, result);
+            photoPromise.then(function (listingResult) {
+              var uploadDocs = uploadWizardDocuments(form, leadPayload, result);
+              var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
+              if (
+                vendeurPanel &&
+                vendeurPanel._immoDocs &&
+                listingResult &&
+                listingResult.propertyIds &&
+                listingResult.propertyIds.length &&
+                leadPayload.email
+              ) {
+                vendeurPanel._immoDocs.setSession({
+                  propertyId: listingResult.propertyIds[0],
+                  email: leadPayload.email,
+                  leadId: (listingResult && listingResult.leadId) || (result && result.leadId) || null,
+                });
+                uploadDocs = uploadDocs.then(function () {
+                  return vendeurPanel._immoDocs.uploadAll();
+                });
+              }
+              return uploadDocs;
             }).finally(function () {
               if (msgOk) {
                 if (result.emailSent === false && result.stored === false) {

@@ -1,0 +1,155 @@
+/**
+ * POST /api/immo-listing-document — dépôt public document bien → Drive immo
+ */
+const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
+const { getSql } = require("../db");
+const { uploadBase64File } = require("../drive-upload-core");
+const { classifyImmoFile, ensurePropertyDriveFolders } = require("../immo-drive");
+
+function str(v, max) {
+  return String(v == null ? "" : v).trim().slice(0, max || 200);
+}
+
+module.exports = async function publicImmoListingDocument(req, res) {
+  applyApiGuards(req, res);
+  if (req.method === "OPTIONS") return res.status(204).end();
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  var ip = getClientIp(req);
+  var rl = rateLimit("immo-listing-doc:" + ip, 40, 60 * 1000);
+  if (!rl.allowed) {
+    res.setHeader("Retry-After", String(Math.ceil(rl.retryAfterMs / 1000)));
+    return res.status(429).json({ error: "Trop de requêtes" });
+  }
+
+  var parsed = parseJsonBody(req, 14 * 1024 * 1024);
+  if (parsed.error) return res.status(400).json({ error: parsed.error });
+  var body = parsed.body || {};
+
+  var propertyId = str(body.propertyId, 80);
+  var email = str(body.email, 320).toLowerCase();
+  var fileName = str(body.fileName, 180);
+  var documentType = str(body.documentType, 80) || "autre_doc";
+  var documentGroup = str(body.documentGroup, 80);
+
+  if (!propertyId || !email || !fileName || !body.fileBase64) {
+    return res.status(400).json({
+      ok: false,
+      error: "propertyId, email, fileName et fileBase64 requis",
+    });
+  }
+
+  var sql = getSql();
+  if (!sql) return res.status(500).json({ ok: false, error: "Base indisponible" });
+
+  try {
+    var store = require("../immo-properties-store");
+    await store.ensureImmoSchema(sql);
+    var rows = await sql`
+      SELECT id, title, city, postal_code, drive_folder_id, lead_id, metadata
+      FROM immo_properties WHERE id = ${propertyId} LIMIT 1
+    `;
+    if (!rows.length) {
+      return res.status(404).json({ ok: false, error: "Bien introuvable" });
+    }
+    var prop = rows[0];
+
+    var leadOk = false;
+    if (prop.lead_id) {
+      var leads = await sql`
+        SELECT email, phone FROM site_leads WHERE id = ${prop.lead_id} LIMIT 1
+      `;
+      if (leads.length) {
+        var le = String(leads[0].email || "").toLowerCase();
+        leadOk = le === email;
+      }
+    }
+    if (!leadOk && body.leadId) {
+      var leads2 = await sql`
+        SELECT email FROM site_leads WHERE id = ${body.leadId} AND LOWER(email) = ${email} LIMIT 1
+      `;
+      leadOk = leads2.length > 0;
+    }
+    if (!leadOk) {
+      return res.status(403).json({ ok: false, error: "Email non autorise pour ce bien" });
+    }
+
+    var ensured = await ensurePropertyDriveFolders({
+      id: prop.id,
+      title: prop.title,
+      city: prop.city,
+      postal_code: prop.postal_code,
+      drive_folder_id: prop.drive_folder_id,
+    });
+
+    var hintMap = {
+      diagnostics: "diagnostics",
+      dpe: "diagnostics",
+      amiante: "diagnostics",
+      titre: "mandat",
+      titre_propriete: "mandat",
+      acte_vente: "mandat",
+      mandat_signe: "mandat",
+    };
+    var hint = hintMap[documentType] || hintMap[documentGroup] || "docs";
+    var classified =
+      classifyImmoFile({
+        fileName: fileName,
+        mimeType: body.mimeType,
+        hint: hint,
+        confidential: /identite|titre|acte|mandat|kbis|releve_pret|taxe/.test(documentType),
+      }) || "03_documents_publics";
+
+    var targetFolder =
+      (ensured.subfolderIds && ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) ||
+      ensured.folderId ||
+      prop.drive_folder_id;
+
+    var uploaded = await uploadBase64File({
+      fileName: documentType + "_" + fileName,
+      base64: body.fileBase64,
+      mimeType: body.mimeType || "application/octet-stream",
+      folderId: targetFolder,
+    });
+
+    var meta = prop.metadata && typeof prop.metadata === "object" ? prop.metadata : {};
+    if (typeof meta === "string") {
+      try {
+        meta = JSON.parse(meta);
+      } catch (e) {
+        meta = {};
+      }
+    }
+    meta.documents = meta.documents || [];
+    meta.documents.push({
+      type: documentType,
+      group: documentGroup,
+      fileName: fileName,
+      uploadedAt: new Date().toISOString(),
+      driveFileId: uploaded.fileId || null,
+      simulated: !!uploaded.simulated,
+    });
+
+    await sql`
+      UPDATE immo_properties
+      SET metadata = ${JSON.stringify(meta)},
+          drive_folder_id = COALESCE(drive_folder_id, ${ensured.folderId || null}),
+          updated_at = NOW()
+      WHERE id = ${propertyId}
+    `;
+
+    return res.status(201).json({
+      ok: true,
+      propertyId: propertyId,
+      documentType: documentType,
+      classifiedAs: classified,
+      drive: uploaded,
+    });
+  } catch (e) {
+    console.error("[immo-listing-document]", e);
+    return res.status(502).json({ ok: false, error: e.message || "Erreur upload" });
+  }
+};

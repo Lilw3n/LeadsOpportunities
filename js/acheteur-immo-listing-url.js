@@ -517,6 +517,32 @@
             throw new Error((res.data && res.data.message) || "Envoi impossible");
           }
           var hats = (res.data.hats || []).join(" + ");
+          var docNote = "";
+          var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
+          if (
+            vendeurPanel &&
+            vendeurPanel._immoDocs &&
+            res.data.propertyIds &&
+            res.data.propertyIds.length &&
+            payload.email
+          ) {
+            vendeurPanel._immoDocs.setSession({
+              propertyId: res.data.propertyIds[0],
+              email: payload.email,
+              leadId: res.data.leadId || null,
+            });
+            return vendeurPanel._immoDocs.uploadAll().then(function (up) {
+              if (up && up.uploaded && up.uploaded.length) {
+                docNote = " " + up.uploaded.length + " document(s) bien archivé(s).";
+              }
+              return { res: res, docNote: docNote, hats: hats };
+            });
+          }
+          return { res: res, docNote: docNote, hats: hats };
+        })
+        .then(function (ctx) {
+          var res = ctx.res;
+          var payloadPhotos = mediaList(state).length;
           if (ok) {
             ok.hidden = false;
             var driveNote = res.data.driveConfigured ? " Copie Google Drive effectuée ou en cours." : "";
@@ -528,9 +554,10 @@
               (res.data.received > 1 ? "s" : "") +
               " enregistré" +
               (res.data.received > 1 ? "s" : "") +
-              (payload.photos.length ? " avec photos / capture" + driveNote : "") +
-              (hats ? " (" + hats + ")" : "") +
+              (payloadPhotos ? " avec photos / capture" + driveNote : "") +
+              (ctx.hats ? " (" + ctx.hats + ")" : "") +
               dossierNote +
+              (ctx.docNote || "") +
               ". Un conseiller vous rappelle.";
           }
           form.reset();
