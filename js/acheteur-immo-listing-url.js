@@ -122,6 +122,40 @@
     return el ? String(el.value || "").trim() : "";
   }
 
+  function resolveCity(form) {
+    var c = val(form, "city");
+    if (c) return c;
+    var sellEl = document.querySelector("#sellCity");
+    if (sellEl && String(sellEl.value || "").trim()) return String(sellEl.value).trim();
+    if (window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.collectSellDossier) {
+      var sd = window.AcheteurImmoDepositVente.collectSellDossier();
+      if (sd && sd.sellCity && String(sd.sellCity).trim()) return String(sd.sellCity).trim();
+    }
+    return "";
+  }
+
+  function focusCityField(form) {
+    var sellEl = document.querySelector("#sellCity");
+    var cityEl = form.querySelector("[name='city']");
+    var panel = document.querySelector("[data-search-vente-panel]");
+    var useSell =
+      sellEl &&
+      panel &&
+      !panel.hidden &&
+      String(sellEl.value || "").trim() === "" &&
+      cityEl &&
+      String(cityEl.value || "").trim() === "";
+    var target = useSell ? sellEl : cityEl || sellEl;
+    if (!target) return;
+    var block = target.closest("details.immo-vente-block");
+    if (block && !block.open) block.open = true;
+    target.classList.add("input-invalid");
+    target.scrollIntoView({ behavior: "smooth", block: "center" });
+    try {
+      target.focus({ preventScroll: true });
+    } catch (f) {}
+  }
+
   function currentHat() {
     return radioVal(document, "immoHat") || "acheteur";
   }
@@ -402,6 +436,9 @@
         err.textContent = "";
       }
       if (ok) ok.hidden = true;
+      if (window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.syncSellToExpress) {
+        window.AcheteurImmoDepositVente.syncSellToExpress();
+      }
       var hat = val(form, "role") || currentHat();
       var isOwner = hat === "vendeur" || hat === "les_deux";
       var isSignalement = hat === "signalement";
@@ -409,6 +446,7 @@
       var hits = Portals.detectMany(urlsText).filter(function (d) {
         return d.ok;
       });
+      var cityResolved = resolveCity(form);
       if (!hits.length && !isOwner && !isSignalement) {
         if (err) {
           err.hidden = false;
@@ -416,13 +454,14 @@
         }
         return;
       }
-      if ((isOwner || isSignalement) && !val(form, "city") && !hits.length) {
+      if ((isOwner || isSignalement) && !cityResolved && !hits.length) {
         if (err) {
           err.hidden = false;
           err.textContent = isSignalement
             ? "Indiquez la ville du bien signalé."
-            : "Indiquez la ville du bien, ou collez l'URL de votre annonce.";
+            : "Indiquez la ville du bien (section « Coordonnées du bien » ou saisie rapide), ou collez l'URL de votre annonce.";
         }
+        focusCityField(form);
         return;
       }
       if (isSignalement && !mediaList(state).length && !val(form, "description")) {
@@ -442,7 +481,7 @@
         lastName: val(form, "lastName"),
         email: val(form, "email"),
         phone: val(form, "phone"),
-        city: val(form, "city"),
+        city: cityResolved || val(form, "city"),
         postal_code: val(form, "postal_code"),
         property_type: val(form, "property_type"),
         price_fai: val(form, "price_fai"),

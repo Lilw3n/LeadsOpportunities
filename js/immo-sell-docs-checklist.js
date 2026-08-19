@@ -88,7 +88,7 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Dossier Google Drive au nom du vendeur (nom, prénom, tél, e-mail) — un sous-dossier par pièce déposée.</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces utiles — envoi automatique <strong>après</strong> « Déposer mon bien » (statut « En attente » = prêt à envoyer).</p>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
   }

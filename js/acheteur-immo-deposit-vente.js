@@ -78,6 +78,26 @@
     }
   }
 
+  function syncSellToExpress() {
+    var form = expressForm();
+    var p = panel();
+    if (!form || !p) return;
+    SYNC_MAP.forEach(function (m) {
+      var src = p.querySelector(m.sell);
+      var dst = form.querySelector(m.express);
+      if (!src || !dst || !String(src.value || "").trim()) return;
+      if (!String(dst.value || "").trim()) dst.value = src.value;
+    });
+    var sellType = p.querySelector('[name="sellPropertyType"]:checked');
+    var pt = form.querySelector("[name='property_type']");
+    if (sellType && pt && !String(pt.value || "").trim()) pt.value = sellType.value;
+    var sellDesc = p.querySelector("#sellDescription");
+    var urlDesc = form.querySelector("#urlDescription");
+    if (sellDesc && urlDesc && !String(urlDesc.value || "").trim() && String(sellDesc.value || "").trim()) {
+      urlDesc.value = sellDesc.value;
+    }
+  }
+
   function bindExpressSync() {
     var form = expressForm();
     if (!form || form.dataset.depositVenteSyncBound) return;
@@ -260,6 +280,7 @@
     sync: syncVisibility,
     collectSellDossier: collectSellDossier,
     syncExpressToSell: syncExpressToSell,
+    syncSellToExpress: syncSellToExpress,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
