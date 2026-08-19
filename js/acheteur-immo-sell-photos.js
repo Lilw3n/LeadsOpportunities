@@ -29,7 +29,7 @@
       '<label for="sellPhotosInput">Ajouter des photos (max ' +
       MAX +
       ")</label>" +
-      '<input id="sellPhotosInput" type="file" accept="image/*" multiple data-sell-photos-input />' +
+      '<input id="sellPhotosInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple data-sell-photos-input />' +
       "</div></div>" +
       '<div class="listing-thumbs" data-sell-photos-thumbs></div>' +
       '<p class="small" data-sell-photos-status hidden style="color:#047857;margin:8px 0 0"></p>' +

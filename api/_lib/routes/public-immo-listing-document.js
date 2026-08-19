@@ -113,6 +113,7 @@ module.exports = async function publicImmoListingDocument(req, res) {
       base64: body.fileBase64,
       mimeType: body.mimeType || "application/octet-stream",
       folderId: targetFolder,
+      kind: "document",
     });
 
     var meta = prop.metadata && typeof prop.metadata === "object" ? prop.metadata : {};
@@ -150,6 +151,8 @@ module.exports = async function publicImmoListingDocument(req, res) {
     });
   } catch (e) {
     console.error("[immo-listing-document]", e);
-    return res.status(502).json({ ok: false, error: e.message || "Erreur upload" });
+    var msg = e.message || "Erreur upload";
+    var code = /non autorise|refuse|correspond pas|volumineux|vide/i.test(msg) ? 400 : 502;
+    return res.status(code).json({ ok: false, error: msg });
   }
 };

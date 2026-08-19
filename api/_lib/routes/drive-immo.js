@@ -100,6 +100,7 @@ module.exports = async (req, res) => {
           base64: body.base64,
           mimeType: body.mimeType || "application/octet-stream",
           folderId: target,
+          kind: body.kind === "photo" ? "photo" : "document",
         });
 
         return res.status(200).json({

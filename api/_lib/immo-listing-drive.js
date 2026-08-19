@@ -61,6 +61,7 @@ async function syncPropertyPhotosToDrive(property, photos) {
         base64: stripBase64(p.url),
         mimeType: mimeFromDataUrl(p.url),
         folderId: targetFolder,
+        kind: "photo",
       });
       if (uploadedFile.simulated) {
         enriched.push(p);

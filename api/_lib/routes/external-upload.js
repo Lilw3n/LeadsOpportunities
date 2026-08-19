@@ -4,7 +4,7 @@
 const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
-const { uploadTextFile, uploadBase64File } = require("../drive-upload-core");
+const { uploadBase64File } = require("../drive-upload-core");
 const { subfolderForDocumentType } = require("../drive-folders");
 
 function attachmentFromBody(body, driveResult) {
@@ -59,8 +59,8 @@ module.exports = async (req, res) => {
   if (!body.email && !body.contactId && !body.contact_id) {
     return res.status(400).json({ error: "email ou contactId requis" });
   }
-  if (!body.fileBase64 && !body.content) {
-    return res.status(400).json({ error: "fileBase64 ou content requis" });
+  if (!body.fileBase64) {
+    return res.status(400).json({ error: "fileBase64 requis (PDF ou image JPG/PNG)" });
   }
 
   const sql = getSql();
@@ -71,24 +71,14 @@ module.exports = async (req, res) => {
     if (!contact) return res.status(404).json({ error: "Dossier client introuvable" });
 
     const subfolder = subfolderForDocumentType(documentType);
-    var driveResult = null;
-    if (body.fileBase64) {
-      driveResult = await uploadBase64File({
-        fileName: fileName,
-        base64: body.fileBase64,
-        mimeType: body.mimeType || "application/octet-stream",
-        contactId: contact.id,
-        subfolder: subfolder,
-      });
-    } else if (body.content) {
-      driveResult = await uploadTextFile({
-        fileName: fileName,
-        content: typeof body.content === "string" ? body.content : JSON.stringify(body.content),
-        mimeType: body.mimeType || "text/plain",
-        contactId: contact.id,
-        subfolder: subfolder,
-      });
-    }
+    var driveResult = await uploadBase64File({
+      fileName: fileName,
+      base64: body.fileBase64,
+      mimeType: body.mimeType || "application/octet-stream",
+      contactId: contact.id,
+      subfolder: subfolder,
+      kind: "document",
+    });
 
     const attachment = attachmentFromBody(body, driveResult || {});
     const extraData = JSON.stringify({
@@ -146,6 +136,8 @@ module.exports = async (req, res) => {
     });
   } catch (e) {
     console.error("[external/upload]", e);
-    return res.status(500).json({ error: e.message || "Erreur serveur" });
+    var msg = e.message || "Erreur serveur";
+    var code = /non autorise|refuse|correspond pas|volumineux|vide/i.test(msg) ? 400 : 500;
+    return res.status(code).json({ error: msg });
   }
 };

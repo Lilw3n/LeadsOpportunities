@@ -3,7 +3,7 @@
  */
 (function (global) {
   var MAX_BYTES = 12 * 1024 * 1024;
-  var ACCEPT = ".pdf,.jpg,.jpeg,.png,.webp";
+  var ACCEPT = ".pdf,.jpg,.jpeg,.png";
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -28,7 +28,14 @@
     if (file.type) return file.type;
     if (/\.pdf$/i.test(file.name)) return "application/pdf";
     if (/\.png$/i.test(file.name)) return "image/png";
+    if (/\.webp$/i.test(file.name)) return "image/webp";
     return "image/jpeg";
+  }
+
+  function isAllowedFile(file) {
+    var mime = mimeForFile(file);
+    if (mime === "application/pdf" || mime === "image/jpeg" || mime === "image/png") return true;
+    return /\.(pdf|jpe?g|png)$/i.test(file.name || "");
   }
 
   function ImmoCategoryDocuments(root, options) {
@@ -159,6 +166,10 @@
   };
 
   ImmoCategoryDocuments.prototype.addFile = function (file, documentType, groupId) {
+    if (!isAllowedFile(file)) {
+      alert("Format refuse — deposez uniquement PDF, JPG ou PNG.");
+      return;
+    }
     if (file.size > MAX_BYTES) {
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;

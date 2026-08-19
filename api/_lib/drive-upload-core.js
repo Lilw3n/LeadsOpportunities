@@ -1,6 +1,7 @@
 /**
  * Upload texte ou binaire (base64) vers Google Drive (partagé document-approve + route drive/upload)
  */
+const { validateUpload, MAX_BYTES } = require("./upload-guard");
 function buildMultipartBody(boundary, meta, mimeType, binaryBuffer) {
   var metaPart =
     "--" +
@@ -82,14 +83,22 @@ async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, s
   };
 }
 
-async function uploadBase64File({ fileName, base64, mimeType, folderId, contactId, subfolder }) {
+async function uploadBase64File({ fileName, base64, mimeType, folderId, contactId, subfolder, kind }) {
   if (!base64) throw new Error("base64 requis");
-  var raw = String(base64).replace(/^data:[^;]+;base64,/, "");
-  var buffer = Buffer.from(raw, "base64");
-  if (buffer.length > 12 * 1024 * 1024) {
-    throw new Error("Fichier trop volumineux (max 12 Mo)");
-  }
-  return uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, subfolder });
+  var checked = validateUpload({
+    base64: base64,
+    fileName: fileName,
+    mimeType: mimeType,
+    kind: kind || "document",
+  });
+  return uploadBuffer({
+    fileName: checked.fileName,
+    buffer: checked.buffer,
+    mimeType: checked.mimeType,
+    folderId: folderId,
+    contactId: contactId,
+    subfolder: subfolder,
+  });
 }
 
 async function uploadTextFile({ fileName, content, mimeType, folderId, contactId, subfolder }) {
@@ -103,4 +112,4 @@ async function uploadTextFile({ fileName, content, mimeType, folderId, contactId
   });
 }
 
-module.exports = { uploadTextFile, uploadBase64File, uploadBuffer };
+module.exports = { uploadTextFile, uploadBase64File, uploadBuffer, MAX_BYTES };
