@@ -80,6 +80,8 @@ var html = read("crm-contact.html");
 assert(html.indexOf("dossierMount") >= 0, "fiche : montage dossier");
 assert(html.indexOf("interlocuteur-dossier-lib.js") >= 0, "fiche : lib dossier");
 assert(html.indexOf("btnSlackFiche") >= 0, "fiche : bouton Slack");
+assert(html.indexOf("contactDriveBar") >= 0, "fiche : barre Drive");
+assert(html.indexOf("contactDocumentsPanel") >= 0, "fiche : panneau documents");
 
 var dash = read("dashboard.html");
 assert(dash.indexOf("btnCreateInterlocuteur") >= 0, "dashboard : créer fiche");

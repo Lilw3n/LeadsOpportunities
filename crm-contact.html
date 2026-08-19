@@ -45,7 +45,20 @@
       <a href="./crm-pubs.html" class="btn btn-ghost btn-sm">Configurer Slack</a>
       <a href="./crm-event-manager.html" class="btn btn-ghost btn-sm">Dashboard événements</a>
     </div>
+    <div id="contactDriveBar" class="int-drive-bar" hidden>
+      <span class="int-drive-dot"></span>
+      <span id="contactDriveStatus">Google Drive</span>
+      <a href="#" class="btn btn-primary btn-sm" id="btnOpenContactDrive" target="_blank" rel="noopener">Ouvrir dossier Drive (contact)</a>
+      <span id="contactDrivePropertyLinks"></span>
+    </div>
     <div id="dossierMount"></div>
+    <section class="panel" id="contactDocumentsPanel" data-crm-section="documents">
+      <div class="panel-head">
+        <h2>Pièces justificatives (Drive)</h2>
+        <a href="./crm-documents.html" class="btn btn-ghost btn-sm">Tous les documents</a>
+      </div>
+      <div id="contactDocumentsMount"><p style="color:var(--muted)">Chargement…</p></div>
+    </section>
     <div id="contactActionsMount"></div>
     <div id="contactKpis" class="contact-kpis"></div>
     <section class="panel contact-events contact-events--wide" id="contactEventsPanel">
@@ -107,13 +120,6 @@
       <div id="eventsList" class="events-list events-list--board"></div>
       <h3 class="sub-title">Activités système</h3>
       <div id="activitiesList" class="activities-list"></div>
-    </section>
-    <section class="panel" id="contactDocumentsPanel" data-crm-section="documents">
-      <div class="panel-head">
-        <h2>Pièces justificatives (Drive)</h2>
-        <a href="./crm-documents.html" class="btn btn-ghost btn-sm">Tous les documents</a>
-      </div>
-      <div id="contactDocumentsMount"><p style="color:var(--muted)">Chargement…</p></div>
     </section>
     <section class="panel eligibility-panel" data-crm-section="eligibility">
       <h2>Éligibilité partenaires &amp; produits</h2>

@@ -1135,6 +1135,59 @@
     }
   }
 
+  function renderDriveBar(driveInfo) {
+    var bar = document.getElementById("contactDriveBar");
+    if (!bar) return;
+    driveInfo = driveInfo || {};
+    var contactUrl = driveInfo.driveFolderWebViewLink || null;
+    var folders = driveInfo.propertyFolders || [];
+    var hasAny = contactUrl || folders.length || (driveInfo.documents && driveInfo.documents.length);
+    if (!hasAny) {
+      bar.hidden = true;
+      return;
+    }
+    bar.hidden = false;
+    var status = document.getElementById("contactDriveStatus");
+    var mainBtn = document.getElementById("btnOpenContactDrive");
+    var propLinks = document.getElementById("contactDrivePropertyLinks");
+    if (status) {
+      status.textContent =
+        (driveInfo.documents && driveInfo.documents.length
+          ? driveInfo.documents.length + " pièce(s) · "
+          : "") + "Google Drive";
+    }
+    if (mainBtn) {
+      if (contactUrl) {
+        mainBtn.href = contactUrl;
+        mainBtn.hidden = false;
+      } else if (folders.length && folders[0].webViewLink) {
+        mainBtn.href = folders[0].webViewLink;
+        mainBtn.textContent = "Ouvrir dossier Drive (bien)";
+        mainBtn.hidden = false;
+      } else {
+        mainBtn.hidden = true;
+      }
+      if (contactUrl && mainBtn.textContent !== "Ouvrir dossier Drive (contact)") {
+        mainBtn.textContent = "Ouvrir dossier Drive (contact)";
+      }
+    }
+    if (propLinks) {
+      propLinks.innerHTML = folders
+        .map(function (f, idx) {
+          if (!f.webViewLink) return "";
+          if (idx === 0 && !contactUrl) return "";
+          return (
+            '<a class="int-drive-prop-link" href="' +
+            esc(f.webViewLink) +
+            '" target="_blank" rel="noopener">Bien : ' +
+            esc(f.title || "Drive") +
+            "</a>"
+          );
+        })
+        .join("");
+    }
+  }
+
   function renderDocuments() {
     var mount = document.getElementById("contactDocumentsMount");
     if (!mount || !contactId) return;
@@ -1144,16 +1197,58 @@
         mount.innerHTML = "<p>" + esc(res.error || "Erreur") + "</p>";
         return;
       }
+      data.driveInfo = res;
+      renderDriveBar(res);
       var docs = res.documents || [];
+      var folderLink = res.driveFolderWebViewLink;
+      var propFolders = res.propertyFolders || [];
       if (!docs.length) {
-        mount.innerHTML =
-          "<p style='color:var(--muted)'>Aucune pièce déposée via le parcours devis ou le portail client.</p>";
+        var emptyHtml =
+          "<p style='color:var(--muted)'>Aucune pièce listée pour l'instant.</p>";
+        if (folderLink || propFolders.length) {
+          emptyHtml +=
+            '<p style="margin-top:10px">Le dossier Drive existe — ouvrez-le depuis la barre verte ci-dessus ou :</p><p style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">';
+          if (folderLink) {
+            emptyHtml +=
+              '<a class="btn btn-ghost btn-sm" href="' +
+              esc(folderLink) +
+              '" target="_blank" rel="noopener">Dossier contact</a>';
+          }
+          propFolders.forEach(function (f) {
+            if (f.webViewLink) {
+              emptyHtml +=
+                '<a class="btn btn-ghost btn-sm" href="' +
+                esc(f.webViewLink) +
+                '" target="_blank" rel="noopener">Bien : ' +
+                esc(f.title || "Drive") +
+                "</a>";
+            }
+          });
+          emptyHtml += "</p>";
+        } else {
+          emptyHtml +=
+            '<p style="margin-top:8px;font-size:0.88rem;color:var(--muted)">Les documents déposés sur le parcours vendeur ou le portail client apparaîtront ici.</p>';
+        }
+        mount.innerHTML = emptyHtml;
         return;
       }
       mount.innerHTML =
         '<div class="crm-docs-grid">' +
         docs
           .map(function (d) {
+            if (d.type === "drive_folder") {
+              return (
+                '<article class="crm-doc-tile crm-doc-tile-folder">' +
+                '<div class="crm-doc-tile-preview"><span style="font-size:2.4rem">📁</span></div>' +
+                '<div class="crm-doc-tile-body"><strong>' +
+                esc(d.name) +
+                '</strong><br><span style="color:var(--muted)">Dossier Google Drive</span><br>' +
+                (d.webViewLink
+                  ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
+                  : "") +
+                "</div></article>"
+              );
+            }
             var preview =
               d.thumbnailLink || (d.mimeType && d.mimeType.indexOf("image") !== -1 && d.webViewLink)
                 ? '<img src="' + esc(d.thumbnailLink || d.webViewLink) + '" alt="" />'
@@ -1163,9 +1258,11 @@
             var drive =
               d.webViewLink && d.driveFileId
                 ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
-                : d.driveFileId
-                  ? "<span>ID " + esc(d.driveFileId) + "</span>"
-                  : "<span>Archivé CRM</span>";
+                : d.webViewLink
+                  ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
+                  : d.driveFileId
+                    ? "<span>ID " + esc(d.driveFileId) + "</span>"
+                    : "<span>Archivé CRM</span>";
             return (
               '<article class="crm-doc-tile">' +
               '<div class="crm-doc-tile-preview">' +
@@ -1175,8 +1272,7 @@
               esc(d.name) +
               "</strong><br><span style='color:var(--muted)'>" +
               esc(d.type) +
-              " · " +
-              esc(d.status) +
+              (d.propertyTitle ? " · " + esc(d.propertyTitle) : "") +
               "</span><br>" +
               drive +
               "</div></article>"

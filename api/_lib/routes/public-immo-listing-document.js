@@ -11,6 +11,16 @@ function str(v, max) {
   return String(v == null ? "" : v).trim().slice(0, max || 200);
 }
 
+function parseJson(raw, fallback) {
+  if (!raw) return fallback || {};
+  if (typeof raw === "object") return raw;
+  try {
+    return JSON.parse(raw);
+  } catch (e) {
+    return fallback || {};
+  }
+}
+
 module.exports = async function publicImmoListingDocument(req, res) {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
@@ -50,8 +60,8 @@ module.exports = async function publicImmoListingDocument(req, res) {
     var store = require("../immo-properties-store");
     await store.ensureImmoSchema(sql);
     var rows = await sql`
-      SELECT id, title, city, postal_code, drive_folder_id, lead_id, metadata
-      FROM immo_properties WHERE id = ${propertyId} LIMIT 1
+      SELECT id, title, city, postal_code, drive_folder_id, lead_id, metadata_json
+      FROM crm_immo_properties WHERE id = ${propertyId} LIMIT 1
     `;
     if (!rows.length) {
       return res.status(404).json({ ok: false, error: "Bien introuvable" });
@@ -112,14 +122,7 @@ module.exports = async function publicImmoListingDocument(req, res) {
       kind: "document",
     });
 
-    var meta = prop.metadata && typeof prop.metadata === "object" ? prop.metadata : {};
-    if (typeof meta === "string") {
-      try {
-        meta = JSON.parse(meta);
-      } catch (e) {
-        meta = {};
-      }
-    }
+    var meta = parseJson(prop.metadata_json, {});
     meta.documents = meta.documents || [];
     meta.documents.push({
       type: documentType,
@@ -127,12 +130,13 @@ module.exports = async function publicImmoListingDocument(req, res) {
       fileName: fileName,
       uploadedAt: new Date().toISOString(),
       driveFileId: uploaded.fileId || null,
+      webViewLink: uploaded.webViewLink || null,
       simulated: !!uploaded.simulated,
     });
 
     await sql`
-      UPDATE immo_properties
-      SET metadata = ${JSON.stringify(meta)},
+      UPDATE crm_immo_properties
+      SET metadata_json = ${JSON.stringify(meta)},
           drive_folder_id = COALESCE(drive_folder_id, ${ensured.folderId || null}),
           updated_at = NOW()
       WHERE id = ${propertyId}
@@ -167,9 +171,9 @@ module.exports = async function publicImmoListingDocument(req, res) {
           )
         `;
         await sql`
-          UPDATE immo_properties SET
+          UPDATE crm_immo_properties SET
             owner_contact_id = COALESCE(owner_contact_id, ${contactId}),
-            contact_id = COALESCE(contact_id, ${contactId})
+            updated_at = NOW()
           WHERE id = ${propertyId}
         `;
       } catch (syncErr) {

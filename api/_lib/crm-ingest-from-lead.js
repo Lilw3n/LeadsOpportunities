@@ -36,9 +36,8 @@ async function linkPropertiesToContact(sql, contactId, propertyIds, leadId) {
     if (!pid) continue;
     try {
       await sql`
-        UPDATE immo_properties SET
+        UPDATE crm_immo_properties SET
           owner_contact_id = COALESCE(owner_contact_id, ${contactId}),
-          contact_id = COALESCE(contact_id, ${contactId}),
           lead_id = COALESCE(lead_id, ${leadId || null}),
           updated_at = NOW()
         WHERE id = ${pid}
