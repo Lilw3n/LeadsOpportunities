@@ -679,6 +679,17 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   gap: 8px;
 }
 
+.immo-deposit-session-hint {
+  margin: 0 0 10px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 0.78rem;
+  line-height: 1.45;
+}
+
 .immo-deposit-draft-toast {
   margin: 0 0 10px;
   padding: 8px 12px;

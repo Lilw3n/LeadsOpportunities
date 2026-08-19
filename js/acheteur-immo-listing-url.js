@@ -649,7 +649,7 @@
           form.reset();
           state.photos = [];
           state.capture = null;
-          if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.clearDraft();
+          if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.clearDraftAfterSubmit();
           renderDetected(root, "");
           refreshMedia();
           applyHat(hat);

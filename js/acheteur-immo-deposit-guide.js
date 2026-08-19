@@ -2,8 +2,16 @@
  * Guide dépôt vendeur : validation guidée, progression, brouillon local (reprise).
  */
 (function (global) {
-  var DRAFT_KEY = "lo_immo_deposit_draft_v1";
+  var DRAFT_KEY_V1 = "lo_immo_deposit_draft_v1";
+  var INDEX_KEY = "lo_immo_deposit_drafts_index";
+  var DRAFT_PREFIX = "lo_immo_deposit_draft_";
+  var SESSION_ACTIVE_KEY = "lo_immo_draft_active_id";
+  var MAX_DRAFTS = 8;
   var SAVE_DELAY_MS = 1200;
+
+  var activeDraftId = null;
+  var formDirty = false;
+  var saveTimer = null;
 
   function qs(sel, root) {
     return (root || document).querySelector(sel);
@@ -358,6 +366,201 @@
     });
   }
 
+  function createDraftId() {
+    return "d_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  }
+
+  function draftStorageKey(id) {
+    return DRAFT_PREFIX + id;
+  }
+
+  function readIndex() {
+    try {
+      var raw = localStorage.getItem(INDEX_KEY);
+      if (!raw) return [];
+      var list = JSON.parse(raw);
+      return Array.isArray(list) ? list : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function writeIndex(list) {
+    try {
+      localStorage.setItem(INDEX_KEY, JSON.stringify(list.slice(0, MAX_DRAFTS)));
+    } catch (e) {}
+  }
+
+  function migrateDraftV1() {
+    try {
+      var raw = localStorage.getItem(DRAFT_KEY_V1);
+      if (!raw) return;
+      var draft = JSON.parse(raw);
+      if (!hasDraftContent(draft)) {
+        localStorage.removeItem(DRAFT_KEY_V1);
+        return;
+      }
+      var id = createDraftId();
+      draft.id = id;
+      draft.v = 2;
+      localStorage.setItem(draftStorageKey(id), JSON.stringify(draft));
+      writeIndex([{ id: id, savedAt: draft.savedAt || Date.now(), label: draftLabelFromData(draft) }]);
+      localStorage.removeItem(DRAFT_KEY_V1);
+    } catch (e) {}
+  }
+
+  function draftLabelFromData(draft) {
+    if (!draft) return "Dossier";
+    var f = draft.form || {};
+    var p = draft.panel || {};
+    var city = p.sellCity || f.city || "";
+    var name = f.firstName || "";
+    if (city && name) return name + " — " + city;
+    if (city) return "Bien à " + city;
+    if (name) return name;
+    if (f.email) return f.email;
+    return "Dossier vendeur";
+  }
+
+  function loadDraftById(id) {
+    if (!id) return null;
+    try {
+      var raw = localStorage.getItem(draftStorageKey(id));
+      if (!raw) return null;
+      return JSON.parse(raw);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getActiveDraftId() {
+    if (activeDraftId) return activeDraftId;
+    try {
+      activeDraftId = sessionStorage.getItem(SESSION_ACTIVE_KEY);
+    } catch (e) {}
+    return activeDraftId;
+  }
+
+  function setActiveDraftId(id) {
+    activeDraftId = id;
+    try {
+      sessionStorage.setItem(SESSION_ACTIVE_KEY, id);
+    } catch (e) {}
+  }
+
+  function startNewDemand(root, skipConfirm) {
+    var form = qs("[data-url-capture-form]", root);
+    if (!skipConfirm && formDirty && hasDraftContent(collectDraft())) {
+      if (!confirm("Démarrer une nouvelle demande ? Le brouillon de cet onglet sera conservé séparément.")) return;
+    }
+    flushSave(true);
+    var newId = createDraftId();
+    setActiveDraftId(newId);
+    formDirty = false;
+    if (form) form.reset();
+    var panel = qs("[data-search-vente-panel]");
+    if (panel) {
+      qsa("input, select, textarea", panel).forEach(function (el) {
+        if (el.type === "hidden" || el.type === "file") return;
+        if (el.type === "checkbox" || el.type === "radio") el.checked = false;
+        else el.value = "";
+      });
+    }
+    var mount = qs("[data-owners-mount]");
+    if (mount && global.AcheteurImmoOwners) global.AcheteurImmoOwners.render(mount, [{}]);
+    if (global.AcheteurImmoDepositVente) global.AcheteurImmoDepositVente.sync();
+    updateDraftBanner();
+    updateSessionHint(root);
+    refreshUi(root);
+    showDraftToast("Nouvelle demande — brouillon séparé (ne remplace pas vos autres dossiers).");
+    try {
+      var params = new URLSearchParams(location.search);
+      params.set("nouveau", "1");
+      params.delete("reprise");
+      history.replaceState(null, "", location.pathname + "?" + params.toString() + (location.hash || ""));
+    } catch (urlErr) {}
+  }
+
+  function getLatestDraftId(excludeId) {
+    var list = readIndex().sort(function (a, b) {
+      return (b.savedAt || 0) - (a.savedAt || 0);
+    });
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].id && list[i].id !== excludeId) {
+        var d = loadDraftById(list[i].id);
+        if (d && hasDraftContent(d)) return list[i].id;
+      }
+    }
+    return null;
+  }
+
+  function initDraftSession(root) {
+    migrateDraftV1();
+    var params = new URLSearchParams(location.search);
+    var forceNew = params.get("nouveau") === "1";
+    var reprise = params.get("reprise");
+    var sessionId = null;
+    try {
+      sessionId = sessionStorage.getItem(SESSION_ACTIVE_KEY);
+    } catch (e) {}
+
+    if (forceNew) {
+      setActiveDraftId(createDraftId());
+      formDirty = false;
+      updateDraftBanner();
+      updateSessionHint(root);
+      return;
+    }
+
+    if (reprise && reprise !== "1") {
+      setActiveDraftId(reprise);
+      restoreDraftById(reprise, { silent: false });
+      return;
+    }
+
+    if (reprise === "1") {
+      var pick = getLatestDraftId(null);
+      if (pick) {
+        setActiveDraftId(pick);
+        restoreDraftById(pick, { silent: false });
+      } else {
+        setActiveDraftId(createDraftId());
+      }
+      updateDraftBanner();
+      updateSessionHint(root);
+      return;
+    }
+
+    if (sessionId && loadDraftById(sessionId) && hasDraftContent(loadDraftById(sessionId))) {
+      setActiveDraftId(sessionId);
+      restoreDraftById(sessionId, { silent: true });
+      updateSessionHint(root);
+      return;
+    }
+
+    setActiveDraftId(createDraftId());
+    formDirty = false;
+    updateDraftBanner();
+    updateSessionHint(root);
+  }
+
+  function updateSessionHint(root) {
+    var hint = qs("[data-sell-draft-session]", root);
+    if (!hint) return;
+    var id = getActiveDraftId();
+    var others = readIndex().filter(function (x) {
+      return x.id && x.id !== id && hasDraftContent(loadDraftById(x.id));
+    }).length;
+    hint.hidden = false;
+    hint.textContent =
+      "Demande en cours dans cet onglet (brouillon n° " +
+      (id ? id.slice(-6) : "?") +
+      "). " +
+      (others
+        ? others + " autre(s) dossier(s) sauvegardé(s) sur cet appareil — ouvrez « Nouvelle demande » pour ne pas les mélanger."
+        : "Sauvegarde automatique si vous quittez la page par accident.");
+  }
+
   function collectDraft() {
     var form = qs("[data-url-capture-form]");
     var panel = qs("[data-search-vente-panel]");
@@ -367,7 +570,8 @@
       owners = global.AcheteurImmoOwners.collect(ownersMount);
     }
     return {
-      v: 1,
+      v: 2,
+      id: getActiveDraftId(),
       savedAt: Date.now(),
       hat: document.documentElement.getAttribute("data-immo-hat") || radioVal(document, "immoHat"),
       listingMode: radioVal(document, "listingMode"),
@@ -399,32 +603,53 @@
     );
   }
 
-  function saveDraft(silent) {
+  function saveDraft(silent, opts) {
+    opts = opts || {};
     try {
+      var id = getActiveDraftId();
+      if (!id) {
+        id = createDraftId();
+        setActiveDraftId(id);
+      }
       var draft = collectDraft();
-      if (!hasDraftContent(draft)) return false;
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-      updateDraftBanner(draft);
-      if (!silent) showDraftToast("Brouillon enregistré sur cet appareil — vous pourrez reprendre plus tard.");
+      draft.id = id;
+      if (!hasDraftContent(draft) && !opts.force && !formDirty) return false;
+      if (!hasDraftContent(draft) && !opts.force) return false;
+      localStorage.setItem(draftStorageKey(id), JSON.stringify(draft));
+      var label = draftLabelFromData(draft);
+      var index = readIndex().filter(function (x) {
+        return x.id !== id;
+      });
+      index.unshift({ id: id, savedAt: draft.savedAt, label: label });
+      writeIndex(index);
+      updateDraftBanner();
+      updateSessionHint();
+      if (!silent) showDraftToast("Brouillon enregistré — reprenez plus tard sans perdre vos saisies.");
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  function loadDraftRaw() {
-    try {
-      var raw = localStorage.getItem(DRAFT_KEY);
-      if (!raw) return null;
-      return JSON.parse(raw);
-    } catch (e) {
-      return null;
-    }
+  function flushSave(force) {
+    clearTimeout(saveTimer);
+    saveDraft(true, { force: !!force });
   }
 
-  function restoreDraft(draft) {
-    draft = draft || loadDraftRaw();
+  function restoreDraftById(id, opts) {
+    opts = opts || {};
+    var draft = loadDraftById(id);
     if (!draft) return false;
+    setActiveDraftId(id);
+    applyDraftToForm(draft);
+    formDirty = true;
+    if (!opts.silent) showDraftToast("Dossier repris — complétez puis envoyez.");
+    hideDraftBanner();
+    refreshUi();
+    return true;
+  }
+
+  function applyDraftToForm(draft) {
     var form = qs("[data-url-capture-form]");
     var panel = qs("[data-search-vente-panel]");
     applyScope(form, draft.form);
@@ -452,17 +677,38 @@
     try {
       document.dispatchEvent(new CustomEvent("lo:deposit-draft-restored"));
     } catch (e) {}
-    showDraftToast("Dossier repris — complétez les informations manquantes puis envoyez.");
-    hideDraftBanner();
-    refreshUi();
-    return true;
+  }
+
+  function restoreDraft(draft) {
+    if (draft && draft.id) return restoreDraftById(draft.id);
+    var pick = getLatestDraftId(getActiveDraftId());
+    if (pick) return restoreDraftById(pick);
+    return false;
   }
 
   function clearDraft() {
     try {
-      localStorage.removeItem(DRAFT_KEY);
+      var id = getActiveDraftId();
+      if (id) {
+        localStorage.removeItem(draftStorageKey(id));
+        writeIndex(
+          readIndex().filter(function (x) {
+            return x.id !== id;
+          })
+        );
+      }
     } catch (e) {}
+    formDirty = false;
     hideDraftBanner();
+    updateSessionHint();
+  }
+
+  function clearDraftAfterSubmit() {
+    clearDraft();
+    try {
+      sessionStorage.removeItem(SESSION_ACTIVE_KEY);
+    } catch (e) {}
+    activeDraftId = null;
   }
 
   function formatDraftDate(ts) {
@@ -478,16 +724,31 @@
     }
   }
 
-  function updateDraftBanner(draft) {
+  function updateDraftBanner() {
     var banner = qs("[data-sell-draft-banner]");
     var text = qs("[data-sell-draft-text]");
     if (!banner || !text) return;
-    draft = draft || loadDraftRaw();
-    if (!draft || !hasDraftContent(draft)) {
+    var currentId = getActiveDraftId();
+    var current = loadDraftById(currentId);
+    if (current && hasDraftContent(current)) {
       banner.hidden = true;
       return;
     }
-    text.textContent = "Brouillon du " + formatDraftDate(draft.savedAt) + " — reprenez votre dossier vendeur.";
+    var pick = getLatestDraftId(currentId);
+    if (!pick) {
+      banner.hidden = true;
+      return;
+    }
+    var draft = loadDraftById(pick);
+    var meta = readIndex().find(function (x) {
+      return x.id === pick;
+    });
+    text.textContent =
+      "Dossier sauvegardé" +
+      (meta && meta.label ? " (« " + meta.label + " »)" : "") +
+      " — " +
+      formatDraftDate(draft.savedAt) +
+      ". Reprendre ou démarrer une nouvelle demande séparée.";
     banner.hidden = false;
   }
 
@@ -536,7 +797,10 @@
     };
   }
 
-  var saveTimer = null;
+  function markDirty() {
+    formDirty = true;
+    scheduleSave();
+  }
 
   function scheduleSave() {
     clearTimeout(saveTimer);
@@ -545,10 +809,24 @@
     }, SAVE_DELAY_MS);
   }
 
+  function bindUnloadGuards() {
+    if (bindUnloadGuards._bound) return;
+    bindUnloadGuards._bound = true;
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") flushSave(true);
+    });
+    window.addEventListener("pagehide", function () {
+      flushSave(true);
+    });
+  }
+
   function bind(root) {
     if (!root || root.dataset.depositGuideBound) return;
     root.dataset.depositGuideBound = "1";
     var form = qs("[data-url-capture-form]", root);
+
+    initDraftSession(root);
+    bindUnloadGuards();
 
     root.addEventListener("click", function (e) {
       var focusBtn = e.target.closest("[data-sell-focus]");
@@ -560,11 +838,16 @@
       }
       if (e.target.closest("[data-sell-draft-restore]")) {
         restoreDraft();
+        updateSessionHint(root);
+        return;
+      }
+      if (e.target.closest("[data-sell-draft-new]")) {
+        startNewDemand(root, false);
         return;
       }
       if (e.target.closest("[data-sell-draft-dismiss]")) {
         clearDraft();
-        showDraftToast("Brouillon effacé.");
+        showDraftToast("Brouillon de cet onglet effacé.");
         return;
       }
       if (e.target.closest("[data-sell-draft-save]")) {
@@ -573,27 +856,20 @@
     });
 
     if (form) {
-      form.addEventListener("input", scheduleSave);
-      form.addEventListener("change", scheduleSave);
+      form.addEventListener("input", markDirty);
+      form.addEventListener("change", markDirty);
     }
     var panel = qs("[data-search-vente-panel]");
     if (panel) {
-      panel.addEventListener("input", scheduleSave);
-      panel.addEventListener("change", scheduleSave);
+      panel.addEventListener("input", markDirty);
+      panel.addEventListener("change", markDirty);
     }
 
     document.addEventListener("lo:deposit-draft-restored", function () {
       refreshUi(root);
     });
 
-    updateDraftBanner();
     refreshUi(root);
-
-    try {
-      if (new URLSearchParams(window.location.search).get("reprise") === "1") {
-        restoreDraft();
-      }
-    } catch (repriseErr) {}
   }
 
   function boot() {
@@ -609,7 +885,10 @@
     saveDraft: saveDraft,
     restoreDraft: restoreDraft,
     clearDraft: clearDraft,
+    clearDraftAfterSubmit: clearDraftAfterSubmit,
+    startNewDemand: startNewDemand,
     refreshUi: refreshUi,
+    flushSave: flushSave,
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
