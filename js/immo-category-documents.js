@@ -54,14 +54,26 @@
   };
 
   ImmoCategoryDocuments.prototype._renderGroup = function (g) {
-    var opts = g.items
+    var lines = (g.items || [])
       .map(function (it) {
-        return '<option value="' + esc(it.type) + '">' + esc(it.label) + "</option>";
-      })
-      .join("");
-    var list = g.items
-      .map(function (it) {
-        return "<li>" + esc(it.label) + "</li>";
+        return (
+          '<div class="immo-doc-line" data-immo-doc-line="' +
+          esc(it.type) +
+          '">' +
+          '<span class="immo-doc-line-label">' +
+          esc(it.label) +
+          "</span>" +
+          '<div class="immo-doc-line-upload">' +
+          '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo">' +
+          '<input type="file" data-immo-doc-input accept="' +
+          ACCEPT +
+          '" data-doc-type="' +
+          esc(it.type) +
+          '" hidden />' +
+          "<span>Déposer</span></label>" +
+          '<span class="immo-doc-line-file" data-immo-doc-file hidden></span>' +
+          "</div></div>"
+        );
       })
       .join("");
     var driveNote = g.driveFolder
@@ -75,25 +87,13 @@
       esc(g.label) +
       "</summary>" +
       driveNote +
-      '<ul class="immo-doc-cat-list">' +
-      list +
-      "</ul>" +
-      '<div class="immo-doc-cat-upload" data-immo-doc-slot="' +
+      '<div class="immo-doc-cat-lines" data-immo-doc-slot="' +
       esc(g.id) +
       '">' +
-      '<label class="immo-doc-type-label">Type de pièce</label>' +
-      '<select data-immo-doc-type data-optional>' +
-      opts +
-      "</select>" +
-      '<div class="immo-doc-drop" data-immo-doc-drop tabindex="0" role="button">' +
-      "<strong>Ajouter un fichier</strong>" +
-      "<p>PDF, JPG, PNG — max 12 Mo</p>" +
-      '<input type="file" data-immo-doc-input accept="' +
-      ACCEPT +
-      '" hidden />' +
+      lines +
       "</div>" +
-      '<div class="immo-doc-queue" data-immo-doc-queue></div>' +
-      "</div></details>"
+      '<div class="immo-doc-queue" data-immo-doc-queue hidden></div>' +
+      "</details>"
     );
   };
 
@@ -141,54 +141,14 @@
 
   ImmoCategoryDocuments.prototype._bind = function () {
     var self = this;
-    this.root.addEventListener("click", function (e) {
-      var drop = e.target.closest("[data-immo-doc-drop]");
-      if (!drop || !self.root.contains(drop)) return;
-      var input = drop.querySelector("[data-immo-doc-input]");
-      if (input) input.click();
-    });
-
     this.root.addEventListener("change", function (e) {
       var input = e.target.closest("[data-immo-doc-input]");
       if (!input || !self.root.contains(input) || !input.files || !input.files[0]) return;
       var slot = input.closest("[data-immo-doc-slot]");
-      var typeSel = slot && slot.querySelector("[data-immo-doc-type]");
       var group = slot && slot.getAttribute("data-immo-doc-slot");
-      self.addFile(input.files[0], typeSel ? typeSel.value : "autre_doc", group);
+      var docType = input.getAttribute("data-doc-type") || "autre_doc";
+      self.addFile(input.files[0], docType, group);
       input.value = "";
-    });
-
-    this.root.addEventListener("dragover", function (e) {
-      var drop = e.target.closest("[data-immo-doc-drop]");
-      if (!drop || !self.root.contains(drop)) return;
-      e.preventDefault();
-      drop.classList.add("is-dragover");
-    });
-    this.root.addEventListener("dragleave", function (e) {
-      var drop = e.target.closest("[data-immo-doc-drop]");
-      if (drop) drop.classList.remove("is-dragover");
-    });
-    this.root.addEventListener("drop", function (e) {
-      var drop = e.target.closest("[data-immo-doc-drop]");
-      if (!drop || !self.root.contains(drop)) return;
-      e.preventDefault();
-      drop.classList.remove("is-dragover");
-      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-      if (!f) return;
-      var slot = drop.closest("[data-immo-doc-slot]");
-      var typeSel = slot && slot.querySelector("[data-immo-doc-type]");
-      var group = slot && slot.getAttribute("data-immo-doc-slot");
-      self.addFile(f, typeSel ? typeSel.value : "autre_doc", group);
-    });
-
-    this.root.addEventListener("click", function (e) {
-      var rm = e.target.closest("[data-immo-doc-remove]");
-      if (!rm) return;
-      var id = rm.getAttribute("data-immo-doc-remove");
-      self.queue = self.queue.filter(function (q) {
-        return q.id !== id;
-      });
-      self._renderQueues();
     });
   };
 
@@ -201,6 +161,9 @@
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
     }
+    this.queue = this.queue.filter(function (q) {
+      return q.documentType !== documentType;
+    });
     this.queue.push({
       id: "doc_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
       file: file,
@@ -211,37 +174,20 @@
       status: "queued",
     });
     this._renderQueues();
+    var line = this.root.querySelector('[data-immo-doc-line="' + documentType + '"]');
+    if (line) {
+      line.classList.add("is-queued");
+      var fileEl = line.querySelector("[data-immo-doc-file]");
+      var btn = line.querySelector(".immo-doc-line-btn span");
+      if (fileEl) {
+        fileEl.hidden = false;
+        fileEl.textContent = file.name;
+      }
+      if (btn) btn.textContent = "En attente";
+    }
   };
 
   ImmoCategoryDocuments.prototype._renderQueues = function () {
-    var self = this;
-    this.root.querySelectorAll("[data-immo-doc-slot]").forEach(function (slot) {
-      var gid = slot.getAttribute("data-immo-doc-slot");
-      var mount = slot.querySelector("[data-immo-doc-queue]");
-      if (!mount) return;
-      var items = self.queue.filter(function (q) {
-        return q.groupId === gid;
-      });
-      if (!items.length) {
-        mount.innerHTML = "";
-        return;
-      }
-      mount.innerHTML = items
-        .map(function (q) {
-          return (
-            '<div class="immo-doc-card">' +
-            "<span>" +
-            esc(q.fileName) +
-            ' <em class="small">(' +
-            esc(q.documentType) +
-            ")</em></span>" +
-            '<button type="button" class="btn btn-soft btn-sm" data-immo-doc-remove="' +
-            esc(q.id) +
-            '">Retirer</button></div>"
-          );
-        })
-        .join("");
-    });
     var st = this.root.querySelector("[data-immo-doc-status]");
     if (st) {
       var n = this.queue.length;
@@ -322,6 +268,13 @@
               item.status = "done";
               self.uploaded.push(item);
               acc.uploaded.push(item);
+              var line = self.root.querySelector('[data-immo-doc-line="' + item.documentType + '"]');
+              if (line) {
+                line.classList.remove("is-queued", "is-error");
+                line.classList.add("is-done");
+                var btn = line.querySelector(".immo-doc-line-btn span");
+                if (btn) btn.textContent = "Déposé";
+              }
               return acc;
             })
             .catch(function (err) {

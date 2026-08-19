@@ -534,6 +534,10 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   font-size: 0.84rem;
 }
 
+.immo-docs-group .immo-doc-line {
+  margin-top: 6px;
+}
+
 .immo-copro-works-table th {
   font-size: 0.72rem;
   white-space: nowrap;

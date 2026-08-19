@@ -5,7 +5,7 @@ const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
 const { uploadBase64File } = require("../drive-upload-core");
-const { subfolderForDocumentType } = require("../drive-folders");
+const { subfolderForDocumentType, resolveContactDocTypeFolderId } = require("../drive-folders");
 
 function attachmentFromBody(body, driveResult) {
   return {
@@ -70,15 +70,23 @@ module.exports = async (req, res) => {
     const contact = await resolveContact(sql, body);
     if (!contact) return res.status(404).json({ error: "Dossier client introuvable" });
 
-    const subfolder = subfolderForDocumentType(documentType);
-    var driveResult = await uploadBase64File({
+    const usePerType =
+      body.perTypeFolder === true ||
+      body.vertical === "vendeur-immo" ||
+      body.need === "vendeur-immo";
+    var uploadOpts = {
       fileName: fileName,
       base64: body.fileBase64,
       mimeType: body.mimeType || "application/octet-stream",
       contactId: contact.id,
-      subfolder: subfolder,
       kind: "document",
-    });
+    };
+    if (usePerType) {
+      uploadOpts.folderId = await resolveContactDocTypeFolderId(contact.id, documentType);
+    } else {
+      uploadOpts.subfolder = subfolderForDocumentType(documentType);
+    }
+    var driveResult = await uploadBase64File(uploadOpts);
 
     const attachment = attachmentFromBody(body, driveResult || {});
     const extraData = JSON.stringify({

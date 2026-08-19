@@ -206,6 +206,99 @@
     return cfg.groups || [];
   }
 
+  /** Checklist Laforêt — une ligne = checkbox + upload (dossier Drive par type). */
+  var CHECKLIST_GROUPS = [
+    {
+      id: "identite",
+      legend: "Identité & domicile vendeur(s)",
+      items: [
+        { type: "identite", label: "Pièce d'identité / passeport (tous mandants)" },
+        { type: "domicile", label: "Justificatif de domicile (< 3 mois)" },
+        { type: "livret_famille", label: "Livret de famille / acte mariage / PACS" },
+        { type: "kbis_sci", label: "Kbis / statuts SCI (si personne morale)" },
+      ],
+    },
+    {
+      id: "titre",
+      legend: "Titre & propriété",
+      items: [
+        { type: "titre_propriete", label: "Titre de propriété / acte notarié" },
+        { type: "cadastre", label: "Plan cadastral / extrait cadastre" },
+        { type: "plans", label: "Plans du bien / permis de construire" },
+        { type: "servitudes", label: "Servitudes / bornage / bornage plan" },
+      ],
+    },
+    {
+      id: "copro",
+      legend: "Copropriété",
+      items: [
+        { type: "reglement_copro", label: "Règlement de copropriété & EDD" },
+        { type: "pv_ag", label: "PV dernière AG + convocation" },
+        { type: "charges_copro", label: "Appels de charges (3 derniers)" },
+        { type: "carnet_entretien", label: "Carnet d'entretien immeuble" },
+        { type: "fiche_synth_copro", label: "Fiche synthétique copro (Loi ALUR)" },
+      ],
+    },
+    {
+      id: "diagnostics",
+      legend: "Diagnostics & technique",
+      items: [
+        { type: "dpe", label: "DPE (< 10 ans / valide)" },
+        { type: "amiante", label: "Amiante (avant 1997)" },
+        { type: "plomb", label: "Plomb CREP (avant 1949)" },
+        { type: "termites", label: "État parasitaire / termites" },
+        { type: "erp", label: "ERP (risques naturels / technologiques)" },
+        { type: "gaz_elec", label: "Conformité gaz / électricité" },
+        { type: "assainissement", label: "Assainissement / SPANC" },
+        { type: "carrez", label: "Mesurage Loi Carrez (copro)" },
+      ],
+    },
+    {
+      id: "fiscalite",
+      legend: "Fiscalité & financement",
+      items: [
+        { type: "taxe_fonciere", label: "Taxe foncière (dernier avis)" },
+        { type: "taxe_habitation", label: "Taxe d'habitation (si applicable)" },
+        { type: "releve_pret", label: "Tableau amortissement / CRD prêt" },
+        { type: "assurance_pno", label: "Assurance PNO / habitation en cours" },
+      ],
+    },
+    {
+      id: "location",
+      legend: "Location (si bien occupé / loué)",
+      items: [
+        { type: "bail", label: "Bail en cours + annexes" },
+        { type: "edl", label: "État des lieux entrée / sortie" },
+        { type: "quittances", label: "Quittances de loyer (3 dernières)" },
+        { type: "depot_garantie", label: "Dépôt de garantie / inventaire meublé" },
+      ],
+    },
+    {
+      id: "travaux",
+      legend: "Construction < 10 ans & travaux",
+      items: [
+        { type: "do_attestation", label: "Attestation dommage-ouvrage" },
+        { type: "decennale", label: "Attestation garantie décennale" },
+        { type: "factures_travaux", label: "Factures travaux récents / garanties" },
+        { type: "declaration_travaux", label: "Déclaration préalable / permis + PC non-opposition" },
+      ],
+    },
+    {
+      id: "divers",
+      legend: "Compteurs & divers",
+      items: [
+        { type: "compteurs", label: "Relevés compteurs (eau, élec, gaz)" },
+        { type: "inventaire_meuble", label: "Inventaire mobilier (si meublé)" },
+        { type: "mandat_signe", label: "Mandat signé / bon de visite" },
+        { type: "autre_doc", label: "Autre (préciser ci-dessous)" },
+      ],
+    },
+  ];
+
+  function getChecklistGroups() {
+    return CHECKLIST_GROUPS;
+  }
+
   function getConfig(mode) {
     if (mode === "vendeur" || mode === "vendeur-immo") return VENDEUR;
     if (mode === "acheteur" || mode === "acheteur-immo") return ACHETEUR;
@@ -214,8 +307,10 @@
 
   global.ImmoDocumentsConfig = {
     getConfig: getConfig,
+    getChecklistGroups: getChecklistGroups,
     flattenGroups: flattenGroups,
     vendeur: VENDEUR,
     acheteur: ACHETEUR,
+    checklist: CHECKLIST_GROUPS,
   };
 })(typeof window !== "undefined" ? window : global);

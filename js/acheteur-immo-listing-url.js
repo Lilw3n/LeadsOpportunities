@@ -518,6 +518,19 @@
           }
           var hats = (res.data.hats || []).join(" + ");
           var docNote = "";
+          var uploadChain = Promise.resolve();
+          if (window.ImmoSellDocsChecklist && payload.email) {
+            window.ImmoSellDocsChecklist.setSession({
+              email: payload.email,
+              contactId: res.data.contactId || null,
+              leadId: res.data.leadId || null,
+            });
+            uploadChain = window.ImmoSellDocsChecklist.uploadAll().then(function (up) {
+              if (up && up.uploaded && up.uploaded.length) {
+                docNote += " " + up.uploaded.length + " pièce(s) checklist archivée(s).";
+              }
+            });
+          }
           var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
           if (
             vendeurPanel &&
@@ -531,14 +544,18 @@
               email: payload.email,
               leadId: res.data.leadId || null,
             });
-            return vendeurPanel._immoDocs.uploadAll().then(function (up) {
-              if (up && up.uploaded && up.uploaded.length) {
-                docNote = " " + up.uploaded.length + " document(s) bien archivé(s).";
-              }
-              return { res: res, docNote: docNote, hats: hats };
+            return uploadChain.then(function () {
+              return vendeurPanel._immoDocs.uploadAll().then(function (up) {
+                if (up && up.uploaded && up.uploaded.length) {
+                  docNote += " " + up.uploaded.length + " document(s) bien archivé(s).";
+                }
+                return { res: res, docNote: docNote, hats: hats };
+              });
             });
           }
-          return { res: res, docNote: docNote, hats: hats };
+          return uploadChain.then(function () {
+            return { res: res, docNote: docNote, hats: hats };
+          });
         })
         .then(function (ctx) {
           var res = ctx.res;

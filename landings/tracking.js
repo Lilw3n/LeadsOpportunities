@@ -448,6 +448,16 @@
             }
             photoPromise.then(function (listingResult) {
               var uploadDocs = uploadWizardDocuments(form, leadPayload, result);
+              if (window.ImmoSellDocsChecklist && leadPayload.email) {
+                window.ImmoSellDocsChecklist.setSession({
+                  email: leadPayload.email,
+                  contactId: (result && result.contactId) || null,
+                  leadId: (result && result.leadId) || null,
+                });
+                uploadDocs = uploadDocs.then(function () {
+                  return window.ImmoSellDocsChecklist.uploadAll();
+                });
+              }
               var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
               if (
                 vendeurPanel &&

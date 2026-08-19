@@ -49,9 +49,33 @@ async function driveCreateFolder(token, name, parentId) {
   return data;
 }
 
-function safeFolderLabel(contactId, firstName, lastName) {
-  const name = ((firstName || "") + "_" + (lastName || "")).trim().replace(/[^\w\-@.]/g, "_") || "client";
-  return String(contactId).replace(/[^\w\-]/g, "") + "_" + name.slice(0, 40);
+function safeFolderLabel(contactId, firstName, lastName, phone, email) {
+  var id = String(contactId || "").replace(/[^\w\-]/g, "");
+  var namePart =
+    ((lastName || "") + "_" + (firstName || ""))
+      .trim()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\w\-]+/g, "_")
+      .replace(/_+/g, "_")
+      .slice(0, 32) || "client";
+  var tel = String(phone || "").replace(/\D/g, "").slice(-10);
+  var mailLocal = String(email || "")
+    .split("@")[0]
+    .replace(/[^\w\-]+/g, "_")
+    .slice(0, 24);
+  var parts = [id, namePart];
+  if (tel) parts.push(tel);
+  if (mailLocal) parts.push(mailLocal);
+  return parts.join("_").slice(0, 96);
+}
+
+function safeDocTypeFolderName(documentType) {
+  return String(documentType || "autre_doc")
+    .toLowerCase()
+    .replace(/[^\w\-]+/g, "_")
+    .replace(/_+/g, "_")
+    .slice(0, 48);
 }
 
 async function ensureClientDriveFolders(contactId) {
@@ -65,7 +89,7 @@ async function ensureClientDriveFolders(contactId) {
   }
 
   const contacts = await sql`
-    SELECT id, first_name, last_name, drive_folder_id
+    SELECT id, first_name, last_name, phone, email, drive_folder_id
     FROM crm_contacts WHERE id = ${contactId} LIMIT 1
   `;
   if (!contacts.length) return { ok: false, error: "contact_not_found" };
@@ -97,7 +121,7 @@ async function ensureClientDriveFolders(contactId) {
     yearFolderId = createdYear.id;
   }
 
-  const clientLabel = safeFolderLabel(c.id, c.first_name, c.last_name);
+  const clientLabel = safeFolderLabel(c.id, c.first_name, c.last_name, c.phone, c.email);
   const clientFolder = await driveCreateFolder(token, clientLabel, yearFolderId);
 
   for (var i = 0; i < CLIENT_SUBFOLDERS.length; i++) {
@@ -157,6 +181,15 @@ async function resolveContactSubfolderId(contactId, subfolderName) {
   return findChildFolder(token, clientFolder, subfolderName);
 }
 
+async function resolveContactDocTypeFolderId(contactId, documentType) {
+  if (!contactId) return resolveContactUploadFolderId(contactId);
+  const token = await getDriveToken();
+  const clientFolder = await resolveContactUploadFolderId(contactId);
+  if (!token || !clientFolder) return clientFolder;
+  const typeName = safeDocTypeFolderName(documentType);
+  return findChildFolder(token, clientFolder, typeName);
+}
+
 function subfolderForDocumentType(documentType) {
   return DOC_TYPE_SUBFOLDER[documentType] || "01_identite";
 }
@@ -167,5 +200,8 @@ module.exports = {
   ensureClientDriveFolders,
   resolveContactUploadFolderId,
   resolveContactSubfolderId,
+  resolveContactDocTypeFolderId,
+  safeFolderLabel,
+  safeDocTypeFolderName,
   subfolderForDocumentType,
 };

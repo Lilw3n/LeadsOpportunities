@@ -133,6 +133,90 @@
   color: #047857;
 }
 
+.immo-doc-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #fff;
+  border: 1px dashed #cbd5e1;
+}
+
+.immo-doc-line-check {
+  flex: 1 1 180px;
+  margin: 0 !important;
+  font-size: 0.84rem;
+}
+
+.immo-doc-line-label {
+  flex: 1 1 180px;
+  font-size: 0.84rem;
+  color: #334155;
+}
+
+.immo-doc-line-upload {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.immo-doc-line-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid #99f6e4;
+  background: #f0fdfa;
+  color: #0f766e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.immo-doc-line-btn:hover {
+  background: #ccfbf1;
+}
+
+.immo-doc-line-file {
+  font-size: 0.72rem;
+  color: #64748b;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.immo-doc-line.is-queued {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.immo-doc-line.is-done {
+  border-color: #10b981;
+  background: #ecfdf5;
+}
+
+.immo-doc-line.is-error {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.immo-sell-docs-drive-hint {
+  grid-column: 1 / -1;
+  margin: 0 0 8px;
+  color: #64748b;
+}
+
+.immo-doc-cat-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 html[data-immo-hat="acheteur"] [data-immo-docs-vendeur-wrap],
 html[data-immo-hat="signalement"] [data-immo-docs-acheteur-wrap] {
   display: none !important;

@@ -1130,72 +1130,10 @@
                   <summary>Pièces justificatives à fournir (checklist)</summary>
                   <p class="small" style="margin:8px 0 8px;color:#64748b">Cochez ce que le vendeur peut déjà transmettre. Les pièces manquantes seront demandées au notaire ou via Google Drive.</p>
                   <p class="immo-docs-counter" data-sell-docs-counter>0 / 0 pièces cochées</p>
-                  <div class="immo-docs-checklist" data-sell-docs-mount>
-                    <fieldset class="immo-docs-group">
-                      <legend>Identité &amp; domicile vendeur(s)</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="identite" /> Pièce d'identité / passeport (tous mandants)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="domicile" /> Justificatif de domicile (&lt; 3 mois)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="livret_famille" /> Livret de famille / acte mariage / PACS</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="kbis_sci" /> Kbis / statuts SCI (si personne morale)</label>
-                    </fieldset>
-                    <fieldset class="immo-docs-group">
-                      <legend>Titre &amp; propriété</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="titre_propriete" /> Titre de propriété / acte notarié</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="cadastre" /> Plan cadastral / extrait cadastre</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="plans" /> Plans du bien / permis de construire</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="servitudes" /> Servitudes / bornage / bornage plan</label>
-                    </fieldset>
-                    <fieldset class="immo-docs-group">
-                      <legend>Copropriété</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="reglement_copro" /> Règlement de copropriété &amp; EDD</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="pv_ag" /> PV dernière AG + convocation</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="charges_copro" /> Appels de charges (3 derniers)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="carnet_entretien" /> Carnet d'entretien immeuble</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="fiche_synth_copro" /> Fiche synthétique copro (Loi ALUR)</label>
-                    </fieldset>
-                    <fieldset class="immo-docs-group">
-                      <legend>Diagnostics &amp; technique</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="dpe" /> DPE (&lt; 10 ans / valide)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="amiante" /> Amiante (avant 1997)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="plomb" /> Plomb CREP (avant 1949)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="termites" /> État parasitaire / termites</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="erp" /> ERP (risques naturels / technologiques)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="gaz_elec" /> Conformité gaz / électricité</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="assainissement" /> Assainissement / SPANC</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="carrez" /> Mesurage Loi Carrez (copro)</label>
-                    </fieldset>
-                    <fieldset class="immo-docs-group">
-                      <legend>Fiscalité &amp; financement</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="taxe_fonciere" /> Taxe foncière (dernier avis)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="taxe_habitation" /> Taxe d'habitation (si applicable)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="releve_pret" /> Tableau amortissement / CRD prêt</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="assurance_pno" /> Assurance PNO / habitation en cours</label>
-                    </fieldset>
-                    <fieldset class="immo-docs-group">
-                      <legend>Location (si bien occupé / loué)</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="bail" /> Bail en cours + annexes</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="edl" /> État des lieux entrée / sortie</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="quittances" /> Quittances de loyer (3 dernières)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="depot_garantie" /> Dépôt de garantie / inventaire meublé</label>
-                    </fieldset>
-                    <fieldset class="immo-docs-group">
-                      <legend>Construction &lt; 10 ans &amp; travaux</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="do_attestation" /> Attestation dommage-ouvrage</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="decennale" /> Attestation garantie décennale</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="factures_travaux" /> Factures travaux récents / garanties</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="declaration_travaux" /> Déclaration préalable / permis + PC non-opposition</label>
-                    </fieldset>
-                    <fieldset class="immo-docs-group">
-                      <legend>Compteurs &amp; divers</legend>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="compteurs" /> Relevés compteurs (eau, élec, gaz)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="inventaire_meuble" /> Inventaire mobilier (si meublé)</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="mandat_signe" /> Mandat signé / bon de visite</label>
-                      <label class="field-check"><input type="checkbox" name="sellDoc[]" value="autre_doc" /> Autre (préciser ci-dessous)</label>
-                    </fieldset>
-                    <div class="field full" style="margin-top:10px">
-                      <label for="sellDocNotes">Pièces manquantes / remarques / dépôt Drive</label>
-                      <textarea id="sellDocNotes" name="sellDocNotes" rows="2" data-optional placeholder="Ce qui sera envoyé par e-mail, Google Drive, ou remis en RDV…"></textarea>
-                    </div>
+                  <div class="immo-docs-checklist" data-sell-docs-mount></div>
+                  <div class="field full" style="margin-top:10px">
+                    <label for="sellDocNotes">Pièces manquantes / remarques / dépôt Drive</label>
+                    <textarea id="sellDocNotes" name="sellDocNotes" rows="2" data-optional placeholder="Ce qui sera envoyé par e-mail, Google Drive, ou remis en RDV…"></textarea>
                   </div>
                 </details>
               </div>
@@ -2019,6 +1957,7 @@
   <script src="../js/vente-3d-messaging-lib.js"></script>
   <script src="../js/vente-3d-block.js"></script>
   <script src="../js/acheteur-immo-copro-works.js"></script>
+  <script src="../js/immo-sell-docs-checklist.js"></script>
   <script src="../js/acheteur-immo-laforet-extras.js"></script>
   <script src="../js/acheteur-immo-sell-photos.js"></script>
   <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>
