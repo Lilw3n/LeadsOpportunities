@@ -191,6 +191,107 @@
     });
   }
 
+  var lookupTimer = null;
+  var lookupAbort = null;
+
+  function phoneDigits(val) {
+    return String(val || "").replace(/\D/g, "");
+  }
+
+  function setCoordsKnown(root, message) {
+    var el = qs("[data-coords-known]", root);
+    if (!el) return;
+    if (message) {
+      el.hidden = false;
+      el.textContent = message;
+    } else {
+      el.hidden = true;
+      el.textContent = "";
+    }
+  }
+
+  function prefillIfEmpty(form, data) {
+    if (!form || !data) return;
+    var map = [
+      ["firstName", data.firstName],
+      ["lastName", data.lastName],
+      ["email", data.email],
+      ["phone", data.phone],
+    ];
+    map.forEach(function (pair) {
+      var input = form.querySelector("[name='" + pair[0] + "']");
+      if (input && pair[1] && !String(input.value || "").trim()) {
+        input.value = pair[1];
+      }
+    });
+  }
+
+  function lookupCoords(root) {
+    var form = qs("[data-url-capture-form]", root);
+    if (!form) return;
+    var emailEl = form.querySelector("[name='email']");
+    var phoneEl = form.querySelector("[name='phone']");
+    var email = emailEl ? String(emailEl.value || "").trim().toLowerCase() : "";
+    var phone = phoneEl ? String(phoneEl.value || "").trim() : "";
+    var digits = phoneDigits(phone);
+
+    if (!email && digits.length < 10) {
+      setCoordsKnown(root, "");
+      return;
+    }
+
+    if (lookupAbort) lookupAbort.abort();
+    lookupAbort = new AbortController();
+
+    var qsParts = [];
+    if (email) qsParts.push("email=" + encodeURIComponent(email));
+    if (digits.length >= 10) qsParts.push("phone=" + encodeURIComponent(phone));
+
+    fetch("/api/external/lookup-coords?" + qsParts.join("&"), {
+      credentials: "same-origin",
+      signal: lookupAbort.signal,
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (data) {
+        if (data.found) {
+          prefillIfEmpty(form, data);
+          setCoordsKnown(root, data.message || "Dossier déjà connu — vos coordonnées ont été reprises.");
+        } else {
+          setCoordsKnown(root, "");
+        }
+      })
+      .catch(function (err) {
+        if (err && err.name === "AbortError") return;
+        setCoordsKnown(root, "");
+      });
+  }
+
+  function scheduleCoordsLookup(root) {
+    clearTimeout(lookupTimer);
+    lookupTimer = setTimeout(function () {
+      lookupCoords(root);
+    }, 450);
+  }
+
+  function bindCoordsLookup(root) {
+    var form = qs("[data-url-capture-form]", root);
+    if (!form || form.dataset.coordsLookupBound) return;
+    form.dataset.coordsLookupBound = "1";
+    ["email", "phone"].forEach(function (name) {
+      var input = form.querySelector("[name='" + name + "']");
+      if (!input) return;
+      input.addEventListener("input", function () {
+        scheduleCoordsLookup(root);
+      });
+      input.addEventListener("blur", function () {
+        clearTimeout(lookupTimer);
+        lookupCoords(root);
+      });
+    });
+  }
+
   function bind(root) {
     if (!root || root.dataset.accountBound) return;
     root.dataset.accountBound = "1";
@@ -200,6 +301,7 @@
     updateAccountUi(root);
     bindResendVerify(root);
     bindConfirmMethod(root);
+    bindCoordsLookup(root);
     document.querySelectorAll("[name='immoHat']").forEach(function (el) {
       el.addEventListener("change", function () {
         setTimeout(function () {

@@ -11,6 +11,7 @@ const ROUTES = {
   google: () => require("../_lib/routes/external-google-start"),
   "send-verify": () => require("../_lib/routes/external-send-verify"),
   "verify-email": () => require("../_lib/routes/external-verify-email"),
+  "lookup-coords": () => require("../_lib/routes/external-lookup-coords"),
 };
 
 module.exports = async (req, res) => {

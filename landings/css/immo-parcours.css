@@ -813,6 +813,8 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   border: 1px solid #c7d2fe;
   border-radius: 12px;
   background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
+  min-width: 0;
+  overflow: visible;
 }
 
 .immo-account-block legend {
@@ -847,6 +849,10 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   color: #334155;
 }
 
+.immo-account-confirm {
+  min-width: 0;
+}
+
 .immo-confirm-option {
   display: flex;
   align-items: flex-start;
@@ -859,6 +865,7 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   cursor: pointer;
   font-size: 0.88rem;
   color: #334155;
+  max-width: 100%;
 }
 
 .immo-confirm-option:has(input:checked) {
@@ -869,6 +876,25 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
 .immo-confirm-option input {
   margin-top: 3px;
   flex-shrink: 0;
+}
+
+.immo-confirm-option span {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.immo-coords-known {
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid #93c5fd;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
 .immo-account-panel-hint {
