@@ -184,16 +184,16 @@
     vendeur: {
       kicker: "Vous vendez",
       title: "Déposez votre bien",
-      intro: "Saisie à la main ou URL de votre annonce déjà en ligne. Photos + description pour l'afficher ici. Pas de scraping.",
+      intro: "Collez l'URL de votre annonce si elle est en ligne, puis complétez type, ville, prix et description. Les deux se complètent — pas de scraping.",
       submit: "Déposer mon bien",
       coords: "Vos coordonnées (vendeur)",
       details: "Précisions (disponibilité, urgence, honoraires…)",
-      hint: "Vous déposez un bien à vendre — à la main ou via l'URL de votre annonce.",
+      hint: "Collez l'URL si vous l'avez, et complétez les champs du bien — les deux ensemble.",
     },
     les_deux: {
       kicker: "Double casquette",
       title: "Vous vendez et vous rachètez",
-      intro: "Déposez le bien à vendre (manuel ou URL), puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
+      intro: "URL de l'annonce + saisie du bien à vendre, puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
       submit: "Déposer et chercher",
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
@@ -221,16 +221,6 @@
     setTxt("[data-hat-hint]", copy.hint);
     var hatRadio = document.querySelector("[name='immoHat'][value='" + hat + "']");
     if (hatRadio) hatRadio.checked = true;
-    if (hat === "signalement" || hat === "vendeur" || hat === "les_deux") {
-      var manuel = document.querySelector("[name='listingMode'][value='manuel']");
-      var urlMode = document.querySelector("[name='listingMode'][value='url']");
-      var urlsEl = document.querySelector("[data-listing-urls]");
-      if (hat === "signalement" && manuel) {
-        manuel.checked = true;
-      } else if (manuel && urlMode && urlMode.checked && urlsEl && !String(urlsEl.value || "").trim()) {
-        manuel.checked = true;
-      }
-    }
     applyListingMode();
     if (window.VendeurVisitePretBlock) window.VendeurVisitePretBlock.syncVisibility();
     if (window.AcheteurImmoDepositVente) window.AcheteurImmoDepositVente.sync();
@@ -241,7 +231,6 @@
 
   function applyListingMode() {
     var hat = document.documentElement.getAttribute("data-immo-hat") || currentHat();
-    var mode = radioVal(document, "listingMode") || "url";
     var block = document.querySelector("[data-url-block]");
     var modeWrap = document.querySelector("[data-listing-mode-wrap]");
     if (hat === "signalement") {
@@ -249,8 +238,8 @@
       if (modeWrap) modeWrap.hidden = true;
       return;
     }
-    if (modeWrap) modeWrap.hidden = false;
-    if (block) block.hidden = mode === "manuel";
+    if (modeWrap) modeWrap.hidden = true;
+    if (block) block.hidden = false;
   }
 
   function bindHats() {
@@ -270,9 +259,6 @@
       el.addEventListener("change", function () {
         applyHat(el.value);
       });
-    });
-    document.querySelectorAll("[name='listingMode']").forEach(function (el) {
-      el.addEventListener("change", applyListingMode);
     });
   }
 

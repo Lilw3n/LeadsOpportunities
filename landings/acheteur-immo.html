@@ -211,17 +211,9 @@
             </div>
             <p class="search-section-label" data-deposit-section-basic style="margin-top:4px">1. Le bien — saisie rapide</p>
             <p class="listing-media-hint" style="margin:0 0 10px">Annonce vitrine + photos sur le site et Google Drive (<strong>Immo → 01_photos_publiques</strong>).</p>
-            <p class="search-section-label" data-listing-mode-label>Comment déposer le bien</p>
-            <div class="search-mode-tabs" role="radiogroup" aria-label="Mode de dépôt" data-listing-mode-wrap>
-              <label class="search-mode-tab">
-                <input type="radio" name="listingMode" value="url" checked data-listing-mode />
-                <span>J'ai une URL d'annonce</span>
-              </label>
-              <label class="search-mode-tab">
-                <input type="radio" name="listingMode" value="manuel" data-listing-mode />
-                <span>Je saisis à la main</span>
-              </label>
-            </div>
+            <p class="search-section-label">Annonce en ligne (optionnel)</p>
+            <p class="small immo-listing-dual-hint">Collez l'URL de votre annonce <strong>et</strong> complétez les champs du bien ci-dessous — les deux se complètent.</p>
+            <input type="hidden" name="listingMode" value="both" />
             <div data-url-block>
               <label for="listingUrlsBox" data-url-label>URL de l'annonce (une par ligne si plusieurs)</label>
               <textarea id="listingUrlsBox" data-listing-urls placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…&#10;https://www.seloger.com/annonces/…"></textarea>

@@ -807,6 +807,13 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   font-size: 0.78rem;
 }
 
+.immo-listing-dual-hint {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.45;
+}
+
 .immo-account-block {
   margin: 12px 0 16px;
   padding: 14px 16px;
