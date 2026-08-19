@@ -235,6 +235,11 @@
     if (Preview) {
       Preview.showPreview(this.root, item, this._previewContext(this._findLine(documentType)));
     }
+    document.dispatchEvent(
+      new CustomEvent("lo:immo-doc-file", {
+        detail: { documentType: documentType, status: "queued", mode: this.mode },
+      })
+    );
     if (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()) {
       global.ImmoDepositDriveSession.scheduleUpload();
     }
@@ -347,6 +352,11 @@
                 item.driveFileId = meta.driveFileId;
                 self._updateChip(item);
                 self._refreshLine(item.documentType);
+                document.dispatchEvent(
+                  new CustomEvent("lo:immo-doc-file", {
+                    detail: { documentType: item.documentType, status: "done", mode: self.mode },
+                  })
+                );
                 acc.uploaded.push(item);
                 return acc;
               })

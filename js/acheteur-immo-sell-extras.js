@@ -39,7 +39,7 @@
         if (b.checked) checked++;
       });
       if (counter) {
-        counter.textContent = checked + " / " + boxes.length + " pièces cochées";
+        counter.textContent = checked + " / " + boxes.length + " types cochés";
       }
     }
     mount.addEventListener("change", refresh);

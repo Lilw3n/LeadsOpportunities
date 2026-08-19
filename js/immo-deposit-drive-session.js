@@ -73,16 +73,6 @@
     var acc = { uploaded: [], errors: [] };
     var chain = Promise.resolve(acc);
 
-    if (global.ImmoSellDocsChecklist && global.ImmoSellDocsChecklist.uploadAll) {
-      chain = chain.then(function () {
-        return global.ImmoSellDocsChecklist.uploadAll().then(function (r) {
-          acc.uploaded = acc.uploaded.concat(r.uploaded || []);
-          acc.errors = acc.errors.concat(r.errors || []);
-          return acc;
-        });
-      });
-    }
-
     if (canUploadPropertyDocs(session)) {
       chain = chain.then(function () {
         var panel = document.querySelector('[data-immo-docs-panel="vendeur"]');

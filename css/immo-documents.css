@@ -448,3 +448,35 @@ html[data-immo-hat="vendeur"] [data-immo-docs-acheteur-wrap] {
     max-height: none;
   }
 }
+
+.immo-doc-line--check-only {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.immo-doc-line--check-only .immo-doc-line-check {
+  margin: 0;
+}
+
+.immo-sell-doc-goto {
+  flex-shrink: 0;
+  color: #0f766e;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.immo-sell-doc-goto:hover {
+  text-decoration: underline;
+}
+
+.immo-doc-line--highlight {
+  outline: 2px solid #14b8a6;
+  outline-offset: 2px;
+  border-radius: 8px;
+  transition: outline-color 0.3s ease;
+}
+
+.immo-sell-docs-drive-hint {
+  margin: 0 0 12px;
+  color: #64748b;
+}
