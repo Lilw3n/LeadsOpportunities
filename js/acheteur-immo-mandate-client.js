@@ -6,6 +6,13 @@
     return (root || document).querySelector(sel);
   }
 
+  function syncMandatePrefUi(wrap) {
+    var note = qs("[data-mandate-exclusif-note]", wrap);
+    var checked = wrap.querySelector("[name='sellMandatePreference']:checked");
+    var val = checked ? String(checked.value || "") : "exclusif";
+    if (note) note.classList.toggle("is-muted", val !== "exclusif");
+  }
+
   function syncMandateFields(wrap) {
     if (!wrap) return;
     var chk = qs("[data-sell-wants-mandate]", wrap);
@@ -16,6 +23,7 @@
     fields.querySelectorAll("input, select, textarea").forEach(function (el) {
       el.disabled = !open;
     });
+    if (open) syncMandatePrefUi(wrap);
   }
 
   function bind(root) {
@@ -24,6 +32,9 @@
     root.addEventListener("change", function (e) {
       if (e.target && e.target.matches("[data-sell-wants-mandate]")) {
         syncMandateFields(root);
+      }
+      if (e.target && e.target.matches("[name='sellMandatePreference']")) {
+        syncMandatePrefUi(root);
       }
     });
     syncMandateFields(root);
