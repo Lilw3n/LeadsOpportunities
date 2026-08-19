@@ -362,12 +362,23 @@
 
   function eventDescriptionHtml(e) {
     var INT = window.InterlocuteurDossier;
+    var extra = parseEventExtra(e);
     if (INT && INT.renderLeadEventBody) {
-      var extra = parseEventExtra(e);
       var html = INT.renderLeadEventBody(e.description, extra);
       if (html) return html;
     }
-    return e.description ? '<p class="event-desc">' + esc(e.description) + "</p>" : "";
+    var desc = String(e.description || "").trim();
+    if (!desc) return "";
+    if (desc.charAt(0) === "{" || desc.charAt(0) === "[") {
+      if (INT && INT.leadEventSummaryText) {
+        var flat = INT.flattenLeadPayload ? INT.flattenLeadPayload(desc) : null;
+        if (flat && INT.looksLikeLeadPayload && INT.looksLikeLeadPayload(flat)) {
+          return '<p class="event-desc">' + esc(INT.leadEventSummaryText(flat)) + "</p>";
+        }
+      }
+      return '<p class="event-desc" style="color:var(--muted)">Lead web — ouvrez la fiche pour le détail.</p>';
+    }
+    return '<p class="event-desc">' + esc(desc) + "</p>";
   }
 
   function renderSmartTimeline() {

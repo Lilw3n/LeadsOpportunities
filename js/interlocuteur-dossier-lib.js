@@ -370,11 +370,59 @@
   function parsePayload(raw) {
     if (!raw) return {};
     if (typeof raw === "object") return raw;
+    var s = String(raw).trim();
+    if (!s) return {};
     try {
-      return JSON.parse(raw);
+      return JSON.parse(s);
     } catch (e) {
       return {};
     }
+  }
+
+  function looksLikeLeadPayload(p) {
+    p = p || {};
+    return !!(
+      p.email ||
+      p.phone ||
+      p.firstName ||
+      p.first_name ||
+      p.vertical ||
+      p.need ||
+      p.city ||
+      p.sellCity ||
+      (Array.isArray(p.propertyIds) && p.propertyIds.length)
+    );
+  }
+
+  function flattenLeadPayload(raw) {
+    var p = typeof raw === "string" ? parsePayload(raw) : Object.assign({}, raw || {});
+    if (typeof p.payload === "string") {
+      var innerStr = parsePayload(p.payload);
+      if (looksLikeLeadPayload(innerStr)) {
+        p = Object.assign({}, innerStr, p);
+        delete p.payload;
+      }
+    }
+    if (p.payload && typeof p.payload === "object" && !Array.isArray(p.payload)) {
+      p = Object.assign({}, p.payload, p);
+      delete p.payload;
+    }
+    return p;
+  }
+
+  function resolveLeadPayloadFromEvent(description, extraData) {
+    extraData = extraData || {};
+    var candidates = [];
+    if (extraData.leadSnapshot != null) candidates.push(extraData.leadSnapshot);
+    if (description != null && String(description).trim()) candidates.push(description);
+    if (extraData.payload != null) candidates.push(extraData.payload);
+    var i;
+    for (i = 0; i < candidates.length; i++) {
+      var flat = flattenLeadPayload(candidates[i]);
+      if (looksLikeLeadPayload(flat)) return flat;
+    }
+    if (candidates.length) return flattenLeadPayload(candidates[0]);
+    return {};
   }
 
   function flatten(val) {
@@ -627,15 +675,6 @@
     return html;
   }
 
-  function flattenLeadPayload(raw) {
-    var p = typeof raw === "string" ? parsePayload(raw) : Object.assign({}, raw || {});
-    if (p.payload && typeof p.payload === "object" && !Array.isArray(p.payload)) {
-      p = Object.assign({}, p, p.payload);
-      delete p.payload;
-    }
-    return p;
-  }
-
   function leadEventSummaryText(body) {
     var p = flattenLeadPayload(body);
     var parts = [];
@@ -657,24 +696,19 @@
 
   function renderLeadEventBody(description, extraData) {
     extraData = extraData || {};
-    var raw = extraData.leadSnapshot != null ? extraData.leadSnapshot : description;
-    var p = flattenLeadPayload(raw);
-    var looksLikeLead =
-      p &&
-      (p.email ||
-        p.phone ||
-        p.firstName ||
-        p.first_name ||
-        p.vertical ||
-        p.need ||
-        p.city ||
-        p.sellCity ||
-        (Array.isArray(p.propertyIds) && p.propertyIds.length));
-    if (!looksLikeLead) {
-      if (typeof description === "string" && description.trim() && description.trim().charAt(0) !== "{") {
-        return '<p class="event-desc">' + esc(description) + "</p>";
+    var p = resolveLeadPayloadFromEvent(description, extraData);
+    if (!looksLikeLeadPayload(p)) {
+      var desc = String(description || "").trim();
+      if (desc && desc.charAt(0) !== "{" && desc.charAt(0) !== "[") {
+        return '<p class="event-desc">' + esc(desc) + "</p>";
       }
-      return "";
+      if (looksLikeLeadPayload(flattenLeadPayload(description))) {
+        p = flattenLeadPayload(description);
+      } else {
+        var summary = leadEventSummaryText(p);
+        if (summary) return '<p class="event-desc">' + esc(summary) + "</p>";
+        return "";
+      }
     }
     var dossier = buildDossier(null, p);
     var b = dossier.biens || {};
@@ -731,6 +765,8 @@
     renderSections: renderSections,
     renderLeadEventBody: renderLeadEventBody,
     flattenLeadPayload: flattenLeadPayload,
+    resolveLeadPayloadFromEvent: resolveLeadPayloadFromEvent,
+    looksLikeLeadPayload: looksLikeLeadPayload,
     leadEventSummaryText: leadEventSummaryText,
     slackLines: slackLines,
     first: first,
