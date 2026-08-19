@@ -123,14 +123,18 @@ async function getDriveAccessToken(options) {
     if (cachedSa.token && cachedSa.expiresAt > now + 60000) {
       return { accessToken: cachedSa.token, source: cachedSa.source, email: cachedSa.email };
     }
-    var tSa = await tokenFromServiceAccount(sa);
-    cachedSa = {
-      token: tSa.accessToken,
-      expiresAt: now + (tSa.expiresIn - 120) * 1000,
-      source: tSa.source,
-      email: tSa.email,
-    };
-    return { accessToken: tSa.accessToken, source: tSa.source, email: tSa.email };
+    try {
+      var tSa = await tokenFromServiceAccount(sa);
+      cachedSa = {
+        token: tSa.accessToken,
+        expiresAt: now + (tSa.expiresIn - 120) * 1000,
+        source: tSa.source,
+        email: tSa.email,
+      };
+      return { accessToken: tSa.accessToken, source: tSa.source, email: tSa.email };
+    } catch (e) {
+      console.warn("[drive-auth] service account", e.message);
+    }
   }
 
   return null;

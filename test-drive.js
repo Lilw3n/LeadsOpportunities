@@ -13,23 +13,52 @@
     return d.innerHTML;
   }
 
+  function parseJsonResponse(r) {
+    return r.text().then(function (text) {
+      var body = (text || "").trim();
+      if (!body) {
+        throw new Error("Reponse vide (HTTP " + r.status + ") — redeploy Vercel ou reessayez.");
+      }
+      try {
+        return JSON.parse(body);
+      } catch (e) {
+        throw new Error(
+          "JSON invalide (HTTP " + r.status + ") : " + body.slice(0, 180)
+        );
+      }
+    });
+  }
+
+  function showError(out, err) {
+    var msg = err && err.message ? err.message : String(err);
+    if (out) out.textContent = msg;
+    else alert(msg);
+  }
+
   document.getElementById("btnDriveOAuth").onclick = function () {
     fetch("/api/drive/oauth-start", {
       headers: { Authorization: "Bearer " + token },
       redirect: "manual",
     })
       .then(function (r) {
-        var loc = r.headers.get("Location");
-        if (loc) {
-          location.href = loc;
-          return;
+        if (r.status >= 300 && r.status < 400) {
+          var loc = r.headers.get("Location");
+          if (loc) {
+            location.href = loc;
+            return null;
+          }
         }
-        return r.json().then(function (data) {
-          alert((data && data.error) || "OAuth Drive indisponible");
+        if (r.ok && r.status !== 204) {
+          return parseJsonResponse(r).then(function (data) {
+            alert((data && data.error) || "OAuth Drive indisponible");
+          });
+        }
+        return parseJsonResponse(r).then(function (data) {
+          alert((data && data.error) || "OAuth Drive indisponible (HTTP " + r.status + ")");
         });
       })
       .catch(function (e) {
-        alert(String(e));
+        alert(e.message || String(e));
       });
   };
 
@@ -38,13 +67,16 @@
     out.textContent = "Test en cours…";
     fetch("/api/drive/status", { headers: { Authorization: "Bearer " + token } })
       .then(function (r) {
-        return r.json();
+        return parseJsonResponse(r).then(function (data) {
+          if (!r.ok && data && !data.error) data.error = "HTTP " + r.status;
+          return data;
+        });
       })
       .then(function (res) {
         out.textContent = JSON.stringify(res, null, 2);
       })
       .catch(function (e) {
-        out.textContent = String(e);
+        showError(out, e);
       });
   };
 
@@ -56,14 +88,14 @@
       headers: { Authorization: "Bearer " + token },
     })
       .then(function (r) {
-        return r.json();
+        return parseJsonResponse(r);
       })
       .then(function (res) {
         out.textContent = JSON.stringify(res, null, 2);
         loadCloud();
       })
       .catch(function (e) {
-        out.textContent = String(e);
+        showError(out, e);
       });
   };
 
@@ -84,10 +116,14 @@
       }),
     })
       .then(function (r) {
-        return r.json();
+        return parseJsonResponse(r);
       })
       .then(function (created) {
-        if (!created.ok || !created.id) {
+        if (!created.ok && !created.id) {
+          out.textContent = JSON.stringify(created, null, 2);
+          return;
+        }
+        if (!created.id) {
           out.textContent = JSON.stringify(created, null, 2);
           return;
         }
@@ -95,7 +131,7 @@
           headers: { Authorization: "Bearer " + token },
         })
           .then(function (r) {
-            return r.json();
+            return parseJsonResponse(r);
           })
           .then(function (drive) {
             out.textContent = JSON.stringify({ contact: created, drive: drive }, null, 2);
@@ -103,14 +139,14 @@
           });
       })
       .catch(function (e) {
-        out.textContent = String(e);
+        showError(out, e);
       });
   };
 
   function loadCloud() {
     fetch("/api/drive/files", { headers: { Authorization: "Bearer " + token } })
       .then(function (r) {
-        return r.json();
+        return parseJsonResponse(r);
       })
       .then(function (res) {
         var files = res.files || res.demoFiles || [];
@@ -135,7 +171,7 @@
               headers: { Authorization: "Bearer " + token },
             })
               .then(function (r) {
-                return r.json();
+                return parseJsonResponse(r);
               })
               .then(function (r) {
                 lastText = r.text || r.content || "";
@@ -143,13 +179,17 @@
               });
           };
         });
+      })
+      .catch(function () {
+        document.getElementById("cloudList").innerHTML =
+          "<p style='color:var(--muted)'>Impossible de charger la liste Drive.</p>";
       });
   }
 
   function loadLocal() {
     fetch("/api/drive/local-files", { headers: { Authorization: "Bearer " + token } })
       .then(function (r) {
-        return r.json();
+        return parseJsonResponse(r);
       })
       .then(function (res) {
         var files = res.files || res.demoFiles || [];
@@ -174,7 +214,7 @@
               headers: { Authorization: "Bearer " + token },
             })
               .then(function (r) {
-                return r.json();
+                return parseJsonResponse(r);
               })
               .then(function (r) {
                 lastText = r.content || "";

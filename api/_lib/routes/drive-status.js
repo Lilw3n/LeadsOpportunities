@@ -43,10 +43,22 @@ module.exports = async (req, res) => {
         ok: false,
         ...status,
         error: "Variables manquantes — voir docs/DRIVE-SETUP.md",
+        setupUrl: "https://www.leadsopportunities.fr/test-drive.html",
       });
     }
 
-    const test = await testDriveConnection();
+    let test;
+    try {
+      test = await testDriveConnection();
+    } catch (connErr) {
+      return res.status(200).json({
+        ok: false,
+        ...status,
+        error: "Connexion Drive impossible",
+        detail: connErr.message,
+        setupUrl: "https://www.leadsopportunities.fr/test-drive.html",
+      });
+    }
     if (!test.ok) {
       return res.status(200).json({ ok: false, ...status, ...test });
     }

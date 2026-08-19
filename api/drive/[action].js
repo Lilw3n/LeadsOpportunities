@@ -19,5 +19,17 @@ module.exports = async (req, res) => {
   const action = req.query.action;
   const load = ROUTES[action];
   if (!load) return res.status(404).json({ error: "Route Drive inconnue" });
-  return load()(req, res);
+  try {
+    return await load()(req, res);
+  } catch (e) {
+    console.error("[drive/" + action + "]", e);
+    if (!res.headersSent) {
+      return res.status(200).json({
+        ok: false,
+        error: "Erreur serveur Drive",
+        detail: e.message,
+        action: action,
+      });
+    }
+  }
 };
