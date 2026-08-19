@@ -1,5 +1,5 @@
 /**
- * Descriptif pièce par pièce — fiche Laforêt (niveau, pièce, surface, revêtement, expo).
+ * Descriptif pièce par pièce — dossier vente (niveau, pièce, surface, revêtement, expo).
  */
 (function () {
   var MAX_ROOMS = 20;

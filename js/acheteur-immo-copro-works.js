@@ -1,5 +1,5 @@
 /**
- * Table travaux copropriété — faits / votés / payés / prévus (fiche Laforêt).
+ * Table travaux copropriété — faits / votés / payés / prévus (dossier vente).
  */
 (function () {
   var MAX = 12;
