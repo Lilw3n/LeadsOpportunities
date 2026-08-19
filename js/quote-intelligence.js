@@ -47,7 +47,7 @@
         o[k] = v;
       }
     });
-    ["buyerNeeds", "propertySought", "serviceSought", "ownerRole[]", "ownerFirstName[]", "ownerLastName[]", "ownerPhone[]", "ownerEmail[]"].forEach(function (key) {
+    ["buyerNeeds", "propertySought", "serviceSought", "ownerRole[]", "ownerFirstName[]", "ownerLastName[]", "ownerPhone[]", "ownerEmail[]", "ownerAddress[]", "ownerPostal[]", "ownerCity[]", "roomLevel[]", "roomName[]", "roomSurface[]", "roomDimensions[]", "roomFlooring[]", "roomExposure[]", "sellEquip[]", "sellCommit[]"].forEach(function (key) {
       if (typeof o[key] === "string") o[key] = [o[key]];
     });
     return o;

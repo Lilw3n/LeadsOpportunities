@@ -1,5 +1,5 @@
 /**
- * Bloc propriétaires répétables — formulaire vente (acheteur-immo wizard + dépôt).
+ * Bloc propriétaires répétables — fiche Laforêt (projet de vente).
  */
 (function () {
   var MAX_OWNERS = 6;
@@ -37,59 +37,98 @@
     }).join("");
   }
 
+  function salutationRadios(index, data) {
+    var name = "ownerSalutation_" + index;
+    var vals = [
+      { v: "M", t: "M." },
+      { v: "Mme", t: "Mme" },
+      { v: "Mlle", t: "Mlle" },
+    ];
+    return vals
+      .map(function (o) {
+        var checked = (data.salutation || (index === 0 ? "M" : "")) === o.v ? " checked" : "";
+        return (
+          '<label class="immo-salutation"><input type="radio" name="' +
+          name +
+          '" value="' +
+          o.v +
+          '" data-owner-field="salutation"' +
+          checked +
+          " /> " +
+          o.t +
+          "</label>"
+        );
+      })
+      .join("");
+  }
+
   function ownerCardHtml(index, data) {
     data = data || {};
     var n = index + 1;
     var removable = index > 0;
+    var mailChecked = data.mailRecipient || index === 0 ? " checked" : "";
     return (
       '<article class="immo-owner-card" data-owner-index="' +
       index +
       '">' +
       '<div class="immo-owner-card-head">' +
-      '<strong>Propriétaire ' +
+      "<strong>Propriétaire " +
       n +
+      (index === 0 ? " — destinataire courriers par défaut" : "") +
       "</strong>" +
       (removable
-        ? '<button type="button" class="immo-owner-remove" data-owner-remove aria-label="Retirer ce propriétaire">Retirer</button>'
+        ? '<button type="button" class="immo-owner-remove" data-owner-remove aria-label="Retirer">Retirer</button>'
         : "") +
       "</div>" +
+      '<div class="immo-salutation-row" role="group" aria-label="Civilite">' +
+      salutationRadios(index, data) +
+      "</div>" +
       '<div class="grid">' +
-      '<div class="field">' +
-      "<label>Rôle</label>" +
-      '<select name="ownerRole[]" data-owner-field="role">' +
-      '<option value="">— Choisir —</option>' +
+      '<div class="field"><label>Rôle / qualité</label><select name="ownerRole[]" data-owner-field="role"><option value="">— Choisir —</option>' +
       roleOptions(data.role) +
       "</select></div>" +
-      '<div class="field">' +
-      "<label>Prénom</label>" +
-      '<input name="ownerFirstName[]" data-owner-field="firstName" autocomplete="given-name" placeholder="Ex. Marie" value="' +
+      '<div class="field"><label>Prénom</label><input name="ownerFirstName[]" data-owner-field="firstName" autocomplete="given-name" placeholder="Ex. Andréa" value="' +
       esc(data.firstName || "") +
       '" /></div>' +
-      '<div class="field">' +
-      "<label>Nom</label>" +
-      '<input name="ownerLastName[]" data-owner-field="lastName" autocomplete="family-name" placeholder="Ex. Dupont" value="' +
+      '<div class="field"><label>Nom</label><input name="ownerLastName[]" data-owner-field="lastName" autocomplete="family-name" placeholder="Ex. Tafka" value="' +
       esc(data.lastName || "") +
       '" /></div>' +
-      '<div class="field">' +
-      "<label>Téléphone</label>" +
-      '<input name="ownerPhone[]" data-owner-field="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="06 12 34 56 78" value="' +
+      '<div class="field full"><label>Adresse postale</label><input name="ownerAddress[]" data-owner-field="address" autocomplete="street-address" placeholder="Rue, numéro…" value="' +
+      esc(data.address || "") +
+      '" /></div>' +
+      '<div class="field"><label>Code postal</label><input name="ownerPostal[]" data-owner-field="postal" inputmode="numeric" maxlength="5" placeholder="54110" value="' +
+      esc(data.postal || "") +
+      '" /></div>' +
+      '<div class="field"><label>Ville</label><input name="ownerCity[]" data-owner-field="city" autocomplete="address-level2" placeholder="Varangéville" value="' +
+      esc(data.city || "") +
+      '" /></div>' +
+      '<div class="field"><label>Téléphone</label><input name="ownerPhone[]" data-owner-field="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="06 05 91 68 73" value="' +
       esc(data.phone || "") +
       '" /></div>' +
-      '<div class="field">' +
-      "<label>E-mail</label>" +
-      '<input name="ownerEmail[]" data-owner-field="email" type="email" autocomplete="email" placeholder="vous@email.fr" value="' +
+      '<div class="field"><label>E-mail</label><input name="ownerEmail[]" data-owner-field="email" type="email" autocomplete="email" placeholder="vous@email.fr" value="' +
       esc(data.email || "") +
       '" /></div>' +
+      '<div class="field full"><label class="field-check"><input type="radio" name="ownerMailRecipient" value="' +
+      index +
+      '"' +
+      mailChecked +
+      ' data-owner-mail /> Destinataire des courriers</label></div>' +
       "</div></article>"
     );
   }
 
   function collectCards(mount) {
-    return Array.prototype.slice.call(mount.querySelectorAll(".immo-owner-card")).map(function (card) {
-      var o = {};
+    return Array.prototype.slice.call(mount.querySelectorAll(".immo-owner-card")).map(function (card, index) {
+      var o = { index: index };
       card.querySelectorAll("[data-owner-field]").forEach(function (el) {
-        o[el.getAttribute("data-owner-field")] = (el.value || "").trim();
+        if (el.type === "radio") {
+          if (el.checked) o[el.getAttribute("data-owner-field")] = el.value;
+        } else {
+          o[el.getAttribute("data-owner-field")] = (el.value || "").trim();
+        }
       });
+      var mail = card.querySelector("[data-owner-mail]");
+      o.mailRecipient = !!(mail && mail.checked);
       return o;
     });
   }

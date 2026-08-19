@@ -57,9 +57,9 @@
     var title = qs(form, "[data-wizard-recherche-title]");
     if (!title) return;
     if (kind === "les_deux") {
-      title.textContent = "Votre bien à vendre, puis celui que vous cherchez";
+      title.textContent = "Projet de vente, puis bien recherché";
     } else if (kind === "service") {
-      title.textContent = "Votre bien à vendre ou estimer";
+      title.textContent = "Projet de vente — fiche complète";
     } else {
       title.textContent = "Quel bien recherchez-vous ?";
     }
