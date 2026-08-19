@@ -1,9 +1,9 @@
 /**
- * Checklist vendeur — checkbox + upload par pièce.
- * Drive : dossier client Nom_Prenom_Tel_Email → sous-dossier par type de pièce.
+ * Checklist vendeur — checkbox + upload multi-fichiers + aperçu latéral.
  */
 (function (global) {
-  var MAX_BYTES = 12 * 1024 * 1024;
+  var Preview = global.ImmoDocPreview;
+  var MAX_BYTES = Preview ? Preview.MAX_BYTES : 12 * 1024 * 1024;
   var ACCEPT = ".pdf,.jpg,.jpeg,.png";
 
   function esc(s) {
@@ -38,8 +38,33 @@
     return /\.(pdf|jpe?g|png)$/i.test(file.name || "");
   }
 
-  var queue = [];
+  var files = [];
   var session = { email: null, phone: null, contactId: null, leadId: null };
+
+  function filesForType(documentType) {
+    return files.filter(function (f) {
+      return f.documentType === documentType;
+    });
+  }
+
+  function findLine(mount, documentType) {
+    return mount.querySelector('[data-sell-doc-line="' + documentType + '"]');
+  }
+
+  function previewContext(line) {
+    var lbl = line && line.querySelector(".immo-doc-line-check");
+    return lbl ? lbl.textContent.replace(/\s+/g, " ").trim() : "";
+  }
+
+  function refreshLine(mount, documentType) {
+    var line = findLine(mount, documentType);
+    var list = filesForType(documentType);
+    if (!line || !Preview) return;
+    Preview.refreshLineFiles(line, list, function (item) {
+      Preview.showPreview(mount, item, previewContext(line));
+    });
+    Preview.syncLineState(line, list);
+  }
 
   function renderLine(item) {
     return (
@@ -53,14 +78,13 @@
       esc(item.label) +
       "</label>" +
       '<div class="immo-doc-line-upload">' +
-      '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo">' +
+      '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo, plusieurs fichiers possibles">' +
       '<input type="file" accept="' +
       ACCEPT +
-      '" hidden data-sell-doc-input data-doc-type="' +
+      '" multiple hidden data-sell-doc-input data-doc-type="' +
       esc(item.type) +
       '" />' +
       "<span>Déposer</span></label>" +
-      '<span class="immo-doc-line-file" data-sell-doc-file hidden></span>' +
       "</div></div>"
     );
   }
@@ -88,9 +112,19 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces — envoi sur Google Drive <strong>dès que le dossier est enregistré</strong> (après « Déposer mon bien »), y compris si vous ajoutez des fichiers plus tard dans la même session.</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces (plusieurs fichiers par ligne, max 12 Mo chacun) — aperçu à droite via l’œil. Envoi sur Google Drive après enregistrement du dossier.</p>' +
       groups.map(renderGroup).join("");
+    if (Preview) Preview.ensureWorkspace(mount);
     bindMount(mount);
+    if (Preview) {
+      Preview.attachGroupPreview(mount, "fieldset.immo-docs-group", function (groupEl) {
+        var gid = groupEl.getAttribute("data-sell-doc-group");
+        return files.filter(function (f) {
+          var line = groupEl.querySelector('[data-sell-doc-line="' + f.documentType + '"]');
+          return !!line;
+        });
+      });
+    }
   }
 
   function refreshCounter(mount) {
@@ -102,21 +136,11 @@
     boxes.forEach(function (b) {
       if (b.checked) checked++;
     });
-    counter.textContent = checked + " / " + boxes.length + " pièces cochées";
-  }
-
-  function setLineState(line, state, fileName) {
-    if (!line) return;
-    line.classList.remove("is-queued", "is-done", "is-error");
-    if (state) line.classList.add(state);
-    var fileEl = line.querySelector("[data-sell-doc-file]");
-    var btn = line.querySelector(".immo-doc-line-btn span");
-    if (fileName && fileEl) {
-      fileEl.hidden = false;
-      fileEl.textContent = fileName;
-    }
-    if (btn && state === "is-done") btn.textContent = "Déposé";
-    if (btn && state === "is-queued") btn.textContent = "En attente";
+    var uploaded = files.filter(function (f) {
+      return f.status === "done";
+    }).length;
+    counter.textContent =
+      checked + " / " + boxes.length + " types cochés" + (uploaded ? " · " + uploaded + " fichier(s) sur Drive" : "");
   }
 
   function addFile(file, documentType, mount) {
@@ -124,25 +148,38 @@
       alert("Format refusé — déposez uniquement PDF, JPG ou PNG.");
       return;
     }
-    if (file.size > MAX_BYTES) {
+    var existing = filesForType(documentType);
+    var err = Preview ? Preview.validateFile(file, existing.length) : null;
+    if (err) {
+      alert(err);
+      return;
+    }
+    if (!Preview && file.size > MAX_BYTES) {
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
     }
-    queue = queue.filter(function (q) {
-      return q.documentType !== documentType;
-    });
-    queue.push({
+
+    var entry = {
+      id: "f_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7),
       file: file,
       fileName: file.name,
+      fileSize: file.size,
       documentType: documentType,
       mimeType: mimeForFile(file),
       status: "queued",
-    });
-    var line = mount.querySelector('[data-sell-doc-line="' + documentType + '"]');
+      previewUrl: Preview ? Preview.createPreviewUrl(file) : null,
+      webViewLink: null,
+      driveFileId: null,
+    };
+    files.push(entry);
+
+    var line = findLine(mount, documentType);
     var chk = line && line.querySelector("[data-sell-doc-check]");
     if (chk) chk.checked = true;
-    setLineState(line, "is-queued", file.name);
+    refreshLine(mount, documentType);
     refreshCounter(mount);
+    if (Preview) Preview.showPreview(mount, entry, previewContext(line));
+
     if (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()) {
       global.ImmoDepositDriveSession.scheduleUpload();
     }
@@ -152,8 +189,11 @@
     mount.addEventListener("change", function (e) {
       var input = e.target.closest("[data-sell-doc-input]");
       if (!input || !mount.contains(input)) return;
-      if (!input.files || !input.files[0]) return;
-      addFile(input.files[0], input.getAttribute("data-doc-type") || "autre_doc", mount);
+      if (!input.files || !input.files.length) return;
+      var docType = input.getAttribute("data-doc-type") || "autre_doc";
+      Array.prototype.forEach.call(input.files, function (file) {
+        addFile(file, docType, mount);
+      });
       input.value = "";
     });
     mount.addEventListener("change", function () {
@@ -165,8 +205,18 @@
     Object.assign(session, next || {});
   }
 
+  function updateChip(item) {
+    if (!item.chipEl) return;
+    var st = item.chipEl.querySelector(".immo-doc-file-chip-status");
+    if (st) {
+      st.className =
+        "immo-doc-file-chip-status immo-doc-file-chip-status--" + (item.status || "queued");
+      st.textContent = Preview ? Preview.statusLabel(item.status) : item.status;
+    }
+  }
+
   function uploadAll() {
-    var pending = queue.filter(function (q) {
+    var pending = files.filter(function (q) {
       return q.status === "queued" || q.status === "error";
     });
     if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
@@ -177,10 +227,13 @@
       });
     }
 
+    var mount = document.querySelector("[data-sell-docs-mount]");
+
     return pending.reduce(
       function (chain, item) {
         return chain.then(function (acc) {
           item.status = "uploading";
+          updateChip(item);
           return readFileAsBase64(item.file)
             .then(function (dataUrl) {
               return fetch("/api/external/upload", {
@@ -211,19 +264,25 @@
             })
             .then(function (res) {
               if (!res.ok || !res.data || !res.data.ok) {
-                throw new Error((res.data && res.data.error) || "Upload impossible");
+                throw new Error((res.data && (res.data.error || res.data.message)) || "Upload impossible");
+              }
+              var meta = Preview ? Preview.extractDriveMeta(res.data) : {};
+              if (meta.simulated) {
+                throw new Error("Google Drive non disponible — contactez votre conseiller");
               }
               item.status = "done";
-              var line = document.querySelector('[data-sell-doc-line="' + item.documentType + '"]');
-              setLineState(line, "is-done", item.fileName);
+              item.webViewLink = meta.webViewLink;
+              item.driveFileId = meta.driveFileId;
+              updateChip(item);
+              if (mount) refreshLine(mount, item.documentType);
               acc.uploaded.push(item);
               return acc;
             })
             .catch(function (err) {
               item.status = "error";
               item.error = err.message || "Erreur";
-              var line = document.querySelector('[data-sell-doc-line="' + item.documentType + '"]');
-              setLineState(line, "is-error", item.fileName);
+              updateChip(item);
+              if (mount) refreshLine(mount, item.documentType);
               acc.errors.push({ item: item, error: item.error });
               return acc;
             });
@@ -231,9 +290,7 @@
       },
       Promise.resolve({ uploaded: [], errors: [] })
     ).then(function (result) {
-      queue = queue.filter(function (q) {
-        return q.status !== "done";
-      });
+      if (mount) refreshCounter(mount);
       return result;
     });
   }
@@ -247,7 +304,7 @@
     setSession: setSession,
     uploadAll: uploadAll,
     getQueue: function () {
-      return queue.slice();
+      return files.slice();
     },
   };
 
