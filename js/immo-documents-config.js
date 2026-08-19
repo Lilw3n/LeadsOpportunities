@@ -219,6 +219,33 @@
     });
   }
 
+  function getDocumentLabel(documentType) {
+    var t = String(documentType || "");
+    var groups = flattenGroups(VENDEUR);
+    for (var gi = 0; gi < groups.length; gi++) {
+      var items = groups[gi].items || [];
+      for (var ii = 0; ii < items.length; ii++) {
+        if (items[ii].type === t) return items[ii].label;
+      }
+    }
+    return t || "Document";
+  }
+
+  var MAX_FILES_BY_TYPE = {
+    identite: 24,
+    domicile: 12,
+    livret_famille: 12,
+    titre_propriete: 80,
+    acte_vente: 80,
+    acte_notarie: 80,
+    default: 80,
+  };
+
+  function getMaxFilesForType(documentType) {
+    var t = String(documentType || "").toLowerCase();
+    return MAX_FILES_BY_TYPE[t] || MAX_FILES_BY_TYPE.default;
+  }
+
   function getConfig(mode) {
     if (mode === "vendeur" || mode === "vendeur-immo") return VENDEUR;
     if (mode === "acheteur" || mode === "acheteur-immo") return ACHETEUR;
@@ -228,6 +255,8 @@
   global.ImmoDocumentsConfig = {
     getConfig: getConfig,
     getChecklistGroups: getChecklistGroups,
+    getDocumentLabel: getDocumentLabel,
+    getMaxFilesForType: getMaxFilesForType,
     flattenGroups: flattenGroups,
     vendeur: VENDEUR,
     acheteur: ACHETEUR,

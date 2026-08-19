@@ -5,7 +5,8 @@ const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../se
 const { getSql } = require("../db");
 const crypto = require("crypto");
 const { uploadBase64File } = require("../drive-upload-core");
-const { resolveVendeurDocumentFolder, ensurePropertyDriveFolders } = require("../immo-drive");
+const { ensurePropertyDriveFolders } = require("../immo-drive");
+const { resolveVendeurUploadFolder } = require("../immo-drive-hierarchy");
 const { isDriveUploadConfigured } = require("../google-drive-auth");
 
 function str(v, max) {
@@ -48,6 +49,11 @@ module.exports = async function publicImmoListingDocument(req, res) {
   var fileName = str(body.fileName, 180);
   var documentType = str(body.documentType, 80) || "autre_doc";
   var documentGroup = str(body.documentGroup, 80);
+  var documentLabel = str(body.documentLabel, 120);
+  var ownerIndex = typeof body.ownerIndex === "number" ? body.ownerIndex : parseInt(body.ownerIndex, 10);
+  if (!isFinite(ownerIndex) || ownerIndex < 0) ownerIndex = 0;
+  var fileIndex = typeof body.fileIndex === "number" ? body.fileIndex : parseInt(body.fileIndex, 10);
+  if (!isFinite(fileIndex) || fileIndex < 0) fileIndex = 0;
 
   if (!propertyId || !fileName || !body.fileBase64) {
     return res.status(400).json({
@@ -108,28 +114,64 @@ module.exports = async function publicImmoListingDocument(req, res) {
       return res.status(403).json({ ok: false, error: "Email non autorise pour ce bien" });
     }
 
-    var ensured = await ensurePropertyDriveFolders({
-      id: prop.id,
-      title: prop.title,
-      city: prop.city,
-      postal_code: prop.postal_code,
-      drive_folder_id: prop.drive_folder_id,
-    });
+    var metaProp = parseJson(prop.metadata_json, {});
+    var owners = Array.isArray(body.owners) ? body.owners : metaProp.sellDossier && metaProp.sellDossier.owners;
+    var depositor = body.depositor || {
+      firstName: body.depositorFirstName || body.firstName,
+      lastName: body.depositorLastName || body.lastName,
+    };
 
-    var classified = resolveVendeurDocumentFolder({
-      documentGroup: documentGroup,
+    var hierarchy = await resolveVendeurUploadFolder({
+      property: {
+        id: prop.id,
+        title: prop.title,
+        city: prop.city || body.city,
+        postal_code: prop.postal_code || body.postal_code,
+      },
+      owners: owners,
+      depositor: depositor,
       documentType: documentType,
+      documentGroup: documentGroup,
+      documentLabel: documentLabel,
+      ownerIndex: ownerIndex,
+      fileIndex: fileIndex,
+      originalFileName: fileName,
       fileName: fileName,
       mimeType: body.mimeType,
     });
 
-    var targetFolder =
-      (ensured.subfolderIds && ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) ||
-      ensured.folderId ||
-      prop.drive_folder_id;
+    if (hierarchy.simulated && isDriveUploadConfigured()) {
+      return res.status(503).json({
+        ok: false,
+        error: "Upload Drive echoue — vérifiez la configuration Google Drive.",
+      });
+    }
 
+    var targetFolder = hierarchy.folderId;
+    if (!targetFolder) {
+      var ensured = await ensurePropertyDriveFolders({
+        id: prop.id,
+        title: prop.title,
+        city: prop.city,
+        postal_code: prop.postal_code,
+        drive_folder_id: prop.drive_folder_id,
+      });
+      if (ensured.legacy && ensured.subfolderIds) {
+        var classified = require("../immo-drive").resolveVendeurDocumentFolder({
+          documentGroup: documentGroup,
+          documentType: documentType,
+          fileName: fileName,
+          mimeType: body.mimeType,
+        });
+        targetFolder =
+          (ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) ||
+          ensured.folderId;
+      }
+    }
+
+    var driveFileName = hierarchy.driveFileName || documentType + "_" + fileName;
     var uploaded = await uploadBase64File({
-      fileName: documentType + "_" + fileName,
+      fileName: driveFileName,
       base64: body.fileBase64,
       mimeType: body.mimeType || "application/octet-stream",
       folderId: targetFolder,
@@ -141,17 +183,21 @@ module.exports = async function publicImmoListingDocument(req, res) {
     meta.documents.push({
       type: documentType,
       group: documentGroup,
-      fileName: fileName,
+      label: documentLabel,
+      fileName: driveFileName,
       uploadedAt: new Date().toISOString(),
       driveFileId: uploaded.fileId || null,
       webViewLink: uploaded.webViewLink || null,
       simulated: !!uploaded.simulated,
+      path: hierarchy.path || null,
     });
+
+    var bienFolderId = hierarchy.bienFolderId || prop.drive_folder_id || null;
 
     await sql`
       UPDATE crm_immo_properties
       SET metadata_json = ${JSON.stringify(meta)},
-          drive_folder_id = COALESCE(drive_folder_id, ${ensured.folderId || null}),
+          drive_folder_id = COALESCE(drive_folder_id, ${bienFolderId}),
           updated_at = NOW()
       WHERE id = ${propertyId}
     `;
@@ -168,20 +214,21 @@ module.exports = async function publicImmoListingDocument(req, res) {
     if (contactId) {
       try {
         var attachment = {
-          name: fileName,
+          name: driveFileName,
           type: documentType,
           driveFileId: uploaded.fileId || null,
           webViewLink: uploaded.webViewLink || null,
           uploadedAt: new Date().toISOString(),
           propertyId: propertyId,
           source: "immo_listing_document",
+          path: hierarchy.path || null,
         };
         var actId = "act_" + crypto.randomUUID();
         await sql`
           INSERT INTO crm_activities (id, contact_id, activity_type, title, body)
           VALUES (
             ${actId}, ${contactId},
-            'document_upload', ${"Document bien — " + fileName}, ${JSON.stringify(attachment)}
+            'document_upload', ${"Document bien — " + driveFileName}, ${JSON.stringify(attachment)}
           )
         `;
         await sql`
@@ -209,7 +256,7 @@ module.exports = async function publicImmoListingDocument(req, res) {
       propertyId: propertyId,
       contactId: contactId,
       documentType: documentType,
-      classifiedAs: classified,
+      drivePath: hierarchy.path || null,
       drive: uploaded,
     });
   } catch (e) {

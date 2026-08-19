@@ -1,7 +1,8 @@
 /**
- * Sync photos bien immo → Google Drive (01_photos_publiques).
+ * Sync photos bien immo → Google Drive (hiérarchie Personne → Bien → Photos).
  */
 const { ensurePropertyDriveFolders, resolveListingMediaFolder } = require("./immo-drive");
+const { resolveVendeurUploadFolder } = require("./immo-drive-hierarchy");
 const { uploadBase64File } = require("./drive-upload-core");
 const { isDriveConfigured } = require("./google-drive-auth");
 
@@ -22,8 +23,10 @@ function safePhotoName(index, kind) {
 /**
  * @param {object} property — { id, title, city, postal_code, drive_folder_id? }
  * @param {Array<{url:string, kind?:string}>} photos
+ * @param {object} opts — owners, depositor
  */
-async function syncPropertyPhotosToDrive(property, photos) {
+async function syncPropertyPhotosToDrive(property, photos, opts) {
+  opts = opts || {};
   photos = Array.isArray(photos) ? photos.filter(function (p) {
     return p && p.url && /^data:image\//i.test(p.url);
   }) : [];
@@ -36,10 +39,10 @@ async function syncPropertyPhotosToDrive(property, photos) {
   var ensured = await ensurePropertyDriveFolders(prop);
   var folderId = ensured.folderId || property.drive_folder_id || null;
   var subMap = ensured.subfolderIds || {};
-  var pubFolderKey = resolveListingMediaFolder("photo");
-  var targetFolder = (subMap[pubFolderKey] && subMap[pubFolderKey].id) || folderId;
+  var useLegacy = !!(ensured.legacy && subMap && Object.keys(subMap).length);
+  var bienFolderId = folderId;
 
-  if (ensured.simulated || !targetFolder) {
+  if (ensured.simulated && !useLegacy) {
     return {
       ok: true,
       simulated: true,
@@ -56,12 +59,39 @@ async function syncPropertyPhotosToDrive(property, photos) {
 
   for (var i = 0; i < photos.length; i++) {
     var p = photos[i];
-    var folderKey = resolveListingMediaFolder(p.kind === "capture" ? "capture" : "photo");
-    var uploadFolder =
-      (subMap[folderKey] && subMap[folderKey].id) || targetFolder;
+    var uploadFolder = null;
+    var photoLabel = p.kind === "capture" ? "Capture annonce" : "Photos publiques";
+    var photoName =
+      (p.kind === "capture" ? "Capture_annonce" : "Photo_publique") +
+      (opts.depositor && opts.depositor.lastName ? "_" + String(opts.depositor.lastName).replace(/\s+/g, "_") : "") +
+      "_p" +
+      String(i + 1).padStart(2, "0") +
+      ".jpg";
+
+    if (useLegacy) {
+      var folderKey = resolveListingMediaFolder(p.kind === "capture" ? "capture" : "photo");
+      uploadFolder = (subMap[folderKey] && subMap[folderKey].id) || folderId;
+      photoName = safePhotoName(i, p.kind);
+    } else {
+      var hierarchy = await resolveVendeurUploadFolder({
+        property: prop,
+        owners: opts.owners,
+        depositor: opts.depositor,
+        documentType: p.kind === "capture" ? "capture_annonce" : "photos",
+        documentLabel: photoLabel,
+        fileIndex: i,
+        originalFileName: photoName,
+      });
+      uploadFolder = hierarchy.folderId;
+      photoName = hierarchy.driveFileName || photoName;
+      bienFolderId = hierarchy.bienFolderId || bienFolderId;
+    }
+
+    if (!uploadFolder) continue;
+
     try {
       var uploadedFile = await uploadBase64File({
-        fileName: safePhotoName(i, p.kind),
+        fileName: photoName,
         base64: stripBase64(p.url),
         mimeType: mimeFromDataUrl(p.url),
         folderId: uploadFolder,
@@ -79,7 +109,6 @@ async function syncPropertyPhotosToDrive(property, photos) {
           thumbnailLink: uploadedFile.thumbnailLink || null,
           url: uploadedFile.thumbnailLink || uploadedFile.webViewLink || p.url,
           storage: "drive",
-          driveFolder: folderKey,
         })
       );
     } catch (err) {
@@ -93,9 +122,8 @@ async function syncPropertyPhotosToDrive(property, photos) {
     configured: true,
     simulated: false,
     uploaded: uploaded,
-    driveFolderId: folderId,
+    driveFolderId: bienFolderId,
     subfolderIds: subMap,
-    webViewLink: ensured.webViewLink || null,
     photos: enriched,
   };
 }

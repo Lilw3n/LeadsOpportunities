@@ -1,13 +1,10 @@
 /**
  * POST /api/immo-listing-document-staging
- * Upload immédiat vers Drive (dossier staging par session) — avant validation du dossier vendeur.
+ * Upload immédiat vers Drive (hiérarchie paresseuse) — avant validation du dossier vendeur.
  */
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { uploadBase64File } = require("../drive-upload-core");
-const {
-  ensureStagingClassifiedFolder,
-  resolveVendeurDocumentFolder,
-} = require("../immo-drive");
+const { resolveVendeurUploadFolder } = require("../immo-drive-hierarchy");
 const { isDriveUploadConfigured } = require("../google-drive-auth");
 
 function str(v, max) {
@@ -37,6 +34,11 @@ module.exports = async function publicImmoListingDocumentStaging(req, res) {
   var fileName = str(body.fileName, 180);
   var documentType = str(body.documentType, 80) || "autre_doc";
   var documentGroup = str(body.documentGroup, 80);
+  var documentLabel = str(body.documentLabel, 120);
+  var ownerIndex = typeof body.ownerIndex === "number" ? body.ownerIndex : parseInt(body.ownerIndex, 10);
+  if (!isFinite(ownerIndex) || ownerIndex < 0) ownerIndex = 0;
+  var fileIndex = typeof body.fileIndex === "number" ? body.fileIndex : parseInt(body.fileIndex, 10);
+  if (!isFinite(fileIndex) || fileIndex < 0) fileIndex = 0;
 
   if (!depositSessionId || !fileName || !body.fileBase64) {
     return res.status(400).json({
@@ -50,27 +52,40 @@ module.exports = async function publicImmoListingDocumentStaging(req, res) {
   }
 
   try {
-    var classified = resolveVendeurDocumentFolder({
-      documentGroup: documentGroup,
+    var hierarchy = await resolveVendeurUploadFolder({
+      depositSessionId: depositSessionId,
+      property: {
+        id: null,
+        city: body.city || body.sellCity,
+        postal_code: body.postal_code || body.sellPostalCode,
+      },
+      owners: body.owners,
+      depositor: body.depositor || {
+        firstName: body.depositorFirstName || body.firstName,
+        lastName: body.depositorLastName || body.lastName,
+      },
       documentType: documentType,
+      documentGroup: documentGroup,
+      documentLabel: documentLabel,
+      ownerIndex: ownerIndex,
+      fileIndex: fileIndex,
+      originalFileName: fileName,
       fileName: fileName,
       mimeType: body.mimeType,
     });
 
-    var staging = await ensureStagingClassifiedFolder(depositSessionId, classified);
-    if (staging.simulated && isDriveUploadConfigured()) {
+    if (hierarchy.simulated && isDriveUploadConfigured()) {
       return res.status(503).json({
         ok: false,
         error: "Upload Drive staging echoue — vérifiez la configuration Google Drive.",
       });
     }
 
-    var targetFolder = staging.classifiedFolderId || staging.folderId;
     var uploaded = await uploadBase64File({
-      fileName: documentType + "_" + fileName,
+      fileName: hierarchy.driveFileName || fileName,
       base64: body.fileBase64,
       mimeType: body.mimeType || "application/octet-stream",
-      folderId: targetFolder,
+      folderId: hierarchy.folderId,
       kind: "document",
     });
 
@@ -87,7 +102,7 @@ module.exports = async function publicImmoListingDocumentStaging(req, res) {
       staging: true,
       depositSessionId: depositSessionId,
       documentType: documentType,
-      classifiedAs: classified,
+      drivePath: hierarchy.path || null,
       drive: uploaded,
     });
   } catch (e) {

@@ -327,16 +327,28 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         );
         propertyIds.push(propId);
 
+        var promoteOwners =
+          (sellDossier && sellDossier.owners) || (Array.isArray(body.owners) ? body.owners : null);
+        var promoteDepositor = {
+          firstName: firstName,
+          lastName: lastName,
+        };
+
         if (depositSessionId && (isOwner || isSignalement)) {
           try {
             var immoDrive = require("../immo-drive");
-            var promoteResult = await immoDrive.promoteStagingToProperty(depositSessionId, {
-              id: propId,
-              title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : "Bien à vendre"),
-              city: city,
-              postal_code: postal,
-              drive_folder_id: null,
-            });
+            var promoteResult = await immoDrive.promoteStagingToProperty(
+              depositSessionId,
+              {
+                id: propId,
+                title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : "Bien à vendre"),
+                city: city,
+                postal_code: postal,
+                drive_folder_id: null,
+              },
+              promoteOwners,
+              promoteDepositor
+            );
             if (promoteResult.promoted > 0) {
               propMetadata.staging = {
                 depositSessionId: depositSessionId,
@@ -346,7 +358,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
               propMetadata.documents = (propMetadata.documents || []).concat(promoteResult.files || []);
               await store.patchPropertyMedia(sql, propId, {
                 metadata: propMetadata,
-                drive_folder_id: promoteResult.propertyFolderId || null,
+                drive_folder_id: promoteResult.bienFolderId || promoteResult.propertyFolderId || null,
               });
             }
           } catch (stagingErr) {
@@ -364,7 +376,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
                 city: city,
                 postal_code: postal,
               },
-              photos
+              photos,
+              {
+                owners: promoteOwners,
+                depositor: promoteDepositor,
+              }
             );
             if (driveResult.uploaded > 0 || driveResult.driveFolderId) {
               propMetadata.drive = {

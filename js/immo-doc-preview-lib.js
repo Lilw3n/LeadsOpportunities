@@ -3,7 +3,7 @@
  */
 (function (global) {
   var MAX_BYTES = 12 * 1024 * 1024;
-  var MAX_FILES_PER_TYPE = 8;
+  var MAX_FILES_PER_TYPE = 80;
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -37,10 +37,18 @@
     }
   }
 
-  function validateFile(file, countForType) {
+  function maxFilesForType(documentType) {
+    if (global.ImmoDocumentsConfig && global.ImmoDocumentsConfig.getMaxFilesForType) {
+      return global.ImmoDocumentsConfig.getMaxFilesForType(documentType);
+    }
+    return MAX_FILES_PER_TYPE;
+  }
+
+  function validateFile(file, countForType, documentType) {
     if (!file) return "Fichier invalide";
-    if ((countForType || 0) >= MAX_FILES_PER_TYPE) {
-      return "Maximum " + MAX_FILES_PER_TYPE + " fichiers par type de pièce";
+    var max = maxFilesForType(documentType);
+    if ((countForType || 0) >= max) {
+      return "Maximum " + max + " fichiers pour cette pièce (photos / pages)";
     }
     if (file.size > MAX_BYTES) {
       return "Fichier trop volumineux (max " + formatSize(MAX_BYTES) + ") : " + file.name;
@@ -310,6 +318,7 @@
   global.ImmoDocPreview = {
     MAX_BYTES: MAX_BYTES,
     MAX_FILES_PER_TYPE: MAX_FILES_PER_TYPE,
+    maxFilesForType: maxFilesForType,
     formatSize: formatSize,
     validateFile: validateFile,
     createPreviewUrl: createPreviewUrl,

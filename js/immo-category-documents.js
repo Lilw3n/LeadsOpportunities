@@ -115,7 +115,7 @@
           esc(it.label) +
           "</span>" +
           '<div class="immo-doc-line-upload">' +
-          '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo, plusieurs fichiers">' +
+          '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo, plusieurs fichiers (pages / photos)">' +
           '<input type="file" data-immo-doc-input accept="' +
           ACCEPT +
           '" multiple data-doc-type="' +
@@ -200,13 +200,50 @@
     });
   };
 
+  ImmoCategoryDocuments.prototype._documentLabel = function (documentType) {
+    if (global.ImmoDocumentsConfig && global.ImmoDocumentsConfig.getDocumentLabel) {
+      return global.ImmoDocumentsConfig.getDocumentLabel(documentType);
+    }
+    var line = this._findLine(documentType);
+    var lbl = line && line.querySelector(".immo-doc-line-label");
+    return lbl ? lbl.textContent.replace(/\s+/g, " ").trim() : documentType;
+  };
+
+  ImmoCategoryDocuments.prototype._uploadPayloadExtras = function (item, ctx, existingForType) {
+    ctx = ctx || (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.collectUploadContext
+      ? global.ImmoDepositDriveSession.collectUploadContext()
+      : {});
+    var owners = ctx.owners || [];
+    var ownerIndex =
+      global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.resolveOwnerIndex
+        ? global.ImmoDepositDriveSession.resolveOwnerIndex(
+            item.documentType,
+            existingForType,
+            owners
+          )
+        : 0;
+    return {
+      documentLabel: item.documentLabel || this._documentLabel(item.documentType),
+      owners: owners,
+      depositor: ctx.depositor,
+      city: ctx.city,
+      postal_code: ctx.postal_code,
+      sellCity: ctx.city,
+      sellPostalCode: ctx.postal_code,
+      ownerIndex: ownerIndex,
+      fileIndex: existingForType,
+      depositorFirstName: ctx.depositor && ctx.depositor.firstName,
+      depositorLastName: ctx.depositor && ctx.depositor.lastName,
+    };
+  };
+
   ImmoCategoryDocuments.prototype.addFile = function (file, documentType, groupId) {
     if (!isAllowedFile(file)) {
       alert("Format refuse — deposez uniquement PDF, JPG ou PNG.");
       return;
     }
     var existing = this._filesForType(documentType);
-    var err = Preview ? Preview.validateFile(file, existing.length) : null;
+    var err = Preview ? Preview.validateFile(file, existing.length, documentType) : null;
     if (err) {
       alert(err);
       return;
@@ -222,6 +259,7 @@
       fileName: file.name,
       fileSize: file.size,
       documentType: documentType || "autre_doc",
+      documentLabel: this._documentLabel(documentType),
       groupId: groupId || "",
       mimeType: mimeForFile(file),
       status: "queued",
@@ -307,43 +345,62 @@
             self._updateChip(item);
             return readFileAsBase64(item.file)
               .then(function (dataUrl) {
+                var ctx =
+                  global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.collectUploadContext
+                    ? global.ImmoDepositDriveSession.collectUploadContext()
+                    : {};
+                var sameTypeBefore = self.queue.filter(function (q) {
+                  return (
+                    q.documentType === item.documentType &&
+                    (q.status === "done" || q.status === "uploading") &&
+                    q.id !== item.id
+                  );
+                }).length;
+                var extras = self._uploadPayloadExtras(item, ctx, sameTypeBefore);
                 if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
                   var useProperty =
                     self.session.propertyId &&
                     (self.session.email || self.session.phone || self.session.contactId);
+                  var payload = Object.assign(
+                    {
+                      propertyId: self.session.propertyId,
+                      email: self.session.email || ctx.email,
+                      phone: self.session.phone || ctx.phone,
+                      contactId: self.session.contactId,
+                      leadId: self.session.leadId,
+                      documentType: item.documentType,
+                      documentGroup: item.groupId,
+                      fileName: item.fileName,
+                      mimeType: item.mimeType,
+                      fileBase64: dataUrl,
+                    },
+                    extras
+                  );
                   if (useProperty) {
                     return fetch("/api/immo-listing-document", {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       credentials: "same-origin",
-                      body: JSON.stringify({
-                        propertyId: self.session.propertyId,
-                        email: self.session.email,
-                        phone: self.session.phone,
-                        contactId: self.session.contactId,
-                        leadId: self.session.leadId,
-                        documentType: item.documentType,
-                        documentGroup: item.groupId,
-                        fileName: item.fileName,
-                        mimeType: item.mimeType,
-                        fileBase64: dataUrl,
-                      }),
+                      body: JSON.stringify(payload),
                     });
                   }
                   return fetch("/api/immo-listing-document-staging", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "same-origin",
-                    body: JSON.stringify({
-                      depositSessionId: self.session.depositSessionId,
-                      email: self.session.email || undefined,
-                      phone: self.session.phone || undefined,
-                      documentType: item.documentType,
-                      documentGroup: item.groupId,
-                      fileName: item.fileName,
-                      mimeType: item.mimeType,
-                      fileBase64: dataUrl,
-                    }),
+                    body: JSON.stringify(
+                      Object.assign(
+                        {
+                          depositSessionId: self.session.depositSessionId,
+                          documentType: item.documentType,
+                          documentGroup: item.groupId,
+                          fileName: item.fileName,
+                          mimeType: item.mimeType,
+                          fileBase64: dataUrl,
+                        },
+                        extras
+                      )
+                    ),
                   });
                 }
                 return fetch("/api/external/upload", {

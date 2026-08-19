@@ -183,42 +183,48 @@ async function ensurePropertyDriveFolders(property) {
     };
   }
 
-  // Réutilise dossier existant si déjà lié
+  // Réutilise dossier existant si déjà lié (ancienne structure à sous-dossiers numérotés)
   if (property.drive_folder_id) {
     const subs = {};
-    for (var i = 0; i < IMMO_SUBFOLDERS.length; i++) {
-      const sf = IMMO_SUBFOLDERS[i];
-      const found = await findChildFolder(token, property.drive_folder_id, sf.id);
-      subs[sf.id] = { id: found.id, name: sf.id, label: sf.label, webViewLink: found.webViewLink || null };
+    var listed = await listFolderChildren(property.drive_folder_id, 20);
+    var hasLegacy = listed.some(function (f) {
+      return /^0[1-8]_/.test(f.name || "");
+    });
+    if (hasLegacy) {
+      for (var i = 0; i < IMMO_SUBFOLDERS.length; i++) {
+        const sf = IMMO_SUBFOLDERS[i];
+        const found = await findChildFolder(token, property.drive_folder_id, sf.id);
+        subs[sf.id] = { id: found.id, name: sf.id, label: sf.label, webViewLink: found.webViewLink || null };
+      }
+      return {
+        ok: true,
+        configured: true,
+        folderId: property.drive_folder_id,
+        folderName: label,
+        subfolders: IMMO_SUBFOLDERS,
+        subfolderIds: subs,
+        existing: true,
+        legacy: true,
+      };
     }
     return {
       ok: true,
       configured: true,
       folderId: property.drive_folder_id,
       folderName: label,
-      subfolders: IMMO_SUBFOLDERS,
-      subfolderIds: subs,
       existing: true,
+      lazy: true,
     };
   }
 
-  const yearFolder = await ensureImmoRoot(token, rootId);
-  const propFolder = await driveCreateFolder(token, label, yearFolder.id);
-  const subs = {};
-  for (var j = 0; j < IMMO_SUBFOLDERS.length; j++) {
-    const sf = IMMO_SUBFOLDERS[j];
-    const created = await driveCreateFolder(token, sf.id, propFolder.id);
-    subs[sf.id] = { id: created.id, name: sf.id, label: sf.label, webViewLink: created.webViewLink || null };
-  }
-
+  // Nouveau bien : pas de création anticipée — dossiers créés au premier upload (hiérarchie paresseuse)
   return {
     ok: true,
     configured: true,
-    folderId: propFolder.id,
+    folderId: null,
     folderName: label,
-    webViewLink: propFolder.webViewLink || null,
-    subfolders: IMMO_SUBFOLDERS,
-    subfolderIds: subs,
+    lazy: true,
+    message: "Dossiers Drive créés à la demande (Famille → Personne → Bien → pièce)",
   };
 }
 
@@ -317,64 +323,11 @@ async function ensureStagingClassifiedFolder(depositSessionId, classifiedKey) {
 }
 
 /**
- * Après validation du dossier : copie les pièces staging vers le dossier bien définitif.
+ * Après validation : promotion staging → hiérarchie Famille / Personne / Bien.
  */
-async function promoteStagingToProperty(depositSessionId, property) {
-  if (!depositSessionId || !property || !property.id) {
-    return { ok: true, promoted: 0, files: [] };
-  }
-
-  const staging = await ensureStagingDriveFolder(depositSessionId);
-  if (!staging.configured || staging.simulated || !staging.folderId) {
-    return { ok: true, promoted: 0, simulated: !!staging.simulated, files: [] };
-  }
-
-  const token = await getToken();
-  const ensured = await ensurePropertyDriveFolders(property);
-  if (!ensured.folderId || !ensured.subfolderIds) {
-    return { ok: true, promoted: 0, files: [] };
-  }
-
-  const promoted = [];
-  const subfolders = await listFolderChildren(staging.folderId, 40);
-  const buckets = subfolders.length
-    ? subfolders.map(function (sf) {
-        return { id: sf.id, key: sf.name };
-      })
-    : [{ id: staging.folderId, key: null }];
-
-  for (var b = 0; b < buckets.length; b++) {
-    var bucket = buckets[b];
-    var classified = bucket.key || "04_documents_confidentiels";
-    var target =
-      (ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) || ensured.folderId;
-    var listed = await listFolderFiles(bucket.id, 100);
-    for (var i = 0; i < (listed.files || []).length; i++) {
-      var f = listed.files[i];
-      if (!f || !f.id || f.mimeType === "application/vnd.google-apps.folder") continue;
-      try {
-        var copied = await driveCopyFile(token, f.id, target, f.name);
-        promoted.push({
-          type: classified,
-          fileName: f.name,
-          driveFileId: copied.id,
-          webViewLink: copied.webViewLink || f.webViewLink || null,
-          source: "staging_promote",
-          stagingSessionId: depositSessionId,
-        });
-      } catch (copyErr) {
-        console.warn("[immo-drive] promote copy", f.name, copyErr.message);
-      }
-    }
-  }
-
-  return {
-    ok: true,
-    promoted: promoted.length,
-    files: promoted,
-    propertyFolderId: ensured.folderId,
-    stagingFolderId: staging.folderId,
-  };
+async function promoteStagingToProperty(depositSessionId, property, owners, depositor) {
+  var hierarchy = require("./immo-drive-hierarchy");
+  return hierarchy.promoteStagingHierarchy(depositSessionId, property, owners, depositor);
 }
 
 module.exports = {

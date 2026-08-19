@@ -153,12 +153,56 @@
     save(session);
   }
 
+  function collectUploadContext() {
+    var form = document.querySelector("[data-url-capture-form]");
+    var owners = null;
+    var mount = document.querySelector("[data-owners-mount]");
+    if (mount && global.AcheteurImmoOwners && global.AcheteurImmoOwners.collect) {
+      owners = global.AcheteurImmoOwners.collect(mount, form);
+    }
+    function v(name) {
+      if (!form) return "";
+      var el = form.querySelector("[name='" + name + "']");
+      return el ? String(el.value || "").trim() : "";
+    }
+    var sellCity = document.querySelector("#sellCity");
+    var sellPostal = document.querySelector("#sellPostalCode");
+    var urlCity = document.querySelector("#urlCity");
+    var urlPostal = document.querySelector("#urlPostal");
+    return {
+      owners: owners,
+      depositor: {
+        firstName: v("firstName"),
+        lastName: v("lastName"),
+      },
+      city:
+        (sellCity && String(sellCity.value || "").trim()) ||
+        (urlCity && String(urlCity.value || "").trim()) ||
+        v("city"),
+      postal_code:
+        (sellPostal && String(sellPostal.value || "").trim()) ||
+        (urlPostal && String(urlPostal.value || "").trim()) ||
+        v("postal_code"),
+      email: v("email").toLowerCase(),
+      phone: v("phone"),
+    };
+  }
+
+  function resolveOwnerIndex(documentType, existingCount, owners) {
+    owners = owners || [];
+    var personTypes = { identite: 1, domicile: 1, livret_famille: 1, kbis_sci: 1 };
+    if (!personTypes[String(documentType || "").toLowerCase()] || owners.length < 2) return 0;
+    return existingCount % owners.length;
+  }
+
   global.ImmoDepositDriveSession = {
     save: save,
     load: load,
     merge: mergeSession,
     apply: applyToModules,
     getDepositSessionId: getDepositSessionId,
+    collectUploadContext: collectUploadContext,
+    resolveOwnerIndex: resolveOwnerIndex,
     hasSession: function () {
       return hasAuth(mergeSession(load()));
     },
