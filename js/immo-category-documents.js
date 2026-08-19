@@ -185,6 +185,9 @@
       }
       if (btn) btn.textContent = "En attente";
     }
+    if (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()) {
+      global.ImmoDepositDriveSession.scheduleUpload();
+    }
   };
 
   ImmoCategoryDocuments.prototype._renderQueues = function () {
@@ -192,7 +195,11 @@
     if (st) {
       var n = this.queue.length;
       st.hidden = !n;
-      if (n) st.textContent = n + " fichier(s) en attente — envoyés avec le formulaire.";
+      if (n) {
+        st.textContent = global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()
+          ? n + " fichier(s) — envoi sur Google Drive en cours…"
+          : n + " fichier(s) en attente — envoyés avec le formulaire ou après enregistrement du dossier.";
+      }
     }
   };
 
@@ -204,10 +211,13 @@
     if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
 
     if (this.mode === "vendeur" || this.mode === "vendeur-immo") {
-      if (!this.session.propertyId || !this.session.email) {
+      if (
+        !this.session.propertyId ||
+        (!this.session.email && !this.session.phone && !this.session.contactId)
+      ) {
         return Promise.resolve({
           uploaded: [],
-          errors: [{ error: "propertyId et email requis pour les documents bien" }],
+          errors: [{ error: "propertyId et email, téléphone ou contactId requis pour les documents bien" }],
         });
       }
     } else if (!this.session.email && !this.session.contactId) {
@@ -228,6 +238,8 @@
                   body: JSON.stringify({
                     propertyId: self.session.propertyId,
                     email: self.session.email,
+                    phone: self.session.phone,
+                    contactId: self.session.contactId,
                     leadId: self.session.leadId,
                     documentType: item.documentType,
                     documentGroup: item.groupId,
@@ -342,6 +354,14 @@
       leadId: result.leadId || payload.leadId || null,
     });
     panel._immoDocs.uploadAll();
+  });
+
+  document.addEventListener("lo:listing-submitted", function (ev) {
+    var detail = (ev && ev.detail) || {};
+    var session = detail.session || {};
+    var panel = document.querySelector('[data-immo-docs-panel="vendeur"]');
+    if (!panel || !panel._immoDocs || !session.propertyId) return;
+    panel._immoDocs.setSession(session);
   });
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

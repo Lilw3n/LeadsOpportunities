@@ -594,47 +594,30 @@
             throw new Error((res.data && res.data.message) || "Envoi impossible");
           }
           var hats = (res.data.hats || []).join(" + ");
-          var docNote = "";
-          var uploadChain = Promise.resolve();
-          if (window.ImmoSellDocsChecklist && (payload.email || payload.phone || res.data.contactId)) {
-            window.ImmoSellDocsChecklist.setSession({
-              email: payload.email,
-              phone: payload.phone,
-              contactId: res.data.contactId || null,
-              leadId: res.data.leadId || null,
-            });
-            uploadChain = window.ImmoSellDocsChecklist.uploadAll().then(function (up) {
-              if (up && up.uploaded && up.uploaded.length) {
-                docNote += " " + up.uploaded.length + " pièce(s) checklist archivée(s).";
-              }
-            });
+          var driveSession = {
+            email: payload.email || "",
+            phone: payload.phone || "",
+            contactId: res.data.contactId || null,
+            leadId: res.data.leadId || null,
+            propertyId:
+              res.data.propertyIds && res.data.propertyIds.length ? res.data.propertyIds[0] : null,
+          };
+          if (window.ImmoDepositDriveSession) {
+            window.ImmoDepositDriveSession.save(driveSession);
           }
-          var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
-          if (
-            vendeurPanel &&
-            vendeurPanel._immoDocs &&
-            res.data.propertyIds &&
-            res.data.propertyIds.length &&
-            payload.email
-          ) {
-            vendeurPanel._immoDocs.setSession({
-              propertyId: res.data.propertyIds[0],
-              email: payload.email,
-              phone: payload.phone,
-              contactId: res.data.contactId || null,
-              leadId: res.data.leadId || null,
-            });
-            return uploadChain.then(function () {
-              return vendeurPanel._immoDocs.uploadAll().then(function (up) {
-                if (up && up.uploaded && up.uploaded.length) {
-                  docNote += " " + up.uploaded.length + " document(s) bien archivé(s).";
-                }
-                return { res: res, docNote: docNote, hats: hats };
-              });
-            });
-          }
-          return uploadChain.then(function () {
-            return { res: res, docNote: docNote, hats: hats };
+          var uploadPromise =
+            window.ImmoDepositDriveSession && window.ImmoDepositDriveSession.uploadAllPending
+              ? window.ImmoDepositDriveSession.uploadAllPending()
+              : Promise.resolve({ uploaded: [], errors: [] });
+          return uploadPromise.then(function (up) {
+            var docNote = "";
+            if (up && up.uploaded && up.uploaded.length) {
+              docNote += " " + up.uploaded.length + " document(s) archivé(s) sur Google Drive.";
+            }
+            if (up && up.errors && up.errors.length) {
+              docNote += " Attention : " + up.errors.length + " document(s) non envoyé(s) sur Drive.";
+            }
+            return { res: res, docNote: docNote, hats: hats, driveSession: driveSession };
           });
         })
         .then(function (ctx) {
@@ -671,7 +654,7 @@
               dossierNote +
               accountNote +
               (ctx.docNote || "") +
-              ". Reprenez votre dossier à tout moment via le brouillon ou votre espace client.";
+              ". Vous pouvez encore déposer des documents — ils iront sur Google Drive dans cette session.";
           }
           form.reset();
           state.photos = [];
@@ -681,7 +664,15 @@
           refreshMedia();
           applyHat(hat);
           try {
-            document.dispatchEvent(new CustomEvent("lo:listing-submitted"));
+            document.dispatchEvent(
+              new CustomEvent("lo:listing-submitted", {
+                detail: {
+                  session: ctx.driveSession || null,
+                  result: res.data,
+                  payload: payload,
+                },
+              })
+            );
           } catch (ev) {}
         })
         .catch(function (ex) {

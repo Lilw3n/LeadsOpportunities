@@ -43,14 +43,22 @@ module.exports = async function publicImmoListingDocument(req, res) {
 
   var propertyId = str(body.propertyId, 80);
   var email = str(body.email, 320).toLowerCase();
+  var phone = str(body.phone || body.telephone, 40);
+  var contactIdBody = str(body.contactId || body.contact_id, 80);
   var fileName = str(body.fileName, 180);
   var documentType = str(body.documentType, 80) || "autre_doc";
   var documentGroup = str(body.documentGroup, 80);
 
-  if (!propertyId || !email || !fileName || !body.fileBase64) {
+  if (!propertyId || !fileName || !body.fileBase64) {
     return res.status(400).json({
       ok: false,
-      error: "propertyId, email, fileName et fileBase64 requis",
+      error: "propertyId, fileName et fileBase64 requis",
+    });
+  }
+  if (!email && !phone && !contactIdBody) {
+    return res.status(400).json({
+      ok: false,
+      error: "email, téléphone ou contactId requis",
     });
   }
 
@@ -70,24 +78,29 @@ module.exports = async function publicImmoListingDocument(req, res) {
     var prop = rows[0];
 
     var leadOk = false;
+    var phoneDigits = String(phone).replace(/\D/g, "");
     if (prop.lead_id) {
       var leads = await sql`
         SELECT email, phone FROM site_leads WHERE id = ${prop.lead_id} LIMIT 1
       `;
       if (leads.length) {
         var le = String(leads[0].email || "").toLowerCase();
-        leadOk = le === email;
+        if (email && le === email) leadOk = true;
+        if (!leadOk && phoneDigits.length >= 10 && leads[0].phone) {
+          var leadPhone = String(leads[0].phone).replace(/\D/g, "");
+          leadOk = leadPhone.slice(-10) === phoneDigits.slice(-10);
+        }
       }
     }
-    if (!leadOk && body.leadId) {
+    if (!leadOk && body.leadId && email) {
       var leads2 = await sql`
         SELECT email FROM site_leads WHERE id = ${body.leadId} AND LOWER(email) = ${email} LIMIT 1
       `;
       leadOk = leads2.length > 0;
     }
-    if (!leadOk && body.contactId) {
+    if (!leadOk && contactIdBody) {
       var cRows = await sql`
-        SELECT id FROM crm_contacts WHERE id = ${body.contactId} LIMIT 1
+        SELECT id FROM crm_contacts WHERE id = ${contactIdBody} LIMIT 1
       `;
       leadOk = cRows.length > 0;
     }

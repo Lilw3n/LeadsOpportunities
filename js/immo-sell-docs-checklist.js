@@ -88,7 +88,7 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces utiles — envoi automatique <strong>après</strong> « Déposer mon bien » (statut « En attente » = prêt à envoyer).</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces — envoi sur Google Drive <strong>dès que le dossier est enregistré</strong> (après « Déposer mon bien »), y compris si vous ajoutez des fichiers plus tard dans la même session.</p>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
   }
@@ -143,6 +143,9 @@
     if (chk) chk.checked = true;
     setLineState(line, "is-queued", file.name);
     refreshCounter(mount);
+    if (global.ImmoDepositDriveSession && global.ImmoDepositDriveSession.hasSession()) {
+      global.ImmoDepositDriveSession.scheduleUpload();
+    }
   }
 
   function bindMount(mount) {
