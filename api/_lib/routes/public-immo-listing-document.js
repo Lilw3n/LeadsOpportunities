@@ -6,6 +6,7 @@ const { getSql } = require("../db");
 const crypto = require("crypto");
 const { uploadBase64File } = require("../drive-upload-core");
 const { resolveVendeurDocumentFolder, ensurePropertyDriveFolders } = require("../immo-drive");
+const { isDriveUploadConfigured } = require("../google-drive-auth");
 
 function str(v, max) {
   return String(v == null ? "" : v).trim().slice(0, max || 200);
@@ -179,6 +180,15 @@ module.exports = async function publicImmoListingDocument(req, res) {
       } catch (syncErr) {
         console.warn("[immo-listing-document] contact sync", syncErr.message);
       }
+    }
+
+    if (uploaded.simulated && isDriveUploadConfigured()) {
+      return res.status(503).json({
+        ok: false,
+        error:
+          "Upload Drive echoue (mode simulation). Regenerer GOOGLE_DRIVE_REFRESH_TOKEN sur Vercel puis redeploy.",
+        drive: uploaded,
+      });
     }
 
     return res.status(201).json({

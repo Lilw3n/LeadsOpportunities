@@ -1145,6 +1145,10 @@
     var hasDocs = driveInfo.documents && driveInfo.documents.length;
     var simulatedCount = driveInfo.simulatedDocumentCount || 0;
     var driveConfigured = driveInfo.driveConfigured === true;
+    var uploadConfigured = driveInfo.uploadConfigured === true;
+    var immoDocCount = (driveInfo.documents || []).filter(function (d) {
+      return d && (d.source === "immo_property" || d.source === "immo_listing_document" || d.propertyId);
+    }).length;
     var hasAny = hasRealFolder || hasDocs;
     if (!hasAny) {
       bar.hidden = true;
@@ -1156,9 +1160,16 @@
     var status = document.getElementById("contactDriveStatus");
     var mainBtn = document.getElementById("btnOpenContactDrive");
     var propLinks = document.getElementById("contactDrivePropertyLinks");
+    var primaryProp = folders.length ? folders[0] : null;
     if (status) {
       if (!driveConfigured) {
         status.textContent = "Drive non configuré sur le serveur";
+      } else if (simulatedCount > 0 && uploadConfigured) {
+        status.textContent =
+          simulatedCount + " pièce(s) à re-déposer (archivées avant activation Drive)";
+      } else if (immoDocCount > 0 && folders.length) {
+        status.textContent =
+          immoDocCount + " pièce(s) bien · dossier Immo/2026 · Google Drive";
       } else if (!hasRealFolder && simulatedCount > 0) {
         status.textContent =
           simulatedCount + " pièce(s) archivée(s) CRM — dossier Drive à créer";
@@ -1168,12 +1179,16 @@
       }
     }
     if (mainBtn) {
-      if (contactUrl) {
+      if (primaryProp && primaryProp.webViewLink && immoDocCount > 0) {
+        mainBtn.href = primaryProp.webViewLink;
+        mainBtn.textContent = "Ouvrir dossier Drive (bien)";
+        mainBtn.hidden = false;
+      } else if (contactUrl) {
         mainBtn.href = contactUrl;
         mainBtn.hidden = false;
         mainBtn.textContent = "Ouvrir dossier Drive (contact)";
-      } else if (folders.length && folders[0].webViewLink) {
-        mainBtn.href = folders[0].webViewLink;
+      } else if (primaryProp && primaryProp.webViewLink) {
+        mainBtn.href = primaryProp.webViewLink;
         mainBtn.textContent = "Ouvrir dossier Drive (bien)";
         mainBtn.hidden = false;
       } else {
@@ -1184,30 +1199,43 @@
       if (!mainBtn.dataset.driveBound) {
         mainBtn.dataset.driveBound = "1";
         mainBtn.addEventListener("click", function (ev) {
-          ev.preventDefault();
           var info = data.driveInfo || {};
           if (info.driveConfigured !== true && info.setupUrl) {
+            ev.preventDefault();
             window.open(info.setupUrl, "_blank", "noopener,noreferrer");
             return;
           }
+          var href = mainBtn.getAttribute("href") || "";
+          if (href.indexOf("drive.google.com") >= 0) {
+            return;
+          }
+          ev.preventDefault();
           openContactDriveFolder(mainBtn);
         });
       }
     }
     if (propLinks) {
-      propLinks.innerHTML = folders
-        .map(function (f, idx) {
-          if (!f.webViewLink) return "";
-          if (idx === 0 && !contactUrl) return "";
-          return (
-            '<a class="int-drive-prop-link" href="' +
-            esc(f.webViewLink) +
-            '" target="_blank" rel="noopener">Bien : ' +
-            esc(f.title || "Drive") +
-            "</a>"
-          );
-        })
-        .join("");
+      propLinks.innerHTML =
+        (contactUrl && primaryProp && immoDocCount > 0
+          ? '<a class="int-drive-prop-link" href="' +
+            esc(contactUrl) +
+            '" target="_blank" rel="noopener">Dossier contact</a>'
+          : "") +
+        folders
+          .map(function (f, idx) {
+            if (!f.webViewLink) return "";
+            if (idx === 0 && immoDocCount > 0 && primaryProp && f.webViewLink === primaryProp.webViewLink) {
+              return "";
+            }
+            return (
+              '<a class="int-drive-prop-link" href="' +
+              esc(f.webViewLink) +
+              '" target="_blank" rel="noopener">Bien : ' +
+              esc(f.title || "Drive") +
+              "</a>"
+            );
+          })
+          .join("");
     }
   }
 
@@ -1282,6 +1310,17 @@
           '" target="_blank" rel="noopener">Configurer Drive (OAuth)</a> puis redeploy Vercel.' +
           (res.rootFolderLink
             ? ' · <a href="' + esc(res.rootFolderLink) + '" target="_blank" rel="noopener">Dossier racine</a>'
+            : "") +
+          "</div>";
+      } else if ((res.simulatedDocumentCount || 0) > 0 && res.uploadConfigured) {
+        driveNotice =
+          '<div class="int-drive-notice" style="margin:0 0 12px;padding:10px 12px;border-radius:10px;border:1px solid #fcd34d;background:#fffbeb;font-size:0.88rem">' +
+          "<strong>" +
+          (res.simulatedDocumentCount || 0) +
+          " pièce(s) archivées avant activation Drive</strong> — elles ne sont pas sur Google Drive. " +
+          "Re-déposez-les depuis le parcours vendeur (formulaire « Déposer un bien »). " +
+          (propFolders.length
+            ? " Les nouveaux fichiers iront dans <strong>Clients_LeadsOpportunities/Immo/2026/</strong>."
             : "") +
           "</div>";
       } else if ((res.simulatedDocumentCount || 0) > 0 && !folderLink) {

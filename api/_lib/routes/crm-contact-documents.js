@@ -7,6 +7,7 @@ const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { resolveFolderWebLink, isValidDriveId, fallbackFolderUrl, isSimulatedDriveId } = require("../drive-share");
 const { ensureClientDriveFolders } = require("../drive-folders");
+const { ensurePropertyDriveFolders } = require("../immo-drive");
 const { isDriveConfigured, isDriveUploadConfigured, getRootFolderId } = require("../google-drive-auth");
 
 function parseJson(raw, fallback) {
@@ -255,13 +256,35 @@ module.exports = async (req, res) => {
       for (var pi = 0; pi < props.length; pi++) {
         var p = props[pi];
         propertyDocs = propertyDocs.concat(propertyDocsFromRow(p));
-        if (isValidDriveId(p.drive_folder_id)) {
-          var resolvedProp = await resolveFolderWebLink(p.drive_folder_id, { share: true });
+        var propFolderId = p.drive_folder_id || null;
+        if (!isValidDriveId(propFolderId) && isDriveUploadConfigured()) {
+          try {
+            var ensuredProp = await ensurePropertyDriveFolders({
+              id: p.id,
+              title: p.title,
+              city: p.city,
+              postal_code: p.postal_code,
+              drive_folder_id: p.drive_folder_id,
+            });
+            if (ensuredProp && ensuredProp.folderId) {
+              propFolderId = ensuredProp.folderId;
+              await sql`
+                UPDATE crm_immo_properties
+                SET drive_folder_id = ${propFolderId}, updated_at = NOW()
+                WHERE id = ${p.id} AND drive_folder_id IS NULL
+              `;
+            }
+          } catch (ensurePropErr) {
+            console.warn("[crm/contact-documents] ensure property folder", ensurePropErr.message);
+          }
+        }
+        if (isValidDriveId(propFolderId)) {
+          var resolvedProp = await resolveFolderWebLink(propFolderId, { share: true });
           propertyFolders.push({
             propertyId: p.id,
             title: p.title || p.city || p.id,
-            driveFolderId: p.drive_folder_id,
-            webViewLink: resolvedProp.webViewLink || driveFolderUrl(p.drive_folder_id),
+            driveFolderId: propFolderId,
+            webViewLink: resolvedProp.webViewLink || driveFolderUrl(propFolderId),
           });
         }
       }

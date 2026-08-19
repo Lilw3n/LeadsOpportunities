@@ -24,7 +24,9 @@ function safeName(s, max) {
 }
 
 async function getToken() {
-  const auth = await getDriveAccessToken();
+  var oauth = await getDriveAccessToken({ forUpload: true });
+  if (oauth && oauth.accessToken) return oauth.accessToken;
+  var auth = await getDriveAccessToken({ forUpload: false });
   return auth ? auth.accessToken : null;
 }
 
