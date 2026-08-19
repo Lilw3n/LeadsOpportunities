@@ -25,6 +25,19 @@
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./css/immo-parcours.css" />
   <link rel="stylesheet" href="../css/acheteur-immo-search.css" />
+  <script>
+    (function () {
+      var p = new URLSearchParams(location.search);
+      var h = (p.get("hat") || p.get("role") || "").toLowerCase();
+      if (h === "vendeur" || h === "seller" || (location.hash || "").indexOf("deposer-bien") >= 0) {
+        document.documentElement.setAttribute("data-immo-hat", "vendeur");
+      } else if (h === "les_deux" || h === "both") {
+        document.documentElement.setAttribute("data-immo-hat", "les_deux");
+      } else if (h === "signalement" || h === "chasseur") {
+        document.documentElement.setAttribute("data-immo-hat", "signalement");
+      }
+    })();
+  </script>
   <link rel="stylesheet" href="../css/form-audit.css" />
   <link rel="stylesheet" href="../css/callback-form.css" />
   <link rel="stylesheet" href="../css/contact-pair.css" />
@@ -291,13 +304,14 @@
               <div data-listing-preview></div>
             </div>
 
-            <section class="immo-deposit-vente-wrap" data-deposit-vente-wrap hidden>
-              <p class="search-section-label" style="margin-top:20px">2. Dossier vente détaillé</p>
-              <label class="immo-deposit-vente-toggle field-check full">
-                <input type="checkbox" name="wantsSellDossier" value="1" data-deposit-vente-toggle />
-                <span><strong>Compléter les informations pour une vente de bien</strong> — propriétaires, mandat, descriptif pièce par pièce, copro, travaux, checklist documents, matrice projet… (sections repliables, optionnel mais recommandé)</span>
+            <section class="immo-deposit-vente-wrap" data-deposit-vente-wrap>
+              <p class="search-section-label" style="margin-top:20px">2. Dossier vente — toutes les infos du bien</p>
+              <p class="small immo-deposit-vente-lead" data-deposit-vente-lead>Propriétaires, mandat, adresse, descriptif pièce par pièce, copro, travaux, diagnostics, checklist documents, matrice projet…</p>
+              <label class="immo-deposit-vente-toggle field-check full" data-deposit-vente-toggle-wrap>
+                <input type="checkbox" name="wantsSellDossier" value="1" data-deposit-vente-toggle checked />
+                <span data-deposit-vente-toggle-label><strong>Afficher le dossier vente détaillé</strong> (recommandé pour une mise en vente)</span>
               </label>
-              <div class="immo-deposit-vente-panel" data-deposit-vente-mount hidden></div>
+              <div class="immo-deposit-vente-panel" data-deposit-vente-mount></div>
             </section>
 
             <div data-hat-vendeur-only>

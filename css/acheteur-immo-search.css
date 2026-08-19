@@ -376,9 +376,30 @@ html[data-immo-hat="vendeur"] [data-dossier-acheteur-only] {
   justify-content: space-between;
 }
 .immo-deposit-vente-wrap {
+  display: none;
   margin: 8px 0 4px;
   padding: 14px 0 0;
   border-top: 1px solid #e2e8f0;
+}
+html[data-immo-hat="vendeur"] .immo-deposit-vente-wrap,
+html[data-immo-hat="les_deux"] .immo-deposit-vente-wrap {
+  display: block;
+}
+html[data-immo-hat="signalement"] .immo-deposit-vente-wrap {
+  display: block;
+}
+html[data-immo-hat="vendeur"] [data-deposit-vente-toggle-wrap],
+html[data-immo-hat="les_deux"] [data-deposit-vente-toggle-wrap] {
+  display: none;
+}
+html[data-immo-hat="vendeur"] [data-deposit-vente-mount],
+html[data-immo-hat="les_deux"] [data-deposit-vente-mount] {
+  display: block !important;
+}
+.immo-deposit-vente-lead {
+  margin: 0 0 12px;
+  color: #475569;
+  line-height: 1.45;
 }
 .immo-deposit-vente-toggle {
   display: flex;

@@ -1,6 +1,6 @@
 /**
  * Fusion intelligente dépôt express (#deposer-bien) + dossier vente (#demande).
- * Déplace le panneau [data-search-vente-panel] selon la casquette et la coche « vente de bien ».
+ * Casquette vendeur / les_deux : section 2 toujours visible (toutes les infos du bien).
  */
 (function () {
   var SYNC_MAP = [
@@ -18,8 +18,8 @@
     return document.documentElement.getAttribute("data-immo-hat") || "acheteur";
   }
 
-  function qs(sel, root) {
-    return (root || document).querySelector(sel);
+  function isOwnerHat(h) {
+    return h === "vendeur" || h === "les_deux";
   }
 
   function panel() {
@@ -50,16 +50,15 @@
     return document.querySelector("#dossier form[data-acheteur-immo]");
   }
 
-  function wantsDepositPanel(h, checked) {
-    if (h === "vendeur" || h === "les_deux") return true;
+  function panelOpen(h, checked) {
+    if (isOwnerHat(h)) return true;
     if (h === "signalement") return !!checked;
     return !!checked;
   }
 
   function setChecked(checked) {
     var t = toggleEl();
-    if (!t) return;
-    t.checked = !!checked;
+    if (t) t.checked = !!checked;
   }
 
   function syncExpressToSell() {
@@ -85,13 +84,10 @@
     form.dataset.depositVenteSyncBound = "1";
     ["input", "change"].forEach(function (ev) {
       form.addEventListener(ev, function (e) {
-        if (!toggleEl() || !toggleEl().checked) return;
+        if (!panelOpen(hat(), toggleEl() && toggleEl().checked)) return;
         var id = e.target && e.target.id;
-        if (!id) return;
-        var hit = SYNC_MAP.some(function (m) {
-          return m.express === "#" + id || m.express === "[name='" + e.target.name + "']";
-        });
-        if (hit || id === "urlPropType" || e.target.name === "property_type") syncExpressToSell();
+        if (!id && !(e.target && e.target.name)) return;
+        syncExpressToSell();
       });
     });
   }
@@ -112,7 +108,6 @@
     target.appendChild(p);
     if (toDeposit) {
       p.classList.add("immo-deposit-vente-panel-inner");
-      p.removeAttribute("hidden");
     } else {
       p.classList.remove("immo-deposit-vente-panel-inner");
     }
@@ -136,25 +131,32 @@
     var t = toggleEl();
     var w = wrapEl();
     var mount = depositMount();
-    var checked = !!(t && t.checked);
+    var checked = t ? !!t.checked : false;
 
     if (w) w.hidden = h === "acheteur";
 
-    if (h === "vendeur" || h === "les_deux") {
+    if (isOwnerHat(h)) {
       setChecked(true);
       checked = true;
     }
 
-    var useDeposit = wantsDepositPanel(h, checked);
+    var open = panelOpen(h, checked);
+    var useDeposit = isOwnerHat(h) || h === "signalement" || checked;
+
     movePanel(useDeposit);
 
-    if (useDeposit) {
+    if (useDeposit && open) {
       syncExpressToSell();
       setWizardVenteMode(true);
-      enablePanelFields(checked);
-      if (mount) mount.hidden = !checked;
+      enablePanelFields(true);
+      if (mount) mount.hidden = false;
       var pEl = panel();
-      if (pEl) pEl.hidden = !checked;
+      if (pEl) pEl.hidden = false;
+    } else if (useDeposit) {
+      enablePanelFields(false);
+      if (mount) mount.hidden = true;
+      var pHide = panel();
+      if (pHide) pHide.hidden = true;
     } else {
       if (mount) mount.hidden = true;
       enablePanelFields(false);
@@ -167,8 +169,10 @@
 
   function collectSellDossier() {
     var p = panel();
+    var h = hat();
     var t = toggleEl();
-    if (!p || !t || !t.checked) return null;
+    if (!p) return null;
+    if (!isOwnerHat(h) && (!t || !t.checked)) return null;
 
     var o = {};
     p.querySelectorAll("input, select, textarea").forEach(function (el) {
@@ -194,7 +198,7 @@
     });
 
     var ownersMount = p.querySelector("[data-owners-mount]");
-    if (ownersMount && window.AcheteurImmoOwners) {
+    if (ownersMount) {
       var cards = ownersMount.querySelectorAll(".immo-owner-card");
       o.owners = Array.prototype.map.call(cards, function (card) {
         var row = {};
@@ -230,15 +234,18 @@
       }
     });
 
-    document.addEventListener("lo:listing-submitted", function () {
-      if (hat() === "vendeur" || hat() === "les_deux") setChecked(true);
-      syncVisibility();
+    window.addEventListener("hashchange", function () {
+      if ((location.hash || "").indexOf("deposer-bien") >= 0) {
+        document.documentElement.setAttribute("data-immo-hat", "vendeur");
+        var r = document.querySelector("[name='immoHat'][value='vendeur']");
+        if (r) r.checked = true;
+        if (window.AcheteurImmoDepositVente) syncVisibility();
+      }
     });
 
-    window.addEventListener("hashchange", function () {
-      if ((location.hash || "").indexOf("demande") >= 0 && hat() === "acheteur") {
-        movePanel(false);
-      }
+    document.addEventListener("lo:listing-submitted", function () {
+      if (isOwnerHat(hat())) setChecked(true);
+      syncVisibility();
     });
   }
 
@@ -246,6 +253,7 @@
     bindToggle();
     bindExpressSync();
     syncVisibility();
+    requestAnimationFrame(syncVisibility);
   }
 
   window.AcheteurImmoDepositVente = {

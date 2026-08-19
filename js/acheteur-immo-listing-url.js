@@ -227,7 +227,8 @@
     else if (role === "signalement" || role === "temoin" || role === "chasseur" || presetSignalement || presetHat === "signalement")
       applyHat("signalement");
     else if (role === "les_deux" || role === "both" || role === "acheteur-vendeur") applyHat("les_deux");
-    else applyHat("acheteur");
+    else if ((location.hash || "").indexOf("deposer-bien") >= 0) applyHat("vendeur");
+    else applyHat(document.documentElement.getAttribute("data-immo-hat") || "acheteur");
     document.querySelectorAll("[name='immoHat']").forEach(function (el) {
       el.addEventListener("change", function () {
         applyHat(el.value);
@@ -467,7 +468,9 @@
         wantsRelais: !!(form.querySelector("[name='wantsRelais']") && form.querySelector("[name='wantsRelais']").checked),
         photos: mediaList(state),
         _hp: val(form, "_hp"),
-        wantsSellDossier: !!(form.querySelector("[data-deposit-vente-toggle]") && form.querySelector("[data-deposit-vente-toggle]").checked),
+        wantsSellDossier:
+          isOwner ||
+          !!(form.querySelector("[data-deposit-vente-toggle]") && form.querySelector("[data-deposit-vente-toggle]").checked),
         sellDossier:
           window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.collectSellDossier
             ? window.AcheteurImmoDepositVente.collectSellDossier()
