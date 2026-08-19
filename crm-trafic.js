@@ -87,37 +87,22 @@
 
   function renderChart(trend) {
     var el = document.getElementById("trafChart");
-    if (!trend || !trend.length) {
-      el.innerHTML = '<p style="color:var(--muted)">Pas encore de données journey_events.</p>';
+    if (!el) return;
+    var Chart = window.TrafficChart;
+    if (!Chart) {
+      el.innerHTML = '<p style="color:#b91c1c">Librairie courbe absente.</p>';
       return;
     }
-    var max = Math.max.apply(
-      null,
-      trend.map(function (t) {
-        return t.visitors || 0;
-      }).concat([1])
-    );
-    el.innerHTML = trend
-      .map(function (t) {
-        var h = Math.round(((t.visitors || 0) / max) * 100);
-        var day = String(t.day).slice(5);
-        return (
-          '<div class="traf-bar-wrap" title="' +
-          esc(t.day) +
-          " — " +
-          t.visitors +
-          " visiteurs, " +
-          t.page_views +
-          ' vues">' +
-          '<div class="traf-bar" style="height:' +
-          h +
-          '%"></div>' +
-          '<span class="traf-bar-label">' +
-          esc(day) +
-          "</span></div>"
-        );
-      })
-      .join("");
+    var days = Number((document.getElementById("trafTrendDays") || {}).value) || (trend && trend.length) || 30;
+    var hasSource = (trend || []).some(function (t) {
+      return t && (Number(t.visitors) > 0 || Number(t.page_views) > 0);
+    });
+    if (!hasSource) {
+      el.innerHTML = '<p class="traf-chart-empty">Pas encore de données journey_events.</p>';
+      return;
+    }
+    var series = Chart.fillTrendDays(trend, days);
+    el.innerHTML = Chart.renderSvg(series);
   }
 
   function renderTopPages(pages) {

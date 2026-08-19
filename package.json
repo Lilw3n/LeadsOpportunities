@@ -53,6 +53,7 @@
     "verify:projection": "node scripts/verify-achat-projection.cjs",
     "verify:questionnaires": "node scripts/verify-questionnaires-fields.cjs",
     "verify:leads-hub": "node scripts/verify-leads-hub.cjs",
+    "verify:traffic-chart": "node scripts/verify-traffic-chart.cjs",
     "verify:event-manager": "node scripts/verify-event-manager.cjs",
     "verify:relations": "node scripts/verify-people-relations.cjs",
     "verify:google-calendar": "node scripts/verify-google-calendar.cjs",

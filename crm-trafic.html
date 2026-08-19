@@ -30,35 +30,22 @@
     .traf-card .traf-big { font-size: 1.75rem; font-weight: 800; line-height: 1.1; }
     .traf-card .traf-sub { font-size: 0.78rem; color: var(--muted); margin-top: 6px; }
     .traf-chart {
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-      height: 120px;
+      display: block;
+      min-height: 240px;
       margin-top: 12px;
-      padding-top: 8px;
+      padding: 8px 0 0;
       border-top: 1px solid var(--line);
+      overflow: visible;
     }
-    .traf-bar-wrap {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-    }
-    .traf-bar {
+    .traf-svg {
       width: 100%;
-      max-width: 24px;
-      background: linear-gradient(180deg, #0ea5e9, #0284c7);
-      border-radius: 4px 4px 0 0;
-      min-height: 2px;
+      height: auto;
+      max-height: 280px;
+      display: block;
     }
-    .traf-bar-label {
-      font-size: 0.6rem;
+    .traf-chart-empty {
       color: var(--muted);
-      transform: rotate(-45deg);
-      white-space: nowrap;
-      margin-top: 8px;
+      margin: 24px 0;
     }
     .traf-external { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
   </style>
@@ -104,7 +91,7 @@
 
   <section class="panel pub-hub-section">
     <h2>Évolution quotidienne (visiteurs)</h2>
-    <p style="color:var(--muted);margin-top:0">Courbe sur la période sélectionnée.</p>
+    <p style="color:var(--muted);margin-top:0">Courbe des visiteurs uniques par jour. Survolez un point pour le détail.</p>
     <label style="font-size:0.85rem;margin-bottom:8px;display:inline-block">Période
       <select id="trafTrendDays" class="crm-input">
         <option value="14">14 jours</option>
@@ -133,6 +120,7 @@
     </section>
   </div>
 
+  <script src="./js/traffic-chart-lib.js"></script>
   <script src="./js/crm-lead-platform.js"></script>
   <script src="./js/crm-subpage-shell.js"></script>
   <script src="./crm-trafic.js"></script>

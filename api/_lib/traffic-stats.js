@@ -1,5 +1,6 @@
 const { getSql } = require("./db");
 const { ensureJourneySchema } = require("./journey-store");
+const Chart = require("../../js/traffic-chart-lib");
 
 function pctGrowth(current, previous) {
   if (previous > 0) return Math.round(((current - previous) / previous) * 100);
@@ -37,15 +38,28 @@ async function buildTrafficStats(options) {
 
   var p = periodRows[0] || {};
 
-  var trendRows = await sql`
-    SELECT DATE(created_at) AS day,
-      COUNT(*) FILTER (WHERE event_type = 'page_view')::int AS page_views,
-      COUNT(DISTINCT COALESCE(NULLIF(session_id, ''), visitor_id))::int AS visitors
-    FROM journey_events
-    WHERE created_at >= ${trendSince}
-    GROUP BY DATE(created_at)
-    ORDER BY day
-  `;
+  var trendRows = [];
+  try {
+    trendRows = await sql`
+      SELECT to_char((created_at AT TIME ZONE 'Europe/Paris')::date, 'YYYY-MM-DD') AS day,
+        COUNT(*) FILTER (WHERE event_type = 'page_view')::int AS page_views,
+        COUNT(DISTINCT COALESCE(NULLIF(session_id, ''), visitor_id))::int AS visitors
+      FROM journey_events
+      WHERE created_at >= ${trendSince}
+      GROUP BY 1
+      ORDER BY 1
+    `;
+  } catch (e) {
+    trendRows = await sql`
+      SELECT DATE(created_at) AS day,
+        COUNT(*) FILTER (WHERE event_type = 'page_view')::int AS page_views,
+        COUNT(DISTINCT COALESCE(NULLIF(session_id, ''), visitor_id))::int AS visitors
+      FROM journey_events
+      WHERE created_at >= ${trendSince}
+      GROUP BY DATE(created_at)
+      ORDER BY day
+    `;
+  }
 
   var topPages = await sql`
     SELECT page_path, COUNT(*)::int AS views
@@ -107,13 +121,16 @@ async function buildTrafficStats(options) {
         growth_pct: pctGrowth(leadsWeek.count, leadsLastWeek.count),
       },
     },
-    trend: trendRows.map(function (r) {
-      return {
-        day: r.day,
-        page_views: r.page_views,
-        visitors: r.visitors,
-      };
-    }),
+    trend: Chart.fillTrendDays(
+      trendRows.map(function (r) {
+        return {
+          day: Chart.normalizeDay(r.day),
+          page_views: r.page_views,
+          visitors: r.visitors,
+        };
+      }),
+      trendDays
+    ),
     top_pages: topPages.map(function (r) {
       return { path: r.page_path, views: r.views };
     }),
