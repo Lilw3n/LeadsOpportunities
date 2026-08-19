@@ -273,6 +273,14 @@
   min-width: 0;
   overflow: visible;
 }
+
+/* landings/styles.css met width:100% sur tous les input — ne pas étirer radios/checkboxes en flex */
+.url-capture label input[type="radio"],
+.url-capture label input[type="checkbox"] {
+  width: auto;
+  max-width: none;
+  flex-shrink: 0;
+}
 .url-capture h2 { margin: 0 0 6px; font-size: 1.2rem; }
 .url-capture .listings-intro { margin-bottom: 12px; }
 .url-detected {

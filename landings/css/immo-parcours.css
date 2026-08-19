@@ -192,6 +192,16 @@ a.immo-parcours-link:hover {
   font-size: 0.82rem;
   color: #0f766e;
   margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.immo-owner-same-opt input[type="checkbox"] {
+  width: auto;
+  max-width: none;
+  flex-shrink: 0;
+  margin-top: 2px;
 }
 
 .immo-owner-contact-fields,
@@ -314,6 +324,15 @@ a.immo-parcours-link:hover {
 .immo-salutation {
   font-size: 0.88rem;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.immo-salutation input[type="radio"] {
+  width: auto;
+  max-width: none;
+  flex-shrink: 0;
 }
 
 .immo-rooms-wrap {
@@ -996,14 +1015,18 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
 
 .immo-confirm-option input {
   margin-top: 3px;
+  flex: 0 0 auto;
   flex-shrink: 0;
+  width: auto;
+  max-width: none;
 }
 
 .immo-confirm-option span {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
   line-height: 1.45;
-  word-break: break-word;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .immo-coords-known {
