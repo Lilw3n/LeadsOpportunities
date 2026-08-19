@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inscription | Leads Opportunities</title>
-  <meta name="description" content="Création de compte portail — aligné sur /external/register multisite." />
+  <title>Inscription | Espace acquéreur, vendeur, visiteur</title>
+  <meta name="description" content="Création d’un vrai compte portail pour acquéreurs, vendeurs et visiteurs." />
   <link rel="stylesheet" href="../landings/styles.css" />
   <style>
     .reg-page { max-width: 520px; margin: 0 auto; padding: 32px 20px 48px; }
@@ -46,21 +46,33 @@
     <div class="reg-brand"><span aria-hidden="true">🏠</span> Leads Opportunities</div>
     <h1>Créer votre compte</h1>
     <p class="reg-lead">
-      Rejoignez notre communauté et bénéficiez de nos services d’assurance — même promesse que sur le multisite : un formulaire court, puis accès au portail après validation de votre email dans le CRM.
+      Créez votre compte personnel pour suivre vos visites, noter les biens, partager les coordonnées des visiteurs intéressés et centraliser votre dossier avec le courtier.
     </p>
     <form id="regForm" class="reg-box">
       <label>Prénom<input name="firstName" required autocomplete="given-name" /></label>
       <label>Nom<input name="lastName" autocomplete="family-name" /></label>
       <label>Email<input type="email" name="email" required autocomplete="email" /></label>
       <label>Téléphone<input type="tel" name="phone" autocomplete="tel" /></label>
+      <label>Je suis
+        <select name="portalRole">
+          <option value="buyer">Acquéreur</option>
+          <option value="seller">Vendeur</option>
+          <option value="visitor">Visiteur</option>
+        </select>
+      </label>
+      <label>Mot de passe<input type="password" name="password" required minlength="8" autocomplete="new-password" /></label>
+      <label>Confirmer le mot de passe<input type="password" name="passwordConfirm" required minlength="8" autocomplete="new-password" /></label>
       <label>Entreprise (optionnel)<input name="company" autocomplete="organization" /></label>
-      <label>Besoin principal<select name="need">
-        <option value="vtc">VTC / Taxi</option>
-        <option value="auto">Auto</option>
-        <option value="sante">Santé</option>
-        <option value="habitation">Habitation</option>
-        <option value="rc-pro">RC Pro</option>
+      <label>Projet principal<select name="need">
+        <option value="achat_immo">Achat immobilier</option>
+        <option value="vente_immo">Vente immobilière</option>
+        <option value="investissement">Investissement</option>
+        <option value="estimation">Estimation</option>
+        <option value="visite">Visites & suivi</option>
       </select></label>
+      <label>Ville / secteur recherché (optionnel)<input name="preferredCity" placeholder="Nancy, Varangéville, bassin..." /></label>
+      <label>Budget / enveloppe (optionnel)<input name="budget" placeholder="ex. 220000-280000 €" /></label>
+      <label>Notes (optionnel)<input name="notes" placeholder="Critères, disponibilité, contexte vendeur..." /></label>
       <input type="text" name="website" tabindex="-1" autocomplete="off" style="position: absolute; left: -9999px" aria-hidden="true" />
       <button
         type="submit"
@@ -73,7 +85,7 @@
     <div id="regSuccess" class="reg-success hidden">
       <div class="emoji" aria-hidden="true">🎉</div>
       <h2>Inscription réussie !</h2>
-      <p>Votre compte a été créé avec succès. Vous allez être redirigé vers la page de connexion.</p>
+      <p>Votre compte a été créé avec succès. Vous allez être redirigé vers votre espace personnel.</p>
       <p class="sub">Redirection en cours…</p>
     </div>
   </div>

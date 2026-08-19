@@ -1,9 +1,9 @@
 /**
- * POST /api/external/login — connexion client par email (inspire external/login multisite)
+ * POST /api/external/login — connexion portail par mot de passe
  */
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
-const crypto = require("crypto");
+const { ensureExternalPortalSchema, loginPortalAccount } = require("../external-portal");
 
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
@@ -17,39 +17,25 @@ module.exports = async (req, res) => {
   const parsed = parseJsonBody(req);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
   const email = parsed.body && parsed.body.email ? String(parsed.body.email).trim().toLowerCase() : "";
-  if (!email) return res.status(400).json({ error: "Email requis" });
+  const password = parsed.body && parsed.body.password ? String(parsed.body.password) : "";
+  if (!email || !password) return res.status(400).json({ error: "Email et mot de passe requis" });
 
   const sql = getSql();
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
 
   try {
-    const rows = await sql`
-      SELECT id, first_name, last_name, email, phone, company, contact_type
-      FROM crm_contacts
-      WHERE LOWER(email) = ${email}
-      ORDER BY updated_at DESC
-      LIMIT 1
-    `;
-    if (!rows.length) {
-      return res.status(404).json({ error: "Aucun dossier client pour cet email. Inscrivez-vous d'abord." });
-    }
-    const c = rows[0];
-    const token = "ext_" + crypto.randomBytes(24).toString("hex");
+    await ensureExternalPortalSchema(sql);
+    const logged = await loginPortalAccount(sql, email, password);
     return res.status(200).json({
       ok: true,
-      token: token,
-      profile: {
-        id: c.id,
-        firstName: c.first_name,
-        lastName: c.last_name,
-        email: c.email,
-        phone: c.phone,
-        company: c.company,
-        contactType: c.contact_type,
-      },
+      token: logged.token,
+      user: logged.user,
     });
   } catch (e) {
     console.error("[external/login]", e);
-    return res.status(500).json({ error: "Erreur serveur" });
+    return res.status(/invalide|requis|inactif/i.test(e.message) ? 401 : 500).json({
+      ok: false,
+      error: e.message || "Erreur serveur",
+    });
   }
 };

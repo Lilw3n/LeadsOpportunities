@@ -4,6 +4,7 @@ const ROUTES = {
   login: () => require("../_lib/routes/external-login"),
   register: () => require("../_lib/routes/external-register"),
   profile: () => require("../_lib/routes/external-profile"),
+  visits: () => require("../_lib/routes/external-visits"),
   "quote-request": () => require("../_lib/routes/external-quote-request"),
   claim: () => require("../_lib/routes/external-claim"),
   upload: () => require("../_lib/routes/external-upload"),

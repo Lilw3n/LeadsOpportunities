@@ -1,6 +1,5 @@
 (function () {
   var TOKEN_KEY = "lo_ext_token";
-  var EMAIL_KEY = "lo_client_email";
 
   function esc(s) {
     var d = document.createElement("div");
@@ -31,20 +30,17 @@
 
   document.getElementById("btnLogout").onclick = function () {
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem("lo_client_email");
     localStorage.removeItem("lo_ext_profile");
     location.href = "./login.html";
   };
 
-  var email = localStorage.getItem(EMAIL_KEY);
-  if (!email) {
-    location.href = "./login.html";
-    return;
-  }
-
   fetch("/api/external/profile", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email: email }),
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + localStorage.getItem(TOKEN_KEY),
+      "Content-Type": "application/json",
+    },
   })
     .then(function (r) {
       return r.json();
@@ -58,6 +54,7 @@
       }
 
       var p = res.profile;
+      localStorage.setItem("lo_client_email", p.email || "");
       document.getElementById("dashTitle").textContent = "Bonjour " + ((p.firstName || "") + " " + (p.lastName || "")).trim();
 
       var memberLabel = "";
@@ -75,6 +72,7 @@
         '<p style="margin:0 0 12px;font-size:.85rem;color:#64748b">Raccourcis calqués sur le tableau <code>/dashboard/external</code> du multisite.</p>' +
         '<div class="dash-pills">' +
         '<a class="dash-pill" href="search.html">🔍 Recherche</a>' +
+        '<a class="dash-pill" href="visits.html">🏡 Mes visites</a>' +
         '<a class="dash-pill" href="documents.html">📋 Documents</a>' +
         '<a class="dash-pill" href="claim-declare.html">📣 Sinistre</a>' +
         '<a class="dash-pill" href="mailto:courtier972@gmail.com">💬 Support</a>' +
@@ -89,6 +87,7 @@
         statMini(st.vehiclesTotal || 0, "Véhicules") +
         statMini(st.claimsTotal || 0, "Sinistres") +
         statMini(st.quotesTotal || 0, "Devis") +
+        statMini(st.visitsTotal || 0, "Visites") +
         "</div></div>";
 
       function statMini(n, label) {
@@ -190,11 +189,29 @@
       }
 
       html +=
-        '</ul></div><div class="dash-actions">' +
+        '</ul></div><div class="dash-card"><h2>Mes visites</h2><ul class="dash-list">';
+      if (!res.visits || !res.visits.length) html += "<li>Aucune visite notée pour le moment</li>";
+      else {
+        res.visits.slice(0, 4).forEach(function (v) {
+          html +=
+            "<li><strong>" +
+            esc(v.title || "Visite") +
+            "</strong> — note " +
+            esc(String(v.rating || "—")) +
+            "/5" +
+            (v.eventDate ? " · " + new Date(v.eventDate).toLocaleDateString("fr-FR") : "") +
+            (v.wouldOffer ? " · prêt à faire une offre" : "") +
+            "</li>";
+        });
+      }
+
+      html +=
+        '</ul><p style="margin-top:8px;font-size:.85rem"><a href="visits.html">Voir / noter mes visites →</a></p></div><div class="dash-actions">' +
         '<a href="claim-declare.html">Déclarer un sinistre</a>' +
         '<a href="upload-document.html" class="secondary">Déposer un document</a>' +
         '<a href="devis-wizard.html" class="secondary">Nouveau devis</a>' +
         '<a href="search.html" class="secondary">Recherche dossier</a>' +
+        '<a href="visits.html" class="secondary">Mes visites</a>' +
         '<a href="assurance.html" class="secondary">Catalogue assurance</a>' +
         '<a href="social/hub.html" class="secondary">Social hub</a></div>';
 

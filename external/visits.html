@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mes visites | Leads Opportunities</title>
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <style>
+    .vis-page { max-width: 980px; margin: 0 auto; padding: 24px; }
+    .vis-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+    .vis-grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .vis-grid input, .vis-grid textarea, .vis-grid select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 10px; box-sizing: border-box; font: inherit; }
+    .vis-item { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 12px; }
+    .vis-item h3 { margin: 0 0 6px; font-size: 1rem; }
+    .vis-meta { color: #64748b; font-size: .88rem; margin-bottom: 10px; }
+    .vis-note { color: #4338ca; font-weight: 700; }
+    .vis-empty { color: #64748b; }
+  </style>
+</head>
+<body class="landing-page">
+  <div class="vis-page">
+    <p><a href="dashboard.html">← Retour à mon espace</a></p>
+    <div class="vis-card">
+      <h1>Mes visites</h1>
+      <p>Notez vos visites, indiquez si vous souhaitez faire une offre et ajoutez les coordonnées des visiteurs / acquéreurs intéressés.</p>
+    </div>
+    <div id="visList" class="vis-card"><p class="vis-empty">Chargement…</p></div>
+    <div class="vis-card">
+      <h2>Ajouter un retour de visite</h2>
+      <form id="visForm">
+        <div class="vis-grid">
+          <label>Visite planifiée
+            <select name="eventId" id="visEventId">
+              <option value="">Aucune / saisie libre</option>
+            </select>
+          </label>
+          <label>Référence / bien
+            <input name="propertyRef" placeholder="Ex. Maison Varangéville, lot 12..." />
+          </label>
+          <label>Type de visite
+            <select name="visitType">
+              <option value="onsite">Sur place</option>
+              <option value="virtual">Visio</option>
+              <option value="second_visit">Seconde visite</option>
+            </select>
+          </label>
+          <label>Note / 5
+            <select name="rating" required>
+              <option value="">Choisir</option>
+              <option value="5">5 - Excellent</option>
+              <option value="4">4 - Bon</option>
+              <option value="3">3 - Moyen</option>
+              <option value="2">2 - Faible</option>
+              <option value="1">1 - Négatif</option>
+            </select>
+          </label>
+          <label>Budget / offre envisagée
+            <input name="budgetNote" placeholder="Ex. offre possible à 245000 €" />
+          </label>
+          <label>Souhaite faire une offre ?
+            <select name="wouldOffer">
+              <option value="no">Non</option>
+              <option value="yes">Oui</option>
+            </select>
+          </label>
+          <label>Visiteur / acquéreur intéressé
+            <input name="visitorFullName" placeholder="Nom complet" />
+          </label>
+          <label>Email visiteur
+            <input type="email" name="visitorEmail" placeholder="email@exemple.fr" />
+          </label>
+          <label>Téléphone visiteur
+            <input type="tel" name="visitorPhone" placeholder="06..." />
+          </label>
+        </div>
+        <label style="display:block;margin-top:12px">Commentaires
+          <textarea name="comments" rows="4" placeholder="Points forts, freins, travaux, financement, disponibilité..."></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary" style="margin-top:12px">Enregistrer le retour</button>
+        <span id="visMsg" style="margin-left:10px;color:#64748b"></span>
+      </form>
+    </div>
+  </div>
+  <script src="../js/cookie-banner.js"></script>
+  <script src="visits.js"></script>
+</body>
+</html>

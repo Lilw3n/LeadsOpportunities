@@ -4,13 +4,14 @@
 
   document.getElementById("loginForm").onsubmit = function (e) {
     e.preventDefault();
-    var email = new FormData(e.target).get("email");
+    var fd = new FormData(e.target);
+    var email = fd.get("email");
     var errEl = document.getElementById("loginError");
     errEl.classList.add("hidden");
     fetch("/api/external/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email }),
+      body: JSON.stringify({ email: email, password: fd.get("password") }),
     })
       .then(function (r) {
         return r.json();
@@ -22,8 +23,8 @@
           return;
         }
         localStorage.setItem(TOKEN_KEY, res.token);
-        localStorage.setItem(EMAIL_KEY, res.profile.email);
-        localStorage.setItem("lo_ext_profile", JSON.stringify(res.profile));
+        localStorage.setItem(EMAIL_KEY, res.user.email);
+        localStorage.setItem("lo_ext_profile", JSON.stringify(res.user));
         location.href = "./dashboard.html";
       })
       .catch(function () {
