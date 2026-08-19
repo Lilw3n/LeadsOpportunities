@@ -23,6 +23,8 @@ module.exports = async (req, res) => {
   }
 
   try {
+    const urlObj = new URL(req.url, "http://localhost");
+    const formatJson = urlObj.searchParams.get("format") === "json";
     const state = signOAuthState({
       purpose: "google_drive",
       userId: user.userId || user.id || "",
@@ -30,8 +32,11 @@ module.exports = async (req, res) => {
     });
     const loginHint =
       (process.env.GOOGLE_DRIVE_USER_EMAIL || "courtier972@gmail.com").trim() || "courtier972@gmail.com";
-    const url = buildGoogleDriveAuthUrl(state, loginHint);
-    res.writeHead(302, { Location: url });
+    const authUrl = buildGoogleDriveAuthUrl(state, loginHint);
+    if (formatJson) {
+      return res.status(200).json({ ok: true, url: authUrl });
+    }
+    res.writeHead(302, { Location: authUrl });
     res.end();
   } catch (e) {
     console.error("[drive/oauth-start]", e);

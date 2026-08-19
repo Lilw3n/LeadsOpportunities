@@ -36,26 +36,18 @@
   }
 
   document.getElementById("btnDriveOAuth").onclick = function () {
-    fetch("/api/drive/oauth-start", {
+    fetch("/api/drive/oauth-start?format=json", {
       headers: { Authorization: "Bearer " + token },
-      redirect: "manual",
     })
       .then(function (r) {
-        if (r.status >= 300 && r.status < 400) {
-          var loc = r.headers.get("Location");
-          if (loc) {
-            location.href = loc;
-            return null;
-          }
+        return parseJsonResponse(r);
+      })
+      .then(function (data) {
+        if (data.ok && data.url) {
+          location.href = data.url;
+          return;
         }
-        if (r.ok && r.status !== 204) {
-          return parseJsonResponse(r).then(function (data) {
-            alert((data && data.error) || "OAuth Drive indisponible");
-          });
-        }
-        return parseJsonResponse(r).then(function (data) {
-          alert((data && data.error) || "OAuth Drive indisponible (HTTP " + r.status + ")");
-        });
+        alert((data && data.error) || "OAuth Drive indisponible");
       })
       .catch(function (e) {
         alert(e.message || String(e));
