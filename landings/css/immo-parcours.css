@@ -222,20 +222,31 @@ a.immo-parcours-link:hover {
 }
 
 .immo-vente-block > summary::after {
-  content: "";
+  content: "Ouvrir ▾";
   flex-shrink: 0;
-  width: 0.55rem;
-  height: 0.55rem;
-  margin-right: 2px;
-  border-right: 2px solid #64748b;
-  border-bottom: 2px solid #64748b;
-  transform: rotate(-45deg);
-  transition: transform 0.2s ease, border-color 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #0f766e;
+  background: #ccfbf1;
+  border: 1px solid #99f6e4;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.immo-vente-block > summary:hover::after {
+  background: #99f6e4;
+  border-color: #5eead4;
 }
 
 .immo-vente-block[open] > summary::after {
-  transform: rotate(45deg);
-  border-color: #0f766e;
+  content: "Fermer ▴";
+  color: #0369a1;
+  background: #e0f2fe;
+  border-color: #7dd3fc;
 }
 
 .immo-vente-block[open] > summary {
@@ -262,9 +273,8 @@ a.immo-parcours-link:hover {
 }
 
 .immo-vente-blocks-hint::before {
-  content: "▾";
+  content: "👆";
   font-size: 0.9rem;
-  color: #0f766e;
   line-height: 1;
 }
 

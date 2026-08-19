@@ -81,19 +81,25 @@
 }
 
 .immo-doc-cat summary::after {
-  content: "";
+  content: "Ouvrir ▾";
   flex-shrink: 0;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-right: 2px solid #64748b;
-  border-bottom: 2px solid #64748b;
-  transform: rotate(-45deg);
-  transition: transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #0f766e;
+  background: #ccfbf1;
+  border: 1px solid #99f6e4;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .immo-doc-cat[open] > summary::after {
-  transform: rotate(45deg);
-  border-color: #0f766e;
+  content: "Fermer ▴";
+  color: #0369a1;
+  background: #e0f2fe;
+  border-color: #7dd3fc;
 }
 
 .immo-doc-cat-list {
