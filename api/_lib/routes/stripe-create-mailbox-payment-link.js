@@ -104,7 +104,7 @@ module.exports = async (req, res) => {
   }
 
   const customerEmail = String(body.customerEmail || quote?.contact_email || "").trim();
-  if (!customerEmail || customerEmail.indexOf("@") === -1) {
+  if (customerEmail && customerEmail.indexOf("@") === -1) {
     return res.status(400).json({ error: "Email client invalide." });
   }
 
@@ -159,7 +159,7 @@ module.exports = async (req, res) => {
       priceData.recurring = { interval: interval };
     }
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionPayload = {
       mode: isSubscription ? "subscription" : "payment",
       payment_method_types: ["card"],
       line_items: [
@@ -172,8 +172,7 @@ module.exports = async (req, res) => {
       cancel_url:
         hasQuoteRef && paymentKindIsAcompte
           ? appUrl + "/crm-quote-payment.html?quoteId=" + encodeURIComponent(referenceId) + "&canceled=1"
-          : appUrl + "/paiement.html?canceled=1",
-      customer_email: customerEmail,
+          : appUrl + "/paiements/",
       metadata: {
         companyCode,
         appContext: "mailbox-payment-link",
@@ -185,7 +184,12 @@ module.exports = async (req, res) => {
         createdBy: user.id || user.email || "crm",
         ...taxMeta,
       },
-    });
+    };
+    if (customerEmail) {
+      sessionPayload.customer_email = customerEmail;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionPayload);
 
     if (hasQuoteRef && paymentKindIsAcompte) {
       const sql = getSql();

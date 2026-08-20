@@ -75,7 +75,7 @@
       <div>
         <p class="crm-eyebrow">Générer un lien</p>
         <h2>Envoyer un paiement ou un abonnement</h2>
-        <p class="crm-muted-inline">Le lien s’ouvre sur Stripe. Copiez-le, ou ouvrez-le pour tester. Pour l’envoyer dans un e-mail tout fait, utilisez aussi la messagerie.</p>
+        <p class="crm-muted-inline">Seul le <strong>montant</strong> est obligatoire. E-mail, libellé et devis sont facultatifs : sans e-mail, Stripe le demande au client sur la page de paiement.</p>
       </div>
     </div>
     <form id="stripeHubForm" class="stripe-hub-form">
@@ -97,8 +97,8 @@
       <label class="crm-label">Montant (€)
         <input id="stripeAmount" name="amountEur" class="crm-input" type="number" min="1" max="50000" step="0.01" placeholder="150" required />
       </label>
-      <label class="crm-label">E-mail client
-        <input id="stripeEmail" name="customerEmail" class="crm-input" type="email" autocomplete="email" placeholder="client@email.fr" required />
+      <label class="crm-label">E-mail client <span class="crm-muted-inline">(optionnel)</span>
+        <input id="stripeEmail" name="customerEmail" class="crm-input" type="email" autocomplete="email" placeholder="Laissé vide = saisi sur Stripe" />
       </label>
       <label class="crm-label">Libellé affiché sur Stripe
         <input id="stripeLabel" name="label" class="crm-input" placeholder="Honoraires / Abonnement conseil…" />

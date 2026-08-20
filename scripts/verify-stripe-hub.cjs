@@ -25,6 +25,10 @@ assert(hub.indexOf("section=mailbox") !== -1, "lien messagerie");
 var js = read("js/crm-stripe.js");
 assert(js.indexOf("/api/stripe/create-mailbox-payment-link") !== -1, "API mailbox payment link");
 assert(js.indexOf("paymentKind") !== -1, "payload paymentKind");
+assert(js.indexOf("E-mail invalide") !== -1, "email facultatif cote formulaire");
+
+var api = read("api/_lib/routes/stripe-create-mailbox-payment-link.js");
+assert(api.indexOf("if (customerEmail)") !== -1, "API accepte lien sans email");
 
 var sidebar = read("js/crm-sidebar.js");
 assert(sidebar.indexOf("crm-stripe.html") !== -1, "sidebar finance");

@@ -1662,16 +1662,16 @@
           status.textContent = "";
           status.className = "mbx-stripe-status";
         }
-        if (!email || email.indexOf("@") === -1) {
+        if (quoteRef && quoteRef.indexOf("qte_") !== 0) {
           if (status) {
-            status.textContent = "Renseignez d'abord le destinataire.";
+            status.textContent = "Reference devis invalide (format qte_…).";
             status.className = "mbx-stripe-status is-error";
           }
           return;
         }
-        if (quoteRef && quoteRef.indexOf("qte_") !== 0) {
+        if (email && email.indexOf("@") === -1) {
           if (status) {
-            status.textContent = "Reference devis invalide (format qte_…).";
+            status.textContent = "Email destinataire invalide — laissez vide pour un lien sans e-mail.";
             status.className = "mbx-stripe-status is-error";
           }
           return;
@@ -1688,11 +1688,11 @@
         if (status) status.textContent = "Generation du lien Stripe…";
 
         var payload = {
-          customerEmail: email,
           paymentKind: kind,
           label: label || STRIPE_LABELS[kind] || "Paiement",
           interval: interval,
         };
+        if (email) payload.customerEmail = email;
         if (amount > 0) payload.amountEur = amount;
         if (quoteRef) payload.referenceId = quoteRef;
 

@@ -101,20 +101,20 @@
       var interval = document.getElementById("stripeInterval").value;
 
       if (!amount || amount <= 0) {
-        setStatus("Montant invalide.", false);
+        setStatus("Indiquez un montant.", false);
         return;
       }
-      if (!email || email.indexOf("@") === -1) {
-        setStatus("E-mail client invalide.", false);
+      if (email && email.indexOf("@") === -1) {
+        setStatus("E-mail invalide — laissez vide si vous ne l’avez pas.", false);
         return;
       }
 
       var payload = {
-        customerEmail: email,
         paymentKind: kind,
         label: label || LABELS[kind] || "Paiement",
         amountEur: amount,
       };
+      if (email) payload.customerEmail = email;
       if (kind === "subscription") payload.interval = interval;
       if (quoteRef) payload.referenceId = quoteRef;
 
