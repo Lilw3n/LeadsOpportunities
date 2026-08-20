@@ -672,7 +672,7 @@
           var payloadPhotos = mediaList(state).length;
           if (ok) {
             ok.hidden = false;
-            var driveNote = res.data.driveConfigured ? " Copie Google Drive effectuée ou en cours." : "";
+            var driveNote = res.data.driveConfigured ? " Vos fichiers sont enregistrés." : "";
             var dossierNote =
               payload.wantsSellDossier && payload.sellDossier ? " Dossier vente détaillé enregistré." : "";
             var accountNote = "";

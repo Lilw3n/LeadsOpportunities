@@ -239,7 +239,7 @@
 
     if (isImmoVertical(vertical) && global.ImmoCategoryDocuments && global.ImmoCategoryDocuments.mount) {
       var mode = isVendeurImmo(vertical) ? "vendeur" : "acheteur";
-      inst = global.ImmoCategoryDocuments.mount(panel, mode);
+      inst = global.ImmoCategoryDocuments.mount(panel, mode, { internal: true });
       if (inst && inst.setSession) {
         inst.setSession({
           email: ctx.email,

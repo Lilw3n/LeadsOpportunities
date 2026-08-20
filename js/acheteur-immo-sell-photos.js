@@ -23,7 +23,7 @@
     root.innerHTML =
       '<div class="sell-photos-block">' +
       '<p class="search-section-label" style="margin:0">Photos du bien</p>' +
-      '<p class="listing-media-hint">Façade, séjour, cuisine, chambres, jardin… Les fichiers sont sauvegardés sur Google Drive (<strong>01_photos_publiques</strong>) et dans votre dossier conseiller.</p>' +
+      '<p class="listing-media-hint">Façade, séjour, cuisine, chambres, jardin… Déposez vos photos ici — nous les enregistrons dans votre dossier.</p>' +
       '<div class="grid">' +
       '<div class="field">' +
       '<label for="sellPhotosInput">Ajouter des photos (max ' +
@@ -149,7 +149,7 @@
               st.textContent =
                 data.photos +
                 " photo(s) enregistrée(s)" +
-                (data.driveConfigured ? " — copie Drive en cours ou effectuée." : " — Drive : vérifiez la configuration serveur.");
+                (data.driveConfigured ? " — enregistrement effectué." : ".");
             }
             var thumbs = root.querySelector("[data-sell-photos-thumbs]");
             if (thumbs) thumbs.innerHTML = "";

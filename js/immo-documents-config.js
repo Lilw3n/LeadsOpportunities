@@ -116,6 +116,8 @@
   var VENDEUR = {
     title: "Documents du bien à vendre",
     intro:
+      "Déposez vos pièces par catégorie (PDF ou photo, max 12 Mo). Nous les rangeons dans votre dossier — vous n'avez rien d'autre à faire.",
+    introInternal:
       "Classés automatiquement sur Google Drive : infos perso (confidentiel) vs pièces pub (annonce). Les photos Leboncoin se déposent dans la section ci-dessus.",
     need: "vendeur-immo",
     zones: [
@@ -138,6 +140,8 @@
   var ACHETEUR = {
     title: "Documents financement & recherche de bien",
     intro:
+      "Pour étudier votre prêt et votre capacité d'emprunt : déposez les pièces par catégorie. Elles sont archivées dans votre dossier client.",
+    introInternal:
       "Pour étudier votre prêt et votre capacité d'emprunt : déposez les pièces par catégorie. Archivées sur votre dossier client et Google Drive.",
     need: "acheteur-immo",
     groups: [

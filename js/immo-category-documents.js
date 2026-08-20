@@ -40,6 +40,8 @@
 
   function ImmoCategoryDocuments(root, options) {
     this.root = root;
+    this.options = options || {};
+    this.internal = this.options.internal === true;
     this.mode = options.mode || "vendeur";
     this.config = global.ImmoDocumentsConfig ? global.ImmoDocumentsConfig.getConfig(this.mode) : { groups: [] };
     this.queue = [];
@@ -76,9 +78,10 @@
         );
       })
       .join("");
-    var driveNote = g.driveFolder
-      ? '<p class="immo-doc-drive-hint">→ Drive : <code>' + esc(g.driveFolder) + "</code></p>"
-      : "";
+    var driveNote =
+      this.internal && g.driveFolder
+        ? '<p class="immo-doc-drive-hint">→ Drive : <code>' + esc(g.driveFolder) + "</code></p>"
+        : "";
     return (
       '<details class="immo-doc-cat" open data-immo-doc-group="' +
       esc(g.id) +
@@ -112,7 +115,7 @@
             '<h5 class="immo-doc-zone-title">' +
             esc(zone.label) +
             "</h5>" +
-            (zone.driveHint
+            (this.internal && zone.driveHint
               ? '<p class="immo-doc-zone-hint">' + esc(zone.driveHint) + "</p>"
               : "") +
             inner +
@@ -124,14 +127,13 @@
       groupsHtml = (cfg.groups || []).map(this._renderGroup.bind(this)).join("");
     }
 
+    var intro = this.internal && cfg.introInternal ? cfg.introInternal : cfg.intro || "";
     this.root.innerHTML =
       '<div class="immo-doc-panel-inner">' +
       '<h4 class="immo-doc-panel-title">' +
       esc(cfg.title) +
       "</h4>" +
-      '<p class="small immo-doc-panel-intro">' +
-      esc(cfg.intro) +
-      "</p>" +
+      (intro ? '<p class="small immo-doc-panel-intro">' + esc(intro) + "</p>" : "") +
       '<div class="immo-doc-categories">' +
       groupsHtml +
       "</div>" +
@@ -303,11 +305,12 @@
     });
   };
 
-  function mount(selector, mode) {
+  function mount(selector, mode, options) {
     var el = typeof selector === "string" ? document.querySelector(selector) : selector;
     if (!el || el.dataset.immoDocsBound) return el && el._immoDocs;
     el.dataset.immoDocsBound = "1";
-    var inst = new ImmoCategoryDocuments(el, { mode: mode });
+    var opts = Object.assign({ mode: mode || "vendeur" }, options || {});
+    var inst = new ImmoCategoryDocuments(el, opts);
     el._immoDocs = inst;
     return inst;
   }
