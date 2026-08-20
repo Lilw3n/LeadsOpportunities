@@ -541,7 +541,10 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "06-2026-CFCAL-HYPO-TRESO.pdf",
+        "07-2026-CFCAL-HYPO-TRESO.pdf"
+      ]
     },
     {
       "id": "hypo-treso-cfcal-memento-2026-01-cfcal-memento-01-2026-17",
@@ -583,7 +586,8 @@
       "flags": [],
       "notes": "",
       "aliases": [
-        "MY-MONEY-BANK-11-2025---My-New-treso.pdf"
+        "MY-MONEY-BANK-11-2025---My-New-treso.pdf",
+        "07-2026-MMB-MY-NEW-TRESO.pdf"
       ]
     },
     {
@@ -606,7 +610,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "07-2026-CFCAL-PVH.pdf"
+      ]
     },
     {
       "id": "pvh-cfcal-formulaire-na-attestation-de-destination-des-fonds-20",
@@ -847,7 +853,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "07-2026-Griffon-Conso.pdf"
+      ]
     },
     {
       "id": "treso-cmt-produit-na-griffon-hypo-31",
@@ -890,7 +898,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "07-2026-Griffon-Patrimoine-Conso.pdf"
+      ]
     },
     {
       "id": "treso-cmt-produit-na-griffon-patrimoine-immo-33",
@@ -912,7 +922,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "07-2026-Griffon-Patrimoine-Immo.pdf"
+      ]
     },
     {
       "id": "treso-cmt-produit-na-griffon-patrimoine-relais-34",
@@ -933,7 +945,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "07-2026-Griffon-Patrimoine-Relais.pdf"
+      ]
     },
     {
       "id": "treso-cgi-produit-2023-11-11-2023-cgi-fiche-duo-projet-35",
@@ -2409,7 +2423,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "07-2026-CREATIS-RAC-HYPO.pdf"
+      ]
     },
     {
       "id": "creatis-creatis-rac-hypothecaire-2020-10-1-rac-hypo-informations-generales-10-20",
@@ -5427,6 +5443,644 @@
       "aliases": [
         "Taux-pret-personne-CML.pdf"
       ]
+    },
+    {
+      "id": "immo-sygma-produit-na-04-2026-sygma-235",
+      "category": "immo",
+      "partner": "sygma",
+      "subsection": "produit",
+      "title": "04-2026-SYGMA",
+      "filename": "04-2026-SYGMA.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "04-2026-SYGMA.pdf"
+      ]
+    },
+    {
+      "id": "immo-sygma-produit-na-04-2026-taux-sygma-236",
+      "category": "immo",
+      "partner": "sygma",
+      "subsection": "produit",
+      "title": "04-2026-Taux-SYGMA",
+      "filename": "04-2026-Taux-SYGMA.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "04-2026-Taux-SYGMA.pdf"
+      ]
+    },
+    {
+      "id": "immo-bank-b-produit-na-07-2026-taux-bank-b-237",
+      "category": "immo",
+      "partner": "bank_b",
+      "subsection": "produit",
+      "title": "07-2026 — Taux-BANK-B",
+      "filename": "07-2026---Taux-BANK-B.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026---Taux-BANK-B.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cfcal-produit-na-07-2026-cfcal-financement-scpi-en-nom-propre-caution-logem",
+      "category": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-CFCAL — financement-SCPI-en-nom-propre-caution-logement",
+      "filename": "07-2026-CFCAL--financement-SCPI-en-nom-propre-caution-logement.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "scpi",
+      "tags": [
+        "scpi"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CFCAL--financement-SCPI-en-nom-propre-caution-logement.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cfcal-produit-na-07-2026-cfcal-financement-scpi-en-nom-propre-nantissement-",
+      "category": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-CFCAL — financement-SCPI-en-nom-propre-nantissement-de-parts",
+      "filename": "07-2026-CFCAL--financement-SCPI-en-nom-propre-nantissement-de-parts.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "scpi",
+      "tags": [
+        "scpi"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CFCAL--financement-SCPI-en-nom-propre-nantissement-de-parts.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cfcal-produit-na-07-2026-cfcal-financement-scpi-en-sci-nantissement-de-part",
+      "category": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-CFCAL — financement-SCPI-en-SCI-nantissement-de-parts",
+      "filename": "07-2026-CFCAL--financement-SCPI-en-SCI-nantissement-de-parts.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "scpi",
+      "tags": [
+        "scpi"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CFCAL--financement-SCPI-en-SCI-nantissement-de-parts.pdf"
+      ]
+    },
+    {
+      "id": "immo-cfcal-produit-na-07-2026-cfcal-credit-immo-suspendu-241",
+      "category": "immo",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-CFCAL-Credit-Immo-suspendu",
+      "filename": "07-2026-CFCAL-Credit-Immo-suspendu.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CFCAL-Credit-Immo-suspendu.pdf"
+      ]
+    },
+    {
+      "id": "immo-cgi-produit-na-07-2026-cgi-242",
+      "category": "immo",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "07-2026-CGI",
+      "filename": "07-2026-CGI.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CGI.pdf"
+      ]
+    },
+    {
+      "id": "immo-cmt-produit-na-07-2026-cmt-243",
+      "category": "immo",
+      "partner": "cmt",
+      "subsection": "produit",
+      "title": "07-2026-CMT",
+      "filename": "07-2026-CMT.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CMT.pdf"
+      ]
+    },
+    {
+      "id": "credilift-creatis-produit-na-07-2026-creatis-rac-combine-244",
+      "category": "rac",
+      "partner": "creatis",
+      "subsection": "produit",
+      "title": "07-2026-CREATIS-RAC-COMBINE",
+      "filename": "07-2026-CREATIS-RAC-COMBINE.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CREATIS-RAC-COMBINE.pdf"
+      ]
+    },
+    {
+      "id": "credilift-creatis-produit-na-07-2026-creatis-rac-conso-245",
+      "category": "rac",
+      "partner": "creatis",
+      "subsection": "produit",
+      "title": "07-2026-CREATIS-RAC-CONSO",
+      "filename": "07-2026-CREATIS-RAC-CONSO.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CREATIS-RAC-CONSO.pdf"
+      ]
+    },
+    {
+      "id": "immo-creatis-produit-na-07-2026-creatis-246",
+      "category": "immo",
+      "partner": "creatis",
+      "subsection": "produit",
+      "title": "07-2026-CREATIS",
+      "filename": "07-2026-CREATIS.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CREATIS.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-na-07-2026-credit-lift-rac-avec-garantie-247",
+      "category": "rac",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE",
+      "filename": "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE.pdf"
+      ]
+    },
+    {
+      "id": "credilift-credilift-produit-na-07-2026-credit-lift-rac-sans-garantie-248",
+      "category": "rac",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE",
+      "filename": "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE.pdf"
+      ]
+    },
+    {
+      "id": "immo-credilift-produit-na-07-2026-credit-lift-taux-avec-commissionnement-249",
+      "category": "immo",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "07-2026-CREDIT-LIFT-taux-avec-commissionnement",
+      "filename": "07-2026-CREDIT-LIFT-taux-avec-commissionnement.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CREDIT-LIFT-taux-avec-commissionnement.pdf"
+      ]
+    },
+    {
+      "id": "immo-credilift-produit-na-07-2026-credit-lift-taux-sans-commissionnement-250",
+      "category": "immo",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "07-2026-CREDIT-LIFT-taux-sans-commissionnement",
+      "filename": "07-2026-CREDIT-LIFT-taux-sans-commissionnement.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-CREDIT-LIFT-taux-sans-commissionnement.pdf"
+      ]
+    },
+    {
+      "id": "renov-cfcal-produit-na-07-2026-hypo-renov-cfcal-251",
+      "category": "renov",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-HYPO-RENOV-CFCAL",
+      "filename": "07-2026-HYPO-RENOV-CFCAL.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "renov",
+      "tags": [
+        "renov"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-HYPO-RENOV-CFCAL.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-07-2026-la-banque-postale-252",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "07-2026-LA-BANQUE-POSTALE",
+      "filename": "07-2026-LA-BANQUE-POSTALE.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-LA-BANQUE-POSTALE.pdf"
+      ]
+    },
+    {
+      "id": "scpi-credilift-produit-na-07-2026-liste-scpi-credit-lift-253",
+      "category": "scpi",
+      "partner": "credilift",
+      "subsection": "produit",
+      "title": "07-2026-Liste-SCPI-CREDIT-LIFT",
+      "filename": "07-2026-Liste-SCPI-CREDIT-LIFT.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "scpi",
+      "tags": [
+        "scpi"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-Liste-SCPI-CREDIT-LIFT.pdf"
+      ]
+    },
+    {
+      "id": "credilift-mmb-produit-na-07-2026-mmb-rac-avec-garantie-254",
+      "category": "rac",
+      "partner": "mmb",
+      "subsection": "produit",
+      "title": "07-2026-MMB-RAC-avec-garantie",
+      "filename": "07-2026-MMB-RAC-avec-garantie.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-MMB-RAC-avec-garantie.pdf"
+      ]
+    },
+    {
+      "id": "credilift-mmb-produit-na-07-2026-mmb-rac-sans-garantie-255",
+      "category": "rac",
+      "partner": "mmb",
+      "subsection": "produit",
+      "title": "07-2026-MMB-RAC-sans-garantie",
+      "filename": "07-2026-MMB-RAC-sans-garantie.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-MMB-RAC-sans-garantie.pdf"
+      ]
+    },
+    {
+      "id": "credilift-cfcal-produit-na-07-2026-rac-avec-garantie-cfcal-256",
+      "category": "rac",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-RAC-avec-garantie-CFCAL",
+      "filename": "07-2026-RAC-avec-garantie-CFCAL.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-RAC-avec-garantie-CFCAL.pdf"
+      ]
+    },
+    {
+      "id": "credilift-cfcal-produit-na-07-2026-rac-sans-garantie-cfcal-257",
+      "category": "rac",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-RAC-sans-garantie-CFCAL",
+      "filename": "07-2026-RAC-sans-garantie-CFCAL.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-RAC-sans-garantie-CFCAL.pdf"
+      ]
+    },
+    {
+      "id": "sci-cfcal-produit-na-07-2026-sci-pat-cfcal-258",
+      "category": "sci",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "07-2026-SCI-PAT-CFCAL",
+      "filename": "07-2026-SCI-PAT-CFCAL.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "sci",
+      "tags": [
+        "sci"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-SCI-PAT-CFCAL.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-07-2026-taux-sofinco-259",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "07-2026-Taux-SOFINCO",
+      "filename": "07-2026-Taux-SOFINCO.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "07-2026-Taux-SOFINCO.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cfcal-produit-na-09-2025-cfcal-liste-scpi-260",
+      "category": "scpi",
+      "partner": "cfcal",
+      "subsection": "produit",
+      "title": "09-2025-CFCAL-Liste-SCPI",
+      "filename": "09-2025-CFCAL-Liste-SCPI.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "scpi",
+      "tags": [
+        "scpi"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "09-2025-CFCAL-Liste-SCPI.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-acquisition-client-immo-docusign-261",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Acquisition-client-Immo — Docusign",
+      "filename": "Acquisition-client-Immo---Docusign.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Acquisition-client-Immo---Docusign.pdf"
+      ]
+    },
+    {
+      "id": "credilift-produit-na-acquisition-client-regroupement-de-credits-docusign-262",
+      "category": "rac",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Acquisition-client-Regroupement-de-credits — Docusign",
+      "filename": "Acquisition-client-Regroupement-de-credits---Docusign.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Acquisition-client-Regroupement-de-credits---Docusign.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-bareme-des-honoraires-263",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "bareme-des-honoraires",
+      "filename": "bareme-des-honoraires.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "bareme-des-honoraires.pdf"
+      ]
     }
   ],
   "eligibilityRules": [
@@ -5729,9 +6383,9 @@
   ],
   "manifest": {
     "source": "scripts/pret-fiches-manifest.json",
-    "uniqueFiles": 235,
+    "uniqueFiles": 264,
     "available": 0,
-    "pending": 235,
+    "pending": 264,
     "note": "categories = types de prêt ; partners = établissements ; region = géographie (DOM-TOM ≠ partenaire)"
   }
 }
