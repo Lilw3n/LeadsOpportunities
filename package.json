@@ -8,6 +8,7 @@
     "seo:images": "node scripts/download-seo-images.cjs",
     "verify:seo-vtc-idf": "node scripts/verify-seo-vtc-idf.cjs",
     "verify:seo-pret-recherche": "node scripts/verify-seo-pret-recherche.cjs",
+    "verify:seo-geo-piliers": "node scripts/verify-seo-geo-piliers.cjs",
     "verify:niches-dashboard": "node scripts/verify-niches-dashboard-redirect.cjs",
     "niche:plan": "node -e \"console.log(require('fs').readFileSync('seo/niches.json','utf8'))\"",
     "niche:sync": "node -e \"require('fs').copyFileSync('seo/niches.json','data/niches-admin.json');console.log('niches-admin.json synced')\"",

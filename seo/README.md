@@ -7,6 +7,10 @@
 | VTC | `/assurance-vtc/` | `/landings/vtc.html` |
 | Sante | `/assurance-sante/` | `/landings/sante.html` |
 | Sante collective | `/assurances/` (hub) | `/landings/sante-collective.html` |
+| Pret immobilier | `/pret-immobilier/` | `/landings/credit-immo.html` |
+| Recherche de bien | `/recherche-bien/` | `/landings/acheteur-immo.html` |
+| Finance | `/finance/` | `/landings/questionnaire.html?need=rachat` |
+| Banque | `/banque/` | `/landings/rappel.html?need=banque` |
 | Credit immo | `/credit-immo/` | `/landings/credit-immo.html` |
 
 ## Regenerer les pages
@@ -34,16 +38,19 @@ npm run seo:build
 ```
 
 Genere automatiquement :
-- **6 produits** : VTC, sante, credit immo, auto, habitation, prevoyance
-- **189 villes** × 6 produits = pages locales ville
-- **95 departements** × 6 produits = pages departement
-- **18 regions** + hubs villes/departements
+- **16 produits** : VTC, sante, credit immo, pret immo, recherche de bien, finance, banque, auto, habitation, emprunteur, prevoyance, animaux, chien, chat, chasse, equitation
+- villes × produits = pages locales ville (`/{produit}/{ville}/`)
+- **101 departements** × produits = pages departement (`/{produit}/departement/{slug}/`)
+- **24 regions** × produits = pages region (`/{produit}/region/{slug}/`)
+- hubs `/villes/`, `/departements/`, `/regions/` par produit
 - hub national `/france/`, `/france/regions/`, `/france/departements/`
-- **~1846 pages HTML** et **~1875 URLs** dans les sitemaps
+- grille « Par produit ou departement » sur `/france/departement/{slug}/`
 
 Sitemaps (index Google) :
 - `sitemap.xml` (index)
 - `sitemap-main.xml`, `sitemap-geo.xml`, `sitemap-france.xml`
+
+Verification : `npm run verify:seo-geo-piliers`
 
 Donnees : `seo/france-cities.json`, `seo/france-departments.json`, `seo/france-regions.json`
 
