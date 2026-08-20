@@ -139,6 +139,13 @@ function sendApiPage(res, opts) {
     "</div></div></body></html>";
 
   res.statusCode = status;
+  if (typeof res.status === "function") {
+    try {
+      res.status(status);
+    } catch (e) {
+      /* ignore */
+    }
+  }
   if (typeof res.setHeader === "function") {
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.setHeader("Cache-Control", "no-store");
