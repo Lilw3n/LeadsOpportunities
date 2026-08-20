@@ -2,6 +2,31 @@
 
 Module CRM inspiré du parcours courtier (Mes dossiers / Effectuer simulation).
 
+## Guide rapide (à quoi ça sert)
+
+Panneau interactif dans le CRM : script [`js/crm-pret-guide.js`](../js/crm-pret-guide.js) (ouvert par défaut sur Mes dossiers + Documentation).
+
+| Zone | Rôle |
+|------|------|
+| **Mes dossiers** | Suivi des dossiers (réf., position, banque, produit) |
+| **Simulation** | Chiffrage IMMO / RAC / SCI / SCPI / CONSO / HYPO / viager |
+| **Documentation** | Recherche grilles + fiches liée au projet (PTZ, relais, travaux…) |
+| **Grilles / Fiches** | Barèmes partenaires et conditions d’éligibilité |
+| **PVH** | Calculette capital dû (intérêts capitalisés) |
+
+### PDF Bureau (`Desktop\pret`)
+
+L’agent cloud **ne peut pas** lire `C:\Users\…\Desktop\pret`.  
+Catalogue indexé (~201 fiches, ~39 grilles) mais statut **`pending_upload`** tant que les fichiers ne sont pas dans le repo :
+
+```bash
+# copier les PDF depuis le Bureau vers :
+docs/pret-fiches/_inbox/
+docs/pret-grilles/_inbox/
+npm run pret:fiches:import
+npm run pret:grilles:import
+```
+
 ## Projection publique (acquéreur)
 
 Simulateur **coût réel du logement** : [`landings/projection-achat.html`](../landings/projection-achat.html)  
