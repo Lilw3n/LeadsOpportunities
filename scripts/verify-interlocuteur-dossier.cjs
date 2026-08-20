@@ -58,8 +58,44 @@ assert(patches.company && patches.company.siret === "12345678901234", "patch ent
 assert(patches.family && patches.family.maritalStatus === "marie", "patch famille");
 assert(Dossier.countFilled(d) >= 8, "compte champs remplis");
 assert(Dossier.renderSections(d).indexOf("Info perso") >= 0, "HTML info perso");
+assert(Dossier.renderSections(d).indexOf("Info pro") >= 0, "HTML info pro (données présentes)");
+assert(Dossier.renderSections(d).indexOf("Aucune information saisie") < 0, "pas de sections vides affichées");
 assert(Dossier.labelOf("propertyIds") === "Identifiant(s) du bien", "libellé propertyIds FR");
 assert(Dossier.labelOf("confirmByEmail") === "Confirmation par e-mail", "libellé confirmByEmail FR");
+
+var santePayload = {
+  firstName: "Ada",
+  lastName: "Lovelace",
+  email: "ada@test.fr",
+  phone: "0600000000",
+  dob: "1985-01-10",
+  socialRegime: "regime_general",
+  currentCover: "oui",
+  employmentStatus: "retraite",
+  lvlHospital: "100_brss",
+  lvlConsultations: "minimum",
+  lvlDental: "minimum",
+  lvlOptical: "moyen",
+  wearsGlasses: "oui",
+  need: "sante",
+  vertical: "sante",
+  pagePath: "/landings/sante.html",
+  landingVariant: "speed",
+  landingSource: "landing_quick",
+  referrer: "https://example.com",
+};
+var sd = Dossier.buildDossier({ vertical: "sante", payload: santePayload });
+assert(sd.sante.some(function (r) { return r.key === "lvlHospital"; }), "santé : hospitalisation classée");
+assert(sd.sante.some(function (r) { return r.key === "socialRegime"; }), "santé : régime classé");
+assert(sd.webContext.some(function (r) { return r.key === "pagePath"; }), "contexte web : pagePath");
+assert(!sd.biens.autres.some(function (r) { return r.key === "lvlHospital"; }), "santé absente des Autres");
+var sHtml = Dossier.renderSections(sd);
+assert(sHtml.indexOf("Mutuelle / santé") >= 0, "HTML section santé");
+assert(sHtml.indexOf("Contexte web") >= 0, "HTML contexte web replié");
+assert(sHtml.indexOf("Info pro") < 0, "pas de carte pro vide");
+assert(sHtml.indexOf("Biens —") < 0, "pas de carte biens vide");
+assert(sHtml.indexOf("<details") >= 0, "détails repliables pour le contexte");
+
 var immoD = Dossier.buildDossier({
   payload: {
     role: "vendeur",
@@ -77,6 +113,7 @@ assert(
 assert(Dossier.slackLines(d, { contactUrl: "https://x/c" }).indexOf("marie@test.fr") >= 0, "Slack email");
 
 var html = read("crm-contact.html");
+assert(html.indexOf("interlocuteur-dossier.css") >= 0, "fiche : CSS dossier");
 assert(html.indexOf("dossierMount") >= 0, "fiche : montage dossier");
 assert(html.indexOf("interlocuteur-dossier-lib.js") >= 0, "fiche : lib dossier");
 assert(html.indexOf("btnSlackFiche") >= 0, "fiche : bouton Slack");

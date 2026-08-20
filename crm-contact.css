@@ -21,13 +21,55 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 8px 16px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .contact-actions-sub { font-size: 0.82rem; color: var(--muted); font-weight: 400; }
+.contact-actions-primary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
 .contact-actions-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  padding: 4px 0 2px;
+}
+.contact-actions-group {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 0 12px 10px;
+  margin-top: 8px;
+}
+.contact-actions-group > summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #334155;
+  padding: 10px 0 6px;
+  user-select: none;
+}
+.contact-actions-group > summary::-webkit-details-marker { display: none; }
+.contact-actions-group > summary::before {
+  content: "▸";
+  color: #94a3b8;
+  font-size: 0.72rem;
+}
+.contact-actions-group[open] > summary::before { content: "▾"; }
+.contact-actions-count {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 1px 7px;
 }
 .contact-profile-bar {
   display: flex;
@@ -212,6 +254,9 @@
 .modal-close { border: none; background: none; font-size: 1.5rem; cursor: pointer; line-height: 1; }
 .modal-foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
 #contactApp { max-width: 1400px; margin: 0 auto; padding: 20px 24px 40px; }
+#dossierMount {
+  margin-bottom: 8px;
+}
 .contact-kpis {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));

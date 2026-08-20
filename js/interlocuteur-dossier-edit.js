@@ -13,7 +13,7 @@
   function allRows(dossier) {
     var rows = [];
     if (!dossier) return rows;
-    ["perso", "pro", "projet"].forEach(function (section) {
+    ["perso", "pro", "sante", "projet"].forEach(function (section) {
       (dossier[section] || []).forEach(function (r) {
         rows.push({ section: section, key: r.key, label: r.label, value: r.value });
       });
@@ -23,6 +23,9 @@
       (b[sub] || []).forEach(function (r) {
         rows.push({ section: "biens." + sub, key: r.key, label: r.label, value: r.value });
       });
+    });
+    (dossier.webContext || []).forEach(function (r) {
+      rows.push({ section: "webContext", key: r.key, label: r.label, value: r.value });
     });
     return rows;
   }
@@ -36,10 +39,12 @@
     var sections = {
       perso: "Info perso",
       pro: "Info pro",
+      sante: "Mutuelle / santé",
       projet: "Projet / produit",
       "biens.vehicules": "Véhicule / mobilier",
       "biens.immobilier": "Maison, appartement, immeuble",
       "biens.autres": "Autres éléments",
+      webContext: "Contexte web",
     };
     var html =
       '<div class="int-dossier-edit" data-int-dossier-edit>' +
@@ -48,7 +53,16 @@
       esc(adminNotes) +
       "</textarea></label>";
 
-    var order = ["perso", "pro", "biens.vehicules", "biens.immobilier", "biens.autres", "projet"];
+    var order = [
+      "perso",
+      "pro",
+      "sante",
+      "biens.vehicules",
+      "biens.immobilier",
+      "biens.autres",
+      "projet",
+      "webContext",
+    ];
     order.forEach(function (sectionKey) {
       var sectionRows = rows.filter(function (r) {
         return r.section === sectionKey;

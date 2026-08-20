@@ -62,10 +62,16 @@
     country: "Pays",
     address: "Adresse",
     page: "Page du site",
+    pagePath: "Page du site",
+    pageTitle: "Titre de page",
+    seoTitle: "Titre SEO",
+    seoDescription: "Description SEO",
     seo_product: "Produit SEO",
     seo_city: "Ville SEO",
     seo_department: "Département SEO",
     landing_slug: "Page d’atterrissage",
+    landingVariant: "Variante landing",
+    landingSource: "Source landing",
     referrer_first: "Provenance (1ère visite)",
     referrer: "Provenance",
     variant: "Variante page",
@@ -273,11 +279,6 @@
     "nbChildren",
     "childrenAges",
     "familySize",
-    "socialRegime",
-    "spouseRegime",
-    "currentCover",
-    "employmentStatus",
-    "pregnancyPlanned",
     "street",
     "address",
     "postalCode",
@@ -288,6 +289,11 @@
   ];
 
   var SANTE_KEYS = [
+    "socialRegime",
+    "spouseRegime",
+    "currentCover",
+    "employmentStatus",
+    "pregnancyPlanned",
     "lvlHospital",
     "lvlConsultations",
     "lvlDental",
@@ -310,6 +316,28 @@
     "interestedProducts",
     "healthPriority",
     "healthStatus",
+    "details",
+  ];
+
+  var WEB_CONTEXT_KEYS = [
+    "page",
+    "pagePath",
+    "pageTitle",
+    "seoTitle",
+    "seoDescription",
+    "seo_product",
+    "seo_city",
+    "seo_department",
+    "landing_slug",
+    "landing_path",
+    "landingVariant",
+    "landingSource",
+    "variant",
+    "journey",
+    "formJourney",
+    "attr_landing_path",
+    "referrer",
+    "referrer_first",
   ];
 
   var PRO_KEYS = [
@@ -390,8 +418,6 @@
     "vertical",
     "buyerNeeds",
     "financeProject",
-    "healthPriority",
-    "healthStatus",
     "parcours_label",
     "role",
     "hats",
@@ -622,9 +648,10 @@
     var immobilier = pick(p, IMMO_KEYS);
     var sante = pick(p, SANTE_KEYS);
     var projet = pick(p, PROJET_KEYS);
+    var webContext = pick(p, WEB_CONTEXT_KEYS);
 
     var known = {};
-    PERSO_KEYS.concat(PRO_KEYS, VEHICLE_KEYS, IMMO_KEYS, SANTE_KEYS, PROJET_KEYS).forEach(function (k) {
+    PERSO_KEYS.concat(PRO_KEYS, VEHICLE_KEYS, IMMO_KEYS, SANTE_KEYS, PROJET_KEYS, WEB_CONTEXT_KEYS).forEach(function (k) {
       known[k] = true;
     });
     var autres = [];
@@ -643,6 +670,7 @@
       sante: sante,
       biens: { vehicules: vehicules, immobilier: immobilier, autres: autres.slice(0, 24) },
       projet: projet,
+      webContext: webContext,
       raw: p,
     };
   }
@@ -707,9 +735,14 @@
 
   function countFilled(dossier) {
     if (!dossier) return 0;
-    var n = (dossier.perso || []).length + (dossier.pro || []).length + (dossier.projet || []).length;
+    var n =
+      (dossier.perso || []).length +
+      (dossier.pro || []).length +
+      (dossier.sante || []).length +
+      (dossier.projet || []).length +
+      (dossier.webContext || []).length;
     var b = dossier.biens || {};
-    n += (b.vehicules || []).length + (b.immobilier || []).length;
+    n += (b.vehicules || []).length + (b.immobilier || []).length + (b.autres || []).length;
     return n;
   }
 
@@ -739,9 +772,77 @@
     );
   }
 
+  function sectionCard(title, cls, rows, fieldComments, opts) {
+    opts = opts || {};
+    if (!rows || !rows.length) {
+      if (!opts.showEmpty) return "";
+      return (
+        '<section class="int-card ' +
+        cls +
+        ' int-card--empty"><h3>' +
+        esc(title) +
+        "</h3>" +
+        rowsHtml([], fieldComments) +
+        "</section>"
+      );
+    }
+    var count = rows.length;
+    return (
+      '<section class="int-card ' +
+      cls +
+      '"><h3>' +
+      esc(title) +
+      ' <span class="int-card-count">' +
+      count +
+      "</span></h3>" +
+      rowsHtml(rows, fieldComments) +
+      "</section>"
+    );
+  }
+
+  function detailsBlock(title, rows, fieldComments, open) {
+    if (!rows || !rows.length) return "";
+    return (
+      '<details class="int-details"' +
+      (open ? " open" : "") +
+      "><summary>" +
+      esc(title) +
+      ' <span class="int-card-count">' +
+      rows.length +
+      "</span></summary>" +
+      rowsHtml(rows, fieldComments) +
+      "</details>"
+    );
+  }
+
+  function dossierSummary(d) {
+    var b = d.biens || {};
+    var chips = [];
+    function add(label, n, tone) {
+      if (!n) return;
+      chips.push(
+        '<span class="int-chip int-chip--' +
+          (tone || "neutral") +
+          '">' +
+          esc(label) +
+          " · " +
+          n +
+          "</span>"
+      );
+    }
+    add("Perso", (d.perso || []).length, "perso");
+    add("Pro", (d.pro || []).length, "pro");
+    add("Santé", (d.sante || []).length, "sante");
+    add("Véhicule", (b.vehicules || []).length, "biens");
+    add("Immo", (b.immobilier || []).length, "biens");
+    add("Projet", (d.projet || []).length, "projet");
+    if (!chips.length) return "";
+    return '<div class="int-dossier-summary" aria-label="Résumé du dossier">' + chips.join("") + "</div>";
+  }
+
   function renderSections(dossier, opts) {
     opts = opts || {};
-    var d = dossier || { perso: [], pro: [], sante: [], biens: {}, projet: [] };
+    var d = dossier || { perso: [], pro: [], sante: [], biens: {}, projet: [], webContext: [] };
     var b = d.biens || {};
     var raw = d.raw || {};
     var fieldComments = raw.adminFieldComments || {};
@@ -749,33 +850,48 @@
     var notesBanner = adminNotes
       ? '<div class="int-admin-notes-banner"><strong>Note admin (questionnaire) :</strong> ' + esc(adminNotes) + "</div>"
       : "";
+    var showEmpty = opts.showEmpty === true;
+    var hasVeh = (b.vehicules || []).length > 0;
+    var hasImmo = (b.immobilier || []).length > 0;
+    var hasAutres = (b.autres || []).length > 0;
+    var biensInner = "";
+    if (hasVeh || showEmpty) {
+      biensInner += "<h4>Véhicule / mobilier</h4>" + rowsHtml(b.vehicules, fieldComments);
+    }
+    if (hasImmo || showEmpty) {
+      biensInner += "<h4>Maison, appartement, immeuble</h4>" + rowsHtml(b.immobilier, fieldComments);
+    }
+    if (hasAutres) {
+      biensInner += detailsBlock("Autres éléments du formulaire", b.autres, fieldComments, false);
+    }
+    var biensHtml = "";
+    if (hasVeh || hasImmo || hasAutres || showEmpty) {
+      biensHtml =
+        '<section class="int-card int-card-biens"><h3>Biens — véhicule, immobilier</h3>' +
+        (biensInner || rowsHtml([], fieldComments)) +
+        "</section>";
+    }
+
     var html =
       '<div class="int-dossier">' +
       (opts.title !== false
         ? '<p class="int-dossier-lead">Infos reprises du questionnaire — classées pour la fiche interlocuteur.</p>'
         : "") +
+      dossierSummary(d) +
       notesBanner +
-      '<section class="int-card int-card-perso"><h3>Info perso</h3>' +
-      rowsHtml(d.perso, fieldComments) +
-      "</section>" +
-      '<section class="int-card int-card-pro"><h3>Info pro</h3>' +
-      rowsHtml(d.pro, fieldComments) +
-      "</section>" +
-      ((d.sante || []).length
-        ? '<section class="int-card int-card-sante"><h3>Mutuelle / santé</h3>' +
-          rowsHtml(d.sante, fieldComments) +
-          "</section>"
+      sectionCard("Info perso", "int-card-perso", d.perso, fieldComments, { showEmpty: showEmpty }) +
+      sectionCard("Info pro", "int-card-pro", d.pro, fieldComments, { showEmpty: showEmpty }) +
+      sectionCard("Mutuelle / santé", "int-card-sante", d.sante, fieldComments, { showEmpty: false }) +
+      biensHtml +
+      sectionCard("Projet / produit demandé", "int-card-projet", d.projet, fieldComments, {
+        showEmpty: showEmpty,
+      }) +
+      ((d.webContext || []).length
+        ? '<div class="int-dossier-meta">' +
+          detailsBlock("Contexte web (page, SEO, provenance)", d.webContext, fieldComments, false) +
+          "</div>"
         : "") +
-      '<section class="int-card int-card-biens"><h3>Biens — véhicule, immobilier</h3>' +
-      "<h4>Véhicule / mobilier</h4>" +
-      rowsHtml(b.vehicules, fieldComments) +
-      "<h4>Maison, appartement, immeuble</h4>" +
-      rowsHtml(b.immobilier, fieldComments) +
-      ((b.autres || []).length ? "<h4>Autres éléments</h4>" + rowsHtml(b.autres, fieldComments) : "") +
-      "</section>" +
-      '<section class="int-card int-card-projet"><h3>Projet / produit demandé</h3>' +
-      rowsHtml(d.projet, fieldComments) +
-      "</section></div>";
+      "</div>";
     return html;
   }
 
@@ -837,6 +953,7 @@
     }
     html += section("Contact", "int-card-perso", dossier.perso);
     html += section("Professionnel", "int-card-pro", dossier.pro);
+    html += section("Mutuelle / santé", "int-card-sante", dossier.sante);
     html += section("Bien immobilier", "int-card-biens", bienRows);
     html += section("Projet / annonce", "int-card-projet", dossier.projet);
     html += "</div></div>";
