@@ -1,7 +1,7 @@
 {
   "version": 2,
   "kind": "fiches_produits",
-  "updatedAt": "2026-08-13",
+  "updatedAt": "2026-08-20",
   "disclaimer": "Documents à usage exclusif des professionnels, non contractuels. Fiches produits — types de prêt ≠ partenaires financeurs.",
   "categories": [
     {
@@ -1241,7 +1241,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "CIB_Fiches-produits-2024-7-Rachat-de-soulte.pdf"
+      ]
     },
     {
       "id": "bank-b-bank-b-outil-na-tableau-patrimonial-49",
@@ -2221,7 +2223,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Taux-RAC-CML.pdf"
+      ]
     },
     {
       "id": "cmt-cmt-produit-2025-presentation-2025-93",
@@ -2751,7 +2755,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Lutte-anti-blanchiment---Docusign.pdf"
+      ]
     },
     {
       "id": "creatis-creatis-conformite-na-6-formation-personnes-proposant-du-credit-118",
@@ -2928,7 +2934,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "02-2025---Criteres-Gamme-Sans-Garantie.pdf"
+      ]
     },
     {
       "id": "antilles-sygma-produit-2025-02-02-2025-fiche-avec-garantie-126",
@@ -3816,7 +3824,9 @@
       "path": "",
       "flags": [],
       "notes": "",
-      "aliases": []
+      "aliases": [
+        "Liste-des-pieces-PVH.pdf"
+      ]
     },
     {
       "id": "mmb-mmb-conformite-2017-05-6-guide-integrite-mmb-05-2017-165",
@@ -4636,6 +4646,787 @@
       "aliases": [
         "07-2026-CACF-BOOK-SCPI.pdf"
       ]
+    },
+    {
+      "id": "sygma-sygma-memento-2026-01-01-2026-sygma-201",
+      "category": "immo",
+      "partner": "sygma",
+      "subsection": "memento",
+      "title": "SYGMA — memento 01-2026",
+      "filename": "01-2026-SYGMA.pdf",
+      "kind": "memento",
+      "period": "2026-01",
+      "region": "metropole",
+      "storageSection": "sygma",
+      "tags": [
+        "sygma",
+        "memento"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "01-2026-SYGMA.pdf"
+      ]
+    },
+    {
+      "id": "immo-cgi-partenariat-na-cib-fiche-partenariat-202",
+      "category": "immo",
+      "partner": "cgi",
+      "subsection": "partenariat",
+      "title": "CIB — fiche partenariat",
+      "filename": "CIB_fiche-Partenariat.pdf",
+      "kind": "interne",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "cib",
+        "partenariat"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiche-Partenariat.pdf"
+      ]
+    },
+    {
+      "id": "treso-cgi-produit-2024-cib-fiches-credit-consommation-2024-4-203",
+      "category": "treso",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — crédit consommation",
+      "filename": "CIB_fiches-Credit-Consommation-2024-4.pdf",
+      "kind": "fiche",
+      "period": "2024",
+      "region": "metropole",
+      "storageSection": "treso",
+      "tags": [
+        "cib",
+        "conso",
+        "treso"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiches-Credit-Consommation-2024-4.pdf"
+      ]
+    },
+    {
+      "id": "immo-cgi-produit-2024-cib-fiches-credit-immobilier-2024-2-204",
+      "category": "immo",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — crédit immobilier",
+      "filename": "CIB_fiches-Credit-Immobilier-2024-2.pdf",
+      "kind": "fiche",
+      "period": "2024",
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "cib",
+        "immo"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiches-Credit-Immobilier-2024-2.pdf"
+      ]
+    },
+    {
+      "id": "immo-cgi-produit-2024-cib-fiches-financement-investisseur-2024-1-205",
+      "category": "immo",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — financement investisseur",
+      "filename": "CIB_fiches-Financement-Investisseur-2024-1.pdf",
+      "kind": "fiche",
+      "period": "2024",
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "cib",
+        "investisseur",
+        "immo"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiches-Financement-Investisseur-2024-1.pdf"
+      ]
+    },
+    {
+      "id": "scpi-cgi-produit-2024-cib-fiches-financement-scpi-2024-5-206",
+      "category": "scpi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — financement SCPI",
+      "filename": "CIB_fiches-Financement-SCPI-2024-5.pdf",
+      "kind": "fiche",
+      "period": "2024",
+      "region": "metropole",
+      "storageSection": "scpi",
+      "tags": [
+        "cib",
+        "scpi"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiches-Financement-SCPI-2024-5.pdf"
+      ]
+    },
+    {
+      "id": "pvh-cgi-produit-2024-cib-fiches-pret-viager-hypothecaire-2024-3-207",
+      "category": "pvh",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — prêt viager hypothécaire",
+      "filename": "CIB_fiches-Pret-Viager-Hypothecaire-2024-3.pdf",
+      "kind": "fiche",
+      "period": "2024",
+      "region": "metropole",
+      "storageSection": "pvh",
+      "tags": [
+        "cib",
+        "pvh"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiches-Pret-Viager-Hypothecaire-2024-3.pdf"
+      ]
+    },
+    {
+      "id": "renov-cgi-produit-2024-cib-fiches-produits-2024-8-travaux-208",
+      "category": "renov",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — travaux",
+      "filename": "CIB_fiches-produits-2024-8_TRAVAUX.pdf",
+      "kind": "fiche",
+      "period": "2024",
+      "region": "metropole",
+      "storageSection": "renov",
+      "tags": [
+        "cib",
+        "travaux",
+        "renov"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiches-produits-2024-8_TRAVAUX.pdf"
+      ]
+    },
+    {
+      "id": "credilift-cgi-produit-2024-cib-fiches-regroupement-de-credits-2024-6-209",
+      "category": "rac",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — regroupement de crédits",
+      "filename": "CIB_fiches-Regroupement-de-Credits-2024-6.pdf",
+      "kind": "fiche",
+      "period": "2024",
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "cib",
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "CIB_fiches-Regroupement-de-Credits-2024-6.pdf"
+      ]
+    },
+    {
+      "id": "immo-cgi-interne-na-convention-honoraire-cib-finance-210",
+      "category": "immo",
+      "partner": "cgi",
+      "subsection": "interne",
+      "title": "Convention honoraires CIB Finance",
+      "filename": "Convention-Honoraire-Cib-finance.pdf",
+      "kind": "interne",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "cib",
+        "honoraires",
+        "interne"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Convention-Honoraire-Cib-finance.pdf"
+      ]
+    },
+    {
+      "id": "immo-cgi-interne-na-credit-immoiblier-annexe-convention-honoraires-211",
+      "category": "immo",
+      "partner": "cgi",
+      "subsection": "interne",
+      "title": "Annexe convention honoraires",
+      "filename": "Credit-immoiblier---Annexe-convention-honoraires.pdf",
+      "kind": "interne",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "honoraires",
+        "interne"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Credit-immoiblier---Annexe-convention-honoraires.pdf",
+        "Regroupement-de-credits---Annexe-convention-honoraires.pdf"
+      ]
+    },
+    {
+      "id": "immo-dossier-na-dossier-credit-immobilier-212",
+      "category": "immo",
+      "partner": null,
+      "subsection": "dossier",
+      "title": "Dossier type — crédit immobilier",
+      "filename": "Dossier---Credit-immobilier.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "dossier",
+        "immo",
+        "pieces"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier---Credit-immobilier.pdf"
+      ]
+    },
+    {
+      "id": "hypo-treso-produit-na-dossier-pret-hypothecaire-de-tresorerie-213",
+      "category": "hypo_treso",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier — Pret-Hypothecaire-de-Tresorerie",
+      "filename": "Dossier---Pret-Hypothecaire-de-Tresorerie.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "hypo_treso",
+      "tags": [
+        "hypo_treso"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier---Pret-Hypothecaire-de-Tresorerie.pdf"
+      ]
+    },
+    {
+      "id": "treso-produit-na-dossier-tresorerie-214",
+      "category": "treso",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier — Tresorerie",
+      "filename": "Dossier---Tresorerie.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "treso",
+      "tags": [
+        "treso"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier---Tresorerie.pdf"
+      ]
+    },
+    {
+      "id": "sci-produit-na-dossier-sci-215",
+      "category": "sci",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier — SCI",
+      "filename": "Dossier--SCI.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "sci",
+      "tags": [
+        "sci"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier--SCI.pdf"
+      ]
+    },
+    {
+      "id": "credilift-produit-na-dossier-rac-heberge-216",
+      "category": "rac",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier-Rac — Heberge",
+      "filename": "Dossier-Rac---Heberge.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier-Rac---Heberge.pdf"
+      ]
+    },
+    {
+      "id": "credilift-produit-na-dossier-rac-locataire-217",
+      "category": "rac",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier-Rac — Locataire",
+      "filename": "Dossier-Rac---Locataire.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier-Rac---Locataire.pdf"
+      ]
+    },
+    {
+      "id": "credilift-produit-na-dossier-rac-propiretaire-218",
+      "category": "rac",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier-Rac — Propiretaire",
+      "filename": "Dossier-Rac---Propiretaire.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier-Rac---Propiretaire.pdf"
+      ]
+    },
+    {
+      "id": "scpi-dossier-na-dossier-scpi-219",
+      "category": "scpi",
+      "partner": null,
+      "subsection": "dossier",
+      "title": "Dossier type — SCPI",
+      "filename": "Dossier-SCPI.pdf",
+      "kind": "dossier",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "scpi",
+      "tags": [
+        "dossier",
+        "scpi",
+        "pieces"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Dossier-SCPI.pdf"
+      ]
+    },
+    {
+      "id": "renov-flyer-na-flyer-pret-travaux-hypo-220",
+      "category": "renov",
+      "partner": null,
+      "subsection": "flyer",
+      "title": "Flyer prêt travaux hypo",
+      "filename": "Flyer-Pret-Travaux-Hypo.pdf",
+      "kind": "flyer",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "renov",
+      "tags": [
+        "flyer",
+        "travaux",
+        "hypo"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Flyer-Pret-Travaux-Hypo.pdf"
+      ]
+    },
+    {
+      "id": "pvh-flyer-na-flyer-pvh-221",
+      "category": "pvh",
+      "partner": null,
+      "subsection": "flyer",
+      "title": "Flyer PVH",
+      "filename": "Flyer-PVH.pdf",
+      "kind": "flyer",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "pvh",
+      "tags": [
+        "flyer",
+        "pvh"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Flyer-PVH.pdf"
+      ]
+    },
+    {
+      "id": "credilift-produit-na-flyer-rac-222",
+      "category": "rac",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Flyer-RAC",
+      "filename": "Flyer-RAC.pdf",
+      "kind": "flyer",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Flyer-RAC.pdf",
+        "Flyer-Rachat-Soulte.pdf"
+      ]
+    },
+    {
+      "id": "immo-cgi-assurance-na-guide-d-informations-cibassur-223",
+      "category": "immo",
+      "partner": "cgi",
+      "subsection": "assurance",
+      "title": "Guide informations Cibassur",
+      "filename": "Guide-d_informations-Cibassur.pdf",
+      "kind": "assurance",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "assurance",
+        "cib",
+        "cibassur"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Guide-d_informations-Cibassur.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-immobilier-fiche-renseignements-clients-224",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Immobilier — Fiche-renseignements-clients",
+      "filename": "Immobilier---Fiche-renseignements-clients.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Immobilier---Fiche-renseignements-clients.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-indic-demande-entree-en-relation-copie-225",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Indic — Demande-Entree-en-Relation — Copie",
+      "filename": "Indic---Demande-Entree-en-Relation---Copie.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Indic---Demande-Entree-en-Relation---Copie.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-info-pub-docusign-226",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Info-pub — Docusign",
+      "filename": "Info-pub---Docusign.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Info-pub---Docusign.pdf"
+      ]
+    },
+    {
+      "id": "immo-assurance-na-information-pre-contractuelle-assurance-227",
+      "category": "immo",
+      "partner": null,
+      "subsection": "assurance",
+      "title": "Information précontractuelle assurance",
+      "filename": "Information-pre-contractuelle-assurance.pdf",
+      "kind": "assurance",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "assurance",
+        "precontractuel"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Information-pre-contractuelle-assurance.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-miob-demande-entree-en-relation-228",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "MIOB — Demande-Entree-en-Relation",
+      "filename": "MIOB---Demande-Entree-en-Relation.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "MIOB---Demande-Entree-en-Relation.pdf"
+      ]
+    },
+    {
+      "id": "immo-interne-na-mise-en-place-immo-229",
+      "category": "immo",
+      "partner": null,
+      "subsection": "interne",
+      "title": "Mise en place IMMO",
+      "filename": "Mise-en-place-IMMO.pdf",
+      "kind": "interne",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "interne",
+        "immo",
+        "process"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Mise-en-place-IMMO.pdf"
+      ]
+    },
+    {
+      "id": "credilift-produit-na-procedure-de-commercialisation-des-rac-docusign-230",
+      "category": "rac",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Procedure-de-commercialisation-des-RAC — Docusign",
+      "filename": "Procedure-de-commercialisation-des-RAC---Docusign.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Procedure-de-commercialisation-des-RAC---Docusign.pdf"
+      ]
+    },
+    {
+      "id": "immo-produit-na-publicite-credit-immobilier-docusign-231",
+      "category": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Publicite-Credit-immobilier — Docusign",
+      "filename": "Publicite-Credit-immobilier---Docusign.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "immo",
+      "tags": [
+        "import"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Publicite-Credit-immobilier---Docusign.pdf"
+      ]
+    },
+    {
+      "id": "credilift-produit-na-rac-fiche-renseignements-232",
+      "category": "rac",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Rac — Fiche-renseignements",
+      "filename": "Rac---Fiche-renseignements.pdf",
+      "kind": "fiche",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "credilift",
+      "tags": [
+        "rac"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Rac---Fiche-renseignements.pdf"
+      ]
+    },
+    {
+      "id": "bank-b-bank-b-formulaire-na-tableau-patrimoine-bank-b-233",
+      "category": "immo",
+      "partner": "bank_b",
+      "subsection": "formulaire",
+      "title": "Tableau patrimoine BANK B",
+      "filename": "TABLEAU-PATRIMOINE-BANK-B.pdf",
+      "kind": "formulaire",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "bank_b",
+      "tags": [
+        "bank_b",
+        "patrimoine",
+        "formulaire"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "TABLEAU-PATRIMOINE-BANK-B.pdf"
+      ]
+    },
+    {
+      "id": "cml-cml-taux-na-taux-pret-personne-cml-234",
+      "category": "treso",
+      "partner": "cml",
+      "subsection": "taux",
+      "title": "Taux prêt personnel CML",
+      "filename": "Taux-pret-personne-CML.pdf",
+      "kind": "grille",
+      "period": null,
+      "region": "metropole",
+      "storageSection": "cml",
+      "tags": [
+        "cml",
+        "conso",
+        "taux"
+      ],
+      "status": "pending_upload",
+      "path": "",
+      "flags": [],
+      "notes": "",
+      "aliases": [
+        "Taux-pret-personne-CML.pdf"
+      ]
     }
   ],
   "eligibilityRules": [
@@ -4938,9 +5729,9 @@
   ],
   "manifest": {
     "source": "scripts/pret-fiches-manifest.json",
-    "uniqueFiles": 201,
+    "uniqueFiles": 235,
     "available": 0,
-    "pending": 201,
+    "pending": 235,
     "note": "categories = types de prêt ; partners = établissements ; region = géographie (DOM-TOM ≠ partenaire)"
   }
 }

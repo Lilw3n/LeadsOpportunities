@@ -312,8 +312,462 @@ const NEW_DEFAULTS = [
       period: null,
       kind: "formulaire"
     }
+  },
+  /* —— Ajouts Desktop pret (CIB, dossiers types, flyers, CML taux…) —— */
+  {
+    match: /cib.?fiche.?partenariat|fiche.?partenariat/i,
+    entry: {
+      section: "immo",
+      partner: "cgi",
+      subsection: "partenariat",
+      title: "CIB — fiche partenariat",
+      tags: ["cib", "partenariat"],
+      kind: "interne"
+    }
+  },
+  {
+    match: /cib.?fiches.?credit.?consommation/i,
+    entry: {
+      section: "treso",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — crédit consommation",
+      tags: ["cib", "conso", "treso"],
+      period: "2024"
+    }
+  },
+  {
+    match: /cib.?fiches.?credit.?immobilier/i,
+    entry: {
+      section: "immo",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — crédit immobilier",
+      tags: ["cib", "immo"],
+      period: "2024"
+    }
+  },
+  {
+    match: /cib.?fiches.?financement.?investisseur/i,
+    entry: {
+      section: "immo",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — financement investisseur",
+      tags: ["cib", "investisseur", "immo"],
+      period: "2024"
+    }
+  },
+  {
+    match: /cib.?fiches.?financement.?scpi/i,
+    entry: {
+      section: "scpi",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — financement SCPI",
+      tags: ["cib", "scpi"],
+      period: "2024"
+    }
+  },
+  {
+    match: /cib.?fiches.?pret.?viager|cib.?.*viager.?hypothecaire/i,
+    entry: {
+      section: "pvh",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — prêt viager hypothécaire",
+      tags: ["cib", "pvh"],
+      period: "2024"
+    }
+  },
+  {
+    match: /cib.?fiches.?produits.?2024.?7.?rachat.?de.?soulte|cib.?.*rachat.?de.?soulte/i,
+    entry: {
+      section: "immo",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — rachat de soulte",
+      tags: ["cib", "soulte", "immo"],
+      period: "2024"
+    }
+  },
+  {
+    match: /cib.?fiches.?produits.?2024.?8.?travaux|cib.?.*travaux/i,
+    entry: {
+      section: "renov",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — travaux",
+      tags: ["cib", "travaux", "renov"],
+      period: "2024"
+    }
+  },
+  {
+    match: /cib.?fiches.?regroupement.?de.?credits/i,
+    entry: {
+      section: "credilift",
+      partner: "cgi",
+      subsection: "produit",
+      title: "CIB — regroupement de crédits",
+      tags: ["cib", "rac"],
+      period: "2024"
+    }
+  },
+  {
+    match: /convention.?honoraire.?cib/i,
+    entry: {
+      section: "immo",
+      partner: "cgi",
+      subsection: "interne",
+      title: "Convention honoraires CIB Finance",
+      tags: ["cib", "honoraires", "interne"],
+      kind: "interne"
+    }
+  },
+  {
+    match: /annexe.?convention.?honoraires|credit.?immoiblier.?annexe|regroupement.?de.?credits.?annexe/i,
+    entry: {
+      section: "immo",
+      partner: "cgi",
+      subsection: "interne",
+      title: "Annexe convention honoraires",
+      tags: ["honoraires", "interne"],
+      kind: "interne"
+    }
+  },
+  {
+    match: /^dossier.?credit.?immobilier|^dossier---credit/i,
+    entry: {
+      section: "immo",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type — crédit immobilier",
+      tags: ["dossier", "immo", "pieces"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /dossier.?pret.?hypothecaire.?de.?tresorerie/i,
+    entry: {
+      section: "hypo_treso",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type — prêt hypothécaire de trésorerie",
+      tags: ["dossier", "hypo_treso", "pieces"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /dossier.?rac.?heberge/i,
+    entry: {
+      section: "credilift",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type RAC — hébergé",
+      tags: ["dossier", "rac", "heberge"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /dossier.?rac.?locataire/i,
+    entry: {
+      section: "credilift",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type RAC — locataire",
+      tags: ["dossier", "rac", "locataire"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /dossier.?rac.?propir|dossier.?rac.?propriet/i,
+    entry: {
+      section: "credilift",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type RAC — propriétaire",
+      tags: ["dossier", "rac", "proprietaire"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /dossier.?sci/i,
+    entry: {
+      section: "sci",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type — SCI",
+      tags: ["dossier", "sci", "pieces"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /dossier.?scpi/i,
+    entry: {
+      section: "scpi",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type — SCPI",
+      tags: ["dossier", "scpi", "pieces"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /dossier.?tresorerie/i,
+    entry: {
+      section: "treso",
+      partner: null,
+      subsection: "dossier",
+      title: "Dossier type — trésorerie",
+      tags: ["dossier", "treso", "pieces"],
+      kind: "dossier"
+    }
+  },
+  {
+    match: /flyer.?pret.?travaux.?hypo/i,
+    entry: {
+      section: "renov",
+      partner: null,
+      subsection: "flyer",
+      title: "Flyer prêt travaux hypo",
+      tags: ["flyer", "travaux", "hypo"],
+      kind: "flyer"
+    }
+  },
+  {
+    match: /^flyer.?pvh/i,
+    entry: {
+      section: "pvh",
+      partner: null,
+      subsection: "flyer",
+      title: "Flyer PVH",
+      tags: ["flyer", "pvh"],
+      kind: "flyer"
+    }
+  },
+  {
+    match: /^flyer.?rac$/i,
+    entry: {
+      section: "credilift",
+      partner: null,
+      subsection: "flyer",
+      title: "Flyer RAC",
+      tags: ["flyer", "rac"],
+      kind: "flyer"
+    }
+  },
+  {
+    match: /flyer.?rachat.?soulte/i,
+    entry: {
+      section: "immo",
+      partner: null,
+      subsection: "flyer",
+      title: "Flyer rachat de soulte",
+      tags: ["flyer", "soulte"],
+      kind: "flyer"
+    }
+  },
+  {
+    match: /guide.?d.?informations.?cibassur|cibassur/i,
+    entry: {
+      section: "immo",
+      partner: "cgi",
+      subsection: "assurance",
+      title: "Guide informations Cibassur",
+      tags: ["assurance", "cib", "cibassur"],
+      kind: "assurance"
+    }
+  },
+  {
+    match: /immobilier.?fiche.?renseignements.?clients/i,
+    entry: {
+      section: "immo",
+      partner: null,
+      subsection: "formulaire",
+      title: "Immobilier — fiche renseignements clients",
+      tags: ["formulaire", "immo"],
+      kind: "formulaire"
+    }
+  },
+  {
+    match: /indic.?demande.?entree.?en.?relation|miob.?demande.?entree/i,
+    entry: {
+      section: "immo",
+      partner: null,
+      subsection: "formulaire",
+      title: "Demande d'entrée en relation",
+      tags: ["formulaire", "entree_relation"],
+      kind: "formulaire"
+    }
+  },
+  {
+    match: /info.?pub.?docusign|publicite.?credit.?immobilier.?docusign|lutte.?anti.?blanchiment.?docusign|procedure.?de.?commercialisation.?des.?rac.?docusign/i,
+    entry: {
+      section: "immo",
+      partner: null,
+      subsection: "interne",
+      title: "Procédure DocuSign / conformité",
+      tags: ["docusign", "conformite", "interne"],
+      kind: "interne"
+    }
+  },
+  {
+    match: /information.?pre.?contractuelle.?assurance/i,
+    entry: {
+      section: "immo",
+      partner: null,
+      subsection: "assurance",
+      title: "Information précontractuelle assurance",
+      tags: ["assurance", "precontractuel"],
+      kind: "assurance"
+    }
+  },
+  {
+    match: /liste.?des.?pieces.?pvh/i,
+    entry: {
+      section: "pvh",
+      partner: null,
+      subsection: "pieces",
+      title: "Liste des pièces PVH",
+      tags: ["pieces", "pvh"],
+      kind: "pieces"
+    }
+  },
+  {
+    match: /mise.?en.?place.?immo/i,
+    entry: {
+      section: "immo",
+      partner: null,
+      subsection: "interne",
+      title: "Mise en place IMMO",
+      tags: ["interne", "immo", "process"],
+      kind: "interne"
+    }
+  },
+  {
+    match: /^rac.?fiche.?renseignements/i,
+    entry: {
+      section: "credilift",
+      partner: null,
+      subsection: "formulaire",
+      title: "RAC — fiche renseignements",
+      tags: ["formulaire", "rac"],
+      kind: "formulaire"
+    }
+  },
+  {
+    match: /tableau.?patrimoine.?bank.?b/i,
+    entry: {
+      section: "bank_b",
+      partner: "bank_b",
+      subsection: "formulaire",
+      title: "Tableau patrimoine BANK B",
+      tags: ["bank_b", "patrimoine", "formulaire"],
+      kind: "formulaire"
+    }
+  },
+  {
+    match: /taux.?pret.?personne.?cml/i,
+    entry: {
+      section: "cml",
+      partner: "cml",
+      subsection: "taux",
+      title: "Taux prêt personnel CML",
+      tags: ["cml", "conso", "taux"],
+      kind: "grille"
+    }
+  },
+  {
+    match: /taux.?rac.?cml/i,
+    entry: {
+      section: "cml",
+      partner: "cml",
+      subsection: "taux",
+      title: "Taux RAC CML",
+      tags: ["cml", "rac", "taux"],
+      kind: "grille"
+    }
+  },
+  {
+    match: /01.?2026.?sygma|^01-2026-sygma/i,
+    entry: {
+      section: "sygma",
+      partner: "sygma",
+      subsection: "memento",
+      title: "SYGMA — memento 01-2026",
+      tags: ["sygma", "memento"],
+      period: "2026-01",
+      kind: "memento"
+    }
+  },
+  {
+    match: /criteres.?gamme.?sans.?garantie/i,
+    entry: {
+      section: "credilift",
+      partner: "creatis",
+      subsection: "critere",
+      title: "Critères gamme sans garantie",
+      tags: ["rac", "sans_garantie", "critere"],
+      period: "2025-02"
+    }
   }
 ];
+
+/** Fallback : crée une entrée minimale pour tout fichier encore non mappé */
+function inferEntryFromFilename(dl) {
+  var lower = dl.toLowerCase();
+  var section = "immo";
+  var partner = null;
+  var tags = [];
+  if (/scpi/.test(lower)) {
+    section = "scpi";
+    tags.push("scpi");
+  } else if (/pvh|viager/.test(lower)) {
+    section = "pvh";
+    tags.push("pvh");
+  } else if (/hypo.?treso|hypothecaire.?de.?tresorerie|hypo.?treso/.test(lower)) {
+    section = "hypo_treso";
+    tags.push("hypo_treso");
+  } else if (/renov|travaux/.test(lower)) {
+    section = "renov";
+    tags.push("renov");
+  } else if (/\brac\b|regroupement|consolift|unilift|minilift|hypolift|normalift/.test(lower)) {
+    section = "credilift";
+    tags.push("rac");
+  } else if (/treso|tresorerie|conso/.test(lower)) {
+    section = "treso";
+    tags.push("treso");
+  } else if (/\bsci\b/.test(lower)) {
+    section = "sci";
+    tags.push("sci");
+  }
+  if (/cfcal/.test(lower)) partner = "cfcal";
+  else if (/creatis/.test(lower)) partner = "creatis";
+  else if (/sygma/.test(lower)) partner = "sygma";
+  else if (/mmb|my.?money|my.?new.?treso|my.?simply|easy.?treso/.test(lower)) partner = "mmb";
+  else if (/cml|municipal.?lyon/.test(lower)) partner = "cml";
+  else if (/cmt/.test(lower)) partner = "cmt";
+  else if (/bank.?b|griffon/.test(lower)) partner = /griffon/.test(lower) ? "griffon" : "bank_b";
+  else if (/cib|cgi/.test(lower)) partner = "cgi";
+  else if (/lift|cacf/.test(lower)) partner = "credilift";
+  var title = stripCopy(dl)
+    .replace(/\.pdf$/i, "")
+    .replace(/---+/g, " — ")
+    .replace(/--+/g, " — ")
+    .replace(/_/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  return {
+    section: section,
+    partner: partner,
+    subsection: "produit",
+    title: title,
+    tags: tags.length ? tags : ["import"],
+    canonical: dl.replace(/\s+/g, "-"),
+    aliases: [dl],
+    kind: /dossier/i.test(lower) ? "dossier" : /flyer/i.test(lower) ? "flyer" : "fiche"
+  };
+}
 
 let aliasAdds = 0;
 let newAdds = 0;
@@ -360,7 +814,16 @@ unique.forEach(function (dl) {
     return;
   }
 
-  unmatched.push(dl);
+  const inferred = inferEntryFromFilename(dl);
+  const existsInf = manifest.files.some(
+    (f) => norm(f.canonical) === norm(inferred.canonical) || (inferred.title && norm(f.title) === norm(inferred.title))
+  );
+  if (!existsInf) {
+    manifest.files.push(inferred);
+    newAdds++;
+  } else {
+    unmatched.push(dl);
+  }
 });
 
 manifest.downloadList = {

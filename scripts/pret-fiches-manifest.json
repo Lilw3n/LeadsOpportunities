@@ -256,7 +256,8 @@
       "period": null,
       "aliases": [
         "BANK-B---Travaux---75-000-___-a-des-fins-privees.pdf"
-      ]
+      ],
+      "downloadName": "BANK-B---Travaux---75-000-___-a-des-fins-privees.pdf"
     },
     {
       "section": "hypo_treso",
@@ -271,7 +272,8 @@
       "period": null,
       "aliases": [
         "BANK-B---Travaux---75-000___-a-des-fins-professionnelles.pdf"
-      ]
+      ],
+      "downloadName": "BANK-B---Travaux---75-000___-a-des-fins-professionnelles.pdf"
     },
     {
       "section": "hypo_treso",
@@ -851,7 +853,9 @@
         "soulte"
       ],
       "period": null,
-      "aliases": [],
+      "aliases": [
+        "CIB_Fiches-produits-2024-7-Rachat-de-soulte.pdf"
+      ],
       "downloadName": "Rachat-de-soulte.pdf"
     },
     {
@@ -881,7 +885,8 @@
       "period": null,
       "aliases": [
         "Travaux-plus-de-75.000-Euros-prive.pdf"
-      ]
+      ],
+      "downloadName": "Travaux-plus-de-75.000-Euros-prive.pdf"
     },
     {
       "section": "bank_b",
@@ -896,7 +901,8 @@
       "period": null,
       "aliases": [
         "Travaux-plus-de-75.000-Euros-pro.pdf"
-      ]
+      ],
+      "downloadName": "Travaux-plus-de-75.000-Euros-pro.pdf"
     },
     {
       "section": "bank_b",
@@ -1532,7 +1538,9 @@
         "cml"
       ],
       "period": null,
-      "aliases": [],
+      "aliases": [
+        "Taux-RAC-CML.pdf"
+      ],
       "downloadName": "RAC-Credit-Municipal-Lyon.pdf"
     },
     {
@@ -1903,7 +1911,9 @@
       ],
       "period": "2018",
       "kind": "conformite",
-      "aliases": [],
+      "aliases": [
+        "Lutte-anti-blanchiment---Docusign.pdf"
+      ],
       "downloadName": "6-FICHE-LUTTE-ANTIBLANCHIMENT-2018.pdf"
     },
     {
@@ -2032,7 +2042,11 @@
         "sans_garantie"
       ],
       "period": "2025-02",
-      "region": "antilles"
+      "region": "antilles",
+      "aliases": [
+        "02-2025---Criteres-Gamme-Sans-Garantie.pdf"
+      ],
+      "downloadName": "02-2025---Criteres-Gamme-Sans-Garantie.pdf"
     },
     {
       "section": "antilles",
@@ -2508,7 +2522,8 @@
       "kind": "assurance",
       "aliases": [
         "4-Assurance-Groupe-RAC-Notice-d_assurance.pdf"
-      ]
+      ],
+      "downloadName": "4-Assurance-Groupe-RAC-Notice-d_assurance.pdf"
     },
     {
       "section": "mmb",
@@ -2660,7 +2675,9 @@
       ],
       "period": "2019-05",
       "kind": "interne",
-      "aliases": [],
+      "aliases": [
+        "Liste-des-pieces-PVH.pdf"
+      ],
       "downloadName": "5-Liste-des-pieces-05-2019.pdf"
     },
     {
@@ -2858,7 +2875,8 @@
       "kind": "assurance",
       "aliases": [
         "4-Assurance-Questionnaire-d_etat-d_emploi.pdf"
-      ]
+      ],
+      "downloadName": "4-Assurance-Questionnaire-d_etat-d_emploi.pdf"
     },
     {
       "section": "sygma",
@@ -2904,7 +2922,8 @@
       "canonical": "CFCAL-Modif-normes-SCI-01-2026.pdf",
       "aliases": [
         "CFCAL-Modif-normes-SCI-01-2026.pdf"
-      ]
+      ],
+      "downloadName": "CFCAL-Modif-normes-SCI-01-2026.pdf"
     },
     {
       "section": "immo",
@@ -2920,7 +2939,8 @@
       "canonical": "CFCAL-01-2026-Fiche-Investys-Patrimonial.pdf",
       "aliases": [
         "CFCAL-01-2026-Fiche-Investys-Patrimonial.pdf"
-      ]
+      ],
+      "downloadName": "CFCAL-01-2026-Fiche-Investys-Patrimonial.pdf"
     },
     {
       "section": "credilift",
@@ -2936,7 +2956,8 @@
       "canonical": "Process-cession-sur-salaire.pdf",
       "aliases": [
         "Process-cession-sur-salaire.pdf"
-      ]
+      ],
+      "downloadName": "Process-cession-sur-salaire.pdf"
     },
     {
       "section": "credilift",
@@ -2952,7 +2973,8 @@
       "canonical": "Mandat-SEPA.pdf",
       "aliases": [
         "Mandat-SEPA.pdf"
-      ]
+      ],
+      "downloadName": "Mandat-SEPA.pdf"
     },
     {
       "section": "credilift",
@@ -2968,7 +2990,8 @@
       "canonical": "Attestation-non-re-endettement.pdf",
       "aliases": [
         "Attestation-non-re-endettement.pdf"
-      ]
+      ],
+      "downloadName": "Attestation-non-re-endettement.pdf"
     },
     {
       "section": "credilift",
@@ -2984,7 +3007,8 @@
       "canonical": "Attestation-de-cloture-des-credits-renouvelables.pdf",
       "aliases": [
         "Attestation-de-cloture-des-credits-renouvelables.pdf"
-      ]
+      ],
+      "downloadName": "Attestation-de-cloture-des-credits-renouvelables.pdf"
     },
     {
       "section": "credilift",
@@ -3000,7 +3024,8 @@
       "canonical": "assurance-lettre-renonciation.pdf",
       "aliases": [
         "assurance-lettre-renonciation.pdf"
-      ]
+      ],
+      "downloadName": "assurance-lettre-renonciation.pdf"
     },
     {
       "section": "credilift",
@@ -3016,7 +3041,8 @@
       "canonical": "assurance-assurlift-presentation.pdf",
       "aliases": [
         "assurance-assurlift-presentation.pdf"
-      ]
+      ],
+      "downloadName": "assurance-assurlift-presentation.pdf"
     },
     {
       "section": "credilift",
@@ -3032,7 +3058,8 @@
       "canonical": "UNILIFT-05-2026.pdf",
       "aliases": [
         "UNILIFT-05-2026.pdf"
-      ]
+      ],
+      "downloadName": "UNILIFT-05-2026.pdf"
     },
     {
       "section": "credilift",
@@ -3049,7 +3076,8 @@
       "canonical": "MINILIFT-05-2026.pdf",
       "aliases": [
         "MINILIFT-05-2026.pdf"
-      ]
+      ],
+      "downloadName": "MINILIFT-05-2026.pdf"
     },
     {
       "section": "credilift",
@@ -3065,7 +3093,8 @@
       "canonical": "CONSOLIFT-180-mois--05-2026.pdf",
       "aliases": [
         "CONSOLIFT-180-mois--05-2026.pdf"
-      ]
+      ],
+      "downloadName": "CONSOLIFT-180-mois--05-2026.pdf"
     },
     {
       "section": "credilift",
@@ -3081,7 +3110,8 @@
       "canonical": "CONSOLIFT-05-2026.pdf",
       "aliases": [
         "CONSOLIFT-05-2026.pdf"
-      ]
+      ],
+      "downloadName": "CONSOLIFT-05-2026.pdf"
     },
     {
       "section": "credilift",
@@ -3098,7 +3128,8 @@
       "canonical": "CAUTIOLIFT-conso-05-2026.pdf",
       "aliases": [
         "CAUTIOLIFT-conso-05-2026.pdf"
-      ]
+      ],
+      "downloadName": "CAUTIOLIFT-conso-05-2026.pdf"
     },
     {
       "section": "credilift",
@@ -3116,7 +3147,8 @@
       "canonical": "HYPOLIFT-conso-2nd-rang-05-2026.pdf",
       "aliases": [
         "HYPOLIFT-conso-2nd-rang-05-2026.pdf"
-      ]
+      ],
+      "downloadName": "HYPOLIFT-conso-2nd-rang-05-2026.pdf"
     },
     {
       "section": "credilift",
@@ -3134,7 +3166,8 @@
       "canonical": "HYPOLIFT-conso-05-2026.pdf",
       "aliases": [
         "HYPOLIFT-conso-05-2026.pdf"
-      ]
+      ],
+      "downloadName": "HYPOLIFT-conso-05-2026.pdf"
     },
     {
       "section": "scpi",
@@ -3150,7 +3183,8 @@
       "canonical": "06-2026-SCPI-nom-propre-nantissement-parts-CFCAL.pdf",
       "aliases": [
         "06-2026-SCPI-nom-propre-nantissement-parts-CFCAL.pdf"
-      ]
+      ],
+      "downloadName": "06-2026-SCPI-nom-propre-nantissement-parts-CFCAL.pdf"
     },
     {
       "section": "scpi",
@@ -3166,7 +3200,8 @@
       "canonical": "06-2026-SCPI-nom-propre-caution-logement-CFCAL.pdf",
       "aliases": [
         "06-2026-SCPI-nom-propre-caution-logement-CFCAL.pdf"
-      ]
+      ],
+      "downloadName": "06-2026-SCPI-nom-propre-caution-logement-CFCAL.pdf"
     },
     {
       "section": "scpi",
@@ -3182,7 +3217,8 @@
       "canonical": "06-2026-SCPI-financement-via-SCI-CFCAL.pdf",
       "aliases": [
         "06-2026-SCPI-financement-via-SCI-CFCAL.pdf"
-      ]
+      ],
+      "downloadName": "06-2026-SCPI-financement-via-SCI-CFCAL.pdf"
     },
     {
       "section": "scpi",
@@ -3199,7 +3235,8 @@
       "canonical": "07-2026-Liste-SCPI-CACF.pdf",
       "aliases": [
         "07-2026-Liste-SCPI-CACF.pdf"
-      ]
+      ],
+      "downloadName": "07-2026-Liste-SCPI-CACF.pdf"
     },
     {
       "section": "scpi",
@@ -3216,14 +3253,527 @@
       "canonical": "07-2026-CACF-BOOK-SCPI.pdf",
       "aliases": [
         "07-2026-CACF-BOOK-SCPI.pdf"
+      ],
+      "downloadName": "07-2026-CACF-BOOK-SCPI.pdf"
+    },
+    {
+      "section": "sygma",
+      "partner": "sygma",
+      "subsection": "memento",
+      "title": "SYGMA — memento 01-2026",
+      "tags": [
+        "sygma",
+        "memento"
+      ],
+      "period": "2026-01",
+      "kind": "memento",
+      "canonical": "01-2026-SYGMA.pdf",
+      "aliases": [
+        "01-2026-SYGMA.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": "cgi",
+      "subsection": "partenariat",
+      "title": "CIB — fiche partenariat",
+      "tags": [
+        "cib",
+        "partenariat"
+      ],
+      "kind": "interne",
+      "canonical": "CIB_fiche-Partenariat.pdf",
+      "aliases": [
+        "CIB_fiche-Partenariat.pdf"
+      ]
+    },
+    {
+      "section": "treso",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — crédit consommation",
+      "tags": [
+        "cib",
+        "conso",
+        "treso"
+      ],
+      "period": "2024",
+      "canonical": "CIB_fiches-Credit-Consommation-2024-4.pdf",
+      "aliases": [
+        "CIB_fiches-Credit-Consommation-2024-4.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — crédit immobilier",
+      "tags": [
+        "cib",
+        "immo"
+      ],
+      "period": "2024",
+      "canonical": "CIB_fiches-Credit-Immobilier-2024-2.pdf",
+      "aliases": [
+        "CIB_fiches-Credit-Immobilier-2024-2.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — financement investisseur",
+      "tags": [
+        "cib",
+        "investisseur",
+        "immo"
+      ],
+      "period": "2024",
+      "canonical": "CIB_fiches-Financement-Investisseur-2024-1.pdf",
+      "aliases": [
+        "CIB_fiches-Financement-Investisseur-2024-1.pdf"
+      ]
+    },
+    {
+      "section": "scpi",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — financement SCPI",
+      "tags": [
+        "cib",
+        "scpi"
+      ],
+      "period": "2024",
+      "canonical": "CIB_fiches-Financement-SCPI-2024-5.pdf",
+      "aliases": [
+        "CIB_fiches-Financement-SCPI-2024-5.pdf"
+      ]
+    },
+    {
+      "section": "pvh",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — prêt viager hypothécaire",
+      "tags": [
+        "cib",
+        "pvh"
+      ],
+      "period": "2024",
+      "canonical": "CIB_fiches-Pret-Viager-Hypothecaire-2024-3.pdf",
+      "aliases": [
+        "CIB_fiches-Pret-Viager-Hypothecaire-2024-3.pdf"
+      ]
+    },
+    {
+      "section": "renov",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — travaux",
+      "tags": [
+        "cib",
+        "travaux",
+        "renov"
+      ],
+      "period": "2024",
+      "canonical": "CIB_fiches-produits-2024-8_TRAVAUX.pdf",
+      "aliases": [
+        "CIB_fiches-produits-2024-8_TRAVAUX.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": "cgi",
+      "subsection": "produit",
+      "title": "CIB — regroupement de crédits",
+      "tags": [
+        "cib",
+        "rac"
+      ],
+      "period": "2024",
+      "canonical": "CIB_fiches-Regroupement-de-Credits-2024-6.pdf",
+      "aliases": [
+        "CIB_fiches-Regroupement-de-Credits-2024-6.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": "cgi",
+      "subsection": "interne",
+      "title": "Convention honoraires CIB Finance",
+      "tags": [
+        "cib",
+        "honoraires",
+        "interne"
+      ],
+      "kind": "interne",
+      "canonical": "Convention-Honoraire-Cib-finance.pdf",
+      "aliases": [
+        "Convention-Honoraire-Cib-finance.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": "cgi",
+      "subsection": "interne",
+      "title": "Annexe convention honoraires",
+      "tags": [
+        "honoraires",
+        "interne"
+      ],
+      "kind": "interne",
+      "canonical": "Credit-immoiblier---Annexe-convention-honoraires.pdf",
+      "aliases": [
+        "Credit-immoiblier---Annexe-convention-honoraires.pdf",
+        "Regroupement-de-credits---Annexe-convention-honoraires.pdf"
+      ],
+      "downloadName": "Regroupement-de-credits---Annexe-convention-honoraires.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "dossier",
+      "title": "Dossier type — crédit immobilier",
+      "tags": [
+        "dossier",
+        "immo",
+        "pieces"
+      ],
+      "kind": "dossier",
+      "canonical": "Dossier---Credit-immobilier.pdf",
+      "aliases": [
+        "Dossier---Credit-immobilier.pdf"
+      ]
+    },
+    {
+      "section": "hypo_treso",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier — Pret-Hypothecaire-de-Tresorerie",
+      "tags": [
+        "hypo_treso"
+      ],
+      "canonical": "Dossier---Pret-Hypothecaire-de-Tresorerie.pdf",
+      "aliases": [
+        "Dossier---Pret-Hypothecaire-de-Tresorerie.pdf"
+      ],
+      "kind": "dossier"
+    },
+    {
+      "section": "treso",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier — Tresorerie",
+      "tags": [
+        "treso"
+      ],
+      "canonical": "Dossier---Tresorerie.pdf",
+      "aliases": [
+        "Dossier---Tresorerie.pdf"
+      ],
+      "kind": "dossier"
+    },
+    {
+      "section": "sci",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier — SCI",
+      "tags": [
+        "sci"
+      ],
+      "canonical": "Dossier--SCI.pdf",
+      "aliases": [
+        "Dossier--SCI.pdf"
+      ],
+      "kind": "dossier"
+    },
+    {
+      "section": "credilift",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier-Rac — Heberge",
+      "tags": [
+        "rac"
+      ],
+      "canonical": "Dossier-Rac---Heberge.pdf",
+      "aliases": [
+        "Dossier-Rac---Heberge.pdf"
+      ],
+      "kind": "dossier"
+    },
+    {
+      "section": "credilift",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier-Rac — Locataire",
+      "tags": [
+        "rac"
+      ],
+      "canonical": "Dossier-Rac---Locataire.pdf",
+      "aliases": [
+        "Dossier-Rac---Locataire.pdf"
+      ],
+      "kind": "dossier"
+    },
+    {
+      "section": "credilift",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Dossier-Rac — Propiretaire",
+      "tags": [
+        "rac"
+      ],
+      "canonical": "Dossier-Rac---Propiretaire.pdf",
+      "aliases": [
+        "Dossier-Rac---Propiretaire.pdf"
+      ],
+      "kind": "dossier"
+    },
+    {
+      "section": "scpi",
+      "partner": null,
+      "subsection": "dossier",
+      "title": "Dossier type — SCPI",
+      "tags": [
+        "dossier",
+        "scpi",
+        "pieces"
+      ],
+      "kind": "dossier",
+      "canonical": "Dossier-SCPI.pdf",
+      "aliases": [
+        "Dossier-SCPI.pdf"
+      ]
+    },
+    {
+      "section": "renov",
+      "partner": null,
+      "subsection": "flyer",
+      "title": "Flyer prêt travaux hypo",
+      "tags": [
+        "flyer",
+        "travaux",
+        "hypo"
+      ],
+      "kind": "flyer",
+      "canonical": "Flyer-Pret-Travaux-Hypo.pdf",
+      "aliases": [
+        "Flyer-Pret-Travaux-Hypo.pdf"
+      ]
+    },
+    {
+      "section": "pvh",
+      "partner": null,
+      "subsection": "flyer",
+      "title": "Flyer PVH",
+      "tags": [
+        "flyer",
+        "pvh"
+      ],
+      "kind": "flyer",
+      "canonical": "Flyer-PVH.pdf",
+      "aliases": [
+        "Flyer-PVH.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Flyer-RAC",
+      "tags": [
+        "rac"
+      ],
+      "canonical": "Flyer-RAC.pdf",
+      "aliases": [
+        "Flyer-RAC.pdf",
+        "Flyer-Rachat-Soulte.pdf"
+      ],
+      "kind": "flyer",
+      "downloadName": "Flyer-Rachat-Soulte.pdf"
+    },
+    {
+      "section": "immo",
+      "partner": "cgi",
+      "subsection": "assurance",
+      "title": "Guide informations Cibassur",
+      "tags": [
+        "assurance",
+        "cib",
+        "cibassur"
+      ],
+      "kind": "assurance",
+      "canonical": "Guide-d_informations-Cibassur.pdf",
+      "aliases": [
+        "Guide-d_informations-Cibassur.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Immobilier — Fiche-renseignements-clients",
+      "tags": [
+        "import"
+      ],
+      "canonical": "Immobilier---Fiche-renseignements-clients.pdf",
+      "aliases": [
+        "Immobilier---Fiche-renseignements-clients.pdf"
+      ],
+      "kind": "fiche"
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Indic — Demande-Entree-en-Relation — Copie",
+      "tags": [
+        "import"
+      ],
+      "canonical": "Indic---Demande-Entree-en-Relation---Copie.pdf",
+      "aliases": [
+        "Indic---Demande-Entree-en-Relation---Copie.pdf"
+      ],
+      "kind": "fiche"
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Info-pub — Docusign",
+      "tags": [
+        "import"
+      ],
+      "canonical": "Info-pub---Docusign.pdf",
+      "aliases": [
+        "Info-pub---Docusign.pdf"
+      ],
+      "kind": "fiche"
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "assurance",
+      "title": "Information précontractuelle assurance",
+      "tags": [
+        "assurance",
+        "precontractuel"
+      ],
+      "kind": "assurance",
+      "canonical": "Information-pre-contractuelle-assurance.pdf",
+      "aliases": [
+        "Information-pre-contractuelle-assurance.pdf"
+      ]
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "MIOB — Demande-Entree-en-Relation",
+      "tags": [
+        "import"
+      ],
+      "canonical": "MIOB---Demande-Entree-en-Relation.pdf",
+      "aliases": [
+        "MIOB---Demande-Entree-en-Relation.pdf"
+      ],
+      "kind": "fiche"
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "interne",
+      "title": "Mise en place IMMO",
+      "tags": [
+        "interne",
+        "immo",
+        "process"
+      ],
+      "kind": "interne",
+      "canonical": "Mise-en-place-IMMO.pdf",
+      "aliases": [
+        "Mise-en-place-IMMO.pdf"
+      ]
+    },
+    {
+      "section": "credilift",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Procedure-de-commercialisation-des-RAC — Docusign",
+      "tags": [
+        "rac"
+      ],
+      "canonical": "Procedure-de-commercialisation-des-RAC---Docusign.pdf",
+      "aliases": [
+        "Procedure-de-commercialisation-des-RAC---Docusign.pdf"
+      ],
+      "kind": "fiche"
+    },
+    {
+      "section": "immo",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Publicite-Credit-immobilier — Docusign",
+      "tags": [
+        "import"
+      ],
+      "canonical": "Publicite-Credit-immobilier---Docusign.pdf",
+      "aliases": [
+        "Publicite-Credit-immobilier---Docusign.pdf"
+      ],
+      "kind": "fiche"
+    },
+    {
+      "section": "credilift",
+      "partner": null,
+      "subsection": "produit",
+      "title": "Rac — Fiche-renseignements",
+      "tags": [
+        "rac"
+      ],
+      "canonical": "Rac---Fiche-renseignements.pdf",
+      "aliases": [
+        "Rac---Fiche-renseignements.pdf"
+      ],
+      "kind": "fiche"
+    },
+    {
+      "section": "bank_b",
+      "partner": "bank_b",
+      "subsection": "formulaire",
+      "title": "Tableau patrimoine BANK B",
+      "tags": [
+        "bank_b",
+        "patrimoine",
+        "formulaire"
+      ],
+      "kind": "formulaire",
+      "canonical": "TABLEAU-PATRIMOINE-BANK-B.pdf",
+      "aliases": [
+        "TABLEAU-PATRIMOINE-BANK-B.pdf"
+      ]
+    },
+    {
+      "section": "cml",
+      "partner": "cml",
+      "subsection": "taux",
+      "title": "Taux prêt personnel CML",
+      "tags": [
+        "cml",
+        "conso",
+        "taux"
+      ],
+      "kind": "grille",
+      "canonical": "Taux-pret-personne-CML.pdf",
+      "aliases": [
+        "Taux-pret-personne-CML.pdf"
       ]
     }
   ],
   "downloadList": {
     "source": "scripts/pret-fiches-download-list.txt",
-    "uniqueCount": 176,
-    "aliasAdds": 47,
-    "newAdds": 20,
+    "uniqueCount": 217,
+    "aliasAdds": 2,
+    "newAdds": 34,
     "unmatched": []
   }
 }
