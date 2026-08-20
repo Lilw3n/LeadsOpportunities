@@ -11,6 +11,8 @@ const {
   handlePaymentLinkPaid,
   saveAgentPaymentSplit,
 } = require("../_lib/stripe-payment-store");
+const { sendApiResult } = require("../_lib/api-browser-page");
+const { getStripeAppUrl } = require("../_lib/stripe");
 
 module.exports.config = {
   api: {
@@ -109,8 +111,32 @@ module.exports = async (req, res) => {
   applyApiGuards(req, res);
 
   if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ error: "Method not allowed" });
+    var appUrl = "";
+    try {
+      appUrl = getStripeAppUrl() || "https://www.leadsopportunities.fr";
+    } catch (e) {
+      appUrl = "https://www.leadsopportunities.fr";
+    }
+    return sendApiResult(req, res, {
+      status: 405,
+      allow: "POST",
+      tone: "warn",
+      title: "Webhook Stripe",
+      lead:
+        "Cette URL est réservée aux notifications POST envoyées par Stripe. Ouvrir la page dans un navigateur (GET) ne déclenche aucun paiement.",
+      rows: [
+        { label: "Méthode attendue", value: "POST" },
+        { label: "Événement clé", value: "checkout.session.completed" },
+        { label: "Endpoint", value: (appUrl.replace(/\/$/, "") || "") + "/api/stripe/webhook" },
+      ],
+      links: [
+        { label: "Accueil site", href: appUrl || "/", primary: true },
+        { label: "Paiement", href: (appUrl || "") + "/paiement.html" },
+        { label: "CRM", href: (appUrl || "") + "/crm.html" },
+      ],
+      hint: "Dans le Dashboard Stripe → Developers → Webhooks, pointez cet endpoint et utilisez le signing secret (STRIPE_WEBHOOK_SECRET).",
+      json: { error: "Method not allowed", allow: "POST" },
+    });
   }
 
   const stripe = getStripeClient();
