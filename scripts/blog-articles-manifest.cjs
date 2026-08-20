@@ -2999,6 +2999,126 @@ module.exports = {
       related: [{ href: "../assurance-sante/", label: "Mutuelle sante" }],
     },
     {
+      file: "visites-sans-financement-vente-negociateur-courtier.html",
+      audience: "france",
+      section: "finance",
+      tag: "Vente & credit",
+      tagClass: "tag-immo",
+      themes: ["emprunteur"],
+      title: "Visites sans financement : pourquoi le bien ne se vend pas",
+      description:
+        "Beaucoup de visites, aucune offre solide : sans projet de pret credible, un bien stagne. Negociateur immo + courtier ORIAS : on vend et on finance l'acquereur.",
+      meta: "8 min · Aout 2026",
+      cardExcerpt: "Visites sans pret = bien qui ne part pas. On couple vente et financement.",
+      cta: {
+        href: "../landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=credit-immo&utm_content=visites-financement",
+        label: "Etude pret + vente (3 min)",
+      },
+      heroImage: {
+        src: "./images/finance/credit-immo-cles.jpg",
+        alt: "Cles de maison et dossier de credit immobilier",
+        caption: "Une visite sans enveloppe de pret validee reste une curiosite — pas une vente.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Vous avez un bien en vente. L'annonce tourne, le telephone sonne, les <strong>visites s'enchainent</strong>… et pourtant rien ne se signe. Dans la majorite des cas, le probleme n'est ni la deco ni le quartier : c'est que les visiteurs n'ont <strong>pas de projet de financement solide</strong>. Sans pret credible, pas d'offre serieuse. Sans offre serieuse, le bien ne se vend pas — il s'use sur le marche.",
+        },
+        {
+          type: "figure",
+          src: "./images/habitat/maison-famille.jpg",
+          alt: "Maison familiale a vendre",
+          caption: "Multiplier les visites sans filtrer le financement allonge la vente et fait baisser le prix.",
+        },
+        { type: "h2", text: "1. Visite ≠ acheteur" },
+        {
+          type: "p",
+          text: "Scroller Leboncoin ou SeLoger, demander une visite, c'est facile. Obtenir un <strong>accord de principe</strong> ou une simulation multi-banques, c'est autre chose. Beaucoup de « acheteurs » decourvrent au moment de l'offre que leur banque refuse, que l'apport manque, ou que le taux d'endettement depasse 35 %. Resultat pour le vendeur : calendrier pourri, espoirs casses, puis baisse de prix « pour deblocker ».",
+        },
+        {
+          type: "ul",
+          items: [
+            "Visiteur sans simulation recente → risque elevé de refus apres compromis",
+            "Offre sous condition suspensive de pret mal preparee → delai 45–60 jours perdus",
+            "Bien « brule » apres plusieurs echecs → acheteurs suivants negocient plus bas",
+          ],
+        },
+        { type: "h2", text: "2. Pourquoi le financement decide de la vente" },
+        {
+          type: "p",
+          text: "Un notaire et un vendeur ont besoin d'un <strong>acquereur solvable</strong>. Le prix affiche ne compte que si quelqu'un peut l'emprunter. C'est pour cela qu'en tant que <strong>negociateur immobilier et courtier</strong> (ORIAS), nous ne separons pas les deux metiers : on prepare le bien <strong>et</strong> on monte le dossier de pret de l'acquereur.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Notre double role : vendre + obtenir le pret" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Cote vendeur</strong> : estimation, annonce, qualifications des visiteurs, negociation, suivi jusqu'a l'acte",
+            "<strong>Cote acquereur</strong> : capacite d'emprunt, apport, assurance emprunteur, comparatif banques, pieces, delai de reponse",
+            "<strong>Ensemble</strong> : on ne fait pas visiter « pour remplir le carnet » — on priorise les profils finançables",
+          ],
+        },
+        {
+          type: "p",
+          text: "Concretement : avant ou juste apres la visite, on verifie si le projet tient (revenus, charges, apport, duree). Si besoin, on lance une <a href=\"../landings/credit-immo.html\">etude credit immo</a> pendant que le bien est encore sur le marche — pas le jour du compromis.",
+        },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Signature de dossier de pret immobilier",
+          caption: "Pret calé = offre credible = signature chez le notaire.",
+        },
+        { type: "h2", text: "4. Ce que ca change pour le vendeur" },
+        {
+          type: "ul",
+          items: [
+            "Moins de visites « tourisme », plus de rendez-vous utiles",
+            "Offres avec financement deja cadre (ou clairement cadré)",
+            "Delais de condition suspensive mieux maitrises",
+            "Prix mieux defendu : un bien qui trainait moins se negocie moins",
+          ],
+        },
+        {
+          type: "p",
+          text: "Vous vendez ? Parlez-nous du bien et du calendrier : <a href=\"../landings/acheteur-immo.html?role=vendeur\">parcours vendeur</a>. Vous achetez ? Securisez d'abord l'enveloppe : <a href=\"../landings/acheteur-immo.html\">parcours acheteur</a> + pret.",
+        },
+        { type: "h2", text: "5. Ce que ca change pour l'acquereur" },
+        {
+          type: "p",
+          text: "Arriver en visite avec une <strong>enveloppe de pret</strong> (meme indicative) change le regard du vendeur et de l'agence. Vous etes pris au serieux. Et si le bien plait, on enchaine negociation + montage multi-banques sans perdre trois semaines a « voir avec ma banque seule » — le piege classique.",
+        },
+        {
+          type: "p",
+          text: "Projection budget reel (taxe foncière, charges, mensualite) : <a href=\"../landings/projection-achat.html\">projection achat</a>. Si un pret a deja ete refuse : <a href=\"./pret-immobilier-refuse-que-faire-2026.html\">que faire apres un refus</a>.",
+        },
+        { type: "h2", text: "6. En resume" },
+        {
+          type: "p",
+          text: "<strong>Un bien qui n'attire que des visites sans projet de financement solide ne se vend pas — ou se vend trop tard et trop bas.</strong> C'est exactement pour cela que Leads Opportunities couple <strong>negociation immobiliere</strong> et <strong>courtage en pret</strong> : on s'occupe de la vente <em>et</em> de l'obtention du pret pour l'acquereur, pour que la signature tienne jusqu'au notaire.",
+        },
+      ],
+      related: [
+        { href: "../landings/acheteur-immo.html?role=vendeur", label: "Je vends mon bien" },
+        { href: "../landings/credit-immo.html", label: "Credit immobilier" },
+        { href: "../landings/acheteur-immo.html", label: "Je cherche un bien" },
+        { href: "./pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse" },
+      ],
+      faq: [
+        {
+          q: "Pourquoi filtrer les visiteurs sur le financement ?",
+          a: "Parce qu'une visite sans capacite d'emprunt credible consomme du temps, use le bien sur le marche et retarde une vraie offre.",
+        },
+        {
+          q: "Dois-je avoir un accord de pret avant de visiter ?",
+          a: "Un accord ferme n'est pas obligatoire, mais une simulation recente et un dossier pret a demarrer changent tout pour le vendeur.",
+        },
+        {
+          q: "En quoi un negociateur-courtier change la donne ?",
+          a: "Il aligne prix, calendrier de vente et montage bancaire : moins d'echecs apres compromis, plus d'offres qui aboutissent chez le notaire.",
+        },
+      ],
+    },
+    {
       file: "pret-immo-erreurs-a-eviter.html",
       section: "finance",
       tag: "Immo",
