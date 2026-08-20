@@ -3828,7 +3828,8 @@
       "aliases": [
         "04-2026-SYGMA.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "04-2026-SYGMA.pdf"
     },
     {
       "section": "immo",
@@ -3842,7 +3843,8 @@
       "aliases": [
         "04-2026-Taux-SYGMA.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "04-2026-Taux-SYGMA.pdf"
     },
     {
       "section": "immo",
@@ -3856,7 +3858,8 @@
       "aliases": [
         "07-2026---Taux-BANK-B.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026---Taux-BANK-B.pdf"
     },
     {
       "section": "scpi",
@@ -3870,7 +3873,8 @@
       "aliases": [
         "07-2026-CFCAL--financement-SCPI-en-nom-propre-caution-logement.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CFCAL--financement-SCPI-en-nom-propre-caution-logement.pdf"
     },
     {
       "section": "scpi",
@@ -3884,7 +3888,8 @@
       "aliases": [
         "07-2026-CFCAL--financement-SCPI-en-nom-propre-nantissement-de-parts.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CFCAL--financement-SCPI-en-nom-propre-nantissement-de-parts.pdf"
     },
     {
       "section": "scpi",
@@ -3898,7 +3903,8 @@
       "aliases": [
         "07-2026-CFCAL--financement-SCPI-en-SCI-nantissement-de-parts.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CFCAL--financement-SCPI-en-SCI-nantissement-de-parts.pdf"
     },
     {
       "section": "immo",
@@ -3912,7 +3918,8 @@
       "aliases": [
         "07-2026-CFCAL-Credit-Immo-suspendu.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CFCAL-Credit-Immo-suspendu.pdf"
     },
     {
       "section": "immo",
@@ -3926,7 +3933,8 @@
       "aliases": [
         "07-2026-CGI.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CGI.pdf"
     },
     {
       "section": "immo",
@@ -3940,7 +3948,8 @@
       "aliases": [
         "07-2026-CMT.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CMT.pdf"
     },
     {
       "section": "credilift",
@@ -3954,7 +3963,8 @@
       "aliases": [
         "07-2026-CREATIS-RAC-COMBINE.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CREATIS-RAC-COMBINE.pdf"
     },
     {
       "section": "credilift",
@@ -3968,7 +3978,8 @@
       "aliases": [
         "07-2026-CREATIS-RAC-CONSO.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CREATIS-RAC-CONSO.pdf"
     },
     {
       "section": "immo",
@@ -3982,7 +3993,8 @@
       "aliases": [
         "07-2026-CREATIS.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CREATIS.pdf"
     },
     {
       "section": "credilift",
@@ -3996,7 +4008,8 @@
       "aliases": [
         "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CREDIT-LIFT-RAC-AVEC-GARANTIE.pdf"
     },
     {
       "section": "credilift",
@@ -4010,7 +4023,8 @@
       "aliases": [
         "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CREDIT-LIFT-RAC-SANS-GARANTIE.pdf"
     },
     {
       "section": "immo",
@@ -4024,7 +4038,8 @@
       "aliases": [
         "07-2026-CREDIT-LIFT-taux-avec-commissionnement.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CREDIT-LIFT-taux-avec-commissionnement.pdf"
     },
     {
       "section": "immo",
@@ -4038,7 +4053,8 @@
       "aliases": [
         "07-2026-CREDIT-LIFT-taux-sans-commissionnement.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-CREDIT-LIFT-taux-sans-commissionnement.pdf"
     },
     {
       "section": "renov",
@@ -4052,7 +4068,8 @@
       "aliases": [
         "07-2026-HYPO-RENOV-CFCAL.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-HYPO-RENOV-CFCAL.pdf"
     },
     {
       "section": "immo",
@@ -4066,7 +4083,8 @@
       "aliases": [
         "07-2026-LA-BANQUE-POSTALE.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-LA-BANQUE-POSTALE.pdf"
     },
     {
       "section": "scpi",
@@ -4080,7 +4098,8 @@
       "aliases": [
         "07-2026-Liste-SCPI-CREDIT-LIFT.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-Liste-SCPI-CREDIT-LIFT.pdf"
     },
     {
       "section": "credilift",
@@ -4094,7 +4113,8 @@
       "aliases": [
         "07-2026-MMB-RAC-avec-garantie.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-MMB-RAC-avec-garantie.pdf"
     },
     {
       "section": "credilift",
@@ -4108,7 +4128,8 @@
       "aliases": [
         "07-2026-MMB-RAC-sans-garantie.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-MMB-RAC-sans-garantie.pdf"
     },
     {
       "section": "credilift",
@@ -4122,7 +4143,8 @@
       "aliases": [
         "07-2026-RAC-avec-garantie-CFCAL.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-RAC-avec-garantie-CFCAL.pdf"
     },
     {
       "section": "credilift",
@@ -4136,7 +4158,8 @@
       "aliases": [
         "07-2026-RAC-sans-garantie-CFCAL.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-RAC-sans-garantie-CFCAL.pdf"
     },
     {
       "section": "sci",
@@ -4150,7 +4173,8 @@
       "aliases": [
         "07-2026-SCI-PAT-CFCAL.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-SCI-PAT-CFCAL.pdf"
     },
     {
       "section": "immo",
@@ -4164,7 +4188,8 @@
       "aliases": [
         "07-2026-Taux-SOFINCO.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "07-2026-Taux-SOFINCO.pdf"
     },
     {
       "section": "scpi",
@@ -4178,7 +4203,8 @@
       "aliases": [
         "09-2025-CFCAL-Liste-SCPI.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "09-2025-CFCAL-Liste-SCPI.pdf"
     },
     {
       "section": "immo",
@@ -4192,7 +4218,8 @@
       "aliases": [
         "Acquisition-client-Immo---Docusign.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "Acquisition-client-Immo---Docusign.pdf"
     },
     {
       "section": "credilift",
@@ -4206,7 +4233,8 @@
       "aliases": [
         "Acquisition-client-Regroupement-de-credits---Docusign.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "Acquisition-client-Regroupement-de-credits---Docusign.pdf"
     },
     {
       "section": "immo",
@@ -4220,14 +4248,15 @@
       "aliases": [
         "bareme-des-honoraires.pdf"
       ],
-      "kind": "fiche"
+      "kind": "fiche",
+      "downloadName": "bareme-des-honoraires.pdf"
     }
   ],
   "downloadList": {
     "source": "scripts/pret-fiches-download-list.txt",
     "uniqueCount": 255,
-    "aliasAdds": 9,
-    "newAdds": 29,
+    "aliasAdds": 0,
+    "newAdds": 0,
     "unmatched": []
   }
 }
