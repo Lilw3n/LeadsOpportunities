@@ -322,6 +322,181 @@ const GEO_PRODUCTS = [
     ],
   },
   {
+    key: "finance",
+    theme: "credit",
+    dir: "finance",
+    siloLabel: "Finance",
+    siloUrl: "/finance/",
+    hubUrl: "/finance/villes/",
+    hubDeptUrl: "/finance/departements/",
+    landing: "/landings/questionnaire.html?need=rachat",
+    ctaHubLabel: "Etude financement",
+    landingForCity: function (city) {
+      return "/landings/questionnaire.html?need=rachat&ville=" + encodeURIComponent(city.name);
+    },
+    ctaLabel: function (city) {
+      return "Etude financement " + city.name;
+    },
+    title: function (city) {
+      return "Finance " + city.name + " | Rachat, conso, credit pro — " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Finance a " +
+        city.name +
+        " (" +
+        city.region +
+        ") : rachat de credits, credit consommation, credit professionnel. Courtier ORIAS, etude gratuite."
+      );
+    },
+    h1: function (city) {
+      return "Finance a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Rachat de credits, credit conso ou financement professionnel a " +
+        city.name +
+        " ? Nous clarifions votre besoin, vos charges et votre capacite avant de presenter un dossier aux partenaires, en " +
+        city.region +
+        "."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Solutions finance a " + city.name,
+          list: [
+            "Rachat de credits et regroupement de mensualites",
+            "Credit consommation, pret perso et tresorerie",
+            "Credit professionnel et financement d activite",
+            "Renegociation de pret immobilier si besoin",
+          ],
+        },
+        {
+          h2: "Un dossier lu comme un banquier",
+          paragraphs: [
+            "A " +
+              city.name +
+              ", l objectif n est pas un devis hors-sol : nous documentons revenus, dettes et garanties pour une solution realiste.",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Finance et pret immobilier, quelle difference ?",
+          a: "Le pret immobilier finance un bien. La finance couvre rachat, conso, credit pro et renegociation. Les deux peuvent se combiner.",
+        },
+        {
+          q: "Travaillez-vous a " + city.name + " ?",
+          a: "Oui, a distance et selon le dossier. Le premier echange se fait en ligne, sans engagement.",
+        },
+      ];
+    },
+    geoSteps: [
+      { title: "Besoin", text: "Rachat, conso, credit pro ou renegociation." },
+      { title: "Capacite", text: "Charges, restes a vivre, garanties." },
+      { title: "Proposition", text: "Options partenaires expliquees, puis montage." },
+    ],
+    extraRelated: [
+      { href: "/finance/villes/", label: "Finance par ville" },
+      { href: "/finance/departements/", label: "Finance par departement" },
+      { href: "/finance/regions/", label: "Finance par region" },
+      { href: "/banque/", label: "Banque & TRC" },
+      { href: "/pret-immobilier/", label: "Pret immobilier" },
+      { href: "/landings/questionnaire.html?need=rachat", label: "Etude rachat" },
+      { href: "/landings/questionnaire.html?need=conso", label: "Credit conso" },
+    ],
+  },
+  {
+    key: "banque",
+    theme: "credit",
+    dir: "banque",
+    siloLabel: "Banque",
+    siloUrl: "/banque/",
+    hubUrl: "/banque/villes/",
+    hubDeptUrl: "/banque/departements/",
+    landing: "/landings/rappel.html?need=banque",
+    ctaHubLabel: "Rappel banque",
+    landingForCity: function (city) {
+      return "/landings/rappel.html?need=banque&ville=" + encodeURIComponent(city.name);
+    },
+    ctaLabel: function (city) {
+      return "Rappel banque " + city.name;
+    },
+    title: function (city) {
+      return "Banque " + city.name + " | Compte, epargne, tresorerie — " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Banque a " +
+        city.name +
+        " (" +
+        city.region +
+        ") : compte, epargne, tresorerie particuliers et pro. Courtier ORIAS, rappel conseiller."
+      );
+    },
+    h1: function (city) {
+      return "Banque a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Besoin bancaire a " +
+        city.name +
+        " (compte, epargne, tresorerie) ? Nous orientons vers les offres adaptees, en complement du credit immobilier et de la finance, en " +
+        city.region +
+        "."
+      );
+    },
+    sections: function (city) {
+      return [
+        {
+          h2: "Offres bancaires a " + city.name,
+          list: [
+            "Ouverture de compte et relation bancaire",
+            "Epargne et placement selon profil",
+            "Tresorerie particuliers et professionnels",
+            "Lien avec un pret immobilier ou un rachat si besoin",
+          ],
+        },
+        {
+          h2: "Un conseiller, pas un comparateur aveugle",
+          paragraphs: [
+            "A " +
+              city.name +
+              ", le premier echange precise le besoin (particulier ou pro) puis un conseiller rappelle pour cadrer les options.",
+          ],
+        },
+      ];
+    },
+    faq: function (city) {
+      return [
+        {
+          q: "Banque et finance, quelle difference ?",
+          a: "Banque : comptes, epargne, tresorerie. Finance : rachat de credits, conso, credit pro. Nous vous orientons vers le bon parcours.",
+        },
+        {
+          q: "Puis-je etre rappele depuis " + city.name + " ?",
+          a: "Oui. Le rappel se fait partout en France, y compris " + city.name + " et le " + city.region + ".",
+        },
+      ];
+    },
+    geoSteps: [
+      { title: "Besoin", text: "Compte, epargne, tresorerie ou relation bancaire." },
+      { title: "Cadrage", text: "Particulier ou pro, pieces utiles." },
+      { title: "Rappel", text: "Un conseiller propose les options disponibles." },
+    ],
+    extraRelated: [
+      { href: "/banque/villes/", label: "Banque par ville" },
+      { href: "/banque/departements/", label: "Banque par departement" },
+      { href: "/banque/regions/", label: "Banque par region" },
+      { href: "/finance/", label: "Finance (rachat, conso)" },
+      { href: "/pret-immobilier/", label: "Pret immobilier" },
+      { href: "/landings/rappel.html?need=banque", label: "Demander un rappel" },
+    ],
+  },
+  {
     key: "auto",
     theme: "auto",
     dir: "assurance-auto",
@@ -773,11 +948,47 @@ const GEO_PRODUCTS = [
   },
 ];
 
+function productShortLabel(product) {
+  var map = {
+    vtc: "VTC",
+    sante: "Sante",
+    credit: "Credit",
+    pret: "Pret immo",
+    recherche: "Recherche bien",
+    finance: "Finance",
+    banque: "Banque",
+    auto: "Auto",
+    habitation: "Habitation",
+    emprunteur: "Emprunteur",
+    prevoyance: "Prevoyance",
+    animaux: "Animaux",
+    chien: "Chien",
+    chat: "Chat",
+    chasse: "Chasse",
+    equitation: "Equitation",
+  };
+  return map[product.key] || product.siloLabel;
+}
+
+function productCtaLabel(product) {
+  return product.ctaHubLabel || "Demander un devis";
+}
+
+function productRegionHubUrl(product) {
+  return "/" + product.dir + "/regions/";
+}
+
+function productRegionUrl(product, regionSlug) {
+  return "/" + product.dir + "/region/" + regionSlug + "/";
+}
+
 function crossLinksForCity(product, city) {
   var links = [];
   if (product.key === "pret") {
     links.push({ href: "/recherche-bien/" + city.slug + "/", label: "Recherche de bien " + city.name });
     links.push({ href: "/credit-immo/" + city.slug + "/", label: "Credit immo " + city.name });
+    links.push({ href: "/finance/" + city.slug + "/", label: "Finance / rachat " + city.name });
+    links.push({ href: "/banque/" + city.slug + "/", label: "Banque " + city.name });
   }
   if (product.key === "recherche") {
     links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Pret immobilier " + city.name });
@@ -785,6 +996,16 @@ function crossLinksForCity(product, city) {
   if (product.key === "credit") {
     links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Pret immobilier " + city.name });
     links.push({ href: "/recherche-bien/" + city.slug + "/", label: "Recherche de bien " + city.name });
+    links.push({ href: "/finance/" + city.slug + "/", label: "Finance / rachat " + city.name });
+  }
+  if (product.key === "finance") {
+    links.push({ href: "/banque/" + city.slug + "/", label: "Banque " + city.name });
+    links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Pret immobilier " + city.name });
+    links.push({ href: "/credit-immo/" + city.slug + "/", label: "Credit immo " + city.name });
+  }
+  if (product.key === "banque") {
+    links.push({ href: "/finance/" + city.slug + "/", label: "Finance " + city.name });
+    links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Pret immobilier " + city.name });
   }
   if (product.key === "animaux" || product.key === "chien" || product.key === "chat") {
     if (product.key !== "chien") {
@@ -819,6 +1040,8 @@ function buildGeoPageConfigs(cities, pageFn) {
       var related = [
         { href: product.hubUrl, label: "Toutes les villes — " + product.siloLabel },
         { href: product.siloUrl, label: "Guide national" },
+        { href: "/" + product.dir + "/departement/" + city.dept + "/", label: product.siloLabel + " — departement" },
+        { href: productRegionUrl(product, city.regionSlug), label: product.siloLabel + " — " + city.region },
         { href: "/france/departement/" + city.dept + "/", label: "Departement " + city.dept.replace(/-/g, " ") },
       ];
       if (product.extraRelated) {
@@ -913,8 +1136,8 @@ function buildDeptPageConfigs(departments, cities, pageFn) {
             dept.name +
             " (" +
             dept.region +
-            "). Devis en ligne et accompagnement par telephone.",
-          cta: { href: product.landing, label: "Demander un devis" },
+            "). Demande en ligne et accompagnement par telephone.",
+          cta: { href: product.landing, label: productCtaLabel(product) },
           crumbs: [
             { name: "Accueil", url: "/" },
             { name: product.siloLabel, url: product.siloUrl },
@@ -923,6 +1146,7 @@ function buildDeptPageConfigs(departments, cities, pageFn) {
           related: [
             { href: product.hubUrl, label: "Toutes les villes" },
             { href: product.hubDeptUrl || product.siloUrl + "departements/", label: "Tous les departements" },
+            { href: productRegionUrl(product, dept.regionSlug), label: product.siloLabel + " — " + dept.region },
             { href: "/france/region/" + dept.regionSlug + "/", label: dept.region },
           ],
           hubCityGrid: cityLinks,
@@ -957,7 +1181,7 @@ function buildDeptHubPageConfigs(departments, pageFn) {
         description: product.siloLabel + " dans " + departments.length + " departements. Annuaire local, devis gratuit.",
         h1: product.siloLabel + " : departements couverts",
         intro: "Accedez a une page dediee par departement avec les villes principales et un parcours devis rapide.",
-        cta: { href: product.landing, label: "Demander un devis" },
+        cta: { href: product.landing, label: productCtaLabel(product) },
         crumbs: [
           { name: "Accueil", url: "/" },
           { name: product.siloLabel, url: product.siloUrl },
@@ -966,6 +1190,115 @@ function buildDeptHubPageConfigs(departments, pageFn) {
         hubCityGrid: deptLinks,
         related: [
           { href: product.hubUrl, label: "Par ville" },
+          { href: productRegionHubUrl(product), label: "Par region" },
+          { href: product.siloUrl, label: "Guide national" },
+        ],
+        faq: [],
+      })
+    );
+  });
+  return out;
+}
+
+function buildProductRegionPageConfigs(regions, departments, cities, pageFn) {
+  const out = [];
+  GEO_PRODUCTS.forEach(function (product) {
+    regions.forEach(function (region) {
+      const regionDepts = departments.filter(function (d) {
+        return d.regionSlug === region.slug;
+      });
+      const regionCities = cities.filter(function (c) {
+        return c.regionSlug === region.slug;
+      });
+      const deptLinks = regionDepts.map(function (d) {
+        return {
+          href: "/" + product.dir + "/departement/" + d.slug + "/",
+          label: d.name,
+        };
+      });
+      const cityLinks = regionCities.slice(0, 48).map(function (c) {
+        return {
+          href: "/" + product.dir + "/" + c.slug + "/",
+          label: c.name,
+        };
+      });
+      out.push(
+        pageFn({
+          file: product.dir + "/region/" + region.slug + "/index.html",
+          theme: product.theme,
+          badge: region.name,
+          title: product.siloLabel + " en " + region.name + " | Departements et villes",
+          description:
+            product.siloLabel +
+            " en " +
+            region.name +
+            " : " +
+            regionDepts.length +
+            " departements, " +
+            regionCities.length +
+            " villes. Courtier ORIAS, demande en ligne.",
+          h1: product.siloLabel + " en " + region.name,
+          intro:
+            "Pages locales " +
+            product.siloLabel.toLowerCase() +
+            " pour la region " +
+            region.name +
+            " : choisissez un departement ou une ville.",
+          cta: { href: product.landing, label: productCtaLabel(product) },
+          crumbs: [
+            { name: "Accueil", url: "/" },
+            { name: product.siloLabel, url: product.siloUrl },
+            { name: region.name, url: productRegionUrl(product, region.slug) },
+          ],
+          related: [
+            { href: productRegionHubUrl(product), label: "Toutes les regions" },
+            { href: product.hubDeptUrl || "/" + product.dir + "/departements/", label: "Tous les departements" },
+            { href: product.hubUrl, label: "Toutes les villes" },
+            { href: "/france/region/" + region.slug + "/", label: "Hub France — " + region.name },
+          ],
+          hubCityGrid: cityLinks,
+          hubDeptGrid: deptLinks,
+          faq: [
+            {
+              q: "Intervenez-vous dans toute la region " + region.name + " ?",
+              a: "Oui. Si votre commune n est pas listee, contactez-nous : le dossier se monte a distance.",
+            },
+          ],
+        })
+      );
+    });
+  });
+  return out;
+}
+
+function buildProductRegionHubConfigs(regions, pageFn) {
+  const out = [];
+  GEO_PRODUCTS.forEach(function (product) {
+    const regionLinks = regions.map(function (r) {
+      return {
+        href: productRegionUrl(product, r.slug),
+        label: r.name,
+      };
+    });
+    out.push(
+      pageFn({
+        file: product.dir + "/regions/index.html",
+        theme: product.theme,
+        badge: "Regions",
+        title: product.siloLabel + " par region | France",
+        description: product.siloLabel + " dans " + regions.length + " regions. Annuaire local, demande en ligne.",
+        h1: product.siloLabel + " : regions couvertes",
+        intro: "Accedez a une page dediee par region, avec les departements et villes principales.",
+        cta: { href: product.landing, label: productCtaLabel(product) },
+        crumbs: [
+          { name: "Accueil", url: "/" },
+          { name: product.siloLabel, url: product.siloUrl },
+          { name: "Regions", url: productRegionHubUrl(product) },
+        ],
+        hubCityGrid: regionLinks,
+        related: [
+          { href: product.hubUrl, label: "Par ville" },
+          { href: product.hubDeptUrl || "/" + product.dir + "/departements/", label: "Par departement" },
           { href: product.siloUrl, label: "Guide national" },
         ],
         faq: [],
@@ -995,13 +1328,13 @@ function buildRegionPageConfigs(regions, departments, cities, pageFn) {
         file: "france/region/" + region.slug + "/index.html",
         theme: "vtc",
         badge: region.name,
-        title: "Assurance & credit en " + region.name + " | Devis local",
+        title: "Assurance, pret & finance en " + region.name + " | Devis local",
         description:
-          "Courtier assurance et credit en " +
+          "Courtier assurance, pret immobilier, finance et banque en " +
           region.name +
-          " : VTC, mutuelle, auto, habitation, credit immo. " +
+          " : VTC, mutuelle, credit, rachat. " +
           regionCities.length +
-          " villes, devis gratuit.",
+          " villes, demande en ligne.",
         h1: "Nos services en " + region.name,
         intro:
           "Pages locales pour " +
@@ -1020,7 +1353,7 @@ function buildRegionPageConfigs(regions, departments, cities, pageFn) {
         hubCityGrid: citySample,
         hubDeptGrid: deptLinks,
         related: GEO_PRODUCTS.map(function (p) {
-          return { href: p.hubUrl, label: p.siloLabel + " (villes)" };
+          return { href: productRegionUrl(p, region.slug), label: p.siloLabel };
         }),
         faq: [],
       })
@@ -1038,8 +1371,8 @@ function buildFranceDeptHub(departments, pageFn) {
       file: "france/departements/index.html",
       theme: "vtc",
       badge: "France",
-      title: "Departements couverts | Assurance & credit France",
-      description: "Annuaire par departement : assurance VTC, mutuelle, auto, habitation, prevoyance, credit immo.",
+      title: "Departements couverts | Assurance, pret & finance France",
+      description: "Annuaire par departement : assurance, pret immobilier, recherche de bien, finance, banque.",
       h1: "Tous les departements",
       intro: "Selectionnez votre departement pour acceder aux villes et formulaires de devis.",
       cta: { href: "/france/", label: "Couverture France" },
@@ -1073,14 +1406,14 @@ function buildFranceDeptPages(departments, cities, pageFn) {
       file: "france/departement/" + dept.slug + "/index.html",
       theme: "vtc",
       badge: dept.region,
-      title: "Courtier assurance " + dept.name + " | " + dept.region,
+      title: "Courtier " + dept.name + " | Assurance, pret, finance — " + dept.region,
       description:
-        "Devis assurance et credit dans le " +
+        "Devis assurance, pret immobilier, recherche de bien, finance et banque dans le " +
         dept.name +
-        " : VTC, sante, auto, habitation, credit immo. " +
+        " : " +
         deptCities.length +
         " villes.",
-      h1: "Assurance & financement dans le " + dept.name,
+      h1: "Assurance, pret & finance dans le " + dept.name,
       intro: "Acces direct aux devis par produit et par ville pour le departement " + dept.name + ".",
       cta: { href: "/landings/devis.html", label: "Devis gratuit" },
       crumbs: [
@@ -1234,7 +1567,7 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
         h1: product.siloLabel + " : nos villes couvertes",
         intro:
           "Selectionnez votre ville pour acceder a une page dediee (devis, FAQ, conseils locaux). Nous accompagnons les clients partout en France.",
-        cta: { href: product.landing, label: "Demander un devis" },
+        cta: { href: product.landing, label: productCtaLabel(product) },
         crumbs: [
           { name: "Accueil", url: "/" },
           { name: product.siloLabel, url: product.siloUrl },
@@ -1242,6 +1575,8 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
         ],
         related: cityLinks.slice(0, 24).concat([
           { href: product.siloUrl, label: "Page pilier nationale" },
+          { href: product.hubDeptUrl || "/" + product.dir + "/departements/", label: "Par departement" },
+          { href: productRegionHubUrl(product), label: "Par region" },
           { href: "/france/", label: "Couverture nationale" },
         ]),
         faq: [
@@ -1260,7 +1595,7 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
     cities.forEach(function (c) {
       allCityLinks.push({
         href: "/" + product.dir + "/" + c.slug + "/",
-        label: product.key === "vtc" ? "VTC" : product.key === "sante" ? "Sante" : product.key === "credit" ? "Credit" : product.key === "auto" ? "Auto" : product.key === "habitation" ? "Habitation" : "Prevoyance",
+        label: productShortLabel(product),
         city: c.name,
       });
     });
@@ -1271,13 +1606,13 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
       file: "france/index.html",
       theme: "vtc",
       badge: "SEO France",
-      title: "Courtier assurance et credit partout en France | Leads Opportunities",
+      title: "Courtier assurance, pret et finance partout en France | Leads Opportunities",
       description:
-        "Devis assurance et credit dans " +
+        "Devis assurance, pret immobilier, finance et banque dans " +
         cities.length +
         " villes et " +
         departments.length +
-        " departements : VTC, mutuelle, auto, habitation, prevoyance, credit immo. Metropole et DOM.",
+        " departements : VTC, mutuelle, credit, rachat. Metropole et DOM.",
       h1: "Present partout en France",
       intro:
         "Plus de " +
@@ -1286,7 +1621,7 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
         departments.length +
         " departements et " +
         regions.length +
-        " regions couverts : trouvez une page locale pour votre devis (VTC, sante, auto, habitation, prevoyance, credit immo).",
+        " regions couverts : trouvez une page locale (assurance, pret immo, recherche de bien, finance, banque).",
       cta: { href: "/nos-services.html", label: "Voir tous nos services" },
       crumbs: [
         { name: "Accueil", url: "/" },
@@ -1301,6 +1636,8 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
             "Pret immobilier — villes, iles, DOM-TOM et destinations",
             "Recherche de bien — achat accompagne, budget pret",
             "Credit immobilier — primo-accedants et investisseurs",
+            "Finance — rachat de credits, conso, credit pro",
+            "Banque — comptes, epargne, tresorerie",
             "Assurance auto — tous profils conducteurs",
             "Assurance habitation — locataires et proprietaires",
             "Prevoyance — protection revenus et famille",
@@ -1316,6 +1653,8 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
         { href: "/assurance-habitation/villes/", label: "Villes habitation" },
         { href: "/pret-immobilier/villes/", label: "Villes pret immobilier" },
         { href: "/recherche-bien/villes/", label: "Villes recherche de bien" },
+        { href: "/finance/villes/", label: "Villes finance" },
+        { href: "/banque/villes/", label: "Villes banque" },
         { href: "/credit-immo/villes/", label: "Villes credit immo" },
       ],
       faq: [
@@ -1335,8 +1674,8 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
       file: "france/regions/index.html",
       theme: "vtc",
       badge: "Regions",
-      title: "Regions de France | Assurance & credit local",
-      description: "Pages SEO par region : " + regions.length + " regions, devis assurance et credit.",
+      title: "Regions de France | Assurance, pret & finance",
+      description: "Pages SEO par region : " + regions.length + " regions, assurance, pret immobilier, finance, banque.",
       h1: "Toutes les regions",
       intro: "Selectionnez votre region pour acceder aux departements et villes couvertes.",
       cta: { href: "/france/", label: "Accueil France" },
@@ -1378,6 +1717,10 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/pret-immobilier/destinations/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/recherche-bien/", priority: "0.93", changefreq: "weekly" },
     { loc: base + "/recherche-bien/villes/", priority: "0.91", changefreq: "weekly" },
+    { loc: base + "/finance/", priority: "0.93", changefreq: "weekly" },
+    { loc: base + "/finance/villes/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/banque/", priority: "0.92", changefreq: "weekly" },
+    { loc: base + "/banque/villes/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/devis.html", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/landings/devis-rapide.html", priority: "0.85", changefreq: "weekly" },
     { loc: base + "/landings/animaux.html", priority: "0.92", changefreq: "weekly" },
@@ -1449,6 +1792,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     urls.push({ loc: base + product.siloUrl, priority: "0.88", changefreq: "weekly" });
     if (product.hubUrl) urls.push({ loc: base + product.hubUrl, priority: "0.9", changefreq: "weekly" });
     if (product.hubDeptUrl) urls.push({ loc: base + product.hubDeptUrl, priority: "0.88", changefreq: "weekly" });
+    urls.push({ loc: base + productRegionHubUrl(product), priority: "0.88", changefreq: "weekly" });
     cities.forEach(function (city) {
       urls.push({
         loc: base + "/" + product.dir + "/" + city.slug + "/",
@@ -1471,6 +1815,13 @@ function collectSitemapUrls(cities, departments, regions, base) {
       urls.push({
         loc: base + "/" + product.dir + "/departement/" + dept.slug + "/",
         priority: "0.7",
+        changefreq: "monthly",
+      });
+    });
+    regions.forEach(function (region) {
+      urls.push({
+        loc: base + productRegionUrl(product, region.slug),
+        priority: "0.72",
         changefreq: "monthly",
       });
     });
@@ -1533,9 +1884,12 @@ function writeSitemapIndex(sitemaps, outFile, base) {
 
 module.exports = {
   GEO_PRODUCTS,
+  productShortLabel,
   buildGeoPageConfigs,
   buildDeptPageConfigs,
   buildDeptHubPageConfigs,
+  buildProductRegionPageConfigs,
+  buildProductRegionHubConfigs,
   buildRegionPageConfigs,
   buildFranceDeptHub,
   buildFranceDeptPages,

@@ -12,6 +12,8 @@ const {
   buildGeoPageConfigs,
   buildDeptPageConfigs,
   buildDeptHubPageConfigs,
+  buildProductRegionPageConfigs,
+  buildProductRegionHubConfigs,
   buildRegionPageConfigs,
   buildFranceDeptHub,
   buildFranceDeptPages,
@@ -1019,6 +1021,8 @@ const ALL_PAGES = PAGES.concat(
   buildGeoPageConfigs(CITIES, page),
   buildDeptPageConfigs(DEPARTMENTS, CITIES, page),
   buildDeptHubPageConfigs(DEPARTMENTS, page),
+  buildProductRegionPageConfigs(REGIONS, DEPARTMENTS, CITIES, page),
+  buildProductRegionHubConfigs(REGIONS, page),
   buildRegionPageConfigs(REGIONS, DEPARTMENTS, CITIES, page),
   buildFranceDeptHub(DEPARTMENTS, page),
   buildFranceDeptPages(DEPARTMENTS, CITIES, page),
@@ -1037,7 +1041,9 @@ const geoUrls = allUrls.filter(function (u) {
     u.loc.indexOf("/assurance-") > -1 ||
     u.loc.indexOf("/credit-immo/") > -1 ||
     u.loc.indexOf("/pret-immobilier/") > -1 ||
-    u.loc.indexOf("/recherche-bien/") > -1
+    u.loc.indexOf("/recherche-bien/") > -1 ||
+    u.loc.indexOf("/finance/") > -1 ||
+    u.loc.indexOf("/banque/") > -1
   );
 });
 const franceUrls = allUrls.filter(function (u) {
