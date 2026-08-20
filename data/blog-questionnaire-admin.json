@@ -822,6 +822,19 @@
       "species": null
     },
     {
+      "file": "pourquoi-mon-bien-ne-se-vend-pas.html",
+      "title": "Pourquoi mon bien ne se vend pas alors que je pensais que ca irait ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?role=vendeur&utm_source=blog&utm_medium=actu_daily&utm_campaign=vendeur&utm_content=bien-ne-vend-pas",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
       "file": "pret-immo-erreurs-a-eviter.html",
       "title": "Pret immobilier : 7 erreurs a eviter en 2026",
       "section": "finance",

@@ -3119,6 +3119,132 @@ module.exports = {
       ],
     },
     {
+      file: "pourquoi-mon-bien-ne-se-vend-pas.html",
+      audience: "france",
+      section: "finance",
+      tag: "Vente",
+      tagClass: "tag-immo",
+      themes: ["emprunteur"],
+      title: "Pourquoi mon bien ne se vend pas alors que je pensais que ca irait ?",
+      description:
+        "Vous etiez sur que ca partirait vite : et pourtant rien. Prix, photos, financement des acheteurs, concurrence — les vraies raisons, et comment debloquer avec negociateur + courtier.",
+      meta: "9 min · Aout 2026",
+      cardExcerpt: "« Je pensais que ca se vendrait » : pourquoi ca bloque, et quoi faire.",
+      cta: {
+        href: "../landings/acheteur-immo.html?role=vendeur&utm_source=blog&utm_medium=actu_daily&utm_campaign=vendeur&utm_content=bien-ne-vend-pas",
+        label: "Diagnostic de ma vente",
+      },
+      heroImage: {
+        src: "./images/habitat/maison-famille.jpg",
+        alt: "Maison familiale en vente",
+        caption: "Un bien « trop beau pour ne pas partir » peut rester des mois si le prix ou le financement ne collent pas.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Vous aviez tout calcule : travaux faits, annonce en ligne, voisins qui disent que « ca partira en quinze jours ». Et la… les semaines passent. <strong>Pourquoi mon bien ne se vend pas alors que je pensais que ca se ferait ?</strong> Ce n'est presque jamais « le marche est mort ». C'est presque toujours un ecart entre <em>ce que vous croyez</em> et <em>ce que les acheteurs (et les banques) peuvent vraiment faire</em>.",
+        },
+        {
+          type: "figure",
+          src: "./images/finance/credit-immo-cles.jpg",
+          alt: "Cles et credit immobilier",
+          caption: "Vendre, c'est trouver quelqu'un qui peut emprunter — pas seulement quelqu'un qui aime le salon.",
+        },
+        { type: "h2", text: "1. « Je pensais que ca irait » : d'ou vient cette certitude ?" },
+        {
+          type: "ul",
+          items: [
+            "Un voisin a vendu l'annee derniere a un prix dont on se souvient mal",
+            "Des sites d'estimation en ligne trop optimistes",
+            "L'attachement au bien : on ajoute la valeur emotionnelle au prix",
+            "Beaucoup de clics / messages = illusion de demande",
+          ],
+        },
+        {
+          type: "p",
+          text: "Le marche 2026 n'est plus celui de 2021. Les taux, l'apport exige et le reste a vivre freinent des profils qui, hier, auraient signe. Votre bien peut etre tres bien — et quand meme trop cher <strong>pour les dossiers qui passent en banque aujourd'hui</strong>.",
+        },
+        { type: "h2", text: "2. Les 7 freins les plus frequents" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Prix au-dessus du marche</strong> : 5 a 10 % de trop = silence radio ou visites sans offre",
+            "<strong>Visites sans financement</strong> : curiosite, pas d'acheteurs — voir <a href=\"./visites-sans-financement-vente-negociateur-courtier.html\">visites sans pret</a>",
+            "<strong>Photos / annonce faibles</strong> : le bien n'est pas vu par les bons profils",
+            "<strong>Concurrence locale</strong> : deux biens similaires moins chers a 800 m",
+            "<strong>Travaux / DPE</strong> : les banques et acheteurs decotent fort le G ou le « a retaper »",
+            "<strong>Disponibilite</strong> : difficile a visiter = moins d'acheteurs serieux",
+            "<strong>Histoire du dossier</strong> : bien deja « brule » apres plusieurs echecs de pret",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Le piege : baisser trop tard (ou trop peu)" },
+        {
+          type: "p",
+          text: "Beaucoup de vendeurs attendent trois mois, puis baissent de 2 000 €. Trop peu, trop tard : le bien est deja marque « qui ne part pas ». Mieux vaut un <strong>diagnostic de prix + de financement</strong> des les premieres semaines, plutot qu'une guerre d'usure avec le marche.",
+        },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Signature chez le notaire",
+          caption: "Objectif : une offre qui tient jusqu'a l'acte — pas une visite de plus.",
+        },
+        { type: "h2", text: "4. Ce que change un negociateur + courtier" },
+        {
+          type: "p",
+          text: "Chez Leads Opportunities, on ne se contente pas de « mettre l'annonce ». On couple <strong>negociation immobiliere</strong> et <strong>courtage en pret</strong> (ORIAS) :",
+        },
+        {
+          type: "ul",
+          items: [
+            "Recaler le prix sur ce que les acheteurs locaux peuvent emprunter",
+            "Filtrer les visites : priorite aux projets finançables",
+            "Monter le pret de l'acquereur pendant la negociation — pas apres le refus",
+            "Eviter les compromis qui explosent a 45 jours pour condition suspensive",
+          ],
+        },
+        {
+          type: "p",
+          text: "En clair : on s'occupe de <strong>vendre votre bien</strong> et d'<strong>obtenir le pret pour l'acquereur</strong>. C'est souvent la seule facon de transformer « je pensais que ca se ferait » en signature chez le notaire.",
+        },
+        { type: "h2", text: "5. Checklist express si ca ne part pas" },
+        {
+          type: "ul",
+          items: [
+            "Comparer 3 ventes recentes dans un rayon serre (pas des annonces concurrentes)",
+            "Refaire photos + texte (luminosite, plan, charges, taxe fonciere)",
+            "Demander a chaque visiteur s'il a une simulation de pret de moins de 30 jours",
+            "Tester une baisse ciblee plutot qu'une interminable attente",
+            "Faire relire le dossier par un courtier : quel budget acheteur « passe » vraiment ?",
+          ],
+        },
+        {
+          type: "p",
+          text: "Pret a un diagnostic sans engagement : <a href=\"../landings/acheteur-immo.html?role=vendeur\">parcours vendeur</a>. Coté acheteur / pret : <a href=\"../landings/credit-immo.html\">etude credit immo</a>. Situations sensibles (divorce, succession…) : <a href=\"./vente-immobiliere-3d-divorce-deces-demenagement.html\">ventes complexes</a>.",
+        },
+      ],
+      related: [
+        { href: "./visites-sans-financement-vente-negociateur-courtier.html", label: "Visites sans financement" },
+        { href: "../landings/acheteur-immo.html?role=vendeur", label: "Je vends" },
+        { href: "../landings/credit-immo.html", label: "Credit immo" },
+        { href: "./vente-immobiliere-3d-divorce-deces-demenagement.html", label: "Ventes complexes" },
+      ],
+      faq: [
+        {
+          q: "Mon bien est beau : pourquoi personne n'achete ?",
+          a: "La beaute ne paie pas la mensualite. Si le prix depasse ce que les banques acceptent pour les profils locaux, les visites restent sans offre.",
+        },
+        {
+          q: "Faut-il baisser le prix tout de suite ?",
+          a: "Pas forcement. D'abord verifier estimation, photos et financement des visiteurs. Une baisse mal dosee ou trop tardive peut aussi bruler le bien.",
+        },
+        {
+          q: "En quoi un courtier aide le vendeur ?",
+          a: "Il qualifie la solvabilite des acquereurs et monte le pret : moins d'echecs apres compromis, vente plus rapide et plus sure.",
+        },
+      ],
+    },
+    {
       file: "pret-immo-erreurs-a-eviter.html",
       section: "finance",
       tag: "Immo",
