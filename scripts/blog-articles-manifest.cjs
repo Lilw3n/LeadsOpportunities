@@ -1456,6 +1456,301 @@ module.exports = {
       ],
     },
     {
+      file: "gta-6-fuites-cyberleek-memecoin-arnaque-france.html",
+      audience: "france",
+      section: "finance",
+      tag: "GTA 6 & arnaques",
+      tagClass: "tag-actu",
+      themes: ["gaming", "emprunteur"],
+      title: "Fuites GTA 6 et memecoin : comment eviter l'arnaque crypto en France",
+      description:
+        "Aout 2026 : fuites GTA VI (Cyberleek), memecoin Solana et DMCA Rockstar. Ce que ca change pour votre epargne, votre banque et votre budget en France.",
+      meta: "8 min · Aout 2026",
+      cardExcerpt: "Fuites GTA 6 + memecoin : ne pas melanger hype et epargne.",
+      cta: {
+        href: "../landings/rappel.html?need=banque&utm_source=blog&utm_medium=actu_daily&utm_campaign=banque&utm_content=gta6-memecoin",
+        label: "Rappel banque & epargne",
+      },
+      heroImage: {
+        src: "./images/gta6/gta6-vice-city-01.jpg",
+        alt: "Grand Theft Auto VI — ambiance Vice City",
+        caption: "GTA VI — fuites aout 2026. Capture officielle Rockstar Games (illustration).",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Depuis mi-aout 2026, des clips attribues a un groupe surnomme <strong>Cyberleek</strong> circulent en ligne : gameplay suppose de <strong>GTA 6</strong>, carte, cutscenes. Rockstar / Take-Two multiplient les <strong>retraits DMCA</strong>. En parallele, un <strong>memecoin</strong> (souvent sur Solana) surfe sur la buzz. Pour un joueur en <strong>France</strong>, le vrai risque n'est pas spoilers — c'est de <strong>perdre de l'argent</strong> sur une crypto liee a une campagne de fuites.",
+        },
+        {
+          type: "figure",
+          src: "./images/gta6/gta6-lucia-01.jpg",
+          alt: "GTA VI — personnage Lucia",
+          caption: "Hype GTA 6 : les arnaques crypto profitent de l'attention, pas du jeu.",
+        },
+        { type: "h2", text: "1. Ce que l'on sait (sans spoiler)" },
+        {
+          type: "ul",
+          items: [
+            "Des videos presentees comme des builds <strong>anciens</strong> (2023–2024) circulent ; Rockstar n'a pas authentifie publiquement chaque clip.",
+            "Les <strong>DMCA</strong> de Take-Two suggerent un contenu protege — pas une preuve que le memecoin est « officiel ».",
+            "Un <strong>Extended Look</strong> Netflix est annonce fin aout 2026 : la communication officielle reste le seul canal fiable.",
+            "Aucun lien public solide entre Cyberleek et la fuite confirmee de 2022.",
+          ],
+        },
+        { type: "h2", text: "2. Memecoin + fuites = cocktail classique d'arnaque" },
+        {
+          type: "p",
+          text: "Le schema est connu : contenu viral → token speuleux → volume de trading → revente des early buyers. En France, un memecoin n'est <strong>pas un placement garanti</strong>. Pas de fonds de garantie type depot bancaire, pas d'ORIAS sur le token, souvent pas de prospectus clair. Si on vous promet « x100 grace a GTA 6 », c'est deja un signal d'alerte.",
+        },
+        {
+          type: "ul",
+          items: [
+            "<strong>Ne jamais</strong> connecter votre seed phrase a un site « claim GTA leak ».",
+            "Refuser les DMs Telegram / Discord qui « aident » a acheter le token.",
+            "Separer <strong>compte bancaire</strong> et exchanges : seulement ce que vous etes pret a perdre a 100 %.",
+            "Verifier les alertes <strong>AMF</strong> / listes noires avant tout achat crypto lie a l'actu.",
+          ],
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Budget gaming : ne pas financer la hype a credit" },
+        {
+          type: "p",
+          text: "La buzz des fuites relance aussi les <strong>precommandes</strong> PS5 Pro + GTA 6. Un <strong>credit conso</strong> pour du materiel, c'est du Code de la consommation (TAEG, retractation 14 jours). Un memecoin, non. Melanger les deux — emprunter pour speuler — est le pire scenario pour votre <strong>taux d'endettement</strong> et un futur <strong>pret immobilier</strong>.",
+        },
+        {
+          type: "p",
+          text: "Si vous voulez vraiment le setup day-one : comparez d'abord un <a href=\"./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html\">pret conso gaming</a> transparent, pas un token anonyme. Et mettez a jour l'<a href=\"./gta-6-sortie-assurance-gaming-materiel.html\">assurance habitation</a> une fois la console livree.",
+        },
+        { type: "h2", text: "4. Checklist France avant de cliquer" },
+        {
+          type: "ul",
+          items: [
+            "Source : Netflix / Rockstar / presse, pas un compte X au token.",
+            "Argent : uniquement epargne de jeu, jamais l'apport immo ni le livret d'urgence.",
+            "Banque : activer alertes fraude / double authentification apres tout achat crypto.",
+            "Credit : si besoin de financer une console, passer par un <strong>questionnaire credit conso</strong> — pas par un exchange.",
+          ],
+        },
+      ],
+      related: [
+        { href: "./gta-6-precommande-ps5-pro-credit-conso-france.html", label: "Credit conso GTA 6 France" },
+        { href: "./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html", label: "Comparatif pret gaming" },
+        { href: "./gta-6-sortie-assurance-gaming-materiel.html", label: "Assurer son setup" },
+        { href: "../banque/", label: "Banque & epargne" },
+      ],
+      faq: [
+        {
+          q: "Les fuites GTA 6 de aout 2026 sont-elles officielles ?",
+          a: "Non. Rockstar n'a pas valide les clips Cyberleek. Les retraits DMCA indiquent un contenu protege, pas une authentification publique.",
+        },
+        {
+          q: "Acheter un memecoin lie aux fuites est-il illegal en France ?",
+          a: "Pas forcement illegal en soi, mais tres risque : pas de protection type depot bancaire. Les arnaques (phishing, drainers) restent des infractions.",
+        },
+        {
+          q: "Puis-je financer GTA 6 a credit sans toucher a la crypto ?",
+          a: "Oui : pret personnel ou credit magasin encadres. Comparez le TAEG et l'impact sur un futur pret immo.",
+        },
+      ],
+    },
+    {
+      file: "gta-6-fuites-rockstar-cybersecurite-assurance.html",
+      audience: "france",
+      section: "actu",
+      tag: "GTA 6 & cyber",
+      tagClass: "tag-actu",
+      themes: ["gaming"],
+      title: "Fuites GTA 6 chez Rockstar : cyberattaques, streamers et assurances en France",
+      description:
+        "Fuites gameplay GTA VI, DMCA Take-Two : ce que ca enseigne sur la cybersécurité. Habitation, RC pro et materiel pour createurs en France.",
+      meta: "8 min · Aout 2026",
+      cardExcerpt: "Fuites Rockstar : et votre setup / activite, sont-ils couverts ?",
+      cta: {
+        href: "../landings/questionnaire.html?need=rc-pro&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=rc-pro&utm_content=gta6-cyber",
+        label: "Questionnaire RC Pro createur",
+      },
+      heroImage: {
+        src: "./images/streaming/twitch-live-stream-setup.png",
+        alt: "Setup streaming Twitch — ecrans et micro",
+        caption: "Streamer day-one : materiel + comptes + revenus — trois couches de risque.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Les fuites <strong>GTA 6</strong> d'aout 2026 rappellent une evidence : meme un studio comme <strong>Rockstar</strong> peut voir des builds ou des images circuler hors controle. Pour un createur, un freelance ou un commerce en <strong>France</strong>, la lecon n'est pas « comment spoiler » — c'est <strong>que vaut votre couverture</strong> si un PC est pirate, un compte Twitch vole, ou un disque dur rempli de projets disparait.",
+        },
+        {
+          type: "gallery",
+          label: "Setup createur : trois angles a assurer",
+          items: [
+            {
+              src: "./images/streaming/twitch-live-stream-setup.png",
+              alt: "Bureau streamer dual monitor",
+              caption: "Materiel — plafonds habitation / MRPro",
+            },
+            {
+              src: "./images/streaming/tiktok-youtube-shorts-live.png",
+              alt: "Live vertical smartphone",
+              caption: "Comptes &amp; monétisation — cyber + prevoyance",
+            },
+            {
+              src: "./images/gta6/gta6-vice-city-02.jpg",
+              alt: "GTA VI Vice City",
+              caption: "Contenu day-one — risque de spoiler vs valeur du setup",
+            },
+          ],
+        },
+        { type: "h2", text: "1. Fuite studio ≠ votre risque, mais le meme type de faille" },
+        {
+          type: "p",
+          text: "Acces non autorise, build ancien, diffusion virale : cote joueur, le risque courant est plus humble — <strong>vol de compte</strong>, ransomware sur le PC gaming, phishing « precommande GTA ». Les DMCA de Take-Two montrent la valeur du contenu ; votre <strong>HDD de VODs</strong> et vos identifiants ont aussi une valeur, meme sans etre Rockstar.",
+        },
+        { type: "h2", text: "2. Habitation : PC, console, disques — plafonds a jour" },
+        {
+          type: "p",
+          text: "Avant le day-one, beaucoup achètent ecran, SSD, capture card. Verifiez les <strong>plafonds appareils</strong> de la multirisque habitation. Un degat des eaux ou un cambriolage sur 4 000 € de setup depasse souvent le forfait « informatique » de base. Guide : <a href=\"./gta-6-sortie-assurance-gaming-materiel.html\">assurer son materiel GTA 6</a>.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Streamer / YouTubeur : RC pro et cyber" },
+        {
+          type: "p",
+          text: "Si vous etes monétise (Twitch, YouTube, TikTok Live), une <strong>RC professionnelle</strong> et parfois une garantie <strong>cyber</strong> (frais de notification, restauration de donnees) protegent mieux qu'une simple MRH. Voir aussi <a href=\"./assurance-streamer-gaming-setup-materiel.html\">assurance streamer &amp; gaming</a>.",
+        },
+        {
+          type: "ul",
+          items: [
+            "2FA partout (plateformes, store, banque).",
+            "Backup hors PC (NAS ou cloud chiffre) des projets.",
+            "Ne pas installer de « build leak » : malware + illegalite.",
+            "Declarer l'activite si revenus reguliers (AE / societe).",
+          ],
+        },
+        { type: "h2", text: "4. Lien avec le budget et le credit" },
+        {
+          type: "p",
+          text: "Remplacer un setup vole sans assurance, c'est souvent un <strong>credit conso</strong> d'urgence — plus cher qu'une bonne MRH. Mieux vaut calibrer les plafonds maintenant que de financer a la hate apres sinistre. Si un pret immo est en vue, evitez tout nouvel endettement pour du materiel non assure : <a href=\"./gta-6-pret-immobilier-budget-gaming.html\">GTA 6 et pret immobilier</a>.",
+        },
+      ],
+      related: [
+        { href: "./assurance-streamer-gaming-setup-materiel.html", label: "Assurance streamer" },
+        { href: "./gta-6-sortie-assurance-gaming-materiel.html", label: "Materiel GTA 6" },
+        { href: "./gta-6-fuites-cyberleek-memecoin-arnaque-france.html", label: "Fuites &amp; memecoin" },
+        { href: "../assurance-habitation/", label: "Habitation" },
+      ],
+      faq: [
+        {
+          q: "L'assurance habitation couvre-t-elle un ransomware ?",
+          a: "Rarement par defaut. Certaines options cyber ou contrats pro couvrent restauration et frais. Lisez les exclusions.",
+        },
+        {
+          q: "Un streamer auto-entrepreneur a-t-il besoin d'une RC pro ?",
+          a: "Souvent oui des qu'il y a sponsors, formations ou evenements — la RC vie privee ne suffit pas toujours.",
+        },
+        {
+          q: "Regarder une fuite GTA 6 expose-t-il mon PC ?",
+          a: "Une video YouTube legitime peu. En revanche, telecharger un « build » depuis un forum inconnu est un vecteur malware classique.",
+        },
+      ],
+    },
+    {
+      file: "gta-6-leak-netflix-extended-look-precommande-budget.html",
+      audience: "france",
+      section: "finance",
+      tag: "GTA 6 & credit conso",
+      tagClass: "tag-actu",
+      themes: ["gaming", "emprunteur"],
+      title: "Apres les fuites GTA 6 : Extended Look Netflix et budget precommande en France",
+      description:
+        "Fuites aout 2026 puis Extended Look Netflix : gerer la hype sans credit toxique. TAEG, endettement et alternatives comptant en France.",
+      meta: "8 min · Aout 2026",
+      cardExcerpt: "Hype fuites + Netflix : precommander sans casser le budget.",
+      cta: {
+        href: "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=conso&utm_content=gta6-leak-preco",
+        label: "Simulation credit conso (3 min)",
+      },
+      heroImage: {
+        src: "./images/gta6/gta6-vice-city-02.jpg",
+        alt: "GTA VI — Vice City la nuit",
+        caption: "GTA VI — Vice City. Capture officielle Rockstar Games.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Les fuites <strong>GTA 6</strong> d'aout 2026 (clips Cyberleek, carte, gameplay) tombent pile avant un <strong>Extended Look</strong> prevu sur Netflix. Resultat : la hype remonte, les paniers PS5 Pro + jeu aussi. En <strong>France</strong>, la question n'est pas « faut-il regarder les leaks » — c'est <strong>comment precommander sans detruire son reste a vivre</strong> ni un futur dossier de <strong>pret immobilier</strong>.",
+        },
+        {
+          type: "figure",
+          src: "./images/gta6/gta6-lucia-01.jpg",
+          alt: "GTA VI — Lucia",
+          caption: "Precommande apres fuites : comparez le cout total, pas la hype.",
+        },
+        { type: "h2", text: "1. Timeline : fuites → teaser officiel → sortie" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Mi-aout 2026</strong> : videos / images non officielles, DMCA Rockstar–Take-Two.",
+            "<strong>Fin aout 2026</strong> : Extended Look Netflix (communication officielle).",
+            "<strong>Novembre 2026</strong> (annonce studio) : fenetre de sortie visee — sujet a confirmation.",
+            "Entre les deux : precommandes digitales, bundles console, tentations de credit magasin.",
+          ],
+        },
+        { type: "h2", text: "2. Regle d'or : la hype n'est pas un TAEG" },
+        {
+          type: "p",
+          text: "Un vendeur peut afficher « a partir de 30 €/mois ». Ce qui compte, c'est le <strong>TAEG</strong>, la duree et le <strong>montant total du</strong>. Cadre legal : Code de la consommation, fiche precontractuelle, retractation 14 jours a distance. Details : <a href=\"./gta-6-precommande-ps5-pro-credit-conso-france.html\">credit conso GTA 6 / PS5 Pro</a>.",
+        },
+        {
+          type: "p",
+          text: "Pour un panier ~1 000 €, voyez nos <a href=\"./gta-6-ps5-pro-budget-1000-euros-pret-conso.html\">mensualites simulees</a> et le <a href=\"./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html\">comparatif pret perso / magasin / 3x</a>.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Trois profils apres les fuites" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Deja une PS5</strong> : precommander seulement le jeu (+ manette eventuelle). Budget 80–200 € — souvent epargne, pas credit.",
+            "<strong>Upgrade console</strong> : epargner jusqu'a l'Extended Look officiel pour confirmer les besoins techniques, puis comparer les offres.",
+            "<strong>Projet immo dans l'annee</strong> : zero nouveau credit conso. La banque additionne les mensualites — voir <a href=\"./gta-6-pret-immobilier-budget-gaming.html\">GTA 6 et pret immo</a>.",
+          ],
+        },
+        { type: "h2", text: "4. Pieges lies aux fuites" },
+        {
+          type: "ul",
+          items: [
+            "Sites « preco early leak » = phishing classique.",
+            "Memecoin « pour soutenir les leakers » = speulation, pas un jeu — <a href=\"./gta-6-fuites-cyberleek-memecoin-arnaque-france.html\">guide arnaque memecoin</a>.",
+            "Credit magasin + assurance casse imposee : refusez si redondant avec l'habitation.",
+            "Payer un build pirate : illegal + malware malware (voir <a href=\"./gta-6-fuites-rockstar-cybersecurite-assurance.html\">cyber &amp; assurance</a>).",
+          ],
+        },
+        { type: "h2", text: "5. Apres achat : habitation" },
+        {
+          type: "p",
+          text: "Console neuve = capital mobilier a declarer. Vol a la livraison, degat des eaux : verifiez plafonds et franchises. <a href=\"./gta-6-sortie-assurance-gaming-materiel.html\">Assurer son setup GTA 6</a>.",
+        },
+      ],
+      related: [
+        { href: "./gta-6-fuites-cyberleek-memecoin-arnaque-france.html", label: "Fuites &amp; memecoin" },
+        { href: "./gta-6-ps5-pro-budget-1000-euros-pret-conso.html", label: "Budget 1 000 €" },
+        { href: "./pret-conso-gaming-ps5-pro-gta6-comparatif-2026.html", label: "Comparatif credits" },
+        { href: "../nos-services.html", label: "Credit consommation" },
+      ],
+      faq: [
+        {
+          q: "Faut-il precommander avant l'Extended Look Netflix ?",
+          a: "Pas obligatoire. Attendre le teaser officiel evite d'acheter un bundle inutile. Les stocks day-one restent souvent accessibles en digital.",
+        },
+        {
+          q: "Un credit conso pour GTA 6 bloque-t-il un pret immo ?",
+          a: "Il augmente le taux d'endettement tant qu'il court. Si vous achetez dans les 6–12 mois, preferez epargner ou reporter.",
+        },
+        {
+          q: "Les fuites changent-elles le prix du jeu ?",
+          a: "Non. Le prix de vente est fixe par l'editeur / le distributeur. La hype change surtout le comportement d'achat impulsif.",
+        },
+      ],
+    },
+    {
       file: "robot-cuiseur-pret-conso-credit-cuisine.html",
       section: "finance",
       tag: "Cuisine & credit conso",

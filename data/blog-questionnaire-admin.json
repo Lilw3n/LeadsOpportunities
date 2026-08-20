@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-18",
+  "updated": "2026-08-20",
   "sections": [
     "actu",
     "animaux",
@@ -298,6 +298,45 @@
       "landing": "../landings/questionnaire.html?need=conso&journey=standard",
       "express": "../landings/devis-express.html?need=conso",
       "questionnaire": "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=finance&utm_campaign=gta6-comparatif-conso",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "gta-6-fuites-cyberleek-memecoin-arnaque-france.html",
+      "title": "Fuites GTA 6 et memecoin : comment eviter l'arnaque crypto en France",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/rappel.html?need=banque&utm_source=blog&utm_medium=actu_daily&utm_campaign=banque&utm_content=gta6-memecoin",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "gta-6-fuites-rockstar-cybersecurite-assurance.html",
+      "title": "Fuites GTA 6 chez Rockstar : cyberattaques, streamers et assurances en France",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=rc-pro&utm_content=gta6-cyber",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "gta-6-leak-netflix-extended-look-precommande-budget.html",
+      "title": "Apres les fuites GTA 6 : Extended Look Netflix et budget precommande en France",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=conso&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=conso&utm_content=gta6-leak-preco",
       "matchedRule": "emprunteur",
       "species": null
     },
