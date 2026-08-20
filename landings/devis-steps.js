@@ -179,7 +179,7 @@
             { v: "soir", t: "Fin de journee" },
           ])
       ) +
-      '<label>Precision utile<textarea name="details" rows="4" placeholder="Situation actuelle, echeance, contraintes..."></textarea></label>' +
+      '<label>Precision utile<textarea name="details" rows="4" data-optional placeholder="Si ce n\'est pas déjà dit : échéance, contraintes, questions pour le conseiller..."></textarea></label>' +
       "</section>"
     );
   }

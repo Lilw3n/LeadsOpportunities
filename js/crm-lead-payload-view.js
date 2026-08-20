@@ -62,6 +62,11 @@
     confirmByPhone: "Confirmation par téléphone",
     confirmMethod: "Mode de confirmation",
     createAccount: "Création de compte",
+    needExplain: "Besoin expliqué",
+    journeyStage: "Étape du parcours",
+    journeyDetails: "Parcours (détail)",
+    difficulties: "Difficultés rencontrées",
+    details: "Précisions",
   };
 
   var SKIP_PAYLOAD_KEYS = {
@@ -307,6 +312,11 @@
     acheteur_immo: "Achat immobilier",
     acheteur_vendeur_immo: "Achat et vente immobilière",
     chasseur_immo: "Chasseur de bien",
+    reflexion: "Réflexion / information",
+    comparaison: "Comparaison d'offres",
+    dossier: "Dossier en cours",
+    refuse: "Refus ou blocage",
+    urgent: "Besoin urgent",
   };
 
   function humanizeKey(key) {

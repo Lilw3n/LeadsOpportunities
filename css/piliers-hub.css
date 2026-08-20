@@ -676,3 +676,108 @@
   background: rgba(13, 148, 136, 0.95);
   color: #fff;
 }
+
+/* Bloc besoin / parcours / difficultés (hub finance, puis autres piliers) */
+.pilier-story {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 28px;
+  align-items: start;
+  margin: 0 0 40px;
+  padding: 28px 26px;
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--pilier-accent) 28%, #e2e8f0);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--pilier-soft) 70%, #fff) 0%, #fff 55%);
+}
+.pilier-story-copy h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.pilier-story-copy p {
+  margin: 0;
+  color: #475569;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  max-width: 36rem;
+}
+.pilier-story-form {
+  display: grid;
+  gap: 12px;
+  padding: 18px 18px 16px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+}
+.pilier-story-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #334155;
+}
+.pilier-story-form input,
+.pilier-story-form select,
+.pilier-story-form textarea {
+  width: 100%;
+  font: inherit;
+  font-weight: 500;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+}
+.pilier-story-form textarea { resize: vertical; min-height: 72px; }
+.pilier-story-coords {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.pilier-story-form .field-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 0.82rem;
+  color: #475569;
+}
+.pilier-story-form .field-check input { width: auto; margin-top: 3px; }
+.pilier-story-form .btn { justify-self: start; margin-top: 4px; }
+.pilier-story-alt {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+.pilier-story-form .success {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.pilier-story-form .form-error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fef2f2;
+  color: #b91c1c;
+  font-size: 0.9rem;
+}
+.pilier-story-form .hp-field {
+  position: absolute;
+  left: -9999px;
+  height: 0;
+  overflow: hidden;
+}
+@media (max-width: 860px) {
+  .pilier-story { grid-template-columns: 1fr; padding: 22px 18px; }
+  .pilier-story-coords { grid-template-columns: 1fr; }
+}
+

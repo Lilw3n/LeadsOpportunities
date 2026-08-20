@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Finance : rachat, conso, crédit pro & patrimoine | Leads Opportunities</title>
-  <meta name="description" content="Finance : rachat de crédits, crédit conso, crédit pro et patrimoine. Courtier ORIAS." />
+  <meta name="description" content="Finance : rachat de crédits, crédit conso, crédit pro et patrimoine. Expliquez votre besoin, parcours et difficultés — courtier ORIAS." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/finance/" />
   <meta property="og:title" content="Finance : rachat, conso, crédit pro & patrimoine | Leads Opportunities" />
@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="../main.css" />
   <link rel="stylesheet" href="../css/piliers-hub.css" />
   <link rel="stylesheet" href="../css/clickable-affordance.css" />
+  <link rel="stylesheet" href="../css/contact-pair.css" />
 </head>
 <body class="pilier-page pilier-page--finance">
   <header class="topbar">
@@ -32,7 +33,7 @@
         <a href="../credit-immo/">Prêt immo</a>
         <a href="../banque/">Banque</a>
         <a href="../finance/" aria-current="page">Finance</a>
-        <a class="btn btn-nav" href="../index.html#contact">Devis gratuit</a>
+        <a class="btn btn-nav" href="#expliquer">Expliquer mon besoin</a>
       </nav>
     </div>
   </header>
@@ -40,21 +41,83 @@
     <div class="pilier-hero-inner">
       <span class="section-badge">Finance</span>
       <h1>Rachat, conso, crédit pro &amp; patrimoine</h1>
-      <p class="lead">Au-delà du prêt immo : rachat de crédits, crédit conso, financement pro et solutions patrimoine.</p>
+      <p class="lead">Au-delà du prêt immo : rachat de crédits, crédit conso, financement pro et solutions patrimoine. Dites-nous votre besoin, où vous en êtes, et ce qui bloque.</p>
       <div class="pilier-actions">
-        <a class="btn btn-primary btn-lg" href="../landings/questionnaire.html?need=rachat">Étude financement</a>
-        <a class="btn btn-outline btn-lg" href="../index.html#contact">Nous contacter</a>
+        <a class="btn btn-primary btn-lg" href="#expliquer">Expliquer ma situation</a>
+        <a class="btn btn-outline btn-lg" href="../landings/questionnaire.html?need=rachat">Étude financement complète</a>
       </div>
     </div>
   </header>
   <main class="pilier-wrap">
+    <section class="pilier-story" id="expliquer" aria-labelledby="expliquer-title">
+      <div class="pilier-story-copy">
+        <h2 id="expliquer-title">Expliquez votre besoin, parcours et difficultés</h2>
+        <p>Pas besoin d’un dossier parfait. En quelques lignes, un conseiller comprend votre priorité (rachat, conso, crédit pro), ce que vous avez déjà tenté, et les freins (refus banque, taux, délais, pièces…).</p>
+      </div>
+      <form class="pilier-story-form" data-track-form data-market-intent="FR" novalidate id="financeStoryForm">
+        <input type="hidden" name="vertical" value="finance" />
+        <input type="hidden" name="serviceCategory" value="finance" />
+        <input type="hidden" name="journey" value="finance_hub_story" />
+        <input type="hidden" name="serviceLabel" value="Finance — besoin libre" />
+        <div class="hp-field" aria-hidden="true">
+          <label for="hp_finance">Ne pas remplir</label>
+          <input type="text" id="hp_finance" name="_hp" tabindex="-1" autocomplete="off" />
+        </div>
+        <label>Type de financement
+          <select name="need" id="financeNeed" required>
+            <option value="">Choisir…</option>
+            <option value="rachat">Rachat de crédits</option>
+            <option value="conso">Crédit consommation</option>
+            <option value="credit-pro">Crédit professionnel</option>
+            <option value="renegociation">Renégociation de prêt</option>
+            <option value="autre">Autre / je ne sais pas encore</option>
+          </select>
+        </label>
+        <label>Votre besoin
+          <textarea name="needExplain" rows="3" required placeholder="Ex. baisser mes mensualités, financer un véhicule, trésorerie pour mon activité…"></textarea>
+        </label>
+        <label>Où en êtes-vous dans votre parcours ?
+          <select name="journeyStage">
+            <option value="">Choisir…</option>
+            <option value="reflexion">Je réfléchis / je me renseigne</option>
+            <option value="comparaison">Je compare des offres</option>
+            <option value="dossier">Dossier en cours (banque ou courtier)</option>
+            <option value="refuse">Refus ou blocage récent</option>
+            <option value="urgent">Besoin urgent</option>
+          </select>
+        </label>
+        <label>Précisez votre parcours (facultatif)
+          <textarea name="journeyDetails" rows="2" data-optional placeholder="Ex. contacté ma banque il y a 3 semaines, simulation en ligne…"></textarea>
+        </label>
+        <label>Difficultés rencontrées (facultatif)
+          <textarea name="difficulties" rows="2" data-optional placeholder="Ex. taux trop élevé, endettement, pièces manquantes, refus pour CDD…"></textarea>
+        </label>
+        <div class="pilier-story-coords" data-contact-pair>
+          <label>Téléphone
+            <input type="tel" name="phone" autocomplete="tel-national" inputmode="tel" required placeholder="06 12 34 56 78" />
+          </label>
+          <label>E-mail
+            <input type="email" name="email" autocomplete="email" inputmode="email" required placeholder="vous@email.fr" />
+          </label>
+        </div>
+        <label class="field-check">
+          <input type="checkbox" name="rgpd" value="1" required />
+          <span>J’accepte d’être contacté et j’ai lu la <a href="../politique-confidentialite.html">politique de confidentialité</a>.</span>
+        </label>
+        <button type="submit" class="btn btn-primary btn-lg" data-track="cta_click">Envoyer ma situation</button>
+        <p class="pilier-story-alt">Vous préférez le questionnaire détaillé ? <a href="../landings/questionnaire.html?need=rachat" id="financeFullLink">Parcours complet</a></p>
+        <p class="success" data-form-success hidden>Merci — un conseiller revient vers vous pour affiner le financement.</p>
+        <p class="form-error" data-form-error hidden>Envoi impossible. Réessayez ou utilisez le questionnaire complet.</p>
+      </form>
+    </section>
+
     <h2 class="pilier-section-title">Parcours finance</h2>
     <section class="pilier-grid">
       <a class="pilier-card" href="../landings/questionnaire.html?need=rachat">
         <span class="pilier-card-media" style="background-image:url('../assets/piliers/pilier-finance.jpg');background-position:center" aria-hidden="true"></span>
         <span class="pilier-card-body">
           <strong>Rachat de crédits</strong>
-          <p>Regroupement de crédits pour alléger les mensualités.</p>
+          <p>Regroupement de crédits pour alléger les mensualités — avec espace pour raconter votre parcours.</p>
           <span class="go">Demander →</span>
         </span>
       </a>
@@ -94,7 +157,7 @@
     <aside class="pilier-aside">
       <h2>Un conseiller dédié</h2>
       <p>Conseiller à votre écoute — gratuit et sans engagement.</p>
-      <a class="btn btn-lg" href="../landings/rappel.html">Demander un rappel</a>
+      <a class="btn btn-lg" href="../landings/rappel.html?need=rachat">Demander un rappel</a>
     </aside>
   </main>
   <footer class="footer">
@@ -103,5 +166,23 @@
       <small><a href="../index.html">Accueil</a> · <a href="../mentions-legales.html">Mentions légales</a></small>
     </div>
   </footer>
+  <script src="../js/attribution.js"></script>
+  <script src="../js/leads-storage.js"></script>
+  <script src="../js/cookie-banner.js"></script>
+  <script src="../js/geo-france-guard.js"></script>
+  <script src="../landings/tracking.js"></script>
+  <script>
+    (function () {
+      var sel = document.getElementById("financeNeed");
+      var link = document.getElementById("financeFullLink");
+      if (!sel || !link) return;
+      function sync() {
+        var need = sel.value || "rachat";
+        link.href = "../landings/questionnaire.html?need=" + encodeURIComponent(need);
+      }
+      sel.addEventListener("change", sync);
+      sync();
+    })();
+  </script>
 </body>
 </html>

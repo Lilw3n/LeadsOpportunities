@@ -117,6 +117,59 @@
     );
   }
 
+  /**
+   * Bloc libre : besoin + parcours + difficultés (finance, puis autres parcours).
+   * opts.requiredNeed — besoin obligatoire (défaut true)
+   * opts.needPlaceholder / journeyPlaceholder / difficultiesPlaceholder
+   */
+  function needStoryFields(opts) {
+    opts = opts || {};
+    var needReq = opts.requiredNeed !== false;
+    return (
+      '<div class="need-story-block">' +
+      '<p class="wizard-step-intro">' +
+      (opts.intro ||
+        "Expliquez votre situation en quelques lignes : le conseiller prépare un dossier plus juste.") +
+      "</p>" +
+      textarea(
+        "needExplain",
+        opts.needLabel || "Votre besoin",
+        opts.needPlaceholder ||
+          "Ex. baisser mes mensualités, financer un véhicule, trésorerie pour mon activité…",
+        needReq
+      ) +
+      fieldRow(
+        select(
+          "journeyStage",
+          opts.journeyLabel || "Où en êtes-vous dans votre parcours ?",
+          opts.journeyOptions || [
+            { v: "reflexion", t: "Je réfléchis / je me renseigne" },
+            { v: "comparaison", t: "Je compare des offres" },
+            { v: "dossier", t: "Dossier en cours (banque ou courtier)" },
+            { v: "refuse", t: "Refus ou blocage récent" },
+            { v: "urgent", t: "Besoin urgent" },
+          ],
+          false
+        )
+      ) +
+      textarea(
+        "journeyDetails",
+        opts.journeyDetailsLabel || "Précisez votre parcours (facultatif)",
+        opts.journeyPlaceholder ||
+          "Ex. contacté ma banque il y a 3 semaines, simulation en ligne, rendez-vous prévu…",
+        false
+      ) +
+      textarea(
+        "difficulties",
+        opts.difficultiesLabel || "Difficultés rencontrées (facultatif)",
+        opts.difficultiesPlaceholder ||
+          "Ex. taux trop élevé, endettement, pièces manquantes, refus pour CDD, délais…",
+        false
+      ) +
+      "</div>"
+    );
+  }
+
   function wizardSection(stepName, title, body, hidden) {
     return (
       '<section class="wizard-step"' +
@@ -338,7 +391,13 @@
               { v: "autre", t: "Autre" },
             ]) +
               input("monthlyIncome", "Revenus mensuels nets foyer (EUR)", "text", "Ex. 3500", true)
-          )
+          ) +
+          needStoryFields({
+            intro:
+              "Décrivez votre besoin, où vous en êtes, et les freins éventuels (refus banque, délais, endettement…).",
+            needPlaceholder:
+              "Ex. regrouper mes crédits, financer des travaux, besoin de trésorerie…",
+          })
       );
     },
 
@@ -734,7 +793,15 @@
               { v: "incident", t: "Incident bancaire / fichage" },
             ], false) +
               input("restructureProperty", "Bien immobilier en garantie ?", "text", "Oui / Non / A preciser", false)
-          )
+          ) +
+          needStoryFields({
+            intro:
+              "Au-delà des chiffres : expliquez votre besoin, le parcours déjà engagé et les difficultés (refus, taux, délais…).",
+            needPlaceholder:
+              "Ex. alléger mes mensualités après une baisse de revenus, regrouper auto + conso…",
+            difficultiesPlaceholder:
+              "Ex. refus de ma banque, taux proposé trop élevé, fichage, pièces trop lourdes…",
+          })
       );
     },
 
@@ -771,7 +838,15 @@
               { v: "oui_important", t: "Oui, charge importante" },
             ], false) +
               input("consoDownPayment", "Apport (EUR)", "text", "Facultatif", false)
-          )
+          ) +
+          needStoryFields({
+            intro:
+              "Décrivez le projet, où vous en êtes (devis, concession, urgence) et ce qui bloque éventuellement.",
+            needPlaceholder:
+              "Ex. financer une voiture d’occasion, travaux cuisine, trésorerie personnelle…",
+            difficultiesPlaceholder:
+              "Ex. apport insuffisant, taux en ligne trop élevés, refus pour CDD…",
+          })
       );
     },
 
@@ -800,7 +875,15 @@
             ], false) +
               textarea("proCreditDetails", "Precision", "Equipement, tresorerie, BFR…", false)
           ) +
-          fieldRow(siretField("companySiret", true))
+          fieldRow(siretField("companySiret", true)) +
+          needStoryFields({
+            intro:
+              "Contexte pro : besoin précis, étapes déjà faites (banque, expert-comptable) et freins (garantie, bilans, délais).",
+            needPlaceholder:
+              "Ex. financer un véhicule utilitaire, BFR, matériel, local…",
+            difficultiesPlaceholder:
+              "Ex. banque demande trop de garanties, bilans récents faibles, urgence de commande…",
+          })
       );
     },
 
@@ -832,7 +915,13 @@
                 { v: "echeance", t: "A l echeance du pret" },
                 { v: "info", t: "Simple simulation" },
               ], false)
-          )
+          ) +
+          needStoryFields({
+            intro:
+              "Expliquez pourquoi vous renégociez, ce qui a déjà été tenté, et les freins (pénalités, refus banque…).",
+            needPlaceholder: "Ex. taux trop élevé par rapport au marché, allonger/raccourcir la durée…",
+            difficultiesPlaceholder: "Ex. banque actuelle peu flexible, IRA, délai avant échéance…",
+          })
       );
     },
 
@@ -1565,6 +1654,7 @@
     input: input,
     contactPair: contactPair,
     textarea: textarea,
+    needStoryFields: needStoryFields,
     plateField: plateField,
     siretField: siretField,
     PLATE_LABEL: PLATE_LABEL,

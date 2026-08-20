@@ -107,14 +107,24 @@
       );
     },
     finance: function () {
-      return fieldRow(
-        select("financeProject", "Projet", [
-          { v: "achat", t: "Achat immobilier" },
-          { v: "rachat", t: "Rachat de credits" },
-          { v: "conso", t: "Credit consommation" },
-          { v: "renegociation", t: "Renegociation" },
-        ]) +
-          input("financeAmount", "Montant (EUR)", "text", "Ex. 180000", true)
+      var story =
+        global.QUESTIONNAIRE_CONFIG && global.QUESTIONNAIRE_CONFIG.needStoryFields
+          ? global.QUESTIONNAIRE_CONFIG.needStoryFields({
+              requiredNeed: true,
+              intro: "En quelques lignes : besoin, parcours, difficultés.",
+            })
+          : '<label>Votre besoin<textarea name="needExplain" rows="3" required placeholder="Besoin, parcours, difficultés…"></textarea></label>';
+      return (
+        fieldRow(
+          select("financeProject", "Projet", [
+            { v: "achat", t: "Achat immobilier" },
+            { v: "rachat", t: "Rachat de credits" },
+            { v: "conso", t: "Credit consommation" },
+            { v: "renegociation", t: "Renegociation" },
+          ]) +
+            input("financeAmount", "Montant (EUR)", "text", "Ex. 180000", true)
+        ) +
+        story
       );
     },
     pro: function () {
