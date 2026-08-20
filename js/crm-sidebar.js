@@ -159,6 +159,7 @@ window.CrmSidebar = {
       label: "Finance & compta",
       items: [
         { type: "link", href: "./crm-financial.html", label: "Vue d'ensemble", icon: "financial" },
+        { type: "link", href: "./crm-stripe.html", label: "Stripe — envoyer & payer", icon: "financial", highlight: true, desc: "Paiement unique, abonnement, acompte, page publique" },
         { type: "link", href: "./crm-financial-payments.html", label: "Paiements" },
         { type: "link", href: "./crm-financial-payment-new.html", label: "Nouveau paiement" },
         { type: "link", href: "./crm-financial-receivables.html", label: "Créances" },

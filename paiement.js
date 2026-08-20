@@ -105,6 +105,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     setMsg("Redirection vers la page de paiement securisee Stripe…", false);
 
+    var categoryLabels = {
+      mobilite_pro: "Mobilite Pro (VTC / Flotte)",
+      assurance_auto: "Assurance auto",
+      assurance_moto: "Deux-roues / scooter",
+      sante_prevoyance: "Mutuelle sante",
+      prevoyance: "Prevoyance",
+      assurance_emprunteur: "Assurance emprunteur",
+      animaux: "Assurance animaux",
+      assurance_habitation: "Assurance habitation",
+      pno: "PNO (bien loue)",
+      credit_immo: "Credit / pret immobilier",
+      investissement_locatif: "Investissement locatif",
+      recherche_bien: "Recherche de bien",
+      residence_secondaire: "Residence secondaire",
+      banque: "Banque / tresorerie",
+      finance_rachat: "Finance — rachat / conso",
+      habitat_finance: "Habitat / Finance",
+      frais_dossier: "Frais de dossier",
+      abonnement: "Abonnement / suivi",
+      autre: "Autre",
+    };
+    var categoryLabel = categoryLabels[category] || category;
+
     try {
       var response = await fetch("/api/stripe/create-checkout-session", {
         method: "POST",
@@ -115,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
           category: category,
           requestType: "devis_acompte",
           referenceId: referenceId || "none",
-          label: "Acompte dossier Leads Opportunities",
+          label: "Acompte — " + categoryLabel,
         }),
       });
 

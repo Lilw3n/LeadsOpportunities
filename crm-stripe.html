@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stripe — envoyer &amp; utiliser | CRM</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-stripe-hub.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance · Stripe</p>
+      <h2>Paiements et abonnements</h2>
+      <p>Tout ce que vous pouvez envoyer à un client, et tout ce qu’il peut utiliser tout seul — liens prêts à copier.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./dashboard.html?section=mailbox" class="btn btn-primary">Envoyer depuis la messagerie</a>
+      <a href="./paiement.html" class="btn btn-ghost" target="_blank" rel="noopener">Page publique</a>
+      <a href="./crm-financial-payments.html" class="btn btn-ghost">Encaissements</a>
+    </div>
+  </section>
+
+  <div class="stripe-hub-grid">
+    <section class="stripe-hub-col" aria-labelledby="stripeSendTitle">
+      <span class="stripe-hub-badge stripe-hub-badge--send">Vous envoyez</span>
+      <h2 id="stripeSendTitle">Liens à envoyer (CRM)</h2>
+      <p class="lead">Vous générez un lien Stripe Checkout, puis vous le copiez, l’envoyez par e-mail ou SMS. Le client paie sur Stripe — carte uniquement, 3D Secure si la banque l’exige.</p>
+      <a class="stripe-hub-item" href="#stripeGenerate">
+        <strong>Paiement unique</strong>
+        <span>Frais de dossier, honoraires, règlement ponctuel. Formulaire ci-dessous.</span>
+      </a>
+      <a class="stripe-hub-item" href="#stripeGenerate">
+        <strong>Abonnement</strong>
+        <span>Prélèvement récurrent mensuel, annuel ou hebdomadaire. Le client active le lien une fois.</span>
+      </a>
+      <a class="stripe-hub-item" href="./crm-quote-payment.html">
+        <strong>Acompte devis</strong>
+        <span>Montant calé sur un devis <code>qte_…</code>. Page dédiée ou génération ci-dessous.</span>
+      </a>
+      <a class="stripe-hub-item" href="./dashboard.html?section=mailbox">
+        <strong>E-mail + lien (messagerie)</strong>
+        <span>Modèles « frais de dossier », « abonnement », « acompte » — le lien s’insère dans le mail.</span>
+      </a>
+    </section>
+
+    <section class="stripe-hub-col" aria-labelledby="stripeUseTitle">
+      <span class="stripe-hub-badge stripe-hub-badge--use">Ils utilisent</span>
+      <h2 id="stripeUseTitle">Pages publiques (sans CRM)</h2>
+      <p class="lead">Le client n’a pas besoin de compte. Il clique un lien reçu, ou saisit lui-même un acompte (plafond 5&nbsp;000 € sans devis).</p>
+      <a class="stripe-hub-item" href="./paiement.html" target="_blank" rel="noopener">
+        <strong>Payer un acompte</strong>
+        <span><code>/paiement.html</code> — e-mail + montant. Optionnel : référence devis <code>qte_…</code>.</span>
+      </a>
+      <a class="stripe-hub-item" href="./paiement-success.html" target="_blank" rel="noopener">
+        <strong>Page de confirmation</strong>
+        <span><code>/paiement-success.html</code> — après Checkout Stripe (paiement ou abonnement).</span>
+      </a>
+      <div class="stripe-hub-item">
+        <strong>Lien Checkout que vous envoyez</strong>
+        <span>URL <code>checkout.stripe.com/c/pay/…</code> — paiement unique ou abonnement. C’est le lien généré ci-dessous.</span>
+      </div>
+      <div class="stripe-hub-item">
+        <strong>Carte de test (si clé test)</strong>
+        <span><code>4242 4242 4242 4242</code> · date future · CVC 3 chiffres. En clé live, c’est un vrai paiement.</span>
+      </div>
+    </section>
+  </div>
+
+  <section class="crm-page-panel" id="stripeGenerate">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Générer un lien</p>
+        <h2>Envoyer un paiement ou un abonnement</h2>
+        <p class="crm-muted-inline">Le lien s’ouvre sur Stripe. Copiez-le, ou ouvrez-le pour tester. Pour l’envoyer dans un e-mail tout fait, utilisez aussi la messagerie.</p>
+      </div>
+    </div>
+    <form id="stripeHubForm" class="stripe-hub-form">
+      <label class="crm-label">Type
+        <select id="stripeKind" name="paymentKind" class="crm-input" required>
+          <option value="one_time">Paiement unique</option>
+          <option value="subscription">Abonnement récurrent</option>
+          <option value="dossier_fee">Frais de dossier</option>
+          <option value="acompte">Acompte devis</option>
+        </select>
+      </label>
+      <label class="crm-label" id="stripeIntervalWrap" hidden>Périodicité
+        <select id="stripeInterval" name="interval" class="crm-input">
+          <option value="month">Mensuel</option>
+          <option value="year">Annuel</option>
+          <option value="week">Hebdomadaire</option>
+        </select>
+      </label>
+      <label class="crm-label">Montant (€)
+        <input id="stripeAmount" name="amountEur" class="crm-input" type="number" min="1" max="50000" step="0.01" placeholder="150" required />
+      </label>
+      <label class="crm-label">E-mail client
+        <input id="stripeEmail" name="customerEmail" class="crm-input" type="email" autocomplete="email" placeholder="client@email.fr" required />
+      </label>
+      <label class="crm-label">Libellé affiché sur Stripe
+        <input id="stripeLabel" name="label" class="crm-input" placeholder="Honoraires / Abonnement conseil…" />
+      </label>
+      <label class="crm-label">Référence devis (optionnel)
+        <input id="stripeQuote" name="referenceId" class="crm-input" placeholder="qte_…" pattern="qte_[a-zA-Z0-9_-]*" />
+      </label>
+      <div class="full">
+        <button type="submit" class="btn btn-primary" id="stripeHubSubmit">Générer le lien Stripe</button>
+        <p class="stripe-hub-status" id="stripeHubStatus" role="status"></p>
+      </div>
+    </form>
+    <div class="stripe-hub-result" id="stripeHubResult" hidden>
+      <p><strong id="stripeHubResultTitle">Lien prêt</strong></p>
+      <p><a id="stripeHubResultUrl" href="#" target="_blank" rel="noopener noreferrer"></a></p>
+      <p class="crm-muted-inline" id="stripeHubResultMeta"></p>
+      <div class="stripe-hub-actions">
+        <button type="button" class="btn btn-primary" id="stripeCopyUrl">Copier le lien</button>
+        <button type="button" class="btn btn-ghost" id="stripeCopyMail">Copier un texte d’e-mail</button>
+        <a class="btn btn-ghost" id="stripeOpenUrl" href="#" target="_blank" rel="noopener">Ouvrir Stripe</a>
+      </div>
+    </div>
+    <p class="stripe-hub-note">Abonnement = Checkout Stripe en mode <code>subscription</code> (prélèvement selon la périodicité). Paiement = encaissement unique. Le webhook <code>checkout.session.completed</code> enregistre ensuite le suivi.</p>
+  </section>
+
+  <section class="crm-page-panel" id="stripeAdminPanel" hidden>
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Administration</p>
+        <h2>Diagnostic Stripe</h2>
+      </div>
+    </div>
+    <button type="button" class="btn btn-ghost" id="btnStripeReadiness">Vérifier la config</button>
+    <pre id="stripeReadinessOut" class="panel" style="white-space:pre-wrap;margin-top:12px;font-size:.8rem"></pre>
+  </section>
+
+  <div class="crm-module-grid" style="margin-top:8px">
+    <a class="crm-module-card" href="./crm-quote-payment.html"><strong>Acompte devis</strong><span>Lien calé sur un qte_…</span></a>
+    <a class="crm-module-card" href="./dashboard.html?section=mailbox"><strong>Messagerie</strong><span>Envoyer le lien dans un e-mail</span></a>
+    <a class="crm-module-card" href="./crm-quotes.html"><strong>Devis</strong><span>Pipeline commercial</span></a>
+    <a class="crm-module-card" href="./crm-financial-payments.html"><strong>Paiements CRM</strong><span>Historique d’encaissements</span></a>
+    <a class="crm-module-card" href="./paiement.html" target="_blank" rel="noopener"><strong>Page publique</strong><span>Le client saisit le montant</span></a>
+    <a class="crm-module-card" href="./crm-financial.html"><strong>Hub financier</strong><span>Créances, débits, compta</span></a>
+  </div>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/crm-stripe.js"></script>
+  <script src="./js/admin-nav.js"></script>
+</body>
+</html>

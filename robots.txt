@@ -6,6 +6,7 @@ Disallow: /auth.html
 Disallow: /espace-client.html
 Disallow: /paiement.html
 Disallow: /paiement-success.html
+Disallow: /paiements/
 Disallow: /crm
 Disallow: /external/
 Disallow: /api/

@@ -84,6 +84,7 @@
     <section class="card">
       <h1>Paiement securise</h1>
       <p class="sub">Reglez un acompte pour lancer le traitement prioritaire de votre dossier.</p>
+      <p class="sub">Vous avez recu un lien Stripe (paiement ou abonnement) ? Ouvrez-le directement. Catalogue : <a href="./paiements/">tous les paiements</a>.</p>
       <p class="sub">Contact : <a href="./index.html#contact">Nous contacter</a></p>
 
       <div id="authStatus" class="pay-auth pay-auth--guest" role="status" aria-live="polite">
@@ -113,9 +114,37 @@
       <form id="paymentForm" class="contact-form">
         <select id="category" required>
           <option value="">Categorie</option>
-          <option value="mobilite_pro">Mobilite Pro (VTC/Flotte)</option>
-          <option value="sante_prevoyance">Sante / Prevoyance</option>
-          <option value="habitat_finance">Habitat / Finance</option>
+          <optgroup label="Mobilite">
+            <option value="mobilite_pro">Mobilite Pro (VTC / Flotte)</option>
+            <option value="assurance_auto">Assurance auto</option>
+            <option value="assurance_moto">Deux-roues / scooter</option>
+          </optgroup>
+          <optgroup label="Sante &amp; protection">
+            <option value="sante_prevoyance">Mutuelle sante</option>
+            <option value="prevoyance">Prevoyance</option>
+            <option value="assurance_emprunteur">Assurance emprunteur</option>
+            <option value="animaux">Assurance animaux</option>
+          </optgroup>
+          <optgroup label="Habitat">
+            <option value="assurance_habitation">Assurance habitation / MRH</option>
+            <option value="pno">PNO (bien loue)</option>
+          </optgroup>
+          <optgroup label="Immobilier &amp; credit">
+            <option value="credit_immo">Credit / pret immobilier</option>
+            <option value="investissement_locatif">Investissement locatif</option>
+            <option value="recherche_bien">Recherche de bien</option>
+            <option value="residence_secondaire">Residence secondaire</option>
+          </optgroup>
+          <optgroup label="Banque &amp; finance">
+            <option value="banque">Banque / tresorerie</option>
+            <option value="finance_rachat">Finance — rachat / conso / credit pro</option>
+            <option value="habitat_finance">Habitat / Finance (autre)</option>
+          </optgroup>
+          <optgroup label="Autre">
+            <option value="frais_dossier">Frais de dossier</option>
+            <option value="abonnement">Abonnement / suivi</option>
+            <option value="autre">Autre</option>
+          </optgroup>
         </select>
         <input id="email" type="email" placeholder="Email client" required autocomplete="email" />
         <input id="referenceId" type="text" placeholder="Reference dossier (optionnel, ex. qte_…)" />

@@ -29,6 +29,7 @@
       "crm-leads-analysis.html": { subtitle: "Pré-analyse IA et qualification des demandes entrantes" },
       "crm-kanban.html": { subtitle: "Vue pipeline pour organiser les opportunités" },
       "crm-quote-payment.html": { subtitle: "Acompte devis et lien Stripe sécurisé" },
+      "crm-stripe.html": { subtitle: "Envoyer un paiement ou un abonnement · pages que le client utilise" },
       "crm-bank-details.html": { subtitle: "IBAN clients — accès CRM authentifié" },
       "crm-driver-new.html": { subtitle: "Ajout conducteur rattaché à un contact" },
       "crm-search.html": { subtitle: "Recherche transversale contacts, dossiers et événements" },

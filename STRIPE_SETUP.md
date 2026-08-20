@@ -58,9 +58,15 @@ Evenements optionnels comme dans le projet location:
 - `payment_intent.succeeded`
 - `payment_intent.payment_failed`
 
-## 5) Test local
+## 5) Hub CRM (paiement + abonnement)
+Page unique : **`/crm-stripe.html`**
+- Générer un lien Stripe : paiement unique, abonnement (mois / an / semaine), frais de dossier, acompte devis.
+- Catalogue : ce que vous envoyez vs ce que le client utilise (`/paiement.html`, `/paiements/`).
+- Messagerie : `dashboard.html?section=mailbox` → panneau « Lien de paiement Stripe ».
+
+## 5 bis) Test local
 1. Lancer le site
-2. Aller sur `/paiement.html`
+2. Aller sur `/paiement.html` (client) ou `/crm-stripe.html` (envoyer un lien)
 3. Remplir formulaire et payer en mode test Stripe
 4. Verifier redirection vers `/paiement-success.html`
 
