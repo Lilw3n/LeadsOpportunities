@@ -157,9 +157,19 @@ Détails complets : `ads/meta-blog-conversions.csv` · checklist : `npm run veri
 
 ---
 
+## Pack Meta — Leboncoin / SeLoger → courtier
+
+Angle : « Vous cherchez sur Leboncoin / SeLoger, vous n’êtes passé que par votre banque — on est là. »
+
+- `ads/meta-leboncoin-seloger-credit.csv` — 8 variantes prêtes Ads Manager
+- `ads/meta-leboncoin-seloger-credit.md` — accroches, scripts vidéo, ciblage, UTM `meta_portails_credit`
+
+---
+
 ## Fichiers liés
 
 - `ads/meta-blog-conversions.csv` — URLs et textes pub
+- `ads/meta-leboncoin-seloger-credit.csv` — pubs portails immo → crédit
 - `ads/google-ads-editor-ready-utm.csv` — Search landings chaudes
 - `ads/retargeting-assets.md` — audiences retargeting
 - `docs/META-ADS-AUTOMATION.md` — pixel, CAPI, webhook Lead Ads
