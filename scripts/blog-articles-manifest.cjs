@@ -2999,6 +2999,139 @@ module.exports = {
       related: [{ href: "../assurance-sante/", label: "Mutuelle sante" }],
     },
     {
+      file: "site-immobilier-peu-de-trafic-leads-conversion.html",
+      audience: "france",
+      section: "finance",
+      tag: "Acquisition",
+      tagClass: "tag-immo",
+      themes: ["emprunteur"],
+      title: "Site immobilier avec peu de trafic : convertir puis attirer",
+      description:
+        "Peu de visiteurs sur un site immo / courtier ? Travaillez en parallele conversion (simulateur, rappel, lead magnet) et trafic qualifie (SEO local, longue traine, Ads, Shorts).",
+      meta: "10 min · Aout 2026",
+      cardExcerpt: "Peu de trafic : d'abord convertir, puis attirer du qualified.",
+      cta: {
+        href: "../landings/questionnaire.html?need=credit-immo&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=credit-immo&utm_content=trafic-conversion",
+        label: "Simulation pret (3 min)",
+      },
+      heroImage: {
+        src: "./images/finance/budget-famille.jpg",
+        alt: "Budget famille et projet immobilier",
+        caption: "Chaque visiteur compte : un simulateur et un rappel bien places valent souvent plus qu'un clic Ads.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "<strong>Site immobilier avec peu de trafic</strong> : probleme classique. Deux leviers a travailler <em>en parallele</em> — pas l'un apres l'autre : <strong>attirer</strong> du trafic qualifie, et <strong>convertir</strong> ce qui vient deja. Chez Leads Opportunities (negociateur + courtier ORIAS), on applique cette logique au credit immo et a la vente.",
+        },
+        { type: "h2", text: "1. Convertir le trafic existant (rapide, souvent gratuit)" },
+        {
+          type: "p",
+          text: "Avant de courir apres plus de visiteurs, verifiez que vous captez ceux qui sont deja la. Un site a 50 visites/jour bien converties bat un site a 500 visites sans formulaire.",
+        },
+        {
+          type: "figure",
+          src: "./images/finance/credit-immo-cles.jpg",
+          alt: "Simulation credit immobilier",
+          caption: "Le simulateur de pret reste l'aimant a leads n°1 en immobilier.",
+        },
+        { type: "h3", text: "Simulateur de pret interactif" },
+        {
+          type: "p",
+          text: "Mensualites, capacite d'emprunt, cout reel du logement : les gens acceptent de laisser un contact pour voir le detail. C'est l'outil le plus efficace du secteur. Chez nous : <a href=\"../landings/credit-immo.html\">landing credit immo</a>, <a href=\"../landings/projection-achat.html\">projection achat</a> (taxe fonciere, charges, reste a vivre) et <a href=\"../landings/questionnaire.html?need=credit-immo&journey=standard\">questionnaire 3 min</a>.",
+        },
+        { type: "h3", text: "Lead magnet (guide PDF / checklist)" },
+        {
+          type: "p",
+          text: "Exemple qui convertit : « Les 7 erreurs a eviter pour son premier pret immo » contre un e-mail. Le contenu doit etre utile et immediatement telechargeable — pas une promesse vague. Relie ensuite a un rappel courtier.",
+        },
+        { type: "h3", text: "Formulaire de rappel visible" },
+        {
+          type: "p",
+          text: "Sur chaque page importante : « Un conseiller vous rappelle sous 24 h ». Pas cache en bas de footer. Voir aussi <a href=\"../landings/rappel.html?need=credit-immo\">demande de rappel credit</a>.",
+        },
+        { type: "h3", text: "Chat / message temps reel" },
+        {
+          type: "p",
+          text: "Meme un widget simple (ou WhatsApp pro) capte les questions pendant que l'intention est chaude. L'objectif n'est pas de « chatter pour chatter » : c'est de transformer une hesitation en prise de contact.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "2. Generer plus de trafic qualifie" },
+        { type: "h3", text: "SEO local" },
+        {
+          type: "p",
+          text: "Fiche Google Business Profile a jour, avis, photos, categories. Mots-cles du type « courtier pret immobilier Nancy », « pret immobilier Meurthe-et-Moselle ». Le credit immo se cherche beaucoup en local — d'ou nos pages geo <a href=\"../pret-immobilier/\">pret immobilier par ville</a>.",
+        },
+        { type: "h3", text: "Contenu de longue traine" },
+        {
+          type: "p",
+          text: "Visez des questions precises plutot que des mots generiques trop concurrentiels : « taux pret immobilier 2026 », « simulation rachat de credit », « pret refuse que faire », « visites sans financement ». Le blog sert a ca — ex. <a href=\"./pret-immobilier-refuse-que-faire-2026.html\">pret refuse</a>, <a href=\"./taux-pret-immobilier-aout-2026-rentree.html\">taux aout 2026</a>.",
+        },
+        { type: "h3", text: "Comparatif / barometre de taux" },
+        {
+          type: "p",
+          text: "Contenu tres recherche et partage : positionne le site comme reference. Mettez a jour regulierement et CTA vers simulation personnalisee (le taux affiche n'est jamais le dossier final).",
+        },
+        { type: "h3", text: "Partenariats" },
+        {
+          type: "p",
+          text: "Agences immobilieres, negociateurs, notaires, apporteurs : echange de leads qualifies (vendeur ↔ acheteur finance). C'est souvent plus rentable qu'un CPC froid. Notre angle : <strong>vente + pret</strong> pour que les dossiers tiennent jusqu'au notaire.",
+        },
+        { type: "h3", text: "Google Ads a forte intention" },
+        {
+          type: "p",
+          text: "Requetes du type « simulation pret immobilier gratuit », « courtier credit immo ». Le cout par clic est eleve, mais le taux de conversion aussi — a condition d'arriver sur une landing avec simulateur + rappel, pas une homepage generique. Budget : seulement apres validation pixel / preuves organiques (voir notre logique d'acquisition blog → Lead).",
+        },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Dossier de pret signe",
+          caption: "Trafic qualifie = intention d'emprunter ou de vendre, pas seulement de « regarder des annonces ».",
+        },
+        { type: "h2", text: "3. Levier souvent neglige : videos courtes" },
+        {
+          type: "p",
+          text: "Shorts / Reels / TikTok : « Calculer sa capacite d'emprunt en 2 min », « 3 raisons pour lesquelles votre bien ne se vend pas », « Banque seule vs courtier ». Cout bas, confiance avant le premier appel, trafic vers simulateur ou rappel. Une video = une idee = un CTA clair.",
+        },
+        { type: "h2", text: "4. Checklist action (cette semaine)" },
+        {
+          type: "ul",
+          items: [
+            "Verifier qu'un CTA rappel ou questionnaire est visible above the fold sur les landings credit / acheteur / vendeur",
+            "Tester le parcours simulateur → contact sur mobile",
+            "Publier 1 article longue traine lie a une question client reelle",
+            "Mettre a jour Google Business (horaires, zone, photos)",
+            "Filmer 1 Short capacite d'emprunt → lien bio vers projection / credit-immo",
+            "Ne lancer Ads que sur une URL deja mesuree (Lead / formulaire)",
+          ],
+        },
+        {
+          type: "p",
+          text: "Vous etes particulier (achat / vente) ? Passez directement a l'<a href=\"../landings/credit-immo.html\">etude de pret</a> ou au <a href=\"../landings/acheteur-immo.html\">parcours acheteur / vendeur</a>. Vous etes pro et voulez structurer l'acquisition : cette page est votre feuille de route — on l'applique deja sur leadsopportunities.fr.",
+        },
+      ],
+      related: [
+        { href: "../landings/credit-immo.html", label: "Credit immo" },
+        { href: "../landings/projection-achat.html", label: "Projection achat" },
+        { href: "../pret-immobilier/", label: "Pret par ville" },
+        { href: "./pret-immo-erreurs-a-eviter.html", label: "Erreurs pret immo" },
+      ],
+      faq: [
+        {
+          q: "Faut-il d'abord plus de trafic ou mieux convertir ?",
+          a: "Les deux, mais la conversion du trafic existant rapporte plus vite et ne coute presque rien. Ensuite seulement, scale SEO / Ads.",
+        },
+        {
+          q: "Pourquoi le simulateur convertit-il si bien ?",
+          a: "Parce qu'il repond a une question urgente (mensualite / capacite) et justifie un echange de contact pour le detail.",
+        },
+        {
+          q: "Google Ads est-il rentable en credit immo ?",
+          a: "Oui sur des requetes a forte intention, si la landing convertit. Le CPC est eleve : mesurez le cout par Lead, pas le trafic.",
+        },
+      ],
+    },
+    {
       file: "pret-immo-erreurs-a-eviter.html",
       section: "finance",
       tag: "Immo",

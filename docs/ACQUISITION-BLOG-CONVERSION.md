@@ -28,6 +28,22 @@ flowchart TD
 
 ---
 
+## Peu de trafic immo : convertir puis attirer
+
+Article public : [`blog/site-immobilier-peu-de-trafic-leads-conversion.html`](../blog/site-immobilier-peu-de-trafic-leads-conversion.html)
+
+| Leviers conversion (rapides) | Leviers trafic |
+|------------------------------|----------------|
+| Simulateur prêt / projection | SEO local + pages geo |
+| Lead magnet (guide erreurs prêt) | Longue traîne blog |
+| Rappel visible + questionnaire | Partenariats agences / notaires |
+| Chat / WhatsApp | Ads intention « simulation prêt » |
+| | Shorts / Reels pédagogiques |
+
+Outils LO déjà en place : `landings/credit-immo.html`, `landings/projection-achat.html`, `landings/rappel.html`, questionnaires, pages `/pret-immobilier/`.
+
+---
+
 ## Phase 0 — Gratuit (maintenant)
 
 ### Valider le pixel sans payer
