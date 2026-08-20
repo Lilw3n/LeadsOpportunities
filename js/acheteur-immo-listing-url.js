@@ -184,16 +184,18 @@
     vendeur: {
       kicker: "Vous vendez",
       title: "Déposez votre bien",
-      intro: "Collez l'URL de votre annonce si elle est en ligne, puis complétez type, ville, prix et description. Les deux se complètent — pas de scraping.",
+      intro:
+        "URL Leboncoin / SeLoger (optionnel) + photos pour la vitrine. Le reste (type, prix, DPE, description, pièces PDF) se complète dans le dossier vente §2 — sans ressaisir deux fois.",
       submit: "Déposer mon bien",
       coords: "Vos coordonnées (vendeur)",
       details: "Précisions (disponibilité, urgence, honoraires…)",
-      hint: "Collez l'URL si vous l'avez, et complétez les champs du bien — les deux ensemble.",
+      hint: "Annonce = photos (+ lien si vous l'avez). Dossier vente = toutes les infos du bien et les documents.",
     },
     les_deux: {
       kicker: "Double casquette",
       title: "Vous vendez et vous rachètez",
-      intro: "URL de l'annonce + saisie du bien à vendre, puis indiquez ce que vous cherchez ensuite. Chaîne et prêt relais possibles.",
+      intro:
+        "Photos (+ URL optionnelle) pour l'annonce, puis dossier vente §2 pour le détail du bien. Indiquez ensuite votre recherche de rachat — pas de double saisie DPE / description.",
       submit: "Déposer et chercher",
       coords: "Vos coordonnées (vente + rachat)",
       details: "Précisions (délai de vente, relais, secteur visé…)",
@@ -499,6 +501,14 @@
       ) {
         payloadEmail = window.AcheteurImmoDepositGuide.sessionEmail();
       }
+      var sellDossierPayload =
+        window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.collectSellDossier
+          ? window.AcheteurImmoDepositVente.collectSellDossier()
+          : null;
+      var wantsSellDossierFlag =
+        isOwner ||
+        !!(form.querySelector("[data-deposit-vente-toggle]") && form.querySelector("[data-deposit-vente-toggle]").checked);
+      var useSellMeta = isOwner && wantsSellDossierFlag && sellDossierPayload;
       var payload = {
         role: hat,
         alsoBuys: hat === "les_deux",
@@ -509,15 +519,25 @@
         lastName: val(form, "lastName"),
         email: payloadEmail,
         phone: payloadPhone,
-        city: cityResolved || val(form, "city"),
-        postal_code: val(form, "postal_code"),
-        property_type: val(form, "property_type"),
-        price_fai: val(form, "price_fai"),
-        rooms: val(form, "rooms"),
-        bedrooms: val(form, "bedrooms"),
-        surface_m2: val(form, "surface_m2"),
-        dpe: val(form, "dpe"),
-        description: val(form, "description"),
+        city: useSellMeta
+          ? sellDossierPayload.sellCity || cityResolved || val(form, "city")
+          : cityResolved || val(form, "city"),
+        postal_code: useSellMeta
+          ? sellDossierPayload.sellPostalCode || val(form, "postal_code")
+          : val(form, "postal_code"),
+        property_type: useSellMeta
+          ? sellDossierPayload.sellPropertyType || val(form, "property_type")
+          : val(form, "property_type"),
+        price_fai: useSellMeta
+          ? sellDossierPayload.sellPriceFai || sellDossierPayload.sellAskingPrice || val(form, "price_fai")
+          : val(form, "price_fai"),
+        rooms: useSellMeta ? sellDossierPayload.sellRooms || val(form, "rooms") : val(form, "rooms"),
+        bedrooms: useSellMeta ? sellDossierPayload.sellBedrooms || val(form, "bedrooms") : val(form, "bedrooms"),
+        surface_m2: useSellMeta ? sellDossierPayload.sellSurface || val(form, "surface_m2") : val(form, "surface_m2"),
+        dpe: useSellMeta ? sellDossierPayload.sellDpe || val(form, "dpe") : val(form, "dpe"),
+        description: useSellMeta
+          ? sellDossierPayload.sellDescription || val(form, "description")
+          : val(form, "description"),
         sellerKind: radioVal(form, "sellerKind"),
         sellerName: val(form, "sellerName"),
         sellerPhone: val(form, "sellerPhone"),
@@ -539,13 +559,8 @@
         createAccount: true,
         photos: mediaList(state),
         _hp: val(form, "_hp"),
-        wantsSellDossier:
-          isOwner ||
-          !!(form.querySelector("[data-deposit-vente-toggle]") && form.querySelector("[data-deposit-vente-toggle]").checked),
-        sellDossier:
-          window.AcheteurImmoDepositVente && window.AcheteurImmoDepositVente.collectSellDossier
-            ? window.AcheteurImmoDepositVente.collectSellDossier()
-            : null,
+        wantsSellDossier: wantsSellDossierFlag,
+        sellDossier: sellDossierPayload,
         need:
           hat === "signalement"
             ? "signalement-bien"
@@ -596,19 +611,6 @@
           var hats = (res.data.hats || []).join(" + ");
           var docNote = "";
           var uploadChain = Promise.resolve();
-          if (window.ImmoSellDocsChecklist && (payload.email || payload.phone || res.data.contactId)) {
-            window.ImmoSellDocsChecklist.setSession({
-              email: payload.email,
-              phone: payload.phone,
-              contactId: res.data.contactId || null,
-              leadId: res.data.leadId || null,
-            });
-            uploadChain = window.ImmoSellDocsChecklist.uploadAll().then(function (up) {
-              if (up && up.uploaded && up.uploaded.length) {
-                docNote += " " + up.uploaded.length + " pièce(s) checklist archivée(s).";
-              }
-            });
-          }
           var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
           if (
             vendeurPanel &&

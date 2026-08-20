@@ -243,7 +243,7 @@
 
     if (window.SellPhotosState && window.SellPhotosState.getPhotos) {
       var extra = window.SellPhotosState.getPhotos();
-      if (extra.length) o.sellPhotos = extra;
+      if (extra.length && !isOwnerHat(h)) o.sellPhotos = extra;
     }
 
     return o;

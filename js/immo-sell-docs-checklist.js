@@ -52,16 +52,8 @@
       '" data-sell-doc-check /> ' +
       esc(item.label) +
       "</label>" +
-      '<div class="immo-doc-line-upload">' +
-      '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo">' +
-      '<input type="file" accept="' +
-      ACCEPT +
-      '" hidden data-sell-doc-input data-doc-type="' +
-      esc(item.type) +
-      '" />' +
-      "<span>Déposer</span></label>" +
-      '<span class="immo-doc-line-file" data-sell-doc-file hidden></span>' +
-      "</div></div>"
+      '<p class="small immo-sell-docs-no-upload-hint">Fichier : section « Documents du bien » (§3) — une seule fois.</p>' +
+      "</div>"
     );
   }
 
@@ -88,7 +80,7 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces utiles — envoi automatique <strong>après</strong> « Déposer mon bien » (statut « En attente » = prêt à envoyer).</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Cochez ce que vous avez déjà — les PDF (DPE, actes…) se déposent dans « Documents du bien » (§3), pas ici (évite les doublons Drive).</p>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
   }
@@ -163,76 +155,7 @@
   }
 
   function uploadAll() {
-    var pending = queue.filter(function (q) {
-      return q.status === "queued" || q.status === "error";
-    });
-    if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
-    if (!session.email && !session.phone && !session.contactId) {
-      return Promise.resolve({
-        uploaded: [],
-        errors: [{ error: "email, téléphone ou contactId requis pour les uploads checklist" }],
-      });
-    }
-
-    return pending.reduce(
-      function (chain, item) {
-        return chain.then(function (acc) {
-          item.status = "uploading";
-          return readFileAsBase64(item.file)
-            .then(function (dataUrl) {
-              return fetch("/api/external/upload", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "same-origin",
-                body: JSON.stringify({
-                  email: session.email,
-                  phone: session.phone,
-                  contactId: session.contactId,
-                  leadId: session.leadId,
-                  fileName: item.fileName,
-                  documentType: item.documentType,
-                  mimeType: item.mimeType,
-                  fileBase64: dataUrl,
-                  vertical: "vendeur-immo",
-                  need: "vendeur-immo",
-                  source: "immo_sell_checklist",
-                  perTypeFolder: true,
-                  description: "Checklist vente — " + item.documentType,
-                }),
-              });
-            })
-            .then(function (r) {
-              return r.json().then(function (data) {
-                return { ok: r.ok, data: data };
-              });
-            })
-            .then(function (res) {
-              if (!res.ok || !res.data || !res.data.ok) {
-                throw new Error((res.data && res.data.error) || "Upload impossible");
-              }
-              item.status = "done";
-              var line = document.querySelector('[data-sell-doc-line="' + item.documentType + '"]');
-              setLineState(line, "is-done", item.fileName);
-              acc.uploaded.push(item);
-              return acc;
-            })
-            .catch(function (err) {
-              item.status = "error";
-              item.error = err.message || "Erreur";
-              var line = document.querySelector('[data-sell-doc-line="' + item.documentType + '"]');
-              setLineState(line, "is-error", item.fileName);
-              acc.errors.push({ item: item, error: item.error });
-              return acc;
-            });
-        });
-      },
-      Promise.resolve({ uploaded: [], errors: [] })
-    ).then(function (result) {
-      queue = queue.filter(function (q) {
-        return q.status !== "done";
-      });
-      return result;
-    });
+    return Promise.resolve({ uploaded: [], errors: [], skipped: "checklist_checkbox_only" });
   }
 
   function boot() {

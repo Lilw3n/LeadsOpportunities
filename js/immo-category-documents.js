@@ -262,8 +262,14 @@
               });
             })
             .then(function (res) {
-              if (!res.ok || !res.data || !res.data.ok) {
+              if (!res.data || !res.data.ok) {
                 throw new Error((res.data && res.data.error) || "Upload impossible");
+              }
+              if (res.data.skipped) {
+                item.status = "done";
+                item.skippedDuplicate = true;
+                acc.uploaded.push(item);
+                return acc;
               }
               item.status = "done";
               self.uploaded.push(item);

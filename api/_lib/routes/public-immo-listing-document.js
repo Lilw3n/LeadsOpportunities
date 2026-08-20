@@ -115,6 +115,25 @@ module.exports = async function publicImmoListingDocument(req, res) {
       ensured.folderId ||
       prop.drive_folder_id;
 
+    var meta = parseJson(prop.metadata_json, {});
+    meta.documents = meta.documents || [];
+    var existingDoc = meta.documents.find(function (d) {
+      return d && d.type === documentType && d.driveFileId && !d.simulated;
+    });
+    if (existingDoc) {
+      return res.status(200).json({
+        ok: true,
+        skipped: true,
+        reason: "duplicate_document_type",
+        propertyId: propertyId,
+        documentType: documentType,
+        drive: {
+          fileId: existingDoc.driveFileId,
+          webViewLink: existingDoc.webViewLink || null,
+        },
+      });
+    }
+
     var uploaded = await uploadBase64File({
       fileName: documentType + "_" + fileName,
       base64: body.fileBase64,
@@ -123,8 +142,6 @@ module.exports = async function publicImmoListingDocument(req, res) {
       kind: "document",
     });
 
-    var meta = parseJson(prop.metadata_json, {});
-    meta.documents = meta.documents || [];
     meta.documents.push({
       type: documentType,
       group: documentGroup,

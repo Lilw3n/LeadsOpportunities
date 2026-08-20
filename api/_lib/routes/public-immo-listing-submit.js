@@ -20,6 +20,17 @@ function num(v) {
   return isFinite(n) ? n : null;
 }
 
+function dedupePhotos(list) {
+  var seen = Object.create(null);
+  return (list || []).filter(function (p) {
+    if (!p || !p.url) return false;
+    var key = String(p.url).slice(0, 220);
+    if (seen[key]) return false;
+    seen[key] = true;
+    return true;
+  });
+}
+
 function normalizeRole(v) {
   var s = String(v || "")
     .toLowerCase()
@@ -147,7 +158,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var dpe = str(body.dpe, 1).toUpperCase();
   var description = str(body.description, 800);
   var details = str(body.details, 500);
-  var photos = Lib.sanitizeMedia(body.photos);
+  var photos = dedupePhotos(Lib.sanitizeMedia(body.photos));
   var sellerKind = str(body.sellerKind || body.sellerType, 40) || (isOwner ? "particulier" : "");
   var sellerName = str(body.sellerName || body.vendeurNom, 120);
   var sellerPhone = str(body.sellerPhone || body.vendeurTel, 40);
@@ -180,17 +191,32 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   if (sellDossier) wantsSellDossier = true;
 
   if (sellDossier) {
-    city = city || str(sellDossier.sellCity, 120);
-    postal = postal || str(sellDossier.sellPostalCode, 5);
-    description = description || str(sellDossier.sellDescription, 800);
-    rooms = rooms != null ? rooms : num(sellDossier.sellRooms);
-    bedrooms = bedrooms != null ? bedrooms : num(sellDossier.sellBedrooms);
-    surface = surface != null ? surface : num(sellDossier.sellSurface);
-    dpe = dpe || str(sellDossier.sellDpe, 1).toUpperCase();
-    price = price != null ? price : num(sellDossier.sellPriceFai || sellDossier.sellAskingPrice);
-    propertyType = propertyType || str(sellDossier.sellPropertyType, 40);
-    if (Array.isArray(sellDossier.sellPhotos) && sellDossier.sellPhotos.length) {
-      photos = Lib.sanitizeMedia(photos.concat(sellDossier.sellPhotos));
+    var preferSell = wantsSellDossier;
+    if (preferSell) {
+      city = str(sellDossier.sellCity, 120) || city;
+      postal = str(sellDossier.sellPostalCode, 5) || postal;
+      description = str(sellDossier.sellDescription, 800) || description;
+      dpe = str(sellDossier.sellDpe, 1).toUpperCase() || dpe;
+      propertyType = str(sellDossier.sellPropertyType, 40) || propertyType;
+      if (num(sellDossier.sellRooms) != null) rooms = num(sellDossier.sellRooms);
+      if (num(sellDossier.sellBedrooms) != null) bedrooms = num(sellDossier.sellBedrooms);
+      if (num(sellDossier.sellSurface) != null) surface = num(sellDossier.sellSurface);
+      if (num(sellDossier.sellPriceFai || sellDossier.sellAskingPrice) != null) {
+        price = num(sellDossier.sellPriceFai || sellDossier.sellAskingPrice);
+      }
+    } else {
+      city = city || str(sellDossier.sellCity, 120);
+      postal = postal || str(sellDossier.sellPostalCode, 5);
+      description = description || str(sellDossier.sellDescription, 800);
+      rooms = rooms != null ? rooms : num(sellDossier.sellRooms);
+      bedrooms = bedrooms != null ? bedrooms : num(sellDossier.sellBedrooms);
+      surface = surface != null ? surface : num(sellDossier.sellSurface);
+      dpe = dpe || str(sellDossier.sellDpe, 1).toUpperCase();
+      price = price != null ? price : num(sellDossier.sellPriceFai || sellDossier.sellAskingPrice);
+      propertyType = propertyType || str(sellDossier.sellPropertyType, 40);
+      if (Array.isArray(sellDossier.sellPhotos) && sellDossier.sellPhotos.length) {
+        photos = dedupePhotos(Lib.sanitizeMedia(photos.concat(sellDossier.sellPhotos)));
+      }
     }
   }
 

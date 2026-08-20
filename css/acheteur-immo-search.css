@@ -363,6 +363,25 @@ html[data-immo-hat="vendeur"] [data-dossier-acheteur-only] {
   display: none !important;
 }
 
+html[data-immo-hat="vendeur"] [data-deposit-express-meta],
+html[data-immo-hat="les_deux"] [data-deposit-express-meta],
+html[data-immo-hat="vendeur"] [data-deposit-section-basic],
+html[data-immo-hat="les_deux"] [data-deposit-section-basic],
+html[data-immo-hat="vendeur"] [data-hat-acheteur-only].immo-listing-dual-hint,
+html[data-immo-hat="les_deux"] [data-hat-acheteur-only].immo-listing-dual-hint {
+  display: none !important;
+}
+
+html[data-immo-hat="vendeur"] [data-deposit-annonce-only],
+html[data-immo-hat="les_deux"] [data-deposit-annonce-only] {
+  display: block;
+}
+
+html[data-immo-hat="vendeur"] [data-sell-photos-mount],
+html[data-immo-hat="les_deux"] [data-sell-photos-mount] {
+  display: none !important;
+}
+
 .immo-fiche-bridge {
   margin: 0 0 16px;
   padding: 14px 16px;
