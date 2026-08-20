@@ -1751,6 +1751,265 @@ module.exports = {
       ],
     },
     {
+      file: "piratage-impots-dgfip-phishing-vigilance-banque.html",
+      audience: "france",
+      section: "actu",
+      tag: "Piratage impots",
+      tagClass: "tag-actu",
+      themes: ["emprunteur"],
+      title: "Piratage des impots (DGFiP) : phishing, banques et gestes a faire en France",
+      description:
+        "Aout 2026 : fuite de donnees fiscales DGFiP (~678 000 usagers). Comment savoir si vous etes concerne, eviter le phishing et securiser comptes bancaires.",
+      meta: "8 min · Aout 2026",
+      cardExcerpt: "Fisc pirate : vigilance phishing et banque, pas de panique.",
+      cta: {
+        href: "../landings/rappel.html?need=banque&utm_source=blog&utm_medium=actu_daily&utm_campaign=banque&utm_content=piratage-dgfip",
+        label: "Rappel banque & vigilance",
+      },
+      heroImage: {
+        src: "./images/finance/budget-famille.jpg",
+        alt: "Budget famille et documents fiscaux",
+        caption: "Donnees fiscales volees : le risque principal pour vous, c'est l'usurpation et le phishing.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "En aout 2026, la <strong>Direction generale des Finances publiques (DGFiP)</strong> a confirme des acces illegitimes a son systeme d'information (juin–juillet), revendiques ensuite en ligne. Selon le communique officiel, environ <strong>678 000 particuliers et professionnels</strong> sont concernes : revenu fiscal de reference, quotient familial, taux de prelevement a la source, et pour les entreprises raison sociale / SIREN. Les espaces particuliers sur impots.gouv.fr et vos <strong>mots de passe usagers n'ont pas ete compromises</strong> selon Bercy — mais vos donnees peuvent servir a des <strong>arnaques ciblees</strong>.",
+        },
+        {
+          type: "figure",
+          src: "./images/finance/signature-pret.jpg",
+          alt: "Signature de documents financiers",
+          caption: "Si la DGFiP vous contacte : verifiez l'expediteur. Les faux mails « fisc » explosent apres une fuite.",
+        },
+        { type: "h2", text: "1. Ce qui a fuit (et ce qui n'a pas fuit)" },
+        {
+          type: "ul",
+          items: [
+            "<strong>Extrait</strong> : donnees fiscales (RFR, quotient, taux PAS), donnees pro (SIREN…), et consultation de donnees <strong>cadastrales</strong> (adresses, surfaces).",
+            "<strong>Non compromis</strong> (selon DGFiP) : identifiants / mots de passe des usagers, espaces Finances publiques particuliers et pro.",
+            "<strong>Mode operatoire</strong> : usurpation d'identifiants d'un agent / tiers habilite — pas un piratage de votre compte personnel.",
+            "La DGFiP a saisi la <strong>CNIL</strong>, depose plainte, et contacte individuellement les personnes touchees (mail ou courrier).",
+          ],
+        },
+        { type: "h2", text: "2. Comment savoir si vous etes concerne ?" },
+        {
+          type: "p",
+          text: "Ne telechargez pas d'outil miracle « verifier fuite fisc ». Attendez le <strong>message officiel DGFiP</strong> (ou consultez uniquement impots.gouv.fr / les canaux annonces par Bercy). Tout SMS ou mail qui demande de « revalider votre compte » avec un lien suspect = <strong>phishing</strong>.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Gestes banque & epargne (priorite 48 h)" },
+        {
+          type: "ul",
+          items: [
+            "Activer les <strong>alertes SMS / app</strong> sur virements et nouveaux beneficiaires.",
+            "Verifier l'historique : prelevements inconnus, ouverture de credit, changement d'adresse.",
+            "Ne jamais communiquer un code OTP, meme si l'appel dit « impots » ou « banque ».",
+            "En cas de doute : appeler le numero au dos de votre carte, pas celui du mail.",
+            "Si fraude avérée : opposition, depot de plainte, et signalement a votre banque (delais de contestation).",
+          ],
+        },
+        { type: "h2", text: "4. Lien avec pret immobilier et assurance" },
+        {
+          type: "p",
+          text: "Un revenu fiscal ou un taux de PAS divulgué ne change pas votre contrat d'assurance. En revanche, une <strong>usurpation d'identite</strong> peut compliquer un dossier de <strong>pret immobilier</strong> (fausse demande de credit a votre nom). Surveillez vos fichiers et votre boite mail bancaire. Pour un projet en cours : <a href=\"../landings/credit-immo.html\">etude pret immo</a> avec pieces a jour.",
+        },
+        {
+          type: "p",
+          text: "Deux autres fuites ont ete evoquees cote administration (fichiers cadastraux, portail successions) : voir aussi notre guide <a href=\"./piratage-fisc-cadastre-habitation-immobilier.html\">cadastre &amp; habitation</a> et, pour les independants, <a href=\"./piratage-dgfip-professionnels-rc-pro-cyber.html\">pro &amp; RC cyber</a>.",
+        },
+      ],
+      related: [
+        { href: "./piratage-fisc-cadastre-habitation-immobilier.html", label: "Cadastre &amp; habitation" },
+        { href: "./piratage-dgfip-professionnels-rc-pro-cyber.html", label: "Pros &amp; cyber" },
+        { href: "../banque/", label: "Banque" },
+        { href: "../landings/credit-immo.html", label: "Credit immobilier" },
+      ],
+      faq: [
+        {
+          q: "Dois-je changer mon mot de passe impots.gouv.fr ?",
+          a: "Selon la DGFiP, les mots de passe usagers n'ont pas ete compromises. Renforcer le mot de passe et activer la double authentification reste une bonne hygiene.",
+        },
+        {
+          q: "Un mail « DGFiP — vos donnees ont fuit » est-il forcement officiel ?",
+          a: "Non. Attendez le canal annonce par Bercy. Ne cliquez pas sur les liens : allez vous-meme sur le site officiel.",
+        },
+        {
+          q: "La fuite impacte-t-elle mon assurance emprunteur ?",
+          a: "Pas directement. Le risque est plutot fraude / usurpation. Signalez toute demande de credit non sollicitee.",
+        },
+      ],
+    },
+    {
+      file: "piratage-fisc-cadastre-habitation-immobilier.html",
+      audience: "france",
+      section: "actu",
+      tag: "Piratage & immo",
+      tagClass: "tag-actu",
+      themes: ["emprunteur"],
+      title: "Piratage du fisc : donnees cadastrales, habitation et vigilance immobiliere",
+      description:
+        "Fuite DGFiP aout 2026 : adresses et surfaces consultees. Ce que ca change pour proprietaires, locataires et dossiers de pret en France.",
+      meta: "8 min · Aout 2026",
+      cardExcerpt: "Cadastre expose : habitation, adresse et pret immo.",
+      cta: {
+        href: "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=piratage-cadastre",
+        label: "Questionnaire habitation (3 min)",
+      },
+      heroImage: {
+        src: "./images/finance/credit-immo-cles.jpg",
+        alt: "Cles de maison et credit immobilier",
+        caption: "Adresses et surfaces : la fuite cadastrale renforce le besoin de vigilance anti-fraude.",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Outre les donnees fiscales, les investigations autour du <strong>piratage DGFiP</strong> (aout 2026) ont confirme la consultation de <strong>donnees cadastrales</strong> : adresses et surfaces de biens. Une seconde vague a vise des fichiers cadastraux (centaines de milliers de particuliers selon la presse / Bercy). Pour un proprietaire ou un acheteur en <strong>France</strong>, l'enjeu n'est pas « le plan cadastral est secret » (beaucoup d'infos sont deja publiques) — c'est le <strong>couplage</strong> adresse + revenus + composition du foyer, ideal pour du phishing ou de la fraude documentaire.",
+        },
+        { type: "h2", text: "1. Pourquoi le cadastre interesse les fraudeurs" },
+        {
+          type: "ul",
+          items: [
+            "Cibler des foyers avec patrimoine immobilier visible.",
+            "Personnaliser un faux mail « taxe fonciere », « DPE obligatoire », « aide renovation ».",
+            "Tenter une <strong>fraude a la fausse agence</strong> ou un faux notaire sur une vente.",
+            "Usurper une identite pour une demande de pret ou une location.",
+          ],
+        },
+        { type: "h2", text: "2. Habitation : ce qu'il faut verifier maintenant" },
+        {
+          type: "p",
+          text: "La fuite ne remplace pas un sinistre. En revanche, apres une vague d'arnaques, certains foyers se font voler (cambriolage « sur info ») ou paient un faux artisan. Verifiez : plafonds mobilier, garantie vol, franchise, et que votre <strong>adresse de correspondance</strong> assureur est a jour. <a href=\"../assurance-habitation/\">Guide habitation</a> · <a href=\"../landings/questionnaire.html?need=habitation&journey=standard\">questionnaire 3 min</a>.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Vente / achat en cours : redoubler de prudence" },
+        {
+          type: "ul",
+          items: [
+            "Ne versez jamais d'acompte hors sequestre notaire / compte sequestre officiel.",
+            "Confirmez tout changement d'IBAN notaire par un appel au cabinet (numero connu).",
+            "Refusez les « urgences fiscales » par SMS liees a votre adresse.",
+            "Pour un financement : pieces d'identite et RIB verifies avec votre courtier — <a href=\"../landings/credit-immo.html\">credit immo</a>.",
+          ],
+        },
+        { type: "h2", text: "4. Successions : troisieme brèche evoquee" },
+        {
+          type: "p",
+          text: "Bercy a egalement evoque un acces au portail des <strong>successions vacantes</strong>, presente comme moins sensible (annonces proches du public). Si vous gerez une succession ou un bien en indivision, restez vigilant sur les faux courriers « deblocage heritage ». Lien utile : articles succession / vente heritiers sur le blog, et rappel <a href=\"./piratage-impots-dgfip-phishing-vigilance-banque.html\">phishing &amp; banque</a>.",
+        },
+        { type: "h2", text: "5. PNO et bailleurs" },
+        {
+          type: "p",
+          text: "Si vous louez, l'adresse du bien + profil fiscal du bailleur peuvent alimenter des arnaques locatives (faux locataires, faux quittancements). Une <strong>PNO</strong> a jour ne bloque pas le phishing, mais couvre les vrais sinistres pendant que vous gerez la fraude. <a href=\"../landings/questionnaire.html?need=pno&journey=standard\">Questionnaire PNO</a>.",
+        },
+      ],
+      related: [
+        { href: "./piratage-impots-dgfip-phishing-vigilance-banque.html", label: "Piratage DGFiP &amp; banque" },
+        { href: "./pno-bailleur-proprietaire-non-occupant.html", label: "PNO bailleur" },
+        { href: "../assurance-habitation/", label: "Assurance habitation" },
+        { href: "../landings/credit-immo.html", label: "Pret immobilier" },
+      ],
+      faq: [
+        {
+          q: "Le cadastre etait deja public — pourquoi s'inquieter ?",
+          a: "Parce que le couplage avec revenu fiscal et taux de PAS permet des arnaques beaucoup plus convaincantes.",
+        },
+        {
+          q: "Dois-je changer d'assurance habitation apres la fuite ?",
+          a: "Pas automatiquement. Verifiez plafonds, vol, et mettez a jour vos coordonnees. Changez si le contrat est sous-dimensionne.",
+        },
+        {
+          q: "Un acheteur peut-il se faire refuser un pret a cause de la fuite ?",
+          a: "Non du seul fait d'etre dans le perimetre. En revanche, une fraude a votre identite peut creer du bruit dans les fichiers — surveillez.",
+        },
+      ],
+    },
+    {
+      file: "piratage-dgfip-professionnels-rc-pro-cyber.html",
+      audience: "france",
+      section: "actu",
+      tag: "Piratage & pro",
+      tagClass: "tag-actu",
+      themes: [],
+      title: "Piratage DGFiP : independants et TPE — RC pro, cyber et donnees clients",
+      description:
+        "Professionnels dans la fuite fiscale 2026 (SIREN, raison sociale) : risques phishing, usurpation, et assurances RC pro / cyber en France.",
+      meta: "8 min · Aout 2026",
+      cardExcerpt: "TPE dans la fuite fisc : proteger activite et clients.",
+      cta: {
+        href: "../landings/questionnaire.html?need=rc-pro&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=rc-pro&utm_content=piratage-dgfip-pro",
+        label: "Questionnaire RC Pro (3 min)",
+      },
+      heroImage: {
+        src: "./images/finance/budget-famille.jpg",
+        alt: "Documents professionnels et budget",
+        caption: "SIREN et raison sociale exposes : anticipez le phishing « URSSAF / impot ».",
+      },
+      blocks: [
+        {
+          type: "p",
+          text: "Le piratage de la <strong>DGFiP</strong> (aout 2026) touche aussi des <strong>professionnels</strong> : raison sociale, SIREN, et donnees fiscales liees. Vos identifiants espace pro n'auraient pas ete voles selon l'administration — mais un fraudeur qui connait votre SIREN + votre CA approxime peut vous envoyer de faux avis de mise en demeure, de faux remboursements, ou usurper votre societe aupres de clients.",
+        },
+        { type: "h2", text: "1. Risques concrets pour une TPE / un independant" },
+        {
+          type: "ul",
+          items: [
+            "Mails « DGFiP / URSSAF / expert-comptable » avec piece jointe malware.",
+            "Fausse facture fournisseur apres usurpation d'identite de votre boite mail.",
+            "Demande de RIB « pour remboursement d'impot ».",
+            "Atteinte a la reputation si des clients recoivent des messages en votre nom.",
+          ],
+        },
+        { type: "h2", text: "2. RC pro : ce qu'elle couvre (et pas)" },
+        {
+          type: "p",
+          text: "La <strong>RC professionnelle</strong> protege surtout les dommages causes a des tiers dans le cadre de votre activite. Elle ne remplace pas une garantie <strong>cyber</strong> (frais de notification CNIL, restauration de donnees, perte d'exploitation apres ransomware). Apres une vague nationale de phishing, c'est le moment de verifier les deux. <a href=\"../landings/questionnaire.html?need=rc-pro&journey=standard\">Questionnaire RC Pro</a>.",
+        },
+        { type: "bridge" },
+        { type: "h2", text: "3. Checklist securite 24 h" },
+        {
+          type: "ul",
+          items: [
+            "2FA sur messagerie, espace impots pro, banque pro.",
+            "Procedure de validation des changements d'IBAN fournisseurs (appel vocal).",
+            "Sauvegardes hors poste (cloud / NAS) des factures et bilans.",
+            "Former l'equipe : aucun lien « fisc » depuis un SMS.",
+            "Si concerne : conserver le courrier DGFiP ; preparer une reponse type clients inquietets.",
+          ],
+        },
+        { type: "h2", text: "4. Lien banque, tresorerie, credit" },
+        {
+          type: "p",
+          text: "Surveillez le compte pro : virements, prelevements SEPA, demandes de credit. Une fraude qui vide la tresorerie peut forcer un <strong>credit de tresorerie</strong> d'urgence — plus cher qu'une bonne hygiene + assurance adaptee. Rappel particulier : <a href=\"./piratage-impots-dgfip-phishing-vigilance-banque.html\">gestes banque apres la fuite</a>. Createurs / streamers : voir aussi l'angle <a href=\"./gta-6-fuites-rockstar-cybersecurite-assurance.html\">cyber &amp; setup</a>.",
+        },
+        { type: "h2", text: "5. Prevoyance : si l'activite s'arrete apres incident" },
+        {
+          type: "p",
+          text: "Un ransomware ou une fraude lourde peut stopper le chiffre d'affaires. La prevoyance TNS ne couvre pas le cyber, mais protege vos revenus en cas d'arret de travail lie au stress / burnout apres crise. Bilan utile en meme temps que la RC. <a href=\"../landings/devis.html?need=prevoyance\">Etudier la prevoyance</a>.",
+        },
+      ],
+      related: [
+        { href: "./piratage-impots-dgfip-phishing-vigilance-banque.html", label: "Particuliers &amp; phishing" },
+        { href: "./piratage-fisc-cadastre-habitation-immobilier.html", label: "Cadastre &amp; immo" },
+        { href: "./rc-pro-freelance-artisan-guide.html", label: "RC Pro freelance" },
+        { href: "../landings/questionnaire.html?need=rc-pro&journey=standard", label: "Questionnaire RC Pro" },
+      ],
+      faq: [
+        {
+          q: "Mon SIREN etait deja public — suis-je vraiment expose ?",
+          a: "Le SIREN seul l'est. Le risque augmente quand il est croise avec des donnees fiscales et une campagne de phishing nationale.",
+        },
+        {
+          q: "Une assurance cyber est-elle obligatoire ?",
+          a: "Non en general pour une TPE, mais elle devient pertinente des que vous stockez des donnees clients ou dependez du numerique au quotidien.",
+        },
+        {
+          q: "Que repondre a un client inquiet ?",
+          a: "Expliquez que vos identifiants espace pro n'ont pas ete voles selon la DGFiP, precisez vos canaux officiels, et ne demandez jamais de paiement via un nouveau RIB sans confirmation.",
+        },
+      ],
+    },
+    {
       file: "robot-cuiseur-pret-conso-credit-cuisine.html",
       section: "finance",
       tag: "Cuisine & credit conso",

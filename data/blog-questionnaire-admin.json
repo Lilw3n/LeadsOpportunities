@@ -341,6 +341,45 @@
       "species": null
     },
     {
+      "file": "piratage-impots-dgfip-phishing-vigilance-banque.html",
+      "title": "Piratage des impots (DGFiP) : phishing, banques et gestes a faire en France",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/rappel.html?need=banque&utm_source=blog&utm_medium=actu_daily&utm_campaign=banque&utm_content=piratage-dgfip",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "piratage-fisc-cadastre-habitation-immobilier.html",
+      "title": "Piratage du fisc : donnees cadastrales, habitation et vigilance immobiliere",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=piratage-cadastre",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "piratage-dgfip-professionnels-rc-pro-cyber.html",
+      "title": "Piratage DGFiP : independants et TPE — RC pro, cyber et donnees clients",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=rc-pro&utm_content=piratage-dgfip-pro",
+      "matchedRule": null,
+      "species": null
+    },
+    {
       "file": "robot-cuiseur-pret-conso-credit-cuisine.html",
       "title": "Robot cuiseur Thermomix ou Ninja : payer comptant ou pret conso en 2026 ?",
       "section": "finance",
