@@ -142,16 +142,37 @@
   }
 
   function mountGenericUpload(panel, ctx) {
+    var vertical = ctx.vertical || ctx.need || "questionnaire";
+    var cfg =
+      global.DEVIS_DOCUMENT_CONFIG && global.DEVIS_DOCUMENT_CONFIG.getConfig
+        ? global.DEVIS_DOCUMENT_CONFIG.getConfig(vertical)
+        : null;
+    var typeOpts =
+      cfg && cfg.items && cfg.items.length
+        ? cfg.items
+            .map(function (it) {
+              return '<option value="' + esc(it.type) + '">' + esc(it.label) + "</option>";
+            })
+            .join("")
+        : '<option value="generic">Document générique</option>' +
+          '<option value="identity">Pièce d\'identité</option>' +
+          '<option value="proof_address">Justificatif de domicile</option>' +
+          '<option value="tax_notice">Avis d\'imposition</option>' +
+          '<option value="payslip">Bulletin de salaire</option>' +
+          '<option value="bank_statement">Relevé bancaire</option>' +
+          '<option value="carte_vitale">Carte Vitale</option>' +
+          '<option value="attestation_droits">Attestation de droits Ameli</option>' +
+          '<option value="contrat_mutuelle">Contrat / tableau de garanties mutuelle</option>' +
+          '<option value="other">Autre</option>';
+    var intro =
+      cfg && cfg.intro
+        ? '<p class="small" style="margin:0 0 10px;color:var(--muted)">' + esc(cfg.intro) + "</p>"
+        : "";
     panel.innerHTML =
       '<div class="crm-doc-generic">' +
+      intro +
       '<label class="crm-doc-generic__type">Type de pièce<select data-crm-doc-type>' +
-      '<option value="generic">Document générique</option>' +
-      '<option value="identity">Pièce d\'identité</option>' +
-      '<option value="proof_address">Justificatif domicile</option>' +
-      '<option value="tax_notice">Avis d\'imposition</option>' +
-      '<option value="payslip">Bulletin de salaire</option>' +
-      '<option value="bank_statement">Relevé bancaire</option>' +
-      '<option value="other">Autre</option>' +
+      typeOpts +
       "</select></label>" +
       '<label class="crm-doc-generic__file btn btn-ghost btn-sm">' +
       "Choisir un fichier (PDF, JPG, PNG — max 12 Mo)" +
@@ -172,7 +193,6 @@
           return Promise.resolve({ uploaded: [], errors: [{ error: "Fichier trop volumineux (max 12 Mo)" }] });
         }
         var docType = panel.querySelector("[data-crm-doc-type]");
-        var vertical = ctx.vertical || "questionnaire";
         return readFileAsBase64(pendingFile).then(function (dataUrl) {
           return fetch("/api/external/upload", {
             method: "POST",

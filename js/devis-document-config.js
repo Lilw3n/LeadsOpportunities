@@ -29,13 +29,21 @@
     },
     sante: {
       title: "Pièces pour votre devis mutuelle",
-      intro: "Tableau de garanties actuel ou dernier avis de cotisation — optionnel mais utile.",
+      intro:
+        "Carte Vitale, attestation de droits, contrat ou tableau de garanties actuel — pour préparer votre devis mutuelle. Formats PDF, JPG ou PNG (max 12 Mo).",
       items: [
-        { type: "contrat_mutuelle", label: "Contrat ou tableau de garanties actuel", required: false },
+        { type: "carte_vitale", label: "Carte Vitale (recto / verso) ou attestation Vitale", required: true },
+        { type: "attestation_droits", label: "Attestation de droits Ameli (Sécurité sociale)", required: true },
+        { type: "piece_identite", label: "Pièce d'identité (CNI / passeport)", required: true },
+        { type: "contrat_mutuelle", label: "Contrat mutuelle actuel / tableau de garanties", required: false },
+        { type: "attestation_mutuelle", label: "Attestation mutuelle / carte de tiers payant", required: false },
+        { type: "avis_cotisation", label: "Dernier avis de cotisation mutuelle", required: false },
+        { type: "ordonnance", label: "Ordonnance / devis optique ou dentaire (si besoin)", required: false },
+        { type: "justificatif_domicile", label: "Justificatif de domicile (< 3 mois)", required: false },
         { type: "rib", label: "RIB", required: false },
       ],
     },
-    credit-immo: {
+    "credit-immo": {
       title: "Pièces pour votre demande de prêt immobilier",
       intro:
         "Ces documents accélèrent l'étude de financement. Vous pouvez les déposer maintenant ou plus tard — archivés sur votre dossier et le Drive courtier.",
@@ -84,13 +92,29 @@
     },
   };
 
+  function normalizeNeed(needOrVertical) {
+    var key = String(needOrVertical || "default")
+      .trim()
+      .toLowerCase()
+      .replace(/_/g, "-");
+    if (!key) return "default";
+    if (key.indexOf("sante") >= 0 || key.indexOf("mutuelle") >= 0) return "sante";
+    if (key.indexOf("credit") >= 0 || key.indexOf("pret") >= 0 || key.indexOf("prêt") >= 0) return "credit-immo";
+    if (key.indexOf("acheteur") >= 0) return "acheteur-immo";
+    if (key.indexOf("vtc") >= 0 || key.indexOf("auto") >= 0) return "vtc";
+    if (key.indexOf("collective") >= 0 || key.indexOf("entreprise") >= 0) return "collective";
+    if (key.indexOf("immo") >= 0) return "immo";
+    return key;
+  }
+
   function getConfig(needOrVertical) {
-    var key = needOrVertical || "default";
+    var key = normalizeNeed(needOrVertical);
     return BY_NEED[key] || BY_NEED.default;
   }
 
   global.DEVIS_DOCUMENT_CONFIG = {
     getConfig: getConfig,
+    normalizeNeed: normalizeNeed,
     BY_NEED: BY_NEED,
   };
 })(typeof window !== "undefined" ? window : global);

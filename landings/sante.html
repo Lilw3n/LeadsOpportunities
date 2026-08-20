@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
   <link rel="stylesheet" href="./quote-intelligence.css" />
   <link rel="stylesheet" href="../css/form-audit.css" />
+  <link rel="stylesheet" href="../css/devis-documents.css" />
   <link rel="stylesheet" href="../css/callback-form.css" />
   <link rel="stylesheet" href="../css/contact-pair.css" />
 </head>
@@ -137,11 +138,13 @@
 
           <div class="journey-toggle" role="navigation" aria-label="Type de parcours">
             <a href="./devis-express.html?need=sante">Rappel rapide (2 min)</a>
-            <a href="./sante.html" class="is-active">Formulaire guide (7 etapes)</a>
+            <a href="./sante.html" class="is-active">Formulaire guidé (8 étapes)</a>
           </div>
           <div data-callback-strip data-callback-need="sante" data-callback-source="landing_sante"></div>
 
           <form data-track-form data-quote-wizard novalidate>
+            <input type="hidden" name="need" value="sante" />
+            <input type="hidden" name="vertical" value="sante" />
             <div data-cross-sell-panel hidden></div>
             <div class="hp-field" aria-hidden="true">
               <label for="hp_sante">Ne pas remplir</label>
@@ -151,19 +154,20 @@
               <div class="wizard-progress-track" aria-hidden="true">
                 <div class="wizard-progress-fill"></div>
               </div>
-              <p class="wizard-current-title" aria-live="polite">Etape 1 sur 7 — Qui etes-vous ?</p>
+              <p class="wizard-current-title" aria-live="polite">Étape 1 sur 8 — Qui êtes-vous ?</p>
               <div class="wizard-steps-dots" aria-label="Progression du formulaire">
-                <button type="button" data-wizard-dot="1" aria-current="step" title="Etape 1">1</button>
-                <button type="button" data-wizard-dot="2" disabled title="Etape 2">2</button>
-                <button type="button" data-wizard-dot="3" disabled title="Etape 3">3</button>
-                <button type="button" data-wizard-dot="4" disabled title="Etape 4">4</button>
-                <button type="button" data-wizard-dot="5" disabled title="Etape 5">5</button>
-                <button type="button" data-wizard-dot="6" disabled title="Etape 6">6</button>
-                <button type="button" data-wizard-dot="7" disabled title="Etape 7">7</button>
+                <button type="button" data-wizard-dot="1" aria-current="step" title="Étape 1">1</button>
+                <button type="button" data-wizard-dot="2" disabled title="Étape 2">2</button>
+                <button type="button" data-wizard-dot="3" disabled title="Étape 3">3</button>
+                <button type="button" data-wizard-dot="4" disabled title="Étape 4">4</button>
+                <button type="button" data-wizard-dot="5" disabled title="Étape 5">5</button>
+                <button type="button" data-wizard-dot="6" disabled title="Étape 6">6</button>
+                <button type="button" data-wizard-dot="7" disabled title="Étape 7">7</button>
+                <button type="button" data-wizard-dot="8" disabled title="Étape 8">8</button>
               </div>
               <div class="wizard-meta">
-                <span>Formulaire guide</span>
-                <span class="wizard-step-counter">Etape 1 / 7</span>
+                <span>Formulaire guidé</span>
+                <span class="wizard-step-counter">Étape 1 / 8</span>
               </div>
             </div>
 
@@ -509,9 +513,15 @@
             </section>
 
             <!-- ETAPE 7 : Budget et finalisation -->
-            <section class="wizard-step" data-wizard-step="7" data-step-title="Budget et envoi" hidden>
+            <section class="wizard-step" data-wizard-step="7" data-step-name="documents" data-step-title="Vos pièces santé" data-optional-step="1" hidden>
+              <h3>Vos pièces santé (optionnel)</h3>
+              <p class="wizard-step-intro is-optional">Carte Vitale, attestation Ameli, contrat mutuelle… Vous pouvez passer cette étape et les envoyer plus tard.</p>
+              <div data-devis-documents-root></div>
+            </section>
+
+            <section class="wizard-step" data-wizard-step="8" data-step-title="Budget et envoi" hidden>
               <h3>Budget et envoi</h3>
-              <p class="wizard-step-intro">Derniere etape : indiquez votre budget et validez. Un conseiller prepare votre comparatif personnalise.</p>
+              <p class="wizard-step-intro">Dernière étape : indiquez votre budget et validez. Un conseiller prépare votre comparatif personnalisé.</p>
               <div class="grid">
                 <div class="field">
                   <label for="startDate">Date d'effet souhaitee</label>
@@ -688,6 +698,8 @@
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
   <script src="../js/quote-intelligence.js"></script>
+  <script src="../js/devis-document-config.js"></script>
+  <script src="../js/devis-document-upload.js"></script>
   <script src="./quote-wizard.js"></script>
   <script src="../js/form-audit.js"></script>
   <script src="../js/lead-insights.js"></script>
@@ -697,5 +709,18 @@
   <script src="../js/cookie-banner.js"></script>
   <script src="../js/geo-france-guard.js"></script>
   <script src="./tracking.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var form = document.querySelector("form[data-quote-wizard]");
+      var step = form && form.querySelector('[data-step-name="documents"]');
+      if (!form || !step || !window.DevisDocumentUpload || !window.DevisDocumentUpload.buildStepHtml) return;
+      var tmp = document.createElement("div");
+      tmp.innerHTML = window.DevisDocumentUpload.buildStepHtml("sante");
+      var built = tmp.querySelector("[data-devis-documents-root]");
+      var target = step.querySelector("[data-devis-documents-root]");
+      if (built && target) target.replaceWith(built);
+      window.DevisDocumentUpload.mountInForm(form, "sante");
+    });
+  </script>
 </body>
 </html>

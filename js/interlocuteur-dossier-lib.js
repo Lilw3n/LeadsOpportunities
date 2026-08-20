@@ -24,13 +24,55 @@
     birthDate: "Date de naissance",
     dateNaissance: "Date de naissance",
     driverDob: "Date de naissance",
+    dob: "Date de naissance",
+    spouseDob: "Date de naissance du conjoint",
     age: "Âge",
     maritalStatus: "Statut matrimonial",
     householdType: "Profil foyer",
     childrenCount: "Nombre d’enfants",
+    nbChildren: "Nombre d’enfants",
+    childrenAges: "Âges des enfants",
     familySize: "Taille du foyer",
+    socialRegime: "Régime de Sécurité sociale",
+    spouseRegime: "Régime du conjoint",
+    currentCover: "Mutuelle actuelle",
+    employmentStatus: "Situation professionnelle",
+    pregnancyPlanned: "Grossesse prévue (12 mois)",
+    lvlHospital: "Niveau hospitalisation",
+    lvlConsultations: "Niveau consultations",
+    lvlDental: "Niveau dentaire",
+    lvlOptical: "Niveau optique",
+    lvlAltMedicine: "Médecines douces",
+    lvlHearing: "Niveau audiologie",
+    wearsGlasses: "Porte des lunettes",
+    dentalPlanned: "Soins dentaires prévus",
+    chronicCondition: "Affection de longue durée / chronique",
+    gpDoctor: "Médecin traitant",
+    telehealth: "Téléconsultation",
+    tiers: "Tiers payant",
+    startDate: "Date de début souhaitée",
+    budgetMonthly: "Budget mensuel",
+    formulaType: "Type de formule",
+    callbackTime: "Créneau de rappel",
+    hasAutoInsurance: "Assurance auto déjà en place",
+    hasHabitation: "Assurance habitation déjà en place",
+    hasCreditImmo: "Crédit immobilier en cours",
+    interestedProducts: "Autres produits d’intérêt",
+    details: "Précisions",
     country: "Pays",
     address: "Adresse",
+    page: "Page du site",
+    seo_product: "Produit SEO",
+    seo_city: "Ville SEO",
+    seo_department: "Département SEO",
+    landing_slug: "Page d’atterrissage",
+    referrer_first: "Provenance (1ère visite)",
+    referrer: "Provenance",
+    variant: "Variante page",
+    journey: "Parcours",
+    formJourney: "Parcours formulaire",
+    attr_landing_path: "Chemin d’arrivée",
+    landing_path: "Chemin d’arrivée",
     companyName: "Raison sociale",
     company: "Entreprise",
     companySiret: "SIREN / SIRET",
@@ -185,6 +227,26 @@
     logic_immo: "Logic-immo",
     figaro: "Figaro Immobilier",
     avendrealouer: "Avendre A Louer",
+    // Santé — valeurs formulaires
+    "Regime general (salarie prive)": "Régime général (salarié privé)",
+    "Regime general": "Régime général",
+    "Non, seulement la Securite sociale": "Non, seulement la Sécurité sociale",
+    Retraite: "Retraité(e)",
+    Salarie: "Salarié(e)",
+    Independant: "Indépendant(e)",
+    TNS: "Travailleur non salarié (TNS)",
+    Etudiant: "Étudiant(e)",
+    Chomage: "Au chômage",
+    "0 (pas d'enfant)": "0 (pas d’enfant)",
+    "Minimum (100% BRSS)": "Minimum (100 % BRSS)",
+    "Minimum (parcours de soins)": "Minimum (parcours de soins)",
+    "Minimum (soins courants uniquement)": "Minimum (soins courants uniquement)",
+    "Moyen (verres progressifs couverts)": "Moyen (verres progressifs couverts)",
+    "Pas necessaire": "Pas nécessaire",
+    sante: "Mutuelle santé",
+    assurance_sante: "Mutuelle santé",
+    "assurance-sante": "Mutuelle santé",
+    mutuelle: "Mutuelle santé",
   };
 
   var PERSO_KEYS = [
@@ -202,11 +264,20 @@
     "birthDate",
     "dateNaissance",
     "driverDob",
+    "dob",
+    "spouseDob",
     "age",
     "maritalStatus",
     "householdType",
     "childrenCount",
+    "nbChildren",
+    "childrenAges",
     "familySize",
+    "socialRegime",
+    "spouseRegime",
+    "currentCover",
+    "employmentStatus",
+    "pregnancyPlanned",
     "street",
     "address",
     "postalCode",
@@ -214,6 +285,31 @@
     "cityFull",
     "city",
     "country",
+  ];
+
+  var SANTE_KEYS = [
+    "lvlHospital",
+    "lvlConsultations",
+    "lvlDental",
+    "lvlOptical",
+    "lvlAltMedicine",
+    "lvlHearing",
+    "wearsGlasses",
+    "dentalPlanned",
+    "chronicCondition",
+    "gpDoctor",
+    "telehealth",
+    "tiers",
+    "startDate",
+    "budgetMonthly",
+    "formulaType",
+    "callbackTime",
+    "hasAutoInsurance",
+    "hasHabitation",
+    "hasCreditImmo",
+    "interestedProducts",
+    "healthPriority",
+    "healthStatus",
   ];
 
   var PRO_KEYS = [
@@ -516,7 +612,7 @@
   function buildDossier(lead, extraPayload) {
     var p = mergePayloads(lead, extraPayload);
     if (!p.age) {
-      var dob = first(p, ["birthDate", "dateNaissance", "driverDob"]);
+      var dob = first(p, ["birthDate", "dateNaissance", "driverDob", "dob"]);
       var computed = ageFromDob(dob);
       if (computed) p.age = computed;
     }
@@ -524,10 +620,11 @@
     var pro = pick(p, PRO_KEYS);
     var vehicules = pick(p, VEHICLE_KEYS);
     var immobilier = pick(p, IMMO_KEYS);
+    var sante = pick(p, SANTE_KEYS);
     var projet = pick(p, PROJET_KEYS);
 
     var known = {};
-    PERSO_KEYS.concat(PRO_KEYS, VEHICLE_KEYS, IMMO_KEYS, PROJET_KEYS).forEach(function (k) {
+    PERSO_KEYS.concat(PRO_KEYS, VEHICLE_KEYS, IMMO_KEYS, SANTE_KEYS, PROJET_KEYS).forEach(function (k) {
       known[k] = true;
     });
     var autres = [];
@@ -543,6 +640,7 @@
     return {
       perso: perso,
       pro: pro,
+      sante: sante,
       biens: { vehicules: vehicules, immobilier: immobilier, autres: autres.slice(0, 24) },
       projet: projet,
       raw: p,
@@ -643,7 +741,7 @@
 
   function renderSections(dossier, opts) {
     opts = opts || {};
-    var d = dossier || { perso: [], pro: [], biens: {}, projet: [] };
+    var d = dossier || { perso: [], pro: [], sante: [], biens: {}, projet: [] };
     var b = d.biens || {};
     var raw = d.raw || {};
     var fieldComments = raw.adminFieldComments || {};
@@ -663,6 +761,11 @@
       '<section class="int-card int-card-pro"><h3>Info pro</h3>' +
       rowsHtml(d.pro, fieldComments) +
       "</section>" +
+      ((d.sante || []).length
+        ? '<section class="int-card int-card-sante"><h3>Mutuelle / santé</h3>' +
+          rowsHtml(d.sante, fieldComments) +
+          "</section>"
+        : "") +
       '<section class="int-card int-card-biens"><h3>Biens — véhicule, immobilier</h3>' +
       "<h4>Véhicule / mobilier</h4>" +
       rowsHtml(b.vehicules, fieldComments) +
