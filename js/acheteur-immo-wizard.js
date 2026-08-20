@@ -145,6 +145,7 @@
   }
 
   function validateVente(form) {
+    if (window.LandingAdminTest && window.LandingAdminTest.skipValidation()) return true;
     var kind = searchKindOf(form);
     if (!wantsVente(kind)) return true;
     var ok = true;
@@ -186,6 +187,7 @@
   }
 
   function validateSearch(form) {
+    if (window.LandingAdminTest && window.LandingAdminTest.skipValidation()) return true;
     syncSearchPanels(form);
     var kind = searchKindOf(form);
     var kindHint = qs(form, "[data-search-kind-hint]");

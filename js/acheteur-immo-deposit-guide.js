@@ -184,6 +184,28 @@
   }
 
   function validate(ctx) {
+    if (global.LandingAdminTest && global.LandingAdminTest.skipValidation()) {
+      var formEarly = ctx.form;
+      var hatEarly = ctx.hat || radioVal(document, "immoHat") || "acheteur";
+      var isOwnerEarly = hatEarly === "vendeur" || hatEarly === "les_deux";
+      var isSignalementEarly = hatEarly === "signalement";
+      return {
+        ok: true,
+        blocking: [],
+        recommended: [],
+        progress: computeProgress(
+          formEarly,
+          hatEarly,
+          isOwnerEarly,
+          isSignalementEarly,
+          (ctx.urlHits || []).length,
+          ctx.photoCount || 0,
+          [],
+          []
+        ),
+        adminTest: true,
+      };
+    }
     var form = ctx.form;
     var hat = ctx.hat || radioVal(document, "immoHat") || "acheteur";
     var isOwner = hat === "vendeur" || hat === "les_deux";

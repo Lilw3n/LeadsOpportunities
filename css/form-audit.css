@@ -1,3 +1,5 @@
+@import url("./landing-admin-test.css");
+
 /* Mode contrôle admin — parcours formulaires sans saisie */
 body.form-audit-active {
   padding-top: 52px;

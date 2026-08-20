@@ -1,0 +1,71 @@
+/* Mode test admin landings — barre fixe (CRM connecté) */
+body.landing-admin-test-active {
+  padding-top: 46px;
+}
+
+body.form-audit-active.landing-admin-test-active {
+  padding-top: 96px;
+}
+
+.landing-admin-test-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10060;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 7px 14px;
+  background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+  color: #fff;
+  font-size: 0.78rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+body.form-audit-active .landing-admin-test-bar {
+  top: 52px;
+}
+
+.landing-admin-test-bar strong {
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.landing-admin-test-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-weight: 700;
+  color: #fef3c7;
+  cursor: pointer;
+}
+
+.landing-admin-test-toggle input {
+  accent-color: #fde68a;
+  width: 16px;
+  height: 16px;
+}
+
+.landing-admin-test-hint {
+  color: #fde68a;
+  font-size: 0.72rem;
+  opacity: 0.95;
+}
+
+html[data-admin-test="1"] [data-deposit-validation-panel] {
+  border-color: #fcd34d;
+  background: #fffbeb;
+}
+
+html[data-admin-test="1"] [data-deposit-validation-panel]::before {
+  content: "Mode test actif — envoi possible sans compléter tout le dossier.";
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 6px;
+}

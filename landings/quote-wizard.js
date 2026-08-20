@@ -137,7 +137,12 @@
   }
 
   function auditSkip(form) {
+    if (window.LandingAdminTest && window.LandingAdminTest.skipValidation()) return true;
     return window.FormAudit && window.FormAudit.skipValidation(form);
+  }
+
+  function testSubmitAllowed(form) {
+    return window.LandingAdminTest && window.LandingAdminTest.isActive();
   }
 
   function initForm(form) {
@@ -372,7 +377,7 @@
     form.addEventListener(
       "submit",
       function (e) {
-        if (auditSkip(form)) {
+        if (auditSkip(form) && !testSubmitAllowed(form)) {
           e.preventDefault();
           e.stopImmediatePropagation();
           var msg = form.querySelector("[data-audit-submit-hint]");
@@ -389,6 +394,10 @@
           msg.textContent =
             "Mode contrôle actif : désactivez-le dans la barre en haut pour envoyer un vrai lead.";
           msg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          return;
+        }
+        if (testSubmitAllowed(form)) {
+          if (validationHint) validationHint.hidden = true;
           return;
         }
         if (!validateStep(steps[steps.length - 1])) {

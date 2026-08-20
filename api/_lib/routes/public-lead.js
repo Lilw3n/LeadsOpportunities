@@ -40,7 +40,13 @@ module.exports = async (req, res) => {
 
   const parsed = parseJsonBody(req, 49152);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
-  const body = parsed.body;
+  var body = parsed.body;
+
+  const adminTestLib = require("../admin-test-lead");
+  var adminTest = await adminTestLib.optionalAdminTest(req, body);
+  if (adminTest.ok) {
+    body = adminTestLib.applyAdminTestDefaults(body);
+  }
 
   if (isHoneypotFilled(body)) {
     return res.status(200).json({ ok: true, leadId: randomUUID(), leadScore: 0 });
@@ -74,6 +80,9 @@ module.exports = async (req, res) => {
 
   var leadId = body.leadId || randomUUID();
   var score = computeLeadScore(body);
+  if (adminTest.ok) {
+    score = Math.min(score, 8);
+  }
 
   var tariffAnalysis = { ok: false };
   try {
@@ -116,6 +125,12 @@ module.exports = async (req, res) => {
     openedAt: null,
     serverReceivedAt: new Date().toISOString(),
   });
+  if (adminTest.ok) {
+    enriched.adminTest = true;
+    enriched.adminTestBy = (adminTest.user && adminTest.user.email) || null;
+    enriched.source = enriched.source ? enriched.source + "_admin_test" : "admin_test";
+    enriched.pipeline_stage = "admin_test";
+  }
   delete enriched._hp;
   delete enriched.website;
   delete enriched.company_url;

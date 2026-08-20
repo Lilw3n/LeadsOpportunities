@@ -50,6 +50,7 @@
     "pret:fiches:sync": "node scripts/sync-pret-fiches-download-list.cjs && node scripts/build-pret-fiches-catalog.cjs",
     "verify:listings": "node scripts/verify-immo-listings.cjs",
     "verify:listing-urls": "node scripts/verify-immo-listing-urls.cjs",
+    "verify:landing-admin-test": "node scripts/verify-landing-admin-test.cjs",
     "verify:projection": "node scripts/verify-achat-projection.cjs",
     "verify:questionnaires": "node scripts/verify-questionnaires-fields.cjs",
     "verify:leads-hub": "node scripts/verify-leads-hub.cjs",

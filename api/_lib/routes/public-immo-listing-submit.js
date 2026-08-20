@@ -96,6 +96,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var parsed = parseJsonBody(req, 2500000);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
   var body = parsed.body || {};
+  var adminTestLib = require("../admin-test-lead");
+  var adminTest = await adminTestLib.optionalAdminTest(req, body);
+  if (adminTest.ok) {
+    body = adminTestLib.applyAdminTestDefaults(body);
+  }
   if (isHoneypotFilled(body)) {
     return res.status(200).json({ ok: true, received: 0 });
   }
@@ -197,7 +202,9 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var detections = collectDetections(body);
   var hasManualBits = !!(city || description || photos.length || price || addressHint);
   if (!detections.length) {
-    if ((isOwner || isSignalement) && hasManualBits) {
+    if (adminTest.ok) {
+      detections = [manualDetection()];
+    } else if ((isOwner || isSignalement) && hasManualBits) {
       detections = [manualDetection()];
     } else if (isSignalement) {
       return res.status(400).json({
@@ -216,7 +223,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     }
   }
 
-  if ((isOwner || isSignalement) && !city) {
+  if ((isOwner || isSignalement) && !city && !adminTest.ok) {
     return res.status(400).json({
       ok: false,
       error: "city_required",
@@ -226,7 +233,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     });
   }
 
-  if (isSignalement && !photos.length && !description) {
+  if (isSignalement && !photos.length && !description && !adminTest.ok) {
     return res.status(400).json({
       ok: false,
       error: "photo_or_desc_required",

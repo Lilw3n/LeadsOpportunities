@@ -563,6 +563,11 @@
                 ? "acheteur_vendeur_immo"
                 : "acheteur_immo",
       };
+      if (window.LandingAdminTest && window.LandingAdminTest.isActive()) {
+        payload = window.LandingAdminTest.patchImmoListingPayload
+          ? window.LandingAdminTest.patchImmoListingPayload(payload)
+          : window.LandingAdminTest.patchPayload(payload);
+      }
       if (!payload.email && !payload.phone) {
         if (window.AcheteurImmoDepositGuide) {
           var lateGuide = window.AcheteurImmoDepositGuide.validate(
@@ -578,9 +583,13 @@
       }
       var btn = form.querySelector("[type=submit]");
       if (btn) btn.disabled = true;
+      var submitHeaders = { "Content-Type": "application/json" };
+      if (window.LandingAdminTest && window.LandingAdminTest.authHeaders) {
+        submitHeaders = window.LandingAdminTest.authHeaders(submitHeaders);
+      }
       fetch("/api/immo-listing-submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: submitHeaders,
         credentials: "same-origin",
         body: JSON.stringify(payload),
       })

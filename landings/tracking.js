@@ -191,9 +191,17 @@
   }
 
   function postLeadApi(body) {
+    if (window.LandingAdminTest && window.LandingAdminTest.isActive()) {
+      body = window.LandingAdminTest.patchPayload(body);
+    }
+    var headers = { "Content-Type": "application/json" };
+    if (window.LandingAdminTest && window.LandingAdminTest.authHeaders) {
+      headers = window.LandingAdminTest.authHeaders(headers);
+    }
     return fetch("/api/lead", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: headers,
+      credentials: "same-origin",
       body: JSON.stringify(body),
     })
       .then(function (r) {
@@ -413,6 +421,9 @@
           window.QuoteIntelligence.attachLeadIdToPayload(leadPayload);
         }
         leadPayload.client_event_id = leadPayload.leadId || null;
+        if (window.LandingAdminTest && window.LandingAdminTest.isActive()) {
+          leadPayload = window.LandingAdminTest.patchPayload(leadPayload);
+        }
         if (typeof window.saveLeadRequest === "function") {
           window.saveLeadRequest(leadPayload);
         }

@@ -400,6 +400,7 @@
     canUseAudit: canUseAudit,
     isAdminUser: isAdminUser,
     skipValidation: function (form) {
+      if (window.LandingAdminTest && window.LandingAdminTest.skipValidation()) return true;
       return form && form.dataset.auditMode === "1";
     },
     isActive: function (form) {
