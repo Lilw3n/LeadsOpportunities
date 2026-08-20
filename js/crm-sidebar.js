@@ -159,6 +159,8 @@ window.CrmSidebar = {
       label: "Finance & compta",
       items: [
         { type: "link", href: "./crm-financial.html", label: "Vue d'ensemble", icon: "financial" },
+        { type: "link", href: "./crm-stripe.html", label: "Configuration Stripe", icon: "financial", highlight: true, badge: "encaisser", desc: "Clé, webhook, diagnostic paiements" },
+        { type: "link", href: "./crm-quote-payment.html", label: "Paiement devis", icon: "financial" },
         { type: "link", href: "./crm-financial-payments.html", label: "Paiements" },
         { type: "link", href: "./crm-financial-payment-new.html", label: "Nouveau paiement" },
         { type: "link", href: "./crm-financial-receivables.html", label: "Créances" },

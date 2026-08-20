@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Configuration Stripe | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .st-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    @media (max-width: 800px) { .st-grid { grid-template-columns: 1fr; } }
+    .st-check {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff;
+    }
+    .st-check.is-ok { border-color: #a7f3d0; background: #f0fdf4; }
+    .st-check.is-ko { border-color: #fecaca; background: #fef2f2; }
+    .st-dot {
+      width: 12px; height: 12px; border-radius: 50%; margin-top: 4px; flex-shrink: 0;
+      background: #94a3b8;
+    }
+    .st-check.is-ok .st-dot { background: #16a34a; }
+    .st-check.is-ko .st-dot { background: #dc2626; }
+    .st-check strong { display: block; font-size: .95rem; }
+    .st-check p { margin: 4px 0 0; font-size: .85rem; color: var(--muted); }
+    .st-banner {
+      padding: 16px 18px; border-radius: 14px; margin: 0 0 16px; font-size: .95rem; line-height: 1.5;
+    }
+    .st-banner.ok { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+    .st-banner.warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+    .st-banner.err { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+    .st-copy {
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: .82rem; background: #0f172a; color: #e2e8f0;
+      padding: 10px 12px; border-radius: 10px; word-break: break-all;
+    }
+    .st-copy button { font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer;
+      border: 0; border-radius: 8px; padding: 6px 10px; background: #14b8a6; color: #042f2e; }
+    .st-steps { margin: 0; padding-left: 1.2rem; }
+    .st-steps li { margin: 0 0 8px; }
+    .st-muted { color: var(--muted); font-size: .88rem; }
+    pre.st-json { white-space: pre-wrap; font-size: .75rem; max-height: 240px; overflow: auto; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance</p>
+      <h2>Configuration Stripe</h2>
+      <p>État réel de l’encaissement (clé, webhook, compte). Les secrets restent sur Vercel — rien n’est saisi ici.</p>
+    </div>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-primary" id="btnRefresh">Actualiser</button>
+      <a class="btn btn-ghost" href="./crm-quote-payment.html">Paiement devis</a>
+      <a class="btn btn-ghost" href="./paiement.html" target="_blank" rel="noopener">Page publique</a>
+    </div>
+  </section>
+
+  <div id="stBanner" class="st-banner warn">Vérification en cours…</div>
+  <div class="st-grid" id="stChecks"></div>
+
+  <section class="crm-page-panel" style="margin-top:18px">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Webhook</p>
+        <h2>URL à coller dans Stripe</h2>
+      </div>
+    </div>
+    <p class="st-muted">Dashboard Stripe → Developers → Webhooks → Add endpoint. Événement : <strong>checkout.session.completed</strong>.</p>
+    <p class="st-copy" id="stWebhookRow"><span id="stWebhookUrl">https://www.leadsopportunities.fr/api/stripe/webhook</span>
+      <button type="button" id="btnCopyWh">Copier</button></p>
+    <ol class="st-steps" id="stNextSteps"></ol>
+    <p class="st-muted" style="margin-top:12px">Variables Vercel (Production) : <code>STRIPE_SECRET_KEY</code> (<code>sk_live_…</code> ou <code>sk_test_…</code>), <code>STRIPE_WEBHOOK_SECRET</code> (<code>whsec_…</code>), <code>APP_URL</code> ou <code>NEXT_PUBLIC_APP_URL</code>. Puis <strong>Redeploy</strong>.</p>
+    <p class="crm-action-row" style="margin-top:14px">
+      <a class="btn btn-ghost" id="stDashWh" href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener">Ouvrir Stripe Webhooks</a>
+      <a class="btn btn-ghost" href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener">Clés API Stripe</a>
+      <a class="btn btn-ghost" href="https://vercel.com/dashboard" target="_blank" rel="noopener">Vercel Dashboard</a>
+    </p>
+  </section>
+
+  <section class="crm-page-panel">
+    <div class="crm-section-head">
+      <div>
+        <p class="crm-eyebrow">Technique</p>
+        <h2>Réponse brute</h2>
+      </div>
+    </div>
+    <pre class="panel st-json" id="stJson">—</pre>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+  <script src="./js/crm-stripe.js"></script>
+</body>
+</html>

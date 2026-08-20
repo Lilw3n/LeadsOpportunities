@@ -16,6 +16,7 @@
       <p>Générez un lien de paiement sécurisé pour l'acompte d'un devis existant. Le montant est validé côté serveur à partir du devis.</p>
     </div>
     <div class="crm-action-row">
+      <a href="./crm-stripe.html" class="btn btn-ghost">Configuration Stripe</a>
       <a href="./crm-quotes.html" class="btn btn-ghost">Liste des devis</a>
       <a href="./crm-financial-payments.html" class="btn btn-ghost">Paiements</a>
     </div>
@@ -28,7 +29,9 @@
         <h2>Configuration Stripe</h2>
       </div>
     </div>
-    <button type="button" class="btn btn-ghost" id="btnStripeReadiness">Vérifier Stripe</button>
+    <p>Ouvrez <a href="./crm-stripe.html">Configuration Stripe</a> pour un diagnostic lisible (clé, webhook, compte). Le bouton ci-dessous affiche aussi la réponse brute.</p>
+    <a href="./crm-stripe.html" class="btn btn-primary">Ouvrir le diagnostic</a>
+    <button type="button" class="btn btn-ghost" id="btnStripeReadiness">Réponse brute</button>
     <pre id="stripeReadinessOut" class="panel" style="white-space:pre-wrap;margin-top:12px;font-size:.8rem"></pre>
   </section>
 

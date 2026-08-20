@@ -76,4 +76,4 @@ Voir aussi **`docs/CRM-AGENDA.md`** (vues timeline / iCal / types métier / Stri
 - [ ] Compta `/crm-pro-accounting.html`
 - [ ] Make/n8n : `docs/automation-make-n8n.md`
 - [ ] SEA/UTM : `docs/SEA-TRACKING.md`
-- [ ] Stripe readiness : `/api/stripe/readiness`
+- [ ] Stripe : `/crm-stripe.html` (clé + webhook) puis acompte devis

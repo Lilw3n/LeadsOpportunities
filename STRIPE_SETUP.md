@@ -71,7 +71,13 @@ Evenements optionnels comme dans le projet location:
 4. Creez un devis CRM, puis ouvrez `/crm-quote-payment.html?quoteId=qte_...`.
 5. Payez en mode test Stripe et verifiez : devis `acompte_paye`, activite CRM, ligne `pro_revenue`.
 
-## 5 ter) Etat Vercel actuel a verifier
+## 5 ter) Diagnostic CRM
+Page **Configuration Stripe** : `/crm-stripe.html` (connecté CRM).
+Elle affiche clé / webhook / encaissements sans jamais montrer les secrets.
+
+Ouvrir `/api/stripe/webhook` dans le navigateur n’est **pas** une erreur : Stripe envoie du POST, le GET affiche une page d’aide.
+
+## 5 quater) Etat Vercel actuel a verifier
 Dans Vercel > Settings > Environment Variables, ajouter en Production:
 - `STRIPE_SECRET_KEY` : cle secrete du compte Stripe (`sk_test_...` pour test, `sk_live_...` pour prod).
 - `STRIPE_WEBHOOK_SECRET` : secret du webhook cree pour `https://www.leadsopportunities.fr/api/stripe/webhook`.
