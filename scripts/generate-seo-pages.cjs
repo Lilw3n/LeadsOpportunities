@@ -497,7 +497,8 @@ const PAGES = [
         { href: "/blog/pret-immo-erreurs-a-eviter.html", label: "Erreurs a eviter" },
         { href: "/blog/assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
       ],
-      LT.PRET_REFUSE
+      LT.PRET_REFUSE,
+      LT.SILOS_IMMO
     ),
     faq: [
       {

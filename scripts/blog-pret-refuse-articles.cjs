@@ -113,6 +113,7 @@ module.exports = [
     related: [
       { href: "./pret-refuse-endettement-35-hcsf-solutions.html", label: "Endettement 35 %" },
       { href: "./pret-refuse-courtier-multibanque-deuxieme-chance.html", label: "Courtier 2e chance" },
+      { href: "./visites-sans-financement-vente-negociateur-courtier.html", label: "Visites sans financement" },
       { href: "./pret-immo-erreurs-a-eviter.html", label: "Erreurs prêt immo" },
       { href: "../pret-immobilier/", label: "Hub prêt immobilier" },
       { href: "../recherche-bien/", label: "Recherche de bien" },
@@ -455,6 +456,7 @@ module.exports = [
     ],
     related: [
       { href: "./pret-immobilier-refuse-que-faire-2026.html", label: "Guide prêt refusé" },
+      { href: "./visites-sans-financement-vente-negociateur-courtier.html", label: "Visites sans financement" },
       { href: "../landings/credit-immo.html", label: "Landing crédit" },
       { href: "../pret-immobilier/", label: "Hub prêt immobilier" },
       { href: "../credit-immo/", label: "Crédit immobilier" },

@@ -56,6 +56,8 @@ module.exports = [
       },
     ],
     related: [
+      { href: "./visites-sans-financement-vente-negociateur-courtier.html", label: "Visites sans financement" },
+      { href: "./pourquoi-mon-bien-ne-se-vend-pas.html", label: "Bien qui ne se vend pas" },
       { href: "./vente-immobiliere-3d-divorce-deces-demenagement.html", label: "Vente 3D et situations complexes" },
       { href: "./sci-familiale-vendre-dissoudre-heritiers-2026.html", label: "SCI familiale" },
       { href: "../landings/credit-immo.html", label: "Crédit si un héritier rachète" },
@@ -127,6 +129,7 @@ module.exports = [
       },
     ],
     related: [
+      { href: "./pourquoi-mon-bien-ne-se-vend-pas.html", label: "Bien qui ne se vend pas" },
       { href: "./vente-immobiliere-3d-divorce-deces-demenagement.html", label: "Les 3D de la vente" },
       { href: "../landings/credit-immo.html", label: "Dossier crédit" },
       { href: "./people-divorce-assurance-habitation-emprunteur.html", label: "Divorce & assurance emprunteur" },
@@ -316,6 +319,8 @@ module.exports = [
       },
     ],
     related: [
+      { href: "./site-immobilier-peu-de-trafic-leads-conversion.html", label: "Trafic site immo" },
+      { href: "./pourquoi-mon-bien-ne-se-vend-pas.html", label: "Bien qui ne se vend pas" },
       { href: "../landings/chasseur-bien.html", label: "Chasseur de bien" },
       { href: "./taux-pret-immobilier-aout-2026-rentree.html", label: "Taux août 2026" },
     ],
@@ -372,6 +377,8 @@ module.exports = [
       },
     ],
     related: [
+      { href: "./pourquoi-mon-bien-ne-se-vend-pas.html", label: "Bien qui ne se vend pas" },
+      { href: "./visites-sans-financement-vente-negociateur-courtier.html", label: "Visites sans financement" },
       { href: "./assurance-emprunteur-loi-lemoine-2026.html", label: "Loi Lemoine" },
       { href: "../credit-immo/nancy-metropole/", label: "Crédit Nancy" },
     ],
@@ -429,6 +436,8 @@ module.exports = [
       },
     ],
     related: [
+      { href: "./pourquoi-mon-bien-ne-se-vend-pas.html", label: "Bien qui ne se vend pas" },
+      { href: "./visites-sans-financement-vente-negociateur-courtier.html", label: "Visites sans financement" },
       { href: "../landings/acheteur-immo.html?role=les_deux", label: "Vendre et racheter" },
       { href: "./taux-pret-immobilier-aout-2026-rentree.html", label: "Taux août 2026" },
     ],
@@ -543,6 +552,8 @@ module.exports = [
       },
     ],
     related: [
+      { href: "./pourquoi-mon-bien-ne-se-vend-pas.html", label: "Bien qui ne se vend pas" },
+      { href: "./site-immobilier-peu-de-trafic-leads-conversion.html", label: "Trafic & leads immo" },
       { href: "../landings/apporteur-affaires.html", label: "Apporteur d'affaires" },
       { href: "./acheter-terrain-nancy-metropole-54-2026.html", label: "Terrain Nancy 54" },
     ],

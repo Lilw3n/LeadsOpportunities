@@ -23,6 +23,7 @@ var PRET_REFUSE = [
   link("/blog/pret-refuse-assurance-emprunteur-sante.html", "Refus & assurance emprunteur"),
   link("/blog/pret-refuse-apport-insuffisant-solutions.html", "Apport insuffisant"),
   link("/blog/pret-refuse-primo-accedant-ptz-solutions.html", "Primo & PTZ"),
+  link("/blog/visites-sans-financement-vente-negociateur-courtier.html", "Visites sans financement"),
   link("/landings/credit-immo.html#pret-refuse", "Landing prêt refusé"),
 ];
 
@@ -73,6 +74,9 @@ var SILOS_IMMO = [
   link("/recherche-bien/", "Recherche de bien"),
   link("/credit-immo/", "Crédit immobilier"),
   link("/landings/projection-achat.html", "Projection coût réel"),
+  link("/blog/visites-sans-financement-vente-negociateur-courtier.html", "Visites sans financement"),
+  link("/blog/pourquoi-mon-bien-ne-se-vend-pas.html", "Bien qui ne se vend pas"),
+  link("/blog/site-immobilier-peu-de-trafic-leads-conversion.html", "Trafic site immo & leads"),
 ];
 
 function mergeUnique() {

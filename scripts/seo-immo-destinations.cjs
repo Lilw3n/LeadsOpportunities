@@ -114,7 +114,8 @@ function buildImmoDestinationPages(page, cities) {
           { href: "/credit-immo/", label: "Guide credit immo" },
           { href: PROJ, label: "Projection cout reel" },
         ],
-        LT.PRET_REFUSE
+        LT.PRET_REFUSE,
+        LT.SILOS_IMMO
       ),
       faq: [
         {
