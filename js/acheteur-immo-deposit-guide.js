@@ -197,8 +197,8 @@
       blocking.push(
         missingItem(
           "urls",
-          "URL d'annonce (Leboncoin, SeLoger…)",
-          qs("[data-listing-urls]", form),
+          "URL d'annonce (Leboncoin, SeLoger…) — au moins une ligne",
+          qs("[data-external-listings-list]", form) || qs("[data-listing-urls]", form),
           "Saisie rapide"
         )
       );
@@ -914,19 +914,29 @@
 
   function buildCtx(form, root) {
     var Portals = global.ImmoListingPortals;
+    var Ui = global.ImmoExternalListingsUi;
+    var Ext = global.ImmoExternalListings;
     var area = qs("[data-listing-urls]", root);
-    var urlsText = area ? area.value : "";
-    var hits = Portals
-      ? Portals.detectMany(urlsText).filter(function (d) {
-          return d.ok;
-        })
-      : [];
+    var hits = [];
+    var externalListings = [];
+    if (Ui && root && qs("[data-external-listings-list]", root)) {
+      externalListings = Ui.collect(root);
+      hits = Ui.urlHits(root);
+    } else if (Ext && area) {
+      externalListings = Ext.fromLegacyUrls(area.value);
+      hits = Ext.toUrlHits(externalListings);
+    } else if (Portals && area) {
+      hits = Portals.detectMany(area.value).filter(function (d) {
+        return d.ok;
+      });
+    }
     var thumbs = qs("[data-listing-thumbs]", root);
     var photoCount = thumbs ? thumbs.querySelectorAll(".listing-thumb").length : 0;
     return {
       form: form,
       hat: val(form, "role") || radioVal(document, "immoHat"),
       urlHits: hits,
+      externalListings: externalListings,
       photoCount: photoCount,
     };
   }

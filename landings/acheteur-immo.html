@@ -203,12 +203,17 @@
             </div>
             <p class="search-section-label" data-deposit-section-basic style="margin-top:4px">1. Le bien — saisie rapide</p>
             <p class="listing-media-hint" style="margin:0 0 10px">Annonce vitrine + photos sur le site et Google Drive (<strong>Immo → 01_photos_publiques</strong>).</p>
-            <p class="search-section-label">Annonce en ligne (optionnel)</p>
-            <p class="small immo-listing-dual-hint">Collez l'URL de votre annonce <strong>et</strong> complétez les champs du bien ci-dessous — les deux se complètent.</p>
+            <p class="search-section-label">Annonces en ligne (optionnel)</p>
+            <p class="small immo-listing-dual-hint">Liez une ou plusieurs annonces déjà diffusées (mandat hors établissement : type et validité). Complétez aussi les champs du bien ci-dessous.</p>
             <input type="hidden" name="listingMode" value="both" />
-            <div data-url-block>
-              <label for="listingUrlsBox" data-url-label>URL de l'annonce (une par ligne si plusieurs)</label>
-              <textarea id="listingUrlsBox" data-listing-urls placeholder="https://www.leboncoin.fr/ad/ventes_immobilieres/…&#10;https://www.seloger.com/annonces/…"></textarea>
+            <div data-url-block data-external-listings>
+              <div data-external-listings-list class="external-listings-list" aria-live="polite"></div>
+              <div class="external-listings-actions">
+                <button type="button" class="btn btn-soft btn-sm" data-external-listings-add>+ Ajouter une annonce</button>
+                <button type="button" class="btn btn-soft btn-sm external-listings-legacy-toggle" data-external-listings-legacy-toggle aria-expanded="false">Coller plusieurs URL (texte)</button>
+              </div>
+              <textarea id="listingUrlsBox" data-listing-urls hidden aria-hidden="true" tabindex="-1"></textarea>
+              <textarea id="listingUrlsLegacy" data-listing-urls-legacy class="external-listings-legacy" hidden placeholder="https://www.leboncoin.fr/ad/…&#10;https://www.seloger.com/annonces/…"></textarea>
               <div class="url-detected" data-url-detected aria-live="polite"></div>
             </div>
             <div class="grid">
@@ -2065,6 +2070,8 @@
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>
+  <script src="../js/immo-external-listings-lib.js"></script>
+  <script src="../js/immo-external-listings-ui.js"></script>
   <script src="../js/immo-photo-compress-lib.js"></script>
   <script src="../js/acheteur-immo-listing-url.js"></script>
   <script src="../js/client-value-messaging-lib.js"></script>

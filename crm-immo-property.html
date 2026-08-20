@@ -78,6 +78,18 @@
     .rel-disclaimer { background:#fff7ed; border:1px solid #fdba74; color:#9a3412; padding:10px 12px; border-radius:8px; font-size:.82rem; margin:8px 0 12px; line-height:1.4; }
     .rel-share-warn { background:#fef2f2; border:1px solid #fecaca; color:#991b1b; padding:10px 12px; border-radius:8px; font-size:.82rem; margin:8px 0 12px; }
     .rel-share-ok { background:#ecfdf5; border:1px solid #a7f3d0; color:#065f46; padding:8px 12px; border-radius:8px; font-size:.82rem; margin:8px 0 12px; }
+    .external-listings-list { display:flex; flex-direction:column; gap:12px; margin:8px 0 10px; }
+    .external-listing-row { border:1px solid var(--line); border-radius:10px; padding:12px; background:#f8fafc; }
+    .external-listing-row-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+    .external-listing-row-title { font-weight:700; font-size:.82rem; color:var(--immo-blue); flex:1; }
+    .external-listing-remove { border:0; background:#fee2e2; color:#991b1b; width:26px; height:26px; border-radius:6px; cursor:pointer; }
+    .external-listing-field { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; margin-bottom:8px; }
+    .external-listing-field input, .external-listing-field select { padding:7px 9px; border-radius:8px; border:1px solid var(--line); font:inherit; font-weight:400; }
+    .external-listing-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:8px; }
+    .external-listing-check { display:flex; align-items:center; gap:6px; font-size:.75rem; font-weight:600; }
+    .external-listings-actions { display:flex; gap:8px; margin-top:8px; }
+    .url-pill { font-size:.72rem; font-weight:700; background:#ecfeff; color:#155e75; border-radius:999px; padding:3px 8px; }
+    .url-pill--unknown { background:#f1f5f9; color:#475569; }
     .party-meta { font-size:.8rem; color:var(--muted); }
     .immo-hint { color:var(--muted); font-size:.82rem; margin:8px 0; }
     .immo-field { display:flex; flex-direction:column; gap:4px; font-size:.8rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
@@ -153,6 +165,8 @@
   </div>
 
   <script src="./js/immo-listing-portals-lib.js"></script>
+  <script src="./js/immo-external-listings-lib.js"></script>
+  <script src="./js/immo-external-listings-ui.js"></script>
   <script src="./js/crm-people-relations-lib.js"></script>
   <script src="./js/crm-immo-matcher.js"></script>
   <script src="./js/crm-immo-store.js"></script>

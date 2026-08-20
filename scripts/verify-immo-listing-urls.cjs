@@ -60,6 +60,9 @@ assert(html.indexOf("name=\"immoHat\"") !== -1, "landing : casquettes vendeur / 
 assert(html.indexOf('value="signalement"') !== -1, "landing : casquette signalement");
 assert(html.indexOf("data-hat-dual-only") !== -1, "landing : double casquette vend + rachète");
 assert(html.indexOf("listingMode") !== -1, "landing : saisie manuelle ou URL");
+assert(html.indexOf("data-external-listings") !== -1, "landing : registre annonces externes");
+assert(html.indexOf("immo-external-listings-lib.js") !== -1, "landing charge lib annonces externes");
+assert(html.indexOf("immo-external-listings-ui.js") !== -1, "landing charge UI annonces externes");
 assert(html.indexOf("immo-listing-portals-lib.js") !== -1, "landing charge le catalogue");
 assert(html.indexOf("acheteur-immo-listing-url.js") !== -1, "landing charge le formulaire URL");
 assert(html.indexOf("sellerPhone") !== -1 && html.indexOf("sellerName") !== -1, "champs vendeur");
@@ -70,6 +73,18 @@ assert(html.indexOf("id=\"listingLightbox\"") !== -1, "lightbox fiche");
 
 var api = read("api/[action].js");
 assert(api.indexOf("immo-listing-submit") !== -1, "route API enregistrée");
+
+var ExtListings = require("../js/immo-external-listings-lib.js");
+
+assert(ExtListings.MANDATE_TYPES.length >= 4, "types mandat définis");
+var norm = ExtListings.normalizeItem({
+  url: "https://www.leboncoin.fr/ad/ventes_immobilieres/999",
+  mandateType: "exclusif",
+  validFrom: "2026-01-01",
+  validTo: "2026-06-30",
+  approximateDates: true,
+});
+assert(norm && norm.portal === "leboncoin" && norm.mandateType === "exclusif", "normalise annonce externe");
 
 var handler = require("../api/_lib/routes/public-immo-listing-submit.js");
 
@@ -139,6 +154,40 @@ Promise.resolve()
     assert(c.body.photos === 2, "2 médias conservés (javascript: rejeté)");
     assert(c.body.hasCapture === true, "capture détectée");
     assert(c.body.hasDescription === true, "description enregistrée");
+    return call({
+      role: "vendeur",
+      email: "vendeur@example.fr",
+      firstName: "Frederic",
+      city: "Domene",
+      postal_code: "38420",
+      property_type: "maison",
+      price_fai: 200000,
+      rooms: 4,
+      surface_m2: 101,
+      description: "Maison de village, jardin, terrasse.",
+      externalListings: [
+        {
+          url: "https://www.leboncoin.fr/ad/ventes_immobilieres/333",
+          mandateType: "simple",
+          validFrom: "2026-02-01",
+          validTo: "2026-08-01",
+          approximateDates: false,
+          horsEtablissement: true,
+        },
+        {
+          url: "https://www.seloger.com/annonces/achat/maison/test/44444444.htm",
+          mandateType: "exclusif",
+          validFrom: "2026-01-15",
+          approximateDates: true,
+          horsEtablissement: true,
+        },
+      ],
+    });
+  })
+  .then(function (c) {
+    assert(c.status === 200 && c.body && c.body.ok, "API vendeur : plusieurs annonces externes → 1 bien");
+    assert(c.body.received === 1, "vendeur multi-URL = 1 bien enregistré");
+    assert(c.body.externalListings && c.body.externalListings.length === 2, "2 annonces externes dans la réponse");
     return call({
       role: "vendeur",
       email: "vendeur@example.fr",

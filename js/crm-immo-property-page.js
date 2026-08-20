@@ -23,6 +23,19 @@
   prop.images = Array.isArray(prop.images) ? prop.images : [];
   prop.history = Array.isArray(prop.history) ? prop.history : [];
 
+  function getMetadata() {
+    if (prop.metadata && typeof prop.metadata === "object" && !Array.isArray(prop.metadata)) return prop.metadata;
+    if (prop.metadata_json) {
+      try {
+        var parsed = JSON.parse(prop.metadata_json);
+        if (parsed && typeof parsed === "object") return parsed;
+      } catch (e) {}
+    }
+    return {};
+  }
+
+  prop.metadata = getMetadata();
+
   var state = {
     tab: "description",
     sectionId: null,
@@ -298,6 +311,14 @@
       var active = group.querySelector(".active-yes, .active-no, .active-any");
       bucket[fid] = active ? active.getAttribute("data-v") : "any";
     });
+    if (state.sectionId === "mandat" && window.ImmoExternalListingsUi) {
+      var crmMount = body.querySelector("[data-crm-external-listings]");
+      if (crmMount) {
+        prop.metadata = getMetadata();
+        prop.metadata.externalListings = window.ImmoExternalListingsUi.collect(crmMount);
+        prop.metadata_json = JSON.stringify(prop.metadata);
+      }
+    }
   }
 
   function bindTri(root) {
@@ -506,10 +527,30 @@
 
     var bucket = ensureSectionBucket(section.id);
     var fields = Schema.visibleFields(section, prop);
-    body.innerHTML = fields.map(function (field) {
-      return fieldHtml(field, bucket[field.id]);
-    }).join("");
+    body.innerHTML = fields
+      .map(function (field) {
+        return fieldHtml(field, bucket[field.id]);
+      })
+      .join("");
     bindTri(body);
+    if (section.id === "mandat") {
+      body.innerHTML +=
+        '<div class="external-listings-crm-block" data-crm-external-listings data-external-listings style="margin-top:18px">' +
+        "<h4>Annonces &amp; mandats externes</h4>" +
+        '<p class="dossier-hint">Plusieurs URL (concurrent, autres portails) avec type de mandat et validité début/fin (exacte ou approximative).</p>' +
+        '<div data-external-listings-list class="external-listings-list"></div>' +
+        '<div class="external-listings-actions">' +
+        '<button type="button" class="btn btn-soft btn-sm" data-external-listings-add>+ Ajouter une annonce</button>' +
+        "</div></div>";
+      if (window.ImmoExternalListingsUi) {
+        var meta = getMetadata();
+        var items = (meta.externalListings || []).slice();
+        if (!items.length && prop.listing_url) {
+          items = [{ url: prop.listing_url, horsEtablissement: true }];
+        }
+        window.ImmoExternalListingsUi.init(body.querySelector("[data-crm-external-listings]"), items.length ? items : null);
+      }
+    }
   }
 
   function ensureMediaDetails(p) {
@@ -1102,6 +1143,17 @@
     collectCurrentFields();
     collectUnits();
     if (state.sectionId === "pieces") collectDocs();
+    if (state.sectionId === "mandat" && window.ImmoExternalListingsUi) {
+      var crmMount = document.querySelector("[data-crm-external-listings]");
+      if (crmMount) {
+        prop.metadata = getMetadata();
+        prop.metadata.externalListings = window.ImmoExternalListingsUi.collect(crmMount);
+        if (prop.metadata.externalListings && prop.metadata.externalListings[0] && prop.metadata.externalListings[0].url) {
+          prop.listing_url = prop.metadata.externalListings[0].url;
+        }
+        prop.metadata_json = JSON.stringify(prop.metadata);
+      }
+    }
     // sync some top-level fields from localisation / finances for piges list
     var loc = prop.details.localisation || {};
     var fin = prop.details.finances || {};

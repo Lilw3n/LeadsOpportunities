@@ -7,6 +7,7 @@ const { applyApiGuards, parseJsonBody, isHoneypotFilled, rateLimit, getClientIp 
 const { getVisitorCountry, isFranceAudience } = require("../geo-france");
 const { getSql } = require("../db");
 const Portals = require("../../../js/immo-listing-portals-lib.js");
+const ExtListings = require("../../../js/immo-external-listings-lib.js");
 const Lib = require("../../../js/immo-public-listings-lib.js");
 
 function str(v, max) {
@@ -35,6 +36,23 @@ function normalizeRole(v) {
 }
 
 function collectDetections(body) {
+  var external = ExtListings.mergeSources(body);
+  if (external.length) {
+    return external
+      .map(function (item) {
+        var det = ExtListings.detectUrl(item.url);
+        return Object.assign({}, det, {
+          ok: true,
+          mandateType: item.mandateType,
+          validFrom: item.validFrom,
+          validTo: item.validTo,
+          approximateDates: item.approximateDates,
+          horsEtablissement: item.horsEtablissement,
+          notes: item.notes,
+        });
+      })
+      .slice(0, 12);
+  }
   var urls = [];
   if (Array.isArray(body.urls)) urls = body.urls;
   else if (body.listingUrl || body.listing_url) urls = [body.listingUrl || body.listing_url];
@@ -195,6 +213,29 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   }
 
   var detections = collectDetections(body);
+  var externalListings = ExtListings.mergeSources(body);
+  if (isOwner && detections.length > 1) {
+    if (!externalListings.length) {
+      externalListings = detections
+        .filter(function (d) {
+          return d.url;
+        })
+        .map(function (d) {
+          return ExtListings.normalizeItem({
+            url: d.url,
+            portal: d.portal,
+            label: d.label,
+            mandateType: d.mandateType,
+            validFrom: d.validFrom,
+            validTo: d.validTo,
+            approximateDates: d.approximateDates,
+            horsEtablissement: d.horsEtablissement != null ? d.horsEtablissement : true,
+            notes: d.notes,
+          });
+        });
+    }
+    detections = [detections[0]];
+  }
   var hasManualBits = !!(city || description || photos.length || price || addressHint);
   if (!detections.length) {
     if ((isOwner || isSignalement) && hasManualBits) {
@@ -283,6 +324,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           hats: hatsForRole(role),
           portal: d.portal,
           listingId: d.listingId,
+          externalListings: externalListings,
           sellerKind: sellerKind,
           seller: {
             name: sellerName,
@@ -305,7 +347,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
             property_type: propertyType,
             status: "prospection",
             listing_source: d.portal || "manual",
-            listing_url: d.url || null,
+            listing_url: (externalListings[0] && externalListings[0].url) || d.url || null,
             city: city || null,
             postal_code: postal || null,
             department: postal ? postal.slice(0, 2) : null,
@@ -432,11 +474,16 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         need: need,
         role: role,
         hats: hatsForRole(role),
-        listingUrls: detections
-          .map(function (d) {
-            return d.url;
-          })
-          .filter(Boolean),
+        listingUrls: (externalListings.length
+          ? externalListings.map(function (e) {
+              return e.url;
+            })
+          : detections
+              .map(function (d) {
+                return d.url;
+              })
+        ).filter(Boolean),
+        externalListings: externalListings,
         portals: detections.map(function (d) {
           return d.portal;
         }),
@@ -573,6 +620,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     listings: detections.map(function (d) {
       return { url: d.url, portal: d.portal, label: d.label, listingId: d.listingId };
     }),
+    externalListings: externalListings,
     stored: propertyIds.length > 0,
     photos: photos.length,
     hasCapture: photos.some(function (p) {

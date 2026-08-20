@@ -72,12 +72,17 @@
     return list;
   }
 
-  function renderDetected(root, text) {
+  function renderDetected(root, listOrText) {
     var mount = qs(root, "[data-url-detected]");
     if (!mount) return [];
-    var hits = Portals.detectMany(text).filter(function (d) {
-      return d.ok;
-    });
+    var hits;
+    if (Array.isArray(listOrText)) {
+      hits = listOrText;
+    } else {
+      hits = Portals.detectMany(listOrText).filter(function (d) {
+        return d.ok;
+      });
+    }
     if (!hits.length) {
       mount.innerHTML = "";
       return hits;
@@ -85,10 +90,31 @@
     mount.innerHTML = hits
       .map(function (d) {
         var cls = d.portal === "autre" ? " url-pill--unknown" : "";
-        return '<span class="url-pill' + cls + '">' + d.label + "</span>";
+        var label = d.label || d.portal || "URL";
+        return '<span class="url-pill' + cls + '">' + label + "</span>";
       })
       .join("");
     return hits;
+  }
+
+  function collectUrlHits(root, area) {
+    if (window.ImmoExternalListingsUi && root && root.querySelector("[data-external-listings-list]")) {
+      return window.ImmoExternalListingsUi.urlHits(root);
+    }
+    var urlsText = area ? area.value : "";
+    return Portals.detectMany(urlsText).filter(function (d) {
+      return d.ok;
+    });
+  }
+
+  function collectExternalListings(root, area) {
+    if (window.ImmoExternalListingsUi && root && root.querySelector("[data-external-listings-list]")) {
+      return window.ImmoExternalListingsUi.collect(root);
+    }
+    if (window.ImmoExternalListings && area) {
+      return window.ImmoExternalListings.fromLegacyUrls(area.value);
+    }
+    return [];
   }
 
   function renderThumbs(root, state) {
@@ -346,6 +372,10 @@
         }, 0);
       });
     }
+    root.addEventListener("external-listings-change", function () {
+      if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.refreshUi(root);
+    });
+    if (window.ImmoExternalListingsUi) window.ImmoExternalListingsUi.init(root);
     if (form) {
       form.addEventListener("input", function () {
         renderPreview(root, state);
@@ -433,9 +463,8 @@
       var hat = val(form, "role") || currentHat();
       var isOwner = hat === "vendeur" || hat === "les_deux";
       var urlsText = area ? area.value : "";
-      var hits = Portals.detectMany(urlsText).filter(function (d) {
-        return d.ok;
-      });
+      var externalListings = collectExternalListings(root, area);
+      var hits = collectUrlHits(root, area);
       var cityResolved = resolveCity(form);
 
       if (window.AcheteurImmoDepositGuide) {
@@ -505,6 +534,7 @@
         urls: hits.map(function (d) {
           return d.url;
         }),
+        externalListings: externalListings,
         firstName: val(form, "firstName"),
         lastName: val(form, "lastName"),
         email: payloadEmail,
@@ -676,6 +706,9 @@
           form.reset();
           state.photos = [];
           state.capture = null;
+          if (window.ImmoExternalListingsUi) {
+            window.ImmoExternalListingsUi.render(root, [window.ImmoExternalListingsUi.emptyRow()]);
+          }
           if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.clearDraftAfterSubmit();
           renderDetected(root, "");
           refreshMedia();
