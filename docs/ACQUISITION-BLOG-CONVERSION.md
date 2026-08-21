@@ -73,6 +73,9 @@ Le blog **ne remplace pas** la landing pour l’intent chaud. Il **réduit le CP
 |---------|------------|
 | `ads/meta-blog-conversions.csv` | Meta — articles + landings directes |
 | `ads/google-ads-editor-ready-utm.csv` | Google Search — landings chaudes (existant) |
+| `ads/google-ads-nancy-54-local.csv` | Google Search — geo Nancy / 54 (assurance, mutuelle, immo, prêt, courtier) |
+| `ads/meta-nancy-54-local.csv` | Meta — geo Meurthe-et-Moselle / Nancy |
+| `local/mots-cles-nancy-54.md` | Matrice mots-clés → pages → pubs |
 
 ---
 
