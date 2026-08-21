@@ -66,10 +66,27 @@ ok(Fee.LEGAL_NOTES.length >= 4, "notes légales");
 ok(read("js/crm-immo-matcher.js").indexOf("avocat") >= 0, "role avocat");
 ok(read("js/crm-immo-matcher.js").indexOf("negociateur") >= 0, "role negociateur");
 ok(read("api/_lib/immo-properties-store.js").indexOf("immo-network-store") >= 0, "ensure network");
+ok(read("api/[action].js").indexOf("immo-network-dispatch") >= 0, "route via [action]");
+ok(read("api/_lib/routes/immo-network-dispatch.js").indexOf("immo-network-register") >= 0, "dispatch register");
+ok(read("vercel.json").indexOf("/api/immo-network/:op") >= 0, "rewrite vercel");
+ok(!fs.existsSync(path.join(root, "api/immo-network")), "pas de 13e serverless");
 ok(read("immobilier/index.html").indexOf("partenaires-immo") >= 0, "hub immo link");
 ok(
   read("scripts/blog-articles-manifest.cjs").indexOf("blog-vendeur-acquereur-seo-articles") >= 0,
   "blog wired"
 );
+
+var apiEntries = [];
+function walkApi(dir, depth) {
+  fs.readdirSync(dir).forEach(function (name) {
+    if (name === "_lib") return;
+    var full = path.join(dir, name);
+    var st = fs.statSync(full);
+    if (st.isDirectory()) walkApi(full, depth + 1);
+    else if (name.endsWith(".js")) apiEntries.push(path.relative(path.join(root, "api"), full));
+  });
+}
+walkApi(path.join(root, "api"), 0);
+ok(apiEntries.length <= 12, "≤12 serverless (Hobby), got " + apiEntries.length);
 
 console.log("\nMandat / partenaires / honoraires : OK.");

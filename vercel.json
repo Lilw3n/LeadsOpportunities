@@ -68,6 +68,10 @@
       "destination": "/api/dashboard/leads-recent"
     },
     {
+      "source": "/api/immo-network/:op",
+      "destination": "/api/immo-network?op=:op"
+    },
+    {
       "source": "/api/mailbox/:path*",
       "destination": "/api/mailbox/:path*"
     },

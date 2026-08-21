@@ -13,6 +13,7 @@ const ROUTES = {
   "immo-listings": () => require("./_lib/routes/public-immo-listings"),
   "immo-listing-submit": () => require("./_lib/routes/public-immo-listing-submit"),
   "immo-listing-document": () => require("./_lib/routes/public-immo-listing-document"),
+  "immo-network": () => require("./_lib/routes/immo-network-dispatch"),
   "acquisition-focus": () => require("./_lib/routes/public-acquisition-focus"),
   dashboard: () => require("./dashboard/[action].js"),
 };

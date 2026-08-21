@@ -33,6 +33,8 @@
 | POST | `/api/immo-network/grant` | **admin** (lier partenaire ↔ bien) |
 | GET | `/api/immo-network/mandate-duration?propertyId=&ownerEmail=` | owner match / admin |
 
+Routage : rewrite Vercel → `api/[action].js` (`immo-network`) pour rester ≤ **12** Serverless Functions (plan Hobby). Ne pas recréer `api/immo-network/[action].js`.
+
 ## Schéma Neon
 
 Voir `database/crm-immo-network-mandats.sql` — tables :
