@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-20",
+  "updated": "2026-08-21",
   "sections": [
     "actu",
     "animaux",
@@ -1479,6 +1479,32 @@
       "question": "Votre contrat habitation est-il à jour avec votre logement ?",
       "need": "habitation",
       "landing": "../landings/acheteur-immo.html?role=vendeur&utm_content=succession-distance",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "assurance-courtier-varangeville-nancy-54.html",
+      "title": "Assurance à Varangéville (54) : courtier près de Nancy — mutuelle, habitation, crédit",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../agence-varangeville/?utm_content=blog-assurance-local",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "courtier-assurance-nancy-avis-google-local.html",
+      "title": "Courtier assurance Nancy : pourquoi les avis Google changent tout (guide local)",
+      "section": "sante",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../agence-varangeville/?utm_content=blog-avis-gbp",
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": "habitation",

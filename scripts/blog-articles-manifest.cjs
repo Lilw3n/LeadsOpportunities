@@ -3230,6 +3230,11 @@ leadIntent.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const localNancy = require("./blog-local-nancy-articles.cjs");
+localNancy.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};
