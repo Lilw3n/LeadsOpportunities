@@ -1511,6 +1511,58 @@
       "species": null
     },
     {
+      "file": "mutuelle-nancy-varangeville-pas-cher-54.html",
+      "title": "Mutuelle Nancy / Varangéville : comparer pour payer moins cher (2026)",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html?utm_content=blog-mutuelle-nancy",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "maison-appartement-a-vendre-acheter-nancy-54.html",
+      "title": "Maison ou appartement à vendre / à acheter à Nancy (54) — courtier & chasseur",
+      "section": "finance",
+      "hook": "RC chasseur et assurance chasse : un accident se paie cher sans couverture adaptée.",
+      "question": "Votre RC chasseur est-elle à jour pour la saison ?",
+      "need": "chasse",
+      "landing": "../landings/acheteur-immo.html?utm_content=blog-immo-nancy",
+      "express": "../landings/devis.html?need=chasse",
+      "questionnaire": "../landings/questionnaire.html?need=chasse&journey=standard",
+      "matchedRule": "chasse-rc",
+      "species": null
+    },
+    {
+      "file": "pret-credit-immobilier-nancy-varangeville-54.html",
+      "title": "Prêt et crédit immobilier à Nancy / Varangéville (54) — simulation courtier",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html?utm_content=blog-pret-nancy",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "courtier-local-nancy-meurthe-et-moselle.html",
+      "title": "Courtier local Nancy & Meurthe-et-Moselle : assurance + crédit + immo",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../agence-varangeville/?utm_content=blog-courtier-local",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
       "title": "Investir en France sans y resider : assurance emprunteur et pret immo",
       "section": "finance",

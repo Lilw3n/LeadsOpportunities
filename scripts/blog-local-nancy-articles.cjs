@@ -173,4 +173,251 @@ module.exports = [
       { href: "../landings/rappel.html", label: "Demander un rappel" },
     ],
   },
+{
+    file: "mutuelle-nancy-varangeville-pas-cher-54.html",
+    section: "sante",
+    tag: "Mutuelle 54",
+    tagClass: "tag-actu",
+    themes: ["local", "nancy", "mutuelle"],
+    title: "Mutuelle Nancy / Varangéville : comparer pour payer moins cher (2026)",
+    description:
+      "Mutuelle santé à Nancy et Varangéville : optique, dentaire, hospitalisation. Courtier ORIAS — devis gratuit, garanties équivalentes, pas de jargon.",
+    meta: "8 min · Août 2026",
+    cardExcerpt: "Mutuelle Nancy 54 : comparer vraiment avant de signer.",
+    keywords: [
+      "mutuelle Nancy",
+      "mutuelle Varangéville",
+      "mutuelle pas cher 54",
+      "comparatif mutuelle Meurthe-et-Moselle",
+      "devis mutuelle Nancy",
+    ],
+    cta: { href: "../landings/sante.html?utm_content=blog-mutuelle-nancy", label: "Devis mutuelle" },
+    blocks: [
+      {
+        type: "p",
+        text: "Chercher une <strong>mutuelle à Nancy</strong> ou <strong>Varangéville</strong> se résume souvent à « la moins chère ». Le bon réflexe : <strong>garanties équivalentes</strong> (optique, dentaire, hospit) puis prix. <a href=\"../agence-varangeville/\"><strong>Wendy Buchet</strong></a>, courtier ORIAS à Varangéville, compare plusieurs formules. <a href=\"../landings/sante.html?utm_content=mutuelle-intro\"><strong>Devis mutuelle</strong></a> · <a href=\"tel:+33695820866\">06 95 82 08 66</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Pourquoi « mutuelle pas cher » ne suffit pas" },
+      {
+        type: "p",
+        text: "Une cotisation basse avec un plafond optique ridicule revient plus cher au premier devis de lunettes. On aligne d’abord vos postes (enfants, implants, chambre particulière), ensuite on cherche le meilleur tarif.",
+      },
+      { type: "h2", text: "Pages locales mutuelle" },
+      {
+        type: "ul",
+        items: [
+          '<a href="../assurance-sante/nancy/">Mutuelle Nancy</a>',
+          '<a href="../assurance-sante/varangeville/">Mutuelle Varangéville</a>',
+          '<a href="./assurance-courtier-varangeville-nancy-54.html">Courtier assurance 54</a>',
+        ],
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Qui appeler" },
+      {
+        type: "p",
+        text: "Cabinet <a href=\"../agence-varangeville/\">15 rue Pierre Curie, 54110 Varangéville</a> — Grand Nancy et 54.",
+      },
+    ],
+    faq: [
+      {
+        q: "Puis-je changer de mutuelle facilement ?",
+        a: "Souvent oui selon la date d’échéance et la résiliation infra-annuelle selon contrats. On vérifie avant de souscrire.",
+      },
+      {
+        q: "Faites-vous un devis gratuit à Nancy ?",
+        a: "Oui, sans engagement. Rappel en journée.",
+      },
+    ],
+    related: [
+      { href: "../landings/sante.html", label: "Landing mutuelle" },
+      { href: "../agence-varangeville/", label: "Cabinet" },
+      { href: "./assurance-courtier-varangeville-nancy-54.html", label: "Assurance Varangéville" },
+      { href: "../nancy-54/", label: "Hub Nancy 54" },
+    ],
+  },
+  {
+    file: "maison-appartement-a-vendre-acheter-nancy-54.html",
+    section: "finance",
+    tag: "Immo 54",
+    tagClass: "tag-immo",
+    themes: ["local", "nancy", "immo"],
+    title: "Maison ou appartement à vendre / à acheter à Nancy (54) — courtier & chasseur",
+    description:
+      "Maison à vendre Nancy, appartement pas cher 54, achat Varangéville / Saint-Nicolas : chasseur de bien, financement et estimation. Leads Opportunities.",
+    meta: "9 min · Août 2026",
+    cardExcerpt: "Maison & appartement Nancy 54 : vendre ou acheter avec financement calé.",
+    keywords: [
+      "maison à vendre Nancy",
+      "appartement à vendre Nancy",
+      "appartement pas cher 54",
+      "acheter maison Varangéville",
+      "immobilier Nancy métropole",
+    ],
+    cta: { href: "../landings/acheteur-immo.html?utm_content=blog-immo-nancy", label: "Recherche de bien" },
+    blocks: [
+      {
+        type: "p",
+        text: "« <strong>Maison à vendre Nancy</strong> », « <strong>appartement pas cher</strong> », « bien à acheter Varangéville » : le piège, c’est de visiter hors budget. On inverse : <a href=\"../landings/projection-achat.html\">enveloppe réelle</a>, puis recherche. Vendeur : on structure le prix et le dossier. <a href=\"../agence-varangeville/\">Cabinet local</a> · <a href=\"tel:+33695820866\">06 95 82 08 66</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Acheter : appartement ou maison" },
+      {
+        type: "ul",
+        items: [
+          '<a href="../recherche-bien/nancy/">Recherche de bien Nancy</a>',
+          '<a href="../landings/acheteur-immo.html">Wizard acheteur</a>',
+          '<a href="../landings/chasseur-bien.html">Chasseur / signalement</a>',
+          '<a href="./acheter-terrain-nancy-metropole-54-2026.html">Terrain Nancy métropole</a>',
+        ],
+      },
+      { type: "h2", text: "Vendre : maison ou appartement" },
+      {
+        type: "p",
+        text: "Prix trop haut = pas d’offres. Visites sans financement = temps perdu — voir <a href=\"../landings/credit-immo.html\">visites sans prêt</a> et <a href=\"../landings/questionnaire.html?need=vendeur\">bien qui ne se vend pas</a>. Dépôt vendeur via <a href=\"../landings/questionnaire.html?need=vendeur\">questionnaire</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Financer l’achat" },
+      {
+        type: "p",
+        text: "<a href=\"../credit-immo/nancy/\">Crédit Nancy</a> · <a href=\"../pret-immobilier/nancy-metropole/\">prêt métropole</a> · <a href=\"./pret-credit-immobilier-nancy-varangeville-54.html\">guide prêt 54</a>.",
+      },
+    ],
+    faq: [
+      {
+        q: "Cherchez-vous aussi des appartements « pas chers » ?",
+        a: "On cherche dans votre enveloppe réelle (prêt + charges). « Pas cher » sans financement solide fait perdre des semaines.",
+      },
+      {
+        q: "Puis-je vendre et racheter en même temps ?",
+        a: "Oui, souvent via prêt relais — on étudie quotité et plan B.",
+      },
+    ],
+    related: [
+      { href: "../nancy-54/", label: "Hub Nancy 54" },
+      { href: "../recherche-bien/nancy/", label: "Recherche Nancy" },
+      { href: "../landings/credit-immo.html", label: "Crédit immo" },
+      { href: "../agence-varangeville/", label: "Cabinet" },
+    ],
+  },
+  {
+    file: "pret-credit-immobilier-nancy-varangeville-54.html",
+    section: "finance",
+    tag: "Prêt 54",
+    tagClass: "tag-actu",
+    themes: ["local", "nancy", "credit"],
+    title: "Prêt et crédit immobilier à Nancy / Varangéville (54) — simulation courtier",
+    description:
+      "Prêt immobilier Nancy, crédit immo Varangéville, simulation capacité, 2e chance après refus. Courtier ORIAS Wendy Buchet, Grand Nancy.",
+    meta: "9 min · Août 2026",
+    cardExcerpt: "Prêt & crédit Nancy 54 : simulation + multi-banques.",
+    keywords: [
+      "prêt immobilier Nancy",
+      "crédit immobilier Varangéville",
+      "simulation crédit Nancy 54",
+      "courtier prêt Meurthe-et-Moselle",
+      "crédit immo pas cher Nancy",
+    ],
+    cta: { href: "../landings/credit-immo.html?utm_content=blog-pret-nancy", label: "Simulation crédit" },
+    blocks: [
+      {
+        type: "p",
+        text: "Un <strong>prêt</strong> ou <strong>crédit immobilier à Nancy</strong> ne se joue pas qu’au taux affiché : reste à vivre, apport, assurance emprunteur, banque. Courtier local : <a href=\"../agence-varangeville/\">Varangéville</a>. <a href=\"../landings/credit-immo.html\"><strong>Simulation</strong></a> · <a href=\"../landings/projection-achat.html\">coût réel</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Pages prêt / crédit du bassin" },
+      {
+        type: "ul",
+        items: [
+          '<a href="../pret-immobilier/nancy-metropole/">Prêt Nancy métropole</a>',
+          '<a href="../credit-immo/nancy/">Crédit Nancy</a>',
+          '<a href="../credit-immo/varangeville/">Crédit Varangéville</a>',
+          '<a href="./pret-immobilier-refuse-que-faire-2026.html">Prêt refusé : que faire</a>',
+        ],
+      },
+      { type: "h2", text: "« Crédit pas cher » : ce qui compte" },
+      {
+        type: "p",
+        text: "Le taux le plus bas n’est pas toujours le meilleur coût global (frais, assurance, durée). On compare des offres <strong>complètes</strong> multi-banques.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Coupler avec l’achat" },
+      {
+        type: "p",
+        text: "Bien + financement : <a href=\"./maison-appartement-a-vendre-acheter-nancy-54.html\">maison &amp; appartement 54</a> · <a href=\"../nancy-54/\">hub Nancy 54</a>.",
+      },
+    ],
+    faq: [
+      {
+        q: "Faites-vous les dossiers après un refus de banque ?",
+        a: "Oui — analyse du motif puis 2e chance multi-banques.",
+      },
+      {
+        q: "Intervenez-vous seulement à Varangéville ?",
+        a: "Non : Grand Nancy et 54, dossiers partout en France.",
+      },
+    ],
+    related: [
+      { href: "../landings/credit-immo.html", label: "Landing crédit" },
+      { href: "../pret-immobilier/nancy-metropole/", label: "Hub prêt Nancy" },
+      { href: "../nancy-54/", label: "Hub Nancy 54" },
+      { href: "./taux-pret-immobilier-aout-2026-rentree.html", label: "Taux août 2026" },
+    ],
+  },
+  {
+    file: "courtier-local-nancy-meurthe-et-moselle.html",
+    section: "finance",
+    tag: "Courtier",
+    tagClass: "tag-actu",
+    themes: ["local", "nancy", "courtier"],
+    title: "Courtier local Nancy & Meurthe-et-Moselle : assurance + crédit + immo",
+    description:
+      "Courtier local à Varangéville près de Nancy : un interlocuteur ORIAS pour assurance, mutuelle, prêt immobilier et vente/achat. Wendy Buchet.",
+    meta: "7 min · Août 2026",
+    cardExcerpt: "Courtier local 54 : tout au même endroit.",
+    keywords: [
+      "courtier local Nancy",
+      "courtier Meurthe-et-Moselle",
+      "courtier Varangéville",
+      "courtier assurance crédit Nancy",
+      "ORIAS Nancy 54",
+    ],
+    cta: { href: "../agence-varangeville/?utm_content=blog-courtier-local", label: "Cabinet local" },
+    blocks: [
+      {
+        type: "p",
+        text: "Un <strong>courtier local</strong> à Nancy / Varangéville, ce n’est pas un comparateur anonyme : c’est un ORIAS joignable, qui suit assurance <strong>et</strong> financement. <a href=\"../nancy-54/\"><strong>Hub Nancy 54</strong></a> · <a href=\"../agence-varangeville/\">cabinet</a> · <a href=\"tel:+33695820866\">06 95 82 08 66</a>.",
+      },
+      { type: "bridge" },
+      { type: "h2", text: "Ce qu’on couvre en local" },
+      {
+        type: "ul",
+        items: [
+          "Assurance & mutuelle",
+          "Prêt / crédit immobilier & rachat",
+          "Maison & appartement (achat / vente)",
+          "Projection budget « pas cher » réaliste",
+        ],
+      },
+      { type: "h2", text: "Pourquoi « local » change la donne" },
+      {
+        type: "p",
+        text: "Fiche Google à Varangéville, RDV possibles dans le bassin, même NAP partout. Pour remonter sur « courtier » / « assurance » dans Lieux : avis + horaires ouverts — voir <a href=\"./courtier-assurance-nancy-avis-google-local.html\">guide avis Google</a>.",
+      },
+      { type: "bridge" },
+    ],
+    faq: [
+      {
+        q: "Le courtier est-il gratuit ?",
+        a: "L’étude est gratuite et sans engagement. La rémunération dépend du produit (assurance / crédit) selon les règles ORIAS.",
+      },
+    ],
+    related: [
+      { href: "../nancy-54/", label: "Hub Nancy 54" },
+      { href: "../agence-varangeville/", label: "Agence Varangéville" },
+      { href: "./assurance-courtier-varangeville-nancy-54.html", label: "Assurance locale" },
+      { href: "./pret-credit-immobilier-nancy-varangeville-54.html", label: "Prêt local" },
+    ],
+  },
 ];
+

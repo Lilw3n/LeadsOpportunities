@@ -90,6 +90,18 @@
     {
       "source": "/agence-varangeville/index.html",
       "destination": "/agence-varangeville.html"
+    },
+    {
+      "source": "/nancy-54",
+      "destination": "/nancy-54.html"
+    },
+    {
+      "source": "/nancy-54/",
+      "destination": "/nancy-54.html"
+    },
+    {
+      "source": "/nancy-54/index.html",
+      "destination": "/nancy-54.html"
     }
   ],
   "crons": [
