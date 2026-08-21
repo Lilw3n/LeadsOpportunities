@@ -3230,6 +3230,11 @@ leadIntent.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const vendeurAcq = require("./blog-vendeur-acquereur-seo-articles.cjs");
+vendeurAcq.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const { loadActuArticles } = require("./blog-actu-pending.cjs");
 var pendingActu = loadActuArticles();
 var existingFiles = {};

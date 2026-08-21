@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-20",
+  "updated": "2026-08-21",
   "sections": [
     "actu",
     "animaux",
@@ -1482,6 +1482,45 @@
       "express": "../landings/devis-express.html?need=habitation",
       "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard",
       "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "vendeur-cherche-acquereur-mandat-matching.html",
+      "title": "Vendeur cherche acquéreur : mandat, matching et acquéreurs financés",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../vendeur-cherche-acquereur/?utm_content=blog-vendeur",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "honoraires-entrant-sortant-partage-legal.html",
+      "title": "Honoraires entrant / sortant : partager conformément à la loi",
+      "section": "finance",
+      "hook": "Traiter puces et tiques chez le chat, c'est souvent 80 à 200 € chez le vétérinaire — sans compter une complication.",
+      "question": "Et pour une urgence plus lourde : avez-vous pensé à assurer votre chat ?",
+      "need": "animaux",
+      "landing": "../partenaires-immo/?utm_content=blog-honoraires",
+      "express": "../landings/animaux-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=animaux&journey=standard",
+      "matchedRule": "puces-chat",
+      "species": "chat"
+    },
+    {
+      "file": "plusieurs-annonces-un-mandat-liens-portails.html",
+      "title": "Plusieurs annonces, un mandat : multi-liens Leboncoin, SeLoger…",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/acheteur-immo.html?role=vendeur&utm_content=blog-multiliens",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": null,
       "species": null
     },
     {

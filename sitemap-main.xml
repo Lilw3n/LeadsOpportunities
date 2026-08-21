@@ -1584,4 +1584,9 @@
     <changefreq>weekly</changefreq>
     <priority>0.93</priority>
   </url>
+  <url><loc>https://www.leadsopportunities.fr/partenaires-immo/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.leadsopportunities.fr/vendeur-cherche-acquereur/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.leadsopportunities.fr/blog/vendeur-cherche-acquereur-mandat-matching.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.leadsopportunities.fr/blog/honoraires-entrant-sortant-partage-legal.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.leadsopportunities.fr/blog/plusieurs-annonces-un-mandat-liens-portails.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>

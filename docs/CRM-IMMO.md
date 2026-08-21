@@ -17,8 +17,19 @@ Le **crédit immobilier** (prêt / courtage) est relié depuis les barèmes via 
 | `/crm-immo-documents.html` | Éditeur mandats / offres / compromis (fondation) |
 | `/crm-agency-fees.html` | Barèmes honoraires + financement acheteur |
 | `/crm-relations.html` | **Relations & parrainage** : famille, SCI, héritiers, apporteurs |
+| `/partenaires-immo/` | **Réseau pro** : négociateurs, notaires, avocats (connexion) |
+| `/vendeur-cherche-acquereur/` | SEO vendeur → acquéreur (matching) |
 
 Sidebar : groupe **Immobilier** + **Clients & dossiers** (relations).
+
+## Partenaires, multi-liens, durée mandat, honoraires
+
+Voir **`docs/MANDAT-PARTENAIRES-HONORAIRES.md`** :
+
+- Inscription partenaires + API `/api/immo-network/*`
+- Plusieurs URLs par bien (`crm_immo_property_links`)
+- Durée de mandat **privée** (propriétaire + admin Wendy)
+- Partage honoraires entrant/sortant (conventions écrites)
 
 ## Relations entre personnes
 

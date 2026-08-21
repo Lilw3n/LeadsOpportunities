@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription partenaire immo | Leads Opportunities</title>
+  <meta name="description" content="Inscription négociateur, notaire, avocat ou apporteur au réseau immobilier Leads Opportunities." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/partenaires-immo/inscription.html" />
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="./">← Partenaires</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container" style="max-width:560px">
+      <section class="card">
+        <h1>Inscription partenaire</h1>
+        <p class="sub">Compte validé manuellement (statut <em>pending</em> puis <em>active</em>). Mot de passe 8 caractères min.</p>
+        <form id="partner-register" class="form-wrap">
+          <label>Rôle *
+            <select name="role" required>
+              <option value="negociateur">Négociateur immobilier</option>
+              <option value="notaire">Notaire</option>
+              <option value="avocat">Avocat</option>
+              <option value="apporteur">Apporteur d'affaires</option>
+            </select>
+          </label>
+          <label>Prénom * <input name="firstName" required autocomplete="given-name" /></label>
+          <label>Nom <input name="lastName" autocomplete="family-name" /></label>
+          <label>Société / étude <input name="company" /></label>
+          <label>E-mail * <input type="email" name="email" required autocomplete="email" /></label>
+          <label>Téléphone <input name="phone" autocomplete="tel" /></label>
+          <label>N° ORIAS / barreau / chambre <input name="professionalId" /></label>
+          <label>Ville <input name="city" /></label>
+          <label>Code postal <input name="postalCode" /></label>
+          <label>Mot de passe * <input type="password" name="password" required minlength="8" autocomplete="new-password" /></label>
+          <input type="text" name="website" value="" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true" />
+          <p id="reg-msg" role="status"></p>
+          <button class="btn btn-primary" type="submit">Demander mon accès</button>
+        </form>
+        <p style="margin-top:16px"><a href="./espace.html">Déjà inscrit ? Connexion</a></p>
+      </section>
+    </div>
+  </main>
+  <script>
+    document.getElementById("partner-register").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      var body = Object.fromEntries(fd.entries());
+      var msg = document.getElementById("reg-msg");
+      msg.textContent = "Envoi…";
+      try {
+        var r = await fetch("/api/immo-network/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        var data = await r.json();
+        if (!r.ok) throw new Error(data.error || "Erreur");
+        msg.textContent = data.existing
+          ? "Un compte existe déjà pour cet e-mail. Connectez-vous ou contactez Wendy."
+          : "Demande enregistrée. Statut : en attente de validation.";
+        if (!data.existing) e.target.reset();
+      } catch (err) {
+        msg.textContent = err.message || "Erreur réseau";
+      }
+    });
+  </script>
+</body>
+</html>

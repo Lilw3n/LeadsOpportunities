@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espace partenaire immo | Leads Opportunities</title>
+  <meta name="robots" content="noindex,follow" />
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .hidden { display: none !important; }
+    .prop-list { list-style: none; padding: 0; }
+    .prop-list li { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin: 10px 0; background: #fff; }
+  </style>
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="./">← Partenaires</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container" style="max-width:720px">
+      <section class="card" id="login-box">
+        <h1>Connexion partenaire</h1>
+        <form id="partner-login">
+          <label>E-mail <input type="email" name="email" required autocomplete="username" /></label>
+          <label>Mot de passe <input type="password" name="password" required autocomplete="current-password" /></label>
+          <p id="login-msg" role="status"></p>
+          <button class="btn btn-primary" type="submit">Se connecter</button>
+        </form>
+        <p><a href="./inscription.html">Créer un accès</a></p>
+      </section>
+
+      <section class="card hidden" id="dash-box">
+        <h1>Bonjour <span id="dash-name"></span></h1>
+        <p id="dash-role"></p>
+        <p class="sub">La durée des mandats n'apparaît pas ici — réservée au propriétaire et à Wendy.</p>
+        <h2>Biens auxquels vous avez accès</h2>
+        <ul class="prop-list" id="prop-list"></ul>
+        <p id="prop-empty" class="sub">Aucun bien lié pour l'instant. Wendy vous invite depuis le CRM.</p>
+        <button type="button" class="btn btn-soft" id="logout-btn">Déconnexion</button>
+      </section>
+    </div>
+  </main>
+  <script>
+    var TOKEN_KEY = "lo_immo_network_token";
+    function token() { return localStorage.getItem(TOKEN_KEY) || ""; }
+    function authHeaders() {
+      return { Authorization: "Bearer " + token(), "Content-Type": "application/json" };
+    }
+    async function loadMe() {
+      if (!token()) return;
+      var r = await fetch("/api/immo-network/me", { headers: authHeaders() });
+      if (!r.ok) { localStorage.removeItem(TOKEN_KEY); return; }
+      var data = await r.json();
+      document.getElementById("login-box").classList.add("hidden");
+      document.getElementById("dash-box").classList.remove("hidden");
+      var p = data.partner || {};
+      document.getElementById("dash-name").textContent = (p.firstName || "") + " " + (p.lastName || "");
+      document.getElementById("dash-role").textContent = "Rôle : " + (p.role || "") + " · statut " + (p.status || "");
+      var pr = await fetch("/api/immo-network/properties", { headers: authHeaders() });
+      var pd = await pr.json();
+      var list = document.getElementById("prop-list");
+      list.innerHTML = "";
+      var props = (pd && pd.properties) || [];
+      document.getElementById("prop-empty").style.display = props.length ? "none" : "block";
+      props.forEach(function (item) {
+        var li = document.createElement("li");
+        li.innerHTML = "<strong>" + (item.title || item.id) + "</strong><br>" +
+          (item.city || "") + " " + (item.postal_code || "") +
+          " · accès " + (item.access_level || "") +
+          (item.listing_url ? "<br><a href=\"" + item.listing_url + "\" rel=\"noopener\" target=\"_blank\">Lien principal</a>" : "");
+        list.appendChild(li);
+      });
+    }
+    document.getElementById("partner-login").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      var msg = document.getElementById("login-msg");
+      msg.textContent = "…";
+      var r = await fetch("/api/immo-network/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: fd.get("email"), password: fd.get("password") }),
+      });
+      var data = await r.json();
+      if (!r.ok) { msg.textContent = data.error || "Erreur"; return; }
+      localStorage.setItem(TOKEN_KEY, data.token);
+      loadMe();
+    });
+    document.getElementById("logout-btn").addEventListener("click", function () {
+      localStorage.removeItem(TOKEN_KEY);
+      location.reload();
+    });
+    loadMe();
+  </script>
+</body>
+</html>

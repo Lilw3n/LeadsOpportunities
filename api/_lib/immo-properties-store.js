@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const Matcher = require("../../js/crm-immo-matcher.js");
 const Rel = require("../../js/crm-people-relations-lib.js");
 const relationsStore = require("./contact-relations-store");
+const networkStore = require("./immo-network-store");
 
 let schemaReady = false;
 let partyColsReady = false;
@@ -23,6 +24,7 @@ async function ensureImmoSchema(sql) {
   if (schemaReady) {
     await ensurePartyShareColumns(sql);
     await relationsStore.ensureRelationsSchema(sql);
+    await networkStore.ensureImmoNetworkSchema(sql);
     return true;
   }
   await sql`ALTER TABLE crm_immo_properties ADD COLUMN IF NOT EXISTS drive_folder_id TEXT`;
@@ -140,6 +142,7 @@ async function ensureImmoSchema(sql) {
   schemaReady = true;
   await ensurePartyShareColumns(sql);
   await relationsStore.ensureRelationsSchema(sql);
+  await networkStore.ensureImmoNetworkSchema(sql);
   return true;
 }
 

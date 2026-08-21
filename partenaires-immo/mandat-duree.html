@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Durée de mon mandat | Propriétaire — Leads Opportunities</title>
+  <meta name="robots" content="noindex,follow" />
+  <meta name="description" content="Consultation privée de la durée du mandat de vente — réservée au propriétaire et à l'administratrice." />
+  <link rel="stylesheet" href="../landings/styles.css" />
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body>
+  <header class="landing-topbar">
+    <div class="landing-topbar-inner">
+      <a class="landing-back" href="../immobilier/">← Immobilier</a>
+      <a class="landing-logo" href="../index.html">Leads Opportunities</a>
+    </div>
+  </header>
+  <main class="page">
+    <div class="container" style="max-width:520px">
+      <section class="card">
+        <h1>Durée de mon mandat</h1>
+        <p class="sub">Visible uniquement pour le <strong>propriétaire</strong> (e-mail du dossier) et Wendy. Les partenaires (négociateurs, notaires…) n'y ont pas accès.</p>
+        <form id="mandat-form">
+          <label>Référence bien (id CRM) * <input name="propertyId" required placeholder="ex. prop_…" /></label>
+          <label>E-mail propriétaire * <input type="email" name="ownerEmail" required autocomplete="email" /></label>
+          <p id="mandat-msg" role="status"></p>
+          <button class="btn btn-primary" type="submit">Afficher la durée</button>
+        </form>
+        <div id="mandat-result" hidden style="margin-top:20px;padding:16px;background:#f8fafc;border-radius:12px"></div>
+      </section>
+    </div>
+  </main>
+  <script>
+    document.getElementById("mandat-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      var fd = new FormData(e.target);
+      var msg = document.getElementById("mandat-msg");
+      var box = document.getElementById("mandat-result");
+      msg.textContent = "Vérification…";
+      box.hidden = true;
+      var q = new URLSearchParams({
+        propertyId: fd.get("propertyId"),
+        ownerEmail: fd.get("ownerEmail"),
+      });
+      var r = await fetch("/api/immo-network/mandate-duration?" + q.toString());
+      var data = await r.json();
+      if (!r.ok) {
+        msg.textContent = data.error || "Accès refusé";
+        return;
+      }
+      msg.textContent = "";
+      var d = data.mandateDuration || {};
+      box.hidden = false;
+      box.innerHTML = "<p><strong>" + (d.label || "") + "</strong></p>" +
+        "<p>Début : " + (d.startIso || "—") + "<br>Échéance : " + (d.endIso || "—") +
+        "<br>Forme : " + (d.forme || "—") + "<br>Réf. : " + (d.ref || "—") + "</p>";
+    });
+  </script>
+</body>
+</html>

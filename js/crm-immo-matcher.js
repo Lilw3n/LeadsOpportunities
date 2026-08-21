@@ -53,6 +53,8 @@
     { id: "prospect", label: "Prospect intéressé" },
     { id: "colocataire", label: "Co-acquéreur" },
     { id: "notaire", label: "Notaire" },
+    { id: "avocat", label: "Avocat" },
+    { id: "negociateur", label: "Négociateur partenaire" },
     { id: "agent", label: "Agent / collègue" },
     { id: "apporteur", label: "Apporteur" },
     { id: "heritier", label: "Héritier" },
