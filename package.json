@@ -82,6 +82,7 @@
     "verify:immo-network": "node scripts/verify-immo-network-mandats.cjs",
     "verify:retention": "node scripts/verify-retention-opportunity.cjs",
     "verify:anti-abandon": "node scripts/verify-anti-abandon.cjs",
+    "verify:lead-visitor-cat": "node scripts/verify-lead-visitor-category.cjs",
     "verify:laforet-fiche": "node scripts/verify-laforet-fiche.cjs"
   },
   "dependencies": {

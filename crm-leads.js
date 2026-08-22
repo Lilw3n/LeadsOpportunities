@@ -317,7 +317,27 @@
                 "</button>" +
                 (state.blocked[l.ip] ? " bloquée" : "")
               : "—") +
-            "</div><div class='lh-meta'>" +
+            "</div>" +
+            (function () {
+              if (!window.LeadVisitorCategory) return "";
+              var cat = window.LeadVisitorCategory.categorize({
+                client_ip: l.ip,
+                email: l.email,
+                phone: l.phone,
+                lead_score: l.score != null ? l.score : l.lead_score,
+                platform: l.platform,
+                source: l.source,
+                payload: l.payload || {},
+              });
+              return (
+                '<div class="lh-meta">' +
+                window.LeadVisitorCategory.badgeHtml(cat, esc) +
+                " — " +
+                esc(cat.intent || "") +
+                "</div>"
+              );
+            })() +
+            "<div class='lh-meta'>" +
             esc(l.uaLabel) +
             (l.country ? " · " + esc(l.country) : "") +
             "</div></td>" +

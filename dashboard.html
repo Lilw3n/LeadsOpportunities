@@ -391,6 +391,36 @@
     .lead-pill-unopened { background: var(--blue-light); color: #1e40af; }
     .lead-pill-high { background: var(--green-light); color: #166534; }
     .lead-pill-not_relevant { background: var(--red-light); color: #991b1b; }
+    .visitor-cat {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      padding: 2px 7px;
+      border-radius: 999px;
+      margin: 2px 0 0;
+      max-width: 100%;
+      white-space: nowrap;
+    }
+    .visitor-cat--bot { background: #f1f5f9; color: #475569; }
+    .visitor-cat--test { background: #fef3c7; color: #92400e; }
+    .visitor-cat--good { background: var(--green-light); color: #166534; }
+    .visitor-cat--warn { background: #fff7ed; color: #c2410c; }
+    .visitor-cat--muted { background: #f8fafc; color: #64748b; border: 1px solid #e2e8f0; }
+    .visitor-cat-detail {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+    .visitor-cat-detail--bot { background: #f1f5f9; color: #334155; }
+    .visitor-cat-detail--test { background: #fffbeb; color: #92400e; }
+    .visitor-cat-detail--good { background: #ecfdf5; color: #166534; }
+    .visitor-cat-detail--warn { background: #fff7ed; color: #9a3412; }
+    .visitor-cat-detail--muted { background: #f8fafc; color: #475569; }
+    .ip-cell-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
     .lead-mgmt-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
     .lead-mgmt-stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
     .lead-mgmt-stat strong { font-size: 1.4rem; display: block; }
@@ -1895,6 +1925,17 @@
               <option value="40">Score ≥ 40</option>
               <option value="1">Score &gt; 0</option>
             </select>
+            <select class="filter-select" id="filterVisitorCat" title="Type de visiteur (IP / comportement)">
+              <option value="">Tous visiteurs</option>
+              <option value="prospect">Prospects</option>
+              <option value="abandon">Abandons (contact)</option>
+              <option value="bot_meta">Bots Meta</option>
+              <option value="bot_cloud">Bots cloud</option>
+              <option value="test">Tests</option>
+              <option value="noise">Bruit (sans contact)</option>
+              <option value="humans">Humains (prospect+abandon)</option>
+              <option value="bots">Bots (Meta+cloud+bruit)</option>
+            </select>
             <select class="filter-select" id="filterLimit" title="Nombre de leads affichés par page">
               <option value="20">20 par page</option>
               <option value="50">50 par page</option>
@@ -2170,6 +2211,7 @@
   <script src="./js/crm-questionnaire-tools.js"></script>
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
+  <script src="./js/lead-visitor-category-lib.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
   <script src="./js/dashboard-payment-alerts.js"></script>
@@ -2232,6 +2274,31 @@
         ip = l.payload.clientIp || l.payload.client_ip || l.payload.ip;
       }
       return ip || "—";
+    }
+
+    function leadVisitorCat(l) {
+      if (!window.LeadVisitorCategory) return null;
+      var ip = leadClientIp(l);
+      return window.LeadVisitorCategory.categorize({
+        client_ip: ip !== "—" ? ip : "",
+        email: l.email,
+        phone: l.phone,
+        lead_score: l.lead_score,
+        platform: l.platform,
+        source: l.source,
+        utm_source: l.utm_source,
+        pipeline_stage: l.pipeline_stage,
+        status: l.status,
+        payload: l.payload || {},
+      });
+    }
+
+    function visitorCatMatchesFilter(cat, filter) {
+      if (!filter) return true;
+      if (!cat) return filter === "unknown";
+      if (filter === "humans") return cat.id === "prospect" || cat.id === "abandon";
+      if (filter === "bots") return cat.id === "bot_meta" || cat.id === "bot_cloud" || cat.id === "noise";
+      return cat.id === filter;
     }
 
     function scoreColor(s) {
@@ -2761,6 +2828,9 @@
       var platform = document.getElementById("filterPlatform").value;
       var ipFilter = document.getElementById("filterIp") ? document.getElementById("filterIp").value.trim() : "";
       var scoreMin = document.getElementById("filterScore") ? document.getElementById("filterScore").value : "";
+      var visitorCatFilter = document.getElementById("filterVisitorCat")
+        ? document.getElementById("filterVisitorCat").value
+        : "";
 
       var limitEl = document.getElementById("filterLimit");
       if (limitEl) leadsLimit = parseInt(limitEl.value, 10) || 100;
@@ -2787,11 +2857,17 @@
 
       try {
         tbody.innerHTML = "";
-        if (!data.leads || data.leads.length === 0) {
+        var leadsList = data.leads || [];
+        if (visitorCatFilter) {
+          leadsList = leadsList.filter(function (l) {
+            return visitorCatMatchesFilter(leadVisitorCat(l), visitorCatFilter);
+          });
+        }
+        if (!leadsList.length) {
           tbody.innerHTML =
-            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
-          data.leads.forEach(function(l) {
+          leadsList.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
             var tr = document.createElement("tr");
             tr.dataset.leadId = l.id;
@@ -2804,15 +2880,22 @@
             if (rel) pills += '<span class="lead-pill lead-pill-' + rel + '">' + relevanceLabel(rel) + '</span>';
             var ip = leadClientIp(l);
             var ipBlocked = ip && ip !== "—" && blockedIpSet[ip];
+            var vcat = leadVisitorCat(l);
+            var catBadge =
+              vcat && window.LeadVisitorCategory
+                ? window.LeadVisitorCategory.badgeHtml(vcat, esc)
+                : "";
             var ipHtml =
               ip && ip !== "—"
-                ? '<button type="button" class="btn-ip-filter" data-filter-ip="' +
+                ? '<div class="ip-cell-wrap"><button type="button" class="btn-ip-filter" data-filter-ip="' +
                   esc(ip) +
                   '" title="Filtrer cette IP">' +
                   esc(ip) +
                   "</button>" +
-                  (ipBlocked ? ' <span class="lead-pill lead-pill-new">bloquée</span>' : "")
-                : "—";
+                  (ipBlocked ? ' <span class="lead-pill lead-pill-new">bloquée</span>' : "") +
+                  (catBadge ? " " + catBadge : "") +
+                  "</div>"
+                : "—" + (catBadge ? " " + catBadge : "");
             tr.innerHTML =
               '<td class="lead-check-cell"><input type="checkbox" class="lead-row-check" data-lead-id="' +
               esc(l.id) +
@@ -2941,6 +3024,13 @@
     document.getElementById("filterVertical").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterPlatform").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     document.getElementById("filterScore").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    var filterVisitorCat = document.getElementById("filterVisitorCat");
+    if (filterVisitorCat) {
+      filterVisitorCat.addEventListener("change", function () {
+        currentPage = 1;
+        loadLeads();
+      });
+    }
     if (document.getElementById("filterLimit")) {
       document.getElementById("filterLimit").addEventListener("change", function() {
         leadsLimit = parseInt(this.value, 10) || 100;
@@ -3217,6 +3307,9 @@
                 '<button type="button" class="btn-lead-delete" id="modalBlockIp" data-ip="' + esc(leadClientIp(l)) + '">' +
                 (blockedIpSet[leadClientIp(l)] ? "Débloquer IP" : "Bloquer IP") +
                 "</button>"
+              : "") +
+            (window.LeadVisitorCategory
+              ? window.LeadVisitorCategory.detailHtml(leadVisitorCat(l), esc)
               : "") +
             "</div></div>" +
             '<div class="detail-item"><div class="dlabel">Vertical</div><div class="dvalue">' + esc(l.vertical) + '</div></div>' +
