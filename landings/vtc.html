@@ -123,12 +123,12 @@
         <div class="form-wrap" id="demande">
           <h2 class="form-title">Demande de devis detaillee</h2>
           <p class="form-lead">
-            Ce questionnaire complet permet a notre courtier de preparer un devis precis des la premiere prise de contact. Comptez 3 a 5 minutes.
+            Telephone + e-mail d'abord pour un rappel. Le questionnaire precise le devis — ou « Etre rappele maintenant » sans tout finir. Comptez 2 a 5 minutes.
           </p>
           <div data-callback-strip data-callback-need="vtc" data-callback-source="landing_vtc"></div>
           <div class="journey-toggle" role="navigation" aria-label="Type de parcours">
             <a href="./devis-rapide.html">Devis express (30 sec)</a>
-            <a href="./vtc.html" class="is-active">Questionnaire complet</a>
+            <a href="./vtc.html" class="is-active">Questionnaire (rappel possible a tout moment)</a>
           </div>
           <div data-eligibility-panel hidden></div>
           <div data-internal-quote hidden></div>
@@ -333,8 +333,8 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="maritalStatus">Situation familiale</label>
-                  <select id="maritalStatus" name="maritalStatus" required>
+                  <label for="maritalStatus">Situation familiale <span class="field-optional">(facultatif)</span></label>
+                  <select id="maritalStatus" name="maritalStatus" data-optional>
                     <option value="">Selectionnez</option>
                     <option>Celibataire</option>
                     <option>Marie(e) / Pacse(e)</option>
@@ -507,16 +507,16 @@
                   <input id="lastName" name="lastName" autocomplete="family-name" required />
                 </div>
                 <div class="field full">
-                  <label for="street">Adresse complete (rue et numero)</label>
-                  <input id="street" name="street" autocomplete="street-address" required placeholder="12 rue..." />
+                  <label for="street">Adresse complete (rue et numero) <span class="field-optional">(facultatif)</span></label>
+                  <input id="street" name="street" autocomplete="street-address" data-optional placeholder="12 rue..." />
                 </div>
                 <div class="field">
-                  <label for="postalCode">Code postal</label>
-                  <input id="postalCode" name="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="5" required />
+                  <label for="postalCode">Code postal <span class="field-optional">(facultatif)</span></label>
+                  <input id="postalCode" name="postalCode" inputmode="numeric" autocomplete="postal-code" maxlength="5" data-optional />
                 </div>
                 <div class="field">
-                  <label for="cityFull">Ville</label>
-                  <input id="cityFull" name="cityFull" autocomplete="address-level2" required />
+                  <label for="cityFull">Ville <span class="field-optional">(facultatif)</span></label>
+                  <input id="cityFull" name="cityFull" autocomplete="address-level2" data-optional />
                 </div>
               </div>
             </section>
@@ -546,8 +546,8 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="startDate">Date de debut de couverture souhaitee</label>
-                  <input id="startDate" name="startDate" type="date" required />
+                  <label for="startDate">Date de debut de couverture souhaitee <span class="field-optional">(facultatif)</span></label>
+                  <input id="startDate" name="startDate" type="date" data-optional />
                 </div>
                 <div class="field">
                   <label for="budgetHint">Budget mensuel envisage</label>

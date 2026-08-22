@@ -140,6 +140,122 @@
     return window.FormAudit && window.FormAudit.skipValidation(form);
   }
 
+  var BENEFIT_BY_VERTICAL = {
+    sante: [
+      "Telephone + e-mail suffisent pour un rappel gratuit — le reste affine le devis.",
+      "Bonne nouvelle : on peut deja vous rappeler avec ce que vous avez saisi.",
+      "Optique / dentaire / hopital : 1 minute de plus = devis vraiment utile.",
+      "Presque la : votre profil sante aide a eviter une mutuelle trop chere.",
+      "Etape facultative — vous pouvez passer si vous etes presse(e).",
+      "Adresse complete facultative : prenom + nom suffisent pour le rappel.",
+      "Derniere etape : envoyez pour recevoir votre comparatif personnalise.",
+    ],
+    credit_immo: [
+      "Telephone + e-mail = un courtier peut deja vous rappeler.",
+      "Votre projet est note : continuez ou demandez un rappel immediat.",
+      "Apport et duree : 30 secondes pour une simulation plus juste.",
+      "Revenus : confidentiel, utilise seulement pour le dossier banque.",
+      "Charges actuelles : pour calculer votre vraie capacite d'emprunt.",
+      "Co-emprunteur : passez si vous empruntez seul(e).",
+      "Adresse facultative — prenom, nom et date de naissance suffisent.",
+      "Envoyez : un courtier analyse et vous rappelle sous peu.",
+    ],
+    vtc: [
+      "Telephone + e-mail : un conseiller VTC peut deja vous rappeler.",
+      "Vehicule : marque + modele suffisent pour un premier devis.",
+      "Activite : SIRET et plateforme aident a coller aux exigences Uber/Bolt.",
+      "Permis / carte VTC : pour verifier la conformite rapidement.",
+      "Antecedents : soyez honnete, ca evite un refus assureur plus tard.",
+      "Adresse facultative — prenom + nom suffisent pour le rappel.",
+      "Choisissez une couverture et envoyez : devis sans engagement.",
+    ],
+    acheteur_immo: [
+      "Telephone + e-mail : on peut deja vous alerter sur les bons biens.",
+      "Budget et zone : le minimum pour matcher des annonces.",
+      "Plus vous precisez, plus les alertes sont pertinentes.",
+      "Vous pouvez envoyer un rappel maintenant si vous etes presse(e).",
+      "Continuez ou demandez un rappel — aucun engagement.",
+      "Adresse facultative pour le rappel conseiller.",
+      "Derniere etape : validez pour activer le suivi.",
+    ],
+    default: [
+      "Telephone + e-mail suffisent pour un rappel gratuit.",
+      "Vous pouvez continuer ou demander un rappel immediat.",
+      "Chaque etape affine le devis — aucune n'engage.",
+      "Presque termine : un conseiller finalise avec vous.",
+      "Envoyez quand vous voulez : gratuit et sans engagement.",
+    ],
+  };
+
+  function benefitText(vertical, stepIndex) {
+    var list = BENEFIT_BY_VERTICAL[vertical] || BENEFIT_BY_VERTICAL.default;
+    return list[Math.min(stepIndex, list.length - 1)] || BENEFIT_BY_VERTICAL.default[0];
+  }
+
+  function ensureContactFilled(form) {
+    var phone = form.querySelector('[name="phone"]');
+    var email = form.querySelector('[name="email"]');
+    var ok = true;
+    [phone, email].forEach(function (el) {
+      if (!el) return;
+      el.classList.remove("input-invalid");
+      var v = (el.value || "").trim();
+      if (!v) {
+        ok = false;
+        el.classList.add("input-invalid");
+        return;
+      }
+      if (el.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+        ok = false;
+        el.classList.add("input-invalid");
+      }
+      if ((el.name === "phone" || el.type === "tel") && el.value.replace(/\D/g, "").length < 10) {
+        ok = false;
+        el.classList.add("input-invalid");
+      }
+    });
+    return ok && !!(phone && email);
+  }
+
+  function relaxForEarlyFinish(form) {
+    qsa(form, "input, select, textarea").forEach(function (el) {
+      if (!el.name) return;
+      if (el.name === "phone" || el.name === "email" || el.name === "rgpd") return;
+      if (el.hasAttribute("required")) {
+        el.removeAttribute("required");
+        el.setAttribute("data-was-required", "1");
+        el.setAttribute("data-optional", "");
+      }
+      if (el.getAttribute("aria-required") === "true" && el.name !== "rgpd") {
+        el.setAttribute("aria-required", "false");
+      }
+    });
+    var mode = form.querySelector('[name="journey_mode"]');
+    if (!mode) {
+      mode = document.createElement("input");
+      mode.type = "hidden";
+      mode.name = "journey_mode";
+      form.appendChild(mode);
+    }
+    mode.value = "early_callback";
+    var cb = form.querySelector('[name="callbackTime"]');
+    if (cb && !(cb.value || "").trim()) {
+      var opt = Array.prototype.find.call(cb.options || [], function (o) {
+        return /peu importe/i.test(o.textContent || "");
+      });
+      if (opt) cb.value = opt.value || opt.textContent;
+      else if (cb.options && cb.options.length) cb.selectedIndex = Math.min(1, cb.options.length - 1);
+    }
+    var rgpd = form.querySelector('[name="rgpd"]');
+    if (rgpd && !rgdChecked(rgpd)) {
+      /* leave for user — submit handler will surface it */
+    }
+  }
+
+  function rgdChecked(el) {
+    return !!(el && el.checked);
+  }
+
   function initForm(form) {
     var steps = getSteps(form);
     if (!steps.length) return;
@@ -150,6 +266,7 @@
     var btnPrev = qs(form, ".wizard-prev");
     var btnSubmit = qs(form, ".wizard-submit");
     var idx = 0;
+    var earlyFinish = false;
 
     bindCompanyToggle(form);
 
@@ -165,6 +282,32 @@
       if (path.indexOf("acheteur-immo") !== -1) return "acheteur_immo";
       if (path.indexOf("animaux") !== -1) return "animaux";
       return "unknown";
+    }
+
+    var benefitEl = qs(form, ".wizard-benefit-nudge");
+    if (!benefitEl) {
+      benefitEl = document.createElement("p");
+      benefitEl.className = "wizard-benefit-nudge";
+      benefitEl.setAttribute("role", "status");
+      var head = qs(form, ".wizard-head");
+      if (head && head.parentNode) head.parentNode.insertBefore(benefitEl, head.nextSibling);
+      else form.insertBefore(benefitEl, form.firstChild);
+    }
+
+    var actions = qs(form, ".wizard-actions");
+    var btnEarly = qs(form, ".wizard-early-finish");
+    if (!btnEarly && actions) {
+      btnEarly = document.createElement("button");
+      btnEarly.type = "button";
+      btnEarly.className = "btn btn-soft wizard-early-finish";
+      btnEarly.textContent = "Etre rappele maintenant";
+      btnEarly.title = "Envoyer telephone + e-mail sans finir toutes les etapes";
+      btnEarly.hidden = true;
+      if (btnNext && btnNext.parentNode === actions) {
+        actions.insertBefore(btnEarly, btnNext);
+      } else {
+        actions.appendChild(btnEarly);
+      }
     }
 
     function stepNameAt(i) {
@@ -270,6 +413,14 @@
       if (stepLabel) stepLabel.textContent = "Etape " + (idx + 1) + " / " + steps.length;
       updateStepChrome();
 
+      if (benefitEl) {
+        benefitEl.textContent = benefitText(verticalFromPath(), idx);
+        benefitEl.hidden = false;
+      }
+      if (btnEarly) {
+        btnEarly.hidden = earlyFinish || idx < 1 || idx >= steps.length - 1;
+      }
+
       if (btnPrev) btnPrev.hidden = idx === 0;
       if (btnNext) btnNext.hidden = idx >= steps.length - 1;
       if (btnSubmit) btnSubmit.hidden = idx < steps.length - 1;
@@ -369,6 +520,50 @@
       });
     }
 
+    if (btnEarly) {
+      btnEarly.addEventListener("click", function () {
+        if (auditSkip(form)) {
+          showStep(steps.length - 1);
+          return;
+        }
+        if (!ensureContactFilled(form)) {
+          if (validationHint) {
+            validationHint.hidden = false;
+            validationHint.textContent =
+              "Pour un rappel immediat, renseignez telephone et e-mail (etape 1), puis reessayez.";
+            validationHint.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
+          showStep(0);
+          return;
+        }
+        earlyFinish = true;
+        relaxForEarlyFinish(form);
+        try {
+          window.dispatchEvent(
+            new CustomEvent("lo:wizard_early_finish", {
+              detail: { vertical: verticalFromPath(), from_step: idx + 1 },
+            })
+          );
+        } catch (e) {}
+        if (window.QuoteIntelligence) {
+          window.QuoteIntelligence.saveProgress(form, idx + 1, "early_callback", "wizard_early_finish");
+        }
+        showStep(steps.length - 1);
+        if (validationHint) {
+          validationHint.hidden = false;
+          validationHint.textContent =
+            "Rappel anticipe : cochez l'accord RGPD puis « Envoyer ». Le reste du questionnaire n'est plus obligatoire.";
+        }
+        if (btnEarly) btnEarly.hidden = true;
+        var rgpd = form.querySelector('[name="rgpd"]');
+        if (rgpd && typeof rgpd.focus === "function") {
+          setTimeout(function () {
+            rgpd.focus({ preventScroll: true });
+          }, 150);
+        }
+      });
+    }
+
     form.addEventListener(
       "submit",
       function (e) {
@@ -383,12 +578,32 @@
             msg.style.borderColor = "#fca5a5";
             msg.style.background = "#fef2f2";
             msg.style.color = "#991b1b";
-            var actions = form.querySelector(".wizard-actions");
-            if (actions) actions.parentNode.insertBefore(msg, actions);
+            var actionsEl = form.querySelector(".wizard-actions");
+            if (actionsEl) actionsEl.parentNode.insertBefore(msg, actionsEl);
           }
           msg.textContent =
             "Mode contrôle actif : désactivez-le dans la barre en haut pour envoyer un vrai lead.";
           msg.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          return;
+        }
+        if (earlyFinish) {
+          if (!ensureContactFilled(form)) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            showStep(0);
+            return;
+          }
+          var rgpdEl = form.querySelector('[name="rgpd"]');
+          if (rgpdEl && !rgpdEl.checked) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            rgpdEl.classList.add("input-invalid");
+            if (validationHint) {
+              validationHint.hidden = false;
+              validationHint.textContent = "Cochez l'accord de contact (RGPD) pour envoyer le rappel.";
+            }
+            return;
+          }
           return;
         }
         if (!validateStep(steps[steps.length - 1])) {

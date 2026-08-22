@@ -441,6 +441,16 @@
       });
     });
 
+    window.addEventListener("lo:wizard_early_finish", function (ev) {
+      var d = (ev && ev.detail) || {};
+      sendJourneyEvent("wizard_early_finish", {
+        vertical: d.vertical || verticalFromPath(),
+        step_name: "early_callback",
+        source: "wizard",
+        meta: d,
+      });
+    });
+
     function onLeave() {
       if (!started || submitted) return;
       sendJourneyEvent("form_abandon", {

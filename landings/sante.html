@@ -127,7 +127,7 @@
           <div class="help-callout">
             <div>
               <strong>Besoin d'aide pour remplir le formulaire ?</strong>
-              <p>Vous pouvez laisser telephone + e-mail (rappel 2 champs) ou continuer le formulaire : un conseiller vous guide.</p>
+              <p>Telephone + e-mail d'abord (rappel possible). Pendant le formulaire, le bouton « Etre rappele maintenant » envoie sans tout finir.</p>
               <p style="margin-top:8px"><strong>Employeur ?</strong> <a href="./sante-collective.html">Devis mutuelle collective entreprise</a> (ANI, PME, TPE).</p>
             </div>
             <div class="help-callout-actions">
@@ -138,7 +138,7 @@
 
           <div class="journey-toggle" role="navigation" aria-label="Type de parcours">
             <a href="./devis-express.html?need=sante">Rappel rapide (2 min)</a>
-            <a href="./sante.html" class="is-active">Formulaire guide (7 etapes)</a>
+            <a href="./sante.html" class="is-active">Formulaire guide (ou rappel a tout moment)</a>
           </div>
           <div data-callback-strip data-callback-need="sante" data-callback-source="landing_sante"></div>
 
@@ -499,12 +499,12 @@
                   <input id="lastName" name="lastName" autocomplete="family-name" required />
                 </div>
                 <div class="field full">
-                  <label for="street">Adresse complete</label>
-                  <input id="street" name="street" autocomplete="street-address" required />
+                  <label for="street">Adresse complete <span class="field-optional">(facultatif)</span></label>
+                  <input id="street" name="street" autocomplete="street-address" data-optional />
                 </div>
                 <div class="field">
-                  <label for="cityFull">Ville</label>
-                  <input id="cityFull" name="cityFull" autocomplete="address-level2" required />
+                  <label for="cityFull">Ville <span class="field-optional">(facultatif)</span></label>
+                  <input id="cityFull" name="cityFull" autocomplete="address-level2" data-optional />
                 </div>
               </div>
             </section>
@@ -515,8 +515,8 @@
               <p class="wizard-step-intro">Derniere etape : indiquez votre budget et validez. Un conseiller prepare votre comparatif personnalise.</p>
               <div class="grid">
                 <div class="field">
-                  <label for="startDate">Date d'effet souhaitee</label>
-                  <input id="startDate" name="startDate" type="date" required />
+                  <label for="startDate">Date d'effet souhaitee <span class="field-optional">(facultatif)</span></label>
+                  <input id="startDate" name="startDate" type="date" data-optional />
                 </div>
                 <div class="field">
                   <label for="budgetMonthly">Budget cotisation mensuelle</label>

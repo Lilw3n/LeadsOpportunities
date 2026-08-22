@@ -154,6 +154,7 @@
       form_abandon: "journey_form_abandon",
       lead_submit_success: "journey_lead_success",
       wizard_step: "wizard_step",
+      wizard_early_finish: "journey_early_callback",
     };
     var gaName = map[eventType];
     if (!gaName) return;

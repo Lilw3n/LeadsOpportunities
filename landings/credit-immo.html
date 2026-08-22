@@ -126,8 +126,13 @@
         <div class="form-wrap landing-form-wrap--hero" id="demande">
           <h2 class="form-title">Simulation et dossier complet</h2>
           <p class="form-lead">
-            Ce questionnaire detaille permet de preparer un dossier solide des le premier contact. Un courtier analyse votre faisabilite. Comptez 5 a 7 minutes.
+            Telephone + e-mail d'abord : un courtier peut vous rappeler meme si vous n'allez pas au bout.
+            Le questionnaire detaille affine le dossier — ou utilisez « Etre rappele maintenant » a tout moment. Comptez 3 a 7 minutes.
           </p>
+          <div class="journey-toggle" role="navigation" aria-label="Type de parcours">
+            <a href="./devis-express.html?need=credit-immo">Rappel rapide (2 min)</a>
+            <a href="./credit-immo.html" class="is-active">Dossier guide (ou rappel anticipe)</a>
+          </div>
           <div data-callback-strip data-callback-need="credit-immo" data-callback-source="landing_credit"></div>
 
           <form data-track-form data-quote-wizard novalidate>
@@ -191,8 +196,8 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="propertySurface">Surface approximative (m2)</label>
-                  <input id="propertySurface" name="propertySurface" inputmode="numeric" required placeholder="Ex. 65" />
+                  <label for="propertySurface">Surface approximative (m2) <span class="field-optional">(facultatif)</span></label>
+                  <input id="propertySurface" name="propertySurface" inputmode="numeric" data-optional placeholder="Ex. 65 (facultatif)" />
                 </div>
                 <div class="field">
                   <label for="postalProject">Code postal du bien</label>
@@ -431,8 +436,8 @@
                   </select>
                 </div>
                 <div class="field">
-                  <label for="maritalStatus">Situation familiale</label>
-                  <select id="maritalStatus" name="maritalStatus" required>
+                  <label for="maritalStatus">Situation familiale <span class="field-optional">(facultatif)</span></label>
+                  <select id="maritalStatus" name="maritalStatus" data-optional>
                     <option value="">Selectionnez</option>
                     <option>Celibataire</option>
                     <option>Marie(e) (communaute)</option>
@@ -523,16 +528,16 @@
                   <input id="dob" name="dob" type="date" required />
                 </div>
                 <div class="field full">
-                  <label for="street">Adresse actuelle</label>
-                  <input id="street" name="street" autocomplete="street-address" required />
+                  <label for="street">Adresse actuelle <span class="field-optional">(facultatif)</span></label>
+                  <input id="street" name="street" autocomplete="street-address" data-optional />
                 </div>
                 <div class="field">
-                  <label for="postalCode">Code postal</label>
-                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" required />
+                  <label for="postalCode">Code postal <span class="field-optional">(facultatif)</span></label>
+                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" data-optional />
                 </div>
                 <div class="field">
-                  <label for="cityFull">Ville</label>
-                  <input id="cityFull" name="cityFull" autocomplete="address-level2" required />
+                  <label for="cityFull">Ville <span class="field-optional">(facultatif)</span></label>
+                  <input id="cityFull" name="cityFull" autocomplete="address-level2" data-optional />
                 </div>
               </div>
             </section>
