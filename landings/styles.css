@@ -1031,3 +1031,24 @@ input::placeholder { color: #94a3b8; }
     grid-template-columns: 1fr;
   }
 }
+
+/* Anti-abandon parcours */
+.wizard-benefit-nudge {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0f9ff 100%);
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  font-weight: 600;
+}
+.wizard-early-finish {
+  white-space: nowrap;
+}
+.field-optional {
+  font-weight: 500;
+  color: #64748b;
+  font-size: 0.85em;
+}
