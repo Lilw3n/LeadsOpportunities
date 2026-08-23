@@ -10,6 +10,7 @@
 - `npm run blog:actu:draft -- --top=2` — ébauches dans `data/blog-actu-pending.json`
 - `npm run blog:actu:publish` — blog + sitemap SEO
 - `npm run seo:build` — sitemaps
+- `npm run academie:build` — régénère `/academie/` (cours métiers)
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
 
 ## Blog actu (leads qualifiés)

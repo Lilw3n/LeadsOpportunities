@@ -14,6 +14,8 @@ const checks = [
   { name: "agence-varangeville", url: "/agence-varangeville/", expect: (r, t) => r.ok && t.includes("Varangéville") && t.includes("Wendy Buchet") },
   { name: "agence-varangeville-html", url: "/agence-varangeville.html", expect: (r, t) => r.ok && t.includes("Varangéville") },
   { name: "nancy-54", url: "/nancy-54/", expect: (r, t) => r.ok && /Nancy/i.test(t) && /courtier/i.test(t) },
+  { name: "academie", url: "/academie/", expect: (r, t) => r.ok && /Académie|Academie/i.test(t) },
+  { name: "academie-assurance", url: "/academie/assurance/", expect: (r, t) => r.ok && /mutuelle|assurance/i.test(t) },
   { name: "acheteur-immo landing", url: "/landings/acheteur-immo.html", expect: (r, t) => r.ok && t.includes("acheteur-immo") },
   { name: "projection-achat", url: "/landings/projection-achat.html", expect: (r, t) => r.ok && t.includes("projForm") && t.includes("achat-projection-lib") },
 ];

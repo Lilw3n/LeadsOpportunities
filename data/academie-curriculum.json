@@ -1,0 +1,416 @@
+{
+  "updated": "2026-08-23",
+  "hub": {
+    "title": "Académie Leads Opportunities | Cours assurance, prêt, immo, banque, finance",
+    "description": "Cours gratuits pour comprendre mutuelle, assurance, crédit immobilier, banque, rachat et immobilier. Courtier ORIAS — Wendy Buchet.",
+    "h1": "Académie : comprendre avant de décider",
+    "lead": "Des parcours courts, en français clair, sur tous nos métiers. Pas de jargon inutile — et un devis quand vous êtes prêt."
+  },
+  "courses": [
+    {
+      "id": "assurance",
+      "slug": "assurance",
+      "label": "Assurance",
+      "pilier": "assurance",
+      "emoji": "",
+      "duration": "45 min",
+      "level": "Débutant → intermédiaire",
+      "title": "Cours Assurance",
+      "subtitle": "Mutuelle, habitation, VTC, emprunteur : lire un devis et comparer les garanties",
+      "description": "Formation gratuite assurance : mutuelle santé, habitation, VTC, assurance emprunteur. Comprendre plafonds, franchises et exclusions avant de signer.",
+      "hubHref": "/assurances/",
+      "cta": { "href": "/landings/devis.html", "label": "Demander un devis assurance" },
+      "objectives": [
+        "Distinguer obligation légale et couverture utile",
+        "Lire un tableau de garanties (plafonds, franchises, exclusions)",
+        "Préparer un devis mutuelle, habitation, VTC ou emprunteur"
+      ],
+      "lessons": [
+        {
+          "slug": "lire-un-devis",
+          "title": "Lire un devis d’assurance",
+          "duration": "8 min",
+          "summary": "Prix, plafonds, franchises, délais de carence : ce qui compte vraiment.",
+          "sections": [
+            {
+              "h": "Le prix n’est pas le devis",
+              "p": "Deux contrats au même tarif mensuel peuvent laisser 2 000 € à votre charge après un sinistre. Comparez toujours à garanties équivalentes : plafond annuel, franchise, exclusions, délais de carence."
+            },
+            {
+              "h": "Les 5 lignes à vérifier",
+              "p": "1) Ce qui est couvert (événements). 2) Plafonds par poste. 3) Franchise. 4) Exclusions (usure, négligence, zones à risque…). 5) Délais pour déclarer un sinistre."
+            },
+            {
+              "h": "Rôle du courtier ORIAS",
+              "p": "Un comparateur liste des offres. Un courtier inscrit ORIAS explique les écarts, aligne les garanties sur votre profil et reste joignable après la signature."
+            }
+          ],
+          "cta": { "href": "/methode.html", "label": "Voir notre méthode" }
+        },
+        {
+          "slug": "mutuelle-sante",
+          "title": "Mutuelle santé : choisir le bon niveau",
+          "duration": "10 min",
+          "summary": "Optique, dentaire, hospitalisation — calibrer selon votre foyer.",
+          "sections": [
+            {
+              "h": "Sécurité sociale ≠ reste à charge zéro",
+              "p": "La base rembourse une partie des soins. La mutuelle complète optique, dentaire, hospitalisation, parfois médecines douces. Le niveau utile dépend de l’âge, des enfants et de vos soins prévus."
+            },
+            {
+              "h": "Trois questions avant de comparer",
+              "p": "Optique / dentaire cette année ? Chambre particulière ? Pathologie chronique ? Sans ces réponses, un « top garanties » coûte cher pour rien."
+            },
+            {
+              "h": "Contrats responsables",
+              "p": "La plupart des contrats « responsables » suivent un cadre fiscal. Vérifiez le réseau de soins et le tiers payant pour éviter les avances de frais."
+            }
+          ],
+          "cta": { "href": "/landings/sante.html", "label": "Devis mutuelle" }
+        },
+        {
+          "slug": "habitation-auto",
+          "title": "Habitation et auto : les essentiels",
+          "duration": "9 min",
+          "summary": "MRH locataire/propriétaire, PNO, bonus-malus auto.",
+          "sections": [
+            {
+              "h": "Habitation : locataire vs propriétaire",
+              "p": "Le locataire doit souvent une responsabilité locative. Le propriétaire occupe ou met en location (PNO). Inventaire, valeur mobilière et catastrophes naturelles changent le tarif."
+            },
+            {
+              "h": "Auto : usage et conducteurs",
+              "p": "Bonus-malus, kilométrage, conducteurs secondaires, parking : une fausse déclaration peut annuler la garantie. Le relevé d’information reste la pièce clé."
+            }
+          ],
+          "cta": { "href": "/assurance-habitation/", "label": "Guide habitation" }
+        },
+        {
+          "slug": "vtc-emprunteur",
+          "title": "VTC et assurance emprunteur",
+          "duration": "10 min",
+          "summary": "RC pro chauffeur, Uber/Bolt, loi Lemoine.",
+          "sections": [
+            {
+              "h": "VTC : RC circulation + RC pro",
+              "p": "Une auto classique ne suffit pas. Les plateformes exigent une attestation conforme. Comparez franchises, assistance 0 km et usage professionnel déclaré."
+            },
+            {
+              "h": "Emprunteur et loi Lemoine",
+              "p": "L’assurance de prêt peut représenter une part lourde du coût total. Depuis Lemoine, vous pouvez changer plus facilement — à garanties équivalentes exigées par la banque."
+            }
+          ],
+          "cta": { "href": "/landings/vtc.html", "label": "Devis VTC" }
+        }
+      ]
+    },
+    {
+      "id": "immobilier",
+      "slug": "immobilier",
+      "label": "Immobilier",
+      "pilier": "immobilier",
+      "duration": "40 min",
+      "level": "Débutant",
+      "title": "Cours Immobilier",
+      "subtitle": "Acheter, vendre, DPE, situations complexes (3D)",
+      "description": "Formation gratuite immobilier : recherche de bien, vente, DPE, divorce/décès/déménagement. Parcours acquéreur et vendeur.",
+      "hubHref": "/immobilier/",
+      "cta": { "href": "/landings/acheteur-immo.html", "label": "Lancer une recherche de bien" },
+      "objectives": [
+        "Cadre budget, secteur et type de bien",
+        "Comprendre DPE et passoire énergétique",
+        "Anticiper une vente en situation complexe"
+      ],
+      "lessons": [
+        {
+          "slug": "acheter-bien",
+          "title": "Acheter : cadrer sa recherche",
+          "duration": "9 min",
+          "summary": "Budget, secteur, pro vs particulier — avant le prêt.",
+          "sections": [
+            {
+              "h": "Bien d’abord, financement ensuite",
+              "p": "Sans bien cible, la simulation reste théorique. Définissez secteur, type (maison/appart), budget max et contraintes (école, travaux)."
+            },
+            {
+              "h": "Pro ou particulier",
+              "p": "Agence, notaire, particulier : les parcours diffèrent. Un courtier aligne ensuite capacité d’emprunt et assurance emprunteur."
+            }
+          ],
+          "cta": { "href": "/landings/acheteur-immo.html", "label": "Parcours acquéreur" }
+        },
+        {
+          "slug": "vendre-3d",
+          "title": "Vendre : divorce, décès, déménagement",
+          "duration": "10 min",
+          "summary": "Les « 3D » et les ventes délicates.",
+          "sections": [
+            {
+              "h": "Les 3D du métier",
+              "p": "Beaucoup de ventes naissent d’un divorce, d’un décès ou d’un déménagement. Notaire, avocat et courtier peuvent sécuriser le calendrier et le financement de rachat."
+            },
+            {
+              "h": "Héritage et désaccord de prix",
+              "p": "Quand les héritiers ne s’entendent pas sur le prix, le dossier bloque. Documenter et médier évite des mois perdus."
+            }
+          ],
+          "cta": { "href": "/landings/acheteur-immo.html?role=vendeur", "label": "Déposer un bien" }
+        },
+        {
+          "slug": "dpe-passoire",
+          "title": "DPE et passoires énergétiques",
+          "duration": "8 min",
+          "summary": "Classes F/G, travaux, impact sur la vente.",
+          "sections": [
+            {
+              "h": "Pourquoi le DPE bloque des ventes",
+              "p": "Les logements classés F ou G subissent des contraintes de location et un effet prix. Anticiper audit et travaux rassure acheteurs et banques."
+            }
+          ],
+          "cta": { "href": "/blog/passoire-energetique-dpe-g-vendre-2026.html", "label": "Lire le guide DPE" }
+        },
+        {
+          "slug": "negociateur",
+          "title": "Négociateur : prêt + assurances clients",
+          "duration": "7 min",
+          "summary": "Outils pour professionnels de l’immo.",
+          "sections": [
+            {
+              "h": "Un lien pour sécuriser le financement",
+              "p": "Le négociateur gagne du temps en orientant le client vers un parcours prêt + emprunteur clair, sans perdre la main sur la relation."
+            }
+          ],
+          "cta": { "href": "/negociateur-immobilier/", "label": "Hub négociateur" }
+        }
+      ]
+    },
+    {
+      "id": "pret",
+      "slug": "pret",
+      "label": "Prêt immobilier",
+      "pilier": "pret",
+      "duration": "50 min",
+      "level": "Débutant → intermédiaire",
+      "title": "Cours Prêt immobilier",
+      "subtitle": "Capacité, apport, refus bancaire, assurance emprunteur",
+      "description": "Formation prêt immobilier : simulation, apport, endettement HCSF, prêt refusé 2e chance, assurance emprunteur loi Lemoine.",
+      "hubHref": "/credit-immo/",
+      "cta": { "href": "/landings/credit-immo.html", "label": "Simulation crédit / 2e chance" },
+      "objectives": [
+        "Estimer une capacité d’emprunt réaliste",
+        "Comprendre apport et taux d’endettement",
+        "Réagir après un refus bancaire"
+      ],
+      "lessons": [
+        {
+          "slug": "capacite-emprunt",
+          "title": "Capacité d’emprunt et simulation",
+          "duration": "10 min",
+          "summary": "Mensualité, durée, reste à vivre.",
+          "sections": [
+            {
+              "h": "Ce que calcule vraiment la banque",
+              "p": "Revenus stables, charges, reste à vivre, durée, taux. Une simulation en ligne est un ordre de grandeur — pas une offre."
+            },
+            {
+              "h": "Endettement HCSF",
+              "p": "Le cadre HCSF limite en pratique l’endettement autour de 35 % pour la plupart des dossiers. Au-delà, il faut un montage solide."
+            }
+          ],
+          "cta": { "href": "/credit-immo/simulation/", "label": "Page simulation" }
+        },
+        {
+          "slug": "apport",
+          "title": "Apport personnel : combien faut-il ?",
+          "duration": "8 min",
+          "summary": "Frais de notaire, travaux, négociation.",
+          "sections": [
+            {
+              "h": "Apport ≠ cash restant après achat",
+              "p": "Notaire, garantie, éventuels travaux : l’apport couvre souvent les frais annexes. Un apport trop faible freine certaines banques."
+            }
+          ],
+          "cta": { "href": "/blog/pret-refuse-apport-insuffisant-solutions.html", "label": "Apport insuffisant : solutions" }
+        },
+        {
+          "slug": "pret-refuse",
+          "title": "Prêt refusé : 2e chance multi-banques",
+          "duration": "12 min",
+          "summary": "Motifs de refus et comment relancer.",
+          "sections": [
+            {
+              "h": "Un refus n’est pas la fin",
+              "p": "Endettement, apport, CDD, assurance santé, FICP… Le motif guide la correction. Un courtier reformule et présente ailleurs."
+            },
+            {
+              "h": "Ne pas griller le marché",
+              "p": "Multiplier les demandes sans stratégie laisse des traces. Mieux vaut un dossier propre, une fois, sur les bonnes banques."
+            }
+          ],
+          "cta": { "href": "/landings/credit-immo.html", "label": "Étude 2e chance" }
+        },
+        {
+          "slug": "assurance-emprunteur-cours",
+          "title": "Assurance emprunteur et coût global",
+          "duration": "10 min",
+          "summary": "Groupe banque vs délégation, Lemoine.",
+          "sections": [
+            {
+              "h": "Le taux ne dit pas tout",
+              "p": "Le TAEG avec assurance montre le coût réel. Une délégation peut faire économiser des milliers d’euros sur 20 ans."
+            }
+          ],
+          "cta": { "href": "/assurance-emprunteur/", "label": "Assurance emprunteur" }
+        }
+      ]
+    },
+    {
+      "id": "banque",
+      "slug": "banque",
+      "label": "Banque & TRC",
+      "pilier": "banque",
+      "duration": "30 min",
+      "level": "Débutant",
+      "title": "Cours Banque & TRC",
+      "subtitle": "Comptes, trésorerie, épargne : les bases pour dialoguer avec sa banque",
+      "description": "Formation banque : comptes, trésorerie (TRC), épargne. Comprendre les offres bancaires avec un courtier ORIAS.",
+      "hubHref": "/banque/",
+      "cta": { "href": "/landings/rappel.html?need=banque", "label": "Échanger sur une offre banque" },
+      "objectives": [
+        "Clarifier compte courant vs épargne",
+        "Comprendre la trésorerie (TRC)",
+        "Préparer un dossier banque propre"
+      ],
+      "lessons": [
+        {
+          "slug": "comptes-epargne",
+          "title": "Comptes et épargne : panorama",
+          "duration": "8 min",
+          "summary": "Courant, livret, horizons de placement.",
+          "sections": [
+            {
+              "h": "Séparer quotidien et projet",
+              "p": "Le compte courant sert aux flux. L’épargne de précaution (3 à 6 mois de charges) reste liquide. Les projets longs demandent d’autres supports — avec conseil adapté."
+            }
+          ],
+          "cta": { "href": "/banque/", "label": "Hub Banque" }
+        },
+        {
+          "slug": "tresorerie-trc",
+          "title": "Trésorerie et TRC",
+          "duration": "8 min",
+          "summary": "Lisser les encaissements, éviter les découverts chroniques.",
+          "sections": [
+            {
+              "h": "Quand la trésorerie coince",
+              "p": "Retards clients, saisonnalité, charges fixes : une solution de trésorerie se discute avec chiffres à l’appui (relevés, prévisionnel)."
+            }
+          ],
+          "cta": { "href": "/landings/rappel.html", "label": "Demander un rappel" }
+        },
+        {
+          "slug": "relation-banque",
+          "title": "Bien préparer un rendez-vous banque",
+          "duration": "7 min",
+          "summary": "Pièces, narrative, cohérence du dossier.",
+          "sections": [
+            {
+              "h": "La banque lit une histoire chiffrée",
+              "p": "Bulletins, avis d’imposition, relevés, tableau de charges : un dossier ordonné accélère la décision. Un courtier aide à la cohérence."
+            }
+          ],
+          "cta": { "href": "/methode.html", "label": "Notre méthode" }
+        },
+        {
+          "slug": "banque-et-pret",
+          "title": "Banque et projet immobilier",
+          "duration": "7 min",
+          "summary": "Lien avec le cours prêt.",
+          "sections": [
+            {
+              "h": "Même sujet, deux angles",
+              "p": "La banque évalue le risque ; le courtier compare plusieurs établissements. Les deux se rejoignent sur le dossier et l’assurance emprunteur."
+            }
+          ],
+          "cta": { "href": "/academie/pret/", "label": "Passer au cours Prêt" }
+        }
+      ]
+    },
+    {
+      "id": "finance",
+      "slug": "finance",
+      "label": "Finance",
+      "pilier": "finance",
+      "duration": "40 min",
+      "level": "Intermédiaire",
+      "title": "Cours Finance",
+      "subtitle": "Rachat de crédits, conso, prêt relais, crédit pro",
+      "description": "Formation finance : rachat / RAC, crédit conso, prêt relais, crédit professionnel. Quand regrouper, quand éviter un 4e crédit.",
+      "hubHref": "/finance/",
+      "cta": { "href": "/landings/rachat.html", "label": "Étude rachat de crédits" },
+      "objectives": [
+        "Savoir quand un RAC a du sens",
+        "Choisir entre conso et rachat",
+        "Comprendre le prêt relais"
+      ],
+      "lessons": [
+        {
+          "slug": "rachat-credits",
+          "title": "Rachat / regroupement de crédits (RAC)",
+          "duration": "12 min",
+          "summary": "Une mensualité, durée allongée : avantages et pièges.",
+          "sections": [
+            {
+              "h": "Objectif : respirer chaque mois",
+              "p": "Le RAC regroupe plusieurs crédits pour baisser la mensualité, souvent en allongeant la durée. Le coût total peut augmenter — d’où l’intérêt d’une étude chiffrée."
+            },
+            {
+              "h": "Qui est concerné ?",
+              "p": "Auto + conso + reste immo, découverts chroniques, après un événement de vie. Chaque dossier a un seuil de faisabilité."
+            }
+          ],
+          "cta": { "href": "/landings/rachat.html", "label": "Étude RAC" }
+        },
+        {
+          "slug": "credit-conso",
+          "title": "Crédit consommation",
+          "duration": "8 min",
+          "summary": "Travaux, auto, trésorerie ponctuelle.",
+          "sections": [
+            {
+              "h": "Un 4e crédit n’est pas toujours la solution",
+              "p": "Parfois un RAC est plus sain qu’empiler. Calibrez montant, durée et impact sur l’endettement global."
+            }
+          ],
+          "cta": { "href": "/landings/conso.html", "label": "Parcours conso" }
+        },
+        {
+          "slug": "pret-relais",
+          "title": "Prêt relais : vendre et racheter",
+          "duration": "10 min",
+          "summary": "Pont entre deux biens, quotité, plan B.",
+          "sections": [
+            {
+              "h": "Le timing de la vente",
+              "p": "Le prêt relais avance une partie de la valeur du bien vendu. Si la vente tarde, il faut un plan B (durée, quotité, différé)."
+            }
+          ],
+          "cta": { "href": "/landings/pret-relais.html", "label": "Prêt relais" }
+        },
+        {
+          "slug": "credit-pro",
+          "title": "Crédit professionnel",
+          "duration": "8 min",
+          "summary": "Investissement, matériel, trésorerie pro.",
+          "sections": [
+            {
+              "h": "Dossier pro = chiffres + projet",
+              "p": "Bilans, prévisionnel, objet du financement. Le montage diffère du crédit immo particulier."
+            }
+          ],
+          "cta": { "href": "/finance/", "label": "Hub Finance" }
+        }
+      ]
+    }
+  ]
+}

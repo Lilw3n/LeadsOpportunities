@@ -68,6 +68,12 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/recherche-bien/lyon/",
   "/assurance-emprunteur/",
   "/methode.html",
+  "/academie/",
+  "/academie/assurance/",
+  "/academie/immobilier/",
+  "/academie/pret/",
+  "/academie/banque/",
+  "/academie/finance/",
   /* Niches (P3 — indexation) */
   "/assurances-niches.html",
   "/assurance-animaux/",
