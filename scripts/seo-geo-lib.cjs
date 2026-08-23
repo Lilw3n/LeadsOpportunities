@@ -1711,6 +1711,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/academie/pret/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/academie/banque/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/academie/finance/", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/academie/conformite/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/nancy-54/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/agence-varangeville/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/assurances-niches.html", priority: "0.9", changefreq: "weekly" },

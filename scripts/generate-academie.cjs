@@ -21,7 +21,9 @@ function esc(s) {
 
 /** Chemin site (/foo) → relatif depuis academie/… (depth 1 ou 2) */
 function relFrom(sitePath, depth) {
-  var p = String(sitePath || "/").replace(/^\//, "");
+  var p = String(sitePath || "/");
+  if (/^https?:\/\//i.test(p)) return p;
+  p = p.replace(/^\//, "");
   var prefix = depth <= 1 ? "../" : "../../";
   return prefix + p;
 }
@@ -137,7 +139,8 @@ function renderHub() {
       <h1>${esc(h.h1)}</h1>
       <p class="lead">${esc(h.lead)}</p>
       <div class="pilier-actions">
-        <a class="btn btn-primary btn-lg" href="./assurance/">Commencer par l’assurance</a>
+        <a class="btn btn-primary btn-lg" href="./assurance/">Cours Assurance (courtier)</a>
+        <a class="btn btn-outline btn-lg" href="./conformite/">Conformité ORIAS / IOBSP</a>
         <a class="btn btn-outline btn-lg" href="../landings/rappel.html">Parler à un conseiller</a>
       </div>
     </div>

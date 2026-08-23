@@ -1,10 +1,10 @@
 {
   "updated": "2026-08-23",
   "hub": {
-    "title": "Académie Leads Opportunities | Cours assurance, prêt, immo, banque, finance",
-    "description": "Cours gratuits pour comprendre mutuelle, assurance, crédit immobilier, banque, rachat et immobilier. Courtier ORIAS — Wendy Buchet.",
-    "h1": "Académie : comprendre avant de décider",
-    "lead": "Des parcours courts, en français clair, sur tous nos métiers. Pas de jargon inutile — et un devis quand vous êtes prêt."
+    "title": "Académie pro | Formation courtier assurance, IOBSP, banque, prêt, immo",
+    "description": "Formation niveau courtier ORIAS / IOBSP : DDA, devoir de conseil, montage crédit, HCSF, mutuelle, emprunteur, RAC, immobilier. Leads Opportunities — Wendy Buchet.",
+    "h1": "Académie pro : le niveau formation des courtiers",
+    "lead": "Programmes calés sur les exigences du métier (ORIAS, DDA, IOBSP, analyse de risque, devoir de conseil). Utiles aux particuliers exigeants et aux professionnels qui montent des dossiers."
   },
   "courses": [
     {
@@ -12,95 +12,136 @@
       "slug": "assurance",
       "label": "Assurance",
       "pilier": "assurance",
-      "emoji": "",
-      "duration": "45 min",
-      "level": "Débutant → intermédiaire",
-      "title": "Cours Assurance",
-      "subtitle": "Mutuelle, habitation, VTC, emprunteur : lire un devis et comparer les garanties",
-      "description": "Formation gratuite assurance : mutuelle santé, habitation, VTC, assurance emprunteur. Comprendre plafonds, franchises et exclusions avant de signer.",
+      "duration": "1 h 30",
+      "level": "Formation pro · niveau courtier IAS",
+      "title": "Cours Assurance (niveau courtier)",
+      "subtitle": "Devoir de conseil, lecture de garanties, mutuelle, MRH, VTC, emprunteur — comme en formation IAS",
+      "description": "Formation assurance niveau courtier : devoir de conseil DDA, IPID, plafonds/franchises, mutuelle responsable, VTC RC pro, délégation emprunteur loi Lemoine.",
       "hubHref": "/assurances/",
       "cta": { "href": "/landings/devis.html", "label": "Demander un devis assurance" },
       "objectives": [
-        "Distinguer obligation légale et couverture utile",
-        "Lire un tableau de garanties (plafonds, franchises, exclusions)",
-        "Préparer un devis mutuelle, habitation, VTC ou emprunteur"
+        "Appliquer le devoir de conseil (besoins, adéquation, traçabilité)",
+        "Comparer à garanties équivalentes (pas au seul tarif)",
+        "Monter un dossier mutuelle, habitation, VTC ou emprunteur"
       ],
       "lessons": [
         {
-          "slug": "lire-un-devis",
-          "title": "Lire un devis d’assurance",
-          "duration": "8 min",
-          "summary": "Prix, plafonds, franchises, délais de carence : ce qui compte vraiment.",
+          "slug": "devoir-de-conseil",
+          "title": "Devoir de conseil et DDA",
+          "duration": "15 min",
+          "summary": "Recueil des besoins, adéquation produit, IPID, traçabilité — socle réglementaire du courtier.",
           "sections": [
             {
-              "h": "Le prix n’est pas le devis",
-              "p": "Deux contrats au même tarif mensuel peuvent laisser 2 000 € à votre charge après un sinistre. Comparez toujours à garanties équivalentes : plafond annuel, franchise, exclusions, délais de carence."
+              "h": "Ce que la DDA impose au courtier",
+              "p": "La Directive Distribution d’Assurances (DDA) exige d’agir au mieux des intérêts du client : recueil des exigences et besoins, conseil proportionné, information claire (dont IPID pour les produits non-vie), prévention des conflits d’intérêts. Ce n’est pas un argument commercial : c’est une obligation de moyens documentée."
             },
             {
-              "h": "Les 5 lignes à vérifier",
-              "p": "1) Ce qui est couvert (événements). 2) Plafonds par poste. 3) Franchise. 4) Exclusions (usure, négligence, zones à risque…). 5) Délais pour déclarer un sinistre."
+              "h": "Recueil des besoins : la grille minimale",
+              "p": "Situation (particulier / pro), risques à couvrir, budget, garanties déjà en place, sinistralité, contraintes (plateforme VTC, banque prêteuse, bailleur). Sans cette grille, tout devis est un tir dans le brouillard — et non conforme au devoir de conseil."
             },
             {
-              "h": "Rôle du courtier ORIAS",
-              "p": "Un comparateur liste des offres. Un courtier inscrit ORIAS explique les écarts, aligne les garanties sur votre profil et reste joignable après la signature."
+              "h": "Adéquation et traçabilité",
+              "p": "Le conseil doit être motivé : pourquoi cette formule, pourquoi pas celle-là. Conservez la date, le support (appel / mail / formulaire), le résumé des besoins et le produit proposé. En contrôle ACPR / litige, la traçabilité protège le client et le cabinet."
+            }
+          ],
+          "cta": { "href": "/methode.html", "label": "Notre méthode ORIAS" }
+        },
+        {
+          "slug": "lire-un-devis",
+          "title": "Analyse technique d’un devis",
+          "duration": "14 min",
+          "summary": "Plafonds, franchises, exclusions, carences, subrogation — lecture pro du tableau de garanties.",
+          "sections": [
+            {
+              "h": "Le tarif n’est pas l’offre",
+              "p": "En formation courtier, on apprend à comparer sur un socle équivalent : événements couverts, plafonds par poste, franchise (fixe / relative), exclusions, délais de carence, plafonds par sinistre et par année, assistance. Deux primes identiques peuvent laisser 2 000 € à charge après sinistre."
+            },
+            {
+              "h": "Les pièges classiques",
+              "p": "Franchise élevée masquée, plafond optique annuel trop bas, exclusion « usage pro » sur un véhicule mixte, carence dentaire de 6–12 mois, réseau de soins obligatoire non expliqué. Le métier consiste à les rendre visibles avant signature."
+            },
+            {
+              "h": "Restitution client",
+              "p": "Traduisez en scénarios (« hospitalisation 3 jours », « bris de glace », « vol avec effraction »). Un client qui comprend les scénarios signe en connaissance de cause — critère DDA et critère qualité."
             }
           ],
           "cta": { "href": "/methode.html", "label": "Voir notre méthode" }
         },
         {
           "slug": "mutuelle-sante",
-          "title": "Mutuelle santé : choisir le bon niveau",
-          "duration": "10 min",
-          "summary": "Optique, dentaire, hospitalisation — calibrer selon votre foyer.",
+          "title": "Mutuelle santé : montage professionnel",
+          "duration": "14 min",
+          "summary": "Contrats responsables, 100 % santé, composition du foyer, TNS / salariés.",
           "sections": [
             {
-              "h": "Sécurité sociale ≠ reste à charge zéro",
-              "p": "La base rembourse une partie des soins. La mutuelle complète optique, dentaire, hospitalisation, parfois médecines douces. Le niveau utile dépend de l’âge, des enfants et de vos soins prévus."
+              "h": "Cadre « contrat responsable »",
+              "p": "La majorité des complémentaires respectent le cahier des charges « responsable » (parcours de soins, panier 100 % santé optique/dentaire/audiologie). Expliquez ce que le panier couvre vraiment et ce qui reste hors panier (montures hors grille, implants, chambre particulière)."
             },
             {
-              "h": "Trois questions avant de comparer",
-              "p": "Optique / dentaire cette année ? Chambre particulière ? Pathologie chronique ? Sans ces réponses, un « top garanties » coûte cher pour rien."
+              "h": "Segmentation du besoin",
+              "p": "Solo, couple, famille, senior, TNS : les postes prioritaires changent. Un TNS sans prévoyance n’a pas le même brief qu’un salarié avec mutuelle d’entreprise à renforcer. Notez les soins déjà programmés (orthodontie, chirurgie)."
             },
             {
-              "h": "Contrats responsables",
-              "p": "La plupart des contrats « responsables » suivent un cadre fiscal. Vérifiez le réseau de soins et le tiers payant pour éviter les avances de frais."
+              "h": "Lecture du tableau de garanties",
+              "p": "Pourcentages BRSS vs forfaits en €, plafonds annuels, délais de carence, tiers payant, réseaux. En formation, on aligne toujours deux offres ligne à ligne avant de parler prix."
             }
           ],
           "cta": { "href": "/landings/sante.html", "label": "Devis mutuelle" }
         },
         {
           "slug": "habitation-auto",
-          "title": "Habitation et auto : les essentiels",
-          "duration": "9 min",
-          "summary": "MRH locataire/propriétaire, PNO, bonus-malus auto.",
+          "title": "MRH, PNO et auto : sélection de risque",
+          "duration": "12 min",
+          "summary": "Responsabilité locative, PNO, cat nat, relevé d’information auto.",
           "sections": [
             {
-              "h": "Habitation : locataire vs propriétaire",
-              "p": "Le locataire doit souvent une responsabilité locative. Le propriétaire occupe ou met en location (PNO). Inventaire, valeur mobilière et catastrophes naturelles changent le tarif."
+              "h": "Habitation : qualifier le risque",
+              "p": "Statut (locataire / proprio occupant / PNO), surface, valeur mobilière, dépendances, zone cat nat / argile, sinistres 36 mois. Une sous-estimation de capital mobilier = sous-assurance et règle proportionnelle possible."
             },
             {
-              "h": "Auto : usage et conducteurs",
-              "p": "Bonus-malus, kilométrage, conducteurs secondaires, parking : une fausse déclaration peut annuler la garantie. Le relevé d’information reste la pièce clé."
+              "h": "Auto : pièces et déclaration",
+              "p": "Relevé d’information, usage (privé / trajet travail / pro), conducteurs secondaires, stationnement, kilométrage. Une fausse déclaration peut entraîner nullité ou réduction de l’indemnité — à rappeler explicitement."
             }
           ],
           "cta": { "href": "/assurance-habitation/", "label": "Guide habitation" }
         },
         {
           "slug": "vtc-emprunteur",
-          "title": "VTC et assurance emprunteur",
-          "duration": "10 min",
-          "summary": "RC pro chauffeur, Uber/Bolt, loi Lemoine.",
+          "title": "VTC RC pro et assurance emprunteur",
+          "duration": "15 min",
+          "summary": "Attestations plateformes, équivalence Lemoine, PTIA / ITT / IPT.",
           "sections": [
             {
-              "h": "VTC : RC circulation + RC pro",
-              "p": "Une auto classique ne suffit pas. Les plateformes exigent une attestation conforme. Comparez franchises, assistance 0 km et usage professionnel déclaré."
+              "h": "VTC : double exigence",
+              "p": "RC circulation + RC exploitation / pro, souvent avec critères Uber, Bolt, Heetch. Vérifiez franchises, assistance 0 km, véhicule de remplacement, usage déclaré. L’attestation provisoire conditionne la reprise d’activité."
             },
             {
-              "h": "Emprunteur et loi Lemoine",
-              "p": "L’assurance de prêt peut représenter une part lourde du coût total. Depuis Lemoine, vous pouvez changer plus facilement — à garanties équivalentes exigées par la banque."
+              "h": "Emprunteur : équivalence de garanties",
+              "p": "Décès, PTIA, ITT, IPT/IPP, franchises, quotité, sports, profession. La banque compare l’équivalence, pas le prix. Loi Lemoine : résiliation facilitée — le dossier de substitution doit être propre dès le premier envoi."
+            },
+            {
+              "h": "Lecture du coût global",
+              "p": "Présentez le coût assurance sur la durée (et le TAEG avec assurance). C’est le langage banque / IOBSP : le client décide sur le coût total, pas sur la seule mensualité crédit."
             }
           ],
           "cta": { "href": "/landings/vtc.html", "label": "Devis VTC" }
+        },
+        {
+          "slug": "sinistre-reclamations",
+          "title": "Sinistre, réclamation et médiation",
+          "duration": "12 min",
+          "summary": "Délais de déclaration, pièces, escalade médiateur assurance.",
+          "sections": [
+            {
+              "h": "Accompagner le sinistre",
+              "p": "Le courtier reste souvent le premier interlocuteur : délais contractuels, constat, photos, devis, expertise. Un dossier incomplet ralentit l’indemnité plus sûrement qu’un désaccord de fond."
+            },
+            {
+              "h": "Réclamation et médiation",
+              "p": "Procédure interne, puis Médiation de l’Assurance si besoin. Informer le client de ses voies de recours fait partie du professionnalisme — et des bonnes pratiques ORIAS."
+            }
+          ],
+          "cta": { "href": "/mentions-legales.html", "label": "Mentions & médiateur" }
         }
       ]
     },
@@ -109,78 +150,116 @@
       "slug": "immobilier",
       "label": "Immobilier",
       "pilier": "immobilier",
-      "duration": "40 min",
-      "level": "Débutant",
-      "title": "Cours Immobilier",
-      "subtitle": "Acheter, vendre, DPE, situations complexes (3D)",
-      "description": "Formation gratuite immobilier : recherche de bien, vente, DPE, divorce/décès/déménagement. Parcours acquéreur et vendeur.",
+      "duration": "1 h 15",
+      "level": "Formation pro · négo & financement",
+      "title": "Cours Immobilier (niveau pro)",
+      "subtitle": "Qualif. acquéreur/vendeur, DPE, 3D, articulation prêt et assurances",
+      "description": "Formation immobilier pro : qualification projet, DPE F/G, ventes 3D, coordination négociateur / courtier prêt / assurances.",
       "hubHref": "/immobilier/",
-      "cta": { "href": "/landings/acheteur-immo.html", "label": "Lancer une recherche de bien" },
+      "cta": { "href": "/landings/acheteur-immo.html", "label": "Parcours recherche de bien" },
       "objectives": [
-        "Cadre budget, secteur et type de bien",
-        "Comprendre DPE et passoire énergétique",
-        "Anticiper une vente en situation complexe"
+        "Qualifier un projet acquéreur ou vendeur",
+        "Anticiper DPE et blocages juridiques",
+        "Synchroniser bien, prêt et assurances"
       ],
       "lessons": [
         {
-          "slug": "acheter-bien",
-          "title": "Acheter : cadrer sa recherche",
-          "duration": "9 min",
-          "summary": "Budget, secteur, pro vs particulier — avant le prêt.",
+          "slug": "qualification-projet",
+          "title": "Qualification projet (acquéreur / vendeur)",
+          "duration": "12 min",
+          "summary": "Budget, secteur, urgence, financement — brief digne d’une agence.",
           "sections": [
             {
-              "h": "Bien d’abord, financement ensuite",
-              "p": "Sans bien cible, la simulation reste théorique. Définissez secteur, type (maison/appart), budget max et contraintes (école, travaux)."
+              "h": "Grille acquéreur",
+              "p": "Type de bien, secteur, budget max (frais inclus), apport, délai, conditions suspensives attendues, colistiers. Sans budget réaliste, le matching gaspille le temps du vendeur et du négociateur."
             },
             {
-              "h": "Pro ou particulier",
-              "p": "Agence, notaire, particulier : les parcours diffèrent. Un courtier aligne ensuite capacité d’emprunt et assurance emprunteur."
+              "h": "Grille vendeur",
+              "p": "Motif (3D, investissement, succession), prix souhaité vs estimation, DPE, charges, occupation, documents déjà prêts. Un vendeur pressé n’a pas le même plan qu’un vendeur testeur de marché."
             }
           ],
           "cta": { "href": "/landings/acheteur-immo.html", "label": "Parcours acquéreur" }
         },
         {
-          "slug": "vendre-3d",
-          "title": "Vendre : divorce, décès, déménagement",
-          "duration": "10 min",
-          "summary": "Les « 3D » et les ventes délicates.",
+          "slug": "acheter-bien",
+          "title": "Parcours d’achat et conditions suspensives",
+          "duration": "12 min",
+          "summary": "Compromis, délai prêt, diagnostics, séquence notaire.",
           "sections": [
             {
-              "h": "Les 3D du métier",
-              "p": "Beaucoup de ventes naissent d’un divorce, d’un décès ou d’un déménagement. Notaire, avocat et courtier peuvent sécuriser le calendrier et le financement de rachat."
+              "h": "Ordre des opérations",
+              "p": "Offre → compromis → diagnostics → dossier prêt → offre de prêt → signature. Le délai de condition suspensive de prêt doit coller au temps réel de montage (souvent 45–60 jours)."
             },
             {
-              "h": "Héritage et désaccord de prix",
-              "p": "Quand les héritiers ne s’entendent pas sur le prix, le dossier bloque. Documenter et médier évite des mois perdus."
+              "h": "Coordination courtier / négo",
+              "p": "Le négociateur sécurise le bien ; le courtier sécurise le financement et l’emprunteur. Un seul calendrier partagé évite les avenants de dernière minute."
+            }
+          ],
+          "cta": { "href": "/landings/acheteur-immo.html", "label": "Lancer une recherche" }
+        },
+        {
+          "slug": "vendre-3d",
+          "title": "Ventes complexes : divorce, décès, déménagement",
+          "duration": "14 min",
+          "summary": "Acteurs, calendrier, rachat de soulte, succession.",
+          "sections": [
+            {
+              "h": "Cartographier les parties",
+              "p": "Notaire, avocat, co-indivisaires, créanciers. En divorce ou succession, le prix et le calendrier dépendent d’accords hors marché pur — documentez-les tôt."
+            },
+            {
+              "h": "Financement du rachat",
+              "p": "Soulte, rachat de parts, prêt relais : le montage IOBSP doit anticiper les pièces juridiques (jugement, acte de notoriété) sous peine de refus bancaire « dossier incomplet »."
             }
           ],
           "cta": { "href": "/landings/acheteur-immo.html?role=vendeur", "label": "Déposer un bien" }
         },
         {
           "slug": "dpe-passoire",
-          "title": "DPE et passoires énergétiques",
-          "duration": "8 min",
-          "summary": "Classes F/G, travaux, impact sur la vente.",
+          "title": "DPE, audit et passoires énergétiques",
+          "duration": "12 min",
+          "summary": "Classes F/G, impact location/vente, argumentaire banque.",
           "sections": [
             {
-              "h": "Pourquoi le DPE bloque des ventes",
-              "p": "Les logements classés F ou G subissent des contraintes de location et un effet prix. Anticiper audit et travaux rassure acheteurs et banques."
+              "h": "Pourquoi la banque regarde le DPE",
+              "p": "Un bien F/G peut freiner la liquidité et la valeur de revente. Travaux prévus, devis, aides : mieux vaut les intégrer au plan de financement dès le compromis."
+            },
+            {
+              "h": "Discours vendeur / acquéreur",
+              "p": "Vendeur : transparence + plan travaux. Acquéreur : négociation prix vs reste à charge travaux. Le professionnel aligne les deux discours sur des chiffres."
             }
           ],
-          "cta": { "href": "/blog/passoire-energetique-dpe-g-vendre-2026.html", "label": "Lire le guide DPE" }
+          "cta": { "href": "/blog/passoire-energetique-dpe-g-vendre-2026.html", "label": "Guide DPE" }
         },
         {
           "slug": "negociateur",
-          "title": "Négociateur : prêt + assurances clients",
-          "duration": "7 min",
-          "summary": "Outils pour professionnels de l’immo.",
+          "title": "Négociateur : pack prêt + assurances",
+          "duration": "10 min",
+          "summary": "Process partenaire pour sécuriser le closing.",
           "sections": [
             {
-              "h": "Un lien pour sécuriser le financement",
-              "p": "Le négociateur gagne du temps en orientant le client vers un parcours prêt + emprunteur clair, sans perdre la main sur la relation."
+              "h": "Le closing se joue sur le financement",
+              "p": "Un bon mandat ne sauve pas un dossier refusé. Orientez tôt vers simulation + emprunteur pour détecter les freins (endettement, santé, apport)."
+            },
+            {
+              "h": "Outils à partager",
+              "p": "Lien parcours client, brief besoins, point d’étape hebdo. Le réseau apporteurs / négociateurs vit sur la fiabilité du feedback."
             }
           ],
           "cta": { "href": "/negociateur-immobilier/", "label": "Hub négociateur" }
+        },
+        {
+          "slug": "mandat-honoraires",
+          "title": "Mandat, honoraires et transparence",
+          "duration": "10 min",
+          "summary": "Cadre relation client, attentes, traçabilité des engagements.",
+          "sections": [
+            {
+              "h": "Clarifier qui fait quoi",
+              "p": "Agence, mandataire, courtier prêt, assureur : chaque rôle a son périmètre. Évitez les promesses croisées (« taux garanti », « vendu en 7 jours ») non documentées."
+            }
+          ],
+          "cta": { "href": "/immobilier/", "label": "Hub immobilier" }
         }
       ]
     },
@@ -189,78 +268,120 @@
       "slug": "pret",
       "label": "Prêt immobilier",
       "pilier": "pret",
-      "duration": "50 min",
-      "level": "Débutant → intermédiaire",
-      "title": "Cours Prêt immobilier",
-      "subtitle": "Capacité, apport, refus bancaire, assurance emprunteur",
-      "description": "Formation prêt immobilier : simulation, apport, endettement HCSF, prêt refusé 2e chance, assurance emprunteur loi Lemoine.",
+      "duration": "1 h 40",
+      "level": "Formation pro · niveau IOBSP",
+      "title": "Cours Prêt immobilier (niveau IOBSP)",
+      "subtitle": "HCSF, reste à vivre, plan de financement, refus, assurance emprunteur",
+      "description": "Formation crédit immobilier niveau IOBSP : HCSF, capacité, apport, plan de financement, 2e chance multi-banques, délégation emprunteur.",
       "hubHref": "/credit-immo/",
-      "cta": { "href": "/landings/credit-immo.html", "label": "Simulation crédit / 2e chance" },
+      "cta": { "href": "/landings/credit-immo.html", "label": "Simulation / 2e chance" },
       "objectives": [
-        "Estimer une capacité d’emprunt réaliste",
-        "Comprendre apport et taux d’endettement",
-        "Réagir après un refus bancaire"
+        "Construire un plan de financement bancable",
+        "Appliquer le cadre HCSF et le reste à vivre",
+        "Piloter un dossier après refus"
       ],
       "lessons": [
         {
-          "slug": "capacite-emprunt",
-          "title": "Capacité d’emprunt et simulation",
-          "duration": "10 min",
-          "summary": "Mensualité, durée, reste à vivre.",
+          "slug": "cadre-hcsf",
+          "title": "Cadre HCSF et reste à vivre",
+          "duration": "15 min",
+          "summary": "Endettement ~35 %, durée, exceptions, lecture banque.",
           "sections": [
             {
-              "h": "Ce que calcule vraiment la banque",
-              "p": "Revenus stables, charges, reste à vivre, durée, taux. Une simulation en ligne est un ordre de grandeur — pas une offre."
+              "h": "Ce que regarde le comité",
+              "p": "Taux d’effort, durée, nature des revenus (CDI, indéterminé, pro), reste à vivre par personne du foyer, apport, reste à charge après opération. Le HCSF fixe un cadre prudentiel : les banques l’opérationnalisent avec leurs propres grilles."
             },
             {
-              "h": "Endettement HCSF",
-              "p": "Le cadre HCSF limite en pratique l’endettement autour de 35 % pour la plupart des dossiers. Au-delà, il faut un montage solide."
+              "h": "Exceptions et justification",
+              "p": "Primo-accédant, reste à vivre élevé, saut de charge maîtrisé : toute exception doit être argumentée dans la note de synthèse. Sans note, le dossier « passe en force » et revient refusé."
+            }
+          ],
+          "cta": { "href": "/credit-immo/", "label": "Hub crédit immo" }
+        },
+        {
+          "slug": "capacite-emprunt",
+          "title": "Capacité d’emprunt et plan de financement",
+          "duration": "14 min",
+          "summary": "Mensualité, frais annexes, tableau d’emploi / ressources.",
+          "sections": [
+            {
+              "h": "Plan de financement complet",
+              "p": "Prix + agence + notaire + éventuels travaux + garantie (hypothèque / caution) − apport − PTZ / aides = besoin emprunté. Omettre les frais annexes fait exploser le plan le jour du compromis."
+            },
+            {
+              "h": "Simulation ≠ offre",
+              "p": "La simulation donne un ordre de grandeur. L’offre de prêt engage la banque après analyse des pièces et de l’assurance. Expliquez l’écart aux clients dès le premier rendez-vous."
             }
           ],
           "cta": { "href": "/credit-immo/simulation/", "label": "Page simulation" }
         },
         {
           "slug": "apport",
-          "title": "Apport personnel : combien faut-il ?",
-          "duration": "8 min",
-          "summary": "Frais de notaire, travaux, négociation.",
+          "title": "Apport, garanties et montage",
+          "duration": "12 min",
+          "summary": "Niveau d’apport, donation, prêt familial, caution.",
           "sections": [
             {
-              "h": "Apport ≠ cash restant après achat",
-              "p": "Notaire, garantie, éventuels travaux : l’apport couvre souvent les frais annexes. Un apport trop faible freine certaines banques."
+              "h": "Apport et signal de risque",
+              "p": "Un apport qui couvre au minimum les frais rassure. Donation, prêt familial, déblocage PEL : chaque source a ses justificatifs et ses délais."
+            },
+            {
+              "h": "Garantie du prêt",
+              "p": "Caution vs hypothèque : coût, délai, mainlevée. À intégrer dans le plan, pas en surprise avant offre."
             }
           ],
-          "cta": { "href": "/blog/pret-refuse-apport-insuffisant-solutions.html", "label": "Apport insuffisant : solutions" }
+          "cta": { "href": "/blog/pret-refuse-apport-insuffisant-solutions.html", "label": "Apport insuffisant" }
         },
         {
           "slug": "pret-refuse",
-          "title": "Prêt refusé : 2e chance multi-banques",
-          "duration": "12 min",
-          "summary": "Motifs de refus et comment relancer.",
+          "title": "Analyse d’un refus et 2e chance",
+          "duration": "15 min",
+          "summary": "Motifs, correction, ciblage banques, timing.",
           "sections": [
             {
-              "h": "Un refus n’est pas la fin",
-              "p": "Endettement, apport, CDD, assurance santé, FICP… Le motif guide la correction. Un courtier reformule et présente ailleurs."
+              "h": "Classifier le motif",
+              "p": "Endettement, apport, instabilité pro, assurance (surprime / exclusion), fichiers FICP/FCC, bien atypique. Chaque motif a un plan de correction différent."
             },
             {
               "h": "Ne pas griller le marché",
-              "p": "Multiplier les demandes sans stratégie laisse des traces. Mieux vaut un dossier propre, une fois, sur les bonnes banques."
+              "p": "Multi-demandes non coordonnées laissent des traces. Mieux vaut un dossier reformulé, une note de synthèse, 2–3 banques cibles. C’est le cœur du métier IOBSP."
             }
           ],
           "cta": { "href": "/landings/credit-immo.html", "label": "Étude 2e chance" }
         },
         {
           "slug": "assurance-emprunteur-cours",
-          "title": "Assurance emprunteur et coût global",
-          "duration": "10 min",
-          "summary": "Groupe banque vs délégation, Lemoine.",
+          "title": "Assurance emprunteur : dossier d’équivalence",
+          "duration": "14 min",
+          "summary": "Tableau d’équivalence, Lemoine, questionnaire santé.",
           "sections": [
             {
-              "h": "Le taux ne dit pas tout",
-              "p": "Le TAEG avec assurance montre le coût réel. Une délégation peut faire économiser des milliers d’euros sur 20 ans."
+              "h": "Construire le tableau d’équivalence",
+              "p": "Alignez poste à poste avec l’exigence banque (décès, PTIA, ITT, IPT, franchise, couverture des sports / professions). Un tarif bas avec franchise ITT plus longue se fait souvent refuser."
+            },
+            {
+              "h": "Lemoine et timing",
+              "p": "Résiliation / substitution : respectez le process banque (délais, attestation, avenant). Anticipez les surprimes médicales avant de promettre une économie."
             }
           ],
           "cta": { "href": "/assurance-emprunteur/", "label": "Assurance emprunteur" }
+        },
+        {
+          "slug": "note-synthese",
+          "title": "Note de synthèse et pièces",
+          "duration": "12 min",
+          "summary": "Checklist IOBSP : ce que le chargeur de dossier attend.",
+          "sections": [
+            {
+              "h": "Contenu type d’une note",
+              "p": "Profil emprunteurs, projet, plan de financement, points de vigilance, argumentaire, banques pressenties. Une note claire accélère l’instruction autant que les pièces."
+            },
+            {
+              "h": "Pièces standard",
+              "p": "Identité, revenus, avis d’impôt, relevés, compromis / devis travaux, RI assurance auto si pertinent, justificatifs d’apport. Listez les manquants au client avec échéance."
+            }
+          ],
+          "cta": { "href": "/landings/credit-immo.html", "label": "Démarrer un dossier" }
         }
       ]
     },
@@ -269,70 +390,108 @@
       "slug": "banque",
       "label": "Banque & TRC",
       "pilier": "banque",
-      "duration": "30 min",
-      "level": "Débutant",
-      "title": "Cours Banque & TRC",
-      "subtitle": "Comptes, trésorerie, épargne : les bases pour dialoguer avec sa banque",
-      "description": "Formation banque : comptes, trésorerie (TRC), épargne. Comprendre les offres bancaires avec un courtier ORIAS.",
+      "duration": "1 h 10",
+      "level": "Formation pro · relation banque",
+      "title": "Cours Banque & TRC (niveau pro)",
+      "subtitle": "Lecture de risque, trésorerie, préparation de comité, KYC",
+      "description": "Formation banque pro : KYC, lecture de risque, trésorerie TRC, préparation rendez-vous et comité, lien avec le crédit immobilier.",
       "hubHref": "/banque/",
       "cta": { "href": "/landings/rappel.html?need=banque", "label": "Échanger sur une offre banque" },
       "objectives": [
-        "Clarifier compte courant vs épargne",
-        "Comprendre la trésorerie (TRC)",
-        "Préparer un dossier banque propre"
+        "Préparer un dossier lisible pour un chargé d’affaires",
+        "Comprendre la logique de risque bancaire",
+        "Articuler banque, prêt et trésorerie"
       ],
       "lessons": [
         {
-          "slug": "comptes-epargne",
-          "title": "Comptes et épargne : panorama",
-          "duration": "8 min",
-          "summary": "Courant, livret, horizons de placement.",
+          "slug": "kyc-conformite",
+          "title": "KYC et conformité de base",
+          "duration": "12 min",
+          "summary": "Connaissance client, origine des fonds, cohérence du dossier.",
           "sections": [
             {
-              "h": "Séparer quotidien et projet",
-              "p": "Le compte courant sert aux flux. L’épargne de précaution (3 à 6 mois de charges) reste liquide. Les projets longs demandent d’autres supports — avec conseil adapté."
+              "h": "Pourquoi la banque ralentit",
+              "p": "KYC / LCB-FT : identité, adresse, activité, origine de l’apport. Un virement familial non documenté bloque plus souvent qu’un taux trop haut."
+            },
+            {
+              "h": "Cohérence narrative",
+              "p": "Revenus, charges, projet et historique de compte doivent raconter la même histoire. Les anomalies (jeux, découverts chroniques, retards) se préparent avant le RDV."
+            }
+          ],
+          "cta": { "href": "/methode.html", "label": "Notre méthode" }
+        },
+        {
+          "slug": "comptes-epargne",
+          "title": "Structure de comptes et épargne",
+          "duration": "10 min",
+          "summary": "Flux, précaution, horizons — lecture patrimoniale simple.",
+          "sections": [
+            {
+              "h": "Séparer les enveloppes",
+              "p": "Courant (flux), précaution (3–6 mois de charges), projets. En face d’un banquier, une structure claire rassure autant qu’un haut revenu mal géré inquiète."
             }
           ],
           "cta": { "href": "/banque/", "label": "Hub Banque" }
         },
         {
           "slug": "tresorerie-trc",
-          "title": "Trésorerie et TRC",
-          "duration": "8 min",
-          "summary": "Lisser les encaissements, éviter les découverts chroniques.",
+          "title": "Trésorerie et besoins TRC",
+          "duration": "12 min",
+          "summary": "BFR, saisonnalité, découvert vs solution structurée.",
           "sections": [
             {
-              "h": "Quand la trésorerie coince",
-              "p": "Retards clients, saisonnalité, charges fixes : une solution de trésorerie se discute avec chiffres à l’appui (relevés, prévisionnel)."
+              "h": "Diagnostiquer le besoin",
+              "p": "Retards clients, stocks, charges fixes, saisonnalité. Une autorisation de découvert n’est pas un plan de trésorerie : chiffrez durée et remboursement."
+            },
+            {
+              "h": "Pièces utiles",
+              "p": "Relevés, grand livre, prévisionnel 3–6 mois, carnet de commandes. Sans chiffres, pas de décision comité."
             }
           ],
           "cta": { "href": "/landings/rappel.html", "label": "Demander un rappel" }
         },
         {
           "slug": "relation-banque",
-          "title": "Bien préparer un rendez-vous banque",
-          "duration": "7 min",
-          "summary": "Pièces, narrative, cohérence du dossier.",
+          "title": "Préparer un comité / RDV banque",
+          "duration": "12 min",
+          "summary": "Ordre du jour, synthèse, objections fréquentes.",
           "sections": [
             {
-              "h": "La banque lit une histoire chiffrée",
-              "p": "Bulletins, avis d’imposition, relevés, tableau de charges : un dossier ordonné accélère la décision. Un courtier aide à la cohérence."
+              "h": "Une page de synthèse",
+              "p": "Qui, quoi, combien, pourquoi maintenant, comment remboursé, risques et mitigants. Le chargé d’affaires doit pouvoir défendre le dossier sans vous."
+            },
+            {
+              "h": "Objections types",
+              "p": "Endettement, volatilité des revenus, bien atypique, assurance. Préparez la réponse chiffrée avant d’entrer en salle."
             }
           ],
-          "cta": { "href": "/methode.html", "label": "Notre méthode" }
+          "cta": { "href": "/academie/pret/", "label": "Cours Prêt IOBSP" }
         },
         {
           "slug": "banque-et-pret",
-          "title": "Banque et projet immobilier",
-          "duration": "7 min",
-          "summary": "Lien avec le cours prêt.",
+          "title": "Banque et crédit immobilier : même dossier",
+          "duration": "10 min",
+          "summary": "Comment IOBSP et banque se parlent.",
           "sections": [
             {
-              "h": "Même sujet, deux angles",
-              "p": "La banque évalue le risque ; le courtier compare plusieurs établissements. Les deux se rejoignent sur le dossier et l’assurance emprunteur."
+              "h": "Vocabulaire commun",
+              "p": "Effort, RAV, quotité, différé, franchise assurance, caution. Le courtier qui parle le langage banque gagne des jours d’instruction."
             }
           ],
-          "cta": { "href": "/academie/pret/", "label": "Passer au cours Prêt" }
+          "cta": { "href": "/academie/pret/note-synthese.html", "label": "Note de synthèse" }
+        },
+        {
+          "slug": "offre-bancaire",
+          "title": "Lire une offre bancaire",
+          "duration": "10 min",
+          "summary": "Taux, frais, services, conditions de remboursement anticipé.",
+          "sections": [
+            {
+              "h": "Au-delà du taux nominal",
+              "p": "Frais de dossier, carte, packages, IRA, assurance groupe proposée. Comparez le coût global et la flexibilité, pas une ligne isolée."
+            }
+          ],
+          "cta": { "href": "/banque/", "label": "Hub Banque" }
         }
       ]
     },
@@ -341,74 +500,234 @@
       "slug": "finance",
       "label": "Finance",
       "pilier": "finance",
-      "duration": "40 min",
-      "level": "Intermédiaire",
-      "title": "Cours Finance",
-      "subtitle": "Rachat de crédits, conso, prêt relais, crédit pro",
-      "description": "Formation finance : rachat / RAC, crédit conso, prêt relais, crédit professionnel. Quand regrouper, quand éviter un 4e crédit.",
+      "duration": "1 h 20",
+      "level": "Formation pro · IOBSP / financement",
+      "title": "Cours Finance (niveau pro)",
+      "subtitle": "RAC, conso, prêt relais, crédit pro — critères d’acceptation",
+      "description": "Formation finance niveau pro : rachat de crédits, crédit conso, prêt relais, crédit professionnel — analyse de faisabilité et pièges.",
       "hubHref": "/finance/",
       "cta": { "href": "/landings/rachat.html", "label": "Étude rachat de crédits" },
       "objectives": [
-        "Savoir quand un RAC a du sens",
-        "Choisir entre conso et rachat",
-        "Comprendre le prêt relais"
+        "Décider entre RAC et nouveau crédit",
+        "Monter un prêt relais crédible",
+        "Qualifier un besoin pro"
       ],
       "lessons": [
         {
           "slug": "rachat-credits",
-          "title": "Rachat / regroupement de crédits (RAC)",
-          "duration": "12 min",
-          "summary": "Une mensualité, durée allongée : avantages et pièges.",
+          "title": "RAC : analyse de faisabilité",
+          "duration": "15 min",
+          "summary": "Mensualité vs coût total, hypothèque, reste à vivre.",
           "sections": [
             {
-              "h": "Objectif : respirer chaque mois",
-              "p": "Le RAC regroupe plusieurs crédits pour baisser la mensualité, souvent en allongeant la durée. Le coût total peut augmenter — d’où l’intérêt d’une étude chiffrée."
+              "h": "Quand le RAC a du sens",
+              "p": "Pression de trésorerie, multiplicité de crédits, après un choc de revenus. Objectif : mensualité soutenable — en acceptant souvent un allongement et un coût total plus élevé."
             },
             {
-              "h": "Qui est concerné ?",
-              "p": "Auto + conso + reste immo, découverts chroniques, après un événement de vie. Chaque dossier a un seuil de faisabilité."
+              "h": "Critères d’instruction",
+              "p": "Endettement après opération, valeur de bien (si garantie), comportement de compte, âge, reste à vivre. Un RAC n’est pas un droit : c’est un refinancement sous conditions."
+            },
+            {
+              "h": "Restitution client",
+              "p": "Montrez avant/après (mensualité, durée, coût, hypothèque éventuelle). Le devoir d’information IOBSP impose la clarté sur le coût total."
             }
           ],
           "cta": { "href": "/landings/rachat.html", "label": "Étude RAC" }
         },
         {
           "slug": "credit-conso",
-          "title": "Crédit consommation",
-          "duration": "8 min",
-          "summary": "Travaux, auto, trésorerie ponctuelle.",
+          "title": "Crédit conso : cadrage responsable",
+          "duration": "12 min",
+          "summary": "Objet, durée, surendettement, alternative RAC.",
           "sections": [
             {
-              "h": "Un 4e crédit n’est pas toujours la solution",
-              "p": "Parfois un RAC est plus sain qu’empiler. Calibrez montant, durée et impact sur l’endettement global."
+              "h": "Éviter l’empilement",
+              "p": "Un 4e crédit conso peut dégrader le reste à vivre. Testez d’abord si un RAC ou un report de projet est plus sain."
+            },
+            {
+              "h": "Objet et justificatifs",
+              "p": "Auto, travaux, trésorerie : l’objet influence le taux et les pièces. Documentez pour accélérer."
             }
           ],
           "cta": { "href": "/landings/conso.html", "label": "Parcours conso" }
         },
         {
           "slug": "pret-relais",
-          "title": "Prêt relais : vendre et racheter",
-          "duration": "10 min",
-          "summary": "Pont entre deux biens, quotité, plan B.",
+          "title": "Prêt relais : ingénierie du pont",
+          "duration": "14 min",
+          "summary": "Quotité, durée 12–24 mois, plan B si vente lente.",
           "sections": [
             {
-              "h": "Le timing de la vente",
-              "p": "Le prêt relais avance une partie de la valeur du bien vendu. Si la vente tarde, il faut un plan B (durée, quotité, différé)."
+              "h": "Dimensionner le relais",
+              "p": "Quotité sur la valeur du bien vendu, durée, différé d’intérêts éventuel, cumul avec le prêt d’acquisition. Le risque principal : vente plus lente que prévu."
+            },
+            {
+              "h": "Plan B",
+              "p": "Baisse de prix, prolongation, location temporaire, report d’achat. Un relais sans plan B est un dossier fragile en comité."
             }
           ],
           "cta": { "href": "/landings/pret-relais.html", "label": "Prêt relais" }
         },
         {
           "slug": "credit-pro",
-          "title": "Crédit professionnel",
-          "duration": "8 min",
-          "summary": "Investissement, matériel, trésorerie pro.",
+          "title": "Crédit professionnel : lecture bilan",
+          "duration": "14 min",
+          "summary": "Objet, capacité de remboursement, garanties, prévisionnel.",
           "sections": [
             {
-              "h": "Dossier pro = chiffres + projet",
-              "p": "Bilans, prévisionnel, objet du financement. Le montage diffère du crédit immo particulier."
+              "h": "Dossier pro = projet + chiffres",
+              "p": "Bilans, liasses, prévisionnel, objet (matériel, locaux, BFR). La banque finance un remboursement probable, pas une intention."
+            },
+            {
+              "h": "Garanties et caution",
+              "p": "Nantissement, hypothèque, caution personnelle : expliquez l’engagement du dirigeant avant de faire signer."
             }
           ],
           "cta": { "href": "/finance/", "label": "Hub Finance" }
+        },
+        {
+          "slug": "renegociation",
+          "title": "Renégociation et rachat de prêt immo",
+          "duration": "12 min",
+          "summary": "Seuil de rentabilité, IRA, frais, simulation comparative.",
+          "sections": [
+            {
+              "h": "Quand renégocier",
+              "p": "Écart de taux, capital restant dû, durée résiduelle, IRA et frais. Calculez le break-even en mois avant de conseiller le mouvement."
+            }
+          ],
+          "cta": { "href": "/renegociation-pret/", "label": "Renégociation" }
+        },
+        {
+          "slug": "ethique-iobsp",
+          "title": "Éthique et devoir d’information IOBSP",
+          "duration": "10 min",
+          "summary": "Rémunération, conflits d’intérêts, information précontractuelle.",
+          "sections": [
+            {
+              "h": "Transparence",
+              "p": "Le client doit comprendre qui est rémunéré comment, et ce que l’opération lui coûte vraiment. C’est le standard professionnel — pas une option marketing."
+            }
+          ],
+          "cta": { "href": "/methode.html", "label": "Notre méthode" }
+        }
+      ]
+    },
+    {
+      "id": "conformite",
+      "slug": "conformite",
+      "label": "Conformité ORIAS",
+      "pilier": "assurance",
+      "duration": "1 h",
+      "level": "Formation pro · conformité",
+      "title": "Cours Conformité ORIAS / IOBSP",
+      "subtitle": "Registre, catégories, DDA, conflits d’intérêts, contrôles",
+      "description": "Formation conformité : ORIAS (IAS / IOBSP), DDA, devoir de conseil, conflits d’intérêts, bonnes pratiques ACPR pour cabinets de courtage.",
+      "hubHref": "/methode.html",
+      "cta": { "href": "/agence-varangeville/", "label": "Cabinet & mentions ORIAS" },
+      "objectives": [
+        "Situer IAS et IOBSP dans le registre ORIAS",
+        "Relier DDA / devoir de conseil au quotidien",
+        "Préparer un cabinet aux attentes de contrôle"
+      ],
+      "lessons": [
+        {
+          "slug": "orias-categories",
+          "title": "ORIAS : IAS, IOBSP et catégories",
+          "duration": "12 min",
+          "summary": "Qui peut distribuer quoi, immatriculation, vérification client.",
+          "sections": [
+            {
+              "h": "Le registre unique",
+              "p": "L’ORIAS enregistre les intermédiaires en assurance (IAS) et en opérations de banque / services de paiement (IOBSP). Le numéro doit être vérifiable sur orias.fr — exigence de transparence envers le public."
+            },
+            {
+              "h": "Périmètre d’activité",
+              "p": "Ne promettez pas un acte hors catégorie. Assurance ≠ crédit : un cabinet multi-métiers doit couvrir les immatriculations et compétences correspondantes."
+            }
+          ],
+          "cta": { "href": "https://www.orias.fr/", "label": "Vérifier sur orias.fr" }
+        },
+        {
+          "slug": "dda-pratique",
+          "title": "DDA au quotidien du cabinet",
+          "duration": "14 min",
+          "summary": "Parcours client, IPID, formation continue, gouvernance produits.",
+          "sections": [
+            {
+              "h": "Parcours client documenté",
+              "p": "Entrée du lead → recueil besoins → conseil → proposition → souscription → suivi. Chaque étape laisse une trace (CRM, mail, formulaire)."
+            },
+            {
+              "h": "Information précontractuelle",
+              "p": "IPID / documents clairs, langage compréhensible, pas de renvoi opaque aux conditions générales seules. Le client doit pouvoir comparer."
+            }
+          ],
+          "cta": { "href": "/methode.html", "label": "Méthode cabinet" }
+        },
+        {
+          "slug": "conflits-interets",
+          "title": "Conflits d’intérêts et rémunération",
+          "duration": "12 min",
+          "summary": "Commissions, indépendance du conseil, priorisation client.",
+          "sections": [
+            {
+              "h": "Le conflit n’est pas l’interdit — l’opacité si",
+              "p": "La rémunération par les compagnies est le modèle dominant du courtage. L’obligation : ne pas laisser la commission dicter un conseil inadapté, et savoir l’expliquer."
+            },
+            {
+              "h": "Règle pratique",
+              "p": "Si deux produits équivalents, documentez le choix. Si un produit plus commissionné est moins adapté, il ne doit pas gagner."
+            }
+          ],
+          "cta": { "href": "/methode.html", "label": "Notre méthode" }
+        },
+        {
+          "slug": "controle-acpr",
+          "title": "Préparer un contrôle / une réclamation",
+          "duration": "12 min",
+          "summary": "Pièces, procédures, médiation, posture.",
+          "sections": [
+            {
+              "h": "Ce que l’on doit retrouver",
+              "p": "Fiches besoins, propositions, contrats, échanges, registre de réclamations. Un cabinet ordonné répond vite — un cabinet désordonné paraît fautif même quand il a bien conseillé."
+            },
+            {
+              "h": "Réclamation client",
+              "p": "Accusé réception, délai de traitement, réponse motivée, médiation si échec. Process écrit = professionnalisme."
+            }
+          ],
+          "cta": { "href": "/mentions-legales.html", "label": "Mentions légales" }
+        },
+        {
+          "slug": "rgpd-donnees",
+          "title": "Données personnelles et secret professionnel",
+          "duration": "10 min",
+          "summary": "RGPD, minimisation, durée de conservation, partage partenaires.",
+          "sections": [
+            {
+              "h": "Minimisation",
+              "p": "Ne collectez que ce qui sert le dossier. Informez la finalité (devis, gestion, obligation légale). Encadrez les partages assureur / banque."
+            }
+          ],
+          "cta": { "href": "/politique-confidentialite.html", "label": "Politique de confidentialité" }
+        },
+        {
+          "slug": "parcours-multi-metiers",
+          "title": "Cabinet multi-métiers : assurance + financement",
+          "duration": "12 min",
+          "summary": "Comment articuler IAS et IOBSP sans mélanger les actes.",
+          "sections": [
+            {
+              "h": "Un client, deux cadres",
+              "p": "Le même foyer peut avoir besoin d’une mutuelle et d’un prêt. Séparez clairement les actes, les documents et les devoirs d’information — tout en gardant un interlocuteur unique côté expérience client."
+            },
+            {
+              "h": "Valeur du cabinet Leads Opportunities",
+              "p": "ORIAS 15005935, siège Varangéville, dossiers France entière : la promesse est la cohérence du conseil multi-métiers, pas le miracle du taux unique."
+            }
+          ],
+          "cta": { "href": "/agence-varangeville/", "label": "Cabinet Varangéville" }
         }
       ]
     }
