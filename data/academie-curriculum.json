@@ -1,10 +1,10 @@
 {
   "updated": "2026-08-23",
   "hub": {
-    "title": "Académie pro | Formation longue courtier, IOBSP, banque (90 h+)",
-    "description": "Parcours de formation longue niveau courtier ORIAS / IOBSP / banque : plus de 90 heures de cours (assurance, prêt, immo, finance, conformité). Leads Opportunities.",
-    "h1": "Académie pro : un vrai volume de formation",
-    "lead": "Plus de 90 heures de cours structurés (leçons 25–45 min, cas pratiques, ateliers). Niveau attendu en cabinet de courtage et en montage bancaire — pas un simple glossaire."
+    "title": "Académie pro | Formation longue courtier & IOBSP (130 h+)",
+    "description": "Formation longue ORIAS / IOBSP / banque : plus de 130 heures de cours (assurance, prêt, immobilier, finance, conformité). Cas pratiques et ateliers.",
+    "h1": "Académie pro : formation longue, volume cabinet",
+    "lead": "130 h+ de cours (leçons 25–45 min, ateliers, cas). Destiné aux parcours type formation courtier / IOBSP / relation banque — enrichi en continu."
   },
   "courses": [
     {
@@ -12,7 +12,7 @@
       "slug": "assurance",
       "label": "Assurance",
       "pilier": "assurance",
-      "duration": "20 h",
+      "duration": "28 h",
       "level": "Formation pro · niveau courtier IAS",
       "title": "Cours Assurance (niveau courtier)",
       "subtitle": "Devoir de conseil, lecture de garanties, mutuelle, MRH, VTC, emprunteur — comme en formation IAS",
@@ -587,6 +587,294 @@
             "href": "/landings/sante.html",
             "label": "Devis mutuelle"
           }
+        },
+        {
+          "slug": "responsabilite-civile-vie-privee",
+          "title": "RC vie privée et chef de famille",
+          "duration": "30 min",
+          "summary": "Périmètre, plafonds, défense pénale, assistance.",
+          "sections": [
+            {
+              "h": "Qui est couvert",
+              "p": "Assuré, conjoint, enfants : vérifier la définition du foyer."
+            },
+            {
+              "h": "Exclusions classiques",
+              "p": "Faute intentionnelle, activités pro non déclarées, sports à risque."
+            },
+            {
+              "h": "Lien habitation",
+              "p": "Souvent incluse en MRH : éviter les doublons inutiles."
+            }
+          ],
+          "cta": {
+            "href": "/assurance-habitation/",
+            "label": "Habitation"
+          }
+        },
+        {
+          "slug": "protection-juridique",
+          "title": "Protection juridique",
+          "duration": "25 min",
+          "summary": "Domaines couverts, plafonds, libre choix de l’avocat.",
+          "sections": [
+            {
+              "h": "Utilité",
+              "p": "Litiges conso, voisinage, travail — selon formules."
+            },
+            {
+              "h": "Plafonds et franchises",
+              "p": "Lire les montants et délais de carence."
+            },
+            {
+              "h": "Conseil",
+              "p": "Ne pas vendre PJ comme produit miracle : cadrer les attentes."
+            }
+          ],
+          "cta": {
+            "href": "/landings/devis.html",
+            "label": "Devis"
+          }
+        },
+        {
+          "slug": "assurance-scolaire",
+          "title": "Assurance scolaire et extrascolaire",
+          "duration": "25 min",
+          "summary": "Responsabilité, accidents corporels, voyages.",
+          "sections": [
+            {
+              "h": "Obligations",
+              "p": "Souvent exigée par l’établissement pour sorties."
+            },
+            {
+              "h": "Garanties utiles",
+              "p": "RC, corporels, rapatriement selon activités."
+            },
+            {
+              "h": "Foyer",
+              "p": "Vérifier si déjà couvert via MRH / mutuelle."
+            }
+          ],
+          "cta": {
+            "href": "/landings/sante.html",
+            "label": "Mutuelle / foyer"
+          }
+        },
+        {
+          "slug": "dependance-aide",
+          "title": "Dépendance et aide à domicile",
+          "duration": "35 min",
+          "summary": "Niveaux GIR, rentes, délais, exclusions.",
+          "sections": [
+            {
+              "h": "Besoin réel",
+              "p": "Anticipation vs urgence familiale."
+            },
+            {
+              "h": "Lecture contrat",
+              "p": "Définition de la dépendance, barèmes, franchises."
+            },
+            {
+              "h": "Articulation",
+              "p": "APA, mutuelle, prévoyance : éviter les trous."
+            }
+          ],
+          "cta": {
+            "href": "/assurance-prevoyance/",
+            "label": "Prévoyance"
+          }
+        },
+        {
+          "slug": "obsèques",
+          "title": "Assurance obsèques",
+          "duration": "25 min",
+          "summary": "Capital vs prestations, bénéficiaires, inflation.",
+          "sections": [
+            {
+              "h": "Deux logiques",
+              "p": "Capital libre vs contrat de prestations."
+            },
+            {
+              "h": "Pièges",
+              "p": "Frais non couverts, revalorisation insuffisante."
+            },
+            {
+              "h": "Conseil",
+              "p": "Comparer avec l’épargne déjà disponible."
+            }
+          ],
+          "cta": {
+            "href": "/landings/devis.html",
+            "label": "Étude"
+          }
+        },
+        {
+          "slug": "animaux-approfondi",
+          "title": "Assurance animaux approfondie",
+          "duration": "35 min",
+          "summary": "Chirurgies, plafonds, carences, races exclues.",
+          "sections": [
+            {
+              "h": "Recueil",
+              "p": "Espèce, race, âge, antécédents, budget."
+            },
+            {
+              "h": "Tableau",
+              "p": "Plafond annuel, % remboursement, franchise."
+            },
+            {
+              "h": "Exclusions",
+              "p": "Maladies préexistantes, actes de confort."
+            }
+          ],
+          "cta": {
+            "href": "/assurance-animaux/",
+            "label": "Animaux"
+          }
+        },
+        {
+          "slug": "bateau-loisirs",
+          "title": "Assurance bateau / loisirs nautiques",
+          "duration": "30 min",
+          "summary": "RC, corps, assistance, zones de navigation.",
+          "sections": [
+            {
+              "h": "Usage",
+              "p": "Plaisance, location, compétition."
+            },
+            {
+              "h": "Garanties",
+              "p": "Corps du navire, RC, vol, assistance."
+            },
+            {
+              "h": "Déclaration",
+              "p": "Longueur, moteur, lieu d’hivernage."
+            }
+          ],
+          "cta": {
+            "href": "/assurances-niches.html",
+            "label": "Niches"
+          }
+        },
+        {
+          "slug": "atelier-ipid-compare",
+          "title": "Atelier : comparer 2 IPID",
+          "duration": "40 min",
+          "summary": "Exercice pratique ligne à ligne.",
+          "sections": [
+            {
+              "h": "Méthode",
+              "p": "Garanties, exclusions, obligations, zones géo."
+            },
+            {
+              "h": "Écarts matériels",
+              "p": "Ce qui change un sinistre type."
+            },
+            {
+              "h": "Restitution client",
+              "p": "1 page claire + recommandation."
+            }
+          ],
+          "cta": {
+            "href": "/academie/assurance/ipid-dic.html",
+            "label": "IPID"
+          }
+        },
+        {
+          "slug": "cas-sinistre-habitation",
+          "title": "Cas : sinistre dégât des eaux",
+          "duration": "40 min",
+          "summary": "Déclaration, conventions, expertise, recours.",
+          "sections": [
+            {
+              "h": "Premiers gestes",
+              "p": "Sécurité, photos, déclaration dans les délais."
+            },
+            {
+              "h": "Interlocuteurs",
+              "p": "Assureurs, expert, syndic éventuel."
+            },
+            {
+              "h": "Rôle courtier",
+              "p": "Suivi, pièces, contestation motivée."
+            }
+          ],
+          "cta": {
+            "href": "/academie/assurance/sinistre-reclamations.html",
+            "label": "Sinistres"
+          }
+        },
+        {
+          "slug": "cas-resiliation-infra-annuelle",
+          "title": "Cas : résiliation infra-annuelle",
+          "duration": "30 min",
+          "summary": "Hamon, Chatel, Lemoine — choisir le bon levier.",
+          "sections": [
+            {
+              "h": "Textes",
+              "p": "Selon produit (auto, affinitaire, emprunteur…)."
+            },
+            {
+              "h": "Process",
+              "p": "Préavis, lettre, attestation de remplacement."
+            },
+            {
+              "h": "Erreur fatale",
+              "p": "Résilier sans couverture de suite."
+            }
+          ],
+          "cta": {
+            "href": "/methode.html",
+            "label": "Méthode"
+          }
+        },
+        {
+          "slug": "wholesale-vs-retail",
+          "title": "Wholesale / délégation : qui fait quoi",
+          "duration": "30 min",
+          "summary": "Courtier grossiste, compagnie, gestion déléguée.",
+          "sections": [
+            {
+              "h": "Chaîne",
+              "p": "Client → courtier → partenaire → compagnie."
+            },
+            {
+              "h": "SLA",
+              "p": "Délais devis et sinistre à connaître."
+            },
+            {
+              "h": "Responsabilité",
+              "p": "Le devoir de conseil reste local."
+            }
+          ],
+          "cta": {
+            "href": "/academie/assurance/relation-compagnies.html",
+            "label": "Compagnies"
+          }
+        },
+        {
+          "slug": "tarification-signaux",
+          "title": "Signaux de tarification et sélection",
+          "duration": "35 min",
+          "summary": "Ce qui fait monter/baisser une prime.",
+          "sections": [
+            {
+              "h": "Risque objet",
+              "p": "Valeur, zone, usage, sinistralité."
+            },
+            {
+              "h": "Risque personne",
+              "p": "Âge, métier, antécédents."
+            },
+            {
+              "h": "Négociation",
+              "p": "Quand demander une dérogation — avec dossier."
+            }
+          ],
+          "cta": {
+            "href": "/academie/assurance/lire-un-devis.html",
+            "label": "Devis"
+          }
         }
       ]
     },
@@ -595,7 +883,7 @@
       "slug": "immobilier",
       "label": "Immobilier",
       "pilier": "immobilier",
-      "duration": "16 h",
+      "duration": "24 h",
       "level": "Formation longue pro",
       "title": "Cours Immobilier (niveau pro)",
       "subtitle": "Qualif. acquéreur/vendeur, DPE, 3D, articulation prêt et assurances",
@@ -1146,6 +1434,294 @@
             "href": "/landings/acheteur-immo.html",
             "label": "Brief"
           }
+        },
+        {
+          "slug": "photos-annonce",
+          "title": "Photos et annonce : qualité pro",
+          "duration": "25 min",
+          "summary": "Ce qui fait vendre / ce qui fait fuir.",
+          "sections": [
+            {
+              "h": "Standards",
+              "p": "Luminosité, pièces clés, extérieur."
+            },
+            {
+              "h": "Texte",
+              "p": "Faits, charges, DPE, sans survente."
+            },
+            {
+              "h": "Conformité",
+              "p": "Pas de discrimination dans la rédaction."
+            }
+          ],
+          "cta": {
+            "href": "/immobilier/",
+            "label": "Hub immo"
+          }
+        },
+        {
+          "slug": "home-staging-bases",
+          "title": "Home staging : bases",
+          "duration": "25 min",
+          "summary": "Quand ça vaut le coût, discours vendeur.",
+          "sections": [
+            {
+              "h": "Objectifs",
+              "p": "Réduire délai / sécuriser prix."
+            },
+            {
+              "h": "Budget",
+              "p": "Gestes simples vs prestation."
+            },
+            {
+              "h": "Mesure",
+              "p": "Avant/après et feedback visites."
+            }
+          ],
+          "cta": {
+            "href": "/landings/acheteur-immo.html?role=vendeur",
+            "label": "Vendeur"
+          }
+        },
+        {
+          "slug": "charges-copro-audit",
+          "title": "Audit express charges de copro",
+          "duration": "35 min",
+          "summary": "Lire 3 derniers PV AG.",
+          "sections": [
+            {
+              "h": "Grille",
+              "p": "Travaux votés, dettes, contentieux."
+            },
+            {
+              "h": "Questions syndic",
+              "p": "Fonds travaux, ravalement, toiture."
+            },
+            {
+              "h": "Impact offre",
+              "p": "Négociation prix argumentée."
+            }
+          ],
+          "cta": {
+            "href": "/academie/immobilier/copropriete.html",
+            "label": "Copro"
+          }
+        },
+        {
+          "slug": "urbanisme-basics",
+          "title": "Urbanisme pour non-spécialistes",
+          "duration": "35 min",
+          "summary": "PLU, servitudes, permis, divisions.",
+          "sections": [
+            {
+              "h": "Docs",
+              "p": "Cadastre, PLU, certificats."
+            },
+            {
+              "h": "Alertes",
+              "p": "Servitudes, zones inondables, projets voisins."
+            },
+            {
+              "h": "Quand escalader",
+              "p": "Géomètre / avocat / notaire."
+            }
+          ],
+          "cta": {
+            "href": "/immobilier/",
+            "label": "Hub"
+          }
+        },
+        {
+          "slug": "terrain-viabilise",
+          "title": "Terrain viabilisé vs isolé",
+          "duration": "30 min",
+          "summary": "Viabilisation, taxes, constructibilité.",
+          "sections": [
+            {
+              "h": "Coûts cachés",
+              "p": "Raccordements, étude de sol."
+            },
+            {
+              "h": "Financement",
+              "p": "Banques plus sélectives."
+            },
+            {
+              "h": "Calendrier",
+              "p": "Permis et délais."
+            }
+          ],
+          "cta": {
+            "href": "/blog/acheter-terrain-nancy-metropole-54-2026.html",
+            "label": "Terrain Nancy"
+          }
+        },
+        {
+          "slug": "investissement-colocation",
+          "title": "Colocation / multipropriété",
+          "duration": "30 min",
+          "summary": "Rendement, gestion, risques locatifs.",
+          "sections": [
+            {
+              "h": "Chiffrage",
+              "p": "Loyers, vacance, usure."
+            },
+            {
+              "h": "Bail",
+              "p": "Cadre juridique simplifié à vérifier."
+            },
+            {
+              "h": "Banque",
+              "p": "Lecture prudence."
+            }
+          ],
+          "cta": {
+            "href": "/landings/credit-immo.html",
+            "label": "Financement"
+          }
+        },
+        {
+          "slug": "chasse-bien",
+          "title": "Chasse immobilière : process",
+          "duration": "30 min",
+          "summary": "Mandat recherche, critères, reporting.",
+          "sections": [
+            {
+              "h": "Brief",
+              "p": "Critères durs / souples."
+            },
+            {
+              "h": "Sourcing",
+              "p": "Off-market, réseaux, portails."
+            },
+            {
+              "h": "Reporting",
+              "p": "Cadence client."
+            }
+          ],
+          "cta": {
+            "href": "/landings/chasseur-bien.html",
+            "label": "Chasseur de bien"
+          }
+        },
+        {
+          "slug": "estimation-dvf",
+          "title": "Utiliser DVF / comparables ouverts",
+          "duration": "35 min",
+          "summary": "Méthode et limites des données publiques.",
+          "sections": [
+            {
+              "h": "Requête",
+              "p": "Périmètre, période, typologie."
+            },
+            {
+              "h": "Ajustements",
+              "p": "État, étage, travaux."
+            },
+            {
+              "h": "Limites",
+              "p": "Délais de publication, ventes atypiques."
+            }
+          ],
+          "cta": {
+            "href": "/academie/immobilier/estimation-argumentee.html",
+            "label": "Estimation"
+          }
+        },
+        {
+          "slug": "cas-passoire-negociation",
+          "title": "Cas : négocier une passoire F/G",
+          "duration": "40 min",
+          "summary": "Décote, travaux, financement.",
+          "sections": [
+            {
+              "h": "Argumentaire",
+              "p": "Coût travaux vs prix affiché."
+            },
+            {
+              "h": "Plan",
+              "p": "Audit + devis avant offre ferme."
+            },
+            {
+              "h": "Banque",
+              "p": "Intégrer l’enveloppe travaux."
+            }
+          ],
+          "cta": {
+            "href": "/academie/immobilier/passoire-plan-travaux.html",
+            "label": "Travaux DPE"
+          }
+        },
+        {
+          "slug": "cas-indivision-bloquee",
+          "title": "Cas : indivision bloquée",
+          "duration": "40 min",
+          "summary": "Sorties amiables et judiciaires (vue courtier/négo).",
+          "sections": [
+            {
+              "h": "Cartographie",
+              "p": "Parts, occupation, dettes."
+            },
+            {
+              "h": "Options",
+              "p": "Rachat, vente, licitation."
+            },
+            {
+              "h": "Financement",
+              "p": "Soulte et calendrier notaire."
+            }
+          ],
+          "cta": {
+            "href": "/academie/immobilier/succession-indivision.html",
+            "label": "Indivision"
+          }
+        },
+        {
+          "slug": "atelier-pricing",
+          "title": "Atelier : grille de pricing vendeur",
+          "duration": "45 min",
+          "summary": "3 scénarios prix (ambitieux / marché / rapide).",
+          "sections": [
+            {
+              "h": "Inputs",
+              "p": "Comparables, délai souhaité, travaux."
+            },
+            {
+              "h": "Outputs",
+              "p": "Fourchette + discours."
+            },
+            {
+              "h": "Suivi",
+              "p": "Points à 15 jours."
+            }
+          ],
+          "cta": {
+            "href": "/landings/acheteur-immo.html?role=vendeur",
+            "label": "Vendeur"
+          }
+        },
+        {
+          "slug": "ethics-immo",
+          "title": "Éthique immo : pratiques à éviter",
+          "duration": "25 min",
+          "summary": "Fausses offres, rétention d’info, discrimination.",
+          "sections": [
+            {
+              "h": "Interdits",
+              "p": "Ce qui expose civilement / pénalement."
+            },
+            {
+              "h": "Bonnes pratiques",
+              "p": "Transparence, traces écrites."
+            },
+            {
+              "h": "Signalement",
+              "p": "Quand remonter en interne."
+            }
+          ],
+          "cta": {
+            "href": "/academie/conformite/",
+            "label": "Conformité"
+          }
         }
       ]
     },
@@ -1154,7 +1730,7 @@
       "slug": "pret",
       "label": "Prêt immobilier",
       "pilier": "pret",
-      "duration": "18 h",
+      "duration": "26 h",
       "level": "Formation pro · niveau IOBSP",
       "title": "Cours Prêt immobilier (niveau IOBSP)",
       "subtitle": "HCSF, reste à vivre, plan de financement, refus, assurance emprunteur",
@@ -1709,6 +2285,294 @@
             "href": "/blog/pret-refuse-endettement-35-hcsf-solutions.html",
             "label": "Guide 35 %"
           }
+        },
+        {
+          "slug": "amortissement-table",
+          "title": "Lire un tableau d’amortissement",
+          "duration": "30 min",
+          "summary": "Capital, intérêts, assurance, IRA.",
+          "sections": [
+            {
+              "h": "Structure",
+              "p": "Échéance = intérêts + capital (+ assurance)."
+            },
+            {
+              "h": "Début vs fin",
+              "p": "Pourquoi les premières années sont « chères » en intérêts."
+            },
+            {
+              "h": "Simulation",
+              "p": "Comparer deux durées sur le coût total."
+            }
+          ],
+          "cta": {
+            "href": "/credit-immo/simulation/",
+            "label": "Simulation"
+          }
+        },
+        {
+          "slug": "taux-usure",
+          "title": "Taux d’usure et TAEG",
+          "duration": "30 min",
+          "summary": "Plafonds, composition du TAEG, impact assurance.",
+          "sections": [
+            {
+              "h": "TAEG",
+              "p": "Ce qu’il inclut réellement."
+            },
+            {
+              "h": "Usure",
+              "p": "Quand un dossier passe au-dessus — leviers (durée, assurance, montant)."
+            },
+            {
+              "h": "Discours client",
+              "p": "Expliquer sans alarmisme."
+            }
+          ],
+          "cta": {
+            "href": "/academie/pret/anatomy-offre-pret.html",
+            "label": "Offre de prêt"
+          }
+        },
+        {
+          "slug": "pret-vert-dpe",
+          "title": "Prêts « verts » et DPE",
+          "duration": "30 min",
+          "summary": "Conditions bancaires liées à la performance énergétique.",
+          "sections": [
+            {
+              "h": "Offres marché",
+              "p": "Bonus taux / conditions selon DPE ou travaux."
+            },
+            {
+              "h": "Preuves",
+              "p": "Diagnostics, devis, factures."
+            },
+            {
+              "h": "Montage",
+              "p": "Intégrer travaux dans le plan de financement."
+            }
+          ],
+          "cta": {
+            "href": "/academie/immobilier/dpe-passoire.html",
+            "label": "DPE"
+          }
+        },
+        {
+          "slug": "sci-financement-avance",
+          "title": "SCI : financement avancé",
+          "duration": "40 min",
+          "summary": "IS/IR, caution associés, banques spécialisées.",
+          "sections": [
+            {
+              "h": "Fiscalité de base",
+              "p": "Impact sur le cash-flow et la banque."
+            },
+            {
+              "h": "Garanties",
+              "p": "Caution des associés, nantissement de parts."
+            },
+            {
+              "h": "Pièces",
+              "p": "Statuts, comptes, PV, organigramme."
+            }
+          ],
+          "cta": {
+            "href": "/academie/immobilier/sci-investissement.html",
+            "label": "SCI"
+          }
+        },
+        {
+          "slug": "hebergement-famille",
+          "title": "Hébergement à titre gratuit et apport",
+          "duration": "25 min",
+          "summary": "Justificatifs, reste à vivre, crédibilité dossier.",
+          "sections": [
+            {
+              "h": "Attestation",
+              "p": "Contenu minimal attendu."
+            },
+            {
+              "h": "Cohérence",
+              "p": "Loyer théorique vs charges réelles."
+            },
+            {
+              "h": "Risque",
+              "p": "Dossier fragile si non documenté."
+            }
+          ],
+          "cta": {
+            "href": "/academie/pret/apport.html",
+            "label": "Apport"
+          }
+        },
+        {
+          "slug": "donation-apport",
+          "title": "Donation et apport : sécuriser",
+          "duration": "30 min",
+          "summary": "Acte, délais, banque, notaire.",
+          "sections": [
+            {
+              "h": "Forme",
+              "p": "Don manuel vs acte notarié."
+            },
+            {
+              "h": "Traçabilité",
+              "p": "Origine des fonds, dates."
+            },
+            {
+              "h": "Calendrier",
+              "p": "Ne pas signer compromis trop tôt."
+            }
+          ],
+          "cta": {
+            "href": "/academie/pret/apport.html",
+            "label": "Apport"
+          }
+        },
+        {
+          "slug": "pret-taux-mixte",
+          "title": "Taux mixte et phases",
+          "duration": "30 min",
+          "summary": "Période fixe puis variable / options.",
+          "sections": [
+            {
+              "h": "Mécanique",
+              "p": "Durées de phase, indices, caps."
+            },
+            {
+              "h": "Pour qui",
+              "p": "Profils patrimoine / horizon court."
+            },
+            {
+              "h": "Stress",
+              "p": "Scénarios de hausse à présenter."
+            }
+          ],
+          "cta": {
+            "href": "/academie/pret/taux-duree-ira.html",
+            "label": "Taux & durée"
+          }
+        },
+        {
+          "slug": "modularite-report",
+          "title": "Modularité, report, pause d’échéances",
+          "duration": "30 min",
+          "summary": "Options contractuelles et coûts cachés.",
+          "sections": [
+            {
+              "h": "Modularité",
+              "p": "Hausse/baisse d’échéance : limites."
+            },
+            {
+              "h": "Report",
+              "p": "Différé partiel/total : impact durée et coût."
+            },
+            {
+              "h": "Conseil",
+              "p": "Lire l’offre avant de promettre la flexibilité."
+            }
+          ],
+          "cta": {
+            "href": "/academie/pret/anatomy-offre-pret.html",
+            "label": "Offre"
+          }
+        },
+        {
+          "slug": "cas-investissement-lmnp",
+          "title": "Cas : financement LMNP",
+          "duration": "40 min",
+          "summary": "Loyers, meublé, banques, fiscalité de base.",
+          "sections": [
+            {
+              "h": "Brief",
+              "p": "Type de bien, ville, loyer net, charges."
+            },
+            {
+              "h": "Banque",
+              "p": "Quotité de loyer retenue, apport exigé."
+            },
+            {
+              "h": "Risques",
+              "p": "Vacance, réglementations location courte."
+            }
+          ],
+          "cta": {
+            "href": "/landings/credit-immo.html",
+            "label": "Étude"
+          }
+        },
+        {
+          "slug": "cas-renego-concurrentielle",
+          "title": "Cas : renégo sous pression concurrente",
+          "duration": "35 min",
+          "summary": "Offre externe, conservation banque, timing.",
+          "sections": [
+            {
+              "h": "Chiffrage",
+              "p": "Break-even frais/IRA."
+            },
+            {
+              "h": "Négociation",
+              "p": "Que demander à la banque actuelle."
+            },
+            {
+              "h": "Assurance",
+              "p": "Revoir la délégation en même temps."
+            }
+          ],
+          "cta": {
+            "href": "/renegociation-pret/",
+            "label": "Renégociation"
+          }
+        },
+        {
+          "slug": "atelier-plan-financement",
+          "title": "Atelier : plan de financement Excel mental",
+          "duration": "45 min",
+          "summary": "Construire le tableau emploi/ressources en live.",
+          "sections": [
+            {
+              "h": "Emplois",
+              "p": "Prix, frais, travaux, garantie."
+            },
+            {
+              "h": "Ressources",
+              "p": "Apport, PTZ, prêt principal, prêt complémentaire."
+            },
+            {
+              "h": "Équilibre",
+              "p": "Écarts et leviers d’ajustement."
+            }
+          ],
+          "cta": {
+            "href": "/academie/pret/capacite-emprunt.html",
+            "label": "Capacité"
+          }
+        },
+        {
+          "slug": "veille-taux-method",
+          "title": "Veille taux : méthode cabinet",
+          "duration": "25 min",
+          "summary": "Sources, fréquence, discours client.",
+          "sections": [
+            {
+              "h": "Sources",
+              "p": "Partenaires, barèmes, pubs (avec filtre)."
+            },
+            {
+              "h": "Cadence",
+              "p": "Revue hebdo interne."
+            },
+            {
+              "h": "Client",
+              "p": "Ne jamais promettre un taux non confirmé."
+            }
+          ],
+          "cta": {
+            "href": "/credit-immo/",
+            "label": "Hub crédit"
+          }
         }
       ]
     },
@@ -1717,7 +2581,7 @@
       "slug": "banque",
       "label": "Banque & TRC",
       "pilier": "banque",
-      "duration": "12 h",
+      "duration": "18 h",
       "level": "Formation longue pro",
       "title": "Cours Banque & TRC (niveau pro)",
       "subtitle": "Lecture de risque, trésorerie, préparation de comité, KYC",
@@ -2120,6 +2984,198 @@
             "href": "/academie/banque/fichiers-ficp-fcc.html",
             "label": "FICP/FCC"
           }
+        },
+        {
+          "slug": "ouverture-compte-pro",
+          "title": "Ouverture compte pro : dossier",
+          "duration": "30 min",
+          "summary": "Pièces, bénéficiaires effectifs, activité.",
+          "sections": [
+            {
+              "h": "KYC pro",
+              "p": "Statuts, Kbis, identité dirigeants."
+            },
+            {
+              "h": "Bénéficiaires effectifs",
+              "p": "Transparence obligatoire."
+            },
+            {
+              "h": "Refus bancaire",
+              "p": "Motifs fréquents et alternatives."
+            }
+          ],
+          "cta": {
+            "href": "/banque/",
+            "label": "Banque"
+          }
+        },
+        {
+          "slug": "moyens-paiement",
+          "title": "Moyens de paiement et fraudes",
+          "duration": "30 min",
+          "summary": "CB, virements, procédures de sécurisation.",
+          "sections": [
+            {
+              "h": "Fraudes types",
+              "p": "Phishing, faux IBAN, fraude au président."
+            },
+            {
+              "h": "Process client",
+              "p": "Double validation, callbacks."
+            },
+            {
+              "h": "Assurance",
+              "p": "Extensions cyber / fraude."
+            }
+          ],
+          "cta": {
+            "href": "/academie/assurance/cyber-particulier-tpe.html",
+            "label": "Cyber"
+          }
+        },
+        {
+          "slug": "decouvert-negociation",
+          "title": "Négocier un découvert",
+          "duration": "25 min",
+          "summary": "Autorisation, taux, durée, sorties.",
+          "sections": [
+            {
+              "h": "Argumentaire",
+              "p": "Flux, saisonnalité, garanties."
+            },
+            {
+              "h": "Coût",
+              "p": "Agios vs solution structurée."
+            },
+            {
+              "h": "Sortie",
+              "p": "Plan de remboursement."
+            }
+          ],
+          "cta": {
+            "href": "/academie/banque/tresorerie-trc.html",
+            "label": "TRC"
+          }
+        },
+        {
+          "slug": "affacturage-bases",
+          "title": "Affacturage : bases",
+          "duration": "30 min",
+          "summary": "Cession de créances, coûts, clients adaptés.",
+          "sections": [
+            {
+              "h": "Mécanique",
+              "p": "Financement du BFR clients."
+            },
+            {
+              "h": "Coûts",
+              "p": "Commission + financement."
+            },
+            {
+              "h": "Quand",
+              "p": "Croissance rapide / délais clients longs."
+            }
+          ],
+          "cta": {
+            "href": "/academie/banque/tresorerie-entreprise-avance.html",
+            "label": "Trésorerie pro"
+          }
+        },
+        {
+          "slug": "notation-interne",
+          "title": "Notation interne banque",
+          "duration": "30 min",
+          "summary": "Ce qui influence la note entreprise.",
+          "sections": [
+            {
+              "h": "Critères",
+              "p": "Rentabilité, dette, comportement, secteur."
+            },
+            {
+              "h": "Signaux",
+              "p": "Retards, découverts chroniques."
+            },
+            {
+              "h": "Action",
+              "p": "Améliorer le dossier avant demande."
+            }
+          ],
+          "cta": {
+            "href": "/academie/banque/scoring-bancaire.html",
+            "label": "Scoring"
+          }
+        },
+        {
+          "slug": "garantie-bpi",
+          "title": "Garanties publiques / BPI (vue courtier)",
+          "duration": "35 min",
+          "summary": "Rôle, limites, montage avec banque.",
+          "sections": [
+            {
+              "h": "Principe",
+              "p": "Partage de risque, pas un prêt isolé."
+            },
+            {
+              "h": "Dossier",
+              "p": "Projet, prévisionnel, banque partenaire."
+            },
+            {
+              "h": "Discours",
+              "p": "Ne pas promettre l’accord."
+            }
+          ],
+          "cta": {
+            "href": "/academie/finance/pret-pro-garanties.html",
+            "label": "Garanties pro"
+          }
+        },
+        {
+          "slug": "cas-refus-compte",
+          "title": "Cas : refus d’ouverture de compte",
+          "duration": "30 min",
+          "summary": "Droit au compte, alternatives, posture.",
+          "sections": [
+            {
+              "h": "Motifs",
+              "p": "KYC, activité, historique."
+            },
+            {
+              "h": "Droit au compte",
+              "p": "Cadre et orientation Banque de France."
+            },
+            {
+              "h": "Accompagnement",
+              "p": "Dossier propre et réaliste."
+            }
+          ],
+          "cta": {
+            "href": "/academie/banque/kyc-conformite.html",
+            "label": "KYC"
+          }
+        },
+        {
+          "slug": "atelier-note-banque",
+          "title": "Atelier : one-pager banque",
+          "duration": "40 min",
+          "summary": "Rédiger la page que le chargé d’affaires forward.",
+          "sections": [
+            {
+              "h": "Structure",
+              "p": "Qui / besoin / chiffres / mitigants."
+            },
+            {
+              "h": "Ton",
+              "p": "Factuel, court."
+            },
+            {
+              "h": "Review",
+              "p": "Peer review interne."
+            }
+          ],
+          "cta": {
+            "href": "/academie/banque/relation-banque.html",
+            "label": "RDV banque"
+          }
         }
       ]
     },
@@ -2128,7 +3184,7 @@
       "slug": "finance",
       "label": "Finance",
       "pilier": "finance",
-      "duration": "14 h",
+      "duration": "20 h",
       "level": "Formation longue pro",
       "title": "Cours Finance (niveau pro)",
       "subtitle": "RAC, conso, prêt relais, crédit pro — critères d’acceptation",
@@ -2539,6 +3595,198 @@
             "href": "/academie/finance/rachat-credits.html",
             "label": "RAC"
           }
+        },
+        {
+          "slug": "budget-previsionnel",
+          "title": "Budget prévisionnel foyer / TNS",
+          "duration": "35 min",
+          "summary": "12 mois glissants, stress test.",
+          "sections": [
+            {
+              "h": "Méthode",
+              "p": "Revenus, charges fixes, variables, épargne."
+            },
+            {
+              "h": "Stress",
+              "p": "-20 % revenus / +2 % taux."
+            },
+            {
+              "h": "Lien crédit",
+              "p": "Ce que ça change au montage."
+            }
+          ],
+          "cta": {
+            "href": "/academie/finance/cashflow-personnel.html",
+            "label": "Cash-flow"
+          }
+        },
+        {
+          "slug": "rachat-hypothecaire",
+          "title": "RAC hypothécaire : points d’attention",
+          "duration": "35 min",
+          "summary": "Expertise, quotité, frais, délais notaire.",
+          "sections": [
+            {
+              "h": "Bien",
+              "p": "Valeur, liquidité, rang."
+            },
+            {
+              "h": "Coûts",
+              "p": "Notaire, garantie, IRA éventuels."
+            },
+            {
+              "h": "Client",
+              "p": "Transparence coût total vs mensualité."
+            }
+          ],
+          "cta": {
+            "href": "/landings/rachat.html",
+            "label": "RAC"
+          }
+        },
+        {
+          "slug": "credit-travaux",
+          "title": "Crédit travaux : options",
+          "duration": "30 min",
+          "summary": "Conso affecté, prêt immo travaux, éco-prêts.",
+          "sections": [
+            {
+              "h": "Choix outil",
+              "p": "Selon montant et garantie."
+            },
+            {
+              "h": "Pièces",
+              "p": "Devis, TT, factures."
+            },
+            {
+              "h": "Contrôle déblocage",
+              "p": "Par étapes."
+            }
+          ],
+          "cta": {
+            "href": "/landings/conso.html",
+            "label": "Conso / travaux"
+          }
+        },
+        {
+          "slug": "pret-personnel-vs-revolving",
+          "title": "Prêt perso vs revolving",
+          "duration": "25 min",
+          "summary": "Coûts, risques, quand refuser le revolving.",
+          "sections": [
+            {
+              "h": "Comparatif",
+              "p": "TAEG, durée, rigidité."
+            },
+            {
+              "h": "Dangers revolving",
+              "p": "Dettes persistantes."
+            },
+            {
+              "h": "Conseil",
+              "p": "Orienter vers amortissable ou RAC."
+            }
+          ],
+          "cta": {
+            "href": "/academie/finance/conso-responsable.html",
+            "label": "Conso responsable"
+          }
+        },
+        {
+          "slug": "caution-personnelle",
+          "title": "Caution personnelle du dirigeant",
+          "duration": "30 min",
+          "summary": "Étendue, durée, risques patrimoniaux.",
+          "sections": [
+            {
+              "h": "Explication",
+              "p": "Ce que signe le dirigeant."
+            },
+            {
+              "h": "Négociation",
+              "p": "Plafonds, durée, solidité."
+            },
+            {
+              "h": "Éthique",
+              "p": "Consentement éclairé obligatoire."
+            }
+          ],
+          "cta": {
+            "href": "/academie/finance/pret-pro-garanties.html",
+            "label": "Garanties"
+          }
+        },
+        {
+          "slug": "cession-fonds-financement",
+          "title": "Financer une cession / acquisition de fonds",
+          "duration": "40 min",
+          "summary": "Earn-out, stock, garantie d’actif.",
+          "sections": [
+            {
+              "h": "Brief",
+              "p": "Prix, stock, clients clés."
+            },
+            {
+              "h": "Banque",
+              "p": "Business plan + reprise."
+            },
+            {
+              "h": "Risques",
+              "p": "Dépendance dirigeant cédant."
+            }
+          ],
+          "cta": {
+            "href": "/finance/",
+            "label": "Finance"
+          }
+        },
+        {
+          "slug": "cas-multi-credits-conso",
+          "title": "Cas : 6 crédits conso + loyer",
+          "duration": "40 min",
+          "summary": "Priorisation, RAC, arbitrages.",
+          "sections": [
+            {
+              "h": "Cartographie",
+              "p": "Taux, durées, IRA."
+            },
+            {
+              "h": "Scénarios",
+              "p": "RAC total vs partiel vs pause."
+            },
+            {
+              "h": "Décision",
+              "p": "Critères reste à vivre."
+            }
+          ],
+          "cta": {
+            "href": "/landings/rachat.html",
+            "label": "RAC"
+          }
+        },
+        {
+          "slug": "atelier-cout-total",
+          "title": "Atelier : comparer au coût total",
+          "duration": "45 min",
+          "summary": "Mensualité vs coût vs durée — exercice.",
+          "sections": [
+            {
+              "h": "Méthode",
+              "p": "Tableau 3 colonnes."
+            },
+            {
+              "h": "Pièges",
+              "p": "Allongement « confort » trop cher."
+            },
+            {
+              "h": "Restitution",
+              "p": "Recommandation motivée."
+            }
+          ],
+          "cta": {
+            "href": "/academie/finance/ethique-iobsp.html",
+            "label": "Éthique"
+          }
         }
       ]
     },
@@ -2547,7 +3795,7 @@
       "slug": "conformite",
       "label": "Conformité ORIAS",
       "pilier": "assurance",
-      "duration": "10 h",
+      "duration": "16 h",
       "level": "Formation longue pro",
       "title": "Cours Conformité ORIAS / IOBSP",
       "subtitle": "Registre, catégories, DDA, conflits d’intérêts, contrôles",
@@ -2957,6 +4205,198 @@
           "cta": {
             "href": "/academie/conformite/formation-continue.html",
             "label": "Formation continue"
+          }
+        },
+        {
+          "slug": "devoir-conseil-preuves",
+          "title": "Preuves du devoir de conseil",
+          "duration": "30 min",
+          "summary": "Emails, CRM, enregistrements, comptes-rendus.",
+          "sections": [
+            {
+              "h": "Standards mini",
+              "p": "Date, besoins, produit, motivation."
+            },
+            {
+              "h": "Supports",
+              "p": "CRM, mail, formulaire signé."
+            },
+            {
+              "h": "Exercice",
+              "p": "Compléter 5 dossiers incomplets."
+            }
+          ],
+          "cta": {
+            "href": "/academie/assurance/devoir-de-conseil.html",
+            "label": "Devoir de conseil"
+          }
+        },
+        {
+          "slug": "orias-rc-pro",
+          "title": "RC professionnelle de l’intermédiaire",
+          "duration": "30 min",
+          "summary": "Obligations, sinistres types, plafonds.",
+          "sections": [
+            {
+              "h": "Pourquoi",
+              "p": "Erreur de conseil, omission, retard."
+            },
+            {
+              "h": "Police",
+              "p": "Vérifier garanties et franchises cabinet."
+            },
+            {
+              "h": "Déclaration",
+              "p": "Quand déclarer un sinistre RC pro."
+            }
+          ],
+          "cta": {
+            "href": "/agence-varangeville/",
+            "label": "Cabinet"
+          }
+        },
+        {
+          "slug": "parrainage-apporteurs",
+          "title": "Apporteurs d’affaires : cadre",
+          "duration": "30 min",
+          "summary": "Conventions, rémunération, conformité.",
+          "sections": [
+            {
+              "h": "Qui peut apporter",
+              "p": "Limites réglementaires selon acte."
+            },
+            {
+              "h": "Convention",
+              "p": "Objet, rémunération, RGPD."
+            },
+            {
+              "h": "Traçabilité",
+              "p": "Lead source dans le CRM."
+            }
+          ],
+          "cta": {
+            "href": "/landings/apporteur-affaires.html",
+            "label": "Apporteurs"
+          }
+        },
+        {
+          "slug": "archivage-numerique",
+          "title": "Archivage numérique sécurisé",
+          "duration": "25 min",
+          "summary": "Nommage, accès, sauvegarde, purge.",
+          "sections": [
+            {
+              "h": "Arborescence",
+              "p": "Client / produit / année."
+            },
+            {
+              "h": "Accès",
+              "p": "Besoin d’en connaître."
+            },
+            {
+              "h": "Purge",
+              "p": "Alignée RGPD."
+            }
+          ],
+          "cta": {
+            "href": "/academie/conformite/rgpd-durees.html",
+            "label": "Durées RGPD"
+          }
+        },
+        {
+          "slug": "crise-reputation",
+          "title": "Gestion d’une crise réputation",
+          "duration": "30 min",
+          "summary": "Avis négatif, litige public, réseaux.",
+          "sections": [
+            {
+              "h": "Posture",
+              "p": "Faits, respect, pas d’escalade."
+            },
+            {
+              "h": "Interne",
+              "p": "Qui répond, délais."
+            },
+            {
+              "h": "Juridique",
+              "p": "Quand escalader."
+            }
+          ],
+          "cta": {
+            "href": "/academie/conformite/registre-reclamations.html",
+            "label": "Réclamations"
+          }
+        },
+        {
+          "slug": "remote-conseil",
+          "title": "Conseil à distance : bonnes pratiques",
+          "duration": "30 min",
+          "summary": "Visio, identité, recueil, signature.",
+          "sections": [
+            {
+              "h": "Identification",
+              "p": "Vérifier le client."
+            },
+            {
+              "h": "Support",
+              "p": "Partage écran documents, enregistrement si cadre OK."
+            },
+            {
+              "h": "Signature",
+              "p": "Electronique et preuves."
+            }
+          ],
+          "cta": {
+            "href": "/methode.html",
+            "label": "Méthode"
+          }
+        },
+        {
+          "slug": "cas-conflit-commission",
+          "title": "Cas : conflit commission vs client",
+          "duration": "40 min",
+          "summary": "Arbitrage documenté.",
+          "sections": [
+            {
+              "h": "Situation",
+              "p": "Produit A plus commissionné, B plus adapté."
+            },
+            {
+              "h": "Décision",
+              "p": "Choisir B et tracer."
+            },
+            {
+              "h": "Management",
+              "p": "Indicateurs cabinet hors seule prime."
+            }
+          ],
+          "cta": {
+            "href": "/academie/conformite/conflits-interets.html",
+            "label": "Conflits"
+          }
+        },
+        {
+          "slug": "atelier-politique-interne",
+          "title": "Atelier : mini politique interne conformité",
+          "duration": "45 min",
+          "summary": "Rédiger 1 page process cabinet.",
+          "sections": [
+            {
+              "h": "Rubriques",
+              "p": "Conseil, réclamations, RGPD, pub."
+            },
+            {
+              "h": "Rôles",
+              "p": "Qui fait quoi."
+            },
+            {
+              "h": "Revue",
+              "p": "Semestrielle."
+            }
+          ],
+          "cta": {
+            "href": "/academie/conformite/piste-audit.html",
+            "label": "Audit"
           }
         }
       ]
