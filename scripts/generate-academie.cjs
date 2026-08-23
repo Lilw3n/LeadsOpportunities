@@ -146,9 +146,9 @@ function renderHub() {
     </div>
   </header>
   <main class="pilier-wrap">
-    <p class="academie-kicker">Cinq parcours métiers</p>
+    <p class="academie-kicker">Six parcours · volume formation longue</p>
     <h2 class="pilier-section-title">Choisissez votre cours</h2>
-    <p>Chaque module est court (7–12 min). À la fin, un lien vers le parcours devis ou le hub métier correspondant.</p>
+    <p>Chaque leçon dure 25 à 45&nbsp;min (cas pratiques et ateliers inclus). Volume total affiché par parcours : <strong>environ 90&nbsp;heures</strong> cumulées — niveau cabinet de courtage / IOBSP.</p>
     <div class="academie-grid">
       ${cards}
     </div>
