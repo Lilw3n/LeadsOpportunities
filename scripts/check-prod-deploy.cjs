@@ -13,6 +13,7 @@ const checks = [
   { name: "negociateur-immobilier", url: "/negociateur-immobilier/", expect: (r, t) => r.ok && t.includes("Negociateur immobilier") },
   { name: "agence-varangeville", url: "/agence-varangeville/", expect: (r, t) => r.ok && t.includes("Varangéville") && t.includes("Wendy Buchet") },
   { name: "agence-varangeville-html", url: "/agence-varangeville.html", expect: (r, t) => r.ok && t.includes("Varangéville") },
+  { name: "nancy-54", url: "/nancy-54/", expect: (r, t) => r.ok && /Nancy/i.test(t) && /courtier/i.test(t) },
   { name: "acheteur-immo landing", url: "/landings/acheteur-immo.html", expect: (r, t) => r.ok && t.includes("acheteur-immo") },
   { name: "projection-achat", url: "/landings/projection-achat.html", expect: (r, t) => r.ok && t.includes("projForm") && t.includes("achat-projection-lib") },
 ];

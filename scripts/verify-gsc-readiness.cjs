@@ -62,6 +62,13 @@ else bad("sitemap.xml absent — lancer npm run seo:build");
 if (fs.existsSync(path.join(ROOT, "methode.html"))) pass("Page E-E-A-T methode.html présente");
 else bad("methode.html absente — page confiance pour Google");
 
+if (fs.existsSync(path.join(ROOT, "nancy-54", "index.html"))) pass("Hub local nancy-54/ présent");
+else bad("nancy-54/index.html absente — hub SEO Nancy");
+
+if (fs.existsSync(path.join(ROOT, "agence-varangeville", "index.html")) || fs.existsSync(path.join(ROOT, "agence-varangeville.html"))) {
+  pass("Page cabinet agence-varangeville présente");
+} else bad("agence-varangeville absente");
+
 if (fs.existsSync(path.join(ROOT, "data", "seo-page-meta.json"))) pass("Meta mots-clés centralisées (seo-page-meta.json)");
 else warning("data/seo-page-meta.json absent");
 

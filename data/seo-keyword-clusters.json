@@ -2,8 +2,34 @@
   "note": "Requêtes cibles France — une principale + longue traîne par page. GSC affiche les requêtes réelles après indexation.",
   "clusters": [
     {
-      "id": "vtc",
+      "id": "nancy-local",
       "priority": 1,
+      "competition": "medium",
+      "primary": "courtier Nancy",
+      "longTail": [
+        "mutuelle Nancy",
+        "crédit immobilier Nancy",
+        "prêt immobilier Nancy",
+        "courtier Varangéville",
+        "assurance emprunteur Nancy",
+        "courtier assurance Meurthe-et-Moselle"
+      ],
+      "moneyPages": [
+        "/nancy-54/",
+        "/agence-varangeville/",
+        "/assurance-sante/nancy/",
+        "/credit-immo/nancy/",
+        "/pret-immobilier/nancy/",
+        "/pret-immobilier/nancy-metropole/"
+      ],
+      "blog": [
+        "/blog/acheter-terrain-nancy-metropole-54-2026.html",
+        "/blog/taux-pret-immobilier-aout-2026-rentree.html"
+      ]
+    },
+    {
+      "id": "vtc",
+      "priority": 2,
       "primary": "assurance VTC",
       "longTail": ["devis assurance VTC", "RC pro chauffeur VTC", "assurance Uber Bolt Heetch", "assurance VTC pas cher", "assurance VTC Île-de-France"],
       "moneyPages": ["/assurance-vtc/", "/landings/vtc.html", "/assurance-vtc/paris/", "/assurance-vtc/ile-de-france/", "/assurance-vtc/pas-cher/"],
@@ -16,7 +42,7 @@
     },
     {
       "id": "mutuelle",
-      "priority": 2,
+      "priority": 3,
       "primary": "mutuelle santé",
       "longTail": ["comparatif mutuelle", "mutuelle remboursement dentaire", "mutuelle senior", "devis mutuelle", "canicule mutuelle"],
       "moneyPages": ["/assurance-sante/", "/landings/sante.html", "/assurance-sante/paris/"],
@@ -30,7 +56,7 @@
     },
     {
       "id": "credit-immo",
-      "priority": 3,
+      "priority": 4,
       "primary": "crédit immobilier",
       "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo", "prêt immobilier refusé", "coût réel achat immobilier"],
       "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/", "/pret-immobilier/", "/recherche-bien/", "/landings/projection-achat.html"],

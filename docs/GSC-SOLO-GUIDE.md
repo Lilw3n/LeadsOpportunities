@@ -3,6 +3,10 @@
 Guide pour **travailler seul** : mise en place GSC, indexation, mots-clés, suivi hebdo.  
 **Rappel :** on n’« ajoute » pas des mots-clés dans Search Console — GSC **affiche** les requêtes une fois que Google indexe vos pages.
 
+Audit positions (générique vs local) : **`docs/SEO-SERP-AUDIT.md`** · `npm run seo:serp-audit`
+
+> **Important :** taper seulement `assurance`, `mutuelle`, `crédit` ou `prêt` ne montrera **pas** le site en page 1 (comparateurs / banques). Cibles réalistes : `courtier Nancy`, `mutuelle Nancy`, `crédit immobilier Nancy`, niches VTC / prêt refusé, marque.
+
 ---
 
 ## Étape 1 — Créer la propriété (15 min)
@@ -53,11 +57,12 @@ Dans GSC → **Inspection de l’URL** → coller l’URL → **Tester l’URL l
 **Ordre recommandé (jour 1–2) :**
 
 1. Accueil  
-2. `nos-services.html`, `assurances/`, `france/`  
-3. Landings VTC, santé, crédit immo, devis  
-4. Piliers `assurance-vtc/`, `assurance-sante/`, `credit-immo/`  
-5. `assurance-vtc/paris/`, `assurance-sante/paris/`  
-6. Blog index + 3 articles VTC / mutuelle / crédit  
+2. `nancy-54/`, `agence-varangeville/`  
+3. `nos-services.html`, `assurances/`, `france/`  
+4. Landings VTC, santé, crédit immo, devis  
+5. Piliers `assurance-vtc/`, `assurance-sante/`, `credit-immo/` + pages `/nancy/`  
+6. `assurance-vtc/paris/`, `assurance-sante/paris/`  
+7. Blog index + 3 articles VTC / mutuelle / crédit  
 
 **Ne pas** demander 500 URLs d’un coup.
 

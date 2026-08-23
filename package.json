@@ -31,6 +31,7 @@
     "verify:clarity": "node scripts/verify-clarity.cjs",
     "verify:gsc": "node scripts/verify-gsc-readiness.cjs",
     "gsc:urls": "node scripts/print-gsc-urls.cjs",
+    "seo:serp-audit": "node scripts/seo-serp-audit.cjs",
     "gsc:niches": "node scripts/print-gsc-niche-urls.cjs",
     "deploy:trigger": "node scripts/trigger-vercel-deploy.cjs",
     "verify:prod": "node scripts/verify-prod-readiness.cjs",

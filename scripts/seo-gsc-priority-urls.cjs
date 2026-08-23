@@ -46,6 +46,11 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/pret-immobilier/lyon/",
   "/pret-immobilier/marseille/",
   /* Bassin Nancy (54) — priorité locale */
+  "/nancy-54/",
+  "/agence-varangeville/",
+  "/assurance-sante/nancy/",
+  "/assurance-habitation/nancy/",
+  "/assurance-emprunteur/nancy/",
   "/pret-immobilier/nancy-metropole/",
   "/credit-immo/nancy-metropole/",
   "/pret-immobilier/nancy/",

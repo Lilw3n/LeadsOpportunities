@@ -1705,6 +1705,8 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurances/", priority: "0.96", changefreq: "weekly" },
     { loc: base + "/nos-services.html", priority: "0.95", changefreq: "weekly" },
     { loc: base + "/methode.html", priority: "0.88", changefreq: "monthly" },
+    { loc: base + "/nancy-54/", priority: "0.94", changefreq: "weekly" },
+    { loc: base + "/agence-varangeville/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/assurances-niches.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/vtc.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
