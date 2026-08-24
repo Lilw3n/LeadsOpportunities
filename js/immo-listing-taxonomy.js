@@ -231,12 +231,14 @@
 
   var GENERAL_CONDITIONS = [
     { v: "", t: "— Choisir —" },
-    { v: "tres_bon", t: "Très bon" },
-    { v: "bon", t: "Bon" },
-    { v: "moyen", t: "Moyen" },
-    { v: "a_renover", t: "À rénover" },
-    { v: "a_restaurer", t: "À restaurer" },
-    { v: "neuf", t: "Neuf / récent" },
+    { v: "a_renover_entierement", t: "à rénover entièrement" },
+    { v: "a_renover", t: "à rénover" },
+    { v: "a_rafraichir", t: "à rafraîchir" },
+    { v: "non_precise", t: "non précisé" },
+    { v: "bon", t: "bon" },
+    { v: "tres_bon", t: "très bon" },
+    { v: "excellent", t: "excellent" },
+    { v: "neuf", t: "neuf" },
   ];
 
   var PRICE_DISPLAY = [
@@ -313,6 +315,15 @@
     });
   }
 
+  function filteredGeneralConditions(filter) {
+    var q = normalizeSearch(filter);
+    return GENERAL_CONDITIONS.filter(function (o) {
+      if (!o.v) return !q;
+      if (!q) return true;
+      return normalizeSearch(o.t).indexOf(q) >= 0;
+    });
+  }
+
   function commercialActivityLabel(slug) {
     var target = String(slug || "");
     for (var gi = 0; gi < COMMERCIAL_ACTIVITIES.length; gi++) {
@@ -369,5 +380,6 @@
     filteredCommercialGroups: filteredCommercialGroups,
     groupedOptionsHtml: groupedOptionsHtml,
     filteredEnvironments: filteredEnvironments,
+    filteredGeneralConditions: filteredGeneralConditions,
   };
 })(typeof window !== "undefined" ? window : global);
