@@ -43,9 +43,31 @@
       <span class="int-slack-dot" id="slackDot"></span>
       <span id="slackFicheStatus">Slack…</span>
       <button type="button" class="btn btn-ghost btn-sm" id="btnSlackFiche2">Notifier Slack</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnRefreshSlackThreads">Actualiser threads</button>
       <a href="./crm-pubs.html" class="btn btn-ghost btn-sm">Configurer Slack</a>
       <a href="./crm-event-manager.html" class="btn btn-ghost btn-sm">Dashboard événements</a>
     </div>
+    <section class="panel" id="contactSlackThreadsPanel" data-crm-section="slack">
+      <div class="panel-head">
+        <h2>Fiches Slack liées</h2>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnRefreshSlackThreads2">Actualiser</button>
+      </div>
+      <p class="contact-section-lead">Messages Slack liés à cette fiche et réponses du thread (nécessite SLACK_BOT_TOKEN).</p>
+      <div id="contactSlackThreads"><p class="empty-module">Chargement…</p></div>
+    </section>
+    <section class="panel" id="contactCommentsPanel" data-crm-section="comments">
+      <div class="panel-head">
+        <h2>Commentaires</h2>
+      </div>
+      <p class="contact-section-lead">Notes internes visibles sur la fiche (équipe CRM).</p>
+      <form id="contactCommentForm" class="contact-comment-form">
+        <label class="full" for="contactCommentInput">Nouveau commentaire
+          <textarea id="contactCommentInput" rows="3" maxlength="4000" placeholder="Ex. Relancé par téléphone, en attente de pièces…" required></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary btn-sm" id="btnPostComment">Publier</button>
+      </form>
+      <div id="contactCommentsList" class="contact-comments-list"></div>
+    </section>
     <div id="contactDriveBar" class="int-drive-bar" hidden>
       <span class="int-drive-dot"></span>
       <span id="contactDriveStatus">Google Drive</span>

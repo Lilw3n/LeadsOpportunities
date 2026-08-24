@@ -181,7 +181,7 @@ module.exports = async (req, res) => {
             ${contactId},
             ${user.id},
             'note',
-            'Note',
+            ${body.activityTitle || "Commentaire"},
             ${body.activityNote || body.note}
           )
         `;

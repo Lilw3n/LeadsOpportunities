@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
         payload: JSON.stringify((meta.dossier && meta.dossier.raw) || meta.dossier || {}),
       };
       const dossier = Dossier.buildDossier(lead);
-      const result = await notifyInterlocuteurSlack(dossier, c.id);
+      const result = await notifyInterlocuteurSlack(dossier, c.id, sql);
       if (!result.ok) {
         return res.status(result.error && String(result.error).indexOf("non défini") >= 0 ? 503 : 502).json({
           ok: false,
@@ -64,7 +64,14 @@ module.exports = async (req, res) => {
           hint: "Ajouter SLACK_BOT_TOKEN (ou SLACK_WEBHOOK_URL) sur Vercel puis Redeploy",
         });
       }
-      return res.status(200).json({ ok: true, message: "Fiche envoyée sur Slack" });
+      return res.status(200).json({
+        ok: true,
+        message: "Fiche envoyée sur Slack",
+        channel: result.channel || null,
+        ts: result.ts || null,
+        permalink: result.permalink || null,
+        linked: !!(result.ts && result.channelId),
+      });
     }
 
     if (body.text) {

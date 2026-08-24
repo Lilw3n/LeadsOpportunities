@@ -23,14 +23,51 @@ function parseMeta(raw) {
   }
 }
 
-async function notifyInterlocuteurSlack(dossier, contactId) {
+async function notifyInterlocuteurSlack(dossier, contactId, sql) {
   const { sendSlackText } = require("./slack-notify");
   var base = appBase();
   var text = Dossier.slackLines(dossier, {
     contactUrl: base + "/crm-contact.html?id=" + encodeURIComponent(contactId),
     eventsUrl: base + "/crm-event-manager.html",
   });
-  return sendSlackText(text);
+  var result = await sendSlackText(text);
+  if (result && result.ok && result.ts && sql) {
+    try {
+      await persistSlackLink(sql, contactId, result);
+    } catch (e) {
+      console.warn("[hydrate-interlocuteur] slack link", e.message);
+    }
+  }
+  return result;
+}
+
+async function persistSlackLink(sql, contactId, result) {
+  if (!sql || !contactId || !result || !result.ts) return;
+  const rows = await sql`SELECT metadata FROM crm_contacts WHERE id = ${contactId} LIMIT 1`;
+  if (!rows.length) return;
+  var meta = parseMeta(rows[0].metadata);
+  if (!Array.isArray(meta.slackLinks)) meta.slackLinks = [];
+  var channelId = result.channelId || result.channel || "";
+  var exists = meta.slackLinks.some(function (l) {
+    return l && l.ts === result.ts && String(l.channel || "") === String(channelId);
+  });
+  if (exists) return;
+  meta.slackLinks.push({
+    channel: channelId,
+    channelName: result.channel || null,
+    ts: result.ts,
+    permalink: result.permalink || null,
+    via: result.via || null,
+    postedAt: new Date().toISOString(),
+  });
+  if (meta.slackLinks.length > 30) meta.slackLinks = meta.slackLinks.slice(-30);
+  await sql`
+    UPDATE crm_contacts SET
+      metadata = ${JSON.stringify(meta)},
+      updated_at = NOW(),
+      last_activity_at = NOW()
+    WHERE id = ${contactId}
+  `;
 }
 
 async function insertQuestionnaireEvent(sql, contactId, userId, lead, dossier) {
@@ -158,7 +195,7 @@ async function hydrateInterlocuteurFromLead(sql, user, lead, contactId) {
   var slack = { ok: false, skipped: alreadyHydrated };
   if (!alreadyHydrated) {
     try {
-      slack = await notifyInterlocuteurSlack(dossier, contactId);
+      slack = await notifyInterlocuteurSlack(dossier, contactId, sql);
     } catch (e) {
       slack = { ok: false, error: e.message };
     }
@@ -175,5 +212,6 @@ async function hydrateInterlocuteurFromLead(sql, user, lead, contactId) {
 module.exports = {
   hydrateInterlocuteurFromLead,
   notifyInterlocuteurSlack,
+  persistSlackLink,
   parseMeta,
 };

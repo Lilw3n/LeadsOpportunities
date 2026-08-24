@@ -280,12 +280,85 @@
     mount.innerHTML = window.InterlocuteurDossier.renderSections(dossier);
   }
 
+  function formatSlackTs(ts) {
+    var n = parseFloat(ts, 10);
+    if (!Number.isFinite(n)) return "";
+    return new Date(n * 1000).toLocaleString("fr-FR");
+  }
+
+  function renderSlackThreads(payload) {
+    var el = document.getElementById("contactSlackThreads");
+    if (!el) return;
+    if (!payload || !payload.ok) {
+      el.innerHTML = '<p class="empty-module">' + esc((payload && payload.error) || "Impossible de charger Slack") + "</p>";
+      return;
+    }
+    var threads = payload.threads || [];
+    if (!threads.length) {
+      el.innerHTML =
+        '<p class="empty-module">' +
+        esc(payload.hint || "Aucune fiche Slack liée. Cliquez « Envoyer sur Slack » pour en créer une.") +
+        "</p>";
+      return;
+    }
+    el.innerHTML = threads
+      .map(function (t) {
+        var head =
+          '<div class="slack-thread-head">' +
+          "<strong>#" +
+          esc(t.channelName || t.channel || "canal") +
+          "</strong>" +
+          (t.postedAt ? " · " + esc(new Date(t.postedAt).toLocaleString("fr-FR")) : t.ts ? " · " + esc(formatSlackTs(t.ts)) : "") +
+          (t.permalink
+            ? ' · <a href="' + esc(t.permalink) + '" target="_blank" rel="noopener">Ouvrir dans Slack</a>'
+            : "") +
+          (t.replyCount ? " · " + t.replyCount + " réponse" + (t.replyCount > 1 ? "s" : "") : "") +
+          "</div>";
+        if (t.error) {
+          return '<article class="slack-thread">' + head + '<p class="slack-thread-err">' + esc(t.error) + "</p></article>";
+        }
+        var msgs = (t.messages || [])
+          .map(function (m) {
+            return (
+              '<div class="slack-msg' +
+              (m.isParent ? " is-parent" : " is-reply") +
+              '"><div class="slack-msg-meta">' +
+              (m.isParent ? "Fiche" : "Réponse") +
+              (m.ts ? " · " + esc(formatSlackTs(m.ts)) : "") +
+              "</div><pre class=\"slack-msg-text\">" +
+              esc(m.text || "") +
+              "</pre></div>"
+            );
+          })
+          .join("");
+        if (!msgs) msgs = '<p class="empty-module">Message vide</p>';
+        return '<article class="slack-thread">' + head + '<div class="slack-thread-msgs">' + msgs + "</div></article>";
+      })
+      .join("");
+  }
+
+  function loadSlackThreads() {
+    var el = document.getElementById("contactSlackThreads");
+    if (el) el.innerHTML = '<p class="empty-module">Chargement…</p>';
+    return api("/api/crm/contact-slack?id=" + encodeURIComponent(contactId)).then(function (res) {
+      renderSlackThreads(res);
+      return res;
+    });
+  }
+
   function bindSlackFiche() {
     function send() {
       api("/api/crm/notify-slack", { method: "POST", body: { contactId: contactId } }).then(function (res) {
         var st = document.getElementById("slackFicheStatus");
-        if (st) st.textContent = res.ok ? "Fiche envoyée sur Slack" : res.error || "Slack indisponible";
+        if (st) {
+          st.textContent = res.ok
+            ? res.linked
+              ? "Fiche envoyée et liée — réponses visibles ci-dessous"
+              : "Fiche envoyée sur Slack" + (res.permalink ? " (lien créé)" : " (webhook : pas de thread lisible)")
+            : res.error || "Slack indisponible";
+        }
         if (!res.ok) alert(res.error || "Slack : " + (res.hint || "webhook manquant"));
+        else loadSlackThreads();
       });
     }
     ["btnSlackFiche", "btnSlackFiche2"].forEach(function (id) {
@@ -295,6 +368,15 @@
         btn.addEventListener("click", send);
       }
     });
+    ["btnRefreshSlackThreads", "btnRefreshSlackThreads2"].forEach(function (id) {
+      var btn = document.getElementById(id);
+      if (btn && !btn.dataset.bound) {
+        btn.dataset.bound = "1";
+        btn.addEventListener("click", function () {
+          loadSlackThreads();
+        });
+      }
+    });
     var bar = document.getElementById("slackFicheBar");
     if (bar) bar.hidden = false;
     api("/api/crm/notify-slack").then(function (res) {
@@ -302,6 +384,81 @@
       var dot = document.getElementById("slackDot");
       if (st) st.textContent = res.configured ? "Slack connecté — notifier cette fiche" : "Slack non configuré (SLACK_BOT_TOKEN)";
       if (dot) dot.classList.toggle("is-on", !!res.configured);
+    });
+    loadSlackThreads();
+  }
+
+  function commentActivities() {
+    return (data.activities || []).filter(function (a) {
+      var t = String(a.activity_type || "").toLowerCase();
+      var title = String(a.title || "").toLowerCase();
+      return t === "note" || title === "commentaire" || title === "note";
+    });
+  }
+
+  function renderComments() {
+    var el = document.getElementById("contactCommentsList");
+    if (!el) return;
+    var parts = [];
+    var notes = data.contact && data.contact.notes ? String(data.contact.notes).trim() : "";
+    if (notes) {
+      parts.push(
+        '<article class="contact-comment contact-comment--profile">' +
+          '<div class="contact-comment-meta">Note profil</div>' +
+          '<p class="contact-comment-body">' +
+          esc(notes) +
+          "</p></article>"
+      );
+    }
+    var list = commentActivities().slice().sort(function (a, b) {
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
+    list.forEach(function (a) {
+      parts.push(
+        '<article class="contact-comment">' +
+          '<div class="contact-comment-meta">' +
+          esc(a.title || "Commentaire") +
+          " · " +
+          esc(new Date(a.created_at).toLocaleString("fr-FR")) +
+          "</div>" +
+          '<p class="contact-comment-body">' +
+          esc(a.body || "") +
+          "</p></article>"
+      );
+    });
+    if (!parts.length) {
+      el.innerHTML = '<p class="empty-module">Aucun commentaire pour l’instant.</p>';
+      return;
+    }
+    el.innerHTML = parts.join("");
+  }
+
+  function bindCommentsForm() {
+    var form = document.getElementById("contactCommentForm");
+    if (!form || form.dataset.bound) return;
+    form.dataset.bound = "1";
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var input = document.getElementById("contactCommentInput");
+      var text = (input && input.value || "").trim();
+      if (!text) return;
+      var btn = document.getElementById("btnPostComment");
+      if (btn) btn.disabled = true;
+      api("/api/crm/contact?id=" + encodeURIComponent(contactId), {
+        method: "PATCH",
+        body: { activityNote: text, activityTitle: "Commentaire" },
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.error || "Erreur");
+          if (input) input.value = "";
+          return loadContact();
+        })
+        .catch(function (err) {
+          alert((err && err.message) || "Impossible d’enregistrer le commentaire");
+        })
+        .finally(function () {
+          if (btn) btn.disabled = false;
+        });
     });
   }
 
@@ -1831,6 +1988,7 @@
     renderHeader();
     renderDossier();
     bindSlackFiche();
+    bindCommentsForm();
     renderDriveBar(data.driveInfo || {});
     renderKpis();
     renderDocuments();
@@ -1841,6 +1999,7 @@
     bindRelationsForm();
     renderEvents();
     renderActivities();
+    renderComments();
     renderClaims();
     renderVehicles();
     renderDrivers();

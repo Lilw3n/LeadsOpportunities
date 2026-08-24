@@ -186,6 +186,78 @@ async function tryPost(token, channel, text) {
   return slackApi("chat.postMessage", token, { channel: channel, text: String(text || "") });
 }
 
+async function enrichPostResult(token, data, channelName) {
+  var channelId = data.channel || "";
+  var ts = data.ts || "";
+  var permalink = null;
+  if (channelId && ts) {
+    try {
+      var pl = await slackApi("chat.getPermalink", token, { channel: channelId, message_ts: ts });
+      if (pl && pl.ok && pl.permalink) permalink = pl.permalink;
+    } catch (e) {
+      /* ignore */
+    }
+  }
+  return {
+    ok: true,
+    via: "token",
+    channel: channelName || channelId,
+    channelId: channelId,
+    ts: ts,
+    permalink: permalink,
+  };
+}
+
+/**
+ * Lit le message parent + réponses d’un thread Slack (conversations.replies).
+ */
+async function fetchSlackThread(channel, ts) {
+  var raw = getRawToken();
+  if (!raw) return { ok: false, error: "SLACK_BOT_TOKEN non défini" };
+  var tokens = [raw];
+  var decoded = decodeExportedToken(raw);
+  if (decoded && decoded !== raw) tokens.push(decoded);
+  var lastErr = "échec";
+  var i;
+  for (i = 0; i < tokens.length; i++) {
+    var token = tokens[i];
+    var data = await slackGet("conversations.replies", token, {
+      channel: String(channel || ""),
+      ts: String(ts || ""),
+      limit: "100",
+      inclusive: "true",
+    });
+    if (data.ok) {
+      var messages = (data.messages || []).map(function (m) {
+        return {
+          ts: m.ts,
+          text: m.text || "",
+          user: m.user || m.username || null,
+          bot_id: m.bot_id || null,
+          thread_ts: m.thread_ts || null,
+          isParent: m.ts === String(ts),
+        };
+      });
+      return { ok: true, messages: messages, channel: channel, ts: ts };
+    }
+    lastErr = data.error || lastErr;
+    if (lastErr === "invalid_auth" || lastErr === "not_authed") {
+      return {
+        ok: false,
+        error: "Token Slack invalide pour lire les threads.",
+      };
+    }
+  }
+  if (lastErr === "missing_scope") {
+    return {
+      ok: false,
+      error:
+        "Scopes Slack manquants pour lire les réponses (channels:history / groups:history). Réinstallez l’app Slack.",
+    };
+  }
+  return { ok: false, error: "Slack: " + lastErr };
+}
+
 async function sendViaToken(text) {
   var raw = getRawToken();
   if (!raw) return { ok: false, error: "SLACK_BOT_TOKEN / SLACK_TOKEN non défini" };
@@ -225,10 +297,10 @@ async function sendViaToken(text) {
     var data;
     for (n = 0; n < names.length; n++) {
       data = await tryPost(token, names[n], text);
-      if (data.ok) return { ok: true, via: "token", channel: names[n] };
+      if (data.ok) return enrichPostResult(token, data, names[n]);
       lastErr = data.error || lastErr;
       data = await tryPost(token, "#" + names[n], text);
-      if (data.ok) return { ok: true, via: "token", channel: names[n] };
+      if (data.ok) return enrichPostResult(token, data, names[n]);
     }
 
     var memberRes = await listChannels(token, "users.conversations", "public_channel,private_channel");
@@ -238,7 +310,7 @@ async function sendViaToken(text) {
     for (m = 0; m < member.length; m++) {
       if (member[m].is_archived) continue;
       data = await tryPost(token, member[m].id, text);
-      if (data.ok) return { ok: true, via: "token", channel: member[m].name || member[m].id };
+      if (data.ok) return enrichPostResult(token, data, member[m].name || member[m].id);
       lastErr = data.error || lastErr;
     }
 
@@ -252,7 +324,7 @@ async function sendViaToken(text) {
       if (names.indexOf(ch.name) >= 0 || ch.name === preferred) {
         await slackApi("conversations.join", token, { channel: ch.id });
         data = await tryPost(token, ch.id, text);
-        if (data.ok) return { ok: true, via: "token", channel: ch.name };
+        if (data.ok) return enrichPostResult(token, data, ch.name);
         lastErr = data.error || lastErr;
       }
     }
@@ -260,7 +332,7 @@ async function sendViaToken(text) {
       if (pub[p].is_archived) continue;
       await slackApi("conversations.join", token, { channel: pub[p].id });
       data = await tryPost(token, pub[p].id, text);
-      if (data.ok) return { ok: true, via: "token", channel: pub[p].name };
+      if (data.ok) return enrichPostResult(token, data, pub[p].name);
       lastErr = data.error || lastErr;
     }
   }
@@ -268,7 +340,7 @@ async function sendViaToken(text) {
     return {
       ok: false,
       error:
-        "Le bot Slack n’a pas les droits canaux. App Slack → OAuth & Permissions → scopes chat:write, channels:join, channels:read → Reinstall to Workspace, puis invitez l’app dans #leads.",
+        "Le bot Slack n’a pas les droits canaux. App Slack → OAuth & Permissions → scopes chat:write, channels:join, channels:read, channels:history → Reinstall to Workspace, puis invitez l’app dans #leads.",
     };
   }
   return { ok: false, error: channelHelpError(preferred, lastErr) };
@@ -303,6 +375,7 @@ async function sendSlackText(text) {
 
 module.exports = {
   sendSlackText,
+  fetchSlackThread,
   slackConfigured,
   slackStatus,
   getToken,

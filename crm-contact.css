@@ -300,3 +300,90 @@
 .crm-doc-generic { display: grid; gap: 10px; max-width: 520px; }
 .crm-doc-generic__type select,
 .crm-doc-generic__file input { width: 100%; }
+
+.contact-section-lead {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  color: var(--muted, #64748b);
+}
+.contact-comment-form {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.contact-comment-form textarea {
+  width: 100%;
+  min-height: 72px;
+  padding: 10px 12px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+.contact-comments-list {
+  display: grid;
+  gap: 10px;
+}
+.contact-comment {
+  padding: 10px 12px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  background: #f8fafc;
+}
+.contact-comment-meta {
+  font-size: 0.78rem;
+  color: var(--muted, #64748b);
+  margin-bottom: 4px;
+}
+.contact-comment-body {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.slack-thread {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 10px;
+  background: #fff;
+}
+.slack-thread-head {
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+}
+.slack-thread-err {
+  margin: 0;
+  color: #b45309;
+  font-size: 0.86rem;
+}
+.slack-thread-msgs {
+  display: grid;
+  gap: 8px;
+}
+.slack-msg {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: #f1f5f9;
+}
+.slack-msg.is-parent {
+  background: #eef2ff;
+  border-left: 3px solid #4f46e5;
+}
+.slack-msg.is-reply {
+  margin-left: 12px;
+  border-left: 3px solid #94a3b8;
+}
+.slack-msg-meta {
+  font-size: 0.75rem;
+  color: var(--muted, #64748b);
+  margin-bottom: 4px;
+}
+.slack-msg-text {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font: inherit;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}

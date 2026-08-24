@@ -46,6 +46,7 @@ const ROUTES = {
   "pubs-hub": () => require("../_lib/routes/crm-pubs-hub"),
   "test-slack": () => require("../_lib/routes/crm-test-slack"),
   "notify-slack": () => require("../_lib/routes/crm-notify-slack"),
+  "contact-slack": () => require("../_lib/routes/crm-contact-slack"),
   "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
   "lead-questionnaire": () => require("../_lib/routes/crm-lead-questionnaire"),
   "drive-folder": () => require("../_lib/routes/crm-drive-folder"),
