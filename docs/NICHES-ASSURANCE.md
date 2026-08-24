@@ -42,12 +42,12 @@ Cela cree notamment :
 1. **Assurance animaux** — LIVE (+ geo chien/chat par ville)
 2. **Assurance chasse** — LIVE (189 villes)
 3. **Assurance equitation** — LIVE (189 villes)
-4. Silos geo : `/assurance-chien/{ville}/`, `/assurance-chat/{ville}/`
-4. Assurance instrument musique
-5. Assurance materiel photo / video
-6. Assurance bateau plaisance
-7. Caravane / camping-car
-8. Assurance scolaire
+4. Silos geo : `/assurance-chien/{ville}/`, `/assurance-chat/{ville}/` + bassin **Nice Côte d'Azur** (animaux, VTC, chasse puis le reste)
+5. Assurance instrument musique
+6. Assurance materiel photo / video
+7. Assurance bateau plaisance
+8. Caravane / camping-car
+9. Assurance scolaire
 
 Pour activer une nouvelle niche :
 

@@ -73,6 +73,7 @@ const ANIMAUX_PAGES = [
         { href: "/assurance-animaux/chien/", label: "Assurance chien" },
         { href: "/assurance-animaux/chat/", label: "Assurance chat" },
         { href: "/assurance-animaux/villes/", label: "Assurance animaux par ville" },
+        { href: "/assurance-animaux/nice-cote-azur/", label: "Animaux Côte d'Azur (Nice)" },
         { href: "/assurance-animaux/comparatif/", label: "Comparatif assurance animaux" },
         { href: "/assurance-animaux/tarif/", label: "Tarif assurance animaux" },
         { href: "/assurance-animaux/chien/pas-cher/", label: "Assurance chien pas cher" },

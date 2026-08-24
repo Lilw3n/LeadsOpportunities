@@ -38,6 +38,7 @@ Prompt automation quotidien : **`docs/CURSOR-DAILY-ACTU.md`**
 
 - Libs : `scripts/france-audience-lib.cjs` (scoring actu, `noindex` international), `scripts/france-brand.cjs` (meta + logo).
 - **SEO prêt local 54 (IMPÉRATIF)** : `scripts/nancy-bassin-pret-lib.cjs` — Nancy, Jarville, Varangéville, communes métropole. Hub `/pret-immobilier/nancy-metropole/`. Vérif : `npm run verify:nancy-bassin-pret`. Toute page SEO prêt/crédit doit renvoyer vers le bassin nancéien. Orthographe : **Varangéville** uniquement (pas Varengeville).
+- **SEO Nice Côte d'Azur (leads)** : `scripts/nice-cote-azur-lib.cjs` — animaux (chien/chat), VTC aéroport NCE, chasse 06, puis équitation / habitation / mutuelle. Hubs `/nice-cote-azur/`, `/assurance-animaux/nice-cote-azur/`, `/assurance-vtc/cote-d-azur/`, `/assurance-vtc/aeroport-nice/`, `/assurance-chasse/cote-d-azur/`. Vérif : `npm run verify:nice-cote-azur`. Le prêt reste ancré Nancy 54.
 - Doc : **`docs/TRAFIC-FRANCE.md`**, **`docs/GSC-SOLO-GUIDE.md`**
 - Étude de marché (verticales, concurrence, reco 90 j) : **`docs/ETUDE-MARCHE-LEADS-OPPORTUNITIES.md`**
 - Exécution priorités 90 j (Meta canicule, VTC IDF, tunnel immo) : **`docs/ACQUISITION-PRIORITES-90J.md`** · `npm run verify:acquisition-priorites`

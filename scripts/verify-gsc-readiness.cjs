@@ -65,6 +65,9 @@ else bad("methode.html absente — page confiance pour Google");
 if (fs.existsSync(path.join(ROOT, "nancy-54", "index.html"))) pass("Hub local nancy-54/ présent");
 else bad("nancy-54/index.html absente — hub SEO Nancy");
 
+if (fs.existsSync(path.join(ROOT, "nice-cote-azur", "index.html"))) pass("Hub Nice Côte d'Azur présent");
+else bad("nice-cote-azur/index.html absente — hub SEO 06");
+
 if (fs.existsSync(path.join(ROOT, "agence-varangeville", "index.html")) || fs.existsSync(path.join(ROOT, "agence-varangeville.html"))) {
   pass("Page cabinet agence-varangeville présente");
 } else bad("agence-varangeville absente");

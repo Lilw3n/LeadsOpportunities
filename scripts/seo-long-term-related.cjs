@@ -31,6 +31,7 @@ var NICHES_CHASSE = [
   link("/blog/assurance-chien-de-chasse-rc-comparatif.html", "Chien de chasse & RC"),
   link("/assurance-chasse/rc-chasseur/", "Hub RC chasseur"),
   link("/assurance-chasse/chien-chasse/", "Hub chien de chasse"),
+  link("/assurance-chasse/cote-d-azur/", "Chasse Alpes-Maritimes"),
   link("/landings/chasse.html", "Devis chasse"),
 ];
 
@@ -47,6 +48,7 @@ var NICHES_ANIMAUX = [
   link("/blog/canicule-animaux-eau-chien-chat-oiseaux-assurance.html", "Canicule animaux"),
   link("/blog/assurance-animaux-comment-choisir.html", "Comment choisir"),
   link("/assurance-animaux/chien/pas-cher/", "Chien pas cher"),
+  link("/assurance-animaux/nice-cote-azur/", "Animaux Côte d'Azur"),
   link("/landings/animaux.html", "Devis animaux"),
 ];
 
@@ -66,6 +68,16 @@ var VTC_IDF = [
   link("/blog/assurance-vtc-moins-cher-2026.html", "Payer moins cher"),
   link("/blog/vtc-premiere-course-checklist-assurance.html", "Checklist 1re course"),
   link("/blog/assurance-vtc-uber-bolt-heetch.html", "Uber, Bolt, Heetch"),
+];
+
+var VTC_COTE_AZUR = [
+  link("/nice-cote-azur/", "Hub Nice Côte d'Azur"),
+  link("/assurance-vtc/cote-d-azur/", "VTC Côte d'Azur"),
+  link("/assurance-vtc/aeroport-nice/", "Aéroport Nice NCE"),
+  link("/assurance-vtc/nice/", "VTC Nice"),
+  link("/assurance-vtc/cannes/", "VTC Cannes"),
+  link("/assurance-animaux/nice-cote-azur/", "Animaux Côte d'Azur"),
+  link("/assurance-chasse/cote-d-azur/", "Chasse 06"),
 ];
 
 var SILOS_IMMO = [
@@ -98,6 +110,7 @@ module.exports = {
   NICHES_ANIMAUX: NICHES_ANIMAUX,
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
+  VTC_COTE_AZUR: VTC_COTE_AZUR,
   SILOS_IMMO: SILOS_IMMO,
   mergeUnique: mergeUnique,
   link: link,

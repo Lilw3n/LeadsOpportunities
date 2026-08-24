@@ -6,6 +6,7 @@ const path = require("path");
 const contentLib = require("./seo-content-lib.cjs");
 const immoLib = require("./seo-immo-content-lib.cjs");
 const nancyBassin = require("./nancy-bassin-pret-lib.cjs");
+const niceBassin = require("./nice-cote-azur-lib.cjs");
 
 const DEFAULT_GEO_STEPS = [
   { title: "Demande en ligne", text: "Formulaire ou demande de rappel sur le site." },
@@ -65,6 +66,8 @@ const GEO_PRODUCTS = [
       { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
       { href: "/assurance-vtc/tarif/", label: "Tarif VTC" },
       { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
+      { href: "/assurance-vtc/cote-d-azur/", label: "VTC Cote d Azur" },
+      { href: "/assurance-vtc/aeroport-nice/", label: "Aeroport Nice NCE" },
       { href: "/assurance-vtc/pas-cher/", label: "VTC pas cher" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Blog : payer moins cher" },
       { href: "/blog/vtc-premiere-course-checklist-assurance.html", label: "Checklist 1re course" },
@@ -753,6 +756,7 @@ const GEO_PRODUCTS = [
       { href: "/assurance-animaux/chat/", label: "Assurance chat (national)" },
       { href: "/assurance-chien/villes/", label: "Assurance chien par ville" },
       { href: "/assurance-chat/villes/", label: "Assurance chat par ville" },
+      { href: "/assurance-animaux/nice-cote-azur/", label: "Animaux Cote d Azur" },
       { href: "/assurance-animaux/comparatif/", label: "Comparatif animaux" },
       { href: "/assurance-animaux/tarif/", label: "Tarifs animaux" },
       { href: "/blog/feux-foret-animaux-chien-chat-assurance.html", label: "Feux de foret & animaux" },
@@ -805,6 +809,7 @@ const GEO_PRODUCTS = [
       { href: "/assurance-animaux/chien/", label: "Guide assurance chien" },
       { href: "/assurance-animaux/chien/pas-cher/", label: "Chien pas cher" },
       { href: "/assurance-animaux/chien/chiot/", label: "Assurance chiot" },
+      { href: "/assurance-animaux/nice-cote-azur/", label: "Animaux Cote d Azur" },
       { href: "/assurance-animaux/", label: "Assurance animaux" },
       { href: "/blog/feux-foret-animaux-chien-chat-assurance.html", label: "Feux & animaux" },
     ],
@@ -850,6 +855,7 @@ const GEO_PRODUCTS = [
       { href: "/assurance-animaux/chat/", label: "Guide assurance chat" },
       { href: "/assurance-animaux/chat/pas-cher/", label: "Chat pas cher" },
       { href: "/assurance-animaux/chat/chaton/", label: "Assurance chaton" },
+      { href: "/assurance-animaux/nice-cote-azur/", label: "Animaux Cote d Azur" },
       { href: "/assurance-animaux/", label: "Assurance animaux" },
       { href: "/blog/canicule-animaux-eau-chien-chat-oiseaux-assurance.html", label: "Canicule animaux" },
     ],
@@ -894,6 +900,7 @@ const GEO_PRODUCTS = [
     extraRelated: [
       { href: "/assurance-chasse/rc-chasseur/", label: "RC chasseur" },
       { href: "/assurance-chasse/chien-chasse/", label: "Chien de chasse" },
+      { href: "/assurance-chasse/cote-d-azur/", label: "Chasse Alpes-Maritimes" },
       { href: "/blog/assurance-chasse-rc-chasseur-guide-2026.html", label: "Guide RC chasseur" },
       { href: "/blog/assurance-chien-de-chasse-rc-comparatif.html", label: "Chien de chasse" },
       { href: "/assurances-niches.html", label: "Hub niches" },
@@ -1053,21 +1060,27 @@ function buildGeoPageConfigs(cities, pageFn) {
           { href: "/landings/credit-immo.html?ville=" + encodeURIComponent(city.name), label: "Simulation pret " + city.name },
         ].concat(related);
       }
+      var niceLocal = niceBassin.isBassinCity(city) && niceBassin.supportsProduct(product.key);
+      if (niceLocal) {
+        related = niceBassin.extraRelatedForProduct(product.key).concat(related);
+      }
       related = related.concat(crossLinksForCity(product, city));
       var nearbyList =
         nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")
           ? nancyBassin.nearbyLinks(city, product.dir)
-          : contentLib.nearbyLinks(city, cities, product.dir, 8);
+          : niceLocal
+            ? niceBassin.nearbyLinks(city, product.dir)
+            : contentLib.nearbyLinks(city, cities, product.dir, 8);
       related = related.concat(nearbyList);
 
           var geoPage = {
           file: product.dir + "/" + city.slug + "/index.html",
           theme: product.theme,
-          badge: city.region,
-          title: product.title(city),
-          description: product.description(city),
-          h1: product.h1(city),
-          intro: product.intro(city),
+          badge: niceLocal ? "Nice Cote d Azur · 06" : city.region,
+          title: niceLocal ? niceBassin.cityTitle(product, city) : product.title(city),
+          description: niceLocal ? niceBassin.cityDescription(product, city) : product.description(city),
+          h1: niceLocal ? niceBassin.cityH1(product, city) : product.h1(city),
+          intro: niceLocal ? niceBassin.cityIntro(product, city) : product.intro(city),
           cta: {
             href: product.landingForCity ? product.landingForCity(city) : product.landing,
             label: product.ctaLabel(city),
@@ -1084,18 +1097,26 @@ function buildGeoPageConfigs(cities, pageFn) {
             { title: "ORIAS", text: "Courtier enregistre, devis sans engagement." },
           ],
           steps: product.geoSteps || DEFAULT_GEO_STEPS,
-          sections: sections,
+          sections: niceLocal ? niceBassin.citySections(product, city) : sections,
           related: related,
           nearbyCities:
             nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")
               ? nancyBassin.nearbyLinks(city, product.dir)
-              : contentLib.nearbyLinks(city, cities, product.dir, 12),
-          faq: faq,
+              : niceLocal
+                ? niceBassin.nearbyLinks(city, product.dir)
+                : contentLib.nearbyLinks(city, cities, product.dir, 12),
+          faq: niceLocal ? niceBassin.cityFaq(product, city) : faq,
         };
         if (product.key === "vtc" && city.regionSlug === "ile-de-france") {
           geoPage.related = [
             { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
             { href: "/assurance-vtc/uber-paris/", label: "Uber Paris" },
+          ].concat(geoPage.related);
+        }
+        if (product.key === "vtc" && niceLocal) {
+          geoPage.related = [
+            { href: "/assurance-vtc/cote-d-azur/", label: "VTC Cote d Azur" },
+            { href: "/assurance-vtc/aeroport-nice/", label: "Aeroport Nice NCE" },
           ].concat(geoPage.related);
         }
         out.push(pageFn(geoPage));
@@ -1714,6 +1735,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/academie/conformite/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/nancy-54/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/agence-varangeville/", priority: "0.94", changefreq: "weekly" },
+    { loc: base + "/nice-cote-azur/", priority: "0.94", changefreq: "weekly" },
     { loc: base + "/assurances-niches.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/vtc.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/sante.html", priority: "0.9", changefreq: "weekly" },
@@ -1738,6 +1760,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/equitation.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/villes/", priority: "0.91", changefreq: "weekly" },
+    { loc: base + "/assurance-animaux/nice-cote-azur/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/chien/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/chat/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/comparatif/", priority: "0.88", changefreq: "weekly" },
@@ -1747,6 +1770,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurance-chat/villes/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-chasse/", priority: "0.86", changefreq: "weekly" },
     { loc: base + "/assurance-chasse/villes/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-chasse/cote-d-azur/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-equitation/", priority: "0.86", changefreq: "weekly" },
     { loc: base + "/assurance-equitation/villes/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/", priority: "0.88", changefreq: "weekly" },
@@ -1760,6 +1784,8 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurance-vtc/pas-cher/", priority: "0.84", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/villes/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/ile-de-france/", priority: "0.92", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/cote-d-azur/", priority: "0.91", changefreq: "weekly" },
+    { loc: base + "/assurance-vtc/aeroport-nice/", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-sante/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-sante/comparatif/", priority: "0.87", changefreq: "weekly" },
     { loc: base + "/assurance-sante/remboursement-optique/", priority: "0.78", changefreq: "monthly" },

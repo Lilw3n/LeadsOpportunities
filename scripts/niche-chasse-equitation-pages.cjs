@@ -54,6 +54,7 @@ function buildChassePages(page) {
           { href: BASE + "rc-chasseur/", label: "RC chasseur" },
           { href: BASE + "chien-chasse/", label: "Chien de chasse" },
           { href: BASE + "villes/", label: "Par ville" },
+          { href: "/assurance-chasse/cote-d-azur/", label: "Chasse Côte d'Azur (06)" },
           { href: "/assurances-niches.html", label: "Hub niches" },
           { href: "/assurances/", label: "Toutes nos assurances" },
         ],
@@ -163,6 +164,7 @@ function buildEquitationPages(page) {
           { href: BASE + "rc-equestre/", label: "RC equestre" },
           { href: BASE + "cheval/", label: "Assurance cheval" },
           { href: BASE + "villes/", label: "Par ville" },
+          { href: "/assurance-equitation/cote-d-azur/", label: "Équitation Côte d'Azur" },
           { href: "/assurances-niches.html", label: "Hub niches" },
         ],
         LT.NICHES_EQUITATION

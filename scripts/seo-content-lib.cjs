@@ -187,6 +187,23 @@ function vtcCitySections(city) {
       figure: { file: "vtc/paris-nuit.jpg", alt: "Ile-de-France de nuit — courses VTC depuis " + city.name },
     });
   }
+  var isPaca = city.regionSlug === "provence-alpes-cote-d-azur";
+  if (isPaca && !isIdf) {
+    sections.push({
+      h2: city.name + " sur l axe VTC Cote d Azur",
+      paragraphs: [
+        "Aéroport Nice-Côte d'Azur, Promenade, Cannes, Sophia Antipolis : un chauffeur basé à " +
+          city.name +
+          " déclare souvent un usage régional 06, pas uniquement communal. Voir le hub Côte d'Azur et la page aéroport NCE.",
+      ],
+      list: [
+        "Hub VTC Côte d'Azur",
+        "Aéroport Nice-Côte d'Azur (NCE)",
+        "Nice, Cannes, Antibes, Saint-Laurent-du-Var",
+      ],
+      figure: { file: "vtc/aeroport.jpg", alt: "Aéroport — transferts VTC Côte d'Azur depuis " + city.name },
+    });
+  }
   sections.push({
     h2: "Guides et blog VTC",
     paragraphs: [

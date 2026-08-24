@@ -6,12 +6,23 @@ const { SITE_ORIGIN: SITE } = require("./site-url.cjs");
 var urls = markets.indexationWeek1.concat(
   "/assurance-animaux/chien/",
   "/assurance-animaux/chat/",
+  "/assurance-animaux/nice-cote-azur/",
+  "/assurance-animaux/nice/",
+  "/assurance-animaux/cagnes-sur-mer/",
+  "/assurance-chien/nice/",
+  "/assurance-chat/nice/",
   "/assurance-chasse/paris/",
   "/assurance-chasse/lyon/",
+  "/assurance-chasse/cote-d-azur/",
+  "/assurance-chasse/nice/",
   "/assurance-equitation/paris/",
   "/assurance-equitation/marseille/",
+  "/assurance-equitation/cote-d-azur/",
   "/assurance-chien/paris/",
   "/assurance-chat/paris/",
+  "/nice-cote-azur/",
+  "/assurance-vtc/cote-d-azur/",
+  "/assurance-vtc/aeroport-nice/",
   "/landings/animaux-express.html",
   "/landings/chasse.html",
   "/landings/equitation.html",
@@ -24,5 +35,5 @@ urls.forEach(function (path, i) {
   var abs = path.indexOf("http") === 0 ? path : SITE + (path.charAt(0) === "/" ? path : "/" + path);
   console.log(String(i + 1).padStart(2, "0") + ".", abs);
 });
-console.log("\n" + urls.length + " URLs — après l'accueil, prioriser chasse + équitation + animaux longue traîne.");
+console.log("\n" + urls.length + " URLs — après l'accueil, prioriser chasse + équitation + animaux + Nice Côte d'Azur.");
 console.log("Guide : docs/PLAN-VISIBILITE-NICHES.md");

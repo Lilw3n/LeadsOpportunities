@@ -32,7 +32,9 @@
         "/landings/animaux.html",
         "/assurance-animaux/chien/pas-cher/",
         "/assurance-animaux/comparatif/",
-        "/assurance-animaux/paris/"
+        "/assurance-animaux/paris/",
+        "/assurance-animaux/nice-cote-azur/",
+        "/assurance-animaux/nice/"
       ],
       "landing": "/landings/animaux.html",
       "pageCount": 320,
@@ -62,7 +64,9 @@
         "/assurance-chasse/rc-chasseur/",
         "/assurance-chasse/chien-chasse/",
         "/assurance-chasse/paris/",
-        "/assurance-chasse/villes/"
+        "/assurance-chasse/villes/",
+        "/assurance-chasse/cote-d-azur/",
+        "/assurance-chasse/nice/"
       ],
       "landing": "/landings/chasse.html",
       "pageCount": 195,
@@ -237,7 +241,13 @@
     "/landings/chasse.html",
     "/landings/equitation.html",
     "/assurance-chasse/bordeaux/",
-    "/assurance-equitation/bordeaux/"
+    "/assurance-equitation/bordeaux/",
+    "/nice-cote-azur/",
+    "/assurance-animaux/nice-cote-azur/",
+    "/assurance-animaux/nice/",
+    "/assurance-vtc/cote-d-azur/",
+    "/assurance-vtc/aeroport-nice/",
+    "/assurance-chasse/cote-d-azur/"
   ],
   "blogActuNiches": [
     "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
