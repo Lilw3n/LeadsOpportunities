@@ -2915,7 +2915,7 @@
               (l.contact_id
                 ? '<a class="btn btn-ghost btn-sm" href="./crm-contact.html?id=' +
                   encodeURIComponent(l.contact_id) +
-                  '" title="Lead rattaché à une fiche interlocuteur — suppression du lead seul impossible">Fiche interlocuteur</a>'
+                  '" title="Lead rattaché à une fiche interlocuteur — suppression du lead seul impossible">Ouvrir</a>'
                 : '<button type="button" class="btn-lead-delete" data-lead-id="' +
                   esc(l.id) +
                   '" data-lead-label="' +
@@ -3287,11 +3287,12 @@
               ? window.CrmLeadPayloadView.renderQuestionnairePanel(Object.assign({}, l, { payload: payload }), esc)
               : "");
 
-        var ficheCta = l.contact_id
+        var leadContactId = l.contact_id || l.contactId || null;
+        var ficheCta = leadContactId
           ? '<a class="btn btn-primary" href="./crm-contact.html?id=' +
-            encodeURIComponent(l.contact_id) +
-            '">Ouvrir la fiche interlocuteur →</a>'
-          : '<button type="button" class="btn btn-primary" id="btnCreateInterlocuteur">Créer la fiche interlocuteur</button>';
+            encodeURIComponent(leadContactId) +
+            '">Ouvrir</a>'
+          : '<button type="button" class="btn btn-primary" id="btnCreateInterlocuteur">Créer la fiche</button>';
 
         body.innerHTML =
           '<div class="int-cta-bar"><strong>Fiche interlocuteur</strong> — les réponses du formulaire y sont classées (perso, pro, biens). ' +
@@ -3353,9 +3354,9 @@
             '<label style="font-weight:600;font-size:0.85rem;margin-top:8px;display:block">Notre offre (EUR/mois)<input type="number" id="modalOurOffer" class="filter-input" style="width:100%;margin-top:4px" value="' + esc(l.our_offer_monthly != null ? l.our_offer_monthly : (payload.ourOfferMonthly || "")) + '" /></label>' +
             '<textarea id="modalNotes" placeholder="Notes internes sur ce lead...">' + esc(l.notes || "") + '</textarea>' +
             '<div class="detail-actions-row">' +
-              (l.contact_id
+              (leadContactId
                 ? '<p class="small" style="margin:0;color:#b45309">Lead rattaché à une <a href="./crm-contact.html?id=' +
-                  encodeURIComponent(l.contact_id) +
+                  encodeURIComponent(leadContactId) +
                   '">fiche interlocuteur</a> — suppression du lead seul impossible.</p>'
                 : '<button type="button" class="btn-delete" id="deleteLeadBtn" data-id="' +
                   esc(l.id) +
@@ -3381,6 +3382,7 @@
               },
               onContactCreated: function (contactId) {
                 l.contact_id = contactId;
+                leadContactId = contactId;
                 toast("Fiche interlocuteur créée", "success");
                 var cta = document.querySelector(".int-cta-bar");
                 if (cta) {
@@ -3388,7 +3390,7 @@
                     '<strong>Fiche interlocuteur</strong> — les réponses du formulaire y sont classées (perso, pro, biens). ' +
                     '<a class="btn btn-primary" href="./crm-contact.html?id=' +
                     encodeURIComponent(contactId) +
-                    '">Ouvrir la fiche interlocuteur →</a>' +
+                    '">Ouvrir</a>' +
                     ' <a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a>';
                 }
               },
@@ -3399,7 +3401,7 @@
           if (answersMount) {
             window.InterlocuteurDossierEdit.mountEditable(answersMount, dossier, {
               leadId: l.id,
-              contactId: l.contact_id || null,
+              contactId: leadContactId || null,
               api: "dashboard",
               authHeaders: authHeaders,
               payload: payload,
@@ -3430,7 +3432,7 @@
         if (createInt) {
           createInt.addEventListener("click", async function () {
             createInt.disabled = true;
-            createInt.textContent = "Création…";
+            createInt.textContent = "Ouverture…";
             try {
               var res = await fetch("/api/crm/lead-lifecycle", {
                 method: "POST",
@@ -3439,19 +3441,30 @@
               });
               var out = await res.json();
               if (!out.ok || !out.contactId) {
-                toast(out.error || "Impossible de créer la fiche", "error");
+                toast(out.error || "Impossible d’ouvrir ou créer la fiche", "error");
                 createInt.disabled = false;
-                createInt.textContent = "Créer la fiche interlocuteur";
+                createInt.textContent = "Créer la fiche";
                 return;
+              }
+              l.contact_id = out.contactId;
+              leadContactId = out.contactId;
+              var bar = document.querySelector(".int-cta-bar");
+              if (bar) {
+                bar.innerHTML =
+                  '<strong>Fiche interlocuteur</strong> — les réponses du formulaire y sont classées (perso, pro, biens). ' +
+                  '<a class="btn btn-primary" href="./crm-contact.html?id=' +
+                  encodeURIComponent(out.contactId) +
+                  '">Ouvrir</a> ' +
+                  '<a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a>';
               }
               window.location.href = "./crm-contact.html?id=" + encodeURIComponent(out.contactId);
             } catch (err) {
               toast("Erreur réseau", "error");
               createInt.disabled = false;
-              createInt.textContent = "Créer la fiche interlocuteur";
+              createInt.textContent = "Créer la fiche";
             }
           });
-        } else if (!l.contact_id && l.email && l.phone) {
+        } else if (!leadContactId && l.email && l.phone) {
           fetch("/api/crm/lead-lifecycle", {
             method: "POST",
             headers: authHeaders(),
@@ -3463,16 +3476,23 @@
             .then(function (out) {
               if (out.ok && out.contactId) {
                 l.contact_id = out.contactId;
+                leadContactId = out.contactId;
                 var bar = document.querySelector(".int-cta-bar");
                 if (bar) {
                   bar.innerHTML =
-                    '<strong>Fiche interlocuteur</strong> — créée automatiquement (e-mail + téléphone). ' +
+                    '<strong>Fiche interlocuteur</strong> — ' +
+                    (out.alreadyLinked ? "fiche existante rattachée. " : "créée automatiquement (e-mail + téléphone). ") +
                     '<a class="btn btn-primary" href="./crm-contact.html?id=' +
                     encodeURIComponent(out.contactId) +
-                    '">Ouvrir la fiche interlocuteur →</a> ' +
+                    '">Ouvrir</a> ' +
                     '<a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a>';
                 }
-                toast("Fiche interlocuteur créée automatiquement", "success");
+                toast(
+                  out.alreadyLinked
+                    ? "Fiche interlocuteur existante rattachée"
+                    : "Fiche interlocuteur créée automatiquement",
+                  "success"
+                );
               }
             })
             .catch(function () {});

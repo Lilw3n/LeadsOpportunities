@@ -106,7 +106,30 @@ async function promoteLead(sql, user, lead) {
       slack: hydrated.slack,
     };
   }
+
   var payload = parsePayload(lead.payload);
+  const { findExistingContact } = require("../crm-ingest-from-lead");
+  var existingId = await findExistingContact(sql, lead.email || null, lead.phone || null);
+  if (existingId) {
+    await sql`
+      UPDATE crm_contacts
+      SET contact_type = 'prospect',
+          status = 'active',
+          updated_at = NOW(),
+          last_activity_at = NOW()
+      WHERE id = ${existingId}
+    `;
+    await sql`UPDATE site_leads SET contact_id = ${existingId}, updated_at = NOW() WHERE id = ${lead.id}`;
+    const hydratedExisting = await hydrateInterlocuteurFromLead(sql, user, lead, existingId);
+    return {
+      ok: true,
+      contactId: existingId,
+      alreadyLinked: true,
+      dossierFilled: hydratedExisting.dossierFilled,
+      slack: hydratedExisting.slack,
+    };
+  }
+
   const contactId = "ct_" + crypto.randomUUID();
   const firstName = payload.firstName || payload.first_name || payload.fullName || null;
   const lastName = payload.lastName || payload.last_name || null;

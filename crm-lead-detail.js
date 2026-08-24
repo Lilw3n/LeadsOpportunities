@@ -47,8 +47,8 @@
         ? '<a href="./crm-meta-inbox.html" class="btn btn-ghost">Leads Meta</a>'
         : "") +
       (l.contact_id
-        ? ' <a href="./crm-contact.html?id=' + encodeURIComponent(l.contact_id) + '" class="btn btn-primary">Fiche interlocuteur</a>'
-        : ' <button type="button" class="btn btn-primary" id="ldCreateInt">Créer fiche interlocuteur</button>') +
+        ? ' <a href="./crm-contact.html?id=' + encodeURIComponent(l.contact_id) + '" class="btn btn-primary">Ouvrir</a>'
+        : ' <button type="button" class="btn btn-primary" id="ldCreateInt">Créer la fiche</button>') +
       ' <button type="button" class="btn btn-ghost" id="ldPrintPdf">Imprimer / PDF</button>' +
       "</p>" +
       "<h1>" +
@@ -128,8 +128,8 @@
       (l.contact_id
         ? '<a href="./crm-contact.html?id=' +
           encodeURIComponent(l.contact_id) +
-          '" class="btn btn-ghost">Fiche contact</a>'
-        : '<button type="button" class="btn btn-ghost" id="btnConvert">Créer fiche interlocuteur</button>') +
+          '" class="btn btn-ghost">Ouvrir</a>'
+        : '<button type="button" class="btn btn-ghost" id="btnConvert">Créer la fiche</button>') +
       "</p>" +
       (l.tariff_snapshot
         ? '<section class="panel" style="margin-top:16px"><h2 style="margin-top:0;font-size:1rem">Dernier bordereau (' +
