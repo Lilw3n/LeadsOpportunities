@@ -808,13 +808,28 @@
                       <select id="sellPropertySubtype" name="sellPropertySubtype" data-search-vente-required></select>
                     </div>
                     <div class="field full">
+                      <label for="sellCommercialActivityFilter">Rechercher une activité commerciale</label>
+                      <input id="sellCommercialActivityFilter" type="search" placeholder="Ex. boulangerie, CHR, bureau…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field full">
                       <label for="sellCommercialActivity">Activité commerciale</label>
-                      <input id="sellCommercialActivity" name="sellCommercialActivity" placeholder="Ex. boulangerie, bureaux, entrepôt…" data-optional />
+                      <select id="sellCommercialActivity" name="sellCommercialActivity" data-optional></select>
                       <p class="immo-owner-hint" data-commercial-hint hidden>Obligatoire pour les biens professionnels / commerces.</p>
                     </div>
                     <div class="field">
                       <label for="sellEnvironment">Environnement</label>
                       <select id="sellEnvironment" name="sellEnvironment" data-optional></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellGeneralCondition">État général</label>
+                      <select id="sellGeneralCondition" name="sellGeneralCondition" data-optional></select>
+                    </div>
+                    <div class="field full">
+                      <span class="search-section-label" style="margin:0">Affichage du prix</span>
+                      <div class="search-chip-grid" role="group" aria-label="Affichage du prix">
+                        <label class="search-chip"><input type="radio" name="sellPriceDisplay" value="prix_hai" checked data-optional /><span>Prix HAI</span></label>
+                        <label class="search-chip"><input type="radio" name="sellPriceDisplay" value="nous_consulter" data-optional /><span>Prix : nous consulter</span></label>
+                      </div>
                     </div>
                   </div>
                   <input type="hidden" id="sellPropertyTypeLegacy" name="sellPropertyTypeLegacy" value="" />

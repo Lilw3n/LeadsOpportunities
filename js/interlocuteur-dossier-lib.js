@@ -141,6 +141,8 @@
     sellCoproStatus: "Statut copropriété",
     sellCommercialActivity: "Activité commerciale",
     sellEnvironment: "Environnement",
+    sellGeneralCondition: "État général",
+    sellPriceDisplay: "Affichage du prix",
     sellSurface: "Surface du bien (m²)",
     sellRooms: "Nombre de pièces",
     sellPrice: "Prix souhaité",
@@ -201,6 +203,32 @@
     logic_immo: "Logic-immo",
     figaro: "Figaro Immobilier",
     avendrealouer: "Avendre A Louer",
+    prix_hai: "Prix HAI",
+    nous_consulter: "Prix : nous consulter",
+    tres_bon: "Très bon",
+    bon: "Bon",
+    moyen: "Moyen",
+    a_renover: "À rénover",
+    a_restaurer: "À restaurer",
+    neuf: "Neuf / récent",
+    centre_ville: "Centre-ville",
+    peripherie: "Périphérie / périurbain",
+    campagne: "Campagne",
+    littoral: "Bord de mer / littoral",
+    montagne: "Montagne / station",
+    zone_commerciale: "Zone commerciale",
+    zone_industrielle: "Zone industrielle",
+    residentiel: "Quartier résidentiel",
+    rural: "Zone rurale",
+    autre: "Autre",
+    cession_bail: "Cession de bail",
+    location: "Location",
+    location_vacances: "Location vacances",
+    produit_investissement: "Produit d'investissement",
+    vente: "Vente",
+    vente_prestige: "Vente de prestige",
+    viager: "Viager",
+    fonds_commerce: "Vente fonds de commerce / murs commerciaux / parts de société",
   };
 
   var PERSO_KEYS = [
@@ -304,6 +332,8 @@
     "sellCoproStatus",
     "sellCommercialActivity",
     "sellEnvironment",
+    "sellGeneralCondition",
+    "sellPriceDisplay",
     "sellSurface",
     "sellRooms",
     "sellPrice",
@@ -542,6 +572,13 @@
     if (MONEY_KEYS[key] && /^-?\d+([.,]\d+)?$/.test(s.replace(/\s/g, ""))) {
       if (key === "worksAmount" && Number(s.replace(/\s/g, "").replace(",", ".")) === 0) return "Aucun";
       return formatMoney(s);
+    }
+    if (
+      key === "sellCommercialActivity" &&
+      root.ImmoListingTaxonomy &&
+      root.ImmoListingTaxonomy.commercialActivityLabel
+    ) {
+      return root.ImmoListingTaxonomy.commercialActivityLabel(s) || s;
     }
     return VALUE_LABELS[s] || s;
   }

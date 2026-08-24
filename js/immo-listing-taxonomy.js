@@ -104,7 +104,7 @@
     "parking/box",
     "pavillon",
     "Programme",
-    "Projet (uniquement pour « Construire »)",
+    "Projet (uniquement pour \"Construire\")",
     "propriété",
     "Propriété de chasse",
     "Propriété équestre",
@@ -121,6 +121,125 @@
     "toulousaine",
     "Triplex",
     "villa",
+  ];
+
+  /** Activités commerciales CRM — groupées (portails / Laforêt). */
+  var COMMERCIAL_ACTIVITIES = [
+    {
+      label: "INDUSTRIE / PRODUCTION",
+      items: [
+        "Agriculture Viticulture",
+        "Agroalimentaire",
+        "BTP",
+        "Charpente Menuiserie",
+        "Mécanique Métallurgie",
+        "Divers Industrie",
+        "Liquidation Industrie",
+      ],
+    },
+    {
+      label: "CHR ville",
+      items: [
+        "Bar Brasserie Tabac",
+        "Camping",
+        "Club discothèque",
+        "Creperie Pizzeria",
+        "Hotel Hotel restaurant",
+        "Restaurant",
+        "Restauration rapide",
+        "Salon de thé",
+        "Sandwicherie",
+        "Liquidation CHR",
+      ],
+    },
+    {
+      label: "SERVICES",
+      items: [
+        "Agence Immobilière",
+        "Beauté Esthétique Coiffure",
+        "Conseil",
+        "Club de Sport Salle de Gym",
+        "Dépannage Réparation",
+        "Garage Station service",
+        "Loisirs Tourisme",
+        "Nettoyage Laverie Pressing",
+        "Pharmacie Parapharmacie",
+        "Professions libérales",
+        "Prestations multimedia SSII",
+        "Publicité",
+        "Santé Optique",
+        "Taxi",
+        "Transport Logistique",
+        "Entrepôt logistique",
+        "Vidéo Photo",
+        "Divers Services",
+        "Liquidation Services",
+      ],
+    },
+    {
+      label: "COMMERCES / NÉGOCE",
+      items: [
+        "Alimentation",
+        "Animalerie Chasse Peche",
+        "Boucherie Charcuterie",
+        "Boulangerie Patisserie",
+        "Cadeaux Fleurs",
+        "Chaussure Cuir",
+        "Habillement Textile",
+        "HiFi Electroménager",
+        "Informatique Multimédia",
+        "Librairie Papeterie",
+        "Mobilier Décoration",
+        "Tabac Presse Loto",
+        "Traiteur",
+        "Divers Commerces",
+        "Liquidation Commerces / Négoce",
+      ],
+    },
+    {
+      label: "ARTISANAT BÂTIMENT",
+      items: [
+        "Carrelage Maconnerie",
+        "Couverture Charpente",
+        "Electricité Electronique",
+        "Menuiserie",
+        "Peinture Vitrerie Platrerie",
+        "Plomberie Chauffage",
+        "Serrurerie métallerie",
+        "Divers Artisanat Batiment",
+        "Liquidation Artisanat Batiment",
+      ],
+    },
+    {
+      label: "LOCAL TERRAIN BIENS IMMOBILIERS",
+      items: [
+        "Bureau",
+        "Immeuble commercial / mixte",
+        "Entrepot",
+        "Local artisanal",
+        "Local commercial Murs",
+        "Local industriel",
+        "Parking",
+        "Terrain industriel",
+        "Terre agricole",
+        "Divers Local Terrain Biens immobiliers",
+      ],
+    },
+  ];
+
+  var GENERAL_CONDITIONS = [
+    { v: "", t: "— Choisir —" },
+    { v: "tres_bon", t: "Très bon" },
+    { v: "bon", t: "Bon" },
+    { v: "moyen", t: "Moyen" },
+    { v: "a_renover", t: "À rénover" },
+    { v: "a_restaurer", t: "À restaurer" },
+    { v: "neuf", t: "Neuf / récent" },
+  ];
+
+  var PRICE_DISPLAY = [
+    { v: "prix_hai", t: "Prix HAI" },
+    { v: "nous_consulter", t: "Prix : nous consulter" },
   ];
 
   /** Catégories pro → activité commerciale recommandée. */
@@ -176,16 +295,67 @@
     });
   }
 
+  function normalizeSearch(s) {
+    return String(s || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function commercialActivityLabel(slug) {
+    var target = String(slug || "");
+    for (var gi = 0; gi < COMMERCIAL_ACTIVITIES.length; gi++) {
+      var group = COMMERCIAL_ACTIVITIES[gi];
+      for (var ii = 0; ii < group.items.length; ii++) {
+        var label = group.items[ii];
+        if (slugSubtype(label) === target) return label;
+      }
+    }
+    return target;
+  }
+
+  function filteredCommercialGroups(filter) {
+    var q = normalizeSearch(filter);
+    return COMMERCIAL_ACTIVITIES.map(function (group) {
+      var items = group.items.filter(function (label) {
+        if (!q) return true;
+        return normalizeSearch(label).indexOf(q) >= 0 || normalizeSearch(group.label).indexOf(q) >= 0;
+      });
+      return { label: group.label, items: items };
+    }).filter(function (group) {
+      return group.items.length > 0;
+    });
+  }
+
+  function groupedOptionsHtml(groups, placeholder) {
+    var out = placeholder ? '<option value="">' + placeholder + "</option>" : "";
+    groups.forEach(function (group) {
+      out += '<optgroup label="' + group.label + '">';
+      group.items.forEach(function (label) {
+        out += '<option value="' + slugSubtype(label) + '">' + label + "</option>";
+      });
+      out += "</optgroup>";
+    });
+    return out;
+  }
+
   global.ImmoListingTaxonomy = {
     LISTING_TYPES: LISTING_TYPES,
     PROPERTY_CATEGORIES: PROPERTY_CATEGORIES,
     PROPERTY_SUBTYPES: PROPERTY_SUBTYPES,
     COPRO_STATUS: COPRO_STATUS,
     ENVIRONMENTS: ENVIRONMENTS,
+    COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
+    GENERAL_CONDITIONS: GENERAL_CONDITIONS,
+    PRICE_DISPLAY: PRICE_DISPLAY,
     PRO_CATEGORIES: PRO_CATEGORIES,
     slugSubtype: slugSubtype,
     legacyPropertyType: legacyPropertyType,
     optionsHtml: optionsHtml,
     sortedSubtypes: sortedSubtypes,
+    normalizeSearch: normalizeSearch,
+    commercialActivityLabel: commercialActivityLabel,
+    filteredCommercialGroups: filteredCommercialGroups,
+    groupedOptionsHtml: groupedOptionsHtml,
   };
 })(typeof window !== "undefined" ? window : global);
