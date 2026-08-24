@@ -1,7 +1,8 @@
 /**
  * Garde-fou uploads Drive — PDF et images utiles uniquement (pas exé, HTML, SVG, etc.).
+ * Max 3,5 Mo : limite pratique Vercel (~4,5 Mo body) avec encodage base64.
  */
-var MAX_BYTES = 12 * 1024 * 1024;
+var MAX_BYTES = Math.floor(3.5 * 1024 * 1024);
 
 var EXT_BY_MIME = {
   "application/pdf": ".pdf",
@@ -24,7 +25,7 @@ function decodeBase64(base64) {
   if (!raw) throw new Error("Fichier vide");
   var buffer = Buffer.from(raw, "base64");
   if (!buffer.length) throw new Error("Fichier vide");
-  if (buffer.length > MAX_BYTES) throw new Error("Fichier trop volumineux (max 12 Mo)");
+  if (buffer.length > MAX_BYTES) throw new Error("Fichier trop volumineux (max 3,5 Mo)");
   return buffer;
 }
 

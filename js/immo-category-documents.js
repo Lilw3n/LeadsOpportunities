@@ -251,12 +251,17 @@
               }
               return fetch("/api/external/upload", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: (function () {
+                  var h = { "Content-Type": "application/json" };
+                  if (self.session.uploadToken) h["X-Upload-Token"] = self.session.uploadToken;
+                  return h;
+                })(),
                 credentials: "same-origin",
                 body: JSON.stringify({
                   email: self.session.email,
                   contactId: self.session.contactId,
                   leadId: self.session.leadId,
+                  uploadToken: self.session.uploadToken || undefined,
                   fileName: item.fileName,
                   documentType: item.documentType,
                   mimeType: item.mimeType,
@@ -277,6 +282,11 @@
               if (!res.ok || !res.data || !res.data.ok) {
                 throw new Error((res.data && res.data.error) || "Upload impossible");
               }
+              if (res.data.drive && res.data.drive.simulated) {
+                throw new Error("Drive non disponible — fichier non enregistré");
+              }
+              if (res.data.uploadToken) self.session.uploadToken = res.data.uploadToken;
+              if (res.data.contactId) self.session.contactId = res.data.contactId;
               item.status = "done";
               self.uploaded.push(item);
               acc.uploaded.push(item);

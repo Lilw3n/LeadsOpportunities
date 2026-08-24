@@ -225,12 +225,14 @@
     var email = (leadPayload && leadPayload.email ? String(leadPayload.email) : "").trim();
     var contactId = (result && result.contactId) || null;
     var leadId = (result && result.leadId) || null;
+    var uploadToken = (result && result.uploadToken) || null;
     var need = getNeedFromPayload(leadPayload);
     var href =
       "/external/upload-document.html?public=1&need=" +
       encodeURIComponent(need) +
       (email ? "&email=" + encodeURIComponent(email) : "") +
-      (contactId ? "&contactId=" + encodeURIComponent(contactId) : "");
+      (contactId ? "&contactId=" + encodeURIComponent(contactId) : "") +
+      (uploadToken ? "&uploadToken=" + encodeURIComponent(uploadToken) : "");
 
     var panel = document.getElementById("docsUploadPanel");
     if (!panel) {
@@ -241,7 +243,7 @@
         "<h3>Vos pièces justificatives</h3>" +
         '<p class="small">Complétez votre dossier pour accélérer le devis. Les fichiers sont archivés sur Drive courtier.</p>' +
         '<div data-devis-documents-root data-docs-visual-panel>' +
-        '<div class="devis-docs-drop" data-docs-drop><strong>Ajouter un document</strong><p>PDF, JPG, PNG — max 12 Mo</p>' +
+        '<div class="devis-docs-drop" data-docs-drop><strong>Ajouter un document</strong><p>PDF, JPG, PNG — max 3,5 Mo</p>' +
         '<input type="file" data-docs-input accept=".pdf,.jpg,.jpeg,.png" hidden /></div>' +
         '<label style="display:block;margin:10px 0 4px;font-weight:600;font-size:.85rem">Type</label>' +
         '<select data-docs-type data-optional></select>' +
@@ -268,13 +270,23 @@
           panel.querySelector("[data-devis-documents-root]"),
           { need: need }
         );
-        uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
+        uploader.setSession({
+          email: email,
+          contactId: contactId,
+          leadId: leadId,
+          uploadToken: uploadToken,
+        });
         panel._uploader = uploader;
         uploader.fetchRemoteList();
       }
     } else {
       if (panel._uploader) {
-        panel._uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
+        panel._uploader.setSession({
+          email: email,
+          contactId: contactId,
+          leadId: leadId,
+          uploadToken: uploadToken,
+        });
         panel._uploader.fetchRemoteList();
       }
     }
@@ -288,12 +300,16 @@
       email: email,
       contactId: (result && result.contactId) || null,
       leadId: (result && result.leadId) || null,
+      uploadToken: (result && result.uploadToken) || null,
     });
     return uploader.uploadQueued().then(function (up) {
       var panel = document.getElementById("docsUploadPanel");
       if (panel && panel._uploader) {
         panel._uploader.uploaded = uploader.uploaded;
         panel._uploader.renderVisualPanel(panel.querySelector("[data-docs-visual-grid]"));
+      }
+      if (up && up.errors && up.errors.length) {
+        console.warn("[tracking] upload docs errors", up.errors);
       }
       return up;
     });
@@ -453,6 +469,7 @@
                   email: leadPayload.email,
                   contactId: (result && result.contactId) || null,
                   leadId: (result && result.leadId) || null,
+                  uploadToken: (result && result.uploadToken) || null,
                 });
                 uploadDocs = uploadDocs.then(function () {
                   return window.ImmoSellDocsChecklist.uploadAll();
@@ -476,7 +493,21 @@
                   return vendeurPanel._immoDocs.uploadAll();
                 });
               }
-              return uploadDocs;
+              return uploadDocs.then(function (upResult) {
+                if (msgOk && upResult && upResult.errors && upResult.errors.length) {
+                  var nErr = upResult.errors.length;
+                  var nOk = (upResult.uploaded && upResult.uploaded.length) || 0;
+                  msgOk.insertAdjacentHTML(
+                    "beforeend",
+                    '<p class="small" style="color:#b45309;margin-top:8px">Attention : ' +
+                      nErr +
+                      " pièce(s) non déposée(s)" +
+                      (nOk ? " (" + nOk + " OK)" : "") +
+                      ". Réessayez depuis le panneau ci-dessous.</p>"
+                  );
+                }
+                return upResult;
+              });
             }).finally(function () {
               if (msgOk) {
                 if (result.emailSent === false && result.stored === false) {

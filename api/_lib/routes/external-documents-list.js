@@ -4,6 +4,8 @@
  */
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
+const { getAuthUser } = require("../auth");
+const { verifyUploadToken, extractUploadToken } = require("../upload-token");
 
 function parseAttachments(extraRaw, event) {
   var extra = {};
@@ -61,6 +63,22 @@ module.exports = async (req, res) => {
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
 
   try {
+    const user = await getAuthUser(req);
+    const token = extractUploadToken(req, {
+      uploadToken: url.searchParams.get("uploadToken") || url.searchParams.get("token"),
+    });
+    const decoded = verifyUploadToken(token);
+    const staffOk = !!(user && user.userId);
+    const tokenOk =
+      decoded &&
+      ((!email || decoded.email === email) &&
+        (!contactId || !decoded.contactId || decoded.contactId === contactId));
+    if (!staffOk && !tokenOk) {
+      return res.status(401).json({
+        error: "Token upload ou session CRM requis pour lister les pièces",
+      });
+    }
+
     var contact = null;
     if (contactId) {
       const rows = await sql`SELECT id, email, first_name, last_name FROM crm_contacts WHERE id = ${contactId} LIMIT 1`;

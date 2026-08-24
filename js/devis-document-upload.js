@@ -2,7 +2,7 @@
  * Upload pièces justificatives — parcours devis (file → base64 → API → Drive).
  */
 (function (global) {
-  var MAX_BYTES = 12 * 1024 * 1024;
+  var MAX_BYTES = Math.floor(3.5 * 1024 * 1024);
   var ACCEPT = ".pdf,.jpg,.jpeg,.png";
 
   function readFileAsBase64(file) {
@@ -81,7 +81,7 @@
 
   DevisDocumentUpload.prototype.addFile = function (file, documentType) {
     if (file.size > MAX_BYTES) {
-      alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
+      alert("Fichier trop volumineux (max 3,5 Mo) : " + file.name);
       return;
     }
     var item = {
@@ -108,6 +108,7 @@
     this.session.email = session.email || this.session.email;
     this.session.contactId = session.contactId || this.session.contactId;
     this.session.leadId = session.leadId || this.session.leadId;
+    this.session.uploadToken = session.uploadToken || this.session.uploadToken;
   };
 
   DevisDocumentUpload.prototype.uploadQueued = function () {
@@ -123,15 +124,26 @@
       return chain.then(function (acc) {
         item.status = "uploading";
         self.renderQueue();
+        if (item.file && item.file.size > 3.5 * 1024 * 1024) {
+          item.status = "error";
+          item.error = "Fichier trop volumineux (max 3,5 Mo)";
+          acc.errors.push({ item: item, error: item.error });
+          self.renderQueue();
+          return acc;
+        }
         return readFileAsBase64(item.file)
           .then(function (dataUrl) {
+            var headers = { "Content-Type": "application/json" };
+            if (self.session.uploadToken) headers["X-Upload-Token"] = self.session.uploadToken;
             return fetch("/api/external/upload", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: headers,
+              credentials: "same-origin",
               body: JSON.stringify({
                 email: self.session.email,
                 contactId: self.session.contactId,
                 leadId: self.session.leadId,
+                uploadToken: self.session.uploadToken || undefined,
                 fileName: item.fileName,
                 documentType: item.documentType,
                 mimeType: item.mimeType,
@@ -145,6 +157,11 @@
           .then(function (r) {
             return r.json().then(function (data) {
               if (!r.ok || !data.ok) throw new Error((data && data.error) || "Upload echoue");
+              if (data.drive && data.drive.simulated) {
+                throw new Error("Drive non disponible — fichier non enregistré");
+              }
+              if (data.uploadToken) self.session.uploadToken = data.uploadToken;
+              if (data.contactId) self.session.contactId = data.contactId;
               return data;
             });
           })
@@ -252,7 +269,19 @@
     var q = this.session.contactId
       ? "contactId=" + encodeURIComponent(this.session.contactId)
       : "email=" + encodeURIComponent(this.session.email);
-    return fetch("/api/external/documents-list?" + q)
+    if (this.session.email && this.session.contactId) {
+      q += "&email=" + encodeURIComponent(this.session.email);
+    }
+    if (this.session.uploadToken) {
+      q += "&uploadToken=" + encodeURIComponent(this.session.uploadToken);
+    }
+    var headers = {};
+    if (this.session.uploadToken) headers["X-Upload-Token"] = this.session.uploadToken;
+    try {
+      var tok = localStorage.getItem("lo_token");
+      if (tok) headers.Authorization = "Bearer " + tok;
+    } catch (e) {}
+    return fetch("/api/external/documents-list?" + q, { headers: headers, credentials: "same-origin" })
       .then(function (r) {
         return r.json();
       })
@@ -306,7 +335,7 @@
       "</select>" +
       '<div class="devis-docs-drop" data-docs-drop style="margin-top:12px">' +
       "<strong>Glissez un fichier ici ou cliquez</strong>" +
-      "<p>PDF, JPG, PNG — max 12 Mo. Vous pouvez passer cette étape et envoyer plus tard.</p>" +
+      "<p>PDF, JPG, PNG — max 3,5 Mo. Vous pouvez passer cette étape et envoyer plus tard.</p>" +
       '<input type="file" data-docs-input accept="' +
       ACCEPT +
       '" hidden />' +

@@ -7,6 +7,7 @@ const ROUTES = {
   "quote-request": () => require("../_lib/routes/external-quote-request"),
   claim: () => require("../_lib/routes/external-claim"),
   upload: () => require("../_lib/routes/external-upload"),
+  "upload-init": () => require("../_lib/routes/external-upload-init"),
   "documents-list": () => require("../_lib/routes/external-documents-list"),
   google: () => require("../_lib/routes/external-google-start"),
   "send-verify": () => require("../_lib/routes/external-send-verify"),

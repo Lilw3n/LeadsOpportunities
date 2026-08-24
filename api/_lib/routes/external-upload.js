@@ -1,11 +1,22 @@
 /**
- * POST /api/external/upload — dépôt document portail client / parcours devis
+ * POST /api/external/upload — dépôt document sécurisé (portail / devis / CRM)
  */
 const crypto = require("crypto");
 const { applyApiGuards, parseJsonBody, rateLimit, getClientIp } = require("../security");
+const { getAuthUser } = require("../auth");
 const { getSql } = require("../db");
 const { uploadBase64File } = require("../drive-upload-core");
 const { subfolderForDocumentType, resolveContactDocTypeFolderId } = require("../drive-folders");
+const {
+  verifyUploadToken,
+  tokenMatchesBody,
+  extractUploadToken,
+  createUploadToken,
+} = require("../upload-token");
+const { isDriveUploadConfigured, uploadConfigHint } = require("../google-drive-auth");
+
+/** JSON body max — aligné Vercel (~4,5 Mo) + base64 */
+const UPLOAD_JSON_MAX = 5 * 1024 * 1024;
 
 function attachmentFromBody(body, driveResult) {
   return {
@@ -73,16 +84,55 @@ async function resolveContact(sql, body) {
   return null;
 }
 
+async function authorizeUpload(req, body, contact, sql) {
+  const user = await getAuthUser(req);
+  if (user && user.userId) {
+    return { ok: true, via: "crm", user: user };
+  }
+
+  const token = extractUploadToken(req, body);
+  const decoded = verifyUploadToken(token);
+  if (decoded && tokenMatchesBody(decoded, Object.assign({}, body, { email: contact.email, contactId: contact.id }))) {
+    return { ok: true, via: "upload_token", decoded: decoded };
+  }
+
+  // Preuve d'ownership : lead existant avec le même e-mail (après formulaire)
+  const leadId = body.leadId || body.lead_id || null;
+  const email = body.email
+    ? String(body.email).trim().toLowerCase()
+    : String(contact.email || "")
+        .trim()
+        .toLowerCase();
+  if (leadId && email) {
+    const leads = await sql`
+      SELECT id FROM site_leads
+      WHERE id = ${leadId}
+        AND LOWER(COALESCE(email, '')) = ${email}
+      LIMIT 1
+    `;
+    if (leads.length) {
+      return { ok: true, via: "lead_proof" };
+    }
+  }
+
+  return {
+    ok: false,
+    status: 401,
+    error:
+      "Upload non autorisé — reconnectez-vous au CRM, ou renvoyez le formulaire pour obtenir un jeton de dépôt sécurisé.",
+  };
+}
+
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
   const ip = getClientIp(req);
-  const rl = rateLimit("ext-upload:" + ip, 30, 3600000);
+  const rl = rateLimit("ext-upload:" + ip, 40, 3600000);
   if (!rl.allowed) return res.status(429).json({ error: "Trop de requetes" });
 
-  const parsed = parseJsonBody(req);
+  const parsed = parseJsonBody(req, UPLOAD_JSON_MAX);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
   const body = parsed.body || {};
   const fileName = body.fileName || body.name;
@@ -92,8 +142,8 @@ module.exports = async (req, res) => {
   if (!fileName) {
     return res.status(400).json({ error: "fileName requis" });
   }
-  if (!body.email && !body.contactId && !body.contact_id && !body.phone && !body.telephone) {
-    return res.status(400).json({ error: "email, téléphone ou contactId requis" });
+  if (!body.email && !body.contactId && !body.contact_id && !body.phone && !body.telephone && !body.leadId && !body.lead_id) {
+    return res.status(400).json({ error: "email, téléphone, contactId ou leadId requis" });
   }
   if (!body.fileBase64) {
     return res.status(400).json({ error: "fileBase64 requis (PDF ou image JPG/PNG)" });
@@ -103,6 +153,14 @@ module.exports = async (req, res) => {
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
 
   try {
+    if (!isDriveUploadConfigured()) {
+      return res.status(503).json({
+        ok: false,
+        error: "Google Drive non configuré pour l'upload. " + uploadConfigHint(),
+        code: "drive_not_configured",
+      });
+    }
+
     const contact = await resolveContact(sql, body);
     if (!contact) {
       return res.status(404).json({
@@ -112,6 +170,9 @@ module.exports = async (req, res) => {
         leadId: body.leadId || body.lead_id || null,
       });
     }
+
+    const auth = await authorizeUpload(req, body, contact, sql);
+    if (!auth.ok) return res.status(auth.status).json({ ok: false, error: auth.error, code: "upload_unauthorized" });
 
     const usePerType =
       body.perTypeFolder === true ||
@@ -123,6 +184,7 @@ module.exports = async (req, res) => {
       mimeType: body.mimeType || "application/octet-stream",
       contactId: contact.id,
       kind: "document",
+      allowSimulated: false,
     };
     if (usePerType) {
       uploadOpts.folderId = await resolveContactDocTypeFolderId(contact.id, documentType);
@@ -131,6 +193,15 @@ module.exports = async (req, res) => {
     }
     var driveResult = await uploadBase64File(uploadOpts);
 
+    if (!driveResult || driveResult.simulated || !driveResult.fileId || String(driveResult.fileId).indexOf("sim_") === 0) {
+      return res.status(503).json({
+        ok: false,
+        error: "Échec dépôt Drive — le fichier n'a pas été enregistré. " + (driveResult && driveResult.message ? driveResult.message : uploadConfigHint()),
+        code: "drive_upload_failed",
+        drive: driveResult || null,
+      });
+    }
+
     const attachment = attachmentFromBody(body, driveResult || {});
     const extraData = JSON.stringify({
       attachments: [attachment],
@@ -138,6 +209,7 @@ module.exports = async (req, res) => {
       source: body.source || "portal_upload",
       vertical: body.vertical || body.need || null,
       leadId: body.leadId || body.lead_id || null,
+      authVia: auth.via || null,
     });
 
     const actId = "act_" + crypto.randomUUID();
@@ -177,18 +249,33 @@ module.exports = async (req, res) => {
       }
     }
 
+    var refreshToken = null;
+    try {
+      if (contact.email) {
+        refreshToken = createUploadToken({
+          email: contact.email,
+          contactId: contact.id,
+          leadId: body.leadId || body.lead_id || null,
+          need: body.vertical || body.need,
+        });
+      }
+    } catch (tokErr) {
+      console.warn("[external/upload] token refresh", tokErr.message);
+    }
+
     return res.status(201).json({
       ok: true,
       eventId: evtId,
       contactId: contact.id,
       attachment: attachment,
       drive: driveResult,
-      message: "Document enregistré",
+      uploadToken: refreshToken,
+      message: "Document enregistré sur Drive",
     });
   } catch (e) {
     console.error("[external/upload]", e);
     var msg = e.message || "Erreur serveur";
-    var code = /non autorise|refuse|correspond pas|volumineux|vide/i.test(msg) ? 400 : 500;
-    return res.status(code).json({ error: msg });
+    var code = /non autorise|refuse|correspond pas|volumineux|vide|Extension|Format/i.test(msg) ? 400 : 500;
+    return res.status(code).json({ ok: false, error: msg });
   }
 };

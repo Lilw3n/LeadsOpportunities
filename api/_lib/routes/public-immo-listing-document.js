@@ -6,7 +6,6 @@ const { getSql } = require("../db");
 const crypto = require("crypto");
 const { uploadBase64File } = require("../drive-upload-core");
 const { resolveVendeurDocumentFolder, ensurePropertyDriveFolders } = require("../immo-drive");
-const { isDriveUploadConfigured } = require("../google-drive-auth");
 
 function str(v, max) {
   return String(v == null ? "" : v).trim().slice(0, max || 200);
@@ -87,21 +86,15 @@ module.exports = async function publicImmoListingDocument(req, res) {
     }
     if (!leadOk && body.contactId) {
       var cRows = await sql`
-        SELECT id FROM crm_contacts WHERE id = ${body.contactId} LIMIT 1
+        SELECT id, email FROM crm_contacts WHERE id = ${body.contactId} LIMIT 1
       `;
-      leadOk = cRows.length > 0;
+      if (cRows.length && String(cRows[0].email || "").toLowerCase() === email) {
+        leadOk = true;
+      }
     }
     if (!leadOk) {
       return res.status(403).json({ ok: false, error: "Email non autorise pour ce bien" });
     }
-
-    var ensured = await ensurePropertyDriveFolders({
-      id: prop.id,
-      title: prop.title,
-      city: prop.city,
-      postal_code: prop.postal_code,
-      drive_folder_id: prop.drive_folder_id,
-    });
 
     var classified = resolveVendeurDocumentFolder({
       documentGroup: documentGroup,
@@ -109,6 +102,17 @@ module.exports = async function publicImmoListingDocument(req, res) {
       fileName: fileName,
       mimeType: body.mimeType,
     });
+
+    var ensured = await ensurePropertyDriveFolders(
+      {
+        id: prop.id,
+        title: prop.title,
+        city: prop.city,
+        postal_code: prop.postal_code,
+        drive_folder_id: prop.drive_folder_id,
+      },
+      { subfolder: classified }
+    );
 
     var targetFolder =
       (ensured.subfolderIds && ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) ||
@@ -121,7 +125,17 @@ module.exports = async function publicImmoListingDocument(req, res) {
       mimeType: body.mimeType || "application/octet-stream",
       folderId: targetFolder,
       kind: "document",
+      allowSimulated: false,
     });
+
+    if (!uploaded || uploaded.simulated || !uploaded.fileId || String(uploaded.fileId).indexOf("sim_") === 0) {
+      return res.status(503).json({
+        ok: false,
+        error:
+          "Échec dépôt Drive — le fichier n'a pas été enregistré. Vérifiez GOOGLE_DRIVE_REFRESH_TOKEN sur Vercel.",
+        drive: uploaded || null,
+      });
+    }
 
     var meta = parseJson(prop.metadata_json, {});
     meta.documents = meta.documents || [];
@@ -182,7 +196,7 @@ module.exports = async function publicImmoListingDocument(req, res) {
       }
     }
 
-    if (uploaded.simulated && isDriveUploadConfigured()) {
+    if (uploaded.simulated) {
       return res.status(503).json({
         ok: false,
         error:

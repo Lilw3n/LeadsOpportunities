@@ -33,10 +33,10 @@ async function syncPropertyPhotosToDrive(property, photos) {
   }
 
   var prop = Object.assign({}, property, { id: property.id });
-  var ensured = await ensurePropertyDriveFolders(prop);
+  var pubFolderKey = resolveListingMediaFolder("photo");
+  var ensured = await ensurePropertyDriveFolders(prop, { subfolder: pubFolderKey });
   var folderId = ensured.folderId || property.drive_folder_id || null;
   var subMap = ensured.subfolderIds || {};
-  var pubFolderKey = resolveListingMediaFolder("photo");
   var targetFolder = (subMap[pubFolderKey] && subMap[pubFolderKey].id) || folderId;
 
   if (ensured.simulated || !targetFolder) {
@@ -57,6 +57,17 @@ async function syncPropertyPhotosToDrive(property, photos) {
   for (var i = 0; i < photos.length; i++) {
     var p = photos[i];
     var folderKey = resolveListingMediaFolder(p.kind === "capture" ? "capture" : "photo");
+    if (folderKey !== pubFolderKey && !(subMap[folderKey] && subMap[folderKey].id)) {
+      var ensuredKey = await ensurePropertyDriveFolders(
+        Object.assign({}, prop, { drive_folder_id: folderId }),
+        { subfolder: folderKey }
+      );
+      if (ensuredKey.subfolderIds) {
+        Object.keys(ensuredKey.subfolderIds).forEach(function (k) {
+          subMap[k] = ensuredKey.subfolderIds[k];
+        });
+      }
+    }
     var uploadFolder =
       (subMap[folderKey] && subMap[folderKey].id) || targetFolder;
     try {

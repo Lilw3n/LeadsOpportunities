@@ -281,6 +281,31 @@
     });
   }
 
+  function authHeaders(extra) {
+    var headers = Object.assign({ "Content-Type": "application/json" }, extra || {});
+    try {
+      var tok = localStorage.getItem("lo_token");
+      if (tok) headers.Authorization = "Bearer " + tok;
+    } catch (e) {}
+    return headers;
+  }
+
+  function assertDriveOk(res) {
+    if (!res.ok || !res.data || !res.data.ok) {
+      throw new Error((res.data && res.data.error) || "Upload impossible");
+    }
+    if (res.data.drive && res.data.drive.simulated) {
+      throw new Error("Drive non disponible — le fichier n'a pas été enregistré. Réessayez après configuration Drive.");
+    }
+    if (!res.data.attachment || !res.data.attachment.driveFileId) {
+      throw new Error("Upload incomplet — aucun fichier Drive reçu");
+    }
+    if (String(res.data.attachment.driveFileId).indexOf("sim_") === 0) {
+      throw new Error("Upload simulé refusé — configurez Google Drive (OAuth)");
+    }
+    return res.data;
+  }
+
   function mountGenericUpload(panel, ctx) {
     panel.innerHTML =
       '<div class="crm-doc-generic">' +
@@ -294,7 +319,7 @@
       '<option value="other">Autre</option>' +
       "</select></label>" +
       '<label class="crm-doc-generic__file btn btn-ghost btn-sm">' +
-      "Choisir un fichier (PDF, JPG, PNG — max 12 Mo)" +
+      "Choisir un fichier (PDF, JPG, PNG — max 3,5 Mo)" +
       '<input type="file" data-crm-doc-file accept=".pdf,.jpg,.jpeg,.png" hidden /></label>' +
       '<p class="small" data-crm-doc-file-name style="margin:8px 0 0;color:var(--muted)"></p>' +
       "</div>";
@@ -308,15 +333,15 @@
     return {
       uploadAll: function () {
         if (!pendingFile) return Promise.resolve({ uploaded: [], errors: [{ error: "Aucun fichier sélectionné" }] });
-        if (pendingFile.size > 12 * 1024 * 1024) {
-          return Promise.resolve({ uploaded: [], errors: [{ error: "Fichier trop volumineux (max 12 Mo)" }] });
+        if (pendingFile.size > 3.5 * 1024 * 1024) {
+          return Promise.resolve({ uploaded: [], errors: [{ error: "Fichier trop volumineux (max 3,5 Mo)" }] });
         }
         var docType = panel.querySelector("[data-crm-doc-type]");
         var vertical = ctx.vertical || "questionnaire";
         return readFileAsBase64(pendingFile).then(function (dataUrl) {
           return fetch("/api/external/upload", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: authHeaders(),
             credentials: "same-origin",
             body: JSON.stringify({
               contactId: ctx.contactId,
@@ -339,12 +364,10 @@
               });
             })
             .then(function (res) {
-              if (!res.ok || !res.data || !res.data.ok) {
-                throw new Error((res.data && res.data.error) || "Upload impossible");
-              }
+              assertDriveOk(res);
               pendingFile = null;
               if (fileInput) fileInput.value = "";
-              if (fileNameEl) fileNameEl.textContent = "Fichier envoyé.";
+              if (fileNameEl) fileNameEl.textContent = "Fichier envoyé sur Drive.";
               return { uploaded: [res.data], errors: [] };
             })
             .catch(function (err) {
@@ -419,7 +442,7 @@
             return readFileAsBase64(file).then(function (dataUrl) {
               return fetch("/api/external/upload", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: authHeaders(),
                 credentials: "same-origin",
                 body: JSON.stringify({
                   contactId: session.contactId,
@@ -443,9 +466,7 @@
                   });
                 })
                 .then(function (res) {
-                  if (!res.ok || !res.data || !res.data.ok) {
-                    throw new Error((res.data && res.data.error) || "Upload impossible");
-                  }
+                  assertDriveOk(res);
                   if (res.data.contactId) session.contactId = res.data.contactId;
                   markItemDone(item);
                   acc.uploaded.push(res.data);

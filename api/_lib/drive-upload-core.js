@@ -35,7 +35,7 @@ async function resolveTargetFolder(folderId, contactId, subfolder) {
   return targetFolder;
 }
 
-async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, subfolder, skipValidation }) {
+async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, subfolder, skipValidation, allowSimulated }) {
   const { getDriveAccessToken, isDriveUploadConfigured, uploadConfigHint, isServiceAccountQuotaError } =
     require("./google-drive-auth");
   var auth = await getDriveAccessToken({ forUpload: true });
@@ -44,13 +44,16 @@ async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, s
 
   if (!token || !targetFolder) {
     var hint = !isDriveUploadConfigured() ? uploadConfigHint() : "Token ou dossier cible manquant";
-    return {
-      ok: true,
-      simulated: true,
-      message: "Upload simule — " + hint,
-      fileId: "sim_" + Date.now(),
-      fileName: fileName,
-    };
+    if (allowSimulated) {
+      return {
+        ok: false,
+        simulated: true,
+        message: "Upload simule — " + hint,
+        fileId: "sim_" + Date.now(),
+        fileName: fileName,
+      };
+    }
+    throw new Error("Upload Drive impossible — " + hint);
   }
 
   var meta = {
@@ -89,7 +92,7 @@ async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, s
   };
 }
 
-async function uploadBase64File({ fileName, base64, mimeType, folderId, contactId, subfolder, kind }) {
+async function uploadBase64File({ fileName, base64, mimeType, folderId, contactId, subfolder, kind, allowSimulated }) {
   if (!base64) throw new Error("base64 requis");
   var checked = validateUpload({
     base64: base64,
@@ -104,10 +107,11 @@ async function uploadBase64File({ fileName, base64, mimeType, folderId, contactI
     folderId: folderId,
     contactId: contactId,
     subfolder: subfolder,
+    allowSimulated: allowSimulated === true,
   });
 }
 
-async function uploadTextFile({ fileName, content, mimeType, folderId, contactId, subfolder }) {
+async function uploadTextFile({ fileName, content, mimeType, folderId, contactId, subfolder, allowSimulated }) {
   return uploadBuffer({
     fileName: fileName,
     buffer: Buffer.from(String(content || ""), "utf8"),
@@ -116,6 +120,7 @@ async function uploadTextFile({ fileName, content, mimeType, folderId, contactId
     contactId: contactId,
     subfolder: subfolder,
     skipValidation: true,
+    allowSimulated: allowSimulated === true,
   });
 }
 

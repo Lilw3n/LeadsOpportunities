@@ -397,5 +397,22 @@ module.exports = async (req, res) => {
     duplicate: !!enriched.parent_lead_id,
     parentLeadId: enriched.parent_lead_id || null,
     seoCity: enriched.seo_city || null,
+    uploadToken: (function () {
+      try {
+        if (!enriched.email && !contactIdOut) return null;
+        var emailForTok = enriched.email ? String(enriched.email).trim().toLowerCase() : null;
+        if (!emailForTok && contactIdOut) return null;
+        const { createUploadToken } = require("../upload-token");
+        return createUploadToken({
+          email: emailForTok,
+          contactId: contactIdOut || null,
+          leadId: leadId,
+          need: enriched.vertical || enriched.need,
+        });
+      } catch (tokErr) {
+        console.warn("[lead] upload token", tokErr.message);
+        return null;
+      }
+    })(),
   });
 };
