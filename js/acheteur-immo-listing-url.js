@@ -571,10 +571,21 @@
                 return { id: item.id, label: item.label, section: item.section || "" };
               })
             : [],
-        depositDraft:
-          window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.collectDraft
-            ? window.AcheteurImmoDepositGuide.collectDraft()
-            : null,
+        depositDraft: (function () {
+          var draft =
+            window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.collectDraft
+              ? window.AcheteurImmoDepositGuide.collectDraft()
+              : null;
+          if (draft && draft.form) {
+            if (!String(draft.form.email || "").trim() && payloadEmail) draft.form.email = payloadEmail;
+            if (!String(draft.form.phone || "").trim() && payloadPhone) draft.form.phone = payloadPhone;
+            var fn = val(form, "firstName");
+            var ln = val(form, "lastName");
+            if (!String(draft.form.firstName || "").trim() && fn) draft.form.firstName = fn;
+            if (!String(draft.form.lastName || "").trim() && ln) draft.form.lastName = ln;
+          }
+          return draft;
+        })(),
       };
       if (!payload.email && !payload.phone) {
         if (window.AcheteurImmoDepositGuide) {

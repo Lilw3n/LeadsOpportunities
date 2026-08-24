@@ -20,17 +20,47 @@ function parsePayload(raw) {
   }
 }
 
-function buildDraftFromLeadPayload(p) {
+function fillFormGaps(form, source) {
+  if (!form || !source || typeof source !== "object") return form;
+  [
+    "firstName",
+    "lastName",
+    "email",
+    "phone",
+    "city",
+    "postal_code",
+    "description",
+    "details",
+    "property_type",
+    "price_fai",
+    "rooms",
+    "bedrooms",
+    "surface_m2",
+    "dpe",
+    "sellerKind",
+    "sellerName",
+    "sellerPhone",
+    "sellerEmail",
+    "confirmMethod",
+    "role",
+  ].forEach(function (k) {
+    var cur = form[k];
+    var next = source[k];
+    if ((cur == null || String(cur).trim() === "") && next != null && String(next).trim() !== "") {
+      form[k] = typeof next === "number" ? String(next) : next;
+    }
+  });
+  return form;
+}
+
+function buildDraftFromLeadPayload(p, leadRow) {
   if (!p || typeof p !== "object") return null;
-  if (p.depositDraft && typeof p.depositDraft === "object") {
-    return p.depositDraft;
-  }
-  var sd = p.sellDossier;
-  var form = {
+  leadRow = leadRow || {};
+  var leadFields = {
     firstName: p.firstName || "",
     lastName: p.lastName || "",
-    email: p.email || "",
-    phone: p.phone || "",
+    email: p.email || leadRow.email || "",
+    phone: p.phone || leadRow.phone || "",
     city: p.city || "",
     postal_code: p.postal_code || "",
     description: p.description || "",
@@ -48,8 +78,28 @@ function buildDraftFromLeadPayload(p) {
     confirmMethod: p.confirmMethod || "",
     role: p.role || "vendeur",
   };
+
+  if (p.depositDraft && typeof p.depositDraft === "object") {
+    var stored = Object.assign({}, p.depositDraft);
+    stored.form = fillFormGaps(Object.assign({}, stored.form || {}), leadFields);
+    stored.fromServer = true;
+    var storedHas =
+      Object.keys(stored.form || {}).some(function (k) {
+        return String(stored.form[k] || "").trim();
+      }) ||
+      Object.keys(stored.panel || {}).some(function (k) {
+        return String((stored.panel || {})[k] || "").trim();
+      }) ||
+      (Array.isArray(stored.owners) && stored.owners.length);
+    return storedHas ? stored : null;
+  }
+
+  var sd = p.sellDossier;
+  var form = Object.assign({}, leadFields);
   if (Array.isArray(p.listingUrls) && p.listingUrls.length) {
     form.listingUrlsText = p.listingUrls.join("\n");
+  } else if (Array.isArray(p.urls) && p.urls.length) {
+    form.listingUrlsText = p.urls.join("\n");
   }
   var panel = {};
   if (sd && typeof sd === "object") {
@@ -70,9 +120,7 @@ function buildDraftFromLeadPayload(p) {
     });
   }
   if (p.questionnaireDraft && typeof p.questionnaireDraft === "object") {
-    Object.keys(p.questionnaireDraft).forEach(function (k) {
-      if (form[k] == null || form[k] === "") form[k] = p.questionnaireDraft[k];
-    });
+    fillFormGaps(form, p.questionnaireDraft);
   }
   var draft = {
     v: 2,
@@ -153,7 +201,7 @@ module.exports = async function externalResumeDeposit(req, res) {
 
     var row = rows[0];
     var payload = parsePayload(row.payload);
-    var draft = buildDraftFromLeadPayload(payload);
+    var draft = buildDraftFromLeadPayload(payload, row);
     if (!draft) {
       return res.status(200).json({ found: false });
     }
@@ -161,8 +209,10 @@ module.exports = async function externalResumeDeposit(req, res) {
     return res.status(200).json({
       found: true,
       leadId: row.id,
-      email: row.email || payload.email || "",
-      phone: row.phone || payload.phone || "",
+      email: row.email || payload.email || (draft.form && draft.form.email) || "",
+      phone: row.phone || payload.phone || (draft.form && draft.form.phone) || "",
+      firstName: payload.firstName || (draft.form && draft.form.firstName) || "",
+      lastName: payload.lastName || (draft.form && draft.form.lastName) || "",
       savedAt: row.created_at,
       draft: draft,
       message: "Dossier repris — complétez les informations manquantes puis renvoyez.",
