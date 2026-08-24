@@ -246,8 +246,8 @@
       if (extra.length) o.sellPhotos = extra;
     }
 
-    if (global.ImmoTracfinMandate && global.ImmoTracfinMandate.mandateChecked(document)) {
-      o.tracfinDocs = global.ImmoTracfinMandate.collectStatuses();
+    if (window.ImmoTracfinMandate && window.ImmoTracfinMandate.mandateChecked(document)) {
+      o.tracfinDocs = window.ImmoTracfinMandate.collectStatuses();
       o.tracfinRequiresFollowUp = o.tracfinDocs.some(function (d) {
         return d.status !== "received";
       });
