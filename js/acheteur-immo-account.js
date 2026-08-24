@@ -258,6 +258,20 @@
         if (data.found) {
           prefillIfEmpty(form, data);
           setCoordsKnown(root, data.message || "Dossier déjà connu — vos coordonnées ont été reprises.");
+          if (window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.tryRestoreFromServer) {
+            window.AcheteurImmoDepositGuide.tryRestoreFromServer(
+              root,
+              {
+                silent: true,
+                creds: {
+                  email: data.email || email,
+                  phone: data.phone || phone,
+                  leadId: null,
+                },
+              },
+              function () {}
+            );
+          }
         } else {
           setCoordsKnown(root, "");
         }

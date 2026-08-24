@@ -571,6 +571,10 @@
                 return { id: item.id, label: item.label, section: item.section || "" };
               })
             : [],
+        depositDraft:
+          window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.collectDraft
+            ? window.AcheteurImmoDepositGuide.collectDraft()
+            : null,
       };
       if (!payload.email && !payload.phone) {
         if (window.AcheteurImmoDepositGuide) {
@@ -700,7 +704,9 @@
           form.reset();
           state.photos = [];
           state.capture = null;
-          if (window.AcheteurImmoDepositGuide) window.AcheteurImmoDepositGuide.clearDraftAfterSubmit();
+          if (window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.persistAfterSubmit) {
+            window.AcheteurImmoDepositGuide.persistAfterSubmit(payload, res.data.leadId);
+          }
           renderDetected(root, "");
           refreshMedia();
           applyHat(hat);

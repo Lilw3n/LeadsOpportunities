@@ -6,6 +6,7 @@
   var INDEX_KEY = "lo_immo_deposit_drafts_index";
   var DRAFT_PREFIX = "lo_immo_deposit_draft_";
   var SESSION_ACTIVE_KEY = "lo_immo_draft_active_id";
+  var LEAD_ID_KEY = "lo_immo_deposit_lead_id";
   var MAX_DRAFTS = 8;
   var SAVE_DELAY_MS = 1200;
 
@@ -473,11 +474,12 @@
     jumpToErrors(root, result);
   }
 
-  function serializeScope(scope) {
+  function serializeScope(scope, opts) {
+    opts = opts || {};
     if (!scope) return {};
     var data = {};
     qsa("input, select, textarea", scope).forEach(function (el) {
-      if (el.disabled || el.type === "file" || el.name === "_hp") return;
+      if ((!opts.includeDisabled && el.disabled) || el.type === "file" || el.name === "_hp") return;
       var n = el.name;
       if (!n) return;
       if (el.type === "checkbox") {
@@ -497,23 +499,55 @@
     return data;
   }
 
-  function applyScope(scope, data) {
+  function collectDraftExtras() {
+    var extras = {};
+    var urls = qs("[data-listing-urls]");
+    if (urls) extras.listingUrlsText = urls.value || "";
+    var cf = qs("[data-city-fallback]");
+    if (cf) extras.cityFallback = cf.value || "";
+    var pf = qs("[data-postal-fallback]");
+    if (pf) extras.postalFallback = pf.value || "";
+    return extras;
+  }
+
+  function applyDraftExtras(extras) {
+    if (!extras) return;
+    var urls = qs("[data-listing-urls]");
+    if (urls && extras.listingUrlsText != null) urls.value = extras.listingUrlsText;
+    var cf = qs("[data-city-fallback]");
+    if (cf && extras.cityFallback != null) cf.value = extras.cityFallback;
+    var pf = qs("[data-postal-fallback]");
+    if (pf && extras.postalFallback != null) pf.value = extras.postalFallback;
+    if (extras.listingUrlsText != null && urls && global.ImmoListingPortals) {
+      try {
+        document.dispatchEvent(
+          new CustomEvent("lo:listing-urls-changed", { detail: { text: extras.listingUrlsText } })
+        );
+      } catch (e) {}
+    }
+  }
+
+  function applyScope(scope, data, opts) {
     if (!scope || !data) return;
+    opts = opts || {};
     Object.keys(data).forEach(function (name) {
+      if (name === "listingUrlsText" || name === "cityFallback" || name === "postalFallback") return;
       var valData = data[name];
       var nodes = qsa('[name="' + name + '"]', scope);
       if (!nodes.length) return;
-      if (nodes[0].type === "checkbox" && Array.isArray(valData)) {
+      var sample = nodes[0];
+      if (sample.disabled && !opts.includeDisabled) return;
+      if (sample.type === "checkbox" && Array.isArray(valData)) {
         nodes.forEach(function (el) {
           el.checked = valData.indexOf(el.value) >= 0;
         });
         return;
       }
-      if (nodes[0].type === "checkbox") {
+      if (sample.type === "checkbox") {
         nodes[0].checked = !!valData;
         return;
       }
-      if (nodes[0].type === "radio") {
+      if (sample.type === "radio") {
         nodes.forEach(function (el) {
           el.checked = el.value === String(valData);
         });
@@ -677,14 +711,23 @@
 
     if (reprise === "1") {
       var pick = getLatestDraftId(null);
-      if (pick) {
+      if (pick && hasDraftContent(loadDraftById(pick))) {
         setActiveDraftId(pick);
         restoreDraftById(pick, { silent: false });
-      } else {
-        setActiveDraftId(createDraftId());
+        updateDraftBanner();
+        updateSessionHint(root);
+        return;
       }
-      updateDraftBanner();
-      updateSessionHint(root);
+      tryRestoreFromServer(root, { silent: false }, function (found) {
+        if (!found) {
+          setActiveDraftId(createDraftId());
+          showDraftToast(
+            "Aucun brouillon sur cet appareil — saisissez le même e-mail ou téléphone que lors du dépôt pour reprendre."
+          );
+        }
+        updateDraftBanner();
+        updateSessionHint(root);
+      });
       return;
     }
 
@@ -692,6 +735,19 @@
       setActiveDraftId(sessionId);
       restoreDraftById(sessionId, { silent: true });
       updateSessionHint(root);
+      return;
+    }
+
+    var creds = resumeCredentials();
+    if (creds.email || creds.phone || creds.leadId) {
+      tryRestoreFromServer(root, { silent: true, creds: creds }, function (found) {
+        if (!found) {
+          setActiveDraftId(createDraftId());
+          formDirty = false;
+          updateDraftBanner();
+          updateSessionHint(root);
+        }
+      });
       return;
     }
 
@@ -726,20 +782,167 @@
     if (ownersMount && global.AcheteurImmoOwners && global.AcheteurImmoOwners.collect) {
       owners = global.AcheteurImmoOwners.collect(ownersMount);
     }
+    var extras = collectDraftExtras();
+    var formData = serializeScope(form);
+    if (extras.listingUrlsText) formData.listingUrlsText = extras.listingUrlsText;
+    if (extras.cityFallback) formData.cityFallback = extras.cityFallback;
+    if (extras.postalFallback) formData.postalFallback = extras.postalFallback;
     return {
       v: 2,
       id: getActiveDraftId(),
       savedAt: Date.now(),
       hat: document.documentElement.getAttribute("data-immo-hat") || radioVal(document, "immoHat"),
       listingMode: radioVal(document, "listingMode"),
-      form: serializeScope(form),
-      panel: serializeScope(panel),
+      form: formData,
+      panel: serializeScope(panel, { includeDisabled: true }),
       owners: owners,
+      extras: extras,
       openBlocks: qsa("details.immo-vente-block[open]").map(function (d) {
         var s = d.querySelector("summary");
         return s ? s.textContent.trim() : "";
       }),
     };
+  }
+
+  function payloadToDraft(payload) {
+    if (!payload) return null;
+    if (payload.depositDraft && typeof payload.depositDraft === "object") {
+      return Object.assign({}, payload.depositDraft, { savedAt: Date.now() });
+    }
+    var form = {
+      role: payload.role || "vendeur",
+      firstName: payload.firstName || "",
+      lastName: payload.lastName || "",
+      email: payload.email || "",
+      phone: payload.phone || "",
+      city: payload.city || "",
+      postal_code: payload.postal_code || "",
+      property_type: payload.property_type || "",
+      price_fai: payload.price_fai != null ? String(payload.price_fai) : "",
+      rooms: payload.rooms != null ? String(payload.rooms) : "",
+      bedrooms: payload.bedrooms != null ? String(payload.bedrooms) : "",
+      surface_m2: payload.surface_m2 != null ? String(payload.surface_m2) : "",
+      dpe: payload.dpe || "",
+      description: payload.description || "",
+      details: payload.details || "",
+      sellerKind: payload.sellerKind || "",
+      sellerName: payload.sellerName || "",
+      sellerPhone: payload.sellerPhone || "",
+      sellerEmail: payload.sellerEmail || "",
+      sellerAgency: payload.sellerAgency || "",
+      confirmMethod: payload.confirmMethod || "",
+    };
+    if (payload.urls && payload.urls.length) form.listingUrlsText = payload.urls.join("\n");
+    var panel = {};
+    var sd = payload.sellDossier;
+    if (sd && typeof sd === "object") {
+      Object.keys(sd).forEach(function (k) {
+        if (k === "owners" || k === "coproWorks" || k === "sellPhotos" || k === "tracfinDocs") return;
+        if (sd[k] == null) return;
+        panel[k] = sd[k];
+      });
+    }
+    return {
+      v: 2,
+      savedAt: Date.now(),
+      hat: payload.role === "les_deux" ? "les_deux" : payload.role === "signalement" ? "signalement" : "vendeur",
+      form: form,
+      panel: panel,
+      owners: sd && sd.owners ? sd.owners : [],
+      extras: collectDraftExtras(),
+    };
+  }
+
+  function writeDraftRecord(draft, leadId) {
+    if (!draft || !hasDraftContent(draft)) return false;
+    var id = getActiveDraftId() || createDraftId();
+    setActiveDraftId(id);
+    draft.id = id;
+    draft.savedAt = draft.savedAt || Date.now();
+    localStorage.setItem(draftStorageKey(id), JSON.stringify(draft));
+    var label = draftLabelFromData(draft);
+    var index = readIndex().filter(function (x) {
+      return x.id !== id;
+    });
+    index.unshift({ id: id, savedAt: draft.savedAt, label: label });
+    writeIndex(index);
+    if (leadId) {
+      try {
+        localStorage.setItem(LEAD_ID_KEY, leadId);
+      } catch (e) {}
+      if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
+        global.QuoteIntelligence.setDraftLeadId(leadId);
+      }
+    }
+    updateDraftBanner();
+    updateSessionHint();
+    return true;
+  }
+
+  function persistAfterSubmit(payload, leadId) {
+    var draft = payloadToDraft(payload) || collectDraft();
+    writeDraftRecord(draft, leadId);
+  }
+
+  function resumeCredentials() {
+    var form = qs("[data-url-capture-form]");
+    var email = sessionEmail();
+    var phone = "";
+    if (form) {
+      var em = form.querySelector("[name='email']");
+      var ph = form.querySelector("[name='phone']");
+      if (em && String(em.value || "").trim()) email = String(em.value).trim().toLowerCase();
+      if (ph && String(ph.value || "").trim()) phone = String(ph.value).trim();
+    }
+    var leadId = null;
+    try {
+      leadId = localStorage.getItem(LEAD_ID_KEY);
+    } catch (e) {}
+    if (global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
+      leadId = leadId || global.QuoteIntelligence.getDraftLeadId();
+    }
+    return { email: email, phone: phone, leadId: leadId };
+  }
+
+  function fetchServerDraft(creds) {
+    creds = creds || resumeCredentials();
+    var qsParts = [];
+    if (creds.leadId) qsParts.push("leadId=" + encodeURIComponent(creds.leadId));
+    if (creds.email) qsParts.push("email=" + encodeURIComponent(creds.email));
+    if (creds.phone) qsParts.push("phone=" + encodeURIComponent(creds.phone));
+    if (!qsParts.length) return Promise.resolve({ found: false });
+    return fetch("/api/external/resume-deposit?" + qsParts.join("&"), { credentials: "same-origin" })
+      .then(function (r) {
+        return r.json();
+      })
+      .catch(function () {
+        return { found: false };
+      });
+  }
+
+  function tryRestoreFromServer(root, opts, done) {
+    opts = opts || {};
+    fetchServerDraft(opts.creds).then(function (data) {
+      if (!data || !data.found || !data.draft) {
+        if (typeof done === "function") done(false);
+        return;
+      }
+      if (data.leadId) {
+        try {
+          localStorage.setItem(LEAD_ID_KEY, data.leadId);
+        } catch (e) {}
+      }
+      var id = getActiveDraftId() || createDraftId();
+      data.draft.id = id;
+      data.draft.savedAt = Date.now();
+      localStorage.setItem(draftStorageKey(id), JSON.stringify(data.draft));
+      setActiveDraftId(id);
+      restoreDraftById(id, { silent: !!opts.silent, fromServer: true });
+      if (!opts.silent) {
+        showDraftToast(data.message || "Dossier repris depuis votre espace client.");
+      }
+      if (typeof done === "function") done(true);
+    });
   }
 
   function objectHasContent(obj) {
@@ -801,19 +1004,32 @@
     var draft = loadDraftById(id);
     if (!draft) return false;
     setActiveDraftId(id);
+    if (global.AcheteurImmoDepositVente && global.AcheteurImmoDepositVente.sync) {
+      global.AcheteurImmoDepositVente.sync();
+    }
     applyDraftToForm(draft);
     formDirty = true;
-    if (!opts.silent) showDraftToast("Dossier repris — complétez puis envoyez.");
+    if (!opts.silent) {
+      showDraftToast(
+        opts.fromServer
+          ? "Dossier repris depuis votre espace — complétez puis envoyez."
+          : "Dossier repris — complétez puis envoyez."
+      );
+    }
     hideDraftBanner();
-    refreshUi();
+    refreshUi(qs("[data-listing-url-capture]"));
     return true;
   }
 
   function applyDraftToForm(draft) {
     var form = qs("[data-url-capture-form]");
     var panel = qs("[data-search-vente-panel]");
+    if (global.AcheteurImmoDepositVente && global.AcheteurImmoDepositVente.sync) {
+      global.AcheteurImmoDepositVente.sync();
+    }
     applyScope(form, draft.form);
-    applyScope(panel, draft.panel);
+    applyScope(panel, draft.panel, { includeDisabled: true });
+    applyDraftExtras(draft.extras || draft.form);
     if (draft.owners && draft.owners.length) {
       var mount = qs("[data-owners-mount]");
       if (mount && global.AcheteurImmoOwners) global.AcheteurImmoOwners.render(mount, draft.owners);
@@ -822,27 +1038,48 @@
       document.documentElement.setAttribute("data-immo-hat", draft.hat);
       var r = document.querySelector("[name='immoHat'][value='" + draft.hat + "']");
       if (r) r.checked = true;
+      var roleInput = form && form.querySelector("[name='role']");
+      if (roleInput) roleInput.value = draft.hat;
     }
     if (draft.listingMode) {
       var lm = document.querySelector("[name='listingMode'][value='" + draft.listingMode + "']");
       if (lm) lm.checked = true;
     }
     if (global.AcheteurImmoDepositVente) global.AcheteurImmoDepositVente.sync();
+    if (global.AcheteurImmoAccount && global.AcheteurImmoAccount.syncConfirmMethodUi) {
+      global.AcheteurImmoAccount.syncConfirmMethodUi(qs("[data-listing-url-capture]"));
+    }
     if (draft.openBlocks && draft.openBlocks.length) {
       qsa("details.immo-vente-block").forEach(function (d) {
         var s = d.querySelector("summary");
         if (s && draft.openBlocks.indexOf(s.textContent.trim()) >= 0) d.open = true;
       });
     }
-    try {
-      document.dispatchEvent(new CustomEvent("lo:deposit-draft-restored"));
-    } catch (e) {}
+    setTimeout(function () {
+      if (global.AcheteurImmoDepositVente) {
+        global.AcheteurImmoDepositVente.sync();
+        if (global.AcheteurImmoDepositVente.syncSellToExpress) {
+          global.AcheteurImmoDepositVente.syncSellToExpress();
+        }
+      }
+      try {
+        document.dispatchEvent(new CustomEvent("lo:deposit-draft-restored"));
+      } catch (e) {}
+    }, 0);
   }
 
   function restoreDraft(draft) {
     if (draft && draft.id) return restoreDraftById(draft.id);
-    var pick = getLatestDraftId(getActiveDraftId());
-    if (pick) return restoreDraftById(pick);
+    var current = getActiveDraftId();
+    var currentDraft = loadDraftById(current);
+    if (currentDraft && hasDraftContent(currentDraft)) {
+      return restoreDraftById(current, { silent: false });
+    }
+    var pick = getLatestDraftId(current);
+    if (pick) return restoreDraftById(pick, { silent: false });
+    tryRestoreFromServer(qs("[data-listing-url-capture]"), { silent: false }, function (found) {
+      if (!found) showDraftToast("Aucun dossier sauvegardé trouvé sur cet appareil ou pour ces coordonnées.");
+    });
     return false;
   }
 
@@ -1061,6 +1298,9 @@
     buildCtx: buildCtx,
     focusTarget: focusTarget,
     saveDraft: saveDraft,
+    collectDraft: collectDraft,
+    persistAfterSubmit: persistAfterSubmit,
+    tryRestoreFromServer: tryRestoreFromServer,
     restoreDraft: restoreDraft,
     clearDraft: clearDraft,
     clearDraftAfterSubmit: clearDraftAfterSubmit,

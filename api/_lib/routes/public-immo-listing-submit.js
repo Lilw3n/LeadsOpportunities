@@ -475,6 +475,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         confirmByPhone: body.confirmMethod === "phone" || body.confirmByPhone === true || body.confirmByPhone === "1",
         confirmMethod: confirmMethod || null,
         createAccount: body.createAccount !== false && body.createAccount !== "0",
+        depositDraft:
+          body.depositDraft && typeof body.depositDraft === "object" && !Array.isArray(body.depositDraft)
+            ? body.depositDraft
+            : null,
+        dossierIncomplete: body.dossierIncomplete === true || body.dossierIncomplete === "1",
       };
 
       try {
