@@ -609,6 +609,21 @@
               }
             });
           }
+          if (window.ImmoTracfinMandate && (payload.email || payload.phone || res.data.contactId)) {
+            window.ImmoTracfinMandate.setSession({
+              email: payload.email,
+              phone: payload.phone,
+              contactId: res.data.contactId || null,
+              leadId: res.data.leadId || null,
+            });
+            uploadChain = uploadChain.then(function () {
+              return window.ImmoTracfinMandate.uploadAll().then(function (up) {
+                if (up && up.uploaded && up.uploaded.length) {
+                  docNote += " " + up.uploaded.length + " pièce(s) TRACFIN archivée(s).";
+                }
+              });
+            });
+          }
           var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
           if (
             vendeurPanel &&

@@ -246,6 +246,13 @@
       if (extra.length) o.sellPhotos = extra;
     }
 
+    if (global.ImmoTracfinMandate && global.ImmoTracfinMandate.mandateChecked(document)) {
+      o.tracfinDocs = global.ImmoTracfinMandate.collectStatuses();
+      o.tracfinRequiresFollowUp = o.tracfinDocs.some(function (d) {
+        return d.status !== "received";
+      });
+    }
+
     return o;
   }
 
