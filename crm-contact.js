@@ -380,11 +380,45 @@
     }
   }
 
+  function mergeEventExtraWithLiveLead(extra, leads) {
+    extra = extra || {};
+    var leadId = extra.leadId || extra.lead_id;
+    if (!leadId || !leads || !leads.length) return extra;
+    var live = null;
+    for (var i = 0; i < leads.length; i++) {
+      if (leads[i].id === leadId) {
+        live = leads[i];
+        break;
+      }
+    }
+    if (!live || !live.payload) return extra;
+    try {
+      var lp = typeof live.payload === "object" ? live.payload : JSON.parse(live.payload);
+      return Object.assign({}, extra, {
+        leadSnapshot: Object.assign({}, extra.leadSnapshot || {}, lp),
+      });
+    } catch (err) {
+      return extra;
+    }
+  }
+
   function eventDescriptionHtml(e) {
     var INT = window.InterlocuteurDossier;
-    var extra = parseEventExtra(e);
+    var extra = mergeEventExtraWithLiveLead(parseEventExtra(e), data.leads);
+    var leadId = extra.leadId || extra.lead_id;
+    var canEdit =
+      leadId &&
+      window.InterlocuteurDossierEdit &&
+      window.InterlocuteurDossierEdit.canEditQuestionnaire &&
+      window.InterlocuteurDossierEdit.canEditQuestionnaire();
     if (INT && INT.renderLeadEventBody) {
-      var html = INT.renderLeadEventBody(e.description, extra);
+      var html = INT.renderLeadEventBody(e.description, extra, {
+        hideSellerInProjet: !!canEdit,
+        sellerQuickEdit: !!canEdit,
+        leadId: leadId,
+        contactId: e.contact_id || contactId,
+        eventId: e.id,
+      });
       if (html) return html;
     }
     var desc = String(e.description || "").trim();
@@ -636,6 +670,40 @@
           else alert(res.error || "Erreur");
         });
       };
+    });
+    bindEventSellerEdits(el, list);
+  }
+
+  function bindEventSellerEdits(container, events) {
+    if (
+      !window.InterlocuteurDossierEdit ||
+      !window.InterlocuteurDossierEdit.bindSellerQuickEdit ||
+      !window.InterlocuteurDossierEdit.canEditQuestionnaire ||
+      !window.InterlocuteurDossierEdit.canEditQuestionnaire()
+    ) {
+      return;
+    }
+    var INT = window.InterlocuteurDossier;
+    if (!INT) return;
+    (events || []).forEach(function (e) {
+      var extra = mergeEventExtraWithLiveLead(parseEventExtra(e), data.leads);
+      var leadId = extra.leadId || extra.lead_id;
+      if (!leadId) return;
+      var card = container.querySelector('.event-card[data-id="' + CSS.escape(e.id) + '"]');
+      if (!card) return;
+      var block = card.querySelector("[data-int-seller-quick-edit]");
+      if (!block || block.dataset.sellerBound) return;
+      var p = INT.resolveLeadPayloadFromEvent(e.description, extra);
+      var dossier = INT.buildDossier(null, p);
+      window.InterlocuteurDossierEdit.bindSellerQuickEdit(block, {
+        leadId: leadId,
+        contactId: e.contact_id || contactId,
+        api: "crm",
+        payload: p,
+        onSaved: function () {
+          loadContact();
+        },
+      });
     });
   }
 

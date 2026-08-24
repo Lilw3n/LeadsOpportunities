@@ -934,7 +934,8 @@
     return parts.join(" · ").slice(0, 480);
   }
 
-  function renderLeadEventBody(description, extraData) {
+  function renderLeadEventBody(description, extraData, opts) {
+    opts = opts || {};
     extraData = extraData || {};
     var p = resolveLeadPayloadFromEvent(description, extraData);
     if (!looksLikeLeadPayload(p)) {
@@ -966,15 +967,30 @@
     }
     var bienRows = []
       .concat(b.vehicules || [], b.immobilier || [], (b.autres || []).slice(0, 8));
-    var html = '<div class="event-lead-dossier"><div class="int-dossier int-dossier--compact">';
+    var projetRows = filterSellerRows(dossier.projet || [], opts.hideSellerInProjet);
+    var leadId = opts.leadId || extraData.leadId || extraData.lead_id || p.leadId || p.lead_id || "";
+    var html =
+      '<div class="event-lead-dossier"' +
+      (leadId
+        ? ' data-event-lead-dossier data-lead-id="' +
+          esc(String(leadId)) +
+          '"' +
+          (opts.contactId ? ' data-contact-id="' + esc(String(opts.contactId)) + '"' : "") +
+          (opts.eventId ? ' data-event-id="' + esc(String(opts.eventId)) + '"' : "") +
+          ">"
+        : ">") +
+      '<div class="int-dossier int-dossier--compact">';
     if (p.leadScore != null) {
       html +=
         '<p class="event-lead-score">Score lead : <strong>' + esc(String(p.leadScore)) + "</strong></p>";
     }
+    if (opts.sellerQuickEdit && typeof window !== "undefined" && window.InterlocuteurDossierEdit) {
+      html += window.InterlocuteurDossierEdit.renderSellerQuickEdit(dossier, { payload: p, eventContext: true });
+    }
     html += section("Contact", "int-card-perso", dossier.perso);
     html += section("Professionnel", "int-card-pro", dossier.pro);
     html += section("Bien immobilier", "int-card-biens", bienRows);
-    html += section("Projet / annonce", "int-card-projet", dossier.projet);
+    html += section("Projet / annonce", "int-card-projet", projetRows);
     html += "</div></div>";
     return html;
   }

@@ -45,7 +45,11 @@
     var html =
       '<section class="int-card int-card-seller int-seller-quick-edit" data-int-seller-quick-edit>' +
       "<h3>Annonce / vendeur</h3>" +
-      '<p class="int-seller-quick-lead">Corrigez le nom, le téléphone et les coordonnées visibles sur l’annonce.</p>' +
+      '<p class="int-seller-quick-lead">' +
+      (opts.eventContext
+        ? "Corrigez le nom et le téléphone ci-dessous — le bouton <strong>Modifier</strong> en bas de la carte concerne l’événement (titre, date), pas ces champs."
+        : "Corrigez le nom, le téléphone et les coordonnées visibles sur l’annonce.") +
+      "</p>" +
       '<div class="int-seller-quick-fields">';
     sellerQuickKeys().forEach(function (key) {
       var val = p[key] != null ? String(p[key]) : "";
