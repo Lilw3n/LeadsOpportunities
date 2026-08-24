@@ -1,6 +1,7 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
 const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
+const { sqlLeadNetworkFilter } = require("../lead-network");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
@@ -48,7 +49,8 @@ async function fetchLeadsStandard(sql, opts) {
     SELECT
       id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
       COALESCE(status, 'new') AS status, notes, created_at, updated_at, payload,
-      landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip, contact_id
+      landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip, contact_id,
+      platform, gclid, fbclid, ttclid
     FROM site_leads
     WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
       AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
@@ -95,16 +97,7 @@ async function fetchLeadsStandard(sql, opts) {
             WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
             ELSE NULL
           END, '') = ''))
-      AND (${plat} = '' OR ${plat} != 'google' OR (
-        LOWER(COALESCE(utm_source, '')) LIKE '%google%'
-        OR COALESCE(gclid, '') <> ''))
-      AND (${plat} = '' OR ${plat} NOT IN ('facebook', 'meta') OR (
-        LOWER(COALESCE(utm_source, '')) LIKE '%facebook%'
-        OR LOWER(COALESCE(utm_source, '')) LIKE '%meta%'
-        OR LOWER(COALESCE(utm_source, '')) LIKE '%instagram%'))
-      AND (${plat} = '' OR ${plat} IN ('google', 'facebook', 'meta') OR (
-        COALESCE(source, '') = ${plat}
-        OR LOWER(COALESCE(utm_source, '')) = LOWER(${plat})))
+      AND ${sqlLeadNetworkFilter(sql, plat, true)}
     ORDER BY
       CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = true THEN lead_score END ASC NULLS LAST,
       CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = false THEN lead_score END DESC NULLS LAST,
@@ -171,16 +164,7 @@ async function countLeadsStandard(sql, opts) {
             WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
             ELSE NULL
           END, '') = ''))
-      AND (${plat} = '' OR ${plat} != 'google' OR (
-        LOWER(COALESCE(utm_source, '')) LIKE '%google%'
-        OR COALESCE(gclid, '') <> ''))
-      AND (${plat} = '' OR ${plat} NOT IN ('facebook', 'meta') OR (
-        LOWER(COALESCE(utm_source, '')) LIKE '%facebook%'
-        OR LOWER(COALESCE(utm_source, '')) LIKE '%meta%'
-        OR LOWER(COALESCE(utm_source, '')) LIKE '%instagram%'))
-      AND (${plat} = '' OR ${plat} IN ('google', 'facebook', 'meta') OR (
-        COALESCE(source, '') = ${plat}
-        OR LOWER(COALESCE(utm_source, '')) = LOWER(${plat})))
+      AND ${sqlLeadNetworkFilter(sql, plat, true)}
   `;
   return rows[0].total;
 }
@@ -188,6 +172,7 @@ async function countLeadsStandard(sql, opts) {
 async function fetchLeadsMinimal(sql, opts) {
   const sortCol = opts.sortCol;
   const orderAsc = opts.orderAsc;
+  const plat = opts.platformVal || "";
   return sql`
     SELECT
       id, source, vertical, lead_score, email, phone,
@@ -217,6 +202,7 @@ async function fetchLeadsMinimal(sql, opts) {
           END, '')) LIKE LOWER(${opts.ipPattern})
       ))
       AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
+      AND ${sqlLeadNetworkFilter(sql, plat, false)}
     ORDER BY
       CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = true THEN lead_score END ASC NULLS LAST,
       CASE WHEN ${sortCol} = 'lead_score' AND ${orderAsc} = false THEN lead_score END DESC NULLS LAST,
@@ -228,6 +214,7 @@ async function fetchLeadsMinimal(sql, opts) {
 }
 
 async function countLeadsMinimal(sql, opts) {
+  const plat = opts.platformVal || "";
   const rows = await sql`
     SELECT COUNT(*)::int AS total FROM site_leads
     WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
@@ -254,6 +241,7 @@ async function countLeadsMinimal(sql, opts) {
           END, '')) LIKE LOWER(${opts.ipPattern})
       ))
       AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
+      AND ${sqlLeadNetworkFilter(sql, plat, false)}
   `;
   return rows[0].total;
 }

@@ -1907,7 +1907,7 @@
               <option value="vendeur_immo">Vendeur immo</option>
               <option value="animaux">Animaux</option>
             </select>
-            <select class="filter-select" id="filterPlatform">
+            <select class="filter-select" id="filterPlatform" title="Réseau qui a apporté le lead (Meta, Google…), pas le type de formulaire">
               <option value="">Tous réseaux</option>
               <option value="google">Google</option>
               <option value="facebook">Meta</option>
@@ -1915,9 +1915,7 @@
               <option value="tiktok">TikTok</option>
               <option value="linkedin">LinkedIn</option>
               <option value="withallo">WithAllo</option>
-              <option value="site_web">Site web</option>
-              <option value="landing_form">landing_form</option>
-              <option value="landing_quick">landing_quick</option>
+              <option value="site_web">Site / organique</option>
             </select>
             <select class="filter-select" id="filterScore">
               <option value="">Tous scores</option>
@@ -2274,6 +2272,11 @@
         ip = l.payload.clientIp || l.payload.client_ip || l.payload.ip;
       }
       return ip || "—";
+    }
+
+    function leadNetworkLabel(l) {
+      if (!l) return "—";
+      return l.network_label || l.platform || l.utm_source || l.source || "—";
     }
 
     function leadVisitorCat(l) {
@@ -2909,7 +2912,7 @@
               '<td>' + esc(l.phone) + '</td>' +
               '<td>' + ipHtml + '</td>' +
               '<td><span class="' + badgeClass(l.status) + '">' + badgeLabel(l.status) + '</span></td>' +
-              '<td>' + esc(l.platform || l.utm_source || l.source) + '</td>' +
+              '<td>' + esc(leadNetworkLabel(l)) + '</td>' +
               '<td>' + relevanceLabel(rel) + '</td>' +
               '<td class="lead-actions-cell"><button type="button" class="btn-lead-open" data-lead-id="' + esc(l.id) + '">Ouvrir</button> ' +
               (l.contact_id
@@ -3315,7 +3318,7 @@
             '<div class="detail-item"><div class="dlabel">Vertical</div><div class="dvalue">' + esc(l.vertical) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Score</div><div class="dvalue">' + (l.lead_score != null ? l.lead_score + '/100' : '—') + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Date</div><div class="dvalue">' + fmtDate(l.created_at) + '</div></div>' +
-            '<div class="detail-item"><div class="dlabel">Réseau</div><div class="dvalue">' + esc(l.platform || l.utm_source || l.source) + '</div></div>' +
+            '<div class="detail-item"><div class="dlabel">Réseau</div><div class="dvalue">' + esc(leadNetworkLabel(l)) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Pertinence</div><div class="dvalue">' + relevanceLabel(l.relevance || (payload.relevance)) + '</div></div>' +
             (l.opened_at || payload.openedAt ? '<div class="detail-item"><div class="dlabel">Ouvert le</div><div class="dvalue">' + fmtDate(l.opened_at || payload.openedAt) + '</div></div>' : '<div class="detail-item"><div class="dlabel">Ouverture</div><div class="dvalue">Jamais ouvert</div></div>') +
             '<div class="detail-item"><div class="dlabel">Source</div><div class="dvalue">' + esc(l.utm_source || l.source) + '</div></div>' +
