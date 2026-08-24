@@ -144,7 +144,7 @@
         lastName
       ) +
       field(
-        "Nom de naissance",
+        "Nom de jeune fille",
         "ownerBirthName[]",
         'data-owner-field="birthName" autocomplete="additional-name" placeholder="Ex. GAUTHER"',
         birthName
