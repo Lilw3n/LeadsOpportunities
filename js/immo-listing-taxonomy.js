@@ -138,9 +138,9 @@
   function legacyPropertyType(category, subtype) {
     var cat = category || "";
     var sub = String(subtype || "").toLowerCase();
-    if (cat === "appartement" || sub.indexOf("appartement") >= 0 || sub === "duplex" || sub === "triplex" || sub === "loft")
+    if (cat === "appartement" || sub.indexOf("appartement") >= 0 || sub === "duplex" || sub === "triplex" || sub === "loft" || sub.indexOf("studette") >= 0)
       return "appartement";
-    if (cat === "terrain" || sub.indexOf("terrain") >= 0) return "terrain";
+    if (cat === "terrain" || sub.indexOf("terrain") >= 0 || sub.indexOf("programme") >= 0 || sub.indexOf("projet") >= 0) return "terrain";
     if (cat === "immeuble" || sub.indexOf("immeuble") >= 0) return "immeuble";
     if (
       cat === "local" ||
@@ -149,10 +149,12 @@
       sub.indexOf("commerce") >= 0 ||
       sub.indexOf("entrep") >= 0 ||
       sub === "bar" ||
-      sub.indexOf("bar tabac") >= 0
+      sub.indexOf("bar tabac") >= 0 ||
+      sub.indexOf("tabac presse") >= 0 ||
+      sub.indexOf("restauration") >= 0
     )
       return "local";
-    if (cat === "maison" || sub.indexOf("maison") >= 0 || sub === "villa" || sub.indexOf("chalet") >= 0) return "maison";
+    if (cat === "maison" || sub.indexOf("maison") >= 0 || sub === "villa" || sub.indexOf("chalet") >= 0 || sub.indexOf("pavillon") >= 0 || sub.indexOf("propriete") >= 0 || sub.indexOf("propriété") >= 0 || sub.indexOf("riad") >= 0) return "maison";
     return cat || "maison";
   }
 
