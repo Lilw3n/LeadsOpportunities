@@ -267,6 +267,20 @@
           )
         );
       }
+
+      if (global.ImmoTracfinMandate && global.ImmoTracfinMandate.mandateChecked(document)) {
+        var tracfin = global.ImmoTracfinMandate.validate(document);
+        if (tracfin.blocking && tracfin.blocking.length) {
+          tracfin.blocking.forEach(function (item) {
+            blocking.push(missingItem(item.id, item.label, item.el, item.section || "TRACFIN"));
+          });
+        }
+        if (tracfin.recommended && tracfin.recommended.length) {
+          tracfin.recommended.forEach(function (item) {
+            recommended.push(missingItem(item.id, item.label, item.el, item.section || "TRACFIN"));
+          });
+        }
+      }
     }
 
     return {

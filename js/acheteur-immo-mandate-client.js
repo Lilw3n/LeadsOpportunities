@@ -24,6 +24,9 @@
       el.disabled = !open;
     });
     if (open) syncMandatePrefUi(wrap);
+    if (window.ImmoTracfinMandate && window.ImmoTracfinMandate.syncVisibility) {
+      window.ImmoTracfinMandate.syncVisibility(wrap);
+    }
   }
 
   function bind(root) {

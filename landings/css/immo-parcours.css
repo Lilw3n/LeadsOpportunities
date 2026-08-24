@@ -814,6 +814,108 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   border-top: 1px dashed #cbd5e1;
 }
 
+.immo-tracfin {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid #fed7aa;
+  border-radius: 12px;
+  background: #fffbeb;
+}
+.immo-tracfin-title {
+  margin: 0 0 10px;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #c2410c;
+}
+.immo-tracfin-alert {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #fdba74;
+  font-size: 0.84rem;
+  color: #7c2d12;
+}
+.immo-tracfin-alert p {
+  margin: 6px 0 0;
+}
+.immo-tracfin-attest {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+}
+.immo-tracfin-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 14px;
+}
+.immo-tracfin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.84rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.immo-tracfin-table th,
+.immo-tracfin-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  text-align: left;
+  vertical-align: middle;
+}
+.immo-tracfin-table th {
+  background: #f8fafc;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+.immo-tracfin-status {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #ffedd5;
+  color: #c2410c;
+}
+.immo-tracfin-status.is-done {
+  background: #dcfce7;
+  color: #166534;
+}
+.immo-tracfin-add {
+  color: #2563eb;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+.immo-tracfin-file {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.78rem;
+  color: #475569;
+}
+.immo-tracfin-risk {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+.immo-tracfin-risk legend {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+}
+.immo-tracfin-risk-opt {
+  display: block;
+  margin: 6px 0;
+  font-size: 0.86rem;
+}
+.immo-tracfin-risk-opt small {
+  color: #64748b;
+  font-weight: 400;
+}
+
 [data-immo-fill-mode="conseiller"] .immo-mandate-client {
   margin-bottom: 8px;
   padding-bottom: 12px;
