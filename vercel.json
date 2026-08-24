@@ -11,6 +11,11 @@
       "permanent": true
     },
     {
+      "source": "/conformite-cabinet",
+      "destination": "/conformite-cabinet/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
