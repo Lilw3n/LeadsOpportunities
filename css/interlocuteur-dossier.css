@@ -239,6 +239,107 @@
   color: #92400e;
   font-style: italic;
 }
+
+/* Validation champ par champ — copie vendeur vs admin */
+.qfv-panel {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff5f5 0%, #fff 28%);
+}
+.qfv-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-bottom: 8px;
+}
+.qfv-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fee2e2;
+  color: #b91c1c;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.qfv-meta,
+.qfv-hint {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+.qfv-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.qfv-table-wrap {
+  overflow: auto;
+  margin-top: 10px;
+}
+.qfv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+}
+.qfv-table th,
+.qfv-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+  text-align: left;
+}
+.qfv-table th {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748b;
+}
+.qfv-label {
+  font-weight: 700;
+  color: #0f172a;
+  min-width: 140px;
+}
+.qfv-pick {
+  display: block;
+  cursor: pointer;
+  font-weight: 600;
+}
+.qfv-val {
+  display: block;
+  margin-top: 4px;
+  font-weight: 500;
+  color: #334155;
+}
+.qfv-val--vendor {
+  color: #0f766e;
+}
+.qfv-custom {
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px 8px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+}
+.qfv-custom:disabled {
+  opacity: 0.45;
+}
+.qfv-status {
+  margin: 10px 0 0;
+  font-size: 0.84rem;
+}
+.qfv-status--ok {
+  color: #047857;
+}
+.qfv-status--err {
+  color: #b91c1c;
+}
+
 @media (max-width: 800px) {
   .int-dossier { grid-template-columns: 1fr; }
   .int-card-biens, .int-card-projet { grid-column: auto; }

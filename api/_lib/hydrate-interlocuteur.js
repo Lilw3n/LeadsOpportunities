@@ -4,6 +4,7 @@
  */
 const crypto = require("crypto");
 const Dossier = require("../../js/interlocuteur-dossier-lib");
+const Validation = require("../../js/questionnaire-field-validation-lib");
 
 function appBase() {
   return (
@@ -103,7 +104,10 @@ async function insertVehicleIfNeeded(sql, contactId, vehicle) {
 }
 
 async function hydrateInterlocuteurFromLead(sql, user, lead, contactId) {
-  const dossier = Dossier.buildDossier(lead);
+  var rawPayload = Validation.parsePayload(lead && lead.payload);
+  var effectivePayload = Validation.getEffectivePayload(rawPayload);
+  var leadEffective = Object.assign({}, lead, { payload: JSON.stringify(effectivePayload) });
+  const dossier = Dossier.buildDossier(leadEffective);
   const patches = Dossier.patchesFromDossier(dossier);
   const rows = await sql`SELECT metadata, first_name, last_name, email, phone, company FROM crm_contacts WHERE id = ${contactId} LIMIT 1`;
   const current = rows[0] || {};

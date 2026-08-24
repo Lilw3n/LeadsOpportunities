@@ -643,6 +643,7 @@
         mailboxUrl: opts.mailboxUrl,
         editing: state.editing,
       }) +
+      '<div data-crm-q-validation-mount></div>' +
       '<div data-crm-q-answers class="crm-q-answers"></div>' +
       '<div data-crm-q-docs-mount></div>';
 
@@ -672,6 +673,18 @@
     });
 
     renderAnswersView();
+
+    var valMount = root.querySelector("[data-crm-q-validation-mount]");
+    if (valMount && global.QuestionnaireFieldValidationUi) {
+      global.QuestionnaireFieldValidationUi.mount(valMount, ctx, {
+        authHeaders: opts.authHeaders,
+        onValidated: function (res) {
+          if (res && res.payload) ctx.payload = res.payload;
+          renderAnswersView();
+          if (typeof opts.onValidated === "function") opts.onValidated(res);
+        },
+      });
+    }
 
     var docsMount = root.querySelector("[data-crm-q-docs-mount]");
     if (docsMount && opts.showUpload !== false) {

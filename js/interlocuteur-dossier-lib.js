@@ -456,6 +456,9 @@
     buyBudgetMax: 1,
     sellPrice: 1,
     price_fai: 1,
+    sellEnergyCostAnnual: 1,
+    sellTaxeFonciere: 1,
+    sellTaxeHabitation: 1,
   };
 
   var SKIP = {
@@ -487,6 +490,11 @@
     questionnaireDraft: 1,
     custom_answers: 1,
     sellDossier: 1,
+    vendorSubmission: 1,
+    adminBaseline: 1,
+    fieldValidation: 1,
+    validationMeta: 1,
+    vendorSubmissions: 1,
     adminEdits: 1,
     adminFieldComments: 1,
     adminEditedAt: 1,
@@ -685,6 +693,13 @@
 
   function mergePayloads(lead, extraPayload) {
     var p = parsePayload(extraPayload || (lead && lead.payload));
+    var V = root.QuestionnaireFieldValidation;
+    if (!V && typeof require === "function") {
+      try {
+        V = require("./questionnaire-field-validation-lib");
+      } catch (e) {}
+    }
+    if (V && V.getEffectivePayload) p = V.getEffectivePayload(p);
     if (lead) {
       if (lead.email && !p.email) p.email = lead.email;
       if (lead.phone && !p.phone) p.phone = lead.phone;

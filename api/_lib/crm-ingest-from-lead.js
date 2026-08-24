@@ -172,6 +172,19 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
     UPDATE site_leads SET contact_id = ${contactId}, updated_at = NOW() WHERE id = ${leadId}
   `;
 
+  var validationPrep = null;
+  try {
+    const { prepareQuestionnaireValidation } = require("./questionnaire-field-validation");
+    validationPrep = await prepareQuestionnaireValidation(sql, {
+      leadId: leadId,
+      contactId: contactId,
+      incomingPayload: flattenLeadBody(body),
+      source: body.source || "site_lead",
+    });
+  } catch (valErr) {
+    console.warn("[crm-ingest] validation prep", valErr.message);
+  }
+
   try {
     const { ensureClientDriveFolders } = require("./drive-folders");
     await ensureClientDriveFolders(contactId);
@@ -182,6 +195,9 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
   await linkPropertiesToContact(sql, contactId, options.propertyIds || body.propertyIds, leadId);
 
   var shouldHydrate = options.hydrate !== false && (email || phone);
+  if (validationPrep && validationPrep.requiresReview) {
+    shouldHydrate = false;
+  }
   if (shouldHydrate && leadId) {
     try {
       var leadRow = options.leadRow || buildLeadRow(body, leadId, email, phone);

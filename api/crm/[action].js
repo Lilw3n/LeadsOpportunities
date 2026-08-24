@@ -48,6 +48,7 @@ const ROUTES = {
   "notify-slack": () => require("../_lib/routes/crm-notify-slack"),
   "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
   "lead-questionnaire": () => require("../_lib/routes/crm-lead-questionnaire"),
+  "lead-questionnaire-validate": () => require("../_lib/routes/crm-lead-questionnaire-validate"),
   "drive-folder": () => require("../_lib/routes/crm-drive-folder"),
   "contact-duplicates": () => require("../_lib/routes/crm-contact-duplicates"),
   "merge-contacts": () => require("../_lib/routes/crm-merge-contacts"),
