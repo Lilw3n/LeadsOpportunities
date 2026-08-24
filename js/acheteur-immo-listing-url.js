@@ -439,6 +439,7 @@
       var cityResolved = resolveCity(form);
 
       if (window.AcheteurImmoDepositGuide) {
+        window.AcheteurImmoDepositGuide.flushSave(true);
         var guideResult;
         try {
           guideResult = window.AcheteurImmoDepositGuide.validate(
@@ -458,6 +459,7 @@
           return;
         }
       } else {
+        var guideResult = null;
         var isSignalement = hat === "signalement";
         if (!hits.length && !isOwner && !isSignalement) {
           if (err) {
@@ -562,6 +564,13 @@
               : hat === "les_deux"
                 ? "acheteur_vendeur_immo"
                 : "acheteur_immo",
+        dossierIncomplete: !!(guideResult && guideResult.recommended && guideResult.recommended.length),
+        recommendedMissing:
+          guideResult && guideResult.recommended
+            ? guideResult.recommended.map(function (item) {
+                return { id: item.id, label: item.label, section: item.section || "" };
+              })
+            : [],
       };
       if (!payload.email && !payload.phone) {
         if (window.AcheteurImmoDepositGuide) {

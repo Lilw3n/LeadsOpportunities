@@ -126,6 +126,8 @@
     if (postal.length >= 5) return true;
     var sellPostal = document.querySelector("#sellPostalCode");
     if (sellPostal && String(sellPostal.value || "").replace(/\D/g, "").length >= 5) return true;
+    var sellAddress = document.querySelector("#sellAddress");
+    if (sellAddress && String(sellAddress.value || "").trim().length >= 5) return true;
     return false;
   }
 
@@ -234,8 +236,8 @@
 
     if (isOwner) {
       if (!val(form, "firstName")) {
-        blocking.push(
-          missingItem("firstName", "Prénom", form.querySelector("[name='firstName']"), "Vos coordonnées")
+        recommended.push(
+          missingItem("firstName", "Prénom (facultatif pour envoyer — utile pour vous recontacter)", form.querySelector("[name='firstName']"), "Vos coordonnées")
         );
       }
     }
@@ -270,25 +272,18 @@
 
       if (global.ImmoTracfinMandate && global.ImmoTracfinMandate.mandateChecked(document)) {
         var tracfin = global.ImmoTracfinMandate.validate(document);
-        if (tracfin.blocking && tracfin.blocking.length) {
-          tracfin.blocking.forEach(function (item) {
-            blocking.push(missingItem(item.id, item.label, item.el, item.section || "TRACFIN"));
-          });
-        }
-        if (tracfin.recommended && tracfin.recommended.length) {
-          tracfin.recommended.forEach(function (item) {
-            recommended.push(missingItem(item.id, item.label, item.el, item.section || "TRACFIN"));
-          });
-        }
+        var tracfinAll = (tracfin.blocking || []).concat(tracfin.recommended || []);
+        tracfinAll.forEach(function (item) {
+          recommended.push(missingItem(item.id, item.label, item.el, item.section || "TRACFIN"));
+        });
       }
 
       if (global.ImmoRgpdConfirmation) {
         var rgpd = global.ImmoRgpdConfirmation.validate(document);
-        if (rgpd.blocking && rgpd.blocking.length) {
-          rgpd.blocking.forEach(function (item) {
-            blocking.push(missingItem(item.id, item.label, item.el, item.section || "Confirmation"));
-          });
-        }
+        var rgpdAll = (rgpd.blocking || []).concat(rgpd.recommended || []);
+        rgpdAll.forEach(function (item) {
+          recommended.push(missingItem(item.id, item.label, item.el, item.section || "Confirmation"));
+        });
       }
     }
 
@@ -343,6 +338,7 @@
     var list = qs("[data-sell-validation-list]", root);
     var progressBar = qs("[data-sell-progress-bar]", root);
     var progressLabel = qs("[data-sell-progress-label]", root);
+    var titleEl = qs("[data-sell-validation-title]", root);
     if (!panel || !list) return;
 
     if (progressBar) progressBar.style.width = result.progress.percent + "%";
@@ -356,10 +352,11 @@
 
     if (result.ok) {
       updateJumpErrors(root, 0);
+      if (titleEl) titleEl.textContent = "Envoi possible — vous pourrez compléter plus tard :";
       if (result.recommended && result.recommended.length && result.progress.percent < 100) {
         panel.hidden = false;
         list.innerHTML =
-          '<li class="immo-deposit-optional-lead">Vous pouvez envoyer maintenant. Pour un dossier plus complet :</li>' +
+          '<li class="immo-deposit-optional-lead">Vous pouvez envoyer ou sauvegarder maintenant. Le reste pourra être complété avec votre conseiller :</li>' +
           result.recommended
             .map(function (item) {
               return (
@@ -384,6 +381,7 @@
     }
 
     panel.hidden = false;
+    if (titleEl) titleEl.textContent = "Pour envoyer, il manque encore :";
     list.innerHTML = result.blocking
       .map(function (item, i) {
         return (
@@ -744,22 +742,25 @@
     };
   }
 
+  function objectHasContent(obj) {
+    if (!obj) return false;
+    return Object.keys(obj).some(function (k) {
+      var v = obj[k];
+      if (v === true) return true;
+      if (Array.isArray(v) && v.length) return true;
+      return String(v == null ? "" : v).trim().length > 0;
+    });
+  }
+
   function hasDraftContent(draft) {
     if (!draft) return false;
-    var f = draft.form || {};
-    var p = draft.panel || {};
-    return !!(
-      f.firstName ||
-      f.lastName ||
-      f.email ||
-      f.phone ||
-      f.city ||
-      f.description ||
-      (draft.owners && draft.owners.length && (draft.owners[0].firstName || draft.owners[0].lastName)) ||
-      p.sellCity ||
-      p.sellAddress ||
-      p.sellPostalCode
-    );
+    if (objectHasContent(draft.form) || objectHasContent(draft.panel)) return true;
+    if (draft.owners && draft.owners.length) {
+      return draft.owners.some(function (o) {
+        return objectHasContent(o);
+      });
+    }
+    return false;
   }
 
   function saveDraft(silent, opts) {
@@ -1024,7 +1025,10 @@
         return;
       }
       if (e.target.closest("[data-sell-draft-save]")) {
-        saveDraft(false);
+        var saved = saveDraft(false, { force: true });
+        if (!saved) {
+          showDraftToast("Saisissez au moins un téléphone, un e-mail ou une ville pour enregistrer le brouillon.");
+        }
       }
     });
 

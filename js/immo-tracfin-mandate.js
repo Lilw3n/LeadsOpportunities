@@ -254,15 +254,15 @@
     var risk = root.querySelector("[name='tracfinRiskLevel']:checked");
 
     if (!attest || !attest.checked) {
-      blocking.push({
+      recommended.push({
         id: "tracfinAttestation",
-        label: "Engagement TRACFIN — cocher l'attestation des pièces propriétaires",
+        label: "Engagement TRACFIN — cocher l'attestation (obligatoire pour publication, pas pour envoyer le dossier)",
         el: attest || panel,
         section: "Mandat / TRACFIN",
       });
     }
     if (!risk) {
-      blocking.push({
+      recommended.push({
         id: "tracfinRisk",
         label: "Niveau de risque TRACFIN (faible, moyen ou fort)",
         el: panel && panel.querySelector("[data-tracfin-risk]"),

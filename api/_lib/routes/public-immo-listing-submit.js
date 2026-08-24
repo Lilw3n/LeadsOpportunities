@@ -195,7 +195,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   }
 
   var detections = collectDetections(body);
-  var hasManualBits = !!(city || description || photos.length || price || addressHint);
+  var hasManualBits = !!(city || postal || description || photos.length || price || addressHint);
   if (!detections.length) {
     if ((isOwner || isSignalement) && hasManualBits) {
       detections = [manualDetection()];
@@ -210,20 +210,23 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         ok: false,
         error: isOwner ? "listing_required" : "url_required",
         message: isOwner
-          ? "Indiquez la ville du bien, ou collez l'URL de votre annonce."
+          ? "Indiquez la ville, le code postal ou l'adresse du bien, ou collez l'URL de votre annonce."
           : "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).",
       });
     }
   }
 
-  if ((isOwner || isSignalement) && !city) {
+  if ((isOwner || isSignalement) && !city && !postal && !addressHint) {
     return res.status(400).json({
       ok: false,
       error: "city_required",
       message: isSignalement
-        ? "Indiquez la ville ou la commune du bien signalé."
-        : "Indiquez la ville du bien à vendre.",
+        ? "Indiquez la ville, le code postal ou la commune du bien signalé."
+        : "Indiquez au minimum la ville, le code postal ou l'adresse du bien à vendre.",
     });
+  }
+  if ((isOwner || isSignalement) && !city && postal) {
+    city = postal;
   }
 
   if (isSignalement && !photos.length && !description) {

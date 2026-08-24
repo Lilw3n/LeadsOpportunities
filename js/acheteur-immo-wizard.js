@@ -147,47 +147,14 @@
   function validateVente(form) {
     var kind = searchKindOf(form);
     if (!wantsVente(kind)) return true;
-    var ok = true;
     var ownerHint = qs(form, "[data-owners-hint]");
     if (ownerHint) ownerHint.hidden = true;
-
-    if (window.AcheteurImmoOwners) {
-      var ownersMount = qs(form, "[data-owners-mount]");
-      var ov = window.AcheteurImmoOwners.validate(ownersMount);
-      if (!ov.ok) {
-        ok = false;
-        if (ownerHint) ownerHint.hidden = false;
-      }
-    }
-
-    qsa(form, "[data-search-vente-required]").forEach(function (el) {
-      el.classList.remove("input-invalid");
-      var v = (el.value || "").trim();
-      if (!v) {
-        el.classList.add("input-invalid");
-        ok = false;
-        return;
-      }
-      if (el.name === "sellPostalCode" && !/^[0-9]{5}$/.test(v)) {
-        el.classList.add("input-invalid");
-        ok = false;
-      }
-    });
-
-    var sellTypeOk =
-      (window.AcheteurImmoListingFields && window.AcheteurImmoListingFields.hasPropertyType(form)) ||
-      form.querySelector('input[name="sellPropertyType"]:checked');
     var typeHint = qs(form, "[data-sell-type-hint]");
     if (typeHint) typeHint.hidden = true;
-    if (!sellTypeOk) {
-      if (typeHint) typeHint.hidden = false;
-      ok = false;
-    }
-    if (window.AcheteurImmoListingFields && !window.AcheteurImmoListingFields.validate(form)) {
-      ok = false;
-    }
-
-    return ok;
+    qsa(form, "[data-search-vente-required]").forEach(function (el) {
+      el.classList.remove("input-invalid");
+    });
+    return true;
   }
 
   function validateSearch(form) {

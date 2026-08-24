@@ -43,17 +43,17 @@
     }
     return {
       ok: false,
-      blocking: [
+      blocking: [],
+      recommended: [
         {
           id: "sellMarketingConsent",
           label: isConseiller()
             ? "Confirmation RGPD — indiquer si le consentement prospection a été collecté (Oui / Non)"
-            : "Confirmation RGPD — choisir Oui ou Non pour la prospection commerciale (newsletter, SMS)",
+            : "Confirmation RGPD — choisir Oui ou Non pour la prospection (newsletter, SMS)",
           el: block.querySelector("[data-rgpd-confirm-actions]") || block,
           section: "Confirmation",
         },
       ],
-      recommended: [],
     };
   }
 
