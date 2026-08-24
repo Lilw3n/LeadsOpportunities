@@ -155,6 +155,13 @@
       });
     }
 
+    root.querySelectorAll("[data-immo-alert-dismiss]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var alert = btn.closest("[data-immo-erp-alert]");
+        if (alert) alert.hidden = true;
+      });
+    });
+
     ["sellListingType", "sellPropertyCategory", "sellPropertySubtype"].forEach(function (id) {
       var el = qs("#" + id, root);
       if (el) {
