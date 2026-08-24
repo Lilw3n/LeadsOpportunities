@@ -21,10 +21,20 @@
     fillSelect(qs("#sellListingType", root), tax.optionsHtml(tax.LISTING_TYPES, "— Choisir —"));
     fillSelect(qs("#sellPropertyCategory", root), tax.optionsHtml(tax.PROPERTY_CATEGORIES, "— Choisir —"));
     fillSelect(qs("#sellCoproStatus", root), tax.optionsHtml(tax.COPRO_STATUS, null));
-    fillSelect(qs("#sellEnvironment", root), tax.optionsHtml(tax.ENVIRONMENTS, null));
     fillSelect(qs("#sellGeneralCondition", root), tax.optionsHtml(tax.GENERAL_CONDITIONS, null));
     rebuildSubtype(root, "");
     rebuildCommercialActivity(root, "");
+    rebuildEnvironment(root, "");
+  }
+
+  function rebuildEnvironment(root, filter) {
+    var tax = T();
+    var sel = qs("#sellEnvironment", root);
+    if (!sel || !tax) return;
+    var cur = sel.value;
+    var list = tax.filteredEnvironments(filter);
+    sel.innerHTML = tax.optionsHtml(list, null);
+    if (cur && sel.querySelector('option[value="' + cur + '"]')) sel.value = cur;
   }
 
   function rebuildSubtype(root, filter) {
@@ -100,6 +110,13 @@
     if (actFilter) {
       actFilter.addEventListener("input", function () {
         rebuildCommercialActivity(root, actFilter.value);
+      });
+    }
+
+    var envFilter = qs("#sellEnvironmentFilter", root);
+    if (envFilter) {
+      envFilter.addEventListener("input", function () {
+        rebuildEnvironment(root, envFilter.value);
       });
     }
 

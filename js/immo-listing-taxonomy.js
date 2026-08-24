@@ -33,16 +33,18 @@
 
   var ENVIRONMENTS = [
     { v: "", t: "— Choisir —" },
-    { v: "centre_ville", t: "Centre-ville" },
-    { v: "peripherie", t: "Périphérie / périurbain" },
-    { v: "campagne", t: "Campagne" },
-    { v: "littoral", t: "Bord de mer / littoral" },
-    { v: "montagne", t: "Montagne / station" },
-    { v: "zone_commerciale", t: "Zone commerciale" },
-    { v: "zone_industrielle", t: "Zone industrielle" },
-    { v: "residentiel", t: "Quartier résidentiel" },
-    { v: "rural", t: "Zone rurale" },
-    { v: "autre", t: "Autre" },
+    { v: "bois", t: "bois" },
+    { v: "village", t: "village" },
+    { v: "campagne_isolee", t: "campagne isolée" },
+    { v: "campagne_non_isolee", t: "campagne non-isolée" },
+    { v: "centre_ville", t: "centre ville" },
+    { v: "clos_prive", t: "clos privé" },
+    { v: "lotissement", t: "lotissement" },
+    { v: "parc", t: "parc" },
+    { v: "plage", t: "plage" },
+    { v: "urbain", t: "urbain" },
+    { v: "zone_commerciale", t: "zone Commerciale" },
+    { v: "zone_residentielle", t: "zone Résidentielle" },
   ];
 
   /** Sous-types complets (liste portails / CRM). */
@@ -302,6 +304,15 @@
       .replace(/[\u0300-\u036f]/g, "");
   }
 
+  function filteredEnvironments(filter) {
+    var q = normalizeSearch(filter);
+    return ENVIRONMENTS.filter(function (o) {
+      if (!o.v) return !q;
+      if (!q) return true;
+      return normalizeSearch(o.t).indexOf(q) >= 0;
+    });
+  }
+
   function commercialActivityLabel(slug) {
     var target = String(slug || "");
     for (var gi = 0; gi < COMMERCIAL_ACTIVITIES.length; gi++) {
@@ -357,5 +368,6 @@
     commercialActivityLabel: commercialActivityLabel,
     filteredCommercialGroups: filteredCommercialGroups,
     groupedOptionsHtml: groupedOptionsHtml,
+    filteredEnvironments: filteredEnvironments,
   };
 })(typeof window !== "undefined" ? window : global);
