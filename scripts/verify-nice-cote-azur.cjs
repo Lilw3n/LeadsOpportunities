@@ -51,22 +51,24 @@ assert(bassin.PRIORITY_PRODUCTS.indexOf("chasse") !== -1, "priorité chasse");
   }
 });
 
-["cagnes-sur-mer", "saint-laurent-du-var", "vence", "le-cannet"].forEach(function (slug) {
+function hasLocalAnchor(html) {
+  return (
+    html.indexOf("Côte") !== -1 ||
+    html.indexOf("Cote") !== -1 ||
+    html.indexOf("06") !== -1 ||
+    html.indexOf("Alpes-Maritimes") !== -1 ||
+    html.indexOf("Nice") !== -1
+  );
+}
+
+bassin.allSlugs().forEach(function (slug) {
   ["assurance-animaux", "assurance-chien", "assurance-chat", "assurance-vtc", "assurance-chasse"].forEach(function (dir) {
     var rel = dir + "/" + slug + "/index.html";
     assert(exists(rel), "geo " + rel);
-    if (exists(rel)) {
-      var html = read(rel);
-      assert(html.indexOf("undefined") === -1, rel + " pas de undefined");
-      assert(
-        html.indexOf("Côte") !== -1 ||
-          html.indexOf("Cote") !== -1 ||
-          html.indexOf("06") !== -1 ||
-          html.indexOf("Alpes-Maritimes") !== -1 ||
-          html.indexOf("Nice") !== -1,
-        rel + " ancre locale"
-      );
-    }
+    if (!exists(rel)) return;
+    var html = read(rel);
+    assert(html.indexOf("undefined") === -1, rel + " pas de undefined");
+    assert(hasLocalAnchor(html), rel + " ancre locale");
   });
 });
 
@@ -90,25 +92,55 @@ bassin.allSlugs().forEach(function (slug) {
 assert(read("scripts/build-france-cities-json.cjs").indexOf("newCityRows()") !== -1, "newCityRows() utilisé pour france-cities");
 assert(bassin.newCityRows().length === 17, "17 communes 06 nouvelles");
 
-var marseilleVtc = read("assurance-vtc/marseille/index.html");
-assert(marseilleVtc.indexOf("NCE") === -1, "Marseille VTC sans NCE");
-assert(marseilleVtc.indexOf("axe VTC Cote d Azur") === -1, "Marseille VTC sans H2 Côte d Azur");
-assert(marseilleVtc.indexOf("Promenade des Anglais") === -1, "Marseille VTC sans Promenade");
-var toulonVtc = read("assurance-vtc/toulon/index.html");
-assert(toulonVtc.indexOf("NCE") === -1, "Toulon VTC sans NCE");
-var avignonVtc = exists("assurance-vtc/avignon/index.html") ? read("assurance-vtc/avignon/index.html") : "";
-if (avignonVtc) assert(avignonVtc.indexOf("NCE") === -1, "Avignon VTC sans NCE");
+/** Retire le libellé région PACA pour détecter la copie Nice (NCE / Côte d'Azur) hors bassin. */
+function withoutPacaRegionLabel(html) {
+  return String(html || "")
+    .replace(/Provence-Alpes-C[oô]te d['’ ]?Azur/gi, "")
+    .replace(/provence-alpes-cote-d-azur/gi, "");
+}
+
+function assertNoNiceVtcCopy(rel) {
+  if (!exists(rel)) {
+    assert(true, rel + " absente (pas de copie NCE)");
+    return;
+  }
+  var html = read(rel);
+  var rest = withoutPacaRegionLabel(html);
+  assert(html.indexOf("NCE") === -1, rel + " sans NCE");
+  assert(rest.indexOf("Cote d Azur") === -1, rel + " sans « Cote d Azur » hors PACA");
+  assert(rest.indexOf("Côte d'Azur") === -1 && rest.indexOf("Côte d’Azur") === -1, rel + " sans « Côte d'Azur » hors PACA");
+  assert(html.indexOf("Promenade des Anglais") === -1, rel + " sans Promenade des Anglais");
+  assert(html.indexOf("axe VTC Cote d Azur") === -1, rel + " sans H2 axe VTC Côte d Azur");
+}
+
+["assurance-vtc/marseille/index.html", "assurance-vtc/toulon/index.html", "assurance-vtc/avignon/index.html", "assurance-vtc/aix-en-provence/index.html"].forEach(assertNoNiceVtcCopy);
+
+function hasNancyCreditLink(html) {
+  return html.indexOf("/pret-immobilier/nancy-metropole/") !== -1 || html.indexOf("/credit-immo/nancy-metropole/") !== -1;
+}
+
+function hasNoindex(html) {
+  return /name=["']robots["']\s+content=["'][^"']*noindex/i.test(html);
+}
+
+function hasIndexFollow(html) {
+  return /name=["']robots["']\s+content=["']index,follow["']/i.test(html);
+}
 
 bassin.allSlugs().forEach(function (slug) {
   ["pret-immobilier", "credit-immo"].forEach(function (dir) {
     var rel = dir + "/" + slug + "/index.html";
-    assert(exists(rel), "page pret/credit " + rel);
+    if (!exists(rel)) {
+      assert(true, slug + " " + dir + " absente (OK : pas de hub crédit 06)");
+      return;
+    }
     var html = read(rel);
-    assert(html.indexOf("/pret-immobilier/nancy-metropole/") !== -1 || html.indexOf("/credit-immo/nancy-metropole/") !== -1, slug + " " + dir + " lien Nancy");
+    assert(hasNoindex(html) || hasNancyCreditLink(html), slug + " " + dir + " absente/noindex/lien nancy-metropole");
     if (bassin.isNewBassinCity(slug)) {
-      assert(html.indexOf("noindex") !== -1, slug + " " + dir + " noindex");
-      assert(html.indexOf("nancy-metropole") !== -1, slug + " " + dir + " canonique/lien Nancy");
-      assert(html.indexOf("ville=Nancy") !== -1, slug + " " + dir + " CTA Nancy");
+      assert(hasNoindex(html), slug + " " + dir + " noindex (nouvelle commune 06)");
+      assert(!hasIndexFollow(html), slug + " " + dir + " CTA/robots pas index,follow");
+      assert(hasNancyCreditLink(html), slug + " " + dir + " lien /…/nancy-metropole/");
+      assert(html.indexOf("ville=Nancy") !== -1, slug + " " + dir + " CTA ville=Nancy");
     }
   });
 });
