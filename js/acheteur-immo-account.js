@@ -73,17 +73,19 @@
     var emailWrap = qs("[data-contact-email-wrap]", root);
     var phoneWrap = qs("[data-contact-phone-wrap]", root);
     var hint = qs("[data-contact-hint]", root);
-    if (emailWrap) emailWrap.classList.toggle("contact-field--required", method === "email");
-    if (phoneWrap) phoneWrap.classList.toggle("contact-field--required", method === "phone");
+    if (emailWrap) emailWrap.classList.remove("contact-field--required");
+    if (phoneWrap) phoneWrap.classList.remove("contact-field--required");
     if (hint) {
       if (method === "google") {
         hint.textContent = isLoggedIn()
           ? "Connecté via Google — vous pouvez compléter un téléphone en option."
-          : "Connectez-vous avec Google ci-dessus, ou choisissez e-mail / téléphone.";
+          : "Connectez-vous avec Google ci-dessus, ou choisissez e-mail / téléphone (facultatif pour sauvegarder).";
       } else if (method === "email") {
-        hint.textContent = "Indiquez votre e-mail — un lien de confirmation vous sera envoyé après le dépôt.";
+        hint.textContent =
+          "E-mail recommandé pour vous recontacter — pas obligatoire pour sauvegarder ou envoyer un dossier incomplet.";
       } else if (method === "phone") {
-        hint.textContent = "Indiquez votre téléphone — un conseiller vous rappellera pour confirmer votre identité.";
+        hint.textContent =
+          "Téléphone recommandé pour un rappel — pas obligatoire pour sauvegarder ou envoyer un dossier incomplet.";
       }
     }
     if (method === "google" && isLoggedIn() && form) {

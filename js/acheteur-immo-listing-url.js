@@ -461,27 +461,11 @@
       } else {
         var guideResult = null;
         var isSignalement = hat === "signalement";
+        /* Sans guide : pas de blocage ville/contact pour vendeur — envoi incomplet OK. */
         if (!hits.length && !isOwner && !isSignalement) {
           if (err) {
             err.hidden = false;
             err.textContent = "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).";
-          }
-          return;
-        }
-        if ((isOwner || isSignalement) && !cityResolved && !hits.length) {
-          if (err) {
-            err.hidden = false;
-            err.textContent = isSignalement
-              ? "Indiquez la ville du bien signalé."
-              : "Indiquez la ville du bien (section « Coordonnées du bien » ou saisie rapide), ou collez l'URL de votre annonce.";
-          }
-          focusCityField(form);
-          return;
-        }
-        if (isSignalement && !mediaList(state).length && !val(form, "description")) {
-          if (err) {
-            err.hidden = false;
-            err.textContent = "Ajoutez au moins une photo ou une description du bien.";
           }
           return;
         }
@@ -588,17 +572,7 @@
         })(),
       };
       if (!payload.email && !payload.phone) {
-        if (window.AcheteurImmoDepositGuide) {
-          var lateGuide = window.AcheteurImmoDepositGuide.validate(
-            window.AcheteurImmoDepositGuide.buildCtx(form, root)
-          );
-          window.AcheteurImmoDepositGuide.renderValidationPanel(root, lateGuide);
-          window.AcheteurImmoDepositGuide.showSubmitError(err, lateGuide, root);
-        } else if (err) {
-          err.hidden = false;
-          err.textContent = "Indiquez votre e-mail ou votre téléphone.";
-        }
-        return;
+        payload.dossierIncomplete = true;
       }
       var btn = form.querySelector("[type=submit]");
       if (btn) btn.disabled = true;

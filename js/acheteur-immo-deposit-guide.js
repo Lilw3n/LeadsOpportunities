@@ -196,11 +196,12 @@
     var blocking = [];
     var recommended = [];
 
+    /* Acheteur : URL utile pour la recherche — recommandé, pas bloquant. */
     if (!isOwner && !isSignalement && !hits.length) {
-      blocking.push(
+      recommended.push(
         missingItem(
           "urls",
-          "URL d'annonce (Leboncoin, SeLoger…)",
+          "URL d'annonce (Leboncoin, SeLoger…) — facultatif pour sauvegarder",
           qs("[data-listing-urls]", form),
           "Saisie rapide"
         )
@@ -208,12 +209,12 @@
     }
 
     if ((isOwner || isSignalement) && !hasBienLocation(form, hits.length)) {
-      blocking.push(
+      recommended.push(
         missingItem(
           "city",
           isSignalement
-            ? "Ville du bien signalé (ou photo / description)"
-            : "Ville ou code postal du bien (section « saisie rapide » en haut, ou URL d'annonce)",
+            ? "Ville du bien signalé (recommandé — photo ou description aussi utile)"
+            : "Ville ou code postal du bien (recommandé — section saisie rapide ou URL)",
           bienLocationMissingEl(form),
           isSignalement ? "Signalement" : "Le bien"
         )
@@ -221,10 +222,10 @@
     }
 
     if (isSignalement && !photos && !val(form, "description")) {
-      blocking.push(
+      recommended.push(
         missingItem(
           "media",
-          "Photo ou description du bien",
+          "Photo ou description du bien (recommandé)",
           qs("[data-listing-photos]", form) || qs("#urlDescription", form),
           "Signalement"
         )
@@ -232,13 +233,15 @@
     }
 
     if (!contactSatisfied(form, hat)) {
-      blocking.push(contactMissingItem(form, hat));
+      var contactItem = contactMissingItem(form, hat);
+      contactItem.label = (contactItem.label || "Coordonnées") + " — recommandé pour vous recontacter, pas obligatoire pour sauvegarder";
+      recommended.push(contactItem);
     }
 
     if (isOwner) {
       if (!val(form, "firstName")) {
         recommended.push(
-          missingItem("firstName", "Prénom (facultatif pour envoyer — utile pour vous recontacter)", form.querySelector("[name='firstName']"), "Vos coordonnées")
+          missingItem("firstName", "Prénom (facultatif)", form.querySelector("[name='firstName']"), "Vos coordonnées")
         );
       }
     }
@@ -347,17 +350,16 @@
       progressLabel.textContent =
         "Dossier " +
         result.progress.percent +
-        " % — minimum pour envoyer : " +
-        (result.progress.canSubmit ? "OK" : "incomplet");
+        " % — vous pouvez sauvegarder ou envoyer à tout moment";
     }
 
     if (result.ok) {
       updateJumpErrors(root, 0);
-      if (titleEl) titleEl.textContent = "Envoi possible — vous pourrez compléter plus tard :";
+      if (titleEl) titleEl.textContent = "Vous pouvez sauvegarder ou envoyer — à compléter plus tard :";
       if (result.recommended && result.recommended.length && result.progress.percent < 100) {
         panel.hidden = false;
         list.innerHTML =
-          '<li class="immo-deposit-optional-lead">Vous pouvez envoyer ou sauvegarder maintenant. Le reste pourra être complété avec votre conseiller :</li>' +
+          '<li class="immo-deposit-optional-lead">Rien n’est bloquant. Ces infos aident votre conseiller (facultatif) :</li>' +
           result.recommended
             .map(function (item) {
               return (
@@ -1086,8 +1088,13 @@
       }
       var draft = collectDraft();
       draft.id = id;
+      /* Toujours autoriser la sauvegarde manuelle (force) — même dossier quasi vide. */
       if (!hasDraftContent(draft) && !opts.force && !formDirty) return false;
       if (!hasDraftContent(draft) && !opts.force) return false;
+      if (!hasDraftContent(draft) && opts.force) {
+        draft.form = draft.form || {};
+        draft.form._draftPlaceholder = "1";
+      }
       localStorage.setItem(draftStorageKey(id), JSON.stringify(draft));
       var label = draftLabelFromData(draft);
       var index = readIndex().filter(function (x) {
@@ -1374,7 +1381,7 @@
       if (e.target.closest("[data-sell-draft-save]")) {
         var saved = saveDraft(false, { force: true });
         if (!saved) {
-          showDraftToast("Saisissez au moins un téléphone, un e-mail ou une ville pour enregistrer le brouillon.");
+          showDraftToast("Impossible d’enregistrer sur cet appareil — réessayez ou changez de navigateur.");
         }
       }
     });
