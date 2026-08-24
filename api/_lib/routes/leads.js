@@ -1,6 +1,6 @@
 const { getAuthUser } = require("../auth");
 const { applyApiGuards, sanitizeEnum, sanitizeSearch } = require("../security");
-const { parseLeadListFilters, enrichLeadRow } = require("../leads-filters");
+const { parseLeadListFilters, enrichLeadRow, leadMatchesPlatforms } = require("../leads-filters");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
 
 const VALID_STATUS = ["new", "contacted", "qualified", "converted", "lost"];
@@ -41,17 +41,25 @@ const ORDER_BY_CASE = `
 
 async function fetchLeadsStandard(sql, opts) {
   const view = opts.viewVal || "";
+  const views = opts.viewsList || null;
+  const wantNew = !!(views && views.indexOf("new") >= 0) || view === "new";
+  const wantUnopened = !!(views && views.indexOf("unopened") >= 0) || view === "unopened";
+  const wantRelevant = !!(views && views.indexOf("relevant") >= 0) || view === "relevant";
+  const anyView = wantNew || wantUnopened || wantRelevant;
   const plat = opts.platformVal || "";
+  const statusList = opts.statusList || null;
+  const verticalList = opts.verticalList || null;
   const sortCol = opts.sortCol;
   const orderAsc = opts.orderAsc;
   return sql`
     SELECT
       id, source, vertical, lead_score, email, phone, utm_source, utm_medium,
       COALESCE(status, 'new') AS status, notes, created_at, updated_at, payload,
-      landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip, contact_id
+      landing_slug, seo_city, seo_product, is_duplicate, parent_lead_id, client_ip, contact_id,
+      platform, gclid
     FROM site_leads
-    WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
-      AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+    WHERE (${statusList}::text[] IS NULL OR COALESCE(status, 'new') = ANY(${statusList}))
+      AND (${verticalList}::text[] IS NULL OR vertical = ANY(${verticalList}))
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -75,26 +83,29 @@ async function fetchLeadsStandard(sql, opts) {
           END, '')) LIKE LOWER(${opts.ipPattern})
       ))
       AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
-      AND (${view} = '' OR ${view} != 'relevant' OR COALESCE(
-        CASE
-          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
-          ELSE NULL
-        END, '') = 'high')
-      AND (${view} = '' OR ${view} != 'unopened' OR COALESCE(
-        CASE
-          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
-          ELSE NULL
-        END, '') = '')
-      AND (${view} = '' OR ${view} != 'new' OR (
-        COALESCE(status, 'new') = 'new'
-        AND COALESCE(
+      AND (${anyView} = false OR (
+        (${wantRelevant} = true AND COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
+            ELSE NULL
+          END, '') = 'high')
+        OR (${wantUnopened} = true AND COALESCE(
           CASE
             WHEN payload IS NULL OR trim(payload) = '' THEN NULL
             WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
             ELSE NULL
-          END, '') = ''))
+          END, '') = '')
+        OR (${wantNew} = true AND (
+          COALESCE(status, 'new') = 'new'
+          AND COALESCE(
+            CASE
+              WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+              WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+              ELSE NULL
+            END, '') = '')
+        )
+      ))
       AND (${plat} = '' OR ${plat} != 'google' OR (
         LOWER(COALESCE(utm_source, '')) LIKE '%google%'
         OR COALESCE(gclid, '') <> ''))
@@ -123,11 +134,18 @@ async function fetchLeadsStandard(sql, opts) {
 
 async function countLeadsStandard(sql, opts) {
   const view = opts.viewVal || "";
+  const views = opts.viewsList || null;
+  const wantNew = !!(views && views.indexOf("new") >= 0) || view === "new";
+  const wantUnopened = !!(views && views.indexOf("unopened") >= 0) || view === "unopened";
+  const wantRelevant = !!(views && views.indexOf("relevant") >= 0) || view === "relevant";
+  const anyView = wantNew || wantUnopened || wantRelevant;
   const plat = opts.platformVal || "";
+  const statusList = opts.statusList || null;
+  const verticalList = opts.verticalList || null;
   const rows = await sql`
     SELECT COUNT(*)::int AS total FROM site_leads
-    WHERE (${opts.statusVal}::text IS NULL OR COALESCE(status, 'new') = ${opts.statusVal})
-      AND (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+    WHERE (${statusList}::text[] IS NULL OR COALESCE(status, 'new') = ANY(${statusList}))
+      AND (${verticalList}::text[] IS NULL OR vertical = ANY(${verticalList}))
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -151,26 +169,29 @@ async function countLeadsStandard(sql, opts) {
           END, '')) LIKE LOWER(${opts.ipPattern})
       ))
       AND (${opts.scoreMin}::int IS NULL OR COALESCE(lead_score, 0) >= ${opts.scoreMin})
-      AND (${view} = '' OR ${view} != 'relevant' OR COALESCE(
-        CASE
-          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
-          ELSE NULL
-        END, '') = 'high')
-      AND (${view} = '' OR ${view} != 'unopened' OR COALESCE(
-        CASE
-          WHEN payload IS NULL OR trim(payload) = '' THEN NULL
-          WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
-          ELSE NULL
-        END, '') = '')
-      AND (${view} = '' OR ${view} != 'new' OR (
-        COALESCE(status, 'new') = 'new'
-        AND COALESCE(
+      AND (${anyView} = false OR (
+        (${wantRelevant} = true AND COALESCE(
+          CASE
+            WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+            WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'relevance')
+            ELSE NULL
+          END, '') = 'high')
+        OR (${wantUnopened} = true AND COALESCE(
           CASE
             WHEN payload IS NULL OR trim(payload) = '' THEN NULL
             WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
             ELSE NULL
-          END, '') = ''))
+          END, '') = '')
+        OR (${wantNew} = true AND (
+          COALESCE(status, 'new') = 'new'
+          AND COALESCE(
+            CASE
+              WHEN payload IS NULL OR trim(payload) = '' THEN NULL
+              WHEN left(trim(payload), 1) = '{' THEN (payload::jsonb->>'openedAt')
+              ELSE NULL
+            END, '') = '')
+        )
+      ))
       AND (${plat} = '' OR ${plat} != 'google' OR (
         LOWER(COALESCE(utm_source, '')) LIKE '%google%'
         OR COALESCE(gclid, '') <> ''))
@@ -188,12 +209,13 @@ async function countLeadsStandard(sql, opts) {
 async function fetchLeadsMinimal(sql, opts) {
   const sortCol = opts.sortCol;
   const orderAsc = opts.orderAsc;
+  const verticalList = opts.verticalList || null;
   return sql`
     SELECT
       id, source, vertical, lead_score, email, phone,
       created_at, updated_at, payload, contact_id
     FROM site_leads
-    WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+    WHERE (${verticalList}::text[] IS NULL OR vertical = ANY(${verticalList}))
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -228,9 +250,10 @@ async function fetchLeadsMinimal(sql, opts) {
 }
 
 async function countLeadsMinimal(sql, opts) {
+  const verticalList = opts.verticalList || null;
   const rows = await sql`
     SELECT COUNT(*)::int AS total FROM site_leads
-    WHERE (${opts.verticalVal}::text IS NULL OR vertical = ${opts.verticalVal})
+    WHERE (${verticalList}::text[] IS NULL OR vertical = ANY(${verticalList}))
       AND (${opts.searchPattern}::text IS NULL OR (
         LOWER(COALESCE(email, '')) LIKE LOWER(${opts.searchPattern})
         OR LOWER(COALESCE(phone, '')) LIKE LOWER(${opts.searchPattern})
@@ -293,12 +316,8 @@ module.exports = async (req, res) => {
   const limit = Math.min(250, Math.max(1, parseInt(url.searchParams.get("limit") || "100", 10)));
   const offset = (page - 1) * limit;
 
-  const statusVal = url.searchParams.get("status")
-    ? sanitizeEnum(url.searchParams.get("status"), VALID_STATUS, null)
-    : null;
-  const verticalVal = url.searchParams.get("vertical")
-    ? sanitizeVertical(url.searchParams.get("vertical"))
-    : null;
+  const statusVal = null;
+  const verticalVal = null;
   const searchVal = url.searchParams.get("search")
     ? sanitizeSearch(url.searchParams.get("search"))
     : null;
@@ -311,11 +330,23 @@ module.exports = async (req, res) => {
   const orderAsc = String(url.searchParams.get("order") || "desc").toUpperCase() === "ASC";
   const listFilters = parseLeadListFilters(url);
   const viewVal = listFilters.view;
-  const platformVal = listFilters.platform ? String(listFilters.platform).slice(0, 40) : null;
+  const viewsList = listFilters.views || null;
+  const statusList = listFilters.statuses || null;
+  const verticalList = listFilters.verticals || null;
+  const platformsList = listFilters.platforms || null;
+  // Un seul réseau → filtre SQL historique ; plusieurs → filtre app après enrich
+  const platformVal =
+    platformsList && platformsList.length === 1
+      ? platformsList[0]
+      : listFilters.platform
+        ? String(listFilters.platform).slice(0, 40)
+        : null;
 
   const queryOpts = {
     statusVal,
     verticalVal,
+    statusList,
+    verticalList,
     searchPattern,
     ipPattern,
     scoreMin,
@@ -324,6 +355,7 @@ module.exports = async (req, res) => {
     limit,
     offset,
     viewVal,
+    viewsList,
     platformVal,
   };
 
@@ -334,8 +366,15 @@ module.exports = async (req, res) => {
     await ensureSiteLeadsSchema(sql);
 
     const result = await loadLeadsList(sql, queryOpts);
-    const leads = result.rows.map(enrichLeadRow);
-    const total = result.total;
+    var leads = result.rows.map(enrichLeadRow);
+    var total = result.total;
+
+    if (platformsList && platformsList.length > 1) {
+      leads = leads.filter(function (l) {
+        return leadMatchesPlatforms(l, platformsList);
+      });
+      total = leads.length;
+    }
 
     return res.status(200).json({
       ok: true,

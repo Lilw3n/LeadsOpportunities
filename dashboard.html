@@ -290,6 +290,87 @@
     .filter-select:focus, .filter-input:focus { border-color: var(--primary); }
     .filter-input { min-width: 200px; }
     .filter-input-ip { min-width: 140px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .filter-check-dd {
+      position: relative;
+      display: inline-block;
+    }
+    .filter-dd-btn {
+      cursor: pointer;
+      min-width: 140px;
+      text-align: left;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .filter-dd-btn.is-active {
+      border-color: var(--primary, #0d9488);
+      background: #f0fdfa;
+      font-weight: 600;
+    }
+    .filter-dd-panel {
+      position: absolute;
+      z-index: 40;
+      top: calc(100% + 4px);
+      left: 0;
+      min-width: 220px;
+      max-height: 280px;
+      overflow: auto;
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .filter-dd-panel[hidden] { display: none !important; }
+    .filter-dd-panel label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .filter-dd-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+    .filter-dd-actions button {
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 0;
+      background: transparent;
+      color: var(--primary, #0d9488);
+      cursor: pointer;
+      padding: 0;
+    }
+    .filters-check-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      align-items: center;
+      width: 100%;
+      padding-top: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #475569;
+    }
+    .filters-check-row strong { color: #0f172a; }
+    .filters-check-row label {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      color: #334155;
+    }
     .leads-bulk-bar {
       display: flex;
       flex-wrap: wrap;
@@ -1884,41 +1965,61 @@
 
         <div class="dash-panel">
           <div class="filters-bar">
-            <select class="filter-select" id="filterView">
-              <option value="">Tous (chrono)</option>
-              <option value="new">Nouveaux uniquement</option>
-              <option value="unopened">Jamais ouverts</option>
-              <option value="relevant">Pertinents</option>
-            </select>
-            <select class="filter-select" id="filterStatus">
-              <option value="">Tous les statuts</option>
-              <option value="new">Nouveau</option>
-              <option value="contacted">Contacté</option>
-              <option value="qualified">Qualifié</option>
-              <option value="converted">Converti</option>
-              <option value="lost">Perdu</option>
-            </select>
-            <select class="filter-select" id="filterVertical">
-              <option value="">Tous les verticaux</option>
-              <option value="vtc">VTC</option>
-              <option value="sante">Santé</option>
-              <option value="credit-immo">Crédit Immo</option>
-              <option value="acheteur_immo">Acheteur immo</option>
-              <option value="vendeur_immo">Vendeur immo</option>
-              <option value="animaux">Animaux</option>
-            </select>
-            <select class="filter-select" id="filterPlatform">
-              <option value="">Tous réseaux</option>
-              <option value="google">Google</option>
-              <option value="facebook">Meta</option>
-              <option value="instagram">Instagram</option>
-              <option value="tiktok">TikTok</option>
-              <option value="linkedin">LinkedIn</option>
-              <option value="withallo">WithAllo</option>
-              <option value="site_web">Site web</option>
-              <option value="landing_form">landing_form</option>
-              <option value="landing_quick">landing_quick</option>
-            </select>
+            <div class="filter-check-dd" data-filter-dd="view">
+              <button type="button" class="filter-select filter-dd-btn" id="filterViewBtn" aria-expanded="false">Vues ▾</button>
+              <div class="filter-dd-panel" id="filterViewPanel" hidden>
+                <label><input type="checkbox" class="filter-cb" data-group="view" value="new" /> Nouveaux</label>
+                <label><input type="checkbox" class="filter-cb" data-group="view" value="unopened" /> Jamais ouverts</label>
+                <label><input type="checkbox" class="filter-cb" data-group="view" value="relevant" /> Pertinents</label>
+                <div class="filter-dd-actions">
+                  <button type="button" data-dd-clear="view">Tout décocher</button>
+                </div>
+              </div>
+            </div>
+            <div class="filter-check-dd" data-filter-dd="status">
+              <button type="button" class="filter-select filter-dd-btn" id="filterStatusBtn" aria-expanded="false">Statuts ▾</button>
+              <div class="filter-dd-panel" id="filterStatusPanel" hidden>
+                <label><input type="checkbox" class="filter-cb" data-group="status" value="new" /> Nouveau</label>
+                <label><input type="checkbox" class="filter-cb" data-group="status" value="contacted" /> Contacté</label>
+                <label><input type="checkbox" class="filter-cb" data-group="status" value="qualified" /> Qualifié</label>
+                <label><input type="checkbox" class="filter-cb" data-group="status" value="converted" /> Converti</label>
+                <label><input type="checkbox" class="filter-cb" data-group="status" value="lost" /> Perdu</label>
+                <div class="filter-dd-actions">
+                  <button type="button" data-dd-clear="status">Tout décocher</button>
+                </div>
+              </div>
+            </div>
+            <div class="filter-check-dd" data-filter-dd="vertical">
+              <button type="button" class="filter-select filter-dd-btn" id="filterVerticalBtn" aria-expanded="false">Verticaux ▾</button>
+              <div class="filter-dd-panel" id="filterVerticalPanel" hidden>
+                <label><input type="checkbox" class="filter-cb" data-group="vertical" value="vtc" /> VTC</label>
+                <label><input type="checkbox" class="filter-cb" data-group="vertical" value="sante" /> Santé</label>
+                <label><input type="checkbox" class="filter-cb" data-group="vertical" value="credit-immo" /> Crédit Immo</label>
+                <label><input type="checkbox" class="filter-cb" data-group="vertical" value="acheteur_immo" /> Acheteur immo</label>
+                <label><input type="checkbox" class="filter-cb" data-group="vertical" value="vendeur_immo" /> Vendeur immo</label>
+                <label><input type="checkbox" class="filter-cb" data-group="vertical" value="animaux" /> Animaux</label>
+                <div class="filter-dd-actions">
+                  <button type="button" data-dd-clear="vertical">Tout décocher</button>
+                </div>
+              </div>
+            </div>
+            <div class="filter-check-dd" data-filter-dd="platform">
+              <button type="button" class="filter-select filter-dd-btn" id="filterPlatformBtn" aria-expanded="false">Réseaux ▾</button>
+              <div class="filter-dd-panel" id="filterPlatformPanel" hidden>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="google" /> Google</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="facebook" /> Meta</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="instagram" /> Instagram</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="tiktok" /> TikTok</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="linkedin" /> LinkedIn</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="withallo" /> WithAllo</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="site_web" /> Site web</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="landing_form" /> landing_form</label>
+                <label><input type="checkbox" class="filter-cb" data-group="platform" value="landing_quick" /> landing_quick</label>
+                <div class="filter-dd-actions">
+                  <button type="button" data-dd-clear="platform">Tout décocher</button>
+                </div>
+              </div>
+            </div>
             <select class="filter-select" id="filterScore">
               <option value="">Tous scores</option>
               <option value="70">Score ≥ 70</option>
@@ -1947,6 +2048,16 @@
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
               <input type="checkbox" id="soundNewLead" checked /> Son nouveau lead
             </label>
+            <div class="filters-check-row" id="filtersCheckRow">
+              <strong>Cases rapides :</strong>
+              <label><input type="checkbox" class="filter-cb" data-group="view" value="new" data-sync="view" /> Nouveaux</label>
+              <label><input type="checkbox" class="filter-cb" data-group="view" value="unopened" data-sync="view" /> Jamais ouverts</label>
+              <label><input type="checkbox" class="filter-cb" data-group="view" value="relevant" data-sync="view" /> Pertinents</label>
+              <label><input type="checkbox" class="filter-cb" data-group="status" value="new" data-sync="status" /> Statut Nouveau</label>
+              <label><input type="checkbox" class="filter-cb" data-group="platform" value="google" data-sync="platform" /> Google</label>
+              <label><input type="checkbox" class="filter-cb" data-group="platform" value="facebook" data-sync="platform" /> Meta</label>
+              <label><input type="checkbox" class="filter-cb" data-group="platform" value="tiktok" data-sync="platform" /> TikTok</label>
+            </div>
           </div>
           <div class="blocked-ips-bar" id="blockedIpsBar">
             <strong>IP bloquées</strong>
@@ -2417,6 +2528,77 @@
       return true;
     }
 
+    function getCheckedFilterValues(group) {
+      var vals = [];
+      document.querySelectorAll('.filter-cb[data-group="' + group + '"]').forEach(function (box) {
+        if (box.checked && vals.indexOf(box.value) < 0) vals.push(box.value);
+      });
+      return vals;
+    }
+
+    function setCheckedFilterValues(group, values) {
+      var set = {};
+      (values || []).forEach(function (v) {
+        set[String(v)] = true;
+      });
+      document.querySelectorAll('.filter-cb[data-group="' + group + '"]').forEach(function (box) {
+        box.checked = !!set[box.value];
+      });
+      refreshFilterDdLabels();
+    }
+
+    function clearCheckedFilterGroup(group) {
+      document.querySelectorAll('.filter-cb[data-group="' + group + '"]').forEach(function (box) {
+        box.checked = false;
+      });
+      refreshFilterDdLabels();
+    }
+
+    function refreshFilterDdLabels() {
+      var map = {
+        view: { btn: "filterViewBtn", empty: "Vues ▾", prefix: "Vues" },
+        status: { btn: "filterStatusBtn", empty: "Statuts ▾", prefix: "Statuts" },
+        vertical: { btn: "filterVerticalBtn", empty: "Verticaux ▾", prefix: "Verticaux" },
+        platform: { btn: "filterPlatformBtn", empty: "Réseaux ▾", prefix: "Réseaux" },
+      };
+      Object.keys(map).forEach(function (group) {
+        var meta = map[group];
+        var btn = document.getElementById(meta.btn);
+        if (!btn) return;
+        var vals = getCheckedFilterValues(group);
+        if (!vals.length) {
+          btn.textContent = meta.empty;
+          btn.classList.remove("is-active");
+        } else {
+          btn.textContent = meta.prefix + " (" + vals.length + ") ▾";
+          btn.classList.add("is-active");
+        }
+      });
+    }
+
+    function syncFilterCheckboxGroup(changedBox) {
+      if (!changedBox || !changedBox.getAttribute("data-group")) return;
+      var group = changedBox.getAttribute("data-group");
+      var value = changedBox.value;
+      var on = changedBox.checked;
+      document.querySelectorAll('.filter-cb[data-group="' + group + '"][value="' + value + '"]').forEach(function (box) {
+        box.checked = on;
+      });
+      refreshFilterDdLabels();
+    }
+
+    function clearAllLeadFilters() {
+      ["view", "status", "vertical", "platform"].forEach(clearCheckedFilterGroup);
+      var ip = document.getElementById("filterIp");
+      if (ip) ip.value = "";
+      var vc = document.getElementById("filterVisitorCat");
+      if (vc) vc.value = "";
+      var sc = document.getElementById("filterScore");
+      if (sc) sc.value = "";
+      var search = document.getElementById("filterSearch");
+      if (search) search.value = "";
+    }
+
     function goToLeads(filterView) {
       document.querySelectorAll(".nav-link").forEach(function (n) {
         n.classList.toggle("active", n.dataset.section === "leads");
@@ -2425,8 +2607,9 @@
         s.classList.remove("active");
       });
       document.getElementById("sec-leads").classList.add("active");
-      if (filterView && document.getElementById("filterView")) {
-        document.getElementById("filterView").value = filterView;
+      if (filterView) {
+        clearCheckedFilterGroup("view");
+        setCheckedFilterValues("view", [filterView]);
       }
       currentPage = 1;
       loadLeads();
@@ -2821,11 +3004,11 @@
       var tbody = document.getElementById("leadsTableBody");
       tbody.innerHTML = '<tr><td colspan="11" class="loading-state"><div class="spinner"></div>Chargement...</td></tr>';
 
-      var status = document.getElementById("filterStatus").value;
-      var vertical = document.getElementById("filterVertical").value;
+      var statusList = getCheckedFilterValues("status");
+      var verticalList = getCheckedFilterValues("vertical");
       var search = document.getElementById("filterSearch").value;
-      var view = document.getElementById("filterView").value;
-      var platform = document.getElementById("filterPlatform").value;
+      var viewList = getCheckedFilterValues("view");
+      var platformList = getCheckedFilterValues("platform");
       var ipFilter = document.getElementById("filterIp") ? document.getElementById("filterIp").value.trim() : "";
       var scoreMin = document.getElementById("filterScore") ? document.getElementById("filterScore").value : "";
       var visitorCatFilter = document.getElementById("filterVisitorCat")
@@ -2835,10 +3018,10 @@
       var limitEl = document.getElementById("filterLimit");
       if (limitEl) leadsLimit = parseInt(limitEl.value, 10) || 100;
       var params = "?page=" + currentPage + "&limit=" + leadsLimit + "&sort=" + currentSort + "&order=" + currentOrder;
-      if (status) params += "&status=" + encodeURIComponent(status);
-      if (vertical) params += "&vertical=" + encodeURIComponent(vertical);
-      if (view) params += "&view=" + encodeURIComponent(view);
-      if (platform) params += "&platform=" + encodeURIComponent(platform);
+      if (statusList.length) params += "&status=" + encodeURIComponent(statusList.join(","));
+      if (verticalList.length) params += "&vertical=" + encodeURIComponent(verticalList.join(","));
+      if (viewList.length) params += "&view=" + encodeURIComponent(viewList.join(","));
+      if (platformList.length) params += "&platform=" + encodeURIComponent(platformList.join(","));
       if (search) params += "&search=" + encodeURIComponent(search);
       if (ipFilter) params += "&ip=" + encodeURIComponent(ipFilter);
       if (scoreMin) params += "&scoreMin=" + encodeURIComponent(scoreMin);
@@ -2865,7 +3048,16 @@
         }
         if (!leadsList.length) {
           tbody.innerHTML =
-            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
+            '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" id="leadsResetFiltersLink">Reinitialiser</a></div></td></tr>';
+          var resetLink = tbody.querySelector("#leadsResetFiltersLink");
+          if (resetLink) {
+            resetLink.addEventListener("click", function (e) {
+              e.preventDefault();
+              clearAllLeadFilters();
+              currentPage = 1;
+              loadLeads();
+            });
+          }
         } else {
           leadsList.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
@@ -3018,11 +3210,54 @@
       deleteLead(btn.getAttribute("data-lead-id"), { label: btn.getAttribute("data-lead-label") });
     });
 
-    // FILTERS
-    document.getElementById("filterView").addEventListener("change", function() { currentPage = 1; loadLeads(); });
-    document.getElementById("filterStatus").addEventListener("change", function() { currentPage = 1; loadLeads(); });
-    document.getElementById("filterVertical").addEventListener("change", function() { currentPage = 1; loadLeads(); });
-    document.getElementById("filterPlatform").addEventListener("change", function() { currentPage = 1; loadLeads(); });
+    // FILTERS (cases à cocher multi + selects restants)
+    refreshFilterDdLabels();
+    document.querySelectorAll("[data-filter-dd]").forEach(function (wrap) {
+      var btn = wrap.querySelector(".filter-dd-btn");
+      var panel = wrap.querySelector(".filter-dd-panel");
+      if (!btn || !panel) return;
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = panel.hidden;
+        document.querySelectorAll(".filter-dd-panel").forEach(function (p) {
+          p.hidden = true;
+        });
+        document.querySelectorAll(".filter-dd-btn").forEach(function (b) {
+          b.setAttribute("aria-expanded", "false");
+        });
+        if (open) {
+          panel.hidden = false;
+          btn.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
+    document.addEventListener("click", function () {
+      document.querySelectorAll(".filter-dd-panel").forEach(function (p) {
+        p.hidden = true;
+      });
+      document.querySelectorAll(".filter-dd-btn").forEach(function (b) {
+        b.setAttribute("aria-expanded", "false");
+      });
+    });
+    document.querySelectorAll(".filter-dd-panel").forEach(function (panel) {
+      panel.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+    });
+    document.querySelectorAll("[data-dd-clear]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        clearCheckedFilterGroup(btn.getAttribute("data-dd-clear"));
+        currentPage = 1;
+        loadLeads();
+      });
+    });
+    document.querySelectorAll(".filter-cb").forEach(function (box) {
+      box.addEventListener("change", function () {
+        syncFilterCheckboxGroup(box);
+        currentPage = 1;
+        loadLeads();
+      });
+    });
     document.getElementById("filterScore").addEventListener("change", function() { currentPage = 1; loadLeads(); });
     var filterVisitorCat = document.getElementById("filterVisitorCat");
     if (filterVisitorCat) {
