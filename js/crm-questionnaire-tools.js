@@ -108,6 +108,42 @@
   }
 
   /**
+   * Assure une fiche interlocuteur (contactId) pour Drive / dépôt de pièces.
+   * opts.silent = true → crée sans confirmation (ex. envoi documents).
+   */
+  function ensureContactId(ctx, opts) {
+    opts = opts || {};
+    ctx = ctx || {};
+    if (ctx.contactId) return Promise.resolve(ctx.contactId);
+    if (!ctx.leadId) {
+      return Promise.reject(new Error("Créez d’abord la fiche interlocuteur."));
+    }
+    if (!opts.silent) {
+      var ok = window.confirm(
+        "Aucune fiche interlocuteur pour ce lead.\n\nCréer la fiche maintenant ?"
+      );
+      if (!ok) return Promise.reject(new Error("cancelled"));
+    }
+    return authFetch(
+      "/api/crm/lead-lifecycle",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "promote", leadId: ctx.leadId }),
+      },
+      opts.authHeaders
+    ).then(function (res) {
+      var data = res.data || {};
+      if (!data.ok || !data.contactId) {
+        throw new Error(data.error || "Impossible de créer la fiche interlocuteur");
+      }
+      ctx.contactId = data.contactId;
+      if (typeof opts.onContactCreated === "function") opts.onContactCreated(data.contactId, data);
+      return data.contactId;
+    });
+  }
+
+  /**
    * Ouvre (ou crée) le dossier Google Drive du contact.
    * Sans fiche interlocuteur : propose la création via promote, puis ouvre Drive.
    */
@@ -156,40 +192,12 @@
       });
     }
 
-    function ensureContactId() {
-      if (ctx.contactId) return Promise.resolve(ctx.contactId);
-      if (!ctx.leadId) {
-        window.alert("Créez d’abord la fiche interlocuteur pour ouvrir le Drive.");
-        return Promise.reject(new Error("no_contact"));
-      }
-      if (
-        !window.confirm(
-          "Aucune fiche interlocuteur pour ce lead.\n\nCréer la fiche maintenant et ouvrir son dossier Google Drive ?"
-        )
-      ) {
-        return Promise.reject(new Error("cancelled"));
-      }
-      setBusy("Création fiche…");
-      return authFetch(
-        "/api/crm/lead-lifecycle",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "promote", leadId: ctx.leadId }),
-        },
-        authHeaders
-      ).then(function (res) {
-        var data = res.data || {};
-        if (!data.ok || !data.contactId) {
-          throw new Error(data.error || "Impossible de créer la fiche interlocuteur");
-        }
-        ctx.contactId = data.contactId;
-        if (typeof opts.onContactCreated === "function") opts.onContactCreated(data.contactId, data);
-        return data.contactId;
-      });
-    }
-
-    return ensureContactId()
+    setBusy(ctx.contactId ? "Ouverture Drive…" : "Création fiche…");
+    return ensureContactId(ctx, {
+      authHeaders: authHeaders,
+      silent: false,
+      onContactCreated: opts.onContactCreated,
+    })
       .then(fetchDrive)
       .catch(function (err) {
         if (err && (err.message === "cancelled" || err.message === "no_contact")) return null;
@@ -357,9 +365,10 @@
     wrap.setAttribute("data-crm-doc-upload-wrap", "1");
     wrap.innerHTML =
       '<div class="panel-head" style="margin-bottom:10px"><h3 style="margin:0;font-size:1rem">Déposer des pièces</h3></div>' +
+      '<p class="small" style="margin:0 0 10px;color:var(--muted)">1) Cliquez <strong>Déposer</strong> sur chaque pièce · 2) Cliquez <strong>Enregistrer les pièces</strong> pour envoyer vers Drive.</p>' +
       '<div data-crm-doc-upload-panel></div>' +
       '<div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">' +
-      '<button type="button" class="btn btn-primary btn-sm" data-crm-doc-upload-btn>Envoyer vers Drive</button>' +
+      '<button type="button" class="btn btn-primary btn-sm" data-crm-doc-upload-btn>Enregistrer les pièces</button>' +
       '<span class="small" data-crm-doc-upload-status style="color:var(--muted)"></span>' +
       "</div>";
     mount.insertBefore(wrap, mount.firstChild || null);
@@ -381,107 +390,157 @@
           propertyId: ctx.propertyId || null,
         });
       }
+      if (inst && typeof inst.setCrmMode === "function") inst.setCrmMode(true);
     } else {
       inst = mountGenericUpload(panel, ctx);
     }
 
     if (!btn || !inst) return wrap;
 
-    btn.addEventListener("click", function () {
-      btn.disabled = true;
-      if (statusEl) statusEl.textContent = "Envoi en cours…";
-      var session = {
-        email: ctx.email,
-        phone: ctx.phone,
-        contactId: ctx.contactId,
-        leadId: ctx.leadId,
-        propertyId: ctx.propertyId || null,
-      };
-      if (inst.setSession) inst.setSession(session);
+    function markItemDone(item) {
+      if (!item) return;
+      item.status = "done";
+      if (!inst.root) return;
+      var line = inst.root.querySelector('[data-immo-doc-line="' + item.documentType + '"]');
+      if (!line) return;
+      line.classList.remove("is-queued", "is-error");
+      line.classList.add("is-done");
+      var span = line.querySelector(".immo-doc-line-btn span");
+      if (span) span.textContent = "Déposé";
+    }
 
-      function uploadViaExternal(items) {
-        return items.reduce(
-          function (chain, item) {
-            return chain.then(function (acc) {
-              var file = item.file;
-              if (!file) return acc;
-              return readFileAsBase64(file).then(function (dataUrl) {
-                return fetch("/api/external/upload", {
-                  method: "POST",
-                  headers: { "Content-Type": "application/json" },
-                  credentials: "same-origin",
-                  body: JSON.stringify({
-                    contactId: session.contactId,
-                    email: session.email,
-                    phone: session.phone,
-                    leadId: session.leadId,
-                    fileName: item.fileName || file.name,
-                    documentType: item.documentType || "generic",
-                    mimeType: item.mimeType || file.type || "application/octet-stream",
-                    fileBase64: dataUrl,
-                    vertical: isVendeurImmo(vertical) ? "vendeur-immo" : vertical || "questionnaire",
-                    need: vertical || "questionnaire",
-                    perTypeFolder: isImmoVertical(vertical),
-                    source: "crm_staff_upload",
-                    description: "Dépôt conseiller — " + (item.documentType || "document"),
-                  }),
-                })
-                  .then(function (r) {
-                    return r.json().then(function (data) {
-                      return { ok: r.ok, data: data };
-                    });
-                  })
-                  .then(function (res) {
-                    if (!res.ok || !res.data || !res.data.ok) {
-                      throw new Error((res.data && res.data.error) || "Upload impossible");
-                    }
-                    acc.uploaded.push(res.data);
-                    return acc;
-                  })
-                  .catch(function (err) {
-                    acc.errors.push({ error: err.message || "Erreur" });
-                    return acc;
+    function uploadViaExternal(items, session) {
+      return items.reduce(
+        function (chain, item) {
+          return chain.then(function (acc) {
+            var file = item.file;
+            if (!file) return acc;
+            item.status = "uploading";
+            return readFileAsBase64(file).then(function (dataUrl) {
+              return fetch("/api/external/upload", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                  contactId: session.contactId,
+                  email: session.email,
+                  phone: session.phone,
+                  leadId: session.leadId,
+                  fileName: item.fileName || file.name,
+                  documentType: item.documentType || "generic",
+                  mimeType: item.mimeType || file.type || "application/octet-stream",
+                  fileBase64: dataUrl,
+                  vertical: isVendeurImmo(vertical) ? "vendeur-immo" : vertical || "questionnaire",
+                  need: vertical || "questionnaire",
+                  perTypeFolder: isImmoVertical(vertical),
+                  source: "crm_staff_upload",
+                  description: "Dépôt conseiller — " + (item.documentType || "document"),
+                }),
+              })
+                .then(function (r) {
+                  return r.json().then(function (data) {
+                    return { ok: r.ok, data: data };
                   });
-              });
+                })
+                .then(function (res) {
+                  if (!res.ok || !res.data || !res.data.ok) {
+                    throw new Error((res.data && res.data.error) || "Upload impossible");
+                  }
+                  if (res.data.contactId) session.contactId = res.data.contactId;
+                  markItemDone(item);
+                  acc.uploaded.push(res.data);
+                  return acc;
+                })
+                .catch(function (err) {
+                  item.status = "error";
+                  item.error = err.message || "Erreur";
+                  acc.errors.push({ error: item.error, item: item });
+                  return acc;
+                });
             });
-          },
-          Promise.resolve({ uploaded: [], errors: [] })
-        );
-      }
+          });
+        },
+        Promise.resolve({ uploaded: [], errors: [] })
+      ).then(function (result) {
+        if (inst.queue) {
+          inst.queue = inst.queue.filter(function (q) {
+            return q.status !== "done";
+          });
+        }
+        if (typeof inst._renderQueues === "function") inst._renderQueues();
+        return result;
+      });
+    }
 
-      var uploadPromise;
+    btn.addEventListener("click", function () {
       var pending =
         inst.queue &&
         inst.queue.filter(function (q) {
           return q.status === "queued" || q.status === "error";
         });
-      if (pending && pending.length && isVendeurImmo(vertical) && session.propertyId && inst.uploadAll) {
-        uploadPromise = inst.uploadAll();
-      } else if (pending && pending.length) {
-        uploadPromise = uploadViaExternal(pending);
-      } else if (inst.uploadAll && !isVendeurImmo(vertical)) {
-        uploadPromise = inst.uploadAll();
-      } else {
-        uploadPromise = inst.uploadAll ? inst.uploadAll() : Promise.resolve({ uploaded: [], errors: [] });
-        uploadPromise = uploadPromise.then(function (result) {
-          if ((result.uploaded || []).length || !(result.errors || []).length) return result;
-          if (pending && pending.length) return uploadViaExternal(pending);
-          return result;
-        });
+      var hasPending = !!(pending && pending.length);
+      var hasGenericFile = !!(inst.uploadAll && !inst.queue);
+
+      if (!hasPending && !hasGenericFile) {
+        if (statusEl) {
+          statusEl.textContent = "Aucun fichier — cliquez d’abord « Déposer » sur une pièce.";
+        }
+        return;
       }
 
-      uploadPromise
+      btn.disabled = true;
+      if (statusEl) {
+        statusEl.textContent = ctx.contactId
+          ? "Envoi en cours…"
+          : "Création de la fiche interlocuteur puis envoi…";
+      }
+
+      ensureContactId(ctx, {
+        authHeaders: opts.authHeaders,
+        silent: true,
+        onContactCreated: function (contactId) {
+          if (typeof opts.onContactCreated === "function") opts.onContactCreated(contactId);
+        },
+      })
+        .then(function (contactId) {
+          ctx.contactId = contactId;
+          var session = {
+            email: ctx.email,
+            phone: ctx.phone,
+            contactId: contactId,
+            leadId: ctx.leadId,
+            propertyId: ctx.propertyId || null,
+          };
+          if (inst.setSession) inst.setSession(session);
+
+          if (hasPending) {
+            return uploadViaExternal(pending, session);
+          }
+          if (inst.uploadAll) return inst.uploadAll();
+          return { uploaded: [], errors: [{ error: "Aucun fichier à envoyer" }] };
+        })
         .then(function (result) {
-          var n = (result.uploaded || []).length;
-          var err = (result.errors || [])[0];
+          var n = (result && result.uploaded && result.uploaded.length) || 0;
+          var err = result && result.errors && result.errors[0];
           if (statusEl) {
-            statusEl.textContent = n
-              ? n + " document(s) enregistré(s) sur Drive."
-              : err
-                ? err.error || "Erreur"
-                : "Aucun fichier — choisissez un fichier puis cliquez Envoyer.";
+            if (n) {
+              statusEl.style.color = "var(--green, #15803d)";
+              statusEl.textContent =
+                n + " document(s) enregistré(s)" + (err ? " — " + (result.errors.length) + " erreur(s)." : ".");
+            } else {
+              statusEl.style.color = "var(--red, #b91c1c)";
+              statusEl.textContent =
+                (err && (err.error || err.message)) ||
+                "Échec de l’enregistrement — vérifiez la fiche interlocuteur et Drive.";
+            }
           }
           if (n && typeof opts.onUploaded === "function") opts.onUploaded(result);
+        })
+        .catch(function (err) {
+          if (statusEl) {
+            statusEl.style.color = "var(--red, #b91c1c)";
+            statusEl.textContent = (err && err.message) || "Erreur réseau";
+          }
         })
         .finally(function () {
           btn.disabled = false;
@@ -616,7 +675,16 @@
 
     var docsMount = root.querySelector("[data-crm-q-docs-mount]");
     if (docsMount && opts.showUpload !== false) {
-      mountDocUpload(docsMount, ctx, { onUploaded: opts.onUploaded });
+      mountDocUpload(docsMount, ctx, {
+        authHeaders: opts.authHeaders,
+        onUploaded: opts.onUploaded,
+        onContactCreated: function (contactId) {
+          ctx.contactId = contactId;
+          var driveBtn = root.querySelector("[data-crm-q-open-drive]");
+          if (driveBtn) driveBtn.textContent = "Ouvrir Drive";
+          if (typeof opts.onContactCreated === "function") opts.onContactCreated(contactId);
+        },
+      });
     }
   }
 
@@ -626,6 +694,7 @@
     buildResumeUrl: buildResumeUrl,
     buildMailboxUrl: buildMailboxUrl,
     canEdit: canEdit,
+    ensureContactId: ensureContactId,
     openContactDrive: openContactDrive,
     renderToolbar: renderToolbar,
     bindToolbar: bindToolbar,

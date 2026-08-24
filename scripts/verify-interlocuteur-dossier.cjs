@@ -152,7 +152,13 @@ var qTools = read("js/crm-questionnaire-tools.js");
 assert(qTools.indexOf("data-crm-q-open-drive") >= 0, "toolbar : bouton Ouvrir Drive");
 assert(qTools.indexOf("openContactDrive") >= 0, "toolbar : openContactDrive");
 assert(qTools.indexOf("/api/crm/drive-folder") >= 0, "toolbar : API drive-folder");
+assert(qTools.indexOf("ensureContactId") >= 0, "upload : assure fiche avant dépôt");
+assert(qTools.indexOf("Enregistrer les pièces") >= 0, "upload : bouton enregistrer");
 assert(html.indexOf("btnOpenContactDrive") >= 0, "fiche : bouton Drive contact");
+
+var uploadApi = read("api/_lib/routes/external-upload.js");
+assert(uploadApi.indexOf("contact_missing") >= 0, "API upload : code contact_missing");
+assert(uploadApi.indexOf("site_leads") >= 0, "API upload : résout contact via leadId");
 
 var life = read("api/_lib/routes/crm-lead-lifecycle.js");
 assert(life.indexOf("hydrateInterlocuteurFromLead") >= 0, "promote hydrate la fiche");

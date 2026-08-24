@@ -29,6 +29,28 @@ async function resolveContact(sql, body) {
     const rows = await sql`SELECT id, first_name, last_name, email FROM crm_contacts WHERE id = ${contactId} LIMIT 1`;
     if (rows.length) return rows[0];
   }
+  const leadId = body.leadId || body.lead_id || null;
+  if (leadId) {
+    try {
+      const leads = await sql`
+        SELECT id, contact_id, email, phone FROM site_leads WHERE id = ${leadId} LIMIT 1
+      `;
+      if (leads.length && leads[0].contact_id) {
+        const linked = await sql`
+          SELECT id, first_name, last_name, email FROM crm_contacts WHERE id = ${leads[0].contact_id} LIMIT 1
+        `;
+        if (linked.length) return linked[0];
+      }
+      if (leads.length && leads[0].email && !body.email) {
+        body.email = leads[0].email;
+      }
+      if (leads.length && leads[0].phone && !body.phone) {
+        body.phone = leads[0].phone;
+      }
+    } catch (e) {
+      console.warn("[external/upload] lead lookup", e.message);
+    }
+  }
   const email = body.email ? String(body.email).trim().toLowerCase() : "";
   if (email) {
     const contacts = await sql`
@@ -82,7 +104,14 @@ module.exports = async (req, res) => {
 
   try {
     const contact = await resolveContact(sql, body);
-    if (!contact) return res.status(404).json({ error: "Dossier client introuvable" });
+    if (!contact) {
+      return res.status(404).json({
+        error:
+          "Dossier client introuvable — créez d’abord la fiche interlocuteur (ou utilisez « Enregistrer les pièces » depuis le détail lead).",
+        code: "contact_missing",
+        leadId: body.leadId || body.lead_id || null,
+      });
+    }
 
     const usePerType =
       body.perTypeFolder === true ||

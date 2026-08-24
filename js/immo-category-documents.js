@@ -44,6 +44,7 @@
     this.config = global.ImmoDocumentsConfig ? global.ImmoDocumentsConfig.getConfig(this.mode) : { groups: [] };
     this.queue = [];
     this.uploaded = [];
+    this.crmMode = !!(options && options.crmMode);
     this.session = { email: null, phone: null, propertyId: null, leadId: null, contactId: null };
     this._render();
     this._bind();
@@ -51,6 +52,11 @@
 
   ImmoCategoryDocuments.prototype.setSession = function (session) {
     Object.assign(this.session, session || {});
+  };
+
+  ImmoCategoryDocuments.prototype.setCrmMode = function (on) {
+    this.crmMode = !!on;
+    this._renderQueues();
   };
 
   ImmoCategoryDocuments.prototype._renderGroup = function (g) {
@@ -190,9 +196,15 @@
   ImmoCategoryDocuments.prototype._renderQueues = function () {
     var st = this.root.querySelector("[data-immo-doc-status]");
     if (st) {
-      var n = this.queue.length;
+      var n = this.queue.filter(function (q) {
+        return q.status === "queued" || q.status === "error";
+      }).length;
       st.hidden = !n;
-      if (n) st.textContent = n + " fichier(s) en attente — envoyés avec le formulaire.";
+      if (n) {
+        st.textContent = this.crmMode
+          ? n + " fichier(s) en attente — cliquez « Enregistrer les pièces » pour envoyer."
+          : n + " fichier(s) en attente — envoyés avec le formulaire.";
+      }
     }
   };
 
