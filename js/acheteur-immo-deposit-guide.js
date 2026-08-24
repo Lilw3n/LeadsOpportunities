@@ -858,7 +858,14 @@
   function payloadToDraft(payload) {
     if (!payload) return null;
     if (payload.depositDraft && typeof payload.depositDraft === "object") {
-      return Object.assign({}, payload.depositDraft, { savedAt: Date.now() });
+      var stored = Object.assign({}, payload.depositDraft, { savedAt: Date.now() });
+      stored.form = stored.form || {};
+      ["email", "phone", "firstName", "lastName"].forEach(function (k) {
+        if ((!stored.form[k] || !String(stored.form[k]).trim()) && payload[k]) {
+          stored.form[k] = payload[k];
+        }
+      });
+      return stored;
     }
     var form = {
       role: payload.role || "vendeur",
