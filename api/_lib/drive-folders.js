@@ -139,9 +139,7 @@ async function ensureClientDriveFolders(contactId) {
   const clientLabel = safeFolderLabel(c.id, c.first_name, c.last_name, c.phone, c.email);
   const clientFolder = await driveCreateFolder(token, clientLabel, yearFolderId);
 
-  for (var i = 0; i < CLIENT_SUBFOLDERS.length; i++) {
-    await driveCreateFolder(token, CLIENT_SUBFOLDERS[i], clientFolder.id);
-  }
+  // Pas de sous-dossiers anticipés — créés uniquement à l'upload (resolveContactSubfolderId)
 
   await sql`
     UPDATE crm_contacts SET drive_folder_id = ${clientFolder.id}, updated_at = NOW()
@@ -158,6 +156,7 @@ async function ensureClientDriveFolders(contactId) {
     ok: true,
     folderId: clientFolder.id,
     subfolders: CLIENT_SUBFOLDERS,
+    lazy: true,
     webViewLink: link.webViewLink || clientFolder.webViewLink || null,
   };
 }

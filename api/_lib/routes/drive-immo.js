@@ -74,24 +74,23 @@ module.exports = async (req, res) => {
         const property = body.property || {};
         let folderMap = body.subfolderIds || null;
         let propFolderId = body.folderId || property.drive_folder_id || null;
+        const classified = body.subfolder || classifyImmoFile(body);
 
-        if (!propFolderId || !folderMap) {
-          const ensured = await ensurePropertyDriveFolders(property);
-          propFolderId = ensured.folderId || propFolderId;
-          folderMap = ensured.subfolderIds || folderMap;
-          if (ensured.simulated) {
-            return res.status(200).json({
-              ok: true,
-              simulated: true,
-              configured: false,
-              message: ensured.message,
-              classifiedAs: classifyImmoFile(body),
-              fileName: body.fileName,
-            });
-          }
+        // Création paresseuse : dossier bien + uniquement le sous-dossier d'upload
+        const ensured = await ensurePropertyDriveFolders(property, { subfolder: classified });
+        propFolderId = ensured.folderId || propFolderId;
+        folderMap = Object.assign({}, folderMap || {}, ensured.subfolderIds || {});
+        if (ensured.simulated) {
+          return res.status(200).json({
+            ok: true,
+            simulated: true,
+            configured: false,
+            message: ensured.message,
+            classifiedAs: classified,
+            fileName: body.fileName,
+          });
         }
 
-        const classified = body.subfolder || classifyImmoFile(body);
         const target =
           (folderMap && folderMap[classified] && folderMap[classified].id) || propFolderId;
 

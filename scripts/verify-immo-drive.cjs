@@ -42,6 +42,20 @@ assert(driveLib.indexOf("syncPropertyPhotosToDrive") >= 0, "syncPropertyPhotosTo
 var immoDrive = read("api/_lib/immo-drive.js");
 assert(immoDrive.indexOf("resolveVendeurDocumentFolder") >= 0, "resolveVendeurDocumentFolder exporté");
 assert(immoDrive.indexOf("resolveListingMediaFolder") >= 0, "resolveListingMediaFolder exporté");
+assert(immoDrive.indexOf("ensurePropertySubfolder") >= 0, "ensurePropertySubfolder exporté");
+assert(immoDrive.indexOf("lookupChildFolder") >= 0, "lookup sans création");
+assert(immoDrive.indexOf("lazy: true") >= 0, "création paresseuse des sous-dossiers");
+assert(
+  immoDrive.indexOf("Création paresseuse") >= 0 || immoDrive.indexOf("opts.subfolder") >= 0,
+  "sous-dossier créé uniquement à l'upload"
+);
+// Ne doit plus créer les 8 sous-dossiers en boucle systématique
+assert(
+  !/for \(var j = 0; j < IMMO_SUBFOLDERS\.length; j\+\+\)[\s\S]{0,120}driveCreateFolder\(token, sf\.id/.test(
+    immoDrive
+  ),
+  "pas de création anticipée des 8 sous-dossiers"
+);
 var classify = require("../api/_lib/immo-drive");
 assert(
   classify.resolveVendeurDocumentFolder({ documentGroup: "identite", documentType: "identite" }) ===

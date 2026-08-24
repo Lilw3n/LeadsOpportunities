@@ -95,20 +95,23 @@ module.exports = async function publicImmoListingDocument(req, res) {
       return res.status(403).json({ ok: false, error: "Email non autorise pour ce bien" });
     }
 
-    var ensured = await ensurePropertyDriveFolders({
-      id: prop.id,
-      title: prop.title,
-      city: prop.city,
-      postal_code: prop.postal_code,
-      drive_folder_id: prop.drive_folder_id,
-    });
-
     var classified = resolveVendeurDocumentFolder({
       documentGroup: documentGroup,
       documentType: documentType,
       fileName: fileName,
       mimeType: body.mimeType,
     });
+
+    var ensured = await ensurePropertyDriveFolders(
+      {
+        id: prop.id,
+        title: prop.title,
+        city: prop.city,
+        postal_code: prop.postal_code,
+        drive_folder_id: prop.drive_folder_id,
+      },
+      { subfolder: classified }
+    );
 
     var targetFolder =
       (ensured.subfolderIds && ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) ||

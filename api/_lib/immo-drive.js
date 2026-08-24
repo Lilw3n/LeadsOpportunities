@@ -49,7 +49,7 @@ async function driveCreateFolder(token, name, parentId) {
   return data;
 }
 
-async function findChildFolder(token, parentId, name) {
+async function lookupChildFolder(token, parentId, name) {
   const q =
     "mimeType='application/vnd.google-apps.folder' and name='" +
     name.replace(/'/g, "\\'") +
@@ -62,7 +62,24 @@ async function findChildFolder(token, parentId, name) {
   );
   const data = await resp.json();
   if (data.files && data.files.length) return data.files[0];
+  return null;
+}
+
+/** Trouve un sous-dossier ; ne crée que si createIfMissing=true (défaut true). */
+async function findChildFolder(token, parentId, name, createIfMissing) {
+  const found = await lookupChildFolder(token, parentId, name);
+  if (found) return found;
+  if (createIfMissing === false) return null;
   return driveCreateFolder(token, name, parentId);
+}
+
+function subfolderMeta(sf, found) {
+  return {
+    id: found.id,
+    name: sf.id,
+    label: sf.label,
+    webViewLink: found.webViewLink || null,
+  };
 }
 
 /**
@@ -160,7 +177,15 @@ async function ensureImmoRoot(token, rootId) {
   return findChildFolder(token, immo.id, year);
 }
 
-async function ensurePropertyDriveFolders(property) {
+/**
+ * Assure uniquement le dossier racine du bien (Immo/année/prop_…).
+ * Ne crée PAS les 8 sous-dossiers — création à la demande via ensurePropertySubfolder.
+ * @param {object} property
+ * @param {{ subfolder?: string }} [opts] — si subfolder fourni, crée aussi ce seul sous-dossier
+ */
+async function ensurePropertyDriveFolders(property, opts) {
+  opts = opts || {};
+  const onlySub = opts.subfolder ? String(opts.subfolder) : "";
   const token = await getToken();
   const rootId = getRootFolderId();
   const configured = !!(token && rootId && isDriveConfigured());
@@ -179,47 +204,74 @@ async function ensurePropertyDriveFolders(property) {
       configured: false,
       folderName: label,
       subfolders: IMMO_SUBFOLDERS,
+      lazy: true,
       message: "Drive non configuré — mode local intelligent actif (voir docs/DRIVE-SETUP.md)",
     };
   }
 
-  // Réutilise dossier existant si déjà lié
-  if (property.drive_folder_id) {
-    const subs = {};
-    for (var i = 0; i < IMMO_SUBFOLDERS.length; i++) {
-      const sf = IMMO_SUBFOLDERS[i];
-      const found = await findChildFolder(token, property.drive_folder_id, sf.id);
-      subs[sf.id] = { id: found.id, name: sf.id, label: sf.label, webViewLink: found.webViewLink || null };
-    }
-    return {
-      ok: true,
-      configured: true,
-      folderId: property.drive_folder_id,
-      folderName: label,
-      subfolders: IMMO_SUBFOLDERS,
-      subfolderIds: subs,
-      existing: true,
-    };
+  var propFolderId = property.drive_folder_id || null;
+  var webViewLink = null;
+  var existing = false;
+
+  if (propFolderId) {
+    existing = true;
+  } else {
+    const yearFolder = await ensureImmoRoot(token, rootId);
+    const propFolder = await driveCreateFolder(token, label, yearFolder.id);
+    propFolderId = propFolder.id;
+    webViewLink = propFolder.webViewLink || null;
   }
 
-  const yearFolder = await ensureImmoRoot(token, rootId);
-  const propFolder = await driveCreateFolder(token, label, yearFolder.id);
   const subs = {};
-  for (var j = 0; j < IMMO_SUBFOLDERS.length; j++) {
-    const sf = IMMO_SUBFOLDERS[j];
-    const created = await driveCreateFolder(token, sf.id, propFolder.id);
-    subs[sf.id] = { id: created.id, name: sf.id, label: sf.label, webViewLink: created.webViewLink || null };
+
+  if (onlySub) {
+    // Upload : ne créer / résoudre que le sous-dossier cible
+    const foundOne = await lookupChildFolder(token, propFolderId, onlySub);
+    var sfOnly = null;
+    for (var j = 0; j < IMMO_SUBFOLDERS.length; j++) {
+      if (IMMO_SUBFOLDERS[j].id === onlySub) {
+        sfOnly = IMMO_SUBFOLDERS[j];
+        break;
+      }
+    }
+    const ensuredOne = foundOne || (await findChildFolder(token, propFolderId, onlySub, true));
+    if (sfOnly) {
+      subs[onlySub] = subfolderMeta(sfOnly, ensuredOne);
+    } else {
+      subs[onlySub] = {
+        id: ensuredOne.id,
+        name: onlySub,
+        label: onlySub,
+        webViewLink: ensuredOne.webViewLink || null,
+      };
+    }
+  } else {
+    // Ouverture / inventaire : lister sans créer les dossiers manquants
+    for (var i = 0; i < IMMO_SUBFOLDERS.length; i++) {
+      const sf = IMMO_SUBFOLDERS[i];
+      const found = await lookupChildFolder(token, propFolderId, sf.id);
+      if (found) subs[sf.id] = subfolderMeta(sf, found);
+    }
   }
 
   return {
     ok: true,
     configured: true,
-    folderId: propFolder.id,
+    folderId: propFolderId,
     folderName: label,
-    webViewLink: propFolder.webViewLink || null,
+    webViewLink: webViewLink,
     subfolders: IMMO_SUBFOLDERS,
     subfolderIds: subs,
+    existing: existing,
+    lazy: true,
   };
+}
+
+/**
+ * Assure le dossier bien + un seul sous-dossier cible (là où on upload).
+ */
+async function ensurePropertySubfolder(property, subfolderKey) {
+  return ensurePropertyDriveFolders(property, { subfolder: subfolderKey });
 }
 
 async function listFolderFiles(folderId, pageSize) {
@@ -247,6 +299,7 @@ module.exports = {
   resolveListingMediaFolder,
   resolveVendeurDocumentFolder,
   ensurePropertyDriveFolders,
+  ensurePropertySubfolder,
   listFolderFiles,
   safeName,
 };
