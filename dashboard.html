@@ -288,8 +288,32 @@
       outline: none;
     }
     .filter-select:focus, .filter-input:focus { border-color: var(--primary); }
-    .filter-input { min-width: 200px; }
+    .filter-input { min-width: 220px; flex: 1 1 220px; }
     .filter-input-ip { min-width: 140px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .leads-search-scopes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 12px;
+      align-items: center;
+      width: 100%;
+      padding-top: 2px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted, #64748b);
+    }
+    .leads-search-scopes label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      cursor: pointer;
+      font-weight: 600;
+      color: #334155;
+    }
+    .leads-search-scopes strong {
+      color: #0f172a;
+      margin-right: 2px;
+    }
     .leads-bulk-bar {
       display: flex;
       flex-wrap: wrap;
@@ -1942,11 +1966,23 @@
               <option value="100" selected>100 par page</option>
               <option value="250">Tous (250)</option>
             </select>
-            <input type="text" class="filter-input" id="filterSearch" placeholder="Rechercher email, téléphone..." />
+            <input type="text" class="filter-input" id="filterSearch" placeholder="Mail, tél, réseau, IP, vertical, statut, ID…" title="Recherche sur les canaux visibles du tableau" />
             <input type="text" class="filter-input filter-input-ip" id="filterIp" placeholder="Filtrer par IP…" />
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;white-space:nowrap">
               <input type="checkbox" id="soundNewLead" checked /> Son nouveau lead
             </label>
+            <div class="leads-search-scopes" id="leadsSearchScopes" title="Cochez pour limiter la recherche à certains canaux (sinon : tous)">
+              <strong>Chercher dans :</strong>
+              <label><input type="checkbox" class="search-scope" value="email" checked /> Mail</label>
+              <label><input type="checkbox" class="search-scope" value="phone" checked /> Tél</label>
+              <label><input type="checkbox" class="search-scope" value="platform" checked /> Réseau</label>
+              <label><input type="checkbox" class="search-scope" value="ip" checked /> IP</label>
+              <label><input type="checkbox" class="search-scope" value="vertical" checked /> Vertical</label>
+              <label><input type="checkbox" class="search-scope" value="status" checked /> Statut</label>
+              <label><input type="checkbox" class="search-scope" value="name" checked /> Nom</label>
+              <label><input type="checkbox" class="search-scope" value="city" checked /> Ville</label>
+              <label><input type="checkbox" class="search-scope" value="id" checked /> ID</label>
+            </div>
           </div>
           <div class="blocked-ips-bar" id="blockedIpsBar">
             <strong>IP bloquées</strong>
@@ -2831,6 +2867,16 @@
       var visitorCatFilter = document.getElementById("filterVisitorCat")
         ? document.getElementById("filterVisitorCat").value
         : "";
+      var searchIn = [];
+      document.querySelectorAll(".search-scope").forEach(function (box) {
+        if (box.checked) searchIn.push(box.value);
+      });
+      // Toutes cochées = pas de filtre de scope (recherche complète)
+      // Aucune cochée = aucun canal (__none__)
+      var allScopesCount = document.querySelectorAll(".search-scope").length;
+      var searchInParam = "";
+      if (!searchIn.length) searchInParam = "__none__";
+      else if (searchIn.length < allScopesCount) searchInParam = searchIn.join(",");
 
       var limitEl = document.getElementById("filterLimit");
       if (limitEl) leadsLimit = parseInt(limitEl.value, 10) || 100;
@@ -2840,6 +2886,7 @@
       if (view) params += "&view=" + encodeURIComponent(view);
       if (platform) params += "&platform=" + encodeURIComponent(platform);
       if (search) params += "&search=" + encodeURIComponent(search);
+      if (searchInParam) params += "&searchIn=" + encodeURIComponent(searchInParam);
       if (ipFilter) params += "&ip=" + encodeURIComponent(ipFilter);
       if (scoreMin) params += "&scoreMin=" + encodeURIComponent(scoreMin);
 
@@ -3050,6 +3097,12 @@
     document.getElementById("filterIp").addEventListener("input", function() {
       clearTimeout(searchTimeout);
       searchTimeout = setTimeout(function() { currentPage = 1; loadLeads(); }, 400);
+    });
+    document.querySelectorAll(".search-scope").forEach(function (box) {
+      box.addEventListener("change", function () {
+        currentPage = 1;
+        loadLeads();
+      });
     });
 
     document.getElementById("selectAllLeads").addEventListener("change", function() {
