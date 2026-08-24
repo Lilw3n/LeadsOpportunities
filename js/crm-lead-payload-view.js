@@ -438,7 +438,8 @@
     );
   }
 
-  function renderQuestionnairePanel(lead, esc) {
+  function renderQuestionnairePanel(lead, esc, panelOpts) {
+    panelOpts = panelOpts || {};
     esc =
       esc ||
       function (s) {
@@ -490,7 +491,7 @@
     if (global.InterlocuteurDossier) {
       html += global.InterlocuteurDossier.renderSections(
         global.InterlocuteurDossier.buildDossier(lead, payload),
-        { title: false }
+        { title: false, hideSellerInProjet: !!panelOpts.hideSellerInProjet }
       );
     } else {
       html += renderAnswersTable(rows, esc);

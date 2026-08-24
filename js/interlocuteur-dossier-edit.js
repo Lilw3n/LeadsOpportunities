@@ -27,6 +27,85 @@
     return rows;
   }
 
+  function sellerQuickKeys() {
+    var D = global.InterlocuteurDossier;
+    return (D && D.SELLER_QUICK_EDIT_KEYS) || ["sellerName", "sellerPhone", "sellerEmail", "sellerAgency"];
+  }
+
+  function sellerLabel(key) {
+    var D = global.InterlocuteurDossier;
+    if (D && D.LABELS && D.LABELS[key]) return D.LABELS[key];
+    if (D && typeof D.labelOf === "function") return D.labelOf(key);
+    return key;
+  }
+
+  function renderSellerQuickEdit(dossier, opts) {
+    opts = opts || {};
+    var p = (dossier && dossier.raw) || opts.payload || {};
+    var html =
+      '<section class="int-card int-card-seller int-seller-quick-edit" data-int-seller-quick-edit>' +
+      "<h3>Annonce / vendeur</h3>" +
+      '<p class="int-seller-quick-lead">Corrigez le nom, le téléphone et les coordonnées visibles sur l’annonce.</p>' +
+      '<div class="int-seller-quick-fields">';
+    sellerQuickKeys().forEach(function (key) {
+      var val = p[key] != null ? String(p[key]) : "";
+      html +=
+        '<label class="int-edit-label">' +
+        esc(sellerLabel(key)) +
+        '<input type="text" data-int-field="' +
+        esc(key) +
+        '" value="' +
+        esc(val) +
+        '" /></label>';
+    });
+    html +=
+      "</div>" +
+      '<div class="int-edit-actions">' +
+      '<button type="button" class="btn btn-primary btn-sm" data-int-save-seller>Enregistrer vendeur</button>' +
+      '<span class="int-edit-status" data-int-seller-status hidden role="status"></span>' +
+      "</div></section>";
+    return html;
+  }
+
+  function bindSellerQuickEdit(mount, opts) {
+    if (!mount || mount.dataset.sellerBound) return;
+    mount.dataset.sellerBound = "1";
+    var btn = mount.querySelector("[data-int-save-seller]");
+    var statusEl = mount.querySelector("[data-int-seller-status]");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      btn.disabled = true;
+      if (statusEl) {
+        statusEl.hidden = false;
+        statusEl.textContent = "Enregistrement…";
+      }
+      save(opts, collectFromMount(mount))
+        .then(function (res) {
+          if (statusEl) {
+            statusEl.textContent = res.syncedInterlocuteur
+              ? "Enregistré — fiche interlocuteur à jour"
+              : "Enregistré";
+          }
+          if (typeof opts.onSaved === "function") opts.onSaved(res);
+        })
+        .catch(function (err) {
+          if (statusEl) statusEl.textContent = err.message || "Erreur";
+          alert(err.message || "Erreur");
+        })
+        .then(function () {
+          btn.disabled = false;
+        });
+    });
+  }
+
+  function mountSellerQuickEdit(container, dossier, opts) {
+    if (!container) return null;
+    container.insertAdjacentHTML("afterbegin", renderSellerQuickEdit(dossier, opts));
+    var block = container.querySelector("[data-int-seller-quick-edit]");
+    if (block) bindSellerQuickEdit(block, opts);
+    return block;
+  }
+
   function renderEditable(dossier, opts) {
     opts = opts || {};
     var payload = opts.payload || (dossier && dossier.raw) || {};
@@ -186,6 +265,9 @@
 
   global.InterlocuteurDossierEdit = {
     renderEditable: renderEditable,
+    renderSellerQuickEdit: renderSellerQuickEdit,
+    bindSellerQuickEdit: bindSellerQuickEdit,
+    mountSellerQuickEdit: mountSellerQuickEdit,
     bindEditable: bindEditable,
     mountEditable: mountEditable,
     collectFromMount: collectFromMount,

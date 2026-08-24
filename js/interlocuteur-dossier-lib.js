@@ -820,6 +820,15 @@
       .replace(/"/g, "&quot;");
   }
 
+  var SELLER_QUICK_EDIT_KEYS = ["sellerName", "sellerPhone", "sellerEmail", "sellerAgency"];
+
+  function filterSellerRows(rows, hideSellerInProjet) {
+    if (!hideSellerInProjet || !rows || !rows.length) return rows || [];
+    return rows.filter(function (r) {
+      return SELLER_QUICK_EDIT_KEYS.indexOf(r.key) < 0;
+    });
+  }
+
   function rowsHtml(rows, fieldComments) {
     fieldComments = fieldComments || {};
     if (!rows || !rows.length) return '<p class="int-empty">Aucune information saisie dans le formulaire.</p>';
@@ -870,7 +879,8 @@
     var biensBody = vehiculesHtml + immoHtml + autresHtml;
     var hasPerso = !!(d.perso || []).length;
     var hasPro = !!(d.pro || []).length;
-    var hasProjet = !!(d.projet || []).length;
+    var projetRows = filterSellerRows(d.projet || [], opts.hideSellerInProjet);
+    var hasProjet = !!projetRows.length;
     var hasBiens = hasVehicules || hasImmo || hasAutres;
 
     var html =
@@ -886,7 +896,7 @@
       ) +
       cardHtml("Info pro", "int-card-pro", rowsHtml(d.pro, fieldComments), { hide: !hasPro }) +
       cardHtml("Biens — véhicule, immobilier", "int-card-biens", biensBody, { hide: !hasBiens }) +
-      cardHtml("Projet / financement", "int-card-projet", rowsHtml(d.projet, fieldComments), {
+      cardHtml("Projet / financement", "int-card-projet", rowsHtml(projetRows, fieldComments), {
         hide: !hasProjet,
       }) +
       "</div>";
@@ -975,6 +985,7 @@
 
   var api = {
     LABELS: LABELS,
+    SELLER_QUICK_EDIT_KEYS: SELLER_QUICK_EDIT_KEYS,
     VALUE_LABELS: VALUE_LABELS,
     parsePayload: parsePayload,
     buildDossier: buildDossier,

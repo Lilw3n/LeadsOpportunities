@@ -597,6 +597,31 @@
     ctx = ctx || {};
     var state = { editing: !!opts.startEditing };
 
+    function mountSellerQuickEditIfNeeded(answersEl) {
+      if (!answersEl || state.editing || !canEdit()) return;
+      if (!isImmoVertical(ctx.vertical)) return;
+      var E = global.InterlocuteurDossierEdit;
+      var D = global.InterlocuteurDossier;
+      if (!E || !D || !E.mountSellerQuickEdit) return;
+      var dossierMount = answersEl.querySelector(".int-dossier");
+      if (!dossierMount || dossierMount.querySelector("[data-int-seller-quick-edit]")) return;
+      var dossier = D.buildDossier(
+        Object.assign({}, ctx, { payload: ctx.payload, payload_obj: ctx.payload })
+      );
+      E.mountSellerQuickEdit(dossierMount, dossier, {
+        leadId: ctx.leadId,
+        contactId: ctx.contactId,
+        api: opts.api || "crm",
+        authHeaders: opts.authHeaders,
+        payload: ctx.payload,
+        onSaved: function (res) {
+          if (res && res.payload) ctx.payload = res.payload;
+          if (typeof opts.onSaved === "function") opts.onSaved(res);
+          renderAnswersView();
+        },
+      });
+    }
+
     function renderAnswersView() {
       var answersEl = root.querySelector("[data-crm-q-answers]");
       if (!answersEl) return;
@@ -622,12 +647,18 @@
           payload: ctx.payload,
           payload_obj: ctx.payload,
         });
-        answersEl.innerHTML = global.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc);
+        answersEl.innerHTML = global.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc, {
+          hideSellerInProjet: canEdit() && isImmoVertical(ctx.vertical),
+        });
+        mountSellerQuickEditIfNeeded(answersEl);
       } else if (global.InterlocuteurDossier) {
         var dossier = global.InterlocuteurDossier.buildDossier(
           Object.assign({}, ctx, { payload: ctx.payload, payload_obj: ctx.payload })
         );
-        answersEl.innerHTML = global.InterlocuteurDossier.renderSections(dossier);
+        answersEl.innerHTML = global.InterlocuteurDossier.renderSections(dossier, {
+          hideSellerInProjet: canEdit() && isImmoVertical(ctx.vertical),
+        });
+        mountSellerQuickEditIfNeeded(answersEl);
       }
     }
 

@@ -33,6 +33,20 @@
 .int-card-pro { border-top: 3px solid #7c3aed; }
 .int-card-biens { border-top: 3px solid #059669; grid-column: 1 / -1; }
 .int-card-projet { border-top: 3px solid #d97706; grid-column: 1 / -1; }
+.int-card-seller { border-top: 3px solid #0284c7; grid-column: 1 / -1; }
+.int-seller-quick-edit .int-seller-quick-lead {
+  margin: 0 0 12px;
+  color: var(--muted, #64748b);
+  font-size: 0.85rem;
+}
+.int-seller-quick-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+}
+@media (max-width: 640px) {
+  .int-seller-quick-fields { grid-template-columns: 1fr; }
+}
 .int-dl {
   display: grid;
   grid-template-columns: minmax(140px, 36%) 1fr;
