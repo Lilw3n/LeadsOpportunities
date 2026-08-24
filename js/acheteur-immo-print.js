@@ -154,7 +154,7 @@
           role: "Rôle",
           firstName: "Prénom",
           lastName: "Nom d'usage",
-          birthName: "Nom de naissance",
+          birthName: "Nom de jeune fille",
           profession: "Profession",
           gender: "Genre",
           maritalStatus: "Situation familiale",
