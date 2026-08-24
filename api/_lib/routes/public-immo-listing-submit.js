@@ -119,7 +119,13 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var email = str(body.email, 320).toLowerCase();
   var phone = str(body.phone || body.telephone, 40);
   var confirmMethod = str(body.confirmMethod, 20).toLowerCase();
-  if (!email && !phone) {
+  var allowIncomplete =
+    isOwner ||
+    body.dossierIncomplete === true ||
+    body.dossierIncomplete === "1" ||
+    body.allowIncomplete === true ||
+    body.allowIncomplete === "1";
+  if (!email && !phone && !allowIncomplete) {
     return res.status(400).json({
       ok: false,
       error: "contact_required",
@@ -205,18 +211,19 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         error: "signalement_incomplete",
         message: "Indiquez la ville du bien et au moins une photo ou une description.",
       });
-    } else {
+    } else if (!isOwner) {
       return res.status(400).json({
         ok: false,
-        error: isOwner ? "listing_required" : "url_required",
-        message: isOwner
-          ? "Indiquez la ville, le code postal ou l'adresse du bien, ou collez l'URL de votre annonce."
-          : "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).",
+        error: "url_required",
+        message: "Collez au moins une URL d'annonce (Leboncoin, SeLoger, ParuVendu…).",
       });
+    } else {
+      /* Vendeur : dépôt sans URL / ville encore — brouillon incomplet accepté. */
+      detections = [manualDetection()];
     }
   }
 
-  if ((isOwner || isSignalement) && !city && !postal && !addressHint) {
+  if ((isOwner || isSignalement) && !city && !postal && !addressHint && !allowIncomplete) {
     return res.status(400).json({
       ok: false,
       error: "city_required",
@@ -479,7 +486,11 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           body.depositDraft && typeof body.depositDraft === "object" && !Array.isArray(body.depositDraft)
             ? body.depositDraft
             : null,
-        dossierIncomplete: body.dossierIncomplete === true || body.dossierIncomplete === "1",
+        dossierIncomplete:
+          body.dossierIncomplete === true ||
+          body.dossierIncomplete === "1" ||
+          (!email && !phone) ||
+          ((isOwner || isSignalement) && !city && !postal && !addressHint),
       };
 
       try {

@@ -443,7 +443,7 @@
             <div class="grid">
               <div class="field">
                 <label for="urlFirstName">Prénom</label>
-                <input id="urlFirstName" name="firstName" required autocomplete="given-name" />
+                <input id="urlFirstName" name="firstName" autocomplete="given-name" placeholder="Ex. Marie" />
               </div>
               <div class="field">
                 <label for="urlLastName">Nom</label>
@@ -611,11 +611,11 @@
               <div class="immo-form-section" data-search-vente-panel hidden>
                 <h4 class="immo-form-section-title">1. Projet de vente</h4>
                 <p class="small immo-form-section-lead">Dossier vente complet : propriétaires, bien, mandat, descriptif, estimation, copro, visites…</p>
-                <p class="immo-vente-blocks-hint">Cliquez sur une section pour l'ouvrir ou la fermer — flèche à droite.</p>
+                <p class="immo-vente-blocks-hint">Sections repliées pour aller plus vite — ouvrez seulement ce dont vous avez besoin (flèche à droite).</p>
 
                 <div data-sell-photos-mount></div>
 
-                <details class="immo-vente-block" open>
+                <details class="immo-vente-block">
                   <summary>Propriétaires &amp; mandants</summary>
                   <p class="small" style="margin:8px 0 10px;color:#64748b">Fiche propriétaire complète (genre, noms, situation familiale, naissance, rôle…) + coordonnées. Minimum un propriétaire (nom + tél ou e-mail). Plusieurs lignes pour indivision, SCI, héritiers…</p>
                   <div data-owners-mount class="immo-owners-mount"></div>
@@ -692,7 +692,7 @@
                   </div>
                 </details>
 
-                <details class="immo-vente-block" open>
+                <details class="immo-vente-block">
                   <summary>Mandat de vente</summary>
 
                   <div class="immo-mandate-client" data-client-mandate-panel>
@@ -797,7 +797,7 @@
                   </div>
                 </details>
 
-                <details class="immo-vente-block" open>
+                <details class="immo-vente-block">
                   <summary>Informations publiques</summary>
                   <p class="small" style="margin:8px 0 10px;color:#64748b">Titre, description, typologie, prix, disponibilité, DPE et fiscalité — alignés fiche CRM.</p>
                   <p class="small" data-listing-taxonomy-hint hidden style="color:#b91c1c;margin:0 0 10px">Complétez le type d'annonce, le type et le sous-type de bien.</p>
@@ -916,7 +916,7 @@
                   <input type="hidden" id="sellPropertyTypeLegacy" name="sellPropertyTypeLegacy" value="" />
                 </details>
 
-                <details class="immo-vente-block" open>
+                <details class="immo-vente-block">
                   <summary>Descriptif de l'habitation</summary>
                   <p class="small" style="margin:8px 0 10px;color:#64748b">Raccourci type (legacy) — synchronisé avec la typologie ci-dessus.</p>
                   <div class="search-chip-grid" role="group" aria-label="Type de bien à vendre" style="margin-top:12px">
@@ -1275,7 +1275,7 @@
                   </div>
                 </details>
 
-                <details class="immo-vente-block" open>
+                <details class="immo-vente-block">
                   <summary>Projet vendeur — matrice passé · présent · futur</summary>
                   <p class="small" style="margin:8px 0 12px;color:#64748b">Comprendre le parcours du vendeur en un coup d'œil (passé · présent · futur).</p>
                   <div class="immo-timeline-matrix" data-timeline-matrix>
@@ -1341,7 +1341,7 @@
                   </div>
                 </details>
 
-                <details class="immo-vente-block" open data-rgpd-confirmation-block>
+                <details class="immo-vente-block" data-rgpd-confirmation-block>
                   <summary>Confirmation</summary>
                   <section class="immo-rgpd-confirm">
                     <p class="immo-rgpd-confirm-lead">
@@ -1372,7 +1372,7 @@
                   </section>
                 </details>
 
-                <details class="immo-vente-block" open>
+                <details class="immo-vente-block">
                   <summary>Pièces justificatives à fournir (checklist)</summary>
                   <p class="small" style="margin:8px 0 8px;color:#64748b">Cochez ce que le vendeur peut déjà transmettre. Les pièces manquantes seront demandées au notaire ou via Google Drive.</p>
                   <p class="immo-docs-counter" data-sell-docs-counter>0 / 0 pièces cochées</p>
