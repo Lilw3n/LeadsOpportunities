@@ -1171,7 +1171,10 @@ details[data-rgpd-confirmation-block] > summary {
   border-radius: 12px;
   background: linear-gradient(180deg, #eef2ff 0%, #f8fafc 100%);
   min-width: 0;
+  min-inline-size: 0;
+  max-width: 100%;
   overflow: visible;
+  box-sizing: border-box;
 }
 
 .immo-account-block legend {
@@ -1208,38 +1211,88 @@ details[data-rgpd-confirmation-block] > summary {
 
 .immo-account-confirm {
   min-width: 0;
+  width: 100%;
+}
+
+.immo-confirm-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
 .immo-confirm-option {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  margin: 8px 0;
-  padding: 8px 10px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
+  display: block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
   cursor: pointer;
-  font-size: 0.88rem;
-  color: #334155;
+  width: 100%;
   max-width: 100%;
+  box-sizing: border-box;
+  font-weight: 400;
 }
 
-.immo-confirm-option:has(input:checked) {
+.immo-confirm-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  pointer-events: none;
+}
+
+.immo-confirm-option-text {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 14px 12px 42px;
+  border-radius: 10px;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #334155;
+  position: relative;
+  overflow-wrap: break-word;
+  word-break: normal;
+  white-space: normal;
+}
+
+.immo-confirm-option-text::before {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid #94a3b8;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.immo-confirm-option input:checked + .immo-confirm-option-text {
   border-color: #6366f1;
   background: #eef2ff;
 }
 
-.immo-confirm-option input {
-  margin-top: 3px;
-  flex-shrink: 0;
+.immo-confirm-option input:checked + .immo-confirm-option-text::before {
+  border-color: #6366f1;
+  background: radial-gradient(circle, #6366f1 42%, #fff 44%);
 }
 
-.immo-confirm-option span {
-  flex: 1;
-  min-width: 0;
-  line-height: 1.45;
-  word-break: break-word;
+.immo-confirm-option input:focus-visible + .immo-confirm-option-text {
+  outline: 2px solid #6366f1;
+  outline-offset: 2px;
+}
+
+.immo-confirm-option strong {
+  font-weight: 700;
+  color: #1e293b;
 }
 
 .immo-coords-known {

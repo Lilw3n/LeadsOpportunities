@@ -271,7 +271,15 @@
   border-radius: 18px;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
   min-width: 0;
+  min-inline-size: 0;
+  max-width: 100%;
   overflow: visible;
+  box-sizing: border-box;
+}
+.url-capture form {
+  min-width: 0;
+  min-inline-size: 0;
+  max-width: 100%;
 }
 .url-capture h2 { margin: 0 0 6px; font-size: 1.2rem; }
 .url-capture .listings-intro { margin-bottom: 12px; }

@@ -417,9 +417,20 @@
               <p class="immo-account-status" data-account-status hidden></p>
               <div class="immo-account-confirm" role="radiogroup" aria-label="Confirmation d'identité">
                 <p class="small immo-account-confirm-lead">Comment confirmer votre identité ? <strong>Un seul choix.</strong></p>
-                <label class="immo-confirm-option"><input type="radio" name="confirmMethod" value="google" /> <span>Avec Google — e-mail confirmé automatiquement</span></label>
-                <label class="immo-confirm-option"><input type="radio" name="confirmMethod" value="email" checked /> <span>Par e-mail — lien de confirmation après envoi</span></label>
-                <label class="immo-confirm-option"><input type="radio" name="confirmMethod" value="phone" /> <span>Par téléphone — rappel conseiller pour valider le numéro</span></label>
+                <div class="immo-confirm-options">
+                  <label class="immo-confirm-option">
+                    <input type="radio" name="confirmMethod" value="google" />
+                    <span class="immo-confirm-option-text"><strong>Avec Google</strong> — e-mail confirmé automatiquement</span>
+                  </label>
+                  <label class="immo-confirm-option">
+                    <input type="radio" name="confirmMethod" value="email" checked />
+                    <span class="immo-confirm-option-text"><strong>Par e-mail</strong> — lien de confirmation après envoi</span>
+                  </label>
+                  <label class="immo-confirm-option">
+                    <input type="radio" name="confirmMethod" value="phone" />
+                    <span class="immo-confirm-option-text"><strong>Par téléphone</strong> — rappel conseiller pour valider le numéro</span>
+                  </label>
+                </div>
               </div>
               <div class="immo-account-oauth" data-confirm-panel="google" hidden>
                 <a class="btn-google immo-account-google" data-account-google href="/api/external/google?returnTo=%2Flandings%2Facheteur-immo.html%3Fhat%3Dvendeur%23deposer-bien" rel="nofollow">Continuer avec Google</a>
