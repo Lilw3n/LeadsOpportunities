@@ -3379,6 +3379,19 @@
                 if (res && res.payload) payload = res.payload;
                 toast("Questionnaire enregistré — fiche interlocuteur synchronisée", "success");
               },
+              onContactCreated: function (contactId) {
+                l.contact_id = contactId;
+                toast("Fiche interlocuteur créée", "success");
+                var cta = document.querySelector(".int-cta-bar");
+                if (cta) {
+                  cta.innerHTML =
+                    '<strong>Fiche interlocuteur</strong> — les réponses du formulaire y sont classées (perso, pro, biens). ' +
+                    '<a class="btn btn-primary" href="./crm-contact.html?id=' +
+                    encodeURIComponent(contactId) +
+                    '">Ouvrir la fiche interlocuteur →</a>' +
+                    ' <a class="btn btn-ghost btn-sm" href="./crm-event-manager.html">Événements</a>';
+                }
+              },
             });
           }
         } else if (dossier && window.InterlocuteurDossierEdit) {

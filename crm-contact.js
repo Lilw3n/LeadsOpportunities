@@ -1199,7 +1199,7 @@
 
   function renderDriveBar(driveInfo) {
     var bar = document.getElementById("contactDriveBar");
-    if (!bar) return;
+    if (!bar || !contactId) return;
     driveInfo = driveInfo || {};
     var contactUrl = driveInfo.driveFolderWebViewLink || null;
     var folders = driveInfo.propertyFolders || [];
@@ -1212,23 +1212,24 @@
       return d && (d.source === "immo_property" || d.source === "immo_listing_document" || d.propertyId);
     }).length;
     var hasAny = hasRealFolder || hasDocs;
-    if (!hasAny) {
-      bar.hidden = true;
-      bar.classList.remove("int-drive-bar--warn");
-      return;
-    }
+    // Toujours afficher la barre : bouton d’accès Drive même sans pièce encore déposée
     bar.hidden = false;
-    bar.classList.toggle("int-drive-bar--warn", !driveConfigured || (!hasRealFolder && simulatedCount > 0) || contactEmpty || primaryPropEmpty);
+    var contactStats = driveInfo.driveFolderStats || null;
+    var contactEmpty = contactStats && contactStats.isEmpty === true;
+    var primaryProp = folders.length ? folders[0] : null;
+    var primaryPropHasFiles = primaryProp && primaryProp.isEmpty === false;
+    var primaryPropEmpty = primaryProp && primaryProp.isEmpty === true;
+    bar.classList.toggle(
+      "int-drive-bar--warn",
+      !driveConfigured || (!hasRealFolder && simulatedCount > 0) || contactEmpty || primaryPropEmpty
+    );
     var status = document.getElementById("contactDriveStatus");
     var mainBtn = document.getElementById("btnOpenContactDrive");
     var propLinks = document.getElementById("contactDrivePropertyLinks");
-    var primaryProp = folders.length ? folders[0] : null;
-    var contactStats = driveInfo.driveFolderStats || null;
-    var contactEmpty = contactStats && contactStats.isEmpty === true;
-    var primaryPropHasFiles = primaryProp && primaryProp.isEmpty === false;
-    var primaryPropEmpty = primaryProp && primaryProp.isEmpty === true;
     if (status) {
-      if (!driveConfigured) {
+      if (!driveConfigured && !hasRealFolder) {
+        status.textContent = "Google Drive — cliquez pour créer / ouvrir le dossier";
+      } else if (!driveConfigured) {
         status.textContent = "Drive non configuré sur le serveur";
       } else if (simulatedCount > 0 && uploadConfigured) {
         status.textContent =
@@ -1247,6 +1248,8 @@
       } else if (!hasRealFolder && simulatedCount > 0) {
         status.textContent =
           simulatedCount + " pièce(s) archivée(s) CRM — dossier Drive à créer";
+      } else if (!hasAny) {
+        status.textContent = "Aucun dossier encore — créer / ouvrir Google Drive";
       } else {
         status.textContent =
           (hasDocs ? driveInfo.documents.length + " pièce(s) · " : "") + "Google Drive";
@@ -1276,8 +1279,10 @@
       mainBtn.hidden = false;
       if (driveTarget === "property" && primaryProp && primaryProp.webViewLink) {
         mainBtn.textContent = "Ouvrir dossier Drive (bien)";
-      } else if (contactUrl || driveConfigured) {
-        mainBtn.textContent = contactUrl ? "Ouvrir dossier Drive (contact)" : "Créer dossier Drive";
+      } else if (contactUrl) {
+        mainBtn.textContent = "Ouvrir dossier Drive (contact)";
+      } else if (driveConfigured || !hasRealFolder) {
+        mainBtn.textContent = "Créer / ouvrir dossier Drive";
       } else {
         mainBtn.textContent = "Configurer Drive";
       }
@@ -1292,7 +1297,8 @@
             !info.driveFolderWebViewLink &&
             !(info.propertyFolders && info.propertyFolders.length)
           ) {
-            window.open(info.setupUrl, "_blank", "noopener,noreferrer");
+            // Toujours tenter l’API d’abord (peut créer le dossier) ; sinon page setup
+            openContactDriveFolder(mainBtn);
             return;
           }
           openContactDriveFolder(mainBtn);
@@ -1825,6 +1831,7 @@
     renderHeader();
     renderDossier();
     bindSlackFiche();
+    renderDriveBar(data.driveInfo || {});
     renderKpis();
     renderDocuments();
     renderEligibility();

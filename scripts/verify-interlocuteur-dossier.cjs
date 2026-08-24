@@ -146,6 +146,13 @@ assert(creditHtml.indexOf("parcours_id") < 0, "HTML : pas de parcours_id brut");
 var dash = read("dashboard.html");
 assert(dash.indexOf("btnCreateInterlocuteur") >= 0, "dashboard : créer fiche");
 assert(dash.indexOf("interlocuteur-dossier-lib.js") >= 0, "dashboard : lib dossier");
+assert(dash.indexOf("onContactCreated") >= 0, "dashboard : refresh CTA après promote Drive");
+
+var qTools = read("js/crm-questionnaire-tools.js");
+assert(qTools.indexOf("data-crm-q-open-drive") >= 0, "toolbar : bouton Ouvrir Drive");
+assert(qTools.indexOf("openContactDrive") >= 0, "toolbar : openContactDrive");
+assert(qTools.indexOf("/api/crm/drive-folder") >= 0, "toolbar : API drive-folder");
+assert(html.indexOf("btnOpenContactDrive") >= 0, "fiche : bouton Drive contact");
 
 var life = read("api/_lib/routes/crm-lead-lifecycle.js");
 assert(life.indexOf("hydrateInterlocuteurFromLead") >= 0, "promote hydrate la fiche");

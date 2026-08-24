@@ -77,6 +77,128 @@
     return !!(E && E.canEditQuestionnaire && E.canEditQuestionnaire());
   }
 
+  function openUrl(url) {
+    if (!url) return false;
+    var win = window.open(url, "_blank", "noopener,noreferrer");
+    if (win) return true;
+    var a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    return true;
+  }
+
+  function authFetch(url, opts, authHeadersFn) {
+    opts = opts || {};
+    var headers = Object.assign({}, opts.headers || {});
+    if (typeof authHeadersFn === "function") {
+      headers = Object.assign(headers, authHeadersFn() || {});
+    } else if (authHeadersFn && typeof authHeadersFn === "object") {
+      headers = Object.assign(headers, authHeadersFn);
+    }
+    return fetch(url, Object.assign({}, opts, { headers: headers, credentials: "same-origin" })).then(function (r) {
+      return r.json().then(function (data) {
+        return { ok: r.ok, status: r.status, data: data };
+      });
+    });
+  }
+
+  /**
+   * Ouvre (ou crée) le dossier Google Drive du contact.
+   * Sans fiche interlocuteur : propose la création via promote, puis ouvre Drive.
+   */
+  function openContactDrive(ctx, opts) {
+    opts = opts || {};
+    ctx = ctx || {};
+    var btn = opts.button || null;
+    var prev = btn ? btn.textContent : "";
+    var authHeaders = opts.authHeaders;
+    var propertyId = ctx.propertyId || null;
+
+    function setBusy(label) {
+      if (!btn) return;
+      btn.disabled = true;
+      btn.setAttribute("aria-busy", "true");
+      if (label) btn.textContent = label;
+    }
+    function clearBusy() {
+      if (!btn) return;
+      btn.disabled = false;
+      btn.removeAttribute("aria-busy");
+      btn.textContent = prev || "Ouvrir Drive";
+    }
+
+    function fetchDrive(contactId) {
+      var apiPath = "/api/crm/drive-folder?contactId=" + encodeURIComponent(contactId);
+      if (propertyId) apiPath += "&propertyId=" + encodeURIComponent(propertyId);
+      setBusy("Ouverture Drive…");
+      return authFetch(apiPath, { method: "GET" }, authHeaders).then(function (res) {
+        var data = res.data || {};
+        var url = data.webViewLink || null;
+        if (url) {
+          openUrl(url);
+          if (typeof opts.onOpened === "function") opts.onOpened(data);
+          return data;
+        }
+        var msg =
+          data.error ||
+          "Impossible d'ouvrir le dossier Drive. Vérifiez la configuration Google Drive.";
+        if (data.setupUrl && window.confirm(msg + "\n\nOuvrir la page de configuration Drive ?")) {
+          openUrl(data.setupUrl);
+        } else {
+          window.alert(msg);
+        }
+        return data;
+      });
+    }
+
+    function ensureContactId() {
+      if (ctx.contactId) return Promise.resolve(ctx.contactId);
+      if (!ctx.leadId) {
+        window.alert("Créez d’abord la fiche interlocuteur pour ouvrir le Drive.");
+        return Promise.reject(new Error("no_contact"));
+      }
+      if (
+        !window.confirm(
+          "Aucune fiche interlocuteur pour ce lead.\n\nCréer la fiche maintenant et ouvrir son dossier Google Drive ?"
+        )
+      ) {
+        return Promise.reject(new Error("cancelled"));
+      }
+      setBusy("Création fiche…");
+      return authFetch(
+        "/api/crm/lead-lifecycle",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "promote", leadId: ctx.leadId }),
+        },
+        authHeaders
+      ).then(function (res) {
+        var data = res.data || {};
+        if (!data.ok || !data.contactId) {
+          throw new Error(data.error || "Impossible de créer la fiche interlocuteur");
+        }
+        ctx.contactId = data.contactId;
+        if (typeof opts.onContactCreated === "function") opts.onContactCreated(data.contactId, data);
+        return data.contactId;
+      });
+    }
+
+    return ensureContactId()
+      .then(fetchDrive)
+      .catch(function (err) {
+        if (err && (err.message === "cancelled" || err.message === "no_contact")) return null;
+        window.alert((err && err.message) || "Erreur réseau — Drive indisponible.");
+        return null;
+      })
+      .finally(clearBusy);
+  }
+
   function renderToolbar(ctx, opts) {
     opts = opts || {};
     ctx = ctx || {};
@@ -101,6 +223,12 @@
         esc(opts.mailboxUrl) +
         '">← Messagerie questionnaires</a>';
     }
+    if (opts.showDrive !== false && (ctx.contactId || ctx.leadId)) {
+      html +=
+        '<button type="button" class="btn btn-primary btn-sm" data-crm-q-open-drive title="Ouvrir ou créer le dossier Google Drive">' +
+        (ctx.contactId ? "Ouvrir Drive" : "Créer fiche + Drive") +
+        "</button>";
+    }
     if (opts.showUpload !== false) {
       html +=
         '<button type="button" class="btn btn-ghost btn-sm" data-crm-q-scroll-docs>Déposer des pièces</button>';
@@ -119,6 +247,10 @@
     var scrollDocs = container.querySelector("[data-crm-q-scroll-docs]");
     if (scrollDocs && handlers.onScrollDocs) {
       scrollDocs.addEventListener("click", handlers.onScrollDocs);
+    }
+    var driveBtn = container.querySelector("[data-crm-q-open-drive]");
+    if (driveBtn && handlers.onOpenDrive) {
+      driveBtn.addEventListener("click", handlers.onOpenDrive);
     }
   }
 
@@ -465,6 +597,19 @@
       onScrollDocs: function () {
         scrollToDocs(root);
       },
+      onOpenDrive: function (ev) {
+        var btn = ev && ev.currentTarget ? ev.currentTarget : root.querySelector("[data-crm-q-open-drive]");
+        openContactDrive(ctx, {
+          button: btn,
+          authHeaders: opts.authHeaders,
+          onContactCreated: function (contactId) {
+            ctx.contactId = contactId;
+            if (btn) btn.textContent = "Ouvrir Drive";
+            if (typeof opts.onContactCreated === "function") opts.onContactCreated(contactId);
+          },
+          onOpened: opts.onDriveOpened,
+        });
+      },
     });
 
     renderAnswersView();
@@ -481,6 +626,7 @@
     buildResumeUrl: buildResumeUrl,
     buildMailboxUrl: buildMailboxUrl,
     canEdit: canEdit,
+    openContactDrive: openContactDrive,
     renderToolbar: renderToolbar,
     bindToolbar: bindToolbar,
     scrollToDocs: scrollToDocs,
