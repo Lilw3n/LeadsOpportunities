@@ -47,6 +47,8 @@
     if (ctx.email) params.set("email", ctx.email);
     if (ctx.phone) params.set("phone", ctx.phone);
     params.set("source", "crm_resume");
+    params.set("reprise", "1");
+    if (canEdit()) params.set("mode", "conseiller");
 
     var v = normalizeVertical(vertical);
     if (v.indexOf("vendeur") >= 0 && v.indexOf("acheteur") >= 0) {
@@ -224,7 +226,9 @@
     html +=
       '<a class="btn btn-ghost btn-sm" href="' +
       esc(resumeUrl) +
-      '" target="_blank" rel="noopener">Ouvrir le parcours questionnaire</a>';
+      '" target="_blank" rel="noopener">' +
+      (canEdit() ? "Reprendre le questionnaire prérempli" : "Ouvrir le parcours questionnaire") +
+      "</a>";
     if (opts.mailboxUrl) {
       html +=
         '<a class="btn btn-ghost btn-sm" href="' +

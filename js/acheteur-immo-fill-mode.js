@@ -25,10 +25,14 @@
     }
   }
 
-  /** Réservé au site admin (pas aux visiteurs / clients). */
+  /** Réservé au site admin / CRM (pas aux visiteurs / clients). */
   function isSiteAdmin() {
+    var g = window.CrmAdminGuard;
+    if (g && typeof g.isSiteAdmin === "function" && g.isSiteAdmin()) return true;
     var u = readUser();
-    return u.role === "admin" || u.isSiteAdmin === true;
+    if (u.role === "admin" || u.isSiteAdmin === true) return true;
+    var crm = String(u.crmRole || u.crm_role || "").toLowerCase();
+    return crm === "admin" || crm === "staff";
   }
 
   function canUseConseillerMode() {
@@ -131,7 +135,12 @@
       });
     });
 
-    setMode(currentMode(), { updateUrl: !getModeFromUrl() });
+    var urlMode = getModeFromUrl();
+    var params = new URLSearchParams(window.location.search);
+    var autoConseiller = !urlMode && params.get("source") === "crm_resume";
+    setMode(urlMode || (autoConseiller ? "conseiller" : currentMode()), {
+      updateUrl: !urlMode && !autoConseiller,
+    });
     prefillConseiller();
   }
 

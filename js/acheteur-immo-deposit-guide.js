@@ -703,6 +703,35 @@
       return;
     }
 
+    var urlCtx = urlResumeContext();
+    if (urlCtx.crmResume || urlCtx.leadId) {
+      if (urlCtx.leadId) {
+        try {
+          localStorage.setItem(LEAD_ID_KEY, urlCtx.leadId);
+        } catch (e) {}
+        if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
+          global.QuoteIntelligence.setDraftLeadId(urlCtx.leadId);
+        }
+      }
+      tryRestoreFromServer(
+        root,
+        { silent: false, creds: resumeCredentials(), crmResume: urlCtx.crmResume },
+        function (found) {
+          if (!found) {
+            setActiveDraftId(createDraftId());
+            showDraftToast(
+              urlCtx.crmResume
+                ? "Aucune donnée enregistrée pour ce dossier — complétez le formulaire à la place du client."
+                : "Aucun brouillon trouvé pour cet identifiant."
+            );
+          }
+          updateDraftBanner();
+          updateSessionHint(root);
+        }
+      );
+      return;
+    }
+
     if (reprise && reprise !== "1") {
       setActiveDraftId(reprise);
       restoreDraftById(reprise, { silent: false });
@@ -884,22 +913,35 @@
     writeDraftRecord(draft, leadId);
   }
 
+  function urlResumeContext() {
+    var params = new URLSearchParams(location.search);
+    return {
+      leadId: (params.get("leadId") || "").trim(),
+      email: (params.get("email") || "").trim().toLowerCase(),
+      phone: (params.get("phone") || "").trim(),
+      crmResume: params.get("source") === "crm_resume",
+    };
+  }
+
   function resumeCredentials() {
+    var urlCtx = urlResumeContext();
     var form = qs("[data-url-capture-form]");
-    var email = sessionEmail();
-    var phone = "";
+    var email = urlCtx.email || sessionEmail();
+    var phone = urlCtx.phone || "";
     if (form) {
       var em = form.querySelector("[name='email']");
       var ph = form.querySelector("[name='phone']");
       if (em && String(em.value || "").trim()) email = String(em.value).trim().toLowerCase();
       if (ph && String(ph.value || "").trim()) phone = String(ph.value).trim();
     }
-    var leadId = null;
-    try {
-      leadId = localStorage.getItem(LEAD_ID_KEY);
-    } catch (e) {}
-    if (global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
-      leadId = leadId || global.QuoteIntelligence.getDraftLeadId();
+    var leadId = urlCtx.leadId || null;
+    if (!leadId) {
+      try {
+        leadId = localStorage.getItem(LEAD_ID_KEY);
+      } catch (e) {}
+    }
+    if (!leadId && global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
+      leadId = global.QuoteIntelligence.getDraftLeadId();
     }
     return { email: email, phone: phone, leadId: leadId };
   }
@@ -939,7 +981,11 @@
       setActiveDraftId(id);
       restoreDraftById(id, { silent: !!opts.silent, fromServer: true });
       if (!opts.silent) {
-        showDraftToast(data.message || "Dossier repris depuis votre espace client.");
+        var msg = data.message || "Dossier repris depuis votre espace client.";
+        if (opts.crmResume) {
+          msg = "Dossier repris depuis le CRM — complétez ou corrigez puis renvoyez.";
+        }
+        showDraftToast(msg);
       }
       if (typeof done === "function") done(true);
     });
