@@ -783,10 +783,18 @@
                 </details>
 
                 <details class="immo-vente-block" open>
-                  <summary>Typologie annonce &amp; bien</summary>
-                  <p class="small" style="margin:8px 0 10px;color:#64748b">Type d'annonce, catégorie, sous-type (liste CRM), copropriété, activité pro et environnement.</p>
+                  <summary>Informations publiques</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Titre, description, typologie, prix, disponibilité, DPE et fiscalité — alignés fiche CRM.</p>
                   <p class="small" data-listing-taxonomy-hint hidden style="color:#b91c1c;margin:0 0 10px">Complétez le type d'annonce, le type et le sous-type de bien.</p>
                   <div class="grid" style="margin-top:12px">
+                    <div class="field full">
+                      <label for="sellListingTitle">Titre de l'annonce</label>
+                      <input id="sellListingTitle" name="sellListingTitle" data-optional placeholder="Ex. Nancy - 3 pièce(s) - 85 m²" />
+                    </div>
+                    <div class="field full">
+                      <label for="sellDescription">Description</label>
+                      <textarea id="sellDescription" name="sellDescription" rows="5" data-optional placeholder="Terrasse, véranda, classe énergie, prix…"></textarea>
+                    </div>
                     <div class="field">
                       <label for="sellListingType">Type d'annonce</label>
                       <select id="sellListingType" name="sellListingType" data-search-vente-required></select>
@@ -796,7 +804,7 @@
                       <select id="sellPropertyCategory" name="sellPropertyCategory" data-search-vente-required></select>
                     </div>
                     <div class="field">
-                      <label for="sellCoproStatus">Statut de la copropriété</label>
+                      <label for="sellCoproStatus">Bien soumis au statut de la copropriété</label>
                       <select id="sellCoproStatus" name="sellCoproStatus" data-optional></select>
                     </div>
                     <div class="field full">
@@ -839,6 +847,45 @@
                         <label class="search-chip"><input type="radio" name="sellPriceDisplay" value="nous_consulter" data-optional /><span>Prix : nous consulter</span></label>
                       </div>
                     </div>
+                    <div class="field full">
+                      <label for="sellAvailabilityFilter">Rechercher une disponibilité</label>
+                      <input id="sellAvailabilityFilter" type="search" placeholder="Ex. immédiate, viager, fin de location…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellAvailability">Disponibilité</label>
+                      <select id="sellAvailability" name="sellAvailability" data-optional></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellAvailabilityStart">Début de disponibilité</label>
+                      <input id="sellAvailabilityStart" name="sellAvailabilityStart" type="date" data-optional />
+                    </div>
+                    <div class="field full">
+                      <span class="search-section-label" style="margin:12px 0 0">DPE / GES / énergie</span>
+                    </div>
+                    <div class="field full">
+                      <label class="field-check"><input type="checkbox" name="sellDpeExempt" value="1" data-optional /> Non soumis au DPE</label>
+                    </div>
+                    <div class="field"><label for="sellDpeDate">Date de réalisation du DPE</label><input id="sellDpeDate" name="sellDpeDate" type="date" data-optional /></div>
+                    <div class="field"><label for="sellDpeRefSurface">Surface de référence DPE (m²)</label><input id="sellDpeRefSurface" name="sellDpeRefSurface" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellDpe">DPE (lettre)</label>
+                      <select id="sellDpe" name="sellDpe" data-optional>
+                        <option value="">—</option>
+                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                        <option>E</option><option>F</option><option>G</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellDpeKwh">DPE (kWh/m²/an)</label><input id="sellDpeKwh" name="sellDpeKwh" inputmode="numeric" data-optional placeholder="Ex. 120" /></div>
+                    <div class="field"><label for="sellGes">GES (lettre)</label>
+                      <select id="sellGes" name="sellGes" data-optional>
+                        <option value="">—</option>
+                        <option>A</option><option>B</option><option>C</option><option>D</option>
+                        <option>E</option><option>F</option><option>G</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellGesKg">GES (kg CO₂/m²/an)</label><input id="sellGesKg" name="sellGesKg" inputmode="numeric" data-optional placeholder="Ex. 25" /></div>
+                    <div class="field"><label for="sellEnergyCostAnnual">Montant estimé dépenses annuelles d'énergie (€)</label><input id="sellEnergyCostAnnual" name="sellEnergyCostAnnual" inputmode="numeric" data-optional placeholder="Ex. 1200" /></div>
+                    <div class="field"><label for="sellTaxeFonciere">Taxe foncière (€/an)</label><input id="sellTaxeFonciere" name="sellTaxeFonciere" inputmode="numeric" data-optional placeholder="Ex. 677" /></div>
+                    <div class="field"><label for="sellTaxeHabitation">Taxe d'habitation (€/an)</label><input id="sellTaxeHabitation" name="sellTaxeHabitation" inputmode="numeric" data-optional /></div>
                   </div>
                   <input type="hidden" id="sellPropertyTypeLegacy" name="sellPropertyTypeLegacy" value="" />
                 </details>
@@ -862,20 +909,6 @@
                     <div class="field"><label for="sellLivingSurface">Surf. séjour (m²)</label><input id="sellLivingSurface" name="sellLivingSurface" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellLandSurface">Surf. terrain (m²)</label><input id="sellLandSurface" name="sellLandSurface" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellLevels">Nb. niveaux</label><input id="sellLevels" name="sellLevels" inputmode="numeric" data-optional /></div>
-                    <div class="field"><label for="sellDpe">DPE</label>
-                      <select id="sellDpe" name="sellDpe" data-optional>
-                        <option value="">—</option>
-                        <option>A</option><option>B</option><option>C</option><option>D</option>
-                        <option>E</option><option>F</option><option>G</option>
-                      </select>
-                    </div>
-                    <div class="field"><label for="sellGes">GES</label>
-                      <select id="sellGes" name="sellGes" data-optional>
-                        <option value="">—</option>
-                        <option>A</option><option>B</option><option>C</option><option>D</option>
-                        <option>E</option><option>F</option><option>G</option>
-                      </select>
-                    </div>
                     <div class="field"><label for="sellOrientation">Orientation principale</label><input id="sellOrientation" name="sellOrientation" data-optional placeholder="Sud, EST…" /></div>
                     <div class="field"><label for="sellView">Vue</label><input id="sellView" name="sellView" data-optional placeholder="Dégagée, parc, rue…" /></div>
                     <div class="field"><label for="sellMitoyennete">Mitoyenneté</label><input id="sellMitoyennete" name="sellMitoyennete" data-optional placeholder="1 côté, pavillon…" /></div>
@@ -921,10 +954,6 @@
                     <div class="field full">
                       <label for="sellListingUrl">URL annonce</label>
                       <input id="sellListingUrl" name="sellListingUrl" type="url" data-optional placeholder="https://…" />
-                    </div>
-                    <div class="field full">
-                      <label for="sellDescription">Informations complémentaires</label>
-                      <textarea id="sellDescription" name="sellDescription" rows="3" data-optional placeholder="100% électrique, refait par le propriétaire…"></textarea>
                     </div>
                   </div>
 
@@ -991,18 +1020,6 @@
                   <summary>Disponibilité, occupation &amp; visites</summary>
                   <div class="grid" style="margin-top:12px">
                     <div class="field full">
-                      <label for="sellAvailabilityFilter">Rechercher une disponibilité</label>
-                      <input id="sellAvailabilityFilter" type="search" placeholder="Ex. immédiate, viager, fin de location…" autocomplete="off" data-optional />
-                    </div>
-                    <div class="field">
-                      <label for="sellAvailability">Disponibilité</label>
-                      <select id="sellAvailability" name="sellAvailability" data-optional></select>
-                    </div>
-                    <div class="field">
-                      <label for="sellAvailabilityStart">Début de disponibilité</label>
-                      <input id="sellAvailabilityStart" name="sellAvailabilityStart" type="date" data-optional />
-                    </div>
-                    <div class="field full">
                       <label class="field-check"><input type="checkbox" name="sellFurnished" value="1" data-optional /> Meublé</label>
                     </div>
                     <div class="field"><label for="sellTenantName">Locataire / occupant</label><input id="sellTenantName" name="sellTenantName" data-optional /></div>
@@ -1041,8 +1058,7 @@
                     <div class="field"><label for="sellTantiemes">Tantièmes</label><input id="sellTantiemes" name="sellTantiemes" data-optional /></div>
                     <div class="field"><label for="sellChargesAnnual">Charges annuelles (€)</label><input id="sellChargesAnnual" name="sellChargesAnnual" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellChargesMonthly">Moyenne mensuelle (€)</label><input id="sellChargesMonthly" name="sellChargesMonthly" inputmode="numeric" data-optional /></div>
-                    <div class="field"><label for="sellTaxeFonciere">Taxe foncière (€/an)</label><input id="sellTaxeFonciere" name="sellTaxeFonciere" inputmode="numeric" data-optional placeholder="Ex. 500/600" /></div>
-                    <div class="field"><label for="sellTaxeHabitation">Taxe d'habitation (€/an)</label><input id="sellTaxeHabitation" name="sellTaxeHabitation" inputmode="numeric" data-optional /></div>
+                    <p class="small full" style="color:#64748b;margin:0">Taxe foncière et habitation : voir bloc <strong>Informations publiques</strong>.</p>
                     <div class="field"><label for="sellCoproLots">Nombre de lots (copro)</label><input id="sellCoproLots" name="sellCoproLots" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellCoproLotsBuilding">Lots dans l'immeuble</label><input id="sellCoproLotsBuilding" name="sellCoproLotsBuilding" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellWorkFund">Fonds travaux ALUR (€)</label><input id="sellWorkFund" name="sellWorkFund" inputmode="numeric" data-optional placeholder="Montant disponible" /></div>

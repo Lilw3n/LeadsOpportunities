@@ -26,8 +26,9 @@
 
   var COPRO_STATUS = [
     { v: "", t: "— Choisir —" },
-    { v: "oui", t: "Oui — bien soumis au statut de la copropriété" },
-    { v: "non", t: "Non — pas de copropriété" },
+    { v: "oui", t: "Oui" },
+    { v: "non_vefa", t: "Non/VEFA" },
+    { v: "non", t: "Non" },
     { v: "na", t: "Non applicable / non renseigné" },
   ];
 
