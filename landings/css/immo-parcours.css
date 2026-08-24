@@ -273,11 +273,52 @@ a.immo-parcours-link:hover {
   flex-wrap: wrap;
   gap: 10px 14px;
   margin-bottom: 10px;
+  align-items: center;
+}
+
+.immo-salutation-row--wrap {
+  align-items: flex-start;
 }
 
 .immo-salutation {
   font-size: 0.88rem;
   font-weight: 600;
+}
+
+.immo-salutation--wide {
+  font-weight: 500;
+}
+
+.immo-owner-req-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-right: 4px;
+}
+
+.immo-owner-section-title {
+  margin: 14px 0 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f766e;
+}
+
+.immo-owner-hint {
+  margin: 6px 0 0;
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.immo-owner-card textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
 }
 
 .immo-rooms-wrap {

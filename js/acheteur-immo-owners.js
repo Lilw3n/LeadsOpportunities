@@ -1,5 +1,5 @@
 /**
- * Bloc propriétaires répétables — fiche Laforêt (projet de vente).
+ * Bloc propriétaires répétables — fiche vente (aligné fiche Contact / Informations).
  */
 (function () {
   var MAX_OWNERS = 6;
@@ -13,6 +13,13 @@
     { v: "mandataire", t: "Mandataire / représentant" },
     { v: "heritier", t: "Héritier" },
     { v: "autre", t: "Autre" },
+  ];
+
+  var MARITAL_OPTS = [
+    { v: "mariage", t: "Mariage" },
+    { v: "pacs", t: "PACS" },
+    { v: "concubinage", t: "Concubinage" },
+    { v: "celibataire", t: "Célibataire / veuf(ve) / divorcé(e)" },
   ];
 
   function esc(s) {
@@ -37,29 +44,71 @@
     }).join("");
   }
 
-  function salutationRadios(index, data) {
-    var name = "ownerSalutation_" + index;
-    var vals = [
-      { v: "M", t: "M." },
-      { v: "Mme", t: "Mme" },
-      { v: "Mlle", t: "Mlle" },
-    ];
-    return vals
-      .map(function (o) {
-        var checked = (data.salutation || (index === 0 ? "M" : "")) === o.v ? " checked" : "";
+  /** Genre Homme / Femme (+ rétrocompat civilité M/Mme/Mlle). */
+  function normalizeGender(data) {
+    var g = data.gender || data.genre || "";
+    if (g === "Homme" || g === "H" || g === "M" || g === "homme") return "Homme";
+    if (g === "Femme" || g === "F" || g === "Mme" || g === "Mlle" || g === "femme") return "Femme";
+    var s = data.salutation || "";
+    if (s === "M") return "Homme";
+    if (s === "Mme" || s === "Mlle") return "Femme";
+    return "";
+  }
+
+  function genderRadios(index, data) {
+    var name = "ownerGender_" + index;
+    var cur = normalizeGender(data);
+    return ["Homme", "Femme"]
+      .map(function (v) {
+        var checked = cur === v ? " checked" : "";
         return (
           '<label class="immo-salutation"><input type="radio" name="' +
           name +
           '" value="' +
-          o.v +
-          '" data-owner-field="salutation"' +
+          v +
+          '" data-owner-field="gender"' +
           checked +
           " /> " +
-          o.t +
+          v +
           "</label>"
         );
       })
       .join("");
+  }
+
+  function maritalRadios(index, data) {
+    var name = "ownerMarital_" + index;
+    var cur = data.maritalStatus || data.situationFamiliale || "";
+    return MARITAL_OPTS.map(function (o) {
+      var checked = cur === o.v ? " checked" : "";
+      return (
+        '<label class="immo-salutation immo-salutation--wide"><input type="radio" name="' +
+        name +
+        '" value="' +
+        esc(o.v) +
+        '" data-owner-field="maritalStatus"' +
+        checked +
+        " /> " +
+        esc(o.t) +
+        "</label>"
+      );
+    }).join("");
+  }
+
+  function field(label, name, attr, value, extraClass) {
+    return (
+      '<div class="field' +
+      (extraClass ? " " + extraClass : "") +
+      '"><label>' +
+      label +
+      '</label><input name="' +
+      name +
+      '" ' +
+      attr +
+      ' value="' +
+      esc(value || "") +
+      '" /></div>'
+    );
   }
 
   function ownerCardHtml(index, data) {
@@ -67,6 +116,8 @@
     var n = index + 1;
     var removable = index > 0;
     var mailChecked = data.mailRecipient || index === 0 ? " checked" : "";
+    var lastName = data.lastName || data.usageName || "";
+    var birthName = data.birthName || data.maidenName || "";
     return (
       '<article class="immo-owner-card" data-owner-index="' +
       index +
@@ -80,34 +131,144 @@
         ? '<button type="button" class="immo-owner-remove" data-owner-remove aria-label="Retirer">Retirer</button>'
         : "") +
       "</div>" +
-      '<div class="immo-salutation-row" role="group" aria-label="Civilite">' +
-      salutationRadios(index, data) +
+      '<p class="immo-owner-section-title">Informations</p>' +
+      '<div class="immo-salutation-row" role="group" aria-label="Genre">' +
+      '<span class="immo-owner-req-label">Genre</span>' +
+      genderRadios(index, data) +
       "</div>" +
       '<div class="grid">' +
-      '<div class="field"><label>Rôle / qualité</label><select name="ownerRole[]" data-owner-field="role"><option value="">— Choisir —</option>' +
+      field(
+        "Nom d'usage *",
+        "ownerLastName[]",
+        'data-owner-field="lastName" autocomplete="family-name" required placeholder="Ex. HAFFNER"',
+        lastName
+      ) +
+      field(
+        "Nom de naissance",
+        "ownerBirthName[]",
+        'data-owner-field="birthName" autocomplete="additional-name" placeholder="Ex. GAUTHER"',
+        birthName
+      ) +
+      field(
+        "Prénom *",
+        "ownerFirstName[]",
+        'data-owner-field="firstName" autocomplete="given-name" required placeholder="Ex. Michèle"',
+        data.firstName || ""
+      ) +
+      field(
+        "Profession",
+        "ownerProfession[]",
+        'data-owner-field="profession" autocomplete="organization-title" placeholder="Ex. Retraitée"',
+        data.profession || ""
+      ) +
+      "</div>" +
+      '<div class="immo-salutation-row immo-salutation-row--wrap" role="group" aria-label="Situation familiale">' +
+      '<span class="immo-owner-req-label">Situation familiale</span>' +
+      maritalRadios(index, data) +
+      "</div>" +
+      '<div class="grid">' +
+      field(
+        "Date du mariage / PACS / divorce",
+        "ownerMaritalDate[]",
+        'data-owner-field="maritalDate" type="date" placeholder="jj/mm/aaaa"',
+        data.maritalDate || ""
+      ) +
+      field(
+        "Lieu du mariage / PACS / divorce",
+        "ownerMaritalPlace[]",
+        'data-owner-field="maritalPlace" placeholder="Ville"',
+        data.maritalPlace || ""
+      ) +
+      field(
+        "Forme du contrat de mariage",
+        "ownerMarriageContract[]",
+        'data-owner-field="marriageContract" placeholder="Ex. communauté réduite aux acquêts"',
+        data.marriageContract || "",
+        "full"
+      ) +
+      field(
+        "Notaire rédacteur",
+        "ownerNotary[]",
+        'data-owner-field="notary" placeholder="Rechercher / nom du notaire…"',
+        data.notary || "",
+        "full"
+      ) +
+      field(
+        "Ajouté par",
+        "ownerAddedBy[]",
+        'data-owner-field="addedBy" placeholder="Ex. Wendy Buchet"',
+        data.addedBy || "Wendy Buchet"
+      ) +
+      field(
+        "Date de naissance",
+        "ownerBirthDate[]",
+        'data-owner-field="birthDate" type="date" placeholder="jj/mm/aaaa"',
+        data.birthDate || ""
+      ) +
+      field(
+        "Lieu de naissance",
+        "ownerBirthPlace[]",
+        'data-owner-field="birthPlace" placeholder="Ville / pays"',
+        data.birthPlace || ""
+      ) +
+      field(
+        "Nationalité",
+        "ownerNationality[]",
+        'data-owner-field="nationality" placeholder="Française"',
+        data.nationality || ""
+      ) +
+      field(
+        "N° sécurité sociale",
+        "ownerSocialSecurity[]",
+        'data-owner-field="socialSecurity" inputmode="numeric" autocomplete="off" placeholder="15 chiffres"',
+        data.socialSecurity || ""
+      ) +
+      field(
+        "Numéro d'identité nationale",
+        "ownerNationalId[]",
+        'data-owner-field="nationalId" autocomplete="off" placeholder="CNI / passeport…"',
+        data.nationalId || ""
+      ) +
+      '<div class="field full"><label>Commentaires</label><textarea name="ownerComments[]" data-owner-field="comments" rows="3" placeholder="Notes internes…">' +
+      esc(data.comments || "") +
+      "</textarea></div>" +
+      '<div class="field full"><label>Rôle / qualité</label><select name="ownerRole[]" data-owner-field="role"><option value="">— Choisissez un élément —</option>' +
       roleOptions(data.role) +
-      "</select></div>" +
-      '<div class="field"><label>Prénom</label><input name="ownerFirstName[]" data-owner-field="firstName" autocomplete="given-name" placeholder="Ex. Jean" value="' +
-      esc(data.firstName || "") +
-      '" /></div>' +
-      '<div class="field"><label>Nom</label><input name="ownerLastName[]" data-owner-field="lastName" autocomplete="family-name" placeholder="Ex. Dupont" value="' +
-      esc(data.lastName || "") +
-      '" /></div>' +
-      '<div class="field full"><label>Adresse postale</label><input name="ownerAddress[]" data-owner-field="address" autocomplete="street-address" placeholder="Rue, numéro…" value="' +
-      esc(data.address || "") +
-      '" /></div>' +
-      '<div class="field"><label>Code postal</label><input name="ownerPostal[]" data-owner-field="postal" inputmode="numeric" maxlength="5" placeholder="75011" value="' +
-      esc(data.postal || "") +
-      '" /></div>' +
-      '<div class="field"><label>Ville</label><input name="ownerCity[]" data-owner-field="city" autocomplete="address-level2" placeholder="Paris" value="' +
-      esc(data.city || "") +
-      '" /></div>' +
-      '<div class="field"><label>Téléphone</label><input name="ownerPhone[]" data-owner-field="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="06 12 34 56 78" value="' +
-      esc(data.phone || "") +
-      '" /></div>' +
-      '<div class="field"><label>E-mail</label><input name="ownerEmail[]" data-owner-field="email" type="email" autocomplete="email" placeholder="vous@email.fr" value="' +
-      esc(data.email || "") +
-      '" /></div>' +
+      '</select><p class="immo-owner-hint">Les autres rôles (propriétaire, acquéreur, agent…) peuvent être assignés automatiquement selon le dossier.</p></div>' +
+      "</div>" +
+      '<p class="immo-owner-section-title">Coordonnées</p>' +
+      '<div class="grid">' +
+      field(
+        "Adresse postale",
+        "ownerAddress[]",
+        'data-owner-field="address" autocomplete="street-address" placeholder="Rue, numéro…"',
+        data.address || "",
+        "full"
+      ) +
+      field(
+        "Code postal",
+        "ownerPostal[]",
+        'data-owner-field="postal" inputmode="numeric" maxlength="5" placeholder="75011"',
+        data.postal || ""
+      ) +
+      field(
+        "Ville",
+        "ownerCity[]",
+        'data-owner-field="city" autocomplete="address-level2" placeholder="Paris"',
+        data.city || ""
+      ) +
+      field(
+        "Téléphone *",
+        "ownerPhone[]",
+        'data-owner-field="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="06 12 34 56 78"',
+        data.phone || ""
+      ) +
+      field(
+        "E-mail *",
+        "ownerEmail[]",
+        'data-owner-field="email" type="email" autocomplete="email" placeholder="vous@email.fr"',
+        data.email || ""
+      ) +
       '<div class="field full"><label class="field-check"><input type="radio" name="ownerMailRecipient" value="' +
       index +
       '"' +
@@ -121,12 +282,18 @@
     return Array.prototype.slice.call(mount.querySelectorAll(".immo-owner-card")).map(function (card, index) {
       var o = { index: index };
       card.querySelectorAll("[data-owner-field]").forEach(function (el) {
+        var key = el.getAttribute("data-owner-field");
         if (el.type === "radio") {
-          if (el.checked) o[el.getAttribute("data-owner-field")] = el.value;
-        } else {
-          o[el.getAttribute("data-owner-field")] = (el.value || "").trim();
+          if (el.checked) o[key] = el.value;
+          return;
+        }
+        if (el.tagName === "TEXTAREA" || el.tagName === "SELECT" || el.tagName === "INPUT") {
+          o[key] = (el.value || "").trim();
         }
       });
+      // rétrocompat civilité
+      if (o.gender === "Homme") o.salutation = "M";
+      if (o.gender === "Femme") o.salutation = "Mme";
       var mail = card.querySelector("[data-owner-mail]");
       o.mailRecipient = !!(mail && mail.checked);
       return o;

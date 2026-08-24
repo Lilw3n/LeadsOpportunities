@@ -229,7 +229,12 @@
       o.owners = Array.prototype.map.call(cards, function (card) {
         var row = {};
         card.querySelectorAll("[data-owner-field]").forEach(function (el) {
-          row[el.getAttribute("data-owner-field")] = (el.value || "").trim();
+          var key = el.getAttribute("data-owner-field");
+          if (el.type === "radio") {
+            if (el.checked) row[key] = el.value;
+            return;
+          }
+          row[key] = (el.value || "").trim();
         });
         row.mailRecipient = !!(card.querySelector("[data-owner-mail]") && card.querySelector("[data-owner-mail]").checked);
         return row;
