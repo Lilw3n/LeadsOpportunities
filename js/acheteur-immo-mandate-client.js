@@ -27,6 +27,8 @@
     if (window.ImmoTracfinMandate && window.ImmoTracfinMandate.syncVisibility) {
       window.ImmoTracfinMandate.syncVisibility(wrap);
     }
+    var rgpdHint = document.querySelector("[data-rgpd-mandate-hint]");
+    if (rgpdHint) rgpdHint.hidden = !open;
   }
 
   function bind(root) {

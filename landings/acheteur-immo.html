@@ -1330,6 +1330,37 @@
                   </div>
                 </details>
 
+                <details class="immo-vente-block" open data-rgpd-confirmation-block>
+                  <summary>Confirmation</summary>
+                  <section class="immo-rgpd-confirm">
+                    <p class="immo-rgpd-confirm-lead">
+                      Selon les articles <strong>4</strong>, <strong>6</strong> et <strong>7</strong> du RGPD, lorsque le traitement de données à des fins de prospection commerciale par voie électronique (newsletter, SMS…) n'est pas justifié par l'exécution d'un contrat (<strong>mandat</strong>, compromis, bail), par une obligation légale ou par une relation client antérieure, il doit reposer sur le <strong>consentement</strong> de la personne.
+                    </p>
+                    <p class="immo-rgpd-confirm-note">
+                      Ce consentement doit permettre à la personne de comprendre comment ses données seront traitées, de choisir librement d'accepter ou non ce traitement, et de revenir librement sur son choix.
+                    </p>
+                    <p class="immo-rgpd-confirm-mandate-hint" data-rgpd-mandate-hint hidden>
+                      <strong>Mandat en cours de constitution :</strong> la simple intention de mandat ne couvre pas la newsletter / SMS — le consentement ci-dessous reste nécessaire tant qu'aucun mandat signé n'existe.
+                    </p>
+                    <p class="immo-rgpd-confirm-question" data-rgpd-question-client>
+                      <strong>Acceptez-vous de recevoir des informations commerciales</strong> (newsletter, SMS…) dans les conditions décrites ci-dessus ? Consultez aussi notre <a href="../politique-confidentialite.html">politique de confidentialité</a>.
+                    </p>
+                    <p class="immo-rgpd-confirm-question" data-rgpd-question-conseiller hidden>
+                      <strong>Ce consentement a-t-il été collecté et la personne informée de ses droits en la matière ?</strong>
+                    </p>
+                    <div class="immo-rgpd-confirm-actions" data-rgpd-confirm-actions role="radiogroup" aria-label="Confirmation RGPD prospection">
+                      <label class="immo-rgpd-confirm-btn immo-rgpd-confirm-btn--no">
+                        <input type="radio" name="sellMarketingConsent" value="0" />
+                        <span>Non</span>
+                      </label>
+                      <label class="immo-rgpd-confirm-btn immo-rgpd-confirm-btn--yes">
+                        <input type="radio" name="sellMarketingConsent" value="1" />
+                        <span>Oui</span>
+                      </label>
+                    </div>
+                  </section>
+                </details>
+
                 <details class="immo-vente-block" open>
                   <summary>Pièces justificatives à fournir (checklist)</summary>
                   <p class="small" style="margin:8px 0 8px;color:#64748b">Cochez ce que le vendeur peut déjà transmettre. Les pièces manquantes seront demandées au notaire ou via Google Drive.</p>
@@ -2183,6 +2214,7 @@
   <script src="../js/acheteur-immo-copro-works.js"></script>
   <script src="../js/immo-sell-docs-checklist.js"></script>
   <script src="../js/immo-tracfin-mandate.js"></script>
+  <script src="../js/immo-rgpd-confirmation.js"></script>
   <script src="../js/acheteur-immo-mandate-client.js"></script>
   <script src="../js/acheteur-immo-laforet-extras.js"></script>
   <script src="../js/acheteur-immo-sell-photos.js"></script>

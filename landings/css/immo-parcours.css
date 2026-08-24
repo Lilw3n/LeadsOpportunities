@@ -916,6 +916,71 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   font-weight: 400;
 }
 
+.immo-rgpd-confirm {
+  padding: 4px 0 0;
+}
+.immo-rgpd-confirm-lead,
+.immo-rgpd-confirm-note,
+.immo-rgpd-confirm-mandate-hint {
+  margin: 0 0 12px;
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: #334155;
+}
+.immo-rgpd-confirm-mandate-hint {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  color: #312e81;
+}
+.immo-rgpd-confirm-question {
+  margin: 0 0 14px;
+  font-size: 0.9rem;
+  color: #1e1b4b;
+}
+.immo-rgpd-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.immo-rgpd-confirm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 2px solid #312e81;
+  background: #fff;
+  color: #312e81;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.immo-rgpd-confirm-btn input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.immo-rgpd-confirm-btn--yes:has(input:checked),
+.immo-rgpd-confirm-btn--yes.is-selected {
+  background: #312e81;
+  color: #fff;
+}
+.immo-rgpd-confirm-btn--no:has(input:checked),
+.immo-rgpd-confirm-btn--no.is-selected {
+  background: #fff;
+  border-color: #312e81;
+  box-shadow: inset 0 0 0 1px #312e81;
+}
+details[data-rgpd-confirmation-block] > summary {
+  color: #312e81;
+  font-weight: 800;
+}
+
 [data-immo-fill-mode="conseiller"] .immo-mandate-client {
   margin-bottom: 8px;
   padding-bottom: 12px;

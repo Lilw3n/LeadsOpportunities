@@ -82,6 +82,10 @@
         history.replaceState(null, "", next);
       } catch (e) {}
     }
+
+    if (window.ImmoRgpdConfirmation && typeof window.ImmoRgpdConfirmation.syncQuestion === "function") {
+      window.ImmoRgpdConfirmation.syncQuestion(document);
+    }
   }
 
   function qsa(sel, root) {

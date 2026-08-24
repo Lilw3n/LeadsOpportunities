@@ -281,6 +281,15 @@
           });
         }
       }
+
+      if (global.ImmoRgpdConfirmation) {
+        var rgpd = global.ImmoRgpdConfirmation.validate(document);
+        if (rgpd.blocking && rgpd.blocking.length) {
+          rgpd.blocking.forEach(function (item) {
+            blocking.push(missingItem(item.id, item.label, item.el, item.section || "Confirmation"));
+          });
+        }
+      }
     }
 
     return {
