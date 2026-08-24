@@ -19,6 +19,8 @@
 .int-card h3 {
   margin: 0 0 10px;
   font-size: 0.98rem;
+  font-weight: 800;
+  color: #0f172a;
 }
 .int-card h4 {
   margin: 12px 0 6px;
@@ -33,8 +35,8 @@
 .int-card-projet { border-top: 3px solid #d97706; grid-column: 1 / -1; }
 .int-dl {
   display: grid;
-  grid-template-columns: minmax(120px, 38%) 1fr;
-  gap: 6px 12px;
+  grid-template-columns: minmax(140px, 36%) 1fr;
+  gap: 8px 14px;
   margin: 0;
 }
 .int-dl dt {
@@ -44,8 +46,10 @@
 }
 .int-dl dd {
   margin: 0;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: #0f172a;
+  word-break: break-word;
 }
 .int-empty {
   margin: 0;

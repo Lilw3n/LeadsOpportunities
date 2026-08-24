@@ -79,9 +79,69 @@ assert(Dossier.slackLines(d, { contactUrl: "https://x/c" }).indexOf("marie@test.
 var html = read("crm-contact.html");
 assert(html.indexOf("dossierMount") >= 0, "fiche : montage dossier");
 assert(html.indexOf("interlocuteur-dossier-lib.js") >= 0, "fiche : lib dossier");
+assert(html.indexOf("interlocuteur-dossier.css") >= 0, "fiche : styles dossier");
 assert(html.indexOf("btnSlackFiche") >= 0, "fiche : bouton Slack");
 assert(html.indexOf("contactDriveBar") >= 0, "fiche : barre Drive");
 assert(html.indexOf("contactDocumentsPanel") >= 0, "fiche : panneau documents");
+
+var creditPayload = {
+  email: "a@972.fr",
+  phone: "0612345678",
+  propertyType: "Appartement neuf / VEFA",
+  homeSurface: "65",
+  projectType: "Achat residence principale",
+  postalProject: "75000",
+  propertyFound: "Oui, offre acceptee",
+  loanRefusedBefore: "Oui — je cherche une 2e chance",
+  horizon: "Sous 30 jours (urgent)",
+  propertyPrice: "0",
+  worksAmount: "0",
+  downPayment: "10000",
+  downPaymentSource: "Epargne personnelle",
+  page: "/landings/credit-immo.html",
+  variant: "speed",
+  journey: "quick",
+  parcours_id: "meta_lead_rapide",
+  parcours_type: "source",
+  parcours_workflow: ["new", "questionnaire"],
+  landing_path: "/",
+  seo_product: "credit_immo",
+  landing_at: "2026-05-27T18:04:56.978Z",
+  referrer_first: "https://www.leadsopportunities.fr/credit-immo/",
+  source: "landing_form",
+  vertical: "credit_immo",
+};
+var creditD = Dossier.buildDossier({ vertical: "credit_immo", payload: creditPayload });
+assert(
+  creditD.projet.some(function (r) {
+    return r.key === "loanRefusedBefore" && r.label.indexOf("refusé") >= 0;
+  }),
+  "crédit : prêt refusé classé en projet (FR)"
+);
+assert(
+  creditD.projet.some(function (r) {
+    return r.key === "downPayment" && String(r.value).indexOf("€") >= 0;
+  }),
+  "crédit : apport formaté en euros"
+);
+assert(
+  creditD.biens.immobilier.some(function (r) {
+    return r.key === "propertyPrice" && String(r.value).indexOf("€") >= 0;
+  }),
+  "crédit : prix du bien en immobilier"
+);
+assert(
+  !(creditD.biens.autres || []).some(function (r) {
+    return r.key === "parcours_id" || r.key === "page" || r.key === "seo_product";
+  }),
+  "crédit : pas de champs techniques en Autres"
+);
+var creditHtml = Dossier.renderSections(creditD);
+assert(creditHtml.indexOf("Info pro") < 0, "HTML : masque Info pro vide");
+assert(creditHtml.indexOf("Véhicule") < 0, "HTML : masque sous-section véhicule vide");
+assert(creditHtml.indexOf("int-card") >= 0, "HTML : cartes dossier");
+assert(creditHtml.indexOf("Loan Refused") < 0, "HTML : pas de label anglais brut");
+assert(creditHtml.indexOf("parcours_id") < 0, "HTML : pas de parcours_id brut");
 
 var dash = read("dashboard.html");
 assert(dash.indexOf("btnCreateInterlocuteur") >= 0, "dashboard : créer fiche");

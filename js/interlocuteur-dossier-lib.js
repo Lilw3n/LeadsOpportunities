@@ -79,6 +79,12 @@
     propertyFound: "État recherche / bien",
     immoProjectStage: "Stade projet immo",
     immoPropertyPrice: "Budget / prix",
+    propertyPrice: "Prix du bien",
+    worksAmount: "Montant des travaux",
+    downPayment: "Apport personnel",
+    downPaymentSource: "Origine de l’apport",
+    loanRefusedBefore: "Prêt déjà refusé ?",
+    horizon: "Horizon d’achat / signature",
     roomsMin: "Pièces min.",
     propertySought: "Bien recherché",
     homeStatus: "Statut occupant",
@@ -134,8 +140,7 @@
     sellPrice: "Prix souhaité",
     sellDossierSummary: "Résumé dossier vente",
     notes: "Notes",
-    platform: "Plateforme",
-    source: "Source",
+    platform: "Réseau d’acquisition",
     pipeline_stage: "Étape pipeline",
     status: "Statut",
     lead_score: "Score lead",
@@ -178,6 +183,11 @@
     acheteur_immo: "Achat immobilier",
     acheteur_vendeur_immo: "Achat et vente immobilière",
     chasseur_immo: "Chasseur de bien",
+    credit_immo: "Crédit immobilier",
+    pret_immobilier: "Prêt immobilier",
+    meta_lead_rapide: "Meta Lead Rapide",
+    google_intention_chaude: "Google Intention Chaude",
+    organique_confiance: "Organique Confiance",
     leboncoin: "Leboncoin",
     seloger: "SeLoger",
     pap: "PAP",
@@ -271,6 +281,8 @@
     "propertyFound",
     "immoProjectStage",
     "immoPropertyPrice",
+    "propertyPrice",
+    "worksAmount",
     "roomsMin",
     "propertySought",
     "homeStatus",
@@ -294,6 +306,10 @@
     "vertical",
     "buyerNeeds",
     "financeProject",
+    "loanRefusedBefore",
+    "horizon",
+    "downPayment",
+    "downPaymentSource",
     "healthPriority",
     "healthStatus",
     "parcours_label",
@@ -331,8 +347,19 @@
     "comment",
     "notes",
     "platform",
-    "source",
   ];
+
+  var MONEY_KEYS = {
+    propertyPrice: 1,
+    immoPropertyPrice: 1,
+    worksAmount: 1,
+    downPayment: 1,
+    budgetMax: 1,
+    budgetMin: 1,
+    buyBudgetMax: 1,
+    sellPrice: 1,
+    price_fai: 1,
+  };
 
   var SKIP = {
     utm_source: 1,
@@ -342,9 +369,13 @@
     gclid: 1,
     fbclid: 1,
     ttclid: 1,
+    msclkid: 1,
     visitor_id: 1,
+    visitorId: 1,
     clientIp: 1,
     client_ip: 1,
+    clientUa: 1,
+    client_ua: 1,
     fbp: 1,
     attr_fbp: 1,
     payload: 1,
@@ -355,6 +386,7 @@
     consent: 1,
     _hp: 1,
     openedAt: 1,
+    opened_at: 1,
     questionnaireDraft: 1,
     custom_answers: 1,
     sellDossier: 1,
@@ -365,6 +397,40 @@
     questionnaire_step: 1,
     questionnaire_total: 1,
     questionnaire_pct: 1,
+    page: 1,
+    variant: 1,
+    journey: 1,
+    source: 1,
+    form_id: 1,
+    formId: 1,
+    parcours_id: 1,
+    parcours_type: 1,
+    parcours_workflow: 1,
+    landing_path: 1,
+    landing_slug: 1,
+    landing_at: 1,
+    referrer: 1,
+    referrer_first: 1,
+    referrer_last: 1,
+    seo_product: 1,
+    seo_city: 1,
+    seo_department: 1,
+    id: 1,
+    leadId: 1,
+    lead_id: 1,
+    contact_id: 1,
+    contactId: 1,
+    event_id: 1,
+    event_category: 1,
+    event_label: 1,
+    serverReceivedAt: 1,
+    devis_preview: 1,
+    devis_summary: 1,
+    website: 1,
+    company_url: 1,
+    portfolio: 1,
+    relevance: 1,
+    relevanceReasons: 1,
   };
 
   function parsePayload(raw) {
@@ -426,10 +492,26 @@
     return merged;
   }
 
-  function flatten(val) {
+  function formatMoney(val) {
+    var n = Number(String(val).replace(/\s/g, "").replace(",", "."));
+    if (!Number.isFinite(n)) return String(val);
+    try {
+      return n.toLocaleString("fr-FR", { maximumFractionDigits: 0 }) + " €";
+    } catch (e) {
+      return String(Math.round(n)) + " €";
+    }
+  }
+
+  function flatten(val, key) {
     if (val == null || val === "") return null;
     if (typeof val === "boolean") return val ? "Oui" : "Non";
-    if (typeof val === "number") return String(val);
+    if (typeof val === "number") {
+      if (MONEY_KEYS[key]) {
+        if (key === "worksAmount" && val === 0) return "Aucun";
+        return formatMoney(val);
+      }
+      return String(val);
+    }
     if (Array.isArray(val)) {
       return (
         val
@@ -445,6 +527,10 @@
     if (typeof val === "object") return JSON.stringify(val);
     var s = String(val).trim();
     if (!s) return null;
+    if (MONEY_KEYS[key] && /^-?\d+([.,]\d+)?$/.test(s.replace(/\s/g, ""))) {
+      if (key === "worksAmount" && Number(s.replace(/\s/g, "").replace(",", ".")) === 0) return "Aucun";
+      return formatMoney(s);
+    }
     return VALUE_LABELS[s] || s;
   }
 
@@ -462,7 +548,7 @@
     var out = [];
     var seen = {};
     (keys || []).forEach(function (k) {
-      var v = flatten(payload[k]);
+      var v = flatten(payload[k], k);
       if (!v) return;
       var lab = labelOf(k);
       var id = lab + ":" + v;
@@ -534,8 +620,9 @@
     Object.keys(p).forEach(function (k) {
       if (known[k] || SKIP[k]) return;
       if (k.indexOf("utm_") === 0 || k.indexOf("attr_") === 0 || k.indexOf("meta_") === 0) return;
+      if (k.indexOf("seo_") === 0 || k.indexOf("landing_") === 0 || k.indexOf("parcours_") === 0) return;
       if (typeof p[k] === "object" && !Array.isArray(p[k])) return;
-      var v = flatten(p[k]);
+      var v = flatten(p[k], k);
       if (!v || v.length > 240) return;
       autres.push({ key: k, label: labelOf(k), value: v });
     });
@@ -641,6 +728,12 @@
     );
   }
 
+  function cardHtml(title, className, bodyHtml, opts) {
+    opts = opts || {};
+    if (opts.hide) return "";
+    return '<section class="int-card ' + className + '"><h3>' + esc(title) + "</h3>" + bodyHtml + "</section>";
+  }
+
   function renderSections(dossier, opts) {
     opts = opts || {};
     var d = dossier || { perso: [], pro: [], biens: {}, projet: [] };
@@ -651,28 +744,42 @@
     var notesBanner = adminNotes
       ? '<div class="int-admin-notes-banner"><strong>Note admin (questionnaire) :</strong> ' + esc(adminNotes) + "</div>"
       : "";
+
+    var hasVehicules = !!(b.vehicules || []).length;
+    var hasImmo = !!(b.immobilier || []).length;
+    var hasAutres = !!(b.autres || []).length;
+    var vehiculesHtml = hasVehicules
+      ? "<h4>Véhicule / mobilier</h4>" + rowsHtml(b.vehicules, fieldComments)
+      : "";
+    var immoHtml = hasImmo
+      ? "<h4>Maison, appartement, immeuble</h4>" + rowsHtml(b.immobilier, fieldComments)
+      : "";
+    var autresHtml = hasAutres
+      ? "<h4>Autres éléments utiles</h4>" + rowsHtml(b.autres, fieldComments)
+      : "";
+    var biensBody = vehiculesHtml + immoHtml + autresHtml;
+    var hasPerso = !!(d.perso || []).length;
+    var hasPro = !!(d.pro || []).length;
+    var hasProjet = !!(d.projet || []).length;
+    var hasBiens = hasVehicules || hasImmo || hasAutres;
+
     var html =
       '<div class="int-dossier">' +
       (opts.title !== false
         ? '<p class="int-dossier-lead">Infos reprises du questionnaire — classées pour la fiche interlocuteur.</p>'
         : "") +
       notesBanner +
-      '<section class="int-card int-card-perso"><h3>Info perso</h3>' +
-      rowsHtml(d.perso, fieldComments) +
-      "</section>" +
-      '<section class="int-card int-card-pro"><h3>Info pro</h3>' +
-      rowsHtml(d.pro, fieldComments) +
-      "</section>" +
-      '<section class="int-card int-card-biens"><h3>Biens — véhicule, immobilier</h3>' +
-      "<h4>Véhicule / mobilier</h4>" +
-      rowsHtml(b.vehicules, fieldComments) +
-      "<h4>Maison, appartement, immeuble</h4>" +
-      rowsHtml(b.immobilier, fieldComments) +
-      ((b.autres || []).length ? "<h4>Autres éléments</h4>" + rowsHtml(b.autres, fieldComments) : "") +
-      "</section>" +
-      '<section class="int-card int-card-projet"><h3>Projet / produit demandé</h3>' +
-      rowsHtml(d.projet, fieldComments) +
-      "</section></div>";
+      cardHtml(
+        "Info perso",
+        "int-card-perso",
+        hasPerso ? rowsHtml(d.perso, fieldComments) : '<p class="int-empty">Aucune information saisie dans le formulaire.</p>'
+      ) +
+      cardHtml("Info pro", "int-card-pro", rowsHtml(d.pro, fieldComments), { hide: !hasPro }) +
+      cardHtml("Biens — véhicule, immobilier", "int-card-biens", biensBody, { hide: !hasBiens }) +
+      cardHtml("Projet / financement", "int-card-projet", rowsHtml(d.projet, fieldComments), {
+        hide: !hasProjet,
+      }) +
+      "</div>";
     return html;
   }
 

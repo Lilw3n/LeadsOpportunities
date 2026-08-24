@@ -36,10 +36,10 @@
     var sections = {
       perso: "Info perso",
       pro: "Info pro",
-      projet: "Projet / produit",
+      projet: "Projet / financement",
       "biens.vehicules": "Véhicule / mobilier",
       "biens.immobilier": "Maison, appartement, immeuble",
-      "biens.autres": "Autres éléments",
+      "biens.autres": "Autres éléments utiles",
     };
     var html =
       '<div class="int-dossier-edit" data-int-dossier-edit>' +
