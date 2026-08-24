@@ -321,6 +321,19 @@ a.immo-parcours-link:hover {
   resize: vertical;
 }
 
+.immo-listing-select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+
+#sellPropertySubtype {
+  max-height: none;
+}
+
 .immo-rooms-wrap {
   overflow-x: auto;
 }

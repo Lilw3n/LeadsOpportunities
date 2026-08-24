@@ -174,11 +174,16 @@
       }
     });
 
-    var sellType = form.querySelector('input[name="sellPropertyType"]:checked');
+    var sellTypeOk =
+      (window.AcheteurImmoListingFields && window.AcheteurImmoListingFields.hasPropertyType(form)) ||
+      form.querySelector('input[name="sellPropertyType"]:checked');
     var typeHint = qs(form, "[data-sell-type-hint]");
     if (typeHint) typeHint.hidden = true;
-    if (!sellType) {
+    if (!sellTypeOk) {
       if (typeHint) typeHint.hidden = false;
+      ok = false;
+    }
+    if (window.AcheteurImmoListingFields && !window.AcheteurImmoListingFields.validate(form)) {
       ok = false;
     }
 

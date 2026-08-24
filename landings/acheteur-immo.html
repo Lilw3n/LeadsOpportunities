@@ -783,7 +783,46 @@
                 </details>
 
                 <details class="immo-vente-block" open>
+                  <summary>Typologie annonce &amp; bien</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Type d'annonce, catégorie, sous-type (liste CRM), copropriété, activité pro et environnement.</p>
+                  <p class="small" data-listing-taxonomy-hint hidden style="color:#b91c1c;margin:0 0 10px">Complétez le type d'annonce, le type et le sous-type de bien.</p>
+                  <div class="grid" style="margin-top:12px">
+                    <div class="field">
+                      <label for="sellListingType">Type d'annonce</label>
+                      <select id="sellListingType" name="sellListingType" data-search-vente-required></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellPropertyCategory">Type de bien</label>
+                      <select id="sellPropertyCategory" name="sellPropertyCategory" data-search-vente-required></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellCoproStatus">Statut de la copropriété</label>
+                      <select id="sellCoproStatus" name="sellCoproStatus" data-optional></select>
+                    </div>
+                    <div class="field full">
+                      <label for="sellPropertySubtypeFilter">Rechercher un sous-type</label>
+                      <input id="sellPropertySubtypeFilter" type="search" placeholder="Ex. maison, local, terrain…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field full">
+                      <label for="sellPropertySubtype">Sous-type de bien</label>
+                      <select id="sellPropertySubtype" name="sellPropertySubtype" data-search-vente-required></select>
+                    </div>
+                    <div class="field full">
+                      <label for="sellCommercialActivity">Activité commerciale</label>
+                      <input id="sellCommercialActivity" name="sellCommercialActivity" placeholder="Ex. boulangerie, bureaux, entrepôt…" data-optional />
+                      <p class="immo-owner-hint" data-commercial-hint hidden>Obligatoire pour les biens professionnels / commerces.</p>
+                    </div>
+                    <div class="field">
+                      <label for="sellEnvironment">Environnement</label>
+                      <select id="sellEnvironment" name="sellEnvironment" data-optional></select>
+                    </div>
+                  </div>
+                  <input type="hidden" id="sellPropertyTypeLegacy" name="sellPropertyTypeLegacy" value="" />
+                </details>
+
+                <details class="immo-vente-block" open>
                   <summary>Descriptif de l'habitation</summary>
+                  <p class="small" style="margin:8px 0 10px;color:#64748b">Raccourci type (legacy) — synchronisé avec la typologie ci-dessus.</p>
                   <div class="search-chip-grid" role="group" aria-label="Type de bien à vendre" style="margin-top:12px">
                     <label class="search-chip"><input type="radio" name="sellPropertyType" value="appartement" /><span>Appartement</span></label>
                     <label class="search-chip"><input type="radio" name="sellPropertyType" value="maison" /><span>Maison</span></label>
@@ -2057,6 +2096,8 @@
   <script src="../js/print-document-lib.js"></script>
   <script src="../js/acheteur-immo-fill-mode.js"></script>
   <script src="../js/acheteur-immo-print.js"></script>
+  <script src="../js/immo-listing-taxonomy.js"></script>
+  <script src="../js/acheteur-immo-listing-fields.js"></script>
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/acheteur-immo-rooms.js"></script>
   <script src="../js/acheteur-immo-wizard.js"></script>

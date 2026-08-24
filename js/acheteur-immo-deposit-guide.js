@@ -254,14 +254,16 @@
       if (sellPostal && !String(sellPostal.value || "").trim()) {
         recommended.push(missingItem("sellPostalCode", "Code postal du bien", sellPostal, "Coordonnées du bien"));
       }
-      var sellType = document.querySelector('[name="sellPropertyType"]:checked');
+      var sellType =
+        (global.AcheteurImmoListingFields && global.AcheteurImmoListingFields.hasPropertyType(document)) ||
+        document.querySelector('[name="sellPropertyType"]:checked');
       if (!sellType) {
         recommended.push(
           missingItem(
-            "sellPropertyType",
-            "Type de bien (appartement, maison…)",
-            document.querySelector('[name="sellPropertyType"]'),
-            "Descriptif"
+            "sellPropertyCategory",
+            "Type d'annonce et type de bien",
+            document.querySelector("#sellPropertyCategory") || document.querySelector('[name="sellPropertyType"]'),
+            "Typologie"
           )
         );
       }
