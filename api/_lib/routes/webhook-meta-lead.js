@@ -148,7 +148,7 @@ async function ingestMetaLeadEvent(webhookValue) {
   });
 
   var crmContactId = null;
-  if (enriched.email) {
+  if (enriched.email || enriched.phone) {
     try {
       crmContactId = await ingestLeadToCrm(sql, enriched, leadId);
     } catch (crmErr) {

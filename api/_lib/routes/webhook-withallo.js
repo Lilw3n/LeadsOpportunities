@@ -252,6 +252,17 @@ module.exports = async (req, res) => {
     }
   }
 
+  var crmContactId = null;
+  if (stored && dbUrl && (enriched.email || enriched.phone)) {
+    try {
+      const { neon } = require("@neondatabase/serverless");
+      const { ingestLeadToCrm } = require("../crm-ingest-from-lead");
+      crmContactId = await ingestLeadToCrm(neon(dbUrl), enriched, leadId);
+    } catch (crmErr) {
+      console.error("[withallo] crm ingest", crmErr);
+    }
+  }
+
   if (stored && dbUrl) {
     try {
       const { neon } = require("@neondatabase/serverless");
@@ -268,5 +279,6 @@ module.exports = async (req, res) => {
     leadScore: score,
     relevance: rel.relevance,
     stored: stored,
+    contactId: crmContactId,
   });
 };

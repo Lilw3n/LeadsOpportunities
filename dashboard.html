@@ -3451,7 +3451,7 @@
               createInt.textContent = "Créer la fiche interlocuteur";
             }
           });
-        } else if (!l.contact_id && l.email && l.phone) {
+        } else if (!l.contact_id && (l.email || l.phone)) {
           fetch("/api/crm/lead-lifecycle", {
             method: "POST",
             headers: authHeaders(),
@@ -3466,7 +3466,7 @@
                 var bar = document.querySelector(".int-cta-bar");
                 if (bar) {
                   bar.innerHTML =
-                    '<strong>Fiche interlocuteur</strong> — créée automatiquement (e-mail + téléphone). ' +
+                    '<strong>Fiche interlocuteur</strong> — créée automatiquement. ' +
                     '<a class="btn btn-primary" href="./crm-contact.html?id=' +
                     encodeURIComponent(out.contactId) +
                     '">Ouvrir la fiche interlocuteur →</a> ' +

@@ -210,8 +210,10 @@ module.exports = async (req, res) => {
         console.warn("[lead] ensure-schema", schErr.message);
       }
 
-      var normEmail = normalizeEmail(enriched.email);
-      var normPhone = normalizePhone(enriched.phone);
+      var normEmail = normalizeEmail(enriched.email || enriched.mail);
+      var normPhone = normalizePhone(
+        enriched.phone || enriched.telephone || enriched.tel || enriched.mobile
+      );
       if (normEmail) enriched.email = normEmail;
       if (normPhone) enriched.phone = normPhone;
 
@@ -311,7 +313,7 @@ module.exports = async (req, res) => {
         console.warn("[lead] touchpoint", tpErr.message);
       }
       var crmContactId = null;
-      if (enriched.email) {
+      if (enriched.email || enriched.phone) {
         try {
           const { ingestLeadToCrm } = require("../crm-ingest-from-lead");
           crmContactId = await ingestLeadToCrm(sql, enriched, leadId);
@@ -357,6 +359,14 @@ module.exports = async (req, res) => {
         } catch (mbErr) {
           console.warn("[lead] mailbox sync fallback", mbErr.message);
         }
+        if (enriched.email || enriched.phone) {
+          try {
+            const { ingestLeadToCrm } = require("../crm-ingest-from-lead");
+            enriched._crmContactId = await ingestLeadToCrm(sql, enriched, leadId);
+          } catch (crmErr) {
+            console.error("[lead] crm ingest fallback", crmErr);
+          }
+        }
       } catch (e2) {
         console.error("[lead] db insert fallback failed", e2);
       }
@@ -374,7 +384,7 @@ module.exports = async (req, res) => {
   var emailSent = !!postIngest.emailSent;
 
   var contactIdOut = enriched._crmContactId || null;
-  if (!contactIdOut && stored && enriched.email && dbUrl) {
+  if (!contactIdOut && stored && (enriched.email || enriched.phone) && dbUrl) {
     try {
       const { neon } = require("@neondatabase/serverless");
       const sqlLookup = neon(dbUrl);

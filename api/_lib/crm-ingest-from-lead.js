@@ -108,12 +108,21 @@ function buildLeadRow(body, leadId, email, phone) {
  */
 async function ingestLeadToCrm(sql, body, leadId, options) {
   options = options || {};
-  const email = body.email ? String(body.email).trim().toLowerCase() : null;
-  const phone = body.phone || body.telephone || null;
+  const flat = flattenLeadBody(body);
+  const emailRaw = flat.email || flat.mail || flat.Email || null;
+  const email = emailRaw ? String(emailRaw).trim().toLowerCase() : null;
+  const phone =
+    flat.phone ||
+    flat.telephone ||
+    flat.tel ||
+    flat.mobile ||
+    flat.sellerPhone ||
+    null;
   if (!email && !phone) return null;
 
-  const firstName = body.firstName || body.first_name || body.prenom || "Prospect";
-  const lastName = body.lastName || body.last_name || body.nom || "";
+  const firstName =
+    flat.firstName || flat.first_name || flat.prenom || flat.sellerName || "Prospect";
+  const lastName = flat.lastName || flat.last_name || flat.nom || "";
 
   var existingId = await findExistingContact(sql, email, phone);
   const existing = existingId ? [{ id: existingId }] : [];
@@ -126,9 +135,9 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
     try {
       meta = cur[0]?.metadata ? JSON.parse(cur[0].metadata) : {};
     } catch (e) {}
-    meta = mergeMeta(meta, buildProfileMetadata(body));
-    if (body.confirmByEmail !== false && body.confirmByEmail !== "0") meta.confirmByEmail = true;
-    if (body.confirmByPhone === true || body.confirmByPhone === "1") {
+    meta = mergeMeta(meta, buildProfileMetadata(Object.assign({}, flat, body)));
+    if (flat.confirmByEmail !== false && flat.confirmByEmail !== "0") meta.confirmByEmail = true;
+    if (flat.confirmByPhone === true || flat.confirmByPhone === "1") {
       meta.confirmByPhone = true;
       meta.pendingPhoneConfirm = true;
     }
@@ -147,9 +156,9 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
     `;
   } else {
     contactId = "ct_" + crypto.randomUUID();
-      const profileMeta = buildProfileMetadata(body);
-      if (body.confirmByEmail !== false && body.confirmByEmail !== "0") profileMeta.confirmByEmail = true;
-      if (body.confirmByPhone === true || body.confirmByPhone === "1") {
+      const profileMeta = buildProfileMetadata(Object.assign({}, flat, body));
+      if (flat.confirmByEmail !== false && flat.confirmByEmail !== "0") profileMeta.confirmByEmail = true;
+      if (flat.confirmByPhone === true || flat.confirmByPhone === "1") {
         profileMeta.confirmByPhone = true;
         profileMeta.pendingPhoneConfirm = true;
       }
@@ -160,8 +169,8 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
           status, source, notes, metadata, last_activity_at
         ) VALUES (
           ${contactId}, 'prospect', ${firstName}, ${lastName}, ${email}, ${phone},
-          'active', ${body.source || "site_lead"},
-          ${"Lead " + (body.vertical || "") + " #" + leadId},
+          'active', ${body.source || flat.source || "site_lead"},
+          ${"Lead " + (body.vertical || flat.vertical || "") + " #" + leadId},
           ${JSON.stringify(profileMeta)},
           NOW()
         )
@@ -179,12 +188,12 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
     console.warn("[crm-ingest] drive folder", driveErr.message);
   }
 
-  await linkPropertiesToContact(sql, contactId, options.propertyIds || body.propertyIds, leadId);
+  await linkPropertiesToContact(sql, contactId, options.propertyIds || body.propertyIds || flat.propertyIds, leadId);
 
   var shouldHydrate = options.hydrate !== false && (email || phone);
   if (shouldHydrate && leadId) {
     try {
-      var leadRow = options.leadRow || buildLeadRow(body, leadId, email, phone);
+      var leadRow = options.leadRow || buildLeadRow(Object.assign({}, flat, body), leadId, email, phone);
       await hydrateInterlocuteurFromLead(sql, null, leadRow, contactId);
     } catch (hydrateErr) {
       console.warn("[crm-ingest] hydrate interlocuteur", hydrateErr.message);
@@ -192,43 +201,51 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
   }
 
   const reqId = "req_" + crypto.randomUUID();
-  const vertical = body.vertical || body.need || "";
+  const vertical = body.vertical || flat.vertical || body.need || flat.need || "";
   const skipInsurance =
     vertical === "vendeur_immo" ||
     vertical === "acheteur_vendeur_immo" ||
     vertical === "acheteur-immo" ||
     vertical === "vendeur-immo" ||
-    String(body.source || "").indexOf("listing") >= 0;
+    String(body.source || flat.source || "").indexOf("listing") >= 0;
   if (!skipInsurance) {
-    await sql`
-    INSERT INTO crm_insurance_requests (
-      id, contact_id, request_type, status, requested_date, description, priority
-    ) VALUES (
-      ${reqId}, ${contactId}, 'devis', 'En attente',
-      ${new Date().toISOString().slice(0, 10)},
-      ${"Lead site — " + (body.vertical || body.serviceLabel || "assurance")},
-      ${body.leadScore >= 70 ? "Haute" : "Moyenne"}
-    )
-  `;
+    try {
+      await sql`
+      INSERT INTO crm_insurance_requests (
+        id, contact_id, request_type, status, requested_date, description, priority
+      ) VALUES (
+        ${reqId}, ${contactId}, 'devis', 'En attente',
+        ${new Date().toISOString().slice(0, 10)},
+        ${"Lead site — " + (body.vertical || flat.vertical || body.serviceLabel || flat.serviceLabel || "assurance")},
+        ${(body.leadScore || flat.leadScore) >= 70 ? "Haute" : "Moyenne"}
+      )
+    `;
+    } catch (insErr) {
+      console.warn("[crm-ingest] insurance request", insErr.message);
+    }
   }
 
-  const evtId = "evt_" + crypto.randomUUID();
-  const extra = JSON.stringify({
-    participants: [{ name: (firstName + " " + lastName).trim(), role: "recipient" }],
-    leadId: leadId,
-    leadSnapshot: body,
-  });
-  await sql`
-    INSERT INTO crm_events (
-      id, contact_id, event_type, title, description, event_date, status, priority, extra_data
-    ) VALUES (
-      ${evtId}, ${contactId}, 'note',
-      ${"Nouveau lead web — " + (body.vertical || "demande")},
-      ${leadEventSummaryText(body)},
-      ${new Date().toISOString().slice(0, 10)},
-      'pending', ${body.leadScore >= 70 ? "high" : "medium"}, ${extra}
-    )
-  `;
+  try {
+    const evtId = "evt_" + crypto.randomUUID();
+    const extra = JSON.stringify({
+      participants: [{ name: (firstName + " " + lastName).trim(), role: "recipient" }],
+      leadId: leadId,
+      leadSnapshot: body,
+    });
+    await sql`
+      INSERT INTO crm_events (
+        id, contact_id, event_type, title, description, event_date, status, priority, extra_data
+      ) VALUES (
+        ${evtId}, ${contactId}, 'note',
+        ${"Nouveau lead web — " + (body.vertical || flat.vertical || "demande")},
+        ${leadEventSummaryText(Object.assign({}, flat, body))},
+        ${new Date().toISOString().slice(0, 10)},
+        'pending', ${(body.leadScore || flat.leadScore) >= 70 ? "high" : "medium"}, ${extra}
+      )
+    `;
+  } catch (evtErr) {
+    console.warn("[crm-ingest] crm event", evtErr.message);
+  }
 
   return contactId;
 }

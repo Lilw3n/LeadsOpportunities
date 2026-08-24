@@ -41,7 +41,7 @@ function toItem(row, ipCounts) {
     fbclid: row.fbclid || p.fbclid,
     ttclid: row.ttclid || p.ttclid,
   });
-  var isProspect = !!(row.contact_id && row.contact_type);
+  var isProspect = !!row.contact_id;
   return {
     id: row.id,
     createdAt: row.created_at,

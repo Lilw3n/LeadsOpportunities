@@ -154,6 +154,40 @@ async function recordFunnelEvent(sql, input) {
     console.warn("[funnel] mailbox sync", mbErr.message);
   }
 
+  var email = input.email || (merged.questionnaireDraft && merged.questionnaireDraft.email) || null;
+  var phone =
+    input.phone ||
+    (merged.questionnaireDraft &&
+      (merged.questionnaireDraft.phone || merged.questionnaireDraft.telephone)) ||
+    null;
+  if (email || phone) {
+    try {
+      const leadRows = await sql`
+        SELECT contact_id, email, phone, vertical, source, payload
+        FROM site_leads WHERE id = ${leadId} LIMIT 1
+      `;
+      if (leadRows.length && !leadRows[0].contact_id) {
+        const { ingestLeadToCrm } = require("./crm-ingest-from-lead");
+        var draft = merged.questionnaireDraft || {};
+        await ingestLeadToCrm(
+          sql,
+          {
+            email: email || leadRows[0].email,
+            phone: phone || leadRows[0].phone,
+            firstName: draft.firstName || draft.first_name || input.firstName,
+            lastName: draft.lastName || draft.last_name || input.lastName,
+            vertical: leadRows[0].vertical || input.vertical,
+            source: leadRows[0].source || input.source || "wizard_progress",
+            payload: merged,
+          },
+          leadId
+        );
+      }
+    } catch (crmErr) {
+      console.warn("[funnel] crm ingest", crmErr.message);
+    }
+  }
+
   return { leadId: leadId, pipelineStage: pipelineStage, payload: merged };
 }
 
