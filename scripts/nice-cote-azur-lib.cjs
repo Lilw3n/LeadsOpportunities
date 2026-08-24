@@ -671,6 +671,28 @@ function newCityRows() {
   ];
 }
 
+var NEW_SLUG_SET = {};
+newCityRows().forEach(function (row) {
+  NEW_SLUG_SET[row[0]] = true;
+});
+
+function isNewBassinCity(city) {
+  var slug = typeof city === "string" ? city : city && city.slug;
+  return !!NEW_SLUG_SET[slug];
+}
+
+function isCreditProduct(key) {
+  return key === "pret" || key === "credit";
+}
+
+function shouldNoindexCredit(city, key) {
+  return isNewBassinCity(city) && isCreditProduct(key);
+}
+
+function nancyCreditCanonical(key) {
+  return key === "credit" ? "/credit-immo/nancy-metropole/" : "/pret-immobilier/nancy-metropole/";
+}
+
 module.exports = {
   COMMUNES: COMMUNES,
   PRIORITY_PRODUCTS: PRIORITY_PRODUCTS,
@@ -692,4 +714,8 @@ module.exports = {
   hubRelated: hubRelated,
   extraRelatedForProduct: extraRelatedForProduct,
   newCityRows: newCityRows,
+  isNewBassinCity: isNewBassinCity,
+  isCreditProduct: isCreditProduct,
+  shouldNoindexCredit: shouldNoindexCredit,
+  nancyCreditCanonical: nancyCreditCanonical,
 };

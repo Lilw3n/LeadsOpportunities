@@ -87,6 +87,37 @@ bassin.allSlugs().forEach(function (slug) {
   );
 });
 
+assert(read("scripts/build-france-cities-json.cjs").indexOf("newCityRows()") !== -1, "newCityRows() utilisé pour france-cities");
+assert(bassin.newCityRows().length === 17, "17 communes 06 nouvelles");
+
+var marseilleVtc = read("assurance-vtc/marseille/index.html");
+assert(marseilleVtc.indexOf("NCE") === -1, "Marseille VTC sans NCE");
+assert(marseilleVtc.indexOf("axe VTC Cote d Azur") === -1, "Marseille VTC sans H2 Côte d Azur");
+assert(marseilleVtc.indexOf("Promenade des Anglais") === -1, "Marseille VTC sans Promenade");
+var toulonVtc = read("assurance-vtc/toulon/index.html");
+assert(toulonVtc.indexOf("NCE") === -1, "Toulon VTC sans NCE");
+var avignonVtc = exists("assurance-vtc/avignon/index.html") ? read("assurance-vtc/avignon/index.html") : "";
+if (avignonVtc) assert(avignonVtc.indexOf("NCE") === -1, "Avignon VTC sans NCE");
+
+bassin.allSlugs().forEach(function (slug) {
+  ["pret-immobilier", "credit-immo"].forEach(function (dir) {
+    var rel = dir + "/" + slug + "/index.html";
+    assert(exists(rel), "page pret/credit " + rel);
+    var html = read(rel);
+    assert(html.indexOf("/pret-immobilier/nancy-metropole/") !== -1 || html.indexOf("/credit-immo/nancy-metropole/") !== -1, slug + " " + dir + " lien Nancy");
+    if (bassin.isNewBassinCity(slug)) {
+      assert(html.indexOf("noindex") !== -1, slug + " " + dir + " noindex");
+      assert(html.indexOf("nancy-metropole") !== -1, slug + " " + dir + " canonique/lien Nancy");
+      assert(html.indexOf("ville=Nancy") !== -1, slug + " " + dir + " CTA Nancy");
+    }
+  });
+});
+
+var smGeo = exists("sitemap-geo.xml") ? read("sitemap-geo.xml") : "";
+assert(smGeo.indexOf("/pret-immobilier/cagnes-sur-mer/") === -1, "sitemap sans pret Cagnes");
+assert(smGeo.indexOf("/credit-immo/cagnes-sur-mer/") === -1, "sitemap sans credit Cagnes");
+assert(smGeo.indexOf("/pret-immobilier/nice/") !== -1, "sitemap garde pret Nice existant");
+
 var sm = exists("sitemap-main.xml") ? read("sitemap-main.xml") : "";
 assert(sm.indexOf("/nice-cote-azur/") >= 0, "sitemap hub Nice");
 assert(sm.indexOf("/assurance-vtc/aeroport-nice/") >= 0, "sitemap aéroport Nice");

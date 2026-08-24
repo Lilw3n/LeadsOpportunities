@@ -678,7 +678,8 @@ function withSeoMeta(p) {
 
 function renderPage(p) {
   const prefix = depthPrefix(p.file);
-  const canonical = BASE + pageCanonicalPath(p.file);
+  const canonical = BASE + (p.canonicalPath || pageCanonicalPath(p.file));
+  const robots = p.robots || "index,follow";
   const theme = p.theme || "vtc";
   const crumbs = p.crumbs || [];
   const related = p.related || [];
@@ -869,7 +870,7 @@ function renderPage(p) {
   <title>${esc(p.title)}</title>
   <meta name="description" content="${esc(p.description)}" />
   ${p.keywords ? '<meta name="keywords" content="' + esc(p.keywords) + '" />' : ""}
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content="${esc(robots)}" />
   ${geoMeta}
   <link rel="canonical" href="${esc(canonical)}" />
   <link rel="alternate" hreflang="fr-FR" href="${esc(canonical)}" />

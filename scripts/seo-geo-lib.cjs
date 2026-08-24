@@ -66,8 +66,6 @@ const GEO_PRODUCTS = [
       { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
       { href: "/assurance-vtc/tarif/", label: "Tarif VTC" },
       { href: "/assurance-vtc/ile-de-france/", label: "VTC Ile-de-France" },
-      { href: "/assurance-vtc/cote-d-azur/", label: "VTC Cote d Azur" },
-      { href: "/assurance-vtc/aeroport-nice/", label: "Aeroport Nice NCE" },
       { href: "/assurance-vtc/pas-cher/", label: "VTC pas cher" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Blog : payer moins cher" },
       { href: "/blog/vtc-premiere-course-checklist-assurance.html", label: "Checklist 1re course" },
@@ -203,6 +201,7 @@ const GEO_PRODUCTS = [
       { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse : que faire" },
       { href: "/blog/pret-refuse-courtier-multibanque-deuxieme-chance.html", label: "Courtier 2e chance" },
       { href: "/landings/credit-immo.html#pret-refuse", label: "Landing pret refuse" },
+      { href: "/pret-immobilier/nancy-metropole/", label: "Pret Nancy metropole (54)" },
     ],
   },
   {
@@ -265,6 +264,7 @@ const GEO_PRODUCTS = [
       { href: "/credit-immo/", label: "Guide credit immo" },
       { href: "/blog/pret-immobilier-refuse-que-faire-2026.html", label: "Pret refuse" },
       { href: "/blog/pret-refuse-endettement-35-hcsf-solutions.html", label: "Endettement 35 %" },
+      { href: "/pret-immobilier/nancy-metropole/", label: "Pret Nancy metropole (54)" },
     ],
   },
   {
@@ -1119,6 +1119,20 @@ function buildGeoPageConfigs(cities, pageFn) {
             { href: "/assurance-vtc/aeroport-nice/", label: "Aeroport Nice NCE" },
           ].concat(geoPage.related);
         }
+        if (niceBassin.isBassinCity(city) && niceBassin.isCreditProduct(product.key)) {
+          geoPage.related = [
+            { href: "/" + product.dir + "/nancy-metropole/", label: "Hub Nancy metropole (54)" },
+            { href: "/landings/credit-immo.html?ville=Nancy", label: "Simulation pret Nancy (54)" },
+          ].concat(geoPage.related);
+          geoPage.cta = {
+            href: "/landings/credit-immo.html?ville=Nancy",
+            label: "Simulation pret Nancy (54)",
+          };
+          if (niceBassin.shouldNoindexCredit(city, product.key)) {
+            geoPage.robots = "noindex,follow";
+            geoPage.canonicalPath = niceBassin.nancyCreditCanonical(product.key);
+          }
+        }
         out.push(pageFn(geoPage));
     });
   });
@@ -1829,6 +1843,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     if (product.hubDeptUrl) urls.push({ loc: base + product.hubDeptUrl, priority: "0.88", changefreq: "weekly" });
     urls.push({ loc: base + productRegionHubUrl(product), priority: "0.88", changefreq: "weekly" });
     cities.forEach(function (city) {
+      if (niceBassin.shouldNoindexCredit(city, product.key)) return;
       urls.push({
         loc: base + "/" + product.dir + "/" + city.slug + "/",
         priority:

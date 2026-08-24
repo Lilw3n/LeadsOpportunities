@@ -4,6 +4,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const niceBassin = require("./nice-cote-azur-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
 
@@ -311,23 +312,6 @@ const CITIES = [
   ["bandol", "Bandol", "provence-alpes-cote-d-azur", "var"],
   ["menton", "Menton", "provence-alpes-cote-d-azur", "alpes-maritimes"],
   ["saint-jean-cap-ferrat", "Saint-Jean-Cap-Ferrat", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["cagnes-sur-mer", "Cagnes-sur-Mer", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["saint-laurent-du-var", "Saint-Laurent-du-Var", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["le-cannet", "Le Cannet", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["mougins", "Mougins", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["villeneuve-loubet", "Villeneuve-Loubet", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["mandelieu-la-napoule", "Mandelieu-la-Napoule", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["vence", "Vence", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["valbonne", "Valbonne", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["villefranche-sur-mer", "Villefranche-sur-Mer", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["beaulieu-sur-mer", "Beaulieu-sur-Mer", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["biot", "Biot", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["roquebrune-cap-martin", "Roquebrune-Cap-Martin", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["vallauris", "Vallauris", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["la-trinite", "La Trinité", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["carros", "Carros", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["saint-martin-vesubie", "Saint-Martin-Vésubie", "provence-alpes-cote-d-azur", "alpes-maritimes"],
-  ["sospel", "Sospel", "provence-alpes-cote-d-azur", "alpes-maritimes"],
   ["saint-martin-de-re", "Saint-Martin-de-Re", "nouvelle-aquitaine", "charente-maritime"],
   ["la-flotte", "La Flotte", "nouvelle-aquitaine", "charente-maritime"],
   ["le-chateau-d-oleron", "Le Chateau-d'Oleron", "nouvelle-aquitaine", "charente-maritime"],
@@ -343,7 +327,7 @@ const CITIES = [
   ["honfleur", "Honfleur", "normandie", "calvados"],
   ["chamonix", "Chamonix-Mont-Blanc", "auvergne-rhone-alpes", "haute-savoie"],
   ["megeve", "Megeve", "auvergne-rhone-alpes", "haute-savoie"],
-];
+].concat(niceBassin.newCityRows());
 
 const REGIONS = JSON.parse(
   fs.readFileSync(path.join(ROOT, "seo/france-regions.json"), "utf8")
