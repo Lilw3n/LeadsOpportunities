@@ -991,12 +991,16 @@
                   <summary>Disponibilité, occupation &amp; visites</summary>
                   <div class="grid" style="margin-top:12px">
                     <div class="field full">
-                      <span class="search-section-label" style="margin:0">Disponibilité</span>
-                      <div class="search-chip-grid search-chip-grid--3" role="group">
-                        <label class="search-chip"><input type="radio" name="sellAvailability" value="libre" /><span>Libre</span></label>
-                        <label class="search-chip"><input type="radio" name="sellAvailability" value="occupe" /><span>Occupé</span></label>
-                        <label class="search-chip"><input type="radio" name="sellAvailability" value="vendu_loue" /><span>Vendu loué</span></label>
-                      </div>
+                      <label for="sellAvailabilityFilter">Rechercher une disponibilité</label>
+                      <input id="sellAvailabilityFilter" type="search" placeholder="Ex. immédiate, viager, fin de location…" autocomplete="off" data-optional />
+                    </div>
+                    <div class="field">
+                      <label for="sellAvailability">Disponibilité</label>
+                      <select id="sellAvailability" name="sellAvailability" data-optional></select>
+                    </div>
+                    <div class="field">
+                      <label for="sellAvailabilityStart">Début de disponibilité</label>
+                      <input id="sellAvailabilityStart" name="sellAvailabilityStart" type="date" data-optional />
                     </div>
                     <div class="field full">
                       <label class="field-check"><input type="checkbox" name="sellFurnished" value="1" data-optional /> Meublé</label>

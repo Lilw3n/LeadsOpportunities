@@ -25,6 +25,17 @@
     rebuildCommercialActivity(root, "");
     rebuildEnvironment(root, "");
     rebuildGeneralCondition(root, "");
+    rebuildAvailability(root, "");
+  }
+
+  function rebuildAvailability(root, filter) {
+    var tax = T();
+    var sel = qs("#sellAvailability", root);
+    if (!sel || !tax) return;
+    var cur = sel.value;
+    var list = tax.filteredAvailability(filter);
+    sel.innerHTML = tax.optionsHtml(list, null);
+    if (cur && sel.querySelector('option[value="' + cur + '"]')) sel.value = cur;
   }
 
   function rebuildGeneralCondition(root, filter) {
@@ -134,6 +145,13 @@
     if (condFilter) {
       condFilter.addEventListener("input", function () {
         rebuildGeneralCondition(root, condFilter.value);
+      });
+    }
+
+    var availFilter = qs("#sellAvailabilityFilter", root);
+    if (availFilter) {
+      availFilter.addEventListener("input", function () {
+        rebuildAvailability(root, availFilter.value);
       });
     }
 

@@ -246,6 +246,19 @@
     { v: "nous_consulter", t: "Prix : nous consulter" },
   ];
 
+  var AVAILABILITY = [
+    { v: "", t: "— Choisir —" },
+    { v: "immediate", t: "immédiate" },
+    { v: "a_l_acte", t: "à l'acte" },
+    { v: "deux_mois_apres_acte", t: "deux mois après l'acte" },
+    { v: "apres_travaux", t: "après travaux" },
+    { v: "date_a_convenir", t: "date à convenir" },
+    { v: "fin_de_location", t: "fin de location" },
+    { v: "a_l_achevement", t: "à l'achèvement" },
+    { v: "viager_libre", t: "viager libre" },
+    { v: "viager_occupe", t: "viager occupé" },
+  ];
+
   /** Catégories pro → activité commerciale recommandée. */
   var PRO_CATEGORIES = { local: 1, entreprise: 1, parking: 0, fonds_commerce: 1 };
 
@@ -324,6 +337,15 @@
     });
   }
 
+  function filteredAvailability(filter) {
+    var q = normalizeSearch(filter);
+    return AVAILABILITY.filter(function (o) {
+      if (!o.v) return !q;
+      if (!q) return true;
+      return normalizeSearch(o.t).indexOf(q) >= 0;
+    });
+  }
+
   function commercialActivityLabel(slug) {
     var target = String(slug || "");
     for (var gi = 0; gi < COMMERCIAL_ACTIVITIES.length; gi++) {
@@ -370,6 +392,7 @@
     COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
     GENERAL_CONDITIONS: GENERAL_CONDITIONS,
     PRICE_DISPLAY: PRICE_DISPLAY,
+    AVAILABILITY: AVAILABILITY,
     PRO_CATEGORIES: PRO_CATEGORIES,
     slugSubtype: slugSubtype,
     legacyPropertyType: legacyPropertyType,
@@ -381,5 +404,6 @@
     groupedOptionsHtml: groupedOptionsHtml,
     filteredEnvironments: filteredEnvironments,
     filteredGeneralConditions: filteredGeneralConditions,
+    filteredAvailability: filteredAvailability,
   };
 })(typeof window !== "undefined" ? window : global);
