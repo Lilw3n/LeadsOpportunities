@@ -350,11 +350,11 @@
             (!l.isProspect
               ? '<button type="button" class="btn btn-primary btn-sm" data-promote="' +
                 esc(l.id) +
-                '">Créer fiche interlocuteur</button>'
+                '">Créer la fiche</button>'
               : l.contactId
                 ? '<a class="btn btn-ghost btn-sm" href="./crm-contact.html?id=' +
                   encodeURIComponent(l.contactId) +
-                  '">Fiche</a>'
+                  '">Ouvrir</a>'
                 : "") +
             (state.isAdmin
               ? '<button type="button" class="btn btn-ghost btn-sm" data-del="' +

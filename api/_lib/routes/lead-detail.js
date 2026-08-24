@@ -4,6 +4,7 @@ const { getSql } = require("../db");
 const { enrichLeadRow } = require("../leads-filters");
 const { markLeadOpened } = require("../lead-workflow");
 const { ensureSiteLeadsSchema } = require("../ensure-schema");
+const { findExistingContact } = require("../crm-ingest-from-lead");
 
 function parsePayload(raw) {
   if (!raw) return {};
@@ -96,6 +97,22 @@ module.exports = async (req, res) => {
 
     const lead = enrichLeadRow(rows[0]);
     lead.payload = parsePayload(lead.payload);
+
+    if (!lead.contact_id) {
+      try {
+        var matchedId = await findExistingContact(sql, lead.email || null, lead.phone || null);
+        if (matchedId) {
+          await sql`
+            UPDATE site_leads SET contact_id = ${matchedId}, updated_at = NOW()
+            WHERE id = ${leadId} AND contact_id IS NULL
+          `;
+          lead.contact_id = matchedId;
+          lead.contactLinkedFromExisting = true;
+        }
+      } catch (matchErr) {
+        console.warn("[dashboard/lead-detail] contact match skipped", matchErr.message);
+      }
+    }
 
     await markLeadOpened(sql, leadId, decoded.userId);
 
