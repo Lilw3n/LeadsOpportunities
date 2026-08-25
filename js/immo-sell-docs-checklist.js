@@ -1,6 +1,6 @@
 /**
- * Checklist vendeur Laforêt — checkbox + upload par pièce.
- * Drive : dossier client Nom_Prenom_Tel_Email → sous-dossier par type de pièce.
+ * Checklist vendeur Laforêt — checkbox + upload multi-fichiers par pièce.
+ * Statuts : En attente → Envoi… → Transmis → Reçu (Drive confirmé).
  */
 (function (global) {
   var MAX_BYTES = 12 * 1024 * 1024;
@@ -38,7 +38,62 @@
     return /\.(pdf|jpe?g|png)$/i.test(file.name || "");
   }
 
+  function statusLabel(status) {
+    if (status === "received") return "Reçu";
+    if (status === "transmitted") return "Transmis";
+    if (status === "uploading") return "Envoi…";
+    if (status === "error") return "Erreur";
+    if (status === "queued") return "En attente";
+    return "";
+  }
+
+  function statusClass(status) {
+    if (status === "received") return "is-received";
+    if (status === "transmitted") return "is-transmitted";
+    if (status === "uploading") return "is-uploading";
+    if (status === "error") return "is-error";
+    if (status === "queued") return "is-queued";
+    return "";
+  }
+
+  function aggregateStatus(items) {
+    if (!items || !items.length) return null;
+    if (items.some(function (i) {
+      return i.status === "error";
+    }))
+      return "error";
+    if (items.some(function (i) {
+      return i.status === "uploading";
+    }))
+      return "uploading";
+    if (items.some(function (i) {
+      return i.status === "queued";
+    }))
+      return "queued";
+    if (
+      items.every(function (i) {
+        return i.status === "received";
+      })
+    )
+      return "received";
+    if (
+      items.some(function (i) {
+        return i.status === "transmitted" || i.status === "received";
+      })
+    )
+      return "transmitted";
+    return "queued";
+  }
+
+  function driveConfirmed(res) {
+    var data = (res && res.data) || {};
+    var att = data.attachment || {};
+    var drive = data.drive || {};
+    return !!(drive.fileId || drive.id || drive.webViewLink || att.driveFileId || att.webViewLink);
+  }
+
   var queue = [];
+  var uploaded = [];
   var session = { email: null, phone: null, contactId: null, leadId: null };
 
   function renderLine(item) {
@@ -53,15 +108,17 @@
       esc(item.label) +
       "</label>" +
       '<div class="immo-doc-line-upload">' +
-      '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo">' +
+      '<span class="immo-doc-status-badge" data-sell-doc-status hidden></span>' +
+      '<label class="immo-doc-line-btn" title="Plusieurs PDF / JPG / PNG — max 12 Mo chacun">' +
       '<input type="file" accept="' +
       ACCEPT +
-      '" hidden data-sell-doc-input data-doc-type="' +
+      '" multiple hidden data-sell-doc-input data-doc-type="' +
       esc(item.type) +
       '" />' +
       "<span>Déposer</span></label>" +
-      '<span class="immo-doc-line-file" data-sell-doc-file hidden></span>' +
-      "</div></div>"
+      "</div>" +
+      '<ul class="immo-doc-file-list" data-sell-doc-files hidden></ul>' +
+      "</div>"
     );
   }
 
@@ -88,7 +145,7 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces — elles passent en <strong>En attente</strong> puis en <strong>Déposé</strong> dès l’envoi ou la sauvegarde (avec e-mail / téléphone). Les fichiers restent sur cet appareil tant qu’ils ne sont pas archivés.</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez une ou plusieurs pièces — statut <strong>En attente</strong> → <strong>Transmis</strong> → <strong>Reçu</strong> (confirmé Drive) dès l’envoi ou la sauvegarde (avec e-mail / téléphone).</p>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
   }
@@ -105,18 +162,75 @@
     counter.textContent = checked + " / " + boxes.length + " pièces cochées";
   }
 
-  function setLineState(line, state, fileName) {
+  function itemsForType(documentType) {
+    var list = [];
+    uploaded.forEach(function (u) {
+      if (u.documentType === documentType) list.push(u);
+    });
+    queue.forEach(function (q) {
+      if (q.documentType === documentType) list.push(q);
+    });
+    return list;
+  }
+
+  function refreshLine(documentType, mount) {
+    var root = mount || document;
+    var line = root.querySelector
+      ? root.querySelector('[data-sell-doc-line="' + documentType + '"]')
+      : document.querySelector('[data-sell-doc-line="' + documentType + '"]');
+    if (!line) line = document.querySelector('[data-sell-doc-line="' + documentType + '"]');
     if (!line) return;
-    line.classList.remove("is-queued", "is-done", "is-error");
-    if (state) line.classList.add(state);
-    var fileEl = line.querySelector("[data-sell-doc-file]");
-    var btn = line.querySelector(".immo-doc-line-btn span");
-    if (fileName && fileEl) {
-      fileEl.hidden = false;
-      fileEl.textContent = fileName;
+    var items = itemsForType(documentType);
+    var agg = aggregateStatus(items);
+    line.classList.remove("is-queued", "is-done", "is-error", "is-transmitted", "is-uploading", "is-received");
+    if (agg === "queued") line.classList.add("is-queued");
+    if (agg === "uploading") line.classList.add("is-uploading");
+    if (agg === "transmitted") line.classList.add("is-transmitted");
+    if (agg === "received") line.classList.add("is-done", "is-received");
+    if (agg === "error") line.classList.add("is-error");
+
+    var badge = line.querySelector("[data-sell-doc-status]");
+    if (badge) {
+      if (!agg) {
+        badge.hidden = true;
+        badge.textContent = "";
+        badge.className = "immo-doc-status-badge";
+      } else {
+        badge.hidden = false;
+        badge.textContent = statusLabel(agg) + (items.length > 1 ? " · " + items.length : "");
+        badge.className = "immo-doc-status-badge " + statusClass(agg);
+      }
     }
-    if (btn && state === "is-done") btn.textContent = "Déposé";
-    if (btn && state === "is-queued") btn.textContent = "En attente";
+
+    var btn = line.querySelector(".immo-doc-line-btn span");
+    if (btn) btn.textContent = items.length ? "Ajouter +" : "Déposer";
+
+    var listEl = line.querySelector("[data-sell-doc-files]");
+    if (!listEl) return;
+    if (!items.length) {
+      listEl.hidden = true;
+      listEl.innerHTML = "";
+      return;
+    }
+    listEl.hidden = false;
+    listEl.innerHTML = items
+      .map(function (item) {
+        return (
+          "<li>" +
+          '<span class="immo-doc-file-pill ' +
+          statusClass(item.status) +
+          '">' +
+          esc(statusLabel(item.status) || "—") +
+          "</span>" +
+          '<span class="immo-doc-file-name" title="' +
+          esc(item.fileName) +
+          '">' +
+          esc(item.fileName) +
+          "</span>" +
+          "</li>"
+        );
+      })
+      .join("");
   }
 
   function addFile(file, documentType, mount) {
@@ -128,10 +242,8 @@
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
     }
-    queue = queue.filter(function (q) {
-      return q.documentType !== documentType;
-    });
     queue.push({
+      id: "sell_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
       file: file,
       fileName: file.name,
       documentType: documentType,
@@ -141,7 +253,7 @@
     var line = mount.querySelector('[data-sell-doc-line="' + documentType + '"]');
     var chk = line && line.querySelector("[data-sell-doc-check]");
     if (chk) chk.checked = true;
-    setLineState(line, "is-queued", file.name);
+    refreshLine(documentType, mount);
     refreshCounter(mount);
   }
 
@@ -149,8 +261,11 @@
     mount.addEventListener("change", function (e) {
       var input = e.target.closest("[data-sell-doc-input]");
       if (!input || !mount.contains(input)) return;
-      if (!input.files || !input.files[0]) return;
-      addFile(input.files[0], input.getAttribute("data-doc-type") || "autre_doc", mount);
+      if (!input.files || !input.files.length) return;
+      var docType = input.getAttribute("data-doc-type") || "autre_doc";
+      Array.prototype.forEach.call(input.files, function (file) {
+        addFile(file, docType, mount);
+      });
       input.value = "";
     });
     mount.addEventListener("change", function () {
@@ -214,65 +329,78 @@
       });
     }
 
-    return pending.reduce(
-      function (chain, item) {
-        return chain.then(function (acc) {
-          item.status = "uploading";
-          return readFileAsBase64(item.file)
-            .then(function (dataUrl) {
-              return fetch("/api/external/upload", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "same-origin",
-                body: JSON.stringify({
-                  email: session.email,
-                  phone: session.phone,
-                  contactId: session.contactId,
-                  leadId: session.leadId,
+    return pending
+      .reduce(
+        function (chain, item) {
+          return chain.then(function (acc) {
+            item.status = "uploading";
+            refreshLine(item.documentType);
+            return readFileAsBase64(item.file)
+              .then(function (dataUrl) {
+                return fetch("/api/external/upload", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  credentials: "same-origin",
+                  body: JSON.stringify({
+                    email: session.email,
+                    phone: session.phone,
+                    contactId: session.contactId,
+                    leadId: session.leadId,
+                    fileName: item.fileName,
+                    documentType: item.documentType,
+                    mimeType: item.mimeType,
+                    fileBase64: dataUrl,
+                    vertical: "vendeur-immo",
+                    need: "vendeur-immo",
+                    source: "immo_sell_checklist",
+                    perTypeFolder: true,
+                    description: "Checklist vente — " + item.documentType,
+                  }),
+                });
+              })
+              .then(function (r) {
+                return r.json().then(function (data) {
+                  return { ok: r.ok, data: data };
+                });
+              })
+              .then(function (res) {
+                if (!res.ok || !res.data || !res.data.ok) {
+                  throw new Error((res.data && res.data.error) || "Upload impossible");
+                }
+                var att = (res.data && res.data.attachment) || {};
+                var drive = (res.data && res.data.drive) || {};
+                item.driveFileId = drive.fileId || att.driveFileId || null;
+                item.webViewLink = drive.webViewLink || att.webViewLink || null;
+                item.status = driveConfirmed(res) ? "received" : "transmitted";
+                uploaded.push({
+                  id: item.id,
                   fileName: item.fileName,
                   documentType: item.documentType,
-                  mimeType: item.mimeType,
-                  fileBase64: dataUrl,
-                  vertical: "vendeur-immo",
-                  need: "vendeur-immo",
-                  source: "immo_sell_checklist",
-                  perTypeFolder: true,
-                  description: "Checklist vente — " + item.documentType,
-                }),
+                  status: item.status,
+                  driveFileId: item.driveFileId,
+                  webViewLink: item.webViewLink,
+                });
+                acc.uploaded.push(item);
+                refreshLine(item.documentType);
+                return acc;
+              })
+              .catch(function (err) {
+                item.status = "error";
+                item.error = err.message || "Erreur";
+                refreshLine(item.documentType);
+                acc.errors.push({ item: item, error: item.error });
+                return acc;
               });
-            })
-            .then(function (r) {
-              return r.json().then(function (data) {
-                return { ok: r.ok, data: data };
-              });
-            })
-            .then(function (res) {
-              if (!res.ok || !res.data || !res.data.ok) {
-                throw new Error((res.data && res.data.error) || "Upload impossible");
-              }
-              item.status = "done";
-              var line = document.querySelector('[data-sell-doc-line="' + item.documentType + '"]');
-              setLineState(line, "is-done", item.fileName);
-              acc.uploaded.push(item);
-              return acc;
-            })
-            .catch(function (err) {
-              item.status = "error";
-              item.error = err.message || "Erreur";
-              var line = document.querySelector('[data-sell-doc-line="' + item.documentType + '"]');
-              setLineState(line, "is-error", item.fileName);
-              acc.errors.push({ item: item, error: item.error });
-              return acc;
-            });
+          });
+        },
+        Promise.resolve({ uploaded: [], errors: [] })
+      )
+      .then(function (result) {
+        queue = queue.filter(function (q) {
+          return q.status !== "received" && q.status !== "transmitted";
         });
-      },
-      Promise.resolve({ uploaded: [], errors: [] })
-    ).then(function (result) {
-      queue = queue.filter(function (q) {
-        return q.status !== "done";
+        return result;
       });
-      return result;
-    });
   }
 
   function boot() {
@@ -287,6 +415,9 @@
     uploadAll: uploadAll,
     getQueue: function () {
       return queue.slice();
+    },
+    getUploaded: function () {
+      return uploaded.slice();
     },
   };
 

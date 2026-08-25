@@ -190,6 +190,54 @@
   margin-left: auto;
 }
 
+.immo-doc-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.immo-doc-status-badge.is-queued,
+.immo-doc-file-pill.is-queued {
+  border-color: #a5b4fc;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.immo-doc-status-badge.is-uploading,
+.immo-doc-file-pill.is-uploading {
+  border-color: #fcd34d;
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.immo-doc-status-badge.is-transmitted,
+.immo-doc-file-pill.is-transmitted {
+  border-color: #7dd3fc;
+  background: #f0f9ff;
+  color: #0369a1;
+}
+
+.immo-doc-status-badge.is-received,
+.immo-doc-file-pill.is-received {
+  border-color: #6ee7b7;
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.immo-doc-status-badge.is-error,
+.immo-doc-file-pill.is-error {
+  border-color: #fca5a5;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
 .immo-doc-line-btn {
   display: inline-flex;
   align-items: center;
@@ -216,12 +264,62 @@
   white-space: nowrap;
 }
 
+.immo-doc-file-list {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.immo-doc-file-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.immo-doc-file-pill {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.immo-doc-file-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.75rem;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .immo-doc-line.is-queued {
   border-color: #6366f1;
   background: #eef2ff;
 }
 
-.immo-doc-line.is-done {
+.immo-doc-line.is-uploading {
+  border-color: #f59e0b;
+  background: #fffbeb;
+}
+
+.immo-doc-line.is-transmitted {
+  border-color: #38bdf8;
+  background: #f0f9ff;
+}
+
+.immo-doc-line.is-done,
+.immo-doc-line.is-received {
   border-color: #10b981;
   background: #ecfdf5;
 }

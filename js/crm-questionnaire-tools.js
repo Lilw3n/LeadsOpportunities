@@ -401,16 +401,41 @@
 
     if (!btn || !inst) return wrap;
 
-    function markItemDone(item) {
+    function markItemDone(item, res) {
       if (!item) return;
-      item.status = "done";
+      var att = (res && res.data && res.data.attachment) || {};
+      var drive = (res && res.data && res.data.drive) || {};
+      var hasDrive = !!(drive.fileId || drive.id || drive.webViewLink || att.driveFileId || att.webViewLink);
+      item.status = hasDrive ? "received" : "transmitted";
+      item.driveFileId = drive.fileId || att.driveFileId || null;
+      item.webViewLink = drive.webViewLink || att.webViewLink || null;
+      if (inst.uploaded) {
+        inst.uploaded.push({
+          id: item.id,
+          fileName: item.fileName,
+          documentType: item.documentType,
+          status: item.status,
+          driveFileId: item.driveFileId,
+          webViewLink: item.webViewLink,
+        });
+      }
+      if (typeof inst._refreshLine === "function") {
+        inst._refreshLine(item.documentType);
+        return;
+      }
       if (!inst.root) return;
       var line = inst.root.querySelector('[data-immo-doc-line="' + item.documentType + '"]');
       if (!line) return;
       line.classList.remove("is-queued", "is-error");
-      line.classList.add("is-done");
+      line.classList.add("is-done", "is-received");
       var span = line.querySelector(".immo-doc-line-btn span");
-      if (span) span.textContent = "Déposé";
+      if (span) span.textContent = "Ajouter +";
+      var badge = line.querySelector("[data-immo-doc-status-badge]");
+      if (badge) {
+        badge.hidden = false;
+        badge.textContent = hasDrive ? "Reçu" : "Transmis";
+        badge.className = "immo-doc-status-badge " + (hasDrive ? "is-received" : "is-transmitted");
+      }
     }
 
     function uploadViaExternal(items, session) {

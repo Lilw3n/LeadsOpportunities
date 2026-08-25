@@ -1,5 +1,6 @@
 /**
  * Upload documents par catégories — dépôt bien + financement recherche.
+ * Multi-fichiers + statuts : En attente → Envoi… → Transmis → Reçu (Drive confirmé).
  */
 (function (global) {
   var MAX_BYTES = 12 * 1024 * 1024;
@@ -38,6 +39,67 @@
     return /\.(pdf|jpe?g|png)$/i.test(file.name || "");
   }
 
+  function statusLabel(status) {
+    if (status === "received") return "Reçu";
+    if (status === "transmitted") return "Transmis";
+    if (status === "uploading") return "Envoi…";
+    if (status === "error") return "Erreur";
+    if (status === "queued") return "En attente";
+    return "";
+  }
+
+  function statusClass(status) {
+    if (status === "received") return "is-received";
+    if (status === "transmitted") return "is-transmitted";
+    if (status === "uploading") return "is-uploading";
+    if (status === "error") return "is-error";
+    if (status === "queued") return "is-queued";
+    return "";
+  }
+
+  function aggregateStatus(items) {
+    if (!items || !items.length) return null;
+    if (items.some(function (i) {
+      return i.status === "error";
+    }))
+      return "error";
+    if (items.some(function (i) {
+      return i.status === "uploading";
+    }))
+      return "uploading";
+    if (items.some(function (i) {
+      return i.status === "queued";
+    }))
+      return "queued";
+    if (
+      items.every(function (i) {
+        return i.status === "received";
+      })
+    )
+      return "received";
+    if (
+      items.some(function (i) {
+        return i.status === "transmitted" || i.status === "received";
+      })
+    )
+      return "transmitted";
+    return "queued";
+  }
+
+  function driveConfirmed(res) {
+    var data = (res && res.data) || {};
+    var att = data.attachment || {};
+    var drive = data.drive || {};
+    return !!(
+      drive.fileId ||
+      drive.id ||
+      drive.webViewLink ||
+      att.driveFileId ||
+      att.webViewLink ||
+      (data.fileId && !data.simulated)
+    );
+  }
+
   function ImmoCategoryDocuments(root, options) {
     this.root = root;
     this.mode = options.mode || "vendeur";
@@ -70,15 +132,17 @@
           esc(it.label) +
           "</span>" +
           '<div class="immo-doc-line-upload">' +
-          '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo">' +
+          '<span class="immo-doc-status-badge" data-immo-doc-status-badge hidden></span>' +
+          '<label class="immo-doc-line-btn" title="Plusieurs PDF / JPG / PNG — max 12 Mo chacun">' +
           '<input type="file" data-immo-doc-input accept="' +
           ACCEPT +
           '" data-doc-type="' +
           esc(it.type) +
-          '" hidden />' +
+          '" multiple hidden />' +
           "<span>Déposer</span></label>" +
-          '<span class="immo-doc-line-file" data-immo-doc-file hidden></span>' +
-          "</div></div>"
+          "</div>" +
+          '<ul class="immo-doc-file-list" data-immo-doc-files hidden></ul>' +
+          "</div>"
         );
       })
       .join("");
@@ -136,7 +200,8 @@
       esc(cfg.title) +
       "</h4>" +
       '<p class="small immo-doc-panel-intro">' +
-      esc(cfg.intro) +
+      esc(cfg.intro || "") +
+      " Plusieurs photos / PDF par pièce. Statut : <strong>En attente</strong> → <strong>Transmis</strong> → <strong>Reçu</strong> (confirmé Drive)." +
       "</p>" +
       '<div class="immo-doc-categories">' +
       groupsHtml +
@@ -149,13 +214,82 @@
     var self = this;
     this.root.addEventListener("change", function (e) {
       var input = e.target.closest("[data-immo-doc-input]");
-      if (!input || !self.root.contains(input) || !input.files || !input.files[0]) return;
+      if (!input || !self.root.contains(input) || !input.files || !input.files.length) return;
       var slot = input.closest("[data-immo-doc-slot]");
       var group = slot && slot.getAttribute("data-immo-doc-slot");
       var docType = input.getAttribute("data-doc-type") || "autre_doc";
-      self.addFile(input.files[0], docType, group);
+      Array.prototype.forEach.call(input.files, function (file) {
+        self.addFile(file, docType, group);
+      });
       input.value = "";
     });
+  };
+
+  ImmoCategoryDocuments.prototype._itemsForType = function (documentType) {
+    var list = [];
+    this.uploaded.forEach(function (u) {
+      if (u.documentType === documentType) list.push(u);
+    });
+    this.queue.forEach(function (q) {
+      if (q.documentType === documentType) list.push(q);
+    });
+    return list;
+  };
+
+  ImmoCategoryDocuments.prototype._refreshLine = function (documentType) {
+    var line = this.root.querySelector('[data-immo-doc-line="' + documentType + '"]');
+    if (!line) return;
+    var items = this._itemsForType(documentType);
+    var agg = aggregateStatus(items);
+    line.classList.remove("is-queued", "is-done", "is-error", "is-transmitted", "is-uploading", "is-received");
+    if (agg === "queued") line.classList.add("is-queued");
+    if (agg === "uploading") line.classList.add("is-uploading");
+    if (agg === "transmitted") line.classList.add("is-transmitted");
+    if (agg === "received") line.classList.add("is-done", "is-received");
+    if (agg === "error") line.classList.add("is-error");
+
+    var badge = line.querySelector("[data-immo-doc-status-badge]");
+    if (badge) {
+      if (!agg) {
+        badge.hidden = true;
+        badge.textContent = "";
+        badge.className = "immo-doc-status-badge";
+      } else {
+        badge.hidden = false;
+        badge.textContent = statusLabel(agg) + (items.length > 1 ? " · " + items.length : "");
+        badge.className = "immo-doc-status-badge " + statusClass(agg);
+      }
+    }
+
+    var btn = line.querySelector(".immo-doc-line-btn span");
+    if (btn) btn.textContent = items.length ? "Ajouter +" : "Déposer";
+
+    var listEl = line.querySelector("[data-immo-doc-files]");
+    if (!listEl) return;
+    if (!items.length) {
+      listEl.hidden = true;
+      listEl.innerHTML = "";
+      return;
+    }
+    listEl.hidden = false;
+    listEl.innerHTML = items
+      .map(function (item) {
+        return (
+          "<li>" +
+          '<span class="immo-doc-file-pill ' +
+          statusClass(item.status) +
+          '">' +
+          esc(statusLabel(item.status) || "—") +
+          "</span>" +
+          '<span class="immo-doc-file-name" title="' +
+          esc(item.fileName) +
+          '">' +
+          esc(item.fileName) +
+          "</span>" +
+          "</li>"
+        );
+      })
+      .join("");
   };
 
   ImmoCategoryDocuments.prototype.addFile = function (file, documentType, groupId) {
@@ -167,9 +301,6 @@
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
     }
-    this.queue = this.queue.filter(function (q) {
-      return q.documentType !== documentType;
-    });
     this.queue.push({
       id: "doc_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
       file: file,
@@ -180,17 +311,7 @@
       status: "queued",
     });
     this._renderQueues();
-    var line = this.root.querySelector('[data-immo-doc-line="' + documentType + '"]');
-    if (line) {
-      line.classList.add("is-queued");
-      var fileEl = line.querySelector("[data-immo-doc-file]");
-      var btn = line.querySelector(".immo-doc-line-btn span");
-      if (fileEl) {
-        fileEl.hidden = false;
-        fileEl.textContent = file.name;
-      }
-      if (btn) btn.textContent = "En attente";
-    }
+    this._refreshLine(documentType);
   };
 
   ImmoCategoryDocuments.prototype._renderQueues = function () {
@@ -203,7 +324,7 @@
       if (n) {
         st.textContent = this.crmMode
           ? n + " fichier(s) en attente — cliquez « Enregistrer les pièces » pour envoyer."
-          : n + " fichier(s) en attente — envoyés avec le formulaire.";
+          : n + " fichier(s) en attente — transmis puis reçus (Drive) avec le formulaire.";
       }
     }
   };
@@ -226,93 +347,109 @@
       return Promise.resolve({ uploaded: [], errors: [{ error: "email ou contactId requis" }] });
     }
 
-    return pending.reduce(
-      function (chain, item) {
-        return chain.then(function (acc) {
-          item.status = "uploading";
-          return readFileAsBase64(item.file)
-            .then(function (dataUrl) {
-              if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
-                return fetch("/api/immo-listing-document", {
+    return pending
+      .reduce(
+        function (chain, item) {
+          return chain.then(function (acc) {
+            item.status = "uploading";
+            self._refreshLine(item.documentType);
+            return readFileAsBase64(item.file)
+              .then(function (dataUrl) {
+                if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
+                  return fetch("/api/immo-listing-document", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                      propertyId: self.session.propertyId,
+                      email: self.session.email,
+                      leadId: self.session.leadId,
+                      documentType: item.documentType,
+                      documentGroup: item.groupId,
+                      fileName: item.fileName,
+                      mimeType: item.mimeType,
+                      fileBase64: dataUrl,
+                    }),
+                  });
+                }
+                return fetch("/api/external/upload", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
                   credentials: "same-origin",
                   body: JSON.stringify({
-                    propertyId: self.session.propertyId,
                     email: self.session.email,
+                    contactId: self.session.contactId,
                     leadId: self.session.leadId,
-                    documentType: item.documentType,
-                    documentGroup: item.groupId,
                     fileName: item.fileName,
+                    documentType: item.documentType,
                     mimeType: item.mimeType,
                     fileBase64: dataUrl,
+                    vertical: "acheteur-immo",
+                    need: "acheteur-immo",
+                    source: "immo_recherche_docs",
+                    description: "Catégorie : " + (item.groupId || ""),
                   }),
                 });
-              }
-              return fetch("/api/external/upload", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "same-origin",
-                body: JSON.stringify({
-                  email: self.session.email,
-                  contactId: self.session.contactId,
-                  leadId: self.session.leadId,
+              })
+              .then(function (r) {
+                return r.json().then(function (data) {
+                  return { ok: r.ok, data: data };
+                });
+              })
+              .then(function (res) {
+                if (!res.ok || !res.data || !res.data.ok) {
+                  throw new Error((res.data && res.data.error) || "Upload impossible");
+                }
+                var att = (res.data && res.data.attachment) || {};
+                var drive = (res.data && res.data.drive) || {};
+                item.driveFileId = drive.fileId || att.driveFileId || null;
+                item.webViewLink = drive.webViewLink || att.webViewLink || null;
+                item.status = driveConfirmed(res) ? "received" : "transmitted";
+                self.uploaded.push({
+                  id: item.id,
                   fileName: item.fileName,
                   documentType: item.documentType,
-                  mimeType: item.mimeType,
-                  fileBase64: dataUrl,
-                  vertical: "acheteur-immo",
-                  need: "acheteur-immo",
-                  source: "immo_recherche_docs",
-                  description: "Catégorie : " + (item.groupId || ""),
-                }),
+                  groupId: item.groupId,
+                  status: item.status,
+                  driveFileId: item.driveFileId,
+                  webViewLink: item.webViewLink,
+                });
+                acc.uploaded.push(item);
+                self._refreshLine(item.documentType);
+                return acc;
+              })
+              .catch(function (err) {
+                item.status = "error";
+                item.error = err.message || "Erreur";
+                acc.errors.push({ item: item, error: item.error });
+                self._refreshLine(item.documentType);
+                return acc;
               });
-            })
-            .then(function (r) {
-              return r.json().then(function (data) {
-                return { ok: r.ok, data: data };
-              });
-            })
-            .then(function (res) {
-              if (!res.ok || !res.data || !res.data.ok) {
-                throw new Error((res.data && res.data.error) || "Upload impossible");
-              }
-              item.status = "done";
-              self.uploaded.push(item);
-              acc.uploaded.push(item);
-              var line = self.root.querySelector('[data-immo-doc-line="' + item.documentType + '"]');
-              if (line) {
-                line.classList.remove("is-queued", "is-error");
-                line.classList.add("is-done");
-                var btn = line.querySelector(".immo-doc-line-btn span");
-                if (btn) btn.textContent = "Déposé";
-              }
-              return acc;
-            })
-            .catch(function (err) {
-              item.status = "error";
-              item.error = err.message || "Erreur";
-              acc.errors.push({ item: item, error: item.error });
-              return acc;
-            });
+          });
+        },
+        Promise.resolve({ uploaded: [], errors: [] })
+      )
+      .then(function (result) {
+        self.queue = self.queue.filter(function (q) {
+          return q.status !== "received" && q.status !== "transmitted";
         });
-      },
-      Promise.resolve({ uploaded: [], errors: [] })
-    ).then(function (result) {
-      self.queue = self.queue.filter(function (q) {
-        return q.status !== "done";
+        self._renderQueues();
+        var st = self.root.querySelector("[data-immo-doc-status]");
+        if (st && result.uploaded.length) {
+          st.hidden = false;
+          var received = result.uploaded.filter(function (u) {
+            return u.status === "received";
+          }).length;
+          var transmitted = result.uploaded.length - received;
+          var parts = [];
+          if (received) parts.push(received + " reçu(s)");
+          if (transmitted) parts.push(transmitted + " transmis");
+          st.textContent =
+            parts.join(" · ") +
+            (result.errors.length ? " — " + result.errors.length + " erreur(s)." : ".");
+        }
+        return result;
       });
-      self._renderQueues();
-      var st = self.root.querySelector("[data-immo-doc-status]");
-      if (st && result.uploaded.length) {
-        st.hidden = false;
-        st.textContent =
-          result.uploaded.length +
-          " document(s) enregistré(s)" +
-          (result.errors.length ? " — " + result.errors.length + " erreur(s)." : ".");
-      }
-      return result;
-    });
   };
 
   function mount(selector, mode) {
