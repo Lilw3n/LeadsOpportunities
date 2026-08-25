@@ -113,8 +113,9 @@
       return {
         id: "bot_meta",
         label: "Bot Meta",
-        org: "Facebook / Meta",
-        intent: "Ouvre la landing (preview pub / crawler) — ne remplit pas le formulaire",
+        org: "Facebook / Meta (AS32934)",
+        intent:
+          "Preview pub / crawler Meta. Les IP 57.141.x.y changent souvent au dernier chiffre : c’est un pool de serveurs Meta, pas forcément plusieurs personnes.",
         tone: "bot",
       };
     }

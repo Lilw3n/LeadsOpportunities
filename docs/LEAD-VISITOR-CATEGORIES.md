@@ -21,8 +21,12 @@ Affichage **sans blocage** : badge + intention à côté de l’IP.
 - `dashboard.html` → colonne IP + fiche détail + filtre « Tous visiteurs »
 - `crm-leads.html` / `crm-leads.js` → colonne IP / navigateur
 
-## Verif
+## Libellés manuels (nommer une IP)
 
-```bash
-npm run verify:lead-visitor-cat
-```
+API : `GET/POST /api/dashboard/ip-label`
+
+- Nommer une IP exacte **ou** un préfixe `57.141.0.` (/24) / `57.141.` (/16)
+- Affiché à côté de l’IP dans le dashboard (badge 👤)
+- Hypothèse manuelle : vous pouvez vous tromper, le libellé reste éditable
+
+Exemple : toutes les `57.141.0.*` = preview Meta ; si un ami passe aussi par un VPN rare, notez-le sur l’IP exacte.

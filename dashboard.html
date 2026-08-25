@@ -420,6 +420,44 @@
     .visitor-cat-detail--good { background: #ecfdf5; color: #166534; }
     .visitor-cat-detail--warn { background: #fff7ed; color: #9a3412; }
     .visitor-cat-detail--muted { background: #f8fafc; color: #475569; }
+    .ip-label-badge {
+      display: inline-block;
+      margin-left: 4px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: 0.72rem;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+    .ip-labels-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin: 8px 0 12px;
+      padding: 10px 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 0.85rem;
+    }
+    .ip-labels-bar .ip-hint {
+      color: #64748b;
+      flex: 1 1 220px;
+    }
+    .btn-ip-name {
+      border: 1px solid #c7d2fe;
+      background: #eef2ff;
+      color: #3730a3;
+      border-radius: 8px;
+      padding: 2px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-ip-name:hover { background: #e0e7ff; }
     .ip-cell-wrap { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
     .lead-mgmt-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
     .lead-mgmt-stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
@@ -1954,6 +1992,11 @@
             <input type="text" class="filter-input filter-input-ip" id="blockIpInput" placeholder="Bloquer une IP…" style="min-width:130px" />
             <button type="button" class="btn-lead-delete" id="btnBlockIp">Bloquer</button>
           </div>
+          <div class="ip-labels-bar" id="ipLabelsBar">
+            <strong>IP nommées</strong>
+            <span class="ip-hint">Ex. <code>57.141.0.*</code> = pool Meta (preview pub) : le dernier chiffre change souvent sans être « une autre personne ». Vous pouvez quand même nommer une IP ou un préfixe (même à tort).</span>
+            <span id="ipLabelsList" class="muted">Aucune</span>
+          </div>
           <div class="leads-bulk-bar" id="leadsBulkBar" hidden>
             <label style="display:flex;align-items:center;gap:6px">
               <input type="checkbox" id="selectAllLeads" /> Tout sélectionner
@@ -2212,6 +2255,7 @@
   <script src="./js/print-document-lib.js"></script>
   <script src="./js/crm-lead-payload-view.js"></script>
   <script src="./js/lead-visitor-category-lib.js"></script>
+  <script src="./js/ip-label-lib.js"></script>
   <script src="./js/dashboard.js"></script>
   <script src="./js/dashboard-mailbox.js"></script>
   <script src="./js/dashboard-payment-alerts.js"></script>
@@ -2229,6 +2273,8 @@
     var soundEnabled = true;
     var selectedLeadIds = {};
     var blockedIpSet = {};
+    var ipLabelRows = [];
+    var ipLabelMap = {};
 
     function getToken() { return D.getToken(); }
     function getUser() { return D.getUser(); }
@@ -2389,6 +2435,117 @@
           );
         })
         .join(" ");
+    }
+
+    async function loadIpLabels() {
+      var data = await D.api("/api/dashboard/ip-label");
+      var mount = document.getElementById("ipLabelsList");
+      ipLabelRows = (data && data.ok && data.labels) || [];
+      ipLabelMap = window.IpLabelLib ? window.IpLabelLib.indexLabels(ipLabelRows) : {};
+      if (!mount) return;
+      if (!ipLabelRows.length) {
+        mount.innerHTML = '<span class="muted">Aucune</span>';
+        return;
+      }
+      mount.innerHTML = ipLabelRows
+        .slice(0, 24)
+        .map(function (r) {
+          return (
+            '<span class="ip-chip" title="' +
+            esc(r.note || "") +
+            '"><strong>' +
+            esc(r.label) +
+            "</strong> · <code>" +
+            esc(r.ip_key) +
+            (String(r.ip_key).slice(-1) === "." ? "*" : "") +
+            '</code> <button type="button" data-delete-ip-label="' +
+            esc(r.ip_key) +
+            '" title="Supprimer le nom">×</button></span>'
+          );
+        })
+        .join(" ");
+    }
+
+    function ipLabelFor(ip) {
+      if (!ip || ip === "—" || !window.IpLabelLib) return null;
+      return window.IpLabelLib.resolve(ip, ipLabelMap);
+    }
+
+    async function saveIpLabel(ip, opts) {
+      opts = opts || {};
+      if (!ip || ip === "—") {
+        toast("Pas d’IP", "error");
+        return false;
+      }
+      var data = await D.api("/api/dashboard/ip-label", {
+        method: "POST",
+        body: JSON.stringify({
+          ip: ip,
+          scope: opts.scope || "exact",
+          label: opts.label,
+          note: opts.note || "",
+          contactId: opts.contactId || null,
+          renameContact: !!opts.renameContact,
+        }),
+      });
+      if (!data.ok) {
+        toast(data.error || "Libellé IP impossible", "error");
+        return false;
+      }
+      toast(
+        "IP nommée : " +
+          data.label +
+          (data.ip_key && String(data.ip_key).slice(-1) === "." ? " (préfixe)" : "") +
+          (data.contactRenamed ? " · fiche mise à jour" : "")
+      );
+      await loadIpLabels();
+      loadLeads();
+      return true;
+    }
+
+    function promptNameIp(ip, lead) {
+      if (!ip || ip === "—") return;
+      var existing = ipLabelFor(ip);
+      var p24 = window.IpLabelLib ? window.IpLabelLib.prefix24(ip) : "";
+      var name = window.prompt(
+        "Nommer cette IP (hypothèse OK même si vous vous trompez)\n\nIP : " +
+          ip +
+          (p24 ? "\nPréfixe /24 : " + p24 + "*" : "") +
+          "\n\nNom affiché :",
+        (existing && existing.label) || (lead && (lead.email || lead.phone)) || ""
+      );
+      if (name == null) return;
+      name = String(name).trim();
+      if (!name) {
+        toast("Nom vide", "error");
+        return;
+      }
+      var note = window.prompt("Note optionnelle (ex. « ami — à confirmer ») :", (existing && existing.note) || "") || "";
+      var scope = "exact";
+      if (p24) {
+        var usePrefix = window.confirm(
+          "Appliquer ce nom à TOUTES les IP " +
+            p24 +
+            "* (même plage) ?\n\nOK = préfixe /24\nAnnuler = cette IP exacte seulement"
+        );
+        if (usePrefix) scope = "24";
+      }
+      var renameContact = false;
+      var contactId = (lead && (lead.contact_id || lead.contactId)) || (existing && existing.contact_id) || null;
+      if (contactId) {
+        renameContact = window.confirm(
+          "Mettre aussi à jour le prénom/nom de la fiche interlocuteur liée avec « " +
+            name +
+            " » ?\n\nOK = oui (même si approximatif)\nAnnuler = IP seulement"
+        );
+      }
+      saveIpLabel(ip, {
+        label: name,
+        note: note,
+        scope: scope,
+        contactId: contactId,
+        renameContact: renameContact,
+      });
     }
 
     async function setIpBlocked(ip, blocked, extra) {
@@ -2558,7 +2715,7 @@
         a.classList.add("active");
         document.querySelectorAll(".dash-section").forEach(function(s) { s.classList.remove("active"); });
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
-        if (a.dataset.section === "leads") { loadBlockedIps(); loadLeads(); pollNewLeads(); }
+        if (a.dataset.section === "leads") { loadBlockedIps(); loadIpLabels(); loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
         if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox({});
       });
@@ -2867,6 +3024,7 @@
           tbody.innerHTML =
             '<tr><td colspan="11"><div class="empty-state">Aucun lead pour ces filtres. <a href="#" onclick="document.getElementById(\'filterView\').value=\'\';document.getElementById(\'filterIp\').value=\'\';var vc=document.getElementById(\'filterVisitorCat\');if(vc)vc.value=\'\';loadLeads();return false;">Reinitialiser</a></div></td></tr>';
         } else {
+          window.__lastLeadsList = leadsList;
           leadsList.forEach(function(l) {
             var score = l.lead_score != null ? l.lead_score : "—";
             var tr = document.createElement("tr");
@@ -2885,6 +3043,9 @@
               vcat && window.LeadVisitorCategory
                 ? window.LeadVisitorCategory.badgeHtml(vcat, esc)
                 : "";
+            var ipHit = ipLabelFor(ip);
+            var ipNameBadge =
+              ipHit && window.IpLabelLib ? window.IpLabelLib.badgeHtml(ipHit, esc) : "";
             var ipHtml =
               ip && ip !== "—"
                 ? '<div class="ip-cell-wrap"><button type="button" class="btn-ip-filter" data-filter-ip="' +
@@ -2892,8 +3053,14 @@
                   '" title="Filtrer cette IP">' +
                   esc(ip) +
                   "</button>" +
+                  (ipNameBadge ? " " + ipNameBadge : "") +
                   (ipBlocked ? ' <span class="lead-pill lead-pill-new">bloquée</span>' : "") +
                   (catBadge ? " " + catBadge : "") +
+                  ' <button type="button" class="btn-ip-name" data-name-ip="' +
+                  esc(ip) +
+                  '" data-lead-id="' +
+                  esc(l.id) +
+                  '" title="Nommer cette IP / préfixe">Nommer</button>' +
                   "</div>"
                 : "—" + (catBadge ? " " + catBadge : "");
             tr.innerHTML =
@@ -2933,6 +3100,7 @@
               if (e.target.closest(".btn-lead-delete")) return;
               if (e.target.closest(".lead-row-check")) return;
               if (e.target.closest(".btn-ip-filter")) return;
+              if (e.target.closest(".btn-ip-name")) return;
               if (e.target.closest("[data-block-ip]")) return;
               if (e.target.closest(".btn-lead-open")) {
                 e.stopPropagation();
@@ -2984,6 +3152,21 @@
         document.getElementById("filterIp").value = ipBtn.getAttribute("data-filter-ip") || "";
         currentPage = 1;
         loadLeads();
+        return;
+      }
+      var nameIpBtn = e.target.closest("[data-name-ip]");
+      if (nameIpBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        var nip = nameIpBtn.getAttribute("data-name-ip");
+        var lid = nameIpBtn.getAttribute("data-lead-id");
+        var leadRef = null;
+        if (lid && window.__lastLeadsList) {
+          leadRef = window.__lastLeadsList.find(function (x) {
+            return x.id === lid;
+          });
+        }
+        promptNameIp(nip, leadRef);
         return;
       }
       var blockBtn = e.target.closest("[data-block-ip]");
@@ -3124,6 +3307,26 @@
       var btn = e.target.closest("[data-unblock-ip]");
       if (!btn) return;
       setIpBlocked(btn.getAttribute("data-unblock-ip"), false);
+    });
+
+    document.getElementById("ipLabelsBar").addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-delete-ip-label]");
+      if (!btn) return;
+      var key = btn.getAttribute("data-delete-ip-label");
+      if (!key) return;
+      if (!window.confirm("Supprimer le nom de « " + key + " » ?")) return;
+      D.api("/api/dashboard/ip-label", {
+        method: "POST",
+        body: JSON.stringify({ action: "delete", ip_key: key }),
+      }).then(function (res) {
+        if (!res.ok) {
+          toast(res.error || "Suppression impossible", "error");
+          return;
+        }
+        toast("Libellé IP supprimé");
+        loadIpLabels();
+        loadLeads();
+      });
     });
 
     document.getElementById("prevPage").addEventListener("click", function() { if (currentPage > 1) { currentPage--; loadLeads(); } });
@@ -3303,8 +3506,12 @@
             '<div class="detail-item"><div class="dlabel">Email</div><div class="dvalue">' + esc(l.email) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Téléphone</div><div class="dvalue">' + esc(l.phone) + '</div></div>' +
             '<div class="detail-item"><div class="dlabel">Adresse IP</div><div class="dvalue"><code>' + esc(leadClientIp(l)) + '</code>' +
+            (ipLabelFor(leadClientIp(l)) && window.IpLabelLib
+              ? " " + window.IpLabelLib.badgeHtml(ipLabelFor(leadClientIp(l)), esc)
+              : "") +
             (leadClientIp(l) !== "—"
               ? ' <button type="button" class="btn-lead-open" id="modalFilterIp" data-ip="' + esc(leadClientIp(l)) + '">Filtrer</button> ' +
+                '<button type="button" class="btn-ip-name" id="modalNameIp" data-ip="' + esc(leadClientIp(l)) + '">Nommer</button> ' +
                 '<button type="button" class="btn-lead-delete" id="modalBlockIp" data-ip="' + esc(leadClientIp(l)) + '">' +
                 (blockedIpSet[leadClientIp(l)] ? "Débloquer IP" : "Bloquer IP") +
                 "</button>"
@@ -3506,6 +3713,12 @@
             loadLeads();
           });
         }
+        var nameIpModal = document.getElementById("modalNameIp");
+        if (nameIpModal) {
+          nameIpModal.addEventListener("click", function () {
+            promptNameIp(this.getAttribute("data-ip"), l);
+          });
+        }
         var blockIpBtn = document.getElementById("modalBlockIp");
         if (blockIpBtn) {
           blockIpBtn.addEventListener("click", function () {
@@ -3574,6 +3787,7 @@
     if (refreshRot) refreshRot.addEventListener("click", loadMetaRotation);
     document.getElementById("refreshLeads").addEventListener("click", function () {
       loadBlockedIps();
+      loadIpLabels();
       loadLeads();
     });
 
@@ -3582,6 +3796,7 @@
       setTimeout(function () {
         goToLeads(params.get("view") || "");
         loadBlockedIps();
+        loadIpLabels();
         var leadId = params.get("lead");
         if (leadId) setTimeout(function () { openLeadDetail(leadId); }, 400);
       }, 100);
