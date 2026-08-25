@@ -1967,7 +1967,8 @@
               <option value="">Tous visiteurs</option>
               <option value="prospect">Prospects</option>
               <option value="abandon">Abandons (contact)</option>
-              <option value="bot_meta">Bots Meta</option>
+              <option value="bot_meta">Plage Meta (WHOIS)</option>
+              <option value="named">Nommés manuellement</option>
               <option value="bot_cloud">Bots cloud</option>
               <option value="test">Tests</option>
               <option value="noise">Bruit (sans contact)</option>
@@ -3042,14 +3043,16 @@
             if (rel) pills += '<span class="lead-pill lead-pill-' + rel + '">' + relevanceLabel(rel) + '</span>';
             var ip = leadClientIp(l);
             var ipBlocked = ip && ip !== "—" && blockedIpSet[ip];
+            var ipHit = ipLabelFor(ip);
             var vcat = leadVisitorCat(l);
             var catBadge =
               vcat && window.LeadVisitorCategory
                 ? window.LeadVisitorCategory.badgeHtml(vcat, esc)
                 : "";
-            var ipHit = ipLabelFor(ip);
             var ipNameBadge =
-              ipHit && window.IpLabelLib ? window.IpLabelLib.badgeHtml(ipHit, esc) : "";
+              ipHit && (!vcat || vcat.id !== "named") && window.IpLabelLib
+                ? window.IpLabelLib.badgeHtml(ipHit, esc)
+                : "";
             var ipHtml =
               ip && ip !== "—"
                 ? '<div class="ip-cell-wrap"><button type="button" class="btn-ip-filter" data-filter-ip="' +
@@ -3064,7 +3067,9 @@
                   esc(ip) +
                   '" data-lead-id="' +
                   esc(l.id) +
-                  '" title="Nommer cette IP / préfixe">Nommer</button>' +
+                  '" title="Nommer cette IP / préfixe (ex. mon pote)">' +
+                  (ipHit ? "Renommer" : "Nommer") +
+                  "</button>" +
                   "</div>"
                 : "—" + (catBadge ? " " + catBadge : "");
             tr.innerHTML =
