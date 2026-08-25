@@ -61,7 +61,7 @@ module.exports = async function publicImmoListingDocument(req, res) {
     var store = require("../immo-properties-store");
     await store.ensureImmoSchema(sql);
     var rows = await sql`
-      SELECT id, title, city, postal_code, drive_folder_id, lead_id, metadata_json
+      SELECT id, title, city, postal_code, surface_m2, drive_folder_id, lead_id, metadata_json
       FROM crm_immo_properties WHERE id = ${propertyId} LIMIT 1
     `;
     if (!rows.length) {
@@ -70,13 +70,20 @@ module.exports = async function publicImmoListingDocument(req, res) {
     var prop = rows[0];
 
     var leadOk = false;
+    var leadFirst = "";
+    var leadLast = "";
     if (prop.lead_id) {
       var leads = await sql`
-        SELECT email, phone FROM site_leads WHERE id = ${prop.lead_id} LIMIT 1
+        SELECT email, phone, payload FROM site_leads WHERE id = ${prop.lead_id} LIMIT 1
       `;
       if (leads.length) {
         var le = String(leads[0].email || "").toLowerCase();
         leadOk = le === email;
+        try {
+          var lp = typeof leads[0].payload === "string" ? JSON.parse(leads[0].payload || "{}") : leads[0].payload || {};
+          leadFirst = lp.firstName || lp.first_name || "";
+          leadLast = lp.lastName || lp.last_name || "";
+        } catch (e) {}
       }
     }
     if (!leadOk && body.leadId) {
@@ -108,6 +115,9 @@ module.exports = async function publicImmoListingDocument(req, res) {
         title: prop.title,
         city: prop.city,
         postal_code: prop.postal_code,
+        surface_m2: prop.surface_m2,
+        firstName: leadFirst || body.firstName || "",
+        lastName: leadLast || body.lastName || "",
         drive_folder_id: prop.drive_folder_id,
       },
       { subfolder: classified }

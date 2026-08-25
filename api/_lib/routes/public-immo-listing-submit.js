@@ -345,6 +345,10 @@ module.exports = async function publicImmoListingSubmit(req, res) {
                 title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : "Bien à vendre"),
                 city: city,
                 postal_code: postal,
+                surface_m2: surface,
+                firstName: firstName,
+                lastName: lastName,
+                sellerName: sellerName || personName || "",
               },
               photos
             );

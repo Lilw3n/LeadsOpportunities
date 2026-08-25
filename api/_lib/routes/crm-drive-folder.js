@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
 
     if (propertyId) {
       const props = await sql`
-        SELECT id, title, city, postal_code, drive_folder_id, owner_contact_id, lead_id, metadata_json
+        SELECT id, title, city, postal_code, surface_m2, drive_folder_id, owner_contact_id, lead_id, metadata_json
         FROM crm_immo_properties
         WHERE id = ${propertyId}
           AND owner_contact_id = ${contactId}
@@ -64,6 +64,9 @@ module.exports = async (req, res) => {
           title: prop.title,
           city: prop.city,
           postal_code: prop.postal_code,
+          surface_m2: prop.surface_m2,
+          firstName: contacts[0].first_name || "",
+          lastName: contacts[0].last_name || "",
           drive_folder_id: prop.drive_folder_id,
         });
         if (ensuredProp && ensuredProp.folderId) {

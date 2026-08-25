@@ -72,6 +72,19 @@ assert(
   "capture annonce → 01_photos_publiques"
 );
 assert(classify.resolveListingMediaFolder("capture") === "01_photos_publiques", "capture listing → 01_photos_publiques");
+assert(
+  classify.buildProspectFolderName({
+    firstName: "Marie",
+    lastName: "Dupont",
+    city: "Varangeville",
+    surface_m2: 85,
+  }) === "Marie_Dupont_Varangeville_85m2",
+  "titre dossier = Prénom_Nom_Ville_m2"
+);
+assert(
+  classify.buildPropIdFolderName({ id: "prop_eefbd6f48a349182" }) === "prop_eefbd6f48a349182",
+  "sous-dossier technique = prop_id"
+);
 
 var docCfg = read("js/immo-documents-config.js");
 assert(docCfg.indexOf('id: "pub"') >= 0, "zone pub vendeur");

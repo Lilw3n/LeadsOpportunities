@@ -15,12 +15,43 @@ const IMMO_SUBFOLDERS = [
 ];
 
 function safeName(s, max) {
-  return String(s || "bien")
+  return String(s || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^\w\-]+/g, "_")
+    .replace(/^_+|_+$/g, "")
     .replace(/_+/g, "_")
     .slice(0, max || 48);
+}
+
+function formatSurfaceLabel(surface) {
+  var n = Number(surface);
+  if (!isFinite(n) || n <= 0) return "";
+  return Math.round(n) + "m2";
+}
+
+/**
+ * Dossier visible : Prénom_Nom_Ville_85m2
+ */
+function buildProspectFolderName(property) {
+  property = property || {};
+  var parts = [
+    safeName(property.firstName || property.first_name || property.prenom, 20),
+    safeName(property.lastName || property.last_name || property.nom, 24),
+    safeName(property.city || property.postal_code || property.ville, 20),
+    formatSurfaceLabel(property.surface_m2 || property.surface || property.surfaceM2),
+  ].filter(Boolean);
+  if (!parts.length) {
+    parts.push(safeName(property.title || property.sellerName || "prospect", 32) || "prospect");
+  }
+  return parts.join("_").slice(0, 96);
+}
+
+/** Sous-dossier technique : prop_xxxx */
+function buildPropIdFolderName(property) {
+  var id = String((property && property.id) || "prop").trim();
+  if (!id) id = "prop";
+  return safeName(id, 48) || "prop";
 }
 
 async function getToken() {
@@ -178,9 +209,10 @@ async function ensureImmoRoot(token, rootId) {
 }
 
 /**
- * Assure uniquement le dossier racine du bien (Immo/année/prop_…).
- * Ne crée PAS les 8 sous-dossiers — création à la demande via ensurePropertySubfolder.
- * @param {object} property
+ * Assure le dossier bien :
+ *   Immo/année/Prénom_Nom_Ville_85m2/prop_xxxx[/01_photos_…]
+ * Ne crée PAS les 8 sous-dossiers d’un coup — seulement le sous-dossier demandé.
+ * @param {object} property — id, firstName, lastName, city, surface_m2, drive_folder_id?
  * @param {{ subfolder?: string }} [opts] — si subfolder fourni, crée aussi ce seul sous-dossier
  */
 async function ensurePropertyDriveFolders(property, opts) {
@@ -190,12 +222,9 @@ async function ensurePropertyDriveFolders(property, opts) {
   const rootId = getRootFolderId();
   const configured = !!(token && rootId && isDriveConfigured());
 
-  const label =
-    safeName(property.id, 24) +
-    "_" +
-    safeName(property.city || property.postal_code || "ville", 16) +
-    "_" +
-    safeName(property.title || "bien", 28);
+  const prospectLabel = buildProspectFolderName(property);
+  const propIdLabel = buildPropIdFolderName(property);
+  const label = prospectLabel + "/" + propIdLabel;
 
   if (!configured) {
     return {
@@ -203,6 +232,8 @@ async function ensurePropertyDriveFolders(property, opts) {
       simulated: true,
       configured: false,
       folderName: label,
+      prospectFolderName: prospectLabel,
+      propIdFolderName: propIdLabel,
       subfolders: IMMO_SUBFOLDERS,
       lazy: true,
       message: "Drive non configuré — mode local intelligent actif (voir docs/DRIVE-SETUP.md)",
@@ -210,6 +241,7 @@ async function ensurePropertyDriveFolders(property, opts) {
   }
 
   var propFolderId = property.drive_folder_id || null;
+  var prospectFolderId = null;
   var webViewLink = null;
   var existing = false;
 
@@ -217,15 +249,16 @@ async function ensurePropertyDriveFolders(property, opts) {
     existing = true;
   } else {
     const yearFolder = await ensureImmoRoot(token, rootId);
-    const propFolder = await driveCreateFolder(token, label, yearFolder.id);
+    const prospectFolder = await findChildFolder(token, yearFolder.id, prospectLabel, true);
+    prospectFolderId = prospectFolder.id;
+    const propFolder = await findChildFolder(token, prospectFolder.id, propIdLabel, true);
     propFolderId = propFolder.id;
-    webViewLink = propFolder.webViewLink || null;
+    webViewLink = propFolder.webViewLink || prospectFolder.webViewLink || null;
   }
 
   const subs = {};
 
   if (onlySub) {
-    // Upload : ne créer / résoudre que le sous-dossier cible
     const foundOne = await lookupChildFolder(token, propFolderId, onlySub);
     var sfOnly = null;
     for (var j = 0; j < IMMO_SUBFOLDERS.length; j++) {
@@ -246,7 +279,6 @@ async function ensurePropertyDriveFolders(property, opts) {
       };
     }
   } else {
-    // Ouverture / inventaire : lister sans créer les dossiers manquants
     for (var i = 0; i < IMMO_SUBFOLDERS.length; i++) {
       const sf = IMMO_SUBFOLDERS[i];
       const found = await lookupChildFolder(token, propFolderId, sf.id);
@@ -258,7 +290,10 @@ async function ensurePropertyDriveFolders(property, opts) {
     ok: true,
     configured: true,
     folderId: propFolderId,
+    prospectFolderId: prospectFolderId,
     folderName: label,
+    prospectFolderName: prospectLabel,
+    propIdFolderName: propIdLabel,
     webViewLink: webViewLink,
     subfolders: IMMO_SUBFOLDERS,
     subfolderIds: subs,
@@ -302,4 +337,6 @@ module.exports = {
   ensurePropertySubfolder,
   listFolderFiles,
   safeName,
+  buildProspectFolderName,
+  buildPropIdFolderName,
 };
