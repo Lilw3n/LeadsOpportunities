@@ -1107,6 +1107,8 @@
 
   function flushSave(force) {
     clearTimeout(saveTimer);
+    if (!formDirty && !force) return;
+    if (!formDirty) return;
     saveDraft(true, { force: !!force });
     syncDraftToServerBeacon();
   }
