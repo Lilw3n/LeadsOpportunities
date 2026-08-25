@@ -35,7 +35,19 @@ function mergePayload(existing, patch) {
   if (patch.abandoned) funnel.abandonedAt = new Date().toISOString();
 
   base.funnel = funnel;
-  if (patch.partial) base.questionnaireDraft = Object.assign(base.questionnaireDraft || {}, patch.partial);
+  if (patch.partial) {
+    base.questionnaireDraft = Object.assign(base.questionnaireDraft || {}, patch.partial);
+    if (patch.partial.depositDraft && typeof patch.partial.depositDraft === "object") {
+      base.depositDraft = patch.partial.depositDraft;
+    }
+    if (patch.partial.form && typeof patch.partial.form === "object") {
+      Object.keys(patch.partial.form).forEach(function (k) {
+        if (patch.partial.form[k] != null && patch.partial.form[k] !== "") {
+          base[k] = patch.partial.form[k];
+        }
+      });
+    }
+  }
   if (patch.clientIp) base.clientIp = patch.clientIp;
   return base;
 }

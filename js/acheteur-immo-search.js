@@ -149,7 +149,12 @@
       listings.length +
       " annonce" +
       (listings.length > 1 ? "s" : "");
-    if (count) count.textContent = label;
+    var foldClosed = root.tagName === "DETAILS" && !root.open;
+    if (count) {
+      count.textContent = foldClosed
+        ? label + " — cliquer pour ouvrir"
+        : label;
+    }
     if (countInner) countInner.textContent = label;
     if (!listings.length) {
       if (grid) grid.innerHTML = "";
@@ -298,6 +303,13 @@
       if (root.tagName === "DETAILS") root.open = true;
     }
 
+    function closeFoldByDefault() {
+      if (root.tagName !== "DETAILS") return;
+      var wantOpen = (location.hash || "").indexOf("recherche") >= 0;
+      root.open = !!wantOpen;
+      if (!wantOpen) root.removeAttribute("open");
+    }
+
     function refresh() {
       var query = queryFromForm(root);
       fetchListings(query).then(function (data) {
@@ -306,6 +318,12 @@
         render(root, state.listings, state.source, query);
       });
     }
+
+    closeFoldByDefault();
+
+    root.addEventListener("toggle", function () {
+      render(root, state.listings, state.source, queryFromForm(root));
+    });
 
     var form = qs(root, "[data-listings-filters]");
     if (form) {
@@ -325,7 +343,6 @@
     bindGrid(root, state);
     refresh();
     document.addEventListener("lo:listing-submitted", refresh);
-    if ((location.hash || "").indexOf("recherche") >= 0) openFold();
     window.addEventListener("hashchange", function () {
       if ((location.hash || "").indexOf("recherche") >= 0) openFold();
     });
