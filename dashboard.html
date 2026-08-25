@@ -2586,6 +2586,8 @@
         document.getElementById("filterView").value = filterView;
       }
       currentPage = 1;
+      loadBlockedIps();
+      loadIpLabels();
       loadLeads();
       pollNewLeads();
     }
