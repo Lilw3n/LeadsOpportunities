@@ -8,7 +8,8 @@ Affichage **sans blocage** : badge + intention à côté de l’IP.
 
 | Id | Badge | Intention typique |
 |----|-------|-------------------|
-| `bot_meta` | Bot Meta | Preview pub / crawler Facebook (`57.141.*`, `173.252.*`…) |
+| `bot_meta` | Plage Meta | WHOIS Meta (`57.141.*`…) — souvent preview ; **Nommer** prioritaire |
+| `named` | (libellé manuel) | IP / préfixe nommé dans le CRM (ex. « mon pote ») |
 | `bot_cloud` | Bot cloud | Scan AWS/GCP |
 | `test` | Test | Emails `example.com` / flood / audit |
 | `prospect` | Prospect | Contact + score élevé — à traiter |

@@ -108,14 +108,34 @@
     var score = leadScore(lead);
     var contact = hasContact(lead);
     var src = sourceOf(lead);
+    var manual =
+      (lead.ipLabel && String(lead.ipLabel).trim()) ||
+      (lead.manualLabel && String(lead.manualLabel).trim()) ||
+      "";
+
+    /* Libellé manuel prioritaire (ex. « mon pote ») même sur une plage Meta */
+    if (manual) {
+      var metaHint = ipStartsWith(ip, META_PREFIXES);
+      return {
+        id: "named",
+        label: manual,
+        org: metaHint
+          ? "Nommé manuellement · plage aussi utilisée par Meta"
+          : "Nommé manuellement",
+        intent: metaHint
+          ? "Tu as identifié cette IP (ou ce préfixe). WHOIS = Meta, mais ton nom reste affiché en priorité — à confirmer avec email/tél."
+          : "Identification manuelle CRM — peut être corrigée à tout moment",
+        tone: "good",
+      };
+    }
 
     if (ipStartsWith(ip, META_PREFIXES)) {
       return {
         id: "bot_meta",
-        label: "Bot Meta",
-        org: "Facebook / Meta (AS32934)",
+        label: "Plage Meta",
+        org: "Facebook / Meta (AS32934) — WHOIS",
         intent:
-          "Preview pub / crawler Meta. Les IP 57.141.x.y changent souvent au dernier chiffre : c’est un pool de serveurs Meta, pas forcément plusieurs personnes.",
+          "Cette plage (ex. 57.141.x.y) est enregistrée chez Meta. Souvent : preview pub / crawler. Le dernier chiffre change = pool de serveurs. Si tu penses que c’est un proche, utilise « Nommer » : ton libellé passera devant.",
         tone: "bot",
       };
     }

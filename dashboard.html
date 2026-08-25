@@ -1994,7 +1994,7 @@
           </div>
           <div class="ip-labels-bar" id="ipLabelsBar">
             <strong>IP nommées</strong>
-            <span class="ip-hint">Ex. <code>57.141.0.*</code> = pool Meta (preview pub) : le dernier chiffre change souvent sans être « une autre personne ». Vous pouvez quand même nommer une IP ou un préfixe (même à tort).</span>
+            <span class="ip-hint">Ex. <code>57.141.0.*</code> : plage enregistrée chez Meta (WHOIS), souvent preview pub — le dernier chiffre change souvent. Si tu penses que c’est ton pote, clique <strong>Nommer</strong> : ton nom passe devant le badge automatique.</span>
             <span id="ipLabelsList" class="muted">Aucune</span>
           </div>
           <div class="leads-bulk-bar" id="leadsBulkBar" hidden>
@@ -2325,6 +2325,7 @@
     function leadVisitorCat(l) {
       if (!window.LeadVisitorCategory) return null;
       var ip = leadClientIp(l);
+      var hit = ipLabelFor(ip);
       return window.LeadVisitorCategory.categorize({
         client_ip: ip !== "—" ? ip : "",
         email: l.email,
@@ -2336,13 +2337,14 @@
         pipeline_stage: l.pipeline_stage,
         status: l.status,
         payload: l.payload || {},
+        ipLabel: hit && hit.label ? hit.label : "",
       });
     }
 
     function visitorCatMatchesFilter(cat, filter) {
       if (!filter) return true;
       if (!cat) return filter === "unknown";
-      if (filter === "humans") return cat.id === "prospect" || cat.id === "abandon";
+      if (filter === "humans") return cat.id === "prospect" || cat.id === "abandon" || cat.id === "named";
       if (filter === "bots") return cat.id === "bot_meta" || cat.id === "bot_cloud" || cat.id === "noise";
       return cat.id === filter;
     }
