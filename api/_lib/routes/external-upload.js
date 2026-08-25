@@ -130,6 +130,9 @@ module.exports = async (req, res) => {
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
 
   try {
+    const { ensureContactsDriveSchema } = require("../drive-folders");
+    await ensureContactsDriveSchema(sql);
+
     const contact = await resolveOrCreateContact(sql, body);
     if (!contact) {
       return res.status(404).json({
@@ -157,6 +160,15 @@ module.exports = async (req, res) => {
       uploadOpts.subfolder = subfolderForDocumentType(documentType);
     }
     var driveResult = await uploadBase64File(uploadOpts);
+    if (driveResult && driveResult.simulated) {
+      return res.status(503).json({
+        ok: false,
+        error:
+          "Upload Drive en mode simulation — configurez GOOGLE_DRIVE_REFRESH_TOKEN puis redeploy.",
+        code: "drive_simulated",
+        drive: driveResult,
+      });
+    }
 
     const attachment = attachmentFromBody(body, driveResult || {});
     const extraData = JSON.stringify({

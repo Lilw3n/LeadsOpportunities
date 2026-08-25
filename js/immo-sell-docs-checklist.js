@@ -87,9 +87,13 @@
 
   function driveConfirmed(res) {
     var data = (res && res.data) || {};
+    if (data.drive && data.drive.simulated) return false;
+    if (data.simulated) return false;
     var att = data.attachment || {};
     var drive = data.drive || {};
-    return !!(drive.fileId || drive.id || drive.webViewLink || att.driveFileId || att.webViewLink);
+    var fileId = drive.fileId || drive.id || att.driveFileId || "";
+    if (!fileId || String(fileId).indexOf("sim_") === 0) return false;
+    return !!(fileId || drive.webViewLink || att.webViewLink);
   }
 
   var queue = [];
@@ -299,6 +303,8 @@
     try {
       var leadId = localStorage.getItem("lo_immo_deposit_lead_id") || localStorage.getItem("lo_draft_lead_id");
       if (leadId) session.leadId = leadId;
+      var propId = localStorage.getItem("lo_immo_deposit_property_id");
+      if (propId) session.propertyId = propId;
     } catch (e) {}
     if (global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
       session.leadId = session.leadId || global.QuoteIntelligence.getDraftLeadId();
@@ -462,6 +468,26 @@
             refreshLine(item.documentType);
             return readFileAsBase64(item.file)
               .then(function (dataUrl) {
+                /* Priorité : Drive du bien (fonctionne) ; sinon contact (checklist). */
+                if (session.propertyId) {
+                  return fetch("/api/immo-listing-document", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                      propertyId: session.propertyId,
+                      email: session.email || null,
+                      phone: session.phone || null,
+                      contactId: session.contactId || null,
+                      leadId: session.leadId,
+                      documentType: item.documentType,
+                      documentGroup: "diagnostics",
+                      fileName: item.fileName,
+                      mimeType: item.mimeType,
+                      fileBase64: dataUrl,
+                    }),
+                  });
+                }
                 return fetch("/api/external/upload", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -494,11 +520,16 @@
                 }
                 if (res.data.contactId) session.contactId = res.data.contactId;
                 if (res.data.leadId) session.leadId = res.data.leadId;
+                if (res.data.propertyId) session.propertyId = res.data.propertyId;
+                if (res.data.driveWebViewLink) session.driveWebViewLink = res.data.driveWebViewLink;
                 var att = (res.data && res.data.attachment) || {};
                 var drive = (res.data && res.data.drive) || {};
                 item.driveFileId = drive.fileId || att.driveFileId || null;
                 item.webViewLink = drive.webViewLink || att.webViewLink || null;
                 item.status = driveConfirmed(res) ? "received" : "transmitted";
+                if (item.status !== "received" && res.data && res.data.ok && !drive.simulated) {
+                  item.status = item.driveFileId ? "received" : "transmitted";
+                }
                 uploaded.push({
                   id: item.id,
                   fileName: item.fileName,

@@ -88,16 +88,13 @@
 
   function driveConfirmed(res) {
     var data = (res && res.data) || {};
+    if (data.drive && data.drive.simulated) return false;
+    if (data.simulated) return false;
     var att = data.attachment || {};
     var drive = data.drive || {};
-    return !!(
-      drive.fileId ||
-      drive.id ||
-      drive.webViewLink ||
-      att.driveFileId ||
-      att.webViewLink ||
-      (data.fileId && !data.simulated)
-    );
+    var fileId = drive.fileId || drive.id || att.driveFileId || data.fileId || "";
+    if (!fileId || String(fileId).indexOf("sim_") === 0) return false;
+    return !!(fileId || drive.webViewLink || att.webViewLink);
   }
 
   function ImmoCategoryDocuments(root, options) {
@@ -620,11 +617,17 @@
                 if (!res.ok || !res.data || !res.data.ok) {
                   throw new Error((res.data && res.data.error) || "Upload impossible");
                 }
+                if (res.data.driveWebViewLink) self.session.driveWebViewLink = res.data.driveWebViewLink;
+                if (res.data.driveFolderId) self.session.driveFolderId = res.data.driveFolderId;
                 var att = (res.data && res.data.attachment) || {};
                 var drive = (res.data && res.data.drive) || {};
                 item.driveFileId = drive.fileId || att.driveFileId || null;
                 item.webViewLink = drive.webViewLink || att.webViewLink || null;
                 item.status = driveConfirmed(res) ? "received" : "transmitted";
+                if (!item.driveFileId || String(item.driveFileId).indexOf("sim_") === 0) {
+                  throw new Error((res.data && res.data.error) || "Fichier non confirmé sur Drive");
+                }
+                item.status = "received";
                 var already = self.uploaded.some(function (u) {
                   return u.id === item.id;
                 });

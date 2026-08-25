@@ -26,6 +26,19 @@ const DOC_TYPE_SUBFOLDER = {
 const { getDriveAccessToken, getRootFolderId } = require("./google-drive-auth");
 const { shareFolderWithBroker, resolveFolderWebLink, isValidDriveId } = require("./drive-share");
 
+var contactsDriveSchemaReady = false;
+
+async function ensureContactsDriveSchema(sql) {
+  if (!sql || contactsDriveSchemaReady) return contactsDriveSchemaReady;
+  try {
+    await sql`ALTER TABLE crm_contacts ADD COLUMN IF NOT EXISTS drive_folder_id TEXT`;
+    contactsDriveSchemaReady = true;
+  } catch (e) {
+    console.warn("[drive-folders] ensure drive_folder_id", e.message);
+  }
+  return contactsDriveSchemaReady;
+}
+
 async function getDriveToken() {
   // OAuth courtier en priorité : dossiers créés directement sur le Drive Gmail perso.
   var oauth = await getDriveAccessToken({ forUpload: true });
@@ -88,6 +101,7 @@ async function ensureClientDriveFolders(contactId) {
   const sql = getSql();
 
   if (!sql) return { ok: false, error: "no_db" };
+  await ensureContactsDriveSchema(sql);
   if (!token || !rootId) {
     return {
       ok: false,
@@ -187,6 +201,7 @@ async function resolveContactUploadFolderId(contactId) {
   if (!contactId) return getRootFolderId();
   const sql = getSql();
   if (!sql) return getRootFolderId();
+  await ensureContactsDriveSchema(sql);
 
   const rows = await sql`
     SELECT drive_folder_id FROM crm_contacts WHERE id = ${contactId} LIMIT 1
@@ -244,6 +259,7 @@ function subfolderForDocumentType(documentType) {
 module.exports = {
   CLIENT_SUBFOLDERS,
   DOC_TYPE_SUBFOLDER,
+  ensureContactsDriveSchema,
   ensureClientDriveFolders,
   resolveContactUploadFolderId,
   resolveContactSubfolderId,

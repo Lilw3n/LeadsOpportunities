@@ -212,13 +212,23 @@ module.exports = async function publicImmoListingDocument(req, res) {
       }
     }
 
-    if (uploaded.simulated && isDriveUploadConfigured()) {
+    if (uploaded.simulated) {
       return res.status(503).json({
         ok: false,
         error:
           "Upload Drive echoue (mode simulation). Regenerer GOOGLE_DRIVE_REFRESH_TOKEN sur Vercel puis redeploy.",
+        code: "drive_simulated",
         drive: uploaded,
       });
+    }
+
+    var folderLink = null;
+    if (ensured.folderId) {
+      try {
+        const { resolveFolderWebLink } = require("../drive-share");
+        var fl = await resolveFolderWebLink(ensured.folderId, { share: false });
+        folderLink = (fl && fl.webViewLink) || null;
+      } catch (e) {}
     }
 
     return res.status(201).json({
@@ -228,6 +238,14 @@ module.exports = async function publicImmoListingDocument(req, res) {
       documentType: documentType,
       classifiedAs: classified,
       drive: uploaded,
+      driveFolderId: ensured.folderId || prop.drive_folder_id || null,
+      driveWebViewLink: folderLink || uploaded.webViewLink || null,
+      attachment: {
+        name: fileName,
+        type: documentType,
+        driveFileId: uploaded.fileId || null,
+        webViewLink: uploaded.webViewLink || null,
+      },
     });
   } catch (e) {
     console.error("[immo-listing-document]", e);
