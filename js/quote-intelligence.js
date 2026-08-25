@@ -102,6 +102,16 @@
     };
     return postJson("/api/lead-progress", payload).then(function (res) {
       if (res.ok && res.leadId) setDraftLeadId(res.leadId);
+      try {
+        document.dispatchEvent(
+          new CustomEvent("lo:lead-progress-saved", {
+            detail: {
+              leadId: (res && res.leadId) || null,
+              contactId: (res && res.contactId) || null,
+            },
+          })
+        );
+      } catch (e) {}
       return res;
     });
   }
@@ -307,7 +317,7 @@
           reason || "autosave_partial",
           reason || "field_change"
         );
-      }, 350);
+      }, 180);
     }
     function flushBeacon() {
       if (!formHasMeaningfulInput(form) && !getDraftLeadId()) return;

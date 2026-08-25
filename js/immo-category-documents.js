@@ -312,6 +312,47 @@
     });
     this._renderQueues();
     this._refreshLine(documentType);
+    if (!this.crmMode) this.scheduleImmediateUpload();
+  };
+
+  ImmoCategoryDocuments.prototype.syncSessionFromPage = function () {
+    var form = document.querySelector("[data-url-capture-form], form[data-quote-wizard], form[data-track-form]");
+    if (form) {
+      var em = form.querySelector("[name='email']");
+      var ph = form.querySelector("[name='phone']");
+      if (em && String(em.value || "").trim()) this.session.email = String(em.value).trim().toLowerCase();
+      if (ph && String(ph.value || "").trim()) this.session.phone = String(ph.value).trim();
+    }
+    try {
+      var leadId = localStorage.getItem("lo_immo_deposit_lead_id") || localStorage.getItem("lo_draft_lead_id");
+      if (leadId) this.session.leadId = leadId;
+    } catch (e) {}
+    if (global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
+      this.session.leadId = this.session.leadId || global.QuoteIntelligence.getDraftLeadId();
+    }
+    return this.session;
+  };
+
+  ImmoCategoryDocuments.prototype.scheduleImmediateUpload = function () {
+    var self = this;
+    clearTimeout(self._uploadTimer);
+    self._uploadTimer = setTimeout(function () {
+      self.syncSessionFromPage();
+      var ensure =
+        global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
+          ? global.AcheteurImmoDepositGuide.ensureServerLead()
+          : Promise.resolve(self.session.leadId);
+      Promise.resolve(ensure).then(function (leadId) {
+        if (leadId) self.session.leadId = leadId;
+        self.syncSessionFromPage();
+        if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
+          if (!self.session.propertyId || !self.session.email) return null;
+        } else if (!self.session.email && !self.session.contactId && !self.session.leadId) {
+          return null;
+        }
+        return self.uploadAll();
+      });
+    }, 80);
   };
 
   ImmoCategoryDocuments.prototype._renderQueues = function () {
@@ -324,7 +365,7 @@
       if (n) {
         st.textContent = this.crmMode
           ? n + " fichier(s) en attente — cliquez « Enregistrer les pièces » pour envoyer."
-          : n + " fichier(s) en attente — transmis puis reçus (Drive) avec le formulaire.";
+          : n + " fichier(s) — envoi immédiat en cours…";
       }
     }
   };
@@ -343,8 +384,8 @@
           errors: [{ error: "propertyId et email requis pour les documents bien" }],
         });
       }
-    } else if (!this.session.email && !this.session.contactId) {
-      return Promise.resolve({ uploaded: [], errors: [{ error: "email ou contactId requis" }] });
+    } else if (!this.session.email && !this.session.contactId && !this.session.leadId && !this.session.phone) {
+      return Promise.resolve({ uploaded: [], errors: [{ error: "email, téléphone, contactId ou leadId requis" }] });
     }
 
     return pending
@@ -378,6 +419,7 @@
                   credentials: "same-origin",
                   body: JSON.stringify({
                     email: self.session.email,
+                    phone: self.session.phone,
                     contactId: self.session.contactId,
                     leadId: self.session.leadId,
                     fileName: item.fileName,
@@ -491,6 +533,19 @@
       leadId: result.leadId || payload.leadId || null,
     });
     panel._immoDocs.uploadAll();
+  });
+
+  document.addEventListener("lo:lead-progress-saved", function (ev) {
+    var detail = (ev && ev.detail) || {};
+    document.querySelectorAll("[data-immo-docs-panel]").forEach(function (panel) {
+      if (!panel._immoDocs || panel._immoDocs.crmMode) return;
+      if (detail.leadId) panel._immoDocs.session.leadId = detail.leadId;
+      if (detail.contactId) panel._immoDocs.session.contactId = detail.contactId;
+      var pending = panel._immoDocs.queue.some(function (q) {
+        return q.status === "queued" || q.status === "error";
+      });
+      if (pending) panel._immoDocs.scheduleImmediateUpload();
+    });
   });
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

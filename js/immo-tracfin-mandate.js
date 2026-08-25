@@ -180,6 +180,40 @@
     });
     var row = panel.querySelector('[data-tracfin-row="' + tracfinType + '"]');
     setRowState(row, "is-queued", file.name);
+    scheduleImmediateUpload();
+  }
+
+  function syncSessionFromForm() {
+    var form = document.querySelector("[data-url-capture-form]");
+    if (form) {
+      var em = form.querySelector("[name='email']");
+      var ph = form.querySelector("[name='phone']");
+      if (em && String(em.value || "").trim()) session.email = String(em.value).trim().toLowerCase();
+      if (ph && String(ph.value || "").trim()) session.phone = String(ph.value).trim();
+    }
+    try {
+      var leadId = localStorage.getItem("lo_immo_deposit_lead_id") || localStorage.getItem("lo_draft_lead_id");
+      if (leadId) session.leadId = leadId;
+    } catch (e) {}
+    return session;
+  }
+
+  var uploadTimer = null;
+  function scheduleImmediateUpload() {
+    clearTimeout(uploadTimer);
+    uploadTimer = setTimeout(function () {
+      syncSessionFromForm();
+      var ensure =
+        global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
+          ? global.AcheteurImmoDepositGuide.ensureServerLead()
+          : Promise.resolve(session.leadId);
+      Promise.resolve(ensure).then(function (leadId) {
+        if (leadId) session.leadId = leadId;
+        syncSessionFromForm();
+        if (!session.email && !session.phone && !session.contactId && !session.leadId) return null;
+        return uploadAll();
+      });
+    }, 80);
   }
 
   function bindPanel(container) {
@@ -302,10 +336,10 @@
       return q.status === "queued" || q.status === "error";
     });
     if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
-    if (!session.email && !session.phone && !session.contactId) {
+    if (!session.email && !session.phone && !session.contactId && !session.leadId) {
       return Promise.resolve({
         uploaded: [],
-        errors: [{ error: "Coordonnées requises pour upload TRACFIN" }],
+        errors: [{ error: "Coordonnées ou leadId requis pour upload TRACFIN" }],
       });
     }
 
@@ -392,10 +426,21 @@
     collectStatuses: collectStatuses,
     setSession: setSession,
     uploadAll: uploadAll,
+    scheduleImmediateUpload: scheduleImmediateUpload,
     getQueue: function () {
       return queue.slice();
     },
   };
+
+  document.addEventListener("lo:lead-progress-saved", function (ev) {
+    var detail = (ev && ev.detail) || {};
+    if (detail.leadId) session.leadId = detail.leadId;
+    if (detail.contactId) session.contactId = detail.contactId;
+    var pending = queue.some(function (q) {
+      return q.status === "queued" || q.status === "error";
+    });
+    if (pending) scheduleImmediateUpload();
+  });
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

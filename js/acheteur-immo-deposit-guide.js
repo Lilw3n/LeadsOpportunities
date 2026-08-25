@@ -9,7 +9,7 @@
   var LEAD_ID_KEY = "lo_immo_deposit_lead_id";
   var SHARED_LEAD_KEY = "lo_draft_lead_id";
   var MAX_DRAFTS = 8;
-  var SAVE_DELAY_MS = 450;
+  var SAVE_DELAY_MS = 200;
 
   var activeDraftId = null;
   var formDirty = false;
@@ -1336,15 +1336,20 @@
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () {
       saveDraft(true);
-      syncDraftToServer();
+      syncDraftToServer(true);
     }, SAVE_DELAY_MS);
   }
 
   var serverSyncTimer = null;
-  function buildServerSyncBody(draft) {
-    if (!formDirty) return null;
+  function buildServerSyncBody(draft, opts) {
+    opts = opts || {};
+    if (!formDirty && !opts.force) return null;
     draft = draft || collectDraft();
-    if (!hasDraftContent(draft)) return null;
+    if (!hasDraftContent(draft) && !opts.force) return null;
+    if (!hasDraftContent(draft) && opts.force) {
+      draft.form = draft.form || {};
+      draft.form._draftPlaceholder = draft.form._draftPlaceholder || "1";
+    }
     var formData = draft.form || {};
     var creds = resumeCredentials();
     var hat = draft.hat || document.documentElement.getAttribute("data-immo-hat") || "vendeur";
@@ -1358,14 +1363,14 @@
             : "acheteur_immo";
     return {
       leadId: creds.leadId || null,
-      event: "deposit_autosave",
+      event: opts.event || "deposit_autosave",
       step: 1,
       step_total: 1,
-      step_name: "deposit_partial",
+      step_name: opts.step_name || "deposit_partial",
       journey: "deposit",
       vertical: vertical,
       form_id: "acheteur-immo-deposit",
-      source: "landing_deposit_autosave",
+      source: opts.source || "landing_deposit_autosave",
       email: formData.email || creds.email || null,
       phone: formData.phone || creds.phone || null,
       partial_payload: {
@@ -1379,38 +1384,77 @@
     };
   }
 
+  function emitLeadProgressSaved(res) {
+    if (!res) return;
+    try {
+      document.dispatchEvent(
+        new CustomEvent("lo:lead-progress-saved", {
+          detail: {
+            leadId: res.leadId || null,
+            contactId: res.contactId || null,
+          },
+        })
+      );
+    } catch (e) {}
+  }
+
+  function postLeadProgress(body, immediate) {
+    if (!body) return Promise.resolve(null);
+    return fetch("/api/lead-progress", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify(body),
+      keepalive: !!immediate,
+    })
+      .then(function (r) {
+        return r.json().catch(function () {
+          return {};
+        });
+      })
+      .then(function (res) {
+        if (res && res.leadId) rememberLeadId(res.leadId);
+        emitLeadProgressSaved(res);
+        return res;
+      })
+      .catch(function () {
+        return null;
+      });
+  }
+
   function syncDraftToServer(immediate) {
     clearTimeout(serverSyncTimer);
     function run() {
       var body = buildServerSyncBody();
-      if (!body) return;
-      fetch("/api/lead-progress", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify(body),
-        keepalive: !!immediate,
-      })
-        .then(function (r) {
-          return r.json().catch(function () {
-            return {};
-          });
-        })
-        .then(function (res) {
-          if (res && res.leadId) rememberLeadId(res.leadId);
-        })
-        .catch(function () {});
+      if (!body) return Promise.resolve(null);
+      return postLeadProgress(body, immediate);
     }
     if (immediate) {
-      run();
-      return;
+      return run();
     }
-    serverSyncTimer = setTimeout(run, 400);
+    serverSyncTimer = setTimeout(run, 180);
+    return Promise.resolve(null);
+  }
+
+  /** Force un lead serveur (même dossier quasi vide) — pour upload pièces immédiat. */
+  function ensureServerLead() {
+    formDirty = true;
+    saveDraft(true, { force: true });
+    clearTimeout(serverSyncTimer);
+    var body = buildServerSyncBody(collectDraft(), {
+      force: true,
+      event: "deposit_doc_upload",
+      step_name: "deposit_doc_ready",
+      source: "landing_deposit_doc_upload",
+    });
+    return postLeadProgress(body, true).then(function (res) {
+      return (res && res.leadId) || resumeCredentials().leadId || null;
+    });
   }
 
   function syncDraftToServerBeacon() {
     clearTimeout(serverSyncTimer);
-    var body = buildServerSyncBody();
+    var body = buildServerSyncBody(null, { force: formDirty });
     if (!body) return;
     body.event = "deposit_autosave_unload";
     body.step_name = "deposit_unload";
@@ -1530,6 +1574,7 @@
     startNewDemand: startNewDemand,
     refreshUi: refreshUi,
     flushSave: flushSave,
+    ensureServerLead: ensureServerLead,
     getConfirmMethod: getConfirmMethod,
     contactSatisfied: contactSatisfied,
     sessionEmail: sessionEmail,

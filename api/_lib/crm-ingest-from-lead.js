@@ -233,8 +233,113 @@ async function ingestLeadToCrm(sql, body, leadId, options) {
   return contactId;
 }
 
+/**
+ * Crée / lie un contact CRM dès qu'on a un lead + email/tél (ou lead seul = provisoire).
+ * Léger : pas d'événement « nouveau lead » ni demande assurance — pour uploads / autosave.
+ */
+async function ensureContactLinked(sql, opts) {
+  opts = opts || {};
+  var leadId = opts.leadId || null;
+  var email = opts.email ? String(opts.email).trim().toLowerCase() : null;
+  var phone = opts.phone || opts.telephone || null;
+  if (!email && !phone && !leadId) return null;
+
+  if (leadId) {
+    try {
+      var leads = await sql`
+        SELECT id, contact_id, email, phone, payload, vertical, source
+        FROM site_leads WHERE id = ${leadId} LIMIT 1
+      `;
+      if (leads.length) {
+        var lead = leads[0];
+        if (lead.contact_id) {
+          var linked = await sql`
+            SELECT id FROM crm_contacts WHERE id = ${lead.contact_id} LIMIT 1
+          `;
+          if (linked.length) return linked[0].id;
+        }
+        if (!email && lead.email) email = String(lead.email).trim().toLowerCase();
+        if (!phone && lead.phone) phone = lead.phone;
+        if (!opts.firstName && !opts.lastName && lead.payload) {
+          try {
+            var p =
+              typeof lead.payload === "string" ? JSON.parse(lead.payload || "{}") : lead.payload || {};
+            opts.firstName = opts.firstName || p.firstName || p.first_name || p.prenom || null;
+            opts.lastName = opts.lastName || p.lastName || p.last_name || p.nom || null;
+            opts.vertical = opts.vertical || lead.vertical || p.vertical || null;
+            opts.source = opts.source || lead.source || null;
+          } catch (e) {}
+        }
+      }
+    } catch (e) {
+      console.warn("[ensureContactLinked] lead lookup", e.message);
+    }
+  }
+
+  var existingId = await findExistingContact(sql, email, phone);
+  var contactId = existingId;
+  var firstName = opts.firstName || opts.first_name || opts.prenom || "Prospect";
+  var lastName = opts.lastName || opts.last_name || opts.nom || "";
+
+  if (!contactId) {
+    contactId = "ct_" + crypto.randomUUID();
+    var meta = {
+      interlocuteur: true,
+      provisional: !email && !phone,
+      leadId: leadId || null,
+      autoFrom: opts.autoFrom || "ensure_contact_linked",
+    };
+    await sql`
+      INSERT INTO crm_contacts (
+        id, contact_type, first_name, last_name, email, phone,
+        status, source, notes, metadata, last_activity_at
+      ) VALUES (
+        ${contactId}, 'prospect', ${firstName}, ${lastName}, ${email}, ${phone},
+        'active', ${opts.source || "site_progress"},
+        ${leadId ? "Dossier progressif #" + leadId : "Dossier progressif"},
+        ${JSON.stringify(meta)},
+        NOW()
+      )
+    `;
+  } else {
+    var nameUpdate = firstName && firstName !== "Prospect" ? firstName : null;
+    var lastUpdate = lastName || null;
+    await sql`
+      UPDATE crm_contacts SET
+        first_name = COALESCE(${nameUpdate}, first_name),
+        last_name = COALESCE(${lastUpdate}, last_name),
+        email = COALESCE(${email}, email),
+        phone = COALESCE(${phone}, phone),
+        last_activity_at = NOW(),
+        updated_at = NOW()
+      WHERE id = ${contactId}
+    `;
+  }
+
+  if (leadId) {
+    await sql`
+      UPDATE site_leads SET
+        contact_id = COALESCE(contact_id, ${contactId}),
+        email = COALESCE(email, ${email}),
+        phone = COALESCE(phone, ${phone}),
+        updated_at = NOW()
+      WHERE id = ${leadId}
+    `;
+  }
+
+  try {
+    const { ensureClientDriveFolders } = require("./drive-folders");
+    await ensureClientDriveFolders(contactId);
+  } catch (driveErr) {
+    console.warn("[ensureContactLinked] drive folder", driveErr.message);
+  }
+
+  return contactId;
+}
+
 module.exports = {
   ingestLeadToCrm,
   linkPropertiesToContact,
   findExistingContact,
+  ensureContactLinked,
 };

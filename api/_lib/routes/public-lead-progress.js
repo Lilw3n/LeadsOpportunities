@@ -41,6 +41,7 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       ok: true,
       leadId: result.leadId,
+      contactId: result.contactId || null,
       pipelineStage: result.pipelineStage,
       stored: true,
     });

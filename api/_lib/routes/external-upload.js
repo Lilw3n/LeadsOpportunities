@@ -73,6 +73,33 @@ async function resolveContact(sql, body) {
   return null;
 }
 
+/** Si aucune fiche : crée / lie immédiatement pour permettre l’upload sans attendre le submit. */
+async function resolveOrCreateContact(sql, body) {
+  var contact = await resolveContact(sql, body);
+  if (contact) return contact;
+  try {
+    const { ensureContactLinked } = require("../crm-ingest-from-lead");
+    var contactId = await ensureContactLinked(sql, {
+      leadId: body.leadId || body.lead_id || null,
+      email: body.email || null,
+      phone: body.phone || body.telephone || null,
+      firstName: body.firstName || body.first_name || body.prenom || null,
+      lastName: body.lastName || body.last_name || body.nom || null,
+      vertical: body.vertical || body.need || null,
+      source: body.source || "external_upload",
+      autoFrom: "external_upload",
+    });
+    if (!contactId) return null;
+    const rows = await sql`
+      SELECT id, first_name, last_name, email FROM crm_contacts WHERE id = ${contactId} LIMIT 1
+    `;
+    return rows[0] || null;
+  } catch (e) {
+    console.warn("[external/upload] ensure contact", e.message);
+    return null;
+  }
+}
+
 module.exports = async (req, res) => {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
@@ -103,11 +130,11 @@ module.exports = async (req, res) => {
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
 
   try {
-    const contact = await resolveContact(sql, body);
+    const contact = await resolveOrCreateContact(sql, body);
     if (!contact) {
       return res.status(404).json({
         error:
-          "Dossier client introuvable — créez d’abord la fiche interlocuteur (ou utilisez « Enregistrer les pièces » depuis le détail lead).",
+          "Impossible de créer le dossier — fournissez un e-mail, un téléphone ou un leadId.",
         code: "contact_missing",
         leadId: body.leadId || body.lead_id || null,
       });

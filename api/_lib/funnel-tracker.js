@@ -185,7 +185,35 @@ async function recordFunnelEvent(sql, input) {
     console.warn("[funnel] mailbox sync", mbErr.message);
   }
 
-  return { leadId: leadId, pipelineStage: pipelineStage, payload: merged };
+  var contactId = null;
+  var progressEmail = input.email ? String(input.email).trim().toLowerCase() : null;
+  var progressPhone = input.phone || null;
+  if (!progressEmail && merged && merged.email) progressEmail = String(merged.email).trim().toLowerCase();
+  if (!progressPhone && merged && merged.phone) progressPhone = merged.phone;
+  if (progressEmail || progressPhone) {
+    try {
+      const { ensureContactLinked } = require("./crm-ingest-from-lead");
+      contactId = await ensureContactLinked(sql, {
+        leadId: leadId,
+        email: progressEmail,
+        phone: progressPhone,
+        firstName: merged && (merged.firstName || merged.first_name || merged.prenom),
+        lastName: merged && (merged.lastName || merged.last_name || merged.nom),
+        vertical: input.vertical || (merged && merged.vertical) || null,
+        source: input.source || "wizard_progress",
+        autoFrom: "lead_progress",
+      });
+    } catch (contactErr) {
+      console.warn("[funnel] ensure contact", contactErr.message);
+    }
+  }
+
+  return {
+    leadId: leadId,
+    pipelineStage: pipelineStage,
+    payload: merged,
+    contactId: contactId,
+  };
 }
 
 module.exports = { recordFunnelEvent: recordFunnelEvent, mergePayload: mergePayload };

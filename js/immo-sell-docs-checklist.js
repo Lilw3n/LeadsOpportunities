@@ -145,7 +145,7 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez une ou plusieurs pièces — statut <strong>En attente</strong> → <strong>Transmis</strong> → <strong>Reçu</strong> (confirmé Drive) dès l’envoi ou la sauvegarde (avec e-mail / téléphone).</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez une ou plusieurs pièces — envoi <strong>immédiat</strong> : <strong>En attente</strong> → <strong>Envoi…</strong> → <strong>Transmis</strong> → <strong>Reçu</strong> (Drive).</p>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
   }
@@ -255,6 +255,7 @@
     if (chk) chk.checked = true;
     refreshLine(documentType, mount);
     refreshCounter(mount);
+    scheduleImmediateUpload();
   }
 
   function bindMount(mount) {
@@ -295,6 +296,71 @@
     return session;
   }
 
+  var uploadInFlight = null;
+  var uploadRetryTimer = null;
+
+  function ensureLeadThenFlush() {
+    syncSessionFromForm();
+    var ensure =
+      global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
+        ? global.AcheteurImmoDepositGuide.ensureServerLead()
+        : Promise.resolve(session.leadId);
+    return Promise.resolve(ensure).then(function (leadId) {
+      if (leadId) session.leadId = leadId;
+      syncSessionFromForm();
+      return flushPendingUploads();
+    });
+  }
+
+  function runImmediateUpload() {
+    var pending = queue.some(function (q) {
+      return q.status === "queued" || q.status === "error";
+    });
+    if (!pending) return;
+    if (uploadInFlight) {
+      uploadInFlight.finally(function () {
+        clearTimeout(uploadRetryTimer);
+        uploadRetryTimer = setTimeout(runImmediateUpload, 40);
+      });
+      return;
+    }
+    uploadInFlight = ensureLeadThenFlush().finally(function () {
+      uploadInFlight = null;
+    });
+  }
+
+  function scheduleImmediateUpload() {
+    clearTimeout(uploadRetryTimer);
+    uploadRetryTimer = setTimeout(runImmediateUpload, 80);
+  }
+
+  function bindContactRetry() {
+    if (bindContactRetry._bound) return;
+    bindContactRetry._bound = true;
+    document.addEventListener(
+      "change",
+      function (e) {
+        var t = e.target;
+        if (!t || !t.name) return;
+        if (t.name !== "email" && t.name !== "phone" && t.name !== "telephone") return;
+        var pending = queue.some(function (q) {
+          return q.status === "queued" || q.status === "error";
+        });
+        if (pending) scheduleImmediateUpload();
+      },
+      true
+    );
+    document.addEventListener("lo:lead-progress-saved", function (ev) {
+      var detail = (ev && ev.detail) || {};
+      if (detail.leadId) session.leadId = detail.leadId;
+      if (detail.contactId) session.contactId = detail.contactId;
+      var pending = queue.some(function (q) {
+        return q.status === "queued" || q.status === "error";
+      });
+      if (pending) scheduleImmediateUpload();
+    });
+  }
+
   function flushPendingUploads() {
     syncSessionFromForm();
     var pending = queue.filter(function (q) {
@@ -307,7 +373,7 @@
         errors: [
           {
             error:
-              "Ajoutez un e-mail ou un téléphone (ou envoyez le dossier) pour archiver les pièces — elles restent en attente sur cet appareil.",
+              "Ajoutez un e-mail ou un téléphone pour archiver les pièces — elles restent en attente sur cet appareil.",
           },
         ],
         needsContact: true,
@@ -367,6 +433,8 @@
                 if (!res.ok || !res.data || !res.data.ok) {
                   throw new Error((res.data && res.data.error) || "Upload impossible");
                 }
+                if (res.data.contactId) session.contactId = res.data.contactId;
+                if (res.data.leadId) session.leadId = res.data.leadId;
                 var att = (res.data && res.data.attachment) || {};
                 var drive = (res.data && res.data.drive) || {};
                 item.driveFileId = drive.fileId || att.driveFileId || null;
@@ -405,6 +473,7 @@
 
   function boot() {
     document.querySelectorAll("[data-sell-docs-mount]").forEach(renderMount);
+    bindContactRetry();
   }
 
   global.ImmoSellDocsChecklist = {
@@ -413,6 +482,7 @@
     syncSessionFromForm: syncSessionFromForm,
     flushPendingUploads: flushPendingUploads,
     uploadAll: uploadAll,
+    scheduleImmediateUpload: scheduleImmediateUpload,
     getQueue: function () {
       return queue.slice();
     },
