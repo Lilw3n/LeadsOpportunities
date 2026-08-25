@@ -98,7 +98,41 @@
 
   var queue = [];
   var uploaded = [];
-  var session = { email: null, phone: null, contactId: null, leadId: null };
+  var session = { email: null, phone: null, contactId: null, leadId: null, driveWebViewLink: null, drivePath: null };
+
+  function updateDriveBanner() {
+    var banner = document.querySelector("[data-sell-doc-drive-banner]");
+    if (!banner || !session.driveWebViewLink) {
+      if (banner) banner.hidden = true;
+      return;
+    }
+    banner.hidden = false;
+    var pathHint = session.drivePath
+      ? '<span class="immo-doc-drive-path">Chemin : <code>' + esc(session.drivePath) + "</code></span>"
+      : "";
+    banner.innerHTML =
+      pathHint +
+      '<a class="immo-doc-drive-open" href="' +
+      esc(session.driveWebViewLink) +
+      '" target="_blank" rel="noopener">Ouvrir le dossier Drive</a>' +
+      '<span class="immo-doc-drive-note">Pièces aussi copiées dans le dossier contact CRM.</span>';
+  }
+
+  function showChecklistError(message) {
+    var hint = document.querySelector(".immo-sell-docs-drive-hint");
+    if (hint) {
+      hint.insertAdjacentHTML(
+        "afterend",
+        '<p class="small immo-doc-panel-foot is-error" data-sell-doc-error>' + esc(message) + "</p>"
+      );
+      var errEl = document.querySelector("[data-sell-doc-error]");
+      if (errEl) {
+        setTimeout(function () {
+          if (errEl.parentNode) errEl.parentNode.removeChild(errEl);
+        }, 12000);
+      }
+    }
+  }
 
   function renderLine(item) {
     return (
@@ -150,6 +184,7 @@
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
       '<p class="small immo-sell-docs-drive-hint">Cochez et déposez une ou plusieurs pièces — envoi <strong>immédiat</strong> : <strong>En attente</strong> → <strong>Envoi…</strong> → <strong>Transmis</strong> → <strong>Reçu</strong> (Drive).</p>' +
+      '<div class="immo-doc-drive-banner" data-sell-doc-drive-banner hidden></div>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
   }
@@ -522,6 +557,8 @@
                 if (res.data.leadId) session.leadId = res.data.leadId;
                 if (res.data.propertyId) session.propertyId = res.data.propertyId;
                 if (res.data.driveWebViewLink) session.driveWebViewLink = res.data.driveWebViewLink;
+                if (res.data.drivePath) session.drivePath = res.data.drivePath;
+                updateDriveBanner();
                 var att = (res.data && res.data.attachment) || {};
                 var drive = (res.data && res.data.drive) || {};
                 item.driveFileId = drive.fileId || att.driveFileId || null;
@@ -547,6 +584,13 @@
                 item.error = err.message || "Erreur";
                 refreshLine(item.documentType);
                 acc.errors.push({ item: item, error: item.error });
+                if (/non autoris|403|propertyId/i.test(item.error)) {
+                  try {
+                    localStorage.removeItem("lo_immo_deposit_property_id");
+                    session.propertyId = null;
+                  } catch (e) {}
+                }
+                showChecklistError(item.error + " — rechargez (Ctrl+F5) si besoin.");
                 return acc;
               });
           });

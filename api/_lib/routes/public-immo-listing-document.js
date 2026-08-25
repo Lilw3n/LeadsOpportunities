@@ -115,6 +115,19 @@ module.exports = async function publicImmoListingDocument(req, res) {
       `;
       leadOk = cRows.length > 0;
     }
+    /* Brouillon sans lead lié : attacher le lead courant puis autoriser l’upload. */
+    if (!leadOk && bodyLeadId && !prop.lead_id) {
+      var leadRow = await sql`SELECT id FROM site_leads WHERE id = ${bodyLeadId} LIMIT 1`;
+      if (leadRow.length) {
+        await sql`
+          UPDATE crm_immo_properties
+          SET lead_id = ${bodyLeadId}, updated_at = NOW()
+          WHERE id = ${propertyId}
+        `;
+        prop.lead_id = bodyLeadId;
+        leadOk = true;
+      }
+    }
     if (!leadOk) {
       return res.status(403).json({ ok: false, error: "Non autorisé pour ce bien" });
     }
@@ -144,6 +157,17 @@ module.exports = async function publicImmoListingDocument(req, res) {
       (ensured.subfolderIds && ensured.subfolderIds[classified] && ensured.subfolderIds[classified].id) ||
       ensured.folderId ||
       prop.drive_folder_id;
+
+    var subfolderLink =
+      (ensured.subfolderIds && ensured.subfolderIds[classified] && ensured.subfolderIds[classified].webViewLink) ||
+      null;
+    if (targetFolder && !subfolderLink) {
+      try {
+        const { resolveFolderWebLink } = require("../drive-share");
+        var subLink = await resolveFolderWebLink(targetFolder, { share: false });
+        subfolderLink = (subLink && subLink.webViewLink) || null;
+      } catch (e) {}
+    }
 
     var uploaded = await uploadBase64File({
       fileName: documentType + "_" + fileName,
@@ -207,6 +231,22 @@ module.exports = async function publicImmoListingDocument(req, res) {
             updated_at = NOW()
           WHERE id = ${propertyId}
         `;
+        /* Copie miroir dans le dossier contact (même arborescence que le CRM). */
+        try {
+          const { resolveContactDocTypeFolderId } = require("../drive-folders");
+          var contactFolderId = await resolveContactDocTypeFolderId(contactId, documentType);
+          if (contactFolderId && !uploaded.simulated) {
+            await uploadBase64File({
+              fileName: documentType + "_" + fileName,
+              base64: body.fileBase64,
+              mimeType: body.mimeType || "application/octet-stream",
+              folderId: contactFolderId,
+              kind: "document",
+            });
+          }
+        } catch (mirrorErr) {
+          console.warn("[immo-listing-document] contact mirror", mirrorErr.message);
+        }
       } catch (syncErr) {
         console.warn("[immo-listing-document] contact sync", syncErr.message);
       }
@@ -231,6 +271,16 @@ module.exports = async function publicImmoListingDocument(req, res) {
       } catch (e) {}
     }
 
+    var drivePath =
+      "Immo/" +
+      new Date().getFullYear() +
+      "/" +
+      (ensured.prospectFolderName || "prospect") +
+      "/" +
+      (ensured.propIdFolderName || propertyId) +
+      "/" +
+      classified;
+
     return res.status(201).json({
       ok: true,
       propertyId: propertyId,
@@ -239,7 +289,10 @@ module.exports = async function publicImmoListingDocument(req, res) {
       classifiedAs: classified,
       drive: uploaded,
       driveFolderId: ensured.folderId || prop.drive_folder_id || null,
-      driveWebViewLink: folderLink || uploaded.webViewLink || null,
+      driveSubfolderId: targetFolder || null,
+      driveWebViewLink: subfolderLink || folderLink || uploaded.webViewLink || null,
+      drivePropertyWebViewLink: folderLink || null,
+      drivePath: drivePath,
       attachment: {
         name: fileName,
         type: documentType,

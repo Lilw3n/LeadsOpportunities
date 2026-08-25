@@ -320,6 +320,11 @@ async function ensurePropertyDriveFoldersUnlocked(property, opts) {
 
   if (propFolderId) {
     existing = true;
+    try {
+      const { resolveFolderWebLink } = require("./drive-share");
+      var existingLink = await resolveFolderWebLink(propFolderId, { share: false });
+      webViewLink = (existingLink && existingLink.webViewLink) || null;
+    } catch (e) {}
   } else {
     const yearFolder = await ensureImmoRoot(token, rootId);
     const prospectFolder = await findChildFolder(token, yearFolder.id, prospectLabel, true);

@@ -97,6 +97,38 @@
     return !!(fileId || drive.webViewLink || att.webViewLink);
   }
 
+  function showUploadError(message) {
+    var st = document.querySelector("[data-immo-doc-status]");
+    if (st) {
+      st.hidden = false;
+      st.className = "small immo-doc-panel-foot is-error";
+      st.textContent = message;
+    }
+    try {
+      console.warn("[immo-docs]", message);
+    } catch (e) {}
+  }
+
+  function updateDriveBanner(root, session) {
+    if (!root || !session) return;
+    var banner = root.querySelector("[data-immo-doc-drive-banner]");
+    if (!banner) return;
+    if (!session.driveWebViewLink) {
+      banner.hidden = true;
+      return;
+    }
+    banner.hidden = false;
+    var pathHint = session.drivePath
+      ? '<span class="immo-doc-drive-path">Chemin : <code>' + esc(session.drivePath) + "</code></span>"
+      : "";
+    banner.innerHTML =
+      pathHint +
+      '<a class="immo-doc-drive-open" href="' +
+      esc(session.driveWebViewLink) +
+      '" target="_blank" rel="noopener">Ouvrir le dossier Drive (pièce déposée)</a>' +
+      '<span class="immo-doc-drive-note">Les fichiers sont sur le Drive du cabinet — ouvrez le sous-dossier indiqué (ex. <code>05_diagnostics</code>).</span>';
+  }
+
   function ImmoCategoryDocuments(root, options) {
     this.root = root;
     this.mode = options.mode || "vendeur";
@@ -203,6 +235,7 @@
       '<div class="immo-doc-categories">' +
       groupsHtml +
       "</div>" +
+      '<div class="immo-doc-drive-banner" data-immo-doc-drive-banner hidden></div>' +
       '<p class="small immo-doc-panel-foot" data-immo-doc-status hidden></p>' +
       "</div>";
   };
@@ -389,6 +422,8 @@
 
     self.syncSessionFromPage();
 
+    var sentPropertyId = self.session.propertyId || null;
+
     var ensureLead =
       global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
         ? global.AcheteurImmoDepositGuide.ensureServerLead()
@@ -434,9 +469,18 @@
           } catch (e) {}
         }
         if (res.data.contactId) self.session.contactId = res.data.contactId;
-        if (res.data.propertyId) self.rememberPropertyId(res.data.propertyId);
+        if (res.data.propertyId) {
+          if (sentPropertyId && sentPropertyId !== res.data.propertyId) {
+            try {
+              localStorage.removeItem("lo_immo_deposit_property_id");
+            } catch (e) {}
+          }
+          self.rememberPropertyId(res.data.propertyId);
+        }
         if (res.data.driveFolderId) self.session.driveFolderId = res.data.driveFolderId;
         if (res.data.driveWebViewLink) self.session.driveWebViewLink = res.data.driveWebViewLink;
+        if (res.data.drivePath) self.session.drivePath = res.data.drivePath;
+        updateDriveBanner(self.root, self.session);
         try {
           document.dispatchEvent(
             new CustomEvent("lo:listing-draft-ready", {
@@ -509,12 +553,8 @@
           return self.uploadAll();
         })
         .catch(function (err) {
-          var st = self.root.querySelector("[data-immo-doc-status]");
-          if (st) {
-            st.hidden = false;
-            st.textContent =
-              "Envoi différé — " + ((err && err.message) || "nouvel essai…");
-          }
+          var msg = (err && err.message) || "nouvel essai…";
+          showUploadError("Envoi différé — " + msg);
         })
         .finally(function () {
           self._uploadInFlight = null;
@@ -618,7 +658,9 @@
                   throw new Error((res.data && res.data.error) || "Upload impossible");
                 }
                 if (res.data.driveWebViewLink) self.session.driveWebViewLink = res.data.driveWebViewLink;
+                if (res.data.drivePath) self.session.drivePath = res.data.drivePath;
                 if (res.data.driveFolderId) self.session.driveFolderId = res.data.driveFolderId;
+                updateDriveBanner(self.root, self.session);
                 var att = (res.data && res.data.attachment) || {};
                 var drive = (res.data && res.data.drive) || {};
                 item.driveFileId = drive.fileId || att.driveFileId || null;
@@ -651,6 +693,18 @@
                 item.error = err.message || "Erreur";
                 acc.errors.push({ item: item, error: item.error });
                 self._refreshLine(item.documentType);
+                if (/non autoris|403|session|propertyId/i.test(item.error)) {
+                  try {
+                    localStorage.removeItem("lo_immo_deposit_property_id");
+                    self.session.propertyId = null;
+                  } catch (e) {}
+                  showUploadError(
+                    item.error +
+                      " — rechargez la page (Ctrl+F5) puis redéposez la pièce."
+                  );
+                } else {
+                  showUploadError(item.error);
+                }
                 return acc;
               });
           });
@@ -680,6 +734,7 @@
         var st = self.root.querySelector("[data-immo-doc-status]");
         if (st && result.uploaded.length) {
           st.hidden = false;
+          st.className = "small immo-doc-panel-foot";
           var received = result.uploaded.filter(function (u) {
             return u.status === "received";
           }).length;
@@ -690,13 +745,12 @@
           st.textContent =
             parts.join(" · ") +
             (result.errors.length ? " — " + result.errors.length + " erreur(s)." : ".");
-          if (self.session.driveWebViewLink) {
-            st.innerHTML =
-              esc(st.textContent) +
-              ' · <a href="' +
-              esc(self.session.driveWebViewLink) +
-              '" target="_blank" rel="noopener">Ouvrir le dossier Drive</a>';
-          }
+          updateDriveBanner(self.root, self.session);
+        }
+        if (result.errors.length && !result.uploaded.length) {
+          showUploadError(result.errors.map(function (e) {
+            return e.error || e.item && e.item.error;
+          }).filter(Boolean).join(" · "));
         }
         return result;
       });

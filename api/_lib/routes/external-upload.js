@@ -223,6 +223,7 @@ module.exports = async (req, res) => {
       contactId: contact.id,
       attachment: attachment,
       drive: driveResult,
+      driveWebViewLink: driveResult.webViewLink || null,
       message: "Document enregistré",
     });
   } catch (e) {

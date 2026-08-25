@@ -703,6 +703,7 @@
 
     if (forceNew) {
       setActiveDraftId(createDraftId());
+      clearPropertyId();
       formDirty = false;
       updateDraftBanner();
       updateSessionHint(root);
@@ -942,9 +943,17 @@
     };
   }
 
+  function clearPropertyId() {
+    try {
+      localStorage.removeItem(PROPERTY_ID_KEY);
+    } catch (e) {}
+  }
+
   function rememberLeadId(leadId) {
     if (!leadId) return;
     try {
+      var prev = localStorage.getItem(LEAD_ID_KEY) || localStorage.getItem(SHARED_LEAD_KEY);
+      if (prev && prev !== leadId) clearPropertyId();
       localStorage.setItem(LEAD_ID_KEY, leadId);
       localStorage.setItem(SHARED_LEAD_KEY, leadId);
     } catch (e) {}
@@ -1592,6 +1601,7 @@
     flushSave: flushSave,
     ensureServerLead: ensureServerLead,
     rememberPropertyId: rememberPropertyId,
+    clearPropertyId: clearPropertyId,
     getRememberedPropertyId: getRememberedPropertyId,
     getConfirmMethod: getConfirmMethod,
     contactSatisfied: contactSatisfied,

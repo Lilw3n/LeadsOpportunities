@@ -159,6 +159,38 @@
   color: #047857;
 }
 
+.immo-doc-panel-foot.is-error {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.immo-doc-drive-banner {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.86rem;
+}
+
+.immo-doc-drive-open {
+  color: #047857;
+  font-weight: 600;
+}
+
+.immo-doc-drive-path code,
+.immo-doc-drive-note code {
+  font-size: 0.82rem;
+}
+
+.immo-doc-drive-note {
+  color: #475569;
+  font-size: 0.82rem;
+}
+
 .immo-doc-line {
   display: flex;
   flex-wrap: wrap;

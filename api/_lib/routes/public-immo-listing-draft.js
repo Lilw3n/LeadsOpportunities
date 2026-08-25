@@ -212,6 +212,14 @@ module.exports = async function publicImmoListingDraft(req, res) {
       propertyId: propertyId,
       driveFolderId: driveFolderId,
       driveWebViewLink: driveWebViewLink,
+      drivePath: ensured
+        ? "Immo/" +
+          new Date().getFullYear() +
+          "/" +
+          (ensured.prospectFolderName || "prospect") +
+          "/" +
+          (ensured.propIdFolderName || propertyId)
+        : null,
       draft: true,
       existingDrive: !!(ensured && ensured.existing),
     });
