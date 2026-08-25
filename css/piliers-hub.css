@@ -177,6 +177,10 @@
   color: #fff;
   overflow: hidden;
 }
+.pilier-about--no-photo {
+  grid-template-columns: 1fr;
+  max-width: 720px;
+}
 .pilier-about-photo {
   margin: 0;
   border-radius: 18px;
