@@ -164,11 +164,21 @@
 
   function itemsForType(documentType) {
     var list = [];
+    var seen = Object.create(null);
+    function pushUnique(item) {
+      if (!item) return;
+      var key = item.id || item.driveFileId || item.fileName + "|" + item.status;
+      if (seen[key]) return;
+      seen[key] = true;
+      list.push(item);
+    }
     uploaded.forEach(function (u) {
-      if (u.documentType === documentType) list.push(u);
+      if (u.documentType === documentType) pushUnique(u);
     });
     queue.forEach(function (q) {
-      if (q.documentType === documentType) list.push(q);
+      if (q.documentType !== documentType) return;
+      if (q.status === "received" || q.status === "transmitted") return;
+      pushUnique(q);
     });
     return list;
   }
@@ -515,6 +525,21 @@
       .then(function (result) {
         queue = queue.filter(function (q) {
           return q.status !== "received" && q.status !== "transmitted";
+        });
+        var refreshed = Object.create(null);
+        result.uploaded.forEach(function (u) {
+          var t = u.documentType;
+          if (t && !refreshed[t]) {
+            refreshed[t] = true;
+            refreshLine(t);
+          }
+        });
+        result.errors.forEach(function (err) {
+          var t = err.item && err.item.documentType;
+          if (t && !refreshed[t]) {
+            refreshed[t] = true;
+            refreshLine(t);
+          }
         });
         return result;
       });

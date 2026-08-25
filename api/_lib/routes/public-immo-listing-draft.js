@@ -161,9 +161,10 @@ module.exports = async function publicImmoListingDraft(req, res) {
       } catch (e) {}
     }
 
+    var ensured = null;
     try {
       var { ensurePropertyDriveFolders } = require("../immo-drive");
-      var ensured = await ensurePropertyDriveFolders(
+      ensured = await ensurePropertyDriveFolders(
         {
           id: propertyId,
           title: title,
@@ -183,6 +184,25 @@ module.exports = async function publicImmoListingDraft(req, res) {
       }
     } catch (driveErr) {
       console.warn("[immo-listing-draft] drive", driveErr.message);
+      ensured = null;
+    }
+
+    var driveFolderId = (ensured && ensured.folderId) || null;
+    if (!driveFolderId) {
+      try {
+        var folderRows = await sql`
+          SELECT drive_folder_id FROM crm_immo_properties WHERE id = ${propertyId} LIMIT 1
+        `;
+        if (folderRows.length) driveFolderId = folderRows[0].drive_folder_id || null;
+      } catch (e) {}
+    }
+    var driveWebViewLink = (ensured && ensured.webViewLink) || null;
+    if (driveFolderId && !driveWebViewLink) {
+      try {
+        const { resolveFolderWebLink } = require("../drive-share");
+        var link = await resolveFolderWebLink(driveFolderId, { share: false });
+        driveWebViewLink = (link && link.webViewLink) || null;
+      } catch (e) {}
     }
 
     return res.status(200).json({
@@ -190,7 +210,10 @@ module.exports = async function publicImmoListingDraft(req, res) {
       leadId: leadId,
       contactId: contactId || null,
       propertyId: propertyId,
+      driveFolderId: driveFolderId,
+      driveWebViewLink: driveWebViewLink,
       draft: true,
+      existingDrive: !!(ensured && ensured.existing),
     });
   } catch (e) {
     console.error("[immo-listing-draft]", e);

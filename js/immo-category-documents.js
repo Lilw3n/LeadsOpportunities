@@ -227,11 +227,22 @@
 
   ImmoCategoryDocuments.prototype._itemsForType = function (documentType) {
     var list = [];
+    var seen = Object.create(null);
+    function pushUnique(item) {
+      if (!item) return;
+      var key = item.id || item.driveFileId || item.fileName + "|" + item.status;
+      if (seen[key]) return;
+      seen[key] = true;
+      list.push(item);
+    }
     this.uploaded.forEach(function (u) {
-      if (u.documentType === documentType) list.push(u);
+      if (u.documentType === documentType) pushUnique(u);
     });
     this.queue.forEach(function (q) {
-      if (q.documentType === documentType) list.push(q);
+      if (q.documentType !== documentType) return;
+      /* Déjà archivé dans uploaded → ne pas doubler l’affichage. */
+      if (q.status === "received" || q.status === "transmitted") return;
+      pushUnique(q);
     });
     return list;
   };
@@ -301,6 +312,23 @@
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
     }
+    var dup = this.queue.some(function (q) {
+      return (
+        q.documentType === (documentType || "autre_doc") &&
+        q.fileName === file.name &&
+        q.file &&
+        q.file.size === file.size &&
+        (q.status === "queued" || q.status === "uploading" || q.status === "received" || q.status === "transmitted")
+      );
+    });
+    var dupUp = this.uploaded.some(function (u) {
+      return u.documentType === (documentType || "autre_doc") && u.fileName === file.name;
+    });
+    if (dup || dupUp) {
+      this._refreshLine(documentType);
+      if (!this.crmMode) this.scheduleImmediateUpload();
+      return;
+    }
     this.queue.push({
       id: "doc_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
       file: file,
@@ -363,10 +391,6 @@
     if (global.__loImmoDraftPromise) return global.__loImmoDraftPromise;
 
     self.syncSessionFromPage();
-    /* Déjà un bien connu → pas de nouvel appel (évite courses Drive). */
-    if (self.session.propertyId && self.session.leadId) {
-      return Promise.resolve(self.session);
-    }
 
     var ensureLead =
       global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
@@ -377,7 +401,7 @@
       .then(function (leadId) {
         if (leadId) self.session.leadId = leadId;
         self.syncSessionFromPage();
-        if (self.session.propertyId) return { ok: true, data: { ok: true, propertyId: self.session.propertyId, leadId: self.session.leadId, contactId: self.session.contactId } };
+        /* Toujours appeler le draft : idempotent serveur (réutilise propertyId + Drive). */
         return fetch("/api/immo-listing-draft", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -393,6 +417,7 @@
             postal_code: self.session.postal_code || null,
             property_type: self.session.property_type || null,
             vertical: "vendeur_immo",
+            ensureDrive: true,
           }),
         }).then(function (r) {
           return r.json().then(function (data) {
@@ -413,6 +438,8 @@
         }
         if (res.data.contactId) self.session.contactId = res.data.contactId;
         if (res.data.propertyId) self.rememberPropertyId(res.data.propertyId);
+        if (res.data.driveFolderId) self.session.driveFolderId = res.data.driveFolderId;
+        if (res.data.driveWebViewLink) self.session.driveWebViewLink = res.data.driveWebViewLink;
         try {
           document.dispatchEvent(
             new CustomEvent("lo:listing-draft-ready", {
@@ -420,6 +447,8 @@
                 leadId: self.session.leadId,
                 contactId: self.session.contactId,
                 propertyId: self.session.propertyId,
+                driveFolderId: self.session.driveFolderId || null,
+                driveWebViewLink: self.session.driveWebViewLink || null,
               },
             })
           );
@@ -529,12 +558,19 @@
       return Promise.resolve({ uploaded: [], errors: [{ error: "email, téléphone, contactId ou leadId requis" }] });
     }
 
+    /* Marquer immédiatement pour empêcher un 2e upload parallèle du même item. */
+    pending.forEach(function (item) {
+      if (item.status === "queued" || item.status === "error") item.status = "uploading";
+    });
+    pending.forEach(function (item) {
+      self._refreshLine(item.documentType);
+    });
+
     return pending
       .reduce(
         function (chain, item) {
           return chain.then(function (acc) {
-            item.status = "uploading";
-            self._refreshLine(item.documentType);
+            if (item.status !== "uploading") return acc;
             return readFileAsBase64(item.file)
               .then(function (dataUrl) {
                 if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
@@ -589,15 +625,20 @@
                 item.driveFileId = drive.fileId || att.driveFileId || null;
                 item.webViewLink = drive.webViewLink || att.webViewLink || null;
                 item.status = driveConfirmed(res) ? "received" : "transmitted";
-                self.uploaded.push({
-                  id: item.id,
-                  fileName: item.fileName,
-                  documentType: item.documentType,
-                  groupId: item.groupId,
-                  status: item.status,
-                  driveFileId: item.driveFileId,
-                  webViewLink: item.webViewLink,
+                var already = self.uploaded.some(function (u) {
+                  return u.id === item.id;
                 });
+                if (!already) {
+                  self.uploaded.push({
+                    id: item.id,
+                    fileName: item.fileName,
+                    documentType: item.documentType,
+                    groupId: item.groupId,
+                    status: item.status,
+                    driveFileId: item.driveFileId,
+                    webViewLink: item.webViewLink,
+                  });
+                }
                 acc.uploaded.push(item);
                 self._refreshLine(item.documentType);
                 return acc;
@@ -618,6 +659,21 @@
           return q.status !== "received" && q.status !== "transmitted";
         });
         self._renderQueues();
+        var refreshed = Object.create(null);
+        result.uploaded.forEach(function (u) {
+          var t = u.documentType || (u.item && u.item.documentType);
+          if (t && !refreshed[t]) {
+            refreshed[t] = true;
+            self._refreshLine(t);
+          }
+        });
+        result.errors.forEach(function (err) {
+          var t = err.item && err.item.documentType;
+          if (t && !refreshed[t]) {
+            refreshed[t] = true;
+            self._refreshLine(t);
+          }
+        });
         var st = self.root.querySelector("[data-immo-doc-status]");
         if (st && result.uploaded.length) {
           st.hidden = false;
@@ -631,6 +687,13 @@
           st.textContent =
             parts.join(" · ") +
             (result.errors.length ? " — " + result.errors.length + " erreur(s)." : ".");
+          if (self.session.driveWebViewLink) {
+            st.innerHTML =
+              esc(st.textContent) +
+              ' · <a href="' +
+              esc(self.session.driveWebViewLink) +
+              '" target="_blank" rel="noopener">Ouvrir le dossier Drive</a>';
+          }
         }
         return result;
       });
