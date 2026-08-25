@@ -1382,6 +1382,28 @@
         var saved = saveDraft(false, { force: true });
         if (!saved) {
           showDraftToast("Impossible d’enregistrer sur cet appareil — réessayez ou changez de navigateur.");
+          return;
+        }
+        if (global.ImmoSellDocsChecklist && global.ImmoSellDocsChecklist.flushPendingUploads) {
+          global.ImmoSellDocsChecklist.flushPendingUploads().then(function (up) {
+            if (up && up.needsContact) {
+              showDraftToast(
+                "Brouillon enregistré — pièces encore en attente : ajoutez un e-mail/tél. ou envoyez le dossier pour les archiver."
+              );
+              return;
+            }
+            if (up && up.uploaded && up.uploaded.length) {
+              showDraftToast(
+                "Brouillon enregistré — " + up.uploaded.length + " pièce(s) passée(s) en Déposé."
+              );
+              return;
+            }
+            if (up && up.errors && up.errors.length && !up.skipped) {
+              showDraftToast(
+                "Brouillon enregistré — pièces non archivées : " + (up.errors[0].error || "erreur upload")
+              );
+            }
+          });
         }
       }
     });

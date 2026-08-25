@@ -92,8 +92,8 @@ module.exports = async (req, res) => {
   if (!fileName) {
     return res.status(400).json({ error: "fileName requis" });
   }
-  if (!body.email && !body.contactId && !body.contact_id && !body.phone && !body.telephone) {
-    return res.status(400).json({ error: "email, téléphone ou contactId requis" });
+  if (!body.email && !body.contactId && !body.contact_id && !body.phone && !body.telephone && !body.leadId && !body.lead_id) {
+    return res.status(400).json({ error: "email, téléphone, contactId ou leadId requis" });
   }
   if (!body.fileBase64) {
     return res.status(400).json({ error: "fileBase64 requis (PDF ou image JPG/PNG)" });
@@ -150,6 +150,7 @@ module.exports = async (req, res) => {
     `;
 
     const evtId = "evt_" + crypto.randomUUID();
+    /* Fichier déjà sur Drive → statut completed (plus « en attente ») */
     await sql`
       INSERT INTO crm_events (
         id, contact_id, event_type, title, description, event_date, status, priority, extra_data
@@ -157,7 +158,7 @@ module.exports = async (req, res) => {
         ${evtId}, ${contact.id}, 'document',
         ${"Pièce jointe — " + fileName},
         ${description || "Document déposé via parcours devis"},
-        ${new Date().toISOString().slice(0, 10)}, 'pending', 'medium', ${extraData}
+        ${new Date().toISOString().slice(0, 10)}, 'completed', 'medium', ${extraData}
       )
     `;
 

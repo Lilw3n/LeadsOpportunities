@@ -88,7 +88,7 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces utiles — envoi automatique <strong>après</strong> « Déposer mon bien » (statut « En attente » = prêt à envoyer).</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez les pièces — elles passent en <strong>En attente</strong> puis en <strong>Déposé</strong> dès l’envoi ou la sauvegarde (avec e-mail / téléphone). Les fichiers restent sur cet appareil tant qu’ils ne sont pas archivés.</p>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
   }
@@ -162,15 +162,55 @@
     Object.assign(session, next || {});
   }
 
+  function syncSessionFromForm() {
+    var form = document.querySelector("[data-url-capture-form]");
+    if (form) {
+      var em = form.querySelector("[name='email']");
+      var ph = form.querySelector("[name='phone']");
+      if (em && String(em.value || "").trim()) session.email = String(em.value).trim().toLowerCase();
+      if (ph && String(ph.value || "").trim()) session.phone = String(ph.value).trim();
+    }
+    try {
+      var leadId = localStorage.getItem("lo_immo_deposit_lead_id") || localStorage.getItem("lo_draft_lead_id");
+      if (leadId) session.leadId = leadId;
+    } catch (e) {}
+    if (global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
+      session.leadId = session.leadId || global.QuoteIntelligence.getDraftLeadId();
+    }
+    return session;
+  }
+
+  function flushPendingUploads() {
+    syncSessionFromForm();
+    var pending = queue.filter(function (q) {
+      return q.status === "queued" || q.status === "error";
+    });
+    if (!pending.length) return Promise.resolve({ uploaded: [], errors: [], skipped: true });
+    if (!session.email && !session.phone && !session.contactId && !session.leadId) {
+      return Promise.resolve({
+        uploaded: [],
+        errors: [
+          {
+            error:
+              "Ajoutez un e-mail ou un téléphone (ou envoyez le dossier) pour archiver les pièces — elles restent en attente sur cet appareil.",
+          },
+        ],
+        needsContact: true,
+      });
+    }
+    return uploadAll();
+  }
+
   function uploadAll() {
+    syncSessionFromForm();
     var pending = queue.filter(function (q) {
       return q.status === "queued" || q.status === "error";
     });
     if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
-    if (!session.email && !session.phone && !session.contactId) {
+    if (!session.email && !session.phone && !session.contactId && !session.leadId) {
       return Promise.resolve({
         uploaded: [],
-        errors: [{ error: "email, téléphone ou contactId requis pour les uploads checklist" }],
+        errors: [{ error: "email, téléphone, contactId ou leadId requis pour les uploads checklist" }],
       });
     }
 
@@ -242,6 +282,8 @@
   global.ImmoSellDocsChecklist = {
     renderMount: renderMount,
     setSession: setSession,
+    syncSessionFromForm: syncSessionFromForm,
+    flushPendingUploads: flushPendingUploads,
     uploadAll: uploadAll,
     getQueue: function () {
       return queue.slice();

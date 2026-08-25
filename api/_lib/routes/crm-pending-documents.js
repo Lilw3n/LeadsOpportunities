@@ -54,14 +54,24 @@ module.exports = async (req, res) => {
       try {
         extra = JSON.parse(e.extra_data || "{}");
       } catch (err) {}
+      var eventDone =
+        e.status === "completed" || e.status === "done" || e.status === "received" || e.status === "completed";
+      function labelFor(a) {
+        if (eventDone || (a && (a.driveFileId || a.webViewLink))) return "Déposé";
+        if (e.status === "pending" || !e.status) return "En attente";
+        return e.status;
+      }
       var pushed = false;
       (extra.attachments || []).forEach(function (a, i) {
         pushed = true;
+        var st = labelFor(a);
+        /* Page « en attente » : ignorer les pièces déjà sur Drive */
+        if (st === "Déposé") return;
         documents.push({
           id: e.id + "_att_" + i,
           name: a.name || a.label || "Pièce jointe",
           type: a.type || extra.documentType || "Document",
-          status: e.status || "En attente",
+          status: st,
           source: extra.source || "evenement",
           sourceId: e.id,
           contactId: e.contact_id,
@@ -74,20 +84,27 @@ module.exports = async (req, res) => {
         });
       });
       if (!pushed && (extra.fileName || extra.drive)) {
-        documents.push({
-          id: e.id + "_att_0",
-          name: extra.fileName || e.title || "Document",
-          type: extra.documentType || "Document",
-          status: e.status || "En attente",
-          source: "portal_upload",
-          sourceId: e.id,
-          contactId: e.contact_id,
-          contactName: ((e.first_name || "") + " " + (e.last_name || "")).trim() || e.contact_email,
-          createdAt: e.created_at,
+        var legacyAtt = {
           driveFileId: (extra.drive && extra.drive.fileId) || null,
           webViewLink: (extra.drive && extra.drive.webViewLink) || null,
-          mimeType: extra.mimeType || null,
-        });
+        };
+        var legacySt = labelFor(legacyAtt);
+        if (legacySt !== "Déposé") {
+          documents.push({
+            id: e.id + "_att_0",
+            name: extra.fileName || e.title || "Document",
+            type: extra.documentType || "Document",
+            status: legacySt,
+            source: "portal_upload",
+            sourceId: e.id,
+            contactId: e.contact_id,
+            contactName: ((e.first_name || "") + " " + (e.last_name || "")).trim() || e.contact_email,
+            createdAt: e.created_at,
+            driveFileId: legacyAtt.driveFileId,
+            webViewLink: legacyAtt.webViewLink,
+            mimeType: extra.mimeType || null,
+          });
+        }
       }
     });
 

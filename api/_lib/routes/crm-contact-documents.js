@@ -45,6 +45,13 @@ function driveFileUrl(fileId) {
 function parseEventDocs(e) {
   var extra = parseJson(e.extra_data, {});
   var docs = [];
+  var hasDrive = false;
+  function docStatus(a) {
+    if (a && (a.driveFileId || a.webViewLink)) hasDrive = true;
+    if (e.status === "completed" || e.status === "done" || e.status === "received") return "deposé";
+    if (a && (a.driveFileId || a.webViewLink)) return "deposé";
+    return e.status === "pending" ? "en attente" : e.status || "en attente";
+  }
   if (Array.isArray(extra.attachments)) {
     extra.attachments.forEach(function (a, i) {
       docs.push({
@@ -57,7 +64,7 @@ function parseEventDocs(e) {
         webViewLink: a.webViewLink || driveFileUrl(a.driveFileId),
         thumbnailLink: a.thumbnailLink || null,
         uploadedAt: a.uploadedAt || e.created_at,
-        status: e.status || "pending",
+        status: docStatus(a),
         source: extra.source || "evenement",
       });
     });
@@ -70,7 +77,7 @@ function parseEventDocs(e) {
       driveFileId: (extra.drive && extra.drive.fileId) || null,
       webViewLink: (extra.drive && extra.drive.webViewLink) || driveFileUrl(extra.drive && extra.drive.fileId),
       uploadedAt: extra.uploadedAt || e.created_at,
-      status: e.status || "pending",
+      status: docStatus(extra.drive || {}),
       source: "portal_legacy",
     });
   }

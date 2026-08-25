@@ -594,7 +594,7 @@
           var hats = (res.data.hats || []).join(" + ");
           var docNote = "";
           var uploadChain = Promise.resolve();
-          if (window.ImmoSellDocsChecklist && (payload.email || payload.phone || res.data.contactId)) {
+          if (window.ImmoSellDocsChecklist && (payload.email || payload.phone || res.data.contactId || res.data.leadId)) {
             window.ImmoSellDocsChecklist.setSession({
               email: payload.email,
               phone: payload.phone,
@@ -604,6 +604,8 @@
             uploadChain = window.ImmoSellDocsChecklist.uploadAll().then(function (up) {
               if (up && up.uploaded && up.uploaded.length) {
                 docNote += " " + up.uploaded.length + " pièce(s) checklist archivée(s).";
+              } else if (up && up.errors && up.errors.length) {
+                docNote += " Pièces encore en attente (dossier client à lier).";
               }
             });
           }
