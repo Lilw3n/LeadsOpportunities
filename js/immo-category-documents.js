@@ -440,12 +440,21 @@
     var self = this;
     clearTimeout(self._uploadTimer);
     self._uploadTimer = setTimeout(function () {
+      var hasQueued = self.queue.some(function (q) {
+        return q.status === "queued";
+      });
+      if (!hasQueued) return;
       if (self._uploadInFlight) {
         self._uploadInFlight.finally(function () {
-          clearTimeout(self._uploadTimer);
-          self._uploadTimer = setTimeout(function () {
-            self.scheduleImmediateUpload();
-          }, 60);
+          var still = self.queue.some(function (q) {
+            return q.status === "queued";
+          });
+          if (still) {
+            clearTimeout(self._uploadTimer);
+            self._uploadTimer = setTimeout(function () {
+              self.scheduleImmediateUpload();
+            }, 80);
+          }
         });
         return;
       }
