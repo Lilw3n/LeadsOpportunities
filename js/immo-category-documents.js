@@ -359,35 +359,45 @@
   /** Crée lead + contact + bien brouillon dès le 1er fichier (sans envoyer l’annonce). */
   ImmoCategoryDocuments.prototype.ensureDraftProperty = function () {
     var self = this;
+    if (self._draftPromise) return self._draftPromise;
+    if (global.__loImmoDraftPromise) return global.__loImmoDraftPromise;
+
     self.syncSessionFromPage();
+    /* Déjà un bien connu → pas de nouvel appel (évite courses Drive). */
+    if (self.session.propertyId && self.session.leadId) {
+      return Promise.resolve(self.session);
+    }
+
     var ensureLead =
       global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
         ? global.AcheteurImmoDepositGuide.ensureServerLead()
         : Promise.resolve(self.session.leadId);
-    return Promise.resolve(ensureLead).then(function (leadId) {
-      if (leadId) self.session.leadId = leadId;
-      self.syncSessionFromPage();
-      return fetch("/api/immo-listing-draft", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({
-          leadId: self.session.leadId || null,
-          propertyId: self.session.propertyId || null,
-          email: self.session.email || null,
-          phone: self.session.phone || null,
-          firstName: self.session.firstName || null,
-          lastName: self.session.lastName || null,
-          city: self.session.city || null,
-          postal_code: self.session.postal_code || null,
-          property_type: self.session.property_type || null,
-          vertical: "vendeur_immo",
-        }),
-      });
-    })
-      .then(function (r) {
-        return r.json().then(function (data) {
-          return { ok: r.ok, data: data };
+
+    var promise = Promise.resolve(ensureLead)
+      .then(function (leadId) {
+        if (leadId) self.session.leadId = leadId;
+        self.syncSessionFromPage();
+        if (self.session.propertyId) return { ok: true, data: { ok: true, propertyId: self.session.propertyId, leadId: self.session.leadId, contactId: self.session.contactId } };
+        return fetch("/api/immo-listing-draft", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            leadId: self.session.leadId || null,
+            propertyId: self.session.propertyId || null,
+            email: self.session.email || null,
+            phone: self.session.phone || null,
+            firstName: self.session.firstName || null,
+            lastName: self.session.lastName || null,
+            city: self.session.city || null,
+            postal_code: self.session.postal_code || null,
+            property_type: self.session.property_type || null,
+            vertical: "vendeur_immo",
+          }),
+        }).then(function (r) {
+          return r.json().then(function (data) {
+            return { ok: r.ok, data: data };
+          });
         });
       })
       .then(function (res) {
@@ -415,13 +425,30 @@
           );
         } catch (e) {}
         return self.session;
+      })
+      .finally(function () {
+        if (self._draftPromise === promise) self._draftPromise = null;
+        if (global.__loImmoDraftPromise === promise) global.__loImmoDraftPromise = null;
       });
+
+    self._draftPromise = promise;
+    global.__loImmoDraftPromise = promise;
+    return promise;
   };
 
   ImmoCategoryDocuments.prototype.scheduleImmediateUpload = function () {
     var self = this;
     clearTimeout(self._uploadTimer);
     self._uploadTimer = setTimeout(function () {
+      if (self._uploadInFlight) {
+        self._uploadInFlight.finally(function () {
+          clearTimeout(self._uploadTimer);
+          self._uploadTimer = setTimeout(function () {
+            self.scheduleImmediateUpload();
+          }, 60);
+        });
+        return;
+      }
       self.syncSessionFromPage();
       var chain = Promise.resolve();
       if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
@@ -437,7 +464,7 @@
           return self.session;
         });
       }
-      chain
+      self._uploadInFlight = chain
         .then(function () {
           if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
             if (!self.session.propertyId) return null;
@@ -446,18 +473,18 @@
           }
           return self.uploadAll();
         })
-        .catch(function () {
+        .catch(function (err) {
           var st = self.root.querySelector("[data-immo-doc-status]");
           if (st) {
             st.hidden = false;
-            st.textContent = "Dossier en cours de création — nouvel essai automatique…";
+            st.textContent =
+              "Envoi différé — " + ((err && err.message) || "nouvel essai…");
           }
-          clearTimeout(self._retryDraft);
-          self._retryDraft = setTimeout(function () {
-            self.scheduleImmediateUpload();
-          }, 1200);
+        })
+        .finally(function () {
+          self._uploadInFlight = null;
         });
-    }, 80);
+    }, 120);
   };
 
   ImmoCategoryDocuments.prototype._renderQueues = function () {

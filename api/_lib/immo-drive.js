@@ -80,6 +80,7 @@ async function driveCreateFolder(token, name, parentId) {
   return data;
 }
 
+/** Retourne le plus ancien dossier du même nom (évite de « perdre » un dossier déjà rempli). */
 async function lookupChildFolder(token, parentId, name) {
   const q =
     "mimeType='application/vnd.google-apps.folder' and name='" +
@@ -88,7 +89,9 @@ async function lookupChildFolder(token, parentId, name) {
     parentId +
     "' in parents and trashed=false";
   const resp = await fetch(
-    "https://www.googleapis.com/drive/v3/files?q=" + encodeURIComponent(q) + "&fields=files(id,name,webViewLink)&pageSize=1",
+    "https://www.googleapis.com/drive/v3/files?q=" +
+      encodeURIComponent(q) +
+      "&fields=files(id,name,webViewLink,createdTime)&pageSize=25&orderBy=createdTime",
     { headers: { Authorization: "Bearer " + token } }
   );
   const data = await resp.json();
@@ -96,12 +99,68 @@ async function lookupChildFolder(token, parentId, name) {
   return null;
 }
 
-/** Trouve un sous-dossier ; ne crée que si createIfMissing=true (défaut true). */
+/**
+ * Trouve un sous-dossier ; ne crée que si absent.
+ * Drive autorise les homonymes → re-lookup après création concurrente.
+ */
 async function findChildFolder(token, parentId, name, createIfMissing) {
   const found = await lookupChildFolder(token, parentId, name);
   if (found) return found;
   if (createIfMissing === false) return null;
-  return driveCreateFolder(token, name, parentId);
+  const created = await driveCreateFolder(token, name, parentId);
+  /* Course possible : un autre worker a créé le même nom → reprendre le plus ancien. */
+  const again = await lookupChildFolder(token, parentId, name);
+  if (again && again.id !== created.id) {
+    return again;
+  }
+  return created;
+}
+
+/** Verrou process-local pour éviter 3× prop_* sur le même bien. */
+var propertyFolderLocks = Object.create(null);
+
+function withPropertyLock(key, fn) {
+  var k = String(key || "global");
+  var prev = propertyFolderLocks[k] || Promise.resolve();
+  var next = prev
+    .catch(function () {})
+    .then(fn)
+    .finally(function () {
+      if (propertyFolderLocks[k] === next) delete propertyFolderLocks[k];
+    });
+  propertyFolderLocks[k] = next;
+  return next;
+}
+
+async function loadPropertyDriveFolderId(propertyId) {
+  if (!propertyId) return null;
+  try {
+    const { getSql } = require("./db");
+    const sql = getSql();
+    if (!sql) return null;
+    const rows = await sql`
+      SELECT drive_folder_id FROM crm_immo_properties WHERE id = ${propertyId} LIMIT 1
+    `;
+    return rows.length && rows[0].drive_folder_id ? rows[0].drive_folder_id : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function persistPropertyDriveFolderId(propertyId, folderId) {
+  if (!propertyId || !folderId) return;
+  try {
+    const { getSql } = require("./db");
+    const sql = getSql();
+    if (!sql) return;
+    await sql`
+      UPDATE crm_immo_properties
+      SET drive_folder_id = COALESCE(drive_folder_id, ${folderId}), updated_at = NOW()
+      WHERE id = ${propertyId}
+    `;
+  } catch (e) {
+    console.warn("[immo-drive] persist folder", e.message);
+  }
 }
 
 function subfolderMeta(sf, found) {
@@ -217,6 +276,15 @@ async function ensureImmoRoot(token, rootId) {
  */
 async function ensurePropertyDriveFolders(property, opts) {
   opts = opts || {};
+  property = property || {};
+  const lockKey = property.id || buildPropIdFolderName(property);
+  return withPropertyLock(lockKey, function () {
+    return ensurePropertyDriveFoldersUnlocked(property, opts);
+  });
+}
+
+async function ensurePropertyDriveFoldersUnlocked(property, opts) {
+  opts = opts || {};
   const onlySub = opts.subfolder ? String(opts.subfolder) : "";
   const token = await getToken();
   const rootId = getRootFolderId();
@@ -241,6 +309,11 @@ async function ensurePropertyDriveFolders(property, opts) {
   }
 
   var propFolderId = property.drive_folder_id || null;
+  if (!propFolderId && property.id) {
+    propFolderId = await loadPropertyDriveFolderId(property.id);
+    if (propFolderId) property.drive_folder_id = propFolderId;
+  }
+
   var prospectFolderId = null;
   var webViewLink = null;
   var existing = false;
@@ -254,6 +327,8 @@ async function ensurePropertyDriveFolders(property, opts) {
     const propFolder = await findChildFolder(token, prospectFolder.id, propIdLabel, true);
     propFolderId = propFolder.id;
     webViewLink = propFolder.webViewLink || prospectFolder.webViewLink || null;
+    await persistPropertyDriveFolderId(property.id, propFolderId);
+    property.drive_folder_id = propFolderId;
   }
 
   const subs = {};

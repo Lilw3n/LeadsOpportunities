@@ -137,12 +137,34 @@ async function ensureClientDriveFolders(contactId) {
   }
 
   const clientLabel = safeFolderLabel(c.id, c.first_name, c.last_name, c.phone, c.email);
-  const clientFolder = await driveCreateFolder(token, clientLabel, yearFolderId);
+  /* Réutiliser un dossier existant du même libellé (Drive autorise les homonymes). */
+  var clientFolder = null;
+  try {
+    const clientSearch = await fetch(
+      "https://www.googleapis.com/drive/v3/files?q=" +
+        encodeURIComponent(
+          "mimeType='application/vnd.google-apps.folder' and name='" +
+            clientLabel.replace(/'/g, "\\'") +
+            "' and '" +
+            yearFolderId +
+            "' in parents and trashed=false"
+        ) +
+        "&fields=files(id,name)&pageSize=10&orderBy=createdTime",
+      { headers: { Authorization: "Bearer " + token } }
+    );
+    const clientData = await clientSearch.json();
+    if (clientData.files && clientData.files.length) {
+      clientFolder = clientData.files[0];
+    }
+  } catch (e) {}
+  if (!clientFolder) {
+    clientFolder = await driveCreateFolder(token, clientLabel, yearFolderId);
+  }
 
   // Pas de sous-dossiers anticipés — créés uniquement à l'upload (resolveContactSubfolderId)
 
   await sql`
-    UPDATE crm_contacts SET drive_folder_id = ${clientFolder.id}, updated_at = NOW()
+    UPDATE crm_contacts SET drive_folder_id = COALESCE(drive_folder_id, ${clientFolder.id}), updated_at = NOW()
     WHERE id = ${contactId}
   `;
 

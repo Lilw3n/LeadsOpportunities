@@ -96,9 +96,9 @@ module.exports = async function publicImmoListingDraft(req, res) {
 
     if (!propertyId && leadId) {
       var existing = await sql`
-        SELECT id FROM crm_immo_properties
+        SELECT id, drive_folder_id FROM crm_immo_properties
         WHERE lead_id = ${leadId}
-        ORDER BY updated_at DESC, created_at DESC
+        ORDER BY created_at ASC
         LIMIT 1
       `;
       if (existing.length) propertyId = existing[0].id;
@@ -109,33 +109,61 @@ module.exports = async function publicImmoListingDraft(req, res) {
       ["Bien vendeur (brouillon)", city, postal].filter(Boolean).join(" · ") ||
       "Bien à vendre (brouillon)";
 
-    propertyId = await store.upsertProperty(
-      sql,
-      {
-        id: propertyId || undefined,
-        title: title,
-        property_type: propertyType,
-        status: "prospection",
-        listing_source: "manual",
-        city: city,
-        postal_code: postal,
-        department: postal ? postal.slice(0, 2) : null,
-        lead_id: leadId,
-        owner_contact_id: contactId || null,
-        notes: "Brouillon créé dès dépôt de pièce (avant envoi annonce).",
-        metadata: {
-          origin: "public_listing_draft",
-          draft: true,
-          role: "vendeur",
-          createdFrom: "document_upload",
+    /* Si le bien existe déjà : mise à jour légère sans recréer (évite courses). */
+    if (propertyId) {
+      try {
+        await sql`
+          UPDATE crm_immo_properties SET
+            title = COALESCE(NULLIF(${title}, ''), title),
+            city = COALESCE(${city}, city),
+            postal_code = COALESCE(${postal}, postal_code),
+            owner_contact_id = COALESCE(owner_contact_id, ${contactId || null}),
+            lead_id = COALESCE(lead_id, ${leadId}),
+            updated_at = NOW()
+          WHERE id = ${propertyId}
+        `;
+      } catch (upErr) {
+        console.warn("[immo-listing-draft] update prop", upErr.message);
+      }
+    } else {
+      propertyId = await store.upsertProperty(
+        sql,
+        {
+          title: title,
+          property_type: propertyType,
+          status: "prospection",
+          listing_source: "manual",
+          city: city,
+          postal_code: postal,
+          department: postal ? postal.slice(0, 2) : null,
+          lead_id: leadId,
+          owner_contact_id: contactId || null,
+          notes: "Brouillon créé dès dépôt de pièce (avant envoi annonce).",
+          metadata: {
+            origin: "public_listing_draft",
+            draft: true,
+            role: "vendeur",
+            createdFrom: "document_upload",
+          },
         },
-      },
-      null
-    );
+        null
+      );
+      /* Course : un autre draft a pu créer un bien pour le même lead → garder le plus ancien. */
+      try {
+        var twins = await sql`
+          SELECT id FROM crm_immo_properties
+          WHERE lead_id = ${leadId}
+          ORDER BY created_at ASC
+        `;
+        if (twins.length > 1) {
+          propertyId = twins[0].id;
+        }
+      } catch (e) {}
+    }
 
     try {
       var { ensurePropertyDriveFolders } = require("../immo-drive");
-      await ensurePropertyDriveFolders(
+      var ensured = await ensurePropertyDriveFolders(
         {
           id: propertyId,
           title: title,
@@ -146,6 +174,13 @@ module.exports = async function publicImmoListingDraft(req, res) {
         },
         {}
       );
+      if (ensured && ensured.folderId) {
+        await sql`
+          UPDATE crm_immo_properties
+          SET drive_folder_id = COALESCE(drive_folder_id, ${ensured.folderId}), updated_at = NOW()
+          WHERE id = ${propertyId}
+        `;
+      }
     } catch (driveErr) {
       console.warn("[immo-listing-draft] drive", driveErr.message);
     }
