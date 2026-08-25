@@ -7,8 +7,9 @@
   var DRAFT_PREFIX = "lo_immo_deposit_draft_";
   var SESSION_ACTIVE_KEY = "lo_immo_draft_active_id";
   var LEAD_ID_KEY = "lo_immo_deposit_lead_id";
+  var SHARED_LEAD_KEY = "lo_draft_lead_id";
   var MAX_DRAFTS = 8;
-  var SAVE_DELAY_MS = 1200;
+  var SAVE_DELAY_MS = 450;
 
   var activeDraftId = null;
   var formDirty = false;
@@ -709,14 +710,7 @@
 
     var urlCtx = urlResumeContext();
     if (urlCtx.crmResume || urlCtx.leadId) {
-      if (urlCtx.leadId) {
-        try {
-          localStorage.setItem(LEAD_ID_KEY, urlCtx.leadId);
-        } catch (e) {}
-        if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
-          global.QuoteIntelligence.setDraftLeadId(urlCtx.leadId);
-        }
-      }
+      if (urlCtx.leadId) rememberLeadId(urlCtx.leadId);
       tryRestoreFromServer(
         root,
         { silent: false, creds: resumeCredentials(), crmResume: urlCtx.crmResume },
@@ -926,14 +920,7 @@
     });
     index.unshift({ id: id, savedAt: draft.savedAt, label: label });
     writeIndex(index);
-    if (leadId) {
-      try {
-        localStorage.setItem(LEAD_ID_KEY, leadId);
-      } catch (e) {}
-      if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
-        global.QuoteIntelligence.setDraftLeadId(leadId);
-      }
-    }
+    if (leadId) rememberLeadId(leadId);
     updateDraftBanner();
     updateSessionHint();
     return true;
@@ -954,6 +941,17 @@
     };
   }
 
+  function rememberLeadId(leadId) {
+    if (!leadId) return;
+    try {
+      localStorage.setItem(LEAD_ID_KEY, leadId);
+      localStorage.setItem(SHARED_LEAD_KEY, leadId);
+    } catch (e) {}
+    if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
+      global.QuoteIntelligence.setDraftLeadId(leadId);
+    }
+  }
+
   function resumeCredentials() {
     var urlCtx = urlResumeContext();
     var form = qs("[data-url-capture-form]");
@@ -968,7 +966,7 @@
     var leadId = urlCtx.leadId || null;
     if (!leadId) {
       try {
-        leadId = localStorage.getItem(LEAD_ID_KEY);
+        leadId = localStorage.getItem(LEAD_ID_KEY) || localStorage.getItem(SHARED_LEAD_KEY);
       } catch (e) {}
     }
     if (!leadId && global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
@@ -1028,11 +1026,7 @@
         if (typeof done === "function") done(false);
         return;
       }
-      if (data.leadId) {
-        try {
-          localStorage.setItem(LEAD_ID_KEY, data.leadId);
-        } catch (e) {}
-      }
+      if (data.leadId) rememberLeadId(data.leadId);
       enrichDraftContact(data.draft, {
         email: data.email,
         phone: data.phone,
@@ -1114,7 +1108,18 @@
   function flushSave(force) {
     clearTimeout(saveTimer);
     saveDraft(true, { force: !!force });
-    syncDraftToServer();
+    syncDraftToServerBeacon();
+  }
+
+  function bindUnloadGuards() {
+    if (bindUnloadGuards._bound) return;
+    bindUnloadGuards._bound = true;
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") flushSave(true);
+    });
+    window.addEventListener("pagehide", function () {
+      flushSave(true);
+    });
   }
 
   function restoreDraftById(id, opts) {
@@ -1334,48 +1339,55 @@
   }
 
   var serverSyncTimer = null;
-  function syncDraftToServer() {
+  function buildServerSyncBody(draft) {
+    if (!formDirty) return null;
+    draft = draft || collectDraft();
+    if (!hasDraftContent(draft)) return null;
+    var formData = draft.form || {};
+    var creds = resumeCredentials();
+    var hat = draft.hat || document.documentElement.getAttribute("data-immo-hat") || "vendeur";
+    var vertical =
+      hat === "signalement"
+        ? "chasseur_immo"
+        : hat === "les_deux"
+          ? "acheteur_vendeur_immo"
+          : hat === "vendeur"
+            ? "vendeur_immo"
+            : "acheteur_immo";
+    return {
+      leadId: creds.leadId || null,
+      event: "deposit_autosave",
+      step: 1,
+      step_total: 1,
+      step_name: "deposit_partial",
+      journey: "deposit",
+      vertical: vertical,
+      form_id: "acheteur-immo-deposit",
+      source: "landing_deposit_autosave",
+      email: formData.email || creds.email || null,
+      phone: formData.phone || creds.phone || null,
+      partial_payload: {
+        hat: hat,
+        form: formData,
+        panel: draft.panel || {},
+        owners: draft.owners || [],
+        listingMode: draft.listingMode || null,
+        depositDraft: draft,
+      },
+    };
+  }
+
+  function syncDraftToServer(immediate) {
     clearTimeout(serverSyncTimer);
-    serverSyncTimer = setTimeout(function () {
-      var draft = collectDraft();
-      if (!hasDraftContent(draft)) return;
-      var formData = draft.form || {};
-      var creds = resumeCredentials();
-      var hat = draft.hat || document.documentElement.getAttribute("data-immo-hat") || "vendeur";
-      var vertical =
-        hat === "signalement"
-          ? "chasseur_immo"
-          : hat === "les_deux"
-            ? "acheteur_vendeur_immo"
-            : hat === "vendeur"
-              ? "vendeur_immo"
-              : "acheteur_immo";
-      var body = {
-        leadId: creds.leadId || null,
-        event: "deposit_autosave",
-        step: 1,
-        step_total: 1,
-        step_name: "deposit_partial",
-        journey: "deposit",
-        vertical: vertical,
-        form_id: "acheteur-immo-deposit",
-        source: "landing_deposit_autosave",
-        email: formData.email || creds.email || null,
-        phone: formData.phone || creds.phone || null,
-        partial_payload: {
-          hat: hat,
-          form: formData,
-          panel: draft.panel || {},
-          owners: draft.owners || [],
-          listingMode: draft.listingMode || null,
-          depositDraft: draft,
-        },
-      };
+    function run() {
+      var body = buildServerSyncBody();
+      if (!body) return;
       fetch("/api/lead-progress", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
         body: JSON.stringify(body),
+        keepalive: !!immediate,
       })
         .then(function (r) {
           return r.json().catch(function () {
@@ -1383,28 +1395,33 @@
           });
         })
         .then(function (res) {
-          if (res && res.leadId) {
-            try {
-              localStorage.setItem(LEAD_ID_KEY, res.leadId);
-            } catch (e) {}
-            if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
-              global.QuoteIntelligence.setDraftLeadId(res.leadId);
-            }
-          }
+          if (res && res.leadId) rememberLeadId(res.leadId);
         })
         .catch(function () {});
-    }, 600);
+    }
+    if (immediate) {
+      run();
+      return;
+    }
+    serverSyncTimer = setTimeout(run, 400);
   }
 
-  function bindUnloadGuards() {
-    if (bindUnloadGuards._bound) return;
-    bindUnloadGuards._bound = true;
-    document.addEventListener("visibilitychange", function () {
-      if (document.visibilityState === "hidden") flushSave(true);
-    });
-    window.addEventListener("pagehide", function () {
-      flushSave(true);
-    });
+  function syncDraftToServerBeacon() {
+    clearTimeout(serverSyncTimer);
+    var body = buildServerSyncBody();
+    if (!body) return;
+    body.event = "deposit_autosave_unload";
+    body.step_name = "deposit_unload";
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(
+          "/api/lead-progress",
+          new Blob([JSON.stringify(body)], { type: "application/json" })
+        );
+        return;
+      }
+    } catch (e) {}
+    syncDraftToServer(true);
   }
 
   function bind(root) {

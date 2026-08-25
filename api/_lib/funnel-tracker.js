@@ -40,12 +40,31 @@ function mergePayload(existing, patch) {
     if (patch.partial.depositDraft && typeof patch.partial.depositDraft === "object") {
       base.depositDraft = patch.partial.depositDraft;
     }
-    if (patch.partial.form && typeof patch.partial.form === "object") {
-      Object.keys(patch.partial.form).forEach(function (k) {
-        if (patch.partial.form[k] != null && patch.partial.form[k] !== "") {
-          base[k] = patch.partial.form[k];
+    function promoteFormFields(src) {
+      if (!src || typeof src !== "object") return;
+      Object.keys(src).forEach(function (k) {
+        if (
+          k === "depositDraft" ||
+          k === "form" ||
+          k === "panel" ||
+          k === "owners" ||
+          k === "hat" ||
+          k === "listingMode" ||
+          k === "extras" ||
+          k === "openBlocks" ||
+          k === "questionnaireDraft"
+        ) {
+          return;
         }
+        var v = src[k];
+        if (v == null || v === "") return;
+        if (typeof v === "object" && !Array.isArray(v)) return;
+        base[k] = v;
       });
+    }
+    promoteFormFields(patch.partial);
+    if (patch.partial.form && typeof patch.partial.form === "object") {
+      promoteFormFields(patch.partial.form);
     }
   }
   if (patch.clientIp) base.clientIp = patch.clientIp;

@@ -252,6 +252,47 @@
     );
   }
 
+  var SKIP_AUTOSAVE_KEYS = {
+    _hp: 1,
+    website: 1,
+    company_url: 1,
+    need: 1,
+    role: 1,
+    csrf: 1,
+    _csrf: 1,
+  };
+
+  function formHasMeaningfulInput(form) {
+    if (!form) return false;
+    var els = form.querySelectorAll("input, select, textarea");
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      var name = el.name || "";
+      if (!name || SKIP_AUTOSAVE_KEYS[name]) continue;
+      if (el.type === "file" || el.type === "hidden" || el.type === "submit" || el.type === "button") continue;
+      if (el.type === "checkbox" || el.type === "radio") {
+        if (el.checked !== el.defaultChecked) return true;
+        continue;
+      }
+      if (el.tagName === "SELECT") {
+        var defOpt = null;
+        for (var j = 0; j < el.options.length; j++) {
+          if (el.options[j].defaultSelected) {
+            defOpt = el.options[j];
+            break;
+          }
+        }
+        var defVal = defOpt ? defOpt.value : el.options.length ? el.options[0].value : "";
+        if (String(el.value || "") !== String(defVal || "")) return true;
+        continue;
+      }
+      var cur = String(el.value == null ? "" : el.value).trim();
+      var def = String(el.defaultValue == null ? "" : el.defaultValue).trim();
+      if (cur && cur !== def) return true;
+    }
+    return false;
+  }
+
   function bindContactCapture(form) {
     if (!form || form._contactCaptureBound) return;
     form._contactCaptureBound = true;
@@ -259,19 +300,42 @@
     function maybeSave(reason) {
       clearTimeout(timer);
       timer = setTimeout(function () {
-        var emailEl = form.querySelector('[name="email"]');
-        var phoneEl = form.querySelector('[name="phone"]');
-        var email = emailEl ? String(emailEl.value || "").trim() : "";
-        var phone = phoneEl ? String(phoneEl.value || "").replace(/\s/g, "") : "";
-        var hasAny = !!(email || phone.length >= 8 || form.querySelector('[name="firstName"]') && form.querySelector('[name="firstName"]').value || form.querySelector('[name="city"]') && form.querySelector('[name="city"]').value);
-        if (!hasAny && !getDraftLeadId()) return;
+        if (!formHasMeaningfulInput(form) && !getDraftLeadId()) return;
         saveProgress(
           form,
           parseInt(form.dataset.currentStep || "1", 10),
           reason || "autosave_partial",
           reason || "field_change"
         );
-      }, 450);
+      }, 350);
+    }
+    function flushBeacon() {
+      if (!formHasMeaningfulInput(form) && !getDraftLeadId()) return;
+      var partial = collectFormPartial(form);
+      var body = {
+        leadId: getDraftLeadId(),
+        event: "autosave_unload",
+        step: parseInt(form.dataset.currentStep || "1", 10),
+        step_total: form.querySelectorAll(".wizard-step").length || 1,
+        step_name: "autosave_unload",
+        journey: getJourney(),
+        vertical: verticalFromForm(form),
+        form_id: form.id || form.getAttribute("name") || "wizard",
+        source: "landing_autosave_unload",
+        partial_payload: partial,
+        email: partial.email || null,
+        phone: partial.phone || null,
+      };
+      try {
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(
+            "/api/lead-progress",
+            new Blob([JSON.stringify(body)], { type: "application/json" })
+          );
+        } else {
+          postJson("/api/lead-progress", body);
+        }
+      } catch (e) {}
     }
     form.addEventListener(
       "blur",
@@ -287,11 +351,22 @@
     form.addEventListener("input", function () {
       maybeSave("field_input");
     });
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") flushBeacon();
+    });
+    window.addEventListener("pagehide", flushBeacon);
   }
 
   function bindContactCaptureAll() {
     document.querySelectorAll("form").forEach(function (form) {
-      if (form.querySelector('[name="email"], [name="phone"]')) bindContactCapture(form);
+      if (
+        form.querySelector('[name="email"], [name="phone"]') ||
+        form.hasAttribute("data-quote-wizard") ||
+        form.hasAttribute("data-acheteur-immo") ||
+        form.hasAttribute("data-track-form")
+      ) {
+        bindContactCapture(form);
+      }
     });
   }
 

@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
     return res.status(429).json({ error: "Trop de requêtes" });
   }
 
-  const parsed = parseJsonBody(req, 65536);
+  const parsed = parseJsonBody(req, 512 * 1024);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
   const body = parsed.body;
 
