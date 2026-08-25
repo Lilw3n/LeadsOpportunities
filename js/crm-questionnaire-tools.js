@@ -476,13 +476,14 @@
                     throw new Error((res.data && res.data.error) || "Upload impossible");
                   }
                   if (res.data.contactId) session.contactId = res.data.contactId;
-                  markItemDone(item);
+                  markItemDone(item, res);
                   acc.uploaded.push(res.data);
                   return acc;
                 })
                 .catch(function (err) {
                   item.status = "error";
                   item.error = err.message || "Erreur";
+                  if (typeof inst._refreshLine === "function") inst._refreshLine(item.documentType);
                   acc.errors.push({ error: item.error, item: item });
                   return acc;
                 });
@@ -493,7 +494,7 @@
       ).then(function (result) {
         if (inst.queue) {
           inst.queue = inst.queue.filter(function (q) {
-            return q.status !== "done";
+            return q.status !== "received" && q.status !== "transmitted" && q.status !== "done";
           });
         }
         if (typeof inst._renderQueues === "function") inst._renderQueues();
