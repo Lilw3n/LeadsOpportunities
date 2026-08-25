@@ -133,8 +133,13 @@
           <div data-vendeur-visite-pret-block="landing"></div>
         </div>
 
-        <div class="listings-wrap" id="recherche" data-immo-search>
-          <h2>Annonces à vendre</h2>
+        <details class="listings-wrap listings-fold" id="recherche" data-immo-search>
+          <summary class="listings-fold-summary">
+            <span class="listings-fold-title">Annonces à vendre</span>
+            <span class="listings-fold-meta" data-listings-count>Catalogue</span>
+            <span class="listings-fold-chevron" aria-hidden="true"></span>
+          </summary>
+          <div class="listings-fold-body">
           <p class="listings-intro">Les biens collés via une URL s'affichent ici (photo, description, capture). Pas d'annonces d'exemple.</p>
           <div class="listings-types" role="group" aria-label="Type de bien">
             <label class="search-chip"><input type="checkbox" name="listingType" value="appartement" /><span>Appartement</span></label>
@@ -169,7 +174,7 @@
             </div>
           </form>
           <div class="listings-meta">
-            <span data-listings-count>Chargement des annonces…</span>
+            <span data-listings-count-inner></span>
           </div>
           <div class="listings-grid" data-listings-grid></div>
           <div class="listings-empty" data-listings-empty>
@@ -177,7 +182,8 @@
             <p data-empty-hint>Déposez un bien (vendeur) ou collez une URL d'annonce.</p>
             <a class="btn btn-primary" href="#deposer-bien">Déposer / coller un bien</a>
           </div>
-        </div>
+          </div>
+        </details>
 
         <div class="url-capture" id="deposer-bien" data-listing-url-capture>
           <span id="annonce-url"></span>

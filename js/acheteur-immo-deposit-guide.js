@@ -1114,6 +1114,7 @@
   function flushSave(force) {
     clearTimeout(saveTimer);
     saveDraft(true, { force: !!force });
+    syncDraftToServer();
   }
 
   function restoreDraftById(id, opts) {
@@ -1328,7 +1329,71 @@
     clearTimeout(saveTimer);
     saveTimer = setTimeout(function () {
       saveDraft(true);
+      syncDraftToServer();
     }, SAVE_DELAY_MS);
+  }
+
+  var serverSyncTimer = null;
+  function syncDraftToServer() {
+    clearTimeout(serverSyncTimer);
+    serverSyncTimer = setTimeout(function () {
+      var draft = collectDraft();
+      if (!hasDraftContent(draft)) return;
+      var formData = draft.form || {};
+      var creds = resumeCredentials();
+      var hat = draft.hat || document.documentElement.getAttribute("data-immo-hat") || "vendeur";
+      var vertical =
+        hat === "signalement"
+          ? "chasseur_immo"
+          : hat === "les_deux"
+            ? "acheteur_vendeur_immo"
+            : hat === "vendeur"
+              ? "vendeur_immo"
+              : "acheteur_immo";
+      var body = {
+        leadId: creds.leadId || null,
+        event: "deposit_autosave",
+        step: 1,
+        step_total: 1,
+        step_name: "deposit_partial",
+        journey: "deposit",
+        vertical: vertical,
+        form_id: "acheteur-immo-deposit",
+        source: "landing_deposit_autosave",
+        email: formData.email || creds.email || null,
+        phone: formData.phone || creds.phone || null,
+        partial_payload: {
+          hat: hat,
+          form: formData,
+          panel: draft.panel || {},
+          owners: draft.owners || [],
+          listingMode: draft.listingMode || null,
+          depositDraft: draft,
+        },
+      };
+      fetch("/api/lead-progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(body),
+      })
+        .then(function (r) {
+          return r.json().catch(function () {
+            return {};
+          });
+        })
+        .then(function (res) {
+          if (res && res.leadId) {
+            try {
+              localStorage.setItem(LEAD_ID_KEY, res.leadId);
+            } catch (e) {}
+            if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
+              global.QuoteIntelligence.setDraftLeadId(res.leadId);
+            }
+          }
+        })
+        .catch(function () {});
+    }, 600);
   }
 
   function bindUnloadGuards() {

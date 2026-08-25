@@ -1,10 +1,52 @@
 /* Vitrine recherche de bien — cartes d'annonces (style portail) */
 .listings-wrap {
   margin: 8px 0 28px;
-  padding: 18px 18px 8px;
+  padding: 0;
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 18px;
+  overflow: hidden;
+}
+.listings-fold-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  user-select: none;
+}
+.listings-fold-summary::-webkit-details-marker {
+  display: none;
+}
+.listings-fold-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+.listings-fold-meta {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-right: auto;
+}
+.listings-fold-chevron {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #64748b;
+  border-bottom: 2px solid #64748b;
+  transform: rotate(45deg);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.listings-fold[open] .listings-fold-chevron {
+  transform: rotate(-135deg);
+  margin-top: 4px;
+}
+.listings-fold-body {
+  padding: 0 18px 12px;
+  border-top: 1px solid #e2e8f0;
 }
 .listings-wrap h2 {
   margin: 0 0 6px;

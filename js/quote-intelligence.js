@@ -256,28 +256,36 @@
     if (!form || form._contactCaptureBound) return;
     form._contactCaptureBound = true;
     var timer = null;
-    function maybeSave() {
-      var emailEl = form.querySelector('[name="email"]');
-      var phoneEl = form.querySelector('[name="phone"]');
-      var email = emailEl ? String(emailEl.value || "").trim() : "";
-      var phone = phoneEl ? String(phoneEl.value || "").replace(/\s/g, "") : "";
-      if (!email && phone.length < 10) return;
+    function maybeSave(reason) {
       clearTimeout(timer);
       timer = setTimeout(function () {
-        saveProgress(form, parseInt(form.dataset.currentStep || "1", 10), "contact_partial", "contact_blur");
-      }, 350);
+        var emailEl = form.querySelector('[name="email"]');
+        var phoneEl = form.querySelector('[name="phone"]');
+        var email = emailEl ? String(emailEl.value || "").trim() : "";
+        var phone = phoneEl ? String(phoneEl.value || "").replace(/\s/g, "") : "";
+        var hasAny = !!(email || phone.length >= 8 || form.querySelector('[name="firstName"]') && form.querySelector('[name="firstName"]').value || form.querySelector('[name="city"]') && form.querySelector('[name="city"]').value);
+        if (!hasAny && !getDraftLeadId()) return;
+        saveProgress(
+          form,
+          parseInt(form.dataset.currentStep || "1", 10),
+          reason || "autosave_partial",
+          reason || "field_change"
+        );
+      }, 450);
     }
     form.addEventListener(
       "blur",
       function (e) {
-        if (!e.target || (e.target.name !== "email" && e.target.name !== "phone")) return;
-        maybeSave();
+        if (!e.target || !e.target.name) return;
+        maybeSave("field_blur");
       },
       true
     );
-    form.addEventListener("change", function (e) {
-      if (!e.target || (e.target.name !== "email" && e.target.name !== "phone")) return;
-      maybeSave();
+    form.addEventListener("change", function () {
+      maybeSave("field_change");
+    });
+    form.addEventListener("input", function () {
+      maybeSave("field_input");
     });
   }
 

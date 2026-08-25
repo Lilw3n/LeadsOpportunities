@@ -143,13 +143,14 @@
   function render(root, listings, source, query) {
     var grid = qs(root, "[data-listings-grid]");
     var count = qs(root, "[data-listings-count]");
+    var countInner = qs(root, "[data-listings-count-inner]");
     var empty = qs(root, "[data-listings-empty]");
-    if (count) {
-      count.textContent =
-        listings.length +
-        " annonce" +
-        (listings.length > 1 ? "s" : "");
-    }
+    var label =
+      listings.length +
+      " annonce" +
+      (listings.length > 1 ? "s" : "");
+    if (count) count.textContent = label;
+    if (countInner) countInner.textContent = label;
     if (!listings.length) {
       if (grid) grid.innerHTML = "";
       if (empty) {
@@ -293,6 +294,10 @@
     applyQueryToForm(root);
     var state = { listings: [], source: "crm" };
 
+    function openFold() {
+      if (root.tagName === "DETAILS") root.open = true;
+    }
+
     function refresh() {
       var query = queryFromForm(root);
       fetchListings(query).then(function (data) {
@@ -306,16 +311,24 @@
     if (form) {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
+        openFold();
         refresh();
       });
       form.addEventListener("change", refresh);
     }
     qsa(root, 'input[name="listingType"]').forEach(function (el) {
-      el.addEventListener("change", refresh);
+      el.addEventListener("change", function () {
+        openFold();
+        refresh();
+      });
     });
     bindGrid(root, state);
     refresh();
     document.addEventListener("lo:listing-submitted", refresh);
+    if ((location.hash || "").indexOf("recherche") >= 0) openFold();
+    window.addEventListener("hashchange", function () {
+      if ((location.hash || "").indexOf("recherche") >= 0) openFold();
+    });
     var lb = document.getElementById("listingLightbox");
     if (lb && !lb.dataset.bound) {
       lb.dataset.bound = "1";
