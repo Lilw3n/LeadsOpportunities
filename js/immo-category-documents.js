@@ -322,10 +322,22 @@
       var ph = form.querySelector("[name='phone']");
       if (em && String(em.value || "").trim()) this.session.email = String(em.value).trim().toLowerCase();
       if (ph && String(ph.value || "").trim()) this.session.phone = String(ph.value).trim();
+      var city = form.querySelector("[name='city'], [name='sellCity']");
+      var postal = form.querySelector("[name='postal_code'], [name='sellPostalCode']");
+      var ptype = form.querySelector("[name='property_type'], [name='sellPropertyType']");
+      if (city && String(city.value || "").trim()) this.session.city = String(city.value).trim();
+      if (postal && String(postal.value || "").trim()) this.session.postal_code = String(postal.value).trim();
+      if (ptype && String(ptype.value || "").trim()) this.session.property_type = String(ptype.value).trim();
+      var fn = form.querySelector("[name='firstName']");
+      var ln = form.querySelector("[name='lastName']");
+      if (fn && String(fn.value || "").trim()) this.session.firstName = String(fn.value).trim();
+      if (ln && String(ln.value || "").trim()) this.session.lastName = String(ln.value).trim();
     }
     try {
       var leadId = localStorage.getItem("lo_immo_deposit_lead_id") || localStorage.getItem("lo_draft_lead_id");
       if (leadId) this.session.leadId = leadId;
+      var propId = localStorage.getItem("lo_immo_deposit_property_id");
+      if (propId && !this.session.propertyId) this.session.propertyId = propId;
     } catch (e) {}
     if (global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
       this.session.leadId = this.session.leadId || global.QuoteIntelligence.getDraftLeadId();
@@ -333,25 +345,118 @@
     return this.session;
   };
 
+  ImmoCategoryDocuments.prototype.rememberPropertyId = function (propertyId) {
+    if (!propertyId) return;
+    this.session.propertyId = propertyId;
+    try {
+      localStorage.setItem("lo_immo_deposit_property_id", propertyId);
+    } catch (e) {}
+    if (global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.rememberPropertyId) {
+      global.AcheteurImmoDepositGuide.rememberPropertyId(propertyId);
+    }
+  };
+
+  /** Crée lead + contact + bien brouillon dès le 1er fichier (sans envoyer l’annonce). */
+  ImmoCategoryDocuments.prototype.ensureDraftProperty = function () {
+    var self = this;
+    self.syncSessionFromPage();
+    var ensureLead =
+      global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
+        ? global.AcheteurImmoDepositGuide.ensureServerLead()
+        : Promise.resolve(self.session.leadId);
+    return Promise.resolve(ensureLead).then(function (leadId) {
+      if (leadId) self.session.leadId = leadId;
+      self.syncSessionFromPage();
+      return fetch("/api/immo-listing-draft", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          leadId: self.session.leadId || null,
+          propertyId: self.session.propertyId || null,
+          email: self.session.email || null,
+          phone: self.session.phone || null,
+          firstName: self.session.firstName || null,
+          lastName: self.session.lastName || null,
+          city: self.session.city || null,
+          postal_code: self.session.postal_code || null,
+          property_type: self.session.property_type || null,
+          vertical: "vendeur_immo",
+        }),
+      });
+    })
+      .then(function (r) {
+        return r.json().then(function (data) {
+          return { ok: r.ok, data: data };
+        });
+      })
+      .then(function (res) {
+        if (!res.ok || !res.data || !res.data.ok) {
+          throw new Error((res.data && res.data.error) || "Impossible de créer le dossier bien");
+        }
+        if (res.data.leadId) {
+          self.session.leadId = res.data.leadId;
+          try {
+            localStorage.setItem("lo_immo_deposit_lead_id", res.data.leadId);
+            localStorage.setItem("lo_draft_lead_id", res.data.leadId);
+          } catch (e) {}
+        }
+        if (res.data.contactId) self.session.contactId = res.data.contactId;
+        if (res.data.propertyId) self.rememberPropertyId(res.data.propertyId);
+        try {
+          document.dispatchEvent(
+            new CustomEvent("lo:listing-draft-ready", {
+              detail: {
+                leadId: self.session.leadId,
+                contactId: self.session.contactId,
+                propertyId: self.session.propertyId,
+              },
+            })
+          );
+        } catch (e) {}
+        return self.session;
+      });
+  };
+
   ImmoCategoryDocuments.prototype.scheduleImmediateUpload = function () {
     var self = this;
     clearTimeout(self._uploadTimer);
     self._uploadTimer = setTimeout(function () {
       self.syncSessionFromPage();
-      var ensure =
-        global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
-          ? global.AcheteurImmoDepositGuide.ensureServerLead()
-          : Promise.resolve(self.session.leadId);
-      Promise.resolve(ensure).then(function (leadId) {
-        if (leadId) self.session.leadId = leadId;
-        self.syncSessionFromPage();
-        if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
-          if (!self.session.propertyId || !self.session.email) return null;
-        } else if (!self.session.email && !self.session.contactId && !self.session.leadId) {
-          return null;
-        }
-        return self.uploadAll();
-      });
+      var chain = Promise.resolve();
+      if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
+        chain = self.ensureDraftProperty();
+      } else {
+        var ensure =
+          global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
+            ? global.AcheteurImmoDepositGuide.ensureServerLead()
+            : Promise.resolve(self.session.leadId);
+        chain = Promise.resolve(ensure).then(function (leadId) {
+          if (leadId) self.session.leadId = leadId;
+          self.syncSessionFromPage();
+          return self.session;
+        });
+      }
+      chain
+        .then(function () {
+          if (self.mode === "vendeur" || self.mode === "vendeur-immo") {
+            if (!self.session.propertyId) return null;
+          } else if (!self.session.email && !self.session.contactId && !self.session.leadId) {
+            return null;
+          }
+          return self.uploadAll();
+        })
+        .catch(function () {
+          var st = self.root.querySelector("[data-immo-doc-status]");
+          if (st) {
+            st.hidden = false;
+            st.textContent = "Dossier en cours de création — nouvel essai automatique…";
+          }
+          clearTimeout(self._retryDraft);
+          self._retryDraft = setTimeout(function () {
+            self.scheduleImmediateUpload();
+          }, 1200);
+        });
     }, 80);
   };
 
@@ -378,10 +483,10 @@
     if (!pending.length) return Promise.resolve({ uploaded: [], errors: [] });
 
     if (this.mode === "vendeur" || this.mode === "vendeur-immo") {
-      if (!this.session.propertyId || !this.session.email) {
+      if (!this.session.propertyId) {
         return Promise.resolve({
           uploaded: [],
-          errors: [{ error: "propertyId et email requis pour les documents bien" }],
+          errors: [{ error: "Dossier bien en cours de création…" }],
         });
       }
     } else if (!this.session.email && !this.session.contactId && !this.session.leadId && !this.session.phone) {
@@ -403,7 +508,8 @@
                     credentials: "same-origin",
                     body: JSON.stringify({
                       propertyId: self.session.propertyId,
-                      email: self.session.email,
+                      email: self.session.email || null,
+                      contactId: self.session.contactId || null,
                       leadId: self.session.leadId,
                       documentType: item.documentType,
                       documentGroup: item.groupId,

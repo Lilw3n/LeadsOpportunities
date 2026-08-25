@@ -8,6 +8,7 @@
   var SESSION_ACTIVE_KEY = "lo_immo_draft_active_id";
   var LEAD_ID_KEY = "lo_immo_deposit_lead_id";
   var SHARED_LEAD_KEY = "lo_draft_lead_id";
+  var PROPERTY_ID_KEY = "lo_immo_deposit_property_id";
   var MAX_DRAFTS = 8;
   var SAVE_DELAY_MS = 200;
 
@@ -952,6 +953,21 @@
     }
   }
 
+  function rememberPropertyId(propertyId) {
+    if (!propertyId) return;
+    try {
+      localStorage.setItem(PROPERTY_ID_KEY, propertyId);
+    } catch (e) {}
+  }
+
+  function getRememberedPropertyId() {
+    try {
+      return localStorage.getItem(PROPERTY_ID_KEY) || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   function resumeCredentials() {
     var urlCtx = urlResumeContext();
     var form = qs("[data-url-capture-form]");
@@ -1575,6 +1591,8 @@
     refreshUi: refreshUi,
     flushSave: flushSave,
     ensureServerLead: ensureServerLead,
+    rememberPropertyId: rememberPropertyId,
+    getRememberedPropertyId: getRememberedPropertyId,
     getConfirmMethod: getConfirmMethod,
     contactSatisfied: contactSatisfied,
     sessionEmail: sessionEmail,

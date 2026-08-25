@@ -305,11 +305,60 @@
       global.AcheteurImmoDepositGuide && global.AcheteurImmoDepositGuide.ensureServerLead
         ? global.AcheteurImmoDepositGuide.ensureServerLead()
         : Promise.resolve(session.leadId);
-    return Promise.resolve(ensure).then(function (leadId) {
-      if (leadId) session.leadId = leadId;
-      syncSessionFromForm();
-      return flushPendingUploads();
-    });
+    return Promise.resolve(ensure)
+      .then(function (leadId) {
+        if (leadId) session.leadId = leadId;
+        syncSessionFromForm();
+        var vendeurPanel = document.querySelector('[data-immo-docs-panel="vendeur"]');
+        if (vendeurPanel && vendeurPanel._immoDocs && vendeurPanel._immoDocs.ensureDraftProperty) {
+          return vendeurPanel._immoDocs.ensureDraftProperty().then(function () {
+            if (vendeurPanel._immoDocs.session.propertyId) {
+              session.propertyId = vendeurPanel._immoDocs.session.propertyId;
+            }
+            if (vendeurPanel._immoDocs.session.contactId) {
+              session.contactId = vendeurPanel._immoDocs.session.contactId;
+            }
+            return session;
+          });
+        }
+        return fetch("/api/immo-listing-draft", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            leadId: session.leadId || null,
+            propertyId: session.propertyId || null,
+            email: session.email || null,
+            phone: session.phone || null,
+            vertical: "vendeur_immo",
+          }),
+        })
+          .then(function (r) {
+            return r.json().then(function (data) {
+              return { ok: r.ok, data: data };
+            });
+          })
+          .then(function (res) {
+            if (res.ok && res.data && res.data.ok) {
+              if (res.data.leadId) session.leadId = res.data.leadId;
+              if (res.data.contactId) session.contactId = res.data.contactId;
+              if (res.data.propertyId) {
+                session.propertyId = res.data.propertyId;
+                try {
+                  localStorage.setItem("lo_immo_deposit_property_id", res.data.propertyId);
+                } catch (e) {}
+              }
+            }
+            return session;
+          })
+          .catch(function () {
+            return session;
+          });
+      })
+      .then(function () {
+        syncSessionFromForm();
+        return flushPendingUploads();
+      });
   }
 
   function runImmediateUpload() {

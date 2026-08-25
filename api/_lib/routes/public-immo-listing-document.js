@@ -46,11 +46,19 @@ module.exports = async function publicImmoListingDocument(req, res) {
   var fileName = str(body.fileName, 180);
   var documentType = str(body.documentType, 80) || "autre_doc";
   var documentGroup = str(body.documentGroup, 80);
+  var bodyLeadId = str(body.leadId || body.lead_id, 80);
+  var bodyContactId = str(body.contactId || body.contact_id, 80);
 
-  if (!propertyId || !email || !fileName || !body.fileBase64) {
+  if (!propertyId || !fileName || !body.fileBase64) {
     return res.status(400).json({
       ok: false,
-      error: "propertyId, email, fileName et fileBase64 requis",
+      error: "propertyId, fileName et fileBase64 requis",
+    });
+  }
+  if (!email && !bodyLeadId && !bodyContactId) {
+    return res.status(400).json({
+      ok: false,
+      error: "email, leadId ou contactId requis",
     });
   }
 
@@ -61,7 +69,7 @@ module.exports = async function publicImmoListingDocument(req, res) {
     var store = require("../immo-properties-store");
     await store.ensureImmoSchema(sql);
     var rows = await sql`
-      SELECT id, title, city, postal_code, surface_m2, drive_folder_id, lead_id, metadata_json
+      SELECT id, title, city, postal_code, surface_m2, drive_folder_id, lead_id, owner_contact_id, metadata_json
       FROM crm_immo_properties WHERE id = ${propertyId} LIMIT 1
     `;
     if (!rows.length) {
@@ -72,13 +80,22 @@ module.exports = async function publicImmoListingDocument(req, res) {
     var leadOk = false;
     var leadFirst = "";
     var leadLast = "";
+    if (bodyLeadId && prop.lead_id && bodyLeadId === prop.lead_id) {
+      leadOk = true;
+    }
+    if (bodyContactId && prop.owner_contact_id && bodyContactId === prop.owner_contact_id) {
+      leadOk = true;
+    }
     if (prop.lead_id) {
       var leads = await sql`
-        SELECT email, phone, payload FROM site_leads WHERE id = ${prop.lead_id} LIMIT 1
+        SELECT email, phone, payload, contact_id FROM site_leads WHERE id = ${prop.lead_id} LIMIT 1
       `;
       if (leads.length) {
         var le = String(leads[0].email || "").toLowerCase();
-        leadOk = le === email;
+        if (email && le && le === email) leadOk = true;
+        if (bodyLeadId && bodyLeadId === prop.lead_id) leadOk = true;
+        if (bodyContactId && leads[0].contact_id && bodyContactId === leads[0].contact_id) leadOk = true;
+        if (!email && leads[0].email) email = String(leads[0].email).toLowerCase();
         try {
           var lp = typeof leads[0].payload === "string" ? JSON.parse(leads[0].payload || "{}") : leads[0].payload || {};
           leadFirst = lp.firstName || lp.first_name || "";
@@ -86,20 +103,20 @@ module.exports = async function publicImmoListingDocument(req, res) {
         } catch (e) {}
       }
     }
-    if (!leadOk && body.leadId) {
+    if (!leadOk && email && bodyLeadId) {
       var leads2 = await sql`
-        SELECT email FROM site_leads WHERE id = ${body.leadId} AND LOWER(email) = ${email} LIMIT 1
+        SELECT email FROM site_leads WHERE id = ${bodyLeadId} AND LOWER(email) = ${email} LIMIT 1
       `;
       leadOk = leads2.length > 0;
     }
-    if (!leadOk && body.contactId) {
+    if (!leadOk && bodyContactId) {
       var cRows = await sql`
-        SELECT id FROM crm_contacts WHERE id = ${body.contactId} LIMIT 1
+        SELECT id FROM crm_contacts WHERE id = ${bodyContactId} LIMIT 1
       `;
       leadOk = cRows.length > 0;
     }
     if (!leadOk) {
-      return res.status(403).json({ ok: false, error: "Email non autorise pour ce bien" });
+      return res.status(403).json({ ok: false, error: "Non autorisé pour ce bien" });
     }
 
     var classified = resolveVendeurDocumentFolder({

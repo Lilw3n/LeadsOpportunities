@@ -488,6 +488,24 @@
       var payload = {
         role: hat,
         alsoBuys: hat === "les_deux",
+        leadId: (function () {
+          try {
+            return (
+              localStorage.getItem("lo_immo_deposit_lead_id") ||
+              localStorage.getItem("lo_draft_lead_id") ||
+              null
+            );
+          } catch (e) {
+            return null;
+          }
+        })(),
+        propertyId: (function () {
+          try {
+            return localStorage.getItem("lo_immo_deposit_property_id") || null;
+          } catch (e) {
+            return null;
+          }
+        })(),
         urls: hits.map(function (d) {
           return d.url;
         }),

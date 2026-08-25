@@ -248,8 +248,12 @@ module.exports = async function publicImmoListingSubmit(req, res) {
   var vertical = verticalForRole(role);
   var leadScore =
     role === "les_deux" ? 85 : isOwner ? 75 : isSignalement ? (photos.length ? 72 : 62) : sellerPhone || sellerEmail ? 70 : 55;
-  var leadId = crypto.randomUUID();
+  var leadId = str(body.leadId || body.lead_id, 80) || crypto.randomUUID();
   var propertyIds = [];
+  var reusePropertyId = str(body.propertyId || body.property_id, 80) || null;
+  if (!reusePropertyId && Array.isArray(body.propertyIds) && body.propertyIds[0]) {
+    reusePropertyId = str(body.propertyIds[0], 80);
+  }
   var criteriaId = null;
   var sql = getSql();
   var leadPayload = null;
@@ -311,6 +315,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         var propId = await store.upsertProperty(
           sql,
           {
+            id: i === 0 && reusePropertyId ? reusePropertyId : undefined,
             title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : isOwner ? "Bien à vendre" : "Annonce " + d.label),
             property_type: propertyType,
             status: "prospection",
@@ -513,6 +518,16 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           ${"new"},
           ${"new"}
         )
+        ON CONFLICT (id) DO UPDATE SET
+          source = EXCLUDED.source,
+          vertical = COALESCE(EXCLUDED.vertical, site_leads.vertical),
+          lead_score = GREATEST(COALESCE(site_leads.lead_score, 0), EXCLUDED.lead_score),
+          email = COALESCE(EXCLUDED.email, site_leads.email),
+          phone = COALESCE(EXCLUDED.phone, site_leads.phone),
+          payload = EXCLUDED.payload,
+          status = EXCLUDED.status,
+          pipeline_stage = EXCLUDED.pipeline_stage,
+          updated_at = NOW()
       `;
       } catch (leadErr) {
         console.warn("[immo-listing-submit] site_leads", leadErr && leadErr.message);
