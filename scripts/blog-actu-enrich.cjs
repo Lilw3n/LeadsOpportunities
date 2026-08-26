@@ -1,7 +1,7 @@
 /**
  * Enrichissement intelligent par niche assurance (sans IA).
  */
-const { matchTopic, ctaWithUtm, monthLabel, relatedForSection } = require("./blog-actu-lib.cjs");
+const { matchTopic, ctaWithUtm, monthLabel, relatedForSection, relatedSectionForNeed } = require("./blog-actu-lib.cjs");
 
 var ANGLES = {
   sante: {
@@ -17,7 +17,7 @@ var ANGLES = {
       "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS.",
   },
   habitation: {
-    hook: "Un sinistre habitation mal couvert peut coutet des dizaines de milliers d'euros a votre charge.",
+    hook: "Un sinistre habitation mal couvert peut coûter des dizaines de milliers d'euros à votre charge.",
     checklist: [
       "Capital mobilier vs valeur reelle du contenu",
       "Degats des eaux, tempete, catastrophes naturelles",
@@ -110,6 +110,17 @@ var ANGLES = {
   },
 };
 
+function padMetaDescription(title) {
+  var base = String(title || "").trim().slice(0, 155);
+  var suffix = " — conseils assurance et questionnaire gratuit Leads Opportunities.";
+  var desc = base + suffix;
+  if (desc.length >= 80) return desc;
+  return (
+    (base || "Actualité") +
+    " : impact sur votre contrat, checklist pratique et questionnaire gratuit (courtier ORIAS)."
+  );
+}
+
 function enrichFromCandidate(candidate) {
   var title = String(candidate.title || "").trim();
   var topic = matchTopic(title + " " + (candidate.summary || ""));
@@ -130,7 +141,7 @@ function enrichFromCandidate(candidate) {
     tag: topic.tag,
     tagClass: topic.tagClass,
     title: buildTitle(title, need),
-    description: title.slice(0, 155) + " — conseils assurance et questionnaire gratuit Leads Opportunities.",
+    description: padMetaDescription(title),
     meta: "7 min · " + monthLabel(),
     cardExcerpt: title.slice(0, 110) + " — impact sur votre assurance.",
     cta: ctaWithUtm(need, slug),
@@ -138,18 +149,18 @@ function enrichFromCandidate(candidate) {
       {
         type: "p",
         text:
-          "Selon l'information relayee ce jour via <strong>" +
+          "Selon l'information relayée ce jour via <strong>" +
           platform +
           "</strong> (<strong>" +
           escapeHtml(shortTitle(title)) +
-          "</strong>), l'actualite rappelle un enjeu concret pour les foyers francais. " +
+          "</strong>), l'actualité rappelle un enjeu concret pour les foyers français. " +
           angle.hook,
       },
       { type: "h2", text: "Lien avec votre contrat d'assurance" },
       {
         type: "p",
         text:
-          "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure.",
+          "Avant de réagir sous le coup de l'émotion médiatique, vérifiez <strong>ce que couvre déjà votre contrat</strong> : plafonds, franchises, exclusions, délais. Un comparatif à garanties équivalentes évite de surpayer ou de rester sous-assuré.",
       },
       { type: "h2", text: "Checklist pratique (5 minutes)" },
       { type: "ul", items: angle.checklist },
@@ -162,7 +173,7 @@ function enrichFromCandidate(candidate) {
           "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement.",
       },
     ],
-    related: relatedForSection(topic.section, need),
+    related: relatedForSection(relatedSectionForNeed(need, topic.section), need),
   };
 }
 

@@ -94,6 +94,50 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** Titres RSS anglophones (ex. Bing mkt=en-us) — à exclure du blog FR. */
+function isLikelyEnglishHeadline(title) {
+  var t = String(title || "").trim();
+  if (!t) return false;
+  var lower = t.toLowerCase();
+  var frHits = (
+    lower.match(
+      /\b(le|la|les|des|une|un|du|de|dans|pour|avec|sur|est|qui|que|plus|contre|après|apres|selon|france|français|francais|assurance|mutuelle|sécu|secu)\b/g
+    ) || []
+  ).length;
+  if (/[éèêëàâùûüçîïôœ]/i.test(t)) frHits += 2;
+  var enHits = (
+    lower.match(
+      /\b(the|a|an|of|in|on|for|and|to|with|from|after|through|over|into|tears|wrecking|breaking|homes|village|southern|injuring)\b/g
+    ) || []
+  ).length;
+  if (enHits >= 4 && enHits > frHits) return true;
+  if (/\b(tears through|wrecking \d|breaking news|what we know)\b/i.test(t) && frHits < 2) return true;
+  return false;
+}
+
+function relatedSectionForNeed(need, fallback) {
+  var map = {
+    sante: "sante",
+    habitation: "habitat",
+    auto: "auto",
+    animaux: "animaux",
+    vtc: "vtc",
+    emprunteur: "finance",
+    prevoyance: "prevoyance",
+    "rc-pro": "pro",
+  };
+  return map[need] || fallback || "actu";
+}
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "");
+  var id = String((item && item.id) || "");
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template" || status === "example") return true;
+  if (/pending-template|placeholder|example-template/i.test(id)) return true;
+  if (/COLLEZ ICI|PLACEHOLDER|TODO:\s*titre|titre de la une/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -273,6 +317,10 @@ function relatedForSection(section, need) {
       { href: "./prevoyance-independants-guide.html", label: "Prevoyance independants" },
       { href: "../assurance-prevoyance/", label: "Assurance prevoyance" },
     ],
+    pro: [
+      { href: "./rc-pro-freelance-artisan-guide.html", label: "Guide RC Pro" },
+      { href: "./prevoyance-independants-guide.html", label: "Prevoyance independants" },
+    ],
     actu: [
       { href: "./coupe-monde-2026-assurance-voyage-sante.html", label: "CDM 2026 — voyage & sante" },
       { href: "./coupe-monde-voyage-assurance-sante-etranger-2026.html", label: "Mutuelle a l'etranger" },
@@ -351,4 +399,7 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  isLikelyEnglishHeadline: isLikelyEnglishHeadline,
+  relatedSectionForNeed: relatedSectionForNeed,
 };
