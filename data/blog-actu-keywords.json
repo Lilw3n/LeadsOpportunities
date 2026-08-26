@@ -57,7 +57,19 @@
       "tagClass": "tag-prevoyance"
     },
     {
-      "keywords": ["freelance", "indépendant", "independant", "rc pro", "artisan", "entreprise"],
+      "keywords": [
+        "freelance",
+        "indépendant",
+        "independant",
+        "rc pro",
+        "artisan",
+        "entreprise",
+        "facturation électronique",
+        "facturation electronique",
+        "factur-x",
+        "pdp",
+        "e-invoicing"
+      ],
       "section": "pro",
       "need": "rc-pro",
       "tag": "Pro & RC",

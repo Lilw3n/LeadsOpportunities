@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-26T08:23:04.588Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -373,6 +373,207 @@
         {
           "type": "p",
           "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "medicaments-appareils-auditifs-soins-dentaires-ces-depenses-de-sante-bie.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Médicaments, appareils auditifs, soins dentaires... Ces dépenses de santé bientôt moins… : mutuelle et remboursements — que faire ?",
+      "description": "Médicaments, appareils auditifs, soins dentaires... Ces dépenses de santé bientôt moins remboursées par la Sécu — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Médicaments, appareils auditifs, soins dentaires... Ces dépenses de santé bientôt moins remboursées par la Séc — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=medicaments-appareils-auditifs-soins-d",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayée ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Médicaments, appareils auditifs, soins dentaires... Ces dépenses de santé bientôt moins…</strong>), l'actualité rappelle un enjeu concret pour les foyers français. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de réagir sous le coup de l'émotion médiatique, vérifiez <strong>ce que couvre déjà votre contrat</strong> : plafonds, franchises, exclusions, délais. Un comparatif à garanties équivalentes évite de surpayer ou de rester sous-assuré."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "tornade-sud-france-300-maisons-assurance-habitation.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "Tornade dans le sud de la France : 300 maisons endommagées — assurance habitation",
+      "description": "Une tornade a endommagé environ 300 maisons dans le sud de la France. Vérifiez tempête, cat nat, capital mobilier et franchise — questionnaire habitation gratuit.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Tornade dans le sud de la France : 300 maisons touchées — ce que votre assurance habitation doit couvrir.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=tornade-sud-france-300-maisons",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l’information relayée via <strong>Microsoft Edge / Bing actu</strong>, une tornade a traversé un village du <strong>sud de la France</strong> et endommagé environ <strong>300 maisons</strong>, avec des blessés. Au-delà du choc, la question concrète pour les foyers : <strong>votre contrat habitation couvre-t-il vraiment tempête, catastrophes naturelles et contenu</strong> ?"
+        },
+        {
+          "type": "h2",
+          "text": "Tempête, cat nat : ce n’est pas la même garantie"
+        },
+        {
+          "type": "p",
+          "text": "Les dégâts liés au vent peuvent relever de la garantie <strong>tempête</strong> (souvent soumise à un seuil de vent) ou d’un arrêté <strong>catastrophe naturelle</strong> si l’État le publie. Un contrat mal paramétré, une franchise élevée ou un capital mobilier sous-évalué laisse un reste à charge lourd — surtout après un événement qui touche tout un village."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur réelle du contenu (meubles, électroménager, objets de valeur)",
+            "Garanties tempête, grêle, dégâts des eaux et catastrophes naturelles",
+            "Usage du logement (résidence principale, secondaire, location, Airbnb)",
+            "Franchise et exclusions (vétusté, défaut d’entretien, dépendances)",
+            "Propriétaire bailleur : coordination avec l’assurance PNO"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Après un sinistre collectif : déclarer vite, comparer ensuite"
+        },
+        {
+          "type": "p",
+          "text": "Photographiez les dégâts, conservez factures et échanges assureur, et déclarez dans les délais du contrat. Une fois le foyer relogé, le questionnaire habitation (3 min) sert à vérifier si le niveau de garantie est encore adapté — sans engagement, orientation courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marché selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "assurance-maladie-qui-fraude-le-plus.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Assurance maladie, qui fraude le plus ? : mutuelle et remboursements — que faire ?",
+      "description": "Assurance maladie, qui fraude le plus ? — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Assurance maladie, qui fraude le plus ? — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=assurance-maladie-qui-fraude-le-plus",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayée ce jour via <strong>Mozilla Firefox / Pocket</strong> (<strong>Assurance maladie, qui fraude le plus ?</strong>), l'actualité rappelle un enjeu concret pour les foyers français. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de réagir sous le coup de l'émotion médiatique, vérifiez <strong>ce que couvre déjà votre contrat</strong> : plafonds, franchises, exclusions, délais. Un comparatif à garanties équivalentes évite de surpayer ou de rester sous-assuré."
         },
         {
           "type": "h2",
