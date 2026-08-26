@@ -31,6 +31,17 @@ function slugify(text) {
     .slice(0, 72);
 }
 
+/** File inbox / exemples — ne jamais publier. */
+function isPlaceholderQueueItem(item) {
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template" || status === "ignored" || status === "example") return true;
+  var id = String((item && item.id) || "").toLowerCase();
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String((item && item.title) || "").toLowerCase();
+  if (!title.trim()) return true;
+  return /collez ici|\[titre|placeholder|a remplacer|à remplacer|votre titre ici/.test(title);
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -338,6 +349,7 @@ module.exports = {
   readJson: readJson,
   writeJson: writeJson,
   slugify: slugify,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,
