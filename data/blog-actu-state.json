@@ -1,10 +1,11 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-26T09:46:15.337Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/social/medicaments-appareils-auditifs-soins-dentaires-ces-depenses-de-sante-bientot-moins-bien-remboursees-par-la-secu-20260826"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-26T09:46:17.289Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +18,20 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-26T09:46:17.289Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "medicaments-appareils-auditifs-soins-dentaires-ces-depenses-de-sante-bie.html",
+          "title": "Médicaments, appareils auditifs, soins dentaires... Ces dépenses de santé bientôt moins… : mutuelle et remboursements — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }
