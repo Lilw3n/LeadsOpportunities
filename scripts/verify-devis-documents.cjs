@@ -55,11 +55,23 @@ if (!sante.extraFields || !sante.extraFields.some(function (f) { return f.name =
 }
 
 var uploadJs = fs.readFileSync(path.join(__dirname, "../js/devis-document-upload.js"), "utf8");
-if (uploadJs.indexOf("hasIdentity") === -1 || uploadJs.indexOf("firstName") === -1) {
-  console.error("[FAIL] devis-document-upload n’envoie pas dès nom+prénom");
+if (uploadJs.indexOf("_firstEmail") === -1) {
+  console.error("[FAIL] lecture e-mail multi-champs manquante");
   ok = false;
 } else {
-  console.log("[OK] envoi Drive dès nom+prénom");
+  console.log("[OK] e-mail : tous les champs + type=email");
+}
+if (uploadJs.indexOf("data-docs-retry") === -1) {
+  console.error("[FAIL] bouton Réessayer manquant");
+  ok = false;
+} else {
+  console.log("[OK] Réessayer après Erreur");
+}
+if (uploadJs.indexOf("_ignoreLeadId") === -1) {
+  console.error("[FAIL] retry sans leadId périmé manquant");
+  ok = false;
+} else {
+  console.log("[OK] nouvel essai sans leadId périmé");
 }
 if (uploadJs.indexOf("devis-doc-error-msg") === -1) {
   console.error("[FAIL] message d’erreur upload non affiché");
@@ -128,13 +140,13 @@ if (tracking.indexOf("data-docs-drop") !== -1 || tracking.indexOf("data-docs-typ
 
 ["vtc.html", "devis.html", "questionnaire.html", "sante.html", "credit-immo.html", "sante-collective.html"].forEach(function (page) {
   var html = fs.readFileSync(path.join(__dirname, "../landings", page), "utf8");
-  if (html.indexOf("immo-documents.css?v=20260826docline") === -1) {
+  if (html.indexOf("immo-documents.css?v=20260826docfix") === -1) {
     console.error("[FAIL]", page, "sans CSS lignes Déposer");
     ok = false;
   } else {
     console.log("[OK]", page, "CSS immo-documents");
   }
-  if (html.indexOf("devis-document-upload.js?v=20260826docline") === -1) {
+  if (html.indexOf("devis-document-upload.js?v=20260826docfix") === -1) {
     console.error("[FAIL]", page, "cache-bust upload manquant");
     ok = false;
   }

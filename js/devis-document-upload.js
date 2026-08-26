@@ -121,13 +121,29 @@
     if (form && !form._devisDocsIdentityBound) {
       form._devisDocsIdentityBound = true;
       form.addEventListener("input", function (e) {
-        var n = e.target && e.target.name;
-        if (!n) return;
-        if (/^(email|phone|telephone|firstName|lastName|prenom|nom)$/.test(n)) {
+        var t = e.target;
+        if (!t) return;
+        var n = t.name || "";
+        if (/^(email|phone|telephone|firstName|lastName|prenom|nom)$/.test(n) || t.type === "email" || t.type === "tel") {
           self.scheduleImmediateUpload();
         }
       });
     }
+
+    this.root.addEventListener("click", function (e) {
+      var retry = e.target && e.target.closest ? e.target.closest("[data-docs-retry]") : null;
+      if (!retry || !self.root.contains(retry)) return;
+      e.preventDefault();
+      var id = retry.getAttribute("data-docs-retry");
+      self.queue.forEach(function (q) {
+        if (q.id === id && q.status === "error") {
+          q.status = "queued";
+          q.error = null;
+          q._retriedNoLead = false;
+        }
+      });
+      self.scheduleImmediateUpload();
+    });
 
     this.root.addEventListener("change", function (e) {
       var input = e.target && e.target.closest ? e.target.closest("[data-docs-input]") : null;
@@ -194,8 +210,23 @@
   DevisDocumentUpload.prototype._formValue = function (form, names) {
     if (!form) return "";
     for (var i = 0; i < names.length; i++) {
-      var el = form.querySelector("[name='" + names[i] + "']");
-      if (el && String(el.value || "").trim()) return String(el.value).trim();
+      var els = form.querySelectorAll("[name='" + names[i] + "']");
+      for (var j = 0; j < els.length; j++) {
+        var v = String(els[j].value || "").trim();
+        if (v) return v;
+      }
+    }
+    return "";
+  };
+
+  DevisDocumentUpload.prototype._firstEmail = function (root) {
+    var v = this._formValue(root, ["email", "Email", "ownerEmail[]"]);
+    if (v) return v;
+    if (!root) return "";
+    var els = root.querySelectorAll("input[type='email']");
+    for (var i = 0; i < els.length; i++) {
+      var t = String(els[i].value || "").trim();
+      if (t) return t;
     }
     return "";
   };
@@ -206,20 +237,27 @@
   };
 
   DevisDocumentUpload.prototype.syncSessionFromForm = function () {
-    var form = this.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form]");
-    if (form) {
-      var email = this._formValue(form, ["email"]);
-      var phone = this._formValue(form, ["phone", "telephone"]);
-      var firstName = this._formValue(form, ["firstName", "prenom"]);
-      var lastName = this._formValue(form, ["lastName", "nom"]);
-      if (email) this.session.email = email.toLowerCase();
-      if (phone) this.session.phone = phone;
-      if (firstName) this.session.firstName = firstName;
-      if (lastName) this.session.lastName = lastName;
-    }
+    var form = this.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form], [data-url-capture-form]");
+    var scopes = [];
+    if (form) scopes.push(form);
+    if (document.body && document.body !== form) scopes.push(document.body);
+    var self = this;
+    scopes.forEach(function (root) {
+      var email = self._firstEmail(root);
+      var phone = self._formValue(root, ["phone", "telephone", "ownerPhone[]"]);
+      var firstName = self._formValue(root, ["firstName", "prenom", "ownerFirstName[]"]);
+      var lastName = self._formValue(root, ["lastName", "nom", "ownerLastName[]"]);
+      if (email) self.session.email = email.toLowerCase();
+      if (phone) self.session.phone = phone;
+      if (firstName) self.session.firstName = firstName;
+      if (lastName) self.session.lastName = lastName;
+    });
     try {
+      var storedEmail = localStorage.getItem("lo_client_email");
+      if (storedEmail && !this.session.email) this.session.email = String(storedEmail).trim().toLowerCase();
+      if (this.session.email) localStorage.setItem("lo_client_email", this.session.email);
       var leadId = localStorage.getItem("lo_draft_lead_id") || localStorage.getItem("lo_immo_deposit_lead_id");
-      if (leadId) this.session.leadId = leadId;
+      if (leadId && !this._ignoreLeadId) this.session.leadId = leadId;
       var contactId = localStorage.getItem("lo_draft_contact_id");
       if (contactId && !this.session.contactId) this.session.contactId = contactId;
     } catch (e) {}
@@ -241,7 +279,7 @@
       self.syncSessionFromForm();
       if (!self.hasIdentity()) {
         self.setStatusText(
-          "Renseignez nom et prénom (ou un e-mail / téléphone) pour envoyer immédiatement vers Drive.",
+          "Pièces en attente — remplissez un e-mail (ou nom+prénom / téléphone) pour l’envoi Drive immédiat.",
           "info"
         );
         return;
@@ -334,7 +372,11 @@
           esc(item.fileName) +
           "</span>" +
           (item.status === "error" && item.error
-            ? '<span class="devis-doc-error-msg">' + esc(item.error) + "</span>"
+            ? '<span class="devis-doc-error-msg">' +
+              esc(item.error) +
+              ' <button type="button" class="devis-doc-retry" data-docs-retry="' +
+              esc(item.id) +
+              '">Réessayer</button></span>'
             : "") +
           "</li>"
         );
@@ -386,7 +428,7 @@
                 firstName: self.session.firstName || null,
                 lastName: self.session.lastName || null,
                 contactId: self.session.contactId,
-                leadId: self.session.leadId,
+                leadId: self._ignoreLeadId ? null : self.session.leadId,
                 fileName: item.fileName,
                 documentType: item.documentType,
                 mimeType: item.mimeType,
@@ -410,8 +452,10 @@
                 if (data.code === "contact_missing") {
                   try {
                     localStorage.removeItem("lo_draft_lead_id");
+                    localStorage.removeItem("lo_immo_deposit_lead_id");
                   } catch (e2) {}
                   self.session.leadId = null;
+                  self._ignoreLeadId = true;
                 }
                 throw new Error((data && data.error) || "Upload échoué (" + r.status + ")");
               }
@@ -443,8 +487,85 @@
             return acc;
           })
           .catch(function (err) {
+            var msg = err.message || "Erreur";
+            if (!item._retriedNoLead && self._ignoreLeadId) {
+              item._retriedNoLead = true;
+              item.status = "queued";
+              item.error = null;
+              self.setStatusText("Nouvel essai sans dossier périmé…", "info");
+              self.renderQueue();
+              return readFileAsBase64(item.file)
+                .then(function (dataUrl) {
+                  return fetch("/api/external/upload", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "same-origin",
+                    body: JSON.stringify({
+                      email: self.session.email,
+                      phone: self.session.phone || null,
+                      firstName: self.session.firstName || null,
+                      lastName: self.session.lastName || null,
+                      contactId: self.session.contactId,
+                      leadId: null,
+                      fileName: item.fileName,
+                      documentType: item.documentType,
+                      mimeType: item.mimeType,
+                      fileBase64: dataUrl,
+                      vertical: self.need,
+                      need: self.need,
+                      source: "devis_wizard",
+                      perTypeFolder: true,
+                    }),
+                  });
+                })
+                .then(function (r) {
+                  return r.text().then(function (text) {
+                    var data = {};
+                    try {
+                      data = text ? JSON.parse(text) : {};
+                    } catch (e) {
+                      throw new Error("Réponse serveur invalide (" + r.status + ")");
+                    }
+                    if (!r.ok || !data.ok) {
+                      throw new Error((data && data.error) || "Upload échoué (" + r.status + ")");
+                    }
+                    if (!driveConfirmed(data)) {
+                      throw new Error(
+                        (data && data.error) || "Drive non confirmé — le fichier n’a pas été archivé."
+                      );
+                    }
+                    return data;
+                  });
+                })
+                .then(function (data) {
+                  item.status = "received";
+                  item.result = data;
+                  if (data.contactId) {
+                    self.session.contactId = data.contactId;
+                    try {
+                      localStorage.setItem("lo_draft_contact_id", data.contactId);
+                    } catch (e) {}
+                  }
+                  self.uploaded.push(item);
+                  acc.uploaded.push(item);
+                  self.queue = self.queue.filter(function (q) {
+                    return q.id !== item.id;
+                  });
+                  self.setStatusText("Envoyé vers Drive.", "ok");
+                  self.renderQueue();
+                  return acc;
+                })
+                .catch(function (err2) {
+                  item.status = "error";
+                  item.error = err2.message || msg;
+                  acc.errors.push({ item: item, error: item.error });
+                  self.setStatusText("Échec Drive : " + item.error, "error");
+                  self.renderQueue();
+                  return acc;
+                });
+            }
             item.status = "error";
-            item.error = err.message || "Erreur";
+            item.error = msg;
             acc.errors.push({ item: item, error: item.error });
             self.setStatusText("Échec Drive : " + item.error, "error");
             self.renderQueue();
@@ -601,7 +722,7 @@
       '<div class="immo-doc-categories devis-docs-groups">' +
       groups.map(renderGroup).join("") +
       "</div>" +
-      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Envoi immédiat vers Drive dès que nom et prénom (ou un e-mail / téléphone) sont renseignés.</p>' +
+      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Lignes Déposer (plus de liste Type). Envoi Drive dès qu’un e-mail, un téléphone ou nom+prénom est rempli. Pastille verte = Reçu.</p>' +
       '<div data-docs-visual-panel hidden style="margin-top:14px"><div data-docs-visual-grid></div></div>' +
       "</div>"
     );

@@ -376,10 +376,16 @@
   ImmoCategoryDocuments.prototype.syncSessionFromPage = function () {
     var form = document.querySelector("[data-url-capture-form], form[data-quote-wizard], form[data-track-form]");
     if (form) {
-      var em = form.querySelector("[name='email']");
-      var ph = form.querySelector("[name='phone']");
-      if (em && String(em.value || "").trim()) this.session.email = String(em.value).trim().toLowerCase();
-      if (ph && String(ph.value || "").trim()) this.session.phone = String(ph.value).trim();
+      var em = form.querySelectorAll("[name='email'], input[type='email']");
+      var ph = form.querySelectorAll("[name='phone'], [name='telephone']");
+      Array.prototype.forEach.call(em, function (el) {
+        var v = String(el.value || "").trim();
+        if (v) this.session.email = v.toLowerCase();
+      }, this);
+      Array.prototype.forEach.call(ph, function (el) {
+        var v = String(el.value || "").trim();
+        if (v) this.session.phone = v;
+      }, this);
       var city = form.querySelector("[name='city'], [name='sellCity']");
       var postal = form.querySelector("[name='postal_code'], [name='sellPostalCode']");
       var ptype = form.querySelector("[name='property_type'], [name='sellPropertyType']");
