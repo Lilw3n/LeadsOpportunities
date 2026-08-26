@@ -220,8 +220,14 @@
         o[n] = el.value;
         return;
       }
+      if (/^room(Level|Name|Surface|Dimensions|Flooring|Exposure|Comments)\[\]$/.test(n)) return;
       o[n] = el.value;
     });
+
+    var roomsMount = p.querySelector("[data-rooms-mount]");
+    if (roomsMount && window.AcheteurImmoRooms && window.AcheteurImmoRooms.collect) {
+      o.propertyRooms = window.AcheteurImmoRooms.collect(roomsMount);
+    }
 
     var ownersMount = p.querySelector("[data-owners-mount]");
     if (ownersMount) {

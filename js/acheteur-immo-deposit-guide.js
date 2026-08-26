@@ -497,6 +497,7 @@
       } else if (el.type === "radio") {
         if (el.checked) data[n] = el.value;
       } else {
+        if (/^room(Level|Name|Surface|Dimensions|Flooring|Exposure|Comments)\[\]$/.test(n)) return;
         data[n] = el.value;
       }
     });
@@ -663,6 +664,8 @@
     }
     var mount = qs("[data-owners-mount]");
     if (mount && global.AcheteurImmoOwners) global.AcheteurImmoOwners.render(mount, [{}]);
+    var roomsMountReset = qs("[data-rooms-mount]");
+    if (roomsMountReset && global.AcheteurImmoRooms) global.AcheteurImmoRooms.render(roomsMountReset, [{}]);
     if (global.AcheteurImmoDepositVente) global.AcheteurImmoDepositVente.sync();
     updateDraftBanner();
     updateSessionHint(root);
@@ -831,6 +834,11 @@
     if (ownersMount && global.AcheteurImmoOwners && global.AcheteurImmoOwners.collect) {
       owners = global.AcheteurImmoOwners.collect(ownersMount);
     }
+    var roomsMount = qs("[data-rooms-mount]");
+    var rooms = [];
+    if (roomsMount && global.AcheteurImmoRooms && global.AcheteurImmoRooms.collect) {
+      rooms = global.AcheteurImmoRooms.collect(roomsMount);
+    }
     var extras = collectDraftExtras();
     var formData = serializeScope(form);
     if (extras.listingUrlsText) formData.listingUrlsText = extras.listingUrlsText;
@@ -845,6 +853,7 @@
       form: formData,
       panel: serializeScope(panel, { includeDisabled: true }),
       owners: owners,
+      rooms: rooms,
       extras: extras,
       openBlocks: qsa("details.immo-vente-block[open]").map(function (d) {
         var s = d.querySelector("summary");
@@ -893,7 +902,8 @@
     var sd = payload.sellDossier;
     if (sd && typeof sd === "object") {
       Object.keys(sd).forEach(function (k) {
-        if (k === "owners" || k === "coproWorks" || k === "sellPhotos" || k === "tracfinDocs") return;
+        if (k === "owners" || k === "coproWorks" || k === "sellPhotos" || k === "tracfinDocs" || k === "propertyRooms") return;
+        if (/^room(Level|Name|Surface|Dimensions|Flooring|Exposure|Comments)\[\]$/.test(k)) return;
         if (sd[k] == null) return;
         panel[k] = sd[k];
       });
@@ -905,6 +915,7 @@
       form: form,
       panel: panel,
       owners: sd && sd.owners ? sd.owners : [],
+      rooms: sd && sd.propertyRooms ? sd.propertyRooms : [],
       extras: collectDraftExtras(),
     };
   }
@@ -1090,8 +1101,16 @@
     if (!draft) return false;
     if (objectHasContent(draft.form) || objectHasContent(draft.panel)) return true;
     if (draft.owners && draft.owners.length) {
-      return draft.owners.some(function (o) {
-        return objectHasContent(o);
+      if (
+        draft.owners.some(function (o) {
+          return objectHasContent(o);
+        })
+      )
+        return true;
+    }
+    if (draft.rooms && draft.rooms.length) {
+      return draft.rooms.some(function (r) {
+        return objectHasContent(r);
       });
     }
     return false;
@@ -1183,6 +1202,10 @@
     if (draft.owners && draft.owners.length) {
       var mount = qs("[data-owners-mount]");
       if (mount && global.AcheteurImmoOwners) global.AcheteurImmoOwners.render(mount, draft.owners);
+    }
+    if (draft.rooms && draft.rooms.length) {
+      var roomsMount = qs("[data-rooms-mount]");
+      if (roomsMount && global.AcheteurImmoRooms) global.AcheteurImmoRooms.render(roomsMount, draft.rooms);
     }
     if (draft.hat) {
       document.documentElement.setAttribute("data-immo-hat", draft.hat);
@@ -1403,6 +1426,7 @@
         form: formData,
         panel: draft.panel || {},
         owners: draft.owners || [],
+        rooms: draft.rooms || [],
         listingMode: draft.listingMode || null,
         depositDraft: draft,
       },
