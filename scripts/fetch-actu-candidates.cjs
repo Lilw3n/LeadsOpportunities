@@ -12,6 +12,8 @@ const {
   parseRssItems,
   existingFiles,
   scoreLeadPotential,
+  isPlaceholderActuItem,
+  isLikelyEnglishHeadline,
 } = require("./blog-actu-lib.cjs");
 
 const MAX_PER_FEED = 8;
@@ -39,7 +41,8 @@ function mergeWithQuotas(buckets, quotas) {
 }
 
 function ingestQueueItem(item, buckets, processed) {
-  if (item.status === "published" || item.status === "rejected") return;
+  if (item.status === "published" || item.status === "rejected" || item.status === "template") return;
+  if (isPlaceholderActuItem(item)) return;
   var key = item.url || item.title;
   if (key && processed.has(key)) return;
   var queueType = resolveQueueSourceType(item.source);
@@ -61,6 +64,9 @@ function ingestQueueItem(item, buckets, processed) {
     sourceType: queueType,
     suggestedFile: scaffold.file,
     section: scaffold.section,
+    need: scaffold.matched && scaffold.cta && scaffold.cta.href && scaffold.cta.href.match(/need=([^&]+)/)
+      ? scaffold.cta.href.match(/need=([^&]+)/)[1]
+      : "",
     status: "queued",
     fromDatabase: !!item.fromDatabase,
   });
@@ -87,6 +93,8 @@ async function processFeed(feed, buckets, processed, maxPerFeed) {
     var added = 0;
     items.forEach(function (item) {
       if (item.url && processed.has(item.url)) return;
+      if (isLikelyEnglishHeadline(item.title)) return;
+      if (/mkt=en-us/i.test(item.url || "")) return;
       var scaffold = scaffoldArticle({
         title: item.title,
         summary: item.summary,
@@ -106,9 +114,9 @@ async function processFeed(feed, buckets, processed, maxPerFeed) {
         sourceType: sourceType,
         suggestedFile: scaffold.file,
         section: scaffold.section,
-        need: scaffold.cta.href.match(/need=([^&]+)/)
+        need: scaffold.matched ? (scaffold.cta && scaffold.cta.href && scaffold.cta.href.match(/need=([^&]+)/)
           ? scaffold.cta.href.match(/need=([^&]+)/)[1]
-          : "habitation",
+          : "") : "",
         leadScore: 0,
         status: "candidate",
       });

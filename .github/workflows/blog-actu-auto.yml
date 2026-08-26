@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Garde-fous pipeline actu
+        run: npm run verify:actu-pipeline
+
       - name: Vérifier clé IA (qualité = Cursor)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

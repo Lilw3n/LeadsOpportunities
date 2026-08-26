@@ -10,7 +10,7 @@
  */
 const { execSync } = require("child_process");
 const path = require("path");
-const { readJson, writeJson, rankCandidates, appendPendingArticle } = require("./blog-actu-lib.cjs");
+const { readJson, writeJson, rankCandidates, appendPendingArticle, isPlaceholderActuItem, isLikelyEnglishHeadline, isCoreLeadActu } = require("./blog-actu-lib.cjs");
 const { isInternationalAudienceTopic, isFranceMarketTopic } = require("./france-audience-lib.cjs");
 const { enrichFromCandidate } = require("./blog-actu-enrich.cjs");
 const { generateActuArticleAi } = require("./generate-actu-article-ai.cjs");
@@ -93,9 +93,31 @@ function pickCandidates(candidates, count, state) {
   var titleKeys = loadPublishedTitleKeys();
   var ranked = rankCandidates(candidates);
 
+  var skipSubstr = String(process.env.ACTU_SKIP_TITLE_SUBSTR || "")
+    .split("|")
+    .map(function (s) {
+      return s.trim().toLowerCase();
+    })
+    .filter(Boolean);
+
   var available = ranked.filter(function (c) {
+    if (isPlaceholderActuItem(c)) return false;
+    if (isLikelyEnglishHeadline(c.title)) return false;
+    if (/mkt=en-us/i.test(String(c.url || ""))) return false;
+    if (!isCoreLeadActu(c)) return false;
+    if (!c.need) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
+    if (skipSubstr.length) {
+      var nt = normalizeTitle(c.title);
+      if (
+        skipSubstr.some(function (s) {
+          return nt.indexOf(s) !== -1;
+        })
+      ) {
+        return false;
+      }
+    }
     var hay = String(c.title || "") + " " + String(c.summary || "");
     if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
     return true;

@@ -1,14 +1,14 @@
 {
   "rules": [
     {
-      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu"],
+      "keywords": ["mutuelle", "santé", "sante", "hôpital", "hopital", "dentaire", "optique", "médecin", "medecin", "soins", "obésité", "obesite", "médicament", "medicament", "remboursé", "rembourse", "remboursement", "dépistage", "depistage", "cadmium", "prise en charge", "sécu", "secu", "ostéopathie", "osteopathie", "assurance maladie"],
       "section": "sante",
       "need": "sante",
       "tag": "Santé & mutuelle",
       "tagClass": "tag-sante"
     },
     {
-      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur"],
+      "keywords": ["habitation", "logement", "appartement", "maison", "inondation", "dégât", "degat", "incendie", "canicule", "séisme", "locataire", "bailleur", "tornade", "tempête", "tempete", "orage", "grêle", "grele", "intempéries", "intemperies"],
       "section": "habitat",
       "need": "habitation",
       "tag": "Habitation",

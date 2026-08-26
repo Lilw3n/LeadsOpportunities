@@ -74,6 +74,7 @@ function matchTopic(text) {
     tag: picked.tag,
     tagClass: picked.tagClass || "tag-actu",
     cta: cta,
+    matched: bestScore > 0,
   };
 }
 
@@ -92,6 +93,59 @@ function monthLabel() {
   var months = ["Jan", "Fev", "Mars", "Avr", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
   var d = new Date();
   return months[d.getMonth()] + " " + d.getFullYear();
+}
+
+/** Titres RSS anglophones (ex. Bing mkt=en-us) — à exclure du blog FR. */
+function isLikelyEnglishHeadline(title) {
+  var t = String(title || "").trim();
+  if (!t) return false;
+  var lower = t.toLowerCase();
+  var frHits = (
+    lower.match(
+      /\b(le|la|les|des|une|un|du|de|dans|pour|avec|sur|est|qui|que|plus|contre|après|apres|selon|france|français|francais|assurance|mutuelle|sécu|secu)\b/g
+    ) || []
+  ).length;
+  if (/[éèêëàâùûüçîïôœ]/i.test(t)) frHits += 2;
+  var enHits = (
+    lower.match(
+      /\b(the|a|an|of|in|on|for|and|to|with|from|after|through|over|into|tears|wrecking|breaking|homes|village|southern|injuring|enters|memorandum|regarding|understanding|potential|announces|agreement)\b/g
+    ) || []
+  ).length;
+  if (enHits >= 4 && enHits > frHits) return true;
+  if (/\b(tears through|wrecking \d|breaking news|what we know|memorandum of understanding|enters into)\b/i.test(t) && frHits < 2) return true;
+  return false;
+}
+
+function relatedSectionForNeed(need, fallback) {
+  var map = {
+    sante: "sante",
+    habitation: "habitat",
+    auto: "auto",
+    animaux: "animaux",
+    vtc: "vtc",
+    emprunteur: "finance",
+    prevoyance: "prevoyance",
+    "rc-pro": "pro",
+  };
+  return map[need] || fallback || "actu";
+}
+
+function isCoreLeadActu(candidate) {
+  var hay = String((candidate && candidate.title) || "") + " " + String((candidate && candidate.summary) || "");
+  if (/poignard|assassinat|meurtre|fusillade|tuerie/i.test(hay)) return false;
+  return /mutuelle|assurance|sinistre|tornade|temp[eê]te|inondation|incendie|rembours|s[eé]cu\b|emprunteur|pr[eê]t immobilier|cr[eé]dit immo|habitation|canicule|v[eé]t[eé]rin|ost[eé]opath|h[oô]pital|cancer|cyberattaque?|iban|arr[eê]t (de travail|maladie)|chefs? d.entreprise|maladie professionnelle|d[eé]penses de sant|catastrophe|d[eé]g[aâ]ts? des eaux|franchise|courtier/i.test(
+    hay
+  );
+}
+
+function isPlaceholderActuItem(item) {
+  var title = String((item && item.title) || "");
+  var id = String((item && item.id) || "");
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template" || status === "example") return true;
+  if (/pending-template|placeholder|example-template/i.test(id)) return true;
+  if (/COLLEZ ICI|PLACEHOLDER|TODO:\s*titre|titre de la une/i.test(title)) return true;
+  return false;
 }
 
 /** Score 0–100 : potentiel lead questionnaire */
@@ -187,6 +241,7 @@ function scaffoldArticle(input) {
     section: topic.section,
     tag: topic.tag,
     tagClass: topic.tagClass,
+    matched: !!topic.matched,
     title: shortTitle + " : impact " + insuranceAngle + " (conseils 2026)",
     description:
       title +
@@ -351,4 +406,8 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  isLikelyEnglishHeadline: isLikelyEnglishHeadline,
+  isCoreLeadActu: isCoreLeadActu,
+  relatedSectionForNeed: relatedSectionForNeed,
 };
