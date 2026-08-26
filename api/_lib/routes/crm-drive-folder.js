@@ -39,7 +39,8 @@ module.exports = async (req, res) => {
 
     if (propertyId) {
       const props = await sql`
-        SELECT id, title, city, postal_code, surface_m2, drive_folder_id, owner_contact_id, lead_id, metadata_json
+        SELECT id, title, city, postal_code, surface_m2, rooms, bedrooms, dpe, price_fai, description,
+               drive_folder_id, owner_contact_id, lead_id, metadata_json
         FROM crm_immo_properties
         WHERE id = ${propertyId}
           AND owner_contact_id = ${contactId}
@@ -91,6 +92,29 @@ module.exports = async (req, res) => {
       }
       var inspectedProp = await inspectDriveFolder(propFolderId, { share: true });
       var propLink = inspectedProp.webViewLink || fallbackFolderUrl(propFolderId);
+      try {
+        var ficheSync = require("../immo-property-fiche-drive");
+        await ficheSync.syncPropertyFicheToDrive({
+          id: prop.id,
+          title: prop.title,
+          city: prop.city,
+          postal_code: prop.postal_code,
+          surface_m2: prop.surface_m2,
+          rooms: prop.rooms,
+          bedrooms: prop.bedrooms,
+          dpe: prop.dpe,
+          price_fai: prop.price_fai,
+          description: prop.description,
+          firstName: contacts[0].first_name || "",
+          lastName: contacts[0].last_name || "",
+          drive_folder_id: propFolderId,
+          sellDossier: meta.sellDossier || null,
+          depositDraft: meta.depositDraft || (meta.drive && meta.drive.depositDraft) || null,
+          roomDetails: meta.roomDetails || null,
+        });
+      } catch (ficheErr) {
+        console.warn("[crm/drive-folder] fiche", ficheErr && ficheErr.message);
+      }
       return res.status(200).json({
         ok: !!propLink,
         contactId: contactId,
