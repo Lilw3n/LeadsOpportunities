@@ -786,6 +786,61 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
   line-height: 1.5;
 }
 
+.immo-mandate-attachments {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+}
+
+.immo-mandate-add-doc {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 8px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: #16a34a;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.immo-mandate-add-doc:hover,
+.immo-mandate-add-doc:focus-visible {
+  background: #15803d;
+}
+
+.immo-mandate-add-doc span[aria-hidden] {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.immo-mandate-attachments-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.immo-mandate-legal {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.immo-mandate-legal .field-check {
+  align-items: flex-start;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #334155;
+}
+
 .immo-mandate-admin {
   padding-top: 12px;
   border-top: 1px dashed #cbd5e1;

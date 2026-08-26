@@ -284,6 +284,21 @@
         });
       }
 
+      var mandateChk = document.querySelector("[data-sell-wants-mandate]");
+      if (mandateChk && mandateChk.checked) {
+        var legalMap = [
+          ["sellMandateRetractForm", "Formulaire type de rétractation (annexe au mandat)"],
+          ["sellMandatePrecontract", "Informations précontractuelles (Code de la consommation)"],
+          ["sellMandateStartNow", "Début des prestations sans attendre le délai de rétractation"],
+        ];
+        legalMap.forEach(function (pair) {
+          var el = document.querySelector("[name='" + pair[0] + "']");
+          if (el && !el.checked) {
+            recommended.push(missingItem(pair[0], pair[1], el, "Mandat de vente"));
+          }
+        });
+      }
+
       if (global.ImmoRgpdConfirmation) {
         var rgpd = global.ImmoRgpdConfirmation.validate(document);
         var rgpdAll = (rgpd.blocking || []).concat(rgpd.recommended || []);

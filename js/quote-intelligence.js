@@ -280,23 +280,12 @@
     } catch (e) {}
   }
 
-  function restoreLocalDraft(form) {
-    if (!form || form._draftRestored) return;
-    form._draftRestored = true;
-    if (formHasMeaningfulInput(form)) return;
-    var draft;
-    try {
-      draft = JSON.parse(localStorage.getItem(draftStorageKey(form)) || "null");
-    } catch (e) {
-      return;
-    }
-    if (!draft || !draft.values) return;
-    if (draft.at && Date.now() - draft.at > 14 * 24 * 3600 * 1000) return;
-    if (draft.leadId && !getDraftLeadId()) setDraftLeadId(draft.leadId);
-    Object.keys(draft.values).forEach(function (name) {
+  function applyPartialToForm(form, values) {
+    if (!form || !values) return;
+    Object.keys(values).forEach(function (name) {
       if (!name || SKIP_AUTOSAVE_KEYS[name] || name === "rgpd" || name === "consent") return;
-      var val = draft.values[name];
-      var nodes = form.querySelectorAll('[name="' + name.replace(/"/g, "") + '"]');
+      var val = values[name];
+      var nodes = form.querySelectorAll('[name="' + String(name).replace(/"/g, "") + '"]');
       if (!nodes.length) return;
       Array.prototype.forEach.call(nodes, function (el, idx) {
         if (el.type === "file" || el.type === "hidden" || el.type === "submit") return;
@@ -311,6 +300,22 @@
         }
       });
     });
+  }
+
+  function restoreLocalDraft(form) {
+    if (!form || form._draftRestored) return;
+    form._draftRestored = true;
+    if (formHasMeaningfulInput(form)) return;
+    var draft;
+    try {
+      draft = JSON.parse(localStorage.getItem(draftStorageKey(form)) || "null");
+    } catch (e) {
+      return;
+    }
+    if (!draft || !draft.values) return;
+    if (draft.at && Date.now() - draft.at > 14 * 24 * 3600 * 1000) return;
+    if (draft.leadId && !getDraftLeadId()) setDraftLeadId(draft.leadId);
+    applyPartialToForm(form, draft.values);
   }
 
   function postKeepalive(body) {
@@ -453,6 +458,7 @@
     bindAbandon: bindAbandon,
     bindContactCapture: bindContactCapture,
     restoreLocalDraft: restoreLocalDraft,
+    applyPartialToForm: applyPartialToForm,
     isInternalPreview: isInternalPreview,
     attachLeadIdToPayload: function (payload) {
       var id = getDraftLeadId();

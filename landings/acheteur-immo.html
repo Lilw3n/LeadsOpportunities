@@ -23,7 +23,7 @@
   <script src="/api/google-config-env"></script>
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./css/immo-parcours.css?v=20260826docsui" />
+  <link rel="stylesheet" href="./css/immo-parcours.css?v=20260826qr1" />
   <link rel="stylesheet" href="../css/acheteur-immo-search.css?v=20260825fold" />
   <script>
     (function () {
@@ -704,11 +704,11 @@
 
                   <div class="immo-mandate-client" data-client-mandate-panel>
                     <p class="small immo-mandate-lead">
-                      Vous pouvez indiquer si vous souhaitez nous confier la vente. Le mandat officiel sera proposé <strong>après analyse du bien</strong> et validation du prix avec votre conseiller.
+                      Vous pouvez <strong>demander un mandat de vente</strong> dès maintenant. Joignez les pièces justificatives : elles serviront de dossier de preuve. Le mandat officiel (signature électronique) suivra après analyse du bien et du prix.
                     </p>
                     <label class="field-check full immo-mandate-opt-in">
                       <input type="checkbox" name="sellWantsMandate" value="1" data-sell-wants-mandate data-optional />
-                      <span><strong>Je souhaite confier un mandat de vente</strong> à votre agence (après validation du dossier et du prix).</span>
+                      <span><strong>Je demande un mandat de vente</strong> à votre agence (pièces jointes + reconnaissances ci-dessous).</span>
                     </label>
                     <div class="immo-mandate-client-fields" data-sell-mandate-fields hidden>
                       <p class="search-section-label" style="margin:14px 0 8px">Fourchette de prix envisageable</p>
@@ -756,10 +756,36 @@
                         <label for="sellMandateClientNotes">Précisions (délai, visites, contraintes…)</label>
                         <textarea id="sellMandateClientNotes" name="sellMandateClientNotes" rows="2" data-optional placeholder="Disponibilités pour la visite conseiller, date souhaitée de mise en vente…"></textarea>
                       </div>
+
+                      <div class="immo-mandate-attachments" data-mandate-attachments>
+                        <p class="search-section-label">Pièce(s) jointe(s)</p>
+                        <button type="button" class="immo-mandate-add-doc" data-mandate-scroll-docs>
+                          <span aria-hidden="true">+</span> Ajouter un(e) pièce jointe
+                        </button>
+                        <p class="immo-mandate-attachments-hint">
+                          En cas de signature électronique, les pièces jointes au format PDF (portrait) seront automatiquement envoyées aux signataires en annexe du mandat. Déposez dès maintenant les justificatifs (identité, titre, diagnostics…) — ils constituent le dossier de preuve de votre demande.
+                        </p>
+                      </div>
+
+                      <div class="immo-mandate-legal" data-mandate-legal-block>
+                        <label class="field-check full">
+                          <input type="checkbox" name="sellMandateRetractForm" value="1" data-optional data-mandate-legal="retract" />
+                          <span>Ceci exposé, le mandant reconnaît que le formulaire type de rétractation lui a été fourni en annexe au présent mandat.</span>
+                        </label>
+                        <label class="field-check full">
+                          <input type="checkbox" name="sellMandatePrecontract" value="1" data-optional data-mandate-legal="precontract" />
+                          <span>Le mandant reconnaît expressément avoir pris connaissance, préalablement à la signature des présentes, de l’intégralité des informations précontractuelles prévues par le Code de la consommation, lesquelles informations sont également reprises au présent mandat.</span>
+                        </label>
+                        <label class="field-check full">
+                          <input type="checkbox" name="sellMandateStartNow" value="1" data-optional data-mandate-legal="startnow" />
+                          <span>Dûment informé de l’existence et des modalités du droit de rétractation ci-avant énoncées, le mandant déclare expressément souhaiter que le mandataire commence la totalité de ses prestations sans attendre l’expiration du délai de rétractation.</span>
+                        </label>
+                      </div>
+
                       <div class="immo-mandate-notice" role="note">
-                        <strong>Avant le mandat signé</strong>
+                        <strong>Demande de mandat</strong>
                         <p>
-                          Votre conseiller doit d'abord <strong>visiter le bien</strong>, vérifier les pièces (diagnostics, copropriété, titre…) et <strong>analyser le marché local</strong> pour déterminer avec vous le <strong>prix de mise en vente</strong> le plus adapté. Ce formulaire enregistre votre intention — le mandat officiel vous sera remis ensuite, une fois tout cela validé ensemble.
+                          En cochant ci-dessus, vous <strong>demandez un mandat de vente</strong>. Votre conseiller visite le bien, vérifie les pièces et analyse le marché pour le <strong>prix de mise en vente</strong>. Vous recevez un e-mail de confirmation. Le mandat officiel (signature) vous sera remis ensuite.
                         </p>
                       </div>
                     </div>
@@ -2199,7 +2225,8 @@
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
-  <script src="../js/quote-intelligence.js?v=20260826softreq"></script>
+  <script src="../js/quote-intelligence.js?v=20260826qr1"></script>
+  <script src="../js/quest-resume-client.js?v=20260826qr1"></script>
   <script src="./quote-wizard.js?v=20260826softreq"></script>
   <script src="../js/form-audit.js?v=20260826softreq"></script>
   <script src="../js/lead-insights.js"></script>
@@ -2234,7 +2261,7 @@
   <script src="../js/immo-sell-docs-checklist.js?v=20260826docsui"></script>
   <script src="../js/immo-tracfin-mandate.js"></script>
   <script src="../js/immo-rgpd-confirmation.js"></script>
-  <script src="../js/acheteur-immo-mandate-client.js"></script>
+  <script src="../js/acheteur-immo-mandate-client.js?v=20260826qr1"></script>
   <script src="../js/acheteur-immo-laforet-extras.js"></script>
   <script src="../js/acheteur-immo-sell-photos.js"></script>
   <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>

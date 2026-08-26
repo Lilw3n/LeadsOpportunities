@@ -128,6 +128,13 @@
     confirmByPhone: "Confirmation par téléphone",
     confirmMethod: "Mode de confirmation",
     sellMarketingConsent: "Consentement prospection (newsletter / SMS)",
+    sellWantsMandate: "Demande de mandat de vente",
+    sellMandatePreference: "Préférence mandat",
+    sellMandatePriceMin: "Prix min. souhaité",
+    sellMandatePriceMax: "Prix max. souhaité",
+    sellMandateRetractForm: "Formulaire de rétractation remis",
+    sellMandatePrecontract: "Infos précontractuelles lues",
+    sellMandateStartNow: "Début des prestations sans délai de rétractation",
     tracfinAttestation: "Attestation TRACFIN",
     tracfinRiskLevel: "Niveau de risque TRACFIN",
     createAccount: "Création de compte",
@@ -450,6 +457,12 @@
     "confirmMethod",
     "sellMarketingConsent",
     "sellWantsMandate",
+    "sellMandatePreference",
+    "sellMandatePriceMin",
+    "sellMandatePriceMax",
+    "sellMandateRetractForm",
+    "sellMandatePrecontract",
+    "sellMandateStartNow",
     "tracfinAttestation",
     "tracfinRiskLevel",
     "createAccount",
@@ -707,6 +720,11 @@
       if (lead.email && !p.email) p.email = lead.email;
       if (lead.phone && !p.phone) p.phone = lead.phone;
       if (lead.vertical && !p.vertical) p.vertical = lead.vertical;
+    }
+    if (p.sellDossier && typeof p.sellDossier === "object") {
+      Object.keys(p.sellDossier).forEach(function (k) {
+        if (p[k] == null || p[k] === "") p[k] = p.sellDossier[k];
+      });
     }
     if (p.questionnaireDraft && typeof p.questionnaireDraft === "object") {
       Object.keys(p.questionnaireDraft).forEach(function (k) {

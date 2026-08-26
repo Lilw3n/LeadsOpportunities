@@ -34,6 +34,17 @@
   function bind(root) {
     if (!root || root.dataset.mandateClientBound) return;
     root.dataset.mandateClientBound = "1";
+    root.addEventListener("click", function (e) {
+      var btn = e.target && e.target.closest ? e.target.closest("[data-mandate-scroll-docs]") : null;
+      if (!btn || !root.contains(btn)) return;
+      e.preventDefault();
+      var docs =
+        document.querySelector("[data-sell-docs-mount]") ||
+        document.querySelector('[data-immo-docs-panel="vendeur"]');
+      var block = docs && docs.closest ? docs.closest("details, .immo-vente-block, .immo-form-section") : null;
+      if (block && block.tagName === "DETAILS") block.open = true;
+      if (docs && docs.scrollIntoView) docs.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
     root.addEventListener("change", function (e) {
       if (e.target && e.target.matches("[data-sell-wants-mandate]")) {
         syncMandateFields(root);

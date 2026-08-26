@@ -591,6 +591,28 @@ module.exports = async function publicImmoListingSubmit(req, res) {
         );
         verifyEmailSent = sent.ok;
       }
+      var wantsMandate =
+        !!(sellDossier && (sellDossier.sellWantsMandate === "1" || sellDossier.sellWantsMandate === true));
+      if (wantsMandate && email) {
+        try {
+          var quest = require("../quest-resume");
+          var token = quest.signResumeToken({
+            leadId: leadId,
+            contactId: contactId,
+            vertical: vertical || "vendeur_immo",
+          });
+          var mandateMail = await quest.sendMandateRequestNotice({
+            email: email,
+            firstName: firstName,
+            token: token,
+            vertical: vertical || "vendeur_immo",
+            preference: sellDossier.sellMandatePreference || "exclusif",
+          });
+          verifyEmailSent = verifyEmailSent || !!mandateMail.ok;
+        } catch (mandateErr) {
+          console.warn("[immo-listing-submit] mandate email", mandateErr && mandateErr.message);
+        }
+      }
     } catch (crmErr) {
       console.warn("[immo-listing-submit] crm", crmErr && crmErr.message);
     }
