@@ -67,11 +67,23 @@ if (uploadJs.indexOf("data-docs-retry") === -1) {
 } else {
   console.log("[OK] Réessayer après Erreur");
 }
-if (uploadJs.indexOf("_ignoreLeadId") === -1) {
-  console.error("[FAIL] retry sans leadId périmé manquant");
+if (uploadJs.indexOf("_applyAuditIdentity") === -1) {
+  console.error("[FAIL] mode contrôle admin sans identité Drive");
   ok = false;
 } else {
-  console.log("[OK] nouvel essai sans leadId périmé");
+  console.log("[OK] mode contrôle → identité admin pour envoi Drive");
+}
+if (uploadJs.indexOf("En attente d'e-mail") === -1) {
+  console.error("[FAIL] pastille En attente d'e-mail manquante");
+  ok = false;
+} else {
+  console.log("[OK] pastille En attente d'e-mail si pas de contact");
+}
+if (uploadJs.indexOf("data-docs-identity-email") === -1) {
+  console.error("[FAIL] bandeau e-mail sur l'étape pièces manquant");
+  ok = false;
+} else {
+  console.log("[OK] e-mail/téléphone sur l'étape pièces");
 }
 if (uploadJs.indexOf("devis-doc-error-msg") === -1) {
   console.error("[FAIL] message d’erreur upload non affiché");
@@ -130,6 +142,14 @@ if (typeof DC.getGroups !== "function") {
   });
 }
 
+var inject = fs.readFileSync(path.join(__dirname, "../js/devis-document-inject.js"), "utf8");
+if (inject.indexOf('data-step-name="coordonnees"') !== -1) {
+  console.error("[FAIL] pièces injectées avant les coordonnées (nom/prénom trop tard)");
+  ok = false;
+} else {
+  console.log("[OK] pièces après nom/prénom (avant étape contact)");
+}
+
 var tracking = fs.readFileSync(path.join(__dirname, "../landings/tracking.js"), "utf8");
 if (tracking.indexOf("data-docs-drop") !== -1 || tracking.indexOf("data-docs-type") !== -1) {
   console.error("[FAIL] panel merci tracking.js encore en dropdown");
@@ -140,13 +160,13 @@ if (tracking.indexOf("data-docs-drop") !== -1 || tracking.indexOf("data-docs-typ
 
 ["vtc.html", "devis.html", "questionnaire.html", "sante.html", "credit-immo.html", "sante-collective.html"].forEach(function (page) {
   var html = fs.readFileSync(path.join(__dirname, "../landings", page), "utf8");
-  if (html.indexOf("immo-documents.css?v=20260826docfix") === -1) {
+  if (html.indexOf("immo-documents.css?v=20260826docwait") === -1) {
     console.error("[FAIL]", page, "sans CSS lignes Déposer");
     ok = false;
   } else {
     console.log("[OK]", page, "CSS immo-documents");
   }
-  if (html.indexOf("devis-document-upload.js?v=20260826docfix") === -1) {
+  if (html.indexOf("devis-document-upload.js?v=20260826docwait") === -1) {
     console.error("[FAIL]", page, "cache-bust upload manquant");
     ok = false;
   }

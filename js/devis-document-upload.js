@@ -130,6 +130,14 @@
       });
     }
 
+    this.root.addEventListener("input", function (e) {
+      var t = e.target;
+      if (!t || !self.root.contains(t)) return;
+      if (t.hasAttribute("data-docs-identity-email") || t.hasAttribute("data-docs-identity-phone")) {
+        self.scheduleImmediateUpload();
+      }
+    });
+
     this.root.addEventListener("click", function (e) {
       var retry = e.target && e.target.closest ? e.target.closest("[data-docs-retry]") : null;
       if (!retry || !self.root.contains(retry)) return;
@@ -223,12 +231,34 @@
     var v = this._formValue(root, ["email", "Email", "ownerEmail[]"]);
     if (v) return v;
     if (!root) return "";
+    var idEl = root.querySelector("[data-docs-identity-email]");
+    if (idEl && String(idEl.value || "").trim()) return String(idEl.value).trim();
     var els = root.querySelectorAll("input[type='email']");
     for (var i = 0; i < els.length; i++) {
       var t = String(els[i].value || "").trim();
       if (t) return t;
     }
     return "";
+  };
+
+  DevisDocumentUpload.prototype._applyAuditIdentity = function () {
+    var form = this.root.closest("form");
+    var audit =
+      (form && form.dataset.auditMode === "1") ||
+      (document.body && document.body.classList.contains("form-audit-active"));
+    if (!audit) return;
+    try {
+      var u = JSON.parse(localStorage.getItem("lo_user") || "{}");
+      if (u.email && !this.session.email) this.session.email = String(u.email).trim().toLowerCase();
+      if ((u.firstName || u.first_name) && !this.session.firstName) {
+        this.session.firstName = String(u.firstName || u.first_name).trim();
+      }
+      if ((u.lastName || u.last_name) && !this.session.lastName) {
+        this.session.lastName = String(u.lastName || u.last_name).trim();
+      }
+    } catch (e) {}
+    if (!this.session.firstName) this.session.firstName = "Admin";
+    if (!this.session.lastName) this.session.lastName = "Controle";
   };
 
   DevisDocumentUpload.prototype.hasIdentity = function () {
@@ -240,11 +270,14 @@
     var form = this.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form], [data-url-capture-form]");
     var scopes = [];
     if (form) scopes.push(form);
+    if (this.root && this.root !== form) scopes.push(this.root);
     if (document.body && document.body !== form) scopes.push(document.body);
     var self = this;
     scopes.forEach(function (root) {
       var email = self._firstEmail(root);
       var phone = self._formValue(root, ["phone", "telephone", "ownerPhone[]"]);
+      var idPhone = root.querySelector("[data-docs-identity-phone]");
+      if (idPhone && String(idPhone.value || "").trim()) phone = String(idPhone.value).trim();
       var firstName = self._formValue(root, ["firstName", "prenom", "ownerFirstName[]"]);
       var lastName = self._formValue(root, ["lastName", "nom", "ownerLastName[]"]);
       if (email) self.session.email = email.toLowerCase();
@@ -252,6 +285,7 @@
       if (firstName) self.session.firstName = firstName;
       if (lastName) self.session.lastName = lastName;
     });
+    this._applyAuditIdentity();
     try {
       var storedEmail = localStorage.getItem("lo_client_email");
       if (storedEmail && !this.session.email) this.session.email = String(storedEmail).trim().toLowerCase();
@@ -261,7 +295,22 @@
       var contactId = localStorage.getItem("lo_draft_contact_id");
       if (contactId && !this.session.contactId) this.session.contactId = contactId;
     } catch (e) {}
+    this._syncIdentityStrip();
     return this.session;
+  };
+
+  DevisDocumentUpload.prototype._syncIdentityStrip = function () {
+    var box = this.root.querySelector("[data-docs-identity]");
+    if (!box) return;
+    var form = this.root.closest("form");
+    var audit =
+      (form && form.dataset.auditMode === "1") ||
+      (document.body && document.body.classList.contains("form-audit-active"));
+    var formHas =
+      !!(this._formValue(form, ["email", "Email"]) ||
+        this._formValue(form, ["phone", "telephone"]) ||
+        (this._formValue(form, ["firstName", "prenom"]) && this._formValue(form, ["lastName", "nom"])));
+    box.hidden = !!(audit || formHas);
   };
 
   DevisDocumentUpload.prototype.setStatusText = function (message, tone) {
@@ -341,7 +390,9 @@
         badge.className = "immo-doc-status-badge";
       } else {
         badge.hidden = false;
-        badge.textContent = statusLabel(agg) + (items.length > 1 ? " · " + items.length : "");
+        var label = statusLabel(agg);
+        if (agg === "queued" && !this.hasIdentity()) label = "En attente d'e-mail";
+        badge.textContent = label + (items.length > 1 ? " · " + items.length : "");
         badge.className = "immo-doc-status-badge " + statusClass(agg);
       }
     }
@@ -357,14 +408,17 @@
       return;
     }
     listEl.hidden = false;
+    var waitingId = !this.hasIdentity();
     listEl.innerHTML = items
       .map(function (item) {
+        var pill =
+          item.status === "queued" && waitingId ? "En attente d'e-mail" : statusLabel(item.status) || "—";
         return (
           "<li>" +
           '<span class="immo-doc-file-pill ' +
           statusClass(item.status) +
           '">' +
-          esc(statusLabel(item.status) || "—") +
+          esc(pill) +
           "</span>" +
           '<span class="immo-doc-file-name" title="' +
           esc(item.fileName) +
@@ -719,10 +773,16 @@
       esc(cfg.intro) +
       "</p>" +
       extraFieldsHtml(cfg) +
+      '<div class="devis-docs-identity" data-docs-identity>' +
+      '<p class="small">Pour un <strong>envoi Drive immédiat</strong>, indiquez un e-mail ou un téléphone (sinon la pièce reste en attente).</p>' +
+      '<div class="devis-docs-identity-row">' +
+      '<input type="email" data-docs-identity-email autocomplete="email" placeholder="E-mail" />' +
+      '<input type="tel" data-docs-identity-phone autocomplete="tel" placeholder="Téléphone" />' +
+      "</div></div>" +
       '<div class="immo-doc-categories devis-docs-groups">' +
       groups.map(renderGroup).join("") +
       "</div>" +
-      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Lignes Déposer (plus de liste Type). Envoi Drive dès qu’un e-mail, un téléphone ou nom+prénom est rempli. Pastille verte = Reçu.</p>' +
+      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Pastille verte = Reçu sur Drive. Bleu « En attente d\'e-mail » = remplissez un contact ci-dessus (ou désactivez le mode contrôle).</p>' +
       '<div data-docs-visual-panel hidden style="margin-top:14px"><div data-docs-visual-grid></div></div>' +
       "</div>"
     );
