@@ -37,18 +37,32 @@
       "Autre",
     ];
 
-  var EXPOSURES = [
-    "Nord",
-    "Sud",
-    "Est",
-    "Ouest",
-    "Nord-Est",
-    "Nord-Ouest",
-    "Sud-Est",
-    "Sud-Ouest",
-    "Double",
-    "Triple",
-  ];
+  var EXPOSURES =
+    (typeof window !== "undefined" && window.ImmoRoomCatalog && window.ImmoRoomCatalog.exposures) || [
+      "E",
+      "EO",
+      "N",
+      "NE",
+      "NO",
+      "NS",
+      "O",
+      "S",
+      "SE",
+      "SO",
+    ];
+
+  var EXPOSURE_ALIASES = {
+    Est: "E",
+    "Est-Ouest": "EO",
+    Nord: "N",
+    "Nord-Est": "NE",
+    "Nord-Ouest": "NO",
+    "Nord-Sud": "NS",
+    Ouest: "O",
+    Sud: "S",
+    "Sud-Est": "SE",
+    "Sud-Ouest": "SO",
+  };
 
   var FLOORINGS = [
     "Parquet",
@@ -122,7 +136,7 @@
       esc(data.dimensions || "") +
       '" /></td>' +
       "<td>" +
-      selectHtml("roomExposure[]", "exposure", EXPOSURES, data.exposure) +
+      selectHtml("roomExposure[]", "exposure", EXPOSURES, EXPOSURE_ALIASES[data.exposure] || data.exposure) +
       "</td>" +
       "<td>" +
       selectHtml("roomFlooring[]", "flooring", FLOORINGS, data.flooring) +

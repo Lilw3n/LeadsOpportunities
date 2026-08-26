@@ -251,5 +251,9 @@
     return a.localeCompare(b, "fr", { numeric: true, sensitivity: "base" });
   });
 
-  global.ImmoRoomCatalog = { names: names };
+  global.ImmoRoomCatalog = {
+    names: names,
+    /** Codes agence (Laforêt) — E Est, EO Est-Ouest, NS Nord-Sud, etc. */
+    exposures: ["E", "EO", "N", "NE", "NO", "NS", "O", "S", "SE", "SO"],
+  };
 })(typeof window !== "undefined" ? window : global);

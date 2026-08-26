@@ -42,8 +42,8 @@ var html = read("landings/acheteur-immo.html");
 assert(html.indexOf("immo-rooms-hint") >= 0, "consigne réordonnancement");
 assert(html.indexOf(">Niveau</th>") >= 0 && html.indexOf(">Nom</th>") >= 0, "colonnes Niveau / Nom");
 assert(html.indexOf(">Sol</th>") >= 0 && html.indexOf(">Commentaires</th>") >= 0, "colonnes Sol / Commentaires");
-assert(html.indexOf("immo-room-catalog.js?v=20260826rooms4") >= 0, "catalogue pièces chargé");
-assert(html.indexOf("acheteur-immo-rooms.js?v=20260826rooms4") >= 0, "cache-bust JS pièces");
+assert(html.indexOf("immo-room-catalog.js?v=20260826rooms5") >= 0, "catalogue pièces chargé");
+assert(html.indexOf("acheteur-immo-rooms.js?v=20260826rooms5") >= 0, "cache-bust JS pièces");
 assert(html.indexOf("immo-parcours.css?v=20260826rooms4") >= 0, "cache-bust CSS");
 
 var css = read("landings/css/immo-parcours.css");
@@ -70,6 +70,8 @@ var names = global.ImmoRoomCatalog.names;
 assert(names.length >= 220, "catalogue ≥ 220 noms uniques (" + names.length + ")");
 assert(names.indexOf("Chambre 2") < names.indexOf("Chambre 10"), "Chambre 2 avant Chambre 10");
 assert(names.indexOf("Cuisine") >= 0 && names.indexOf("W.C.") >= 0, "Cuisine et W.C. présents");
+var expo = global.ImmoRoomCatalog.exposures;
+assert(expo && expo.join(",") === "E,EO,N,NE,NO,NS,O,S,SE,SO", "exposition codes agence E…SO");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
