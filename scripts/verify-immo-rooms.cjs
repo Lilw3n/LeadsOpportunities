@@ -107,7 +107,10 @@ assert(html.indexOf('id="sellFloorSlab"') >= 0, "champ Dalle");
 assert(html.indexOf('id="sellHeatingMode"') >= 0, "champ Mode chauffage");
 assert(html.indexOf("sellHeatingEnergyNote") >= 0, "commentaire méca chauffage");
 assert(html.indexOf('id="sellFireplace"') >= 0, "champ Cheminée");
-assert(html.indexOf("immo-listing-taxonomy.js?v=20260826rooms10") >= 0, "cache-bust taxonomie intérieur");
+assert(html.indexOf("immo-listing-taxonomy.js?v=20260826rooms11") >= 0, "cache-bust taxonomie intérieur");
+assert(html.indexOf('id="sellGarden"') >= 0 && html.indexOf("<select id=\"sellGarden\"") >= 0, "jardin = Oui/Non comme l'agence");
+assert(tax.indexOf("Travertin") >= 0, "construction jusqu’à Travertin");
+assert(tax.indexOf("XVIII") >= 0, "style jusqu’à XVIII");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

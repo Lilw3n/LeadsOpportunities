@@ -1055,8 +1055,10 @@
                   <div class="grid" style="margin-top:12px">
                     <div class="field"><label for="sellBuildYear">Année construction</label><input id="sellBuildYear" name="sellBuildYear" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellBuildingFloors">Nb. étages immeuble</label><input id="sellBuildingFloors" name="sellBuildingFloors" inputmode="numeric" data-optional /></div>
-                    <div class="field full">
-                      <label class="field-check"><input type="checkbox" name="sellGarden" value="1" data-optional /> Jardin</label>
+                    <div class="field immo-list-or-note">
+                      <label for="sellGarden">Jardin</label>
+                      <select id="sellGarden" name="sellGarden" data-optional></select>
+                      <input id="sellGardenNote" name="sellGardenNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
                     </div>
 
                     <p class="search-section-label full" style="margin:12px 0 0">Extérieur du bâtiment</p>
@@ -2351,8 +2353,8 @@
   <script src="../js/print-document-lib.js"></script>
   <script src="../js/acheteur-immo-fill-mode.js"></script>
   <script src="../js/acheteur-immo-print.js?v=20260826rooms2"></script>
-  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms10"></script>
-  <script src="../js/acheteur-immo-listing-fields.js?v=20260826rooms10"></script>
+  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms11"></script>
+  <script src="../js/acheteur-immo-listing-fields.js?v=20260826rooms11"></script>
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/immo-room-catalog.js?v=20260826rooms5"></script>
   <script src="../js/acheteur-immo-rooms.js?v=20260826rooms5"></script>

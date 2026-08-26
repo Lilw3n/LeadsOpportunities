@@ -49,6 +49,7 @@
     fillLabelSelect(qs("#sellSanitation", root), tax.SANITATION, "Non renseigné");
     fillSelect(qs("#sellMansardRoof", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
     fillSelect(qs("#sellSanitationCert", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
+    fillSelect(qs("#sellGarden", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
     fillLabelSelect(qs("#sellFloorSlab", root), tax.FLOOR_SLAB, "Non renseigné");
     fillLabelSelect(qs("#sellHeating", root), tax.HEATING_TYPE, "Non renseigné");
     fillLabelSelect(qs("#sellHeatingEnergy", root), tax.HEATING_MECHANISM, "Non renseigné");
