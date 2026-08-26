@@ -107,7 +107,15 @@
     this.need = options.need || "default";
     this.queue = [];
     this.uploaded = [];
-    this.session = { email: null, phone: null, contactId: null, leadId: null, firstName: null, lastName: null };
+    this.session = {
+      email: null,
+      phone: null,
+      contactId: null,
+      leadId: null,
+      firstName: null,
+      lastName: null,
+      docsSessionId: null,
+    };
     this.config = global.DEVIS_DOCUMENT_CONFIG
       ? global.DEVIS_DOCUMENT_CONFIG.getConfig(this.need)
       : { title: "Pièces justificatives", intro: "", items: [] };
@@ -126,6 +134,7 @@
         var n = t.name || "";
         if (/^(email|phone|telephone|firstName|lastName|prenom|nom)$/.test(n) || t.type === "email" || t.type === "tel") {
           self.scheduleImmediateUpload();
+          self.scheduleIdentitySync();
         }
       });
     }
@@ -135,6 +144,7 @@
       if (!t || !self.root.contains(t)) return;
       if (t.hasAttribute("data-docs-identity-email") || t.hasAttribute("data-docs-identity-phone")) {
         self.scheduleImmediateUpload();
+        self.scheduleIdentitySync();
       }
     });
 
@@ -200,6 +210,7 @@
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
     }
+    this.ensureDocsSession();
     var item = {
       id: "q_" + Date.now() + "_" + Math.random().toString(36).slice(2, 7),
       file: file,
@@ -241,29 +252,28 @@
     return "";
   };
 
-  DevisDocumentUpload.prototype._applyAuditIdentity = function () {
-    var form = this.root.closest("form");
-    var audit =
-      (form && form.dataset.auditMode === "1") ||
-      (document.body && document.body.classList.contains("form-audit-active"));
-    if (!audit) return;
+  DevisDocumentUpload.prototype.ensureDocsSession = function (create) {
+    if (this.session.docsSessionId) return this.session.docsSessionId;
     try {
-      var u = JSON.parse(localStorage.getItem("lo_user") || "{}");
-      if (u.email && !this.session.email) this.session.email = String(u.email).trim().toLowerCase();
-      if ((u.firstName || u.first_name) && !this.session.firstName) {
-        this.session.firstName = String(u.firstName || u.first_name).trim();
+      var id = localStorage.getItem("lo_docs_session_id");
+      if (id && /^[a-zA-Z0-9_-]{8,80}$/.test(id)) {
+        this.session.docsSessionId = id;
+        return id;
       }
-      if ((u.lastName || u.last_name) && !this.session.lastName) {
-        this.session.lastName = String(u.lastName || u.last_name).trim();
-      }
-    } catch (e) {}
-    if (!this.session.firstName) this.session.firstName = "Admin";
-    if (!this.session.lastName) this.session.lastName = "Controle";
+      if (create === false) return null;
+      id = "ds_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 12);
+      localStorage.setItem("lo_docs_session_id", id);
+      this.session.docsSessionId = id;
+    } catch (e) {
+      if (create === false) return this.session.docsSessionId || null;
+      this.session.docsSessionId = this.session.docsSessionId || "ds_mem_" + Date.now().toString(36);
+    }
+    return this.session.docsSessionId;
   };
 
   DevisDocumentUpload.prototype.hasIdentity = function () {
     var s = this.session || {};
-    return !!(s.email || s.phone || s.contactId || (s.firstName && s.lastName));
+    return !!(s.email || s.phone || (s.firstName && s.lastName));
   };
 
   DevisDocumentUpload.prototype.syncSessionFromForm = function () {
@@ -285,7 +295,7 @@
       if (firstName) self.session.firstName = firstName;
       if (lastName) self.session.lastName = lastName;
     });
-    this._applyAuditIdentity();
+    this.ensureDocsSession(false);
     try {
       var storedEmail = localStorage.getItem("lo_client_email");
       if (storedEmail && !this.session.email) this.session.email = String(storedEmail).trim().toLowerCase();
@@ -326,17 +336,24 @@
     clearTimeout(self._uploadTimer);
     self._uploadTimer = setTimeout(function () {
       self.syncSessionFromForm();
-      if (!self.hasIdentity()) {
-        self.setStatusText(
-          "Pièces en attente — remplissez un e-mail (ou nom+prénom / téléphone) pour l’envoi Drive immédiat.",
-          "info"
-        );
-        return;
-      }
       self.uploadQueued().then(function () {
         self.fetchRemoteList();
       });
     }, 200);
+  };
+
+  DevisDocumentUpload.prototype.scheduleIdentitySync = function () {
+    var self = this;
+    clearTimeout(self._identityTimer);
+    self._identityTimer = setTimeout(function () {
+      self.syncSessionFromForm();
+      if (!self.session.contactId && !self.session.docsSessionId) return;
+      if (!self.hasIdentity()) return;
+      var form = self.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form]");
+      if (global.QuoteIntelligence && global.QuoteIntelligence.saveProgress && form) {
+        global.QuoteIntelligence.saveProgress(form, 0, "documents", "identity_update");
+      }
+    }, 700);
   };
 
   DevisDocumentUpload.prototype.setSession = function (session) {
@@ -391,7 +408,6 @@
       } else {
         badge.hidden = false;
         var label = statusLabel(agg);
-        if (agg === "queued" && !this.hasIdentity()) label = "En attente d'e-mail";
         badge.textContent = label + (items.length > 1 ? " · " + items.length : "");
         badge.className = "immo-doc-status-badge " + statusClass(agg);
       }
@@ -408,11 +424,9 @@
       return;
     }
     listEl.hidden = false;
-    var waitingId = !this.hasIdentity();
     listEl.innerHTML = items
       .map(function (item) {
-        var pill =
-          item.status === "queued" && waitingId ? "En attente d'e-mail" : statusLabel(item.status) || "—";
+        var pill = statusLabel(item.status) || "—";
         return (
           "<li>" +
           '<span class="immo-doc-file-pill ' +
@@ -452,16 +466,32 @@
     });
   };
 
+  DevisDocumentUpload.prototype._uploadBody = function (item, extra) {
+    extra = extra || {};
+    this.ensureDocsSession();
+    return {
+      email: this.session.email || null,
+      phone: this.session.phone || null,
+      firstName: this.session.firstName || null,
+      lastName: this.session.lastName || null,
+      contactId: this.session.contactId || null,
+      leadId: extra.leadId !== undefined ? extra.leadId : this._ignoreLeadId ? null : this.session.leadId,
+      docsSessionId: this.session.docsSessionId || null,
+      fileName: item.fileName,
+      documentType: item.documentType,
+      mimeType: item.mimeType,
+      fileBase64: extra.fileBase64,
+      vertical: this.need,
+      need: this.need,
+      source: "devis_wizard",
+      perTypeFolder: true,
+    };
+  };
+
   DevisDocumentUpload.prototype.uploadQueued = function () {
     var self = this;
     this.syncSessionFromForm();
     if (!this.queue.length) return Promise.resolve({ uploaded: [], errors: [] });
-    if (!this.hasIdentity()) {
-      return Promise.resolve({
-        uploaded: [],
-        errors: [{ error: "nom+prénom, e-mail, téléphone ou contactId manquant" }],
-      });
-    }
     var pending = this.queue.filter(function (q) {
       return q.status === "queued" || q.status === "error";
     });
@@ -476,22 +506,7 @@
               method: "POST",
               headers: { "Content-Type": "application/json" },
               credentials: "same-origin",
-              body: JSON.stringify({
-                email: self.session.email,
-                phone: self.session.phone || null,
-                firstName: self.session.firstName || null,
-                lastName: self.session.lastName || null,
-                contactId: self.session.contactId,
-                leadId: self._ignoreLeadId ? null : self.session.leadId,
-                fileName: item.fileName,
-                documentType: item.documentType,
-                mimeType: item.mimeType,
-                fileBase64: dataUrl,
-                vertical: self.need,
-                need: self.need,
-                source: "devis_wizard",
-                perTypeFolder: true,
-              }),
+              body: JSON.stringify(self._uploadBody(item, { fileBase64: dataUrl })),
             });
           })
           .then(function (r) {
@@ -554,22 +569,7 @@
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     credentials: "same-origin",
-                    body: JSON.stringify({
-                      email: self.session.email,
-                      phone: self.session.phone || null,
-                      firstName: self.session.firstName || null,
-                      lastName: self.session.lastName || null,
-                      contactId: self.session.contactId,
-                      leadId: null,
-                      fileName: item.fileName,
-                      documentType: item.documentType,
-                      mimeType: item.mimeType,
-                      fileBase64: dataUrl,
-                      vertical: self.need,
-                      need: self.need,
-                      source: "devis_wizard",
-                      perTypeFolder: true,
-                    }),
+                    body: JSON.stringify(self._uploadBody(item, { fileBase64: dataUrl, leadId: null })),
                   });
                 })
                 .then(function (r) {
@@ -774,15 +774,15 @@
       "</p>" +
       extraFieldsHtml(cfg) +
       '<div class="devis-docs-identity" data-docs-identity>' +
-      '<p class="small">Pour un <strong>envoi Drive immédiat</strong>, indiquez un e-mail ou un téléphone (sinon la pièce reste en attente).</p>' +
+      '<p class="small">Le fichier part <strong>tout de suite</strong> vers Drive. Sans nom / e-mail / téléphone, le dossier s’appelle <strong>Dossier provisoire</strong> — il sera renommé quand les infos seront à jour.</p>' +
       '<div class="devis-docs-identity-row">' +
-      '<input type="email" data-docs-identity-email autocomplete="email" placeholder="E-mail" />' +
-      '<input type="tel" data-docs-identity-phone autocomplete="tel" placeholder="Téléphone" />' +
+      '<input type="email" data-docs-identity-email autocomplete="email" placeholder="E-mail (pour nommer le dossier)" />' +
+      '<input type="tel" data-docs-identity-phone autocomplete="tel" placeholder="Téléphone (optionnel)" />' +
       "</div></div>" +
       '<div class="immo-doc-categories devis-docs-groups">' +
       groups.map(renderGroup).join("") +
       "</div>" +
-      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Pastille verte = Reçu sur Drive. Bleu « En attente d\'e-mail » = remplissez un contact ci-dessus (ou désactivez le mode contrôle).</p>' +
+      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Pastille verte = Reçu sur Drive. Sans contact : dossier « Dossier provisoire », renommé plus tard.</p>' +
       '<div data-docs-visual-panel hidden style="margin-top:14px"><div data-docs-visual-grid></div></div>' +
       "</div>"
     );

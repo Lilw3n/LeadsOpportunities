@@ -85,6 +85,12 @@
     var partial = collectFormPartial(form);
     var vertical = verticalFromForm(form);
     var journey = getJourney();
+    var draftContactId = null;
+    var docsSessionId = null;
+    try {
+      draftContactId = localStorage.getItem("lo_draft_contact_id");
+      docsSessionId = localStorage.getItem("lo_docs_session_id");
+    } catch (e) {}
     var payload = {
       leadId: getDraftLeadId(),
       event: eventName || "wizard_step",
@@ -98,11 +104,20 @@
       partial_payload: partial,
       email: partial.email || null,
       phone: partial.phone || null,
+      firstName: partial.firstName || partial.prenom || null,
+      lastName: partial.lastName || partial.nom || null,
+      contactId: draftContactId || null,
+      docsSessionId: docsSessionId || null,
       blockage: extra.blockage || null,
       meta: extra.meta || {},
     };
     return postJson("/api/lead-progress", payload).then(function (res) {
       if (res.ok && res.leadId) setDraftLeadId(res.leadId);
+      if (res && res.contactId) {
+        try {
+          localStorage.setItem("lo_draft_contact_id", res.contactId);
+        } catch (e) {}
+      }
       try {
         document.dispatchEvent(
           new CustomEvent("lo:lead-progress-saved", {
