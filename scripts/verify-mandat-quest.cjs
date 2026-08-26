@@ -20,9 +20,16 @@ var html = read("landings/acheteur-immo.html");
 if (html.indexOf("sellMandateRetractForm") === -1 || html.indexOf("sellMandatePrecontract") === -1 || html.indexOf("sellMandateStartNow") === -1) {
   fail("clauses mandat (rétractation / précontractuel / début prestations) manquantes");
 } else pass("clauses mandat Code de la consommation");
-if (html.indexOf("data-mandate-scroll-docs") === -1 || html.indexOf("Ajouter un(e) pièce jointe") === -1) {
-  fail("bouton pièces jointes mandat manquant");
+if (
+  html.indexOf("data-mandate-add-annex") === -1 ||
+  html.indexOf("Ajouter un(e) pièce jointe") === -1 ||
+  html.indexOf("data-mandate-annex-input") === -1
+) {
+  fail("bouton / sélecteur pièces jointes mandat manquant");
 } else pass("pièces jointes sur la demande de mandat");
+if (html.indexOf("au format portrait") === -1) {
+  fail("mention PDF portrait (annexe signature électronique) manquante");
+} else pass("notice PDF portrait annexe mandat");
 if (html.indexOf("Je demande un mandat de vente") === -1) {
   fail("libellé demande de mandat manquant");
 } else pass("opt-in = demande de mandat");
@@ -52,6 +59,21 @@ var tools = read("js/crm-questionnaire-tools.js");
 if (tools.indexOf("Copier le lien client") === -1 || tools.indexOf("Envoyer le lien au client") === -1) {
   fail("boutons fiche interlocuteur manquants");
 } else pass("fiche interlocuteur : copier / envoyer lien");
+
+var checklist = read("js/immo-sell-docs-checklist.js");
+if (checklist.indexOf("addFile: addFile") === -1 && checklist.indexOf("addFile:addFile") === -1) {
+  fail("ImmoSellDocsChecklist.addFile non exporté");
+} else pass("checklist vendeur : addFile pour annexes mandat");
+
+var mandateJs = read("js/acheteur-immo-mandate-client.js");
+if (mandateJs.indexOf("mandat_annexe") === -1 || mandateJs.indexOf("data-mandate-add-annex") === -1) {
+  fail("client mandat sans sélecteur d'annexe");
+} else pass("client mandat ouvre le sélecteur de fichiers");
+
+var drive = read("api/_lib/immo-drive.js");
+if (drive.indexOf("mandat_annexe") === -1) {
+  fail("annexe mandat non classée dans Drive 06_mandat_pieces");
+} else pass("annexes mandat → dossier Drive mandat");
 
 var client = read("js/quest-resume-client.js");
 if (client.indexOf("/api/external/quest-resume") === -1) fail("client reprise sans API");

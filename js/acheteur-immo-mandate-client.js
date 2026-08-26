@@ -1,9 +1,83 @@
 /**
- * Mandat vendeur — vue client : opt-in explicite + fourchette prix (sans honoraires).
+ * Mandat vendeur — vue client : opt-in + fourchette prix + pièces jointes (annexe).
  */
 (function () {
+  var ANNEX_TYPE = "mandat_annexe";
+
   function qs(sel, root) {
     return (root || document).querySelector(sel);
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function statusLabel(status) {
+    if (status === "received") return "Reçu";
+    if (status === "transmitted") return "Transmis";
+    if (status === "uploading") return "Envoi…";
+    if (status === "error") return "Erreur";
+    if (status === "queued") return "En attente";
+    return "";
+  }
+
+  function annexItems() {
+    var items = [];
+    var seen = {};
+    function push(it) {
+      if (!it || it.documentType !== ANNEX_TYPE) return;
+      var key = it.id || it.fileName;
+      if (!key || seen[key]) return;
+      seen[key] = true;
+      items.push(it);
+    }
+    if (window.ImmoSellDocsChecklist) {
+      (window.ImmoSellDocsChecklist.getQueue() || []).forEach(push);
+      (window.ImmoSellDocsChecklist.getUploaded() || []).forEach(push);
+    }
+    return items;
+  }
+
+  function renderAnnexList(wrap) {
+    var list = qs("[data-mandate-annex-list]", wrap);
+    if (!list) return;
+    var items = annexItems();
+    if (!items.length) {
+      list.hidden = true;
+      list.innerHTML = "";
+      return;
+    }
+    list.hidden = false;
+    list.innerHTML = items
+      .map(function (item) {
+        var st = statusLabel(item.status);
+        var cls = item.status ? " is-" + item.status : "";
+        return (
+          "<li>" +
+          (st ? '<span class="immo-mandate-annex-status' + cls + '">' + esc(st) + "</span>" : "") +
+          "<span>" +
+          esc(item.fileName) +
+          "</span>" +
+          "</li>"
+        );
+      })
+      .join("");
+  }
+
+  function addAnnexFiles(files, wrap) {
+    if (!files || !files.length) return;
+    var checklist = window.ImmoSellDocsChecklist;
+    var mount = document.querySelector("[data-sell-docs-mount]");
+    Array.prototype.forEach.call(files, function (file) {
+      if (checklist && typeof checklist.addFile === "function") {
+        checklist.addFile(file, ANNEX_TYPE, mount);
+      }
+    });
+    renderAnnexList(wrap);
   }
 
   function syncMandatePrefUi(wrap) {
@@ -23,7 +97,10 @@
     fields.querySelectorAll("input, select, textarea").forEach(function (el) {
       el.disabled = !open;
     });
-    if (open) syncMandatePrefUi(wrap);
+    if (open) {
+      syncMandatePrefUi(wrap);
+      renderAnnexList(wrap);
+    }
     if (window.ImmoTracfinMandate && window.ImmoTracfinMandate.syncVisibility) {
       window.ImmoTracfinMandate.syncVisibility(wrap);
     }
@@ -35,23 +112,29 @@
     if (!root || root.dataset.mandateClientBound) return;
     root.dataset.mandateClientBound = "1";
     root.addEventListener("click", function (e) {
-      var btn = e.target && e.target.closest ? e.target.closest("[data-mandate-scroll-docs]") : null;
+      var btn = e.target && e.target.closest ? e.target.closest("[data-mandate-add-annex]") : null;
       if (!btn || !root.contains(btn)) return;
       e.preventDefault();
-      var docs =
-        document.querySelector("[data-sell-docs-mount]") ||
-        document.querySelector('[data-immo-docs-panel="vendeur"]');
-      var block = docs && docs.closest ? docs.closest("details, .immo-vente-block, .immo-form-section") : null;
-      if (block && block.tagName === "DETAILS") block.open = true;
-      if (docs && docs.scrollIntoView) docs.scrollIntoView({ behavior: "smooth", block: "start" });
+      var input = qs("[data-mandate-annex-input]", root);
+      if (input && !input.disabled) input.click();
     });
     root.addEventListener("change", function (e) {
-      if (e.target && e.target.matches("[data-sell-wants-mandate]")) {
+      var t = e.target;
+      if (!t) return;
+      if (t.matches("[data-mandate-annex-input]")) {
+        addAnnexFiles(t.files, root);
+        t.value = "";
+        return;
+      }
+      if (t.matches("[data-sell-wants-mandate]")) {
         syncMandateFields(root);
       }
-      if (e.target && e.target.matches("[name='sellMandatePreference']")) {
+      if (t.matches("[name='sellMandatePreference']")) {
         syncMandatePrefUi(root);
       }
+    });
+    document.addEventListener("immo-sell-docs-updated", function () {
+      renderAnnexList(root);
     });
     syncMandateFields(root);
   }

@@ -223,6 +223,7 @@ var VENDEUR_GROUP_FOLDER = {
 
 var VENDEUR_TYPE_FOLDER = {
   mandat_signe: "06_mandat_pieces",
+  mandat_annexe: "06_mandat_pieces",
   titre_propriete: "06_mandat_pieces",
   acte_vente: "06_mandat_pieces",
   kbis_sci: "06_mandat_pieces",

@@ -787,58 +787,123 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
 }
 
 .immo-mandate-attachments {
-  margin-top: 16px;
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid #bbf7d0;
-  background: #f0fdf4;
+  margin-top: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.immo-mandate-attachments-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
+}
+
+.immo-mandate-attachments-label {
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: #0f172a;
 }
 
 .immo-mandate-add-doc {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin: 4px 0 8px;
-  padding: 10px 16px;
+  gap: 10px;
+  margin: 0;
+  padding: 8px 16px 8px 10px;
   border: 0;
-  border-radius: 8px;
-  background: #16a34a;
+  border-radius: 6px;
+  background: #22c55e;
   color: #fff;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 0.92rem;
+  line-height: 1.2;
   cursor: pointer;
 }
 
 .immo-mandate-add-doc:hover,
 .immo-mandate-add-doc:focus-visible {
-  background: #15803d;
+  background: #16a34a;
 }
 
-.immo-mandate-add-doc span[aria-hidden] {
-  font-size: 1.2rem;
+.immo-mandate-add-doc-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  color: #22c55e;
+  font-size: 1.05rem;
+  font-weight: 800;
   line-height: 1;
 }
 
 .immo-mandate-attachments-hint {
-  margin: 0;
-  font-size: 0.8rem;
+  margin: 8px 0 0;
+  font-size: 0.78rem;
   font-style: italic;
-  color: #64748b;
+  color: #94a3b8;
   line-height: 1.45;
 }
 
-.immo-mandate-legal {
-  margin-top: 12px;
+.immo-mandate-annex-list {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
+  gap: 6px;
+}
+
+.immo-mandate-annex-list li {
+  display: flex;
+  align-items: center;
   gap: 8px;
+  font-size: 0.82rem;
+  color: #334155;
+}
+
+.immo-mandate-annex-status {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #0f766e;
+}
+
+.immo-mandate-annex-status.is-error {
+  color: #b91c1c;
+}
+
+.immo-mandate-annex-status.is-uploading,
+.immo-mandate-annex-status.is-queued {
+  color: #b45309;
+}
+
+.immo-mandate-legal {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .immo-mandate-legal .field-check {
   align-items: flex-start;
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   line-height: 1.45;
-  color: #334155;
+  color: #1e293b;
+}
+
+.immo-mandate-legal input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 3px;
+  accent-color: #2563eb;
+  cursor: pointer;
 }
 
 .immo-mandate-admin {

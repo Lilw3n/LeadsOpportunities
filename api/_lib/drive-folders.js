@@ -22,6 +22,7 @@ const DOC_TYPE_SUBFOLDER = {
   liste_vehicules: "04_vehicule_ou_bien",
   bail: "04_vehicule_ou_bien",
   titre_propriete: "04_vehicule_ou_bien",
+  mandat_annexe: "04_vehicule_ou_bien",
   diagnostics: "04_vehicule_ou_bien",
   compromis_offre: "04_vehicule_ou_bien",
   carnet_sante_animal: "04_vehicule_ou_bien",

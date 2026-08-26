@@ -227,13 +227,22 @@
     return list;
   }
 
+  function notifyDocsUpdated() {
+    try {
+      document.dispatchEvent(new CustomEvent("immo-sell-docs-updated"));
+    } catch (e) {}
+  }
+
   function refreshLine(documentType, mount) {
     var root = mount || document;
     var line = root.querySelector
       ? root.querySelector('[data-sell-doc-line="' + documentType + '"]')
       : document.querySelector('[data-sell-doc-line="' + documentType + '"]');
     if (!line) line = document.querySelector('[data-sell-doc-line="' + documentType + '"]');
-    if (!line) return;
+    if (!line) {
+      notifyDocsUpdated();
+      return;
+    }
     var items = itemsForType(documentType);
     var agg = aggregateStatus(items);
     line.classList.remove("is-queued", "is-done", "is-error", "is-transmitted", "is-uploading", "is-received");
@@ -260,10 +269,14 @@
     if (btn) btn.textContent = items.length ? "Ajouter +" : "Déposer";
 
     var listEl = line.querySelector("[data-sell-doc-files]");
-    if (!listEl) return;
+    if (!listEl) {
+      notifyDocsUpdated();
+      return;
+    }
     if (!items.length) {
       listEl.hidden = true;
       listEl.innerHTML = "";
+      notifyDocsUpdated();
       return;
     }
     listEl.hidden = false;
@@ -285,16 +298,17 @@
         );
       })
       .join("");
+    notifyDocsUpdated();
   }
 
   function addFile(file, documentType, mount) {
     if (!isAllowedFile(file)) {
       alert("Format refusé — déposez uniquement PDF, JPG ou PNG.");
-      return;
+      return false;
     }
     if (file.size > MAX_BYTES) {
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
-      return;
+      return false;
     }
     queue.push({
       id: "sell_" + Date.now() + "_" + Math.random().toString(36).slice(2, 6),
@@ -304,12 +318,15 @@
       mimeType: mimeForFile(file),
       status: "queued",
     });
-    var line = mount.querySelector('[data-sell-doc-line="' + documentType + '"]');
+    var root = mount && mount.querySelector ? mount : document.querySelector("[data-sell-docs-mount]") || document;
+    var line = root.querySelector ? root.querySelector('[data-sell-doc-line="' + documentType + '"]') : null;
     var chk = line && line.querySelector("[data-sell-doc-check]");
     if (chk) chk.checked = true;
     refreshLine(documentType, mount);
     refreshCounter(mount);
+    notifyDocsUpdated();
     scheduleImmediateUpload();
+    return true;
   }
 
   function bindMount(mount) {
@@ -521,7 +538,7 @@
                       contactId: session.contactId || null,
                       leadId: session.leadId,
                       documentType: item.documentType,
-                      documentGroup: "diagnostics",
+                      documentGroup: item.documentType === "mandat_annexe" ? "titre" : "diagnostics",
                       fileName: item.fileName,
                       mimeType: item.mimeType,
                       fileBase64: dataUrl,
@@ -637,6 +654,7 @@
     flushPendingUploads: flushPendingUploads,
     uploadAll: uploadAll,
     scheduleImmediateUpload: scheduleImmediateUpload,
+    addFile: addFile,
     getQueue: function () {
       return queue.slice();
     },

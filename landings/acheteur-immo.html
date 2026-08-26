@@ -23,7 +23,7 @@
   <script src="/api/google-config-env"></script>
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
-  <link rel="stylesheet" href="./css/immo-parcours.css?v=20260826qr1" />
+  <link rel="stylesheet" href="./css/immo-parcours.css?v=20260826qr2" />
   <link rel="stylesheet" href="../css/acheteur-immo-search.css?v=20260825fold" />
   <script>
     (function () {
@@ -758,13 +758,25 @@
                       </div>
 
                       <div class="immo-mandate-attachments" data-mandate-attachments>
-                        <p class="search-section-label">Pièce(s) jointe(s)</p>
-                        <button type="button" class="immo-mandate-add-doc" data-mandate-scroll-docs>
-                          <span aria-hidden="true">+</span> Ajouter un(e) pièce jointe
-                        </button>
+                        <div class="immo-mandate-attachments-row">
+                          <span class="immo-mandate-attachments-label">Pièce(s) jointe(s)</span>
+                          <button type="button" class="immo-mandate-add-doc" data-mandate-add-annex>
+                            <span class="immo-mandate-add-doc-icon" aria-hidden="true">+</span>
+                            Ajouter un(e) pièce jointe
+                          </button>
+                          <input
+                            type="file"
+                            hidden
+                            multiple
+                            accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+                            data-mandate-annex-input
+                            data-optional
+                          />
+                        </div>
                         <p class="immo-mandate-attachments-hint">
-                          En cas de signature électronique, les pièces jointes au format PDF (portrait) seront automatiquement envoyées aux signataires en annexe du mandat. Déposez dès maintenant les justificatifs (identité, titre, diagnostics…) — ils constituent le dossier de preuve de votre demande.
+                          En cas de signature électronique, les pièces jointes au format PDF (au format portrait) seront automatiquement envoyées aux signataires en annexe du mandat
                         </p>
+                        <ul class="immo-mandate-annex-list" data-mandate-annex-list hidden></ul>
                       </div>
 
                       <div class="immo-mandate-legal" data-mandate-legal-block>
@@ -2258,10 +2270,10 @@
   <script src="../js/vente-3d-messaging-lib.js"></script>
   <script src="../js/vente-3d-block.js"></script>
   <script src="../js/acheteur-immo-copro-works.js"></script>
-  <script src="../js/immo-sell-docs-checklist.js?v=20260826docsui"></script>
+  <script src="../js/immo-sell-docs-checklist.js?v=20260826qr2"></script>
   <script src="../js/immo-tracfin-mandate.js"></script>
   <script src="../js/immo-rgpd-confirmation.js"></script>
-  <script src="../js/acheteur-immo-mandate-client.js?v=20260826qr1"></script>
+  <script src="../js/acheteur-immo-mandate-client.js?v=20260826qr2"></script>
   <script src="../js/acheteur-immo-laforet-extras.js"></script>
   <script src="../js/acheteur-immo-sell-photos.js"></script>
   <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>
