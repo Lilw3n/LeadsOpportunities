@@ -53,7 +53,7 @@ async function driveCreateFolder(token, name, parentId) {
     mimeType: "application/vnd.google-apps.folder",
     parents: parentId ? [parentId] : undefined,
   };
-  const resp = await fetch("https://www.googleapis.com/drive/v3/files?fields=id,name", {
+  const resp = await fetch("https://www.googleapis.com/drive/v3/files?fields=id,name,webViewLink", {
     method: "POST",
     headers: {
       Authorization: "Bearer " + token,
@@ -66,16 +66,90 @@ async function driveCreateFolder(token, name, parentId) {
   return data;
 }
 
+async function driveGetFile(token, fileId) {
+  if (!fileId || !token) return null;
+  const resp = await fetch(
+    "https://www.googleapis.com/drive/v3/files/" +
+      encodeURIComponent(fileId) +
+      "?fields=id,name,parents,webViewLink,mimeType,trashed",
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  if (!resp.ok) return null;
+  return resp.json();
+}
+
+async function driveListChildren(token, parentId) {
+  const q = "'" + parentId + "' in parents and trashed=false";
+  const resp = await fetch(
+    "https://www.googleapis.com/drive/v3/files?q=" +
+      encodeURIComponent(q) +
+      "&fields=files(id,name,mimeType,parents)&pageSize=100",
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  if (!resp.ok) return [];
+  const data = await resp.json();
+  return data.files || [];
+}
+
+async function driveMoveInto(token, fileId, newParentId, oldParentIds) {
+  var remove = (oldParentIds || []).filter(Boolean).join(",");
+  var url =
+    "https://www.googleapis.com/drive/v3/files/" +
+    encodeURIComponent(fileId) +
+    "?addParents=" +
+    encodeURIComponent(newParentId) +
+    (remove ? "&removeParents=" + encodeURIComponent(remove) : "") +
+    "&fields=id,parents";
+  const resp = await fetch(url, {
+    method: "PATCH",
+    headers: { Authorization: "Bearer " + token },
+  });
+  if (!resp.ok) {
+    var err = await resp.text();
+    throw new Error("Drive move " + resp.status + ": " + err.slice(0, 160));
+  }
+  return resp.json();
+}
+
+function sanitizeNamePart(s, max) {
+  return String(s || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\-]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .replace(/_+/g, "_")
+    .slice(0, max || 32);
+}
+
+/**
+ * Dossier visible humain : Nom_Prenom (éventuellement + téléphone si homonyme).
+ * L’identifiant technique ct_… va dans un SOUS-dossier.
+ */
+function buildContactPersonFolderName(firstName, lastName, phone) {
+  var last = sanitizeNamePart(lastName, 28);
+  var first = sanitizeNamePart(firstName, 24);
+  var parts = [last, first].filter(Boolean);
+  if (!parts.length) {
+    var tel = String(phone || "").replace(/\D/g, "").slice(-10);
+    return tel ? "Client_" + tel : "Client";
+  }
+  return parts.join("_").slice(0, 64);
+}
+
+/** Sous-dossier technique : ct_uuid */
+function buildContactIdFolderName(contactId) {
+  var id = String(contactId || "")
+    .replace(/[^\w\-]/g, "")
+    .slice(0, 80);
+  return id || "ct_unknown";
+}
+
+/**
+ * Ancien libellé plat (ct_xxx_Nom_Prenom_tel_mail) — conservé pour détection / migration.
+ */
 function safeFolderLabel(contactId, firstName, lastName, phone, email) {
-  var id = String(contactId || "").replace(/[^\w\-]/g, "");
-  var namePart =
-    ((lastName || "") + "_" + (firstName || ""))
-      .trim()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^\w\-]+/g, "_")
-      .replace(/_+/g, "_")
-      .slice(0, 32) || "client";
+  var id = buildContactIdFolderName(contactId);
+  var namePart = buildContactPersonFolderName(firstName, lastName, phone) || "client";
   var tel = String(phone || "").replace(/\D/g, "").slice(-10);
   var mailLocal = String(email || "")
     .split("@")[0]
@@ -87,12 +161,85 @@ function safeFolderLabel(contactId, firstName, lastName, phone, email) {
   return parts.join("_").slice(0, 96);
 }
 
+function isOldFlatContactFolderName(folderName, contactId) {
+  var name = String(folderName || "");
+  var id = buildContactIdFolderName(contactId);
+  if (!name || !id) return false;
+  if (name === id) return false; /* déjà le sous-dossier technique seul */
+  return name.indexOf(id + "_") === 0 || (name.indexOf("ct_") === 0 && name.indexOf("_") > 3 && name !== id);
+}
+
 function safeDocTypeFolderName(documentType) {
   return String(documentType || "autre_doc")
     .toLowerCase()
     .replace(/[^\w\-]+/g, "_")
     .replace(/_+/g, "_")
     .slice(0, 48);
+}
+
+async function findChildFolder(token, parentId, name) {
+  const q =
+    "mimeType='application/vnd.google-apps.folder' and name='" +
+    name.replace(/'/g, "\\'") +
+    "' and '" +
+    parentId +
+    "' in parents and trashed=false";
+  const resp = await fetch(
+    "https://www.googleapis.com/drive/v3/files?q=" +
+      encodeURIComponent(q) +
+      "&fields=files(id,name,webViewLink)&pageSize=10&orderBy=createdTime",
+    { headers: { Authorization: "Bearer " + token } }
+  );
+  const data = await resp.json();
+  if (data.files && data.files.length) return data.files[0];
+  return driveCreateFolder(token, name, parentId);
+}
+
+async function ensureYearFolder(token, rootId) {
+  const year = String(new Date().getFullYear());
+  return findChildFolder(token, rootId, year);
+}
+
+/**
+ * Arborescence contact :
+ *   année / Nom_Prenom / ct_xxx [/ type_doc ]
+ * drive_folder_id pointe vers le dossier technique ct_xxx.
+ */
+async function createContactFolderTree(token, rootId, contact) {
+  const yearFolder = await ensureYearFolder(token, rootId);
+  const personLabel = buildContactPersonFolderName(contact.first_name, contact.last_name, contact.phone);
+  const personFolder = await findChildFolder(token, yearFolder.id, personLabel);
+  const idLabel = buildContactIdFolderName(contact.id);
+  const idFolder = await findChildFolder(token, personFolder.id, idLabel);
+  return {
+    yearFolderId: yearFolder.id,
+    personFolderId: personFolder.id,
+    personFolderName: personLabel,
+    folderId: idFolder.id,
+    folderName: idLabel,
+    path: yearFolder.name
+      ? String(new Date().getFullYear()) + "/" + personLabel + "/" + idLabel
+      : personLabel + "/" + idLabel,
+    webViewLink: idFolder.webViewLink || personFolder.webViewLink || null,
+  };
+}
+
+async function migrateOldFlatFolder(token, rootId, contact, oldFolderId) {
+  const tree = await createContactFolderTree(token, rootId, contact);
+  if (tree.folderId === oldFolderId) return tree;
+
+  const children = await driveListChildren(token, oldFolderId);
+  for (var i = 0; i < children.length; i++) {
+    var child = children[i];
+    try {
+      await driveMoveInto(token, child.id, tree.folderId, child.parents || [oldFolderId]);
+    } catch (moveErr) {
+      console.warn("[drive-folders] migrate move", child.name, moveErr.message);
+    }
+  }
+
+  /* Ne pas supprimer l’ancien dossier plat (partagé / historique) — juste le vider. */
+  return Object.assign({}, tree, { migratedFrom: oldFolderId });
 }
 
 async function ensureClientDriveFolders(contactId) {
@@ -117,83 +264,75 @@ async function ensureClientDriveFolders(contactId) {
   `;
   if (!contacts.length) return { ok: false, error: "contact_not_found" };
   const c = contacts[0];
+
   if (c.drive_folder_id) {
-    var existing = await resolveFolderWebLink(c.drive_folder_id, { share: true });
-    return {
-      ok: true,
-      folderId: c.drive_folder_id,
-      existing: true,
-      webViewLink: existing.webViewLink || null,
-    };
-  }
-
-  const year = String(new Date().getFullYear());
-  let yearFolderId;
-
-  const yearSearch = await fetch(
-    "https://www.googleapis.com/drive/v3/files?q=" +
-      encodeURIComponent(
-        "mimeType='application/vnd.google-apps.folder' and name='" +
-          year +
-          "' and '" +
-          rootId +
-          "' in parents and trashed=false"
-      ) +
-      "&fields=files(id,name)&pageSize=1",
-    { headers: { Authorization: "Bearer " + token } }
-  );
-  const yearData = await yearSearch.json();
-  if (yearData.files && yearData.files.length) {
-    yearFolderId = yearData.files[0].id;
-  } else {
-    const createdYear = await driveCreateFolder(token, year, rootId);
-    yearFolderId = createdYear.id;
-  }
-
-  const clientLabel = safeFolderLabel(c.id, c.first_name, c.last_name, c.phone, c.email);
-  /* Réutiliser un dossier existant du même libellé (Drive autorise les homonymes). */
-  var clientFolder = null;
-  try {
-    const clientSearch = await fetch(
-      "https://www.googleapis.com/drive/v3/files?q=" +
-        encodeURIComponent(
-          "mimeType='application/vnd.google-apps.folder' and name='" +
-            clientLabel.replace(/'/g, "\\'") +
-            "' and '" +
-            yearFolderId +
-            "' in parents and trashed=false"
-        ) +
-        "&fields=files(id,name)&pageSize=10&orderBy=createdTime",
-      { headers: { Authorization: "Bearer " + token } }
-    );
-    const clientData = await clientSearch.json();
-    if (clientData.files && clientData.files.length) {
-      clientFolder = clientData.files[0];
+    var meta = await driveGetFile(token, c.drive_folder_id);
+    if (meta && !meta.trashed) {
+      if (isOldFlatContactFolderName(meta.name, c.id)) {
+        try {
+          var migrated = await migrateOldFlatFolder(token, rootId, c, c.drive_folder_id);
+          await sql`
+            UPDATE crm_contacts
+            SET drive_folder_id = ${migrated.folderId}, updated_at = NOW()
+            WHERE id = ${contactId}
+          `;
+          if (token) await shareFolderWithBroker(token, migrated.folderId);
+          var migLink = await resolveFolderWebLink(migrated.folderId, { share: false });
+          return {
+            ok: true,
+            folderId: migrated.folderId,
+            personFolderId: migrated.personFolderId,
+            personFolderName: migrated.personFolderName,
+            path: migrated.path,
+            existing: false,
+            migrated: true,
+            subfolders: CLIENT_SUBFOLDERS,
+            lazy: true,
+            webViewLink: (migLink && migLink.webViewLink) || migrated.webViewLink || null,
+          };
+        } catch (migErr) {
+          console.warn("[drive-folders] migrate failed, keep old folder", migErr.message);
+        }
+      }
+      /* Dossier déjà au bon format (ct_xxx sous Nom_Prenom) ou autre. */
+      var existing = await resolveFolderWebLink(c.drive_folder_id, { share: true });
+      return {
+        ok: true,
+        folderId: c.drive_folder_id,
+        existing: true,
+        webViewLink: existing.webViewLink || meta.webViewLink || null,
+      };
     }
-  } catch (e) {}
-  if (!clientFolder) {
-    clientFolder = await driveCreateFolder(token, clientLabel, yearFolderId);
   }
 
-  // Pas de sous-dossiers anticipés — créés uniquement à l'upload (resolveContactSubfolderId)
+  var tree;
+  try {
+    tree = await createContactFolderTree(token, rootId, c);
+  } catch (createErr) {
+    console.error("[drive-folders] create tree", createErr.message);
+    return { ok: false, error: createErr.message || "create_failed" };
+  }
 
   await sql`
-    UPDATE crm_contacts SET drive_folder_id = COALESCE(drive_folder_id, ${clientFolder.id}), updated_at = NOW()
+    UPDATE crm_contacts SET drive_folder_id = COALESCE(drive_folder_id, ${tree.folderId}), updated_at = NOW()
     WHERE id = ${contactId}
   `;
 
   if (token) {
-    await shareFolderWithBroker(token, clientFolder.id);
+    await shareFolderWithBroker(token, tree.folderId);
   }
 
-  var link = await resolveFolderWebLink(clientFolder.id, { share: false });
+  var link = await resolveFolderWebLink(tree.folderId, { share: false });
 
   return {
     ok: true,
-    folderId: clientFolder.id,
+    folderId: tree.folderId,
+    personFolderId: tree.personFolderId,
+    personFolderName: tree.personFolderName,
+    path: tree.path,
     subfolders: CLIENT_SUBFOLDERS,
     lazy: true,
-    webViewLink: link.webViewLink || clientFolder.webViewLink || null,
+    webViewLink: (link && link.webViewLink) || tree.webViewLink || null,
   };
 }
 
@@ -207,29 +346,15 @@ async function resolveContactUploadFolderId(contactId) {
     SELECT drive_folder_id FROM crm_contacts WHERE id = ${contactId} LIMIT 1
   `;
   if (rows.length && rows[0].drive_folder_id) {
+    /* Déclencher migration éventuelle (ancien libellé plat). */
+    const ensured = await ensureClientDriveFolders(contactId);
+    if (ensured.folderId) return ensured.folderId;
     return rows[0].drive_folder_id;
   }
 
   const ensured = await ensureClientDriveFolders(contactId);
   if (ensured.folderId) return ensured.folderId;
   return getRootFolderId();
-}
-
-async function findChildFolder(token, parentId, name) {
-  const q =
-    "mimeType='application/vnd.google-apps.folder' and name='" +
-    name.replace(/'/g, "\\'") +
-    "' and '" +
-    parentId +
-    "' in parents and trashed=false";
-  const resp = await fetch(
-    "https://www.googleapis.com/drive/v3/files?q=" + encodeURIComponent(q) + "&fields=files(id,name)&pageSize=1",
-    { headers: { Authorization: "Bearer " + token } }
-  );
-  const data = await resp.json();
-  if (data.files && data.files.length) return data.files[0].id;
-  const created = await driveCreateFolder(token, name, parentId);
-  return created.id;
 }
 
 async function resolveContactSubfolderId(contactId, subfolderName) {
@@ -240,7 +365,8 @@ async function resolveContactSubfolderId(contactId, subfolderName) {
   if (!token) return resolveContactUploadFolderId(contactId);
   const clientFolder = await resolveContactUploadFolderId(contactId);
   if (!clientFolder) return null;
-  return findChildFolder(token, clientFolder, subfolderName);
+  const found = await findChildFolder(token, clientFolder, subfolderName);
+  return found && found.id ? found.id : found;
 }
 
 async function resolveContactDocTypeFolderId(contactId, documentType) {
@@ -249,7 +375,8 @@ async function resolveContactDocTypeFolderId(contactId, documentType) {
   const clientFolder = await resolveContactUploadFolderId(contactId);
   if (!token || !clientFolder) return clientFolder;
   const typeName = safeDocTypeFolderName(documentType);
-  return findChildFolder(token, clientFolder, typeName);
+  const found = await findChildFolder(token, clientFolder, typeName);
+  return found && found.id ? found.id : found;
 }
 
 function subfolderForDocumentType(documentType) {
@@ -266,5 +393,8 @@ module.exports = {
   resolveContactDocTypeFolderId,
   safeFolderLabel,
   safeDocTypeFolderName,
+  buildContactPersonFolderName,
+  buildContactIdFolderName,
+  isOldFlatContactFolderName,
   subfolderForDocumentType,
 };

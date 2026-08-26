@@ -5,12 +5,21 @@ Le site cree automatiquement cette arborescence pour chaque **contact CRM** :
 ```
 Clients_LeadsOpportunities/          ← dossier racine (GOOGLE_DRIVE_FOLDER_ID)
   └── 2026/
-        └── ct_xxx_Dupont_Jean/
-              ├── 01_identite/
-              ├── 02_justificatifs_revenus/
-              ├── 03_contrats_existants/
-              ├── 04_vehicule_ou_bien/
-              └── 05_devis_signes/
+        └── Dupont_Jean/             ← Nom_Prenom (lisible)
+              └── ct_xxx/            ← identifiant CRM (technique)
+                    ├── 01_identite/
+                    ├── 02_justificatifs_revenus/
+                    ├── dpe/         ← ou type de pièce (checklist)
+                    └── …
+```
+
+`ct_…` = ID technique du contact dans le CRM (`crm_contacts.id`). Il n’apparaît plus
+en préfixe du dossier visible.
+
+Biens immobiliers (dépôt vendeur) :
+
+```
+Immo/2026/Dupont_Jean_Nancy/prop_xxxx/05_diagnostics/
 ```
 
 ---

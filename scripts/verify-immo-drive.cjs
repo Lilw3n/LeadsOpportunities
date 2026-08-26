@@ -78,8 +78,8 @@ assert(
     lastName: "Dupont",
     city: "Varangeville",
     surface_m2: 85,
-  }) === "Marie_Dupont_Varangeville_85m2",
-  "titre dossier = Prénom_Nom_Ville_m2"
+  }) === "Dupont_Marie_Varangeville_85m2",
+  "titre dossier = Nom_Prenom_Ville_m2"
 );
 assert(
   classify.buildPropIdFolderName({ id: "prop_eefbd6f48a349182" }) === "prop_eefbd6f48a349182",

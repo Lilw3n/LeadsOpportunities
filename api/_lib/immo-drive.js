@@ -31,13 +31,13 @@ function formatSurfaceLabel(surface) {
 }
 
 /**
- * Dossier visible : Prénom_Nom_Ville_85m2
+ * Dossier visible : Nom_Prenom_Ville_85m2 (identifiant prop_… en sous-dossier).
  */
 function buildProspectFolderName(property) {
   property = property || {};
   var parts = [
-    safeName(property.firstName || property.first_name || property.prenom, 20),
     safeName(property.lastName || property.last_name || property.nom, 24),
+    safeName(property.firstName || property.first_name || property.prenom, 20),
     safeName(property.city || property.postal_code || property.ville, 20),
     formatSurfaceLabel(property.surface_m2 || property.surface || property.surfaceM2),
   ].filter(Boolean);

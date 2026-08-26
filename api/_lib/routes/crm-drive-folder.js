@@ -107,10 +107,10 @@ module.exports = async (req, res) => {
 
     var folderId = contacts[0].drive_folder_id || null;
     var ensured = null;
-    if (!isValidDriveId(folderId)) {
-      ensured = await ensureClientDriveFolders(contactId);
-      if (ensured && ensured.folderId) folderId = ensured.folderId;
-    }
+    /* Toujours passer par ensure : crée l’arborescence Nom_Prenom/ct_xxx
+       et migre les anciens dossiers plats ct_xxx_Nom_Prenom_… */
+    ensured = await ensureClientDriveFolders(contactId);
+    if (ensured && ensured.folderId) folderId = ensured.folderId;
 
     if (!isValidDriveId(folderId)) {
       var setupUrl = "https://www.leadsopportunities.fr/test-drive.html";
@@ -136,6 +136,9 @@ module.exports = async (req, res) => {
       folderId: folderId,
       webViewLink: webViewLink,
       folderName: inspected.name || null,
+      personFolderName: (ensured && ensured.personFolderName) || null,
+      path: (ensured && ensured.path) || null,
+      migrated: !!(ensured && ensured.migrated),
       fileCount: inspected.fileCount,
       isEmpty: inspected.isEmpty,
       shared: true,
