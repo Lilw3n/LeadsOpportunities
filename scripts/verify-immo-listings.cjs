@@ -117,6 +117,10 @@ var media = Lib.sanitizeMedia([
 ]);
 assert(media.length === 2, "sanitizer : 2 médias sûrs (data jpeg + https)");
 assert(media[0].kind === "photo" && media[1].kind === "capture", "sanitizer : kinds photo/capture");
+assert(Lib.MAX_LISTING_PHOTOS === 40, "plafond 40 photos");
+var many = [];
+for (var i = 0; i < 45; i++) many.push({ url: tinyJpeg, kind: "photo" });
+assert(Lib.sanitizeMedia(many).length === 40, "sanitizer : 40 photos max");
 assert(!Lib.isSafeMediaUrl("javascript:alert(1)"), "refuse javascript:");
 assert(!Lib.isSafeMediaUrl("http://example.com/x.jpg"), "refuse http non-https");
 
@@ -184,6 +188,30 @@ assert(html.indexOf("id=\"listingLightbox\"") !== -1, "landing : lightbox photos
 assert(html.indexOf("data-listing-view") === -1 || html.indexOf("Voir photos") !== -1, "landing : bouton voir photos (JS)");
 assert(html.indexOf("acheteur-immo-search.js") !== -1, "script recherche chargé");
 assert(html.indexOf("immo-public-listings-lib.js") !== -1, "lib listings chargée");
+assert(html.indexOf("max 40") !== -1, "landing : jusqu'à 40 photos");
+assert(html.indexOf("immo-photo-thumbs.js") !== -1, "landing : réordonnancement photos");
+assert(html.indexOf("data-listing-photos-count") !== -1, "landing : compteur photos");
+
+var Thumbs = require("../js/immo-photo-thumbs.js");
+assert(Thumbs.MAX === 40, "thumbs : MAX 40");
+assert(
+  Thumbs.moveItem(["a", "b", "c"], 0, 2).join("") === "bca",
+  "thumbs : déplacer 1re photo en dernière"
+);
+assert(
+  Thumbs.moveItem(["a", "b", "c"], 2, 0).join("") === "cab",
+  "thumbs : déplacer dernière photo en 1re"
+);
+
+var listingUrl = read("js/acheteur-immo-listing-url.js");
+assert(listingUrl.indexOf("ImmoPhotoThumbs") !== -1, "dépôt : ordre des photos");
+assert(listingUrl.indexOf("MAX_PHOTOS") !== -1, "dépôt : plafond photos");
+
+var sellPhotos = read("js/acheteur-immo-sell-photos.js");
+assert(sellPhotos.indexOf("ImmoPhotoThumbs") !== -1, "dossier vente : ordre des photos");
+
+var submit = read("api/_lib/routes/public-immo-listing-submit.js");
+assert(submit.indexOf("14 * 1024 * 1024") !== -1, "submit listing : corps assez grand pour 40 photos");
 
 var qinit = read("landings/questionnaire-init.js");
 assert(

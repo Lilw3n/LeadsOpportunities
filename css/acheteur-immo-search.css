@@ -496,22 +496,34 @@ html[data-immo-hat="signalement"] [data-dossier-vendeur-only] {
 .listing-thumbs {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   margin: 10px 0 4px;
 }
 .listing-thumb {
   position: relative;
-  width: 88px;
-  height: 66px;
+  width: 104px;
+  height: 78px;
   border-radius: 8px;
   overflow: hidden;
   border: 1px solid #e2e8f0;
+  cursor: grab;
+  background: #f8fafc;
+}
+.listing-thumb.is-cover {
+  box-shadow: 0 0 0 2px #0d9488;
+}
+.listing-thumb.is-dragging {
+  opacity: 0.45;
+}
+.listing-thumb[data-photo-capture] {
+  cursor: default;
 }
 .listing-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  pointer-events: none;
 }
 .listing-thumb span {
   position: absolute;
@@ -525,7 +537,31 @@ html[data-immo-hat="signalement"] [data-dossier-vendeur-only] {
   border-radius: 4px;
   padding: 1px 5px;
 }
-.listing-thumb button {
+.listing-thumb-order {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  display: flex;
+  gap: 2px;
+}
+.listing-thumb-move {
+  width: 22px;
+  height: 22px;
+  border: 0;
+  border-radius: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+}
+.listing-thumb-move:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.listing-thumb-remove,
+.listing-thumb button.listing-thumb-remove {
   position: absolute;
   top: 2px;
   right: 2px;
@@ -538,6 +574,11 @@ html[data-immo-hat="signalement"] [data-dossier-vendeur-only] {
   cursor: pointer;
   font-size: 14px;
   line-height: 1;
+}
+.listing-photos-hint {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: #64748b;
 }
 .listing-preview-wrap {
   margin-top: 14px;

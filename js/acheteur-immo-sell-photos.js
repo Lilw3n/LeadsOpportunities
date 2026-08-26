@@ -5,17 +5,10 @@
 (function () {
   var Compress = window.ImmoPhotoCompress;
   if (!Compress) return;
+  var Thumbs = window.ImmoPhotoThumbs;
 
-  var MAX = 12;
+  var MAX = (Thumbs && Thumbs.MAX) || 40;
   var state = { photos: [] };
-
-  function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
 
   function mount(root) {
     if (!root || root.dataset.sellPhotosBound) return;
@@ -24,6 +17,7 @@
       '<div class="sell-photos-block">' +
       '<p class="search-section-label" style="margin:0">Photos du bien</p>' +
       '<p class="listing-media-hint">Façade, séjour, cuisine, chambres, jardin… Les fichiers sont sauvegardés sur Google Drive (<strong>01_photos_publiques</strong>) et dans votre dossier conseiller.</p>' +
+      '<p class="listing-photos-hint">Glissez les miniatures ou utilisez ‹ › pour changer l’ordre. La 1re photo est celle de l’annonce.</p>' +
       '<div class="grid">' +
       '<div class="field">' +
       '<label for="sellPhotosInput">Ajouter des photos (max ' +
@@ -32,40 +26,36 @@
       '<input id="sellPhotosInput" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple data-sell-photos-input />' +
       "</div></div>" +
       '<div class="listing-thumbs" data-sell-photos-thumbs></div>' +
+      '<p class="listing-photos-hint" data-sell-photos-count></p>' +
       '<p class="small" data-sell-photos-status hidden style="color:#047857;margin:8px 0 0"></p>' +
       "</div>";
 
     var input = root.querySelector("[data-sell-photos-input]");
     var thumbs = root.querySelector("[data-sell-photos-thumbs]");
+    var countEl = root.querySelector("[data-sell-photos-count]");
 
     function render() {
       if (!thumbs) return;
       thumbs.innerHTML = state.photos
         .map(function (p, i) {
-          return (
-            '<div class="listing-thumb">' +
-            '<img src="' +
-            esc(p.url) +
-            '" alt="Photo ' +
-            (i + 1) +
-            '" />' +
-            "<span>Photo " +
-            (i + 1) +
-            "</span>" +
-            '<button type="button" data-sell-photo-remove="' +
-            i +
-            '" aria-label="Retirer">×</button>' +
-            "</div>"
-          );
+          return Thumbs ? Thumbs.thumbHtml(p, i, state.photos.length, { cover: true }) : "";
         })
         .join("");
+      if (countEl) {
+        countEl.textContent = state.photos.length
+          ? state.photos.length + " / " + MAX + " — la 1re photo est la photo principale."
+          : "Aucune photo pour l’instant (jusqu’à " + MAX + ").";
+      }
     }
 
     if (input) {
       input.addEventListener("change", function () {
         var files = Array.prototype.slice.call(input.files || []);
         var room = MAX - state.photos.length;
-        if (room <= 0) return;
+        if (room <= 0) {
+          input.value = "";
+          return;
+        }
         Compress.compressMany(files.slice(0, room)).then(function (urls) {
           urls.filter(Boolean).forEach(function (url) {
             if (state.photos.length < MAX) state.photos.push({ url: url, kind: "photo" });
@@ -76,15 +66,20 @@
       });
     }
 
-    root.addEventListener("click", function (e) {
-      var btn = e.target.closest("[data-sell-photo-remove]");
-      if (!btn) return;
-      var idx = Number(btn.getAttribute("data-sell-photo-remove"));
-      state.photos = state.photos.filter(function (_, i) {
-        return i !== idx;
+    if (thumbs && Thumbs && Thumbs.bind) {
+      Thumbs.bind(thumbs, {
+        onMove: function (from, to) {
+          state.photos = Thumbs.moveItem(state.photos, from, to);
+          render();
+        },
+        onRemove: function (idx) {
+          state.photos = state.photos.filter(function (_, i) {
+            return i !== idx;
+          });
+          render();
+        },
       });
-      render();
-    });
+    }
 
     render();
   }
@@ -153,6 +148,8 @@
             }
             var thumbs = root.querySelector("[data-sell-photos-thumbs]");
             if (thumbs) thumbs.innerHTML = "";
+            var countEl = root.querySelector("[data-sell-photos-count]");
+            if (countEl) countEl.textContent = "Aucune photo pour l’instant (jusqu’à " + MAX + ").";
           });
         }
         return data;

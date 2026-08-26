@@ -88,6 +88,8 @@
     return false;
   }
 
+  var MAX_LISTING_PHOTOS = 40;
+
   function sanitizeMedia(list) {
     var arr = list;
     if (typeof list === "string") {
@@ -99,11 +101,19 @@
     }
     if (!Array.isArray(arr)) arr = [];
     var out = [];
+    var photoCount = 0;
+    var hasCapture = false;
     arr.forEach(function (item) {
-      if (out.length >= 5) return;
       var url = typeof item === "string" ? item : item && (item.url || item.src);
       var kind = item && item.kind === "capture" ? "capture" : "photo";
       if (!isSafeMediaUrl(url)) return;
+      if (kind === "capture") {
+        if (hasCapture) return;
+        hasCapture = true;
+      } else {
+        if (photoCount >= MAX_LISTING_PHOTOS) return;
+        photoCount += 1;
+      }
       out.push({ url: url, kind: kind });
     });
     return out;
@@ -239,6 +249,7 @@
   return {
     TYPE_LABELS: TYPE_LABELS,
     SENSITIVE_KEYS: SENSITIVE_KEYS,
+    MAX_LISTING_PHOTOS: MAX_LISTING_PHOTOS,
     toPublicListing: toPublicListing,
     sanitizeMedia: sanitizeMedia,
     isSafeMediaUrl: isSafeMediaUrl,

@@ -7,7 +7,7 @@
   var Lib = window.ImmoPublicListings;
   if (!Portals) return;
 
-  var MAX_PHOTOS = 4;
+  var MAX_PHOTOS = (window.ImmoPhotoThumbs && window.ImmoPhotoThumbs.MAX) || 40;
   var Compress = window.ImmoPhotoCompress;
 
   function compressFile(file) {
@@ -94,27 +94,31 @@
   function renderThumbs(root, state) {
     var mount = qs(root, "[data-listing-thumbs]");
     if (!mount) return;
-    var items = mediaList(state);
-    mount.innerHTML = items
+    var Thumbs = window.ImmoPhotoThumbs;
+    var photos = state.photos || [];
+    var html = photos
       .map(function (m, i) {
-        var label = m.kind === "capture" ? "Capture" : "Photo";
-        return (
-          '<div class="listing-thumb">' +
-          '<img src="' +
-          esc(m.url) +
-          '" alt="' +
-          label +
-          '" />' +
-          "<span>" +
-          label +
-          "</span>" +
-          '<button type="button" data-remove-media="' +
-          i +
-          '" aria-label="Retirer">×</button>' +
-          "</div>"
-        );
+        return Thumbs
+          ? Thumbs.thumbHtml(m, i, photos.length, { cover: true })
+          : "";
       })
       .join("");
+    if (state.capture) {
+      html += Thumbs
+        ? Thumbs.thumbHtml(state.capture, photos.length, photos.length, { cover: false })
+        : "";
+    }
+    mount.innerHTML = html;
+    var count = qs(root, "[data-listing-photos-count]");
+    if (count) {
+      count.textContent =
+        photos.length +
+        " / " +
+        MAX_PHOTOS +
+        " photo" +
+        (photos.length > 1 ? "s" : "") +
+        (photos.length ? " — la 1re est la photo principale de l’annonce." : "");
+    }
   }
 
   function radioVal(scope, name) {
@@ -357,14 +361,16 @@
 
     if (photosInput) {
       photosInput.addEventListener("change", function () {
-        var files = Array.prototype.slice.call(photosInput.files || []).slice(0, MAX_PHOTOS);
+        var room = MAX_PHOTOS - state.photos.length;
+        if (room <= 0) {
+          photosInput.value = "";
+          return;
+        }
+        var files = Array.prototype.slice.call(photosInput.files || []).slice(0, room);
         Promise.all(files.map(compressFile)).then(function (urls) {
-          state.photos = urls
-            .filter(Boolean)
-            .slice(0, MAX_PHOTOS)
-            .map(function (url) {
-              return { url: url, kind: "photo" };
-            });
+          urls.filter(Boolean).forEach(function (url) {
+            if (state.photos.length < MAX_PHOTOS) state.photos.push({ url: url, kind: "photo" });
+          });
           refreshMedia();
           photosInput.value = "";
         });
@@ -402,21 +408,25 @@
       });
     });
 
-    root.addEventListener("click", function (e) {
-      var btn = e.target.closest("[data-remove-media]");
-      if (!btn) return;
-      var idx = Number(btn.getAttribute("data-remove-media"));
-      var list = mediaList(state);
-      var item = list[idx];
-      if (!item) return;
-      if (item.kind === "capture") state.capture = null;
-      else {
-        state.photos = state.photos.filter(function (p) {
-          return p.url !== item.url;
-        });
-      }
-      refreshMedia();
-    });
+    var thumbsMount = qs(root, "[data-listing-thumbs]");
+    if (thumbsMount && window.ImmoPhotoThumbs && window.ImmoPhotoThumbs.bind) {
+      window.ImmoPhotoThumbs.bind(thumbsMount, {
+        onMove: function (from, to) {
+          state.photos = window.ImmoPhotoThumbs.moveItem(state.photos, from, to);
+          refreshMedia();
+        },
+        onRemove: function (idx) {
+          state.photos = state.photos.filter(function (_, i) {
+            return i !== idx;
+          });
+          refreshMedia();
+        },
+        onRemoveCapture: function () {
+          state.capture = null;
+          refreshMedia();
+        },
+      });
+    }
 
     refreshMedia();
     if (!form) return;
