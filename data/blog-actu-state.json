@@ -1,10 +1,14 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-26T15:57:45.470Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/international/mayotte-paris-veut-conditionner-l-aide-au-developpement-pour-freiner-l-immigration-clandestine-20260826",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a8f0cf9ebf3433e88855534c5a7f089&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2factualite%2fother%2fcoupe-du-monde-f%25C3%25A9minine-de-basket-pourquoi-l%25C3%25A9quipe-de-france-doit-se-pr%25C3%25A9parer-sans-ses-stars-wnba%2far-AA2aXIqL&c=16586302496493657105&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5",
+    "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQZkRwamxDM2ZkUVAwSU00endHZFNxcE9xUGM2b1FJTVo3RXJoNEtudHZwUlg0VFI4TUZ0MnpuaVgxVkhEVng0eHZnMlJ2ZGlfQXdoX05jSUJVczVHVC1oNFowQUozaC13bk1zMkhTWW93eEdqOUd5cW5TUWNZbXI2aU1mN0wtcUFRZGFzdG5KLWpzWkdhODlsTm9jelV6dnJlcFFIT1Z6MkJLOFJmZGd1TlBjWXl6N0hfeHFZRjNYQ0VWZWk5ek96Sg?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-26T15:57:47.004Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +21,33 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-26T15:56:54.439Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "mayotte-paris-veut-conditionner-l-aide-au-developpement-pour-freiner-l-i.html",
+          "title": "Mayotte : Paris veut conditionner l'aide au développement pour freiner l'immigration cl… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-26T15:57:47.004Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "coupe-du-monde-feminine-de-basket-pourquoi-l-equipe-de-france-doit-se-pr.html",
+          "title": "Coupe du monde féminine de basket : pourquoi l'équipe de France doit se préparer sans s… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 2
 }
