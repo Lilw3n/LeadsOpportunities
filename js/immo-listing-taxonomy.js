@@ -43,6 +43,31 @@
     "Procédure en cours",
   ];
 
+  /** Couverture / toiture — fiche EXTÉRIEUR (maison, immeuble). Pas pour un terrain nu. */
+  var ROOFING = [
+    "Ardoises",
+    "Ardoises & Fibrociment",
+    "Ardoises Mixtes",
+    "Ardoises Naturelles",
+    "Ardoises synthétiques",
+    "Autre",
+    "Bac acier",
+    "Chaumes",
+    "Colombages",
+    "Cuivre",
+    "Eternite",
+    "Fibrociment",
+    "Lauze",
+    "Shingle",
+    "Terrasse",
+    "Tôle",
+    "Tuile Alsacienne",
+    "Tuiles",
+    "Tuiles de bavent",
+    "Tuiles Mécaniques",
+    "Zinc",
+  ];
+
   var ENVIRONMENTS = [
     { v: "", t: "— Choisir —" },
     { v: "bois", t: "bois" },
@@ -401,6 +426,7 @@
     PROPERTY_SUBTYPES: PROPERTY_SUBTYPES,
     COPRO_STATUS: COPRO_STATUS,
     COPRO_PROCEDURES: COPRO_PROCEDURES,
+    ROOFING: ROOFING,
     ENVIRONMENTS: ENVIRONMENTS,
     COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
     GENERAL_CONDITIONS: GENERAL_CONDITIONS,

@@ -15,12 +15,29 @@
     el.innerHTML = html;
   }
 
+  function fillLabelSelect(el, labels, placeholder) {
+    if (!el) return;
+    var html = '<option value="">' + (placeholder || "Non renseigné") + "</option>";
+    (labels || []).forEach(function (label) {
+      html +=
+        "<option>" +
+        String(label)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;") +
+        "</option>";
+    });
+    el.innerHTML = html;
+  }
+
   function initSelects(root) {
     var tax = T();
     if (!tax) return;
     fillSelect(qs("#sellListingType", root), tax.optionsHtml(tax.LISTING_TYPES, "— Choisir —"));
     fillSelect(qs("#sellPropertyCategory", root), tax.optionsHtml(tax.PROPERTY_CATEGORIES, "— Choisir —"));
     fillSelect(qs("#sellCoproStatus", root), tax.optionsHtml(tax.COPRO_STATUS, null));
+    fillLabelSelect(qs("#sellRoofing", root), tax.ROOFING, "Non renseigné");
+    fillSelect(qs("#sellRoofingState", root), tax.optionsHtml(tax.GENERAL_CONDITIONS, null));
+    fillSelect(qs("#sellExteriorState", root), tax.optionsHtml(tax.GENERAL_CONDITIONS, null));
     rebuildSubtype(root, "");
     rebuildCommercialActivity(root, "");
     rebuildEnvironment(root, "");

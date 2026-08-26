@@ -80,6 +80,10 @@ assert(tax.indexOf("mandataire ad hoc") >= 0, "procédure mandataire ad hoc");
 assert(html.indexOf('name="sellCoproProcedureKind[]"') >= 0, "chips procédures copro");
 assert(html.indexOf("Dont lots d'habitation") >= 0, "lots d'habitation");
 assert(qi.indexOf("sellCoproProcedureKind[]") >= 0, "autosave procédures copro");
+assert(tax.indexOf("Tuiles Mécaniques") >= 0 && tax.indexOf("Zinc") >= 0, "couverture Tuiles Mécaniques / Zinc");
+assert(html.indexOf('id="sellRoofing"') >= 0, "champ Couverture");
+assert(html.indexOf("sellRoofingNote") >= 0, "commentaire couverture si Autre / doute");
+assert(html.indexOf("Extérieur — toiture") >= 0, "bloc extérieur distinct (pas terrain)");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

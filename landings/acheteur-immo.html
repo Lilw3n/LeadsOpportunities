@@ -1019,6 +1019,32 @@
                     <div class="field"><label for="sellStanding">Standing</label><input id="sellStanding" name="sellStanding" data-optional /></div>
                     <div class="field"><label for="sellConstructionType">Type construction</label><input id="sellConstructionType" name="sellConstructionType" data-optional /></div>
                     <div class="field"><label for="sellBuildYear">Année construction</label><input id="sellBuildYear" name="sellBuildYear" inputmode="numeric" data-optional /></div>
+                    <div class="field full">
+                      <label class="field-check"><input type="checkbox" name="sellGarden" value="1" data-optional /> Jardin</label>
+                    </div>
+                    <p class="search-section-label full" style="margin:8px 0 0">Extérieur — toiture &amp; enveloppe</p>
+                    <p class="small full" style="margin:0 0 8px;color:#64748b">Liste agence pour la couverture. Si vous n'êtes pas sûr, laissez « Non renseigné » et précisez en commentaire.</p>
+                    <div class="field"><label for="sellRoofing">Couverture</label>
+                      <select id="sellRoofing" name="sellRoofing" data-optional></select>
+                    </div>
+                    <div class="field"><label for="sellRoofingNote">Couverture — commentaire</label><input id="sellRoofingNote" name="sellRoofingNote" data-optional placeholder="Autre, mixte, doute…" /></div>
+                    <div class="field"><label for="sellRoofingState">État couverture</label>
+                      <select id="sellRoofingState" name="sellRoofingState" data-optional></select>
+                    </div>
+                    <div class="field"><label for="sellNewOrOld">Neuf / ancien</label>
+                      <select id="sellNewOrOld" name="sellNewOrOld" data-optional>
+                        <option value="">Non renseigné</option>
+                        <option>Neuf</option>
+                        <option>Ancien</option>
+                      </select>
+                    </div>
+                    <div class="field"><label for="sellExteriorState">État extérieur</label>
+                      <select id="sellExteriorState" name="sellExteriorState" data-optional></select>
+                    </div>
+                    <div class="field"><label for="sellStyle">Style</label><input id="sellStyle" name="sellStyle" data-optional placeholder="Non renseigné" /></div>
+                    <div class="field"><label for="sellWindows">Fenêtres</label><input id="sellWindows" name="sellWindows" data-optional placeholder="PVC, bois, double vitrage…" /></div>
+                    <div class="field"><label for="sellShutters">Volets</label><input id="sellShutters" name="sellShutters" data-optional placeholder="Roulants, battants…" /></div>
+                    <div class="field"><label for="sellInsulation">Isolation</label><input id="sellInsulation" name="sellInsulation" data-optional placeholder="Combles, extérieure…" /></div>
                     <div class="field"><label for="sellBuildingFloors">Nb. étages immeuble</label><input id="sellBuildingFloors" name="sellBuildingFloors" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellBuildingState">État immeuble</label>
                       <select id="sellBuildingState" name="sellBuildingState" data-optional>
@@ -2224,8 +2250,8 @@
   <script src="../js/print-document-lib.js"></script>
   <script src="../js/acheteur-immo-fill-mode.js"></script>
   <script src="../js/acheteur-immo-print.js?v=20260826rooms2"></script>
-  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms6"></script>
-  <script src="../js/acheteur-immo-listing-fields.js"></script>
+  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms7"></script>
+  <script src="../js/acheteur-immo-listing-fields.js?v=20260826rooms7"></script>
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/immo-room-catalog.js?v=20260826rooms5"></script>
   <script src="../js/acheteur-immo-rooms.js?v=20260826rooms5"></script>
