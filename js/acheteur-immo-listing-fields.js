@@ -36,8 +36,13 @@
     fillSelect(qs("#sellPropertyCategory", root), tax.optionsHtml(tax.PROPERTY_CATEGORIES, "— Choisir —"));
     fillSelect(qs("#sellCoproStatus", root), tax.optionsHtml(tax.COPRO_STATUS, null));
     fillLabelSelect(qs("#sellRoofing", root), tax.ROOFING, "Non renseigné");
-    fillSelect(qs("#sellRoofingState", root), tax.optionsHtml(tax.GENERAL_CONDITIONS, null));
-    fillSelect(qs("#sellExteriorState", root), tax.optionsHtml(tax.GENERAL_CONDITIONS, null));
+    fillLabelSelect(qs("#sellNewOrOld", root), tax.NEW_OR_OLD, "Non renseigné");
+    fillLabelSelect(qs("#sellStanding", root), tax.STANDING, "Non renseigné");
+    fillLabelSelect(qs("#sellExteriorGeneralState", root), tax.EXTERIOR_GENERAL_STATE, "Non renseigné");
+    fillLabelSelect(qs("#sellExteriorState", root), tax.EXTERIOR_STATE, "Non renseigné");
+    fillLabelSelect(qs("#sellCommonState", root), tax.COMMON_AREA_STATE, "Non renseigné");
+    fillLabelSelect(qs("#sellConstructionType", root), tax.CONSTRUCTION, "Non renseigné");
+    fillLabelSelect(qs("#sellStyle", root), tax.ARCHITECTURAL_STYLE, "Non renseigné");
     rebuildSubtype(root, "");
     rebuildCommercialActivity(root, "");
     rebuildEnvironment(root, "");

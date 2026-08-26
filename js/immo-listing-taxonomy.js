@@ -68,6 +68,167 @@
     "Zinc",
   ];
 
+  function uniqLabels(list, sortFr) {
+    var seen = Object.create(null);
+    var out = [];
+    (list || []).forEach(function (s) {
+      var k = String(s || "").trim();
+      if (!k || seen[k]) return;
+      seen[k] = 1;
+      out.push(k);
+    });
+    if (sortFr) {
+      out.sort(function (a, b) {
+        return a.localeCompare(b, "fr", { numeric: true, sensitivity: "base" });
+      });
+    }
+    return out;
+  }
+
+  /** EXTÉRIEUR — âge du bien (pas le style architectural). */
+  var NEW_OR_OLD = ["Ancien", "Neuf", "Récent"];
+
+  /** EXTÉRIEUR — standing (qualité perçue). */
+  var STANDING = ["Bon", "Grand standing", "Moyen", "Normal"];
+
+  /** EXTÉRIEUR — état général du bien (liste distincte de l'état extérieur). */
+  var EXTERIOR_GENERAL_STATE = [
+    "A Rafraîchir",
+    "Bon Etat",
+    "Excellent",
+    "Habitable",
+    "Mauvais",
+    "Moyen",
+    "Travaux à prévoir",
+    "Très bon état",
+  ];
+
+  /** EXTÉRIEUR — état des façades / enveloppe. */
+  var EXTERIOR_STATE = [
+    "A rafraîchir",
+    "A réhabiliter",
+    "A rénover",
+    "Bon",
+    "Excellent",
+    "Mauvais",
+    "Moyen",
+    "Somptueux",
+    "Travaux à prévoir",
+    "Très bon",
+  ];
+
+  /** EXTÉRIEUR / immeuble — parties communes (copro). */
+  var COMMON_AREA_STATE = ["Bon", "Excellent", "Mauvais", "Moyen", "Très bon"];
+
+  /** EXTÉRIEUR — matériau de construction (pas le style, pas la toiture). */
+  var CONSTRUCTION = uniqLabels(
+    [
+      "Bardage",
+      "Béton",
+      "Béton cellulaire",
+      "Bio-brique",
+      "Bois",
+      "Bois + Brique",
+      "Brique",
+      "Colombages",
+      "Crépis",
+      "Enduit",
+      "Granit",
+      "Mâchefer",
+      "Marbre",
+      "Meulière",
+      "Monobloc",
+      "Mosaïque",
+      "Ossature bois",
+      "Ossature métallique",
+      "Parpaing",
+      "Parpaing + Brique",
+      "Pierre",
+      "Pierre de Paris",
+      "Pierre de taille",
+      "Pierre et brique",
+      "Pierre et Parpaing",
+      "Pierre et terre",
+      "Préfabriqué",
+      "Terre",
+      "Torchis",
+      "Travertin",
+    ],
+    true
+  );
+
+  /** EXTÉRIEUR — style architectural (pas le matériau). */
+  var ARCHITECTURAL_STYLE = uniqLabels(
+    [
+      "Ancien",
+      "Ancienne ferme",
+      "Anglo-normand",
+      "Années 20",
+      "Années 2000",
+      "Années 30",
+      "Années 50",
+      "Années 60",
+      "Années 70",
+      "Années 80",
+      "Années 90",
+      "Arcachonnaise",
+      "Architecte",
+      "Baroque portugais",
+      "Bel-étage",
+      "Bourgeois",
+      "Briques",
+      "Cabanon",
+      "Charentaise",
+      "Château",
+      "Chaumière",
+      "Colombage",
+      "Colonial",
+      "Contemporain",
+      "Corps de ferme",
+      "Duplex",
+      "Echoppe",
+      "Fermette",
+      "Grange",
+      "Hacienda",
+      "Haussmannien",
+      "Landaise",
+      "Logis",
+      "Longère",
+      "Lotissement",
+      "Maison Basque",
+      "Maison Briarde",
+      "Maison de maître",
+      "Maison de pays",
+      "Maison de ville",
+      "Maison plain pied",
+      "Maison semi plain-pied",
+      "Manoir",
+      "Mas",
+      "Merjoyante",
+      "Moderne",
+      "Neo colonial",
+      "Néo-Breton",
+      "Néo-Provençal",
+      "Neuf",
+      "Normande",
+      "Palais",
+      "Pavillon",
+      "Presbytère",
+      "Propriété de campagne",
+      "Provençal",
+      "Résidentiel",
+      "Ruines",
+      "Traditionnel",
+      "Triplex",
+      "Troglodyte",
+      "Victorien",
+      "XIX",
+      "XVII",
+      "XVIII",
+    ],
+    true
+  );
+
   var ENVIRONMENTS = [
     { v: "", t: "— Choisir —" },
     { v: "bois", t: "bois" },
@@ -427,6 +588,13 @@
     COPRO_STATUS: COPRO_STATUS,
     COPRO_PROCEDURES: COPRO_PROCEDURES,
     ROOFING: ROOFING,
+    NEW_OR_OLD: NEW_OR_OLD,
+    STANDING: STANDING,
+    EXTERIOR_GENERAL_STATE: EXTERIOR_GENERAL_STATE,
+    EXTERIOR_STATE: EXTERIOR_STATE,
+    COMMON_AREA_STATE: COMMON_AREA_STATE,
+    CONSTRUCTION: CONSTRUCTION,
+    ARCHITECTURAL_STYLE: ARCHITECTURAL_STYLE,
     ENVIRONMENTS: ENVIRONMENTS,
     COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
     GENERAL_CONDITIONS: GENERAL_CONDITIONS,

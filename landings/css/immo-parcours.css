@@ -312,6 +312,12 @@ a.immo-parcours-link:hover {
   font-weight: 400;
 }
 
+.immo-list-or-note .immo-field-note {
+  margin-top: 6px;
+  width: 100%;
+  font-size: 0.82rem;
+}
+
 .immo-crm-alert {
   position: relative;
   margin: 0 0 12px;

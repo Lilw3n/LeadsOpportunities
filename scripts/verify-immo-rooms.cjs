@@ -44,7 +44,7 @@ assert(html.indexOf(">Niveau</th>") >= 0 && html.indexOf(">Nom</th>") >= 0, "col
 assert(html.indexOf(">Sol</th>") >= 0 && html.indexOf(">Commentaires</th>") >= 0, "colonnes Sol / Commentaires");
 assert(html.indexOf("immo-room-catalog.js?v=20260826rooms5") >= 0, "catalogue pièces chargé");
 assert(html.indexOf("acheteur-immo-rooms.js?v=20260826rooms5") >= 0, "cache-bust JS pièces");
-assert(html.indexOf("immo-parcours.css?v=20260826rooms4") >= 0, "cache-bust CSS");
+assert(html.indexOf("immo-parcours.css?v=20260826rooms8") >= 0, "cache-bust CSS");
 
 var css = read("landings/css/immo-parcours.css");
 assert(css.indexOf(".immo-room-handle") >= 0, "style poignée");
@@ -83,7 +83,14 @@ assert(qi.indexOf("sellCoproProcedureKind[]") >= 0, "autosave procédures copro"
 assert(tax.indexOf("Tuiles Mécaniques") >= 0 && tax.indexOf("Zinc") >= 0, "couverture Tuiles Mécaniques / Zinc");
 assert(html.indexOf('id="sellRoofing"') >= 0, "champ Couverture");
 assert(html.indexOf("sellRoofingNote") >= 0, "commentaire couverture si Autre / doute");
-assert(html.indexOf("Extérieur — toiture") >= 0, "bloc extérieur distinct (pas terrain)");
+assert(html.indexOf("Extérieur du bâtiment") >= 0, "bloc extérieur distinct (pas terrain)");
+assert(html.indexOf("Terrain / parcelle") >= 0, "terrain séparé de l'enveloppe");
+assert(html.indexOf("immo-field-note") >= 0, "commentaire sous chaque liste");
+assert(tax.indexOf("Grand standing") >= 0, "standing Grand standing");
+assert(tax.indexOf("Somptueux") >= 0, "état extérieur Somptueux");
+assert(tax.indexOf("Haussmannien") >= 0, "style Haussmannien");
+assert((tax.match(/"Ossature bois"/g) || []).length === 1, "construction sans doublon Ossature bois");
+assert(html.indexOf('id="sellWindows"') >= 0 && html.indexOf("<select id=\"sellWindows\"") === -1, "fenêtres = saisie libre (pas de liste)");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
