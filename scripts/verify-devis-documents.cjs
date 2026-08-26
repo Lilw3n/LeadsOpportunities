@@ -47,11 +47,41 @@ checks.forEach(function (c) {
 });
 
 var sante = DC.getConfig("sante");
-if (sante.extraFields && sante.extraFields.some(function (f) { return f.name === "numero_secu"; })) {
-  console.log("[OK] sante extraFields numero_secu");
-} else {
+if (!sante.extraFields || !sante.extraFields.some(function (f) { return f.name === "numero_secu"; })) {
   console.error("[FAIL] sante numero_secu");
   ok = false;
+} else {
+  console.log("[OK] sante extraFields numero_secu");
+}
+
+var uploadJs = fs.readFileSync(path.join(__dirname, "../js/devis-document-upload.js"), "utf8");
+if (uploadJs.indexOf("hasIdentity") === -1 || uploadJs.indexOf("firstName") === -1) {
+  console.error("[FAIL] devis-document-upload n’envoie pas dès nom+prénom");
+  ok = false;
+} else {
+  console.log("[OK] envoi Drive dès nom+prénom");
+}
+if (uploadJs.indexOf("devis-doc-error-msg") === -1) {
+  console.error("[FAIL] message d’erreur upload non affiché");
+  ok = false;
+} else {
+  console.log("[OK] motif d’erreur affiché sous la pastille");
+}
+
+var api = fs.readFileSync(path.join(__dirname, "../api/_lib/routes/external-upload.js"), "utf8");
+if (api.indexOf("hasName") === -1 || api.indexOf("nom+prénom") === -1) {
+  console.error("[FAIL] API upload n’accepte pas nom+prénom");
+  ok = false;
+} else {
+  console.log("[OK] API /external/upload accepte nom+prénom");
+}
+
+var ingest = fs.readFileSync(path.join(__dirname, "../api/_lib/crm-ingest-from-lead.js"), "utf8");
+if (ingest.indexOf("firstNameEarly") === -1) {
+  console.error("[FAIL] ensureContactLinked sans création par nom+prénom");
+  ok = false;
+} else {
+  console.log("[OK] ensureContactLinked crée un contact avec nom+prénom");
 }
 
 process.exit(ok ? 0 : 1);

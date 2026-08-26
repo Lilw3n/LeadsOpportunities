@@ -42,7 +42,7 @@
     this.need = options.need || "default";
     this.queue = [];
     this.uploaded = [];
-    this.session = { email: null, contactId: null, leadId: null };
+    this.session = { email: null, phone: null, contactId: null, leadId: null, firstName: null, lastName: null };
     this.config = global.DEVIS_DOCUMENT_CONFIG
       ? global.DEVIS_DOCUMENT_CONFIG.getConfig(this.need)
       : { title: "Pièces justificatives", intro: "", items: [] };
@@ -54,6 +54,18 @@
     var drop = this.root.querySelector("[data-docs-drop]");
     var input = this.root.querySelector("[data-docs-input]");
     var typeSel = this.root.querySelector("[data-docs-type]");
+
+    var form = this.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form]");
+    if (form && !form._devisDocsIdentityBound) {
+      form._devisDocsIdentityBound = true;
+      form.addEventListener("input", function (e) {
+        var n = e.target && e.target.name;
+        if (!n) return;
+        if (/^(email|phone|telephone|firstName|lastName|prenom|nom)$/.test(n)) {
+          self.scheduleImmediateUpload();
+        }
+      });
+    }
 
     if (drop && input) {
       drop.addEventListener("click", function () {
@@ -105,17 +117,37 @@
     this.scheduleImmediateUpload();
   };
 
+  DevisDocumentUpload.prototype._formValue = function (form, names) {
+    if (!form) return "";
+    for (var i = 0; i < names.length; i++) {
+      var el = form.querySelector("[name='" + names[i] + "']");
+      if (el && String(el.value || "").trim()) return String(el.value).trim();
+    }
+    return "";
+  };
+
+  DevisDocumentUpload.prototype.hasIdentity = function () {
+    var s = this.session || {};
+    return !!(s.email || s.phone || s.contactId || s.leadId || (s.firstName && s.lastName));
+  };
+
   DevisDocumentUpload.prototype.syncSessionFromForm = function () {
     var form = this.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form]");
     if (form) {
-      var em = form.querySelector("[name='email']");
-      var ph = form.querySelector("[name='phone']");
-      if (em && String(em.value || "").trim()) this.session.email = String(em.value).trim().toLowerCase();
-      if (ph && String(ph.value || "").trim()) this.session.phone = String(ph.value).trim();
+      var email = this._formValue(form, ["email"]);
+      var phone = this._formValue(form, ["phone", "telephone"]);
+      var firstName = this._formValue(form, ["firstName", "prenom"]);
+      var lastName = this._formValue(form, ["lastName", "nom"]);
+      if (email) this.session.email = email.toLowerCase();
+      if (phone) this.session.phone = phone;
+      if (firstName) this.session.firstName = firstName;
+      if (lastName) this.session.lastName = lastName;
     }
     try {
       var leadId = localStorage.getItem("lo_draft_lead_id") || localStorage.getItem("lo_immo_deposit_lead_id");
       if (leadId) this.session.leadId = leadId;
+      var contactId = localStorage.getItem("lo_draft_contact_id");
+      if (contactId && !this.session.contactId) this.session.contactId = contactId;
     } catch (e) {}
     return this.session;
   };
@@ -125,11 +157,12 @@
     clearTimeout(self._uploadTimer);
     self._uploadTimer = setTimeout(function () {
       self.syncSessionFromForm();
-      if (!self.session.email && !self.session.contactId && !self.session.leadId && !self.session.phone) {
+      if (!self.hasIdentity()) {
         var st = self.root.querySelector("[data-docs-status]");
         if (st) {
           st.hidden = false;
-          st.textContent = "Ajoutez un e-mail ou téléphone pour envoyer immédiatement vers Drive.";
+          st.style.color = "#64748b";
+          st.textContent = "Renseignez nom et prénom (ou un e-mail / téléphone) pour envoyer immédiatement vers Drive.";
         }
         return;
       }
@@ -140,19 +173,23 @@
   };
 
   DevisDocumentUpload.prototype.setSession = function (session) {
+    session = session || {};
     this.session.email = session.email || this.session.email;
+    this.session.phone = session.phone || this.session.phone;
     this.session.contactId = session.contactId || this.session.contactId;
     this.session.leadId = session.leadId || this.session.leadId;
+    this.session.firstName = session.firstName || this.session.firstName;
+    this.session.lastName = session.lastName || this.session.lastName;
   };
 
   DevisDocumentUpload.prototype.uploadQueued = function () {
     var self = this;
     this.syncSessionFromForm();
     if (!this.queue.length) return Promise.resolve({ uploaded: [], errors: [] });
-    if (!this.session.email && !this.session.contactId && !this.session.leadId && !this.session.phone) {
+    if (!this.hasIdentity()) {
       return Promise.resolve({
         uploaded: [],
-        errors: [{ error: "email, téléphone, contactId ou leadId manquant" }],
+        errors: [{ error: "nom+prénom, e-mail, téléphone, contactId ou leadId manquant" }],
       });
     }
     var pending = this.queue.filter(function (q) {
@@ -168,9 +205,11 @@
               method: "POST",
               headers: { "Content-Type": "application/json" },
               credentials: "same-origin",
-              body: JSON.stringify({
+                body: JSON.stringify({
                 email: self.session.email,
                 phone: self.session.phone || null,
+                firstName: self.session.firstName || null,
+                lastName: self.session.lastName || null,
                 contactId: self.session.contactId,
                 leadId: self.session.leadId,
                 fileName: item.fileName,
@@ -185,20 +224,37 @@
             });
           })
           .then(function (r) {
-            return r.json().then(function (data) {
-              if (!r.ok || !data.ok) throw new Error((data && data.error) || "Upload echoue");
+            return r.text().then(function (text) {
+              var data = {};
+              try {
+                data = text ? JSON.parse(text) : {};
+              } catch (e) {
+                throw new Error("Réponse serveur invalide (" + r.status + ")");
+              }
+              if (!r.ok || !data.ok) throw new Error((data && data.error) || "Upload échoué (" + r.status + ")");
               return data;
             });
           })
           .then(function (data) {
             item.status = "done";
             item.result = data;
-            if (data.contactId) self.session.contactId = data.contactId;
+            if (data.contactId) {
+              self.session.contactId = data.contactId;
+              try {
+                localStorage.setItem("lo_draft_contact_id", data.contactId);
+              } catch (e) {}
+            }
             self.uploaded.push(item);
             acc.uploaded.push(item);
             self.queue = self.queue.filter(function (q) {
               return q.id !== item.id;
             });
+            var okSt = self.root.querySelector("[data-docs-status]");
+            if (okSt) {
+              okSt.hidden = false;
+              okSt.style.color = "#047857";
+              okSt.textContent = "Envoyé vers Drive.";
+            }
             self.renderQueue();
             return acc;
           })
@@ -206,6 +262,12 @@
             item.status = "error";
             item.error = err.message || "Erreur";
             acc.errors.push({ item: item, error: item.error });
+            var errSt = self.root.querySelector("[data-docs-status]");
+            if (errSt) {
+              errSt.hidden = false;
+              errSt.style.color = "#b91c1c";
+              errSt.textContent = "Échec Drive : " + item.error;
+            }
             self.renderQueue();
             return acc;
           });
@@ -235,7 +297,11 @@
           esc(q.fileName) +
           "</strong><span>" +
           esc(q.documentType) +
-          "</span></div>" +
+          "</span>" +
+          (q.status === "error" && q.error
+            ? '<span class="devis-doc-error-msg">' + esc(q.error) + "</span>"
+            : "") +
+          "</div>" +
           '<span class="devis-doc-status devis-doc-status--' +
           esc(q.status) +
           '">' +
@@ -382,7 +448,7 @@
       '" hidden />' +
       "</div>" +
       '<div data-docs-queue class="devis-docs-queue"></div>' +
-      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Envoi immédiat vers Drive dès qu’un e-mail ou téléphone est renseigné.</p>' +
+      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Envoi immédiat vers Drive dès que nom et prénom (ou un e-mail / téléphone) sont renseignés.</p>' +
       '<div data-docs-visual-panel hidden style="margin-top:14px"><div data-docs-visual-grid></div></div>' +
       "</div></section>"
     );

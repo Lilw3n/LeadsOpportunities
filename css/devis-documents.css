@@ -102,6 +102,16 @@
   color: #64748b;
 }
 
+.devis-doc-error-msg {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem !important;
+  font-weight: 600;
+  color: #b91c1c !important;
+  white-space: normal;
+  line-height: 1.3;
+}
+
 .devis-doc-status {
   font-size: 0.75rem;
   font-weight: 700;
