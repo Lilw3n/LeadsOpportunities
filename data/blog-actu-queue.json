@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.864Z",
+  "updated": "2026-08-26T16:22:27.553Z",
   "items": [
     {
       "id": "edge-world-cup-iran-2026",
@@ -34,8 +34,17 @@
       "url": "",
       "source": "cafeyn",
       "note": "Angle assurance a preciser",
-      "status": "pending",
+      "status": "template",
       "addedAt": "2026-06-17T08:00:00.000Z"
+    },
+    {
+      "id": "edge-osteo-mutuelle-2026",
+      "title": "Ostéopathie : quel remboursement avec sa mutuelle en 2026 ?",
+      "url": "https://www.leparisien.fr/guide-shopping/osteopathie-quel-remboursement-avec-sa-mutuelle-en-2026-11-07-2026-SOXITKD4ZVELLGZHBC3AJ4ZCUU.php",
+      "source": "edge",
+      "note": "Séance 40-80 € non remboursée Sécu — mutuelle complémentaire, CTA questionnaire santé",
+      "status": "published",
+      "addedAt": "2026-08-26T16:25:00.000Z"
     }
   ]
 }
