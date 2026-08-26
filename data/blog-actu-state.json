@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-26T16:14:38.752Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/sports/basket/basket-wembanyama-a-cette-volonte-feroce-de-faire-quelque-chose-de-grand-avec-l-equipe-de-france-jure-fauthoux-20260826",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a8f10ee559844d4b844f279fca891ca&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2factualite%2fother%2fcoupe-du-monde-f%25C3%25A9minine-de-basket-pourquoi-l%25C3%25A9quipe-de-france-doit-se-pr%25C3%25A9parer-sans-ses-stars-wnba%2far-AA2aXIqL&c=16586302496493657105&mkt=en-us",
+    "https://www.franceinfo.fr/environnement/evenements-meteorologiques-extremes/orages/vent-pluie-grele-foudre-quels-sont-les-effets-du-rechauffement-climatique-sur-les-orages_8162069.html#xtor=RSS-3-[lestitres]"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-26T16:14:40.698Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-26T16:14:40.698Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "basket-wembanyama-a-cette-volonte-feroce-de-faire-quelque-chose-de-grand.html",
+          "title": "Basket : «Wembanyama a cette volonté féroce de faire quelque chose de grand avec l’équi… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Cafeyn — Le Figaro flash",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "coupe-du-monde-feminine-de-basket-pourquoi-l-equipe-de-france-doit-se-pr.html",
+          "title": "Coupe du monde féminine de basket : pourquoi l'équipe de France doit se préparer sans s… : assurance voyage, mutuelle etranger et habitation — guide supporters",
+          "source": "Edge — Bing Coupe du monde 2026",
+          "sourceType": "edge"
+        },
+        {
+          "file": "vent-pluie-grele-foudre-quels-sont-les-effets-du-rechauffement-climatiqu.html",
+          "title": "Vent, pluie, grêle, foudre... Quels sont les effets du réchauffement climatique sur les… : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }

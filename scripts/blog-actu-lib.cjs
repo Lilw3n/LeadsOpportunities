@@ -77,6 +77,18 @@ function matchTopic(text) {
   };
 }
 
+/** File manuelle / inbox : titres placeholder à ne jamais publier. */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var id = String(item.id || "").toLowerCase();
+  var title = String(item.title || "").trim();
+  if (!title) return true;
+  if (id.indexOf("pending-template") !== -1) return true;
+  if (/^collez ici\b/i.test(title)) return true;
+  if (/\[titre\]|TODO:\s*titre/i.test(title)) return true;
+  return false;
+}
+
 function uniqueFile(baseSlug) {
   var files = existingFiles();
   var slug = baseSlug;
@@ -170,7 +182,7 @@ function ctaWithUtm(need, slug) {
 
 function scaffoldArticle(input) {
   var title = String(input.title || "").trim();
-  if (!title) return null;
+  if (!title || isPlaceholderActuItem(input)) return null;
   var topic = matchTopic(title + " " + (input.summary || "") + " " + (input.note || ""));
   var baseSlug = slugify(title);
   if (!baseSlug) baseSlug = "actu-assurance-" + Date.now();
@@ -351,4 +363,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
 };
