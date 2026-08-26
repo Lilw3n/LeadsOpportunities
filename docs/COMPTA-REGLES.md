@@ -26,3 +26,12 @@ Lier `utm_campaign` des leads convertis aux depenses `ads` du mois.
 ## Export
 
 `GET /api/crm/pro-accounting?action=export&month=2026-05` (admin JWT) → CSV
+
+## Facturation électronique (réforme 2026)
+
+Voir **`docs/FACTURATION-ELECTRONIQUE.md`**.
+
+- Réception obligatoire via PDP : **1er septembre 2026** (toutes tailles)
+- Émission EI / micro / PME : **1er septembre 2027**
+- Module CRM : `/crm-e-invoicing.html`
+- SQL : `database/e-invoicing.sql`

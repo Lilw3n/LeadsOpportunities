@@ -1,0 +1,128 @@
+/* Facturation électronique — CRM */
+.einv-banner {
+  margin: 0 0 16px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  border: 1px solid transparent;
+}
+.einv-banner.critical {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #991b1b;
+}
+.einv-banner.warn {
+  background: #fffbeb;
+  border-color: #fde68a;
+  color: #92400e;
+}
+.einv-banner.ok {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+.einv-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.einv-panel h3 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+}
+.einv-muted {
+  margin: 0 0 12px;
+  font-size: 0.88rem;
+  color: var(--muted, #64748b);
+}
+.einv-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.88rem;
+}
+.einv-form input,
+.einv-form select,
+.einv-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font: inherit;
+  box-sizing: border-box;
+}
+.einv-check {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 8px;
+}
+.einv-check input {
+  width: auto !important;
+  margin-top: 3px !important;
+}
+.einv-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.einv-checklist label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.einv-checklist input {
+  margin-top: 3px;
+}
+.einv-form-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.einv-form-inline input,
+.einv-form-inline select {
+  width: auto;
+  min-width: 120px;
+  flex: 1 1 120px;
+  margin-top: 0;
+}
+.einv-table-wrap {
+  overflow-x: auto;
+}
+.einv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.einv-table th,
+.einv-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.einv-table th {
+  color: #64748b;
+  font-weight: 600;
+}
+.einv-result {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 10px;
+  font-size: 0.88rem;
+}
+.einv-result ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+@media (max-width: 640px) {
+  .einv-row2 {
+    grid-template-columns: 1fr;
+  }
+}

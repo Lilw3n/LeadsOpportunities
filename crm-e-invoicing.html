@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facturation électronique | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <link rel="stylesheet" href="./css/crm-e-invoicing.css" />
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Finance · Conformité</p>
+      <h2>Facturation électronique</h2>
+      <p>
+        Obligation de <strong>réception</strong> via plateforme agréée au
+        <strong>1<sup>er</sup> septembre 2026</strong> pour toutes les entreprises assujetties à la TVA.
+        Émission : 2026 (GE/ETI) · 2027 (PME / micro).
+      </p>
+    </div>
+    <div class="crm-action-row">
+      <a class="btn btn-primary" href="https://www.impots.gouv.fr/liste-des-plateformes-agreees-pdp" target="_blank" rel="noopener">Liste des PDP</a>
+      <a class="btn btn-ghost" href="https://www.impots.gouv.fr/facturation-electronique" target="_blank" rel="noopener">Guide DGFiP</a>
+      <a class="btn btn-ghost" href="./crm-financial.html">Hub financier</a>
+    </div>
+  </section>
+
+  <div id="einvBanner" class="einv-banner" role="status"></div>
+  <div id="einvKpis" class="crm-kpis" style="margin-bottom:20px"></div>
+
+  <div class="einv-grid">
+    <section class="panel einv-panel">
+      <h3>Checklist conformité</h3>
+      <p class="einv-muted">Trajectoire documentée exigée par l’administration (pas de sanction si démarche sérieuse engagée).</p>
+      <form id="einvChecklist" class="einv-checklist"></form>
+    </section>
+
+    <section class="panel einv-panel">
+      <h3>Plateforme agréée (PDP)</h3>
+      <form id="einvPdpForm" class="einv-form">
+        <label>Statut
+          <select name="pdpStatus">
+            <option value="not_started">Pas commencé</option>
+            <option value="in_progress">Démarche en cours</option>
+            <option value="designated">Désignée</option>
+            <option value="active">Active (réception OK)</option>
+          </select>
+        </label>
+        <label>Nom de la plateforme / outil
+          <input name="pdpName" placeholder="Ex. Pennylane, Indy, Axonaut, expert-comptable…" />
+        </label>
+        <label>Identifiant / référence contrat
+          <input name="pdpId" placeholder="Réf. contrat ou code PDP" />
+        </label>
+        <label class="einv-check">
+          <input type="checkbox" name="directoryRegistered" />
+          Entreprise renseignée dans l’annuaire de réception
+        </label>
+        <label>Notes
+          <textarea name="notes" rows="3" placeholder="Échanges avec expert-comptable, tickets, dates…"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Enregistrer PDP</button>
+      </form>
+      <p class="einv-muted" style="margin-top:12px">Assistance nationale : <strong>0 806 807 807</strong> (gratuit + prix appel).</p>
+    </section>
+
+    <section class="panel einv-panel">
+      <h3>Identité légale (émetteur)</h3>
+      <form id="einvIdentityForm" class="einv-form">
+        <label>Raison sociale / enseigne <input name="companyName" required /></label>
+        <label>Forme juridique <input name="legalForm" /></label>
+        <label>Dirigeant <input name="directorName" /></label>
+        <label>SIREN (9) <input name="siren" inputmode="numeric" maxlength="14" required /></label>
+        <label>SIRET (14) <input name="siret" inputmode="numeric" maxlength="14" /></label>
+        <label>N° TVA intracommunautaire <input name="vatNumber" placeholder="FR…" /></label>
+        <label>Taille
+          <select name="companySize">
+            <option value="micro">Micro-entreprise / EI</option>
+            <option value="pme">PME</option>
+            <option value="eti">ETI</option>
+            <option value="ge">Grande entreprise</option>
+          </select>
+        </label>
+        <label>Adresse <input name="addressLine1" /></label>
+        <div class="einv-row2">
+          <label>CP <input name="postalCode" /></label>
+          <label>Ville <input name="city" /></label>
+        </div>
+        <label>E-mail facturation <input type="email" name="email" /></label>
+        <button type="submit" class="btn btn-primary">Enregistrer identité</button>
+      </form>
+    </section>
+
+    <section class="panel einv-panel">
+      <h3>Émettre une facture structurée (Factur-X / CII)</h3>
+      <p class="einv-muted">
+        Pour micro/PME l’émission obligatoire commence le <strong>1<sup>er</sup>&nbsp;septembre 2027</strong>.
+        Vous pouvez anticiper : le XML est prêt pour une PDP — un PDF par e-mail seul n’est <em>pas</em> conforme.
+      </p>
+      <form id="einvIssueForm" class="einv-form">
+        <label class="einv-check"><input type="checkbox" name="autoNumber" checked /> Numéro auto (FAC-AAAAMM-####)</label>
+        <label>N° facture (si manuel) <input name="invoiceNumber" placeholder="FAC-202609-0001" /></label>
+        <label>Client <input name="buyerName" required placeholder="Raison sociale client B2B" /></label>
+        <label>SIREN client (obligatoire réforme) <input name="buyerSiren" inputmode="numeric" maxlength="9" required /></label>
+        <label>Nature des opérations
+          <select name="operationType">
+            <option value="services">Prestations de services exclusivement</option>
+            <option value="goods">Livraisons de biens exclusivement</option>
+            <option value="mixed">Biens et services</option>
+          </select>
+        </label>
+        <label>Description <input name="lineDescription" value="Honoraires de courtage / prestation" /></label>
+        <div class="einv-row2">
+          <label>Montant HT (€) <input name="amountHt" type="number" step="0.01" min="0" required /></label>
+          <label>TVA % <input name="vatRate" type="number" step="0.01" value="20" /></label>
+        </div>
+        <label>Adresse de livraison (si ≠ facturation) <input name="deliveryAddress" /></label>
+        <label class="einv-check"><input type="checkbox" name="vatOnDebits" /> TVA sur les débits (si option)</label>
+        <button type="submit" class="btn btn-primary">Générer Factur-X (XML)</button>
+      </form>
+      <div id="einvIssueResult" class="einv-result" hidden></div>
+    </section>
+  </div>
+
+  <section class="panel einv-panel" style="margin-top:16px">
+    <h3>Factures fournisseurs reçues</h3>
+    <p class="einv-muted">Enregistrez les factures reçues (PDP, e-mail, PDF) pour tracer la conformité et la continuité des paiements.</p>
+    <form id="einvRecvForm" class="einv-form einv-form-inline">
+      <input name="supplierName" placeholder="Fournisseur" required />
+      <input name="supplierSiren" placeholder="SIREN" inputmode="numeric" maxlength="9" />
+      <input name="invoiceNumber" placeholder="N° facture" />
+      <input name="invoiceDate" type="date" />
+      <input name="amountTtc" type="number" step="0.01" placeholder="TTC €" />
+      <select name="channel">
+        <option value="pdp">Via PDP</option>
+        <option value="email_pdf">E-mail / PDF</option>
+        <option value="paper">Papier</option>
+        <option value="other">Autre</option>
+      </select>
+      <button type="submit" class="btn btn-ghost">Ajouter</button>
+    </form>
+    <div id="einvRecvList" class="einv-table-wrap"></div>
+  </section>
+
+  <section class="panel einv-panel" style="margin-top:16px">
+    <h3>Factures émises (XML)</h3>
+    <div id="einvIssuedList" class="einv-table-wrap"></div>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+  <script src="./js/crm-e-invoicing.js"></script>
+</body>
+</html>

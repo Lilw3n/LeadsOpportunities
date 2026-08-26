@@ -1,0 +1,102 @@
+#!/usr/bin/env node
+var fs = require("fs");
+var path = require("path");
+var failed = 0;
+
+function assert(cond, msg) {
+  if (!cond) {
+    failed++;
+    console.log("FAIL", msg);
+  } else {
+    console.log("OK  ", msg);
+  }
+}
+
+function read(rel) {
+  return fs.readFileSync(path.join(__dirname, "..", rel), "utf8");
+}
+
+var hub = read("crm-e-invoicing.html");
+assert(hub.indexOf("einvIssueForm") !== -1, "formulaire emission Factur-X");
+assert(hub.indexOf("einvPdpForm") !== -1, "formulaire PDP");
+assert(hub.indexOf("1er septembre 2026") !== -1 || hub.indexOf("septembre 2026") !== -1, "echeance reception 2026");
+assert(hub.indexOf("crm-e-invoicing.js") !== -1, "script UI");
+
+var js = read("js/crm-e-invoicing.js");
+assert(js.indexOf("/api/crm/e-invoicing") !== -1, "appels API e-invoicing");
+assert(js.indexOf("save-settings") !== -1, "sauvegarde settings");
+assert(js.indexOf("register-received") !== -1, "registre reception");
+
+var api = read("api/_lib/routes/crm-e-invoicing.js");
+assert(api.indexOf("ensureEInvoicingSchema") !== -1, "schema auto");
+assert(api.indexOf("buildCiiXml") !== -1, "generation CII");
+assert(api.indexOf("action === \"issue\"") !== -1 || api.indexOf('postAction === "issue"') !== -1, "action issue");
+
+var router = read("api/crm/[action].js");
+assert(router.indexOf('"e-invoicing"') !== -1, "route CRM e-invoicing");
+
+var sidebar = read("js/crm-sidebar.js");
+assert(sidebar.indexOf("crm-e-invoicing.html") !== -1, "lien sidebar");
+
+var fin = read("crm-financial.html");
+assert(fin.indexOf("crm-e-invoicing.html") !== -1, "lien hub financier");
+
+var cfg = JSON.parse(read("config/e-invoicing.json"));
+assert(cfg.siren === "810571513", "SIREN config");
+assert(cfg.receiveDeadline === "2026-09-01", "deadline reception");
+assert(cfg.emitDeadline === "2027-09-01", "deadline emission micro");
+
+var sql = read("database/e-invoicing.sql");
+assert(sql.indexOf("e_invoices_received") !== -1, "table received");
+assert(sql.indexOf("e_invoices_issued") !== -1, "table issued");
+
+var docs = read("docs/FACTURATION-ELECTRONIQUE.md");
+assert(docs.indexOf("plateforme agréée") !== -1 || docs.indexOf("plateforme agreee") !== -1, "doc PDP");
+
+var lib = require(path.join(__dirname, "..", "api/_lib/e-invoicing.js"));
+var settings = lib.mergeSettings(null);
+var ready = lib.readiness(settings);
+assert(ready.receiveDeadline === "2026-09-01", "readiness receive deadline");
+assert(ready.emitDeadline === "2027-09-01", "readiness emit micro = 2027");
+assert(lib.isValidSiren("810571513"), "SIREN valide");
+assert(!lib.isValidSiren("123"), "SIREN invalide rejete");
+
+var xml = lib.buildCiiXml(
+  {
+    invoiceNumber: "FAC-TEST-0001",
+    invoiceDate: "2026-09-01",
+    buyerName: "Client Demo SAS",
+    buyerSiren: "123456782",
+    operationType: "services",
+    amountHt: 100,
+    vatRate: 20,
+    lineDescription: "Honoraires test",
+  },
+  settings
+);
+assert(xml.indexOf("CrossIndustryInvoice") !== -1, "XML CII racine");
+assert(xml.indexOf("810571513") !== -1, "XML contient SIREN emetteur");
+assert(xml.indexOf("123456782") !== -1, "XML contient SIREN client");
+assert(xml.indexOf("FAC-TEST-0001") !== -1, "XML numero facture");
+
+var mentions = lib.buildMandatoryMentions(
+  {
+    buyerSiren: "123456782",
+    operationType: "services",
+    vatOnDebits: true,
+    deliveryAddress: "10 rue Test 54000 Nancy",
+  },
+  settings
+);
+assert(mentions.some(function (m) { return m.indexOf("Client SIREN") !== -1; }), "mention SIREN client");
+assert(mentions.some(function (m) { return m.indexOf("Prestations de services") !== -1; }), "mention nature ops");
+assert(mentions.some(function (m) { return m.indexOf("débits") !== -1; }), "mention TVA debits");
+
+var pkg = JSON.parse(read("package.json"));
+assert(pkg.scripts["verify:e-invoicing"], "script npm verify:e-invoicing");
+
+if (failed) {
+  console.log("\n" + failed + " echec(s)");
+  process.exit(1);
+}
+console.log("\nFacturation electronique (PDP / Factur-X) : OK.");

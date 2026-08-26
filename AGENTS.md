@@ -12,6 +12,7 @@
 - `npm run seo:build` — sitemaps
 - `npm run academie:build` — régénère `/academie/` (cours métiers)
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
+- **Facturation électronique (01/09/2026)** : `/crm-e-invoicing.html` · `docs/FACTURATION-ELECTRONIQUE.md` · `npm run verify:e-invoicing`
 
 ## Blog actu (leads qualifiés)
 

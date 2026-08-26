@@ -13,6 +13,7 @@ Executer dans l'ordre :
 7. `database/integrations-calendar-drive-stripe.sql`
 8. `database/lead-enrichment.sql`
 9. `database/pro-accounting.sql`
+10. `database/e-invoicing.sql` — facturation électronique (PDP / Factur-X)
 
 Voir aussi `database/README-MIGRATIONS.md`.
 
@@ -74,6 +75,7 @@ Voir aussi **`docs/CRM-AGENDA.md`** (vues timeline / iCal / types métier / Stri
 - [ ] Touchpoint page (`/api/lead-touchpoint` via attribution.js)
 - [ ] Dedup lead (meme email 2x)
 - [ ] Compta `/crm-pro-accounting.html`
+- [ ] Facturation électronique `/crm-e-invoicing.html` (PDP désignée avant 01/09/2026)
 - [ ] Make/n8n : `docs/automation-make-n8n.md`
 - [ ] SEA/UTM : `docs/SEA-TRACKING.md`
 - [ ] Stripe readiness : `/api/stripe/readiness`

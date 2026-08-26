@@ -15,9 +15,11 @@ Executer chaque fichier SQL dans la console Neon (SQL Editor), dans cet ordre :
 11. `integrations-calendar-drive-stripe.sql`
 12. `lead-enrichment.sql`
 13. `pro-accounting.sql`
-14. `lead-private-workflow.sql`
-15. `crm-products.sql`
-16. `stripe-payment-links.sql` (suivi liens Stripe + notifications paiement)
-17. `stripe-payment-links-notify.sql` (e-mail auto apres paiement — si table deja creee)
+14. `e-invoicing.sql` (facturation électronique PDP / Factur-X — réception 01/09/2026)
+15. `lead-private-workflow.sql`
+16. `crm-products.sql`
+17. `stripe-payment-links.sql` (suivi liens Stripe + notifications paiement)
+18. `stripe-payment-links-notify.sql` (e-mail auto apres paiement — si table deja creee)
 
 Puis verifier avec `node scripts/verify-prod-readiness.cjs` (variables d env requises).
+`npm run verify:e-invoicing` pour le module facturation électronique.
