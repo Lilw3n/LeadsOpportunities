@@ -408,9 +408,102 @@
     return "default";
   }
 
+  /* Aligné sur api/_lib/drive-folders.js DOC_TYPE_SUBFOLDER */
+  var DOC_TYPE_DRIVE = {
+    kbis: "06_entreprise_collective",
+    avis_insee: "06_entreprise_collective",
+    rib_entreprise: "06_entreprise_collective",
+    convention_collective: "06_entreprise_collective",
+    liste_salaries: "06_entreprise_collective",
+    dsn: "06_entreprise_collective",
+    attestation_vtc: "06_entreprise_collective",
+    qualifications: "06_entreprise_collective",
+    carte_grise: "04_vehicule_ou_bien",
+    liste_vehicules: "04_vehicule_ou_bien",
+    bail: "04_vehicule_ou_bien",
+    titre_propriete: "04_vehicule_ou_bien",
+    diagnostics: "04_vehicule_ou_bien",
+    compromis_offre: "04_vehicule_ou_bien",
+    carnet_sante_animal: "04_vehicule_ou_bien",
+    sire_cheval: "04_vehicule_ou_bien",
+    acte_francisation: "04_vehicule_ou_bien",
+    permis: "01_identite",
+    piece_identite: "01_identite",
+    carte_vtc: "01_identite",
+    carte_vitale: "01_identite",
+    attestation_secu: "01_identite",
+    questionnaire_sante: "01_identite",
+    permis_chasser: "01_identite",
+    permis_bateau: "01_identite",
+    releve_info: "03_contrats_existants",
+    contrat_mutuelle: "03_contrats_existants",
+    attestation_assurance: "03_contrats_existants",
+    attestation_habitation: "03_contrats_existants",
+    offre_pret: "03_contrats_existants",
+    contrat_rc_pro: "03_contrats_existants",
+    contrat_mrp: "03_contrats_existants",
+    contrat_decennale: "03_contrats_existants",
+    validation_chasse: "03_contrats_existants",
+    rib: "02_justificatifs_revenus",
+    avis_imposition: "02_justificatifs_revenus",
+    bulletins_salaire: "02_justificatifs_revenus",
+    releves_bancaires: "02_justificatifs_revenus",
+    contrat_travail: "02_justificatifs_revenus",
+    apport_justificatif: "02_justificatifs_revenus",
+    tableau_amortissement: "02_justificatifs_revenus",
+    taxe_fonciere: "02_justificatifs_revenus",
+    generic: "01_identite",
+    autre: "01_identite",
+  };
+
+  var FOLDER_ORDER = [
+    "01_identite",
+    "02_justificatifs_revenus",
+    "03_contrats_existants",
+    "04_vehicule_ou_bien",
+    "05_devis_signes",
+    "06_entreprise_collective",
+  ];
+
+  var FOLDER_LEGENDS = {
+    "01_identite": "Identité & permis",
+    "02_justificatifs_revenus": "Revenus & RIB",
+    "03_contrats_existants": "Contrats & relevés existants",
+    "04_vehicule_ou_bien": "Véhicule / bien / logement",
+    "05_devis_signes": "Devis signés",
+    "06_entreprise_collective": "Entreprise (KBIS, INSEE, VTC)",
+  };
+
+  function driveFolderForType(documentType) {
+    return DOC_TYPE_DRIVE[documentType] || "01_identite";
+  }
+
   function getConfig(needOrVertical) {
     var key = normalizeNeed(needOrVertical);
     return BY_NEED[key] || BY_NEED.default;
+  }
+
+  function getGroups(needOrVertical) {
+    var cfg = getConfig(needOrVertical);
+    var buckets = {};
+    FOLDER_ORDER.forEach(function (id) {
+      buckets[id] = [];
+    });
+    (cfg.items || []).forEach(function (it) {
+      var folder = driveFolderForType(it.type);
+      if (!buckets[folder]) buckets[folder] = [];
+      buckets[folder].push(it);
+    });
+    return FOLDER_ORDER.filter(function (id) {
+      return buckets[id] && buckets[id].length;
+    }).map(function (id) {
+      return {
+        id: id,
+        legend: FOLDER_LEGENDS[id] || id,
+        driveFolder: id,
+        items: buckets[id],
+      };
+    });
   }
 
   function hasDocumentStep() {
@@ -419,9 +512,14 @@
 
   global.DEVIS_DOCUMENT_CONFIG = {
     getConfig: getConfig,
+    getGroups: getGroups,
+    driveFolderForType: driveFolderForType,
     normalizeNeed: normalizeNeed,
     hasDocumentStep: hasDocumentStep,
     BY_NEED: BY_NEED,
+    DOC_TYPE_DRIVE: DOC_TYPE_DRIVE,
+    FOLDER_ORDER: FOLDER_ORDER,
+    FOLDER_LEGENDS: FOLDER_LEGENDS,
     ENTREPRISE_ITEMS: ENTREPRISE_ITEMS,
     AUTO_ITEMS: AUTO_ITEMS,
   };

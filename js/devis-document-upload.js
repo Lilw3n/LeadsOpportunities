@@ -1,5 +1,6 @@
 /**
- * Upload pièces justificatives — parcours devis (file → base64 → API → Drive).
+ * Upload pièces justificatives — même UI que l’immo (lignes Déposer / Reçu)
+ * pour tous les questionnaires (auto, habitation, VTC, santé, crédit…).
  */
 (function (global) {
   var MAX_BYTES = 12 * 1024 * 1024;
@@ -23,6 +24,12 @@
     return "image/jpeg";
   }
 
+  function isAllowedFile(file) {
+    var mime = mimeForFile(file);
+    if (mime === "application/pdf" || mime === "image/jpeg" || mime === "image/png") return true;
+    return /\.(pdf|jpe?g|png)$/i.test(file.name || "");
+  }
+
   function iconForMime(mime) {
     if (!mime) return "📄";
     if (mime.indexOf("pdf") !== -1) return "📕";
@@ -34,6 +41,64 @@
     var d = document.createElement("div");
     d.textContent = String(s == null ? "" : s);
     return d.innerHTML;
+  }
+
+  function statusLabel(status) {
+    if (status === "received" || status === "done") return "Reçu";
+    if (status === "transmitted") return "Transmis";
+    if (status === "uploading") return "Envoi…";
+    if (status === "error") return "Erreur";
+    if (status === "queued") return "En attente";
+    return "";
+  }
+
+  function statusClass(status) {
+    if (status === "received" || status === "done") return "is-received";
+    if (status === "transmitted") return "is-transmitted";
+    if (status === "uploading") return "is-uploading";
+    if (status === "error") return "is-error";
+    if (status === "queued") return "is-queued";
+    return "";
+  }
+
+  function aggregateStatus(items) {
+    if (!items || !items.length) return null;
+    if (items.some(function (i) {
+      return i.status === "error";
+    }))
+      return "error";
+    if (items.some(function (i) {
+      return i.status === "uploading";
+    }))
+      return "uploading";
+    if (items.some(function (i) {
+      return i.status === "queued";
+    }))
+      return "queued";
+    if (
+      items.every(function (i) {
+        return i.status === "received" || i.status === "done";
+      })
+    )
+      return "received";
+    if (
+      items.some(function (i) {
+        return i.status === "transmitted" || i.status === "received" || i.status === "done";
+      })
+    )
+      return "transmitted";
+    return "queued";
+  }
+
+  function driveConfirmed(data) {
+    data = data || {};
+    if (data.drive && data.drive.simulated) return false;
+    if (data.simulated) return false;
+    var att = data.attachment || {};
+    var drive = data.drive || {};
+    var fileId = drive.fileId || drive.id || att.driveFileId || "";
+    if (!fileId || String(fileId).indexOf("sim_") === 0) return false;
+    return !!(fileId || drive.webViewLink || att.webViewLink);
   }
 
   function DevisDocumentUpload(root, options) {
@@ -51,9 +116,6 @@
 
   DevisDocumentUpload.prototype._bind = function () {
     var self = this;
-    var drop = this.root.querySelector("[data-docs-drop]");
-    var input = this.root.querySelector("[data-docs-input]");
-    var typeSel = this.root.querySelector("[data-docs-type]");
 
     var form = this.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form]");
     if (form && !form._devisDocsIdentityBound) {
@@ -67,31 +129,49 @@
       });
     }
 
-    if (drop && input) {
-      drop.addEventListener("click", function () {
-        input.click();
+    this.root.addEventListener("change", function (e) {
+      var input = e.target && e.target.closest ? e.target.closest("[data-docs-input]") : null;
+      if (!input || !self.root.contains(input)) return;
+      if (!input.files || !input.files.length) return;
+      var docType = input.getAttribute("data-doc-type") || "generic";
+      Array.prototype.forEach.call(input.files, function (file) {
+        self.addFile(file, docType);
       });
-      drop.addEventListener("dragover", function (e) {
-        e.preventDefault();
-        drop.classList.add("is-dragover");
+      input.value = "";
+    });
+
+    this.root.addEventListener("dragover", function (e) {
+      var line = e.target && e.target.closest ? e.target.closest("[data-docs-line]") : null;
+      if (!line || !self.root.contains(line)) return;
+      e.preventDefault();
+      line.classList.add("is-queued");
+    });
+    this.root.addEventListener("dragleave", function (e) {
+      var line = e.target && e.target.closest ? e.target.closest("[data-docs-line]") : null;
+      if (!line || !self.root.contains(line)) return;
+      if (line.contains(e.relatedTarget)) return;
+      if (!self.itemsForType(line.getAttribute("data-docs-line")).length) {
+        line.classList.remove("is-queued");
+      }
+    });
+    this.root.addEventListener("drop", function (e) {
+      var line = e.target && e.target.closest ? e.target.closest("[data-docs-line]") : null;
+      if (!line || !self.root.contains(line)) return;
+      e.preventDefault();
+      var docType = line.getAttribute("data-docs-line") || "generic";
+      var files = e.dataTransfer && e.dataTransfer.files;
+      if (!files || !files.length) return;
+      Array.prototype.forEach.call(files, function (file) {
+        self.addFile(file, docType);
       });
-      drop.addEventListener("dragleave", function () {
-        drop.classList.remove("is-dragover");
-      });
-      drop.addEventListener("drop", function (e) {
-        e.preventDefault();
-        drop.classList.remove("is-dragover");
-        var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
-        if (f) self.addFile(f, typeSel ? typeSel.value : "generic");
-      });
-      input.addEventListener("change", function () {
-        if (input.files && input.files[0]) self.addFile(input.files[0], typeSel ? typeSel.value : "generic");
-        input.value = "";
-      });
-    }
+    });
   };
 
   DevisDocumentUpload.prototype.addFile = function (file, documentType) {
+    if (!isAllowedFile(file)) {
+      alert("Format refusé — déposez uniquement PDF, JPG ou PNG.");
+      return;
+    }
     if (file.size > MAX_BYTES) {
       alert("Fichier trop volumineux (max 12 Mo) : " + file.name);
       return;
@@ -104,14 +184,8 @@
       mimeType: mimeForFile(file),
       status: "queued",
       preview: null,
+      error: null,
     };
-    var self = this;
-    if (item.mimeType.indexOf("image") !== -1) {
-      readFileAsBase64(file).then(function (dataUrl) {
-        item.preview = dataUrl;
-        self.renderQueue();
-      });
-    }
     this.queue.push(item);
     this.renderQueue();
     this.scheduleImmediateUpload();
@@ -128,7 +202,7 @@
 
   DevisDocumentUpload.prototype.hasIdentity = function () {
     var s = this.session || {};
-    return !!(s.email || s.phone || s.contactId || s.leadId || (s.firstName && s.lastName));
+    return !!(s.email || s.phone || s.contactId || (s.firstName && s.lastName));
   };
 
   DevisDocumentUpload.prototype.syncSessionFromForm = function () {
@@ -152,18 +226,24 @@
     return this.session;
   };
 
+  DevisDocumentUpload.prototype.setStatusText = function (message, tone) {
+    var st = this.root.querySelector("[data-docs-status]");
+    if (!st) return;
+    st.hidden = !message;
+    st.style.color = tone === "error" ? "#b91c1c" : tone === "ok" ? "#047857" : "#64748b";
+    st.textContent = message || "";
+  };
+
   DevisDocumentUpload.prototype.scheduleImmediateUpload = function () {
     var self = this;
     clearTimeout(self._uploadTimer);
     self._uploadTimer = setTimeout(function () {
       self.syncSessionFromForm();
       if (!self.hasIdentity()) {
-        var st = self.root.querySelector("[data-docs-status]");
-        if (st) {
-          st.hidden = false;
-          st.style.color = "#64748b";
-          st.textContent = "Renseignez nom et prénom (ou un e-mail / téléphone) pour envoyer immédiatement vers Drive.";
-        }
+        self.setStatusText(
+          "Renseignez nom et prénom (ou un e-mail / téléphone) pour envoyer immédiatement vers Drive.",
+          "info"
+        );
         return;
       }
       self.uploadQueued().then(function () {
@@ -182,6 +262,100 @@
     this.session.lastName = session.lastName || this.session.lastName;
   };
 
+  DevisDocumentUpload.prototype.itemsForType = function (documentType) {
+    var list = [];
+    var seen = Object.create(null);
+    function pushUnique(item) {
+      if (!item) return;
+      var key = item.id || item.driveFileId || item.fileName + "|" + item.status;
+      if (seen[key]) return;
+      seen[key] = true;
+      list.push(item);
+    }
+    this.uploaded.forEach(function (u) {
+      if (u.documentType === documentType) pushUnique(u);
+    });
+    this.queue.forEach(function (q) {
+      if (q.documentType !== documentType) return;
+      if (q.status === "received" || q.status === "done" || q.status === "transmitted") return;
+      pushUnique(q);
+    });
+    return list;
+  };
+
+  DevisDocumentUpload.prototype.refreshLine = function (documentType) {
+    var line = this.root.querySelector('[data-docs-line="' + documentType + '"]');
+    if (!line) return;
+    var items = this.itemsForType(documentType);
+    var agg = aggregateStatus(items);
+    line.classList.remove("is-queued", "is-done", "is-error", "is-transmitted", "is-uploading", "is-received");
+    if (agg === "queued") line.classList.add("is-queued");
+    if (agg === "uploading") line.classList.add("is-uploading");
+    if (agg === "transmitted") line.classList.add("is-transmitted");
+    if (agg === "received") line.classList.add("is-done", "is-received");
+    if (agg === "error") line.classList.add("is-error");
+
+    var badge = line.querySelector("[data-docs-status-badge]");
+    if (badge) {
+      if (!agg) {
+        badge.hidden = true;
+        badge.textContent = "";
+        badge.className = "immo-doc-status-badge";
+      } else {
+        badge.hidden = false;
+        badge.textContent = statusLabel(agg) + (items.length > 1 ? " · " + items.length : "");
+        badge.className = "immo-doc-status-badge " + statusClass(agg);
+      }
+    }
+
+    var btn = line.querySelector(".immo-doc-line-btn span");
+    if (btn) btn.textContent = items.length ? "Ajouter +" : "Déposer";
+
+    var listEl = line.querySelector("[data-docs-files]");
+    if (!listEl) return;
+    if (!items.length) {
+      listEl.hidden = true;
+      listEl.innerHTML = "";
+      return;
+    }
+    listEl.hidden = false;
+    listEl.innerHTML = items
+      .map(function (item) {
+        return (
+          "<li>" +
+          '<span class="immo-doc-file-pill ' +
+          statusClass(item.status) +
+          '">' +
+          esc(statusLabel(item.status) || "—") +
+          "</span>" +
+          '<span class="immo-doc-file-name" title="' +
+          esc(item.fileName) +
+          '">' +
+          esc(item.fileName) +
+          "</span>" +
+          (item.status === "error" && item.error
+            ? '<span class="devis-doc-error-msg">' + esc(item.error) + "</span>"
+            : "") +
+          "</li>"
+        );
+      })
+      .join("");
+  };
+
+  DevisDocumentUpload.prototype.renderQueue = function () {
+    var self = this;
+    var types = {};
+    this.queue.concat(this.uploaded).forEach(function (item) {
+      if (item.documentType) types[item.documentType] = true;
+    });
+    this.root.querySelectorAll("[data-docs-line]").forEach(function (line) {
+      types[line.getAttribute("data-docs-line")] = true;
+    });
+    Object.keys(types).forEach(function (type) {
+      self.refreshLine(type);
+    });
+  };
+
   DevisDocumentUpload.prototype.uploadQueued = function () {
     var self = this;
     this.syncSessionFromForm();
@@ -189,7 +363,7 @@
     if (!this.hasIdentity()) {
       return Promise.resolve({
         uploaded: [],
-        errors: [{ error: "nom+prénom, e-mail, téléphone, contactId ou leadId manquant" }],
+        errors: [{ error: "nom+prénom, e-mail, téléphone ou contactId manquant" }],
       });
     }
     var pending = this.queue.filter(function (q) {
@@ -198,6 +372,7 @@
     return pending.reduce(function (chain, item) {
       return chain.then(function (acc) {
         item.status = "uploading";
+        item.error = null;
         self.renderQueue();
         return readFileAsBase64(item.file)
           .then(function (dataUrl) {
@@ -205,7 +380,7 @@
               method: "POST",
               headers: { "Content-Type": "application/json" },
               credentials: "same-origin",
-                body: JSON.stringify({
+              body: JSON.stringify({
                 email: self.session.email,
                 phone: self.session.phone || null,
                 firstName: self.session.firstName || null,
@@ -231,12 +406,26 @@
               } catch (e) {
                 throw new Error("Réponse serveur invalide (" + r.status + ")");
               }
-              if (!r.ok || !data.ok) throw new Error((data && data.error) || "Upload échoué (" + r.status + ")");
+              if (!r.ok || !data.ok) {
+                if (data.code === "contact_missing") {
+                  try {
+                    localStorage.removeItem("lo_draft_lead_id");
+                  } catch (e2) {}
+                  self.session.leadId = null;
+                }
+                throw new Error((data && data.error) || "Upload échoué (" + r.status + ")");
+              }
+              if (!driveConfirmed(data)) {
+                throw new Error(
+                  (data && data.error) ||
+                    "Drive non confirmé — le fichier n’a pas été archivé."
+                );
+              }
               return data;
             });
           })
           .then(function (data) {
-            item.status = "done";
+            item.status = "received";
             item.result = data;
             if (data.contactId) {
               self.session.contactId = data.contactId;
@@ -249,12 +438,7 @@
             self.queue = self.queue.filter(function (q) {
               return q.id !== item.id;
             });
-            var okSt = self.root.querySelector("[data-docs-status]");
-            if (okSt) {
-              okSt.hidden = false;
-              okSt.style.color = "#047857";
-              okSt.textContent = "Envoyé vers Drive.";
-            }
+            self.setStatusText("Envoyé vers Drive.", "ok");
             self.renderQueue();
             return acc;
           })
@@ -262,60 +446,12 @@
             item.status = "error";
             item.error = err.message || "Erreur";
             acc.errors.push({ item: item, error: item.error });
-            var errSt = self.root.querySelector("[data-docs-status]");
-            if (errSt) {
-              errSt.hidden = false;
-              errSt.style.color = "#b91c1c";
-              errSt.textContent = "Échec Drive : " + item.error;
-            }
+            self.setStatusText("Échec Drive : " + item.error, "error");
             self.renderQueue();
             return acc;
           });
       });
     }, Promise.resolve({ uploaded: [], errors: [] }));
-  };
-
-  DevisDocumentUpload.prototype.renderQueue = function () {
-    var mount = this.root.querySelector("[data-docs-queue]");
-    if (!mount) return;
-    var all = this.queue.concat([]);
-    if (!all.length) {
-      mount.innerHTML = '<p class="small" style="color:#64748b">Aucun fichier en attente.</p>';
-      return;
-    }
-    mount.innerHTML = all
-      .map(function (q) {
-        var thumb = q.preview
-          ? '<img class="devis-doc-thumb" src="' + q.preview + '" alt="" />'
-          : '<div class="devis-doc-thumb">' + iconForMime(q.mimeType) + "</div>";
-        return (
-          '<div class="devis-doc-card" data-doc-id="' +
-          esc(q.id) +
-          '">' +
-          thumb +
-          '<div class="devis-doc-meta"><strong>' +
-          esc(q.fileName) +
-          "</strong><span>" +
-          esc(q.documentType) +
-          "</span>" +
-          (q.status === "error" && q.error
-            ? '<span class="devis-doc-error-msg">' + esc(q.error) + "</span>"
-            : "") +
-          "</div>" +
-          '<span class="devis-doc-status devis-doc-status--' +
-          esc(q.status) +
-          '">' +
-          (q.status === "done"
-            ? "Envoyé"
-            : q.status === "uploading"
-              ? "Envoi…"
-              : q.status === "error"
-                ? "Erreur"
-                : "En attente") +
-          "</span></div>"
-        );
-      })
-      .join("");
   };
 
   DevisDocumentUpload.prototype.renderVisualPanel = function (container, docs) {
@@ -332,9 +468,7 @@
         contactId: this.session.contactId,
         email: this.session.email,
         emptyText: "Aucun document.",
-        onDeleted: function () {
-          /* rechargé via fetchRemoteList côté appelant si besoin */
-        },
+        onDeleted: function () {},
       });
       return;
     }
@@ -381,77 +515,111 @@
       });
   };
 
-  function buildStepHtml(need) {
+  function renderLine(item) {
+    return (
+      '<div class="immo-doc-line" data-docs-line="' +
+      esc(item.type) +
+      '">' +
+      '<span class="immo-doc-line-label">' +
+      esc(item.label) +
+      "</span>" +
+      '<div class="immo-doc-line-upload">' +
+      '<span class="immo-doc-status-badge" data-docs-status-badge hidden></span>' +
+      '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo">' +
+      '<input type="file" accept="' +
+      ACCEPT +
+      '" multiple hidden data-docs-input data-doc-type="' +
+      esc(item.type) +
+      '" />' +
+      "<span>Déposer</span></label>" +
+      "</div>" +
+      '<ul class="immo-doc-file-list" data-docs-files hidden></ul>' +
+      "</div>"
+    );
+  }
+
+  function renderGroup(group) {
+    var lines = (group.items || []).map(renderLine).join("");
+    var driveNote = group.driveFolder
+      ? '<p class="immo-doc-drive-hint">→ Drive : <code>' + esc(group.driveFolder) + "</code></p>"
+      : "";
+    return (
+      '<details class="immo-doc-cat" open data-docs-group="' +
+      esc(group.id) +
+      '">' +
+      "<summary>" +
+      esc(group.legend) +
+      "</summary>" +
+      driveNote +
+      '<div class="immo-doc-cat-lines">' +
+      lines +
+      "</div></details>"
+    );
+  }
+
+  function extraFieldsHtml(cfg) {
+    if (!cfg.extraFields || !cfg.extraFields.length) return "";
+    return (
+      '<div class="devis-docs-extra" style="margin:12px 0">' +
+      cfg.extraFields
+        .map(function (f) {
+          return (
+            '<label style="display:block;margin:8px 0 4px;font-weight:600;font-size:.9rem">' +
+            esc(f.label) +
+            '<input name="' +
+            esc(f.name) +
+            '" type="' +
+            esc(f.type || "text") +
+            '" placeholder="' +
+            esc(f.placeholder || "") +
+            '" data-optional' +
+            (f.required ? " required" : "") +
+            ' style="width:100%;margin-top:4px" /></label>'
+          );
+        })
+        .join("") +
+      "</div>"
+    );
+  }
+
+  function buildChecklistHtml(need, options) {
+    options = options || {};
     var cfg = global.DEVIS_DOCUMENT_CONFIG ? global.DEVIS_DOCUMENT_CONFIG.getConfig(need) : null;
     if (!cfg) return "";
-    var checklist = cfg.items
-      .map(function (it) {
-        return (
-          "<li>" +
-          esc(it.label) +
-          (it.required ? ' <span class="req">nécessaire</span>' : " <span class=\"opt\">optionnel</span>") +
-          "</li>"
-        );
-      })
-      .join("");
-    var typeOpts = cfg.items
-      .map(function (it) {
-        return '<option value="' + esc(it.type) + '">' + esc(it.label) + "</option>";
-      })
-      .join("");
-    var extraHtml = "";
-    if (cfg.extraFields && cfg.extraFields.length) {
-      extraHtml =
-        '<div class="devis-docs-extra" style="margin:12px 0">' +
-        cfg.extraFields
-          .map(function (f) {
-            return (
-              "<label style=\"display:block;margin:8px 0 4px;font-weight:600;font-size:.9rem\">" +
-              esc(f.label) +
-              '<input name="' +
-              esc(f.name) +
-              '" type="' +
-              esc(f.type || "text") +
-              '" placeholder="' +
-              esc(f.placeholder || "") +
-              '" data-optional' +
-              (f.required ? " required" : "") +
-              " style=\"width:100%;margin-top:4px\" /></label>"
-            );
-          })
-          .join("") +
-        "</div>";
-    }
-
+    var groups =
+      global.DEVIS_DOCUMENT_CONFIG && global.DEVIS_DOCUMENT_CONFIG.getGroups
+        ? global.DEVIS_DOCUMENT_CONFIG.getGroups(need)
+        : [{ id: "docs", legend: "Pièces justificatives", driveFolder: "01_identite", items: cfg.items || [] }];
+    var includeTitle = options.includeTitle !== false;
     return (
-      '<section class="wizard-step" hidden data-step="documents" data-step-name="documents" data-optional-step="1">' +
       '<div class="devis-docs-step" data-devis-documents-root>' +
-      "<h3>" +
-      esc(cfg.title) +
-      "</h3>" +
+      (includeTitle ? "<h3>" + esc(cfg.title) + "</h3>" : "") +
       '<p class="wizard-step-intro">' +
       esc(cfg.intro) +
       "</p>" +
-      '<ul class="devis-docs-checklist">' +
-      checklist +
-      "</ul>" +
-      extraHtml +
-      '<label style="display:block;margin:12px 0 6px;font-weight:600;font-size:.9rem">Type de document</label>' +
-      '<select data-docs-type data-optional>' +
-      typeOpts +
-      "</select>" +
-      '<div class="devis-docs-drop" data-docs-drop style="margin-top:12px">' +
-      "<strong>Glissez un fichier ici ou cliquez</strong>" +
-      "<p>PDF, JPG, PNG — max 12 Mo. Vous pouvez passer cette étape et envoyer plus tard.</p>" +
-      '<input type="file" data-docs-input accept="' +
-      ACCEPT +
-      '" hidden />' +
+      extraFieldsHtml(cfg) +
+      '<div class="immo-doc-categories devis-docs-groups">' +
+      groups.map(renderGroup).join("") +
       "</div>" +
-      '<div data-docs-queue class="devis-docs-queue"></div>' +
       '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Envoi immédiat vers Drive dès que nom et prénom (ou un e-mail / téléphone) sont renseignés.</p>' +
       '<div data-docs-visual-panel hidden style="margin-top:14px"><div data-docs-visual-grid></div></div>' +
-      "</div></section>"
+      "</div>"
     );
+  }
+
+  function buildStepHtml(need) {
+    return (
+      '<section class="wizard-step" hidden data-step="documents" data-step-name="documents" data-optional-step="1">' +
+      buildChecklistHtml(need, { includeTitle: true }) +
+      "</section>"
+    );
+  }
+
+  function mountOnRoot(root, need) {
+    if (!root) return null;
+    var uploader = new DevisDocumentUpload(root, { need: need });
+    uploader.renderQueue();
+    return uploader;
   }
 
   function mountInForm(form, need) {
@@ -459,8 +627,7 @@
     if (!step) return null;
     var root = step.querySelector("[data-devis-documents-root]");
     if (!root) return null;
-    var uploader = new DevisDocumentUpload(root, { need: need });
-    uploader.renderQueue();
+    var uploader = mountOnRoot(root, need);
     form._devisDocumentUpload = uploader;
     return uploader;
   }
@@ -468,7 +635,9 @@
   global.DevisDocumentUpload = {
     DevisDocumentUpload: DevisDocumentUpload,
     buildStepHtml: buildStepHtml,
+    buildChecklistHtml: buildChecklistHtml,
     mountInForm: mountInForm,
+    mountOnRoot: mountOnRoot,
     ACCEPT: ACCEPT,
     MAX_BYTES: MAX_BYTES,
   };
