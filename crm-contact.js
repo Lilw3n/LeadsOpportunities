@@ -253,6 +253,9 @@
         api: "crm",
         showUpload: false,
         mailboxUrl: window.CrmQuestionnaireTools.buildMailboxUrl(leadId),
+        authHeaders: function () {
+          return token() ? { Authorization: "Bearer " + token() } : {};
+        },
         onSaved: function () {
           loadContact();
         },

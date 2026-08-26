@@ -150,6 +150,8 @@ assert(dash.indexOf("onContactCreated") >= 0, "dashboard : refresh CTA après pr
 
 var qTools = read("js/crm-questionnaire-tools.js");
 assert(qTools.indexOf("data-crm-q-open-drive") >= 0, "toolbar : bouton Ouvrir Drive");
+assert(qTools.indexOf("data-crm-q-resume") >= 0, "toolbar : bouton reprise sans PII URL");
+assert(qTools.indexOf("/api/crm/resume-link") >= 0, "toolbar : API resume-link");
 assert(qTools.indexOf("openContactDrive") >= 0, "toolbar : openContactDrive");
 assert(qTools.indexOf("/api/crm/drive-folder") >= 0, "toolbar : API drive-folder");
 assert(qTools.indexOf("ensureContactId") >= 0, "upload : assure fiche avant dépôt");

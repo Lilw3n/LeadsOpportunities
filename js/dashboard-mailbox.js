@@ -1279,9 +1279,7 @@
         ? '<button type="button" class="btn btn-primary btn-sm" id="mbxBtnAllAnswers">Toutes les réponses</button>' +
           '<button type="button" class="btn btn-ghost btn-sm" id="mbxBtnPrintPdf">Imprimer / PDF</button>' +
           (window.CrmQuestionnaireTools
-            ? '<a class="btn-ghost btn-sm" href="' +
-              esc(window.CrmQuestionnaireTools.buildResumeUrl({ leadId: leadId, email: extractEmail(m.from_addr) })) +
-              '" target="_blank" rel="noopener">Ouvrir questionnaire</a>'
+            ? '<button type="button" class="btn-ghost btn-sm" id="mbxBtnResumeQuest">Ouvrir questionnaire</button>'
             : "") +
           '<a class="btn-ghost btn-sm" href="./crm-lead-detail.html?id=' +
           encodeURIComponent(leadId) +
@@ -1296,6 +1294,15 @@
     if (answersBtn) {
       answersBtn.addEventListener("click", function () {
         if (typeof window.openLeadDetail === "function") window.openLeadDetail(leadId);
+      });
+    }
+    var resumeBtn = document.getElementById("mbxBtnResumeQuest");
+    if (resumeBtn && window.CrmQuestionnaireTools && window.CrmQuestionnaireTools.openResumeLink) {
+      resumeBtn.addEventListener("click", function () {
+        window.CrmQuestionnaireTools.openResumeLink(
+          { leadId: leadId },
+          { authHeaders: window.Dashboard && window.Dashboard.authHeaders }
+        );
       });
     }
     var printBtn = document.getElementById("mbxBtnPrintPdf");

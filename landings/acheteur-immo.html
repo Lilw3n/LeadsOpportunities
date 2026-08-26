@@ -3,6 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <script>
+    (function () {
+      try {
+        var p = new URLSearchParams(location.search);
+        var dirty = false;
+        ["email", "phone", "contactId", "leadId", "mail", "tel"].forEach(function (k) {
+          if (p.has(k)) {
+            p.delete(k);
+            dirty = true;
+          }
+        });
+        if (dirty) {
+          var q = p.toString();
+          history.replaceState(null, "", location.pathname + (q ? "?" + q : "") + location.hash);
+        }
+      } catch (e) {}
+    })();
+  </script>
   <title>Recherche de bien immobilier | Maison, appart, pro ou particulier</title>
   <meta name="description" content="Recherchez un appartement ou une maison : filtres ville, budget, pièces, cartes d'annonces. Alerte si aucun mandat. Prêt et assurances en option." />
   <meta name="robots" content="index,follow" />
@@ -2206,7 +2225,7 @@
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
   <script src="../js/print-document-lib.js"></script>
-  <script src="../js/acheteur-immo-fill-mode.js"></script>
+  <script src="../js/acheteur-immo-fill-mode.js?v=20260826rt1"></script>
   <script src="../js/acheteur-immo-print.js"></script>
   <script src="../js/immo-listing-taxonomy.js"></script>
   <script src="../js/acheteur-immo-listing-fields.js"></script>
@@ -2215,7 +2234,7 @@
   <script src="../js/acheteur-immo-wizard.js"></script>
   <script src="../js/acheteur-immo-hat-dossier.js"></script>
   <script src="../js/acheteur-immo-deposit-vente.js"></script>
-  <script src="../js/acheteur-immo-deposit-guide.js?v=20260825drive3"></script>
+  <script src="../js/acheteur-immo-deposit-guide.js?v=20260826rt1"></script>
   <script src="../js/acheteur-immo-account.js"></script>
   <script src="../js/immo-public-listings-lib.js"></script>
   <script src="../js/acheteur-immo-search.js?v=20260825fold"></script>

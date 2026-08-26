@@ -80,6 +80,9 @@
 
     if (opts.updateUrl !== false) {
       var params = new URLSearchParams(window.location.search);
+      ["email", "phone", "contactId", "leadId", "mail", "tel"].forEach(function (k) {
+        params.delete(k);
+      });
       params.set("mode", mode);
       var next = window.location.pathname + "?" + params.toString() + window.location.hash;
       try {
@@ -144,7 +147,24 @@
     prefillConseiller();
   }
 
+  function scrubPiiFromUrl() {
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var dirty = false;
+      ["email", "phone", "contactId", "leadId", "mail", "tel"].forEach(function (k) {
+        if (params.has(k)) {
+          params.delete(k);
+          dirty = true;
+        }
+      });
+      if (!dirty) return;
+      var q = params.toString();
+      history.replaceState(null, "", window.location.pathname + (q ? "?" + q : "") + window.location.hash);
+    } catch (e) {}
+  }
+
   function boot() {
+    scrubPiiFromUrl();
     bindToolbar();
   }
 
