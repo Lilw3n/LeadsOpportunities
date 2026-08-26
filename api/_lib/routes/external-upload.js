@@ -119,8 +119,22 @@ module.exports = async (req, res) => {
   if (!fileName) {
     return res.status(400).json({ error: "fileName requis" });
   }
-  if (!body.email && !body.contactId && !body.contact_id && !body.phone && !body.telephone && !body.leadId && !body.lead_id) {
-    return res.status(400).json({ error: "email, téléphone, contactId ou leadId requis" });
+  var firstName = String(body.firstName || body.first_name || body.prenom || "").trim();
+  var lastName = String(body.lastName || body.last_name || body.nom || "").trim();
+  var hasName = !!(firstName && lastName);
+  if (
+    !body.email &&
+    !body.contactId &&
+    !body.contact_id &&
+    !body.phone &&
+    !body.telephone &&
+    !body.leadId &&
+    !body.lead_id &&
+    !hasName
+  ) {
+    return res.status(400).json({
+      error: "e-mail, téléphone, nom+prénom, contactId ou leadId requis",
+    });
   }
   if (!body.fileBase64) {
     return res.status(400).json({ error: "fileBase64 requis (PDF ou image JPG/PNG)" });
@@ -137,7 +151,7 @@ module.exports = async (req, res) => {
     if (!contact) {
       return res.status(404).json({
         error:
-          "Impossible de créer le dossier — fournissez un e-mail, un téléphone ou un leadId.",
+          "Impossible de créer le dossier — renseignez nom et prénom (ou un e-mail / téléphone).",
         code: "contact_missing",
         leadId: body.leadId || body.lead_id || null,
       });

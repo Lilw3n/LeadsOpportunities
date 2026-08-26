@@ -211,6 +211,7 @@
     {
       id: "identite",
       legend: "Identité & domicile vendeur(s)",
+      driveFolder: "04_documents_confidentiels",
       items: [
         { type: "identite", label: "Pièce d'identité / passeport (tous mandants)" },
         { type: "domicile", label: "Justificatif de domicile (< 3 mois)" },
@@ -221,6 +222,7 @@
     {
       id: "titre",
       legend: "Titre & propriété",
+      driveFolder: "06_mandat_pieces",
       items: [
         { type: "titre_propriete", label: "Titre de propriété / acte notarié" },
         { type: "cadastre", label: "Plan cadastral / extrait cadastre" },
@@ -231,6 +233,7 @@
     {
       id: "copro",
       legend: "Copropriété",
+      driveFolder: "04_documents_confidentiels",
       items: [
         { type: "reglement_copro", label: "Règlement de copropriété & EDD" },
         { type: "pv_ag", label: "PV dernière AG + convocation" },
@@ -242,6 +245,7 @@
     {
       id: "diagnostics",
       legend: "Diagnostics & technique",
+      driveFolder: "05_diagnostics",
       items: [
         { type: "dpe", label: "DPE (< 10 ans / valide)" },
         { type: "amiante", label: "Amiante (avant 1997)" },
@@ -256,6 +260,7 @@
     {
       id: "fiscalite",
       legend: "Fiscalité & financement",
+      driveFolder: "04_documents_confidentiels",
       items: [
         { type: "taxe_fonciere", label: "Taxe foncière (dernier avis)" },
         { type: "taxe_habitation", label: "Taxe d'habitation (si applicable)" },
@@ -266,6 +271,7 @@
     {
       id: "location",
       legend: "Location (si bien occupé / loué)",
+      driveFolder: "04_documents_confidentiels",
       items: [
         { type: "bail", label: "Bail en cours + annexes" },
         { type: "edl", label: "État des lieux entrée / sortie" },
@@ -276,6 +282,7 @@
     {
       id: "travaux",
       legend: "Construction < 10 ans & travaux",
+      driveFolder: "04_documents_confidentiels",
       items: [
         { type: "do_attestation", label: "Attestation dommage-ouvrage" },
         { type: "decennale", label: "Attestation garantie décennale" },
@@ -286,6 +293,7 @@
     {
       id: "divers",
       legend: "Compteurs & divers",
+      driveFolder: "04_documents_confidentiels",
       items: [
         { type: "compteurs", label: "Relevés compteurs (eau, élec, gaz)" },
         { type: "inventaire_meuble", label: "Inventaire mobilier (si meublé)" },

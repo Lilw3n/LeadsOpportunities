@@ -247,40 +247,30 @@
       panel = document.createElement("div");
       panel.id = "docsUploadPanel";
       panel.className = "devis-docs-panel";
+      var checklist =
+        window.DevisDocumentUpload && window.DevisDocumentUpload.buildChecklistHtml
+          ? window.DevisDocumentUpload.buildChecklistHtml(need, { includeTitle: false })
+          : "";
       panel.innerHTML =
         "<h3>Vos pièces justificatives</h3>" +
-        '<p class="small">Complétez votre dossier pour accélérer le devis. Les fichiers sont archivés sur Drive courtier.</p>' +
-        '<div data-devis-documents-root data-docs-visual-panel>' +
-        '<div class="devis-docs-drop" data-docs-drop><strong>Ajouter un document</strong><p>PDF, JPG, PNG — max 12 Mo</p>' +
-        '<input type="file" data-docs-input accept=".pdf,.jpg,.jpeg,.png" hidden /></div>' +
-        '<label style="display:block;margin:10px 0 4px;font-weight:600;font-size:.85rem">Type</label>' +
-        '<select data-docs-type data-optional></select>' +
-        '<div data-docs-queue class="devis-docs-queue"></div>' +
-        '<div data-docs-visual-grid class="devis-docs-grid"></div>' +
-        "</div>" +
+        '<p class="small">Même dépôt que sur le questionnaire : une ligne par pièce, bouton Déposer, envoi vers Drive.</p>' +
+        checklist +
         '<p style="margin-top:10px"><a href="' +
         href +
         '">Page dépôt complète →</a></p>';
       container.insertAdjacentElement("afterend", panel);
       panel.hidden = false;
 
-      if (window.DevisDocumentUpload && window.DEVIS_DOCUMENT_CONFIG) {
-        var cfg = window.DEVIS_DOCUMENT_CONFIG.getConfig(need);
-        var sel = panel.querySelector("[data-docs-type]");
-        if (sel && cfg.items) {
-          sel.innerHTML = cfg.items
-            .map(function (it) {
-              return '<option value="' + it.type + '">' + it.label + "</option>";
-            })
-            .join("");
-        }
-        var uploader = new window.DevisDocumentUpload.DevisDocumentUpload(
+      if (window.DevisDocumentUpload && window.DevisDocumentUpload.mountOnRoot) {
+        var uploader = window.DevisDocumentUpload.mountOnRoot(
           panel.querySelector("[data-devis-documents-root]"),
-          { need: need }
+          need
         );
-        uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
-        panel._uploader = uploader;
-        uploader.fetchRemoteList();
+        if (uploader) {
+          uploader.setSession({ email: email, contactId: contactId, leadId: leadId });
+          panel._uploader = uploader;
+          uploader.fetchRemoteList();
+        }
       }
     } else {
       if (panel._uploader) {

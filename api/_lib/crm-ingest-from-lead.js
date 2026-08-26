@@ -242,7 +242,9 @@ async function ensureContactLinked(sql, opts) {
   var leadId = opts.leadId || null;
   var email = opts.email ? String(opts.email).trim().toLowerCase() : null;
   var phone = opts.phone || opts.telephone || null;
-  if (!email && !phone && !leadId) return null;
+  var firstNameEarly = String(opts.firstName || opts.first_name || opts.prenom || "").trim();
+  var lastNameEarly = String(opts.lastName || opts.last_name || opts.nom || "").trim();
+  if (!email && !phone && !leadId && !(firstNameEarly && lastNameEarly)) return null;
 
   if (leadId) {
     try {

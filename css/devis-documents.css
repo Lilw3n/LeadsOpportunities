@@ -2,6 +2,19 @@
   margin-top: 8px;
 }
 
+.devis-docs-groups {
+  margin-top: 12px;
+}
+
+.devis-docs-step .immo-doc-file-list li {
+  flex-wrap: wrap;
+}
+
+.devis-docs-step .immo-doc-file-list .devis-doc-error-msg {
+  flex: 1 1 100%;
+  margin-left: 0;
+}
+
 .devis-docs-checklist {
   list-style: none;
   margin: 12px 0;
@@ -100,6 +113,16 @@
 .devis-doc-meta span {
   font-size: 0.78rem;
   color: #64748b;
+}
+
+.devis-doc-error-msg {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.75rem !important;
+  font-weight: 600;
+  color: #b91c1c !important;
+  white-space: normal;
+  line-height: 1.3;
 }
 
 .devis-doc-status {

@@ -667,36 +667,13 @@ html:not([data-immo-fill-admin="1"]) [data-immo-fill-toolbar] {
 }
 
 .immo-docs-checklist {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.immo-docs-group {
+.immo-docs-checklist .immo-doc-cat {
   margin: 0;
-  padding: 12px 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  background: #f8fafc;
-}
-
-.immo-docs-group legend {
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: #475569;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 0 4px;
-}
-
-.immo-docs-group .field-check {
-  display: block;
-  margin: 6px 0 0;
-  font-size: 0.84rem;
-}
-
-.immo-docs-group .immo-doc-line {
-  margin-top: 6px;
 }
 
 .immo-mandate-lead {
