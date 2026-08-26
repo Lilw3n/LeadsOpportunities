@@ -156,22 +156,22 @@
               <h3>Usage et vehicule</h3>
               <fieldset class="contact-pair">
                 <legend>Comment vous joindre</legend>
-                <p class="contact-pair-hint">Telephone et e-mail d'abord : on peut vous rappeler meme si vous fermez la page.</p>
+                <p class="contact-pair-hint">Téléphone ou e-mail : utile pour le rappel, pas bloquant. Votre saisie est enregistrée même si vous fermez la page.</p>
                 <div class="contact-pair-row">
                   <div class="field">
                     <label for="phone">Telephone mobile</label>
-                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" required placeholder="06 12 34 56 78" />
+                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" placeholder="06 12 34 56 78" />
                   </div>
                   <div class="field">
                     <label for="email">E-mail</label>
-                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" required placeholder="vous@email.fr" />
+                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" placeholder="vous@email.fr" />
                   </div>
                 </div>
               </fieldset>
               <div class="grid">
                 <div class="field">
                   <label for="usage">Usage du vehicule</label>
-                  <select id="usage" name="usage" required>
+                  <select id="usage" name="usage">
                     <option value="">Selectionnez</option>
                     <option>VTC (Transport de personnes a titre onereux)</option>
                     <option>Taxi</option>
@@ -183,15 +183,15 @@
                 </div>
                 <div class="field">
                   <label for="vehicleBrand">Marque du vehicule</label>
-                  <input id="vehicleBrand" name="vehicleBrand" required placeholder="Ex. Mercedes, Tesla, Toyota..." />
+                  <input id="vehicleBrand" name="vehicleBrand" placeholder="Ex. Mercedes, Tesla, Toyota..." />
                 </div>
                 <div class="field">
                   <label for="vehicleModel">Modele</label>
-                  <input id="vehicleModel" name="vehicleModel" required placeholder="Ex. Classe E, Model 3, Camry..." />
+                  <input id="vehicleModel" name="vehicleModel" placeholder="Ex. Classe E, Model 3, Camry..." />
                 </div>
                 <div class="field">
                   <label for="vehiclePower">Puissance fiscale (CV)</label>
-                  <select id="vehiclePower" name="vehiclePower" required>
+                  <select id="vehiclePower" name="vehiclePower">
                     <option value="">Selectionnez</option>
                     <option>4 CV ou moins</option>
                     <option>5 CV</option>
@@ -206,11 +206,11 @@
                 </div>
                 <div class="field">
                   <label for="vehicleFirstReg">Date de 1ere mise en circulation</label>
-                  <input id="vehicleFirstReg" name="vehicleFirstReg" type="month" required />
+                  <input id="vehicleFirstReg" name="vehicleFirstReg" type="month" />
                 </div>
                 <div class="field">
                   <label for="vehicleAcquisition">Mode d'acquisition</label>
-                  <select id="vehicleAcquisition" name="vehicleAcquisition" required>
+                  <select id="vehicleAcquisition" name="vehicleAcquisition">
                     <option value="">Selectionnez</option>
                     <option>Achat comptant</option>
                     <option>Credit auto</option>
@@ -221,7 +221,7 @@
                 </div>
                 <div class="field full">
                   <label for="vehiclePlate">Plaque d'immatriculation</label>
-                  <input id="vehiclePlate" name="vehiclePlate" required placeholder="Ex. AB-123-CD" />
+                  <input id="vehiclePlate" name="vehiclePlate" placeholder="Ex. AB-123-CD" />
                 </div>
               </div>
             </section>
@@ -232,7 +232,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="legalStatus">Statut juridique</label>
-                  <select id="legalStatus" name="legalStatus" required>
+                  <select id="legalStatus" name="legalStatus">
                     <option value="">Selectionnez</option>
                     <option>Micro-entreprise / Auto-entrepreneur</option>
                     <option>SASU</option>
@@ -244,15 +244,15 @@
                 </div>
                 <div class="field">
                   <label for="activityStart">Date de creation de l'activite</label>
-                  <input id="activityStart" name="activityStart" type="month" required />
+                  <input id="activityStart" name="activityStart" type="month" />
                 </div>
                 <div class="field">
                   <label for="siret">SIREN (9) ou SIRET (14 chiffres)</label>
-                  <input id="siret" name="siret" inputmode="numeric" required placeholder="123456789 ou 12345678901234" />
+                  <input id="siret" name="siret" inputmode="numeric" placeholder="123456789 ou 12345678901234" />
                 </div>
                 <div class="field">
                   <label for="annualKm">Kilometrage annuel estime</label>
-                  <select id="annualKm" name="annualKm" required>
+                  <select id="annualKm" name="annualKm">
                     <option value="">Selectionnez</option>
                     <option>Moins de 15 000 km</option>
                     <option>15 000 - 30 000 km</option>
@@ -263,7 +263,7 @@
                 </div>
                 <div class="field">
                   <label for="parkingType">Stationnement du vehicule</label>
-                  <select id="parkingType" name="parkingType" required>
+                  <select id="parkingType" name="parkingType">
                     <option value="">Selectionnez</option>
                     <option>Garage ferme prive</option>
                     <option>Parking prive (residence, entreprise)</option>
@@ -273,11 +273,11 @@
                 </div>
                 <div class="field">
                   <label for="city">Zone principale d'activite</label>
-                  <input id="city" name="city" autocomplete="address-level2" required placeholder="Ex. Paris, Lyon, Marseille..." />
+                  <input id="city" name="city" autocomplete="address-level2" placeholder="Ex. Paris, Lyon, Marseille..." />
                 </div>
                 <div class="field">
                   <label for="nbVehicles">Nombre de vehicules a assurer</label>
-                  <select id="nbVehicles" name="nbVehicles" required>
+                  <select id="nbVehicles" name="nbVehicles">
                     <option value="">Selectionnez</option>
                     <option>1 vehicule</option>
                     <option>2 vehicules</option>
@@ -288,7 +288,7 @@
                 </div>
                 <div class="field">
                   <label for="platforms">Plateformes utilisees</label>
-                  <select id="platforms" name="platforms" required>
+                  <select id="platforms" name="platforms">
                     <option value="">Selectionnez</option>
                     <option>Uber uniquement</option>
                     <option>Bolt uniquement</option>
@@ -308,15 +308,15 @@
               <div class="grid">
                 <div class="field">
                   <label for="driverDob">Date de naissance</label>
-                  <input id="driverDob" name="driverDob" type="date" required />
+                  <input id="driverDob" name="driverDob" type="date" />
                 </div>
                 <div class="field">
                   <label for="licenseDate">Date d'obtention du permis B</label>
-                  <input id="licenseDate" name="licenseDate" type="month" required />
+                  <input id="licenseDate" name="licenseDate" type="month" />
                 </div>
                 <div class="field">
                   <label for="licenseType">Type de permis</label>
-                  <select id="licenseType" name="licenseType" required>
+                  <select id="licenseType" name="licenseType">
                     <option value="">Selectionnez</option>
                     <option>Permis B francais</option>
                     <option>Permis B europeen (UE/EEE)</option>
@@ -326,7 +326,7 @@
                 </div>
                 <div class="field">
                   <label for="vtcCard">Carte professionnelle VTC</label>
-                  <select id="vtcCard" name="vtcCard" required>
+                  <select id="vtcCard" name="vtcCard">
                     <option value="">Selectionnez</option>
                     <option>Oui, en cours de validite</option>
                     <option>En cours de demande</option>
@@ -346,7 +346,7 @@
                 </div>
                 <div class="field">
                   <label for="additionalDrivers">Conducteurs secondaires ?</label>
-                  <select id="additionalDrivers" name="additionalDrivers" required>
+                  <select id="additionalDrivers" name="additionalDrivers">
                     <option value="">Selectionnez</option>
                     <option>Non, conducteur unique</option>
                     <option>Oui, 1 conducteur secondaire</option>
@@ -363,7 +363,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="bonusMalus">Coefficient bonus-malus actuel (CRM)</label>
-                  <select id="bonusMalus" name="bonusMalus" required>
+                  <select id="bonusMalus" name="bonusMalus">
                     <option value="">Selectionnez</option>
                     <option>0.50 (bonus maximum)</option>
                     <option>0.51 a 0.65</option>
@@ -378,7 +378,7 @@
                 </div>
                 <div class="field">
                   <label for="cancelledBefore">Avez-vous ete resilie par un assureur ?</label>
-                  <select id="cancelledBefore" name="cancelledBefore" required>
+                  <select id="cancelledBefore" name="cancelledBefore">
                     <option value="">Selectionnez</option>
                     <option>Non, jamais</option>
                     <option>Oui, pour non-paiement</option>
@@ -390,7 +390,7 @@
                 </div>
                 <div class="field">
                   <label for="claims3y">Sinistres declares (3 dernieres annees)</label>
-                  <select id="claims3y" name="claims3y" required>
+                  <select id="claims3y" name="claims3y">
                     <option value="">Selectionnez</option>
                     <option>Aucun sinistre</option>
                     <option>1 sinistre (responsable)</option>
@@ -402,7 +402,7 @@
                 </div>
                 <div class="field">
                   <label for="licenseSuspension">Suspension ou annulation de permis ?</label>
-                  <select id="licenseSuspension" name="licenseSuspension" required>
+                  <select id="licenseSuspension" name="licenseSuspension">
                     <option value="">Selectionnez</option>
                     <option>Non, jamais</option>
                     <option>Oui, suspension de moins de 6 mois</option>
@@ -412,7 +412,7 @@
                 </div>
                 <div class="field">
                   <label for="alcoholTest">Condamnation alcoolemie / stupefiants ?</label>
-                  <select id="alcoholTest" name="alcoholTest" required>
+                  <select id="alcoholTest" name="alcoholTest">
                     <option value="">Selectionnez</option>
                     <option>Non</option>
                     <option>Oui (plus de 3 ans)</option>
@@ -493,7 +493,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="civility">Civilite</label>
-                  <select id="civility" name="civility" required>
+                  <select id="civility" name="civility">
                     <option value="">Selectionnez</option>
                     <option>Monsieur</option>
                     <option>Madame</option>
@@ -501,11 +501,11 @@
                 </div>
                 <div class="field">
                   <label for="firstName">Prenom</label>
-                  <input id="firstName" name="firstName" autocomplete="given-name" required />
+                  <input id="firstName" name="firstName" autocomplete="given-name" />
                 </div>
                 <div class="field">
                   <label for="lastName">Nom</label>
-                  <input id="lastName" name="lastName" autocomplete="family-name" required />
+                  <input id="lastName" name="lastName" autocomplete="family-name" />
                 </div>
                 <div class="field full">
                   <label for="street">Adresse complete (rue et numero) <span class="field-optional">(facultatif)</span></label>
@@ -528,7 +528,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="coverLevel">Niveau de couverture souhaite</label>
-                  <select id="coverLevel" name="coverLevel" required>
+                  <select id="coverLevel" name="coverLevel">
                     <option value="">Selectionnez</option>
                     <option>RC Pro obligatoire uniquement (minimum legal)</option>
                     <option>Tiers etendu (RC + vol + incendie + bris de glace)</option>
@@ -539,7 +539,7 @@
                 </div>
                 <div class="field">
                   <label for="optionsPJ">Protection juridique ?</label>
-                  <select id="optionsPJ" name="optionsPJ" required>
+                  <select id="optionsPJ" name="optionsPJ">
                     <option value="">Selectionnez</option>
                     <option>Oui, je la souhaite</option>
                     <option>Non, pas necessaire</option>
@@ -552,7 +552,7 @@
                 </div>
                 <div class="field">
                   <label for="budgetHint">Budget mensuel envisage</label>
-                  <select id="budgetHint" name="budgetHint" required>
+                  <select id="budgetHint" name="budgetHint">
                     <option value="">Selectionnez</option>
                     <option>Moins de 150 EUR / mois</option>
                     <option>150 - 250 EUR / mois</option>
@@ -563,7 +563,7 @@
                 </div>
                 <div class="field">
                   <label for="callbackTime">Horaire de rappel prefere</label>
-                  <select id="callbackTime" name="callbackTime" required>
+                  <select id="callbackTime" name="callbackTime">
                     <option value="">Selectionnez</option>
                     <option>Avant 9h</option>
                     <option>9h - 11h</option>
@@ -701,7 +701,7 @@
     }
   </script>
   <script src="../js/public-partners-trust.js"></script>
-  <script src="../js/contact-pair.js"></script>
+  <script src="../js/contact-pair.js?v=20260826softreq"></script>
   <script src="../js/devis-document-config.js"></script>
   <script src="../js/devis-document-upload.js"></script>
   <script src="../js/devis-document-inject.js"></script>
@@ -710,9 +710,9 @@
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
-  <script src="../js/quote-intelligence.js"></script>
-  <script src="./quote-wizard.js"></script>
-  <script src="../js/form-audit.js"></script>
+  <script src="../js/quote-intelligence.js?v=20260826softreq"></script>
+  <script src="./quote-wizard.js?v=20260826softreq"></script>
+  <script src="../js/form-audit.js?v=20260826softreq"></script>
   <script src="../js/lead-insights.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>

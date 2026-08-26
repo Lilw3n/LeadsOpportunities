@@ -33,7 +33,7 @@
     var name = opts.name || "";
     var id = opts.id || name;
     var type = opts.type || "text";
-    var req = opts.required === false ? "" : " required";
+    var req = opts.required === true ? " required" : "";
     return (
       '<label class="field" for="' +
       esc(id) +
@@ -65,7 +65,7 @@
       '<p class="contact-pair-hint">' +
       esc(
         opts.hint ||
-          "Téléphone et e-mail : un conseiller vous rappelle et envoie le devis. Même si vous n'allez pas au bout du formulaire."
+          "Téléphone ou e-mail : un conseiller peut vous rappeler même si vous n'allez pas au bout. Utile, pas bloquant."
       ) +
       "</p>" +
       '<div class="contact-pair-row">' +
@@ -75,7 +75,7 @@
         type: "tel",
         label: "Téléphone mobile",
         placeholder: "06 12 34 56 78",
-        required: opts.required !== false,
+        required: opts.required === true,
       }) +
       fieldHtml({
         name: "email",
@@ -83,7 +83,7 @@
         type: "email",
         label: "E-mail",
         placeholder: "vous@email.fr",
-        required: opts.required !== false,
+        required: opts.required === true,
       }) +
       "</div></fieldset>"
     );

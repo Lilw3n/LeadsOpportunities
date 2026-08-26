@@ -154,25 +154,25 @@ window.IntelligentQuoteWizard = {
         '<div class="form-grid">' +
         '<label>Prénom<input name="firstName" value="' +
         self.esc(data.firstName) +
-        '" required /></label>' +
+        '" /></label>' +
         '<label>Nom<input name="lastName" value="' +
         self.esc(data.lastName) +
-        '" required /></label>' +
+        '" /></label>' +
         '<label>Email<input type="email" name="email" value="' +
         self.esc(data.email) +
-        '" required /></label>' +
+        '" /></label>' +
         '<label>Téléphone<input name="phone" value="' +
         self.esc(data.phone) +
-        '" required /></label>' +
+        '" /></label>' +
         '<label class="full">Adresse<input name="street" value="' +
         self.esc(data.street) +
-        '" required /></label>' +
+        '" /></label>' +
         '<label>Ville<input name="city" value="' +
         self.esc(data.city) +
-        '" required /></label>' +
+        '" /></label>' +
         '<label>Code postal<input name="postalCode" pattern="\\d{5}" value="' +
         self.esc(data.postalCode) +
-        '" required /></label>' +
+        '" /></label>' +
         "</div>"
       );
     }
@@ -208,7 +208,7 @@ window.IntelligentQuoteWizard = {
         extra =
           '<label>Type véhicule<select name="vehicleType"><option value="">—</option><option>VTC</option><option>Berline</option><option>Utilitaire</option></select></label>' +
           '<label>Activité<select name="activityType"><option value="">—</option><option>VTC</option><option>Taxi</option><option>Personnel</option></select></label>' +
-          '<label>Plaque d\'immatriculation<input name="vehiclePlate" required placeholder="AA-123-BB" value="' +
+          '<label>Plaque d\'immatriculation<input name="vehiclePlate" placeholder="AA-123-BB" value="' +
           self.esc(data.vehiclePlate) +
           '" /></label>';
       } else if (t === "habitation") {
@@ -280,24 +280,21 @@ window.IntelligentQuoteWizard = {
       var id = steps[step].id;
       if (id === "insurance-type" && !data.insuranceType) return "Choisissez un type";
       if (id === "personal") {
-        if (!data.firstName || !data.lastName || !data.email || !data.phone) return "Champs requis";
-        if (!(data.street || "").trim()) return "Adresse postale requise";
-        if (!(data.city || "").trim()) return "Ville requise";
-        if (!/^\d{5}$/.test(data.postalCode || "")) return "Code postal invalide";
+        if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return "E-mail invalide";
+        if (data.phone && String(data.phone).replace(/\D/g, "").length && String(data.phone).replace(/\D/g, "").length < 10) {
+          return "Téléphone invalide";
+        }
+        if ((data.postalCode || "") && !/^\d{5}$/.test(data.postalCode || "")) return "Code postal invalide";
       }
       if (id === "company") {
-        var proType = data.insuranceType === "rc-pro" || data.insuranceType === "decennale";
-        if (proType || data.hasCompany) {
-          if (!data.companyName) return "Raison sociale requise";
-          var siretDigits = String(data.companySiret || "").replace(/\s/g, "");
-          if (!/^\d{9}$/.test(siretDigits) && !/^\d{14}$/.test(siretDigits)) {
-            return "SIREN (9) ou SIRET (14 chiffres) requis";
-          }
+        var siretDigits = String(data.companySiret || "").replace(/\s/g, "");
+        if (siretDigits && !/^\d{9}$/.test(siretDigits) && !/^\d{14}$/.test(siretDigits)) {
+          return "SIREN (9) ou SIRET (14 chiffres) si renseigné";
         }
       }
       if (id === "needs" && (data.insuranceType === "auto" || data.insuranceType === "vtc-taxi")) {
         var plate = String(data.vehiclePlate || "").replace(/[\s-]/g, "");
-        if (plate.length < 4) return "Plaque d'immatriculation requise";
+        if (plate && plate.length < 4) return "Plaque d'immatriculation trop courte";
       }
       return null;
     }

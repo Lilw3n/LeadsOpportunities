@@ -76,18 +76,18 @@
           </div>
           <fieldset class="contact-pair">
             <legend>Comment vous joindre</legend>
-            <p class="contact-pair-hint">Telephone et e-mail : on vous rappelle, meme sans le reste du formulaire.</p>
+            <p class="contact-pair-hint">Téléphone ou e-mail : on vous rappelle, même sans le reste du formulaire. Saisie enregistrée si vous fermez.</p>
             <div class="contact-pair-row">
-              <label>Telephone mobile<input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" /></label>
-              <label>E-mail<input name="email" type="email" required autocomplete="email" inputmode="email" placeholder="vous@email.fr" /></label>
+              <label>Telephone mobile<input name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" /></label>
+              <label>E-mail<input name="email" type="email" autocomplete="email" inputmode="email" placeholder="vous@email.fr" /></label>
             </div>
           </fieldset>
-          <label>Prénom et nom<input name="fullName" required autocomplete="name" /></label>
-          <label>Plaque d'immatriculation<input name="vehiclePlate" required placeholder="AA-123-BB" /></label>
-          <label>SIREN (9) ou SIRET (14 chiffres)<input name="siret" inputmode="numeric" required placeholder="123456789 ou 12345678901234" /></label>
-          <label>Adresse postale (numéro et rue)<input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>
-          <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" required autocomplete="postal-code" /></label>
-          <label>Ville<input name="cityFull" required autocomplete="address-level2" placeholder="Paris" /></label>
+          <label>Prénom et nom<input name="fullName" autocomplete="name" /></label>
+          <label>Plaque d'immatriculation<input name="vehiclePlate" placeholder="AA-123-BB" /></label>
+          <label>SIREN (9) ou SIRET (14 chiffres)<input name="siret" inputmode="numeric" placeholder="123456789 ou 12345678901234" /></label>
+          <label>Adresse postale (numéro et rue)<input name="street" autocomplete="street-address" placeholder="12 rue..." /></label>
+          <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" /></label>
+          <label>Ville<input name="cityFull" autocomplete="address-level2" placeholder="Paris" /></label>
           <label>Votre besoin (optionnel)<textarea name="message" rows="2" placeholder="Ex : renouvellement, nouveau VTC, sinistre récent…"></textarea></label>
           <label class="checkbox-row">
             <input type="checkbox" name="consent" required />
@@ -105,7 +105,7 @@
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
-  <script src="../js/quote-intelligence.js"></script>
+  <script src="../js/quote-intelligence.js?v=20260826softreq"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
   <script src="../js/france-seo-meta.js"></script>

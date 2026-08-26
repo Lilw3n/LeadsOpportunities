@@ -8,7 +8,7 @@
   }
 
   function select(name, label, options, required) {
-    var req = required !== false ? " required" : "";
+    var req = "";
     var opts = options
       .map(function (o) {
         return '<option value="' + o.v + '">' + o.t + "</option>";
@@ -28,7 +28,7 @@
   }
 
   function input(name, label, type, placeholder, required) {
-    var req = required !== false ? " required" : "";
+    var req = "";
     var t = type || "text";
     var extra = "";
     if (t === "email" || name === "email") extra = ' autocomplete="email" inputmode="email" enterkeyhint="next"';
@@ -103,7 +103,7 @@
   }
 
   function textarea(name, label, placeholder, required) {
-    var req = required !== false ? " required" : "";
+    var req = "";
     return (
       "<label>" +
       label +
