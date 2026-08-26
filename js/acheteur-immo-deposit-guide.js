@@ -6,6 +6,7 @@
   var INDEX_KEY = "lo_immo_deposit_drafts_index";
   var DRAFT_PREFIX = "lo_immo_deposit_draft_";
   var SESSION_ACTIVE_KEY = "lo_immo_draft_active_id";
+  var SESSION_INTENT_KEY = "lo_immo_session_intent";
   var LEAD_ID_KEY = "lo_immo_deposit_lead_id";
   var SHARED_LEAD_KEY = "lo_draft_lead_id";
   var PROPERTY_ID_KEY = "lo_immo_deposit_property_id";
@@ -643,35 +644,100 @@
     } catch (e) {}
   }
 
-  function startNewDemand(root, skipConfirm) {
-    var form = qs("[data-url-capture-form]", root);
-    if (!skipConfirm && formDirty && hasDraftContent(collectDraft())) {
-      if (!confirm("Démarrer une nouvelle demande ? Le brouillon de cet onglet sera conservé séparément.")) return;
+  function hasExplicitResumeIntent() {
+    if (global.AcheteurImmoFillMode && typeof global.AcheteurImmoFillMode.hasExplicitResumeIntent === "function") {
+      return global.AcheteurImmoFillMode.hasExplicitResumeIntent();
     }
-    flushSave(true);
-    var newId = createDraftId();
-    setActiveDraftId(newId);
+    var p = new URLSearchParams(location.search);
+    if ((p.get("qr") || "").trim()) return true;
+    if (p.get("source") === "crm_resume") return true;
+    if ((p.get("leadId") || "").trim()) return true;
+    var reprise = p.get("reprise");
+    if (reprise && reprise !== "0" && reprise !== "1") return true;
+    if (reprise === "1" && ((p.get("email") || "").trim() || (p.get("phone") || "").trim())) return true;
+    return false;
+  }
+
+  function isBlankDepositStart() {
+    if (global.AcheteurImmoFillMode && typeof global.AcheteurImmoFillMode.isBlankDepositStart === "function") {
+      return global.AcheteurImmoFillMode.isBlankDepositStart();
+    }
+    var p = new URLSearchParams(location.search);
+    if (p.get("nouveau") === "1") return true;
+    var mode = (p.get("mode") || "").toLowerCase();
+    if (mode !== "conseiller" && mode !== "agent" && mode !== "interne") return false;
+    return !hasExplicitResumeIntent();
+  }
+
+  function setSessionIntent(key) {
+    try {
+      sessionStorage.setItem(SESSION_INTENT_KEY, key);
+    } catch (e) {}
+  }
+
+  function getSessionIntent() {
+    try {
+      return sessionStorage.getItem(SESSION_INTENT_KEY) || "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function detachLeadIdentity() {
+    try {
+      localStorage.removeItem(LEAD_ID_KEY);
+      localStorage.removeItem(SHARED_LEAD_KEY);
+      localStorage.removeItem(PROPERTY_ID_KEY);
+    } catch (e) {}
+    if (global.QuoteIntelligence && global.QuoteIntelligence.setDraftLeadId) {
+      global.QuoteIntelligence.setDraftLeadId(null);
+    }
+  }
+
+  function resetDepositForm(root) {
     formDirty = false;
+    var form = qs("[data-url-capture-form]", root);
     if (form) form.reset();
+    var urls = qs("[data-listing-urls]", root);
+    if (urls) urls.value = "";
     var panel = qs("[data-search-vente-panel]");
     if (panel) {
       qsa("input, select, textarea", panel).forEach(function (el) {
         if (el.type === "hidden" || el.type === "file") return;
-        if (el.type === "checkbox" || el.type === "radio") el.checked = false;
-        else el.value = "";
+        if (el.type === "checkbox" || el.type === "radio") el.checked = !!el.defaultChecked;
+        else el.value = el.defaultValue || "";
       });
     }
     var mount = qs("[data-owners-mount]");
     if (mount && global.AcheteurImmoOwners) global.AcheteurImmoOwners.render(mount, [{}]);
     if (global.AcheteurImmoDepositVente) global.AcheteurImmoDepositVente.sync();
+  }
+
+  function beginBlankDeposit(root) {
+    detachLeadIdentity();
+    setActiveDraftId(createDraftId());
+    setSessionIntent("blank");
+    resetDepositForm(root);
+    if (root) root.dataset.depositBlankStart = "1";
     updateDraftBanner();
     updateSessionHint(root);
     refreshUi(root);
+  }
+
+  function startNewDemand(root, skipConfirm) {
+    if (!skipConfirm && formDirty && hasDraftContent(collectDraft())) {
+      if (!confirm("Démarrer une nouvelle demande ? Le brouillon de cet onglet sera conservé séparément.")) return;
+    }
+    flushSave(true);
+    beginBlankDeposit(root);
     showDraftToast("Nouvelle demande — brouillon séparé (ne remplace pas vos autres dossiers).");
     try {
       var params = new URLSearchParams(location.search);
       params.set("nouveau", "1");
       params.delete("reprise");
+      params.delete("leadId");
+      params.delete("source");
+      params.delete("qr");
       history.replaceState(null, "", location.pathname + "?" + params.toString() + (location.hash || ""));
     } catch (urlErr) {}
   }
@@ -692,23 +758,26 @@
   function initDraftSession(root) {
     migrateDraftV1();
     var params = new URLSearchParams(location.search);
-    var forceNew = params.get("nouveau") === "1";
     var reprise = params.get("reprise");
     var sessionId = null;
     try {
       sessionId = sessionStorage.getItem(SESSION_ACTIVE_KEY);
     } catch (e) {}
 
-    prefillUrlCredentials(root);
-
-    if (forceNew) {
-      setActiveDraftId(createDraftId());
-      clearPropertyId();
-      formDirty = false;
-      updateDraftBanner();
-      updateSessionHint(root);
+    if (isBlankDepositStart()) {
+      if (getSessionIntent() === "blank" && sessionId && hasDraftContent(loadDraftById(sessionId))) {
+        setActiveDraftId(sessionId);
+        restoreDraftById(sessionId, { silent: true });
+        updateDraftBanner();
+        updateSessionHint(root);
+        return;
+      }
+      beginBlankDeposit(root);
       return;
     }
+
+    prefillUrlCredentials(root);
+    setSessionIntent("resume");
 
     var urlCtx = urlResumeContext();
     if (urlCtx.crmResume || urlCtx.leadId) {
@@ -788,7 +857,8 @@
     }
 
     var creds = resumeCredentials();
-    if (creds.email || creds.phone || creds.leadId) {
+    creds.leadId = null;
+    if (creds.email || creds.phone) {
       tryRestoreFromServer(root, { silent: true, creds: creds }, function (found) {
         if (!found) {
           setActiveDraftId(createDraftId());
@@ -980,7 +1050,8 @@
   function resumeCredentials() {
     var urlCtx = urlResumeContext();
     var form = qs("[data-url-capture-form]");
-    var email = urlCtx.email || sessionEmail();
+    var blank = isBlankDepositStart();
+    var email = urlCtx.email || (blank ? "" : sessionEmail());
     var phone = urlCtx.phone || "";
     if (form) {
       var em = form.querySelector("[name='email']");
@@ -989,13 +1060,13 @@
       if (ph && String(ph.value || "").trim()) phone = String(ph.value).trim();
     }
     var leadId = urlCtx.leadId || null;
-    if (!leadId) {
+    if (!leadId && hasExplicitResumeIntent()) {
       try {
         leadId = localStorage.getItem(LEAD_ID_KEY) || localStorage.getItem(SHARED_LEAD_KEY);
       } catch (e) {}
-    }
-    if (!leadId && global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
-      leadId = global.QuoteIntelligence.getDraftLeadId();
+      if (!leadId && global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
+        leadId = global.QuoteIntelligence.getDraftLeadId();
+      }
     }
     return { email: email, phone: phone, leadId: leadId };
   }
@@ -1003,7 +1074,9 @@
   function fetchServerDraft(creds) {
     creds = creds || resumeCredentials();
     var qsParts = [];
-    if (creds.leadId) qsParts.push("leadId=" + encodeURIComponent(creds.leadId));
+    if (creds.leadId && (creds.email || creds.phone)) {
+      qsParts.push("leadId=" + encodeURIComponent(creds.leadId));
+    }
     if (creds.email) qsParts.push("email=" + encodeURIComponent(creds.email));
     if (creds.phone) qsParts.push("phone=" + encodeURIComponent(creds.phone));
     if (!qsParts.length) return Promise.resolve({ found: false });
@@ -1597,6 +1670,9 @@
     clearDraft: clearDraft,
     clearDraftAfterSubmit: clearDraftAfterSubmit,
     startNewDemand: startNewDemand,
+    beginBlankDeposit: beginBlankDeposit,
+    isBlankDepositStart: isBlankDepositStart,
+    detachLeadIdentity: detachLeadIdentity,
     refreshUi: refreshUi,
     flushSave: flushSave,
     ensureServerLead: ensureServerLead,

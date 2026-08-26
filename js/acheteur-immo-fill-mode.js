@@ -39,6 +39,33 @@
     return isSiteAdmin();
   }
 
+  function hasExplicitResumeIntent() {
+    var p = new URLSearchParams(window.location.search);
+    if ((p.get("qr") || "").trim()) return true;
+    if (p.get("source") === "crm_resume") return true;
+    if ((p.get("leadId") || "").trim()) return true;
+    var reprise = p.get("reprise");
+    if (reprise && reprise !== "0" && reprise !== "1") return true;
+    if (reprise === "1" && ((p.get("email") || "").trim() || (p.get("phone") || "").trim())) return true;
+    return false;
+  }
+
+  function isConseillerContext() {
+    if (getModeFromUrl() === "conseiller") return true;
+    try {
+      if (localStorage.getItem(STORAGE_KEY) === "conseiller") return true;
+    } catch (e) {}
+    return currentMode() === "conseiller";
+  }
+
+  /** Formulaire vierge : mode conseiller sans lien de reprise (pas le dossier d’un autre client). */
+  function isBlankDepositStart() {
+    var p = new URLSearchParams(window.location.search);
+    if (p.get("nouveau") === "1") return true;
+    if (hasExplicitResumeIntent()) return false;
+    return isConseillerContext();
+  }
+
   function currentMode() {
     if (!canUseConseillerMode()) return "client";
     var url = getModeFromUrl();
@@ -153,6 +180,9 @@
     setMode: setMode,
     isSiteAdmin: isSiteAdmin,
     canUseConseillerMode: canUseConseillerMode,
+    hasExplicitResumeIntent: hasExplicitResumeIntent,
+    isConseillerContext: isConseillerContext,
+    isBlankDepositStart: isBlankDepositStart,
     isConseiller: function () {
       return currentMode() === "conseiller";
     },

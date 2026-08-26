@@ -64,6 +64,7 @@
     "verify:relations": "node scripts/verify-people-relations.cjs",
     "verify:google-calendar": "node scripts/verify-google-calendar.cjs",
     "verify:interlocuteur": "node scripts/verify-interlocuteur-dossier.cjs",
+    "verify:conseiller-privacy": "node scripts/verify-conseiller-privacy.cjs",
     "verify:print-document": "node scripts/verify-print-document.cjs",
     "verify:slack": "node scripts/verify-slack-notify.cjs",
     "verify:canicule-mutuelle": "node scripts/verify-canicule-mutuelle.cjs",

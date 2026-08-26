@@ -16,6 +16,7 @@
   function setDraftLeadId(id) {
     try {
       if (id) localStorage.setItem(DRAFT_KEY, id);
+      else localStorage.removeItem(DRAFT_KEY);
     } catch (e) {}
   }
 
@@ -280,9 +281,31 @@
     } catch (e) {}
   }
 
+  function shouldSkipLocalDraftRestore() {
+    var p = new URLSearchParams(window.location.search);
+    if (p.get("nouveau") === "1") return true;
+    if (window.AcheteurImmoFillMode && typeof window.AcheteurImmoFillMode.isBlankDepositStart === "function") {
+      return window.AcheteurImmoFillMode.isBlankDepositStart();
+    }
+    var mode = (p.get("mode") || "").toLowerCase();
+    var conseiller = mode === "conseiller" || mode === "agent" || mode === "interne";
+    try {
+      if (!conseiller && localStorage.getItem("lo_immo_fill_mode") === "conseiller") conseiller = true;
+    } catch (e) {}
+    if (!conseiller) return false;
+    if ((p.get("qr") || "").trim()) return false;
+    if (p.get("source") === "crm_resume") return false;
+    if ((p.get("leadId") || "").trim()) return false;
+    var reprise = p.get("reprise");
+    if (reprise && reprise !== "0" && reprise !== "1") return false;
+    if (reprise === "1" && ((p.get("email") || "").trim() || (p.get("phone") || "").trim())) return false;
+    return true;
+  }
+
   function restoreLocalDraft(form) {
     if (!form || form._draftRestored) return;
     form._draftRestored = true;
+    if (shouldSkipLocalDraftRestore()) return;
     if (formHasMeaningfulInput(form)) return;
     var draft;
     try {

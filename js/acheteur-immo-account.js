@@ -33,8 +33,25 @@
     if (profile) localStorage.setItem("lo_ext_profile", JSON.stringify(profile));
   }
 
+  function skipClientSessionPrefill() {
+    if (window.AcheteurImmoFillMode && typeof window.AcheteurImmoFillMode.isBlankDepositStart === "function") {
+      return window.AcheteurImmoFillMode.isBlankDepositStart();
+    }
+    var p = new URLSearchParams(window.location.search);
+    if (p.get("nouveau") === "1") return true;
+    var mode = (p.get("mode") || "").toLowerCase();
+    if (mode !== "conseiller" && mode !== "agent" && mode !== "interne") return false;
+    if ((p.get("qr") || "").trim()) return false;
+    if (p.get("source") === "crm_resume") return false;
+    if ((p.get("leadId") || "").trim()) return false;
+    var reprise = p.get("reprise");
+    if (reprise && reprise !== "0" && reprise !== "1") return false;
+    if (reprise === "1" && ((p.get("email") || "").trim() || (p.get("phone") || "").trim())) return false;
+    return true;
+  }
+
   function prefillFromSession(form) {
-    if (!form) return;
+    if (!form || skipClientSessionPrefill()) return;
     var email = localStorage.getItem(EMAIL_KEY);
     var raw = localStorage.getItem("lo_ext_profile");
     var profile = null;
@@ -260,7 +277,11 @@
         if (data.found) {
           prefillIfEmpty(form, data);
           setCoordsKnown(root, data.message || "Dossier déjà connu — vos coordonnées ont été reprises.");
-          if (window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.tryRestoreFromServer) {
+          if (
+            !skipClientSessionPrefill() &&
+            window.AcheteurImmoDepositGuide &&
+            window.AcheteurImmoDepositGuide.tryRestoreFromServer
+          ) {
             window.AcheteurImmoDepositGuide.tryRestoreFromServer(
               root,
               {
