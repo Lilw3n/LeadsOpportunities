@@ -47,7 +47,7 @@
         o[k] = v;
       }
     });
-    ["buyerNeeds", "propertySought", "serviceSought", "ownerRole[]", "ownerFirstName[]", "ownerLastName[]", "ownerBirthName[]", "ownerProfession[]", "ownerMaritalDate[]", "ownerMaritalPlace[]", "ownerMarriageContract[]", "ownerNotary[]", "ownerAddedBy[]", "ownerBirthDate[]", "ownerBirthPlace[]", "ownerNationality[]", "ownerSocialSecurity[]", "ownerNationalId[]", "ownerComments[]", "ownerPhone[]", "ownerEmail[]", "ownerAddress[]", "ownerPostal[]", "ownerCity[]", "roomLevel[]", "roomName[]", "roomSurface[]", "roomDimensions[]", "roomFlooring[]", "roomExposure[]", "roomComments[]", "sellEquip[]", "sellCommit[]", "sellFurniture[]", "sellDoc[]", "coproWorkNature[]", "coproWorkStatus[]", "coproWorkAmount[]", "coproWorkDate[]", "coproWorkShare[]", "coproWorkNote[]"].forEach(function (key) {
+    ["buyerNeeds", "propertySought", "serviceSought", "ownerRole[]", "ownerFirstName[]", "ownerLastName[]", "ownerBirthName[]", "ownerProfession[]", "ownerMaritalDate[]", "ownerMaritalPlace[]", "ownerMarriageContract[]", "ownerNotary[]", "ownerAddedBy[]", "ownerBirthDate[]", "ownerBirthPlace[]", "ownerNationality[]", "ownerSocialSecurity[]", "ownerNationalId[]", "ownerComments[]", "ownerPhone[]", "ownerEmail[]", "ownerAddress[]", "ownerPostal[]", "ownerCity[]", "roomLevel[]", "roomName[]", "roomSurface[]", "roomDimensions[]", "roomFlooring[]", "roomExposure[]", "roomComments[]", "sellEquip[]", "sellCommit[]", "sellFurniture[]", "sellDoc[]", "sellCoproProcedureKind[]", "coproWorkNature[]", "coproWorkStatus[]", "coproWorkAmount[]", "coproWorkDate[]", "coproWorkShare[]", "coproWorkNote[]"].forEach(function (key) {
       if (typeof o[key] === "string") o[key] = [o[key]];
     });
     return o;

@@ -32,6 +32,17 @@
     { v: "na", t: "Non applicable / non renseigné" },
   ];
 
+  var COPRO_PROCEDURES = [
+    "Absence de syndic",
+    "Copropriété en cours de constitution",
+    "Demande de désignation d'expert(s)",
+    "Demande de désignation d'un administrateur provisoire",
+    "Demande de désignation d'un mandataire ad hoc",
+    "Non soumis à un impayé",
+    "Pas de procédure en cours",
+    "Procédure en cours",
+  ];
+
   var ENVIRONMENTS = [
     { v: "", t: "— Choisir —" },
     { v: "bois", t: "bois" },
@@ -389,6 +400,7 @@
     PROPERTY_CATEGORIES: PROPERTY_CATEGORIES,
     PROPERTY_SUBTYPES: PROPERTY_SUBTYPES,
     COPRO_STATUS: COPRO_STATUS,
+    COPRO_PROCEDURES: COPRO_PROCEDURES,
     ENVIRONMENTS: ENVIRONMENTS,
     COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
     GENERAL_CONDITIONS: GENERAL_CONDITIONS,

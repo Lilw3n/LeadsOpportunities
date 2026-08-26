@@ -1098,10 +1098,23 @@
                     <div class="field"><label for="sellCoproLots">Nombre de lots (copro)</label><input id="sellCoproLots" name="sellCoproLots" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellCoproLotsBuilding">Lots dans l'immeuble</label><input id="sellCoproLotsBuilding" name="sellCoproLotsBuilding" inputmode="numeric" data-optional /></div>
                     <div class="field"><label for="sellWorkFund">Fonds travaux ALUR (€)</label><input id="sellWorkFund" name="sellWorkFund" inputmode="numeric" data-optional placeholder="Montant disponible" /></div>
+                    <div class="field"><label for="sellCoproLotsHabitation">Dont lots d'habitation</label><input id="sellCoproLotsHabitation" name="sellCoproLotsHabitation" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellChargesShare">Quote-part de charges</label><input id="sellChargesShare" name="sellChargesShare" data-optional placeholder="Tantièmes / €" /></div>
                     <div class="field full">
-                      <label class="field-check"><input type="checkbox" name="sellCoproProcedure" value="1" data-optional /> Procédure copropriété en cours (contentieux, travaux forcés…)</label>
+                      <span class="search-section-label" style="margin:0">Procédures diligentées c/ syndicat de copropriété</span>
+                      <p class="small" style="margin:4px 0 8px;color:#64748b">Plusieurs choix possibles, comme sur la fiche agence.</p>
+                      <div class="search-chip-grid" role="group" aria-label="Procédures copropriété">
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Absence de syndic" data-optional /><span>Absence de syndic</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Copropriété en cours de constitution" data-optional /><span>Copropriété en cours de constitution</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Demande de désignation d'expert(s)" data-optional /><span>Demande de désignation d'expert(s)</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Demande de désignation d'un administrateur provisoire" data-optional /><span>Demande de désignation d'un administrateur provisoire</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Demande de désignation d'un mandataire ad hoc" data-optional /><span>Demande de désignation d'un mandataire ad hoc</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Non soumis à un impayé" data-optional /><span>Non soumis à un impayé</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Pas de procédure en cours" data-optional /><span>Pas de procédure en cours</span></label>
+                        <label class="search-chip"><input type="checkbox" name="sellCoproProcedureKind[]" value="Procédure en cours" data-optional /><span>Procédure en cours</span></label>
+                      </div>
                     </div>
-                    <div class="field full"><label for="sellCoproProcedureDetail">Détail procédure / travaux imposés</label><textarea id="sellCoproProcedureDetail" name="sellCoproProcedureDetail" rows="2" data-optional></textarea></div>
+                    <div class="field full"><label for="sellCoproProcedureDetail">Détail procédure</label><textarea id="sellCoproProcedureDetail" name="sellCoproProcedureDetail" rows="2" data-optional placeholder="Non renseigné"></textarea></div>
                     <div class="field full"><label for="sellSellerNotary">Notaire désigné vendeur</label><input id="sellSellerNotary" name="sellSellerNotary" data-optional /></div>
                   </div>
                   <p class="search-section-label" style="margin-top:16px">Travaux copropriété — faits / votés / payés</p>
@@ -2202,7 +2215,7 @@
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
-  <script src="../js/quote-intelligence.js?v=20260826rooms2"></script>
+  <script src="../js/quote-intelligence.js?v=20260826rooms6"></script>
   <script src="./quote-wizard.js?v=20260826softreq"></script>
   <script src="../js/form-audit.js?v=20260826softreq"></script>
   <script src="../js/lead-insights.js"></script>
@@ -2211,7 +2224,7 @@
   <script src="../js/print-document-lib.js"></script>
   <script src="../js/acheteur-immo-fill-mode.js"></script>
   <script src="../js/acheteur-immo-print.js?v=20260826rooms2"></script>
-  <script src="../js/immo-listing-taxonomy.js"></script>
+  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms6"></script>
   <script src="../js/acheteur-immo-listing-fields.js"></script>
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/immo-room-catalog.js?v=20260826rooms5"></script>

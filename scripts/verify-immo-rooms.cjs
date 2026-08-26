@@ -73,6 +73,14 @@ assert(names.indexOf("Cuisine") >= 0 && names.indexOf("W.C.") >= 0, "Cuisine et 
 var expo = global.ImmoRoomCatalog.exposures;
 assert(expo && expo.join(",") === "E,EO,N,NE,NO,NS,O,S,SE,SO", "exposition codes agence E…SO");
 
+var tax = read("js/immo-listing-taxonomy.js");
+assert(tax.indexOf("COPRO_PROCEDURES") >= 0, "taxonomie procédures copro");
+assert(tax.indexOf("Absence de syndic") >= 0, "procédure Absence de syndic");
+assert(tax.indexOf("mandataire ad hoc") >= 0, "procédure mandataire ad hoc");
+assert(html.indexOf('name="sellCoproProcedureKind[]"') >= 0, "chips procédures copro");
+assert(html.indexOf("Dont lots d'habitation") >= 0, "lots d'habitation");
+assert(qi.indexOf("sellCoproProcedureKind[]") >= 0, "autosave procédures copro");
+
 if (failed) {
   console.log("\n" + failed + " échec(s)");
   process.exit(1);
