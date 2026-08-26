@@ -31,6 +31,52 @@ function slugify(text) {
     .slice(0, 72);
 }
 
+/** File inbox / exemples — ne jamais publier. */
+function isPlaceholderQueueItem(item) {
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template" || status === "ignored" || status === "example") return true;
+  var id = String((item && item.id) || "").toLowerCase();
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  var title = String((item && item.title) || "").toLowerCase();
+  if (!title.trim()) return true;
+  return /collez ici|\[titre|placeholder|a remplacer|à remplacer|votre titre ici/.test(title);
+}
+
+var LEAD_ANGLE_RE =
+  /mutuelle|assurance|sinistre|emprunteur|rembours|habitation|inondation|incendie|cyberattaque|iban|canicule|temp[eê]te|gr[eê]le|d[eé]g[aâ]t|cat[\s-]?nat|s[eé]cu|m[eé]dicament|dentaire|optique|ost[eé]o|pr[eê]t immobilier|cr[eé]dit immo|loi lemoine|franchise|indemnisation|rc pro|vtc\b/;
+
+/** Titres anglais (fil RSS) — pas d'angle conseil FR. */
+function isEnglishHeadline(title) {
+  var t = String(title || "");
+  if (/[àâäéèêëïîôùûüçœ]/i.test(t)) return false;
+  return (
+    /\b(the|and|into|regarding|potential|sale|enters|memorandum|understanding)\b/i.test(t) &&
+    (t.match(/\b(the|and|of|to|for|in|on|into|a|an|regarding|potential|sale|enters|memorandum|understanding|with|from)\b/gi) || []).length >= 3
+  );
+}
+
+/** Pub / comparateur — pas une actu à réécrire. */
+function isPromoHeadline(title) {
+  return /obtenez un devis|comparateur assurance|mutuelle\.fr|devis gratuit en ligne/i.test(String(title || ""));
+}
+
+/** Catastrophes hors France sans angle mutuelle/assurance FR. */
+function isForeignDisasterWithoutFranceAngle(item) {
+  var hay = String((item && item.title) || "") + " " + String((item && item.summary) || "") + " " + String((item && item.note) || "");
+  if (!/\b(népal|nepal|pakistan|bangladesh|haïti|haiti|indonésie|indonesie)\b/i.test(hay)) return false;
+  return !/\b(france|français|francais|mutuelle|sécu|secu|orias)\b/i.test(hay);
+}
+
+/** Un article auto doit pouvoir envoyer vers un questionnaire (leads). */
+function hasQualifiedLeadAngle(item) {
+  if (!item || isPlaceholderQueueItem(item) || isEnglishHeadline(item.title) || isPromoHeadline(item.title)) {
+    return false;
+  }
+  if (isForeignDisasterWithoutFranceAngle(item)) return false;
+  var hay = String(item.title || "") + " " + String(item.summary || "") + " " + String(item.note || "");
+  return LEAD_ANGLE_RE.test(hay.toLowerCase());
+}
+
 function existingFiles() {
   var files = new Set();
   try {
@@ -338,6 +384,9 @@ module.exports = {
   readJson: readJson,
   writeJson: writeJson,
   slugify: slugify,
+  isPlaceholderQueueItem: isPlaceholderQueueItem,
+  isEnglishHeadline: isEnglishHeadline,
+  hasQualifiedLeadAngle: hasQualifiedLeadAngle,
   existingFiles: existingFiles,
   uniqueFile: uniqueFile,
   matchTopic: matchTopic,

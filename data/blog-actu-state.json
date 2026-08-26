@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-26T16:35:38.420Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.franceinfo.fr/environnement/evenements-meteorologiques-extremes/incendies-et-feux-de-foret/on-surveille-principalement-les-petites-fumees-blanches-les-scouts-en-vigie-dans-les-calanques-pour-guetter-les-departs-de-feu_8163782.html#xtor=RSS-3-%5Bgeneral%5D",
+    "https://www.franceinfo.fr/environnement/evenements-meteorologiques-extremes/orages/vent-pluie-grele-foudre-quels-sont-les-effets-du-rechauffement-climatique-sur-les-orages_8162069.html#xtor=RSS-3-[lestitres]",
+    "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQZzRkTTJHNGpERFJTcE1pcUJ0MUMzSnBuUW1WbWQxYWpGVFRySS04SFlwU3Rla1F3dk5rZ1Z6OGdUS0VqNGxxUnp4QmthbFVoc0lVNnpVUXk1MkVFNE10QmdUU3BxRUZDcmxOXzJ1YkJTRXFWTEVMR2hWLXgwa19mQ2I3cUtaNzY1TGxSOXJvbkVpQmlCQzlnQjlhWTlOajc5T1pvOXg4cEZxbms?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-26T16:35:39.960Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,39 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-26T16:34:10.231Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "on-surveille-principalement-les-petites-fumees-blanches-les-scouts-en-vi.html",
+          "title": "\"On surveille principalement les petites fumées blanches\" : les scouts en vigie dans le… : assurance habitation — que faire ?",
+          "source": "Firefox — Franceinfo société",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "vent-pluie-grele-foudre-quels-sont-les-effets-du-rechauffement-climatiqu.html",
+          "title": "Vent, pluie, grêle, foudre... Quels sont les effets du réchauffement climatique sur les… : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-26T16:35:39.960Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "cyberattaque-solimut-mutuelle-de-france-confirme-une-violation-de-donnee.html",
+          "title": "Cyberattaque : Solimut Mutuelle de France confirme une violation de données : mutuelle et remboursements — que faire ?",
+          "source": "edge",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }
