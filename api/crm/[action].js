@@ -32,6 +32,7 @@ const ROUTES = {
   products: () => require("../_lib/routes/crm-products"),
   "intelligent-alerts": () => require("../_lib/routes/crm-intelligent-alerts"),
   "document-approve": () => require("../_lib/routes/crm-document-approve"),
+  "document-delete": () => require("../_lib/routes/crm-document-delete"),
   "document-download": () => require("../_lib/routes/crm-document-download"),
   "financial-entries": () => require("../_lib/routes/crm-financial-entries"),
   export: () => require("../_lib/routes/crm-export"),

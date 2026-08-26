@@ -198,9 +198,11 @@
   }
 
   function needsDocumentStep(service) {
-    if (!service) return false;
-    var need = service.need || service.vertical || "";
-    return ["collective", "vtc", "sante"].indexOf(need) !== -1;
+    /* Toutes les verticales : assurance, banque, finance, immo… */
+    if (global.DEVIS_DOCUMENT_CONFIG && global.DEVIS_DOCUMENT_CONFIG.hasDocumentStep) {
+      return global.DEVIS_DOCUMENT_CONFIG.hasDocumentStep(service && (service.need || service.vertical));
+    }
+    return true;
   }
 
   function stepDocuments(service) {

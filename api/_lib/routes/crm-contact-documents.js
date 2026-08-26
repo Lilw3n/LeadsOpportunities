@@ -45,6 +45,7 @@ function driveFileUrl(fileId) {
 function parseEventDocs(e) {
   var extra = parseJson(e.extra_data, {});
   var docs = [];
+  if (extra.trashed || e.status === "cancelled") return docs;
   var hasDrive = false;
   function docStatus(a) {
     if (a && (a.driveFileId || a.webViewLink)) hasDrive = true;
@@ -54,28 +55,33 @@ function parseEventDocs(e) {
   }
   if (Array.isArray(extra.attachments)) {
     extra.attachments.forEach(function (a, i) {
+      if (!a || a.trashed) return;
+      var fid = a.driveFileId || null;
       docs.push({
         id: e.id + "_att_" + i,
         eventId: e.id,
         name: a.name || a.label || "Document",
         type: a.type || extra.documentType || "generic",
         mimeType: a.mimeType || null,
-        driveFileId: a.driveFileId || null,
-        webViewLink: a.webViewLink || driveFileUrl(a.driveFileId),
+        driveFileId: fid,
+        webViewLink: a.webViewLink || driveFileUrl(fid),
         thumbnailLink: a.thumbnailLink || null,
+        previewUrl: fid ? "https://drive.google.com/file/d/" + encodeURIComponent(fid) + "/preview" : null,
         uploadedAt: a.uploadedAt || e.created_at,
         status: docStatus(a),
         source: extra.source || "evenement",
       });
     });
   } else if (extra.fileName) {
+    var fid2 = (extra.drive && extra.drive.fileId) || null;
     docs.push({
       id: e.id + "_att_0",
       eventId: e.id,
       name: extra.fileName,
       type: extra.documentType || "generic",
-      driveFileId: (extra.drive && extra.drive.fileId) || null,
-      webViewLink: (extra.drive && extra.drive.webViewLink) || driveFileUrl(extra.drive && extra.drive.fileId),
+      driveFileId: fid2,
+      webViewLink: (extra.drive && extra.drive.webViewLink) || driveFileUrl(fid2),
+      previewUrl: fid2 ? "https://drive.google.com/file/d/" + encodeURIComponent(fid2) + "/preview" : null,
       uploadedAt: extra.uploadedAt || e.created_at,
       status: docStatus(extra.drive || {}),
       source: "portal_legacy",
@@ -139,13 +145,16 @@ function propertyDocsFromRow(p) {
 
   if (Array.isArray(meta.documents)) {
     meta.documents.forEach(function (doc, idx) {
+      if (!doc || doc.trashed) return;
+      var fid = doc.driveFileId || null;
       docs.push({
         id: p.id + "_doc_" + idx,
         propertyId: p.id,
         name: doc.fileName || doc.type || "Document bien",
         type: doc.type || doc.group || "immo_property",
-        driveFileId: doc.driveFileId || null,
-        webViewLink: doc.webViewLink || driveFileUrl(doc.driveFileId),
+        driveFileId: fid,
+        webViewLink: doc.webViewLink || driveFileUrl(fid),
+        previewUrl: fid ? "https://drive.google.com/file/d/" + encodeURIComponent(fid) + "/preview" : null,
         uploadedAt: doc.uploadedAt || null,
         status: "deposé",
         source: "immo_property",

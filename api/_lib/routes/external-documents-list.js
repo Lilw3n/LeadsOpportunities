@@ -20,21 +20,31 @@ function parseAttachments(extraRaw, event) {
         driveFileId: a.driveFileId || (a.drive && a.drive.fileId) || null,
         webViewLink: a.webViewLink || (a.drive && a.drive.webViewLink) || null,
         thumbnailLink: a.thumbnailLink || null,
+        previewUrl:
+          a.driveFileId || (a.drive && a.drive.fileId)
+            ? "https://drive.google.com/file/d/" +
+              encodeURIComponent(a.driveFileId || a.drive.fileId) +
+              "/preview"
+            : null,
         uploadedAt: a.uploadedAt || event.created_at,
         eventId: event.id,
         status: event.status || "pending",
+        trashed: !!(a.trashed || extra.trashed || event.status === "cancelled"),
       });
     });
   } else if (extra.fileName || extra.drive) {
+    var fid = (extra.drive && extra.drive.fileId) || null;
     out.push({
       name: extra.fileName || event.title,
       type: extra.documentType || "generic",
       mimeType: extra.mimeType || null,
-      driveFileId: (extra.drive && extra.drive.fileId) || null,
+      driveFileId: fid,
       webViewLink: (extra.drive && extra.drive.webViewLink) || null,
+      previewUrl: fid ? "https://drive.google.com/file/d/" + encodeURIComponent(fid) + "/preview" : null,
       uploadedAt: extra.uploadedAt || event.created_at,
       eventId: event.id,
       status: event.status || "pending",
+      trashed: !!(extra.trashed || event.status === "cancelled"),
     });
   }
   return out;
@@ -83,6 +93,9 @@ module.exports = async (req, res) => {
     var documents = [];
     events.forEach(function (e) {
       documents = documents.concat(parseAttachments(e.extra_data, e));
+    });
+    documents = documents.filter(function (d) {
+      return d && !d.trashed && d.status !== "cancelled";
     });
 
     return res.status(200).json({

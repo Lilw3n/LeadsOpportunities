@@ -1602,57 +1602,48 @@
         }
         return;
       }
-      mount.innerHTML =
-        driveNotice +
-        '<div class="crm-docs-grid">' +
-        docs
-          .map(function (d) {
-            if (d.type === "drive_folder") {
+
+      mount.innerHTML = driveNotice + '<div id="contactDocsGallery"></div>';
+      var galleryMount = document.getElementById("contactDocsGallery");
+      if (window.LoDocumentGallery && galleryMount) {
+        window.LoDocumentGallery.mount(galleryMount, docs, {
+          crmMode: true,
+          contactId: contactId,
+          emptyText: "Aucune pièce listée.",
+          onDeleted: function () {
+            renderDocuments();
+          },
+        });
+      } else if (galleryMount) {
+        galleryMount.innerHTML =
+          '<div class="crm-docs-grid">' +
+          docs
+            .map(function (d) {
+              var preview =
+                d.thumbnailLink
+                  ? '<img src="' + esc(d.thumbnailLink) + '" alt="" />'
+                  : '<span style="font-size:2.2rem">' +
+                    (d.mimeType && d.mimeType.indexOf("pdf") !== -1 ? "📕" : "📄") +
+                    "</span>";
               return (
-                '<article class="crm-doc-tile crm-doc-tile-folder">' +
-                '<div class="crm-doc-tile-preview"><span style="font-size:2.4rem">📁</span></div>' +
+                '<article class="crm-doc-tile">' +
+                '<div class="crm-doc-tile-preview">' +
+                preview +
+                "</div>" +
                 '<div class="crm-doc-tile-body"><strong>' +
                 esc(d.name) +
-                '</strong><br><span style="color:var(--muted)">Dossier Google Drive</span><br>' +
+                "</strong><br><span style='color:var(--muted)'>" +
+                esc(d.type) +
+                "</span><br>" +
                 (d.webViewLink
                   ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
                   : "") +
                 "</div></article>"
               );
-            }
-            var preview =
-              d.thumbnailLink || (d.mimeType && d.mimeType.indexOf("image") !== -1 && d.webViewLink)
-                ? '<img src="' + esc(d.thumbnailLink || d.webViewLink) + '" alt="" />'
-                : '<span style="font-size:2.2rem">' +
-                  (d.mimeType && d.mimeType.indexOf("pdf") !== -1 ? "📕" : "📄") +
-                  "</span>";
-            var drive =
-              d.simulated
-                ? "<span>Archivé CRM — Drive non configuré</span>"
-                : d.webViewLink && d.driveFileId
-                ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
-                : d.webViewLink
-                  ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir Drive</a>'
-                  : d.driveFileId
-                    ? "<span>ID " + esc(d.driveFileId) + "</span>"
-                    : "<span>Archivé CRM</span>";
-            return (
-              '<article class="crm-doc-tile">' +
-              '<div class="crm-doc-tile-preview">' +
-              preview +
-              "</div>" +
-              '<div class="crm-doc-tile-body"><strong>' +
-              esc(d.name) +
-              "</strong><br><span style='color:var(--muted)'>" +
-              esc(d.type) +
-              (d.propertyTitle ? " · " + esc(d.propertyTitle) : "") +
-              "</span><br>" +
-              drive +
-              "</div></article>"
-            );
-          })
-          .join("") +
-        "</div>";
+            })
+            .join("") +
+          "</div>";
+      }
       if (uploadCtx && window.CrmQuestionnaireTools) {
         window.CrmQuestionnaireTools.mountDocUpload(mount, uploadCtx, {
           onUploaded: function () {

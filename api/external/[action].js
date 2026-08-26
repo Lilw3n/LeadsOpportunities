@@ -8,6 +8,7 @@ const ROUTES = {
   claim: () => require("../_lib/routes/external-claim"),
   upload: () => require("../_lib/routes/external-upload"),
   "documents-list": () => require("../_lib/routes/external-documents-list"),
+  "document-delete": () => require("../_lib/routes/external-document-delete"),
   google: () => require("../_lib/routes/external-google-start"),
   "send-verify": () => require("../_lib/routes/external-send-verify"),
   "verify-email": () => require("../_lib/routes/external-verify-email"),

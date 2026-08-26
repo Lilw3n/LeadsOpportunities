@@ -102,6 +102,41 @@
     }
     this.queue.push(item);
     this.renderQueue();
+    this.scheduleImmediateUpload();
+  };
+
+  DevisDocumentUpload.prototype.syncSessionFromForm = function () {
+    var form = this.root.closest("form") || document.querySelector("[data-quote-wizard], form[data-track-form]");
+    if (form) {
+      var em = form.querySelector("[name='email']");
+      var ph = form.querySelector("[name='phone']");
+      if (em && String(em.value || "").trim()) this.session.email = String(em.value).trim().toLowerCase();
+      if (ph && String(ph.value || "").trim()) this.session.phone = String(ph.value).trim();
+    }
+    try {
+      var leadId = localStorage.getItem("lo_draft_lead_id") || localStorage.getItem("lo_immo_deposit_lead_id");
+      if (leadId) this.session.leadId = leadId;
+    } catch (e) {}
+    return this.session;
+  };
+
+  DevisDocumentUpload.prototype.scheduleImmediateUpload = function () {
+    var self = this;
+    clearTimeout(self._uploadTimer);
+    self._uploadTimer = setTimeout(function () {
+      self.syncSessionFromForm();
+      if (!self.session.email && !self.session.contactId && !self.session.leadId && !self.session.phone) {
+        var st = self.root.querySelector("[data-docs-status]");
+        if (st) {
+          st.hidden = false;
+          st.textContent = "Ajoutez un e-mail ou téléphone pour envoyer immédiatement vers Drive.";
+        }
+        return;
+      }
+      self.uploadQueued().then(function () {
+        self.fetchRemoteList();
+      });
+    }, 200);
   };
 
   DevisDocumentUpload.prototype.setSession = function (session) {
@@ -112,9 +147,13 @@
 
   DevisDocumentUpload.prototype.uploadQueued = function () {
     var self = this;
+    this.syncSessionFromForm();
     if (!this.queue.length) return Promise.resolve({ uploaded: [], errors: [] });
-    if (!this.session.email && !this.session.contactId) {
-      return Promise.resolve({ uploaded: [], errors: [{ error: "email ou contactId manquant" }] });
+    if (!this.session.email && !this.session.contactId && !this.session.leadId && !this.session.phone) {
+      return Promise.resolve({
+        uploaded: [],
+        errors: [{ error: "email, téléphone, contactId ou leadId manquant" }],
+      });
     }
     var pending = this.queue.filter(function (q) {
       return q.status === "queued" || q.status === "error";
@@ -128,8 +167,10 @@
             return fetch("/api/external/upload", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
+              credentials: "same-origin",
               body: JSON.stringify({
                 email: self.session.email,
+                phone: self.session.phone || null,
                 contactId: self.session.contactId,
                 leadId: self.session.leadId,
                 fileName: item.fileName,
@@ -139,6 +180,7 @@
                 vertical: self.need,
                 need: self.need,
                 source: "devis_wizard",
+                perTypeFolder: true,
               }),
             });
           })
@@ -151,8 +193,12 @@
           .then(function (data) {
             item.status = "done";
             item.result = data;
+            if (data.contactId) self.session.contactId = data.contactId;
             self.uploaded.push(item);
             acc.uploaded.push(item);
+            self.queue = self.queue.filter(function (q) {
+              return q.id !== item.id;
+            });
             self.renderQueue();
             return acc;
           })
@@ -208,29 +254,29 @@
 
   DevisDocumentUpload.prototype.renderVisualPanel = function (container, docs) {
     if (!container) return;
-    docs = docs || this.uploaded.map(function (u) {
-      var att = (u.result && u.result.attachment) || {};
-      return {
-        name: att.name || u.fileName,
-        mimeType: att.mimeType || u.mimeType,
-        webViewLink: att.webViewLink || null,
-        thumbnailLink: att.thumbnailLink || null,
-        preview: u.preview,
-      };
-    });
+    docs = docs || [];
     if (!docs.length) {
       container.hidden = true;
       return;
     }
     container.hidden = false;
     var grid = container.querySelector("[data-docs-visual-grid]") || container;
+    if (global.LoDocumentGallery) {
+      global.LoDocumentGallery.mount(grid, docs, {
+        contactId: this.session.contactId,
+        email: this.session.email,
+        emptyText: "Aucun document.",
+        onDeleted: function () {
+          /* rechargé via fetchRemoteList côté appelant si besoin */
+        },
+      });
+      return;
+    }
     grid.innerHTML = docs
       .map(function (d) {
-        var visual = d.preview
-          ? '<img src="' + d.preview + '" alt="" />'
-          : d.thumbnailLink
-            ? '<img src="' + d.thumbnailLink + '" alt="" />'
-            : '<div class="icon">' + iconForMime(d.mimeType) + "</div>";
+        var visual = d.thumbnailLink
+          ? '<img src="' + d.thumbnailLink + '" alt="" />'
+          : '<div class="icon">' + iconForMime(d.mimeType) + "</div>";
         var link = d.webViewLink
           ? '<a href="' + esc(d.webViewLink) + '" target="_blank" rel="noopener">Ouvrir dans Drive</a>'
           : "";
@@ -311,8 +357,9 @@
       ACCEPT +
       '" hidden />' +
       "</div>" +
-      '<div data-docs-queue class="devis-docs-queue"></div>" +
-      '<p class="small" style="margin-top:8px;color:#64748b">Les fichiers seront envoyés à la validation du formulaire et archivés pour votre conseiller.</p>' +
+      '<div data-docs-queue class="devis-docs-queue"></div>' +
+      '<p class="small" data-docs-status style="margin-top:8px;color:#64748b">Envoi immédiat vers Drive dès qu’un e-mail ou téléphone est renseigné.</p>' +
+      '<div data-docs-visual-panel hidden style="margin-top:14px"><div data-docs-visual-grid></div></div>' +
       "</div></section>"
     );
   }
