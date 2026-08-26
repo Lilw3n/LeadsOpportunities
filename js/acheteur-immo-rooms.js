@@ -187,13 +187,6 @@
     if (addBtn) addBtn.hidden = rows.length >= MAX_ROOMS;
   }
 
-  function clearDropState(mount) {
-    rowsOf(mount).forEach(function (row) {
-      row.classList.remove("is-dragging", "is-drop-before", "is-drop-after");
-      row.removeAttribute("draggable");
-    });
-  }
-
   function moveRow(mount, from, to) {
     var rows = rowsOf(mount);
     if (to < 0 || to >= rows.length || from === to) return false;
@@ -220,78 +213,68 @@
     reindex(mount);
   }
 
+  function bindPointerSort(mount) {
+    var dragging = null;
+    var startY = 0;
+    var active = false;
+
+    function stop() {
+      if (!dragging) return;
+      dragging.classList.remove("is-dragging");
+      document.body.classList.remove("immo-rooms-dragging");
+      dragging = null;
+      active = false;
+      reindex(mount);
+      document.removeEventListener("pointermove", onMove, true);
+      document.removeEventListener("pointerup", stop, true);
+      document.removeEventListener("pointercancel", stop, true);
+    }
+
+    function onMove(e) {
+      if (!dragging) return;
+      if (!active) {
+        if (Math.abs(e.clientY - startY) < 5) return;
+        active = true;
+        dragging.classList.add("is-dragging");
+        document.body.classList.add("immo-rooms-dragging");
+      }
+      e.preventDefault();
+      var tbody = mount.querySelector("[data-rooms-body]");
+      if (!tbody) return;
+      var over = document.elementFromPoint(e.clientX, e.clientY);
+      var row = over && over.closest ? over.closest(".immo-room-row") : null;
+      if (!row || row === dragging || !mount.contains(row)) return;
+      var rect = row.getBoundingClientRect();
+      if (e.clientY > rect.top + rect.height / 2) {
+        if (row.nextSibling !== dragging) tbody.insertBefore(dragging, row.nextSibling);
+      } else if (dragging.nextSibling !== row) {
+        tbody.insertBefore(dragging, row);
+      }
+    }
+
+    mount.addEventListener("pointerdown", function (e) {
+      var handle = e.target.closest("[data-room-handle]");
+      if (!handle || !mount.contains(handle)) return;
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      var row = handle.closest(".immo-room-row");
+      if (!row) return;
+      dragging = row;
+      startY = e.clientY;
+      active = false;
+      try {
+        handle.setPointerCapture(e.pointerId);
+      } catch (err) {}
+      document.addEventListener("pointermove", onMove, true);
+      document.addEventListener("pointerup", stop, true);
+      document.addEventListener("pointercancel", stop, true);
+    });
+  }
+
   function bindMount(mount) {
     if (!mount || mount.dataset.roomsBound) return;
     mount.dataset.roomsBound = "1";
     render(mount, [{}]);
-
-    var dragFrom = null;
-
-    mount.addEventListener("mousedown", function (e) {
-      var handle = e.target.closest("[data-room-handle]");
-      var row = handle && handle.closest(".immo-room-row");
-      if (!row || !mount.contains(row)) return;
-      row.setAttribute("draggable", "true");
-    });
-
-    function disarmDrag() {
-      if (dragFrom) return;
-      rowsOf(mount).forEach(function (r) {
-        r.removeAttribute("draggable");
-      });
-    }
-    mount.addEventListener("mouseup", disarmDrag);
-    mount.addEventListener("mouseleave", disarmDrag);
-
-    mount.addEventListener("dragstart", function (e) {
-      var row = e.target.closest(".immo-room-row");
-      if (!row || !mount.contains(row) || !row.getAttribute("draggable")) {
-        e.preventDefault();
-        return;
-      }
-      dragFrom = row;
-      row.classList.add("is-dragging");
-      try {
-        e.dataTransfer.effectAllowed = "move";
-        e.dataTransfer.setData("text/plain", row.getAttribute("data-room-index") || "");
-      } catch (err) {}
-    });
-
-    mount.addEventListener("dragover", function (e) {
-      var row = e.target.closest(".immo-room-row");
-      if (!row || !dragFrom || !mount.contains(row)) return;
-      e.preventDefault();
-      try {
-        e.dataTransfer.dropEffect = "move";
-      } catch (err) {}
-      rowsOf(mount).forEach(function (r) {
-        r.classList.remove("is-drop-before", "is-drop-after");
-      });
-      if (row === dragFrom) return;
-      var rect = row.getBoundingClientRect();
-      var after = e.clientY > rect.top + rect.height / 2;
-      row.classList.add(after ? "is-drop-after" : "is-drop-before");
-    });
-
-    mount.addEventListener("drop", function (e) {
-      var row = e.target.closest(".immo-room-row");
-      if (!row || !dragFrom || !mount.contains(row)) return;
-      e.preventDefault();
-      var tbody = mount.querySelector("[data-rooms-body]");
-      if (!tbody) return;
-      var rect = row.getBoundingClientRect();
-      var after = e.clientY > rect.top + rect.height / 2;
-      if (after) tbody.insertBefore(dragFrom, row.nextSibling);
-      else tbody.insertBefore(dragFrom, row);
-      clearDropState(mount);
-      dragFrom = null;
-      reindex(mount);
-    });
-
-    mount.addEventListener("dragend", function () {
-      clearDropState(mount);
-      dragFrom = null;
-    });
+    bindPointerSort(mount);
 
     mount.addEventListener("click", function (e) {
       var add = e.target.closest("[data-room-add]");

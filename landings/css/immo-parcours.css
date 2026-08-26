@@ -450,6 +450,7 @@ a.immo-parcours-link:hover {
   border-radius: 6px;
   user-select: none;
   touch-action: none;
+  -webkit-user-drag: none;
 }
 
 .immo-room-handle:hover,
@@ -464,19 +465,21 @@ a.immo-parcours-link:hover {
 }
 
 .immo-room-row.is-dragging {
-  opacity: 0.45;
+  opacity: 0.6;
+  background: #eff6ff;
 }
 
 .immo-room-row.is-dragging .immo-room-handle {
   cursor: grabbing;
 }
 
-.immo-room-row.is-drop-before td {
-  box-shadow: inset 0 2px 0 #2563eb;
+body.immo-rooms-dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
-.immo-room-row.is-drop-after td {
-  box-shadow: inset 0 -2px 0 #2563eb;
+body.immo-rooms-dragging * {
+  cursor: grabbing !important;
 }
 
 .immo-room-actions {
