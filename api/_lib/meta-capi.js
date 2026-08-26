@@ -13,7 +13,7 @@ function buildFbc(fbclid, eventTimeSec) {
 }
 
 function getMetaConfig() {
-  const pixelId = process.env.META_PIXEL_ID;
+  const pixelId = process.env.META_PIXEL_ID || "4470774303164658";
   const token = process.env.META_CAPI_TOKEN;
   if (!pixelId || !token) return null;
   return {
@@ -39,6 +39,7 @@ async function sendMetaEvent(input) {
   if (input.fbp) userData.fbp = String(input.fbp).trim();
   if (input.clientIp) userData.client_ip_address = input.clientIp;
   if (input.clientUa) userData.client_user_agent = input.clientUa;
+  if (input.externalId) userData.external_id = [sha256(input.externalId)];
 
   const payload = {
     data: [
@@ -54,6 +55,10 @@ async function sendMetaEvent(input) {
     ],
   };
 
+  if (input.testEventCode) {
+    payload.test_event_code = String(input.testEventCode).trim();
+  }
+
   const r = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -66,4 +71,4 @@ async function sendMetaEvent(input) {
   return { ok: true };
 }
 
-module.exports = { sendMetaEvent, buildFbc };
+module.exports = { sendMetaEvent, buildFbc, getMetaConfig, sha256 };

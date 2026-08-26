@@ -193,8 +193,7 @@ async function finalizeLeadIngest(enriched, leadId, score, req) {
 
   try {
     var actionSource = enriched.source === "meta_lead_ads" ? "system_generated" : "website";
-    await sendMetaEvent({
-      eventName: "Lead",
+    var metaBase = {
       eventId: enriched.client_event_id || enriched.event_id || enriched.meta_leadgen_id || leadId,
       pageUrl:
         (process.env.APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://www.leadsopportunities.fr") +
@@ -203,6 +202,7 @@ async function finalizeLeadIngest(enriched, leadId, score, req) {
       phone: enriched.phone,
       fbclid: enriched.fbclid || enriched.attr_last_fbclid || null,
       fbp: enriched.fbp || enriched.attr_fbp || null,
+      externalId: enriched.visitor_id || enriched.visitorId || null,
       clientIp: enriched.clientIp || (req ? normalizeClientIp(req) : null),
       clientUa: (req && req.headers["user-agent"]) || "",
       actionSource: actionSource,
@@ -212,8 +212,25 @@ async function finalizeLeadIngest(enriched, leadId, score, req) {
         content_name: enriched.vertical || "lead",
         source: enriched.source || "site",
         lead_event_source: enriched.source || "site",
+        lead_score: score,
       },
-    });
+    };
+
+    await sendMetaEvent(Object.assign({ eventName: "Lead" }, metaBase));
+
+    if (score != null && Number(score) >= 50) {
+      await sendMetaEvent(
+        Object.assign({}, metaBase, {
+          eventName: "qualified_lead",
+          eventId: leadId + "_ql",
+          customData: Object.assign({}, metaBase.customData, {
+            value: score,
+            lead_score: score,
+            qualified: true,
+          }),
+        })
+      );
+    }
   } catch (metaErr) {
     console.warn("[lead] meta capi", metaErr.message);
   }

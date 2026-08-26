@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const { readJson, buildRotationState } = require("./meta-campaign-rotation");
 const { slackStatus } = require("./slack-notify");
+const { buildMetaReadiness } = require("./meta-readiness");
 
 const HUB_PATH = path.join(process.cwd(), "config/ad-platform-hub.json");
 const FORMS_PATH = path.join(process.cwd(), "config/meta-lead-forms.json");
@@ -47,6 +48,7 @@ async function buildPubsHub(options) {
   var vspCfg = readJson(VSP_DISCRET_PATH);
   var vspCampaign = vspCfg && vspCfg.campaign ? vspCfg.campaign : null;
   var slack = slackStatus();
+  var metaTracking = buildMetaReadiness();
 
   return {
     ok: true,
@@ -61,6 +63,7 @@ async function buildPubsHub(options) {
         env_var: "SLACK_BOT_TOKEN / SLACK_WEBHOOK_URL",
         doc: "./docs/SLACK-WITHALLO-NOTIFS.md",
       },
+      meta: metaTracking,
     },
     platforms: (hub.platforms || []).map(function (p) {
       return Object.assign({}, p, {

@@ -34,6 +34,135 @@
     );
   }
 
+  function renderMetaStatus(meta) {
+    var el = document.getElementById("metaStatus");
+    if (!meta || !el) return;
+
+    var capiOk = meta.capi_configured;
+    var varsHtml = (meta.vercel_vars || [])
+      .map(function (v) {
+        var cls = v.ok ? "meta" : v.required ? "warn" : "muted";
+        return (
+          '<span class="acq-badge ' +
+          cls +
+          '">' +
+          esc(v.key) +
+          (v.ok ? " ✓" : v.required ? " ✗" : " —") +
+          "</span>"
+        );
+      })
+      .join(" ");
+
+    el.innerHTML =
+      '<div class="crm-section-head"><div><p class="crm-eyebrow">Meta Pixel + CAPI</p><h2 style="margin:0">Tracking conversions</h2></div>' +
+      '<span class="acq-badge ' +
+      (capiOk ? "meta" : "warn") +
+      '">' +
+      (capiOk ? "Pixel + CAPI configurés ✓" : "CAPI manquant — navigateur seulement") +
+      "</span></div>" +
+      "<p style=\"color:var(--muted)\">Événements : <strong>Lead</strong> (tous) + <strong>qualified_lead</strong> (score ≥ 50). Déduplication navigateur/serveur via <code>event_id</code>.</p>" +
+      (capiOk
+        ? "<p style=\"color:var(--muted);font-size:.88rem\">CAPI actif côté serveur à chaque lead (<code>POST /api/lead</code>).</p>"
+        : '<p style="color:#b91c1c;font-size:.9rem"><strong>Action requise :</strong> Events Manager → Paramètres du pixel → Conversions API → Générer un token → coller dans Vercel <code>META_CAPI_TOKEN</code> puis Redeploy.</p>') +
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0">' +
+      varsHtml +
+      "</div>" +
+      '<p style="margin:8px 0"><button type="button" class="btn btn-primary btn-sm" id="btnMetaValidate">Valider token CAPI</button> ' +
+      '<button type="button" class="btn btn-ghost btn-sm" id="btnMetaTestCapi">Test Events Manager</button> ' +
+      '<span id="metaReadinessResult" style="margin-left:8px;color:var(--muted);font-size:.88rem"></span></p>' +
+      '<div class="pub-link-row">' +
+      '<a href="' +
+      esc(meta.events_manager_url || "https://business.facebook.com/events_manager") +
+      '" target="_blank" rel="noopener" class="btn btn-primary btn-sm">Events Manager ↗</a>' +
+      '<a href="' +
+      esc(meta.test_landing_url || "./landings/rappel.html") +
+      '" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Landing test UTM ↗</a>' +
+      '<a href="./docs/META-ADS-AUTOMATION.md" class="btn btn-ghost btn-sm">Doc Meta</a>' +
+      '<a href="https://vercel.com/dashboard" target="_blank" rel="noopener" class="btn btn-ghost btn-sm">Vercel env ↗</a>' +
+      "</div>" +
+      '<p style="color:var(--muted);font-size:.82rem;margin-top:10px">Retarget abandon : audience <code>JourneyFormStart</code> sans <code>Lead</code> → <a href=\"./landings/rappel.html\">rappel express</a>.</p>';
+
+    var validateBtn = document.getElementById("btnMetaValidate");
+    if (validateBtn) {
+      validateBtn.onclick = function () {
+        var out = document.getElementById("metaReadinessResult");
+        if (out) out.textContent = "Validation…";
+        validateBtn.disabled = true;
+        fetch("/api/crm/meta-readiness?validate=1", { headers: authHeaders() })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (res) {
+            if (!out) return;
+            if (res.capi_validation && res.capi_validation.ok) {
+              out.textContent =
+                "✓ Token CAPI valide — pixel « " + (res.capi_validation.pixel_name || meta.pixel_id) + " »";
+              out.style.color = "#16a34a";
+            } else {
+              out.textContent =
+                res.capi_validation && res.capi_validation.error
+                  ? "✗ " + res.capi_validation.error
+                  : res.missing_required && res.missing_required.length
+                    ? "✗ Manquant : " + res.missing_required.join(", ")
+                    : "✗ CAPI non configuré";
+              out.style.color = "#b91c1c";
+            }
+          })
+          .catch(function (e) {
+            if (out) {
+              out.textContent = String(e);
+              out.style.color = "#b91c1c";
+            }
+          })
+          .finally(function () {
+            validateBtn.disabled = false;
+          });
+      };
+    }
+
+    var testBtn = document.getElementById("btnMetaTestCapi");
+    if (testBtn) {
+      testBtn.onclick = function () {
+        var code = prompt(
+          "Collez le code Test events depuis Events Manager (ex. TEST12345) :",
+          ""
+        );
+        if (!code || !String(code).trim()) return;
+        var out = document.getElementById("metaReadinessResult");
+        if (out) out.textContent = "Envoi test CAPI…";
+        testBtn.disabled = true;
+        fetch("/api/crm/meta-readiness", {
+          method: "POST",
+          headers: authHeaders(),
+          body: JSON.stringify({ test_event_code: String(code).trim() }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (res) {
+            if (!out) return;
+            if (res.ok) {
+              out.textContent = "✓ Lead test envoyé — vérifiez Events Manager → Test events (source Serveur)";
+              out.style.color = "#16a34a";
+            } else {
+              out.textContent =
+                "✗ " + (res.capi_test && res.capi_test.error ? res.capi_test.error : res.error || "Échec");
+              out.style.color = "#b91c1c";
+            }
+          })
+          .catch(function (e) {
+            if (out) {
+              out.textContent = String(e);
+              out.style.color = "#b91c1c";
+            }
+          })
+          .finally(function () {
+            testBtn.disabled = false;
+          });
+      };
+    }
+  }
+
   function renderSlackStatus(notif) {
     var el = document.getElementById("slackStatus");
     if (!notif || !notif.slack) {
@@ -362,6 +491,7 @@
             ? '<span class="acq-stat">' + esc(res.rotation.recommendation.reason) + "</span>"
             : "");
         renderSlackStatus(res.notifications);
+        renderMetaStatus(res.notifications && res.notifications.meta);
         renderActive(res.active_campaign);
         renderPresetCampaigns(res.preset_campaigns, res.active_campaign && res.active_campaign.id);
         renderPlatforms(res.platforms);

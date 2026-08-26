@@ -55,8 +55,17 @@ Le site charge automatiquement le pixel via `google-config.js` si `META_PIXEL_ID
 | `JourneyFormStart` | Début formulaire | Retargeting abandon |
 | `JourneyStep` | Étapes wizard | Analyse entonnoir |
 | `Lead` | Soumission réussie | **Conversion principale** |
+| `qualified_lead` | Score serveur ≥ 50 | **Optimisation leads qualifiés** |
 
-CAPI envoie aussi `Lead` côté serveur (email/téléphone hashés, `fbclid`, cookie `_fbp`).
+CAPI envoie aussi `Lead` et `qualified_lead` côté serveur (email/téléphone hashés, `fbclid`, cookie `_fbp`, `external_id` = visitor_id hashé). Déduplication via `event_id` = `leadId` (Lead) ou `leadId_ql` (qualified_lead).
+
+### Diagnostic CRM
+
+Page **Gestion pubs** (`/crm-pubs.html`) : bloc Meta Pixel + CAPI avec validation token et test Events Manager.
+
+API admin : `GET /api/crm/meta-readiness?validate=1` · `POST /api/crm/meta-readiness` + `{ "test_event_code": "TEST…" }`.
+
+Script CLI : `npm run meta:capi:verify` · `npm run meta:capi:verify -- --validate`.
 
 ### Vérification
 

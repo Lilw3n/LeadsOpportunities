@@ -228,7 +228,11 @@ document.addEventListener("DOMContentLoaded", function () {
       var errMsg = document.querySelector("[data-form-error]");
 
       postLeadApi(leadPayload).then(function (result) {
-        sendQualifiedLeadGtag(result, fields.need || "");
+        if (window.loTrackingCorrelation && window.loTrackingCorrelation.fireConversion) {
+          window.loTrackingCorrelation.fireConversion(result, leadPayload);
+        } else {
+          sendQualifiedLeadGtag(result, fields.need || "");
+        }
         window.dispatchEvent(
           new CustomEvent("lo:lead-sent", {
             detail: { payload: leadPayload, result: result || {} },

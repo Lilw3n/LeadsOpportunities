@@ -45,7 +45,7 @@ flowchart TB
 | Événement | Quand |
 |-----------|--------|
 | `generate_lead` | Lead enregistré avec succès (1 seule fois) |
-| `qualified_lead` | Score serveur ≥ 50 |
+| `qualified_lead` | Score serveur ≥ 50 | Meta `trackCustom` + CAPI serveur |
 | `journey_form_start` | Début formulaire (miroir journey API) |
 | `journey_form_abandon` | Quitte sans soumettre |
 | `journey_lead_success` | Succès parcours |

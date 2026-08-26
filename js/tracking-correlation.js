@@ -86,6 +86,21 @@
     } catch (e) {}
   }
 
+  function trackMetaQualifiedLead(eventId, payload) {
+    var cfg = global.SOCIAL_TRACKING || {};
+    if (!cfg.metaPixelId || typeof global.fbq !== "function") return;
+    var vertical = (payload && payload.vertical) || "lead";
+    var score = payload && payload.lead_score != null ? Number(payload.lead_score) : 50;
+    try {
+      global.fbq(
+        "trackCustom",
+        "qualified_lead",
+        { content_name: vertical, value: score, currency: "EUR", lead_score: score },
+        { eventID: eventId }
+      );
+    } catch (e) {}
+  }
+
   function fireConversion(result, payload) {
     payload = payload || {};
     result = result || {};
@@ -139,6 +154,10 @@
 
     trackMetaLead(leadId, { vertical: vertical, lead_score: score });
 
+    if (score != null && score >= 50) {
+      trackMetaQualifiedLead(leadId + "_ql", { vertical: vertical, lead_score: score });
+    }
+
     global.dispatchEvent(
       new CustomEvent("lo:lead-converted", {
         detail: { leadId: leadId, leadScore: score, payload: payload, params: params },
@@ -167,6 +186,7 @@
     fireConversion: fireConversion,
     mirrorJourney: mirrorJourney,
     trackMetaLead: trackMetaLead,
+    trackMetaQualifiedLead: trackMetaQualifiedLead,
   };
 
   function trySync() {

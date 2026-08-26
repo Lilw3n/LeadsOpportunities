@@ -81,7 +81,17 @@
 
     if (cfg.metaPixelId && typeof window.fbq === "function") {
       if (name === "qualified_lead") {
-        return;
+        var qScore = payload.lead_score != null ? Number(payload.lead_score) : 1;
+        if (qScore >= 50) {
+          var qEventId =
+            (payload.lead_id || payload.leadId || payload.transaction_id || "") + "_ql";
+          window.fbq(
+            "trackCustom",
+            "qualified_lead",
+            { content_name: vertical, value: qScore, currency: "EUR", lead_score: qScore },
+            qEventId ? { eventID: qEventId } : undefined
+          );
+        }
       } else if (name === "phone_click" || name === "whatsapp_click") {
         window.fbq("trackCustom", name, { content_name: vertical });
       }

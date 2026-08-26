@@ -40,6 +40,7 @@
     "prod:check": "node scripts/check-prod-deploy.cjs",
     "test:meta": "bash scripts/test-meta-pixel.sh",
     "meta:verify": "node scripts/verify-meta-lead-setup.cjs",
+    "meta:capi:verify": "node scripts/verify-meta-capi.cjs",
     "meta:forms:rank": "node scripts/meta-blog-form-ranking.cjs",
     "meta:forms:create": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --create",
     "meta:forms:replace": "node scripts/meta-blog-form-ranking.cjs && node scripts/meta-create-lead-forms.cjs --create --replace --fresh-names",
