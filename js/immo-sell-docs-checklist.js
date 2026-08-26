@@ -139,15 +139,15 @@
       '<div class="immo-doc-line" data-sell-doc-line="' +
       esc(item.type) +
       '">' +
-      '<label class="field-check immo-doc-line-check">' +
-      '<input type="checkbox" name="sellDoc[]" value="' +
-      esc(item.type) +
-      '" data-sell-doc-check /> ' +
+      '<span class="immo-doc-line-label">' +
       esc(item.label) +
-      "</label>" +
+      "</span>" +
+      '<input type="checkbox" class="immo-doc-line-check-sr" name="sellDoc[]" value="' +
+      esc(item.type) +
+      '" data-sell-doc-check tabindex="-1" aria-hidden="true" />' +
       '<div class="immo-doc-line-upload">' +
       '<span class="immo-doc-status-badge" data-sell-doc-status hidden></span>' +
-      '<label class="immo-doc-line-btn" title="Plusieurs PDF / JPG / PNG — max 12 Mo chacun">' +
+      '<label class="immo-doc-line-btn" title="PDF, JPG ou PNG — max 12 Mo">' +
       '<input type="file" accept="' +
       ACCEPT +
       '" multiple hidden data-sell-doc-input data-doc-type="' +
@@ -162,15 +162,20 @@
 
   function renderGroup(group) {
     var lines = (group.items || []).map(renderLine).join("");
+    var driveNote = group.driveFolder
+      ? '<p class="immo-doc-drive-hint">→ Drive : <code>' + esc(group.driveFolder) + "</code></p>"
+      : "";
     return (
-      '<fieldset class="immo-docs-group" data-sell-doc-group="' +
+      '<details class="immo-doc-cat" open data-sell-doc-group="' +
       esc(group.id) +
       '">' +
-      "<legend>" +
+      "<summary>" +
       esc(group.legend) +
-      "</legend>" +
+      "</summary>" +
+      driveNote +
+      '<div class="immo-doc-cat-lines">' +
       lines +
-      "</fieldset>"
+      "</div></details>"
     );
   }
 
@@ -183,7 +188,7 @@
     if (!groups.length) return;
     mount.dataset.sellDocsRendered = "1";
     mount.innerHTML =
-      '<p class="small immo-sell-docs-drive-hint">Cochez et déposez une ou plusieurs pièces — envoi <strong>immédiat</strong> : <strong>En attente</strong> → <strong>Envoi…</strong> → <strong>Transmis</strong> → <strong>Reçu</strong> (Drive).</p>' +
+      '<p class="small immo-sell-docs-drive-hint">Déposez les pièces déjà disponibles — envoi <strong>immédiat</strong> vers Drive (statut après dépôt : En attente → Transmis → Reçu).</p>' +
       '<div class="immo-doc-drive-banner" data-sell-doc-drive-banner hidden></div>' +
       groups.map(renderGroup).join("");
     bindMount(mount);
@@ -198,7 +203,7 @@
     boxes.forEach(function (b) {
       if (b.checked) checked++;
     });
-    counter.textContent = checked + " / " + boxes.length + " pièces cochées";
+    counter.textContent = checked + " / " + boxes.length + " pièces déposées";
   }
 
   function itemsForType(documentType) {
