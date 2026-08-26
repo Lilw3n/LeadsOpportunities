@@ -50,6 +50,17 @@ Tu as **3 silos live** avec **189 villes** chacun :
 | **Équitation** | assurance équitation, rc équestre | `/assurance-equitation/`, `/assurance-equitation/lyon/` |
 | **Animaux** | assurance chien pas cher | `/assurance-animaux/chien/pas-cher/`, `/comparatif/` |
 
+**Bassin Nice Côte d'Azur (leads déjà en place)** — densifier le local 06 sur ce qui convertit, puis le reste :
+
+| Priorité | Hub | Exemples villes |
+|----------|-----|-----------------|
+| 1. Animaux (chien, chat) | `/assurance-animaux/nice-cote-azur/` | Nice, Cagnes, Antibes, Cannes |
+| 2. VTC | `/assurance-vtc/cote-d-azur/` + `/assurance-vtc/aeroport-nice/` | NCE, Saint-Laurent-du-Var, Cannes |
+| 3. Chasse | `/assurance-chasse/cote-d-azur/` | Grasse, Vence, Vésubie, Sospel |
+| Ensuite | `/nice-cote-azur/` | équitation, habitation, mutuelle |
+
+Vérif : `npm run verify:nice-cote-azur` · GSC : `npm run gsc:niches`
+
 **Actions contenu (août 2026) :**
 
 - Module blog **`scripts/blog-niches-actu-articles.cjs`** — incendies Gironde, restrictions d'eau, présidentielle 2027, chasse, équitation, animaux

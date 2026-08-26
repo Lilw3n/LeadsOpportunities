@@ -26,6 +26,7 @@ const {
 const { NICHE_PAGES, getNicheSitemapEntries } = require("./niche-pages.cjs");
 const { buildVtcLongtailPages, getVtcLongtailSitemapEntries } = require("./niche-vtc-pages.cjs");
 const { buildVtcIdfPages, getVtcIdfSitemapEntries } = require("./seo-vtc-idf-pages.cjs");
+const { buildNiceCoteAzurPages, getNiceCoteAzurSitemapEntries } = require("./seo-nice-cote-azur-pages.cjs");
 const { buildImmoDestinationPages, getImmoDestinationSitemapEntries } = require("./seo-immo-destinations.cjs");
 const nancyBassin = require("./nancy-bassin-pret-lib.cjs");
 const SeoImg = require("./seo-images-lib.cjs");
@@ -114,8 +115,11 @@ const PAGES = [
         { href: "/assurance-vtc/uber-bolt/", label: "Uber, Bolt, Heetch" },
         { href: "/assurance-vtc/creation-activite/", label: "Creation d activite" },
         { href: "/assurance-vtc/uber-paris/", label: "Uber Paris" },
+        { href: "/assurance-vtc/cote-d-azur/", label: "VTC Côte d'Azur" },
+        { href: "/assurance-vtc/aeroport-nice/", label: "Aéroport Nice NCE" },
       ],
-      LT.VTC_IDF
+      LT.VTC_IDF,
+      LT.VTC_COTE_AZUR
     ),
     faq: [
       {
@@ -674,7 +678,8 @@ function withSeoMeta(p) {
 
 function renderPage(p) {
   const prefix = depthPrefix(p.file);
-  const canonical = BASE + pageCanonicalPath(p.file);
+  const canonical = BASE + (p.canonicalPath || pageCanonicalPath(p.file));
+  const robots = p.robots || "index,follow";
   const theme = p.theme || "vtc";
   const crumbs = p.crumbs || [];
   const related = p.related || [];
@@ -865,7 +870,7 @@ function renderPage(p) {
   <title>${esc(p.title)}</title>
   <meta name="description" content="${esc(p.description)}" />
   ${p.keywords ? '<meta name="keywords" content="' + esc(p.keywords) + '" />' : ""}
-  <meta name="robots" content="index,follow" />
+  <meta name="robots" content="${esc(robots)}" />
   ${geoMeta}
   <link rel="canonical" href="${esc(canonical)}" />
   <link rel="alternate" hreflang="fr-FR" href="${esc(canonical)}" />
@@ -986,6 +991,7 @@ function renderPage(p) {
 
 const VTC_LONGTAIL_PAGES = buildVtcLongtailPages(page);
 const VTC_IDF_PAGES = buildVtcIdfPages(page);
+const NICE_COTE_AZUR_PAGES = buildNiceCoteAzurPages(page);
 const IMMO_DEST_PAGES = buildImmoDestinationPages(page, CITIES).concat(nancyBassin.buildHubPages(page));
 var idfHub = VTC_IDF_PAGES.filter(function (p) {
   return p.file === "assurance-vtc/ile-de-france/index.html";
@@ -1016,6 +1022,7 @@ const ALL_PAGES = PAGES.concat(
   NICHE_PAGES,
   VTC_LONGTAIL_PAGES,
   VTC_IDF_PAGES,
+  NICE_COTE_AZUR_PAGES,
   IMMO_DEST_PAGES,
   buildPillarPageConfigs(page),
   buildGeoPageConfigs(CITIES, page),
@@ -1056,6 +1063,7 @@ const mainUrls = allUrls
   .concat(getNicheSitemapEntries(BASE))
   .concat(getVtcLongtailSitemapEntries(BASE))
   .concat(getVtcIdfSitemapEntries(BASE))
+  .concat(getNiceCoteAzurSitemapEntries(BASE))
   .concat(getImmoDestinationSitemapEntries(BASE))
   .concat(nancyBassin.sitemapEntries(BASE));
 

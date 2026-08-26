@@ -4,6 +4,7 @@
  */
 const fs = require("fs");
 const path = require("path");
+const niceBassin = require("./nice-cote-azur-lib.cjs");
 
 const ROOT = path.join(__dirname, "..");
 
@@ -326,7 +327,7 @@ const CITIES = [
   ["honfleur", "Honfleur", "normandie", "calvados"],
   ["chamonix", "Chamonix-Mont-Blanc", "auvergne-rhone-alpes", "haute-savoie"],
   ["megeve", "Megeve", "auvergne-rhone-alpes", "haute-savoie"],
-];
+].concat(niceBassin.newCityRows());
 
 const REGIONS = JSON.parse(
   fs.readFileSync(path.join(ROOT, "seo/france-regions.json"), "utf8")
