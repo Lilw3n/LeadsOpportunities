@@ -17,6 +17,20 @@ function readJson(file, fallback) {
   }
 }
 
+/** File manuelle / inbox : ignore les gabarits du type « COLLEZ ICI ». */
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var title = String(item.title || "").trim();
+  var id = String(item.id || "").toLowerCase();
+  var status = String(item.status || "").toLowerCase();
+  if (status === "template") return true;
+  if (!title) return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/\(le figaro,\s*le parisien/i.test(title)) return true;
+  if (id === "cafeyn-pending-template" || /-pending-template$/.test(id)) return true;
+  return false;
+}
+
 function writeJson(file, data) {
   fs.writeFileSync(path.join(DATA, file), JSON.stringify(data, null, 2) + "\n");
 }
@@ -112,7 +126,13 @@ function scoreLeadPotential(candidate) {
   });
 
   var hay = title + " " + String(candidate.summary || "").toLowerCase();
-  if (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay)) {
+  var sportLeadAngle = /assurance|mutuelle|voyage|supporter|deplacement|étranger|etranger|rapatriement/.test(
+    hay
+  );
+  if (
+    sportLeadAngle &&
+    (isFranceMarketTopic(hay) || /équipe de france|equipe de france|les bleus|mbapp/i.test(hay))
+  ) {
     [
       "coupe du monde",
       "mondial",
@@ -140,6 +160,17 @@ function scoreLeadPotential(candidate) {
   }
 
   return Math.min(100, Math.max(0, score));
+}
+
+/** Titre/résumé assez « assurance » pour un CTA questionnaire (leads qualifiés). */
+function hasQualifiedLeadIntent(candidate) {
+  var hay = (String(candidate.title || "") + " " + String(candidate.summary || "")).toLowerCase();
+  return (
+    /assurance|mutuelle|emprunteur|sinistre|habitation|prevoyance|orias/.test(hay) ||
+    /vtc|rc[\s-]?pro|franchise|rembours/.test(hay) ||
+    /pr[eê]t immobilier|credit immo|cr[eé]dit immo/.test(hay) ||
+    /canicule|cat[\s-]?nat|s[eé]cheresse|inondation|d[eé]g[aâ]ts? des eaux/.test(hay)
+  );
 }
 
 function rankCandidates(candidates) {
@@ -351,4 +382,6 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  hasQualifiedLeadIntent: hasQualifiedLeadIntent,
 };
