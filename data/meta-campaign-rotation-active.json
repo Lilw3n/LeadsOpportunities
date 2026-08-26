@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "generatedAt": "2026-08-26T05:28:58.672Z",
+  "generatedAt": "2026-08-26T05:31:56.497Z",
   "policy": {
     "max_daily_budget_eur": 1,
     "max_active_campaigns": 1,
@@ -26,7 +26,7 @@
     "week": 1,
     "id": "vtc_discret",
     "vertical": "vtc",
-    "discrete": true,
+    "discrete": false,
     "form_template": "vtc_express",
     "utm_campaign": "meta_vtc_p1_convert",
     "blog_slug": "assurance-vtc-moins-cher-2026",
@@ -139,7 +139,7 @@
       "week": 1,
       "id": "vtc_discret",
       "vertical": "vtc",
-      "discrete": true,
+      "discrete": false,
       "is_current": true,
       "form_id": "4578422069056454",
       "headline": "VTC : baissez vos charges assurance",
