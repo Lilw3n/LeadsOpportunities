@@ -298,6 +298,88 @@
     { v: "non", t: "Non" },
   ];
 
+  /** INTÉRIEUR — dalle (plancher), pas le sol des pièces. */
+  var FLOOR_SLAB = ["Béton", "Bois", "Mixte Bois Béton"];
+
+  /** INTÉRIEUR — type de chauffage (collectif / individuel), pas l'énergie. */
+  var HEATING_TYPE = [
+    "Collectif",
+    "Collectif avec comptage individuel",
+    "Individuel",
+    "Mixte",
+    "Sans",
+  ];
+
+  /** INTÉRIEUR — mécanisme / énergie (pas le type ni le mode de diffusion). Liste agence jusqu’à PAC air/eau. */
+  var HEATING_MECHANISM = uniqLabels(
+    [
+      "Aérothermie",
+      "Aucun",
+      "Autres",
+      "Bois",
+      "Bois + Electrique",
+      "Charbon",
+      "Chaudière à granulés",
+      "Chaudière électrique",
+      "Chauffage de ville",
+      "Chauffage urbain",
+      "Chauffe-eau thermodynamique",
+      "Climatisation réversible",
+      "Climatisation réversible + électrique",
+      "Electrique",
+      "Eolienne",
+      "Fuel",
+      "Fuel + électrique",
+      "Gaz",
+      "Gaz (turbine)",
+      "Gaz + chauffe-eau solaire",
+      "Gaz + chauffe-eau thermodynamique",
+      "Gaz + Pompe à chaleur",
+      "Gaz de ville",
+      "Géothermie",
+      "Mixte",
+      "Panneaux solaires",
+      "Poêle à granulés",
+      "Poêle hybride bois et granulés",
+      "Pompe à chaleur",
+      "Pompe à chaleur + chauffe-eau thermodynamique/solaire",
+      "Pompe à chaleur + fuel",
+      "Pompe à chaleur air/air",
+      "Pompe à chaleur air/eau",
+    ],
+    true
+  );
+
+  /** INTÉRIEUR — mode de diffusion (radiateur, sol…), pas l'énergie. */
+  var HEATING_MODE = [
+    "Accumulateurs",
+    "Air pulsé",
+    "Au Sol",
+    "Convecteurs",
+    "Mixte Sol / Convecteurs",
+    "Plafond",
+    "Radiants",
+    "Radiateur",
+    "Sol et plafond",
+  ];
+
+  /** INTÉRIEUR — production d'eau chaude (pas le chauffage). */
+  var HOT_WATER = [
+    "Ballon électrique",
+    "Chaudière",
+    "Chauffage central",
+    "Chauffe eau",
+    "Collective",
+    "Collective avec compteur",
+    "collective millièmes",
+    "Gaz",
+    "Géothermie",
+    "Individuelle",
+    "Panneaux solaires",
+    "Pompe à chaleur",
+    "Thermodynamique",
+  ];
+
   var ENVIRONMENTS = [
     { v: "", t: "— Choisir —" },
     { v: "bois", t: "bois" },
@@ -669,6 +751,11 @@
     INSULATION: INSULATION,
     SANITATION: SANITATION,
     YES_NO_UNKNOWN: YES_NO_UNKNOWN,
+    FLOOR_SLAB: FLOOR_SLAB,
+    HEATING_TYPE: HEATING_TYPE,
+    HEATING_MECHANISM: HEATING_MECHANISM,
+    HEATING_MODE: HEATING_MODE,
+    HOT_WATER: HOT_WATER,
     ENVIRONMENTS: ENVIRONMENTS,
     COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
     GENERAL_CONDITIONS: GENERAL_CONDITIONS,

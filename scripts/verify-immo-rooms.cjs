@@ -96,6 +96,18 @@ assert(tax.indexOf("Roulants électriques") >= 0, "volets Roulants électriques"
 assert(tax.indexOf("Laine de verre") >= 0, "isolation Laine de verre");
 assert(tax.indexOf("Tout à l'égout") >= 0, "assainissement tout-à-l'égout");
 assert(html.indexOf("sellWindowsNote") >= 0, "commentaire fenêtres");
+assert(tax.indexOf("Mixte Bois Béton") >= 0, "dalle Mixte Bois Béton");
+assert(tax.indexOf("Collectif avec comptage individuel") >= 0, "type chauffage collectif comptage");
+assert(tax.indexOf("Pompe à chaleur air/eau") >= 0, "méca PAC air/eau");
+assert(tax.indexOf("Gaz + Pompe à chaleur") >= 0, "méca Gaz + PAC");
+assert(tax.indexOf("Poêle hybride bois et granulés") >= 0, "méca poêle hybride");
+assert(tax.indexOf("Radiants") >= 0, "mode chauffage Radiants");
+assert(tax.indexOf("Thermodynamique") >= 0, "eau chaude Thermodynamique");
+assert(html.indexOf('id="sellFloorSlab"') >= 0, "champ Dalle");
+assert(html.indexOf('id="sellHeatingMode"') >= 0, "champ Mode chauffage");
+assert(html.indexOf("sellHeatingEnergyNote") >= 0, "commentaire méca chauffage");
+assert(html.indexOf('id="sellFireplace"') >= 0, "champ Cheminée");
+assert(html.indexOf("immo-listing-taxonomy.js?v=20260826rooms10") >= 0, "cache-bust taxonomie intérieur");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

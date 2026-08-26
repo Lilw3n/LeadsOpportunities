@@ -945,36 +945,73 @@
                     <div class="field"><label for="sellOrientation">Orientation principale</label><input id="sellOrientation" name="sellOrientation" data-optional placeholder="Sud, EST…" /></div>
                     <div class="field"><label for="sellView">Vue</label><input id="sellView" name="sellView" data-optional placeholder="Dégagée, parc, rue…" /></div>
                     <div class="field"><label for="sellMitoyennete">Mitoyenneté</label><input id="sellMitoyennete" name="sellMitoyennete" data-optional placeholder="1 côté, pavillon…" /></div>
-                    <div class="field"><label for="sellKitchenType">Type cuisine</label>
+                    <div class="field"><label for="sellPossibleBedrooms">Chambres possibles</label><input id="sellPossibleBedrooms" name="sellPossibleBedrooms" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellGroundFloorBedroom">Chambre RDC</label><input id="sellGroundFloorBedroom" name="sellGroundFloorBedroom" data-optional placeholder="Nb / oui…" /></div>
+                    <div class="field"><label for="sellBathrooms">Salle(s) de bains</label><input id="sellBathrooms" name="sellBathrooms" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellShowerRooms">Salle(s) d'eau</label><input id="sellShowerRooms" name="sellShowerRooms" inputmode="numeric" data-optional /></div>
+                    <div class="field"><label for="sellWcCount">WC</label><input id="sellWcCount" name="sellWcCount" inputmode="numeric" data-optional /></div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellKitchenType">Cuisine</label>
                       <select id="sellKitchenType" name="sellKitchenType" data-optional>
-                        <option value="">—</option>
+                        <option value="">Non renseigné</option>
                         <option>Séparée équipée</option>
                         <option>Américaine équipée</option>
                         <option>Individuelle équipée</option>
                         <option>Non équipée</option>
                       </select>
+                      <input id="sellKitchenTypeNote" name="sellKitchenTypeNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
                     </div>
-                    <div class="field"><label for="sellHeating">Chauffage</label>
-                      <select id="sellHeating" name="sellHeating" data-optional>
-                        <option value="">—</option>
-                        <option>Individuel</option>
-                        <option>Collectif</option>
-                        <option>Pompe à chaleur</option>
-                        <option>Électrique</option>
-                        <option>Gaz</option>
-                      </select>
+                    <div class="field immo-list-or-note">
+                      <label for="sellSingleStorey">Plain-pied</label>
+                      <select id="sellSingleStorey" name="sellSingleStorey" data-optional></select>
+                      <input id="sellSingleStoreyNote" name="sellSingleStoreyNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
                     </div>
-                    <div class="field"><label for="sellHeatingEnergy">Énergie</label><input id="sellHeatingEnergy" name="sellHeatingEnergy" data-optional placeholder="Gaz, élec…" /></div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellFloorSlab">Dalle</label>
+                      <select id="sellFloorSlab" name="sellFloorSlab" data-optional></select>
+                      <input id="sellFloorSlabNote" name="sellFloorSlabNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field"><label for="sellCeilingHeight">Hauteur sous plafond</label><input id="sellCeilingHeight" name="sellCeilingHeight" data-optional placeholder="Ex. 2,50 m" /></div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellHeating">Type chauffage</label>
+                      <select id="sellHeating" name="sellHeating" data-optional></select>
+                      <input id="sellHeatingNote" name="sellHeatingNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellHeatingEnergy">Méca. chauffage (énergie)</label>
+                      <select id="sellHeatingEnergy" name="sellHeatingEnergy" data-optional></select>
+                      <input id="sellHeatingEnergyNote" name="sellHeatingEnergyNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellHeatingMode">Mode chauffage (diffusion)</label>
+                      <select id="sellHeatingMode" name="sellHeatingMode" data-optional></select>
+                      <input id="sellHeatingModeNote" name="sellHeatingModeNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellHotWater">Eau chaude</label>
+                      <select id="sellHotWater" name="sellHotWater" data-optional></select>
+                      <input id="sellHotWaterNote" name="sellHotWaterNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
                     <div class="field"><label for="sellBoilerYear">Année chaudière</label><input id="sellBoilerYear" name="sellBoilerYear" inputmode="numeric" data-optional /></div>
-                    <div class="field"><label for="sellHotWater">Eau chaude</label><input id="sellHotWater" name="sellHotWater" data-optional /></div>
-                    <div class="field"><label for="sellInteriorState">État intérieur</label>
+                    <div class="field"><label for="sellColdWater">Eau froide</label><input id="sellColdWater" name="sellColdWater" data-optional placeholder="Pas de liste — décrivez" /></div>
+                    <div class="field"><label for="sellWater">Eau</label><input id="sellWater" name="sellWater" data-optional placeholder="Pas de liste — décrivez" /></div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellInteriorState">État intérieur</label>
                       <select id="sellInteriorState" name="sellInteriorState" data-optional>
-                        <option value="">—</option>
+                        <option value="">Non renseigné</option>
                         <option>Très bon</option>
                         <option>Bon</option>
                         <option>À rafraîchir</option>
                         <option>À rénover</option>
                       </select>
+                      <input id="sellInteriorStateNote" name="sellInteriorStateNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field"><label for="sellServiceRooms">Chambres de service</label><input id="sellServiceRooms" name="sellServiceRooms" data-optional /></div>
+                    <div class="field"><label for="sellFireplace">Cheminée</label><input id="sellFireplace" name="sellFireplace" data-optional placeholder="Oui / insert / aucune…" /></div>
+                    <div class="field"><label for="sellQuiet">Calme</label><input id="sellQuiet" name="sellQuiet" data-optional placeholder="Oui / rue passante…" /></div>
+                    <div class="field full">
+                      <label for="sellInteriorNotes">Informations complémentaires (intérieur)</label>
+                      <textarea id="sellInteriorNotes" name="sellInteriorNotes" rows="2" data-optional placeholder="Tout ce que vous ne savez pas classer"></textarea>
                     </div>
                     <div class="field"><label for="sellCaveCount">Cave(s)</label><input id="sellCaveCount" name="sellCaveCount" data-optional placeholder="Nb" /></div>
                     <div class="field"><label for="sellParkingExt">Park. ext.</label><input id="sellParkingExt" name="sellParkingExt" data-optional placeholder="1 privé…" /></div>
@@ -2314,8 +2351,8 @@
   <script src="../js/print-document-lib.js"></script>
   <script src="../js/acheteur-immo-fill-mode.js"></script>
   <script src="../js/acheteur-immo-print.js?v=20260826rooms2"></script>
-  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms9"></script>
-  <script src="../js/acheteur-immo-listing-fields.js?v=20260826rooms9"></script>
+  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms10"></script>
+  <script src="../js/acheteur-immo-listing-fields.js?v=20260826rooms10"></script>
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/immo-room-catalog.js?v=20260826rooms5"></script>
   <script src="../js/acheteur-immo-rooms.js?v=20260826rooms5"></script>
