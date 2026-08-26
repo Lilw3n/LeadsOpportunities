@@ -37,15 +37,23 @@
     return v.indexOf("vendeur") >= 0 && v.indexOf("immo") >= 0;
   }
 
+  function resumeHatFromCtx(ctx) {
+    ctx = ctx || {};
+    var payload = ctx.payload || {};
+    var vertical = ctx.vertical || payload.vertical || payload.need || "";
+    var v = normalizeVertical(vertical);
+    if (v.indexOf("vendeur") >= 0 && v.indexOf("acheteur") >= 0) return "les_deux";
+    if (isVendeurImmo(vertical) || v === "vendeur-immo") return "vendeur";
+    if (v.indexOf("acheteur") >= 0 || v.indexOf("recherche") >= 0) return "acheteur";
+    return "";
+  }
+
+  /** URL publique sans e-mail / téléphone / leadId (jeton ajouté par openResumeLink). */
   function buildResumeUrl(ctx) {
     ctx = ctx || {};
     var payload = ctx.payload || {};
     var vertical = ctx.vertical || payload.vertical || payload.need || "";
     var params = new URLSearchParams();
-    if (ctx.leadId) params.set("leadId", ctx.leadId);
-    if (ctx.contactId) params.set("contactId", ctx.contactId);
-    if (ctx.email) params.set("email", ctx.email);
-    if (ctx.phone) params.set("phone", ctx.phone);
     params.set("source", "crm_resume");
     params.set("reprise", "1");
     if (canEdit()) params.set("mode", "conseiller");
@@ -94,18 +102,65 @@
     return true;
   }
 
+  function mergeAuthHeaders(authHeadersFn) {
+    var headers = {};
+    if (typeof authHeadersFn === "function") {
+      headers = Object.assign({}, authHeadersFn() || {});
+    } else if (authHeadersFn && typeof authHeadersFn === "object") {
+      headers = Object.assign({}, authHeadersFn);
+    }
+    if (!headers.Authorization) {
+      try {
+        var token = localStorage.getItem("lo_token");
+        if (token) headers.Authorization = "Bearer " + token;
+      } catch (e) {}
+    }
+    return headers;
+  }
+
   function authFetch(url, opts, authHeadersFn) {
     opts = opts || {};
-    var headers = Object.assign({}, opts.headers || {});
-    if (typeof authHeadersFn === "function") {
-      headers = Object.assign(headers, authHeadersFn() || {});
-    } else if (authHeadersFn && typeof authHeadersFn === "object") {
-      headers = Object.assign(headers, authHeadersFn);
-    }
+    var headers = Object.assign({}, opts.headers || {}, mergeAuthHeaders(authHeadersFn));
     return fetch(url, Object.assign({}, opts, { headers: headers, credentials: "same-origin" })).then(function (r) {
       return r.json().then(function (data) {
         return { ok: r.ok, status: r.status, data: data };
       });
+    });
+  }
+
+  function fetchResumeLink(ctx, authHeaders) {
+    ctx = ctx || {};
+    if (!ctx.leadId) {
+      return Promise.resolve({ ok: false, status: 400, data: { error: "leadId requis" } });
+    }
+    var qs = "leadId=" + encodeURIComponent(ctx.leadId);
+    if (ctx.contactId) qs += "&contactId=" + encodeURIComponent(ctx.contactId);
+    var hat = ctx.hat || resumeHatFromCtx(ctx);
+    if (hat) qs += "&hat=" + encodeURIComponent(hat);
+    return authFetch("/api/crm/resume-link?" + qs, { method: "GET" }, authHeaders);
+  }
+
+  function openResumeLink(ctx, opts) {
+    opts = opts || {};
+    ctx = ctx || {};
+    if (!ctx.leadId) {
+      openUrl(buildResumeUrl(ctx));
+      return Promise.resolve(false);
+    }
+    return fetchResumeLink(ctx, opts.authHeaders).then(function (res) {
+      var data = (res && res.data) || {};
+      if (data.ok && data.url) {
+        openUrl(data.url);
+        return true;
+      }
+      window.alert(
+        data.error ||
+          "Impossible de générer le lien sécurisé. Reconnectez-vous au CRM puis réessayez."
+      );
+      return false;
+    }).catch(function () {
+      window.alert("Erreur réseau — lien de reprise indisponible.");
+      return false;
     });
   }
 
@@ -212,7 +267,6 @@
   function renderToolbar(ctx, opts) {
     opts = opts || {};
     ctx = ctx || {};
-    var resumeUrl = buildResumeUrl(ctx);
     var html =
       '<div class="crm-q-toolbar" data-crm-q-toolbar>' +
       '<div class="crm-q-toolbar__inner">' +
@@ -224,11 +278,9 @@
         "</button>";
     }
     html +=
-      '<a class="btn btn-ghost btn-sm" href="' +
-      esc(resumeUrl) +
-      '" target="_blank" rel="noopener">' +
+      '<button type="button" class="btn btn-ghost btn-sm" data-crm-q-resume>' +
       (canEdit() ? "Reprendre le questionnaire prérempli" : "Ouvrir le parcours questionnaire") +
-      "</a>";
+      "</button>";
     if (opts.mailboxUrl) {
       html +=
         '<a class="btn btn-ghost btn-sm" href="' +
@@ -255,6 +307,10 @@
     var toggle = container.querySelector("[data-crm-q-toggle-edit]");
     if (toggle && handlers.onToggleEdit) {
       toggle.addEventListener("click", handlers.onToggleEdit);
+    }
+    var resumeBtn = container.querySelector("[data-crm-q-resume]");
+    if (resumeBtn && handlers.onResume) {
+      resumeBtn.addEventListener("click", handlers.onResume);
     }
     var scrollDocs = container.querySelector("[data-crm-q-scroll-docs]");
     if (scrollDocs && handlers.onScrollDocs) {
@@ -714,6 +770,9 @@
         updateToggleLabel();
         renderAnswersView();
       },
+      onResume: function () {
+        openResumeLink(ctx, { authHeaders: opts.authHeaders });
+      },
       onScrollDocs: function () {
         scrollToDocs(root);
       },
@@ -753,6 +812,8 @@
     esc: esc,
     parsePayload: parsePayload,
     buildResumeUrl: buildResumeUrl,
+    fetchResumeLink: fetchResumeLink,
+    openResumeLink: openResumeLink,
     buildMailboxUrl: buildMailboxUrl,
     canEdit: canEdit,
     ensureContactId: ensureContactId,

@@ -1,15 +1,16 @@
 /**
- * GET /api/external/resume-deposit?email=&phone=&leadId=
- * Reprise du questionnaire vendeur — brouillon enregistré côté serveur.
+ * GET /api/external/resume-deposit?rt=
+ * POST /api/external/resume-deposit { email, phone, leadId? }
+ *
+ * Reprise du questionnaire vendeur.
+ * - Jeton `rt` (lien CRM) : ouvre le dossier ciblé, sans e-mail dans l’URL.
+ * - GET avec leadId / e-mail / téléphone en query : ignoré (anciens liens fuités).
+ * - POST : e-mail/tél saisis dans le formulaire (pas lus depuis l’URL).
  */
-const { applyApiGuards, rateLimit, getClientIp } = require("../security");
+const { applyApiGuards, rateLimit, getClientIp, parseJsonBody } = require("../security");
 const { getSql } = require("../db");
-
-function normPhone(v) {
-  var d = String(v || "").replace(/\D/g, "");
-  if (d.length === 11 && d.indexOf("33") === 0) d = "0" + d.slice(2);
-  return d.slice(-10);
-}
+const { verifyResumeToken } = require("../resume-link-token");
+const { identityMatchesLead, normEmail, normPhone } = require("../resume-identity");
 
 function parsePayload(raw) {
   if (!raw) return {};
@@ -142,45 +143,101 @@ function buildDraftFromLeadPayload(p, leadRow) {
   return hasData ? draft : null;
 }
 
+function foundPayload(row) {
+  var payload = parsePayload(row.payload);
+  var draft = buildDraftFromLeadPayload(payload, row);
+  if (!draft) return { found: false };
+  return {
+    found: true,
+    leadId: row.id,
+    email: row.email || payload.email || (draft.form && draft.form.email) || "",
+    phone: row.phone || payload.phone || (draft.form && draft.form.phone) || "",
+    firstName: payload.firstName || (draft.form && draft.form.firstName) || "",
+    lastName: payload.lastName || (draft.form && draft.form.lastName) || "",
+    savedAt: row.created_at,
+    draft: draft,
+    message: "Dossier repris — complétez les informations manquantes puis renvoyez.",
+  };
+}
+
+async function loadLeadById(sql, leadId) {
+  var rows = await sql`
+    SELECT id, email, phone, vertical, payload, created_at
+    FROM site_leads
+    WHERE id = ${leadId}
+    LIMIT 1
+  `;
+  return rows[0] || null;
+}
+
 module.exports = async function externalResumeDeposit(req, res) {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
-  if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
+  if (req.method !== "GET" && req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
   var ip = getClientIp(req);
   var rl = rateLimit("ext-resume-deposit:" + ip, 40, 60 * 1000);
   if (!rl.allowed) return res.status(429).json({ error: "Trop de demandes — réessayez dans un instant." });
 
-  var email = req.query.email ? String(req.query.email).trim().toLowerCase() : "";
-  var phone = req.query.phone ? String(req.query.phone).trim() : "";
-  var leadId = req.query.leadId ? String(req.query.leadId).trim() : "";
-  var digits = normPhone(phone);
-
-  if (!leadId && !email && digits.length < 10) {
-    return res.status(400).json({ error: "Indiquez un e-mail, un téléphone ou un identifiant de dossier." });
-  }
-
   var sql = getSql();
   if (!sql) return res.status(500).json({ error: "Base de données indisponible" });
 
+  var token = req.query.rt || req.query.token || "";
+  var body = {};
+  if (req.method === "POST") {
+    var parsed = parseJsonBody(req);
+    if (parsed.error) return res.status(400).json({ error: parsed.error });
+    body = parsed.body || {};
+    if (!token) token = body.rt || body.token || "";
+  }
+  token = String(token || "").trim();
+
   try {
-    var rows = [];
+    if (token) {
+      var decoded = verifyResumeToken(token);
+      if (!decoded || !decoded.leadId) {
+        return res.status(200).json({ found: false, reason: "invalid_token" });
+      }
+      var tokenLead = await loadLeadById(sql, decoded.leadId);
+      if (!tokenLead) return res.status(200).json({ found: false });
+      return res.status(200).json(foundPayload(tokenLead));
+    }
+
+    // GET sans jeton : ne plus honorer leadId / e-mail / tél en query (liens CRM fuités).
+    if (req.method === "GET") {
+      return res.status(200).json({ found: false, reason: "token_required" });
+    }
+
+    var email = normEmail(body.email);
+    var phone = String(body.phone || "").trim();
+    var digits = normPhone(phone);
+    var leadId = body.leadId ? String(body.leadId).trim() : "";
+
+    if (!leadId && !email && digits.length < 10) {
+      return res.status(400).json({ error: "Indiquez un e-mail ou un téléphone." });
+    }
+
+    var row = null;
     if (leadId) {
-      rows = await sql`
-        SELECT id, email, phone, vertical, payload, created_at
-        FROM site_leads
-        WHERE id = ${leadId}
-        LIMIT 1
-      `;
+      row = await loadLeadById(sql, leadId);
+      if (!row || !identityMatchesLead(row, { email: email, phone: phone })) {
+        return res.status(200).json({ found: false });
+      }
     } else if (email) {
-      rows = await sql`
+      var byEmail = await sql`
         SELECT id, email, phone, vertical, payload, created_at
         FROM site_leads
         WHERE vertical IN ('vendeur_immo', 'acheteur_vendeur_immo', 'chasseur_immo')
           AND LOWER(TRIM(email)) = ${email}
         ORDER BY created_at DESC
-        LIMIT 1
+        LIMIT 5
       `;
+      row =
+        byEmail.filter(function (r) {
+          return identityMatchesLead(r, { email: email, phone: phone });
+        })[0] || null;
     } else {
       var candidates = await sql`
         SELECT id, email, phone, vertical, payload, created_at
@@ -190,33 +247,14 @@ module.exports = async function externalResumeDeposit(req, res) {
         ORDER BY created_at DESC
         LIMIT 25
       `;
-      rows = candidates.filter(function (r) {
-        return normPhone(r.phone) === digits;
-      }).slice(0, 1);
+      row =
+        candidates.filter(function (r) {
+          return identityMatchesLead(r, { email: email, phone: phone });
+        })[0] || null;
     }
 
-    if (!rows.length) {
-      return res.status(200).json({ found: false });
-    }
-
-    var row = rows[0];
-    var payload = parsePayload(row.payload);
-    var draft = buildDraftFromLeadPayload(payload, row);
-    if (!draft) {
-      return res.status(200).json({ found: false });
-    }
-
-    return res.status(200).json({
-      found: true,
-      leadId: row.id,
-      email: row.email || payload.email || (draft.form && draft.form.email) || "",
-      phone: row.phone || payload.phone || (draft.form && draft.form.phone) || "",
-      firstName: payload.firstName || (draft.form && draft.form.firstName) || "",
-      lastName: payload.lastName || (draft.form && draft.form.lastName) || "",
-      savedAt: row.created_at,
-      draft: draft,
-      message: "Dossier repris — complétez les informations manquantes puis renvoyez.",
-    });
+    if (!row) return res.status(200).json({ found: false });
+    return res.status(200).json(foundPayload(row));
   } catch (e) {
     console.error("[external/resume-deposit]", e);
     return res.status(500).json({ error: "Erreur serveur" });

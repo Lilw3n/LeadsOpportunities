@@ -672,6 +672,11 @@
       var params = new URLSearchParams(location.search);
       params.set("nouveau", "1");
       params.delete("reprise");
+      params.delete("rt");
+      params.delete("token");
+      ["email", "phone", "contactId", "leadId", "mail", "tel"].forEach(function (k) {
+        params.delete(k);
+      });
       history.replaceState(null, "", location.pathname + "?" + params.toString() + (location.hash || ""));
     } catch (urlErr) {}
   }
@@ -699,7 +704,7 @@
       sessionId = sessionStorage.getItem(SESSION_ACTIVE_KEY);
     } catch (e) {}
 
-    prefillUrlCredentials(root);
+    scrubResumeQuery();
 
     if (forceNew) {
       setActiveDraftId(createDraftId());
@@ -711,24 +716,31 @@
     }
 
     var urlCtx = urlResumeContext();
-    if (urlCtx.crmResume || urlCtx.leadId) {
-      if (urlCtx.leadId) rememberLeadId(urlCtx.leadId);
+    if (urlCtx.rt) {
       tryRestoreFromServer(
         root,
-        { silent: false, creds: resumeCredentials(), crmResume: urlCtx.crmResume },
+        { silent: false, creds: { rt: urlCtx.rt }, crmResume: true },
         function (found) {
           if (!found) {
             setActiveDraftId(createDraftId());
             showDraftToast(
-              urlCtx.crmResume
-                ? "Aucune donnée enregistrée pour ce dossier — complétez le formulaire à la place du client."
-                : "Aucun brouillon trouvé pour cet identifiant."
+              "Lien de reprise invalide ou expiré — ouvrez-le de nouveau depuis le CRM (bouton Reprendre)."
             );
           }
           updateDraftBanner();
           updateSessionHint(root);
         }
       );
+      return;
+    }
+    if (urlCtx.crmResume) {
+      setActiveDraftId(createDraftId());
+      formDirty = false;
+      showDraftToast(
+        "Ce lien n’est plus valable (données personnelles retirées de l’adresse). Rouvrez le questionnaire depuis le CRM."
+      );
+      updateDraftBanner();
+      updateSessionHint(root);
       return;
     }
 
@@ -739,9 +751,20 @@
     }
 
     if (reprise === "1") {
-      var urlCreds = resumeCredentials();
-      if (urlCreds.leadId || urlCreds.email || urlCreds.phone) {
-        tryRestoreFromServer(root, { silent: false, creds: urlCreds, crmResume: urlResumeContext().crmResume }, function (found) {
+      var formCreds = resumeCredentials();
+      if (formCreds.rt) {
+        tryRestoreFromServer(root, { silent: false, creds: { rt: formCreds.rt }, crmResume: true }, function (found) {
+          if (!found) {
+            setActiveDraftId(createDraftId());
+            showDraftToast("Lien de reprise invalide ou expiré — rouvrez-le depuis le CRM.");
+          }
+          updateDraftBanner();
+          updateSessionHint(root);
+        });
+        return;
+      }
+      if ((formCreds.email || formCreds.phone) && !formCreds.fromUrlPii) {
+        tryRestoreFromServer(root, { silent: false, creds: formCreds, crmResume: false }, function (found) {
           if (!found) {
             var pickFallback = getLatestDraftId(null);
             if (pickFallback && hasDraftContent(loadDraftById(pickFallback))) {
@@ -788,7 +811,18 @@
     }
 
     var creds = resumeCredentials();
-    if (creds.email || creds.phone || creds.leadId) {
+    if (creds.rt) {
+      tryRestoreFromServer(root, { silent: true, creds: { rt: creds.rt }, crmResume: true }, function (found) {
+        if (!found) {
+          setActiveDraftId(createDraftId());
+          formDirty = false;
+          updateDraftBanner();
+          updateSessionHint(root);
+        }
+      });
+      return;
+    }
+    if ((creds.email || creds.phone) && !creds.fromUrlPii) {
       tryRestoreFromServer(root, { silent: true, creds: creds }, function (found) {
         if (!found) {
           setActiveDraftId(createDraftId());
@@ -936,11 +970,33 @@
   function urlResumeContext() {
     var params = new URLSearchParams(location.search);
     return {
-      leadId: (params.get("leadId") || "").trim(),
-      email: (params.get("email") || "").trim().toLowerCase(),
-      phone: (params.get("phone") || "").trim(),
+      rt: (params.get("rt") || params.get("token") || "").trim(),
       crmResume: params.get("source") === "crm_resume",
     };
+  }
+
+  var PII_QUERY_KEYS = ["email", "phone", "contactId", "leadId", "mail", "tel"];
+
+  function scrubResumeQuery(opts) {
+    opts = opts || {};
+    try {
+      var params = new URLSearchParams(window.location.search);
+      var dirty = false;
+      PII_QUERY_KEYS.forEach(function (k) {
+        if (params.has(k)) {
+          params.delete(k);
+          dirty = true;
+        }
+      });
+      if (opts.stripToken && (params.has("rt") || params.has("token"))) {
+        params.delete("rt");
+        params.delete("token");
+        dirty = true;
+      }
+      if (!dirty) return;
+      var q = params.toString();
+      history.replaceState(null, "", window.location.pathname + (q ? "?" + q : "") + window.location.hash);
+    } catch (e) {}
   }
 
   function clearPropertyId() {
@@ -980,34 +1036,54 @@
   function resumeCredentials() {
     var urlCtx = urlResumeContext();
     var form = qs("[data-url-capture-form]");
-    var email = urlCtx.email || sessionEmail();
-    var phone = urlCtx.phone || "";
+    var email = sessionEmail();
+    var phone = "";
     if (form) {
       var em = form.querySelector("[name='email']");
       var ph = form.querySelector("[name='phone']");
       if (em && String(em.value || "").trim()) email = String(em.value).trim().toLowerCase();
       if (ph && String(ph.value || "").trim()) phone = String(ph.value).trim();
     }
-    var leadId = urlCtx.leadId || null;
-    if (!leadId) {
-      try {
-        leadId = localStorage.getItem(LEAD_ID_KEY) || localStorage.getItem(SHARED_LEAD_KEY);
-      } catch (e) {}
-    }
+    var leadId = null;
+    try {
+      leadId = localStorage.getItem(LEAD_ID_KEY) || localStorage.getItem(SHARED_LEAD_KEY);
+    } catch (e) {}
     if (!leadId && global.QuoteIntelligence && global.QuoteIntelligence.getDraftLeadId) {
       leadId = global.QuoteIntelligence.getDraftLeadId();
     }
-    return { email: email, phone: phone, leadId: leadId };
+    return {
+      email: email,
+      phone: phone,
+      leadId: leadId,
+      rt: urlCtx.rt || "",
+      fromUrlPii: false,
+    };
   }
 
   function fetchServerDraft(creds) {
     creds = creds || resumeCredentials();
-    var qsParts = [];
-    if (creds.leadId) qsParts.push("leadId=" + encodeURIComponent(creds.leadId));
-    if (creds.email) qsParts.push("email=" + encodeURIComponent(creds.email));
-    if (creds.phone) qsParts.push("phone=" + encodeURIComponent(creds.phone));
-    if (!qsParts.length) return Promise.resolve({ found: false });
-    return fetch("/api/external/resume-deposit?" + qsParts.join("&"), { credentials: "same-origin" })
+    if (creds.rt) {
+      return fetch("/api/external/resume-deposit?rt=" + encodeURIComponent(creds.rt), {
+        credentials: "same-origin",
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .catch(function () {
+          return { found: false };
+        });
+    }
+    var email = String(creds.email || "").trim();
+    var phone = String(creds.phone || "").trim();
+    if (!email && !phone) return Promise.resolve({ found: false });
+    var body = { email: email, phone: phone };
+    if (creds.leadId && (email || phone)) body.leadId = creds.leadId;
+    return fetch("/api/external/resume-deposit", {
+      method: "POST",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    })
       .then(function (r) {
         return r.json();
       })
@@ -1029,25 +1105,14 @@
     return draft;
   }
 
-  function prefillUrlCredentials(root) {
-    var ctx = urlResumeContext();
-    var form = (root && qs("[data-url-capture-form]", root)) || qs("[data-url-capture-form]");
-    if (!form) return;
-    if (ctx.email) {
-      var em = form.querySelector("[name='email']");
-      if (em && !String(em.value || "").trim()) em.value = ctx.email;
-    }
-    if (ctx.phone) {
-      var ph = form.querySelector("[name='phone']");
-      if (ph && !String(ph.value || "").trim()) ph.value = ctx.phone;
-    }
+  function prefillUrlCredentials() {
+    /* E-mail / téléphone ne sont plus lus depuis l’URL. */
   }
 
   function tryRestoreFromServer(root, opts, done) {
     opts = opts || {};
     fetchServerDraft(opts.creds).then(function (data) {
       if (!data || !data.found || !data.draft) {
-        prefillUrlCredentials(root);
         if (typeof done === "function") done(false);
         return;
       }
@@ -1064,7 +1129,7 @@
       localStorage.setItem(draftStorageKey(id), JSON.stringify(data.draft));
       setActiveDraftId(id);
       restoreDraftById(id, { silent: !!opts.silent, fromServer: true });
-      prefillUrlCredentials(root);
+      scrubResumeQuery({ stripToken: true });
       if (!opts.silent) {
         var msg = data.message || "Dossier repris depuis votre espace client.";
         if (opts.crmResume) {

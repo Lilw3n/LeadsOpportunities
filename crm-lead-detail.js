@@ -174,6 +174,9 @@
         window.CrmQuestionnaireTools.mountQuestionnaireWorkspace(toolsMount, ctx, {
           api: "crm",
           mailboxUrl: window.CrmQuestionnaireTools.buildMailboxUrl(leadId),
+          authHeaders: function () {
+            return { Authorization: "Bearer " + token, "Content-Type": "application/json" };
+          },
           onSaved: function () {
             load();
           },
