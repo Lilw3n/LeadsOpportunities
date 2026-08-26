@@ -229,6 +229,75 @@
     true
   );
 
+  /** EXTÉRIEUR — menuiseries (fenêtres). */
+  var WINDOWS = [
+    "Aluminium",
+    "Aluminium Double Vitrage",
+    "Aluminium Simple Vitrage",
+    "Bois double vitrage",
+    "Bois simple vitrage",
+    "Double vitrage",
+    "Mixte alu et pvc",
+    "Mixte Bois - PVC",
+    "Mixte Bois et Alu",
+    "P.V.C.",
+    "PVC Double Vitrage",
+    "PVC Simple Vitrage",
+    "Simple et double vitrage",
+    "Survitrage",
+    "Triple Vitrage",
+  ];
+
+  /** EXTÉRIEUR — volets. */
+  var SHUTTERS = [
+    "Aluminium",
+    "Bois",
+    "Electrique Métallique",
+    "Electrique PVC",
+    "Métallique",
+    "Mixte manuels - électriques",
+    "Mixte roulants - bois",
+    "Pliants",
+    "PVC",
+    "PVC Roulant",
+    "Roulants",
+    "Roulants électriques",
+    "Sans",
+    "Solaires",
+  ];
+
+  /** EXTÉRIEUR — isolation (pas la toiture). */
+  var INSULATION = [
+    "Aucune",
+    "Double peau",
+    "isolation par l'extérieur",
+    "Laine de roche",
+    "Laine de verre",
+    "Oui",
+    "Par le toit",
+    "Par le toit et les murs",
+    "Par les murs",
+    "Simple peau",
+  ];
+
+  /** EXTÉRIEUR — assainissement (réseau, pas le certificat). */
+  var SANITATION = [
+    "Fosse à refaire",
+    "Fosse morte",
+    "Fosse septique",
+    "Fosse toutes eaux",
+    "Micro-station",
+    "Sans",
+    "Séparation des eaux",
+    "Tout à l'égout",
+  ];
+
+  /** Oui / Non / non renseigné (mansardé, certificat assainissement). */
+  var YES_NO_UNKNOWN = [
+    { v: "oui", t: "Oui" },
+    { v: "non", t: "Non" },
+  ];
+
   var ENVIRONMENTS = [
     { v: "", t: "— Choisir —" },
     { v: "bois", t: "bois" },
@@ -595,6 +664,11 @@
     COMMON_AREA_STATE: COMMON_AREA_STATE,
     CONSTRUCTION: CONSTRUCTION,
     ARCHITECTURAL_STYLE: ARCHITECTURAL_STYLE,
+    WINDOWS: WINDOWS,
+    SHUTTERS: SHUTTERS,
+    INSULATION: INSULATION,
+    SANITATION: SANITATION,
+    YES_NO_UNKNOWN: YES_NO_UNKNOWN,
     ENVIRONMENTS: ENVIRONMENTS,
     COMMERCIAL_ACTIVITIES: COMMERCIAL_ACTIVITIES,
     GENERAL_CONDITIONS: GENERAL_CONDITIONS,

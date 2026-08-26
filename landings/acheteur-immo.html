@@ -1064,8 +1064,10 @@
                       <select id="sellStyle" name="sellStyle" data-optional></select>
                       <input id="sellStyleNote" name="sellStyleNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
                     </div>
-                    <div class="field full">
-                      <label class="field-check"><input type="checkbox" name="sellMansardRoof" value="1" data-optional /> Dernier étage mansardé</label>
+                    <div class="field immo-list-or-note">
+                      <label for="sellMansardRoof">Dernier étage mansardé</label>
+                      <select id="sellMansardRoof" name="sellMansardRoof" data-optional></select>
+                      <input id="sellMansardRoofNote" name="sellMansardRoofNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
                     </div>
 
                     <p class="search-section-label full" style="margin:12px 0 0">Toiture, menuiseries, isolation</p>
@@ -1075,11 +1077,31 @@
                       <input id="sellRoofingNote" name="sellRoofingNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
                     </div>
                     <div class="field"><label for="sellRoofingState">État couverture</label><input id="sellRoofingState" name="sellRoofingState" data-optional placeholder="Pas de liste — décrivez" /></div>
-                    <div class="field"><label for="sellWindows">Fenêtres</label><input id="sellWindows" name="sellWindows" data-optional placeholder="PVC, bois, double vitrage…" /></div>
-                    <div class="field"><label for="sellShutters">Volets</label><input id="sellShutters" name="sellShutters" data-optional placeholder="Roulants, battants…" /></div>
-                    <div class="field"><label for="sellInsulation">Isolation</label><input id="sellInsulation" name="sellInsulation" data-optional placeholder="Combles, extérieure…" /></div>
-                    <div class="field"><label for="sellSanitationCert">Certificat assainissement</label><input id="sellSanitationCert" name="sellSanitationCert" data-optional placeholder="Oui / non / date…" /></div>
-                    <div class="field"><label for="sellSanitation">Assainissement</label><input id="sellSanitation" name="sellSanitation" data-optional placeholder="Tout-à-l'égout, fosse…" /></div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellWindows">Fenêtres</label>
+                      <select id="sellWindows" name="sellWindows" data-optional></select>
+                      <input id="sellWindowsNote" name="sellWindowsNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellShutters">Volets</label>
+                      <select id="sellShutters" name="sellShutters" data-optional></select>
+                      <input id="sellShuttersNote" name="sellShuttersNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellInsulation">Isolation</label>
+                      <select id="sellInsulation" name="sellInsulation" data-optional></select>
+                      <input id="sellInsulationNote" name="sellInsulationNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellSanitationCert">Certificat assainissement</label>
+                      <select id="sellSanitationCert" name="sellSanitationCert" data-optional></select>
+                      <input id="sellSanitationCertNote" name="sellSanitationCertNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
+                    <div class="field immo-list-or-note">
+                      <label for="sellSanitation">Assainissement</label>
+                      <select id="sellSanitation" name="sellSanitation" data-optional></select>
+                      <input id="sellSanitationNote" name="sellSanitationNote" class="immo-field-note" data-optional placeholder="Ou commentez ici…" />
+                    </div>
                     <div class="field full">
                       <label for="sellExteriorNotes">Informations complémentaires (extérieur)</label>
                       <textarea id="sellExteriorNotes" name="sellExteriorNotes" rows="2" data-optional placeholder="Tout ce que vous ne savez pas classer"></textarea>
@@ -2292,8 +2314,8 @@
   <script src="../js/print-document-lib.js"></script>
   <script src="../js/acheteur-immo-fill-mode.js"></script>
   <script src="../js/acheteur-immo-print.js?v=20260826rooms2"></script>
-  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms8"></script>
-  <script src="../js/acheteur-immo-listing-fields.js?v=20260826rooms8"></script>
+  <script src="../js/immo-listing-taxonomy.js?v=20260826rooms9"></script>
+  <script src="../js/acheteur-immo-listing-fields.js?v=20260826rooms9"></script>
   <script src="../js/acheteur-immo-owners.js"></script>
   <script src="../js/immo-room-catalog.js?v=20260826rooms5"></script>
   <script src="../js/acheteur-immo-rooms.js?v=20260826rooms5"></script>

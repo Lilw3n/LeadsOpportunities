@@ -90,7 +90,12 @@ assert(tax.indexOf("Grand standing") >= 0, "standing Grand standing");
 assert(tax.indexOf("Somptueux") >= 0, "état extérieur Somptueux");
 assert(tax.indexOf("Haussmannien") >= 0, "style Haussmannien");
 assert((tax.match(/"Ossature bois"/g) || []).length === 1, "construction sans doublon Ossature bois");
-assert(html.indexOf('id="sellWindows"') >= 0 && html.indexOf("<select id=\"sellWindows\"") === -1, "fenêtres = saisie libre (pas de liste)");
+assert(html.indexOf('id="sellWindows"') >= 0 && html.indexOf("<select id=\"sellWindows\"") >= 0, "fenêtres = liste agence");
+assert(tax.indexOf("Triple Vitrage") >= 0, "fenêtres Triple Vitrage");
+assert(tax.indexOf("Roulants électriques") >= 0, "volets Roulants électriques");
+assert(tax.indexOf("Laine de verre") >= 0, "isolation Laine de verre");
+assert(tax.indexOf("Tout à l'égout") >= 0, "assainissement tout-à-l'égout");
+assert(html.indexOf("sellWindowsNote") >= 0, "commentaire fenêtres");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");

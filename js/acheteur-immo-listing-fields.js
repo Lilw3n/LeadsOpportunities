@@ -43,6 +43,12 @@
     fillLabelSelect(qs("#sellCommonState", root), tax.COMMON_AREA_STATE, "Non renseigné");
     fillLabelSelect(qs("#sellConstructionType", root), tax.CONSTRUCTION, "Non renseigné");
     fillLabelSelect(qs("#sellStyle", root), tax.ARCHITECTURAL_STYLE, "Non renseigné");
+    fillLabelSelect(qs("#sellWindows", root), tax.WINDOWS, "Non renseigné");
+    fillLabelSelect(qs("#sellShutters", root), tax.SHUTTERS, "Non renseigné");
+    fillLabelSelect(qs("#sellInsulation", root), tax.INSULATION, "Non renseigné");
+    fillLabelSelect(qs("#sellSanitation", root), tax.SANITATION, "Non renseigné");
+    fillSelect(qs("#sellMansardRoof", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
+    fillSelect(qs("#sellSanitationCert", root), tax.optionsHtml(tax.YES_NO_UNKNOWN, "Non renseigné"));
     rebuildSubtype(root, "");
     rebuildCommercialActivity(root, "");
     rebuildEnvironment(root, "");
