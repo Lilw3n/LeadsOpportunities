@@ -155,8 +155,8 @@
       (global.ContactPair && global.ContactPair.pairHtml
         ? global.ContactPair.pairHtml({ idPrefix: "pet-" })
         : '<fieldset class="contact-pair"><legend>Comment vous joindre</legend><div class="contact-pair-row">' +
-          '<label>Téléphone <input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" /></label>' +
-          '<label>E-mail <input name="email" type="email" required autocomplete="email" /></label>' +
+          '<label>Téléphone <input name="phone" type="tel" autocomplete="tel-national" inputmode="tel" /></label>' +
+          '<label>E-mail <input name="email" type="email" autocomplete="email" /></label>' +
           "</div></fieldset>") +
       "";
     /* values restored after render via fillContactFields */
@@ -214,7 +214,7 @@
           i +
           '" value="' +
           esc(pet.breed) +
-          '" placeholder="Ex : Labrador" required /></label>' +
+          '" placeholder="Ex : Labrador" /></label>' +
           '<label>Date de naissance <input type="date" data-pet-field="birthDate" data-pet-idx="' +
           i +
           '" value="' +
@@ -252,7 +252,7 @@
           ">Femelle</option></select></label>" +
           '<label>Identification <select data-pet-field="identification" data-pet-idx="' +
           i +
-          '" required>' +
+          '">' +
           [
             ["puce", "Puce electronique"],
             ["tatouage", "Tatouage"],
@@ -384,7 +384,7 @@
       '<div class="pet-grid" style="margin-top:16px">' +
       '<label style="grid-column:1/-1">Date d\'effet souhaitée <input type="date" name="effectDate" id="petEffectDate" value="' +
       esc(state.effectDate) +
-      '" required /></label>' +
+      '" /></label>' +
       "</div></div>"
     );
   }
@@ -544,18 +544,18 @@
       global.ContactPair && global.ContactPair.pairHtml
         ? global.ContactPair.pairHtml({ idPrefix: "pet-final-" })
         : '<fieldset class="contact-pair"><legend>Comment vous joindre</legend><div class="contact-pair-row">' +
-          '<label>Téléphone <input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" /></label>' +
-          '<label>E-mail <input name="email" type="email" required autocomplete="email" /></label>' +
+          '<label>Téléphone <input name="phone" type="tel" autocomplete="tel-national" inputmode="tel" /></label>' +
+          '<label>E-mail <input name="email" type="email" autocomplete="email" /></label>' +
           "</div></fieldset>";
     return (
       '<div class="pet-panel"><h3>Vos coordonnées</h3>' +
       '<p class="pet-hint">Un conseiller vous rappelle pour confirmer le tarif définitif auprès de nos partenaires (Santévet, Bulle Bleue, Kozoo…).</p>' +
       pair +
       '<div class="pet-grid">' +
-      '<label>Nom complet <input name="fullName" required autocomplete="name" /></label>' +
-      '<label style="grid-column:1/-1">Adresse postale (numéro et rue) <input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>' +
-      '<label>Code postal <input name="postalCode" inputmode="numeric" maxlength="5" required autocomplete="postal-code" /></label>' +
-      '<label>Ville <input name="cityFull" required autocomplete="address-level2" placeholder="Paris" /></label>' +
+      '<label>Nom complet <input name="fullName" autocomplete="name" /></label>' +
+      '<label style="grid-column:1/-1">Adresse postale (numéro et rue) <input name="street" autocomplete="street-address" placeholder="12 rue..." /></label>' +
+      '<label>Code postal <input name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" /></label>' +
+      '<label>Ville <input name="cityFull" autocomplete="address-level2" placeholder="Paris" /></label>' +
       '<label style="grid-column:1/-1" class="checkbox-row"><input type="checkbox" name="consent" required /> J\'accepte d\'être contacté (voir <a href="../politique-confidentialite.html" target="_blank" rel="noopener">confidentialité</a>).</label>' +
       "</div></div>"
     );
@@ -672,13 +672,14 @@
 
   function validateStep() {
     if (state.step === 0) {
-      if (!state.effectDate) return false;
-      if ((state.phone || "").replace(/\D/g, "").length < 10) return false;
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email || "")) return false;
+      if (state.phone && (state.phone || "").replace(/\D/g, "").length && (state.phone || "").replace(/\D/g, "").length < 10) {
+        return false;
+      }
+      if (state.email && state.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) {
+        return false;
+      }
       for (var i = 0; i < state.pets.length; i++) {
         var p = state.pets[i];
-        if (!(p.breed || "").trim()) return false;
-        if (!p.identification) return false;
         if (p.identification === "puce" && (p.chipNumber || "").trim()) {
           var chip = p.chipNumber.replace(/\s/g, "");
           if (chip.length !== 15 || !/^[0-9]+$/.test(chip)) return false;
@@ -689,15 +690,13 @@
     if (state.step === 2) {
       var form = document.querySelector("form[data-pet-journey-form]");
       if (!form) return false;
-      var required = form.querySelectorAll(
-        'input[required]:not([type="hidden"]), select[required]'
-      );
-      var ok = true;
-      required.forEach(function (el) {
-        if (el.type === "checkbox" && !el.checked) ok = false;
-        else if (el.type !== "checkbox" && !(el.value || "").trim()) ok = false;
-      });
-      return ok;
+      var consent = form.querySelector('[name="consent"]');
+      if (consent && !consent.checked) return false;
+      var email = form.querySelector('[name="email"]');
+      var phone = form.querySelector('[name="phone"]');
+      if (email && email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) return false;
+      if (phone && phone.value && phone.value.replace(/\D/g, "").length < 10) return false;
+      return true;
     }
     return true;
   }

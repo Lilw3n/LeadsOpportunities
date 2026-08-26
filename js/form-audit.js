@@ -46,6 +46,8 @@
 
     if (el.hasAttribute("data-optional")) {
       tags.push({ kind: "optional", text: "Facultatif" });
+    } else if (el.hasAttribute("data-was-required")) {
+      tags.push({ kind: "optional", text: "Utile au devis" });
     } else if (el.hasAttribute("required") || el.getAttribute("aria-required") === "true") {
       if (type === "checkbox" || type === "radio") {
         tags.push({ kind: "choice", text: "Choix obligatoire" });

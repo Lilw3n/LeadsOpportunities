@@ -33,23 +33,41 @@
     return Math.max(0, Math.min(i, steps.length - 1));
   }
 
+  function keepRequired(el) {
+    var n = (el && el.name) || "";
+    return n === "rgpd" || n === "consent" || n === "needPicker";
+  }
+
+  function relaxQuestionnaireRequired(form) {
+    qsa(form, "input, select, textarea").forEach(function (el) {
+      if (keepRequired(el)) return;
+      if (el.hasAttribute("required")) {
+        el.removeAttribute("required");
+        el.setAttribute("data-was-required", "1");
+      }
+      if (el.getAttribute("aria-required") === "true") {
+        el.setAttribute("aria-required", "false");
+      }
+    });
+  }
+
   function validateStep(step) {
     if (stepSkipped(step)) return true;
     var ok = true;
     var inputs = stepInputs(step);
     inputs.forEach(function (el) {
       el.classList.remove("input-invalid");
-      if (el.hasAttribute("data-optional")) return;
+      if (el.hasAttribute("data-optional") && !keepRequired(el)) return;
       if (el.type === "checkbox") {
-        if (el.hasAttribute("required") && !el.checked) {
+        if (keepRequired(el) && el.hasAttribute("required") && !el.checked) {
           ok = false;
           el.classList.add("input-invalid");
         }
         return;
       }
-      if (el.hasAttribute("required") || el.getAttribute("aria-required") === "true") {
-        var v = (el.value || "").trim();
-        if (!v) {
+      if (keepRequired(el) && (el.hasAttribute("required") || el.getAttribute("aria-required") === "true")) {
+        var needVal = (el.value || "").trim();
+        if (!needVal) {
           ok = false;
           el.classList.add("input-invalid");
         }
@@ -100,19 +118,6 @@
         }
       }
     });
-
-    var companyBlock = step.querySelector("[data-company-fields]");
-    var frm = formOwner(step);
-    if (companyBlock && frm && !companyBlock.hidden) {
-      var cbCompany = frm.querySelector('[name="hasCompany"]');
-      if (cbCompany && cbCompany.checked) {
-        var cn = step.querySelector('[name="companyName"]');
-        if (cn && !(cn.value || "").trim()) {
-          ok = false;
-          cn.classList.add("input-invalid");
-        }
-      }
-    }
     return ok;
   }
 
@@ -192,29 +197,35 @@
     return list[Math.min(stepIndex, list.length - 1)] || BENEFIT_BY_VERTICAL.default[0];
   }
 
+  function contactValueOk(el) {
+    if (!el) return false;
+    var v = (el.value || "").trim();
+    if (!v) return false;
+    if (el.type === "email" || el.name === "email") {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+    if (el.name === "phone" || el.type === "tel") {
+      return el.value.replace(/\D/g, "").length >= 10;
+    }
+    return true;
+  }
+
   function ensureContactFilled(form) {
     var phone = form.querySelector('[name="phone"]');
     var email = form.querySelector('[name="email"]');
-    var ok = true;
     [phone, email].forEach(function (el) {
-      if (!el) return;
-      el.classList.remove("input-invalid");
-      var v = (el.value || "").trim();
-      if (!v) {
-        ok = false;
-        el.classList.add("input-invalid");
-        return;
-      }
-      if (el.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
-        ok = false;
-        el.classList.add("input-invalid");
-      }
-      if ((el.name === "phone" || el.type === "tel") && el.value.replace(/\D/g, "").length < 10) {
-        ok = false;
-        el.classList.add("input-invalid");
-      }
+      if (el) el.classList.remove("input-invalid");
     });
-    return ok && !!(phone && email);
+    var phoneOk = contactValueOk(phone);
+    var emailOk = contactValueOk(email);
+    if (phoneOk || emailOk) return true;
+    if (phone && (phone.value || "").trim()) phone.classList.add("input-invalid");
+    if (email && (email.value || "").trim()) email.classList.add("input-invalid");
+    if (phone && !(phone.value || "").trim()) phone.classList.add("input-invalid");
+    if (email && !(email.value || "").trim() && !(phone && (phone.value || "").trim())) {
+      email.classList.add("input-invalid");
+    }
+    return false;
   }
 
   function relaxForEarlyFinish(form) {
@@ -269,6 +280,7 @@
     var earlyFinish = false;
 
     bindCompanyToggle(form);
+    relaxQuestionnaireRequired(form);
 
     function verticalFromPath() {
       var hidden = form.querySelector('[name="need"]');
@@ -487,7 +499,7 @@
           if (validationHint) {
             validationHint.hidden = false;
             validationHint.textContent =
-              "Il manque une information obligatoire. Remplissez les champs marques en rouge, puis cliquez sur « Etape suivante ».";
+              "Un champ n'est pas au bon format (e-mail, téléphone, SIRET…). Corrigez-le ou laissez-le vide, puis continuez.";
             validationHint.scrollIntoView({ behavior: "smooth", block: "nearest" });
           }
           return;
@@ -530,7 +542,7 @@
           if (validationHint) {
             validationHint.hidden = false;
             validationHint.textContent =
-              "Pour un rappel immediat, renseignez telephone et e-mail (etape 1), puis reessayez.";
+              "Pour un rappel immédiat, indiquez un téléphone ou un e-mail (étape 1), puis réessayez.";
             validationHint.scrollIntoView({ behavior: "smooth", block: "nearest" });
           }
           showStep(0);
@@ -609,6 +621,21 @@
         if (!validateStep(steps[steps.length - 1])) {
           e.preventDefault();
           e.stopImmediatePropagation();
+          return;
+        }
+        if (!ensureContactFilled(form)) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          if (validationHint) {
+            validationHint.hidden = false;
+            validationHint.textContent =
+              "Indiquez un téléphone ou un e-mail pour que l'on puisse vous rappeler, puis renvoyez.";
+          }
+          var contactStep = 0;
+          steps.forEach(function (s, i) {
+            if (s.querySelector('[name="phone"], [name="email"]')) contactStep = i;
+          });
+          showStep(contactStep);
         }
       },
       true

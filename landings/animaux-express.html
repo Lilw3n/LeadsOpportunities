@@ -72,7 +72,7 @@
           </div>
           <div class="grid">
             <label>Type d animal
-              <select name="petSpecies" required>
+              <select name="petSpecies">
                 <option value="">Choisir...</option>
                 <option value="chien">Chien</option>
                 <option value="chat">Chat</option>
@@ -80,7 +80,7 @@
               </select>
             </label>
             <label>Age
-              <select name="petAge" required>
+              <select name="petAge">
                 <option value="">Choisir...</option>
                 <option value="0-1">Moins de 1 an</option>
                 <option value="1-4">1 a 4 ans</option>
@@ -89,7 +89,7 @@
               </select>
             </label>
             <label>Identification
-              <select name="petIdentification" required>
+              <select name="petIdentification">
                 <option value="">Choisir...</option>
                 <option value="puce">Puce electronique</option>
                 <option value="tatouage">Tatouage</option>
@@ -98,7 +98,7 @@
               </select>
             </label>
             <label>Sterilise / castre
-              <select name="petSterilized" required>
+              <select name="petSterilized">
                 <option value="">Choisir...</option>
                 <option value="oui">Oui</option>
                 <option value="non">Non</option>
@@ -118,17 +118,17 @@
             <legend>Comment vous joindre</legend>
             <p class="contact-pair-hint">Téléphone et e-mail : un conseiller animaux vous rappelle.</p>
             <div class="contact-pair-row">
-              <label>Téléphone<input name="phone" type="tel" required autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" /></label>
-              <label>E-mail<input name="email" type="email" required autocomplete="email" inputmode="email" placeholder="vous@email.fr" /></label>
+              <label>Téléphone<input name="phone" type="tel" autocomplete="tel-national" inputmode="tel" placeholder="06 12 34 56 78" /></label>
+              <label>E-mail<input name="email" type="email" autocomplete="email" inputmode="email" placeholder="vous@email.fr" /></label>
             </div>
           </fieldset>
           <div class="grid" style="margin-top:12px">
-            <label>Prenom et nom<input name="fullName" required autocomplete="name" /></label>
+            <label>Prenom et nom<input name="fullName" autocomplete="name" /></label>
           </div>
           <div class="grid" style="margin-top:12px">
-            <label>Adresse postale (numero et rue)<input name="street" required autocomplete="street-address" placeholder="12 rue..." /></label>
-            <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" required autocomplete="postal-code" /></label>
-            <label>Ville<input name="cityFull" required autocomplete="address-level2" placeholder="Paris" /></label>
+            <label>Adresse postale (numero et rue)<input name="street" autocomplete="street-address" placeholder="12 rue..." /></label>
+            <label>Code postal<input name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" /></label>
+            <label>Ville<input name="cityFull" autocomplete="address-level2" placeholder="Paris" /></label>
           </div>
           <label class="checkbox-row" style="margin-top:12px">
             <input type="checkbox" name="consent" required />
@@ -146,7 +146,7 @@
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
-  <script src="../js/quote-intelligence.js"></script>
+  <script src="../js/quote-intelligence.js?v=20260826softreq"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>
   <script src="../js/france-seo-meta.js"></script>

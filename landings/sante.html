@@ -177,22 +177,22 @@
               <p class="wizard-step-intro">Commencez par telephone et e-mail : on peut vous rappeler meme si vous n'allez pas au bout. Puis quelques informations sur vous.</p>
               <fieldset class="contact-pair">
                 <legend>Comment vous joindre</legend>
-                <p class="contact-pair-hint">Les deux champs : le conseiller rappelle et envoie le comparatif par e-mail.</p>
+                <p class="contact-pair-hint">Téléphone ou e-mail : utile pour le rappel, pas bloquant. Saisie enregistrée si vous fermez la page.</p>
                 <div class="contact-pair-row">
                   <div class="field">
                     <label for="phone">Votre numero de telephone</label>
-                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" required placeholder="06 12 34 56 78" />
+                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" placeholder="06 12 34 56 78" />
                   </div>
                   <div class="field">
                     <label for="email">E-mail</label>
-                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" required placeholder="vous@email.fr" />
+                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" placeholder="vous@email.fr" />
                   </div>
                 </div>
               </fieldset>
               <div class="grid">
                 <div class="field">
                   <label for="civility">Vous etes</label>
-                  <select id="civility" name="civility" required>
+                  <select id="civility" name="civility">
                     <option value="">— Choisissez —</option>
                     <option>Monsieur</option>
                     <option>Madame</option>
@@ -200,12 +200,12 @@
                 </div>
                 <div class="field field-date">
                   <label for="dob">Votre date de naissance</label>
-                  <input id="dob" name="dob" type="date" required />
+                  <input id="dob" name="dob" type="date" />
                   <p class="field-hint">Cliquez sur le champ, puis choisissez le jour, le mois et l'annee.</p>
                 </div>
                 <div class="field">
                   <label for="socialRegime">Votre regime (Securite sociale)</label>
-                  <select id="socialRegime" name="socialRegime" required>
+                  <select id="socialRegime" name="socialRegime">
                     <option value="">— Choisissez —</option>
                     <option>Regime general (salarie prive)</option>
                     <option>Retraite</option>
@@ -221,7 +221,7 @@
                 </div>
                 <div class="field">
                   <label for="currentCover">Avez-vous deja une mutuelle ?</label>
-                  <select id="currentCover" name="currentCover" required>
+                  <select id="currentCover" name="currentCover">
                     <option value="">— Choisissez —</option>
                     <option>Non, seulement la Securite sociale</option>
                     <option>Oui, une mutuelle a mon nom</option>
@@ -233,7 +233,7 @@
                 </div>
                 <div class="field">
                   <label for="employmentStatus">Votre situation aujourd'hui</label>
-                  <select id="employmentStatus" name="employmentStatus" required>
+                  <select id="employmentStatus" name="employmentStatus">
                     <option value="">— Choisissez —</option>
                     <option>Retraite</option>
                     <option>En activite (CDI, CDD, interim)</option>
@@ -246,7 +246,7 @@
                 </div>
                 <div class="field">
                   <label for="postalCode">Votre code postal</label>
-                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" required placeholder="Ex. 75001" />
+                  <input id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="Ex. 75001" />
                   <p class="field-hint">5 chiffres, sans espace.</p>
                 </div>
               </div>
@@ -259,7 +259,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="householdType">Qui faut-il assurer ?</label>
-                  <select id="householdType" name="householdType" required>
+                  <select id="householdType" name="householdType">
                     <option value="">— Choisissez —</option>
                     <option>Moi uniquement</option>
                     <option>Moi + conjoint(e)</option>
@@ -274,7 +274,7 @@
                 </div>
                 <div class="field">
                   <label for="nbChildren">Nombre d'enfants a couvrir</label>
-                  <select id="nbChildren" name="nbChildren" required>
+                  <select id="nbChildren" name="nbChildren">
                     <option value="">— Choisissez —</option>
                     <option>0 (pas d'enfant)</option>
                     <option>1 enfant</option>
@@ -289,7 +289,7 @@
                 </div>
                 <div class="field">
                   <label for="pregnancyPlanned">Grossesse prevue dans les 12 mois ?</label>
-                  <select id="pregnancyPlanned" name="pregnancyPlanned" required>
+                  <select id="pregnancyPlanned" name="pregnancyPlanned">
                     <option value="">— Choisissez —</option>
                     <option>Non</option>
                     <option>Oui</option>
@@ -318,7 +318,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="lvlHospital">Hospitalisation</label>
-                  <select id="lvlHospital" name="lvlHospital" required>
+                  <select id="lvlHospital" name="lvlHospital">
                     <option value="">— Choisissez —</option>
                     <option>Minimum (100% BRSS)</option>
                     <option>Confort (chambre particuliere)</option>
@@ -328,7 +328,7 @@
                 </div>
                 <div class="field">
                   <label for="lvlConsultations">Soins courants (generaliste, specialistes)</label>
-                  <select id="lvlConsultations" name="lvlConsultations" required>
+                  <select id="lvlConsultations" name="lvlConsultations">
                     <option value="">— Choisissez —</option>
                     <option>Minimum (parcours de soins)</option>
                     <option>Moyen</option>
@@ -338,7 +338,7 @@
                 </div>
                 <div class="field">
                   <label for="lvlDental">Dentaire</label>
-                  <select id="lvlDental" name="lvlDental" required>
+                  <select id="lvlDental" name="lvlDental">
                     <option value="">— Choisissez —</option>
                     <option>Minimum (soins courants uniquement)</option>
                     <option>Moyen (protheses partiellement couvertes)</option>
@@ -349,7 +349,7 @@
                 </div>
                 <div class="field">
                   <label for="lvlOptical">Optique</label>
-                  <select id="lvlOptical" name="lvlOptical" required>
+                  <select id="lvlOptical" name="lvlOptical">
                     <option value="">— Choisissez —</option>
                     <option>Minimum (1 paire / 2 ans)</option>
                     <option>Moyen (verres progressifs couverts)</option>
@@ -360,7 +360,7 @@
                 </div>
                 <div class="field">
                   <label for="lvlAltMedicine">Medecines douces (osteo, acupuncture...)</label>
-                  <select id="lvlAltMedicine" name="lvlAltMedicine" required>
+                  <select id="lvlAltMedicine" name="lvlAltMedicine">
                     <option value="">— Choisissez —</option>
                     <option>Pas necessaire</option>
                     <option>Basique (quelques seances / an)</option>
@@ -369,7 +369,7 @@
                 </div>
                 <div class="field">
                   <label for="lvlHearing">Auditif</label>
-                  <select id="lvlHearing" name="lvlHearing" required>
+                  <select id="lvlHearing" name="lvlHearing">
                     <option value="">— Choisissez —</option>
                     <option>Pas prioritaire</option>
                     <option>Basique (100% sante)</option>
@@ -386,7 +386,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="wearsGlasses">Porteur de lunettes / lentilles ?</label>
-                  <select id="wearsGlasses" name="wearsGlasses" required>
+                  <select id="wearsGlasses" name="wearsGlasses">
                     <option value="">— Choisissez —</option>
                     <option>Non</option>
                     <option>Oui, lunettes</option>
@@ -396,7 +396,7 @@
                 </div>
                 <div class="field">
                   <label for="dentalPlanned">Soins dentaires prevus ?</label>
-                  <select id="dentalPlanned" name="dentalPlanned" required>
+                  <select id="dentalPlanned" name="dentalPlanned">
                     <option value="">— Choisissez —</option>
                     <option>Non, pas de soins prevus</option>
                     <option>Oui, soins courants (detartrage, caries)</option>
@@ -407,7 +407,7 @@
                 </div>
                 <div class="field">
                   <label for="chronicCondition">Pathologie en cours ou traitement regulier ?</label>
-                  <select id="chronicCondition" name="chronicCondition" required>
+                  <select id="chronicCondition" name="chronicCondition">
                     <option value="">— Choisissez —</option>
                     <option>Non</option>
                     <option>Oui, ALD (Affection Longue Duree)</option>
@@ -417,7 +417,7 @@
                 </div>
                 <div class="field">
                   <label for="gpDoctor">Medecin traitant declare ?</label>
-                  <select id="gpDoctor" name="gpDoctor" required>
+                  <select id="gpDoctor" name="gpDoctor">
                     <option value="">— Choisissez —</option>
                     <option>Oui</option>
                     <option>Non</option>
@@ -425,7 +425,7 @@
                 </div>
                 <div class="field">
                   <label for="telehealth">Teleconsultation souhaitee ?</label>
-                  <select id="telehealth" name="telehealth" required>
+                  <select id="telehealth" name="telehealth">
                     <option value="">— Choisissez —</option>
                     <option>Oui, c'est un plus</option>
                     <option>Non, pas necessaire</option>
@@ -434,7 +434,7 @@
                 </div>
                 <div class="field">
                   <label for="tiers">Tiers payant important ?</label>
-                  <select id="tiers" name="tiers" required>
+                  <select id="tiers" name="tiers">
                     <option value="">— Choisissez —</option>
                     <option>Oui, indispensable</option>
                     <option>Souhaitable mais pas obligatoire</option>
@@ -493,11 +493,11 @@
               <div class="grid">
                 <div class="field">
                   <label for="firstName">Prenom</label>
-                  <input id="firstName" name="firstName" autocomplete="given-name" required />
+                  <input id="firstName" name="firstName" autocomplete="given-name" />
                 </div>
                 <div class="field">
                   <label for="lastName">Nom</label>
-                  <input id="lastName" name="lastName" autocomplete="family-name" required />
+                  <input id="lastName" name="lastName" autocomplete="family-name" />
                 </div>
                 <div class="field full">
                   <label for="street">Adresse complete <span class="field-optional">(facultatif)</span></label>
@@ -521,7 +521,7 @@
                 </div>
                 <div class="field">
                   <label for="budgetMonthly">Budget cotisation mensuelle</label>
-                  <select id="budgetMonthly" name="budgetMonthly" required>
+                  <select id="budgetMonthly" name="budgetMonthly">
                     <option value="">— Choisissez —</option>
                     <option>Moins de 30 EUR / mois</option>
                     <option>30 - 50 EUR / mois</option>
@@ -534,7 +534,7 @@
                 </div>
                 <div class="field">
                   <label for="formulaType">Type de formule recherchee</label>
-                  <select id="formulaType" name="formulaType" required>
+                  <select id="formulaType" name="formulaType">
                     <option value="">— Choisissez —</option>
                     <option>Eco (essentiel uniquement)</option>
                     <option>Budget (bon rapport qualite/prix)</option>
@@ -545,7 +545,7 @@
                 </div>
                 <div class="field">
                   <label for="callbackTime">Horaire de rappel prefere</label>
-                  <select id="callbackTime" name="callbackTime" required>
+                  <select id="callbackTime" name="callbackTime">
                     <option value="">— Choisissez —</option>
                     <option>Avant 9h</option>
                     <option>9h - 11h</option>
@@ -684,7 +684,7 @@
     }
   </script>
   <script src="../js/public-partners-trust.js"></script>
-  <script src="../js/contact-pair.js"></script>
+  <script src="../js/contact-pair.js?v=20260826softreq"></script>
   <script src="../js/devis-document-config.js"></script>
   <script src="../js/devis-document-upload.js"></script>
   <script src="../js/devis-document-inject.js"></script>
@@ -693,9 +693,9 @@
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
-  <script src="../js/quote-intelligence.js"></script>
-  <script src="./quote-wizard.js"></script>
-  <script src="../js/form-audit.js"></script>
+  <script src="../js/quote-intelligence.js?v=20260826softreq"></script>
+  <script src="./quote-wizard.js?v=20260826softreq"></script>
+  <script src="../js/form-audit.js?v=20260826softreq"></script>
   <script src="../js/lead-insights.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>

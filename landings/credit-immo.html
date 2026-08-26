@@ -157,22 +157,22 @@
               <h3>Votre projet immobilier</h3>
               <fieldset class="contact-pair">
                 <legend>Comment vous joindre</legend>
-                <p class="contact-pair-hint">Telephone et e-mail d'abord : un courtier peut vous rappeler meme si le dossier n'est pas termine.</p>
+                <p class="contact-pair-hint">Téléphone ou e-mail : un courtier peut déjà vous rappeler. Rien n'est bloquant, la saisie est enregistrée si vous quittez.</p>
                 <div class="contact-pair-row">
                   <div class="field">
                     <label for="phone">Telephone mobile</label>
-                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" required placeholder="06 12 34 56 78" />
+                    <input id="phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" enterkeyhint="next" placeholder="06 12 34 56 78" />
                   </div>
                   <div class="field">
                     <label for="email">E-mail</label>
-                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" required placeholder="vous@email.fr" />
+                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" placeholder="vous@email.fr" />
                   </div>
                 </div>
               </fieldset>
               <div class="grid">
                 <div class="field">
                   <label for="projectType">Type de projet</label>
-                  <select id="projectType" name="projectType" required>
+                  <select id="projectType" name="projectType">
                     <option value="">Selectionnez</option>
                     <option>Achat residence principale</option>
                     <option>Investissement locatif</option>
@@ -186,7 +186,7 @@
                 </div>
                 <div class="field">
                   <label for="propertyType">Type de bien</label>
-                  <select id="propertyType" name="propertyType" required>
+                  <select id="propertyType" name="propertyType">
                     <option value="">Selectionnez</option>
                     <option>Appartement ancien</option>
                     <option>Appartement neuf / VEFA</option>
@@ -202,11 +202,11 @@
                 </div>
                 <div class="field">
                   <label for="postalProject">Code postal du bien</label>
-                  <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" required placeholder="Ex. 75011" />
+                  <input id="postalProject" name="postalProject" inputmode="numeric" maxlength="5" placeholder="Ex. 75011" />
                 </div>
                 <div class="field">
                   <label for="propertyFound">Bien trouve ?</label>
-                  <select id="propertyFound" name="propertyFound" required>
+                  <select id="propertyFound" name="propertyFound">
                     <option value="">Selectionnez</option>
                     <option>Oui, offre acceptee</option>
                     <option>Oui, en negociation</option>
@@ -216,7 +216,7 @@
                 </div>
                 <div class="field">
                   <label for="loanRefusedBefore">Un pret vous a deja ete refuse ?</label>
-                  <select id="loanRefusedBefore" name="loanRefusedBefore" required>
+                  <select id="loanRefusedBefore" name="loanRefusedBefore">
                     <option value="">Selectionnez</option>
                     <option>Oui — je cherche une 2e chance</option>
                     <option>Oui — motif endettement / apport</option>
@@ -227,7 +227,7 @@
                 </div>
                 <div class="field">
                   <label for="horizon">Horizon d'achat / signature</label>
-                  <select id="horizon" name="horizon" required>
+                  <select id="horizon" name="horizon">
                     <option value="">Selectionnez</option>
                     <option>Sous 30 jours (urgent)</option>
                     <option>1 a 3 mois</option>
@@ -244,7 +244,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="propertyPrice">Prix du bien (estimation ou reel)</label>
-                  <input id="propertyPrice" name="propertyPrice" inputmode="numeric" required placeholder="Ex. 280000" />
+                  <input id="propertyPrice" name="propertyPrice" inputmode="numeric" placeholder="Ex. 280000" />
                 </div>
                 <div class="field">
                   <label for="worksAmount">Montant des travaux (si applicable)</label>
@@ -252,11 +252,11 @@
                 </div>
                 <div class="field">
                   <label for="downPayment">Apport personnel (EUR)</label>
-                  <input id="downPayment" name="downPayment" inputmode="numeric" required placeholder="Ex. 25000" />
+                  <input id="downPayment" name="downPayment" inputmode="numeric" placeholder="Ex. 25000" />
                 </div>
                 <div class="field">
                   <label for="downPaymentSource">Origine de l'apport</label>
-                  <select id="downPaymentSource" name="downPaymentSource" required>
+                  <select id="downPaymentSource" name="downPaymentSource">
                     <option value="">Selectionnez</option>
                     <option>Epargne personnelle</option>
                     <option>Don familial</option>
@@ -268,7 +268,7 @@
                 </div>
                 <div class="field">
                   <label for="loanDuration">Duree de pret souhaitee</label>
-                  <select id="loanDuration" name="loanDuration" required>
+                  <select id="loanDuration" name="loanDuration">
                     <option value="">Selectionnez</option>
                     <option>10 ans</option>
                     <option>15 ans</option>
@@ -280,7 +280,7 @@
                 </div>
                 <div class="field">
                   <label for="ptzEligible">Eligible au PTZ (Pret a Taux Zero) ?</label>
-                  <select id="ptzEligible" name="ptzEligible" required>
+                  <select id="ptzEligible" name="ptzEligible">
                     <option value="">Selectionnez</option>
                     <option>Oui (primo-accedant, zone eligible)</option>
                     <option>Non</option>
@@ -296,7 +296,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="employmentStatus">Statut professionnel</label>
-                  <select id="employmentStatus" name="employmentStatus" required>
+                  <select id="employmentStatus" name="employmentStatus">
                     <option value="">Selectionnez</option>
                     <option>CDI (passe la periode d'essai)</option>
                     <option>CDI (en periode d'essai)</option>
@@ -316,7 +316,7 @@
                 </div>
                 <div class="field">
                   <label for="jobSeniority">Anciennete dans l'emploi actuel</label>
-                  <select id="jobSeniority" name="jobSeniority" required>
+                  <select id="jobSeniority" name="jobSeniority">
                     <option value="">Selectionnez</option>
                     <option>Moins de 6 mois</option>
                     <option>6 mois a 1 an</option>
@@ -327,7 +327,7 @@
                 </div>
                 <div class="field">
                   <label for="netIncome">Revenus nets mensuels (EUR)</label>
-                  <input id="netIncome" name="netIncome" inputmode="numeric" required placeholder="Salaire net sur bulletin" />
+                  <input id="netIncome" name="netIncome" inputmode="numeric" placeholder="Salaire net sur bulletin" />
                 </div>
                 <div class="field">
                   <label for="otherIncome">Autres revenus mensuels (primes, locatif...)</label>
@@ -335,7 +335,7 @@
                 </div>
                 <div class="field">
                   <label for="incomeProof">Justificatif de revenus disponible ?</label>
-                  <select id="incomeProof" name="incomeProof" required>
+                  <select id="incomeProof" name="incomeProof">
                     <option value="">Selectionnez</option>
                     <option>Oui, 3 derniers bulletins + avis d'imposition</option>
                     <option>Oui, avis d'imposition uniquement</option>
@@ -353,15 +353,15 @@
               <div class="grid">
                 <div class="field">
                   <label for="currentRent">Loyer actuel (EUR / mois)</label>
-                  <input id="currentRent" name="currentRent" inputmode="numeric" required placeholder="0 si proprietaire ou heberge" />
+                  <input id="currentRent" name="currentRent" inputmode="numeric" placeholder="0 si proprietaire ou heberge" />
                 </div>
                 <div class="field">
                   <label for="currentLoans">Credits en cours (mensualite totale)</label>
-                  <input id="currentLoans" name="currentLoans" inputmode="numeric" required placeholder="0 si aucun credit" />
+                  <input id="currentLoans" name="currentLoans" inputmode="numeric" placeholder="0 si aucun credit" />
                 </div>
                 <div class="field">
                   <label for="loanTypes">Types de credits en cours</label>
-                  <select id="loanTypes" name="loanTypes" required>
+                  <select id="loanTypes" name="loanTypes">
                     <option value="">Selectionnez</option>
                     <option>Aucun credit en cours</option>
                     <option>Credit auto</option>
@@ -372,7 +372,7 @@
                 </div>
                 <div class="field">
                   <label for="loanEndDate">Fin du credit le plus important</label>
-                  <select id="loanEndDate" name="loanEndDate" required>
+                  <select id="loanEndDate" name="loanEndDate">
                     <option value="">Selectionnez</option>
                     <option>Pas de credit en cours</option>
                     <option>Moins de 6 mois</option>
@@ -387,7 +387,7 @@
                 </div>
                 <div class="field">
                   <label for="bankIncidents">Incidents bancaires (decouverts, rejets) ?</label>
-                  <select id="bankIncidents" name="bankIncidents" required>
+                  <select id="bankIncidents" name="bankIncidents">
                     <option value="">Selectionnez</option>
                     <option>Aucun sur les 3 derniers mois</option>
                     <option>1 depassement ponctuel</option>
@@ -404,7 +404,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="hasCoBorrower">Empruntez-vous a deux ?</label>
-                  <select id="hasCoBorrower" name="hasCoBorrower" required>
+                  <select id="hasCoBorrower" name="hasCoBorrower">
                     <option value="">Selectionnez</option>
                     <option>Oui</option>
                     <option>Non, emprunteur seul</option>
@@ -451,7 +451,7 @@
                 </div>
                 <div class="field">
                   <label for="nbDependants">Nombre de personnes a charge</label>
-                  <select id="nbDependants" name="nbDependants" required>
+                  <select id="nbDependants" name="nbDependants">
                     <option value="">Selectionnez</option>
                     <option>0</option>
                     <option>1</option>
@@ -510,7 +510,7 @@
               <div class="grid">
                 <div class="field">
                   <label for="civility">Civilite</label>
-                  <select id="civility" name="civility" required>
+                  <select id="civility" name="civility">
                     <option value="">Selectionnez</option>
                     <option>Monsieur</option>
                     <option>Madame</option>
@@ -518,15 +518,15 @@
                 </div>
                 <div class="field">
                   <label for="firstName">Prenom</label>
-                  <input id="firstName" name="firstName" autocomplete="given-name" required />
+                  <input id="firstName" name="firstName" autocomplete="given-name" />
                 </div>
                 <div class="field">
                   <label for="lastName">Nom</label>
-                  <input id="lastName" name="lastName" autocomplete="family-name" required />
+                  <input id="lastName" name="lastName" autocomplete="family-name" />
                 </div>
                 <div class="field">
                   <label for="dob">Date de naissance</label>
-                  <input id="dob" name="dob" type="date" required />
+                  <input id="dob" name="dob" type="date" />
                 </div>
                 <div class="field full">
                   <label for="street">Adresse actuelle <span class="field-optional">(facultatif)</span></label>
@@ -553,7 +553,7 @@
                 </div>
                 <div class="field">
                   <label for="insuranceBorrower">Assurance emprunteur souhaitee ?</label>
-                  <select id="insuranceBorrower" name="insuranceBorrower" required>
+                  <select id="insuranceBorrower" name="insuranceBorrower">
                     <option value="">Selectionnez</option>
                     <option>Oui, via le courtier (delegation)</option>
                     <option>Oui, via la banque</option>
@@ -566,7 +566,7 @@
                 </div>
                 <div class="field">
                   <label for="callbackTime">Horaire de rappel prefere</label>
-                  <select id="callbackTime" name="callbackTime" required>
+                  <select id="callbackTime" name="callbackTime">
                     <option value="">Selectionnez</option>
                     <option>Avant 9h</option>
                     <option>9h - 11h</option>
@@ -784,15 +784,15 @@
   <script src="../js/devis-document-upload.js"></script>
   <script src="../js/devis-document-inject.js"></script>
   <script src="../js/public-partners-trust.js"></script>
-  <script src="../js/contact-pair.js"></script>
+  <script src="../js/contact-pair.js?v=20260826softreq"></script>
   <script src="../js/callback-form.js"></script>
   <script src="../js/retention-opportunity.js"></script>
   <script src="../js/public-proximity.js?v=20260528"></script>
   <script src="../js/attribution.js"></script>
   <script src="../js/leads-storage.js"></script>
-  <script src="../js/quote-intelligence.js"></script>
-  <script src="./quote-wizard.js"></script>
-  <script src="../js/form-audit.js"></script>
+  <script src="../js/quote-intelligence.js?v=20260826softreq"></script>
+  <script src="./quote-wizard.js?v=20260826softreq"></script>
+  <script src="../js/form-audit.js?v=20260826softreq"></script>
   <script src="../js/lead-insights.js"></script>
   <script src="../js/landing-seo-config.js"></script>
   <script src="../js/landing-seo-inject.js"></script>

@@ -81,6 +81,7 @@
 
   function saveProgress(form, step, stepName, eventName, extra) {
     extra = extra || {};
+    if (form) saveLocalDraft(form);
     var partial = collectFormPartial(form);
     var vertical = verticalFromForm(form);
     var journey = getJourney();
@@ -219,49 +220,6 @@
     panel.hidden = false;
   }
 
-  function bindAbandon(form) {
-    var sent = false;
-    function onLeave() {
-      if (sent) return;
-      if (form.dataset.submitted === "1") return;
-      sent = true;
-      var step = parseInt(form.dataset.currentStep || "0", 10);
-      var stepName = form.dataset.currentStepName || "";
-      var body = {
-        leadId: getDraftLeadId(),
-        event: "wizard_abandon",
-        step: step,
-        step_name: stepName,
-        journey: getJourney(),
-        vertical: verticalFromForm(form),
-        abandoned: true,
-      };
-      try {
-        navigator.sendBeacon("/api/lead-progress", new Blob([JSON.stringify(body)], { type: "application/json" }));
-      } catch (e) {
-        postJson("/api/lead-progress", body);
-      }
-    }
-    window.addEventListener("pagehide", onLeave);
-    document.addEventListener("visibilitychange", function () {
-      if (document.visibilityState === "hidden") onLeave();
-    });
-  }
-
-  function isInternalPreview() {
-    return (
-      new URLSearchParams(window.location.search).get("preview") === "1" ||
-      (function () {
-        try {
-          var u = JSON.parse(localStorage.getItem("lo_user") || "{}");
-          return u.role === "admin";
-        } catch (e) {
-          return false;
-        }
-      })()
-    );
-  }
-
   var SKIP_AUTOSAVE_KEYS = {
     _hp: 1,
     website: 1,
@@ -303,11 +261,141 @@
     return false;
   }
 
+  function draftStorageKey(form) {
+    var vert = verticalFromForm(form);
+    return "lo_form_draft_v1:" + (window.location.pathname || "") + ":" + (form.id || vert || "form");
+  }
+
+  function saveLocalDraft(form) {
+    if (!form) return;
+    try {
+      localStorage.setItem(
+        draftStorageKey(form),
+        JSON.stringify({
+          at: Date.now(),
+          leadId: getDraftLeadId(),
+          values: collectFormPartial(form),
+        })
+      );
+    } catch (e) {}
+  }
+
+  function restoreLocalDraft(form) {
+    if (!form || form._draftRestored) return;
+    form._draftRestored = true;
+    if (formHasMeaningfulInput(form)) return;
+    var draft;
+    try {
+      draft = JSON.parse(localStorage.getItem(draftStorageKey(form)) || "null");
+    } catch (e) {
+      return;
+    }
+    if (!draft || !draft.values) return;
+    if (draft.at && Date.now() - draft.at > 14 * 24 * 3600 * 1000) return;
+    if (draft.leadId && !getDraftLeadId()) setDraftLeadId(draft.leadId);
+    Object.keys(draft.values).forEach(function (name) {
+      if (!name || SKIP_AUTOSAVE_KEYS[name] || name === "rgpd" || name === "consent") return;
+      var val = draft.values[name];
+      var nodes = form.querySelectorAll('[name="' + name.replace(/"/g, "") + '"]');
+      if (!nodes.length) return;
+      Array.prototype.forEach.call(nodes, function (el, idx) {
+        if (el.type === "file" || el.type === "hidden" || el.type === "submit") return;
+        if (el.type === "checkbox" || el.type === "radio") {
+          var list = Array.isArray(val) ? val : [val];
+          el.checked = list.indexOf(el.value) !== -1 || list.indexOf("1") !== -1;
+          return;
+        }
+        if (el.tagName === "SELECT" || el.tagName === "TEXTAREA" || el.tagName === "INPUT") {
+          var next = Array.isArray(val) ? val[Math.min(idx, val.length - 1)] : val;
+          if (next != null && next !== "" && !(el.value || "").trim()) el.value = next;
+        }
+      });
+    });
+  }
+
+  function postKeepalive(body) {
+    var json = JSON.stringify(body);
+    try {
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon("/api/lead-progress", new Blob([json], { type: "application/json" }));
+      }
+    } catch (e) {}
+    try {
+      fetch("/api/lead-progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: json,
+        keepalive: true,
+        credentials: "same-origin",
+      });
+    } catch (e2) {}
+  }
+
+  function flushOnLeave(form) {
+    if (!form || form.dataset.submitted === "1") return;
+    saveLocalDraft(form);
+    if (!formHasMeaningfulInput(form) && !getDraftLeadId()) return;
+    var partial = collectFormPartial(form);
+    postKeepalive({
+      leadId: getDraftLeadId(),
+      event: "autosave_unload",
+      step: parseInt(form.dataset.currentStep || "1", 10),
+      step_total: form.querySelectorAll(".wizard-step").length || 1,
+      step_name: form.dataset.currentStepName || "autosave_unload",
+      journey: getJourney(),
+      vertical: verticalFromForm(form),
+      form_id: form.id || form.getAttribute("name") || "wizard",
+      source: "landing_autosave_unload",
+      partial_payload: partial,
+      email: partial.email || null,
+      phone: partial.phone || null,
+      abandoned: true,
+    });
+  }
+
+  function bindLeaveFlush(form) {
+    if (!form || form._leaveFlushBound) return;
+    form._leaveFlushBound = true;
+    var last = 0;
+    function go() {
+      var now = Date.now();
+      if (now - last < 400) return;
+      last = now;
+      flushOnLeave(form);
+    }
+    window.addEventListener("pagehide", go);
+    window.addEventListener("beforeunload", go);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "hidden") go();
+    });
+  }
+
+  function bindAbandon(form) {
+    bindLeaveFlush(form);
+  }
+
+  function isInternalPreview() {
+    return (
+      new URLSearchParams(window.location.search).get("preview") === "1" ||
+      (function () {
+        try {
+          var u = JSON.parse(localStorage.getItem("lo_user") || "{}");
+          return u.role === "admin";
+        } catch (e) {
+          return false;
+        }
+      })()
+    );
+  }
+
   function bindContactCapture(form) {
     if (!form || form._contactCaptureBound) return;
     form._contactCaptureBound = true;
+    restoreLocalDraft(form);
+    bindLeaveFlush(form);
     var timer = null;
     function maybeSave(reason) {
+      saveLocalDraft(form);
       clearTimeout(timer);
       timer = setTimeout(function () {
         if (!formHasMeaningfulInput(form) && !getDraftLeadId()) return;
@@ -317,35 +405,7 @@
           reason || "autosave_partial",
           reason || "field_change"
         );
-      }, 180);
-    }
-    function flushBeacon() {
-      if (!formHasMeaningfulInput(form) && !getDraftLeadId()) return;
-      var partial = collectFormPartial(form);
-      var body = {
-        leadId: getDraftLeadId(),
-        event: "autosave_unload",
-        step: parseInt(form.dataset.currentStep || "1", 10),
-        step_total: form.querySelectorAll(".wizard-step").length || 1,
-        step_name: "autosave_unload",
-        journey: getJourney(),
-        vertical: verticalFromForm(form),
-        form_id: form.id || form.getAttribute("name") || "wizard",
-        source: "landing_autosave_unload",
-        partial_payload: partial,
-        email: partial.email || null,
-        phone: partial.phone || null,
-      };
-      try {
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon(
-            "/api/lead-progress",
-            new Blob([JSON.stringify(body)], { type: "application/json" })
-          );
-        } else {
-          postJson("/api/lead-progress", body);
-        }
-      } catch (e) {}
+      }, 280);
     }
     form.addEventListener(
       "blur",
@@ -361,10 +421,6 @@
     form.addEventListener("input", function () {
       maybeSave("field_input");
     });
-    document.addEventListener("visibilitychange", function () {
-      if (document.visibilityState === "hidden") flushBeacon();
-    });
-    window.addEventListener("pagehide", flushBeacon);
   }
 
   function bindContactCaptureAll() {
@@ -373,7 +429,9 @@
         form.querySelector('[name="email"], [name="phone"]') ||
         form.hasAttribute("data-quote-wizard") ||
         form.hasAttribute("data-acheteur-immo") ||
-        form.hasAttribute("data-track-form")
+        form.hasAttribute("data-track-form") ||
+        form.hasAttribute("data-pet-journey-form") ||
+        form.hasAttribute("data-quick-devis")
       ) {
         bindContactCapture(form);
       }
@@ -394,6 +452,7 @@
     showCrossSellPanel: showCrossSellPanel,
     bindAbandon: bindAbandon,
     bindContactCapture: bindContactCapture,
+    restoreLocalDraft: restoreLocalDraft,
     isInternalPreview: isInternalPreview,
     attachLeadIdToPayload: function (payload) {
       var id = getDraftLeadId();
@@ -418,5 +477,6 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     setTimeout(bindContactCaptureAll, 200);
+    setTimeout(bindContactCaptureAll, 800);
   });
 })();
