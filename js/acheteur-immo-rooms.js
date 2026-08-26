@@ -241,14 +241,24 @@
       e.preventDefault();
       var tbody = mount.querySelector("[data-rooms-body]");
       if (!tbody) return;
-      var over = document.elementFromPoint(e.clientX, e.clientY);
-      var row = over && over.closest ? over.closest(".immo-room-row") : null;
-      if (!row || row === dragging || !mount.contains(row)) return;
-      var rect = row.getBoundingClientRect();
-      if (e.clientY > rect.top + rect.height / 2) {
-        if (row.nextSibling !== dragging) tbody.insertBefore(dragging, row.nextSibling);
-      } else if (dragging.nextSibling !== row) {
-        tbody.insertBefore(dragging, row);
+      var others = rowsOf(mount).filter(function (r) {
+        return r !== dragging;
+      });
+      if (!others.length) return;
+      var target = others[others.length - 1];
+      var placeAfter = true;
+      for (var i = 0; i < others.length; i++) {
+        var rect = others[i].getBoundingClientRect();
+        if (e.clientY < rect.top + rect.height / 2) {
+          target = others[i];
+          placeAfter = false;
+          break;
+        }
+      }
+      if (placeAfter) {
+        if (target.nextSibling !== dragging) tbody.insertBefore(dragging, target.nextSibling);
+      } else if (dragging.nextSibling !== target) {
+        tbody.insertBefore(dragging, target);
       }
     }
 

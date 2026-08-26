@@ -467,6 +467,7 @@ a.immo-parcours-link:hover {
 .immo-room-row.is-dragging {
   opacity: 0.6;
   background: #eff6ff;
+  pointer-events: none;
 }
 
 .immo-room-row.is-dragging .immo-room-handle {

@@ -21,7 +21,7 @@ function read(rel) {
 var js = read("js/acheteur-immo-rooms.js");
 assert(js.indexOf("data-room-handle") >= 0, "poignée de déplacement");
 assert(js.indexOf("data-room-up") >= 0 && js.indexOf("data-room-down") >= 0, "flèches haut / bas");
-assert(js.indexOf("bindPointerSort") >= 0 && js.indexOf("pointerdown") >= 0, "glisser-déposer au pointeur");
+assert(js.indexOf("bindPointerSort") >= 0 && js.indexOf("placeAfter") >= 0, "glisser-déposer au pointeur");
 assert(js.indexOf("roomComments[]") >= 0, "champ commentaires");
 assert(js.indexOf('selectHtml("roomName[]"') >= 0, "liste Nom");
 assert(js.indexOf('selectHtml("roomExposure[]"') >= 0, "liste Exposition");
@@ -33,8 +33,8 @@ var html = read("landings/acheteur-immo.html");
 assert(html.indexOf("immo-rooms-hint") >= 0, "consigne réordonnancement");
 assert(html.indexOf(">Niveau</th>") >= 0 && html.indexOf(">Nom</th>") >= 0, "colonnes Niveau / Nom");
 assert(html.indexOf(">Sol</th>") >= 0 && html.indexOf(">Commentaires</th>") >= 0, "colonnes Sol / Commentaires");
-assert(html.indexOf("acheteur-immo-rooms.js?v=20260826rooms2") >= 0, "cache-bust JS pièces");
-assert(html.indexOf("immo-parcours.css?v=20260826rooms2") >= 0, "cache-bust CSS");
+assert(html.indexOf("acheteur-immo-rooms.js?v=20260826rooms3") >= 0, "cache-bust JS pièces");
+assert(html.indexOf("immo-parcours.css?v=20260826rooms3") >= 0, "cache-bust CSS");
 
 var css = read("landings/css/immo-parcours.css");
 assert(css.indexOf(".immo-room-handle") >= 0, "style poignée");
