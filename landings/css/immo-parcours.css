@@ -432,6 +432,10 @@ a.immo-parcours-link:hover {
   min-width: 88px;
 }
 
+.immo-rooms-table td:nth-child(3) select {
+  min-width: 168px;
+}
+
 .immo-room-handle-col,
 .immo-room-handle-cell {
   width: 28px;

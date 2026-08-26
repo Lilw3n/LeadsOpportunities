@@ -29,12 +29,22 @@ assert(js.indexOf('selectHtml("roomFlooring[]"') >= 0, "liste Sol");
 assert(js.indexOf("moveRow: moveRow") >= 0, "API moveRow exposée");
 assert(js.indexOf("collect: collect") >= 0, "API collect exposée");
 
+var catalog = read("js/immo-room-catalog.js");
+assert(catalog.indexOf("Abri de jardin") >= 0, "catalogue : Abri de jardin");
+assert(catalog.indexOf("Séjour cathédrale") >= 0, "catalogue : Séjour cathédrale");
+assert(catalog.indexOf("Parking en sous-sol") >= 0, "catalogue : Parking en sous-sol");
+assert(catalog.indexOf("Chambre Salle de Bains") >= 0, "catalogue : Chambre Salle de Bains");
+assert((catalog.match(/"Chambre 4"/g) || []).length === 1, "pas de doublon Chambre 4");
+assert((catalog.match(/"Autre"/g) || []).length === 1, "pas de doublon Autre");
+assert(catalog.indexOf("numeric: true") >= 0, "tri naturel Chambre 2 avant 10");
+
 var html = read("landings/acheteur-immo.html");
 assert(html.indexOf("immo-rooms-hint") >= 0, "consigne réordonnancement");
 assert(html.indexOf(">Niveau</th>") >= 0 && html.indexOf(">Nom</th>") >= 0, "colonnes Niveau / Nom");
 assert(html.indexOf(">Sol</th>") >= 0 && html.indexOf(">Commentaires</th>") >= 0, "colonnes Sol / Commentaires");
-assert(html.indexOf("acheteur-immo-rooms.js?v=20260826rooms3") >= 0, "cache-bust JS pièces");
-assert(html.indexOf("immo-parcours.css?v=20260826rooms3") >= 0, "cache-bust CSS");
+assert(html.indexOf("immo-room-catalog.js?v=20260826rooms4") >= 0, "catalogue pièces chargé");
+assert(html.indexOf("acheteur-immo-rooms.js?v=20260826rooms4") >= 0, "cache-bust JS pièces");
+assert(html.indexOf("immo-parcours.css?v=20260826rooms4") >= 0, "cache-bust CSS");
 
 var css = read("landings/css/immo-parcours.css");
 assert(css.indexOf(".immo-room-handle") >= 0, "style poignée");
@@ -54,6 +64,12 @@ assert(guide.indexOf("AcheteurImmoRooms.render") >= 0, "restauration des pièces
 
 var vente = read("js/acheteur-immo-deposit-vente.js");
 assert(vente.indexOf("propertyRooms") >= 0, "sellDossier.propertyRooms");
+
+require("../js/immo-room-catalog.js");
+var names = global.ImmoRoomCatalog.names;
+assert(names.length >= 220, "catalogue ≥ 220 noms uniques (" + names.length + ")");
+assert(names.indexOf("Chambre 2") < names.indexOf("Chambre 10"), "Chambre 2 avant Chambre 10");
+assert(names.indexOf("Cuisine") >= 0 && names.indexOf("W.C.") >= 0, "Cuisine et W.C. présents");
 
 if (failed) {
   console.log("\n" + failed + " échec(s)");
