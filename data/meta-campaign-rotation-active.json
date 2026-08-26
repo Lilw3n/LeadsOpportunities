@@ -1,64 +1,67 @@
 {
   "ok": true,
-  "generatedAt": "2026-08-16T05:12:31.893Z",
+  "generatedAt": "2026-08-26T05:28:58.672Z",
   "policy": {
     "max_daily_budget_eur": 1,
     "max_active_campaigns": 1,
     "max_active_ad_sets": 1,
     "max_active_ads": 1,
-    "multiply_campaigns": false
+    "multiply_campaigns": false,
+    "optimize_events": [
+      "Lead",
+      "qualified_lead"
+    ],
+    "capi_required": true
   },
-  "calendar_week": 7,
-  "cycle_index": 1,
+  "calendar_week": 1,
+  "cycle_index": 0,
   "week_bounds": {
-    "weekIndex": 1,
-    "calendarWeek": 7,
-    "slotWeek": 2,
-    "startsAt": "2026-06-25T12:00:00.000Z",
-    "endsAt": "2026-09-30T12:00:00.000Z",
-    "actu_override": true
+    "weekIndex": 0,
+    "calendarWeek": 1,
+    "slotWeek": 1,
+    "startsAt": "2026-08-25T12:00:00.000Z",
+    "endsAt": "2026-09-01T11:59:59.999Z"
   },
   "active_slot": {
-    "week": 2,
-    "id": "sante_senior_canicule",
-    "vertical": "sante",
-    "discrete": false,
-    "form_template": "sante_express",
-    "utm_campaign": "meta_sante_senior_canicule",
-    "blog_slug": "canicule-mutuelle-coup-chaleur-seniors-2026",
+    "week": 1,
+    "id": "vtc_discret",
+    "vertical": "vtc",
+    "discrete": true,
+    "form_template": "vtc_express",
+    "utm_campaign": "meta_vtc_p1_convert",
+    "blog_slug": "assurance-vtc-moins-cher-2026",
     "targeting": {
-      "age_min": 58,
-      "age_max": 75,
+      "age_min": 25,
+      "age_max": 58,
       "geo": "France"
     },
     "ad_copy": {
-      "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
-      "primary": "Chaleur extrême — seniors : vérifiez hospitalisation, téléconsultation et forfait. Devis mutuelle express en 3 min, sans engagement.",
-      "cta": "Comparer ma mutuelle"
+      "headline": "VTC : baissez vos charges assurance",
+      "primary": "Chauffeurs VTC / auto-entrepreneurs — comparez RC pro + véhicule en 30 secondes. Devis confidentiel, sans engagement. Un conseiller vous rappelle.",
+      "cta": "Devis VTC gratuit"
     },
     "site_focus": {
-      "label": "Mutuelle santé",
-      "shortLabel": "Mutuelle",
-      "landing": "/landings/sante.html",
-      "heroTitle": "Canicule : vérifiez votre mutuelle maintenant",
-      "heroSubtitle": "Seniors — hospitalisation et téléconsultation : comparez avant les pics de chaleur.",
-      "cta": "Comparer ma mutuelle",
-      "pillClass": "hfc-2",
-      "badge": "Canicule — maintenant",
-      "landing_url": "/landings/sante.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule&utm_content=focus-semaine-2"
+      "label": "Assurance VTC",
+      "shortLabel": "VTC",
+      "landing": "/landings/vtc.html",
+      "heroTitle": "Assurance VTC : devis express",
+      "heroSubtitle": "RC pro + véhicule — comparez en 30 secondes, focus acquisition semaine.",
+      "cta": "Devis VTC",
+      "pillClass": "hfc-1",
+      "landing_url": "/landings/vtc.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_vtc_p1_convert&utm_content=focus-semaine-1"
     },
-    "why": "Canicule maintenant — audience large seniors, actu forte.",
-    "actu_override": true,
-    "actu_reason": "Été 2026 — vagues de chaleur récurrentes : priorité mutuelle seniors (étude marché P1)",
-    "form_id": "1503493211458105",
-    "form_name": "Mutuelle — Comparatif express (Meta)",
-    "campaign_internal": "meta_sante_convert",
-    "landing_path": "/landings/sante.html",
-    "landing_url": "/landings/sante.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule&utm_content=focus-semaine-2",
-    "meta_landing_url": "/landings/sante.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_senior_canicule&utm_content=focus-semaine-2",
+    "why": "P1 — meilleur CPL historique, intent chauffeur chaud.",
+    "form_id": "4578422069056454",
+    "form_name": "VTC — Devis express (Meta)",
+    "campaign_internal": "meta_vtc_convert",
+    "landing_path": "/landings/vtc.html",
+    "landing_url": "/landings/vtc.html?utm_source=site&utm_medium=paid_social&utm_campaign=meta_vtc_p1_convert&utm_content=focus-semaine-1",
+    "meta_landing_url": "/landings/vtc.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_vtc_p1_convert&utm_content=focus-semaine-1",
     "blog": {
-      "slug": "canicule-mutuelle-coup-chaleur-seniors-2026",
-      "url": "/blog/canicule-mutuelle-coup-chaleur-seniors-2026.html"
+      "slug": "assurance-vtc-moins-cher-2026",
+      "title": "Assurance VTC moins cher en 2026 : 7 leviers",
+      "score": 105,
+      "url": "/blog/assurance-vtc-moins-cher-2026.html"
     }
   },
   "current_stats": {
@@ -70,33 +73,33 @@
   },
   "previous_week": {
     "slot": {
-      "week": 1,
-      "id": "vtc_discret",
-      "vertical": "vtc",
-      "discrete": true,
-      "form_template": "vtc_express",
-      "utm_campaign": "meta_pro_mobilite_convert",
-      "blog_slug": "assurance-vtc-moins-cher-2026",
+      "week": 3,
+      "id": "credit_pret_immo",
+      "vertical": "credit_immo",
+      "discrete": false,
+      "form_template": "credit_immo_express",
+      "utm_campaign": "meta_pret_immo_p1_convert",
+      "blog_slug": "assurance-emprunteur-loi-lemoine-2026",
       "targeting": {
-        "age_min": 25,
+        "age_min": 28,
         "age_max": 58,
         "geo": "France"
       },
       "ad_copy": {
-        "headline": "Charges pro trop élevées ?",
-        "primary": "Activité avec véhicule : comparez votre assurance pro en 30 secondes. Devis confidentiel, sans engagement.",
-        "cta": "Obtenir un devis"
+        "headline": "Prêt immobilier : étude gratuite",
+        "primary": "Projet d'achat ou renégociation ? Capacité d'emprunt, taux et assurance emprunteur — un courtier vous rappelle. Étude gratuite, sans engagement.",
+        "cta": "Étude prêt gratuite"
       },
       "site_focus": {
-        "label": "Assurance pro véhicule",
-        "shortLabel": "VTC / pro",
-        "landing": "/landings/devis-rapide.html",
-        "heroTitle": "Charges pro : comparez votre assurance",
-        "heroSubtitle": "Devis express en 30 secondes — focus semaine acquisition.",
-        "cta": "Devis pro véhicule",
-        "pillClass": "hfc-1"
+        "label": "Prêt immobilier",
+        "shortLabel": "Prêt immo",
+        "landing": "/landings/credit-immo.html",
+        "heroTitle": "Prêt immobilier : étude express",
+        "heroSubtitle": "Capacité d'emprunt + assurance emprunteur — un conseiller vous rappelle.",
+        "cta": "Simuler mon prêt",
+        "pillClass": "hfc-3"
       },
-      "why": "Meilleur CPL historique — intent chaud chauffeur / auto-entrepreneur."
+      "why": "P1 — prêt / crédit immo aligné landings + SEO credit-immo / pret-immobilier."
     },
     "stats": {
       "leads": 0,
@@ -107,12 +110,12 @@
     }
   },
   "recommendation": {
-    "action": "activate_actu",
-    "reason": "Été 2026 — vagues de chaleur récurrentes : priorité mutuelle seniors (étude marché P1)"
+    "action": "activate",
+    "reason": "P1 — meilleur CPL historique, intent chauffeur chaud."
   },
   "intelligence": {
     "cheapest_historical_vertical": "vtc",
-    "retargeting_note": "VTC = meilleur CPL historique. Retargeting abandon = 2–3× moins cher que froid.",
+    "retargeting_note": "P1 site : VTC, mutuelle santé, prêt immo. Optimiser Ads sur Lead + qualified_lead (CAPI). VSP hors cycle (campagne discrète optionnelle).",
     "fallback": {
       "id": "retarget_rappel",
       "vertical": "devis",
@@ -125,13 +128,10 @@
         "heroSubtitle": "Abandon formulaire ? Reprenez en 30 secondes.",
         "cta": "Demander un rappel"
       },
-      "why": "Retargeting abandon — CPL souvent 2–3× inférieur au froid."
+      "why": "Retargeting abandon JourneyFormStart sans Lead — CPL souvent 2–3× inférieur."
     },
     "actu_override": {
-      "active": true,
-      "slot_id": "sante_senior_canicule",
-      "reason": "Été 2026 — vagues de chaleur récurrentes : priorité mutuelle seniors (étude marché P1)",
-      "valid_until": "2026-09-30"
+      "active": false
     }
   },
   "schedule": [
@@ -140,41 +140,31 @@
       "id": "vtc_discret",
       "vertical": "vtc",
       "discrete": true,
-      "is_current": false,
+      "is_current": true,
       "form_id": "4578422069056454",
-      "headline": "Charges pro trop élevées ?",
-      "site_label": "Assurance pro véhicule"
+      "headline": "VTC : baissez vos charges assurance",
+      "site_label": "Assurance VTC"
     },
     {
       "week": 2,
       "id": "sante_senior_canicule",
       "vertical": "sante",
       "discrete": false,
-      "is_current": true,
+      "is_current": false,
       "form_id": "1503493211458105",
-      "headline": "Canicule : votre mutuelle couvre-t-elle les urgences ?",
+      "headline": "Mutuelle santé : comparez en 3 min",
       "site_label": "Mutuelle santé"
     },
     {
       "week": 3,
-      "id": "vsp_citadine_discret",
-      "vertical": "vsp",
-      "discrete": true,
-      "is_current": false,
-      "form_id": "1023485613566134",
-      "headline": "Petite citadine : bien assurée ?",
-      "site_label": "Citadine légère"
-    },
-    {
-      "week": 4,
-      "id": "credit_lemoine",
+      "id": "credit_pret_immo",
       "vertical": "credit_immo",
       "discrete": false,
       "is_current": false,
       "form_id": "1784137922966688",
-      "headline": "Prêt en cours ? Économisez sur l'assurance",
-      "site_label": "Crédit / emprunteur"
+      "headline": "Prêt immobilier : étude gratuite",
+      "site_label": "Prêt immobilier"
     }
   ],
-  "rotation_length_weeks": 4
+  "rotation_length_weeks": 3
 }

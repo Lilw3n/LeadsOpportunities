@@ -16,6 +16,7 @@ const ROUTES = {
   "immo-listing-document": () => require("./_lib/routes/public-immo-listing-document"),
   "immo-network": () => require("./_lib/routes/immo-network-dispatch"),
   "acquisition-focus": () => require("./_lib/routes/public-acquisition-focus"),
+  "meta-status": () => require("./_lib/routes/public-meta-status"),
   dashboard: () => require("./dashboard/[action].js"),
 };
 

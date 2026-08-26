@@ -131,11 +131,13 @@ async function buildPubsHub(options) {
         }
       : null,
     docs: [
-      { label: "Rotation 4 semaines", href: "./docs/META-ROTATION-4-SEMAINES.md" },
-      { label: "Canicule maintenant", href: "./ads/meta-canicule-maintenant.csv" },
-      { label: "VSP discret", href: "./docs/META-VSP-PUB-DISCRETE.md" },
+      { label: "Rotation P1 VTC·Santé·Prêt", href: "./docs/META-ROTATION-4-SEMAINES.md" },
+      { label: "CSV pubs P1", href: "./ads/meta-priorite-vtc-pret-sante.csv" },
+      { label: "Canicule (archive)", href: "./ads/meta-canicule-maintenant.csv" },
+      { label: "VSP discret (hors P1)", href: "./docs/META-VSP-PUB-DISCRETE.md" },
       { label: "Slack + WithAllo", href: "./docs/SLACK-WITHALLO-NOTIFS.md" },
       { label: "Tracking SEA", href: "./docs/SEA-TRACKING.md" },
+      { label: "Meta CAPI + Lead", href: "./docs/META-ADS-AUTOMATION.md" },
     ],
   };
 }

@@ -51,6 +51,17 @@ async function checkProdPixel() {
   } else {
     warn("metaPixelId non trouvé dans google-config-env");
   }
+
+  console.log("\n=== Prod meta-status (CAPI bool) ===");
+  try {
+    var st = await fetch(BASE + "/api/meta-status");
+    var data = await st.json();
+    if (data.capi_configured) pass("CAPI configuré en prod (META_CAPI_TOKEN présent)");
+    else fail("CAPI non configuré en prod — coller META_CAPI_TOKEN sur Vercel + Redeploy");
+    if (data.pixel_id) pass("pixel_id=" + data.pixel_id);
+  } catch (e) {
+    warn("meta-status indisponible (pas encore déployé ?) — " + e.message);
+  }
 }
 
 async function checkProdReadiness() {
