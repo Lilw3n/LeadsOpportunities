@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T15:11:49.855Z",
+  "updated": "2026-08-26T08:53:34.468Z",
   "articles": [
     {
       "file": "emprunteur-non-residents-investissement-immobilier-2026.html",
@@ -373,6 +373,219 @@
         {
           "type": "p",
           "text": "Avant de react agir sous le coup de l'emotion mediatique, verifiez <strong>ce que couvre deja votre contrat</strong> : plafonds, franchises, exclusions, delais. Un comparatif a garanties equivalentes evite de surpayer ou de rester sous-assure."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Hospitalisation et chirurgie : plafonds honoraires",
+            "Pharmacie et medicaments nouvellement rembourses",
+            "Optique / dentaire si consommation annuelle",
+            "Delais de carence avant changement de contrat",
+            "Tiers payant et teletransmission"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire mutuelle (3 min) identifie le bon niveau — sans engagement, reponse orientee par un courtier ORIAS."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./mutuelle-sante-5-criteres.html",
+          "label": "5 criteres mutuelle"
+        },
+        {
+          "href": "../assurance-sante/comparatif/",
+          "label": "Comparatif mutuelle"
+        }
+      ]
+    },
+    {
+      "file": "france-pomas-village-des-corbieres-devaste-par-une-tornade.html",
+      "section": "habitat",
+      "tag": "Habitation",
+      "tagClass": "tag-habitation",
+      "title": "France : Pomas, village des Corbières, dévasté par une tornade : assurance habitation — que faire ?",
+      "description": "France : Pomas, village des Corbières, dévasté par une tornade — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "France : Pomas, village des Corbières, dévasté par une tornade — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=france-pomas-village-des-corbieres-d",
+        "label": "Questionnaire habitation (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayée ce jour via <strong>Mozilla Firefox / Pocket</strong> (<strong>France : Pomas, village des Corbières, dévasté par une tornade</strong>), l'actualité rappelle un enjeu concret pour les foyers français. Un sinistre habitation mal couvert peut coûter des dizaines de milliers d'euros à votre charge."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de réagir sous le coup de l'émotion médiatique, vérifiez <strong>ce que couvre déjà votre contrat</strong> : plafonds, franchises, exclusions, délais. Un comparatif à garanties équivalentes évite de surpayer ou de rester sous-assuré."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Capital mobilier vs valeur reelle du contenu",
+            "Degats des eaux, tempete, catastrophes naturelles",
+            "Usage du logement (residence, location, Airbnb)",
+            "Franchise et exclusions du contrat",
+            "Coordination PNO si proprietaire bailleur"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Le questionnaire habitation estime surface et risques — base pour un devis coherent."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./assurance-habitation-locataire-proprietaire-2026.html",
+          "label": "Guide habitation"
+        },
+        {
+          "href": "../assurance-habitation/",
+          "label": "Assurance habitation"
+        }
+      ]
+    },
+    {
+      "file": "une-hausse-de-7-sur-un-an-plus-de-33-000-chefs-d-entreprise-ont-perdu-le.html",
+      "section": "pro",
+      "tag": "Pro & RC",
+      "tagClass": "tag-pro",
+      "title": "Une hausse de 7% sur un an : plus de 33.000 chefs d'entreprise ont perdu leur emploi au… : RC Pro — que faire ?",
+      "description": "Une hausse de 7% sur un an : plus de 33.000 chefs d'entreprise ont perdu leur emploi au premier semestre — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Une hausse de 7% sur un an : plus de 33.000 chefs d'entreprise ont perdu leur emploi au premier semestre — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=rc-pro&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=rc-pro&utm_content=une-hausse-de-7-sur-un-an-plus-de-33",
+        "label": "Questionnaire RC Pro (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayée ce jour via <strong>Cafeyn (presse partenaire)</strong> (<strong>Une hausse de 7% sur un an : plus de 33.000 chefs d'entreprise ont perdu leur emploi au…</strong>), l'actualité rappelle un enjeu concret pour les foyers français. Un litige client peut engager votre patrimoine personnel sans RC Pro adequate."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de réagir sous le coup de l'émotion médiatique, vérifiez <strong>ce que couvre déjà votre contrat</strong> : plafonds, franchises, exclusions, délais. Un comparatif à garanties équivalentes évite de surpayer ou de rester sous-assuré."
+        },
+        {
+          "type": "h2",
+          "text": "Checklist pratique (5 minutes)"
+        },
+        {
+          "type": "ul",
+          "items": [
+            "Activite declaree vs activite reelle",
+            "Plafonds RC et protection juridique",
+            "Cyber et materiel professionnel",
+            "Sous-traitance et dommages corporels",
+            "Coordination avec assurance auto pro"
+          ]
+        },
+        {
+          "type": "bridge"
+        },
+        {
+          "type": "h2",
+          "text": "Prochaine etape : qualifier votre besoin"
+        },
+        {
+          "type": "p",
+          "text": "Questionnaire RC Pro : activite et chiffre d'affaires."
+        },
+        {
+          "type": "p",
+          "text": "Leads Opportunities — courtier ORIAS. Nous comparons April, AXA, Allianz, Generali, Zephir et le marche selon votre profil. <strong>100 % gratuit</strong>, sans engagement."
+        }
+      ],
+      "related": [
+        {
+          "href": "./coupe-monde-2026-assurance-voyage-sante.html",
+          "label": "CDM 2026 — voyage & sante"
+        },
+        {
+          "href": "./coupe-monde-voyage-assurance-sante-etranger-2026.html",
+          "label": "Mutuelle a l'etranger"
+        },
+        {
+          "href": "./ligue-champions-assurance-voyage-deplacement.html",
+          "label": "Voyage & assurance"
+        },
+        {
+          "href": "../assurances/",
+          "label": "Toutes nos assurances"
+        },
+        {
+          "href": "./index.html",
+          "label": "Blog assurance"
+        }
+      ]
+    },
+    {
+      "file": "une-nouvelle-mutuelle-solimut-victime-d-une-cyberattaque-ce-dimanche-le-.html",
+      "section": "sante",
+      "tag": "Santé & mutuelle",
+      "tagClass": "tag-sante",
+      "title": "Une nouvelle mutuelle, Solimut, victime d'une cyberattaque ce dimanche - Le Figaro : mutuelle et remboursements — que faire ?",
+      "description": "Une nouvelle mutuelle, Solimut, victime d'une cyberattaque ce dimanche - Le Figaro — conseils assurance et questionnaire gratuit Leads Opportunities.",
+      "meta": "7 min · Aout 2026",
+      "cardExcerpt": "Une nouvelle mutuelle, Solimut, victime d'une cyberattaque ce dimanche - Le Figaro — impact sur votre assurance.",
+      "cta": {
+        "href": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=une-nouvelle-mutuelle-solimut-victime",
+        "label": "Questionnaire mutuelle (3 min)"
+      },
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Selon l'information relayée ce jour via <strong>l'actualite du jour</strong> (<strong>Une nouvelle mutuelle, Solimut, victime d'une cyberattaque ce dimanche - Le Figaro</strong>), l'actualité rappelle un enjeu concret pour les foyers français. Le reste a charge sante peut exploser si votre mutuelle n'est pas calibree sur vos vrais besoins."
+        },
+        {
+          "type": "h2",
+          "text": "Lien avec votre contrat d'assurance"
+        },
+        {
+          "type": "p",
+          "text": "Avant de réagir sous le coup de l'émotion médiatique, vérifiez <strong>ce que couvre déjà votre contrat</strong> : plafonds, franchises, exclusions, délais. Un comparatif à garanties équivalentes évite de surpayer ou de rester sous-assuré."
         },
         {
           "type": "h2",
