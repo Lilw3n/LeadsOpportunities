@@ -24,6 +24,12 @@
   font-weight: 700;
 }
 
+.devis-docs-checklist .opt {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
 .devis-docs-drop {
   border: 2px dashed #94a3b8;
   border-radius: 12px;

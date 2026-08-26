@@ -136,7 +136,7 @@
       if (checklist) {
         checklist.innerHTML = cfg.items
           .map(function (it) {
-            return "<li>" + it.label + (it.required ? " (recommandé)" : "") + "</li>";
+            return "<li>" + it.label + (it.required ? " (nécessaire)" : " (optionnel)") + "</li>";
           })
           .join("");
       }

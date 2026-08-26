@@ -323,7 +323,7 @@
         return (
           "<li>" +
           esc(it.label) +
-          (it.required ? ' <span class="req">recommandé</span>' : "") +
+          (it.required ? ' <span class="req">nécessaire</span>' : " <span class=\"opt\">optionnel</span>") +
           "</li>"
         );
       })
@@ -333,6 +333,29 @@
         return '<option value="' + esc(it.type) + '">' + esc(it.label) + "</option>";
       })
       .join("");
+    var extraHtml = "";
+    if (cfg.extraFields && cfg.extraFields.length) {
+      extraHtml =
+        '<div class="devis-docs-extra" style="margin:12px 0">' +
+        cfg.extraFields
+          .map(function (f) {
+            return (
+              "<label style=\"display:block;margin:8px 0 4px;font-weight:600;font-size:.9rem\">" +
+              esc(f.label) +
+              '<input name="' +
+              esc(f.name) +
+              '" type="' +
+              esc(f.type || "text") +
+              '" placeholder="' +
+              esc(f.placeholder || "") +
+              '" data-optional' +
+              (f.required ? " required" : "") +
+              " style=\"width:100%;margin-top:4px\" /></label>"
+            );
+          })
+          .join("") +
+        "</div>";
+    }
 
     return (
       '<section class="wizard-step" hidden data-step="documents" data-step-name="documents" data-optional-step="1">' +
@@ -346,6 +369,7 @@
       '<ul class="devis-docs-checklist">' +
       checklist +
       "</ul>" +
+      extraHtml +
       '<label style="display:block;margin:12px 0 6px;font-weight:600;font-size:.9rem">Type de document</label>' +
       '<select data-docs-type data-optional>' +
       typeOpts +
