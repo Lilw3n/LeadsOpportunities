@@ -46,4 +46,8 @@ assert(html.indexOf("immo-sell-docs-checklist.js?v=20260826docsui") >= 0, "cache
 var dash = read("dashboard.html");
 assert(dash.indexOf("immo-documents.css?v=20260826docsui") >= 0, "CRM dashboard cache-bust CSS");
 
+var driveFolders = read("api/_lib/drive-folders.js");
+assert(driveFolders.indexOf("Id contact :") >= 0, "sous-dossier Drive = Id contact : ct_…");
+assert(driveFolders.indexOf("function rawContactId") >= 0, "rawContactId (ct_ = contact CRM)");
+
 process.exit(failed ? 1 : 0);

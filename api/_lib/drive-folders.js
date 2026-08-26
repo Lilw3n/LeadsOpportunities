@@ -146,19 +146,33 @@ function buildContactPersonFolderName(firstName, lastName, phone) {
   return parts.join("_").slice(0, 64);
 }
 
-/** Sous-dossier technique : ct_uuid */
-function buildContactIdFolderName(contactId) {
-  var id = String(contactId || "")
+/** Identifiant brut crm_contacts.id (préfixe ct_ = contact, pas lead ni questionnaire). */
+function rawContactId(contactId) {
+  return String(contactId || "")
     .replace(/[^\w\-]/g, "")
     .slice(0, 80);
-  return id || "ct_unknown";
+}
+
+/** Sous-dossier technique lisible : « Id contact : ct_uuid ». */
+function buildContactIdFolderName(contactId) {
+  var id = rawContactId(contactId) || "ct_unknown";
+  return "Id contact : " + id;
+}
+
+function isTechnicalContactFolderName(folderName, contactId) {
+  var name = String(folderName || "");
+  var raw = rawContactId(contactId);
+  if (!name || !raw) return false;
+  if (name === raw) return true;
+  if (name === buildContactIdFolderName(contactId)) return true;
+  return name.indexOf("Id contact") === 0 && name.indexOf(raw) !== -1;
 }
 
 /**
  * Ancien libellé plat (ct_xxx_Nom_Prenom_tel_mail) — conservé pour détection / migration.
  */
 function safeFolderLabel(contactId, firstName, lastName, phone, email) {
-  var id = buildContactIdFolderName(contactId);
+  var id = rawContactId(contactId) || "ct_unknown";
   var namePart = buildContactPersonFolderName(firstName, lastName, phone) || "client";
   var tel = String(phone || "").replace(/\D/g, "").slice(-10);
   var mailLocal = String(email || "")
@@ -173,10 +187,10 @@ function safeFolderLabel(contactId, firstName, lastName, phone, email) {
 
 function isOldFlatContactFolderName(folderName, contactId) {
   var name = String(folderName || "");
-  var id = buildContactIdFolderName(contactId);
-  if (!name || !id) return false;
-  if (name === id) return false; /* déjà le sous-dossier technique seul */
-  return name.indexOf(id + "_") === 0 || (name.indexOf("ct_") === 0 && name.indexOf("_") > 3 && name !== id);
+  var raw = rawContactId(contactId);
+  if (!name || !raw) return false;
+  if (isTechnicalContactFolderName(name, contactId)) return false;
+  return name.indexOf(raw + "_") === 0 || (name.indexOf("ct_") === 0 && name.indexOf("_") > 3 && name !== raw);
 }
 
 function safeDocTypeFolderName(documentType) {
@@ -187,7 +201,7 @@ function safeDocTypeFolderName(documentType) {
     .slice(0, 48);
 }
 
-async function findChildFolder(token, parentId, name) {
+async function findExistingChildFolder(token, parentId, name) {
   const q =
     "mimeType='application/vnd.google-apps.folder' and name='" +
     name.replace(/'/g, "\\'") +
@@ -202,7 +216,49 @@ async function findChildFolder(token, parentId, name) {
   );
   const data = await resp.json();
   if (data.files && data.files.length) return data.files[0];
+  return null;
+}
+
+async function findChildFolder(token, parentId, name) {
+  var found = await findExistingChildFolder(token, parentId, name);
+  if (found) return found;
   return driveCreateFolder(token, name, parentId);
+}
+
+async function driveRename(token, fileId, newName) {
+  const resp = await fetch(
+    "https://www.googleapis.com/drive/v3/files/" + encodeURIComponent(fileId) + "?fields=id,name,webViewLink",
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: newName }),
+    }
+  );
+  const data = await resp.json();
+  if (!resp.ok) throw new Error(data.error?.message || "Drive rename failed");
+  return data;
+}
+
+async function ensureContactIdFolder(token, personFolderId, contactId) {
+  var labeled = buildContactIdFolderName(contactId);
+  var existing = await findExistingChildFolder(token, personFolderId, labeled);
+  if (existing) return existing;
+  var raw = rawContactId(contactId);
+  if (raw && raw !== labeled) {
+    var old = await findExistingChildFolder(token, personFolderId, raw);
+    if (old) {
+      try {
+        return await driveRename(token, old.id, labeled);
+      } catch (e) {
+        console.warn("[drive-folders] rename Id contact", e.message);
+        return old;
+      }
+    }
+  }
+  return findChildFolder(token, personFolderId, labeled);
 }
 
 async function ensureYearFolder(token, rootId) {
@@ -212,15 +268,15 @@ async function ensureYearFolder(token, rootId) {
 
 /**
  * Arborescence contact :
- *   année / Nom_Prenom / ct_xxx [/ type_doc ]
- * drive_folder_id pointe vers le dossier technique ct_xxx.
+ *   année / Nom_Prenom / Id contact : ct_xxx [/ type_doc ]
+ * drive_folder_id pointe vers le dossier technique « Id contact ».
  */
 async function createContactFolderTree(token, rootId, contact) {
   const yearFolder = await ensureYearFolder(token, rootId);
   const personLabel = buildContactPersonFolderName(contact.first_name, contact.last_name, contact.phone);
   const personFolder = await findChildFolder(token, yearFolder.id, personLabel);
-  const idLabel = buildContactIdFolderName(contact.id);
-  const idFolder = await findChildFolder(token, personFolder.id, idLabel);
+  const idFolder = await ensureContactIdFolder(token, personFolder.id, contact.id);
+  const idLabel = idFolder.name || buildContactIdFolderName(contact.id);
   return {
     yearFolderId: yearFolder.id,
     personFolderId: personFolder.id,
@@ -304,7 +360,14 @@ async function ensureClientDriveFolders(contactId) {
           console.warn("[drive-folders] migrate failed, keep old folder", migErr.message);
         }
       }
-      /* Dossier déjà au bon format (ct_xxx sous Nom_Prenom) ou autre. */
+      /* Dossier déjà au bon format (Id contact : ct_xxx sous Nom_Prenom) ou autre. */
+      if (meta.name === rawContactId(c.id)) {
+        try {
+          await driveRename(token, meta.id, buildContactIdFolderName(c.id));
+        } catch (renErr) {
+          console.warn("[drive-folders] rename existing Id contact", renErr.message);
+        }
+      }
       var existing = await resolveFolderWebLink(c.drive_folder_id, { share: true });
       return {
         ok: true,
@@ -405,6 +468,7 @@ module.exports = {
   safeDocTypeFolderName,
   buildContactPersonFolderName,
   buildContactIdFolderName,
+  rawContactId,
   isOldFlatContactFolderName,
   subfolderForDocumentType,
 };
