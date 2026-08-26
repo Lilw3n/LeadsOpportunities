@@ -165,6 +165,8 @@
     sellTaxeHabitation: "Taxe d'habitation (€/an)",
     sellSurface: "Surface du bien (m²)",
     sellRooms: "Nombre de pièces",
+    roomDetails: "Pièces / balcons (détail)",
+    coproWorks: "Travaux copropriété",
     sellPrice: "Prix souhaité",
     sellDossierSummary: "Résumé dossier vente",
     notes: "Notes",
@@ -405,6 +407,8 @@
     "sellTaxeHabitation",
     "sellSurface",
     "sellRooms",
+    "roomDetails",
+    "coproWorks",
     "sellPrice",
     "property_type",
     "price_fai",
@@ -505,6 +509,7 @@
     questionnaireDraft: 1,
     custom_answers: 1,
     sellDossier: 1,
+    depositDraft: 1,
     adminEdits: 1,
     adminFieldComments: 1,
     adminEditedAt: 1,
@@ -628,6 +633,36 @@
       return String(val);
     }
     if (Array.isArray(val)) {
+      if (
+        (key === "roomDetails" || key === "rooms") &&
+        val.length &&
+        val[0] &&
+        typeof val[0] === "object" &&
+        !Array.isArray(val[0])
+      ) {
+        return (
+          val
+            .map(function (r) {
+              if (!r || typeof r !== "object") return "";
+              return [r.level, r.name, r.surface ? r.surface + " m²" : "", r.dimensions, r.flooring, r.exposure]
+                .filter(Boolean)
+                .join(" · ");
+            })
+            .filter(Boolean)
+            .join(" | ") || null
+        );
+      }
+      if (key === "coproWorks" && val.length && val[0] && typeof val[0] === "object") {
+        return (
+          val
+            .map(function (r) {
+              if (!r || typeof r !== "object") return "";
+              return [r.nature, r.status, r.amount, r.date, r.share, r.note].filter(Boolean).join(" · ");
+            })
+            .filter(Boolean)
+            .join(" | ") || null
+        );
+      }
       return (
         val
           .map(function (x) {
@@ -717,6 +752,18 @@
       Object.keys(p.custom_answers).forEach(function (k) {
         if (p[k] == null || p[k] === "") p[k] = p.custom_answers[k];
       });
+    }
+    if (p.sellDossier && typeof p.sellDossier === "object") {
+      if (p.roomDetails == null && p.sellDossier.roomDetails) p.roomDetails = p.sellDossier.roomDetails;
+      if (p.coproWorks == null && p.sellDossier.coproWorks) p.coproWorks = p.sellDossier.coproWorks;
+    }
+    if (p.depositDraft && typeof p.depositDraft === "object") {
+      if (p.roomDetails == null && Array.isArray(p.depositDraft.rooms) && p.depositDraft.rooms.length) {
+        p.roomDetails = p.depositDraft.rooms;
+      }
+      if (p.coproWorks == null && Array.isArray(p.depositDraft.coproWorks) && p.depositDraft.coproWorks.length) {
+        p.coproWorks = p.depositDraft.coproWorks;
+      }
     }
     return p;
   }

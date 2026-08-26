@@ -59,7 +59,20 @@
     );
   }
 
+  function rowHasContent(o) {
+    if (!o) return false;
+    return Object.keys(o).some(function (k) {
+      return String(o[k] == null ? "" : o[k]).trim().length > 0;
+    });
+  }
+
+  function asArray(v) {
+    if (v == null || v === "") return [];
+    return Array.isArray(v) ? v : [v];
+  }
+
   function collect(mount) {
+    if (!mount) return [];
     return Array.prototype.slice.call(mount.querySelectorAll(".immo-copro-work-row")).map(function (row) {
       var o = {};
       row.querySelectorAll("[data-copro-field]").forEach(function (el) {
@@ -67,6 +80,40 @@
       });
       return o;
     });
+  }
+
+  function collectFilled(mount) {
+    return collect(mount).filter(rowHasContent);
+  }
+
+  function fromFieldArrays(values) {
+    values = values || {};
+    var natures = asArray(values["coproWorkNature[]"]);
+    var statuses = asArray(values["coproWorkStatus[]"]);
+    var amounts = asArray(values["coproWorkAmount[]"]);
+    var dates = asArray(values["coproWorkDate[]"]);
+    var shares = asArray(values["coproWorkShare[]"]);
+    var notes = asArray(values["coproWorkNote[]"]);
+    var n = Math.max(natures.length, statuses.length, amounts.length, dates.length, shares.length, notes.length);
+    var rows = [];
+    var i;
+    for (i = 0; i < n; i++) {
+      rows.push({
+        nature: String(natures[i] == null ? "" : natures[i]).trim(),
+        status: String(statuses[i] == null ? "" : statuses[i]).trim(),
+        amount: String(amounts[i] == null ? "" : amounts[i]).trim(),
+        date: String(dates[i] == null ? "" : dates[i]).trim(),
+        share: String(shares[i] == null ? "" : shares[i]).trim(),
+        note: String(notes[i] == null ? "" : notes[i]).trim(),
+      });
+    }
+    return rows.filter(rowHasContent);
+  }
+
+  function notifyChange(mount) {
+    try {
+      mount.dispatchEvent(new Event("input", { bubbles: true }));
+    } catch (e) {}
   }
 
   function render(mount, rows) {
@@ -94,6 +141,7 @@
         if (list.length >= MAX) return;
         list.push({});
         render(mount, list);
+        notifyChange(mount);
         return;
       }
       var rm = e.target.closest("[data-copro-work-remove]");
@@ -102,6 +150,7 @@
         var rows = collect(mount);
         rows.splice(idx, 1);
         render(mount, rows.length ? rows : [{}]);
+        notifyChange(mount);
       }
     });
   }
@@ -110,7 +159,14 @@
     document.querySelectorAll("[data-copro-works-mount]").forEach(bindMount);
   }
 
-  window.AcheteurImmoCoproWorks = { render: render, bind: bindMount, collect: collect };
+  window.AcheteurImmoCoproWorks = {
+    render: render,
+    bind: bindMount,
+    collect: collect,
+    collectFilled: collectFilled,
+    fromFieldArrays: fromFieldArrays,
+    rowHasContent: rowHasContent,
+  };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
   else boot();

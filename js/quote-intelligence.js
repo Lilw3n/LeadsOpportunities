@@ -311,6 +311,44 @@
         }
       });
     });
+    restoreRepeatingTables(form, draft.values);
+    if (!document.querySelector("[data-rooms-mount] [data-rooms-body] tr")) {
+      setTimeout(function () {
+        restoreRepeatingTables(form, draft.values);
+      }, 250);
+    }
+  }
+
+  function rowListHasContent(list) {
+    if (!list || !list.length) return false;
+    return list.some(function (o) {
+      if (!o || typeof o !== "object") return false;
+      return Object.keys(o).some(function (k) {
+        return String(o[k] == null ? "" : o[k]).trim().length > 0;
+      });
+    });
+  }
+
+  function restoreRepeatingTables(form, values) {
+    if (!values) return;
+    var roomsMount = document.querySelector("[data-rooms-mount]");
+    if (roomsMount && window.AcheteurImmoRooms && window.AcheteurImmoRooms.fromFieldArrays) {
+      var existingRooms = window.AcheteurImmoRooms.collect ? window.AcheteurImmoRooms.collect(roomsMount) : [];
+      if (!rowListHasContent(existingRooms)) {
+        var roomRows = window.AcheteurImmoRooms.fromFieldArrays(values);
+        if (roomRows.length) window.AcheteurImmoRooms.render(roomsMount, roomRows);
+      }
+    }
+    var coproMount = document.querySelector("[data-copro-works-mount]");
+    if (coproMount && window.AcheteurImmoCoproWorks && window.AcheteurImmoCoproWorks.fromFieldArrays) {
+      var existingCopro = window.AcheteurImmoCoproWorks.collect
+        ? window.AcheteurImmoCoproWorks.collect(coproMount)
+        : [];
+      if (!rowListHasContent(existingCopro)) {
+        var coproRows = window.AcheteurImmoCoproWorks.fromFieldArrays(values);
+        if (coproRows.length) window.AcheteurImmoCoproWorks.render(coproMount, coproRows);
+      }
+    }
   }
 
   function postKeepalive(body) {

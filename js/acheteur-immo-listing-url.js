@@ -707,6 +707,9 @@
               ". Reprenez votre dossier à tout moment via le brouillon ou votre espace client.";
           }
           form.reset();
+          if (window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.resetDynamicRows) {
+            window.AcheteurImmoDepositGuide.resetDynamicRows();
+          }
           state.photos = [];
           state.capture = null;
           if (window.AcheteurImmoDepositGuide && window.AcheteurImmoDepositGuide.persistAfterSubmit) {
