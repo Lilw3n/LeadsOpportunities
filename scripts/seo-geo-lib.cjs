@@ -491,7 +491,7 @@ const GEO_PRODUCTS = [
       return "Devis auto " + city.name;
     },
     title: function (city) {
-      return "Assurance auto " + city.name + " | Devis " + city.region + " " + city.dept;
+      return "Assurance auto " + city.name + " | Devis " + city.region;
     },
     description: function (city) {
       return (
@@ -529,16 +529,23 @@ const GEO_PRODUCTS = [
         },
       ];
     },
-    extraRelated: [
-      { href: "/assurance-auto/villes/", label: "Auto par ville" },
-      { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
-      { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
-      { href: "/blog/resilier-assurance-auto-loi-hamon-2026.html", label: "Changer d'auto (Hamon)" },
-      { href: "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html", label: "Courtier / grossiste auto" },
-      { href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" },
-      { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" },
-      { href: "/landings/devis.html?need=auto", label: "Devis auto" },
-    ],
+    extraRelated: function (city) {
+      var links = [
+        { href: "/assurance-auto/villes/", label: "Auto par ville" },
+        { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
+        { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
+        { href: "/blog/resilier-assurance-auto-loi-hamon-2026.html", label: "Changer d'auto (Hamon)" },
+        { href: "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html", label: "Courtier / grossiste auto" },
+        { href: "/landings/devis.html?need=auto", label: "Devis auto" },
+      ];
+      if (city && city.regionSlug === "ile-de-france") {
+        links.push({ href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" });
+      }
+      if (city && nancyBassin.isBassinCity(city)) {
+        links.push({ href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" });
+      }
+      return links;
+    },
   },
   {
     key: "habitation",
@@ -589,16 +596,23 @@ const GEO_PRODUCTS = [
         },
       ];
     },
-    extraRelated: [
-      { href: "/assurance-habitation/villes/", label: "Habitation par ville" },
-      { href: "/blog/assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / propriétaire" },
-      { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
-      { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
-      { href: "/blog/assurance-habitation-courtier-grossiste-mrh-2026.html", label: "Courtier / grossiste MRH" },
-      { href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" },
-      { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" },
-      { href: "/landings/devis.html?need=habitation", label: "Devis habitation" },
-    ],
+    extraRelated: function (city) {
+      var links = [
+        { href: "/assurance-habitation/villes/", label: "Habitation par ville" },
+        { href: "/blog/assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / propriétaire" },
+        { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
+        { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
+        { href: "/blog/assurance-habitation-courtier-grossiste-mrh-2026.html", label: "Courtier / grossiste MRH" },
+        { href: "/landings/devis.html?need=habitation", label: "Devis habitation" },
+      ];
+      if (city && city.regionSlug === "ile-de-france") {
+        links.push({ href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" });
+      }
+      if (city && nancyBassin.isBassinCity(city)) {
+        links.push({ href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" });
+      }
+      return links;
+    },
   },
   {
     key: "emprunteur",
@@ -1121,7 +1135,9 @@ function buildGeoPageConfigs(cities, pageFn) {
         { href: productRegionUrl(product, city.regionSlug), label: product.siloLabel + " — " + city.region },
         { href: "/france/departement/" + city.dept + "/", label: "Departement " + city.dept.replace(/-/g, " ") },
       ];
-      if (product.extraRelated) {
+      if (typeof product.extraRelated === "function") {
+        related = related.concat(product.extraRelated(city));
+      } else if (product.extraRelated) {
         related = related.concat(product.extraRelated);
       }
       if (nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")) {

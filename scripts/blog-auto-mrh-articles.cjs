@@ -51,7 +51,7 @@ function related(extra, core) {
   });
 }
 
-module.exports = [
+var ARTICLES = [
   {
     file: "tarif-assurance-auto-2026.html",
     audience: "france",
@@ -394,7 +394,7 @@ module.exports = [
     themes: ["auto", "paris"],
     title: "Assurance auto à Paris et en Île-de-France 2026 : tarifs, stationnement, devis",
     description:
-      "Assurance auto Paris, Lyon hors sujet : IDF, stationnement rue, vol, bris. Devis courtier ORIAS, pages par ville.",
+      "Assurance auto à Paris et en Île-de-France : stationnement voirie, vol, bris, codes 75, 92, 93, 94. Devis courtier ORIAS, pages par ville.",
     meta: "8 min · Août 2026",
     cardExcerpt: "Paris et l’IDF : primes plus hautes, vol et bris plus fréquents. Le code postal pèse.",
     keywords: [
@@ -413,10 +413,10 @@ module.exports = [
           "\"><strong>Devis</strong></a>.",
       },
       { type: "bridge" },
-      { type: "h2", text: "1. Mots-clés locaux" },
+      { type: "h2", text: "1. Stationnement, vol, bris" },
       {
         type: "p",
-        text: "assurance auto Paris, devis auto 75, assurance auto Seine-Saint-Denis, Hauts-de-Seine, Val-de-Marne, Yvelines, Essonne, Val-d’Oise. Silo : <a href=\"../assurance-auto/\">hub auto</a>.",
+        text: "Voirie vs box, vol, bris de glace, codes 75 / 92 / 93 / 94. Silo : <a href=\"../assurance-auto/\">hub auto</a> · <a href=\"../assurance-auto/paris/\">page Paris</a>.",
       },
       { type: "h2", text: "2. Courtier / grossiste" },
       {
@@ -816,10 +816,10 @@ module.exports = [
           "\"><strong>Devis</strong></a>.",
       },
       { type: "bridge" },
-      { type: "h2", text: "1. Mots-clés" },
+      { type: "h2", text: "1. Vol, copro, capital mobilier" },
       {
         type: "p",
-        text: "assurance habitation Paris, devis MRH 75, locataire Paris, propriétaire Île-de-France, vol appartement. <a href=\"./assurance-habitation-vol-cambriolage-2026.html\">Vol</a> · <a href=\"./assurance-habitation-courtier-grossiste-mrh-2026.html\">grossiste</a>.",
+        text: "Appartement Paris : vol, caves, dégâts des eaux en copro. <a href=\"./assurance-habitation-vol-cambriolage-2026.html\">Vol</a> · <a href=\"./assurance-habitation-courtier-grossiste-mrh-2026.html\">grossiste</a>.",
       },
       { type: "h2", text: "2. Autre bassin" },
       {
@@ -889,3 +889,16 @@ module.exports = [
     related: related([{ href: "../agence-varangeville/", label: "Agence Varangéville" }], MRH_CORE),
   },
 ];
+
+var LONG = require("./blog-auto-mrh-long.cjs");
+module.exports = ARTICLES.map(function (a) {
+  var extra = LONG[a.file];
+  if (!extra) return a;
+  var out = Object.assign({}, a);
+  if (extra.blocks) out.blocks = (a.blocks || []).concat(extra.blocks);
+  if (extra.faq) out.faq = (a.faq || []).concat(extra.faq);
+  if (extra.skipEnrich) out.skipEnrich = true;
+  if (extra.description) out.description = extra.description;
+  if (extra.meta) out.meta = extra.meta;
+  return out;
+});

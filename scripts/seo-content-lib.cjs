@@ -391,11 +391,52 @@ function productIntentPhrases(product) {
   return map[key] || ["devis", "courtier ORIAS", "comparatif", "changer d'assurance"];
 }
 
+function humanDept(slug) {
+  var small = { et: 1, de: 1, des: 1, du: 1, la: 1, le: 1, les: 1, en: 1, d: 1, l: 1 };
+  return String(slug || "")
+    .split("-")
+    .filter(Boolean)
+    .map(function (w, i) {
+      if (i > 0 && small[w]) return w;
+      return w.charAt(0).toUpperCase() + w.slice(1);
+    })
+    .join("-");
+}
+
 function deptLabel(cityOrDept) {
   if (!cityOrDept) return "";
-  if (cityOrDept.dept) return String(cityOrDept.dept).replace(/-/g, " ");
-  if (cityOrDept.slug && !cityOrDept.regionSlug) return String(cityOrDept.name || cityOrDept.slug).replace(/-/g, " ");
-  return "";
+  if (cityOrDept.dept) return humanDept(cityOrDept.dept);
+  if (cityOrDept.slug && cityOrDept.name) return cityOrDept.name;
+  return humanDept(cityOrDept.slug || "");
+}
+
+function isInsuranceProduct(product) {
+  var key = (product && product.key) || "";
+  return (
+    {
+      vtc: 1,
+      sante: 1,
+      auto: 1,
+      habitation: 1,
+      emprunteur: 1,
+      prevoyance: 1,
+      animaux: 1,
+      chien: 1,
+      chat: 1,
+      chasse: 1,
+      equitation: 1,
+      vsp: 1,
+    }[key] === 1
+  );
+}
+
+function localSwitchPhrase(product, name) {
+  var key = (product && product.key) || "";
+  if (key === "credit" || key === "pret") return "Simulation crédit " + name;
+  if (key === "finance") return "Étude rachat " + name;
+  if (key === "banque") return "Rappel banque " + name;
+  if (key === "recherche") return "Recherche de bien " + name;
+  return "Changer d'assurance à " + name;
 }
 
 function localPageKeywords(product, placeName, region, dept) {
@@ -405,7 +446,7 @@ function localPageKeywords(product, placeName, region, dept) {
     "devis " + label.toLowerCase() + " " + placeName,
     "courtier " + placeName,
     "comparatif " + placeName,
-    "changer d'assurance " + placeName,
+    isInsuranceProduct(product) ? "changer d'assurance " + placeName : localSwitchPhrase(product, placeName),
     region || "",
     dept ? "assurance " + String(dept).replace(/-/g, " ") : "",
     region ? label + " " + region : "",
@@ -443,7 +484,7 @@ function localKeywordSection(product, city) {
       "Devis " + label.toLowerCase() + " " + name,
       "Courtier " + label.toLowerCase() + " " + name,
       "Comparatif " + name + (region ? " / " + region : ""),
-      "Changer d'assurance à " + name,
+      localSwitchPhrase(product, name),
     ].concat(
       phrases.slice(0, 6).map(function (p) {
         return p + " — " + name;
@@ -465,7 +506,7 @@ function localCatchmentSection(product, city) {
         " se monte à distance pour " +
         name +
         (region ? " et toute la région " + region : "") +
-        ". Pages ville, département et région : mêmes mots-clés (devis, courtier, comparatif) et même parcours.",
+        ". Pages ville, département et région : même parcours devis et même conseiller ORIAS.",
     ],
     list: [
       label + (region ? " " + region : ""),
@@ -760,6 +801,8 @@ module.exports = {
   emprunteurCitySections: emprunteurCitySections,
   prevoyanceCitySections: prevoyanceCitySections,
   productIntentPhrases: productIntentPhrases,
+  humanDept: humanDept,
+  isInsuranceProduct: isInsuranceProduct,
   localPageKeywords: localPageKeywords,
   localKeywordSection: localKeywordSection,
   localCatchmentSection: localCatchmentSection,

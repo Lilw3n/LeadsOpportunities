@@ -1391,7 +1391,7 @@
       "landing": "../landings/devis.html?need=auto&utm_source=blog&utm_medium=article&utm_campaign=auto",
       "express": "../landings/devis-express.html?need=auto",
       "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
-      "matchedRule": "auto-grossiste",
+      "matchedRule": "auto",
       "species": null
     },
     {
@@ -1404,7 +1404,7 @@
       "landing": "../landings/devis.html?need=auto&utm_source=blog&utm_medium=article&utm_campaign=auto",
       "express": "../landings/devis-express.html?need=auto",
       "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
-      "matchedRule": "auto-grossiste",
+      "matchedRule": "auto",
       "species": null
     },
     {

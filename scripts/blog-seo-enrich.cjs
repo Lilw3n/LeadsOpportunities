@@ -145,6 +145,14 @@ function defaultKeywords(article) {
 }
 
 function enrichArticle(article, override) {
+  if (article.skipEnrich) {
+    return Object.assign({}, article, {
+      keywords: article.keywords || defaultKeywords(article),
+      blocks: article.blocks || [],
+      faq: article.faq || [],
+      meta: article.meta || estimateMeta(article.blocks || [], article.faq || []),
+    });
+  }
   var keywords = (override && override.keywords) || article.keywords || defaultKeywords(article);
   var baseBlocks = (override && override.blocks) || article.blocks || [];
   var extra = (override && override.extraBlocks) || [];

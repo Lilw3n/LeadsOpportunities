@@ -61,7 +61,7 @@ Responsive Search Ad,FR_Search_VSP_HotIntent,permis_am_bsr,,,,Permis AM BSR Devi
 Campaign,FR_Search_Auto_HotIntent,,,,,,,,,,,,Enabled
 Ad Group,FR_Search_Auto_HotIntent,devis_assurance_auto,,,,,,,,,,,Enabled
 Keyword,FR_Search_Auto_HotIntent,devis_assurance_auto,"devis assurance auto",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/devis.html?need=auto&utm_source=google&utm_medium=cpc&utm_campaign=auto_search_hot&utm_content=kw_devis_auto,auto,devis,Enabled
-Keyword,FR_Search_Auto_HotIntent,devis_assurance_auto,"courtier assurance auto",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/blog/assurance-auto-courtier-grossiste-comparatif-2026.html?utm_source=google&utm_medium=cpc&utm_campaign=auto_search_hot&utm_content=kw_courtier,auto,grossiste,Enabled
+Keyword,FR_Search_Auto_HotIntent,devis_assurance_auto,"courtier assurance auto",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/devis.html?need=auto&utm_source=google&utm_medium=cpc&utm_campaign=auto_search_hot&utm_content=kw_courtier,auto,devis,Enabled
 Responsive Search Ad,FR_Search_Auto_HotIntent,devis_assurance_auto,,,,Devis Assurance Auto,Tous Risques Ou Tiers,Courtier ORIAS France,Comparez auto a garanties egales. Bonus-malus, vol, jeune permis.,Offres courtier / grossiste. Rappel sous 15 min.,https://www.leadsopportunities.fr/landings/devis.html?need=auto&utm_source=google&utm_medium=cpc&utm_campaign=auto_search_hot&utm_content=rsa_devis,auto,devis,Enabled
 Campaign,FR_Search_Habitation_HotIntent,,,,,,,,,,,,Enabled
 Ad Group,FR_Search_Habitation_HotIntent,devis_assurance_habitation,,,,,,,,,,,Enabled

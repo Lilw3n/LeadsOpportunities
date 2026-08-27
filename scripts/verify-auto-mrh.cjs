@@ -40,7 +40,42 @@ articles.forEach(function (a) {
     a.file + " pont"
   );
   var text = JSON.stringify(a);
-  assert(text.indexOf("Varengeville") < 0, a.file + " pas Varengeville");
+assert(text.indexOf("Varengeville") < 0, a.file + " pas Varengeville");
+  assert(text.indexOf("need=auto") >= 0 || text.indexOf("need=habitation") >= 0, a.file + " CTA need=");
+  assert(text.indexOf("utm_source=blog") >= 0, a.file + " UTM blog");
+});
+
+function sourceWords(a) {
+  var t = "";
+  (a.blocks || []).forEach(function (b) {
+    t += " " + (b.text || "");
+    if (b.items) t += " " + b.items.join(" ");
+  });
+  (a.faq || []).forEach(function (f) {
+    t += " " + (f.q || "") + " " + (f.a || "");
+  });
+  return t.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
+}
+
+var PILLARS = [
+  "tarif-assurance-auto-2026.html",
+  "resilier-assurance-auto-loi-hamon-2026.html",
+  "assurance-auto-courtier-grossiste-comparatif-2026.html",
+  "assurance-auto-paris-ile-de-france-2026.html",
+  "assurance-auto-nancy-varangeville-54.html",
+  "changer-assurance-habitation-loi-hamon.html",
+  "assurance-habitation-courtier-grossiste-mrh-2026.html",
+  "assurance-habitation-nancy-varangeville-54.html",
+];
+PILLARS.forEach(function (file) {
+  var art = articles.filter(function (a) {
+    return a.file === file;
+  })[0];
+  assert(art, "pilier " + file);
+  if (!art) return;
+  assert(art.skipEnrich, file + " skipEnrich (pas de pad générique)");
+  assert(sourceWords(art) >= 280, file + " longueur utile (got " + sourceWords(art) + ")");
+  assert(JSON.stringify(art).indexOf("Lyon hors sujet") < 0, file + " pas de note interne");
 });
 
 var auto = articles.filter(function (a) {
@@ -88,7 +123,18 @@ assert(exists("blog/assurance-auto-courtier-grossiste-comparatif-2026.html"), "H
 assert(exists("blog/assurance-habitation-courtier-grossiste-mrh-2026.html"), "HTML MRH grossiste");
 assert(read("blog/assurance-auto-nancy-varangeville-54.html").indexOf("Varangéville") >= 0, "blog auto 54");
 assert(read("assurance-auto/nancy/index.html").indexOf("Nancy") >= 0, "page ville auto Nancy");
-assert(read("assurance-habitation/varangeville/index.html").indexOf("Varangéville") >= 0 || read("assurance-habitation/varangeville/index.html").indexOf("habitation") >= 0, "page ville MRH Varangéville");
+assert(read("assurance-habitation/varangeville/index.html").indexOf("Varangéville") >= 0, "page ville MRH Varangéville");
+(function () {
+  var title = (read("assurance-auto/nancy/index.html").match(/<title>([^<]+)/) || [])[1] || "";
+  assert(title.indexOf("meurthe-et-moselle") < 0, "titre auto Nancy sans slug département (" + title + ")");
+})();
+assert(read("assurance-auto/marseille/index.html").indexOf("assurance-auto-nancy-varangeville-54") < 0, "Marseille sans lien Nancy");
+assert(read("assurance-auto/marseille/index.html").indexOf("assurance-auto-paris-ile-de-france") < 0, "Marseille sans lien Paris IDF");
+assert(read("banque/nancy/index.html").indexOf("Changer d'assurance à Nancy") < 0, "banque Nancy : pas Hamon");
+assert(read("banque/nancy/index.html").indexOf("Mots-clés") < 0, "banque Nancy : pas dump Mots-clés");
+assert(read("blog/assurance-auto-paris-ile-de-france-2026.html").indexOf("Lyon hors sujet") < 0, "HTML Paris sans note interne");
+assert(read("ads/google-auto-search.csv").indexOf("landings/devis.html?need=auto") >= 0, "KW chauds → devis auto");
+assert(read("ads/google-auto-search.csv").indexOf("rsa_paris") >= 0 && read("ads/google-auto-search.csv").indexOf("rsa_nancy") >= 0, "RSA auto Paris / Nancy séparés");
 assert(read("package.json").indexOf("verify:auto-mrh") >= 0, "npm script");
 
 if (failed) {
