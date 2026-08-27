@@ -1,0 +1,83 @@
+{
+  "product": "collective",
+  "channel": "google_search",
+  "explicit": true,
+  "note": "B2B employeur — mutuelle / santé collective ANI. Ne pas mélanger avec mutuelle individuelle (sante).",
+  "campaign": {
+    "id": "FR_Search_Collective_HotIntent",
+    "status": "ready",
+    "active": true,
+    "vertical": "collective",
+    "budget_eur_day": 5,
+    "bidding": "Maximize conversions (puis CPA cible après volume)",
+    "geo": "France",
+    "language": "fr",
+    "landing": "https://www.leadsopportunities.fr/landings/sante-collective.html",
+    "utm_campaign": "collective_search_hot",
+    "csv": "./ads/google-collective-search.csv",
+    "editor_csv": "./ads/google-ads-editor-ready-utm.csv"
+  },
+  "ad_groups": [
+    {
+      "id": "devis_mutuelle_collective",
+      "keywords": [
+        "devis mutuelle collective",
+        "mutuelle collective entreprise",
+        "assurance sante collective",
+        "complementaire sante entreprise"
+      ]
+    },
+    {
+      "id": "ani_obligatoire",
+      "keywords": [
+        "mutuelle collective obligatoire",
+        "ANI mutuelle",
+        "panier de soins ANI",
+        "DUE mutuelle"
+      ]
+    },
+    {
+      "id": "pme_tpe",
+      "keywords": [
+        "mutuelle collective PME",
+        "mutuelle collective TPE",
+        "tarif mutuelle entreprise"
+      ]
+    }
+  ],
+  "negatives": [
+    "gratuit",
+    "emploi",
+    "formation",
+    "forum",
+    "particulier",
+    "senior",
+    "canicule",
+    "wikipedia"
+  ],
+  "rsa": {
+    "headlines": [
+      "Devis Mutuelle Collective",
+      "PME TPE — ANI Conforme",
+      "Mutuelle Collective ANI",
+      "Obligations Employeur",
+      "Budget Entreprise 2026",
+      "Rappel Conseiller ORIAS",
+      "Panier De Soins Minimum",
+      "Devis Sans Engagement"
+    ],
+    "descriptions": [
+      "Mutuelle entreprise conforme ANI. Comparatif garanties et budget employeur.",
+      "Devis gratuit TPE/PME. DUE, panier de soins, portabilite."
+    ]
+  },
+  "activation_checklist": [
+    "Google Ads Editor → Importer ads/google-collective-search.csv (ou lignes FR_Search_Collective_HotIntent dans google-ads-editor-ready-utm.csv)",
+    "Lier conversions GA4 (form_submit / generate_lead / qualified_lead)",
+    "Budget 5 €/jour au départ",
+    "Landing : /landings/sante-collective.html",
+    "Négatifs : particulier, senior, gratuit (évite mutuelle individuelle)",
+    "UTM : utm_source=google&utm_medium=cpc&utm_campaign=collective_search_hot",
+    "npm run verify:collective"
+  ]
+}

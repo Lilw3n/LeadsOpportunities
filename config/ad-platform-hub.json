@@ -237,18 +237,20 @@
     {
       "id": "google_collective_search",
       "label": "Google Search — Santé collective",
+      "config": "./config/google-campaign-collective.json",
       "csv": "./ads/google-collective-search.csv",
       "utm_campaign": "collective_search_hot",
       "ads_manager": "https://ads.google.com/aw/campaigns",
-      "npm_status": "verify:collective"
+      "npm_status": "meta:collective"
     },
     {
       "id": "meta_collective_blog",
-      "label": "Meta — blog santé collective",
-      "csv": "./ads/meta-blog-conversions.csv",
-      "utm_campaign": "collective_blog_convert",
+      "label": "Meta — santé collective 1 €/j",
+      "config": "./config/meta-campaign-collective.json",
+      "csv": "./ads/meta-collective-priorite.csv",
+      "utm_campaign": "collective_direct_convert",
       "ads_manager": "https://www.facebook.com/adsmanager/manage/campaigns?act=997768686183548",
-      "npm_status": "verify:collective"
+      "npm_status": "meta:collective"
     }
   ],
   "site_landings_test": [
