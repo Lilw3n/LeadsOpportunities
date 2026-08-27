@@ -1,5 +1,5 @@
 {
-  "featured": ["vtc", "sante", "immo", "acheteur-immo", "vendeur-immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
+  "featured": ["vtc", "sante", "collective", "immo", "acheteur-immo", "vendeur-immo", "auto", "habitation", "emprunteur", "prevoyance", "animaux"],
   "blogActuExamples": [
     "elections-presidentielles-prevoyance-patrimoine.html",
     "ligue-champions-assurance-voyage-deplacement.html",
@@ -99,7 +99,19 @@
     "temporaire": { "icon": "⏱️", "teaser": "Couverture courte duree.", "keywords": ["assurance temporaire"] },
     "tns": { "icon": "💼", "teaser": "Travailleurs non salaries, professions liberales.", "blogUrl": "/blog/prevoyance-independants-guide.html", "keywords": ["mutuelle tns", "prevoyance independant"] },
     "deces": { "icon": "🕊️", "teaser": "Capital deces, obseques, transmission.", "blogUrl": "/blog/assurance-deces-obseques-prevoyance.html", "keywords": ["assurance deces", "obseques"] },
-    "collective": { "icon": "🏢", "teaser": "Mutuelle entreprise, collective salarie.", "keywords": ["mutuelle collective", "entreprise"] },
+    "collective": {
+      "icon": "🏢",
+      "teaser": "Mutuelle entreprise ANI, PME/TPE, DUE.",
+      "seoUrl": "/assurance-sante-collective/",
+      "blogUrl": "/blog/mutuelle-collective-entreprise-guide-2026.html",
+      "keywords": [
+        "mutuelle collective",
+        "assurance santé collective",
+        "ANI mutuelle",
+        "mutuelle PME",
+        "complémentaire santé entreprise"
+      ]
+    },
     "pno": { "icon": "🏘️", "teaser": "Proprietaire non occupant, location meublee.", "blogUrl": "/blog/pno-bailleur-proprietaire-non-occupant.html", "keywords": ["pno", "bailleur", "location"] },
     "mrh": { "icon": "🏡", "teaser": "Multirisque habitation complete.", "seoUrl": "/assurance-habitation/", "keywords": ["mrh", "multirisque habitation"] },
     "rachat": { "icon": "🔄", "teaser": "Regroupement de credits.", "keywords": ["rachat de credit"] },

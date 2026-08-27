@@ -5,6 +5,9 @@ vtc,informationnelle,garanties assurance vtc,franchise assurance vtc|rc pro vtc|
 sante,transactionnelle,devis assurance sante,comparatif mutuelle sante|marketplace sante|mutuelle sante prix,landing,haute
 sante,transactionnelle,assurance sante famille,april sante optimale|mutuelle famille tarif|april flexi sante,page service,haute
 sante,informationnelle,remboursement mutuelle optique,remboursement dentaire mutuelle|hospitalisation mutuelle|contrat responsable,article,moyenne
+collective,transactionnelle,devis mutuelle collective,mutuelle collective entreprise|mutuelle PME|mutuelle TPE|assurance sante collective,landing,haute
+collective,transactionnelle,mutuelle collective obligatoire,ANI mutuelle|complementaire sante entreprise|obligations employeur sante,page service,haute
+collective,informationnelle,panier de soins ANI,DUE mutuelle|portabilite mutuelle collective|cadres non cadres mutuelle,article,moyenne
 credit_immo,transactionnelle,simulation credit immo,courtier pret immobilier|assurance emprunteur|devis credit immobilier,landing,haute
 credit_immo,transactionnelle,rachat credit immobilier,april reprise|regroupement de credits|baisse mensualites,page service,moyenne
 credit_immo,informationnelle,taux credit immobilier 2026,assurance pret equilibre|frais dossier credit|marketplace emprunteur,article,moyenne

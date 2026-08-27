@@ -13,6 +13,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   /* Landings chaudes */
   "/landings/vtc.html",
   "/landings/sante.html",
+  "/landings/sante-collective.html",
   "/landings/credit-immo.html",
   "/landings/acheteur-immo.html",
   "/landings/chasseur-bien.html",
@@ -21,6 +22,7 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/landings/rappel.html",
   "/landings/questionnaire.html?need=vtc&journey=standard",
   "/landings/questionnaire.html?need=sante&journey=standard",
+  "/landings/questionnaire.html?need=collective&journey=standard",
   "/landings/questionnaire.html?need=credit-immo&journey=standard",
   "/blog/",
   /* VTC — hub national + IDF (P1) */
@@ -28,6 +30,17 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/assurance-vtc/ile-de-france/",
   "/assurance-vtc/paris/",
   "/assurance-vtc/paris-15e/",
+  /* Santé collective (B2B employeur) */
+  "/assurance-sante-collective/",
+  "/assurance-sante-collective/ani/",
+  "/assurance-sante-collective/pme/",
+  "/assurance-sante-collective/due/",
+  "/assurance-sante-collective/panier-de-soins/",
+  "/blog/mutuelle-collective-entreprise-guide-2026.html",
+  "/blog/mutuelle-collective-obligations-employeur-ani.html",
+  "/blog/mutuelle-collective-pme-tpe-budget-2026.html",
+  "/blog/mutuelle-collective-mise-en-place-due-portabilite.html",
+  "/blog/mutuelle-collective-panier-de-soins-minimum-2026.html",
   "/assurance-vtc/aeroport-cdg/",
   "/assurance-vtc/aeroport-orly/",
   "/assurance-vtc/la-defense/",

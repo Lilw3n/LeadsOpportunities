@@ -12,6 +12,7 @@ module.exports = {
         "Presidentielles 2027, incendies Gironde, restrictions d'eau, Trump, Formule 1, GTA 6… Chaque sujet du moment, relie a assurance et pret immobilier.",
     },
     { id: "sante", title: "Sante & mutuelle", cta: { href: "../landings/questionnaire.html?need=sante&journey=standard", label: "Questionnaire mutuelle" } },
+    { id: "collective", title: "Santé collective entreprise", cta: { href: "../landings/sante-collective.html", label: "Devis mutuelle collective" } },
     { id: "habitat", title: "Habitation & emprunteur", cta: { href: "../landings/questionnaire.html?need=habitation&journey=standard", label: "Questionnaire habitation" } },
     { id: "auto", title: "Auto & mobilite", cta: { href: "../landings/questionnaire.html?need=auto&journey=standard", label: "Questionnaire auto" } },
     { id: "prevoyance", title: "Prevoyance & protection", cta: { href: "../landings/questionnaire.html?need=prevoyance&journey=standard", label: "Questionnaire prevoyance" } },
@@ -3223,6 +3224,11 @@ nichesActu.forEach(function (a) {
 
 const vspArticles = require("./blog-vsp-articles.cjs");
 vspArticles.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
+const collectiveArticles = require("./blog-collective-articles.cjs");
+collectiveArticles.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
