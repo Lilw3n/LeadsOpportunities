@@ -100,13 +100,22 @@ assert(read("ads/google-habitation-search.csv").indexOf("FR_Search_Habitation_Ho
 assert(read("ads/google-ads-editor-ready-utm.csv").indexOf("FR_Search_Auto_HotIntent") >= 0, "CSV UTM auto");
 assert(read("ads/google-ads-editor-ready-utm.csv").indexOf("FR_Search_Habitation_HotIntent") >= 0, "CSV UTM MRH");
 assert(read("ads/meta-blog-conversions.csv").indexOf("courtier-grossiste") >= 0, "Meta blog grossiste");
+assert(read("ads/meta-blog-conversions.csv").indexOf("tarif-assurance-auto-2026") >= 0, "Meta blog tarif auto");
+assert(read("ads/meta-blog-conversions.csv").indexOf("seo-ville-auto-paris") >= 0, "Meta SEO ville Paris");
+assert(read("ads/meta-blog-conversions.csv").indexOf("retarget-auto-rappel") >= 0, "Meta retarget auto");
+assert(read("ads/google-auto-search.csv").indexOf("assurance auto lyon") >= 0, "Google auto Lyon");
+assert(read("ads/google-habitation-search.csv").indexOf("assurance habitation paris") >= 0, "Google MRH Paris");
+assert(read("ads/google-ads-editor-ready-utm.csv").indexOf("assurance-auto/lyon/") >= 0, "CSV UTM auto Lyon");
 
 var LT = require("./seo-long-term-related.cjs");
-assert(LT.AUTO_MRH && LT.AUTO_MRH.length >= 6, "cluster LT AUTO_MRH");
+assert(LT.AUTO_MRH && LT.AUTO_MRH.length >= 20, "cluster LT AUTO_MRH dense (" + LT.AUTO_MRH.length + ")");
+assert(exists("docs/ACQUISITION-AUTO-MRH-PUB.md"), "doc acquisition auto/MRH");
 
 var gsc = require("./seo-gsc-priority-urls.cjs");
 assert(gsc.GSC_INDEX_NOW_PRIORITY.indexOf("/assurance-auto/") >= 0, "GSC auto");
 assert(gsc.GSC_INDEX_NOW_PRIORITY.indexOf("/blog/assurance-auto-courtier-grossiste-comparatif-2026.html") >= 0, "GSC blog auto");
+assert(gsc.GSC_INDEX_NOW_PRIORITY.indexOf("/blog/resilier-assurance-auto-loi-hamon-2026.html") >= 0, "GSC Hamon auto");
+assert(gsc.GSC_INDEX_NOW_PRIORITY.indexOf("/assurance-habitation/varangeville/") >= 0, "GSC MRH Varangéville");
 
 var geo = read("scripts/seo-geo-lib.cjs");
 assert(geo.indexOf("autoCitySections") >= 0, "sections ville auto");

@@ -149,7 +149,9 @@
         "/assurance-habitation/",
         "/landings/devis.html?need=habitation",
         "/assurance-habitation/paris/",
-        "/assurance-habitation/nancy/"
+        "/assurance-habitation/lyon/",
+        "/assurance-habitation/nancy/",
+        "/assurance-habitation/varangeville/"
       ],
       "blog": [
         "/blog/assurance-habitation-locataire-proprietaire-2026.html",
@@ -180,12 +182,16 @@
         "/assurance-auto/",
         "/landings/devis.html?need=auto",
         "/assurance-auto/paris/",
-        "/assurance-auto/nancy/"
+        "/assurance-auto/lyon/",
+        "/assurance-auto/nancy/",
+        "/assurance-auto/varangeville/"
       ],
       "blog": [
         "/blog/tarif-assurance-auto-2026.html",
         "/blog/assurance-auto-tous-risques-ou-tiers-2026.html",
+        "/blog/resilier-assurance-auto-loi-hamon-2026.html",
         "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html",
+        "/blog/assurance-auto-paris-ile-de-france-2026.html",
         "/blog/assurance-auto-nancy-varangeville-54.html",
         "/blog/assurance-auto-jeune-conducteur-2026.html"
       ]

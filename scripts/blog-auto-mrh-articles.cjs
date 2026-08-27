@@ -25,8 +25,12 @@ var AUTO_CORE = [
   { href: "./assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
   { href: "./resilier-assurance-auto-loi-hamon-2026.html", label: "Résilier (loi Hamon)" },
   { href: "./assurance-auto-courtier-grossiste-comparatif-2026.html", label: "Courtier / grossiste" },
+  { href: "./assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" },
   { href: "./assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" },
   { href: "../assurance-auto/", label: "Hub auto" },
+  { href: "../assurance-auto/villes/", label: "Auto par ville" },
+  { href: "../assurance-auto/paris/", label: "Auto Paris" },
+  { href: "../assurance-auto/nancy/", label: "Auto Nancy" },
   { href: "../landings/devis.html?need=auto", label: "Devis auto" },
 ];
 
@@ -34,9 +38,13 @@ var MRH_CORE = [
   { href: "./assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
   { href: "./changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
   { href: "./assurance-habitation-courtier-grossiste-mrh-2026.html", label: "Courtier / grossiste MRH" },
+  { href: "./assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" },
   { href: "./assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" },
   { href: "./assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / propriétaire" },
   { href: "../assurance-habitation/", label: "Hub habitation" },
+  { href: "../assurance-habitation/villes/", label: "Habitation par ville" },
+  { href: "../assurance-habitation/paris/", label: "Habitation Paris" },
+  { href: "../assurance-habitation/nancy/", label: "Habitation Nancy" },
   { href: "../landings/devis.html?need=habitation", label: "Devis habitation" },
 ];
 

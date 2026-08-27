@@ -1732,6 +1732,30 @@ function buildPillarPageConfigs(pageFn) {
   return pillars.map(function (p) {
     var villesHub = p.hubVillesUrl || p.siloUrl.replace(/\/$/, "") + "/villes/";
     var deptHub = p.hubDeptUrl || p.siloUrl.replace(/\/$/, "") + "/departements/";
+    var LT = require("./seo-long-term-related.cjs");
+    var related = [
+      { href: villesHub, label: "Par ville" },
+      { href: deptHub, label: "Par departement" },
+      { href: "/france/", label: "Couverture France" },
+    ].concat(p.extraRelated || []);
+    if (p.file === "assurance-auto/index.html" || p.file === "assurance-habitation/index.html") {
+      related = related.concat(
+        LT.AUTO_MRH.filter(function (l) {
+          return (
+            l.href.indexOf("/blog/") === 0 ||
+            l.href.indexOf("/landings/") === 0 ||
+            l.href.indexOf("/agence") === 0 ||
+            l.href.indexOf("/nancy-54") === 0
+          );
+        })
+      );
+    }
+    var seen = {};
+    related = related.filter(function (l) {
+      if (!l || !l.href || seen[l.href]) return false;
+      seen[l.href] = true;
+      return true;
+    });
     return pageFn({
       file: p.file,
       theme: p.theme,
@@ -1750,11 +1774,7 @@ function buildPillarPageConfigs(pageFn) {
         { title: "Conseil humain", text: "Un courtier dedie." },
         { title: "France entiere", text: "Pages par ville et departement." },
       ],
-      related: [
-        { href: villesHub, label: "Par ville" },
-        { href: deptHub, label: "Par departement" },
-        { href: "/france/", label: "Couverture France" },
-      ].concat(p.extraRelated || []),
+      related: related,
       faq: [
         {
           q: "Le devis est-il gratuit ?",

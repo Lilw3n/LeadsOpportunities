@@ -119,8 +119,14 @@ function moneyLinksHtml(cluster) {
     "/assurance-animaux/": "Assurance animaux",
     "/landings/animaux.html": "Devis animaux",
     "/assurance-habitation/": "Assurance habitation",
+    "/assurance-habitation/paris/": "Habitation Paris",
+    "/assurance-habitation/nancy/": "Habitation Nancy",
+    "/assurance-habitation/varangeville/": "Habitation Varangéville",
     "/landings/devis.html?need=habitation": "Devis habitation",
     "/assurance-auto/": "Assurance auto",
+    "/assurance-auto/paris/": "Auto Paris",
+    "/assurance-auto/nancy/": "Auto Nancy",
+    "/assurance-auto/varangeville/": "Auto Varangéville",
     "/landings/devis.html?need=auto": "Devis auto",
   };
   var items = cluster.moneyPages.slice(0, 4).map(function (href) {

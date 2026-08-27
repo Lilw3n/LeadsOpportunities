@@ -132,8 +132,9 @@ Exécution détaillée : **`docs/ACQUISITION-PRIORITES-90J.md`**.
 | 4–7 | Articles canicule mutuelle (seniors, téléconsult, famille, vigilance) | Mutuelle | `/landings/sante.html` | `sante_blog_convert` |
 | 8 | `inflation-mutuelle-hausse-2026.html` | Mutuelle | `/landings/sante.html` | `sante_blog_convert` |
 | 9 | `assurance-emprunteur-loi-lemoine-2026.html` | Emprunteur | `/landings/credit-immo.html` | `credit_blog_convert` |
+| 33–50 | Cluster **auto / MRH** (tarifs, Hamon, grossiste, Paris, Nancy, pages ville, retarget) | Auto + Habitation | `/landings/devis.html?need=auto\|habitation` | `auto_blog_convert` / `habitation_blog_convert` |
 
-Détails complets : `ads/meta-blog-conversions.csv` · checklist : `npm run verify:acquisition-priorites`
+Détails complets : `ads/meta-blog-conversions.csv` · auto/MRH : **`docs/ACQUISITION-AUTO-MRH-PUB.md`** · checklist : `npm run verify:acquisition-priorites`
 
 ---
 
