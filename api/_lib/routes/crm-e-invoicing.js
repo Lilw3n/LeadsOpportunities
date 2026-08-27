@@ -158,7 +158,7 @@ module.exports = async (req, res) => {
       res.setHeader("Content-Type", "application/xml; charset=utf-8");
       res.setHeader(
         "Content-Disposition",
-        'attachment; filename="' + (rows[0].invoice_number || id) + "-factur-x.xml"'
+        'attachment; filename="' + (rows[0].invoice_number || id) + '-factur-x.xml"'
       );
       return res.status(200).send(rows[0].xml_cii);
     } catch (e) {
