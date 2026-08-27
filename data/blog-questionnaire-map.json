@@ -341,6 +341,20 @@
         "deuxième chance crédit"
       ],
       "section": "finance"
+    },
+    {
+      "id": "facturation-electronique",
+      "match": [
+        "facturation électronique",
+        "facturation electronique",
+        "e-facture",
+        "e-invoicing",
+        "chorus pro",
+        "plateforme agréée",
+        "plateforme agreee",
+        "factur-x"
+      ],
+      "section": "pro"
     }
   ],
   "articles": {

@@ -589,6 +589,7 @@ function depthPrefix(file) {
 
 function hrefPath(prefix, urlPath) {
   if (!urlPath) return prefix + "index.html";
+  if (/^https?:\/\//i.test(urlPath) || /^mailto:/i.test(urlPath)) return urlPath;
   return prefix + urlPath.replace(/^\//, "");
 }
 

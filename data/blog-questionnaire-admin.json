@@ -1304,6 +1304,58 @@
       "species": null
     },
     {
+      "file": "facturation-electronique-obligatoire-2026.html",
+      "title": "Facturation électronique obligatoire 2026 : calendrier, PDP, e-reporting",
+      "section": "pro",
+      "hook": "Un litige client ou un dommage causé à un tiers peut menacer votre activité.",
+      "question": "Votre RC Pro couvre-t-elle vraiment votre métier ?",
+      "need": "rc-pro",
+      "landing": "../landings/facturation-electronique.html?utm_source=blog&utm_medium=article&utm_campaign=facturation-electronique",
+      "express": "../landings/devis-express.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": "facturation-electronique",
+      "species": null
+    },
+    {
+      "file": "facturation-electronique-tpe-auto-entrepreneur-2026.html",
+      "title": "Facturation électronique TPE et auto-entrepreneur 2026 : ce qui change",
+      "section": "pro",
+      "hook": "Un litige client ou un dommage causé à un tiers peut menacer votre activité.",
+      "question": "Votre RC Pro couvre-t-elle vraiment votre métier ?",
+      "need": "rc-pro",
+      "landing": "../landings/facturation-electronique.html?utm_source=blog&utm_medium=article&utm_campaign=facturation-electronique",
+      "express": "../landings/devis-express.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": "facturation-electronique",
+      "species": null
+    },
+    {
+      "file": "chorus-pro-vs-plateforme-agreee-pdp-2026.html",
+      "title": "Chorus Pro vs plateforme agréée (PDP) : qui fait quoi en 2026",
+      "section": "pro",
+      "hook": "Un litige client ou un dommage causé à un tiers peut menacer votre activité.",
+      "question": "Votre RC Pro couvre-t-elle vraiment votre métier ?",
+      "need": "rc-pro",
+      "landing": "../landings/facturation-electronique.html?utm_source=blog&utm_medium=article&utm_campaign=facturation-electronique",
+      "express": "../landings/devis-express.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": "facturation-electronique",
+      "species": null
+    },
+    {
+      "file": "facturation-electronique-nancy-varangeville-54.html",
+      "title": "Facturation électronique à Nancy, Varangéville et en Meurthe-et-Moselle",
+      "section": "pro",
+      "hook": "Un litige client ou un dommage causé à un tiers peut menacer votre activité.",
+      "question": "Votre RC Pro couvre-t-elle vraiment votre métier ?",
+      "need": "rc-pro",
+      "landing": "../landings/facturation-electronique.html?utm_source=blog&utm_medium=article&utm_campaign=facturation-electronique",
+      "express": "../landings/devis-express.html?need=rc-pro",
+      "questionnaire": "../landings/questionnaire.html?need=rc-pro&journey=standard",
+      "matchedRule": "facturation-electronique",
+      "species": null
+    },
+    {
       "file": "pret-immobilier-refuse-que-faire-2026.html",
       "title": "Prêt immobilier refusé : que faire en 2026 ? (guide 2e chance)",
       "section": "finance",
