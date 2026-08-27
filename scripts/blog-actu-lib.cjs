@@ -7,7 +7,7 @@ const path = require("path");
 const ROOT = path.join(__dirname, "..");
 const DATA = path.join(ROOT, "data");
 const { loadPendingArticles, appendPendingArticle, stripForManifest } = require("./blog-actu-pending.cjs");
-const { franceLeadScoreAdjust, isFranceMarketTopic } = require("./france-audience-lib.cjs");
+const { franceLeadScoreAdjust, isFranceMarketTopic, isInternationalAudienceTopic } = require("./france-audience-lib.cjs");
 
 function readJson(file, fallback) {
   try {
@@ -142,8 +142,55 @@ function scoreLeadPotential(candidate) {
   return Math.min(100, Math.max(0, score));
 }
 
+function isPlaceholderActuItem(item) {
+  if (!item) return true;
+  var title = String(item.title || "").trim();
+  var id = String(item.id || "").toLowerCase();
+  if (!title) return true;
+  if (/collez ici/i.test(title)) return true;
+  if (/titre de la une/i.test(title)) return true;
+  if (id.indexOf("template") !== -1) return true;
+  return false;
+}
+
+var LEAD_ACTU_KW =
+  /mutuelle|assurance|assurances|emprunteur|habitation|sinistre|pr[eê]t|orias|compl[eé]mentaire|rembours|d[eé]passement|franchise|cat[\s-]?nat|inondation|orage|temp[eê]te|gr[eê]le|s[eé]cheresse|cyberattaque|logement|toiture|d[eé]g[aâ]ts?|vtc|v[eé]t[eé]rinaire|animaux|pr[eé]voyance|hospitalisation|dentaire|optique|s[eé]cu(?:rit[eé] sociale)?|m[eé]dicament|kin[eé]|ost[eé]o/i;
+
+function isEnglishActuTitle(title) {
+  var t = String(title || "").trim();
+  if (!t) return true;
+  var englishHits = (
+    t.match(
+      /\b(the|into|regarding|of|and|for|with|a|an|memorandum|understanding|enters|advantages|getting|sale)\b/gi
+    ) || []
+  ).length;
+  var hasFrench =
+    /[àâäéèêëïîôùûçœæ]|\b(le|la|les|des|une|est|pour|dans|sur|avec|france|assurance|mutuelle|habitation)\b/i.test(
+      t
+    );
+  return englishHits >= 3 && !hasFrench;
+}
+
+function isLeadWorthyActuCandidate(candidate) {
+  if (!candidate || isPlaceholderActuItem(candidate)) return false;
+  var title = String(candidate.title || "");
+  if (isEnglishActuTitle(title)) return false;
+  var hay = title + " " + String(candidate.summary || "");
+  if (isInternationalAudienceTopic(hay) && !isFranceMarketTopic(hay)) return false;
+  if (
+    /\b(n[eé]pal|tibet|bangladesh|pakistan)\b/i.test(hay) &&
+    !/\b(mutuelle|assurance habitation|emprunteur)\b/i.test(hay)
+  ) {
+    return false;
+  }
+  return LEAD_ACTU_KW.test(hay);
+}
+
 function rankCandidates(candidates) {
   return candidates
+    .filter(function (c) {
+      return !isPlaceholderActuItem(c);
+    })
     .map(function (c) {
       return Object.assign({}, c, { leadScore: scoreLeadPotential(c) });
     })
@@ -349,6 +396,9 @@ module.exports = {
   monthLabel: monthLabel,
   scoreLeadPotential: scoreLeadPotential,
   rankCandidates: rankCandidates,
+  isPlaceholderActuItem: isPlaceholderActuItem,
+  isEnglishActuTitle: isEnglishActuTitle,
+  isLeadWorthyActuCandidate: isLeadWorthyActuCandidate,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
 };

@@ -1731,6 +1731,45 @@
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
       "species": null
+    },
+    {
+      "file": "efferalgan-dafalgan-73-medicaments-devraient-voir-leur-duree-de-vie-rall.html",
+      "title": "Efferalgan, Dafalgan... 73 médicaments devraient voir leur durée de vie rallongée pour … : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=efferalgan-dafalgan-73-medicaments-d",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "une-compagnie-d-assurance-francaise-specialisee-en-epargne-emprunteur-et.html",
+      "title": "Une compagnie d’assurance française spécialisée en épargne, emprunteur et prévoyance, m… : pret et assurance emprunteur — que faire ?",
+      "section": "finance",
+      "hook": "Taux, assurance emprunteur et capacité d'emprunt changent la donne.",
+      "question": "Votre projet immobilier ou rachat de crédit mérite une étude gratuite ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=emprunteur&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=emprunteur&utm_content=une-compagnie-d-assurance-francaise-spec",
+      "matchedRule": "emprunteur",
+      "species": null
+    },
+    {
+      "file": "770-000-iban-pirates-et-mis-en-vente-apres-une-cyberattaque-contre-une-m.html",
+      "title": "770 000 IBAN piratés et mis en vente après une cyberattaque contre une mutuelle en France : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=770-000-iban-pirates-et-mis-en-vente-apr",
+      "matchedRule": "mutuelle",
+      "species": null
     }
   ]
 }

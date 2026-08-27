@@ -1,10 +1,17 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-27T13:11:08.706Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/international/en-direct-inondations-meurtrieres-au-nepal-et-au-tibet-au-moins-quatre-touristes-francais-figurent-parmi-les-disparus-selon-les-autorites-locales-20260827",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9036b40bb94b1a99ddfe67f74ab696&url=https%3a%2f%2fwww.businesswire.com%2fnews%2fhome%2f20241220911691%2fen%2fHSBC-Continental-Europe-Enters-Into-a-Memorandum-of-Understanding-Regarding-Potential-Sale-of-HSBC-Assurances-Vie-France-to-Matmut-Soci%25C3%25A9t%25C3%25A9-d%25E2%2580%2599Assurance-Mutuelle%2f&c=2748877479019384144&mkt=en-us",
+    "https://www.rfi.fr/fr/france/20260826-la-france-veut-conditionner-l-aide-au-d%C3%A9veloppement-pour-sept-pays-africains-%C3%A0-la-lutte-contre-l-immigration-%C3%A0-mayotte",
+    "https://www.lefigaro.fr/conso/efferalgan-dafalgan-73-medicaments-devraient-voir-leur-duree-de-vie-rallongee-pour-lutter-contre-le-gaspillage-20260827",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a903735601f4feabc57aff3c8c320f0&url=https%3a%2f%2fwww.argusdelassurance.com%2fcompagnies%2fune-compagnie-dassurance-francaise-specialisee-en-epargne-emprunteur-et-prevoyance-mise-en-vente.YPF4NXL2YJAJ3E2WEYM6LUST4I.html&c=7745756347587199928&mkt=en-us",
+    "https://www.franceinfo.fr/sante/des-medicaments-parmi-les-plus-vendus-en-france-pourront-voir-leur-duree-de-vie-allongee-pour-lutter-contre-le-gaspillage_8164208.html#xtor=RSS-3-%5Bgeneral%5D",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a90376b996e47c2aa388b2c24a1612e&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2factualite%2fother%2f770-000-iban-pirat%25C3%25A9s-et-mis-en-vente-apr%25C3%25A8s-une-cyberattaque-contre-une-mutuelle-en-france%2far-AA2aSgZr&c=16046085213962549470&mkt=en-us"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-27T13:11:10.265Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +24,70 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-27T13:08:10.559Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "en-direct-inondations-devastatrices-au-nepal-et-au-tibet-le-bilan-attein.html",
+          "title": "EN DIRECT - Inondations dévastatrices au Népal et au Tibet : le bilan atteint 359 morts… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Le Figaro actu",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "hsbc-continental-europe-enters-into-a-memorandum-of-understanding-regard.html",
+          "title": "HSBC Continental Europe Enters Into a Memorandum of Understanding Regarding Potential S… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        },
+        {
+          "file": "la-france-veut-conditionner-l-aide-au-developpement-pour-sept-pays-afric.html",
+          "title": "La France veut conditionner l'aide au développement pour sept pays africains à la lutte… : assurance auto — que faire ?",
+          "source": "Firefox — RFI",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-27T13:10:18.861Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "efferalgan-dafalgan-73-medicaments-devraient-voir-leur-duree-de-vie-rall.html",
+          "title": "Efferalgan, Dafalgan... 73 médicaments devraient voir leur durée de vie rallongée pour … : mutuelle et remboursements — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "une-compagnie-d-assurance-francaise-specialisee-en-epargne-emprunteur-et.html",
+          "title": "Une compagnie d’assurance française spécialisée en épargne, emprunteur et prévoyance, m… : pret et assurance emprunteur — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        },
+        {
+          "file": "des-medicaments-parmi-les-plus-vendus-en-france-pourront-voir-leur-duree.html",
+          "title": "Des médicaments, parmi les plus vendus en France, pourront voir leur durée de vie allon… : mutuelle et remboursements — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-27T13:11:10.265Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "770-000-iban-pirates-et-mis-en-vente-apres-une-cyberattaque-contre-une-m.html",
+          "title": "770 000 IBAN piratés et mis en vente après une cyberattaque contre une mutuelle en France : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }

@@ -124,13 +124,19 @@ function enrichFromCandidate(candidate) {
   if (!file) return null;
   var platform = platformLabel(candidate.sourceType || candidate.source);
 
+  var description =
+    title.slice(0, 155) + " — conseils assurance et questionnaire gratuit Leads Opportunities.";
+  if (description.length < 90) {
+    description += " Courtier ORIAS : comparez mutuelle, habitation ou pret sans engagement.";
+  }
+
   return {
     file: file.endsWith(".html") ? file : file + ".html",
     section: topic.section,
     tag: topic.tag,
     tagClass: topic.tagClass,
     title: buildTitle(title, need),
-    description: title.slice(0, 155) + " — conseils assurance et questionnaire gratuit Leads Opportunities.",
+    description: description,
     meta: "7 min · " + monthLabel(),
     cardExcerpt: title.slice(0, 110) + " — impact sur votre assurance.",
     cta: ctaWithUtm(need, slug),
