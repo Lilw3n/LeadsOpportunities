@@ -3242,6 +3242,11 @@ leadIntent.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const gta6NetflixImmo = require("./blog-gta6-netflix-immo-articles.cjs");
+gta6NetflixImmo.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const vendeurAcq = require("./blog-vendeur-acquereur-seo-articles.cjs");
 vendeurAcq.forEach(function (a) {
   module.exports.articles.push(a);

@@ -520,6 +520,15 @@
       "section": "vtc",
       "question": "Prêt à comparer votre VTC à garanties équivalentes en 3 minutes ?"
     },
+    "gta-6-netflix-extended-look-immobilier-france-2026.html": {
+      "section": "finance",
+      "hook": "Après le trailer Netflix GTA 6 : séparez hype gaming et vrai projet immobilier.",
+      "question": "Avez-vous un achat ou un prêt prévu dans les 12 mois ?",
+      "landing": "/landings/credit-immo.html",
+      "questionnaire": "/landings/questionnaire.html?need=credit-immo&journey=standard",
+      "landingLabel": "Étude prêt immobilier",
+      "questionnaireLabel": "Questionnaire crédit"
+    },
     "mutuelle-sante-5-criteres.html": {
       "hook": "5 critères lus, il reste à calibrer le bon niveau pour votre foyer.",
       "question": "Quel profil mutuelle vous correspond vraiment ?"
