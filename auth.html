@@ -83,7 +83,7 @@
       padding: 12px 14px;
       border: 1.5px solid var(--line);
       border-radius: 12px;
-      font-size: 0.95rem;
+      font-size: 16px;
       transition: border-color .2s, box-shadow .2s;
       outline: none;
       font-family: inherit;
@@ -260,9 +260,39 @@
       align-items: center;
       justify-content: center;
     }
+    .admin-hub-links {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 16px;
+    }
+    .admin-hub-links a {
+      display: block;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: var(--primary-light, #f0fdfa);
+      border: 1.5px solid #99f6e4;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .admin-hub-links a span {
+      display: block;
+      font-weight: 500;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .admin-hub-links a.preferred {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark, #0f766e));
+      color: #fff;
+      border-color: transparent;
+    }
+    .admin-hub-links a.preferred span { color: rgba(255,255,255,.85); }
     @media (max-width: 520px) {
       .auth-card { padding: 28px 20px; }
-      .auth-hero { padding: 24px 12px; }
+      .auth-hero { padding: 24px 12px; align-items: flex-start; }
+      .auth-submit, .btn-google { min-height: 48px; font-size: 1rem; }
     }
   </style>
 </head>
@@ -288,8 +318,8 @@
       <!-- ========= GUEST VIEW ========= -->
       <div id="guestView">
         <div class="auth-card">
-          <h1>Bienvenue</h1>
-          <p class="subtitle">Connectez-vous ou créez votre compte</p>
+          <h1>Connexion</h1>
+          <p class="subtitle">Espace client &amp; administrateur</p>
 
           <div id="authMsg" class="auth-message"></div>
 
@@ -300,7 +330,7 @@
 
           <!-- LOGIN -->
           <div id="panel-login" class="auth-panel active">
-            <a href="/api/auth/google?returnTo=/crm.html" class="btn-google">Continuer avec Google</a>
+            <a id="googleLoginLink" href="/api/auth/google?returnTo=/admin.html" class="btn-google">Continuer avec Google</a>
             <div class="auth-divider">ou avec votre email</div>
             <form id="loginForm">
               <div class="form-group">
@@ -412,6 +442,8 @@
             </div>
           </div>
 
+          <div id="adminHub" class="admin-hub-links" style="display:none"></div>
+
           <ul class="settings-list">
             <li id="goDashboard" style="display:none">
               <span class="icon">
@@ -462,6 +494,18 @@
   (function() {
     var TOKEN_KEY = "lo_token";
     var USER_KEY = "lo_user";
+    var ALLOWED_NEXT = {
+      "/admin.html": true,
+      "/dashboard.html": true,
+      "/crm.html": true,
+      "/crm-mobile.html": true,
+      "/auth.html": true,
+      "./admin.html": true,
+      "./dashboard.html": true,
+      "./crm.html": true,
+      "./crm-mobile.html": true,
+      "./auth.html": true
+    };
 
     function getToken() { return localStorage.getItem(TOKEN_KEY); }
     function getUser() {
@@ -474,6 +518,52 @@
     function clearAuth() {
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem(USER_KEY);
+    }
+
+    function isMobile() {
+      return window.matchMedia("(max-width: 768px)").matches ||
+        /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+    }
+
+    /** Normalise next/redirect/returnTo vers un chemin relatif sûr */
+    function resolveNext(raw) {
+      if (!raw) return null;
+      var v = String(raw).trim();
+      try { v = decodeURIComponent(v); } catch (e) {}
+      if (!v || v.indexOf("://") >= 0 || v.indexOf("//") === 0) return null;
+      if (v.charAt(0) !== "/" && v.indexOf("./") !== 0) v = "./" + v.replace(/^\.?\/?/, "");
+      var pathOnly = v.split("?")[0].split("#")[0];
+      var asAbs = pathOnly.indexOf("./") === 0 ? "/" + pathOnly.slice(2) : pathOnly;
+      if (!ALLOWED_NEXT[pathOnly] && !ALLOWED_NEXT[asAbs]) return null;
+      return asAbs.indexOf("/") === 0 ? asAbs : "/" + asAbs.replace(/^\.\//, "");
+    }
+
+    function readNextParam() {
+      var params = new URLSearchParams(window.location.search);
+      return resolveNext(params.get("next") || params.get("redirect") || params.get("returnTo"));
+    }
+
+    function defaultAdminDest() {
+      return isMobile() ? "/crm-mobile.html" : "/admin.html";
+    }
+
+    function goAfterLogin(user, forcedDest) {
+      var next = forcedDest || readNextParam();
+      if (next) {
+        window.location.href = next;
+        return;
+      }
+      if (user && (user.role === "admin" || user.crmRole)) {
+        window.location.href = defaultAdminDest();
+        return;
+      }
+      renderLoggedView();
+    }
+
+    function syncGoogleLink() {
+      var next = readNextParam() || defaultAdminDest();
+      var link = document.getElementById("googleLoginLink");
+      if (link) link.href = "/api/auth/google?returnTo=" + encodeURIComponent(next);
     }
 
     function showMsg(id, text, ok) {
@@ -494,6 +584,8 @@
       var res = await fetch(url, { method: "POST", headers: headers, body: JSON.stringify(data) });
       return res.json();
     }
+
+    syncGoogleLink();
 
     // Tab switching
     document.querySelectorAll(".auth-tab").forEach(function(tab) {
@@ -539,18 +631,18 @@
       var oauthErr = params.get("oauth_error");
       if (oauthErr) {
         showMsg("authMsg", decodeURIComponent(oauthErr.replace(/\+/g, " ")), false);
-        window.history.replaceState({}, "", "./auth.html");
+        window.history.replaceState({}, "", "./auth.html" + (readNextParam() ? "?next=" + encodeURIComponent(readNextParam()) : ""));
       }
       var token = params.get("token");
       if (params.get("oauth") === "success" && token) {
-        var dest = params.get("dest") || "./crm.html";
+        var dest = resolveNext(params.get("dest")) || defaultAdminDest();
         fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } })
           .then(function(r) { return r.json(); })
           .then(function(data) {
             if (data.ok && data.user) {
               setAuth(token, data.user);
               window.history.replaceState({}, "", "./auth.html");
-              window.location.href = dest.indexOf("/") === 0 ? dest : "./" + dest.replace(/^\.\//, "");
+              window.location.href = dest;
             } else {
               showMsg("authMsg", data.error || "Connexion Google incomplete", false);
             }
@@ -575,11 +667,7 @@
         if (data.ok) {
           setAuth(data.token, data.user);
           showMsg("authMsg", "Connexion réussie ! Redirection...", true);
-          setTimeout(function() {
-            if (data.user.role === "admin" || data.user.crmRole) {
-              window.location.href = "./crm.html";
-            } else renderLoggedView();
-          }, 800);
+          setTimeout(function() { goAfterLogin(data.user); }, 600);
         } else {
           showMsg("authMsg", data.error || "Erreur de connexion", false);
         }
@@ -661,10 +749,53 @@
       document.getElementById("guestView").style.display = "none";
       document.getElementById("loggedView").style.display = "block";
       document.getElementById("userEmail").textContent = user.email || "—";
-      document.getElementById("userRole").textContent = user.role === "admin" ? "Administrateur" : "Utilisateur";
+      document.getElementById("userRole").textContent =
+        user.role === "admin" ? "Administrateur" :
+        (user.crmRole ? "CRM · " + user.crmRole : "Utilisateur");
       document.getElementById("userAvatar").textContent = (user.email || "U")[0].toUpperCase();
-      if (user.role === "admin") {
-        document.getElementById("goDashboard").style.display = "flex";
+
+      var hub = document.getElementById("adminHub");
+      var isAdmin = user.role === "admin";
+      var hasCrm = isAdmin || !!user.crmRole;
+      if (hasCrm) {
+        document.getElementById("goDashboard").style.display = isAdmin ? "flex" : "none";
+        var mobile = isMobile();
+        var links = [];
+        links.push({
+          href: "./admin.html",
+          title: "Hub admin",
+          desc: "Tous les accès en un endroit",
+          preferred: false
+        });
+        if (isAdmin) {
+          links.push({
+            href: "./dashboard.html",
+            title: "Dashboard",
+            desc: "Leads & questionnaires",
+            preferred: !mobile
+          });
+        }
+        links.push({
+          href: "./crm-mobile.html",
+          title: "CRM Mobile",
+          desc: "Version téléphone",
+          preferred: mobile
+        });
+        links.push({
+          href: "./crm.html",
+          title: "CRM bureau",
+          desc: "Vue complète ordinateur",
+          preferred: false
+        });
+        hub.style.display = "grid";
+        hub.innerHTML = links.map(function(l) {
+          return '<a class="' + (l.preferred ? "preferred" : "") + '" href="' + l.href + '">' +
+            l.title + "<span>" + l.desc + "</span></a>";
+        }).join("");
+      } else {
+        hub.style.display = "none";
+        hub.innerHTML = "";
+        document.getElementById("goDashboard").style.display = "none";
       }
     }
 
@@ -707,14 +838,19 @@
       hideMsg("authMsg");
     });
 
-    // On load: check session
+    // On load: check session — si next + déjà connecté, rediriger
     var token = getToken();
+    var pendingNext = readNextParam();
     if (token) {
       fetch("/api/auth/me", { headers: { Authorization: "Bearer " + token } })
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (data.ok && data.user) {
             setAuth(token, data.user);
+            if (pendingNext && (data.user.role === "admin" || data.user.crmRole || pendingNext === "/auth.html")) {
+              window.location.href = pendingNext;
+              return;
+            }
             renderLoggedView();
           } else {
             clearAuth();

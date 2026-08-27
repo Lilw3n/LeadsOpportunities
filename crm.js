@@ -679,6 +679,10 @@
           localStorage.removeItem(USER_KEY);
           return;
         }
+        if (window.matchMedia("(max-width: 768px)").matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "")) {
+          window.location.href = "./crm-mobile.html";
+          return;
+        }
         showApp();
         setSection(sectionFromHash() || "overview");
       });

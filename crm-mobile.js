@@ -1,6 +1,6 @@
 (function () {
   if (!localStorage.getItem("lo_token")) {
-    location.href = "./crm.html";
+    location.href = "./auth.html?next=" + encodeURIComponent("./crm-mobile.html");
     return;
   }
   var token = localStorage.getItem("lo_token");

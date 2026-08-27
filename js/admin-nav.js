@@ -6,12 +6,14 @@
   var USER_KEY = "lo_user";
 
   var LINKS = [
+    { href: "/admin.html", label: "Hub admin", id: "admin" },
     { href: "/index.html", label: "Accueil", id: "home" },
     { href: "/dashboard.html", label: "Dashboard", id: "dashboard" },
     { href: "/dashboard.html?section=leads", label: "Leads", id: "leads" },
     { href: "/crm-acquisition.html", label: "Devis remplis", id: "crm-acquisition" },
     { href: "/dashboard.html?section=partners", label: "Partenaires", id: "partners" },
     { href: "/crm.html", label: "CRM", id: "crm" },
+    { href: "/crm-mobile.html", label: "CRM Mobile", id: "crm-mobile" },
     { href: "/blog-questionnaires.html", label: "Blog → devis", id: "blog-devis" },
     { href: "/niches/", label: "Niches SEO", id: "niches" },
     { href: "/auth.html", label: "Compte", id: "auth" },
@@ -42,12 +44,13 @@
       return "dashboard";
     }
     if (path === "index.html" || path === "") return "home";
+    if (path === "admin.html") return "admin";
     if (path === "auth.html") return "auth";
     if (path === "crm-leads.html") return "leads";
     if (path === "crm-acquisition.html") return "crm-acquisition";
+    if (path === "crm-mobile.html") return "crm-mobile";
     if (path === "crm.html" || path.indexOf("crm") === 0) return "crm";
     if (path === "espace-client.html") return "home";
-    if (path === "admin.html") return "dashboard";
     if (path === "blog-questionnaires.html") return "blog-devis";
     if (path === "niches" || path.indexOf("niches") === 0) return "niches";
     return path.replace(".html", "");

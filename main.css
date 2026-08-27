@@ -132,6 +132,16 @@ nav a.nav-all-services:hover {
   background: var(--primary-dark) !important;
   transform: translateY(-1px);
 }
+.btn-nav-admin {
+  background: #0f172a !important;
+  color: #e2e8f0 !important;
+  box-shadow: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+.btn-nav-admin:hover {
+  background: #1e293b !important;
+  color: #fff !important;
+}
 .hamburger {
   display: none;
   appearance: none;
