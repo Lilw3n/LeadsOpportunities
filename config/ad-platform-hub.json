@@ -99,7 +99,8 @@
         { "label": "Tracking SEA", "href": "./docs/SEA-TRACKING.md" },
         { "label": "Corrélation GA4/CRM", "href": "./docs/TRACKING-CORRELATION.md" },
         { "label": "Pub Google VSP", "href": "./docs/GOOGLE-VSP-PUB.md" },
-        { "label": "CSV Search VSP", "href": "./ads/google-vsp-search.csv" }
+        { "label": "CSV Search VSP", "href": "./ads/google-vsp-search.csv" },
+        { "label": "CSV Search facturation électronique", "href": "./ads/google-facturation-electronique-search.csv" }
       ]
     },
     {
@@ -233,6 +234,14 @@
       "ads_manager": "https://ads.google.com/aw/campaigns",
       "crm_matcher": "./crm-private-offer-matching.html",
       "npm_status": "verify:vsp"
+    },
+    {
+      "id": "google_facturation_electronique",
+      "label": "Google Search — facturation électronique (RC Pro)",
+      "csv": "./ads/google-facturation-electronique-search.csv",
+      "utm_campaign": "facturation_electronique_search",
+      "ads_manager": "https://ads.google.com/aw/campaigns",
+      "npm_status": "verify:facturation-electronique"
     }
   ],
   "site_landings_test": [
@@ -259,6 +268,10 @@
     {
       "label": "VSP Meta discret (follow-up)",
       "path": "/landings/devis.html?need=vsp&utm_source=meta&utm_medium=paid_social&utm_campaign=meta_citadine_urbaine"
+    },
+    {
+      "label": "Facturation électronique (Google / SEO)",
+      "path": "/landings/facturation-electronique.html?utm_source=google&utm_medium=cpc&utm_campaign=facturation_electronique_search"
     }
   ]
 }

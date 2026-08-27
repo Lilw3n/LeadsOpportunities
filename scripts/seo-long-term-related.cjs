@@ -89,6 +89,23 @@ var SILOS_IMMO = [
   link("/landings/projection-achat.html", "Projection coût réel"),
 ];
 
+var FACTURATION_ELECTRONIQUE = [
+  link("/facturation-electronique/", "Hub facturation électronique"),
+  link("/facturation-electronique/calendrier-2026/", "Calendrier 2026"),
+  link("/facturation-electronique/chorus-pro/", "Chorus Pro"),
+  link("/facturation-electronique/tpe-auto-entrepreneur/", "TPE / auto-entrepreneur"),
+  link("/facturation-electronique/plateformes-agreees/", "Plateformes agréées"),
+  link("/blog/facturation-electronique-obligatoire-2026.html", "Guide e-facture 2026"),
+  link("/blog/facturation-electronique-tpe-auto-entrepreneur-2026.html", "TPE / AE"),
+  link("/blog/chorus-pro-vs-plateforme-agreee-pdp-2026.html", "Chorus Pro vs PDP"),
+  link("/blog/facturation-electronique-nancy-varangeville-54.html", "Nancy / Varangéville"),
+  link("/landings/facturation-electronique.html", "Landing réforme"),
+  link("https://www.impots.gouv.fr/professionnel/je-passe-la-facturation-electronique", "DGFiP — je passe à la FE"),
+  link("https://www.economie.gouv.fr/tout-savoir-sur-la-facturation-electronique-pour-les-entreprises", "economie.gouv.fr — tout savoir"),
+  link("https://www.impots.gouv.fr/je-consulte-la-liste-des-plateformes-agreees", "Liste plateformes agréées"),
+  link("https://portail.chorus-pro.gouv.fr/", "Portail Chorus Pro"),
+];
+
 function mergeUnique() {
   var seen = {};
   var out = [];
@@ -114,6 +131,7 @@ module.exports = {
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
   SILOS_IMMO: SILOS_IMMO,
+  FACTURATION_ELECTRONIQUE: FACTURATION_ELECTRONIQUE,
   mergeUnique: mergeUnique,
   link: link,
 };

@@ -3226,6 +3226,11 @@ vspArticles.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const facturationArticles = require("./blog-facturation-electronique-articles.cjs");
+facturationArticles.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const pretRefuse = require("./blog-pret-refuse-articles.cjs");
 pretRefuse.forEach(function (a) {
   module.exports.articles.push(a);

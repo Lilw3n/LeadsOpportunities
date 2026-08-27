@@ -1785,6 +1785,8 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/chasse.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/equitation.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/vsp.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/facturation-electronique.html", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/facturation-electronique/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/villes/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/chien/", priority: "0.9", changefreq: "weekly" },

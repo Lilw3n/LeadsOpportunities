@@ -461,6 +461,10 @@ var MAP = {
 
   /* Pro */
   "rc-pro-freelance-artisan-guide.html": { hero: "artisan", figure: "freelance" },
+  "facturation-electronique-obligatoire-2026.html": { hero: "freelance", figure: "indepBureau" },
+  "facturation-electronique-tpe-auto-entrepreneur-2026.html": { hero: "indepBureau", figure: "artisan" },
+  "chorus-pro-vs-plateforme-agreee-pdp-2026.html": { hero: "freelance", figure: "indepBureau" },
+  "facturation-electronique-nancy-varangeville-54.html": { hero: "artisan", figure: "maisonFamille" },
 
   /* Actu divers */
   "assurance-streamer-gaming-setup-materiel.html": {
