@@ -85,13 +85,57 @@
       "id": "habitation",
       "priority": 5,
       "primary": "assurance habitation",
-      "longTail": ["assurance habitation locataire", "multirisque habitation", "devis habitation", "incendie habitation Gironde"],
-      "moneyPages": ["/assurance-habitation/", "/landings/devis.html?need=habitation"],
+      "longTail": [
+        "assurance habitation locataire",
+        "multirisque habitation",
+        "devis habitation",
+        "assurance habitation vol",
+        "changer assurance habitation",
+        "assurance habitation Paris",
+        "assurance habitation Nancy",
+        "courtier grossiste MRH"
+      ],
+      "moneyPages": [
+        "/assurance-habitation/",
+        "/landings/devis.html?need=habitation",
+        "/assurance-habitation/paris/",
+        "/assurance-habitation/nancy/"
+      ],
       "blog": [
         "/blog/assurance-habitation-locataire-proprietaire-2026.html",
-        "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
-        "/blog/restriction-eau-secheresse-gironde-assurance-habitation.html",
-        "/blog/orages-grele-ete-auto-habitation-2026.html"
+        "/blog/assurance-habitation-vol-cambriolage-2026.html",
+        "/blog/changer-assurance-habitation-loi-hamon.html",
+        "/blog/assurance-habitation-courtier-grossiste-mrh-2026.html",
+        "/blog/assurance-habitation-nancy-varangeville-54.html",
+        "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html"
+      ]
+    },
+    {
+      "id": "auto",
+      "priority": 5,
+      "primary": "assurance auto",
+      "longTail": [
+        "devis assurance auto",
+        "tarif assurance auto",
+        "assurance auto tous risques",
+        "assurance auto pas cher",
+        "résilier assurance auto loi Hamon",
+        "assurance auto Paris",
+        "assurance auto Nancy",
+        "courtier grossiste auto"
+      ],
+      "moneyPages": [
+        "/assurance-auto/",
+        "/landings/devis.html?need=auto",
+        "/assurance-auto/paris/",
+        "/assurance-auto/nancy/"
+      ],
+      "blog": [
+        "/blog/tarif-assurance-auto-2026.html",
+        "/blog/assurance-auto-tous-risques-ou-tiers-2026.html",
+        "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html",
+        "/blog/assurance-auto-nancy-varangeville-54.html",
+        "/blog/assurance-auto-jeune-conducteur-2026.html"
       ]
     },
     {

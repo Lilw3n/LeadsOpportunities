@@ -64,6 +64,18 @@ var NICHES_ANIMAUX = [
   link("/landings/animaux.html", "Devis animaux"),
 ];
 
+var AUTO_MRH = [
+  link("/assurance-auto/", "Hub auto"),
+  link("/assurance-habitation/", "Hub habitation"),
+  link("/blog/tarif-assurance-auto-2026.html", "Tarifs auto 2026"),
+  link("/blog/assurance-auto-courtier-grossiste-comparatif-2026.html", "Auto courtier / grossiste"),
+  link("/blog/assurance-habitation-courtier-grossiste-mrh-2026.html", "MRH courtier / grossiste"),
+  link("/blog/assurance-auto-nancy-varangeville-54.html", "Auto Nancy / Varangéville"),
+  link("/blog/assurance-habitation-nancy-varangeville-54.html", "MRH Nancy / Varangéville"),
+  link("/landings/devis.html?need=auto", "Devis auto"),
+  link("/landings/devis.html?need=habitation", "Devis habitation"),
+];
+
 var ACTU_CLIMAT_HABITATION = [
   link("/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html", "Incendies Gironde"),
   link("/blog/restriction-eau-secheresse-gironde-assurance-habitation.html", "Restrictions d'eau"),
@@ -111,6 +123,7 @@ module.exports = {
   NICHES_EQUITATION: NICHES_EQUITATION,
   NICHES_ANIMAUX: NICHES_ANIMAUX,
   NICHES_VSP: NICHES_VSP,
+  AUTO_MRH: AUTO_MRH,
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
   SILOS_IMMO: SILOS_IMMO,

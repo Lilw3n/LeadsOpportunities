@@ -399,6 +399,22 @@ var MAP = {
   /* Auto */
   "assurance-auto-jeune-conducteur-2026.html": { hero: "jeuneCond", figure: "voiture" },
   "assurance-auto-bonus-malus.html": { hero: "bonusMalus", figure: "voiture" },
+  "tarif-assurance-auto-2026.html": { hero: "voiture", figure: "bonusMalus" },
+  "assurance-auto-tous-risques-ou-tiers-2026.html": { hero: "voiture", figure: "jeuneCond" },
+  "resilier-assurance-auto-loi-hamon-2026.html": { hero: "bonusMalus", figure: "voiture" },
+  "assurance-auto-malus-apres-accident.html": { hero: "sinistre", figure: "voiture" },
+  "assurance-auto-courtier-grossiste-comparatif-2026.html": { hero: "indepBureau", figure: "voiture" },
+  "devis-assurance-auto-pas-cher-2026.html": { hero: "voiture", figure: "budgetFam" },
+  "assurance-auto-paris-ile-de-france-2026.html": { hero: "voiture", figure: "appartLoc" },
+  "assurance-auto-nancy-varangeville-54.html": { hero: "voiture", figure: "maisonFamille" },
+  "assurance-habitation-vol-cambriolage-2026.html": { hero: "sinistre", figure: "appartLoc" },
+  "changer-assurance-habitation-loi-hamon.html": { hero: "appartLoc", figure: "maisonFamille" },
+  "assurance-habitation-courtier-grossiste-mrh-2026.html": { hero: "indepBureau", figure: "maisonFamille" },
+  "mrh-degats-des-eaux-franchise-2026.html": { hero: "sinistre", figure: "appartLoc" },
+  "assurance-habitation-proprietaire-occupant-2026.html": { hero: "maisonFamille", figure: "appartLoc" },
+  "attestation-assurance-habitation-locataire-2026.html": { hero: "appartLoc", figure: "maisonFamille" },
+  "assurance-habitation-paris-ile-de-france-2026.html": { hero: "appartLoc", figure: "sinistre" },
+  "assurance-habitation-nancy-varangeville-54.html": { hero: "maisonFamille", figure: "appartLoc" },
   "formule-1-grands-prix-assurance-voyage-auto.html": { hero: "f1voyage", figure: "voyageFoot" },
 
   /* VSP / voiture sans permis */

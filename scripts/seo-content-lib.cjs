@@ -218,6 +218,101 @@ function vspCitySections(city) {
   ];
 }
 
+function autoCitySections(city) {
+  return [
+    {
+      h2: "Assurance auto à " + city.name,
+      paragraphs: [
+        "Devis assurance auto à " +
+          city.name +
+          " (" +
+          city.region +
+          ") : tous risques, au tiers, intermédiaire, jeune conducteur, bonus-malus, vol, bris de glace.",
+        "Stationnement, trajets domicile-travail, sinistralité locale : nous comparons à garanties équivalentes, y compris grilles courtier grossiste.",
+      ],
+      list: [
+        "Devis auto " + city.name,
+        "Assurance auto pas cher " + city.name,
+        "Tous risques ou tiers",
+        "Changer d'assurance auto (loi Hamon)",
+        "Malus après accident",
+      ],
+    },
+    {
+      h2: "Changer d'assurance auto à " + city.name,
+      paragraphs: [
+        "Après 12 mois, la loi Hamon permet de résilier sans frais. Relevé d'information obligatoire. Un conseiller ORIAS relit le dossier pour " +
+          city.name +
+          ".",
+      ],
+    },
+  ];
+}
+
+function habitationCitySections(city) {
+  return [
+    {
+      h2: "Assurance habitation à " + city.name,
+      paragraphs: [
+        "MRH à " +
+          city.name +
+          " (" +
+          city.region +
+          ") : locataire, propriétaire occupant, vol, dégâts des eaux, RC vie privée, capital mobilier.",
+        "Attestation locataire, copropriété, cave et dépendances : un courtier calibre la formule, y compris offres grossistes.",
+      ],
+      list: [
+        "Devis habitation " + city.name,
+        "Assurance locataire " + city.name,
+        "MRH propriétaire " + city.name,
+        "Vol et cambriolage",
+        "Dégâts des eaux et franchise",
+      ],
+    },
+    {
+      h2: "Vol, cambriolage et sous-assurance à " + city.name,
+      paragraphs: [
+        "À " +
+          city.name +
+          ", vérifiez franchise vol, plafonds bijoux / high-tech et conditions d'alarme. Une sous-évaluation du mobilier plafonne l'indemnité le jour du sinistre.",
+      ],
+    },
+  ];
+}
+
+function localKeywordSection(product, city) {
+  var label = (product && product.siloLabel) || "Assurance";
+  var name = city.name;
+  var region = city.region || "";
+  return {
+    h2: "Mots-clés " + label.toLowerCase() + " à " + name,
+    paragraphs: [
+      label +
+        " " +
+        name +
+        ", devis " +
+        label.toLowerCase() +
+        " " +
+        name +
+        ", " +
+        label.toLowerCase() +
+        " " +
+        region +
+        ", courtier " +
+        name +
+        ", comparatif " +
+        name +
+        ", courtier ORIAS.",
+    ],
+    list: [
+      "Devis " + label.toLowerCase() + " " + name,
+      label + " pas cher " + name,
+      "Changer d'assurance à " + name,
+      "Courtier " + region,
+    ],
+  };
+}
+
 function equitationCitySections(city) {
   return [
     {
@@ -272,6 +367,9 @@ module.exports = {
   chasseCitySections: chasseCitySections,
   equitationCitySections: equitationCitySections,
   vspCitySections: vspCitySections,
+  autoCitySections: autoCitySections,
+  habitationCitySections: habitationCitySections,
+  localKeywordSection: localKeywordSection,
   defaultCityFaq: defaultCityFaq,
   animauxCityFaq: animauxCityFaq,
 };

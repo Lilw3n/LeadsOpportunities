@@ -509,43 +509,54 @@ const GEO_PRODUCTS = [
       return "Devis auto " + city.name;
     },
     title: function (city) {
-      return "Assurance auto " + city.name + " | Devis " + city.region;
+      return "Assurance auto " + city.name + " | Devis " + city.region + " " + city.dept;
     },
     description: function (city) {
       return (
-        "Assurance auto a " +
+        "Assurance auto " +
         city.name +
-        " : tous risques, au tiers, jeune conducteur. Comparatif et devis gratuit, courtier ORIAS."
+        " (" +
+        city.region +
+        ") : devis tous risques, au tiers, jeune conducteur, bonus-malus, vol, bris. Courtier ORIAS, grilles grossistes."
       );
     },
     h1: function (city) {
-      return "Assurance auto a " + city.name;
+      return "Assurance auto à " + city.name + " — devis, tous risques, tiers";
     },
     intro: function (city) {
       return (
-        "Conducteur base a " +
+        "Conducteur basé à " +
         city.name +
-        " ? Nous comparons les formules auto (tiers, intermediaire, tous risques) et optimisons votre bonus-malus."
+        " (" +
+        city.region +
+        ") ? Nous comparons les formules auto (tiers, intermédiaire, tous risques), bonus-malus et options vol / bris — y compris offres courtier grossiste."
       );
     },
     sections: function (city) {
-      return [
-        {
-          h2: "Assurer sa voiture a " + city.name,
-          paragraphs: [
-            "Stationnement, trajets domicile-travail, sinistralite locale : votre profil influence le tarif. Nous comparons a garanties equivalentes.",
-          ],
-        },
-      ];
+      return contentLib.autoCitySections(city);
     },
     faq: function (city) {
       return [
         {
-          q: "Puis-je assurer un jeune conducteur a " + city.name + " ?",
-          a: "Oui, nous identifions les assureurs les plus competitifs sur les profils juniors et permis probatoire.",
+          q: "Puis-je assurer un jeune conducteur à " + city.name + " ?",
+          a: "Oui. Jeune permis, malus, conducteur secondaire : un courtier / grossiste ouvre d'autres grilles qu'un comparateur grand public.",
+        },
+        {
+          q: "Comment obtenir un devis auto à " + city.name + " ?",
+          a: "Questionnaire en ligne (bonus-malus, véhicule, usage) puis rappel conseiller ORIAS. Pages : " + city.name + ", " + city.region + ".",
         },
       ];
     },
+    extraRelated: [
+      { href: "/assurance-auto/villes/", label: "Auto par ville" },
+      { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
+      { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
+      { href: "/blog/resilier-assurance-auto-loi-hamon-2026.html", label: "Changer d'auto (Hamon)" },
+      { href: "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html", label: "Courtier / grossiste auto" },
+      { href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" },
+      { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" },
+      { href: "/landings/devis.html?need=auto", label: "Devis auto" },
+    ],
   },
   {
     key: "habitation",
@@ -560,43 +571,52 @@ const GEO_PRODUCTS = [
       return "Devis habitation " + city.name;
     },
     title: function (city) {
-      return "Assurance habitation " + city.name + " | Devis locataire & proprietaire";
+      return "Assurance habitation " + city.name + " | MRH locataire & propriétaire";
     },
     description: function (city) {
       return (
-        "Assurance habitation a " +
+        "Assurance habitation " +
         city.name +
-        " : locataire, proprietaire, MRH. Devis gratuit, garanties vol, degats des eaux, RC vie privee."
+        " (" +
+        city.region +
+        ") : MRH locataire, propriétaire, vol, dégâts des eaux, RC. Devis courtier ORIAS, grilles grossistes."
       );
     },
     h1: function (city) {
-      return "Assurance habitation a " + city.name;
+      return "Assurance habitation à " + city.name + " — MRH locataire, propriétaire";
     },
     intro: function (city) {
       return (
-        "Locataire ou proprietaire a " +
+        "Locataire ou propriétaire à " +
         city.name +
-        " ? Nous calibrons votre multirisque habitation selon le type de bien et votre situation."
+        " ? Nous calibrons votre multirisque habitation (vol, dégâts des eaux, capital mobilier) — y compris offres courtier grossiste."
       );
     },
     sections: function (city) {
-      return [
-        {
-          h2: "Proteger son logement a " + city.name,
-          paragraphs: [
-            "Degats des eaux, vol, responsabilite civile : les garanties essentielles varient selon que vous etes locataire ou proprietaire occupant.",
-          ],
-        },
-      ];
+      return contentLib.habitationCitySections(city);
     },
     faq: function (city) {
       return [
         {
-          q: "Assurance habitation obligatoire a " + city.name + " ?",
-          a: "Oui pour les locataires (risques locatifs). Proprietaires : fortement recommande, parfois exige par la copropriete ou la banque.",
+          q: "Assurance habitation obligatoire à " + city.name + " ?",
+          a: "Oui pour les locataires (risques locatifs). Propriétaires : fortement recommandé, souvent exigé par la copropriété ou la banque.",
+        },
+        {
+          q: "Puis-je changer de MRH à " + city.name + " en cours d'année ?",
+          a: "Après 12 mois, la loi Hamon permet de changer sans jour blanc. Le nouvel assureur résilie souvent l'ancien.",
         },
       ];
     },
+    extraRelated: [
+      { href: "/assurance-habitation/villes/", label: "Habitation par ville" },
+      { href: "/blog/assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / propriétaire" },
+      { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
+      { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
+      { href: "/blog/assurance-habitation-courtier-grossiste-mrh-2026.html", label: "Courtier / grossiste MRH" },
+      { href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" },
+      { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" },
+      { href: "/landings/devis.html?need=habitation", label: "Devis habitation" },
+    ],
   },
   {
     key: "emprunteur",
@@ -1084,6 +1104,7 @@ function buildGeoPageConfigs(cities, pageFn) {
     cities.forEach(function (city) {
       var sections =
         typeof product.sections === "function" ? product.sections(city) : product.sections || [];
+      sections = sections.concat(contentLib.localKeywordSection(product, city));
       var faq = typeof product.faq === "function" ? product.faq(city) : contentLib.defaultCityFaq(city, product.siloLabel);
       var related = [
         { href: product.hubUrl, label: "Toutes les villes — " + product.siloLabel },
@@ -1101,6 +1122,18 @@ function buildGeoPageConfigs(cities, pageFn) {
           { href: "/landings/credit-immo.html?ville=" + encodeURIComponent(city.name), label: "Simulation pret " + city.name },
         ].concat(related);
       }
+      if (nancyBassin.isBassinCity(city) && product.key === "auto") {
+        related = [
+          { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" },
+          { href: "/agence-varangeville/", label: "Agence Varangéville" },
+        ].concat(related);
+      }
+      if (nancyBassin.isBassinCity(city) && product.key === "habitation") {
+        related = [
+          { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" },
+          { href: "/agence-varangeville/", label: "Agence Varangéville" },
+        ].concat(related);
+      }
       related = related.concat(crossLinksForCity(product, city));
       var nearbyList =
         nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")
@@ -1111,6 +1144,7 @@ function buildGeoPageConfigs(cities, pageFn) {
           var geoPage = {
           file: product.dir + "/" + city.slug + "/index.html",
           theme: product.theme,
+          siloLabel: product.siloLabel,
           badge: city.region,
           title: product.title(city),
           description: product.description(city),
@@ -1488,7 +1522,14 @@ function buildPillarPageConfigs(pageFn) {
       title: "Assurance auto | Devis et comparatif France",
       description: "Assurance auto en France : tous risques, au tiers, jeune conducteur. Devis gratuit, courtier ORIAS.",
       h1: "Assurance auto : comparez les offres",
-      intro: "Particuliers et familles : nous comparons les assureurs pour trouver le meilleur rapport garanties / prix.",
+      intro: "Particuliers et familles : nous comparons les assureurs et grilles grossistes pour le meilleur rapport garanties / prix.",
+      extraRelated: [
+        { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
+        { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
+        { href: "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html", label: "Courtier / grossiste auto" },
+        { href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" },
+        { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" },
+      ],
     },
     {
       file: "assurance-habitation/index.html",
@@ -1499,7 +1540,14 @@ function buildPillarPageConfigs(pageFn) {
       title: "Assurance habitation | Devis locataire & proprietaire",
       description: "Assurance habitation en France : locataire, proprietaire, degats des eaux, vol. Devis gratuit.",
       h1: "Assurance habitation : proteger votre logement",
-      intro: "Locataire ou proprietaire : multirisque habitation, responsabilite civile et options sur mesure.",
+      intro: "Locataire ou proprietaire : multirisque habitation, responsabilite civile et options — y compris grilles courtier grossiste.",
+      extraRelated: [
+        { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
+        { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
+        { href: "/blog/assurance-habitation-courtier-grossiste-mrh-2026.html", label: "Courtier / grossiste MRH" },
+        { href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" },
+        { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" },
+      ],
     },
     {
       file: "assurance-emprunteur/index.html",
@@ -1575,7 +1623,7 @@ function buildPillarPageConfigs(pageFn) {
         { href: villesHub, label: "Par ville" },
         { href: deptHub, label: "Par departement" },
         { href: "/france/", label: "Couverture France" },
-      ],
+      ].concat(p.extraRelated || []),
       faq: [
         {
           q: "Le devis est-il gratuit ?",

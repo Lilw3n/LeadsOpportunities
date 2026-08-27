@@ -341,6 +341,30 @@
         "deuxième chance crédit"
       ],
       "section": "finance"
+    },
+    {
+      "id": "auto-grossiste",
+      "match": [
+        "assurance auto",
+        "devis auto",
+        "tous risques",
+        "bonus-malus",
+        "courtier grossiste auto",
+        "assurance auto pas cher"
+      ],
+      "section": "auto"
+    },
+    {
+      "id": "mrh-grossiste",
+      "match": [
+        "assurance habitation",
+        "multirisque",
+        "mrh",
+        "dégâts des eaux",
+        "attestation locataire",
+        "courtier grossiste habitation"
+      ],
+      "section": "habitat"
     }
   ],
   "articles": {

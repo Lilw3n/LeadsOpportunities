@@ -664,12 +664,44 @@ function withSeoMeta(p) {
     description: p.description,
     h1: p.h1,
   });
+  var keywords = mergeKeywords(p.keywords, meta.keywords);
+  if (p.city && p.city.name) {
+    keywords = mergeKeywords(
+      [
+        (p.siloLabel || "") + " " + p.city.name,
+        "devis " + p.city.name,
+        p.city.region,
+        p.city.dept ? "assurance " + String(p.city.dept).replace(/-/g, " ") : "",
+        "courtier " + p.city.name,
+      ]
+        .filter(Boolean)
+        .join(", "),
+      keywords
+    );
+  }
   return Object.assign({}, p, {
     title: meta.title || p.title,
     description: meta.description || p.description,
     h1: meta.h1 || p.h1,
-    keywords: meta.keywords || "",
+    keywords: keywords,
   });
+}
+
+function mergeKeywords(a, b) {
+  var seen = {};
+  var out = [];
+  String(a || "")
+    .split(",")
+    .concat(String(b || "").split(","))
+    .forEach(function (k) {
+      k = String(k || "").trim();
+      if (!k) return;
+      var key = k.toLowerCase();
+      if (seen[key]) return;
+      seen[key] = true;
+      out.push(k);
+    });
+  return out.slice(0, 24).join(", ");
 }
 
 function renderPage(p) {
