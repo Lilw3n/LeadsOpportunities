@@ -233,6 +233,22 @@
       "ads_manager": "https://ads.google.com/aw/campaigns",
       "crm_matcher": "./crm-private-offer-matching.html",
       "npm_status": "verify:vsp"
+    },
+    {
+      "id": "google_collective_search",
+      "label": "Google Search — Santé collective",
+      "csv": "./ads/google-collective-search.csv",
+      "utm_campaign": "collective_search_hot",
+      "ads_manager": "https://ads.google.com/aw/campaigns",
+      "npm_status": "verify:collective"
+    },
+    {
+      "id": "meta_collective_blog",
+      "label": "Meta — blog santé collective",
+      "csv": "./ads/meta-blog-conversions.csv",
+      "utm_campaign": "collective_blog_convert",
+      "ads_manager": "https://www.facebook.com/adsmanager/manage/campaigns?act=997768686183548",
+      "npm_status": "verify:collective"
     }
   ],
   "site_landings_test": [
@@ -243,6 +259,10 @@
     {
       "label": "Mutuelle P1",
       "path": "/landings/sante.html?utm_source=meta&utm_medium=paid_social&utm_campaign=meta_sante_p1_convert"
+    },
+    {
+      "label": "Santé collective",
+      "path": "/landings/sante-collective.html?utm_source=google&utm_medium=cpc&utm_campaign=collective_search_hot"
     },
     {
       "label": "Prêt immo P1",

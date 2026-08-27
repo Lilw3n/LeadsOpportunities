@@ -86,6 +86,7 @@
     "verify:laforet-fees": "node scripts/verify-laforet-network-fees.cjs",
     "verify:immo-drive": "node scripts/verify-immo-drive.cjs",
     "verify:vsp": "node scripts/verify-vsp-niche.cjs",
+    "verify:collective": "node scripts/verify-collective-niche.cjs",
     "verify:todoist": "node scripts/verify-todoist.cjs",
     "verify:immo-docs-ui": "node scripts/verify-immo-docs-ui.cjs",
     "verify:immo-network": "node scripts/verify-immo-network-mandats.cjs",

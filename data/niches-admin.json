@@ -6,7 +6,7 @@
     "lead": "Nous ciblons les requêtes longue traîne là où les gros comparateurs ne investissent pas : assurance chien pas cher, RC chasseur, équitation par ville, voiture sans permis (VSP), instrument pro…",
     "stats": {
       "plannedNiches": 11,
-      "liveNiches": 4,
+      "liveNiches": 5,
       "seoPagesApprox": 950,
       "cityPagesApprox": 567,
       "departmentsApprox": 96
@@ -32,7 +32,7 @@
       },
       {
         "q": "Quelles niches sont déjà en ligne ?",
-        "a": "Animaux (chien, chat, NAC), chasse, équitation et voiture sans permis (VSP) avec pages ville. Les autres verticales listées sont en cours d’activation."
+        "a": "Animaux (chien, chat, NAC), chasse, équitation, voiture sans permis (VSP) et santé collective entreprise (ANI / PME). Les autres verticales listées sont en cours d’activation."
       },
       {
         "q": "Comment obtenir un devis ?",
@@ -193,6 +193,50 @@
         "/assurance-voiture-sans-permis/",
         "/assurance-voiture-sans-permis/villes/",
         "/assurance-voiture-sans-permis/permis-am/"
+      ]
+    },
+    {
+      "id": "collective",
+      "slug": "assurance-sante-collective",
+      "category": "pro",
+      "theme": "niche",
+      "emoji": "🏢",
+      "label": "Santé collective",
+      "tagline": "Mutuelle entreprise ANI — TPE, PME, DUE, panier de soins",
+      "landing": "/landings/sante-collective.html",
+      "landingExpress": "/landings/devis-express.html?need=collective",
+      "questionnaire": "/landings/questionnaire.html?need=collective&journey=standard",
+      "priority": 3,
+      "status": "live",
+      "featured": true,
+      "pageCount": 5,
+      "cityPages": 0,
+      "partners": ["Heomi", "Ilona"],
+      "highlights": [
+        "Pilier ANI / PME / DUE / panier de soins",
+        "Landing + questionnaire entreprise",
+        "Google Search + Meta blog-convert"
+      ],
+      "keywords": [
+        "assurance santé collective",
+        "mutuelle collective entreprise",
+        "mutuelle PME",
+        "ANI mutuelle",
+        "devis mutuelle collective",
+        "DUE mutuelle",
+        "panier de soins ANI"
+      ],
+      "quickLinks": [
+        { "label": "Pilier collectif", "href": "/assurance-sante-collective/" },
+        { "label": "ANI", "href": "/assurance-sante-collective/ani/" },
+        { "label": "Devis", "href": "/landings/sante-collective.html" }
+      ],
+      "seoPaths": [
+        "/assurance-sante-collective/",
+        "/assurance-sante-collective/ani/",
+        "/assurance-sante-collective/pme/",
+        "/assurance-sante-collective/due/",
+        "/assurance-sante-collective/panier-de-soins/"
       ]
     },
     {

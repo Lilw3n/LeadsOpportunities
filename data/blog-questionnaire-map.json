@@ -37,6 +37,18 @@
       "landingLabel": "Parcours mutuelle complet",
       "expressLabel": "Rappel mutuelle"
     },
+    "collective": {
+      "need": "collective",
+      "questionnaire": "/landings/questionnaire.html?need=collective&journey=standard",
+      "landing": "/landings/sante-collective.html",
+      "express": "/landings/devis-express.html?need=collective",
+      "hook": "Mutuelle d'entreprise obligatoire : budget, ANI et conformité à cadrer.",
+      "question": "Combien coûterait une mutuelle collective conforme pour votre effectif ?",
+      "primaryLabel": "Devis mutuelle collective",
+      "questionnaireLabel": "Questionnaire entreprise",
+      "landingLabel": "Parcours santé collective",
+      "expressLabel": "Rappel express employeur"
+    },
     "habitat": {
       "need": "habitation",
       "questionnaire": "/landings/questionnaire.html?need=habitation&journey=standard",
@@ -211,6 +223,23 @@
         "rc pro chauffeur"
       ],
       "section": "vtc"
+    },
+    {
+      "id": "collective",
+      "match": [
+        "mutuelle collective",
+        "santé collective",
+        "sante collective",
+        "ANI mutuelle",
+        "complémentaire santé entreprise",
+        "complementaire sante entreprise",
+        "DUE mutuelle",
+        "panier de soins",
+        "mutuelle PME",
+        "mutuelle TPE",
+        "employeur santé"
+      ],
+      "section": "collective"
     },
     {
       "id": "mutuelle",

@@ -140,6 +140,41 @@
       ]
     },
     {
+      "id": "collective",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "moyenne",
+      "label": "Santé collective",
+      "primaryKeyword": "mutuelle collective entreprise",
+      "longTail": [
+        "assurance santé collective",
+        "mutuelle collective PME",
+        "ANI mutuelle obligatoire",
+        "devis mutuelle collective",
+        "DUE mutuelle",
+        "panier de soins ANI",
+        "mutuelle TPE"
+      ],
+      "pillarUrl": "/assurance-sante-collective/",
+      "moneyUrls": [
+        "/landings/sante-collective.html",
+        "/assurance-sante-collective/ani/",
+        "/assurance-sante-collective/pme/",
+        "/assurance-sante-collective/due/",
+        "/assurance-sante-collective/panier-de-soins/"
+      ],
+      "landing": "/landings/sante-collective.html",
+      "pageCount": 5,
+      "whyWin": "Intent B2B employeur, moins saturé que mutuelle individuelle ; landing + questionnaire déjà prêts",
+      "blogUrls": [
+        "/blog/mutuelle-collective-entreprise-guide-2026.html",
+        "/blog/mutuelle-collective-obligations-employeur-ani.html",
+        "/blog/mutuelle-collective-pme-tpe-budget-2026.html",
+        "/blog/mutuelle-collective-mise-en-place-due-portabilite.html",
+        "/blog/mutuelle-collective-panier-de-soins-minimum-2026.html"
+      ]
+    },
+    {
       "id": "instrument",
       "status": "planned",
       "tier": "tier3_planned",
@@ -265,7 +300,11 @@
     "/assurance-equitation/rc-equestre/",
     "/assurance-voiture-sans-permis/",
     "/assurance-voiture-sans-permis/permis-am/",
+    "/assurance-sante-collective/",
+    "/assurance-sante-collective/ani/",
+    "/assurance-sante-collective/pme/",
     "/landings/animaux.html",
+    "/landings/sante-collective.html",
     "/methode.html",
     "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
     "/blog/restriction-eau-secheresse-gironde-assurance-habitation.html",
@@ -273,6 +312,8 @@
     "/blog/assurance-chasse-rc-chasseur-guide-2026.html",
     "/blog/assurance-equitation-rc-equestre-guide-2026.html",
     "/blog/feux-foret-animaux-chien-chat-assurance.html",
+    "/blog/mutuelle-collective-entreprise-guide-2026.html",
+    "/blog/mutuelle-collective-obligations-employeur-ani.html",
     "/landings/chasse.html",
     "/landings/equitation.html",
     "/landings/vsp.html",
