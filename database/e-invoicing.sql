@@ -59,3 +59,16 @@ CREATE TABLE IF NOT EXISTS e_invoices_issued (
 
 CREATE UNIQUE INDEX IF NOT EXISTS idx_e_inv_issued_number ON e_invoices_issued (invoice_number);
 CREATE INDEX IF NOT EXISTS idx_e_inv_issued_date ON e_invoices_issued (invoice_date DESC);
+
+CREATE TABLE IF NOT EXISTS e_invoice_make_sync (
+  id TEXT PRIMARY KEY,
+  direction TEXT,
+  event TEXT,
+  external_id TEXT,
+  invoice_number TEXT,
+  payload TEXT,
+  status TEXT DEFAULT 'received',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_e_inv_make_sync_created ON e_invoice_make_sync (created_at DESC);

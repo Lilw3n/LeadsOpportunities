@@ -1,0 +1,41 @@
+{
+  "name": "LO — Facturation électronique CRM → Make (0€)",
+  "description": "Blueprint conceptuel Make Free : recevoir invoice_issued du CRM, sauver Factur-X sur Drive, e-mail rappel Tiime Free.",
+  "plan": "make-free",
+  "modules": [
+    {
+      "type": "gateway:CustomWebHook",
+      "label": "Webhook CRM LO",
+      "notes": "Copier l'URL vers MAKE_EINVOICE_WEBHOOK_URL sur Vercel"
+    },
+    {
+      "type": "builtin:BasicFilter",
+      "label": "Filtrer invoice_issued",
+      "condition": "event = invoice_issued"
+    },
+    {
+      "type": "google-drive:uploadFile",
+      "label": "Sauver XML Factur-X",
+      "mapping": {
+        "filename": "{{data.invoiceNumber}}-factur-x.xml",
+        "content": "{{data.xmlCii}}",
+        "folder": "Facturation-LO"
+      }
+    },
+    {
+      "type": "gmail:sendEmail",
+      "label": "Rappel saisie Tiime Free",
+      "mapping": {
+        "to": "courtier972@gmail.com",
+        "subject": "Facture {{data.invoiceNumber}} → Tiime",
+        "text": "Client {{data.buyerName}} SIREN {{data.buyerSiren}} HT {{data.amountHt}} TVA {{data.amountTva}}. Ouvre Tiime Free et crée la facture (PA)."
+      }
+    }
+  ],
+  "inboundCompanion": {
+    "url": "https://www.leadsopportunities.fr/api/webhooks/make-einvoice",
+    "auth": "Bearer MAKE_EINVOICE_WEBHOOK_SECRET",
+    "sampleEvents": ["tiime_account_ready", "tiime_supplier_invoice", "make_ping"]
+  },
+  "doc": "docs/MAKE-TIIME-EINVOICE.md"
+}

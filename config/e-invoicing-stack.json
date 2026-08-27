@@ -59,6 +59,17 @@
       "scoreForLo": 35
     },
     {
+      "id": "make",
+      "name": "Make.com",
+      "role": "automation",
+      "price": "0 € (Free 1 000 ops/mois)",
+      "pdp": false,
+      "url": "https://www.make.com/en/register",
+      "bestFor": "Pont CRM ↔ Drive / e-mail / Tiime",
+      "useInMix": "Automatiser sans payer — webhooks MAKE_EINVOICE_*",
+      "scoreForLo": 90
+    },
+    {
       "id": "crm_lo",
       "name": "CRM Leads Opportunities + Stripe",
       "role": "commercial",
@@ -66,14 +77,15 @@
       "pdp": false,
       "url": "./crm-financial.html",
       "bestFor": "Leads, devis, acomptes, registre, export Factur-X brouillon",
-      "useInMix": "Reste le hub commercial — envoie vers la PDP pour le circuit légal",
+      "useInMix": "Reste le hub commercial — envoie vers Make puis Tiime pour le circuit légal",
       "scoreForLo": 100
     }
   ],
   "mix": {
     "now": [
       { "toolId": "tiime", "slot": "pdp_legale", "action": "Créer compte Free + désigner comme plateforme de réception" },
-      { "toolId": "crm_lo", "slot": "commercial", "action": "Garder devis / Stripe / checklist CRM" }
+      { "toolId": "crm_lo", "slot": "commercial", "action": "Garder devis / Stripe / checklist CRM" },
+      { "toolId": "make", "slot": "automation", "action": "Make Free : webhook CRM → Drive/mail → saisie Tiime (docs/MAKE-TIIME-EINVOICE.md)" }
     ],
     "optional": [
       { "toolId": "indy", "slot": "compta", "action": "Seulement si tu gères la compta seul (sinon expert-comptable)" },

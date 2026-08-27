@@ -130,6 +130,7 @@
       bank: "Banque",
       erp_later: "ERP plus tard",
       commercial: "Commercial",
+      automation: "Automation",
     };
     return map[role] || role || "";
   }
@@ -143,7 +144,7 @@
     if (reco) {
       var chosen = mix.chosen || {};
       reco.innerHTML =
-        "<strong>Reco LO (EI) :</strong> PDP = <strong>Tiime</strong> (0 €) + CRM/Stripe déjà en place. " +
+        "<strong>Reco LO (EI) :</strong> PDP = <strong>Tiime</strong> (0 €) + CRM/Stripe + Make Free. " +
         "Optionnel : Indy (compta) ou Shine (banque). Éviter Abby+Tiime en double, et Odoo pour l’instant.<br/>" +
         "Choix actuel : <strong>" +
         esc(chosen.primaryName || settings.stackPrimaryPdp || "—") +
@@ -189,6 +190,28 @@
       form.companion_indy.checked = companions.indexOf("indy") !== -1;
       form.companion_shine.checked = companions.indexOf("shine") !== -1;
     }
+  }
+
+  function renderMakeStatus(makeInfo) {
+    var el = document.getElementById("einvMakeStatus");
+    if (!el) return;
+    var m = makeInfo || {};
+    function pill(ok, label, detail) {
+      return (
+        '<div class="einv-make-pill ' +
+        (ok ? "ok" : "warn") +
+        '"><strong>' +
+        esc(label) +
+        "</strong><div>" +
+        esc(detail) +
+        "</div></div>"
+      );
+    }
+    el.innerHTML =
+      pill(!!m.outboundConfigured, "Make → sortie", m.outboundConfigured ? "Webhook configuré" : "Ajouter MAKE_EINVOICE_WEBHOOK_URL") +
+      pill(!!m.inboundSecretConfigured, "Make → entrée", m.inboundSecretConfigured ? "Secret OK" : "Ajouter MAKE_EINVOICE_WEBHOOK_SECRET") +
+      pill(true, "URL inbound", m.inboundUrl || "/api/webhooks/make-einvoice") +
+      pill(true, "Sync reçus", String(m.syncCount != null ? m.syncCount : 0) + " event(s)");
   }
 
   function downloadXml(id, filename) {
@@ -276,6 +299,7 @@
         renderKpis(data);
         renderChecklist(data.settings);
         renderSmartMix(data.smartMix, data.settings);
+        renderMakeStatus(data.make);
         fillForm(document.getElementById("einvPdpForm"), data.settings);
         fillForm(document.getElementById("einvIdentityForm"), data.settings);
         return data;
@@ -463,6 +487,35 @@
     form.companion_shine.checked = false;
     form.markDesignated.checked = false;
   });
+
+  var testMakeBtn = document.getElementById("einvTestMake");
+  if (testMakeBtn) {
+    testMakeBtn.addEventListener("click", function () {
+      var out = document.getElementById("einvMakeTestResult");
+      out.textContent = "Envoi…";
+      fetch("/api/crm/e-invoicing", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ action: "test-make" }),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (res) {
+          var m = res.make || {};
+          if (m.skipped) {
+            out.textContent = "Pas encore configuré : définis MAKE_EINVOICE_WEBHOOK_URL sur Vercel.";
+            return;
+          }
+          out.textContent = m.ok
+            ? "OK — Make a répondu (HTTP " + m.status + ")."
+            : "Échec Make : " + (m.error || m.bodyPreview || "HTTP " + m.status);
+        })
+        .catch(function () {
+          out.textContent = "Erreur réseau";
+        });
+    });
+  }
 
   loadAll().then(loadLists);
 })();

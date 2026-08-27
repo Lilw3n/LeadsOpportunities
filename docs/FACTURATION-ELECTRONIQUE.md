@@ -47,12 +47,14 @@ Pendant le démarrage, l’admin fiscale indique qu’il n’y aura pas de sanct
 |---|---|---|---|
 | **PDP légale** | **Tiime** | 0 € | Recommandé — réception + factu |
 | Commercial | CRM LO + Stripe | déjà là | Devis, acomptes, registre |
+| Automation | **Make Free** | 0 € | Pont CRM → Drive/mail → Tiime |
 | Compta (option) | Indy | 0 € | Seulement si tu gères seul |
 | Banque (option) | Shine | selon offre | Compte pro, pas 2ᵉ PDP |
 | Plan B | Abby | 0 € | À la place de Tiime, pas en plus |
 | Plus tard | Odoo | free → payant | Trop lourd pour l’EI court terme |
 
-Config : `config/e-invoicing-stack.json` · UI : panneau « Mix intelligent » sur `/crm-e-invoicing.html`.
+Config : `config/e-invoicing-stack.json` · UI : panneau « Mix intelligent » sur `/crm-e-invoicing.html`.  
+Pont Make : **`docs/MAKE-TIIME-EINVOICE.md`** · blueprint `data/make-blueprints/einvoice-crm-to-make.json`.
 
 ## Mentions obligatoires (émission)
 

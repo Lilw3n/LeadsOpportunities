@@ -4,6 +4,7 @@ const { requireCrm, effectiveCrmRole } = require("../rbac");
 const { getSql } = require("../db");
 const { ensureEInvoicingSchema } = require("../ensure-schema");
 const einv = require("../e-invoicing");
+const makeBridge = require("../make-einvoice");
 
 function isAdmin(user) {
   return user.role === "admin" || effectiveCrmRole({ role: user.role, crm_role: user.crmRole }) === "admin";
@@ -60,24 +61,39 @@ module.exports = async (req, res) => {
     const settings = await loadSettings(sql);
     let receivedCount = 0;
     let issuedCount = 0;
+    let makeSyncCount = 0;
     try {
       const [r] = await sql`SELECT COUNT(*)::int AS c FROM e_invoices_received`;
       receivedCount = r?.c || 0;
       const [i] = await sql`SELECT COUNT(*)::int AS c FROM e_invoices_issued`;
       issuedCount = i?.c || 0;
+      const [m] = await sql`SELECT COUNT(*)::int AS c FROM e_invoice_make_sync`;
+      makeSyncCount = m?.c || 0;
     } catch (e) {
       /* tables may be creating */
     }
+    const makeConfigured = !!makeBridge.getMakeOutboundUrl();
+    const makeSecretConfigured = !!makeBridge.getMakeInboundSecret();
     return res.status(200).json({
       ok: true,
       settings: settings,
       readiness: einv.readiness(settings),
       smartMix: einv.buildSmartMix(settings),
-      counts: { received: receivedCount, issued: issuedCount },
+      make: {
+        outboundConfigured: makeConfigured,
+        inboundSecretConfigured: makeSecretConfigured,
+        inboundUrl: "https://www.leadsopportunities.fr/api/webhooks/make-einvoice",
+        syncCount: makeSyncCount,
+        freePath: true,
+        scenariosDoc: "/docs/MAKE-TIIME-EINVOICE.md",
+      },
+      counts: { received: receivedCount, issued: issuedCount, makeSync: makeSyncCount },
       links: {
         officialGuide: "https://www.impots.gouv.fr/facturation-electronique",
         pdpList: "https://www.impots.gouv.fr/liste-des-plateformes-agreees-pdp",
         servicePublic: "https://entreprendre.service-public.gouv.fr/actualites/A15683",
+        tiime: "https://www.tiime.fr",
+        make: "https://www.make.com/en/register",
         assistance: "0 806 807 807",
       },
     });
@@ -185,6 +201,14 @@ module.exports = async (req, res) => {
       });
     }
 
+    if (postAction === "test-make") {
+      const result = await makeBridge.dispatchToMake("make_ping", {
+        message: "Test connexion Make depuis CRM Leads Opportunities",
+        user: user.email || user.id || null,
+      });
+      return res.status(200).json({ ok: true, make: result });
+    }
+
     if (postAction === "register-received") {
       const id = "eir_" + crypto.randomBytes(8).toString("hex");
       const amountHt = body.amountHt != null ? Number(body.amountHt) : null;
@@ -220,7 +244,15 @@ module.exports = async (req, res) => {
             ${user.id || user.email || null}
           )
         `;
-        return res.status(200).json({ ok: true, id: id });
+        const makeResult = await makeBridge.dispatchToMake("invoice_received_registered", {
+          id: id,
+          supplierName: body.supplierName || null,
+          supplierSiren: einv.digitsOnly(body.supplierSiren) || null,
+          invoiceNumber: body.invoiceNumber || null,
+          amountTtc: amountTtc,
+          channel: body.channel || "email_pdf",
+        });
+        return res.status(200).json({ ok: true, id: id, make: makeResult });
       } catch (e) {
         console.error("[e-invoicing register-received]", e);
         return res.status(500).json({ error: "Erreur enregistrement" });
@@ -296,6 +328,26 @@ module.exports = async (req, res) => {
             ${user.id || user.email || null}
           )
         `;
+        const makeResult = await makeBridge.dispatchToMake("invoice_issued", {
+          id: id,
+          invoiceNumber: invoice.invoiceNumber,
+          buyerName: invoice.buyerName,
+          buyerSiren: invoice.buyerSiren,
+          amountHt: invoice.amountHt,
+          amountTva: invoice.amountTva,
+          amountTtc: invoice.amountTtc,
+          vatRate: invoice.vatRate,
+          operationType: invoice.operationType,
+          lineDescription: invoice.lineDescription,
+          invoiceDate: invoice.invoiceDate,
+          mentions: mentions,
+          xmlCii: xml,
+          tiimeFreeSteps: [
+            "Ouvrir Tiime Free",
+            "Créer une facture avec les mêmes montants / SIREN client",
+            "Laisser Tiime transmettre via la PA (circuit légal)",
+          ],
+        });
         return res.status(200).json({
           ok: true,
           id: id,
@@ -303,8 +355,9 @@ module.exports = async (req, res) => {
           mentions: mentions,
           xmlPreview: xml.slice(0, 500),
           downloadPath: "/api/crm/e-invoicing?sub=xml&id=" + id,
+          make: makeResult,
           warning:
-            "Un XML Factur-X seul ne suffit pas : transmission via une plateforme agréée (PDP) obligatoire pour être conforme.",
+            "Un XML Factur-X seul ne suffit pas : transmission via Tiime (PA) obligatoire. Make pousse le brouillon vers Drive/email pour saisie Tiime Free.",
         });
       } catch (e) {
         console.error("[e-invoicing issue]", e);

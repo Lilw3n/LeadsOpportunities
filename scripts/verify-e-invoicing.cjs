@@ -18,6 +18,7 @@ function read(rel) {
 
 var hub = read("crm-e-invoicing.html");
 assert(hub.indexOf("einvMixForm") !== -1, "formulaire mix intelligent");
+assert(hub.indexOf("einvMakePanel") !== -1 || hub.indexOf("einvTestMake") !== -1, "panneau Make Tiime");
 assert(hub.indexOf("einvIssueForm") !== -1, "formulaire emission Factur-X");
 assert(hub.indexOf("einvPdpForm") !== -1, "formulaire PDP");
 assert(hub.indexOf("1er septembre 2026") !== -1 || hub.indexOf("septembre 2026") !== -1, "echeance reception 2026");
@@ -26,6 +27,7 @@ assert(hub.indexOf("crm-e-invoicing.js") !== -1, "script UI");
 var js = read("js/crm-e-invoicing.js");
 assert(js.indexOf("/api/crm/e-invoicing") !== -1, "appels API e-invoicing");
 assert(js.indexOf("apply-smart-mix") !== -1, "action apply-smart-mix");
+assert(js.indexOf("test-make") !== -1, "bouton test Make");
 assert(js.indexOf("save-settings") !== -1, "sauvegarde settings");
 assert(js.indexOf("register-received") !== -1, "registre reception");
 
@@ -34,7 +36,22 @@ assert(api.indexOf("ensureEInvoicingSchema") !== -1, "schema auto");
 assert(api.indexOf("buildCiiXml") !== -1, "generation CII");
 assert(api.indexOf("buildSmartMix") !== -1, "smart mix API");
 assert(api.indexOf("apply-smart-mix") !== -1, "route apply-smart-mix");
+assert(api.indexOf("dispatchToMake") !== -1 || api.indexOf("makeBridge") !== -1, "dispatch Make");
 assert(api.indexOf('postAction === "issue"') !== -1, "action issue");
+
+var wh = read("api/webhooks/[action].js");
+assert(wh.indexOf("make-einvoice") !== -1, "webhook make-einvoice");
+
+var makeLib = read("api/_lib/make-einvoice.js");
+assert(makeLib.indexOf("MAKE_EINVOICE_WEBHOOK_URL") !== -1, "env MAKE_EINVOICE_WEBHOOK_URL");
+
+var makeDoc = read("docs/MAKE-TIIME-EINVOICE.md");
+assert(makeDoc.indexOf("Tiime Free") !== -1, "doc parcours Tiime Free");
+assert(makeDoc.indexOf("/api/webhooks/make-einvoice") !== -1, "doc inbound webhook");
+
+var blueprint = JSON.parse(read("data/make-blueprints/einvoice-crm-to-make.json"));
+assert(blueprint.plan === "make-free", "blueprint make-free");
+assert(blueprint.modules && blueprint.modules.length >= 3, "blueprint modules");
 
 var router = read("api/crm/[action].js");
 assert(router.indexOf('"e-invoicing"') !== -1, "route CRM e-invoicing");
@@ -70,6 +87,12 @@ assert(
     return t.id === "shine";
   }),
   "catalogue Shine"
+);
+assert(
+  stack.tools.some(function (t) {
+    return t.id === "make";
+  }),
+  "catalogue Make"
 );
 assert(
   stack.tools.some(function (t) {

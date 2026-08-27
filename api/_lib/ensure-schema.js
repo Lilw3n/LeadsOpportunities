@@ -348,6 +348,20 @@ async function ensureEInvoicingSchema(sql) {
       )
     `;
   });
+  await runStatement(sql, function (s) {
+    return s`
+      CREATE TABLE IF NOT EXISTS e_invoice_make_sync (
+        id TEXT PRIMARY KEY,
+        direction TEXT,
+        event TEXT,
+        external_id TEXT,
+        invoice_number TEXT,
+        payload TEXT,
+        status TEXT DEFAULT 'received',
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      )
+    `;
+  });
   return true;
 }
 

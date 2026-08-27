@@ -64,6 +64,28 @@
     </form>
   </section>
 
+  <section class="panel einv-panel einv-make" id="einvMakePanel">
+    <h3>Intégration Tiime + Make (0 €)</h3>
+    <p class="einv-muted">
+      Parcours gratuit : <strong>Tiime Free</strong> = PDP légale · <strong>Make Free</strong> = automatisations ·
+      CRM = devis / Stripe / Factur-X. L’API Tiime native (module Make « Tiime Apps ») est sur offre Business (essai possible) ;
+      le pont 0 € utilise des webhooks Make + Drive / e-mail.
+    </p>
+    <div id="einvMakeStatus" class="einv-make-status"></div>
+    <ol class="einv-steps">
+      <li>Créer un compte <a href="https://www.tiime.fr" target="_blank" rel="noopener">Tiime Free</a> et désigner Tiime comme PDP (mix ci-dessus).</li>
+      <li>Créer un compte <a href="https://www.make.com/en/register" target="_blank" rel="noopener">Make Free</a> (1 000 ops/mois).</li>
+      <li>Dans Make : scénario « Custom webhook » → coller l’URL dans Vercel <code>MAKE_EINVOICE_WEBHOOK_URL</code>.</li>
+      <li>Scénario retour : Make → HTTP POST <code>/api/webhooks/make-einvoice</code> avec secret <code>MAKE_EINVOICE_WEBHOOK_SECRET</code>.</li>
+      <li>Guide détaillé : <a href="./docs/MAKE-TIIME-EINVOICE.md" target="_blank" rel="noopener">docs/MAKE-TIIME-EINVOICE.md</a></li>
+    </ol>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-primary" id="einvTestMake">Tester webhook Make (sortie)</button>
+      <a class="btn btn-ghost" href="https://www.make.com/en/templates" target="_blank" rel="noopener">Modèles Make</a>
+    </div>
+    <p id="einvMakeTestResult" class="einv-muted" style="margin-top:10px"></p>
+  </section>
+
   <div class="einv-grid">
     <section class="panel einv-panel">
       <h3>Checklist conformité</h3>
