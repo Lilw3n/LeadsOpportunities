@@ -401,6 +401,18 @@ var MAP = {
   "assurance-auto-bonus-malus.html": { hero: "bonusMalus", figure: "voiture" },
   "formule-1-grands-prix-assurance-voyage-auto.html": { hero: "f1voyage", figure: "voyageFoot" },
 
+  /* VSP / voiture sans permis */
+  "assurance-voiture-sans-permis-guide-2026.html": { hero: "voiture", figure: "jeuneCond" },
+  "permis-am-bsr-assr-voiture-sans-permis-2026.html": { hero: "jeuneCond", figure: "voiture" },
+  "tarif-assurance-voiture-sans-permis-2026.html": { hero: "voiture", figure: "bonusMalus" },
+  "assurance-voiturette-quadricycle-leger-2026.html": { hero: "voiture", figure: "jeuneCond" },
+  "assurance-aixam-ligier-microcar-voiture-sans-permis.html": { hero: "voiture", figure: "bonusMalus" },
+  "citroen-ami-assurance-sans-permis.html": { hero: "voiture", figure: "jeuneCond" },
+  "jeune-conducteur-16-ans-assurance-voiture-sans-permis.html": { hero: "jeuneCond", figure: "voiture" },
+  "assurance-vsp-vol-bris-tous-risques.html": { hero: "voiture", figure: "bonusMalus" },
+  "resilier-changer-assurance-voiture-sans-permis.html": { hero: "bonusMalus", figure: "voiture" },
+  "assurance-vsp-nancy-varangeville-meurthe-et-moselle.html": { hero: "voiture", figure: "maisonFamille" },
+
   /* Animaux */
   "chat-puces-tiques-assurance-remboursement.html": { hero: "chatSoin", figure: "chienVet" },
   "assurance-animaux-comment-choisir.html": { hero: "chienVet", figure: "chatSoin" },
@@ -465,6 +477,7 @@ var SECTION_DEFAULT = {
   sante: { hero: "seniorDoctor", figure: "familyHealth" },
   habitat: { hero: "maisonFamille", figure: "appartLoc" },
   auto: { hero: "voiture", figure: "jeuneCond" },
+  vsp: { hero: "voiture", figure: "jeuneCond" },
   animaux: { hero: "chienVet", figure: "chatSoin" },
   vtc: { hero: "vtcChauffeur", figure: "taxiVille" },
   finance: { hero: "creditCles", figure: "signaturePret" },

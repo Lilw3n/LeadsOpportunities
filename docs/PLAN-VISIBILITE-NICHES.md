@@ -54,7 +54,8 @@ Tu as **4 silos live** avec **189 villes** chacun :
 **Actions contenu (août 2026) :**
 
 - Module blog **`scripts/blog-niches-actu-articles.cjs`** — incendies Gironde, restrictions d'eau, présidentielle 2027, chasse, équitation, animaux
-- Vérif : `npm run verify:niches-actu`
+- Module blog **`scripts/blog-vsp-articles.cjs`** — 10 articles VSP (tarifs, Ami, Aixam, 16 ans, Nancy / Varangéville)
+- Vérif : `npm run verify:niches-actu` · `npm run verify:vsp`
 - Partager les URLs niches + articles actu sur Facebook / groupes chasse-équitation
 - Google Business Profile Varangeville + lien site
 - GSC : `npm run gsc:niches` + `npm run gsc:urls`

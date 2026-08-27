@@ -45,6 +45,12 @@ var NICHES_EQUITATION = [
 var NICHES_VSP = [
   link("/blog/assurance-voiture-sans-permis-guide-2026.html", "Guide VSP 2026"),
   link("/blog/permis-am-bsr-assr-voiture-sans-permis-2026.html", "Permis AM / BSR / ASSR"),
+  link("/blog/tarif-assurance-voiture-sans-permis-2026.html", "Tarifs VSP 2026"),
+  link("/blog/assurance-voiturette-quadricycle-leger-2026.html", "Voiturette / quadricycle"),
+  link("/blog/assurance-aixam-ligier-microcar-voiture-sans-permis.html", "Aixam Ligier Microcar"),
+  link("/blog/citroen-ami-assurance-sans-permis.html", "Citroën Ami"),
+  link("/blog/jeune-conducteur-16-ans-assurance-voiture-sans-permis.html", "VSP à 16 ans"),
+  link("/blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html", "VSP Nancy / Varangéville"),
   link("/assurance-voiture-sans-permis/permis-am/", "Hub permis AM"),
   link("/assurance-voiture-sans-permis/quadricycle/", "Hub quadricycle"),
   link("/landings/vsp.html", "Devis voiture sans permis"),

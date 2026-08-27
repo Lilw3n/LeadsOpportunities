@@ -111,6 +111,11 @@ const GSC_INDEX_NOW_PRIORITY = [
   "/blog/assurance-cheval-pas-cher-criteres-2026.html",
   "/blog/assurance-voiture-sans-permis-guide-2026.html",
   "/blog/permis-am-bsr-assr-voiture-sans-permis-2026.html",
+  "/blog/tarif-assurance-voiture-sans-permis-2026.html",
+  "/blog/assurance-aixam-ligier-microcar-voiture-sans-permis.html",
+  "/blog/citroen-ami-assurance-sans-permis.html",
+  "/blog/jeune-conducteur-16-ans-assurance-voiture-sans-permis.html",
+  "/blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html",
   "/blog/feux-foret-animaux-chien-chat-assurance.html",
   "/blog/orages-grele-ete-auto-habitation-2026.html",
   /* Blog money — VTC + mutuelle canicule + emprunteur */
