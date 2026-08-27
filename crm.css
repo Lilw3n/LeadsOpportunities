@@ -151,6 +151,27 @@ input, select, textarea {
 .form-grid .full { grid-column: 1 / -1; }
 .hidden { display: none !important; }
 .crm-auth { max-width: 420px; margin: 10vh auto; padding: 28px; background: var(--card); border-radius: var(--radius); border: 1px solid var(--line); }
+.crm-auth label { display: flex; flex-direction: column; gap: 6px; font-size: .85rem; font-weight: 600; margin-bottom: 12px; }
+.crm-auth input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: inherit;
+}
+.crm-auth-hub-link {
+  display: block;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f0fdfa;
+  border: 1px solid #99f6e4;
+  color: #0f766e;
+  font-weight: 700;
+  font-size: .92rem;
+  text-decoration: none;
+}
 .crm-detail { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
 .crm-detail h3 { margin: 0 0 10px; }
 .activity { font-size: .85rem; padding: 8px 0; border-bottom: 1px dashed var(--line); color: var(--muted); }
@@ -160,4 +181,13 @@ input, select, textarea {
   .crm-sidebar { transform: translateX(-100%); }
   .crm-main { margin-left: 0; }
   .form-grid { grid-template-columns: 1fr; }
+  .crm-auth {
+    max-width: none;
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    border: none;
+    border-radius: 0;
+    padding: 28px 18px calc(28px + env(safe-area-inset-bottom));
+  }
 }
