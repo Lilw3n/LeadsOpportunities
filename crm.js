@@ -803,6 +803,10 @@
             localStorage.setItem(USER_KEY, JSON.stringify(data.user));
             state.user = data.user;
             window.history.replaceState({}, "", "./crm.html");
+            if (window.matchMedia("(max-width: 768px)").matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "")) {
+              window.location.href = "./crm-mobile.html";
+              return;
+            }
             showApp();
             setSection("overview");
           } else {
