@@ -241,12 +241,18 @@ module.exports = async (req, res) => {
       crmRole: crmRole || null,
     });
 
-    const allowedReturns = ["/crm.html", "/dashboard.html", "/auth.html"];
+    const allowedReturns = [
+      "/crm.html",
+      "/crm-mobile.html",
+      "/dashboard.html",
+      "/auth.html",
+      "/admin.html",
+    ];
     let dest =
       returnTo && allowedReturns.indexOf(returnTo) !== -1
         ? returnTo
         : role === "admin" || crmRole
-          ? "/crm.html"
+          ? "/admin.html"
           : "/auth.html";
 
     const q = new URLSearchParams({
@@ -254,6 +260,7 @@ module.exports = async (req, res) => {
       token: token,
       dest: dest,
     });
+    // crm.html consomme le token lui-même ; sinon auth.html puis redirection vers dest
     const landing = dest === "/crm.html" ? "/crm.html" : "/auth.html";
     res.writeHead(302, { Location: getAppUrl() + landing + "?" + q.toString() });
     res.end();
