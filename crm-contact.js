@@ -305,6 +305,25 @@
     });
   }
 
+  function bindTodoistFiche() {
+    var btn = document.getElementById("btnTodoistFiche");
+    if (btn && !btn.dataset.bound) {
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", function () {
+        api("/api/crm/todoist", {
+          method: "POST",
+          body: { contactId: contactId, content: "Rappeler " + (contactDisplayName() || contactId) },
+        }).then(function (res) {
+          if (!res.ok) {
+            alert(res.error || res.hint || "Todoist non connecté — ouvrez crm-todoist.html");
+            return;
+          }
+          alert("Tâche créée dans Todoist");
+        });
+      });
+    }
+  }
+
   function priorityBadge(p) {
     var C = window.CrmConstants || {};
     var cls = (C.PRIORITY_CLASS && C.PRIORITY_CLASS[p]) || "";
@@ -1890,6 +1909,7 @@
     renderHeader();
     renderDossier();
     bindSlackFiche();
+    bindTodoistFiche();
     renderDriveBar(data.driveInfo || {});
     renderKpis();
     renderDocuments();
