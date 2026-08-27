@@ -33,10 +33,11 @@ const DEFAULT_SETTINGS = {
   directoryRegistered: false,
   notes: "",
   stackPrimaryPdp: "tiime",
-  stackCompanions: ["crm_lo", "make"],
+  stackCompanions: ["crm_lo", "make", "notion"],
   tiimeAccountCreated: true,
   tiimeIdentityPending: true,
   makeAccountPending: true,
+  notionAccountPending: true,
   checklist: {
     identifiedActors: true,
     chosenPdpOrAccountingTool: true,
@@ -198,6 +199,9 @@ function readiness(settings) {
   }
   if (s.makeAccountPending) {
     blockers.push("Créer le compte Make Free et renseigner MAKE_EINVOICE_WEBHOOK_URL + SECRET sur Vercel.");
+  }
+  if (s.notionAccountPending) {
+    blockers.push("Créer la base Notion Facturation + brancher Make ou NOTION_TOKEN (docs/NOTION-EINVOICE.md).");
   }
   if (!identityOk) {
     blockers.push("Compléter l'identité légale (SIREN, adresse, raison sociale).");

@@ -22,10 +22,11 @@
   "directoryRegistered": false,
   "notes": "Compte Tiime Free créé — vérification pièce d'identité en cours. Make à brancher ensuite.",
   "stackPrimaryPdp": "tiime",
-  "stackCompanions": ["crm_lo", "make"],
+  "stackCompanions": ["crm_lo", "make", "notion"],
   "tiimeAccountCreated": true,
   "tiimeIdentityPending": true,
   "makeAccountPending": true,
+  "notionAccountPending": true,
   "checklist": {
     "identifiedActors": true,
     "chosenPdpOrAccountingTool": true,

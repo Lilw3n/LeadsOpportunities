@@ -1,0 +1,49 @@
+{
+  "name": "LO — CRM → Make → Drive + Notion + mail (0€)",
+  "description": "Webhook CRM invoice_issued → sauver XML Drive → créer ligne Notion → e-mail rappel Tiime Free.",
+  "plan": "make-free",
+  "modules": [
+    {
+      "type": "gateway:CustomWebHook",
+      "label": "Webhook CRM LO",
+      "notes": "URL → MAKE_EINVOICE_WEBHOOK_URL"
+    },
+    {
+      "type": "builtin:BasicFilter",
+      "label": "Filtrer invoice_issued / invoice_received_registered",
+      "condition": "event in (invoice_issued, invoice_received_registered)"
+    },
+    {
+      "type": "google-drive:uploadFile",
+      "label": "Sauver XML Factur-X (si émise)",
+      "mapping": {
+        "filename": "{{data.invoiceNumber}}-factur-x.xml",
+        "content": "{{data.xmlCii}}",
+        "folder": "Facturation-LO"
+      }
+    },
+    {
+      "type": "notion:createDatabaseItem",
+      "label": "Ligne base Facturation LO",
+      "schema": "data/notion/einvoice-database-schema.json",
+      "mapping": {
+        "Nom": "{{data.invoiceNumber}}",
+        "Type": "Émise ou Reçue selon event",
+        "Client": "{{data.buyerName}}{{data.supplierName}}",
+        "SIREN": "{{data.buyerSiren}}{{data.supplierSiren}}",
+        "Montant HT": "{{data.amountHt}}",
+        "Montant TTC": "{{data.amountTtc}}",
+        "Via Make": true
+      }
+    },
+    {
+      "type": "gmail:sendEmail",
+      "label": "Rappel Tiime Free",
+      "mapping": {
+        "to": "courtier972@gmail.com",
+        "subject": "Facture {{data.invoiceNumber}} → Tiime + Notion OK"
+      }
+    }
+  ],
+  "docs": ["docs/MAKE-TIIME-EINVOICE.md", "docs/NOTION-EINVOICE.md"]
+}

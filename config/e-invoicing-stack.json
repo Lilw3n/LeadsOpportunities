@@ -59,13 +59,24 @@
       "scoreForLo": 35
     },
     {
+      "id": "notion",
+      "name": "Notion",
+      "role": "ops_hub",
+      "price": "0 € (Free)",
+      "pdp": false,
+      "url": "https://www.notion.so",
+      "bestFor": "Tableau de bord factures + go-live checklist",
+      "useInMix": "Archive / suivi — via Make ou API NOTION_TOKEN (docs/NOTION-EINVOICE.md)",
+      "scoreForLo": 85
+    },
+    {
       "id": "make",
       "name": "Make.com",
       "role": "automation",
       "price": "0 € (Free 1 000 ops/mois)",
       "pdp": false,
       "url": "https://www.make.com/en/register",
-      "bestFor": "Pont CRM ↔ Drive / e-mail / Tiime",
+      "bestFor": "Pont CRM ↔ Drive / Notion / e-mail / Tiime",
       "useInMix": "Automatiser sans payer — webhooks MAKE_EINVOICE_*",
       "scoreForLo": 90
     },
@@ -85,7 +96,8 @@
     "now": [
       { "toolId": "tiime", "slot": "pdp_legale", "action": "Créer compte Free + désigner comme plateforme de réception" },
       { "toolId": "crm_lo", "slot": "commercial", "action": "Garder devis / Stripe / checklist CRM" },
-      { "toolId": "make", "slot": "automation", "action": "Make Free : webhook CRM → Drive/mail → saisie Tiime (docs/MAKE-TIIME-EINVOICE.md)" }
+      { "toolId": "make", "slot": "automation", "action": "Make Free : webhook CRM → Drive/Notion/mail → saisie Tiime" },
+      { "toolId": "notion", "slot": "ops_hub", "action": "Base Notion Facturation LO (schéma data/notion/)" }
     ],
     "optional": [
       { "toolId": "indy", "slot": "compta", "action": "Seulement si tu gères la compta seul (sinon expert-comptable)" },

@@ -137,6 +137,7 @@
       erp_later: "ERP plus tard",
       commercial: "Commercial",
       automation: "Automation",
+      ops_hub: "Ops / Notion",
     };
     return map[role] || role || "";
   }
@@ -196,7 +197,17 @@
       form.companion_indy.checked = companions.indexOf("indy") !== -1;
       form.companion_shine.checked = companions.indexOf("shine") !== -1;
       if (form.companion_make) form.companion_make.checked = companions.indexOf("make") !== -1 || companions.length === 0;
+      if (form.companion_notion) form.companion_notion.checked = companions.indexOf("notion") !== -1 || companions.length === 0;
     }
+  }
+
+  function renderNotionStatus(notionInfo) {
+    var el = document.getElementById("einvNotionStatus");
+    if (!el) return;
+    var n = notionInfo || {};
+    el.textContent = n.configured
+      ? "Notion API : configurée (NOTION_TOKEN OK)."
+      : "Notion : crée la base + Make module, ou renseigne NOTION_TOKEN + NOTION_EINVOICE_DATABASE_ID (0 €).";
   }
 
   function renderMakeStatus(makeInfo) {
@@ -307,6 +318,7 @@
         renderChecklist(data.settings);
         renderSmartMix(data.smartMix, data.settings);
         renderMakeStatus(data.make);
+        renderNotionStatus(data.notion);
         fillForm(document.getElementById("einvPdpForm"), data.settings);
         fillForm(document.getElementById("einvIdentityForm"), data.settings);
         return data;
@@ -465,6 +477,7 @@
     if (form.companion_indy.checked) companions.push("indy");
     if (form.companion_shine.checked) companions.push("shine");
     if (form.companion_make && form.companion_make.checked) companions.push("make");
+    if (form.companion_notion && form.companion_notion.checked) companions.push("notion");
     fetch("/api/crm/e-invoicing", {
       method: "POST",
       headers: headers(),
@@ -555,6 +568,43 @@
   if (markMake) {
     markMake.addEventListener("click", function () {
       postCrmAction("mark-make-ready");
+    });
+  }
+
+
+  var testNotionBtn = document.getElementById("einvTestNotion");
+  if (testNotionBtn) {
+    testNotionBtn.addEventListener("click", function () {
+      var out = document.getElementById("einvNotionStatus");
+      out.textContent = "Test Notion…";
+      fetch("/api/crm/e-invoicing", {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({ action: "test-notion" }),
+      })
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (res) {
+          var n = res.notion || {};
+          if (n.skipped) {
+            out.textContent = "Notion non configuré : NOTION_TOKEN + NOTION_EINVOICE_DATABASE_ID, ou utilise Make→Notion.";
+            return;
+          }
+          out.textContent = n.ok
+            ? "OK Notion — page " + (n.pageId || "créée") + (n.url ? " " + n.url : "")
+            : "Échec Notion : " + (n.error || n.bodyPreview || "HTTP " + n.status);
+        })
+        .catch(function () {
+          out.textContent = "Erreur réseau Notion";
+        });
+    });
+  }
+
+  var markNotion = document.getElementById("einvMarkNotionOk");
+  if (markNotion) {
+    markNotion.addEventListener("click", function () {
+      postCrmAction("mark-notion-ready");
     });
   }
 

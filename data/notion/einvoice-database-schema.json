@@ -1,0 +1,33 @@
+{
+  "title": "Facturation LO — schéma base Notion",
+  "description": "Créer une base de données Notion avec exactement ces propriétés (noms sensibles à la casse pour l'API directe).",
+  "urlCreate": "https://www.notion.so",
+  "properties": [
+    { "name": "Nom", "type": "title", "required": true },
+    { "name": "Type", "type": "select", "options": ["Émise", "Reçue", "Sync"] },
+    { "name": "N° facture", "type": "rich_text" },
+    { "name": "Client", "type": "rich_text" },
+    { "name": "SIREN", "type": "rich_text" },
+    { "name": "Montant HT", "type": "number", "format": "euro" },
+    { "name": "Montant TTC", "type": "number", "format": "euro" },
+    { "name": "Date", "type": "date" },
+    { "name": "Canal", "type": "select", "options": ["crm", "make", "tiime", "email_pdf", "pdp"] },
+    { "name": "Statut", "type": "select", "options": ["brouillon", "envoyée", "payée", "synced"] },
+    { "name": "Via Make", "type": "checkbox" },
+    { "name": "Notes", "type": "rich_text" }
+  ],
+  "makeMapping": {
+    "Nom": "{{data.invoiceNumber}}",
+    "Type": "Émise si event=invoice_issued sinon Reçue",
+    "N° facture": "{{data.invoiceNumber}}",
+    "Client": "{{data.buyerName}} ou {{data.supplierName}}",
+    "SIREN": "{{data.buyerSiren}}",
+    "Montant HT": "{{data.amountHt}}",
+    "Montant TTC": "{{data.amountTtc}}",
+    "Date": "{{data.invoiceDate}}",
+    "Canal": "crm",
+    "Statut": "brouillon",
+    "Via Make": true,
+    "Notes": "{{data.lineDescription}}"
+  }
+}

@@ -26,6 +26,17 @@ MAKE_EINVOICE_WEBHOOK_SECRET=<génère une longue chaîne aléatoire>
 7. Scénario retour : HTTP POST `https://www.leadsopportunities.fr/api/webhooks/make-einvoice`  
    Header `Authorization: Bearer {MAKE_EINVOICE_WEBHOOK_SECRET}`
 
+## 2b. Notion (0 €) — en parallèle
+
+1. Crée un compte [Notion](https://www.notion.so) Free
+2. Crée une base avec le schéma `data/notion/einvoice-database-schema.json`
+3. Soit :
+   - **Make** : module Notion « Create a Database Item » dans le même scénario webhook  
+   - **API directe** : `NOTION_TOKEN` + `NOTION_EINVOICE_DATABASE_ID` sur Vercel
+4. CRM → **Notion prêt** puis **Tester Notion**
+
+Doc : `docs/NOTION-EINVOICE.md`
+
 ## 3. Test de bout en bout
 
 1. CRM → générer une facture Factur-X test  

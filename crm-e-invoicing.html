@@ -52,6 +52,7 @@
         <label class="einv-check"><input type="checkbox" name="companion_indy" value="indy" /> Indy — compta / déclarations</label>
         <label class="einv-check"><input type="checkbox" name="companion_shine" value="shine" /> Shine — compte pro bancaire</label>
         <label class="einv-check"><input type="checkbox" name="companion_make" value="make" checked /> Make Free — automation</label>
+        <label class="einv-check"><input type="checkbox" name="companion_notion" value="notion" checked /> Notion — tableau factures</label>
         <label class="einv-check"><input type="checkbox" name="companion_crm" value="crm_lo" checked disabled /> CRM LO + Stripe — déjà en place</label>
       </fieldset>
       <label class="einv-check">
@@ -82,11 +83,15 @@
     </ol>
     <div class="crm-action-row">
       <button type="button" class="btn btn-primary" id="einvTestMake">Tester webhook Make (sortie)</button>
+      <button type="button" class="btn btn-ghost" id="einvTestNotion">Tester Notion</button>
       <button type="button" class="btn btn-ghost" id="einvMarkTiimeOk">Tiime vérifié → Active</button>
       <button type="button" class="btn btn-ghost" id="einvMarkMakeOk">Compte Make créé</button>
+      <button type="button" class="btn btn-ghost" id="einvMarkNotionOk">Notion prêt</button>
       <a class="btn btn-ghost" href="./docs/MAKE-TIIME-GOLIVE.md" target="_blank" rel="noopener">Go-live</a>
+      <a class="btn btn-ghost" href="./docs/NOTION-EINVOICE.md" target="_blank" rel="noopener">Doc Notion</a>
     </div>
     <p id="einvMakeTestResult" class="einv-muted" style="margin-top:10px"></p>
+    <p id="einvNotionStatus" class="einv-muted"></p>
   </section>
 
   <div class="einv-grid">

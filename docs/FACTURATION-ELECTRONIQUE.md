@@ -47,7 +47,8 @@ Pendant le démarrage, l’admin fiscale indique qu’il n’y aura pas de sanct
 |---|---|---|---|
 | **PDP légale** | **Tiime** | 0 € | Recommandé — réception + factu |
 | Commercial | CRM LO + Stripe | déjà là | Devis, acomptes, registre |
-| Automation | **Make Free** | 0 € | Pont CRM → Drive/mail → Tiime |
+| Automation | **Make Free** | 0 € | Pont CRM → Drive/Notion/mail → Tiime |
+| Ops hub | **Notion Free** | 0 € | Tableau factures (`docs/NOTION-EINVOICE.md`) |
 | Compta (option) | Indy | 0 € | Seulement si tu gères seul |
 | Banque (option) | Shine | selon offre | Compte pro, pas 2ᵉ PDP |
 | Plan B | Abby | 0 € | À la place de Tiime, pas en plus |

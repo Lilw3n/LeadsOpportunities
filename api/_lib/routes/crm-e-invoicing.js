@@ -5,6 +5,14 @@ const { getSql } = require("../db");
 const { ensureEInvoicingSchema } = require("../ensure-schema");
 const einv = require("../e-invoicing");
 const makeBridge = require("../make-einvoice");
+const notionBridge = require("../notion-einvoice");
+
+async function dispatchIntegrations(event, data) {
+  var makeResult = await makeBridge.dispatchToMake(event, data);
+  var notionPayload = Object.assign({}, data, { viaMake: false });
+  var notionResult = await notionBridge.dispatchToNotion(event, notionPayload);
+  return { make: makeResult, notion: notionResult };
+}
 
 function isAdmin(user) {
   return user.role === "admin" || effectiveCrmRole({ role: user.role, crm_role: user.crmRole }) === "admin";
@@ -74,6 +82,7 @@ module.exports = async (req, res) => {
     }
     const makeConfigured = !!makeBridge.getMakeOutboundUrl();
     const makeSecretConfigured = !!makeBridge.getMakeInboundSecret();
+    const notionConfigured = notionBridge.configured();
     return res.status(200).json({
       ok: true,
       settings: settings,
@@ -87,6 +96,12 @@ module.exports = async (req, res) => {
         freePath: true,
         scenariosDoc: "/docs/MAKE-TIIME-EINVOICE.md",
       },
+      notion: {
+        configured: notionConfigured,
+        freePath: true,
+        docs: "/docs/NOTION-EINVOICE.md",
+        schema: "/data/notion/einvoice-database-schema.json",
+      },
       counts: { received: receivedCount, issued: issuedCount, makeSync: makeSyncCount },
       links: {
         officialGuide: "https://www.impots.gouv.fr/facturation-electronique",
@@ -94,6 +109,7 @@ module.exports = async (req, res) => {
         servicePublic: "https://entreprendre.service-public.gouv.fr/actualites/A15683",
         tiime: "https://www.tiime.fr",
         make: "https://www.make.com/en/register",
+        notion: "https://www.notion.so",
         assistance: "0 806 807 807",
       },
     });
@@ -209,6 +225,41 @@ module.exports = async (req, res) => {
       return res.status(200).json({ ok: true, make: result });
     }
 
+    if (postAction === "test-notion") {
+      const result = await notionBridge.dispatchToNotion("make_ping", {
+        invoiceNumber: "TEST-NOTION",
+        buyerName: "Test Notion LO",
+        buyerSiren: "810571513",
+        amountHt: 0,
+        amountTtc: 0,
+        invoiceDate: new Date().toISOString().slice(0, 10),
+        status: "synced",
+        notes: "Ping test CRM → Notion",
+        channel: "crm",
+      });
+      return res.status(200).json({ ok: true, notion: result });
+    }
+
+    if (postAction === "mark-notion-ready") {
+      const current = await loadSettings(sql);
+      const next = einv.mergeSettings(
+        Object.assign({}, current, {
+          notionAccountPending: false,
+          notionConnectedAt: new Date().toISOString(),
+          stackCompanions: Array.from(
+            new Set([].concat(current.stackCompanions || [], ["crm_lo", "make", "notion"]))
+          ),
+        })
+      );
+      await saveSettings(sql, next, user.id || user.email);
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        message: "Notion marqué prêt. Vérifie NOTION_TOKEN + NOTION_EINVOICE_DATABASE_ID ou le module Make→Notion.",
+      });
+    }
+
     if (postAction === "mark-tiime-verified") {
       const current = await loadSettings(sql);
       const next = einv.mergeSettings(
@@ -295,15 +346,18 @@ module.exports = async (req, res) => {
             ${user.id || user.email || null}
           )
         `;
-        const makeResult = await makeBridge.dispatchToMake("invoice_received_registered", {
+        const integrations = await dispatchIntegrations("invoice_received_registered", {
           id: id,
           supplierName: body.supplierName || null,
           supplierSiren: einv.digitsOnly(body.supplierSiren) || null,
           invoiceNumber: body.invoiceNumber || null,
           amountTtc: amountTtc,
+          amountHt: amountHt,
+          invoiceDate: body.invoiceDate || null,
           channel: body.channel || "email_pdf",
+          status: "synced",
         });
-        return res.status(200).json({ ok: true, id: id, make: makeResult });
+        return res.status(200).json({ ok: true, id: id, make: integrations.make, notion: integrations.notion });
       } catch (e) {
         console.error("[e-invoicing register-received]", e);
         return res.status(500).json({ error: "Erreur enregistrement" });
@@ -379,7 +433,7 @@ module.exports = async (req, res) => {
             ${user.id || user.email || null}
           )
         `;
-        const makeResult = await makeBridge.dispatchToMake("invoice_issued", {
+        const integrations = await dispatchIntegrations("invoice_issued", {
           id: id,
           invoiceNumber: invoice.invoiceNumber,
           buyerName: invoice.buyerName,
@@ -393,6 +447,8 @@ module.exports = async (req, res) => {
           invoiceDate: invoice.invoiceDate,
           mentions: mentions,
           xmlCii: xml,
+          status: body.status || "draft",
+          channel: "crm",
           tiimeFreeSteps: [
             "Ouvrir Tiime Free",
             "Créer une facture avec les mêmes montants / SIREN client",
@@ -406,9 +462,10 @@ module.exports = async (req, res) => {
           mentions: mentions,
           xmlPreview: xml.slice(0, 500),
           downloadPath: "/api/crm/e-invoicing?sub=xml&id=" + id,
-          make: makeResult,
+          make: integrations.make,
+          notion: integrations.notion,
           warning:
-            "Un XML Factur-X seul ne suffit pas : transmission via Tiime (PA) obligatoire. Make pousse le brouillon vers Drive/email pour saisie Tiime Free.",
+            "Un XML Factur-X seul ne suffit pas : transmission via Tiime (PA) obligatoire. Make/Notion archivage + rappel saisie Tiime Free.",
         });
       } catch (e) {
         console.error("[e-invoicing issue]", e);
