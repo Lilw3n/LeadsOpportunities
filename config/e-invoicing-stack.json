@@ -1,0 +1,111 @@
+{
+  "profile": "leads-opportunities-ei",
+  "rule": "Une seule PDP légale de réception. Les autres outils sont complémentaires (compta, banque, ERP) — jamais une 2e PDP active en parallèle.",
+  "recommendedPrimaryPdp": "tiime",
+  "tools": [
+    {
+      "id": "tiime",
+      "name": "Tiime",
+      "role": "pdp_primary",
+      "price": "0 € (Free à vie)",
+      "pdp": true,
+      "url": "https://www.tiime.fr",
+      "bestFor": "Réception + émission Factur-X gratuite, solo / TPE",
+      "useInMix": "PDP légale recommandée — désigner celle-ci dans l'annuaire",
+      "scoreForLo": 95
+    },
+    {
+      "id": "indy",
+      "name": "Indy",
+      "role": "accounting",
+      "price": "0 € (Essentiel)",
+      "pdp": true,
+      "url": "https://www.indy.fr",
+      "bestFor": "Compta + déclarations indépendant / BNC",
+      "useInMix": "Complément compta SI pas d'expert-comptable full — sinon inutile de doubler la PDP",
+      "scoreForLo": 70
+    },
+    {
+      "id": "abby",
+      "name": "Abby",
+      "role": "pdp_alternative",
+      "price": "0 € (Basique)",
+      "pdp": true,
+      "url": "https://www.abby.fr",
+      "bestFor": "Micro / auto-entrepreneur, livre des recettes",
+      "useInMix": "Plan B si Tiime ne convient pas — PAS en plus de Tiime",
+      "scoreForLo": 75
+    },
+    {
+      "id": "shine",
+      "name": "Shine",
+      "role": "bank",
+      "price": "Compte pro (selon offre)",
+      "pdp": true,
+      "url": "https://www.shine.fr",
+      "bestFor": "Banque pro + facturation intégrée",
+      "useInMix": "Compte bancaire pro optionnel — ne pas en faire la 2e PDP si Tiime est déjà désignée",
+      "scoreForLo": 55
+    },
+    {
+      "id": "odoo",
+      "name": "Odoo",
+      "role": "erp_later",
+      "price": "0 € (One App Free) puis payant",
+      "pdp": true,
+      "url": "https://www.odoo.com/fr_FR",
+      "bestFor": "ERP modulaire (CRM, stock, factu) pour scale",
+      "useInMix": "Hors scope immédiat EI — trop lourd ; revoir si multi-users / catalogue",
+      "scoreForLo": 35
+    },
+    {
+      "id": "notion",
+      "name": "Notion",
+      "role": "ops_hub",
+      "price": "0 € (Free)",
+      "pdp": false,
+      "url": "https://www.notion.so",
+      "bestFor": "Tableau de bord factures + go-live checklist",
+      "useInMix": "Archive / suivi — via Make ou API NOTION_TOKEN (docs/NOTION-EINVOICE.md)",
+      "scoreForLo": 85
+    },
+    {
+      "id": "make",
+      "name": "Make.com",
+      "role": "automation",
+      "price": "0 € (Free 1 000 ops/mois)",
+      "pdp": false,
+      "url": "https://www.make.com/en/register",
+      "bestFor": "Pont CRM ↔ Drive / Notion / e-mail / Tiime",
+      "useInMix": "Automatiser sans payer — webhooks MAKE_EINVOICE_*",
+      "scoreForLo": 90
+    },
+    {
+      "id": "crm_lo",
+      "name": "CRM Leads Opportunities + Stripe",
+      "role": "commercial",
+      "price": "Déjà en place",
+      "pdp": false,
+      "url": "./crm-financial.html",
+      "bestFor": "Leads, devis, acomptes, registre, export Factur-X brouillon",
+      "useInMix": "Reste le hub commercial — envoie vers Make puis Tiime pour le circuit légal",
+      "scoreForLo": 100
+    }
+  ],
+  "mix": {
+    "now": [
+      { "toolId": "tiime", "slot": "pdp_legale", "action": "Créer compte Free + désigner comme plateforme de réception" },
+      { "toolId": "crm_lo", "slot": "commercial", "action": "Garder devis / Stripe / checklist CRM" },
+      { "toolId": "make", "slot": "automation", "action": "Make Free : webhook CRM → Drive/Notion/mail → saisie Tiime" },
+      { "toolId": "notion", "slot": "ops_hub", "action": "Base Notion Facturation LO (schéma data/notion/)" }
+    ],
+    "optional": [
+      { "toolId": "indy", "slot": "compta", "action": "Seulement si tu gères la compta seul (sinon expert-comptable)" },
+      { "toolId": "shine", "slot": "banque", "action": "Seulement pour le compte pro — pas pour remplacer Tiime" }
+    ],
+    "avoid": [
+      { "toolId": "abby", "reason": "Ne pas cumuler Abby + Tiime comme 2 PDP" },
+      { "toolId": "odoo", "reason": "Trop lourd pour l'EI court terme ; réévaluer plus tard" }
+    ]
+  }
+}

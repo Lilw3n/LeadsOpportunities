@@ -10,6 +10,7 @@ module.exports.config = {
 const ROUTES = {
   "meta-lead": () => require("../_lib/routes/webhook-meta-lead"),
   withallo: () => require("../_lib/routes/webhook-withallo"),
+  "make-einvoice": () => require("../_lib/routes/webhook-make-einvoice"),
 };
 
 module.exports = async (req, res) => {

@@ -1,0 +1,483 @@
+const crypto = require("crypto");
+const { applyApiGuards, parseJsonBody } = require("../security");
+const { requireCrm, effectiveCrmRole } = require("../rbac");
+const { getSql } = require("../db");
+const { ensureEInvoicingSchema } = require("../ensure-schema");
+const einv = require("../e-invoicing");
+const makeBridge = require("../make-einvoice");
+const notionBridge = require("../notion-einvoice");
+
+async function dispatchIntegrations(event, data) {
+  var makeResult = await makeBridge.dispatchToMake(event, data);
+  var notionPayload = Object.assign({}, data, { viaMake: false });
+  var notionResult = await notionBridge.dispatchToNotion(event, notionPayload);
+  return { make: makeResult, notion: notionResult };
+}
+
+function isAdmin(user) {
+  return user.role === "admin" || effectiveCrmRole({ role: user.role, crm_role: user.crmRole }) === "admin";
+}
+
+async function loadSettings(sql) {
+  try {
+    const rows = await sql`
+      SELECT payload FROM e_invoicing_settings WHERE id = 'default' LIMIT 1
+    `;
+    if (!rows.length) return einv.mergeSettings(null);
+    let parsed = rows[0].payload;
+    if (typeof parsed === "string") {
+      try {
+        parsed = JSON.parse(parsed);
+      } catch (e) {
+        parsed = {};
+      }
+    }
+    return einv.mergeSettings(parsed);
+  } catch (e) {
+    return einv.mergeSettings(null);
+  }
+}
+
+async function saveSettings(sql, settings, userId) {
+  const payload = JSON.stringify(settings);
+  await sql`
+    INSERT INTO e_invoicing_settings (id, payload, updated_at, updated_by)
+    VALUES ('default', ${payload}, NOW(), ${userId || null})
+    ON CONFLICT (id) DO UPDATE SET
+      payload = EXCLUDED.payload,
+      updated_at = NOW(),
+      updated_by = EXCLUDED.updated_by
+  `;
+}
+
+module.exports = async (req, res) => {
+  applyApiGuards(req, res);
+  if (req.method === "OPTIONS") return res.status(204).end();
+
+  const user = await requireCrm(req, res);
+  if (!user) return;
+
+  const sql = getSql();
+  if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
+
+  await ensureEInvoicingSchema(sql);
+
+  const url = new URL(req.url, "http://localhost");
+  const action = url.searchParams.get("sub") || url.searchParams.get("view") || "status";
+
+  if (req.method === "GET" && (action === "status" || action === "summary")) {
+    const settings = await loadSettings(sql);
+    let receivedCount = 0;
+    let issuedCount = 0;
+    let makeSyncCount = 0;
+    try {
+      const [r] = await sql`SELECT COUNT(*)::int AS c FROM e_invoices_received`;
+      receivedCount = r?.c || 0;
+      const [i] = await sql`SELECT COUNT(*)::int AS c FROM e_invoices_issued`;
+      issuedCount = i?.c || 0;
+      const [m] = await sql`SELECT COUNT(*)::int AS c FROM e_invoice_make_sync`;
+      makeSyncCount = m?.c || 0;
+    } catch (e) {
+      /* tables may be creating */
+    }
+    const makeConfigured = !!makeBridge.getMakeOutboundUrl();
+    const makeSecretConfigured = !!makeBridge.getMakeInboundSecret();
+    const notionConfigured = notionBridge.configured();
+    return res.status(200).json({
+      ok: true,
+      settings: settings,
+      readiness: einv.readiness(settings),
+      smartMix: einv.buildSmartMix(settings),
+      make: {
+        outboundConfigured: makeConfigured,
+        inboundSecretConfigured: makeSecretConfigured,
+        inboundUrl: "https://www.leadsopportunities.fr/api/webhooks/make-einvoice",
+        syncCount: makeSyncCount,
+        freePath: true,
+        scenariosDoc: "/docs/MAKE-TIIME-EINVOICE.md",
+      },
+      notion: {
+        configured: notionConfigured,
+        freePath: true,
+        docs: "/docs/NOTION-EINVOICE.md",
+        schema: "/data/notion/einvoice-database-schema.json",
+      },
+      counts: { received: receivedCount, issued: issuedCount, makeSync: makeSyncCount },
+      links: {
+        officialGuide: "https://www.impots.gouv.fr/facturation-electronique",
+        pdpList: "https://www.impots.gouv.fr/liste-des-plateformes-agreees-pdp",
+        servicePublic: "https://entreprendre.service-public.gouv.fr/actualites/A15683",
+        tiime: "https://www.tiime.fr",
+        make: "https://www.make.com/en/register",
+        notion: "https://www.notion.so",
+        assistance: "0 806 807 807",
+      },
+    });
+  }
+
+  if (req.method === "GET" && action === "received") {
+    try {
+      const rows = await sql`
+        SELECT * FROM e_invoices_received
+        ORDER BY COALESCE(invoice_date, created_at::date) DESC
+        LIMIT 200
+      `;
+      return res.status(200).json({ ok: true, invoices: rows });
+    } catch (e) {
+      console.error("[e-invoicing received]", e);
+      return res.status(500).json({ error: "Erreur lecture factures reçues" });
+    }
+  }
+
+  if (req.method === "GET" && action === "issued") {
+    try {
+      const rows = await sql`
+        SELECT id, buyer_name, buyer_siren, invoice_number, invoice_date, due_date,
+               currency, operation_type, amount_ht, vat_rate, amount_tva, amount_ttc,
+               delivery_address, vat_on_debits, line_description, status, contact_id,
+               quote_id, notes, created_at, updated_at
+        FROM e_invoices_issued
+        ORDER BY invoice_date DESC
+        LIMIT 200
+      `;
+      return res.status(200).json({ ok: true, invoices: rows });
+    } catch (e) {
+      console.error("[e-invoicing issued]", e);
+      return res.status(500).json({ error: "Erreur lecture factures émises" });
+    }
+  }
+
+  if (req.method === "GET" && action === "xml") {
+    const id = url.searchParams.get("id");
+    if (!id) return res.status(400).json({ error: "id requis" });
+    try {
+      const rows = await sql`SELECT xml_cii, invoice_number FROM e_invoices_issued WHERE id = ${id} LIMIT 1`;
+      if (!rows.length || !rows[0].xml_cii) {
+        return res.status(404).json({ error: "XML introuvable" });
+      }
+      res.setHeader("Content-Type", "application/xml; charset=utf-8");
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="' + (rows[0].invoice_number || id) + "-factur-x.xml"'
+      );
+      return res.status(200).send(rows[0].xml_cii);
+    } catch (e) {
+      return res.status(500).json({ error: "Erreur export XML" });
+    }
+  }
+
+  if (req.method === "POST") {
+    if (!isAdmin(user)) return res.status(403).json({ error: "Admin requis" });
+    const parsed = parseJsonBody(req);
+    if (parsed.error) return res.status(400).json({ error: parsed.error || "JSON invalide" });
+    const body = parsed.body || {};
+    const postAction = body.action || action;
+
+    if (postAction === "save-settings") {
+      const current = await loadSettings(sql);
+      const next = einv.mergeSettings(
+        Object.assign({}, current, body.settings || {}, {
+          checklist: Object.assign({}, current.checklist, (body.settings && body.settings.checklist) || {}),
+          emitDeadline: einv.emitDeadlineForSize(
+            (body.settings && body.settings.companySize) || current.companySize
+          ),
+        })
+      );
+      if (next.pdpStatus === "designated" || next.pdpStatus === "active") {
+        if (!next.pdpDesignatedAt) next.pdpDesignatedAt = new Date().toISOString();
+        next.checklist.designatedReceptionPlatform = true;
+        next.checklist.chosenPdpOrAccountingTool = true;
+      }
+      await saveSettings(sql, next, user.id || user.email);
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        smartMix: einv.buildSmartMix(next),
+      });
+    }
+
+    if (postAction === "apply-smart-mix") {
+      const current = await loadSettings(sql);
+      const next = einv.applyStackSelection(current, {
+        primaryPdp: body.primaryPdp || "tiime",
+        companions: body.companions || [],
+        markDesignated: !!body.markDesignated,
+      });
+      await saveSettings(sql, next, user.id || user.email);
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        smartMix: einv.buildSmartMix(next),
+        message:
+          "Mix enregistré. Une seule PDP légale : " +
+          (next.pdpName || next.stackPrimaryPdp) +
+          ". Crée le compte chez l'éditeur puis passe le statut à Active.",
+      });
+    }
+
+    if (postAction === "test-make") {
+      const result = await makeBridge.dispatchToMake("make_ping", {
+        message: "Test connexion Make depuis CRM Leads Opportunities",
+        user: user.email || user.id || null,
+      });
+      return res.status(200).json({ ok: true, make: result });
+    }
+
+    if (postAction === "test-notion") {
+      const result = await notionBridge.dispatchToNotion("make_ping", {
+        invoiceNumber: "TEST-NOTION",
+        buyerName: "Test Notion LO",
+        buyerSiren: "810571513",
+        amountHt: 0,
+        amountTtc: 0,
+        invoiceDate: new Date().toISOString().slice(0, 10),
+        status: "synced",
+        notes: "Ping test CRM → Notion",
+        channel: "crm",
+      });
+      return res.status(200).json({ ok: true, notion: result });
+    }
+
+    if (postAction === "mark-notion-ready") {
+      const current = await loadSettings(sql);
+      const next = einv.mergeSettings(
+        Object.assign({}, current, {
+          notionAccountPending: false,
+          notionConnectedAt: new Date().toISOString(),
+          stackCompanions: Array.from(
+            new Set([].concat(current.stackCompanions || [], ["crm_lo", "make", "notion"]))
+          ),
+        })
+      );
+      await saveSettings(sql, next, user.id || user.email);
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        message: "Notion marqué prêt. Vérifie NOTION_TOKEN + NOTION_EINVOICE_DATABASE_ID ou le module Make→Notion.",
+      });
+    }
+
+    if (postAction === "mark-tiime-verified") {
+      const current = await loadSettings(sql);
+      const next = einv.mergeSettings(
+        Object.assign({}, current, {
+          pdpName: current.pdpName || "Tiime",
+          pdpStatus: "active",
+          pdpDesignatedAt: current.pdpDesignatedAt || new Date().toISOString(),
+          tiimeAccountCreated: true,
+          tiimeIdentityPending: false,
+          stackPrimaryPdp: "tiime",
+          checklist: Object.assign({}, current.checklist, {
+            chosenPdpOrAccountingTool: true,
+            designatedReceptionPlatform: true,
+          }),
+        })
+      );
+      await saveSettings(sql, next, user.id || user.email);
+      const makeResult = await makeBridge.dispatchToMake("tiime_verified", {
+        pdpStatus: "active",
+        pdpName: next.pdpName,
+      });
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        make: makeResult,
+        message: "Tiime marqué Active. Branche Make dès que le compte est créé.",
+      });
+    }
+
+    if (postAction === "mark-make-ready") {
+      const current = await loadSettings(sql);
+      const next = einv.mergeSettings(
+        Object.assign({}, current, {
+          makeAccountPending: false,
+          makeConnectedAt: new Date().toISOString(),
+          stackCompanions: Array.from(
+            new Set([].concat(current.stackCompanions || [], ["crm_lo", "make"]))
+          ),
+        })
+      );
+      await saveSettings(sql, next, user.id || user.email);
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        message:
+          "Make marqué prêt côté CRM. Vérifie MAKE_EINVOICE_WEBHOOK_URL + SECRET sur Vercel puis Redeploy.",
+      });
+    }
+
+    if (postAction === "register-received") {
+      const id = "eir_" + crypto.randomBytes(8).toString("hex");
+      const amountHt = body.amountHt != null ? Number(body.amountHt) : null;
+      const amountTva = body.amountTva != null ? Number(body.amountTva) : null;
+      const amountTtc =
+        body.amountTtc != null
+          ? Number(body.amountTtc)
+          : amountHt != null && amountTva != null
+            ? amountHt + amountTva
+            : null;
+      try {
+        await sql`
+          INSERT INTO e_invoices_received (
+            id, supplier_name, supplier_siren, invoice_number, invoice_date, due_date,
+            currency, amount_ht, amount_tva, amount_ttc, format, pdp_status, channel, notes,
+            payload, created_by
+          ) VALUES (
+            ${id},
+            ${body.supplierName || null},
+            ${einv.digitsOnly(body.supplierSiren) || null},
+            ${body.invoiceNumber || null},
+            ${body.invoiceDate || null},
+            ${body.dueDate || null},
+            ${body.currency || "EUR"},
+            ${amountHt},
+            ${amountTva},
+            ${amountTtc},
+            ${body.format || "unknown"},
+            ${body.pdpStatus || "manual"},
+            ${body.channel || "email_pdf"},
+            ${body.notes || null},
+            ${JSON.stringify(body.payload || {})},
+            ${user.id || user.email || null}
+          )
+        `;
+        const integrations = await dispatchIntegrations("invoice_received_registered", {
+          id: id,
+          supplierName: body.supplierName || null,
+          supplierSiren: einv.digitsOnly(body.supplierSiren) || null,
+          invoiceNumber: body.invoiceNumber || null,
+          amountTtc: amountTtc,
+          amountHt: amountHt,
+          invoiceDate: body.invoiceDate || null,
+          channel: body.channel || "email_pdf",
+          status: "synced",
+        });
+        return res.status(200).json({ ok: true, id: id, make: integrations.make, notion: integrations.notion });
+      } catch (e) {
+        console.error("[e-invoicing register-received]", e);
+        return res.status(500).json({ error: "Erreur enregistrement" });
+      }
+    }
+
+    if (postAction === "issue") {
+      const settings = await loadSettings(sql);
+      const check = einv.validateIssuePayload(body, settings);
+      if (!check.ok) return res.status(400).json({ ok: false, errors: check.errors });
+
+      let invoiceNumber = String(body.invoiceNumber || "").trim();
+      if (body.autoNumber) {
+        const existing = await sql`SELECT invoice_number FROM e_invoices_issued`;
+        invoiceNumber = einv.nextInvoiceNumber(
+          "FAC",
+          existing.map(function (r) {
+            return r.invoice_number;
+          })
+        );
+      }
+
+      const ht = Number(body.amountHt);
+      const vatRate = body.vatRate != null ? Number(body.vatRate) : 20;
+      const tva = body.amountTva != null ? Number(body.amountTva) : (ht * vatRate) / 100;
+      const ttc = body.amountTtc != null ? Number(body.amountTtc) : ht + tva;
+      const invoice = {
+        invoiceNumber: invoiceNumber,
+        invoiceDate: body.invoiceDate || einv.isoDate(new Date()),
+        dueDate: body.dueDate || null,
+        buyerName: body.buyerName,
+        buyerSiren: einv.digitsOnly(body.buyerSiren),
+        operationType: body.operationType || "services",
+        amountHt: ht,
+        vatRate: vatRate,
+        amountTva: tva,
+        amountTtc: ttc,
+        deliveryAddress: body.deliveryAddress || "",
+        vatOnDebits: !!body.vatOnDebits,
+        lineDescription: body.lineDescription || "Honoraires / prestation",
+        currency: body.currency || "EUR",
+      };
+      const xml = einv.buildCiiXml(invoice, settings);
+      const mentions = einv.buildMandatoryMentions(invoice, settings);
+      const id = "eis_" + crypto.randomBytes(8).toString("hex");
+      try {
+        await sql`
+          INSERT INTO e_invoices_issued (
+            id, buyer_name, buyer_siren, invoice_number, invoice_date, due_date, currency,
+            operation_type, amount_ht, vat_rate, amount_tva, amount_ttc, delivery_address,
+            vat_on_debits, line_description, status, xml_cii, contact_id, quote_id, notes, created_by
+          ) VALUES (
+            ${id},
+            ${invoice.buyerName},
+            ${invoice.buyerSiren},
+            ${invoice.invoiceNumber},
+            ${invoice.invoiceDate},
+            ${invoice.dueDate},
+            ${invoice.currency},
+            ${invoice.operationType},
+            ${invoice.amountHt},
+            ${invoice.vatRate},
+            ${invoice.amountTva},
+            ${invoice.amountTtc},
+            ${invoice.deliveryAddress || null},
+            ${invoice.vatOnDebits},
+            ${invoice.lineDescription},
+            ${body.status || "draft"},
+            ${xml},
+            ${body.contactId || null},
+            ${body.quoteId || null},
+            ${body.notes || null},
+            ${user.id || user.email || null}
+          )
+        `;
+        const integrations = await dispatchIntegrations("invoice_issued", {
+          id: id,
+          invoiceNumber: invoice.invoiceNumber,
+          buyerName: invoice.buyerName,
+          buyerSiren: invoice.buyerSiren,
+          amountHt: invoice.amountHt,
+          amountTva: invoice.amountTva,
+          amountTtc: invoice.amountTtc,
+          vatRate: invoice.vatRate,
+          operationType: invoice.operationType,
+          lineDescription: invoice.lineDescription,
+          invoiceDate: invoice.invoiceDate,
+          mentions: mentions,
+          xmlCii: xml,
+          status: body.status || "draft",
+          channel: "crm",
+          tiimeFreeSteps: [
+            "Ouvrir Tiime Free",
+            "Créer une facture avec les mêmes montants / SIREN client",
+            "Laisser Tiime transmettre via la PA (circuit légal)",
+          ],
+        });
+        return res.status(200).json({
+          ok: true,
+          id: id,
+          invoiceNumber: invoice.invoiceNumber,
+          mentions: mentions,
+          xmlPreview: xml.slice(0, 500),
+          downloadPath: "/api/crm/e-invoicing?sub=xml&id=" + id,
+          make: integrations.make,
+          notion: integrations.notion,
+          warning:
+            "Un XML Factur-X seul ne suffit pas : transmission via Tiime (PA) obligatoire. Make/Notion archivage + rappel saisie Tiime Free.",
+        });
+      } catch (e) {
+        console.error("[e-invoicing issue]", e);
+        if (String(e.message || "").indexOf("unique") !== -1 || String(e.code) === "23505") {
+          return res.status(409).json({ error: "Numéro de facture déjà utilisé" });
+        }
+        return res.status(500).json({ error: "Erreur création facture" });
+      }
+    }
+
+    return res.status(400).json({ error: "Action inconnue" });
+  }
+
+  return res.status(405).json({ error: "Method not allowed" });
+};

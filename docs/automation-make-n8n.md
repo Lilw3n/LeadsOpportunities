@@ -43,3 +43,11 @@ URL : `POST https://www.leadsopportunities.fr/api/webhooks/withallo`
 Header : `Authorization: Bearer {WITHALLO_WEBHOOK_SECRET}`
 
 Leads WithAllo passent par la meme deduplication email/telephone que le site.
+
+## Scenario 4 — Facturation électronique Tiime (0 €)
+
+Voir **`docs/MAKE-TIIME-EINVOICE.md`**.
+
+- Sortie CRM : `MAKE_EINVOICE_WEBHOOK_URL` (events `invoice_issued`, `invoice_received_registered`)
+- Entrée Make : `POST /api/webhooks/make-einvoice` + `MAKE_EINVOICE_WEBHOOK_SECRET`
+- PDP : Tiime Free (pas d’API partenaire requise pour le parcours Drive/mail)
