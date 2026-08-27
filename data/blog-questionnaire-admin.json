@@ -1721,6 +1721,19 @@
       "species": null
     },
     {
+      "file": "gta-6-netflix-extended-look-immobilier-france-2026.html",
+      "title": "Trailer Netflix GTA 6 : Vice City, immobilier et vrai budget en France",
+      "section": "actu",
+      "hook": "Après le trailer Netflix GTA 6 : séparez hype gaming et vrai projet immobilier.",
+      "question": "Avez-vous un achat ou un prêt prévu dans les 12 mois ?",
+      "need": "credit-immo",
+      "landing": "../landings/credit-immo.html?utm_source=blog&utm_medium=article&utm_campaign=gta6_netflix_immo",
+      "express": "../landings/devis-express.html?need=credit-immo",
+      "questionnaire": "../landings/questionnaire.html?need=credit-immo&journey=standard",
+      "matchedRule": null,
+      "species": null
+    },
+    {
       "file": "vendeur-cherche-acquereur-mandat-matching.html",
       "title": "Vendeur cherche acquéreur : mandat, matching et acquéreurs financés",
       "section": "finance",
