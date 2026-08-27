@@ -946,6 +946,53 @@ const GEO_PRODUCTS = [
       { href: "/assurances/", label: "Toutes nos assurances" },
     ],
   },
+  {
+    key: "vsp",
+    theme: "niche",
+    dir: "assurance-voiture-sans-permis",
+    siloLabel: "Voiture sans permis",
+    siloUrl: "/assurance-voiture-sans-permis/",
+    hubUrl: "/assurance-voiture-sans-permis/villes/",
+    hubDeptUrl: "/assurance-voiture-sans-permis/departements/",
+    landing: "/landings/vsp.html",
+    ctaLabel: function (city) {
+      return "Devis VSP " + city.name;
+    },
+    title: function (city) {
+      return "Assurance voiture sans permis " + city.name + " | VSP " + city.region;
+    },
+    description: function (city) {
+      return (
+        "Assurance voiture sans permis a " +
+        city.name +
+        " : VSP, quadricycle leger, permis AM. Courtier ORIAS, devis gratuit."
+      );
+    },
+    h1: function (city) {
+      return "Assurance voiture sans permis a " + city.name;
+    },
+    intro: function (city) {
+      return (
+        "Conducteurs de voiturette et quadricycle a " +
+        city.name +
+        " : RC, vol, bris, permis AM. Devis en ligne puis rappel conseiller."
+      );
+    },
+    sections: contentLib.vspCitySections,
+    faq: function (city) {
+      return contentLib.defaultCityFaq(city, "Assurance voiture sans permis");
+    },
+    geoSteps: DEFAULT_GEO_STEPS,
+    extraRelated: [
+      { href: "/assurance-voiture-sans-permis/permis-am/", label: "Permis AM / BSR" },
+      { href: "/assurance-voiture-sans-permis/quadricycle/", label: "Quadricycle leger" },
+      { href: "/assurance-voiture-sans-permis/tarif/", label: "Tarif VSP" },
+      { href: "/blog/assurance-voiture-sans-permis-guide-2026.html", label: "Guide VSP 2026" },
+      { href: "/blog/permis-am-bsr-assr-voiture-sans-permis-2026.html", label: "Permis AM" },
+      { href: "/assurances-niches.html", label: "Hub niches" },
+      { href: "/assurances/", label: "Toutes nos assurances" },
+    ],
+  },
 ];
 
 function productShortLabel(product) {
@@ -966,6 +1013,7 @@ function productShortLabel(product) {
     chat: "Chat",
     chasse: "Chasse",
     equitation: "Equitation",
+    vsp: "VSP",
   };
   return map[product.key] || product.siloLabel;
 }
@@ -1736,6 +1784,7 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/landings/animaux-express.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/chasse.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/landings/equitation.html", priority: "0.9", changefreq: "weekly" },
+    { loc: base + "/landings/vsp.html", priority: "0.9", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/", priority: "0.92", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/villes/", priority: "0.91", changefreq: "weekly" },
     { loc: base + "/assurance-animaux/chien/", priority: "0.9", changefreq: "weekly" },
@@ -1749,6 +1798,9 @@ function collectSitemapUrls(cities, departments, regions, base) {
     { loc: base + "/assurance-chasse/villes/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-equitation/", priority: "0.86", changefreq: "weekly" },
     { loc: base + "/assurance-equitation/villes/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-voiture-sans-permis/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-voiture-sans-permis/villes/", priority: "0.88", changefreq: "weekly" },
+    { loc: base + "/assurance-voiture-sans-permis/permis-am/", priority: "0.86", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/", priority: "0.88", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/devis-rapide/", priority: "0.87", changefreq: "weekly" },
     { loc: base + "/assurance-vtc/tarif/", priority: "0.82", changefreq: "weekly" },

@@ -72,7 +72,9 @@ Le blog **ne remplace pas** la landing pour l’intent chaud. Il **réduit le CP
 | Fichier | Plateforme |
 |---------|------------|
 | `ads/meta-blog-conversions.csv` | Meta — articles + landings directes |
-| `ads/google-ads-editor-ready-utm.csv` | Google Search — landings chaudes (existant) |
+| `ads/google-ads-editor-ready-utm.csv` | Google Search — landings chaudes (VTC, VSP, …) |
+| `ads/google-vsp-search.csv` | Google Search **explicite** voiture sans permis (5 €/j) |
+| `ads/meta-vsp-discret.csv` | Meta **discrète** citadine légère (1 €/j) — ne pas dire « sans permis » |
 
 ---
 

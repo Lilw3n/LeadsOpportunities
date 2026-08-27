@@ -80,7 +80,7 @@
     "rvPlate",
   ];
   var SIRET_FIELD_NAMES = ["companySiret", "collectiveSiret", "siret"];
-  var MOBILITY_NEEDS = ["auto", "moto", "vtc", "flotte", "temporaire", "caravane"];
+  var MOBILITY_NEEDS = ["auto", "moto", "vtc", "vsp", "flotte", "temporaire", "caravane"];
   var PRO_NEEDS = [
     "rc-pro",
     "mrp",
@@ -539,6 +539,56 @@
               input("motoGarageZip", "Code postal garage", "text", "75001", true)
           ) +
           fieldRow(plateField("motoPlate", true))
+      );
+    },
+
+    vsp: function () {
+      return wizardSection(
+        "vsp",
+        "Voiture sans permis",
+        fieldRow(
+          select("vspDriverAgeBand", "Tranche d'age conducteur", [
+            { v: "14-15", t: "14-15 ans" },
+            { v: "16-17", t: "16-17 ans" },
+            { v: "18-25", t: "18-25 ans" },
+            { v: "26-45", t: "26-45 ans" },
+            { v: "46+", t: "46 ans et plus" },
+          ]) +
+            select("vspBirthEra", "Annee de naissance (ASSR)", [
+              { v: "before_1988", t: "Ne(e) avant 1988" },
+              { v: "from_1988", t: "Ne(e) en 1988 ou apres" },
+            ])
+        ) +
+          fieldRow(
+            select("vspBsrAm", "Permis AM / BSR", [
+              { v: "oui", t: "Oui, en cours de validite" },
+              { v: "en_cours", t: "Formation en cours" },
+              { v: "non", t: "Pas encore" },
+            ]) +
+              select("vspAssr", "ASSR scolaire", [
+                { v: "oui", t: "Oui" },
+                { v: "non", t: "Non / non concerne" },
+                { v: "nsp", t: "Je ne sais pas" },
+              ])
+          ) +
+          fieldRow(
+            select("vspBrand", "Marque du vehicule", [
+              { v: "aixam", t: "Aixam" },
+              { v: "ligier", t: "Ligier" },
+              { v: "microcar", t: "Microcar" },
+              { v: "chatenet", t: "Chatenet" },
+              { v: "autre", t: "Autre / je ne sais pas" },
+            ]) +
+              input("vspYear", "Annee du vehicule", "text", "Ex. 2019", false)
+          ) +
+          fieldRow(
+            select("vspFormula", "Formule souhaitee", [
+              { v: "rc", t: "RC (tiers)" },
+              { v: "tiers_etendu", t: "Tiers etendu" },
+              { v: "tous_risques", t: "Tous risques" },
+            ]) +
+              plateField("autoPlate", false)
+          )
       );
     },
 
@@ -1540,7 +1590,7 @@
   };
 
   /** Niches sans overlay dedie utilisent l etape niches generique */
-  var NICHE_NEEDS = ["chasse", "equitation", "instrument", "materiel-photo", "bateau", "caravane"];
+  var NICHE_NEEDS = ["chasse", "equitation", "vsp", "instrument", "materiel-photo", "bateau", "caravane"];
 
   function contextForService(service) {
     var need = service.need;

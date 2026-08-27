@@ -21,6 +21,7 @@ module.exports = {
     { id: "animaux", title: "Assurance animaux (chien & chat)", cta: { href: "../landings/questionnaire.html?need=animaux&journey=standard", label: "Questionnaire animaux" } },
     { id: "chasse", title: "Assurance chasse & RC chasseur", cta: { href: "../landings/chasse.html", label: "Devis chasse" } },
     { id: "equitation", title: "Assurance equitation & RC equestre", cta: { href: "../landings/equitation.html", label: "Devis equitation" } },
+    { id: "vsp", title: "Voiture sans permis (VSP)", cta: { href: "../landings/vsp.html", label: "Devis VSP" } },
     { id: "vtc", title: "Assurance VTC & chauffeurs", cta: { href: "../landings/questionnaire.html?need=vtc&journey=standard", label: "Questionnaire VTC" } },
   ],
   articles: [
@@ -3217,6 +3218,11 @@ caniculeMutuelle.forEach(function (a) {
 
 const nichesActu = require("./blog-niches-actu-articles.cjs");
 nichesActu.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
+const vspArticles = require("./blog-vsp-articles.cjs");
+vspArticles.forEach(function (a) {
   module.exports.articles.push(a);
 });
 

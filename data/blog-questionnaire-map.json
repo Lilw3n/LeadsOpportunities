@@ -144,6 +144,18 @@
       "questionnaireLabel": "Questionnaire équitation (3 min)",
       "landingLabel": "Parcours équitation complet",
       "expressLabel": "Devis équitation rapide"
+    },
+    "vsp": {
+      "need": "vsp",
+      "questionnaire": "/landings/questionnaire.html?need=vsp&journey=standard",
+      "landing": "/landings/vsp.html",
+      "express": "/landings/devis.html?need=vsp",
+      "hook": "Une VSP n'est pas une auto permis B : RC, vol et bris se comparent chez des spécialistes.",
+      "question": "Votre voiture sans permis est-elle correctement assurée ?",
+      "primaryLabel": "Devis voiture sans permis",
+      "questionnaireLabel": "Questionnaire VSP (3 min)",
+      "landingLabel": "Parcours VSP complet",
+      "expressLabel": "Devis VSP rapide"
     }
   },
   "keywordRules": [
@@ -297,6 +309,20 @@
         "cavalier"
       ],
       "section": "equitation"
+    },
+    {
+      "id": "vsp-sans-permis",
+      "match": [
+        "voiture sans permis",
+        "vsp",
+        "sans permis",
+        "quadricycle",
+        "permis am",
+        "permis AM",
+        "bsr",
+        "voiturette"
+      ],
+      "section": "vsp"
     },
     {
       "id": "pret-refuse",
@@ -575,6 +601,12 @@
     },
     "assurance-cheval-pas-cher-criteres-2026.html": {
       "section": "equitation"
+    },
+    "assurance-voiture-sans-permis-guide-2026.html": {
+      "section": "vsp"
+    },
+    "permis-am-bsr-assr-voiture-sans-permis-2026.html": {
+      "section": "vsp"
     },
     "feux-foret-animaux-chien-chat-assurance.html": {
       "section": "animaux",

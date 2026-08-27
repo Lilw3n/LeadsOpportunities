@@ -42,6 +42,14 @@ var NICHES_EQUITATION = [
   link("/landings/equitation.html", "Devis équitation"),
 ];
 
+var NICHES_VSP = [
+  link("/blog/assurance-voiture-sans-permis-guide-2026.html", "Guide VSP 2026"),
+  link("/blog/permis-am-bsr-assr-voiture-sans-permis-2026.html", "Permis AM / BSR / ASSR"),
+  link("/assurance-voiture-sans-permis/permis-am/", "Hub permis AM"),
+  link("/assurance-voiture-sans-permis/quadricycle/", "Hub quadricycle"),
+  link("/landings/vsp.html", "Devis voiture sans permis"),
+];
+
 var NICHES_ANIMAUX = [
   link("/blog/feux-foret-animaux-chien-chat-assurance.html", "Feux de forêt & animaux"),
   link("/blog/canicule-animaux-eau-chien-chat-oiseaux-assurance.html", "Canicule animaux"),
@@ -96,6 +104,7 @@ module.exports = {
   NICHES_CHASSE: NICHES_CHASSE,
   NICHES_EQUITATION: NICHES_EQUITATION,
   NICHES_ANIMAUX: NICHES_ANIMAUX,
+  NICHES_VSP: NICHES_VSP,
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
   SILOS_IMMO: SILOS_IMMO,

@@ -78,3 +78,9 @@ Le détail VSP (BSR, ASSR, matching AMI/FMA/Solly) reste **dans le formulaire et
 ## Suivi interne
 
 Marquer `"active": true` dans `config/meta-campaign-vsp-discret.json` quand la pub est en ligne (suivi repo uniquement).
+
+---
+
+## Google Search (autre canal)
+
+Sur Google, les internautes tapent **« assurance voiture sans permis »**. La campagne Search est **explicite** : `docs/GOOGLE-VSP-PUB.md`, CSV `ads/google-vsp-search.csv`. Ne pas copier les textes Meta discrets dans Google Ads.

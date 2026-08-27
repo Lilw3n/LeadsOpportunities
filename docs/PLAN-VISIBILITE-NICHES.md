@@ -42,13 +42,14 @@ npm run gsc:niches        # niches chasse / équitation / animaux
 
 ### Temps 2 — Niches live (semaine 2–4)
 
-Tu as **3 silos live** avec **189 villes** chacun :
+Tu as **4 silos live** avec **189 villes** chacun :
 
 | Niche | Requête principale | Pages money |
 |-------|-------------------|-------------|
 | **Chasse** | assurance chasse, rc chasseur | `/assurance-chasse/`, `/assurance-chasse/paris/` |
 | **Équitation** | assurance équitation, rc équestre | `/assurance-equitation/`, `/assurance-equitation/lyon/` |
 | **Animaux** | assurance chien pas cher | `/assurance-animaux/chien/pas-cher/`, `/comparatif/` |
+| **VSP** | assurance voiture sans permis | `/assurance-voiture-sans-permis/`, `/landings/vsp.html` |
 
 **Actions contenu (août 2026) :**
 
@@ -82,7 +83,8 @@ Fichier stratégique : **`data/seo-niche-markets.json`**
 - « rc chasseur devis »
 - « assurance cheval pas cher »
 - « assurance chien pas cher comparatif »
-- « assurance instrument musique » (quand silo activé)
+- « assurance voiture sans permis »
+- « devis vsp » / « permis AM assurance »
 
 ---
 
@@ -116,6 +118,7 @@ Google : `site:leadsopportunities.fr assurance chasse`
 - Chasse → `?need=chasse`
 - Équitation → `?need=equitation`
 - Animaux → `/landings/animaux.html`
+- **VSP** → `/landings/vsp.html` (Search explicite) — voir `docs/GOOGLE-VSP-PUB.md`
 
 Mots-clés exact : `assurance chasse`, `rc chasseur`, `assurance équitation`.
 
