@@ -69,6 +69,10 @@ assert(read("scripts/blog-articles-manifest.cjs").indexOf('id: "collective"') >=
 assert(read("seo/keyword-clusters-seo-sea.csv").indexOf("collective,transactionnelle") >= 0, "keyword clusters collective");
 assert(read("scripts/seo-gsc-priority-urls.cjs").indexOf("/assurance-sante-collective/") >= 0, "GSC priority silo");
 assert(exists("docs/COLLECTIVE-SANTE-PUB.md"), "doc pubs collective");
+assert(exists("config/google-campaign-collective.json"), "config Google collective");
+assert(exists("config/meta-campaign-collective.json"), "config Meta collective");
+assert(exists("ads/meta-collective-priorite.csv"), "CSV Meta priorité collective");
+assert(read("package.json").indexOf("meta:collective") >= 0, "npm meta:collective");
 
 var hub = JSON.parse(read("config/ad-platform-hub.json"));
 assert(
@@ -76,6 +80,12 @@ assert(
     return c.id === "google_collective_search";
   }),
   "hub pubs : campagne Google collective"
+);
+assert(
+  hub.preset_campaigns.some(function (c) {
+    return c.id === "meta_collective_blog" && c.csv && c.csv.indexOf("meta-collective") >= 0;
+  }),
+  "hub pubs : Meta collective priorité"
 );
 
 if (failed) {

@@ -1,0 +1,68 @@
+{
+  "product": "collective",
+  "channel": "meta",
+  "label": "Meta — santé collective B2B (1 €/jour)",
+  "ads_policy": {
+    "max_daily_budget_eur": 1,
+    "max_active_campaigns": 1,
+    "max_active_ad_sets": 1,
+    "max_active_ads": 1,
+    "optimize_events": ["Lead", "qualified_lead"],
+    "destination": "landing",
+    "note": "Trafic vers landing (questionnaire entreprise) plutôt qu Instant Form court — lead B2B plus long."
+  },
+  "campaign": {
+    "id": "collective_direct_convert",
+    "active": true,
+    "status": "ready",
+    "vertical": "collective",
+    "budget_eur_day": 1,
+    "utm_campaign": "collective_direct_convert",
+    "landing": "https://www.leadsopportunities.fr/landings/sante-collective.html",
+    "article": "https://www.leadsopportunities.fr/blog/mutuelle-collective-obligations-employeur-ani.html",
+    "csv": "./ads/meta-collective-priorite.csv",
+    "targeting": {
+      "age_min": 28,
+      "age_max": 60,
+      "geo": "France",
+      "interests": [
+        "Petite et moyenne entreprise",
+        "Entrepreneuriat",
+        "Gestion d'entreprise",
+        "Ressources humaines"
+      ]
+    },
+    "ad_copy": {
+      "headline": "Dirigeant : devis mutuelle collective",
+      "primary": "ANI, budget PME/TPE, DUE — comparez une mutuelle d'entreprise conforme. Devis gratuit, conseiller ORIAS, sans engagement.",
+      "cta": "Obtenir mon devis"
+    }
+  },
+  "backup_ads": [
+    {
+      "id": "collective_ani_blog",
+      "utm_campaign": "collective_blog_convert",
+      "headline": "Mutuelle collective obligatoire ?",
+      "primary": "Vérifiez votre conformité ANI et le panier de soins. Devis entreprise en 3 minutes.",
+      "cta": "Vérifier ma conformité",
+      "article": "https://www.leadsopportunities.fr/blog/mutuelle-collective-obligations-employeur-ani.html"
+    },
+    {
+      "id": "collective_pme_budget",
+      "utm_campaign": "collective_blog_convert",
+      "headline": "PME / TPE : budget mutuelle 2026",
+      "primary": "Combien coûte vraiment une mutuelle collective pour votre effectif ? Comparatif sans engagement.",
+      "cta": "Chiffrer mon budget",
+      "article": "https://www.leadsopportunities.fr/blog/mutuelle-collective-pme-tpe-budget-2026.html"
+    }
+  ],
+  "activation_checklist": [
+    "Ads Manager → Créer campagne Trafic ou Conversions → Lead",
+    "Budget 1 €/jour — une seule pub active",
+    "URL : landings/sante-collective.html?utm_source=meta&utm_medium=paid_social&utm_campaign=collective_direct_convert",
+    "Ciblage : 28–60 ans, intérêts PME / RH / entrepreneuriat France",
+    "Copier headline + primary depuis config ou CSV",
+    "Ne pas lancer en parallèle de la rotation VTC/santé/prêt si budget global limité",
+    "npm run meta:collective"
+  ]
+}

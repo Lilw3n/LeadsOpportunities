@@ -31,15 +31,34 @@ Pilier : `/blog/mutuelle-collective-entreprise-guide-2026.html`
 ## Google Ads
 
 - Fichier : `ads/google-collective-search.csv`
+- Config : `config/google-campaign-collective.json` (**ready / active**)
 - Campagne : `FR_Search_Collective_HotIntent`
 - Import aussi dans `ads/google-ads-editor-ready-utm.csv`
 - Landing principale : `sante-collective.html`
+- Budget départ : **5 €/jour**
 
 Négatifs utiles : `gratuit`, `particulier`, `senior` (évite le trafic mutuelle individuelle).
 
+### Activer Google (2 min)
+1. Ouvre [Google Ads](https://ads.google.com/aw/campaigns)
+2. Ads Editor → Importer `ads/google-collective-search.csv`
+3. Publier la campagne `FR_Search_Collective_HotIntent`
+
 ## Meta
 
-Lignes `collective_*` dans `ads/meta-blog-conversions.csv` → bridge vers la landing collective.
+- Fichier priorité : `ads/meta-collective-priorite.csv` (**1 €/jour**)
+- Config : `config/meta-campaign-collective.json`
+- Blog bridges : lignes `collective_*` dans `ads/meta-blog-conversions.csv`
+- Statut terminal : `npm run meta:collective`
+
+### Activer Meta (2 min)
+1. Ouvre [Ads Manager](https://www.facebook.com/adsmanager/manage/campaigns?act=997768686183548)
+2. Nouvelle campagne → Conversions / Lead → budget **1 €/jour**
+3. URL : `https://www.leadsopportunities.fr/landings/sante-collective.html?utm_source=meta&utm_medium=paid_social&utm_campaign=collective_direct_convert`
+4. Copier headline + texte depuis `npm run meta:collective` (ou le CSV)
+5. Ciblage : 28–60 ans, France, intérêts PME / RH / entrepreneuriat
+
+Aussi visible dans CRM : `/crm-pubs.html`
 
 ## Vérif
 
