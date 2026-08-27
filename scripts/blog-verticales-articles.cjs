@@ -1609,7 +1609,7 @@ module.exports = [
     faq: [
       {
         q: "Comment s’écrit la commune du 54 ?",
-        a: "Varangéville (avec un a), bassin de Nancy / Dombasle — pas Varengeville-sur-Mer.",
+        a: "Varangéville (avec un a), bassin de Nancy / Dombasle — pas une commune de Seine-Maritime.",
       },
     ],
     related: [
@@ -1732,7 +1732,7 @@ module.exports = [
     faq: [
       {
         q: "Varangéville, c’est bien le 54 ?",
-        a: "Oui : Varangéville en Meurthe-et-Moselle, bassin nancéien (pas Varengeville-sur-Mer).",
+        a: "Oui : Varangéville en Meurthe-et-Moselle, bassin nancéien (pas une commune normande).",
       },
     ],
     related: [

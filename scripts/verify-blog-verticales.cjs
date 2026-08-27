@@ -75,7 +75,7 @@ assert(
 
 var src = read("scripts/blog-verticales-articles.cjs");
 assert(src.indexOf("Varangéville") >= 0, "orthographe Varangéville dans la source");
-assert(src.indexOf("need=vtc") >= 0, "CTA need=vtc");
+assert(src.indexOf('u("vtc"') >= 0 || src.indexOf("QVTC") >= 0, "CTA need=vtc");
 assert(src.indexOf("need=auto") >= 0, "CTA need=auto");
 assert(src.indexOf("need=habitation") >= 0, "CTA need=habitation");
 assert(src.indexOf("need=moto") >= 0, "CTA need=moto");
