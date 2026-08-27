@@ -162,6 +162,25 @@
       load();
     });
   });
+  var btnSyncEvents = document.getElementById("btnSyncEvents");
+  if (btnSyncEvents) {
+    btnSyncEvents.addEventListener("click", function () {
+      btnSyncEvents.disabled = true;
+      api("/api/crm/todoist", { method: "POST", body: { op: "sync-events" } }).then(function (res) {
+        btnSyncEvents.disabled = false;
+        if (!res.ok) return alert(res.error || res.hint || "Échec sync événements");
+        banner(
+          "td-ok",
+          (res.pushed || 0) +
+            " événement(s) envoyé(s) vers Todoist" +
+            (res.skipped ? " · " + res.skipped + " déjà liés" : "") +
+            (res.errors ? " · " + res.errors + " erreur(s)" : "") +
+            "."
+        );
+        load();
+      });
+    });
+  }
   document.getElementById("btnSaveProject").addEventListener("click", function () {
     var id = document.getElementById("tdProject").value || null;
     api("/api/crm/todoist", { method: "POST", body: { op: "project", projectId: id } }).then(function (res) {

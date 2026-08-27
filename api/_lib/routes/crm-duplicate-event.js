@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { touchContact } = require("../crm-modules-lib");
+const { syncCrmEventToTodoist } = require("../todoist");
 
 function addDays(dateStr, days) {
   if (!dateStr) return null;
@@ -54,8 +55,15 @@ module.exports = async (req, res) => {
       )
     `;
     await touchContact(sql, src.contact_id);
+    var todoistSync = null;
+    try {
+      todoistSync = await syncCrmEventToTodoist(user.id, newId);
+    } catch (err) {
+      console.error("[crm/duplicate-event] todoist:", err);
+      todoistSync = { ok: false, error: err.message };
+    }
     const created = await sql`SELECT * FROM crm_events WHERE id = ${newId} LIMIT 1`;
-    return res.status(201).json({ ok: true, item: created[0] });
+    return res.status(201).json({ ok: true, item: created[0], todoistSync: todoistSync });
   } catch (e) {
     console.error("[crm/duplicate-event]", e);
     return res.status(500).json({ error: "Erreur serveur" });

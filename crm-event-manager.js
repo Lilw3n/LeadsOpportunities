@@ -184,6 +184,11 @@
       " · " +
       esc(e.contactName || "Dossier") +
       (e._overdue ? ' <span class="em-tag em-tag--overdue">En retard</span>' : "") +
+      (e.todoistTaskId || e.todoistSyncStatus === "synced"
+        ? ' <span class="em-tag em-tag--done">Todoist</span>'
+        : e.todoistSyncStatus === "error"
+          ? ' <span class="em-tag em-tag--overdue">Todoist erreur</span>'
+          : "") +
       "</div>" +
       '<div class="em-tags">' +
       tags +
@@ -204,6 +209,15 @@
           esc(e.id) +
           '">Marquer fait</button>'
         : "") +
+      (!e.todoistTaskId && isOpen(e)
+        ? '<button type="button" class="btn btn-ghost btn-sm" data-todoist="' +
+          esc(e.id) +
+          '">→ Todoist</button>'
+        : e.todoistTaskId
+          ? '<a class="btn btn-ghost btn-sm" href="https://app.todoist.com/app/task/' +
+            encodeURIComponent(e.todoistTaskId) +
+            '" target="_blank" rel="noopener">Ouvrir Todoist</a>'
+          : "") +
       "</div></article>"
     );
   }
@@ -367,16 +381,72 @@
       return;
     }
     var btn = e.target.closest("[data-done]");
-    if (!btn) return;
-    var id = btn.getAttribute("data-done");
-    api("/api/crm/events", { method: "PATCH", body: { id: id, status: "completed" } }).then(function (res) {
+    if (btn) {
+      var id = btn.getAttribute("data-done");
+      api("/api/crm/events", { method: "PATCH", body: { id: id, status: "completed" } }).then(function (res) {
+        if (res.ok) load();
+        else alert(res.error || "Impossible de clôturer");
+      });
+      return;
+    }
+    var tdBtn = e.target.closest("[data-todoist]");
+    if (!tdBtn) return;
+    var eid = tdBtn.getAttribute("data-todoist");
+    tdBtn.disabled = true;
+    api("/api/crm/todoist", { method: "POST", body: { op: "event", eventId: eid } }).then(function (res) {
+      tdBtn.disabled = false;
       if (res.ok) load();
-      else alert(res.error || "Impossible de clôturer");
+      else alert(res.error || res.hint || "Impossible d’envoyer vers Todoist");
     });
   });
 
   renderRoleChips();
   load();
+
+  (function todoistBar() {
+    var st = document.getElementById("emTodoistStatus");
+    var dot = document.getElementById("emTodoistDot");
+    var btn = document.getElementById("emTodoistSync");
+    if (!st) return;
+    var token = localStorage.getItem("lo_token");
+    fetch("/api/crm/todoist?op=status", { headers: { Authorization: "Bearer " + token } })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        st.textContent = res.connected
+          ? "Todoist connecté — les RDV créent une tâche à la date de l’événement"
+          : "Todoist non connecté (jeton Vercel ou OAuth)";
+        if (dot) dot.classList.toggle("is-on", !!res.connected);
+      })
+      .catch(function () {
+        st.textContent = "Todoist : statut indisponible";
+      });
+    if (btn) {
+      btn.addEventListener("click", function () {
+        btn.disabled = true;
+        fetch("/api/crm/todoist", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({ op: "sync-events" }),
+        })
+          .then(function (r) {
+            return r.json();
+          })
+          .then(function (res) {
+            st.textContent = res.ok
+              ? "Todoist : " + (res.pushed || 0) + " événement(s) envoyé(s)"
+              : res.error || "Échec Todoist";
+            btn.disabled = false;
+            if (res.ok) load();
+          })
+          .catch(function () {
+            st.textContent = "Erreur réseau Todoist";
+            btn.disabled = false;
+          });
+      });
+    }
+  })();
 
   (function slackBar() {
     var st = document.getElementById("emSlackStatus");

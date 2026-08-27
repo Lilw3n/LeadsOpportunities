@@ -3,6 +3,8 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { syncCrmEventToGoogle } = require("../google-calendar");
+const { ensureTodoistSchema } = require("../ensure-schema");
+const { syncCrmEventToTodoist, applyTodoistEventChange } = require("../todoist");
 const Interlocutors = require("../../../js/crm-dossier-interlocutors");
 
 async function touchContact(sql, contactId) {
@@ -33,6 +35,7 @@ module.exports = async (req, res) => {
 
   const sql = getSql();
   if (!sql) return res.status(500).json({ error: "Base de donnees non configuree" });
+  await ensureTodoistSchema(sql);
   const scope = contactScopeFilter(user);
 
   if (req.method === "GET") {
@@ -79,6 +82,8 @@ module.exports = async (req, res) => {
           createdAt: r.created_at,
           googleEventId: r.google_event_id,
           googleSyncStatus: r.google_sync_status,
+          todoistTaskId: r.todoist_task_id || null,
+          todoistSyncStatus: r.todoist_sync_status || null,
           participants: extra.participants || [],
           interlocutors: Interlocutors.normalizeList(extra.interlocutors || extra.participants || []),
           attachments: extra.attachments || [],
@@ -160,11 +165,20 @@ module.exports = async (req, res) => {
         syncResult = { ok: false, error: err.message };
       }
 
+      var todoistSync = null;
+      try {
+        todoistSync = await syncCrmEventToTodoist(user.id, evtId);
+      } catch (err) {
+        console.error("[crm/events] todoist sync:", err);
+        todoistSync = { ok: false, error: err.message };
+      }
+
       return res.status(201).json({
         ok: true,
         id: evtId,
         eventId: evtId,
         googleSync: syncResult,
+        todoistSync: todoistSync,
       });
     } catch (e) {
       console.error("[crm/events POST]", e);
@@ -211,7 +225,16 @@ module.exports = async (req, res) => {
             updated_at = NOW()
         WHERE id = ${eventId}
       `;
-      return res.status(200).json({ ok: true, id: eventId });
+
+      var todoistSync = null;
+      try {
+        todoistSync = await applyTodoistEventChange(user.id, eventId, status);
+      } catch (err) {
+        console.error("[crm/events] todoist patch:", err);
+        todoistSync = { ok: false, error: err.message };
+      }
+
+      return res.status(200).json({ ok: true, id: eventId, todoistSync: todoistSync });
     } catch (e) {
       console.error("[crm/events PATCH]", e);
       return res.status(500).json({ error: "Erreur serveur" });

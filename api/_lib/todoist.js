@@ -173,15 +173,273 @@ async function createTask(auth, payload) {
     description: payload.description || "",
     priority: payload.priority || 2,
   };
-  if (payload.dueString) body.due_string = payload.dueString;
+  if (payload.dueDate) body.due_date = payload.dueDate;
+  else if (payload.dueDatetime) body.due_datetime = payload.dueDatetime;
+  else if (payload.dueString) body.due_string = payload.dueString;
   if (payload.dueLang) body.due_lang = payload.dueLang;
   var projectId = payload.projectId || auth.projectId;
   if (projectId) body.project_id = projectId;
   return todoistRequest(auth, "POST", "/tasks", body);
 }
 
+async function updateTask(auth, taskId, payload) {
+  var body = {};
+  if (payload.content) body.content = payload.content;
+  if (payload.description != null) body.description = payload.description;
+  if (payload.priority) body.priority = payload.priority;
+  if (payload.dueDate) body.due_date = payload.dueDate;
+  else if (payload.dueDatetime) body.due_datetime = payload.dueDatetime;
+  else if (payload.dueString) {
+    body.due_string = payload.dueString;
+    if (payload.dueLang) body.due_lang = payload.dueLang;
+  }
+  return todoistRequest(auth, "POST", "/tasks/" + encodeURIComponent(taskId), body);
+}
+
 async function closeTask(auth, taskId) {
   return todoistRequest(auth, "POST", "/tasks/" + encodeURIComponent(taskId) + "/close");
+}
+
+async function reopenTask(auth, taskId) {
+  return todoistRequest(auth, "POST", "/tasks/" + encodeURIComponent(taskId) + "/reopen");
+}
+
+function taskIdOf(task) {
+  if (!task) return null;
+  var id = task.id || (task.task && task.task.id);
+  return id != null ? String(id) : null;
+}
+
+function taskUrlOf(task, id) {
+  if (task && task.url) return task.url;
+  var tid = id || taskIdOf(task);
+  return tid ? "https://app.todoist.com/app/task/" + tid : null;
+}
+
+function isoDateOnly(raw) {
+  if (!raw) return "";
+  if (raw instanceof Date && !isNaN(raw.getTime())) {
+    return raw.toISOString().slice(0, 10);
+  }
+  var m = String(raw).match(/^(\d{4}-\d{2}-\d{2})/);
+  return m ? m[1] : "";
+}
+
+function eventDuePayload(eventDate, eventTime) {
+  var dateStr = isoDateOnly(eventDate);
+  var timeStr = String(eventTime || "").trim();
+  if (dateStr && /^\d{1,2}:\d{2}/.test(timeStr)) {
+    return { dueString: dateStr + " " + timeStr.slice(0, 5), dueLang: "en" };
+  }
+  if (dateStr) return { dueDate: dateStr };
+  return { dueString: "aujourd'hui", dueLang: "fr" };
+}
+
+function eventPriority(priority) {
+  var p = String(priority || "").toLowerCase();
+  if (p === "urgent") return 4;
+  if (p === "high" || p === "haute") return 3;
+  if (p === "low" || p === "faible") return 1;
+  return 2;
+}
+
+function parseExtra(raw) {
+  if (!raw) return {};
+  if (typeof raw === "object") return raw;
+  try {
+    return JSON.parse(raw) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function eventTaskContent(r, contactName) {
+  var title = String(r.title || "RDV").trim();
+  var who = String(contactName || "").trim();
+  return who ? title + " — " + who : title;
+}
+
+function eventTaskDescription(r, extra, contactName) {
+  extra = extra || {};
+  var lines = [
+    r.description || "",
+    contactName ? "Contact : " + contactName : "",
+    r.contact_id ? "Fiche : " + appUrl() + "/crm-contact.html?id=" + encodeURIComponent(r.contact_id) : "",
+    extra.propertyId
+      ? "Bien : " + appUrl() + "/crm-immo-property.html?id=" + encodeURIComponent(extra.propertyId)
+      : "",
+    extra.location ? "Lieu : " + extra.location : "",
+    extra.mode ? "Mode : " + extra.mode : "",
+    r.event_type ? "Type : " + r.event_type : "",
+    "Agenda CRM : " + appUrl() + "/crm-event-manager.html",
+    "Événement : " + r.id,
+  ];
+  return lines.filter(Boolean).join("\n");
+}
+
+function eventTaskPayload(r, extra, contactName) {
+  extra = extra || parseExtra(r.extra_data);
+  var due = eventDuePayload(r.event_date, r.event_time || extra.eventTime);
+  return Object.assign(
+    {
+      content: eventTaskContent(r, contactName),
+      description: eventTaskDescription(r, extra, contactName),
+      priority: eventPriority(r.priority),
+    },
+    due
+  );
+}
+
+async function markEventTodoist(sql, eventId, patch) {
+  var taskId = patch.taskId != null ? String(patch.taskId) : null;
+  var status = patch.status || null;
+  if (taskId) {
+    await sql`
+      UPDATE crm_events SET
+        todoist_task_id = ${taskId},
+        todoist_sync_status = ${status || "synced"},
+        todoist_updated_at = NOW()
+      WHERE id = ${eventId}
+    `;
+  } else {
+    await sql`
+      UPDATE crm_events SET
+        todoist_sync_status = ${status || "error"},
+        todoist_updated_at = NOW()
+      WHERE id = ${eventId}
+    `;
+  }
+}
+
+async function syncCrmEventToTodoist(userId, eventId, opts) {
+  opts = opts || {};
+  var sql = getSql();
+  if (!sql) return { ok: false, error: "no_db" };
+  await ensureTodoistSchema(sql);
+
+  var auth = await resolveAuth(userId);
+  if (!auth) {
+    await markEventTodoist(sql, eventId, { status: "skipped" });
+    return { ok: false, skipped: true, reason: "todoist_not_connected" };
+  }
+
+  var rows = await sql`
+    SELECT e.*, c.first_name, c.last_name, c.email AS contact_email
+    FROM crm_events e
+    INNER JOIN crm_contacts c ON c.id = e.contact_id
+    WHERE e.id = ${eventId}
+    LIMIT 1
+  `;
+  if (!rows.length) return { ok: false, error: "event_not_found" };
+
+  var r = rows[0];
+  var extra = parseExtra(r.extra_data);
+  var contactName =
+    ((r.first_name || "") + " " + (r.last_name || "")).trim() || r.contact_email || "";
+  var payload = eventTaskPayload(r, extra, contactName);
+  var existingId = r.todoist_task_id ? String(r.todoist_task_id) : "";
+
+  if (existingId && !opts.updateIfExists) {
+    return {
+      ok: true,
+      skipped: true,
+      todoistTaskId: existingId,
+      url: taskUrlOf(null, existingId),
+    };
+  }
+
+  try {
+    var task;
+    if (existingId && opts.updateIfExists) {
+      task = await updateTask(auth, existingId, payload);
+      await markEventTodoist(sql, eventId, { taskId: existingId, status: "synced" });
+      return {
+        ok: true,
+        updated: true,
+        todoistTaskId: existingId,
+        url: taskUrlOf(task, existingId),
+        source: auth.source,
+      };
+    }
+    task = await createTask(auth, payload);
+    var id = taskIdOf(task);
+    if (!id) throw new Error("Todoist n’a pas renvoyé d’id de tâche");
+    await markEventTodoist(sql, eventId, { taskId: id, status: "synced" });
+    return { ok: true, todoistTaskId: id, url: taskUrlOf(task, id), source: auth.source };
+  } catch (e) {
+    console.error("[todoist] sync event", e.message);
+    await markEventTodoist(sql, eventId, { status: "error" });
+    return { ok: false, error: e.message };
+  }
+}
+
+async function closeCrmEventOnTodoist(userId, eventId) {
+  var sql = getSql();
+  if (!sql) return { ok: false, error: "no_db" };
+  await ensureTodoistSchema(sql);
+  var rows = await sql`
+    SELECT todoist_task_id FROM crm_events WHERE id = ${eventId} LIMIT 1
+  `;
+  if (!rows.length) return { ok: false, error: "event_not_found" };
+  var taskId = rows[0].todoist_task_id ? String(rows[0].todoist_task_id) : "";
+  if (!taskId) return { ok: true, skipped: true, reason: "no_todoist_task" };
+
+  var auth = await resolveAuth(userId);
+  if (!auth) return { ok: false, skipped: true, reason: "todoist_not_connected" };
+  try {
+    await closeTask(auth, taskId);
+    await markEventTodoist(sql, eventId, { taskId: taskId, status: "closed" });
+    return { ok: true, closed: true, todoistTaskId: taskId };
+  } catch (e) {
+    console.error("[todoist] close event", e.message);
+    await markEventTodoist(sql, eventId, { taskId: taskId, status: "error" });
+    return { ok: false, error: e.message };
+  }
+}
+
+async function applyTodoistEventChange(userId, eventId, status) {
+  var st = String(status || "").toLowerCase();
+  if (st === "completed" || st === "cancelled") {
+    return closeCrmEventOnTodoist(userId, eventId);
+  }
+  var sql = getSql();
+  if (!sql) return { ok: false, error: "no_db" };
+  await ensureTodoistSchema(sql);
+  var rows = await sql`SELECT todoist_task_id FROM crm_events WHERE id = ${eventId} LIMIT 1`;
+  if (!rows.length || !rows[0].todoist_task_id) {
+    return { ok: true, skipped: true, reason: "no_todoist_task" };
+  }
+  return syncCrmEventToTodoist(userId, eventId, { updateIfExists: true });
+}
+
+async function pushUnsyncedCrmEventsToTodoist(userId) {
+  var sql = getSql();
+  if (!sql) return { ok: false, error: "no_db", pushed: 0 };
+  await ensureTodoistSchema(sql);
+  var auth = await resolveAuth(userId);
+  if (!auth) {
+    return { ok: false, error: "Todoist non connecté", pushed: 0, skipped: true };
+  }
+
+  var rows = await sql`
+    SELECT e.id
+    FROM crm_events e
+    WHERE (e.todoist_task_id IS NULL OR e.todoist_task_id = '')
+      AND (e.status IS NULL OR e.status NOT IN ('completed', 'cancelled'))
+    ORDER BY e.event_date DESC NULLS LAST
+    LIMIT 100
+  `;
+
+  var pushed = 0;
+  var errors = 0;
+  var skipped = 0;
+  for (var i = 0; i < rows.length; i++) {
+    var result = await syncCrmEventToTodoist(userId, rows[i].id);
+    if (result && result.ok && !result.skipped) pushed++;
+    else if (result && result.skipped) skipped++;
+    else errors++;
+  }
+  return { ok: true, pushed: pushed, scanned: rows.length, errors: errors, skipped: skipped };
 }
 
 function leadTaskContent(payload, score, leadId) {
@@ -272,8 +530,16 @@ module.exports = {
   listProjects,
   listTasks,
   createTask,
+  updateTask,
   closeTask,
+  reopenTask,
   createTaskForLead,
   createTaskForContact,
+  syncCrmEventToTodoist,
+  closeCrmEventOnTodoist,
+  applyTodoistEventChange,
+  pushUnsyncedCrmEventsToTodoist,
+  eventDuePayload,
+  isoDateOnly,
   appUrl,
 };

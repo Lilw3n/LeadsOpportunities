@@ -30,12 +30,14 @@
     <div>
       <p class="crm-eyebrow">Tâches</p>
       <h2>Todoist</h2>
-      <p>Les leads et fiches CRM deviennent des tâches dans <a href="https://app.todoist.com" target="_blank" rel="noopener">app.todoist.com</a> — rappel, aujourd’hui, en retard.</p>
+      <p>Les leads, fiches et <strong>événements agenda</strong> (RDV, visites, relances) deviennent des tâches dans <a href="https://app.todoist.com" target="_blank" rel="noopener">app.todoist.com</a> — à la date du RDV.</p>
     </div>
     <div class="crm-action-row">
       <button type="button" class="btn btn-primary" id="btnConnect">Connecter Todoist</button>
       <button type="button" class="btn btn-ghost" id="btnRefresh">Actualiser</button>
+      <button type="button" class="btn btn-ghost" id="btnSyncEvents">Synchroniser les événements</button>
       <button type="button" class="btn btn-ghost" id="btnTest">Créer une tâche test</button>
+      <a class="btn btn-ghost" href="./crm-event-manager.html">Événements</a>
       <a class="btn btn-ghost" href="./crm-leads.html">Leads</a>
     </div>
   </section>
@@ -45,7 +47,7 @@
   <div class="td-grid">
     <section class="panel">
       <h2>Aujourd’hui &amp; en retard</h2>
-      <p style="color:var(--muted);margin-top:0">Les nouvelles demandes du site créent une tâche (si Todoist est connecté).</p>
+      <p style="color:var(--muted);margin-top:0">Nouveaux leads + chaque RDV créé dans le CRM (date d’échéance = date de l’événement).</p>
       <div id="tdTasks"><p class="td-empty">Chargement…</p></div>
     </section>
     <aside class="panel">

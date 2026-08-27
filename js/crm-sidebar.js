@@ -176,7 +176,7 @@ window.CrmSidebar = {
       label: "Agenda & activité",
       items: [
         { type: "link", href: "./crm-calendar.html", label: "Agenda (Google)", icon: "calendar", highlight: true, desc: "Timeline / jour / semaine / mois + sync Google Calendar" },
-        { type: "link", href: "./crm-todoist.html", label: "Todoist", icon: "calendar", highlight: true, desc: "Tâches leads — app.todoist.com" },
+        { type: "link", href: "./crm-todoist.html", label: "Todoist", icon: "calendar", highlight: true, desc: "Tâches leads + événements agenda — app.todoist.com" },
         { type: "link", href: "./crm-event-manager.html", label: "Gestionnaire d’événements", icon: "calendar", highlight: true, desc: "Suivi dossiers — interlocuteurs (client, banque, notaire, partenaire…)" },
         { type: "link", href: "./crm-marches.html", label: "Marchés & présence", icon: "calendar", badge: "terrain", highlight: true, desc: "Où être présent — horaires modifiables par tous" },
         { type: "link", href: "./crm-events.html", label: "Liste événements" },
