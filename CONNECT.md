@@ -26,6 +26,10 @@ Ajouter / verifier (voir aussi `.env.example`) :
 | `SLACK_WEBHOOK_URL` | Optionnel — alertes leads Slack (Incoming Webhook) · **`docs/SLACK-WITHALLO-NOTIFS.md`** |
 | `SLACK_BOT_TOKEN` | Optionnel — token Slack (`xoxp` / `xoxb` / `xoxe.xoxp`) si pas de webhook |
 | `SLACK_CHANNEL` | Optionnel — canal (défaut `leads`) |
+| `TODOIST_API_TOKEN` | Optionnel — jeton API Todoist (Paramètres → Intégrations → Développeur) · **`docs/TODOIST.md`** |
+| `TODOIST_CLIENT_ID` | Optionnel — OAuth app Todoist |
+| `TODOIST_CLIENT_SECRET` | Optionnel — OAuth app Todoist |
+| `TODOIST_PROJECT_ID` | Optionnel — projet par défaut (sinon Inbox) |
 | `TRAFFIC_ALERT_THRESHOLD_PCT` | Alerte si visiteurs ↓ au-delà de ce % (défaut `-20`) · via cron `/api/mailbox/cron-sync` |
 | `TRAFFIC_ALERT_MIN_VISITORS` | Volume min. semaine préc. pour alerter (défaut `5`) |
 | `TRAFFIC_ALERT_COOLDOWN_HOURS` | Pas plus d’une alerte trafic par X h (défaut `24`) |

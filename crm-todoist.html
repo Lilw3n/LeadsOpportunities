@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Todoist | CRM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .td-banner { padding:12px 14px; border-radius:10px; margin-bottom:14px; font-size:.92rem; }
+    .td-ok { background:#ecfdf5; color:#065f46; border:1px solid #6ee7b7; }
+    .td-warn { background:#fffbeb; color:#92400e; border:1px solid #fcd34d; }
+    .td-err { background:#fef2f2; color:#991b1b; border:1px solid #fecaca; }
+    .td-grid { display:grid; grid-template-columns:1fr 320px; gap:16px; align-items:start; }
+    @media (max-width:960px){ .td-grid { grid-template-columns:1fr; } }
+    .td-task { display:flex; gap:10px; padding:12px 14px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; margin-bottom:8px; }
+    .td-task button { flex-shrink:0; }
+    .td-task h3 { margin:0 0 4px; font-size:.95rem; }
+    .td-meta { color:#64748b; font-size:.8rem; }
+    .td-setup ol { margin:8px 0 0 18px; line-height:1.65; color:#475569; }
+    .td-empty { color:#64748b; padding:28px; text-align:center; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Tâches</p>
+      <h2>Todoist</h2>
+      <p>Les leads et fiches CRM deviennent des tâches dans <a href="https://app.todoist.com" target="_blank" rel="noopener">app.todoist.com</a> — rappel, aujourd’hui, en retard.</p>
+    </div>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-primary" id="btnConnect">Connecter Todoist</button>
+      <button type="button" class="btn btn-ghost" id="btnRefresh">Actualiser</button>
+      <button type="button" class="btn btn-ghost" id="btnTest">Créer une tâche test</button>
+      <a class="btn btn-ghost" href="./crm-leads.html">Leads</a>
+    </div>
+  </section>
+
+  <div id="tdBanner"></div>
+
+  <div class="td-grid">
+    <section class="panel">
+      <h2>Aujourd’hui &amp; en retard</h2>
+      <p style="color:var(--muted);margin-top:0">Les nouvelles demandes du site créent une tâche (si Todoist est connecté).</p>
+      <div id="tdTasks"><p class="td-empty">Chargement…</p></div>
+    </section>
+    <aside class="panel">
+      <h2>Connexion</h2>
+      <div id="tdStatus"></div>
+      <label style="display:flex;flex-direction:column;gap:6px;margin:14px 0;font-weight:700;font-size:.82rem;color:#64748b">
+        Projet par défaut
+        <select id="tdProject"></select>
+      </label>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnSaveProject">Enregistrer le projet</button>
+      <button type="button" class="btn btn-ghost btn-sm" id="btnDisconnect">Déconnecter</button>
+      <div class="td-setup" id="tdSetup"></div>
+    </aside>
+  </div>
+
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+  <script src="./crm-todoist.js"></script>
+</body>
+</html>

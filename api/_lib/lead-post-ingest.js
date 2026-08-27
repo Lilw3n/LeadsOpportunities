@@ -169,6 +169,13 @@ async function finalizeLeadIngest(enriched, leadId, score, req) {
   }
 
   try {
+    var todoist = require("./todoist");
+    await todoist.createTaskForLead(enriched, score, leadId, null);
+  } catch (e) {
+    console.error("[lead] todoist failed", e);
+  }
+
+  try {
     const { dispatchLeadToPartners } = require("./partners/dispatch");
     dispatchLeadToPartners(enriched, score, leadId).catch(function (e) {
       console.error("[partners/dispatch]", e);

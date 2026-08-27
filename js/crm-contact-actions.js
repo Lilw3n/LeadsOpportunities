@@ -24,6 +24,7 @@ window.CrmContactActions = {
       { label: "Événement", href: "./crm-event-create.html?" + q },
       { label: "Suivi événements", href: "./crm-event-manager.html" },
       { label: "Agenda", href: "./crm-calendar.html" },
+      { label: "Todoist", href: "./crm-todoist.html" },
     ];
   },
 

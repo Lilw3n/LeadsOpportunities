@@ -283,10 +283,30 @@ async function ensureCalendarSchema(sql) {
   return true;
 }
 
+async function ensureTodoistSchema(sql) {
+  if (!sql) return false;
+  var steps = [
+    function (s) {
+      return s`ALTER TABLE users ADD COLUMN IF NOT EXISTS todoist_access_token TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE users ADD COLUMN IF NOT EXISTS todoist_project_id TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE users ADD COLUMN IF NOT EXISTS todoist_connected_at TIMESTAMPTZ`;
+    },
+  ];
+  for (var i = 0; i < steps.length; i++) {
+    await runStatement(sql, steps[i]);
+  }
+  return true;
+}
+
 module.exports = {
   ensureSiteLeadsSchema,
   ensureLeadWorkflowSchema,
   ensureMailboxSchema,
   ensurePersonLinksSchema,
   ensureCalendarSchema,
+  ensureTodoistSchema,
 };
