@@ -94,6 +94,18 @@ function monthLabel() {
   return months[d.getMonth()] + " " + d.getFullYear();
 }
 
+/** File manuelle / inbox : ne pas publier les gabarits « COLLEZ ICI ». */
+function isActuPlaceholder(item) {
+  var title = String((item && item.title) || "").trim();
+  var id = String((item && item.id) || "").toLowerCase();
+  var status = String((item && item.status) || "").toLowerCase();
+  if (status === "template" || status === "example" || status === "draft") return true;
+  if (id.indexOf("template") !== -1 || id.indexOf("placeholder") !== -1) return true;
+  if (!title) return true;
+  if (/collez ici|à coller|\ba coller\b|placeholder|lorem ipsum/i.test(title)) return true;
+  return false;
+}
+
 /** Score 0–100 : potentiel lead questionnaire */
 function scoreLeadPotential(candidate) {
   var score = 0;
@@ -351,4 +363,5 @@ module.exports = {
   rankCandidates: rankCandidates,
   ctaWithUtm: ctaWithUtm,
   relatedForSection: relatedForSection,
+  isActuPlaceholder: isActuPlaceholder,
 };

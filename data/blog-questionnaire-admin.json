@@ -1731,6 +1731,45 @@
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
       "matchedRule": "mutuelle",
       "species": null
+    },
+    {
+      "file": "vigilance-aux-orages-39-departements-places-en-alerte-orange-a-partir-de.html",
+      "title": "Vigilance aux orages : 39 départements placés en alerte orange à partir de jeudi après-… : assurance habitation — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=vigilance-aux-orages-39-departements-p",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "canicule-l-ete-ou-tout-bascule-moralement-c-est-dur-a-elsenheim-la-seche.html",
+      "title": "Canicule, l'été où tout bascule. « Moralement c’est dur » : à Elsenheim, la sécheresse … : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=canicule-l-ete-ou-tout-bascule-moral",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "orages-la-sncf-supprime-des-ter-preventivement-dans-les-hauts-de-france.html",
+      "title": "Orages : la SNCF supprime des TER préventivement dans les Hauts-de-France : mutuelle et remboursements — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=orages-la-sncf-supprime-des-ter-preven",
+      "matchedRule": null,
+      "species": null
     }
   ]
 }
