@@ -72,6 +72,7 @@
   function eventCard(e) {
     var t = Types.byId(e.eventType);
     var sync = e.googleSyncStatus === "synced" ? " · Google ✓" : "";
+    if (e.todoistSyncStatus === "synced" || e.todoistTaskId) sync += " · Todoist ✓";
     return (
       '<div class="ag-slot">' +
       "<time>" +

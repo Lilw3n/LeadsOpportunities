@@ -3,6 +3,7 @@ const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm, contactScopeFilter } = require("../rbac");
 const { getSql } = require("../db");
 const { touchContact } = require("../crm-modules-lib");
+const { syncCrmEventToTodoist } = require("../todoist");
 
 function addDays(dateStr, days) {
   if (!dateStr) return null;
@@ -57,6 +58,11 @@ module.exports = async (req, res) => {
         )
       `;
       await touchContact(sql, src.contact_id);
+      try {
+        await syncCrmEventToTodoist(user.id, newId);
+      } catch (err) {
+        console.error("[crm/bulk-duplicate-events] todoist:", err.message || err);
+      }
       duplicated++;
     }
     return res.status(200).json({ ok: true, duplicated });

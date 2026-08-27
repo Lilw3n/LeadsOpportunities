@@ -1,7 +1,7 @@
 /**
  * GET/POST /api/crm/todoist
- * GET  ?op=status|tasks|projects
- * POST { op: create|close|test|disconnect|project, ... }
+ * GET  ?op=status|tasks|projects|connect
+ * POST { op: create|close|test|disconnect|project|lead|sync-events|event, ... }
  */
 const { applyApiGuards, parseJsonBody } = require("../security");
 const { requireCrm } = require("../rbac");
@@ -20,6 +20,8 @@ const {
   createTaskForLead,
   todoistConfiguredSync,
   envToken,
+  pushUnsyncedCrmEventsToTodoist,
+  syncCrmEventToTodoist,
 } = require("../todoist");
 const { isTodoistOAuthConfigured, getRedirectUri } = require("../todoist-oauth");
 
@@ -176,6 +178,18 @@ module.exports = async function (req, res) {
       var result = await createTaskForLead(body.payload || body, body.score, body.leadId, user.id);
       if (!result.ok) return res.status(502).json(result);
       return res.status(200).json(result);
+    }
+
+    if (action === "sync-events" || action === "syncEvents") {
+      var pushed = await pushUnsyncedCrmEventsToTodoist(user.id);
+      return res.status(pushed.ok ? 200 : 503).json(Object.assign({ message: "Synchronisation événements" }, pushed));
+    }
+
+    if (action === "event") {
+      if (!body.eventId) return res.status(400).json({ error: "eventId manquant" });
+      var synced = await syncCrmEventToTodoist(user.id, body.eventId, { updateIfExists: true });
+      if (!synced.ok && !synced.skipped) return res.status(502).json(synced);
+      return res.status(200).json(Object.assign({ message: "Événement envoyé vers Todoist" }, synced));
     }
 
     if (body.contactId) {

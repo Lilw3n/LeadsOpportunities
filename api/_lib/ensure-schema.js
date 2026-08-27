@@ -295,6 +295,15 @@ async function ensureTodoistSchema(sql) {
     function (s) {
       return s`ALTER TABLE users ADD COLUMN IF NOT EXISTS todoist_connected_at TIMESTAMPTZ`;
     },
+    function (s) {
+      return s`ALTER TABLE crm_events ADD COLUMN IF NOT EXISTS todoist_task_id TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE crm_events ADD COLUMN IF NOT EXISTS todoist_sync_status TEXT`;
+    },
+    function (s) {
+      return s`ALTER TABLE crm_events ADD COLUMN IF NOT EXISTS todoist_updated_at TIMESTAMPTZ`;
+    },
   ];
   for (var i = 0; i < steps.length; i++) {
     await runStatement(sql, steps[i]);

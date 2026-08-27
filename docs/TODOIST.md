@@ -1,6 +1,6 @@
 # Todoist — CRM Leads Opportunities
 
-Connecter [app.todoist.com](https://app.todoist.com) au site : chaque lead peut devenir une tâche, et le CRM affiche aujourd’hui / en retard.
+Connecter [app.todoist.com](https://app.todoist.com) au site : chaque **lead** et chaque **événement agenda** (RDV, visite, relance) peut devenir une tâche, avec une date d’échéance.
 
 Page CRM : `/crm-todoist.html`
 
@@ -17,6 +17,8 @@ Page CRM : `/crm-todoist.html`
 5. CRM → **Todoist** → Actualiser → **Créer une tâche test**
 
 Les nouveaux leads du site créent alors une tâche « Lead {besoin} — {nom} » due aujourd’hui.
+
+Chaque **événement CRM** (création dans `/crm-event-create.html` ou le gestionnaire) crée une tâche à **la date du RDV**. « Marquer fait » coche la tâche Todoist.
 
 ---
 
@@ -45,6 +47,9 @@ Le jeton est stocké en base (compte CRM), pas dans l’URL.
 | Voir les tâches du jour | `/crm-todoist.html` |
 | Créer une tâche depuis une fiche | bouton **Ajouter à Todoist** |
 | Auto à chaque lead | `finalizeLeadIngest` (comme Slack) |
+| Auto à chaque événement agenda | `POST /api/crm/events` → `syncCrmEventToTodoist` |
+| Rattraper les RDV déjà créés | `/crm-todoist.html` → **Synchroniser les événements** |
+| Clôturer | « Marquer fait » dans le gestionnaire → tâche Todoist cochée |
 
 ---
 

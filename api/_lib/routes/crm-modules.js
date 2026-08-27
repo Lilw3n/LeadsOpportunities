@@ -9,6 +9,7 @@ const {
   newId,
 } = require("../crm-modules-lib");
 const Interlocutors = require("../../../js/crm-dossier-interlocutors");
+const { syncCrmEventToTodoist, applyTodoistEventChange } = require("../todoist");
 
 async function listForContact(sql, resource, contactId, scope) {
   if (resource === "events") {
@@ -310,8 +311,17 @@ module.exports = async (req, res) => {
       }
 
       await touchContact(sql, cid);
+      var todoistSync = null;
+      if (resource === "events") {
+        try {
+          todoistSync = await syncCrmEventToTodoist(user.id, id);
+        } catch (err) {
+          console.error("[crm/modules] todoist event:", err);
+          todoistSync = { ok: false, error: err.message };
+        }
+      }
       const rows = await selectById(sql, resource, id);
-      return res.status(201).json({ ok: true, item: rows[0] });
+      return res.status(201).json({ ok: true, item: rows[0], todoistSync: todoistSync });
     } catch (e) {
       console.error("[crm/modules POST]", e);
       return res.status(500).json({ error: "Erreur serveur" });
@@ -439,8 +449,21 @@ module.exports = async (req, res) => {
       }
 
       await touchContact(sql, cid);
+      var todoistSync = null;
+      if (resource === "events") {
+        try {
+          todoistSync = await applyTodoistEventChange(
+            user.id,
+            itemId,
+            data.status || existingRows[0].status
+          );
+        } catch (err) {
+          console.error("[crm/modules] todoist event patch:", err);
+          todoistSync = { ok: false, error: err.message };
+        }
+      }
       const rows = await selectById(sql, resource, itemId);
-      return res.status(200).json({ ok: true, item: rows[0] });
+      return res.status(200).json({ ok: true, item: rows[0], todoistSync: todoistSync });
     } catch (e) {
       console.error("[crm/modules PATCH]", e);
       return res.status(500).json({ error: "Erreur serveur" });

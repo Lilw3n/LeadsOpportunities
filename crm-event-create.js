@@ -227,16 +227,16 @@
       .then(function (res) {
         if (res.ok) {
           var sync = res.googleSync || {};
+          var td = res.todoistSync || {};
+          var bits = ["Événement créé"];
+          if (sync.ok && !sync.skipped) bits.push("Google Calendar");
+          else if (sync.skipped) bits.push("Google non connecté");
+          else if (sync.error) bits.push("Google : " + sync.error);
+          if (td.ok && !td.skipped) bits.push("Todoist");
+          else if (td.skipped) bits.push("Todoist non connecté");
+          else if (td.error) bits.push("Todoist : " + td.error);
           msg.style.color = "#065f46";
-          msg.textContent =
-            "Événement créé" +
-            (sync.ok && !sync.skipped
-              ? " — synchronisé Google Calendar"
-              : sync.skipped
-                ? " — Google non connecté (RDV CRM OK)"
-                : sync.error
-                  ? " — CRM OK, sync Google : " + sync.error
-                  : "");
+          msg.textContent = bits[0] + (bits.length > 1 ? " — " + bits.slice(1).join(" · ") : "");
           setTimeout(function () {
             location.href = "./crm-event-manager.html";
           }, 900);
