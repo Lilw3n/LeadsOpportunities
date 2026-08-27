@@ -320,7 +320,12 @@
         "permis am",
         "permis AM",
         "bsr",
-        "voiturette"
+        "voiturette",
+        "aixam",
+        "ligier",
+        "microcar",
+        "citroën ami",
+        "citroen ami"
       ],
       "section": "vsp"
     },
@@ -606,6 +611,30 @@
       "section": "vsp"
     },
     "permis-am-bsr-assr-voiture-sans-permis-2026.html": {
+      "section": "vsp"
+    },
+    "tarif-assurance-voiture-sans-permis-2026.html": {
+      "section": "vsp"
+    },
+    "assurance-voiturette-quadricycle-leger-2026.html": {
+      "section": "vsp"
+    },
+    "assurance-aixam-ligier-microcar-voiture-sans-permis.html": {
+      "section": "vsp"
+    },
+    "citroen-ami-assurance-sans-permis.html": {
+      "section": "vsp"
+    },
+    "jeune-conducteur-16-ans-assurance-voiture-sans-permis.html": {
+      "section": "vsp"
+    },
+    "assurance-vsp-vol-bris-tous-risques.html": {
+      "section": "vsp"
+    },
+    "resilier-changer-assurance-voiture-sans-permis.html": {
+      "section": "vsp"
+    },
+    "assurance-vsp-nancy-varangeville-meurthe-et-moselle.html": {
       "section": "vsp"
     },
     "feux-foret-animaux-chien-chat-assurance.html": {

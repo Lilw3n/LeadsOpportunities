@@ -77,7 +77,7 @@ var LT = require("./seo-long-term-related.cjs");
 assert(LT.NICHES_VSP && LT.NICHES_VSP.length >= 3, "cluster NICHES_VSP");
 
 var articles = require("./blog-vsp-articles.cjs");
-assert(articles.length >= 2, "2 articles blog VSP");
+assert(articles.length >= 10, "10 articles blog VSP");
 articles.forEach(function (a) {
   assert(a.keywords && a.keywords.length >= 3, a.file + " mots-clés");
   assert(
@@ -101,6 +101,19 @@ assert(
 assert(exists("assurance-voiture-sans-permis/paris/index.html"), "page ville Paris VSP");
 assert(exists("blog/assurance-voiture-sans-permis-guide-2026.html"), "article blog VSP");
 assert(exists("blog/permis-am-bsr-assr-voiture-sans-permis-2026.html"), "article blog permis AM");
+assert(exists("blog/tarif-assurance-voiture-sans-permis-2026.html"), "article tarifs VSP");
+assert(exists("blog/assurance-voiturette-quadricycle-leger-2026.html"), "article voiturette");
+assert(exists("blog/assurance-aixam-ligier-microcar-voiture-sans-permis.html"), "article Aixam Ligier");
+assert(exists("blog/citroen-ami-assurance-sans-permis.html"), "article Citroën Ami");
+assert(exists("blog/jeune-conducteur-16-ans-assurance-voiture-sans-permis.html"), "article 16 ans");
+assert(exists("blog/assurance-vsp-vol-bris-tous-risques.html"), "article vol/bris");
+assert(exists("blog/resilier-changer-assurance-voiture-sans-permis.html"), "article résiliation");
+assert(exists("blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html"), "article Nancy Varangéville");
+assert(
+  read("blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html").indexOf("Varangéville") >= 0,
+  "orthographe Varangéville"
+);
+assert(read("blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html").indexOf("Varengeville") < 0, "pas Varengeville");
 assert(read("assurances-niches.html").indexOf("assurance-voiture-sans-permis") >= 0, "hub niches VSP");
 
 if (failed) {

@@ -19,7 +19,12 @@ var urls = markets.indexationWeek1.concat(
   "/landings/devis.html?need=chasse",
   "/landings/devis.html?need=equitation",
   "/landings/devis.html?need=vsp",
-  "/assurance-voiture-sans-permis/paris/"
+  "/assurance-voiture-sans-permis/paris/",
+  "/assurance-voiture-sans-permis/nancy/",
+  "/assurance-voiture-sans-permis/varangeville/",
+  "/blog/tarif-assurance-voiture-sans-permis-2026.html",
+  "/blog/citroen-ami-assurance-sans-permis.html",
+  "/blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html"
 );
 
 console.log("# URLs niches — indexation prioritaire (Search Console)\n");
