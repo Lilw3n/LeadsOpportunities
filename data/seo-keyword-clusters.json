@@ -12,7 +12,11 @@
         "prêt immobilier Nancy",
         "courtier Varangéville",
         "assurance emprunteur Nancy",
-        "courtier assurance Meurthe-et-Moselle"
+        "courtier assurance Meurthe-et-Moselle",
+        "assurance auto Nancy",
+        "assurance habitation Nancy",
+        "mutuelle Varangéville",
+        "prévoyance Nancy"
       ],
       "moneyPages": [
         "/nancy-54/",
@@ -20,7 +24,10 @@
         "/assurance-sante/nancy/",
         "/credit-immo/nancy/",
         "/pret-immobilier/nancy/",
-        "/pret-immobilier/nancy-metropole/"
+        "/pret-immobilier/nancy-metropole/",
+        "/assurance-auto/nancy/",
+        "/assurance-habitation/nancy/",
+        "/assurance-habitation/varangeville/"
       ],
       "blog": [
         "/blog/acheter-terrain-nancy-metropole-54-2026.html",
@@ -31,7 +38,18 @@
       "id": "vtc",
       "priority": 2,
       "primary": "assurance VTC",
-      "longTail": ["devis assurance VTC", "RC pro chauffeur VTC", "assurance Uber Bolt Heetch", "assurance VTC pas cher", "assurance VTC Île-de-France"],
+      "longTail": [
+        "devis assurance VTC",
+        "RC pro chauffeur VTC",
+        "assurance Uber Bolt Heetch",
+        "assurance VTC pas cher",
+        "assurance VTC Île-de-France",
+        "assurance VTC Paris",
+        "assurance VTC Lyon",
+        "assurance VTC Marseille",
+        "assurance VTC Nancy",
+        "courtier VTC"
+      ],
       "moneyPages": ["/assurance-vtc/", "/landings/vtc.html", "/assurance-vtc/paris/", "/assurance-vtc/ile-de-france/", "/assurance-vtc/pas-cher/"],
       "blog": [
         "/blog/assurance-vtc-moins-cher-2026.html",
@@ -44,8 +62,19 @@
       "id": "mutuelle",
       "priority": 3,
       "primary": "mutuelle santé",
-      "longTail": ["comparatif mutuelle", "mutuelle remboursement dentaire", "mutuelle senior", "devis mutuelle", "canicule mutuelle"],
-      "moneyPages": ["/assurance-sante/", "/landings/sante.html", "/assurance-sante/paris/"],
+      "longTail": [
+        "comparatif mutuelle",
+        "mutuelle remboursement dentaire",
+        "mutuelle senior",
+        "devis mutuelle",
+        "canicule mutuelle",
+        "mutuelle Paris",
+        "mutuelle Lyon",
+        "mutuelle Marseille",
+        "mutuelle Nancy",
+        "mutuelle optique dentaire"
+      ],
+      "moneyPages": ["/assurance-sante/", "/landings/sante.html", "/assurance-sante/paris/", "/assurance-sante/nancy/", "/assurance-sante/lyon/"],
       "blog": [
         "/blog/mutuelle-sante-5-criteres.html",
         "/blog/mutuelle-remboursement-optique-dentaire-2026.html",
@@ -58,7 +87,18 @@
       "id": "credit-immo",
       "priority": 4,
       "primary": "crédit immobilier",
-      "longTail": ["simulation crédit immobilier", "assurance emprunteur", "loi Lemoine assurance prêt", "taux crédit immo", "prêt immobilier refusé", "coût réel achat immobilier"],
+      "longTail": [
+        "simulation crédit immobilier",
+        "assurance emprunteur",
+        "loi Lemoine assurance prêt",
+        "taux crédit immo",
+        "prêt immobilier refusé",
+        "coût réel achat immobilier",
+        "crédit immobilier Paris",
+        "crédit immobilier Lyon",
+        "prêt immobilier Nancy",
+        "courtier crédit Marseille"
+      ],
       "moneyPages": ["/credit-immo/", "/landings/credit-immo.html", "/credit-immo/simulation/", "/pret-immobilier/", "/recherche-bien/", "/landings/projection-achat.html"],
       "blog": [
         "/blog/pret-immo-erreurs-a-eviter.html",
@@ -72,8 +112,16 @@
       "id": "animaux",
       "priority": 4,
       "primary": "assurance animaux",
-      "longTail": ["assurance chien", "assurance chat", "mutuelle animaux sans délai de carence"],
-      "moneyPages": ["/assurance-animaux/", "/landings/animaux.html"],
+      "longTail": [
+        "assurance chien",
+        "assurance chat",
+        "mutuelle animaux sans délai de carence",
+        "assurance chien Paris",
+        "assurance chat Lyon",
+        "assurance animaux Nancy",
+        "frais vétérinaires"
+      ],
+      "moneyPages": ["/assurance-animaux/", "/landings/animaux.html", "/assurance-animaux/paris/", "/assurance-animaux/nancy/"],
       "blog": [
         "/blog/assurance-animaux-comment-choisir.html",
         "/blog/assurance-chien-frais-veterinaires.html",
@@ -92,6 +140,8 @@
         "assurance habitation vol",
         "changer assurance habitation",
         "assurance habitation Paris",
+        "assurance habitation Lyon",
+        "assurance habitation Marseille",
         "assurance habitation Nancy",
         "courtier grossiste MRH"
       ],
@@ -121,6 +171,8 @@
         "assurance auto pas cher",
         "résilier assurance auto loi Hamon",
         "assurance auto Paris",
+        "assurance auto Lyon",
+        "assurance auto Marseille",
         "assurance auto Nancy",
         "courtier grossiste auto"
       ],
@@ -143,7 +195,15 @@
       "priority": 6,
       "competition": "low",
       "primary": "assurance chasse",
-      "longTail": ["rc chasseur", "assurance chasse pas cher", "assurance chien de chasse", "responsabilité chasseur"],
+      "longTail": [
+        "rc chasseur",
+        "assurance chasse pas cher",
+        "assurance chien de chasse",
+        "responsabilité chasseur",
+        "assurance chasse Paris",
+        "assurance chasse Nancy",
+        "RC chasseur Grand Est"
+      ],
       "moneyPages": ["/assurance-chasse/", "/assurance-chasse/rc-chasseur/", "/assurance-chasse/chien-chasse/", "/assurance-chasse/paris/", "/landings/chasse.html"],
       "blog": [
         "/blog/assurance-chasse-rc-chasseur-guide-2026.html",
@@ -155,7 +215,15 @@
       "priority": 7,
       "competition": "low",
       "primary": "assurance équitation",
-      "longTail": ["rc équestre", "assurance cheval", "assurance centre équestre", "assurance cheval pas cher"],
+      "longTail": [
+        "rc équestre",
+        "assurance cheval",
+        "assurance centre équestre",
+        "assurance cheval pas cher",
+        "assurance équitation Paris",
+        "assurance équitation Lyon",
+        "assurance cheval Nancy"
+      ],
       "moneyPages": ["/assurance-equitation/", "/assurance-equitation/rc-equestre/", "/assurance-equitation/cheval/", "/assurance-equitation/paris/", "/landings/equitation.html"],
       "blog": [
         "/blog/assurance-equitation-rc-equestre-guide-2026.html",
@@ -167,7 +235,16 @@
       "priority": 5,
       "competition": "low",
       "primary": "assurance voiture sans permis",
-      "longTail": ["assurance vsp", "assurance sans permis", "devis vsp", "permis AM assurance", "assurance quadricycle"],
+      "longTail": [
+        "assurance vsp",
+        "assurance sans permis",
+        "devis vsp",
+        "permis AM assurance",
+        "assurance quadricycle",
+        "assurance voiture sans permis Paris",
+        "assurance VSP Lyon",
+        "assurance voiturette Nancy"
+      ],
       "moneyPages": [
         "/assurance-voiture-sans-permis/",
         "/assurance-voiture-sans-permis/permis-am/",
@@ -187,6 +264,48 @@
         "/blog/resilier-changer-assurance-voiture-sans-permis.html",
         "/blog/assurance-vsp-nancy-varangeville-meurthe-et-moselle.html"
       ]
+    },
+    {
+      "id": "emprunteur",
+      "priority": 4,
+      "primary": "assurance emprunteur",
+      "longTail": [
+        "loi Lemoine",
+        "délégation d'assurance de prêt",
+        "changer d'assurance emprunteur",
+        "équivalence de garanties",
+        "assurance emprunteur Paris",
+        "assurance emprunteur Lyon",
+        "assurance emprunteur Nancy"
+      ],
+      "moneyPages": [
+        "/assurance-emprunteur/",
+        "/landings/devis.html?need=emprunteur",
+        "/assurance-emprunteur/paris/",
+        "/assurance-emprunteur/nancy/"
+      ],
+      "blog": ["/blog/assurance-emprunteur-loi-lemoine-2026.html"]
+    },
+    {
+      "id": "prevoyance",
+      "priority": 5,
+      "primary": "assurance prévoyance",
+      "longTail": [
+        "prévoyance TNS",
+        "assurance décès invalidité",
+        "arrêt de travail ITT",
+        "protection du revenu",
+        "prévoyance Paris",
+        "prévoyance Lyon",
+        "prévoyance Nancy"
+      ],
+      "moneyPages": [
+        "/assurance-prevoyance/",
+        "/landings/devis.html?need=prevoyance",
+        "/assurance-prevoyance/paris/",
+        "/assurance-prevoyance/nancy/"
+      ],
+      "blog": []
     },
     {
       "id": "animaux-longtail",

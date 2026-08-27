@@ -666,13 +666,21 @@ function withSeoMeta(p) {
   });
   var keywords = mergeKeywords(p.keywords, meta.keywords);
   if (p.city && p.city.name) {
+    var silo = p.siloLabel || "Assurance";
+    var deptNice = p.city.dept ? String(p.city.dept).replace(/-/g, " ") : "";
     keywords = mergeKeywords(
       [
-        (p.siloLabel || "") + " " + p.city.name,
+        silo + " " + p.city.name,
+        "devis " + silo.toLowerCase() + " " + p.city.name,
+        "courtier " + p.city.name,
+        "comparatif " + p.city.name,
+        "changer d'assurance " + p.city.name,
         "devis " + p.city.name,
         p.city.region,
-        p.city.dept ? "assurance " + String(p.city.dept).replace(/-/g, " ") : "",
-        "courtier " + p.city.name,
+        silo + " " + (p.city.region || ""),
+        deptNice ? "assurance " + deptNice : "",
+        deptNice ? silo + " " + deptNice : "",
+        "courtier ORIAS " + p.city.name,
       ]
         .filter(Boolean)
         .join(", "),
@@ -701,7 +709,7 @@ function mergeKeywords(a, b) {
       seen[key] = true;
       out.push(k);
     });
-  return out.slice(0, 24).join(", ");
+  return out.slice(0, 40).join(", ");
 }
 
 function renderPage(p) {

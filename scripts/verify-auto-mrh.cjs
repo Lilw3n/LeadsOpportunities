@@ -76,7 +76,13 @@ assert(gsc.GSC_INDEX_NOW_PRIORITY.indexOf("/blog/assurance-auto-courtier-grossis
 var geo = read("scripts/seo-geo-lib.cjs");
 assert(geo.indexOf("autoCitySections") >= 0, "sections ville auto");
 assert(geo.indexOf("habitationCitySections") >= 0, "sections ville MRH");
-assert(read("scripts/seo-content-lib.cjs").indexOf("localKeywordSection") >= 0, "mots-clés ville tous produits");
+assert(read("scripts/seo-content-lib.cjs").indexOf("localKeywordSections") >= 0, "sections ville tous produits");
+assert(read("scripts/seo-content-lib.cjs").indexOf("santeCitySections") >= 0, "sections ville mutuelle");
+assert(read("scripts/seo-content-lib.cjs").indexOf("emprunteurCitySections") >= 0, "sections ville emprunteur");
+assert(read("scripts/seo-content-lib.cjs").indexOf("prevoyanceCitySections") >= 0, "sections ville prévoyance");
+assert(read("scripts/seo-content-lib.cjs").indexOf("localIntentFaq") >= 0, "FAQ locale mots-clés");
+assert(read("scripts/seo-content-lib.cjs").indexOf("localDeptSection") >= 0, "SEO département");
+assert(read("scripts/seo-geo-lib.cjs").indexOf("localKeywordSections") >= 0, "geo concat keyword sections");
 
 assert(exists("blog/assurance-auto-courtier-grossiste-comparatif-2026.html"), "HTML auto grossiste");
 assert(exists("blog/assurance-habitation-courtier-grossiste-mrh-2026.html"), "HTML MRH grossiste");

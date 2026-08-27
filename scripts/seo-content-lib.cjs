@@ -126,12 +126,24 @@ function chatCitySections(city) {
 }
 
 function chasseCitySections(city) {
+  var dept = String(city.dept || "").replace(/-/g, " ");
   return [
     {
-      h2: "Assurance chasse a " + city.name,
+      h2: "Assurance chasse à " + city.name,
       paragraphs: [
-        "RC chasseur, blessures, chiens courants : les besoins varient selon disciplines et territoires. Nous cadrons votre dossier avec un conseiller specialise.",
-        "Residents de " + city.name + " et du " + city.dept.replace(/-/g, " ") + " : devis national, accompagnement telephone.",
+        "RC chasseur, permis de chasser, blessures, chiens courants : devis assurance chasse à " +
+          city.name +
+          " (" +
+          city.region +
+          (dept ? ", " + dept : "") +
+          "). Un courtier ORIAS cadre le dossier.",
+        "Territoires, battue, affût, chasse au gibier d'eau : les garanties ne sont pas les mêmes. Nous comparons RC, individuelle accident et chien de chasse.",
+      ],
+      list: [
+        "Devis assurance chasse " + city.name,
+        "RC chasseur " + city.region,
+        "Assurance chien de chasse " + city.name,
+        "Permis de chasser et responsabilité civile",
       ],
     },
   ];
@@ -280,46 +292,420 @@ function habitationCitySections(city) {
   ];
 }
 
+function productIntentPhrases(product) {
+  var key = (product && product.key) || "";
+  var map = {
+    vtc: [
+      "devis assurance VTC",
+      "RC Pro chauffeur VTC",
+      "assurance Uber Bolt Heetch",
+      "assurance VTC pas cher",
+      "courtier VTC",
+    ],
+    sante: [
+      "devis mutuelle santé",
+      "mutuelle optique dentaire",
+      "mutuelle hospitalisation",
+      "comparatif mutuelle",
+      "mutuelle senior",
+      "mutuelle TNS",
+    ],
+    credit: [
+      "simulation crédit immobilier",
+      "taux crédit immo",
+      "courtier crédit",
+      "primo-accédant",
+      "capacité d'emprunt",
+    ],
+    pret: [
+      "prêt immobilier",
+      "simulation prêt",
+      "apport personnel",
+      "assurance emprunteur",
+      "taux immobilier",
+    ],
+    recherche: [
+      "recherche de bien",
+      "achat immobilier",
+      "appartement maison villa",
+      "chasseur immobilier",
+      "budget prêt",
+    ],
+    finance: [
+      "rachat de crédits",
+      "crédit consommation",
+      "crédit professionnel",
+      "regroupement de crédits",
+      "trésorerie",
+    ],
+    banque: ["compte bancaire", "épargne", "trésorerie pro", "ouverture de compte", "courtier banque"],
+    auto: [
+      "devis assurance auto",
+      "assurance auto tous risques",
+      "assurance auto au tiers",
+      "jeune conducteur",
+      "bonus-malus",
+      "loi Hamon auto",
+    ],
+    habitation: [
+      "devis assurance habitation",
+      "MRH locataire",
+      "assurance propriétaire",
+      "dégâts des eaux",
+      "vol cambriolage",
+      "loi Hamon habitation",
+    ],
+    emprunteur: [
+      "assurance emprunteur",
+      "loi Lemoine",
+      "délégation d'assurance",
+      "équivalence de garanties",
+      "changer d'assurance de prêt",
+    ],
+    prevoyance: [
+      "assurance prévoyance",
+      "prévoyance TNS",
+      "décès invalidité",
+      "arrêt de travail ITT",
+      "protection du revenu",
+    ],
+    animaux: [
+      "assurance chien",
+      "assurance chat",
+      "frais vétérinaires",
+      "mutuelle animaux",
+      "assurance animaux sans carence",
+    ],
+    chien: ["assurance chien", "assurance chiot", "chien senior", "frais véto chien", "mutuelle chien"],
+    chat: ["assurance chat", "assurance chaton", "chat senior", "frais véto chat", "mutuelle chat"],
+    chasse: ["RC chasseur", "assurance chasse", "chien de chasse", "permis de chasser", "responsabilité chasseur"],
+    equitation: ["RC équestre", "assurance cheval", "assurance équitation", "centre équestre", "mortalité cheval"],
+    vsp: [
+      "assurance voiture sans permis",
+      "assurance VSP",
+      "permis AM",
+      "quadricycle léger",
+      "voiturette Aixam Ligier",
+    ],
+  };
+  return map[key] || ["devis", "courtier ORIAS", "comparatif", "changer d'assurance"];
+}
+
+function deptLabel(cityOrDept) {
+  if (!cityOrDept) return "";
+  if (cityOrDept.dept) return String(cityOrDept.dept).replace(/-/g, " ");
+  if (cityOrDept.slug && !cityOrDept.regionSlug) return String(cityOrDept.name || cityOrDept.slug).replace(/-/g, " ");
+  return "";
+}
+
+function localPageKeywords(product, placeName, region, dept) {
+  var label = (product && product.siloLabel) || "Assurance";
+  var items = [
+    label + " " + placeName,
+    "devis " + label.toLowerCase() + " " + placeName,
+    "courtier " + placeName,
+    "comparatif " + placeName,
+    "changer d'assurance " + placeName,
+    region || "",
+    dept ? "assurance " + String(dept).replace(/-/g, " ") : "",
+    region ? label + " " + region : "",
+    "courtier ORIAS " + placeName,
+  ];
+  productIntentPhrases(product).forEach(function (p) {
+    items.push(p + " " + placeName);
+  });
+  return items.filter(Boolean).join(", ");
+}
+
 function localKeywordSection(product, city) {
   var label = (product && product.siloLabel) || "Assurance";
   var name = city.name;
   var region = city.region || "";
+  var dept = deptLabel(city);
+  var phrases = productIntentPhrases(product);
+  var woven = phrases.slice(0, 5).map(function (p) {
+    return p + " " + name;
+  });
   return {
-    h2: "Mots-clés " + label.toLowerCase() + " à " + name,
+    h2: "Devis " + label.toLowerCase() + " à " + name + " — " + region,
     paragraphs: [
-      label +
-        " " +
+      "À " +
         name +
-        ", devis " +
+        (region ? " (" + region + (dept ? ", " + dept : "") + ")" : "") +
+        ", un courtier ORIAS compare " +
         label.toLowerCase() +
-        " " +
-        name +
-        ", " +
-        label.toLowerCase() +
-        " " +
-        region +
-        ", courtier " +
-        name +
-        ", comparatif " +
-        name +
-        ", courtier ORIAS.",
+        " à garanties équivalentes : devis gratuit, rappel conseiller, sans engagement.",
+      "Les demandes locales portent souvent sur " +
+        woven.join(", ") +
+        ". Nous traitons aussi les communes voisines du même département.",
     ],
     list: [
       "Devis " + label.toLowerCase() + " " + name,
-      label + " pas cher " + name,
+      "Courtier " + label.toLowerCase() + " " + name,
+      "Comparatif " + name + (region ? " / " + region : ""),
       "Changer d'assurance à " + name,
-      "Courtier " + region,
-    ],
+    ].concat(
+      phrases.slice(0, 6).map(function (p) {
+        return p + " — " + name;
+      })
+    ),
   };
+}
+
+function localCatchmentSection(product, city) {
+  var label = (product && product.siloLabel) || "Assurance";
+  var name = city.name;
+  var region = city.region || "";
+  var dept = deptLabel(city);
+  return {
+    h2: label + " près de " + name + (region ? " — " + region : ""),
+    paragraphs: [
+      "Le dossier " +
+        label.toLowerCase() +
+        " se monte à distance pour " +
+        name +
+        (region ? " et toute la région " + region : "") +
+        ". Pages ville, département et région : mêmes mots-clés (devis, courtier, comparatif) et même parcours.",
+    ],
+    list: [
+      label + (region ? " " + region : ""),
+      dept ? "Devis " + dept : "Devis " + name,
+      "Courtier " + (region || name),
+      "Communes voisines de " + name,
+    ].filter(Boolean),
+  };
+}
+
+function localKeywordSections(product, city) {
+  return [localKeywordSection(product, city), localCatchmentSection(product, city)];
+}
+
+function localDeptSection(product, dept, cityCount) {
+  var label = (product && product.siloLabel) || "Assurance";
+  var phrases = productIntentPhrases(product);
+  return {
+    h2: "Devis " + label.toLowerCase() + " dans le " + dept.name,
+    paragraphs: [
+      label +
+        " " +
+        dept.name +
+        " (" +
+        dept.region +
+        ") : " +
+        cityCount +
+        " villes couvertes. Courtier ORIAS, devis gratuit, comparatif à garanties équivalentes.",
+      "Requêtes fréquentes : devis " +
+        label.toLowerCase() +
+        " " +
+        dept.name +
+        ", courtier " +
+        dept.name +
+        ", " +
+        label.toLowerCase() +
+        " " +
+        dept.region +
+        ".",
+    ],
+    list: phrases.map(function (p) {
+      return p + " — " + dept.name;
+    }),
+  };
+}
+
+function localRegionSection(product, region, deptCount, cityCount) {
+  var label = (product && product.siloLabel) || "Assurance";
+  var phrases = productIntentPhrases(product);
+  return {
+    h2: label + " en " + region.name + " — devis par ville et département",
+    paragraphs: [
+      "Devis " +
+        label.toLowerCase() +
+        " en " +
+        region.name +
+        " : " +
+        deptCount +
+        " départements, " +
+        cityCount +
+        " villes. Courtier ORIAS, rappel conseiller, sans engagement.",
+    ],
+    list: phrases.slice(0, 6).map(function (p) {
+      return p + " — " + region.name;
+    }),
+  };
+}
+
+function localIntentFaq(product, city) {
+  var label = (product && product.siloLabel) || "Assurance";
+  var name = city.name;
+  var region = city.region || "";
+  var insuranceKeys = {
+    vtc: 1,
+    sante: 1,
+    auto: 1,
+    habitation: 1,
+    emprunteur: 1,
+    prevoyance: 1,
+    animaux: 1,
+    chien: 1,
+    chat: 1,
+    chasse: 1,
+    equitation: 1,
+    vsp: 1,
+  };
+  var items = [
+    {
+      q: "Devis " + label.toLowerCase() + " à " + name + " : comment ça marche ?",
+      a:
+        "Formulaire en ligne, rappel conseiller ORIAS sous 15 min en journée. Couverture " +
+        name +
+        (region ? ", " + region : "") +
+        " et communes voisines.",
+    },
+    {
+      q: "Y a-t-il un courtier " + label.toLowerCase() + " à " + name + " ?",
+      a:
+        "Oui : courtage à distance pour " +
+        name +
+        (region ? " et le " + region : "") +
+        ". Pas de magasin obligatoire, dossier 100 % France.",
+    },
+  ];
+  if (insuranceKeys[product && product.key]) {
+    items.push({
+      q: "Puis-je changer d'" + label.toLowerCase() + " à " + name + " ?",
+      a:
+        (product && product.key) === "emprunteur"
+          ? "Loi Lemoine : délégation et résiliation à tout moment sous équivalence de garanties. Un courtier prépare le dossier pour " +
+            name +
+            "."
+          : "Après 12 mois, la loi Hamon permet souvent de changer sans frais. Un courtier prépare le dossier à " +
+            name +
+            ".",
+    });
+  } else {
+    items.push({
+      q: "Intervenez-vous aussi près de " + name + " ?",
+      a: "Oui, tout le " + (region || "département") + " : pages par ville et département, même parcours devis.",
+    });
+  }
+  return items;
+}
+
+function santeCitySections(city) {
+  return [
+    {
+      h2: "Mutuelle santé à " + city.name,
+      paragraphs: [
+        "Devis mutuelle à " +
+          city.name +
+          " (" +
+          city.region +
+          ") : optique, dentaire, hospitalisation, médecine courante, senior, TNS.",
+        "Le prix seul est trompeur : deux contrats peuvent afficher la même cotisation avec des remboursements très différents. Un courtier ORIAS part de votre usage réel.",
+      ],
+      list: [
+        "Devis mutuelle " + city.name,
+        "Comparatif mutuelle " + city.region,
+        "Mutuelle optique dentaire",
+        "Mutuelle hospitalisation",
+        "Mutuelle senior / TNS",
+      ],
+    },
+    {
+      h2: "Changer de mutuelle à " + city.name,
+      paragraphs: [
+        "Résiliation infra-annuelle après 12 mois (loi sur la complémentaire santé). Nous vérifions les délais de carence et le niveau de remboursement avant de vous faire signer à " +
+          city.name +
+          ".",
+      ],
+    },
+  ];
+}
+
+function creditCitySections(city) {
+  return [
+    {
+      h2: "Crédit immobilier à " + city.name,
+      paragraphs: [
+        "Simulation crédit immobilier à " +
+          city.name +
+          " (" +
+          city.region +
+          ") : capacité d'emprunt, apport, taux, assurance emprunteur, HCSF 35 %.",
+        "Primo-accédant, résidence principale, investissement locatif : un courtier ORIAS présente un dossier crédible aux banques partenaires.",
+      ],
+      list: [
+        "Simulation crédit " + city.name,
+        "Taux immobilier " + city.region,
+        "Courtier crédit " + city.name,
+        "Prêt refusé : deuxième chance",
+        "Assurance emprunteur (Lemoine)",
+      ],
+    },
+  ];
+}
+
+function emprunteurCitySections(city) {
+  return [
+    {
+      h2: "Assurance emprunteur à " + city.name,
+      paragraphs: [
+        "Délégation d'assurance, loi Lemoine, équivalence de garanties : devis assurance emprunteur à " +
+          city.name +
+          " (" +
+          city.region +
+          ").",
+        "Changer d'assurance de prêt peut baisser le coût total du crédit. Un courtier vérifie ce que votre banque exige avant d'envoyer le dossier.",
+      ],
+      list: [
+        "Devis assurance emprunteur " + city.name,
+        "Loi Lemoine " + city.region,
+        "Délégation d'assurance de prêt",
+        "Équivalence de garanties banque",
+      ],
+    },
+  ];
+}
+
+function prevoyanceCitySections(city) {
+  return [
+    {
+      h2: "Prévoyance à " + city.name,
+      paragraphs: [
+        "Décès, invalidité, arrêt de travail (ITT/IPT), TNS et dirigeants : devis prévoyance à " +
+          city.name +
+          " (" +
+          city.region +
+          ").",
+        "Salariés, indépendants, professions libérales : les prestations varient selon le statut. Un courtier ORIAS clarifie les garanties avant souscription.",
+      ],
+      list: [
+        "Devis prévoyance " + city.name,
+        "Prévoyance TNS " + city.region,
+        "Assurance décès invalidité",
+        "Protection du revenu / Madelin",
+      ],
+    },
+  ];
 }
 
 function equitationCitySections(city) {
   return [
     {
-      h2: "Assurance equitation a " + city.name,
+      h2: "Assurance équitation à " + city.name,
       paragraphs: [
-        "Proprietaire de cheval, cavalier ou centre equestre : RC equestre, mortalite cheval, materiel. Nous orientons vers les produits disponibles selon votre activite.",
-        "En " + city.region + ", les ecuries et cavaliers de loisir ont les memes exigences de couverture qu au niveau national.",
+        "Propriétaire de cheval, cavalier ou centre équestre à " +
+          city.name +
+          " : RC équestre, mortalité cheval, matériel, responsabilité civile. Devis équitation " +
+          city.region +
+          ".",
+        "Loisir, compétition, pension : nous orientons vers les contrats encore ouverts, avec un conseiller ORIAS.",
+      ],
+      list: [
+        "Devis assurance équitation " + city.name,
+        "RC équestre " + city.region,
+        "Assurance cheval " + city.name,
+        "Centre équestre et pension",
       ],
     },
   ];
@@ -369,7 +755,18 @@ module.exports = {
   vspCitySections: vspCitySections,
   autoCitySections: autoCitySections,
   habitationCitySections: habitationCitySections,
+  santeCitySections: santeCitySections,
+  creditCitySections: creditCitySections,
+  emprunteurCitySections: emprunteurCitySections,
+  prevoyanceCitySections: prevoyanceCitySections,
+  productIntentPhrases: productIntentPhrases,
+  localPageKeywords: localPageKeywords,
   localKeywordSection: localKeywordSection,
+  localCatchmentSection: localCatchmentSection,
+  localKeywordSections: localKeywordSections,
+  localDeptSection: localDeptSection,
+  localRegionSection: localRegionSection,
+  localIntentFaq: localIntentFaq,
   defaultCityFaq: defaultCityFaq,
   animauxCityFaq: animauxCityFaq,
 };

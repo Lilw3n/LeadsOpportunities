@@ -55,11 +55,16 @@ function keywordsForPath(path) {
       if (p.indexOf("/recherche-bien") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/finance") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/banque") === 0 && c.id === "credit-immo") best = c;
+      if (p.indexOf("/assurance-emprunteur") === 0 && c.id === "emprunteur") best = c;
+      if (p.indexOf("/assurance-prevoyance") === 0 && c.id === "prevoyance") best = c;
       if (p.indexOf("/assurance-animaux") === 0 && c.id === "animaux") best = c;
+      if (p.indexOf("/assurance-chien") === 0 && c.id === "animaux") best = c;
+      if (p.indexOf("/assurance-chat") === 0 && c.id === "animaux") best = c;
       if (p.indexOf("/assurance-habitation") === 0 && c.id === "habitation") best = c;
       if (p.indexOf("/assurance-auto") === 0 && c.id === "auto") best = c;
       if (p.indexOf("/assurance-chasse") === 0 && c.id === "chasse") best = c;
       if (p.indexOf("/assurance-equitation") === 0 && c.id === "equitation") best = c;
+      if (p.indexOf("/assurance-voiture-sans-permis") === 0 && c.id === "vsp") best = c;
       if (p.indexOf("/assurance-animaux/chien/pas-cher") === 0 && c.id === "animaux-longtail") best = c;
     });
   }
