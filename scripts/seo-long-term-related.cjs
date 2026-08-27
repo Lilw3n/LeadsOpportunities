@@ -29,6 +29,8 @@ var PRET_REFUSE = [
 var NICHES_CHASSE = [
   link("/blog/assurance-chasse-rc-chasseur-guide-2026.html", "Guide RC chasseur 2026"),
   link("/blog/assurance-chien-de-chasse-rc-comparatif.html", "Chien de chasse & RC"),
+  link("/blog/tarif-assurance-chasse-rc-chasseur-2026.html", "Tarifs RC chasseur"),
+  link("/blog/assurance-chasse-nancy-meurthe-et-moselle.html", "Chasse Nancy / 54"),
   link("/assurance-chasse/rc-chasseur/", "Hub RC chasseur"),
   link("/assurance-chasse/chien-chasse/", "Hub chien de chasse"),
   link("/landings/chasse.html", "Devis chasse"),
@@ -37,6 +39,8 @@ var NICHES_CHASSE = [
 var NICHES_EQUITATION = [
   link("/blog/assurance-equitation-rc-equestre-guide-2026.html", "Guide RC équestre 2026"),
   link("/blog/assurance-cheval-pas-cher-criteres-2026.html", "Cheval pas cher : critères"),
+  link("/blog/rc-equestre-cavalier-club-2026.html", "RC cavalier / club"),
+  link("/blog/assurance-equitation-nancy-lorraine.html", "Équitation Nancy / Lorraine"),
   link("/assurance-equitation/rc-equestre/", "Hub RC équestre"),
   link("/assurance-equitation/cheval/", "Hub assurance cheval"),
   link("/landings/equitation.html", "Devis équitation"),
@@ -80,6 +84,9 @@ var VTC_IDF = [
   link("/blog/assurance-vtc-moins-cher-2026.html", "Payer moins cher"),
   link("/blog/vtc-premiere-course-checklist-assurance.html", "Checklist 1re course"),
   link("/blog/assurance-vtc-uber-bolt-heetch.html", "Uber, Bolt, Heetch"),
+  link("/blog/assurance-vtc-ile-de-france-paris-2026.html", "VTC Paris / IDF"),
+  link("/blog/tarif-assurance-vtc-2026.html", "Tarifs VTC 2026"),
+  link("/blog/assurance-vtc-aeroport-cdg-orly-2026.html", "VTC CDG / Orly"),
 ];
 
 var SILOS_IMMO = [
@@ -87,6 +94,19 @@ var SILOS_IMMO = [
   link("/recherche-bien/", "Recherche de bien"),
   link("/credit-immo/", "Crédit immobilier"),
   link("/landings/projection-achat.html", "Projection coût réel"),
+];
+
+var AUTO_MRH = [
+  link("/blog/tarif-assurance-auto-2026.html", "Tarifs auto 2026"),
+  link("/blog/assurance-auto-tous-risques-ou-tiers-2026.html", "Tous risques ou tiers"),
+  link("/blog/assurance-auto-paris-ile-de-france-2026.html", "Auto Paris / IDF"),
+  link("/blog/assurance-auto-nancy-varangeville-54.html", "Auto Nancy / 54"),
+  link("/blog/assurance-habitation-vol-cambriolage-2026.html", "Vol habitation"),
+  link("/blog/changer-assurance-habitation-loi-hamon.html", "Hamon MRH"),
+  link("/blog/assurance-habitation-paris-ile-de-france-2026.html", "MRH Paris / IDF"),
+  link("/blog/assurance-habitation-nancy-varangeville-54.html", "MRH Nancy / 54"),
+  link("/assurance-auto/villes/", "Auto par ville"),
+  link("/assurance-habitation/villes/", "Habitation par ville"),
 ];
 
 function mergeUnique() {
@@ -113,6 +133,7 @@ module.exports = {
   NICHES_VSP: NICHES_VSP,
   ACTU_CLIMAT_HABITATION: ACTU_CLIMAT_HABITATION,
   VTC_IDF: VTC_IDF,
+  AUTO_MRH: AUTO_MRH,
   SILOS_IMMO: SILOS_IMMO,
   mergeUnique: mergeUnique,
   link: link,

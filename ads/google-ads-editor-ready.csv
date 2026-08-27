@@ -58,3 +58,22 @@ Negative Keyword,FR_Search_VSP_HotIntent,,location,Keyword,Phrase,,,,,,,,,Enable
 Responsive Search Ad,FR_Search_VSP_HotIntent,devis_assurance_vsp,,,,Devis Voiture Sans Permis,Comparez Les Offres VSP,Rappel Sous 15 Minutes,Assurance voiture sans permis RC vol bris. Devis gratuit conseiller ORIAS.,Permis AM BSR : on verifie ASSR et age. Comparatif specialistes VSP.,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=rsa_devis,vsp,devis,Enabled
 Responsive Search Ad,FR_Search_VSP_HotIntent,assurance_sans_permis,,,,Assurance Sans Permis,Quadricycle Leger RC,Courtier ORIAS France,Assurance voiture sans permis RC vol bris. Devis gratuit conseiller ORIAS.,Permis AM BSR : on verifie ASSR et age. Comparatif specialistes VSP.,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=rsa_sans_permis,vsp,rc,Enabled
 Responsive Search Ad,FR_Search_VSP_HotIntent,permis_am_bsr,,,,Permis AM BSR Devis,Jeunes Conducteurs 16+,Assurance Sans Permis,Assurance voiture sans permis RC vol bris. Devis gratuit conseiller ORIAS.,Permis AM BSR : on verifie ASSR et age. Comparatif specialistes VSP.,https://www.leadsopportunities.fr/assurance-voiture-sans-permis/permis-am/?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=rsa_permis_am,vsp,am,Enabled
+Campaign,FR_Search_Auto_HotIntent,,,,,,,,,,,,Enabled
+Ad Group,FR_Search_Auto_HotIntent,devis_assurance_auto,,,,,,,,,,,Enabled
+Ad Group,FR_Search_Auto_HotIntent,assurance_auto_tarif,,,,,,,,,,,Enabled
+Ad Group,FR_Search_Auto_HotIntent,assurance_auto_local,,,,,,,,,,,Enabled
+Keyword,FR_Search_Auto_HotIntent,devis_assurance_auto,"devis assurance auto",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/devis.html?need=auto,auto,devis,Enabled
+Keyword,FR_Search_Auto_HotIntent,devis_assurance_auto,[assurance auto],Keyword,Exact,,,,,,,https://www.leadsopportunities.fr/landings/devis.html?need=auto,auto,devis,Enabled
+Keyword,FR_Search_Auto_HotIntent,assurance_auto_local,"assurance auto paris",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-auto/paris/,auto,paris,Enabled
+Keyword,FR_Search_Auto_HotIntent,assurance_auto_local,"assurance auto nancy",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-auto/nancy/,auto,nancy,Enabled
+Negative Keyword,FR_Search_Auto_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
+Responsive Search Ad,FR_Search_Auto_HotIntent,devis_assurance_auto,,,,Devis Assurance Auto,Tous Risques Ou Tiers,Courtier ORIAS France,Comparez auto a garanties egales. Bonus-malus vol jeune permis.,Rappel sous 15 min. Offres courtier / grossiste.,https://www.leadsopportunities.fr/landings/devis.html?need=auto,auto,devis,Enabled
+Campaign,FR_Search_Habitation_HotIntent,,,,,,,,,,,,Enabled
+Ad Group,FR_Search_Habitation_HotIntent,devis_assurance_habitation,,,,,,,,,,,Enabled
+Ad Group,FR_Search_Habitation_HotIntent,habitation_local,,,,,,,,,,,Enabled
+Keyword,FR_Search_Habitation_HotIntent,devis_assurance_habitation,"devis assurance habitation",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/devis.html?need=habitation,mrh,devis,Enabled
+Keyword,FR_Search_Habitation_HotIntent,habitation_local,"assurance habitation paris",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-habitation/paris/,mrh,paris,Enabled
+Keyword,FR_Search_Habitation_HotIntent,habitation_local,"assurance habitation nancy",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-habitation/nancy/,mrh,nancy,Enabled
+Negative Keyword,FR_Search_Habitation_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
+Responsive Search Ad,FR_Search_Habitation_HotIntent,devis_assurance_habitation,,,,Devis Assurance Habitation,Locataire Ou Proprietaire,Courtier ORIAS France,MRH vol degats des eaux RC. Comparatif courtier / grossiste.,Attestation locataire. Rappel sous 15 min sans engagement.,https://www.leadsopportunities.fr/landings/devis.html?need=habitation,mrh,devis,Enabled
+

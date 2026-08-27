@@ -3226,6 +3226,11 @@ vspArticles.forEach(function (a) {
   module.exports.articles.push(a);
 });
 
+const verticalesArticles = require("./blog-verticales-articles.cjs");
+verticalesArticles.forEach(function (a) {
+  module.exports.articles.push(a);
+});
+
 const pretRefuse = require("./blog-pret-refuse-articles.cjs");
 pretRefuse.forEach(function (a) {
   module.exports.articles.push(a);

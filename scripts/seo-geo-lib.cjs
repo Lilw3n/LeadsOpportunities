@@ -68,6 +68,9 @@ const GEO_PRODUCTS = [
       { href: "/assurance-vtc/pas-cher/", label: "VTC pas cher" },
       { href: "/blog/assurance-vtc-moins-cher-2026.html", label: "Blog : payer moins cher" },
       { href: "/blog/vtc-premiere-course-checklist-assurance.html", label: "Checklist 1re course" },
+      { href: "/blog/assurance-vtc-ile-de-france-paris-2026.html", label: "Blog VTC Paris / IDF" },
+      { href: "/blog/tarif-assurance-vtc-2026.html", label: "Blog tarifs VTC 2026" },
+      { href: "/blog/assurance-vtc-aeroport-cdg-orly-2026.html", label: "Blog VTC CDG / Orly" },
       { href: "/landings/devis-rapide.html", label: "Devis express" },
     ],
   },
@@ -533,7 +536,22 @@ const GEO_PRODUCTS = [
         {
           h2: "Assurer sa voiture a " + city.name,
           paragraphs: [
-            "Stationnement, trajets domicile-travail, sinistralite locale : votre profil influence le tarif. Nous comparons a garanties equivalentes.",
+            "Stationnement, trajets domicile-travail, sinistralite locale : votre profil influence le tarif assurance auto a " +
+              city.name +
+              " (" +
+              city.region +
+              "). Tous risques, tiers, vol, bris de glace : nous comparons a garanties equivalentes, y compris offres courtier / grossiste.",
+            "Jeune conducteur, bonus-malus, malus apres accident : un comparateur nu refuse souvent. Un courtier ORIAS ouvre d'autres grilles pour " +
+              city.name +
+              ".",
+          ],
+        },
+        {
+          h2: "Changer d'assurance auto a " + city.name,
+          paragraphs: [
+            "Loi Hamon apres un an : le nouvel assureur peut resilier l'ancien. Releve d'information obligatoire. Devis sans engagement depuis " +
+              city.name +
+              ".",
           ],
         },
       ];
@@ -546,6 +564,15 @@ const GEO_PRODUCTS = [
         },
       ];
     },
+    extraRelated: [
+      { href: "/assurance-auto/villes/", label: "Auto par ville" },
+      { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
+      { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
+      { href: "/blog/resilier-assurance-auto-loi-hamon-2026.html", label: "Changer d'auto (Hamon)" },
+      { href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" },
+      { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / 54" },
+      { href: "/landings/devis.html?need=auto", label: "Devis auto" },
+    ],
   },
   {
     key: "habitation",
@@ -584,7 +611,20 @@ const GEO_PRODUCTS = [
         {
           h2: "Proteger son logement a " + city.name,
           paragraphs: [
-            "Degats des eaux, vol, responsabilite civile : les garanties essentielles varient selon que vous etes locataire ou proprietaire occupant.",
+            "Degats des eaux, vol, responsabilite civile : les garanties MRH varient selon que vous etes locataire ou proprietaire occupant a " +
+              city.name +
+              " (" +
+              city.region +
+              "). Capital mobilier, cave, dependances : un courtier calibre la formule, y compris offres grossiste.",
+            "Attestation locataire obligatoire. Proprietaire copro : souvent exigee aussi. Loi Hamon apres 12 mois pour changer sans jour blanc.",
+          ],
+        },
+        {
+          h2: "Vol, cambriolage et sous-assurance a " + city.name,
+          paragraphs: [
+            "A " +
+              city.name +
+              ", verifiez franchise vol, plafonds bijoux / high-tech et conditions d'alarme. Une sous-evaluation du mobilier plafonne l'indemnite le jour du sinistre.",
           ],
         },
       ];
@@ -597,6 +637,15 @@ const GEO_PRODUCTS = [
         },
       ];
     },
+    extraRelated: [
+      { href: "/assurance-habitation/villes/", label: "Habitation par ville" },
+      { href: "/blog/assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / proprietaire" },
+      { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
+      { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
+      { href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" },
+      { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / 54" },
+      { href: "/landings/devis.html?need=habitation", label: "Devis habitation" },
+    ],
   },
   {
     key: "emprunteur",
@@ -896,6 +945,8 @@ const GEO_PRODUCTS = [
       { href: "/assurance-chasse/chien-chasse/", label: "Chien de chasse" },
       { href: "/blog/assurance-chasse-rc-chasseur-guide-2026.html", label: "Guide RC chasseur" },
       { href: "/blog/assurance-chien-de-chasse-rc-comparatif.html", label: "Chien de chasse" },
+      { href: "/blog/tarif-assurance-chasse-rc-chasseur-2026.html", label: "Tarifs RC chasseur" },
+      { href: "/blog/assurance-chasse-nancy-meurthe-et-moselle.html", label: "Chasse Nancy / 54" },
       { href: "/assurances-niches.html", label: "Hub niches" },
       { href: "/assurances/", label: "Toutes nos assurances" },
     ],
@@ -942,6 +993,8 @@ const GEO_PRODUCTS = [
       { href: "/assurance-equitation/cheval/", label: "Assurance cheval" },
       { href: "/blog/assurance-equitation-rc-equestre-guide-2026.html", label: "Guide RC equestre" },
       { href: "/blog/assurance-cheval-pas-cher-criteres-2026.html", label: "Cheval pas cher" },
+      { href: "/blog/rc-equestre-cavalier-club-2026.html", label: "RC cavalier / club" },
+      { href: "/blog/assurance-equitation-nancy-lorraine.html", label: "Equitation Nancy / Lorraine" },
       { href: "/assurances-niches.html", label: "Hub niches" },
       { href: "/assurances/", label: "Toutes nos assurances" },
     ],
@@ -1489,6 +1542,12 @@ function buildPillarPageConfigs(pageFn) {
       description: "Assurance auto en France : tous risques, au tiers, jeune conducteur. Devis gratuit, courtier ORIAS.",
       h1: "Assurance auto : comparez les offres",
       intro: "Particuliers et familles : nous comparons les assureurs pour trouver le meilleur rapport garanties / prix.",
+      extraRelated: [
+        { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
+        { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
+        { href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" },
+        { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / 54" },
+      ],
     },
     {
       file: "assurance-habitation/index.html",
@@ -1500,6 +1559,12 @@ function buildPillarPageConfigs(pageFn) {
       description: "Assurance habitation en France : locataire, proprietaire, degats des eaux, vol. Devis gratuit.",
       h1: "Assurance habitation : proteger votre logement",
       intro: "Locataire ou proprietaire : multirisque habitation, responsabilite civile et options sur mesure.",
+      extraRelated: [
+        { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
+        { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
+        { href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" },
+        { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / 54" },
+      ],
     },
     {
       file: "assurance-emprunteur/index.html",
@@ -1575,7 +1640,7 @@ function buildPillarPageConfigs(pageFn) {
         { href: villesHub, label: "Par ville" },
         { href: deptHub, label: "Par departement" },
         { href: "/france/", label: "Couverture France" },
-      ],
+      ].concat(p.extraRelated || []),
       faq: [
         {
           q: "Le devis est-il gratuit ?",
