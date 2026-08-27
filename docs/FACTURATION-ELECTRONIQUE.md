@@ -39,6 +39,21 @@ Sources : [impots.gouv.fr](https://www.impots.gouv.fr/facturation-electronique) 
 
 Pendant le démarrage, l’admin fiscale indique qu’il n’y aura pas de sanctions automatiques si une **trajectoire sérieuse** est engagée (pas d’inertie). Continuer à traiter / payer les factures reçues par e-mail ou papier.
 
+## Mix intelligent (0 €)
+
+**Règle :** une seule PDP légale de réception. Pas de « 5 PDP en parallèle ».
+
+| Rôle | Outil | Prix | Pour LO |
+|---|---|---|---|
+| **PDP légale** | **Tiime** | 0 € | Recommandé — réception + factu |
+| Commercial | CRM LO + Stripe | déjà là | Devis, acomptes, registre |
+| Compta (option) | Indy | 0 € | Seulement si tu gères seul |
+| Banque (option) | Shine | selon offre | Compte pro, pas 2ᵉ PDP |
+| Plan B | Abby | 0 € | À la place de Tiime, pas en plus |
+| Plus tard | Odoo | free → payant | Trop lourd pour l’EI court terme |
+
+Config : `config/e-invoicing-stack.json` · UI : panneau « Mix intelligent » sur `/crm-e-invoicing.html`.
+
 ## Mentions obligatoires (émission)
 
 À ajouter sur les factures émises (GE/ETI dès 2026, PME/micro dès 2027) :

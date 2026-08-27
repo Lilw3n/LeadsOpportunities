@@ -21,6 +21,8 @@
   "pdpDesignatedAt": null,
   "directoryRegistered": false,
   "notes": "",
+  "stackPrimaryPdp": "tiime",
+  "stackCompanions": [],
   "checklist": {
     "identifiedActors": false,
     "chosenPdpOrAccountingTool": false,

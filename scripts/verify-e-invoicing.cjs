@@ -17,6 +17,7 @@ function read(rel) {
 }
 
 var hub = read("crm-e-invoicing.html");
+assert(hub.indexOf("einvMixForm") !== -1, "formulaire mix intelligent");
 assert(hub.indexOf("einvIssueForm") !== -1, "formulaire emission Factur-X");
 assert(hub.indexOf("einvPdpForm") !== -1, "formulaire PDP");
 assert(hub.indexOf("1er septembre 2026") !== -1 || hub.indexOf("septembre 2026") !== -1, "echeance reception 2026");
@@ -24,13 +25,16 @@ assert(hub.indexOf("crm-e-invoicing.js") !== -1, "script UI");
 
 var js = read("js/crm-e-invoicing.js");
 assert(js.indexOf("/api/crm/e-invoicing") !== -1, "appels API e-invoicing");
+assert(js.indexOf("apply-smart-mix") !== -1, "action apply-smart-mix");
 assert(js.indexOf("save-settings") !== -1, "sauvegarde settings");
 assert(js.indexOf("register-received") !== -1, "registre reception");
 
 var api = read("api/_lib/routes/crm-e-invoicing.js");
 assert(api.indexOf("ensureEInvoicingSchema") !== -1, "schema auto");
 assert(api.indexOf("buildCiiXml") !== -1, "generation CII");
-assert(api.indexOf("action === \"issue\"") !== -1 || api.indexOf('postAction === "issue"') !== -1, "action issue");
+assert(api.indexOf("buildSmartMix") !== -1, "smart mix API");
+assert(api.indexOf("apply-smart-mix") !== -1, "route apply-smart-mix");
+assert(api.indexOf('postAction === "issue"') !== -1, "action issue");
 
 var router = read("api/crm/[action].js");
 assert(router.indexOf('"e-invoicing"') !== -1, "route CRM e-invoicing");
@@ -45,6 +49,35 @@ var cfg = JSON.parse(read("config/e-invoicing.json"));
 assert(cfg.siren === "810571513", "SIREN config");
 assert(cfg.receiveDeadline === "2026-09-01", "deadline reception");
 assert(cfg.emitDeadline === "2027-09-01", "deadline emission micro");
+assert(cfg.stackPrimaryPdp === "tiime", "stack primaire Tiime");
+
+var stack = JSON.parse(read("config/e-invoicing-stack.json"));
+assert(stack.recommendedPrimaryPdp === "tiime", "reco Tiime");
+assert(
+  stack.tools.some(function (t) {
+    return t.id === "indy";
+  }),
+  "catalogue Indy"
+);
+assert(
+  stack.tools.some(function (t) {
+    return t.id === "abby";
+  }),
+  "catalogue Abby"
+);
+assert(
+  stack.tools.some(function (t) {
+    return t.id === "shine";
+  }),
+  "catalogue Shine"
+);
+assert(
+  stack.tools.some(function (t) {
+    return t.id === "odoo";
+  }),
+  "catalogue Odoo"
+);
+assert(stack.rule.indexOf("Une seule PDP") !== -1, "regle une seule PDP");
 
 var sql = read("database/e-invoicing.sql");
 assert(sql.indexOf("e_invoices_received") !== -1, "table received");
@@ -52,6 +85,7 @@ assert(sql.indexOf("e_invoices_issued") !== -1, "table issued");
 
 var docs = read("docs/FACTURATION-ELECTRONIQUE.md");
 assert(docs.indexOf("plateforme agréée") !== -1 || docs.indexOf("plateforme agreee") !== -1, "doc PDP");
+assert(docs.indexOf("Tiime") !== -1, "doc mix Tiime");
 
 var lib = require(path.join(__dirname, "..", "api/_lib/e-invoicing.js"));
 var settings = lib.mergeSettings(null);
@@ -60,6 +94,13 @@ assert(ready.receiveDeadline === "2026-09-01", "readiness receive deadline");
 assert(ready.emitDeadline === "2027-09-01", "readiness emit micro = 2027");
 assert(lib.isValidSiren("810571513"), "SIREN valide");
 assert(!lib.isValidSiren("123"), "SIREN invalide rejete");
+
+var mix = lib.buildSmartMix(settings);
+assert(mix.recommendedPrimaryPdp === "tiime", "buildSmartMix reco Tiime");
+assert(mix.tools.length >= 5, "buildSmartMix outils");
+var applied = lib.applyStackSelection(settings, { primaryPdp: "tiime", markDesignated: true });
+assert(applied.pdpName === "Tiime", "apply stack pdpName Tiime");
+assert(applied.pdpStatus === "designated", "apply stack designated");
 
 var xml = lib.buildCiiXml(
   {
@@ -88,9 +129,24 @@ var mentions = lib.buildMandatoryMentions(
   },
   settings
 );
-assert(mentions.some(function (m) { return m.indexOf("Client SIREN") !== -1; }), "mention SIREN client");
-assert(mentions.some(function (m) { return m.indexOf("Prestations de services") !== -1; }), "mention nature ops");
-assert(mentions.some(function (m) { return m.indexOf("débits") !== -1; }), "mention TVA debits");
+assert(
+  mentions.some(function (m) {
+    return m.indexOf("Client SIREN") !== -1;
+  }),
+  "mention SIREN client"
+);
+assert(
+  mentions.some(function (m) {
+    return m.indexOf("Prestations de services") !== -1;
+  }),
+  "mention nature ops"
+);
+assert(
+  mentions.some(function (m) {
+    return m.indexOf("débits") !== -1;
+  }),
+  "mention TVA debits"
+);
 
 var pkg = JSON.parse(read("package.json"));
 assert(pkg.scripts["verify:e-invoicing"], "script npm verify:e-invoicing");
@@ -99,4 +155,4 @@ if (failed) {
   console.log("\n" + failed + " echec(s)");
   process.exit(1);
 }
-console.log("\nFacturation electronique (PDP / Factur-X) : OK.");
+console.log("\nFacturation electronique (PDP / Factur-X / mix) : OK.");

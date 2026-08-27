@@ -30,6 +30,40 @@
   <div id="einvBanner" class="einv-banner" role="status"></div>
   <div id="einvKpis" class="crm-kpis" style="margin-bottom:20px"></div>
 
+  <section class="panel einv-panel einv-mix" id="einvMixPanel">
+    <h3>Mix intelligent (0 € possible)</h3>
+    <p class="einv-muted" id="einvMixRule">
+      Une seule PDP légale. Tiime / Indy / Abby / Shine / Odoo ne se cumulent pas tous comme plateformes de réception.
+    </p>
+    <div id="einvMixReco" class="einv-mix-reco"></div>
+    <div id="einvMixTools" class="einv-mix-tools"></div>
+    <form id="einvMixForm" class="einv-form einv-mix-form">
+      <label>PDP légale (1 seule)
+        <select name="primaryPdp" id="einvPrimaryPdp">
+          <option value="tiime">Tiime — recommandé (gratuit)</option>
+          <option value="abby">Abby — alternative micro</option>
+          <option value="indy">Indy — si compta solo prioritaire</option>
+          <option value="shine">Shine — si banque pro = PDP</option>
+          <option value="odoo">Odoo — ERP (pas recommandé EI court terme)</option>
+        </select>
+      </label>
+      <fieldset class="einv-companions">
+        <legend>Compléments (optionnel, pas une 2<sup>e</sup> PDP)</legend>
+        <label class="einv-check"><input type="checkbox" name="companion_indy" value="indy" /> Indy — compta / déclarations</label>
+        <label class="einv-check"><input type="checkbox" name="companion_shine" value="shine" /> Shine — compte pro bancaire</label>
+        <label class="einv-check"><input type="checkbox" name="companion_crm" value="crm_lo" checked disabled /> CRM LO + Stripe — déjà en place</label>
+      </fieldset>
+      <label class="einv-check">
+        <input type="checkbox" name="markDesignated" />
+        J’ai créé le compte : marquer la PDP comme <strong>désignée</strong>
+      </label>
+      <div class="crm-action-row" style="margin-top:8px">
+        <button type="submit" class="btn btn-primary">Appliquer le mix</button>
+        <button type="button" class="btn btn-ghost" id="einvMixRecommend">Reprendre la reco Tiime</button>
+      </div>
+    </form>
+  </section>
+
   <div class="einv-grid">
     <section class="panel einv-panel">
       <h3>Checklist conformité</h3>
@@ -49,7 +83,14 @@
           </select>
         </label>
         <label>Nom de la plateforme / outil
-          <input name="pdpName" placeholder="Ex. Pennylane, Indy, Axonaut, expert-comptable…" />
+          <input name="pdpName" list="einvPdpSuggestions" placeholder="Ex. Tiime, Indy, Abby…" />
+          <datalist id="einvPdpSuggestions">
+            <option value="Tiime"></option>
+            <option value="Abby"></option>
+            <option value="Indy"></option>
+            <option value="Shine"></option>
+            <option value="Odoo"></option>
+          </datalist>
         </label>
         <label>Identifiant / référence contrat
           <input name="pdpId" placeholder="Réf. contrat ou code PDP" />

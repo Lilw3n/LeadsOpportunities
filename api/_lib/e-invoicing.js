@@ -32,6 +32,8 @@ const DEFAULT_SETTINGS = {
   pdpDesignatedAt: null,
   directoryRegistered: false,
   notes: "",
+  stackPrimaryPdp: "tiime",
+  stackCompanions: [],
   checklist: {
     identifiedActors: false,
     chosenPdpOrAccountingTool: false,
@@ -51,6 +53,75 @@ function loadConfigFile() {
   } catch (e) {
     return {};
   }
+}
+
+function loadStackCatalog() {
+  try {
+    const raw = fs.readFileSync(path.join(process.cwd(), "config", "e-invoicing-stack.json"), "utf8");
+    return JSON.parse(raw);
+  } catch (e) {
+    return null;
+  }
+}
+
+function buildSmartMix(settings) {
+  const stack = loadStackCatalog();
+  if (!stack) {
+    return {
+      rule: "Une seule PDP légale.",
+      recommendedPrimaryPdp: "tiime",
+      tools: [],
+      mix: { now: [], optional: [], avoid: [] },
+      chosen: null,
+    };
+  }
+  const s = mergeSettings(settings);
+  const primaryId = s.stackPrimaryPdp || stack.recommendedPrimaryPdp || "tiime";
+  const primary = (stack.tools || []).find(function (t) {
+    return t.id === primaryId;
+  });
+  const companions = Array.isArray(s.stackCompanions) ? s.stackCompanions : [];
+  return {
+    rule: stack.rule,
+    recommendedPrimaryPdp: stack.recommendedPrimaryPdp,
+    tools: stack.tools || [],
+    mix: stack.mix || { now: [], optional: [], avoid: [] },
+    chosen: {
+      primaryPdp: primaryId,
+      primaryName: primary ? primary.name : primaryId,
+      companions: companions,
+      alignedWithRecommendation: primaryId === stack.recommendedPrimaryPdp,
+    },
+  };
+}
+
+function applyStackSelection(settings, selection) {
+  const next = Object.assign({}, mergeSettings(settings));
+  const stack = loadStackCatalog() || { tools: [], recommendedPrimaryPdp: "tiime" };
+  const primaryId = (selection && selection.primaryPdp) || stack.recommendedPrimaryPdp || "tiime";
+  const tool = (stack.tools || []).find(function (t) {
+    return t.id === primaryId;
+  });
+  next.stackPrimaryPdp = primaryId;
+  next.stackCompanions = Array.isArray(selection && selection.companions) ? selection.companions : [];
+  if (tool && tool.pdp) {
+    next.pdpName = tool.name;
+    if (!next.pdpStatus || next.pdpStatus === "not_started") {
+      next.pdpStatus = "in_progress";
+    }
+    next.checklist = Object.assign({}, next.checklist, {
+      chosenPdpOrAccountingTool: true,
+    });
+  }
+  if (selection && selection.markDesignated && tool && tool.pdp) {
+    next.pdpStatus = "designated";
+    next.pdpDesignatedAt = next.pdpDesignatedAt || new Date().toISOString();
+    next.checklist = Object.assign({}, next.checklist, {
+      chosenPdpOrAccountingTool: true,
+      designatedReceptionPlatform: true,
+    });
+  }
+  return next;
 }
 
 function mergeSettings(stored) {
@@ -373,6 +444,9 @@ module.exports = {
   EMIT_DEADLINE_PME,
   DEFAULT_SETTINGS,
   loadConfigFile,
+  loadStackCatalog,
+  buildSmartMix,
+  applyStackSelection,
   mergeSettings,
   digitsOnly,
   isValidSiren,

@@ -122,6 +122,75 @@
     form.innerHTML = html;
   }
 
+  function roleLabel(role) {
+    var map = {
+      pdp_primary: "PDP légale",
+      pdp_alternative: "Alternative PDP",
+      accounting: "Compta",
+      bank: "Banque",
+      erp_later: "ERP plus tard",
+      commercial: "Commercial",
+    };
+    return map[role] || role || "";
+  }
+
+  function renderSmartMix(mix, settings) {
+    if (!mix) return;
+    var ruleEl = document.getElementById("einvMixRule");
+    if (ruleEl && mix.rule) ruleEl.textContent = mix.rule;
+
+    var reco = document.getElementById("einvMixReco");
+    if (reco) {
+      var chosen = mix.chosen || {};
+      reco.innerHTML =
+        "<strong>Reco LO (EI) :</strong> PDP = <strong>Tiime</strong> (0 €) + CRM/Stripe déjà en place. " +
+        "Optionnel : Indy (compta) ou Shine (banque). Éviter Abby+Tiime en double, et Odoo pour l’instant.<br/>" +
+        "Choix actuel : <strong>" +
+        esc(chosen.primaryName || settings.stackPrimaryPdp || "—") +
+        "</strong>" +
+        (chosen.alignedWithRecommendation ? " ✓ aligné reco" : " (hors reco)");
+    }
+
+    var toolsEl = document.getElementById("einvMixTools");
+    if (toolsEl && mix.tools) {
+      var primaryId = (mix.chosen && mix.chosen.primaryPdp) || "tiime";
+      toolsEl.innerHTML = mix.tools
+        .map(function (t) {
+          var cls = "einv-tool-card";
+          if (t.id === primaryId) cls += " primary";
+          if (t.role === "erp_later" || t.role === "pdp_alternative") cls += " avoid";
+          var link =
+            t.url && t.url.indexOf("http") === 0
+              ? ' <a href="' + esc(t.url) + '" target="_blank" rel="noopener">site</a>'
+              : "";
+          return (
+            '<div class="' +
+            cls +
+            '"><span class="role">' +
+            esc(roleLabel(t.role)) +
+            "</span><strong>" +
+            esc(t.name) +
+            "</strong><div>" +
+            esc(t.price) +
+            "</div><p class=\"einv-muted\" style=\"margin:6px 0 0\">" +
+            esc(t.useInMix) +
+            link +
+            "</p></div>"
+          );
+        })
+        .join("");
+    }
+
+    var form = document.getElementById("einvMixForm");
+    if (form && settings) {
+      var sel = form.primaryPdp;
+      if (sel) sel.value = settings.stackPrimaryPdp || "tiime";
+      var companions = settings.stackCompanions || [];
+      form.companion_indy.checked = companions.indexOf("indy") !== -1;
+      form.companion_shine.checked = companions.indexOf("shine") !== -1;
+    }
+  }
+
   function downloadXml(id, filename) {
     return fetch("/api/crm/e-invoicing?sub=xml&id=" + encodeURIComponent(id), {
       headers: { Authorization: "Bearer " + token },
@@ -206,6 +275,7 @@
         renderBanner(data.readiness);
         renderKpis(data);
         renderChecklist(data.settings);
+        renderSmartMix(data.smartMix, data.settings);
         fillForm(document.getElementById("einvPdpForm"), data.settings);
         fillForm(document.getElementById("einvIdentityForm"), data.settings);
         return data;
@@ -355,6 +425,43 @@
           alert(res.error || "Erreur");
         }
       });
+  });
+
+  document.getElementById("einvMixForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var form = e.target;
+    var companions = ["crm_lo"];
+    if (form.companion_indy.checked) companions.push("indy");
+    if (form.companion_shine.checked) companions.push("shine");
+    fetch("/api/crm/e-invoicing", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({
+        action: "apply-smart-mix",
+        primaryPdp: form.primaryPdp.value,
+        companions: companions,
+        markDesignated: !!form.markDesignated.checked,
+      }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (!res.ok) {
+          alert(res.error || "Erreur mix");
+          return;
+        }
+        if (res.message) alert(res.message);
+        loadAll();
+      });
+  });
+
+  document.getElementById("einvMixRecommend").addEventListener("click", function () {
+    var form = document.getElementById("einvMixForm");
+    form.primaryPdp.value = "tiime";
+    form.companion_indy.checked = false;
+    form.companion_shine.checked = false;
+    form.markDesignated.checked = false;
   });
 
   loadAll().then(loadLists);

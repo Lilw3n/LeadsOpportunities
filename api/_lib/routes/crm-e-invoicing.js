@@ -72,6 +72,7 @@ module.exports = async (req, res) => {
       ok: true,
       settings: settings,
       readiness: einv.readiness(settings),
+      smartMix: einv.buildSmartMix(settings),
       counts: { received: receivedCount, issued: issuedCount },
       links: {
         officialGuide: "https://www.impots.gouv.fr/facturation-electronique",
@@ -156,7 +157,32 @@ module.exports = async (req, res) => {
         next.checklist.chosenPdpOrAccountingTool = true;
       }
       await saveSettings(sql, next, user.id || user.email);
-      return res.status(200).json({ ok: true, settings: next, readiness: einv.readiness(next) });
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        smartMix: einv.buildSmartMix(next),
+      });
+    }
+
+    if (postAction === "apply-smart-mix") {
+      const current = await loadSettings(sql);
+      const next = einv.applyStackSelection(current, {
+        primaryPdp: body.primaryPdp || "tiime",
+        companions: body.companions || [],
+        markDesignated: !!body.markDesignated,
+      });
+      await saveSettings(sql, next, user.id || user.email);
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        smartMix: einv.buildSmartMix(next),
+        message:
+          "Mix enregistré. Une seule PDP légale : " +
+          (next.pdpName || next.stackPrimaryPdp) +
+          ". Crée le compte chez l'éditeur puis passe le statut à Active.",
+      });
     }
 
     if (postAction === "register-received") {
