@@ -664,12 +664,52 @@ function withSeoMeta(p) {
     description: p.description,
     h1: p.h1,
   });
+  var keywords = mergeKeywords(p.keywords, meta.keywords);
+  if (p.city && p.city.name) {
+    var silo = p.siloLabel || "Assurance";
+    var deptNice = p.city.dept ? String(p.city.dept).replace(/-/g, " ") : "";
+    keywords = mergeKeywords(
+      [
+        silo + " " + p.city.name,
+        "devis " + silo.toLowerCase() + " " + p.city.name,
+        "courtier " + p.city.name,
+        "comparatif " + p.city.name,
+        "changer d'assurance " + p.city.name,
+        "devis " + p.city.name,
+        p.city.region,
+        silo + " " + (p.city.region || ""),
+        deptNice ? "assurance " + deptNice : "",
+        deptNice ? silo + " " + deptNice : "",
+        "courtier ORIAS " + p.city.name,
+      ]
+        .filter(Boolean)
+        .join(", "),
+      keywords
+    );
+  }
   return Object.assign({}, p, {
     title: meta.title || p.title,
     description: meta.description || p.description,
     h1: meta.h1 || p.h1,
-    keywords: meta.keywords || "",
+    keywords: keywords,
   });
+}
+
+function mergeKeywords(a, b) {
+  var seen = {};
+  var out = [];
+  String(a || "")
+    .split(",")
+    .concat(String(b || "").split(","))
+    .forEach(function (k) {
+      k = String(k || "").trim();
+      if (!k) return;
+      var key = k.toLowerCase();
+      if (seen[key]) return;
+      seen[key] = true;
+      out.push(k);
+    });
+  return out.slice(0, 40).join(", ");
 }
 
 function renderPage(p) {

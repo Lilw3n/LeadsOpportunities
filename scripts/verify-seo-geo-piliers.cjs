@@ -82,6 +82,32 @@ var regionNa = read("france/region/nouvelle-aquitaine/index.html");
 assert(regionNa.indexOf("/finance/region/nouvelle-aquitaine/") >= 0, "lien finance region NA");
 assert(regionNa.indexOf("/banque/region/nouvelle-aquitaine/") >= 0, "lien banque region NA");
 
+var santeLyon = read("assurance-sante/lyon/index.html");
+assert(santeLyon.indexOf("Lyon") >= 0, "mutuelle Lyon");
+assert(santeLyon.indexOf("devis") >= 0 || santeLyon.indexOf("Devis") >= 0, "mutuelle Lyon devis");
+assert(santeLyon.indexOf("Mots-clés") < 0, "pas de dump Mots-clés mutuelle Lyon");
+assert(santeLyon.indexOf('name="keywords"') >= 0, "meta keywords mutuelle Lyon");
+
+var vtcParis = read("assurance-vtc/paris/index.html");
+assert(vtcParis.indexOf("Paris") >= 0, "VTC Paris");
+assert(vtcParis.indexOf("courtier") >= 0 || vtcParis.indexOf("Courtier") >= 0, "VTC Paris courtier");
+
+var autoNancy = read("assurance-auto/nancy/index.html");
+assert(autoNancy.indexOf("Nancy") >= 0, "auto Nancy");
+assert(autoNancy.indexOf("Varangéville") >= 0 || autoNancy.indexOf("agence-varangeville") >= 0, "auto Nancy maillage 54");
+
+var dept54 = read("assurance-habitation/departement/meurthe-et-moselle/index.html");
+assert(dept54.indexOf("Meurthe-Et-Moselle") >= 0 || dept54.indexOf("Meurthe-et-Moselle") >= 0, "MRH dept 54");
+assert(dept54.indexOf("devis") >= 0 || dept54.indexOf("Devis") >= 0, "MRH dept 54 devis");
+
+var prevoyanceBx = read("assurance-prevoyance/bordeaux/index.html");
+assert(prevoyanceBx.indexOf("Bordeaux") >= 0, "prévoyance Bordeaux");
+assert(prevoyanceBx.indexOf("TNS") >= 0 || prevoyanceBx.indexOf("prevoyance") >= 0 || prevoyanceBx.indexOf("prévoyance") >= 0, "prévoyance contenu");
+
+var franceNa = read("france/region/nouvelle-aquitaine/index.html");
+assert(franceNa.indexOf("auto") >= 0, "hub région tous produits");
+assert(franceNa.indexOf("/assurance-auto/") >= 0 || franceNa.indexOf("Auto") >= 0, "hub région auto");
+
 var sm = read("sitemap-geo.xml");
 assert(sm.indexOf("/finance/departement/gironde/") >= 0, "sitemap finance Gironde");
 assert(sm.indexOf("/banque/departement/gironde/") >= 0, "sitemap banque Gironde");

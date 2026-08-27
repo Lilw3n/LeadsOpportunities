@@ -84,50 +84,37 @@ const GEO_PRODUCTS = [
       return "Devis mutuelle " + city.name;
     },
     title: function (city) {
-      return "Mutuelle sante " + city.name + " | Comparatif " + city.region;
+      return "Mutuelle santé " + city.name + " | Devis optique dentaire " + city.region;
     },
     description: function (city) {
       return (
-        "Mutuelle sante a " +
+        "Mutuelle santé à " +
         city.name +
-        " : comparatif optique, dentaire, hospitalisation. Courtier ORIAS, devis gratuit pour particuliers et independants."
+        " (" +
+        city.region +
+        ") : devis, comparatif optique, dentaire, hospitalisation, senior, TNS. Courtier ORIAS, sans engagement."
       );
     },
     h1: function (city) {
-      return "Mutuelle sante a " + city.name;
+      return "Mutuelle santé à " + city.name + " — devis, optique, dentaire";
     },
     intro: function (city) {
       return (
-        "Residents de " +
+        "Résidents de " +
         city.name +
-        ", familles et independants : nous calibrons votre mutuelle selon vos postes de soins prioritaires (optique, dentaire, hospitalisation) avec un comparatif clair."
+        ", familles, seniors et indépendants : devis mutuelle, comparatif optique / dentaire / hospitalisation, courtier ORIAS en " +
+        city.region +
+        "."
       );
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Choisir sa mutuelle a " + city.name,
-          paragraphs: [
-            "Le prix seul est trompeur : deux contrats peuvent afficher la meme cotisation avec des remboursements optique ou dentaire tres differents.",
-            "Nous partons de votre usage reel pour proposer des garanties equilibrees a " + city.name + " et en " + city.region + ".",
-          ],
-        },
-      ];
-    },
-    faq: function (city) {
-      return [
-        {
-          q: "Puis-je comparer plusieurs mutuelles depuis " + city.name + " ?",
-          a: "Oui, le comparatif et le conseil initial sont gratuits et sans engagement.",
-        },
-      ];
-    },
+    sections: contentLib.santeCitySections,
     extraRelated: [
       { href: "/assurance-sante/comparatif/", label: "Comparatif mutuelle" },
       { href: "/blog/mutuelle-sante-5-criteres.html", label: "5 criteres mutuelle" },
       { href: "/blog/canicule-mutuelle-coup-chaleur-seniors-2026.html", label: "Canicule & mutuelle" },
       { href: "/blog/canicule-vigilance-meteo-france-mutuelle.html", label: "Vigilance canicule" },
       { href: "/landings/sante.html", label: "Devis mutuelle" },
+      { href: "/assurance-prevoyance/", label: "Prévoyance" },
     ],
   },
   {
@@ -145,15 +132,17 @@ const GEO_PRODUCTS = [
     title: function (city) {
       if (nancyBassin.isBassinCity(city)) return nancyBassin.pretTitle(city);
       return (
-        "Credit immobilier " + city.name + " | Courtier " + city.region
+        "Crédit immobilier " + city.name + " | Simulation, taux, courtier " + city.region
       );
     },
     description: function (city) {
       if (nancyBassin.isBassinCity(city)) return nancyBassin.pretDescription(city);
       return (
-        "Credit immobilier a " +
+        "Crédit immobilier à " +
         city.name +
-        " : simulation, capacite d emprunt, negociation de taux. Courtier ORIAS, primo-accedants et investisseurs."
+        " (" +
+        city.region +
+        ") : simulation, capacité d'emprunt, taux, apport, assurance emprunteur, primo-accédant. Courtier ORIAS."
       );
     },
     h1: function (city) {
@@ -172,14 +161,7 @@ const GEO_PRODUCTS = [
     },
     sections: function (city) {
       if (nancyBassin.isBassinCity(city)) return nancyBassin.pretCitySections(city);
-      return [
-        {
-          h2: "Financer un bien a " + city.name,
-          paragraphs: [
-            "Marche local, apport, assurance emprunteur : chaque element compte dans l acceptation du dossier. Nous vous aidons a presenter un financement credible.",
-          ],
-        },
-      ];
+      return contentLib.creditCitySections(city);
     },
     faq: function (city) {
       if (nancyBassin.isBassinCity(city)) {
@@ -513,38 +495,56 @@ const GEO_PRODUCTS = [
     },
     description: function (city) {
       return (
-        "Assurance auto a " +
+        "Assurance auto " +
         city.name +
-        " : tous risques, au tiers, jeune conducteur. Comparatif et devis gratuit, courtier ORIAS."
+        " (" +
+        city.region +
+        ") : devis tous risques, au tiers, jeune conducteur, bonus-malus, vol, bris. Courtier ORIAS, grilles grossistes."
       );
     },
     h1: function (city) {
-      return "Assurance auto a " + city.name;
+      return "Assurance auto à " + city.name + " — devis, tous risques, tiers";
     },
     intro: function (city) {
       return (
-        "Conducteur base a " +
+        "Conducteur basé à " +
         city.name +
-        " ? Nous comparons les formules auto (tiers, intermediaire, tous risques) et optimisons votre bonus-malus."
+        " (" +
+        city.region +
+        ") ? Nous comparons les formules auto (tiers, intermédiaire, tous risques), bonus-malus et options vol / bris — y compris offres courtier grossiste."
       );
     },
     sections: function (city) {
-      return [
-        {
-          h2: "Assurer sa voiture a " + city.name,
-          paragraphs: [
-            "Stationnement, trajets domicile-travail, sinistralite locale : votre profil influence le tarif. Nous comparons a garanties equivalentes.",
-          ],
-        },
-      ];
+      return contentLib.autoCitySections(city);
     },
     faq: function (city) {
       return [
         {
-          q: "Puis-je assurer un jeune conducteur a " + city.name + " ?",
-          a: "Oui, nous identifions les assureurs les plus competitifs sur les profils juniors et permis probatoire.",
+          q: "Puis-je assurer un jeune conducteur à " + city.name + " ?",
+          a: "Oui. Jeune permis, malus, conducteur secondaire : un courtier / grossiste ouvre d'autres grilles qu'un comparateur grand public.",
+        },
+        {
+          q: "Comment obtenir un devis auto à " + city.name + " ?",
+          a: "Questionnaire en ligne (bonus-malus, véhicule, usage) puis rappel conseiller ORIAS. Pages : " + city.name + ", " + city.region + ".",
         },
       ];
+    },
+    extraRelated: function (city) {
+      var links = [
+        { href: "/assurance-auto/villes/", label: "Auto par ville" },
+        { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
+        { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
+        { href: "/blog/resilier-assurance-auto-loi-hamon-2026.html", label: "Changer d'auto (Hamon)" },
+        { href: "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html", label: "Courtier / grossiste auto" },
+        { href: "/landings/devis.html?need=auto", label: "Devis auto" },
+      ];
+      if (city && city.regionSlug === "ile-de-france") {
+        links.push({ href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" });
+      }
+      if (city && nancyBassin.isBassinCity(city)) {
+        links.push({ href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" });
+      }
+      return links;
     },
   },
   {
@@ -560,42 +560,58 @@ const GEO_PRODUCTS = [
       return "Devis habitation " + city.name;
     },
     title: function (city) {
-      return "Assurance habitation " + city.name + " | Devis locataire & proprietaire";
+      return "Assurance habitation " + city.name + " | MRH locataire & propriétaire";
     },
     description: function (city) {
       return (
-        "Assurance habitation a " +
+        "Assurance habitation " +
         city.name +
-        " : locataire, proprietaire, MRH. Devis gratuit, garanties vol, degats des eaux, RC vie privee."
+        " (" +
+        city.region +
+        ") : MRH locataire, propriétaire, vol, dégâts des eaux, RC. Devis courtier ORIAS, grilles grossistes."
       );
     },
     h1: function (city) {
-      return "Assurance habitation a " + city.name;
+      return "Assurance habitation à " + city.name + " — MRH locataire, propriétaire";
     },
     intro: function (city) {
       return (
-        "Locataire ou proprietaire a " +
+        "Locataire ou propriétaire à " +
         city.name +
-        " ? Nous calibrons votre multirisque habitation selon le type de bien et votre situation."
+        " ? Nous calibrons votre multirisque habitation (vol, dégâts des eaux, capital mobilier) — y compris offres courtier grossiste."
       );
     },
     sections: function (city) {
-      return [
-        {
-          h2: "Proteger son logement a " + city.name,
-          paragraphs: [
-            "Degats des eaux, vol, responsabilite civile : les garanties essentielles varient selon que vous etes locataire ou proprietaire occupant.",
-          ],
-        },
-      ];
+      return contentLib.habitationCitySections(city);
     },
     faq: function (city) {
       return [
         {
-          q: "Assurance habitation obligatoire a " + city.name + " ?",
-          a: "Oui pour les locataires (risques locatifs). Proprietaires : fortement recommande, parfois exige par la copropriete ou la banque.",
+          q: "Assurance habitation obligatoire à " + city.name + " ?",
+          a: "Oui pour les locataires (risques locatifs). Propriétaires : fortement recommandé, souvent exigé par la copropriété ou la banque.",
+        },
+        {
+          q: "Puis-je changer de MRH à " + city.name + " en cours d'année ?",
+          a: "Après 12 mois, la loi Hamon permet de changer sans jour blanc. Le nouvel assureur résilie souvent l'ancien.",
         },
       ];
+    },
+    extraRelated: function (city) {
+      var links = [
+        { href: "/assurance-habitation/villes/", label: "Habitation par ville" },
+        { href: "/blog/assurance-habitation-locataire-proprietaire-2026.html", label: "Locataire / propriétaire" },
+        { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
+        { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
+        { href: "/blog/assurance-habitation-courtier-grossiste-mrh-2026.html", label: "Courtier / grossiste MRH" },
+        { href: "/landings/devis.html?need=habitation", label: "Devis habitation" },
+      ];
+      if (city && city.regionSlug === "ile-de-france") {
+        links.push({ href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" });
+      }
+      if (city && nancyBassin.isBassinCity(city)) {
+        links.push({ href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" });
+      }
+      return links;
     },
   },
   {
@@ -611,35 +627,30 @@ const GEO_PRODUCTS = [
       return "Devis emprunteur " + city.name;
     },
     title: function (city) {
-      return "Assurance emprunteur " + city.name + " | Loi Lemoine " + city.region;
+      return "Assurance emprunteur " + city.name + " | Loi Lemoine, délégation " + city.region;
     },
     description: function (city) {
       return (
-        "Assurance emprunteur a " +
+        "Assurance emprunteur à " +
         city.name +
-        " : changer d'assureur, loi Lemoine, economie sur pret immo. Courtier ORIAS, devis gratuit."
+        " (" +
+        city.region +
+        ") : devis, loi Lemoine, délégation, équivalence de garanties, changer d'assurance de prêt. Courtier ORIAS."
       );
     },
     h1: function (city) {
-      return "Assurance emprunteur a " + city.name;
+      return "Assurance emprunteur à " + city.name + " — Lemoine, délégation";
     },
     intro: function (city) {
       return (
-        "Emprunteur a " +
+        "Emprunteur à " +
         city.name +
-        " ? Comparez les contrats emprunteur (delegation, resiliation) et reduisez le cout de votre assurance de pret."
+        " ? Devis assurance de prêt, délégation, résiliation Lemoine, équivalence de garanties — courtier ORIAS en " +
+        city.region +
+        "."
       );
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Assurance de pret a " + city.name,
-          paragraphs: [
-            "La loi Lemoine permet souvent de changer d'assureur sans attendre l'echeance. Nous verifions l'equivalence de garanties exigee par votre banque.",
-          ],
-        },
-      ];
-    },
+    sections: contentLib.emprunteurCitySections,
     faq: function (city) {
       return [
         {
@@ -673,43 +684,43 @@ const GEO_PRODUCTS = [
       return "Devis prevoyance " + city.name;
     },
     title: function (city) {
-      return "Assurance prevoyance " + city.name + " | Devis " + city.region;
+      return "Prévoyance " + city.name + " | Devis TNS, décès, ITT — " + city.region;
     },
     description: function (city) {
       return (
-        "Prevoyance et protection du revenu a " +
+        "Prévoyance à " +
         city.name +
-        " : deces, invalidite, arret de travail. Courtier ORIAS, devis gratuit."
+        " (" +
+        city.region +
+        ") : devis décès, invalidité, arrêt de travail, TNS, protection du revenu. Courtier ORIAS."
       );
     },
     h1: function (city) {
-      return "Assurance prevoyance a " + city.name;
+      return "Assurance prévoyance à " + city.name + " — TNS, décès, ITT";
     },
     intro: function (city) {
       return (
-        "Salaries, independants et dirigeants a " +
+        "Salariés, indépendants et dirigeants à " +
         city.name +
-        " : securisez vos revenus et votre famille avec une prevoyance adaptee."
+        " : devis prévoyance, décès, invalidité, ITT/IPT, Madelin — courtier ORIAS en " +
+        city.region +
+        "."
       );
     },
-    sections: function (city) {
-      return [
-        {
-          h2: "Prevoyance a " + city.name,
-          paragraphs: [
-            "Arret de travail, invalidite, deces : les prestations varient selon votre statut. Nous clarifions les garanties avant souscription.",
-          ],
-        },
-      ];
-    },
+    sections: contentLib.prevoyanceCitySections,
     faq: function (city) {
       return [
         {
-          q: "Prevoyance pour independants a " + city.name + " ?",
-          a: "Oui, TNS et dirigeants : nous montons des solutions deces, ITT/IPT et perte de revenus.",
+          q: "Prévoyance pour indépendants à " + city.name + " ?",
+          a: "Oui, TNS et dirigeants : nous montons des solutions décès, ITT/IPT et perte de revenus à " + city.name + ".",
         },
       ];
     },
+    extraRelated: [
+      { href: "/assurance-sante/", label: "Mutuelle santé" },
+      { href: "/assurance-emprunteur/", label: "Assurance emprunteur" },
+      { href: "/landings/devis.html?need=prevoyance", label: "Devis prévoyance" },
+    ],
   },
   {
     key: "animaux",
@@ -1055,6 +1066,36 @@ function crossLinksForCity(product, city) {
     links.push({ href: "/finance/" + city.slug + "/", label: "Finance " + city.name });
     links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Pret immobilier " + city.name });
   }
+  if (product.key === "auto") {
+    links.push({ href: "/assurance-habitation/" + city.slug + "/", label: "Habitation " + city.name });
+    links.push({ href: "/assurance-voiture-sans-permis/" + city.slug + "/", label: "VSP " + city.name });
+  }
+  if (product.key === "habitation") {
+    links.push({ href: "/assurance-auto/" + city.slug + "/", label: "Auto " + city.name });
+  }
+  if (product.key === "vtc") {
+    links.push({ href: "/assurance-auto/" + city.slug + "/", label: "Auto " + city.name });
+  }
+  if (product.key === "vsp") {
+    links.push({ href: "/assurance-auto/" + city.slug + "/", label: "Auto " + city.name });
+  }
+  if (product.key === "sante") {
+    links.push({ href: "/assurance-prevoyance/" + city.slug + "/", label: "Prévoyance " + city.name });
+  }
+  if (product.key === "prevoyance") {
+    links.push({ href: "/assurance-sante/" + city.slug + "/", label: "Mutuelle " + city.name });
+    links.push({ href: "/assurance-emprunteur/" + city.slug + "/", label: "Emprunteur " + city.name });
+  }
+  if (product.key === "emprunteur") {
+    links.push({ href: "/pret-immobilier/" + city.slug + "/", label: "Prêt immobilier " + city.name });
+    links.push({ href: "/credit-immo/" + city.slug + "/", label: "Crédit immo " + city.name });
+  }
+  if (product.key === "chasse") {
+    links.push({ href: "/assurance-animaux/" + city.slug + "/", label: "Animaux " + city.name });
+  }
+  if (product.key === "equitation") {
+    links.push({ href: "/assurance-animaux/" + city.slug + "/", label: "Animaux " + city.name });
+  }
   if (product.key === "animaux" || product.key === "chien" || product.key === "chat") {
     if (product.key !== "chien") {
       links.push({
@@ -1084,7 +1125,9 @@ function buildGeoPageConfigs(cities, pageFn) {
     cities.forEach(function (city) {
       var sections =
         typeof product.sections === "function" ? product.sections(city) : product.sections || [];
+      sections = sections.concat(contentLib.localKeywordSections(product, city));
       var faq = typeof product.faq === "function" ? product.faq(city) : contentLib.defaultCityFaq(city, product.siloLabel);
+      faq = faq.concat(contentLib.localIntentFaq(product, city));
       var related = [
         { href: product.hubUrl, label: "Toutes les villes — " + product.siloLabel },
         { href: product.siloUrl, label: "Guide national" },
@@ -1092,13 +1135,39 @@ function buildGeoPageConfigs(cities, pageFn) {
         { href: productRegionUrl(product, city.regionSlug), label: product.siloLabel + " — " + city.region },
         { href: "/france/departement/" + city.dept + "/", label: "Departement " + city.dept.replace(/-/g, " ") },
       ];
-      if (product.extraRelated) {
+      if (typeof product.extraRelated === "function") {
+        related = related.concat(product.extraRelated(city));
+      } else if (product.extraRelated) {
         related = related.concat(product.extraRelated);
       }
       if (nancyBassin.isBassinCity(city) && (product.key === "pret" || product.key === "credit")) {
         related = [
           { href: "/" + product.dir + "/nancy-metropole/", label: "Hub Nancy metropole (54)" },
           { href: "/landings/credit-immo.html?ville=" + encodeURIComponent(city.name), label: "Simulation pret " + city.name },
+        ].concat(related);
+      }
+      if (nancyBassin.isBassinCity(city) && product.key === "auto") {
+        related = [
+          { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" },
+          { href: "/agence-varangeville/", label: "Agence Varangéville" },
+        ].concat(related);
+      }
+      if (nancyBassin.isBassinCity(city) && product.key === "habitation") {
+        related = [
+          { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" },
+          { href: "/agence-varangeville/", label: "Agence Varangéville" },
+        ].concat(related);
+      }
+      if (
+        nancyBassin.isBassinCity(city) &&
+        product.key !== "pret" &&
+        product.key !== "credit" &&
+        product.key !== "auto" &&
+        product.key !== "habitation"
+      ) {
+        related = [
+          { href: "/agence-varangeville/", label: "Agence Varangéville (54)" },
+          { href: "/nancy-54/", label: "Courtier Nancy / Meurthe-et-Moselle" },
         ].concat(related);
       }
       related = related.concat(crossLinksForCity(product, city));
@@ -1111,6 +1180,7 @@ function buildGeoPageConfigs(cities, pageFn) {
           var geoPage = {
           file: product.dir + "/" + city.slug + "/index.html",
           theme: product.theme,
+          siloLabel: product.siloLabel,
           badge: city.region,
           title: product.title(city),
           description: product.description(city),
@@ -1139,6 +1209,7 @@ function buildGeoPageConfigs(cities, pageFn) {
               ? nancyBassin.nearbyLinks(city, product.dir)
               : contentLib.nearbyLinks(city, cities, product.dir, 12),
           faq: faq,
+          keywords: contentLib.localPageKeywords(product, city.name, city.region, city.dept),
         };
         if (product.key === "vtc" && city.regionSlug === "ile-de-france") {
           geoPage.related = [
@@ -1169,22 +1240,36 @@ function buildDeptPageConfigs(departments, cities, pageFn) {
         pageFn({
           file: product.dir + "/departement/" + dept.slug + "/index.html",
           theme: product.theme,
+          siloLabel: product.siloLabel,
           badge: dept.name,
-          title: product.siloLabel + " " + dept.name + " (" + dept.region + ")",
-          description:
+          title:
             product.siloLabel +
-            " dans le " +
+            " " +
             dept.name +
-            " : " +
-            deptCities.length +
-            " villes couvertes. Devis gratuit, courtier ORIAS.",
-          h1: product.siloLabel + " dans le " + dept.name,
-          intro:
-            "Retrouvez nos pages locales pour le departement " +
+            " | Devis " +
+            dept.region +
+            " — courtier ORIAS",
+          description:
+            "Devis " +
+            product.siloLabel.toLowerCase() +
+            " " +
             dept.name +
             " (" +
             dept.region +
-            "). Demande en ligne et accompagnement par telephone.",
+            ") : " +
+            deptCities.length +
+            " villes. Courtier, comparatif, changer d'assurance. Demande en ligne.",
+          h1: product.siloLabel + " dans le " + dept.name + " — devis, courtier, villes",
+          intro:
+            "Devis " +
+            product.siloLabel.toLowerCase() +
+            " dans le " +
+            dept.name +
+            " (" +
+            dept.region +
+            ") : " +
+            deptCities.length +
+            " villes. Courtier ORIAS, comparatif à garanties équivalentes, rappel conseiller.",
           cta: { href: product.landing, label: productCtaLabel(product) },
           crumbs: [
             { name: "Accueil", url: "/" },
@@ -1195,13 +1280,32 @@ function buildDeptPageConfigs(departments, cities, pageFn) {
             { href: product.hubUrl, label: "Toutes les villes" },
             { href: product.hubDeptUrl || product.siloUrl + "departements/", label: "Tous les departements" },
             { href: productRegionUrl(product, dept.regionSlug), label: product.siloLabel + " — " + dept.region },
+            { href: "/france/departement/" + dept.slug + "/", label: "Hub " + dept.name },
             { href: "/france/region/" + dept.regionSlug + "/", label: dept.region },
           ],
           hubCityGrid: cityLinks,
+          sections: [contentLib.localDeptSection(product, dept, deptCities.length)],
+          keywords: contentLib.localPageKeywords(product, dept.name, dept.region, dept.slug),
           faq: [
             {
               q: "Couvrez-vous tout le " + dept.name + " ?",
-              a: "Oui, communes principales et agglomerations du departement. Contactez-nous pour une commune non listee.",
+              a:
+                "Oui, communes principales et agglomérations du " +
+                dept.name +
+                ". Devis " +
+                product.siloLabel.toLowerCase() +
+                " à distance, y compris si votre commune n'est pas listée.",
+            },
+            {
+              q: "Devis " + product.siloLabel.toLowerCase() + " " + dept.name + " : gratuit ?",
+              a: "Oui, sans engagement. Un conseiller ORIAS rappelle en heures ouvrables.",
+            },
+            {
+              q: "Et dans le reste de la région " + dept.region + " ?",
+              a:
+                "Chaque département a sa page " +
+                product.siloLabel.toLowerCase() +
+                ", avec les villes et le même parcours devis.",
             },
           ],
         })
@@ -1225,10 +1329,18 @@ function buildDeptHubPageConfigs(departments, pageFn) {
         file: product.dir + "/departements/index.html",
         theme: product.theme,
         badge: "Departements",
-        title: product.siloLabel + " par departement | France",
-        description: product.siloLabel + " dans " + departments.length + " departements. Annuaire local, devis gratuit.",
-        h1: product.siloLabel + " : departements couverts",
-        intro: "Accedez a une page dediee par departement avec les villes principales et un parcours devis rapide.",
+        title: product.siloLabel + " par département | Devis " + product.siloLabel.toLowerCase() + " France",
+        description:
+          "Devis " +
+          product.siloLabel.toLowerCase() +
+          " dans " +
+          departments.length +
+          " départements : courtier ORIAS, comparatif, pages ville. Métropole et DOM.",
+        h1: product.siloLabel + " par département — devis local",
+        intro:
+          "Accédez à une page " +
+          product.siloLabel.toLowerCase() +
+          " par département (villes, devis, courtier). Meurthe-et-Moselle, Paris, Rhône, Gironde…",
         cta: { href: product.landing, label: productCtaLabel(product) },
         crumbs: [
           { name: "Accueil", url: "/" },
@@ -1274,24 +1386,30 @@ function buildProductRegionPageConfigs(regions, departments, cities, pageFn) {
         pageFn({
           file: product.dir + "/region/" + region.slug + "/index.html",
           theme: product.theme,
+          siloLabel: product.siloLabel,
           badge: region.name,
-          title: product.siloLabel + " en " + region.name + " | Departements et villes",
-          description:
+          title:
             product.siloLabel +
+            " " +
+            region.name +
+            " | Devis par ville et département",
+          description:
+            "Devis " +
+            product.siloLabel.toLowerCase() +
             " en " +
             region.name +
             " : " +
             regionDepts.length +
-            " departements, " +
+            " départements, " +
             regionCities.length +
-            " villes. Courtier ORIAS, demande en ligne.",
-          h1: product.siloLabel + " en " + region.name,
+            " villes. Courtier ORIAS, comparatif, Paris / métropoles / communes.",
+          h1: product.siloLabel + " en " + region.name + " — devis, villes, départements",
           intro:
-            "Pages locales " +
+            "Devis " +
             product.siloLabel.toLowerCase() +
-            " pour la region " +
+            " en " +
             region.name +
-            " : choisissez un departement ou une ville.",
+            " : choisissez un département ou une ville. Courtier ORIAS, rappel conseiller, sans engagement.",
           cta: { href: product.landing, label: productCtaLabel(product) },
           crumbs: [
             { name: "Accueil", url: "/" },
@@ -1306,10 +1424,19 @@ function buildProductRegionPageConfigs(regions, departments, cities, pageFn) {
           ],
           hubCityGrid: cityLinks,
           hubDeptGrid: deptLinks,
+          sections: [contentLib.localRegionSection(product, region, regionDepts.length, regionCities.length)],
+          keywords: contentLib.localPageKeywords(product, region.name, region.name, ""),
           faq: [
             {
-              q: "Intervenez-vous dans toute la region " + region.name + " ?",
-              a: "Oui. Si votre commune n est pas listee, contactez-nous : le dossier se monte a distance.",
+              q: "Intervenez-vous dans toute la région " + region.name + " ?",
+              a:
+                "Oui. Devis " +
+                product.siloLabel.toLowerCase() +
+                " à distance : si votre commune n'est pas listée, le dossier se monte quand même.",
+            },
+            {
+              q: "Comment obtenir un devis " + product.siloLabel.toLowerCase() + " en " + region.name + " ?",
+              a: "Choisissez votre ville ou département, puis le formulaire. Rappel conseiller ORIAS en heures ouvrables.",
             },
           ],
         })
@@ -1333,10 +1460,18 @@ function buildProductRegionHubConfigs(regions, pageFn) {
         file: product.dir + "/regions/index.html",
         theme: product.theme,
         badge: "Regions",
-        title: product.siloLabel + " par region | France",
-        description: product.siloLabel + " dans " + regions.length + " regions. Annuaire local, demande en ligne.",
-        h1: product.siloLabel + " : regions couvertes",
-        intro: "Accedez a une page dediee par region, avec les departements et villes principales.",
+        title: product.siloLabel + " par région | Devis " + product.siloLabel.toLowerCase() + " France",
+        description:
+          "Devis " +
+          product.siloLabel.toLowerCase() +
+          " dans " +
+          regions.length +
+          " régions : Île-de-France, Grand Est, Auvergne-Rhône-Alpes, PACA… Courtier ORIAS.",
+        h1: product.siloLabel + " par région — devis local",
+        intro:
+          "Pages " +
+          product.siloLabel.toLowerCase() +
+          " par région, avec départements et villes (devis, courtier, comparatif).",
         cta: { href: product.landing, label: productCtaLabel(product) },
         crumbs: [
           { name: "Accueil", url: "/" },
@@ -1368,30 +1503,36 @@ function buildRegionPageConfigs(regions, departments, cities, pageFn) {
     const deptLinks = regionDepts.map(function (d) {
       return { href: "/france/departement/" + d.slug + "/", label: d.name };
     });
-    const citySample = regionCities.slice(0, 36).map(function (c) {
-      return { href: "/assurance-vtc/" + c.slug + "/", label: c.name };
+    const citySample = regionCities.slice(0, 36).map(function (c, i) {
+      var p = GEO_PRODUCTS[i % GEO_PRODUCTS.length];
+      return { href: "/" + p.dir + "/" + c.slug + "/", label: productShortLabel(p) + " " + c.name };
     });
     out.push(
       pageFn({
         file: "france/region/" + region.slug + "/index.html",
         theme: "vtc",
         badge: region.name,
-        title: "Assurance, pret & finance en " + region.name + " | Devis local",
+        title:
+          "Assurance, prêt & finance " +
+          region.name +
+          " | Devis auto, mutuelle, VTC, crédit",
         description:
-          "Courtier assurance, pret immobilier, finance et banque en " +
+          "Courtier " +
           region.name +
-          " : VTC, mutuelle, credit, rachat. " +
+          " : devis assurance auto, habitation, mutuelle, VTC, VSP, prêt immobilier, rachat, prévoyance, animaux. " +
           regionCities.length +
-          " villes, demande en ligne.",
-        h1: "Nos services en " + region.name,
-        intro:
-          "Pages locales pour " +
+          " villes, " +
           regionDepts.length +
-          " departements et " +
-          regionCities.length +
-          " villes en " +
+          " départements.",
+        h1: "Devis assurance, prêt et finance en " + region.name,
+        intro:
+          "Pages locales en " +
           region.name +
-          ".",
+          " (" +
+          regionDepts.length +
+          " départements, " +
+          regionCities.length +
+          " villes) : auto, habitation, mutuelle, VTC, crédit, emprunteur, prévoyance, animaux, chasse, équitation, VSP, banque.",
         cta: { href: "/nos-services.html", label: "Tous nos services" },
         crumbs: [
           { name: "Accueil", url: "/" },
@@ -1403,7 +1544,16 @@ function buildRegionPageConfigs(regions, departments, cities, pageFn) {
         related: GEO_PRODUCTS.map(function (p) {
           return { href: productRegionUrl(p, region.slug), label: p.siloLabel };
         }),
-        faq: [],
+        faq: [
+          {
+            q: "Quels produits sont disponibles en " + region.name + " ?",
+            a: "Tous : auto, habitation, mutuelle, VTC, VSP, prêt, recherche de bien, finance, banque, emprunteur, prévoyance, animaux, chasse, équitation.",
+          },
+          {
+            q: "Comment obtenir un devis local en " + region.name + " ?",
+            a: "Choisissez le produit puis la ville. Courtier ORIAS, formulaire en ligne, rappel conseiller.",
+          },
+        ],
       })
     );
   });
@@ -1447,22 +1597,32 @@ function buildFranceDeptPages(departments, cities, pageFn) {
         label: p.siloLabel,
       };
     });
-    const cityLinks = deptCities.map(function (c) {
-      return { href: "/assurance-vtc/" + c.slug + "/", label: c.name };
+    const cityLinks = deptCities.map(function (c, i) {
+      var p = GEO_PRODUCTS[i % GEO_PRODUCTS.length];
+      return { href: "/" + p.dir + "/" + c.slug + "/", label: productShortLabel(p) + " " + c.name };
     });
     return pageFn({
       file: "france/departement/" + dept.slug + "/index.html",
       theme: "vtc",
       badge: dept.region,
-      title: "Courtier " + dept.name + " | Assurance, pret, finance — " + dept.region,
-      description:
-        "Devis assurance, pret immobilier, recherche de bien, finance et banque dans le " +
+      title:
+        "Courtier " +
         dept.name +
-        " : " +
+        " | Devis auto, mutuelle, VTC, prêt — " +
+        dept.region,
+      description:
+        "Devis assurance auto, habitation, mutuelle, VTC, VSP, prêt immobilier, rachat, prévoyance, animaux dans le " +
+        dept.name +
+        " (" +
+        dept.region +
+        ") : " +
         deptCities.length +
-        " villes.",
-      h1: "Assurance, pret & finance dans le " + dept.name,
-      intro: "Acces direct aux devis par produit et par ville pour le departement " + dept.name + ".",
+        " villes. Courtier ORIAS.",
+      h1: "Devis assurance, prêt & finance dans le " + dept.name,
+      intro:
+        "Accès direct aux devis par produit et par ville pour le " +
+        dept.name +
+        " : auto, habitation, mutuelle, VTC, crédit, emprunteur, prévoyance, animaux, chasse, équitation, VSP, banque, finance.",
       cta: { href: "/landings/devis.html", label: "Devis gratuit" },
       crumbs: [
         { name: "Accueil", url: "/" },
@@ -1472,7 +1632,12 @@ function buildFranceDeptPages(departments, cities, pageFn) {
       hubCityGrid: cityLinks,
       hubDeptGrid: productLinks,
       related: [{ href: "/france/region/" + dept.regionSlug + "/", label: dept.region }],
-      faq: [],
+      faq: [
+        {
+          q: "Quels devis dans le " + dept.name + " ?",
+          a: "Auto, habitation, mutuelle, VTC, VSP, prêt immobilier, rachat, banque, emprunteur, prévoyance, animaux, chasse, équitation — pages par ville.",
+        },
+      ],
     });
   });
 }
@@ -1488,7 +1653,14 @@ function buildPillarPageConfigs(pageFn) {
       title: "Assurance auto | Devis et comparatif France",
       description: "Assurance auto en France : tous risques, au tiers, jeune conducteur. Devis gratuit, courtier ORIAS.",
       h1: "Assurance auto : comparez les offres",
-      intro: "Particuliers et familles : nous comparons les assureurs pour trouver le meilleur rapport garanties / prix.",
+      intro: "Particuliers et familles : nous comparons les assureurs et grilles grossistes pour le meilleur rapport garanties / prix.",
+      extraRelated: [
+        { href: "/blog/tarif-assurance-auto-2026.html", label: "Tarifs auto 2026" },
+        { href: "/blog/assurance-auto-tous-risques-ou-tiers-2026.html", label: "Tous risques ou tiers" },
+        { href: "/blog/assurance-auto-courtier-grossiste-comparatif-2026.html", label: "Courtier / grossiste auto" },
+        { href: "/blog/assurance-auto-paris-ile-de-france-2026.html", label: "Auto Paris / IDF" },
+        { href: "/blog/assurance-auto-nancy-varangeville-54.html", label: "Auto Nancy / Varangéville" },
+      ],
     },
     {
       file: "assurance-habitation/index.html",
@@ -1499,7 +1671,14 @@ function buildPillarPageConfigs(pageFn) {
       title: "Assurance habitation | Devis locataire & proprietaire",
       description: "Assurance habitation en France : locataire, proprietaire, degats des eaux, vol. Devis gratuit.",
       h1: "Assurance habitation : proteger votre logement",
-      intro: "Locataire ou proprietaire : multirisque habitation, responsabilite civile et options sur mesure.",
+      intro: "Locataire ou proprietaire : multirisque habitation, responsabilite civile et options — y compris grilles courtier grossiste.",
+      extraRelated: [
+        { href: "/blog/assurance-habitation-vol-cambriolage-2026.html", label: "Vol et cambriolage" },
+        { href: "/blog/changer-assurance-habitation-loi-hamon.html", label: "Changer de MRH (Hamon)" },
+        { href: "/blog/assurance-habitation-courtier-grossiste-mrh-2026.html", label: "Courtier / grossiste MRH" },
+        { href: "/blog/assurance-habitation-paris-ile-de-france-2026.html", label: "MRH Paris / IDF" },
+        { href: "/blog/assurance-habitation-nancy-varangeville-54.html", label: "MRH Nancy / Varangéville" },
+      ],
     },
     {
       file: "assurance-emprunteur/index.html",
@@ -1553,6 +1732,30 @@ function buildPillarPageConfigs(pageFn) {
   return pillars.map(function (p) {
     var villesHub = p.hubVillesUrl || p.siloUrl.replace(/\/$/, "") + "/villes/";
     var deptHub = p.hubDeptUrl || p.siloUrl.replace(/\/$/, "") + "/departements/";
+    var LT = require("./seo-long-term-related.cjs");
+    var related = [
+      { href: villesHub, label: "Par ville" },
+      { href: deptHub, label: "Par departement" },
+      { href: "/france/", label: "Couverture France" },
+    ].concat(p.extraRelated || []);
+    if (p.file === "assurance-auto/index.html" || p.file === "assurance-habitation/index.html") {
+      related = related.concat(
+        LT.AUTO_MRH.filter(function (l) {
+          return (
+            l.href.indexOf("/blog/") === 0 ||
+            l.href.indexOf("/landings/") === 0 ||
+            l.href.indexOf("/agence") === 0 ||
+            l.href.indexOf("/nancy-54") === 0
+          );
+        })
+      );
+    }
+    var seen = {};
+    related = related.filter(function (l) {
+      if (!l || !l.href || seen[l.href]) return false;
+      seen[l.href] = true;
+      return true;
+    });
     return pageFn({
       file: p.file,
       theme: p.theme,
@@ -1571,11 +1774,7 @@ function buildPillarPageConfigs(pageFn) {
         { title: "Conseil humain", text: "Un courtier dedie." },
         { title: "France entiere", text: "Pages par ville et departement." },
       ],
-      related: [
-        { href: villesHub, label: "Par ville" },
-        { href: deptHub, label: "Par departement" },
-        { href: "/france/", label: "Couverture France" },
-      ],
+      related: related,
       faq: [
         {
           q: "Le devis est-il gratuit ?",
@@ -1606,15 +1805,20 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
         file: product.dir + "/villes/index.html",
         theme: product.theme,
         badge: "France entiere",
-        title: product.siloLabel + " par ville | Toute la France",
+        title: product.siloLabel + " par ville | Devis " + product.siloLabel.toLowerCase() + " France — Paris Lyon Marseille Nancy",
         description:
-          product.siloLabel +
-          " dans plus de " +
+          "Devis " +
+          product.siloLabel.toLowerCase() +
+          " par ville : Paris, Lyon, Marseille, Toulouse, Nantes, Bordeaux, Lille, Strasbourg, Nice, Nancy, Varangéville — " +
           cities.length +
-          " villes en France (metropole et DOM). Devis gratuit, courtier ORIAS.",
-        h1: product.siloLabel + " : nos villes couvertes",
+          " communes. Courtier ORIAS, métropole et DOM.",
+        h1: product.siloLabel + " par ville — devis local partout en France",
         intro:
-          "Selectionnez votre ville pour acceder a une page dediee (devis, FAQ, conseils locaux). Nous accompagnons les clients partout en France.",
+          "Sélectionnez votre ville pour un devis " +
+          product.siloLabel.toLowerCase() +
+          " (courtier, comparatif, changer d'assurance). Pages locales : Paris, Lyon, Marseille, Nancy et " +
+          cities.length +
+          " communes.",
         cta: { href: product.landing, label: productCtaLabel(product) },
         crumbs: [
           { name: "Accueil", url: "/" },
@@ -1686,9 +1890,14 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
             "Credit immobilier — primo-accedants et investisseurs",
             "Finance — rachat de credits, conso, credit pro",
             "Banque — comptes, epargne, tresorerie",
-            "Assurance auto — tous profils conducteurs",
-            "Assurance habitation — locataires et proprietaires",
-            "Prevoyance — protection revenus et famille",
+            "Assurance auto — tous risques, tiers, jeune conducteur, par ville",
+            "Assurance habitation — locataires, propriétaires, MRH par ville",
+            "Assurance emprunteur — loi Lemoine, délégation, par ville",
+            "Prévoyance — TNS, décès, ITT, par ville",
+            "Assurance animaux — chien, chat, frais véto, par ville",
+            "Assurance chasse — RC chasseur, par ville",
+            "Assurance équitation — RC équestre, cheval, par ville",
+            "Voiture sans permis — VSP, permis AM, par ville",
           ],
         },
       ],
@@ -1704,11 +1913,21 @@ function buildHubPageConfigs(cities, regions, departments, pageFn) {
         { href: "/finance/villes/", label: "Villes finance" },
         { href: "/banque/villes/", label: "Villes banque" },
         { href: "/credit-immo/villes/", label: "Villes credit immo" },
+        { href: "/assurance-emprunteur/villes/", label: "Villes emprunteur" },
+        { href: "/assurance-prevoyance/villes/", label: "Villes prévoyance" },
+        { href: "/assurance-animaux/villes/", label: "Villes animaux" },
+        { href: "/assurance-voiture-sans-permis/villes/", label: "Villes VSP" },
+        { href: "/assurance-chasse/villes/", label: "Villes chasse" },
+        { href: "/assurance-equitation/villes/", label: "Villes équitation" },
       ],
       faq: [
         {
           q: "Pourquoi des pages par ville ?",
-          a: "Pour repondre aux recherches locales (ex. assurance VTC Lyon) avec un contenu utile et un parcours de devis dedie.",
+          a: "Pour répondre aux recherches locales (devis mutuelle Lyon, assurance auto Nancy, VTC Paris, prêt Marseille) avec un parcours de devis dédié.",
+        },
+        {
+          q: "Tous les produits ont-ils des pages ville ?",
+          a: "Oui : auto, habitation, mutuelle, VTC, VSP, prêt, crédit, recherche de bien, finance, banque, emprunteur, prévoyance, animaux, chasse, équitation.",
         },
       ],
       hubProducts: GEO_PRODUCTS.map(function (p) {

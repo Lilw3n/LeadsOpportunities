@@ -55,10 +55,16 @@ function keywordsForPath(path) {
       if (p.indexOf("/recherche-bien") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/finance") === 0 && c.id === "credit-immo") best = c;
       if (p.indexOf("/banque") === 0 && c.id === "credit-immo") best = c;
+      if (p.indexOf("/assurance-emprunteur") === 0 && c.id === "emprunteur") best = c;
+      if (p.indexOf("/assurance-prevoyance") === 0 && c.id === "prevoyance") best = c;
       if (p.indexOf("/assurance-animaux") === 0 && c.id === "animaux") best = c;
+      if (p.indexOf("/assurance-chien") === 0 && c.id === "animaux") best = c;
+      if (p.indexOf("/assurance-chat") === 0 && c.id === "animaux") best = c;
       if (p.indexOf("/assurance-habitation") === 0 && c.id === "habitation") best = c;
+      if (p.indexOf("/assurance-auto") === 0 && c.id === "auto") best = c;
       if (p.indexOf("/assurance-chasse") === 0 && c.id === "chasse") best = c;
       if (p.indexOf("/assurance-equitation") === 0 && c.id === "equitation") best = c;
+      if (p.indexOf("/assurance-voiture-sans-permis") === 0 && c.id === "vsp") best = c;
       if (p.indexOf("/assurance-animaux/chien/pas-cher") === 0 && c.id === "animaux-longtail") best = c;
     });
   }
@@ -70,13 +76,18 @@ function clusterForBlogArticle(article) {
   var file = String(article.file || "");
   var section = article.section || "";
   var hay = (article.title || "") + " " + file + " " + section;
+  if (section === "auto") return clusterById("auto");
+  if (section === "habitat") return clusterById("habitation");
+  if (section === "vtc") return clusterById("vtc");
   if (/vtc|chauffeur|uber|bolt|heetch/i.test(hay)) return clusterById("vtc");
   if (/mutuelle|sant[eé]|optique|dentaire|hospitalisation/i.test(hay)) return clusterById("mutuelle");
   if (/cr[eé]dit|emprunt|immobilier|lemoine|pret|prêt/i.test(hay)) return clusterById("credit-immo");
   if (/chien|chat|animaux|veterinaire/i.test(hay)) return clusterById("animaux");
   if (/chasse|chasseur|courre|gibier/i.test(hay)) return clusterById("chasse");
   if (/equitation|cheval|cavalier|equestre/i.test(hay)) return clusterById("equitation");
-  if (/habitation|locataire|multirisque|logement/i.test(hay)) return clusterById("habitation");
+  if (/habitation|locataire|multirisque|logement|mrh/i.test(hay)) return clusterById("habitation");
+  if (/assurance auto|bonus-malus|tous risques|jeune conducteur/i.test(hay) || section === "auto")
+    return clusterById("auto");
   if (section === "vtc") return clusterById("vtc");
   if (section === "sante") return clusterById("mutuelle");
   if (section === "finance") return clusterById("credit-immo");
@@ -108,6 +119,15 @@ function moneyLinksHtml(cluster) {
     "/assurance-animaux/": "Assurance animaux",
     "/landings/animaux.html": "Devis animaux",
     "/assurance-habitation/": "Assurance habitation",
+    "/assurance-habitation/paris/": "Habitation Paris",
+    "/assurance-habitation/nancy/": "Habitation Nancy",
+    "/assurance-habitation/varangeville/": "Habitation Varangéville",
+    "/landings/devis.html?need=habitation": "Devis habitation",
+    "/assurance-auto/": "Assurance auto",
+    "/assurance-auto/paris/": "Auto Paris",
+    "/assurance-auto/nancy/": "Auto Nancy",
+    "/assurance-auto/varangeville/": "Auto Varangéville",
+    "/landings/devis.html?need=auto": "Devis auto",
   };
   var items = cluster.moneyPages.slice(0, 4).map(function (href) {
     var label = labels[href] || href.replace(/^\//, "").replace(/\/$/, "");
