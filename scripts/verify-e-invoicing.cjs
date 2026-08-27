@@ -67,6 +67,28 @@ assert(cfg.siren === "810571513", "SIREN config");
 assert(cfg.receiveDeadline === "2026-09-01", "deadline reception");
 assert(cfg.emitDeadline === "2027-09-01", "deadline emission micro");
 assert(cfg.stackPrimaryPdp === "tiime", "stack primaire Tiime");
+assert(cfg.pdpStatus === "pending_identity", "statut pending identity Tiime");
+assert(cfg.tiimeAccountCreated === true, "compte Tiime cree");
+assert(cfg.makeAccountPending === true, "Make en attente compte");
+
+var golive = read("docs/MAKE-TIIME-GOLIVE.md");
+assert(golive.indexOf("MAKE_EINVOICE_WEBHOOK_URL") !== -1, "golive env Make");
+assert(golive.indexOf("Tiime vérifié") !== -1 || golive.indexOf("Tiime verifie") !== -1, "golive bouton Tiime");
+
+var hub = read("crm-e-invoicing.html");
+assert(hub.indexOf("pending_identity") !== -1, "option pending_identity UI");
+assert(hub.indexOf("einvMarkTiimeOk") !== -1, "bouton Tiime verifie");
+assert(hub.indexOf("einvMarkMakeOk") !== -1, "bouton Make cree");
+
+var api = read("api/_lib/routes/crm-e-invoicing.js");
+assert(api.indexOf("mark-tiime-verified") !== -1, "action mark-tiime-verified");
+assert(api.indexOf("mark-make-ready") !== -1, "action mark-make-ready");
+
+var lib = require(path.join(__dirname, "..", "api/_lib/e-invoicing.js"));
+var readyPending = lib.readiness(lib.mergeSettings(null));
+assert(readyPending.tiimeIdentityPending === true, "readiness identity pending");
+assert(readyPending.pdpTrajectory === true, "readiness trajectoire PDP");
+assert(readyPending.status === "waiting" || readyPending.status === "critical", "readiness waiting/critical");
 
 var stack = JSON.parse(read("config/e-invoicing-stack.json"));
 assert(stack.recommendedPrimaryPdp === "tiime", "reco Tiime");

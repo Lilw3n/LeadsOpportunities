@@ -209,6 +209,57 @@ module.exports = async (req, res) => {
       return res.status(200).json({ ok: true, make: result });
     }
 
+    if (postAction === "mark-tiime-verified") {
+      const current = await loadSettings(sql);
+      const next = einv.mergeSettings(
+        Object.assign({}, current, {
+          pdpName: current.pdpName || "Tiime",
+          pdpStatus: "active",
+          pdpDesignatedAt: current.pdpDesignatedAt || new Date().toISOString(),
+          tiimeAccountCreated: true,
+          tiimeIdentityPending: false,
+          stackPrimaryPdp: "tiime",
+          checklist: Object.assign({}, current.checklist, {
+            chosenPdpOrAccountingTool: true,
+            designatedReceptionPlatform: true,
+          }),
+        })
+      );
+      await saveSettings(sql, next, user.id || user.email);
+      const makeResult = await makeBridge.dispatchToMake("tiime_verified", {
+        pdpStatus: "active",
+        pdpName: next.pdpName,
+      });
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        make: makeResult,
+        message: "Tiime marqué Active. Branche Make dès que le compte est créé.",
+      });
+    }
+
+    if (postAction === "mark-make-ready") {
+      const current = await loadSettings(sql);
+      const next = einv.mergeSettings(
+        Object.assign({}, current, {
+          makeAccountPending: false,
+          makeConnectedAt: new Date().toISOString(),
+          stackCompanions: Array.from(
+            new Set([].concat(current.stackCompanions || [], ["crm_lo", "make"]))
+          ),
+        })
+      );
+      await saveSettings(sql, next, user.id || user.email);
+      return res.status(200).json({
+        ok: true,
+        settings: next,
+        readiness: einv.readiness(next),
+        message:
+          "Make marqué prêt côté CRM. Vérifie MAKE_EINVOICE_WEBHOOK_URL + SECRET sur Vercel puis Redeploy.",
+      });
+    }
+
     if (postAction === "register-received") {
       const id = "eir_" + crypto.randomBytes(8).toString("hex");
       const amountHt = body.amountHt != null ? Number(body.amountHt) : null;

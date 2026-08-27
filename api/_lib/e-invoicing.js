@@ -26,21 +26,24 @@ const DEFAULT_SETTINGS = {
   companySize: "micro",
   receiveDeadline: RECEIVE_DEADLINE,
   emitDeadline: EMIT_DEADLINE_PME,
-  pdpName: "",
+  pdpName: "Tiime",
   pdpId: "",
-  pdpStatus: "not_started",
+  pdpStatus: "pending_identity",
   pdpDesignatedAt: null,
   directoryRegistered: false,
   notes: "",
   stackPrimaryPdp: "tiime",
-  stackCompanions: [],
+  stackCompanions: ["crm_lo", "make"],
+  tiimeAccountCreated: true,
+  tiimeIdentityPending: true,
+  makeAccountPending: true,
   checklist: {
-    identifiedActors: false,
-    chosenPdpOrAccountingTool: false,
-    designatedReceptionPlatform: false,
+    identifiedActors: true,
+    chosenPdpOrAccountingTool: true,
+    designatedReceptionPlatform: true,
     updatedSupplierContacts: false,
     sirenClientsCollected: false,
-    invoiceMentionsReady: false,
+    invoiceMentionsReady: true,
     retentionProcessDefined: false,
     expertComptableBriefed: false,
   },
@@ -179,16 +182,33 @@ function readiness(settings) {
   const emitDays = daysUntil(emitDl);
   const score = checklistScore(s.checklist);
   const pdpOk = s.pdpStatus === "designated" || s.pdpStatus === "active";
+  const pdpTrajectory =
+    pdpOk ||
+    s.pdpStatus === "pending_identity" ||
+    s.pdpStatus === "in_progress" ||
+    !!s.tiimeAccountCreated;
   const identityOk = isValidSiren(s.siren) && !!(s.companyName && s.addressLine1 && s.postalCode && s.city);
   const blockers = [];
-  if (!pdpOk) {
+  if (s.pdpStatus === "pending_identity" || s.tiimeIdentityPending) {
+    blockers.push("Tiime : attendre la validation de la pièce d'identité, puis passer le statut PDP à Active.");
+  } else if (!pdpOk && !pdpTrajectory) {
     blockers.push("Désigner une plateforme agréée (PDP) pour recevoir les factures au 1er septembre 2026.");
+  } else if (!pdpOk) {
+    blockers.push("Finaliser la désignation PDP (statut Désignée ou Active).");
+  }
+  if (s.makeAccountPending) {
+    blockers.push("Créer le compte Make Free et renseigner MAKE_EINVOICE_WEBHOOK_URL + SECRET sur Vercel.");
   }
   if (!identityOk) {
     blockers.push("Compléter l'identité légale (SIREN, adresse, raison sociale).");
   }
-  if (!s.checklist.designatedReceptionPlatform) {
+  if (!s.checklist.designatedReceptionPlatform && !pdpTrajectory) {
     blockers.push("Cocher la réception via plateforme agréée dans la checklist.");
+  }
+  var status = "ready";
+  if (blockers.length) {
+    status = pdpTrajectory && (s.pdpStatus === "pending_identity" || s.tiimeIdentityPending) ? "waiting" : "in_progress";
+    if (receiveDays <= 7 && !pdpOk) status = "critical";
   }
   return {
     companySize: s.companySize,
@@ -199,10 +219,13 @@ function readiness(settings) {
     receiveMandatoryNow: receiveDays <= 0,
     emitMandatoryNow: emitDays <= 0,
     pdpOk: pdpOk,
+    pdpTrajectory: pdpTrajectory,
+    tiimeIdentityPending: !!(s.tiimeIdentityPending || s.pdpStatus === "pending_identity"),
+    makeAccountPending: !!s.makeAccountPending,
     identityOk: identityOk,
     checklist: score,
     blockers: blockers,
-    status: blockers.length === 0 ? "ready" : receiveDays <= 7 ? "critical" : "in_progress",
+    status: status,
   };
 }
 

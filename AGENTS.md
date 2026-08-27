@@ -12,7 +12,7 @@
 - `npm run seo:build` — sitemaps
 - `npm run academie:build` — régénère `/academie/` (cours métiers)
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
-- **Facturation électronique (01/09/2026)** : `/crm-e-invoicing.html` · mix Tiime+Make+CRM · `docs/MAKE-TIIME-EINVOICE.md` · `npm run verify:e-invoicing`
+- **Facturation électronique (01/09/2026)** : `/crm-e-invoicing.html` · Tiime pending ID + Make go-live `docs/MAKE-TIIME-GOLIVE.md` · `npm run verify:e-invoicing`
 
 ## Blog actu (leads qualifiés)
 

@@ -64,13 +64,19 @@
       ") : " +
       r.emitDeadline +
       ".";
-    if (r.status === "critical" || (r.daysUntilReceive <= 7 && r.blockers && r.blockers.length)) {
+    if (r.status === "critical" || (r.daysUntilReceive <= 7 && r.blockers && r.blockers.length && !r.pdpTrajectory)) {
       cls = "critical";
       msg =
         "URGENT — J-" +
         Math.max(0, r.daysUntilReceive) +
         " avant l’obligation de réception (1er sept. 2026). " +
         (r.blockers && r.blockers[0] ? r.blockers[0] : "Finalisez la désignation PDP.");
+    } else if (r.status === "waiting" || r.tiimeIdentityPending) {
+      cls = "warn";
+      msg =
+        "Tiime créé — pièce d'identité en validation. J-" +
+        Math.max(0, r.daysUntilReceive) +
+        ". Ensuite : activer PDP + brancher Make Free.";
     } else if (r.blockers && r.blockers.length) {
       cls = "warn";
       msg = "En cours — " + r.blockers[0];
@@ -189,6 +195,7 @@
       var companions = settings.stackCompanions || [];
       form.companion_indy.checked = companions.indexOf("indy") !== -1;
       form.companion_shine.checked = companions.indexOf("shine") !== -1;
+      if (form.companion_make) form.companion_make.checked = companions.indexOf("make") !== -1 || companions.length === 0;
     }
   }
 
@@ -457,6 +464,7 @@
     var companions = ["crm_lo"];
     if (form.companion_indy.checked) companions.push("indy");
     if (form.companion_shine.checked) companions.push("shine");
+    if (form.companion_make && form.companion_make.checked) companions.push("make");
     fetch("/api/crm/e-invoicing", {
       method: "POST",
       headers: headers(),
@@ -514,6 +522,39 @@
         .catch(function () {
           out.textContent = "Erreur réseau";
         });
+    });
+  }
+
+
+  function postCrmAction(action, doneMsg) {
+    return fetch("/api/crm/e-invoicing", {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify({ action: action }),
+    })
+      .then(function (r) {
+        return r.json();
+      })
+      .then(function (res) {
+        if (!res.ok) {
+          alert(res.error || "Erreur");
+          return;
+        }
+        if (res.message || doneMsg) alert(res.message || doneMsg);
+        loadAll();
+      });
+  }
+
+  var markTiime = document.getElementById("einvMarkTiimeOk");
+  if (markTiime) {
+    markTiime.addEventListener("click", function () {
+      postCrmAction("mark-tiime-verified");
+    });
+  }
+  var markMake = document.getElementById("einvMarkMakeOk");
+  if (markMake) {
+    markMake.addEventListener("click", function () {
+      postCrmAction("mark-make-ready");
     });
   }
 
