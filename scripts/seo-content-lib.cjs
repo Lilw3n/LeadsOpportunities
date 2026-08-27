@@ -196,6 +196,28 @@ function vtcCitySections(city) {
   return sections;
 }
 
+function vspCitySections(city) {
+  return [
+    {
+      h2: "Assurance voiture sans permis a " + city.name,
+      paragraphs: [
+        "VSP, voiturette et quadricycle leger : RC obligatoire, vol et bris selon formules. Nous comparons les contrats specialises pour les habitants de " +
+          city.name +
+          ".",
+        "Permis AM (BSR), ASSR selon annee de naissance : le dossier se prepare en ligne, rappel conseiller pour " +
+          city.region +
+          ".",
+      ],
+      list: [
+        "Devis VSP sans engagement",
+        "Jeunes conducteurs 16-25 ans",
+        "Marques Aixam, Ligier, Microcar…",
+        "Pages nationales : permis AM, tarif, quadricycle",
+      ],
+    },
+  ];
+}
+
 function equitationCitySections(city) {
   return [
     {
@@ -249,6 +271,7 @@ module.exports = {
   vtcCitySections: vtcCitySections,
   chasseCitySections: chasseCitySections,
   equitationCitySections: equitationCitySections,
+  vspCitySections: vspCitySections,
   defaultCityFaq: defaultCityFaq,
   animauxCityFaq: animauxCityFaq,
 };

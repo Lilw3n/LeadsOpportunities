@@ -1,0 +1,27 @@
+Type,Campaign,Ad Group,Keyword,Criterion Type,Match Type,Headline 1,Headline 2,Headline 3,Description 1,Description 2,Final URL,Path 1,Path 2,Status
+Campaign,FR_Search_VSP_HotIntent,,,,,,,,,,,,Enabled
+Ad Group,FR_Search_VSP_HotIntent,devis_assurance_vsp,,,,,,,,,,,Enabled
+Ad Group,FR_Search_VSP_HotIntent,assurance_sans_permis,,,,,,,,,,,Enabled
+Ad Group,FR_Search_VSP_HotIntent,permis_am_bsr,,,,,,,,,,,Enabled
+Keyword,FR_Search_VSP_HotIntent,devis_assurance_vsp,"devis assurance voiture sans permis",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_devis_vsp,vsp,devis,Enabled
+Keyword,FR_Search_VSP_HotIntent,devis_assurance_vsp,[assurance voiture sans permis],Keyword,Exact,,,,,,,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_exact_vsp,vsp,devis,Enabled
+Keyword,FR_Search_VSP_HotIntent,devis_assurance_vsp,"assurance vsp",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_assurance_vsp,vsp,devis,Enabled
+Keyword,FR_Search_VSP_HotIntent,devis_assurance_vsp,"devis vsp",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_devis_vsp_court,vsp,devis,Enabled
+Keyword,FR_Search_VSP_HotIntent,assurance_sans_permis,"assurance sans permis",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_sans_permis,vsp,rc,Enabled
+Keyword,FR_Search_VSP_HotIntent,assurance_sans_permis,"assurance voiturette",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_voiturette,vsp,rc,Enabled
+Keyword,FR_Search_VSP_HotIntent,assurance_sans_permis,"assurance quadricycle leger",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-voiture-sans-permis/quadricycle/?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_quadricycle,vsp,quadri,Enabled
+Keyword,FR_Search_VSP_HotIntent,assurance_sans_permis,"assurance aixam",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-voiture-sans-permis/quadricycle/?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_aixam,vsp,quadri,Enabled
+Keyword,FR_Search_VSP_HotIntent,assurance_sans_permis,"tarif assurance voiture sans permis",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-voiture-sans-permis/tarif/?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_tarif,vsp,tarif,Enabled
+Keyword,FR_Search_VSP_HotIntent,permis_am_bsr,"assurance permis AM",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-voiture-sans-permis/permis-am/?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_permis_am,vsp,am,Enabled
+Keyword,FR_Search_VSP_HotIntent,permis_am_bsr,"assurance BSR",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/assurance-voiture-sans-permis/permis-am/?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_bsr,vsp,am,Enabled
+Keyword,FR_Search_VSP_HotIntent,permis_am_bsr,"voiture sans permis assurance",Keyword,Phrase,,,,,,,https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=kw_vsp_assurance,vsp,devis,Enabled
+Negative Keyword,FR_Search_VSP_HotIntent,,gratuit,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VSP_HotIntent,,emploi,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VSP_HotIntent,,stage,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VSP_HotIntent,,formation,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VSP_HotIntent,,forum,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VSP_HotIntent,,occasion,Keyword,Phrase,,,,,,,,,Enabled
+Negative Keyword,FR_Search_VSP_HotIntent,,location,Keyword,Phrase,,,,,,,,,Enabled
+Responsive Search Ad,FR_Search_VSP_HotIntent,devis_assurance_vsp,,,,Devis Voiture Sans Permis,Comparez Les Offres VSP,Rappel Sous 15 Minutes,"Assurance voiture sans permis : RC vol bris. Devis gratuit conseiller ORIAS.","Permis AM / BSR : on verifie ASSR et age. Comparatif specialistes VSP.",https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=rsa_devis,vsp,devis,Enabled
+Responsive Search Ad,FR_Search_VSP_HotIntent,assurance_sans_permis,,,,Assurance Sans Permis,Quadricycle Leger RC,Courtier ORIAS France,"Assurance voiture sans permis : RC vol bris. Devis gratuit conseiller ORIAS.","Permis AM / BSR : on verifie ASSR et age. Comparatif specialistes VSP.",https://www.leadsopportunities.fr/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=rsa_sans_permis,vsp,rc,Enabled
+Responsive Search Ad,FR_Search_VSP_HotIntent,permis_am_bsr,,,,Permis AM BSR Devis,Jeunes Conducteurs 16+,Assurance Sans Permis,"Assurance voiture sans permis : RC vol bris. Devis gratuit conseiller ORIAS.","Permis AM / BSR : on verifie ASSR et age. Comparatif specialistes VSP.",https://www.leadsopportunities.fr/assurance-voiture-sans-permis/permis-am/?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot&utm_content=rsa_permis_am,vsp,am,Enabled

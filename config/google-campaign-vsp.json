@@ -1,0 +1,85 @@
+{
+  "product": "vsp",
+  "channel": "google_search",
+  "explicit": true,
+  "note": "Google Search peut dire « voiture sans permis ». Meta reste discrète (citadine légère).",
+  "campaign": {
+    "id": "FR_Search_VSP_HotIntent",
+    "status": "ready",
+    "active": false,
+    "vertical": "vsp",
+    "budget_eur_day": 5,
+    "bidding": "Maximize conversions (puis CPA cible après volume)",
+    "geo": "France",
+    "language": "fr",
+    "landing": "https://www.leadsopportunities.fr/landings/vsp.html",
+    "utm_campaign": "vsp_search_hot",
+    "csv": "./ads/google-vsp-search.csv",
+    "editor_csv": "./ads/google-ads-editor-ready-utm.csv"
+  },
+  "ad_groups": [
+    {
+      "id": "devis_assurance_vsp",
+      "keywords": [
+        "devis assurance voiture sans permis",
+        "assurance voiture sans permis",
+        "assurance vsp",
+        "devis vsp"
+      ]
+    },
+    {
+      "id": "assurance_sans_permis",
+      "keywords": [
+        "assurance sans permis",
+        "assurance voiturette",
+        "assurance quadricycle leger",
+        "assurance aixam",
+        "tarif assurance voiture sans permis"
+      ]
+    },
+    {
+      "id": "permis_am_bsr",
+      "keywords": [
+        "assurance permis AM",
+        "assurance BSR voiture",
+        "voiture sans permis assurance"
+      ]
+    }
+  ],
+  "negatives": [
+    "gratuit",
+    "emploi",
+    "stage",
+    "formation",
+    "forum",
+    "wikipedia",
+    "occasion",
+    "aixam occasion",
+    "ligier occasion",
+    "location"
+  ],
+  "rsa": {
+    "headlines": [
+      "Devis Voiture Sans Permis",
+      "Assurance Sans Permis",
+      "Quadricycle Leger RC",
+      "Permis AM BSR Devis",
+      "Comparez Les Offres VSP",
+      "Courtier ORIAS France",
+      "Rappel Sous 15 Minutes",
+      "Jeunes Conducteurs 16+"
+    ],
+    "descriptions": [
+      "Assurance voiture sans permis : RC, vol, bris. Devis gratuit, conseiller ORIAS.",
+      "Permis AM / BSR : on verifie ASSR et age. Comparatif specialistes VSP."
+    ]
+  },
+  "activation_checklist": [
+    "Importer ads/google-vsp-search.csv dans Google Ads Editor (ou coller les lignes dans google-ads-editor-ready-utm.csv déjà fusionné)",
+    "Lier conversions GA4 (form_submit / generate_lead) à Google Ads",
+    "Budget 5 €/jour au départ — monter si CPL < objectif",
+    "Ne pas copier les textes Meta discrets : ici on dit « sans permis »",
+    "Vérifier landings/vsp.html + questionnaire ?need=vsp",
+    "UTM : utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot"
+  ]
+}

@@ -3,6 +3,7 @@
  */
 const { buildAnimauxLongtailPages } = require("./niche-animaux-pages.cjs");
 const { buildChassePages, buildEquitationPages } = require("./niche-chasse-equitation-pages.cjs");
+const { buildVspPages } = require("./niche-vsp-pages.cjs");
 const LT = require("./seo-long-term-related.cjs");
 
 function page(data) {
@@ -261,7 +262,8 @@ const ANIMAUX_PAGES = [
 const ANIMAUX_LONGTAIL_PAGES = buildAnimauxLongtailPages(page, ANIMAUX_BASE);
 const CHASSE_PAGES = buildChassePages(page);
 const EQUITATION_PAGES = buildEquitationPages(page);
-const ALL_NICHE_PAGES = ANIMAUX_PAGES.concat(ANIMAUX_LONGTAIL_PAGES, CHASSE_PAGES, EQUITATION_PAGES);
+const VSP_PAGES = buildVspPages(page);
+const ALL_NICHE_PAGES = ANIMAUX_PAGES.concat(ANIMAUX_LONGTAIL_PAGES, CHASSE_PAGES, EQUITATION_PAGES, VSP_PAGES);
 
 function getNicheSitemapEntries(base) {
   const today = new Date().toISOString().slice(0, 10);
@@ -274,6 +276,11 @@ function getNicheSitemapEntries(base) {
     "/assurance-equitation/",
     "/assurance-equitation/rc-equestre/",
     "/assurance-equitation/cheval/",
+    "/landings/vsp.html",
+    "/assurance-voiture-sans-permis/",
+    "/assurance-voiture-sans-permis/permis-am/",
+    "/assurance-voiture-sans-permis/quadricycle/",
+    "/assurance-voiture-sans-permis/tarif/",
   ];
   const pagePaths = ALL_NICHE_PAGES.map(function (p) {
     return "/" + p.file.replace(/index\.html$/, "");

@@ -103,6 +103,38 @@
       ]
     },
     {
+      "id": "vsp",
+      "status": "live",
+      "tier": "tier1_indexNow",
+      "competition": "faible",
+      "label": "Voiture sans permis",
+      "primaryKeyword": "assurance voiture sans permis",
+      "longTail": [
+        "assurance vsp",
+        "assurance sans permis",
+        "devis vsp",
+        "assurance quadricycle léger",
+        "permis AM assurance",
+        "assurance voiturette",
+        "assurance vsp pas cher"
+      ],
+      "pillarUrl": "/assurance-voiture-sans-permis/",
+      "moneyUrls": [
+        "/landings/vsp.html",
+        "/assurance-voiture-sans-permis/permis-am/",
+        "/assurance-voiture-sans-permis/quadricycle/",
+        "/assurance-voiture-sans-permis/tarif/",
+        "/assurance-voiture-sans-permis/paris/"
+      ],
+      "landing": "/landings/vsp.html",
+      "pageCount": 200,
+      "whyWin": "Requête niche, peu de comparateurs SEO ; Google Search explicite vs Meta discrète",
+      "blogUrls": [
+        "/blog/assurance-voiture-sans-permis-guide-2026.html",
+        "/blog/permis-am-bsr-assr-voiture-sans-permis-2026.html"
+      ]
+    },
+    {
       "id": "instrument",
       "status": "planned",
       "tier": "tier3_planned",
@@ -226,6 +258,8 @@
     "/assurance-chasse/rc-chasseur/",
     "/assurance-equitation/",
     "/assurance-equitation/rc-equestre/",
+    "/assurance-voiture-sans-permis/",
+    "/assurance-voiture-sans-permis/permis-am/",
     "/landings/animaux.html",
     "/methode.html",
     "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
@@ -236,8 +270,10 @@
     "/blog/feux-foret-animaux-chien-chat-assurance.html",
     "/landings/chasse.html",
     "/landings/equitation.html",
+    "/landings/vsp.html",
     "/assurance-chasse/bordeaux/",
-    "/assurance-equitation/bordeaux/"
+    "/assurance-equitation/bordeaux/",
+    "/assurance-voiture-sans-permis/paris/"
   ],
   "blogActuNiches": [
     "/blog/incendies-gironde-feux-foret-assurance-habitation-2026.html",
@@ -245,6 +281,8 @@
     "/blog/presidentielle-2027-checklist-assurances-foyer.html",
     "/blog/assurance-chasse-rc-chasseur-guide-2026.html",
     "/blog/assurance-equitation-rc-equestre-guide-2026.html",
-    "/blog/feux-foret-animaux-chien-chat-assurance.html"
+    "/blog/feux-foret-animaux-chien-chat-assurance.html",
+    "/blog/assurance-voiture-sans-permis-guide-2026.html",
+    "/blog/permis-am-bsr-assr-voiture-sans-permis-2026.html"
   ]
 }

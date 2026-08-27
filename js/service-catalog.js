@@ -168,6 +168,13 @@
     },
     chasse: { need: "chasse", label: "Assurance chasse", category: "niches", vertical: "assurance_chasse" },
     equitation: { need: "equitation", label: "Assurance equitation", category: "niches", vertical: "assurance_equitation" },
+    vsp: {
+      need: "vsp",
+      label: "Voiture sans permis",
+      category: "niches",
+      vertical: "vsp",
+      landing: "./landings/vsp.html",
+    },
     instrument: { need: "instrument", label: "Assurance instrument musique", category: "niches", vertical: "assurance_instrument" },
     "materiel-photo": {
       need: "materiel-photo",
@@ -187,6 +194,9 @@
       "credit-immo": "immo",
       credit_immo: "immo",
       emprunteur: "immo",
+      "voiture-sans-permis": "vsp",
+      "sans-permis": "vsp",
+      voiturette: "vsp",
     };
     if (ALIASES[key]) key = ALIASES[key];
     return SERVICES[key] || null;
@@ -196,6 +206,7 @@
   var RAPIDE_LANDINGS = {
     animaux: "./landings/animaux-express.html",
     vtc: "./landings/devis-rapide.html",
+    vsp: "./landings/devis.html?need=vsp",
     "acheteur-immo": "./landings/acheteur-immo.html",
     "vendeur-immo": "./landings/acheteur-immo.html?role=vendeur",
     "acheteur-vendeur-immo": "./landings/acheteur-immo.html?role=les_deux",
@@ -208,6 +219,9 @@
   var COMPLET_LANDINGS = {
     animaux: "./landings/animaux.html",
     vtc: "./landings/vtc.html",
+    vsp: "./landings/vsp.html",
+    chasse: "./landings/chasse.html",
+    equitation: "./landings/equitation.html",
     sante: "./landings/sante.html",
     immo: "./landings/credit-immo.html",
     "acheteur-immo": "./landings/acheteur-immo.html",

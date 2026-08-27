@@ -23,6 +23,7 @@ assert(LT.CANICULE_MUTUELLE.length >= 5, "cluster canicule");
 assert(LT.PRET_REFUSE.length >= 5, "cluster prêt refusé");
 assert(LT.NICHES_CHASSE.length >= 3, "cluster chasse");
 assert(LT.VTC_IDF.length >= 5, "cluster VTC IDF");
+assert(LT.NICHES_VSP && LT.NICHES_VSP.length >= 3, "cluster VSP");
 
 var clusters = require("../data/seo-keyword-clusters.json").clusters;
 var chasse = clusters.find(function (c) {
@@ -43,6 +44,8 @@ assert(credit.blog.some(function (b) {
 
 var gsc = require("./seo-gsc-priority-urls.cjs").GSC_INDEX_NOW_PRIORITY;
 assert(gsc.indexOf("/assurance-chasse/chien-chasse/") >= 0, "GSC chien chasse");
+assert(gsc.indexOf("/assurance-voiture-sans-permis/") >= 0, "GSC VSP pilier");
+assert(gsc.indexOf("/blog/assurance-voiture-sans-permis-guide-2026.html") >= 0, "GSC blog VSP");
 assert(gsc.indexOf("/assurance-vtc/pas-cher/") >= 0, "GSC VTC pas cher");
 assert(gsc.indexOf("/blog/insolation-canicule-que-faire-mutuelle-devis.html") >= 0, "GSC insolation");
 assert(gsc.indexOf("/blog/pret-refuse-primo-accedant-ptz-solutions.html") >= 0, "GSC primo PTZ");
@@ -70,6 +73,11 @@ assert(read("credit-immo/index.html").indexOf("pret-immobilier-refuse-que-faire"
 assert(read("assurance-vtc/index.html").indexOf("ile-de-france") >= 0, "hub VTC → IDF");
 assert(read("assurance-chasse/index.html").indexOf("assurance-chasse-rc-chasseur-guide") >= 0, "hub chasse → blog");
 assert(read("assurance-equitation/index.html").indexOf("assurance-equitation-rc-equestre-guide") >= 0, "hub equi → blog");
+assert(
+  read("assurance-voiture-sans-permis/index.html").indexOf("assurance-voiture-sans-permis-guide") >= 0,
+  "hub VSP → blog"
+);
+assert(read("assurances-niches.html").indexOf("voiture sans permis") >= 0, "hub niches mentionne VSP");
 assert(read("pret-immobilier/index.html").indexOf("pret-refuse") >= 0, "hub pret → refuse");
 
 assert(read("scripts/generate-seo-pages.cjs").indexOf("seo-long-term-related") >= 0, "generate-seo wired");

@@ -42,7 +42,8 @@ Cela cree notamment :
 1. **Assurance animaux** — LIVE (+ geo chien/chat par ville)
 2. **Assurance chasse** — LIVE (189 villes)
 3. **Assurance equitation** — LIVE (189 villes)
-4. Silos geo : `/assurance-chien/{ville}/`, `/assurance-chat/{ville}/`
+4. **Voiture sans permis (VSP)** — LIVE (SEO + Google Search + Meta discrète)
+5. Silos geo : `/assurance-chien/{ville}/`, `/assurance-chat/{ville}/`
 4. Assurance instrument musique
 5. Assurance materiel photo / video
 6. Assurance bateau plaisance
@@ -60,8 +61,8 @@ Pour activer une nouvelle niche :
 ## Meta Ads / Google Ads
 
 - 1 campagne = 1 niche = 1 landing dediee.
-- Mots-cles longue traine : « assurance chien pas cher », « mutuelle chat comparatif », etc.
-- UTM : `utm_campaign=niche_animaux&utm_source=google`
+- **VSP** : Google Search explicite (`docs/GOOGLE-VSP-PUB.md`) ; Meta reste « citadine légère » (`docs/META-VSP-PUB-DISCRETE.md`).
+- UTM Search VSP : `utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot`
 
 ## Partenaires a developper (animaux)
 

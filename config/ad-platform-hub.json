@@ -97,7 +97,9 @@
       ],
       "internal": [
         { "label": "Tracking SEA", "href": "./docs/SEA-TRACKING.md" },
-        { "label": "Corrélation GA4/CRM", "href": "./docs/TRACKING-CORRELATION.md" }
+        { "label": "Corrélation GA4/CRM", "href": "./docs/TRACKING-CORRELATION.md" },
+        { "label": "Pub Google VSP", "href": "./docs/GOOGLE-VSP-PUB.md" },
+        { "label": "CSV Search VSP", "href": "./ads/google-vsp-search.csv" }
       ]
     },
     {
@@ -221,6 +223,16 @@
       "ads_manager": "https://www.facebook.com/adsmanager/manage/campaigns?act=997768686183548",
       "crm_matcher": "./crm-private-offer-matching.html",
       "npm_status": "meta:vsp:discret"
+    },
+    {
+      "id": "google_vsp_search",
+      "label": "Google Search — VSP explicite",
+      "config": "./config/google-campaign-vsp.json",
+      "csv": "./ads/google-vsp-search.csv",
+      "utm_campaign": "vsp_search_hot",
+      "ads_manager": "https://ads.google.com/aw/campaigns",
+      "crm_matcher": "./crm-private-offer-matching.html",
+      "npm_status": "verify:vsp"
     }
   ],
   "site_landings_test": [
@@ -239,6 +251,14 @@
     {
       "label": "Rappel (retarget abandon)",
       "path": "/landings/rappel.html?utm_source=meta&utm_medium=paid_social&utm_campaign=retarget_rappel"
+    },
+    {
+      "label": "VSP Search (Google)",
+      "path": "/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot"
+    },
+    {
+      "label": "VSP Meta discret (follow-up)",
+      "path": "/landings/devis.html?need=vsp&utm_source=meta&utm_medium=paid_social&utm_campaign=meta_citadine_urbaine"
     }
   ]
 }

@@ -1,12 +1,12 @@
 {
-  "updated": "2026-06-04",
+  "updated": "2026-08-27",
   "hub": {
     "title": "Assurances de niche",
     "intro": "Verticales peu concurrentielles sur Google : silos SEO dédiés (300+ pages par pilier), landings questionnaire, devis express et accompagnement courtier ORIAS partout en France.",
-    "lead": "Nous ciblons les requêtes longue traîne là où les gros comparateurs ne investissent pas : assurance chien pas cher, RC chasseur, équitation par ville, instrument pro…",
+    "lead": "Nous ciblons les requêtes longue traîne là où les gros comparateurs ne investissent pas : assurance chien pas cher, RC chasseur, équitation par ville, voiture sans permis (VSP), instrument pro…",
     "stats": {
-      "liveNiches": 3,
-      "plannedNiches": 12,
+      "plannedNiches": 11,
+      "liveNiches": 4,
       "seoPagesApprox": 950,
       "cityPagesApprox": 567,
       "departmentsApprox": 96
@@ -32,7 +32,7 @@
       },
       {
         "q": "Quelles niches sont déjà en ligne ?",
-        "a": "Animaux (chien, chat, NAC), chasse et équitation avec centaines de pages ville. Les autres verticales listées sont en cours d’activation."
+        "a": "Animaux (chien, chat, NAC), chasse, équitation et voiture sans permis (VSP) avec pages ville. Les autres verticales listées sont en cours d’activation."
       },
       {
         "q": "Comment obtenir un devis ?",
@@ -153,6 +153,47 @@
         { "label": "Par ville", "href": "/assurance-equitation/villes/" }
       ],
       "seoPaths": ["/assurance-equitation/", "/assurance-equitation/villes/", "/assurance-equitation/rc-equestre/"]
+    },
+    {
+      "id": "vsp",
+      "slug": "assurance-voiture-sans-permis",
+      "category": "transport",
+      "theme": "niche",
+      "emoji": "🚗",
+      "label": "Voiture sans permis",
+      "tagline": "VSP, quadricycle léger, permis AM — RC et tous risques",
+      "landing": "/landings/vsp.html",
+      "landingExpress": "/landings/devis.html?need=vsp",
+      "questionnaire": "/landings/questionnaire.html?need=vsp&journey=standard",
+      "priority": 4,
+      "status": "live",
+      "featured": true,
+      "pageCount": 200,
+      "cityPages": 189,
+      "partners": ["AMI 3F", "FMA / Wakam", "Solly Azar"],
+      "highlights": [
+        "Pilier VSP + permis AM",
+        "189 pages ville",
+        "Google Search explicite + Meta discrète"
+      ],
+      "keywords": [
+        "assurance voiture sans permis",
+        "assurance vsp",
+        "assurance sans permis",
+        "devis vsp",
+        "quadricycle léger",
+        "permis AM"
+      ],
+      "quickLinks": [
+        { "label": "Pilier VSP", "href": "/assurance-voiture-sans-permis/" },
+        { "label": "Permis AM", "href": "/assurance-voiture-sans-permis/permis-am/" },
+        { "label": "Par ville", "href": "/assurance-voiture-sans-permis/villes/" }
+      ],
+      "seoPaths": [
+        "/assurance-voiture-sans-permis/",
+        "/assurance-voiture-sans-permis/villes/",
+        "/assurance-voiture-sans-permis/permis-am/"
+      ]
     },
     {
       "id": "instrument",

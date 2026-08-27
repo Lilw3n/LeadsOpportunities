@@ -150,7 +150,7 @@ var html =
     "@type": "CollectionPage",
     name: "Assurances de niche France",
     url: SITE + "/assurances-niches.html",
-    description: "Catalogue niches assurance : animaux, chasse, équitation et roadmap.",
+    description: "Catalogue niches assurance : animaux, chasse, équitation, voiture sans permis et roadmap.",
     provider: { "@type": "InsuranceAgency", name: "Leads Opportunities" },
   }) +
   "</script>\n</body>\n</html>\n";

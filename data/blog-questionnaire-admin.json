@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-21",
+  "updated": "2026-08-27",
   "sections": [
     "actu",
     "animaux",
@@ -12,6 +12,7 @@
     "prevoyance",
     "pro",
     "sante",
+    "vsp",
     "vtc"
   ],
   "rows": [
@@ -1170,6 +1171,32 @@
       "express": "../landings/devis-express.html?need=auto",
       "questionnaire": "../landings/questionnaire.html?need=auto&journey=standard",
       "matchedRule": "auto",
+      "species": null
+    },
+    {
+      "file": "assurance-voiture-sans-permis-guide-2026.html",
+      "title": "Assurance voiture sans permis 2026 : RC, VSP, permis AM",
+      "section": "vsp",
+      "hook": "Une VSP n'est pas une auto permis B : RC, vol et bris se comparent chez des spécialistes.",
+      "question": "Votre voiture sans permis est-elle correctement assurée ?",
+      "need": "vsp",
+      "landing": "../landings/vsp.html",
+      "express": "../landings/devis.html?need=vsp",
+      "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
+      "matchedRule": "vsp-sans-permis",
+      "species": null
+    },
+    {
+      "file": "permis-am-bsr-assr-voiture-sans-permis-2026.html",
+      "title": "Permis AM, BSR et ASSR : conduire une voiture sans permis en 2026",
+      "section": "vsp",
+      "hook": "Une VSP n'est pas une auto permis B : RC, vol et bris se comparent chez des spécialistes.",
+      "question": "Votre voiture sans permis est-elle correctement assurée ?",
+      "need": "vsp",
+      "landing": "../landings/vsp.html",
+      "express": "../landings/devis.html?need=vsp",
+      "questionnaire": "../landings/questionnaire.html?need=vsp&journey=standard",
+      "matchedRule": "vsp-sans-permis",
       "species": null
     },
     {

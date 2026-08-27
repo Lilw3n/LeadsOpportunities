@@ -163,10 +163,11 @@
     niches: function () {
       return fieldRow(
         select("nicheProduct", "Produit", [
-          { v: "chasse", t: "Chasse" },
-          { v: "equitation", t: "Equitation" },
-          { v: "bateau", t: "Bateau" },
-          { v: "autre", t: "Autre niche" },
+            { v: "chasse", t: "Chasse" },
+            { v: "equitation", t: "Equitation" },
+            { v: "vsp", t: "Voiture sans permis" },
+            { v: "bateau", t: "Bateau" },
+            { v: "autre", t: "Autre niche" },
         ]) +
           input("nicheAssetValue", "Valeur bien (EUR)", "text", "Facultatif", false)
       );
@@ -202,6 +203,34 @@
             ], false)
         ) +
         fieldRow(input("autoPlate", "Plaque d'immatriculation", "text", "AA-123-BB", true))
+      );
+    },
+    vsp: function () {
+      return (
+        fieldRow(
+          select("vspDriverAgeBand", "Tranche d'age", [
+            { v: "14-15", t: "14-15 ans" },
+            { v: "16-17", t: "16-17 ans" },
+            { v: "18-25", t: "18-25 ans" },
+            { v: "26-45", t: "26-45 ans" },
+            { v: "46+", t: "46 ans et plus" },
+          ]) +
+            select("vspBsrAm", "Permis AM / BSR", [
+              { v: "oui", t: "Oui" },
+              { v: "en_cours", t: "Formation en cours" },
+              { v: "non", t: "Pas encore" },
+            ])
+        ) +
+        fieldRow(
+          select("vspBrand", "Marque", [
+            { v: "aixam", t: "Aixam" },
+            { v: "ligier", t: "Ligier" },
+            { v: "microcar", t: "Microcar" },
+            { v: "chatenet", t: "Chatenet" },
+            { v: "autre", t: "Autre / je ne sais pas" },
+          ]) +
+            input("autoPlate", "Plaque d'immatriculation", "text", "AA-123-BB", true)
+        )
       );
     },
     emprunteur: function () {
@@ -265,7 +294,7 @@
     },
   };
 
-  var MOBILITY_NEEDS = ["auto", "moto", "vtc", "flotte", "temporaire", "caravane"];
+  var MOBILITY_NEEDS = ["auto", "moto", "vtc", "vsp", "flotte", "temporaire", "caravane"];
   var PRO_NEEDS = [
     "rc-pro",
     "mrp",

@@ -119,6 +119,24 @@
       ]
     },
     {
+      "id": "vsp",
+      "priority": 5,
+      "competition": "low",
+      "primary": "assurance voiture sans permis",
+      "longTail": ["assurance vsp", "assurance sans permis", "devis vsp", "permis AM assurance", "assurance quadricycle"],
+      "moneyPages": [
+        "/assurance-voiture-sans-permis/",
+        "/assurance-voiture-sans-permis/permis-am/",
+        "/assurance-voiture-sans-permis/quadricycle/",
+        "/assurance-voiture-sans-permis/paris/",
+        "/landings/vsp.html"
+      ],
+      "blog": [
+        "/blog/assurance-voiture-sans-permis-guide-2026.html",
+        "/blog/permis-am-bsr-assr-voiture-sans-permis-2026.html"
+      ]
+    },
+    {
       "id": "animaux-longtail",
       "priority": 8,
       "competition": "medium",

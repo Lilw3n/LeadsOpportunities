@@ -5,6 +5,7 @@
 2. `FR_Search_VTC_IDF` — Paris / IDF / CDG / Orly (P1 étude marché)
 3. `FR_Search_Sante_HotIntent` (Paused tant que VTC rentable)
 4. `FR_Search_CreditImmo_HotIntent` (Paused)
+5. `FR_Search_VSP_HotIntent` — voiture sans permis (Search **explicite**)
 
 Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
 
@@ -24,6 +25,11 @@ Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
 ### Credit/Immo
 - `simulation_credit_immo`
 
+### VSP (voiture sans permis)
+- `devis_assurance_vsp`
+- `assurance_sans_permis`
+- `permis_am_bsr`
+
 ## 3) Exemples mots-cles (requete large moderee + expression + exact)
 - VTC:
   - "devis assurance vtc"
@@ -37,6 +43,10 @@ Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
   - "simulation credit immo"
   - [courtier pret immobilier]
   - "rachat credit immobilier"
+- VSP:
+  - "assurance voiture sans permis"
+  - [assurance voiture sans permis]
+  - "devis vsp"
 
 ## 4) Mots-cles negatifs de depart
 - gratuit
@@ -71,6 +81,13 @@ Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
 - Faisabilite Etape Par Etape
 - Reponse Rapide Sur Votre Projet
 - Accompagnement Dossier Complet
+
+### VSP - titres (Google : on dit « sans permis »)
+- Devis Voiture Sans Permis
+- Assurance Sans Permis
+- Quadricycle Leger RC
+- Permis AM BSR Devis
+- Comparez Les Offres VSP
 
 ### Descriptions generiques (adapter par verticale)
 - Obtenez une orientation claire et un devis adapte a votre besoin.
