@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-27T13:14:21.649Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.franceinfo.fr/environnement/meteo/direct-vigilance-aux-orages-39departements-places-en-alerte-orange-a-partir-de-jeudi-apres-midi-par-meteo-france_8164745.html#xtor=RSS-3-[lestitres]",
+    "https://www.dna.fr/economie/2026/08/27/canicule-en-alsace-la-secheresse-irrigue-les-craintes-des-agriculteurs",
+    "https://www.lefigaro.fr/societes/orages-la-sncf-supprime-des-ter-preventivement-dans-les-hauts-de-france-20260827"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-27T13:14:23.236Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,39 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-27T13:13:56.289Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "vigilance-aux-orages-39-departements-places-en-alerte-orange-a-partir-de.html",
+          "title": "Vigilance aux orages : 39 départements placés en alerte orange à partir de jeudi après-… : assurance habitation — que faire ?",
+          "source": "Firefox — France Info titres",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "canicule-l-ete-ou-tout-bascule-moralement-c-est-dur-a-elsenheim-la-seche.html",
+          "title": "Canicule, l'été où tout bascule. « Moralement c’est dur » : à Elsenheim, la sécheresse … : assurance habitation — que faire ?",
+          "source": "Cafeyn — DNA Alsace",
+          "sourceType": "cafeyn"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-27T13:14:23.236Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "orages-la-sncf-supprime-des-ter-preventivement-dans-les-hauts-de-france.html",
+          "title": "Orages : la SNCF supprime des TER préventivement dans les Hauts-de-France : mutuelle et remboursements — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 1
 }
