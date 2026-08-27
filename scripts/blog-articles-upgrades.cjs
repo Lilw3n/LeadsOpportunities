@@ -410,6 +410,73 @@ var UPGRADES = {
       { type: "bridge" },
     ],
   },
+  "assurance-vtc-rc-pro-garanties.html": {
+    cta: { href: Q.vtc, label: "Vérifier ma RC Pro VTC" },
+    blocks: [
+      {
+        type: "p",
+        text: "La <strong>RC professionnelle VTC</strong> indemnise passagers et tiers. Ce n'est pas l'assurance du véhicule : un tous risques sans RC pro adaptée = activité hors cadre plateforme.",
+      },
+      { type: "h2", text: "À lire sur l'attestation" },
+      {
+        type: "ul",
+        items: [
+          "Mention transport de personnes à titre onéreux",
+          "Plafonds corporels passagers",
+          "Pas d'exclusion « plateforme » / « VTC »",
+          "Véhicule et conducteur désignés",
+        ],
+      },
+      { type: "bridge" },
+      {
+        type: "p",
+        text: "Compléments : <a href=\"./assurance-vtc-tous-risques-passagers.html\">tous risques & passagers</a> · <a href=\"./assurance-vtc-uber-bolt-heetch.html\">Uber Bolt Heetch</a>.",
+      },
+    ],
+  },
+  "assurance-vtc-renouvellement-resiliation.html": {
+    cta: { href: Q.vtc, label: "Comparer avant de changer de VTC" },
+    blocks: [
+      {
+        type: "p",
+        text: "<strong>Changer d'assurance VTC</strong> : jamais de jour blanc. Après un an, Hamon ; à l'échéance, préavis. Le relevé d'information suit — comme en auto, plus exigeant côté plateformes.",
+      },
+      { type: "h2", text: "Avant de résilier" },
+      {
+        type: "ul",
+        items: [
+          "Devis du nouvel assureur avec dates de prise d'effet",
+          "Attestation RC pro + véhicule prêtes pour Uber / Bolt",
+          "Relevé d'information et sinistres déclarés",
+        ],
+      },
+      { type: "bridge" },
+    ],
+  },
+  "comparatif-vtc-zephir-solly-azar.html": {
+    cta: { href: Q.vtc, label: "Comparatif VTC personnalisé" },
+    blocks: [
+      {
+        type: "p",
+        text: "<strong>Zéphir</strong>, <strong>Solly Azar</strong>, Allianz, AXA : comparez RC pro, franchises, assistance et service sinistre — pas le seul prix mensuel.",
+      },
+      { type: "h2", text: "Grille de lecture" },
+      {
+        type: "ul",
+        items: [
+          "Plafonds passagers / corporels",
+          "Franchise tous risques vs bris",
+          "Usage IDF vs province",
+          "Pack véhicule + RC pro",
+        ],
+      },
+      { type: "bridge" },
+      {
+        type: "p",
+        text: "Tarifs : <a href=\"./tarif-assurance-vtc-2026.html\">prix VTC 2026</a> · moins cher : <a href=\"./assurance-vtc-moins-cher-2026.html\">7 leviers</a>.",
+      },
+    ],
+  },
   "rc-pro-freelance-artisan-guide.html": {
     cta: { href: "../landings/questionnaire.html?need=rc-pro&journey=standard", label: "Questionnaire RC Pro" },
     blocks: [

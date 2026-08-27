@@ -233,6 +233,22 @@
       "ads_manager": "https://ads.google.com/aw/campaigns",
       "crm_matcher": "./crm-private-offer-matching.html",
       "npm_status": "verify:vsp"
+    },
+    {
+      "id": "google_auto_search",
+      "label": "Google Search — Auto",
+      "csv": "./ads/google-auto-search.csv",
+      "utm_campaign": "auto_search_hot",
+      "ads_manager": "https://ads.google.com/aw/campaigns",
+      "npm_status": "verify:blog-verticales"
+    },
+    {
+      "id": "google_habitation_search",
+      "label": "Google Search — Habitation / MRH",
+      "csv": "./ads/google-habitation-search.csv",
+      "utm_campaign": "habitation_search_hot",
+      "ads_manager": "https://ads.google.com/aw/campaigns",
+      "npm_status": "verify:blog-verticales"
     }
   ],
   "site_landings_test": [
@@ -255,6 +271,14 @@
     {
       "label": "VSP Search (Google)",
       "path": "/landings/vsp.html?utm_source=google&utm_medium=cpc&utm_campaign=vsp_search_hot"
+    },
+    {
+      "label": "Auto Search (Google)",
+      "path": "/landings/devis.html?need=auto&utm_source=google&utm_medium=cpc&utm_campaign=auto_search_hot"
+    },
+    {
+      "label": "Habitation Search (Google)",
+      "path": "/landings/devis.html?need=habitation&utm_source=google&utm_medium=cpc&utm_campaign=habitation_search_hot"
     },
     {
       "label": "VSP Meta discret (follow-up)",

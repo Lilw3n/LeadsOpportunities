@@ -156,6 +156,18 @@
       "questionnaireLabel": "Questionnaire VSP (3 min)",
       "landingLabel": "Parcours VSP complet",
       "expressLabel": "Devis VSP rapide"
+    },
+    "moto": {
+      "need": "moto",
+      "questionnaire": "/landings/questionnaire.html?need=moto&journey=standard",
+      "landing": "/landings/devis.html?need=moto",
+      "express": "/landings/devis-express.html?need=moto",
+      "hook": "RC, vol, permis A2 : un deux-roues ne se colle pas sur le contrat auto du foyer.",
+      "question": "Votre moto ou scooter est-il assuré à part, avec les bonnes options vol ?",
+      "primaryLabel": "Devis moto / scooter",
+      "questionnaireLabel": "Questionnaire deux-roues (3 min)",
+      "landingLabel": "Devis moto détaillé",
+      "expressLabel": "Rappel moto"
     }
   },
   "keywordRules": [
@@ -341,6 +353,69 @@
         "deuxième chance crédit"
       ],
       "section": "finance"
+    },
+    {
+      "id": "moto-scooter",
+      "match": [
+        "assurance moto",
+        "scooter 125",
+        "scooter 50",
+        "permis a2",
+        "permis A2",
+        "deux-roues",
+        "cyclomoteur"
+      ],
+      "section": "moto"
+    },
+    {
+      "id": "decennale-btp",
+      "match": [
+        "décennale",
+        "decennale",
+        "artisan btp",
+        "attestation décennale"
+      ],
+      "section": "pro"
+    },
+    {
+      "id": "instrument-musique",
+      "match": [
+        "instrument de musique",
+        "assurance guitare",
+        "assurance piano",
+        "matériel musicien"
+      ],
+      "section": "pro"
+    },
+    {
+      "id": "materiel-photo",
+      "match": [
+        "matériel photo",
+        "materiel photo",
+        "assurance drone",
+        "rc tournage"
+      ],
+      "section": "pro"
+    },
+    {
+      "id": "bateau-plaisance",
+      "match": [
+        "assurance bateau",
+        "plaisance",
+        "assurance voilier",
+        "rc bateau"
+      ],
+      "section": "auto"
+    },
+    {
+      "id": "caravane-camping",
+      "match": [
+        "assurance caravane",
+        "camping-car",
+        "camping car",
+        "fourgon aménagé"
+      ],
+      "section": "auto"
     }
   ],
   "articles": {

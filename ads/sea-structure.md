@@ -6,8 +6,11 @@
 3. `FR_Search_Sante_HotIntent` (Paused tant que VTC rentable)
 4. `FR_Search_CreditImmo_HotIntent` (Paused)
 5. `FR_Search_VSP_HotIntent` — voiture sans permis (Search **explicite**)
+6. `FR_Search_Auto_HotIntent` — auto (tous risques, Hamon, Paris / Nancy)
+7. `FR_Search_Habitation_HotIntent` — MRH (vol, locataire, Paris / Nancy)
 
 Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
+Campagnes dédiées : `ads/google-auto-search.csv`, `ads/google-habitation-search.csv`.
 
 ## 2) Groupes d'annonces par campagne
 
@@ -47,6 +50,16 @@ Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
   - "assurance voiture sans permis"
   - [assurance voiture sans permis]
   - "devis vsp"
+- Auto:
+  - "devis assurance auto"
+  - [assurance auto]
+  - "assurance auto paris"
+  - "assurance auto nancy"
+- Habitation / MRH:
+  - "devis assurance habitation"
+  - [assurance habitation]
+  - "assurance habitation paris"
+  - "assurance habitation nancy"
 
 ## 4) Mots-cles negatifs de depart
 - gratuit
@@ -88,6 +101,20 @@ Import prod : **`ads/google-ads-editor-ready-utm.csv`** (pas le CSV localhost).
 - Quadricycle Leger RC
 - Permis AM BSR Devis
 - Comparez Les Offres VSP
+
+### Auto - titres
+- Devis Assurance Auto
+- Tous Risques Ou Tiers
+- Tarif Assurance Auto
+- Assurance Auto Paris
+- Nancy Varangeville 54
+
+### Habitation / MRH - titres
+- Devis Assurance Habitation
+- Locataire Ou Proprietaire
+- Vol Et Cambriolage MRH
+- Habitation Paris IDF
+- Nancy Varangeville 54
 
 ### Descriptions generiques (adapter par verticale)
 - Obtenez une orientation claire et un devis adapte a votre besoin.
