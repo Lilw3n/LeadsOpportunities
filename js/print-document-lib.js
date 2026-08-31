@@ -447,6 +447,18 @@
   function fromProperty(prop, extra) {
     extra = extra || {};
     prop = prop || {};
+    var Fiche =
+      (typeof root !== "undefined" && root.FicheDescriptiveBien) ||
+      (typeof window !== "undefined" && window.FicheDescriptiveBien) ||
+      null;
+    if (Fiche && Fiche.fromCrmProperty && Fiche.print && !extra.legacy) {
+      return Fiche.print(Fiche.fromCrmProperty(prop), {
+        kindLabel: extra.kindLabel || "Fiche descriptive du bien",
+        subtitle: extra.subtitle || "Fiche descriptive — Imprimer → Enregistrer en PDF",
+        meta: extra.meta,
+        footnote: extra.footnote,
+      });
+    }
     var rows = [
       { label: "Intitulé", value: prop.title },
       { label: "Type", value: prop.property_type },
