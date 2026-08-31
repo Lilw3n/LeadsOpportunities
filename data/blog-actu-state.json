@@ -1,10 +1,13 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-08-31T12:46:02.657Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.lefigaro.fr/conjoncture/assurance-vie-les-francais-ont-depose-un-montant-record-de-18-8-milliards-d-euros-en-juillet-20260831",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9577868d95468e8e2867635daacd96&url=https%3a%2f%2fwww.argusdelassurance.com%2fcompagnies%2fune-compagnie-dassurance-francaise-specialisee-en-epargne-emprunteur-et-prevoyance-mise-en-vente.YPF4NXL2YJAJ3E2WEYM6LUST4I.html&c=7745756347587199928&mkt=en-us",
+    "https://www.franceinfo.fr/replay-radio/le-vrai-du-faux/le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plus-cher-a-l-assurance-maladie_8144840.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-08-31T12:46:04.571Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +20,32 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-08-31T12:46:04.571Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "assurance-vie-les-francais-ont-depose-un-montant-record-de-18-8-milliard.html",
+          "title": "Assurance-vie : les Français ont déposé un montant record de 18,8 milliards d’euros en … : pret et assurance emprunteur — que faire ?",
+          "source": "Cafeyn — Le Figaro économie",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "une-compagnie-d-assurance-francaise-specialisee-en-epargne-emprunteur-et.html",
+          "title": "Une compagnie d’assurance française spécialisée en épargne, emprunteur et prévoyance, m… : pret et assurance emprunteur — que faire ?",
+          "source": "Edge — Bing assurance",
+          "sourceType": "edge"
+        },
+        {
+          "file": "le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plu.html",
+          "title": "Le vrai ou faux. Qui des arrêts courts ou des arrêts longs coûtent le plus cher à l'Ass… : prevoyance et revenus — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0
 }
