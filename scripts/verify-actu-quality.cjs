@@ -16,9 +16,14 @@ function arg(name) {
   return m ? m.split("=").slice(1).join("=") : "";
 }
 
+function isPlaceholderTitle(title) {
+  return /collez ici|à coller|\ba coller\b|placeholder|lorem ipsum/i.test(String(title || ""));
+}
+
 function validateArticle(article) {
   var errors = [];
   if (!article || !article.title) errors.push("titre manquant");
+  else if (isPlaceholderTitle(article.title)) errors.push("titre placeholder (file manuelle)");
   if (!article.file) errors.push("file manquant");
   if (!article.blocks || !article.blocks.length) {
     errors.push("blocks vides");
@@ -51,22 +56,45 @@ function validateArticle(article) {
   return errors;
 }
 
+function loadPendingArticles() {
+  var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  var data = JSON.parse(fs.readFileSync(pending, "utf8"));
+  return data.articles || [];
+}
+
 function main() {
   var file = arg("file");
   var articles = [];
+  var wantStdin = process.argv.indexOf("--stdin") !== -1;
 
   if (file) {
     var raw = JSON.parse(fs.readFileSync(path.resolve(file), "utf8"));
     articles = raw.articles || (Array.isArray(raw) ? raw : [raw]);
-  } else if (!process.stdin.isTTY) {
-    var stdin = fs.readFileSync(0, "utf8");
-    var parsed = JSON.parse(stdin);
-    articles = Array.isArray(parsed) ? parsed : [parsed];
-  } else {
-    var pending = path.join(__dirname, "..", "data", "blog-actu-pending.json");
+  } else if (wantStdin || !process.stdin.isTTY) {
+    var stdin = "";
     try {
-      var data = JSON.parse(fs.readFileSync(pending, "utf8"));
-      articles = data.articles || [];
+      stdin = fs.readFileSync(0, "utf8").trim();
+    } catch (e) {
+      stdin = "";
+    }
+    if (stdin) {
+      var parsed = JSON.parse(stdin);
+      articles = Array.isArray(parsed) ? parsed : parsed.articles || [parsed];
+    } else if (wantStdin) {
+      console.error("stdin vide (--stdin).");
+      process.exit(1);
+    } else {
+      // CI / GitHub Actions : stdin n'est pas un TTY mais est vide → pending
+      try {
+        articles = loadPendingArticles();
+      } catch (e) {
+        console.error("Lecture pending:", e.message);
+        process.exit(1);
+      }
+    }
+  } else {
+    try {
+      articles = loadPendingArticles();
     } catch (e) {
       console.error("Lecture pending:", e.message);
       process.exit(1);

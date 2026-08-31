@@ -116,6 +116,55 @@ function robotsMetaForArticle(article) {
   return "index,follow";
 }
 
+var LEAD_INTENT_RE =
+  /mutuelle|assurance|emprunteur|sinistre|habitation|inondation|canicule|orages?|alerte orange|s[eé]cheresse|cr[eé]dit|pr[eê]t immobil|rembours|ost[eé]opath|hospitalisation|vtc\b|animaux|v[eé]t[eé]rinair|catastrophe naturelle|loi lemoine|orias|franchise|pr[eé]voyance|piratage|cyberattaque|iban|assurance-vie|epargne/i;
+
+var FOREIGN_DISASTER_RE =
+  /\bnépal\b|\bnepal\b|\btibet\b|\bukraine\b|\bgaza\b|\bsyrie\b|\biran\b|\birak\b|\by[eé]men\b|\bsoudan\b|\bha[iï]ti\b/i;
+
+function looksLikeEnglishTitle(title) {
+  var t = String(title || "");
+  var enHits = (
+    t.match(
+      /\b(the|and|into|of|for|with|regarding|potential|sale|enters|memorandum|understanding|what|you|need|know|about|health|insurance|advantages|getting)\b/gi
+    ) || []
+  ).length;
+  var frHits = (
+    t.match(
+      /\b(le|la|les|des|une|un|du|de la|dans|pour|avec|sur|aux|france|assurance|mutuelle|quel|quelle|contre|apr[eè]s)\b/gi
+    ) || []
+  ).length;
+  return enHits >= 3 && enHits > frHits;
+}
+
+function isStalePubDate(pubDate, maxDays) {
+  if (!pubDate) return false;
+  var t = Date.parse(pubDate);
+  if (!t) return false;
+  var days = (Date.now() - t) / 86400000;
+  return days > (maxDays || 90);
+}
+
+function hasFranceLeadIntent(candidate) {
+  var hay = String((candidate && candidate.title) || "") + " " + String((candidate && candidate.summary) || "");
+  return LEAD_INTENT_RE.test(hay);
+}
+
+function isLowQualityLeadCandidate(candidate) {
+  if (!candidate) return true;
+  var title = String(candidate.title || "");
+  var hay = title + " " + String(candidate.summary || "");
+  if (looksLikeEnglishTitle(title)) return true;
+  if (/^\s*en direct\b/i.test(title)) return true;
+  if (FOREIGN_DISASTER_RE.test(hay)) return true;
+  if (isStalePubDate(candidate.pubDate, 90)) return true;
+  if (/obtenez un devis avec mutuelle\.fr|la r[eé]daction du parisien n'a pas particip[eé]/i.test(hay)) {
+    return true;
+  }
+  if (!hasFranceLeadIntent(candidate)) return true;
+  return false;
+}
+
 function franceLeadScoreAdjust(candidate) {
   var title = String(candidate.title || "").toLowerCase();
   var summary = String(candidate.summary || "").toLowerCase();
@@ -125,6 +174,8 @@ function franceLeadScoreAdjust(candidate) {
   if (isInternationalAudienceTopic(hay) && !/\bfrance\b|\bfrançais|\bfrancais|\bparis\b|\béquipe de france|\bequipe de france/i.test(hay)) {
     delta -= 45;
   }
+
+  if (isLowQualityLeadCandidate(candidate)) delta -= 80;
 
   if (isFranceMarketTopic(hay)) delta += 25;
 
@@ -142,4 +193,7 @@ module.exports = {
   isInternationalActuArticle: isInternationalActuArticle,
   robotsMetaForArticle: robotsMetaForArticle,
   franceLeadScoreAdjust: franceLeadScoreAdjust,
+  looksLikeEnglishTitle: looksLikeEnglishTitle,
+  isLowQualityLeadCandidate: isLowQualityLeadCandidate,
+  hasFranceLeadIntent: hasFranceLeadIntent,
 };
