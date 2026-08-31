@@ -76,10 +76,45 @@ async function sendWebhook(partner, payload) {
 }
 
 async function sendApi(partner, payload) {
-  const baseEnv = partner.integration?.baseUrlEnv;
-  const keyEnv = partner.integration?.credentialEnv;
-  const baseUrl = baseEnv ? process.env[baseEnv] : null;
-  const apiKey = keyEnv ? process.env[keyEnv] : null;
+  const integration = partner.integration || {};
+  const mode = String(integration.mode || "").toLowerCase();
+
+  // APRIL API Store — OAuth2 client_credentials
+  if (partner.id === "april" || mode === "oauth_client_credentials") {
+    try {
+      const April = require("../april-client");
+      if (April.isConfigured()) {
+        const pathSuffix = integration.path || "/leads";
+        const base = April.gatewayBase();
+        const url = base.replace(/\/$/, "") + pathSuffix;
+        const result = await April.request("POST", url, { body: payload, timeoutMs: 12000 });
+        return {
+          ok: result.ok,
+          status: result.ok ? "sent" : "error",
+          httpStatus: result.status,
+          error: result.ok ? null : (result.text || "APRIL API error").slice(0, 500),
+          responseSnippet: (result.text || "").slice(0, 300),
+        };
+      }
+      // fallback legacy key if OAuth absent
+    } catch (e) {
+      return {
+        ok: false,
+        status: "error",
+        httpStatus: e.httpStatus || null,
+        error: e.message || "APRIL OAuth error",
+      };
+    }
+  }
+
+  const baseEnv = integration.baseUrlEnv;
+  const keyEnv = integration.legacyApiKeyEnv || integration.credentialEnv;
+  const baseUrl =
+    (baseEnv && process.env[baseEnv]) ||
+    (partner.id === "april" ? process.env.PARTNER_APRIL_API_BASE : null);
+  const apiKey =
+    (keyEnv && process.env[keyEnv]) ||
+    (partner.id === "april" ? process.env.PARTNER_APRIL_API_KEY : null);
 
   if (!baseUrl || !apiKey) {
     return {
@@ -90,7 +125,7 @@ async function sendApi(partner, payload) {
     };
   }
 
-  const pathSuffix = partner.integration?.path || "/leads";
+  const pathSuffix = integration.path || "/leads";
   const url = baseUrl.replace(/\/$/, "") + pathSuffix;
 
   const controller = new AbortController();

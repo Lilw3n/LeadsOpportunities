@@ -14,6 +14,7 @@
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
 - `npm run verify:collective` — pack santé collective (blog, SEO, pubs)
 - **Facturation électronique (01/09/2026)** : `/crm-e-invoicing.html` · Tiime + Make + Notion · `docs/NOTION-EINVOICE.md` · `docs/MAKE-TIIME-GOLIVE.md` · `npm run verify:e-invoicing`
+- **API APRIL** : `/crm-april.html` · OAuth2 API Store · `docs/APRIL-API.md` · `npm run verify:april-api` · secrets Vercel `PARTNER_APRIL_CLIENT_ID` / `PARTNER_APRIL_CLIENT_SECRET`
 
 ## Blog actu (leads qualifiés)
 

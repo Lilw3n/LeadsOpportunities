@@ -134,6 +134,7 @@ window.CrmSidebar = {
       defaultOpen: true,
       items: [
         { type: "link", href: "./crm-insurance.html", label: "Hub assurance", icon: "insurance", desc: "Portefeuille et modules" },
+        { type: "link", href: "./crm-april.html", label: "API APRIL", icon: "insurance", desc: "OAuth2 API Store" },
         { type: "link", href: "./crm-catalog.html", label: "Tous nos produits", icon: "insurance", badge: "devis" },
         { type: "link", href: "./crm-products.html", label: "Catalogue vérifié", icon: "insurance" },
         { type: "link", href: "./crm-insurance-requests.html", label: "Demandes assurance", icon: "insurance" },

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>API APRIL | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .april-hero { margin-bottom: 16px; }
+    .april-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin: 16px 0; }
+    .april-card { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+    .april-card strong { display: block; font-size: .78rem; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .april-card span { font-size: .95rem; color: #0f172a; word-break: break-all; }
+    .april-ok { color: #166534; font-weight: 700; }
+    .april-ko { color: #991b1b; font-weight: 700; }
+    .april-log {
+      background: #0f172a; color: #e2e8f0; border-radius: 12px; padding: 14px 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .78rem;
+      white-space: pre-wrap; max-height: 360px; overflow: auto; margin-top: 12px;
+    }
+    .april-steps { margin: 0; padding-left: 18px; color: #334155; line-height: 1.55; }
+    .april-steps li { margin-bottom: 8px; }
+    .april-warn {
+      background: #fff7ed; border: 1px solid #fdba74; color: #9a3412;
+      border-radius: 10px; padding: 12px 14px; margin: 12px 0; font-size: .88rem; line-height: 1.45;
+    }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel april-hero">
+    <div>
+      <p class="crm-eyebrow">Assurance · Partenaire</p>
+      <h2>API APRIL (API Store)</h2>
+      <p>
+        Connexion OAuth2 <code>client_credentials</code> vers la gateway APRIL,
+        puis smoke-test <code>firstCall</code>. Les secrets restent sur Vercel — jamais dans le navigateur.
+      </p>
+    </div>
+    <div class="crm-action-row">
+      <button type="button" class="btn btn-ghost" id="btnAprilRefresh">Actualiser statut</button>
+      <button type="button" class="btn btn-soft" id="btnAprilToken">Tester jeton</button>
+      <button type="button" class="btn btn-primary" id="btnAprilTest">Test complet (token + firstCall)</button>
+      <a class="btn btn-ghost" href="https://apistore.april.fr/" target="_blank" rel="noopener">API Store</a>
+      <a class="btn btn-ghost" href="./crm-insurance.html">Hub assurance</a>
+    </div>
+  </section>
+
+  <div class="april-warn" role="note">
+    Renseignez sur Vercel : <code>PARTNER_APRIL_CLIENT_ID</code>,
+    <code>PARTNER_APRIL_CLIENT_SECRET</code>, optionnel
+    <code>PARTNER_APRIL_GATEWAY</code> (défaut préprod
+    <code>https://ppr-am-gateway.april.fr</code>). Puis <strong>Redeploy</strong>.
+    Si le secret a été collé dans un chat ou une capture, régénérez-le dans l’API Store.
+  </div>
+
+  <div class="april-grid" id="aprilStatusGrid"></div>
+
+  <section class="panel" style="margin-top:8px">
+    <h3>Checklist Vercel</h3>
+    <ol class="april-steps">
+      <li>API Store APRIL → Applications → récupérer <strong>client_id</strong> / <strong>client_secret</strong> (e-mail à la création).</li>
+      <li>Vercel → Project → Settings → Environment Variables → ajouter les 2 secrets (+ gateway si besoin).</li>
+      <li>Redeploy production, puis ici : <strong>Test complet</strong>.</li>
+      <li>Réponse attendue firstCall : <code>{"status":"success"}</code>.</li>
+      <li>Support APRIL : <a href="mailto:api@april.com">api@april.com</a> · quotas / rate-limit à respecter (pas de scraping).</li>
+    </ol>
+  </section>
+
+  <section class="panel">
+    <h3>Résultat du test</h3>
+    <p id="aprilResultLabel" style="color:var(--muted);margin:0 0 8px">Aucun test lancé.</p>
+    <pre class="april-log" id="aprilLog">—</pre>
+  </section>
+
+  <script src="./js/crm-sidebar.js"></script>
+  <script src="./js/crm-subpage-shell.js"></script>
+  <script src="./js/admin-nav.js"></script>
+  <script src="./crm-april.js"></script>
+</body>
+</html>

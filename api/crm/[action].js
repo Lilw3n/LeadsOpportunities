@@ -60,6 +60,7 @@ const ROUTES = {
   "calendar-sync": () => require("../_lib/routes/crm-calendar-sync"),
   "pro-accounting": () => require("../_lib/routes/crm-pro-accounting"),
   "e-invoicing": () => require("../_lib/routes/crm-e-invoicing"),
+  april: () => require("../_lib/routes/crm-april"),
   "agent-tax-prefs": () => require("../_lib/routes/crm-agent-tax-prefs"),
   "agent-payment-splits": () => require("../_lib/routes/crm-agent-payment-splits"),
   immo: () => require("../_lib/routes/crm-immo"),

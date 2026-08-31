@@ -41,7 +41,16 @@
       "status": "active",
       "priority": 30,
       "verticals": ["sante", "credit-immo", "immo"],
-      "integration": { "type": "api", "credentialEnv": "PARTNER_APRIL_API_KEY", "baseUrlEnv": "PARTNER_APRIL_API_BASE" }
+      "integration": {
+        "type": "api",
+        "mode": "oauth_client_credentials",
+        "credentialEnv": "PARTNER_APRIL_CLIENT_SECRET",
+        "clientIdEnv": "PARTNER_APRIL_CLIENT_ID",
+        "baseUrlEnv": "PARTNER_APRIL_GATEWAY",
+        "legacyApiKeyEnv": "PARTNER_APRIL_API_KEY",
+        "path": "/leads"
+      },
+      "notes": "API Store APRIL — OAuth2 client_credentials. Voir docs/APRIL-API.md et /crm-april.html"
     },
     {
       "id": "solly-azar",
