@@ -1,10 +1,16 @@
 /**
  * Charge la file actu depuis Neon (bookmarklet Cafeyn / inbox web).
  */
-const { getSql } = require("../db");
+function getSqlSafe() {
+  try {
+    return require("../api/_lib/db").getSql();
+  } catch (e) {
+    return null;
+  }
+}
 
 async function loadQueueFromDatabase() {
-  var sql = getSql();
+  var sql = getSqlSafe();
   if (!sql) return [];
 
   try {
@@ -38,7 +44,7 @@ async function loadQueueFromDatabase() {
 }
 
 async function markQueuePublished(ids) {
-  var sql = getSql();
+  var sql = getSqlSafe();
   if (!sql || !ids || !ids.length) return;
   try {
     for (var i = 0; i < ids.length; i++) {
