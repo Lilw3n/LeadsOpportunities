@@ -1,13 +1,17 @@
 {
-  "lastFetch": "2026-08-31T12:46:02.657Z",
+  "lastFetch": "2026-08-31T16:47:00.716Z",
   "processedUrls": [
     "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
     "https://www.lefigaro.fr/conjoncture/assurance-vie-les-francais-ont-depose-un-montant-record-de-18-8-milliards-d-euros-en-juillet-20260831",
     "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a9577868d95468e8e2867635daacd96&url=https%3a%2f%2fwww.argusdelassurance.com%2fcompagnies%2fune-compagnie-dassurance-francaise-specialisee-en-epargne-emprunteur-et-prevoyance-mise-en-vente.YPF4NXL2YJAJ3E2WEYM6LUST4I.html&c=7745756347587199928&mkt=en-us",
-    "https://www.franceinfo.fr/replay-radio/le-vrai-du-faux/le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plus-cher-a-l-assurance-maladie_8144840.html#xtor=RSS-3-%5Bgeneral%5D"
+    "https://www.franceinfo.fr/replay-radio/le-vrai-du-faux/le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plus-cher-a-l-assurance-maladie_8144840.html#xtor=RSS-3-%5Bgeneral%5D",
+    "https://www.ouest-france.fr/tourisme/louest-de-la-france-est-il-en-train-de-devenir-le-nouvel-eldorado-des-vacanciers-pendant-lete-a7384ffc-a54f-11f1-8465-547a0964275c?utm_source=fluxpublicactu&utm_medium=fluxrss&utm_campaign=banquedecontenu",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a95b000f3ea42c39aa4e5061a3e9fac&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2ffinance%2fretraite%2fmutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment-faire-%25C3%25A9conomiser-selon-60-millions-de-consommateurs%2far-AA2bgkAp&c=7474772919655834358&mkt=en-us",
+    "https://www.france24.com/fr/%C3%A9co-tech/20260828-les-g%C3%A9ants-de-la-tech-appellent-%C3%A0-une-r%C3%A9ponse-mondiale-face-aux-cyberattaques-aid%C3%A9es-par-l-ia",
+    "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-08-31T12:46:04.571Z",
+  "lastAutoRun": "2026-08-31T16:47:02.577Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -43,6 +47,31 @@
           "title": "Le vrai ou faux. Qui des arrêts courts ou des arrêts longs coûtent le plus cher à l'Ass… : prevoyance et revenus — que faire ?",
           "source": "Firefox — Franceinfo santé",
           "sourceType": "firefox"
+        }
+      ]
+    },
+    {
+      "at": "2026-08-31T16:47:02.577Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "l-ouest-de-la-france-est-il-en-train-de-devenir-le-nouvel-eldorado-des-v.html",
+          "title": "L’ouest de la France est-il en train de devenir le nouvel Eldorado des vacanciers penda… : assurance habitation — que faire ?",
+          "source": "Cafeyn — Ouest-France",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "mutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment-faire-econom.html",
+          "title": "Mutuelle senior : ces nouvelles offres peuvent-elles vraiment faire économiser selon 60… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+          "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habit… : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
         }
       ]
     }

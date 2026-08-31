@@ -161,6 +161,12 @@ function isLowQualityLeadCandidate(candidate) {
   if (/obtenez un devis avec mutuelle\.fr|la r[eé]daction du parisien n'a pas particip[eé]/i.test(hay)) {
     return true;
   }
+  if (
+    /openai|anthropic|g[eé]ants de la tech|r[eé]ponse mondiale/i.test(hay) &&
+    !/mutuelle|iban|assur[ée]s?\b/i.test(hay)
+  ) {
+    return true;
+  }
   if (!hasFranceLeadIntent(candidate)) return true;
   return false;
 }

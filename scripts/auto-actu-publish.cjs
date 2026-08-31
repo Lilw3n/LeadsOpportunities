@@ -96,6 +96,7 @@ function pickCandidates(candidates, count, state) {
   var available = ranked.filter(function (c) {
     if (isActuPlaceholder(c)) return false;
     if (isLowQualityLeadCandidate(c)) return false;
+    if ((c.leadScore || 0) < 40) return false;
     if (c.url && processed.has(c.url)) return false;
     if (titleKeys.has(normalizeTitle(c.title))) return false;
     var hay = String(c.title || "") + " " + String(c.summary || "");
