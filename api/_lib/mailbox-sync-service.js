@@ -153,22 +153,31 @@ async function autoSyncIfDue() {
 }
 
 async function listWithAutoSync(limit, offset) {
-  // 1) Toujours renvoyer la liste DB d'abord (évite le spinner infini si IMAP bloque)
+  // Liste DB immédiate — la sync IMAP ne doit pas bloquer l'affichage (bouton Sync / cron)
   const data = await listMessages(limit, offset);
   const sql = getSql();
   const sources = listImapSources().map(function (s) {
     return { id: s.id, label: s.label, host: s.host };
   });
-  const base = Object.assign({}, data, {
-    sync: { skipped: true, reason: "pending" },
+  const out = Object.assign({}, data, {
+    sync: {
+      skipped: true,
+      reason: "list_only",
+      hint: "Utilisez Synchroniser IMAP pour importer les e-mails.",
+    },
     syncMeta: sql ? await getSyncMeta(sql) : null,
     syncMetas: sql ? await getAllSyncMeta(sql) : [],
     imapSources: sources,
   });
 
+  const listAutoSync = String(process.env.MAILBOX_LIST_AUTO_SYNC || "false").toLowerCase();
+  if (listAutoSync !== "true" && listAutoSync !== "1") {
+    return out;
+  }
+
   const timeoutMs = Math.min(
-    Math.max(Number(process.env.MAILBOX_LIST_SYNC_TIMEOUT_MS) || 6000, 2000),
-    12000
+    Math.max(Number(process.env.MAILBOX_LIST_SYNC_TIMEOUT_MS) || 4000, 1500),
+    8000
   );
 
   try {
@@ -182,16 +191,15 @@ async function listWithAutoSync(limit, offset) {
             error:
               "Sync IMAP trop longue (>" +
               Math.round(timeoutMs / 1000) +
-              "s). Cliquez Synchroniser IMAP ou ouvrez Gmail Workspace.",
+              "s). Cliquez Synchroniser IMAP.",
           });
         }, timeoutMs);
       }),
     ]);
 
-    let out = base;
     if (syncResult && syncResult.ok && (syncResult.imported || 0) > 0) {
       const refreshed = await listMessages(limit, offset);
-      out = Object.assign({}, refreshed, {
+      Object.assign(out, refreshed, {
         syncMeta: sql ? await getSyncMeta(sql) : null,
         syncMetas: sql ? await getAllSyncMeta(sql) : [],
         imapSources: sources,
@@ -201,8 +209,8 @@ async function listWithAutoSync(limit, offset) {
     if (!out.syncMeta && sql) out.syncMeta = await getSyncMeta(sql);
     return out;
   } catch (e) {
-    base.sync = { ok: false, error: (e && e.message) || "Erreur sync IMAP" };
-    return base;
+    out.sync = { ok: false, error: (e && e.message) || "Erreur sync IMAP" };
+    return out;
   }
 }
 

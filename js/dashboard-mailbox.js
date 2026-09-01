@@ -653,6 +653,12 @@
       html += block("Conversations e-mail", mail);
       html += block("Questionnaires remplis", questionnairesOnly);
       html += block("Demandes de contact", contactOnly);
+      if (!html) {
+        list.innerHTML =
+          '<div class="mbx-empty" style="padding:32px 16px"><p>Aucun message pour le moment.</p>' +
+          '<p style="font-size:0.88rem;color:var(--muted)">Cliquez <strong>Synchroniser IMAP</strong> pour importer les e-mails Workspace / o2switch, ou <strong>Historique o2switch</strong> pour les anciens mails.</p></div>';
+        return;
+      }
     } else {
       threads.forEach(function (t) {
         html += renderThreadCard(t, state.selectedThreadKey === t.key);
@@ -1431,6 +1437,7 @@
     if (state.view === "received" && state.filtered[0]) return selectMessage(state.filtered[0].id);
     if (state.filtered[0]) return selectMessage(state.filtered[0].id);
     showDetailPane(false);
+    renderList();
   }
 
   function ingestMessages(data, opts) {
@@ -1473,13 +1480,13 @@
 
     notifyNewExpressCallbacks();
     updateNavBadge();
+    renderList();
 
     if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
       selectMessage(opts.openId);
       return;
     }
     if (!opts.skipAutoSelect) pickDefaultSelection();
-    else renderList();
   }
 
   async function loadMailbox(opts) {
@@ -1491,7 +1498,28 @@
         '<div class="loading-state" style="padding:40px"><div class="spinner"></div>Chargement…</div>';
     }
     try {
-      var data = await window.Dashboard.api("/api/dashboard/mailbox-list?limit=100");
+      var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timeoutId = controller
+        ? setTimeout(function () {
+            controller.abort();
+          }, 22000)
+        : null;
+      var fetchOpts = { method: "GET" };
+      if (controller) fetchOpts.signal = controller.signal;
+      var res = await fetch("/api/dashboard/mailbox-list?limit=100", Object.assign({ headers: window.Dashboard.authHeaders() }, fetchOpts));
+      if (timeoutId) clearTimeout(timeoutId);
+      var data = {};
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        data = { error: "Reponse serveur invalide" };
+      }
+      if (res.status === 401 || res.status === 403) {
+        window.Dashboard.clearAuth();
+        window.location.href = "./auth.html?next=" + encodeURIComponent("./dashboard.html?section=mailbox");
+        return;
+      }
+      data.ok = res.ok && data.ok !== false;
       if (!data || !data.ok) {
         if (list) {
           list.innerHTML =
@@ -1507,12 +1535,25 @@
       } else if (data.sync && (data.sync.error || data.sync.reason === "timeout")) {
         localStorage.setItem(LS_SYNC_ERR, data.sync.error || "Sync IMAP lente");
       }
-      ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
+      try {
+        ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
+      } catch (ingestErr) {
+        console.error("[mailbox] ingest", ingestErr);
+        if (list) {
+          list.innerHTML =
+            "<p style=\"padding:16px;color:#b91c1c\">Erreur affichage messagerie. Cliquez Actualiser.</p>";
+        }
+      }
       updateWebmailLink(data);
     } catch (e) {
       if (list) {
+        var isAbort = e && (e.name === "AbortError" || String(e.message || "").indexOf("abort") >= 0);
         list.innerHTML =
-          "<p style=\"padding:16px;color:#b91c1c\">Erreur réseau messagerie. Réessayez Actualiser ou Gmail Workspace.</p>" +
+          "<p style=\"padding:16px;color:#b91c1c\">" +
+          (isAbort
+            ? "Chargement trop long (&gt;22 s). La liste s'affiche sans sync IMAP — cliquez Synchroniser IMAP."
+            : "Erreur reseau messagerie. Reessayez Actualiser ou Gmail Workspace.") +
+          "</p>" +
           "<p style=\"padding:0 16px;color:#64748b;font-size:0.85rem\">" +
           esc((e && e.message) || "") +
           "</p>";
