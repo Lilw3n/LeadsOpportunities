@@ -13,6 +13,7 @@ const ROUTES = {
   "leads-notify": () => require("../_lib/routes/leads-notify"),
   "mailbox-list": () => require("../_lib/routes/mailbox-list"),
   "mailbox-sync": () => require("../_lib/routes/mailbox-sync"),
+  "mailbox-imap-test": () => require("../_lib/routes/mailbox-imap-test"),
   "mailbox-send": () => require("../_lib/routes/mailbox-send"),
   "payment-links": () => require("../_lib/routes/dashboard-payment-links"),
   "journey-dropoffs": () => require("../_lib/routes/journey-dropoffs"),

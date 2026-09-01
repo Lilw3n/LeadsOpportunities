@@ -1594,6 +1594,47 @@
     }
   }
 
+  function formatImapTestToast(test) {
+    if (!test) return "Test IMAP inconnu";
+    if (!test.configured) return test.error || "IMAP non configuré sur Vercel";
+    var lines = (test.sources || []).map(function (s) {
+      if (s.ok) {
+        return "✓ " + s.label + " (" + (s.inboxTotal || 0) + " msgs, " + (s.host || "") + ")";
+      }
+      return "✗ " + s.label + " : " + (s.error || "échec");
+    });
+    return lines.join(" — ") || test.error || "Aucune source";
+  }
+
+  async function testImapMailbox() {
+    var btn = document.getElementById("mailboxImapTestBtn");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Test…";
+    }
+    var data = await window.Dashboard.api("/api/dashboard/mailbox-imap-test", { method: "POST" });
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Tester IMAP";
+    }
+    if (!data.ok) {
+      toast(data.error || "Erreur test IMAP", "error");
+      return;
+    }
+    var test = data.test || {};
+    var hint = document.getElementById("mailboxSyncHint");
+    if (hint) {
+      hint.innerHTML = formatImapTestToast(test).replace(/✓/g, '<span style="color:#15803d">OK</span>').replace(/✗/g, '<span style="color:#b91c1c">KO</span>');
+    }
+    if (test.ok) {
+      localStorage.removeItem(LS_SYNC_ERR);
+      toast(formatImapTestToast(test), "success");
+    } else {
+      localStorage.setItem(LS_SYNC_ERR, test.error || formatImapTestToast(test));
+      toast(formatImapTestToast(test), "error");
+    }
+  }
+
   async function syncMailbox(silent) {
     var btn = document.getElementById("mailboxSyncBtn");
     if (btn && !silent) {
@@ -1608,6 +1649,14 @@
     if (!data.ok) {
       toast(data.error || "Erreur", "error");
       return;
+    }
+    if (data.sync && data.sync.sources && data.sync.sources.length) {
+      var parts = data.sync.sources.map(function (s) {
+        if (s.ok) return s.label + ": " + (s.imported || 0) + " importé(s)";
+        return s.label + ": " + (s.error || "échec");
+      });
+      var hint = document.getElementById("mailboxSyncHint");
+      if (hint) hint.textContent = parts.join(" · ");
     }
     if (data.sync && data.sync.ok) {
       localStorage.removeItem(LS_SYNC_ERR);
@@ -1760,6 +1809,12 @@
     document.getElementById("mailboxSyncBtn").addEventListener("click", function () {
       syncMailbox(false);
     });
+    var imapTestBtn = document.getElementById("mailboxImapTestBtn");
+    if (imapTestBtn) {
+      imapTestBtn.addEventListener("click", function () {
+        testImapMailbox();
+      });
+    }
     var backfillBtn = document.getElementById("mailboxBackfillBtn");
     if (backfillBtn) {
       backfillBtn.addEventListener("click", function () {

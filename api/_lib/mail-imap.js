@@ -637,10 +637,115 @@ async function syncImapInbox(existingSql) {
   };
 }
 
+async function testOneSource(ImapFlow, source) {
+  const hostsToTry = imapHosts(source.host, source.id);
+  const cfgBase = {
+    port: source.port,
+    secure: source.secure,
+    auth: source.auth,
+  };
+  let lastErr = null;
+
+  for (let h = 0; h < hostsToTry.length; h++) {
+    const tryHost = hostsToTry[h];
+    const client = new ImapFlow(
+      Object.assign({}, cfgBase, {
+        host: tryHost,
+        auth: source.auth,
+        tls: tlsOptions(tryHost, source.id),
+        connectionTimeout: Number(process.env.MAIL_IMAP_CONNECT_TIMEOUT_MS) || 10000,
+        greetingTimeout: Number(process.env.MAIL_IMAP_GREETING_TIMEOUT_MS) || 10000,
+        socketTimeout: Number(process.env.MAIL_IMAP_SOCKET_TIMEOUT_MS) || 15000,
+        logger: false,
+      })
+    );
+    try {
+      await client.connect();
+      const lock = await client.getMailboxLock("INBOX");
+      const inboxTotal = client.mailbox.exists || 0;
+      const uidNext = Number(client.mailbox.uidNext) || 1;
+      lock.release();
+      await client.logout();
+      return {
+        ok: true,
+        source: source.id,
+        label: source.label,
+        host: tryHost,
+        user: source.auth.user,
+        inboxTotal: inboxTotal,
+        maxUid: Math.max(0, uidNext - 1),
+      };
+    } catch (e) {
+      lastErr = e;
+      try {
+        await client.logout();
+      } catch (err) {
+        /* ignore */
+      }
+    }
+  }
+
+  return {
+    ok: false,
+    source: source.id,
+    label: source.label,
+    user: source.auth.user,
+    error: (lastErr && lastErr.message) || "Connexion IMAP impossible",
+  };
+}
+
+/** Test connexion IMAP (sans importer) — diagnostic mots de passe Vercel */
+async function testImapSources() {
+  const sources = listImapSources();
+  if (!sources.length) {
+    return {
+      ok: false,
+      configured: false,
+      provider: process.env.MAIL_IMAP_PROVIDER || "auto",
+      mailbox: mailboxUser(),
+      error:
+        "IMAP non configuré. Vercel : MAIL_IMAP_PROVIDER=both, MAIL_IMAP_PASS_WORKSPACE, MAIL_IMAP_PASS_O2SWITCH puis Redeploy.",
+      sources: [],
+    };
+  }
+
+  let ImapFlow;
+  try {
+    ImapFlow = require("imapflow").ImapFlow;
+  } catch (e) {
+    return { ok: false, error: "Module imapflow manquant", sources: [] };
+  }
+
+  const results = [];
+  for (let i = 0; i < sources.length; i++) {
+    results.push(await testOneSource(ImapFlow, sources[i]));
+  }
+
+  const anyOk = results.some(function (r) {
+    return r.ok;
+  });
+
+  return {
+    ok: anyOk,
+    configured: true,
+    provider: process.env.MAIL_IMAP_PROVIDER || "auto",
+    mailbox: mailboxUser(),
+    sources: results,
+    error: anyOk
+      ? null
+      : results
+          .map(function (r) {
+            return r.label + ": " + (r.error || "échec");
+          })
+          .join(" · "),
+  };
+}
+
 module.exports = {
   imapConfig,
   listImapSources,
   syncImapInbox,
   backfillImapInbox,
+  testImapSources,
   mailboxUser,
 };
