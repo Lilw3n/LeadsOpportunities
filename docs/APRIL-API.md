@@ -4,6 +4,18 @@ Page CRM : [`/crm-april.html`](../crm-april.html)
 Client : [`api/_lib/april-client.js`](../api/_lib/april-client.js)  
 Route : `GET|POST /api/crm/april`
 
+## App perso vs tutoriel « application Test »
+
+Le tutoriel API Store montre l’**application Test** (`00134-…`) et l’**API Test** à titre d’exemple.
+Vous utilisez **vos** identifiants (ex. `12598-…`) — c’est correct pour la prod.
+
+| Étape | Ce que ça prouve |
+|---|---|
+| Jeton OAuth OK | Client ID + secret valides, app enregistrée |
+| firstCall OK | App **abonnée** à l’API Test + bon gateway API |
+
+Si le jeton passe mais firstCall échoue : API Store → **Catalogue** → **API Test** → **S’abonner** → choisir votre application.
+
 ## Auth (doc APRIL)
 
 OAuth2 **client_credentials** (machine-to-machine, pas de redirect utilisateur) :

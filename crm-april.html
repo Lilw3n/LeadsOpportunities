@@ -49,14 +49,18 @@
   </section>
 
   <div class="april-warn" role="note">
-    Renseignez sur Vercel : <code>PARTNER_APRIL_CLIENT_ID</code>,
-    <code>PARTNER_APRIL_CLIENT_SECRET</code>. Gateways préprod (doc API Store) :
-    OAuth <code>https://ppr-am-gateway.april.fr</code>,
-    API <code>https://ppr-api-gateway.april.fr</code> (firstCall).
-    Optionnel : <code>PARTNER_APRIL_GATEWAY</code> / <code>PARTNER_APRIL_API_GATEWAY</code>.
-    <strong>Après ajout ou modification</strong> : Deployments → dernier déploiement → <strong>Redeploy</strong>
-    (sinon l’API voit encore <code>hasClientId: false</code>).
-    Si le secret a été collé dans un chat ou une capture, régénérez-le dans l’API Store.
+    <strong>App perso vs tutoriel « application Test »</strong> — vos identifiants (<code>12598…</code> etc.)
+    servent à obtenir le jeton OAuth (étape 1). Le smoke-test <code>firstCall</code> appelle l’<strong>API Test</strong> du
+    catalogue : votre application doit y être <strong>abonnée</strong> (Catalogue → API Test → s’abonner → choisir votre app).
+    Le tutoriel montre les creds de l’app Test (<code>00134-…</code>) à titre d’exemple ; vous gardez les vôtres sur Vercel.
+    <br /><br />
+    Gateways préprod (doc à jour côté APRIL) : OAuth
+    <code>https://ppr-am-gateway.april.fr</code> · API firstCall
+    <code>https://ppr-api-gateway.april.fr/apistore-test/firstCall/</code>
+    (la doc affiche parfois <code>ppr-am-gateway</code> pour firstCall — en pratique ça renvoie 404).
+    <br /><br />
+    Variables Vercel : <code>PARTNER_APRIL_CLIENT_ID</code>, <code>PARTNER_APRIL_CLIENT_SECRET</code>.
+    Après ajout : <strong>Redeploy</strong>.
   </div>
 
   <div class="april-grid" id="aprilStatusGrid"></div>
@@ -64,11 +68,12 @@
   <section class="panel" style="margin-top:8px">
     <h3>Checklist Vercel</h3>
     <ol class="april-steps">
-      <li>API Store APRIL → Applications → récupérer <strong>client_id</strong> / <strong>client_secret</strong> (e-mail à la création).</li>
-      <li>Vercel → Project → Settings → Environment Variables → ajouter les 2 secrets (+ gateway si besoin).</li>
-      <li>Redeploy production, puis ici : <strong>Test complet</strong>.</li>
+      <li>API Store → <strong>Applications</strong> → votre app perso → noter <strong>client_id</strong> / <strong>client_secret</strong> (e-mail à la création).</li>
+      <li><strong>Catalogue</strong> → ouvrir <strong>API Test</strong> → <strong>S’abonner</strong> → sélectionner <em>votre</em> application (sinon firstCall échoue même avec un jeton valide).</li>
+      <li>Vercel → <code>PARTNER_APRIL_CLIENT_ID</code> + <code>PARTNER_APRIL_CLIENT_SECRET</code> → Redeploy.</li>
+      <li>Ici : <strong>Test complet</strong> — jeton sur <code>ppr-am-gateway</code>, firstCall sur <code>ppr-api-gateway</code>.</li>
       <li>Réponse attendue firstCall : <code>{"status":"success"}</code>.</li>
-      <li>Support APRIL : <a href="mailto:api@april.com">api@april.com</a> · quotas / rate-limit à respecter (pas de scraping).</li>
+      <li>Support APRIL : <a href="mailto:api@april.com">api@april.com</a> · quotas / rate-limit à respecter.</li>
     </ol>
   </section>
 
