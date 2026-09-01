@@ -65,4 +65,24 @@ Doc Drive générale : [`DRIVE-SETUP.md`](./DRIVE-SETUP.md).
 
 ```bash
 npm run verify:workspace-mail-drive
+npm run verify:mailbox-loading
+```
+
+## Checklist Vercel (obligatoire pour les e-mails CRM)
+
+| Variable | Valeur |
+|---|---|
+| `DATABASE_URL` | URL Neon (messagerie + leads) |
+| `MAIL_IMAP_PROVIDER` | `both` |
+| `MAIL_IMAP_USER` | `contact@leadsopportunities.fr` |
+| `MAIL_IMAP_PASS_WORKSPACE` | Mot de passe d'application Google (Admin → contact@ → IMAP) |
+| `MAIL_IMAP_PASS_O2SWITCH` | Mot de passe boîte o2switch (Roundcube) |
+
+Après toute modification : **Redeploy** Production. Vérif prod :
+
+```bash
+curl -sSL https://www.leadsopportunities.fr/js/dashboard-mailbox.js | wc -c
+# doit être ≈ 69900 (fix messagerie sept. 2026)
+curl -sSL https://www.leadsopportunities.fr/dashboard.html | grep -c Historique
+# doit afficher 1 (bouton Historique o2switch)
 ```
