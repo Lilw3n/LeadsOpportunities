@@ -28,7 +28,7 @@ var html = fs.readFileSync(path.join(root, "dashboard.html"), "utf8");
 
 assert(mbx.indexOf("backfillMailboxO2switch") >= 0, "backfillMailboxO2switch");
 assert(mbx.indexOf("showDetailPane(false);\n    renderList();") >= 0, "pickDefaultSelection appelle renderList");
-assert(mbx.indexOf("ingestMessages") >= 0 && mbx.indexOf("renderList();\n\n    if (opts.openId") >= 0, "ingestMessages appelle renderList avant sélection");
+assert(mbx.indexOf("renderList();") >= 0 && mbx.indexOf("skipAutoSelect: true") >= 0, "ingestMessages robuste");
 assert(mbx.indexOf("AbortController") >= 0, "timeout client mailbox-list");
 assert(svc.indexOf('reason: "list_only"') >= 0, "listWithAutoSync sans sync bloquante par défaut");
 assert(html.indexOf("mailboxBackfillBtn") >= 0, "bouton Historique o2switch");

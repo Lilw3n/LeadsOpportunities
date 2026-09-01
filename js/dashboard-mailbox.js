@@ -1021,22 +1021,26 @@
 
   function renderLeadBubble(m, payload, lead) {
     if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
-      var merged = Object.assign({}, lead || {}, {
-        payload: payload,
-        payload_obj: payload,
-        questionnaire_step: (lead && lead.questionnaire_step) || payload.questionnaire_step,
-        questionnaire_total: (lead && lead.questionnaire_total) || payload.questionnaire_total,
-        email: (lead && lead.email) || payload.email,
-        phone: (lead && lead.phone) || payload.phone,
-        vertical: (lead && lead.vertical) || payload.vertical,
-      });
-      return (
-        '<div class="mbx-qa-bubble mbx-qa-bubble--site mbx-qa-bubble--answers">' +
-        window.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc) +
-        '<div class="mbx-qa-bubble__meta">' +
-        fmtDateLong(m.created_at) +
-        "</div></div>"
-      );
+      try {
+        var merged = Object.assign({}, lead || {}, {
+          payload: payload,
+          payload_obj: payload,
+          questionnaire_step: (lead && lead.questionnaire_step) || payload.questionnaire_step,
+          questionnaire_total: (lead && lead.questionnaire_total) || payload.questionnaire_total,
+          email: (lead && lead.email) || payload.email,
+          phone: (lead && lead.phone) || payload.phone,
+          vertical: (lead && lead.vertical) || payload.vertical,
+        });
+        return (
+          '<div class="mbx-qa-bubble mbx-qa-bubble--site mbx-qa-bubble--answers">' +
+          window.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc) +
+          '<div class="mbx-qa-bubble__meta">' +
+          fmtDateLong(m.created_at) +
+          "</div></div>"
+        );
+      } catch (e) {
+        console.warn("[mailbox] renderQuestionnairePanel", e);
+      }
     }
     var rows = [
       ["Nom", payload.fullName || payload.name],
@@ -1188,8 +1192,10 @@
     if (empty) empty.hidden = show;
     if (detail) detail.hidden = !show;
     if (show && window.innerWidth <= 960) {
-      document.getElementById("mailboxPaneList").classList.add("mbx-pane--hidden-mobile");
-      document.getElementById("mailboxPaneDetail").classList.remove("mbx-pane--hidden-mobile");
+      var paneList = document.getElementById("mailboxPaneList");
+      var paneDetail = document.getElementById("mailboxPaneDetail");
+      if (paneList) paneList.classList.add("mbx-pane--hidden-mobile");
+      if (paneDetail) paneDetail.classList.remove("mbx-pane--hidden-mobile");
     }
   }
 
@@ -1428,13 +1434,16 @@
 
   function setupReplyForMessage(m) {
     if (!m) return;
+    var replyToEl = document.getElementById("mailboxReplyTo");
+    var subjectEl = document.getElementById("mailboxReplySubject");
+    var toIdEl = document.getElementById("mailboxReplyToId");
+    var summaryEl = document.getElementById("mailboxReplySummary");
+    if (!replyToEl || !subjectEl || !toIdEl) return;
     var replyTo = m.direction === "inbound" ? extractEmail(m.from_addr) : extractEmail(m.to_addr);
-    document.getElementById("mailboxReplyTo").value = replyTo;
-    document.getElementById("mailboxReplySubject").value = /^re:/i.test(m.subject || "")
-      ? m.subject
-      : "Re: " + (m.subject || "");
-    document.getElementById("mailboxReplyToId").value = m.id;
-    document.getElementById("mailboxReplySummary").textContent = "Repondre a " + replyTo;
+    replyToEl.value = replyTo;
+    subjectEl.value = /^re:/i.test(m.subject || "") ? m.subject : "Re: " + (m.subject || "");
+    toIdEl.value = m.id;
+    if (summaryEl) summaryEl.textContent = "Repondre a " + replyTo;
     var body = document.getElementById("mailboxDetailBody");
     if (body) {
       setTimeout(function () {
@@ -1465,30 +1474,39 @@
           return m.direction === "inbound";
         }) || t.last;
 
-    document.getElementById("mailboxDetailHead").innerHTML =
-      "<h2>" +
-      esc(t.contact) +
-      "</h2>" +
-      '<p style="margin:0;color:var(--muted);font-size:0.88rem">' +
-      esc(t.subject) +
-      (t.needsReply ? ' · <strong style="color:#b45309">En attente de reponse</strong>' : "") +
-      "</p>" +
-      '<div class="mbx-detail-actions" style="margin-top:12px">' +
-      (t.hasSite
-        ? '<a class="btn-ghost" href="./dashboard.html?section=leads">Voir leads</a>'
-        : "") +
-      '<button type="button" class="btn-ghost" data-copy="' +
-      esc(t.contact) +
-      '">Copier e-mail</button></div>';
+    var detailHead = document.getElementById("mailboxDetailHead");
+    if (detailHead) {
+      detailHead.innerHTML =
+        "<h2>" +
+        esc(t.contact) +
+        "</h2>" +
+        '<p style="margin:0;color:var(--muted);font-size:0.88rem">' +
+        esc(t.subject) +
+        (t.needsReply ? ' · <strong style="color:#b45309">En attente de reponse</strong>' : "") +
+        "</p>" +
+        '<div class="mbx-detail-actions" style="margin-top:12px">' +
+        (t.hasSite
+          ? '<a class="btn-ghost" href="./dashboard.html?section=leads">Voir leads</a>'
+          : "") +
+        '<button type="button" class="btn-ghost" data-copy="' +
+        esc(t.contact) +
+        '">Copier e-mail</button></div>';
+      var copyBtn = detailHead.querySelector("[data-copy]");
+      if (copyBtn) {
+        copyBtn.addEventListener("click", function () {
+          navigator.clipboard.writeText(t.contact).then(function () {
+            toast("Copie");
+          });
+        });
+      }
+    }
 
-    document.getElementById("mailboxDetailHead").querySelector("[data-copy]").addEventListener("click", function () {
-      navigator.clipboard.writeText(t.contact).then(function () {
-        toast("Copie");
-      });
-    });
-
-    document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed(t.messages);
-    if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
+    var detailBody = document.getElementById("mailboxDetailBody");
+    if (detailBody) detailBody.innerHTML = renderQaFeed(t.messages);
+    if (!opts.keepDraft) {
+      var replyTa = document.getElementById("mailboxReplyBody");
+      if (replyTa) replyTa.value = "";
+    }
     setupReplyForMessage(lastIn);
     renderList();
   }
@@ -1668,45 +1686,62 @@
     state.mailboxAddress = data.mailboxAddress || state.mailboxAddress;
     state.imapSources = data.imapSources || [];
     state.tableMissing = false;
-    applyFilters();
-    renderStats();
-    renderSetup(data);
-    updateStatusBar();
+    try {
+      applyFilters();
+      renderStats();
+      renderSetup(data);
+      updateStatusBar();
 
-    var siteN = (state.stats && state.stats.siteLeads) || 0;
-    var qN = (state.stats && state.stats.questionnaires) || 0;
-    var exN = (state.stats && state.stats.expressCallbacks) || countPendingExpress();
-    var cN = (state.stats && state.stats.contactRequests) || 0;
-    var sub = document.getElementById("mailboxSubtitle");
-    if (sub) {
-      sub.textContent =
-        state.all.filter(isReceivedMail).length +
-        " e-mails · " +
-        exN +
-        " rappel(s) express · " +
-        qN +
-        " questionnaire(s) · " +
-        countNeedsReply() +
-        " e-mail(s) a repondre";
+      var siteN = (state.stats && state.stats.siteLeads) || 0;
+      var qN = (state.stats && state.stats.questionnaires) || 0;
+      var exN = (state.stats && state.stats.expressCallbacks) || countPendingExpress();
+      var cN = (state.stats && state.stats.contactRequests) || 0;
+      var sub = document.getElementById("mailboxSubtitle");
+      if (sub) {
+        sub.textContent =
+          state.all.filter(isReceivedMail).length +
+          " e-mails · " +
+          exN +
+          " rappel(s) express · " +
+          qN +
+          " questionnaire(s) · " +
+          countNeedsReply() +
+          " e-mail(s) a repondre";
+      }
+
+      if (exN > 0 && state.view === "received" && !sessionStorage.getItem("mbx_express_hint")) {
+        sessionStorage.setItem("mbx_express_hint", "1");
+        toast(exN + " rappel(s) express en attente — onglet dedie", "error");
+      } else if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
+        sessionStorage.setItem("mbx_site_hint", "1");
+        toast(qN + " questionnaire(s) · " + cN + " contact(s) — voir onglets dedies", "success");
+      }
+
+      notifyNewExpressCallbacks();
+      updateNavBadge();
+      renderList();
+
+      if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
+        try {
+          selectMessage(opts.openId);
+        } catch (selErr) {
+          console.warn("[mailbox] selectMessage", selErr);
+        }
+        return;
+      }
+      if (!opts.skipAutoSelect) {
+        try {
+          pickDefaultSelection();
+        } catch (selErr) {
+          console.warn("[mailbox] pickDefaultSelection", selErr);
+          showDetailPane(false);
+          renderList();
+        }
+      }
+    } catch (e) {
+      console.error("[mailbox] ingestMessages", e);
+      throw e;
     }
-
-    if (exN > 0 && state.view === "received" && !sessionStorage.getItem("mbx_express_hint")) {
-      sessionStorage.setItem("mbx_express_hint", "1");
-      toast(exN + " rappel(s) express en attente — onglet dedie", "error");
-    } else if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
-      sessionStorage.setItem("mbx_site_hint", "1");
-      toast(qN + " questionnaire(s) · " + cN + " contact(s) — voir onglets dedies", "success");
-    }
-
-    notifyNewExpressCallbacks();
-    updateNavBadge();
-    renderList();
-
-    if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
-      selectMessage(opts.openId);
-      return;
-    }
-    if (!opts.skipAutoSelect) pickDefaultSelection();
   }
 
   async function loadMailbox(opts) {
@@ -1756,12 +1791,18 @@
         localStorage.setItem(LS_SYNC_ERR, data.sync.error || "Sync IMAP lente");
       }
       try {
-        ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
+        ingestMessages(data, { openId: opts.openId, skipAutoSelect: true });
       } catch (ingestErr) {
         console.error("[mailbox] ingest", ingestErr);
         if (list) {
           list.innerHTML =
-            "<p style=\"padding:16px;color:#b91c1c\">Erreur affichage messagerie. Cliquez Actualiser.</p>";
+            "<p style=\"padding:16px;color:#b91c1c\">Erreur affichage messagerie.</p>" +
+            "<p style=\"padding:0 16px;color:#64748b;font-size:0.85rem\">" +
+            esc((ingestErr && ingestErr.message) || "Erreur inconnue") +
+            "</p>" +
+            '<p style="padding:8px 16px"><button type="button" class="btn btn-primary" id="mbxRetryLoadBtn">Actualiser</button></p>';
+          var retry = document.getElementById("mbxRetryLoadBtn");
+          if (retry) retry.addEventListener("click", function () { loadMailbox({}); });
         }
       }
       updateWebmailLink(data);
