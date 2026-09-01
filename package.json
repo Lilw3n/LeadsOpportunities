@@ -12,6 +12,7 @@
     "verify:stripe-hub": "node scripts/verify-stripe-hub.cjs",
     "verify:e-invoicing": "node scripts/verify-e-invoicing.cjs",
     "verify:april-api": "node scripts/verify-april-api.cjs",
+    "april:smoke-test": "node scripts/april-smoke-test.cjs",
     "verify:e-signature": "node scripts/verify-e-signature.cjs",
     "verify:workspace-mail-drive": "node scripts/verify-workspace-mail-drive.cjs",
     "verify:mailbox-loading": "node scripts/verify-mailbox-loading.cjs",

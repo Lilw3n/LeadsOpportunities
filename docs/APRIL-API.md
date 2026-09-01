@@ -77,4 +77,12 @@ Si OAuth configuré, `adapters.sendApi` utilise le jeton APRIL ; sinon fallback 
 npm run verify:april-api
 ```
 
+Smoke-test live avec l’**application Test** du tutoriel (sans toucher aux secrets Vercel perso) :
+
+```bash
+npm run april:smoke-test
+```
+
+Attendu : `tokenOk: true` + `firstCall.data.status === "success"`.
+
 Support APRIL : `api@april.com`
