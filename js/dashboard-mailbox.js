@@ -326,6 +326,8 @@
       });
     }
   }
+
+  function renderMailboxSourceBadge(m) {
     if (!m || messageKind(m) !== "imap") return "";
     var sources = m._mailboxSources || [imapMailboxSource(m)].filter(Boolean);
     if (!sources.length) return "";
