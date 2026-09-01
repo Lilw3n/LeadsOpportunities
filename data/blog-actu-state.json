@@ -1,10 +1,12 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-01T05:31:34.107Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "https://www.midilibre.fr/2026/09/01/retraites-vous-etes-mere-de-famille-deux-nouvelles-mesures-relatives-a-la-parentalite-entrent-en-vigueur-ce-mardi-voici-ce-que-ca-va-changer-13529927.php",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a966334e5db4ef2a627fc8fa3e91f76&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fosteopathie-quel-remboursement-avec-sa-mutuelle-en-2026-11-07-2026-SOXITKD4ZVELLGZHBC3AJ4ZCUU.php&c=4056152524630980718&mkt=en-us",
+    "https://www.franceinfo.fr/replay-radio/le-vrai-du-faux/le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plus-cher-a-l-assurance-maladie_8144840.html#xtor=RSS-3-%5Bgeneral%5D"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +19,33 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-01T05:31:35.713Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "retraites-vous-etes-mere-de-famille-deux-nouvelles-mesures-relatives-a-l.html",
+          "title": "Retraites : vous êtes mère de famille ? Deux nouvelles mesures relatives à la \"parental… : prevoyance et revenus — que faire ?",
+          "source": "Cafeyn — Midi Libre",
+          "sourceType": "cafeyn"
+        },
+        {
+          "file": "osteopathie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+          "title": "Ostéopathie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plu.html",
+          "title": "Le vrai ou faux. Qui des arrêts courts ou des arrêts longs coûtent le plus cher à l'Ass… : prevoyance et revenus — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 0,
+  "lastAutoRun": "2026-09-01T05:31:35.713Z"
 }
