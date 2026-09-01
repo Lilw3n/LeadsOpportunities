@@ -175,3 +175,16 @@ API CRM : `POST /api/drive/immo` — UI fiche bien → **Immo cloud** (`crm-immo
 | Test Drive prod | https://www.leadsopportunities.fr/test-drive.html |
 | Doc Google (Shared Drives) | https://developers.google.com/workspace/drive/api/guides/about-shareddrives |
 | Vercel env vars | https://vercel.com/dashboard |
+
+---
+
+## Doublon sécurité — contact@ (Google Workspace)
+
+Voir [`GOOGLE-WORKSPACE-DNS.md`](./GOOGLE-WORKSPACE-DNS.md).
+
+Variables :
+- `GOOGLE_DRIVE_MIRROR=true`
+- `GOOGLE_DRIVE_SHARE_EMAILS=courtier972@gmail.com,contact@leadsopportunities.fr`
+- `GOOGLE_DRIVE_MIRROR_FOLDER_ID` = dossier miroir sur le Drive contact@ (partagé writer avec courtier972)
+
+Chaque upload est partagé avec contact@ ; si `MIRROR_FOLDER_ID` est défini, une **copie** est aussi déposée dans ce dossier.

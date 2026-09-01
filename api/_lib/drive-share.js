@@ -1,10 +1,39 @@
 /**
  * Partage dossiers Drive avec le courtier + résolution webViewLink.
+ * Multi-destinataires : GOOGLE_DRIVE_SHARE_EMAILS (virgule) ou primary + miroir contact@.
  */
 const { getDriveAccessToken } = require("./google-drive-auth");
 
 function brokerEmail() {
   return (process.env.GOOGLE_DRIVE_USER_EMAIL || "courtier972@gmail.com").trim();
+}
+
+/** Liste des e-mails à qui partager dossiers / fichiers (doublon sécurité). */
+function brokerEmails() {
+  var raw = (process.env.GOOGLE_DRIVE_SHARE_EMAILS || "").trim();
+  var list = [];
+  if (raw) {
+    list = raw.split(/[,;]/).map(function (s) {
+      return s.trim().toLowerCase();
+    }).filter(Boolean);
+  } else {
+    var primary = brokerEmail();
+    if (primary) list.push(primary.toLowerCase());
+    var mirror = (process.env.GOOGLE_DRIVE_MIRROR_EMAIL || "contact@leadsopportunities.fr").trim();
+    if (mirror && list.indexOf(mirror.toLowerCase()) < 0) {
+      // Activé par défaut si GOOGLE_DRIVE_MIRROR=true ou SHARE inclut contact
+      if (process.env.GOOGLE_DRIVE_MIRROR === "true" || process.env.GOOGLE_DRIVE_MIRROR === "1") {
+        list.push(mirror.toLowerCase());
+      }
+    }
+  }
+  // dédoublonnage
+  var seen = {};
+  return list.filter(function (e) {
+    if (seen[e]) return false;
+    seen[e] = true;
+    return true;
+  });
 }
 
 function isValidDriveId(folderId) {
@@ -28,15 +57,14 @@ function fallbackFolderUrl(folderId) {
   return "https://drive.google.com/drive/folders/" + encodeURIComponent(String(folderId));
 }
 
-async function shareFolderWithBroker(token, folderId) {
-  var email = brokerEmail();
-  if (!token || !isValidDriveId(folderId) || !email) {
+async function shareWithEmail(token, fileOrFolderId, email, role) {
+  if (!token || !isValidDriveId(fileOrFolderId) || !email) {
     return { ok: false, skipped: true };
   }
   try {
     var resp = await fetch(
       "https://www.googleapis.com/drive/v3/files/" +
-        encodeURIComponent(folderId) +
+        encodeURIComponent(fileOrFolderId) +
         "/permissions?sendNotificationEmail=false&supportsAllDrives=true",
       {
         method: "POST",
@@ -46,23 +74,93 @@ async function shareFolderWithBroker(token, folderId) {
         },
         body: JSON.stringify({
           type: "user",
-          role: "writer",
+          role: role || "writer",
           emailAddress: email,
         }),
       }
     );
-    if (resp.ok) return { ok: true, shared: true };
+    if (resp.ok) return { ok: true, shared: true, email: email };
     var data = await resp.json().catch(function () {
       return {};
     });
     var msg = (data.error && data.error.message) || "";
     if (/already exists|duplicate|permission/i.test(msg)) {
-      return { ok: true, shared: false, existing: true };
+      return { ok: true, shared: false, existing: true, email: email };
     }
-    console.warn("[drive-share] permission", folderId, msg);
-    return { ok: false, error: msg };
+    console.warn("[drive-share] permission", fileOrFolderId, email, msg);
+    return { ok: false, error: msg, email: email };
   } catch (e) {
     console.warn("[drive-share]", e.message);
+    return { ok: false, error: e.message, email: email };
+  }
+}
+
+async function shareFolderWithBroker(token, folderId) {
+  var emails = brokerEmails();
+  if (!emails.length) {
+    var single = brokerEmail();
+    if (single) emails = [single];
+  }
+  if (!token || !isValidDriveId(folderId) || !emails.length) {
+    return { ok: false, skipped: true };
+  }
+  var results = [];
+  for (var i = 0; i < emails.length; i++) {
+    results.push(await shareWithEmail(token, folderId, emails[i], "writer"));
+  }
+  var ok = results.some(function (r) {
+    return r.ok;
+  });
+  return { ok: ok, results: results, emails: emails };
+}
+
+async function shareFileWithBrokers(token, fileId) {
+  return shareFolderWithBroker(token, fileId);
+}
+
+/**
+ * Copie un fichier vers le dossier miroir (ex. Drive contact@ Workspace).
+ * Le dossier GOOGLE_DRIVE_MIRROR_FOLDER_ID doit être accessible en écriture
+ * par le compte OAuth principal (partagé writer).
+ */
+async function mirrorCopyFile(token, fileId, fileName) {
+  var mirrorFolder = (process.env.GOOGLE_DRIVE_MIRROR_FOLDER_ID || "").trim();
+  if (!token || !isValidDriveId(fileId) || !isValidDriveId(mirrorFolder)) {
+    return { ok: false, skipped: true };
+  }
+  try {
+    var resp = await fetch(
+      "https://www.googleapis.com/drive/v3/files/" +
+        encodeURIComponent(fileId) +
+        "/copy?supportsAllDrives=true&fields=id,name,webViewLink",
+      {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: fileName || undefined,
+          parents: [mirrorFolder],
+        }),
+      }
+    );
+    if (!resp.ok) {
+      var errText = await resp.text();
+      console.warn("[drive-mirror]", errText.slice(0, 200));
+      return { ok: false, error: errText.slice(0, 200) };
+    }
+    var data = await resp.json();
+    // Partager aussi la copie avec la liste brokers (contact@ voit dans son Drive)
+    await shareFolderWithBroker(token, data.id);
+    return {
+      ok: true,
+      fileId: data.id,
+      webViewLink: data.webViewLink || null,
+      mirrorFolderId: mirrorFolder,
+    };
+  } catch (e) {
+    console.warn("[drive-mirror]", e.message);
     return { ok: false, error: e.message };
   }
 }
@@ -217,11 +315,15 @@ async function resolveFolderWebLink(folderId, opts) {
 
 module.exports = {
   brokerEmail,
+  brokerEmails,
   isValidDriveId,
   isSimulatedDriveId,
   rootFolderWebLink,
   fallbackFolderUrl,
+  shareWithEmail,
   shareFolderWithBroker,
+  shareFileWithBrokers,
+  mirrorCopyFile,
   resolveFolderWebLink,
   inspectDriveFolder,
   getDriveReadToken,

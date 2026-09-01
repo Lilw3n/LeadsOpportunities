@@ -1484,14 +1484,35 @@
 
   function updateWebmailLink(data) {
     var btn = document.getElementById("mailboxWebmailBtn");
+    var btnWs = document.getElementById("mailboxWebmailWorkspaceBtn");
     var empty = document.getElementById("mailboxWebmailEmptyLink");
     if (!data) return;
-    if (btn) {
-      if (data.webmailUrl) btn.href = data.webmailUrl;
-      if (data.webmailLabel) btn.textContent = data.webmailLabel + " ↗";
-      if (data.mailboxAddress) btn.title = "Roundcube o2switch — " + data.mailboxAddress;
+    if (btnWs) {
+      if (data.webmailWorkspaceUrl) btnWs.href = data.webmailWorkspaceUrl;
+      if (data.webmailWorkspaceLabel) btnWs.textContent = data.webmailWorkspaceLabel + " ↗";
+      if (data.mailboxAddress) btnWs.title = "Gmail Workspace — " + data.mailboxAddress;
     }
-    if (empty && data.webmailUrl) empty.href = data.webmailUrl;
+    if (btn) {
+      if (data.webmailO2switchUrl || data.webmailUrl) btn.href = data.webmailO2switchUrl || data.webmailUrl;
+      if (data.webmailO2switchLabel || data.webmailLabel) {
+        btn.textContent = (data.webmailO2switchLabel || data.webmailLabel) + " ↗";
+      }
+      if (data.mailboxAddress) btn.title = "Roundcube o2switch (secours) — " + data.mailboxAddress;
+    }
+    if (empty && (data.webmailWorkspaceUrl || data.webmailUrl)) {
+      empty.href = data.webmailWorkspaceUrl || data.webmailUrl;
+    }
+    var sub = document.getElementById("mailboxSubtitle");
+    if (sub && data.imapSources && data.imapSources.length) {
+      sub.textContent =
+        "Formulaires site + e-mails contact@ (" +
+        data.imapSources
+          .map(function (s) {
+            return s.label;
+          })
+          .join(" · ") +
+        ")";
+    }
   }
 
   async function syncMailbox(silent) {

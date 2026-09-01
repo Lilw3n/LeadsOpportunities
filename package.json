@@ -11,6 +11,7 @@
     "verify:seo-geo-piliers": "node scripts/verify-seo-geo-piliers.cjs",
     "verify:stripe-hub": "node scripts/verify-stripe-hub.cjs",
     "verify:e-invoicing": "node scripts/verify-e-invoicing.cjs",
+    "verify:workspace-mail-drive": "node scripts/verify-workspace-mail-drive.cjs",
     "verify:niches-dashboard": "node scripts/verify-niches-dashboard-redirect.cjs",
     "niche:plan": "node -e \"console.log(require('fs').readFileSync('seo/niches.json','utf8'))\"",
     "niche:sync": "node -e \"require('fs').copyFileSync('seo/niches.json','data/niches-admin.json');console.log('niches-admin.json synced')\"",
