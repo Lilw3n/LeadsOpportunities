@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Signature électronique | Leads Opportunities</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --teal: #0d9488;
+      --teal-dark: #0f766e;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Source Sans 3", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 500px at 10% -10%, rgba(13, 148, 136, 0.18), transparent 55%),
+        radial-gradient(900px 400px at 100% 0%, rgba(15, 23, 42, 0.08), transparent 50%),
+        var(--bg);
+      min-height: 100vh;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 28px 18px 48px; }
+    .brand {
+      font-family: Fraunces, Georgia, serif;
+      font-size: clamp(1.6rem, 4vw, 2.1rem);
+      font-weight: 700;
+      color: var(--teal-dark);
+      margin: 0 0 6px;
+      letter-spacing: -0.02em;
+    }
+    .sub { color: var(--muted); margin: 0 0 22px; font-size: 0.95rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+    h1 { font-family: Fraunces, Georgia, serif; font-size: 1.35rem; margin: 0 0 12px; }
+    .doc-body {
+      white-space: pre-wrap;
+      line-height: 1.55;
+      padding: 14px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      margin: 0 0 18px;
+      font-size: 0.98rem;
+    }
+    label { display: block; font-size: 0.82rem; font-weight: 700; color: var(--muted); margin: 12px 0 6px; }
+    input[type="text"], input[type="email"] {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      font: inherit;
+    }
+    .pad-wrap {
+      border: 1px dashed #94a3b8;
+      border-radius: 12px;
+      background: #fff;
+      overflow: hidden;
+      touch-action: none;
+    }
+    canvas { width: 100%; height: 180px; display: block; cursor: crosshair; }
+    .pad-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--teal); color: #fff; }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .btn-ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+    .consent { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0; font-size: 0.9rem; line-height: 1.4; }
+    .consent input { margin-top: 3px; }
+    .msg { margin-top: 12px; font-size: 0.9rem; }
+    .msg.err { color: #b91c1c; }
+    .msg.ok { color: #15803d; }
+    .done-box { text-align: center; padding: 12px 0; }
+    .legal { margin-top: 18px; font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
+    .loading { padding: 40px; text-align: center; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p class="brand">Leads Opportunities</p>
+    <p class="sub">Signature électronique gratuite · ORIAS 15005935</p>
+
+    <div class="card" id="stateLoading">
+      <div class="loading">Chargement du document…</div>
+    </div>
+
+    <div class="card" id="stateError" hidden>
+      <h1>Lien indisponible</h1>
+      <p id="errorText" class="msg err">Ce lien de signature est invalide ou expiré.</p>
+    </div>
+
+    <div class="card" id="stateForm" hidden>
+      <h1 id="docTitle">Document</h1>
+      <div class="doc-body" id="docBody"></div>
+
+      <label for="signerName">Nom et prénom du signataire</label>
+      <input type="text" id="signerName" autocomplete="name" required />
+
+      <label for="signerEmail">E-mail (optionnel)</label>
+      <input type="email" id="signerEmail" autocomplete="email" />
+
+      <label>Votre signature (souris ou doigt)</label>
+      <div class="pad-wrap"><canvas id="sigPad" width="640" height="180"></canvas></div>
+      <div class="pad-actions">
+        <button type="button" class="btn btn-ghost" id="btnClear">Effacer</button>
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" id="consent" />
+        <span>Je reconnais avoir lu le document ci-dessus et j’y appose ma signature électronique de façon libre et éclairée.</span>
+      </label>
+
+      <button type="button" class="btn btn-primary" id="btnSign">Signer le document</button>
+      <p class="msg" id="formMsg"></p>
+      <p class="legal">
+        Signature électronique simple (SES). Preuve : image, horodatage, adresse IP.
+        Pour une signature qualifiée eIDAS (valeur légale maximale), utilisez un prestataire de confiance (Yousign, DocuSign…).
+      </p>
+    </div>
+
+    <div class="card" id="stateDone" hidden>
+      <div class="done-box">
+        <h1>Document signé</h1>
+        <p class="msg ok">Merci. Votre signature a bien été enregistrée.</p>
+        <button type="button" class="btn btn-primary" id="btnPrint">Télécharger / Imprimer le PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/e-signature-lib.js"></script>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var token = params.get("t") || params.get("token") || "";
+      var pad = null;
+      var current = null;
+
+      function show(id) {
+        ["stateLoading", "stateError", "stateForm", "stateDone"].forEach(function (x) {
+          var el = document.getElementById(x);
+          if (el) el.hidden = x !== id;
+        });
+      }
+
+      function msg(text, type) {
+        var el = document.getElementById("formMsg");
+        if (!el) return;
+        el.className = "msg " + (type || "");
+        el.textContent = text || "";
+      }
+
+      async function load() {
+        if (!token) {
+          document.getElementById("errorText").textContent = "Lien incomplet (token manquant).";
+          show("stateError");
+          return;
+        }
+        try {
+          var res = await fetch("/api/crm/e-signature?action=public-get&token=" + encodeURIComponent(token));
+          var data = await res.json();
+          if (!data.ok || !data.request) {
+            document.getElementById("errorText").textContent = (data && data.error) || "Lien invalide";
+            show("stateError");
+            return;
+          }
+          current = data.request;
+          if (current.status === "signed") {
+            show("stateDone");
+            return;
+          }
+          if (current.status === "cancelled") {
+            document.getElementById("errorText").textContent = "Cette demande a été annulée.";
+            show("stateError");
+            return;
+          }
+          document.getElementById("docTitle").textContent = current.title || "Document";
+          document.getElementById("docBody").textContent = current.bodyText || "";
+          if (current.signerName) document.getElementById("signerName").value = current.signerName;
+          if (current.signerEmail) document.getElementById("signerEmail").value = current.signerEmail;
+          show("stateForm");
+          pad = window.ESignature.attachPad(document.getElementById("sigPad"));
+        } catch (e) {
+          document.getElementById("errorText").textContent = "Impossible de charger le document.";
+          show("stateError");
+        }
+      }
+
+      document.getElementById("btnClear").addEventListener("click", function () {
+        if (pad) pad.clear();
+      });
+
+      document.getElementById("btnSign").addEventListener("click", async function () {
+        msg("");
+        var name = (document.getElementById("signerName").value || "").trim();
+        var email = (document.getElementById("signerEmail").value || "").trim();
+        var consent = document.getElementById("consent").checked;
+        if (!name) return msg("Indiquez votre nom.", "err");
+        if (!consent) return msg("Cochez le consentement.", "err");
+        if (!pad || pad.isEmpty()) return msg("Dessinez votre signature.", "err");
+
+        var btn = document.getElementById("btnSign");
+        btn.disabled = true;
+        btn.textContent = "Enregistrement…";
+        try {
+          var res = await fetch("/api/crm/e-signature?action=public-sign", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              token: token,
+              signerName: name,
+              signerEmail: email,
+              consent: true,
+              signatureDataUrl: pad.toDataURL("image/png"),
+            }),
+          });
+          var data = await res.json();
+          if (!data.ok) {
+            msg(data.error || "Échec de la signature", "err");
+            btn.disabled = false;
+            btn.textContent = "Signer le document";
+            return;
+          }
+          current = data.request;
+          show("stateDone");
+        } catch (e) {
+          msg("Erreur réseau.", "err");
+          btn.disabled = false;
+          btn.textContent = "Signer le document";
+        }
+      });
+
+      document.getElementById("btnPrint").addEventListener("click", function () {
+        if (!current || !window.ESignature) return;
+        window.ESignature.printSignedDocument({
+          id: current.id,
+          title: current.title,
+          body: current.bodyText || current.body_text,
+          signerName: current.signerName || current.signer_name,
+          signerEmail: current.signerEmail || current.signer_email,
+          signatureDataUrl: current.signatureDataUrl || current.signature_data_url,
+          signedAtLabel: current.signedAt
+            ? new Date(current.signedAt).toLocaleString("fr-FR")
+            : window.ESignature.todayFr(),
+          ip: current.signerIp || current.signer_ip,
+          userAgent: current.signerUa || current.signer_ua,
+        });
+      });
+
+      load();
+    })();
+  </script>
+</body>
+</html>

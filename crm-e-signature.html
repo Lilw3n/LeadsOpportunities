@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Signature électronique | CRM</title>
+  <link rel="stylesheet" href="./crm.css" />
+  <link rel="stylesheet" href="./crm-ui.css" />
+  <link rel="stylesheet" href="./css/admin-nav.css" />
+  <style>
+    .esig-layout { display:grid; grid-template-columns:1.1fr .9fr; gap:18px; }
+    @media (max-width:900px){ .esig-layout { grid-template-columns:1fr; } }
+    .esig-form label { display:flex; flex-direction:column; gap:4px; font-size:.78rem; font-weight:700; color:var(--muted); margin-bottom:10px; }
+    .esig-form input, .esig-form textarea { padding:9px 11px; border-radius:8px; border:1px solid var(--line); font:inherit; }
+    .esig-row { display:flex; justify-content:space-between; gap:10px; padding:12px 0; border-bottom:1px solid var(--line); align-items:flex-start; }
+    .esig-badge { font-size:.72rem; font-weight:800; padding:3px 8px; border-radius:999px; }
+    .esig-badge--pending { background:#ffedd5; color:#c2410c; }
+    .esig-badge--signed { background:#dcfce7; color:#15803d; }
+    .esig-badge--cancelled { background:#f1f5f9; color:#64748b; }
+    .esig-hint { font-size:.88rem; color:var(--muted); line-height:1.45; }
+    .esig-link { font-size:.8rem; word-break:break-all; color:#0d9488; }
+  </style>
+</head>
+<body class="crm-subpage">
+  <section class="crm-page-panel crm-gradient-panel">
+    <div>
+      <p class="crm-eyebrow">Documents · gratuit</p>
+      <h2>Signature électronique</h2>
+      <p>Créez un document, envoyez le lien client, récupérez la signature (canvas) + PDF. <strong>0 € / mois</strong> — pas d’abonnement SaaS.</p>
+    </div>
+    <div class="crm-action-row">
+      <a href="./crm-immo-documents.html" class="btn btn-ghost">Documents immo</a>
+      <a href="./crm-documents.html" class="btn btn-ghost">Documents CRM</a>
+    </div>
+  </section>
+
+  <div class="panel esig-hint" style="margin-bottom:14px">
+    <strong>Ce que c’est :</strong> signature électronique <em>simple</em> (SES) — image + horodatage + IP + consentement.
+    Idéal pour bons de visite, avenants, attestations, devis acceptés.
+    Pour un <strong>mandat exclusif / acte à valeur eIDAS qualifiée</strong>, préférez Yousign / DocuSign (prestataire de confiance).
+  </div>
+
+  <div class="esig-layout">
+    <div class="panel">
+      <h3 style="margin-top:0">Nouvelle demande</h3>
+      <form class="esig-form" id="esigForm">
+        <label>Titre du document
+          <input id="esigTitle" required placeholder="Ex. Bon de visite — 12 rue de la République" />
+        </label>
+        <label>Texte à faire signer
+          <textarea id="esigBody" rows="10" required placeholder="Collez ici le texte du document (clauses, objet, parties…)"></textarea>
+        </label>
+        <label>Nom signataire (prérempli)
+          <input id="esigSignerName" placeholder="Prénom Nom" />
+        </label>
+        <label>E-mail signataire (optionnel)
+          <input id="esigSignerEmail" type="email" placeholder="client@email.fr" />
+        </label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button type="submit" class="btn btn-primary">Créer le lien de signature</button>
+        </div>
+        <p id="esigFormMsg" class="esig-hint" style="margin-top:10px"></p>
+      </form>
+      <div id="esigCreated" hidden style="margin-top:14px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#f8fafc">
+        <strong>Lien client prêt</strong>
+        <p class="esig-link" id="esigCreatedUrl"></p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="btn btn-primary" id="esigCopy">Copier le lien</button>
+          <a class="btn btn-ghost" id="esigOpen" target="_blank" rel="noopener">Ouvrir</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0">Demandes récentes</h3>
+      <div id="esigList"><p class="esig-hint">Chargement…</p></div>
+    </div>
+  </div>
+
+  <script src="./js/e-signature-lib.js"></script>
+  <script>
+    (function () {
+      function token() {
+        try { return localStorage.getItem("lo_token") || ""; } catch (e) { return ""; }
+      }
+      function authHeaders() {
+        return {
+          Authorization: "Bearer " + token(),
+          "Content-Type": "application/json",
+        };
+      }
+      async function api(path, opts) {
+        opts = opts || {};
+        var res = await fetch(path, Object.assign({ headers: authHeaders() }, opts));
+        return res.json();
+      }
+      function badge(status) {
+        var cls = "esig-badge esig-badge--pending";
+        var label = status || "pending";
+        if (status === "signed") { cls = "esig-badge esig-badge--signed"; label = "Signé"; }
+        else if (status === "cancelled") { cls = "esig-badge esig-badge--cancelled"; label = "Annulé"; }
+        else label = "En attente";
+        return '<span class="' + cls + '">' + label + "</span>";
+      }
+      function esc(s) {
+        return window.ESignature ? window.ESignature.esc(s) : String(s || "");
+      }
+
+      async function loadList() {
+        var box = document.getElementById("esigList");
+        var data = await api("/api/crm/e-signature?action=list");
+        if (!data.ok) {
+          box.innerHTML = "<p class=\"esig-hint\">" + esc(data.error || "Erreur") + "</p>";
+          return;
+        }
+        var rows = data.requests || [];
+        if (!rows.length) {
+          box.innerHTML = "<p class=\"esig-hint\">Aucune demande pour l’instant.</p>";
+          return;
+        }
+        box.innerHTML = rows
+          .map(function (r) {
+            return (
+              '<div class="esig-row">' +
+              "<div><strong>" +
+              esc(r.title) +
+              "</strong><br><span class=\"esig-hint\">" +
+              esc(r.signerName || "—") +
+              (r.signerEmail ? " · " + esc(r.signerEmail) : "") +
+              "</span>" +
+              (r.signUrl
+                ? '<br><a class="esig-link" href="' + esc(r.signUrl) + '" target="_blank" rel="noopener">' + esc(r.signUrl) + "</a>"
+                : "") +
+              "</div>" +
+              "<div style=\"text-align:right\">" +
+              badge(r.status) +
+              (r.status === "signed"
+                ? '<br><button type="button" class="btn btn-ghost" style="margin-top:8px;font-size:.75rem" data-print="' +
+                  esc(r.id) +
+                  '">PDF signé</button>'
+                : r.status === "pending"
+                  ? '<br><button type="button" class="btn btn-ghost" style="margin-top:8px;font-size:.75rem" data-cancel="' +
+                    esc(r.id) +
+                    '">Annuler</button>'
+                  : "") +
+              "</div></div>"
+            );
+          })
+          .join("");
+
+        box.querySelectorAll("[data-cancel]").forEach(function (btn) {
+          btn.addEventListener("click", async function () {
+            if (!confirm("Annuler cette demande ?")) return;
+            await api("/api/crm/e-signature?action=cancel", {
+              method: "POST",
+              body: JSON.stringify({ id: btn.getAttribute("data-cancel") }),
+            });
+            loadList();
+          });
+        });
+        box.querySelectorAll("[data-print]").forEach(function (btn) {
+          btn.addEventListener("click", async function () {
+            var d = await api("/api/crm/e-signature?action=get&id=" + encodeURIComponent(btn.getAttribute("data-print")));
+            if (!d.ok || !d.request) return alert(d.error || "Erreur");
+            var r = d.request;
+            window.ESignature.printSignedDocument({
+              id: r.id,
+              title: r.title,
+              body: r.bodyText,
+              signerName: r.signerName,
+              signerEmail: r.signerEmail,
+              signatureDataUrl: r.signatureDataUrl,
+              signedAtLabel: r.signedAt ? new Date(r.signedAt).toLocaleString("fr-FR") : "",
+              ip: r.signerIp,
+              userAgent: r.signerUa,
+            });
+          });
+        });
+      }
+
+      document.getElementById("esigForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var msg = document.getElementById("esigFormMsg");
+        msg.textContent = "Création…";
+        var data = await api("/api/crm/e-signature?action=create", {
+          method: "POST",
+          body: JSON.stringify({
+            title: document.getElementById("esigTitle").value,
+            bodyText: document.getElementById("esigBody").value,
+            signerName: document.getElementById("esigSignerName").value,
+            signerEmail: document.getElementById("esigSignerEmail").value,
+          }),
+        });
+        if (!data.ok) {
+          msg.textContent = data.error || "Erreur";
+          return;
+        }
+        msg.textContent = "Demande créée.";
+        document.getElementById("esigCreated").hidden = false;
+        document.getElementById("esigCreatedUrl").textContent = data.request.signUrl;
+        document.getElementById("esigOpen").href = data.request.signUrl;
+        document.getElementById("esigForm").reset();
+        loadList();
+      });
+
+      document.getElementById("esigCopy").addEventListener("click", function () {
+        var url = document.getElementById("esigCreatedUrl").textContent;
+        navigator.clipboard.writeText(url).then(function () {
+          document.getElementById("esigFormMsg").textContent = "Lien copié.";
+        });
+      });
+
+      if (!token()) {
+        window.location.href = "./auth.html?next=" + encodeURIComponent("./crm-e-signature.html");
+        return;
+      }
+      loadList();
+    })();
+  </script>
+  <script src="./js/crm-subpage-shell.js"></script>
+</body>
+</html>
