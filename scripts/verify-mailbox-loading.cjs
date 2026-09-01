@@ -15,6 +15,14 @@ function assert(cond, msg) {
 }
 
 var mbx = fs.readFileSync(path.join(root, "js/dashboard-mailbox.js"), "utf8");
+try {
+  require("child_process").execSync("node --check " + JSON.stringify(path.join(root, "js/dashboard-mailbox.js")), {
+    stdio: "pipe",
+  });
+  assert(true, "dashboard-mailbox.js syntaxe JS valide");
+} catch (e) {
+  assert(false, "dashboard-mailbox.js syntaxe JS INVALIDE");
+}
 var svc = fs.readFileSync(path.join(root, "api/_lib/mailbox-sync-service.js"), "utf8");
 var html = fs.readFileSync(path.join(root, "dashboard.html"), "utf8");
 
