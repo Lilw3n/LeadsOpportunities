@@ -541,6 +541,7 @@
         "<li>Vercel → Variables : <code>MAIL_IMAP_PROVIDER=both</code>, " +
         "<code>MAIL_IMAP_PASS_WORKSPACE</code>, <code>MAIL_IMAP_PASS_O2SWITCH</code> (secours)</li>" +
         "<li><strong>Redeploy</strong> puis ici → Synchroniser IMAP</li>" +
+        "<li>Anciens mails (avant Workspace) : <strong>Historique o2switch</strong> (plusieurs clics si beaucoup de messages)</li>" +
         "<li>En attendant : boutons <strong>Gmail Workspace</strong> / <strong>o2switch</strong> ci-dessus</li>" +
         "</ol>";
     }
@@ -1579,6 +1580,54 @@
     else loadMailbox({});
   }
 
+  async function backfillMailboxO2switch(autoLoop) {
+    if (
+      !autoLoop &&
+      !confirm(
+        "Importer les anciens e-mails encore sur o2switch (avant Google Workspace) ?\n\n" +
+          "Le CRM récupère les messages par lots (~40). Relancez ou laissez tourner jusqu'à « terminé »."
+      )
+    ) {
+      return;
+    }
+    var btn = document.getElementById("mailboxBackfillBtn");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = autoLoop ? "Import…" : "Import lot…";
+    }
+    var data = await window.Dashboard.api("/api/dashboard/mailbox-sync", {
+      method: "POST",
+      body: JSON.stringify({ backfill: true, source: "o2switch" }),
+    });
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Historique o2switch";
+    }
+    if (!data.ok) {
+      toast(data.error || "Erreur import historique", "error");
+      return false;
+    }
+    var sync = data.sync || {};
+    if (sync.ok) {
+      var msg =
+        (sync.imported || 0) +
+        " ancien(s) e-mail(s) importé(s)" +
+        (sync.backfillComplete ? " — historique o2switch terminé" : " — relancez si besoin");
+      toast(msg, sync.backfillComplete ? "success" : "info");
+      if (data.messages) ingestMessages(data);
+      else loadMailbox({});
+      if (!sync.backfillComplete && autoLoop && (sync.imported || 0) > 0) {
+        await new Promise(function (r) {
+          setTimeout(r, 800);
+        });
+        return backfillMailboxO2switch(true);
+      }
+      return !sync.backfillComplete && (sync.imported || 0) > 0;
+    }
+    toast(sync.error || "Import historique impossible", "error");
+    return false;
+  }
+
   function bindUi() {
     document.getElementById("mailboxSearch").addEventListener("input", function (e) {
       state.search = e.target.value;
@@ -1670,6 +1719,12 @@
     document.getElementById("mailboxSyncBtn").addEventListener("click", function () {
       syncMailbox(false);
     });
+    var backfillBtn = document.getElementById("mailboxBackfillBtn");
+    if (backfillBtn) {
+      backfillBtn.addEventListener("click", function () {
+        backfillMailboxO2switch(false);
+      });
+    }
     document.getElementById("mailboxRefreshBtn").addEventListener("click", function () {
       loadMailbox({});
     });

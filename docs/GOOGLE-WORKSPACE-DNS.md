@@ -42,7 +42,10 @@ v=spf1 ip4:109.234.166.232 include:_spf.google.com include:spf.jabatus.fr ~all
    - `MAIL_IMAP_PASS_WORKSPACE=<mot de passe d'application>`
    - `MAIL_IMAP_PASS_O2SWITCH=<mdp o2switch actuel>` (secours)
 3. Redeploy → Messagerie → **Synchroniser IMAP**.
-4. Boutons : **Gmail Workspace** + **o2switch Roundcube (secours)**.
+4. **Anciens e-mails** (reçus sur o2switch avant Google Workspace) : bouton **Historique o2switch** dans la messagerie CRM. Chaque clic importe ~40 messages ; le bouton enchaîne les lots automatiquement tant qu’il reste de l’historique sur le serveur o2switch.
+5. Boutons : **Gmail Workspace** + **o2switch Roundcube (secours)**.
+
+Prérequis historique : `MAIL_IMAP_PASS_O2SWITCH` + `MAIL_IMAP_PROVIDER=both`. Les mails déjà migrés dans Gmail ne sont pas sur o2switch — utilisez la sync Workspace pour ceux-là.
 
 ---
 

@@ -165,6 +165,7 @@ async function ensureMailboxSchema(sql) {
       imported_last INT DEFAULT 0
     )
   `;
+  await sql`ALTER TABLE mailbox_sync_meta ADD COLUMN IF NOT EXISTS backfill_next_uid BIGINT DEFAULT NULL`;
   return true;
 }
 

@@ -1,4 +1,4 @@
-const { syncImapInbox, listImapSources, imapConfig } = require("./mail-imap");
+const { syncImapInbox, backfillImapInbox, listImapSources, imapConfig } = require("./mail-imap");
 const { listMessages, ensureMailboxSchema } = require("./mail-store");
 const { getSql } = require("./db");
 
@@ -51,7 +51,7 @@ async function getSyncMeta(sql) {
 
 async function getAllSyncMeta(sql) {
   const rows = await sql`
-    SELECT id, last_sync_at, last_error, last_host, imported_last, last_imap_uid
+    SELECT id, last_sync_at, last_error, last_host, imported_last, last_imap_uid, backfill_next_uid
     FROM mailbox_sync_meta
     WHERE id IN ('contact', 'contact_workspace')
     ORDER BY id
@@ -67,6 +67,40 @@ async function runMailboxSync() {
   await ensureMailboxSchema(sql);
   const sync = await syncImapInbox(sql);
   await recordSyncMeta(sql, sync);
+  return sync;
+}
+
+/** Import historique o2switch (lots de N mails anciens) */
+async function forceBackfillNow(source) {
+  if (!listImapSources().some(function (s) {
+    return s.id === (source || "o2switch");
+  })) {
+    return {
+      skipped: true,
+      reason: "imap_source_missing",
+      error:
+        "o2switch non configuré. Ajoutez MAIL_IMAP_PASS_O2SWITCH et MAIL_IMAP_PROVIDER=both sur Vercel.",
+    };
+  }
+  const sql = getSql();
+  if (!sql) return { skipped: true, reason: "no_database" };
+  await ensureMailboxSchema(sql);
+  const sync = await backfillImapInbox(sql, { source: source || "o2switch" });
+  if (sync.ok) {
+    await recordOneMeta(sql, sync.metaId || "contact", {
+      ok: true,
+      lastUid: sync.lastUid,
+      host: sync.host,
+      imported: sync.imported,
+    });
+  } else {
+    await recordOneMeta(sql, sync.metaId || "contact", {
+      ok: false,
+      error: sync.error,
+      host: sync.host,
+      imported: 0,
+    });
+  }
   return sync;
 }
 
@@ -175,6 +209,7 @@ async function listWithAutoSync(limit, offset) {
 module.exports = {
   runMailboxSync,
   forceSyncNow,
+  forceBackfillNow,
   autoSyncIfDue,
   listWithAutoSync,
   getSyncMeta,

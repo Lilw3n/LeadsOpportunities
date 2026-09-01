@@ -29,6 +29,7 @@ function read(rel) {
 var mail = require("../api/_lib/mail-imap");
 assert(typeof mail.listImapSources === "function", "listImapSources");
 assert(typeof mail.syncImapInbox === "function", "syncImapInbox");
+assert(typeof mail.backfillImapInbox === "function", "backfillImapInbox");
 
 process.env.MAIL_IMAP_PROVIDER = "both";
 process.env.MAIL_IMAP_PASS_WORKSPACE = "ws-test";
@@ -55,6 +56,8 @@ assert(dash.indexOf("mailboxWebmailBtn") >= 0, "bouton o2switch");
 
 var mbxJs = read("js/dashboard-mailbox.js");
 assert(mbxJs.indexOf("webmailWorkspaceUrl") >= 0, "JS webmail workspace");
+assert(mbxJs.indexOf("backfillMailboxO2switch") >= 0, "JS backfill o2switch");
+assert(read("dashboard.html").indexOf("mailboxBackfillBtn") >= 0, "bouton historique o2switch");
 
 var envEx = read(".env.example");
 assert(envEx.indexOf("MAIL_IMAP_PASS_WORKSPACE") >= 0, "env workspace pass");
