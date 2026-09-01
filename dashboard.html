@@ -2728,7 +2728,12 @@
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
         if (a.dataset.section === "leads") { loadBlockedIps(); loadIpLabels(); loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
-        if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox({});
+        if (a.dataset.section === "mailbox" && window.loadMailbox) {
+          try {
+            history.replaceState(null, "", "dashboard.html?section=mailbox");
+          } catch (e) {}
+          loadMailbox({});
+        }
       });
     });
 
@@ -3807,6 +3812,10 @@
     });
 
     var params = new URLSearchParams(window.location.search);
+    var hashSection = (window.location.hash || "").replace(/^#/, "").split("?")[0].trim();
+    if (!params.get("section") && (hashSection === "mailbox" || hashSection === "messagerie")) {
+      params.set("section", "mailbox");
+    }
     if (params.get("section") === "leads") {
       setTimeout(function () {
         goToLeads(params.get("view") || "");
