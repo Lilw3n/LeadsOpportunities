@@ -19,13 +19,21 @@ Gateway préprod par défaut : `https://ppr-am-gateway.april.fr`
 
 | Variable | Obligatoire | Rôle |
 |---|---|---|
-| `PARTNER_APRIL_CLIENT_ID` | oui | Identifiant application API Store |
-| `PARTNER_APRIL_CLIENT_SECRET` | oui | Secret (jamais committer) |
-| `PARTNER_APRIL_GATEWAY` | non | Base gateway (défaut préprod) |
+| `PARTNER_APRIL_CLIENT_ID` | oui | Identifiant application API Store (ex. `00134-xxxxx`) |
+| `PARTNER_APRIL_CLIENT_SECRET` | oui | Secret (jamais committer — régénérer si exposé) |
+| `PARTNER_APRIL_GATEWAY` | non | Base gateway (défaut préprod `https://ppr-am-gateway.april.fr`) |
 | `PARTNER_APRIL_ENV` | non | `preprod` / `prod` (affichage) |
 | `PARTNER_APRIL_API_KEY` + `PARTNER_APRIL_API_BASE` | non | Legacy fallback |
 
 Après ajout des variables : **Redeploy** Vercel.
+
+### Checklist rapide (API Store → CRM)
+
+1. API Store → Applications → noter **client_id** + **client_secret**
+2. Vercel Production → coller `PARTNER_APRIL_CLIENT_ID` + `PARTNER_APRIL_CLIENT_SECRET`
+3. Redeploy
+4. Ouvrir [`/crm-april.html`](https://www.leadsopportunities.fr/crm-april.html) → **Test complet**
+5. Attendu : `{"status":"success"}` sur firstCall
 
 ## Sécurité
 
