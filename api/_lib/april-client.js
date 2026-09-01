@@ -2,39 +2,55 @@
  * Client API APRIL (API Store) — OAuth2 client_credentials + appels Bearer.
  * Secrets : PARTNER_APRIL_CLIENT_ID / PARTNER_APRIL_CLIENT_SECRET (jamais exposés au front).
  *
- * Doc préprod (API Store) :
- *   POST {gateway}/apistore/oauth/token?grant_type=client_credentials&client_id=…&client_secret=…
- *   POST {gateway}/apistore-test/firstCall/  Authorization: Bearer <token>
+ * Doc préprod (API Store) — deux gateways distinctes :
+ *   OAuth : POST {oauthGateway}/apistore/oauth/token?grant_type=client_credentials&…
+ *   API   : POST {apiGateway}/apistore-test/firstCall/  Authorization: Bearer <token>
  */
-var DEFAULT_GATEWAY = "https://ppr-am-gateway.april.fr";
+var DEFAULT_OAUTH_GATEWAY = "https://ppr-am-gateway.april.fr";
+var DEFAULT_API_GATEWAY = "https://ppr-api-gateway.april.fr";
 
 var tokenCache = {
   accessToken: null,
   expiresAt: 0,
 };
 
-function gatewayBase() {
+function oauthGatewayBase() {
   var raw =
     process.env.PARTNER_APRIL_GATEWAY ||
-    process.env.PARTNER_APRIL_API_BASE ||
-    DEFAULT_GATEWAY;
-  return String(raw || DEFAULT_GATEWAY)
+    process.env.PARTNER_APRIL_OAUTH_GATEWAY ||
+    DEFAULT_OAUTH_GATEWAY;
+  return String(raw || DEFAULT_OAUTH_GATEWAY)
     .trim()
     .replace(/\/$/, "");
+}
+
+function apiGatewayBase() {
+  var raw =
+    process.env.PARTNER_APRIL_API_GATEWAY ||
+    process.env.PARTNER_APRIL_API_BASE ||
+    DEFAULT_API_GATEWAY;
+  return String(raw || DEFAULT_API_GATEWAY)
+    .trim()
+    .replace(/\/$/, "");
+}
+
+/** @deprecated alias oauth — conservé pour adapters existants */
+function gatewayBase() {
+  return oauthGatewayBase();
 }
 
 function oauthTokenUrl() {
   if (process.env.PARTNER_APRIL_OAUTH_URL) {
     return String(process.env.PARTNER_APRIL_OAUTH_URL).trim();
   }
-  return gatewayBase() + "/apistore/oauth/token";
+  return oauthGatewayBase() + "/apistore/oauth/token";
 }
 
 function firstCallUrl() {
   if (process.env.PARTNER_APRIL_FIRST_CALL_URL) {
     return String(process.env.PARTNER_APRIL_FIRST_CALL_URL).trim();
   }
-  return gatewayBase() + "/apistore-test/firstCall/";
+  return apiGatewayBase() + "/apistore-test/firstCall/";
 }
 
 function clientId() {
@@ -53,7 +69,9 @@ function configStatus() {
   var id = clientId();
   return {
     configured: isConfigured(),
-    gateway: gatewayBase(),
+    gateway: oauthGatewayBase(),
+    oauthGateway: oauthGatewayBase(),
+    apiGateway: apiGatewayBase(),
     oauthUrl: oauthTokenUrl().replace(/client_secret=[^&]*/i, "client_secret=***"),
     firstCallUrl: firstCallUrl(),
     clientIdHint: id ? id.slice(0, 5) + "…" + id.slice(-2) : "",
@@ -233,7 +251,11 @@ async function testConnection() {
 }
 
 module.exports = {
-  DEFAULT_GATEWAY: DEFAULT_GATEWAY,
+  DEFAULT_OAUTH_GATEWAY: DEFAULT_OAUTH_GATEWAY,
+  DEFAULT_API_GATEWAY: DEFAULT_API_GATEWAY,
+  DEFAULT_GATEWAY: DEFAULT_OAUTH_GATEWAY,
+  oauthGatewayBase: oauthGatewayBase,
+  apiGatewayBase: apiGatewayBase,
   gatewayBase: gatewayBase,
   oauthTokenUrl: oauthTokenUrl,
   firstCallUrl: firstCallUrl,

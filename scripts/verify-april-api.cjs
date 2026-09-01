@@ -33,6 +33,9 @@ assert(typeof April.fetchAccessToken === "function", "fetchAccessToken");
 assert(typeof April.firstCall === "function", "firstCall");
 assert(typeof April.testConnection === "function", "testConnection");
 assert(April.gatewayBase().indexOf("april.fr") >= 0, "gateway défaut april.fr");
+assert(typeof April.apiGatewayBase === "function", "apiGatewayBase");
+assert(April.apiGatewayBase().indexOf("ppr-api-gateway") >= 0, "api gateway ppr-api-gateway");
+assert(April.firstCallUrl().indexOf("ppr-api-gateway") >= 0, "firstCall sur api gateway");
 assert(April.isConfigured() === false || April.isConfigured() === true, "isConfigured bool");
 
 var status = April.configStatus();
@@ -57,7 +60,7 @@ assert(html.indexOf("PARTNER_APRIL_CLIENT_ID") >= 0, "mention env UI");
 
 var envEx = read(".env.example");
 assert(envEx.indexOf("PARTNER_APRIL_CLIENT_ID") >= 0, ".env.example CLIENT_ID");
-assert(envEx.indexOf("PARTNER_APRIL_CLIENT_SECRET") >= 0, ".env.example CLIENT_SECRET");
+assert(envEx.indexOf("PARTNER_APRIL_API_GATEWAY") >= 0, ".env.example API_GATEWAY");
 
 var partners = JSON.parse(read("config/partners.json"));
 var april = partners.partners.filter(function (p) {

@@ -8,12 +8,16 @@ Route : `GET|POST /api/crm/april`
 
 OAuth2 **client_credentials** (machine-to-machine, pas de redirect utilisateur) :
 
-1. `POST {gateway}/apistore/oauth/token?grant_type=client_credentials&client_id=…&client_secret=…`
+1. `POST {oauthGateway}/apistore/oauth/token?grant_type=client_credentials&client_id=…&client_secret=…`
 2. Appels suivants : header `Authorization: Bearer <access_token>`
-3. Smoke-test : `POST {gateway}/apistore-test/firstCall/` → `{"status":"success"}`
+3. Smoke-test : `POST {apiGateway}/apistore-test/firstCall/` → `{"status":"success"}`
 
-Gateway préprod par défaut : `https://ppr-am-gateway.april.fr`  
-(modifiable via `PARTNER_APRIL_GATEWAY` ou URLs complètes `PARTNER_APRIL_OAUTH_URL` / `PARTNER_APRIL_FIRST_CALL_URL`).
+**Deux gateways en préprod** (doc API Store) :
+- OAuth : `https://ppr-am-gateway.april.fr`
+- API (firstCall et appels métier) : `https://ppr-api-gateway.april.fr`
+
+`PARTNER_APRIL_GATEWAY` = OAuth · `PARTNER_APRIL_API_GATEWAY` = appels API (défaut ci-dessus).
+Override complet firstCall : `PARTNER_APRIL_FIRST_CALL_URL`.
 
 ## Variables Vercel
 
@@ -21,7 +25,8 @@ Gateway préprod par défaut : `https://ppr-am-gateway.april.fr`
 |---|---|---|
 | `PARTNER_APRIL_CLIENT_ID` | oui | Identifiant application API Store (ex. `00134-xxxxx`) |
 | `PARTNER_APRIL_CLIENT_SECRET` | oui | Secret (jamais committer — régénérer si exposé) |
-| `PARTNER_APRIL_GATEWAY` | non | Base gateway (défaut préprod `https://ppr-am-gateway.april.fr`) |
+| `PARTNER_APRIL_GATEWAY` | non | Gateway **OAuth** (défaut `https://ppr-am-gateway.april.fr`) |
+| `PARTNER_APRIL_API_GATEWAY` | non | Gateway **API** firstCall / métier (défaut `https://ppr-api-gateway.april.fr`) |
 | `PARTNER_APRIL_ENV` | non | `preprod` / `prod` (affichage) |
 | `PARTNER_APRIL_API_KEY` + `PARTNER_APRIL_API_BASE` | non | Legacy fallback |
 

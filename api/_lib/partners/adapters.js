@@ -85,7 +85,7 @@ async function sendApi(partner, payload) {
       const April = require("../april-client");
       if (April.isConfigured()) {
         const pathSuffix = integration.path || "/leads";
-        const base = April.gatewayBase();
+        const base = April.apiGatewayBase ? April.apiGatewayBase() : April.gatewayBase();
         const url = base.replace(/\/$/, "") + pathSuffix;
         const result = await April.request("POST", url, { body: payload, timeoutMs: 12000 });
         return {

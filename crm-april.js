@@ -33,14 +33,15 @@
       ["Configuration", april.configured ? "OK" : "Manquante", april.configured],
       ["Client ID", april.hasClientId ? april.clientIdHint || "présent" : "absent", april.hasClientId],
       ["Client secret", april.hasClientSecret ? "présent" : "absent", april.hasClientSecret],
-      ["Gateway", april.gateway || "—", true],
+      ["Gateway OAuth", april.oauthGateway || april.gateway || "—", true],
+      ["Gateway API", april.apiGateway || "—", true],
       ["Environnement", april.env || "preprod", true],
       ["Jeton en cache", april.tokenCached ? "oui" : "non", true],
     ];
     grid.innerHTML = rows
       .map(function (r) {
         var cls = r[2] ? "april-ok" : "april-ko";
-        if (r[0] === "Gateway" || r[0] === "Environnement" || r[0] === "Jeton en cache") cls = "";
+        if (r[0] === "Gateway OAuth" || r[0] === "Gateway API" || r[0] === "Environnement" || r[0] === "Jeton en cache") cls = "";
         return (
           '<div class="april-card"><strong>' +
           r[0] +
