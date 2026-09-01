@@ -34,7 +34,8 @@ assert(svc.indexOf('reason: "list_only"') >= 0, "listWithAutoSync sans sync bloq
 assert(html.indexOf("mailboxBackfillBtn") >= 0, "bouton Historique o2switch");
 assert(html.indexOf('data-mailbox-source="unified"') >= 0, "filtre vue unifiée");
 assert(mbx.indexOf("setMailboxSource") >= 0, "setMailboxSource export");
-assert(mbx.indexOf("function renderMailboxSourceBadge") >= 0, "renderMailboxSourceBadge");
+assert(mbx.indexOf("parseLeadPayload(m.body_text) || {}") >= 0, "isExpressCallback null-safe");
+assert(mbx.indexOf("p.callbackRequested") >= 0, "callbackRequested check");
 assert(typeof require("../api/_lib/mail-imap").backfillImapInbox === "function", "backfillImapInbox export");
 
 process.exit(failed ? 1 : 0);

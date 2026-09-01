@@ -98,7 +98,7 @@
     ) {
       return true;
     }
-    var p = parseLeadPayload(m.body_text);
+    var p = parseLeadPayload(m.body_text) || {};
     if (p.callbackRequested === true || String(p.journey || "") === "callback") return true;
     var src = String(p.source || "").toLowerCase();
     if (
@@ -438,7 +438,8 @@
     }
     try {
       var o = JSON.parse(jsonPart);
-      return typeof o === "object" && o ? o : null;
+      if (!o || typeof o !== "object" || Array.isArray(o)) return null;
+      return o;
     } catch (e) {
       return null;
     }
