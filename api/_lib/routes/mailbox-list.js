@@ -31,6 +31,11 @@ module.exports = async (req, res) => {
       webmailUrl: external.webmail_url,
       webmailLabel: external.webmail_label,
       webmailLoginUrl: external.webmail_login_url,
+      webmailWorkspaceUrl: external.webmail_workspace_url,
+      webmailWorkspaceLabel: external.webmail_workspace_label,
+      webmailO2switchUrl: external.webmail_o2switch_url,
+      webmailO2switchLabel: external.webmail_o2switch_label,
+      imapSources: data.imapSources || [],
     });
   } catch (e) {
     console.error("[mailbox-list]", e);

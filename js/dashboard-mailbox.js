@@ -6,6 +6,7 @@
   var LS_SYNC_ERR = "mbx_last_imap_error";
   var LS_SETUP_HIDE = "mbx_setup_hidden";
   var LS_EXPRESS_SEEN = "mbx_express_seen_ids";
+  var LS_MAILBOX_SOURCE = "mbx_mailbox_source";
 
   var TEMPLATES = {
     merci:
@@ -50,6 +51,8 @@
     tableMissing: false,
     stats: null,
     pendingOpenId: null,
+    mailboxSource: "unified",
+    imapSources: [],
   };
 
   function esc(s) {
@@ -95,7 +98,7 @@
     ) {
       return true;
     }
-    var p = parseLeadPayload(m.body_text);
+    var p = parseLeadPayload(m.body_text) || {};
     if (p.callbackRequested === true || String(p.journey || "") === "callback") return true;
     var src = String(p.source || "").toLowerCase();
     if (
@@ -139,6 +142,247 @@
 
   function isReceivedMail(m) {
     return messageKind(m) === "imap" || (m.direction === "inbound" && messageKind(m) !== "site");
+  }
+
+  /** workspace | o2switch | null */
+  function imapMailboxSource(m) {
+    if (!m || !m.external_uid) return null;
+    var uid = String(m.external_uid);
+    if (uid.indexOf("imap:ws:") === 0) return "workspace";
+    if (uid.indexOf("imap:INBOX:") === 0) return "o2switch";
+    if (uid.indexOf("imap:") === 0) return "o2switch";
+    return null;
+  }
+
+  function normalizeSubjectForDedup(subject) {
+    return String(subject || "")
+      .replace(/^(re|fwd|tr|fw)\s*:\s*/gi, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function imapDedupKey(m) {
+    if (m.message_id) {
+      return "mid:" + String(m.message_id).toLowerCase().trim();
+    }
+    var from = extractEmail(m.from_addr).toLowerCase();
+    var subj = normalizeSubjectForDedup(m.subject);
+    var t = m.created_at ? new Date(m.created_at).getTime() : 0;
+    var bucket = t ? Math.floor(t / 60000) : 0;
+    return "heur:" + from + "|" + subj + "|" + bucket;
+  }
+
+  function sourceRank(src) {
+    if (src === "workspace") return 2;
+    if (src === "o2switch") return 1;
+    return 0;
+  }
+
+  function dedupeImapMessages(imapList) {
+    var groups = {};
+    imapList.forEach(function (m) {
+      var key = imapDedupKey(m);
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(m);
+    });
+    var out = [];
+    Object.keys(groups).forEach(function (key) {
+      var items = groups[key];
+      if (items.length === 1) {
+        var only = Object.assign({}, items[0]);
+        only._mailboxSources = [imapMailboxSource(items[0])].filter(Boolean);
+        out.push(only);
+        return;
+      }
+      items.sort(function (a, b) {
+        var ra = sourceRank(imapMailboxSource(a));
+        var rb = sourceRank(imapMailboxSource(b));
+        if (ra !== rb) return rb - ra;
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+      var primary = Object.assign({}, items[0]);
+      var sources = [];
+      items.forEach(function (it) {
+        var s = imapMailboxSource(it);
+        if (s && sources.indexOf(s) < 0) sources.push(s);
+      });
+      primary._mailboxSources = sources;
+      primary._mailboxDuplicateIds = items.map(function (it) {
+        return it.id;
+      });
+      out.push(primary);
+    });
+    return out;
+  }
+
+  function countImapBySource(messages) {
+    var ws = 0;
+    var o2 = 0;
+    (messages || []).forEach(function (m) {
+      if (messageKind(m) !== "imap") return;
+      var s = imapMailboxSource(m);
+      if (s === "workspace") ws++;
+      else if (s === "o2switch") o2++;
+    });
+    return { workspace: ws, o2switch: o2, total: ws + o2 };
+  }
+
+  function getMailboxSourcePool(messages) {
+    var mode = state.mailboxSource || "unified";
+    var imap = [];
+    var rest = [];
+    (messages || []).forEach(function (m) {
+      if (messageKind(m) === "imap") imap.push(m);
+      else rest.push(m);
+    });
+
+    if (mode === "workspace") {
+      return rest.concat(
+        imap.filter(function (m) {
+          return imapMailboxSource(m) === "workspace";
+        })
+      );
+    }
+    if (mode === "o2switch") {
+      return rest.concat(
+        imap.filter(function (m) {
+          return imapMailboxSource(m) === "o2switch";
+        })
+      );
+    }
+    if (mode === "all") {
+      return messages.slice();
+    }
+    return rest.concat(dedupeImapMessages(imap));
+  }
+
+  function mailboxSourceLabel(mode) {
+    var map = {
+      unified: "Vue unifiée (doublons masqués)",
+      workspace: "Gmail Workspace uniquement",
+      o2switch: "o2switch uniquement",
+      all: "Tout afficher (brut)",
+    };
+    return map[mode] || mode;
+  }
+
+  function renderEmptyMailboxHelp() {
+    var counts = countImapBySource(state.all);
+    var imapInView = state.filtered.filter(function (m) {
+      return messageKind(m) === "imap";
+    }).length;
+    var siteN = (state.stats && state.stats.siteLeads) || 0;
+    var html =
+      '<div class="mbx-empty mbx-empty--help" style="padding:28px 16px;text-align:center">' +
+      "<p><strong>Aucun message dans cette vue.</strong></p>";
+
+    if (state.mailboxSource === "workspace" && counts.workspace === 0 && counts.o2switch > 0) {
+      html +=
+        '<p style="color:#c2410c;margin:12px 0">0 e-mail Workspace en base, mais <strong>' +
+        counts.o2switch +
+        "</strong> sur o2switch.<br>Cliquez le filtre <strong>o2switch</strong> ou <strong>Vue unifiée</strong>.</p>";
+    } else if (state.mailboxSource === "o2switch" && counts.o2switch === 0 && counts.workspace > 0) {
+      html +=
+        '<p style="color:#1d4ed8;margin:12px 0">0 e-mail o2switch, mais <strong>' +
+        counts.workspace +
+        "</strong> sur Workspace.<br>Cliquez <strong>Gmail Workspace</strong> ou <strong>Vue unifiée</strong>.</p>";
+    } else if (counts.total === 0 && state.imapConfigured) {
+      html +=
+        '<p style="margin:12px 0;color:var(--muted)">Vercel est OK — il faut maintenant <strong>importer</strong> les mails dans le CRM (base Neon), pas seulement les lire sur Gmail/o2switch.</p>' +
+        '<p style="margin:16px 0"><button type="button" class="btn btn-primary" id="mbxEmptySyncBtn">Synchroniser IMAP maintenant</button> ' +
+        '<button type="button" class="btn btn-ghost" id="mbxEmptyBackfillBtn">Historique o2switch</button></p>';
+    } else if (!state.imapConfigured) {
+      html += '<p style="color:#b45309;margin:12px 0">IMAP non détecté par l’API — redeploy Vercel puis Actualiser.</p>';
+    } else if (siteN > 0) {
+      html += "<p>" + siteN + " lead(s) site — onglets Questionnaires / Rappels express.</p>";
+    } else {
+      html += "<p>Essayez <strong>Boîte reçue</strong> ou <strong>Synchroniser IMAP</strong>.</p>";
+    }
+
+    if (imapInView === 0 && counts.total > 0 && state.view === "received") {
+      html +=
+        '<p style="margin-top:12px;font-size:0.88rem;color:var(--muted)">' +
+        counts.o2switch +
+        " o2switch · " +
+        counts.workspace +
+        " Workspace en base — changez le filtre « Boîte contact@ » ci-dessus.</p>";
+    }
+
+    html += "</div>";
+    return html;
+  }
+
+  function bindEmptyMailboxActions() {
+    var syncBtn = document.getElementById("mbxEmptySyncBtn");
+    if (syncBtn) {
+      syncBtn.addEventListener("click", function () {
+        syncMailbox(false);
+      });
+    }
+    var bf = document.getElementById("mbxEmptyBackfillBtn");
+    if (bf) {
+      bf.addEventListener("click", function () {
+        backfillMailboxO2switch(false);
+      });
+    }
+  }
+
+  function renderMailboxSourceBadge(m) {
+    if (!m || messageKind(m) !== "imap") return "";
+    var sources = m._mailboxSources || [imapMailboxSource(m)].filter(Boolean);
+    if (!sources.length) return "";
+    if (sources.length >= 2) {
+      return '<span class="mbx-pill mbx-pill--both" title="Présent sur Workspace et o2switch">Les 2 boîtes</span>';
+    }
+    if (sources[0] === "workspace") {
+      return '<span class="mbx-pill mbx-pill--ws">Workspace</span>';
+    }
+    if (sources[0] === "o2switch") {
+      return '<span class="mbx-pill mbx-pill--o2">o2switch</span>';
+    }
+    return "";
+  }
+
+  function updateMailboxSourceUi() {
+    document.querySelectorAll("[data-mailbox-source]").forEach(function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-mailbox-source") === state.mailboxSource);
+    });
+    var hint = document.getElementById("mailboxSourceHint");
+    if (!hint) return;
+    var counts = countImapBySource(state.all);
+    var dupes =
+      counts.total -
+      dedupeImapMessages(
+        state.all.filter(function (m) {
+          return messageKind(m) === "imap";
+        })
+      ).length;
+    var parts = [
+      mailboxSourceLabel(state.mailboxSource),
+      counts.workspace + " Workspace",
+      counts.o2switch + " o2switch",
+    ];
+    if (dupes > 0 && state.mailboxSource === "unified") {
+      parts.push(dupes + " doublon(s) masqué(s)");
+    }
+    if (state.mailboxSource === "workspace" && counts.workspace === 0 && counts.o2switch > 0) {
+      parts.push("→ filtre o2switch");
+    }
+    if (state.mailboxSource === "o2switch" && counts.o2switch === 0 && counts.workspace > 0) {
+      parts.push("→ filtre Workspace");
+    }
+    hint.textContent = parts.join(" · ");
+  }
+
+  function setMailboxSource(mode) {
+    state.mailboxSource = mode || "unified";
+    try {
+      localStorage.setItem(LS_MAILBOX_SOURCE, state.mailboxSource);
+    } catch (e) {}
+    updateMailboxSourceUi();
+    applyFilters();
+    renderList();
+    pickDefaultSelection();
   }
 
   function initials(addr) {
@@ -194,7 +438,8 @@
     }
     try {
       var o = JSON.parse(jsonPart);
-      return typeof o === "object" && o ? o : null;
+      if (!o || typeof o !== "object" || Array.isArray(o)) return null;
+      return o;
     } catch (e) {
       return null;
     }
@@ -350,7 +595,8 @@
 
   function applyFilters() {
     var q = state.search.toLowerCase().trim();
-    var pool = state.all.filter(function (m) {
+    var basePool = getMailboxSourcePool(state.all);
+    var pool = basePool.filter(function (m) {
       if (!q) return true;
       var hay =
         (m.subject || "") +
@@ -388,15 +634,15 @@
     });
 
     state.filtered = pool;
-    state.threads = buildThreads(
-      state.view === "feed"
-        ? pool
-        : state.all.filter(function (m) {
-            if (!q) return true;
-            var hay = (m.subject || "") + (m.from_addr || "") + (m.body_text || "");
-            return hay.toLowerCase().indexOf(q) >= 0;
-          })
+    var threadBase = getMailboxSourcePool(
+      state.all.filter(function (m) {
+        if (!q) return true;
+        var hay = (m.subject || "") + (m.from_addr || "") + (m.body_text || "");
+        return hay.toLowerCase().indexOf(q) >= 0;
+      })
     );
+    state.threads = buildThreads(state.view === "feed" ? pool : threadBase);
+    updateMailboxSourceUi();
   }
 
   function setView(view) {
@@ -459,8 +705,9 @@
 
   function renderStats() {
     var s = state.stats || {};
-    var received = state.all.filter(isReceivedMail).length;
-    var threads = buildThreads(state.all).length;
+    var pool = getMailboxSourcePool(state.all);
+    var received = pool.filter(isReceivedMail).length;
+    var threads = buildThreads(pool).length;
     var el = function (id, v) {
       var n = document.getElementById(id);
       if (n) n.textContent = v != null ? String(v) : "0";
@@ -507,7 +754,7 @@
   function renderSetup(meta) {
     var box = document.getElementById("mailboxSetup");
     if (!box) return;
-    if (localStorage.getItem(LS_SETUP_HIDE) === "1" && !state.tableMissing) {
+    if (localStorage.getItem(LS_SETUP_HIDE) === "1" && !state.tableMissing && meta && meta.imapConfigured) {
       box.hidden = true;
       return;
     }
@@ -517,12 +764,34 @@
       box.innerHTML = "<strong>Base messagerie</strong> — verifiez DATABASE_URL.";
       return;
     }
-    box.className = "mbx-setup " + (meta && meta.imapConfigured ? "mbx-setup--ok" : "");
-    box.innerHTML =
-      (meta && meta.imapConfigured
-        ? "<strong>Boite contact@ synchronisee</strong> — les e-mails recus apparaissent en premier."
-        : "<strong>IMAP</strong> — requis pour les e-mails recus.") +
-      ' <button type="button" class="btn-ghost" id="mailboxHideSetup" style="margin-left:8px;font-size:0.75rem">Masquer</button>';
+    var sources = (meta && meta.imapSources) || [];
+    var srcLabel = sources.length
+      ? sources
+          .map(function (s) {
+            return s.label || s.id;
+          })
+          .join(" · ")
+      : "";
+    if (meta && meta.imapConfigured) {
+      box.className = "mbx-setup mbx-setup--ok";
+      box.innerHTML =
+        "<strong>Boîte contact@ synchronisée</strong> — " +
+        (srcLabel || "IMAP actif") +
+        ". Cliquez <em>Synchroniser IMAP</em> pour importer." +
+        ' <button type="button" class="btn-ghost" id="mailboxHideSetup" style="margin-left:8px;font-size:0.75rem">Masquer</button>';
+    } else {
+      box.className = "mbx-setup mbx-setup--err";
+      box.innerHTML =
+        "<strong>Messagerie à configurer (Vercel)</strong>" +
+        "<ol style=\"margin:8px 0 0;padding-left:18px;line-height:1.45;font-size:0.88rem\">" +
+        "<li>Google Admin → contact@ → <strong>mot de passe d'application</strong> (IMAP)</li>" +
+        "<li>Vercel → Variables : <code>MAIL_IMAP_PROVIDER=both</code>, " +
+        "<code>MAIL_IMAP_PASS_WORKSPACE</code>, <code>MAIL_IMAP_PASS_O2SWITCH</code> (secours)</li>" +
+        "<li><strong>Redeploy</strong> puis ici → Synchroniser IMAP</li>" +
+        "<li>Anciens mails (avant Workspace) : <strong>Historique o2switch</strong> (plusieurs clics si beaucoup de messages)</li>" +
+        "<li>En attendant : boutons <strong>Gmail Workspace</strong> / <strong>o2switch</strong> ci-dessus</li>" +
+        "</ol>";
+    }
     var hide = document.getElementById("mailboxHideSetup");
     if (hide) {
       hide.addEventListener("click", function () {
@@ -586,13 +855,8 @@
     }
 
     if (!threads.length) {
-      var siteN = (state.stats && state.stats.siteLeads) || 0;
-      list.innerHTML =
-        '<div class="mbx-empty" style="padding:32px 16px"><p>Aucune conversation.</p>' +
-        (siteN > 0
-          ? "<p>Essayez l'onglet <strong>Site</strong> (" + siteN + " demande(s)).</p>"
-          : "<p>Verifiez DATABASE_URL et <code>site_leads.sql</code> sur Neon.</p>") +
-        "</div>";
+      list.innerHTML = renderEmptyMailboxHelp();
+      bindEmptyMailboxActions();
       return;
     }
 
@@ -631,6 +895,12 @@
       html += block("Conversations e-mail", mail);
       html += block("Questionnaires remplis", questionnairesOnly);
       html += block("Demandes de contact", contactOnly);
+      if (!html) {
+        list.innerHTML =
+          '<div class="mbx-empty" style="padding:32px 16px"><p>Aucun message pour le moment.</p>' +
+          '<p style="font-size:0.88rem;color:var(--muted)">Cliquez <strong>Synchroniser IMAP</strong> pour importer les e-mails Workspace / o2switch, ou <strong>Historique o2switch</strong> pour les anciens mails.</p></div>';
+        return;
+      }
     } else {
       threads.forEach(function (t) {
         html += renderThreadCard(t, state.selectedThreadKey === t.key);
@@ -649,26 +919,8 @@
     var list = document.getElementById("mailboxList");
     if (!list || !state.filtered.length) {
       if (list) {
-        var siteN = (state.stats && state.stats.siteLeads) || 0;
-        var qN = (state.stats && state.stats.questionnaires) || 0;
-        var cN = (state.stats && state.stats.contactRequests) || 0;
-        var exN = countPendingExpress();
-        list.innerHTML =
-          '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail IMAP recu.</p>' +
-          (exN > 0
-            ? "<p><strong style='color:#c2410c'>" +
-              exN +
-              " rappel(s) express</strong> — onglet <em>Rappels express</em> ou <em>Fil Q&amp;R</em>.</p>"
-            : qN > 0 || cN > 0
-              ? "<p><strong>" +
-                qN +
-                " questionnaire(s)</strong> · <strong>" +
-                cN +
-                " demande(s) contact</strong> — onglets dedies.</p>"
-              : siteN > 0
-                ? "<p><strong>" + siteN + " lead(s) site</strong> — voir Fil Q&amp;R.</p>"
-                : "<p>Les formulaires apparaissent apres enregistrement en base (DATABASE_URL).</p>") +
-          "</div>";
+        list.innerHTML = renderEmptyMailboxHelp();
+        bindEmptyMailboxActions();
       }
       return;
     }
@@ -699,6 +951,7 @@
           '<span class="mbx-item__preview">' +
           esc(messagePreview(m)) +
           "</span></span>" +
+          renderMailboxSourceBadge(m) +
           '<span class="mbx-badge mbx-badge--imap">Recu</span></button>'
         );
       })
@@ -735,15 +988,8 @@
       ) {
         var list = document.getElementById("mailboxList");
         if (!state.filtered.length) {
-          var emptyMsg =
-            state.view === "express_callbacks"
-              ? "Aucun rappel express en attente."
-              : state.view === "questionnaires"
-                ? "Aucun questionnaire enregistre."
-                : state.view === "contact_requests"
-                  ? "Aucune demande de contact."
-                  : "Rien ici.";
-          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>' + emptyMsg + "</p></div>";
+          list.innerHTML = renderEmptyMailboxHelp();
+          bindEmptyMailboxActions();
           return;
         }
         list.innerHTML = state.filtered
@@ -776,22 +1022,26 @@
 
   function renderLeadBubble(m, payload, lead) {
     if (window.CrmLeadPayloadView && window.CrmLeadPayloadView.renderQuestionnairePanel) {
-      var merged = Object.assign({}, lead || {}, {
-        payload: payload,
-        payload_obj: payload,
-        questionnaire_step: (lead && lead.questionnaire_step) || payload.questionnaire_step,
-        questionnaire_total: (lead && lead.questionnaire_total) || payload.questionnaire_total,
-        email: (lead && lead.email) || payload.email,
-        phone: (lead && lead.phone) || payload.phone,
-        vertical: (lead && lead.vertical) || payload.vertical,
-      });
-      return (
-        '<div class="mbx-qa-bubble mbx-qa-bubble--site mbx-qa-bubble--answers">' +
-        window.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc) +
-        '<div class="mbx-qa-bubble__meta">' +
-        fmtDateLong(m.created_at) +
-        "</div></div>"
-      );
+      try {
+        var merged = Object.assign({}, lead || {}, {
+          payload: payload,
+          payload_obj: payload,
+          questionnaire_step: (lead && lead.questionnaire_step) || payload.questionnaire_step,
+          questionnaire_total: (lead && lead.questionnaire_total) || payload.questionnaire_total,
+          email: (lead && lead.email) || payload.email,
+          phone: (lead && lead.phone) || payload.phone,
+          vertical: (lead && lead.vertical) || payload.vertical,
+        });
+        return (
+          '<div class="mbx-qa-bubble mbx-qa-bubble--site mbx-qa-bubble--answers">' +
+          window.CrmLeadPayloadView.renderQuestionnairePanel(merged, esc) +
+          '<div class="mbx-qa-bubble__meta">' +
+          fmtDateLong(m.created_at) +
+          "</div></div>"
+        );
+      } catch (e) {
+        console.warn("[mailbox] renderQuestionnairePanel", e);
+      }
     }
     var rows = [
       ["Nom", payload.fullName || payload.name],
@@ -943,8 +1193,10 @@
     if (empty) empty.hidden = show;
     if (detail) detail.hidden = !show;
     if (show && window.innerWidth <= 960) {
-      document.getElementById("mailboxPaneList").classList.add("mbx-pane--hidden-mobile");
-      document.getElementById("mailboxPaneDetail").classList.remove("mbx-pane--hidden-mobile");
+      var paneList = document.getElementById("mailboxPaneList");
+      var paneDetail = document.getElementById("mailboxPaneDetail");
+      if (paneList) paneList.classList.add("mbx-pane--hidden-mobile");
+      if (paneDetail) paneDetail.classList.remove("mbx-pane--hidden-mobile");
     }
   }
 
@@ -1183,13 +1435,16 @@
 
   function setupReplyForMessage(m) {
     if (!m) return;
+    var replyToEl = document.getElementById("mailboxReplyTo");
+    var subjectEl = document.getElementById("mailboxReplySubject");
+    var toIdEl = document.getElementById("mailboxReplyToId");
+    var summaryEl = document.getElementById("mailboxReplySummary");
+    if (!replyToEl || !subjectEl || !toIdEl) return;
     var replyTo = m.direction === "inbound" ? extractEmail(m.from_addr) : extractEmail(m.to_addr);
-    document.getElementById("mailboxReplyTo").value = replyTo;
-    document.getElementById("mailboxReplySubject").value = /^re:/i.test(m.subject || "")
-      ? m.subject
-      : "Re: " + (m.subject || "");
-    document.getElementById("mailboxReplyToId").value = m.id;
-    document.getElementById("mailboxReplySummary").textContent = "Repondre a " + replyTo;
+    replyToEl.value = replyTo;
+    subjectEl.value = /^re:/i.test(m.subject || "") ? m.subject : "Re: " + (m.subject || "");
+    toIdEl.value = m.id;
+    if (summaryEl) summaryEl.textContent = "Repondre a " + replyTo;
     var body = document.getElementById("mailboxDetailBody");
     if (body) {
       setTimeout(function () {
@@ -1220,30 +1475,39 @@
           return m.direction === "inbound";
         }) || t.last;
 
-    document.getElementById("mailboxDetailHead").innerHTML =
-      "<h2>" +
-      esc(t.contact) +
-      "</h2>" +
-      '<p style="margin:0;color:var(--muted);font-size:0.88rem">' +
-      esc(t.subject) +
-      (t.needsReply ? ' · <strong style="color:#b45309">En attente de reponse</strong>' : "") +
-      "</p>" +
-      '<div class="mbx-detail-actions" style="margin-top:12px">' +
-      (t.hasSite
-        ? '<a class="btn-ghost" href="./dashboard.html?section=leads">Voir leads</a>'
-        : "") +
-      '<button type="button" class="btn-ghost" data-copy="' +
-      esc(t.contact) +
-      '">Copier e-mail</button></div>';
+    var detailHead = document.getElementById("mailboxDetailHead");
+    if (detailHead) {
+      detailHead.innerHTML =
+        "<h2>" +
+        esc(t.contact) +
+        "</h2>" +
+        '<p style="margin:0;color:var(--muted);font-size:0.88rem">' +
+        esc(t.subject) +
+        (t.needsReply ? ' · <strong style="color:#b45309">En attente de reponse</strong>' : "") +
+        "</p>" +
+        '<div class="mbx-detail-actions" style="margin-top:12px">' +
+        (t.hasSite
+          ? '<a class="btn-ghost" href="./dashboard.html?section=leads">Voir leads</a>'
+          : "") +
+        '<button type="button" class="btn-ghost" data-copy="' +
+        esc(t.contact) +
+        '">Copier e-mail</button></div>';
+      var copyBtn = detailHead.querySelector("[data-copy]");
+      if (copyBtn) {
+        copyBtn.addEventListener("click", function () {
+          navigator.clipboard.writeText(t.contact).then(function () {
+            toast("Copie");
+          });
+        });
+      }
+    }
 
-    document.getElementById("mailboxDetailHead").querySelector("[data-copy]").addEventListener("click", function () {
-      navigator.clipboard.writeText(t.contact).then(function () {
-        toast("Copie");
-      });
-    });
-
-    document.getElementById("mailboxDetailBody").innerHTML = renderQaFeed(t.messages);
-    if (!opts.keepDraft) document.getElementById("mailboxReplyBody").value = "";
+    var detailBody = document.getElementById("mailboxDetailBody");
+    if (detailBody) detailBody.innerHTML = renderQaFeed(t.messages);
+    if (!opts.keepDraft) {
+      var replyTa = document.getElementById("mailboxReplyBody");
+      if (replyTa) replyTa.value = "";
+    }
     setupReplyForMessage(lastIn);
     renderList();
   }
@@ -1273,6 +1537,9 @@
       " · " +
       fmtDateLong(m.created_at) +
       (isReceivedMail(m) ? ' · <span style="color:#1d4ed8;font-weight:700">E-mail recu</span>' : "") +
+      (messageKind(m) === "imap"
+        ? ' · <span class="mbx-detail-source">' + renderMailboxSourceBadge(m) + "</span>"
+        : "") +
       "</p>" +
       '<div class="mbx-detail-actions" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">' +
       (leadId
@@ -1409,6 +1676,7 @@
     if (state.view === "received" && state.filtered[0]) return selectMessage(state.filtered[0].id);
     if (state.filtered[0]) return selectMessage(state.filtered[0].id);
     showDetailPane(false);
+    renderList();
   }
 
   function ingestMessages(data, opts) {
@@ -1417,46 +1685,64 @@
     state.stats = data.stats || null;
     state.imapConfigured = !!data.imapConfigured;
     state.mailboxAddress = data.mailboxAddress || state.mailboxAddress;
+    state.imapSources = data.imapSources || [];
     state.tableMissing = false;
-    applyFilters();
-    renderStats();
-    renderSetup(data);
-    updateStatusBar();
+    try {
+      applyFilters();
+      renderStats();
+      renderSetup(data);
+      updateStatusBar();
 
-    var siteN = (state.stats && state.stats.siteLeads) || 0;
-    var qN = (state.stats && state.stats.questionnaires) || 0;
-    var exN = (state.stats && state.stats.expressCallbacks) || countPendingExpress();
-    var cN = (state.stats && state.stats.contactRequests) || 0;
-    var sub = document.getElementById("mailboxSubtitle");
-    if (sub) {
-      sub.textContent =
-        state.all.filter(isReceivedMail).length +
-        " e-mails · " +
-        exN +
-        " rappel(s) express · " +
-        qN +
-        " questionnaire(s) · " +
-        countNeedsReply() +
-        " e-mail(s) a repondre";
+      var siteN = (state.stats && state.stats.siteLeads) || 0;
+      var qN = (state.stats && state.stats.questionnaires) || 0;
+      var exN = (state.stats && state.stats.expressCallbacks) || countPendingExpress();
+      var cN = (state.stats && state.stats.contactRequests) || 0;
+      var sub = document.getElementById("mailboxSubtitle");
+      if (sub) {
+        sub.textContent =
+          state.all.filter(isReceivedMail).length +
+          " e-mails · " +
+          exN +
+          " rappel(s) express · " +
+          qN +
+          " questionnaire(s) · " +
+          countNeedsReply() +
+          " e-mail(s) a repondre";
+      }
+
+      if (exN > 0 && state.view === "received" && !sessionStorage.getItem("mbx_express_hint")) {
+        sessionStorage.setItem("mbx_express_hint", "1");
+        toast(exN + " rappel(s) express en attente — onglet dedie", "error");
+      } else if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
+        sessionStorage.setItem("mbx_site_hint", "1");
+        toast(qN + " questionnaire(s) · " + cN + " contact(s) — voir onglets dedies", "success");
+      }
+
+      notifyNewExpressCallbacks();
+      updateNavBadge();
+      renderList();
+
+      if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
+        try {
+          selectMessage(opts.openId);
+        } catch (selErr) {
+          console.warn("[mailbox] selectMessage", selErr);
+        }
+        return;
+      }
+      if (!opts.skipAutoSelect) {
+        try {
+          pickDefaultSelection();
+        } catch (selErr) {
+          console.warn("[mailbox] pickDefaultSelection", selErr);
+          showDetailPane(false);
+          renderList();
+        }
+      }
+    } catch (e) {
+      console.error("[mailbox] ingestMessages", e);
+      throw e;
     }
-
-    if (exN > 0 && state.view === "received" && !sessionStorage.getItem("mbx_express_hint")) {
-      sessionStorage.setItem("mbx_express_hint", "1");
-      toast(exN + " rappel(s) express en attente — onglet dedie", "error");
-    } else if ((qN > 0 || cN > 0) && state.view === "received" && !sessionStorage.getItem("mbx_site_hint")) {
-      sessionStorage.setItem("mbx_site_hint", "1");
-      toast(qN + " questionnaire(s) · " + cN + " contact(s) — voir onglets dedies", "success");
-    }
-
-    notifyNewExpressCallbacks();
-    updateNavBadge();
-
-    if (opts.openId && state.all.some(function (m) { return m.id === opts.openId; })) {
-      selectMessage(opts.openId);
-      return;
-    }
-    if (!opts.skipAutoSelect) pickDefaultSelection();
-    else renderList();
   }
 
   async function loadMailbox(opts) {
@@ -1467,31 +1753,152 @@
       list.innerHTML =
         '<div class="loading-state" style="padding:40px"><div class="spinner"></div>Chargement…</div>';
     }
-    var data = await window.Dashboard.api("/api/dashboard/mailbox-list?limit=100");
-    if (!data.ok) {
-      if (list) list.innerHTML = "<p>" + esc(data.error) + "</p>";
-      return;
+    try {
+      var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timeoutId = controller
+        ? setTimeout(function () {
+            controller.abort();
+          }, 22000)
+        : null;
+      var fetchOpts = { method: "GET" };
+      if (controller) fetchOpts.signal = controller.signal;
+      var res = await fetch("/api/dashboard/mailbox-list?limit=100", Object.assign({ headers: window.Dashboard.authHeaders() }, fetchOpts));
+      if (timeoutId) clearTimeout(timeoutId);
+      var data = {};
+      try {
+        data = await res.json();
+      } catch (parseErr) {
+        data = { error: "Reponse serveur invalide" };
+      }
+      if (res.status === 401 || res.status === 403) {
+        window.Dashboard.clearAuth();
+        window.location.href = "./auth.html?next=" + encodeURIComponent("./dashboard.html?section=mailbox");
+        return;
+      }
+      data.ok = res.ok && data.ok !== false;
+      if (!data || !data.ok) {
+        if (list) {
+          list.innerHTML =
+            "<p style=\"padding:16px;color:#b91c1c\">" +
+            esc((data && data.error) || "Impossible de charger la messagerie") +
+            "</p>";
+        }
+        return;
+      }
+      if (data.sync && data.sync.ok) {
+        localStorage.setItem(LS_SYNC, new Date().toISOString());
+        localStorage.removeItem(LS_SYNC_ERR);
+      } else if (data.sync && (data.sync.error || data.sync.reason === "timeout")) {
+        localStorage.setItem(LS_SYNC_ERR, data.sync.error || "Sync IMAP lente");
+      }
+      try {
+        ingestMessages(data, { openId: opts.openId, skipAutoSelect: true });
+      } catch (ingestErr) {
+        console.error("[mailbox] ingest", ingestErr);
+        if (list) {
+          list.innerHTML =
+            "<p style=\"padding:16px;color:#b91c1c\">Erreur affichage messagerie.</p>" +
+            "<p style=\"padding:0 16px;color:#64748b;font-size:0.85rem\">" +
+            esc((ingestErr && ingestErr.message) || "Erreur inconnue") +
+            "</p>" +
+            '<p style="padding:8px 16px"><button type="button" class="btn btn-primary" id="mbxRetryLoadBtn">Actualiser</button></p>';
+          var retry = document.getElementById("mbxRetryLoadBtn");
+          if (retry) retry.addEventListener("click", function () { loadMailbox({}); });
+        }
+      }
+      updateWebmailLink(data);
+      var imapCounts = countImapBySource(state.all);
+      if (state.imapConfigured && imapCounts.total === 0 && !opts.silentEmpty) {
+        toast("Aucun e-mail en base — cliquez Synchroniser IMAP (o2switch OK sur Vercel)", "info");
+      }
+    } catch (e) {
+      if (list) {
+        var isAbort = e && (e.name === "AbortError" || String(e.message || "").indexOf("abort") >= 0);
+        list.innerHTML =
+          "<p style=\"padding:16px;color:#b91c1c\">" +
+          (isAbort
+            ? "Chargement trop long (&gt;22 s). La liste s'affiche sans sync IMAP — cliquez Synchroniser IMAP."
+            : "Erreur reseau messagerie. Reessayez Actualiser ou Gmail Workspace.") +
+          "</p>" +
+          "<p style=\"padding:0 16px;color:#64748b;font-size:0.85rem\">" +
+          esc((e && e.message) || "") +
+          "</p>";
+      }
     }
-    if (data.sync && data.sync.ok) {
-      localStorage.setItem(LS_SYNC, new Date().toISOString());
-      localStorage.removeItem(LS_SYNC_ERR);
-    } else if (data.sync && data.sync.error) {
-      localStorage.setItem(LS_SYNC_ERR, data.sync.error);
-    }
-    ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
-    updateWebmailLink(data);
   }
 
   function updateWebmailLink(data) {
     var btn = document.getElementById("mailboxWebmailBtn");
+    var btnWs = document.getElementById("mailboxWebmailWorkspaceBtn");
     var empty = document.getElementById("mailboxWebmailEmptyLink");
     if (!data) return;
-    if (btn) {
-      if (data.webmailUrl) btn.href = data.webmailUrl;
-      if (data.webmailLabel) btn.textContent = data.webmailLabel + " ↗";
-      if (data.mailboxAddress) btn.title = "Roundcube o2switch — " + data.mailboxAddress;
+    if (btnWs) {
+      if (data.webmailWorkspaceUrl) btnWs.href = data.webmailWorkspaceUrl;
+      if (data.webmailWorkspaceLabel) btnWs.textContent = data.webmailWorkspaceLabel + " ↗";
+      if (data.mailboxAddress) btnWs.title = "Gmail Workspace — " + data.mailboxAddress;
     }
-    if (empty && data.webmailUrl) empty.href = data.webmailUrl;
+    if (btn) {
+      if (data.webmailO2switchUrl || data.webmailUrl) btn.href = data.webmailO2switchUrl || data.webmailUrl;
+      if (data.webmailO2switchLabel || data.webmailLabel) {
+        btn.textContent = (data.webmailO2switchLabel || data.webmailLabel) + " ↗";
+      }
+      if (data.mailboxAddress) btn.title = "Roundcube o2switch (secours) — " + data.mailboxAddress;
+    }
+    if (empty && (data.webmailWorkspaceUrl || data.webmailUrl)) {
+      empty.href = data.webmailWorkspaceUrl || data.webmailUrl;
+    }
+    var sub = document.getElementById("mailboxSubtitle");
+    if (sub && data.imapSources && data.imapSources.length) {
+      sub.textContent =
+        "Formulaires site + e-mails contact@ (" +
+        data.imapSources
+          .map(function (s) {
+            return s.label;
+          })
+          .join(" · ") +
+        ")";
+    }
+  }
+
+  function formatImapTestToast(test) {
+    if (!test) return "Test IMAP inconnu";
+    if (!test.configured) return test.error || "IMAP non configuré sur Vercel";
+    var lines = (test.sources || []).map(function (s) {
+      if (s.ok) {
+        return "✓ " + s.label + " (" + (s.inboxTotal || 0) + " msgs, " + (s.host || "") + ")";
+      }
+      return "✗ " + s.label + " : " + (s.error || "échec");
+    });
+    return lines.join(" — ") || test.error || "Aucune source";
+  }
+
+  async function testImapMailbox() {
+    var btn = document.getElementById("mailboxImapTestBtn");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Test…";
+    }
+    var data = await window.Dashboard.api("/api/dashboard/mailbox-imap-test", { method: "POST" });
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Tester IMAP";
+    }
+    if (!data.ok) {
+      toast(data.error || "Erreur test IMAP", "error");
+      return;
+    }
+    var test = data.test || {};
+    var hint = document.getElementById("mailboxSyncHint");
+    if (hint) {
+      hint.innerHTML = formatImapTestToast(test).replace(/✓/g, '<span style="color:#15803d">OK</span>').replace(/✗/g, '<span style="color:#b91c1c">KO</span>');
+    }
+    if (test.ok) {
+      localStorage.removeItem(LS_SYNC_ERR);
+      toast(formatImapTestToast(test), "success");
+    } else {
+      localStorage.setItem(LS_SYNC_ERR, test.error || formatImapTestToast(test));
+      toast(formatImapTestToast(test), "error");
+    }
   }
 
   async function syncMailbox(silent) {
@@ -1509,6 +1916,14 @@
       toast(data.error || "Erreur", "error");
       return;
     }
+    if (data.sync && data.sync.sources && data.sync.sources.length) {
+      var parts = data.sync.sources.map(function (s) {
+        if (s.ok) return s.label + ": " + (s.imported || 0) + " importé(s)";
+        return s.label + ": " + (s.error || "échec");
+      });
+      var hint = document.getElementById("mailboxSyncHint");
+      if (hint) hint.textContent = parts.join(" · ");
+    }
     if (data.sync && data.sync.ok) {
       localStorage.removeItem(LS_SYNC_ERR);
       localStorage.setItem(LS_SYNC, new Date().toISOString());
@@ -1519,6 +1934,54 @@
     }
     if (data.messages) ingestMessages(data);
     else loadMailbox({});
+  }
+
+  async function backfillMailboxO2switch(autoLoop) {
+    if (
+      !autoLoop &&
+      !confirm(
+        "Importer les anciens e-mails encore sur o2switch (avant Google Workspace) ?\n\n" +
+          "Le CRM récupère les messages par lots (~40). Relancez ou laissez tourner jusqu'à « terminé »."
+      )
+    ) {
+      return;
+    }
+    var btn = document.getElementById("mailboxBackfillBtn");
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = autoLoop ? "Import…" : "Import lot…";
+    }
+    var data = await window.Dashboard.api("/api/dashboard/mailbox-sync", {
+      method: "POST",
+      body: JSON.stringify({ backfill: true, source: "o2switch" }),
+    });
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "Historique o2switch";
+    }
+    if (!data.ok) {
+      toast(data.error || "Erreur import historique", "error");
+      return false;
+    }
+    var sync = data.sync || {};
+    if (sync.ok) {
+      var msg =
+        (sync.imported || 0) +
+        " ancien(s) e-mail(s) importé(s)" +
+        (sync.backfillComplete ? " — historique o2switch terminé" : " — relancez si besoin");
+      toast(msg, sync.backfillComplete ? "success" : "info");
+      if (data.messages) ingestMessages(data);
+      else loadMailbox({});
+      if (!sync.backfillComplete && autoLoop && (sync.imported || 0) > 0) {
+        await new Promise(function (r) {
+          setTimeout(r, 800);
+        });
+        return backfillMailboxO2switch(true);
+      }
+      return !sync.backfillComplete && (sync.imported || 0) > 0;
+    }
+    toast(sync.error || "Import historique impossible", "error");
+    return false;
   }
 
   function bindUi() {
@@ -1541,6 +2004,20 @@
         pickDefaultSelection();
       });
     });
+
+    document.querySelectorAll("[data-mailbox-source]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setMailboxSource(btn.getAttribute("data-mailbox-source"));
+      });
+    });
+
+    try {
+      var savedSource = localStorage.getItem(LS_MAILBOX_SOURCE);
+      if (savedSource && ["unified", "workspace", "o2switch", "all"].indexOf(savedSource) >= 0) {
+        state.mailboxSource = savedSource;
+        updateMailboxSourceUi();
+      }
+    } catch (e) {}
 
     document.getElementById("mailboxSortBtn").addEventListener("click", function () {
       state.sortDesc = !state.sortDesc;
@@ -1612,6 +2089,18 @@
     document.getElementById("mailboxSyncBtn").addEventListener("click", function () {
       syncMailbox(false);
     });
+    var imapTestBtn = document.getElementById("mailboxImapTestBtn");
+    if (imapTestBtn) {
+      imapTestBtn.addEventListener("click", function () {
+        testImapMailbox();
+      });
+    }
+    var backfillBtn = document.getElementById("mailboxBackfillBtn");
+    if (backfillBtn) {
+      backfillBtn.addEventListener("click", function () {
+        backfillMailboxO2switch(false);
+      });
+    }
     document.getElementById("mailboxRefreshBtn").addEventListener("click", function () {
       loadMailbox({});
     });
@@ -1792,5 +2281,6 @@
 
   window.loadMailbox = loadMailbox;
   window.setMailboxView = setView;
+  window.setMailboxSource = setMailboxSource;
   document.addEventListener("DOMContentLoaded", bindUi);
 })();

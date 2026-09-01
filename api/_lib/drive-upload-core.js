@@ -78,6 +78,15 @@ async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, s
     throw new Error("Drive upload " + resp.status + ": " + errText.slice(0, 280));
   }
   var data = await resp.json();
+  var share = { skipped: true };
+  var mirror = { skipped: true };
+  try {
+    const { shareFileWithBrokers, mirrorCopyFile } = require("./drive-share");
+    share = await shareFileWithBrokers(token, data.id);
+    mirror = await mirrorCopyFile(token, data.id, data.name || fileName);
+  } catch (e) {
+    console.warn("[drive-upload] share/mirror", e.message);
+  }
   return {
     ok: true,
     fileId: data.id,
@@ -86,6 +95,8 @@ async function uploadBuffer({ fileName, buffer, mimeType, folderId, contactId, s
     webViewLink: data.webViewLink || null,
     webContentLink: data.webContentLink || null,
     thumbnailLink: data.thumbnailLink || null,
+    sharedWith: (share && share.emails) || [],
+    mirror: mirror && mirror.ok ? mirror : null,
   };
 }
 

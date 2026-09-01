@@ -61,6 +61,7 @@ const ROUTES = {
   "pro-accounting": () => require("../_lib/routes/crm-pro-accounting"),
   "e-invoicing": () => require("../_lib/routes/crm-e-invoicing"),
   april: () => require("../_lib/routes/crm-april"),
+  "e-signature": () => require("../_lib/routes/e-signature"),
   "agent-tax-prefs": () => require("../_lib/routes/crm-agent-tax-prefs"),
   "agent-payment-splits": () => require("../_lib/routes/crm-agent-payment-splits"),
   immo: () => require("../_lib/routes/crm-immo"),
