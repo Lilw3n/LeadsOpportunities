@@ -266,7 +266,66 @@
     return map[mode] || mode;
   }
 
-  function renderMailboxSourceBadge(m) {
+  function renderEmptyMailboxHelp() {
+    var counts = countImapBySource(state.all);
+    var imapInView = state.filtered.filter(function (m) {
+      return messageKind(m) === "imap";
+    }).length;
+    var siteN = (state.stats && state.stats.siteLeads) || 0;
+    var html =
+      '<div class="mbx-empty mbx-empty--help" style="padding:28px 16px;text-align:center">' +
+      "<p><strong>Aucun message dans cette vue.</strong></p>";
+
+    if (state.mailboxSource === "workspace" && counts.workspace === 0 && counts.o2switch > 0) {
+      html +=
+        '<p style="color:#c2410c;margin:12px 0">0 e-mail Workspace en base, mais <strong>' +
+        counts.o2switch +
+        "</strong> sur o2switch.<br>Cliquez le filtre <strong>o2switch</strong> ou <strong>Vue unifiée</strong>.</p>";
+    } else if (state.mailboxSource === "o2switch" && counts.o2switch === 0 && counts.workspace > 0) {
+      html +=
+        '<p style="color:#1d4ed8;margin:12px 0">0 e-mail o2switch, mais <strong>' +
+        counts.workspace +
+        "</strong> sur Workspace.<br>Cliquez <strong>Gmail Workspace</strong> ou <strong>Vue unifiée</strong>.</p>";
+    } else if (counts.total === 0 && state.imapConfigured) {
+      html +=
+        '<p style="margin:12px 0;color:var(--muted)">Vercel est OK — il faut maintenant <strong>importer</strong> les mails dans le CRM (base Neon), pas seulement les lire sur Gmail/o2switch.</p>' +
+        '<p style="margin:16px 0"><button type="button" class="btn btn-primary" id="mbxEmptySyncBtn">Synchroniser IMAP maintenant</button> ' +
+        '<button type="button" class="btn btn-ghost" id="mbxEmptyBackfillBtn">Historique o2switch</button></p>';
+    } else if (!state.imapConfigured) {
+      html += '<p style="color:#b45309;margin:12px 0">IMAP non détecté par l’API — redeploy Vercel puis Actualiser.</p>';
+    } else if (siteN > 0) {
+      html += "<p>" + siteN + " lead(s) site — onglets Questionnaires / Rappels express.</p>";
+    } else {
+      html += "<p>Essayez <strong>Boîte reçue</strong> ou <strong>Synchroniser IMAP</strong>.</p>";
+    }
+
+    if (imapInView === 0 && counts.total > 0 && state.view === "received") {
+      html +=
+        '<p style="margin-top:12px;font-size:0.88rem;color:var(--muted)">' +
+        counts.o2switch +
+        " o2switch · " +
+        counts.workspace +
+        " Workspace en base — changez le filtre « Boîte contact@ » ci-dessus.</p>";
+    }
+
+    html += "</div>";
+    return html;
+  }
+
+  function bindEmptyMailboxActions() {
+    var syncBtn = document.getElementById("mbxEmptySyncBtn");
+    if (syncBtn) {
+      syncBtn.addEventListener("click", function () {
+        syncMailbox(false);
+      });
+    }
+    var bf = document.getElementById("mbxEmptyBackfillBtn");
+    if (bf) {
+      bf.addEventListener("click", function () {
+        backfillMailboxO2switch(false);
+      });
+    }
+  }
     if (!m || messageKind(m) !== "imap") return "";
     var sources = m._mailboxSources || [imapMailboxSource(m)].filter(Boolean);
     if (!sources.length) return "";
@@ -303,6 +362,12 @@
     ];
     if (dupes > 0 && state.mailboxSource === "unified") {
       parts.push(dupes + " doublon(s) masqué(s)");
+    }
+    if (state.mailboxSource === "workspace" && counts.workspace === 0 && counts.o2switch > 0) {
+      parts.push("→ filtre o2switch");
+    }
+    if (state.mailboxSource === "o2switch" && counts.o2switch === 0 && counts.workspace > 0) {
+      parts.push("→ filtre Workspace");
     }
     hint.textContent = parts.join(" · ");
   }
@@ -787,13 +852,8 @@
     }
 
     if (!threads.length) {
-      var siteN = (state.stats && state.stats.siteLeads) || 0;
-      list.innerHTML =
-        '<div class="mbx-empty" style="padding:32px 16px"><p>Aucune conversation.</p>' +
-        (siteN > 0
-          ? "<p>Essayez l'onglet <strong>Site</strong> (" + siteN + " demande(s)).</p>"
-          : "<p>Verifiez DATABASE_URL et <code>site_leads.sql</code> sur Neon.</p>") +
-        "</div>";
+      list.innerHTML = renderEmptyMailboxHelp();
+      bindEmptyMailboxActions();
       return;
     }
 
@@ -856,26 +916,8 @@
     var list = document.getElementById("mailboxList");
     if (!list || !state.filtered.length) {
       if (list) {
-        var siteN = (state.stats && state.stats.siteLeads) || 0;
-        var qN = (state.stats && state.stats.questionnaires) || 0;
-        var cN = (state.stats && state.stats.contactRequests) || 0;
-        var exN = countPendingExpress();
-        list.innerHTML =
-          '<div class="mbx-empty" style="padding:32px"><p>Aucun e-mail IMAP recu.</p>' +
-          (exN > 0
-            ? "<p><strong style='color:#c2410c'>" +
-              exN +
-              " rappel(s) express</strong> — onglet <em>Rappels express</em> ou <em>Fil Q&amp;R</em>.</p>"
-            : qN > 0 || cN > 0
-              ? "<p><strong>" +
-                qN +
-                " questionnaire(s)</strong> · <strong>" +
-                cN +
-                " demande(s) contact</strong> — onglets dedies.</p>"
-              : siteN > 0
-                ? "<p><strong>" + siteN + " lead(s) site</strong> — voir Fil Q&amp;R.</p>"
-                : "<p>Les formulaires apparaissent apres enregistrement en base (DATABASE_URL).</p>") +
-          "</div>";
+        list.innerHTML = renderEmptyMailboxHelp();
+        bindEmptyMailboxActions();
       }
       return;
     }
@@ -943,15 +985,8 @@
       ) {
         var list = document.getElementById("mailboxList");
         if (!state.filtered.length) {
-          var emptyMsg =
-            state.view === "express_callbacks"
-              ? "Aucun rappel express en attente."
-              : state.view === "questionnaires"
-                ? "Aucun questionnaire enregistre."
-                : state.view === "contact_requests"
-                  ? "Aucune demande de contact."
-                  : "Rien ici.";
-          list.innerHTML = '<div class="mbx-empty" style="padding:32px"><p>' + emptyMsg + "</p></div>";
+          list.innerHTML = renderEmptyMailboxHelp();
+          bindEmptyMailboxActions();
           return;
         }
         list.innerHTML = state.filtered
@@ -1728,6 +1763,10 @@
         }
       }
       updateWebmailLink(data);
+      var imapCounts = countImapBySource(state.all);
+      if (state.imapConfigured && imapCounts.total === 0 && !opts.silentEmpty) {
+        toast("Aucun e-mail en base — cliquez Synchroniser IMAP (o2switch OK sur Vercel)", "info");
+      }
     } catch (e) {
       if (list) {
         var isAbort = e && (e.name === "AbortError" || String(e.message || "").indexOf("abort") >= 0);

@@ -166,9 +166,16 @@ async function listWithAutoSync(limit, offset) {
       hint: "Utilisez Synchroniser IMAP pour importer les e-mails.",
     },
     syncMeta: sql ? await getSyncMeta(sql) : null,
-    syncMetas: sql ? await getAllSyncMeta(sql) : [],
+    syncMetas: [],
     imapSources: sources,
   });
+  if (sql) {
+    try {
+      out.syncMetas = await getAllSyncMeta(sql);
+    } catch (metaErr) {
+      console.warn("[mailbox-list] syncMetas:", metaErr.message);
+    }
+  }
 
   const listAutoSync = String(process.env.MAILBOX_LIST_AUTO_SYNC || "false").toLowerCase();
   if (listAutoSync !== "true" && listAutoSync !== "1") {
