@@ -1888,6 +1888,58 @@
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelle-senior-ces-nouvelles-offres-p",
       "matchedRule": "mutuelle",
       "species": null
+    },
+    {
+      "file": "un-nouvel-episode-de-chaleur-remarquable-attendu-a-partir-de-mercredi-da.html",
+      "title": "Un nouvel épisode de chaleur « remarquable » attendu à partir de mercredi dans le sud d… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=un-nouvel-episode-de-chaleur-remarquab",
+      "matchedRule": "habitation",
+      "species": null
+    },
+    {
+      "file": "quelle-est-la-meilleure-mutuelle-sante-en-france-pour-un-retraite.html",
+      "title": "Quelle est la meilleure mutuelle santé en France pour un retraité ? : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=quelle-est-la-meilleure-mutuelle-sante-e",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "les-erreurs-a-eviter-avant-de-choisir-une-mutuelle-pour-travailleur-inde.html",
+      "title": "Les erreurs à éviter avant de choisir une mutuelle pour travailleur indépendant : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=les-erreurs-a-eviter-avant-de-choisir-un",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+      "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habit… : assurance habitation — que faire ?",
+      "section": "habitat",
+      "hook": "Dégâts des eaux, vol, catastrophe : l'habitation protège votre patrimoine.",
+      "question": "Votre contrat habitation est-il à jour avec votre logement ?",
+      "need": "habitation",
+      "landing": "../landings/devis.html?need=habitation",
+      "express": "../landings/devis-express.html?need=habitation",
+      "questionnaire": "../landings/questionnaire.html?need=habitation&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=habitation&utm_content=hausse-des-primes-cout-des-sinistres",
+      "matchedRule": "habitation",
+      "species": null
     }
   ]
 }

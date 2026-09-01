@@ -117,7 +117,11 @@ function robotsMetaForArticle(article) {
 }
 
 var LEAD_INTENT_RE =
-  /mutuelle|assurance|emprunteur|sinistre|habitation|inondation|canicule|orages?|alerte orange|s[eé]cheresse|cr[eé]dit|pr[eê]t immobil|rembours|ost[eé]opath|hospitalisation|vtc\b|animaux|v[eé]t[eé]rinair|catastrophe naturelle|loi lemoine|orias|franchise|pr[eé]voyance|piratage|cyberattaque|iban|assurance-vie|epargne/i;
+  /mutuelle|assurance|emprunteur|sinistre|habitation|inondation|canicule|vague de chaleur|chaleur remarquable|orages?|alerte orange|s[eé]cheresse|cr[eé]dit|pr[eê]t immobil|rembours|ost[eé]opath|hospitalisation|vtc\b|animaux|v[eé]t[eé]rinair|catastrophe naturelle|loi lemoine|orias|franchise|pr[eé]voyance|piratage|cyberattaque|iban|assurance-vie|epargne/i;
+
+/** Politique / nécro / école : pas un lead questionnaire, sauf si le titre parle d'assurance. */
+var OFFTOPIC_TITLE_RE =
+  /est mort\b|n[eé]crolog|à l['’]âge de \d+|hommage (à|a) l['’]ancien|\bAESH\b|rentr[eé]e (scolaire|des classes)|sans AESH|premier ministre de \d{4}|assembl[eé]e nationale|\bles insoumis\b/i;
 
 var FOREIGN_DISASTER_RE =
   /\bnépal\b|\bnepal\b|\btibet\b|\bukraine\b|\bgaza\b|\bsyrie\b|\biran\b|\birak\b|\by[eé]men\b|\bsoudan\b|\bha[iï]ti\b/i;
@@ -161,6 +165,7 @@ function isLowQualityLeadCandidate(candidate) {
   if (/obtenez un devis avec mutuelle\.fr|la r[eé]daction du parisien n'a pas particip[eé]/i.test(hay)) {
     return true;
   }
+  if (OFFTOPIC_TITLE_RE.test(title) && !LEAD_INTENT_RE.test(title)) return true;
   if (!hasFranceLeadIntent(candidate)) return true;
   return false;
 }
