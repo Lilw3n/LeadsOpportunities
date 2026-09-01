@@ -60,6 +60,7 @@ assert(html.indexOf("PARTNER_APRIL_CLIENT_ID") >= 0, "mention env UI");
 
 var envEx = read(".env.example");
 assert(envEx.indexOf("PARTNER_APRIL_CLIENT_ID") >= 0, ".env.example CLIENT_ID");
+assert(envEx.indexOf("PARTNER_APRIL_CLIENT_SECRET") >= 0, ".env.example CLIENT_SECRET");
 assert(envEx.indexOf("PARTNER_APRIL_API_GATEWAY") >= 0, ".env.example API_GATEWAY");
 
 var partners = JSON.parse(read("config/partners.json"));
