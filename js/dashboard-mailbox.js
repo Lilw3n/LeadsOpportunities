@@ -6,6 +6,7 @@
   var LS_SYNC_ERR = "mbx_last_imap_error";
   var LS_SETUP_HIDE = "mbx_setup_hidden";
   var LS_EXPRESS_SEEN = "mbx_express_seen_ids";
+  var LS_MAILBOX_SOURCE = "mbx_mailbox_source";
 
   var TEMPLATES = {
     merci:
@@ -50,6 +51,8 @@
     tableMissing: false,
     stats: null,
     pendingOpenId: null,
+    mailboxSource: "unified",
+    imapSources: [],
   };
 
   function esc(s) {
@@ -139,6 +142,180 @@
 
   function isReceivedMail(m) {
     return messageKind(m) === "imap" || (m.direction === "inbound" && messageKind(m) !== "site");
+  }
+
+  /** workspace | o2switch | null */
+  function imapMailboxSource(m) {
+    if (!m || !m.external_uid) return null;
+    var uid = String(m.external_uid);
+    if (uid.indexOf("imap:ws:") === 0) return "workspace";
+    if (uid.indexOf("imap:INBOX:") === 0) return "o2switch";
+    if (uid.indexOf("imap:") === 0) return "o2switch";
+    return null;
+  }
+
+  function normalizeSubjectForDedup(subject) {
+    return String(subject || "")
+      .replace(/^(re|fwd|tr|fw)\s*:\s*/gi, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function imapDedupKey(m) {
+    if (m.message_id) {
+      return "mid:" + String(m.message_id).toLowerCase().trim();
+    }
+    var from = extractEmail(m.from_addr).toLowerCase();
+    var subj = normalizeSubjectForDedup(m.subject);
+    var t = m.created_at ? new Date(m.created_at).getTime() : 0;
+    var bucket = t ? Math.floor(t / 60000) : 0;
+    return "heur:" + from + "|" + subj + "|" + bucket;
+  }
+
+  function sourceRank(src) {
+    if (src === "workspace") return 2;
+    if (src === "o2switch") return 1;
+    return 0;
+  }
+
+  function dedupeImapMessages(imapList) {
+    var groups = {};
+    imapList.forEach(function (m) {
+      var key = imapDedupKey(m);
+      if (!groups[key]) groups[key] = [];
+      groups[key].push(m);
+    });
+    var out = [];
+    Object.keys(groups).forEach(function (key) {
+      var items = groups[key];
+      if (items.length === 1) {
+        var only = Object.assign({}, items[0]);
+        only._mailboxSources = [imapMailboxSource(items[0])].filter(Boolean);
+        out.push(only);
+        return;
+      }
+      items.sort(function (a, b) {
+        var ra = sourceRank(imapMailboxSource(a));
+        var rb = sourceRank(imapMailboxSource(b));
+        if (ra !== rb) return rb - ra;
+        return new Date(b.created_at) - new Date(a.created_at);
+      });
+      var primary = Object.assign({}, items[0]);
+      var sources = [];
+      items.forEach(function (it) {
+        var s = imapMailboxSource(it);
+        if (s && sources.indexOf(s) < 0) sources.push(s);
+      });
+      primary._mailboxSources = sources;
+      primary._mailboxDuplicateIds = items.map(function (it) {
+        return it.id;
+      });
+      out.push(primary);
+    });
+    return out;
+  }
+
+  function countImapBySource(messages) {
+    var ws = 0;
+    var o2 = 0;
+    (messages || []).forEach(function (m) {
+      if (messageKind(m) !== "imap") return;
+      var s = imapMailboxSource(m);
+      if (s === "workspace") ws++;
+      else if (s === "o2switch") o2++;
+    });
+    return { workspace: ws, o2switch: o2, total: ws + o2 };
+  }
+
+  function getMailboxSourcePool(messages) {
+    var mode = state.mailboxSource || "unified";
+    var imap = [];
+    var rest = [];
+    (messages || []).forEach(function (m) {
+      if (messageKind(m) === "imap") imap.push(m);
+      else rest.push(m);
+    });
+
+    if (mode === "workspace") {
+      return rest.concat(
+        imap.filter(function (m) {
+          return imapMailboxSource(m) === "workspace";
+        })
+      );
+    }
+    if (mode === "o2switch") {
+      return rest.concat(
+        imap.filter(function (m) {
+          return imapMailboxSource(m) === "o2switch";
+        })
+      );
+    }
+    if (mode === "all") {
+      return messages.slice();
+    }
+    return rest.concat(dedupeImapMessages(imap));
+  }
+
+  function mailboxSourceLabel(mode) {
+    var map = {
+      unified: "Vue unifiée (doublons masqués)",
+      workspace: "Gmail Workspace uniquement",
+      o2switch: "o2switch uniquement",
+      all: "Tout afficher (brut)",
+    };
+    return map[mode] || mode;
+  }
+
+  function renderMailboxSourceBadge(m) {
+    if (!m || messageKind(m) !== "imap") return "";
+    var sources = m._mailboxSources || [imapMailboxSource(m)].filter(Boolean);
+    if (!sources.length) return "";
+    if (sources.length >= 2) {
+      return '<span class="mbx-pill mbx-pill--both" title="Présent sur Workspace et o2switch">Les 2 boîtes</span>';
+    }
+    if (sources[0] === "workspace") {
+      return '<span class="mbx-pill mbx-pill--ws">Workspace</span>';
+    }
+    if (sources[0] === "o2switch") {
+      return '<span class="mbx-pill mbx-pill--o2">o2switch</span>';
+    }
+    return "";
+  }
+
+  function updateMailboxSourceUi() {
+    document.querySelectorAll("[data-mailbox-source]").forEach(function (btn) {
+      btn.classList.toggle("is-active", btn.getAttribute("data-mailbox-source") === state.mailboxSource);
+    });
+    var hint = document.getElementById("mailboxSourceHint");
+    if (!hint) return;
+    var counts = countImapBySource(state.all);
+    var dupes =
+      counts.total -
+      dedupeImapMessages(
+        state.all.filter(function (m) {
+          return messageKind(m) === "imap";
+        })
+      ).length;
+    var parts = [
+      mailboxSourceLabel(state.mailboxSource),
+      counts.workspace + " Workspace",
+      counts.o2switch + " o2switch",
+    ];
+    if (dupes > 0 && state.mailboxSource === "unified") {
+      parts.push(dupes + " doublon(s) masqué(s)");
+    }
+    hint.textContent = parts.join(" · ");
+  }
+
+  function setMailboxSource(mode) {
+    state.mailboxSource = mode || "unified";
+    try {
+      localStorage.setItem(LS_MAILBOX_SOURCE, state.mailboxSource);
+    } catch (e) {}
+    updateMailboxSourceUi();
+    applyFilters();
+    renderList();
+    pickDefaultSelection();
   }
 
   function initials(addr) {
@@ -350,7 +527,8 @@
 
   function applyFilters() {
     var q = state.search.toLowerCase().trim();
-    var pool = state.all.filter(function (m) {
+    var basePool = getMailboxSourcePool(state.all);
+    var pool = basePool.filter(function (m) {
       if (!q) return true;
       var hay =
         (m.subject || "") +
@@ -388,15 +566,15 @@
     });
 
     state.filtered = pool;
-    state.threads = buildThreads(
-      state.view === "feed"
-        ? pool
-        : state.all.filter(function (m) {
-            if (!q) return true;
-            var hay = (m.subject || "") + (m.from_addr || "") + (m.body_text || "");
-            return hay.toLowerCase().indexOf(q) >= 0;
-          })
+    var threadBase = getMailboxSourcePool(
+      state.all.filter(function (m) {
+        if (!q) return true;
+        var hay = (m.subject || "") + (m.from_addr || "") + (m.body_text || "");
+        return hay.toLowerCase().indexOf(q) >= 0;
+      })
     );
+    state.threads = buildThreads(state.view === "feed" ? pool : threadBase);
+    updateMailboxSourceUi();
   }
 
   function setView(view) {
@@ -459,8 +637,9 @@
 
   function renderStats() {
     var s = state.stats || {};
-    var received = state.all.filter(isReceivedMail).length;
-    var threads = buildThreads(state.all).length;
+    var pool = getMailboxSourcePool(state.all);
+    var received = pool.filter(isReceivedMail).length;
+    var threads = buildThreads(pool).length;
     var el = function (id, v) {
       var n = document.getElementById(id);
       if (n) n.textContent = v != null ? String(v) : "0";
@@ -727,6 +906,7 @@
           '<span class="mbx-item__preview">' +
           esc(messagePreview(m)) +
           "</span></span>" +
+          renderMailboxSourceBadge(m) +
           '<span class="mbx-badge mbx-badge--imap">Recu</span></button>'
         );
       })
@@ -1301,6 +1481,9 @@
       " · " +
       fmtDateLong(m.created_at) +
       (isReceivedMail(m) ? ' · <span style="color:#1d4ed8;font-weight:700">E-mail recu</span>' : "") +
+      (messageKind(m) === "imap"
+        ? ' · <span class="mbx-detail-source">' + renderMailboxSourceBadge(m) + "</span>"
+        : "") +
       "</p>" +
       '<div class="mbx-detail-actions" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">' +
       (leadId
@@ -1739,6 +1922,20 @@
       });
     });
 
+    document.querySelectorAll("[data-mailbox-source]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        setMailboxSource(btn.getAttribute("data-mailbox-source"));
+      });
+    });
+
+    try {
+      var savedSource = localStorage.getItem(LS_MAILBOX_SOURCE);
+      if (savedSource && ["unified", "workspace", "o2switch", "all"].indexOf(savedSource) >= 0) {
+        state.mailboxSource = savedSource;
+        updateMailboxSourceUi();
+      }
+    } catch (e) {}
+
     document.getElementById("mailboxSortBtn").addEventListener("click", function () {
       state.sortDesc = !state.sortDesc;
       this.textContent = state.sortDesc ? "Plus recent" : "Plus ancien";
@@ -2001,5 +2198,6 @@
 
   window.loadMailbox = loadMailbox;
   window.setMailboxView = setView;
+  window.setMailboxSource = setMailboxSource;
   document.addEventListener("DOMContentLoaded", bindUi);
 })();

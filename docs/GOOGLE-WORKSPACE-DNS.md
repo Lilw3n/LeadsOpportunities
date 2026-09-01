@@ -45,6 +45,11 @@ v=spf1 ip4:109.234.166.232 include:_spf.google.com include:spf.jabatus.fr ~all
 4. **Anciens e-mails** (reçus sur o2switch avant Google Workspace) : bouton **Historique o2switch** dans la messagerie CRM. Chaque clic importe ~40 messages ; le bouton enchaîne les lots automatiquement tant qu’il reste de l’historique sur le serveur o2switch.
 5. Boutons : **Gmail Workspace** + **o2switch Roundcube (secours)**.
 
+Dans le CRM, barre **Boîte contact@** :
+- **Vue unifiée** (défaut) — masque les doublons si le même mail est sur Workspace et o2switch
+- **Gmail Workspace** / **o2switch** — une seule boîte
+- **Tout afficher** — brut sans dédoublonnage
+
 Prérequis historique : `MAIL_IMAP_PASS_O2SWITCH` + `MAIL_IMAP_PROVIDER=both`. Les mails déjà migrés dans Gmail ne sont pas sur o2switch — utilisez la sync Workspace pour ceux-là.
 
 ---

@@ -985,6 +985,64 @@
       border-color: var(--primary);
       color: var(--primary);
     }
+    .mbx-topbar-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+    .mbx-action-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+    .mbx-action-group--sync {
+      padding-top: 4px;
+      border-top: 1px solid var(--line);
+    }
+    .mbx-source-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      margin: 0 0 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+    }
+    .mbx-source-label {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .mbx-source-hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+    .mbx-pill--ws {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .mbx-pill--o2 {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+    .mbx-pill--both {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+    .mbx-detail-source .mbx-pill { margin-left: 4px; }
+    @media (max-width: 900px) {
+      .mbx-source-hint { width: 100%; margin-left: 0; }
+      .mbx-topbar-actions { align-items: stretch; }
+      .mbx-action-group { justify-content: flex-start; }
+    }
     .mbx-list {
       flex: 1;
       overflow-y: auto;
@@ -2088,20 +2146,35 @@
             <h1>Messagerie</h1>
             <p class="subtitle" id="mailboxSubtitle">Formulaires site, e-mails Workspace contact@ + secours o2switch</p>
           </div>
-          <div class="topbar-actions">
-            <a href="https://mail.google.com/a/leadsopportunities.fr" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailWorkspaceBtn" title="Gmail Google Workspace — contact@leadsopportunities.fr">Gmail Workspace ↗</a>
-            <a href="https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&amp;_mbox=INBOX" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailBtn" title="Roundcube o2switch (secours) — contact@leadsopportunities.fr">o2switch Roundcube ↗</a>
-            <button type="button" class="btn btn-primary" id="mailboxComposeBtn" style="padding:10px 16px;font-size:0.85rem">Nouveau message</button>
-            <button type="button" class="btn-refresh" id="mailboxImapTestBtn" title="Tester la connexion IMAP Workspace + o2switch (mots de passe Vercel)">Tester IMAP</button>
-            <button type="button" class="btn-refresh" id="mailboxSyncBtn" title="Importer les e-mails IMAP (Workspace + o2switch secours)">Synchroniser IMAP</button>
-            <button type="button" class="btn-refresh" id="mailboxBackfillBtn" title="Importer les anciens e-mails encore sur o2switch (avant Google Workspace)">Historique o2switch</button>
-            <button type="button" class="btn-refresh" id="mailboxRefreshBtn">Actualiser</button>
+          <div class="topbar-actions mbx-topbar-actions">
+            <div class="mbx-action-group mbx-action-group--webmail">
+              <a href="https://mail.google.com/a/leadsopportunities.fr" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailWorkspaceBtn" title="Gmail Google Workspace — contact@leadsopportunities.fr">Gmail Workspace ↗</a>
+              <a href="https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&amp;_mbox=INBOX" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailBtn" title="Roundcube o2switch (secours) — contact@leadsopportunities.fr">o2switch Roundcube ↗</a>
+              <button type="button" class="btn btn-primary" id="mailboxComposeBtn" style="padding:10px 16px;font-size:0.85rem">Nouveau message</button>
+            </div>
+            <div class="mbx-action-group mbx-action-group--sync">
+              <button type="button" class="btn-refresh" id="mailboxImapTestBtn" title="Tester la connexion IMAP Workspace + o2switch">Tester IMAP</button>
+              <button type="button" class="btn-refresh" id="mailboxSyncBtn" title="Importer les e-mails IMAP">Synchroniser IMAP</button>
+              <button type="button" class="btn-refresh" id="mailboxBackfillBtn" title="Importer l'historique o2switch (avant Workspace)">Historique o2switch</button>
+              <button type="button" class="btn-refresh" id="mailboxRefreshBtn">Actualiser</button>
+            </div>
           </div>
         </div>
 
         <div class="mbx-statusbar" id="mailboxStatusBar">
           <span id="mailboxLastUpdate">—</span>
           <span id="mailboxSyncHint"></span>
+        </div>
+
+        <div class="mbx-source-bar" id="mailboxSourceBar">
+          <span class="mbx-source-label">Boîte contact@</span>
+          <div class="mbx-filters" id="mailboxSourceFilters" role="tablist" aria-label="Filtrer par boîte mail">
+            <button type="button" class="mbx-filter is-active" data-mailbox-source="unified" title="Même e-mail sur les 2 boîtes = une seule ligne">Vue unifiée</button>
+            <button type="button" class="mbx-filter" data-mailbox-source="workspace" title="Uniquement les e-mails importés depuis Gmail Workspace">Gmail Workspace</button>
+            <button type="button" class="mbx-filter" data-mailbox-source="o2switch" title="Uniquement les e-mails importés depuis o2switch">o2switch</button>
+            <button type="button" class="mbx-filter" data-mailbox-source="all" title="Tout afficher sans masquer les doublons">Tout afficher</button>
+          </div>
+          <span class="mbx-source-hint" id="mailboxSourceHint"></span>
         </div>
 
         <div class="mbx-payments" id="mailboxPaymentsPanel">
