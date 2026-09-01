@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-27",
+  "updated": "2026-09-01",
   "sections": [
     "actu",
     "animaux",
@@ -1847,6 +1847,45 @@
       "landing": "../landings/sante.html",
       "express": "../landings/devis-express.html?need=sante",
       "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=lieu-de-r-xe9-sidence-intoxication-chr",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "osteopathie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+      "title": "Ostéopathie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=osteopathie-quel-remboursement-avec-sa",
+      "matchedRule": "mutuelle",
+      "species": null
+    },
+    {
+      "file": "le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plu.html",
+      "title": "Le vrai ou faux. Qui des arrêts courts ou des arrêts longs coûtent le plus cher à l'Ass… : prevoyance et revenus — que faire ?",
+      "section": "actu",
+      "hook": "Chaque actualité rappelle un risque concret à couvrir.",
+      "question": "Quelle assurance souhaitez-vous faire vérifier en 3 minutes ?",
+      "need": "autre",
+      "landing": "../landings/questionnaire.html",
+      "express": "../landings/devis-express.html",
+      "questionnaire": "../landings/questionnaire.html?need=prevoyance&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=prevoyance&utm_content=le-vrai-ou-faux-qui-des-arrets-courts-o",
+      "matchedRule": null,
+      "species": null
+    },
+    {
+      "file": "mutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment-faire-econom.html",
+      "title": "Mutuelle senior : ces nouvelles offres peuvent-elles vraiment faire économiser selon 60… : mutuelle et remboursements — que faire ?",
+      "section": "sante",
+      "hook": "Optique, dentaire, hospitalisation : le reste à charge peut exploser.",
+      "question": "Votre mutuelle couvre-t-elle vraiment vos soins du quotidien ?",
+      "need": "sante",
+      "landing": "../landings/sante.html",
+      "express": "../landings/devis-express.html?need=sante",
+      "questionnaire": "../landings/questionnaire.html?need=sante&journey=standard&utm_source=blog&utm_medium=actu_daily&utm_campaign=sante&utm_content=mutuelle-senior-ces-nouvelles-offres-p",
       "matchedRule": "mutuelle",
       "species": null
     }
