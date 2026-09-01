@@ -66,6 +66,14 @@ assert(
 
 assert(
   !hasQualifiedLeadAngle({
+    title:
+      "HSBC Continental Europe Enters Into a Memorandum of Understanding Regarding Potential Sale of HSBC Assurances Vie (France) to Matmut Société d’Assurance Mutuelle",
+  }),
+  "communiqué anglais avec accent (Société) ignoré"
+);
+
+assert(
+  !hasQualifiedLeadAngle({
     title: "Maisons détruites : coulée de boue massive",
     summary: "Au Népal, des inondations massives ont fait près de 100 morts",
   }),

@@ -43,15 +43,21 @@ function isPlaceholderQueueItem(item) {
 }
 
 var LEAD_ANGLE_RE =
-  /mutuelle|assurance|sinistre|emprunteur|rembours|habitation|inondation|incendie|cyberattaque|iban|canicule|temp[eê]te|gr[eê]le|d[eé]g[aâ]t|cat[\s-]?nat|s[eé]cu|m[eé]dicament|dentaire|optique|ost[eé]o|pr[eê]t immobilier|cr[eé]dit immo|loi lemoine|franchise|indemnisation|rc pro|vtc\b/;
+  /mutuelle|assurance|sinistre|emprunteur|rembours|habitation|inondation|incendie|cyberattaque|iban|canicule|temp[eê]te|gr[eê]le|d[eé]g[aâ]t|cat[\s-]?nat|s[eé]cu|m[eé]dicament|dentaire|optique|ost[eé]o|pr[eê]t immobilier|cr[eé]dit immo|loi lemoine|franchise|indemnisation|rc pro|vtc\b|retraite|pension|arr[eê]t (de travail|maladie)/;
 
 /** Titres anglais (fil RSS) — pas d'angle conseil FR. */
 function isEnglishHeadline(title) {
   var t = String(title || "");
-  if (/[àâäéèêëïîôùûüçœ]/i.test(t)) return false;
+  var enHits = (
+    t.match(
+      /\b(the|and|of|to|for|in|on|into|a|an|regarding|potential|sale|enters|memorandum|understanding|with|from|has|signed|its|business)\b/gi
+    ) || []
+  ).length;
+  var frHits = (t.match(/\b(le|la|les|des|une|un|du|de|et|pour|dans|sur|avec|cette|ce|qui|que|aux|au)\b/gi) || []).length;
+  if (enHits >= 4 && enHits > frHits) return true;
+  if (/[àâäéèêëïîôùûüçœ]/i.test(t) && frHits >= 2) return false;
   return (
-    /\b(the|and|into|regarding|potential|sale|enters|memorandum|understanding)\b/i.test(t) &&
-    (t.match(/\b(the|and|of|to|for|in|on|into|a|an|regarding|potential|sale|enters|memorandum|understanding|with|from)\b/gi) || []).length >= 3
+    /\b(the|and|into|regarding|potential|sale|enters|memorandum|understanding)\b/i.test(t) && enHits >= 3
   );
 }
 
