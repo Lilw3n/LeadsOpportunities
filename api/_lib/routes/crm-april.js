@@ -67,7 +67,9 @@ module.exports = async function crmApril(req, res) {
       if (!April.isConfigured()) {
         return res.status(400).json({
           ok: false,
-          error: "Variables PARTNER_APRIL_CLIENT_ID et PARTNER_APRIL_CLIENT_SECRET manquantes sur Vercel",
+          error:
+            "PARTNER_APRIL_CLIENT_ID / PARTNER_APRIL_CLIENT_SECRET introuvables côté serveur. " +
+            "Si vous venez de les ajouter sur Vercel : Deployments → … → Redeploy (obligatoire — les variables ne sont injectées qu’au déploiement).",
           april: April.configStatus(),
         });
       }
