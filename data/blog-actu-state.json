@@ -1,10 +1,21 @@
 {
-  "lastFetch": "2026-06-16T15:27:26.596Z",
+  "lastFetch": "2026-09-01T03:55:39.795Z",
   "processedUrls": [
-    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]"
+    "https://www.franceinfo.fr/environnement/pollution/cinq-questions-sur-les-tests-de-depistage-du-cadmium-bientot-rembourses-pour-une-partie-des-francais_7999361.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a96403be7614bd3ad01a355c29a3e01&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fosteopathie-quel-remboursement-avec-sa-mutuelle-en-2026-11-07-2026-SOXITKD4ZVELLGZHBC3AJ4ZCUU.php&c=4056152524630980718&mkt=en-us",
+    "https://www.franceinfo.fr/replay-radio/le-vrai-du-faux/le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plus-cher-a-l-assurance-maladie_8144840.html#xtor=RSS-3-%5Bgeneral%5D",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a96403be7614bd3ad01a355c29a3e01&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2fsante%2fg%25C3%25A9n%25C3%25A9ral%2fmutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment-faire-%25C3%25A9conomiser-selon-60-millions-de-consommateurs%2far-AA2bgkAp&c=11306567545315105189&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a964c34cfe447b19d4bf4fa65877951&url=https%3a%2f%2fwww.lemonde.fr%2fplanete%2farticle%2f2026%2f09%2f01%2fun-nouvel-episode-de-chaleur-remarquable-attendu-a-partir-de-mercredi-dans-le-sud-de-la-france_6763098_3244.html&c=10516740146459392599&mkt=en-us",
+    "https://www.franceinfo.fr/france/rentree/beaucoup-d-enfants-vont-faire-leur-rentree-sans-aesh-a-leurs-cotes-deplore-un-responsable-syndical-de-l-academie-de-nantes_8171291.html#xtor=RSS-3-%5Bgeneral%5D",
+    "https://www.franceinfo.fr/politique/edouard-balladur-premier-ministre-de-1993-a-1995-est-mort-a-l-age-de-97-ans_5931758.html#xtor=RSS-3-[lestitres]",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a964c8759224ceead72fa15f59e704d&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2ffinance%2fretraite%2fmutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment-faire-%25C3%25A9conomiser-selon-60-millions-de-consommateurs%2far-AA2bgkAp&c=7474772919655834358&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a964c8759224ceead72fa15f59e704d&url=https%3a%2f%2fwww.capital.fr%2fvotre-argent%2fquelle-est-la-meilleure-mutuelle-sante-en-france-pour-un-retraite-1528267&c=16657145165417940574&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a964c98ccf74c6492792aa4930f9f83&url=https%3a%2f%2fwww.msn.com%2ffr-fr%2ffinance%2fretraite%2fmutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment-faire-%25C3%25A9conomiser-selon-60-millions-de-consommateurs%2far-AA2bgkAp&c=7474772919655834358&mkt=en-us",
+    "http://www.bing.com/news/apiclick.aspx?ref=FexRss&aid=&tid=6a964cba0ac84fc783520d7f6be49d1e&url=https%3a%2f%2fwww.leparisien.fr%2fguide-shopping%2fles-erreurs-a-eviter-avant-de-choisir-une-mutuelle-pour-travailleur-independant-28-08-2026-IPWW57U7FNEPXFER33XHRJKPAI.php&c=16250613655326041979&mkt=en-us",
+    "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNM1d2WV9LU21OblBNWTNkVFBvZFVjT1NwSnNnRTVlUkoxRWJmRDdvTG1oUFp5bEZ3Tk0tbWJoangxYXU1MWQxSDUtMm5hQzFDLTFzY05PeThSUVQxbVdjV3cyZ0hNbGxFODRkR0hhdWRSMUJabWdIR3U5cmVCQ3NxLWVSTTRaNkMyS1VidTJLNmxPYjB5d1U4WnM3RFN3ZW1JSS1NZzhZMnhQWkREUjl6OGJBWVpCRDFLaTRuVWNJbXRyOGlHclNBaWVZWi1hdWRndG5tYlZB?oc=5"
   ],
   "publishedFiles": [],
-  "lastAutoRun": "2026-06-16T15:11:49.864Z",
+  "lastAutoRun": "2026-09-01T03:55:41.479Z",
   "autoRuns": [
     {
       "at": "2026-06-16T15:11:49.864Z",
@@ -17,6 +28,90 @@
           "source": "Firefox — France Info titres"
         }
       ]
+    },
+    {
+      "at": "2026-09-01T03:02:24.345Z",
+      "count": 3,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "osteopathie-quel-remboursement-avec-sa-mutuelle-en-2026.html",
+          "title": "Ostéopathie : quel remboursement avec sa mutuelle en 2026 ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "le-vrai-ou-faux-qui-des-arrets-courts-ou-des-arrets-longs-coutent-le-plu.html",
+          "title": "Le vrai ou faux. Qui des arrêts courts ou des arrêts longs coûtent le plus cher à l'Ass… : prevoyance et revenus — que faire ?",
+          "source": "Firefox — Franceinfo santé",
+          "sourceType": "firefox"
+        },
+        {
+          "file": "mutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment-faire-econom.html",
+          "title": "Mutuelle senior : ces nouvelles offres peuvent-elles vraiment faire économiser selon 60… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-01T03:53:27.099Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "un-nouvel-episode-de-chaleur-remarquable-attendu-a-partir-de-mercredi-da.html",
+          "title": "Un nouvel épisode de chaleur « remarquable » attendu à partir de mercredi dans le sud d… : assurance habitation — que faire ?",
+          "source": "Edge — Bing actu France",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-01T03:54:50.198Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "quelle-est-la-meilleure-mutuelle-sante-en-france-pour-un-retraite.html",
+          "title": "Quelle est la meilleure mutuelle santé en France pour un retraité ? : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-01T03:55:07.528Z",
+      "count": 1,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "mutuelle-senior-ces-nouvelles-offres-peuvent-elles-vraiment--2.html",
+          "title": "Mutuelle senior : ces nouvelles offres peuvent-elles vraiment faire économiser selon 60… : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        }
+      ]
+    },
+    {
+      "at": "2026-09-01T03:55:41.479Z",
+      "count": 2,
+      "usedAi": false,
+      "articles": [
+        {
+          "file": "les-erreurs-a-eviter-avant-de-choisir-une-mutuelle-pour-travailleur-inde.html",
+          "title": "Les erreurs à éviter avant de choisir une mutuelle pour travailleur indépendant : mutuelle et remboursements — que faire ?",
+          "source": "Edge — Bing mutuelle",
+          "sourceType": "edge"
+        },
+        {
+          "file": "hausse-des-primes-cout-des-sinistres-de-nouvelles-statistiques-sur-l-ass.html",
+          "title": "Hausse des primes, coût des sinistres : de nouvelles statistiques sur l'assurance habit… : assurance habitation — que faire ?",
+          "source": "Google News — habitation sinistre",
+          "sourceType": "aggregator"
+        }
+      ]
     }
-  ]
+  ],
+  "platformRotationIndex": 2
 }
