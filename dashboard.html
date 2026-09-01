@@ -2086,12 +2086,13 @@
         <div class="dash-topbar">
           <div>
             <h1>Messagerie</h1>
-            <p class="subtitle" id="mailboxSubtitle">Formulaires site, e-mails contact@ et reponses depuis un seul endroit</p>
+            <p class="subtitle" id="mailboxSubtitle">Formulaires site, e-mails Workspace contact@ + secours o2switch</p>
           </div>
           <div class="topbar-actions">
-            <a href="https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&amp;_mbox=INBOX" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailBtn" title="Roundcube o2switch — contact@leadsopportunities.fr">Boîte mail o2switch ↗</a>
+            <a href="https://mail.google.com/a/leadsopportunities.fr" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailWorkspaceBtn" title="Gmail Google Workspace — contact@leadsopportunities.fr">Gmail Workspace ↗</a>
+            <a href="https://sodium.o2switch.net:2096/3rdparty/roundcube/?_task=mail&amp;_mbox=INBOX" target="_blank" rel="noopener" class="btn btn-ghost mbx-webmail-btn" id="mailboxWebmailBtn" title="Roundcube o2switch (secours) — contact@leadsopportunities.fr">o2switch Roundcube ↗</a>
             <button type="button" class="btn btn-primary" id="mailboxComposeBtn" style="padding:10px 16px;font-size:0.85rem">Nouveau message</button>
-            <button type="button" class="btn-refresh" id="mailboxSyncBtn" title="Importer les e-mails IMAP o2switch">Synchroniser IMAP</button>
+            <button type="button" class="btn-refresh" id="mailboxSyncBtn" title="Importer les e-mails IMAP (Workspace + o2switch secours)">Synchroniser IMAP</button>
             <button type="button" class="btn-refresh" id="mailboxRefreshBtn">Actualiser</button>
           </div>
         </div>
@@ -2727,7 +2728,12 @@
         document.getElementById("sec-" + a.dataset.section).classList.add("active");
         if (a.dataset.section === "leads") { loadBlockedIps(); loadIpLabels(); loadLeads(); pollNewLeads(); }
         if (a.dataset.section === "partners") loadPartners();
-        if (a.dataset.section === "mailbox" && window.loadMailbox) loadMailbox({});
+        if (a.dataset.section === "mailbox" && window.loadMailbox) {
+          try {
+            history.replaceState(null, "", "dashboard.html?section=mailbox");
+          } catch (e) {}
+          loadMailbox({});
+        }
       });
     });
 
@@ -3806,6 +3812,10 @@
     });
 
     var params = new URLSearchParams(window.location.search);
+    var hashSection = (window.location.hash || "").replace(/^#/, "").split("?")[0].trim();
+    if (!params.get("section") && (hashSection === "mailbox" || hashSection === "messagerie")) {
+      params.set("section", "mailbox");
+    }
     if (params.get("section") === "leads") {
       setTimeout(function () {
         goToLeads(params.get("view") || "");

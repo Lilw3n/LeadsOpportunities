@@ -1,12 +1,13 @@
-const { syncImapInbox } = require("./mail-imap");
+const { syncImapInbox, listImapSources, imapConfig } = require("./mail-imap");
 const { listMessages, ensureMailboxSchema } = require("./mail-store");
 const { getSql } = require("./db");
 
-async function recordSyncMeta(sql, result) {
+async function recordOneMeta(sql, metaId, result) {
+  const id = metaId || "contact";
   await sql`
     INSERT INTO mailbox_sync_meta (id, last_sync_at, last_imap_uid, last_error, last_host, imported_last)
     VALUES (
-      'contact',
+      ${id},
       NOW(),
       ${result.lastUid || null},
       ${result.ok ? null : result.error || "Erreur sync"},
@@ -22,12 +23,40 @@ async function recordSyncMeta(sql, result) {
   `;
 }
 
+async function recordSyncMeta(sql, result) {
+  const sources = (result && result.sources) || [];
+  if (sources.length) {
+    for (let i = 0; i < sources.length; i++) {
+      const s = sources[i];
+      await recordOneMeta(sql, s.metaId || (s.source === "workspace" ? "contact_workspace" : "contact"), s);
+    }
+  }
+  // Meta agrégée « contact » pour le throttle dashboard (compat)
+  await recordOneMeta(sql, "contact", {
+    ok: result.ok,
+    lastUid: result.lastUid,
+    error: result.error,
+    host: result.host,
+    imported: result.imported,
+  });
+}
+
 async function getSyncMeta(sql) {
   const rows = await sql`
     SELECT last_sync_at, last_error, last_host, imported_last, last_imap_uid
     FROM mailbox_sync_meta WHERE id = 'contact' LIMIT 1
   `;
   return rows[0] || null;
+}
+
+async function getAllSyncMeta(sql) {
+  const rows = await sql`
+    SELECT id, last_sync_at, last_error, last_host, imported_last, last_imap_uid
+    FROM mailbox_sync_meta
+    WHERE id IN ('contact', 'contact_workspace')
+    ORDER BY id
+  `;
+  return rows || [];
 }
 
 /** Sync IMAP contact@ + enregistre meta Neon */
@@ -43,9 +72,12 @@ async function runMailboxSync() {
 
 /** Sync force (bouton dashboard) — ignore le delai */
 async function forceSyncNow() {
-  const { imapConfig } = require("./mail-imap");
-  if (!imapConfig()) {
-    return { skipped: true, reason: "imap_not_configured", error: "MAIL_IMAP_PASS manquant sur Vercel" };
+  if (!listImapSources().length) {
+    return {
+      skipped: true,
+      reason: "imap_not_configured",
+      error: "MAIL_IMAP_PASS_WORKSPACE et/ou MAIL_IMAP_PASS_O2SWITCH manquant sur Vercel",
+    };
   }
   const sql = getSql();
   if (!sql) return { skipped: true, reason: "no_database" };
@@ -59,8 +91,7 @@ async function forceSyncNow() {
 async function autoSyncIfDue() {
   if (process.env.MAILBOX_AUTO_SYNC === "false") return { skipped: true, reason: "disabled" };
 
-  const { imapConfig } = require("./mail-imap");
-  if (!imapConfig()) {
+  if (!listImapSources().length) {
     return { skipped: true, reason: "imap_not_configured" };
   }
 
@@ -92,9 +123,14 @@ async function listWithAutoSync(limit, offset) {
   const data = await listMessages(limit, offset);
   const sql = getSql();
   const meta = sql ? await getSyncMeta(sql) : null;
+  const metas = sql ? await getAllSyncMeta(sql) : [];
   return Object.assign({}, data, {
     sync: syncResult,
     syncMeta: meta,
+    syncMetas: metas,
+    imapSources: listImapSources().map(function (s) {
+      return { id: s.id, label: s.label, host: s.host };
+    }),
   });
 }
 
@@ -104,4 +140,6 @@ module.exports = {
   autoSyncIfDue,
   listWithAutoSync,
   getSyncMeta,
+  getAllSyncMeta,
+  imapConfig,
 };

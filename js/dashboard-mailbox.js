@@ -507,7 +507,7 @@
   function renderSetup(meta) {
     var box = document.getElementById("mailboxSetup");
     if (!box) return;
-    if (localStorage.getItem(LS_SETUP_HIDE) === "1" && !state.tableMissing) {
+    if (localStorage.getItem(LS_SETUP_HIDE) === "1" && !state.tableMissing && meta && meta.imapConfigured) {
       box.hidden = true;
       return;
     }
@@ -517,12 +517,33 @@
       box.innerHTML = "<strong>Base messagerie</strong> — verifiez DATABASE_URL.";
       return;
     }
-    box.className = "mbx-setup " + (meta && meta.imapConfigured ? "mbx-setup--ok" : "");
-    box.innerHTML =
-      (meta && meta.imapConfigured
-        ? "<strong>Boite contact@ synchronisee</strong> — les e-mails recus apparaissent en premier."
-        : "<strong>IMAP</strong> — requis pour les e-mails recus.") +
-      ' <button type="button" class="btn-ghost" id="mailboxHideSetup" style="margin-left:8px;font-size:0.75rem">Masquer</button>';
+    var sources = (meta && meta.imapSources) || [];
+    var srcLabel = sources.length
+      ? sources
+          .map(function (s) {
+            return s.label || s.id;
+          })
+          .join(" · ")
+      : "";
+    if (meta && meta.imapConfigured) {
+      box.className = "mbx-setup mbx-setup--ok";
+      box.innerHTML =
+        "<strong>Boîte contact@ synchronisée</strong> — " +
+        (srcLabel || "IMAP actif") +
+        ". Cliquez <em>Synchroniser IMAP</em> pour importer." +
+        ' <button type="button" class="btn-ghost" id="mailboxHideSetup" style="margin-left:8px;font-size:0.75rem">Masquer</button>';
+    } else {
+      box.className = "mbx-setup mbx-setup--err";
+      box.innerHTML =
+        "<strong>Messagerie à configurer (Vercel)</strong>" +
+        "<ol style=\"margin:8px 0 0;padding-left:18px;line-height:1.45;font-size:0.88rem\">" +
+        "<li>Google Admin → contact@ → <strong>mot de passe d'application</strong> (IMAP)</li>" +
+        "<li>Vercel → Variables : <code>MAIL_IMAP_PROVIDER=both</code>, " +
+        "<code>MAIL_IMAP_PASS_WORKSPACE</code>, <code>MAIL_IMAP_PASS_O2SWITCH</code> (secours)</li>" +
+        "<li><strong>Redeploy</strong> puis ici → Synchroniser IMAP</li>" +
+        "<li>En attendant : boutons <strong>Gmail Workspace</strong> / <strong>o2switch</strong> ci-dessus</li>" +
+        "</ol>";
+    }
     var hide = document.getElementById("mailboxHideSetup");
     if (hide) {
       hide.addEventListener("click", function () {
@@ -1417,6 +1438,7 @@
     state.stats = data.stats || null;
     state.imapConfigured = !!data.imapConfigured;
     state.mailboxAddress = data.mailboxAddress || state.mailboxAddress;
+    state.imapSources = data.imapSources || [];
     state.tableMissing = false;
     applyFilters();
     renderStats();
@@ -1484,14 +1506,35 @@
 
   function updateWebmailLink(data) {
     var btn = document.getElementById("mailboxWebmailBtn");
+    var btnWs = document.getElementById("mailboxWebmailWorkspaceBtn");
     var empty = document.getElementById("mailboxWebmailEmptyLink");
     if (!data) return;
-    if (btn) {
-      if (data.webmailUrl) btn.href = data.webmailUrl;
-      if (data.webmailLabel) btn.textContent = data.webmailLabel + " ↗";
-      if (data.mailboxAddress) btn.title = "Roundcube o2switch — " + data.mailboxAddress;
+    if (btnWs) {
+      if (data.webmailWorkspaceUrl) btnWs.href = data.webmailWorkspaceUrl;
+      if (data.webmailWorkspaceLabel) btnWs.textContent = data.webmailWorkspaceLabel + " ↗";
+      if (data.mailboxAddress) btnWs.title = "Gmail Workspace — " + data.mailboxAddress;
     }
-    if (empty && data.webmailUrl) empty.href = data.webmailUrl;
+    if (btn) {
+      if (data.webmailO2switchUrl || data.webmailUrl) btn.href = data.webmailO2switchUrl || data.webmailUrl;
+      if (data.webmailO2switchLabel || data.webmailLabel) {
+        btn.textContent = (data.webmailO2switchLabel || data.webmailLabel) + " ↗";
+      }
+      if (data.mailboxAddress) btn.title = "Roundcube o2switch (secours) — " + data.mailboxAddress;
+    }
+    if (empty && (data.webmailWorkspaceUrl || data.webmailUrl)) {
+      empty.href = data.webmailWorkspaceUrl || data.webmailUrl;
+    }
+    var sub = document.getElementById("mailboxSubtitle");
+    if (sub && data.imapSources && data.imapSources.length) {
+      sub.textContent =
+        "Formulaires site + e-mails contact@ (" +
+        data.imapSources
+          .map(function (s) {
+            return s.label;
+          })
+          .join(" · ") +
+        ")";
+    }
   }
 
   async function syncMailbox(silent) {
