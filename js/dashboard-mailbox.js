@@ -1489,19 +1489,34 @@
       list.innerHTML =
         '<div class="loading-state" style="padding:40px"><div class="spinner"></div>Chargement…</div>';
     }
-    var data = await window.Dashboard.api("/api/dashboard/mailbox-list?limit=100");
-    if (!data.ok) {
-      if (list) list.innerHTML = "<p>" + esc(data.error) + "</p>";
-      return;
+    try {
+      var data = await window.Dashboard.api("/api/dashboard/mailbox-list?limit=100");
+      if (!data || !data.ok) {
+        if (list) {
+          list.innerHTML =
+            "<p style=\"padding:16px;color:#b91c1c\">" +
+            esc((data && data.error) || "Impossible de charger la messagerie") +
+            "</p>";
+        }
+        return;
+      }
+      if (data.sync && data.sync.ok) {
+        localStorage.setItem(LS_SYNC, new Date().toISOString());
+        localStorage.removeItem(LS_SYNC_ERR);
+      } else if (data.sync && (data.sync.error || data.sync.reason === "timeout")) {
+        localStorage.setItem(LS_SYNC_ERR, data.sync.error || "Sync IMAP lente");
+      }
+      ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
+      updateWebmailLink(data);
+    } catch (e) {
+      if (list) {
+        list.innerHTML =
+          "<p style=\"padding:16px;color:#b91c1c\">Erreur réseau messagerie. Réessayez Actualiser ou Gmail Workspace.</p>" +
+          "<p style=\"padding:0 16px;color:#64748b;font-size:0.85rem\">" +
+          esc((e && e.message) || "") +
+          "</p>";
+      }
     }
-    if (data.sync && data.sync.ok) {
-      localStorage.setItem(LS_SYNC, new Date().toISOString());
-      localStorage.removeItem(LS_SYNC_ERR);
-    } else if (data.sync && data.sync.error) {
-      localStorage.setItem(LS_SYNC_ERR, data.sync.error);
-    }
-    ingestMessages(data, { openId: opts.openId, skipAutoSelect: !!opts.openId });
-    updateWebmailLink(data);
   }
 
   function updateWebmailLink(data) {

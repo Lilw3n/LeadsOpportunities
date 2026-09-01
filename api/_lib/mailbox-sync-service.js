@@ -119,19 +119,57 @@ async function autoSyncIfDue() {
 }
 
 async function listWithAutoSync(limit, offset) {
-  const syncResult = await autoSyncIfDue();
+  // 1) Toujours renvoyer la liste DB d'abord (évite le spinner infini si IMAP bloque)
   const data = await listMessages(limit, offset);
   const sql = getSql();
-  const meta = sql ? await getSyncMeta(sql) : null;
-  const metas = sql ? await getAllSyncMeta(sql) : [];
-  return Object.assign({}, data, {
-    sync: syncResult,
-    syncMeta: meta,
-    syncMetas: metas,
-    imapSources: listImapSources().map(function (s) {
-      return { id: s.id, label: s.label, host: s.host };
-    }),
+  const sources = listImapSources().map(function (s) {
+    return { id: s.id, label: s.label, host: s.host };
   });
+  const base = Object.assign({}, data, {
+    sync: { skipped: true, reason: "pending" },
+    syncMeta: sql ? await getSyncMeta(sql) : null,
+    syncMetas: sql ? await getAllSyncMeta(sql) : [],
+    imapSources: sources,
+  });
+
+  const timeoutMs = Math.min(
+    Math.max(Number(process.env.MAILBOX_LIST_SYNC_TIMEOUT_MS) || 6000, 2000),
+    12000
+  );
+
+  try {
+    const syncResult = await Promise.race([
+      autoSyncIfDue(),
+      new Promise(function (resolve) {
+        setTimeout(function () {
+          resolve({
+            skipped: true,
+            reason: "timeout",
+            error:
+              "Sync IMAP trop longue (>" +
+              Math.round(timeoutMs / 1000) +
+              "s). Cliquez Synchroniser IMAP ou ouvrez Gmail Workspace.",
+          });
+        }, timeoutMs);
+      }),
+    ]);
+
+    let out = base;
+    if (syncResult && syncResult.ok && (syncResult.imported || 0) > 0) {
+      const refreshed = await listMessages(limit, offset);
+      out = Object.assign({}, refreshed, {
+        syncMeta: sql ? await getSyncMeta(sql) : null,
+        syncMetas: sql ? await getAllSyncMeta(sql) : [],
+        imapSources: sources,
+      });
+    }
+    out.sync = syncResult;
+    if (!out.syncMeta && sql) out.syncMeta = await getSyncMeta(sql);
+    return out;
+  } catch (e) {
+    base.sync = { ok: false, error: (e && e.message) || "Erreur sync IMAP" };
+    return base;
+  }
 }
 
 module.exports = {
@@ -141,5 +179,5 @@ module.exports = {
   listWithAutoSync,
   getSyncMeta,
   getAllSyncMeta,
-  imapConfig,
+  imapConfig: imapConfig,
 };

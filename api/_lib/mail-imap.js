@@ -247,6 +247,10 @@ async function syncOneSource(sql, simpleParser, ImapFlow, source, mailboxAddress
       Object.assign({}, cfgBase, {
         host: tryHost,
         tls: tlsOptions(tryHost, source.id),
+        connectionTimeout: Number(process.env.MAIL_IMAP_CONNECT_TIMEOUT_MS) || 8000,
+        greetingTimeout: Number(process.env.MAIL_IMAP_GREETING_TIMEOUT_MS) || 8000,
+        socketTimeout: Number(process.env.MAIL_IMAP_SOCKET_TIMEOUT_MS) || 20000,
+        logger: false,
       })
     );
     imported = 0;
