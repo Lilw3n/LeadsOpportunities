@@ -93,7 +93,7 @@ module.exports = async function publicImmoListingSubmit(req, res) {
     return res.status(429).json({ error: "Trop de requêtes, réessayez plus tard" });
   }
 
-  var parsed = parseJsonBody(req, 2500000);
+  var parsed = parseJsonBody(req, 14 * 1024 * 1024);
   if (parsed.error) return res.status(400).json({ error: parsed.error });
   var body = parsed.body || {};
   if (isHoneypotFilled(body)) {

@@ -24,7 +24,7 @@
   <script src="../google-config.js"></script>
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="./css/immo-parcours.css?v=20260826docsui" />
-  <link rel="stylesheet" href="../css/acheteur-immo-search.css?v=20260825fold" />
+  <link rel="stylesheet" href="../css/acheteur-immo-search.css?v=20260826photos40" />
   <script>
     (function () {
       var p = new URLSearchParams(location.search);
@@ -291,9 +291,9 @@
             <p class="listing-media-hint">Enregistrées sur le site et copiées dans Google Drive <strong>Immo → 01_photos_publiques</strong> (Leboncoin, vitrine, annonce).</p>
             <div class="grid">
               <div class="field">
-                <label for="urlPhotos">Photos du bien pour l'annonce (max 4)</label>
+                <label for="urlPhotos">Photos du bien pour l'annonce (max 40)</label>
                 <input id="urlPhotos" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple data-listing-photos />
-                <p class="listing-media-hint">Façade, pièces, jardin — visibles sur l'annonce.</p>
+                <p class="listing-media-hint">Façade, pièces, jardin — visibles sur l'annonce. Glissez pour réordonner : la 1re photo est la photo principale.</p>
               </div>
               <div class="field">
                 <label for="urlCapture">Capture d'écran de l'annonce</label>
@@ -302,6 +302,7 @@
               </div>
             </div>
             <div class="listing-thumbs" data-listing-thumbs></div>
+            <p class="listing-photos-hint" data-listing-photos-count></p>
             <div class="listing-preview-wrap">
               <p class="search-section-label">Aperçu de la fiche</p>
               <div data-listing-preview></div>
@@ -2217,11 +2218,12 @@
   <script src="../js/acheteur-immo-deposit-vente.js"></script>
   <script src="../js/acheteur-immo-deposit-guide.js?v=20260825drive3"></script>
   <script src="../js/acheteur-immo-account.js"></script>
-  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/immo-public-listings-lib.js?v=20260826photos40"></script>
   <script src="../js/acheteur-immo-search.js?v=20260825fold"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>
   <script src="../js/immo-photo-compress-lib.js"></script>
-  <script src="../js/acheteur-immo-listing-url.js?v=20260825draft1"></script>
+  <script src="../js/immo-photo-thumbs.js?v=20260826photos40"></script>
+  <script src="../js/acheteur-immo-listing-url.js?v=20260826photos40"></script>
   <script src="../js/client-value-messaging-lib.js"></script>
   <script src="../js/client-value-block.js"></script>
   <script src="../js/pret-risks-messaging-lib.js"></script>
@@ -2236,7 +2238,7 @@
   <script src="../js/immo-rgpd-confirmation.js"></script>
   <script src="../js/acheteur-immo-mandate-client.js"></script>
   <script src="../js/acheteur-immo-laforet-extras.js"></script>
-  <script src="../js/acheteur-immo-sell-photos.js"></script>
+  <script src="../js/acheteur-immo-sell-photos.js?v=20260826photos40"></script>
   <script src="../js/vendeur-visite-pret-messaging-lib.js"></script>
   <script src="../js/vendeur-visite-pret-block.js"></script>
   <script src="./tracking.js"></script>

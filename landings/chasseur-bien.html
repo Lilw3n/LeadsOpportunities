@@ -42,7 +42,7 @@
   <script src="/js/clarity-init.js" defer></script>
   <link rel="stylesheet" href="./styles.css" />
   <link rel="stylesheet" href="../css/geo-france-banner.css" />
-  <link rel="stylesheet" href="../css/acheteur-immo-search.css" />
+  <link rel="stylesheet" href="../css/acheteur-immo-search.css?v=20260826photos40" />
   <link rel="stylesheet" href="../css/contact-pair.css" />
   <link rel="stylesheet" href="../css/client-value-block.css" />
   <link rel="stylesheet" href="../css/achat-perennite-block.css" />
@@ -172,7 +172,7 @@
               <p class="search-section-label" style="margin-top:16px">Photo du bien</p>
               <div class="grid">
                 <div class="field">
-                  <label for="urlPhotos">Photos (max 4) <span aria-hidden="true">*</span></label>
+                  <label for="urlPhotos">Photos (max 40) <span aria-hidden="true">*</span></label>
                   <input id="urlPhotos" type="file" accept="image/*" multiple data-listing-photos />
                   <p class="listing-media-hint">Panneau, façade, rue — même floue, ça aide.</p>
                 </div>
@@ -182,6 +182,7 @@
                 </div>
               </div>
               <div class="listing-thumbs" data-listing-thumbs></div>
+              <p class="listing-photos-hint" data-listing-photos-count></p>
               <div class="listing-preview-wrap">
                 <p class="search-section-label">Aperçu</p>
                 <div data-listing-preview></div>
@@ -249,9 +250,10 @@
     </div>
   </main>
   <script src="../js/contact-pair.js"></script>
-  <script src="../js/immo-public-listings-lib.js"></script>
+  <script src="../js/immo-public-listings-lib.js?v=20260826photos40"></script>
   <script src="../js/immo-listing-portals-lib.js"></script>
-  <script src="../js/acheteur-immo-listing-url.js"></script>
+  <script src="../js/immo-photo-thumbs.js?v=20260826photos40"></script>
+  <script src="../js/acheteur-immo-listing-url.js?v=20260826photos40"></script>
   <script src="../js/client-value-messaging-lib.js"></script>
   <script src="../js/client-value-block.js"></script>
   <script src="../js/achat-perennite-messaging-lib.js"></script>
