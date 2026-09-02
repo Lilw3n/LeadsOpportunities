@@ -50,6 +50,7 @@ const ROUTES = {
   todoist: () => require("../_lib/routes/crm-todoist"),
   "lead-acquisition": () => require("../_lib/routes/crm-lead-acquisition"),
   "lead-questionnaire": () => require("../_lib/routes/crm-lead-questionnaire"),
+  "quest-resume-link": () => require("../_lib/routes/crm-quest-resume-link"),
   "drive-folder": () => require("../_lib/routes/crm-drive-folder"),
   "contact-duplicates": () => require("../_lib/routes/crm-contact-duplicates"),
   "merge-contacts": () => require("../_lib/routes/crm-merge-contacts"),

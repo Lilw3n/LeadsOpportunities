@@ -14,6 +14,7 @@ const ROUTES = {
   "verify-email": () => require("../_lib/routes/external-verify-email"),
   "lookup-coords": () => require("../_lib/routes/external-lookup-coords"),
   "resume-deposit": () => require("../_lib/routes/external-resume-deposit"),
+  "quest-resume": () => require("../_lib/routes/external-quest-resume"),
 };
 
 module.exports = async (req, res) => {

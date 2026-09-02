@@ -142,7 +142,7 @@ function buildDraftFromLeadPayload(p, leadRow) {
   return hasData ? draft : null;
 }
 
-module.exports = async function externalResumeDeposit(req, res) {
+async function externalResumeDeposit(req, res) {
   applyApiGuards(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
@@ -222,3 +222,6 @@ module.exports = async function externalResumeDeposit(req, res) {
     return res.status(500).json({ error: "Erreur serveur" });
   }
 };
+
+externalResumeDeposit.buildDraftFromLeadPayload = buildDraftFromLeadPayload;
+module.exports = externalResumeDeposit;

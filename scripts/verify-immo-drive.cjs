@@ -71,6 +71,11 @@ assert(
     "01_photos_publiques",
   "capture annonce → 01_photos_publiques"
 );
+assert(
+  classify.resolveVendeurDocumentFolder({ documentGroup: "titre", documentType: "mandat_annexe" }) ===
+    "06_mandat_pieces",
+  "annexe mandat → 06_mandat_pieces"
+);
 assert(classify.resolveListingMediaFolder("capture") === "01_photos_publiques", "capture listing → 01_photos_publiques");
 assert(
   classify.buildProspectFolderName({

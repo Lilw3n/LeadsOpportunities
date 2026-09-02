@@ -37,6 +37,14 @@
     return v.indexOf("vendeur") >= 0 && v.indexOf("immo") >= 0;
   }
 
+  function defaultAuthHeaders() {
+    try {
+      var t = localStorage.getItem("lo_token");
+      if (t) return { Authorization: "Bearer " + t };
+    } catch (e) {}
+    return {};
+  }
+
   function buildResumeUrl(ctx) {
     ctx = ctx || {};
     var payload = ctx.payload || {};
@@ -96,7 +104,7 @@
 
   function authFetch(url, opts, authHeadersFn) {
     opts = opts || {};
-    var headers = Object.assign({}, opts.headers || {});
+    var headers = Object.assign({}, defaultAuthHeaders(), opts.headers || {});
     if (typeof authHeadersFn === "function") {
       headers = Object.assign(headers, authHeadersFn() || {});
     } else if (authHeadersFn && typeof authHeadersFn === "object") {
@@ -209,6 +217,48 @@
       .finally(clearBusy);
   }
 
+  function requestClientResumeLink(ctx, sendEmail) {
+    ctx = ctx || {};
+    return authFetch(
+      "/api/crm/quest-resume-link",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          leadId: ctx.leadId || null,
+          contactId: ctx.contactId || null,
+          email: ctx.email || null,
+          sendEmail: !!sendEmail,
+        }),
+      }
+    ).then(function (res) {
+      var data = res.data || {};
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Impossible de créer le lien client");
+      }
+      return data;
+    });
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
+      document.body.removeChild(ta);
+    });
+  }
+
   function renderToolbar(ctx, opts) {
     opts = opts || {};
     ctx = ctx || {};
@@ -229,6 +279,11 @@
       '" target="_blank" rel="noopener">' +
       (canEdit() ? "Reprendre le questionnaire prérempli" : "Ouvrir le parcours questionnaire") +
       "</a>";
+    if (ctx.leadId || ctx.contactId) {
+      html +=
+        '<button type="button" class="btn btn-ghost btn-sm" data-crm-q-copy-link title="Lien personnel : le client confirme e-mail ou téléphone">Copier le lien client</button>' +
+        '<button type="button" class="btn btn-ghost btn-sm" data-crm-q-send-link title="Envoie le lien par e-mail au client">Envoyer le lien au client</button>';
+    }
     if (opts.mailboxUrl) {
       html +=
         '<a class="btn btn-ghost btn-sm" href="' +
@@ -263,6 +318,14 @@
     var driveBtn = container.querySelector("[data-crm-q-open-drive]");
     if (driveBtn && handlers.onOpenDrive) {
       driveBtn.addEventListener("click", handlers.onOpenDrive);
+    }
+    var copyBtn = container.querySelector("[data-crm-q-copy-link]");
+    if (copyBtn && handlers.onCopyClientLink) {
+      copyBtn.addEventListener("click", handlers.onCopyClientLink);
+    }
+    var sendBtn = container.querySelector("[data-crm-q-send-link]");
+    if (sendBtn && handlers.onSendClientLink) {
+      sendBtn.addEventListener("click", handlers.onSendClientLink);
     }
   }
 
@@ -730,6 +793,73 @@
           onOpened: opts.onDriveOpened,
         });
       },
+      onCopyClientLink: function (ev) {
+        var btn = ev && ev.currentTarget;
+        var prev = btn ? btn.textContent : "";
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Création…";
+        }
+        requestClientResumeLink(ctx, false)
+          .then(function (data) {
+            return copyText(data.url).then(function () {
+              return data;
+            });
+          })
+          .then(function () {
+            if (btn) btn.textContent = "Lien copié";
+            window.setTimeout(function () {
+              if (btn) {
+                btn.disabled = false;
+                btn.textContent = prev || "Copier le lien client";
+              }
+            }, 1600);
+          })
+          .catch(function (err) {
+            window.alert((err && err.message) || "Impossible de copier le lien.");
+            if (btn) {
+              btn.disabled = false;
+              btn.textContent = prev || "Copier le lien client";
+            }
+          });
+      },
+      onSendClientLink: function (ev) {
+        if (!ctx.email) {
+          window.alert("Ajoutez un e-mail sur la fiche pour envoyer le lien au client.");
+          return;
+        }
+        var btn = ev && ev.currentTarget;
+        var prev = btn ? btn.textContent : "";
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Envoi…";
+        }
+        requestClientResumeLink(ctx, true)
+          .then(function (data) {
+            if (!data.emailed) {
+              throw new Error(
+                data.emailReason === "no_email"
+                  ? "Pas d’e-mail sur ce dossier."
+                  : "E-mail non envoyé (vérifiez Resend / LEAD_FROM_EMAIL)."
+              );
+            }
+            if (btn) btn.textContent = "Envoyé";
+            window.alert("Lien envoyé à " + ctx.email + ".\nLe client confirmera son e-mail ou son téléphone pour ouvrir le bon dossier.");
+            window.setTimeout(function () {
+              if (btn) {
+                btn.disabled = false;
+                btn.textContent = prev || "Envoyer le lien au client";
+              }
+            }, 1600);
+          })
+          .catch(function (err) {
+            window.alert((err && err.message) || "Envoi impossible.");
+            if (btn) {
+              btn.disabled = false;
+              btn.textContent = prev || "Envoyer le lien au client";
+            }
+          });
+      },
     });
 
     renderAnswersView();
@@ -764,6 +894,7 @@
     leadContextFromData: leadContextFromData,
     mountEditablePanel: mountEditablePanel,
     mountQuestionnaireWorkspace: mountQuestionnaireWorkspace,
+    requestClientResumeLink: requestClientResumeLink,
     isImmoVertical: isImmoVertical,
     isVendeurImmo: isVendeurImmo,
   };

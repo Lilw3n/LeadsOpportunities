@@ -149,7 +149,9 @@ assert(dash.indexOf("interlocuteur-dossier-lib.js") >= 0, "dashboard : lib dossi
 assert(dash.indexOf("onContactCreated") >= 0, "dashboard : refresh CTA après promote Drive");
 
 var qTools = read("js/crm-questionnaire-tools.js");
-assert(qTools.indexOf("data-crm-q-open-drive") >= 0, "toolbar : bouton Ouvrir Drive");
+assert(qTools.indexOf("data-crm-q-copy-link") >= 0, "toolbar : copier lien client");
+assert(qTools.indexOf("data-crm-q-send-link") >= 0, "toolbar : envoyer lien client");
+assert(qTools.indexOf("/api/crm/quest-resume-link") >= 0, "toolbar : API lien questionnaire");
 assert(qTools.indexOf("openContactDrive") >= 0, "toolbar : openContactDrive");
 assert(qTools.indexOf("/api/crm/drive-folder") >= 0, "toolbar : API drive-folder");
 assert(qTools.indexOf("ensureContactId") >= 0, "upload : assure fiche avant dépôt");
