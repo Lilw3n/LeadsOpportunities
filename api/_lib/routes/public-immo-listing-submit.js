@@ -376,6 +376,42 @@ module.exports = async function publicImmoListingSubmit(req, res) {
           }
         }
 
+        if (isOwner || isSignalement) {
+          try {
+            var ficheSync = require("../immo-property-fiche-drive");
+            var ficheRes = await ficheSync.syncPropertyFicheToDrive({
+              id: propId,
+              title: titleBits.join(" · ") || (isSignalement ? "Bien signalé" : "Bien à vendre"),
+              city: city,
+              postal_code: postal,
+              surface_m2: surface,
+              rooms: rooms,
+              bedrooms: bedrooms,
+              dpe: dpe,
+              price_fai: price,
+              description: description,
+              firstName: firstName,
+              lastName: lastName,
+              sellDossier: sellDossier,
+              depositDraft:
+                body.depositDraft && typeof body.depositDraft === "object" ? body.depositDraft : null,
+            });
+            if (ficheRes && ficheRes.driveFolderId) {
+              propMetadata.drive = Object.assign({}, propMetadata.drive || {}, {
+                folderId: ficheRes.driveFolderId,
+                webViewLink: ficheRes.webViewLink || (propMetadata.drive && propMetadata.drive.webViewLink) || null,
+                fiche: ficheRes.fileName || "00_fiche_bien.txt",
+              });
+              await store.patchPropertyMedia(sql, propId, {
+                drive_folder_id: ficheRes.driveFolderId,
+                metadata: propMetadata,
+              });
+            }
+          } catch (ficheErr) {
+            console.warn("[immo-listing-submit] fiche drive", ficheErr && ficheErr.message);
+          }
+        }
+
         if (!isSignalement && (isOwner || sellerName || sellerPhone || sellerEmail)) {
           await store.upsertParty(sql, {
             property_id: propId,

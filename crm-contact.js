@@ -38,6 +38,13 @@
     return d.innerHTML;
   }
 
+  function authHeaders() {
+    var t = token();
+    return t
+      ? { Authorization: "Bearer " + t, "Content-Type": "application/json" }
+      : { "Content-Type": "application/json" };
+  }
+
   function api(path, opts) {
     opts = opts || {};
     return fetch(path, {
@@ -252,6 +259,7 @@
       window.CrmQuestionnaireTools.mountQuestionnaireWorkspace(toolbarMount, ctx, {
         api: "crm",
         showUpload: false,
+        authHeaders: authHeaders,
         mailboxUrl: window.CrmQuestionnaireTools.buildMailboxUrl(leadId),
         onSaved: function () {
           loadContact();
@@ -1503,8 +1511,10 @@
           return;
         }
         var msg =
-          (res && res.error) ||
-          "Impossible d'ouvrir le dossier Drive. Google Drive n'est probablement pas configuré sur Vercel.";
+          (res && (res.error === "Non authentifie" || res.error === "Non authentifié"))
+            ? "Session CRM requise pour ouvrir Drive — reconnectez-vous puis réessayez."
+            : (res && res.error) ||
+              "Impossible d'ouvrir le dossier Drive. Google Drive n'est probablement pas configuré sur Vercel.";
         if (res && res.setupUrl) {
           msg += "\n\nOuvrir la page de configuration Drive ?";
           if (window.confirm(msg)) {
@@ -1614,6 +1624,7 @@
         mount.innerHTML = emptyHtml;
         if (uploadCtx && window.CrmQuestionnaireTools) {
           window.CrmQuestionnaireTools.mountDocUpload(mount, uploadCtx, {
+            authHeaders: authHeaders,
             onUploaded: function () {
               renderDocuments();
             },
@@ -1665,6 +1676,7 @@
       }
       if (uploadCtx && window.CrmQuestionnaireTools) {
         window.CrmQuestionnaireTools.mountDocUpload(mount, uploadCtx, {
+          authHeaders: authHeaders,
           onUploaded: function () {
             renderDocuments();
           },
