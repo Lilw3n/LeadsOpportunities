@@ -84,6 +84,14 @@
       "destination": "/negociateur-immobilier/index.html"
     },
     {
+      "source": "/bareme-honoraires",
+      "destination": "/bareme-honoraires/index.html"
+    },
+    {
+      "source": "/bareme-honoraires/",
+      "destination": "/bareme-honoraires/index.html"
+    },
+    {
       "source": "/agence-varangeville",
       "destination": "/agence-varangeville.html"
     },

@@ -434,6 +434,7 @@ window.CrmAgencyFees = (function () {
     return {
       id: "agency_portes_cles",
       name: "Les Portes Clés de l'Immobilier",
+      publicOnSite: true,
       agentSharePct: 85,
       notes:
         "Barème des honoraires TTC TG0422 — Immobilier Email SAS (46 quai Jacoutot, 67000 Strasbourg). Honoraires = prix maximums sur prix hors honoraires ; négociables au mandat. PDF : data/bareme-portecles-TG0422.pdf",
@@ -623,6 +624,7 @@ window.CrmAgencyFees = (function () {
       name: String(a.name || "Agence").trim() || "Agence",
       agentSharePct: Math.max(0, Math.min(100, Number(a.agentSharePct) || 0)),
       notes: String(a.notes || ""),
+      publicOnSite: !!a.publicOnSite,
       postShareCosts: normalizePostShareCosts(a.postShareCosts),
       schedules: Array.isArray(a.schedules) ? a.schedules.map(normalizeSchedule) : [],
       updatedAt: a.updatedAt || new Date().toISOString(),

@@ -16,3 +16,13 @@ Extras (part agence/réseau, autre négo, apporteur, collab) = **optionnels** vi
 - Le revenu imposable estimé sert à visualiser l’assiette micro, pas à déclarer
 
 Voir presets dans `js/crm-agency-fees-lib.js` → `TAX_PRESETS`.
+
+## Page publique
+
+Grille choisie (Portes Clés TG0422) publiée sur le site :
+
+- URL : [`/bareme-honoraires/`](../bareme-honoraires/)
+- Données : `data/bareme-honoraires-public.json`
+- Estimateur net vendeur / FAI → honoraires agence (sans « ma part » / net AE)
+- Vérif : `npm run verify:bareme-honoraires`
+

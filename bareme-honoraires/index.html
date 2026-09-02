@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barème des honoraires immobiliers | Leads Opportunities</title>
+  <meta name="description" content="Grille tarifaire publique — honoraires de vente habitation (forfaits TTC Portes Clés TG0422). Calculez net vendeur, honoraires et prix FAI." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.leadsopportunities.fr/bareme-honoraires/" />
+  <meta property="og:title" content="Barème des honoraires immobiliers | Leads Opportunities" />
+  <meta property="og:description" content="Grille tarifaire transparente : forfaits TTC selon le prix net vendeur, estimateur FAI inclus." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.leadsopportunities.fr/bareme-honoraires/" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:image" content="https://www.leadsopportunities.fr/og-default.svg" />
+  <link rel="stylesheet" href="../main.css" />
+  <link rel="stylesheet" href="../css/bareme-honoraires.css" />
+  <link rel="stylesheet" href="../css/clickable-affordance.css" />
+</head>
+<body class="bh-page" data-market-intent="FR">
+  <header class="topbar">
+    <div class="container nav">
+      <a class="logo" href="../index.html">
+        <span class="logo-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+        <span class="logo-text">
+          <span class="logo-name">Leads Opportunities</span>
+          <span class="logo-tagline">Barème des honoraires</span>
+        </span>
+      </a>
+      <nav>
+        <a href="../immobilier/">Immobilier</a>
+        <a href="../vendeur-cherche-acquereur/">Vendeur</a>
+        <a href="../negociateur-immobilier/">Négociateur</a>
+        <a class="btn btn-nav" href="../landings/rappel.html">Estimation</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="bh-hero">
+      <div class="container bh-hero-inner">
+        <p class="bh-kicker">Transparence · Mandat de vente</p>
+        <h1>Barème des honoraires</h1>
+        <div class="bh-agency-chip" id="bhAgencyChip">
+          <strong>Les Portes Clés de l'Immobilier</strong>
+          <em>grille choisie</em>
+        </div>
+        <p class="bh-lead">
+          Grille tarifaire publique tirée du CRM (barème TG0422).
+          Estimez les honoraires TTC à partir du prix net vendeur ou du prix FAI.
+        </p>
+        <div class="bh-actions">
+          <a class="btn btn-primary" href="#estimateur">Estimer mes honoraires</a>
+          <a class="btn btn-outline" href="#grille">Voir la grille complète</a>
+          <a class="btn btn-ghost" href="../landings/acheteur-immo.html?role=vendeur">Déposer un bien</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bh-section container" id="estimateur">
+      <h2>Estimateur</h2>
+      <p class="bh-sub">Même logique que le CRM « Barèmes / Financement » — affichage public (honoraires agence &amp; FAI).</p>
+      <div class="bh-calc">
+        <div class="bh-calc-grid">
+          <div>
+            <label for="bhPriceMode">Type de prix</label>
+            <select id="bhPriceMode">
+              <option value="net_vendeur">Net vendeur</option>
+              <option value="fai">FAI (honoraires inclus)</option>
+            </select>
+          </div>
+          <div>
+            <label for="bhPrice" id="bhPriceLabel">Prix net vendeur (€)</label>
+            <input id="bhPrice" type="number" min="0" step="1000" value="200000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi">
+            <span>Barème utilisé</span>
+            <strong id="bhKpiSched">Vente habitation</strong>
+          </div>
+          <div class="bh-kpi">
+            <span>Net vendeur</span>
+            <strong id="bhKpiNet">—</strong>
+          </div>
+          <div class="bh-kpi is-best">
+            <span>Honoraires agence</span>
+            <strong id="bhKpiFee">—</strong>
+          </div>
+          <div class="bh-kpi">
+            <span>Prix FAI</span>
+            <strong id="bhKpiFai">—</strong>
+          </div>
+        </div>
+        <p class="bh-sub" id="bhCalcHint" style="margin:12px 0 0"></p>
+      </div>
+    </section>
+
+    <section class="bh-section container" id="grille">
+      <h2>Grille vente habitation (forfait TTC)</h2>
+      <p class="bh-sub" id="bhSource">Barème TG0422 — Immobilier Email SAS</p>
+      <div class="bh-table-wrap">
+        <table class="bh-table">
+          <thead>
+            <tr>
+              <th>Prix net vendeur</th>
+              <th>Honoraires agence</th>
+              <th>Exemple prix FAI (haut de palier)</th>
+            </tr>
+          </thead>
+          <tbody id="bhTableBody"></tbody>
+        </table>
+      </div>
+
+      <h2 style="margin-top:32px">Autres prestations</h2>
+      <p class="bh-sub">Compléments du même barème officiel.</p>
+      <div class="bh-other" id="bhOther"></div>
+
+      <div class="bh-note" role="note">
+        Honoraires indiqués en <strong>TTC maximum</strong> sur prix hors honoraires ; négociables au mandat.
+        Ce document est informatif. Pour un mandat ou une estimation personnalisée :
+        <a href="../landings/rappel.html">demandez un rappel</a>
+        · calculateur CRM (interne) :
+        <a href="../crm-agency-fees.html">crm-agency-fees</a>.
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="bh-cta">
+        <div>
+          <h2>Vendre avec un accompagnement clair</h2>
+          <p>Estimation, mandat, multi-diffusion, matching acquéreurs financés — honoraires annoncés avant de démarrer.</p>
+        </div>
+        <div class="bh-actions">
+          <a class="btn btn-primary" href="../landings/rappel.html">Parler à Wendy</a>
+          <a class="btn btn-outline" href="../vendeur-cherche-acquereur/" style="background:transparent;color:#fff;border-color:#94a3b8">Vendeur cherche acquéreur</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-bottom" style="padding:20px 0">
+      <small>&copy; 2026 Leads Opportunities — ORIAS n° 15005935</small>
+      <small>
+        <a href="../index.html">Accueil</a> ·
+        <a href="../immobilier/">Immobilier</a> ·
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </small>
+    </div>
+  </footer>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Barème des honoraires immobiliers",
+    "url": "https://www.leadsopportunities.fr/bareme-honoraires/",
+    "description": "Grille tarifaire publique des honoraires de vente habitation (forfaits TTC).",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Leads Opportunities",
+      "url": "https://www.leadsopportunities.fr/"
+    },
+    "about": {
+      "@type": "Service",
+      "name": "Honoraires de négociation immobilière",
+      "provider": {
+        "@type": "Organization",
+        "name": "Leads Opportunities"
+      }
+    }
+  }
+  </script>
+  <script src="../js/bareme-honoraires-public.js"></script>
+</body>
+</html>
