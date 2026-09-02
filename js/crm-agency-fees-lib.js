@@ -1298,9 +1298,167 @@ window.CrmAgencyFees = (function () {
     });
   }
 
+  /** Comparateur hors barème : un taux % libre sur un prix (autres agences). */
+  var FREE_RATE_KEY = "lo_agency_fee_free_rates_v1";
+
+  function defaultFreeRateRows() {
+    return [
+      { id: "fr_orpi", name: "Orpi (ex.)", ratePct: 5 },
+      { id: "fr_c21", name: "Century 21 (ex.)", ratePct: 5 },
+      { id: "fr_laforet", name: "Laforêt (ex.)", ratePct: 6 },
+      { id: "fr_local", name: "Agence locale", ratePct: 4 },
+    ];
+  }
+
+  function defaultFreeRatePrefs() {
+    return {
+      price: 250000,
+      priceMode: "fai",
+      rateBase: "of_fai",
+      rows: defaultFreeRateRows(),
+    };
+  }
+
+  function normalizeFreeRateRow(row, idx) {
+    return {
+      id: String((row && row.id) || uid("fr_" + idx)),
+      name: String((row && row.name) || ("Agence " + (idx + 1))).trim() || "Agence",
+      ratePct: Math.max(0, Math.min(99.9, Number(row && row.ratePct) || 0)),
+    };
+  }
+
+  function loadFreeRatePrefs() {
+    try {
+      var raw = localStorage.getItem(FREE_RATE_KEY);
+      var p = raw ? JSON.parse(raw) : null;
+      var base = defaultFreeRatePrefs();
+      if (!p || typeof p !== "object") return base;
+      var rows = Array.isArray(p.rows) && p.rows.length ? p.rows.map(normalizeFreeRateRow) : base.rows;
+      return {
+        price: Math.max(0, Number(p.price) || base.price),
+        priceMode: p.priceMode === "net_vendeur" ? "net_vendeur" : "fai",
+        rateBase: p.rateBase === "of_net" ? "of_net" : "of_fai",
+        rows: rows,
+      };
+    } catch (e) {
+      return defaultFreeRatePrefs();
+    }
+  }
+
+  function saveFreeRatePrefs(prefs) {
+    var base = defaultFreeRatePrefs();
+    var next = Object.assign({}, base, prefs || {});
+    next.rows = (Array.isArray(next.rows) ? next.rows : base.rows).map(normalizeFreeRateRow);
+    next.savedAt = new Date().toISOString();
+    localStorage.setItem(FREE_RATE_KEY, JSON.stringify(next));
+    return next;
+  }
+
+  /**
+   * Calcule honoraires + net vendeur + FAI à partir d'un taux libre.
+   * @param {number} price — montant saisi
+   * @param {"fai"|"net_vendeur"} priceMode — nature du montant saisi
+   * @param {"of_fai"|"of_net"} rateBase — base commerciale du %
+   * @param {number} ratePct — taux honoraires (ex. 5 = 5 %)
+   */
+  function calculateFreeRate(price, priceMode, rateBase, ratePct) {
+    var p = Math.max(0, Number(price) || 0);
+    var r = Math.max(0, Math.min(99.9, Number(ratePct) || 0)) / 100;
+    var mode = priceMode === "net_vendeur" ? "net_vendeur" : "fai";
+    var base = rateBase === "of_net" ? "of_net" : "of_fai";
+    var net = 0;
+    var fai = 0;
+    var fee = 0;
+    var ok = true;
+    var note = "";
+
+    if (p <= 0) {
+      return { ok: false, net: 0, fai: 0, fee: 0, ratePct: r * 100, note: "Saisir un prix" };
+    }
+    if (r <= 0) {
+      if (mode === "fai") {
+        fai = p;
+        net = p;
+        fee = 0;
+      } else {
+        net = p;
+        fai = p;
+        fee = 0;
+      }
+      return { ok: true, net: round2(net), fai: round2(fai), fee: 0, ratePct: 0, note: "Taux 0 %" };
+    }
+
+    if (base === "of_net") {
+      // Honoraires = % du net vendeur → FAI = net × (1 + r)
+      if (mode === "net_vendeur") {
+        net = p;
+        fee = net * r;
+        fai = net + fee;
+      } else {
+        fai = p;
+        net = fai / (1 + r);
+        fee = fai - net;
+      }
+      note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du net vendeur";
+    } else {
+      // Honoraires = % du prix FAI / prix de vente
+      if (mode === "fai") {
+        fai = p;
+        fee = fai * r;
+        net = fai - fee;
+      } else {
+        if (r >= 1) {
+          ok = false;
+          note = "Taux ≥ 100 % invalide sur base FAI";
+        } else {
+          net = p;
+          fai = net / (1 - r);
+          fee = fai - net;
+          note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du FAI";
+        }
+      }
+      if (ok && !note) note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du FAI";
+    }
+
+    var sellerKeepPct = fai > 0 ? round2((net / fai) * 100) : 0;
+    var agencyTakePct = fai > 0 ? round2((fee / fai) * 100) : 0;
+
+    return {
+      ok: ok,
+      net: round2(net),
+      fai: round2(fai),
+      fee: round2(fee),
+      ratePct: round2(r * 100),
+      sellerKeepPct: sellerKeepPct,
+      agencyTakePct: agencyTakePct,
+      note: note,
+      priceMode: mode,
+      rateBase: base,
+    };
+  }
+
+  function compareFreeRates(opts) {
+    opts = opts || {};
+    var price = Number(opts.price) || 0;
+    var priceMode = opts.priceMode === "net_vendeur" ? "net_vendeur" : "fai";
+    var rateBase = opts.rateBase === "of_net" ? "of_net" : "of_fai";
+    var rows = Array.isArray(opts.rows) ? opts.rows : [];
+    return rows
+      .map(function (row, idx) {
+        var n = normalizeFreeRateRow(row, idx);
+        var calc = calculateFreeRate(price, priceMode, rateBase, n.ratePct);
+        return { row: n, result: calc };
+      })
+      .sort(function (a, b) {
+        // Meilleur pour le vendeur = net le plus élevé
+        return (b.result.net || 0) - (a.result.net || 0);
+      });
+  }
+
   return {
     STORAGE_KEY: STORAGE_KEY,
     TAX_PREFS_KEY: TAX_PREFS_KEY,
+    FREE_RATE_KEY: FREE_RATE_KEY,
     DATA_VERSION: DATA_VERSION,
     DEFAULT_CHARGES_PCT: DEFAULT_CHARGES_PCT,
     DEFAULT_URSSAF_PCT: DEFAULT_URSSAF_PCT,
@@ -1319,6 +1477,12 @@ window.CrmAgencyFees = (function () {
     healPortesClesIfNeeded: healPortesClesIfNeeded,
     calculate: calculate,
     compareAgencies: compareAgencies,
+    calculateFreeRate: calculateFreeRate,
+    compareFreeRates: compareFreeRates,
+    loadFreeRatePrefs: loadFreeRatePrefs,
+    saveFreeRatePrefs: saveFreeRatePrefs,
+    defaultFreeRatePrefs: defaultFreeRatePrefs,
+    defaultFreeRateRows: defaultFreeRateRows,
     netFromFai: netFromFai,
     scheduleSupportsFai: scheduleSupportsFai,
     splitDealRemuneration: splitDealRemuneration,

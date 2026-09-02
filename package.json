@@ -14,6 +14,7 @@
     "verify:april-api": "node scripts/verify-april-api.cjs",
     "april:smoke-test": "node scripts/april-smoke-test.cjs",
     "verify:bareme-honoraires": "node scripts/verify-bareme-honoraires.cjs",
+    "verify:free-rate-compare": "node scripts/verify-free-rate-compare.cjs",
     "verify:e-signature": "node scripts/verify-e-signature.cjs",
     "verify:workspace-mail-drive": "node scripts/verify-workspace-mail-drive.cjs",
     "verify:mailbox-loading": "node scripts/verify-mailbox-loading.cjs",

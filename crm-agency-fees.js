@@ -26,6 +26,7 @@
     priceMode: "net_vendeur",
     propertyId: "",
     contactId: "",
+    freeRates: Lib.loadFreeRatePrefs(),
   };
 
   var PRICE_MODE_KEY = "lo_agency_fee_price_mode_v1";
@@ -1458,12 +1459,229 @@
     }
   }
 
+  function persistFreeRates() {
+    var priceEl = document.getElementById("frPrice");
+    var modeEl = document.getElementById("frPriceMode");
+    var baseEl = document.getElementById("frRateBase");
+    if (!priceEl || !modeEl || !baseEl) return;
+    state.freeRates = Lib.saveFreeRatePrefs({
+      price: Number(priceEl.value) || 0,
+      priceMode: modeEl.value === "net_vendeur" ? "net_vendeur" : "fai",
+      rateBase: baseEl.value === "of_net" ? "of_net" : "of_fai",
+      rows: state.freeRates.rows || [],
+    });
+  }
+
+  function applyFreeRatesToForm() {
+    var p = state.freeRates || Lib.loadFreeRatePrefs();
+    var priceEl = document.getElementById("frPrice");
+    var modeEl = document.getElementById("frPriceMode");
+    var baseEl = document.getElementById("frRateBase");
+    var label = document.getElementById("frPriceLabel");
+    if (!priceEl || !modeEl || !baseEl) return;
+    priceEl.value = p.price;
+    modeEl.value = p.priceMode;
+    baseEl.value = p.rateBase;
+    if (label) {
+      label.textContent = p.priceMode === "net_vendeur" ? "Prix net vendeur (€)" : "Prix FAI (€)";
+    }
+  }
+
+  function readFreeRowsFromDom() {
+    var wrap = document.getElementById("frRows");
+    if (!wrap) return state.freeRates.rows || [];
+    var blocks = wrap.querySelectorAll("[data-fr-id]");
+    var rows = [];
+    blocks.forEach(function (block) {
+      var id = block.getAttribute("data-fr-id");
+      var nameInput = block.querySelector("[data-fr-name]");
+      var rateInput = block.querySelector("[data-fr-rate]");
+      rows.push({
+        id: id,
+        name: nameInput ? nameInput.value : "Agence",
+        ratePct: rateInput ? Number(rateInput.value) || 0 : 0,
+      });
+    });
+    return rows;
+  }
+
+  function renderFreeRateEditors() {
+    var wrap = document.getElementById("frRows");
+    if (!wrap) return;
+    var rows = state.freeRates.rows || [];
+    if (!rows.length) {
+      wrap.innerHTML = '<p class="af-hint">Aucune ligne — ajoute un taux concurrent.</p>';
+      return;
+    }
+    wrap.innerHTML = rows
+      .map(function (row) {
+        return (
+          '<div class="af-free-row-inputs" data-fr-id="' +
+          esc(row.id) +
+          '">' +
+          "<div>" +
+          '<label>Nom agence</label>' +
+          '<input type="text" data-fr-name value="' +
+          esc(row.name) +
+          '" placeholder="Ex. Orpi centre-ville" />' +
+          "</div>" +
+          "<div>" +
+          '<label>Taux %</label>' +
+          '<input type="number" data-fr-rate min="0" max="99.9" step="0.1" value="' +
+          esc(String(row.ratePct)) +
+          '" />' +
+          "</div>" +
+          "<div>" +
+          '<button type="button" class="btn btn-ghost btn-sm" data-fr-del title="Supprimer">✕</button>' +
+          "</div>" +
+          "</div>"
+        );
+      })
+      .join("");
+
+    wrap.querySelectorAll("[data-fr-del]").forEach(function (btn) {
+      btn.onclick = function () {
+        var block = btn.closest("[data-fr-id]");
+        var id = block && block.getAttribute("data-fr-id");
+        state.freeRates.rows = (state.freeRates.rows || []).filter(function (r) {
+          return r.id !== id;
+        });
+        persistFreeRates();
+        renderFreeRates();
+      };
+    });
+    wrap.querySelectorAll("[data-fr-name], [data-fr-rate]").forEach(function (el) {
+      el.addEventListener("input", function () {
+        state.freeRates.rows = readFreeRowsFromDom();
+        persistFreeRates();
+        renderFreeRateTable();
+      });
+    });
+  }
+
+  function renderFreeRateTable() {
+    var tbody = document.querySelector("#frTable tbody");
+    var kpis = document.getElementById("frKpis");
+    var hint = document.getElementById("frHint");
+    if (!tbody) return;
+    var prefs = state.freeRates || Lib.loadFreeRatePrefs();
+    var compared = Lib.compareFreeRates({
+      price: prefs.price,
+      priceMode: prefs.priceMode,
+      rateBase: prefs.rateBase,
+      rows: prefs.rows,
+    });
+    if (!compared.length) {
+      tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Ajoute au moins une agence / un taux</td></tr>';
+      if (kpis) kpis.innerHTML = "";
+      if (hint) hint.textContent = "Hors barème — saisis un taux % libre pour comparer.";
+      return;
+    }
+    tbody.innerHTML = compared
+      .map(function (item, i) {
+        var r = item.result;
+        var best = i === 0 && r.ok ? " best" : "";
+        var win = i === 0 && r.ok ? '<span class="af-win">meilleur net vendeur</span>' : "";
+        if (!r.ok) {
+          return (
+            "<tr><td>" +
+            esc(item.row.name) +
+            "</td><td>" +
+            esc(String(item.row.ratePct)) +
+            " %</td><td colspan=\"4\" style=\"color:#b91c1c\">" +
+            esc(r.note || "Calcul impossible") +
+            "</td></tr>"
+          );
+        }
+        return (
+          '<tr class="' +
+          best +
+          '">' +
+          "<td>" +
+          esc(item.row.name) +
+          win +
+          "</td>" +
+          "<td>" +
+          esc(String(item.row.ratePct)) +
+          " %</td>" +
+          "<td><strong>" +
+          Lib.formatEuro(r.fee) +
+          "</strong></td>" +
+          "<td><strong>" +
+          Lib.formatEuro(r.net) +
+          "</strong></td>" +
+          "<td>" +
+          Lib.formatEuro(r.fai) +
+          "</td>" +
+          "<td>" +
+          esc(String(r.sellerKeepPct)) +
+          " % du FAI</td>" +
+          "</tr>"
+        );
+      })
+      .join("");
+
+    var best = compared[0] && compared[0].result && compared[0].result.ok ? compared[0] : null;
+    var worst = null;
+    for (var wi = compared.length - 1; wi >= 0; wi--) {
+      if (compared[wi].result && compared[wi].result.ok) {
+        worst = compared[wi];
+        break;
+      }
+    }
+    if (kpis && best) {
+      var delta =
+        worst && worst !== best ? round2Safe(best.result.net - worst.result.net) : 0;
+      kpis.innerHTML =
+        '<div class="af-kpi highlight"><span>Meilleur net vendeur</span><strong>' +
+        Lib.formatEuro(best.result.net) +
+        "</strong><em class=\"af-kpi-hint\">" +
+        esc(best.row.name) +
+        " · " +
+        esc(String(best.row.ratePct)) +
+        " %</em></div>" +
+        '<div class="af-kpi"><span>Honoraires (cette ligne)</span><strong>' +
+        Lib.formatEuro(best.result.fee) +
+        "</strong></div>" +
+        '<div class="af-kpi"><span>Prix FAI</span><strong>' +
+        Lib.formatEuro(best.result.fai) +
+        "</strong></div>" +
+        (delta > 0
+          ? '<div class="af-kpi muted"><span>Écart vs taux le plus cher</span><strong>+' +
+            Lib.formatEuro(delta) +
+            "</strong><em class=\"af-kpi-hint\">gagnés par le vendeur</em></div>"
+          : "");
+    } else if (kpis) {
+      kpis.innerHTML = "";
+    }
+    if (hint) {
+      var baseLabel = prefs.rateBase === "of_net" ? "% du net vendeur" : "% du FAI";
+      hint.textContent =
+        "Comparaison hors barème CRM · taux = " +
+        baseLabel +
+        " · " +
+        compared.length +
+        " ligne(s). Les forfaits Portes Clés restent dans le panneau du dessous.";
+    }
+  }
+
+  function round2Safe(n) {
+    return Math.round((Number(n) || 0) * 100) / 100;
+  }
+
+  function renderFreeRates() {
+    applyFreeRatesToForm();
+    renderFreeRateEditors();
+    renderFreeRateTable();
+  }
+
   function renderAll() {
     renderAgencyList();
     renderAgencyForm();
     renderScheduleTabs();
     renderBrackets();
     renderCalc();
+    renderFreeRates();
     renderCompare();
     renderDealSplit();
     renderBuyerFinance();
@@ -1837,5 +2055,71 @@
   }
 
   syncPriceModeSelects(state.priceMode);
+
+  (function wireFreeRates() {
+    if (!document.getElementById("freeRatePanel")) return;
+    applyFreeRatesToForm();
+    ["frPrice", "frPriceMode", "frRateBase"].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var evt = id === "frPrice" ? "input" : "change";
+      el.addEventListener(evt, function () {
+        var label = document.getElementById("frPriceLabel");
+        var modeEl = document.getElementById("frPriceMode");
+        if (label && modeEl) {
+          label.textContent =
+            modeEl.value === "net_vendeur" ? "Prix net vendeur (€)" : "Prix FAI (€)";
+        }
+        state.freeRates.rows = readFreeRowsFromDom();
+        persistFreeRates();
+        renderFreeRateTable();
+      });
+    });
+    var addBtn = document.getElementById("frAddRow");
+    if (addBtn) {
+      addBtn.onclick = function () {
+        state.freeRates.rows = readFreeRowsFromDom();
+        state.freeRates.rows.push({
+          id: "fr_" + Date.now(),
+          name: "Concurrent",
+          ratePct: 5,
+        });
+        persistFreeRates();
+        renderFreeRates();
+      };
+    }
+    var resetBtn = document.getElementById("frResetRows");
+    if (resetBtn) {
+      resetBtn.onclick = function () {
+        if (!confirm("Réinitialiser les exemples de taux libres ?")) return;
+        state.freeRates = Lib.saveFreeRatePrefs(
+          Object.assign({}, Lib.defaultFreeRatePrefs(), {
+            price: Number(document.getElementById("frPrice").value) || 250000,
+            priceMode: document.getElementById("frPriceMode").value,
+            rateBase: document.getElementById("frRateBase").value,
+            rows: Lib.defaultFreeRateRows(),
+          })
+        );
+        renderFreeRates();
+      };
+    }
+    var presets = document.getElementById("frPresets");
+    if (presets) {
+      presets.querySelectorAll("button[data-rate]").forEach(function (btn) {
+        btn.onclick = function () {
+          var rate = Number(btn.getAttribute("data-rate")) || 0;
+          state.freeRates.rows = readFreeRowsFromDom();
+          state.freeRates.rows.push({
+            id: "fr_" + Date.now(),
+            name: "Concurrent " + rate + " %",
+            ratePct: rate,
+          });
+          persistFreeRates();
+          renderFreeRates();
+        };
+      });
+    }
+  })();
+
   renderAll();
 })();

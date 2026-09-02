@@ -80,6 +80,13 @@
     .af-deal { border:1px solid #fde68a; border-radius:12px; background:linear-gradient(180deg,#fffbeb,#fff 42%); padding:18px; margin-bottom:16px; }
     .af-deal h3 { margin:0 0 4px; }
     .af-deal .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-free { border:1px solid #c4b5fd; border-radius:12px; background:linear-gradient(180deg,#f5f3ff,#fff 42%); padding:18px; margin-bottom:16px; }
+    .af-free h3 { margin:0 0 4px; }
+    .af-free .af-sub { margin:0 0 14px; color:var(--muted); font-size:.9rem; }
+    .af-free-row-inputs { display:grid; grid-template-columns:minmax(120px,1.4fr) minmax(90px,0.7fr) auto; gap:8px; align-items:end; margin-bottom:8px; }
+    .af-free-presets { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px; }
+    .af-free-presets button { border:1px solid #ddd6fe; background:#fff; border-radius:8px; padding:6px 10px; font-size:.8rem; cursor:pointer; }
+    .af-free-presets button:hover { background:#ede9fe; }
     .af-steps { margin:12px 0 0; padding:0; list-style:none; display:grid; gap:8px; }
     .af-steps li { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:10px 12px; font-size:.85rem; }
     .af-steps li strong { color:#0f172a; }
@@ -116,12 +123,72 @@
       Grille publiée sur le site :
       <a href="./bareme-honoraires/"><strong>/bareme-honoraires/</strong></a>
       (<code>data/bareme-honoraires-public.json</code>).
+      Comparateur <strong>taux libre</strong> (autres agences, hors barème) juste en dessous.
     </p>
   </div>
 
+  <section class="af-free" id="freeRatePanel">
+    <h3>Comparateur taux libre — autres agences</h3>
+    <p class="af-sub">
+      Indépendant des barèmes CRM. Choisis un prix et un taux % pour voir
+      <strong>combien l’agence prend</strong> et <strong>combien le vendeur garde</strong>.
+    </p>
+    <div class="af-calc-grid">
+      <div>
+        <label for="frPriceMode">Type de prix saisi</label>
+        <select id="frPriceMode">
+          <option value="fai">Prix FAI / annoncé</option>
+          <option value="net_vendeur">Net vendeur</option>
+        </select>
+      </div>
+      <div>
+        <label for="frPrice" id="frPriceLabel">Prix FAI (€)</label>
+        <input id="frPrice" type="number" min="0" step="1000" value="250000" />
+      </div>
+      <div>
+        <label for="frRateBase">Le taux % s’applique sur</label>
+        <select id="frRateBase">
+          <option value="of_fai">% du prix FAI</option>
+          <option value="of_net">% du net vendeur</option>
+        </select>
+      </div>
+    </div>
+    <div class="af-free-presets" id="frPresets" aria-label="Taux rapides">
+      <button type="button" data-rate="3">3 %</button>
+      <button type="button" data-rate="4">4 %</button>
+      <button type="button" data-rate="5">5 %</button>
+      <button type="button" data-rate="6">6 %</button>
+      <button type="button" data-rate="7">7 %</button>
+      <button type="button" data-rate="8">8 %</button>
+    </div>
+    <p class="af-hint" style="margin-top:4px">Clic rapide = ajoute une ligne « Concurrent X % ». Modifie les noms / taux ci-dessous.</p>
+    <div id="frRows" style="margin-top:12px"></div>
+    <div class="af-actions">
+      <button type="button" class="btn btn-ghost" id="frAddRow">+ Ligne agence</button>
+      <button type="button" class="btn btn-ghost" id="frResetRows">Réinit. exemples</button>
+    </div>
+    <div class="af-table-wrap" style="margin-top:14px">
+      <table class="af-compare-table" id="frTable">
+        <thead>
+          <tr>
+            <th>Agence (taux libre)</th>
+            <th>Taux</th>
+            <th>Honoraires agence</th>
+            <th>Net vendeur</th>
+            <th>Prix FAI</th>
+            <th>Vendeur garde</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="af-result" id="frKpis" style="margin-top:12px"></div>
+    <p class="af-hint" id="frHint">Hors barème Portes Clés / Laforêt — pure comparaison concurrentielle.</p>
+  </section>
+
   <section class="af-compare" id="comparePanel">
-    <h3>Comparer les agences</h3>
-    <p class="af-sub">Même référence (net vendeur ou FAI) → honoraires agence, prix dérivé, ta part et net auto-entrepreneur.</p>
+    <h3>Comparer les agences (barèmes CRM)</h3>
+    <p class="af-sub">Même référence (net vendeur ou FAI) → honoraires agence, prix dérivé, ta part et net auto-entrepreneur. Lié aux grilles enregistrées.</p>
     <div class="af-calc-grid">
       <div id="cmpPriceModeWrap">
         <label for="cmpPriceMode">Type de prix</label>
