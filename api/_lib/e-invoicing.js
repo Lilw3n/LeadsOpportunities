@@ -36,6 +36,7 @@ const DEFAULT_SETTINGS = {
   stackCompanions: ["crm_lo", "make", "notion"],
   tiimeAccountCreated: true,
   tiimeIdentityPending: true,
+  tiimeIsPrimaryPlatform: true,
   makeAccountPending: true,
   notionAccountPending: true,
   checklist: {

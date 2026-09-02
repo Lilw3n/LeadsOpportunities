@@ -1,6 +1,7 @@
 # Go-live Tiime + Make (après vérif identité)
 
-État actuel codé : **compte Tiime créé**, pièce d’identité en attente, Make à créer.
+**Plateforme principale** : **Tiime** (PDP légale unique pour Leads Opportunities).  
+État actuel codé : compte Tiime créé, pièce d’identité en attente, Make à créer.
 
 ## 1. Dès que Tiime valide la pièce d’identité
 

@@ -20,11 +20,12 @@
   "pdpStatus": "pending_identity",
   "pdpDesignatedAt": "2026-08-27T00:00:00.000Z",
   "directoryRegistered": false,
-  "notes": "Compte Tiime Free créé — vérification pièce d'identité en cours. Make à brancher ensuite.",
+  "notes": "Tiime = plateforme principale de facturation électronique (PDP légale unique). Compte Free créé — pièce d'identité en validation. Compléments : CRM LO + Make + Notion (pas une 2e PDP).",
   "stackPrimaryPdp": "tiime",
   "stackCompanions": ["crm_lo", "make", "notion"],
   "tiimeAccountCreated": true,
   "tiimeIdentityPending": true,
+  "tiimeIsPrimaryPlatform": true,
   "makeAccountPending": true,
   "notionAccountPending": true,
   "checklist": {

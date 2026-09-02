@@ -13,7 +13,7 @@
 - `npm run academie:build` — régénère `/academie/` (cours métiers)
 - `npm run build:clarity` — après modif `js/clarity-source.mjs`
 - `npm run verify:collective` — pack santé collective (blog, SEO, pubs)
-- **Facturation électronique (01/09/2026)** : `/crm-e-invoicing.html` · Tiime + Make + Notion · `docs/NOTION-EINVOICE.md` · `docs/MAKE-TIIME-GOLIVE.md` · `npm run verify:e-invoicing`
+- **Facturation électronique (01/09/2026)** : `/crm-e-invoicing.html` · **Tiime = plateforme principale (PDP)** + Make + Notion · `docs/NOTION-EINVOICE.md` · `docs/MAKE-TIIME-GOLIVE.md` · `npm run verify:e-invoicing`
 - **API APRIL** : `/crm-april.html` · OAuth2 API Store · `docs/APRIL-API.md` · `npm run verify:april-api` · secrets Vercel `PARTNER_APRIL_CLIENT_ID` / `PARTNER_APRIL_CLIENT_SECRET`
 - **Signature électronique gratuite (SES)** : `/crm-e-signature.html` · lien client `/landings/signature-electronique.html` · `docs/E-SIGNATURE-GRATUITE.md` · `npm run verify:e-signature`
 - **Google Workspace** : MX + DKIM + mails CRM + Drive miroir contact@ · `docs/GOOGLE-WORKSPACE-DNS.md` · `npm run verify:workspace-mail-drive`

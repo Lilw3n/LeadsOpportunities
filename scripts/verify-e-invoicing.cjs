@@ -74,8 +74,15 @@ assert(read("crm-financial.html").indexOf("crm-e-invoicing.html") !== -1, "lien 
 var cfg = JSON.parse(read("config/e-invoicing.json"));
 assert(cfg.siren === "810571513", "SIREN config");
 assert(cfg.stackPrimaryPdp === "tiime", "stack primaire Tiime");
+assert(cfg.tiimeIsPrimaryPlatform === true, "Tiime plateforme principale confirmee");
+assert(cfg.pdpName === "Tiime", "pdpName Tiime");
 assert(cfg.pdpStatus === "pending_identity", "statut pending identity Tiime");
 assert(cfg.tiimeAccountCreated === true, "compte Tiime cree");
+assert(/plateforme principale/i.test(cfg.notes || ""), "notes plateforme principale");
+
+var hub = read("crm-e-invoicing.html");
+assert(/Plateforme principale\s*:\s*<strong>Tiime<\/strong>/i.test(hub) || hub.indexOf("Plateforme principale") !== -1 && hub.indexOf("Tiime") !== -1, "CRM annonce Tiime principale");
+assert(hub.indexOf("plateforme principale") !== -1, "select/label plateforme principale");
 assert(cfg.makeAccountPending === true, "Make en attente compte");
 assert(cfg.notionAccountPending === true, "Notion pending config");
 

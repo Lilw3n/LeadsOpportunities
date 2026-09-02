@@ -171,7 +171,7 @@ window.CrmSidebar = {
         { type: "link", href: "./crm-periods.html", label: "Périodes comptables" },
         { type: "link", href: "./crm-period-new.html", label: "Nouvelle période" },
         { type: "link", href: "./crm-pro-accounting.html", label: "Comptabilité pro", icon: "financial" },
-        { type: "link", href: "./crm-e-invoicing.html", label: "Facturation électronique", icon: "financial", highlight: true, desc: "PDP · réception 01/09/2026 · Factur-X" },
+        { type: "link", href: "./crm-e-invoicing.html", label: "Facturation électronique", icon: "financial", highlight: true, desc: "Tiime PDP · réception 01/09/2026 · Factur-X" },
       ],
     },
     {
