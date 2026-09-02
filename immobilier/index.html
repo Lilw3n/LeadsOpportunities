@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Immobilier : acquéreurs, négociateurs & habitat | Leads Opportunities</title>
-  <meta name="description" content="Recherchez un bien (maison, appart, pro ou particulier), parcours négociateur, habitation et PNO — Leads Opportunities." />
+  <meta name="description" content="Recherchez un bien, déposez pour estimation (photos, Matterport), consultez le barème des honoraires Portes Clés — Leads Opportunities." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.leadsopportunities.fr/immobilier/" />
   <meta property="og:title" content="Immobilier : recherche de bien, négociateurs & habitat | Leads Opportunities" />
@@ -14,7 +14,15 @@
   <meta property="og:image" content="https://www.leadsopportunities.fr/assets/piliers/pilier-immobilier.jpg" />
   <link rel="stylesheet" href="../main.css" />
   <link rel="stylesheet" href="../css/piliers-hub.css?v=20260825real" />
+  <link rel="stylesheet" href="../css/bareme-honoraires.css?v=20260902immo" />
   <link rel="stylesheet" href="../css/clickable-affordance.css" />
+  <style>
+    .immo-bareme-block { margin: 36px 0 8px; }
+    .immo-bareme-block .bh-calc { margin-top: 12px; }
+    .immo-bareme-preview { max-height: 320px; overflow: auto; }
+    .immo-bareme-preview .bh-table { min-width: 0; }
+    .immo-bareme-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+  </style>
 </head>
 <body class="pilier-page pilier-page--immobilier">
   <header class="topbar">
@@ -43,7 +51,8 @@
       <p class="lead">Recherchez d’abord le bien (maison, appart, pro ou particulier) — puis on calage le prêt et les assurances.</p>
       <div class="pilier-actions">
         <a class="btn btn-primary btn-lg" href="../landings/acheteur-immo.html">Rechercher un bien</a>
-        <a class="btn btn-outline btn-lg" href="../academie/immobilier/">Cours Académie Immo</a>
+        <a class="btn btn-outline btn-lg" href="#bareme">Barème des honoraires</a>
+        <a class="btn btn-outline btn-lg" href="#estimation">Demander une estimation</a>
       </div>
     </div>
   </header>
@@ -123,6 +132,88 @@
         </span>
       </a>
     </section>
+
+    <section class="immo-bareme-block bh-section" id="bareme" aria-labelledby="immoBaremeTitle">
+      <h2 class="pilier-section-title" id="immoBaremeTitle">Barème des honoraires</h2>
+      <p class="bh-sub" style="margin-top:-4px">
+        Grille choisie : <strong id="immoAgencyName">Les Portes Clés de l'Immobilier</strong>
+        (forfaits TTC TG0422). Même référence que le CRM.
+      </p>
+      <div class="bh-calc">
+        <div class="bh-calc-grid">
+          <div>
+            <label for="immoBhPrice">Prix net vendeur (€)</label>
+            <input id="immoBhPrice" type="number" min="0" step="1000" value="200000" />
+          </div>
+        </div>
+        <div class="bh-result" aria-live="polite">
+          <div class="bh-kpi">
+            <span>Barème</span>
+            <strong id="immoBhSched">Vente habitation</strong>
+          </div>
+          <div class="bh-kpi is-best">
+            <span>Honoraires agence</span>
+            <strong id="immoBhFee">—</strong>
+          </div>
+          <div class="bh-kpi">
+            <span>Prix FAI</span>
+            <strong id="immoBhFai">—</strong>
+          </div>
+        </div>
+        <div class="immo-bareme-actions">
+          <a class="btn btn-primary" href="../bareme-honoraires/">Grille complète</a>
+          <a class="btn btn-outline" href="../bareme-honoraires/#estimateur">Estimateur détaillé</a>
+        </div>
+      </div>
+      <div class="bh-table-wrap immo-bareme-preview" style="margin-top:16px">
+        <table class="bh-table">
+          <thead>
+            <tr>
+              <th>Prix net vendeur</th>
+              <th>Honoraires</th>
+              <th>Exemple FAI</th>
+            </tr>
+          </thead>
+          <tbody id="immoBhTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="immo-bareme-block bh-section" id="estimation" aria-labelledby="immoEstimTitle">
+      <h2 class="pilier-section-title" id="immoEstimTitle">Besoin d’une estimation&nbsp;?</h2>
+      <p class="bh-sub" style="margin-top:-4px">
+        <a href="../landings/acheteur-immo.html?role=vendeur#deposer-bien">Déposez votre bien</a>
+        pour un premier cadrage — même sans projet de vente, ou si vous y êtes encore opposé·e.
+      </p>
+      <div class="bh-estimate">
+        <div class="bh-estimate-copy">
+          <p>
+            Sur place : mesures, <strong>appareil photo</strong> pour de belles images,
+            et <strong>scanner Matterport</strong> pour une visite virtuelle —
+            sans pression de mise en vente.
+          </p>
+          <ul class="bh-estimate-list">
+            <li>Mesures précises (surfaces, volumes)</li>
+            <li>Photos haute qualité</li>
+            <li>Visite virtuelle Matterport</li>
+            <li>Restitution du prix sans push commercial</li>
+          </ul>
+          <div class="bh-actions">
+            <a class="btn btn-primary" href="../landings/acheteur-immo.html?role=vendeur#deposer-bien">Déposer mon bien</a>
+            <a class="btn btn-outline" href="../landings/rappel.html">Demander une estimation</a>
+            <a class="btn btn-ghost" href="../bareme-honoraires/#estimation">Détails sur la page barème</a>
+          </div>
+        </div>
+        <aside class="bh-estimate-aside" aria-label="Sans projet de vente">
+          <strong>Pas envie de vendre&nbsp;?</strong>
+          <p>
+            On estime, on photographie, on scanne — et vous gardez le dossier.
+            Si un jour vous changez d’avis, tout est déjà prêt.
+          </p>
+        </aside>
+      </div>
+    </section>
+
     <section class="pilier-about" aria-label="Wendy Buchet">
       <figure class="pilier-about-photo">
         <img
@@ -157,8 +248,14 @@
   <footer class="footer">
     <div class="container footer-bottom" style="padding:20px 0">
       <small>&copy; 2026 Leads Opportunities — ORIAS n° 15005935</small>
-      <small><a href="../index.html">Accueil</a> · <a href="../mentions-legales.html">Mentions légales</a></small>
+      <small>
+        <a href="../index.html">Accueil</a> ·
+        <a href="../bareme-honoraires/">Barème</a> ·
+        <a href="#estimation">Estimation</a> ·
+        <a href="../mentions-legales.html">Mentions légales</a>
+      </small>
     </div>
   </footer>
+  <script src="../js/immobilier-bareme-embed.js"></script>
 </body>
 </html>

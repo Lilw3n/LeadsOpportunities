@@ -49,6 +49,10 @@ var js = read("js/bareme-honoraires-public.js");
 assert(js.indexOf("bareme-honoraires-public.json") >= 0, "charge JSON publié");
 
 assert(read("immobilier/index.html").indexOf("bareme-honoraires") >= 0, "lien hub immo");
+assert(read("immobilier/index.html").indexOf('id="bareme"') >= 0, "section bareme hub immo");
+assert(read("immobilier/index.html").indexOf('id="estimation"') >= 0, "section estimation hub immo");
+assert(read("immobilier/index.html").indexOf("immobilier-bareme-embed.js") >= 0, "embed JS hub immo");
+assert(fs.existsSync(path.join(root, "js/immobilier-bareme-embed.js")), "embed JS fichier");
 assert(read("crm-agency-fees.html").indexOf("bareme-honoraires") >= 0, "lien CRM");
 assert(read("index.html").indexOf("bareme-honoraires") >= 0, "lien footer accueil");
 assert(read("vercel.json").indexOf("/bareme-honoraires") >= 0, "rewrite Vercel");
