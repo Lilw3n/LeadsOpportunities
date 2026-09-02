@@ -1495,14 +1495,26 @@
     blocks.forEach(function (block) {
       var id = block.getAttribute("data-fr-id");
       var nameInput = block.querySelector("[data-fr-name]");
+      var modeSel = block.querySelector("[data-fr-mode]");
       var rateInput = block.querySelector("[data-fr-rate]");
+      var fixedInput = block.querySelector("[data-fr-fixed]");
+      var feeMode = modeSel && modeSel.value === "fixed" ? "fixed" : "percent";
       rows.push({
         id: id,
         name: nameInput ? nameInput.value : "Agence",
+        feeMode: feeMode,
         ratePct: rateInput ? Number(rateInput.value) || 0 : 0,
+        fixedAmount: fixedInput ? Number(fixedInput.value) || 0 : 0,
       });
     });
     return rows;
+  }
+
+  function freeFeeLabel(row, result) {
+    if (row.feeMode === "fixed") {
+      return "Forfait " + Lib.formatEuro(row.fixedAmount || (result && result.fee) || 0);
+    }
+    return String(row.ratePct) + " %";
   }
 
   function renderFreeRateEditors() {
@@ -1510,26 +1522,49 @@
     if (!wrap) return;
     var rows = state.freeRates.rows || [];
     if (!rows.length) {
-      wrap.innerHTML = '<p class="af-hint">Aucune ligne — ajoute un taux concurrent.</p>';
+      wrap.innerHTML = '<p class="af-hint">Aucune ligne — ajoute un % ou un forfait €.</p>';
       return;
     }
     wrap.innerHTML = rows
       .map(function (row) {
+        var isFixed = row.feeMode === "fixed";
         return (
           '<div class="af-free-row-inputs" data-fr-id="' +
           esc(row.id) +
           '">' +
           "<div>" +
-          '<label>Nom agence</label>' +
+          "<label>Nom agence</label>" +
           '<input type="text" data-fr-name value="' +
           esc(row.name) +
           '" placeholder="Ex. Orpi centre-ville" />' +
           "</div>" +
           "<div>" +
-          '<label>Taux %</label>' +
-          '<input type="number" data-fr-rate min="0" max="99.9" step="0.1" value="' +
-          esc(String(row.ratePct)) +
-          '" />' +
+          "<label>Type</label>" +
+          '<select data-fr-mode>' +
+          '<option value="percent"' +
+          (isFixed ? "" : " selected") +
+          ">% pourcentage</option>" +
+          '<option value="fixed"' +
+          (isFixed ? " selected" : "") +
+          ">€ montant fixe</option>" +
+          "</select>" +
+          "</div>" +
+          '<div data-fr-value-wrap>' +
+          (isFixed
+            ? "<label>Honoraires € fixe</label>" +
+              '<input type="number" data-fr-fixed min="0" step="100" value="' +
+              esc(String(row.fixedAmount || 0)) +
+              '" />' +
+              '<input type="hidden" data-fr-rate value="' +
+              esc(String(row.ratePct || 0)) +
+              '" />'
+            : "<label>Taux %</label>" +
+              '<input type="number" data-fr-rate min="0" max="99.9" step="0.1" value="' +
+              esc(String(row.ratePct)) +
+              '" />' +
+              '<input type="hidden" data-fr-fixed value="' +
+              esc(String(row.fixedAmount || 0)) +
+              '" />') +
           "</div>" +
           "<div>" +
           '<button type="button" class="btn btn-ghost btn-sm" data-fr-del title="Supprimer">✕</button>' +
@@ -1550,7 +1585,14 @@
         renderFreeRates();
       };
     });
-    wrap.querySelectorAll("[data-fr-name], [data-fr-rate]").forEach(function (el) {
+    wrap.querySelectorAll("[data-fr-mode]").forEach(function (el) {
+      el.addEventListener("change", function () {
+        state.freeRates.rows = readFreeRowsFromDom();
+        persistFreeRates();
+        renderFreeRates();
+      });
+    });
+    wrap.querySelectorAll("[data-fr-name], [data-fr-rate], [data-fr-fixed]").forEach(function (el) {
       el.addEventListener("input", function () {
         state.freeRates.rows = readFreeRowsFromDom();
         persistFreeRates();
@@ -1572,9 +1614,10 @@
       rows: prefs.rows,
     });
     if (!compared.length) {
-      tbody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Ajoute au moins une agence / un taux</td></tr>';
+      tbody.innerHTML =
+        '<tr><td colspan="6" style="color:var(--muted)">Ajoute au moins une agence (% ou forfait)</td></tr>';
       if (kpis) kpis.innerHTML = "";
-      if (hint) hint.textContent = "Hors barème — saisis un taux % libre pour comparer.";
+      if (hint) hint.textContent = "Hors barème — saisis un % ou un montant fixe pour comparer.";
       return;
     }
     tbody.innerHTML = compared
@@ -1582,13 +1625,14 @@
         var r = item.result;
         var best = i === 0 && r.ok ? " best" : "";
         var win = i === 0 && r.ok ? '<span class="af-win">meilleur net vendeur</span>' : "";
+        var modeLabel = freeFeeLabel(item.row, r);
         if (!r.ok) {
           return (
             "<tr><td>" +
             esc(item.row.name) +
             "</td><td>" +
-            esc(String(item.row.ratePct)) +
-            " %</td><td colspan=\"4\" style=\"color:#b91c1c\">" +
+            esc(modeLabel) +
+            '</td><td colspan="4" style="color:#b91c1c">' +
             esc(r.note || "Calcul impossible") +
             "</td></tr>"
           );
@@ -1602,8 +1646,11 @@
           win +
           "</td>" +
           "<td>" +
-          esc(String(item.row.ratePct)) +
-          " %</td>" +
+          esc(modeLabel) +
+          (item.row.feeMode === "fixed" && r.ratePct
+            ? ' <span class="af-badge">≈ ' + esc(String(r.ratePct)) + " % FAI</span>"
+            : "") +
+          "</td>" +
           "<td><strong>" +
           Lib.formatEuro(r.fee) +
           "</strong></td>" +
@@ -1635,11 +1682,11 @@
       kpis.innerHTML =
         '<div class="af-kpi highlight"><span>Meilleur net vendeur</span><strong>' +
         Lib.formatEuro(best.result.net) +
-        "</strong><em class=\"af-kpi-hint\">" +
+        '</strong><em class="af-kpi-hint">' +
         esc(best.row.name) +
         " · " +
-        esc(String(best.row.ratePct)) +
-        " %</em></div>" +
+        esc(freeFeeLabel(best.row, best.result)) +
+        "</em></div>" +
         '<div class="af-kpi"><span>Honoraires (cette ligne)</span><strong>' +
         Lib.formatEuro(best.result.fee) +
         "</strong></div>" +
@@ -1647,9 +1694,9 @@
         Lib.formatEuro(best.result.fai) +
         "</strong></div>" +
         (delta > 0
-          ? '<div class="af-kpi muted"><span>Écart vs taux le plus cher</span><strong>+' +
+          ? '<div class="af-kpi muted"><span>Écart vs le plus cher</span><strong>+' +
             Lib.formatEuro(delta) +
-            "</strong><em class=\"af-kpi-hint\">gagnés par le vendeur</em></div>"
+            '</strong><em class="af-kpi-hint">gagnés par le vendeur</em></div>'
           : "");
     } else if (kpis) {
       kpis.innerHTML = "";
@@ -1657,9 +1704,9 @@
     if (hint) {
       var baseLabel = prefs.rateBase === "of_net" ? "% du net vendeur" : "% du FAI";
       hint.textContent =
-        "Comparaison hors barème CRM · taux = " +
+        "Comparaison hors barème CRM · lignes en % (" +
         baseLabel +
-        " · " +
+        ") ou forfait € · " +
         compared.length +
         " ligne(s). Les forfaits Portes Clés restent dans le panneau du dessous.";
     }
@@ -2082,7 +2129,24 @@
         state.freeRates.rows.push({
           id: "fr_" + Date.now(),
           name: "Concurrent",
+          feeMode: "percent",
           ratePct: 5,
+          fixedAmount: 0,
+        });
+        persistFreeRates();
+        renderFreeRates();
+      };
+    }
+    var addFixedBtn = document.getElementById("frAddFixedRow");
+    if (addFixedBtn) {
+      addFixedBtn.onclick = function () {
+        state.freeRates.rows = readFreeRowsFromDom();
+        state.freeRates.rows.push({
+          id: "fr_" + Date.now(),
+          name: "Concurrent forfait",
+          feeMode: "fixed",
+          ratePct: 0,
+          fixedAmount: 10000,
         });
         persistFreeRates();
         renderFreeRates();
@@ -2091,7 +2155,7 @@
     var resetBtn = document.getElementById("frResetRows");
     if (resetBtn) {
       resetBtn.onclick = function () {
-        if (!confirm("Réinitialiser les exemples de taux libres ?")) return;
+        if (!confirm("Réinitialiser les exemples (% et forfaits) ?")) return;
         state.freeRates = Lib.saveFreeRatePrefs(
           Object.assign({}, Lib.defaultFreeRatePrefs(), {
             price: Number(document.getElementById("frPrice").value) || 250000,
@@ -2112,7 +2176,24 @@
           state.freeRates.rows.push({
             id: "fr_" + Date.now(),
             name: "Concurrent " + rate + " %",
+            feeMode: "percent",
             ratePct: rate,
+            fixedAmount: 0,
+          });
+          persistFreeRates();
+          renderFreeRates();
+        };
+      });
+      presets.querySelectorAll("button[data-fixed]").forEach(function (btn) {
+        btn.onclick = function () {
+          var amt = Number(btn.getAttribute("data-fixed")) || 0;
+          state.freeRates.rows = readFreeRowsFromDom();
+          state.freeRates.rows.push({
+            id: "fr_" + Date.now(),
+            name: "Forfait " + amt.toLocaleString("fr-FR") + " €",
+            feeMode: "fixed",
+            ratePct: 0,
+            fixedAmount: amt,
           });
           persistFreeRates();
           renderFreeRates();

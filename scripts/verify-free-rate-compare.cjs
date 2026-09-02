@@ -19,61 +19,58 @@ function assert(cond, msg) {
 
 var hub = read("crm-agency-fees.html");
 assert(hub.indexOf("freeRatePanel") !== -1, "panneau freeRatePanel");
-assert(hub.indexOf("Comparateur taux libre") !== -1, "titre taux libre");
-assert(hub.indexOf("frTable") !== -1, "table frTable");
+assert(hub.indexOf("montant fixe") !== -1, "mention montant fixe UI");
+assert(hub.indexOf("frAddFixedRow") !== -1, "bouton ligne forfait");
+assert(hub.indexOf('data-fixed="12000"') !== -1, "preset forfait 12k");
 assert(hub.indexOf("frRateBase") !== -1, "select base taux");
-assert(/Comparer les agences \(barèmes CRM\)/.test(hub), "panneau barèmes distinct");
 
 var lib = read("js/crm-agency-fees-lib.js");
 assert(lib.indexOf("calculateFreeRate") !== -1, "lib calculateFreeRate");
-assert(lib.indexOf("compareFreeRates") !== -1, "lib compareFreeRates");
-assert(lib.indexOf("FREE_RATE_KEY") !== -1, "clé localStorage");
+assert(lib.indexOf('feeMode === "fixed"') !== -1, "lib mode fixed");
+assert(lib.indexOf("fixedAmount") !== -1, "lib fixedAmount");
 
 var js = read("crm-agency-fees.js");
 assert(js.indexOf("renderFreeRates") !== -1, "UI renderFreeRates");
-assert(js.indexOf("wireFreeRates") !== -1, "wire FreeRates");
+assert(js.indexOf("frAddFixedRow") !== -1, "wire ligne forfait");
+assert(js.indexOf('feeMode: "fixed"') !== -1, "push ligne fixed");
 
-function calc(price, priceMode, rateBase, ratePct) {
-  var p = Math.max(0, Number(price) || 0);
-  var r = Math.max(0, Math.min(99.9, Number(ratePct) || 0)) / 100;
-  var net;
-  var fai;
-  var fee;
-  if (rateBase === "of_net") {
-    if (priceMode === "net_vendeur") {
-      net = p;
-      fee = net * r;
-      fai = net + fee;
-    } else {
-      fai = p;
-      net = fai / (1 + r);
-      fee = fai - net;
-    }
-  } else if (priceMode === "fai") {
-    fai = p;
-    fee = fai * r;
-    net = fai - fee;
-  } else {
-    net = p;
-    fai = net / (1 - r);
-    fee = fai - net;
-  }
-  return {
-    net: Math.round(net * 100) / 100,
-    fai: Math.round(fai * 100) / 100,
-    fee: Math.round(fee * 100) / 100,
-  };
-}
+var window = {};
+eval(lib);
+var L = window.CrmAgencyFees;
 
-var a = calc(250000, "fai", "of_fai", 5);
+var a = L.calculateFreeRate(250000, "fai", "of_fai", 5);
 assert(a.fee === 12500, "FAI 250k @5% → honoraires 12 500");
 assert(a.net === 237500, "FAI 250k @5% → net 237 500");
 
-var b = calc(200000, "net_vendeur", "of_net", 6);
+var b = L.calculateFreeRate(200000, "net_vendeur", "of_net", 6);
 assert(b.fee === 12000, "Net 200k @6% net → honoraires 12 000");
 assert(b.fai === 212000, "Net 200k @6% net → FAI 212 000");
 
-var c = calc(250000, "fai", "of_net", 5);
-assert(Math.abs(c.net - 238095.24) < 0.02, "FAI 250k @5% du net → net ≈ 238 095");
+var f = L.calculateFreeRate(250000, "fai", "of_fai", {
+  feeMode: "fixed",
+  fixedAmount: 12000,
+});
+assert(f.fee === 12000, "FAI 250k forfait 12k → fee 12 000");
+assert(f.net === 238000, "FAI 250k forfait 12k → net 238 000");
+assert(f.feeMode === "fixed", "feeMode fixed");
 
-console.log("\nComparateur taux libre : OK.");
+var g = L.calculateFreeRate(200000, "net_vendeur", "of_fai", {
+  feeMode: "fixed",
+  fixedAmount: 10000,
+});
+assert(g.fee === 10000, "Net 200k forfait 10k → fee 10 000");
+assert(g.fai === 210000, "Net 200k forfait 10k → FAI 210 000");
+
+var c = L.compareFreeRates({
+  price: 250000,
+  priceMode: "fai",
+  rateBase: "of_fai",
+  rows: [
+    { name: "A", feeMode: "percent", ratePct: 5 },
+    { name: "B", feeMode: "fixed", fixedAmount: 8000 },
+  ],
+});
+assert(c[0].row.name === "B", "forfait 8k bat 5% sur net vendeur");
+assert(c[0].result.net === 242000, "meilleur net = 242 000");
+
+console.log("\nComparateur % / montant fixe : OK.");

@@ -1298,15 +1298,15 @@ window.CrmAgencyFees = (function () {
     });
   }
 
-  /** Comparateur hors barème : un taux % libre sur un prix (autres agences). */
+  /** Comparateur hors barème : taux % ou montant fixe libre (autres agences). */
   var FREE_RATE_KEY = "lo_agency_fee_free_rates_v1";
 
   function defaultFreeRateRows() {
     return [
-      { id: "fr_orpi", name: "Orpi (ex.)", ratePct: 5 },
-      { id: "fr_c21", name: "Century 21 (ex.)", ratePct: 5 },
-      { id: "fr_laforet", name: "Laforêt (ex.)", ratePct: 6 },
-      { id: "fr_local", name: "Agence locale", ratePct: 4 },
+      { id: "fr_orpi", name: "Orpi (ex.)", feeMode: "percent", ratePct: 5, fixedAmount: 0 },
+      { id: "fr_c21", name: "Century 21 (ex.)", feeMode: "percent", ratePct: 5, fixedAmount: 0 },
+      { id: "fr_laforet", name: "Laforêt (ex.)", feeMode: "percent", ratePct: 6, fixedAmount: 0 },
+      { id: "fr_forfait", name: "Concurrent forfait", feeMode: "fixed", ratePct: 0, fixedAmount: 12000 },
     ];
   }
 
@@ -1320,10 +1320,13 @@ window.CrmAgencyFees = (function () {
   }
 
   function normalizeFreeRateRow(row, idx) {
+    var feeMode = row && row.feeMode === "fixed" ? "fixed" : "percent";
     return {
       id: String((row && row.id) || uid("fr_" + idx)),
       name: String((row && row.name) || ("Agence " + (idx + 1))).trim() || "Agence",
+      feeMode: feeMode,
       ratePct: Math.max(0, Math.min(99.9, Number(row && row.ratePct) || 0)),
+      fixedAmount: Math.max(0, Number(row && row.fixedAmount) || 0),
     };
   }
 
@@ -1355,17 +1358,23 @@ window.CrmAgencyFees = (function () {
   }
 
   /**
-   * Calcule honoraires + net vendeur + FAI à partir d'un taux libre.
-   * @param {number} price — montant saisi
-   * @param {"fai"|"net_vendeur"} priceMode — nature du montant saisi
-   * @param {"of_fai"|"of_net"} rateBase — base commerciale du %
-   * @param {number} ratePct — taux honoraires (ex. 5 = 5 %)
+   * Calcule honoraires + net vendeur + FAI (taux % ou montant fixe).
+   * @param {number} price
+   * @param {"fai"|"net_vendeur"} priceMode
+   * @param {"of_fai"|"of_net"} rateBase — utilisé seulement en mode %
+   * @param {object|number} feeSpec — row {feeMode,ratePct,fixedAmount} ou taux % (rétrocompat)
    */
-  function calculateFreeRate(price, priceMode, rateBase, ratePct) {
+  function calculateFreeRate(price, priceMode, rateBase, feeSpec) {
     var p = Math.max(0, Number(price) || 0);
-    var r = Math.max(0, Math.min(99.9, Number(ratePct) || 0)) / 100;
     var mode = priceMode === "net_vendeur" ? "net_vendeur" : "fai";
     var base = rateBase === "of_net" ? "of_net" : "of_fai";
+    var spec =
+      feeSpec && typeof feeSpec === "object"
+        ? normalizeFreeRateRow(feeSpec, 0)
+        : { feeMode: "percent", ratePct: Number(feeSpec) || 0, fixedAmount: 0 };
+    var feeMode = spec.feeMode === "fixed" ? "fixed" : "percent";
+    var r = Math.max(0, Math.min(99.9, Number(spec.ratePct) || 0)) / 100;
+    var fixed = Math.max(0, Number(spec.fixedAmount) || 0);
     var net = 0;
     var fai = 0;
     var fee = 0;
@@ -1373,62 +1382,101 @@ window.CrmAgencyFees = (function () {
     var note = "";
 
     if (p <= 0) {
-      return { ok: false, net: 0, fai: 0, fee: 0, ratePct: r * 100, note: "Saisir un prix" };
-    }
-    if (r <= 0) {
-      if (mode === "fai") {
-        fai = p;
-        net = p;
-        fee = 0;
-      } else {
-        net = p;
-        fai = p;
-        fee = 0;
-      }
-      return { ok: true, net: round2(net), fai: round2(fai), fee: 0, ratePct: 0, note: "Taux 0 %" };
+      return {
+        ok: false,
+        net: 0,
+        fai: 0,
+        fee: 0,
+        ratePct: feeMode === "percent" ? r * 100 : 0,
+        feeMode: feeMode,
+        fixedAmount: fixed,
+        note: "Saisir un prix",
+      };
     }
 
-    if (base === "of_net") {
-      // Honoraires = % du net vendeur → FAI = net × (1 + r)
-      if (mode === "net_vendeur") {
-        net = p;
-        fee = net * r;
-        fai = net + fee;
-      } else {
-        fai = p;
-        net = fai / (1 + r);
-        fee = fai - net;
-      }
-      note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du net vendeur";
-    } else {
-      // Honoraires = % du prix FAI / prix de vente
+    if (feeMode === "fixed") {
+      fee = fixed;
       if (mode === "fai") {
+        fai = p;
+        if (fee > fai) {
+          ok = false;
+          note = "Forfait > prix FAI";
+          net = 0;
+        } else {
+          net = fai - fee;
+          note = "Forfait " + formatEuro(fee);
+        }
+      } else {
+        net = p;
+        fai = net + fee;
+        note = "Forfait " + formatEuro(fee);
+      }
+    } else {
+      if (r <= 0) {
+        if (mode === "fai") {
+          fai = p;
+          net = p;
+          fee = 0;
+        } else {
+          net = p;
+          fai = p;
+          fee = 0;
+        }
+        return {
+          ok: true,
+          net: round2(net),
+          fai: round2(fai),
+          fee: 0,
+          ratePct: 0,
+          feeMode: "percent",
+          fixedAmount: 0,
+          sellerKeepPct: 100,
+          agencyTakePct: 0,
+          note: "Taux 0 %",
+          priceMode: mode,
+          rateBase: base,
+        };
+      }
+
+      if (base === "of_net") {
+        if (mode === "net_vendeur") {
+          net = p;
+          fee = net * r;
+          fai = net + fee;
+        } else {
+          fai = p;
+          net = fai / (1 + r);
+          fee = fai - net;
+        }
+        note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du net vendeur";
+      } else if (mode === "fai") {
         fai = p;
         fee = fai * r;
         net = fai - fee;
+        note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du FAI";
+      } else if (r >= 1) {
+        ok = false;
+        note = "Taux ≥ 100 % invalide sur base FAI";
       } else {
-        if (r >= 1) {
-          ok = false;
-          note = "Taux ≥ 100 % invalide sur base FAI";
-        } else {
-          net = p;
-          fai = net / (1 - r);
-          fee = fai - net;
-          note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du FAI";
-        }
+        net = p;
+        fai = net / (1 - r);
+        fee = fai - net;
+        note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du FAI";
       }
-      if (ok && !note) note = (r * 100).toFixed(1).replace(/\.0$/, "") + " % du FAI";
     }
 
     var sellerKeepPct = fai > 0 ? round2((net / fai) * 100) : 0;
     var agencyTakePct = fai > 0 ? round2((fee / fai) * 100) : 0;
+    var effectivePct = fai > 0 ? round2((fee / fai) * 100) : 0;
 
     return {
       ok: ok,
       net: round2(net),
       fai: round2(fai),
       fee: round2(fee),
-      ratePct: round2(r * 100),
+      ratePct: feeMode === "percent" ? round2(r * 100) : effectivePct,
+      feeMode: feeMode,
+      fixedAmount: feeMode === "fixed" ? round2(fixed) : 0,
       sellerKeepPct: sellerKeepPct,
       agencyTakePct: agencyTakePct,
       note: note,
@@ -1446,11 +1494,10 @@ window.CrmAgencyFees = (function () {
     return rows
       .map(function (row, idx) {
         var n = normalizeFreeRateRow(row, idx);
-        var calc = calculateFreeRate(price, priceMode, rateBase, n.ratePct);
+        var calc = calculateFreeRate(price, priceMode, rateBase, n);
         return { row: n, result: calc };
       })
       .sort(function (a, b) {
-        // Meilleur pour le vendeur = net le plus élevé
         return (b.result.net || 0) - (a.result.net || 0);
       });
   }
