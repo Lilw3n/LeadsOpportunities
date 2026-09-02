@@ -201,9 +201,24 @@
     if (!isOwnerHat(h) && (!t || !t.checked)) return null;
 
     var o = {};
+    var REPEAT_SKIP = {
+      "roomLevel[]": 1,
+      "roomName[]": 1,
+      "roomSurface[]": 1,
+      "roomDimensions[]": 1,
+      "roomFlooring[]": 1,
+      "roomExposure[]": 1,
+      "coproWorkNature[]": 1,
+      "coproWorkStatus[]": 1,
+      "coproWorkAmount[]": 1,
+      "coproWorkDate[]": 1,
+      "coproWorkShare[]": 1,
+      "coproWorkNote[]": 1,
+    };
     p.querySelectorAll("input, select, textarea").forEach(function (el) {
       if (el.disabled || !el.name) return;
       var n = el.name;
+      if (REPEAT_SKIP[n]) return;
       if (el.type === "checkbox") {
         if (!el.checked) return;
         if (n.indexOf("[]") === n.length - 2) {
@@ -241,9 +256,20 @@
       });
     }
 
+    var roomsMount = p.querySelector("[data-rooms-mount]");
+    if (roomsMount && window.AcheteurImmoRooms) {
+      o.roomDetails = window.AcheteurImmoRooms.collectFilled
+        ? window.AcheteurImmoRooms.collectFilled(roomsMount)
+        : window.AcheteurImmoRooms.collect
+          ? window.AcheteurImmoRooms.collect(roomsMount)
+          : [];
+    }
+
     var coproMount = p.querySelector("[data-copro-works-mount]");
     if (coproMount && window.AcheteurImmoCoproWorks) {
-      o.coproWorks = window.AcheteurImmoCoproWorks.collect(coproMount);
+      o.coproWorks = window.AcheteurImmoCoproWorks.collectFilled
+        ? window.AcheteurImmoCoproWorks.collectFilled(coproMount)
+        : window.AcheteurImmoCoproWorks.collect(coproMount);
     }
 
     if (window.SellPhotosState && window.SellPhotosState.getPhotos) {

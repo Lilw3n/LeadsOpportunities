@@ -45,7 +45,20 @@
     );
   }
 
+  function rowHasContent(o) {
+    if (!o) return false;
+    return Object.keys(o).some(function (k) {
+      return String(o[k] == null ? "" : o[k]).trim().length > 0;
+    });
+  }
+
+  function asArray(v) {
+    if (v == null || v === "") return [];
+    return Array.isArray(v) ? v : [v];
+  }
+
   function collect(mount) {
+    if (!mount) return [];
     return Array.prototype.slice.call(mount.querySelectorAll(".immo-room-row")).map(function (row) {
       var o = {};
       row.querySelectorAll("[data-room-field]").forEach(function (el) {
@@ -53,6 +66,41 @@
       });
       return o;
     });
+  }
+
+  function collectFilled(mount) {
+    return collect(mount).filter(rowHasContent);
+  }
+
+  /** Reconstruit les lignes depuis un FormData / brouillon QI (`roomName[]`, …). */
+  function fromFieldArrays(values) {
+    values = values || {};
+    var levels = asArray(values["roomLevel[]"]);
+    var names = asArray(values["roomName[]"]);
+    var surfaces = asArray(values["roomSurface[]"]);
+    var dims = asArray(values["roomDimensions[]"]);
+    var floors = asArray(values["roomFlooring[]"]);
+    var expos = asArray(values["roomExposure[]"]);
+    var n = Math.max(levels.length, names.length, surfaces.length, dims.length, floors.length, expos.length);
+    var rows = [];
+    var i;
+    for (i = 0; i < n; i++) {
+      rows.push({
+        level: String(levels[i] == null ? "" : levels[i]).trim(),
+        name: String(names[i] == null ? "" : names[i]).trim(),
+        surface: String(surfaces[i] == null ? "" : surfaces[i]).trim(),
+        dimensions: String(dims[i] == null ? "" : dims[i]).trim(),
+        flooring: String(floors[i] == null ? "" : floors[i]).trim(),
+        exposure: String(expos[i] == null ? "" : expos[i]).trim(),
+      });
+    }
+    return rows.filter(rowHasContent);
+  }
+
+  function notifyChange(mount) {
+    try {
+      mount.dispatchEvent(new Event("input", { bubbles: true }));
+    } catch (e) {}
   }
 
   function render(mount, rows) {
@@ -81,6 +129,7 @@
         if (list.length >= MAX_ROOMS) return;
         list.push({});
         render(mount, list);
+        notifyChange(mount);
         return;
       }
       var rm = e.target.closest("[data-room-remove]");
@@ -89,6 +138,7 @@
         var rows = collect(mount);
         rows.splice(idx, 1);
         render(mount, rows.length ? rows : [{}]);
+        notifyChange(mount);
       }
     });
   }
@@ -97,7 +147,14 @@
     document.querySelectorAll("[data-rooms-mount]").forEach(bindMount);
   }
 
-  window.AcheteurImmoRooms = { render: render, bind: bindMount };
+  window.AcheteurImmoRooms = {
+    render: render,
+    bind: bindMount,
+    collect: collect,
+    collectFilled: collectFilled,
+    fromFieldArrays: fromFieldArrays,
+    rowHasContent: rowHasContent,
+  };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", boot);
