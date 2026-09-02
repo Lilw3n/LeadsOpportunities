@@ -4,12 +4,7 @@
  */
 const { applyApiGuards, rateLimit, getClientIp } = require("../security");
 const { getSql } = require("../db");
-
-function normPhone(v) {
-  var d = String(v || "").replace(/\D/g, "");
-  if (d.length === 11 && d.indexOf("33") === 0) d = "0" + d.slice(2);
-  return d.slice(-10);
-}
+const { normPhone, identityMatchesLead } = require("../resume-identity");
 
 function parsePayload(raw) {
   if (!raw) return {};
@@ -166,12 +161,21 @@ module.exports = async function externalResumeDeposit(req, res) {
   try {
     var rows = [];
     if (leadId) {
+      if (!email && digits.length < 10) {
+        return res.status(200).json({ found: false });
+      }
       rows = await sql`
         SELECT id, email, phone, vertical, payload, created_at
         FROM site_leads
         WHERE id = ${leadId}
         LIMIT 1
       `;
+      if (rows.length) {
+        var leadPayload = parsePayload(rows[0].payload);
+        if (!identityMatchesLead(rows[0], leadPayload, email, phone)) {
+          return res.status(200).json({ found: false });
+        }
+      }
     } else if (email) {
       rows = await sql`
         SELECT id, email, phone, vertical, payload, created_at
