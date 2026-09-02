@@ -300,6 +300,24 @@
   font-weight: 600;
 }
 
+.bh-estimate-copy .bh-calc-grid label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #334155;
+}
+.bh-estimate-copy .bh-calc-grid input,
+.bh-estimate-copy .bh-calc-grid select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--bh-line);
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background: #fff;
+}
+
 .bh-cta {
   margin: 28px 0 48px;
   background: linear-gradient(135deg, #0f172a, #134e4a);

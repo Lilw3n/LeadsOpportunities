@@ -260,6 +260,18 @@
         applyHat(el.value);
       });
     });
+
+    // Préremplir le prix depuis ?prix= (estimation / barème public)
+    var prix = params.get("prix") || params.get("price") || params.get("price_fai");
+    if (prix) {
+      var n = String(prix).replace(/\s/g, "").replace(",", ".");
+      if (n && !isNaN(Number(n))) {
+        ["#urlPrice", "#sellPriceFai", "#sellPriceNet", "#sellAskingPrice"].forEach(function (sel) {
+          var input = document.querySelector(sel);
+          if (input && !input.value) input.value = String(Math.round(Number(n)));
+        });
+      }
+    }
   }
 
   function renderPreview(root, state) {

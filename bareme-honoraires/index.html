@@ -28,10 +28,13 @@
         </span>
       </a>
       <nav>
+        <a href="../assurances/">Assurance</a>
         <a href="../immobilier/">Immobilier</a>
-        <a href="../vendeur-cherche-acquereur/">Vendeur</a>
-        <a href="../negociateur-immobilier/">Négociateur</a>
-        <a class="btn btn-nav" href="../landings/rappel.html">Estimation</a>
+        <a href="../bareme-honoraires/" aria-current="page">Barème</a>
+        <a href="../credit-immo/">Prêt immo</a>
+        <a href="../banque/">Banque</a>
+        <a href="../finance/">Finance</a>
+        <a class="btn btn-nav" href="../index.html#contact">Devis gratuit</a>
       </nav>
     </div>
   </header>
@@ -134,7 +137,7 @@
         (héritage, divorce, fiscalité, simple curiosité) sans engagement de mandat.
       </p>
 
-      <div class="bh-estimate">
+      <div class="bh-estimate" data-estim-block>
         <div class="bh-estimate-copy">
           <p>
             Sur place, on vient avec du matériel pro&nbsp;: mètres et outils de mesure,
@@ -142,6 +145,20 @@
             <strong>scanner Matterport</strong> pour une visite virtuelle immersive
             (idéal pour visualiser le bien sans pression de mise en vente).
           </p>
+          <div class="bh-calc-grid" style="margin:14px 0">
+            <div>
+              <label for="bhEstimPrice">Prix que vous avez en tête (€)</label>
+              <input id="bhEstimPrice" type="number" min="0" step="1000" placeholder="Ex. 210000" data-estim-price />
+            </div>
+            <div>
+              <label for="bhEstimMode">Type de prix</label>
+              <select id="bhEstimMode" data-estim-price-mode>
+                <option value="net_vendeur">Net vendeur</option>
+                <option value="fai">FAI (honoraires inclus)</option>
+              </select>
+            </div>
+          </div>
+          <p class="bh-sub" data-estim-fee-hint hidden style="margin:0 0 12px"></p>
           <ul class="bh-estimate-list">
             <li>Mesures précises (surfaces, volumes, hauteurs)</li>
             <li>Photos haute qualité, lumière maîtrisée</li>
@@ -149,8 +166,8 @@
             <li>Restitution claire du prix — sans push commercial</li>
           </ul>
           <div class="bh-actions">
-            <a class="btn btn-primary" href="../landings/acheteur-immo.html?role=vendeur#deposer-bien">Déposer mon bien</a>
-            <a class="btn btn-outline" href="../landings/rappel.html">Demander une estimation</a>
+            <a class="btn btn-primary" data-estim-deposit href="../landings/acheteur-immo.html?role=vendeur#deposer-bien">Déposer mon bien</a>
+            <a class="btn btn-outline" data-estim-rappel href="../landings/rappel.html?need=estimation">Demander une estimation</a>
           </div>
         </div>
         <aside class="bh-estimate-aside" aria-label="Sans projet de vente">
@@ -211,5 +228,6 @@
   }
   </script>
   <script src="../js/bareme-honoraires-public.js"></script>
+  <script src="../js/estimation-request.js"></script>
 </body>
 </html>

@@ -44,6 +44,15 @@ assert(html.indexOf("Matterport") >= 0, "mention Matterport");
 assert(html.indexOf("deposer-bien") >= 0, "lien dépôt de bien");
 assert(/pas de projet de vente/i.test(html), "texte sans projet de vente");
 assert(/appareil photo/i.test(html), "mention appareil photo");
+assert(html.indexOf("data-estim-price") >= 0, "champ prix estimation");
+assert(html.indexOf("estimation-request.js") >= 0, "script estimation prix");
+assert(html.indexOf("../assurances/") >= 0 && html.indexOf("../finance/") >= 0, "menu complet page bareme");
+
+var immo = read("immobilier/index.html");
+assert(immo.indexOf("data-estim-price") >= 0, "champ prix estimation hub immo");
+assert(immo.indexOf("estimation-request.js") >= 0, "script estimation hub immo");
+assert(immo.indexOf("../assurances/") >= 0 && immo.indexOf("bareme-honoraires") >= 0, "menu hub immo + barème");
+assert(fs.existsSync(path.join(root, "js/estimation-request.js")), "estimation-request.js");
 
 var js = read("js/bareme-honoraires-public.js");
 assert(js.indexOf("bareme-honoraires-public.json") >= 0, "charge JSON publié");

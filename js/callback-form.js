@@ -265,6 +265,15 @@
 
       var need = fields.need || options.need || getNeedFromUrl() || "";
       var svc = getService(need);
+      var params = new URLSearchParams(window.location.search);
+      var urlMessage = String(params.get("message") || "").trim();
+      var urlPrix = String(params.get("prix") || "").trim();
+      var baseMessage =
+        "Demande de rappel express — l'utilisateur préfère être contacté plutôt que de remplir le formulaire complet.";
+      if (urlMessage) baseMessage = urlMessage;
+      if (urlPrix && baseMessage.indexOf(urlPrix) < 0) {
+        baseMessage += " Prix indiqué : " + urlPrix + " €.";
+      }
 
       var leadPayload = Object.assign(
         {
@@ -276,8 +285,8 @@
           serviceLabel: (svc && svc.label) || "",
           serviceCategory: (svc && svc.category) || "",
           page: window.location.pathname + window.location.search,
-          message:
-            "Demande de rappel express — l'utilisateur préfère être contacté plutôt que de remplir le formulaire complet.",
+          message: baseMessage,
+          propertyPrice: urlPrix || undefined,
         },
         getUtmParams(),
         getAttr(),

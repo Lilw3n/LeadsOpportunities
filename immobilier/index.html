@@ -37,6 +37,7 @@
       <nav>
         <a href="../assurances/">Assurance</a>
         <a href="../immobilier/" aria-current="page">Immobilier</a>
+        <a href="../bareme-honoraires/">Barème</a>
         <a href="../credit-immo/">Prêt immo</a>
         <a href="../banque/">Banque</a>
         <a href="../finance/">Finance</a>
@@ -185,13 +186,27 @@
         <a href="../landings/acheteur-immo.html?role=vendeur#deposer-bien">Déposez votre bien</a>
         pour un premier cadrage — même sans projet de vente, ou si vous y êtes encore opposé·e.
       </p>
-      <div class="bh-estimate">
+      <div class="bh-estimate" data-estim-block>
         <div class="bh-estimate-copy">
           <p>
             Sur place : mesures, <strong>appareil photo</strong> pour de belles images,
             et <strong>scanner Matterport</strong> pour une visite virtuelle —
             sans pression de mise en vente.
           </p>
+          <div class="bh-calc-grid" style="margin:14px 0">
+            <div>
+              <label for="immoEstimPrice">Prix que vous avez en tête (€)</label>
+              <input id="immoEstimPrice" type="number" min="0" step="1000" placeholder="Ex. 210000" data-estim-price />
+            </div>
+            <div>
+              <label for="immoEstimMode">Type de prix</label>
+              <select id="immoEstimMode" data-estim-price-mode>
+                <option value="net_vendeur">Net vendeur</option>
+                <option value="fai">FAI (honoraires inclus)</option>
+              </select>
+            </div>
+          </div>
+          <p class="bh-sub" data-estim-fee-hint hidden style="margin:0 0 12px"></p>
           <ul class="bh-estimate-list">
             <li>Mesures précises (surfaces, volumes)</li>
             <li>Photos haute qualité</li>
@@ -199,8 +214,8 @@
             <li>Restitution du prix sans push commercial</li>
           </ul>
           <div class="bh-actions">
-            <a class="btn btn-primary" href="../landings/acheteur-immo.html?role=vendeur#deposer-bien">Déposer mon bien</a>
-            <a class="btn btn-outline" href="../landings/rappel.html">Demander une estimation</a>
+            <a class="btn btn-primary" data-estim-deposit href="../landings/acheteur-immo.html?role=vendeur#deposer-bien">Déposer mon bien</a>
+            <a class="btn btn-outline" data-estim-rappel href="../landings/rappel.html?need=estimation">Demander une estimation</a>
             <a class="btn btn-ghost" href="../bareme-honoraires/#estimation">Détails sur la page barème</a>
           </div>
         </div>
@@ -257,5 +272,6 @@
     </div>
   </footer>
   <script src="../js/immobilier-bareme-embed.js"></script>
+  <script src="../js/estimation-request.js"></script>
 </body>
 </html>
